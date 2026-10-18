@@ -22,7 +22,7 @@ export const slotsApi = {
   },
   loadSlot(n) {
     const g = E.load(n); if (!g || g.v !== 2 || g.alive === undefined) return { ok: false, message: 'That slot is empty.' };
-    this.s = g; this.slot = n; E.setSlot(n); if (!this.opts.noSave) E.setLastSlot(n); this.ensureSeen(); return { ok: true, slot: n };
+    this.s = g; this.slot = n; E.setSlot(n); if (!this.opts.noSave) E.setLastSlot(n); this.ensureSeen(); return { ok: true, slot: n, note: E.takeLoadNote() };
   },
   // start a brand-new life in slot n (overwrites it; the UI asks for confirmation first). o = {first,last,gender,country,look,seed}
   startLife(n, o = {}) {

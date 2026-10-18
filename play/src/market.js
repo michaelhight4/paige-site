@@ -2,6 +2,7 @@
 import { D } from './data.js';
 import { rnd, gauss, chance, pick, clamp } from './rng.js';
 import { log, earn } from './core.js';
+import * as Hw from './hardware.js';
 
 export function initMarket(s) {
   const m = (s.market = { sectors: {}, macro: null, consoles: [], stocks: {}, cos: [], news: [] });
@@ -88,6 +89,7 @@ export const portfolioValue = (s) => Object.entries(s.hold).reduce((a, [t, h]) =
 export function initConsoles(s) {
   const C = D.studio.balance.consoles;
   s.market.consoles = D.studio.consoles.map((c) => ({ id: c.id, mind: c.share0, power: clamp(C.startPower - C.powerLossPerYear * c.age0, 40, 100), age: c.age0, drift: c.drift0, hist: [] }));
+  Hw.ensure(s);
   // backfill 5 years of share history from each console's starting drift (deterministic, no RNG) so the Market chart isn't empty on day one
   for (let k = 5; k >= 0; k--) { const tmp = { market: { consoles: s.market.consoles.map((c) => ({ id: c.id, mind: c.mind * Math.exp(-c.drift * k) })) } }, sh = consoleShares(tmp); for (const c of s.market.consoles) c.hist.push(sh[c.id]); }
 }
@@ -98,6 +100,7 @@ export function consoleShares(s) { // percent, sums to 100
 }
 // Called once per game year.
 export function tickConsolesYear(s) {
+  Hw.ensure(s);
   const C = D.studio.balance.consoles;
   for (const c of s.market.consoles) {
     c.age++; c.drift = c.drift * C.driftPersist + gauss(s) * C.driftNoise;
@@ -105,9 +108,10 @@ export function tickConsolesYear(s) {
     c.power = clamp(c.power - C.powerLossPerYear, 30, 100);
     if (chance(s, C.refreshChancePerYear)) {
       c.power = C.refreshPower; c.mind *= C.refreshMindBoost; c.age = 0;
-      const nm = D.studio.consoles.find((x) => x.id === c.id).name;
+      const nm = Hw.productDef(c.id).name;
       s.market.news.push({ age: s.age, text: `${nm} launches a hardware refresh!` });
     }
   }
+  Hw.yearTick(s);
   const sh = consoleShares(s); for (const c of s.market.consoles) { c.hist.push(sh[c.id]); if (c.hist.length > 60) c.hist.shift(); }
 }

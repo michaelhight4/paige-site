@@ -182,6 +182,13 @@
    "minAge": 21
   },
   {
+   "id": "franchise",
+   "label": "Own a Team",
+   "sub": "Buy a club in any sport, hire staff, run the stadium",
+   "icon": "🏟️",
+   "minAge": 18
+  },
+  {
    "id": "prodco",
    "label": "Production Companies",
    "sub": "Record label, film, TV & game studios",

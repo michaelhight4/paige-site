@@ -1,0 +1,436 @@
+{
+ "version": 1,
+ "products": {
+  "c_nova": {
+   "id": "c_nova",
+   "name": "Novabox 4",
+   "maker": "Orbital Works",
+   "kind": "home",
+   "icon": "🟦",
+   "color": "#4aa3ff",
+   "blurb": "Incumbent powerhouse."
+  },
+  "c_aegis": {
+   "id": "c_aegis",
+   "name": "Aegis Core",
+   "maker": "Shieldline",
+   "kind": "home",
+   "icon": "🟥",
+   "color": "#ff6b6b",
+   "blurb": "Steady and loyal fanbase."
+  },
+  "c_lumen": {
+   "id": "c_lumen",
+   "name": "Lumen Go",
+   "maker": "Brightfold",
+   "kind": "handheld",
+   "icon": "🟨",
+   "color": "#ffd24a",
+   "blurb": "Handheld, rising fast."
+  },
+  "c_pixie": {
+   "id": "c_pixie",
+   "name": "Pixie One",
+   "maker": "Tinyforge",
+   "kind": "home",
+   "icon": "🟪",
+   "color": "#b784ff",
+   "blurb": "Indie darling, cheap."
+  },
+  "c_novago": {
+   "id": "c_novago",
+   "name": "Novabox Go",
+   "maker": "Orbital Works",
+   "kind": "handheld",
+   "icon": "🟦",
+   "color": "#4aa3ff",
+   "blurb": "The big handheld sibling."
+  },
+  "c_aegismini": {
+   "id": "c_aegismini",
+   "name": "Aegis Mini",
+   "maker": "Shieldline",
+   "kind": "handheld",
+   "icon": "🟥",
+   "color": "#ff6b6b",
+   "blurb": "Pocket-sized and rugged."
+  },
+  "c_lumenhome": {
+   "id": "c_lumenhome",
+   "name": "Lumen Home",
+   "maker": "Brightfold",
+   "kind": "home",
+   "icon": "🟨",
+   "color": "#ffd24a",
+   "blurb": "A living-room console at last."
+  },
+  "c_pixiepocket": {
+   "id": "c_pixiepocket",
+   "name": "Pixie Pocket",
+   "maker": "Tinyforge",
+   "kind": "handheld",
+   "icon": "🟪",
+   "color": "#b784ff",
+   "blurb": "Cheap, cheerful and tiny."
+  },
+  "c_kodama": {
+   "id": "c_kodama",
+   "name": "Kodama Station",
+   "maker": "Kodama Systems",
+   "kind": "home",
+   "icon": "🟩",
+   "color": "#4cc38a",
+   "blurb": "Minor player with a cult following."
+  },
+  "c_kodamatap": {
+   "id": "c_kodamatap",
+   "name": "Kodama Tap",
+   "maker": "Kodama Systems",
+   "kind": "handheld",
+   "icon": "🟩",
+   "color": "#4cc38a",
+   "blurb": "Touch-first handheld."
+  },
+  "c_nwarc": {
+   "id": "c_nwarc",
+   "name": "Northwind Arc",
+   "maker": "Northwind Interactive",
+   "kind": "home",
+   "icon": "⬜",
+   "color": "#9fb8d6",
+   "blurb": "Quiet and experimental."
+  },
+  "c_nwspark": {
+   "id": "c_nwspark",
+   "name": "Northwind Spark",
+   "maker": "Northwind Interactive",
+   "kind": "handheld",
+   "icon": "⬜",
+   "color": "#9fb8d6",
+   "blurb": "Tiny screen, big ideas."
+  },
+  "c_r0_home": {
+   "id": "c_r0_home",
+   "name": "Vektor One",
+   "maker": "Vektor Labs",
+   "kind": "home",
+   "icon": "🔷",
+   "color": "#5ad1e6",
+   "blurb": "A new challenger."
+  },
+  "c_r0_hand": {
+   "id": "c_r0_hand",
+   "name": "Vektor Lite",
+   "maker": "Vektor Labs",
+   "kind": "handheld",
+   "icon": "🔷",
+   "color": "#5ad1e6",
+   "blurb": "A new challenger handheld."
+  },
+  "c_r1_home": {
+   "id": "c_r1_home",
+   "name": "Mochi Box",
+   "maker": "Mochi Games",
+   "kind": "home",
+   "icon": "🍡",
+   "color": "#ff9ccf",
+   "blurb": "A new challenger."
+  },
+  "c_r1_hand": {
+   "id": "c_r1_hand",
+   "name": "Mochi Pop",
+   "maker": "Mochi Games",
+   "kind": "handheld",
+   "icon": "🍡",
+   "color": "#ff9ccf",
+   "blurb": "A new challenger handheld."
+  },
+  "c_r2_home": {
+   "id": "c_r2_home",
+   "name": "Ironclad X",
+   "maker": "Ironclad Digital",
+   "kind": "home",
+   "icon": "⬛",
+   "color": "#8a8f9c",
+   "blurb": "A new challenger."
+  },
+  "c_r2_hand": {
+   "id": "c_r2_hand",
+   "name": "Ironclad Edge",
+   "maker": "Ironclad Digital",
+   "kind": "handheld",
+   "icon": "⬛",
+   "color": "#8a8f9c",
+   "blurb": "A new challenger handheld."
+  },
+  "c_r3_home": {
+   "id": "c_r3_home",
+   "name": "Sunrise Dock",
+   "maker": "Sunrise Works",
+   "kind": "home",
+   "icon": "🟧",
+   "color": "#ff9a3c",
+   "blurb": "A new challenger."
+  },
+  "c_r3_hand": {
+   "id": "c_r3_hand",
+   "name": "Sunrise Dot",
+   "maker": "Sunrise Works",
+   "kind": "handheld",
+   "icon": "🟧",
+   "color": "#ff9a3c",
+   "blurb": "A new challenger handheld."
+  },
+  "c_r4_home": {
+   "id": "c_r4_home",
+   "name": "Halcyon Prime",
+   "maker": "Halcyon Entertainment",
+   "kind": "home",
+   "icon": "🟫",
+   "color": "#c9a37a",
+   "blurb": "A new challenger."
+  },
+  "c_r4_hand": {
+   "id": "c_r4_hand",
+   "name": "Halcyon Flip",
+   "maker": "Halcyon Entertainment",
+   "kind": "handheld",
+   "icon": "🟫",
+   "color": "#c9a37a",
+   "blurb": "A new challenger handheld."
+  },
+  "c_r5_home": {
+   "id": "c_r5_home",
+   "name": "Quanta Q",
+   "maker": "Quanta Play",
+   "kind": "home",
+   "icon": "🔶",
+   "color": "#f5c542",
+   "blurb": "A new challenger."
+  },
+  "c_r5_hand": {
+   "id": "c_r5_hand",
+   "name": "Quanta Mini",
+   "maker": "Quanta Play",
+   "kind": "handheld",
+   "icon": "🔶",
+   "color": "#f5c542",
+   "blurb": "A new challenger handheld."
+  },
+  "c_r6_home": {
+   "id": "c_r6_home",
+   "name": "Basalt Hub",
+   "maker": "Basalt Interactive",
+   "kind": "home",
+   "icon": "🔳",
+   "color": "#6b7280",
+   "blurb": "A new challenger."
+  },
+  "c_r6_hand": {
+   "id": "c_r6_hand",
+   "name": "Basalt Slate",
+   "maker": "Basalt Interactive",
+   "kind": "handheld",
+   "icon": "🔳",
+   "color": "#6b7280",
+   "blurb": "A new challenger handheld."
+  },
+  "c_r7_home": {
+   "id": "c_r7_home",
+   "name": "Fennec Den",
+   "maker": "Fennec Systems",
+   "kind": "home",
+   "icon": "🦊",
+   "color": "#e8743b",
+   "blurb": "A new challenger."
+  },
+  "c_r7_hand": {
+   "id": "c_r7_hand",
+   "name": "Fennec Cub",
+   "maker": "Fennec Systems",
+   "kind": "handheld",
+   "icon": "🦊",
+   "color": "#e8743b",
+   "blurb": "A new challenger handheld."
+  }
+ },
+ "makers": [
+  {
+   "id": "m_orbital",
+   "name": "Orbital Works",
+   "color": "#4aa3ff",
+   "icon": "🟦",
+   "home": "c_nova",
+   "hand": "c_novago",
+   "health": 72
+  },
+  {
+   "id": "m_shield",
+   "name": "Shieldline",
+   "color": "#ff6b6b",
+   "icon": "🟥",
+   "home": "c_aegis",
+   "hand": "c_aegismini",
+   "health": 68
+  },
+  {
+   "id": "m_bright",
+   "name": "Brightfold",
+   "color": "#ffd24a",
+   "icon": "🟨",
+   "home": "c_lumenhome",
+   "hand": "c_lumen",
+   "health": 62
+  },
+  {
+   "id": "m_tiny",
+   "name": "Tinyforge",
+   "color": "#b784ff",
+   "icon": "🟪",
+   "home": "c_pixie",
+   "hand": "c_pixiepocket",
+   "health": 58
+  },
+  {
+   "id": "m_kodama",
+   "name": "Kodama Systems",
+   "color": "#4cc38a",
+   "icon": "🟩",
+   "home": "c_kodama",
+   "hand": "c_kodamatap",
+   "health": 45
+  },
+  {
+   "id": "m_northwind",
+   "name": "Northwind Interactive",
+   "color": "#9fb8d6",
+   "icon": "⬜",
+   "home": "c_nwarc",
+   "hand": "c_nwspark",
+   "health": 42
+  }
+ ],
+ "start": {
+  "c_novago": {
+   "mind": 10,
+   "drift": 0.01,
+   "age": 2
+  },
+  "c_aegismini": {
+   "mind": 8,
+   "drift": 0.0,
+   "age": 2
+  },
+  "c_lumenhome": {
+   "mind": 9,
+   "drift": 0.02,
+   "age": 1
+  },
+  "c_pixiepocket": {
+   "mind": 6,
+   "drift": 0.04,
+   "age": 0
+  },
+  "c_kodama": {
+   "mind": 5,
+   "drift": 0.03,
+   "age": 1
+  },
+  "c_kodamatap": {
+   "mind": 3,
+   "drift": 0.04,
+   "age": 1
+  },
+  "c_nwarc": {
+   "mind": 4.5,
+   "drift": 0.02,
+   "age": 1
+  },
+  "c_nwspark": {
+   "mind": 2.5,
+   "drift": 0.03,
+   "age": 0
+  }
+ },
+ "pool": [
+  {
+   "id": "m_r0",
+   "name": "Vektor Labs",
+   "color": "#5ad1e6",
+   "icon": "🔷",
+   "home": "c_r0_home",
+   "hand": "c_r0_hand"
+  },
+  {
+   "id": "m_r1",
+   "name": "Mochi Games",
+   "color": "#ff9ccf",
+   "icon": "🍡",
+   "home": "c_r1_home",
+   "hand": "c_r1_hand"
+  },
+  {
+   "id": "m_r2",
+   "name": "Ironclad Digital",
+   "color": "#8a8f9c",
+   "icon": "⬛",
+   "home": "c_r2_home",
+   "hand": "c_r2_hand"
+  },
+  {
+   "id": "m_r3",
+   "name": "Sunrise Works",
+   "color": "#ff9a3c",
+   "icon": "🟧",
+   "home": "c_r3_home",
+   "hand": "c_r3_hand"
+  },
+  {
+   "id": "m_r4",
+   "name": "Halcyon Entertainment",
+   "color": "#c9a37a",
+   "icon": "🟫",
+   "home": "c_r4_home",
+   "hand": "c_r4_hand"
+  },
+  {
+   "id": "m_r5",
+   "name": "Quanta Play",
+   "color": "#f5c542",
+   "icon": "🔶",
+   "home": "c_r5_home",
+   "hand": "c_r5_hand"
+  },
+  {
+   "id": "m_r6",
+   "name": "Basalt Interactive",
+   "color": "#6b7280",
+   "icon": "🔳",
+   "home": "c_r6_home",
+   "hand": "c_r6_hand"
+  },
+  {
+   "id": "m_r7",
+   "name": "Fennec Systems",
+   "color": "#e8743b",
+   "icon": "🦊",
+   "home": "c_r7_home",
+   "hand": "c_r7_hand"
+  }
+ ],
+ "balance": {
+  "majors": 4,
+  "minors": 2,
+  "fairShare": 16.666666666666668,
+  "bankruptHealth": 0,
+  "healthPerShare": 0.4,
+  "noise": 4,
+  "replaceMin": 1,
+  "replaceMax": 2,
+  "newHome": 7,
+  "newHand": 4,
+  "minorNewHome": 5,
+  "minorNewHand": 3,
+  "bankruptCooldown": 2
+ }
+}

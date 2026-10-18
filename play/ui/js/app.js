@@ -20,6 +20,7 @@ async function main() {
     document.title = store.cfg.app.title;
     mountHub(store.root);
     window.__ready = true;
+    try { const n = adapter.impl && adapter.impl.loadNote; if (n) setTimeout(() => toast(n, 'warn'), 600); } catch (e) { /* cosmetic */ }
   } catch (e) {
     console.error(e); store.root.replaceChildren(h('div', { class: 'empty', text: 'Failed to start: ' + e.message })); window.__errors.push(String(e));
   }

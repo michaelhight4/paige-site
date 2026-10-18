@@ -5,6 +5,7 @@
 import { D } from './data.js';
 import { rnd, gauss, chance, clamp, pick, rint } from './rng.js';
 import { log, earn, spend } from './core.js';
+import * as Hw from './hardware.js';
 import { sectorMult, consoleShares, studioReleaseShock } from './market.js';
 
 export const MEDIA = ['game', 'film', 'tv'];
@@ -23,7 +24,7 @@ export function profile(medium, format) {
 }
 export function platforms(medium, format) {
   const p = profile(medium, format);
-  return p.platforms || ST().consoles.map((c) => ({ id: c.id, name: c.name, icon: c.icon, console: true }));
+  return p.platforms || Hw.platformList();
 }
 export const tierOf = (prof, id) => prof.tiers.find((t) => t.id === id) || prof.tiers[0];
 

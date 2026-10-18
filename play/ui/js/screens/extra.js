@@ -13,7 +13,7 @@ export async function businessesScreen(body, { nav }) {
   body.append(h('div', { class: 'card', 'data-el': 'biz-summary' }, h('h3', { text: 'Your businesses' }), kv('Cash', money(b.cash)), kv('Owned', String(b.owned.length)), kv('Total profit / yr', money(b.owned.reduce((a, x) => a + x.profit, 0)), 'pos')));
   body.append(h('div', { class: 'btns', style: { padding: '8px 12px 0' } }, btn('🏪 Start a business', () => nav.open('Start a business', foundScreen), 'go sm', { 'data-el': 'biz-found' }), btn('💰 Buy one', () => nav.open('Businesses for sale', offersScreen), 'alt sm', { 'data-el': 'biz-buy' })));
   if (!b.owned.length) body.append(empty(b.age < 18 ? 'You can start a business at 18 (some need more).' : 'You own no businesses yet.'));
-  else body.append(section('Owned'), ...b.owned.map((x) => row({ id: 'b' + x.id, icon: x.icon, title: x.name, sub: `${x.typeName} · ${x.staff} staff · rep ${x.rep}${x.trust ? ' · in trust' : ''}`, right: money(x.profit) + '/yr', onClick: () => nav.open(x.name, (bd, c) => businessDetail(bd, c, x.id)) })));
+  else body.append(section('Owned'), ...b.owned.map((x) => row({ id: 'b' + x.id, icon: x.icon, title: x.name, sub: `${x.typeName} · ${x.staff} staff · rep ${x.rep}${x.trust ? ' · in trust' : ''}`, right: money(x.profit) + '/yr', onClick: x.franchise ? async () => { const { franchiseScreen } = await import('./franchise.js'); nav.open(x.name, franchiseScreen); } : x.prodco ? async () => { const { companyScreen } = await import('./prodco.js'); nav.open(x.name, (bd, c) => companyScreen(bd, c, x.prodco)); } : () => nav.open(x.name, (bd, c) => businessDetail(bd, c, x.id)) })));
 }
 export async function foundScreen(body, { nav }) {
   const b = await adapter.getBusinesses(); let cur = null;

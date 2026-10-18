@@ -1,5 +1,7 @@
 // Death, ending, tombstone/obituary, ribbons, estate (tax, will, auction), continue-as-child, family legacy, cemetery meta store.
 import * as Prod from './prodco.js';
+import * as Politics from './politics.js';
+import * as Fr from './franchise.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp } from './rng.js';
 import { log, fill } from './core.js';
@@ -28,7 +30,7 @@ export function metaRecord(grave) {
 }
 // ---------- death ----------
 export function netWorthOf(s) {
-  const assets = s.assets.reduce((a, x) => a + x.value, 0), stocks = Market.portfolioValue(s), biz = s.biz.reduce((a, b) => a + b.valuation, 0) + Prod.value(s);
+  const assets = s.assets.reduce((a, x) => a + x.value, 0), stocks = Market.portfolioValue(s), biz = s.biz.reduce((a, b) => a + b.valuation, 0) + Prod.value(s) + Fr.value(s);
   const sw = Slice.wealth(s); // careers/shopping slice: assets, investments, zoo minus loans
   return { cash: s.cash, assets: assets + sw, stocks, biz, debt: s.debt, total: s.cash + assets + sw + stocks + biz - s.debt };
 }
@@ -129,6 +131,7 @@ const lateRel = (heir, gender) => ({ child: gender === 'm' ? 'father' : 'mother'
 // Continue as any heir (child, spouse, sibling, parent, relative): estate settled per will; owned objects, businesses, teams, stocks and cash pass on.
 export function continueAs(s, heirId) {
   if (!canContinue(s)) return false;
+  const oldRoyal = s.royal ? { royal: JSON.parse(JSON.stringify(s.royal)), name: s.name } : null;
   const kid = P.byId(s, heirId); if (!kid || !kid.alive || !heirsOf(s).some((h) => h.id === heirId)) return false;
   const plan = computeEstate(s), mine = plan.heirs.find((h) => h.id === heirId) || { assets: [], biz: [], stocks: {}, cash: 0, trust: false };
   const heirLook = JSON.parse(JSON.stringify(Character.lookOf(s, kid)));
@@ -155,6 +158,7 @@ export function continueAs(s, heirId) {
   s.stats = { health: clamp(rint(s, 70, 95) - wear * 0.8, 20, 100), happiness: clamp(rint(s, 45, 85) - LF().legacy.continueStartHappyHit, 0, 100), smarts: clamp(Math.round(55 + (rnd(s) - 0.5) * 50), 5, 95), looks: clamp(rint(s, 25, 80) - wear * 0.3, 5, 100), fame: 0, karma: 50, crazy: rint(s, 0, 25), stress: rint(s, 10, 30) };
   s.sl = null; s.diseases = []; s.flags = {}; s.chain = []; s.evLast = {}; s.acted = {}; s.pending = []; s.fx = []; s.cand = []; s.prison = null; s.record = { sentences: 0, priors: 0 }; s.sport = null; s.carry = null; s.carryNotes = []; s.pro = null; s.will = { mode: 'even', heir: null }; s.fit = 0;
   s.creatorLineage = !!(s.creatorLineage || s.creatorUsed); s.creatorUsed = false; s.creatorEdits = 0;
+  const royalRes = Politics.passOn(s, oldRoyal, kid); // office/campaign/war end; royalty continues through a child
   s.tally = Ribbons.newTally(); s.alive = true; s.lastEnding = s.ending; s.ending = null; s.yr = [];
   if (sliceMine.length) Slice.grant(s, sliceMine); // after the reset: the actual objects (tpl, art, vseed, condition) move to the heir
   s.char = heirLook; s.char.parts.hat = null;
@@ -165,6 +169,7 @@ export function continueAs(s, heirId) {
   log(s, `Generation ${s.legacy.gen}: I became ${s.name}, ${age} years old, ${kid.rel === 'child' ? 'child' : 'the ' + kid.rel} of ${old.name}. I inherited ${bits.join(', ')}.`, 'life');
   if (plan.tax > 0) log(s, `Estate tax took $${plan.tax.toLocaleString()}.`, 'life');
   PFx.applyStart(s);
+  if (royalRes.lost) log(s, `The line of ${royalRes.house} ends with my parent's generation: I am not in the succession.`, 'life');
   s.estateLast = { tax: plan.tax, mode: plan.mode, heirRel: kid.rel, items: nObj, biz: s.biz.length, trust: !!mine.trust };
   return true;
 }

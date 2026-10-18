@@ -114,7 +114,7 @@ function special(s, p, a, ctx) {
       p.rel = 'ex'; p.married = false; p.bar = Math.min(p.bar, 25); addStat(s, 'happiness', -8); s.flags.pregnant = 0; return { ok: true, msg: fmt(a.ok) };
     }
     case 'baby': {
-      if (Premium.isUnlocked('rabbit')) { const r = rabbitBirth(s); return { ok: true, msg: r.msg }; }
+      if (Premium.isUnlocked('rabbit') && s.age >= 16) { const r = rabbitBirth(s); return { ok: true, msg: r.msg }; }
       if (s.flags.pregnant) return { ok: false, msg: 'A baby is already on the way.' };
       if (s.gender === p.gender && false) return { ok: false, msg: '' };
       const ok = chance(s, cfg.babyChance); if (ok) { s.flags.pregnant = 1; s.flags.pregnantAt = s.age; }

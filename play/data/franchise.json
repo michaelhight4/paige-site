@@ -1,0 +1,684 @@
+{
+ "version": 1,
+ "sports": {
+  "soccer": {
+   "stats": [
+    {
+     "id": "attack",
+     "name": "Attack",
+     "icon": "🎯",
+     "desc": "Finishing and chances created"
+    },
+    {
+     "id": "defense",
+     "name": "Defense",
+     "icon": "🛡️",
+     "desc": "Marking and clean sheets"
+    },
+    {
+     "id": "passing",
+     "name": "Passing",
+     "icon": "🔁",
+     "desc": "Build-up and control"
+    },
+    {
+     "id": "stamina",
+     "name": "Stamina",
+     "icon": "🫁",
+     "desc": "Late goals and fewer injuries"
+    },
+    {
+     "id": "pace",
+     "name": "Pace",
+     "icon": "⚡",
+     "desc": "Counters and wide play"
+    },
+    {
+     "id": "keeper",
+     "name": "Goalkeeping",
+     "icon": "🧤",
+     "desc": "Saves and command"
+    }
+   ],
+   "teams": [
+    {
+     "id": "soccer_0",
+     "name": "Harbor United",
+     "city": "Harbor"
+    },
+    {
+     "id": "soccer_1",
+     "name": "Riverside Athletic",
+     "city": "Riverside"
+    },
+    {
+     "id": "soccer_2",
+     "name": "Northgate Rovers",
+     "city": "Northgate"
+    },
+    {
+     "id": "soccer_3",
+     "name": "Lakeshore Wanderers",
+     "city": "Lakeshore"
+    },
+    {
+     "id": "soccer_4",
+     "name": "Bayview City",
+     "city": "Bayview"
+    },
+    {
+     "id": "soccer_5",
+     "name": "Foxhall Albion",
+     "city": "Foxhall"
+    },
+    {
+     "id": "soccer_6",
+     "name": "Granite Town",
+     "city": "Granite"
+    },
+    {
+     "id": "soccer_7",
+     "name": "Cedar Dynamo",
+     "city": "Cedar"
+    },
+    {
+     "id": "soccer_8",
+     "name": "Stonebridge Sporting",
+     "city": "Stonebridge"
+    },
+    {
+     "id": "soccer_9",
+     "name": "Westmere Real",
+     "city": "Westmere"
+    },
+    {
+     "id": "soccer_10",
+     "name": "Alder Olympic",
+     "city": "Alder"
+    },
+    {
+     "id": "soccer_11",
+     "name": "Kingsport Victoria",
+     "city": "Kingsport"
+    }
+   ]
+  },
+  "basketball": {
+   "stats": [
+    {
+     "id": "shooting",
+     "name": "Shooting",
+     "icon": "🏀",
+     "desc": "Scoring from range"
+    },
+    {
+     "id": "passing",
+     "name": "Passing",
+     "icon": "🔁",
+     "desc": "Ball movement"
+    },
+    {
+     "id": "defense",
+     "name": "Defense",
+     "icon": "🛡️",
+     "desc": "Stops and steals"
+    },
+    {
+     "id": "rebound",
+     "name": "Rebounding",
+     "icon": "📦",
+     "desc": "Second chances"
+    },
+    {
+     "id": "athletic",
+     "name": "Athleticism",
+     "icon": "⚡",
+     "desc": "Pace and finishing"
+    },
+    {
+     "id": "iq",
+     "name": "Basketball IQ",
+     "icon": "🧠",
+     "desc": "Decisions"
+    }
+   ],
+   "teams": [
+    {
+     "id": "basketball_0",
+     "name": "Summit Hoopsters",
+     "city": "Summit"
+    },
+    {
+     "id": "basketball_1",
+     "name": "Redwood Dunkers",
+     "city": "Redwood"
+    },
+    {
+     "id": "basketball_2",
+     "name": "Copper Aces",
+     "city": "Copper"
+    },
+    {
+     "id": "basketball_3",
+     "name": "Silver Flyers",
+     "city": "Silver"
+    },
+    {
+     "id": "basketball_4",
+     "name": "Ironwood Rim Riders",
+     "city": "Ironwood"
+    },
+    {
+     "id": "basketball_5",
+     "name": "Skyline Swish",
+     "city": "Skyline"
+    },
+    {
+     "id": "basketball_6",
+     "name": "Eastgate Skyhawks",
+     "city": "Eastgate"
+    },
+    {
+     "id": "basketball_7",
+     "name": "Maple Alley Cats",
+     "city": "Maple"
+    },
+    {
+     "id": "basketball_8",
+     "name": "Crescent Jumpers",
+     "city": "Crescent"
+    },
+    {
+     "id": "basketball_9",
+     "name": "Driftwood Bounce",
+     "city": "Driftwood"
+    },
+    {
+     "id": "basketball_10",
+     "name": "Highland Buzzers",
+     "city": "Highland"
+    },
+    {
+     "id": "basketball_11",
+     "name": "Vale Pivots",
+     "city": "Vale"
+    }
+   ]
+  },
+  "football": {
+   "stats": [
+    {
+     "id": "passing",
+     "name": "Passing",
+     "icon": "🎯",
+     "desc": "Quarterback and receivers"
+    },
+    {
+     "id": "rushing",
+     "name": "Rushing",
+     "icon": "🏃",
+     "desc": "Ground game"
+    },
+    {
+     "id": "blocking",
+     "name": "Blocking",
+     "icon": "🧱",
+     "desc": "Protection and holes"
+    },
+    {
+     "id": "tackling",
+     "name": "Tackling",
+     "icon": "🛡️",
+     "desc": "Run defense"
+    },
+    {
+     "id": "coverage",
+     "name": "Coverage",
+     "icon": "🕸️",
+     "desc": "Pass defense"
+    },
+    {
+     "id": "special",
+     "name": "Special teams",
+     "icon": "🦵",
+     "desc": "Kicking and returns"
+    }
+   ],
+   "teams": [
+    {
+     "id": "football_0",
+     "name": "Bedrock Gridiron Kings",
+     "city": "Bedrock"
+    },
+    {
+     "id": "football_1",
+     "name": "Thunder Ridge Bulldozers",
+     "city": "Thunder Ridge"
+    },
+    {
+     "id": "football_2",
+     "name": "Fort Hale Stampede",
+     "city": "Fort Hale"
+    },
+    {
+     "id": "football_3",
+     "name": "Prairie Linebackers",
+     "city": "Prairie"
+    },
+    {
+     "id": "football_4",
+     "name": "Clayton Raiders",
+     "city": "Clayton"
+    },
+    {
+     "id": "football_5",
+     "name": "Ashford Ironmen",
+     "city": "Ashford"
+    },
+    {
+     "id": "football_6",
+     "name": "Mesa Blitz",
+     "city": "Mesa"
+    },
+    {
+     "id": "football_7",
+     "name": "Dunmore Mustangs",
+     "city": "Dunmore"
+    },
+    {
+     "id": "football_8",
+     "name": "Black Hollow Warhogs",
+     "city": "Black Hollow"
+    },
+    {
+     "id": "football_9",
+     "name": "Rockport Rams",
+     "city": "Rockport"
+    },
+    {
+     "id": "football_10",
+     "name": "Gravel Bay Outlaws",
+     "city": "Gravel Bay"
+    },
+    {
+     "id": "football_11",
+     "name": "Oakfield Chargers",
+     "city": "Oakfield"
+    }
+   ]
+  },
+  "baseball": {
+   "stats": [
+    {
+     "id": "hitting",
+     "name": "Hitting",
+     "icon": "🏏",
+     "desc": "Contact and average"
+    },
+    {
+     "id": "power",
+     "name": "Power",
+     "icon": "💥",
+     "desc": "Home runs"
+    },
+    {
+     "id": "pitching",
+     "name": "Pitching",
+     "icon": "⚾",
+     "desc": "Starters and relievers"
+    },
+    {
+     "id": "fielding",
+     "name": "Fielding",
+     "icon": "🧤",
+     "desc": "Errors saved"
+    },
+    {
+     "id": "speed",
+     "name": "Baserunning",
+     "icon": "⚡",
+     "desc": "Steals and extra bases"
+    },
+    {
+     "id": "iq",
+     "name": "Game IQ",
+     "icon": "🧠",
+     "desc": "Situational play"
+    }
+   ],
+   "teams": [
+    {
+     "id": "baseball_0",
+     "name": "Orchard Sluggers",
+     "city": "Orchard"
+    },
+    {
+     "id": "baseball_1",
+     "name": "Sandlot Pitchers",
+     "city": "Sandlot"
+    },
+    {
+     "id": "baseball_2",
+     "name": "Millbrook Diamonds",
+     "city": "Millbrook"
+    },
+    {
+     "id": "baseball_3",
+     "name": "Dockside Hurlers",
+     "city": "Dockside"
+    },
+    {
+     "id": "baseball_4",
+     "name": "Pinecrest Bats",
+     "city": "Pinecrest"
+    },
+    {
+     "id": "baseball_5",
+     "name": "Hartwell Catchers",
+     "city": "Hartwell"
+    },
+    {
+     "id": "baseball_6",
+     "name": "Brookline Home Runs",
+     "city": "Brookline"
+    },
+    {
+     "id": "baseball_7",
+     "name": "Cobalt Aces",
+     "city": "Cobalt"
+    },
+    {
+     "id": "baseball_8",
+     "name": "Tidewater Bleachers",
+     "city": "Tidewater"
+    },
+    {
+     "id": "baseball_9",
+     "name": "Amber Switch Hitters",
+     "city": "Amber"
+    },
+    {
+     "id": "baseball_10",
+     "name": "Larkspur Fielders",
+     "city": "Larkspur"
+    },
+    {
+     "id": "baseball_11",
+     "name": "Ridgeway Pinstripes",
+     "city": "Ridgeway"
+    }
+   ]
+  },
+  "hockey": {
+   "stats": [
+    {
+     "id": "shooting",
+     "name": "Shooting",
+     "icon": "🏒",
+     "desc": "Goals"
+    },
+    {
+     "id": "skating",
+     "name": "Skating",
+     "icon": "⛸️",
+     "desc": "Speed and transition"
+    },
+    {
+     "id": "passing",
+     "name": "Passing",
+     "icon": "🔁",
+     "desc": "Playmaking"
+    },
+    {
+     "id": "defense",
+     "name": "Defense",
+     "icon": "🛡️",
+     "desc": "Blue line and checks"
+    },
+    {
+     "id": "goalie",
+     "name": "Goaltending",
+     "icon": "🧤",
+     "desc": "Saves"
+    },
+    {
+     "id": "grit",
+     "name": "Grit",
+     "icon": "💪",
+     "desc": "Physical play"
+    }
+   ],
+   "teams": [
+    {
+     "id": "hockey_0",
+     "name": "Frostholm Blades",
+     "city": "Frostholm"
+    },
+    {
+     "id": "hockey_1",
+     "name": "Polar Pucks",
+     "city": "Polar"
+    },
+    {
+     "id": "hockey_2",
+     "name": "Glacier Zambonis",
+     "city": "Glacier"
+    },
+    {
+     "id": "hockey_3",
+     "name": "Northwind Icebreakers",
+     "city": "Northwind"
+    },
+    {
+     "id": "hockey_4",
+     "name": "Icebridge Slapshots",
+     "city": "Icebridge"
+    },
+    {
+     "id": "hockey_5",
+     "name": "Whitepine Wolves",
+     "city": "Whitepine"
+    },
+    {
+     "id": "hockey_6",
+     "name": "Snowline Frost",
+     "city": "Snowline"
+    },
+    {
+     "id": "hockey_7",
+     "name": "Arctic Bay Goalies",
+     "city": "Arctic Bay"
+    },
+    {
+     "id": "hockey_8",
+     "name": "Stonefrost Skaters",
+     "city": "Stonefrost"
+    },
+    {
+     "id": "hockey_9",
+     "name": "Cold Harbor Penalty Box",
+     "city": "Cold Harbor"
+    },
+    {
+     "id": "hockey_10",
+     "name": "Tundra Snowcats",
+     "city": "Tundra"
+    },
+    {
+     "id": "hockey_11",
+     "name": "Winterfell Polar Bears",
+     "city": "Winterfell"
+    }
+   ]
+  }
+ },
+ "types": [
+  {
+   "id": "semi",
+   "name": "Semi-pro club",
+   "icon": "🥉",
+   "cost": 1500000.0,
+   "strength": 44,
+   "payroll": 0.35,
+   "ticket": 22,
+   "fans": 6000,
+   "league": "regional"
+  },
+  {
+   "id": "pro",
+   "name": "Professional club",
+   "icon": "🥈",
+   "cost": 12000000.0,
+   "strength": 58,
+   "payroll": 1.0,
+   "ticket": 48,
+   "fans": 22000,
+   "league": "national"
+  },
+  {
+   "id": "elite",
+   "name": "Elite franchise",
+   "icon": "🥇",
+   "cost": 60000000.0,
+   "strength": 72,
+   "payroll": 2.6,
+   "ticket": 95,
+   "fans": 48000,
+   "league": "premier"
+  }
+ ],
+ "sizes": [
+  {
+   "id": "small",
+   "name": "Small",
+   "cap": 4000,
+   "cost": 400000.0
+  },
+  {
+   "id": "medium",
+   "name": "Medium",
+   "cap": 14000,
+   "cost": 3000000.0
+  },
+  {
+   "id": "large",
+   "name": "Large",
+   "cap": 38000,
+   "cost": 18000000.0
+  },
+  {
+   "id": "mega",
+   "name": "Mega",
+   "cap": 75000,
+   "cost": 70000000.0
+  }
+ ],
+ "tiers": [
+  {
+   "id": "basic",
+   "name": "Basic",
+   "gate": 1.0,
+   "upkeep": 0.02,
+   "cost": 0
+  },
+  {
+   "id": "standard",
+   "name": "Standard",
+   "gate": 1.25,
+   "upkeep": 0.03,
+   "cost": 0.4
+  },
+  {
+   "id": "premium",
+   "name": "Premium",
+   "gate": 1.6,
+   "upkeep": 0.045,
+   "cost": 1.0
+  },
+  {
+   "id": "elite",
+   "name": "Elite",
+   "gate": 2.1,
+   "upkeep": 0.06,
+   "cost": 2.2
+  }
+ ],
+ "roles": [
+  {
+   "id": "head_coach",
+   "name": "Head coach",
+   "icon": "📋",
+   "required": true,
+   "salary": 150000,
+   "effect": "performance",
+   "desc": "Sets tactics: team performance"
+  },
+  {
+   "id": "assistant",
+   "name": "Assistant coach",
+   "icon": "🧑‍🏫",
+   "required": false,
+   "salary": 70000,
+   "effect": "development",
+   "desc": "Player development"
+  },
+  {
+   "id": "scout",
+   "name": "Scout / recruiter",
+   "icon": "🔭",
+   "required": true,
+   "salary": 80000,
+   "effect": "recruiting",
+   "desc": "Finds and signs better players, fills the roster"
+  },
+  {
+   "id": "medic",
+   "name": "Medical staff",
+   "icon": "🩺",
+   "required": true,
+   "salary": 90000,
+   "effect": "injuries",
+   "desc": "Fewer and shorter injuries"
+  },
+  {
+   "id": "ops",
+   "name": "Operations / front office",
+   "icon": "🗂️",
+   "required": true,
+   "salary": 100000,
+   "effect": "finance",
+   "desc": "Keeps costs down and contracts tidy"
+  },
+  {
+   "id": "marketing",
+   "name": "Marketing manager",
+   "icon": "📣",
+   "required": false,
+   "salary": 75000,
+   "effect": "attendance",
+   "desc": "Attendance, sponsors and merch"
+  }
+ ],
+ "presets": [
+  {
+   "id": "balanced",
+   "name": "Balanced",
+   "w": null
+  },
+  {
+   "id": "offense",
+   "name": "Offence first",
+   "w": "first3"
+  },
+  {
+   "id": "defense",
+   "name": "Defence first",
+   "w": "last3"
+  }
+ ],
+ "weights": {
+  "min": 0,
+  "max": 10,
+  "total": 30
+ }
+}

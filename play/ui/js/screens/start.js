@@ -1,6 +1,6 @@
 // Start flow: Lifeline (2 save slots) + character creation. Rendered as a full-screen layer inside #app (never remounts the hub).
 import { adapter } from '../adapter.js';
-import { store, h, btn, section, sheet, confirmSheet, money, sfx } from '../ui.js';
+import { store, h, btn, section, sheet, confirmSheet, money, sfx, toast } from '../ui.js';
 import { composeSprite } from '../character.js';
 
 const rand = (a) => a[Math.floor(Math.random() * a.length)];
@@ -18,8 +18,8 @@ export function runStart(mode, opts = {}) {
     async function lifeline() {
       const slots = await adapter.getSlots(), body = h('div', { class: 'body' });
       const last = slots.find((s) => s.last && !s.empty) || null;
-      body.append(h('div', { class: 'card start-hero' }, h('h3', { text: 'Your Lifelines' }), h('p', { class: 'hint', text: 'Two save slots, each its own life. Progress saves automatically.' })));
-      if (last) body.append(btn(`Continue: ${last.name} (Slot ${last.slot})`, async () => { const r = await adapter.loadSlot(last.slot); if (r.ok) done(true); }, 'go block', { 'data-el': 'slot-continue' }));
+      body.append(h('div', { class: 'card start-hero' }, h('img', { src: 'assets/brand/logo.png', alt: 'Lifeline', class: 'brand-logo', 'data-el': 'brand-logo', style: { display: 'block', margin: '0 auto 6px', height: '120px', width: 'auto', maxWidth: '70%' } }), h('h3', { text: 'Your Lifelines' }), h('p', { class: 'hint', text: 'Two save slots, each its own life. Progress saves automatically.' })));
+      if (last) body.append(btn(`Continue: ${last.name} (Slot ${last.slot})`, async () => { const r = await adapter.loadSlot(last.slot); if (r.ok) { if (r.note) toast(r.note, 'warn'); done(true); } }, 'go block', { 'data-el': 'slot-continue' }));
       for (const s of slots) {
         const pic = h('div', { class: 'slot-pic' });
         if (!s.empty) sprite(s.look, 72, 'head').then((x) => { pic.innerHTML = x; });
@@ -28,7 +28,7 @@ export function runStart(mode, opts = {}) {
           ? h('div', { class: 'slot-info' }, h('b', { text: `Slot ${s.slot}` }), h('span', { class: 'hint', text: 'Empty' }))
           : h('div', { class: 'slot-info' }, h('b', { text: `Slot ${s.slot} · ${s.name}` }), h('span', { text: s.summary + (s.alive ? '' : ' · 🪦') }), h('span', { class: 'hint', text: `${s.country}${s.gen > 1 ? ' · Generation ' + s.gen : ''} · ${money(s.cash, true)}` }), s.last ? h('span', { class: 'chip good', text: 'Last played' }) : null);
         const acts = h('div', { class: 'btns' },
-          s.empty ? null : btn(s.current && opts.cancelable ? 'Playing' : 'Play', async () => { const r = await adapter.loadSlot(s.slot); if (r.ok) done(true); }, 'go sm', { 'data-el': 'slot-play-' + s.slot }),
+          s.empty ? null : btn(s.current && opts.cancelable ? 'Playing' : 'Play', async () => { const r = await adapter.loadSlot(s.slot); if (r.ok) { if (r.note) toast(r.note, 'warn'); done(true); } }, 'go sm', { 'data-el': 'slot-play-' + s.slot }),
           btn(s.empty ? 'New Life' : 'New Life (overwrite)', async () => {
             if (!s.empty && !(await confirmSheet(`Overwrite Slot ${s.slot}?`, `${s.name} (${s.summary}) will be erased and replaced with a new life. This cannot be undone.`, 'Overwrite', 'danger'))) return;
             creator(s.slot, true);
@@ -70,7 +70,7 @@ export function runStart(mode, opts = {}) {
         btn('Start life', async () => {
           if (!v.first.trim()) { firstIn.focus(); return; }
           sfx('good'); const r = await adapter.startLife(slot, { first: v.first, last: v.last, gender: v.gender, country: v.country, look: lookOf() });
-          if (r.ok) done(true);
+          if (r.ok) { if (r.note) toast(r.note, 'warn'); done(true); }
         }, 'go block', { 'data-el': 'creator-start' }),
         h('p', { class: 'hint', style: { textAlign: 'center' }, text: `Slot ${slot}` }));
       redraw();

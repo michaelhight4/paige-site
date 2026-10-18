@@ -2,6 +2,8 @@
 import { D, loadData } from './data.js';
 import { rnd, rint, pick, gauss, chance, clamp, wpick } from './rng.js';
 import { log, earn, spend, addStat, STATS, fill } from './core.js';
+import * as Hw from './hardware.js';
+import * as Fr from './franchise.js';
 import * as Market from './market.js';
 import * as Biz from './business.js';
 import * as Plus from './bizplus.js';
@@ -146,7 +148,7 @@ function lifeTick(s, dt) {
   addStat(s, 'happiness', (55 - s.stats.happiness) * 0.15 * dt + gauss(s) * 1.5 * sq + (s.cash > 100000 ? 0.5 : s.debt > 100000 ? -1 : 0) * dt);
   addStat(s, 'health', gauss(s) * 1.2 * sq + Skills.healthBonus(s) * 0.4 * dt + (s.age < 45 && s.stats.health < 80 ? (80 - s.stats.health) * 0.06 * dt : 0));
   addStat(s, 'stress', (20 + (s.job ? 10 : 0) + (s.debt > 100000 ? 10 : 0) - s.stats.stress) * 0.25 * dt + gauss(s) * 2 * sq);
-  addStat(s, 'fame', -2 * dt * (s.stats.fame > 5 ? 1 : 0)); PFx.fameFloor(s); addStat(s, 'karma', (50 - s.stats.karma) * 0.02 * dt); addStat(s, 'crazy', gauss(s) * 1 * sq);
+  addStat(s, 'fame', -2 * dt * (s.stats.fame > 5 ? 1 : 0)); PFx.fameFloor(s); if (Math.floor(s.age) !== Math.floor(s.age - dt)) PFx.applyStart(s); addStat(s, 'karma', (50 - s.stats.karma) * 0.02 * dt); addStat(s, 'crazy', gauss(s) * 1 * sq);
   if (s.stats.happiness < 15) addStat(s, 'health', -1.5 * dt);
   s.tally.maxFame = Math.max(s.tally.maxFame, s.stats.fame); s.tally.maxSmarts = Math.max(s.tally.maxSmarts, s.stats.smarts);
 }
@@ -169,7 +171,7 @@ export function takeTurn(s) {
   for (const b of s.biz) Biz.tickBiz(s, b, dt);
   Sports.tickLeague(s, dt);
   if (newYear) {
-    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); SS.yearTick(s); Slice.yearTick(s); Online.yearTick(s); Social.yearTick(s); Politics.yearTick(s); Coach.yearTick(s); Prod.yearTick(s);
+    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); SS.yearTick(s); Slice.yearTick(s); Online.yearTick(s); Social.yearTick(s); Politics.yearTick(s); Coach.yearTick(s); Prod.yearTick(s); Fr.yearTick(s);
     for (const b of s.biz) if (b.fame) b.fame = Math.max(0, b.fame - D.studio.balance.sensation.fameDecayPerYear);
     const para = Journal.yearParagraph(s); if (para) log(s, para, 'yearly');
   }
@@ -213,7 +215,18 @@ export function migrateLegacy() {
   return false;
 }
 export function slotMeta(s, headline) { return { name: s.name, age: Math.floor(s.age), alive: s.alive !== false, country: s.country, cash: Math.round(s.cash || 0), gen: (s.legacy && s.legacy.gen) || 1, headline: headline || null, savedAt: Date.now() }; }
-export const save = (s, slot = activeSlot, headline) => { try { if (!kset(SLOT_KEY(slot), JSON.stringify(s))) return false; kset(META_KEY(slot), JSON.stringify(slotMeta(s, headline))); setLastSlot(slot); return true; } catch (e) { return false; } };
-export const load = (slot = activeSlot) => { try { migrateLegacy(); const t = kget(SLOT_KEY(slot)); const g = t ? JSON.parse(t) : null; if (g) Slice.ensure(g); return g; } catch (e) { return null; } };
-export const slotInfo = (slot) => { migrateLegacy(); const t = kget(SLOT_KEY(slot)); if (!t) return null; let m = null; try { m = JSON.parse(kget(META_KEY(slot))); } catch (e) { /* ignore */ } if (!m) { try { m = slotMeta(JSON.parse(t)); } catch (e) { return null; } } return m; };
-export const wipe = (slot = activeSlot) => { kdel(SLOT_KEY(slot)); kdel(META_KEY(slot)); if (lastSlot() === slot) kdel(LAST_KEY); };
+// One auto-save + ONE backup per slot (lifesim.slot.N.bak). Before each overwrite the previous save is rotated into the backup if it still looks valid
+// (a damaged main file never replaces a good backup). Load falls back to the backup when the main save is missing or corrupt and says so (takeLoadNote).
+const BAK_KEY = (n) => 'lifesim.slot.' + n + '.bak', BAKMETA_KEY = (n) => 'lifesim.slotmeta.' + n + '.bak';
+const looksValid = (t) => { if (typeof t !== 'string' || t.length < 20 || t[0] !== '{' || t[t.length - 1] !== '}') return false; try { const g = JSON.parse(t); return !!g && g.v === 2 && g.alive !== undefined; } catch (e) { return false; } };
+let loadNote = null; export const takeLoadNote = () => { const n = loadNote; loadNote = null; return n; };
+export const save = (s, slot = activeSlot, headline) => { try { const json = JSON.stringify(s), prev = kget(SLOT_KEY(slot)); if (prev && prev !== json && looksValid(prev)) { kset(BAK_KEY(slot), prev); const pm = kget(META_KEY(slot)); if (pm) kset(BAKMETA_KEY(slot), pm); } if (!kset(SLOT_KEY(slot), json)) return false; kset(META_KEY(slot), JSON.stringify(slotMeta(s, headline))); setLastSlot(slot); return true; } catch (e) { return false; } };
+export const hasBackup = (slot = activeSlot) => looksValid(kget(BAK_KEY(slot)));
+function readSlot(slot) { // -> { g, restored }
+  const t = kget(SLOT_KEY(slot)); if (t) { try { const g = JSON.parse(t); if (g && g.v === 2) return { g, restored: false }; } catch (e) { /* corrupt: try the backup */ } }
+  const b = kget(BAK_KEY(slot)); if (b && looksValid(b)) return { g: JSON.parse(b), restored: true, raw: b };
+  return { g: null, restored: false };
+}
+export const load = (slot = activeSlot) => { try { migrateLegacy(); const r = readSlot(slot); const g = r.g; if (g) { if (r.restored) { kset(SLOT_KEY(slot), r.raw); const bm = kget(BAKMETA_KEY(slot)); if (bm) kset(META_KEY(slot), bm); kdel(BAK_KEY(slot)); kdel(BAKMETA_KEY(slot)); loadNote = 'Your latest save was missing or damaged, so the previous backup was restored (you may lose the last year or action).'; } Slice.ensure(g); Hw.ensure(g); } return g; } catch (e) { return null; } };
+export const slotInfo = (slot) => { migrateLegacy(); let t = kget(SLOT_KEY(slot)), mk = META_KEY(slot); if (!t || !looksValid(t)) { const b = kget(BAK_KEY(slot)); if (b && looksValid(b)) { t = b; mk = BAKMETA_KEY(slot); } else return null; } let m = null; try { m = JSON.parse(kget(mk)); } catch (e) { /* ignore */ } if (!m) { try { m = slotMeta(JSON.parse(t)); } catch (e) { return null; } } return m; };
+export const wipe = (slot = activeSlot) => { kdel(SLOT_KEY(slot)); kdel(META_KEY(slot)); kdel(BAK_KEY(slot)); kdel(BAKMETA_KEY(slot)); if (lastSlot() === slot) kdel(LAST_KEY); };

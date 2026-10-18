@@ -2,6 +2,7 @@
 // Hooks used: Studio.getTrends, calcScore (preview), saveRelease (via tick), getConsoleShare, setEffort, getHistory, hire, fire.
 import { D } from './data.js';
 import * as Studio from './studio.js';
+import * as Hw from './hardware.js';
 import * as Market from './market.js';
 import { $, money, pct, esc, btn, chart, multiChart } from './ui_util.js';
 
@@ -74,7 +75,7 @@ export function marketView(S, ui, b) {
   const st = ST(), medium = D.bizTypes[b.type].medium, d = Studio.getDraft(S, b), prof = Studio.profile(medium, d.format), tr = Studio.getTrends(S), shares = Studio.getConsoleShare(S);
   let h = '';
   if (medium === 'game') {
-    const cs = st.consoles.map((c) => ({ ...c, st: Studio.consoleState(S, c.id) })).sort((a, b2) => shares[b2.id] - shares[a.id]);
+    const cs = Hw.activeProducts().map((c) => ({ ...c, st: Studio.consoleState(S, c.id) })).sort((a, b2) => shares[b2.id] - shares[a.id]);
     h += `<div class="card"><h3>Console market · ${Studio.yearOf(S)}</h3><div class="stack">${cs.map((c) => `<div style="width:${shares[c.id]}%;background:${c.color}" title="${esc(c.name)} ${shares[c.id]}%"></div>`).join('')}</div>
       ${cs.map((c) => { const hist = c.st.hist, dlt = hist.length > 1 ? shares[c.id] - hist.at(-2) : 0; return `<div class="row sp optrow"><span>${c.icon} <b>${esc(c.name)}</b> <span class="mut">${esc(c.maker)} · ${esc(c.blurb)}</span></span><span><b>${shares[c.id]}%</b> <span class="${dlt >= 0 ? 'up' : 'dn'}">${dlt >= 0 ? '▲' : '▼'}${Math.abs(dlt).toFixed(1)}</span> ⚡${Math.round(c.st.power)} <span class="mut">${c.st.age}y</span></span></div>`; }).join('')}
       <h3>Share history (yearly)</h3>${multiChart(cs.map((c) => ({ color: c.color, vals: [...c.st.hist] })))}<p class="mut">Share (market momentum) and hardware power ⚡ shift every year; refreshes boost both. Share lifts game sales; power lifts graphics-heavy games.</p></div>`;

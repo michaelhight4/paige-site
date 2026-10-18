@@ -77,3 +77,5 @@ Social tab > Social Media (platforms, posting, sponsors, verification, calendar,
 
 ## Production companies
 Work > Production Companies (also in More): own a record label, film studio, TV studio or game studio that produces by itself every year, or back other companies' projects for a revenue cut. The Autopilot pack can post on social media, stream and greenlight projects each year.
+
+- **Batch 5**: console makers (4 major + 2 minor, bankruptcies and challengers), production-company sequels/franchises, marketing and inbound platform deals, war map, royal succession, halftime tactics, one auto-save + one backup per slot, Lifeline logo.

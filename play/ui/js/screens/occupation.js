@@ -3,6 +3,7 @@ import { store, h, row, section, kv, btn, empty, chip, bar, money, sheet, confir
 import { sportsScreen } from './sports.js';
 import { scholarshipsScreen } from './extra.js';
 import { prodcoScreen } from './prodco.js';
+import { franchiseScreen } from './franchise.js';
 import { coachingScreen } from './coaching.js';
 import { politicsScreen } from './politics.js';
 import { streamerScreen, influencerScreen } from './online.js';
@@ -11,7 +12,7 @@ import { streamerScreen, influencerScreen } from './online.js';
 export async function occupationMenu(body, { nav }) {
   const items = await adapter.getOccupationMenu(); const st = store.state;
   if (st.job) body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: 'Current job' }), kv('Title', st.job.title), kv('Employer', st.job.employer), kv('Salary', money(st.job.salary) + '/yr', 'pos'), kv('Years', String(st.job.years)), h('div', { class: 'btns' }, btn('Quit job', async () => { if (await confirmSheet('Quit job?', `Quit your job as ${st.job.title}?`, 'Quit', 'danger')) act(adapter.quitJob()); }, 'danger sm'))));
-  const screens = { education: educationScreen, fight: fightScreen, freelance: freelanceScreen, jobs: (b, c) => jobsScreen(b, c, 'jobs'), parttime: partTimeScreen, military: militaryScreen, special: (b, c) => jobsScreen(b, c, 'special'), sports: sportsScreen, collections: collectionsScreen, scholarships: scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, prodco: prodcoScreen };
+  const screens = { education: educationScreen, fight: fightScreen, freelance: freelanceScreen, jobs: (b, c) => jobsScreen(b, c, 'jobs'), parttime: partTimeScreen, military: militaryScreen, special: (b, c) => jobsScreen(b, c, 'special'), sports: sportsScreen, collections: collectionsScreen, scholarships: scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, franchise: franchiseScreen, prodco: prodcoScreen };
   body.append(...items.map(m => row({ id: m.id, icon: m.icon, title: m.label, sub: m.locked ? m.lockReason : m.sub, disabled: m.locked, onClick: () => nav.open(m.label === 'Sports Career' ? 'Sports Career' : m.label, screens[m.id]) })));
 }
 

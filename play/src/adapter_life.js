@@ -203,7 +203,7 @@ export const life = {
   },
   haveChild() {
     const s = this.s, n0 = this.mark();
-    if (Premium.isUnlocked('rabbit')) { const r = PFx.rabbitChildren(s); return this.res(true, r.msg, n0); }
+    if (Premium.isUnlocked('rabbit')) { const r = PFx.rabbitChildren(s); return this.res(!!r.ok, r.msg, n0); }
     const pr = P.partnerOf(s); if (!pr) return this.res(false, 'You need a partner first.', n0);
     const a = P.interactionsFor(s, pr).find((x) => x.special === 'baby'); if (!a) return this.res(false, 'Not possible right now.', n0);
     const r = P.interact(s, pr.id, a.id); return this.res(!!r.ok, r.msg, n0);
@@ -298,6 +298,6 @@ export const life = {
     if (kids.length || sp) unions.push({ partners: [me, sp && 'p' + sp.id].filter(Boolean), children: kids.map((p) => 'p' + p.id) });
     return { people, unions, root: mo || fa ? ('p' + (fa || mo).id) : me };
   },
-  continueAsHeir(pid) { const n0 = this.mark(), ok = Legacy.continueAs(this.s, pid); return this.res(ok, ok ? 'You continue the family line.' : 'Cannot continue.', n0, { reload: false }); },
+  continueAsHeir(pid) { const n0 = this.mark(), ok = Legacy.continueAs(this.s, pid); return this.res(ok, ok ? (this.s.royal ? `You continue the family line as ${this.s.royal.role === 'monarch' ? (this.s.gender === 'male' ? 'the new monarch' : 'the new monarch') : 'a royal heir'} of ${this.s.royal.house}.` : 'You continue the family line.') : 'Cannot continue.', n0, { reload: false }); },
   getCemetery() { const m = Legacy.metaGet(); return { graves: m.graves.map((g) => ({ name: g.name, born: g.born, died: g.died, age: g.age, cause: g.cause, ribbon: (D.ribbons.find((r) => r.id === g.ribbon) || {}).name, nw: g.nw, gen: g.gen, creator: !!g.creator, style: ['classic', 'round', 'cross', 'obelisk'][(g.gen || 0) % 4] })), lives: m.lives, bestNW: m.bestNW, longest: m.longest }; },
 };

@@ -21,6 +21,7 @@ import { socialApi } from './adapter_social.js';
 import { politicsApi } from './adapter_politics.js';
 import { coachApi } from './adapter_coach.js';
 import { prodApi } from './adapter_prod.js';
+import { frApi } from './adapter_fr.js';
 import * as Ads from './ads.js';
 
 const isNode = typeof window === 'undefined';
@@ -35,7 +36,7 @@ export class EngineAdapter {
     this.cfg = await readJson('../ui/data/ui_config.json'); this.research = await readJson('../ui/data/research_activities.json'); setUnlocks(await readJson('../ui/data/unlocks.json'));
     E.migrateLegacy(); this.slot = E.lastSlot() || 1; E.setSlot(this.slot);
     if (!this.opts.fresh) {
-      const g = E.load(this.slot); if (g && g.v === 2 && g.alive !== undefined) this.s = g;
+      const g = E.load(this.slot); if (g && g.v === 2 && g.alive !== undefined) { this.s = g; this.loadNote = E.takeLoadNote(); }
       else if (this.opts.startFlow && E.SLOTS.some((n) => E.slotInfo(n))) this.startMode = 'lifeline';
     }
     if (!this.s && !(this.opts.startFlow && !this.opts.fresh)) this.s = E.newGame({ seed: this.opts.seed });
@@ -54,7 +55,7 @@ export class EngineAdapter {
   setSteamSub(on) { Ads.setSteamSubscription(on); return this.getSettings().ads; }
   debugSetup(o = {}) { const s = this.s; if (o.cash != null) s.cash = o.cash; if (o.age != null) { s.age = o.age; if (o.age >= 18) { s.school = null; s.edu = Math.max(s.edu, 1); } else if (o.age >= 12) s.school = 'high'; else if (o.age >= 5) s.school = 'primary'; } if (o.college != null) { s.school = 'college'; s.college = { yrs: o.college }; s.edu = Math.max(s.edu, 1); E.Scholar.ensure(s); if (o.gpa != null) s.sch.gpa = [o.gpa, o.gpa, o.gpa]; if (o.award) { const tp = D.scholarData.types.find((x) => x.id === o.award); if (tp) s.sch.active.push({ id: tp.id, name: tp.name, pct: 0.3, basePct: 0.3, yearsLeft: 3, level: 'college', awardedAt: s.age - 1, kind: tp.kind, renewals: 0, probation: 0 }); } } return this.getState(); }
 }
-Object.assign(EngineAdapter.prototype, slotsApi, quickApi, autoApi, rewardsApi, onlineApi, socialApi, politicsApi, coachApi, prodApi, life, assets, bizApi, unlockApi, growth);
+Object.assign(EngineAdapter.prototype, slotsApi, quickApi, autoApi, rewardsApi, onlineApi, socialApi, politicsApi, coachApi, prodApi, frApi, life, assets, bizApi, unlockApi, growth);
 // persist after every mutating call
 for (const k of Object.getOwnPropertyNames(EngineAdapter.prototype)) {
   const f = EngineAdapter.prototype[k];
