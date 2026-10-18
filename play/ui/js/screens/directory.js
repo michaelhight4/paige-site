@@ -46,7 +46,7 @@ export async function buildDirectory() {
   // Social
   add('Social', 'soc:people', 'Relationships', 'Family, partner, friends, exes', '👪', (n) => n.open('Relationships', relationshipsScreen), 'people family friends partner dating');
   add('Social', 'soc:media', 'Social Media', 'Platforms, posts, followers, sponsors, verification, calendar, team, gear', '📱', async (n) => { const { socialHub } = await import('./social.js'); n.open('Social Media', socialHub); }, 'social media feed followers post sponsor verified influencer platform chirpr clipwave');
-  add('Businesses & Studios', 'biz:franchise', 'Own a Team', 'Buy a club in any sport, hire staff, upgrade the stadium', '🏟️', (n) => n.open('Own a Team', franchiseScreen), 'sports team franchise own club stadium staff'),
+  add('Businesses & Studios', 'biz:franchise', 'Own a Team', 'Team hub: buy or create a club, hire staff, roster, facilities, finances', '🏟️', (n) => n.open('Own a Team', franchiseScreen), 'sports team franchise own club stadium staff'),
   add('Businesses & Studios', 'biz:prodco', 'Production Companies', 'Record label, film, TV and game studios; back other companies', '🎞️', (n) => n.open('Production Companies', prodcoScreen), 'production company label records film tv game studio music artists greenlight royalty invest');
   add('Work', 'work:coaching', 'Coaching', 'Coach or manage a team, transfers, stadium, season review, play the games', '📋', async (n) => { const { coachingScreen } = await import('./coaching.js'); n.open('Coaching', coachingScreen); }, 'coach coaching manager team transfers stadium sports season');
   add('Social', 'soc:tree', 'Family tree', 'Your relatives at a glance', '🌳', (n) => n.open('Family tree', familyTreeScreen), 'ancestors kids');
