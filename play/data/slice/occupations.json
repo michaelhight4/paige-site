@@ -8196,6 +8196,14 @@
     ]
    },
    {
+    "id": "coaching",
+    "name": "Coaching",
+    "postgrad": [
+     "Graduate",
+     "Education"
+    ]
+   },
+   {
     "id": "communications",
     "name": "Communications",
     "postgrad": []
@@ -8358,6 +8366,14 @@
     "id": "religious_studies",
     "name": "Religious Studies",
     "postgrad": []
+   },
+   {
+    "id": "sports_science",
+    "name": "Sports Science",
+    "postgrad": [
+     "Graduate",
+     "Education"
+    ]
    }
   ],
   "levels": [

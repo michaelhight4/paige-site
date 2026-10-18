@@ -80,6 +80,12 @@
       "name": "The Creator",
       "price": 5.99,
       "effect": "edit_any_character"
+    },
+    {
+      "id": "autopilot",
+      "name": "Autopilot Pack",
+      "price": 5.99,
+      "effect": "autopilot_routines_and_skip_ahead"
     }
   ]
 }

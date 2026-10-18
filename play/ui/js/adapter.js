@@ -50,7 +50,7 @@ export async function bootAdapter() {
     const X = mod.default; setAdapter(typeof X === 'function' ? new X() : X);
   } else {
     const { EngineAdapter } = await import('../../src/engine_adapter.js');
-    setAdapter(new EngineAdapter({ seed: q.get('seed') ? Number(q.get('seed')) : undefined, fresh: q.get('fresh') === '1', noSave: q.get('nosave') === '1' }));
+    setAdapter(new EngineAdapter({ seed: q.get('seed') ? Number(q.get('seed')) : undefined, fresh: q.get('fresh') === '1', noSave: q.get('nosave') === '1', platform: q.get('platform') || undefined, steamSub: q.get('steamsub') != null ? q.get('steamsub') === '1' : undefined, startFlow: q.get('fresh') !== '1' && q.get('age') == null }));
   }
   await adapter.init();
   // mock-only convenience: ?age=18 jumps to a populated life so every screen has data

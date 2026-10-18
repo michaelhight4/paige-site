@@ -157,6 +157,20 @@
     "sell_factor": 0.35,
     "max_owned": 60,
     "min_age": 0
+   },
+   "gear": {
+    "name": "Creator gear",
+    "icon": "🎥",
+    "depr": 0.05,
+    "depr_cap_years": 15,
+    "cond_decay": [
+     0,
+     1
+    ],
+    "upkeep_pct": 0,
+    "sell_factor": 0.6,
+    "max_owned": 30,
+    "min_age": 13
    }
   },
   "loans": {
@@ -2105,6 +2119,233 @@
     ],
     "kind": "hat"
    }
+  ],
+  "gear": [
+   {
+    "id": "cam_1",
+    "name": "Starter camera",
+    "base": 180,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "cam"
+   },
+   {
+    "id": "cam_2",
+    "name": "Pro camera",
+    "base": 900,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "cam"
+   },
+   {
+    "id": "cam_3",
+    "name": "Studio camera",
+    "base": 4800,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "cam"
+   },
+   {
+    "id": "mic_1",
+    "name": "Starter microphone",
+    "base": 90,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "mic"
+   },
+   {
+    "id": "mic_2",
+    "name": "Pro microphone",
+    "base": 450,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "mic"
+   },
+   {
+    "id": "mic_3",
+    "name": "Studio microphone",
+    "base": 2400,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "mic"
+   },
+   {
+    "id": "light_1",
+    "name": "Starter lighting rig",
+    "base": 120,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "light"
+   },
+   {
+    "id": "light_2",
+    "name": "Pro lighting rig",
+    "base": 600,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "light"
+   },
+   {
+    "id": "light_3",
+    "name": "Studio lighting rig",
+    "base": 3200,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "light"
+   },
+   {
+    "id": "desk_1",
+    "name": "Starter desk & studio",
+    "base": 250,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "desk"
+   },
+   {
+    "id": "desk_2",
+    "name": "Pro desk & studio",
+    "base": 1400,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "desk"
+   },
+   {
+    "id": "desk_3",
+    "name": "Studio desk & studio",
+    "base": 7500,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "desk"
+   },
+   {
+    "id": "set_1",
+    "name": "Starter creator set",
+    "base": 900,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "set"
+   },
+   {
+    "id": "set_2",
+    "name": "Pro creator set",
+    "base": 5200,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "set"
+   },
+   {
+    "id": "set_3",
+    "name": "Studio creator set",
+    "base": 28000,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "set"
+   }
   ]
  },
  "shops": [
@@ -2399,6 +2640,27 @@
    "markup": [
     1.0,
     1.3
+   ]
+  },
+  {
+   "id": "gear_hub",
+   "name": "Creator Gear Hub",
+   "category": "gear",
+   "kind": "gear_store",
+   "blurb": "Cameras, mics, lighting, desks and full sets for streamers and podcasters.",
+   "catalog": "gear",
+   "count": 15,
+   "markup": [
+    1.0,
+    1.0
+   ],
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
    ]
   }
  ],

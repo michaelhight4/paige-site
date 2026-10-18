@@ -8458,5 +8458,1754 @@
   "if": {
    "school": "college"
   }
+ },
+ {
+  "id": "stream_raid",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 4,
+  "title": "Raid!",
+  "prompt": "A huge streamer ends their broadcast by sending thousands of viewers to your channel.",
+  "choices": [
+   {
+    "label": "Welcome them and run a giveaway ($300)",
+    "journal": [
+     "I welcomed the raid with a giveaway and chat went feral."
+    ],
+    "fx": {
+     "money": -300,
+     "happy": 4,
+     "stream": {
+      "subsPct": 12
+     }
+    }
+   },
+   {
+    "label": "Thank them and keep playing",
+    "journal": [
+     "I thanked the raiders and kept playing. Some stayed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stream": {
+      "subsPct": 6
+     }
+    }
+   },
+   {
+    "label": "Mute chat and hope it passes",
+    "journal": [
+     "I muted chat. The raid left, a little confused."
+    ],
+    "fx": {
+     "stream": {
+      "subsPct": 2
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  }
+ },
+ {
+  "id": "stream_clip_viral",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 3,
+  "title": "A Clip Goes Viral",
+  "prompt": "A moment from your stream is spreading across the internet.",
+  "choices": [
+   {
+    "label": "Lean into it and make follow-ups",
+    "journal": [
+     "I leaned into the clip and the internet leaned back."
+    ],
+    "fx": {
+     "fame": 4,
+     "happy": 4,
+     "stream": {
+      "subsPct": 18,
+      "burnout": 6
+     }
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": "I leaned into the clip too hard and it became cringe.",
+     "fx": {
+      "happy": -4,
+      "stream": {
+       "subsPct": -3
+      }
+     }
+    }
+   },
+   {
+    "label": "Enjoy it quietly",
+    "journal": [
+     "I let the clip do its thing."
+    ],
+    "fx": {
+     "happy": 4,
+     "stream": {
+      "subsPct": 8
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  }
+ },
+ {
+  "id": "stream_tos_warning",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 3,
+  "title": "Moderation Notice",
+  "prompt": "The platform flags something you said on stream.",
+  "choices": [
+   {
+    "label": "Clean up the content",
+    "journal": [
+     "I cleaned up my act. It was less fun and more safe."
+    ],
+    "fx": {
+     "happy": -4,
+     "stream": {
+      "strikes": -1,
+      "subsPct": -2
+     }
+    }
+   },
+   {
+    "label": "Appeal the decision",
+    "journal": [
+     "I appealed the decision and waited."
+    ],
+    "fx": {
+     "stream": {
+      "strikes": -1
+     }
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": "The appeal was denied and the strike stayed.",
+     "fx": {
+      "stream": {
+       "strikes": 1
+      }
+     }
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored the notice. Brave, maybe."
+    ],
+    "fx": {
+     "stream": {
+      "strikes": 1
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  }
+ },
+ {
+  "id": "stream_hate_raid",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 3,
+  "title": "Hate Raid",
+  "prompt": "A swarm of trolls floods your chat with garbage.",
+  "choices": [
+   {
+    "label": "Lock chat and buy a moderation bot ($150)",
+    "journal": [
+     "I locked down chat and bought a bot that cannot be reasoned with."
+    ],
+    "fx": {
+     "money": -150,
+     "stress": 4,
+     "stream": {
+      "subsPct": -2
+     }
+    }
+   },
+   {
+    "label": "Take a week off",
+    "journal": [
+     "I took a week off and came back lighter."
+    ],
+    "fx": {
+     "happy": -4,
+     "stress": -4,
+     "stream": {
+      "burnout": -12,
+      "subsPct": -4
+     }
+    }
+   },
+   {
+    "label": "Respond live",
+    "journal": [
+     "I responded live to the trolls."
+    ],
+    "fx": {
+     "fame": 4,
+     "stream": {
+      "subsPct": 8,
+      "burnout": 6
+     }
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": "Responding live went badly and the clip is everywhere.",
+     "fx": {
+      "happy": -8,
+      "stress": 8,
+      "stream": {
+       "subsPct": -8
+      }
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  }
+ },
+ {
+  "id": "stream_sponsor_offer",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 3,
+  "title": "A Sponsor Slides In",
+  "prompt": "A sponsor emails with an offer and a deadline.",
+  "choices": [
+   {
+    "label": "Sign with a legit gear brand",
+    "journal": [
+     "I signed with a gear brand that sent a nice box."
+    ],
+    "fx": {
+     "happy": 4,
+     "stream": {
+      "sponsor": 1
+     }
+    }
+   },
+   {
+    "label": "Sign with an online casino for triple",
+    "journal": [
+     "I signed with an online casino. The money is real; so are the comments."
+    ],
+    "fx": {
+     "money": 6000,
+     "karma": -4,
+     "stream": {
+      "sponsor": 1,
+      "strikes": 1,
+      "subsPct": -5
+     }
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the sponsor and slept fine."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  }
+ },
+ {
+  "id": "stream_burnout_warning",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 3,
+  "title": "You Have Not Slept",
+  "prompt": "Your eyes hurt, your chair is sticky, and chat says you look tired.",
+  "choices": [
+   {
+    "label": "Take two weeks off",
+    "journal": [
+     "I took two weeks off. The sun was an acquaintance."
+    ],
+    "fx": {
+     "happy": 4,
+     "health": 4,
+     "stream": {
+      "burnout": -25,
+      "subsPct": -3
+     }
+    }
+   },
+   {
+    "label": "Power through",
+    "journal": [
+     "I pushed on and chat loved the grind."
+    ],
+    "fx": {
+     "stream": {
+      "burnout": 8,
+      "subsPct": 5
+     }
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": "Powering through cost me my voice and my health.",
+     "fx": {
+      "health": -8,
+      "happy": -4,
+      "stream": {
+       "burnout": 12
+      }
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  }
+ },
+ {
+  "id": "stream_whale",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 2,
+  "title": "A Very Big Donation",
+  "prompt": "Someone drops a huge donation mid-stream with a message you cannot read out loud.",
+  "choices": [
+   {
+    "label": "Thank them on stream",
+    "journal": [
+     "I thanked them on stream and my rent was covered."
+    ],
+    "fx": {
+     "money": 2500,
+     "happy": 8,
+     "stream": {
+      "subsPct": 3
+     }
+    }
+   },
+   {
+    "label": "Refund it, they might be a kid",
+    "journal": [
+     "I refunded the donation. Chat applauded."
+    ],
+    "fx": {
+     "karma": 4,
+     "happy": 4,
+     "stream": {
+      "subsPct": 1
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  }
+ },
+ {
+  "id": "stream_hardware_fail",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 2,
+  "title": "The PC Dies Live",
+  "prompt": "Your setup crashes in the middle of the biggest stream of the month.",
+  "choices": [
+   {
+    "label": "Pay for a quick repair ($400)",
+    "journal": [
+     "I paid for a repair and the stream went on."
+    ],
+    "fx": {
+     "money": -400,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Finish from my phone",
+    "journal": [
+     "I finished from my phone. Quality: potato."
+    ],
+    "fx": {
+     "happy": -4,
+     "stream": {
+      "subsPct": -4
+     }
+    }
+   },
+   {
+    "label": "Borrow a friend's PC",
+    "journal": [
+     "I borrowed a friend's PC and owe them a favor."
+    ],
+    "fx": {
+     "rel_friend": -3,
+     "happy": -4
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  }
+ },
+ {
+  "id": "stream_ban_appeal",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "Channel Suspended",
+  "prompt": "Your channel is suspended. You can appeal, wait, or make a statement.",
+  "choices": [
+   {
+    "label": "Hire a lawyer to appeal ($1,500)",
+    "journal": [
+     "The lawyer filed the appeal."
+    ],
+    "fx": {
+     "money": -1500,
+     "stream": {
+      "cut": 1
+     }
+    },
+    "p": 0.55,
+    "fail": {
+     "journal": "The appeal went nowhere and the invoice came anyway.",
+     "fx": {
+      "money": -1500,
+      "happy": -4
+     }
+    },
+    "req": 1500
+   },
+   {
+    "label": "Post an apology video",
+    "journal": [
+     "I posted an apology video."
+    ],
+    "fx": {
+     "stream": {
+      "cut": 0.5
+     },
+     "happy": -4
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": "The apology video was received poorly.",
+     "fx": {
+      "happy": -4
+     }
+    }
+   },
+   {
+    "label": "Wait it out",
+    "journal": [
+     "I waited out the suspension."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_streamer"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "infl_brand_offer",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 4,
+  "title": "A Brand Wants You",
+  "prompt": "A brand wants you for a partnership.",
+  "choices": [
+   {
+    "label": "Sign the genuine deal",
+    "journal": [
+     "I signed a deal with a brand I actually use."
+    ],
+    "fx": {
+     "happy": 4,
+     "infl": {
+      "deal": 1
+     }
+    }
+   },
+   {
+    "label": "Sign the shady deal for double",
+    "journal": [
+     "I signed the shady deal. The cash is lovely; the product is not."
+    ],
+    "fx": {
+     "money": 3000,
+     "karma": -4,
+     "infl": {
+      "trust": -8,
+      "heat": 8,
+      "deal": 1
+     }
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the offer and kept my integrity, mostly."
+    ],
+    "fx": {
+     "infl": {
+      "trust": 3
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_influencer"
+  }
+ },
+ {
+  "id": "infl_old_post",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 3,
+  "title": "An Old Post Resurfaces",
+  "prompt": "A post from years ago is circulating again.",
+  "choices": [
+   {
+    "label": "Issue a sincere apology",
+    "journal": [
+     "I apologized and meant it."
+    ],
+    "fx": {
+     "happy": -4,
+     "infl": {
+      "heat": -12,
+      "trust": 4,
+      "followersPct": -2
+     }
+    }
+   },
+   {
+    "label": "Delete it and say nothing",
+    "journal": [
+     "I deleted it and said nothing. The internet saved a copy."
+    ],
+    "fx": {
+     "infl": {
+      "heat": -4
+     }
+    }
+   },
+   {
+    "label": "Double down",
+    "journal": [
+     "I doubled down."
+    ],
+    "fx": {
+     "fame": 4,
+     "infl": {
+      "followersPct": 14,
+      "heat": 18,
+      "trust": -8
+     }
+    },
+    "p": 0.45,
+    "fail": {
+     "journal": "Doubling down made everything worse.",
+     "fx": {
+      "happy": -8,
+      "infl": {
+       "followersPct": -10,
+       "heat": 25,
+       "trust": -12
+      }
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_influencer"
+  }
+ },
+ {
+  "id": "infl_trend",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 3,
+  "title": "A Trend Is Exploding",
+  "prompt": "Everyone is joining a trend this week.",
+  "choices": [
+   {
+    "label": "Join it early",
+    "journal": [
+     "I jumped in early and caught the wave."
+    ],
+    "fx": {
+     "happy": 4,
+     "fame": 4,
+     "infl": {
+      "followersPct": 15,
+      "heat": 3
+     }
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": "I joined too late and looked like a parent at a party.",
+     "fx": {
+      "happy": -4,
+      "infl": {
+       "followersPct": -2
+      }
+     }
+    }
+   },
+   {
+    "label": "Put my own spin on it",
+    "journal": [
+     "I put my own spin on the trend."
+    ],
+    "fx": {
+     "sk_creativity": 2,
+     "infl": {
+      "followersPct": 8,
+      "engagement": 4
+     }
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the trend."
+    ],
+    "fx": {}
+   }
+  ],
+  "if": {
+   "flag": "is_influencer"
+  }
+ },
+ {
+  "id": "infl_collab",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 3,
+  "title": "Collab Request",
+  "prompt": "Another creator wants to collaborate.",
+  "choices": [
+   {
+    "label": "Collab with a bigger creator",
+    "journal": [
+     "I collabbed with a bigger creator and borrowed their audience."
+    ],
+    "fx": {
+     "happy": 4,
+     "infl": {
+      "followersPct": 12,
+      "engagement": -2
+     }
+    }
+   },
+   {
+    "label": "Collab with a friend",
+    "journal": [
+     "I collabbed with a friend. We had a blast."
+    ],
+    "fx": {
+     "happy": 4,
+     "rel_friend": 6,
+     "infl": {
+      "followersPct": 5,
+      "trust": 4
+     }
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the collab."
+    ],
+    "fx": {}
+   }
+  ],
+  "if": {
+   "flag": "is_influencer"
+  }
+ },
+ {
+  "id": "infl_fans_too_close",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 2,
+  "title": "Fans Too Close",
+  "prompt": "A fan has found out where you live.",
+  "choices": [
+   {
+    "label": "Hire security ($1,000)",
+    "journal": [
+     "I hired security and a very large friend."
+    ],
+    "fx": {
+     "money": -1000,
+     "stress": -4,
+     "infl": {
+      "trust": 2
+     }
+    }
+   },
+   {
+    "label": "Post about it",
+    "journal": [
+     "I posted about it for support."
+    ],
+    "fx": {
+     "stress": 4,
+     "infl": {
+      "followersPct": 6,
+      "heat": 6
+     }
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": "Posting about it made it worse.",
+     "fx": {
+      "stress": 8,
+      "infl": {
+       "heat": 12
+      }
+     }
+    }
+   },
+   {
+    "label": "Go private for a while",
+    "journal": [
+     "I went private for a while."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "infl": {
+      "followersPct": -6,
+      "heat": -10
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_influencer"
+  }
+ },
+ {
+  "id": "infl_giveaway",
+  "cat": "random",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 2,
+  "title": "Run a Giveaway?",
+  "prompt": "Your audience would love a big giveaway.",
+  "choices": [
+   {
+    "label": "Spend $500 on a big giveaway",
+    "journal": [
+     "I ran a giveaway and my inbox exploded."
+    ],
+    "fx": {
+     "money": -500,
+     "happy": 4,
+     "infl": {
+      "followersPct": 9,
+      "engagement": 5
+     }
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the giveaway."
+    ],
+    "fx": {}
+   }
+  ],
+  "if": {
+   "flag": "is_influencer"
+  }
+ },
+ {
+  "id": "infl_cancelled",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "You've Been Cancelled",
+  "prompt": "The internet has decided. Brands are quiet and your phone will not stop buzzing.",
+  "choices": [
+   {
+    "label": "Post a sincere apology video",
+    "journal": [
+     "I posted an apology video and meant every word."
+    ],
+    "fx": {
+     "infl": {
+      "heat": -20,
+      "trust": 6
+     }
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": "The apology video made it worse.",
+     "fx": {
+      "infl": {
+       "heat": -5,
+       "followersPct": -8
+      }
+     }
+    }
+   },
+   {
+    "label": "Hire a PR firm ($6,000)",
+    "journal": [
+     "The PR firm cleaned it up for an eye-watering fee."
+    ],
+    "fx": {
+     "money": -6000,
+     "infl": {
+      "heat": -30,
+      "trust": 4,
+      "followersPct": 6
+     }
+    },
+    "req": 6000
+   },
+   {
+    "label": "Go quiet",
+    "journal": [
+     "I went quiet and let it blow over."
+    ],
+    "fx": {
+     "stress": -4,
+     "infl": {
+      "heat": -12,
+      "followersPct": -4
+     }
+    }
+   },
+   {
+    "label": "Fight back",
+    "journal": [
+     "I fought back."
+    ],
+    "fx": {
+     "fame": 4,
+     "infl": {
+      "followersPct": 12,
+      "heat": 12,
+      "trust": -10
+     }
+    },
+    "p": 0.3,
+    "fail": {
+     "journal": "Fighting back backfired spectacularly.",
+     "fx": {
+      "happy": -8,
+      "infl": {
+       "followersPct": -15,
+       "heat": 10
+      }
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "is_influencer"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_feud",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "Creator Feud",
+  "prompt": "{rival} posted a long thread about you on {plat}. Your followers are picking sides.",
+  "choices": [
+   {
+    "label": "Fire back with a video",
+    "journal": [
+     "I fired back at {rival} and the internet watched."
+    ],
+    "fx": {
+     "fame": 4,
+     "social": {
+      "followersPct": 10,
+      "rep": -4
+     }
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": "My reply to {rival} flopped.",
+     "fx": {
+      "social": {
+       "followersPct": -8,
+       "rep": -6
+      }
+     }
+    }
+   },
+   {
+    "label": "Make peace publicly",
+    "journal": [
+     "I made peace with {rival}. Boring, but people liked it."
+    ],
+    "fx": {
+     "social": {
+      "rep": 6,
+      "followersPct": -1
+     }
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored the feud with {rival}."
+    ],
+    "fx": {
+     "stress": 4,
+     "social": {
+      "followersPct": -2
+     }
+    }
+   },
+   {
+    "label": "Turn it into a collab",
+    "journal": [
+     "{rival} and I turned the feud into a collab."
+    ],
+    "fx": {
+     "social": {
+      "followersPct": 8,
+      "rep": 3
+     }
+    },
+    "p": 0.45,
+    "fail": {
+     "journal": "The collab with {rival} fell through awkwardly.",
+     "fx": {
+      "social": {
+       "rep": -3
+      }
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "has_social"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_collab",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "Collab Invite",
+  "prompt": "{collab} wants to do a collab on {plat}. Their audience is big.",
+  "choices": [
+   {
+    "label": "Accept",
+    "journal": [
+     "{collab} and I made something together."
+    ],
+    "fx": {
+     "social": {
+      "followersPct": 12,
+      "rep": 2
+     }
+    },
+    "p": 0.75,
+    "fail": {
+     "journal": "The collab with {collab} went badly.",
+     "fx": {
+      "social": {
+       "followersPct": -3,
+       "rep": -3
+      }
+     }
+    }
+   },
+   {
+    "label": "Politely decline",
+    "journal": [
+     "I turned down {collab}."
+    ],
+    "fx": {}
+   }
+  ],
+  "if": {
+   "flag": "has_social"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_resurface",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "An Old Post Resurfaces",
+  "prompt": "Someone dug up a {post} you posted on {plat} at age {postAge}. It is trending, for the wrong reasons.",
+  "choices": [
+   {
+    "label": "Apologize sincerely",
+    "journal": [
+     "I apologized for the old post."
+    ],
+    "fx": {
+     "social": {
+      "rep": -4,
+      "followersPct": -3
+     }
+    }
+   },
+   {
+    "label": "Delete it and deny",
+    "journal": [
+     "I deleted it and denied everything."
+    ],
+    "fx": {
+     "social": {
+      "rep": -6
+     }
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": "Screenshots exist. The denial made it worse.",
+     "fx": {
+      "social": {
+       "cancel": 1
+      }
+     }
+    }
+   },
+   {
+    "label": "Double down",
+    "journal": [
+     "I doubled down on the old post."
+    ],
+    "fx": {
+     "fame": 4,
+     "social": {
+      "followersPct": 6,
+      "rep": -8
+     }
+    },
+    "p": 0.3,
+    "fail": {
+     "journal": "Doubling down got me cancelled.",
+     "fx": {
+      "social": {
+       "cancel": 1
+      }
+     }
+    }
+   },
+   {
+    "label": "Hire a lawyer ($3,000)",
+    "journal": [
+     "The lawyer buried the old post."
+    ],
+    "fx": {
+     "money": -3000,
+     "social": {
+      "rep": -1
+     }
+    },
+    "req": 3000
+   }
+  ],
+  "if": {
+   "flag": "has_social"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_family",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "Family Reacts",
+  "prompt": "{parent} saw your latest posts online and has opinions.",
+  "choices": [
+   {
+    "label": "Hear them out",
+    "journal": [
+     "I listened to {parent}. We got closer."
+    ],
+    "fx": {
+     "rel_parent": 6,
+     "social": {
+      "rep": 2
+     }
+    }
+   },
+   {
+    "label": "Tell them it is my life",
+    "journal": [
+     "I told {parent} it is my life."
+    ],
+    "fx": {
+     "rel_parent": -6,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Tag them in a proud post",
+    "journal": [
+     "I posted a photo with {parent}. They loved it."
+    ],
+    "fx": {
+     "rel_parent": 8,
+     "social": {
+      "followersPct": 1
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "has_social",
+   "parent": "any"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_partner",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "Partner Reacts",
+  "prompt": "{partner} is unsure how it feels to appear in your posts.",
+  "choices": [
+   {
+    "label": "Keep them out of it",
+    "journal": [
+     "I stopped posting about {partner}."
+    ],
+    "fx": {
+     "rel_partner": 6,
+     "social": {
+      "followersPct": -2
+     }
+    }
+   },
+   {
+    "label": "Post anyway",
+    "journal": [
+     "I kept posting about {partner}."
+    ],
+    "fx": {
+     "rel_partner": -8,
+     "social": {
+      "followersPct": 4
+     }
+    }
+   },
+   {
+    "label": "Make them a co-star",
+    "journal": [
+     "{partner} became a co-star. Followers loved it."
+    ],
+    "fx": {
+     "rel_partner": 4,
+     "social": {
+      "followersPct": 8
+     }
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": "{partner} hated the spotlight.",
+     "fx": {
+      "rel_partner": -10
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "has_social",
+   "partner": true
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_shoutout",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "Big Shout-out",
+  "prompt": "A famous creator mentioned your account on {plat}.",
+  "choices": [
+   {
+    "label": "Thank them publicly",
+    "journal": [
+     "I thanked them. Followers poured in."
+    ],
+    "fx": {
+     "social": {
+      "followersPct": 9,
+      "rep": 2
+     },
+     "fame": 4
+    }
+   },
+   {
+    "label": "Play it cool",
+    "journal": [
+     "I played it cool."
+    ],
+    "fx": {
+     "social": {
+      "followersPct": 4
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "has_social"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_agency",
+  "cat": "fame",
+  "ages": [
+   13,
+   100
+  ],
+  "w": 0,
+  "title": "Agency Offer",
+  "prompt": "A talent agency wants to represent you. It takes a cut but opens doors.",
+  "choices": [
+   {
+    "label": "Sign with them",
+    "journal": [
+     "I signed with the agency."
+    ],
+    "fx": {
+     "social": {
+      "followersPct": 5,
+      "rep": 2
+     },
+     "happy": 4
+    }
+   },
+   {
+    "label": "Stay independent",
+    "journal": [
+     "I stayed independent."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   }
+  ],
+  "if": {
+   "flag": "has_social"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_scholarship",
+  "cat": "fame",
+  "ages": [
+   16,
+   19
+  ],
+  "w": 0,
+  "title": "Scholarship Offer",
+  "prompt": "A college noticed your online following and offers a Creator Scholarship covering part of tuition.",
+  "choices": [
+   {
+    "label": "Accept: 40% of tuition",
+    "journal": [
+     "I accepted the Creator Scholarship."
+    ],
+    "fx": {
+     "social": {
+      "scholarship": 40
+     },
+     "happy": 4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the scholarship."
+    ],
+    "fx": {}
+   }
+  ],
+  "if": {
+   "flag": "has_social",
+   "school": "any"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "soc_job",
+  "cat": "fame",
+  "ages": [
+   18,
+   100
+  ],
+  "w": 0,
+  "title": "Media Job Offer",
+  "prompt": "A media company offers you a paid hosting job built around your audience: $40,000 a year on top of your channels.",
+  "choices": [
+   {
+    "label": "Take the job",
+    "journal": [
+     "I took the media job."
+    ],
+    "fx": {
+     "social": {
+      "job": 40000
+     },
+     "happy": 4
+    }
+   },
+   {
+    "label": "Stay independent",
+    "journal": [
+     "I stayed independent."
+    ],
+    "fx": {}
+   }
+  ],
+  "if": {
+   "flag": "has_social"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "pol_favor",
+  "cat": "fame",
+  "ages": [
+   18,
+   100
+  ],
+  "w": 0,
+  "title": "A Donor Calls In a Favor",
+  "prompt": "{donor} helped fund your campaign. Now they want {favor}.",
+  "choices": [
+   {
+    "label": "Deliver the favor",
+    "journal": [
+     "I delivered the favor to {donor}."
+    ],
+    "fx": {
+     "pol": {
+      "heat": 8,
+      "rep": -2
+     },
+     "karma": -4
+    }
+   },
+   {
+    "label": "Refuse politely",
+    "journal": [
+     "I refused {donor}. They did not take it well."
+    ],
+    "fx": {
+     "pol": {
+      "approval": -4,
+      "enemy": 1
+     },
+     "karma": 4
+    }
+   },
+   {
+    "label": "Stall them for a year",
+    "journal": [
+     "I stalled {donor}."
+    ],
+    "fx": {
+     "pol": {
+      "heat": 2,
+      "approval": -1
+     }
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": "{donor} leaked that I stalled.",
+     "fx": {
+      "pol": {
+       "approval": -6,
+       "heat": 6
+      }
+     }
+    }
+   }
+  ],
+  "if": {
+   "flag": "pol_office"
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "pol_leak",
+  "cat": "fame",
+  "ages": [
+   18,
+   100
+  ],
+  "w": 0,
+  "title": "A Leak Hits the Press",
+  "prompt": "Reporters have a leaked file about your campaign money. The story is everywhere.",
+  "choices": [
+   {
+    "label": "Deny everything",
+    "journal": [
+     "I denied everything."
+    ],
+    "fx": {
+     "pol": {
+      "approval": -3
+     }
+    },
+    "p": 0.45,
+    "fail": {
+     "journal": "The denial collapsed under new documents.",
+     "fx": {
+      "pol": {
+       "approval": -15,
+       "heat": 10,
+       "prosecute": 0.35,
+       "scandal": "A leaked file about campaign money."
+      }
+     }
+    }
+   },
+   {
+    "label": "Hire top lawyers ($25,000)",
+    "journal": [
+     "The lawyers made the story go quiet."
+    ],
+    "fx": {
+     "money": -25000,
+     "pol": {
+      "heat": -20
+     }
+    },
+    "req": 25000
+   },
+   {
+    "label": "Cooperate with investigators",
+    "journal": [
+     "I cooperated with the investigation."
+    ],
+    "fx": {
+     "pol": {
+      "approval": -8,
+      "heat": -30,
+      "prosecute": 0.2,
+      "rep": 3
+     }
+    }
+   },
+   {
+    "label": "Resign",
+    "journal": [
+     "I resigned to protect my name."
+    ],
+    "fx": {
+     "pol": {
+      "resign": 1,
+      "rep": -3
+     }
+    }
+   }
+  ],
+  "if": {},
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "pol_royal_suitor",
+  "cat": "fame",
+  "ages": [
+   20,
+   42
+  ],
+  "w": 0,
+  "title": "A Royal Admirer",
+  "prompt": "A member of the royal family has taken an interest in you. The press is already outside.",
+  "choices": [
+   {
+    "label": "Say yes and marry into the royal family",
+    "journal": [
+     "I married into the royal family."
+    ],
+    "fx": {
+     "pol": {
+      "royalSuitor": 1
+     },
+     "happy": 4,
+     "fame": 8
+    }
+   },
+   {
+    "label": "Politely decline",
+    "journal": [
+     "I turned down the royal suitor."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   }
+  ],
+  "if": {
+   "single": true
+  },
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "coach_feud",
+  "cat": "fame",
+  "ages": [
+   21,
+   80
+  ],
+  "w": 0,
+  "title": "Star Player Feud",
+  "prompt": "Your star striker and the captain are not speaking, and the squad is picking sides.",
+  "choices": [
+   {
+    "label": "Bench the star",
+    "journal": [
+     "I benched my star to protect the dressing room."
+    ],
+    "fx": {
+     "coach": {
+      "morale": 4,
+      "conf": -3
+     }
+    }
+   },
+   {
+    "label": "Lock them in a room until they talk",
+    "journal": [
+     "I forced a peace talk. It mostly worked."
+    ],
+    "fx": {
+     "coach": {
+      "morale": 2,
+      "conf": 2
+     }
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored the feud."
+    ],
+    "fx": {
+     "coach": {
+      "morale": -6,
+      "conf": -2
+     }
+    }
+   }
+  ],
+  "if": {},
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "coach_poach",
+  "cat": "fame",
+  "ages": [
+   21,
+   80
+  ],
+  "w": 0,
+  "title": "A Rival Club Calls",
+  "prompt": "A bigger club wants to talk about your job, and your board heard about it.",
+  "choices": [
+   {
+    "label": "Tell the board and ask for a raise",
+    "journal": [
+     "I used the offer to get my club to pay more."
+    ],
+    "fx": {
+     "coach": {
+      "budget": 250000,
+      "conf": 3
+     }
+    }
+   },
+   {
+    "label": "Stay loyal and say nothing",
+    "journal": [
+     "I stayed loyal."
+    ],
+    "fx": {
+     "coach": {
+      "conf": 4,
+      "fame": 1
+     }
+    }
+   },
+   {
+    "label": "Leak it to the press",
+    "journal": [
+     "I leaked the offer to the press."
+    ],
+    "fx": {
+     "coach": {
+      "conf": -8,
+      "fame": 3
+     }
+    }
+   }
+  ],
+  "if": {},
+  "chainOnly": true,
+  "cool": 1
+ },
+ {
+  "id": "prod_scandal",
+  "cat": "fame",
+  "ages": [
+   18,
+   100
+  ],
+  "w": 0,
+  "title": "Scandal at the Company",
+  "prompt": "{name} {what}. The press is calling {company} for a comment.",
+  "if": {},
+  "chainOnly": true,
+  "cool": 1,
+  "choices": [
+   {
+    "label": "Pay hush money to settle it",
+    "journal": [
+     "I paid to make a scandal go away."
+    ],
+    "fx": {
+     "prod": {
+      "hush": 1
+     },
+     "karma": -4
+    }
+   },
+   {
+    "label": "Cut ties and condemn it publicly",
+    "journal": [
+     "I cut ties after a scandal."
+    ],
+    "fx": {
+     "prod": {
+      "drop": 1
+     },
+     "karma": 4
+    }
+   },
+   {
+    "label": "Ride it out and let people talk",
+    "journal": [
+     "I rode out a scandal."
+    ],
+    "fx": {
+     "prod": {
+      "ride": 1
+     }
+    }
+   }
+  ]
  }
 ]

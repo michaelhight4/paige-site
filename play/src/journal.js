@@ -5,6 +5,7 @@ import { fill } from './core.js';
 import * as Biz from './business.js';
 import * as P from './people.js';
 import * as SS from './schoolsports.js';
+import * as Carry from './schoolcarry.js';
 
 export function yearParagraph(s) {
   const J = D.life.journal, out = [], age = Math.floor(s.age), c = P.country(s);
@@ -14,6 +15,7 @@ export function yearParagraph(s) {
   else if (s.pro) { const l = SS.proSeasonLine(s); if (l) out.push(`I played pro for the ${l.team}: ${l.ppg} ppg, ${l.rpg} rpg, ${l.apg} apg.`); }
   else if (s.age >= 18 && !s.school && !s.retired) out.push(pick(s, J.yearNoJob));
   if (s.school && !s.prison) out.push(fill(pick(s, J.yearSchool), { school: D.life.school.stages[s.school].toLowerCase() }));
+  for (const n of Carry.takeNotes(s)) out.push(n);
   for (const b of s.biz.slice(0, 3)) {
     const f = Biz.annualFinance(s, b), good = f.profit >= 0;
     out.push(fill(pick(s, J.yearBiz), { biz: b.name, profit: (good ? '' : 'a loss of ') + money(Math.abs(f.profit)), mood: pick(s, good ? J.bizGood : J.bizBad).toLowerCase() }));

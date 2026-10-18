@@ -1,0 +1,313 @@
+{
+ "byCategory": {
+  "childhood": [
+   {
+    "label": "Win the school talent show with a perfect routine",
+    "journal": "I won the talent show. People still bring it up.",
+    "fx": {
+     "happy": 14,
+     "fame": 6,
+     "smarts": 6
+    }
+   },
+   {
+    "label": "Ace the surprise gifted-program test",
+    "journal": "I aced the test and got into the gifted program.",
+    "fx": {
+     "smarts": 14,
+     "sk_focus": 3,
+     "happy": 6
+    }
+   }
+  ],
+  "school": [
+   {
+    "label": "Earn a perfect score and a teacher's glowing recommendation",
+    "journal": "I earned a perfect score and a recommendation letter I will frame.",
+    "fx": {
+     "smarts": 14,
+     "happy": 8,
+     "sk_discipline": 3
+    }
+   },
+   {
+    "label": "Lead the class project to a regional award",
+    "journal": "My class project won a regional award.",
+    "fx": {
+     "smarts": 8,
+     "fame": 4,
+     "happy": 10,
+     "award": "regional_project"
+    }
+   }
+  ],
+  "random": [
+   {
+    "label": "Find a lucky envelope with a lot of cash and no owner",
+    "journal": "I found an envelope of cash with a note that said keep it.",
+    "fx": {
+     "money": 20000,
+     "happy": 10
+    }
+   },
+   {
+    "label": "A stranger pays it forward and changes your whole week",
+    "journal": "A stranger's kindness reset my entire week.",
+    "fx": {
+     "happy": 18,
+     "karma": 6,
+     "health": 4
+    }
+   }
+  ],
+  "work": [
+   {
+    "label": "Pitch directly to the CEO and get a surprise bonus",
+    "journal": "The CEO loved my pitch and cut me a bonus on the spot.",
+    "fx": {
+     "money": 25000,
+     "perf": 12,
+     "happy": 8,
+     "sk_confidence": 3
+    }
+   },
+   {
+    "label": "Get headhunted with a signing bonus",
+    "journal": "A recruiter showed up with a signing bonus and a raise.",
+    "fx": {
+     "money": 30000,
+     "perf": 8,
+     "happy": 10
+    },
+    "raise": true
+   }
+  ],
+  "love": [
+   {
+    "label": "Plan the perfect, unforgettable evening",
+    "journal": "The evening was perfect. Everyone involved agrees.",
+    "fx": {
+     "happy": 16,
+     "rel_partner": 18,
+     "looks": 2
+    }
+   },
+   {
+    "label": "A heartfelt letter lands exactly right",
+    "journal": "My letter landed exactly right.",
+    "fx": {
+     "happy": 12,
+     "rel_partner": 14,
+     "karma": 3
+    }
+   }
+  ],
+  "family": [
+   {
+    "label": "Organize a reunion that heals an old rift",
+    "journal": "The reunion healed an old family rift.",
+    "fx": {
+     "happy": 16,
+     "rel_family": 14,
+     "karma": 4
+    }
+   },
+   {
+    "label": "A relative leaves you a modest inheritance",
+    "journal": "A relative left me a modest inheritance and a kind note.",
+    "fx": {
+     "money": 20000,
+     "happy": 6,
+     "rel_family": 6
+    }
+   }
+  ],
+  "health": [
+   {
+    "label": "See a top specialist who nails the diagnosis",
+    "journal": "A top specialist nailed it on the first visit.",
+    "fx": {
+     "health": 18,
+     "doctor": 1,
+     "happy": 6
+    }
+   },
+   {
+    "label": "Join a wellness retreat that actually works",
+    "journal": "The retreat actually worked. I am suspicious of how well.",
+    "fx": {
+     "health": 14,
+     "happy": 12,
+     "stress": -12
+    }
+   }
+  ],
+  "business": [
+   {
+    "label": "Land a landmark customer on a handshake",
+    "journal": "A landmark customer signed on a handshake.",
+    "fx": {
+     "money": 30000,
+     "bizrep": 10,
+     "happy": 8
+    }
+   },
+   {
+    "label": "An angel investor shows up unprompted",
+    "journal": "An angel investor showed up with a check and no demands.",
+    "fx": {
+     "money": 40000,
+     "bizrep": 6,
+     "happy": 8
+    }
+   }
+  ],
+  "friend": [
+   {
+    "label": "Throw the party everyone remembers for years",
+    "journal": "The party is now local legend.",
+    "fx": {
+     "happy": 16,
+     "fame": 3,
+     "rel_friend": 14
+    }
+   },
+   {
+    "label": "Reconnect with an old friend who turns out to be connected",
+    "journal": "An old friend turned out to be very well connected.",
+    "fx": {
+     "happy": 10,
+     "rel_friend": 12,
+     "money": 10000
+    }
+   }
+  ],
+  "money": [
+   {
+    "label": "Your small investment quietly explodes",
+    "journal": "A small investment quietly exploded in value.",
+    "fx": {
+     "money": 35000,
+     "happy": 10
+    }
+   },
+   {
+    "label": "A tax refund error in your favor",
+    "journal": "A tax refund arrived with an error in my favor and I told no one.",
+    "fx": {
+     "money": 18000,
+     "happy": 8
+    }
+   }
+  ],
+  "crime": [
+   {
+    "label": "A legendary lawyer takes your case for free",
+    "journal": "A legendary lawyer took my case for free and it vanished.",
+    "fx": {
+     "happy": 12,
+     "karma": 4,
+     "sk_composure": 3
+    }
+   },
+   {
+    "label": "The charges are dropped and the officer apologizes",
+    "journal": "The charges were dropped. The officer apologized, which was weird.",
+    "fx": {
+     "happy": 14,
+     "stress": -10
+    }
+   }
+  ],
+  "oldage": [
+   {
+    "label": "A health scare turns out to be nothing, and you feel reborn",
+    "journal": "The scare was nothing and I felt reborn.",
+    "fx": {
+     "health": 14,
+     "happy": 16
+    }
+   },
+   {
+    "label": "The grandkids make a documentary about you",
+    "journal": "The grandkids made a documentary about me. I look great in it.",
+    "fx": {
+     "happy": 18,
+     "fame": 4,
+     "rel_family": 10
+    }
+   }
+  ],
+  "prison": [
+   {
+    "label": "A parole board member takes a real interest in you",
+    "journal": "A parole board member took a real interest in my case.",
+    "fx": {
+     "happy": 10,
+     "karma": 4,
+     "stress": -10
+    },
+    "prisonbehavior": 3
+   }
+  ],
+  "travel": [
+   {
+    "label": "Get upgraded to the best seat in the house",
+    "journal": "I got upgraded to the best seat in the house.",
+    "fx": {
+     "happy": 16,
+     "looks": 2,
+     "stress": -10
+    }
+   },
+   {
+    "label": "A local guide shows you something no tourist sees",
+    "journal": "A local guide showed me what no tourist ever sees.",
+    "fx": {
+     "happy": 18,
+     "smarts": 5,
+     "karma": 3
+    }
+   }
+  ],
+  "fame": [
+   {
+    "label": "Your clip goes viral for the right reasons",
+    "journal": "My clip went viral for the right reasons.",
+    "fx": {
+     "fame": 12,
+     "happy": 12,
+     "money": 10000
+    }
+   },
+   {
+    "label": "A famous name publicly vouches for you",
+    "journal": "A famous name publicly vouched for me.",
+    "fx": {
+     "fame": 10,
+     "happy": 10,
+     "looks": 2
+    }
+   }
+  ]
+ },
+ "fallback": [
+  {
+   "label": "Find a lucky envelope with a lot of cash and no owner",
+   "journal": "I found an envelope of cash with a note that said keep it.",
+   "fx": {
+    "money": 20000,
+    "happy": 10
+   }
+  },
+  {
+   "label": "A stranger pays it forward and changes your whole week",
+   "journal": "A stranger's kindness reset my entire week.",
+   "fx": {
+    "happy": 18,
+    "karma": 6,
+    "health": 4
+   }
+  }
+ ]
+}

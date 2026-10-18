@@ -1,4 +1,6 @@
 // Life-side methods of the UI adapter (ui/ADAPTER contract) implemented on the real engine. Mixed into EngineAdapter (engine_adapter.js).
+import * as Pol from './politics.js';
+import * as Coach from './coaching.js';
 import * as E from './engine.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, wpick } from './rng.js';
@@ -14,6 +16,10 @@ import * as B from './slice_bridge.js';
 import * as Premium from './premium.js';
 import * as PFx from './premium_fx.js';
 import { voice, firstPerson } from './voice.js';
+import * as Auto from './autopilot.js';
+import * as Ads from './ads.js';
+import * as Online from './online.js';
+import { rareFor, resolveRare, baseChoices } from './adapter_rewards.js';
 
 const H = B.H;
 export const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
@@ -39,7 +45,12 @@ export const life = {
     if (r && r.ok && r.msg) log(this.s, voice(r.msg), kind);
     return this.res(!!(r && r.ok), r && r.msg, n0, r && r.ok ? { data: r } : { data: r });
   },
-  card() { const c = Ev.pendingCard(this.s); return c ? { id: c.id || c.kind, title: c.title, prompt: c.text, category: c.cat, choices: c.choices.map((x) => ({ label: x.label })) } : null; },
+  card() {
+    const s = this.s, c = Ev.pendingCard(s); if (!c) return null; const choices = c.choices.map((x) => ({ label: x.label }));
+    const rare = c.kind === 'event' ? rareFor(s) : null, A = Ads.ensure(s);
+    if (rare) { const p = s.pending[0]; choices.push({ label: rare.label, rare: true, ad: true, locked: !(A.unlockedRare && A.unlockedRare.id === p.id && A.unlockedRare.turn === s.turns), access: Ads.access('rare') }); }
+    return { id: c.id || c.kind, title: c.title, prompt: c.text, category: c.cat, choices };
+  },
   nextEvent() { const s = this.s; while (s.pending.length && !Ev.pendingCard(s)) s.pending.shift(); return this.card(); },
 
   // ---------- core ----------
@@ -50,26 +61,30 @@ export const life = {
     const pt = sl && sl.partTime ? { id: sl.partTime.id, title: sl.partTime.title, hourly: sl.partTime.hourly, weeklyHours: sl.partTime.weekly_hours, weeklyPay: sl.partTime.weekly_wage } : null;
     const inS = s.school === 'primary' ? { levelId: 'primary_school', label: 'Primary school', inSchool: true, year: Math.max(1, age - 4), years: 7 } : s.school === 'high' ? { levelId: 'high_school', label: 'High school', inSchool: true, year: Math.max(1, age - 11), years: 6 } : s.school === 'college' ? { levelId: 'university', label: 'University', inSchool: true, year: Math.floor(s.college.yrs) + 1, years: 4 } : sl && sl.edu.inSchool ? { levelId: sl.edu.inSchool.id, label: D.sOcc.education.names[sl.edu.inSchool.id] || sl.edu.inSchool.id, inSchool: true, year: 1, years: sl.edu.inSchool.yearsLeft } : null;
     const education = { ...(inS || { levelId: ['none', 'high_school', 'university', 'graduate_school'][Math.min(3, s.edu)], label: eduLabel(s), inSchool: false, year: 0, years: 0 }), major: sl && sl.edu.inSchool ? sl.edu.inSchool.majorName || null : null };
-    const headline = s.prison ? 'Inmate' : job ? job.title : pt ? pt.title : s.pro ? 'Pro athlete' : s.retired ? 'Retired' : s.school ? 'Student' : age < 5 ? stageOf(age) : 'Unemployed';
+    const headline = s.prison ? 'Inmate' : job ? job.title : pt ? pt.title : s.pro ? 'Pro athlete' : Pol.headline(s) ? Pol.headline(s) : Coach.headline(s) ? Coach.headline(s) : Online.headline(s) && !s.school ? Online.headline(s) : s.retired ? 'Retired' : s.school ? 'Student' : age < 5 ? stageOf(age) : 'Unemployed';
     return { id: String(s.rs), name: s.name, gender: G(s.gender), age, stage: stageOf(age), alive: s.alive, country: P.country(s).name, city: s.city, stats: { happy: Math.round(st.happiness), health: Math.round(st.health), smarts: Math.round(st.smarts), looks: Math.round(st.looks), fame: Math.round(st.fame) },
-      hidden: { karma: Math.round(st.karma), craziness: Math.round(st.crazy), stress: Math.round(st.stress) }, cash: Math.round(s.cash), netWorth: Math.round(nw.total), job, partTime: pt, education, headline, year: s.birthYear + age, prison: !!s.prison, avatar: { seed: s.rs, gender: G(s.gender).toLowerCase(), age, ...(s.school ? { outfit: 'student' } : s.job ? { outfit: ({ doctor: 'surgeon', teacher: 'teacher', police: 'police', chef: 'chef', lawyer: 'lawyer', pilot: 'pilot', scientist: 'scientist', actor: 'actor', artist: 'artist' })[s.job.id] } : {}) },
-      premium: { subscribed: Premium.subscribed(), unlocked: Premium.passes().filter((p) => Premium.isUnlocked(p.id)).map((p) => p.id) } };
+      hidden: { karma: Math.round(st.karma), craziness: Math.round(st.crazy), stress: Math.round(st.stress) }, cash: Math.round(s.cash), netWorth: Math.round(nw.total), job, partTime: pt, education, headline, year: s.birthYear + age, prison: !!s.prison, avatar: { pid: 'me', seed: s.rs, gender: G(s.gender).toLowerCase(), age, ...(s.school ? { outfit: 'student' } : s.job ? { outfit: ({ doctor: 'surgeon', teacher: 'teacher', police: 'police', chef: 'chef', lawyer: 'lawyer', pilot: 'pilot', scientist: 'scientist', actor: 'actor', artist: 'artist' })[s.job.id] } : {}) },
+      auto: Auto.unlocked() && !!(s.auto && s.auto.on), premium: { subscribed: Premium.subscribed(), unlocked: Premium.passes().filter((p) => Premium.isUnlocked(p.id)).map((p) => p.id) } };
   },
   getJournal() { return this.entriesSince(0 - 1e9).map((e) => e); },
-  async age() {
+  async age(opts = {}) {
     const s = this.s; if (!s.alive) return { state: this.getState(), entries: [], event: null, died: true, death: this.getDeathSummary() };
-    const n0 = this.mark();
+    const n0 = this.mark(); let pre = null, auto = null;
     if (!s.pending.length) {
+      // Autopilot (premium): routines run first, with the same costs/effects as manual actions, then the year passes
+      const A = Auto.ensure(s), useAuto = Auto.unlocked() && (opts.routines || (A.on && !opts.noAuto));
+      if (useAuto) pre = await Auto.playYear(this, { routines: opts.routines, floor: opts.floor });
       s.step = 1;
       if (s.league.finals && !s.league.finals.done) Sports.finalsAuto(s);
-      E.takeTurn(s);
+      E.takeTurn(s); if (s.alive) Ads.yearPassed(s);
+      if (pre) { auto = Auto.summarize(s, pre, null, pre.floor); A.last = auto; log(s, auto.line + (auto.spent ? ` Spent ${'$' + auto.spent.toLocaleString('en-US')}.` : ''), 'act'); }
     }
     const event = s.alive ? this.nextEvent() : null;
-    return { state: this.getState(), entries: this.entriesSince(n0), event, died: !s.alive, death: s.alive ? undefined : this.getDeathSummary(), blocked: !!(s.pending.length && !event) };
+    return { state: this.getState(), entries: this.entriesSince(n0), event, died: !s.alive, death: s.alive ? undefined : this.getDeathSummary(), blocked: !!(s.pending.length && !event), auto, adPrompt: opts.skip ? null : (s.alive && !event ? this.getAdPrompt() : null) };
   },
   resolveEvent(eventId, i) {
     const s = this.s, n0 = this.mark(); if (!s.pending.length) return { ok: false, state: this.getState(), entries: [], event: null, message: 'Nothing pending.' };
-    const r = Ev.resolveCard(s, i);
+    const p0 = s.pending[0], r = p0 && p0.adRare && i === baseChoices(s) ? resolveRare(s) : Ev.resolveCard(s, i);
     return { ok: !!(r && r.ok), state: this.getState(), entries: this.entriesSince(n0), event: s.alive ? this.nextEvent() : null, message: r ? r.msg : '', died: !s.alive, death: s.alive ? undefined : this.getDeathSummary() };
   },
   newLife(o = {}) { this.s = E.newGame({ name: o.name || null, seed: o.seed }); this.ensureSeen(); if (o.gender) { /* gender is generated with the name pool */ } return this.getState(); },
@@ -143,7 +158,7 @@ export const life = {
       if (s.pro) { actions.push({ id: 'negotiate', label: 'Negotiate contract', sub: 'Ask for a raise' }, { id: 'retire', label: 'Retire', sub: 'Hang up the jersey' }); }
       else { actions.push({ id: 'train', label: 'Train hard', sub: '+skill this season' }); if (sp.level === 'high' && age >= 16) actions.push({ id: 'apply_college', label: 'Apply to college teams', sub: 'Scouts watch' }); if (sp.level === 'college' && SS.sportDef(sp.id).pro && sp.skill >= D.life.sports.draft.minSkill) actions.push({ id: 'declare_draft', label: 'Declare for the draft', sub: 'Go pro early' }); actions.push({ id: 'retire', label: 'Quit the team', sub: '' }); }
       if (!s.pro) actions.push({ id: 'baller_draft', label: 'Instant draft pick', sub: Premium.isUnlocked('baller') ? 'Baller pass: skip to the pros' : 'Premium: Baller pass', premium: 'baller', locked: !Premium.isUnlocked('baller') });
-      current = { sportId: def.id, label: def.name, icon: def.icon, position: sp ? sp.position || '' : 'Pro', stage: cur, team: sp ? sp.team : prow ? prow.team : '', skill: Math.round(sp ? sp.skill : prow ? prow.ovr : 50), fitness: Math.round(clamp((s.fit || 0) * 20 + s.stats.health / 2, 0, 100)), seasons, offers: sp && sp.offered ? ['College scouts are interested'] : [], draft: s.pro ? { round: s.pro.round, pick: s.pro.pick, team: s.league.teams[s.pro.team].name } : null, proLeague: 'Pro League', salary: prow ? prow.salary : 0, actions };
+      current = { sportId: def.id, label: def.name, icon: def.icon, position: sp ? sp.position || '' : 'Pro', stage: cur, team: sp ? sp.team : prow ? prow.team : '', skill: Math.round(sp ? sp.skill : prow ? prow.ovr : 50), fitness: Math.round(clamp((s.fit || 0) * 20 + s.stats.health / 2, 0, 100)), seasons, offers: sp && sp.offered ? ['College scouts are interested'] : [], carried: sp && sp.carried ? 'Moved up with you from your last school. No tryout needed.' : '', draft: s.pro ? { round: s.pro.round, pick: s.pro.pick, team: s.league.teams[s.pro.team].name } : null, proLeague: 'Pro League', salary: prow ? prow.salary : 0, actions };
     } else if (age >= 14) { current = null; }
     const out = { age, eligibleSports, stages: cfg.stages, current };
     if (!current) out.premiumActions = [{ id: 'baller_draft', label: 'Instant draft pick', premium: 'baller', locked: !Premium.isUnlocked('baller') }];
@@ -157,14 +172,14 @@ export const life = {
     if (id === 'apply_college') { if (!s.sport) return this.res(false, '', n0); s.sport.offered = true; log(s, 'I sent tapes to college coaches. A few of them replied.', 'sport'); return this.res(true, 'Scouts are interested.', n0); }
     if (id === 'declare_draft') { if (!s.sport) return this.res(false, '', n0); const r = SS.draft(s); if (r) { s.sport = null; return this.res(true, 'You were drafted!', n0); } return this.res(false, 'Nobody wanted to draft you.', n0); }
     if (id === 'negotiate') { const p = SS.proPlayer(s); if (!p || s.acted.negotiate) return this.res(false, 'Already negotiated this year.', n0); s.acted.negotiate = 1; const ok = chance(s, 0.55); if (ok) { p.sal = Math.round(p.sal * 1.12); log(s, 'I negotiated a raise with a very small speech.', 'sport'); } else log(s, 'I asked for a raise. The front office laughed politely.', 'sport'); return this.res(ok, ok ? 'Raise granted.' : 'They said no.', n0); }
-    if (id === 'retire') { if (s.pro) { const t = s.league.teams[s.pro.team], i = t ? t.roster.findIndex((p) => p.id === s.pro.pid) : -1; if (i >= 0) t.roster.splice(i, 1); s.pro = null; log(s, 'I retired from pro sports. My knees sent a thank-you card.', 'sport'); } else SS.quit(s, 'left'); return this.res(true, 'Retired.', n0); }
+    if (id === 'retire') { if (s.pro) { const t = s.league.teams[s.pro.team], i = t ? t.roster.findIndex((p) => p.id === s.pro.pid) : -1; if (i >= 0) t.roster.splice(i, 1); s.pro = null; s.flags.ex_pro = 1; log(s, 'I retired from pro sports. My knees sent a thank-you card.', 'sport'); } else SS.quit(s, 'left'); return this.res(true, 'Retired.', n0); }
     return this.res(false, 'Unknown action.', n0);
   },
 
   // ---------- relationships ----------
   person(p, extra = {}) {
     const group = p.rel === 'mother' || p.rel === 'father' || p.rel === 'sibling' ? 'family' : p.rel === 'spouse' || p.rel === 'partner' ? 'partner' : p.rel === 'child' ? 'child' : p.rel === 'ex' ? 'ex' : 'friend';
-    return { id: p.id, name: p.name, relation: relLabel(p), gender: G(p.gender), age: Math.floor(p.age), alive: p.alive, group, bars: { relationship: Math.round(p.bar), health: Math.round(p.health ?? 70) }, deathAge: p.alive ? undefined : Math.floor(p.diedAt ?? p.age), deathYear: p.alive ? undefined : this.s.birthYear + Math.floor(p.diedAt ?? p.age), cause: p.cause, avatar: { seed: p.id, gender: G(p.gender).toLowerCase(), age: Math.floor(p.age) }, ...extra };
+    return { id: p.id, name: p.name, relation: relLabel(p), gender: G(p.gender), age: Math.floor(p.age), alive: p.alive, group, bars: { relationship: Math.round(p.bar), health: Math.round(p.health ?? 70) }, deathAge: p.alive ? undefined : Math.floor(p.diedAt ?? p.age), deathYear: p.alive ? undefined : this.s.birthYear + Math.floor(p.diedAt ?? p.age), cause: p.cause, avatar: { pid: p.id, seed: p.id, gender: G(p.gender).toLowerCase(), age: Math.floor(p.age) }, ...extra };
   },
   getRelationships() {
     const s = this.s, L = P.living(s), pr = (x) => this.person(x), rel = (r) => L.filter((p) => p.rel === r);
@@ -273,7 +288,7 @@ export const life = {
   },
   getFamilyTree() {
     const s = this.s, people = {}, unions = [], me = 'me';
-    const add = (id, p, label) => { people[id] = { name: p.name, gender: G(p.gender).toLowerCase(), age: Math.floor(p.age), alive: p.alive !== false, label, avatar: { seed: p.id || 0, gender: G(p.gender).toLowerCase(), age: Math.floor(p.age) } }; };
+    const add = (id, p, label) => { people[id] = { name: p.name, gender: G(p.gender).toLowerCase(), age: Math.floor(p.age), alive: p.alive !== false, label, avatar: { pid: p.id || 0, seed: p.id || 0, gender: G(p.gender).toLowerCase(), age: Math.floor(p.age) } }; };
     add(me, { name: s.name, gender: s.gender, age: s.age, alive: s.alive, id: s.rs }, 'You');
     const mo = s.people.find((p) => p.rel === 'mother'), fa = s.people.find((p) => p.rel === 'father'); if (mo) add('p' + mo.id, mo, 'Mother'); if (fa) add('p' + fa.id, fa, 'Father');
     const sibs = s.people.filter((p) => p.rel === 'sibling'); sibs.forEach((p) => add('p' + p.id, p, relLabel(p)));

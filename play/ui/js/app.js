@@ -2,6 +2,7 @@ import { bootAdapter, adapter } from './adapter.js';
 import { store, h, refreshState, toast, sfx } from './ui.js';
 import { mountHub } from './screens/hub.js';
 import * as Style from './style.js';
+import { runStart } from './screens/start.js';
 
 async function main() {
   store.root = document.getElementById('app');
@@ -11,8 +12,10 @@ async function main() {
   document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('button')) sfx('click'); }, true);
   try {
     await Style.init();
-    await bootAdapter();
+    await bootAdapter(); (await import('./ads_ui.js')).installAdPresenter();
     store.cfg = await adapter.getConfig();
+    const st0 = await adapter.getStartState();
+    if (st0.mode !== 'play') { window.__start = st0.mode; window.__startReady = true; await runStart(st0.mode, { slot: st0.slot || 1 }); window.__start = null; }
     await refreshState();
     document.title = store.cfg.app.title;
     mountHub(store.root);

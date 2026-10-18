@@ -20,7 +20,7 @@ export function randNorm(state) {
 }
 export const pick = (state, arr) => arr[Math.floor(rand(state) * arr.length)];
 
-// stat bar colour rule (BitLife-like): green 31-100, orange 13-30, red 0-12. Thresholds come from terms.json.
+// stat bar colour rule (green/orange/red bands): green 31-100, orange 13-30, red 0-12. Thresholds come from terms.json.
 export function barColor(data, v) {
   const t = (data.terms && data.terms.bar_thresholds) || { green_min: 31, orange_min: 13 };
   return v >= t.green_min ? 'green' : v >= t.orange_min ? 'orange' : 'red';

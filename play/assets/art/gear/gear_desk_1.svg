@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" shape-rendering="crispEdges" data-asset="gear_desk_1" data-category="gear">
+<g stroke="#2b2a3a" stroke-width="2" stroke-linejoin="miter">
+<ellipse cx="64" cy="118" rx="50" ry="5" id="gear_desk_1-s1" data-slot="shadow" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="16" y="70" width="96" height="8" id="gear_desk_1-s2" data-slot="trim" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" />
+<rect x="20" y="78" width="8" height="34" id="gear_desk_1-s3" data-slot="metal" fill="#b8bcc8" style="fill:var(--slot-metal,#b8bcc8)" />
+<rect x="100" y="78" width="8" height="34" id="gear_desk_1-s4" data-slot="metal" fill="#b8bcc8" style="fill:var(--slot-metal,#b8bcc8)" />
+<rect x="16" y="70" width="96" height="3" fill="#fff" fill-opacity=".4" stroke="none"/>
+<rect x="40" y="36" width="48" height="32" id="gear_desk_1-s5" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<rect x="44" y="40" width="40" height="24" id="gear_desk_1-s6" data-slot="glass" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" />
+<rect x="60" y="68" width="8" height="4" id="gear_desk_1-s7" data-slot="metal" fill="#b8bcc8" style="fill:var(--slot-metal,#b8bcc8)" />
+</g>
+</svg>

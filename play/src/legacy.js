@@ -1,4 +1,5 @@
 // Death, ending, tombstone/obituary, ribbons, estate (tax, will, auction), continue-as-child, family legacy, cemetery meta store.
+import * as Prod from './prodco.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp } from './rng.js';
 import { log, fill } from './core.js';
@@ -27,7 +28,7 @@ export function metaRecord(grave) {
 }
 // ---------- death ----------
 export function netWorthOf(s) {
-  const assets = s.assets.reduce((a, x) => a + x.value, 0), stocks = Market.portfolioValue(s), biz = s.biz.reduce((a, b) => a + b.valuation, 0);
+  const assets = s.assets.reduce((a, x) => a + x.value, 0), stocks = Market.portfolioValue(s), biz = s.biz.reduce((a, b) => a + b.valuation, 0) + Prod.value(s);
   const sw = Slice.wealth(s); // careers/shopping slice: assets, investments, zoo minus loans
   return { cash: s.cash, assets: assets + sw, stocks, biz, debt: s.debt, total: s.cash + assets + sw + stocks + biz - s.debt };
 }
@@ -152,7 +153,7 @@ export function continueAs(s, heirId) {
   s.edu = age >= 18 ? Math.max(1, kid.edu || 1) : 0; s.school = age >= 18 ? null : age >= 12 ? 'high' : 'primary'; s.college = null; s.job = null; s.retired = age >= 65; s.postgrad = false;
   const wear = Math.max(0, age - 50);
   s.stats = { health: clamp(rint(s, 70, 95) - wear * 0.8, 20, 100), happiness: clamp(rint(s, 45, 85) - LF().legacy.continueStartHappyHit, 0, 100), smarts: clamp(Math.round(55 + (rnd(s) - 0.5) * 50), 5, 95), looks: clamp(rint(s, 25, 80) - wear * 0.3, 5, 100), fame: 0, karma: 50, crazy: rint(s, 0, 25), stress: rint(s, 10, 30) };
-  s.sl = null; s.diseases = []; s.flags = {}; s.chain = []; s.evLast = {}; s.acted = {}; s.pending = []; s.fx = []; s.cand = []; s.prison = null; s.record = { sentences: 0, priors: 0 }; s.sport = null; s.pro = null; s.will = { mode: 'even', heir: null }; s.fit = 0;
+  s.sl = null; s.diseases = []; s.flags = {}; s.chain = []; s.evLast = {}; s.acted = {}; s.pending = []; s.fx = []; s.cand = []; s.prison = null; s.record = { sentences: 0, priors: 0 }; s.sport = null; s.carry = null; s.carryNotes = []; s.pro = null; s.will = { mode: 'even', heir: null }; s.fit = 0;
   s.creatorLineage = !!(s.creatorLineage || s.creatorUsed); s.creatorUsed = false; s.creatorEdits = 0;
   s.tally = Ribbons.newTally(); s.alive = true; s.lastEnding = s.ending; s.ending = null; s.yr = [];
   if (sliceMine.length) Slice.grant(s, sliceMine); // after the reset: the actual objects (tpl, art, vseed, condition) move to the heir

@@ -556,10 +556,12 @@
     "slot": "hand",
     "name": "Solitaire ring",
     "slots": [
-     "gem"
+     "gem",
+     "metal"
     ],
     "defaults": {
-     "gem": "#c0392b"
+     "gem": "#c0392b",
+     "metal": "#b8bcc8"
     },
     "perBuild": true,
     "minAge": 14,
@@ -571,10 +573,12 @@
     "slot": "hand",
     "name": "Signet ring",
     "slots": [
-     "gem"
+     "gem",
+     "metal"
     ],
     "defaults": {
-     "gem": "#c0392b"
+     "gem": "#c0392b",
+     "metal": "#b8bcc8"
     },
     "perBuild": true,
     "minAge": 14,

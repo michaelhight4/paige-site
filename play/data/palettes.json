@@ -1376,6 +1376,52 @@
     "body",
     "accent"
    ]
+  },
+  "gear": {
+   "aliases": [
+    "gear"
+   ],
+   "slots": {
+    "body": {
+     "role": "primary",
+     "palette": "car_body"
+    },
+    "trim": {
+     "role": "neutral",
+     "palette": "neutral_trim"
+    },
+    "accent": {
+     "role": "accent",
+     "palette": "accent_bright",
+     "optional": 0.5
+    },
+    "metal": {
+     "role": "metal",
+     "palette": "metals"
+    }
+   },
+   "schemes": {
+    "neutral": 4,
+    "monochrome": 2,
+    "analogous": 2,
+    "complementary": 1
+   },
+   "valued": {
+    "body": 0,
+    "accent": 0,
+    "trim": 0
+   },
+   "contrast": [
+    [
+     "body",
+     "trim",
+     0.22
+    ]
+   ],
+   "noClash": [
+    "body",
+    "accent"
+   ]
   }
  }
 }

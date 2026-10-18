@@ -4032,6 +4032,436 @@
    "pair": null,
    "pairRole": null,
    "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "gear_cam_1",
+   "category": "gear",
+   "file": "gear/gear_cam_1.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Starter camera",
+   "tags": [
+    "gear",
+    "cam"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_cam_2",
+   "category": "gear",
+   "file": "gear/gear_cam_2.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Pro camera",
+   "tags": [
+    "gear",
+    "cam"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_cam_3",
+   "category": "gear",
+   "file": "gear/gear_cam_3.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Studio camera",
+   "tags": [
+    "gear",
+    "cam"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_mic_1",
+   "category": "gear",
+   "file": "gear/gear_mic_1.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "metal": "#b8bcc8"
+   },
+   "rarity": "common",
+   "name": "Starter microphone",
+   "tags": [
+    "gear",
+    "mic"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_mic_2",
+   "category": "gear",
+   "file": "gear/gear_mic_2.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8"
+   },
+   "rarity": "common",
+   "name": "Pro microphone",
+   "tags": [
+    "gear",
+    "mic"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_mic_3",
+   "category": "gear",
+   "file": "gear/gear_mic_3.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8"
+   },
+   "rarity": "common",
+   "name": "Studio microphone",
+   "tags": [
+    "gear",
+    "mic"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_light_1",
+   "category": "gear",
+   "file": "gear/gear_light_1.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Starter lighting rig",
+   "tags": [
+    "gear",
+    "light"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_light_2",
+   "category": "gear",
+   "file": "gear/gear_light_2.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Pro lighting rig",
+   "tags": [
+    "gear",
+    "light"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_light_3",
+   "category": "gear",
+   "file": "gear/gear_light_3.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Studio lighting rig",
+   "tags": [
+    "gear",
+    "light"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_desk_1",
+   "category": "gear",
+   "file": "gear/gear_desk_1.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Starter desk & studio",
+   "tags": [
+    "gear",
+    "desk"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_desk_2",
+   "category": "gear",
+   "file": "gear/gear_desk_2.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Pro desk & studio",
+   "tags": [
+    "gear",
+    "desk"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_desk_3",
+   "category": "gear",
+   "file": "gear/gear_desk_3.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Studio desk & studio",
+   "tags": [
+    "gear",
+    "desk"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_set_1",
+   "category": "gear",
+   "file": "gear/gear_set_1.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Starter creator set",
+   "tags": [
+    "gear",
+    "set"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_set_2",
+   "category": "gear",
+   "file": "gear/gear_set_2.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Pro creator set",
+   "tags": [
+    "gear",
+    "set"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
+  },
+  {
+   "id": "gear_set_3",
+   "category": "gear",
+   "file": "gear/gear_set_3.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f4a6b",
+    "trim": "#f3efe4",
+    "accent": "#e8573d",
+    "metal": "#b8bcc8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "common",
+   "name": "Studio creator set",
+   "tags": [
+    "gear",
+    "set"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 128 128"
   }
  ]
 }

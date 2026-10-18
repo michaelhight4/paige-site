@@ -4072,6 +4072,194 @@
     "maxBase": 5,
     "perDepot": 4
    }
+  },
+  "creator_merch": {
+   "kind": "shop",
+   "x": true,
+   "name": "Creator Merch Store",
+   "icon": "👕",
+   "group": "Creator",
+   "blurb": "Hoodies, mugs and signed posters sold to your followers. Demand follows your fame. Needs 10k social followers.",
+   "minAge": 16,
+   "sector": "tech",
+   "fee": 3000,
+   "ticket": 60,
+   "cogs": 0.45,
+   "rent": 14000,
+   "baseDemand": 4600.0,
+   "unit": "orders",
+   "equip": [
+    {
+     "id": "stock",
+     "name": "Stock & packaging",
+     "cost": 3000,
+     "cap": 2600,
+     "starter": 1
+    },
+    {
+     "id": "site",
+     "name": "Online storefront",
+     "cost": 2500,
+     "cap": 2600,
+     "starter": 1
+    }
+   ],
+   "roles": [
+    {
+     "id": "clerk",
+     "name": "Fulfilment clerk",
+     "base": 32000,
+     "cap": 2600,
+     "starter": 1
+    }
+   ],
+   "req": {
+    "followers": 10000
+   },
+   "risks": [
+    {
+     "id": "stock",
+     "label": "Warehouse mix-up",
+     "p": 0.08,
+     "cost": 0.02,
+     "rep": -3
+    },
+    {
+     "id": "chargeback",
+     "label": "Chargebacks and returns",
+     "p": 0.1,
+     "cost": 0.015,
+     "rep": -2
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 21000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 26000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 15500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    }
+   ],
+   "names": [
+    "Merch Mania",
+    "Drop Shop",
+    "Fan Cart"
+   ]
+  },
+  "creator_channel": {
+   "kind": "shop",
+   "x": true,
+   "name": "Creator Channel Company",
+   "icon": "🎞️",
+   "group": "Creator",
+   "blurb": "A production company around your channels: editors and producers make sponsored content. Needs 50k followers.",
+   "minAge": 18,
+   "sector": "tech",
+   "fee": 15000,
+   "ticket": 900,
+   "cogs": 0.2,
+   "rent": 40000,
+   "baseDemand": 900.0,
+   "unit": "sponsored videos",
+   "equip": [
+    {
+     "id": "stock",
+     "name": "Camera kit",
+     "cost": 3000,
+     "cap": 380,
+     "starter": 1
+    },
+    {
+     "id": "site",
+     "name": "Edit suite",
+     "cost": 2500,
+     "cap": 380,
+     "starter": 1
+    }
+   ],
+   "roles": [
+    {
+     "id": "clerk",
+     "name": "Producer",
+     "base": 32000,
+     "cap": 380,
+     "starter": 1
+    }
+   ],
+   "req": {
+    "followers": 50000
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 21000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 26000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 15500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    }
+   ],
+   "names": [
+    "Loop Studios",
+    "Nest Productions",
+    "Wave Media"
+   ]
   }
  },
  "patch": {

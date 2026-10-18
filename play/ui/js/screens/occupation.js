@@ -2,22 +2,27 @@ import { adapter } from '../adapter.js';
 import { store, h, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act, toast } from '../ui.js';
 import { sportsScreen } from './sports.js';
 import { scholarshipsScreen } from './extra.js';
+import { prodcoScreen } from './prodco.js';
+import { coachingScreen } from './coaching.js';
+import { politicsScreen } from './politics.js';
+import { streamerScreen, influencerScreen } from './online.js';
 
 
 export async function occupationMenu(body, { nav }) {
   const items = await adapter.getOccupationMenu(); const st = store.state;
   if (st.job) body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: 'Current job' }), kv('Title', st.job.title), kv('Employer', st.job.employer), kv('Salary', money(st.job.salary) + '/yr', 'pos'), kv('Years', String(st.job.years)), h('div', { class: 'btns' }, btn('Quit job', async () => { if (await confirmSheet('Quit job?', `Quit your job as ${st.job.title}?`, 'Quit', 'danger')) act(adapter.quitJob()); }, 'danger sm'))));
-  const screens = { education: educationScreen, fight: fightScreen, freelance: freelanceScreen, jobs: (b, c) => jobsScreen(b, c, 'jobs'), parttime: partTimeScreen, military: militaryScreen, special: (b, c) => jobsScreen(b, c, 'special'), sports: sportsScreen, collections: collectionsScreen, scholarships: scholarshipsScreen };
+  const screens = { education: educationScreen, fight: fightScreen, freelance: freelanceScreen, jobs: (b, c) => jobsScreen(b, c, 'jobs'), parttime: partTimeScreen, military: militaryScreen, special: (b, c) => jobsScreen(b, c, 'special'), sports: sportsScreen, collections: collectionsScreen, scholarships: scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, prodco: prodcoScreen };
   body.append(...items.map(m => row({ id: m.id, icon: m.icon, title: m.label, sub: m.locked ? m.lockReason : m.sub, disabled: m.locked, onClick: () => nav.open(m.label === 'Sports Career' ? 'Sports Career' : m.label, screens[m.id]) })));
 }
 
-export async function educationScreen(body) {
+export async function educationScreen(body, { nav }) {
   const e = await adapter.getEducation();
   if (e.current) {
     const pct = e.current.years ? Math.round(e.current.year / e.current.years * 100) : 0;
     body.append(h('div', { class: 'card', 'data-el': 'edu-current' }, h('h3', { text: 'Current education' }), kv('Level', e.current.label), kv('Major', e.current.major || '—'), kv('Status', e.current.inSchool ? `Year ${e.current.year} of ${e.current.years}` : 'Not enrolled'), kv('GPA', String(e.current.gpa)), e.current.inSchool ? h('div', { class: 'prog' }, h('i', { style: { width: pct + '%' } })) : null,
       e.current.inSchool ? h('div', { class: 'btns' }, btn('Drop out', async () => { if (await confirmSheet('Drop out?', 'You will leave school without finishing.', 'Drop out', 'danger')) act(adapter.dropOut()); }, 'danger sm')) : null));
   } else body.append(empty('You are not in school yet. School starts at age 5.'));
+  if (e.current && e.current.inSchool) { const sc = await adapter.getScholarships(); if (sc.enrolled) body.append(h('div', { class: 'card', 'data-el': 'edu-scholarships' }, h('h3', { text: '🎓 Scholarships' }), kv('Awards held', String(sc.active.length)), kv('Worth', money(sc.yearlyWorth) + '/yr', 'pos'), sc.active.map((a) => h('div', { class: 'hint', text: `${a.name}: ${Math.round(a.pct * 100)}%${a.probation ? ' ⚠ probation' : ''}${a.renew && a.renew.eligible ? ' · renewal open' : ''}` })), h('div', { class: 'btns' }, btn('Open Scholarships', () => nav.open('Scholarships', scholarshipsScreen), 'go sm', { 'data-el': 'edu-sch-open' })))); }
   if (e.completed.length) body.append(section('Completed'), ...e.completed.map(c => row({ icon: '✅', title: c.replace(/_/g, ' ').replace(/\b\w/g, x => x.toUpperCase()), chevron: false })));
   body.append(section('Enroll'));
   body.append(...e.options.map(o => row({ id: o.id, icon: '🎓', title: o.label, sub: o.eligible ? `${o.years} yrs · ${o.notes || 'Tap to enroll'}` : o.reason, disabled: !o.eligible, onClick: async () => {

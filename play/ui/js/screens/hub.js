@@ -1,5 +1,5 @@
 import { adapter } from '../adapter.js';
-import { store, h, bar, money, avatarFor, avatarEl, ico, sfx, Art, openPanel, sheet, act, refreshState, closeAll, toast, btn } from '../ui.js';
+import { store, h, bar, money, avatarFor, avatarEl, ico, sfx, Art, openPanel, sheet, act, refreshState, closeAll, toast, btn, rerenderTop } from '../ui.js';
 import { storeScreen, settingsScreen } from './store.js';
 import { cemeteryScreen } from './profile.js';
 import { occupationMenu } from './occupation.js';
@@ -54,7 +54,7 @@ export function mountHub(root) {
     agebar.replaceChildren(h('span', { text: `Age: ${st.age} · ${st.stage}` }), h('span', { text: st.education.inSchool ? '🎓 ' + st.education.label : st.alive ? `Net worth ${money(st.netWorth, true)}` : '🪦 Deceased' }));
     stats.replaceChildren(...store.cfg.stats.map(s => bar(s.label, st.stats[s.key] ?? 0, { icon: s.icon, key: s.key })));
     ageBtn.querySelector('small').textContent = 'Age ' + st.age;
-    ageBtn.disabled = !st.alive;
+    ageBtn.disabled = !st.alive; ageBtn.classList.toggle('auto-on', !!st.auto); ageBtn.querySelector('small').textContent = 'Age ' + st.age + (st.auto ? ' 🤖' : '');
   }
   document.addEventListener('statechange', (e) => renderTop(e.detail));
   renderTop(store.state); paintTabs(); tipsInit(hub);
@@ -72,7 +72,13 @@ export function mountHub(root) {
   adapter.getJournal().then(j => addEntries(j, false));
 
   async function showEvent(ev) {
-    const i = await sheet({ title: ev.title, body: ev.prompt, options: ev.choices.map(c => ({ label: c.label, sub: c.cost ? 'Costs ' + money(c.cost) : '' })), dismissable: false });
+    let i;
+    for (;;) {
+      i = await sheet({ title: ev.title, body: ev.prompt, options: ev.choices.map(c => ({ label: c.rare ? (c.locked ? '🌟📺 ' : '🌟 ') + c.label : c.label, sub: c.rare ? (c.locked ? (c.access && c.access.ok ? 'Rare option: ' + (c.access.mode === 'ad' ? 'watch an ad to unlock' : 'subscriber unlock') : (c.access && c.access.reason) || 'Locked') : 'Rare option unlocked') : c.cost ? 'Costs ' + money(c.cost) : '', disabled: c.rare && c.locked && c.access && !c.access.ok })), dismissable: false });
+      const ch = ev.choices[i];
+      if (ch && ch.rare && ch.locked) { const u = await adapter.unlockRareChoice(); if (u.ok) { toast('Rare option unlocked', 'good'); ev = { ...ev, choices: ev.choices.map((c, k) => (k === i ? { ...c, locked: false } : c)) }; } else toast(u.message || 'Not unlocked', 'bad'); continue; }
+      break;
+    }
     const r = await adapter.resolveEvent(ev.id, i);
     document.dispatchEvent(new CustomEvent('journal', { detail: r.entries || [] }));
     await refreshState();
@@ -88,21 +94,26 @@ export function mountHub(root) {
     else if (d.canContinue) { const { legacyScreen } = await import('./profile.js'); openPanel('Family Legacy', legacyScreen); }
     else { await newLife(); }
   }
-  async function newLife() { closeAll(); await adapter.newLife(); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
+  async function newLife() { closeAll(); const { runStart } = await import('./start.js'); const st = await adapter.getStartState(); await runStart('create', { slot: st.slot || 1, cancelable: false }); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
   async function resetHub() { closeAll(); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
   document.addEventListener('newlife', resetHub);
   window.__showDeath = showDeath;
 
   let busy = false;
-  ageBtn.addEventListener('click', async () => {
-    if (busy) return; busy = true;
+  async function doAge(fromBtn) {
+    if (busy || !store.state.alive) return; busy = true;
     try {
-      sfx('age'); if (Art()) Art().fx.agePop(ageBtn);
+      sfx('age'); if (Art() && fromBtn) Art().fx.agePop(ageBtn);
       const r = await adapter.age();
-      addEntries(r.entries || [], true); await refreshState();
+      addEntries(r.entries || [], true); await refreshState(); if (store.stack.length) await rerenderTop();
+      if (r.auto && r.auto.paused) toast('Autopilot paused: ' + r.auto.paused.reason); else if (r.auto && r.auto.ran.length) toast('Autopilot: ' + r.auto.ran.length + ' routine' + (r.auto.ran.length === 1 ? '' : 's') + ' ran');
       if (r.event) await showEvent(r.event);
       if (r.died) await showDeath(r.death || await adapter.getDeathSummary());
+      else if (r.adPrompt && !r.event) { const { showAdPrompt } = await import('../ads_ui.js'); await showAdPrompt(r.adPrompt); }
     } finally { busy = false; }
-  });
+  }
+  ageBtn.addEventListener('click', () => doAge(true));
+  document.addEventListener('ageup', () => doAge(false)); // inline Age buttons inside menus
   document.addEventListener('died', (e) => showDeath(e.detail));
+  document.addEventListener('gameevent', (e) => showEvent(e.detail));
 }

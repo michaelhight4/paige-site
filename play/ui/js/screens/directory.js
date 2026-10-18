@@ -9,6 +9,10 @@ import { relationshipsScreen } from './relationships.js';
 import { activitiesScreen, willScreen, setActivityCategory } from './activities.js';
 import { profileScreen, legacyScreen, familyTreeScreen, cemeteryScreen } from './profile.js';
 import { storeScreen, settingsScreen } from './store.js';
+import { streamerScreen, influencerScreen } from './online.js';
+import { politicsScreen } from './politics.js';
+import { prodcoScreen } from './prodco.js';
+import { coachingScreen } from './coaching.js';
 import * as Ext from './extra.js'; // skills, passions, scholarships, businesses (later stages register here)
 
 export const GROUPS = ['Life', 'Work & School', 'Money & Assets', 'Shop', 'Businesses & Studios', 'Social', 'Activities', 'Skills', 'Legacy', 'Settings'];
@@ -19,11 +23,13 @@ export async function buildDirectory() {
   const E = []; const add = (group, id, label, sub, icon, open, kw = '') => E.push({ group, id, label, sub, icon, open, kw });
   // Life
   add('Life', 'profile', 'Profile', 'Stats, traits, ribbons, diseases', '🙂', (n) => n.open('Profile', profileScreen), 'me character avatar ribbons');
+  add('Life', 'life:autopilot', 'Autopilot & Skip ahead', 'Yearly routines that run when you age, skip years (Premium)', '🤖', async (n) => { const { autopilotScreen } = await import('./auto.js'); n.open('Autopilot', autopilotScreen); }, 'auto routine skip fast forward age years premium');
+  add('Life', 'life:rewards', 'Rewards (watch an ad)', 'Cash, stat boosts and bonuses from rewarded ads', '📺', async (n) => { const { rewardsScreen } = await import('../ads_ui.js'); n.open('Rewards', rewardsScreen); }, 'ad ads reward cash money stat boost sponsor steam subscriber');
   add('Life', 'journal', 'Life journal', 'Back to the main screen', '📖', (n) => n.closeAll(), 'home timeline log');
   for (const e of Ext.lifeEntries()) add('Life', e.id, e.label, e.sub, e.icon, e.open, e.kw);
   // Work & School
   const occ = await adapter.getOccupationMenu();
-  const occScreens = { education: Occ.educationScreen, fight: Occ.fightScreen, freelance: Occ.freelanceScreen, jobs: (b, c) => Occ.jobsScreen(b, c, 'jobs'), parttime: Occ.partTimeScreen, military: Occ.militaryScreen, special: (b, c) => Occ.jobsScreen(b, c, 'special'), sports: sportsScreen, collections: Occ.collectionsScreen, scholarships: Ext.scholarshipsScreen };
+  const occScreens = { education: Occ.educationScreen, fight: Occ.fightScreen, freelance: Occ.freelanceScreen, jobs: (b, c) => Occ.jobsScreen(b, c, 'jobs'), parttime: Occ.partTimeScreen, military: Occ.militaryScreen, special: (b, c) => Occ.jobsScreen(b, c, 'special'), sports: sportsScreen, collections: Occ.collectionsScreen, scholarships: Ext.scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, prodco: prodcoScreen };
   for (const m of occ) add('Work & School', 'occ:' + m.id, m.label, m.sub, m.icon, (n) => n.open(m.label, occScreens[m.id]), 'job career school college university');
   add('Work & School', 'occ:menu', 'Work hub', 'Current job and all work screens', '💼', (n) => n.open('Work', Occ.occupationMenu), 'occupation');
   for (const e of Ext.workEntries()) add('Work & School', e.id, e.label, e.sub, e.icon, e.open, e.kw);
@@ -38,6 +44,9 @@ export async function buildDirectory() {
   for (const e of Ext.businessEntries()) add('Businesses & Studios', e.id, e.label, e.sub, e.icon, e.open, e.kw);
   // Social
   add('Social', 'soc:people', 'Relationships', 'Family, partner, friends, exes', '👪', (n) => n.open('Relationships', relationshipsScreen), 'people family friends partner dating');
+  add('Social', 'soc:media', 'Social Media', 'Platforms, posts, followers, sponsors, verification, calendar, team, gear', '📱', async (n) => { const { socialHub } = await import('./social.js'); n.open('Social Media', socialHub); }, 'social media feed followers post sponsor verified influencer platform chirpr clipwave');
+  add('Businesses & Studios', 'biz:prodco', 'Production Companies', 'Record label, film, TV and game studios; back other companies', '🎞️', (n) => n.open('Production Companies', prodcoScreen), 'production company label records film tv game studio music artists greenlight royalty invest');
+  add('Work', 'work:coaching', 'Coaching', 'Coach or manage a team, transfers, stadium, season review, play the games', '📋', async (n) => { const { coachingScreen } = await import('./coaching.js'); n.open('Coaching', coachingScreen); }, 'coach coaching manager team transfers stadium sports season');
   add('Social', 'soc:tree', 'Family tree', 'Your relatives at a glance', '🌳', (n) => n.open('Family tree', familyTreeScreen), 'ancestors kids');
   add('Social', 'soc:will', 'Will & Testament', 'Decide who inherits', '📜', (n) => n.open('Will & Testament', willScreen), 'inheritance estate heirs');
   // Activities (one per menu category, plus every item as a searchable pointer to its category)

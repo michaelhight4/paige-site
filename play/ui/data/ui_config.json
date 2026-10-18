@@ -140,6 +140,20 @@
    "minAge": 10
   },
   {
+   "id": "streamer",
+   "label": "Live Streamer",
+   "sub": "Go live, grow subscribers, land sponsors",
+   "icon": "🎥",
+   "minAge": 13
+  },
+  {
+   "id": "influencer",
+   "label": "Influencer",
+   "sub": "Pick a niche, grow followers, brand deals",
+   "icon": "📸",
+   "minAge": 13
+  },
+  {
    "id": "sports",
    "label": "Sports Career",
    "sub": "School teams, college, the draft",
@@ -152,6 +166,27 @@
    "sub": "Mastered careers",
    "icon": "🗂️",
    "minAge": 0
+  },
+  {
+   "id": "politics",
+   "label": "Politics",
+   "sub": "Run for office, judges, royalty",
+   "icon": "🏛️",
+   "minAge": 18
+  },
+  {
+   "id": "coaching",
+   "label": "Coaching",
+   "sub": "Coach or manage a team, transfers, season reviews",
+   "icon": "📋",
+   "minAge": 21
+  },
+  {
+   "id": "prodco",
+   "label": "Production Companies",
+   "sub": "Record label, film, TV & game studios",
+   "icon": "🎞️",
+   "minAge": 18
   }
  ],
  "specialSectors": [
@@ -684,7 +719,8 @@
   "jewelry": "💍",
   "instrument": "🎸",
   "luxury": "💎",
-  "clothing": "👕"
+  "clothing": "👕",
+  "gear": "🎥"
  },
  "avatars": [
   {
@@ -762,6 +798,10 @@
   "accessory_store": {
    "section": "Accessories",
    "icon": "🧢"
+  },
+  "gear_store": {
+   "section": "Creator Gear",
+   "icon": "🎥"
   }
  },
  "assetTypes": {

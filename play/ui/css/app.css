@@ -44,8 +44,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tab{background:none;border:0;color:#cfe0f7;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;padding:6px 0;height:100%;justify-content:center}
 .tab .ic{font-size:24px;line-height:1}
 .tab:active{background:var(--surface)fff18}
-.agebtn{position:absolute;left:50%;top:-30px;transform:translateX(-50%);width:92px;height:92px;border-radius:50%;border:5px solid #fff;background:radial-gradient(circle at 35% 30%,#ff8a63,var(--accent) 60%,#c23b24);color:#fff;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 14px #0005;letter-spacing:.5px;z-index:3;transition:transform .08s}
-.agebtn:active{transform:translateX(-50%) scale(.94)}
+.agebtn{--age-d:92px;position:absolute;left:50%;margin-left:calc(var(--age-d) / -2);top:-30px;transform:none;width:var(--age-d);min-width:var(--age-d);max-width:var(--age-d);height:var(--age-d);box-sizing:border-box;padding:0;flex:none;overflow:hidden;white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent;border-radius:50%;border:5px solid #fff;background:radial-gradient(circle at 35% 30%,#ff8a63,var(--accent) 60%,#c23b24);color:#fff;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 14px #0005;letter-spacing:.5px;z-index:3;transition:transform .08s}
+.agebtn:active{transform:scale(.94)}
 .agebtn b{font-size:23px;line-height:1}.agebtn small{font-size:11px;opacity:.9;margin-top:2px;font-weight:700}
 .agebtn[disabled]{filter:grayscale(.8)}
 /* panels */
@@ -139,4 +139,4 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tabs-inline button{border:0;background:#dfe5ef;border-radius:18px;padding:6px 14px;font-weight:800;color:#4c5a74;white-space:nowrap}
 .tabs-inline button.on{background:var(--navy2);color:#fff}
 @media (min-width:481px){#app{margin-top:0;border-radius:0}}
-@media (max-height:620px){.stats{padding-bottom:20px;gap:3px}.agebtn{width:78px;height:78px;top:-24px}}
+@media (max-height:620px){.stats{padding-bottom:20px;gap:3px}.agebtn{--age-d:78px;top:-24px}}

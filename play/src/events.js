@@ -5,10 +5,16 @@ import { log, earn, spend, addStat, fill, STAT_ALIAS } from './core.js';
 import * as P from './people.js';
 import * as Crime from './crime.js';
 import * as SS from './schoolsports.js';
+import * as Carry from './schoolcarry.js';
 import * as Legacy from './legacy.js';
 import * as Health from './health.js';
 import * as Skills from './skills.js';
 import * as Passions from './passions.js';
+import * as Online from './online.js';
+import * as Social from './social.js';
+import * as Politics from './politics.js';
+import * as Coach from './coaching.js';
+import * as Prod from './prodco.js';
 
 const REL_T = { rel_mother: ['mother'], rel_father: ['father'], rel_parent: ['mother', 'father'], rel_sibling: ['sibling'], rel_family: ['mother', 'father', 'sibling'], rel_friend: ['friend'],
   rel_partner: ['partner', 'spouse'], rel_child: ['child'], rel_coworker: ['coworker'] };
@@ -68,7 +74,7 @@ export function pendingCard(s) {
   const p = s.pending[0]; if (!p) return null;
   if (p.kind === 'event') { const e = eventById(p.id); return { ...e, kind: 'event', text: fill(e.prompt, p.ctx || {}), choices: e.choices.map((c) => ({ ...c, label: fill(c.label, p.ctx || {}) })) }; }
   if (p.kind === 'college') return { kind: 'college', title: 'College?', text: 'You finished high school. Go to college? Tuition is $20,000/yr (student loan), 4 years, boosts smarts and unlocks top careers.',
-    choices: [{ label: 'Enroll (student loan)' }, { label: s.sport && s.sport.skill >= D.life.sports.draft.scholarshipSkill ? 'Enroll on an athletic scholarship' : 'Skip college, start working' }] };
+    choices: [{ label: 'Enroll (student loan)' }, ...(Carry.carrySport(s) && Carry.carrySport(s).skill >= D.life.sports.draft.scholarshipSkill ? [{ label: 'Enroll on an athletic scholarship' }] : []), { label: 'Skip college, start working' }] };
   return null;
 }
 export function applyFx(s, fx = {}, scale = 1) {
@@ -79,6 +85,11 @@ export function applyFx(s, fx = {}, scale = 1) {
     else if (k === 'pm') { const id = s._evPassion; if (id) Passions.gain(s, id, v); else for (const a of [...Passions.ensure(s).active]) Passions.gain(s, a.id, v / 2); }
     else if (k.startsWith('sk_')) Skills.use(s, k.slice(3), v)
     else if (k === 'award') { Passions.ensure(s); s.awards.push({ id: v, age: Math.floor(s.age), text: 'Award: ' + v }); }
+    else if (k === 'stream' || k === 'infl') Online.eventFx(s, k, v)
+    else if (k === 'social') Social.eventFx(s, v)
+    else if (k === 'pol') Politics.eventFx(s, v)
+    else if (k === 'coach') Coach.eventFx(s, v)
+    else if (k === 'prod') Prod.eventFx(s, v)
     else if (k === 'bizrep') { if (s.biz.length) { const b = pick(s, s.biz); b.rep = clamp(b.rep + v, 0, 100); } }
     else if (k === 'perf') { if (s.job) s.job.perf = clamp(s.job.perf + v, 0, 100); }
     else if (k === 'doctor') { for (const d of s.diseases) d.dx = true; }
@@ -93,8 +104,8 @@ const lines = (j) => (Array.isArray(j) ? j : [j]);
 export function resolveCard(s, i) {
   const p = s.pending[0]; if (!p) return null; let res = '';
   if (p.kind === 'college') {
-    if (i === 0) { s.school = 'college'; s.college = { yrs: 0 }; s.job = null; if (s.sport) { s.sport.level = 'college'; if (s.sport.skill >= D.life.sports.draft.scholarshipSkill) s.sport.scholarship = true; } res = 'I enrolled in college.'; }
-    else { s.school = null; res = 'I headed into the workforce.'; if (s.sport) SS.quit(s, 'graduated'); }
+    if (i < pendingCard(s).choices.length - 1) { s.school = 'college'; s.college = { yrs: 0 }; s.job = null; Carry.enter(s, 'college'); if (s.sport && s.sport.skill >= D.life.sports.draft.scholarshipSkill) s.sport.scholarship = true; res = 'I enrolled in college.'; }
+    else { s.school = null; res = 'I headed into the workforce.'; Carry.drop(s); if (s.sport) SS.quit(s, 'graduated'); }
     s.pending.shift(); log(s, res, 'school'); return { ok: true, msg: res };
   }
   const e = eventById(p.id), c = e.choices[i], scale = D.life.eventScale; s._evPassion = e.if && e.if.passion || null;

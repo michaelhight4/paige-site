@@ -1,4 +1,4 @@
-// BitLife-style hub UI: stat bars, journal, people/relationships, activities, doctor, school sports, crime/prison, legacy, cemetery, tombstone.
+// Classic hub UI: stat bars, journal, people/relationships, activities, doctor, school sports, crime/prison, legacy, cemetery, tombstone.
 // Game dev's menus plug in through registerHook('job'|'assets'|'relationships'|'activities', { render(S, api) -> html, acts: { name(dataset) } }).
 import * as E from './engine.js';
 import * as P from './people.js';

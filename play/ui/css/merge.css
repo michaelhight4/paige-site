@@ -1,7 +1,10 @@
 /* merge layer: art kit + premium + new screens on top of ui3's app.css */
 .avatar.art{background:none;border:0;box-shadow:none;overflow:hidden;font-size:0}.avatar.art svg{width:100%;height:100%}
 .ic.art svg{display:block}.row .ic.art{width:40px;display:flex;justify-content:center}
-.asset .ic.pic{width:64px;height:48px;display:flex;align-items:center;justify-content:center}.asset .ic.pic svg,.asset .ic.pic img{max-width:64px;max-height:48px;width:auto;height:auto}
+.asset .ic.pic{width:112px;height:84px;flex:none;display:flex;align-items:center;justify-content:center}.asset .ic.pic svg,.asset .ic.pic img{max-width:112px;max-height:84px;width:auto;height:auto}
+.asset .ic.pic svg:not([width]){width:112px;height:84px}
+img,svg,canvas{image-rendering:pixelated}.char-avatar svg{display:block}
+.asset .ic.pic .char{width:84px;height:84px}
 .topbtn{border:0;background:#ffffffa0;border-radius:50%;width:34px;height:34px;font-size:17px;flex:none;padding:0}
 .topbtn.prem{background:linear-gradient(135deg,#ffe38a,#e9b730)}
 .row.prem{background:linear-gradient(90deg,var(--goldbg,#fff8dc),var(--surface));border-left:4px solid var(--gold)}

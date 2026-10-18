@@ -20,7 +20,7 @@ export async function legacyScreen(body, { nav }) {
   body.append(section('Generations'));
   l.generations.forEach((m, i) => body.append(h('div', { class: 'gen' + (m.current ? ' cur' : ''), 'data-gen': m.gen }, h('div', { class: 'stem' }, h('i', { style: { opacity: i === 0 ? 0 : 1 } }), h('b'), h('i', { style: { opacity: i === l.generations.length - 1 ? 0 : 1 } })),
     h('div', { class: 'card' }, h('div', { style: { fontWeight: 800, color: 'var(--navy)' }, text: `Gen ${m.gen} · ${m.name}${m.current ? ' (you)' : ''}${m.creator ? ' 🛠️' : ''}` }), h('div', { class: 'hint', text: `${m.born}–${m.died ?? 'present'}${m.cause ? ' · ' + m.cause : ''}` }), kv('Occupation', m.job || '—'), kv('Net worth', money(m.netWorth || 0)), m.ribbon ? kv('Ribbon', m.ribbon) : null))));
-  if (l.canContinue && l.livingHeirs.length) { body.append(section('Continue the legacy'), ...l.livingHeirs.map(c => row({ avatar: { seed: c.id, gender: 'm', age: c.age }, title: 'Play as ' + c.name, sub: `${c.relation || ''} · age ${c.age}`, onClick: async () => { const r = await act(adapter.continueAsHeir(c.id)); if (r.ok) document.dispatchEvent(new CustomEvent('newlife')); } }))); }
+  if (l.canContinue && l.livingHeirs.length) { body.append(section('Continue the legacy'), ...l.livingHeirs.map(c => row({ avatar: { pid: c.id, seed: c.id, gender: 'm', age: c.age }, title: 'Play as ' + c.name, sub: `${c.relation || ''} · age ${c.age}`, onClick: async () => { const r = await act(adapter.continueAsHeir(c.id)); if (r.ok) document.dispatchEvent(new CustomEvent('newlife')); } }))); }
 }
 
 export async function familyTreeScreen(body) {

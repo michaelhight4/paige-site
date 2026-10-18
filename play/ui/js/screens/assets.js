@@ -16,7 +16,8 @@ export async function assetsMenu(body, { nav }) {
 export function assetCard(a, { onTap, price, extraBtns } = {}) {
   const icon = store.cfg.assetIcons[a.type] || '📦';
   const pic = h('div', { class: 'ic pic' });
-  if (a.svg) pic.innerHTML = a.svg; else if (a.artUrl) pic.append(h('img', { src: a.artUrl, alt: a.name, loading: 'lazy' })); else pic.append(ico(icon, 44));
+  if (a.wear && a.wear.layers) import('../character.js').then(async ({ composeSprite }) => { pic.innerHTML = await composeSprite(a.wear, { size: 84, crop: a.wear.crop, shadow: false }); }).catch(() => { if (a.svg) pic.innerHTML = a.svg; });
+  else if (a.svg) pic.innerHTML = a.svg; else if (a.artUrl) pic.append(h('img', { src: a.artUrl, alt: a.name, loading: 'lazy' })); else pic.append(ico(icon, 44));
   return h('div', { class: 'card', 'data-asset': a.id, onclick: onTap },
     h('div', { class: 'asset' }, pic,
       h('div', { class: 'main' }, h('div', { class: 'top' }, h('div', { class: 'nm', text: a.name }), h('div', { class: 'pr', text: money(price ?? a.value) })),

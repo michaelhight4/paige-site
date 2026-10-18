@@ -15,7 +15,7 @@ export async function sportsScreen(body) {
     } })));
     return;
   }
-  body.append(h('div', { class: 'card', 'data-el': 'sport-card' }, h('div', { class: 'asset' }, h('div', { class: 'ic', text: cur.icon }), h('div', { class: 'main' }, h('div', { class: 'nm', text: cur.label + ' · ' + cur.position }), h('div', { class: 'sb', text: cur.team }))),
+  body.append(h('div', { class: 'card', 'data-el': 'sport-card' }, h('div', { class: 'asset' }, h('div', { class: 'ic', text: cur.icon }), h('div', { class: 'main' }, h('div', { class: 'nm', text: cur.label + ' · ' + cur.position }), h('div', { class: 'sb', text: cur.team }))), cur.carried ? h('div', { class: 'hint', 'data-el': 'sport-carried', text: '🔁 ' + cur.carried }) : null,
     bar('Skill', cur.skill, { thin: true }), bar('Fitness', cur.fitness, { thin: true }),
     cur.draft ? h('div', null, kv('Draft', `Round ${cur.draft.round}, pick ${cur.draft.pick}`), kv('League', cur.proLeague), kv('Contract', money(cur.salary) + '/yr', 'pos')) : (cur.offers.length ? kv('College offers', cur.offers.join(', ')) : null)));
   body.append(section('Actions'), ...cur.actions.map(a => row({ id: a.id, premium: a.premium, disabled: a.locked, icon: a.id === 'retire' ? '🚪' : a.id === 'train' ? '💪' : a.id === 'declare_draft' ? '📋' : a.id === 'apply_college' ? '🎓' : '✍️', title: a.label, sub: a.sub, onClick: () => act(adapter.sportsAction(a.id)) })));

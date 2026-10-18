@@ -1,0 +1,344 @@
+{
+ "version": 1,
+ "media": {
+  "music": {
+   "name": "Record Label",
+   "word": "Records",
+   "icon": "🎵",
+   "unit": "album",
+   "unitPlural": "albums",
+   "found": 150000,
+   "years": 1,
+   "tiers": [
+    40000,
+    150000,
+    500000,
+    1500000
+   ],
+   "genres": [
+    {
+     "id": "pop",
+     "name": "Pop",
+     "icon": "🎤"
+    },
+    {
+     "id": "rock",
+     "name": "Rock",
+     "icon": "🎸"
+    },
+    {
+     "id": "hiphop",
+     "name": "Hip-hop",
+     "icon": "🎧"
+    },
+    {
+     "id": "country",
+     "name": "Country",
+     "icon": "🤠"
+    },
+    {
+     "id": "electronic",
+     "name": "Electronic",
+     "icon": "🎛️"
+    },
+    {
+     "id": "rnb",
+     "name": "R&B",
+     "icon": "💜"
+    },
+    {
+     "id": "latin",
+     "name": "Latin",
+     "icon": "💃"
+    },
+    {
+     "id": "indie",
+     "name": "Indie",
+     "icon": "🌿"
+    }
+   ],
+   "genreSource": "local",
+   "roles": [
+    {
+     "id": "ar",
+     "name": "A&R scout",
+     "icon": "🔎"
+    },
+    {
+     "id": "producer",
+     "name": "Producer",
+     "icon": "🎚️"
+    },
+    {
+     "id": "marketing",
+     "name": "Marketing lead",
+     "icon": "📣"
+    },
+    {
+     "id": "engineer",
+     "name": "Sound engineer",
+     "icon": "🎙️"
+    }
+   ]
+  },
+  "film": {
+   "name": "Film Studio",
+   "word": "Pictures",
+   "icon": "🎬",
+   "unit": "film",
+   "unitPlural": "films",
+   "found": 600000,
+   "years": 2,
+   "tiers": [
+    300000,
+    1200000,
+    5000000,
+    20000000
+   ],
+   "genres": null,
+   "genreSource": "studio",
+   "roles": [
+    {
+     "id": "director",
+     "name": "Director",
+     "icon": "🎥"
+    },
+    {
+     "id": "writer",
+     "name": "Screenwriter",
+     "icon": "✍️"
+    },
+    {
+     "id": "producer",
+     "name": "Line producer",
+     "icon": "📋"
+    },
+    {
+     "id": "editor",
+     "name": "Editor",
+     "icon": "✂️"
+    }
+   ]
+  },
+  "tv": {
+   "name": "TV Studio",
+   "word": "Television",
+   "icon": "📺",
+   "unit": "show",
+   "unitPlural": "shows",
+   "found": 400000,
+   "years": 1,
+   "tiers": [
+    200000,
+    800000,
+    3000000,
+    10000000
+   ],
+   "genres": null,
+   "genreSource": "studio",
+   "roles": [
+    {
+     "id": "showrunner",
+     "name": "Showrunner",
+     "icon": "📺"
+    },
+    {
+     "id": "writer",
+     "name": "Writers room lead",
+     "icon": "✍️"
+    },
+    {
+     "id": "producer",
+     "name": "Producer",
+     "icon": "📋"
+    },
+    {
+     "id": "editor",
+     "name": "Post lead",
+     "icon": "✂️"
+    }
+   ]
+  },
+  "game": {
+   "name": "Game Studio",
+   "word": "Interactive",
+   "icon": "🎮",
+   "unit": "game",
+   "unitPlural": "games",
+   "found": 300000,
+   "years": 2,
+   "tiers": [
+    100000,
+    500000,
+    2500000,
+    12000000
+   ],
+   "genres": null,
+   "genreSource": "studio",
+   "roles": [
+    {
+     "id": "lead",
+     "name": "Lead developer",
+     "icon": "⌨️"
+    },
+    {
+     "id": "designer",
+     "name": "Game designer",
+     "icon": "🧩"
+    },
+    {
+     "id": "artist",
+     "name": "Art lead",
+     "icon": "🎨"
+    },
+    {
+     "id": "audio",
+     "name": "Audio & QA lead",
+     "icon": "🎧"
+    }
+   ]
+  }
+ },
+ "tiers": [
+  {
+   "id": "small",
+   "label": "Small",
+   "icon": "🌱",
+   "scale": 0,
+   "risk": 0.16,
+   "mean": 1.9,
+   "bonus": 0.0,
+   "repNeed": 0
+  },
+  {
+   "id": "mid",
+   "label": "Mid-budget",
+   "icon": "🌿",
+   "scale": 1,
+   "risk": 0.2,
+   "mean": 2.0,
+   "bonus": 0.25,
+   "repNeed": 10
+  },
+  {
+   "id": "big",
+   "label": "Big budget",
+   "icon": "🌳",
+   "scale": 2,
+   "risk": 0.27,
+   "mean": 2.1,
+   "bonus": 0.5,
+   "repNeed": 30
+  },
+  {
+   "id": "blockbuster",
+   "label": "Blockbuster",
+   "icon": "🏆",
+   "scale": 3,
+   "risk": 0.34,
+   "mean": 2.3,
+   "bonus": 0.8,
+   "repNeed": 55
+  }
+ ],
+ "labels": [
+  [
+   0,
+   "Flop"
+  ],
+  [
+   4.5,
+   "Miss"
+  ],
+  [
+   6,
+   "Solid"
+  ],
+  [
+   7.5,
+   "Hit"
+  ],
+  [
+   9,
+   "Blockbuster"
+  ]
+ ],
+ "scandals": [
+  "was caught in a late-night brawl",
+  "posted something awful online",
+  "is accused of plagiarism",
+  "was photographed at a shady party",
+  "walked out mid-production",
+  "is in a nasty contract dispute"
+ ],
+ "firsts": [
+  "Marcus",
+  "Elena",
+  "Dre",
+  "Priya",
+  "Tomas",
+  "Aiko",
+  "Jonah",
+  "Sofia",
+  "Kofi",
+  "Lena",
+  "Rafael",
+  "Mina",
+  "Omar",
+  "Ivy",
+  "Hugo",
+  "Zara",
+  "Nico",
+  "Tess"
+ ],
+ "lasts": [
+  "Vale",
+  "Okoye",
+  "Ray",
+  "Sen",
+  "Moreau",
+  "Tanaka",
+  "Lindqvist",
+  "Reyes",
+  "Banks",
+  "Novak",
+  "Adeyemi",
+  "Kline",
+  "Rossi",
+  "Park",
+  "Hale",
+  "Duarte"
+ ],
+ "artistWords": [
+  "Neon",
+  "Velvet",
+  "Static",
+  "Paper",
+  "Echo",
+  "Rivers",
+  "Atlas",
+  "Sunday",
+  "Glass",
+  "Wolves",
+  "Honey",
+  "Orbit"
+ ],
+ "studios": [
+  "Skyline",
+  "Blue Door",
+  "Ironbridge",
+  "Lumen",
+  "Paper Moon",
+  "Northstar",
+  "Kestrel",
+  "Harbor Light",
+  "Red Kite",
+  "Foxglove"
+ ],
+ "crewWage": {
+  "base": 8000,
+  "perSkill": 350,
+  "signFrac": 0.25
+ },
+ "overhead": 20000
+}

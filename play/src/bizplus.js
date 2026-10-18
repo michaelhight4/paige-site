@@ -1,4 +1,5 @@
 // Extended, data-driven business types (data/businesses.json): requirements, risks, upgrades, fleets. Layered on business.js (cyclic import is function-level only).
+import * as Social from './social.js';
 import { D } from './data.js';
 import { rnd, gauss, clamp } from './rng.js';
 import { log, spend } from './core.js';
@@ -25,6 +26,7 @@ export function requirement(s, type) {
   if (s.prison) return 'Not from prison.';
   if (q.edu && s.edu < q.edu) return `Needs a ${['', 'high school diploma', 'college degree', 'graduate degree'][q.edu]}`;
   if (q.clean && !clean(s)) return `Needs a clean record (${q.license || 'license'})`;
+  if (q.followers && Social.totalFollowers(s) < q.followers) return `Needs ${Social.fmt(q.followers)} social media followers`;
   if (q.drivers && !lic(s).includes('drivers')) return "Needs a driver's license";
   return '';
 }

@@ -12,12 +12,20 @@ export function ico(e, size = 40) {
   if (A && id) { el.innerHTML = A.icon(id, { size, title: '' }); el.classList.add('art'); } else el.textContent = e || '';
   return el;
 }
+// Pixel-character avatar: composes the layered 128x128 sprite (src/character.js) for the player / a person (spec.pid) / a seed.
+// Falls back to the old art_ui avatar only if the sprite cannot be built.
 export function avatarEl(spec, size = 44, crop = 'head') {
-  const A = Art(), el = document.createElement('div'); el.className = 'avatar art';
-  if (A && spec) {
-    if (spec.seed != null) { spec = A.randomAvatarSpec(spec.seed, spec); const hc = spec.hair && spec.hair.color; if ((hc === 'gray' || hc === 'white') && (spec.age == null || spec.age < 60)) spec.hair = { ...spec.hair, color: ['black', 'dbrown', 'brown', 'blonde', 'ginger'][Math.abs(parseInt(spec.seed, 10) || 0) % 5] }; }
-    el.innerHTML = A.renderAvatar(spec, { size, crop });
-  } else el.textContent = '🙂';
+  const el = document.createElement('div'); el.className = 'avatar art char-avatar'; el.style.width = el.style.height = size + 'px'; el.style.lineHeight = '0';
+  if (spec && spec.dead) el.style.filter = 'grayscale(1) opacity(.7)';
+  const legacy = () => { const A = Art(); if (A && spec) { try { let sp = spec; if (sp.seed != null) sp = A.randomAvatarSpec(sp.seed, sp); el.innerHTML = A.renderAvatar(sp, { size, crop }); return; } catch (e) { /* fall through */ } } el.textContent = '🙂'; };
+  (async () => {
+    try {
+      const look = spec && spec.pid != null ? await adapter.getLookOf(spec.pid) : spec ? await adapter.getLookSeed(spec.seed, spec.age) : null;
+      if (!look || !look.layers) return legacy();
+      const { composeSprite } = await import('./character.js');
+      el.innerHTML = await composeSprite(look, { size, crop: crop === 'head' ? 'head' : null, shadow: crop !== 'head' });
+    } catch (e) { legacy(); }
+  })();
   return el;
 }
 
@@ -57,7 +65,7 @@ export function bar(label, value, o = {}) {
 }
 
 export function avatarFor(gender, age, spec) {
-  if (spec && Art()) return avatarEl(spec, 44);
+  if (spec) return avatarEl(spec, 44);
   let e = '🙂'; for (const a of store.cfg.avatars) if (age >= a.minAge) e = a[gender] || a.M; return h('div', { class: 'avatar', text: e });
 }
 
@@ -137,16 +145,31 @@ function drawPanel(animate) {
       h('button', { class: 'pbtn', 'aria-label': store.stack.length > 1 ? 'Back' : 'Close', 'data-nav': 'back', onclick: back, text: store.stack.length > 1 ? '‹' : '✕' }),
       h('h2', { text: top.title })),
     h('div', { class: 'mini', 'data-mini': '' }),
+    h('div', { class: 'qbar', 'data-el': 'qbar', hidden: true }),
     h('div', { class: 'body' }));
   store.root.querySelectorAll('.panel').forEach(p => { p.style.display = 'none'; p.classList.remove('top'); });
   el.classList.add('top'); store.root.append(el);
   drawTop();
+}
+// ---------- inline quick actions + Age (menus that list repeatable actions) ----------
+// panel title -> quick-action context (see src/adapter_quick.js CONTEXTS). Screens not listed get no bar.
+export const QUICK_PANELS = { Skills: 'skills', Passions: 'skills', Scholarships: 'skills', Work: 'work', Education: 'work', 'Part-Time': 'work', 'Freelance Gigs': 'work', 'Sports Career': 'work', 'Live Streamer': 'work', Influencer: 'work', Activities: 'activities', Social: 'social' };
+async function paintQuick(bar, title) {
+  if (!bar) return; const ctx = QUICK_PANELS[title]; if (!ctx) { bar.hidden = true; bar.replaceChildren(); return; }
+  let q; try { q = await adapter.getQuickActions(ctx); } catch (e) { bar.hidden = true; return; }
+  const chips = q.actions.map((a) => h('button', { class: 'qchip' + (a.done ? ' done' : ''), 'data-quick': a.id, disabled: a.disabled || null, title: a.reason || a.hint || '', onclick: async () => { await act(adapter.quickAction(a.id)); } }, h('span', { class: 'qi', text: a.done ? '✓' : a.icon }), h('span', { class: 'ql', text: a.label }), a.hint && !a.done ? h('small', { text: a.hint }) : null));
+  const ageB = h('button', { class: 'qage', 'data-el': 'inline-age', 'aria-label': 'Age one year', disabled: q.alive ? null : true, onclick: () => document.dispatchEvent(new CustomEvent('ageup')) }, h('b', { text: 'AGE' }), h('small', { text: '→ ' + q.nextAge }));
+  const au = q.auto || {};
+  const autoB = h('div', { class: 'qauto' }, h('button', { class: 'qa' + (au.on ? ' on' : ''), 'data-el': 'inline-auto', 'aria-label': 'Toggle autopilot', 'aria-pressed': au.on ? 'true' : 'false', onclick: async () => { const m = await import('./screens/auto.js'); if (!au.unlocked) { openPanel('Autopilot', m.autopilotScreen); return; } await act(adapter.setAutopilot({ on: !au.on }), { quiet: true }); } }, '🤖 ' + (au.on ? 'On' : au.unlocked ? 'Off' : '🔒')),
+    h('button', { class: 'qa', 'data-el': 'inline-skip', 'aria-label': 'Skip ahead', onclick: async () => { const m = await import('./screens/auto.js'); if (!au.unlocked) { openPanel('Autopilot', m.autopilotScreen); return; } await m.skipSheet(); } }, '⏩ Skip'));
+  bar.hidden = false; bar.replaceChildren(h('div', { class: 'qchips' }, ...chips), autoB, ageB);
 }
 async function drawTop() {
   const top = store.stack[store.stack.length - 1]; const panels = store.root.querySelectorAll('.panel'); const el = panels[panels.length - 1]; if (!el) return;
   const body = el.querySelector('.body'), mini = el.querySelector('[data-mini]'), sc = body.scrollTop;
   const st = store.state;
   mini.replaceChildren(h('span', { text: st.name + ' · age ' + st.age }), h('span', { text: money(st.cash) }));
+  await paintQuick(el.querySelector('[data-el=qbar]'), top.title);
   const frag = h('div'); frag.dataset.screen = top.title;
   try { await top.render(frag, { refresh: rerenderTop, nav: { open: openPanel, back, closeAll } }); }
   catch (e) { console.error('screen error', top.title, e); frag.replaceChildren(empty('Something went wrong: ' + e.message)); }

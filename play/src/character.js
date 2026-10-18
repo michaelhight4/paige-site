@@ -20,6 +20,15 @@ export function newChar(key, opts = {}) {
   for (const s of ['facial', 'glasses', 'hat', 'neck', 'ears', 'wrist', 'hand']) p[s] = null;
   return { v: 1, skin: opts.skin || pickH(L.skins, key, 'sk'), eye: opts.eye || pickH(L.eyeColors, key, 'ey'), build: opts.build || pickH(L.builds, key, 'bd'), parts: p };
 }
+// Character creation: build a look from player choices {skin, eye, build, hair (layer id), hairColor, facial (layer id|null)}. Invalid values fall back to the seeded defaults.
+export function createChar(key, o = {}) {
+  const L = CL(), c = newChar(key, { skin: L.skins.includes(o.skin) ? o.skin : undefined, eye: L.eyeColors.includes(o.eye) ? o.eye : undefined, build: L.builds.includes(o.build) ? o.build : undefined, hair: L.hairColors.includes(o.hairColor) ? o.hairColor : undefined });
+  const hc = c.parts.hair.c.hair;
+  if (o.hair && layerDef('hair', o.hair)) c.parts.hair = { id: o.hair, c: { hair: hc } };
+  else if (o.hair === null || o.hair === 'none') c.parts.hair = null;
+  if (o.facial && layerDef('facial', o.facial)) c.parts.facial = { id: o.facial, c: { hair: hc } };
+  return c;
+}
 // Children inherit hair/eye color from either parent and a skin tone between theirs.
 export function inherit(key, parents) {
   const L = CL(), ps = parents.filter(Boolean); if (!ps.length) return newChar(key);
@@ -73,7 +82,15 @@ export function layerPaths(char, age) {
 export function compose(char, age, getSvg, opts = {}) {
   const parts = layerPaths(char, age).map((l) => { const t = getSvg(l.path); if (!t) return ''; const inner = t.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, ''); const st = Object.entries(l.cols).map(([k, v]) => `--slot-${k}:${v}`).join(';'); return `<g data-layer="${l.slot}:${l.id}" style="${st}">${inner}</g>`; });
   const sh = '<ellipse cx="64" cy="125" rx="26" ry="3" fill="#000" fill-opacity=".18"/>';
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${opts.crop === 'head' ? '28 4 72 72' : '0 0 128 128'}" width="${opts.size || 128}" height="${opts.size || 128}" shape-rendering="crispEdges" class="char">${opts.noShadow ? '' : sh}${parts.join('')}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${opts.crop === 'head' ? `28 ${{ baby: 52, child: 24, teen: 2, adult: 0, elder: 0 }[ageGroup(age)]} 72 72` : '0 0 128 128'}" width="${opts.size || 128}" height="${opts.size || 128}" shape-rendering="crispEdges" class="char">${opts.noShadow ? '' : sh}${parts.join('')}</svg>`;
+}
+// Shop thumbnail: one layer worn on a neutral adult body (defaults fill the other garment slots). Pure; returns a composeSprite spec.
+export function previewSpec(slot, id, cols) {
+  const N = { fabric: '#8e97a8', trim: '#f3efe4' }, parts = { top: { id: 'tshirt', c: { ...N } }, bottom: { id: 'jeans', c: { fabric: '#4a6fa5', trim: '#f3efe4' } }, shoes: { id: 'sneakers', c: { ...N } } };
+  if (slot === 'hat' || slot === 'ears') parts.hair = { id: 'short', c: { hair: '#5a3a22' } };
+  parts[slot] = { id, c: { ...cols } };
+  const char = { v: 1, skin: '#e8b98d', eye: '#3b6fb0', build: 'avg', parts };
+  return { char, age: 30, layers: layerPaths(char, 30), base: CL().base, crop: ['hat', 'ears', 'neck'].includes(slot) ? 'head' : ['shoes', 'bottom'].includes(slot) ? 'legs' : ['wrist', 'hand'].includes(slot) ? 'torso' : null };
 }
 export const saveSize = (char) => JSON.stringify(char).length;
 

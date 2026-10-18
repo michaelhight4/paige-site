@@ -7,12 +7,21 @@ import * as Ads from './ads.js';
 import { log } from './core.js';
 import { voice } from './voice.js';
 import * as R from './recolor.js';
+import * as Char from './character.js';
 import { LIVING_COST } from './engine.js';
 
 const H = B.H;
-const UI_TYPE = { car: 'car', property: 'house', boat: 'boat', aircraft: 'aircraft', jewelry: 'jewelry', instrument: 'instrument', luxury: 'luxury', clothing: 'clothing' };
-const CATS = ['car', 'boat', 'aircraft', 'jewelry', 'instrument', 'luxury', 'clothing'];
+const UI_TYPE = { car: 'car', property: 'house', boat: 'boat', aircraft: 'aircraft', jewelry: 'jewelry', instrument: 'instrument', luxury: 'luxury', clothing: 'clothing', gear: 'gear' };
+const CATS = ['car', 'boat', 'aircraft', 'jewelry', 'instrument', 'luxury', 'clothing', 'gear'];
 
+// clothing/jewelry template -> worn-sprite preview (layer on a neutral body) for shop/owned thumbnails
+function wearOf(a, v) {
+  const L = D.charLayers, id = a.cat === 'clothing' ? L.clothingMap[a.tpl] : a.cat === 'jewelry' ? L.jewelryMap[a.tpl] : null; if (!id) return null;
+  const slot = Object.keys(L.layers).find((k) => L.layers[k].some((l) => l.id === id)), def = slot && L.layers[slot].find((l) => l.id === id); if (!def) return null;
+  const c = (v && v.colors) || {}, cols = {};
+  for (const k of def.slots) cols[k] = k === 'gem' ? (c.stone || c.accent || def.defaults.gem) : (c[k] || (k === 'fabric' ? c.body : null) || def.defaults[k]);
+  return Char.previewSpec(slot, id, cols);
+}
 export const assets = {
   // asset -> UI Asset (with art + recolor variant)
   asset(a, ctx = {}) {
@@ -26,7 +35,7 @@ export const assets = {
     actions.push({ id: 'consign', label: 'Consign at auction' });
     const flags = []; if (a.classic) flags.push('classic'); if (a.haunted) flags.push('haunted'); if (a.fake) flags.push('fake'); if (a.restoring) flags.push('restoring'); if (a.premium) flags.push('gift');
     return { id: a.uid, type: UI_TYPE[a.cat] || a.cat, name: a.name, subtitle: a.address || [a.beds && a.beds + ' bd', a.baths && a.baths + ' ba', a.sqft && a.sqft + ' sqft', a.carats && a.carats + ' ct'].filter(Boolean).join(' · ') || (a.rarity > 1 ? 'Rare' : ''), value, purchasePrice: a.paid ?? a.price ?? 0, condition: a.cond, ageYears: a.age, upkeep: H.annualUpkeep(d, a),
-      flags, mortgage: a.loan ? Math.round(a.loan.balance) : undefined, hauntedness: a.haunt, actions, art: a.art || null, artUrl: a.art && B.artDef(a.art) ? 'assets/art/' + B.artDef(a.art).file : null, svg: a.art ? B.svgFor(a) : null, variant: v ? { label: v.label, colors: v.colors, rarity: v.rarity, mult: v.valueMult, names: v.names } : null, restoring: a.restoring ? { monthsLeft: a.restoring.monthsLeft, monthsTotal: a.restoring.monthsTotal } : null, ...ctx };
+      flags, mortgage: a.loan ? Math.round(a.loan.balance) : undefined, hauntedness: a.haunt, actions, art: a.art || null, artUrl: a.art && B.artDef(a.art) ? 'assets/art/' + B.artDef(a.art).file : null, svg: a.art ? B.svgFor(a) : null, variant: v ? { label: v.label, colors: v.colors, rarity: v.rarity, mult: v.valueMult, names: v.names } : null, wear: wearOf(a, v), restoring: a.restoring ? { monthsLeft: a.restoring.monthsLeft, monthsTotal: a.restoring.monthsTotal } : null, ...ctx };
   },
   owned(cat) { const sl = B.pull(this.s); return Object.values(sl.assets).flat().filter((a) => !cat || a.cat === cat); },
   getAssetsMenu() { const n = this.owned().length, sl = this.s.sl; return [...this.cfg.assetsMenu, { id: 'businesses', label: 'Businesses & Studios', sub: 'Companies, studios, sports teams, fleets', icon: '🏢', section: 'Business' }].map((m) => ({ ...m, badge: m.id === 'belongings' ? String(n) : m.id === 'zoo' && sl && sl.zoo ? 'Open' : m.id === 'garage' && sl ? String(sl.raceGarage.length) : undefined })); },
@@ -115,7 +124,7 @@ export const assets = {
   sellAnimal(id) { return this.sl((d, sl) => H.sellAnimal(d, sl, id), 'asset'); },
   // ---- belongings / properties ----
   getBelongings({ category } = {}) {
-    const labels = { car: ['Cars', '🚗'], boat: ['Boats', '⛵'], aircraft: ['Aircraft', '✈️'], jewelry: ['Jewelry', '💍'], instrument: ['Instruments', '🎸'], luxury: ['Luxury', '💎'], clothing: ['Wardrobe', '👕'] };
+    const labels = { car: ['Cars', '🚗'], boat: ['Boats', '⛵'], aircraft: ['Aircraft', '✈️'], jewelry: ['Jewelry', '💍'], instrument: ['Instruments', '🎸'], luxury: ['Luxury', '💎'], clothing: ['Wardrobe', '👕'], gear: ['Creator gear', '🎥'] };
     const cats = CATS.filter((c) => !category || c === category).map((c) => ({ id: c, label: labels[c][0], icon: labels[c][1], items: this.owned(c).map((a) => this.asset(a)) }));
     return { categories: cats, total: cats.reduce((n, c) => n + c.items.length, 0) };
   },

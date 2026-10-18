@@ -39,10 +39,17 @@ export function svgFor(a) {
   return null;
 }
 
+// Browser: warm the SVG cache for every listed art id so shop/garage cards render the recolored variant on first paint (not the default-colour <img>).
+export function preloadArt() {
+  if (typeof fetch !== 'function' || typeof window === 'undefined') return;
+  for (const def of (MAN() && MAN().assets) || []) { if (svgCache[def.id] !== undefined) continue; svgCache[def.id] = 0; fetch(new URL('../assets/art/' + def.file, import.meta.url)).then((r) => r.text()).then((x) => { svgCache[def.id] = x; }).catch(() => { delete svgCache[def.id]; }); }
+}
+
 const EDU_RANK = ['none', 'high_school', 'community_college', 'university', 'graduate_school'];
 export function slice(s) {
   if (!s.sl) { const d = sliceData(); s.sl = H.newState(d, { seed: (s.rs ^ 0x51ce) | 0, age: Math.floor(s.age), name: s.name }); s.sl.stats = { health: s.stats.health, happiness: s.stats.happiness, smarts: s.stats.smarts, looks: s.stats.looks }; }
   if (!s.sl.assets.clothing) s.sl.assets.clothing = [];
+  if (!s.sl.assets.gear) s.sl.assets.gear = [];
   return s.sl;
 }
 export function pull(s) {

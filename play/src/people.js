@@ -138,9 +138,9 @@ export function refreshCandidates(s) {
   const lo = Math.max(L().dating.minAge, Math.floor(s.age) - 4), hi = Math.floor(s.age) + 5, adult = s.age >= 18;
   for (let i = 0; i < L().dating.candidates; i++) s.cand.push(newPerson(s, 'partner', { age: adult ? Math.max(18, rint(s, lo, hi)) : rint(s, lo, Math.min(hi, 17)), bar: L().dating.bar, rich: chance(s, 0.08) }));
 }
-export function dateCandidate(s, idx) {
+export function dateCandidate(s, idx, opts = {}) {
   const c = s.cand[idx]; if (!c || partnerOf(s) || s.age < L().dating.minAge) return { ok: false, msg: 'Not possible right now.' };
-  const ok = chance(s, clamp(0.35 + (s.stats.looks - 50) / 160 + (s.stats.happiness - 50) / 300, 0.1, 0.8));
+  const ok = opts.force ? true : chance(s, clamp(0.35 + (s.stats.looks - 50) / 160 + (s.stats.happiness - 50) / 300, 0.1, 0.8)); // opts.force: rewarded-ad instant romance
   s.cand.splice(idx, 1);
   if (!ok) { addStat(s, 'happiness', -4); const m = `I asked ${c.first} out. ${c.gender === 'm' ? 'He' : 'She'} laughed and left.`; log(s, m, 'rel'); return { ok, msg: m }; }
   s.people.push(c); s.tally.partners++; const m = `I started dating ${c.name}, a ${c.occ.toLowerCase()} from ${c.city}.`; log(s, m, 'rel'); return { ok, msg: m };

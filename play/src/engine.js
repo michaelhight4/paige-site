@@ -20,28 +20,36 @@ import * as Passions from './passions.js';
 import * as Scholar from './scholarships.js';
 import * as Premium from './premium.js';
 import * as PFx from './premium_fx.js';
+import * as Char from './character.js';
+import * as Carry from './schoolcarry.js';
+import * as Online from './online.js';
+import * as Social from './social.js';
+import * as Politics from './politics.js';
+import * as Prod from './prodco.js';
+import * as Coach from './coaching.js';
 import { ALLSTATS } from './core.js';
-export { Skills, Passions, Scholar, Ev, P as People, Health, Legacy, Crime, SS as SchoolSports, Ribbons };
+export { Social, Politics, Coach, Prod, Online, Skills, Passions, Scholar, Ev, P as People, Health, Legacy, Crime, SS as SchoolSports, Ribbons };
 export const applyFx = Ev.applyFx, pendingCard = Ev.pendingCard, resolveCard = Ev.resolveCard;
 
 export { loadData, D };
 export const STEPS = { yearly: 1, half: 0.5, quarter: 0.25 };
 export const LIVING_COST = 16000, DEBT_RATE = 0.07, TAX = 0.22;
 
-export function newGame({ name = null, seed = Date.now() % 2147483647, sandbox = false, country = null } = {}) {
+export function newGame({ name = null, last = null, gender = null, look = null, seed = Date.now() % 2147483647, sandbox = false, country = null } = {}) {
   const LF = D.life;
   const s = { v: 2, rs: seed | 0, name: name || 'You', age: 0, step: 1, alive: true, stats: {}, cash: 0, debt: 0, edu: 0, school: 'primary', college: null,
     job: null, assets: [], biz: [], hold: {}, nextId: 1, log: [], pending: [], report: [], acted: {}, history: [], sandbox, offers: [], fx: [], ending: null, flags: {}, turns: 0,
     people: [], cand: [], diseases: [], chain: [], evLast: {}, fit: 0, tally: Ribbons.newTally(), record: { sentences: 0, priors: 0 }, prison: null, fugitive: null, sport: null, pro: null,
     will: { mode: 'even', heir: null }, legacy: { gen: 1, gens: [] }, retired: false, yr: [] };
-  const c = country ? LF.countries.find((x) => x.id === country) : pick(s, LF.countries); s.country = c.id; s.city = pick(s, c.cities); s.gender = pick(s, LF.genders);
-  const nm = P.genName(s, s.country, s.gender); s.first = name || nm.first; s.last = nm.last; s.name = s.first + ' ' + s.last;
+  const c = country ? LF.countries.find((x) => x.id === country) : pick(s, LF.countries); s.country = c.id; s.city = pick(s, c.cities); s.gender = pick(s, LF.genders); if (gender && LF.genders.includes(gender)) s.gender = gender;
+  const nm = P.genName(s, s.country, s.gender); s.first = name || nm.first; s.last = last || nm.last; s.name = s.first + ' ' + s.last;
   s.stats = { health: rint(s, 60, 90), happiness: rint(s, 60, 90), smarts: rint(s, 25, 75), looks: rint(s, 25, 75), fame: 0, karma: 50, crazy: rint(s, 0, 30), stress: rint(s, 5, 25) };
   const startAge = sandbox ? LF.startAge.sandbox : LF.startAge.normal;
   s.birthYear = LF.startYear - startAge; s.age = startAge;
   Market.initMarket(s); Sports.initLeague(s);
   P.initFamily(s, startAge);
   if (sandbox) { s.edu = 2; s.school = null; s.stats.smarts = 70; s.cash = 50e6; for (let i = 0; i < 3; i++) P.makeFriend(s, 25 + rint(s, -3, 3)); }
+  if (look) s.char = Char.createChar('me' + seed + s.name, look);
   P.refreshCandidates(s);
   Biz.refreshOffers(s);
   log(s, sandbox ? pick(s, LF.journal.sandboxStart) : fill(pick(s, LF.journal.born), { city: s.city, country: c.name, name: s.name }), 'life');
@@ -94,15 +102,15 @@ export function applyJob(s, id) {
 }
 export function quitJob(s) { if (s.job) { log(s, 'I quit my job and told nobody it was dramatic.', 'career'); s.job = null; P.newCoworkers(s); } }
 export const salaryNow = (s) => { if (!s.job) return 0; const c = D.careers.find((x) => x.id === s.job.id); return c.levels[s.job.level][1] * (0.9 + 0.2 * s.job.perf / 100) * (1 + (s.job.raise || 0)) * (1 + Passions.perk(s, 'salary')); };
-export function enrollCollege(s) { if (s.school === null && s.edu === 1 && s.age < 30) { s.school = 'college'; s.college = { yrs: 0 }; quitJob(s); if (s.sport) s.sport.level = 'college'; return true; } return false; }
+export function enrollCollege(s) { if (s.school === null && s.edu === 1 && s.age < 30) { s.school = 'college'; s.college = { yrs: 0 }; quitJob(s); if (s.carry) Carry.enter(s, 'college'); else if (s.sport) Carry.enter(s, 'college'); return true; } return false; }
 export function repay(s, amt) { const x = Math.min(amt, s.cash, s.debt); s.cash -= x; s.debt -= x; return x; }
 
 function lifeTick(s, dt) {
   const sq = Math.sqrt(dt), inPrison = !!s.prison;
   // school
-  if (s.school === 'primary' && s.age >= 12) { s.school = 'high'; log(s, 'I started high school and was immediately lost.', 'school'); if (s.sport) s.sport.level = 'high'; }
+  if (s.school === 'primary' && s.age >= 12) { s.school = 'high'; log(s, 'I started high school and was immediately lost.', 'school'); Carry.enter(s, 'high', { inYear: true }); }
   if (s.school === 'primary' || s.school === 'high') addStat(s, 'smarts', (1.2 + (s.acted.study ? 0 : 0)) * dt * (0.5 + s.stats.smarts / 100));
-  if (s.school === 'high' && s.age >= 18) { s.school = null; s.edu = 1; log(s, 'I graduated high school.', 'school'); s.pending.push({ kind: 'college' }); s.cash += 2000; }
+  if (s.school === 'high' && s.age >= 18) { s.school = null; s.edu = 1; log(s, 'I graduated high school.', 'school'); Carry.stash(s); s.pending.push({ kind: 'college' }); s.cash += 2000; }
   if (s.school === 'college') {
     if (!(s.sport && s.sport.scholarship)) s.debt += D.scholarData.collegeTuition * dt * Scholar.tuitionFactor(s); s.college.yrs += dt; addStat(s, 'smarts', 1.5 * dt);
     if (s.college.yrs >= 4 - 1e-9) { s.school = null; s.edu = 2; s.college = null; log(s, 'I graduated college.', 'school'); SS.onCollegeGraduate(s); }
@@ -161,7 +169,7 @@ export function takeTurn(s) {
   for (const b of s.biz) Biz.tickBiz(s, b, dt);
   Sports.tickLeague(s, dt);
   if (newYear) {
-    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); SS.yearTick(s); Slice.yearTick(s);
+    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); SS.yearTick(s); Slice.yearTick(s); Online.yearTick(s); Social.yearTick(s); Politics.yearTick(s); Coach.yearTick(s); Prod.yearTick(s);
     for (const b of s.biz) if (b.fame) b.fame = Math.max(0, b.fame - D.studio.balance.sensation.fameDecayPerYear);
     const para = Journal.yearParagraph(s); if (para) log(s, para, 'yearly');
   }
@@ -184,7 +192,28 @@ export function sellAsset(s, uid) {
 }
 
 // ---- save / load ----
-const KEY = 'lifesim.save.v2';
-export const save = (s) => { try { localStorage.setItem(KEY, JSON.stringify(s)); return true; } catch (e) { return false; } };
-export const load = () => { try { const t = localStorage.getItem(KEY); const g = t ? JSON.parse(t) : null; if (g) Slice.ensure(g); return g; } catch (e) { return null; } };
-export const wipe = () => localStorage.removeItem(KEY);
+// ---- save slots (2 lives) ----  keys: lifesim.slot.1 / lifesim.slot.2, lifesim.lastSlot; the old single save (lifesim.save.v2) migrates into slot 1.
+export const SLOTS = [1, 2];
+const LEGACY_KEY = 'lifesim.save.v2', SLOT_KEY = (n) => 'lifesim.slot.' + n, LAST_KEY = 'lifesim.lastSlot', META_KEY = (n) => 'lifesim.slotmeta.' + n;
+const mem = {}; // fallback when localStorage is unavailable (node tests, private mode)
+const ls = () => { try { return typeof localStorage !== 'undefined' && localStorage && typeof localStorage.getItem === 'function' ? localStorage : null; } catch (e) { return null; } };
+const kget = (k) => { const l = ls(); try { if (l) return l.getItem(k); } catch (e) { /* fall through */ } return k in mem ? mem[k] : null; };
+const kset = (k, v) => { const l = ls(); try { if (l) { l.setItem(k, v); return true; } } catch (e) { return false; } mem[k] = v; return true; };
+const kdel = (k) => { const l = ls(); try { if (l) l.removeItem(k); } catch (e) { /* ignore */ } delete mem[k]; };
+let activeSlot = 1;
+export const currentSlot = () => activeSlot;
+export const setSlot = (n) => { activeSlot = SLOTS.includes(n) ? n : 1; return activeSlot; };
+export const lastSlot = () => { const n = Number(kget(LAST_KEY)); return SLOTS.includes(n) ? n : null; };
+export const setLastSlot = (n) => { kset(LAST_KEY, String(n)); };
+// move an existing single save into slot 1 (or slot 2 when slot 1 is taken); idempotent
+export function migrateLegacy() {
+  const t = kget(LEGACY_KEY); if (!t) return false;
+  const to = !kget(SLOT_KEY(1)) ? 1 : !kget(SLOT_KEY(2)) ? 2 : null;
+  if (to) { kset(SLOT_KEY(to), t); try { const g = JSON.parse(t); kset(META_KEY(to), JSON.stringify(slotMeta(g))); } catch (e) { /* meta is cosmetic */ } if (!lastSlot()) setLastSlot(to); kdel(LEGACY_KEY); return true; }
+  return false;
+}
+export function slotMeta(s, headline) { return { name: s.name, age: Math.floor(s.age), alive: s.alive !== false, country: s.country, cash: Math.round(s.cash || 0), gen: (s.legacy && s.legacy.gen) || 1, headline: headline || null, savedAt: Date.now() }; }
+export const save = (s, slot = activeSlot, headline) => { try { if (!kset(SLOT_KEY(slot), JSON.stringify(s))) return false; kset(META_KEY(slot), JSON.stringify(slotMeta(s, headline))); setLastSlot(slot); return true; } catch (e) { return false; } };
+export const load = (slot = activeSlot) => { try { migrateLegacy(); const t = kget(SLOT_KEY(slot)); const g = t ? JSON.parse(t) : null; if (g) Slice.ensure(g); return g; } catch (e) { return null; } };
+export const slotInfo = (slot) => { migrateLegacy(); const t = kget(SLOT_KEY(slot)); if (!t) return null; let m = null; try { m = JSON.parse(kget(META_KEY(slot))); } catch (e) { /* ignore */ } if (!m) { try { m = slotMeta(JSON.parse(t)); } catch (e) { return null; } } return m; };
+export const wipe = (slot = activeSlot) => { kdel(SLOT_KEY(slot)); kdel(META_KEY(slot)); if (lastSlot() === slot) kdel(LAST_KEY); };
