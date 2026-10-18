@@ -1,0 +1,202 @@
+{
+ "categories": [
+  {
+   "id": "physical",
+   "name": "Physical",
+   "icon": "\ud83d\udcaa"
+  },
+  {
+   "id": "mental",
+   "name": "Mental",
+   "icon": "\ud83e\udde0"
+  },
+  {
+   "id": "emotional",
+   "name": "Emotional",
+   "icon": "\ud83d\udc97"
+  },
+  {
+   "id": "practical",
+   "name": "Practical",
+   "icon": "\ud83d\udee0\ufe0f"
+  }
+ ],
+ "skills": [
+  {
+   "id": "strength",
+   "cat": "physical",
+   "name": "Strength"
+  },
+  {
+   "id": "endurance",
+   "cat": "physical",
+   "name": "Endurance"
+  },
+  {
+   "id": "speed",
+   "cat": "physical",
+   "name": "Speed"
+  },
+  {
+   "id": "flexibility",
+   "cat": "physical",
+   "name": "Flexibility"
+  },
+  {
+   "id": "coordination",
+   "cat": "physical",
+   "name": "Coordination"
+  },
+  {
+   "id": "memory",
+   "cat": "mental",
+   "name": "Memory"
+  },
+  {
+   "id": "intelligence",
+   "cat": "mental",
+   "name": "Intelligence"
+  },
+  {
+   "id": "focus",
+   "cat": "mental",
+   "name": "Focus"
+  },
+  {
+   "id": "creativity",
+   "cat": "mental",
+   "name": "Creativity"
+  },
+  {
+   "id": "problem_solving",
+   "cat": "mental",
+   "name": "Problem solving"
+  },
+  {
+   "id": "composure",
+   "cat": "emotional",
+   "name": "Composure"
+  },
+  {
+   "id": "maturity",
+   "cat": "emotional",
+   "name": "Maturity"
+  },
+  {
+   "id": "empathy",
+   "cat": "emotional",
+   "name": "Empathy"
+  },
+  {
+   "id": "confidence",
+   "cat": "emotional",
+   "name": "Confidence"
+  },
+  {
+   "id": "discipline",
+   "cat": "emotional",
+   "name": "Discipline"
+  },
+  {
+   "id": "computer",
+   "cat": "practical",
+   "name": "Computer"
+  },
+  {
+   "id": "people",
+   "cat": "practical",
+   "name": "People skills"
+  },
+  {
+   "id": "literacy",
+   "cat": "practical",
+   "name": "Literacy"
+  },
+  {
+   "id": "math",
+   "cat": "practical",
+   "name": "Math"
+  },
+  {
+   "id": "driving",
+   "cat": "practical",
+   "name": "Driving & car repair"
+  },
+  {
+   "id": "cooking",
+   "cat": "practical",
+   "name": "Cooking"
+  },
+  {
+   "id": "business",
+   "cat": "practical",
+   "name": "Business"
+  },
+  {
+   "id": "leadership",
+   "cat": "practical",
+   "name": "Leadership"
+  },
+  {
+   "id": "trades",
+   "cat": "practical",
+   "name": "Trades"
+  }
+ ],
+ "activityMap": [
+  [
+   "gym|martial|fight|walk|run|swim|yoga",
+   "strength:1.2,endurance:1.2,flexibility:0.6"
+  ],
+  [
+   "read|library|book|study|memory",
+   "literacy:1.2,memory:1.2,intelligence:0.6"
+  ],
+  [
+   "meditat|therapy|diet",
+   "composure:1.2,focus:1.0,discipline:0.6"
+  ],
+  [
+   "instrument|voice|acting|music|art|paint",
+   "creativity:1.2,coordination:0.6,confidence:0.6"
+  ],
+  [
+   "cook|bake|chef|garden",
+   "cooking:1.4,focus:0.4"
+  ],
+  [
+   "social|party|date|friend|volunteer|club|nightlife",
+   "people:1.2,empathy:0.8,confidence:0.6"
+  ],
+  [
+   "tutor|lesson|school|math",
+   "math:1.0,intelligence:0.8"
+  ],
+  [
+   "drive|license|car",
+   "driving:1.4,composure:0.3"
+  ],
+  [
+   "handyman|caretaker|lawnmower|build",
+   "trades:1.4,strength:0.4"
+  ],
+  [
+   "business|freelance|part-time",
+   "business:1.0,discipline:0.6,people:0.6"
+  ],
+  [
+   "gamble|casino|crime|heist|steal",
+   "composure:0.6,problem_solving:0.6"
+  ]
+ ],
+ "decay": {
+  "base": 0.5,
+  "pct": 0.008,
+  "physicalAfter": 45,
+  "physicalExtra": 0.8
+ },
+ "gain": {
+  "cap": 100,
+  "passionMult": 1.6
+ }
+}

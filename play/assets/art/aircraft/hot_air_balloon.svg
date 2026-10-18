@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="hot_air_balloon" data-category="aircraft">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="156" rx="24" ry="3" data-slot="shadow" id="hot_air_balloon-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M128 4C60 4 52 60 98 100H158C204 60 196 4 128 4Z" data-slot="body" id="hot_air_balloon-body-2" fill="#e0485a" style="fill:var(--slot-body,#e0485a)"/>
+<path d="M128 4C104 6 96 50 114 100H142C160 50 152 6 128 4Z" data-slot="accent" id="hot_air_balloon-accent-3" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<path d="M128 4C120 20 120 70 128 100C136 70 136 20 128 4Z" fill="none" stroke="none" fill-opacity="0"/>
+<path d="M70 52Q128 64 186 52" fill="none" stroke-width="2" stroke-opacity=".4"/>
+<path d="M98 100L112 128M158 100L144 128M128 100V128" fill="none" stroke-width="2"/>
+<rect x="106" y="126" width="44" height="28" rx="5" data-slot="door" id="hot_air_balloon-door-4" fill="#a5723f" style="fill:var(--slot-door,#a5723f)"/>
+<path d="M106 138H150" fill="none" stroke-width="2"/>
+<polygon points="106,126 150,126 146,120 110,120" data-slot="fabric" id="hot_air_balloon-fabric-5" fill="#3b82d6" style="fill:var(--slot-fabric,#3b82d6)" stroke-width="2"/>
+<circle cx="120" cy="120" r="5" data-slot="skin" id="hot_air_balloon-skin-6" fill="#f1c7a0" style="fill:var(--slot-skin,#f1c7a0)"/>
+<circle cx="138" cy="120" r="5" data-slot="skin" id="hot_air_balloon-skin-7" fill="#f1c7a0" style="fill:var(--slot-skin,#f1c7a0)"/>
+</g>
+</svg>

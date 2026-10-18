@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="taxi" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="118" ry="7" data-slot="shadow" id="taxi-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M28 108Q20 108 19.2 100L18.8 96Q18 88 21.6 84.4L22.4 83.6Q26 80 34 79.3L62 76.7Q70 76 75.1 69.8L82.9 60.2Q88 54 96 54L148 54Q156 54 162.3 58.9L177.7 71.1Q184 76 191.9 77.1L220.1 80.9Q228 82 232.5 88.4L233.5 89.6Q238 96 237.1 101.5L236.9 102.5Q236 108 228 108Z" data-slot="body" id="taxi-body-2" fill="#f7c617" style="fill:var(--slot-body,#f7c617)"/>
+<path d="M82 74Q78 74 80.9 71.3L91.1 61.7Q94 59 98 59L117 59Q121 59 121 63L121 70Q121 74 117 74Z" data-slot="glass" id="taxi-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M131 74Q127 74 127 70L127 63Q127 59 131 59L168 59Q172 59 172.5 63L173.5 70Q174 74 170 74Z" data-slot="glass" id="taxi-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="36" y="94" width="14" height="6" fill="#222" stroke-width="1"/>
+<rect x="50" y="94" width="14" height="6" fill="#fff" stroke-width="1"/>
+<rect x="64" y="94" width="14" height="6" fill="#222" stroke-width="1"/>
+<rect x="78" y="94" width="14" height="6" fill="#fff" stroke-width="1"/>
+<rect x="92" y="94" width="14" height="6" fill="#222" stroke-width="1"/>
+<rect x="106" y="94" width="14" height="6" fill="#fff" stroke-width="1"/>
+<rect x="120" y="94" width="14" height="6" fill="#222" stroke-width="1"/>
+<rect x="134" y="94" width="14" height="6" fill="#fff" stroke-width="1"/>
+<rect x="148" y="94" width="14" height="6" fill="#222" stroke-width="1"/>
+<path d="M124 80V106" fill="none" stroke-width="2"/>
+<path d="M164 80V106" fill="none" stroke-width="2"/>
+<rect x="100" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="taxi-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="142" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="taxi-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="taxi-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="14" y="98" width="13" height="10" rx="3" data-slot="trim" id="taxi-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="231" cy="92" rx="6" ry="4.5" data-slot="accent" id="taxi-accent-9" fill="#fff3a0" style="fill:var(--slot-accent,#fff3a0)"/>
+<rect x="19" y="86" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="64" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="64" cy="113" r="17" data-slot="wheel" id="taxi-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="64" cy="113" r="8.5" data-slot="metal" id="taxi-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="64" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M64 104.5V121.5M55.5 113H72.5" fill="none" stroke-width="1.5"/>
+<circle cx="194" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="194" cy="113" r="17" data-slot="wheel" id="taxi-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="194" cy="113" r="8.5" data-slot="metal" id="taxi-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="194" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M194 104.5V121.5M185.5 113H202.5" fill="none" stroke-width="1.5"/>
+<rect x="108" y="40" width="36" height="14" rx="4" data-slot="accent" id="taxi-accent-14" fill="#fff3a0" style="fill:var(--slot-accent,#fff3a0)"/>
+<path d="M120 47h12" fill="none" stroke-width="2"/>
+</g>
+</svg>

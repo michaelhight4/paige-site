@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="rambler" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="rambler-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="rambler-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="24" y="130" width="208" height="78" rx="2" data-slot="body" id="rambler-body-3" fill="#e7d3a6" style="fill:var(--slot-body,#e7d3a6)"/>
+<polygon points="10,134 50,96 206,96 246,134" data-slot="roof" id="rambler-roof-4" fill="#6b5b4e" style="fill:var(--slot-roof,#6b5b4e)"/>
+<rect x="176" y="70" width="20" height="34" data-slot="stone" id="rambler-stone-5" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="173" y="66" width="26" height="6" rx="1" data-slot="trim" id="rambler-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="150" y="150" width="52" height="58" rx="2" data-slot="door" id="rambler-door-7" fill="#7a4a2a" style="fill:var(--slot-door,#7a4a2a)"/>
+<path d="M176 150V208M150 168H202" fill="none" stroke-width="1.5"/>
+<rect x="37" y="149" width="40" height="32" rx="2" data-slot="trim" id="rambler-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="40" y="152" width="34" height="26" rx="1" data-slot="glass" id="rambler-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M57 152V178M40 165H74" fill="none" stroke-width="1.5"/>
+<rect x="85" y="149" width="40" height="32" rx="2" data-slot="trim" id="rambler-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="88" y="152" width="34" height="26" rx="1" data-slot="glass" id="rambler-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M105 152V178M88 165H122" fill="none" stroke-width="1.5"/>
+<rect x="124" y="154" width="20" height="54" rx="2" data-slot="door" id="rambler-door-12" fill="#7a4a2a" style="fill:var(--slot-door,#7a4a2a)"/>
+<circle cx="138" cy="181" r="2.5" data-slot="accent" id="rambler-accent-13" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="114" y="144" width="40" height="5" rx="1" data-slot="trim" id="rambler-trim-14" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="124" y="208" width="20" height="6" rx="1" data-slot="stone" id="rambler-stone-15" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<path d="M24 200H232" fill="none" stroke-width="1.5" stroke-opacity=".4"/>
+</g>
+</svg>

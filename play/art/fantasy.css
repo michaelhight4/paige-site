@@ -1,0 +1,20 @@
+/* Alt theme proving reskin-by-data: load AFTER theme.css, or scope with <body class="theme-fantasy"> (both work via :root,.theme-fantasy). */
+:root.theme-fantasy,.theme-fantasy{
+  --ls-font-display: Georgia,"Palatino Linotype",Palatino,"Book Antiqua",serif;
+  --ls-bg:#2a2133; --ls-surface:#3a2f47; --ls-surface-2:#463a55; --ls-line:#58496b;
+  --ls-text:#f3e9d2; --ls-muted:#b9a98f;
+  --ls-header:#6b2f8a; --ls-header-2:#4a1f66; --ls-header-text:#ffe9a8;
+  --ls-accent:#c9971c; --ls-accent-text:#2a1b00;
+  --ls-good:#58c67a; --ls-mid:#e8a13a; --ls-bad:#d9503f;
+  --ls-money:#f4c542; --ls-danger:#e0604f; --ls-gold:#f4c542;
+  --ls-age:#8e5bd6;--ls-age-hi:#b58cf0; --ls-age-2:#5d34a8; --ls-age-text:#fff4cc;
+  --ls-tab-bg:#241b2d; --ls-tab-active:#f4c542; --ls-tab-idle:#9c8bb0;
+  --ls-radius:6px; --ls-radius-sm:4px;
+  --ls-bar-track:#241b2d; --ls-log-bg:#33293f; --ls-log-year:#f4c542;
+  --ls-stone:#8d8a99; --ls-stone-dark:#5f5c6d; --ls-sky-1:#120c1e; --ls-sky-2:#3b1f55; --ls-grass:#27402f;
+}
+.theme-fantasy .ls-age-btn{border-color:#f4c542}
+.theme-fantasy .ls-row .ls-row-title{letter-spacing:.3px}
+.theme-fantasy .ls-modal{border:2px solid #c9971c}
+.theme-fantasy .ls-log-entry.is-good{color:#8fe3a9}.theme-fantasy .ls-log-entry.is-bad{color:#ff9c8e}
+.theme-fantasy .ls-btn.is-ghost{color:#f4c542;box-shadow:inset 0 0 0 2px #f4c542}

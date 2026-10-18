@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="hard_hat" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="212" rx="90" ry="8" data-slot="shadow" id="hard_hat-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M52 164Q44 64 128 56Q212 64 204 164Z" data-slot="fabric" id="hard_hat-fabric-2" fill="#f2c230" style="fill:var(--slot-fabric,#f2c230)"/>
+<rect x="114" y="44" width="28" height="120" rx="6" data-slot="fabric" id="hard_hat-fabric-3" fill="#f2c230" style="fill:var(--slot-fabric,#f2c230)"/>
+<path d="M22 164Q22 156 34 156H222Q234 156 234 164V182Q234 188 226 188H30Q22 188 22 182Z" data-slot="fabric" id="hard_hat-fabric-4" fill="#f2c230" style="fill:var(--slot-fabric,#f2c230)" stroke-width="3"/>
+<path d="M70 160Q70 100 100 70M186 160Q186 100 156 70" fill="none" stroke-width="2" stroke-opacity=".35"/>
+<rect x="108" y="110" width="40" height="22" rx="4" data-slot="accent" id="hard_hat-accent-5" fill="#fafafa" style="fill:var(--slot-accent,#fafafa)" stroke-width="2"/>
+<path d="M114 121H142" fill="none" stroke-width="3"/>
+</g>
+</svg>

@@ -1,0 +1,1161 @@
+{
+ "format": "slot-svg-v1",
+ "kind": "character-layers",
+ "viewBox": "0 0 128 128",
+ "grid": 32,
+ "cell": 4,
+ "outline": "#2b2a3a",
+ "order": [
+  "body",
+  "bottom",
+  "shoes",
+  "top",
+  "neck",
+  "wrist",
+  "hand",
+  "facial",
+  "eyes",
+  "hair",
+  "ears",
+  "glasses",
+  "hat"
+ ],
+ "ages": [
+  {
+   "id": "baby",
+   "min": 0,
+   "max": 2
+  },
+  {
+   "id": "child",
+   "min": 3,
+   "max": 12
+  },
+  {
+   "id": "teen",
+   "min": 13,
+   "max": 19
+  },
+  {
+   "id": "adult",
+   "min": 20,
+   "max": 64
+  },
+  {
+   "id": "elder",
+   "min": 65,
+   "max": 130
+  }
+ ],
+ "builds": [
+  "slim",
+  "avg",
+  "broad"
+ ],
+ "slotDefaults": {
+  "skin": "#e8b98d",
+  "hair": "#5a3a22",
+  "eye": "#3b6fb0",
+  "fabric": "#4a6fa5",
+  "trim": "#f3efe4",
+  "metal": "#b8bcc8",
+  "glass": "#bfe3f5",
+  "gem": "#c0392b"
+ },
+ "layers": {
+  "body": [
+   {
+    "id": "base",
+    "slot": "body",
+    "name": "Base body",
+    "slots": [
+     "skin"
+    ],
+    "defaults": {
+     "skin": "#e8b98d"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/base.svg"
+   }
+  ],
+  "bottom": [
+   {
+    "id": "jeans",
+    "slot": "bottom",
+    "name": "Jeans",
+    "slots": [
+     "fabric"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/jeans.svg"
+   },
+   {
+    "id": "slacks",
+    "slot": "bottom",
+    "name": "Slacks",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/slacks.svg"
+   },
+   {
+    "id": "shorts",
+    "slot": "bottom",
+    "name": "Shorts",
+    "slots": [
+     "fabric"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/shorts.svg"
+   },
+   {
+    "id": "skirt",
+    "slot": "bottom",
+    "name": "Skirt",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/skirt.svg"
+   }
+  ],
+  "shoes": [
+   {
+    "id": "sneakers",
+    "slot": "shoes",
+    "name": "Sneakers",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/sneakers.svg"
+   },
+   {
+    "id": "sandals",
+    "slot": "shoes",
+    "name": "Sandals",
+    "slots": [
+     "fabric"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/sandals.svg"
+   },
+   {
+    "id": "boots",
+    "slot": "shoes",
+    "name": "Boots",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/boots.svg"
+   },
+   {
+    "id": "heels",
+    "slot": "shoes",
+    "name": "Heels",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/heels.svg"
+   }
+  ],
+  "top": [
+   {
+    "id": "tshirt",
+    "slot": "top",
+    "name": "T-shirt",
+    "slots": [
+     "fabric"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/tshirt.svg"
+   },
+   {
+    "id": "tank",
+    "slot": "top",
+    "name": "Tank top",
+    "slots": [
+     "fabric"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/tank.svg"
+   },
+   {
+    "id": "sweater",
+    "slot": "top",
+    "name": "Sweater",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/sweater.svg"
+   },
+   {
+    "id": "hoodie",
+    "slot": "top",
+    "name": "Hoodie",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/hoodie.svg"
+   },
+   {
+    "id": "dress_shirt",
+    "slot": "top",
+    "name": "Dress shirt",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/dress_shirt.svg"
+   },
+   {
+    "id": "blazer",
+    "slot": "top",
+    "name": "Blazer",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/blazer.svg"
+   },
+   {
+    "id": "chef_coat",
+    "slot": "top",
+    "name": "Chef coat",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/chef_coat.svg"
+   },
+   {
+    "id": "lab_coat",
+    "slot": "top",
+    "name": "Lab coat",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/lab_coat.svg"
+   },
+   {
+    "id": "scrubs",
+    "slot": "top",
+    "name": "Scrubs",
+    "slots": [
+     "fabric"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/scrubs.svg"
+   },
+   {
+    "id": "police_uniform",
+    "slot": "top",
+    "name": "Police uniform",
+    "slots": [
+     "fabric",
+     "metal",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "metal": "#b8bcc8",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/police_uniform.svg"
+   },
+   {
+    "id": "puffer_coat",
+    "slot": "top",
+    "name": "Puffer coat",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/puffer_coat.svg"
+   },
+   {
+    "id": "trench_coat",
+    "slot": "top",
+    "name": "Trench coat",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/trench_coat.svg"
+   },
+   {
+    "id": "sundress",
+    "slot": "top",
+    "name": "Sundress",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/sundress.svg"
+   },
+   {
+    "id": "evening_gown",
+    "slot": "top",
+    "name": "Evening gown",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 0,
+    "free": false,
+    "file": "{age}/{build}/evening_gown.svg"
+   }
+  ],
+  "neck": [
+   {
+    "id": "necklace_pearl",
+    "slot": "neck",
+    "name": "Pearl necklace",
+    "slots": [
+     "metal",
+     "trim"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8",
+     "trim": "#f3efe4"
+    },
+    "perBuild": true,
+    "minAge": 6,
+    "free": false,
+    "file": "{age}/{build}/necklace_pearl.svg"
+   },
+   {
+    "id": "necklace_pendant",
+    "slot": "neck",
+    "name": "Pendant necklace",
+    "slots": [
+     "gem",
+     "metal"
+    ],
+    "defaults": {
+     "gem": "#c0392b",
+     "metal": "#b8bcc8"
+    },
+    "perBuild": true,
+    "minAge": 6,
+    "free": false,
+    "file": "{age}/{build}/necklace_pendant.svg"
+   },
+   {
+    "id": "necklace_chain",
+    "slot": "neck",
+    "name": "Gold chain",
+    "slots": [
+     "metal"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8"
+    },
+    "perBuild": true,
+    "minAge": 6,
+    "free": false,
+    "file": "{age}/{build}/necklace_chain.svg"
+   }
+  ],
+  "wrist": [
+   {
+    "id": "bracelet_bangle",
+    "slot": "wrist",
+    "name": "Bangle",
+    "slots": [
+     "metal"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8"
+    },
+    "perBuild": true,
+    "minAge": 8,
+    "free": false,
+    "file": "{age}/{build}/bracelet_bangle.svg"
+   },
+   {
+    "id": "watch",
+    "slot": "wrist",
+    "name": "Watch",
+    "slots": [
+     "gem",
+     "metal"
+    ],
+    "defaults": {
+     "gem": "#c0392b",
+     "metal": "#b8bcc8"
+    },
+    "perBuild": true,
+    "minAge": 8,
+    "free": false,
+    "file": "{age}/{build}/watch.svg"
+   }
+  ],
+  "hand": [
+   {
+    "id": "ring_band",
+    "slot": "hand",
+    "name": "Gold band",
+    "slots": [
+     "metal"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8"
+    },
+    "perBuild": true,
+    "minAge": 14,
+    "free": false,
+    "file": "{age}/{build}/ring_band.svg"
+   },
+   {
+    "id": "ring_solitaire",
+    "slot": "hand",
+    "name": "Solitaire ring",
+    "slots": [
+     "gem"
+    ],
+    "defaults": {
+     "gem": "#c0392b"
+    },
+    "perBuild": true,
+    "minAge": 14,
+    "free": false,
+    "file": "{age}/{build}/ring_solitaire.svg"
+   },
+   {
+    "id": "ring_signet",
+    "slot": "hand",
+    "name": "Signet ring",
+    "slots": [
+     "gem"
+    ],
+    "defaults": {
+     "gem": "#c0392b"
+    },
+    "perBuild": true,
+    "minAge": 14,
+    "free": false,
+    "file": "{age}/{build}/ring_signet.svg"
+   }
+  ],
+  "facial": [
+   {
+    "id": "stubble",
+    "slot": "facial",
+    "name": "Stubble",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 14,
+    "free": true,
+    "file": "{age}/{build}/stubble.svg"
+   },
+   {
+    "id": "mustache",
+    "slot": "facial",
+    "name": "Mustache",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 14,
+    "free": true,
+    "file": "{age}/{build}/mustache.svg"
+   },
+   {
+    "id": "goatee",
+    "slot": "facial",
+    "name": "Goatee",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 14,
+    "free": true,
+    "file": "{age}/{build}/goatee.svg"
+   },
+   {
+    "id": "beard",
+    "slot": "facial",
+    "name": "Beard",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 14,
+    "free": true,
+    "file": "{age}/{build}/beard.svg"
+   },
+   {
+    "id": "full_beard",
+    "slot": "facial",
+    "name": "Full beard",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 14,
+    "free": true,
+    "file": "{age}/{build}/full_beard.svg"
+   }
+  ],
+  "eyes": [
+   {
+    "id": "eyes",
+    "slot": "eyes",
+    "name": "Eyes",
+    "slots": [
+     "eye"
+    ],
+    "defaults": {
+     "eye": "#3b6fb0"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/eyes.svg"
+   }
+  ],
+  "hair": [
+   {
+    "id": "buzz",
+    "slot": "hair",
+    "name": "Buzz cut",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/buzz.svg"
+   },
+   {
+    "id": "short",
+    "slot": "hair",
+    "name": "Short",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/short.svg"
+   },
+   {
+    "id": "side_part",
+    "slot": "hair",
+    "name": "Side part",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/side_part.svg"
+   },
+   {
+    "id": "spiky",
+    "slot": "hair",
+    "name": "Spiky",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/spiky.svg"
+   },
+   {
+    "id": "long",
+    "slot": "hair",
+    "name": "Long",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/long.svg"
+   },
+   {
+    "id": "bob",
+    "slot": "hair",
+    "name": "Bob",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/bob.svg"
+   },
+   {
+    "id": "ponytail",
+    "slot": "hair",
+    "name": "Ponytail",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/ponytail.svg"
+   },
+   {
+    "id": "curly",
+    "slot": "hair",
+    "name": "Curly",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/curly.svg"
+   },
+   {
+    "id": "bun",
+    "slot": "hair",
+    "name": "Bun",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/bun.svg"
+   },
+   {
+    "id": "afro",
+    "slot": "hair",
+    "name": "Afro",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/afro.svg"
+   },
+   {
+    "id": "mohawk",
+    "slot": "hair",
+    "name": "Mohawk",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/mohawk.svg"
+   },
+   {
+    "id": "braids",
+    "slot": "hair",
+    "name": "Braids",
+    "slots": [
+     "hair"
+    ],
+    "defaults": {
+     "hair": "#5a3a22"
+    },
+    "perBuild": false,
+    "minAge": 0,
+    "free": true,
+    "file": "{age}/{build}/braids.svg"
+   }
+  ],
+  "glasses": [
+   {
+    "id": "round",
+    "slot": "glasses",
+    "name": "Round glasses",
+    "slots": [
+     "metal"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8"
+    },
+    "perBuild": false,
+    "minAge": 3,
+    "free": true,
+    "file": "{age}/{build}/round.svg"
+   },
+   {
+    "id": "square",
+    "slot": "glasses",
+    "name": "Square glasses",
+    "slots": [
+     "metal"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8"
+    },
+    "perBuild": false,
+    "minAge": 3,
+    "free": true,
+    "file": "{age}/{build}/square.svg"
+   },
+   {
+    "id": "sunglasses",
+    "slot": "glasses",
+    "name": "Sunglasses",
+    "slots": [
+     "metal"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8"
+    },
+    "perBuild": false,
+    "minAge": 3,
+    "free": true,
+    "file": "{age}/{build}/sunglasses.svg"
+   },
+   {
+    "id": "aviator",
+    "slot": "glasses",
+    "name": "Aviators",
+    "slots": [
+     "metal"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8"
+    },
+    "perBuild": false,
+    "minAge": 3,
+    "free": true,
+    "file": "{age}/{build}/aviator.svg"
+   }
+  ],
+  "hat": [
+   {
+    "id": "beanie",
+    "slot": "hat",
+    "name": "Beanie",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": false,
+    "minAge": 2,
+    "free": true,
+    "file": "{age}/{build}/beanie.svg"
+   },
+   {
+    "id": "baseball_cap",
+    "slot": "hat",
+    "name": "Baseball cap",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": false,
+    "minAge": 2,
+    "free": false,
+    "file": "{age}/{build}/baseball_cap.svg"
+   },
+   {
+    "id": "cowboy_hat",
+    "slot": "hat",
+    "name": "Cowboy hat",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": false,
+    "minAge": 2,
+    "free": false,
+    "file": "{age}/{build}/cowboy_hat.svg"
+   },
+   {
+    "id": "top_hat",
+    "slot": "hat",
+    "name": "Top hat",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": false,
+    "minAge": 2,
+    "free": false,
+    "file": "{age}/{build}/top_hat.svg"
+   },
+   {
+    "id": "hard_hat",
+    "slot": "hat",
+    "name": "Hard hat",
+    "slots": [
+     "fabric"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5"
+    },
+    "perBuild": false,
+    "minAge": 2,
+    "free": false,
+    "file": "{age}/{build}/hard_hat.svg"
+   },
+   {
+    "id": "grad_cap",
+    "slot": "hat",
+    "name": "Graduation cap",
+    "slots": [
+     "fabric",
+     "trim"
+    ],
+    "defaults": {
+     "fabric": "#4a6fa5",
+     "trim": "#f3efe4"
+    },
+    "perBuild": false,
+    "minAge": 2,
+    "free": false,
+    "file": "{age}/{build}/grad_cap.svg"
+   }
+  ],
+  "ears": [
+   {
+    "id": "earrings_drop",
+    "slot": "ears",
+    "name": "Drop earrings",
+    "slots": [
+     "gem",
+     "metal"
+    ],
+    "defaults": {
+     "gem": "#c0392b",
+     "metal": "#b8bcc8"
+    },
+    "perBuild": false,
+    "minAge": 5,
+    "free": false,
+    "file": "{age}/{build}/earrings_drop.svg"
+   },
+   {
+    "id": "earrings_hoop",
+    "slot": "ears",
+    "name": "Hoop earrings",
+    "slots": [
+     "metal"
+    ],
+    "defaults": {
+     "metal": "#b8bcc8"
+    },
+    "perBuild": false,
+    "minAge": 5,
+    "free": false,
+    "file": "{age}/{build}/earrings_hoop.svg"
+   }
+  ]
+ },
+ "base": "assets/art/characters/",
+ "skins": [
+  "#ffe0c7",
+  "#f6d3b3",
+  "#e8b98d",
+  "#d39a6a",
+  "#c68642",
+  "#a86b3c",
+  "#8d5524",
+  "#5e3a1e"
+ ],
+ "hairColors": [
+  "#111111",
+  "#2b1b10",
+  "#5a3a22",
+  "#8a5a2b",
+  "#caa04a",
+  "#e6c27a",
+  "#c0392b",
+  "#9aa0a6",
+  "#f1f1f1",
+  "#4a2a7a",
+  "#2a6a8a",
+  "#d6578b"
+ ],
+ "eyeColors": [
+  "#3b2a1a",
+  "#6b4423",
+  "#3b6fb0",
+  "#2f8f5b",
+  "#7a8a3a",
+  "#7a8a99",
+  "#5a3a7a"
+ ],
+ "clothColors": [
+  "#4a6fa5",
+  "#c0392b",
+  "#2f8f5b",
+  "#e6b422",
+  "#7a4aa5",
+  "#222233",
+  "#f3efe4",
+  "#d6578b",
+  "#8a5a2b",
+  "#e87d2b",
+  "#3aa6a6",
+  "#777788"
+ ],
+ "clothingMap": {
+  "tshirt": "tshirt",
+  "hoodie": "hoodie",
+  "sweater": "sweater",
+  "jeans": "jeans",
+  "shorts": "shorts",
+  "skirt": "skirt",
+  "sundress": "sundress",
+  "dress_shirt": "dress_shirt",
+  "blazer": "blazer",
+  "evening_gown": "evening_gown",
+  "trench_coat": "trench_coat",
+  "puffer_coat": "puffer_coat",
+  "lab_coat": "lab_coat",
+  "scrubs": "scrubs",
+  "police_uniform": "police_uniform",
+  "chef_coat": "chef_coat",
+  "hard_hat": "hard_hat",
+  "grad_cap": "grad_cap",
+  "sneakers": "sneakers",
+  "heels": "heels",
+  "boots": "boots",
+  "baseball_cap": "baseball_cap",
+  "cowboy_hat": "cowboy_hat",
+  "top_hat": "top_hat"
+ },
+ "jewelryMap": {
+  "band": "ring_band",
+  "solitaire_half": "ring_solitaire",
+  "solitaire_one": "ring_solitaire",
+  "solitaire_two": "ring_solitaire",
+  "ruby_ring": "ring_signet",
+  "emerald_ear": "earrings_drop",
+  "stud_ear": "earrings_hoop",
+  "pearl_pend": "necklace_pearl",
+  "sapphire_pend": "necklace_pendant",
+  "charm": "bracelet_bangle",
+  "tiara": "necklace_chain"
+ },
+ "free": [
+  "beanie",
+  "jeans",
+  "sandals",
+  "slacks",
+  "sneakers",
+  "tank",
+  "tshirt"
+ ],
+ "defaults": {
+  "top": "tshirt",
+  "bottom": "jeans",
+  "shoes": "sneakers"
+ }
+}

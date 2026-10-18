@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="gem_emerald" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="222" rx="60" ry="8" data-slot="shadow" id="gem_emerald-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<polygon points="78,48 178,48 214,84 214,172 178,208 78,208 42,172 42,84" data-slot="stone" id="gem_emerald-stone-2" fill="#2fbf71" style="fill:var(--slot-stone,#2fbf71)"/>
+<polygon points="94,72 162,72 188,98 188,158 162,184 94,184 68,158 68,98" data-slot="stone" id="gem_emerald-stone-3" fill="#2fbf71" style="fill:var(--slot-stone,#2fbf71)" stroke-width="2"/>
+<polygon points="108,96 148,96 162,110 162,146 148,160 108,160 94,146 94,110" data-slot="stone" id="gem_emerald-stone-4" fill="#2fbf71" style="fill:var(--slot-stone,#2fbf71)" stroke-width="2"/>
+<path d="M78 48L94 72M178 48L162 72M214 84L188 98M214 172L188 158M178 208L162 184M78 208L94 184M42 172L68 158M42 84L68 98" fill="none" stroke-width="2"/>
+<polygon points="78,48 178,48 162,72 94,72" fill="#fff" fill-opacity=".35" stroke="none"/>
+</g>
+</svg>

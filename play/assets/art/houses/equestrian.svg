@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="equestrian" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="equestrian-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="equestrian-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="40" y="110" width="176" height="100" rx="2" data-slot="body" id="equestrian-body-3" fill="#a63d3d" style="fill:var(--slot-body,#a63d3d)"/>
+<path d="M26 116L60 66H196L230 116Z" data-slot="roof" id="equestrian-roof-4" fill="#4a4f5c" style="fill:var(--slot-roof,#4a4f5c)"/>
+<rect x="90" y="130" width="76" height="80" rx="2" data-slot="trim" id="equestrian-trim-5" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<path d="M128 130V210M90 150L166 190M166 150L90 190" fill="none" stroke-width="2"/>
+<rect x="62" y="144" width="22" height="30" rx="2" data-slot="trim" id="equestrian-trim-6" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<path d="M62 144L84 174M84 144L62 174" fill="none" stroke-width="1.5"/>
+<rect x="172" y="144" width="22" height="30" rx="2" data-slot="trim" id="equestrian-trim-7" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<path d="M172 144L194 174M194 144L172 174" fill="none" stroke-width="1.5"/>
+<rect x="112" y="84" width="32" height="24" rx="2" data-slot="glass" id="equestrian-glass-8" fill="#cfe6ee" style="fill:var(--slot-glass,#cfe6ee)"/>
+<path d="M128 84V108" fill="none" stroke-width="1.5"/>
+<rect x="123" y="40" width="6" height="26" rx="1" data-slot="metal" id="equestrian-metal-9" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<polygon points="127,44 148,50 127,56" data-slot="accent" id="equestrian-accent-10" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="2"/>
+<rect x="10" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-11" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="34" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-12" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="58" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-13" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="82" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-14" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="106" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-15" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="130" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-16" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="154" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-17" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="178" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-18" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="202" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-19" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="226" y="196" width="5" height="24" rx="1" data-slot="trim" id="equestrian-trim-20" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="8" y="202" width="240" height="4" rx="1" data-slot="trim" id="equestrian-trim-21" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+<rect x="8" y="212" width="240" height="4" rx="1" data-slot="trim" id="equestrian-trim-22" fill="#f7f2e8" style="fill:var(--slot-trim,#f7f2e8)"/>
+</g>
+</svg>

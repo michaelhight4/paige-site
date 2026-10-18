@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="prop_plane" data-category="aircraft">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="150" rx="80" ry="5" data-slot="shadow" id="prop_plane-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<polygon points="30,70 4,38 26,36 64,66" data-slot="body" id="prop_plane-body-2" fill="#e8262b" style="fill:var(--slot-body,#e8262b)"/>
+<polygon points="18,68 -2,56 10,52 32,66" data-slot="body" id="prop_plane-body-3" fill="#e8262b" style="fill:var(--slot-body,#e8262b)" stroke="none"/>
+<ellipse cx="128" cy="76" rx="100" ry="28" data-slot="body" id="prop_plane-body-4" fill="#e8262b" style="fill:var(--slot-body,#e8262b)"/>
+<path d="M110 82Q150 58 190 68L190 80Q150 90 110 82Z" fill="none" stroke="none" fill-opacity="0"/>
+<polygon points="116,82 150,84 118,118 96,116" data-slot="trim" id="prop_plane-trim-5" fill="#f4efe4" style="fill:var(--slot-trim,#f4efe4)"/>
+<polygon points="116,74 150,78 100,60" fill="none" fill-opacity="0" stroke="none"/>
+<path d="M138 56Q160 48 176 64L176 76H138Z" data-slot="glass" id="prop_plane-glass-6" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="218" y="52" width="8" height="48" rx="3" data-slot="metal" id="prop_plane-metal-7" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<ellipse cx="224" cy="76" rx="12" ry="9" data-slot="accent" id="prop_plane-accent-8" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<path d="M138 96V128" fill="none" stroke-width="4"/>
+<circle cx="138" cy="132" r="10" data-slot="wheel" id="prop_plane-wheel-9" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="138" cy="132" r="4" data-slot="metal" id="prop_plane-metal-10" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M60 86V120" fill="none" stroke-width="3"/>
+<circle cx="60" cy="124" r="5" data-slot="wheel" id="prop_plane-wheel-11" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<path d="M40 76H210" fill="none" stroke-width="1.5" stroke-opacity=".3"/>
+<rect x="36" y="84" width="150" height="4" rx="2" data-slot="accent" id="prop_plane-accent-12" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+</g>
+</svg>

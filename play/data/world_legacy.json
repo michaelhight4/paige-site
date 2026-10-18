@@ -1,0 +1,80 @@
+{
+ "estateTax": {
+  "exemption": 1000000,
+  "rate": 0.35
+ },
+ "executorFeePct": 0.02,
+ "charities": [
+  {
+   "id": "redcross",
+   "name": "Helping Hands Foundation",
+   "icon": "❤️"
+  },
+  {
+   "id": "animals",
+   "name": "Paws & Claws Shelter",
+   "icon": "🐾"
+  },
+  {
+   "id": "edu",
+   "name": "Bright Futures Scholarships",
+   "icon": "🎓"
+  },
+  {
+   "id": "health",
+   "name": "Cure Research Trust",
+   "icon": "🧬"
+  }
+ ],
+ "shareStep": 5,
+ "heirTypes": [
+  "spouse",
+  "child",
+  "partner",
+  "mother",
+  "father",
+  "sibling",
+  "friend"
+ ],
+ "defaultRule": {
+  "groups": [
+   [
+    "spouse",
+    "child"
+   ],
+   [
+    "partner",
+    "mother",
+    "father",
+    "sibling"
+   ],
+   [
+    "friend"
+   ]
+  ],
+  "stateCutPct": 0
+ },
+ "tree": {
+  "generations": {
+   "mother": 0,
+   "father": 0,
+   "sibling": 1,
+   "ex": 1,
+   "spouse": 1,
+   "partner": 1,
+   "child": 2,
+   "friend": -1,
+   "coworker": -1
+  },
+  "labels": [
+   "Parents",
+   "You & siblings",
+   "Children"
+  ]
+ },
+ "legacyScore": {
+  "perMillion": 10,
+  "perHeir": 5,
+  "charityBonusPct": 0.5
+ }
+}

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="manor" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="manor-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="manor-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="28" y="110" width="200" height="100" rx="2" data-slot="stone" id="manor-stone-3" fill="#b9ad9a" style="fill:var(--slot-stone,#b9ad9a)"/>
+<polygon points="18,114 52,74 204,74 238,114" data-slot="roof" id="manor-roof-4" fill="#4d5566" style="fill:var(--slot-roof,#4d5566)"/>
+<polygon points="100,110 128,56 156,110" data-slot="roof" id="manor-roof-5" fill="#4d5566" style="fill:var(--slot-roof,#4d5566)"/>
+<rect x="52" y="44" width="16" height="34" data-slot="stone" id="manor-stone-6" fill="#b9ad9a" style="fill:var(--slot-stone,#b9ad9a)"/>
+<rect x="49" y="40" width="22" height="6" rx="1" data-slot="trim" id="manor-trim-7" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="188" y="44" width="16" height="34" data-slot="stone" id="manor-stone-8" fill="#b9ad9a" style="fill:var(--slot-stone,#b9ad9a)"/>
+<rect x="185" y="40" width="22" height="6" rx="1" data-slot="trim" id="manor-trim-9" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="41" y="121" width="26" height="36" rx="2" data-slot="trim" id="manor-trim-10" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="44" y="124" width="20" height="30" rx="1" data-slot="glass" id="manor-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M54 124V154M44 139H64" fill="none" stroke-width="1.5"/>
+<rect x="81" y="121" width="26" height="36" rx="2" data-slot="trim" id="manor-trim-12" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="84" y="124" width="20" height="30" rx="1" data-slot="glass" id="manor-glass-13" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M94 124V154M84 139H104" fill="none" stroke-width="1.5"/>
+<rect x="145" y="121" width="26" height="36" rx="2" data-slot="trim" id="manor-trim-14" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="148" y="124" width="20" height="30" rx="1" data-slot="glass" id="manor-glass-15" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M158 124V154M148 139H168" fill="none" stroke-width="1.5"/>
+<rect x="185" y="121" width="26" height="36" rx="2" data-slot="trim" id="manor-trim-16" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="188" y="124" width="20" height="30" rx="1" data-slot="glass" id="manor-glass-17" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M198 124V154M188 139H208" fill="none" stroke-width="1.5"/>
+<rect x="109" y="79" width="38" height="28" rx="2" data-slot="trim" id="manor-trim-18" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="112" y="82" width="32" height="22" rx="1" data-slot="glass" id="manor-glass-19" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M128 82V104M112 93H144" fill="none" stroke-width="1.5"/>
+<rect x="41" y="167" width="26" height="36" rx="2" data-slot="trim" id="manor-trim-20" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="44" y="170" width="20" height="30" rx="1" data-slot="glass" id="manor-glass-21" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M54 170V200M44 185H64" fill="none" stroke-width="1.5"/>
+<rect x="81" y="167" width="26" height="36" rx="2" data-slot="trim" id="manor-trim-22" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="84" y="170" width="20" height="30" rx="1" data-slot="glass" id="manor-glass-23" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M94 170V200M84 185H104" fill="none" stroke-width="1.5"/>
+<rect x="145" y="167" width="26" height="36" rx="2" data-slot="trim" id="manor-trim-24" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="148" y="170" width="20" height="30" rx="1" data-slot="glass" id="manor-glass-25" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M158 170V200M148 185H168" fill="none" stroke-width="1.5"/>
+<rect x="185" y="167" width="26" height="36" rx="2" data-slot="trim" id="manor-trim-26" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="188" y="170" width="20" height="30" rx="1" data-slot="glass" id="manor-glass-27" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M198 170V200M188 185H208" fill="none" stroke-width="1.5"/>
+<rect x="100" y="150" width="56" height="60" data-slot="stone" id="manor-stone-28" fill="#b9ad9a" style="fill:var(--slot-stone,#b9ad9a)"/>
+<rect x="112" y="160" width="32" height="50" rx="2" data-slot="door" id="manor-door-29" fill="#6b2f2f" style="fill:var(--slot-door,#6b2f2f)"/>
+<circle cx="138" cy="185" r="2.5" data-slot="accent" id="manor-accent-30" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="96" y="148" width="64" height="6" rx="1" data-slot="trim" id="manor-trim-31" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="100" y="154" width="6" height="56" rx="1" data-slot="trim" id="manor-trim-32" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="150" y="154" width="6" height="56" rx="1" data-slot="trim" id="manor-trim-33" fill="#f1ece0" style="fill:var(--slot-trim,#f1ece0)"/>
+<rect x="110" y="210" width="36" height="6" rx="1" data-slot="stone" id="manor-stone-34" fill="#b9ad9a" style="fill:var(--slot-stone,#b9ad9a)"/>
+<path d="M28 110H228M28 118H228M28 126H228M28 134H228M28 142H228M28 150H228M28 158H228M28 166H228M28 174H228M28 182H228M28 190H228M28 198H228M28 206H228" fill="none" stroke-width="1" stroke-opacity=".35"/>
+</g>
+</svg>

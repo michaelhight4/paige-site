@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="airliner" data-category="aircraft">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="150" rx="100" ry="5" data-slot="shadow" id="airliner-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<polygon points="10,76 0,24 30,24 70,72" data-slot="accent" id="airliner-accent-2" fill="#2b6fd6" style="fill:var(--slot-accent,#2b6fd6)"/>
+<polygon points="96,84 160,90 70,134 48,132" data-slot="trim" id="airliner-trim-3" fill="#cdd5de" style="fill:var(--slot-trim,#cdd5de)"/>
+<path d="M4 84Q6 64 36 64H200Q250 66 254 84Q248 102 200 102H34Q4 102 4 84Z" data-slot="body" id="airliner-body-4" fill="#fafafa" style="fill:var(--slot-body,#fafafa)"/>
+<rect x="40" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-5" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="49.5" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-6" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="59" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-7" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="68.5" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-8" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="78" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-9" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="87.5" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-10" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="97" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-11" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="106.5" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-12" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="116" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-13" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="125.5" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-14" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="135" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-15" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="144.5" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-16" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="154" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-17" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="163.5" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-18" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="173" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-19" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<rect x="182.5" y="72" width="5" height="7" rx="2" data-slot="glass" id="airliner-glass-20" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)" stroke-width="1.5"/>
+<path d="M220 70Q240 70 246 80L220 80Z" data-slot="glass" id="airliner-glass-21" fill="#6a86a8" style="fill:var(--slot-glass,#6a86a8)"/>
+<ellipse cx="110" cy="106" rx="20" ry="10" data-slot="metal" id="airliner-metal-22" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<ellipse cx="126" cy="106" rx="3" ry="7" fill="#222" stroke="none"/>
+<ellipse cx="150" cy="110" rx="18" ry="9" data-slot="metal" id="airliner-metal-23" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="20" y="90" width="200" height="4" rx="2" data-slot="accent" id="airliner-accent-24" fill="#2b6fd6" style="fill:var(--slot-accent,#2b6fd6)" stroke-width="1.5"/>
+<path d="M120 102V128" fill="none" stroke-width="3"/>
+<circle cx="120" cy="132" r="8" data-slot="wheel" id="airliner-wheel-25" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="170" cy="130" r="8" data-slot="wheel" id="airliner-wheel-26" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<path d="M170 102V124" fill="none" stroke-width="3"/>
+</g>
+</svg>

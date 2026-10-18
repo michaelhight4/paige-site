@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="earrings_drop" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="76" ry="8" data-slot="shadow" id="earrings_drop-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<circle cx="64" cy="28" r="8" data-slot="metal" id="earrings_drop-metal-2" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<rect x="60" y="30" width="8" height="30" rx="3" data-slot="metal" id="earrings_drop-metal-3" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<polygon points="48,72.4 54.4,65.2 73.6,65.2 80,72.4 64,94" data-slot="stone" id="earrings_drop-stone-4" fill="#4ad1a6" style="fill:var(--slot-stone,#4ad1a6)"/>
+<path d="M48 72.4H80M58.4 72.4L54.4 65.2M69.6 72.4L73.6 65.2M58.4 72.4L64 94L69.6 72.4" fill="none" stroke-width="1.8"/>
+<polygon points="58.4,72.4 54.4,65.2 64,65.2" fill="#fff" fill-opacity=".5" stroke="none"/>
+<path d="M42 118H86L64 138Z" data-slot="metal" id="earrings_drop-metal-5" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<path d="M44 130c-12 8 -14 30 0 44c14 -14 12 -36 0 -44Z" data-slot="stone" id="earrings_drop-stone-6" fill="#4ad1a6" style="fill:var(--slot-stone,#4ad1a6)"/>
+<path d="M64 144c-12 8 -14 30 0 44c14 -14 12 -36 0 -44Z" data-slot="stone" id="earrings_drop-stone-7" fill="#4ad1a6" style="fill:var(--slot-stone,#4ad1a6)"/>
+<path d="M84 130c-12 8 -14 30 0 44c14 -14 12 -36 0 -44Z" data-slot="stone" id="earrings_drop-stone-8" fill="#4ad1a6" style="fill:var(--slot-stone,#4ad1a6)"/>
+<circle cx="192" cy="28" r="8" data-slot="metal" id="earrings_drop-metal-9" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<rect x="188" y="30" width="8" height="30" rx="3" data-slot="metal" id="earrings_drop-metal-10" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<polygon points="176,72.4 182.4,65.2 201.6,65.2 208,72.4 192,94" data-slot="stone" id="earrings_drop-stone-11" fill="#4ad1a6" style="fill:var(--slot-stone,#4ad1a6)"/>
+<path d="M176 72.4H208M186.4 72.4L182.4 65.2M197.6 72.4L201.6 65.2M186.4 72.4L192 94L197.6 72.4" fill="none" stroke-width="1.8"/>
+<polygon points="186.4,72.4 182.4,65.2 192,65.2" fill="#fff" fill-opacity=".5" stroke="none"/>
+<path d="M170 118H214L192 138Z" data-slot="metal" id="earrings_drop-metal-12" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<path d="M172 130c-12 8 -14 30 0 44c14 -14 12 -36 0 -44Z" data-slot="stone" id="earrings_drop-stone-13" fill="#4ad1a6" style="fill:var(--slot-stone,#4ad1a6)"/>
+<path d="M192 144c-12 8 -14 30 0 44c14 -14 12 -36 0 -44Z" data-slot="stone" id="earrings_drop-stone-14" fill="#4ad1a6" style="fill:var(--slot-stone,#4ad1a6)"/>
+<path d="M212 130c-12 8 -14 30 0 44c14 -14 12 -36 0 -44Z" data-slot="stone" id="earrings_drop-stone-15" fill="#4ad1a6" style="fill:var(--slot-stone,#4ad1a6)"/>
+</g>
+</svg>

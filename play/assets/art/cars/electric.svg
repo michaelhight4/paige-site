@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="electric" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="115" ry="7" data-slot="shadow" id="electric-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M38 108Q24 108 24 100.7L24 99.3Q24 92 33.1 88.4L34.9 87.6Q44 84 56.9 78.5L83.1 67.5Q96 62 109.9 60.5L136.1 57.5Q150 56 163.4 60L176.6 64Q190 68 202.2 74.8L213.8 81.2Q226 88 231.5 93.5L232.5 94.5Q238 100 237.1 103.6L236.9 104.4Q236 108 222 108Z" data-slot="body" id="electric-body-2" fill="#e9eef4" style="fill:var(--slot-body,#e9eef4)"/>
+<path d="M78 82.7Q78 80 81.2 77.6L96.8 66.4Q100 64 104 63.7L146 60.3Q150 60 153.7 61.4L182.3 72.6Q186 74 189 76.6L197 83.4Q200 86 196 86L82 86Q78 86 78 83.3Z" data-slot="glass" id="electric-glass-3" fill="#7fb8d8" style="fill:var(--slot-glass,#7fb8d8)"/>
+<rect x="222" y="96" width="14" height="3" rx="1.5" data-slot="accent" id="electric-accent-4" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)"/>
+<path d="M40 100H230" fill="none" stroke-width="2" stroke-opacity=".4"/>
+<circle cx="128" cy="94" r="4" data-slot="accent" id="electric-accent-5" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)"/>
+<ellipse cx="232" cy="98" rx="6" ry="4.5" data-slot="accent" id="electric-accent-6" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)"/>
+<circle cx="66" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="66" cy="113" r="17" data-slot="wheel" id="electric-wheel-7" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="66" cy="113" r="8.5" data-slot="metal" id="electric-metal-8" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="66" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M66 104.5V121.5M57.5 113H74.5" fill="none" stroke-width="1.5"/>
+<circle cx="194" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="194" cy="113" r="17" data-slot="wheel" id="electric-wheel-9" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="194" cy="113" r="8.5" data-slot="metal" id="electric-metal-10" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="194" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M194 104.5V121.5M185.5 113H202.5" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

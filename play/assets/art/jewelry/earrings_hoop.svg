@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="earrings_hoop" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="76" ry="8" data-slot="shadow" id="earrings_hoop-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M28 120a42 56 0 1 0 84 0a42 56 0 1 0 -84 0ZM40 120a30 44 0 1 1 60 0a30 44 0 1 1 -60 0Z" data-slot="metal" id="earrings_hoop-metal-2" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" fill-rule="evenodd"/>
+<circle cx="70" cy="62" r="6" data-slot="metal" id="earrings_hoop-metal-3" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)"/>
+<path d="M144 120a42 56 0 1 0 84 0a42 56 0 1 0 -84 0ZM156 120a30 44 0 1 1 60 0a30 44 0 1 1 -60 0Z" data-slot="metal" id="earrings_hoop-metal-4" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" fill-rule="evenodd"/>
+<circle cx="186" cy="62" r="6" data-slot="metal" id="earrings_hoop-metal-5" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)"/>
+<path d="M40 112Q44 88 64 78L66 86Q52 94 50 114Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<path d="M156 112Q160 88 180 78L182 86Q168 94 166 114Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+</g>
+</svg>

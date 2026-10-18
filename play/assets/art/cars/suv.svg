@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="suv" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="118" ry="7" data-slot="shadow" id="suv-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M27 108Q20 108 19.6 101L18.4 77Q18 70 22.1 64.3L23.9 61.7Q28 56 35 55.9L153 54.1Q160 54 164.9 58.9L179.1 73.1Q184 78 190.9 78.9L221.1 83.1Q228 84 232.5 89.4L233.5 90.6Q238 96 237.1 101.5L236.9 102.5Q236 108 229 108Z" data-slot="body" id="suv-body-2" fill="#2e8b57" style="fill:var(--slot-body,#2e8b57)"/>
+<path d="M34 80Q30 80 30.8 76.1L33.2 63.9Q34 60 38 60L93 60Q97 60 97 64L97 76Q97 80 93 80Z" data-slot="glass" id="suv-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M107 80Q103 80 103 76L103 64Q103 60 107 60L168 60Q172 60 173.1 63.8L176.9 76.2Q178 80 174 80Z" data-slot="glass" id="suv-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M100 80V106" fill="none" stroke-width="2"/>
+<path d="M140 80V106" fill="none" stroke-width="2"/>
+<rect x="80" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="suv-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="120" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="suv-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="suv-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="14" y="98" width="13" height="10" rx="3" data-slot="trim" id="suv-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="232" cy="92" rx="6" ry="4.5" data-slot="accent" id="suv-accent-9" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="19" y="80" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="62" cy="111" r="23" fill="#23232f" stroke="none"/>
+<circle cx="62" cy="111" r="19" data-slot="wheel" id="suv-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="62" cy="111" r="9.5" data-slot="metal" id="suv-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="62" cy="111" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M62 101.5V120.5M52.5 111H71.5" fill="none" stroke-width="1.5"/>
+<circle cx="196" cy="111" r="23" fill="#23232f" stroke="none"/>
+<circle cx="196" cy="111" r="19" data-slot="wheel" id="suv-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="196" cy="111" r="9.5" data-slot="metal" id="suv-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="196" cy="111" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M196 101.5V120.5M186.5 111H205.5" fill="none" stroke-width="1.5"/>
+<rect x="36" y="46" width="112" height="5" rx="2" data-slot="metal" id="suv-metal-14" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+</g>
+</svg>

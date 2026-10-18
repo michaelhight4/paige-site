@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="puffer_coat" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="70" ry="8" data-slot="shadow" id="puffer_coat-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M94 28Q128 6 162 28L226 90L210 176L178 164V230H78V164L46 176L30 90Z" data-slot="fabric" id="puffer_coat-fabric-2" fill="#e8662b" style="fill:var(--slot-fabric,#e8662b)"/>
+<path d="M94 28Q128 50 162 28L170 44Q128 74 86 44Z" data-slot="trim" id="puffer_coat-trim-3" fill="#3a3a44" style="fill:var(--slot-trim,#3a3a44)" stroke-width="2.5"/>
+<path d="M80 100H176M80 134H176M80 168H176M44 130L72 138M212 130L184 138M38 104L74 112M218 104L182 112" fill="none" stroke-width="3" stroke-opacity=".55"/>
+<path d="M128 70V230" fill="none" stroke-width="3"/>
+<rect x="122" y="70" width="12" height="14" rx="3" data-slot="accent" id="puffer_coat-accent-4" fill="#ffd23f" style="fill:var(--slot-accent,#ffd23f)" stroke-width="2"/>
+</g>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="classic_clean" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="119" ry="7" data-slot="shadow" id="classic_clean-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M30 108Q20 108 19.1 98.9L18.9 97.1Q18 88 23.5 84.4L24.5 83.6Q30 80 40 79.5L64 78.5Q74 78 79.9 69.9L84.1 64.1Q90 56 100 55.2L130 52.8Q140 52 149.6 54.7L158.4 57.3Q168 60 173.5 68.2L174.5 69.8Q180 78 190 78.9L214 81.1Q224 82 231.3 87.5L232.7 88.5Q240 94 239.1 100.4L238.9 101.6Q238 108 228 108Z" data-slot="body" id="classic_clean-body-2" fill="#2fa7a0" style="fill:var(--slot-body,#2fa7a0)"/>
+<path d="M92 76Q88 76 90 72.6L96 62.4Q98 59 102 59L119 59Q123 59 123 63L123 72Q123 76 119 76Z" data-slot="glass" id="classic_clean-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M133 76Q129 76 129 72L129 63Q129 59 133 59L158 59Q162 59 164 62.4L170 72.6Q172 76 168 76Z" data-slot="glass" id="classic_clean-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="8" y="98" width="22" height="10" rx="5" data-slot="trim" id="classic_clean-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="228" y="98" width="20" height="10" rx="5" data-slot="trim" id="classic_clean-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<circle cx="224" cy="90" r="7" data-slot="accent" id="classic_clean-accent-7" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<circle cx="224" cy="90" r="3" data-slot="trim" id="classic_clean-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<polygon points="34,104 34,96 220,96 220,104" data-slot="trim" id="classic_clean-trim-9" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="2"/>
+<path d="M126 80V106" fill="none" stroke-width="2"/>
+<rect x="104" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="classic_clean-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="140" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="classic_clean-trim-11" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<path d="M180 94q20 -4 40 -2" fill="none" stroke-width="2"/>
+<rect x="21" y="84" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="64" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="64" cy="113" r="17" data-slot="wheel" id="classic_clean-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="64" cy="113" r="12.2" data-slot="trim" id="classic_clean-trim-13" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<circle cx="64" cy="113" r="8.5" data-slot="metal" id="classic_clean-metal-14" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="64" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M64 104.5V121.5M55.5 113H72.5" fill="none" stroke-width="1.5"/>
+<circle cx="194" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="194" cy="113" r="17" data-slot="wheel" id="classic_clean-wheel-15" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="194" cy="113" r="12.2" data-slot="trim" id="classic_clean-trim-16" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<circle cx="194" cy="113" r="8.5" data-slot="metal" id="classic_clean-metal-17" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="194" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M194 104.5V121.5M185.5 113H202.5" fill="none" stroke-width="1.5"/>
+<rect x="238" y="80" width="5" height="14" rx="2" data-slot="trim" id="classic_clean-trim-18" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+</g>
+</svg>

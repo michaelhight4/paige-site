@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="trailer" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="trailer-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="trailer-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<polygon points="8,196 40,186 40,198 8,200" data-slot="metal" id="trailer-metal-3" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<circle cx="10" cy="198" r="5" data-slot="metal" id="trailer-metal-4" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="38" y="120" width="190" height="80" rx="18" data-slot="body" id="trailer-body-5" fill="#e8e4d8" style="fill:var(--slot-body,#e8e4d8)"/>
+<rect x="38" y="160" width="190" height="10" data-slot="accent" id="trailer-accent-6" fill="#e0485a" style="fill:var(--slot-accent,#e0485a)"/>
+<rect x="90" y="108" width="36" height="12" rx="3" data-slot="metal" id="trailer-metal-7" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="57" y="135" width="42" height="28" rx="2" data-slot="trim" id="trailer-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="60" y="138" width="36" height="22" rx="1" data-slot="glass" id="trailer-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M78 138V160M60 149H96" fill="none" stroke-width="1.5"/>
+<rect x="103" y="135" width="42" height="28" rx="2" data-slot="trim" id="trailer-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="106" y="138" width="36" height="22" rx="1" data-slot="glass" id="trailer-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M124 138V160M106 149H142" fill="none" stroke-width="1.5"/>
+<rect x="170" y="136" width="36" height="62" rx="2" data-slot="door" id="trailer-door-12" fill="#5b87c5" style="fill:var(--slot-door,#5b87c5)"/>
+<circle cx="200" cy="167" r="2.5" data-slot="accent" id="trailer-accent-13" fill="#e0485a" style="fill:var(--slot-accent,#e0485a)" stroke-width="1.5"/>
+<rect x="173" y="143" width="30" height="20" rx="2" data-slot="trim" id="trailer-trim-14" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="176" y="146" width="24" height="14" rx="1" data-slot="glass" id="trailer-glass-15" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<circle cx="120" cy="202" r="18" data-slot="wheel" id="trailer-wheel-16" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="120" cy="202" r="8" data-slot="metal" id="trailer-metal-17" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="154" y="198" width="40" height="8" rx="2" data-slot="stone" id="trailer-stone-18" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+</g>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="tudor" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="tudor-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="tudor-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="34" y="110" width="188" height="100" rx="2" data-slot="body" id="tudor-body-3" fill="#efe3c8" style="fill:var(--slot-body,#efe3c8)"/>
+<polygon points="26,112 128,56 230,112" data-slot="roof" id="tudor-roof-4" fill="#6b3a2e" style="fill:var(--slot-roof,#6b3a2e)"/>
+<polygon points="76,112 128,58 180,112" data-slot="body" id="tudor-body-5" fill="#efe3c8" style="fill:var(--slot-body,#efe3c8)" stroke="none"/>
+<polygon points="70,112 128,52 186,112" data-slot="roof" id="tudor-roof-6" fill="#6b3a2e" style="fill:var(--slot-roof,#6b3a2e)"/>
+<polygon points="84,106 128,66 172,106" fill="none" fill-opacity="0" stroke-width="5"/>
+<rect x="34" y="150" width="188" height="5" rx="1" data-slot="trim" id="tudor-trim-7" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="60" y="110" width="5" height="100" rx="1" data-slot="trim" id="tudor-trim-8" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="100" y="110" width="5" height="100" rx="1" data-slot="trim" id="tudor-trim-9" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="156" y="110" width="5" height="100" rx="1" data-slot="trim" id="tudor-trim-10" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="196" y="110" width="5" height="100" rx="1" data-slot="trim" id="tudor-trim-11" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<polygon points="34,112 60,150 34,150" data-slot="trim" id="tudor-trim-12" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)" fill-opacity=".0" stroke-width="3"/>
+<path d="M105 110L128 70L151 110M128 70V110M60 150L100 112M196 150L156 112" fill="none" stroke="#4a3322" stroke-width="3"/>
+<rect x="67" y="117" width="30" height="28" rx="2" data-slot="trim" id="tudor-trim-13" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="70" y="120" width="24" height="22" rx="1" data-slot="glass" id="tudor-glass-14" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M82 120V142M70 131H94" fill="none" stroke-width="1.5"/>
+<rect x="159" y="117" width="30" height="28" rx="2" data-slot="trim" id="tudor-trim-15" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="162" y="120" width="24" height="22" rx="1" data-slot="glass" id="tudor-glass-16" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M174 120V142M162 131H186" fill="none" stroke-width="1.5"/>
+<rect x="67" y="161" width="30" height="30" rx="2" data-slot="trim" id="tudor-trim-17" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="70" y="164" width="24" height="24" rx="1" data-slot="glass" id="tudor-glass-18" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M82 164V188M70 176H94" fill="none" stroke-width="1.5"/>
+<rect x="159" y="161" width="30" height="30" rx="2" data-slot="trim" id="tudor-trim-19" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="162" y="164" width="24" height="24" rx="1" data-slot="glass" id="tudor-glass-20" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M174 164V188M162 176H186" fill="none" stroke-width="1.5"/>
+<rect x="112" y="152" width="32" height="58" rx="2" data-slot="door" id="tudor-door-21" fill="#2f4a38" style="fill:var(--slot-door,#2f4a38)"/>
+<circle cx="138" cy="181" r="2.5" data-slot="accent" id="tudor-accent-22" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="184" y="36" width="16" height="32" data-slot="stone" id="tudor-stone-23" fill="#9a8a78" style="fill:var(--slot-stone,#9a8a78)"/>
+<rect x="181" y="32" width="22" height="6" rx="1" data-slot="trim" id="tudor-trim-24" fill="#4a3322" style="fill:var(--slot-trim,#4a3322)"/>
+<rect x="112" y="210" width="32" height="6" rx="1" data-slot="stone" id="tudor-stone-25" fill="#9a8a78" style="fill:var(--slot-stone,#9a8a78)"/>
+</g>
+</svg>

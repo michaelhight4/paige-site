@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="muscle_clean" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="117" ry="7" data-slot="shadow" id="muscle_clean-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M27 108Q20 108 20 101L20 95Q20 88 26.4 85.3L27.6 84.7Q34 82 41 81.7L77 80.3Q84 80 88.7 74.8L99.3 63.2Q104 58 111 58L141 58Q148 58 153.2 62.7L166.8 75.3Q172 80 179 80L219 80Q226 80 230.9 84.9L233.1 87.1Q238 92 238 99L238 101Q238 108 231 108Z" data-slot="body" id="muscle_clean-body-2" fill="#1f5fbf" style="fill:var(--slot-body,#1f5fbf)"/>
+<path d="M96 79Q92 79 94.7 76.1L105.3 64.9Q108 62 112 62L140 62Q144 62 147 64.6L161 76.4Q164 79 160 79Z" data-slot="glass" id="muscle_clean-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<polygon points="170,80 226,80 226,84 172,84" data-slot="accent" id="muscle_clean-accent-4" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="192" y="74" width="22" height="7" rx="3" data-slot="accent" id="muscle_clean-accent-5" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<path d="M20 98H238" fill="none" stroke="#fff" stroke-width="3" stroke-opacity=".6"/>
+<path d="M126 80V106" fill="none" stroke-width="2"/>
+<rect x="108" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="muscle_clean-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="muscle_clean-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="16" y="98" width="13" height="10" rx="3" data-slot="trim" id="muscle_clean-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="234" cy="92" rx="6" ry="4.5" data-slot="accent" id="muscle_clean-accent-9" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="19" y="86" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="62" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="62" cy="112" r="18" data-slot="wheel" id="muscle_clean-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="62" cy="112" r="9" data-slot="metal" id="muscle_clean-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="62" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M62 103V121M53 112H71" fill="none" stroke-width="1.5"/>
+<circle cx="196" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="196" cy="112" r="18" data-slot="wheel" id="muscle_clean-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="196" cy="112" r="9" data-slot="metal" id="muscle_clean-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="196" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M196 103V121M187 112H205" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

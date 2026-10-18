@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="pickup_clean" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="118" ry="7" data-slot="shadow" id="pickup_clean-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M26 108Q18 108 18 100L18 82Q18 74 26 74L92 74Q100 74 100 66.7L100 65.3Q100 58 102.7 55.3L103.3 54.7Q106 52 114 52L142 52Q150 52 155.7 57.7L170.3 72.3Q176 78 184 78.9L222 83.1Q230 84 233.6 89.5L234.4 90.5Q238 96 237.1 101.5L236.9 102.5Q236 108 228 108Z" data-slot="body" id="pickup_clean-body-2" fill="#d65a2c" style="fill:var(--slot-body,#d65a2c)"/>
+<path d="M114 76Q110 76 110.8 72.1L113.2 60.9Q114 57 118 57L142 57Q146 57 149 59.6L165 73.4Q168 76 164 76Z" data-slot="glass" id="pickup_clean-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="18" y="70" width="84" height="5" rx="2" data-slot="trim" id="pickup_clean-trim-4" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<path d="M128 80V106" fill="none" stroke-width="2"/>
+<rect x="112" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="pickup_clean-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<path d="M36 80V104M60 80V104M84 80V104" fill="none" stroke-width="1.5" stroke-opacity=".5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="pickup_clean-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="14" y="98" width="13" height="10" rx="3" data-slot="trim" id="pickup_clean-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="232" cy="92" rx="6" ry="4.5" data-slot="accent" id="pickup_clean-accent-8" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="17" y="80" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="56" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="56" cy="112" r="18" data-slot="wheel" id="pickup_clean-wheel-9" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="56" cy="112" r="9" data-slot="metal" id="pickup_clean-metal-10" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="56" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M56 103V121M47 112H65" fill="none" stroke-width="1.5"/>
+<circle cx="194" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="194" cy="112" r="18" data-slot="wheel" id="pickup_clean-wheel-11" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="194" cy="112" r="9" data-slot="metal" id="pickup_clean-metal-12" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="194" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M194 103V121M185 112H203" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

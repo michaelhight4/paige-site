@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="sports_wrecked" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="118" ry="7" data-slot="shadow" id="sports_wrecked-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M31 108Q22 108 21.1 101.6L20.9 100.4Q20 94 26.4 91.3L27.6 90.7Q34 88 43 87.4L81 84.6Q90 84 97.1 78.4L110.9 67.6Q118 62 127 62L145 62Q154 62 161.4 67.1L178.6 78.9Q186 84 194.6 86.7L219.4 94.3Q228 97 229.4 98.4L229.6 98.6Q231 100 230.1 103.6L229.9 104.4Q229 108 220 108Z" data-slot="body" id="sports_wrecked-body-2" fill="#8a6f6a" style="fill:var(--slot-body,#8a6f6a)"/>
+<path d="M96 84L120 62H154L170 80Z" fill="none" stroke="none" fill-opacity="0"/>
+<path d="M104 83Q100 83 103 80.4L117 68.6Q120 66 124 66L129 66Q133 66 133 70L133 79Q133 83 129 83Z" data-slot="glass" id="sports_wrecked-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M143 83Q139 83 139 79L139 70Q139 66 143 66L146 66Q150 66 153.3 68.2L172.7 80.8Q176 83 172 83Z" data-slot="glass" id="sports_wrecked-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<polygon points="28,96 90,94 90,100 28,102" data-slot="accent" id="sports_wrecked-accent-5" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<polygon points="150,94 232,96 236,102 150,101" data-slot="accent" id="sports_wrecked-accent-6" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="14" y="76" width="34" height="5" rx="2" data-slot="trim" id="sports_wrecked-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="24" y="80" width="4" height="12" data-slot="metal" id="sports_wrecked-metal-8" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M128 80V106" fill="none" stroke-width="2"/>
+<rect x="229" y="98" width="15" height="10" rx="3" data-slot="trim" id="sports_wrecked-trim-9" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="16" y="98" width="13" height="10" rx="3" data-slot="trim" id="sports_wrecked-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="234" cy="96" rx="6" ry="4.5" data-slot="accent" id="sports_wrecked-accent-11" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="21" y="92" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="62" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="62" cy="113" r="17" data-slot="wheel" id="sports_wrecked-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="62" cy="113" r="8.5" data-slot="metal" id="sports_wrecked-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="62" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M62 104.5V121.5M53.5 113H70.5" fill="none" stroke-width="1.5"/>
+<circle cx="196" cy="113" r="5.4" data-slot="metal" id="sports_wrecked-metal-14" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<ellipse cx="234" cy="126" rx="15" ry="6" data-slot="wheel" id="sports_wrecked-wheel-15" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<ellipse cx="234" cy="126" rx="6" ry="2.5" data-slot="metal" id="sports_wrecked-metal-16" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<path d="M186 120L208 128" fill="none" stroke-width="2"/>
+<polygon points="81.7,98 75.8,101.1 70,104.9 63.4,101.6 56,98 63.8,94.7 70,91.7 77.4,94" data-slot="rust" id="sports_wrecked-rust-17" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<polygon points="175.6,102.7 168.4,101.8 160.4,101.3 161.9,97 163.3,92.3 171.7,93.9 178.8,95 179.1,99.1" data-slot="rust" id="sports_wrecked-rust-18" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<polygon points="134.2,80.5 132,77.2 128.9,73.8 135.5,72.3 142.5,70.7 144.4,74.7 146.3,78 140.9,80.1" data-slot="rust" id="sports_wrecked-rust-19" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<path d="M200 90q8 -4 6 -12M50 94q6 5 14 2" fill="none" stroke-width="2" stroke-opacity=".6"/>
+<polygon points="202,92 216,86 220,98 206,100" fill="#000" fill-opacity=".2" stroke="none"/>
+<path d="M121.5 74.5L110.8 80.8" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M121.5 74.5L127.3 72.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M115.5 74.5l5 4l6 -6" fill="none" stroke="#fff" stroke-width="1.4"/>
+<path d="M151 74.5L145 80.8" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M151 74.5L150.5 72.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M145 74.5l5 4l6 -6" fill="none" stroke="#fff" stroke-width="1.4"/>
+<path d="M18 104q-6 8 4 10" fill="none" stroke-width="2.5"/>
+<circle cx="206" cy="70" r="9" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+<circle cx="218" cy="58" r="12" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+<circle cx="196" cy="50" r="7" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+</g>
+</svg>

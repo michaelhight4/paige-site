@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="flute" data-category="instruments">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="222" rx="90" ry="8" data-slot="shadow" id="flute-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<g transform="rotate(-18 128 128)">
+<rect x="14" y="114" width="228" height="24" rx="11" data-slot="metal" id="flute-metal-2" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<path d="M60 114V138M100 114V138M142 114V138M184 114V138M220 114V138" fill="none" stroke-width="2.5"/>
+<ellipse cx="40" cy="124" rx="8" ry="6" data-slot="trim" id="flute-trim-3" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2"/>
+<circle cx="76" cy="126" r="6" data-slot="accent" id="flute-accent-4" fill="#8f98a4" style="fill:var(--slot-accent,#8f98a4)" stroke-width="2.5"/>
+<circle cx="96" cy="126" r="6" data-slot="accent" id="flute-accent-5" fill="#8f98a4" style="fill:var(--slot-accent,#8f98a4)" stroke-width="2.5"/>
+<circle cx="116" cy="126" r="6" data-slot="accent" id="flute-accent-6" fill="#8f98a4" style="fill:var(--slot-accent,#8f98a4)" stroke-width="2.5"/>
+<circle cx="156" cy="126" r="6" data-slot="accent" id="flute-accent-7" fill="#8f98a4" style="fill:var(--slot-accent,#8f98a4)" stroke-width="2.5"/>
+<circle cx="176" cy="126" r="6" data-slot="accent" id="flute-accent-8" fill="#8f98a4" style="fill:var(--slot-accent,#8f98a4)" stroke-width="2.5"/>
+<circle cx="200" cy="126" r="6" data-slot="accent" id="flute-accent-9" fill="#8f98a4" style="fill:var(--slot-accent,#8f98a4)" stroke-width="2.5"/>
+<rect x="54" y="106" width="10" height="10" rx="2" data-slot="metal" id="flute-metal-10" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<rect x="106" y="140" width="8" height="12" rx="2" data-slot="metal" id="flute-metal-11" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<rect x="168" y="140" width="8" height="12" rx="2" data-slot="metal" id="flute-metal-12" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+</g>
+</g>
+</svg>

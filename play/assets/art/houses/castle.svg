@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="castle" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="castle-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="castle-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="70" y="100" width="116" height="112" rx="2" data-slot="stone" id="castle-stone-3" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="70" y="90" width="12.9" height="12" rx="1" data-slot="stone" id="castle-stone-4" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="95.8" y="90" width="12.9" height="12" rx="1" data-slot="stone" id="castle-stone-5" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="121.6" y="90" width="12.9" height="12" rx="1" data-slot="stone" id="castle-stone-6" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="147.3" y="90" width="12.9" height="12" rx="1" data-slot="stone" id="castle-stone-7" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="173.1" y="90" width="12.9" height="12" rx="1" data-slot="stone" id="castle-stone-8" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="18" y="72" width="44" height="140" rx="2" data-slot="stone" id="castle-stone-9" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="16" y="62" width="9.6" height="12" rx="1" data-slot="stone" id="castle-stone-10" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="35.2" y="62" width="9.6" height="12" rx="1" data-slot="stone" id="castle-stone-11" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="54.4" y="62" width="9.6" height="12" rx="1" data-slot="stone" id="castle-stone-12" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<polygon points="12,64 40,20 68,64" data-slot="roof" id="castle-roof-13" fill="#4a6fa5" style="fill:var(--slot-roof,#4a6fa5)"/>
+<rect x="38" y="-2" width="5" height="24" rx="1" data-slot="metal" id="castle-metal-14" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<polygon points="41,-2 60,4 41,10" data-slot="fabric" id="castle-fabric-15" fill="#d33a3a" style="fill:var(--slot-fabric,#d33a3a)" stroke-width="2"/>
+<path d="M32 100v-14a8 8 0 0 1 16 0v14Z" data-slot="glass" id="castle-glass-16" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="194" y="72" width="44" height="140" rx="2" data-slot="stone" id="castle-stone-17" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="192" y="62" width="9.6" height="12" rx="1" data-slot="stone" id="castle-stone-18" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="211.2" y="62" width="9.6" height="12" rx="1" data-slot="stone" id="castle-stone-19" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<rect x="230.4" y="62" width="9.6" height="12" rx="1" data-slot="stone" id="castle-stone-20" fill="#a7adb8" style="fill:var(--slot-stone,#a7adb8)"/>
+<polygon points="188,64 216,20 244,64" data-slot="roof" id="castle-roof-21" fill="#4a6fa5" style="fill:var(--slot-roof,#4a6fa5)"/>
+<rect x="214" y="-2" width="5" height="24" rx="1" data-slot="metal" id="castle-metal-22" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<polygon points="217,-2 236,4 217,10" data-slot="fabric" id="castle-fabric-23" fill="#d33a3a" style="fill:var(--slot-fabric,#d33a3a)" stroke-width="2"/>
+<path d="M208 100v-14a8 8 0 0 1 16 0v14Z" data-slot="glass" id="castle-glass-24" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M106 212V170a22 22 0 0 1 44 0V212Z" data-slot="door" id="castle-door-25" fill="#6b4a2f" style="fill:var(--slot-door,#6b4a2f)"/>
+<path d="M128 148V212M106 180H150M106 196H150" fill="none" stroke-width="1.5"/>
+<path d="M120 128v-12a8 8 0 0 1 16 0v12Z" data-slot="glass" id="castle-glass-26" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M70 124H186M70 148H100M156 170H186" fill="none" stroke-width="1" stroke-opacity=".4"/>
+<polygon points="20,92 18,92" data-slot="fabric" id="castle-fabric-27" fill="#d33a3a" style="fill:var(--slot-fabric,#d33a3a)" stroke="none"/>
+</g>
+</svg>

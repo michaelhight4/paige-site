@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="chalet" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="chalet-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="chalet-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<ellipse cx="128" cy="216" rx="100" ry="8" fill="none" fill-opacity="0" stroke="none"/>
+<polygon points="30,214 128,40 226,214" data-slot="roof" id="chalet-roof-3" fill="#7a4a2a" style="fill:var(--slot-roof,#7a4a2a)"/>
+<polygon points="72,204 128,106 184,204" data-slot="glass" id="chalet-glass-4" fill="#b8e4f0" style="fill:var(--slot-glass,#b8e4f0)"/>
+<path d="M128 106V204M100 156V204M156 156V204M72 204H184M90 170H166" fill="none" stroke-width="2"/>
+<rect x="112" y="160" width="32" height="46" rx="2" data-slot="door" id="chalet-door-5" fill="#3e2a1a" style="fill:var(--slot-door,#3e2a1a)"/>
+<rect x="60" y="208" width="140" height="8" rx="2" data-slot="door" id="chalet-door-6" fill="#3e2a1a" style="fill:var(--slot-door,#3e2a1a)"/>
+<rect x="59" y="194" width="3" height="14" data-slot="metal" id="chalet-metal-7" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<polygon points="124,50 128,40 132,50" data-slot="trim" id="chalet-trim-8" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)" stroke="none"/>
+<path d="M60 150Q80 120 100 100Q128 70 156 100Q176 120 196 150Q128 118 60 150Z" data-slot="trim" id="chalet-trim-9" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)" stroke="none" fill-opacity=".9"/>
+<path d="M60 150Q80 120 100 100M156 100Q176 120 196 150" fill="none" stroke-width="2"/>
+<rect x="176" y="70" width="14" height="40" data-slot="stone" id="chalet-stone-10" fill="#8d8c88" style="fill:var(--slot-stone,#8d8c88)"/>
+<rect x="173" y="66" width="20" height="6" rx="1" data-slot="trim" id="chalet-trim-11" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="26.7" y="200.6" width="6.6" height="17.6" data-slot="door" id="chalet-door-12" fill="#3e2a1a" style="fill:var(--slot-door,#3e2a1a)"/>
+<circle cx="30" cy="185.2" r="17.6" data-slot="grass" id="chalet-grass-13" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<rect x="229" y="202" width="6" height="16" data-slot="door" id="chalet-door-14" fill="#3e2a1a" style="fill:var(--slot-door,#3e2a1a)"/>
+<circle cx="232" cy="188" r="16" data-slot="grass" id="chalet-grass-15" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+</g>
+</svg>

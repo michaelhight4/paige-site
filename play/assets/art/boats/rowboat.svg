@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="rowboat" data-category="boats">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M0 112Q16 104 32 112T64 112T96 112T128 112T160 112T192 112T224 112T256 112V160H0Z" data-slot="water" id="rowboat-water-1" fill="#4aa8e0" style="fill:var(--slot-water,#4aa8e0)"/>
+<path d="M20 128q8 -5 16 0t16 0M150 134q8 -5 16 0t16 0" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+<path d="M34 90H222Q214 124 180 128H78Q44 124 34 90Z" data-slot="body" id="rowboat-body-2" fill="#3b82d6" style="fill:var(--slot-body,#3b82d6)"/>
+<path d="M34 90H222L220 98H36Z" data-slot="trim" id="rowboat-trim-3" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="112" y="92" width="8" height="26" data-slot="trim" id="rowboat-trim-4" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<path d="M60 70L150 112" fill="none" stroke="#2b2a3a" stroke-width="7"/>
+<path d="M60 70L150 112" fill="none" stroke="#d9a15a" stroke-width="3"/>
+<polygon points="148,108 164,118 156,124 142,114" data-slot="metal" id="rowboat-metal-5" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="150" y="92" width="8" height="24" data-slot="trim" id="rowboat-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+</g>
+</svg>

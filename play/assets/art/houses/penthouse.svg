@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="penthouse" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="90" ry="7" data-slot="shadow" id="penthouse-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="70" y="80" width="116" height="142" rx="2" data-slot="stone" id="penthouse-stone-2" fill="#8a93a6" style="fill:var(--slot-stone,#8a93a6)"/>
+<rect x="80" y="112" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-3" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="106" y="112" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-4" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="132" y="112" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-5" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="158" y="112" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-6" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="80" y="134" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-7" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="106" y="134" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-8" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="132" y="134" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-9" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="158" y="134" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-10" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="80" y="156" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-11" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="106" y="156" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-12" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="132" y="156" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-13" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="158" y="156" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-14" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="80" y="178" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-15" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="106" y="178" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-16" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="132" y="178" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-17" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="158" y="178" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-18" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="80" y="200" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-19" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="106" y="200" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-20" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="132" y="200" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-21" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="158" y="200" width="18" height="14" rx="1" data-slot="glass" id="penthouse-glass-22" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<rect x="60" y="66" width="136" height="14" rx="2" data-slot="body" id="penthouse-body-23" fill="#e8ecf2" style="fill:var(--slot-body,#e8ecf2)"/>
+<rect x="74" y="36" width="108" height="32" rx="3" data-slot="glass" id="penthouse-glass-24" fill="#7fc4e8" style="fill:var(--slot-glass,#7fc4e8)"/>
+<path d="M110 36V68M146 36V68" fill="none" stroke-width="2"/>
+<rect x="64" y="26" width="128" height="10" rx="2" data-slot="roof" id="penthouse-roof-25" fill="#2e3342" style="fill:var(--slot-roof,#2e3342)"/>
+<rect x="62" y="62" width="132" height="3" rx="1" data-slot="metal" id="penthouse-metal-26" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="61" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-27" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="71" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-28" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="81" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-29" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="91" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-30" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="101" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-31" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="111" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-32" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="121" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-33" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="131" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-34" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="141" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-35" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="151" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-36" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="161" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-37" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="171" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-38" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="181" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-39" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="191" y="62" width="3" height="14" data-slot="metal" id="penthouse-metal-40" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<circle cx="128" cy="18" r="6" data-slot="accent" id="penthouse-accent-41" fill="#ffd23f" style="fill:var(--slot-accent,#ffd23f)"/>
+<rect x="126" y="10" width="3" height="10" data-slot="metal" id="penthouse-metal-42" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="160" y="54" width="28" height="8" rx="2" data-slot="fabric" id="penthouse-fabric-43" fill="#4a7fd0" style="fill:var(--slot-fabric,#4a7fd0)"/>
+<rect x="96" y="200" width="64" height="22" rx="2" data-slot="metal" id="penthouse-metal-44" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="116" y="204" width="24" height="18" rx="2" data-slot="door" id="penthouse-door-45" fill="#222" style="fill:var(--slot-door,#222)"/>
+<rect x="70" y="78" width="116" height="3" data-slot="accent" id="penthouse-accent-46" fill="#ffd23f" style="fill:var(--slot-accent,#ffd23f)" stroke-width="1"/>
+</g>
+</svg>

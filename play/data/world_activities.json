@@ -1,0 +1,974 @@
+{
+ "categories": [
+  {
+   "id": "body",
+   "name": "Body & Health",
+   "icon": "💪",
+   "sub": "Gym, doctor, diet, sleep",
+   "activities": [
+    {
+     "id": "gym",
+     "name": "Gym",
+     "icon": "🏋️",
+     "sub": "Get fit",
+     "minAge": 12,
+     "choices": [
+      {
+       "label": "Cardio session",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "You ran hard and feel great.",
+         "fx": {
+          "health": 4,
+          "happiness": 1
+         }
+        },
+        {
+         "w": 2,
+         "text": "You pulled a muscle halfway through.",
+         "fx": {
+          "health": -3,
+          "happiness": -2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Lift weights",
+       "cost": 30,
+       "outcomes": [
+        {
+         "w": 6,
+         "text": "You set a new personal best.",
+         "fx": {
+          "health": 3,
+          "looks": 3
+         }
+        },
+        {
+         "w": 2,
+         "text": "You skipped legs again.",
+         "fx": {
+          "health": 1,
+          "looks": 1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Personal trainer",
+       "cost": 400,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Your trainer pushed you to a new level.",
+         "fx": {
+          "health": 6,
+          "looks": 4,
+          "happiness": 1
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "doctor",
+     "name": "Doctor",
+     "icon": "🩺",
+     "sub": "Checkups and treatment",
+     "minAge": 0,
+     "choices": [
+      {
+       "label": "General checkup",
+       "cost": 150,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "The doctor says you are doing fine.",
+         "fx": {
+          "health": 3
+         }
+        },
+        {
+         "w": 2,
+         "text": "The doctor found a minor issue early.",
+         "fx": {
+          "health": 6
+         }
+        }
+       ]
+      },
+      {
+       "label": "Specialist consult",
+       "cost": 900,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "A specialist improved your treatment plan.",
+         "fx": {
+          "health": 8
+         }
+        },
+        {
+         "w": 3,
+         "text": "It was expensive and inconclusive.",
+         "fx": {
+          "health": 2,
+          "happiness": -2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Therapy session",
+       "cost": 180,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Talking it through helped a lot.",
+         "fx": {
+          "happiness": 7
+         }
+        },
+        {
+         "w": 2,
+         "text": "It brought up difficult memories.",
+         "fx": {
+          "happiness": -1,
+          "health": 1
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "diet",
+     "name": "Diet",
+     "icon": "🥗",
+     "sub": "Eat better",
+     "minAge": 10,
+     "choices": [
+      {
+       "label": "Eat clean for a few months",
+       "cost": 200,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "You feel lighter and sharper.",
+         "fx": {
+          "health": 3,
+          "looks": 2
+         }
+        },
+        {
+         "w": 3,
+         "text": "You caved at the third birthday cake.",
+         "fx": {
+          "happiness": 1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Crash diet",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 4,
+         "text": "You dropped the weight fast.",
+         "fx": {
+          "looks": 4,
+          "health": -2
+         }
+        },
+        {
+         "w": 6,
+         "text": "You felt miserable and quit.",
+         "fx": {
+          "happiness": -4,
+          "health": -1
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sleep",
+     "name": "Rest",
+     "icon": "😴",
+     "sub": "Take it easy",
+     "minAge": 5,
+     "choices": [
+      {
+       "label": "Stay in and relax",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 9,
+         "text": "You caught up on rest.",
+         "fx": {
+          "health": 2,
+          "happiness": 2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Weekend spa",
+       "cost": 350,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Pure bliss.",
+         "fx": {
+          "happiness": 6,
+          "looks": 2,
+          "health": 2
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mind",
+   "name": "Mind & Skills",
+   "icon": "🧠",
+   "sub": "Study, read, practice",
+   "activities": [
+    {
+     "id": "library",
+     "name": "Library",
+     "icon": "📚",
+     "sub": "Books and quiet",
+     "minAge": 6,
+     "choices": [
+      {
+       "label": "Read a novel",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "You lost yourself in a great story.",
+         "fx": {
+          "smarts": 2,
+          "happiness": 2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Study something hard",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 6,
+         "text": "It finally clicked.",
+         "fx": {
+          "smarts": 4,
+          "happiness": -1
+         }
+        },
+        {
+         "w": 3,
+         "text": "You zoned out. Wasted hours.",
+         "fx": {
+          "smarts": 1,
+          "happiness": -2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "course",
+     "name": "Online course",
+     "icon": "💻",
+     "sub": "Learn a skill",
+     "minAge": 12,
+     "choices": [
+      {
+       "label": "Free course",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 6,
+         "text": "You finished it and learned a lot.",
+         "fx": {
+          "smarts": 3
+         }
+        },
+        {
+         "w": 4,
+         "text": "You dropped out after week two.",
+         "fx": {
+          "smarts": 1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Paid certificate",
+       "cost": 300,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "You earned the certificate.",
+         "fx": {
+          "smarts": 5,
+          "happiness": 1
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "music",
+     "name": "Music",
+     "icon": "🎸",
+     "sub": "Practice an instrument",
+     "minAge": 6,
+     "choices": [
+      {
+       "label": "Practice alone",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "You are getting better.",
+         "fx": {
+          "smarts": 1,
+          "happiness": 3
+         }
+        },
+        {
+         "w": 3,
+         "text": "You plateaued and got frustrated.",
+         "fx": {
+          "happiness": -1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Play a local gig",
+       "cost": 0,
+       "minAge": 14,
+       "outcomes": [
+        {
+         "w": 4,
+         "text": "The crowd loved you! You made a little cash.",
+         "fx": {
+          "happiness": 6,
+          "money": 200
+         }
+        },
+        {
+         "w": 6,
+         "text": "Nobody showed up but the bartender.",
+         "fx": {
+          "happiness": -1
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social",
+   "name": "Social & Nightlife",
+   "icon": "🎉",
+   "sub": "Meet people, have fun",
+   "activities": [
+    {
+     "id": "club",
+     "name": "Nightclub",
+     "icon": "🪩",
+     "sub": "18+",
+     "minAge": 18,
+     "choices": [
+      {
+       "label": "Dance the night away",
+       "cost": 60,
+       "outcomes": [
+        {
+         "w": 6,
+         "text": "Best night in months.",
+         "fx": {
+          "happiness": 6,
+          "health": -1
+         }
+        },
+        {
+         "w": 3,
+         "text": "You overdid it and felt awful the next day.",
+         "fx": {
+          "happiness": 1,
+          "health": -4
+         }
+        },
+        {
+         "w": 1,
+         "text": "Somebody spilled a drink on you and picked a fight.",
+         "fx": {
+          "happiness": -4,
+          "health": -3
+         }
+        }
+       ]
+      },
+      {
+       "label": "VIP table",
+       "cost": 1200,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "You were the life of the party.",
+         "fx": {
+          "happiness": 9,
+          "looks": 1
+         }
+        },
+        {
+         "w": 3,
+         "text": "It cost a fortune for a boring night.",
+         "fx": {
+          "happiness": 0
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "friendsout",
+     "name": "Hang out",
+     "icon": "🍕",
+     "sub": "Pizza, games, movies",
+     "minAge": 6,
+     "choices": [
+      {
+       "label": "Movie night",
+       "cost": 25,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Great movie, great company.",
+         "fx": {
+          "happiness": 4
+         }
+        }
+       ]
+      },
+      {
+       "label": "Board games",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "Friendly competition got intense.",
+         "fx": {
+          "happiness": 3,
+          "smarts": 1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Concert",
+       "cost": 120,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "You will remember that show forever.",
+         "fx": {
+          "happiness": 7
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "volunteer",
+     "name": "Volunteer",
+     "icon": "🤝",
+     "sub": "Give back",
+     "minAge": 12,
+     "choices": [
+      {
+       "label": "Food bank",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Helping others felt good.",
+         "fx": {
+          "happiness": 4,
+          "smarts": 1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Animal shelter",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "You played with puppies all day.",
+         "fx": {
+          "happiness": 5
+         }
+        },
+        {
+         "w": 2,
+         "text": "You were bitten, but you are fine.",
+         "fx": {
+          "happiness": 2,
+          "health": -2
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "travel",
+   "name": "Travel & Leisure",
+   "icon": "✈️",
+   "sub": "Vacations and hobbies",
+   "activities": [
+    {
+     "id": "vacation",
+     "name": "Vacation",
+     "icon": "🏖️",
+     "sub": "Get away",
+     "minAge": 18,
+     "choices": [
+      {
+       "label": "Road trip",
+       "cost": 600,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Open road and great views.",
+         "fx": {
+          "happiness": 6
+         }
+        },
+        {
+         "w": 2,
+         "text": "The car broke down. Memorable, at least.",
+         "fx": {
+          "happiness": 2,
+          "money": -300
+         }
+        }
+       ]
+      },
+      {
+       "label": "Beach resort",
+       "cost": 3500,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "You came back refreshed and tanned.",
+         "fx": {
+          "happiness": 9,
+          "looks": 2,
+          "health": 2
+         }
+        },
+        {
+         "w": 2,
+         "text": "It rained all week.",
+         "fx": {
+          "happiness": 1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Overseas adventure",
+       "cost": 9000,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "You saw things you never imagined.",
+         "fx": {
+          "happiness": 12,
+          "smarts": 2
+         }
+        },
+        {
+         "w": 3,
+         "text": "Your luggage got lost, but the trip was still amazing.",
+         "fx": {
+          "happiness": 8,
+          "money": -500
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "hobby",
+     "name": "Hobbies",
+     "icon": "🎨",
+     "sub": "Make something",
+     "minAge": 5,
+     "choices": [
+      {
+       "label": "Paint",
+       "cost": 40,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "You made something you are proud of.",
+         "fx": {
+          "happiness": 4,
+          "smarts": 1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Garden",
+       "cost": 60,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "Fresh tomatoes at last.",
+         "fx": {
+          "happiness": 3,
+          "health": 1
+         }
+        }
+       ]
+      },
+      {
+       "label": "Video games",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 6,
+         "text": "You lost track of time. Fun!",
+         "fx": {
+          "happiness": 4
+         }
+        },
+        {
+         "w": 4,
+         "text": "You played for 14 hours straight.",
+         "fx": {
+          "happiness": 2,
+          "health": -2
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "beauty",
+   "name": "Look & Style",
+   "icon": "💇",
+   "sub": "Salon, wardrobe, cosmetic",
+   "activities": [
+    {
+     "id": "salon",
+     "name": "Salon",
+     "icon": "💈",
+     "sub": "Hair and grooming",
+     "minAge": 8,
+     "choices": [
+      {
+       "label": "Fresh cut",
+       "cost": 45,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "You look sharp.",
+         "fx": {
+          "looks": 2,
+          "happiness": 2
+         }
+        },
+        {
+         "w": 2,
+         "text": "The stylist went a little wild.",
+         "fx": {
+          "looks": -2,
+          "happiness": -2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Full makeover",
+       "cost": 500,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "You turned heads all week.",
+         "fx": {
+          "looks": 5,
+          "happiness": 4
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "wardrobe",
+     "name": "Shopping",
+     "icon": "🛍️",
+     "sub": "New clothes",
+     "minAge": 10,
+     "choices": [
+      {
+       "label": "Thrift store",
+       "cost": 60,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "Found some gems.",
+         "fx": {
+          "looks": 2,
+          "happiness": 2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Designer boutique",
+       "cost": 2000,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "You look a million bucks.",
+         "fx": {
+          "looks": 4,
+          "happiness": 3
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "cosmetic",
+     "name": "Cosmetic surgery",
+     "icon": "✨",
+     "sub": "18+",
+     "minAge": 18,
+     "choices": [
+      {
+       "label": "Minor procedure",
+       "cost": 4000,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Subtle but noticeable.",
+         "fx": {
+          "looks": 6
+         }
+        },
+        {
+         "w": 2,
+         "text": "Recovery was rough.",
+         "fx": {
+          "looks": 3,
+          "health": -3
+         }
+        }
+       ]
+      },
+      {
+       "label": "Major procedure",
+       "cost": 20000,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "A big change, and you love it.",
+         "fx": {
+          "looks": 12,
+          "happiness": 2
+         }
+        },
+        {
+         "w": 3,
+         "text": "Complications. The result is only OK.",
+         "fx": {
+          "looks": 4,
+          "health": -8,
+          "happiness": -3
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "money",
+   "name": "Money & Luck",
+   "icon": "🎰",
+   "sub": "Side hustles and gambles",
+   "activities": [
+    {
+     "id": "sidegig",
+     "name": "Side gig",
+     "icon": "🚗",
+     "sub": "Make extra cash",
+     "minAge": 16,
+     "choices": [
+      {
+       "label": "Rideshare shifts",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "A solid few weeks of tips.",
+         "fx": {
+          "money": 1500,
+          "happiness": -1
+         }
+        },
+        {
+         "w": 3,
+         "text": "Slow weeks. Gas ate the profit.",
+         "fx": {
+          "money": 200,
+          "happiness": -2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Freelance work",
+       "cost": 0,
+       "minAge": 18,
+       "outcomes": [
+        {
+         "w": 6,
+         "text": "A client paid well.",
+         "fx": {
+          "money": 3500,
+          "smarts": 1
+         }
+        },
+        {
+         "w": 4,
+         "text": "A client ghosted you.",
+         "fx": {
+          "money": 0,
+          "happiness": -2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "casino",
+     "name": "Casino",
+     "icon": "🎲",
+     "sub": "18+ · risky",
+     "minAge": 18,
+     "choices": [
+      {
+       "label": "Slots ($50)",
+       "cost": 50,
+       "outcomes": [
+        {
+         "w": 2,
+         "text": "JACKPOT! You won big.",
+         "fx": {
+          "money": 3000,
+          "happiness": 8
+         }
+        },
+        {
+         "w": 8,
+         "text": "The machines ate your cash.",
+         "fx": {
+          "happiness": -2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Blackjack ($1,000)",
+       "cost": 1000,
+       "outcomes": [
+        {
+         "w": 4,
+         "text": "You beat the dealer and cashed out double.",
+         "fx": {
+          "money": 2000,
+          "happiness": 6
+         }
+        },
+        {
+         "w": 6,
+         "text": "You lost it all.",
+         "fx": {
+          "happiness": -4
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "lottery",
+     "name": "Lottery",
+     "icon": "🎟️",
+     "sub": "18+",
+     "minAge": 18,
+     "choices": [
+      {
+       "label": "Buy a ticket ($5)",
+       "cost": 5,
+       "outcomes": [
+        {
+         "w": 1,
+         "text": "WOW. A $50,000 winning ticket!",
+         "fx": {
+          "money": 50000,
+          "happiness": 12
+         }
+        },
+        {
+         "w": 99,
+         "text": "Not a winner.",
+         "fx": {}
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

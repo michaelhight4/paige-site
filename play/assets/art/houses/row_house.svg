@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="row_house" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="row_house-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="row_house-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="14" y="80" width="76" height="142" data-slot="body" id="row_house-body-3" fill="#b5593f" style="fill:var(--slot-body,#b5593f)"/>
+<polygon points="11,80 52,62 93,80" data-slot="roof" id="row_house-roof-4" fill="#4a4a58" style="fill:var(--slot-roof,#4a4a58)"/>
+<rect x="19" y="91" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="22" y="94" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-6" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M31 94V116M22 105H40" fill="none" stroke-width="1.5"/>
+<rect x="61" y="91" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="64" y="94" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-8" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M73 94V116M64 105H82" fill="none" stroke-width="1.5"/>
+<rect x="19" y="129" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-9" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="22" y="132" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-10" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M31 132V154M22 143H40" fill="none" stroke-width="1.5"/>
+<rect x="62" y="166" width="20" height="56" rx="2" data-slot="door" id="row_house-door-11" fill="#2f5f8f" style="fill:var(--slot-door,#2f5f8f)"/>
+<circle cx="76" cy="194" r="2.5" data-slot="accent" id="row_house-accent-12" fill="#d9a441" style="fill:var(--slot-accent,#d9a441)" stroke-width="1.5"/>
+<rect x="62" y="222" width="20" height="6" rx="1" data-slot="stone" id="row_house-stone-13" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="90" y="92" width="76" height="130" data-slot="accent" id="row_house-accent-14" fill="#d9a441" style="fill:var(--slot-accent,#d9a441)"/>
+<polygon points="87,92 128,74 169,92" data-slot="roof" id="row_house-roof-15" fill="#4a4a58" style="fill:var(--slot-roof,#4a4a58)"/>
+<rect x="95" y="103" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-16" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="98" y="106" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-17" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M107 106V128M98 117H116" fill="none" stroke-width="1.5"/>
+<rect x="137" y="103" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-18" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="140" y="106" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-19" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M149 106V128M140 117H158" fill="none" stroke-width="1.5"/>
+<rect x="95" y="141" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-20" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="98" y="144" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-21" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M107 144V166M98 155H116" fill="none" stroke-width="1.5"/>
+<rect x="138" y="166" width="20" height="56" rx="2" data-slot="door" id="row_house-door-22" fill="#2f5f8f" style="fill:var(--slot-door,#2f5f8f)"/>
+<circle cx="152" cy="194" r="2.5" data-slot="accent" id="row_house-accent-23" fill="#d9a441" style="fill:var(--slot-accent,#d9a441)" stroke-width="1.5"/>
+<rect x="138" y="222" width="20" height="6" rx="1" data-slot="stone" id="row_house-stone-24" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="166" y="74" width="76" height="148" data-slot="body" id="row_house-body-25" fill="#b5593f" style="fill:var(--slot-body,#b5593f)"/>
+<polygon points="163,74 204,56 245,74" data-slot="roof" id="row_house-roof-26" fill="#4a4a58" style="fill:var(--slot-roof,#4a4a58)"/>
+<rect x="171" y="85" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-27" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="174" y="88" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-28" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M183 88V110M174 99H192" fill="none" stroke-width="1.5"/>
+<rect x="213" y="85" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-29" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="216" y="88" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-30" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M225 88V110M216 99H234" fill="none" stroke-width="1.5"/>
+<rect x="171" y="123" width="24" height="28" rx="2" data-slot="trim" id="row_house-trim-31" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="174" y="126" width="18" height="22" rx="1" data-slot="glass" id="row_house-glass-32" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M183 126V148M174 137H192" fill="none" stroke-width="1.5"/>
+<rect x="214" y="166" width="20" height="56" rx="2" data-slot="door" id="row_house-door-33" fill="#2f5f8f" style="fill:var(--slot-door,#2f5f8f)"/>
+<circle cx="228" cy="194" r="2.5" data-slot="accent" id="row_house-accent-34" fill="#d9a441" style="fill:var(--slot-accent,#d9a441)" stroke-width="1.5"/>
+<rect x="214" y="222" width="20" height="6" rx="1" data-slot="stone" id="row_house-stone-35" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="40" y="40" width="14" height="22" data-slot="stone" id="row_house-stone-36" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="37" y="36" width="20" height="6" rx="1" data-slot="trim" id="row_house-trim-37" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="196" y="30" width="14" height="20" data-slot="stone" id="row_house-stone-38" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="193" y="26" width="20" height="6" rx="1" data-slot="trim" id="row_house-trim-39" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<path d="M14 90H242M14 98H242M14 106H242M14 114H242M14 122H242M14 130H242M14 138H242M14 146H242M14 154H242M14 162H242M14 170H242M14 178H242M14 186H242M14 194H242M14 202H242M14 210H242M14 218H242" fill="none" stroke-width="1" stroke-opacity=".35"/>
+</g>
+</svg>

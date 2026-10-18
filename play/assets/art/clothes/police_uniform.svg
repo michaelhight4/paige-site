@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="police_uniform" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="70" ry="8" data-slot="shadow" id="police_uniform-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M90 36L128 50L166 36L224 66L208 118L180 106V222H76V106L48 118L32 66Z" data-slot="fabric" id="police_uniform-fabric-2" fill="#26335a" style="fill:var(--slot-fabric,#26335a)"/>
+<polygon points="90,36 128,96 112,54" data-slot="trim" id="police_uniform-trim-3" fill="#33447a" style="fill:var(--slot-trim,#33447a)" stroke-width="2.5"/>
+<polygon points="166,36 128,96 144,54" data-slot="trim" id="police_uniform-trim-4" fill="#33447a" style="fill:var(--slot-trim,#33447a)" stroke-width="2.5"/>
+<polygon points="124,62 132,62 134,120 128,128 122,120" data-slot="accent" id="police_uniform-accent-5" fill="#e8c64a" style="fill:var(--slot-accent,#e8c64a)" stroke-width="2"/>
+<path d="M154 110l6 -8l6 8l-3 8h-6Z" data-slot="metal" id="police_uniform-metal-6" fill="#e8c64a" style="fill:var(--slot-metal,#e8c64a)" stroke-width="2"/>
+<rect x="76" y="52" width="22" height="8" rx="2" data-slot="accent" id="police_uniform-accent-7" fill="#e8c64a" style="fill:var(--slot-accent,#e8c64a)" transform="rotate(-24 87 56)" stroke-width="2"/>
+<rect x="158" y="52" width="22" height="8" rx="2" data-slot="accent" id="police_uniform-accent-8" fill="#e8c64a" style="fill:var(--slot-accent,#e8c64a)" transform="rotate(24 169 56)" stroke-width="2"/>
+<rect x="92" y="134" width="34" height="28" rx="3" data-slot="trim" id="police_uniform-trim-9" fill="#33447a" style="fill:var(--slot-trim,#33447a)" stroke-width="2"/>
+<rect x="130" y="134" width="34" height="28" rx="3" data-slot="trim" id="police_uniform-trim-10" fill="#33447a" style="fill:var(--slot-trim,#33447a)" stroke-width="2"/>
+<circle cx="109" cy="140" r="3" data-slot="metal" id="police_uniform-metal-11" fill="#e8c64a" style="fill:var(--slot-metal,#e8c64a)"/>
+<circle cx="147" cy="140" r="3" data-slot="metal" id="police_uniform-metal-12" fill="#e8c64a" style="fill:var(--slot-metal,#e8c64a)"/>
+<rect x="76" y="196" width="104" height="14" rx="2" data-slot="wheel" id="police_uniform-wheel-13" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<rect x="118" y="196" width="20" height="14" rx="2" data-slot="metal" id="police_uniform-metal-14" fill="#e8c64a" style="fill:var(--slot-metal,#e8c64a)" stroke-width="2"/>
+</g>
+</svg>

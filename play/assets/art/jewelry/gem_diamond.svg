@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="gem_diamond" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="222" rx="60" ry="8" data-slot="shadow" id="gem_diamond-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<polygon points="40,100 78,54 178,54 216,100 128,208" data-slot="stone" id="gem_diamond-stone-2" fill="#bfe9ff" style="fill:var(--slot-stone,#bfe9ff)"/>
+<path d="M40 100H216M96 100L78 54M160 100L178 54M96 100L128 208L160 100M96 100L128 54L160 100" fill="none" stroke-width="2.5"/>
+<polygon points="96,100 78,54 128,54" fill="#fff" fill-opacity=".5" stroke="none"/>
+<polygon points="128,54 160,100 178,54" fill="#fff" fill-opacity=".25" stroke="none"/>
+<polygon points="40,100 96,100 128,208" fill="#fff" fill-opacity=".2" stroke="none"/>
+</g>
+</svg>

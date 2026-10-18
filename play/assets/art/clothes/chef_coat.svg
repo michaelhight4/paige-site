@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="chef_coat" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="70" ry="8" data-slot="shadow" id="chef_coat-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M90 74L128 86L166 74L224 100L208 162L180 148V236H76V148L48 162L32 100Z" data-slot="fabric" id="chef_coat-fabric-2" fill="#fafafa" style="fill:var(--slot-fabric,#fafafa)"/>
+<polygon points="90,74 128,130 128,86" data-slot="trim" id="chef_coat-trim-3" fill="#eef0f4" style="fill:var(--slot-trim,#eef0f4)" stroke-width="2.5"/>
+<polygon points="166,74 128,130 128,86" data-slot="trim" id="chef_coat-trim-4" fill="#eef0f4" style="fill:var(--slot-trim,#eef0f4)" stroke-width="2.5"/>
+<circle cx="112" cy="110" r="4.5" data-slot="metal" id="chef_coat-metal-5" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="144" cy="110" r="4.5" data-slot="metal" id="chef_coat-metal-6" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="112" cy="134" r="4.5" data-slot="metal" id="chef_coat-metal-7" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="144" cy="134" r="4.5" data-slot="metal" id="chef_coat-metal-8" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="112" cy="158" r="4.5" data-slot="metal" id="chef_coat-metal-9" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="144" cy="158" r="4.5" data-slot="metal" id="chef_coat-metal-10" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="112" cy="182" r="4.5" data-slot="metal" id="chef_coat-metal-11" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="144" cy="182" r="4.5" data-slot="metal" id="chef_coat-metal-12" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="112" cy="206" r="4.5" data-slot="metal" id="chef_coat-metal-13" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<circle cx="144" cy="206" r="4.5" data-slot="metal" id="chef_coat-metal-14" fill="#c0c7d0" style="fill:var(--slot-metal,#c0c7d0)" stroke-width="2"/>
+<path d="M92 66V40Q70 34 76 16Q90 0 110 8Q128 -4 146 8Q166 0 180 16Q186 34 164 40V66Z" data-slot="trim" id="chef_coat-trim-15" fill="#eef0f4" style="fill:var(--slot-trim,#eef0f4)"/>
+<rect x="90" y="52" width="76" height="12" rx="2" data-slot="trim" id="chef_coat-trim-16" fill="#eef0f4" style="fill:var(--slot-trim,#eef0f4)" stroke-width="2"/>
+<path d="M108 40V52M128 36V52M148 40V52" fill="none" stroke-width="1.5" stroke-opacity=".4"/>
+</g>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="lab_coat" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="70" ry="8" data-slot="shadow" id="lab_coat-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M90 30L128 48L166 30L224 84L208 180L178 168V236H78V168L48 180L32 84Z" data-slot="fabric" id="lab_coat-fabric-2" fill="#fafafa" style="fill:var(--slot-fabric,#fafafa)"/>
+<polygon points="90,30 128,124 100,66" data-slot="fabric" id="lab_coat-fabric-3" fill="#fafafa" style="fill:var(--slot-fabric,#fafafa)" stroke-width="2.5"/>
+<polygon points="166,30 128,124 156,66" data-slot="fabric" id="lab_coat-fabric-4" fill="#fafafa" style="fill:var(--slot-fabric,#fafafa)" stroke-width="2.5"/>
+<polygon points="106,40 128,120 150,40 128,56" data-slot="accent" id="lab_coat-accent-5" fill="#8fcde0" style="fill:var(--slot-accent,#8fcde0)" stroke-width="2"/>
+<path d="M128 124V236" fill="none" stroke-width="2"/>
+<circle cx="120" cy="150" r="3.5" data-slot="metal" id="lab_coat-metal-6" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<circle cx="120" cy="180" r="3.5" data-slot="metal" id="lab_coat-metal-7" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<circle cx="120" cy="206" r="3.5" data-slot="metal" id="lab_coat-metal-8" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="142" y="150" width="26" height="32" rx="3" data-slot="trim" id="lab_coat-trim-9" fill="#e6eef2" style="fill:var(--slot-trim,#e6eef2)" stroke-width="2"/>
+<rect x="148" y="156" width="12" height="6" rx="1" data-slot="accent" id="lab_coat-accent-10" fill="#8fcde0" style="fill:var(--slot-accent,#8fcde0)" stroke-width="1.5"/>
+<path d="M150 170V150M158 170V144" fill="none" stroke="#3b82d6" stroke-width="2.5"/>
+</g>
+</svg>

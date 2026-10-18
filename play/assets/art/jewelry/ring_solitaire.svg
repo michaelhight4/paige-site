@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="ring_solitaire" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="70" ry="8" data-slot="shadow" id="ring_solitaire-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M74 150a54 56 0 1 0 108 0a54 56 0 1 0 -108 0ZM86 150a42 44 0 1 1 84 0a42 44 0 1 1 -84 0Z" data-slot="metal" id="ring_solitaire-metal-2" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" fill-rule="evenodd"/>
+<polygon points="100,100 116,100 128,82" data-slot="metal" id="ring_solitaire-metal-3" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<polygon points="140,100 156,100 128,82" data-slot="metal" id="ring_solitaire-metal-4" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<rect x="112" y="88" width="32" height="16" rx="3" data-slot="metal" id="ring_solitaire-metal-5" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)"/>
+<polygon points="100,52.2 111.2,39.6 144.8,39.6 156,52.2 128,90" data-slot="stone" id="ring_solitaire-stone-6" fill="#cdeeff" style="fill:var(--slot-stone,#cdeeff)"/>
+<path d="M100 52.2H156M118.2 52.2L111.2 39.599999999999994M137.8 52.2L144.8 39.599999999999994M118.2 52.2L128 90L137.8 52.2" fill="none" stroke-width="1.8"/>
+<polygon points="118.2,52.2 111.2,39.6 128,39.6" fill="#fff" fill-opacity=".5" stroke="none"/>
+<path d="M62 150Q68 126 88 118L90 126Q76 134 74 154Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+</g>
+</svg>

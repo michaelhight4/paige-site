@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="colonial" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="colonial-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="colonial-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="30" y="100" width="196" height="110" rx="2" data-slot="body" id="colonial-body-3" fill="#a64b3c" style="fill:var(--slot-body,#a64b3c)"/>
+<path d="M30 100H226M30 108H226M30 116H226M30 124H226M30 132H226M30 140H226M30 148H226M30 156H226M30 164H226M30 172H226M30 180H226M30 188H226M30 196H226M30 204H226" fill="none" stroke-width="1" stroke-opacity=".35"/>
+<polygon points="18,100 128,52 238,100" data-slot="roof" id="colonial-roof-4" fill="#3f4552" style="fill:var(--slot-roof,#3f4552)"/>
+<rect x="46" y="40" width="16" height="40" data-slot="stone" id="colonial-stone-5" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="43" y="36" width="22" height="6" rx="1" data-slot="trim" id="colonial-trim-6" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="194" y="40" width="16" height="40" data-slot="stone" id="colonial-stone-7" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="191" y="36" width="22" height="6" rx="1" data-slot="trim" id="colonial-trim-8" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<circle cx="128" cy="76" r="10" data-slot="glass" id="colonial-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="47" y="109" width="22" height="34" rx="2" data-slot="trim" id="colonial-trim-10" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="50" y="112" width="16" height="28" rx="1" data-slot="glass" id="colonial-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M58 112V140M50 126H66" fill="none" stroke-width="1.5"/>
+<rect x="40" y="110" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-12" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="69" y="110" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-13" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="47" y="157" width="22" height="34" rx="2" data-slot="trim" id="colonial-trim-14" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="50" y="160" width="16" height="28" rx="1" data-slot="glass" id="colonial-glass-15" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M58 160V188M50 174H66" fill="none" stroke-width="1.5"/>
+<rect x="40" y="158" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-16" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="69" y="158" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-17" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="91" y="109" width="22" height="34" rx="2" data-slot="trim" id="colonial-trim-18" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="94" y="112" width="16" height="28" rx="1" data-slot="glass" id="colonial-glass-19" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M102 112V140M94 126H110" fill="none" stroke-width="1.5"/>
+<rect x="84" y="110" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-20" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="113" y="110" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-21" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="91" y="157" width="22" height="34" rx="2" data-slot="trim" id="colonial-trim-22" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="94" y="160" width="16" height="28" rx="1" data-slot="glass" id="colonial-glass-23" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M102 160V188M94 174H110" fill="none" stroke-width="1.5"/>
+<rect x="84" y="158" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-24" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="113" y="158" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-25" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="147" y="109" width="22" height="34" rx="2" data-slot="trim" id="colonial-trim-26" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="150" y="112" width="16" height="28" rx="1" data-slot="glass" id="colonial-glass-27" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M158 112V140M150 126H166" fill="none" stroke-width="1.5"/>
+<rect x="140" y="110" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-28" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="169" y="110" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-29" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="147" y="157" width="22" height="34" rx="2" data-slot="trim" id="colonial-trim-30" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="150" y="160" width="16" height="28" rx="1" data-slot="glass" id="colonial-glass-31" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M158 160V188M150 174H166" fill="none" stroke-width="1.5"/>
+<rect x="140" y="158" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-32" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="169" y="158" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-33" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="191" y="109" width="22" height="34" rx="2" data-slot="trim" id="colonial-trim-34" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="194" y="112" width="16" height="28" rx="1" data-slot="glass" id="colonial-glass-35" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M202 112V140M194 126H210" fill="none" stroke-width="1.5"/>
+<rect x="184" y="110" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-36" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="213" y="110" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-37" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="191" y="157" width="22" height="34" rx="2" data-slot="trim" id="colonial-trim-38" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="194" y="160" width="16" height="28" rx="1" data-slot="glass" id="colonial-glass-39" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M202 160V188M194 174H210" fill="none" stroke-width="1.5"/>
+<rect x="184" y="158" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-40" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="213" y="158" width="7" height="32" rx="1" data-slot="accent" id="colonial-accent-41" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)"/>
+<rect x="112" y="154" width="32" height="56" rx="2" data-slot="door" id="colonial-door-42" fill="#2c4a38" style="fill:var(--slot-door,#2c4a38)"/>
+<circle cx="138" cy="182" r="2.5" data-slot="accent" id="colonial-accent-43" fill="#2c4a38" style="fill:var(--slot-accent,#2c4a38)" stroke-width="1.5"/>
+<rect x="104" y="144" width="48" height="6" rx="1" data-slot="trim" id="colonial-trim-44" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="104" y="150" width="6" height="60" rx="1" data-slot="trim" id="colonial-trim-45" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="146" y="150" width="6" height="60" rx="1" data-slot="trim" id="colonial-trim-46" fill="#f4efe2" style="fill:var(--slot-trim,#f4efe2)"/>
+<rect x="110" y="210" width="36" height="6" rx="1" data-slot="stone" id="colonial-stone-47" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+</g>
+</svg>

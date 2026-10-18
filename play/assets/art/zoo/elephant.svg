@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="elephant" data-category="zoo">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="100" ry="8" data-slot="shadow" id="elephant-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="65" y="176" width="30" height="52" rx="10" data-slot="body" id="elephant-body-2" fill="#9aa5b5" style="fill:var(--slot-body,#9aa5b5)"/>
+<ellipse cx="80" cy="230" rx="17" ry="8" data-slot="skin" id="elephant-skin-3" fill="#cfd6e0" style="fill:var(--slot-skin,#cfd6e0)" stroke-width="2.5"/>
+<rect x="97" y="180" width="30" height="52" rx="10" data-slot="body" id="elephant-body-4" fill="#9aa5b5" style="fill:var(--slot-body,#9aa5b5)"/>
+<ellipse cx="112" cy="230" rx="17" ry="8" data-slot="skin" id="elephant-skin-5" fill="#cfd6e0" style="fill:var(--slot-skin,#cfd6e0)" stroke-width="2.5"/>
+<rect x="155" y="180" width="30" height="52" rx="10" data-slot="body" id="elephant-body-6" fill="#9aa5b5" style="fill:var(--slot-body,#9aa5b5)"/>
+<ellipse cx="170" cy="230" rx="17" ry="8" data-slot="skin" id="elephant-skin-7" fill="#cfd6e0" style="fill:var(--slot-skin,#cfd6e0)" stroke-width="2.5"/>
+<rect x="181" y="176" width="30" height="52" rx="10" data-slot="body" id="elephant-body-8" fill="#9aa5b5" style="fill:var(--slot-body,#9aa5b5)"/>
+<ellipse cx="196" cy="230" rx="17" ry="8" data-slot="skin" id="elephant-skin-9" fill="#cfd6e0" style="fill:var(--slot-skin,#cfd6e0)" stroke-width="2.5"/>
+<ellipse cx="130" cy="150" rx="88" ry="60" data-slot="body" id="elephant-body-10" fill="#9aa5b5" style="fill:var(--slot-body,#9aa5b5)"/>
+<path d="M42 140Q30 170 38 196" fill="none" stroke-width="4"/>
+<circle cx="192" cy="100" r="46" data-slot="body" id="elephant-body-11" fill="#9aa5b5" style="fill:var(--slot-body,#9aa5b5)"/>
+<path d="M214 110Q256 130 240 190Q236 214 218 210Q226 190 224 168Q210 150 204 140Z" data-slot="body" id="elephant-body-12" fill="#9aa5b5" style="fill:var(--slot-body,#9aa5b5)"/>
+<path d="M220 142H232M222 156H234M222 170H232" fill="none" stroke-width="2" stroke-opacity=".5"/>
+<path d="M198 138Q212 168 188 176Q198 158 190 146Z" data-slot="trim" id="elephant-trim-13" fill="#fff8e6" style="fill:var(--slot-trim,#fff8e6)" stroke-width="2.5"/>
+<ellipse cx="160" cy="100" rx="36" ry="46" data-slot="body" id="elephant-body-14" fill="#9aa5b5" style="fill:var(--slot-body,#9aa5b5)" transform="rotate(8 160 100)"/>
+<ellipse cx="162" cy="102" rx="22" ry="32" data-slot="accent" id="elephant-accent-15" fill="#f0b0b8" style="fill:var(--slot-accent,#f0b0b8)" stroke-width="2" transform="rotate(8 162 102)"/>
+<circle cx="204" cy="90" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="205" cy="91" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="203" cy="89" r="1.3" fill="#fff" stroke="none"/>
+</g>
+</svg>

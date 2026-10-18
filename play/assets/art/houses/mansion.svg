@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="mansion" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="mansion-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="mansion-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="14" y="128" width="228" height="82" rx="2" data-slot="body" id="mansion-body-3" fill="#f4efe4" style="fill:var(--slot-body,#f4efe4)"/>
+<rect x="66" y="96" width="124" height="114" rx="2" data-slot="body" id="mansion-body-4" fill="#f4efe4" style="fill:var(--slot-body,#f4efe4)"/>
+<polygon points="6,132 30,108 70,108 70,132" data-slot="roof" id="mansion-roof-5" fill="#37465e" style="fill:var(--slot-roof,#37465e)"/>
+<polygon points="186,132 186,108 226,108 250,132" data-slot="roof" id="mansion-roof-6" fill="#37465e" style="fill:var(--slot-roof,#37465e)"/>
+<polygon points="60,100 128,56 196,100" data-slot="trim" id="mansion-trim-7" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<polygon points="72,98 128,64 184,98" data-slot="roof" id="mansion-roof-8" fill="#37465e" style="fill:var(--slot-roof,#37465e)" stroke-width="2"/>
+<circle cx="128" cy="82" r="9" data-slot="glass" id="mansion-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="23" y="137" width="20" height="34" rx="2" data-slot="trim" id="mansion-trim-10" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="26" y="140" width="14" height="28" rx="1" data-slot="glass" id="mansion-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M33 140V168M26 154H40" fill="none" stroke-width="1.5"/>
+<rect x="45" y="137" width="20" height="34" rx="2" data-slot="trim" id="mansion-trim-12" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="48" y="140" width="14" height="28" rx="1" data-slot="glass" id="mansion-glass-13" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M55 140V168M48 154H62" fill="none" stroke-width="1.5"/>
+<rect x="193" y="137" width="20" height="34" rx="2" data-slot="trim" id="mansion-trim-14" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="196" y="140" width="14" height="28" rx="1" data-slot="glass" id="mansion-glass-15" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M203 140V168M196 154H210" fill="none" stroke-width="1.5"/>
+<rect x="211" y="137" width="20" height="34" rx="2" data-slot="trim" id="mansion-trim-16" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="214" y="140" width="14" height="28" rx="1" data-slot="glass" id="mansion-glass-17" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M221 140V168M214 154H228" fill="none" stroke-width="1.5"/>
+<rect x="23" y="175" width="20" height="30" rx="2" data-slot="trim" id="mansion-trim-18" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="26" y="178" width="14" height="24" rx="1" data-slot="glass" id="mansion-glass-19" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M33 178V202M26 190H40" fill="none" stroke-width="1.5"/>
+<rect x="45" y="175" width="20" height="30" rx="2" data-slot="trim" id="mansion-trim-20" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="48" y="178" width="14" height="24" rx="1" data-slot="glass" id="mansion-glass-21" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M55 178V202M48 190H62" fill="none" stroke-width="1.5"/>
+<rect x="193" y="175" width="20" height="30" rx="2" data-slot="trim" id="mansion-trim-22" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="196" y="178" width="14" height="24" rx="1" data-slot="glass" id="mansion-glass-23" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M203 178V202M196 190H210" fill="none" stroke-width="1.5"/>
+<rect x="211" y="175" width="20" height="30" rx="2" data-slot="trim" id="mansion-trim-24" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="214" y="178" width="14" height="24" rx="1" data-slot="glass" id="mansion-glass-25" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M221 178V202M214 190H228" fill="none" stroke-width="1.5"/>
+<rect x="77" y="105" width="20" height="32" rx="2" data-slot="trim" id="mansion-trim-26" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="80" y="108" width="14" height="26" rx="1" data-slot="glass" id="mansion-glass-27" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M87 108V134M80 121H94" fill="none" stroke-width="1.5"/>
+<rect x="103" y="105" width="20" height="32" rx="2" data-slot="trim" id="mansion-trim-28" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="106" y="108" width="14" height="26" rx="1" data-slot="glass" id="mansion-glass-29" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M113 108V134M106 121H120" fill="none" stroke-width="1.5"/>
+<rect x="131" y="105" width="20" height="32" rx="2" data-slot="trim" id="mansion-trim-30" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="134" y="108" width="14" height="26" rx="1" data-slot="glass" id="mansion-glass-31" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M141 108V134M134 121H148" fill="none" stroke-width="1.5"/>
+<rect x="157" y="105" width="20" height="32" rx="2" data-slot="trim" id="mansion-trim-32" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="160" y="108" width="14" height="26" rx="1" data-slot="glass" id="mansion-glass-33" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M167 108V134M160 121H174" fill="none" stroke-width="1.5"/>
+<rect x="84" y="140" width="10" height="70" rx="2" data-slot="trim" id="mansion-trim-34" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="112" y="140" width="10" height="70" rx="2" data-slot="trim" id="mansion-trim-35" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="140" y="140" width="10" height="70" rx="2" data-slot="trim" id="mansion-trim-36" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="168" y="140" width="10" height="70" rx="2" data-slot="trim" id="mansion-trim-37" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="78" y="134" width="100" height="8" rx="1" data-slot="trim" id="mansion-trim-38" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="112" y="160" width="32" height="50" rx="2" data-slot="door" id="mansion-door-39" fill="#4b2a1a" style="fill:var(--slot-door,#4b2a1a)"/>
+<circle cx="138" cy="185" r="2.5" data-slot="accent" id="mansion-accent-40" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="70" y="208" width="116" height="6" rx="1" data-slot="stone" id="mansion-stone-41" fill="#b5b0a6" style="fill:var(--slot-stone,#b5b0a6)"/>
+<rect x="106" y="210" width="44" height="6" rx="1" data-slot="stone" id="mansion-stone-42" fill="#b5b0a6" style="fill:var(--slot-stone,#b5b0a6)"/>
+<rect x="40" y="90" width="14" height="22" data-slot="stone" id="mansion-stone-43" fill="#b5b0a6" style="fill:var(--slot-stone,#b5b0a6)"/>
+<rect x="37" y="86" width="20" height="6" rx="1" data-slot="trim" id="mansion-trim-44" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+<rect x="204" y="90" width="14" height="22" data-slot="stone" id="mansion-stone-45" fill="#b5b0a6" style="fill:var(--slot-stone,#b5b0a6)"/>
+<rect x="201" y="86" width="20" height="6" rx="1" data-slot="trim" id="mansion-trim-46" fill="#ffffff" style="fill:var(--slot-trim,#ffffff)"/>
+</g>
+</svg>

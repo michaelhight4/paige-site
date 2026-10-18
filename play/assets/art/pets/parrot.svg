@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="parrot" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="60" ry="8" data-slot="shadow" id="parrot-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="30" y="196" width="196" height="14" rx="7" data-slot="door" id="parrot-door-2" fill="#8b5a2b" style="fill:var(--slot-door,#8b5a2b)"/>
+<path d="M100 170L92 226L110 216L116 238L128 190Z" data-slot="accent" id="parrot-accent-3" fill="#e8262b" style="fill:var(--slot-accent,#e8262b)"/>
+<path d="M130 40Q74 40 78 110Q82 170 128 198Q170 170 174 110Q178 40 130 40Z" data-slot="body" id="parrot-body-4" fill="#2fbf71" style="fill:var(--slot-body,#2fbf71)"/>
+<path d="M104 90Q104 60 130 60Q156 60 156 90Q152 124 130 138Q108 124 104 90Z" data-slot="trim" id="parrot-trim-5" fill="#fff3b0" style="fill:var(--slot-trim,#fff3b0)" stroke-width="2"/>
+<path d="M96 110Q60 150 96 190Q128 160 140 130Z" data-slot="accent" id="parrot-accent-6" fill="#e8262b" style="fill:var(--slot-accent,#e8262b)"/>
+<path d="M110 140L140 130L150 172Q130 190 110 180Z" fill="none" fill-opacity="0" stroke="none"/>
+<path d="M148 70Q186 62 184 98Q176 112 158 100L152 92Z" data-slot="skin" id="parrot-skin-7" fill="#f2c230" style="fill:var(--slot-skin,#f2c230)"/>
+<circle cx="126" cy="78" r="9" fill="#fff" stroke-width="2"/>
+<circle cx="127" cy="79" r="4.9" fill="#26262e" stroke="none"/>
+<circle cx="125" cy="77" r="1.8" fill="#fff" stroke="none"/>
+<path d="M120 198V210M136 198V210" fill="none" stroke-width="4"/>
+<path d="M110 208H128V216H110ZM126 208H144V216H126Z" data-slot="skin" id="parrot-skin-8" fill="#f2c230" style="fill:var(--slot-skin,#f2c230)" stroke-width="2.5"/>
+<path d="M110 52Q118 30 138 40" fill="none" stroke="#d33a3a" stroke-width="4"/>
+</g>
+</svg>

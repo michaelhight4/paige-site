@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="tiger" data-category="zoo">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="90" ry="8" data-slot="shadow" id="tiger-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="64" y="178" width="20" height="46" rx="8" data-slot="body" id="tiger-body-2" fill="#e8862b" style="fill:var(--slot-body,#e8862b)"/>
+<ellipse cx="74" cy="230" rx="14" ry="6" data-slot="trim" id="tiger-trim-3" fill="#fff6e6" style="fill:var(--slot-trim,#fff6e6)" stroke-width="2.5"/>
+<rect x="88" y="184" width="20" height="46" rx="8" data-slot="body" id="tiger-body-4" fill="#e8862b" style="fill:var(--slot-body,#e8862b)"/>
+<ellipse cx="98" cy="230" rx="14" ry="6" data-slot="trim" id="tiger-trim-5" fill="#fff6e6" style="fill:var(--slot-trim,#fff6e6)" stroke-width="2.5"/>
+<rect x="140" y="184" width="20" height="46" rx="8" data-slot="body" id="tiger-body-6" fill="#e8862b" style="fill:var(--slot-body,#e8862b)"/>
+<ellipse cx="150" cy="230" rx="14" ry="6" data-slot="trim" id="tiger-trim-7" fill="#fff6e6" style="fill:var(--slot-trim,#fff6e6)" stroke-width="2.5"/>
+<rect x="166" y="178" width="20" height="46" rx="8" data-slot="body" id="tiger-body-8" fill="#e8862b" style="fill:var(--slot-body,#e8862b)"/>
+<ellipse cx="176" cy="230" rx="14" ry="6" data-slot="trim" id="tiger-trim-9" fill="#fff6e6" style="fill:var(--slot-trim,#fff6e6)" stroke-width="2.5"/>
+<path d="M54 150Q16 140 24 100Q28 90 36 96" fill="none" stroke="#2b2a3a" stroke-width="14"/>
+<path d="M54 150Q16 140 24 100Q28 90 36 96" fill="none" stroke="#e8862b" stroke-width="9"/>
+<ellipse cx="118" cy="160" rx="76" ry="42" data-slot="body" id="tiger-body-10" fill="#e8862b" style="fill:var(--slot-body,#e8862b)"/>
+<polygon points="70,122 78,122 84,150 76,180 70,150" data-slot="accent" id="tiger-accent-11" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke="none"/>
+<polygon points="92,124 100,122 106,150 98,174 92,150" data-slot="accent" id="tiger-accent-12" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke="none"/>
+<polygon points="114,122 122,122 128,150 120,180 114,150" data-slot="accent" id="tiger-accent-13" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke="none"/>
+<polygon points="136,124 144,122 150,150 142,174 136,150" data-slot="accent" id="tiger-accent-14" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke="none"/>
+<polygon points="158,122 166,122 172,150 164,180 158,150" data-slot="accent" id="tiger-accent-15" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke="none"/>
+<ellipse cx="120" cy="188" rx="56" ry="12" fill="none" stroke="none" fill-opacity="0"/>
+<circle cx="190" cy="108" r="42" data-slot="body" id="tiger-body-16" fill="#e8862b" style="fill:var(--slot-body,#e8862b)"/>
+<path d="M156 130Q150 150 170 170Q170 148 176 140Z" data-slot="body" id="tiger-body-17" fill="#e8862b" style="fill:var(--slot-body,#e8862b)" stroke="none"/>
+<polygon points="160,78 160,52 182,66" data-slot="body" id="tiger-body-18" fill="#e8862b" style="fill:var(--slot-body,#e8862b)"/>
+<polygon points="210,74 226,54 228,84" data-slot="body" id="tiger-body-19" fill="#e8862b" style="fill:var(--slot-body,#e8862b)"/>
+<polygon points="166,72 166,60 176,68" data-slot="accent" id="tiger-accent-20" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke="none"/>
+<ellipse cx="200" cy="124" rx="28" ry="20" data-slot="trim" id="tiger-trim-21" fill="#fff6e6" style="fill:var(--slot-trim,#fff6e6)" stroke-width="2.5"/>
+<polygon points="193,114 207,114 200,123" fill="#26262e" stroke-width="2"/>
+<path d="M192 128Q200 134.4 208 128" fill="none" stroke-width="2.5"/>
+<circle cx="178" cy="100" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="179" cy="101" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="177" cy="99" r="1.3" fill="#fff" stroke="none"/>
+<circle cx="214" cy="100" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="215" cy="101" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="213" cy="99" r="1.3" fill="#fff" stroke="none"/>
+<polygon points="172,80 180,88 168,90" data-slot="accent" id="tiger-accent-22" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke="none"/>
+<polygon points="206,82 214,76 212,88" data-slot="accent" id="tiger-accent-23" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke="none"/>
+<path d="M186 68L190 78M196 66V78" fill="none" stroke="#26262e" stroke-width="4"/>
+</g>
+</svg>

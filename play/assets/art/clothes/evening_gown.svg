@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="evening_gown" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="80" ry="8" data-slot="shadow" id="evening_gown-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M98 22Q128 40 158 22L170 90Q150 108 164 130L236 232H20L92 130Q106 108 86 90Z" data-slot="fabric" id="evening_gown-fabric-2" fill="#8e1b3a" style="fill:var(--slot-fabric,#8e1b3a)"/>
+<path d="M92 20Q128 52 164 20L170 34Q128 70 86 34Z" data-slot="trim" id="evening_gown-trim-3" fill="#f2c230" style="fill:var(--slot-trim,#f2c230)" stroke-width="2.5"/>
+<path d="M92 118Q128 132 164 118L166 134Q128 148 90 134Z" data-slot="accent" id="evening_gown-accent-4" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="2.5"/>
+<path d="M128 134L210 232H174L128 168Z" fill="none" fill-opacity="0" stroke="none"/>
+<polygon points="121,125.5 123.8,122.4 132.2,122.4 135,125.5 128,135" data-slot="metal" id="evening_gown-metal-5" fill="#fff" style="fill:var(--slot-metal,#fff)"/>
+<path d="M121 125.55H135M125.55 125.55L123.8 122.4M130.45 125.55L132.2 122.4M125.55 125.55L128 135L130.45 125.55" fill="none" stroke-width="1.8"/>
+<polygon points="125.5,125.5 123.8,122.4 128,122.4" fill="#fff" fill-opacity=".5" stroke="none"/>
+<path d="M128 168Q120 200 90 232M128 168Q140 200 166 232" fill="none" stroke-width="2" stroke-opacity=".35"/>
+</g>
+</svg>

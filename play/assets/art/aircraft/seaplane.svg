@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="seaplane" data-category="aircraft">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M0 132Q16 124 32 132T64 132T96 132T128 132T160 132T192 132T224 132T256 132V160H0Z" data-slot="water" id="seaplane-water-1" fill="#4aa8e0" style="fill:var(--slot-water,#4aa8e0)"/>
+<polygon points="40,66 16,34 38,32 72,62" data-slot="accent" id="seaplane-accent-2" fill="#2fa7a0" style="fill:var(--slot-accent,#2fa7a0)"/>
+<path d="M30 70Q36 52 70 52H190Q232 56 238 74Q226 90 190 92H60Q30 90 30 70Z" data-slot="body" id="seaplane-body-3" fill="#f4efe4" style="fill:var(--slot-body,#f4efe4)"/>
+<rect x="80" y="38" width="110" height="10" rx="5" data-slot="trim" id="seaplane-trim-4" fill="#e0485a" style="fill:var(--slot-trim,#e0485a)"/>
+<rect x="104" y="46" width="4" height="10" data-slot="metal" id="seaplane-metal-5" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="160" y="46" width="4" height="10" data-slot="metal" id="seaplane-metal-6" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M170 56Q196 58 212 72L170 72Z" data-slot="glass" id="seaplane-glass-7" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<ellipse cx="120" cy="70" rx="9" ry="7" data-slot="glass" id="seaplane-glass-8" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<ellipse cx="144" cy="70" rx="9" ry="7" data-slot="glass" id="seaplane-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<rect x="236" y="54" width="7" height="40" rx="3" data-slot="metal" id="seaplane-metal-10" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M96 90L90 124M168 90L174 124" fill="none" stroke-width="4"/>
+<path d="M60 126Q60 118 80 118H196Q220 118 226 128Q226 134 214 134H70Q58 134 60 126Z" data-slot="metal" id="seaplane-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="40" y="78" width="190" height="4" rx="2" data-slot="accent" id="seaplane-accent-12" fill="#2fa7a0" style="fill:var(--slot-accent,#2fa7a0)" stroke-width="1.5"/>
+</g>
+</svg>

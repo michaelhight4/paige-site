@@ -1,0 +1,190 @@
+// Core game state and the turn loop.
+import { D, loadData } from './data.js';
+import { rnd, rint, pick, gauss, chance, clamp, wpick } from './rng.js';
+import { log, earn, spend, addStat, STATS, fill } from './core.js';
+import * as Market from './market.js';
+import * as Biz from './business.js';
+import * as Plus from './bizplus.js';
+import * as Sports from './sports.js';
+import * as P from './people.js';
+import * as Ev from './events.js';
+import * as Health from './health.js';
+import * as Legacy from './legacy.js';
+import * as Crime from './crime.js';
+import * as SS from './schoolsports.js';
+import * as Ribbons from './ribbons.js';
+import * as Journal from './journal.js';
+import * as Slice from './slice_bridge.js';
+import * as Skills from './skills.js';
+import * as Passions from './passions.js';
+import * as Scholar from './scholarships.js';
+import * as Premium from './premium.js';
+import * as PFx from './premium_fx.js';
+import { ALLSTATS } from './core.js';
+export { Skills, Passions, Scholar, Ev, P as People, Health, Legacy, Crime, SS as SchoolSports, Ribbons };
+export const applyFx = Ev.applyFx, pendingCard = Ev.pendingCard, resolveCard = Ev.resolveCard;
+
+export { loadData, D };
+export const STEPS = { yearly: 1, half: 0.5, quarter: 0.25 };
+export const LIVING_COST = 16000, DEBT_RATE = 0.07, TAX = 0.22;
+
+export function newGame({ name = null, seed = Date.now() % 2147483647, sandbox = false, country = null } = {}) {
+  const LF = D.life;
+  const s = { v: 2, rs: seed | 0, name: name || 'You', age: 0, step: 1, alive: true, stats: {}, cash: 0, debt: 0, edu: 0, school: 'primary', college: null,
+    job: null, assets: [], biz: [], hold: {}, nextId: 1, log: [], pending: [], report: [], acted: {}, history: [], sandbox, offers: [], fx: [], ending: null, flags: {}, turns: 0,
+    people: [], cand: [], diseases: [], chain: [], evLast: {}, fit: 0, tally: Ribbons.newTally(), record: { sentences: 0, priors: 0 }, prison: null, fugitive: null, sport: null, pro: null,
+    will: { mode: 'even', heir: null }, legacy: { gen: 1, gens: [] }, retired: false, yr: [] };
+  const c = country ? LF.countries.find((x) => x.id === country) : pick(s, LF.countries); s.country = c.id; s.city = pick(s, c.cities); s.gender = pick(s, LF.genders);
+  const nm = P.genName(s, s.country, s.gender); s.first = name || nm.first; s.last = nm.last; s.name = s.first + ' ' + s.last;
+  s.stats = { health: rint(s, 60, 90), happiness: rint(s, 60, 90), smarts: rint(s, 25, 75), looks: rint(s, 25, 75), fame: 0, karma: 50, crazy: rint(s, 0, 30), stress: rint(s, 5, 25) };
+  const startAge = sandbox ? LF.startAge.sandbox : LF.startAge.normal;
+  s.birthYear = LF.startYear - startAge; s.age = startAge;
+  Market.initMarket(s); Sports.initLeague(s);
+  P.initFamily(s, startAge);
+  if (sandbox) { s.edu = 2; s.school = null; s.stats.smarts = 70; s.cash = 50e6; for (let i = 0; i < 3; i++) P.makeFriend(s, 25 + rint(s, -3, 3)); }
+  P.refreshCandidates(s);
+  Biz.refreshOffers(s);
+  log(s, sandbox ? pick(s, LF.journal.sandboxStart) : fill(pick(s, LF.journal.born), { city: s.city, country: c.name, name: s.name }), 'life');
+  PFx.applyStart(s);
+  snap(s); return s;
+}
+
+export const netWorth = (s) => Legacy.netWorthOf(s);
+function snap(s) { s.history.push([Math.round(s.age * 4) / 4, Math.round(netWorth(s).total)]); if (s.history.length > 400) s.history.shift(); }
+
+export const setStep = (s, k) => { s.step = STEPS[k]; };
+export const stageOf = (s) => (s.age < 5 ? 'infant' : s.school === 'primary' ? 'primary' : s.school === 'high' ? 'high' : s.school === 'college' ? 'college' : 'adult');
+
+// ---- effects & events: see events.js (data/events.json) ----
+
+// ---- actions (once each per turn) ----
+export const ACTIONS = {
+  gym: { name: 'Hit the gym ($300)', cost: 300, fx: { health: 4, looks: 1 } },
+  study: { name: 'Study / read', cost: 0, fx: { smarts: 3, happiness: -1 } },
+  social: { name: 'Socialize ($100)', cost: 100, fx: { happiness: 4 } },
+  doctor: { name: 'Doctor visit ($800)', cost: 800, fx: { health: 6 } },
+  cosmetic: { name: 'Cosmetic care ($5,000)', cost: 5000, fx: { looks: 5 } },
+  work: { name: 'Work extra hard', cost: 0, fx: { happiness: -2 }, perf: 8, needsJob: true },
+};
+export function doAction(s, id) {
+  const a = ACTIONS[id]; if (!a || s.acted[id] || s.cash < a.cost || (a.needsJob && !s.job)) return false;
+  s.cash -= a.cost; applyFx(s, a.fx); if (a.perf) s.job.perf = clamp(s.job.perf + a.perf, 0, 100); s.acted[id] = 1; return true;
+}
+
+export function doActivity(s, id) {
+  const a = D.life.activities.find((x) => x.id === id); if (!a || s.age < a.min || s.prison) return { ok: false, msg: 'Not available.' };
+  if (a.special === 'doctor') return Health.doctorVisit(s);
+  if (s.acted[id]) return { ok: false, msg: 'Already did that this turn.' }; if (a.needsJob && !s.job) return { ok: false, msg: 'Needs a job.' };
+  if (a.cost && s.cash < a.cost) return { ok: false, msg: 'Cannot afford that.' };
+  if (a.cost) s.cash -= a.cost; s.acted[id] = 1; applyFx(s, a.fx); if (a.fit) s.fit = Math.min(5, (s.fit || 0) + a.fit);
+  const line = { gym: 'I went to the gym and lifted a tiny couch.', meditate: 'I meditated and thought about lunch.', library: 'I spent an afternoon at the library with a book I understood about half of.', vacation: 'I took a vacation and returned with a sunburn and a souvenir spoon.',
+    cosmetic: 'I treated myself to some cosmetic care.', social: 'I socialized, loudly.', study: 'I studied. It was educational.', work: 'I worked extra hard and nobody said a word.', volunteer: 'I volunteered, which made me feel worthy for a week.' }[id];
+  if (line) log(s, line, 'act'); return { ok: true, msg: line || '' };
+}
+
+// ---- school, career ----
+export function eligibleCareers(s) {
+  const busy = s.school === 'college' || s.school === 'primary';
+  return D.careers.filter((c) => !busy && s.age >= c.minAge && s.edu >= c.edu && s.stats.smarts >= c.smarts && s.stats.looks >= (c.looks || 0)
+    && (s.school !== 'high' || c.minAge <= 16)); // 16+ may take entry jobs while in high school
+}
+export function applyJob(s, id) {
+  const c = eligibleCareers(s).find((x) => x.id === id); if (!c) return false;
+  s.job = { id, level: 0, perf: 50, yrs: 0, lvlYrs: 0 }; s.retired = false; Skills.outcome(s, 'hired'); P.newCoworkers(s); log(s, `I was hired as a ${c.levels[0][0].toLowerCase()} (${c.name}).`, 'career'); return true;
+}
+export function quitJob(s) { if (s.job) { log(s, 'I quit my job and told nobody it was dramatic.', 'career'); s.job = null; P.newCoworkers(s); } }
+export const salaryNow = (s) => { if (!s.job) return 0; const c = D.careers.find((x) => x.id === s.job.id); return c.levels[s.job.level][1] * (0.9 + 0.2 * s.job.perf / 100) * (1 + (s.job.raise || 0)) * (1 + Passions.perk(s, 'salary')); };
+export function enrollCollege(s) { if (s.school === null && s.edu === 1 && s.age < 30) { s.school = 'college'; s.college = { yrs: 0 }; quitJob(s); if (s.sport) s.sport.level = 'college'; return true; } return false; }
+export function repay(s, amt) { const x = Math.min(amt, s.cash, s.debt); s.cash -= x; s.debt -= x; return x; }
+
+function lifeTick(s, dt) {
+  const sq = Math.sqrt(dt), inPrison = !!s.prison;
+  // school
+  if (s.school === 'primary' && s.age >= 12) { s.school = 'high'; log(s, 'I started high school and was immediately lost.', 'school'); if (s.sport) s.sport.level = 'high'; }
+  if (s.school === 'primary' || s.school === 'high') addStat(s, 'smarts', (1.2 + (s.acted.study ? 0 : 0)) * dt * (0.5 + s.stats.smarts / 100));
+  if (s.school === 'high' && s.age >= 18) { s.school = null; s.edu = 1; log(s, 'I graduated high school.', 'school'); s.pending.push({ kind: 'college' }); s.cash += 2000; }
+  if (s.school === 'college') {
+    if (!(s.sport && s.sport.scholarship)) s.debt += D.scholarData.collegeTuition * dt * Scholar.tuitionFactor(s); s.college.yrs += dt; addStat(s, 'smarts', 1.5 * dt);
+    if (s.college.yrs >= 4 - 1e-9) { s.school = null; s.edu = 2; s.college = null; log(s, 'I graduated college.', 'school'); SS.onCollegeGraduate(s); }
+  }
+  // work
+  if (s.job && !inPrison) {
+    const c = D.careers.find((x) => x.id === s.job.id), j = s.job;
+    j.perf = clamp(j.perf + ((s.stats.smarts - 50) / 40 + Skills.workBonus(s) + (s.stats.happiness - 50) / 60 + (s.stats.health - 50) / 80 + gauss(s) * 3) * dt - 1.5 * dt * (j.perf > 70 ? 1 : 0), 0, 100);
+    j.yrs += dt; j.lvlYrs += dt; s.tally.jobYears += dt;
+    const pay = salaryNow(s) * dt; earn(s, pay * (1 - (PFx.noTax() ? 0 : TAX)));
+    const secH = c.sector ? s.market.sectors[c.sector].h : 50;
+    if (secH < 25 && chance(s, 0.12 * dt)) { log(s, `I was laid off from my ${c.name} job amid a slump in the sector.`, 'career'); s.job = null; P.newCoworkers(s); }
+    else if (j.lvlYrs >= 1 && j.level < c.levels.length - 1 && chance(s, clamp((j.perf - 55) / 100, 0, 0.45) * dt * (0.6 + secH / 100))) {
+      j.level++; j.lvlYrs = 0; Skills.outcome(s, 'promoted'); log(s, `I was promoted to ${c.levels[j.level][0].toLowerCase()}.`, 'career');
+    } else if (j.perf < 15 && chance(s, 0.3 * dt)) { log(s, 'I was fired for poor performance. The cake in the break room was not for me.', 'career'); Skills.outcome(s, 'fired'); s.job = null; P.newCoworkers(s); }
+  }
+  SS.proYear(s, dt);
+  if (s.age >= 65 && !s.job && !inPrison && !s.pro) earn(s, 18000 * dt * (P.country(s).wealth > 0.8 ? 1 : 0.5)); // state pension
+  // living costs, assets, debt
+  if (s.age >= 18 && !inPrison) { const rent = s.assets.some((a) => a.kind === 'house') ? 0 : LIVING_COST; spend(s, (LIVING_COST * 0.5 + rent * 0.5) * dt); }
+  for (const a of s.assets) {
+    spend(s, a.upkeep * dt * (1 + Passions.perk(s, 'upkeep')));
+    if (a.kind === 'house') a.value *= 1 + (0.03 + 0.08 * (s.market.sectors.realestate.h - 50) / 50) * dt;
+    else a.value *= 1 - a.dep * dt;
+    addStat(s, 'happiness', a.joy * 0.05 * dt);
+  }
+  if (s.debt > 0) {
+    s.debt *= 1 + DEBT_RATE * dt;
+    if (s.cash > 0 && s.school !== 'college') { const x = Math.min(s.cash * 0.25, s.debt); s.cash -= x; s.debt -= x; } // auto-pay 25% of cash
+  }
+  // stats drift (health: see health.js)
+  addStat(s, 'looks', s.age > 30 ? -0.4 * dt : 0);
+  addStat(s, 'happiness', (55 - s.stats.happiness) * 0.15 * dt + gauss(s) * 1.5 * sq + (s.cash > 100000 ? 0.5 : s.debt > 100000 ? -1 : 0) * dt);
+  addStat(s, 'health', gauss(s) * 1.2 * sq + Skills.healthBonus(s) * 0.4 * dt + (s.age < 45 && s.stats.health < 80 ? (80 - s.stats.health) * 0.06 * dt : 0));
+  addStat(s, 'stress', (20 + (s.job ? 10 : 0) + (s.debt > 100000 ? 10 : 0) - s.stats.stress) * 0.25 * dt + gauss(s) * 2 * sq);
+  addStat(s, 'fame', -2 * dt * (s.stats.fame > 5 ? 1 : 0)); PFx.fameFloor(s); addStat(s, 'karma', (50 - s.stats.karma) * 0.02 * dt); addStat(s, 'crazy', gauss(s) * 1 * sq);
+  if (s.stats.happiness < 15) addStat(s, 'health', -1.5 * dt);
+  s.tally.maxFame = Math.max(s.tally.maxFame, s.stats.fame); s.tally.maxSmarts = Math.max(s.tally.maxSmarts, s.stats.smarts);
+}
+export const die = (s, ...a) => Legacy.die(s, ...a);
+
+export function takeTurn(s) {
+  if (!s.alive) return false;
+  if (s.pending.length) return false;
+  if (s.league.finals && !s.league.finals.done) return false;
+  const dt = s.step; s.report = []; s.acted = {}; s.turns++;
+  const yrBefore = Math.floor(s.age); s.age = Math.round((s.age + dt) * 1000) / 1000;
+  const newYear = Math.floor(s.age) > yrBefore;
+  Slice.ensure(s);
+  Market.tickMarket(s, dt);
+  lifeTick(s, dt);
+  Slice.tick(s, dt);
+  Crime.tick(s, dt);
+  Health.tick(s, dt);
+  if (!s.alive) { snap(s); return true; }
+  for (const b of s.biz) Biz.tickBiz(s, b, dt);
+  Sports.tickLeague(s, dt);
+  if (newYear) {
+    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); SS.yearTick(s); Slice.yearTick(s);
+    for (const b of s.biz) if (b.fame) b.fame = Math.max(0, b.fame - D.studio.balance.sensation.fameDecayPerYear);
+    const para = Journal.yearParagraph(s); if (para) log(s, para, 'yearly');
+  }
+  Ev.draw(s, dt);
+  snap(s);
+  return true;
+}
+
+// ---- assets ----
+export function buyAsset(s, id, financed = false) {
+  const c = D.assetCatalog.find((x) => x.id === id); if (!c || s.age < 18) return false;
+  const down = financed ? c.price * 0.2 : c.price; if (down > s.cash) return false;
+  s.cash -= down; if (financed) s.debt += c.price - down;
+  s.assets.push({ uid: s.nextId++, id, kind: c.kind, name: c.name, value: c.price, upkeep: c.upkeep, dep: c.dep, joy: c.joy });
+  log(s, `Bought ${c.name}.`, 'asset'); return true;
+}
+export function sellAsset(s, uid) {
+  const i = s.assets.findIndex((a) => a.uid === uid); if (i < 0) return false;
+  const a = s.assets[i], v = a.value * 0.95; earn(s, v); s.assets.splice(i, 1); log(s, `Sold ${a.name} for ${Math.round(v).toLocaleString()}.`, 'asset'); return true;
+}
+
+// ---- save / load ----
+const KEY = 'lifesim.save.v2';
+export const save = (s) => { try { localStorage.setItem(KEY, JSON.stringify(s)); return true; } catch (e) { return false; } };
+export const load = () => { try { const t = localStorage.getItem(KEY); const g = t ? JSON.parse(t) : null; if (g) Slice.ensure(g); return g; } catch (e) { return null; } };
+export const wipe = () => localStorage.removeItem(KEY);

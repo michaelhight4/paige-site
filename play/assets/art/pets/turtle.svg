@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="turtle" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="220" rx="90" ry="8" data-slot="shadow" id="turtle-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<ellipse cx="64" cy="168" rx="18" ry="14" data-slot="skin" id="turtle-skin-2" fill="#9bd06a" style="fill:var(--slot-skin,#9bd06a)"/>
+<ellipse cx="188" cy="192" rx="20" ry="12" data-slot="skin" id="turtle-skin-3" fill="#9bd06a" style="fill:var(--slot-skin,#9bd06a)"/>
+<rect x="70" y="186" width="26" height="30" rx="10" data-slot="skin" id="turtle-skin-4" fill="#9bd06a" style="fill:var(--slot-skin,#9bd06a)"/>
+<rect x="156" y="190" width="26" height="28" rx="10" data-slot="skin" id="turtle-skin-5" fill="#9bd06a" style="fill:var(--slot-skin,#9bd06a)"/>
+<path d="M190 160Q216 150 222 124Q226 100 244 100Q262 104 250 140Q240 164 200 184Z" data-slot="skin" id="turtle-skin-6" fill="#9bd06a" style="fill:var(--slot-skin,#9bd06a)"/>
+<circle cx="232" cy="112" r="18" data-slot="skin" id="turtle-skin-7" fill="#9bd06a" style="fill:var(--slot-skin,#9bd06a)"/>
+<circle cx="236" cy="106" r="6" fill="#fff" stroke-width="2"/>
+<circle cx="237" cy="107" r="2.8" fill="#26262e" stroke="none"/>
+<circle cx="235" cy="105" r="1" fill="#fff" stroke="none"/>
+<path d="M230 120Q236 124.8 242 120" fill="none" stroke-width="2.5"/>
+<polygon points="36,186 60,170 58,190" data-slot="skin" id="turtle-skin-8" fill="#9bd06a" style="fill:var(--slot-skin,#9bd06a)" stroke-width="2.5"/>
+<path d="M44 186Q44 90 128 88Q212 90 212 186Z" data-slot="accent" id="turtle-accent-9" fill="#6a8f3a" style="fill:var(--slot-accent,#6a8f3a)"/>
+<path d="M44 186H212Q212 202 200 202H56Q44 202 44 186Z" data-slot="trim" id="turtle-trim-10" fill="#e8d9a0" style="fill:var(--slot-trim,#e8d9a0)" stroke-width="2.5"/>
+<path d="M128 88V186M86 100L100 140V186M170 100L156 140V186M100 140H156M60 140H100M156 140H196" fill="none" stroke-width="2.5" stroke-opacity=".7"/>
+</g>
+</svg>

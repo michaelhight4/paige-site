@@ -1,0 +1,271 @@
+{
+ "slots": 2,
+ "masteryCap": 4,
+ "benchmark": 100,
+ "minAge": 6,
+ "switchPenalty": "Switching resets that passion's meter to 0.",
+ "yearGain": 4,
+ "practiceGain": 9,
+ "practiceCost": 0,
+ "passions": [
+  {
+   "id": "music",
+   "name": "Music",
+   "icon": "\ud83c\udfb5",
+   "skills": {
+    "creativity": 1,
+    "coordination": 0.6,
+    "people": 0.4,
+    "confidence": 0.5
+   },
+   "masteryTitle": "Virtuoso",
+   "career": "musician",
+   "venue": "the studio",
+   "mentor": "a music teacher",
+   "contest": "the open-mic night",
+   "gig": "play at weddings",
+   "perks": {
+    "happy": 2,
+    "fame": 1
+   },
+   "scholarship": "music"
+  },
+  {
+   "id": "sports",
+   "name": "Sports",
+   "icon": "\ud83c\udfc5",
+   "skills": {
+    "strength": 1,
+    "endurance": 1,
+    "speed": 1,
+    "coordination": 0.8,
+    "discipline": 0.5
+   },
+   "masteryTitle": "Champion",
+   "career": "athlete",
+   "venue": "the field",
+   "mentor": "a coach",
+   "contest": "the regional tournament",
+   "gig": "join a local league",
+   "perks": {
+    "health": 2
+   },
+   "scholarship": "sports"
+  },
+  {
+   "id": "science",
+   "name": "Science",
+   "icon": "\ud83d\udd2c",
+   "skills": {
+    "intelligence": 1,
+    "problem_solving": 1,
+    "math": 0.8,
+    "focus": 0.6
+   },
+   "masteryTitle": "Eminent Scientist",
+   "career": "researcher",
+   "venue": "the lab",
+   "mentor": "a professor",
+   "contest": "the science fair",
+   "gig": "assist a research team",
+   "perks": {
+    "smarts": 1
+   },
+   "scholarship": "science"
+  },
+  {
+   "id": "business",
+   "name": "Business",
+   "icon": "\ud83d\udcbc",
+   "skills": {
+    "business": 1.2,
+    "people": 0.7,
+    "leadership": 0.8,
+    "math": 0.4
+   },
+   "masteryTitle": "Tycoon",
+   "career": "entrepreneur",
+   "venue": "the market",
+   "mentor": "a retired founder",
+   "contest": "the pitch night",
+   "gig": "launch a side hustle",
+   "perks": {
+    "bizMult": 0.12
+   },
+   "scholarship": "business"
+  },
+  {
+   "id": "art",
+   "name": "Art",
+   "icon": "\ud83c\udfa8",
+   "skills": {
+    "creativity": 1.2,
+    "coordination": 0.6,
+    "focus": 0.5,
+    "confidence": 0.3
+   },
+   "masteryTitle": "Master Artist",
+   "career": "artist",
+   "venue": "the studio",
+   "mentor": "an art teacher",
+   "contest": "the gallery show",
+   "gig": "sell a commission",
+   "perks": {
+    "looks": 1,
+    "happy": 1
+   },
+   "scholarship": "art"
+  },
+  {
+   "id": "crime",
+   "name": "Crime",
+   "icon": "\ud83d\udd76\ufe0f",
+   "skills": {
+    "composure": 0.8,
+    "problem_solving": 0.8,
+    "people": 0.4,
+    "speed": 0.4
+   },
+   "masteryTitle": "Criminal Mastermind",
+   "career": "fixer",
+   "venue": "the back alley",
+   "mentor": "a smooth operator",
+   "contest": "the heist planning",
+   "gig": "take a risky gig",
+   "perks": {
+    "crime": 0.2
+   },
+   "scholarship": "crime"
+  },
+  {
+   "id": "cooking",
+   "name": "Cooking",
+   "icon": "\ud83c\udf73",
+   "skills": {
+    "cooking": 1.4,
+    "focus": 0.5,
+    "creativity": 0.6,
+    "people": 0.3
+   },
+   "masteryTitle": "Master Chef",
+   "career": "chef",
+   "venue": "the kitchen",
+   "mentor": "a head chef",
+   "contest": "the cook-off",
+   "gig": "cater a party",
+   "perks": {
+    "happy": 2,
+    "health": 1
+   },
+   "scholarship": "cooking"
+  },
+  {
+   "id": "writing",
+   "name": "Writing",
+   "icon": "\u270d\ufe0f",
+   "skills": {
+    "literacy": 1.3,
+    "creativity": 1,
+    "memory": 0.4,
+    "discipline": 0.5
+   },
+   "masteryTitle": "Acclaimed Author",
+   "career": "writer",
+   "venue": "the library",
+   "mentor": "an editor",
+   "contest": "the writing contest",
+   "gig": "sell an article",
+   "perks": {
+    "smarts": 1,
+    "fame": 1
+   },
+   "scholarship": "writing"
+  },
+  {
+   "id": "tech",
+   "name": "Technology",
+   "icon": "\ud83d\udcbb",
+   "skills": {
+    "computer": 1.4,
+    "problem_solving": 0.9,
+    "math": 0.6,
+    "focus": 0.5
+   },
+   "masteryTitle": "Tech Wizard",
+   "career": "engineer",
+   "venue": "the hack space",
+   "mentor": "a senior developer",
+   "contest": "the hackathon",
+   "gig": "ship a small app",
+   "perks": {
+    "salary": 0.08
+   },
+   "scholarship": "tech"
+  },
+  {
+   "id": "acting",
+   "name": "Acting",
+   "icon": "\ud83c\udfad",
+   "skills": {
+    "confidence": 1.1,
+    "creativity": 0.8,
+    "memory": 0.5,
+    "people": 0.6,
+    "composure": 0.4
+   },
+   "masteryTitle": "Screen Legend",
+   "career": "actor",
+   "venue": "the stage",
+   "mentor": "a drama coach",
+   "contest": "the audition",
+   "gig": "land a small role",
+   "perks": {
+    "fame": 2
+   },
+   "scholarship": "acting"
+  },
+  {
+   "id": "trades",
+   "name": "Trades",
+   "icon": "\ud83d\udd27",
+   "skills": {
+    "trades": 1.4,
+    "strength": 0.5,
+    "problem_solving": 0.6,
+    "driving": 0.5
+   },
+   "masteryTitle": "Master Craftsman",
+   "career": "tradesperson",
+   "venue": "the workshop",
+   "mentor": "a master mechanic",
+   "contest": "the build-off",
+   "gig": "take on a repair job",
+   "perks": {
+    "upkeep": -0.2
+   },
+   "scholarship": "trades"
+  },
+  {
+   "id": "leadership",
+   "name": "Leadership",
+   "icon": "\ud83c\udfdb\ufe0f",
+   "skills": {
+    "leadership": 1.3,
+    "people": 0.9,
+    "composure": 0.6,
+    "maturity": 0.6
+   },
+   "masteryTitle": "Statesperson",
+   "career": "leader",
+   "venue": "the council hall",
+   "mentor": "a seasoned mayor",
+   "contest": "the debate",
+   "gig": "run for a committee seat",
+   "perks": {
+    "fame": 1,
+    "salary": 0.05
+   },
+   "scholarship": "leadership"
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="log_cabin" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="log_cabin-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="log_cabin-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="34" y="120" width="188" height="90" rx="3" data-slot="body" id="log_cabin-body-3" fill="#b0743f" style="fill:var(--slot-body,#b0743f)"/>
+<path d="M34 130H222M34 140H222M34 150H222M34 160H222M34 170H222M34 180H222M34 190H222M34 200H222" fill="none" stroke-width="2"/>
+<polygon points="28,122 128,70 228,122" data-slot="roof" id="log_cabin-roof-4" fill="#5a3a2a" style="fill:var(--slot-roof,#5a3a2a)"/>
+<rect x="184" y="50" width="22" height="56" data-slot="stone" id="log_cabin-stone-5" fill="#8d8c88" style="fill:var(--slot-stone,#8d8c88)"/>
+<rect x="181" y="46" width="28" height="6" rx="1" data-slot="trim" id="log_cabin-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="184" y="100" width="22" height="20" data-slot="stone" id="log_cabin-stone-7" fill="#8d8c88" style="fill:var(--slot-stone,#8d8c88)"/>
+<rect x="34" y="120" width="188" height="6" rx="2" data-slot="trim" id="log_cabin-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="2"/>
+<rect x="112" y="148" width="34" height="62" rx="2" data-slot="door" id="log_cabin-door-9" fill="#5b3a22" style="fill:var(--slot-door,#5b3a22)"/>
+<circle cx="140" cy="179" r="2.5" data-slot="accent" id="log_cabin-accent-10" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="51" y="145" width="40" height="34" rx="2" data-slot="trim" id="log_cabin-trim-11" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="54" y="148" width="34" height="28" rx="1" data-slot="glass" id="log_cabin-glass-12" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M71 148V176M54 162H88" fill="none" stroke-width="1.5"/>
+<rect x="167" y="145" width="40" height="34" rx="2" data-slot="trim" id="log_cabin-trim-13" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="170" y="148" width="34" height="28" rx="1" data-slot="glass" id="log_cabin-glass-14" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M187 148V176M170 162H204" fill="none" stroke-width="1.5"/>
+<rect x="24" y="176" width="208" height="6" rx="2" data-slot="roof" id="log_cabin-roof-15" fill="#5a3a2a" style="fill:var(--slot-roof,#5a3a2a)"/>
+<rect x="32" y="178" width="6" height="34" rx="1" data-slot="door" id="log_cabin-door-16" fill="#5b3a22" style="fill:var(--slot-door,#5b3a22)"/>
+<rect x="92" y="178" width="6" height="34" rx="1" data-slot="door" id="log_cabin-door-17" fill="#5b3a22" style="fill:var(--slot-door,#5b3a22)"/>
+<rect x="158" y="178" width="6" height="34" rx="1" data-slot="door" id="log_cabin-door-18" fill="#5b3a22" style="fill:var(--slot-door,#5b3a22)"/>
+<rect x="218" y="178" width="6" height="34" rx="1" data-slot="door" id="log_cabin-door-19" fill="#5b3a22" style="fill:var(--slot-door,#5b3a22)"/>
+<rect x="100" y="212" width="56" height="5" rx="1" data-slot="trim" id="log_cabin-trim-20" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<circle cx="128" cy="100" r="10" data-slot="glass" id="log_cabin-glass-21" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<circle cx="140" cy="160" r="3" data-slot="accent" id="log_cabin-accent-22" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+</g>
+</svg>

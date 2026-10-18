@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="dog" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="228" rx="70" ry="8" data-slot="shadow" id="dog-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M192 168Q226 150 226 120Q236 124 230 150Q226 180 196 196Z" data-slot="body" id="dog-body-2" fill="#c98a4b" style="fill:var(--slot-body,#c98a4b)"/>
+<ellipse cx="124" cy="176" rx="62" ry="48" data-slot="body" id="dog-body-3" fill="#c98a4b" style="fill:var(--slot-body,#c98a4b)"/>
+<ellipse cx="124" cy="190" rx="34" ry="34" data-slot="skin" id="dog-skin-4" fill="#f3dcb8" style="fill:var(--slot-skin,#f3dcb8)" stroke-width="2"/>
+<rect x="84" y="190" width="22" height="38" rx="8" data-slot="body" id="dog-body-5" fill="#c98a4b" style="fill:var(--slot-body,#c98a4b)"/>
+<rect x="144" y="190" width="22" height="38" rx="8" data-slot="body" id="dog-body-6" fill="#c98a4b" style="fill:var(--slot-body,#c98a4b)"/>
+<ellipse cx="95" cy="228" rx="15" ry="7" data-slot="skin" id="dog-skin-7" fill="#f3dcb8" style="fill:var(--slot-skin,#f3dcb8)"/>
+<ellipse cx="155" cy="228" rx="15" ry="7" data-slot="skin" id="dog-skin-8" fill="#f3dcb8" style="fill:var(--slot-skin,#f3dcb8)"/>
+<circle cx="124" cy="106" r="52" data-slot="body" id="dog-body-9" fill="#c98a4b" style="fill:var(--slot-body,#c98a4b)"/>
+<path d="M78 78Q42 80 46 142Q74 150 88 112Z" data-slot="accent" id="dog-accent-10" fill="#7a4a24" style="fill:var(--slot-accent,#7a4a24)"/>
+<path d="M170 78Q206 80 202 142Q174 150 160 112Z" data-slot="accent" id="dog-accent-11" fill="#7a4a24" style="fill:var(--slot-accent,#7a4a24)"/>
+<ellipse cx="124" cy="126" rx="28" ry="22" data-slot="skin" id="dog-skin-12" fill="#f3dcb8" style="fill:var(--slot-skin,#f3dcb8)" stroke-width="2"/>
+<ellipse cx="124" cy="116" rx="10" ry="7" fill="#26262e" stroke="none"/>
+<path d="M124 122V132" fill="none" stroke-width="2.5"/>
+<path d="M114 132Q124 140 134 132" fill="none" stroke-width="2.5"/>
+<path d="M118 136Q124 156 130 136Z" fill="#e66" stroke-width="2"/>
+<circle cx="104" cy="92" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="105" cy="93" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="103" cy="91" r="1.3" fill="#fff" stroke="none"/>
+<circle cx="144" cy="92" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="145" cy="93" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="143" cy="91" r="1.3" fill="#fff" stroke="none"/>
+<rect x="82" y="156" width="84" height="12" rx="6" data-slot="fabric" id="dog-fabric-13" fill="#d33a3a" style="fill:var(--slot-fabric,#d33a3a)"/>
+<circle cx="124" cy="172" r="7" data-slot="accent" id="dog-accent-14" fill="#7a4a24" style="fill:var(--slot-accent,#7a4a24)" stroke-width="2"/>
+</g>
+</svg>

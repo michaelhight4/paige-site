@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="cottage" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="cottage-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="cottage-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="44" y="124" width="168" height="86" rx="8" data-slot="body" id="cottage-body-3" fill="#f1e1c0" style="fill:var(--slot-body,#f1e1c0)"/>
+<path d="M24 140Q40 96 90 82Q128 52 166 82Q216 96 232 140Q212 128 128 126Q44 128 24 140Z" data-slot="roof" id="cottage-roof-4" fill="#c9a45a" style="fill:var(--slot-roof,#c9a45a)"/>
+<rect x="168" y="56" width="18" height="40" data-slot="stone" id="cottage-stone-5" fill="#a79d92" style="fill:var(--slot-stone,#a79d92)"/>
+<rect x="165" y="52" width="24" height="6" rx="1" data-slot="trim" id="cottage-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<path d="M112 210V172a16 16 0 0 1 32 0V210Z" data-slot="door" id="cottage-door-7" fill="#3a6ea5" style="fill:var(--slot-door,#3a6ea5)"/>
+<rect x="55" y="147" width="36" height="34" rx="6" data-slot="trim" id="cottage-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="58" y="150" width="30" height="28" rx="5" data-slot="glass" id="cottage-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M73 150V178M58 164H88" fill="none" stroke-width="1.5"/>
+<rect x="167" y="147" width="36" height="34" rx="6" data-slot="trim" id="cottage-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="170" y="150" width="30" height="28" rx="5" data-slot="glass" id="cottage-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M185 150V178M170 164H200" fill="none" stroke-width="1.5"/>
+<circle cx="60" cy="186" r="4" data-slot="accent" id="cottage-accent-12" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="172" cy="188" r="4" data-slot="accent" id="cottage-accent-13" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="68" cy="186" r="4" data-slot="accent" id="cottage-accent-14" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="179" cy="188" r="4" data-slot="accent" id="cottage-accent-15" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="76" cy="186" r="4" data-slot="accent" id="cottage-accent-16" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="186" cy="188" r="4" data-slot="accent" id="cottage-accent-17" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="84" cy="186" r="4" data-slot="accent" id="cottage-accent-18" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="193" cy="188" r="4" data-slot="accent" id="cottage-accent-19" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="92" cy="186" r="4" data-slot="accent" id="cottage-accent-20" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<circle cx="200" cy="188" r="4" data-slot="accent" id="cottage-accent-21" fill="#ff7aa8" style="fill:var(--slot-accent,#ff7aa8)"/>
+<rect x="54" y="178" width="40" height="8" rx="2" data-slot="fabric" id="cottage-fabric-22" fill="#6a9c4a" style="fill:var(--slot-fabric,#6a9c4a)"/>
+<rect x="166" y="178" width="40" height="8" rx="2" data-slot="fabric" id="cottage-fabric-23" fill="#6a9c4a" style="fill:var(--slot-fabric,#6a9c4a)"/>
+<path d="M44 124H212M44 132H212M44 140H212M44 148H212M44 156H212M44 164H212M44 172H212M44 180H212M44 188H212M44 196H212M44 204H212" fill="none" stroke-width="1" stroke-opacity=".35"/>
+<path d="M40 128Q128 120 216 128" fill="none" stroke-opacity=".3"/>
+</g>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="limo" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="130" ry="7" data-slot="shadow" id="limo-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M14 108Q6 108 6 100L6 98Q6 90 9.6 86.4L10.4 85.6Q14 82 22 81.9L132 80.1Q140 80 144.8 73.6L153.2 62.4Q158 56 166 56L192 56Q200 56 205.1 62.2L212.9 71.8Q218 78 225.7 80.1L232.3 81.9Q240 84 244.5 89.5L245.5 90.5Q250 96 249.1 101.5L248.9 102.5Q248 108 240 108Z" data-slot="body" id="limo-body-2" fill="#1d1d26" style="fill:var(--slot-body,#1d1d26)"/>
+<path d="M26 83.6Q22 84 22.7 80.1L25.3 65.9Q26 62 30 62L56 62Q60 62 60 66L60 76Q60 80 56 80.4Z" data-slot="glass" id="limo-glass-3" fill="#6a7f96" style="fill:var(--slot-glass,#6a7f96)"/>
+<path d="M66 66Q66 62 70 62L96 62Q100 62 100 66L100 76Q100 80 96 80L70 80Q66 80 66 76Z" data-slot="glass" id="limo-glass-4" fill="#6a7f96" style="fill:var(--slot-glass,#6a7f96)"/>
+<path d="M106 66Q106 62 110 62L134 62Q138 62 139.6 65.7L144.4 76.3Q146 80 142 80L110 80Q106 80 106 76Z" data-slot="glass" id="limo-glass-5" fill="#6a7f96" style="fill:var(--slot-glass,#6a7f96)"/>
+<path d="M158.4 63.7Q160 60 164 60L194 60Q198 60 200.5 63.2L209.5 74.8Q212 78 208 78L156 78Q152 78 153.6 74.3Z" data-slot="glass" id="limo-glass-6" fill="#6a7f96" style="fill:var(--slot-glass,#6a7f96)"/>
+<path d="M104 80V106" fill="none" stroke-width="2"/>
+<path d="M150 80V106" fill="none" stroke-width="2"/>
+<rect x="80" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="limo-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="122" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="limo-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="239" y="98" width="15" height="10" rx="3" data-slot="trim" id="limo-trim-9" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="2" y="98" width="13" height="10" rx="3" data-slot="trim" id="limo-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="246" cy="94" rx="6" ry="4.5" data-slot="accent" id="limo-accent-11" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="5" y="88" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="44" cy="114" r="20" fill="#23232f" stroke="none"/>
+<circle cx="44" cy="114" r="16" data-slot="wheel" id="limo-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="44" cy="114" r="8" data-slot="metal" id="limo-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="44" cy="114" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M44 106V122M36 114H52" fill="none" stroke-width="1.5"/>
+<circle cx="112" cy="114" r="20" fill="#23232f" stroke="none"/>
+<circle cx="112" cy="114" r="16" data-slot="wheel" id="limo-wheel-14" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="112" cy="114" r="8" data-slot="metal" id="limo-metal-15" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="112" cy="114" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M112 106V122M104 114H120" fill="none" stroke-width="1.5"/>
+<circle cx="206" cy="114" r="20" fill="#23232f" stroke="none"/>
+<circle cx="206" cy="114" r="16" data-slot="wheel" id="limo-wheel-16" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="206" cy="114" r="8" data-slot="metal" id="limo-metal-17" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="206" cy="114" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M206 106V122M198 114H214" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

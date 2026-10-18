@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="hatchback" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="115" ry="7" data-slot="shadow" id="hatchback-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M32 108Q24 108 23.4 100L22.6 88Q22 80 27.2 73.9L28.8 72.1Q34 66 41.8 64.4L76.2 57.6Q84 56 92 55.8L142 54.2Q150 54 156.2 59L173.8 73Q180 78 187.9 79L218.1 83Q226 84 230.5 89.5L231.5 90.5Q236 96 235.1 101.5L234.9 102.5Q234 108 226 108Z" data-slot="body" id="hatchback-body-2" fill="#f08c1e" style="fill:var(--slot-body,#f08c1e)"/>
+<path d="M48 78Q44 78 45.9 74.5L52.1 62.5Q54 59 58 59L111 59Q115 59 115 63L115 74Q115 78 111 78Z" data-slot="glass" id="hatchback-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M125 78Q121 78 121 74L121 63Q121 59 125 59L164 59Q168 59 168.8 62.9L171.2 74.1Q172 78 168 78Z" data-slot="glass" id="hatchback-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M118 80V106" fill="none" stroke-width="2"/>
+<path d="M158 80V106" fill="none" stroke-width="2"/>
+<rect x="96" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="hatchback-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="225" y="98" width="15" height="10" rx="3" data-slot="trim" id="hatchback-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="18" y="98" width="13" height="10" rx="3" data-slot="trim" id="hatchback-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="230" cy="92" rx="6" ry="4.5" data-slot="accent" id="hatchback-accent-8" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="23" y="78" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="66" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="66" cy="113" r="17" data-slot="wheel" id="hatchback-wheel-9" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="66" cy="113" r="8.5" data-slot="metal" id="hatchback-metal-10" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="66" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M66 104.5V121.5M57.5 113H74.5" fill="none" stroke-width="1.5"/>
+<circle cx="194" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="194" cy="113" r="17" data-slot="wheel" id="hatchback-wheel-11" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="194" cy="113" r="8.5" data-slot="metal" id="hatchback-metal-12" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="194" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M194 104.5V121.5M185.5 113H202.5" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

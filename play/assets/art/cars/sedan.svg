@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="sedan" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="117" ry="7" data-slot="shadow" id="sedan-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M30 108Q22 108 21.1 100L20.9 98Q20 90 23.6 86.4L24.4 85.6Q28 82 36 81.3L64 78.7Q72 78 76.6 71.4L85.4 58.6Q90 52 98 52L144 52Q152 52 158 57.2L176 72.8Q182 78 189.9 79.1L218.1 82.9Q226 84 231.5 89.5L232.5 90.5Q238 96 237.1 101.5L236.9 102.5Q236 108 228 108Z" data-slot="body" id="sedan-body-2" fill="#3f7fd6" style="fill:var(--slot-body,#3f7fd6)"/>
+<path d="M84 76Q80 76 82.5 72.9L92.5 60.1Q95 57 99 57L115 57Q119 57 119 61L119 72Q119 76 115 76Z" data-slot="glass" id="sedan-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M129 76Q125 76 125 72L125 61Q125 57 129 57L166 57Q170 57 170.4 61L171.6 72Q172 76 168 76Z" data-slot="glass" id="sedan-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M122 80V106" fill="none" stroke-width="2"/>
+<path d="M162 80V106" fill="none" stroke-width="2"/>
+<rect x="100" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="sedan-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="142" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="sedan-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="sedan-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="16" y="98" width="13" height="10" rx="3" data-slot="trim" id="sedan-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="231" cy="92" rx="6" ry="4.5" data-slot="accent" id="sedan-accent-9" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="21" y="86" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="64" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="64" cy="113" r="17" data-slot="wheel" id="sedan-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="64" cy="113" r="8.5" data-slot="metal" id="sedan-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="64" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M64 104.5V121.5M55.5 113H72.5" fill="none" stroke-width="1.5"/>
+<circle cx="194" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="194" cy="113" r="17" data-slot="wheel" id="sedan-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="194" cy="113" r="8.5" data-slot="metal" id="sedan-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="194" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M194 104.5V121.5M185.5 113H202.5" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

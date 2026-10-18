@@ -1,0 +1,134 @@
+/* LifeSim Art UI - shared theme. Everything is driven by --ls-* variables; override them (see fantasy.css) to reskin.
+   Mobile-first. System font stack only. */
+:root{
+  --ls-font: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ls-font-display: var(--ls-font);
+  --ls-bg:#e9edf2; --ls-surface:#fff; --ls-surface-2:#f4f6f9; --ls-line:#dfe3e8;
+  --ls-text:#1c2330; --ls-muted:#7a8494; --ls-inverse:#fff;
+  --ls-header:#2f6fd0; --ls-header-2:#2559ac; --ls-header-text:#fff;
+  --ls-accent:#2f6fd0; --ls-accent-text:#fff;
+  --ls-good:#3fbf5f; --ls-mid:#f39a1e; --ls-bad:#e54848;
+  --ls-money:#2f9e44; --ls-danger:#d63b3b; --ls-gold:#f4b400;
+  --ls-age:#34c759; --ls-age-2:#28a745; --ls-age-text:#fff;
+  --ls-tab-bg:#fff; --ls-tab-active:var(--ls-accent); --ls-tab-idle:#8a93a3;
+  --ls-radius:14px; --ls-radius-sm:9px; --ls-row-h:64px;
+  --ls-shadow:0 2px 8px rgba(20,30,50,.12); --ls-shadow-lg:0 10px 40px rgba(10,20,40,.35);
+  --ls-bar-track:#d8dde4; --ls-bar-h:14px;
+  --ls-log-bg:#fffdf6; --ls-log-year:#2f6fd0;
+  --ls-modal-dim:rgba(10,16,28,.6);
+  --ls-stone:#aab0b8; --ls-stone-dark:#7d848e; --ls-sky-1:#1d2540; --ls-sky-2:#4b3f72; --ls-grass:#2e4a35;
+}
+*,*::before,*::after{box-sizing:border-box}
+.ls-app{font-family:var(--ls-font);color:var(--ls-text);background:var(--ls-bg);max-width:520px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));-webkit-tap-highlight-color:transparent}
+.ls-app h1,.ls-app h2,.ls-app h3{font-family:var(--ls-font-display);margin:0}
+.ls-header{background:linear-gradient(var(--ls-header),var(--ls-header-2));color:var(--ls-header-text);padding:12px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5;box-shadow:var(--ls-shadow)}
+.ls-header h1{font-size:19px;font-weight:800;flex:1;letter-spacing:.2px}
+.ls-header .ls-sub{font-size:12px;opacity:.85;font-weight:600}
+.ls-header-btn{background:rgba(255,255,255,.18);border:0;color:inherit;border-radius:50%;width:34px;height:34px;font-size:17px;cursor:pointer;display:grid;place-items:center}
+.ls-section-title{background:var(--ls-header);color:var(--ls-header-text);font-weight:800;font-size:13px;letter-spacing:.8px;text-transform:uppercase;padding:7px 16px}
+.ls-section-title.is-light{background:transparent;color:var(--ls-muted);padding:14px 16px 6px}
+.ls-pad{padding:14px 16px}
+.ls-card{background:var(--ls-surface);border-radius:var(--ls-radius);box-shadow:var(--ls-shadow);margin:12px;overflow:hidden}
+.ls-card-pad{padding:14px}
+
+/* big list rows */
+.ls-list{background:var(--ls-surface);border-top:1px solid var(--ls-line)}
+.ls-row{display:flex;align-items:center;gap:12px;min-height:var(--ls-row-h);padding:8px 16px;border-bottom:1px solid var(--ls-line);background:var(--ls-surface);width:100%;text-align:left;font:inherit;color:inherit;border-left:0;border-right:0;border-top:0;cursor:pointer}
+.ls-row:active{background:var(--ls-surface-2)}
+.ls-row .ls-row-icon{flex:none;width:44px;height:44px;display:grid;place-items:center}
+.ls-row .ls-row-main{flex:1;min-width:0}
+.ls-row .ls-row-title{font-size:17px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ls-row .ls-row-sub{font-size:13px;color:var(--ls-muted);margin-top:2px}
+.ls-row .ls-row-val{font-weight:800;font-size:16px;color:var(--ls-money);white-space:nowrap}
+.ls-row .ls-row-val.is-neg{color:var(--ls-danger)}
+.ls-row.is-disabled{opacity:.45;pointer-events:none}
+.ls-row.has-chevron::after{content:"\203A";color:#b4bbc7;font-size:26px;margin-left:2px;line-height:1}
+
+/* stat bars: classes is-good (31-100) / is-mid (13-30) / is-bad (0-12); set by LifeSimArt.statBar() */
+.ls-stat{display:flex;align-items:center;gap:10px;padding:6px 16px}
+.ls-stat .ls-stat-ico{width:24px;text-align:center;font-size:18px}
+.ls-stat .ls-stat-label{width:76px;font-weight:700;font-size:14px}
+.ls-stat .ls-bar{flex:1}
+.ls-bar{height:var(--ls-bar-h);background:var(--ls-bar-track);border-radius:99px;overflow:hidden;position:relative}
+.ls-bar>i{display:block;height:100%;width:var(--v,0%);border-radius:99px;background:var(--ls-good);transition:width .5s cubic-bezier(.2,.8,.2,1),background .3s}
+.ls-bar.is-good>i{background:var(--ls-good)} .ls-bar.is-mid>i{background:var(--ls-mid)} .ls-bar.is-bad>i{background:var(--ls-bad)}
+.ls-stat .ls-stat-num{width:30px;text-align:right;font-weight:800;font-size:13px;color:var(--ls-muted)}
+
+/* buttons */
+.ls-btn{font:inherit;font-weight:800;font-size:16px;border:0;border-radius:var(--ls-radius-sm);padding:13px 18px;background:var(--ls-accent);color:var(--ls-accent-text);cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,.18);transition:transform .08s}
+.ls-btn:active{transform:translateY(2px);box-shadow:none}
+.ls-btn.is-block{display:block;width:100%}
+.ls-btn.is-green{background:var(--ls-age)} .ls-btn.is-red{background:var(--ls-danger)} .ls-btn.is-gold{background:var(--ls-gold);color:#3b2b00}
+.ls-btn.is-ghost{background:transparent;color:var(--ls-accent);box-shadow:inset 0 0 0 2px var(--ls-accent)}
+.ls-btn[disabled]{opacity:.45;pointer-events:none}
+.ls-btn-row{display:flex;gap:10px;padding:12px}.ls-btn-row .ls-btn{flex:1}
+
+/* central AGE button */
+.ls-age-btn{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9;width:84px;height:84px;border-radius:50%;border:5px solid var(--ls-tab-bg);background:radial-gradient(circle at 35% 30%,var(--ls-age-hi,#6ee58a),var(--ls-age) 45%,var(--ls-age-2));color:var(--ls-age-text);font:900 15px/1 var(--ls-font-display);letter-spacing:.5px;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.ls-age-btn small{font-size:10px;font-weight:700;opacity:.9;letter-spacing:0}
+.ls-age-btn:active{transform:translateX(-50%) scale(.94)}
+.ls-age-btn.is-inline{position:relative;left:auto;bottom:auto;transform:none;margin:10px auto;display:flex}
+.ls-age-btn.is-inline:active{transform:scale(.94)}
+@media(min-width:521px){.ls-age-btn:not(.is-inline){left:calc(50% )}}
+
+/* bottom tab bar */
+.ls-tabs{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--ls-tab-bg);display:flex;max-width:520px;margin:0 auto;border-top:1px solid var(--ls-line);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -2px 8px rgba(0,0,0,.06)}
+.ls-tab{flex:1;background:none;border:0;padding:7px 0 6px;font:700 11px var(--ls-font);color:var(--ls-tab-idle);display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+.ls-tab .ls-tab-ico{font-size:20px;line-height:1;height:24px;display:grid;place-items:center}
+.ls-tab.is-active{color:var(--ls-tab-active)}
+.ls-tab.is-gap{pointer-events:none;visibility:hidden}
+.ls-tabs.is-contained{position:sticky}
+
+/* modal cards */
+.ls-modal-backdrop{position:fixed;inset:0;background:var(--ls-modal-dim);z-index:50;display:flex;align-items:center;justify-content:center;padding:18px;animation:ls-fade-in .2s}
+.ls-modal{background:var(--ls-surface);border-radius:18px;width:100%;max-width:400px;box-shadow:var(--ls-shadow-lg);overflow:hidden;animation:ls-pop-in .28s cubic-bezier(.2,1.3,.4,1)}
+.ls-modal-head{background:var(--ls-header);color:var(--ls-header-text);padding:12px 16px;font-weight:800;font-size:18px;text-align:center}
+.ls-modal-body{padding:16px;font-size:16px;line-height:1.4}
+.ls-modal-actions{display:flex;flex-direction:column;gap:8px;padding:0 14px 14px}
+
+/* journal / log */
+.ls-log{background:var(--ls-log-bg);padding:6px 0 20px}
+.ls-log-year{display:flex;align-items:baseline;gap:8px;padding:12px 16px 4px;font-weight:900;color:var(--ls-log-year);font-size:15px}
+.ls-log-year small{color:var(--ls-muted);font-weight:700;font-size:12px}
+.ls-log-entry{padding:3px 16px 3px 30px;font-size:15px;line-height:1.38;position:relative}
+.ls-log-entry::before{content:"";position:absolute;left:16px;top:.65em;width:6px;height:6px;border-radius:50%;background:var(--ls-line)}
+.ls-log-entry.is-good{color:#1d7a38}.ls-log-entry.is-good::before{background:var(--ls-good)}
+.ls-log-entry.is-bad{color:#b02a2a}.ls-log-entry.is-bad::before{background:var(--ls-bad)}
+.ls-log-entry.is-money{color:var(--ls-money);font-weight:700}
+.ls-log-entry.is-big{font-weight:800}
+
+/* chips, ribbons, avatar frames */
+.ls-chip{display:inline-block;background:var(--ls-surface-2);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700;color:var(--ls-muted)}
+.ls-avatar{display:inline-block;line-height:0}
+.ls-ribbons{display:flex;flex-wrap:wrap;gap:10px;padding:12px 16px}
+.ls-ribbon{width:92px;text-align:center;font-size:11px;font-weight:800;line-height:1.15}
+.ls-ribbon svg{display:block;margin:0 auto 3px}
+.ls-ribbon.is-locked{opacity:.35;filter:grayscale(1)}
+
+/* tombstone / cemetery */
+.ls-grave{background:linear-gradient(var(--ls-sky-1),var(--ls-sky-2));padding:16px 10px 0;color:#fff;text-align:center}
+.ls-grave svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.ls-cemetery{background:var(--ls-sky-1);line-height:0}
+.ls-cemetery svg{width:100%;height:auto}
+.ls-cemetery .ls-plot{cursor:pointer}
+.ls-cemetery .ls-plot:hover .ls-stone-body,.ls-cemetery .ls-plot:focus .ls-stone-body{filter:brightness(1.18)}
+
+/* family tree */
+.ls-tree{overflow:auto;background:var(--ls-surface);-webkit-overflow-scrolling:touch}
+.ls-tree svg{display:block;margin:0 auto}
+.ls-tree .ls-node text{font-family:var(--ls-font);font-weight:700}
+
+/* animations */
+@keyframes ls-fade-in{from{opacity:0}to{opacity:1}}
+@keyframes ls-pop-in{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes ls-age-pop{0%{transform:scale(1)}30%{transform:scale(1.28) rotate(-3deg)}60%{transform:scale(.94) rotate(2deg)}100%{transform:scale(1)}}
+@keyframes ls-death-fade{0%{filter:none;opacity:1;transform:none}60%{filter:grayscale(1) brightness(.85);opacity:.9}100%{filter:grayscale(1) brightness(.5);opacity:.35;transform:translateY(8px) scale(.97)}}
+@keyframes ls-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes ls-float-up{0%{opacity:0;transform:translateY(8px)}15%{opacity:1}100%{opacity:0;transform:translateY(-46px)}}
+.ls-age-pop{animation:ls-age-pop .55s ease-out}
+.ls-death-fade{animation:ls-death-fade 1.6s ease forwards}
+.ls-rise{animation:ls-rise .5s ease both}
+.ls-float-num{position:absolute;font-weight:900;color:var(--ls-money);pointer-events:none;animation:ls-float-up 1.1s ease-out forwards;text-shadow:0 1px 0 #fff}
+.ls-float-num.is-neg{color:var(--ls-danger)}
+.ls-fx-host{position:relative;overflow:hidden}
+@media (prefers-reduced-motion:reduce){.ls-age-pop,.ls-rise,.ls-modal,.ls-modal-backdrop{animation:none}.ls-bar>i{transition:none}}

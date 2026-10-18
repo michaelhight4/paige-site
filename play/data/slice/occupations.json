@@ -1,0 +1,9626 @@
+{
+ "meta": {
+  "generated_by": "tools/build_occupations.py",
+  "note": "wages are annual; military/special numbers are K (design suggestion)"
+ },
+ "jobs": {
+  "corporate_jr_internal_auditor": {
+   "id": "corporate_jr_internal_auditor",
+   "sector": "corporate",
+   "title": "Jr. Internal Auditor",
+   "wage": 82718,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_internal_auditor",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_internal_auditor": {
+   "id": "corporate_internal_auditor",
+   "sector": "corporate",
+   "title": "Internal Auditor",
+   "wage": 90474,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_internal_auditor",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_internal_auditor": {
+   "id": "corporate_sr_internal_auditor",
+   "sector": "corporate",
+   "title": "Sr. Internal Auditor",
+   "wage": 104045,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_financial_analyst": {
+   "id": "corporate_jr_financial_analyst",
+   "sector": "corporate",
+   "title": "Jr. Financial Analyst",
+   "wage": 43550,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_financial_analyst",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_financial_analyst": {
+   "id": "corporate_financial_analyst",
+   "sector": "corporate",
+   "title": "Financial Analyst",
+   "wage": 49726,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_financial_analyst",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_financial_analyst": {
+   "id": "corporate_sr_financial_analyst",
+   "sector": "corporate",
+   "title": "Sr. Financial Analyst",
+   "wage": 55133,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_computer_programmer": {
+   "id": "corporate_jr_computer_programmer",
+   "sector": "corporate",
+   "title": "Jr. Computer Programmer",
+   "wage": 41850,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_computer_programmer",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_computer_programmer": {
+   "id": "corporate_computer_programmer",
+   "sector": "corporate",
+   "title": "Computer Programmer",
+   "wage": 57300,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_computer_programmer",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_computer_programmer": {
+   "id": "corporate_sr_computer_programmer",
+   "sector": "corporate",
+   "title": "Sr. Computer Programmer",
+   "wage": 65895,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_insurance_agent": {
+   "id": "corporate_jr_insurance_agent",
+   "sector": "corporate",
+   "title": "Jr. Insurance Agent",
+   "wage": 23450,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_insurance_agent",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_insurance_agent": {
+   "id": "corporate_insurance_agent",
+   "sector": "corporate",
+   "title": "Insurance Agent",
+   "wage": 28000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_insurance_agent",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_insurance_agent": {
+   "id": "corporate_sr_insurance_agent",
+   "sector": "corporate",
+   "title": "Sr. Insurance Agent",
+   "wage": 37066,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_environmental_scientist": {
+   "id": "corporate_jr_environmental_scientist",
+   "sector": "corporate",
+   "title": "Jr. Environmental Scientist",
+   "wage": 38633,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_environmental_scientist",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_environmental_scientist": {
+   "id": "corporate_environmental_scientist",
+   "sector": "corporate",
+   "title": "Environmental Scientist",
+   "wage": 42983,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_environmental_scientist",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_environmental_scientist": {
+   "id": "corporate_sr_environmental_scientist",
+   "sector": "corporate",
+   "title": "Sr. Environmental Scientist",
+   "wage": 51350,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_stockbroker": {
+   "id": "corporate_jr_stockbroker",
+   "sector": "corporate",
+   "title": "Jr. Stockbroker",
+   "wage": 36616,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_stockbroker",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_stockbroker": {
+   "id": "corporate_stockbroker",
+   "sector": "corporate",
+   "title": "Stockbroker",
+   "wage": 64183,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_stockbroker",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_stockbroker": {
+   "id": "corporate_sr_stockbroker",
+   "sector": "corporate",
+   "title": "Sr. Stockbroker",
+   "wage": 88683,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_operations_analyst": {
+   "id": "corporate_jr_operations_analyst",
+   "sector": "corporate",
+   "title": "Jr. Operations Analyst",
+   "wage": 50714,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_operations_analyst",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_operations_analyst": {
+   "id": "corporate_operations_analyst",
+   "sector": "corporate",
+   "title": "Operations Analyst",
+   "wage": 46321,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_operations_analyst",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_operations_analyst": {
+   "id": "corporate_sr_operations_analyst",
+   "sector": "corporate",
+   "title": "Sr. Operations Analyst",
+   "wage": 68743,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_database_administrator": {
+   "id": "corporate_jr_database_administrator",
+   "sector": "corporate",
+   "title": "Jr. Database Administrator",
+   "wage": 58340,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_database_administrator",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_database_administrator": {
+   "id": "corporate_database_administrator",
+   "sector": "corporate",
+   "title": "Database Administrator",
+   "wage": 43891,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_database_administrator",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_database_administrator": {
+   "id": "corporate_sr_database_administrator",
+   "sector": "corporate",
+   "title": "Sr. Database Administrator",
+   "wage": 50000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_lobbyist": {
+   "id": "corporate_jr_lobbyist",
+   "sector": "corporate",
+   "title": "Jr. Lobbyist",
+   "wage": 49895,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_lobbyist",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_lobbyist": {
+   "id": "corporate_lobbyist",
+   "sector": "corporate",
+   "title": "Lobbyist",
+   "wage": 71283,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_lobbyist",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_lobbyist": {
+   "id": "corporate_sr_lobbyist",
+   "sector": "corporate",
+   "title": "Sr. Lobbyist",
+   "wage": 76170,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_biotechnologist": {
+   "id": "corporate_jr_biotechnologist",
+   "sector": "corporate",
+   "title": "Jr. Biotechnologist",
+   "wage": 33726,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_biotechnologist",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_biotechnologist": {
+   "id": "corporate_biotechnologist",
+   "sector": "corporate",
+   "title": "Biotechnologist",
+   "wage": 49320,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_biotechnologist",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_biotechnologist": {
+   "id": "corporate_sr_biotechnologist",
+   "sector": "corporate",
+   "title": "Sr. Biotechnologist",
+   "wage": 51200,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_microbiologist": {
+   "id": "corporate_jr_microbiologist",
+   "sector": "corporate",
+   "title": "Jr. Microbiologist",
+   "wage": 31393,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_microbiologist",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_microbiologist": {
+   "id": "corporate_microbiologist",
+   "sector": "corporate",
+   "title": "Microbiologist",
+   "wage": 38108,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_microbiologist",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_microbiologist": {
+   "id": "corporate_sr_microbiologist",
+   "sector": "corporate",
+   "title": "Sr. Microbiologist",
+   "wage": 61899,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_architect": {
+   "id": "corporate_jr_architect",
+   "sector": "corporate",
+   "title": "Jr. Architect",
+   "wage": 40631,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_architect",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_architect": {
+   "id": "corporate_architect",
+   "sector": "corporate",
+   "title": "Architect",
+   "wage": 40000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_architect",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_architect": {
+   "id": "corporate_sr_architect",
+   "sector": "corporate",
+   "title": "Sr. Architect",
+   "wage": 66289,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_business_analyst": {
+   "id": "corporate_jr_business_analyst",
+   "sector": "corporate",
+   "title": "Jr. Business Analyst",
+   "wage": 41038,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_business_analyst",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_business_analyst": {
+   "id": "corporate_business_analyst",
+   "sector": "corporate",
+   "title": "Business Analyst",
+   "wage": 64050,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_business_analyst",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_business_analyst": {
+   "id": "corporate_sr_business_analyst",
+   "sector": "corporate",
+   "title": "Sr. Business Analyst",
+   "wage": 71370,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_accountant": {
+   "id": "corporate_jr_accountant",
+   "sector": "corporate",
+   "title": "Jr. Accountant",
+   "wage": 52700,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_accountant",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_accountant": {
+   "id": "corporate_accountant",
+   "sector": "corporate",
+   "title": "Accountant",
+   "wage": 52850,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_accountant",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_accountant": {
+   "id": "corporate_sr_accountant",
+   "sector": "corporate",
+   "title": "Sr. Accountant",
+   "wage": 53800,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_jr_it_support": {
+   "id": "corporate_jr_it_support",
+   "sector": "corporate",
+   "title": "Jr. IT Support",
+   "wage": 28206,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_it_support",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_it_support": {
+   "id": "corporate_it_support",
+   "sector": "corporate",
+   "title": "IT Support",
+   "wage": 38387,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_it_support",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_it_support": {
+   "id": "corporate_sr_it_support",
+   "sector": "corporate",
+   "title": "Sr. IT Support",
+   "wage": 46610,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_apprentice_telemarketer": {
+   "id": "corporate_apprentice_telemarketer",
+   "sector": "corporate",
+   "title": "Apprentice Telemarketer",
+   "wage": 20190,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_telemarketer",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_telemarketer": {
+   "id": "corporate_telemarketer",
+   "sector": "corporate",
+   "title": "Telemarketer",
+   "wage": 19820,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "corporate_receptionist": {
+   "id": "corporate_receptionist",
+   "sector": "corporate",
+   "title": "Receptionist",
+   "wage": 16600,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "corporate_factory_worker": {
+   "id": "corporate_factory_worker",
+   "sector": "corporate",
+   "title": "Factory Worker",
+   "wage": 16664,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "corporate_janitor": {
+   "id": "corporate_janitor",
+   "sector": "corporate",
+   "title": "Janitor",
+   "wage": 20091,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "corporate_jr_translator": {
+   "id": "corporate_jr_translator",
+   "sector": "corporate",
+   "title": "Jr. Translator",
+   "wage": 26384,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_translator",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_translator": {
+   "id": "corporate_translator",
+   "sector": "corporate",
+   "title": "Translator",
+   "wage": 41429,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_sr_translator",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_sr_translator": {
+   "id": "corporate_sr_translator",
+   "sector": "corporate",
+   "title": "Sr. Translator",
+   "wage": 20900,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "corporate_engineer_i": {
+   "id": "corporate_engineer_i",
+   "sector": "corporate",
+   "title": "Engineer I",
+   "wage": 43663,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_engineer_ii",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_engineer_ii": {
+   "id": "corporate_engineer_ii",
+   "sector": "corporate",
+   "title": "Engineer II",
+   "wage": 57350,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_engineer_iii",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_engineer_iii": {
+   "id": "corporate_engineer_iii",
+   "sector": "corporate",
+   "title": "Engineer III",
+   "wage": 72000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_asst_engineering_manager",
+   "level": 2,
+   "entry": false
+  },
+  "corporate_asst_engineering_manager": {
+   "id": "corporate_asst_engineering_manager",
+   "sector": "corporate",
+   "title": "Asst. Engineering Manager",
+   "wage": 60894,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_engineering_manager",
+   "level": 3,
+   "entry": false
+  },
+  "corporate_engineering_manager": {
+   "id": "corporate_engineering_manager",
+   "sector": "corporate",
+   "title": "Engineering Manager",
+   "wage": 113000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_director_of_engineering",
+   "level": 4,
+   "entry": false
+  },
+  "corporate_director_of_engineering": {
+   "id": "corporate_director_of_engineering",
+   "sector": "corporate",
+   "title": "Director of Engineering",
+   "wage": 125000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 5,
+   "entry": false
+  },
+  "corporate_assistant_vice_president": {
+   "id": "corporate_assistant_vice_president",
+   "sector": "corporate",
+   "title": "Assistant Vice President",
+   "wage": 101124,
+   "req": {
+    "edu": "business_school",
+    "prev": false,
+    "years": 15,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_vice_president",
+   "level": 0,
+   "entry": true
+  },
+  "corporate_vice_president": {
+   "id": "corporate_vice_president",
+   "sector": "corporate",
+   "title": "Vice President",
+   "wage": 141500,
+   "req": {
+    "edu": "business_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_first_vice_president",
+   "level": 1,
+   "entry": false
+  },
+  "corporate_first_vice_president": {
+   "id": "corporate_first_vice_president",
+   "sector": "corporate",
+   "title": "First Vice President",
+   "wage": 176669,
+   "req": {
+    "edu": "business_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_senior_vice_president",
+   "level": 2,
+   "entry": false
+  },
+  "corporate_senior_vice_president": {
+   "id": "corporate_senior_vice_president",
+   "sector": "corporate",
+   "title": "Senior Vice President",
+   "wage": 160000,
+   "req": {
+    "edu": "business_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_executive_vice_president",
+   "level": 3,
+   "entry": false
+  },
+  "corporate_executive_vice_president": {
+   "id": "corporate_executive_vice_president",
+   "sector": "corporate",
+   "title": "Executive Vice President",
+   "wage": 175262,
+   "req": {
+    "edu": "business_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_managing_director",
+   "level": 4,
+   "entry": false
+  },
+  "corporate_managing_director": {
+   "id": "corporate_managing_director",
+   "sector": "corporate",
+   "title": "Managing Director",
+   "wage": 190955,
+   "req": {
+    "edu": "business_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "corporate_president",
+   "level": 5,
+   "entry": false
+  },
+  "corporate_president": {
+   "id": "corporate_president",
+   "sector": "corporate",
+   "title": "President",
+   "wage": 228749,
+   "req": {
+    "edu": "business_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 6,
+   "entry": false
+  },
+  "model_agency_foot_model": {
+   "id": "model_agency_foot_model",
+   "sector": "model_agency",
+   "title": "Foot Model",
+   "wage": 20000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "model_agency_hand_model",
+   "level": 0,
+   "entry": true
+  },
+  "model_agency_hand_model": {
+   "id": "model_agency_hand_model",
+   "sector": "model_agency",
+   "title": "Hand Model",
+   "wage": 32280,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "model_agency_catalog_model",
+   "level": 1,
+   "entry": false
+  },
+  "model_agency_catalog_model": {
+   "id": "model_agency_catalog_model",
+   "sector": "model_agency",
+   "title": "Catalog Model",
+   "wage": 43970,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "model_agency_lingerie_model",
+   "level": 2,
+   "entry": false
+  },
+  "model_agency_lingerie_model": {
+   "id": "model_agency_lingerie_model",
+   "sector": "model_agency",
+   "title": "Lingerie Model",
+   "wage": 50000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "model_agency_runway_model",
+   "level": 3,
+   "entry": false
+  },
+  "model_agency_runway_model": {
+   "id": "model_agency_runway_model",
+   "sector": "model_agency",
+   "title": "Runway Model",
+   "wage": 54670,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 4,
+   "entry": false
+  },
+  "airline_baggage_handler": {
+   "id": "airline_baggage_handler",
+   "sector": "airline",
+   "title": "Baggage Handler",
+   "wage": 21152,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "airline_jr_flight_attendant": {
+   "id": "airline_jr_flight_attendant",
+   "sector": "airline",
+   "title": "Jr. Flight Attendant",
+   "wage": 22979,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "airline_flight_attendant",
+   "level": 0,
+   "entry": true
+  },
+  "airline_flight_attendant": {
+   "id": "airline_flight_attendant",
+   "sector": "airline",
+   "title": "Flight Attendant",
+   "wage": 26300,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "airline_sr_flight_attendant",
+   "level": 1,
+   "entry": false
+  },
+  "airline_sr_flight_attendant": {
+   "id": "airline_sr_flight_attendant",
+   "sector": "airline",
+   "title": "Sr. Flight Attendant",
+   "wage": 38500,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "airline_pilot_trainee",
+   "level": 2,
+   "entry": false
+  },
+  "airline_pilot_trainee": {
+   "id": "airline_pilot_trainee",
+   "sector": "airline",
+   "title": "Pilot Trainee",
+   "wage": 64820,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [
+     "pilot"
+    ],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "airline_co_pilot",
+   "level": 3,
+   "entry": false
+  },
+  "airline_co_pilot": {
+   "id": "airline_co_pilot",
+   "sector": "airline",
+   "title": "Co Pilot",
+   "wage": 44683,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "airline_pilot",
+   "level": 4,
+   "entry": false
+  },
+  "airline_pilot": {
+   "id": "airline_pilot",
+   "sector": "airline",
+   "title": "Pilot",
+   "wage": 71496,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "airline_chief_pilot",
+   "level": 5,
+   "entry": false
+  },
+  "airline_chief_pilot": {
+   "id": "airline_chief_pilot",
+   "sector": "airline",
+   "title": "Chief Pilot",
+   "wage": 85350,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 6,
+   "entry": false
+  },
+  "vet_clinic_apprentice_pet_groomer": {
+   "id": "vet_clinic_apprentice_pet_groomer",
+   "sector": "vet_clinic",
+   "title": "Apprentice Pet Groomer",
+   "wage": 22710,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "vet_clinic_jr_veterinarian": {
+   "id": "vet_clinic_jr_veterinarian",
+   "sector": "vet_clinic",
+   "title": "Jr. Veterinarian",
+   "wage": 47500,
+   "req": {
+    "edu": "veterinary_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "vet_clinic_veterinarian",
+   "level": 0,
+   "entry": true
+  },
+  "vet_clinic_veterinarian": {
+   "id": "vet_clinic_veterinarian",
+   "sector": "vet_clinic",
+   "title": "Veterinarian",
+   "wage": 17855,
+   "req": {
+    "edu": "veterinary_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "vet_clinic_sr_veterinarian",
+   "level": 1,
+   "entry": false
+  },
+  "vet_clinic_sr_veterinarian": {
+   "id": "vet_clinic_sr_veterinarian",
+   "sector": "vet_clinic",
+   "title": "Sr. Veterinarian",
+   "wage": 73095,
+   "req": {
+    "edu": "veterinary_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "hospital_clinical_nurse_specialist": {
+   "id": "hospital_clinical_nurse_specialist",
+   "sector": "hospital",
+   "title": "Clinical Nurse Specialist",
+   "wage": 79164,
+   "req": {
+    "edu": "nursing_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 3,
+   "entry": false
+  },
+  "hospital_brain_surgeon": {
+   "id": "hospital_brain_surgeon",
+   "sector": "hospital",
+   "title": "Brain Surgeon",
+   "wage": 175000,
+   "req": {
+    "edu": "medical_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "hospital_family_physician": {
+   "id": "hospital_family_physician",
+   "sector": "hospital",
+   "title": "Family Physician",
+   "wage": 99500,
+   "req": {
+    "edu": "medical_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "hospital_associate_nurse": {
+   "id": "hospital_associate_nurse",
+   "sector": "hospital",
+   "title": "Associate Nurse",
+   "wage": 40000,
+   "req": {
+    "edu": "nursing_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "hospital_clinical_nurse",
+   "level": 0,
+   "entry": true
+  },
+  "hospital_clinical_nurse": {
+   "id": "hospital_clinical_nurse",
+   "sector": "hospital",
+   "title": "Clinical Nurse",
+   "wage": 45000,
+   "req": {
+    "edu": "nursing_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "hospital_advanced_clinician",
+   "level": 1,
+   "entry": false
+  },
+  "hospital_advanced_clinician": {
+   "id": "hospital_advanced_clinician",
+   "sector": "hospital",
+   "title": "Advanced Clinician",
+   "wage": 50000,
+   "req": {
+    "edu": "nursing_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "hospital_clinical_nurse_specialist",
+   "level": 2,
+   "entry": false
+  },
+  "hospital_apprentice_midwife": {
+   "id": "hospital_apprentice_midwife",
+   "sector": "hospital",
+   "title": "Apprentice Midwife",
+   "wage": 48000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": "Nursing"
+   },
+   "next": "hospital_midwife",
+   "level": 0,
+   "entry": true
+  },
+  "hospital_midwife": {
+   "id": "hospital_midwife",
+   "sector": "hospital",
+   "title": "Midwife",
+   "wage": 80000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": "Nursing"
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "municipal_magistrate": {
+   "id": "municipal_magistrate",
+   "sector": "municipal",
+   "title": "Magistrate",
+   "wage": 80350,
+   "req": {
+    "edu": "law_school",
+    "prev": false,
+    "years": 30,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "municipal_magistrate_court_judge",
+   "level": 0,
+   "entry": true
+  },
+  "municipal_magistrate_court_judge": {
+   "id": "municipal_magistrate_court_judge",
+   "sector": "municipal",
+   "title": "Magistrate Court Judge",
+   "wage": 129500,
+   "req": {
+    "edu": "law_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "municipal_district_court_judge",
+   "level": 1,
+   "entry": false
+  },
+  "municipal_district_court_judge": {
+   "id": "municipal_district_court_judge",
+   "sector": "municipal",
+   "title": "District Court Judge",
+   "wage": 129780,
+   "req": {
+    "edu": "law_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "municipal_associate_chief_justice",
+   "level": 2,
+   "entry": false
+  },
+  "municipal_associate_chief_justice": {
+   "id": "municipal_associate_chief_justice",
+   "sector": "municipal",
+   "title": "Associate Chief Justice",
+   "wage": 174000,
+   "req": {
+    "edu": "law_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "municipal_chief_justice",
+   "level": 3,
+   "entry": false
+  },
+  "municipal_chief_justice": {
+   "id": "municipal_chief_justice",
+   "sector": "municipal",
+   "title": "Chief Justice",
+   "wage": 216400,
+   "req": {
+    "edu": "law_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 4,
+   "entry": false
+  },
+  "municipal_sculptor": {
+   "id": "municipal_sculptor",
+   "sector": "municipal",
+   "title": "Sculptor",
+   "wage": 24411,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "municipal_jr_mail_carrier": {
+   "id": "municipal_jr_mail_carrier",
+   "sector": "municipal",
+   "title": "Jr. Mail Carrier",
+   "wage": 35871,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "municipal_mail_carrier",
+   "level": 0,
+   "entry": true
+  },
+  "municipal_mail_carrier": {
+   "id": "municipal_mail_carrier",
+   "sector": "municipal",
+   "title": "Mail Carrier",
+   "wage": 37800,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "municipal_sr_mail_carrier",
+   "level": 1,
+   "entry": false
+  },
+  "municipal_sr_mail_carrier": {
+   "id": "municipal_sr_mail_carrier",
+   "sector": "municipal",
+   "title": "Sr. Mail Carrier",
+   "wage": 40327,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "municipal_bus_driver": {
+   "id": "municipal_bus_driver",
+   "sector": "municipal",
+   "title": "Bus Driver",
+   "wage": 32500,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [
+     "drivers"
+    ],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "medical_office_jr_psychiatrist": {
+   "id": "medical_office_jr_psychiatrist",
+   "sector": "medical_office",
+   "title": "Jr. Psychiatrist",
+   "wage": 75600,
+   "req": {
+    "edu": "medical_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "medical_office_psychiatrist",
+   "level": 0,
+   "entry": true
+  },
+  "medical_office_psychiatrist": {
+   "id": "medical_office_psychiatrist",
+   "sector": "medical_office",
+   "title": "Psychiatrist",
+   "wage": 80892,
+   "req": {
+    "edu": "medical_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "medical_office_sr_psychiatrist",
+   "level": 1,
+   "entry": false
+  },
+  "medical_office_sr_psychiatrist": {
+   "id": "medical_office_sr_psychiatrist",
+   "sector": "medical_office",
+   "title": "Sr. Psychiatrist",
+   "wage": 83500,
+   "req": {
+    "edu": "medical_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "medical_office_jr_pharmacist": {
+   "id": "medical_office_jr_pharmacist",
+   "sector": "medical_office",
+   "title": "Jr. Pharmacist",
+   "wage": 83188,
+   "req": {
+    "edu": "pharmacy_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "medical_office_pharmacist",
+   "level": 0,
+   "entry": true
+  },
+  "medical_office_pharmacist": {
+   "id": "medical_office_pharmacist",
+   "sector": "medical_office",
+   "title": "Pharmacist",
+   "wage": 48500,
+   "req": {
+    "edu": "pharmacy_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "medical_office_sr_pharmacist",
+   "level": 1,
+   "entry": false
+  },
+  "medical_office_sr_pharmacist": {
+   "id": "medical_office_sr_pharmacist",
+   "sector": "medical_office",
+   "title": "Sr. Pharmacist",
+   "wage": 57500,
+   "req": {
+    "edu": "pharmacy_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "medical_office_jr_chiropractor": {
+   "id": "medical_office_jr_chiropractor",
+   "sector": "medical_office",
+   "title": "Jr. Chiropractor",
+   "wage": 45000,
+   "req": {
+    "edu": "medical_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "medical_office_chiropractor",
+   "level": 0,
+   "entry": true
+  },
+  "medical_office_chiropractor": {
+   "id": "medical_office_chiropractor",
+   "sector": "medical_office",
+   "title": "Chiropractor",
+   "wage": 55000,
+   "req": {
+    "edu": "medical_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "medical_office_jr_physical_therapist": {
+   "id": "medical_office_jr_physical_therapist",
+   "sector": "medical_office",
+   "title": "Jr. Physical Therapist",
+   "wage": 50000,
+   "req": {
+    "edu": "medical_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "medical_office_physical_therapist",
+   "level": 0,
+   "entry": true
+  },
+  "medical_office_physical_therapist": {
+   "id": "medical_office_physical_therapist",
+   "sector": "medical_office",
+   "title": "Physical Therapist",
+   "wage": 60000,
+   "req": {
+    "edu": "medical_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "medical_office_dental_hygienist": {
+   "id": "medical_office_dental_hygienist",
+   "sector": "medical_office",
+   "title": "Dental Hygienist",
+   "wage": 65000,
+   "req": {
+    "edu": "community_college",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "medical_office_dentist": {
+   "id": "medical_office_dentist",
+   "sector": "medical_office",
+   "title": "Dentist",
+   "wage": 115000,
+   "req": {
+    "edu": "dental_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "newspaper_apprentice_photographer": {
+   "id": "newspaper_apprentice_photographer",
+   "sector": "newspaper",
+   "title": "Apprentice Photographer",
+   "wage": 31500,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "newspaper_photographer",
+   "level": 0,
+   "entry": true
+  },
+  "newspaper_photographer": {
+   "id": "newspaper_photographer",
+   "sector": "newspaper",
+   "title": "Photographer",
+   "wage": 32163,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "newspaper_jr_editor": {
+   "id": "newspaper_jr_editor",
+   "sector": "newspaper",
+   "title": "Jr. Editor",
+   "wage": 51717,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 7,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "newspaper_editor",
+   "level": 0,
+   "entry": true
+  },
+  "newspaper_editor": {
+   "id": "newspaper_editor",
+   "sector": "newspaper",
+   "title": "Editor",
+   "wage": 59474,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "newspaper_sr_editor",
+   "level": 1,
+   "entry": false
+  },
+  "newspaper_sr_editor": {
+   "id": "newspaper_sr_editor",
+   "sector": "newspaper",
+   "title": "Sr. Editor",
+   "wage": 68395,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "school_district_teacher": {
+   "id": "school_district_teacher",
+   "sector": "school_district",
+   "title": "Teacher",
+   "wage": 36886,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "school_district_tech_teacher",
+   "level": 0,
+   "entry": true
+  },
+  "school_district_tech_teacher": {
+   "id": "school_district_tech_teacher",
+   "sector": "school_district",
+   "title": "Tech Teacher",
+   "wage": 39100,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "school_district_head_tech_teacher",
+   "level": 1,
+   "entry": false
+  },
+  "school_district_head_tech_teacher": {
+   "id": "school_district_head_tech_teacher",
+   "sector": "school_district",
+   "title": "Head Tech Teacher",
+   "wage": 40040,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "school_district_asst_principal",
+   "level": 2,
+   "entry": false
+  },
+  "school_district_asst_principal": {
+   "id": "school_district_asst_principal",
+   "sector": "school_district",
+   "title": "Asst. Principal",
+   "wage": 57500,
+   "req": {
+    "edu": "graduate_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "school_district_principal",
+   "level": 3,
+   "entry": false
+  },
+  "school_district_principal": {
+   "id": "school_district_principal",
+   "sector": "school_district",
+   "title": "Principal",
+   "wage": 75200,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "school_district_asst_superintendent",
+   "level": 4,
+   "entry": false
+  },
+  "school_district_asst_superintendent": {
+   "id": "school_district_asst_superintendent",
+   "sector": "school_district",
+   "title": "Asst. Superintendent",
+   "wage": 89377,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "school_district_superintendent",
+   "level": 5,
+   "entry": false
+  },
+  "school_district_superintendent": {
+   "id": "school_district_superintendent",
+   "sector": "school_district",
+   "title": "Superintendent",
+   "wage": 103554,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "school_district_school_president",
+   "level": 6,
+   "entry": false
+  },
+  "school_district_school_president": {
+   "id": "school_district_school_president",
+   "sector": "school_district",
+   "title": "School President",
+   "wage": 210493,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 7,
+   "entry": false
+  },
+  "university_district_jr_archeologist": {
+   "id": "university_district_jr_archeologist",
+   "sector": "university_district",
+   "title": "Jr. Archeologist",
+   "wage": 40009,
+   "req": {
+    "edu": "graduate_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "university_district_archeologist",
+   "level": 0,
+   "entry": true
+  },
+  "university_district_archeologist": {
+   "id": "university_district_archeologist",
+   "sector": "university_district",
+   "title": "Archeologist",
+   "wage": 49437,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "university_district_sr_archeologist",
+   "level": 1,
+   "entry": false
+  },
+  "university_district_sr_archeologist": {
+   "id": "university_district_sr_archeologist",
+   "sector": "university_district",
+   "title": "Sr. Archeologist",
+   "wage": 58865,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "university_district_professor": {
+   "id": "university_district_professor",
+   "sector": "university_district",
+   "title": "Professor",
+   "wage": 80408,
+   "req": {
+    "edu": "graduate_school",
+    "prev": false,
+    "years": 10,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "university_district_college_dean": {
+   "id": "university_district_college_dean",
+   "sector": "university_district",
+   "title": "College Dean",
+   "wage": 182663,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 30,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "law_firm_legal_secretary": {
+   "id": "law_firm_legal_secretary",
+   "sector": "law_firm",
+   "title": "Legal Secretary",
+   "wage": 26388,
+   "req": {
+    "edu": "community_college",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "law_firm_legal_records_manager",
+   "level": 0,
+   "entry": true
+  },
+  "law_firm_legal_records_manager": {
+   "id": "law_firm_legal_records_manager",
+   "sector": "law_firm",
+   "title": "Legal Records Manager",
+   "wage": 31800,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "law_firm_paralegal",
+   "level": 1,
+   "entry": false
+  },
+  "law_firm_paralegal": {
+   "id": "law_firm_paralegal",
+   "sector": "law_firm",
+   "title": "Paralegal",
+   "wage": 44807,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "law_firm_law_clerk": {
+   "id": "law_firm_law_clerk",
+   "sector": "law_firm",
+   "title": "Law Clerk",
+   "wage": 103408,
+   "req": {
+    "edu": "law_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "law_firm_junior_associate",
+   "level": 0,
+   "entry": true
+  },
+  "law_firm_junior_associate": {
+   "id": "law_firm_junior_associate",
+   "sector": "law_firm",
+   "title": "Junior Associate",
+   "wage": 122112,
+   "req": {
+    "edu": "law_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "law_firm_associate",
+   "level": 1,
+   "entry": false
+  },
+  "law_firm_associate": {
+   "id": "law_firm_associate",
+   "sector": "law_firm",
+   "title": "Associate",
+   "wage": 134065,
+   "req": {
+    "edu": "law_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "law_firm_junior_partner",
+   "level": 2,
+   "entry": false
+  },
+  "law_firm_junior_partner": {
+   "id": "law_firm_junior_partner",
+   "sector": "law_firm",
+   "title": "Junior Partner",
+   "wage": 187855,
+   "req": {
+    "edu": "law_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "law_firm_partner",
+   "level": 3,
+   "entry": false
+  },
+  "law_firm_partner": {
+   "id": "law_firm_partner",
+   "sector": "law_firm",
+   "title": "Partner",
+   "wage": 201613,
+   "req": {
+    "edu": "law_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 4,
+   "entry": false
+  },
+  "restaurant_dishwasher": {
+   "id": "restaurant_dishwasher",
+   "sector": "restaurant",
+   "title": "Dishwasher",
+   "wage": 11000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "restaurant_line_cook": {
+   "id": "restaurant_line_cook",
+   "sector": "restaurant",
+   "title": "Line Cook",
+   "wage": 13500,
+   "req": {
+    "edu": "community_college",
+    "prev": false,
+    "years": 3,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_short_order_cook",
+   "level": 0,
+   "entry": true
+  },
+  "restaurant_short_order_cook": {
+   "id": "restaurant_short_order_cook",
+   "sector": "restaurant",
+   "title": "Short Order Cook",
+   "wage": 18500,
+   "req": {
+    "edu": "community_college",
+    "prev": false,
+    "years": 3,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_apprentice_chef",
+   "level": 1,
+   "entry": false
+  },
+  "restaurant_apprentice_chef": {
+   "id": "restaurant_apprentice_chef",
+   "sector": "restaurant",
+   "title": "Apprentice Chef",
+   "wage": 16600,
+   "req": {
+    "edu": "community_college",
+    "prev": false,
+    "years": 3,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_chef_tournant",
+   "level": 2,
+   "entry": false
+  },
+  "restaurant_chef_tournant": {
+   "id": "restaurant_chef_tournant",
+   "sector": "restaurant",
+   "title": "Chef Tournant",
+   "wage": 30000,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_chef_garde_manager",
+   "level": 3,
+   "entry": false
+  },
+  "restaurant_chef_garde_manager": {
+   "id": "restaurant_chef_garde_manager",
+   "sector": "restaurant",
+   "title": "Chef Garde Manager",
+   "wage": 32600,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_junior_sous_chef",
+   "level": 4,
+   "entry": false
+  },
+  "restaurant_junior_sous_chef": {
+   "id": "restaurant_junior_sous_chef",
+   "sector": "restaurant",
+   "title": "Junior Sous Chef",
+   "wage": 37891,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_saucier",
+   "level": 5,
+   "entry": false
+  },
+  "restaurant_saucier": {
+   "id": "restaurant_saucier",
+   "sector": "restaurant",
+   "title": "Saucier",
+   "wage": 40250,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_sous_chef",
+   "level": 6,
+   "entry": false
+  },
+  "restaurant_sous_chef": {
+   "id": "restaurant_sous_chef",
+   "sector": "restaurant",
+   "title": "Sous Chef",
+   "wage": 41590,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_chef_de_cuisine",
+   "level": 7,
+   "entry": false
+  },
+  "restaurant_chef_de_cuisine": {
+   "id": "restaurant_chef_de_cuisine",
+   "sector": "restaurant",
+   "title": "Chef de Cuisine",
+   "wage": 47110,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_executive_chef",
+   "level": 8,
+   "entry": false
+  },
+  "restaurant_executive_chef": {
+   "id": "restaurant_executive_chef",
+   "sector": "restaurant",
+   "title": "Executive Chef",
+   "wage": 59420,
+   "req": {
+    "edu": "community_college",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 9,
+   "entry": false
+  },
+  "restaurant_busser": {
+   "id": "restaurant_busser",
+   "sector": "restaurant",
+   "title": "Busser",
+   "wage": 16000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_server",
+   "level": 0,
+   "entry": true
+  },
+  "restaurant_host": {
+   "id": "restaurant_host",
+   "sector": "restaurant",
+   "title": "Host",
+   "wage": 16000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_server",
+   "level": 0,
+   "entry": true
+  },
+  "restaurant_food_runner": {
+   "id": "restaurant_food_runner",
+   "sector": "restaurant",
+   "title": "Food Runner",
+   "wage": 17000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_server",
+   "level": 0,
+   "entry": true
+  },
+  "restaurant_server": {
+   "id": "restaurant_server",
+   "sector": "restaurant",
+   "title": "Server",
+   "wage": 20700,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_head_waiter",
+   "level": 1,
+   "entry": false
+  },
+  "restaurant_head_waiter": {
+   "id": "restaurant_head_waiter",
+   "sector": "restaurant",
+   "title": "Head Waiter",
+   "wage": 18524,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_expeditor",
+   "level": 2,
+   "entry": false
+  },
+  "restaurant_expeditor": {
+   "id": "restaurant_expeditor",
+   "sector": "restaurant",
+   "title": "Expeditor",
+   "wage": 29378,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_assistant_manager",
+   "level": 3,
+   "entry": false
+  },
+  "restaurant_assistant_manager": {
+   "id": "restaurant_assistant_manager",
+   "sector": "restaurant",
+   "title": "Assistant Manager",
+   "wage": 25000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_general_manager",
+   "level": 4,
+   "entry": false
+  },
+  "restaurant_general_manager": {
+   "id": "restaurant_general_manager",
+   "sector": "restaurant",
+   "title": "General Manager",
+   "wage": 32400,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 5,
+   "entry": false
+  },
+  "restaurant_jr_bartender": {
+   "id": "restaurant_jr_bartender",
+   "sector": "restaurant",
+   "title": "Jr. Bartender",
+   "wage": 36345,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 70,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_bartender",
+   "level": 0,
+   "entry": true
+  },
+  "restaurant_bartender": {
+   "id": "restaurant_bartender",
+   "sector": "restaurant",
+   "title": "Bartender",
+   "wage": 32289,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_sr_bartender",
+   "level": 1,
+   "entry": false
+  },
+  "restaurant_sr_bartender": {
+   "id": "restaurant_sr_bartender",
+   "sector": "restaurant",
+   "title": "Sr. Bartender",
+   "wage": 37180,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "restaurant_introductory_sommelier": {
+   "id": "restaurant_introductory_sommelier",
+   "sector": "restaurant",
+   "title": "Introductory Sommelier",
+   "wage": 50000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_certified_sommelier",
+   "level": 0,
+   "entry": true
+  },
+  "restaurant_certified_sommelier": {
+   "id": "restaurant_certified_sommelier",
+   "sector": "restaurant",
+   "title": "Certified Sommelier",
+   "wage": 55000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_advanced_sommelier",
+   "level": 1,
+   "entry": false
+  },
+  "restaurant_advanced_sommelier": {
+   "id": "restaurant_advanced_sommelier",
+   "sector": "restaurant",
+   "title": "Advanced Sommelier",
+   "wage": 85000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "restaurant_master_sommelier",
+   "level": 2,
+   "entry": false
+  },
+  "restaurant_master_sommelier": {
+   "id": "restaurant_master_sommelier",
+   "sector": "restaurant",
+   "title": "Master Sommelier",
+   "wage": 89000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 3,
+   "entry": false
+  },
+  "police_cadet": {
+   "id": "police_cadet",
+   "sector": "police",
+   "title": "Cadet",
+   "wage": 27118,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_patrolman",
+   "level": 0,
+   "entry": true
+  },
+  "police_patrolman": {
+   "id": "police_patrolman",
+   "sector": "police",
+   "title": "Patrolman",
+   "wage": 38000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_trooper",
+   "level": 1,
+   "entry": false
+  },
+  "police_trooper": {
+   "id": "police_trooper",
+   "sector": "police",
+   "title": "Trooper",
+   "wage": 38885,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_corporal",
+   "level": 2,
+   "entry": false
+  },
+  "police_corporal": {
+   "id": "police_corporal",
+   "sector": "police",
+   "title": "Corporal",
+   "wage": 45303,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_sergeant",
+   "level": 3,
+   "entry": false
+  },
+  "police_sergeant": {
+   "id": "police_sergeant",
+   "sector": "police",
+   "title": "Sergeant",
+   "wage": 51188,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_inspector",
+   "level": 4,
+   "entry": false
+  },
+  "police_inspector": {
+   "id": "police_inspector",
+   "sector": "police",
+   "title": "Inspector",
+   "wage": 57072,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_lieutenant",
+   "level": 5,
+   "entry": false
+  },
+  "police_lieutenant": {
+   "id": "police_lieutenant",
+   "sector": "police",
+   "title": "Lieutenant",
+   "wage": 62955,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_chief_of_police",
+   "level": 6,
+   "entry": false
+  },
+  "police_chief_of_police": {
+   "id": "police_chief_of_police",
+   "sector": "police",
+   "title": "Chief of Police",
+   "wage": 68839,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 7,
+   "entry": false
+  },
+  "police_crime_scene_technician": {
+   "id": "police_crime_scene_technician",
+   "sector": "police",
+   "title": "Crime Scene Technician",
+   "wage": 38000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_forensic_investigator",
+   "level": 0,
+   "entry": true
+  },
+  "police_forensic_investigator": {
+   "id": "police_forensic_investigator",
+   "sector": "police",
+   "title": "Forensic Investigator",
+   "wage": 49000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "police_jr_detective": {
+   "id": "police_jr_detective",
+   "sector": "police",
+   "title": "Jr. Detective",
+   "wage": 39000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "police_detective",
+   "level": 0,
+   "entry": true
+  },
+  "police_detective": {
+   "id": "police_detective",
+   "sector": "police",
+   "title": "Detective",
+   "wage": 49000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "fire_probationary_firefighter": {
+   "id": "fire_probationary_firefighter",
+   "sector": "fire",
+   "title": "Probationary Firefighter",
+   "wage": 41239,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fire_firefighter",
+   "level": 0,
+   "entry": true
+  },
+  "fire_firefighter": {
+   "id": "fire_firefighter",
+   "sector": "fire",
+   "title": "Firefighter",
+   "wage": 47285,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fire_fire_equipment_operator",
+   "level": 1,
+   "entry": false
+  },
+  "fire_fire_equipment_operator": {
+   "id": "fire_fire_equipment_operator",
+   "sector": "fire",
+   "title": "Fire Equipment Operator",
+   "wage": 53332,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fire_lieutenant",
+   "level": 2,
+   "entry": false
+  },
+  "fire_lieutenant": {
+   "id": "fire_lieutenant",
+   "sector": "fire",
+   "title": "Lieutenant",
+   "wage": 59378,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fire_captain",
+   "level": 3,
+   "entry": false
+  },
+  "fire_captain": {
+   "id": "fire_captain",
+   "sector": "fire",
+   "title": "Captain",
+   "wage": 66030,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fire_battalion_chief",
+   "level": 4,
+   "entry": false
+  },
+  "fire_battalion_chief": {
+   "id": "fire_battalion_chief",
+   "sector": "fire",
+   "title": "Battalion Chief",
+   "wage": 73287,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fire_assistant_chief",
+   "level": 5,
+   "entry": false
+  },
+  "fire_assistant_chief": {
+   "id": "fire_assistant_chief",
+   "sector": "fire",
+   "title": "Assistant Chief",
+   "wage": 79333,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fire_fire_chief",
+   "level": 6,
+   "entry": false
+  },
+  "fire_fire_chief": {
+   "id": "fire_fire_chief",
+   "sector": "fire",
+   "title": "Fire Chief",
+   "wage": 85380,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 7,
+   "entry": false
+  },
+  "mortuary_mortician": {
+   "id": "mortuary_mortician",
+   "sector": "mortuary",
+   "title": "Mortician",
+   "wage": 28867,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "mortuary_funeral_director",
+   "level": 0,
+   "entry": true
+  },
+  "mortuary_funeral_director": {
+   "id": "mortuary_funeral_director",
+   "sector": "mortuary",
+   "title": "Funeral Director",
+   "wage": 31000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "record_label_disk_jockey": {
+   "id": "record_label_disk_jockey",
+   "sector": "record_label",
+   "title": "Disk Jockey",
+   "wage": 23244,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "record_label_apprentice_music_composer": {
+   "id": "record_label_apprentice_music_composer",
+   "sector": "record_label",
+   "title": "Apprentice Music Composer",
+   "wage": 19932,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "record_label_music_composer",
+   "level": 0,
+   "entry": true
+  },
+  "record_label_music_composer": {
+   "id": "record_label_music_composer",
+   "sector": "record_label",
+   "title": "Music Composer",
+   "wage": 22921,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "record_label_background_vocalist": {
+   "id": "record_label_background_vocalist",
+   "sector": "record_label",
+   "title": "Background Vocalist",
+   "wage": 21451,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "record_label_lounge_singer",
+   "level": 0,
+   "entry": true
+  },
+  "record_label_lounge_singer": {
+   "id": "record_label_lounge_singer",
+   "sector": "record_label",
+   "title": "Lounge Singer",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "record_label_singer",
+   "level": 1,
+   "entry": false
+  },
+  "record_label_singer": {
+   "id": "record_label_singer",
+   "sector": "record_label",
+   "title": "Singer",
+   "wage": 42700,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "record_label_lead_singer",
+   "level": 2,
+   "entry": false
+  },
+  "record_label_lead_singer": {
+   "id": "record_label_lead_singer",
+   "sector": "record_label",
+   "title": "Lead Singer",
+   "wage": 52000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 3,
+   "entry": false
+  },
+  "film_studio_dancer": {
+   "id": "film_studio_dancer",
+   "sector": "film_studio",
+   "title": "Dancer",
+   "wage": 15000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "film_studio_apprentice_makeup_artist": {
+   "id": "film_studio_apprentice_makeup_artist",
+   "sector": "film_studio",
+   "title": "Apprentice Makeup Artist",
+   "wage": 18743,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "film_studio_makeup_artist",
+   "level": 0,
+   "entry": true
+  },
+  "film_studio_makeup_artist": {
+   "id": "film_studio_makeup_artist",
+   "sector": "film_studio",
+   "title": "Makeup Artist",
+   "wage": 21554,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "film_studio_puppeteer": {
+   "id": "film_studio_puppeteer",
+   "sector": "film_studio",
+   "title": "Puppeteer",
+   "wage": 21695,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "film_studio_pornography_historian": {
+   "id": "film_studio_pornography_historian",
+   "sector": "film_studio",
+   "title": "Pornography Historian",
+   "wage": 22000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "film_studio_porn_set_janitor": {
+   "id": "film_studio_porn_set_janitor",
+   "sector": "film_studio",
+   "title": "Porn Set Janitor",
+   "wage": 18202,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "film_studio_stuntman": {
+   "id": "film_studio_stuntman",
+   "sector": "film_studio",
+   "title": "Stuntman",
+   "wage": 25706,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_jr_animator": {
+   "id": "small_business_jr_animator",
+   "sector": "small_business",
+   "title": "Jr. Animator",
+   "wage": 30000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_animator",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_animator": {
+   "id": "small_business_animator",
+   "sector": "small_business",
+   "title": "Animator",
+   "wage": 51000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_apprentice_baker": {
+   "id": "small_business_apprentice_baker",
+   "sector": "small_business",
+   "title": "Apprentice Baker",
+   "wage": 42000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_baker",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_baker": {
+   "id": "small_business_baker",
+   "sector": "small_business",
+   "title": "Baker",
+   "wage": 48299,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_apprentice_blacksmith": {
+   "id": "small_business_apprentice_blacksmith",
+   "sector": "small_business",
+   "title": "Apprentice Blacksmith",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_blacksmith",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_blacksmith": {
+   "id": "small_business_blacksmith",
+   "sector": "small_business",
+   "title": "Blacksmith",
+   "wage": 42000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_cat_behavior_consultant": {
+   "id": "small_business_cat_behavior_consultant",
+   "sector": "small_business",
+   "title": "Cat Behavior Consultant",
+   "wage": 20000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_apprentice_chimney_sweep": {
+   "id": "small_business_apprentice_chimney_sweep",
+   "sector": "small_business",
+   "title": "Apprentice Chimney Sweep",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_chimney_sweep",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_chimney_sweep": {
+   "id": "small_business_chimney_sweep",
+   "sector": "small_business",
+   "title": "Chimney Sweep",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_construction_worker": {
+   "id": "small_business_construction_worker",
+   "sector": "small_business",
+   "title": "Construction Worker",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_apprentice_electrician": {
+   "id": "small_business_apprentice_electrician",
+   "sector": "small_business",
+   "title": "Apprentice Electrician",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_electrician",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_electrician": {
+   "id": "small_business_electrician",
+   "sector": "small_business",
+   "title": "Electrician",
+   "wage": 62500,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_jr_graphic_designer": {
+   "id": "small_business_jr_graphic_designer",
+   "sector": "small_business",
+   "title": "Jr. Graphic Designer",
+   "wage": 32806,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_graphic_designer",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_graphic_designer": {
+   "id": "small_business_graphic_designer",
+   "sector": "small_business",
+   "title": "Graphic Designer",
+   "wage": 39000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_sr_graphic_designer",
+   "level": 1,
+   "entry": false
+  },
+  "small_business_sr_graphic_designer": {
+   "id": "small_business_sr_graphic_designer",
+   "sector": "small_business",
+   "title": "Sr. Graphic Designer",
+   "wage": 45000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "small_business_housekeeper": {
+   "id": "small_business_housekeeper",
+   "sector": "small_business",
+   "title": "Housekeeper",
+   "wage": 17076,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_apprentice_landscaper": {
+   "id": "small_business_apprentice_landscaper",
+   "sector": "small_business",
+   "title": "Apprentice Landscaper",
+   "wage": 20000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_landscaper",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_landscaper": {
+   "id": "small_business_landscaper",
+   "sector": "small_business",
+   "title": "Landscaper",
+   "wage": 23000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_apprentice_lumberjack": {
+   "id": "small_business_apprentice_lumberjack",
+   "sector": "small_business",
+   "title": "Apprentice Lumberjack",
+   "wage": 21676,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_lumberjack",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_lumberjack": {
+   "id": "small_business_lumberjack",
+   "sector": "small_business",
+   "title": "Lumberjack",
+   "wage": 42000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_mall_cop": {
+   "id": "small_business_mall_cop",
+   "sector": "small_business",
+   "title": "Mall Cop",
+   "wage": 17500,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_painter": {
+   "id": "small_business_painter",
+   "sector": "small_business",
+   "title": "Painter",
+   "wage": 26000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_personal_trainer": {
+   "id": "small_business_personal_trainer",
+   "sector": "small_business",
+   "title": "Personal Trainer",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_apprentice_plumber": {
+   "id": "small_business_apprentice_plumber",
+   "sector": "small_business",
+   "title": "Apprentice Plumber",
+   "wage": 37000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_plumber",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_plumber": {
+   "id": "small_business_plumber",
+   "sector": "small_business",
+   "title": "Plumber",
+   "wage": 55000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_jr_private_investigator": {
+   "id": "small_business_jr_private_investigator",
+   "sector": "small_business",
+   "title": "Jr. Private Investigator",
+   "wage": 34000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": "Criminal Justice"
+   },
+   "next": "small_business_private_investigator",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_private_investigator": {
+   "id": "small_business_private_investigator",
+   "sector": "small_business",
+   "title": "Private Investigator",
+   "wage": 39100,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_roadkill_remover": {
+   "id": "small_business_roadkill_remover",
+   "sector": "small_business",
+   "title": "Roadkill Remover",
+   "wage": 32157,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_security_guard": {
+   "id": "small_business_security_guard",
+   "sector": "small_business",
+   "title": "Security Guard",
+   "wage": 20000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_apprentice_tailor": {
+   "id": "small_business_apprentice_tailor",
+   "sector": "small_business",
+   "title": "Apprentice Tailor",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_tailor",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_tailor": {
+   "id": "small_business_tailor",
+   "sector": "small_business",
+   "title": "Tailor",
+   "wage": 38000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_water_slide_tester": {
+   "id": "small_business_water_slide_tester",
+   "sector": "small_business",
+   "title": "Water Slide Tester",
+   "wage": 29000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_wedding_planner": {
+   "id": "small_business_wedding_planner",
+   "sector": "small_business",
+   "title": "Wedding Planner",
+   "wage": 17000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_sr_wedding_planner",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_sr_wedding_planner": {
+   "id": "small_business_sr_wedding_planner",
+   "sector": "small_business",
+   "title": "Sr. Wedding Planner",
+   "wage": 29000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_worm_picker": {
+   "id": "small_business_worm_picker",
+   "sector": "small_business",
+   "title": "Worm Picker",
+   "wage": 17500,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "small_business_apprentice_moonshiner": {
+   "id": "small_business_apprentice_moonshiner",
+   "sector": "small_business",
+   "title": "Apprentice Moonshiner",
+   "wage": 10000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_moonshiner",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_moonshiner": {
+   "id": "small_business_moonshiner",
+   "sector": "small_business",
+   "title": "Moonshiner",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "small_business_jr_marine_biologist": {
+   "id": "small_business_jr_marine_biologist",
+   "sector": "small_business",
+   "title": "Jr. Marine Biologist",
+   "wage": 34000,
+   "req": {
+    "edu": "graduate_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_marine_biologist",
+   "level": 0,
+   "entry": true
+  },
+  "small_business_marine_biologist": {
+   "id": "small_business_marine_biologist",
+   "sector": "small_business",
+   "title": "Marine Biologist",
+   "wage": 40000,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "small_business_sr_marine_biologist",
+   "level": 1,
+   "entry": false
+  },
+  "small_business_sr_marine_biologist": {
+   "id": "small_business_sr_marine_biologist",
+   "sector": "small_business",
+   "title": "Sr. Marine Biologist",
+   "wage": 52000,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "publisher_writer": {
+   "id": "publisher_writer",
+   "sector": "publisher",
+   "title": "Writer",
+   "wage": 21730,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 70,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "retailer_cashier": {
+   "id": "retailer_cashier",
+   "sector": "retailer",
+   "title": "Cashier",
+   "wage": 15782,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "retailer_jr_fashion_designer": {
+   "id": "retailer_jr_fashion_designer",
+   "sector": "retailer",
+   "title": "Jr. Fashion Designer",
+   "wage": 30000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "retailer_fashion_designer",
+   "level": 0,
+   "entry": true
+  },
+  "retailer_fashion_designer": {
+   "id": "retailer_fashion_designer",
+   "sector": "retailer",
+   "title": "Fashion Designer",
+   "wage": 49500,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "retailer_retail_salesperson": {
+   "id": "retailer_retail_salesperson",
+   "sector": "retailer",
+   "title": "Retail Salesperson",
+   "wage": 15915,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "museum_exhibit_associate": {
+   "id": "museum_exhibit_associate",
+   "sector": "museum",
+   "title": "Exhibit Associate",
+   "wage": 44489,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "museum_assistant_curator",
+   "level": 0,
+   "entry": true
+  },
+  "museum_assistant_curator": {
+   "id": "museum_assistant_curator",
+   "sector": "museum",
+   "title": "Assistant Curator",
+   "wage": 43423,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "museum_curator",
+   "level": 1,
+   "entry": false
+  },
+  "museum_curator": {
+   "id": "museum_curator",
+   "sector": "museum",
+   "title": "Curator",
+   "wage": 46300,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "real_estate_real_estate_agent": {
+   "id": "real_estate_real_estate_agent",
+   "sector": "real_estate",
+   "title": "Real Estate Agent",
+   "wage": 17500,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [
+     "drivers"
+    ],
+    "looks": 0,
+    "smarts": 0,
+    "car": true,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "travel_agency_travel_associate": {
+   "id": "travel_agency_travel_associate",
+   "sector": "travel_agency",
+   "title": "Travel Associate",
+   "wage": 10000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "travel_agency_agency_operator": {
+   "id": "travel_agency_agency_operator",
+   "sector": "travel_agency",
+   "title": "Agency Operator",
+   "wage": 41000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "circus_magician": {
+   "id": "circus_magician",
+   "sector": "circus",
+   "title": "Magician",
+   "wage": 14160,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "circus_circus_performer": {
+   "id": "circus_circus_performer",
+   "sector": "circus",
+   "title": "Circus Performer",
+   "wage": 27669,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "circus_clown": {
+   "id": "circus_clown",
+   "sector": "circus",
+   "title": "Clown",
+   "wage": 17000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 70,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "salon_apprentice_hairdresser": {
+   "id": "salon_apprentice_hairdresser",
+   "sector": "salon",
+   "title": "Apprentice Hairdresser",
+   "wage": 15447,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "salon_hairdresser",
+   "level": 0,
+   "entry": true
+  },
+  "salon_hairdresser": {
+   "id": "salon_hairdresser",
+   "sector": "salon",
+   "title": "Hairdresser",
+   "wage": 26000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "salon_massage_therapist": {
+   "id": "salon_massage_therapist",
+   "sector": "salon",
+   "title": "Massage Therapist",
+   "wage": 23630,
+   "req": {
+    "edu": "community_college",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "salon_apprentice_nail_technician": {
+   "id": "salon_apprentice_nail_technician",
+   "sector": "salon",
+   "title": "Apprentice Nail Technician",
+   "wage": 30000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "salon_nail_technician",
+   "level": 0,
+   "entry": true
+  },
+  "salon_nail_technician": {
+   "id": "salon_nail_technician",
+   "sector": "salon",
+   "title": "Nail Technician",
+   "wage": 30000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "bank_jr_banker": {
+   "id": "bank_jr_banker",
+   "sector": "bank",
+   "title": "Jr. Banker",
+   "wage": 53142,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "bank_banker",
+   "level": 0,
+   "entry": true
+  },
+  "bank_banker": {
+   "id": "bank_banker",
+   "sector": "bank",
+   "title": "Banker",
+   "wage": 64017,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "bank_sr_banker",
+   "level": 1,
+   "entry": false
+  },
+  "bank_sr_banker": {
+   "id": "bank_sr_banker",
+   "sector": "bank",
+   "title": "Sr. Banker",
+   "wage": 68000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 2,
+   "entry": false
+  },
+  "bank_jr_financial_advisor": {
+   "id": "bank_jr_financial_advisor",
+   "sector": "bank",
+   "title": "Jr. Financial Advisor",
+   "wage": 30000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "bank_financial_advisor",
+   "level": 0,
+   "entry": true
+  },
+  "bank_financial_advisor": {
+   "id": "bank_financial_advisor",
+   "sector": "bank",
+   "title": "Financial Advisor",
+   "wage": 30000,
+   "req": {
+    "edu": "university",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "trucking_apprentice_trucker": {
+   "id": "trucking_apprentice_trucker",
+   "sector": "trucking",
+   "title": "Apprentice Trucker",
+   "wage": 31732,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "trucking_trucker",
+   "level": 0,
+   "entry": true
+  },
+  "trucking_trucker": {
+   "id": "trucking_trucker",
+   "sector": "trucking",
+   "title": "Trucker",
+   "wage": 32453,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "library_clerk": {
+   "id": "library_clerk",
+   "sector": "library",
+   "title": "Clerk",
+   "wage": 27300,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "library_library_aide",
+   "level": 0,
+   "entry": true
+  },
+  "library_library_aide": {
+   "id": "library_library_aide",
+   "sector": "library",
+   "title": "Library Aide",
+   "wage": 37078,
+   "req": {
+    "edu": "graduate_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "library_librarian",
+   "level": 1,
+   "entry": false
+  },
+  "library_librarian": {
+   "id": "library_librarian",
+   "sector": "library",
+   "title": "Librarian",
+   "wage": 40000,
+   "req": {
+    "edu": "graduate_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "library_sr_librarian",
+   "level": 2,
+   "entry": false
+  },
+  "library_sr_librarian": {
+   "id": "library_sr_librarian",
+   "sector": "library",
+   "title": "Sr. Librarian",
+   "wage": 46000,
+   "req": {
+    "edu": "graduate_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 3,
+   "entry": false
+  },
+  "fishery_greenhorn": {
+   "id": "fishery_greenhorn",
+   "sector": "fishery",
+   "title": "Greenhorn",
+   "wage": 30000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fishery_deck_hand",
+   "level": 0,
+   "entry": true
+  },
+  "fishery_deck_hand": {
+   "id": "fishery_deck_hand",
+   "sector": "fishery",
+   "title": "Deck Hand",
+   "wage": 50000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fishery_deck_boss",
+   "level": 1,
+   "entry": false
+  },
+  "fishery_deck_boss": {
+   "id": "fishery_deck_boss",
+   "sector": "fishery",
+   "title": "Deck Boss",
+   "wage": 100000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fishery_engineer",
+   "level": 2,
+   "entry": false
+  },
+  "fishery_engineer": {
+   "id": "fishery_engineer",
+   "sector": "fishery",
+   "title": "Engineer",
+   "wage": 150000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fishery_captain",
+   "level": 3,
+   "entry": false
+  },
+  "fishery_captain": {
+   "id": "fishery_captain",
+   "sector": "fishery",
+   "title": "Captain",
+   "wage": 172500,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 4,
+   "entry": false
+  },
+  "fishery_fisherman": {
+   "id": "fishery_fisherman",
+   "sector": "fishery",
+   "title": "Fisherman",
+   "wage": 13000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "ride_sharing_driver": {
+   "id": "ride_sharing_driver",
+   "sector": "ride_sharing",
+   "title": "Driver",
+   "wage": 27000,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [
+     "drivers"
+    ],
+    "looks": 0,
+    "smarts": 0,
+    "car": true,
+    "major": null
+   },
+   "next": null,
+   "level": 0,
+   "entry": true
+  },
+  "grocery_apprentice_grocer": {
+   "id": "grocery_apprentice_grocer",
+   "sector": "grocery",
+   "title": "Apprentice Grocer",
+   "wage": 17000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "grocery_grocer",
+   "level": 0,
+   "entry": true
+  },
+  "grocery_grocer": {
+   "id": "grocery_grocer",
+   "sector": "grocery",
+   "title": "Grocer",
+   "wage": 21000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "grocery_apprentice_butcher": {
+   "id": "grocery_apprentice_butcher",
+   "sector": "grocery",
+   "title": "Apprentice Butcher",
+   "wage": 30000,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "grocery_butcher",
+   "level": 0,
+   "entry": true
+  },
+  "grocery_butcher": {
+   "id": "grocery_butcher",
+   "sector": "grocery",
+   "title": "Butcher",
+   "wage": 29000,
+   "req": {
+    "edu": "high_school",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 1,
+   "entry": false
+  },
+  "fast_food_crew_member": {
+   "id": "fast_food_crew_member",
+   "sector": "fast_food",
+   "title": "Crew Member",
+   "wage": 15319,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fast_food_shift_manager",
+   "level": 0,
+   "entry": true
+  },
+  "fast_food_shift_manager": {
+   "id": "fast_food_shift_manager",
+   "sector": "fast_food",
+   "title": "Shift Manager",
+   "wage": 17296,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fast_food_restaurant_manager",
+   "level": 1,
+   "entry": false
+  },
+  "fast_food_restaurant_manager": {
+   "id": "fast_food_restaurant_manager",
+   "sector": "fast_food",
+   "title": "Restaurant Manager",
+   "wage": 27000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "fast_food_general_manager_fast_food",
+   "level": 2,
+   "entry": false
+  },
+  "fast_food_general_manager_fast_food": {
+   "id": "fast_food_general_manager_fast_food",
+   "sector": "fast_food",
+   "title": "General Manager (Fast Food)",
+   "wage": 19386,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 3,
+   "entry": false
+  },
+  "military_enlisted_private": {
+   "id": "military_enlisted_private",
+   "sector": "military_enlisted",
+   "title": "Private",
+   "wage": 19200,
+   "req": {
+    "edu": "high_school",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_private_second_class",
+   "level": 0,
+   "entry": true
+  },
+  "military_enlisted_private_second_class": {
+   "id": "military_enlisted_private_second_class",
+   "sector": "military_enlisted",
+   "title": "Private Second Class",
+   "wage": 21516,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_private_first_class",
+   "level": 1,
+   "entry": false
+  },
+  "military_enlisted_private_first_class": {
+   "id": "military_enlisted_private_first_class",
+   "sector": "military_enlisted",
+   "title": "Private First Class",
+   "wage": 24070,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_specialist",
+   "level": 2,
+   "entry": false
+  },
+  "military_enlisted_specialist": {
+   "id": "military_enlisted_specialist",
+   "sector": "military_enlisted",
+   "title": "Specialist",
+   "wage": 27747,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 3,
+   "entry": false
+  },
+  "military_enlisted_sergeant_army": {
+   "id": "military_enlisted_sergeant_army",
+   "sector": "military_enlisted",
+   "title": "Sergeant (Army)",
+   "wage": 33066,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_staff_sergeant",
+   "level": 0,
+   "entry": true
+  },
+  "military_enlisted_staff_sergeant": {
+   "id": "military_enlisted_staff_sergeant",
+   "sector": "military_enlisted",
+   "title": "Staff Sergeant",
+   "wage": 38030,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_sergeant_second_class",
+   "level": 1,
+   "entry": false
+  },
+  "military_enlisted_sergeant_second_class": {
+   "id": "military_enlisted_sergeant_second_class",
+   "sector": "military_enlisted",
+   "title": "Sergeant Second Class",
+   "wage": 42383,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_sergeant_first_class",
+   "level": 2,
+   "entry": false
+  },
+  "military_enlisted_sergeant_first_class": {
+   "id": "military_enlisted_sergeant_first_class",
+   "sector": "military_enlisted",
+   "title": "Sergeant First Class",
+   "wage": 48256,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_master_sergeant",
+   "level": 3,
+   "entry": false
+  },
+  "military_enlisted_master_sergeant": {
+   "id": "military_enlisted_master_sergeant",
+   "sector": "military_enlisted",
+   "title": "Master Sergeant",
+   "wage": 60210,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_sergeant_major",
+   "level": 4,
+   "entry": false
+  },
+  "military_enlisted_sergeant_major": {
+   "id": "military_enlisted_sergeant_major",
+   "sector": "military_enlisted",
+   "title": "Sergeant Major",
+   "wage": 77384,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_enlisted_sergeant_general",
+   "level": 5,
+   "entry": false
+  },
+  "military_enlisted_sergeant_general": {
+   "id": "military_enlisted_sergeant_general",
+   "sector": "military_enlisted",
+   "title": "Sergeant General",
+   "wage": 79383,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 6,
+   "entry": false
+  },
+  "military_officer_second_lieutenant": {
+   "id": "military_officer_second_lieutenant",
+   "sector": "military_officer",
+   "title": "Second Lieutenant",
+   "wage": 41121,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_first_lieutenant",
+   "level": 0,
+   "entry": true
+  },
+  "military_officer_first_lieutenant": {
+   "id": "military_officer_first_lieutenant",
+   "sector": "military_officer",
+   "title": "First Lieutenant",
+   "wage": 50013,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_captain_army",
+   "level": 1,
+   "entry": false
+  },
+  "military_officer_captain_army": {
+   "id": "military_officer_captain_army",
+   "sector": "military_officer",
+   "title": "Captain (Army)",
+   "wage": 63781,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_major",
+   "level": 2,
+   "entry": false
+  },
+  "military_officer_major": {
+   "id": "military_officer_major",
+   "sector": "military_officer",
+   "title": "Major",
+   "wage": 73725,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_lieutenant_colonel",
+   "level": 3,
+   "entry": false
+  },
+  "military_officer_lieutenant_colonel": {
+   "id": "military_officer_lieutenant_colonel",
+   "sector": "military_officer",
+   "title": "Lieutenant Colonel",
+   "wage": 86382,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_colonel",
+   "level": 4,
+   "entry": false
+  },
+  "military_officer_colonel": {
+   "id": "military_officer_colonel",
+   "sector": "military_officer",
+   "title": "Colonel",
+   "wage": 106360,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_brigadier_general",
+   "level": 5,
+   "entry": false
+  },
+  "military_officer_brigadier_general": {
+   "id": "military_officer_brigadier_general",
+   "sector": "military_officer",
+   "title": "Brigadier General",
+   "wage": 126270,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_major_general",
+   "level": 6,
+   "entry": false
+  },
+  "military_officer_major_general": {
+   "id": "military_officer_major_general",
+   "sector": "military_officer",
+   "title": "Major General",
+   "wage": 148768,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_lieutenant_general",
+   "level": 7,
+   "entry": false
+  },
+  "military_officer_lieutenant_general": {
+   "id": "military_officer_lieutenant_general",
+   "sector": "military_officer",
+   "title": "Lieutenant General",
+   "wage": 179611,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_general",
+   "level": 8,
+   "entry": false
+  },
+  "military_officer_general": {
+   "id": "military_officer_general",
+   "sector": "military_officer",
+   "title": "General",
+   "wage": 186996,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "military_officer_commanding_officer",
+   "level": 9,
+   "entry": false
+  },
+  "military_officer_commanding_officer": {
+   "id": "military_officer_commanding_officer",
+   "sector": "military_officer",
+   "title": "Commanding Officer",
+   "wage": 210293,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 10,
+   "entry": false
+  },
+  "coast_guard_officer_ensign": {
+   "id": "coast_guard_officer_ensign",
+   "sector": "coast_guard_officer",
+   "title": "Ensign",
+   "wage": 44000,
+   "req": {
+    "edu": "university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_lieutenant_junior_grade",
+   "level": 0,
+   "entry": true
+  },
+  "coast_guard_officer_lieutenant_junior_grade": {
+   "id": "coast_guard_officer_lieutenant_junior_grade",
+   "sector": "coast_guard_officer",
+   "title": "Lieutenant Junior Grade",
+   "wage": 54000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_lieutenant_cg",
+   "level": 1,
+   "entry": false
+  },
+  "coast_guard_officer_lieutenant_cg": {
+   "id": "coast_guard_officer_lieutenant_cg",
+   "sector": "coast_guard_officer",
+   "title": "Lieutenant (CG)",
+   "wage": 66000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_lieutenant_commander",
+   "level": 2,
+   "entry": false
+  },
+  "coast_guard_officer_lieutenant_commander": {
+   "id": "coast_guard_officer_lieutenant_commander",
+   "sector": "coast_guard_officer",
+   "title": "Lieutenant Commander",
+   "wage": 86000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_commander",
+   "level": 3,
+   "entry": false
+  },
+  "coast_guard_officer_commander": {
+   "id": "coast_guard_officer_commander",
+   "sector": "coast_guard_officer",
+   "title": "Commander",
+   "wage": 101000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_captain_cg",
+   "level": 4,
+   "entry": false
+  },
+  "coast_guard_officer_captain_cg": {
+   "id": "coast_guard_officer_captain_cg",
+   "sector": "coast_guard_officer",
+   "title": "Captain (CG)",
+   "wage": 122000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_rear_admiral_lower_half",
+   "level": 5,
+   "entry": false
+  },
+  "coast_guard_officer_rear_admiral_lower_half": {
+   "id": "coast_guard_officer_rear_admiral_lower_half",
+   "sector": "coast_guard_officer",
+   "title": "Rear Admiral Lower Half",
+   "wage": 139000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_rear_admiral",
+   "level": 6,
+   "entry": false
+  },
+  "coast_guard_officer_rear_admiral": {
+   "id": "coast_guard_officer_rear_admiral",
+   "sector": "coast_guard_officer",
+   "title": "Rear Admiral",
+   "wage": 170000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_vice_admiral",
+   "level": 7,
+   "entry": false
+  },
+  "coast_guard_officer_vice_admiral": {
+   "id": "coast_guard_officer_vice_admiral",
+   "sector": "coast_guard_officer",
+   "title": "Vice Admiral",
+   "wage": 204000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": "coast_guard_officer_admiral",
+   "level": 8,
+   "entry": false
+  },
+  "coast_guard_officer_admiral": {
+   "id": "coast_guard_officer_admiral",
+   "sector": "coast_guard_officer",
+   "title": "Admiral",
+   "wage": 207000,
+   "req": {
+    "edu": "none",
+    "prev": true,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   },
+   "next": null,
+   "level": 9,
+   "entry": false
+  }
+ },
+ "job_sectors": [
+  {
+   "id": "corporate",
+   "name": "Corporate",
+   "jobs": [
+    "corporate_jr_internal_auditor",
+    "corporate_internal_auditor",
+    "corporate_sr_internal_auditor",
+    "corporate_jr_financial_analyst",
+    "corporate_financial_analyst",
+    "corporate_sr_financial_analyst",
+    "corporate_jr_computer_programmer",
+    "corporate_computer_programmer",
+    "corporate_sr_computer_programmer",
+    "corporate_jr_insurance_agent",
+    "corporate_insurance_agent",
+    "corporate_sr_insurance_agent",
+    "corporate_jr_environmental_scientist",
+    "corporate_environmental_scientist",
+    "corporate_sr_environmental_scientist",
+    "corporate_jr_stockbroker",
+    "corporate_stockbroker",
+    "corporate_sr_stockbroker",
+    "corporate_jr_operations_analyst",
+    "corporate_operations_analyst",
+    "corporate_sr_operations_analyst",
+    "corporate_jr_database_administrator",
+    "corporate_database_administrator",
+    "corporate_sr_database_administrator",
+    "corporate_jr_lobbyist",
+    "corporate_lobbyist",
+    "corporate_sr_lobbyist",
+    "corporate_jr_biotechnologist",
+    "corporate_biotechnologist",
+    "corporate_sr_biotechnologist",
+    "corporate_jr_microbiologist",
+    "corporate_microbiologist",
+    "corporate_sr_microbiologist",
+    "corporate_jr_architect",
+    "corporate_architect",
+    "corporate_sr_architect",
+    "corporate_jr_business_analyst",
+    "corporate_business_analyst",
+    "corporate_sr_business_analyst",
+    "corporate_jr_accountant",
+    "corporate_accountant",
+    "corporate_sr_accountant",
+    "corporate_jr_it_support",
+    "corporate_it_support",
+    "corporate_sr_it_support",
+    "corporate_apprentice_telemarketer",
+    "corporate_telemarketer",
+    "corporate_receptionist",
+    "corporate_factory_worker",
+    "corporate_janitor",
+    "corporate_jr_translator",
+    "corporate_translator",
+    "corporate_sr_translator",
+    "corporate_engineer_i",
+    "corporate_engineer_ii",
+    "corporate_engineer_iii",
+    "corporate_asst_engineering_manager",
+    "corporate_engineering_manager",
+    "corporate_director_of_engineering",
+    "corporate_assistant_vice_president",
+    "corporate_vice_president",
+    "corporate_first_vice_president",
+    "corporate_senior_vice_president",
+    "corporate_executive_vice_president",
+    "corporate_managing_director",
+    "corporate_president"
+   ]
+  },
+  {
+   "id": "model_agency",
+   "name": "Model Agency",
+   "jobs": [
+    "model_agency_foot_model",
+    "model_agency_hand_model",
+    "model_agency_catalog_model",
+    "model_agency_lingerie_model",
+    "model_agency_runway_model"
+   ]
+  },
+  {
+   "id": "airline",
+   "name": "Airline",
+   "jobs": [
+    "airline_baggage_handler",
+    "airline_jr_flight_attendant",
+    "airline_flight_attendant",
+    "airline_sr_flight_attendant",
+    "airline_pilot_trainee",
+    "airline_co_pilot",
+    "airline_pilot",
+    "airline_chief_pilot"
+   ]
+  },
+  {
+   "id": "vet_clinic",
+   "name": "Vet Clinic",
+   "jobs": [
+    "vet_clinic_apprentice_pet_groomer",
+    "vet_clinic_jr_veterinarian",
+    "vet_clinic_veterinarian",
+    "vet_clinic_sr_veterinarian"
+   ]
+  },
+  {
+   "id": "hospital",
+   "name": "Hospital",
+   "jobs": [
+    "hospital_clinical_nurse_specialist",
+    "hospital_brain_surgeon",
+    "hospital_family_physician",
+    "hospital_associate_nurse",
+    "hospital_clinical_nurse",
+    "hospital_advanced_clinician",
+    "hospital_apprentice_midwife",
+    "hospital_midwife"
+   ]
+  },
+  {
+   "id": "municipal",
+   "name": "City Government",
+   "jobs": [
+    "municipal_magistrate",
+    "municipal_magistrate_court_judge",
+    "municipal_district_court_judge",
+    "municipal_associate_chief_justice",
+    "municipal_chief_justice",
+    "municipal_sculptor",
+    "municipal_jr_mail_carrier",
+    "municipal_mail_carrier",
+    "municipal_sr_mail_carrier",
+    "municipal_bus_driver"
+   ]
+  },
+  {
+   "id": "medical_office",
+   "name": "Medical Office",
+   "jobs": [
+    "medical_office_jr_psychiatrist",
+    "medical_office_psychiatrist",
+    "medical_office_sr_psychiatrist",
+    "medical_office_jr_pharmacist",
+    "medical_office_pharmacist",
+    "medical_office_sr_pharmacist",
+    "medical_office_jr_chiropractor",
+    "medical_office_chiropractor",
+    "medical_office_jr_physical_therapist",
+    "medical_office_physical_therapist",
+    "medical_office_dental_hygienist",
+    "medical_office_dentist"
+   ]
+  },
+  {
+   "id": "newspaper",
+   "name": "Newspaper",
+   "jobs": [
+    "newspaper_apprentice_photographer",
+    "newspaper_photographer",
+    "newspaper_jr_editor",
+    "newspaper_editor",
+    "newspaper_sr_editor"
+   ]
+  },
+  {
+   "id": "school_district",
+   "name": "School District",
+   "jobs": [
+    "school_district_teacher",
+    "school_district_tech_teacher",
+    "school_district_head_tech_teacher",
+    "school_district_asst_principal",
+    "school_district_principal",
+    "school_district_asst_superintendent",
+    "school_district_superintendent",
+    "school_district_school_president"
+   ]
+  },
+  {
+   "id": "university_district",
+   "name": "University",
+   "jobs": [
+    "university_district_jr_archeologist",
+    "university_district_archeologist",
+    "university_district_sr_archeologist",
+    "university_district_professor",
+    "university_district_college_dean"
+   ]
+  },
+  {
+   "id": "law_firm",
+   "name": "Law Firm",
+   "jobs": [
+    "law_firm_legal_secretary",
+    "law_firm_legal_records_manager",
+    "law_firm_paralegal",
+    "law_firm_law_clerk",
+    "law_firm_junior_associate",
+    "law_firm_associate",
+    "law_firm_junior_partner",
+    "law_firm_partner"
+   ]
+  },
+  {
+   "id": "restaurant",
+   "name": "Restaurant",
+   "jobs": [
+    "restaurant_dishwasher",
+    "restaurant_line_cook",
+    "restaurant_short_order_cook",
+    "restaurant_apprentice_chef",
+    "restaurant_chef_tournant",
+    "restaurant_chef_garde_manager",
+    "restaurant_junior_sous_chef",
+    "restaurant_saucier",
+    "restaurant_sous_chef",
+    "restaurant_chef_de_cuisine",
+    "restaurant_executive_chef",
+    "restaurant_busser",
+    "restaurant_host",
+    "restaurant_food_runner",
+    "restaurant_server",
+    "restaurant_head_waiter",
+    "restaurant_expeditor",
+    "restaurant_assistant_manager",
+    "restaurant_general_manager",
+    "restaurant_jr_bartender",
+    "restaurant_bartender",
+    "restaurant_sr_bartender",
+    "restaurant_introductory_sommelier",
+    "restaurant_certified_sommelier",
+    "restaurant_advanced_sommelier",
+    "restaurant_master_sommelier"
+   ]
+  },
+  {
+   "id": "police",
+   "name": "Police Department",
+   "jobs": [
+    "police_cadet",
+    "police_patrolman",
+    "police_trooper",
+    "police_corporal",
+    "police_sergeant",
+    "police_inspector",
+    "police_lieutenant",
+    "police_chief_of_police",
+    "police_crime_scene_technician",
+    "police_forensic_investigator",
+    "police_jr_detective",
+    "police_detective"
+   ]
+  },
+  {
+   "id": "fire",
+   "name": "Fire Department",
+   "jobs": [
+    "fire_probationary_firefighter",
+    "fire_firefighter",
+    "fire_fire_equipment_operator",
+    "fire_lieutenant",
+    "fire_captain",
+    "fire_battalion_chief",
+    "fire_assistant_chief",
+    "fire_fire_chief"
+   ]
+  },
+  {
+   "id": "mortuary",
+   "name": "Mortuary",
+   "jobs": [
+    "mortuary_mortician",
+    "mortuary_funeral_director"
+   ]
+  },
+  {
+   "id": "record_label",
+   "name": "Record Label",
+   "jobs": [
+    "record_label_disk_jockey",
+    "record_label_apprentice_music_composer",
+    "record_label_music_composer",
+    "record_label_background_vocalist",
+    "record_label_lounge_singer",
+    "record_label_singer",
+    "record_label_lead_singer"
+   ]
+  },
+  {
+   "id": "film_studio",
+   "name": "Film Studio",
+   "jobs": [
+    "film_studio_dancer",
+    "film_studio_apprentice_makeup_artist",
+    "film_studio_makeup_artist",
+    "film_studio_puppeteer",
+    "film_studio_pornography_historian",
+    "film_studio_porn_set_janitor",
+    "film_studio_stuntman"
+   ]
+  },
+  {
+   "id": "small_business",
+   "name": "Small Business & Trades",
+   "jobs": [
+    "small_business_jr_animator",
+    "small_business_animator",
+    "small_business_apprentice_baker",
+    "small_business_baker",
+    "small_business_apprentice_blacksmith",
+    "small_business_blacksmith",
+    "small_business_cat_behavior_consultant",
+    "small_business_apprentice_chimney_sweep",
+    "small_business_chimney_sweep",
+    "small_business_construction_worker",
+    "small_business_apprentice_electrician",
+    "small_business_electrician",
+    "small_business_jr_graphic_designer",
+    "small_business_graphic_designer",
+    "small_business_sr_graphic_designer",
+    "small_business_housekeeper",
+    "small_business_apprentice_landscaper",
+    "small_business_landscaper",
+    "small_business_apprentice_lumberjack",
+    "small_business_lumberjack",
+    "small_business_mall_cop",
+    "small_business_painter",
+    "small_business_personal_trainer",
+    "small_business_apprentice_plumber",
+    "small_business_plumber",
+    "small_business_jr_private_investigator",
+    "small_business_private_investigator",
+    "small_business_roadkill_remover",
+    "small_business_security_guard",
+    "small_business_apprentice_tailor",
+    "small_business_tailor",
+    "small_business_water_slide_tester",
+    "small_business_wedding_planner",
+    "small_business_sr_wedding_planner",
+    "small_business_worm_picker",
+    "small_business_apprentice_moonshiner",
+    "small_business_moonshiner",
+    "small_business_jr_marine_biologist",
+    "small_business_marine_biologist",
+    "small_business_sr_marine_biologist"
+   ]
+  },
+  {
+   "id": "publisher",
+   "name": "Publisher",
+   "jobs": [
+    "publisher_writer"
+   ]
+  },
+  {
+   "id": "retailer",
+   "name": "Retailer",
+   "jobs": [
+    "retailer_cashier",
+    "retailer_jr_fashion_designer",
+    "retailer_fashion_designer",
+    "retailer_retail_salesperson"
+   ]
+  },
+  {
+   "id": "museum",
+   "name": "Museum",
+   "jobs": [
+    "museum_exhibit_associate",
+    "museum_assistant_curator",
+    "museum_curator"
+   ]
+  },
+  {
+   "id": "real_estate",
+   "name": "Real Estate",
+   "jobs": [
+    "real_estate_real_estate_agent"
+   ]
+  },
+  {
+   "id": "travel_agency",
+   "name": "Travel Agency",
+   "jobs": [
+    "travel_agency_travel_associate",
+    "travel_agency_agency_operator"
+   ]
+  },
+  {
+   "id": "circus",
+   "name": "Circus",
+   "jobs": [
+    "circus_magician",
+    "circus_circus_performer",
+    "circus_clown"
+   ]
+  },
+  {
+   "id": "salon",
+   "name": "Salon",
+   "jobs": [
+    "salon_apprentice_hairdresser",
+    "salon_hairdresser",
+    "salon_massage_therapist",
+    "salon_apprentice_nail_technician",
+    "salon_nail_technician"
+   ]
+  },
+  {
+   "id": "bank",
+   "name": "Bank",
+   "jobs": [
+    "bank_jr_banker",
+    "bank_banker",
+    "bank_sr_banker",
+    "bank_jr_financial_advisor",
+    "bank_financial_advisor"
+   ]
+  },
+  {
+   "id": "trucking",
+   "name": "Trucking",
+   "jobs": [
+    "trucking_apprentice_trucker",
+    "trucking_trucker"
+   ]
+  },
+  {
+   "id": "library",
+   "name": "Library",
+   "jobs": [
+    "library_clerk",
+    "library_library_aide",
+    "library_librarian",
+    "library_sr_librarian"
+   ]
+  },
+  {
+   "id": "fishery",
+   "name": "Fishery",
+   "jobs": [
+    "fishery_greenhorn",
+    "fishery_deck_hand",
+    "fishery_deck_boss",
+    "fishery_engineer",
+    "fishery_captain",
+    "fishery_fisherman"
+   ]
+  },
+  {
+   "id": "ride_sharing",
+   "name": "Ride Sharing",
+   "jobs": [
+    "ride_sharing_driver"
+   ]
+  },
+  {
+   "id": "grocery",
+   "name": "Grocery Store",
+   "jobs": [
+    "grocery_apprentice_grocer",
+    "grocery_grocer",
+    "grocery_apprentice_butcher",
+    "grocery_butcher"
+   ]
+  },
+  {
+   "id": "fast_food",
+   "name": "Fast Food",
+   "jobs": [
+    "fast_food_crew_member",
+    "fast_food_shift_manager",
+    "fast_food_restaurant_manager",
+    "fast_food_general_manager_fast_food"
+   ]
+  }
+ ],
+ "military": [
+  {
+   "id": "army_enlistee",
+   "name": "Army Enlistee",
+   "ladder": "military_enlisted",
+   "entry": "military_enlisted_private",
+   "desc": "Enlist as a Private. Ages 18-34.",
+   "min_age": 18,
+   "max_age": 34,
+   "req": {
+    "edu": "high_school",
+    "smarts": 0
+   }
+  },
+  {
+   "id": "navy_enlistee",
+   "name": "Navy Enlistee",
+   "ladder": "military_enlisted",
+   "entry": "military_enlisted_private",
+   "desc": "Serve at sea.",
+   "min_age": 18,
+   "max_age": 34,
+   "req": {
+    "edu": "high_school",
+    "smarts": 0
+   }
+  },
+  {
+   "id": "air_force_enlistee",
+   "name": "Air Force Enlistee",
+   "ladder": "military_enlisted",
+   "entry": "military_enlisted_private",
+   "desc": "Serve in the air.",
+   "min_age": 18,
+   "max_age": 34,
+   "req": {
+    "edu": "high_school",
+    "smarts": 0
+   }
+  },
+  {
+   "id": "army_officer",
+   "name": "Army Officer",
+   "ladder": "military_officer",
+   "entry": "military_officer_second_lieutenant",
+   "desc": "Officers need a university degree.",
+   "min_age": 21,
+   "max_age": 35,
+   "req": {
+    "edu": "university",
+    "smarts": 40
+   }
+  },
+  {
+   "id": "navy_officer",
+   "name": "Navy Officer",
+   "ladder": "military_officer",
+   "entry": "military_officer_second_lieutenant",
+   "desc": "Officers need a university degree.",
+   "min_age": 21,
+   "max_age": 35,
+   "req": {
+    "edu": "university",
+    "smarts": 40
+   }
+  },
+  {
+   "id": "air_force_officer",
+   "name": "Air Force Officer",
+   "ladder": "military_officer",
+   "entry": "military_officer_second_lieutenant",
+   "desc": "Officers need a university degree.",
+   "min_age": 21,
+   "max_age": 35,
+   "req": {
+    "edu": "university",
+    "smarts": 40
+   }
+  },
+  {
+   "id": "coast_guard_enlistee",
+   "name": "Coast Guard Enlistee",
+   "ladder": "military_enlisted",
+   "entry": "military_enlisted_private",
+   "desc": "Rescue and patrol.",
+   "min_age": 18,
+   "max_age": 34,
+   "req": {
+    "edu": "high_school",
+    "smarts": 0
+   }
+  },
+  {
+   "id": "coast_guard_officer",
+   "name": "Coast Guard Officer",
+   "ladder": "coast_guard_officer",
+   "entry": "coast_guard_officer_ensign",
+   "desc": "Officer track, 10 ranks.",
+   "min_age": 21,
+   "max_age": 35,
+   "req": {
+    "edu": "university",
+    "smarts": 40
+   }
+  }
+ ],
+ "part_time": [
+  {
+   "id": "fitness_instructor",
+   "title": "Fitness Instructor",
+   "hourly": 37,
+   "weekly_hours": 15,
+   "weekly_wage": 555,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "personal_trainer",
+   "title": "Personal Trainer",
+   "hourly": 32,
+   "weekly_hours": 20,
+   "weekly_wage": 640,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "beverage_cart_attendant",
+   "title": "Beverage Cart Attendant",
+   "hourly": 30,
+   "weekly_hours": 15,
+   "weekly_wage": 450,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "mystery_shopper",
+   "title": "Mystery Shopper",
+   "hourly": 24,
+   "weekly_hours": 10,
+   "weekly_wage": 240,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "dance_instructor",
+   "title": "Dance Instructor",
+   "hourly": 21,
+   "weekly_hours": 27,
+   "weekly_wage": 567,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "video_game_tester",
+   "title": "Video Game Tester",
+   "hourly": 20,
+   "weekly_hours": 17,
+   "weekly_wage": 340,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "secretary",
+   "title": "Secretary",
+   "hourly": 19,
+   "weekly_hours": 11,
+   "weekly_wage": 209,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "mall_kiosk_worker",
+   "title": "Mall Kiosk Worker",
+   "hourly": 19,
+   "weekly_hours": 21,
+   "weekly_wage": 399,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "mover",
+   "title": "Mover",
+   "hourly": 18,
+   "weekly_hours": 14,
+   "weekly_wage": 252,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "valet",
+   "title": "Valet",
+   "hourly": 10,
+   "weekly_hours": 21,
+   "weekly_wage": 210,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "brand_ambassador",
+   "title": "Brand Ambassador",
+   "hourly": 17,
+   "weekly_hours": 15,
+   "weekly_wage": 255,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "swim_instructor",
+   "title": "Swim Instructor",
+   "hourly": 17,
+   "weekly_hours": 15,
+   "weekly_wage": 255,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "bookkeeper",
+   "title": "Bookkeeper",
+   "hourly": 17,
+   "weekly_hours": 17,
+   "weekly_wage": 289,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "usher",
+   "title": "Usher",
+   "hourly": 17,
+   "weekly_hours": 10,
+   "weekly_wage": 170,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "research_assistant",
+   "title": "Research Assistant",
+   "hourly": 16,
+   "weekly_hours": 10,
+   "weekly_wage": 160,
+   "min_age": 13,
+   "req": {
+    "edu": "in_university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "lab_assistant",
+   "title": "Lab Assistant",
+   "hourly": 15,
+   "weekly_hours": 15,
+   "weekly_wage": 225,
+   "min_age": 13,
+   "req": {
+    "edu": "in_university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "pool_cleaner",
+   "title": "Pool Cleaner",
+   "hourly": 15,
+   "weekly_hours": 12,
+   "weekly_wage": 180,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "department_store_associate",
+   "title": "Department Store Associate",
+   "hourly": 15,
+   "weekly_hours": 17,
+   "weekly_wage": 255,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "window_cleaner",
+   "title": "Window Cleaner",
+   "hourly": 15,
+   "weekly_hours": 22,
+   "weekly_wage": 330,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "flower_shop_assistant",
+   "title": "Flower Shop Assistant",
+   "hourly": 15,
+   "weekly_hours": 28,
+   "weekly_wage": 420,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "grocery_bagger",
+   "title": "Grocery Bagger",
+   "hourly": 15,
+   "weekly_hours": 19,
+   "weekly_wage": 285,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "collections_specialist",
+   "title": "Collections Specialist",
+   "hourly": 15,
+   "weekly_hours": 14,
+   "weekly_wage": 210,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "teacher_s_aide",
+   "title": "Teacher's Aide",
+   "hourly": 14,
+   "weekly_hours": 8,
+   "weekly_wage": 112,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "lifeguard",
+   "title": "Lifeguard",
+   "hourly": 14,
+   "weekly_hours": 9,
+   "weekly_wage": 126,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "resident_assistant",
+   "title": "Resident Assistant",
+   "hourly": 13,
+   "weekly_hours": 11,
+   "weekly_wage": 143,
+   "min_age": 13,
+   "req": {
+    "edu": "in_university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "doorman",
+   "title": "Doorman",
+   "hourly": 13,
+   "weekly_hours": 28,
+   "weekly_wage": 364,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "bike_shop_mechanic",
+   "title": "Bike Shop Mechanic",
+   "hourly": 13,
+   "weekly_hours": 24,
+   "weekly_wage": 312,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "school_bus_driver",
+   "title": "School Bus Driver",
+   "hourly": 13,
+   "weekly_hours": 25,
+   "weekly_wage": 325,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [
+     "drivers"
+    ],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "street_sweeper",
+   "title": "Street Sweeper",
+   "hourly": 13,
+   "weekly_hours": 24,
+   "weekly_wage": 312,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "arcade_assistant",
+   "title": "Arcade Assistant",
+   "hourly": 13,
+   "weekly_hours": 29,
+   "weekly_wage": 377,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "bellhop",
+   "title": "Bellhop",
+   "hourly": 12,
+   "weekly_hours": 14,
+   "weekly_wage": 168,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "barista",
+   "title": "Barista",
+   "hourly": 12,
+   "weekly_hours": 29,
+   "weekly_wage": 348,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "golf_shop_assistant",
+   "title": "Golf Shop Assistant",
+   "hourly": 10,
+   "weekly_hours": 30,
+   "weekly_wage": 300,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "library_assistant",
+   "title": "Library Assistant",
+   "hourly": 10,
+   "weekly_hours": 10,
+   "weekly_wage": 100,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "cafeteria_worker",
+   "title": "Cafeteria Worker",
+   "hourly": 10,
+   "weekly_hours": 12,
+   "weekly_wage": 120,
+   "min_age": 13,
+   "req": {
+    "edu": "in_university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "admissions_assistant",
+   "title": "Admissions Assistant",
+   "hourly": 10,
+   "weekly_hours": 14,
+   "weekly_wage": 140,
+   "min_age": 13,
+   "req": {
+    "edu": "in_university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "campus_tour_guide",
+   "title": "Campus Tour Guide",
+   "hourly": 10,
+   "weekly_hours": 9,
+   "weekly_wage": 90,
+   "min_age": 13,
+   "req": {
+    "edu": "in_university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "grader",
+   "title": "Grader",
+   "hourly": 10,
+   "weekly_hours": 13,
+   "weekly_wage": 130,
+   "min_age": 13,
+   "req": {
+    "edu": "in_university",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "sign_holder",
+   "title": "Sign Holder",
+   "hourly": 10,
+   "weekly_hours": 11,
+   "weekly_wage": 110,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "hotel_front_desk_clerk",
+   "title": "Hotel Front Desk Clerk",
+   "hourly": 10,
+   "weekly_hours": 30,
+   "weekly_wage": 300,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "gym_receptionist",
+   "title": "Gym Receptionist",
+   "hourly": 10,
+   "weekly_hours": 17,
+   "weekly_wage": 170,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "newspaper_delivery",
+   "title": "Newspaper Delivery",
+   "hourly": 10,
+   "weekly_hours": 12,
+   "weekly_wage": 120,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "yoga_receptionist",
+   "title": "Yoga Receptionist",
+   "hourly": 9,
+   "weekly_hours": 18,
+   "weekly_wage": 162,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "boutique_associate",
+   "title": "Boutique Associate",
+   "hourly": 9,
+   "weekly_hours": 11,
+   "weekly_wage": 99,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "laser_tag_assistant",
+   "title": "Laser Tag Assistant",
+   "hourly": 8,
+   "weekly_hours": 21,
+   "weekly_wage": 168,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "donut_maker",
+   "title": "Donut Maker",
+   "hourly": 8,
+   "weekly_hours": 9,
+   "weekly_wage": 72,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "car_wash_attendant",
+   "title": "Car Wash Attendant",
+   "hourly": 8,
+   "weekly_hours": 14,
+   "weekly_wage": 112,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "camp_counselor",
+   "title": "Camp Counselor",
+   "hourly": 12,
+   "weekly_hours": 30,
+   "weekly_wage": 360,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "office_assistant",
+   "title": "Office Assistant",
+   "hourly": 13,
+   "weekly_hours": 30,
+   "weekly_wage": 390,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  },
+  {
+   "id": "ice_cream_scooper",
+   "title": "Ice Cream Scooper",
+   "hourly": 8,
+   "weekly_hours": 19,
+   "weekly_wage": 152,
+   "min_age": 13,
+   "req": {
+    "edu": "none",
+    "prev": false,
+    "years": 0,
+    "licenses": [],
+    "looks": 0,
+    "smarts": 0,
+    "car": false,
+    "major": null
+   }
+  }
+ ],
+ "freelance": [
+  {
+   "id": "handyman",
+   "title": "Handyman",
+   "min_age": 18,
+   "min_hourly": 6,
+   "max_hourly": 40,
+   "max_per_year": 10,
+   "hours": 4
+  },
+  {
+   "id": "tutor",
+   "title": "Tutor",
+   "min_age": 15,
+   "min_hourly": 4,
+   "max_hourly": 29,
+   "max_per_year": 10,
+   "hours": 4
+  },
+  {
+   "id": "lawnmower",
+   "title": "Lawnmower",
+   "min_age": 14,
+   "min_hourly": 2,
+   "max_hourly": 30,
+   "max_per_year": 10,
+   "hours": 4
+  },
+  {
+   "id": "caretaker",
+   "title": "Caretaker",
+   "min_age": 18,
+   "min_hourly": 3,
+   "max_hourly": 20,
+   "max_per_year": 10,
+   "hours": 4
+  },
+  {
+   "id": "dog_walker",
+   "title": "Dog Walker",
+   "min_age": 13,
+   "min_hourly": 1,
+   "max_hourly": 24,
+   "max_per_year": 10,
+   "hours": 4
+  },
+  {
+   "id": "pet_sitter",
+   "title": "Pet Sitter",
+   "min_age": 13,
+   "min_hourly": 1,
+   "max_hourly": 20,
+   "max_per_year": 10,
+   "hours": 4
+  },
+  {
+   "id": "babysitter",
+   "title": "Babysitter",
+   "min_age": 13,
+   "min_hourly": 1,
+   "max_hourly": 20,
+   "max_per_year": 10,
+   "hours": 4
+  }
+ ],
+ "special": [
+  {
+   "id": "acting",
+   "name": "Actor",
+   "steps": [
+    {
+     "id": "sp_acting_0",
+     "title": "Extra",
+     "wage": 9000,
+     "years": 0
+    },
+    {
+     "id": "sp_acting_1",
+     "title": "Bit Part Actor",
+     "wage": 30000,
+     "years": 1
+    },
+    {
+     "id": "sp_acting_2",
+     "title": "Supporting Actor",
+     "wage": 180000,
+     "years": 3
+    },
+    {
+     "id": "sp_acting_3",
+     "title": "Lead Actor",
+     "wage": 2000000,
+     "years": 5
+    },
+    {
+     "id": "sp_acting_4",
+     "title": "A-List Star",
+     "wage": 12000000,
+     "years": 8
+    }
+   ],
+   "min_age": 18,
+   "fame": true,
+   "desc": "Audition for roles. Needs looks.",
+   "req": {
+    "looks": 40
+   }
+  },
+  {
+   "id": "music",
+   "name": "Musician",
+   "steps": [
+    {
+     "id": "sp_music_0",
+     "title": "Busker",
+     "wage": 4000,
+     "years": 0
+    },
+    {
+     "id": "sp_music_1",
+     "title": "Club Act",
+     "wage": 22000,
+     "years": 1
+    },
+    {
+     "id": "sp_music_2",
+     "title": "Touring Band",
+     "wage": 150000,
+     "years": 3
+    },
+    {
+     "id": "sp_music_3",
+     "title": "Recording Artist",
+     "wage": 900000,
+     "years": 5
+    },
+    {
+     "id": "sp_music_4",
+     "title": "Superstar",
+     "wage": 9000000,
+     "years": 8
+    }
+   ],
+   "min_age": 14,
+   "fame": true,
+   "desc": "Play gigs, cut records.",
+   "req": {}
+  },
+  {
+   "id": "athlete",
+   "name": "Pro Athlete",
+   "steps": [
+    {
+     "id": "sp_athlete_0",
+     "title": "Amateur",
+     "wage": 0,
+     "years": 0
+    },
+    {
+     "id": "sp_athlete_1",
+     "title": "Minor League",
+     "wage": 40000,
+     "years": 1
+    },
+    {
+     "id": "sp_athlete_2",
+     "title": "Pro Rookie",
+     "wage": 600000,
+     "years": 3
+    },
+    {
+     "id": "sp_athlete_3",
+     "title": "Starter",
+     "wage": 3500000,
+     "years": 5
+    },
+    {
+     "id": "sp_athlete_4",
+     "title": "Franchise Player",
+     "wage": 14000000,
+     "years": 8
+    }
+   ],
+   "min_age": 16,
+   "fame": true,
+   "desc": "Needs health.",
+   "req": {
+    "health": 60
+   }
+  },
+  {
+   "id": "politics",
+   "name": "Politician",
+   "steps": [
+    {
+     "id": "sp_politics_0",
+     "title": "Campaign Volunteer",
+     "wage": 0,
+     "years": 0
+    },
+    {
+     "id": "sp_politics_1",
+     "title": "City Councillor",
+     "wage": 60000,
+     "years": 2
+    },
+    {
+     "id": "sp_politics_2",
+     "title": "Mayor",
+     "wage": 140000,
+     "years": 4
+    },
+    {
+     "id": "sp_politics_3",
+     "title": "Governor",
+     "wage": 190000,
+     "years": 6
+    },
+    {
+     "id": "sp_politics_4",
+     "title": "Head of State",
+     "wage": 400000,
+     "years": 8
+    }
+   ],
+   "min_age": 25,
+   "fame": true,
+   "desc": "Elections are won on charm.",
+   "req": {
+    "edu": "university"
+   }
+  },
+  {
+   "id": "syndicate",
+   "name": "Crime Syndicate Member",
+   "steps": [
+    {
+     "id": "sp_syndicate_0",
+     "title": "Associate",
+     "wage": 15000,
+     "years": 0
+    },
+    {
+     "id": "sp_syndicate_1",
+     "title": "Soldier",
+     "wage": 60000,
+     "years": 2
+    },
+    {
+     "id": "sp_syndicate_2",
+     "title": "Captain",
+     "wage": 250000,
+     "years": 4
+    },
+    {
+     "id": "sp_syndicate_3",
+     "title": "Underboss",
+     "wage": 900000,
+     "years": 6
+    },
+    {
+     "id": "sp_syndicate_4",
+     "title": "Boss",
+     "wage": 3000000,
+     "years": 9
+    }
+   ],
+   "min_age": 18,
+   "illegal": true,
+   "desc": "Illegal. Risk of arrest.",
+   "req": {}
+  },
+  {
+   "id": "influencer",
+   "name": "Content Creator",
+   "steps": [
+    {
+     "id": "sp_influencer_0",
+     "title": "Hobbyist",
+     "wage": 2000,
+     "years": 0
+    },
+    {
+     "id": "sp_influencer_1",
+     "title": "Rising Creator",
+     "wage": 40000,
+     "years": 1
+    },
+    {
+     "id": "sp_influencer_2",
+     "title": "Verified Creator",
+     "wage": 300000,
+     "years": 3
+    },
+    {
+     "id": "sp_influencer_3",
+     "title": "Network Founder",
+     "wage": 2500000,
+     "years": 6
+    }
+   ],
+   "min_age": 13,
+   "fame": true,
+   "desc": "Grow an audience.",
+   "req": {}
+  },
+  {
+   "id": "clergy",
+   "name": "Clergy",
+   "steps": [
+    {
+     "id": "sp_clergy_0",
+     "title": "Novice",
+     "wage": 12000,
+     "years": 0
+    },
+    {
+     "id": "sp_clergy_1",
+     "title": "Minister",
+     "wage": 38000,
+     "years": 2
+    },
+    {
+     "id": "sp_clergy_2",
+     "title": "Senior Minister",
+     "wage": 62000,
+     "years": 5
+    },
+    {
+     "id": "sp_clergy_3",
+     "title": "High Cleric",
+     "wage": 95000,
+     "years": 10
+    }
+   ],
+   "min_age": 18,
+   "desc": "A life of service.",
+   "req": {}
+  },
+  {
+   "id": "adult_producer",
+   "name": "Adult Film Producer (18+)",
+   "steps": [
+    {
+     "id": "sp_adult_producer_0",
+     "title": "Production Assistant",
+     "wage": 28000,
+     "years": 0
+    },
+    {
+     "id": "sp_adult_producer_1",
+     "title": "Associate Producer",
+     "wage": 65000,
+     "years": 2
+    },
+    {
+     "id": "sp_adult_producer_2",
+     "title": "Producer",
+     "wage": 160000,
+     "years": 5
+    },
+    {
+     "id": "sp_adult_producer_3",
+     "title": "Studio Head",
+     "wage": 480000,
+     "years": 9
+    }
+   ],
+   "min_age": 18,
+   "adult": true,
+   "desc": "Ordinary business-side career in the adult film industry. 18+ only.",
+   "req": {}
+  },
+  {
+   "id": "adult_model",
+   "name": "Adult Model (18+)",
+   "steps": [
+    {
+     "id": "sp_adult_model_0",
+     "title": "Test Shoot Model",
+     "wage": 20000,
+     "years": 0
+    },
+    {
+     "id": "sp_adult_model_1",
+     "title": "Working Model",
+     "wage": 55000,
+     "years": 2
+    },
+    {
+     "id": "sp_adult_model_2",
+     "title": "Featured Model",
+     "wage": 140000,
+     "years": 4
+    }
+   ],
+   "min_age": 18,
+   "adult": true,
+   "desc": "Ordinary modelling career, 18+ only.",
+   "req": {
+    "looks": 60
+   }
+  },
+  {
+   "id": "adult_crew",
+   "name": "Adult Film Set Janitor (18+)",
+   "steps": [
+    {
+     "id": "sp_adult_crew_0",
+     "title": "Cleaner",
+     "wage": 18000,
+     "years": 0
+    },
+    {
+     "id": "sp_adult_crew_1",
+     "title": "Head Cleaner",
+     "wage": 24000,
+     "years": 3
+    }
+   ],
+   "min_age": 18,
+   "adult": true,
+   "desc": "Mops floors. 18+ only.",
+   "req": {}
+  },
+  {
+   "id": "companion",
+   "name": "Paid Companion (18+)",
+   "steps": [
+    {
+     "id": "sp_companion_0",
+     "title": "Companion",
+     "wage": 30000,
+     "years": 0
+    },
+    {
+     "id": "sp_companion_1",
+     "title": "Premier Companion",
+     "wage": 90000,
+     "years": 3
+    }
+   ],
+   "min_age": 18,
+   "adult": true,
+   "desc": "Ordinary entry, 18+ only.",
+   "req": {
+    "looks": 60
+   }
+  },
+  {
+   "id": "club_dancer",
+   "name": "Club Dancer (18+)",
+   "steps": [
+    {
+     "id": "sp_club_dancer_0",
+     "title": "Dancer",
+     "wage": 26000,
+     "years": 0
+    },
+    {
+     "id": "sp_club_dancer_1",
+     "title": "Headliner",
+     "wage": 80000,
+     "years": 3
+    }
+   ],
+   "min_age": 18,
+   "adult": true,
+   "desc": "Nightclub performer, 18+ only.",
+   "req": {
+    "looks": 55
+   }
+  }
+ ],
+ "education": {
+  "schools": [
+   {
+    "id": "community_college",
+    "name": "Community College",
+    "years": 2,
+    "tuition": 3000,
+    "min_age": 17,
+    "min_smarts": 0,
+    "requires": "high_school",
+    "major": false,
+    "desc": "Two years, cheap. Opens paralegal, tech and trade paths."
+   },
+   {
+    "id": "university",
+    "name": "University",
+    "years": 4,
+    "tuition": 20000,
+    "min_age": 17,
+    "min_smarts": 30,
+    "requires": "high_school",
+    "major": true,
+    "desc": "Four years. Pick a major."
+   },
+   {
+    "id": "graduate_school",
+    "name": "Graduate School",
+    "years": 2,
+    "tuition": 30000,
+    "min_age": 21,
+    "min_smarts": 50,
+    "requires": "university",
+    "postgrad": "Graduate",
+    "major": false,
+    "desc": "Needs an eligible major."
+   },
+   {
+    "id": "business_school",
+    "name": "Business School",
+    "years": 2,
+    "tuition": 45000,
+    "min_age": 21,
+    "min_smarts": 50,
+    "requires": "university",
+    "postgrad": "Business",
+    "major": false,
+    "desc": "MBA track."
+   },
+   {
+    "id": "law_school",
+    "name": "Law School",
+    "years": 3,
+    "tuition": 50000,
+    "min_age": 21,
+    "min_smarts": 60,
+    "requires": "university",
+    "postgrad": "Law",
+    "major": false,
+    "desc": "Become a lawyer."
+   },
+   {
+    "id": "medical_school",
+    "name": "Medical School",
+    "years": 4,
+    "tuition": 60000,
+    "min_age": 21,
+    "min_smarts": 70,
+    "requires": "university",
+    "postgrad": "Medical",
+    "major": false,
+    "desc": "Become a doctor."
+   },
+   {
+    "id": "dental_school",
+    "name": "Dental School",
+    "years": 4,
+    "tuition": 55000,
+    "min_age": 21,
+    "min_smarts": 65,
+    "requires": "university",
+    "postgrad": "Dental",
+    "major": false,
+    "desc": "Become a dentist."
+   },
+   {
+    "id": "pharmacy_school",
+    "name": "Pharmacy School",
+    "years": 4,
+    "tuition": 45000,
+    "min_age": 21,
+    "min_smarts": 60,
+    "requires": "university",
+    "postgrad": "Pharmacy",
+    "major": false,
+    "desc": "Become a pharmacist."
+   },
+   {
+    "id": "veterinary_school",
+    "name": "Veterinary School",
+    "years": 4,
+    "tuition": 50000,
+    "min_age": 21,
+    "min_smarts": 65,
+    "requires": "university",
+    "postgrad": "Veterinary",
+    "major": false,
+    "desc": "Become a veterinarian."
+   },
+   {
+    "id": "nursing_school",
+    "name": "Nursing School",
+    "years": 2,
+    "tuition": 25000,
+    "min_age": 21,
+    "min_smarts": 45,
+    "requires": "university",
+    "postgrad": "Nursing",
+    "major": false,
+    "desc": "Needs eligible major."
+   }
+  ],
+  "majors": [
+   {
+    "id": "accounting",
+    "name": "Accounting",
+    "postgrad": [
+     "Graduate",
+     "Business"
+    ]
+   },
+   {
+    "id": "anthropology",
+    "name": "Anthropology",
+    "postgrad": [
+     "Graduate"
+    ]
+   },
+   {
+    "id": "archaeology",
+    "name": "Archaeology",
+    "postgrad": [
+     "Graduate"
+    ]
+   },
+   {
+    "id": "architecture",
+    "name": "Architecture",
+    "postgrad": []
+   },
+   {
+    "id": "art_history",
+    "name": "Art History",
+    "postgrad": []
+   },
+   {
+    "id": "biology",
+    "name": "Biology",
+    "postgrad": [
+     "Graduate",
+     "Dental",
+     "Medical",
+     "Pharmacy",
+     "Veterinary"
+    ]
+   },
+   {
+    "id": "chemistry",
+    "name": "Chemistry",
+    "postgrad": [
+     "Graduate",
+     "Dental",
+     "Medical",
+     "Pharmacy",
+     "Veterinary"
+    ]
+   },
+   {
+    "id": "communications",
+    "name": "Communications",
+    "postgrad": []
+   },
+   {
+    "id": "computer_science",
+    "name": "Computer Science",
+    "postgrad": [
+     "Graduate"
+    ]
+   },
+   {
+    "id": "criminal_justice",
+    "name": "Criminal Justice",
+    "postgrad": [
+     "Graduate",
+     "Law"
+    ]
+   },
+   {
+    "id": "dance",
+    "name": "Dance",
+    "postgrad": []
+   },
+   {
+    "id": "economics",
+    "name": "Economics",
+    "postgrad": [
+     "Graduate",
+     "Business"
+    ]
+   },
+   {
+    "id": "education",
+    "name": "Education",
+    "postgrad": [
+     "Graduate"
+    ]
+   },
+   {
+    "id": "engineering",
+    "name": "Engineering",
+    "postgrad": [
+     "Graduate"
+    ]
+   },
+   {
+    "id": "english",
+    "name": "English",
+    "postgrad": [
+     "Graduate",
+     "Business",
+     "Law"
+    ]
+   },
+   {
+    "id": "finance",
+    "name": "Finance",
+    "postgrad": [
+     "Graduate",
+     "Business",
+     "Law"
+    ]
+   },
+   {
+    "id": "graphic_design",
+    "name": "Graphic Design",
+    "postgrad": []
+   },
+   {
+    "id": "history",
+    "name": "History",
+    "postgrad": [
+     "Graduate"
+    ]
+   },
+   {
+    "id": "information_systems",
+    "name": "Information Systems",
+    "postgrad": [
+     "Graduate",
+     "Business"
+    ]
+   },
+   {
+    "id": "journalism",
+    "name": "Journalism",
+    "postgrad": [
+     "Graduate"
+    ]
+   },
+   {
+    "id": "marketing",
+    "name": "Marketing",
+    "postgrad": [
+     "Graduate",
+     "Business"
+    ]
+   },
+   {
+    "id": "mathematics",
+    "name": "Mathematics",
+    "postgrad": [
+     "Graduate",
+     "Business"
+    ]
+   },
+   {
+    "id": "music",
+    "name": "Music",
+    "postgrad": [
+     "Graduate"
+    ]
+   },
+   {
+    "id": "nursing",
+    "name": "Nursing",
+    "postgrad": [
+     "Dental",
+     "Medical",
+     "Nursing"
+    ]
+   },
+   {
+    "id": "philosophy",
+    "name": "Philosophy",
+    "postgrad": [
+     "Graduate",
+     "Law"
+    ]
+   },
+   {
+    "id": "physics",
+    "name": "Physics",
+    "postgrad": [
+     "Graduate",
+     "Dental",
+     "Medical",
+     "Pharmacy",
+     "Veterinary"
+    ]
+   },
+   {
+    "id": "political_science",
+    "name": "Political Science",
+    "postgrad": [
+     "Graduate",
+     "Law"
+    ]
+   },
+   {
+    "id": "psychology",
+    "name": "Psychology",
+    "postgrad": [
+     "Graduate",
+     "Medical"
+    ]
+   },
+   {
+    "id": "religious_studies",
+    "name": "Religious Studies",
+    "postgrad": []
+   }
+  ],
+  "levels": [
+   "none",
+   "high_school",
+   "community_college",
+   "university"
+  ],
+  "names": {
+   "community_college": "Community College",
+   "university": "University",
+   "graduate_school": "Graduate School",
+   "law_school": "Law School",
+   "medical_school": "Medical School",
+   "business_school": "Business School",
+   "dental_school": "Dental School",
+   "pharmacy_school": "Pharmacy School",
+   "veterinary_school": "Veterinary School",
+   "nursing_school": "Nursing School",
+   "high_school": "High School",
+   "none": "No requirement"
+  }
+ },
+ "collections": [
+  {
+   "id": "accountant",
+   "name": "Accountant",
+   "edu_text": "University (Accounting)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "actor",
+   "name": "Actor",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "air_force_enlistee",
+   "name": "Air Force Enlistee",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "air_force_officer",
+   "name": "Air Force Officer",
+   "edu_text": "University",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "animator",
+   "name": "Animator",
+   "edu_text": "University (Computer Science)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "archaeologist",
+   "name": "Archaeologist",
+   "edu_text": "University (Archaeology)+Graduate School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "architect",
+   "name": "Architect",
+   "edu_text": "University (Architecture)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "army_enlistee",
+   "name": "Army Enlistee",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "army_officer",
+   "name": "Army Officer",
+   "edu_text": "University",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "art_gallery_worker",
+   "name": "Art Gallery Worker",
+   "edu_text": "University (Art History)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "auto_mechanic",
+   "name": "Auto Mechanic",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "baggage_handler",
+   "name": "Baggage Handler",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "baker",
+   "name": "Baker",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "banker",
+   "name": "Banker",
+   "edu_text": "University (Accounting)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "bartender",
+   "name": "Bartender",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "beekeeper",
+   "name": "Beekeeper",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "bill_collector",
+   "name": "Bill Collector",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "biotechnologist",
+   "name": "Biotechnologist",
+   "edu_text": "University (Biology)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "blacksmith",
+   "name": "Blacksmith",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "bouncer",
+   "name": "Bouncer",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "brain_surgeon",
+   "name": "Brain Surgeon",
+   "edu_text": "Medical School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "bus_driver",
+   "name": "Bus Driver",
+   "edu_text": "none",
+   "other": "Driver's License",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "business_analyst",
+   "name": "Business Analyst",
+   "edu_text": "University (Finance)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "butcher",
+   "name": "Butcher",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "cameraman",
+   "name": "Cameraman",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "carpenter",
+   "name": "Carpenter",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "cashier",
+   "name": "Cashier",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "casino_worker",
+   "name": "Casino Worker",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "cat_behavior_consultant",
+   "name": "Cat Behavior Consultant",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "chef",
+   "name": "Chef",
+   "edu_text": "Community College",
+   "other": "3 yrs work exp",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "chemical_engineer",
+   "name": "Chemical Engineer",
+   "edu_text": "University (Engineering)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "chimney_sweep",
+   "name": "Chimney Sweep",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "chiropractor",
+   "name": "Chiropractor",
+   "edu_text": "Medical School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "choreographer",
+   "name": "Choreographer",
+   "edu_text": "University (Dance)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "circus_performer",
+   "name": "Circus Performer",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "clown",
+   "name": "Clown",
+   "edu_text": "none",
+   "other": "Male",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "coast_guard_enlistee",
+   "name": "Coast Guard Enlistee",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "coast_guard_officer",
+   "name": "Coast Guard Officer",
+   "edu_text": "University",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "college_dean",
+   "name": "College Dean",
+   "edu_text": "none",
+   "other": "30 yrs work exp",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "computer_programmer",
+   "name": "Computer Programmer",
+   "edu_text": "University (Computer Science)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "construction_worker",
+   "name": "Construction Worker",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "crab_fisherman",
+   "name": "Crab Fisherman",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "dance_instructor",
+   "name": "Dance Instructor",
+   "edu_text": "University (Dance)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "dancer",
+   "name": "Dancer",
+   "edu_text": "none",
+   "other": "High Looks",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "database_administrator",
+   "name": "Database Administrator",
+   "edu_text": "University (Computer Science)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "dental_hygienist",
+   "name": "Dental Hygienist",
+   "edu_text": "Community College",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "dentist",
+   "name": "Dentist",
+   "edu_text": "Dental School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "detective",
+   "name": "Detective",
+   "edu_text": "University",
+   "other": "10 yrs work exp",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "disk_jockey",
+   "name": "Disk Jockey",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "driver",
+   "name": "Driver",
+   "edu_text": "none",
+   "other": "Driver's License & Car",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "editor",
+   "name": "Editor",
+   "edu_text": "University (English)",
+   "other": "7 yrs work exp",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "electrician",
+   "name": "Electrician",
+   "edu_text": "none",
+   "other": "Driver's License & Car",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "environmental_scientist",
+   "name": "Environmental Scientist",
+   "edu_text": "University (Physics)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "paid_companion_18",
+   "name": "Paid Companion (18+)",
+   "edu_text": "none",
+   "other": "High Looks",
+   "years": 20,
+   "adult": true
+  },
+  {
+   "id": "executive",
+   "name": "Executive",
+   "edu_text": "Business School",
+   "other": "15 yrs work exp",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "exorcist",
+   "name": "Exorcist",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "club_dancer_18",
+   "name": "Club Dancer (18+)",
+   "edu_text": "none",
+   "other": "Female, High Looks",
+   "years": 20,
+   "adult": true
+  },
+  {
+   "id": "factory_worker",
+   "name": "Factory Worker",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "family_physician",
+   "name": "Family Physician",
+   "edu_text": "Medical School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "farmer",
+   "name": "Farmer",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "fashion_designer",
+   "name": "Fashion Designer",
+   "edu_text": "University (Graphic Design)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "fast_food_worker",
+   "name": "Fast Food Worker",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "financial_advisor",
+   "name": "Financial Advisor",
+   "edu_text": "University (Finance)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "financial_analyst",
+   "name": "Financial Analyst",
+   "edu_text": "University (Finance)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "firefighter",
+   "name": "Firefighter",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "fisherman",
+   "name": "Fisherman",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "flight_attendant",
+   "name": "Flight Attendant",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "forensic_scientist",
+   "name": "Forensic Scientist",
+   "edu_text": "University (Criminal Justice)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "graphic_designer",
+   "name": "Graphic Designer",
+   "edu_text": "University (Graphic Design)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "grocer",
+   "name": "Grocer",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "hairdresser",
+   "name": "Hairdresser",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "history_teacher",
+   "name": "History Teacher",
+   "edu_text": "University (History)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "horse_jockey",
+   "name": "Horse Jockey",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "housekeeper",
+   "name": "Housekeeper",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "insurance_agent",
+   "name": "Insurance Agent",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "interior_designer",
+   "name": "Interior Designer",
+   "edu_text": "University (Graphic Design)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "internal_auditor",
+   "name": "Internal Auditor",
+   "edu_text": "University (Accounting)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "janitor",
+   "name": "Janitor",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "jeweler",
+   "name": "Jeweler",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "judge",
+   "name": "Judge",
+   "edu_text": "Law School",
+   "other": "30 yrs work exp",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "landscaper",
+   "name": "Landscaper",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "lawyer",
+   "name": "Lawyer",
+   "edu_text": "Law School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "librarian",
+   "name": "Librarian",
+   "edu_text": "Graduate School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "lobbyist",
+   "name": "Lobbyist",
+   "edu_text": "University (Political Science)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "lumberjack",
+   "name": "Lumberjack",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "magician",
+   "name": "Magician",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "mail_carrier",
+   "name": "Mail Carrier",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "makeup_artist",
+   "name": "Makeup Artist",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "male_stripper",
+   "name": "Male Stripper",
+   "edu_text": "none",
+   "other": "Male, High Looks",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "marine_biologist",
+   "name": "Marine Biologist",
+   "edu_text": "University (Mathematics)+Graduate School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "marines_enlistee",
+   "name": "Marines Enlistee",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "marines_officer",
+   "name": "Marines Officer",
+   "edu_text": "University",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "marriage_counselor",
+   "name": "Marriage Counselor",
+   "edu_text": "University (Psychology)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "massage_therapist",
+   "name": "Massage Therapist",
+   "edu_text": "Community College",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "mechanical_engineer",
+   "name": "Mechanical Engineer",
+   "edu_text": "University (Engineering)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "microbiologist",
+   "name": "Microbiologist",
+   "edu_text": "University (Biology)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "midwife",
+   "name": "Midwife",
+   "edu_text": "University (Nursing)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "mobile_app_developer",
+   "name": "Mobile App Developer",
+   "edu_text": "University (Computer Science)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "model",
+   "name": "Model",
+   "edu_text": "none",
+   "other": "Female, High Looks",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "monk",
+   "name": "Monk",
+   "edu_text": "none",
+   "other": "Male, no sex or romance",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "moonshiner",
+   "name": "Moonshiner",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "mortician",
+   "name": "Mortician",
+   "edu_text": "University (Chemistry)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "museum_worker",
+   "name": "Museum Worker",
+   "edu_text": "University (History)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "music_composer",
+   "name": "Music Composer",
+   "edu_text": "University (Music)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "nail_technician",
+   "name": "Nail Technician",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "navy_enlistee",
+   "name": "Navy Enlistee",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "navy_officer",
+   "name": "Navy Officer",
+   "edu_text": "University",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "life_drawing_model_18",
+   "name": "Life-Drawing Model (18+)",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": true
+  },
+  {
+   "id": "nun",
+   "name": "Nun",
+   "edu_text": "none",
+   "other": "Female, no sex or romance",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "nurse",
+   "name": "Nurse",
+   "edu_text": "Nursing School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "operations_analyst",
+   "name": "Operations Analyst",
+   "edu_text": "University (Information Systems)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "painter",
+   "name": "Painter",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "paralegal",
+   "name": "Paralegal",
+   "edu_text": "Community College",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "pet_groomer",
+   "name": "Pet Groomer",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "pharmacist",
+   "name": "Pharmacist",
+   "edu_text": "Pharmacy School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "photographer",
+   "name": "Photographer",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "physical_therapist",
+   "name": "Physical Therapist",
+   "edu_text": "Medical School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "pilot",
+   "name": "Pilot",
+   "edu_text": "University",
+   "other": "Pilot License",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "plumber",
+   "name": "Plumber",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "police_officer",
+   "name": "Police Officer",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "policy_analyst",
+   "name": "Policy Analyst",
+   "edu_text": "University (Political Science)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "adult_film_set_janitor_18",
+   "name": "Adult Film Set Janitor (18+)",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": true
+  },
+  {
+   "id": "adult_film_producer_18",
+   "name": "Adult Film Producer (18+)",
+   "edu_text": "none",
+   "other": "High Looks",
+   "years": 20,
+   "adult": true
+  },
+  {
+   "id": "adult_film_historian_18",
+   "name": "Adult Film Historian (18+)",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": true
+  },
+  {
+   "id": "porta_potty_pumper",
+   "name": "Porta Potty Pumper",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "priest",
+   "name": "Priest",
+   "edu_text": "none",
+   "other": "Male, no sex or romance",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "private_investigator",
+   "name": "Private Investigator",
+   "edu_text": "University (Criminal Justice)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "professor",
+   "name": "Professor",
+   "edu_text": "University (Education)+Graduate School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "psychiatrist",
+   "name": "Psychiatrist",
+   "edu_text": "Medical School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "puppeteer",
+   "name": "Puppeteer",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "real_estate_agent",
+   "name": "Real Estate Agent",
+   "edu_text": "Secondary School",
+   "other": "Driver's License & Car",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "receptionist",
+   "name": "Receptionist",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "reporter",
+   "name": "Reporter",
+   "edu_text": "University (Journalism)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "restaurant_worker",
+   "name": "Restaurant Worker",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "retail_salesperson",
+   "name": "Retail Salesperson",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "roadkill_remover",
+   "name": "Roadkill Remover",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "school_administrator",
+   "name": "School Administrator",
+   "edu_text": "University (Education)+Graduate School",
+   "other": "3 yrs work exp",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "school_psychologist",
+   "name": "School Psychologist",
+   "edu_text": "University (Psychology)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "school_teacher",
+   "name": "School Teacher",
+   "edu_text": "University (Education)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "sculptor",
+   "name": "Sculptor",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "security_guard",
+   "name": "Security Guard",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "stockbroker",
+   "name": "Stockbroker",
+   "edu_text": "University (Finance)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "stuntman",
+   "name": "Stuntman",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "tailor",
+   "name": "Tailor",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "technical_support_specialist",
+   "name": "Technical Support Specialist",
+   "edu_text": "University (Computer Science)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "telemarketer",
+   "name": "Telemarketer",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "translator",
+   "name": "Translator",
+   "edu_text": "University (Communications)",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "travel_agent",
+   "name": "Travel Agent",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "trucker",
+   "name": "Trucker",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "veterinarian",
+   "name": "Veterinarian",
+   "edu_text": "Veterinary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "waste_collector",
+   "name": "Waste Collector",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "water_slide_tester",
+   "name": "Water Slide Tester",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "wedding_planner",
+   "name": "Wedding Planner",
+   "edu_text": "Secondary School",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "worm_picker",
+   "name": "Worm Picker",
+   "edu_text": "none",
+   "other": "",
+   "years": 20,
+   "adult": false
+  },
+  {
+   "id": "writer",
+   "name": "Writer",
+   "edu_text": "Secondary School",
+   "other": "High Smarts",
+   "years": 20,
+   "adult": false
+  }
+ ]
+}

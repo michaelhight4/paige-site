@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="race_car" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="121" ry="7" data-slot="shadow" id="race_car-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="4" y="52" width="44" height="8" rx="2" data-slot="trim" id="race_car-trim-2" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="14" y="60" width="4" height="30" data-slot="metal" id="race_car-metal-3" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="34" y="60" width="4" height="30" data-slot="metal" id="race_car-metal-4" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M28 106Q20 106 20.9 99.6L21.1 98.4Q22 92 30 91.6L52 90.4Q60 90 67.9 88.8L92.1 85.2Q100 84 107.6 81.5L122.4 76.5Q130 74 137.8 75.8L192.2 88.2Q200 90 207.9 91.1L236.1 94.9Q244 96 244.9 100.5L245.1 101.5Q246 106 238 106Z" data-slot="body" id="race_car-body-5" fill="#e63946" style="fill:var(--slot-body,#e63946)"/>
+<circle cx="112" cy="74" r="9" data-slot="skin" id="race_car-skin-6" fill="#f1c7a0" style="fill:var(--slot-skin,#f1c7a0)"/>
+<rect x="102" y="62" width="20" height="13" rx="6" data-slot="accent" id="race_car-accent-7" fill="#ffd23f" style="fill:var(--slot-accent,#ffd23f)"/>
+<rect x="106" y="66" width="12" height="5" rx="2" fill="#222" stroke="none"/>
+<circle cx="150" cy="90" r="8" fill="#fff" stroke-width="2"/>
+<circle cx="56" cy="109" r="21" data-slot="wheel" id="race_car-wheel-8" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="56" cy="109" r="10.5" data-slot="metal" id="race_car-metal-9" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="56" cy="109" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M56 98.5V119.5M45.5 109H66.5" fill="none" stroke-width="1.5"/>
+<circle cx="202" cy="109" r="21" data-slot="wheel" id="race_car-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="202" cy="109" r="10.5" data-slot="metal" id="race_car-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="202" cy="109" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M202 98.5V119.5M191.5 109H212.5" fill="none" stroke-width="1.5"/>
+<rect x="226" y="102" width="28" height="6" rx="2" data-slot="trim" id="race_car-trim-12" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+</g>
+</svg>

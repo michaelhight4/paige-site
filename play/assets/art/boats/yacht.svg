@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="yacht" data-category="boats">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M0 122Q16 114 32 122T64 122T96 122T128 122T160 122T192 122T224 122T256 122V160H0Z" data-slot="water" id="yacht-water-1" fill="#4aa8e0" style="fill:var(--slot-water,#4aa8e0)"/>
+<path d="M20 138q8 -5 16 0t16 0M150 144q8 -5 16 0t16 0" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+<path d="M12 86H214Q240 90 246 98Q226 128 190 130H44Q22 120 12 86Z" data-slot="body" id="yacht-body-2" fill="#1d3a6b" style="fill:var(--slot-body,#1d3a6b)"/>
+<rect x="20" y="100" width="224" height="4" data-slot="accent" id="yacht-accent-3" fill="#d4af37" style="fill:var(--slot-accent,#d4af37)"/>
+<circle cx="40" cy="94" r="3.5" data-slot="glass" id="yacht-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<circle cx="62" cy="94" r="3.5" data-slot="glass" id="yacht-glass-5" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<circle cx="84" cy="94" r="3.5" data-slot="glass" id="yacht-glass-6" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<circle cx="106" cy="94" r="3.5" data-slot="glass" id="yacht-glass-7" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<circle cx="128" cy="94" r="3.5" data-slot="glass" id="yacht-glass-8" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<circle cx="150" cy="94" r="3.5" data-slot="glass" id="yacht-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<circle cx="172" cy="94" r="3.5" data-slot="glass" id="yacht-glass-10" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<rect x="50" y="58" width="140" height="28" rx="5" data-slot="trim" id="yacht-trim-11" fill="#f6f6f6" style="fill:var(--slot-trim,#f6f6f6)"/>
+<rect x="82" y="34" width="90" height="24" rx="5" data-slot="trim" id="yacht-trim-12" fill="#f6f6f6" style="fill:var(--slot-trim,#f6f6f6)"/>
+<rect x="60" y="64" width="18" height="14" rx="2" data-slot="glass" id="yacht-glass-13" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="86" y="64" width="18" height="14" rx="2" data-slot="glass" id="yacht-glass-14" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="112" y="64" width="18" height="14" rx="2" data-slot="glass" id="yacht-glass-15" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="138" y="64" width="18" height="14" rx="2" data-slot="glass" id="yacht-glass-16" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="164" y="64" width="18" height="14" rx="2" data-slot="glass" id="yacht-glass-17" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="92" y="40" width="70" height="12" rx="2" data-slot="glass" id="yacht-glass-18" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="78" y="28" width="98" height="6" rx="3" data-slot="roof" id="yacht-roof-19" fill="#222" style="fill:var(--slot-roof,#222)"/>
+<rect x="124" y="10" width="4" height="20" data-slot="metal" id="yacht-metal-20" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<ellipse cx="126" cy="10" rx="12" ry="3" data-slot="metal" id="yacht-metal-21" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="194" y="66" width="20" height="20" rx="3" data-slot="trim" id="yacht-trim-22" fill="#f6f6f6" style="fill:var(--slot-trim,#f6f6f6)"/>
+<path d="M12 90H240" fill="none" stroke-width="1.5"/>
+<polygon points="198,58 220,70 198,70" data-slot="fabric" id="yacht-fabric-23" fill="#d33a3a" style="fill:var(--slot-fabric,#d33a3a)" stroke-width="2"/>
+</g>
+</svg>

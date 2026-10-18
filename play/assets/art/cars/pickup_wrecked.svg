@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="pickup_wrecked" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="118" ry="7" data-slot="shadow" id="pickup_wrecked-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M26 108Q18 108 18 100L18 82Q18 74 26 74L92 74Q100 74 100 66.7L100 65.3Q100 58 102.7 55.3L103.3 54.7Q106 52 114 52L142 52Q150 52 155.7 57.7L170.3 72.3Q176 78 183.7 80L218.3 89Q226 91 227.4 96.5L227.6 97.5Q229 103 228.1 105.3L227.9 105.7Q227 108 219 108Z" data-slot="body" id="pickup_wrecked-body-2" fill="#9c8f72" style="fill:var(--slot-body,#9c8f72)"/>
+<path d="M114 76Q110 76 110.8 72.1L113.2 60.9Q114 57 118 57L142 57Q146 57 149 59.6L165 73.4Q168 76 164 76Z" data-slot="glass" id="pickup_wrecked-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="18" y="70" width="84" height="5" rx="2" data-slot="trim" id="pickup_wrecked-trim-4" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<path d="M128 80V106" fill="none" stroke-width="2"/>
+<rect x="112" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="pickup_wrecked-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<path d="M36 80V104M60 80V104M84 80V104" fill="none" stroke-width="1.5" stroke-opacity=".5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="pickup_wrecked-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="14" y="98" width="13" height="10" rx="3" data-slot="trim" id="pickup_wrecked-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="232" cy="92" rx="6" ry="4.5" data-slot="accent" id="pickup_wrecked-accent-8" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="17" y="80" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="56" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="56" cy="112" r="18" data-slot="wheel" id="pickup_wrecked-wheel-9" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="56" cy="112" r="9" data-slot="metal" id="pickup_wrecked-metal-10" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="56" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M56 103V121M47 112H65" fill="none" stroke-width="1.5"/>
+<circle cx="194" cy="112" r="5.8" data-slot="metal" id="pickup_wrecked-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<ellipse cx="232" cy="126" rx="15" ry="6" data-slot="wheel" id="pickup_wrecked-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<ellipse cx="232" cy="126" rx="6" ry="2.5" data-slot="metal" id="pickup_wrecked-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<path d="M184 120L206 128" fill="none" stroke-width="2"/>
+<polygon points="51.7,96 45.8,99.1 40,102.9 33.4,99.6 26,96 33.8,92.7 40,89.7 47.4,92" data-slot="rust" id="pickup_wrecked-rust-14" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<polygon points="145.6,102.7 138.4,101.8 130.4,101.3 131.9,97 133.3,92.3 141.7,93.9 148.8,95 149.1,99.1" data-slot="rust" id="pickup_wrecked-rust-15" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<polygon points="56.2,82.5 54,79.2 50.9,75.8 57.5,74.3 64.5,72.7 66.4,76.7 68.3,80 62.9,82.1" data-slot="rust" id="pickup_wrecked-rust-16" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<path d="M198 90q8 -4 6 -12M48 94q6 5 14 2" fill="none" stroke-width="2" stroke-opacity=".6"/>
+<polygon points="200,92 214,86 218,98 204,100" fill="#000" fill-opacity=".2" stroke="none"/>
+<path d="M134.5 66.5L122.3 73.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M134.5 66.5L140.3 63.8" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M128.5 66.5l5 4l6 -6" fill="none" stroke="#fff" stroke-width="1.4"/>
+<path d="M16 104q-6 8 4 10" fill="none" stroke-width="2.5"/>
+<circle cx="204" cy="70" r="9" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+<circle cx="216" cy="58" r="12" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+<circle cx="194" cy="50" r="7" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+</g>
+</svg>

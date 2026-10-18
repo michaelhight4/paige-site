@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="necklace_pendant" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="60" ry="8" data-slot="shadow" id="necklace_pendant-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<circle cx="199.4" cy="81" r="4.5" data-slot="metal" id="necklace_pendant-metal-2" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="195.9" cy="93.9" r="4.5" data-slot="metal" id="necklace_pendant-metal-3" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="191.5" cy="105.9" r="4.5" data-slot="metal" id="necklace_pendant-metal-4" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="186.2" cy="117.1" r="4.5" data-slot="metal" id="necklace_pendant-metal-5" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="180.2" cy="127.3" r="4.5" data-slot="metal" id="necklace_pendant-metal-6" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="173.4" cy="136.3" r="4.5" data-slot="metal" id="necklace_pendant-metal-7" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="166" cy="143.9" r="4.5" data-slot="metal" id="necklace_pendant-metal-8" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="158.1" cy="150.2" r="4.5" data-slot="metal" id="necklace_pendant-metal-9" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="149.8" cy="155" r="4.5" data-slot="metal" id="necklace_pendant-metal-10" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="141.2" cy="158.2" r="4.5" data-slot="metal" id="necklace_pendant-metal-11" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="132.4" cy="159.8" r="4.5" data-slot="metal" id="necklace_pendant-metal-12" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="123.6" cy="159.8" r="4.5" data-slot="metal" id="necklace_pendant-metal-13" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="114.8" cy="158.2" r="4.5" data-slot="metal" id="necklace_pendant-metal-14" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="106.2" cy="155" r="4.5" data-slot="metal" id="necklace_pendant-metal-15" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="97.9" cy="150.2" r="4.5" data-slot="metal" id="necklace_pendant-metal-16" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="90" cy="143.9" r="4.5" data-slot="metal" id="necklace_pendant-metal-17" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="82.6" cy="136.3" r="4.5" data-slot="metal" id="necklace_pendant-metal-18" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="75.8" cy="127.3" r="4.5" data-slot="metal" id="necklace_pendant-metal-19" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="69.8" cy="117.1" r="4.5" data-slot="metal" id="necklace_pendant-metal-20" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="64.5" cy="105.9" r="4.5" data-slot="metal" id="necklace_pendant-metal-21" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="60.1" cy="93.9" r="4.5" data-slot="metal" id="necklace_pendant-metal-22" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="56.6" cy="81" r="4.5" data-slot="metal" id="necklace_pendant-metal-23" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+<circle cx="128" cy="164" r="12" data-slot="metal" id="necklace_pendant-metal-24" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)"/>
+<path d="M128 150C94 160 90 200 128 226C166 200 162 160 128 150Z" data-slot="metal" id="necklace_pendant-metal-25" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)"/>
+<path d="M128 162C106 170 104 196 128 214C152 196 150 170 128 162Z" data-slot="stone" id="necklace_pendant-stone-26" fill="#d33a5a" style="fill:var(--slot-stone,#d33a5a)" stroke-width="2"/>
+<path d="M114 178Q116 170 124 168L124 174Q118 176 118 184Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+</g>
+</svg>

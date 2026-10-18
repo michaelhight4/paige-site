@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="necklace_pearl" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="60" ry="8" data-slot="shadow" id="necklace_pearl-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<circle cx="204.1" cy="110.2" r="11" data-slot="stone" id="necklace_pearl-stone-2" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M199.0845213036123 107.17220926874316a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="198.4" cy="131.6" r="11" data-slot="stone" id="necklace_pearl-stone-3" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M193.44764254853902 128.60292612148982a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="190.5" cy="151.1" r="11" data-slot="stone" id="necklace_pearl-stone-4" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M185.5465185974424 148.05367424163535a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="180.6" cy="167.9" r="11" data-slot="stone" id="necklace_pearl-stone-5" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M175.635098075177 164.89929058046943a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="169" cy="181.6" r="11" data-slot="stone" id="necklace_pearl-stone-6" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M164.03194219247248 178.5983431682426a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="156.1" cy="191.7" r="11" data-slot="stone" id="necklace_pearl-stone-7" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M151.10998592650742 188.71053318316584a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="142.3" cy="197.9" r="11" data-slot="stone" id="necklace_pearl-stone-8" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M137.28455158389093 194.91084651782185a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="128" cy="200" r="11" data-slot="stone" id="necklace_pearl-stone-9" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M123 197a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="113.7" cy="197.9" r="11" data-slot="stone" id="necklace_pearl-stone-10" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M108.71544841610906 194.91084651782185a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="99.9" cy="191.7" r="11" data-slot="stone" id="necklace_pearl-stone-11" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M94.8900140734926 188.71053318316584a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="87" cy="181.6" r="11" data-slot="stone" id="necklace_pearl-stone-12" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M81.96805780752752 178.5983431682426a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="75.4" cy="167.9" r="11" data-slot="stone" id="necklace_pearl-stone-13" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M70.36490192482299 164.89929058046943a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="65.5" cy="151.1" r="11" data-slot="stone" id="necklace_pearl-stone-14" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M60.45348140255763 148.05367424163535a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="57.6" cy="131.6" r="11" data-slot="stone" id="necklace_pearl-stone-15" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M52.55235745146096 128.60292612148984a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="51.9" cy="110.2" r="11" data-slot="stone" id="necklace_pearl-stone-16" fill="#f6f1e6" style="fill:var(--slot-stone,#f6f1e6)"/>
+<path d="M46.91547869638772 107.17220926874317a5 5 0 0 1 5 -4l1 3a3 3 0 0 0 -3 3Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<circle cx="128" cy="202" r="7" data-slot="metal" id="necklace_pearl-metal-17" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<rect x="120" y="192" width="16" height="8" rx="3" data-slot="metal" id="necklace_pearl-metal-18" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+</g>
+</svg>

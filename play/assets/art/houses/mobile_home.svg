@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="mobile_home" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="mobile_home-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="mobile_home-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="18" y="120" width="220" height="86" rx="3" data-slot="body" id="mobile_home-body-3" fill="#a9c4d6" style="fill:var(--slot-body,#a9c4d6)"/>
+<polygon points="10,124 40,98 216,98 246,124" data-slot="roof" id="mobile_home-roof-4" fill="#7a828c" style="fill:var(--slot-roof,#7a828c)"/>
+<rect x="18" y="196" width="220" height="12" data-slot="stone" id="mobile_home-stone-5" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<path d="M30 202H226" fill="none" stroke-width="1.5"/>
+<rect x="33" y="137" width="40" height="34" rx="2" data-slot="trim" id="mobile_home-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="36" y="140" width="34" height="28" rx="1" data-slot="glass" id="mobile_home-glass-7" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M53 140V168M36 154H70" fill="none" stroke-width="1.5"/>
+<rect x="81" y="137" width="40" height="34" rx="2" data-slot="trim" id="mobile_home-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="84" y="140" width="34" height="28" rx="1" data-slot="glass" id="mobile_home-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M101 140V168M84 154H118" fill="none" stroke-width="1.5"/>
+<rect x="187" y="137" width="36" height="34" rx="2" data-slot="trim" id="mobile_home-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="190" y="140" width="30" height="28" rx="1" data-slot="glass" id="mobile_home-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M205 140V168M190 154H220" fill="none" stroke-width="1.5"/>
+<rect x="142" y="138" width="34" height="58" rx="2" data-slot="door" id="mobile_home-door-12" fill="#d65a2c" style="fill:var(--slot-door,#d65a2c)"/>
+<circle cx="170" cy="167" r="2.5" data-slot="accent" id="mobile_home-accent-13" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="150" y="196" width="18" height="6" rx="1" data-slot="stone" id="mobile_home-stone-14" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="146" y="202" width="26" height="6" rx="1" data-slot="stone" id="mobile_home-stone-15" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="130" y="128" width="58" height="6" rx="1" data-slot="trim" id="mobile_home-trim-16" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="60" y="90" width="14" height="12" data-slot="metal" id="mobile_home-metal-17" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+</g>
+</svg>

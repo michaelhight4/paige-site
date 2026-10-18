@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="heels" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="222" rx="80" ry="8" data-slot="shadow" id="heels-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M40 60Q40 48 62 50Q76 58 92 100Q124 140 190 150Q226 154 234 170Q222 184 176 180Q110 176 78 144Q56 120 44 96Q38 78 40 60Z" data-slot="fabric" id="heels-fabric-2" fill="#d11e48" style="fill:var(--slot-fabric,#d11e48)"/>
+<polygon points="44,98 66,128 62,214 50,214" data-slot="metal" id="heels-metal-3" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2.5"/>
+<path d="M80 146Q120 178 176 182Q222 186 234 170Q226 190 176 192Q110 192 80 146Z" data-slot="accent" id="heels-accent-4" fill="#8f1233" style="fill:var(--slot-accent,#8f1233)" stroke-width="2.5"/>
+<path d="M44 70Q70 74 84 96" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3"/>
+<circle cx="150" cy="156" r="7" data-slot="metal" id="heels-metal-5" fill="#e8e8ee" style="fill:var(--slot-metal,#e8e8ee)" stroke-width="2"/>
+</g>
+</svg>

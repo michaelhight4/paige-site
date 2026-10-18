@@ -1,0 +1,8462 @@
+[
+ {
+  "id": "mouth_noises",
+  "cat": "childhood",
+  "ages": [
+   1,
+   3
+  ],
+  "w": 3,
+  "title": "Mouth Noises",
+  "prompt": "Your mother is calling to you in a soft voice. You feel inclined to respond.",
+  "choices": [
+   {
+    "label": "Say \"ma ma\"",
+    "journal": [
+     "I said \"ma ma\" and my caretaker became ecstatic."
+    ],
+    "fx": {
+     "happy": 16,
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Say \"da da\"",
+    "journal": [
+     "I disappointed my caretaker by saying \"da da\"."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Cry",
+    "journal": [
+     "I cried, confused by the intricacies of the English language."
+    ],
+    "fx": {
+     "happy": -16,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Spit",
+    "journal": [
+     "I spat liquid onto my caretaker's face."
+    ]
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "mashed_avocado",
+  "cat": "childhood",
+  "ages": [
+   1,
+   3
+  ],
+  "w": 3,
+  "title": "Mashed Avocado",
+  "prompt": "Your mother swirls a spoonful of your least favorite green muck through the air.",
+  "choices": [
+   {
+    "label": "Eat it",
+    "journal": [
+     "I ate the avocado and my mother kissed me for it."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Cry",
+    "journal": [
+     "I wailed at the sight of mashed avocado."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Slap the spoon",
+    "journal": [
+     "I slapped the spoon to the floor, and the avocado with it."
+    ],
+    "fx": {
+     "karma": -4
+    }
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "toying_around",
+  "cat": "childhood",
+  "ages": [
+   1,
+   3
+  ],
+  "w": 3,
+  "title": "Toying Around",
+  "prompt": "A pile of toys sits within crawling distance.",
+  "choices": [
+   {
+    "label": "Stack the blocks",
+    "journal": [
+     "I stacked blocks with the focus of a tiny architect."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Chew the blocks",
+    "journal": [
+     "I chewed on a block until it lost all will to live."
+    ],
+    "fx": {
+     "health": -4
+    }
+   },
+   {
+    "label": "Throw them",
+    "journal": [
+     "I threw every toy across the room, then cried that they were gone."
+    ],
+    "fx": {
+     "happy": 4,
+     "karma": -4
+    }
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "tolerance",
+  "cat": "childhood",
+  "ages": [
+   2,
+   4
+  ],
+  "w": 2,
+  "title": "Tolerance",
+  "prompt": "A toddler at daycare is sitting alone in the corner.",
+  "choices": [
+   {
+    "label": "Share a toy",
+    "journal": [
+     "I shared my toy with a lonely kid and felt like a diplomat."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Ignore them",
+    "journal": [
+     "I ignored the kid in the corner and focused on my snack."
+    ]
+   },
+   {
+    "label": "Take their toy",
+    "journal": [
+     "I took the lonely kid's toy. It was a bad toy."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "vaccination",
+  "cat": "childhood",
+  "ages": [
+   1,
+   5
+  ],
+  "w": 2,
+  "title": "Vaccination",
+  "prompt": "A nurse approaches with a needle and a lollipop.",
+  "choices": [
+   {
+    "label": "Be brave",
+    "journal": [
+     "I took the shot without a sound and got a lollipop for it."
+    ],
+    "fx": {
+     "health": 8
+    }
+   },
+   {
+    "label": "Scream",
+    "journal": [
+     "I screamed so loud that a nurse in another county flinched."
+    ],
+    "fx": {
+     "health": 4,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Run away",
+    "journal": [
+     "I escaped the clinic wearing one shoe. They caught me in the parking lot."
+    ],
+    "fx": {
+     "health": -4
+    }
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "jump_around",
+  "cat": "childhood",
+  "ages": [
+   3,
+   8
+  ],
+  "w": 2,
+  "title": "Jump Around",
+  "prompt": "The couch looks like a trampoline today.",
+  "choices": [
+   {
+    "label": "Jump on it",
+    "journal": [
+     "I jumped on the couch until gravity filed a complaint."
+    ],
+    "fx": {
+     "happy": 8
+    },
+    "p": 0.7,
+    "fail": {
+     "journal": [
+      "I jumped off the couch and landed on my wrist."
+     ],
+     "fx": {
+      "health": -8,
+      "happy": -4
+     }
+    }
+   },
+   {
+    "label": "Build a fort",
+    "journal": [
+     "I built a blanket fort and declared it a sovereign nation."
+    ],
+    "fx": {
+     "smarts": 4,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Watch cartoons",
+    "journal": [
+     "I watched cartoons for four hours straight."
+    ],
+    "fx": {
+     "smarts": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "integrity",
+  "cat": "childhood",
+  "ages": [
+   4,
+   12
+  ],
+  "w": 1.5,
+  "title": "Integrity",
+  "prompt": "You find a wallet on the sidewalk. There is cash inside.",
+  "choices": [
+   {
+    "label": "Return it",
+    "journal": [
+     "I returned a wallet and the owner gave me a handshake and five dollars."
+    ],
+    "fx": {
+     "karma": 16,
+     "happy": 4,
+     "money": 5
+    }
+   },
+   {
+    "label": "Keep the cash",
+    "journal": [
+     "I kept the cash and left the wallet in a bush."
+    ],
+    "fx": {
+     "karma": -16,
+     "money": 40
+    }
+   },
+   {
+    "label": "Leave it",
+    "journal": [
+     "I left the wallet where it was, because it wasn't my problem."
+    ]
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "dental_care",
+  "cat": "childhood",
+  "ages": [
+   4,
+   12
+  ],
+  "w": 2,
+  "title": "Dental Care",
+  "prompt": "It is time to brush your teeth.",
+  "choices": [
+   {
+    "label": "Brush and floss",
+    "journal": [
+     "I brushed and flossed like a person with a future."
+    ],
+    "fx": {
+     "looks": 16,
+     "health": 4
+    }
+   },
+   {
+    "label": "Just brush",
+    "journal": [
+     "I brushed my teeth. Mostly the front ones."
+    ],
+    "fx": {
+     "looks": 4
+    }
+   },
+   {
+    "label": "Eat candy instead",
+    "journal": [
+     "I ate a candy bar and called it dental hygiene."
+    ],
+    "fx": {
+     "looks": -8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped brushing and my breath noticed."
+    ],
+    "fx": {
+     "looks": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "big_flex",
+  "cat": "childhood",
+  "ages": [
+   3,
+   8
+  ],
+  "w": 1.5,
+  "title": "Big Flex",
+  "prompt": "A group of kids dares you to show off how strong you are.",
+  "choices": [
+   {
+    "label": "Lift a heavy rock",
+    "journal": [
+     "I lifted a rock the size of a toaster and felt invincible."
+    ],
+    "fx": {
+     "health": 4,
+     "happy": 8
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": [
+      "I dropped a rock on my foot in front of everyone."
+     ],
+     "fx": {
+      "health": -8,
+      "happy": -8
+     }
+    }
+   },
+   {
+    "label": "Flex your arms",
+    "journal": [
+     "I flexed my arms. The kids stared at my elbows politely."
+    ],
+    "fx": {
+     "looks": -4
+    }
+   },
+   {
+    "label": "Walk away",
+    "journal": [
+     "I walked away from the dare and ate a sandwich."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Shove the dare-giver",
+    "journal": [
+     "I shoved the kid who dared me. He cried."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   }
+  ]
+ },
+ {
+  "id": "bee_careful",
+  "cat": "childhood",
+  "ages": [
+   3,
+   10
+  ],
+  "w": 2,
+  "title": "Bee Careful",
+  "prompt": "A bee is hovering around your lemonade.",
+  "choices": [
+   {
+    "label": "Stay still",
+    "journal": [
+     "I stayed still and the bee left in disappointment."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Swat it",
+    "journal": [
+     "I swatted the bee and learned about stingers."
+    ],
+    "fx": {
+     "health": -8,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Run screaming",
+    "journal": [
+     "I ran in circles screaming until the bee lost interest."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "mud",
+  "cat": "childhood",
+  "ages": [
+   3,
+   8
+  ],
+  "w": 2,
+  "title": "Mud",
+  "prompt": "It rained all night and the backyard is a swamp.",
+  "choices": [
+   {
+    "label": "Jump in the puddles",
+    "journal": [
+     "I jumped in every puddle and came home brown from the neck down."
+    ],
+    "fx": {
+     "happy": 16,
+     "looks": -4
+    }
+   },
+   {
+    "label": "Make mud pies",
+    "journal": [
+     "I made mud pies and served them to the dog."
+    ],
+    "fx": {
+     "happy": 8,
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Eat the mud",
+    "journal": [
+     "I ate some mud. It tasted like regret and minerals."
+    ],
+    "fx": {
+     "health": -8
+    }
+   },
+   {
+    "label": "Stay inside",
+    "journal": [
+     "I stayed inside and watched the rain with great maturity."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rejection",
+  "cat": "childhood",
+  "ages": [
+   3,
+   10
+  ],
+  "w": 1.5,
+  "title": "Rejection",
+  "prompt": "A classmate says you can't play with them.",
+  "choices": [
+   {
+    "label": "Cry",
+    "journal": [
+     "I cried on a bench until a teacher found me."
+    ],
+    "fx": {
+     "happy": -8
+    }
+   },
+   {
+    "label": "Play alone",
+    "journal": [
+     "I played alone and honestly it went fine."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Say something mean",
+    "journal": [
+     "I called the kid a name so bad I had to look it up later."
+    ],
+    "fx": {
+     "karma": -8,
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "free_samples",
+  "cat": "childhood",
+  "ages": [
+   2,
+   8
+  ],
+  "w": 1.5,
+  "title": "Free Samples",
+  "prompt": "A grocery store worker offers free samples.",
+  "choices": [
+   {
+    "label": "Take one politely",
+    "journal": [
+     "I took one sample, said thank you, and left a legend."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   },
+   {
+    "label": "Take all of them",
+    "journal": [
+     "I took all the samples. The worker called for backup."
+    ],
+    "fx": {
+     "karma": -4,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Hide in the display",
+    "journal": [
+     "I hid in a cereal display until my mother found me."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Cry",
+    "journal": [
+     "I cried over a cracker."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "nap_time",
+  "cat": "childhood",
+  "ages": [
+   2,
+   6
+  ],
+  "w": 1.5,
+  "title": "Nap Time",
+  "prompt": "The teacher says it is time for a nap, and you are not tired.",
+  "choices": [
+   {
+    "label": "Sleep",
+    "journal": [
+     "I took a nap and woke up with a pillow dent on my face."
+    ],
+    "fx": {
+     "health": 4
+    }
+   },
+   {
+    "label": "Draw on the mat",
+    "journal": [
+     "I drew on my nap mat with a marker I wasn't supposed to have."
+    ],
+    "fx": {
+     "smarts": 4,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Whisper to a friend",
+    "journal": [
+     "I whispered through naptime and was moved to the corner."
+    ],
+    "fx": {
+     "happy": 4,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Throw a tantrum",
+    "journal": [
+     "I threw a tantrum so large it needed its own corner."
+    ],
+    "fx": {
+     "happy": -30
+    }
+   }
+  ]
+ },
+ {
+  "id": "show_and_tell",
+  "cat": "childhood",
+  "ages": [
+   5,
+   10
+  ],
+  "w": 1.5,
+  "title": "Show and Tell",
+  "prompt": "It is your turn for show and tell.",
+  "choices": [
+   {
+    "label": "Bring a family photo",
+    "journal": [
+     "I brought a family photo and everyone said it was nice."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Bring a frog",
+    "journal": [
+     "I brought a frog. The frog performed better than I did."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Make something up",
+    "journal": [
+     "I invented an uncle who was an astronaut. Nobody checked."
+    ],
+    "fx": {
+     "smarts": 4,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Say you forgot",
+    "journal": [
+     "I told the class I forgot. It was true."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "lemonade_stand",
+  "cat": "childhood",
+  "ages": [
+   6,
+   12
+  ],
+  "w": 1.5,
+  "title": "Lemonade Stand",
+  "prompt": "Your friends suggest running a lemonade stand this weekend.",
+  "choices": [
+   {
+    "label": "Work hard at it",
+    "journal": [
+     "I sold lemonade all weekend and cleared nineteen dollars."
+    ],
+    "fx": {
+     "smarts": 8,
+     "money": 19
+    }
+   },
+   {
+    "label": "Drink the profits",
+    "journal": [
+     "I drank most of the lemonade myself. The stand did not recover."
+    ],
+    "fx": {
+     "happy": 4,
+     "health": -4
+    }
+   },
+   {
+    "label": "Overcharge",
+    "journal": [
+     "I charged ten dollars a cup and got exactly one customer."
+    ],
+    "fx": {
+     "smarts": 4,
+     "money": 10
+    }
+   }
+  ]
+ },
+ {
+  "id": "lost_tooth",
+  "cat": "childhood",
+  "ages": [
+   5,
+   10
+  ],
+  "w": 2,
+  "title": "Loose Tooth",
+  "prompt": "Your tooth has been wiggling for days.",
+  "choices": [
+   {
+    "label": "Pull it out",
+    "journal": [
+     "I pulled the tooth myself and put it under a pillow. A coin appeared."
+    ],
+    "fx": {
+     "happy": 8,
+     "money": 5
+    }
+   },
+   {
+    "label": "Let it fall out",
+    "journal": [
+     "I let the tooth fall out into a taco."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Ask for help",
+    "journal": [
+     "I let my dad pull it with a string tied to a door. It was dramatic."
+    ],
+    "fx": {
+     "happy": 4,
+     "health": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "pet_fish",
+  "cat": "childhood",
+  "ages": [
+   5,
+   12
+  ],
+  "w": 1.2,
+  "title": "Goldfish",
+  "prompt": "You win a goldfish at the fair.",
+  "choices": [
+   {
+    "label": "Name it and care for it",
+    "journal": [
+     "I named the fish Gerald and fed him every day for a whole week."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Forget about it",
+    "journal": [
+     "I forgot about the goldfish and Gerald met his maker."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   },
+   {
+    "label": "Release it in a pond",
+    "journal": [
+     "I released Gerald into a pond. He was eaten by a duck."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "bedtime_story",
+  "cat": "childhood",
+  "ages": [
+   2,
+   7
+  ],
+  "w": 1.5,
+  "title": "Bedtime Story",
+  "prompt": "Your mother offers to read you a story.",
+  "choices": [
+   {
+    "label": "Listen",
+    "journal": [
+     "I listened to a story about a bear who learned sharing."
+    ],
+    "fx": {
+     "smarts": 8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Demand a different story",
+    "journal": [
+     "I demanded eleven different stories and lived through none of them."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Pretend to sleep",
+    "journal": [
+     "I pretended to sleep and actually slept."
+    ],
+    "fx": {
+     "health": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "playground_bully",
+  "cat": "childhood",
+  "ages": [
+   5,
+   12
+  ],
+  "w": 2,
+  "title": "Playground Bully",
+  "prompt": "An older kid is picking on you at recess.",
+  "choices": [
+   {
+    "label": "Stand up to him",
+    "journal": [
+     "I stood up to the bully and he left me alone, probably out of confusion."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": 4
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I stood up to the bully and got a bloody nose."
+     ],
+     "fx": {
+      "health": -8,
+      "happy": -8
+     }
+    }
+   },
+   {
+    "label": "Tell a teacher",
+    "journal": [
+     "I told a teacher and the bully got detention."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Give him your lunch",
+    "journal": [
+     "I gave the bully my lunch and went hungry with dignity."
+    ],
+    "fx": {
+     "happy": -8,
+     "health": -4
+    }
+   },
+   {
+    "label": "Hide",
+    "journal": [
+     "I hid in a bathroom stall until recess was over."
+    ],
+    "fx": {
+     "happy": -4,
+     "stress": 8
+    }
+   }
+  ]
+ },
+ {
+  "id": "daredevil",
+  "cat": "childhood",
+  "ages": [
+   8,
+   17
+  ],
+  "w": 1.5,
+  "title": "Daredevil",
+  "prompt": "Your friends dare you to jump off the roof of the garage onto a trampoline.",
+  "choices": [
+   {
+    "label": "Jump",
+    "journal": [
+     "I jumped off the garage and hit the trampoline spectacularly."
+    ],
+    "fx": {
+     "happy": 16,
+     "fame": 4
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": [
+      "I jumped off the garage and missed the trampoline."
+     ],
+     "fx": {
+      "health": -16,
+      "happy": -8
+     }
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the dare and kept my bones."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Push a friend",
+    "journal": [
+     "I pushed my friend off the garage. I got grounded for a year."
+    ],
+    "fx": {
+     "karma": -16
+    }
+   },
+   {
+    "label": "Call the dare dumb",
+    "journal": [
+     "I told everyone the dare was dumb and was proven right."
+    ],
+    "fx": {
+     "smarts": 8,
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "mailbox_mischief",
+  "cat": "childhood",
+  "ages": [
+   8,
+   17
+  ],
+  "w": 1.2,
+  "title": "Mailbox Mischief",
+  "prompt": "Some friends want to smash mailboxes with a baseball bat.",
+  "choices": [
+   {
+    "label": "Join in",
+    "journal": [
+     "I smashed a mailbox with a bat and a neighbor chased me for half a mile."
+    ],
+    "fx": {
+     "karma": -16,
+     "happy": 8,
+     "crazy": 8
+    },
+    "chain": {
+     "id": "neighbor_complaint",
+     "in": [
+      1,
+      2
+     ]
+    }
+   },
+   {
+    "label": "Keep watch",
+    "journal": [
+     "I kept watch while my friends smashed mailboxes and was equally guilty."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   },
+   {
+    "label": "Leave",
+    "journal": [
+     "I left and watched a movie instead."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "neighbor_complaint",
+  "cat": "childhood",
+  "ages": [
+   8,
+   19
+  ],
+  "w": 0,
+  "title": "Neighbor Complaint",
+  "prompt": "A neighbor knocks on your door and points at you. Your parents are not happy.",
+  "choices": [
+   {
+    "label": "Confess",
+    "journal": [
+     "I confessed and apologized. I was grounded for a month."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Deny everything",
+    "journal": [
+     "I denied everything with a poker face. The neighbor left unconvinced."
+    ],
+    "fx": {
+     "karma": -8,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Blame a friend",
+    "journal": [
+     "I blamed my friend, which ended that friendship."
+    ],
+    "fx": {
+     "karma": -16,
+     "rel_friend": -30
+    }
+   }
+  ],
+  "chainOnly": true
+ },
+ {
+  "id": "school_dance",
+  "cat": "school",
+  "ages": [
+   11,
+   18
+  ],
+  "w": 2,
+  "title": "School Dance",
+  "prompt": "There is a dance at school this Friday.",
+  "choices": [
+   {
+    "label": "Dance with everyone",
+    "journal": [
+     "I danced with everyone at the dance and broke a sweat."
+    ],
+    "fx": {
+     "happy": 16,
+     "looks": 4
+    }
+   },
+   {
+    "label": "Ask someone special",
+    "journal": [
+     "I asked someone special to dance. They said yes."
+    ],
+    "fx": {
+     "happy": 16
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I asked someone to dance and they laughed."
+     ],
+     "fx": {
+      "happy": -16
+     }
+    }
+   },
+   {
+    "label": "Stand by the wall",
+    "journal": [
+     "I stood by the wall eating cupcakes."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the dance and played video games."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "sneeze",
+  "cat": "school",
+  "ages": [
+   6,
+   18
+  ],
+  "w": 1.5,
+  "title": "Sneeze",
+  "prompt": "You feel a sneeze coming on in the middle of a quiet test.",
+  "choices": [
+   {
+    "label": "Muffle it",
+    "journal": [
+     "I muffled the sneeze into my elbow. A hero."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Let it rip",
+    "journal": [
+     "I let a sneeze rip and the whole class said bless you."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Blame a classmate",
+    "journal": [
+     "I pretended the classmate beside me sneezed."
+    ],
+    "fx": {
+     "karma": -4
+    }
+   },
+   {
+    "label": "Hold it in",
+    "journal": [
+     "I held the sneeze in and my ears rang for an hour."
+    ],
+    "fx": {
+     "health": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "potty_flavors",
+  "cat": "school",
+  "ages": [
+   12,
+   18
+  ],
+  "w": 1,
+  "title": "Potty Flavors",
+  "prompt": "Your classmate says there is an unusual flavor of chip in the vending machine.",
+  "choices": [
+   {
+    "label": "Try it",
+    "journal": [
+     "I tried the chip. It was exactly as unusual as promised."
+    ],
+    "fx": {
+     "health": -4,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed on the chip and read a book."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Dare a friend to try it",
+    "journal": [
+     "I dared a friend to try it and filmed the results."
+    ],
+    "fx": {
+     "karma": -4,
+     "happy": 8
+    }
+   }
+  ]
+ },
+ {
+  "id": "pranksters",
+  "cat": "school",
+  "ages": [
+   11,
+   18
+  ],
+  "w": 1.5,
+  "title": "Pranksters",
+  "prompt": "Some kids are planning to put a whoopee cushion on the teacher's chair.",
+  "choices": [
+   {
+    "label": "Join them",
+    "journal": [
+     "I helped place a whoopee cushion and the teacher sat on it. It was glorious."
+    ],
+    "fx": {
+     "happy": 16,
+     "karma": -8
+    },
+    "chain": {
+     "id": "principal_office",
+     "in": [
+      1,
+      1
+     ]
+    }
+   },
+   {
+    "label": "Warn the teacher",
+    "journal": [
+     "I warned the teacher and became unpopular."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Do nothing",
+    "journal": [
+     "I watched from my desk, innocent in body but not in spirit."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "principal_office",
+  "cat": "school",
+  "ages": [
+   11,
+   19
+  ],
+  "w": 0,
+  "title": "Principal's Office",
+  "prompt": "You've been called to the principal's office.",
+  "choices": [
+   {
+    "label": "Take the blame",
+    "journal": [
+     "I took the blame and got detention without a word."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Name names",
+    "journal": [
+     "I named names and lost several friends."
+    ],
+    "fx": {
+     "karma": -8,
+     "rel_friend": -16
+    }
+   },
+   {
+    "label": "Talk your way out",
+    "journal": [
+     "I talked my way out of it with an unnecessary level of charm."
+    ],
+    "fx": {
+     "smarts": 8
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I tried to talk my way out and got two weeks of detention."
+     ],
+     "fx": {
+      "happy": -8
+     }
+    }
+   }
+  ],
+  "chainOnly": true
+ },
+ {
+  "id": "casting_call",
+  "cat": "school",
+  "ages": [
+   6,
+   18
+  ],
+  "w": 1.5,
+  "title": "Casting Call",
+  "prompt": "Your school is holding auditions for the play.",
+  "choices": [
+   {
+    "label": "Audition for the lead",
+    "journal": [
+     "I auditioned for the lead and gave a performance people still discuss."
+    ],
+    "fx": {
+     "smarts": 4,
+     "happy": 8,
+     "fame": 4
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": [
+      "I auditioned for the lead and forgot my lines."
+     ],
+     "fx": {
+      "happy": -8
+     }
+    }
+   },
+   {
+    "label": "Audition for a small part",
+    "journal": [
+     "I auditioned for a tree and got the part."
+    ],
+    "fx": {
+     "happy": 8
+    }
+   },
+   {
+    "label": "Work backstage",
+    "journal": [
+     "I worked backstage and pulled a curtain at the right time."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the play and napped."
+    ],
+    "fx": {
+     "health": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "answer_key",
+  "cat": "school",
+  "ages": [
+   11,
+   18
+  ],
+  "w": 1.5,
+  "title": "Answer Key",
+  "prompt": "You find the answer key to tomorrow's big exam on the teacher's desk.",
+  "choices": [
+   {
+    "label": "Memorize it",
+    "journal": [
+     "I memorized the answer key and aced the test. The guilt did not fade."
+    ],
+    "fx": {
+     "smarts": -8,
+     "karma": -16
+    },
+    "p": 0.7,
+    "fail": {
+     "journal": [
+      "I got caught with the answer key and was suspended."
+     ],
+     "fx": {
+      "smarts": -4,
+      "karma": -8,
+      "happy": -16
+     }
+    }
+   },
+   {
+    "label": "Tell the teacher",
+    "journal": [
+     "I told the teacher about the answer key and she thanked me."
+    ],
+    "fx": {
+     "karma": 16,
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Study honestly",
+    "journal": [
+     "I ignored the answer key and studied."
+    ],
+    "fx": {
+     "smarts": 16
+    }
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "pep_rally",
+  "cat": "school",
+  "ages": [
+   12,
+   18
+  ],
+  "w": 1.5,
+  "title": "Pep Rally",
+  "prompt": "The school holds a pep rally before the big game.",
+  "choices": [
+   {
+    "label": "Cheer loudly",
+    "journal": [
+     "I cheered so loudly I lost my voice for a day."
+    ],
+    "fx": {
+     "happy": 8
+    }
+   },
+   {
+    "label": "Wear face paint",
+    "journal": [
+     "I wore face paint in school colors and looked like an extremely proud raccoon."
+    ],
+    "fx": {
+     "happy": 8,
+     "looks": -4
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I hid in the library during the rally."
+    ],
+    "fx": {
+     "smarts": 8,
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "bully_hallway",
+  "cat": "school",
+  "ages": [
+   12,
+   18
+  ],
+  "w": 2,
+  "title": "Hallway Bully",
+  "prompt": "A bully shoves you into a locker in front of the whole hallway.",
+  "choices": [
+   {
+    "label": "Fight back",
+    "journal": [
+     "I fought back and got suspended for three days."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -8,
+     "health": -4
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I fought back and lost badly."
+     ],
+     "fx": {
+      "health": -16,
+      "happy": -8
+     }
+    }
+   },
+   {
+    "label": "Report it",
+    "journal": [
+     "I reported the bully and the school did exactly nothing."
+    ],
+    "fx": {
+     "happy": -4,
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Laugh it off",
+    "journal": [
+     "I laughed it off and made the hallway laugh with me."
+    ],
+    "fx": {
+     "happy": 4,
+     "fame": 4
+    }
+   },
+   {
+    "label": "Cry in the bathroom",
+    "journal": [
+     "I cried in the bathroom for most of third period."
+    ],
+    "fx": {
+     "happy": -16,
+     "stress": 8
+    }
+   }
+  ]
+ },
+ {
+  "id": "cafeteria_mystery",
+  "cat": "school",
+  "ages": [
+   6,
+   18
+  ],
+  "w": 1.5,
+  "title": "Cafeteria Mystery",
+  "prompt": "The cafeteria is serving a gray substance called Surprise.",
+  "choices": [
+   {
+    "label": "Eat it",
+    "journal": [
+     "I ate the Surprise. It was a surprise."
+    ],
+    "fx": {
+     "health": -8
+    }
+   },
+   {
+    "label": "Trade it",
+    "journal": [
+     "I traded my Surprise for a brownie and made a friend."
+    ],
+    "fx": {
+     "happy": 8,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Go hungry",
+    "journal": [
+     "I went hungry with my head held high."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Throw it",
+    "journal": [
+     "I threw the Surprise and it stuck to the ceiling."
+    ],
+    "fx": {
+     "karma": -8,
+     "fame": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "study_group",
+  "cat": "school",
+  "ages": [
+   11,
+   18
+  ],
+  "w": 1.5,
+  "title": "Study Group",
+  "prompt": "Some classmates ask if you want to join a study group.",
+  "choices": [
+   {
+    "label": "Join them",
+    "journal": [
+     "I joined a study group and actually studied."
+    ],
+    "fx": {
+     "smarts": 16,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Join and goof off",
+    "journal": [
+     "I joined a study group and accomplished nothing but snacks."
+    ],
+    "fx": {
+     "happy": 8,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Study alone",
+    "journal": [
+     "I studied alone with disciplined misery."
+    ],
+    "fx": {
+     "smarts": 8,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and played video games."
+    ],
+    "fx": {
+     "happy": 4,
+     "smarts": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "science_fair",
+  "cat": "school",
+  "ages": [
+   8,
+   18
+  ],
+  "w": 1.5,
+  "title": "Science Fair",
+  "prompt": "The school science fair is coming up.",
+  "choices": [
+   {
+    "label": "Build a volcano",
+    "journal": [
+     "I built a volcano. It was the sixth volcano and the best one."
+    ],
+    "fx": {
+     "smarts": 8
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "My volcano set the display on fire."
+     ],
+     "fx": {
+      "happy": -8,
+      "karma": -4
+     }
+    }
+   },
+   {
+    "label": "Do a real experiment",
+    "journal": [
+     "I ran a real experiment and came in third."
+    ],
+    "fx": {
+     "smarts": 16,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Buy a project",
+    "journal": [
+     "I bought a project online and put my name on it."
+    ],
+    "fx": {
+     "karma": -16,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the fair and watched TV."
+    ],
+    "fx": {
+     "smarts": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "detention_dare",
+  "cat": "school",
+  "ages": [
+   12,
+   18
+  ],
+  "w": 1.2,
+  "title": "Detention",
+  "prompt": "You are stuck in detention with a bored delinquent who has a plan.",
+  "choices": [
+   {
+    "label": "Go along with it",
+    "journal": [
+     "I snuck out of detention with a bad influence and learned a lot."
+    ],
+    "fx": {
+     "karma": -8,
+     "happy": 8,
+     "crazy": 8
+    }
+   },
+   {
+    "label": "Do your homework",
+    "journal": [
+     "I did my homework in detention like a prisoner of conscience."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Nap",
+    "journal": [
+     "I napped through detention with the dignity of a sloth."
+    ],
+    "fx": {
+     "health": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "juul_offer",
+  "cat": "school",
+  "ages": [
+   14,
+   18
+  ],
+  "w": 1.5,
+  "title": "Vape Offer",
+  "prompt": "A kid behind the gym offers you a vape.",
+  "choices": [
+   {
+    "label": "Take a hit",
+    "journal": [
+     "I took a hit of a vape. I coughed for ten minutes."
+    ],
+    "fx": {
+     "health": -8,
+     "smarts": -4,
+     "karma": -4
+    },
+    "flag": "smoker"
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I said no thanks and walked away."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Report him",
+    "journal": [
+     "I reported the kid and he is now my enemy."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_friend": -8
+    }
+   },
+   {
+    "label": "Give a lecture",
+    "journal": [
+     "I lectured the kid on lung health and he walked away bored."
+    ],
+    "fx": {
+     "smarts": 8,
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "homework_dog",
+  "cat": "school",
+  "ages": [
+   7,
+   17
+  ],
+  "w": 1.2,
+  "title": "Homework Disaster",
+  "prompt": "You realize your homework is due in ten minutes and you haven't started.",
+  "choices": [
+   {
+    "label": "Do it quickly",
+    "journal": [
+     "I did my homework in ten minutes and got a B-."
+    ],
+    "fx": {
+     "smarts": 4,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Say the dog ate it",
+    "journal": [
+     "I told my teacher the dog ate my homework. I have no dog."
+    ],
+    "fx": {
+     "karma": -8,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Copy a friend",
+    "journal": [
+     "I copied a friend's homework and made the same mistake he did."
+    ],
+    "fx": {
+     "karma": -8,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Take the zero",
+    "journal": [
+     "I took the zero and went outside."
+    ],
+    "fx": {
+     "smarts": -8,
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "class_clown",
+  "cat": "school",
+  "ages": [
+   8,
+   18
+  ],
+  "w": 1.5,
+  "title": "Class Clown",
+  "prompt": "The teacher turns away and the class is waiting for you to do something funny.",
+  "choices": [
+   {
+    "label": "Do an impression",
+    "journal": [
+     "I did an impression of the teacher. She was not amused."
+    ],
+    "fx": {
+     "happy": 16,
+     "fame": 4,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Stay quiet",
+    "journal": [
+     "I stayed quiet and took the dignified route."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Fall off your chair",
+    "journal": [
+     "I fell off my chair on purpose and the class applauded."
+    ],
+    "fx": {
+     "happy": 8,
+     "health": -4
+    }
+   },
+   {
+    "label": "Throw a paper airplane",
+    "journal": [
+     "I threw a paper airplane that hit the principal."
+    ],
+    "fx": {
+     "karma": -8,
+     "fame": 4
+    },
+    "chain": {
+     "id": "principal_office",
+     "in": [
+      1,
+      1
+     ]
+    }
+   }
+  ]
+ },
+ {
+  "id": "school_trip",
+  "cat": "school",
+  "ages": [
+   7,
+   17
+  ],
+  "w": 1.5,
+  "title": "Field Trip",
+  "prompt": "Your class is going on a field trip to a museum.",
+  "choices": [
+   {
+    "label": "Pay attention",
+    "journal": [
+     "I paid attention at the museum and learned about fossils."
+    ],
+    "fx": {
+     "smarts": 16
+    }
+   },
+   {
+    "label": "Get lost on purpose",
+    "journal": [
+     "I got lost on purpose in the gift shop."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Touch the exhibits",
+    "journal": [
+     "I touched an exhibit I wasn't supposed to and set off an alarm."
+    ],
+    "fx": {
+     "karma": -8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Sit on the bus",
+    "journal": [
+     "I stayed on the bus and read comics."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "graduation_speech",
+  "cat": "school",
+  "ages": [
+   17,
+   18
+  ],
+  "w": 1.5,
+  "title": "Graduation Speech",
+  "prompt": "You've been asked to give a speech at your high school graduation.",
+  "choices": [
+   {
+    "label": "Give it your best",
+    "journal": [
+     "I gave an inspiring graduation speech and cried at the end."
+    ],
+    "fx": {
+     "happy": 16,
+     "fame": 4,
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Make it funny",
+    "journal": [
+     "I gave a joke speech that got a standing ovation and a call from the principal."
+    ],
+    "fx": {
+     "happy": 8,
+     "fame": 4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and watched from the crowd."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Read the dictionary",
+    "journal": [
+     "I read dictionary definitions for nine minutes. Nobody knew why."
+    ],
+    "fx": {
+     "crazy": 8,
+     "fame": 4
+    }
+   }
+  ],
+  "once": true,
+  "if": {
+   "school": "high"
+  }
+ },
+ {
+  "id": "exam_panic",
+  "cat": "school",
+  "ages": [
+   13,
+   22
+  ],
+  "w": 1.5,
+  "title": "Exam Panic",
+  "prompt": "Tomorrow is the biggest exam of the year, and you are not ready.",
+  "choices": [
+   {
+    "label": "Pull an all-nighter",
+    "journal": [
+     "I stayed up all night studying and passed on pure adrenaline."
+    ],
+    "fx": {
+     "smarts": 8,
+     "health": -8,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Get a good night's sleep",
+    "journal": [
+     "I got eight hours of sleep and did fine."
+    ],
+    "fx": {
+     "smarts": 4,
+     "health": 4
+    }
+   },
+   {
+    "label": "Cheat",
+    "journal": [
+     "I cheated on the exam with a very small piece of paper."
+    ],
+    "fx": {
+     "karma": -16,
+     "smarts": -4
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": [
+      "I got caught cheating and failed the course."
+     ],
+     "fx": {
+      "smarts": -8,
+      "happy": -16,
+      "karma": -8
+     }
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the exam and tried not to think about it."
+    ],
+    "fx": {
+     "smarts": -16,
+     "stress": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "clique",
+  "cat": "school",
+  "ages": [
+   12,
+   18
+  ],
+  "w": 1.5,
+  "title": "Cliques",
+  "prompt": "A popular group invites you to sit with them at lunch.",
+  "choices": [
+   {
+    "label": "Join them",
+    "journal": [
+     "I joined the popular table and learned their secret handshake."
+    ],
+    "fx": {
+     "happy": 8,
+     "fame": 4,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Stay with your friends",
+    "journal": [
+     "I stayed with my friends and ate in peace."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Mock them",
+    "journal": [
+     "I mocked the popular kids to their faces and they laughed, which was worse."
+    ],
+    "fx": {
+     "happy": -4,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Sit alone",
+    "journal": [
+     "I ate alone and counted the tiles on the floor."
+    ],
+    "fx": {
+     "happy": -8
+    }
+   }
+  ]
+ },
+ {
+  "id": "new_friend",
+  "cat": "friend",
+  "ages": [
+   5,
+   99
+  ],
+  "w": 2,
+  "title": "New Friend",
+  "prompt": "Someone new at {place} starts chatting with you.",
+  "choices": [
+   {
+    "label": "Befriend them",
+    "journal": [
+     "I made a new friend named {newfriend}."
+    ],
+    "fx": {
+     "happy": 8
+    },
+    "newperson": "friend"
+   },
+   {
+    "label": "Ignore them",
+    "journal": [
+     "I ignored the stranger and looked at my phone."
+    ]
+   }
+  ],
+  "if": {
+   "maxFriends": 6
+  }
+ },
+ {
+  "id": "up_in_flames",
+  "cat": "friend",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1.2,
+  "title": "Up in Flames",
+  "prompt": "Friends are lighting a bonfire in the woods and offer you a lighter.",
+  "choices": [
+   {
+    "label": "Light it",
+    "journal": [
+     "I lit the bonfire and everyone cheered for my fire skills."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -4
+    },
+    "p": 0.7,
+    "fail": {
+     "journal": [
+      "I lit the bonfire and set my sleeve on fire."
+     ],
+     "fx": {
+      "health": -16,
+      "happy": -8
+     }
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and watched them light it themselves."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Bring marshmallows",
+    "journal": [
+     "I brought marshmallows and became the hero of the night."
+    ],
+    "fx": {
+     "happy": 16,
+     "rel_friend": 8
+    }
+   }
+  ],
+  "if": {
+   "friends": 1
+  }
+ },
+ {
+  "id": "free_booze",
+  "cat": "friend",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.5,
+  "title": "Free Booze",
+  "prompt": "A friend offers you a drink at a party.",
+  "choices": [
+   {
+    "label": "Have one",
+    "journal": [
+     "I had one drink and kept it classy."
+    ],
+    "fx": {
+     "happy": 4,
+     "health": -4
+    }
+   },
+   {
+    "label": "Get hammered",
+    "journal": [
+     "I got hammered and told everyone my secrets."
+    ],
+    "fx": {
+     "happy": 8,
+     "health": -8,
+     "karma": -4,
+     "stress": -8
+    },
+    "flag": "drinker",
+    "chain": {
+     "id": "hangover",
+     "in": [
+      1,
+      1
+     ]
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and was the designated driver."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_friend": 4
+    }
+   },
+   {
+    "label": "Pour it on the carpet",
+    "journal": [
+     "I poured the drink on the carpet and left quickly."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   }
+  ],
+  "if": {
+   "friends": 1
+  }
+ },
+ {
+  "id": "hangover",
+  "cat": "friend",
+  "ages": [
+   16,
+   99
+  ],
+  "w": 0,
+  "title": "Hangover",
+  "prompt": "You wake up with a pounding head and no memory of last night.",
+  "choices": [
+   {
+    "label": "Drink water and rest",
+    "journal": [
+     "I drank water and slept it off."
+    ],
+    "fx": {
+     "health": 4
+    }
+   },
+   {
+    "label": "Hair of the dog",
+    "journal": [
+     "I drank more alcohol to feel better. It did not help."
+    ],
+    "fx": {
+     "health": -8,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Call in sick",
+    "journal": [
+     "I called in sick and lay on the bathroom floor."
+    ],
+    "fx": {
+     "perf": -4,
+     "happy": -4
+    }
+   }
+  ],
+  "chainOnly": true
+ },
+ {
+  "id": "friend_money",
+  "cat": "friend",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.5,
+  "title": "Money Troubles",
+  "prompt": "A friend asks to borrow $500.",
+  "choices": [
+   {
+    "label": "Lend it",
+    "journal": [
+     "I lent my friend $500 and never saw it again."
+    ],
+    "fx": {
+     "karma": 8,
+     "money": -500,
+     "rel_friend": 16
+    }
+   },
+   {
+    "label": "Say no",
+    "journal": [
+     "I told my friend no and he never forgave me."
+    ],
+    "fx": {
+     "rel_friend": -16,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Give half",
+    "journal": [
+     "I gave my friend $250 and a speech about budgeting."
+    ],
+    "fx": {
+     "money": -250,
+     "rel_friend": 8,
+     "karma": 4
+    }
+   }
+  ],
+  "if": {
+   "friends": 1,
+   "minCash": 500
+  }
+ },
+ {
+  "id": "friend_party",
+  "cat": "friend",
+  "ages": [
+   13,
+   99
+  ],
+  "w": 2,
+  "title": "House Party",
+  "prompt": "A friend invites you to a house party this weekend.",
+  "choices": [
+   {
+    "label": "Go and have fun",
+    "journal": [
+     "I went to the house party and danced like nobody cared."
+    ],
+    "fx": {
+     "happy": 16,
+     "stress": -8
+    }
+   },
+   {
+    "label": "Host your own",
+    "journal": [
+     "I hosted a party at my place and the neighbors called the cops."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -8,
+     "fame": 4
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I stayed home and watched documentaries about sharks."
+    ],
+    "fx": {
+     "smarts": 4,
+     "happy": -4
+    }
+   }
+  ],
+  "if": {
+   "friends": 1
+  }
+ },
+ {
+  "id": "friend_fight",
+  "cat": "friend",
+  "ages": [
+   13,
+   99
+  ],
+  "w": 1.5,
+  "title": "Friend Fight",
+  "prompt": "You and a friend get into a heated argument.",
+  "choices": [
+   {
+    "label": "Apologize first",
+    "journal": [
+     "I apologized to my friend and we hugged it out."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_friend": 16
+    }
+   },
+   {
+    "label": "Hold your ground",
+    "journal": [
+     "I held my ground and my friend left angry."
+    ],
+    "fx": {
+     "rel_friend": -16,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Throw a punch",
+    "journal": [
+     "I punched my friend in the shoulder. He punched back."
+    ],
+    "fx": {
+     "health": -8,
+     "rel_friend": -30,
+     "karma": -8
+    }
+   },
+   {
+    "label": "Ghost them",
+    "journal": [
+     "I stopped replying to my friend's texts."
+    ],
+    "fx": {
+     "rel_friend": -16,
+     "karma": -8
+    }
+   }
+  ],
+  "if": {
+   "friends": 1
+  }
+ },
+ {
+  "id": "friend_wedding",
+  "cat": "friend",
+  "ages": [
+   21,
+   60
+  ],
+  "w": 1,
+  "title": "Friend's Wedding",
+  "prompt": "A friend invites you to their wedding.",
+  "choices": [
+   {
+    "label": "Attend",
+    "journal": [
+     "I went to my friend's wedding and cried at the vows."
+    ],
+    "fx": {
+     "happy": 16,
+     "money": -200,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Give a toast",
+    "journal": [
+     "I gave a toast and told an embarrassing story about the groom."
+    ],
+    "fx": {
+     "happy": 8,
+     "fame": 4,
+     "rel_friend": 8,
+     "money": -200
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the wedding and sent a toaster."
+    ],
+    "fx": {
+     "rel_friend": -8
+    }
+   }
+  ],
+  "if": {
+   "friends": 1
+  }
+ },
+ {
+  "id": "enemy",
+  "cat": "friend",
+  "ages": [
+   8,
+   99
+  ],
+  "w": 1.2,
+  "title": "Rival",
+  "prompt": "Someone has made it their mission to make your life miserable.",
+  "choices": [
+   {
+    "label": "Kill them with kindness",
+    "journal": [
+     "I was nice to my rival until he gave up out of confusion."
+    ],
+    "fx": {
+     "karma": 16,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Prank them",
+    "journal": [
+     "I filled my rival's locker with glitter."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -8
+    }
+   },
+   {
+    "label": "Confront them",
+    "journal": [
+     "I confronted my rival and we both said things."
+    ],
+    "fx": {
+     "stress": 8,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Ignore them",
+    "journal": [
+     "I ignored my rival, which annoyed him the most."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "mom_birthday",
+  "cat": "family",
+  "ages": [
+   8,
+   99
+  ],
+  "w": 1.5,
+  "title": "Mom's Birthday",
+  "prompt": "It's your mother's birthday.",
+  "choices": [
+   {
+    "label": "Buy a gift ($50)",
+    "journal": [
+     "I bought my mother a scarf and she cried a little."
+    ],
+    "fx": {
+     "money": -50,
+     "rel_mother": 16,
+     "karma": 4
+    }
+   },
+   {
+    "label": "Make a card",
+    "journal": [
+     "I made a card with a drawing of us as dinosaurs."
+    ],
+    "fx": {
+     "rel_mother": 16,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Forget",
+    "journal": [
+     "I forgot my mother's birthday. She noticed."
+    ],
+    "fx": {
+     "rel_mother": -16,
+     "karma": -8
+    }
+   }
+  ],
+  "if": {
+   "parent": "mother"
+  }
+ },
+ {
+  "id": "dad_advice",
+  "cat": "family",
+  "ages": [
+   10,
+   99
+  ],
+  "w": 1.5,
+  "title": "Dad's Advice",
+  "prompt": "Your father pulls you aside to give you some advice.",
+  "choices": [
+   {
+    "label": "Listen carefully",
+    "journal": [
+     "I listened to my dad's advice, and some of it was good."
+    ],
+    "fx": {
+     "smarts": 8,
+     "rel_father": 8
+    }
+   },
+   {
+    "label": "Roll your eyes",
+    "journal": [
+     "I rolled my eyes so hard I saw my own brain."
+    ],
+    "fx": {
+     "rel_father": -8
+    }
+   },
+   {
+    "label": "Ask for money",
+    "journal": [
+     "I asked my dad for money instead. He gave me ten dollars and a look."
+    ],
+    "fx": {
+     "money": 10,
+     "rel_father": -4
+    }
+   }
+  ],
+  "if": {
+   "parent": "father"
+  }
+ },
+ {
+  "id": "sibling_rivalry",
+  "cat": "family",
+  "ages": [
+   4,
+   25
+  ],
+  "w": 1.5,
+  "title": "Sibling Rivalry",
+  "prompt": "Your sibling ate the last of your favorite snack.",
+  "choices": [
+   {
+    "label": "Forgive",
+    "journal": [
+     "I forgave my sibling in a display of unmatched maturity."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_sibling": 8
+    }
+   },
+   {
+    "label": "Get revenge",
+    "journal": [
+     "I hid my sibling's left shoe for a week."
+    ],
+    "fx": {
+     "karma": -4,
+     "happy": 4,
+     "rel_sibling": -8
+    }
+   },
+   {
+    "label": "Tell mom",
+    "journal": [
+     "I told mom. My sibling got grounded and I got a lecture on snitching."
+    ],
+    "fx": {
+     "rel_sibling": -16
+    }
+   },
+   {
+    "label": "Wrestle",
+    "journal": [
+     "I wrestled my sibling and lost an eyebrow."
+    ],
+    "fx": {
+     "health": -4,
+     "rel_sibling": -4,
+     "happy": 4
+    }
+   }
+  ],
+  "if": {
+   "sibling": 1
+  }
+ },
+ {
+  "id": "sibling_help",
+  "cat": "family",
+  "ages": [
+   10,
+   99
+  ],
+  "w": 1.2,
+  "title": "Sibling in Need",
+  "prompt": "Your sibling asks you for help moving.",
+  "choices": [
+   {
+    "label": "Help out",
+    "journal": [
+     "I helped my sibling move a couch up three flights of stairs."
+    ],
+    "fx": {
+     "rel_sibling": 16,
+     "health": -4,
+     "karma": 8
+    }
+   },
+   {
+    "label": "Say you're busy",
+    "journal": [
+     "I told my sibling I was busy. I was not busy."
+    ],
+    "fx": {
+     "rel_sibling": -16,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Pay for movers ($300)",
+    "journal": [
+     "I paid for movers. My sibling was grateful and a little suspicious."
+    ],
+    "fx": {
+     "money": -300,
+     "rel_sibling": 8
+    }
+   }
+  ],
+  "if": {
+   "sibling": 1
+  }
+ },
+ {
+  "id": "family_dinner",
+  "cat": "family",
+  "ages": [
+   5,
+   99
+  ],
+  "w": 2,
+  "title": "Family Dinner",
+  "prompt": "Your family is having a big dinner together.",
+  "choices": [
+   {
+    "label": "Help cook",
+    "journal": [
+     "I helped cook and only burned one thing."
+    ],
+    "fx": {
+     "happy": 8,
+     "rel_family": 8
+    }
+   },
+   {
+    "label": "Eat quietly",
+    "journal": [
+     "I ate quietly while everyone else argued about politics."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Bring up politics",
+    "journal": [
+     "I brought up politics. We never recovered."
+    ],
+    "fx": {
+     "stress": 8,
+     "rel_family": -8
+    }
+   },
+   {
+    "label": "Skip dinner",
+    "journal": [
+     "I skipped dinner and ate cereal in my room."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "family_vacation",
+  "cat": "family",
+  "ages": [
+   3,
+   17
+  ],
+  "w": 1.5,
+  "title": "Family Vacation",
+  "prompt": "Your family plans a road trip.",
+  "choices": [
+   {
+    "label": "Enjoy the ride",
+    "journal": [
+     "I enjoyed the road trip and saw a giant fiberglass chicken."
+    ],
+    "fx": {
+     "happy": 16,
+     "rel_family": 8
+    }
+   },
+   {
+    "label": "Ask 'are we there yet' repeatedly",
+    "journal": [
+     "I asked if we were there yet two hundred times."
+    ],
+    "fx": {
+     "rel_family": -8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I stayed at a friend's house for the week."
+    ],
+    "fx": {
+     "rel_friend": 8,
+     "rel_family": -4
+    }
+   }
+  ],
+  "if": {
+   "parent": "any"
+  }
+ },
+ {
+  "id": "grounded",
+  "cat": "family",
+  "ages": [
+   8,
+   17
+  ],
+  "w": 1.5,
+  "title": "Grounded",
+  "prompt": "Your parents catch you sneaking out at night.",
+  "choices": [
+   {
+    "label": "Apologize",
+    "journal": [
+     "I apologized and accepted a month of being grounded."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Argue",
+    "journal": [
+     "I argued that I was an adult. I was fourteen."
+    ],
+    "fx": {
+     "rel_parent": -16,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Sneak out again",
+    "journal": [
+     "I snuck out again the next night. The neighbors saw."
+    ],
+    "fx": {
+     "rel_parent": -30,
+     "karma": -8,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Blame a friend",
+    "journal": [
+     "I blamed my friend for the whole thing."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   }
+  ],
+  "if": {
+   "parent": "any"
+  }
+ },
+ {
+  "id": "parent_divorce",
+  "cat": "family",
+  "ages": [
+   5,
+   17
+  ],
+  "w": 0.6,
+  "title": "Parents Divorce",
+  "prompt": "Your parents tell you they are splitting up.",
+  "choices": [
+   {
+    "label": "Cry",
+    "journal": [
+     "I cried with my parents and we ordered pizza."
+    ],
+    "fx": {
+     "happy": -16,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Act like it's fine",
+    "journal": [
+     "I acted like it was fine and stared at the wall for three days."
+    ],
+    "fx": {
+     "happy": -8,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Blame yourself",
+    "journal": [
+     "I blamed myself for the divorce and my parents hugged me for an hour."
+    ],
+    "fx": {
+     "happy": -16,
+     "rel_parent": 8
+    }
+   },
+   {
+    "label": "Pick a side",
+    "journal": [
+     "I picked a side. The other side did not forget."
+    ],
+    "fx": {
+     "karma": -8,
+     "rel_parent": -16
+    }
+   }
+  ],
+  "once": true,
+  "if": {
+   "parent": "both"
+  }
+ },
+ {
+  "id": "parent_illness",
+  "cat": "family",
+  "ages": [
+   20,
+   80
+  ],
+  "w": 1.2,
+  "title": "Parent Illness",
+  "prompt": "One of your parents has been diagnosed with a serious illness.",
+  "choices": [
+   {
+    "label": "Help care for them",
+    "journal": [
+     "I took time off to help care for my parent."
+    ],
+    "fx": {
+     "karma": 16,
+     "stress": 8,
+     "rel_parent": 16
+    }
+   },
+   {
+    "label": "Pay for treatment ($5,000)",
+    "journal": [
+     "I paid for my parent's treatment and watched them recover slowly."
+    ],
+    "fx": {
+     "money": -5000,
+     "karma": 8,
+     "rel_parent": 16
+    },
+    "req": 5000
+   },
+   {
+    "label": "Visit when you can",
+    "journal": [
+     "I visited when I could. It wasn't often."
+    ],
+    "fx": {
+     "rel_parent": -4
+    }
+   },
+   {
+    "label": "Avoid the topic",
+    "journal": [
+     "I avoided the topic and called less."
+    ],
+    "fx": {
+     "karma": -8,
+     "rel_parent": -16
+    }
+   }
+  ],
+  "if": {
+   "parent": "any"
+  }
+ },
+ {
+  "id": "inheritance_tip",
+  "cat": "family",
+  "ages": [
+   25,
+   90
+  ],
+  "w": 0.8,
+  "title": "Distant Relative",
+  "prompt": "A lawyer tells you a distant relative has left you something in their will.",
+  "choices": [
+   {
+    "label": "Accept it",
+    "journal": [
+     "I accepted a distant relative's inheritance of $2,500 and a clock."
+    ],
+    "fx": {
+     "money": 2500,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Decline it",
+    "journal": [
+     "I declined the inheritance because I like suffering."
+    ],
+    "fx": {
+     "karma": 8
+    }
+   },
+   {
+    "label": "Contest for more",
+    "journal": [
+     "I contested the will for a larger share and lost."
+    ],
+    "fx": {
+     "karma": -8,
+     "money": -1500
+    }
+   }
+  ]
+ },
+ {
+  "id": "pregnancy_scare",
+  "cat": "love",
+  "ages": [
+   14,
+   45
+  ],
+  "w": 1,
+  "title": "Pregnancy Scare",
+  "prompt": "A test shows an unexpected result.",
+  "choices": [
+   {
+    "label": "Take another test",
+    "journal": [
+     "I took three more tests and two were wrong."
+    ],
+    "fx": {
+     "stress": 8
+    }
+   },
+   {
+    "label": "Talk to your partner",
+    "journal": [
+     "I talked it through with my partner and we made a plan."
+    ],
+    "fx": {
+     "karma": 8,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Panic",
+    "journal": [
+     "I panicked and ran six miles."
+    ],
+    "fx": {
+     "health": 4,
+     "stress": 16
+    }
+   }
+  ],
+  "if": {
+   "partner": "any"
+  }
+ },
+ {
+  "id": "safe_sex",
+  "cat": "love",
+  "ages": [
+   14,
+   60
+  ],
+  "w": 1.5,
+  "title": "Safe Sex",
+  "prompt": "Things are getting heated with your partner.",
+  "choices": [
+   {
+    "label": "Use protection",
+    "journal": [
+     "I used protection and was responsible about it."
+    ],
+    "fx": {
+     "happy": 4,
+     "karma": 4
+    }
+   },
+   {
+    "label": "Wing it",
+    "journal": [
+     "I winged it and held my breath for three weeks."
+    ],
+    "fx": {
+     "stress": 8,
+     "karma": -4,
+     "rel_partner": 8
+    },
+    "flag": "risky"
+   },
+   {
+    "label": "Back off",
+    "journal": [
+     "I decided to wait."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   }
+  ],
+  "if": {
+   "partner": "any"
+  }
+ },
+ {
+  "id": "first_crush",
+  "cat": "love",
+  "ages": [
+   10,
+   16
+  ],
+  "w": 2,
+  "title": "First Crush",
+  "prompt": "You have a crush on a classmate.",
+  "choices": [
+   {
+    "label": "Tell them",
+    "journal": [
+     "I told my crush how I felt. They said they liked someone else."
+    ],
+    "fx": {
+     "happy": -8,
+     "smarts": 4
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": [
+      "I told my crush how I felt and they said it was weird."
+     ],
+     "fx": {
+      "happy": -16
+     }
+    }
+   },
+   {
+    "label": "Write a note",
+    "journal": [
+     "I wrote my crush a note and they wrote back with a heart."
+    ],
+    "fx": {
+     "happy": 16
+    }
+   },
+   {
+    "label": "Admire from afar",
+    "journal": [
+     "I admired my crush from afar for three years."
+    ],
+    "fx": {
+     "happy": 4,
+     "crazy": 4
+    }
+   },
+   {
+    "label": "Forget about it",
+    "journal": [
+     "I forgot about my crush and played soccer."
+    ]
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "love_anniv",
+  "cat": "love",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 1.5,
+  "title": "Anniversary",
+  "prompt": "It's your anniversary with your partner.",
+  "choices": [
+   {
+    "label": "Plan a romantic dinner ($200)",
+    "journal": [
+     "I planned a romantic dinner and my partner cried happy tears."
+    ],
+    "fx": {
+     "money": -200,
+     "rel_partner": 16,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Forget it",
+    "journal": [
+     "I forgot our anniversary. We don't talk about it."
+    ],
+    "fx": {
+     "rel_partner": -30,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Give a gift ($100)",
+    "journal": [
+     "I gave a gift. It was kind of cheap."
+    ],
+    "fx": {
+     "money": -100,
+     "rel_partner": 8
+    }
+   },
+   {
+    "label": "Take a trip ($1,500)",
+    "journal": [
+     "I took my partner on a weekend getaway. It rained."
+    ],
+    "fx": {
+     "money": -1500,
+     "rel_partner": 16,
+     "happy": 8
+    }
+   }
+  ],
+  "if": {
+   "partner": "any",
+   "minCash": 200
+  }
+ },
+ {
+  "id": "cheating_temptation",
+  "cat": "love",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 1.2,
+  "title": "Temptation",
+  "prompt": "An attractive coworker flirts with you while you're in a relationship.",
+  "choices": [
+   {
+    "label": "Walk away",
+    "journal": [
+     "I walked away from the flirt and went home."
+    ],
+    "fx": {
+     "karma": 16,
+     "rel_partner": 4
+    }
+   },
+   {
+    "label": "Flirt back",
+    "journal": [
+     "I flirted back and felt guilty for a week."
+    ],
+    "fx": {
+     "karma": -16,
+     "rel_partner": -16
+    },
+    "chain": {
+     "id": "caught_cheating",
+     "in": [
+      1,
+      2
+     ]
+    }
+   },
+   {
+    "label": "Tell your partner",
+    "journal": [
+     "I told my partner about the flirt. They loved my honesty."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_partner": 8
+    }
+   },
+   {
+    "label": "Report them",
+    "journal": [
+     "I reported the coworker to HR. It got awkward."
+    ],
+    "fx": {
+     "karma": 4,
+     "stress": 8
+    }
+   }
+  ],
+  "if": {
+   "partner": "any"
+  }
+ },
+ {
+  "id": "caught_cheating",
+  "cat": "love",
+  "ages": [
+   18,
+   80
+  ],
+  "w": 0,
+  "title": "Caught",
+  "prompt": "Your partner found out you've been cheating.",
+  "choices": [
+   {
+    "label": "Apologize",
+    "journal": [
+     "I apologized and begged for another chance."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_partner": -16
+    }
+   },
+   {
+    "label": "Deny it",
+    "journal": [
+     "I denied everything. They had pictures."
+    ],
+    "fx": {
+     "karma": -16,
+     "rel_partner": -30
+    }
+   },
+   {
+    "label": "Blame them",
+    "journal": [
+     "I blamed my partner for my own cheating."
+    ],
+    "fx": {
+     "karma": -16,
+     "rel_partner": -30,
+     "stress": 8
+    }
+   }
+  ],
+  "chainOnly": true
+ },
+ {
+  "id": "prom",
+  "cat": "love",
+  "ages": [
+   16,
+   18
+  ],
+  "w": 1.5,
+  "title": "Prom",
+  "prompt": "Prom is coming and you need a date.",
+  "choices": [
+   {
+    "label": "Ask a crush",
+    "journal": [
+     "I asked my crush to prom. They said yes."
+    ],
+    "fx": {
+     "happy": 16,
+     "looks": 4
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I asked my crush to prom and they were going with someone else."
+     ],
+     "fx": {
+      "happy": -16
+     }
+    }
+   },
+   {
+    "label": "Go with friends",
+    "journal": [
+     "I went to prom with friends and ate too many cupcakes."
+    ],
+    "fx": {
+     "happy": 8
+    }
+   },
+   {
+    "label": "Skip prom",
+    "journal": [
+     "I skipped prom and watched movies."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Crash another school's prom",
+    "journal": [
+     "I crashed another school's prom and was escorted out."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -8,
+     "fame": 4
+    }
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "dating_app",
+  "cat": "love",
+  "ages": [
+   18,
+   60
+  ],
+  "w": 1.2,
+  "title": "Dating App",
+  "prompt": "Your friends want you to join a dating app.",
+  "choices": [
+   {
+    "label": "Create a profile",
+    "journal": [
+     "I created a profile with a photo from 2014."
+    ],
+    "fx": {
+     "happy": 4,
+     "looks": -4
+    }
+   },
+   {
+    "label": "Swipe right on everyone",
+    "journal": [
+     "I swiped right on everyone and matched with a bot."
+    ],
+    "fx": {
+     "happy": -4,
+     "crazy": 4
+    }
+   },
+   {
+    "label": "Delete the app",
+    "journal": [
+     "I deleted the app and deleted my feelings."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Go out on a date",
+    "journal": [
+     "I went on a date and ordered the wrong appetizer."
+    ],
+    "fx": {
+     "happy": 8
+    }
+   }
+  ],
+  "if": {
+   "single": 1
+  }
+ },
+ {
+  "id": "wedding_planning",
+  "cat": "love",
+  "ages": [
+   20,
+   70
+  ],
+  "w": 1,
+  "title": "Wedding Day",
+  "prompt": "The day of your wedding has arrived.",
+  "choices": [
+   {
+    "label": "Splurge ($10,000)",
+    "journal": [
+     "I threw a lavish wedding and cried twice."
+    ],
+    "fx": {
+     "money": -10000,
+     "happy": 16,
+     "rel_partner": 16
+    },
+    "req": 10000
+   },
+   {
+    "label": "Go to city hall ($200)",
+    "journal": [
+     "I got married at city hall in a borrowed suit."
+    ],
+    "fx": {
+     "money": -200,
+     "happy": 8,
+     "rel_partner": 8
+    }
+   },
+   {
+    "label": "Elope",
+    "journal": [
+     "I eloped on a mountain. The officiant was a goat farmer."
+    ],
+    "fx": {
+     "happy": 16,
+     "karma": -4
+    }
+   }
+  ],
+  "once": true,
+  "if": {
+   "engaged": 1
+  }
+ },
+ {
+  "id": "baby_name",
+  "cat": "love",
+  "ages": [
+   18,
+   50
+  ],
+  "w": 1,
+  "title": "Baby Shower",
+  "prompt": "Friends are throwing you a baby shower.",
+  "choices": [
+   {
+    "label": "Enjoy it",
+    "journal": [
+     "I enjoyed a baby shower and received seven identical onesies."
+    ],
+    "fx": {
+     "happy": 16
+    }
+   },
+   {
+    "label": "Cry",
+    "journal": [
+     "I cried at a diaper cake."
+    ],
+    "fx": {
+     "happy": 8,
+     "stress": -8
+    }
+   }
+  ],
+  "if": {
+   "pregnantPartner": 1
+  }
+ },
+ {
+  "id": "child_tantrum",
+  "cat": "love",
+  "ages": [
+   20,
+   60
+  ],
+  "w": 1.5,
+  "title": "Tantrum",
+  "prompt": "Your child throws a tantrum in a grocery store.",
+  "choices": [
+   {
+    "label": "Stay calm",
+    "journal": [
+     "I stayed calm and waited out the tantrum like a monk."
+    ],
+    "fx": {
+     "karma": 8,
+     "stress": 4,
+     "rel_child": 8
+    }
+   },
+   {
+    "label": "Give in and buy the candy",
+    "journal": [
+     "I bought the candy. We never spoke of it."
+    ],
+    "fx": {
+     "rel_child": 4,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Yell",
+    "journal": [
+     "I yelled at my child in the cereal aisle. We both cried."
+    ],
+    "fx": {
+     "rel_child": -16,
+     "karma": -8,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Leave the cart and go",
+    "journal": [
+     "I abandoned the cart and went outside."
+    ],
+    "fx": {
+     "stress": 8,
+     "karma": -4
+    }
+   }
+  ],
+  "if": {
+   "kids": 1
+  }
+ },
+ {
+  "id": "child_graduates",
+  "cat": "love",
+  "ages": [
+   35,
+   70
+  ],
+  "w": 1,
+  "title": "Proud Parent",
+  "prompt": "Your child is graduating.",
+  "choices": [
+   {
+    "label": "Attend and cheer",
+    "journal": [
+     "I cheered so loud at my kid's graduation that I got shushed."
+    ],
+    "fx": {
+     "happy": 16,
+     "rel_child": 16
+    }
+   },
+   {
+    "label": "Give them cash ($1,000)",
+    "journal": [
+     "I gave my kid cash. They said thanks without looking up."
+    ],
+    "fx": {
+     "money": -1000,
+     "rel_child": 8
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the graduation and went to work."
+    ],
+    "fx": {
+     "rel_child": -30,
+     "karma": -16
+    }
+   }
+  ],
+  "if": {
+   "kids": 1
+  }
+ },
+ {
+  "id": "overtime",
+  "cat": "work",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 2,
+  "title": "Overtime",
+  "prompt": "Your boss asks you to work late again this week.",
+  "choices": [
+   {
+    "label": "Work late",
+    "journal": [
+     "I worked late and my boss noticed, mostly."
+    ],
+    "fx": {
+     "perf": 8,
+     "stress": 8,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined overtime and went home like a coward."
+    ],
+    "fx": {
+     "perf": -4,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Pretend to work",
+    "journal": [
+     "I pretended to work late while watching videos on mute."
+    ],
+    "fx": {
+     "karma": -4,
+     "perf": -4
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "team_building",
+  "cat": "work",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.5,
+  "title": "Team Building",
+  "prompt": "Your company is holding a team-building retreat.",
+  "choices": [
+   {
+    "label": "Participate",
+    "journal": [
+     "I participated in trust falls. Nobody caught me."
+    ],
+    "fx": {
+     "rel_coworker": 8,
+     "happy": 4,
+     "health": -4
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the retreat and was seen as a loner."
+    ],
+    "fx": {
+     "rel_coworker": -8
+    }
+   },
+   {
+    "label": "Organize the games",
+    "journal": [
+     "I organized the games and became the retreat's dictator."
+    ],
+    "fx": {
+     "perf": 8,
+     "fame": 4
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "seductress",
+  "cat": "work",
+  "ages": [
+   21,
+   99
+  ],
+  "w": 1,
+  "title": "Office Flirt",
+  "prompt": "A coworker slips you a note that says 'dinner?'",
+  "choices": [
+   {
+    "label": "Accept",
+    "journal": [
+     "I accepted a dinner with a coworker. It went well, then badly."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -4,
+     "rel_coworker": 8
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I declined the note and we pretended nothing happened."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   },
+   {
+    "label": "Report it",
+    "journal": [
+     "I reported the note to HR and everybody heard."
+    ],
+    "fx": {
+     "rel_coworker": -16,
+     "karma": 4
+    }
+   },
+   {
+    "label": "Flirt for a raise",
+    "journal": [
+     "I flirted for a raise. HR did not approve."
+    ],
+    "fx": {
+     "karma": -16,
+     "perf": -8
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": [
+      "I tried to flirt my way to a raise and was reported."
+     ],
+     "fx": {
+      "perf": -16,
+      "happy": -8
+     }
+    }
+   }
+  ],
+  "if": {
+   "job": 1,
+   "single": 1
+  }
+ },
+ {
+  "id": "retirement",
+  "cat": "work",
+  "ages": [
+   55,
+   99
+  ],
+  "w": 1.5,
+  "title": "Retirement",
+  "prompt": "Your colleagues throw you a retirement party.",
+  "choices": [
+   {
+    "label": "Retire",
+    "journal": [
+     "I retired with a cake that read 'Good Riddance'."
+    ],
+    "fx": {
+     "happy": 16,
+     "stress": -16
+    },
+    "retire": true
+   },
+   {
+    "label": "Keep working",
+    "journal": [
+     "I kept working. I don't know who I'd be otherwise."
+    ],
+    "fx": {
+     "stress": 4
+    }
+   },
+   {
+    "label": "Cut the cake",
+    "journal": [
+     "I cut the cake in half and took the larger half."
+    ],
+    "fx": {
+     "happy": 8,
+     "karma": -4
+    }
+   }
+  ],
+  "once": true,
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "termination",
+  "cat": "work",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1,
+  "title": "Layoff Rumors",
+  "prompt": "Rumors say your company is cutting jobs.",
+  "choices": [
+   {
+    "label": "Work harder",
+    "journal": [
+     "I worked harder and my boss didn't notice."
+    ],
+    "fx": {
+     "perf": 8,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Polish your resume",
+    "journal": [
+     "I polished my resume and started applying to other places."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Ignore the rumors",
+    "journal": [
+     "I ignored the rumors and took a long lunch."
+    ],
+    "fx": {
+     "stress": -4,
+     "perf": -4
+    }
+   },
+   {
+    "label": "Quit before it happens",
+    "journal": [
+     "I quit before they could fire me and felt strong for six minutes."
+    ],
+    "fx": {
+     "happy": -8
+    },
+    "quit": true
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "raise_ask",
+  "cat": "work",
+  "ages": [
+   20,
+   99
+  ],
+  "w": 1.5,
+  "title": "Ask for a Raise",
+  "prompt": "You think you deserve a raise.",
+  "choices": [
+   {
+    "label": "Ask boldly",
+    "journal": [
+     "I asked for a raise and my boss said she would think about it."
+    ],
+    "fx": {
+     "perf": 4,
+     "stress": 4
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": [
+      "I asked for a raise and was told I was lucky to be here."
+     ],
+     "fx": {
+      "happy": -8,
+      "perf": -4
+     }
+    },
+    "raise": true
+   },
+   {
+    "label": "Wait for review",
+    "journal": [
+     "I waited for my review and got a gift card."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Threaten to quit",
+    "journal": [
+     "I threatened to quit and my boss called my bluff."
+    ],
+    "fx": {
+     "stress": 8,
+     "perf": -8
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": [
+      "I threatened to quit and was escorted out."
+     ],
+     "fx": {
+      "happy": -16
+     }
+    },
+    "raise": true
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "office_gossip",
+  "cat": "work",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.8,
+  "title": "Office Gossip",
+  "prompt": "A coworker leans in and whispers something about your boss.",
+  "choices": [
+   {
+    "label": "Listen",
+    "journal": [
+     "I listened to the gossip and now know too much."
+    ],
+    "fx": {
+     "happy": 4,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Spread it",
+    "journal": [
+     "I spread the gossip and was wildly popular for a day."
+    ],
+    "fx": {
+     "karma": -8,
+     "rel_coworker": 8
+    },
+    "chain": {
+     "id": "gossip_backfire",
+     "in": [
+      1,
+      2
+     ]
+    }
+   },
+   {
+    "label": "Shut it down",
+    "journal": [
+     "I told the coworker to stop gossiping. We aren't close anymore."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_coworker": -8
+    }
+   },
+   {
+    "label": "Tell the boss",
+    "journal": [
+     "I told the boss about the gossip. The gossiper was fired."
+    ],
+    "fx": {
+     "karma": -8,
+     "perf": 4
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "gossip_backfire",
+  "cat": "work",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 0,
+  "title": "Gossip Backfire",
+  "prompt": "Your boss heard what you said.",
+  "choices": [
+   {
+    "label": "Apologize",
+    "journal": [
+     "I apologized to my boss and she accepted, barely."
+    ],
+    "fx": {
+     "karma": 8,
+     "perf": -4
+    }
+   },
+   {
+    "label": "Deny it",
+    "journal": [
+     "I denied everything and my boss rolled her eyes."
+    ],
+    "fx": {
+     "karma": -8,
+     "perf": -8
+    }
+   },
+   {
+    "label": "Blame a coworker",
+    "journal": [
+     "I blamed a coworker, who is now my enemy."
+    ],
+    "fx": {
+     "karma": -16,
+     "rel_coworker": -30
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  },
+  "chainOnly": true
+ },
+ {
+  "id": "accountant_shady",
+  "cat": "work",
+  "ages": [
+   21,
+   99
+  ],
+  "w": 1,
+  "title": "Shady Client",
+  "prompt": "A client offers you $10,000 to fudge some numbers.",
+  "choices": [
+   {
+    "label": "Take the deal",
+    "journal": [
+     "I fudged the numbers and bought a very nice chair."
+    ],
+    "fx": {
+     "money": 10000,
+     "karma": -30,
+     "stress": 8
+    },
+    "chain": {
+     "id": "audit",
+     "in": [
+      2,
+      5
+     ]
+    }
+   },
+   {
+    "label": "Refuse",
+    "journal": [
+     "I refused the deal and reported the client."
+    ],
+    "fx": {
+     "karma": 16,
+     "perf": 4
+    }
+   },
+   {
+    "label": "Negotiate higher",
+    "journal": [
+     "I negotiated for $15,000 and they hung up."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "audit",
+  "cat": "work",
+  "ages": [
+   21,
+   99
+  ],
+  "w": 0,
+  "title": "Audit",
+  "prompt": "Auditors arrive at your office with clipboards and no sense of humor.",
+  "choices": [
+   {
+    "label": "Cooperate fully",
+    "journal": [
+     "I cooperated fully and went to jail for a month."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": -16,
+     "money": -5000
+    }
+   },
+   {
+    "label": "Shred documents",
+    "journal": [
+     "I shredded documents and the shredder jammed."
+    ],
+    "fx": {
+     "karma": -16,
+     "stress": 16
+    }
+   },
+   {
+    "label": "Lawyer up ($8,000)",
+    "journal": [
+     "I hired a lawyer and escaped with a fine."
+    ],
+    "fx": {
+     "money": -8000,
+     "stress": 8
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  },
+  "chainOnly": true
+ },
+ {
+  "id": "boss_praise",
+  "cat": "work",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.5,
+  "title": "Boss's Praise",
+  "prompt": "Your boss praises your work in front of everyone.",
+  "choices": [
+   {
+    "label": "Accept humbly",
+    "journal": [
+     "I accepted my boss's praise with a modest nod."
+    ],
+    "fx": {
+     "perf": 8,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Take all the credit",
+    "journal": [
+     "I took all the credit and my team hates me."
+    ],
+    "fx": {
+     "perf": 4,
+     "rel_coworker": -16,
+     "karma": -8
+    }
+   },
+   {
+    "label": "Share the credit",
+    "journal": [
+     "I shared the credit with my team. They bought me a donut."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_coworker": 8,
+     "happy": 4
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "work_mistake",
+  "cat": "work",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.5,
+  "title": "Big Mistake",
+  "prompt": "You sent an important email to the wrong person.",
+  "choices": [
+   {
+    "label": "Own up",
+    "journal": [
+     "I owned up to the mistake. Nobody died."
+    ],
+    "fx": {
+     "karma": 8,
+     "perf": -4
+    }
+   },
+   {
+    "label": "Pretend nothing happened",
+    "journal": [
+     "I pretended nothing happened. It was my best acting."
+    ],
+    "fx": {
+     "stress": 8,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Blame the intern",
+    "journal": [
+     "I blamed the intern. The intern cried."
+    ],
+    "fx": {
+     "karma": -16,
+     "rel_coworker": -8
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "job_offer",
+  "cat": "work",
+  "ages": [
+   21,
+   60
+  ],
+  "w": 1.2,
+  "title": "Job Offer",
+  "prompt": "A recruiter offers you a position at a competitor.",
+  "choices": [
+   {
+    "label": "Accept",
+    "journal": [
+     "I accepted the offer and left my old job with a muffin basket."
+    ],
+    "fx": {
+     "happy": 8,
+     "money": 2000
+    },
+    "switchjob": true
+   },
+   {
+    "label": "Use it to negotiate",
+    "journal": [
+     "I used the offer to negotiate a raise and my boss was impressed."
+    ],
+    "fx": {
+     "perf": 8
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I used the offer to negotiate and my boss laughed."
+     ],
+     "fx": {
+      "happy": -8
+     }
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the offer and stayed loyal."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "sick_day",
+  "cat": "work",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.5,
+  "title": "Sick Day",
+  "prompt": "You wake up feeling lousy before work.",
+  "choices": [
+   {
+    "label": "Go to work anyway",
+    "journal": [
+     "I went to work sick and infected everyone."
+    ],
+    "fx": {
+     "perf": 4,
+     "health": -8,
+     "karma": -8
+    }
+   },
+   {
+    "label": "Call in sick",
+    "journal": [
+     "I called in sick and watched TV all day."
+    ],
+    "fx": {
+     "health": 4,
+     "perf": -4
+    }
+   },
+   {
+    "label": "Fake being sicker",
+    "journal": [
+     "I faked being sicker than I was and enjoyed a long weekend."
+    ],
+    "fx": {
+     "karma": -8,
+     "happy": 8
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "office_party",
+  "cat": "work",
+  "ages": [
+   21,
+   99
+  ],
+  "w": 1.2,
+  "title": "Office Party",
+  "prompt": "Your office is having a holiday party with free drinks.",
+  "choices": [
+   {
+    "label": "Drink moderately",
+    "journal": [
+     "I had two drinks and told a coworker nice things."
+    ],
+    "fx": {
+     "rel_coworker": 8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Get drunk",
+    "journal": [
+     "I got drunk and sang karaoke to a CEO."
+    ],
+    "fx": {
+     "happy": 8,
+     "fame": 4,
+     "perf": -8
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the party and watched TV."
+    ],
+    "fx": {
+     "rel_coworker": -4
+    }
+   }
+  ],
+  "if": {
+   "job": 1
+  }
+ },
+ {
+  "id": "first_job",
+  "cat": "work",
+  "ages": [
+   14,
+   18
+  ],
+  "w": 1.8,
+  "title": "First Job",
+  "prompt": "A local business is hiring teens for the summer.",
+  "choices": [
+   {
+    "label": "Take it",
+    "journal": [
+     "I got a summer job and learned how to say 'welcome' in a flat voice."
+    ],
+    "fx": {
+     "smarts": 8,
+     "happy": -4,
+     "money": 600
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I turned down the job and slept in."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Negotiate for more",
+    "journal": [
+     "I asked for a raise on day one. They laughed."
+    ],
+    "fx": {
+     "smarts": 4,
+     "money": 400
+    }
+   }
+  ],
+  "once": true
+ },
+ {
+  "id": "side_hustle",
+  "cat": "money",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 1.5,
+  "title": "Side Hustle",
+  "prompt": "A friend suggests starting an online shop.",
+  "choices": [
+   {
+    "label": "Go for it ($500)",
+    "journal": [
+     "I started an online shop that sold nine items."
+    ],
+    "fx": {
+     "money": -300,
+     "smarts": 8,
+     "happy": 4
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": [
+      "I started an online shop that sold nothing."
+     ],
+     "fx": {
+      "money": -500,
+      "happy": -4
+     }
+    }
+   },
+   {
+    "label": "Wait",
+    "journal": [
+     "I decided to wait and wait is still going."
+    ]
+   },
+   {
+    "label": "Invest in crypto instead ($500)",
+    "journal": [
+     "I put $500 in crypto and watched it dip for a year."
+    ],
+    "fx": {
+     "money": -500,
+     "stress": 8
+    }
+   }
+  ],
+  "if": {
+   "minCash": 500
+  }
+ },
+ {
+  "id": "lottery",
+  "cat": "money",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1,
+  "title": "Lottery Ticket",
+  "prompt": "You find a scratch-off ticket in your coat pocket.",
+  "choices": [
+   {
+    "label": "Scratch it",
+    "journal": [
+     "I scratched the ticket and won $50."
+    ],
+    "fx": {
+     "money": 50,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Gift it",
+    "journal": [
+     "I gave the ticket to a stranger who won $2,000."
+    ],
+    "fx": {
+     "karma": 16
+    }
+   },
+   {
+    "label": "Throw it out",
+    "journal": [
+     "I threw the ticket out and never knew."
+    ]
+   }
+  ]
+ },
+ {
+  "id": "scam_call",
+  "cat": "money",
+  "ages": [
+   25,
+   99
+  ],
+  "w": 1.5,
+  "title": "Scam Call",
+  "prompt": "A call says you owe taxes and need to pay in gift cards.",
+  "choices": [
+   {
+    "label": "Hang up",
+    "journal": [
+     "I hung up the phone with confidence."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Pay the 'taxes' ($800)",
+    "journal": [
+     "I bought $800 of gift cards and read the codes to a stranger."
+    ],
+    "fx": {
+     "money": -800,
+     "smarts": -8,
+     "happy": -8
+    },
+    "req": 800
+   },
+   {
+    "label": "Waste their time",
+    "journal": [
+     "I wasted the scammer's time for an hour. It was the best date I've had."
+    ],
+    "fx": {
+     "happy": 8,
+     "smarts": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "stock_tip",
+  "cat": "money",
+  "ages": [
+   21,
+   80
+  ],
+  "w": 1.2,
+  "title": "Stock Tip",
+  "prompt": "A coworker's cousin swears he has a stock tip that will make you rich.",
+  "choices": [
+   {
+    "label": "Invest $2,000",
+    "journal": [
+     "I invested $2,000 in a tip and got 40 shares of a doomed company."
+    ],
+    "fx": {
+     "money": -2000,
+     "stress": 8
+    },
+    "p": 0.35,
+    "fail": {
+     "journal": [
+      "The stock tanked and so did I."
+     ],
+     "fx": {
+      "happy": -8
+     }
+    },
+    "win": {
+     "money": 7000
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored the tip and bought a sandwich."
+    ]
+   },
+   {
+    "label": "Research it",
+    "journal": [
+     "I did research and found the company doesn't exist."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   }
+  ],
+  "if": {
+   "minCash": 2000
+  }
+ },
+ {
+  "id": "flat_tire",
+  "cat": "money",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 2,
+  "title": "Car Trouble",
+  "prompt": "Your car breaks down on the highway.",
+  "choices": [
+   {
+    "label": "Call a tow ($200)",
+    "journal": [
+     "I paid for a tow and watched the driver judge my car."
+    ],
+    "fx": {
+     "money": -200,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Fix it yourself",
+    "journal": [
+     "I tried to fix it myself and made it worse."
+    ],
+    "fx": {
+     "smarts": 4,
+     "money": -400,
+     "health": -4
+    }
+   },
+   {
+    "label": "Walk",
+    "journal": [
+     "I walked eight miles and lost a shoe."
+    ],
+    "fx": {
+     "health": -4,
+     "happy": -4
+    }
+   }
+  ],
+  "if": {
+   "anyCar": 1
+  }
+ },
+ {
+  "id": "tax_audit",
+  "cat": "money",
+  "ages": [
+   25,
+   99
+  ],
+  "w": 0.8,
+  "title": "Tax Audit",
+  "prompt": "A letter says the tax authority wants to look at your records.",
+  "choices": [
+   {
+    "label": "Hire an accountant ($1,500)",
+    "journal": [
+     "I hired an accountant and it all worked out, mostly."
+    ],
+    "fx": {
+     "money": -1500
+    }
+   },
+   {
+    "label": "Do it yourself",
+    "journal": [
+     "I did it myself and found $400 I owed."
+    ],
+    "fx": {
+     "smarts": 8,
+     "money": -400
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored the letter and was fined $3,000."
+    ],
+    "fx": {
+     "money": -3000,
+     "stress": 16
+    }
+   }
+  ],
+  "if": {
+   "minCash": 3000
+  }
+ },
+ {
+  "id": "windfall",
+  "cat": "money",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 0.8,
+  "title": "Windfall",
+  "prompt": "A forgotten bank account turns up with a pile of money in it.",
+  "choices": [
+   {
+    "label": "Claim it",
+    "journal": [
+     "I claimed the account and bought a better couch."
+    ],
+    "fx": {
+     "money": 3000,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Donate it",
+    "journal": [
+     "I donated the cash to charity and felt noble."
+    ],
+    "fx": {
+     "karma": 16,
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "bad_investment",
+  "cat": "money",
+  "ages": [
+   25,
+   80
+  ],
+  "w": 0.8,
+  "title": "Pyramid Scheme",
+  "prompt": "A smooth-talking friend invites you to a 'business opportunity'.",
+  "choices": [
+   {
+    "label": "Join ($3,000)",
+    "journal": [
+     "I joined a pyramid scheme and lost $3,000 and a friend."
+    ],
+    "fx": {
+     "money": -3000,
+     "smarts": -8,
+     "rel_friend": -16
+    },
+    "req": 3000
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and left the meeting early."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Recruit others",
+    "journal": [
+     "I recruited my cousin, who is also now poor."
+    ],
+    "fx": {
+     "karma": -16,
+     "money": -500
+    }
+   }
+  ],
+  "if": {
+   "minCash": 3000
+  }
+ },
+ {
+  "id": "sore_back",
+  "cat": "health",
+  "ages": [
+   25,
+   99
+  ],
+  "w": 1.8,
+  "title": "Sore Back",
+  "prompt": "Your back is aching after a long day.",
+  "choices": [
+   {
+    "label": "Stretch",
+    "journal": [
+     "I did some stretching and my back thanked me."
+    ],
+    "fx": {
+     "health": 4
+    }
+   },
+   {
+    "label": "See a doctor ($250)",
+    "journal": [
+     "I saw a doctor and was told to stretch."
+    ],
+    "fx": {
+     "money": -250,
+     "health": 8
+    },
+    "req": 250
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored it and became shaped like a question mark."
+    ],
+    "fx": {
+     "health": -8
+    }
+   },
+   {
+    "label": "Take painkillers",
+    "journal": [
+     "I took painkillers and felt invincible for a day."
+    ],
+    "fx": {
+     "health": -4,
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "new_diet",
+  "cat": "health",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1.8,
+  "title": "New Diet",
+  "prompt": "A friend suggests a new diet.",
+  "choices": [
+   {
+    "label": "Try it",
+    "journal": [
+     "I tried the diet and lost a few pounds and a lot of joy."
+    ],
+    "fx": {
+     "health": 8,
+     "happy": -8,
+     "looks": 4
+    }
+   },
+   {
+    "label": "Eat a salad",
+    "journal": [
+     "I ate a salad and was proud for twelve hours."
+    ],
+    "fx": {
+     "health": 4
+    }
+   },
+   {
+    "label": "Eat a burger",
+    "journal": [
+     "I ate a burger the size of my head."
+    ],
+    "fx": {
+     "health": -4,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Eat nothing",
+    "journal": [
+     "I ate nothing for two days and regretted it."
+    ],
+    "fx": {
+     "health": -16,
+     "looks": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "gym_buddy",
+  "cat": "health",
+  "ages": [
+   14,
+   70
+  ],
+  "w": 1.5,
+  "title": "Gym Invitation",
+  "prompt": "A friend invites you to join a gym.",
+  "choices": [
+   {
+    "label": "Join and go regularly",
+    "journal": [
+     "I went to the gym regularly and could lift a tiny couch."
+    ],
+    "fx": {
+     "health": 16,
+     "looks": 8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Join and never go",
+    "journal": [
+     "I joined a gym and paid for it every month."
+    ],
+    "fx": {
+     "money": -300
+    }
+   },
+   {
+    "label": "Run outside",
+    "journal": [
+     "I ran outside until a dog chased me."
+    ],
+    "fx": {
+     "health": 8
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and stayed on the couch."
+    ],
+    "fx": {
+     "health": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "mental_health",
+  "cat": "health",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1.5,
+  "title": "Rough Patch",
+  "prompt": "You've been feeling down lately, and nothing seems to help.",
+  "choices": [
+   {
+    "label": "Talk to someone",
+    "journal": [
+     "I talked to someone and it helped more than I admitted."
+    ],
+    "fx": {
+     "happy": 16,
+     "stress": -8
+    }
+   },
+   {
+    "label": "Take up meditation",
+    "journal": [
+     "I tried meditation and fell asleep sitting up."
+    ],
+    "fx": {
+     "happy": 8,
+     "stress": -8
+    }
+   },
+   {
+    "label": "Bottle it up",
+    "journal": [
+     "I bottled up my feelings and ate a lot of cheese."
+    ],
+    "fx": {
+     "happy": -16,
+     "stress": 16
+    }
+   },
+   {
+    "label": "Drink alone",
+    "journal": [
+     "I drank alone and it did not fix anything."
+    ],
+    "fx": {
+     "happy": -8,
+     "health": -8,
+     "karma": -4
+    },
+    "flag": "drinker"
+   }
+  ]
+ },
+ {
+  "id": "sleepless",
+  "cat": "health",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.5,
+  "title": "Sleepless Nights",
+  "prompt": "You haven't slept well in days.",
+  "choices": [
+   {
+    "label": "Establish a routine",
+    "journal": [
+     "I set a sleep routine and woke up feeling human."
+    ],
+    "fx": {
+     "health": 8,
+     "stress": -8
+    }
+   },
+   {
+    "label": "Take sleeping pills",
+    "journal": [
+     "I took sleeping pills and slept for fifteen hours."
+    ],
+    "fx": {
+     "health": -4,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Scroll through your phone",
+    "journal": [
+     "I scrolled until sunrise and learned nothing."
+    ],
+    "fx": {
+     "health": -8,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Drink coffee",
+    "journal": [
+     "I drank six coffees and vibrated through the day."
+    ],
+    "fx": {
+     "stress": 8
+    }
+   }
+  ]
+ },
+ {
+  "id": "fall_ill",
+  "cat": "health",
+  "ages": [
+   5,
+   99
+  ],
+  "w": 2.5,
+  "title": "Feeling Sick",
+  "prompt": "You're feeling very ill.",
+  "choices": [
+   {
+    "label": "Rest at home",
+    "journal": [
+     "I rested at home and watched game shows."
+    ],
+    "fx": {
+     "health": -4
+    }
+   },
+   {
+    "label": "See a doctor ($300)",
+    "journal": [
+     "I saw a doctor and was handed a pamphlet."
+    ],
+    "fx": {
+     "money": -300,
+     "health": 4,
+     "doctor": true
+    },
+    "req": 300
+   },
+   {
+    "label": "Take herbal tea",
+    "journal": [
+     "I drank herbal tea and my cough was unimpressed."
+    ],
+    "fx": {
+     "health": -4
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored it and shuffled along."
+    ],
+    "fx": {
+     "health": -8,
+     "stress": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "health_checkup",
+  "cat": "health",
+  "ages": [
+   30,
+   99
+  ],
+  "w": 1.5,
+  "title": "Health Checkup",
+  "prompt": "Your doctor recommends a checkup.",
+  "choices": [
+   {
+    "label": "Go ($200)",
+    "journal": [
+     "I went to the checkup and got a lecture about salt."
+    ],
+    "fx": {
+     "money": -200,
+     "health": 8,
+     "doctor": true
+    },
+    "req": 200
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the checkup. What could go wrong?"
+    ],
+    "fx": {
+     "health": -4
+    }
+   },
+   {
+    "label": "Go and argue",
+    "journal": [
+     "I argued with the doctor and won a very small point."
+    ],
+    "fx": {
+     "money": -200,
+     "health": 4,
+     "doctor": true,
+     "karma": -4
+    },
+    "req": 200
+   }
+  ]
+ },
+ {
+  "id": "rescue",
+  "cat": "health",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 0.6,
+  "title": "Someone Needs Help",
+  "prompt": "You see a person collapse on the sidewalk.",
+  "choices": [
+   {
+    "label": "Call for help",
+    "journal": [
+     "I called an ambulance and stayed with the stranger until it came."
+    ],
+    "fx": {
+     "karma": 16,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Perform CPR",
+    "journal": [
+     "I performed CPR and the stranger lived. I got an award shaped like a pillow."
+    ],
+    "fx": {
+     "karma": 30,
+     "fame": 8,
+     "health": -4
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I performed CPR badly and the stranger was not helped."
+     ],
+     "fx": {
+      "karma": 8,
+      "happy": -16
+     }
+    }
+   },
+   {
+    "label": "Walk past",
+    "journal": [
+     "I walked past. It was a Tuesday."
+    ],
+    "fx": {
+     "karma": -16
+    }
+   }
+  ]
+ },
+ {
+  "id": "lightning",
+  "cat": "random",
+  "ages": [
+   1,
+   99
+  ],
+  "w": 0.05,
+  "title": "Storm",
+  "prompt": "A thunderstorm rolls in while you're outside.",
+  "choices": [
+   {
+    "label": "Shelter in a car",
+    "journal": [
+     "I sheltered in a car and watched the sky."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Stand under a tree",
+    "journal": [
+     "I stood under a tall tree."
+    ],
+    "fx": {
+     "health": -16
+    },
+    "p": 0.99,
+    "fail": {
+     "journal": [
+      "I was struck by lightning."
+     ],
+     "fx": {
+      "kill": "lightning"
+     }
+    }
+   }
+  ]
+ },
+ {
+  "id": "shoplift_dare",
+  "cat": "crime",
+  "ages": [
+   8,
+   25
+  ],
+  "w": 1.2,
+  "title": "Shoplifting Dare",
+  "prompt": "A friend dares you to steal a candy bar from the corner store.",
+  "choices": [
+   {
+    "label": "Do it",
+    "journal": [
+     "I stole a candy bar and got away with it. It was not that good."
+    ],
+    "fx": {
+     "karma": -16,
+     "happy": 8
+    },
+    "p": 0.65,
+    "fail": {
+     "journal": [
+      "I tried to steal a candy bar and was caught by the owner."
+     ],
+     "fx": {
+      "karma": -16,
+      "happy": -16
+     }
+    },
+    "crime": "shoplift"
+   },
+   {
+    "label": "Refuse",
+    "journal": [
+     "I refused the dare and bought the candy bar."
+    ],
+    "fx": {
+     "karma": 8
+    }
+   },
+   {
+    "label": "Pay for it",
+    "journal": [
+     "I bought candy for everyone."
+    ],
+    "fx": {
+     "money": -5,
+     "rel_friend": 8
+    }
+   }
+  ]
+ },
+ {
+  "id": "witnessed_crime",
+  "cat": "crime",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1,
+  "title": "Witness",
+  "prompt": "You witness a robbery at a convenience store.",
+  "choices": [
+   {
+    "label": "Call the police",
+    "journal": [
+     "I called the police and was a very good witness."
+    ],
+    "fx": {
+     "karma": 16,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Intervene",
+    "journal": [
+     "I intervened and was hit with a bag of chips."
+    ],
+    "fx": {
+     "karma": 30,
+     "fame": 8,
+     "health": -8
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I intervened and got stabbed with a spork."
+     ],
+     "fx": {
+      "health": -16
+     }
+    }
+   },
+   {
+    "label": "Hide",
+    "journal": [
+     "I hid behind the freezer until it was over."
+    ],
+    "fx": {
+     "karma": -4,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Take a photo",
+    "journal": [
+     "I took a photo of the robbery for social media."
+    ],
+    "fx": {
+     "karma": -8,
+     "fame": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "jaywalk",
+  "cat": "crime",
+  "ages": [
+   16,
+   99
+  ],
+  "w": 1.2,
+  "title": "Cops Nearby",
+  "prompt": "A police officer stops you for something minor.",
+  "choices": [
+   {
+    "label": "Cooperate",
+    "journal": [
+     "I cooperated and got a warning."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   },
+   {
+    "label": "Run",
+    "journal": [
+     "I ran from the officer and was caught within ninety seconds."
+    ],
+    "fx": {
+     "karma": -16,
+     "stress": 16
+    },
+    "crime": "resist"
+   },
+   {
+    "label": "Argue",
+    "journal": [
+     "I argued with the officer about my rights. I was wrong."
+    ],
+    "fx": {
+     "karma": -8,
+     "money": -150
+    }
+   },
+   {
+    "label": "Offer a bribe ($300)",
+    "journal": [
+     "I offered a bribe. It was accepted."
+    ],
+    "fx": {
+     "karma": -16,
+     "money": -300
+    },
+    "req": 300
+   }
+  ]
+ },
+ {
+  "id": "drug_offer",
+  "cat": "crime",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1.3,
+  "title": "Drug Offer",
+  "prompt": "A stranger at a party offers you something illegal.",
+  "choices": [
+   {
+    "label": "Take it",
+    "journal": [
+     "I tried the drug and spent four hours staring at a lamp."
+    ],
+    "fx": {
+     "happy": 8,
+     "health": -16,
+     "smarts": -8,
+     "karma": -8
+    },
+    "flag": "drugs"
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and went home early."
+    ],
+    "fx": {
+     "karma": 8
+    }
+   },
+   {
+    "label": "Call the police",
+    "journal": [
+     "I called the cops and the party ended abruptly."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_friend": -8
+    }
+   },
+   {
+    "label": "Sell it",
+    "journal": [
+     "I sold what the stranger gave me and made $300."
+    ],
+    "fx": {
+     "money": 300,
+     "karma": -16
+    },
+    "crime": "drugs"
+   }
+  ]
+ },
+ {
+  "id": "graffiti",
+  "cat": "crime",
+  "ages": [
+   10,
+   25
+  ],
+  "w": 1,
+  "title": "Graffiti",
+  "prompt": "Your friends are painting a wall at night and ask you to join.",
+  "choices": [
+   {
+    "label": "Paint something good",
+    "journal": [
+     "I painted a wall with flair and nobody caught me."
+    ],
+    "fx": {
+     "looks": 4,
+     "karma": -8,
+     "happy": 8
+    },
+    "p": 0.7,
+    "fail": {
+     "journal": [
+      "I was caught with a spray can."
+     ],
+     "fx": {
+      "karma": -16,
+      "happy": -8,
+      "money": -200
+     }
+    }
+   },
+   {
+    "label": "Watch",
+    "journal": [
+     "I watched my friends paint a wall and critiqued them."
+    ],
+    "fx": {
+     "karma": -4
+    }
+   },
+   {
+    "label": "Leave",
+    "journal": [
+     "I left them to it and went to bed."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "car_theft_tempt",
+  "cat": "crime",
+  "ages": [
+   14,
+   40
+  ],
+  "w": 0.8,
+  "title": "Unlocked Car",
+  "prompt": "A fancy car sits unlocked with the keys inside.",
+  "choices": [
+   {
+    "label": "Take it for a joyride",
+    "journal": [
+     "I took the car for a joyride. A cop was waiting at the end."
+    ],
+    "fx": {
+     "happy": 16,
+     "karma": -30
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": [
+      "I stole a car and crashed it into a hedge."
+     ],
+     "fx": {
+      "karma": -30,
+      "health": -8,
+      "happy": -16
+     }
+    },
+    "crime": "gta"
+   },
+   {
+    "label": "Leave a note",
+    "journal": [
+     "I left a note telling the owner to lock his car."
+    ],
+    "fx": {
+     "karma": 8
+    }
+   },
+   {
+    "label": "Walk away",
+    "journal": [
+     "I walked away from the car."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "bar_fight",
+  "cat": "crime",
+  "ages": [
+   18,
+   60
+  ],
+  "w": 1.2,
+  "title": "Bar Fight",
+  "prompt": "A drunk stranger shoves you at a bar.",
+  "choices": [
+   {
+    "label": "Fight",
+    "journal": [
+     "I fought a stranger in a bar and ended up with a black eye."
+    ],
+    "fx": {
+     "health": -8,
+     "karma": -8,
+     "happy": 4
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I fought a stranger in a bar and was knocked out."
+     ],
+     "fx": {
+      "health": -16,
+      "looks": -8
+     }
+    },
+    "crime": "assault"
+   },
+   {
+    "label": "Walk away",
+    "journal": [
+     "I walked away from the bar fight."
+    ],
+    "fx": {
+     "karma": 8
+    }
+   },
+   {
+    "label": "Buy him a drink ($10)",
+    "journal": [
+     "I bought him a drink and we became friends."
+    ],
+    "fx": {
+     "money": -10,
+     "karma": 8,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Call security",
+    "journal": [
+     "I called security and got the stranger removed."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "dui_choice",
+  "cat": "crime",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1,
+  "title": "Last Call",
+  "prompt": "You've had a few drinks and the car is parked outside.",
+  "choices": [
+   {
+    "label": "Take a taxi ($40)",
+    "journal": [
+     "I took a taxi home and felt responsible."
+    ],
+    "fx": {
+     "money": -40,
+     "karma": 8
+    }
+   },
+   {
+    "label": "Drive anyway",
+    "journal": [
+     "I drove home drunk and made it, somehow."
+    ],
+    "fx": {
+     "karma": -16,
+     "health": -4
+    },
+    "p": 0.7,
+    "fail": {
+     "journal": [
+      "I was pulled over for drunk driving."
+     ],
+     "fx": {
+      "karma": -16,
+      "money": -2000,
+      "stress": 16
+     }
+    },
+    "crime": "dui"
+   },
+   {
+    "label": "Sleep in the car",
+    "journal": [
+     "I slept in the car in the parking lot."
+    ],
+    "fx": {
+     "health": -4
+    }
+   }
+  ],
+  "if": {
+   "flag": "drinker"
+  }
+ },
+ {
+  "id": "prison_fight",
+  "cat": "prison",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 3,
+  "title": "Yard Fight",
+  "prompt": "A fellow inmate challenges you in the yard.",
+  "choices": [
+   {
+    "label": "Fight",
+    "journal": [
+     "I fought an inmate in the yard and earned some respect."
+    ],
+    "fx": {
+     "health": -8,
+     "karma": -8,
+     "stress": 8
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I fought an inmate and got beaten up by his friends."
+     ],
+     "fx": {
+      "health": -16
+     }
+    },
+    "prisonbehavior": -1
+   },
+   {
+    "label": "Back down",
+    "journal": [
+     "I backed down and ate lunch alone."
+    ],
+    "fx": {
+     "happy": -8
+    }
+   },
+   {
+    "label": "Alert a guard",
+    "journal": [
+     "I told a guard and became a snitch."
+    ],
+    "fx": {
+     "karma": 4,
+     "rel_coworker": -8,
+     "stress": 16
+    }
+   }
+  ],
+  "if": {
+   "prison": 1
+  }
+ },
+ {
+  "id": "prison_riot",
+  "cat": "prison",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1.5,
+  "title": "Riot",
+  "prompt": "A riot breaks out in the cell block.",
+  "choices": [
+   {
+    "label": "Join the riot",
+    "journal": [
+     "I joined the riot and spent a month in solitary."
+    ],
+    "fx": {
+     "karma": -8,
+     "health": -8,
+     "crazy": 8
+    },
+    "prisonbehavior": -1,
+    "addyears": 1
+   },
+   {
+    "label": "Hide in your cell",
+    "journal": [
+     "I hid in my cell and ate crackers."
+    ],
+    "fx": {
+     "stress": 8
+    }
+   },
+   {
+    "label": "Help the guards",
+    "journal": [
+     "I helped the guards and earned a gold star."
+    ],
+    "fx": {
+     "karma": 8
+    },
+    "prisonbehavior": 1
+   }
+  ],
+  "if": {
+   "prison": 1
+  }
+ },
+ {
+  "id": "prison_job",
+  "cat": "prison",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 3,
+  "title": "Prison Job",
+  "prompt": "The warden offers you a job in the kitchen.",
+  "choices": [
+   {
+    "label": "Accept",
+    "journal": [
+     "I worked in the prison kitchen and learned to make a very good mush."
+    ],
+    "fx": {
+     "karma": 8,
+     "smarts": 4
+    },
+    "prisonbehavior": 1
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the job and stared at a wall."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ],
+  "if": {
+   "prison": 1
+  }
+ },
+ {
+  "id": "prison_library",
+  "cat": "prison",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 3,
+  "title": "Prison Library",
+  "prompt": "There is a small library at the prison.",
+  "choices": [
+   {
+    "label": "Read books",
+    "journal": [
+     "I read every book in the prison library, twice."
+    ],
+    "fx": {
+     "smarts": 16,
+     "happy": 4
+    },
+    "prisonbehavior": 1
+   },
+   {
+    "label": "Join a gang",
+    "journal": [
+     "I joined a gang because they had a cooler jacket."
+    ],
+    "fx": {
+     "karma": -16,
+     "stress": 16,
+     "health": -8
+    },
+    "prisonbehavior": -1
+   },
+   {
+    "label": "Exercise in the yard",
+    "journal": [
+     "I exercised in the yard and became extremely strong."
+    ],
+    "fx": {
+     "health": 16,
+     "looks": 4
+    }
+   }
+  ],
+  "if": {
+   "prison": 1
+  }
+ },
+ {
+  "id": "prison_visit",
+  "cat": "prison",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 2.5,
+  "title": "Visitor",
+  "prompt": "A visitor arrives at the prison.",
+  "choices": [
+   {
+    "label": "Talk with them",
+    "journal": [
+     "I talked with my visitor through a window for an hour."
+    ],
+    "fx": {
+     "happy": 16,
+     "stress": -8
+    }
+   },
+   {
+    "label": "Refuse the visit",
+    "journal": [
+     "I refused the visitor and looked at the floor."
+    ],
+    "fx": {
+     "happy": -8
+    }
+   }
+  ],
+  "if": {
+   "prison": 1
+  }
+ },
+ {
+  "id": "vacation_beach",
+  "cat": "travel",
+  "ages": [
+   8,
+   99
+  ],
+  "w": 2,
+  "title": "Beach Vacation",
+  "prompt": "You get the chance to take a vacation at the beach ($1,500).",
+  "choices": [
+   {
+    "label": "Go",
+    "journal": [
+     "I went to the beach and got a sunburn in a perfect rectangle."
+    ],
+    "fx": {
+     "happy": 16,
+     "stress": -16,
+     "money": -1500,
+     "looks": -4
+    },
+    "req": 1500
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I stayed home and watched beach videos."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Camp in the backyard",
+    "journal": [
+     "I camped in the backyard and made s'mores."
+    ],
+    "fx": {
+     "happy": 8,
+     "money": -30
+    }
+   }
+  ],
+  "if": {
+   "minCash": 1500
+  }
+ },
+ {
+  "id": "vacation_city",
+  "cat": "travel",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1.5,
+  "title": "City Break",
+  "prompt": "A friend suggests a weekend in a big city.",
+  "choices": [
+   {
+    "label": "Go ($800)",
+    "journal": [
+     "I went on a city break and spent too much on pastries."
+    ],
+    "fx": {
+     "money": -800,
+     "happy": 16,
+     "smarts": 4
+    },
+    "req": 800
+   },
+   {
+    "label": "Plan a budget trip ($200)",
+    "journal": [
+     "I planned a budget trip and slept on a stranger's couch."
+    ],
+    "fx": {
+     "money": -200,
+     "happy": 8,
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I stayed home and saved money."
+    ],
+    "fx": {
+     "stress": 4
+    }
+   }
+  ],
+  "if": {
+   "minCash": 300
+  }
+ },
+ {
+  "id": "lost_passport",
+  "cat": "travel",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1,
+  "title": "Lost Passport",
+  "prompt": "You lose your passport abroad.",
+  "choices": [
+   {
+    "label": "Go to the embassy",
+    "journal": [
+     "I spent two days at the embassy and got a new passport."
+    ],
+    "fx": {
+     "stress": 8,
+     "money": -150
+    }
+   },
+   {
+    "label": "Panic",
+    "journal": [
+     "I panicked in a foreign language."
+    ],
+    "fx": {
+     "stress": 16,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Stay forever",
+    "journal": [
+     "I decided to live abroad as a local."
+    ],
+    "fx": {
+     "happy": 8,
+     "crazy": 8
+    }
+   }
+  ],
+  "if": {
+   "minCash": 150
+  }
+ },
+ {
+  "id": "hiking",
+  "cat": "travel",
+  "ages": [
+   10,
+   70
+  ],
+  "w": 1.5,
+  "title": "Mountain Hike",
+  "prompt": "A friend wants to hike a mountain.",
+  "choices": [
+   {
+    "label": "Hike all the way",
+    "journal": [
+     "I hiked all the way to the summit and ate a squished sandwich."
+    ],
+    "fx": {
+     "health": 16,
+     "happy": 16
+    }
+   },
+   {
+    "label": "Turn back halfway",
+    "journal": [
+     "I turned back halfway and took pictures of a squirrel."
+    ],
+    "fx": {
+     "health": 4,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Take a cable car ($20)",
+    "journal": [
+     "I took a cable car and judged the hikers."
+    ],
+    "fx": {
+     "money": -20,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Get lost",
+    "journal": [
+     "I got lost on the mountain and was found by a goat farmer."
+    ],
+    "fx": {
+     "health": -8,
+     "happy": -4,
+     "stress": 16
+    }
+   }
+  ]
+ },
+ {
+  "id": "foreign_food",
+  "cat": "travel",
+  "ages": [
+   10,
+   99
+  ],
+  "w": 1.2,
+  "title": "Street Food",
+  "prompt": "A street vendor offers a suspicious-looking snack.",
+  "choices": [
+   {
+    "label": "Eat it",
+    "journal": [
+     "I ate the snack and it was the best thing I've ever eaten."
+    ],
+    "fx": {
+     "happy": 16
+    }
+   },
+   {
+    "label": "Eat it and regret it",
+    "journal": [
+     "I ate the snack and spent the evening in the bathroom."
+    ],
+    "fx": {
+     "health": -8,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and ate crackers."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "poach",
+  "cat": "business",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 1.5,
+  "title": "Rival Poaching Staff",
+  "prompt": "A competitor is courting your best people.",
+  "choices": [
+   {
+    "label": "Counter with raises ($5,000)",
+    "journal": [
+     "I gave my staff raises and they stayed, mostly."
+    ],
+    "fx": {
+     "money": -5000,
+     "bizrep": 4
+    },
+    "req": 5000
+   },
+   {
+    "label": "Let them go",
+    "journal": [
+     "I let my best people walk out with their desk plants."
+    ],
+    "fx": {
+     "bizrep": -8
+    }
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "review",
+  "cat": "business",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 1.5,
+  "title": "Viral Customer Review",
+  "prompt": "A popular reviewer visits your business.",
+  "choices": [
+   {
+    "label": "Roll out the red carpet",
+    "journal": [
+     "I rolled out the red carpet and got a glowing review."
+    ],
+    "fx": {
+     "bizrep": 8
+    },
+    "p": 0.7,
+    "fail": {
+     "journal": [
+      "I rolled out the red carpet and the reviewer found a hair in the soup."
+     ],
+     "fx": {
+      "bizrep": -8
+     }
+    }
+   },
+   {
+    "label": "Business as usual",
+    "journal": [
+     "I treated the reviewer like any other customer."
+    ],
+    "fx": {
+     "bizrep": 4
+    }
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "lawsuit",
+  "cat": "business",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 1.2,
+  "title": "Lawsuit",
+  "prompt": "A nuisance lawsuit lands on your desk.",
+  "choices": [
+   {
+    "label": "Settle ($15,000)",
+    "journal": [
+     "I settled the lawsuit and wrote a check with a sigh."
+    ],
+    "fx": {
+     "money": -15000
+    },
+    "req": 15000
+   },
+   {
+    "label": "Fight it",
+    "journal": [
+     "I fought the lawsuit and spent two years in meetings."
+    ],
+    "fx": {
+     "money": -2000,
+     "happy": -4
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I lost the lawsuit and was ordered to pay."
+     ],
+     "fx": {
+      "money": -40000,
+      "bizrep": -8
+     }
+    }
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "biz_inspection",
+  "cat": "business",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 1.2,
+  "title": "Inspection",
+  "prompt": "An inspector shows up unannounced at your business.",
+  "choices": [
+   {
+    "label": "Welcome them",
+    "journal": [
+     "I welcomed the inspector with coffee and passed with flying colors."
+    ],
+    "fx": {
+     "bizrep": 8
+    },
+    "p": 0.6,
+    "fail": {
+     "journal": [
+      "I welcomed the inspector with coffee and he found a mouse."
+     ],
+     "fx": {
+      "bizrep": -8,
+      "money": -2000
+     }
+    }
+   },
+   {
+    "label": "Bribe them ($3,000)",
+    "journal": [
+     "I bribed the inspector. It worked, to my surprise."
+    ],
+    "fx": {
+     "money": -3000,
+     "karma": -16
+    },
+    "req": 3000
+   },
+   {
+    "label": "Stall",
+    "journal": [
+     "I stalled and the inspector came back with a friend."
+    ],
+    "fx": {
+     "stress": 8,
+     "bizrep": -4
+    }
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "biz_award",
+  "cat": "business",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 0.8,
+  "title": "Industry Award",
+  "prompt": "Your business is nominated for an award.",
+  "choices": [
+   {
+    "label": "Attend the ceremony",
+    "journal": [
+     "I attended the ceremony in a rented tuxedo and won."
+    ],
+    "fx": {
+     "bizrep": 16,
+     "fame": 8,
+     "happy": 8
+    },
+    "p": 0.4,
+    "fail": {
+     "journal": [
+      "I attended the ceremony and lost to a competitor with better lighting."
+     ],
+     "fx": {
+      "happy": -8,
+      "bizrep": 4
+     }
+    }
+   },
+   {
+    "label": "Send an employee",
+    "journal": [
+     "I sent an employee, who gave a better speech than I would."
+    ],
+    "fx": {
+     "bizrep": 4
+    }
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "biz_theft",
+  "cat": "business",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 1,
+  "title": "Employee Theft",
+  "prompt": "You suspect an employee is stealing from the till.",
+  "choices": [
+   {
+    "label": "Fire them",
+    "journal": [
+     "I fired the employee and he took the stapler."
+    ],
+    "fx": {
+     "bizrep": -4,
+     "karma": 4
+    }
+   },
+   {
+    "label": "Set a trap",
+    "journal": [
+     "I set a trap with marked bills and caught him."
+    ],
+    "fx": {
+     "smarts": 8,
+     "karma": 4
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored it and the till kept getting lighter."
+    ],
+    "fx": {
+     "money": -3000
+    }
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "biz_boom",
+  "cat": "business",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 1,
+  "title": "Viral Moment",
+  "prompt": "Your business goes viral for a silly reason.",
+  "choices": [
+   {
+    "label": "Embrace it",
+    "journal": [
+     "I embraced the viral moment and sold out of everything."
+    ],
+    "fx": {
+     "bizrep": 16,
+     "fame": 8,
+     "money": 4000
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored the internet and it ignored me back."
+    ],
+    "fx": {
+     "bizrep": 4
+    }
+   },
+   {
+    "label": "Overcharge",
+    "journal": [
+     "I raised prices and the internet got mad."
+    ],
+    "fx": {
+     "bizrep": -8,
+     "money": 6000
+    }
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "biz_partner",
+  "cat": "business",
+  "ages": [
+   21,
+   80
+  ],
+  "w": 0.8,
+  "title": "Investor Offer",
+  "prompt": "An investor offers you cash for a stake in your business.",
+  "choices": [
+   {
+    "label": "Take the cash ($20,000)",
+    "journal": [
+     "I took the investor's money and gave up some control."
+    ],
+    "fx": {
+     "money": 20000,
+     "stress": 4,
+     "bizrep": 4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and kept my pride."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Counter for more",
+    "journal": [
+     "I countered and the investor walked away."
+    ],
+    "fx": {
+     "stress": 4
+    }
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "biz_burnout",
+  "cat": "business",
+  "ages": [
+   21,
+   90
+  ],
+  "w": 1,
+  "title": "Burnout",
+  "prompt": "Running a business is wearing you out.",
+  "choices": [
+   {
+    "label": "Take a vacation",
+    "journal": [
+     "I took a vacation and came back refreshed."
+    ],
+    "fx": {
+     "stress": -16,
+     "happy": 8,
+     "bizrep": -4
+    }
+   },
+   {
+    "label": "Push through",
+    "journal": [
+     "I pushed through and drank a lot of coffee."
+    ],
+    "fx": {
+     "health": -8,
+     "stress": 16,
+     "bizrep": 4
+    }
+   },
+   {
+    "label": "Hire a manager ($8,000)",
+    "journal": [
+     "I hired a manager and let go of a lot of tasks."
+    ],
+    "fx": {
+     "money": -8000,
+     "stress": -16
+    },
+    "req": 8000
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "biz_hire_star",
+  "cat": "business",
+  "ages": [
+   21,
+   90
+  ],
+  "w": 1,
+  "title": "Star Applicant",
+  "prompt": "A talented applicant wants to join your business.",
+  "choices": [
+   {
+    "label": "Hire at a premium ($6,000)",
+    "journal": [
+     "I hired the star applicant and my team stepped up."
+    ],
+    "fx": {
+     "money": -6000,
+     "bizrep": 8
+    },
+    "req": 6000
+   },
+   {
+    "label": "Offer standard pay",
+    "journal": [
+     "I offered standard pay and they went to a competitor."
+    ],
+    "fx": {
+     "bizrep": -4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the applicant and felt smart."
+    ]
+   }
+  ],
+  "if": {
+   "biz": 1
+  }
+ },
+ {
+  "id": "senior_discount",
+  "cat": "oldage",
+  "ages": [
+   60,
+   120
+  ],
+  "w": 1.5,
+  "title": "Senior Discount",
+  "prompt": "The cashier asks if you want a senior discount.",
+  "choices": [
+   {
+    "label": "Accept",
+    "journal": [
+     "I accepted a senior discount and felt old."
+    ],
+    "fx": {
+     "happy": -4,
+     "money": 30
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined the discount and my pride stayed intact."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Argue that you look young",
+    "journal": [
+     "I argued that I looked young and the cashier agreed out of fear."
+    ],
+    "fx": {
+     "looks": 4,
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "grandkid_visit",
+  "cat": "oldage",
+  "ages": [
+   50,
+   120
+  ],
+  "w": 1.5,
+  "title": "Grandchildren",
+  "prompt": "Your grandchildren come to visit.",
+  "choices": [
+   {
+    "label": "Play with them",
+    "journal": [
+     "I played with my grandchildren until my back gave out."
+    ],
+    "fx": {
+     "happy": 16,
+     "health": -4,
+     "rel_child": 8
+    }
+   },
+   {
+    "label": "Give them candy",
+    "journal": [
+     "I gave my grandchildren candy and my children glared."
+    ],
+    "fx": {
+     "happy": 16,
+     "rel_child": -4
+    }
+   },
+   {
+    "label": "Tell them stories",
+    "journal": [
+     "I told my grandchildren stories, some even true."
+    ],
+    "fx": {
+     "happy": 8,
+     "smarts": 4
+    }
+   }
+  ],
+  "if": {
+   "kids": 1
+  }
+ },
+ {
+  "id": "hip_trouble",
+  "cat": "oldage",
+  "ages": [
+   60,
+   120
+  ],
+  "w": 1.5,
+  "title": "Joint Trouble",
+  "prompt": "Your hip hurts.",
+  "choices": [
+   {
+    "label": "Surgery ($12,000)",
+    "journal": [
+     "I had hip surgery and walk with a skip now."
+    ],
+    "fx": {
+     "money": -12000,
+     "health": 8
+    },
+    "req": 12000
+   },
+   {
+    "label": "Pain meds",
+    "journal": [
+     "I took pain meds and gritted my teeth."
+    ],
+    "fx": {
+     "health": -4,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Physical therapy ($1,500)",
+    "journal": [
+     "I did physical therapy and my therapist was a tyrant."
+    ],
+    "fx": {
+     "money": -1500,
+     "health": 4
+    },
+    "req": 1500
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "I ignored it and limped on."
+    ],
+    "fx": {
+     "health": -8
+    }
+   }
+  ]
+ },
+ {
+  "id": "old_friend_dies",
+  "cat": "oldage",
+  "ages": [
+   55,
+   120
+  ],
+  "w": 1.5,
+  "title": "Funeral",
+  "prompt": "An old friend has passed away.",
+  "choices": [
+   {
+    "label": "Attend the funeral",
+    "journal": [
+     "I attended the funeral and told a story that got a laugh."
+    ],
+    "fx": {
+     "happy": -8,
+     "karma": 8
+    }
+   },
+   {
+    "label": "Send flowers",
+    "journal": [
+     "I sent flowers and a card."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the funeral and sat in the garden."
+    ],
+    "fx": {
+     "happy": -16,
+     "karma": -4
+    }
+   }
+  ],
+  "if": {
+   "friends": 1
+  }
+ },
+ {
+  "id": "retirement_hobby",
+  "cat": "oldage",
+  "ages": [
+   60,
+   120
+  ],
+  "w": 1.5,
+  "title": "New Hobby",
+  "prompt": "You have lots of free time and consider a hobby.",
+  "choices": [
+   {
+    "label": "Take up painting",
+    "journal": [
+     "I took up painting. My cat looks like a loaf."
+    ],
+    "fx": {
+     "happy": 16,
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Take up gardening",
+    "journal": [
+     "I took up gardening and grew a very serious tomato."
+    ],
+    "fx": {
+     "happy": 8,
+     "health": 4
+    }
+   },
+   {
+    "label": "Take up skydiving",
+    "journal": [
+     "I went skydiving at 70 and screamed the whole way."
+    ],
+    "fx": {
+     "happy": 16,
+     "health": -8,
+     "fame": 4
+    }
+   },
+   {
+    "label": "Take up napping",
+    "journal": [
+     "I took up napping professionally."
+    ],
+    "fx": {
+     "health": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "memory_lapse",
+  "cat": "oldage",
+  "ages": [
+   65,
+   120
+  ],
+  "w": 1.5,
+  "title": "Memory Lapse",
+  "prompt": "You can't remember where you left your keys.",
+  "choices": [
+   {
+    "label": "Do crossword puzzles",
+    "journal": [
+     "I started doing crosswords daily and kept my brain sharp."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Laugh it off",
+    "journal": [
+     "I laughed it off. The keys were in the fridge."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Worry",
+    "journal": [
+     "I worried about my memory all week."
+    ],
+    "fx": {
+     "stress": 8,
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "age_scam",
+  "cat": "oldage",
+  "ages": [
+   60,
+   120
+  ],
+  "w": 1,
+  "title": "Phone Scam",
+  "prompt": "A voice on the phone says your grandson is in trouble and needs bail money.",
+  "choices": [
+   {
+    "label": "Send the money ($2,000)",
+    "journal": [
+     "I sent $2,000 to a stranger. My grandson was at the mall."
+    ],
+    "fx": {
+     "money": -2000,
+     "happy": -16,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Call your grandson",
+    "journal": [
+     "I called my grandson, who was fine."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Hang up",
+    "journal": [
+     "I hung up and told the neighbors."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   }
+  ],
+  "if": {
+   "kids": 1
+  }
+ },
+ {
+  "id": "viral_video",
+  "cat": "fame",
+  "ages": [
+   10,
+   99
+  ],
+  "w": 1.5,
+  "title": "Viral Video",
+  "prompt": "A video of you doing something embarrassing goes viral.",
+  "choices": [
+   {
+    "label": "Embrace it",
+    "journal": [
+     "I embraced my viral video and gave interviews about it."
+    ],
+    "fx": {
+     "fame": 16,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Hide",
+    "journal": [
+     "I hid in my house for a week."
+    ],
+    "fx": {
+     "happy": -8,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Sue the uploader",
+    "journal": [
+     "I sued the uploader and lost."
+    ],
+    "fx": {
+     "money": -1500,
+     "fame": 4
+    }
+   },
+   {
+    "label": "Monetize it",
+    "journal": [
+     "I monetized the video and made $400."
+    ],
+    "fx": {
+     "money": 400,
+     "fame": 8
+    }
+   }
+  ]
+ },
+ {
+  "id": "talent_scout",
+  "cat": "fame",
+  "ages": [
+   10,
+   30
+  ],
+  "w": 1,
+  "title": "Talent Scout",
+  "prompt": "A talent scout approaches you.",
+  "choices": [
+   {
+    "label": "Take the card",
+    "journal": [
+     "I took the scout's card and went to an audition."
+    ],
+    "fx": {
+     "fame": 8,
+     "happy": 8,
+     "smarts": 4
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I went to the audition and was told to go home."
+     ],
+     "fx": {
+      "happy": -8
+     }
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and wondered about it for years."
+    ]
+   },
+   {
+    "label": "Ask for money",
+    "journal": [
+     "I asked the scout for money and they left."
+    ],
+    "fx": {
+     "karma": -4
+    }
+   }
+  ],
+  "once": true,
+  "if": {
+   "minLooks": 50
+  }
+ },
+ {
+  "id": "local_news",
+  "cat": "fame",
+  "ages": [
+   10,
+   99
+  ],
+  "w": 1,
+  "title": "Local News",
+  "prompt": "A local news crew wants to interview you about something you did.",
+  "choices": [
+   {
+    "label": "Give an interview",
+    "journal": [
+     "I gave an interview and said 'um' eleven times."
+    ],
+    "fx": {
+     "fame": 8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and watched the story without me."
+    ]
+   },
+   {
+    "label": "Make things up",
+    "journal": [
+     "I made things up and became a local legend."
+    ],
+    "fx": {
+     "fame": 16,
+     "karma": -8
+    }
+   }
+  ]
+ },
+ {
+  "id": "paparazzi",
+  "cat": "fame",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1,
+  "title": "Paparazzi",
+  "prompt": "A photographer follows you everywhere.",
+  "choices": [
+   {
+    "label": "Pose",
+    "journal": [
+     "I posed for the photographer and made the front page."
+    ],
+    "fx": {
+     "fame": 8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Run",
+    "journal": [
+     "I ran from the photographer and tripped on a curb."
+    ],
+    "fx": {
+     "health": -4,
+     "fame": 4
+    }
+   },
+   {
+    "label": "Punch him",
+    "journal": [
+     "I punched the photographer and made headlines for the wrong reasons."
+    ],
+    "fx": {
+     "karma": -16,
+     "fame": 16,
+     "money": -1000
+    }
+   }
+  ],
+  "if": {
+   "minFame": 40
+  }
+ },
+ {
+  "id": "news_weird",
+  "cat": "random",
+  "ages": [
+   5,
+   120
+  ],
+  "w": 2,
+  "title": "Weird News",
+  "prompt": "You read a strange news story.",
+  "choices": [
+   {
+    "label": "Read it",
+    "journal": [
+     "I read a news story about a man who married a houseplant."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped the news and watched cartoons."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "rain_day",
+  "cat": "random",
+  "ages": [
+   3,
+   120
+  ],
+  "w": 1.5,
+  "title": "Rainy Day",
+  "prompt": "It's pouring outside and you have nothing to do.",
+  "choices": [
+   {
+    "label": "Read a book",
+    "journal": [
+     "I read a book on a rainy afternoon."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Dance in the rain",
+    "journal": [
+     "I danced in the rain and got a cold."
+    ],
+    "fx": {
+     "happy": 8,
+     "health": -4
+    }
+   },
+   {
+    "label": "Nap",
+    "journal": [
+     "I napped for six hours."
+    ],
+    "fx": {
+     "health": 4,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Binge a show",
+    "journal": [
+     "I binged an entire series and forgot my name."
+    ],
+    "fx": {
+     "happy": 8,
+     "health": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "found_money",
+  "cat": "random",
+  "ages": [
+   5,
+   120
+  ],
+  "w": 1.5,
+  "title": "Found Cash",
+  "prompt": "You find some cash on the ground.",
+  "choices": [
+   {
+    "label": "Keep it",
+    "journal": [
+     "I kept $20 and bought a sandwich."
+    ],
+    "fx": {
+     "money": 20,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Turn it in",
+    "journal": [
+     "I turned the money in to the police, who looked confused."
+    ],
+    "fx": {
+     "karma": 8
+    }
+   },
+   {
+    "label": "Donate it",
+    "journal": [
+     "I gave the cash to a person in need."
+    ],
+    "fx": {
+     "karma": 16,
+     "happy": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "stray_dog",
+  "cat": "random",
+  "ages": [
+   5,
+   120
+  ],
+  "w": 1.5,
+  "title": "Stray Dog",
+  "prompt": "A stray dog follows you home.",
+  "choices": [
+   {
+    "label": "Adopt it",
+    "journal": [
+     "I adopted the dog and named him Gerald."
+    ],
+    "fx": {
+     "happy": 16,
+     "karma": 8,
+     "money": -200
+    }
+   },
+   {
+    "label": "Feed it",
+    "journal": [
+     "I fed the dog and he left a stick on my porch."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Shoo it away",
+    "journal": [
+     "I shooed the dog away and it looked at me with sad eyes."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   }
+  ]
+ },
+ {
+  "id": "traffic_jam",
+  "cat": "random",
+  "ages": [
+   16,
+   120
+  ],
+  "w": 1.5,
+  "title": "Traffic Jam",
+  "prompt": "You're stuck in traffic for an hour.",
+  "choices": [
+   {
+    "label": "Listen to music",
+    "journal": [
+     "I listened to music and sang at a stranger."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   },
+   {
+    "label": "Honk",
+    "journal": [
+     "I honked at the car in front, which did nothing."
+    ],
+    "fx": {
+     "stress": 8,
+     "karma": -4
+    }
+   },
+   {
+    "label": "Meditate",
+    "journal": [
+     "I meditated in traffic and reached nirvana for ten seconds."
+    ],
+    "fx": {
+     "stress": -8
+    }
+   }
+  ],
+  "if": {
+   "anyCar": 1
+  }
+ },
+ {
+  "id": "lost_wallet",
+  "cat": "random",
+  "ages": [
+   10,
+   120
+  ],
+  "w": 1,
+  "title": "Lost Wallet",
+  "prompt": "You realize you left your wallet somewhere.",
+  "choices": [
+   {
+    "label": "Retrace your steps",
+    "journal": [
+     "I retraced my steps and found it behind a bench."
+    ],
+    "fx": {
+     "stress": 4,
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Cancel cards",
+    "journal": [
+     "I canceled my cards and waited two weeks for new ones."
+    ],
+    "fx": {
+     "stress": 8,
+     "money": -30
+    }
+   },
+   {
+    "label": "Panic",
+    "journal": [
+     "I panicked in public and a stranger offered me a muffin."
+    ],
+    "fx": {
+     "stress": 16,
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "new_neighbor",
+  "cat": "random",
+  "ages": [
+   18,
+   100
+  ],
+  "w": 1.2,
+  "title": "New Neighbors",
+  "prompt": "New neighbors move in next door.",
+  "choices": [
+   {
+    "label": "Bring cookies",
+    "journal": [
+     "I brought cookies and made a friend."
+    ],
+    "fx": {
+     "happy": 8,
+     "rel_friend": 8
+    },
+    "newperson": "friend"
+   },
+   {
+    "label": "Ignore them",
+    "journal": [
+     "I ignored the neighbors and so did they."
+    ]
+   },
+   {
+    "label": "Complain about noise",
+    "journal": [
+     "I complained about the noise before they even unpacked."
+    ],
+    "fx": {
+     "karma": -8
+    }
+   }
+  ]
+ },
+ {
+  "id": "pet_ransom",
+  "cat": "random",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 0.6,
+  "title": "Pet Ransom",
+  "prompt": "Someone calls saying they have your pet and want money.",
+  "choices": [
+   {
+    "label": "Pay ($2,000)",
+    "journal": [
+     "I paid the ransom and my pet was in the next room."
+    ],
+    "fx": {
+     "money": -2000,
+     "happy": -16
+    },
+    "req": 2000
+   },
+   {
+    "label": "Call the police",
+    "journal": [
+     "I called the police and it was a prank."
+    ],
+    "fx": {
+     "smarts": 4
+    }
+   },
+   {
+    "label": "Check on your pet",
+    "journal": [
+     "I checked and my pet was asleep on the sofa."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   }
+  ],
+  "if": {
+   "flag": "pet"
+  }
+ },
+ {
+  "id": "book_club",
+  "cat": "random",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1,
+  "title": "Book Club",
+  "prompt": "A neighbor invites you to a book club.",
+  "choices": [
+   {
+    "label": "Join",
+    "journal": [
+     "I joined a book club and read half a book."
+    ],
+    "fx": {
+     "smarts": 8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I declined and re-read my favorite comic."
+    ]
+   },
+   {
+    "label": "Start your own",
+    "journal": [
+     "I started my own book club with two members."
+    ],
+    "fx": {
+     "smarts": 8,
+     "fame": 4
+    }
+   }
+  ]
+ },
+ {
+  "id": "sports_injury",
+  "cat": "random",
+  "ages": [
+   8,
+   60
+  ],
+  "w": 1.5,
+  "title": "Pickup Game",
+  "prompt": "Your friends ask you to join a pickup game.",
+  "choices": [
+   {
+    "label": "Play hard",
+    "journal": [
+     "I played hard and scored a basket I'll talk about for years."
+    ],
+    "fx": {
+     "happy": 16,
+     "health": 4
+    }
+   },
+   {
+    "label": "Play and get hurt",
+    "journal": [
+     "I played and tore a muscle I didn't know I had."
+    ],
+    "fx": {
+     "health": -16,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Watch from the bench",
+    "journal": [
+     "I watched from the bench with a juice box."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "wrong_number",
+  "cat": "random",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1,
+  "title": "Wrong Number",
+  "prompt": "A stranger texts you by mistake and starts chatting.",
+  "choices": [
+   {
+    "label": "Chat",
+    "journal": [
+     "I chatted with the stranger and learned about her cat."
+    ],
+    "fx": {
+     "happy": 8
+    }
+   },
+   {
+    "label": "Block",
+    "journal": [
+     "I blocked the number and went to bed."
+    ]
+   },
+   {
+    "label": "Pretend to be the person",
+    "journal": [
+     "I pretended to be the person they were looking for. It got complicated."
+    ],
+    "fx": {
+     "karma": -8,
+     "crazy": 8
+    }
+   }
+  ]
+ },
+ {
+  "id": "charity_drive",
+  "cat": "random",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1.5,
+  "title": "Charity Drive",
+  "prompt": "A volunteer asks for a donation.",
+  "choices": [
+   {
+    "label": "Donate $50",
+    "journal": [
+     "I donated $50 and got a sticker."
+    ],
+    "fx": {
+     "money": -50,
+     "karma": 16
+    }
+   },
+   {
+    "label": "Volunteer",
+    "journal": [
+     "I volunteered at the charity and carried many boxes."
+    ],
+    "fx": {
+     "karma": 30,
+     "happy": 8,
+     "health": -4
+    }
+   },
+   {
+    "label": "Say no",
+    "journal": [
+     "I said I was in a hurry and was not."
+    ],
+    "fx": {
+     "karma": -4
+    }
+   }
+  ]
+ },
+ {
+  "id": "school_tryout",
+  "cat": "school",
+  "ages": [
+   6,
+   18
+  ],
+  "w": 1.8,
+  "title": "Team Tryouts",
+  "prompt": "Tryouts for the school team are today.",
+  "choices": [
+   {
+    "label": "Give it everything",
+    "journal": [
+     "I gave tryouts everything I had and threw up behind the gym."
+    ],
+    "fx": {
+     "health": 4,
+     "happy": 8
+    },
+    "p": 0.5,
+    "fail": {
+     "journal": [
+      "I gave tryouts everything and still got cut."
+     ],
+     "fx": {
+      "happy": -16
+     }
+    },
+    "joinsport": true
+   },
+   {
+    "label": "Bring snacks for the coach",
+    "journal": [
+     "I bribed the coach with snacks and he wrote my name down."
+    ],
+    "fx": {
+     "karma": -4
+    },
+    "joinsport": true
+   },
+   {
+    "label": "Skip them",
+    "journal": [
+     "I skipped tryouts and spent the afternoon on the swing set."
+    ]
+   }
+  ],
+  "if": {
+   "school": "any",
+   "nosport": 1
+  }
+ },
+ {
+  "id": "big_game",
+  "cat": "school",
+  "ages": [
+   8,
+   22
+  ],
+  "w": 2,
+  "title": "Big Game",
+  "prompt": "It's the final seconds of a close game and the ball is yours.",
+  "choices": [
+   {
+    "label": "Take the shot",
+    "journal": [
+     "I took the last-second shot and it went in. The gym exploded."
+    ],
+    "fx": {
+     "happy": 16,
+     "fame": 8
+    },
+    "p": 0.45,
+    "fail": {
+     "journal": [
+      "I took the last-second shot and missed by a mile."
+     ],
+     "fx": {
+      "happy": -16
+     }
+    },
+    "sportxp": 8
+   },
+   {
+    "label": "Pass it",
+    "journal": [
+     "I passed the ball to a teammate who scored. I was a team player."
+    ],
+    "fx": {
+     "karma": 8,
+     "happy": 4
+    },
+    "sportxp": 4
+   },
+   {
+    "label": "Fake an injury",
+    "journal": [
+     "I faked an injury and was carried off. People clapped."
+    ],
+    "fx": {
+     "karma": -8,
+     "fame": 4
+    }
+   }
+  ],
+  "if": {
+   "sport": 1
+  }
+ },
+ {
+  "id": "coach_screams",
+  "cat": "school",
+  "ages": [
+   8,
+   22
+  ],
+  "w": 1.5,
+  "title": "Coach's Rant",
+  "prompt": "Your coach screams at you for a mistake.",
+  "choices": [
+   {
+    "label": "Take it in stride",
+    "journal": [
+     "I took the coach's rant in stride and ran extra laps."
+    ],
+    "fx": {
+     "health": 4,
+     "stress": 4
+    },
+    "sportxp": 4
+   },
+   {
+    "label": "Yell back",
+    "journal": [
+     "I yelled back at my coach and was benched."
+    ],
+    "fx": {
+     "karma": -8,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Quit the team",
+    "journal": [
+     "I quit the team and cried on the bus."
+    ],
+    "fx": {
+     "happy": -16
+    },
+    "quitsport": true
+   }
+  ],
+  "if": {
+   "sport": 1
+  }
+ },
+ {
+  "id": "sports_scholarship",
+  "cat": "school",
+  "ages": [
+   16,
+   18
+  ],
+  "w": 3,
+  "title": "Scouts in the Stands",
+  "prompt": "A college scout is in the stands watching your games.",
+  "choices": [
+   {
+    "label": "Play your best",
+    "journal": [
+     "I played my best in front of the scout and got an offer."
+    ],
+    "fx": {
+     "happy": 16,
+     "fame": 8
+    },
+    "sportxp": 8
+   },
+   {
+    "label": "Showboat",
+    "journal": [
+     "I showboated for the scout and he took notes."
+    ],
+    "fx": {
+     "fame": 8,
+     "karma": -4
+    },
+    "sportxp": 4
+   },
+   {
+    "label": "Ignore him",
+    "journal": [
+     "I ignored the scout and played my usual game."
+    ]
+   }
+  ],
+  "once": true,
+  "if": {
+   "sport": 1,
+   "school": "high"
+  }
+ },
+ {
+  "id": "adopt_pet",
+  "cat": "random",
+  "ages": [
+   5,
+   99
+  ],
+  "w": 1.5,
+  "title": "Pet Shelter",
+  "prompt": "You visit an animal shelter.",
+  "choices": [
+   {
+    "label": "Adopt a cat ($100)",
+    "journal": [
+     "I adopted a cat that judges me professionally."
+    ],
+    "fx": {
+     "happy": 16,
+     "money": -100
+    },
+    "flag": "pet"
+   },
+   {
+    "label": "Adopt a dog ($100)",
+    "journal": [
+     "I adopted a dog who loves me unconditionally and my shoes conditionally."
+    ],
+    "fx": {
+     "happy": 16,
+     "money": -100,
+     "health": 4
+    },
+    "flag": "pet"
+   },
+   {
+    "label": "Just look",
+    "journal": [
+     "I looked at the animals and left feeling nostalgic."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   }
+  ],
+  "if": {
+   "noflag": "pet"
+  }
+ },
+ {
+  "id": "pet_misbehaves",
+  "cat": "random",
+  "ages": [
+   6,
+   99
+  ],
+  "w": 1.5,
+  "title": "Pet Behavior",
+  "prompt": "Your pet knocks over a lamp.",
+  "choices": [
+   {
+    "label": "Scold it",
+    "journal": [
+     "I scolded my pet and it looked at me with pure indifference."
+    ],
+    "fx": {
+     "happy": -4
+    }
+   },
+   {
+    "label": "Laugh",
+    "journal": [
+     "I laughed so hard I cried and the lamp stayed broken."
+    ],
+    "fx": {
+     "happy": 8
+    }
+   },
+   {
+    "label": "Clean up",
+    "journal": [
+     "I cleaned up the mess and was ashamed of my dust."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   },
+   {
+    "label": "Buy a new lamp ($40)",
+    "journal": [
+     "I bought a new lamp and my pet broke that too."
+    ],
+    "fx": {
+     "money": -40
+    }
+   }
+  ],
+  "if": {
+   "flag": "pet"
+  }
+ },
+ {
+  "id": "addiction_craving",
+  "cat": "health",
+  "ages": [
+   16,
+   99
+  ],
+  "w": 1.2,
+  "title": "Craving",
+  "prompt": "The urge for a cigarette hits you hard.",
+  "choices": [
+   {
+    "label": "Light up",
+    "journal": [
+     "I smoked a cigarette and it tasted like regret."
+    ],
+    "fx": {
+     "health": -8,
+     "stress": -8
+    },
+    "flag": "smoker"
+   },
+   {
+    "label": "Chew gum",
+    "journal": [
+     "I chewed gum until my jaw hurt."
+    ],
+    "fx": {
+     "stress": 4
+    }
+   },
+   {
+    "label": "Quit for good",
+    "journal": [
+     "I quit smoking for good, or until Tuesday."
+    ],
+    "fx": {
+     "health": 8,
+     "stress": 8
+    },
+    "unflag": "smoker"
+   }
+  ],
+  "if": {
+   "flag": "smoker"
+  }
+ },
+ {
+  "id": "rehab_offer",
+  "cat": "health",
+  "ages": [
+   18,
+   99
+  ],
+  "w": 1.2,
+  "title": "Intervention",
+  "prompt": "Your friends stage an intervention about your habits.",
+  "choices": [
+   {
+    "label": "Go to rehab ($5,000)",
+    "journal": [
+     "I went to rehab and made friends with a very sad clown."
+    ],
+    "fx": {
+     "money": -5000,
+     "health": 16,
+     "happy": 8,
+     "karma": 8
+    },
+    "req": 5000,
+    "unflag": "drugs"
+   },
+   {
+    "label": "Storm out",
+    "journal": [
+     "I stormed out and slammed a door that wasn't mine."
+    ],
+    "fx": {
+     "rel_friend": -16,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Promise to quit",
+    "journal": [
+     "I promised to quit. I even meant it."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   }
+  ],
+  "if": {
+   "flag": "drugs"
+  }
+ },
+ {
+  "id": "war_news",
+  "cat": "random",
+  "ages": [
+   10,
+   120
+  ],
+  "w": 0.8,
+  "title": "Conflict Nearby",
+  "prompt": "There is fighting along the border of your country.",
+  "choices": [
+   {
+    "label": "Stay put",
+    "journal": [
+     "I stayed put and kept a bag by the door."
+    ],
+    "fx": {
+     "stress": 16,
+     "happy": -8
+    }
+   },
+   {
+    "label": "Volunteer for the army",
+    "journal": [
+     "I volunteered for the army and came home with a limp and a medal."
+    ],
+    "fx": {
+     "karma": 16,
+     "health": -16,
+     "fame": 4
+    },
+    "p": 0.8,
+    "fail": {
+     "journal": [
+      "I volunteered for the army and didn't come home."
+     ],
+     "fx": {
+      "kill": "war"
+     }
+    }
+   },
+   {
+    "label": "Flee abroad ($3,000)",
+    "journal": [
+     "I fled the country with two suitcases and a cat."
+    ],
+    "fx": {
+     "money": -3000,
+     "stress": 8,
+     "happy": -8
+    },
+    "req": 3000
+   }
+  ],
+  "if": {
+   "warRisk": 1
+  }
+ },
+ {
+  "id": "bad_luck_streak",
+  "cat": "random",
+  "ages": [
+   10,
+   100
+  ],
+  "w": 1,
+  "title": "Bad Luck",
+  "prompt": "Everything goes wrong all at once.",
+  "choices": [
+   {
+    "label": "Laugh through it",
+    "journal": [
+     "I laughed through the worst day of my life."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Cry",
+    "journal": [
+     "I cried over a spilled coffee and a broken heart."
+    ],
+    "fx": {
+     "happy": -8
+    }
+   },
+   {
+    "label": "Take a walk",
+    "journal": [
+     "I took a walk and found five dollars."
+    ],
+    "fx": {
+     "stress": -8,
+     "money": 5
+    }
+   }
+  ]
+ },
+ {
+  "id": "teacher_praise",
+  "cat": "school",
+  "ages": [
+   6,
+   18
+  ],
+  "w": 1.5,
+  "title": "Teacher Praise",
+  "prompt": "Your teacher says you have a lot of potential.",
+  "choices": [
+   {
+    "label": "Work harder",
+    "journal": [
+     "I worked harder and my grades rose."
+    ],
+    "fx": {
+     "smarts": 8
+    }
+   },
+   {
+    "label": "Let it go to your head",
+    "journal": [
+     "I let it go to my head and wore sunglasses indoors."
+    ],
+    "fx": {
+     "smarts": -4,
+     "happy": 8
+    }
+   },
+   {
+    "label": "Say thanks",
+    "journal": [
+     "I said thanks and smiled."
+    ],
+    "fx": {
+     "happy": 4
+    }
+   }
+  ],
+  "if": {
+   "school": "any"
+  }
+ },
+ {
+  "id": "college_party",
+  "cat": "school",
+  "ages": [
+   18,
+   23
+  ],
+  "w": 1.8,
+  "title": "College Party",
+  "prompt": "Everyone is heading to a huge party on campus.",
+  "choices": [
+   {
+    "label": "Go and have fun",
+    "journal": [
+     "I went to the party and danced on a table."
+    ],
+    "fx": {
+     "happy": 16,
+     "health": -4,
+     "fame": 4
+    }
+   },
+   {
+    "label": "Study instead",
+    "journal": [
+     "I stayed in and studied. The library was empty."
+    ],
+    "fx": {
+     "smarts": 8,
+     "happy": -4
+    }
+   },
+   {
+    "label": "Drink too much",
+    "journal": [
+     "I drank too much and woke up in a bush."
+    ],
+    "fx": {
+     "health": -8,
+     "happy": 4,
+     "karma": -4
+    },
+    "flag": "drinker"
+   },
+   {
+    "label": "Host a party",
+    "journal": [
+     "I hosted a party and the dorm advisor shut it down."
+    ],
+    "fx": {
+     "karma": -4,
+     "happy": 8
+    }
+   }
+  ],
+  "if": {
+   "school": "college"
+  }
+ },
+ {
+  "id": "roommate",
+  "cat": "school",
+  "ages": [
+   18,
+   23
+  ],
+  "w": 1.5,
+  "title": "Roommate",
+  "prompt": "Your college roommate leaves dirty dishes everywhere.",
+  "choices": [
+   {
+    "label": "Talk it out",
+    "journal": [
+     "I talked it out and we made a cleaning chart."
+    ],
+    "fx": {
+     "karma": 8,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Passive-aggressive notes",
+    "journal": [
+     "I left passive-aggressive notes. They left worse ones."
+    ],
+    "fx": {
+     "stress": 8
+    }
+   },
+   {
+    "label": "Move out ($800)",
+    "journal": [
+     "I moved out and paid a deposit I will never see again."
+    ],
+    "fx": {
+     "money": -800,
+     "happy": 4
+    }
+   },
+   {
+    "label": "Clean it myself",
+    "journal": [
+     "I cleaned the dishes myself, seething."
+    ],
+    "fx": {
+     "stress": 8,
+     "health": -4
+    }
+   }
+  ],
+  "if": {
+   "school": "college"
+  }
+ },
+ {
+  "id": "final_thesis",
+  "cat": "school",
+  "ages": [
+   20,
+   24
+  ],
+  "w": 1.5,
+  "title": "Thesis",
+  "prompt": "Your final project is due this week.",
+  "choices": [
+   {
+    "label": "Work hard",
+    "journal": [
+     "I finished my thesis at 4 a.m. and was proud."
+    ],
+    "fx": {
+     "smarts": 16,
+     "stress": 8
+    }
+   },
+   {
+    "label": "Pay someone ($500)",
+    "journal": [
+     "I paid someone to write my thesis. I got a B."
+    ],
+    "fx": {
+     "money": -500,
+     "karma": -16,
+     "smarts": -4
+    }
+   },
+   {
+    "label": "Wing it",
+    "journal": [
+     "I winged my thesis and got by on charm."
+    ],
+    "fx": {
+     "smarts": 4,
+     "stress": 8
+    }
+   }
+  ],
+  "if": {
+   "school": "college"
+  }
+ }
+]

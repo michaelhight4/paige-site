@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="monster_truck" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="111" ry="7" data-slot="shadow" id="monster_truck-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="60" y="84" width="140" height="6" rx="2" data-slot="metal" id="monster_truck-metal-2" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="56" y="90" width="8" height="12" data-slot="metal" id="monster_truck-metal-3" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="188" y="90" width="8" height="12" data-slot="metal" id="monster_truck-metal-4" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M26 78.5Q26 74 26 67L26 61Q26 54 33 53.8L89 52.2Q96 52 100.6 46.7L103.4 43.3Q108 38 115 38L143 38Q150 38 154.7 43.2L161.3 50.8Q166 56 173 56.5L211 59.5Q218 60 223.7 64.1L226.3 65.9Q232 70 231.1 76.4L230.9 77.6Q230 84 223 84L33 84Q26 84 26 79.5Z" data-slot="body" id="monster_truck-body-5" fill="#5a2fc2" style="fill:var(--slot-body,#5a2fc2)"/>
+<path d="M116 56Q112 56 113.1 52.2L114.9 45.8Q116 42 120 42L144 42Q148 42 150.8 44.8L159.2 53.2Q162 56 158 56Z" data-slot="glass" id="monster_truck-glass-6" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<polygon points="30,64 100,62 100,70 30,74" data-slot="accent" id="monster_truck-accent-7" fill="#7cff3a" style="fill:var(--slot-accent,#7cff3a)" stroke-width="1.5"/>
+<polygon points="170,64 226,66 226,74 170,72" data-slot="accent" id="monster_truck-accent-8" fill="#7cff3a" style="fill:var(--slot-accent,#7cff3a)" stroke-width="1.5"/>
+<ellipse cx="226" cy="68" rx="6" ry="4.5" data-slot="accent" id="monster_truck-accent-9" fill="#7cff3a" style="fill:var(--slot-accent,#7cff3a)"/>
+<rect x="25" y="60" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="66" cy="100" r="30" data-slot="wheel" id="monster_truck-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="66" cy="100" r="15" data-slot="metal" id="monster_truck-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="66" cy="100" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M66 85V115M51 100H81" fill="none" stroke-width="1.5"/>
+<circle cx="190" cy="100" r="30" data-slot="wheel" id="monster_truck-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="190" cy="100" r="15" data-slot="metal" id="monster_truck-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="190" cy="100" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M190 85V115M175 100H205" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

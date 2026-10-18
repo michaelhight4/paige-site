@@ -1,0 +1,25 @@
+/* merge layer: art kit + premium + new screens on top of ui3's app.css */
+.avatar.art{background:none;border:0;box-shadow:none;overflow:hidden;font-size:0}.avatar.art svg{width:100%;height:100%}
+.ic.art svg{display:block}.row .ic.art{width:40px;display:flex;justify-content:center}
+.asset .ic.pic{width:64px;height:48px;display:flex;align-items:center;justify-content:center}.asset .ic.pic svg,.asset .ic.pic img{max-width:64px;max-height:48px;width:auto;height:auto}
+.topbtn{border:0;background:#ffffffa0;border-radius:50%;width:34px;height:34px;font-size:17px;flex:none;padding:0}
+.topbtn.prem{background:linear-gradient(135deg,#ffe38a,#e9b730)}
+.row.prem{background:linear-gradient(90deg,var(--goldbg,#fff8dc),var(--surface));border-left:4px solid var(--gold)}
+.row.prem .t{color:#8a6500}.row.prem-lock{opacity:.8;filter:saturate(.6)}
+.card.gold{background:linear-gradient(135deg,var(--goldbg,#fff4c8),var(--surface));border:2px solid var(--gold)}
+.toggle{display:flex;flex-direction:column;align-items:center;font-size:10px;font-weight:800;color:#8a6500;gap:2px;flex:none}.toggle input{width:22px;height:22px}
+.slot{font-size:26px;text-align:center;margin:8px 0;letter-spacing:2px}
+.stone svg{width:100%;max-width:300px;height:auto}.death .stone{display:flex;justify-content:center}
+.ls-tree{overflow-x:auto}.ribbons .rb{display:flex;justify-content:center}.ribbon .ls-ribbon{font-size:11px}
+.btn.sm{padding:6px 12px}
+#app select{max-width:100%}
+.theme-fantasy{--navy:#3b2a5e;--navy2:#5a3f8c;--accent:#c0782a;--bg:#f3ecdc}
+@media (max-width:380px){.tab{font-size:10px}.topbtn{width:30px;height:30px}}
+
+/* stage 2: fixed bottom tab bar, New badges, tips */
+.tab{position:relative;font-size:10.5px;min-width:0}.tab .tl{line-height:1.1}.tab.on{background:#ffffff22;box-shadow:inset 0 3px 0 var(--accent)}
+.nbadge{position:absolute;top:4px;right:calc(50% - 26px);min-width:16px;height:16px;border-radius:8px;background:var(--accent);color:#fff;font-style:normal;font-size:10px;font-weight:900;display:grid;place-items:center;padding:0 4px;border:1px solid #fff}
+.badge.new{background:var(--accent);color:#fff;font-weight:900}
+.tip{position:absolute;left:10px;right:10px;bottom:calc(var(--tab-h) + 34px);z-index:35;background:#fff8d9;border:2px solid var(--gold);border-radius:12px;padding:8px 10px;font-size:13px;display:flex;gap:8px;align-items:flex-start;box-shadow:0 4px 12px #0004}
+.tip span{flex:1}.tip button{border:0;background:none;font-weight:900;font-size:16px}
+.overlay{z-index:60}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="skirt" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="70" ry="8" data-slot="shadow" id="skirt-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M86 50H170L214 200Q128 218 42 200Z" data-slot="fabric" id="skirt-fabric-2" fill="#d94a8c" style="fill:var(--slot-fabric,#d94a8c)"/>
+<rect x="84" y="40" width="88" height="16" rx="4" data-slot="trim" id="skirt-trim-3" fill="#a8326a" style="fill:var(--slot-trim,#a8326a)"/>
+<path d="M104 56L82 206M116 56L108 210M128 56V212M140 56L148 210M152 56L174 206" fill="none" stroke-width="2" stroke-opacity=".5"/>
+<circle cx="128" cy="48" r="5" data-slot="accent" id="skirt-accent-4" fill="#ffd23f" style="fill:var(--slot-accent,#ffd23f)" stroke-width="2"/>
+</g>
+</svg>

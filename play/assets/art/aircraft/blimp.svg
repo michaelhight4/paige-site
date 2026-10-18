@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="blimp" data-category="aircraft">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="152" rx="70" ry="4" data-slot="shadow" id="blimp-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<polygon points="30,70 4,36 34,40 52,62" data-slot="accent" id="blimp-accent-2" fill="#e0485a" style="fill:var(--slot-accent,#e0485a)"/>
+<polygon points="30,80 4,112 34,108 52,88" data-slot="accent" id="blimp-accent-3" fill="#e0485a" style="fill:var(--slot-accent,#e0485a)"/>
+<ellipse cx="132" cy="76" rx="112" ry="52" data-slot="body" id="blimp-body-4" fill="#cfd8e6" style="fill:var(--slot-body,#cfd8e6)"/>
+<path d="M64 40Q132 70 200 40M60 110Q132 80 204 110" fill="none" stroke-width="1.5" stroke-opacity=".3"/>
+<path d="M100 30Q132 22 164 30Q132 36 100 30Z" fill="none" stroke="none" fill-opacity="0"/>
+<rect x="100" y="118" width="64" height="20" rx="6" data-slot="trim" id="blimp-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="106" y="122" width="9" height="9" rx="2" data-slot="glass" id="blimp-glass-6" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<rect x="120" y="122" width="9" height="9" rx="2" data-slot="glass" id="blimp-glass-7" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<rect x="134" y="122" width="9" height="9" rx="2" data-slot="glass" id="blimp-glass-8" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<rect x="148" y="122" width="9" height="9" rx="2" data-slot="glass" id="blimp-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<path d="M118 124V122M146 124V122" fill="none" />
+<circle cx="168" cy="134" r="5" data-slot="metal" id="blimp-metal-10" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M114 118L120 106M150 118L144 106" fill="none" stroke-width="2"/>
+<rect x="100" y="66" width="64" height="20" rx="4" data-slot="fabric" id="blimp-fabric-11" fill="#3b82d6" style="fill:var(--slot-fabric,#3b82d6)"/>
+</g>
+</svg>

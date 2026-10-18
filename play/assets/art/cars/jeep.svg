@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="jeep" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="115" ry="7" data-slot="shadow" id="jeep-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M28 108Q22 108 22 102L22 84Q22 78 28 77.8L94 76.2Q100 76 100 71.5L100 70.5Q100 66 106 65.8L144 64.2Q150 64 152.4 69.5L153.6 72.5Q156 78 162 78.5L220 83.5Q226 84 229.8 88.6L232.2 91.4Q236 96 235.1 101.5L234.9 102.5Q234 108 228 108Z" data-slot="body" id="jeep-body-2" fill="#6b8e23" style="fill:var(--slot-body,#6b8e23)"/>
+<path d="M112 73.6Q112 70 116 70L142 70Q146 70 147.8 73.6L148.2 74.4Q150 78 146 78L116 78Q112 78 112 74.4Z" data-slot="glass" id="jeep-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M104 78L104 40L128 40" fill="none" stroke="#2b2a3a" stroke-width="7"/>
+<path d="M104 78L104 40L128 40" fill="none" stroke="#b9c0c8" stroke-width="3"/>
+<rect x="156" y="54" width="4" height="26" data-slot="metal" id="jeep-metal-4" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M156 56H112" fill="none" stroke-width="3"/>
+<rect x="226" y="86" width="9" height="12" rx="2" data-slot="metal" id="jeep-metal-5" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="236" y="100" width="6" height="6" data-slot="metal" id="jeep-metal-6" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<ellipse cx="231" cy="92" rx="6" ry="4.5" data-slot="accent" id="jeep-accent-7" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="21" y="80" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="60" cy="109" r="25" fill="#23232f" stroke="none"/>
+<circle cx="60" cy="109" r="21" data-slot="wheel" id="jeep-wheel-8" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="60" cy="109" r="10.5" data-slot="metal" id="jeep-metal-9" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="60" cy="109" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M60 98.5V119.5M49.5 109H70.5" fill="none" stroke-width="1.5"/>
+<circle cx="190" cy="109" r="25" fill="#23232f" stroke="none"/>
+<circle cx="190" cy="109" r="21" data-slot="wheel" id="jeep-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="190" cy="109" r="10.5" data-slot="metal" id="jeep-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="190" cy="109" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M190 98.5V119.5M179.5 109H200.5" fill="none" stroke-width="1.5"/>
+<circle cx="14" cy="90" r="16" data-slot="wheel" id="jeep-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="14" cy="90" r="7" data-slot="metal" id="jeep-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+</g>
+</svg>

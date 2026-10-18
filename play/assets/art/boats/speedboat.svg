@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="speedboat" data-category="boats">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M0 120Q16 112 32 120T64 120T96 120T128 120T160 120T192 120T224 120T256 120V160H0Z" data-slot="water" id="speedboat-water-1" fill="#4aa8e0" style="fill:var(--slot-water,#4aa8e0)"/>
+<path d="M20 136q8 -5 16 0t16 0M150 142q8 -5 16 0t16 0" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+<path d="M18 96H196Q232 100 242 108Q220 128 180 128H50Q28 124 18 96Z" data-slot="body" id="speedboat-body-2" fill="#f4f4f4" style="fill:var(--slot-body,#f4f4f4)"/>
+<path d="M22 104H236Q232 108 226 112H30Z" data-slot="trim" id="speedboat-trim-3" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<polygon points="130,96 150,70 168,70 180,96" data-slot="glass" id="speedboat-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="84" y="78" width="34" height="18" rx="6" data-slot="fabric" id="speedboat-fabric-5" fill="#222a3a" style="fill:var(--slot-fabric,#222a3a)"/>
+<rect x="40" y="80" width="30" height="16" rx="6" data-slot="fabric" id="speedboat-fabric-6" fill="#222a3a" style="fill:var(--slot-fabric,#222a3a)"/>
+<rect x="14" y="100" width="14" height="26" rx="3" data-slot="metal" id="speedboat-metal-7" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="60" y="104" width="120" height="4" rx="2" data-slot="accent" id="speedboat-accent-8" fill="#e8262b" style="fill:var(--slot-accent,#e8262b)"/>
+<path d="M0 126q10 -8 20 0M-4 134q14 -8 28 0" fill="none" stroke="#fff" stroke-width="3" stroke-opacity=".8"/>
+</g>
+</svg>

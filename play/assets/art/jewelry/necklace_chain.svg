@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="necklace_chain" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="60" ry="8" data-slot="shadow" id="necklace_chain-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<ellipse cx="204.1" cy="69.1" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-2" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 204.0845213036123 69.08203932499369)" stroke-width="2"/>
+<ellipse cx="200.2" cy="83.8" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-3" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 200.15929841063672 83.81052228061914)" stroke-width="2"/>
+<ellipse cx="195" cy="97.6" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-4" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 194.97331826100228 97.63377897469121)" stroke-width="2"/>
+<ellipse cx="188.6" cy="110.3" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-5" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 188.6171895808268 110.31029138290023)" stroke-width="2"/>
+<ellipse cx="181.2" cy="121.6" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-6" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 181.20196576910786 121.61857723809845)" stroke-width="2"/>
+<ellipse cx="172.9" cy="131.4" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-7" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 172.8572045881338 131.3610597377624)" stroke-width="2"/>
+<ellipse cx="163.7" cy="139.4" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-8" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 163.72870454822453 139.36751957849162)" stroke-width="2"/>
+<ellipse cx="154" cy="145.5" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-9" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 153.9759575363747 145.49806900407617)" stroke-width="2"/>
+<ellipse cx="143.8" cy="149.6" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-10" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 143.76936219611844 149.64559590497714)" stroke-width="2"/>
+<ellipse cx="133.3" cy="151.7" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-11" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 133.28724674605593 151.73763526625294)" stroke-width="2"/>
+<ellipse cx="122.7" cy="151.7" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-12" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 122.71275325394407 151.73763526625294)" stroke-width="2"/>
+<ellipse cx="112.2" cy="149.6" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-13" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 112.23063780388156 149.64559590497714)" stroke-width="2"/>
+<ellipse cx="102" cy="145.5" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-14" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 102.02404246362532 145.49806900407617)" stroke-width="2"/>
+<ellipse cx="92.3" cy="139.4" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-15" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 92.27129545177549 139.36751957849162)" stroke-width="2"/>
+<ellipse cx="83.1" cy="131.4" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-16" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 83.14279541186619 131.36105973776242)" stroke-width="2"/>
+<ellipse cx="74.8" cy="121.6" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-17" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 74.79803423089216 121.61857723809848)" stroke-width="2"/>
+<ellipse cx="67.4" cy="110.3" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-18" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 67.38281041917324 110.31029138290026)" stroke-width="2"/>
+<ellipse cx="61" cy="97.6" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-19" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 61.02668173899774 97.63377897469127)" stroke-width="2"/>
+<ellipse cx="55.8" cy="83.8" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-20" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(-40 55.84070158936328 83.81052228061911)" stroke-width="2"/>
+<ellipse cx="51.9" cy="69.1" rx="7" ry="4.5" data-slot="metal" id="necklace_chain-metal-21" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" transform="rotate(40 51.91547869638772 69.0820393249937)" stroke-width="2"/>
+<circle cx="128" cy="150" r="8" data-slot="metal" id="necklace_chain-metal-22" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)"/>
+<rect x="100" y="156" width="56" height="58" rx="14" data-slot="metal" id="necklace_chain-metal-23" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)"/>
+<rect x="108" y="164" width="40" height="42" rx="8" data-slot="accent" id="necklace_chain-accent-24" fill="#ffe08a" style="fill:var(--slot-accent,#ffe08a)" stroke-width="2"/>
+<path d="M116 178H140M116 188H140M116 198H132" fill="none" stroke-width="2.5"/>
+</g>
+</svg>

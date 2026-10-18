@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="sports_clean" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="118" ry="7" data-slot="shadow" id="sports_clean-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M31 108Q22 108 21.1 101.6L20.9 100.4Q20 94 26.4 91.3L27.6 90.7Q34 88 43 87.4L81 84.6Q90 84 97.1 78.4L110.9 67.6Q118 62 127 62L145 62Q154 62 161.4 67.1L178.6 78.9Q186 84 194.9 85.2L223.1 88.8Q232 90 235.6 94.5L236.4 95.5Q240 100 239.1 103.6L238.9 104.4Q238 108 229 108Z" data-slot="body" id="sports_clean-body-2" fill="#e8262b" style="fill:var(--slot-body,#e8262b)"/>
+<path d="M96 84L120 62H154L170 80Z" fill="none" stroke="none" fill-opacity="0"/>
+<path d="M104 83Q100 83 103 80.4L117 68.6Q120 66 124 66L129 66Q133 66 133 70L133 79Q133 83 129 83Z" data-slot="glass" id="sports_clean-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M143 83Q139 83 139 79L139 70Q139 66 143 66L146 66Q150 66 153.3 68.2L172.7 80.8Q176 83 172 83Z" data-slot="glass" id="sports_clean-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<polygon points="28,96 90,94 90,100 28,102" data-slot="accent" id="sports_clean-accent-5" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<polygon points="150,94 232,96 236,102 150,101" data-slot="accent" id="sports_clean-accent-6" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="14" y="76" width="34" height="5" rx="2" data-slot="trim" id="sports_clean-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="24" y="80" width="4" height="12" data-slot="metal" id="sports_clean-metal-8" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M128 80V106" fill="none" stroke-width="2"/>
+<rect x="229" y="98" width="15" height="10" rx="3" data-slot="trim" id="sports_clean-trim-9" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="16" y="98" width="13" height="10" rx="3" data-slot="trim" id="sports_clean-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="234" cy="96" rx="6" ry="4.5" data-slot="accent" id="sports_clean-accent-11" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="21" y="92" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="62" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="62" cy="113" r="17" data-slot="wheel" id="sports_clean-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="62" cy="113" r="8.5" data-slot="metal" id="sports_clean-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="62" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M62 104.5V121.5M53.5 113H70.5" fill="none" stroke-width="1.5"/>
+<circle cx="196" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="196" cy="113" r="17" data-slot="wheel" id="sports_clean-wheel-14" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="196" cy="113" r="8.5" data-slot="metal" id="sports_clean-metal-15" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="196" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M196 104.5V121.5M187.5 113H204.5" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="villa" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="villa-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="villa-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="24" y="130" width="208" height="80" rx="2" data-slot="body" id="villa-body-3" fill="#f2dcb3" style="fill:var(--slot-body,#f2dcb3)"/>
+<rect x="160" y="84" width="56" height="130" rx="2" data-slot="body" id="villa-body-4" fill="#f2dcb3" style="fill:var(--slot-body,#f2dcb3)"/>
+<polygon points="154,86 188,52 222,86" data-slot="roof" id="villa-roof-5" fill="#c4562a" style="fill:var(--slot-roof,#c4562a)"/>
+<polygon points="14,134 40,108 152,108 166,134" data-slot="roof" id="villa-roof-6" fill="#c4562a" style="fill:var(--slot-roof,#c4562a)"/>
+<rect x="40" y="108" width="112" height="24" data-slot="body" id="villa-body-7" fill="#f2dcb3" style="fill:var(--slot-body,#f2dcb3)"/>
+<path d="M169 136V112a15 15 0 0 1 30 0V136Z" data-slot="trim" id="villa-trim-8" fill="#fff6e0" style="fill:var(--slot-trim,#fff6e0)"/>
+<path d="M172 136V112a12 12 0 0 1 24 0V136Z" data-slot="glass" id="villa-glass-9" fill="#7fb7d4" style="fill:var(--slot-glass,#7fb7d4)"/>
+<path d="M184 100V136" fill="none" stroke-width="1.5"/>
+<path d="M41 186V160a15 15 0 0 1 30 0V186Z" data-slot="trim" id="villa-trim-10" fill="#fff6e0" style="fill:var(--slot-trim,#fff6e0)"/>
+<path d="M44 186V160a12 12 0 0 1 24 0V186Z" data-slot="glass" id="villa-glass-11" fill="#7fb7d4" style="fill:var(--slot-glass,#7fb7d4)"/>
+<path d="M56 148V186" fill="none" stroke-width="1.5"/>
+<path d="M81 186V160a15 15 0 0 1 30 0V186Z" data-slot="trim" id="villa-trim-12" fill="#fff6e0" style="fill:var(--slot-trim,#fff6e0)"/>
+<path d="M84 186V160a12 12 0 0 1 24 0V186Z" data-slot="glass" id="villa-glass-13" fill="#7fb7d4" style="fill:var(--slot-glass,#7fb7d4)"/>
+<path d="M96 148V186" fill="none" stroke-width="1.5"/>
+<path d="M169 196V172a15 15 0 0 1 30 0V196Z" data-slot="trim" id="villa-trim-14" fill="#fff6e0" style="fill:var(--slot-trim,#fff6e0)"/>
+<path d="M172 196V172a12 12 0 0 1 24 0V196Z" data-slot="glass" id="villa-glass-15" fill="#7fb7d4" style="fill:var(--slot-glass,#7fb7d4)"/>
+<path d="M184 160V196" fill="none" stroke-width="1.5"/>
+<path d="M116 212V176a16 16 0 0 1 32 0V212Z" data-slot="door" id="villa-door-16" fill="#5b3a22" style="fill:var(--slot-door,#5b3a22)"/>
+<rect x="44" y="186" width="24" height="3" data-slot="metal" id="villa-metal-17" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="84" y="186" width="24" height="3" data-slot="metal" id="villa-metal-18" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="42" y="122" width="70" height="3" rx="1" data-slot="metal" id="villa-metal-19" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="41" y="122" width="3" height="14" data-slot="metal" id="villa-metal-20" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="51" y="122" width="3" height="14" data-slot="metal" id="villa-metal-21" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="61" y="122" width="3" height="14" data-slot="metal" id="villa-metal-22" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="71" y="122" width="3" height="14" data-slot="metal" id="villa-metal-23" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="81" y="122" width="3" height="14" data-slot="metal" id="villa-metal-24" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="91" y="122" width="3" height="14" data-slot="metal" id="villa-metal-25" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="101" y="122" width="3" height="14" data-slot="metal" id="villa-metal-26" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="111" y="122" width="3" height="14" data-slot="metal" id="villa-metal-27" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="114" y="212" width="36" height="6" rx="1" data-slot="stone" id="villa-stone-28" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="24" y="204" width="208" height="6" rx="1" data-slot="trim" id="villa-trim-29" fill="#fff6e0" style="fill:var(--slot-trim,#fff6e0)"/>
+<rect x="237.3" y="207.4" width="5.4" height="14.4" data-slot="door" id="villa-door-30" fill="#5b3a22" style="fill:var(--slot-door,#5b3a22)"/>
+<circle cx="240" cy="194.8" r="14.4" data-slot="grass" id="villa-grass-31" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+</g>
+</svg>

@@ -1,0 +1,4274 @@
+{
+ "types": {
+  "accounting": {
+   "kind": "shop",
+   "x": true,
+   "name": "Accounting Firm",
+   "icon": "🧾",
+   "group": "Professional",
+   "blurb": "Taxes and books for local firms. Needs a college degree.",
+   "minAge": 22,
+   "sector": "tech",
+   "fee": 6000,
+   "ticket": 180,
+   "cogs": 0.08,
+   "rent": 53500,
+   "baseDemand": 1950.0,
+   "unit": "billable hours",
+   "equip": [
+    {
+     "id": "office",
+     "name": "Office suite",
+     "cost": 4000,
+     "cap": 837.8,
+     "starter": 1
+    },
+    {
+     "id": "software",
+     "name": "Accounting software",
+     "cost": 6000,
+     "cap": 837.8,
+     "starter": 1
+    },
+    {
+     "id": "servers",
+     "name": "Secure servers",
+     "cost": 9000,
+     "cap": 722.2
+    }
+   ],
+   "roles": [
+    {
+     "id": "accountant",
+     "name": "Accountant",
+     "base": 62000,
+     "cap": 830.6,
+     "starter": 2
+    },
+    {
+     "id": "bookkeeper",
+     "name": "Bookkeeper",
+     "base": 40000,
+     "cap": 433.3,
+     "starter": 0
+    }
+   ],
+   "req": {
+    "edu": 2,
+    "license": "CPA license"
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 21000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 26000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 15500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "software",
+     "name": "Audit automation",
+     "cost": 36500,
+     "effect": {
+      "cap": 0.2,
+      "margin": 0.02
+     },
+     "desc": "+20% capacity"
+    }
+   ],
+   "names": [
+    "Ledger & Co",
+    "Sum Total CPAs",
+    "Balanced Books"
+   ]
+  },
+  "law": {
+   "kind": "shop",
+   "x": true,
+   "name": "Law Firm",
+   "icon": "⚖️",
+   "group": "Professional",
+   "blurb": "Needs a graduate degree and the bar. Lawsuit risk is lower, the pay is higher.",
+   "minAge": 25,
+   "sector": "tech",
+   "fee": 12000,
+   "ticket": 260,
+   "cogs": 0.1,
+   "rent": 97500,
+   "baseDemand": 2180.8,
+   "unit": "billable hours",
+   "equip": [
+    {
+     "id": "library",
+     "name": "Law library",
+     "cost": 9000,
+     "cap": 936.9,
+     "starter": 1
+    },
+    {
+     "id": "office",
+     "name": "Office suite",
+     "cost": 8000,
+     "cap": 936.9,
+     "starter": 1
+    },
+    {
+     "id": "cases",
+     "name": "Case software",
+     "cost": 7000,
+     "cap": 807.7
+    }
+   ],
+   "roles": [
+    {
+     "id": "attorney",
+     "name": "Attorney",
+     "base": 95000,
+     "cap": 928.8,
+     "starter": 2
+    },
+    {
+     "id": "paralegal",
+     "name": "Paralegal",
+     "base": 48000,
+     "cap": 484.6,
+     "starter": 0
+    }
+   ],
+   "req": {
+    "edu": 3,
+    "license": "Bar admission"
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "malpractice",
+     "label": "Malpractice claim",
+     "p": 0.04,
+     "cost": 0.12,
+     "rep": -8
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 33500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 42000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 25000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "paralegals",
+     "name": "Paralegal team",
+     "cost": 59000,
+     "effect": {
+      "cap": 0.25
+     },
+     "desc": "+25% capacity"
+    }
+   ],
+   "names": [
+    "Hale & Rowe LLP",
+    "Justice Partners",
+    "Brandt Legal"
+   ]
+  },
+  "realestate": {
+   "kind": "shop",
+   "x": true,
+   "name": "Real Estate Agency",
+   "icon": "🏠",
+   "group": "Professional",
+   "blurb": "Commission on every closing. Booms and busts follow the housing market.",
+   "minAge": 21,
+   "sector": "realestate",
+   "fee": 9000,
+   "ticket": 9000,
+   "cogs": 0.35,
+   "rent": 6000,
+   "baseDemand": 45.0,
+   "unit": "closings",
+   "equip": [
+    {
+     "id": "office",
+     "name": "Branch office",
+     "cost": 5000,
+     "cap": 19.3,
+     "starter": 1
+    },
+    {
+     "id": "mls",
+     "name": "MLS & signage",
+     "cost": 3000,
+     "cap": 19.3,
+     "starter": 1
+    },
+    {
+     "id": "photo",
+     "name": "Photo & drone gear",
+     "cost": 4000,
+     "cap": 16.7
+    }
+   ],
+   "roles": [
+    {
+     "id": "agent",
+     "name": "Agent",
+     "base": 45000,
+     "cap": 15.3,
+     "starter": 2
+    },
+    {
+     "id": "broker",
+     "name": "Broker",
+     "base": 70000,
+     "cap": 7.7,
+     "starter": 1
+    }
+   ],
+   "req": {
+    "edu": 1,
+    "license": "Real estate license"
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 24000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 30000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 18000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "listings",
+     "name": "Premium listings",
+     "cost": 42000,
+     "effect": {
+      "demand": 0.15
+     },
+     "desc": "+15% demand"
+    }
+   ],
+   "names": [
+    "Key & Door Realty",
+    "Hearth Brokers",
+    "Landmark Homes"
+   ]
+  },
+  "insurance": {
+   "kind": "shop",
+   "x": true,
+   "name": "Insurance Agency",
+   "icon": "☂️",
+   "group": "Professional",
+   "blurb": "Sell policies and collect renewals. A big claim year hurts.",
+   "minAge": 21,
+   "sector": "realestate",
+   "fee": 8000,
+   "ticket": 950,
+   "cogs": 0.1,
+   "rent": 96500,
+   "baseDemand": 397.9,
+   "unit": "policies",
+   "equip": [
+    {
+     "id": "office",
+     "name": "Office",
+     "cost": 4000,
+     "cap": 170.9,
+     "starter": 1
+    },
+    {
+     "id": "quotes",
+     "name": "Quoting software",
+     "cost": 5000,
+     "cap": 170.9,
+     "starter": 1
+    },
+    {
+     "id": "phones",
+     "name": "Phone bank",
+     "cost": 3500,
+     "cap": 147.4
+    }
+   ],
+   "roles": [
+    {
+     "id": "agent",
+     "name": "Agent",
+     "base": 48000,
+     "cap": 169.5,
+     "starter": 2
+    },
+    {
+     "id": "adjuster",
+     "name": "Claims adjuster",
+     "base": 52000,
+     "cap": 88.4,
+     "starter": 0
+    }
+   ],
+   "req": {
+    "edu": 1,
+    "license": "Insurance license"
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "claims",
+     "label": "Catastrophe claims year",
+     "p": 0.08,
+     "cost": 0.18,
+     "rep": -5
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 22500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 28000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 17000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "bundle",
+     "name": "Bundle discounts",
+     "cost": 39000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    }
+   ],
+   "names": [
+    "Umbrella Group",
+    "SafeHarbor Agency",
+    "Shield & Sons"
+   ]
+  },
+  "dental": {
+   "kind": "shop",
+   "x": true,
+   "name": "Dental Clinic",
+   "icon": "🦷",
+   "group": "Professional",
+   "blurb": "Needs a graduate degree. High pay, high equipment cost.",
+   "minAge": 28,
+   "sector": "tech",
+   "fee": 25000,
+   "ticket": 220,
+   "cogs": 0.2,
+   "rent": 107000,
+   "baseDemand": 4295.5,
+   "unit": "visits",
+   "equip": [
+    {
+     "id": "chairs",
+     "name": "Dental chairs",
+     "cost": 40000,
+     "cap": 1845.5,
+     "starter": 1
+    },
+    {
+     "id": "xray",
+     "name": "Digital X-ray",
+     "cost": 30000,
+     "cap": 1845.5,
+     "starter": 1
+    },
+    {
+     "id": "sterile",
+     "name": "Sterilization unit",
+     "cost": 12000,
+     "cap": 1590.9
+    }
+   ],
+   "roles": [
+    {
+     "id": "dentist",
+     "name": "Dentist",
+     "base": 150000,
+     "cap": 1829.5,
+     "starter": 1
+    },
+    {
+     "id": "hygienist",
+     "name": "Hygienist",
+     "base": 75000,
+     "cap": 914.8,
+     "starter": 2
+    }
+   ],
+   "req": {
+    "edu": 3,
+    "license": "Dental license"
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "malpractice",
+     "label": "Malpractice claim",
+     "p": 0.04,
+     "cost": 0.1,
+     "rep": -8
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 56000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 70000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 42000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "cad",
+     "name": "Same-day crowns",
+     "cost": 98000,
+     "effect": {
+      "margin": 0.04,
+      "demand": 0.08
+     },
+     "desc": "+4% margin"
+    }
+   ],
+   "names": [
+    "Bright Smile Dental",
+    "Molar Masters",
+    "Gentle Care Dentistry"
+   ]
+  },
+  "gym": {
+   "kind": "shop",
+   "x": true,
+   "name": "Gym",
+   "icon": "🏋️",
+   "group": "Health & beauty",
+   "blurb": "Memberships with churn. January is your friend.",
+   "minAge": 18,
+   "sector": "retail",
+   "fee": 5000,
+   "ticket": 480,
+   "cogs": 0.05,
+   "rent": 68500,
+   "baseDemand": 675.0,
+   "unit": "memberships",
+   "equip": [
+    {
+     "id": "weights",
+     "name": "Free weights",
+     "cost": 30000,
+     "cap": 290.0,
+     "starter": 1
+    },
+    {
+     "id": "cardio",
+     "name": "Cardio floor",
+     "cost": 40000,
+     "cap": 290.0,
+     "starter": 1
+    },
+    {
+     "id": "lockers",
+     "name": "Locker rooms",
+     "cost": 15000,
+     "cap": 250.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "trainer",
+     "name": "Trainer",
+     "base": 34000,
+     "cap": 201.2,
+     "starter": 2
+    },
+    {
+     "id": "manager",
+     "name": "Manager",
+     "base": 48000,
+     "cap": 172.5,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "injury",
+     "label": "Member injury lawsuit",
+     "p": 0.07,
+     "cost": 0.05,
+     "rep": -4
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 19000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 24000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 14500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "pool",
+     "name": "Pool & sauna",
+     "cost": 33500,
+     "effect": {
+      "demand": 0.18
+     },
+     "desc": "+18% demand"
+    }
+   ],
+   "names": [
+    "Iron Works",
+    "Peak Fitness",
+    "Forge Gym"
+   ]
+  },
+  "salon": {
+   "kind": "shop",
+   "x": true,
+   "name": "Salon & Barbershop",
+   "icon": "💈",
+   "group": "Health & beauty",
+   "blurb": "Regulars keep it steady.",
+   "minAge": 18,
+   "sector": "retail",
+   "fee": 3000,
+   "ticket": 38,
+   "cogs": 0.15,
+   "rent": 5500,
+   "baseDemand": 5328.9,
+   "unit": "cuts",
+   "equip": [
+    {
+     "id": "chairs",
+     "name": "Styling chairs",
+     "cost": 6000,
+     "cap": 2289.5,
+     "starter": 1
+    },
+    {
+     "id": "wash",
+     "name": "Wash stations",
+     "cost": 5000,
+     "cap": 2289.5,
+     "starter": 1
+    },
+    {
+     "id": "retail",
+     "name": "Retail shelf",
+     "cost": 2500,
+     "cap": 1973.7
+    }
+   ],
+   "roles": [
+    {
+     "id": "stylist",
+     "name": "Stylist",
+     "base": 32000,
+     "cap": 1361.8,
+     "starter": 3
+    },
+    {
+     "id": "manager",
+     "name": "Manager",
+     "base": 44000,
+     "cap": 1184.2,
+     "starter": 0
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 12000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 15000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 9000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "chairs",
+     "name": "Four more chairs",
+     "cost": 21000,
+     "effect": {
+      "cap": 0.25
+     },
+     "desc": "+25% capacity"
+    }
+   ],
+   "names": [
+    "Sharp Cuts",
+    "Shear Delight",
+    "The Clip Joint"
+   ]
+  },
+  "cleaning": {
+   "kind": "shop",
+   "x": true,
+   "name": "Cleaning Service",
+   "icon": "🧹",
+   "group": "Services",
+   "blurb": "Low startup, steady contracts.",
+   "minAge": 18,
+   "sector": "retail",
+   "fee": 1500,
+   "ticket": 130,
+   "cogs": 0.12,
+   "rent": 7000,
+   "baseDemand": 1453.8,
+   "unit": "jobs",
+   "equip": [
+    {
+     "id": "van",
+     "name": "Cleaning van",
+     "cost": 18000,
+     "cap": 624.6,
+     "starter": 1
+    },
+    {
+     "id": "supplies",
+     "name": "Supplies",
+     "cost": 3000,
+     "cap": 624.6,
+     "starter": 1
+    },
+    {
+     "id": "vacuums",
+     "name": "Industrial vacuums",
+     "cost": 5000,
+     "cap": 538.5
+    }
+   ],
+   "roles": [
+    {
+     "id": "cleaner",
+     "name": "Cleaner",
+     "base": 29000,
+     "cap": 371.5,
+     "starter": 3
+    },
+    {
+     "id": "supervisor",
+     "name": "Supervisor",
+     "base": 42000,
+     "cap": 323.1,
+     "starter": 0
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 11000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 14000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 8500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "contracts",
+     "name": "Office contracts",
+     "cost": 19500,
+     "effect": {
+      "demand": 0.2
+     },
+     "desc": "+20% demand"
+    }
+   ],
+   "names": [
+    "Spotless",
+    "Fresh Start Cleaning",
+    "Mop & Bucket"
+   ]
+  },
+  "security": {
+   "kind": "shop",
+   "x": true,
+   "name": "Security Company",
+   "icon": "🛡️",
+   "group": "Services",
+   "blurb": "Guards on contract. Needs a clean record.",
+   "minAge": 21,
+   "sector": "retail",
+   "fee": 7000,
+   "ticket": 28,
+   "cogs": 0.05,
+   "rent": 76000,
+   "baseDemand": 17357.1,
+   "unit": "guard hours",
+   "equip": [
+    {
+     "id": "patrol",
+     "name": "Patrol vehicle",
+     "cost": 30000,
+     "cap": 7457.1,
+     "starter": 1
+    },
+    {
+     "id": "radios",
+     "name": "Radios & gear",
+     "cost": 5000,
+     "cap": 7457.1,
+     "starter": 1
+    },
+    {
+     "id": "control",
+     "name": "Control room",
+     "cost": 15000,
+     "cap": 6428.6
+    }
+   ],
+   "roles": [
+    {
+     "id": "guard",
+     "name": "Guard",
+     "base": 34000,
+     "cap": 2464.3,
+     "starter": 6
+    },
+    {
+     "id": "supervisor",
+     "name": "Site supervisor",
+     "base": 52000,
+     "cap": 3857.1,
+     "starter": 0
+    }
+   ],
+   "req": {
+    "license": "Security license",
+    "clean": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "incident",
+     "label": "Guard incident",
+     "p": 0.1,
+     "cost": 0.06,
+     "rep": -6
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 29000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 36000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 21500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "cctv",
+     "name": "Remote monitoring",
+     "cost": 50500,
+     "effect": {
+      "demand": 0.15,
+      "margin": 0.02
+     },
+     "desc": "+15% demand"
+    }
+   ],
+   "names": [
+    "Aegis Security",
+    "Watchtower",
+    "Blue Line Guard"
+   ]
+  },
+  "tutoring": {
+   "kind": "shop",
+   "x": true,
+   "name": "Tutoring Center",
+   "icon": "📚",
+   "group": "Services",
+   "blurb": "Cheap to run if you know your stuff.",
+   "minAge": 18,
+   "sector": "retail",
+   "fee": 1500,
+   "ticket": 55,
+   "cogs": 0.05,
+   "rent": 2500,
+   "baseDemand": 2700.0,
+   "unit": "sessions",
+   "equip": [
+    {
+     "id": "room",
+     "name": "Classroom",
+     "cost": 5000,
+     "cap": 1160.0,
+     "starter": 1
+    },
+    {
+     "id": "mat",
+     "name": "Materials",
+     "cost": 3000,
+     "cap": 1160.0,
+     "starter": 1
+    },
+    {
+     "id": "soft",
+     "name": "Learning software",
+     "cost": 4000,
+     "cap": 1000.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "tutor",
+     "name": "Tutor",
+     "base": 36000,
+     "cap": 1150.0,
+     "starter": 2
+    }
+   ],
+   "req": {
+    "edu": 2
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 9000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 11000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 6500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "online",
+     "name": "Online lessons",
+     "cost": 15500,
+     "effect": {
+      "demand": 0.25
+     },
+     "desc": "+25% demand"
+    }
+   ],
+   "names": [
+    "Bright Minds",
+    "Ace Tutors",
+    "Study Hall"
+   ]
+  },
+  "fastfood": {
+   "kind": "shop",
+   "x": true,
+   "name": "Fast Food Franchise",
+   "icon": "🍔",
+   "group": "Food & drink",
+   "blurb": "Franchise fee plus royalties baked into costs. Volume is everything.",
+   "minAge": 21,
+   "sector": "food",
+   "fee": 45000,
+   "ticket": 9,
+   "cogs": 0.38,
+   "rent": 189000,
+   "baseDemand": 162000.0,
+   "unit": "meals",
+   "equip": [
+    {
+     "id": "line",
+     "name": "Kitchen line",
+     "cost": 90000,
+     "cap": 69600.0,
+     "starter": 1
+    },
+    {
+     "id": "drive",
+     "name": "Drive-thru",
+     "cost": 60000,
+     "cap": 69600.0,
+     "starter": 1
+    },
+    {
+     "id": "dining",
+     "name": "Dining area",
+     "cost": 30000,
+     "cap": 60000.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "crew",
+     "name": "Crew member",
+     "base": 27000,
+     "cap": 11040.0,
+     "starter": 10
+    },
+    {
+     "id": "manager",
+     "name": "Shift manager",
+     "base": 52000,
+     "cap": 13800.0,
+     "starter": 2
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "health",
+     "label": "Health inspection fail",
+     "p": 0.1,
+     "cost": 0.02,
+     "rep": -6
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 86500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 108000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 65000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "app",
+     "name": "Mobile app ordering",
+     "cost": 151000,
+     "effect": {
+      "demand": 0.15
+     },
+     "desc": "+15% demand"
+    }
+   ],
+   "names": [
+    "Burger Barn #214",
+    "Chick-A-Roo",
+    "Taco Pronto"
+   ]
+  },
+  "restaurant": {
+   "kind": "shop",
+   "x": true,
+   "name": "Restaurant",
+   "icon": "🍽️",
+   "group": "Food & drink",
+   "blurb": "Good reviews take time; one bad review can hurt.",
+   "minAge": 21,
+   "sector": "food",
+   "fee": 12000,
+   "ticket": 34,
+   "cogs": 0.32,
+   "rent": 187000,
+   "baseDemand": 24617.6,
+   "unit": "covers",
+   "equip": [
+    {
+     "id": "kitchen",
+     "name": "Commercial kitchen",
+     "cost": 60000,
+     "cap": 10576.5,
+     "starter": 1
+    },
+    {
+     "id": "dining",
+     "name": "Dining room",
+     "cost": 40000,
+     "cap": 10576.5,
+     "starter": 1
+    },
+    {
+     "id": "bar",
+     "name": "Service bar",
+     "cost": 15000,
+     "cap": 9117.6
+    }
+   ],
+   "roles": [
+    {
+     "id": "server",
+     "name": "Server",
+     "base": 28000,
+     "cap": 2621.3,
+     "starter": 4
+    },
+    {
+     "id": "chef",
+     "name": "Chef",
+     "base": 62000,
+     "cap": 10485.3,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "health",
+     "label": "Health inspection fail",
+     "p": 0.1,
+     "cost": 0.03,
+     "rep": -8
+    },
+    {
+     "id": "review",
+     "label": "Viral bad review",
+     "p": 0.08,
+     "cost": 0.02,
+     "rep": -10
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 49500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 62000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 37000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "chef",
+     "name": "Celebrity chef",
+     "cost": 87000,
+     "effect": {
+      "demand": 0.2,
+      "margin": 0.02
+     },
+     "desc": "+20% demand"
+    }
+   ],
+   "names": [
+    "The Copper Fork",
+    "Salt & Pepper",
+    "Table Seven"
+   ]
+  },
+  "bakery": {
+   "kind": "shop",
+   "x": true,
+   "name": "Bakery",
+   "icon": "🥐",
+   "group": "Food & drink",
+   "blurb": "Early mornings, loyal regulars.",
+   "minAge": 18,
+   "sector": "food",
+   "fee": 3500,
+   "ticket": 11,
+   "cogs": 0.3,
+   "rent": 40500,
+   "baseDemand": 28227.3,
+   "unit": "items",
+   "equip": [
+    {
+     "id": "ovens",
+     "name": "Deck ovens",
+     "cost": 25000,
+     "cap": 12127.3,
+     "starter": 1
+    },
+    {
+     "id": "display",
+     "name": "Display cases",
+     "cost": 6000,
+     "cap": 12127.3,
+     "starter": 1
+    },
+    {
+     "id": "mixers",
+     "name": "Industrial mixers",
+     "cost": 9000,
+     "cap": 10454.5
+    }
+   ],
+   "roles": [
+    {
+     "id": "baker",
+     "name": "Baker",
+     "base": 33000,
+     "cap": 8415.9,
+     "starter": 2
+    },
+    {
+     "id": "counter",
+     "name": "Counter staff",
+     "base": 27000,
+     "cap": 7213.6,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 18500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 23000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 14000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "wholesale",
+     "name": "Wholesale accounts",
+     "cost": 32000,
+     "effect": {
+      "demand": 0.2
+     },
+     "desc": "+20% demand"
+    }
+   ],
+   "names": [
+    "Rise & Shine Bakery",
+    "Golden Crust",
+    "Flour Power"
+   ]
+  },
+  "bar": {
+   "kind": "shop",
+   "x": true,
+   "name": "Bar & Pub",
+   "icon": "🍺",
+   "group": "Food & drink",
+   "blurb": "21+ with a liquor license. Fights and fines are the risk.",
+   "minAge": 21,
+   "sector": "food",
+   "fee": 15000,
+   "ticket": 24,
+   "cogs": 0.26,
+   "rent": 130000,
+   "baseDemand": 23625.0,
+   "unit": "drinks",
+   "equip": [
+    {
+     "id": "fit",
+     "name": "Bar fit-out",
+     "cost": 30000,
+     "cap": 10150.0,
+     "starter": 1
+    },
+    {
+     "id": "keg",
+     "name": "Kegerator & taps",
+     "cost": 12000,
+     "cap": 10150.0,
+     "starter": 1
+    },
+    {
+     "id": "sound",
+     "name": "Sound & lights",
+     "cost": 9000,
+     "cap": 8750.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "bartender",
+     "name": "Bartender",
+     "base": 30000,
+     "cap": 5366.7,
+     "starter": 3
+    },
+    {
+     "id": "bouncer",
+     "name": "Door security",
+     "base": 34000,
+     "cap": 4025.0,
+     "starter": 1
+    }
+   ],
+   "req": {
+    "license": "Liquor license",
+    "clean": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "fight",
+     "label": "Brawl and fines",
+     "p": 0.12,
+     "cost": 0.04,
+     "rep": -8
+    },
+    {
+     "id": "license",
+     "label": "Liquor license violation",
+     "p": 0.05,
+     "cost": 0.06,
+     "rep": -10
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 33500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 42000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 25000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "music",
+     "name": "Live music nights",
+     "cost": 59000,
+     "effect": {
+      "demand": 0.2
+     },
+     "desc": "+20% demand"
+    }
+   ],
+   "names": [
+    "The Rusty Anchor",
+    "Tipsy Crow",
+    "Last Call"
+   ]
+  },
+  "liquor": {
+   "kind": "shop",
+   "x": true,
+   "name": "Liquor Store",
+   "icon": "🍾",
+   "group": "Retail",
+   "blurb": "21+ only. Thin margins, steady demand.",
+   "minAge": 21,
+   "sector": "retail",
+   "fee": 18000,
+   "ticket": 31,
+   "cogs": 0.74,
+   "rent": 42000,
+   "baseDemand": 22645.2,
+   "unit": "bottles",
+   "equip": [
+    {
+     "id": "shelf",
+     "name": "Shelving",
+     "cost": 20000,
+     "cap": 9729.0,
+     "starter": 1
+    },
+    {
+     "id": "cool",
+     "name": "Coolers",
+     "cost": 18000,
+     "cap": 9729.0,
+     "starter": 1
+    },
+    {
+     "id": "pos",
+     "name": "POS & ID scanner",
+     "cost": 4000,
+     "cap": 8387.1
+    }
+   ],
+   "roles": [
+    {
+     "id": "clerk",
+     "name": "Clerk",
+     "base": 29000,
+     "cap": 9645.2,
+     "starter": 2
+    }
+   ],
+   "req": {
+    "license": "Liquor license",
+    "clean": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "minor",
+     "label": "Sold to a minor (sting)",
+     "p": 0.06,
+     "cost": 0.05,
+     "rep": -12
+    },
+    {
+     "id": "theft",
+     "label": "Shoplifting wave",
+     "p": 0.12,
+     "cost": 0.02,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 41500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 52000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 31000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "craft",
+     "name": "Craft spirits wall",
+     "cost": 73000,
+     "effect": {
+      "margin": 0.03,
+      "demand": 0.08
+     },
+     "desc": "+3% margin"
+    }
+   ],
+   "names": [
+    "Cork & Barrel",
+    "Spirits Depot",
+    "Grape Expectations"
+   ]
+  },
+  "foodtruck": {
+   "kind": "shop",
+   "x": true,
+   "name": "Food Truck",
+   "icon": "🚚",
+   "group": "Food & drink",
+   "blurb": "Cheap and mobile. Weather matters.",
+   "minAge": 18,
+   "sector": "food",
+   "fee": 2500,
+   "ticket": 11,
+   "cogs": 0.3,
+   "rent": 24000,
+   "baseDemand": 19636.4,
+   "unit": "orders",
+   "equip": [
+    {
+     "id": "truck",
+     "name": "Food truck",
+     "cost": 55000,
+     "cap": 8436.4,
+     "starter": 1
+    },
+    {
+     "id": "grill",
+     "name": "Grill & fryer",
+     "cost": 8000,
+     "cap": 8436.4,
+     "starter": 1
+    },
+    {
+     "id": "gen",
+     "name": "Generator",
+     "cost": 4000,
+     "cap": 7272.7
+    }
+   ],
+   "roles": [
+    {
+     "id": "cook",
+     "name": "Cook",
+     "base": 30000,
+     "cap": 8363.6,
+     "starter": 2
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "weather",
+     "label": "Rainy season",
+     "p": 0.15,
+     "cost": 0.04,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 13000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 16000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 9500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "events",
+     "name": "Festival circuit",
+     "cost": 22500,
+     "effect": {
+      "demand": 0.25
+     },
+     "desc": "+25% demand"
+    }
+   ],
+   "names": [
+    "Wheels & Meals",
+    "Curb Cuisine",
+    "Taco Nomad"
+   ]
+  },
+  "clothing": {
+   "kind": "shop",
+   "x": true,
+   "name": "Clothing Store",
+   "icon": "👕",
+   "group": "Retail",
+   "blurb": "Seasonal trends decide inventory risk.",
+   "minAge": 18,
+   "sector": "retail",
+   "fee": 5000,
+   "ticket": 48,
+   "cogs": 0.52,
+   "rent": 45000,
+   "baseDemand": 9562.5,
+   "unit": "sales",
+   "equip": [
+    {
+     "id": "shelf",
+     "name": "Racks & shelving",
+     "cost": 12000,
+     "cap": 4108.3,
+     "starter": 1
+    },
+    {
+     "id": "fit",
+     "name": "Fitting rooms",
+     "cost": 9000,
+     "cap": 4108.3,
+     "starter": 1
+    },
+    {
+     "id": "inv",
+     "name": "Inventory system",
+     "cost": 5000,
+     "cap": 3541.7
+    }
+   ],
+   "roles": [
+    {
+     "id": "sales",
+     "name": "Sales associate",
+     "base": 29000,
+     "cap": 2715.3,
+     "starter": 3
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "markdown",
+     "label": "Unsold-stock markdown",
+     "p": 0.12,
+     "cost": 0.05,
+     "rep": -2
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 27000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 34000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 20500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "online",
+     "name": "Online store",
+     "cost": 47500,
+     "effect": {
+      "demand": 0.2
+     },
+     "desc": "+20% demand"
+    }
+   ],
+   "names": [
+    "Thread & Needle",
+    "Urban Outfit",
+    "Closet Co"
+   ]
+  },
+  "gun": {
+   "kind": "shop",
+   "x": true,
+   "name": "Gun Store",
+   "icon": "🔫",
+   "group": "Retail",
+   "blurb": "Needs age 21, a spotless record and a federal license. Regulation and audit risk is high.",
+   "minAge": 21,
+   "sector": "retail",
+   "fee": 22000,
+   "ticket": 420,
+   "cogs": 0.72,
+   "rent": 14500,
+   "baseDemand": 2314.3,
+   "unit": "sales",
+   "equip": [
+    {
+     "id": "safes",
+     "name": "Safes & racks",
+     "cost": 25000,
+     "cap": 994.3,
+     "starter": 1
+    },
+    {
+     "id": "sec",
+     "name": "Security system",
+     "cost": 15000,
+     "cap": 994.3,
+     "starter": 1
+    },
+    {
+     "id": "records",
+     "name": "Compliance records",
+     "cost": 5000,
+     "cap": 857.1
+    }
+   ],
+   "roles": [
+    {
+     "id": "clerk",
+     "name": "Licensed clerk",
+     "base": 36000,
+     "cap": 690.0,
+     "starter": 2
+    },
+    {
+     "id": "gunsmith",
+     "name": "Gunsmith",
+     "base": 52000,
+     "cap": 591.4,
+     "starter": 1
+    }
+   ],
+   "req": {
+    "license": "Federal firearms license (FFL)",
+    "clean": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "regulation",
+     "label": "Regulatory audit fine",
+     "p": 0.15,
+     "cost": 0.06,
+     "rep": -10
+    },
+    {
+     "id": "theft",
+     "label": "Theft / inventory loss",
+     "p": 0.08,
+     "cost": 0.08,
+     "rep": -6
+    },
+    {
+     "id": "revoked",
+     "label": "License suspended for violations",
+     "p": 0.03,
+     "cost": 0.15,
+     "rep": -25
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 57500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 72000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 43000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "compliance",
+     "name": "Compliance officer",
+     "cost": 101000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves regulation fines"
+    }
+   ],
+   "names": [
+    "Sights & Sons Arms",
+    "Ridge Armory",
+    "Liberty Outfitters"
+   ]
+  },
+  "jewelry": {
+   "kind": "shop",
+   "x": true,
+   "name": "Jewelry Store",
+   "icon": "💍",
+   "group": "Retail",
+   "blurb": "High ticket, high theft risk.",
+   "minAge": 21,
+   "sector": "retail",
+   "fee": 15000,
+   "ticket": 640,
+   "cogs": 0.55,
+   "rent": 42500,
+   "baseDemand": 1096.9,
+   "unit": "sales",
+   "equip": [
+    {
+     "id": "cases",
+     "name": "Display cases",
+     "cost": 35000,
+     "cap": 471.2,
+     "starter": 1
+    },
+    {
+     "id": "safe",
+     "name": "Vault safe",
+     "cost": 25000,
+     "cap": 471.2,
+     "starter": 1
+    },
+    {
+     "id": "bench",
+     "name": "Appraisal bench",
+     "cost": 10000,
+     "cap": 406.2
+    }
+   ],
+   "roles": [
+    {
+     "id": "sales",
+     "name": "Sales associate",
+     "base": 38000,
+     "cap": 327.0,
+     "starter": 2
+    },
+    {
+     "id": "jeweler",
+     "name": "Jeweler",
+     "base": 56000,
+     "cap": 280.3,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "robbery",
+     "label": "Robbery",
+     "p": 0.08,
+     "cost": 0.12,
+     "rep": -6
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 41500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 52000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 31000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "custom",
+     "name": "Custom design line",
+     "cost": 73000,
+     "effect": {
+      "margin": 0.04,
+      "demand": 0.08
+     },
+     "desc": "+4% margin"
+    }
+   ],
+   "names": [
+    "Gilded Lily Jewelers",
+    "Facet & Co",
+    "Carat Corner"
+   ]
+  },
+  "pawn": {
+   "kind": "shop",
+   "x": true,
+   "name": "Pawn Shop",
+   "icon": "🪙",
+   "group": "Retail",
+   "blurb": "Loans and resale. Needs a clean record. Stolen-goods risk.",
+   "minAge": 21,
+   "sector": "retail",
+   "fee": 10000,
+   "ticket": 120,
+   "cogs": 0.5,
+   "rent": 7500,
+   "baseDemand": 3712.5,
+   "unit": "transactions",
+   "equip": [
+    {
+     "id": "counter",
+     "name": "Counter & cages",
+     "cost": 8000,
+     "cap": 1595.0,
+     "starter": 1
+    },
+    {
+     "id": "safe",
+     "name": "Safe",
+     "cost": 14000,
+     "cap": 1595.0,
+     "starter": 1
+    },
+    {
+     "id": "shelf",
+     "name": "Shelving",
+     "cost": 9000,
+     "cap": 1375.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "clerk",
+     "name": "Clerk",
+     "base": 31000,
+     "cap": 1106.9,
+     "starter": 2
+    },
+    {
+     "id": "appraiser",
+     "name": "Appraiser",
+     "base": 45000,
+     "cap": 948.7,
+     "starter": 1
+    }
+   ],
+   "req": {
+    "license": "Pawnbroker license",
+    "clean": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "stolen",
+     "label": "Stolen-goods seizure",
+     "p": 0.08,
+     "cost": 0.05,
+     "rep": -8
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 26500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 33000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 20000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "online",
+     "name": "Online listings",
+     "cost": 46000,
+     "effect": {
+      "demand": 0.15
+     },
+     "desc": "+15% demand"
+    }
+   ],
+   "names": [
+    "Gold & Loan",
+    "Quick Cash Pawn",
+    "Treasure Trove"
+   ]
+  },
+  "cardealer": {
+   "kind": "shop",
+   "x": true,
+   "name": "Car Dealership",
+   "icon": "🚗",
+   "group": "Retail",
+   "blurb": "Huge revenue, thin margin. Hurt by credit crunches.",
+   "minAge": 21,
+   "sector": "transport",
+   "fee": 60000,
+   "ticket": 25000,
+   "cogs": 0.86,
+   "rent": 60000,
+   "baseDemand": 162.0,
+   "unit": "cars sold",
+   "equip": [
+    {
+     "id": "lot",
+     "name": "Lot & lighting",
+     "cost": 120000,
+     "cap": 69.6,
+     "starter": 1
+    },
+    {
+     "id": "show",
+     "name": "Showroom",
+     "cost": 90000,
+     "cap": 69.6,
+     "starter": 1
+    },
+    {
+     "id": "bay",
+     "name": "Service bay",
+     "cost": 40000,
+     "cap": 60.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "salesperson",
+     "name": "Salesperson",
+     "base": 42000,
+     "cap": 27.6,
+     "starter": 4
+    },
+    {
+     "id": "manager",
+     "name": "Sales manager",
+     "base": 80000,
+     "cap": 27.6,
+     "starter": 1
+    }
+   ],
+   "req": {
+    "edu": 1
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "recall",
+     "label": "Recall / lemon claims",
+     "p": 0.08,
+     "cost": 0.02,
+     "rep": -5
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 240000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 300000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 180000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "finance",
+     "name": "In-house financing",
+     "cost": 420000,
+     "effect": {
+      "demand": 0.15,
+      "margin": 0.01
+     },
+     "desc": "+15% demand"
+    }
+   ],
+   "names": [
+    "Sunrise Motors",
+    "Prime Auto Group",
+    "Highway Autos"
+   ]
+  },
+  "furniture": {
+   "kind": "shop",
+   "x": true,
+   "name": "Furniture Store",
+   "icon": "🛋️",
+   "group": "Retail",
+   "blurb": "Big-ticket items; deliveries add cost.",
+   "minAge": 18,
+   "sector": "retail",
+   "fee": 6000,
+   "ticket": 640,
+   "cogs": 0.55,
+   "rent": 53000,
+   "baseDemand": 1096.9,
+   "unit": "sales",
+   "equip": [
+    {
+     "id": "show",
+     "name": "Showroom",
+     "cost": 35000,
+     "cap": 471.2,
+     "starter": 1
+    },
+    {
+     "id": "ware",
+     "name": "Warehouse",
+     "cost": 25000,
+     "cap": 471.2,
+     "starter": 1
+    },
+    {
+     "id": "van",
+     "name": "Delivery van",
+     "cost": 20000,
+     "cap": 406.2
+    }
+   ],
+   "roles": [
+    {
+     "id": "sales",
+     "name": "Sales associate",
+     "base": 32000,
+     "cap": 218.0,
+     "starter": 3
+    },
+    {
+     "id": "driver",
+     "name": "Delivery driver",
+     "base": 36000,
+     "cap": 280.3,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 41500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 52000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 31000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "design",
+     "name": "Interior design service",
+     "cost": 73000,
+     "effect": {
+      "margin": 0.03,
+      "demand": 0.1
+     },
+     "desc": "+3% margin"
+    }
+   ],
+   "names": [
+    "Home Nest",
+    "Oak & Ivy",
+    "Couch Potato"
+   ]
+  },
+  "farm": {
+   "kind": "shop",
+   "x": true,
+   "name": "Farm",
+   "icon": "🌾",
+   "group": "Land & property",
+   "blurb": "Weather and crop prices swing wildly. Irrigation protects from drought.",
+   "minAge": 18,
+   "sector": "food",
+   "fee": 8000,
+   "ticket": 1900,
+   "cogs": 0.45,
+   "rent": 12500,
+   "baseDemand": 270.0,
+   "unit": "acres harvested",
+   "equip": [
+    {
+     "id": "tractor",
+     "name": "Tractor & implements",
+     "cost": 90000,
+     "cap": 116.0,
+     "starter": 1
+    },
+    {
+     "id": "silo",
+     "name": "Silo",
+     "cost": 40000,
+     "cap": 116.0,
+     "starter": 1
+    },
+    {
+     "id": "irrig",
+     "name": "Irrigation",
+     "cost": 30000,
+     "cap": 100.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "hand",
+     "name": "Farmhand",
+     "base": 31000,
+     "cap": 61.3,
+     "starter": 3
+    },
+    {
+     "id": "foreman",
+     "name": "Foreman",
+     "base": 46000,
+     "cap": 46.0,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "drought",
+     "label": "Drought",
+     "p": 0.15,
+     "cost": 0.25,
+     "rep": -2
+    },
+    {
+     "id": "pests",
+     "label": "Pests & blight",
+     "p": 0.12,
+     "cost": 0.1,
+     "rep": -1
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 30500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 38000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 23000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "irrigation",
+     "name": "Drip irrigation",
+     "cost": 53000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves drought losses"
+    }
+   ],
+   "names": [
+    "Meadowbrook Farm",
+    "Golden Acres",
+    "Hilltop Orchard"
+   ]
+  },
+  "brewery": {
+   "kind": "shop",
+   "x": true,
+   "name": "Brewery",
+   "icon": "🍻",
+   "group": "Food & drink",
+   "blurb": "21+. Taproom sales plus distribution.",
+   "minAge": 21,
+   "sector": "food",
+   "fee": 20000,
+   "ticket": 180,
+   "cogs": 0.35,
+   "rent": 87000,
+   "baseDemand": 3600.0,
+   "unit": "barrels",
+   "equip": [
+    {
+     "id": "house",
+     "name": "Brewhouse",
+     "cost": 120000,
+     "cap": 1546.7,
+     "starter": 1
+    },
+    {
+     "id": "ferm",
+     "name": "Fermenters",
+     "cost": 60000,
+     "cap": 1546.7,
+     "starter": 1
+    },
+    {
+     "id": "tap",
+     "name": "Taproom",
+     "cost": 40000,
+     "cap": 1333.3
+    }
+   ],
+   "roles": [
+    {
+     "id": "brewer",
+     "name": "Brewer",
+     "base": 48000,
+     "cap": 766.7,
+     "starter": 2
+    },
+    {
+     "id": "tap",
+     "name": "Taproom staff",
+     "base": 28000,
+     "cap": 766.7,
+     "starter": 2
+    }
+   ],
+   "req": {
+    "license": "Brewer's permit",
+    "clean": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "batch",
+     "label": "Spoiled batch",
+     "p": 0.1,
+     "cost": 0.06,
+     "rep": -3
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 38500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 48000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 29000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "canning",
+     "name": "Canning line",
+     "cost": 67000,
+     "effect": {
+      "demand": 0.2
+     },
+     "desc": "+20% demand"
+    }
+   ],
+   "names": [
+    "Hopscotch Brewing",
+    "Barrel & Vine",
+    "Iron Kettle"
+   ]
+  },
+  "gas": {
+   "kind": "shop",
+   "x": true,
+   "name": "Gas Station",
+   "icon": "⛽",
+   "group": "Retail",
+   "blurb": "Fuel is low margin; the store is where profit hides.",
+   "minAge": 21,
+   "sector": "transport",
+   "fee": 30000,
+   "ticket": 38,
+   "cogs": 0.85,
+   "rent": 69000,
+   "baseDemand": 53289.5,
+   "unit": "customers",
+   "equip": [
+    {
+     "id": "pumps",
+     "name": "Fuel pumps",
+     "cost": 120000,
+     "cap": 22894.7,
+     "starter": 1
+    },
+    {
+     "id": "store",
+     "name": "Convenience store",
+     "cost": 40000,
+     "cap": 22894.7,
+     "starter": 1
+    },
+    {
+     "id": "tanks",
+     "name": "Underground tanks",
+     "cost": 80000,
+     "cap": 19736.8
+    }
+   ],
+   "roles": [
+    {
+     "id": "cashier",
+     "name": "Cashier",
+     "base": 28000,
+     "cap": 15131.6,
+     "starter": 3
+    }
+   ],
+   "req": {
+    "license": "Fuel retail permit"
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "spill",
+     "label": "Environmental spill",
+     "p": 0.03,
+     "cost": 0.15,
+     "rep": -10
+    },
+    {
+     "id": "robbery",
+     "label": "Robbery",
+     "p": 0.1,
+     "cost": 0.02,
+     "rep": -3
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 120000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 150000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 90000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "deli",
+     "name": "Hot food counter",
+     "cost": 210000,
+     "effect": {
+      "margin": 0.03,
+      "demand": 0.05
+     },
+     "desc": "+3% margin"
+    }
+   ],
+   "names": [
+    "QuikFill",
+    "Roadrunner Fuel",
+    "Mile Marker"
+   ]
+  },
+  "hotel": {
+   "kind": "shop",
+   "x": true,
+   "name": "Hotel",
+   "icon": "🏨",
+   "group": "Land & property",
+   "blurb": "Occupancy follows the economy and the seasons.",
+   "minAge": 25,
+   "sector": "realestate",
+   "fee": 50000,
+   "ticket": 140,
+   "cogs": 0.18,
+   "rent": 553000,
+   "baseDemand": 10607.1,
+   "unit": "room-nights",
+   "equip": [
+    {
+     "id": "rooms",
+     "name": "Guest room block",
+     "cost": 160000,
+     "cap": 4557.1,
+     "starter": 1
+    },
+    {
+     "id": "lobby",
+     "name": "Lobby & front desk",
+     "cost": 60000,
+     "cap": 4557.1,
+     "starter": 1
+    },
+    {
+     "id": "pool",
+     "name": "Pool & amenities",
+     "cost": 90000,
+     "cap": 3928.6
+    }
+   ],
+   "roles": [
+    {
+     "id": "desk",
+     "name": "Front desk",
+     "base": 30000,
+     "cap": 1204.8,
+     "starter": 3
+    },
+    {
+     "id": "house",
+     "name": "Housekeeper",
+     "base": 27000,
+     "cap": 1355.4,
+     "starter": 4
+    }
+   ],
+   "req": {
+    "edu": 1
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "storm",
+     "label": "Storm damage",
+     "p": 0.06,
+     "cost": 0.1,
+     "rep": -4
+    },
+    {
+     "id": "review",
+     "label": "Viral bad review",
+     "p": 0.08,
+     "cost": 0.03,
+     "rep": -8
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 88000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 110000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 66000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "spa",
+     "name": "Spa & restaurant",
+     "cost": 154000,
+     "effect": {
+      "demand": 0.18,
+      "margin": 0.02
+     },
+     "desc": "+18% demand"
+    }
+   ],
+   "names": [
+    "The Grand Meridian",
+    "Harbor Inn",
+    "Pine Ridge Lodge"
+   ]
+  },
+  "apartments": {
+   "kind": "shop",
+   "x": true,
+   "name": "Apartment Building",
+   "icon": "🏢",
+   "group": "Land & property",
+   "blurb": "Slow and steady rent. Vacancies and repairs are the risk.",
+   "minAge": 21,
+   "sector": "realestate",
+   "fee": 9000,
+   "ticket": 17000,
+   "cogs": 0.25,
+   "rent": 2500,
+   "baseDemand": 10.8,
+   "unit": "units rented",
+   "equip": [
+    {
+     "id": "building",
+     "name": "8-unit building",
+     "cost": 520000,
+     "cap": 4.6,
+     "starter": 1
+    },
+    {
+     "id": "boiler",
+     "name": "Boiler & systems",
+     "cost": 30000,
+     "cap": 4.6,
+     "starter": 1
+    },
+    {
+     "id": "block",
+     "name": "Extra 4-unit block",
+     "cost": 280000,
+     "cap": 4.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "super",
+     "name": "Superintendent",
+     "base": 38000,
+     "cap": 9.2,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "vacancy",
+     "label": "Vacancy wave",
+     "p": 0.12,
+     "cost": 0.15,
+     "rep": -3
+    },
+    {
+     "id": "repairs",
+     "label": "Major repairs",
+     "p": 0.12,
+     "cost": 0.1,
+     "rep": -2
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 11000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 13500,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 8000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "reno",
+     "name": "Renovated units",
+     "cost": 19000,
+     "effect": {
+      "margin": 0.04,
+      "demand": 0.1
+     },
+     "desc": "+4% margin"
+    }
+   ],
+   "names": [
+    "Maple Court",
+    "Riverside Flats",
+    "Oakview Residences"
+   ]
+  },
+  "construction": {
+   "kind": "shop",
+   "x": true,
+   "name": "Construction Company",
+   "icon": "🏗️",
+   "group": "Services",
+   "blurb": "Project-based. Cost overruns and injuries are the risk.",
+   "minAge": 21,
+   "sector": "realestate",
+   "fee": 12000,
+   "ticket": 45000,
+   "cogs": 0.62,
+   "rent": 18000,
+   "baseDemand": 27.0,
+   "unit": "jobs",
+   "equip": [
+    {
+     "id": "trucks",
+     "name": "Work trucks",
+     "cost": 60000,
+     "cap": 11.6,
+     "starter": 1
+    },
+    {
+     "id": "tools",
+     "name": "Heavy tools",
+     "cost": 25000,
+     "cap": 11.6,
+     "starter": 1
+    },
+    {
+     "id": "scaffold",
+     "name": "Scaffolding",
+     "cost": 20000,
+     "cap": 10.0
+    }
+   ],
+   "roles": [
+    {
+     "id": "carpenter",
+     "name": "Carpenter",
+     "base": 46000,
+     "cap": 4.6,
+     "starter": 4
+    },
+    {
+     "id": "foreman",
+     "name": "Foreman",
+     "base": 70000,
+     "cap": 4.6,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "injury",
+     "label": "Worksite injury claim",
+     "p": 0.15,
+     "cost": 0.06,
+     "rep": -5
+    },
+    {
+     "id": "overrun",
+     "label": "Cost overrun",
+     "p": 0.15,
+     "cost": 0.05,
+     "rep": -3
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 72000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 90000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 54000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "crew",
+     "name": "Second crew",
+     "cost": 126000,
+     "effect": {
+      "cap": 0.3
+     },
+     "desc": "+30% capacity"
+    }
+   ],
+   "names": [
+    "Build Right",
+    "Granite Contracting",
+    "Ironbeam Builders"
+   ]
+  },
+  "autorepair": {
+   "kind": "shop",
+   "x": true,
+   "name": "Auto Repair Shop",
+   "icon": "🔧",
+   "group": "Services",
+   "blurb": "Skilled mechanics keep customers coming back.",
+   "minAge": 18,
+   "sector": "transport",
+   "fee": 6000,
+   "ticket": 320,
+   "cogs": 0.35,
+   "rent": 9000,
+   "baseDemand": 1603.1,
+   "unit": "repairs",
+   "equip": [
+    {
+     "id": "lifts",
+     "name": "Vehicle lifts",
+     "cost": 40000,
+     "cap": 688.8,
+     "starter": 1
+    },
+    {
+     "id": "diag",
+     "name": "Diagnostics",
+     "cost": 15000,
+     "cap": 688.8,
+     "starter": 1
+    },
+    {
+     "id": "tools",
+     "name": "Tool sets",
+     "cost": 10000,
+     "cap": 593.8
+    }
+   ],
+   "roles": [
+    {
+     "id": "mechanic",
+     "name": "Mechanic",
+     "base": 46000,
+     "cap": 364.2,
+     "starter": 3
+    },
+    {
+     "id": "writer",
+     "name": "Service writer",
+     "base": 38000,
+     "cap": 273.1,
+     "starter": 1
+    }
+   ],
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "comeback",
+     "label": "Comeback repair claim",
+     "p": 0.1,
+     "cost": 0.03,
+     "rep": -4
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 30500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 38000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 23000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "ev",
+     "name": "EV certification",
+     "cost": 53000,
+     "effect": {
+      "demand": 0.18
+     },
+     "desc": "+18% demand"
+    }
+   ],
+   "names": [
+    "Wrench & Wheel",
+    "Gearhead Garage",
+    "Fix-It Motors"
+   ]
+  },
+  "trucking": {
+   "kind": "shop",
+   "x": true,
+   "name": "Trucking Company (semis)",
+   "icon": "🚛",
+   "group": "Fleets",
+   "blurb": "Long-haul semis. Fuel, accidents and driver shortages are the risks.",
+   "minAge": 21,
+   "sector": "transport",
+   "fee": 25000,
+   "ticket": 1,
+   "cogs": 0,
+   "rent": 9000,
+   "baseDemand": 1,
+   "unit": "loads",
+   "equip": [
+    {
+     "id": "depot",
+     "name": "Depot bay block (+4 vehicles)",
+     "cost": 60000,
+     "cap": 0,
+     "starter": 1
+    }
+   ],
+   "roles": [
+    {
+     "id": "driver",
+     "name": "Driver",
+     "base": 62000,
+     "cap": 0,
+     "starter": 2
+    },
+    {
+     "id": "dispatcher",
+     "name": "Dispatcher",
+     "base": 46000,
+     "cap": 0,
+     "starter": 0
+    }
+   ],
+   "req": {
+    "license": "CDL (commercial license)",
+    "drivers": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "fuel",
+     "label": "Fuel price spike",
+     "p": 0.15,
+     "cost": 0.06,
+     "rep": 0
+    },
+    {
+     "id": "driver",
+     "label": "Driver shortage",
+     "p": 0.12,
+     "cost": 0.04,
+     "rep": -3
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 45000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 56000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 33500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "telematics",
+     "name": "Telematics & dispatch software",
+     "cost": 78500,
+     "effect": {
+      "demand": 0.1,
+      "mitigate": 0.2
+     },
+     "desc": "+10% demand, fewer accidents"
+    }
+   ],
+   "names": [
+    "Long Haul Freight",
+    "Redline Trucking",
+    "Cross-Country Carriers"
+   ],
+   "fleet": {
+    "vehicle": {
+     "name": "Semi tractor-trailer",
+     "cost": 120000,
+     "rev": 280000,
+     "fuel": 62000,
+     "ins": 14000,
+     "maint": 16000,
+     "acc": 0.06,
+     "accCost": 45000
+    },
+    "start": 2,
+    "maxBase": 4,
+    "perDepot": 4
+   }
+  },
+  "boxtruck": {
+   "kind": "shop",
+   "x": true,
+   "name": "Box-Truck Delivery",
+   "icon": "📦",
+   "group": "Fleets",
+   "blurb": "Last-mile deliveries. Cheaper trucks, more of them.",
+   "minAge": 18,
+   "sector": "transport",
+   "fee": 4000,
+   "ticket": 1,
+   "cogs": 0,
+   "rent": 9000,
+   "baseDemand": 1,
+   "unit": "deliveries",
+   "equip": [
+    {
+     "id": "depot",
+     "name": "Depot bay block (+4 vehicles)",
+     "cost": 60000,
+     "cap": 0,
+     "starter": 1
+    }
+   ],
+   "roles": [
+    {
+     "id": "driver",
+     "name": "Driver",
+     "base": 42000,
+     "cap": 0,
+     "starter": 2
+    },
+    {
+     "id": "dispatcher",
+     "name": "Dispatcher",
+     "base": 46000,
+     "cap": 0,
+     "starter": 0
+    }
+   ],
+   "req": {
+    "drivers": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "fuel",
+     "label": "Fuel price spike",
+     "p": 0.15,
+     "cost": 0.06,
+     "rep": 0
+    },
+    {
+     "id": "driver",
+     "label": "Driver shortage",
+     "p": 0.12,
+     "cost": 0.04,
+     "rep": -3
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 19000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 24000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 14500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "telematics",
+     "name": "Telematics & dispatch software",
+     "cost": 33500,
+     "effect": {
+      "demand": 0.1,
+      "mitigate": 0.2
+     },
+     "desc": "+10% demand, fewer accidents"
+    }
+   ],
+   "names": [
+    "Dash Delivery",
+    "Parcel Pals",
+    "Swift Couriers"
+   ],
+   "fleet": {
+    "vehicle": {
+     "name": "Box truck",
+     "cost": 55000,
+     "rev": 120000,
+     "fuel": 10000,
+     "ins": 5000,
+     "maint": 5500,
+     "acc": 0.07,
+     "accCost": 15000
+    },
+    "start": 2,
+    "maxBase": 6,
+    "perDepot": 4
+   }
+  },
+  "taxi": {
+   "kind": "shop",
+   "x": true,
+   "name": "Taxi / Rideshare Fleet",
+   "icon": "🚕",
+   "group": "Fleets",
+   "blurb": "Cars on the road all day. Thin margins, lots of small accidents.",
+   "minAge": 21,
+   "sector": "transport",
+   "fee": 8000,
+   "ticket": 1,
+   "cogs": 0,
+   "rent": 9000,
+   "baseDemand": 1,
+   "unit": "rides",
+   "equip": [
+    {
+     "id": "depot",
+     "name": "Depot bay block (+4 vehicles)",
+     "cost": 60000,
+     "cap": 0,
+     "starter": 1
+    }
+   ],
+   "roles": [
+    {
+     "id": "driver",
+     "name": "Driver",
+     "base": 38000,
+     "cap": 0,
+     "starter": 3
+    },
+    {
+     "id": "dispatcher",
+     "name": "Dispatcher",
+     "base": 46000,
+     "cap": 0,
+     "starter": 0
+    }
+   ],
+   "req": {
+    "drivers": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "fuel",
+     "label": "Fuel price spike",
+     "p": 0.15,
+     "cost": 0.06,
+     "rep": 0
+    },
+    {
+     "id": "driver",
+     "label": "Driver shortage",
+     "p": 0.12,
+     "cost": 0.04,
+     "rep": -3
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 19500,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 24500,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 15000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "telematics",
+     "name": "Telematics & dispatch software",
+     "cost": 34500,
+     "effect": {
+      "demand": 0.1,
+      "mitigate": 0.2
+     },
+     "desc": "+10% demand, fewer accidents"
+    }
+   ],
+   "names": [
+    "Yellow Wheels",
+    "RideRight",
+    "CityCab Co"
+   ],
+   "fleet": {
+    "vehicle": {
+     "name": "Fleet sedan",
+     "cost": 28000,
+     "rev": 82000,
+     "fuel": 7000,
+     "ins": 6000,
+     "maint": 3500,
+     "acc": 0.09,
+     "accCost": 9000
+    },
+    "start": 3,
+    "maxBase": 8,
+    "perDepot": 4
+   }
+  },
+  "moving": {
+   "kind": "shop",
+   "x": true,
+   "name": "Moving Company",
+   "icon": "📫",
+   "group": "Fleets",
+   "blurb": "Truck plus crew. Busy in summer, damages claims in the mix.",
+   "minAge": 18,
+   "sector": "transport",
+   "fee": 5000,
+   "ticket": 1,
+   "cogs": 0,
+   "rent": 9000,
+   "baseDemand": 1,
+   "unit": "moves",
+   "equip": [
+    {
+     "id": "depot",
+     "name": "Depot bay block (+4 vehicles)",
+     "cost": 60000,
+     "cap": 0,
+     "starter": 1
+    }
+   ],
+   "roles": [
+    {
+     "id": "driver",
+     "name": "Driver",
+     "base": 56000,
+     "cap": 0,
+     "starter": 2
+    },
+    {
+     "id": "dispatcher",
+     "name": "Dispatcher",
+     "base": 46000,
+     "cap": 0,
+     "starter": 0
+    }
+   ],
+   "req": {
+    "drivers": true
+   },
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "fuel",
+     "label": "Fuel price spike",
+     "p": 0.15,
+     "cost": 0.06,
+     "rep": 0
+    },
+    {
+     "id": "driver",
+     "label": "Driver shortage",
+     "p": 0.12,
+     "cost": 0.04,
+     "rep": -3
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "marketing",
+     "name": "Marketing campaign",
+     "cost": 29000,
+     "effect": {
+      "demand": 0.12
+     },
+     "desc": "+12% demand"
+    },
+    {
+     "id": "efficiency",
+     "name": "Efficiency program",
+     "cost": 36000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 21500,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    },
+    {
+     "id": "telematics",
+     "name": "Telematics & dispatch software",
+     "cost": 50500,
+     "effect": {
+      "demand": 0.1,
+      "mitigate": 0.2
+     },
+     "desc": "+10% demand, fewer accidents"
+    }
+   ],
+   "names": [
+    "Hauler Heroes",
+    "Two Men & A Truck",
+    "Boxed Up Moving"
+   ],
+   "fleet": {
+    "vehicle": {
+     "name": "Moving truck",
+     "cost": 70000,
+     "rev": 180000,
+     "fuel": 11000,
+     "ins": 7000,
+     "maint": 6000,
+     "acc": 0.06,
+     "accCost": 20000
+    },
+    "start": 2,
+    "maxBase": 5,
+    "perDepot": 4
+   }
+  }
+ },
+ "patch": {
+  "coffee": {
+   "x": true,
+   "icon": "☕",
+   "group": "Food & drink",
+   "minAge": 18,
+   "blurb": "Espresso, regulars and morning rush.",
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "health",
+     "label": "Health inspection fail",
+     "p": 0.08,
+     "cost": 0.02,
+     "rep": -5
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "loyalty",
+     "name": "Loyalty app",
+     "cost": 21000,
+     "effect": {
+      "demand": 0.15
+     },
+     "desc": "+15% demand"
+    },
+    {
+     "id": "roaster",
+     "name": "House roast",
+     "cost": 18000,
+     "effect": {
+      "margin": 0.04
+     },
+     "desc": "+4% margin"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 18000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    }
+   ],
+   "names": [
+    "Daily Grind",
+    "Bean There",
+    "Steam & Co"
+   ]
+  },
+  "tech": {
+   "x": true,
+   "icon": "💻",
+   "group": "Retail",
+   "minAge": 18,
+   "blurb": "Gadgets, repairs and warranties.",
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "theft",
+     "label": "Theft / shrink",
+     "p": 0.1,
+     "cost": 0.03,
+     "rep": -2
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "repair",
+     "name": "Repair center",
+     "cost": 24000,
+     "effect": {
+      "margin": 0.04
+     },
+     "desc": "+4% margin"
+    },
+    {
+     "id": "online",
+     "name": "Online store",
+     "cost": 30000,
+     "effect": {
+      "demand": 0.2
+     },
+     "desc": "+20% demand"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 18000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    }
+   ],
+   "names": [
+    "Gadget Hub",
+    "Circuit Barn",
+    "ByteBay"
+   ]
+  },
+  "grocery": {
+   "x": true,
+   "icon": "🛒",
+   "group": "Retail",
+   "minAge": 18,
+   "blurb": "Baskets of everyday goods.",
+   "req": {},
+   "risks": [
+    {
+     "id": "lawsuit",
+     "label": "Customer lawsuit",
+     "p": 0.05,
+     "cost": 0.04,
+     "rep": -4
+    },
+    {
+     "id": "breakin",
+     "label": "Break-in / theft",
+     "p": 0.06,
+     "cost": 0.015,
+     "rep": -1
+    },
+    {
+     "id": "spoil",
+     "label": "Spoilage / cooler failure",
+     "p": 0.1,
+     "cost": 0.02,
+     "rep": -2
+    }
+   ],
+   "upgrades": [
+    {
+     "id": "deli",
+     "name": "Deli counter",
+     "cost": 15000,
+     "effect": {
+      "margin": 0.03
+     },
+     "desc": "+3% margin"
+    },
+    {
+     "id": "delivery",
+     "name": "Delivery service",
+     "cost": 24000,
+     "effect": {
+      "demand": 0.18
+     },
+     "desc": "+18% demand"
+    },
+    {
+     "id": "insurance",
+     "name": "Business insurance",
+     "cost": 18000,
+     "effect": {
+      "mitigate": 0.5
+     },
+     "desc": "halves risk losses"
+    }
+   ],
+   "names": [
+    "Fresh Basket",
+    "Corner Market",
+    "GreenCart"
+   ]
+  }
+ }
+}

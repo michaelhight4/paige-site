@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="futuristic" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="100" ry="7" data-slot="shadow" id="futuristic-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="118" y="160" width="20" height="56" rx="3" data-slot="metal" id="futuristic-metal-2" fill="#aab4c4" style="fill:var(--slot-metal,#aab4c4)"/>
+<ellipse cx="128" cy="214" rx="90" ry="12" data-slot="body" id="futuristic-body-3" fill="#e8edf5" style="fill:var(--slot-body,#e8edf5)"/>
+<path d="M52 160A76 76 0 0 1 204 160Z" data-slot="glass" id="futuristic-glass-4" fill="#8fe0f0" style="fill:var(--slot-glass,#8fe0f0)"/>
+<path d="M128 84V160M92 100Q84 130 84 160M164 100Q172 130 172 160" fill="none" stroke-width="2" stroke-opacity=".6"/>
+<ellipse cx="128" cy="164" rx="100" ry="16" data-slot="body" id="futuristic-body-5" fill="#e8edf5" style="fill:var(--slot-body,#e8edf5)"/>
+<ellipse cx="128" cy="164" rx="60" ry="6" data-slot="accent" id="futuristic-accent-6" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)" stroke-width="2"/>
+<rect x="112" y="66" width="32" height="12" rx="4" data-slot="body" id="futuristic-body-7" fill="#e8edf5" style="fill:var(--slot-body,#e8edf5)"/>
+<circle cx="128" cy="58" r="7" data-slot="accent" id="futuristic-accent-8" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)"/>
+<rect x="125" y="38" width="6" height="16" data-slot="metal" id="futuristic-metal-9" fill="#aab4c4" style="fill:var(--slot-metal,#aab4c4)"/>
+<circle cx="128" cy="36" r="4" data-slot="accent" id="futuristic-accent-10" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)"/>
+<ellipse cx="128" cy="196" rx="14" ry="14" data-slot="door" id="futuristic-door-11" fill="#5a6ad6" style="fill:var(--slot-door,#5a6ad6)" stroke-width="2"/>
+<circle cx="48" cy="172" r="3" data-slot="accent" id="futuristic-accent-12" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)" stroke-width="1.5"/>
+<circle cx="78" cy="172" r="3" data-slot="accent" id="futuristic-accent-13" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)" stroke-width="1.5"/>
+<circle cx="178" cy="172" r="3" data-slot="accent" id="futuristic-accent-14" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)" stroke-width="1.5"/>
+<circle cx="208" cy="172" r="3" data-slot="accent" id="futuristic-accent-15" fill="#34e0c4" style="fill:var(--slot-accent,#34e0c4)" stroke-width="1.5"/>
+<polygon points="40,214 54,204 66,214" data-slot="metal" id="futuristic-metal-16" fill="#aab4c4" style="fill:var(--slot-metal,#aab4c4)"/>
+<polygon points="190,214 202,204 216,214" data-slot="metal" id="futuristic-metal-17" fill="#aab4c4" style="fill:var(--slot-metal,#aab4c4)"/>
+</g>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="coupe" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="117" ry="7" data-slot="shadow" id="coupe-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M30 108Q22 108 21.1 100.7L20.9 99.3Q20 92 24.5 88.4L25.5 87.6Q30 84 38 83.4L72 80.6Q80 80 85.7 74.3L100.3 59.7Q106 54 114 54L134 54Q142 54 148.4 58.9L169.6 75.1Q176 80 183.9 80.9L220.1 85.1Q228 86 232.5 91.5L233.5 92.5Q238 98 237.1 102.5L236.9 103.5Q236 108 228 108Z" data-slot="body" id="coupe-body-2" fill="#8e44c7" style="fill:var(--slot-body,#8e44c7)"/>
+<path d="M94 78Q90 78 92.8 75.1L105.2 61.9Q108 59 112 59L136 59Q140 59 143.3 61.2L164.7 75.8Q168 78 164 78Z" data-slot="glass" id="coupe-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M128 80V106" fill="none" stroke-width="2"/>
+<rect x="110" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="coupe-trim-4" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="coupe-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="16" y="98" width="13" height="10" rx="3" data-slot="trim" id="coupe-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="232" cy="94" rx="6" ry="4.5" data-slot="accent" id="coupe-accent-7" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="21" y="88" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="62" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="62" cy="113" r="17" data-slot="wheel" id="coupe-wheel-8" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="62" cy="113" r="8.5" data-slot="metal" id="coupe-metal-9" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="62" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M62 104.5V121.5M53.5 113H70.5" fill="none" stroke-width="1.5"/>
+<circle cx="196" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="196" cy="113" r="17" data-slot="wheel" id="coupe-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="196" cy="113" r="8.5" data-slot="metal" id="coupe-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="196" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M196 104.5V121.5M187.5 113H204.5" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

@@ -1,0 +1,2062 @@
+{
+ "title": "LifeSim",
+ "labels": {
+  "happiness": "Happiness",
+  "health": "Health",
+  "smarts": "Smarts",
+  "looks": "Looks",
+  "fame": "Fame",
+  "karma": "Karma",
+  "crazy": "Craziness",
+  "stress": "Stress",
+  "job": "Job",
+  "assets": "Assets",
+  "relationships": "Relationships",
+  "activities": "Activities",
+  "age": "Age",
+  "year": "Year",
+  "journal": "Journal",
+  "surrender": "Surrender",
+  "ribbon": "Ribbon",
+  "doctor": "Doctor",
+  "prison": "Prison",
+  "cemetery": "Cemetery",
+  "legacy": "Family Legacy",
+  "will": "Will"
+ },
+ "bars": {
+  "main": [
+   "happiness",
+   "health",
+   "smarts",
+   "looks"
+  ],
+  "extra": [
+   "fame"
+  ],
+  "hidden": [
+   "karma",
+   "crazy",
+   "stress"
+  ],
+  "inverted": [
+   "stress",
+   "crazy"
+  ],
+  "bands": {
+   "green": 31,
+   "orange": 13
+  }
+ },
+ "startYear": 2026,
+ "startAge": {
+  "normal": 0,
+  "sandbox": 25
+ },
+ "eventScale": 0.6,
+ "stepSizes": [
+  4,
+  8,
+  16,
+  30
+ ],
+ "countries": [
+  {
+   "id": "us",
+   "name": "United States",
+   "health": 1.0,
+   "wealth": 1.0,
+   "war": 0.0,
+   "first": {
+    "m": [
+     "James",
+     "Michael",
+     "Robert",
+     "Liam",
+     "Ethan",
+     "Noah",
+     "Mason",
+     "Logan",
+     "Caleb",
+     "Owen"
+    ],
+    "f": [
+     "Mary",
+     "Emma",
+     "Olivia",
+     "Ava",
+     "Sophia",
+     "Chloe",
+     "Grace",
+     "Hannah",
+     "Lily",
+     "Zoe"
+    ]
+   },
+   "last": [
+    "Smith",
+    "Johnson",
+    "Williams",
+    "Brown",
+    "Miller",
+    "Davis",
+    "Wilson",
+    "Moore",
+    "Taylor",
+    "Clark"
+   ],
+   "cities": [
+    "Springfield",
+    "Austin",
+    "Denver",
+    "Portland"
+   ]
+  },
+  {
+   "id": "uk",
+   "name": "United Kingdom",
+   "health": 1.05,
+   "wealth": 0.9,
+   "war": 0.0,
+   "first": {
+    "m": [
+     "Oliver",
+     "George",
+     "Harry",
+     "Jack",
+     "Alfie",
+     "Oscar",
+     "Archie",
+     "Henry",
+     "Arthur",
+     "Freddie"
+    ],
+    "f": [
+     "Amelia",
+     "Isla",
+     "Poppy",
+     "Ivy",
+     "Florence",
+     "Daisy",
+     "Evie",
+     "Rosie",
+     "Ruby",
+     "Millie"
+    ]
+   },
+   "last": [
+    "Taylor",
+    "Evans",
+    "Thomas",
+    "Roberts",
+    "Walker",
+    "Wright",
+    "Hughes",
+    "Edwards",
+    "Green",
+    "Hall"
+   ],
+   "cities": [
+    "Leeds",
+    "Bristol",
+    "Cardiff",
+    "Glasgow"
+   ]
+  },
+  {
+   "id": "jp",
+   "name": "Japan",
+   "health": 1.2,
+   "wealth": 0.9,
+   "war": 0.0,
+   "first": {
+    "m": [
+     "Haruto",
+     "Yuto",
+     "Sota",
+     "Ren",
+     "Takumi",
+     "Daiki",
+     "Kenji",
+     "Hiro",
+     "Shun",
+     "Ryo"
+    ],
+    "f": [
+     "Yui",
+     "Hina",
+     "Sakura",
+     "Aoi",
+     "Mio",
+     "Rin",
+     "Akari",
+     "Mei",
+     "Yuna",
+     "Hana"
+    ]
+   },
+   "last": [
+    "Sato",
+    "Suzuki",
+    "Takahashi",
+    "Tanaka",
+    "Ito",
+    "Watanabe",
+    "Yamamoto",
+    "Nakamura",
+    "Kobayashi",
+    "Kato"
+   ],
+   "cities": [
+    "Osaka",
+    "Kyoto",
+    "Sapporo",
+    "Nagoya"
+   ]
+  },
+  {
+   "id": "de",
+   "name": "Germany",
+   "health": 1.1,
+   "wealth": 0.9,
+   "war": 0.0,
+   "first": {
+    "m": [
+     "Lukas",
+     "Felix",
+     "Jonas",
+     "Leon",
+     "Paul",
+     "Max",
+     "Finn",
+     "Elias",
+     "Moritz",
+     "Tobias"
+    ],
+    "f": [
+     "Mia",
+     "Hannah",
+     "Lena",
+     "Lea",
+     "Anna",
+     "Clara",
+     "Lotte",
+     "Greta",
+     "Emilia",
+     "Johanna"
+    ]
+   },
+   "last": [
+    "Muller",
+    "Schmidt",
+    "Schneider",
+    "Fischer",
+    "Weber",
+    "Meyer",
+    "Wagner",
+    "Becker",
+    "Hoffmann",
+    "Koch"
+   ],
+   "cities": [
+    "Hamburg",
+    "Munich",
+    "Cologne",
+    "Leipzig"
+   ]
+  },
+  {
+   "id": "br",
+   "name": "Brazil",
+   "health": 0.9,
+   "wealth": 0.5,
+   "war": 0.0,
+   "first": {
+    "m": [
+     "Miguel",
+     "Arthur",
+     "Heitor",
+     "Davi",
+     "Lucas",
+     "Gabriel",
+     "Rafael",
+     "Pedro",
+     "Caio",
+     "Bruno"
+    ],
+    "f": [
+     "Helena",
+     "Alice",
+     "Laura",
+     "Manuela",
+     "Sofia",
+     "Valentina",
+     "Julia",
+     "Livia",
+     "Bia",
+     "Camila"
+    ]
+   },
+   "last": [
+    "Silva",
+    "Santos",
+    "Oliveira",
+    "Souza",
+    "Costa",
+    "Pereira",
+    "Lima",
+    "Almeida",
+    "Ribeiro",
+    "Carvalho"
+   ],
+   "cities": [
+    "Recife",
+    "Salvador",
+    "Curitiba",
+    "Fortaleza"
+   ]
+  },
+  {
+   "id": "ng",
+   "name": "Nigeria",
+   "health": 0.8,
+   "wealth": 0.3,
+   "war": 0.2,
+   "first": {
+    "m": [
+     "Chinedu",
+     "Emeka",
+     "Tunde",
+     "Femi",
+     "Ikenna",
+     "Kunle",
+     "Obinna",
+     "Segun",
+     "Ade",
+     "Kelechi"
+    ],
+    "f": [
+     "Ngozi",
+     "Amara",
+     "Folake",
+     "Adaeze",
+     "Chioma",
+     "Tolu",
+     "Yetunde",
+     "Bisi",
+     "Funmi",
+     "Ife"
+    ]
+   },
+   "last": [
+    "Okafor",
+    "Adeyemi",
+    "Balogun",
+    "Eze",
+    "Okonkwo",
+    "Ibrahim",
+    "Abubakar",
+    "Nwosu",
+    "Afolabi",
+    "Bello"
+   ],
+   "cities": [
+    "Lagos",
+    "Abuja",
+    "Enugu",
+    "Kano"
+   ]
+  },
+  {
+   "id": "in",
+   "name": "India",
+   "health": 0.85,
+   "wealth": 0.35,
+   "war": 0.05,
+   "first": {
+    "m": [
+     "Arjun",
+     "Aarav",
+     "Vihaan",
+     "Rohan",
+     "Kabir",
+     "Aditya",
+     "Ishaan",
+     "Rahul",
+     "Karan",
+     "Dev"
+    ],
+    "f": [
+     "Aanya",
+     "Diya",
+     "Ananya",
+     "Priya",
+     "Meera",
+     "Kavya",
+     "Isha",
+     "Riya",
+     "Sneha",
+     "Tara"
+    ]
+   },
+   "last": [
+    "Sharma",
+    "Patel",
+    "Singh",
+    "Kumar",
+    "Gupta",
+    "Reddy",
+    "Iyer",
+    "Nair",
+    "Joshi",
+    "Mehta"
+   ],
+   "cities": [
+    "Pune",
+    "Jaipur",
+    "Chennai",
+    "Kolkata"
+   ]
+  },
+  {
+   "id": "mx",
+   "name": "Mexico",
+   "health": 0.9,
+   "wealth": 0.5,
+   "war": 0.05,
+   "first": {
+    "m": [
+     "Santiago",
+     "Mateo",
+     "Diego",
+     "Emiliano",
+     "Leonardo",
+     "Sebastian",
+     "Joaquin",
+     "Angel",
+     "Luis",
+     "Carlos"
+    ],
+    "f": [
+     "Sofia",
+     "Valentina",
+     "Ximena",
+     "Camila",
+     "Regina",
+     "Renata",
+     "Maria",
+     "Fernanda",
+     "Daniela",
+     "Paola"
+    ]
+   },
+   "last": [
+    "Hernandez",
+    "Garcia",
+    "Martinez",
+    "Lopez",
+    "Gonzalez",
+    "Perez",
+    "Sanchez",
+    "Ramirez",
+    "Torres",
+    "Flores"
+   ],
+   "cities": [
+    "Puebla",
+    "Guadalajara",
+    "Merida",
+    "Oaxaca"
+   ]
+  },
+  {
+   "id": "fr",
+   "name": "France",
+   "health": 1.1,
+   "wealth": 0.9,
+   "war": 0.0,
+   "first": {
+    "m": [
+     "Gabriel",
+     "Louis",
+     "Raphael",
+     "Jules",
+     "Adam",
+     "Hugo",
+     "Arthur",
+     "Nathan",
+     "Theo",
+     "Leo"
+    ],
+    "f": [
+     "Louise",
+     "Emma",
+     "Jade",
+     "Alice",
+     "Chloe",
+     "Lina",
+     "Rose",
+     "Anna",
+     "Mia",
+     "Camille"
+    ]
+   },
+   "last": [
+    "Martin",
+    "Bernard",
+    "Dubois",
+    "Thomas",
+    "Robert",
+    "Richard",
+    "Petit",
+    "Durand",
+    "Leroy",
+    "Moreau"
+   ],
+   "cities": [
+    "Lyon",
+    "Lille",
+    "Nantes",
+    "Marseille"
+   ]
+  },
+  {
+   "id": "ua",
+   "name": "Ukraine",
+   "health": 0.85,
+   "wealth": 0.35,
+   "war": 0.6,
+   "first": {
+    "m": [
+     "Oleksandr",
+     "Andriy",
+     "Taras",
+     "Bohdan",
+     "Mykola",
+     "Yuriy",
+     "Dmytro",
+     "Ivan",
+     "Maksym",
+     "Vasyl"
+    ],
+    "f": [
+     "Olena",
+     "Natalia",
+     "Oksana",
+     "Iryna",
+     "Kateryna",
+     "Sofia",
+     "Yulia",
+     "Mariya",
+     "Anna",
+     "Tetiana"
+    ]
+   },
+   "last": [
+    "Shevchenko",
+    "Kovalenko",
+    "Bondarenko",
+    "Tkachenko",
+    "Kravchenko",
+    "Melnyk",
+    "Boyko",
+    "Marchenko",
+    "Lysenko",
+    "Savchenko"
+   ],
+   "cities": [
+    "Lviv",
+    "Odesa",
+    "Kharkiv",
+    "Dnipro"
+   ]
+  }
+ ],
+ "genders": [
+  "m",
+  "f"
+ ],
+ "occupations": [
+  "Teacher",
+  "Nurse",
+  "Plumber",
+  "Accountant",
+  "Electrician",
+  "Retail clerk",
+  "Lawyer",
+  "Software developer",
+  "Chef",
+  "Mechanic",
+  "Farmer",
+  "Postal worker",
+  "Dentist",
+  "Bartender",
+  "Carpenter",
+  "Librarian",
+  "Police officer",
+  "Pilot",
+  "Artist",
+  "Salesperson"
+ ],
+ "educations": [
+  "None",
+  "High school",
+  "College"
+ ],
+ "topics": [
+  "the weather",
+  "a very good sandwich",
+  "politics, regrettably",
+  "a documentary about ants",
+  "their feelings",
+  "the neighbors",
+  "a dream they had",
+  "taxes",
+  "a band nobody knows"
+ ],
+ "places": [
+  "the park",
+  "the mall",
+  "school",
+  "the bus stop",
+  "a diner",
+  "the library",
+  "the gym"
+ ],
+ "relTypes": {
+  "mother": "Mother",
+  "father": "Father",
+  "sibling": "Sibling",
+  "friend": "Friend",
+  "partner": "Partner",
+  "spouse": "Spouse",
+  "ex": "Ex",
+  "child": "Child",
+  "coworker": "Coworker"
+ },
+ "interactions": {
+  "mother": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "spend",
+    "label": "Spend time",
+    "minAge": 3,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I spent an afternoon with {name} and we did not argue once.",
+     "I hung out with {name} and ate something unwise."
+    ],
+    "happy": 4
+   },
+   {
+    "id": "gift",
+    "label": "Give a gift ($50)",
+    "minAge": 6,
+    "cost": 50,
+    "bar": [
+     6,
+     14
+    ],
+    "ok": [
+     "I gave {name} a gift and they pretended it was what they wanted."
+    ],
+    "gift": 1,
+    "karma": 4
+   },
+   {
+    "id": "compliment",
+    "label": "Compliment",
+    "minAge": 5,
+    "bar": [
+     2,
+     5
+    ],
+    "ok": [
+     "I complimented {name}, who was visibly suspicious."
+    ],
+    "karma": 4
+   },
+   {
+    "id": "insult",
+    "label": "Insult",
+    "minAge": 5,
+    "bar": [
+     -14,
+     -6
+    ],
+    "ok": [
+     "I insulted {name}. It was effective and regrettable."
+    ],
+    "karma": -8
+   },
+   {
+    "id": "argue",
+    "label": "Start an argument",
+    "minAge": 8,
+    "bar": [
+     -12,
+     -4
+    ],
+    "ok": [
+     "I started an argument with {name} about nothing in particular."
+    ],
+    "karma": -4,
+    "stress": 4
+   },
+   {
+    "id": "askmoney",
+    "label": "Ask for money",
+    "minAge": 12,
+    "chance": "rich",
+    "ok": [
+     "I asked {name} for money and received {amount}."
+    ],
+    "fail": [
+     "I asked {name} for money and received a lecture."
+    ],
+    "mooch": 1,
+    "bar": [
+     -4,
+     -2
+    ]
+   },
+   {
+    "id": "hug",
+    "label": "Hug",
+    "minAge": 0,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I hugged my mother. She held on a little too long."
+    ]
+   }
+  ],
+  "father": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "spend",
+    "label": "Spend time",
+    "minAge": 3,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I spent an afternoon with {name} and we did not argue once.",
+     "I hung out with {name} and ate something unwise."
+    ],
+    "happy": 4
+   },
+   {
+    "id": "gift",
+    "label": "Give a gift ($50)",
+    "minAge": 6,
+    "cost": 50,
+    "bar": [
+     6,
+     14
+    ],
+    "ok": [
+     "I gave {name} a gift and they pretended it was what they wanted."
+    ],
+    "gift": 1,
+    "karma": 4
+   },
+   {
+    "id": "compliment",
+    "label": "Compliment",
+    "minAge": 5,
+    "bar": [
+     2,
+     5
+    ],
+    "ok": [
+     "I complimented {name}, who was visibly suspicious."
+    ],
+    "karma": 4
+   },
+   {
+    "id": "insult",
+    "label": "Insult",
+    "minAge": 5,
+    "bar": [
+     -14,
+     -6
+    ],
+    "ok": [
+     "I insulted {name}. It was effective and regrettable."
+    ],
+    "karma": -8
+   },
+   {
+    "id": "argue",
+    "label": "Start an argument",
+    "minAge": 8,
+    "bar": [
+     -12,
+     -4
+    ],
+    "ok": [
+     "I started an argument with {name} about nothing in particular."
+    ],
+    "karma": -4,
+    "stress": 4
+   },
+   {
+    "id": "askmoney",
+    "label": "Ask for money",
+    "minAge": 12,
+    "chance": "rich",
+    "ok": [
+     "I asked {name} for money and received {amount}."
+    ],
+    "fail": [
+     "I asked {name} for money and received a lecture."
+    ],
+    "mooch": 1,
+    "bar": [
+     -4,
+     -2
+    ]
+   },
+   {
+    "id": "hug",
+    "label": "Hug",
+    "minAge": 0,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I hugged my father, who patted my back twice."
+    ]
+   }
+  ],
+  "sibling": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "spend",
+    "label": "Spend time",
+    "minAge": 3,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I spent an afternoon with {name} and we did not argue once.",
+     "I hung out with {name} and ate something unwise."
+    ],
+    "happy": 4
+   },
+   {
+    "id": "gift",
+    "label": "Give a gift ($50)",
+    "minAge": 6,
+    "cost": 50,
+    "bar": [
+     6,
+     14
+    ],
+    "ok": [
+     "I gave {name} a gift and they pretended it was what they wanted."
+    ],
+    "gift": 1,
+    "karma": 4
+   },
+   {
+    "id": "compliment",
+    "label": "Compliment",
+    "minAge": 5,
+    "bar": [
+     2,
+     5
+    ],
+    "ok": [
+     "I complimented {name}, who was visibly suspicious."
+    ],
+    "karma": 4
+   },
+   {
+    "id": "insult",
+    "label": "Insult",
+    "minAge": 5,
+    "bar": [
+     -14,
+     -6
+    ],
+    "ok": [
+     "I insulted {name}. It was effective and regrettable."
+    ],
+    "karma": -8
+   },
+   {
+    "id": "argue",
+    "label": "Start an argument",
+    "minAge": 8,
+    "bar": [
+     -12,
+     -4
+    ],
+    "ok": [
+     "I started an argument with {name} about nothing in particular."
+    ],
+    "karma": -4,
+    "stress": 4
+   },
+   {
+    "id": "prank",
+    "label": "Prank",
+    "minAge": 4,
+    "bar": [
+     -4,
+     8
+    ],
+    "ok": [
+     "I pranked {name} with a bucket and a lot of patience."
+    ],
+    "karma": -4
+   }
+  ],
+  "friend": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "spend",
+    "label": "Spend time",
+    "minAge": 3,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I spent an afternoon with {name} and we did not argue once.",
+     "I hung out with {name} and ate something unwise."
+    ],
+    "happy": 4
+   },
+   {
+    "id": "gift",
+    "label": "Give a gift ($50)",
+    "minAge": 6,
+    "cost": 50,
+    "bar": [
+     6,
+     14
+    ],
+    "ok": [
+     "I gave {name} a gift and they pretended it was what they wanted."
+    ],
+    "gift": 1,
+    "karma": 4
+   },
+   {
+    "id": "compliment",
+    "label": "Compliment",
+    "minAge": 5,
+    "bar": [
+     2,
+     5
+    ],
+    "ok": [
+     "I complimented {name}, who was visibly suspicious."
+    ],
+    "karma": 4
+   },
+   {
+    "id": "insult",
+    "label": "Insult",
+    "minAge": 5,
+    "bar": [
+     -14,
+     -6
+    ],
+    "ok": [
+     "I insulted {name}. It was effective and regrettable."
+    ],
+    "karma": -8
+   },
+   {
+    "id": "argue",
+    "label": "Start an argument",
+    "minAge": 8,
+    "bar": [
+     -12,
+     -4
+    ],
+    "ok": [
+     "I started an argument with {name} about nothing in particular."
+    ],
+    "karma": -4,
+    "stress": 4
+   },
+   {
+    "id": "askmoney",
+    "label": "Ask for money",
+    "minAge": 12,
+    "chance": "rich",
+    "ok": [
+     "I asked {name} for money and received {amount}."
+    ],
+    "fail": [
+     "I asked {name} for money and received a lecture."
+    ],
+    "mooch": 1,
+    "bar": [
+     -4,
+     -2
+    ]
+   },
+   {
+    "id": "party",
+    "label": "Go out together ($40)",
+    "minAge": 14,
+    "cost": 40,
+    "bar": [
+     4,
+     10
+    ],
+    "happy": 8,
+    "ok": [
+     "I went out with {name} and we stayed out too late."
+    ]
+   }
+  ],
+  "partner": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "spend",
+    "label": "Spend time",
+    "minAge": 3,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I spent an afternoon with {name} and we did not argue once.",
+     "I hung out with {name} and ate something unwise."
+    ],
+    "happy": 4
+   },
+   {
+    "id": "gift",
+    "label": "Give a gift ($50)",
+    "minAge": 6,
+    "cost": 50,
+    "bar": [
+     6,
+     14
+    ],
+    "ok": [
+     "I gave {name} a gift and they pretended it was what they wanted."
+    ],
+    "gift": 1,
+    "karma": 4
+   },
+   {
+    "id": "compliment",
+    "label": "Compliment",
+    "minAge": 5,
+    "bar": [
+     2,
+     5
+    ],
+    "ok": [
+     "I complimented {name}, who was visibly suspicious."
+    ],
+    "karma": 4
+   },
+   {
+    "id": "insult",
+    "label": "Insult",
+    "minAge": 5,
+    "bar": [
+     -14,
+     -6
+    ],
+    "ok": [
+     "I insulted {name}. It was effective and regrettable."
+    ],
+    "karma": -8
+   },
+   {
+    "id": "argue",
+    "label": "Start an argument",
+    "minAge": 8,
+    "bar": [
+     -12,
+     -4
+    ],
+    "ok": [
+     "I started an argument with {name} about nothing in particular."
+    ],
+    "karma": -4,
+    "stress": 4
+   },
+   {
+    "id": "romance",
+    "label": "Romantic night ($100)",
+    "minAge": 16,
+    "cost": 100,
+    "bar": [
+     6,
+     14
+    ],
+    "happy": 8,
+    "ok": [
+     "I had a romantic night with {name}. It was candlelit and mostly fine."
+    ]
+   },
+   {
+    "id": "propose",
+    "label": "Propose",
+    "minAge": 18,
+    "special": "propose",
+    "ok": [
+     "I proposed to {name} and they said yes."
+    ],
+    "fail": [
+     "I proposed to {name}. They said they needed time."
+    ]
+   },
+   {
+    "id": "moveIn",
+    "label": "Move in together",
+    "minAge": 18,
+    "special": "moveIn",
+    "ok": [
+     "I moved in with {name} and learned about their socks."
+    ]
+   },
+   {
+    "id": "breakup",
+    "label": "Break up",
+    "minAge": 12,
+    "special": "breakup",
+    "ok": [
+     "I broke up with {name}. We shared a cry."
+    ]
+   }
+  ],
+  "spouse": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "spend",
+    "label": "Spend time",
+    "minAge": 3,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I spent an afternoon with {name} and we did not argue once.",
+     "I hung out with {name} and ate something unwise."
+    ],
+    "happy": 4
+   },
+   {
+    "id": "gift",
+    "label": "Give a gift ($50)",
+    "minAge": 6,
+    "cost": 50,
+    "bar": [
+     6,
+     14
+    ],
+    "ok": [
+     "I gave {name} a gift and they pretended it was what they wanted."
+    ],
+    "gift": 1,
+    "karma": 4
+   },
+   {
+    "id": "compliment",
+    "label": "Compliment",
+    "minAge": 5,
+    "bar": [
+     2,
+     5
+    ],
+    "ok": [
+     "I complimented {name}, who was visibly suspicious."
+    ],
+    "karma": 4
+   },
+   {
+    "id": "insult",
+    "label": "Insult",
+    "minAge": 5,
+    "bar": [
+     -14,
+     -6
+    ],
+    "ok": [
+     "I insulted {name}. It was effective and regrettable."
+    ],
+    "karma": -8
+   },
+   {
+    "id": "argue",
+    "label": "Start an argument",
+    "minAge": 8,
+    "bar": [
+     -12,
+     -4
+    ],
+    "ok": [
+     "I started an argument with {name} about nothing in particular."
+    ],
+    "karma": -4,
+    "stress": 4
+   },
+   {
+    "id": "romance",
+    "label": "Romantic night ($100)",
+    "minAge": 18,
+    "cost": 100,
+    "bar": [
+     6,
+     14
+    ],
+    "happy": 8,
+    "ok": [
+     "I had a romantic evening with {name}. It was nice."
+    ]
+   },
+   {
+    "id": "baby",
+    "label": "Try for a baby",
+    "minAge": 18,
+    "special": "baby",
+    "ok": [
+     "I tried for a baby with {name}."
+    ]
+   },
+   {
+    "id": "divorce",
+    "label": "Divorce",
+    "minAge": 18,
+    "special": "divorce",
+    "ok": [
+     "I divorced {name}. A lawyer got rich."
+    ]
+   },
+   {
+    "id": "affair",
+    "label": "Cheat",
+    "minAge": 18,
+    "special": "cheat",
+    "ok": [
+     "I cheated on {name}. I felt guilty for several minutes."
+    ]
+   }
+  ],
+  "ex": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "reconcile",
+    "label": "Get back together",
+    "minAge": 16,
+    "special": "reconcile",
+    "chance": "bar",
+    "ok": [
+     "I got back together with {name}. We both knew better."
+    ],
+    "fail": [
+     "I asked {name} to get back together. They did not."
+    ]
+   },
+   {
+    "id": "insult",
+    "label": "Insult",
+    "minAge": 5,
+    "bar": [
+     -14,
+     -6
+    ],
+    "ok": [
+     "I insulted {name}. It was effective and regrettable."
+    ],
+    "karma": -8
+   }
+  ],
+  "child": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "spend",
+    "label": "Spend time",
+    "minAge": 3,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I spent an afternoon with {name} and we did not argue once.",
+     "I hung out with {name} and ate something unwise."
+    ],
+    "happy": 4
+   },
+   {
+    "id": "gift",
+    "label": "Give a gift ($50)",
+    "minAge": 6,
+    "cost": 50,
+    "bar": [
+     6,
+     14
+    ],
+    "ok": [
+     "I gave {name} a gift and they pretended it was what they wanted."
+    ],
+    "gift": 1,
+    "karma": 4
+   },
+   {
+    "id": "compliment",
+    "label": "Compliment",
+    "minAge": 5,
+    "bar": [
+     2,
+     5
+    ],
+    "ok": [
+     "I complimented {name}, who was visibly suspicious."
+    ],
+    "karma": 4
+   },
+   {
+    "id": "scold",
+    "label": "Scold",
+    "minAge": 3,
+    "bar": [
+     -12,
+     -3
+    ],
+    "ok": [
+     "I scolded {name} about {topic}."
+    ],
+    "karma": -4
+   },
+   {
+    "id": "allowance",
+    "label": "Give an allowance ($100)",
+    "minAge": 5,
+    "cost": 100,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I gave {name} an allowance and received a tiny salute."
+    ],
+    "gift": 1
+   },
+   {
+    "id": "tuck",
+    "label": "Read a story",
+    "minAge": 0,
+    "bar": [
+     2,
+     8
+    ],
+    "ok": [
+     "I read {name} a story about a very patient bear."
+    ],
+    "karma": 4
+   }
+  ],
+  "coworker": [
+   {
+    "id": "talk",
+    "label": "Conversation",
+    "minAge": 3,
+    "bar": [
+     2,
+     6
+    ],
+    "ok": [
+     "I had a conversation with {name} about {topic}.",
+     "I chatted with {name} about {topic} and nothing exploded."
+    ]
+   },
+   {
+    "id": "spend",
+    "label": "Spend time",
+    "minAge": 3,
+    "bar": [
+     4,
+     10
+    ],
+    "ok": [
+     "I spent an afternoon with {name} and we did not argue once.",
+     "I hung out with {name} and ate something unwise."
+    ],
+    "happy": 4
+   },
+   {
+    "id": "gift",
+    "label": "Give a gift ($50)",
+    "minAge": 6,
+    "cost": 50,
+    "bar": [
+     6,
+     14
+    ],
+    "ok": [
+     "I gave {name} a gift and they pretended it was what they wanted."
+    ],
+    "gift": 1,
+    "karma": 4
+   },
+   {
+    "id": "compliment",
+    "label": "Compliment",
+    "minAge": 5,
+    "bar": [
+     2,
+     5
+    ],
+    "ok": [
+     "I complimented {name}, who was visibly suspicious."
+    ],
+    "karma": 4
+   },
+   {
+    "id": "insult",
+    "label": "Insult",
+    "minAge": 5,
+    "bar": [
+     -14,
+     -6
+    ],
+    "ok": [
+     "I insulted {name}. It was effective and regrettable."
+    ],
+    "karma": -8
+   },
+   {
+    "id": "suckup",
+    "label": "Suck up",
+    "minAge": 18,
+    "perf": 4,
+    "bar": [
+     -2,
+     6
+    ],
+    "ok": [
+     "I sucked up to {name} and it worked, which was gross."
+    ]
+   },
+   {
+    "id": "sabotage",
+    "label": "Sabotage",
+    "minAge": 18,
+    "perf": -8,
+    "bar": [
+     -12,
+     -4
+    ],
+    "karma": -16,
+    "ok": [
+     "I sabotaged {name}. I hid their stapler."
+    ]
+   },
+   {
+    "id": "flirt",
+    "label": "Flirt",
+    "minAge": 18,
+    "special": "flirt",
+    "chance": "bar",
+    "ok": [
+     "I flirted with {name} at the printer."
+    ],
+    "fail": [
+     "I flirted with {name} and was reported to HR."
+    ]
+   }
+  ]
+ },
+ "dating": {
+  "minAge": 14,
+  "marryMinAge": 18,
+  "candidates": 3,
+  "bar": 50,
+  "barDecayPerYear": {
+   "friend": 4,
+   "sibling": 1,
+   "coworker": 3,
+   "partner": 2,
+   "spouse": 2,
+   "mother": 1,
+   "father": 1,
+   "ex": 3,
+   "child": 0
+  },
+  "breakupBar": 15,
+  "divorceCostFrac": 0.25,
+  "babyChance": 0.35,
+  "randomBirth": 0.1
+ },
+ "people": {
+  "friendsPerYear": 0.35,
+  "friendMax": 8,
+  "coworkers": 3,
+  "siblingsMax": 3,
+  "parentAgeAtBirth": [
+   19,
+   38
+  ],
+  "cashByWealth": [
+   3000,
+   400000
+  ]
+ },
+ "health": {
+  "baseHazard": 4e-05,
+  "ageRate": 0.095,
+  "healthFloor": 0.3,
+  "infantExtra": 0.004,
+  "accidentBase": 0.0009,
+  "accidentYoungBoost": 2.0,
+  "stressHazard": 0.004,
+  "diseaseBase": 0.07,
+  "fitDecay": 0.5,
+  "lifestyle": {
+   "smoker": 0.5,
+   "drinker": 0.25,
+   "drugs": 0.9
+  },
+  "lightning": 4e-07,
+  "murder": 8e-05,
+  "warScale": 0.012,
+  "decay": {
+   "start": 52,
+   "perYear": 0.5,
+   "accel": 0.035
+  },
+  "doctor": {
+   "cost": 250,
+   "fx": 8,
+   "minAge": 4,
+   "treatMult": {
+    "minor": 1,
+    "serious": 1,
+    "can_kill_if_untreated": 1,
+    "chronic": 1,
+    "deadly": 1
+   }
+  },
+  "regen": 6,
+  "autoCare": {
+   "chance": 0.4,
+   "minAge": 6
+  }
+ },
+ "death": {
+  "accidents": [
+   {
+    "id": "car",
+    "w": 4,
+    "text": "a car accident",
+    "min": 16
+   },
+   {
+    "id": "fall",
+    "w": 3,
+    "text": "a fall down the stairs",
+    "min": 0
+   },
+   {
+    "id": "drowning",
+    "w": 2,
+    "text": "drowning",
+    "min": 3
+   },
+   {
+    "id": "fire",
+    "w": 1.5,
+    "text": "a house fire",
+    "min": 0
+   },
+   {
+    "id": "choking",
+    "w": 1.5,
+    "text": "choking on a grape",
+    "min": 0
+   },
+   {
+    "id": "hike",
+    "w": 1,
+    "text": "a hiking accident",
+    "min": 10
+   },
+   {
+    "id": "work",
+    "w": 1.5,
+    "text": "a workplace accident",
+    "min": 16,
+    "needsJob": 1
+   },
+   {
+    "id": "piano",
+    "w": 0.2,
+    "text": "a falling piano",
+    "min": 0
+   }
+  ],
+  "kinds": {
+   "old": "old age",
+   "disease": "illness",
+   "accident": "accident",
+   "murder": "murder",
+   "war": "war",
+   "overdose": "overdose",
+   "prison": "prison",
+   "surrender": "surrender",
+   "lightning": "lightning"
+  },
+  "epitaphs": [
+   "Gone, but only from here.",
+   "Told you I was sick.",
+   "Rest in peace. Finally.",
+   "He was nice to a dog once.",
+   "Her last words were \"hold my drink\".",
+   "Bulldoze at your own risk.",
+   "Brief but eventful.",
+   "At least the taxes are over.",
+   "Born. Lived. Left a mess.",
+   "I did it my way, mostly."
+  ],
+  "obit": {
+   "old": "{name} died peacefully at the age of {age}, surrounded by {surround}. {job} {kids}",
+   "disease": "{name} died at the age of {age} after a long battle with {cause}. {job} {kids}",
+   "accident": "{name} died at the age of {age} in {cause}. {job} {kids}",
+   "murder": "{name} was murdered at the age of {age}. Police have a suspect and a vague sense of hope. {job} {kids}",
+   "war": "{name} died at the age of {age} amid the conflict in {country}. {job} {kids}",
+   "overdose": "{name} died of an overdose at the age of {age}. {job} {kids}",
+   "prison": "{name} died in prison at the age of {age}. {job} {kids}",
+   "surrender": "{name} gave up on life at the age of {age}. {job} {kids}",
+   "lightning": "{name} was struck by lightning at the age of {age}. The sky was not available for comment. {job} {kids}"
+  },
+  "surround": [
+   "family",
+   "loved ones",
+   "a confused cat",
+   "nurses who had never met them",
+   "reruns"
+  ]
+ },
+ "estate": {
+  "exempt": 2000000,
+  "rate": 0.4,
+  "auctionRate": 0.85,
+  "minOwnerAge": 18,
+  "bizSaleRate": 0.9,
+  "auctionKinds": [
+   "car",
+   "house",
+   "boat",
+   "plane"
+  ],
+  "lawyerFee": 0.0,
+  "willModes": [
+   "even",
+   "one"
+  ]
+ },
+ "legacy": {
+  "continueStartHappyHit": 8,
+  "maxGenerationsShown": 50
+ },
+ "journal": {
+  "ageHeader": "Age {age}: {year}",
+  "born": [
+   "I was born in {city}, {country}. My name is {name}. I weigh seven pounds and have strong opinions."
+  ],
+  "sandboxStart": [
+   "I started the story at age 25 with a bank account and a plan."
+  ],
+  "yearJob": [
+   "I worked as a {job} and earned {pay}.",
+   "I spent the year as a {job}, which paid {pay}."
+  ],
+  "yearNoJob": [
+   "I did not have a job this year.",
+   "I spent the year between jobs and most of it on the couch."
+  ],
+  "yearBiz": [
+   "My {biz} made {profit} and {mood}.",
+   "{biz} {mood}, ending the year at {profit}."
+  ],
+  "bizGood": [
+   "I did not have to check the books twice"
+  ],
+  "bizBad": [
+   "I checked the books twice and wished I had not"
+  ],
+  "yearProp": [
+   "My {asset} was worth {value} by the end of the year.",
+   "I owned {asset}, which was worth {value}."
+  ],
+  "yearHealth": {
+   "low": [
+    "My health was a concern.",
+    "I coughed more than I would like to admit."
+   ],
+   "high": [
+    "I felt strong this year."
+   ]
+  },
+  "yearSchool": [
+   "I went to {school}."
+  ],
+  "yearSport": [
+   "I played {sport}: {line}"
+  ],
+  "yearPrison": [
+   "I spent the year in {tier}."
+  ],
+  "yearBirthday": [
+   "I turned {age}."
+  ],
+  "death": [
+   "I died at age {age} of {cause}."
+  ]
+ },
+ "school": {
+  "stages": {
+   "primary": "Elementary",
+   "high": "High school",
+   "college": "College"
+  },
+  "sportAges": {
+   "elementary": [
+    6,
+    11
+   ],
+   "high": [
+    12,
+    17
+   ],
+   "college": [
+    18,
+    21
+   ]
+  }
+ },
+ "sports": {
+  "list": [
+   {
+    "id": "basketball",
+    "name": "Basketball",
+    "icon": "🏀",
+    "stats": [
+     "ppg",
+     "rpg",
+     "apg"
+    ],
+    "pro": true,
+    "base": {
+     "ppg": 8,
+     "rpg": 4,
+     "apg": 3
+    }
+   },
+   {
+    "id": "soccer",
+    "name": "Soccer",
+    "icon": "⚽",
+    "stats": [
+     "goals",
+     "assists",
+     "saves"
+    ],
+    "pro": false,
+    "base": {
+     "goals": 4,
+     "assists": 3,
+     "saves": 1
+    }
+   },
+   {
+    "id": "football",
+    "name": "Football",
+    "icon": "🏈",
+    "stats": [
+     "yards",
+     "tds",
+     "tackles"
+    ],
+    "pro": false,
+    "base": {
+     "yards": 400,
+     "tds": 4,
+     "tackles": 20
+    }
+   },
+   {
+    "id": "baseball",
+    "name": "Baseball",
+    "icon": "⚾",
+    "stats": [
+     "avg",
+     "hr",
+     "rbi"
+    ],
+    "pro": false,
+    "base": {
+     "avg": 0.25,
+     "hr": 4,
+     "rbi": 20
+    }
+   },
+   {
+    "id": "track",
+    "name": "Track & Field",
+    "icon": "🏃",
+    "stats": [
+     "best100",
+     "medals"
+    ],
+    "pro": false,
+    "base": {
+     "best100": 14.0,
+     "medals": 0
+    }
+   },
+   {
+    "id": "swimming",
+    "name": "Swimming",
+    "icon": "🏊",
+    "stats": [
+     "best100",
+     "medals"
+    ],
+    "pro": false,
+    "base": {
+     "best100": 70.0,
+     "medals": 0
+    }
+   }
+  ],
+  "skillGrowth": 4.0,
+  "healthWeight": 0.25,
+  "draft": {
+   "minSkill": 55,
+   "round1": 78,
+   "round2": 64,
+   "ovrBase": 36,
+   "ovrScale": 0.42,
+   "rookieAge": 21,
+   "scholarshipSkill": 62,
+   "proMinSkill": 50
+  },
+  "teamNamesSchool": [
+   "Eagles",
+   "Wolves",
+   "Bears",
+   "Falcons",
+   "Knights",
+   "Titans"
+  ]
+ },
+ "activities": [
+  {
+   "id": "gym",
+   "name": "Gym",
+   "min": 12,
+   "cost": 300,
+   "fx": {
+    "health": 8,
+    "looks": 4
+   },
+   "fit": 1
+  },
+  {
+   "id": "meditate",
+   "name": "Meditate",
+   "min": 8,
+   "cost": 0,
+   "fx": {
+    "happy": 4,
+    "stress": -8
+   }
+  },
+  {
+   "id": "library",
+   "name": "Library",
+   "min": 6,
+   "cost": 0,
+   "fx": {
+    "smarts": 4
+   }
+  },
+  {
+   "id": "vacation",
+   "name": "Vacation ($2,000)",
+   "min": 8,
+   "cost": 2000,
+   "fx": {
+    "happy": 8,
+    "stress": -16
+   }
+  },
+  {
+   "id": "doctor",
+   "name": "Doctor",
+   "min": 4,
+   "special": "doctor"
+  },
+  {
+   "id": "cosmetic",
+   "name": "Cosmetic care ($5,000)",
+   "min": 16,
+   "cost": 5000,
+   "fx": {
+    "looks": 8
+   }
+  },
+  {
+   "id": "social",
+   "name": "Socialize ($100)",
+   "min": 5,
+   "cost": 100,
+   "fx": {
+    "happy": 4
+   }
+  },
+  {
+   "id": "study",
+   "name": "Study",
+   "min": 5,
+   "cost": 0,
+   "fx": {
+    "smarts": 4,
+    "happy": -4
+   }
+  },
+  {
+   "id": "work",
+   "name": "Work extra hard",
+   "min": 16,
+   "cost": 0,
+   "fx": {
+    "happy": -4,
+    "perf": 8
+   },
+   "needsJob": 1
+  },
+  {
+   "id": "volunteer",
+   "name": "Volunteer",
+   "min": 10,
+   "cost": 0,
+   "fx": {
+    "karma": 8,
+    "happy": 4
+   }
+  }
+ ],
+ "meta": {
+  "cemeteryMax": 200
+ }
+}

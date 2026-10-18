@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="electric_guitar" data-category="instruments">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="50" ry="8" data-slot="shadow" id="electric_guitar-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<g transform="rotate(-30 128 128)">
+<rect x="118" y="10" width="20" height="96" rx="3" data-slot="door" id="electric_guitar-door-2" fill="#c18a52" style="fill:var(--slot-door,#c18a52)"/>
+<path d="M112 4H144L148 28H108Z" data-slot="accent" id="electric_guitar-accent-3" fill="#1d1d26" style="fill:var(--slot-accent,#1d1d26)"/>
+<circle cx="108" cy="14" r="3.5" data-slot="metal" id="electric_guitar-metal-4" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<circle cx="148" cy="14" r="3.5" data-slot="metal" id="electric_guitar-metal-5" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<circle cx="108" cy="24" r="3.5" data-slot="metal" id="electric_guitar-metal-6" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<circle cx="148" cy="24" r="3.5" data-slot="metal" id="electric_guitar-metal-7" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<circle cx="108" cy="34" r="3.5" data-slot="metal" id="electric_guitar-metal-8" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<circle cx="148" cy="34" r="3.5" data-slot="metal" id="electric_guitar-metal-9" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<path d="M128 100C156 92 178 104 170 128L186 152C196 180 176 226 128 228C80 226 62 184 76 152L84 124C78 104 106 92 128 100Z" data-slot="body" id="electric_guitar-body-10" fill="#d11e48" style="fill:var(--slot-body,#d11e48)"/>
+<rect x="108" y="142" width="40" height="8" rx="2" data-slot="metal" id="electric_guitar-metal-11" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)" stroke-width="2"/>
+<rect x="108" y="168" width="40" height="8" rx="2" data-slot="metal" id="electric_guitar-metal-12" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)" stroke-width="2"/>
+<rect x="112" y="196" width="32" height="8" rx="2" data-slot="trim" id="electric_guitar-trim-13" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)" stroke-width="2"/>
+<circle cx="160" cy="200" r="5" data-slot="metal" id="electric_guitar-metal-14" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<circle cx="170" cy="186" r="5" data-slot="metal" id="electric_guitar-metal-15" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<path d="M122 30V196M128 30V196M134 30V196" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1"/>
+</g>
+</g>
+</svg>

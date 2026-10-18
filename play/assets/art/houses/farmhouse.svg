@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="farmhouse" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="farmhouse-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="farmhouse-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="188" y="70" width="36" height="140" rx="3" data-slot="metal" id="farmhouse-metal-3" fill="#c9d0d8" style="fill:var(--slot-metal,#c9d0d8)"/>
+<path d="M184 74Q206 36 228 74Z" data-slot="roof" id="farmhouse-roof-4" fill="#b8483a" style="fill:var(--slot-roof,#b8483a)"/>
+<path d="M188 100H224M188 130H224M188 160H224M188 190H224" fill="none" stroke-width="1.5" stroke-opacity=".5"/>
+<rect x="34" y="120" width="140" height="90" rx="2" data-slot="body" id="farmhouse-body-5" fill="#f5f1e8" style="fill:var(--slot-body,#f5f1e8)"/>
+<polygon points="22,122 104,66 186,122" data-slot="roof" id="farmhouse-roof-6" fill="#b8483a" style="fill:var(--slot-roof,#b8483a)"/>
+<rect x="120" y="140" width="70" height="70" rx="2" data-slot="body" id="farmhouse-body-7" fill="#f5f1e8" style="fill:var(--slot-body,#f5f1e8)"/>
+<rect x="110" y="134" width="90" height="8" rx="2" data-slot="roof" id="farmhouse-roof-8" fill="#b8483a" style="fill:var(--slot-roof,#b8483a)"/>
+<rect x="45" y="139" width="28" height="34" rx="2" data-slot="trim" id="farmhouse-trim-9" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="48" y="142" width="22" height="28" rx="1" data-slot="glass" id="farmhouse-glass-10" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M59 142V170M48 156H70" fill="none" stroke-width="1.5"/>
+<rect x="81" y="139" width="28" height="34" rx="2" data-slot="trim" id="farmhouse-trim-11" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="84" y="142" width="22" height="28" rx="1" data-slot="glass" id="farmhouse-glass-12" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M95 142V170M84 156H106" fill="none" stroke-width="1.5"/>
+<rect x="57" y="87" width="30" height="26" rx="2" data-slot="trim" id="farmhouse-trim-13" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="60" y="90" width="24" height="20" rx="1" data-slot="glass" id="farmhouse-glass-14" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M72 90V110M60 100H84" fill="none" stroke-width="1.5"/>
+<rect x="130" y="156" width="24" height="54" rx="2" data-slot="door" id="farmhouse-door-15" fill="#4a6b8f" style="fill:var(--slot-door,#4a6b8f)"/>
+<circle cx="148" cy="183" r="2.5" data-slot="accent" id="farmhouse-accent-16" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="34" y="190" width="90" height="6" rx="1" data-slot="trim" id="farmhouse-trim-17" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="38" y="154" width="4" height="40" rx="1" data-slot="trim" id="farmhouse-trim-18" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="70" y="154" width="4" height="40" rx="1" data-slot="trim" id="farmhouse-trim-19" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="102" y="154" width="4" height="40" rx="1" data-slot="trim" id="farmhouse-trim-20" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="120" y="154" width="4" height="40" rx="1" data-slot="trim" id="farmhouse-trim-21" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<circle cx="106" cy="100" r="8" data-slot="glass" id="farmhouse-glass-22" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="140" y="76" width="14" height="30" data-slot="stone" id="farmhouse-stone-23" fill="#a8a9ad" style="fill:var(--slot-stone,#a8a9ad)"/>
+<rect x="137" y="72" width="20" height="6" rx="1" data-slot="trim" id="farmhouse-trim-24" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+</g>
+</svg>

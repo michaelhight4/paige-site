@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="storybook" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="storybook-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="storybook-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M50 210V130Q50 106 128 104Q206 106 206 130V210Z" data-slot="body" id="storybook-body-3" fill="#f5cfa0" style="fill:var(--slot-body,#f5cfa0)"/>
+<path d="M30 134Q60 70 128 38Q196 70 226 134Q196 116 128 114Q60 116 30 134Z" data-slot="roof" id="storybook-roof-4" fill="#7a4fb0" style="fill:var(--slot-roof,#7a4fb0)"/>
+<path d="M168 70V40q4 -10 16 -6q6 10 -2 18V86Z" data-slot="stone" id="storybook-stone-5" fill="#a9a39a" style="fill:var(--slot-stone,#a9a39a)"/>
+<path d="M108 210V172a20 20 0 0 1 40 0V210Z" data-slot="door" id="storybook-door-6" fill="#3f8f6a" style="fill:var(--slot-door,#3f8f6a)"/>
+<circle cx="142" cy="192" r="3" data-slot="accent" id="storybook-accent-7" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<circle cx="82" cy="150" r="14" data-slot="glass" id="storybook-glass-8" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M82 136V164M68 150H96" fill="none" stroke-width="1.5"/>
+<circle cx="174" cy="150" r="14" data-slot="glass" id="storybook-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M174 136V164M160 150H188" fill="none" stroke-width="1.5"/>
+<circle cx="128" cy="84" r="10" data-slot="glass" id="storybook-glass-10" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="60" y="196" width="20" height="14" rx="4" data-slot="accent" id="storybook-accent-11" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<circle cx="66" cy="190" r="4" data-slot="accent" id="storybook-accent-12" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<circle cx="76" cy="188" r="4" data-slot="accent" id="storybook-accent-13" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="176" y="206" width="24" height="4" rx="2" data-slot="trim" id="storybook-trim-14" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<path d="M30 134Q60 70 128 38" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="3"/>
+<rect x="37" y="202" width="6" height="14" rx="2" data-slot="trim" id="storybook-trim-15" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<circle cx="40" cy="198" r="8" data-slot="accent" id="storybook-accent-16" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="213" y="200" width="6" height="14" rx="2" data-slot="trim" id="storybook-trim-17" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<circle cx="216" cy="196" r="8" data-slot="accent" id="storybook-accent-18" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+</g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="ring_signet" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="70" ry="8" data-slot="shadow" id="ring_signet-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M72 154a56 52 0 1 0 112 0a56 52 0 1 0 -112 0ZM86 154a42 38 0 1 1 84 0a42 38 0 1 1 -84 0Z" data-slot="metal" id="ring_signet-metal-2" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" fill-rule="evenodd"/>
+<path d="M88 96Q128 70 168 96L160 132Q128 146 96 132Z" data-slot="metal" id="ring_signet-metal-3" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)"/>
+<ellipse cx="128" cy="108" rx="24" ry="16" data-slot="accent" id="ring_signet-accent-4" fill="#d33a3a" style="fill:var(--slot-accent,#d33a3a)" stroke-width="2"/>
+<path d="M116 108H140M128 100V116" fill="none" stroke-width="2.5"/>
+<path d="M70 156Q74 134 92 126L94 134Q82 142 80 158Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+</g>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="watch_classic" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="70" ry="8" data-slot="shadow" id="watch_classic-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="98" y="14" width="60" height="90" rx="10" data-slot="fabric" id="watch_classic-fabric-2" fill="#7a4a2a" style="fill:var(--slot-fabric,#7a4a2a)"/>
+<rect x="98" y="152" width="60" height="90" rx="10" data-slot="fabric" id="watch_classic-fabric-3" fill="#7a4a2a" style="fill:var(--slot-fabric,#7a4a2a)"/>
+<path d="M128 30V50M128 206V226" fill="none" stroke-width="2" stroke-opacity=".0"/>
+<circle cx="128" cy="188" r="3" data-slot="metal" id="watch_classic-metal-4" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="128" cy="220" r="3" data-slot="metal" id="watch_classic-metal-5" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="128" cy="128" r="58" data-slot="metal" id="watch_classic-metal-6" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="128" cy="128" r="46" data-slot="trim" id="watch_classic-trim-7" fill="#fffaf0" style="fill:var(--slot-trim,#fffaf0)"/>
+<path d="M128 90L128 85" fill="none" stroke-width="2.5"/>
+<path d="M147 95.09103465619133L149.5 90.76090763726913" fill="none" stroke-width="2.5"/>
+<path d="M160.90896534380866 109L165.23909236273084 106.5" fill="none" stroke-width="2.5"/>
+<path d="M166 128L171 128" fill="none" stroke-width="2.5"/>
+<path d="M160.9089653438087 147L165.23909236273087 149.5" fill="none" stroke-width="2.5"/>
+<path d="M147 160.9089653438087L149.5 165.23909236273087" fill="none" stroke-width="2.5"/>
+<path d="M128 166L128 171" fill="none" stroke-width="2.5"/>
+<path d="M109 160.90896534380866L106.5 165.23909236273084" fill="none" stroke-width="2.5"/>
+<path d="M95.09103465619134 147.00000000000003L90.76090763726914 149.50000000000003" fill="none" stroke-width="2.5"/>
+<path d="M90 128L85 128" fill="none" stroke-width="2.5"/>
+<path d="M95.09103465619134 109L90.76090763726914 106.5" fill="none" stroke-width="2.5"/>
+<path d="M108.99999999999999 95.09103465619134L106.49999999999999 90.76090763726916" fill="none" stroke-width="2.5"/>
+<path d="M128 128V98M128 128L148 136" fill="none" stroke-width="4"/>
+<rect x="158" y="120" width="10" height="16" rx="3" data-slot="metal" id="watch_classic-metal-8" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+</g>
+</svg>

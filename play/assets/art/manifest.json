@@ -1,0 +1,4037 @@
+{
+ "format": "slot-svg-v1",
+ "slotVar": "--slot-<slot>",
+ "outline": "#2b2a3a",
+ "slotDefaults": {
+  "body": "#e0485a",
+  "trim": "#f3efe4",
+  "roof": "#8c4a3a",
+  "door": "#6b4a2f",
+  "stone": "#a8a9ad",
+  "fabric": "#4a7fd0",
+  "metal": "#b9c0c8",
+  "glass": "#9fd8ee",
+  "skin": "#f1c7a0",
+  "hair": "#5a3a22",
+  "accent": "#f2c230",
+  "wheel": "#2f2f3a",
+  "shadow": "#1b1b2a",
+  "rust": "#8a4a2a",
+  "grass": "#6ec06a",
+  "water": "#4aa8e0"
+ },
+ "assets": [
+  {
+   "id": "sedan",
+   "category": "cars",
+   "file": "cars/sedan.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#3f7fd6",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "Family Sedan",
+   "tags": [
+    "car",
+    "sedan"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "coupe",
+   "category": "cars",
+   "file": "cars/coupe.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#8e44c7",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "uncommon",
+   "name": "Coupe",
+   "tags": [
+    "car",
+    "coupe"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "suv",
+   "category": "cars",
+   "file": "cars/suv.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#2e8b57",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "uncommon",
+   "name": "SUV",
+   "tags": [
+    "car",
+    "suv"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "pickup_clean",
+   "category": "cars",
+   "file": "cars/pickup_clean.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#d65a2c",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "Pickup Truck",
+   "tags": [
+    "car",
+    "truck",
+    "pickup"
+   ],
+   "pair": "pickup_wrecked",
+   "pairRole": "clean",
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "pickup_wrecked",
+   "category": "cars",
+   "file": "cars/pickup_wrecked.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal",
+    "rust"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#9c8f72",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8",
+    "rust": "#8a4a2a"
+   },
+   "rarity": "common",
+   "name": "Wrecked Pickup",
+   "tags": [
+    "car",
+    "truck",
+    "pickup",
+    "wrecked"
+   ],
+   "pair": "pickup_clean",
+   "pairRole": "wrecked",
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "sports_clean",
+   "category": "cars",
+   "file": "cars/sports_clean.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "accent",
+    "trim",
+    "metal",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#e8262b",
+    "glass": "#9fd8ee",
+    "accent": "#f2c230",
+    "trim": "#f3efe4",
+    "metal": "#b9c0c8",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "rare",
+   "name": "Sports Coupe",
+   "tags": [
+    "car",
+    "sports"
+   ],
+   "pair": "sports_wrecked",
+   "pairRole": "clean",
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "sports_wrecked",
+   "category": "cars",
+   "file": "cars/sports_wrecked.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "accent",
+    "trim",
+    "metal",
+    "wheel",
+    "rust"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#8a6f6a",
+    "glass": "#9fd8ee",
+    "accent": "#f2c230",
+    "trim": "#f3efe4",
+    "metal": "#b9c0c8",
+    "wheel": "#2f2f3a",
+    "rust": "#8a4a2a"
+   },
+   "rarity": "rare",
+   "name": "Wrecked Sports Coupe",
+   "tags": [
+    "car",
+    "sports",
+    "wrecked"
+   ],
+   "pair": "sports_clean",
+   "pairRole": "wrecked",
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "supercar",
+   "category": "cars",
+   "file": "cars/supercar.svg",
+   "slots": [
+    "shadow",
+    "trim",
+    "metal",
+    "body",
+    "glass",
+    "accent",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "trim": "#f3efe4",
+    "metal": "#b9c0c8",
+    "body": "#f4a300",
+    "glass": "#9fd8ee",
+    "accent": "#222",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "legendary",
+   "name": "Supercar",
+   "tags": [
+    "car",
+    "supercar",
+    "exotic"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "classic_clean",
+   "category": "cars",
+   "file": "cars/classic_clean.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#2fa7a0",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "epic",
+   "name": "Classic Cruiser",
+   "tags": [
+    "car",
+    "classic",
+    "vintage"
+   ],
+   "pair": "classic_wrecked",
+   "pairRole": "clean",
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "classic_wrecked",
+   "category": "cars",
+   "file": "cars/classic_wrecked.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal",
+    "rust"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#8c8f78",
+    "glass": "#9fd8ee",
+    "trim": "#b9b09a",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8",
+    "rust": "#8a4a2a"
+   },
+   "rarity": "epic",
+   "name": "Old Classic (Wrecked)",
+   "tags": [
+    "car",
+    "classic",
+    "vintage",
+    "wrecked"
+   ],
+   "pair": "classic_clean",
+   "pairRole": "wrecked",
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "muscle_clean",
+   "category": "cars",
+   "file": "cars/muscle_clean.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "accent",
+    "trim",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#1f5fbf",
+    "glass": "#9fd8ee",
+    "accent": "#f2c230",
+    "trim": "#f3efe4",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "epic",
+   "name": "Muscle Car",
+   "tags": [
+    "car",
+    "muscle"
+   ],
+   "pair": "muscle_wrecked",
+   "pairRole": "clean",
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "muscle_wrecked",
+   "category": "cars",
+   "file": "cars/muscle_wrecked.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "accent",
+    "trim",
+    "wheel",
+    "metal",
+    "rust"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#7a7f8c",
+    "glass": "#9fd8ee",
+    "accent": "#f2c230",
+    "trim": "#f3efe4",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8",
+    "rust": "#8a4a2a"
+   },
+   "rarity": "epic",
+   "name": "Muscle Car (Wrecked)",
+   "tags": [
+    "car",
+    "muscle",
+    "wrecked"
+   ],
+   "pair": "muscle_clean",
+   "pairRole": "wrecked",
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "race_car",
+   "category": "cars",
+   "file": "cars/race_car.svg",
+   "slots": [
+    "shadow",
+    "trim",
+    "metal",
+    "body",
+    "skin",
+    "accent",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "trim": "#f3efe4",
+    "metal": "#b9c0c8",
+    "body": "#e63946",
+    "skin": "#f1c7a0",
+    "accent": "#ffd23f",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "rare",
+   "name": "Race Car",
+   "tags": [
+    "car",
+    "race",
+    "formula"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "van",
+   "category": "cars",
+   "file": "cars/van.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#f2f2f2",
+    "glass": "#9fd8ee",
+    "trim": "#4a7fd0",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "Delivery Van",
+   "tags": [
+    "car",
+    "van"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "taxi",
+   "category": "cars",
+   "file": "cars/taxi.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#f7c617",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#fff3a0",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "Taxi Cab",
+   "tags": [
+    "car",
+    "taxi"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "bus",
+   "category": "cars",
+   "file": "cars/bus.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#2f9e44",
+    "glass": "#bfe6f5",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "City Bus",
+   "tags": [
+    "car",
+    "bus"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "hatchback",
+   "category": "cars",
+   "file": "cars/hatchback.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#f08c1e",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "Hatchback",
+   "tags": [
+    "car",
+    "hatch"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "convertible",
+   "category": "cars",
+   "file": "cars/convertible.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "fabric",
+    "skin",
+    "hair",
+    "metal",
+    "trim",
+    "accent",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#ff5fa2",
+    "glass": "#9fd8ee",
+    "fabric": "#4a7fd0",
+    "skin": "#f1c7a0",
+    "hair": "#5a3a22",
+    "metal": "#b9c0c8",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "rare",
+   "name": "Convertible",
+   "tags": [
+    "car",
+    "convertible"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "limo",
+   "category": "cars",
+   "file": "cars/limo.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#1d1d26",
+    "glass": "#6a7f96",
+    "trim": "#f3efe4",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "epic",
+   "name": "Stretch Limo",
+   "tags": [
+    "car",
+    "limo",
+    "luxury"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "jeep",
+   "category": "cars",
+   "file": "cars/jeep.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "metal",
+    "accent",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#6b8e23",
+    "glass": "#9fd8ee",
+    "metal": "#b9c0c8",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "uncommon",
+   "name": "Off-Road Jeep",
+   "tags": [
+    "car",
+    "jeep",
+    "offroad"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "police",
+   "category": "cars",
+   "file": "cars/police.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#f5f5f5",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#3b6fe2",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "uncommon",
+   "name": "Police Cruiser",
+   "tags": [
+    "car",
+    "police"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "electric",
+   "category": "cars",
+   "file": "cars/electric.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "glass",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#e9eef4",
+    "glass": "#7fb8d8",
+    "accent": "#34e0c4",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "rare",
+   "name": "Electric Pod",
+   "tags": [
+    "car",
+    "electric",
+    "futuristic"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "monster_truck",
+   "category": "cars",
+   "file": "cars/monster_truck.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "body",
+    "glass",
+    "accent",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#b9c0c8",
+    "body": "#5a2fc2",
+    "glass": "#9fd8ee",
+    "accent": "#7cff3a",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "epic",
+   "name": "Monster Truck",
+   "tags": [
+    "car",
+    "truck",
+    "monster"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "tow_truck",
+   "category": "cars",
+   "file": "cars/tow_truck.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "body",
+    "glass",
+    "trim",
+    "accent",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#b9c0c8",
+    "body": "#e0a410",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4",
+    "accent": "#ff6a00",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "uncommon",
+   "name": "Tow Truck",
+   "tags": [
+    "car",
+    "truck",
+    "tow"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "trailer",
+   "category": "houses",
+   "file": "houses/trailer.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "metal",
+    "body",
+    "accent",
+    "trim",
+    "glass",
+    "door",
+    "wheel",
+    "stone"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "metal": "#b9c0c8",
+    "body": "#e8e4d8",
+    "accent": "#e0485a",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "door": "#5b87c5",
+    "wheel": "#2f2f3a",
+    "stone": "#a8a9ad"
+   },
+   "rarity": "common",
+   "name": "Camper Trailer",
+   "tags": [
+    "house",
+    "trailer",
+    "poor",
+    "starter"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "mobile_home",
+   "category": "houses",
+   "file": "houses/mobile_home.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "stone",
+    "trim",
+    "glass",
+    "door",
+    "accent",
+    "metal"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#a9c4d6",
+    "roof": "#7a828c",
+    "stone": "#a8a9ad",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "door": "#d65a2c",
+    "accent": "#f2c230",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "Mobile Home",
+   "tags": [
+    "house",
+    "mobile home"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "rambler",
+   "category": "houses",
+   "file": "houses/rambler.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "stone",
+    "trim",
+    "door",
+    "glass",
+    "accent"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#e7d3a6",
+    "roof": "#6b5b4e",
+    "stone": "#a8a9ad",
+    "trim": "#f3efe4",
+    "door": "#7a4a2a",
+    "glass": "#9fd8ee",
+    "accent": "#f2c230"
+   },
+   "rarity": "common",
+   "name": "Rambler",
+   "tags": [
+    "house",
+    "suburban"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "row_house",
+   "category": "houses",
+   "file": "houses/row_house.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "trim",
+    "glass",
+    "door",
+    "accent",
+    "stone"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#b5593f",
+    "roof": "#4a4a58",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "door": "#2f5f8f",
+    "accent": "#d9a441",
+    "stone": "#a8a9ad"
+   },
+   "rarity": "common",
+   "name": "Row House",
+   "tags": [
+    "house",
+    "city",
+    "townhouse"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "log_cabin",
+   "category": "houses",
+   "file": "houses/log_cabin.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "stone",
+    "trim",
+    "door",
+    "accent",
+    "glass"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#b0743f",
+    "roof": "#5a3a2a",
+    "stone": "#8d8c88",
+    "trim": "#f3efe4",
+    "door": "#5b3a22",
+    "accent": "#f2c230",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "uncommon",
+   "name": "Log Cabin",
+   "tags": [
+    "house",
+    "cabin",
+    "rustic"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "craftsman",
+   "category": "houses",
+   "file": "houses/craftsman.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "trim",
+    "glass",
+    "door",
+    "accent",
+    "stone"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#7f9a6b",
+    "roof": "#5b4636",
+    "trim": "#efe6cc",
+    "glass": "#9fd8ee",
+    "door": "#a8452e",
+    "accent": "#f2c230",
+    "stone": "#9a8e7e"
+   },
+   "rarity": "uncommon",
+   "name": "Craftsman Bungalow",
+   "tags": [
+    "house",
+    "craftsman",
+    "bungalow"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "contemporary",
+   "category": "houses",
+   "file": "houses/contemporary.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "stone",
+    "body",
+    "roof",
+    "glass",
+    "door",
+    "metal"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "stone": "#6b6f78",
+    "body": "#f0f0f0",
+    "roof": "#2e2e38",
+    "glass": "#8ec5dd",
+    "door": "#d9772b",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "rare",
+   "name": "Contemporary",
+   "tags": [
+    "house",
+    "modern",
+    "architect"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "villa",
+   "category": "houses",
+   "file": "houses/villa.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "trim",
+    "glass",
+    "door",
+    "metal",
+    "stone"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#f2dcb3",
+    "roof": "#c4562a",
+    "trim": "#fff6e0",
+    "glass": "#7fb7d4",
+    "door": "#5b3a22",
+    "metal": "#b9c0c8",
+    "stone": "#a8a9ad"
+   },
+   "rarity": "epic",
+   "name": "Mediterranean Villa",
+   "tags": [
+    "house",
+    "villa",
+    "luxury"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "manor",
+   "category": "houses",
+   "file": "houses/manor.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "stone",
+    "roof",
+    "trim",
+    "glass",
+    "door",
+    "accent"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "stone": "#b9ad9a",
+    "roof": "#4d5566",
+    "trim": "#f1ece0",
+    "glass": "#9fd8ee",
+    "door": "#6b2f2f",
+    "accent": "#f2c230"
+   },
+   "rarity": "epic",
+   "name": "Country Manor",
+   "tags": [
+    "house",
+    "manor",
+    "estate"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "mansion",
+   "category": "houses",
+   "file": "houses/mansion.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "trim",
+    "glass",
+    "door",
+    "accent",
+    "stone"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#f4efe4",
+    "roof": "#37465e",
+    "trim": "#ffffff",
+    "glass": "#9fd8ee",
+    "door": "#4b2a1a",
+    "accent": "#f2c230",
+    "stone": "#b5b0a6"
+   },
+   "rarity": "legendary",
+   "name": "Grand Mansion",
+   "tags": [
+    "house",
+    "mansion",
+    "luxury"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "penthouse",
+   "category": "houses",
+   "file": "houses/penthouse.svg",
+   "slots": [
+    "shadow",
+    "stone",
+    "glass",
+    "body",
+    "roof",
+    "metal",
+    "accent",
+    "fabric",
+    "door"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "stone": "#8a93a6",
+    "glass": "#7fc4e8",
+    "body": "#e8ecf2",
+    "roof": "#2e3342",
+    "metal": "#b9c0c8",
+    "accent": "#ffd23f",
+    "fabric": "#4a7fd0",
+    "door": "#222"
+   },
+   "rarity": "legendary",
+   "name": "Skyline Penthouse",
+   "tags": [
+    "house",
+    "penthouse",
+    "city",
+    "luxury"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "storybook",
+   "category": "houses",
+   "file": "houses/storybook.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "stone",
+    "door",
+    "accent",
+    "glass",
+    "trim"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#f5cfa0",
+    "roof": "#7a4fb0",
+    "stone": "#a9a39a",
+    "door": "#3f8f6a",
+    "accent": "#f2c230",
+    "glass": "#9fd8ee",
+    "trim": "#f3efe4"
+   },
+   "rarity": "epic",
+   "name": "Storybook Cottage",
+   "tags": [
+    "house",
+    "fairytale",
+    "cottage"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "equestrian",
+   "category": "houses",
+   "file": "houses/equestrian.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "trim",
+    "glass",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#a63d3d",
+    "roof": "#4a4f5c",
+    "trim": "#f7f2e8",
+    "glass": "#cfe6ee",
+    "metal": "#b9c0c8",
+    "accent": "#f2c230"
+   },
+   "rarity": "legendary",
+   "name": "Equestrian Estate",
+   "tags": [
+    "house",
+    "horse",
+    "ranch",
+    "barn"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "castle",
+   "category": "houses",
+   "file": "houses/castle.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "stone",
+    "roof",
+    "metal",
+    "fabric",
+    "glass",
+    "door"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "stone": "#a7adb8",
+    "roof": "#4a6fa5",
+    "metal": "#b9c0c8",
+    "fabric": "#d33a3a",
+    "glass": "#9fd8ee",
+    "door": "#6b4a2f"
+   },
+   "rarity": "legendary",
+   "name": "Castle Keep",
+   "tags": [
+    "house",
+    "castle",
+    "medieval"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "futuristic",
+   "category": "houses",
+   "file": "houses/futuristic.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "body",
+    "glass",
+    "accent",
+    "door"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#aab4c4",
+    "body": "#e8edf5",
+    "glass": "#8fe0f0",
+    "accent": "#34e0c4",
+    "door": "#5a6ad6"
+   },
+   "rarity": "legendary",
+   "name": "Futuristic Dome Home",
+   "tags": [
+    "house",
+    "futuristic",
+    "scifi"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "tiny_house",
+   "category": "houses",
+   "file": "houses/tiny_house.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "trim",
+    "wheel",
+    "metal",
+    "glass",
+    "door",
+    "accent"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#f3e2c2",
+    "roof": "#3e6d5a",
+    "trim": "#f3efe4",
+    "wheel": "#2f2f3a",
+    "metal": "#b9c0c8",
+    "glass": "#9fd8ee",
+    "door": "#e0485a",
+    "accent": "#f2c230"
+   },
+   "rarity": "uncommon",
+   "name": "Tiny House",
+   "tags": [
+    "house",
+    "tiny",
+    "minimalist"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "apartment",
+   "category": "houses",
+   "file": "houses/apartment.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "roof",
+    "trim",
+    "glass",
+    "metal",
+    "door",
+    "fabric"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#c97b5a",
+    "roof": "#4a4a58",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "metal": "#b9c0c8",
+    "door": "#2f2f3a",
+    "fabric": "#3b82d6"
+   },
+   "rarity": "common",
+   "name": "Apartment Block",
+   "tags": [
+    "house",
+    "apartment",
+    "city"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "farmhouse",
+   "category": "houses",
+   "file": "houses/farmhouse.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "metal",
+    "roof",
+    "body",
+    "trim",
+    "glass",
+    "door",
+    "accent",
+    "stone"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "metal": "#c9d0d8",
+    "roof": "#b8483a",
+    "body": "#f5f1e8",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "door": "#4a6b8f",
+    "accent": "#f2c230",
+    "stone": "#a8a9ad"
+   },
+   "rarity": "uncommon",
+   "name": "Farmhouse & Silo",
+   "tags": [
+    "house",
+    "farm",
+    "rural"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "cottage",
+   "category": "houses",
+   "file": "houses/cottage.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "stone",
+    "trim",
+    "door",
+    "glass",
+    "accent",
+    "fabric"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#f1e1c0",
+    "roof": "#c9a45a",
+    "stone": "#a79d92",
+    "trim": "#f3efe4",
+    "door": "#3a6ea5",
+    "glass": "#9fd8ee",
+    "accent": "#ff7aa8",
+    "fabric": "#6a9c4a"
+   },
+   "rarity": "uncommon",
+   "name": "Thatched Cottage",
+   "tags": [
+    "house",
+    "cottage",
+    "cozy"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "colonial",
+   "category": "houses",
+   "file": "houses/colonial.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "stone",
+    "trim",
+    "glass",
+    "accent",
+    "door"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#a64b3c",
+    "roof": "#3f4552",
+    "stone": "#a8a9ad",
+    "trim": "#f4efe2",
+    "glass": "#9fd8ee",
+    "accent": "#2c4a38",
+    "door": "#2c4a38"
+   },
+   "rarity": "rare",
+   "name": "Colonial Home",
+   "tags": [
+    "house",
+    "colonial",
+    "brick"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "beach_house",
+   "category": "houses",
+   "file": "houses/beach_house.svg",
+   "slots": [
+    "water",
+    "trim",
+    "door",
+    "body",
+    "roof",
+    "glass",
+    "accent",
+    "fabric",
+    "metal"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "trim": "#fff",
+    "door": "#2fa7a0",
+    "body": "#fbf4e6",
+    "roof": "#e0705a",
+    "glass": "#9fd8ee",
+    "accent": "#f2c230",
+    "fabric": "#2fa7a0",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "rare",
+   "name": "Beach House",
+   "tags": [
+    "house",
+    "beach",
+    "coastal"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "adobe",
+   "category": "houses",
+   "file": "houses/adobe.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "stone",
+    "door",
+    "trim",
+    "glass",
+    "fabric"
+   ],
+   "defaults": {
+    "grass": "#4f9a52",
+    "shadow": "#1b1b2a",
+    "body": "#e0b887",
+    "stone": "#d3a572",
+    "door": "#7a4a2a",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "fabric": "#d94a4a"
+   },
+   "rarity": "uncommon",
+   "name": "Adobe Pueblo",
+   "tags": [
+    "house",
+    "adobe",
+    "desert"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "tudor",
+   "category": "houses",
+   "file": "houses/tudor.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "body",
+    "roof",
+    "trim",
+    "glass",
+    "door",
+    "accent",
+    "stone"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "body": "#efe3c8",
+    "roof": "#6b3a2e",
+    "trim": "#4a3322",
+    "glass": "#9fd8ee",
+    "door": "#2f4a38",
+    "accent": "#f2c230",
+    "stone": "#9a8a78"
+   },
+   "rarity": "rare",
+   "name": "Tudor Revival",
+   "tags": [
+    "house",
+    "tudor",
+    "timber"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "chalet",
+   "category": "houses",
+   "file": "houses/chalet.svg",
+   "slots": [
+    "grass",
+    "shadow",
+    "roof",
+    "glass",
+    "door",
+    "metal",
+    "trim",
+    "stone"
+   ],
+   "defaults": {
+    "grass": "#6ec06a",
+    "shadow": "#1b1b2a",
+    "roof": "#7a4a2a",
+    "glass": "#b8e4f0",
+    "door": "#3e2a1a",
+    "metal": "#b9c0c8",
+    "trim": "#ffffff",
+    "stone": "#8d8c88"
+   },
+   "rarity": "rare",
+   "name": "A-Frame Chalet",
+   "tags": [
+    "house",
+    "chalet",
+    "cabin",
+    "ski"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "rowboat",
+   "category": "boats",
+   "file": "boats/rowboat.svg",
+   "slots": [
+    "water",
+    "body",
+    "trim",
+    "metal"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "body": "#3b82d6",
+    "trim": "#f3efe4",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "Rowboat",
+   "tags": [
+    "boat",
+    "row"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "canoe",
+   "category": "boats",
+   "file": "boats/canoe.svg",
+   "slots": [
+    "water",
+    "body",
+    "trim",
+    "fabric",
+    "skin",
+    "hair",
+    "accent"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "body": "#d9822b",
+    "trim": "#f3efe4",
+    "fabric": "#2fa7a0",
+    "skin": "#f1c7a0",
+    "hair": "#5a3a22",
+    "accent": "#f2c230"
+   },
+   "rarity": "common",
+   "name": "Canoe",
+   "tags": [
+    "boat",
+    "paddle"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "sailboat",
+   "category": "boats",
+   "file": "boats/sailboat.svg",
+   "slots": [
+    "water",
+    "body",
+    "trim",
+    "metal",
+    "fabric",
+    "accent",
+    "glass"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "body": "#e0485a",
+    "trim": "#f3efe4",
+    "metal": "#b9c0c8",
+    "fabric": "#3b82d6",
+    "accent": "#f2c230",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "uncommon",
+   "name": "Sailboat",
+   "tags": [
+    "boat",
+    "sail"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "speedboat",
+   "category": "boats",
+   "file": "boats/speedboat.svg",
+   "slots": [
+    "water",
+    "body",
+    "trim",
+    "glass",
+    "fabric",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "body": "#f4f4f4",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "fabric": "#222a3a",
+    "metal": "#b9c0c8",
+    "accent": "#e8262b"
+   },
+   "rarity": "rare",
+   "name": "Speedboat",
+   "tags": [
+    "boat",
+    "speed"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "fishing_boat",
+   "category": "boats",
+   "file": "boats/fishing_boat.svg",
+   "slots": [
+    "water",
+    "body",
+    "trim",
+    "glass",
+    "roof",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "body": "#2e6fa8",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "roof": "#c4562a",
+    "metal": "#b9c0c8",
+    "accent": "#f2c230"
+   },
+   "rarity": "common",
+   "name": "Fishing Boat",
+   "tags": [
+    "boat",
+    "fishing"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "pontoon",
+   "category": "boats",
+   "file": "boats/pontoon.svg",
+   "slots": [
+    "water",
+    "metal",
+    "trim",
+    "body",
+    "roof",
+    "fabric",
+    "skin",
+    "hair",
+    "accent"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "metal": "#b9c0c8",
+    "trim": "#f3efe4",
+    "body": "#f4efe4",
+    "roof": "#f2f2f2",
+    "fabric": "#2fa7a0",
+    "skin": "#f1c7a0",
+    "hair": "#5a3a22",
+    "accent": "#e0485a"
+   },
+   "rarity": "uncommon",
+   "name": "Pontoon Boat",
+   "tags": [
+    "boat",
+    "pontoon",
+    "lake"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "yacht",
+   "category": "boats",
+   "file": "boats/yacht.svg",
+   "slots": [
+    "water",
+    "body",
+    "accent",
+    "glass",
+    "trim",
+    "roof",
+    "metal",
+    "fabric"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "body": "#1d3a6b",
+    "accent": "#d4af37",
+    "glass": "#9fd8ee",
+    "trim": "#f6f6f6",
+    "roof": "#222",
+    "metal": "#b9c0c8",
+    "fabric": "#d33a3a"
+   },
+   "rarity": "epic",
+   "name": "Luxury Yacht",
+   "tags": [
+    "boat",
+    "yacht",
+    "luxury"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "cruise_ship",
+   "category": "boats",
+   "file": "boats/cruise_ship.svg",
+   "slots": [
+    "water",
+    "body",
+    "accent",
+    "glass",
+    "trim"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "body": "#2a4d8f",
+    "accent": "#e0485a",
+    "glass": "#9fd8ee",
+    "trim": "#f6f6f6"
+   },
+   "rarity": "epic",
+   "name": "Cruise Ship",
+   "tags": [
+    "boat",
+    "cruise",
+    "ship"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "prop_plane",
+   "category": "aircraft",
+   "file": "aircraft/prop_plane.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "glass",
+    "metal",
+    "accent",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#e8262b",
+    "trim": "#f4efe4",
+    "glass": "#9fd8ee",
+    "metal": "#b9c0c8",
+    "accent": "#f2c230",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "common",
+   "name": "Prop Plane",
+   "tags": [
+    "aircraft",
+    "plane",
+    "prop"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "biplane",
+   "category": "aircraft",
+   "file": "aircraft/biplane.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent",
+    "metal",
+    "trim",
+    "skin",
+    "hair",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#1f5fbf",
+    "accent": "#e0485a",
+    "metal": "#b9c0c8",
+    "trim": "#f0d9a0",
+    "skin": "#f1c7a0",
+    "hair": "#5a3a22",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "rare",
+   "name": "Biplane",
+   "tags": [
+    "aircraft",
+    "plane",
+    "vintage"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "private_jet",
+   "category": "aircraft",
+   "file": "aircraft/private_jet.svg",
+   "slots": [
+    "shadow",
+    "trim",
+    "body",
+    "glass",
+    "accent",
+    "metal",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "trim": "#c9d0d8",
+    "body": "#f6f6f6",
+    "glass": "#4a5a6e",
+    "accent": "#d4af37",
+    "metal": "#b9c0c8",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "epic",
+   "name": "Private Jet",
+   "tags": [
+    "aircraft",
+    "jet",
+    "luxury"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "airliner",
+   "category": "aircraft",
+   "file": "aircraft/airliner.svg",
+   "slots": [
+    "shadow",
+    "accent",
+    "trim",
+    "body",
+    "glass",
+    "metal",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "accent": "#2b6fd6",
+    "trim": "#cdd5de",
+    "body": "#fafafa",
+    "glass": "#6a86a8",
+    "metal": "#b9c0c8",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "rare",
+   "name": "Airliner",
+   "tags": [
+    "aircraft",
+    "plane",
+    "airline"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "helicopter",
+   "category": "aircraft",
+   "file": "aircraft/helicopter.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "body",
+    "accent",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#b9c0c8",
+    "body": "#e8262b",
+    "accent": "#f2c230",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "rare",
+   "name": "Helicopter",
+   "tags": [
+    "aircraft",
+    "helicopter"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "hot_air_balloon",
+   "category": "aircraft",
+   "file": "aircraft/hot_air_balloon.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent",
+    "door",
+    "fabric",
+    "skin"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#e0485a",
+    "accent": "#f2c230",
+    "door": "#a5723f",
+    "fabric": "#3b82d6",
+    "skin": "#f1c7a0"
+   },
+   "rarity": "uncommon",
+   "name": "Hot Air Balloon",
+   "tags": [
+    "aircraft",
+    "balloon"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "seaplane",
+   "category": "aircraft",
+   "file": "aircraft/seaplane.svg",
+   "slots": [
+    "water",
+    "accent",
+    "body",
+    "trim",
+    "metal",
+    "glass"
+   ],
+   "defaults": {
+    "water": "#4aa8e0",
+    "accent": "#2fa7a0",
+    "body": "#f4efe4",
+    "trim": "#e0485a",
+    "metal": "#b9c0c8",
+    "glass": "#9fd8ee"
+   },
+   "rarity": "uncommon",
+   "name": "Seaplane",
+   "tags": [
+    "aircraft",
+    "plane",
+    "water"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "blimp",
+   "category": "aircraft",
+   "file": "aircraft/blimp.svg",
+   "slots": [
+    "shadow",
+    "accent",
+    "body",
+    "trim",
+    "glass",
+    "metal",
+    "fabric"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "accent": "#e0485a",
+    "body": "#cfd8e6",
+    "trim": "#f3efe4",
+    "glass": "#9fd8ee",
+    "metal": "#b9c0c8",
+    "fabric": "#3b82d6"
+   },
+   "rarity": "rare",
+   "name": "Blimp",
+   "tags": [
+    "aircraft",
+    "blimp",
+    "airship"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 160"
+  },
+  {
+   "id": "ring_band",
+   "category": "jewelry",
+   "file": "jewelry/ring_band.svg",
+   "slots": [
+    "shadow",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#f2c230"
+   },
+   "rarity": "common",
+   "name": "Gold Band",
+   "tags": [
+    "jewelry",
+    "ring",
+    "wedding"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "ring_solitaire",
+   "category": "jewelry",
+   "file": "jewelry/ring_solitaire.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "stone"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#e8e8ee",
+    "stone": "#cdeeff"
+   },
+   "rarity": "epic",
+   "name": "Diamond Solitaire",
+   "tags": [
+    "jewelry",
+    "ring",
+    "diamond",
+    "engagement"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "ring_signet",
+   "category": "jewelry",
+   "file": "jewelry/ring_signet.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#f2c230",
+    "accent": "#d33a3a"
+   },
+   "rarity": "rare",
+   "name": "Signet Ring",
+   "tags": [
+    "jewelry",
+    "ring",
+    "signet"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "necklace_pearl",
+   "category": "jewelry",
+   "file": "jewelry/necklace_pearl.svg",
+   "slots": [
+    "shadow",
+    "stone",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "stone": "#f6f1e6",
+    "metal": "#e8c230"
+   },
+   "rarity": "epic",
+   "name": "Pearl Necklace",
+   "tags": [
+    "jewelry",
+    "necklace",
+    "pearl"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "necklace_pendant",
+   "category": "jewelry",
+   "file": "jewelry/necklace_pendant.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "stone"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#e8e8ee",
+    "stone": "#d33a5a"
+   },
+   "rarity": "rare",
+   "name": "Gem Pendant",
+   "tags": [
+    "jewelry",
+    "necklace",
+    "gem"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "necklace_chain",
+   "category": "jewelry",
+   "file": "jewelry/necklace_chain.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#f2c230",
+    "accent": "#ffe08a"
+   },
+   "rarity": "uncommon",
+   "name": "Gold Chain & Dog Tag",
+   "tags": [
+    "jewelry",
+    "necklace",
+    "chain"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "watch_classic",
+   "category": "jewelry",
+   "file": "jewelry/watch_classic.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "metal",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#7a4a2a",
+    "metal": "#d8dde4",
+    "trim": "#fffaf0"
+   },
+   "rarity": "common",
+   "name": "Classic Watch",
+   "tags": [
+    "jewelry",
+    "watch"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "watch_luxury",
+   "category": "jewelry",
+   "file": "jewelry/watch_luxury.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "stone",
+    "accent",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#f2c230",
+    "stone": "#e8f6ff",
+    "accent": "#14284b",
+    "trim": "#fff"
+   },
+   "rarity": "legendary",
+   "name": "Luxury Diamond Watch",
+   "tags": [
+    "jewelry",
+    "watch",
+    "luxury"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "watch_digital",
+   "category": "jewelry",
+   "file": "jewelry/watch_digital.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "body",
+    "glass",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#2b2f3a",
+    "body": "#e8262b",
+    "glass": "#b7d6a0",
+    "accent": "#ffd23f"
+   },
+   "rarity": "common",
+   "name": "Digital Sports Watch",
+   "tags": [
+    "jewelry",
+    "watch",
+    "digital"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "bracelet_bangle",
+   "category": "jewelry",
+   "file": "jewelry/bracelet_bangle.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#f2c230",
+    "accent": "#d33a5a"
+   },
+   "rarity": "uncommon",
+   "name": "Bangle Bracelet",
+   "tags": [
+    "jewelry",
+    "bracelet"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "bracelet_tennis",
+   "category": "jewelry",
+   "file": "jewelry/bracelet_tennis.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "stone"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#e8e8ee",
+    "stone": "#d6f1ff"
+   },
+   "rarity": "legendary",
+   "name": "Tennis Bracelet",
+   "tags": [
+    "jewelry",
+    "bracelet",
+    "diamond"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "earrings_hoop",
+   "category": "jewelry",
+   "file": "jewelry/earrings_hoop.svg",
+   "slots": [
+    "shadow",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#f2c230"
+   },
+   "rarity": "common",
+   "name": "Hoop Earrings",
+   "tags": [
+    "jewelry",
+    "earrings"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "earrings_drop",
+   "category": "jewelry",
+   "file": "jewelry/earrings_drop.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "stone"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#e8c230",
+    "stone": "#4ad1a6"
+   },
+   "rarity": "epic",
+   "name": "Chandelier Drops",
+   "tags": [
+    "jewelry",
+    "earrings",
+    "gem"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "gem_diamond",
+   "category": "jewelry",
+   "file": "jewelry/gem_diamond.svg",
+   "slots": [
+    "shadow",
+    "stone"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "stone": "#bfe9ff"
+   },
+   "rarity": "legendary",
+   "name": "Diamond",
+   "tags": [
+    "jewelry",
+    "gem",
+    "diamond"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "gem_emerald",
+   "category": "jewelry",
+   "file": "jewelry/gem_emerald.svg",
+   "slots": [
+    "shadow",
+    "stone"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "stone": "#2fbf71"
+   },
+   "rarity": "epic",
+   "name": "Emerald Cut Emerald",
+   "tags": [
+    "jewelry",
+    "gem",
+    "emerald"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "gem_ruby",
+   "category": "jewelry",
+   "file": "jewelry/gem_ruby.svg",
+   "slots": [
+    "shadow",
+    "stone"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "stone": "#d11e48"
+   },
+   "rarity": "rare",
+   "name": "Heart Ruby",
+   "tags": [
+    "jewelry",
+    "gem",
+    "ruby"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "tshirt",
+   "category": "clothes",
+   "file": "clothes/tshirt.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#3b82d6",
+    "trim": "#fff",
+    "accent": "#f2c230"
+   },
+   "rarity": "common",
+   "name": "T-Shirt",
+   "tags": [
+    "clothes",
+    "top"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "hoodie",
+   "category": "clothes",
+   "file": "clothes/hoodie.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#6a4fc2",
+    "trim": "#d9d4f0",
+    "accent": "#5b3fa8"
+   },
+   "rarity": "common",
+   "name": "Hoodie",
+   "tags": [
+    "clothes",
+    "top"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "dress_shirt",
+   "category": "clothes",
+   "file": "clothes/dress_shirt.svg",
+   "slots": [
+    "shadow",
+    "trim",
+    "accent",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "trim": "#f6f6f6",
+    "accent": "#c0392b",
+    "metal": "#d8dde4"
+   },
+   "rarity": "uncommon",
+   "name": "Dress Shirt & Tie",
+   "tags": [
+    "clothes",
+    "top",
+    "formal"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "sweater",
+   "category": "clothes",
+   "file": "clothes/sweater.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#c0392b",
+    "trim": "#8f2b20"
+   },
+   "rarity": "common",
+   "name": "Knit Sweater",
+   "tags": [
+    "clothes",
+    "top",
+    "winter"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "jeans",
+   "category": "clothes",
+   "file": "clothes/jeans.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#3a62a8",
+    "trim": "#2d4d86",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "common",
+   "name": "Jeans",
+   "tags": [
+    "clothes",
+    "bottom"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "shorts",
+   "category": "clothes",
+   "file": "clothes/shorts.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "accent",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#e8a33b",
+    "accent": "#c4821e",
+    "trim": "#f3d28a"
+   },
+   "rarity": "common",
+   "name": "Shorts",
+   "tags": [
+    "clothes",
+    "bottom",
+    "summer"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "skirt",
+   "category": "clothes",
+   "file": "clothes/skirt.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#d94a8c",
+    "trim": "#a8326a",
+    "accent": "#ffd23f"
+   },
+   "rarity": "common",
+   "name": "Pleated Skirt",
+   "tags": [
+    "clothes",
+    "bottom"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "sundress",
+   "category": "clothes",
+   "file": "clothes/sundress.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#34b6c9",
+    "trim": "#fffbe6",
+    "accent": "#f2c230"
+   },
+   "rarity": "uncommon",
+   "name": "Summer Sundress",
+   "tags": [
+    "clothes",
+    "dress"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "evening_gown",
+   "category": "clothes",
+   "file": "clothes/evening_gown.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#8e1b3a",
+    "trim": "#f2c230",
+    "accent": "#f2c230",
+    "metal": "#fff"
+   },
+   "rarity": "legendary",
+   "name": "Evening Gown",
+   "tags": [
+    "clothes",
+    "dress",
+    "formal"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "trench_coat",
+   "category": "clothes",
+   "file": "clothes/trench_coat.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#c8a46b",
+    "trim": "#b38a4e",
+    "metal": "#b9c0c8",
+    "accent": "#8a6a3a"
+   },
+   "rarity": "rare",
+   "name": "Trench Coat",
+   "tags": [
+    "clothes",
+    "coat"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "puffer_coat",
+   "category": "clothes",
+   "file": "clothes/puffer_coat.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#e8662b",
+    "trim": "#3a3a44",
+    "accent": "#ffd23f"
+   },
+   "rarity": "uncommon",
+   "name": "Puffer Coat",
+   "tags": [
+    "clothes",
+    "coat",
+    "winter"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "blazer",
+   "category": "clothes",
+   "file": "clothes/blazer.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "accent",
+    "trim",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#2b3550",
+    "accent": "#f6f6f6",
+    "trim": "#3d4a6e",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "rare",
+   "name": "Suit Blazer",
+   "tags": [
+    "clothes",
+    "jacket",
+    "formal"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "lab_coat",
+   "category": "clothes",
+   "file": "clothes/lab_coat.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "accent",
+    "metal",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#fafafa",
+    "accent": "#8fcde0",
+    "metal": "#b9c0c8",
+    "trim": "#e6eef2"
+   },
+   "rarity": "uncommon",
+   "name": "Lab Coat",
+   "tags": [
+    "clothes",
+    "uniform",
+    "doctor",
+    "science"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "scrubs",
+   "category": "clothes",
+   "file": "clothes/scrubs.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#2fa7a0",
+    "trim": "#c7ece8",
+    "accent": "#fff"
+   },
+   "rarity": "common",
+   "name": "Medical Scrubs",
+   "tags": [
+    "clothes",
+    "uniform",
+    "nurse",
+    "doctor"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "police_uniform",
+   "category": "clothes",
+   "file": "clothes/police_uniform.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent",
+    "metal",
+    "wheel"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#26335a",
+    "trim": "#33447a",
+    "accent": "#e8c64a",
+    "metal": "#e8c64a",
+    "wheel": "#2f2f3a"
+   },
+   "rarity": "rare",
+   "name": "Police Uniform",
+   "tags": [
+    "clothes",
+    "uniform",
+    "police",
+    "career"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "chef_coat",
+   "category": "clothes",
+   "file": "clothes/chef_coat.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#fafafa",
+    "trim": "#eef0f4",
+    "metal": "#c0c7d0"
+   },
+   "rarity": "uncommon",
+   "name": "Chef Coat & Toque",
+   "tags": [
+    "clothes",
+    "uniform",
+    "chef",
+    "career"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "sneakers",
+   "category": "clothes",
+   "file": "clothes/sneakers.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#e8262b",
+    "trim": "#fafafa",
+    "accent": "#fafafa"
+   },
+   "rarity": "common",
+   "name": "Sneakers",
+   "tags": [
+    "clothes",
+    "shoes"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "heels",
+   "category": "clothes",
+   "file": "clothes/heels.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#d11e48",
+    "metal": "#e8e8ee",
+    "accent": "#8f1233"
+   },
+   "rarity": "rare",
+   "name": "High Heels",
+   "tags": [
+    "clothes",
+    "shoes",
+    "formal"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "boots",
+   "category": "clothes",
+   "file": "clothes/boots.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "trim",
+    "accent",
+    "wheel",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#7a4a2a",
+    "trim": "#4b2d1a",
+    "accent": "#3d2414",
+    "wheel": "#2b2020",
+    "metal": "#b9c0c8"
+   },
+   "rarity": "uncommon",
+   "name": "Leather Boots",
+   "tags": [
+    "clothes",
+    "shoes",
+    "boots"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "baseball_cap",
+   "category": "clothes",
+   "file": "clothes/baseball_cap.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "metal",
+    "accent",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#2b6fd6",
+    "metal": "#b9c0c8",
+    "accent": "#e8262b",
+    "trim": "#fff"
+   },
+   "rarity": "common",
+   "name": "Baseball Cap",
+   "tags": [
+    "clothes",
+    "hat"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "cowboy_hat",
+   "category": "clothes",
+   "file": "clothes/cowboy_hat.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "accent",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#b67b3d",
+    "accent": "#4a2c17",
+    "metal": "#e8c64a"
+   },
+   "rarity": "rare",
+   "name": "Cowboy Hat",
+   "tags": [
+    "clothes",
+    "hat",
+    "western"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "hard_hat",
+   "category": "clothes",
+   "file": "clothes/hard_hat.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#f2c230",
+    "accent": "#fafafa"
+   },
+   "rarity": "common",
+   "name": "Hard Hat",
+   "tags": [
+    "clothes",
+    "hat",
+    "construction",
+    "career"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "top_hat",
+   "category": "clothes",
+   "file": "clothes/top_hat.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "accent",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#26262e",
+    "accent": "#c0392b",
+    "metal": "#e8c64a"
+   },
+   "rarity": "epic",
+   "name": "Top Hat",
+   "tags": [
+    "clothes",
+    "hat",
+    "formal"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "grad_cap",
+   "category": "clothes",
+   "file": "clothes/grad_cap.svg",
+   "slots": [
+    "shadow",
+    "fabric",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "fabric": "#26262e",
+    "accent": "#f2c230"
+   },
+   "rarity": "uncommon",
+   "name": "Graduation Cap",
+   "tags": [
+    "clothes",
+    "hat",
+    "graduation"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "acoustic_guitar",
+   "category": "instruments",
+   "file": "instruments/acoustic_guitar.svg",
+   "slots": [
+    "shadow",
+    "accent",
+    "metal",
+    "body"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "accent": "#5a3a22",
+    "metal": "#d8dde4",
+    "body": "#d98a3d"
+   },
+   "rarity": "common",
+   "name": "Acoustic Guitar",
+   "tags": [
+    "instrument",
+    "guitar",
+    "strings"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "electric_guitar",
+   "category": "instruments",
+   "file": "instruments/electric_guitar.svg",
+   "slots": [
+    "shadow",
+    "door",
+    "accent",
+    "metal",
+    "body",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "door": "#c18a52",
+    "accent": "#1d1d26",
+    "metal": "#c9d0d8",
+    "body": "#d11e48",
+    "trim": "#fafafa"
+   },
+   "rarity": "rare",
+   "name": "Electric Guitar",
+   "tags": [
+    "instrument",
+    "guitar",
+    "rock"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "piano",
+   "category": "instruments",
+   "file": "instruments/piano.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "metal"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#2a2a34",
+    "trim": "#f8f8f4",
+    "metal": "#e0b840"
+   },
+   "rarity": "uncommon",
+   "name": "Piano",
+   "tags": [
+    "instrument",
+    "piano",
+    "keys"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "violin",
+   "category": "instruments",
+   "file": "instruments/violin.svg",
+   "slots": [
+    "shadow",
+    "door",
+    "accent",
+    "metal",
+    "body"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "door": "#2b1b10",
+    "accent": "#2b1b10",
+    "metal": "#e0b840",
+    "body": "#b5562a"
+   },
+   "rarity": "uncommon",
+   "name": "Violin",
+   "tags": [
+    "instrument",
+    "violin",
+    "strings"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "trumpet",
+   "category": "instruments",
+   "file": "instruments/trumpet.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#e8c230",
+    "accent": "#c9a020"
+   },
+   "rarity": "uncommon",
+   "name": "Trumpet",
+   "tags": [
+    "instrument",
+    "brass",
+    "horn"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "drum_kit",
+   "category": "instruments",
+   "file": "instruments/drum_kit.svg",
+   "slots": [
+    "shadow",
+    "accent",
+    "metal",
+    "fabric",
+    "trim",
+    "body"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "accent": "#e8c230",
+    "metal": "#d8dde4",
+    "fabric": "#2f4bb0",
+    "trim": "#fafafa",
+    "body": "#2f4bb0"
+   },
+   "rarity": "rare",
+   "name": "Drum Kit",
+   "tags": [
+    "instrument",
+    "drums",
+    "percussion"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "saxophone",
+   "category": "instruments",
+   "file": "instruments/saxophone.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#e8c230",
+    "accent": "#c9a020"
+   },
+   "rarity": "rare",
+   "name": "Saxophone",
+   "tags": [
+    "instrument",
+    "sax",
+    "brass",
+    "jazz"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "flute",
+   "category": "instruments",
+   "file": "instruments/flute.svg",
+   "slots": [
+    "shadow",
+    "metal",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "metal": "#d8dde4",
+    "trim": "#fff",
+    "accent": "#8f98a4"
+   },
+   "rarity": "common",
+   "name": "Flute",
+   "tags": [
+    "instrument",
+    "woodwind",
+    "flute"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "dog",
+   "category": "pets",
+   "file": "pets/dog.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "skin",
+    "accent",
+    "fabric"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#c98a4b",
+    "skin": "#f3dcb8",
+    "accent": "#7a4a24",
+    "fabric": "#d33a3a"
+   },
+   "rarity": "common",
+   "name": "Dog",
+   "tags": [
+    "pet",
+    "dog",
+    "canine"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "cat",
+   "category": "pets",
+   "file": "pets/cat.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "skin",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#e0873a",
+    "skin": "#fbe9d0",
+    "accent": "#f5a8b8"
+   },
+   "rarity": "common",
+   "name": "Cat",
+   "tags": [
+    "pet",
+    "cat",
+    "feline"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "rabbit",
+   "category": "pets",
+   "file": "pets/rabbit.svg",
+   "slots": [
+    "shadow",
+    "trim",
+    "body",
+    "skin",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "trim": "#fff",
+    "body": "#e8e0d4",
+    "skin": "#fff6ea",
+    "accent": "#f5a8b8"
+   },
+   "rarity": "common",
+   "name": "Rabbit",
+   "tags": [
+    "pet",
+    "rabbit",
+    "bunny"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "hamster",
+   "category": "pets",
+   "file": "pets/hamster.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent",
+    "skin"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#e6b66a",
+    "trim": "#fff2dc",
+    "accent": "#b9783a",
+    "skin": "#ffe3c8"
+   },
+   "rarity": "common",
+   "name": "Hamster",
+   "tags": [
+    "pet",
+    "hamster",
+    "rodent"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "goldfish",
+   "category": "pets",
+   "file": "pets/goldfish.svg",
+   "slots": [
+    "shadow",
+    "water",
+    "stone",
+    "grass",
+    "accent",
+    "glass"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "water": "#8fd3ec",
+    "stone": "#d9c3a0",
+    "grass": "#6ec06a",
+    "accent": "#ff8a1e",
+    "glass": "#ffffff"
+   },
+   "rarity": "common",
+   "name": "Goldfish Bowl",
+   "tags": [
+    "pet",
+    "fish",
+    "goldfish"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "parrot",
+   "category": "pets",
+   "file": "pets/parrot.svg",
+   "slots": [
+    "shadow",
+    "door",
+    "accent",
+    "body",
+    "trim",
+    "skin"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "door": "#8b5a2b",
+    "accent": "#e8262b",
+    "body": "#2fbf71",
+    "trim": "#fff3b0",
+    "skin": "#f2c230"
+   },
+   "rarity": "rare",
+   "name": "Parrot",
+   "tags": [
+    "pet",
+    "bird",
+    "parrot"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "turtle",
+   "category": "pets",
+   "file": "pets/turtle.svg",
+   "slots": [
+    "shadow",
+    "skin",
+    "accent",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "skin": "#9bd06a",
+    "accent": "#6a8f3a",
+    "trim": "#e8d9a0"
+   },
+   "rarity": "uncommon",
+   "name": "Turtle",
+   "tags": [
+    "pet",
+    "turtle",
+    "reptile"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "horse",
+   "category": "pets",
+   "file": "pets/horse.svg",
+   "slots": [
+    "shadow",
+    "hair",
+    "body",
+    "trim",
+    "skin",
+    "fabric"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "hair": "#2b1b10",
+    "body": "#a8643a",
+    "trim": "#fff",
+    "skin": "#e8c0a0",
+    "fabric": "#d33a3a"
+   },
+   "rarity": "rare",
+   "name": "Horse",
+   "tags": [
+    "pet",
+    "horse",
+    "equine"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "snake",
+   "category": "pets",
+   "file": "pets/snake.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#4aa84a",
+    "accent": "#f2c230"
+   },
+   "rarity": "uncommon",
+   "name": "Snake",
+   "tags": [
+    "pet",
+    "snake",
+    "reptile"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "hedgehog",
+   "category": "pets",
+   "file": "pets/hedgehog.svg",
+   "slots": [
+    "shadow",
+    "accent",
+    "skin"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "accent": "#8a6a4a",
+    "skin": "#f2d2a8"
+   },
+   "rarity": "uncommon",
+   "name": "Hedgehog",
+   "tags": [
+    "pet",
+    "hedgehog"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "mouse",
+   "category": "pets",
+   "file": "pets/mouse.svg",
+   "slots": [
+    "shadow",
+    "skin",
+    "body",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "skin": "#f5a8b8",
+    "body": "#a9a9b8",
+    "trim": "#e8e8ee",
+    "accent": "#f5a8b8"
+   },
+   "rarity": "common",
+   "name": "Mouse",
+   "tags": [
+    "pet",
+    "mouse",
+    "rodent"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "gecko",
+   "category": "pets",
+   "file": "pets/gecko.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#9acd5a",
+    "accent": "#e8a33b"
+   },
+   "rarity": "uncommon",
+   "name": "Gecko",
+   "tags": [
+    "pet",
+    "gecko",
+    "lizard"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "lion",
+   "category": "zoo",
+   "file": "zoo/lion.svg",
+   "slots": [
+    "shadow",
+    "hair",
+    "body",
+    "skin",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "hair": "#8a4a1f",
+    "body": "#e8a33b",
+    "skin": "#f6dcae",
+    "accent": "#f5a8b8"
+   },
+   "rarity": "rare",
+   "name": "Lion",
+   "tags": [
+    "zoo",
+    "lion",
+    "big cat"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "elephant",
+   "category": "zoo",
+   "file": "zoo/elephant.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "skin",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#9aa5b5",
+    "skin": "#cfd6e0",
+    "trim": "#fff8e6",
+    "accent": "#f0b0b8"
+   },
+   "rarity": "rare",
+   "name": "Elephant",
+   "tags": [
+    "zoo",
+    "elephant"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "giraffe",
+   "category": "zoo",
+   "file": "zoo/giraffe.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "skin",
+    "hair",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#f2c64a",
+    "skin": "#f6dcae",
+    "hair": "#a8642a",
+    "accent": "#a8642a"
+   },
+   "rarity": "rare",
+   "name": "Giraffe",
+   "tags": [
+    "zoo",
+    "giraffe"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "zebra",
+   "category": "zoo",
+   "file": "zoo/zebra.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#fafafa",
+    "accent": "#26262e"
+   },
+   "rarity": "uncommon",
+   "name": "Zebra",
+   "tags": [
+    "zoo",
+    "zebra"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "penguin",
+   "category": "zoo",
+   "file": "zoo/penguin.svg",
+   "slots": [
+    "shadow",
+    "accent",
+    "body",
+    "trim"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "accent": "#f2a21e",
+    "body": "#26324a",
+    "trim": "#fafafa"
+   },
+   "rarity": "common",
+   "name": "Penguin",
+   "tags": [
+    "zoo",
+    "penguin",
+    "bird"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "monkey",
+   "category": "zoo",
+   "file": "zoo/monkey.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "skin",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#8a5a2a",
+    "skin": "#f0cfa0",
+    "accent": "#f2d23a"
+   },
+   "rarity": "uncommon",
+   "name": "Monkey",
+   "tags": [
+    "zoo",
+    "monkey",
+    "primate"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "panda",
+   "category": "zoo",
+   "file": "zoo/panda.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#fafafa",
+    "accent": "#26262e"
+   },
+   "rarity": "epic",
+   "name": "Panda",
+   "tags": [
+    "zoo",
+    "panda",
+    "bear"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  },
+  {
+   "id": "tiger",
+   "category": "zoo",
+   "file": "zoo/tiger.svg",
+   "slots": [
+    "shadow",
+    "body",
+    "trim",
+    "accent"
+   ],
+   "defaults": {
+    "shadow": "#1b1b2a",
+    "body": "#e8862b",
+    "trim": "#fff6e6",
+    "accent": "#26262e"
+   },
+   "rarity": "epic",
+   "name": "Tiger",
+   "tags": [
+    "zoo",
+    "tiger",
+    "big cat"
+   ],
+   "pair": null,
+   "pairRole": null,
+   "viewBox": "0 0 256 256"
+  }
+ ]
+}

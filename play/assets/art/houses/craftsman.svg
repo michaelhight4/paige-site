@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="craftsman" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="122" ry="13" data-slot="grass" id="craftsman-grass-1" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)"/>
+<ellipse cx="128" cy="224" rx="112" ry="7" data-slot="shadow" id="craftsman-shadow-2" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="40" y="118" width="176" height="94" rx="2" data-slot="body" id="craftsman-body-3" fill="#7f9a6b" style="fill:var(--slot-body,#7f9a6b)"/>
+<polygon points="26,118 128,62 230,118" data-slot="roof" id="craftsman-roof-4" fill="#5b4636" style="fill:var(--slot-roof,#5b4636)"/>
+<polygon points="84,106 128,74 172,106" data-slot="trim" id="craftsman-trim-5" fill="#efe6cc" style="fill:var(--slot-trim,#efe6cc)" stroke-width="2"/>
+<rect x="107" y="85" width="42" height="24" rx="2" data-slot="trim" id="craftsman-trim-6" fill="#efe6cc" style="fill:var(--slot-trim,#efe6cc)"/>
+<rect x="110" y="88" width="36" height="18" rx="1" data-slot="glass" id="craftsman-glass-7" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M128 88V106M110 97H146" fill="none" stroke-width="1.5"/>
+<rect x="53" y="135" width="36" height="38" rx="2" data-slot="trim" id="craftsman-trim-8" fill="#efe6cc" style="fill:var(--slot-trim,#efe6cc)"/>
+<rect x="56" y="138" width="30" height="32" rx="1" data-slot="glass" id="craftsman-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M71 138V170M56 154H86" fill="none" stroke-width="1.5"/>
+<rect x="167" y="135" width="36" height="38" rx="2" data-slot="trim" id="craftsman-trim-10" fill="#efe6cc" style="fill:var(--slot-trim,#efe6cc)"/>
+<rect x="170" y="138" width="30" height="32" rx="1" data-slot="glass" id="craftsman-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M185 138V170M170 154H200" fill="none" stroke-width="1.5"/>
+<rect x="114" y="150" width="28" height="62" rx="2" data-slot="door" id="craftsman-door-12" fill="#a8452e" style="fill:var(--slot-door,#a8452e)"/>
+<circle cx="136" cy="181" r="2.5" data-slot="accent" id="craftsman-accent-13" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="56" y="118" width="144" height="8" rx="1" data-slot="roof" id="craftsman-roof-14" fill="#5b4636" style="fill:var(--slot-roof,#5b4636)"/>
+<polygon points="62,128 128,112 194,128" data-slot="roof" id="craftsman-roof-15" fill="#5b4636" style="fill:var(--slot-roof,#5b4636)"/>
+<rect x="62" y="176" width="22" height="36" data-slot="stone" id="craftsman-stone-16" fill="#9a8e7e" style="fill:var(--slot-stone,#9a8e7e)"/>
+<rect x="172" y="176" width="22" height="36" data-slot="stone" id="craftsman-stone-17" fill="#9a8e7e" style="fill:var(--slot-stone,#9a8e7e)"/>
+<rect x="58" y="168" width="140" height="8" rx="1" data-slot="trim" id="craftsman-trim-18" fill="#efe6cc" style="fill:var(--slot-trim,#efe6cc)"/>
+<rect x="54" y="70" width="18" height="36" data-slot="stone" id="craftsman-stone-19" fill="#9a8e7e" style="fill:var(--slot-stone,#9a8e7e)"/>
+<rect x="51" y="66" width="24" height="6" rx="1" data-slot="trim" id="craftsman-trim-20" fill="#efe6cc" style="fill:var(--slot-trim,#efe6cc)"/>
+<rect x="112" y="212" width="32" height="6" rx="1" data-slot="stone" id="craftsman-stone-21" fill="#9a8e7e" style="fill:var(--slot-stone,#9a8e7e)"/>
+</g>
+</svg>

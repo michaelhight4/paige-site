@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="giraffe" data-category="zoo">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="80" ry="8" data-slot="shadow" id="giraffe-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="72" y="160" width="16" height="66" rx="4" data-slot="body" id="giraffe-body-2" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)"/>
+<rect x="71" y="224" width="18" height="12" rx="3" data-slot="skin" id="giraffe-skin-3" fill="#f6dcae" style="fill:var(--slot-skin,#f6dcae)" stroke-width="2.5"/>
+<rect x="92" y="166" width="16" height="66" rx="4" data-slot="body" id="giraffe-body-4" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)"/>
+<rect x="91" y="224" width="18" height="12" rx="3" data-slot="skin" id="giraffe-skin-5" fill="#f6dcae" style="fill:var(--slot-skin,#f6dcae)" stroke-width="2.5"/>
+<rect x="150" y="166" width="16" height="66" rx="4" data-slot="body" id="giraffe-body-6" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)"/>
+<rect x="149" y="224" width="18" height="12" rx="3" data-slot="skin" id="giraffe-skin-7" fill="#f6dcae" style="fill:var(--slot-skin,#f6dcae)" stroke-width="2.5"/>
+<rect x="170" y="160" width="16" height="66" rx="4" data-slot="body" id="giraffe-body-8" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)"/>
+<rect x="169" y="224" width="18" height="12" rx="3" data-slot="skin" id="giraffe-skin-9" fill="#f6dcae" style="fill:var(--slot-skin,#f6dcae)" stroke-width="2.5"/>
+<ellipse cx="128" cy="148" rx="62" ry="38" data-slot="body" id="giraffe-body-10" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)"/>
+<path d="M66 140Q50 160 54 190" fill="none" stroke="#2b2a3a" stroke-width="7"/>
+<path d="M66 140Q50 160 54 190" fill="none" stroke="#e0a43a" stroke-width="3"/>
+<polygon points="148,130 172,24 200,36 186,140" data-slot="body" id="giraffe-body-11" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)"/>
+<path d="M170 24Q160 60 150 120L160 124Q172 70 176 28Z" data-slot="hair" id="giraffe-hair-12" fill="#a8642a" style="fill:var(--slot-hair,#a8642a)"/>
+<ellipse cx="204" cy="36" rx="26" ry="18" data-slot="body" id="giraffe-body-13" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)" transform="rotate(-12 204 36)"/>
+<ellipse cx="224" cy="42" rx="10" ry="8" data-slot="skin" id="giraffe-skin-14" fill="#f6dcae" style="fill:var(--slot-skin,#f6dcae)" stroke-width="2"/>
+<circle cx="204" cy="30" r="6" fill="#fff" stroke-width="2"/>
+<circle cx="205" cy="31" r="2.8" fill="#26262e" stroke="none"/>
+<circle cx="203" cy="29" r="1" fill="#fff" stroke="none"/>
+<polygon points="188,20 184,4 194,18" data-slot="body" id="giraffe-body-15" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)" stroke-width="2"/>
+<circle cx="184" cy="4" r="5" data-slot="hair" id="giraffe-hair-16" fill="#a8642a" style="fill:var(--slot-hair,#a8642a)" stroke-width="2"/>
+<polygon points="196,18 204,2 208,20" data-slot="body" id="giraffe-body-17" fill="#f2c64a" style="fill:var(--slot-body,#f2c64a)" stroke-width="2"/>
+<circle cx="204" cy="2" r="5" data-slot="hair" id="giraffe-hair-18" fill="#a8642a" style="fill:var(--slot-hair,#a8642a)" stroke-width="2"/>
+<polygon points="86,140 91,130 101,130 106,140 101,150 91,150" data-slot="accent" id="giraffe-accent-19" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+<polygon points="112,150 118,138 130,138 136,150 130,162 118,162" data-slot="accent" id="giraffe-accent-20" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+<polygon points="140,136 145,126 155,126 160,136 155,146 145,146" data-slot="accent" id="giraffe-accent-21" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+<polygon points="102,166 106,158 114,158 118,166 114,174 106,174" data-slot="accent" id="giraffe-accent-22" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+<polygon points="132,168 136,160 144,160 148,168 144,176 136,176" data-slot="accent" id="giraffe-accent-23" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+<polygon points="155,74 159.5,65 168.5,65 173,74 168.5,83 159.5,83" data-slot="accent" id="giraffe-accent-24" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+<polygon points="167,104 171.5,95 180.5,95 185,104 180.5,113 171.5,113" data-slot="accent" id="giraffe-accent-25" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+<polygon points="162,50 166,42 174,42 178,50 174,58 166,58" data-slot="accent" id="giraffe-accent-26" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+<polygon points="158,128 162,120 170,120 174,128 170,136 162,136" data-slot="accent" id="giraffe-accent-27" fill="#a8642a" style="fill:var(--slot-accent,#a8642a)" stroke-width="2"/>
+</g>
+</svg>

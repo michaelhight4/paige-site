@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="beach_house" data-category="houses">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<rect x="0" y="196" width="256" height="36" data-slot="water" id="beach_house-water-1" fill="#4aa8e0" style="fill:var(--slot-water,#4aa8e0)" stroke="none"/>
+<path d="M10 208q10 -6 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" fill="none" stroke-width="2" stroke-opacity=".5" stroke="#fff"/>
+<ellipse cx="128" cy="224" rx="100" ry="8" data-slot="trim" id="beach_house-trim-2" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke="none" fill-opacity=".0"/>
+<rect x="60" y="160" width="8" height="56" rx="1" data-slot="door" id="beach_house-door-3" fill="#2fa7a0" style="fill:var(--slot-door,#2fa7a0)"/>
+<rect x="100" y="160" width="8" height="56" rx="1" data-slot="door" id="beach_house-door-4" fill="#2fa7a0" style="fill:var(--slot-door,#2fa7a0)"/>
+<rect x="156" y="160" width="8" height="56" rx="1" data-slot="door" id="beach_house-door-5" fill="#2fa7a0" style="fill:var(--slot-door,#2fa7a0)"/>
+<rect x="196" y="160" width="8" height="56" rx="1" data-slot="door" id="beach_house-door-6" fill="#2fa7a0" style="fill:var(--slot-door,#2fa7a0)"/>
+<rect x="40" y="154" width="176" height="10" rx="2" data-slot="door" id="beach_house-door-7" fill="#2fa7a0" style="fill:var(--slot-door,#2fa7a0)"/>
+<rect x="56" y="90" width="144" height="64" rx="3" data-slot="body" id="beach_house-body-8" fill="#fbf4e6" style="fill:var(--slot-body,#fbf4e6)"/>
+<path d="M44 96L128 46L212 96Z" data-slot="roof" id="beach_house-roof-9" fill="#e0705a" style="fill:var(--slot-roof,#e0705a)"/>
+<rect x="67" y="103" width="36" height="34" rx="2" data-slot="trim" id="beach_house-trim-10" fill="#fff" style="fill:var(--slot-trim,#fff)"/>
+<rect x="70" y="106" width="30" height="28" rx="1" data-slot="glass" id="beach_house-glass-11" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M85 106V134M70 120H100" fill="none" stroke-width="1.5"/>
+<rect x="107" y="103" width="30" height="34" rx="2" data-slot="trim" id="beach_house-trim-12" fill="#fff" style="fill:var(--slot-trim,#fff)"/>
+<rect x="110" y="106" width="24" height="28" rx="1" data-slot="glass" id="beach_house-glass-13" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M122 106V134M110 120H134" fill="none" stroke-width="1.5"/>
+<rect x="150" y="108" width="30" height="46" rx="2" data-slot="door" id="beach_house-door-14" fill="#2fa7a0" style="fill:var(--slot-door,#2fa7a0)"/>
+<circle cx="174" cy="131" r="2.5" data-slot="accent" id="beach_house-accent-15" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="56" y="90" width="144" height="6" data-slot="fabric" id="beach_house-fabric-16" fill="#2fa7a0" style="fill:var(--slot-fabric,#2fa7a0)"/>
+<rect x="40" y="140" width="176" height="3" rx="1" data-slot="metal" id="beach_house-metal-17" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="39" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-18" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="49" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-19" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="59" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-20" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="69" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-21" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="79" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-22" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="89" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-23" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="99" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-24" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="109" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-25" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="119" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-26" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="129" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-27" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="139" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-28" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="149" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-29" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="159" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-30" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="169" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-31" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="179" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-32" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="189" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-33" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="199" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-34" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="209" y="140" width="3" height="14" data-slot="metal" id="beach_house-metal-35" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="190" y="128" width="3" height="28" data-slot="trim" id="beach_house-trim-36" fill="#fff" style="fill:var(--slot-trim,#fff)"/>
+<path d="M216 164L232 200" fill="none" stroke-width="4"/>
+<circle cx="226" cy="60" r="14" data-slot="accent" id="beach_house-accent-37" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+</g>
+</svg>

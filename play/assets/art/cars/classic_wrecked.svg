@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="classic_wrecked" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="119" ry="7" data-slot="shadow" id="classic_wrecked-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M30 108Q20 108 19.1 98.9L18.9 97.1Q18 88 23.5 84.4L24.5 83.6Q30 80 40 79.5L64 78.5Q74 78 79.9 69.9L84.1 64.1Q90 56 100 55.2L130 52.8Q140 52 149.6 54.7L158.4 57.3Q168 60 173.5 68.2L174.5 69.8Q180 78 189.6 80.7L210.4 86.3Q220 89 225 94.5L226 95.5Q231 101 230.1 104.2L229.9 104.8Q229 108 219 108Z" data-slot="body" id="classic_wrecked-body-2" fill="#8c8f78" style="fill:var(--slot-body,#8c8f78)"/>
+<path d="M92 76Q88 76 90 72.6L96 62.4Q98 59 102 59L119 59Q123 59 123 63L123 72Q123 76 119 76Z" data-slot="glass" id="classic_wrecked-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<path d="M133 76Q129 76 129 72L129 63Q129 59 133 59L158 59Q162 59 164 62.4L170 72.6Q172 76 168 76Z" data-slot="glass" id="classic_wrecked-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="8" y="98" width="22" height="10" rx="5" data-slot="trim" id="classic_wrecked-trim-5" fill="#b9b09a" style="fill:var(--slot-trim,#b9b09a)"/>
+<rect x="228" y="98" width="20" height="10" rx="5" data-slot="trim" id="classic_wrecked-trim-6" fill="#b9b09a" style="fill:var(--slot-trim,#b9b09a)"/>
+<circle cx="224" cy="90" r="7" data-slot="accent" id="classic_wrecked-accent-7" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<circle cx="224" cy="90" r="3" data-slot="trim" id="classic_wrecked-trim-8" fill="#b9b09a" style="fill:var(--slot-trim,#b9b09a)"/>
+<polygon points="34,104 34,96 220,96 220,104" data-slot="trim" id="classic_wrecked-trim-9" fill="#b9b09a" style="fill:var(--slot-trim,#b9b09a)" stroke-width="2"/>
+<path d="M126 80V106" fill="none" stroke-width="2"/>
+<rect x="104" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="classic_wrecked-trim-10" fill="#b9b09a" style="fill:var(--slot-trim,#b9b09a)" stroke-width="1.5"/>
+<rect x="140" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="classic_wrecked-trim-11" fill="#b9b09a" style="fill:var(--slot-trim,#b9b09a)" stroke-width="1.5"/>
+<path d="M180 94q20 -4 40 -2" fill="none" stroke-width="2"/>
+<rect x="21" y="84" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="64" cy="113" r="21" fill="#23232f" stroke="none"/>
+<circle cx="64" cy="113" r="17" data-slot="wheel" id="classic_wrecked-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="64" cy="113" r="12.2" data-slot="trim" id="classic_wrecked-trim-13" fill="#b9b09a" style="fill:var(--slot-trim,#b9b09a)" stroke-width="1.5"/>
+<circle cx="64" cy="113" r="8.5" data-slot="metal" id="classic_wrecked-metal-14" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="64" cy="113" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M64 104.5V121.5M55.5 113H72.5" fill="none" stroke-width="1.5"/>
+<circle cx="194" cy="113" r="5.4" data-slot="metal" id="classic_wrecked-metal-15" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="238" y="80" width="5" height="14" rx="2" data-slot="trim" id="classic_wrecked-trim-16" fill="#b9b09a" style="fill:var(--slot-trim,#b9b09a)"/>
+<ellipse cx="232" cy="126" rx="15" ry="6" data-slot="wheel" id="classic_wrecked-wheel-17" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<ellipse cx="232" cy="126" rx="6" ry="2.5" data-slot="metal" id="classic_wrecked-metal-18" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<path d="M184 120L206 128" fill="none" stroke-width="2"/>
+<polygon points="61.7,98 55.8,101.1 50,104.9 43.4,101.6 36,98 43.8,94.7 50,91.7 57.4,94" data-slot="rust" id="classic_wrecked-rust-19" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<polygon points="175.6,102.7 168.4,101.8 160.4,101.3 161.9,97 163.3,92.3 171.7,93.9 178.8,95 179.1,99.1" data-slot="rust" id="classic_wrecked-rust-20" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<polygon points="106.2,70.5 104,67.2 100.9,63.8 107.5,62.3 114.5,60.7 116.4,64.7 118.3,68 112.9,70.1" data-slot="rust" id="classic_wrecked-rust-21" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<path d="M200 90q8 -4 6 -12M48 94q6 5 14 2" fill="none" stroke-width="2" stroke-opacity=".6"/>
+<polygon points="202,92 216,86 220,98 206,100" fill="#000" fill-opacity=".2" stroke="none"/>
+<path d="M108 67.5L98 73.8" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M108 67.5L115.5 65.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M102 67.5l5 4l6 -6" fill="none" stroke="#fff" stroke-width="1.4"/>
+<path d="M148 67.5L138.5 73.8" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M148 67.5L155 65.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M142 67.5l5 4l6 -6" fill="none" stroke="#fff" stroke-width="1.4"/>
+<path d="M16 104q-6 8 4 10" fill="none" stroke-width="2.5"/>
+<circle cx="206" cy="70" r="9" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+<circle cx="218" cy="58" r="12" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+<circle cx="196" cy="50" r="7" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+</g>
+</svg>

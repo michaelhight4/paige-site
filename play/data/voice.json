@@ -1,0 +1,24 @@
+{
+ "_doc": "First-person journal voice for messages produced by the careers/assets slice. rules: [regex, template]; $1.. are capture groups. Used by src/voice.js. Reskin by editing text only.",
+ "rules": [
+  ["^Collected career: (.*)!$", "I mastered the career of $1. It took long enough."],
+  ["^Promoted to (.*)!$", "I was promoted to $1. My desk plant is proud of me."],
+  ["^Graduated: (.*)$", "I graduated: $1. Nobody could stop me."],
+  ["^Hired as (.*)$", "I got a job as $1."],
+  ["^You are now an? (.*)!$", "I got a job as $1."],
+  ["^Quit (.*)$", "I quit my job as $1. I did it politely."],
+  ["^Enrolled in (.*)$", "I enrolled in $1."],
+  ["^Bought (.*) for (\\d+)$", "I bought $1 for $$$2."],
+  ["^Started (.*) on (.*)$", "I started the $1 on my $2."],
+  ["^DIY mishap on (.*): only partly restored \\(cond (\\d+)\\)\\.$", "I botched the DIY work on my $1 and only half-fixed it (condition $2)."],
+  ["^(.*): (.*) complete! Condition (\\d+), worth (\\d+)\\.$", "The $2 on my $1 finished. It is now in condition $3 and worth $$$4."],
+  ["^(.*) collapsed!$", "My $1 holdings collapsed. I took it well, externally."],
+  ["^(.*) skyrocketed!$", "My $1 holdings skyrocketed. I told absolutely no one."],
+  ["^(.*) broke down for good and was scrapped \\(\\+(\\d+)\\)\\.$", "My $1 broke down for good. The scrapyard gave me $$$2 for it."],
+  ["^Zoo profit this year: (-?\\d+)$", "My zoo cleared $$$1 this year. The animals took no credit."],
+  ["^SOLD! You won lot .*? \\((.*)\\) for (\\d+) incl\\. premium\\.$", "I won $1 at auction for $$$2, premium included."],
+  ["^Purchased (.*)\\.$", "I treated myself to $1."],
+  ["^Installed (.*) \\(\\+(.*)% value\\)\\.$", "I installed a $1 at home. It added $2% to the value."]
+ ],
+ "fallback": "{msg}"
+}

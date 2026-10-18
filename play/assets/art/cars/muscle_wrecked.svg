@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="muscle_wrecked" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="117" ry="7" data-slot="shadow" id="muscle_wrecked-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M27 108Q20 108 20 101L20 95Q20 88 26.4 85.3L27.6 84.7Q34 82 41 81.7L77 80.3Q84 80 88.7 74.8L99.3 63.2Q104 58 111 58L141 58Q148 58 153.2 62.7L166.8 75.3Q172 80 178.9 81L215.1 86Q222 87 225.2 92.5L225.8 93.5Q229 99 229 103.1L229 103.9Q229 108 222 108Z" data-slot="body" id="muscle_wrecked-body-2" fill="#7a7f8c" style="fill:var(--slot-body,#7a7f8c)"/>
+<path d="M96 79Q92 79 94.7 76.1L105.3 64.9Q108 62 112 62L140 62Q144 62 147 64.6L161 76.4Q164 79 160 79Z" data-slot="glass" id="muscle_wrecked-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<polygon points="170,80 226,80 226,84 172,84" data-slot="accent" id="muscle_wrecked-accent-4" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<rect x="192" y="74" width="22" height="7" rx="3" data-slot="accent" id="muscle_wrecked-accent-5" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<path d="M20 98H238" fill="none" stroke="#fff" stroke-width="3" stroke-opacity=".6"/>
+<path d="M126 80V106" fill="none" stroke-width="2"/>
+<rect x="108" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="muscle_wrecked-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="muscle_wrecked-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="16" y="98" width="13" height="10" rx="3" data-slot="trim" id="muscle_wrecked-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="234" cy="92" rx="6" ry="4.5" data-slot="accent" id="muscle_wrecked-accent-9" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="19" y="86" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="62" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="62" cy="112" r="18" data-slot="wheel" id="muscle_wrecked-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="62" cy="112" r="9" data-slot="metal" id="muscle_wrecked-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="62" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M62 103V121M53 112H71" fill="none" stroke-width="1.5"/>
+<circle cx="196" cy="112" r="5.8" data-slot="metal" id="muscle_wrecked-metal-12" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<ellipse cx="234" cy="126" rx="15" ry="6" data-slot="wheel" id="muscle_wrecked-wheel-13" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<ellipse cx="234" cy="126" rx="6" ry="2.5" data-slot="metal" id="muscle_wrecked-metal-14" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<path d="M186 120L208 128" fill="none" stroke-width="2"/>
+<polygon points="71.7,96 65.8,99.1 60,102.9 53.4,99.6 46,96 53.8,92.7 60,89.7 67.4,92" data-slot="rust" id="muscle_wrecked-rust-15" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<polygon points="173.6,102.7 166.4,101.8 158.4,101.3 159.9,97 161.3,92.3 169.7,93.9 176.8,95 177.1,99.1" data-slot="rust" id="muscle_wrecked-rust-16" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<polygon points="122.2,72.5 120,69.2 116.9,65.8 123.5,64.3 130.5,62.7 132.4,66.7 134.3,70 128.9,72.1" data-slot="rust" id="muscle_wrecked-rust-17" fill="#8a4a2a" style="fill:var(--slot-rust,#8a4a2a)" stroke-width="1.5"/>
+<path d="M198 90q8 -4 6 -12M50 94q6 5 14 2" fill="none" stroke-width="2" stroke-opacity=".6"/>
+<polygon points="200,92 214,86 218,98 204,100" fill="#000" fill-opacity=".2" stroke="none"/>
+<path d="M127 70.5L109.5 76.8" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M127 70.5L135.5 68.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+<path d="M121 70.5l5 4l6 -6" fill="none" stroke="#fff" stroke-width="1.4"/>
+<path d="M18 104q-6 8 4 10" fill="none" stroke-width="2.5"/>
+<circle cx="204" cy="70" r="9" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+<circle cx="216" cy="58" r="12" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+<circle cx="194" cy="50" r="7" fill="#8b8b98" fill-opacity=".55" stroke="none"/>
+</g>
+</svg>

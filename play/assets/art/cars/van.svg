@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="van" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="118" ry="7" data-slot="shadow" id="van-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M26 108Q18 108 18 100L18 68Q18 60 21.6 56.4L22.4 55.6Q26 52 34 52L142 52Q150 52 157.5 54.7L192.5 67.3Q200 70 207.6 72.5L222.4 77.5Q230 80 233.6 86.4L234.4 87.6Q238 94 237.1 100.4L236.9 101.6Q236 108 228 108Z" data-slot="body" id="van-body-2" fill="#f2f2f2" style="fill:var(--slot-body,#f2f2f2)"/>
+<path d="M158 62Q158 58 162 58L166 58Q170 58 173.5 60L190.5 70Q194 72 190 72L162 72Q158 72 158 68Z" data-slot="glass" id="van-glass-3" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="36" y="58" width="34" height="20" rx="4" data-slot="glass" id="van-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="80" y="60" width="60" height="30" rx="4" data-slot="trim" id="van-trim-5" fill="#4a7fd0" style="fill:var(--slot-trim,#4a7fd0)"/>
+<path d="M110 60V90" fill="none" stroke-width="1.5"/>
+<path d="M150 56V106" fill="none" stroke-width="2"/>
+<rect x="158" y="84" width="9" height="3" rx="1.5" data-slot="trim" id="van-trim-6" fill="#4a7fd0" style="fill:var(--slot-trim,#4a7fd0)" stroke-width="1.5"/>
+<rect x="227" y="98" width="15" height="10" rx="3" data-slot="trim" id="van-trim-7" fill="#4a7fd0" style="fill:var(--slot-trim,#4a7fd0)"/>
+<rect x="14" y="98" width="13" height="10" rx="3" data-slot="trim" id="van-trim-8" fill="#4a7fd0" style="fill:var(--slot-trim,#4a7fd0)"/>
+<ellipse cx="232" cy="92" rx="6" ry="4.5" data-slot="accent" id="van-accent-9" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<rect x="17" y="80" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="62" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="62" cy="112" r="18" data-slot="wheel" id="van-wheel-10" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="62" cy="112" r="9" data-slot="metal" id="van-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="62" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M62 103V121M53 112H71" fill="none" stroke-width="1.5"/>
+<circle cx="196" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="196" cy="112" r="18" data-slot="wheel" id="van-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="196" cy="112" r="9" data-slot="metal" id="van-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="196" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M196 103V121M187 112H205" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

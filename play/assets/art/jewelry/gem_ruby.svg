@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="gem_ruby" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="222" rx="60" ry="8" data-slot="shadow" id="gem_ruby-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M128 212C60 160 32 120 48 84C64 52 110 56 128 92C146 56 192 52 208 84C224 120 196 160 128 212Z" data-slot="stone" id="gem_ruby-stone-2" fill="#d11e48" style="fill:var(--slot-stone,#d11e48)"/>
+<path d="M128 212L96 90M128 212L160 90M128 92L96 90M128 92L160 90M52 100L96 90M204 100L160 90M92 150L128 130L164 150" fill="none" stroke-width="2"/>
+<path d="M58 92C64 68 96 64 112 84C96 84 80 90 74 108Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+</g>
+</svg>

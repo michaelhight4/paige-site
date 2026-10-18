@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="helicopter" data-category="aircraft">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="152" rx="80" ry="5" data-slot="shadow" id="helicopter-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="124" y="36" width="6" height="18" data-slot="metal" id="helicopter-metal-2" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="24" y="40" width="208" height="6" rx="3" data-slot="metal" id="helicopter-metal-3" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M24 40H232" fill="none" stroke-width="1.5"/>
+<path d="M150 80Q130 56 100 58Q80 62 76 84Q76 108 112 112H150Q196 106 196 88Q192 76 150 80Z" data-slot="body" id="helicopter-body-4" fill="#e8262b" style="fill:var(--slot-body,#e8262b)"/>
+<polygon points="176,80 244,70 246,82 182,98" data-slot="body" id="helicopter-body-5" fill="#e8262b" style="fill:var(--slot-body,#e8262b)"/>
+<polygon points="232,74 240,48 252,50 246,82" data-slot="accent" id="helicopter-accent-6" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<path d="M146 80Q132 62 104 64Q86 66 84 86L84 100H146Z" data-slot="glass" id="helicopter-glass-7" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="210" y="62" width="28" height="4" rx="2" data-slot="metal" id="helicopter-metal-8" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M104 112V130M150 112V130" fill="none" stroke-width="4"/>
+<rect x="80" y="128" width="90" height="7" rx="3" data-slot="metal" id="helicopter-metal-9" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="156" y="84" width="30" height="6" rx="2" data-slot="accent" id="helicopter-accent-10" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+</g>
+</svg>

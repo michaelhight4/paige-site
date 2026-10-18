@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="pontoon" data-category="boats">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M0 120Q16 112 32 120T64 120T96 120T128 120T160 120T192 120T224 120T256 120V160H0Z" data-slot="water" id="pontoon-water-1" fill="#4aa8e0" style="fill:var(--slot-water,#4aa8e0)"/>
+<path d="M20 136q8 -5 16 0t16 0M150 142q8 -5 16 0t16 0" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+<rect x="22" y="106" width="212" height="16" rx="8" data-slot="metal" id="pontoon-metal-2" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<polygon points="234,108 248,114 234,122" data-slot="trim" id="pontoon-trim-3" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="34" y="92" width="188" height="14" rx="3" data-slot="body" id="pontoon-body-4" fill="#f4efe4" style="fill:var(--slot-body,#f4efe4)"/>
+<rect x="60" y="40" width="130" height="8" rx="3" data-slot="roof" id="pontoon-roof-5" fill="#f2f2f2" style="fill:var(--slot-roof,#f2f2f2)"/>
+<rect x="64" y="48" width="4" height="44" rx="1" data-slot="trim" id="pontoon-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="120" y="48" width="4" height="44" rx="1" data-slot="trim" id="pontoon-trim-7" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="184" y="48" width="4" height="44" rx="1" data-slot="trim" id="pontoon-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="52" y="70" width="40" height="22" rx="6" data-slot="fabric" id="pontoon-fabric-9" fill="#2fa7a0" style="fill:var(--slot-fabric,#2fa7a0)"/>
+<rect x="160" y="70" width="40" height="22" rx="6" data-slot="fabric" id="pontoon-fabric-10" fill="#2fa7a0" style="fill:var(--slot-fabric,#2fa7a0)"/>
+<rect x="34" y="80" width="188" height="3" rx="1" data-slot="metal" id="pontoon-metal-11" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<rect x="33" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-12" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="43" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="53" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-14" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="63" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-15" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="73" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-16" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="83" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-17" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="93" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-18" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="103" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-19" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="113" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-20" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="123" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-21" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="133" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-22" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="143" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-23" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="153" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-24" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="163" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-25" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="173" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-26" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="183" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-27" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="193" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-28" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="203" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-29" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<rect x="213" y="80" width="3" height="12" data-slot="metal" id="pontoon-metal-30" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="1.5"/>
+<path d="M60 48L50 56M190 48L200 56" fill="none" stroke-width="2"/>
+<circle cx="112" cy="66" r="8" data-slot="skin" id="pontoon-skin-31" fill="#f1c7a0" style="fill:var(--slot-skin,#f1c7a0)"/>
+<path d="M104 64Q112 52 120 64Z" data-slot="hair" id="pontoon-hair-32" fill="#5a3a22" style="fill:var(--slot-hair,#5a3a22)"/>
+<rect x="104" y="74" width="16" height="18" rx="5" data-slot="accent" id="pontoon-accent-33" fill="#e0485a" style="fill:var(--slot-accent,#e0485a)"/>
+</g>
+</svg>

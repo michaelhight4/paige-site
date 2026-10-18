@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="ring_band" data-category="jewelry">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="70" ry="8" data-slot="shadow" id="ring_band-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M62 138a66 64 0 1 0 132 0a66 64 0 1 0 -132 0ZM82 138a46 44 0 1 1 92 0a46 44 0 1 1 -92 0Z" data-slot="metal" id="ring_band-metal-2" fill="#f2c230" style="fill:var(--slot-metal,#f2c230)" fill-rule="evenodd"/>
+<path d="M70 120Q80 90 110 82L112 92Q92 100 84 124Z" fill="#fff" fill-opacity=".45" stroke="none"/>
+<path d="M92 190Q128 204 164 190" fill="none" stroke-width="2" stroke-opacity=".4"/>
+</g>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="violin" data-category="instruments">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="50" ry="8" data-slot="shadow" id="violin-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<g transform="rotate(20 128 128)">
+<rect x="120" y="14" width="16" height="100" rx="3" data-slot="door" id="violin-door-2" fill="#2b1b10" style="fill:var(--slot-door,#2b1b10)"/>
+<path d="M116 4H140Q146 20 136 26H120Q110 20 116 4Z" data-slot="accent" id="violin-accent-3" fill="#2b1b10" style="fill:var(--slot-accent,#2b1b10)"/>
+<circle cx="112" cy="14" r="3.5" data-slot="metal" id="violin-metal-4" fill="#e0b840" style="fill:var(--slot-metal,#e0b840)"/>
+<circle cx="144" cy="14" r="3.5" data-slot="metal" id="violin-metal-5" fill="#e0b840" style="fill:var(--slot-metal,#e0b840)"/>
+<path d="M128 100C158 98 164 122 150 140C170 150 176 196 146 218C136 228 120 228 110 218C80 196 86 150 106 140C92 122 98 98 128 100Z" data-slot="body" id="violin-body-6" fill="#b5562a" style="fill:var(--slot-body,#b5562a)"/>
+<path d="M118 150q-10 8 -2 18M138 150q10 8 2 18" fill="none" fill-opacity="0" stroke-width="3"/>
+<rect x="112" y="196" width="32" height="7" rx="2" data-slot="door" id="violin-door-7" fill="#2b1b10" style="fill:var(--slot-door,#2b1b10)" stroke-width="2"/>
+<rect x="118" y="212" width="20" height="10" rx="3" data-slot="door" id="violin-door-8" fill="#2b1b10" style="fill:var(--slot-door,#2b1b10)" stroke-width="2"/>
+<path d="M124 28V200M132 28V200" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1"/>
+</g>
+<path d="M200 60L96 220" fill="none" stroke="#2b2a3a" stroke-width="5"/>
+<path d="M200 60L96 220" fill="none" stroke="#e8c88a" stroke-width="2"/>
+</g>
+</svg>

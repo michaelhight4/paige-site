@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="tow_truck" data-category="cars">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="131" rx="120" ry="7" data-slot="shadow" id="tow_truck-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="24" y="70" width="5" height="16" data-slot="metal" id="tow_truck-metal-2" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M24 108Q16 108 16 100L16 92Q16 84 24 84L104 84Q112 84 112 76L112 68Q112 60 116.5 56.4L117.5 55.6Q122 52 130 52L164 52Q172 52 177.1 58.1L186.9 69.9Q192 76 199.9 77.2L224.1 80.8Q232 82 235.6 87.5L236.4 88.5Q240 94 239.1 100.4L238.9 101.6Q238 108 230 108Z" data-slot="body" id="tow_truck-body-3" fill="#e0a410" style="fill:var(--slot-body,#e0a410)"/>
+<path d="M126 76Q122 76 122.9 72.1L125.1 61.9Q126 58 130 58L162 58Q166 58 168.7 61L179.3 73Q182 76 178 76Z" data-slot="glass" id="tow_truck-glass-4" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="16" y="78" width="96" height="8" rx="2" data-slot="trim" id="tow_truck-trim-5" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<path d="M30 74L96 40" fill="none" stroke="#2b2a3a" stroke-width="8"/>
+<path d="M30 74L96 40" fill="none" stroke="#b9c0c8" stroke-width="4"/>
+<path d="M96 40V64" fill="none" stroke-width="2"/>
+<circle cx="96" cy="68" r="5" data-slot="accent" id="tow_truck-accent-6" fill="#ff6a00" style="fill:var(--slot-accent,#ff6a00)"/>
+<polygon points="130,44 160,44 164,52 126,52" data-slot="accent" id="tow_truck-accent-7" fill="#ff6a00" style="fill:var(--slot-accent,#ff6a00)" stroke-width="2"/>
+<path d="M150 76V106" fill="none" stroke-width="2"/>
+<rect x="130" y="86" width="9" height="3" rx="1.5" data-slot="trim" id="tow_truck-trim-8" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" stroke-width="1.5"/>
+<rect x="229" y="98" width="15" height="10" rx="3" data-slot="trim" id="tow_truck-trim-9" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="12" y="98" width="13" height="10" rx="3" data-slot="trim" id="tow_truck-trim-10" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<ellipse cx="234" cy="92" rx="6" ry="4.5" data-slot="accent" id="tow_truck-accent-11" fill="#ff6a00" style="fill:var(--slot-accent,#ff6a00)"/>
+<rect x="15" y="90" width="8" height="8" rx="2" fill="#e23b3b"/>
+<circle cx="48" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="48" cy="112" r="18" data-slot="wheel" id="tow_truck-wheel-12" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="48" cy="112" r="9" data-slot="metal" id="tow_truck-metal-13" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="48" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M48 103V121M39 112H57" fill="none" stroke-width="1.5"/>
+<circle cx="96" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="96" cy="112" r="18" data-slot="wheel" id="tow_truck-wheel-14" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="96" cy="112" r="9" data-slot="metal" id="tow_truck-metal-15" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="96" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M96 103V121M87 112H105" fill="none" stroke-width="1.5"/>
+<circle cx="196" cy="112" r="22" fill="#23232f" stroke="none"/>
+<circle cx="196" cy="112" r="18" data-slot="wheel" id="tow_truck-wheel-16" fill="#2f2f3a" style="fill:var(--slot-wheel,#2f2f3a)"/>
+<circle cx="196" cy="112" r="9" data-slot="metal" id="tow_truck-metal-17" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="196" cy="112" r="2.5" fill="#2b2a3a" stroke="none"/>
+<path d="M196 103V121M187 112H205" fill="none" stroke-width="1.5"/>
+</g>
+</svg>

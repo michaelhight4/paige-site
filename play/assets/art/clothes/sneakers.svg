@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="sneakers" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="212" rx="90" ry="8" data-slot="shadow" id="sneakers-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M30 172V96Q30 84 44 84H80Q96 100 120 116Q150 130 190 140Q228 148 232 170V180H30Z" data-slot="fabric" id="sneakers-fabric-2" fill="#e8262b" style="fill:var(--slot-fabric,#e8262b)"/>
+<rect x="24" y="176" width="214" height="28" rx="12" data-slot="trim" id="sneakers-trim-3" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)"/>
+<path d="M30 190H232" fill="none" stroke-width="2" stroke-opacity=".4"/>
+<path d="M40 140Q90 120 130 150L170 166L150 176H40Z" data-slot="accent" id="sneakers-accent-4" fill="#fafafa" style="fill:var(--slot-accent,#fafafa)" stroke-width="2.5"/>
+<path d="M104 112L114 100M118 122L128 110M134 130L144 118" fill="none" stroke="#fff" stroke-width="4"/>
+<path d="M30 84H78L74 104H34Z" data-slot="trim" id="sneakers-trim-5" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)" stroke-width="2.5"/>
+<path d="M196 144Q224 148 232 168L196 166Z" data-slot="trim" id="sneakers-trim-6" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)" stroke-width="2.5"/>
+</g>
+</svg>

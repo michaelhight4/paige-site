@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="horse" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="90" ry="8" data-slot="shadow" id="horse-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M200 150Q250 150 232 220Q222 190 196 176Z" data-slot="hair" id="horse-hair-2" fill="#2b1b10" style="fill:var(--slot-hair,#2b1b10)"/>
+<rect x="61" y="180" width="18" height="52" rx="6" data-slot="body" id="horse-body-3" fill="#a8643a" style="fill:var(--slot-body,#a8643a)"/>
+<rect x="60" y="222" width="20" height="12" rx="3" data-slot="trim" id="horse-trim-4" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2.5"/>
+<rect x="87" y="186" width="18" height="52" rx="6" data-slot="body" id="horse-body-5" fill="#a8643a" style="fill:var(--slot-body,#a8643a)"/>
+<rect x="86" y="222" width="20" height="12" rx="3" data-slot="trim" id="horse-trim-6" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2.5"/>
+<rect x="141" y="186" width="18" height="52" rx="6" data-slot="body" id="horse-body-7" fill="#a8643a" style="fill:var(--slot-body,#a8643a)"/>
+<rect x="140" y="222" width="20" height="12" rx="3" data-slot="trim" id="horse-trim-8" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2.5"/>
+<rect x="167" y="180" width="18" height="52" rx="6" data-slot="body" id="horse-body-9" fill="#a8643a" style="fill:var(--slot-body,#a8643a)"/>
+<rect x="166" y="222" width="20" height="12" rx="3" data-slot="trim" id="horse-trim-10" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2.5"/>
+<ellipse cx="124" cy="160" rx="80" ry="44" data-slot="body" id="horse-body-11" fill="#a8643a" style="fill:var(--slot-body,#a8643a)"/>
+<path d="M150 140Q170 90 196 40L236 46Q252 70 236 92Q218 100 210 130Q196 156 172 170Z" data-slot="body" id="horse-body-12" fill="#a8643a" style="fill:var(--slot-body,#a8643a)"/>
+<path d="M196 40L236 46Q252 72 238 92Q222 94 204 78Z" fill="none" fill-opacity="0" stroke="none"/>
+<ellipse cx="236" cy="76" rx="14" ry="10" data-slot="skin" id="horse-skin-13" fill="#e8c0a0" style="fill:var(--slot-skin,#e8c0a0)" stroke-width="2.5" transform="rotate(30 236 76)"/>
+<polygon points="198,44 200,16 214,38" data-slot="body" id="horse-body-14" fill="#a8643a" style="fill:var(--slot-body,#a8643a)"/>
+<path d="M196 40Q168 50 156 100Q170 110 176 80Q184 70 200 60Z" data-slot="hair" id="horse-hair-15" fill="#2b1b10" style="fill:var(--slot-hair,#2b1b10)"/>
+<path d="M196 40Q180 20 200 18Q204 28 206 40Z" data-slot="hair" id="horse-hair-16" fill="#2b1b10" style="fill:var(--slot-hair,#2b1b10)" stroke-width="2.5"/>
+<circle cx="214" cy="56" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="215" cy="57" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="213" cy="55" r="1.3" fill="#fff" stroke="none"/>
+<circle cx="240" cy="76" r="3" fill="#26262e" stroke="none"/>
+<path d="M70 160Q90 130 124 126" fill="none" stroke-width="2" stroke-opacity=".3"/>
+<path d="M110 118Q124 112 138 118L140 176Q124 184 108 176Z" data-slot="fabric" id="horse-fabric-17" fill="#d33a3a" style="fill:var(--slot-fabric,#d33a3a)" stroke-width="2.5"/>
+</g>
+</svg>

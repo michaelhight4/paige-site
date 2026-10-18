@@ -1,0 +1,1381 @@
+{
+ "version": 1,
+ "format": "slot-svg-v1",
+ "slotDefaults": {
+  "body": "#e0485a",
+  "trim": "#f3efe4",
+  "roof": "#8c4a3a",
+  "door": "#6b4a2f",
+  "stone": "#a8a9ad",
+  "fabric": "#4a7fd0",
+  "metal": "#b9c0c8",
+  "glass": "#9fd8ee",
+  "skin": "#f1c7a0",
+  "hair": "#5a3a22",
+  "accent": "#f2c230",
+  "wheel": "#2f2f3a",
+  "shadow": "#1b1b2a",
+  "rust": "#8a4a2a",
+  "grass": "#6ec06a",
+  "water": "#4aa8e0"
+ },
+ "neverRecolor": [
+  "skin",
+  "hair",
+  "wheel",
+  "shadow",
+  "rust",
+  "glass",
+  "grass",
+  "water"
+ ],
+ "rarityOrder": [
+  "common",
+  "uncommon",
+  "rare",
+  "epic",
+  "legendary"
+ ],
+ "rarityWeight": {
+  "common": 10,
+  "uncommon": 4,
+  "rare": 1.5,
+  "epic": 0.5,
+  "legendary": 0.1
+ },
+ "rarityMult": {
+  "common": 1.0,
+  "uncommon": 1.04,
+  "rare": 1.12,
+  "epic": 1.3,
+  "legendary": 1.8
+ },
+ "rules": {
+  "minNeutralContrast": 0.2,
+  "clashHue": [
+   45,
+   135
+  ],
+  "clashMinSat": 0.35,
+  "analogousMax": 40,
+  "complementaryTol": 30,
+  "maxTries": 16,
+  "valueMin": 0.9,
+  "valueMax": 12,
+  "neutralSat": 0.22
+ },
+ "palettes": {
+  "car_body": [
+   {
+    "id": "white",
+    "name": "Arctic White",
+    "hex": "#f4f4f2",
+    "rarity": "common"
+   },
+   {
+    "id": "black",
+    "name": "Onyx Black",
+    "hex": "#1d1f24",
+    "rarity": "common"
+   },
+   {
+    "id": "silver",
+    "name": "Silver",
+    "hex": "#b9bec6",
+    "rarity": "common"
+   },
+   {
+    "id": "gray",
+    "name": "Graphite",
+    "hex": "#6d737d",
+    "rarity": "common"
+   },
+   {
+    "id": "red",
+    "name": "Racing Red",
+    "hex": "#c8312f",
+    "rarity": "common"
+   },
+   {
+    "id": "blue",
+    "name": "Ocean Blue",
+    "hex": "#2f62c9",
+    "rarity": "common"
+   },
+   {
+    "id": "navy",
+    "name": "Navy",
+    "hex": "#1f3a68",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "green",
+    "name": "Forest Green",
+    "hex": "#2d8a4e",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "bgreen",
+    "name": "British Racing Green",
+    "hex": "#1f5a3a",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "yellow",
+    "name": "Sunshine Yellow",
+    "hex": "#f2c230",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "orange",
+    "name": "Tangerine",
+    "hex": "#ee7a24",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "burgundy",
+    "name": "Burgundy",
+    "hex": "#7a1f32",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "teal",
+    "name": "Teal",
+    "hex": "#1f9aa0",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "pearl",
+    "name": "Pearl",
+    "hex": "#f8f6ee",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "purple",
+    "name": "Royal Purple",
+    "hex": "#7b45b8",
+    "rarity": "rare"
+   },
+   {
+    "id": "pink",
+    "name": "Bubblegum",
+    "hex": "#f08fb0",
+    "rarity": "rare"
+   },
+   {
+    "id": "matte",
+    "name": "Matte Black",
+    "hex": "#2a2a2e",
+    "rarity": "rare"
+   },
+   {
+    "id": "lime",
+    "name": "Electric Lime",
+    "hex": "#9be32f",
+    "rarity": "rare"
+   },
+   {
+    "id": "turq",
+    "name": "Turquoise",
+    "hex": "#2ec4b6",
+    "rarity": "rare"
+   },
+   {
+    "id": "rosegold",
+    "name": "Rose Gold",
+    "hex": "#e5a98f",
+    "rarity": "epic"
+   },
+   {
+    "id": "midnight",
+    "name": "Midnight Violet",
+    "hex": "#3b1f5c",
+    "rarity": "epic"
+   },
+   {
+    "id": "gold",
+    "name": "Gold",
+    "hex": "#d4af37",
+    "rarity": "epic"
+   },
+   {
+    "id": "holo",
+    "name": "Holographic Cyan",
+    "hex": "#7df9ff",
+    "rarity": "legendary"
+   }
+  ],
+  "neutral_trim": [
+   {
+    "id": "cream",
+    "name": "Cream",
+    "hex": "#f3efe4",
+    "rarity": "common"
+   },
+   {
+    "id": "white",
+    "name": "White",
+    "hex": "#fbfbfb",
+    "rarity": "common"
+   },
+   {
+    "id": "charcoal",
+    "name": "Charcoal",
+    "hex": "#2b2d33",
+    "rarity": "common"
+   },
+   {
+    "id": "black",
+    "name": "Black",
+    "hex": "#16171b",
+    "rarity": "common"
+   },
+   {
+    "id": "silver",
+    "name": "Silver",
+    "hex": "#c4c9d0",
+    "rarity": "common"
+   },
+   {
+    "id": "tan",
+    "name": "Tan",
+    "hex": "#c9a97b",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "brown",
+    "name": "Chocolate",
+    "hex": "#5a3b26",
+    "rarity": "uncommon"
+   }
+  ],
+  "accent_bright": [
+   {
+    "id": "gold",
+    "name": "Gold",
+    "hex": "#f2c230",
+    "rarity": "common"
+   },
+   {
+    "id": "red",
+    "name": "Red",
+    "hex": "#d9453d",
+    "rarity": "common"
+   },
+   {
+    "id": "blue",
+    "name": "Blue",
+    "hex": "#3b78d8",
+    "rarity": "common"
+   },
+   {
+    "id": "orange",
+    "name": "Orange",
+    "hex": "#ee8a2b",
+    "rarity": "common"
+   },
+   {
+    "id": "green",
+    "name": "Green",
+    "hex": "#3aa35a",
+    "rarity": "common"
+   },
+   {
+    "id": "teal",
+    "name": "Teal",
+    "hex": "#26a6a6",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "pink",
+    "name": "Pink",
+    "hex": "#e86fa0",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "purple",
+    "name": "Purple",
+    "hex": "#8a54c9",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "lime",
+    "name": "Lime",
+    "hex": "#a6d93a",
+    "rarity": "rare"
+   },
+   {
+    "id": "cyan",
+    "name": "Cyan",
+    "hex": "#45d6f0",
+    "rarity": "rare"
+   }
+  ],
+  "metals": [
+   {
+    "id": "steel",
+    "name": "Steel",
+    "hex": "#b9c0c8",
+    "rarity": "common",
+    "mult": 1.0
+   },
+   {
+    "id": "silver",
+    "name": "Silver",
+    "hex": "#cfd3da",
+    "rarity": "common",
+    "mult": 1.0
+   },
+   {
+    "id": "brass",
+    "name": "Brass",
+    "hex": "#c8a24a",
+    "rarity": "common",
+    "mult": 1.02
+   },
+   {
+    "id": "copper",
+    "name": "Copper",
+    "hex": "#b8683e",
+    "rarity": "uncommon",
+    "mult": 1.05
+   },
+   {
+    "id": "gold",
+    "name": "Gold",
+    "hex": "#e2b93b",
+    "rarity": "uncommon",
+    "mult": 1.0
+   },
+   {
+    "id": "rosegold",
+    "name": "Rose Gold",
+    "hex": "#e0a591",
+    "rarity": "rare",
+    "mult": 1.0
+   },
+   {
+    "id": "platinum",
+    "name": "Platinum",
+    "hex": "#e5e7ea",
+    "rarity": "rare",
+    "mult": 1.0
+   },
+   {
+    "id": "titanium",
+    "name": "Titanium",
+    "hex": "#8d97a6",
+    "rarity": "rare",
+    "mult": 1.0
+   },
+   {
+    "id": "blackened",
+    "name": "Blackened Steel",
+    "hex": "#3a3d44",
+    "rarity": "rare",
+    "mult": 1.0
+   }
+  ],
+  "jewel_metals": [
+   {
+    "id": "silver",
+    "name": "Sterling Silver",
+    "hex": "#cfd3da",
+    "rarity": "common",
+    "mult": 1.0
+   },
+   {
+    "id": "gold",
+    "name": "Yellow Gold",
+    "hex": "#e2b93b",
+    "rarity": "uncommon",
+    "mult": 2.2
+   },
+   {
+    "id": "rosegold",
+    "name": "Rose Gold",
+    "hex": "#e0a591",
+    "rarity": "uncommon",
+    "mult": 2.0
+   },
+   {
+    "id": "whitegold",
+    "name": "White Gold",
+    "hex": "#e9ebee",
+    "rarity": "rare",
+    "mult": 2.6
+   },
+   {
+    "id": "platinum",
+    "name": "Platinum",
+    "hex": "#e5e7ea",
+    "rarity": "epic",
+    "mult": 3.4
+   },
+   {
+    "id": "titanium",
+    "name": "Titanium",
+    "hex": "#8d97a6",
+    "rarity": "uncommon",
+    "mult": 1.4
+   }
+  ],
+  "gems": [
+   {
+    "id": "quartz",
+    "name": "Rose Quartz",
+    "hex": "#f4b6c8",
+    "rarity": "common",
+    "mult": 1.0
+   },
+   {
+    "id": "garnet",
+    "name": "Garnet",
+    "hex": "#8e1b2e",
+    "rarity": "common",
+    "mult": 1.1
+   },
+   {
+    "id": "amethyst",
+    "name": "Amethyst",
+    "hex": "#8e5bd1",
+    "rarity": "common",
+    "mult": 1.2
+   },
+   {
+    "id": "citrine",
+    "name": "Citrine",
+    "hex": "#f0b429",
+    "rarity": "common",
+    "mult": 1.2
+   },
+   {
+    "id": "topaz",
+    "name": "Blue Topaz",
+    "hex": "#5fb7e8",
+    "rarity": "uncommon",
+    "mult": 1.5
+   },
+   {
+    "id": "peridot",
+    "name": "Peridot",
+    "hex": "#9bd24a",
+    "rarity": "uncommon",
+    "mult": 1.5
+   },
+   {
+    "id": "opal",
+    "name": "Opal",
+    "hex": "#d9e9f2",
+    "rarity": "rare",
+    "mult": 2.2
+   },
+   {
+    "id": "aquamarine",
+    "name": "Aquamarine",
+    "hex": "#69d6c9",
+    "rarity": "rare",
+    "mult": 2.2
+   },
+   {
+    "id": "emerald",
+    "name": "Emerald",
+    "hex": "#1fa05a",
+    "rarity": "epic",
+    "mult": 4.5
+   },
+   {
+    "id": "sapphire",
+    "name": "Sapphire",
+    "hex": "#1f4fb8",
+    "rarity": "epic",
+    "mult": 5.5
+   },
+   {
+    "id": "ruby",
+    "name": "Ruby",
+    "hex": "#d4213d",
+    "rarity": "epic",
+    "mult": 6.5
+   },
+   {
+    "id": "diamond",
+    "name": "Diamond",
+    "hex": "#eef9ff",
+    "rarity": "legendary",
+    "mult": 9.0
+   },
+   {
+    "id": "blackdiamond",
+    "name": "Black Diamond",
+    "hex": "#26262e",
+    "rarity": "legendary",
+    "mult": 8.0
+   },
+   {
+    "id": "pinkdiamond",
+    "name": "Pink Diamond",
+    "hex": "#ff9fcf",
+    "rarity": "legendary",
+    "mult": 12.0
+   }
+  ],
+  "fabric_cloth": [
+   {
+    "id": "navy",
+    "name": "Navy",
+    "hex": "#24386b",
+    "rarity": "common"
+   },
+   {
+    "id": "black",
+    "name": "Black",
+    "hex": "#1f2024",
+    "rarity": "common"
+   },
+   {
+    "id": "white",
+    "name": "White",
+    "hex": "#f5f5f2",
+    "rarity": "common"
+   },
+   {
+    "id": "gray",
+    "name": "Heather Gray",
+    "hex": "#8b9099",
+    "rarity": "common"
+   },
+   {
+    "id": "red",
+    "name": "Red",
+    "hex": "#c33c3a",
+    "rarity": "common"
+   },
+   {
+    "id": "denim",
+    "name": "Denim",
+    "hex": "#3f6aa8",
+    "rarity": "common"
+   },
+   {
+    "id": "olive",
+    "name": "Olive",
+    "hex": "#6b7a3a",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "mustard",
+    "name": "Mustard",
+    "hex": "#d9a521",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "burgundy",
+    "name": "Burgundy",
+    "hex": "#6e1e33",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "forest",
+    "name": "Forest",
+    "hex": "#245c3c",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "lavender",
+    "name": "Lavender",
+    "hex": "#a898d6",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "blush",
+    "name": "Blush",
+    "hex": "#f1b5b5",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "teal",
+    "name": "Teal",
+    "hex": "#1d8f94",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "emerald",
+    "name": "Emerald",
+    "hex": "#1a8a5a",
+    "rarity": "rare"
+   },
+   {
+    "id": "royal",
+    "name": "Royal Purple",
+    "hex": "#5d2f93",
+    "rarity": "rare"
+   },
+   {
+    "id": "crimson",
+    "name": "Crimson Silk",
+    "hex": "#a8142e",
+    "rarity": "epic"
+   },
+   {
+    "id": "gold",
+    "name": "Cloth of Gold",
+    "hex": "#d2a63a",
+    "rarity": "legendary"
+   }
+  ],
+  "house_wall": [
+   {
+    "id": "white",
+    "name": "White",
+    "hex": "#f2f0ea",
+    "rarity": "common"
+   },
+   {
+    "id": "cream",
+    "name": "Cream",
+    "hex": "#ecdcb8",
+    "rarity": "common"
+   },
+   {
+    "id": "beige",
+    "name": "Beige",
+    "hex": "#d8c3a0",
+    "rarity": "common"
+   },
+   {
+    "id": "gray",
+    "name": "Gray",
+    "hex": "#a7acb4",
+    "rarity": "common"
+   },
+   {
+    "id": "brick",
+    "name": "Brick Red",
+    "hex": "#b0523f",
+    "rarity": "common"
+   },
+   {
+    "id": "blue",
+    "name": "Soft Blue",
+    "hex": "#8fb1d6",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "sage",
+    "name": "Sage",
+    "hex": "#9bb596",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "yellow",
+    "name": "Butter Yellow",
+    "hex": "#efd37a",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "terracotta",
+    "name": "Terracotta",
+    "hex": "#c9774f",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "teal",
+    "name": "Teal",
+    "hex": "#4a9a9a",
+    "rarity": "rare"
+   },
+   {
+    "id": "pink",
+    "name": "Dusty Pink",
+    "hex": "#e4a9b1",
+    "rarity": "rare"
+   },
+   {
+    "id": "lavender",
+    "name": "Lavender",
+    "hex": "#b9a6d8",
+    "rarity": "rare"
+   },
+   {
+    "id": "charcoal",
+    "name": "Charcoal",
+    "hex": "#4a4f58",
+    "rarity": "rare"
+   },
+   {
+    "id": "mint",
+    "name": "Mint",
+    "hex": "#9ee0c0",
+    "rarity": "epic"
+   }
+  ],
+  "house_roof": [
+   {
+    "id": "brown",
+    "name": "Brown",
+    "hex": "#7a4a32",
+    "rarity": "common"
+   },
+   {
+    "id": "slate",
+    "name": "Slate",
+    "hex": "#5c6572",
+    "rarity": "common"
+   },
+   {
+    "id": "terracotta",
+    "name": "Terracotta",
+    "hex": "#b5573a",
+    "rarity": "common"
+   },
+   {
+    "id": "charcoal",
+    "name": "Charcoal",
+    "hex": "#3b3f47",
+    "rarity": "common"
+   },
+   {
+    "id": "red",
+    "name": "Barn Red",
+    "hex": "#9b2f2a",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "green",
+    "name": "Moss Green",
+    "hex": "#4f7a4a",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "blue",
+    "name": "Blue Tile",
+    "hex": "#3c64a0",
+    "rarity": "rare"
+   },
+   {
+    "id": "copper",
+    "name": "Copper Green",
+    "hex": "#4fa58f",
+    "rarity": "rare"
+   }
+  ],
+  "house_door": [
+   {
+    "id": "brown",
+    "name": "Walnut",
+    "hex": "#6b4a2f",
+    "rarity": "common"
+   },
+   {
+    "id": "red",
+    "name": "Red",
+    "hex": "#b8352f",
+    "rarity": "common"
+   },
+   {
+    "id": "blue",
+    "name": "Blue",
+    "hex": "#2f5fa8",
+    "rarity": "common"
+   },
+   {
+    "id": "green",
+    "name": "Green",
+    "hex": "#2f7a4a",
+    "rarity": "common"
+   },
+   {
+    "id": "black",
+    "name": "Black",
+    "hex": "#1f2024",
+    "rarity": "common"
+   },
+   {
+    "id": "yellow",
+    "name": "Yellow",
+    "hex": "#e2b53a",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "teal",
+    "name": "Teal",
+    "hex": "#24908f",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "purple",
+    "name": "Plum",
+    "hex": "#6a3a8a",
+    "rarity": "rare"
+   }
+  ],
+  "stone": [
+   {
+    "id": "gray",
+    "name": "Gray Stone",
+    "hex": "#a8a9ad",
+    "rarity": "common"
+   },
+   {
+    "id": "sand",
+    "name": "Sandstone",
+    "hex": "#d3b98a",
+    "rarity": "common"
+   },
+   {
+    "id": "brick",
+    "name": "Brick",
+    "hex": "#a9553f",
+    "rarity": "common"
+   },
+   {
+    "id": "slate",
+    "name": "Slate",
+    "hex": "#6b7480",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "white",
+    "name": "Marble",
+    "hex": "#eceeef",
+    "rarity": "rare"
+   },
+   {
+    "id": "black",
+    "name": "Basalt",
+    "hex": "#383b41",
+    "rarity": "rare"
+   }
+  ],
+  "boat_hull": [
+   {
+    "id": "white",
+    "name": "White",
+    "hex": "#f3f5f7",
+    "rarity": "common"
+   },
+   {
+    "id": "navy",
+    "name": "Navy",
+    "hex": "#1f3a68",
+    "rarity": "common"
+   },
+   {
+    "id": "red",
+    "name": "Red",
+    "hex": "#c8312f",
+    "rarity": "common"
+   },
+   {
+    "id": "blue",
+    "name": "Blue",
+    "hex": "#2f6fd0",
+    "rarity": "common"
+   },
+   {
+    "id": "yellow",
+    "name": "Yellow",
+    "hex": "#f2c230",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "green",
+    "name": "Green",
+    "hex": "#2d8a4e",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "black",
+    "name": "Black",
+    "hex": "#1f2125",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "teal",
+    "name": "Teal",
+    "hex": "#1f9aa0",
+    "rarity": "rare"
+   },
+   {
+    "id": "orange",
+    "name": "Orange",
+    "hex": "#ee7a24",
+    "rarity": "rare"
+   },
+   {
+    "id": "gold",
+    "name": "Gold",
+    "hex": "#d4af37",
+    "rarity": "epic"
+   }
+  ],
+  "air_body": [
+   {
+    "id": "white",
+    "name": "White",
+    "hex": "#f4f6f8",
+    "rarity": "common"
+   },
+   {
+    "id": "silver",
+    "name": "Silver",
+    "hex": "#c0c6ce",
+    "rarity": "common"
+   },
+   {
+    "id": "red",
+    "name": "Red",
+    "hex": "#c8312f",
+    "rarity": "common"
+   },
+   {
+    "id": "blue",
+    "name": "Blue",
+    "hex": "#2f62c9",
+    "rarity": "common"
+   },
+   {
+    "id": "yellow",
+    "name": "Yellow",
+    "hex": "#f2c230",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "navy",
+    "name": "Navy",
+    "hex": "#1f3a68",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "olive",
+    "name": "Olive Drab",
+    "hex": "#6b7a3a",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "orange",
+    "name": "Orange",
+    "hex": "#ee7a24",
+    "rarity": "rare"
+   },
+   {
+    "id": "black",
+    "name": "Stealth Black",
+    "hex": "#202228",
+    "rarity": "rare"
+   },
+   {
+    "id": "gold",
+    "name": "Gold",
+    "hex": "#d4af37",
+    "rarity": "epic"
+   }
+  ],
+  "gear_tint": [
+   {
+    "id": "gold",
+    "name": "Gold",
+    "hex": "#f2c230",
+    "rarity": "common"
+   },
+   {
+    "id": "silver",
+    "name": "Silver",
+    "hex": "#c4c9d0",
+    "rarity": "common"
+   },
+   {
+    "id": "copper",
+    "name": "Copper",
+    "hex": "#b8683e",
+    "rarity": "uncommon"
+   },
+   {
+    "id": "bronze",
+    "name": "Bronze",
+    "hex": "#9c6b3a",
+    "rarity": "uncommon"
+   }
+  ]
+ },
+ "categories": {
+  "cars": {
+   "aliases": [
+    "car",
+    "vehicle",
+    "vehicles"
+   ],
+   "slots": {
+    "body": {
+     "role": "primary",
+     "palette": "car_body"
+    },
+    "trim": {
+     "role": "neutral",
+     "palette": "neutral_trim"
+    },
+    "accent": {
+     "role": "accent",
+     "palette": "accent_bright",
+     "optional": 0.5
+    },
+    "metal": {
+     "role": "metal",
+     "palette": "metals"
+    }
+   },
+   "schemes": {
+    "neutral": 4,
+    "monochrome": 2,
+    "analogous": 2,
+    "complementary": 1
+   },
+   "valued": {
+    "body": 1.0,
+    "accent": 0.12,
+    "trim": 0.05
+   },
+   "contrast": [
+    [
+     "body",
+     "trim",
+     0.22
+    ]
+   ],
+   "noClash": [
+    "body",
+    "accent"
+   ]
+  },
+  "houses": {
+   "aliases": [
+    "house",
+    "property",
+    "properties",
+    "real_estate"
+   ],
+   "slots": {
+    "body": {
+     "role": "primary",
+     "palette": "house_wall"
+    },
+    "roof": {
+     "role": "secondary",
+     "palette": "house_roof"
+    },
+    "door": {
+     "role": "secondary",
+     "palette": "house_door"
+    },
+    "trim": {
+     "role": "neutral",
+     "palette": "neutral_trim"
+    },
+    "stone": {
+     "role": "secondary",
+     "palette": "stone"
+    },
+    "grass": {
+     "role": "fixed"
+    },
+    "water": {
+     "role": "fixed"
+    }
+   },
+   "schemes": {
+    "neutral": 3,
+    "analogous": 3,
+    "complementary": 1,
+    "monochrome": 2
+   },
+   "valued": {
+    "body": 0.3,
+    "roof": 0.15,
+    "door": 0.05
+   },
+   "contrast": [
+    [
+     "body",
+     "roof",
+     0.18
+    ],
+    [
+     "body",
+     "trim",
+     0.2
+    ],
+    [
+     "body",
+     "door",
+     0.12
+    ]
+   ],
+   "noClash": [
+    "body",
+    "roof",
+    "door"
+   ]
+  },
+  "jewelry": {
+   "aliases": [
+    "jewellery",
+    "gems",
+    "jewel"
+   ],
+   "slots": {
+    "metal": {
+     "role": "jewel_metal",
+     "palette": "jewel_metals"
+    },
+    "stone": {
+     "role": "gem",
+     "palette": "gems"
+    },
+    "accent": {
+     "role": "gem",
+     "palette": "gems",
+     "follow": "stone"
+    }
+   },
+   "schemes": {
+    "neutral": 1
+   },
+   "valued": {
+    "stone": 1.0,
+    "metal": 0.55
+   },
+   "gemPairs": {
+    "diamond": [
+     "silver",
+     "gold",
+     "rosegold",
+     "whitegold",
+     "platinum",
+     "titanium"
+    ],
+    "blackdiamond": [
+     "silver",
+     "whitegold",
+     "platinum",
+     "titanium",
+     "gold"
+    ],
+    "pinkdiamond": [
+     "rosegold",
+     "whitegold",
+     "platinum",
+     "gold"
+    ],
+    "emerald": [
+     "gold",
+     "rosegold",
+     "whitegold",
+     "platinum"
+    ],
+    "sapphire": [
+     "silver",
+     "whitegold",
+     "platinum",
+     "titanium",
+     "gold"
+    ],
+    "ruby": [
+     "gold",
+     "rosegold",
+     "whitegold",
+     "platinum"
+    ],
+    "opal": [
+     "silver",
+     "gold",
+     "rosegold"
+    ],
+    "aquamarine": [
+     "silver",
+     "whitegold",
+     "platinum",
+     "titanium"
+    ],
+    "topaz": [
+     "silver",
+     "whitegold",
+     "platinum",
+     "titanium"
+    ],
+    "peridot": [
+     "gold",
+     "rosegold",
+     "silver"
+    ],
+    "citrine": [
+     "gold",
+     "rosegold",
+     "silver"
+    ],
+    "amethyst": [
+     "silver",
+     "gold",
+     "whitegold",
+     "rosegold"
+    ],
+    "garnet": [
+     "gold",
+     "rosegold",
+     "silver"
+    ],
+    "quartz": [
+     "rosegold",
+     "silver",
+     "gold"
+    ]
+   }
+  },
+  "clothes": {
+   "aliases": [
+    "clothing",
+    "apparel",
+    "outfits"
+   ],
+   "slots": {
+    "fabric": {
+     "role": "primary",
+     "palette": "fabric_cloth"
+    },
+    "trim": {
+     "role": "neutral",
+     "palette": "neutral_trim"
+    },
+    "accent": {
+     "role": "accent",
+     "palette": "accent_bright",
+     "optional": 0.6
+    },
+    "metal": {
+     "role": "metal",
+     "palette": "gear_tint"
+    }
+   },
+   "schemes": {
+    "neutral": 3,
+    "monochrome": 2,
+    "analogous": 2,
+    "complementary": 1
+   },
+   "valued": {
+    "fabric": 0.6,
+    "accent": 0.05
+   },
+   "contrast": [
+    [
+     "fabric",
+     "trim",
+     0.18
+    ]
+   ],
+   "noClash": [
+    "fabric",
+    "accent"
+   ]
+  },
+  "boats": {
+   "aliases": [
+    "boat",
+    "watercraft"
+   ],
+   "slots": {
+    "body": {
+     "role": "primary",
+     "palette": "boat_hull"
+    },
+    "trim": {
+     "role": "neutral",
+     "palette": "neutral_trim"
+    },
+    "accent": {
+     "role": "accent",
+     "palette": "accent_bright"
+    },
+    "fabric": {
+     "role": "secondary",
+     "palette": "fabric_cloth"
+    },
+    "metal": {
+     "role": "metal",
+     "palette": "metals"
+    },
+    "water": {
+     "role": "fixed"
+    }
+   },
+   "schemes": {
+    "neutral": 4,
+    "monochrome": 1,
+    "analogous": 2,
+    "complementary": 2
+   },
+   "valued": {
+    "body": 0.6,
+    "accent": 0.1
+   },
+   "contrast": [
+    [
+     "body",
+     "trim",
+     0.2
+    ]
+   ],
+   "noClash": [
+    "body",
+    "accent",
+    "fabric"
+   ]
+  },
+  "aircraft": {
+   "aliases": [
+    "plane",
+    "planes",
+    "aircrafts"
+   ],
+   "slots": {
+    "body": {
+     "role": "primary",
+     "palette": "air_body"
+    },
+    "trim": {
+     "role": "neutral",
+     "palette": "neutral_trim"
+    },
+    "accent": {
+     "role": "accent",
+     "palette": "accent_bright"
+    },
+    "metal": {
+     "role": "metal",
+     "palette": "metals"
+    }
+   },
+   "schemes": {
+    "neutral": 4,
+    "monochrome": 1,
+    "analogous": 2,
+    "complementary": 2
+   },
+   "valued": {
+    "body": 0.5,
+    "accent": 0.1
+   },
+   "contrast": [
+    [
+     "body",
+     "trim",
+     0.2
+    ]
+   ],
+   "noClash": [
+    "body",
+    "accent"
+   ]
+  }
+ }
+}

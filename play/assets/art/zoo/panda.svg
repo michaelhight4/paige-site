@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="panda" data-category="zoo">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="228" rx="70" ry="8" data-slot="shadow" id="panda-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<ellipse cx="128" cy="176" rx="64" ry="58" data-slot="body" id="panda-body-2" fill="#fafafa" style="fill:var(--slot-body,#fafafa)"/>
+<ellipse cx="128" cy="150" rx="66" ry="18" fill="none" stroke="none" fill-opacity="0"/>
+<path d="M64 150Q128 130 192 150L196 170Q128 150 60 170Z" data-slot="accent" id="panda-accent-3" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke-width="2.5"/>
+<ellipse cx="88" cy="226" rx="24" ry="12" data-slot="accent" id="panda-accent-4" fill="#26262e" style="fill:var(--slot-accent,#26262e)"/>
+<ellipse cx="168" cy="226" rx="24" ry="12" data-slot="accent" id="panda-accent-5" fill="#26262e" style="fill:var(--slot-accent,#26262e)"/>
+<ellipse cx="62" cy="178" rx="14" ry="36" data-slot="accent" id="panda-accent-6" fill="#26262e" style="fill:var(--slot-accent,#26262e)" transform="rotate(12 62 178)"/>
+<ellipse cx="194" cy="178" rx="14" ry="36" data-slot="accent" id="panda-accent-7" fill="#26262e" style="fill:var(--slot-accent,#26262e)" transform="rotate(-12 194 178)"/>
+<circle cx="74" cy="54" r="20" data-slot="accent" id="panda-accent-8" fill="#26262e" style="fill:var(--slot-accent,#26262e)"/>
+<circle cx="182" cy="54" r="20" data-slot="accent" id="panda-accent-9" fill="#26262e" style="fill:var(--slot-accent,#26262e)"/>
+<circle cx="128" cy="96" r="54" data-slot="body" id="panda-body-10" fill="#fafafa" style="fill:var(--slot-body,#fafafa)"/>
+<ellipse cx="104" cy="94" rx="13" ry="17" data-slot="accent" id="panda-accent-11" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke-width="2.5" transform="rotate(24 104 94)"/>
+<ellipse cx="152" cy="94" rx="13" ry="17" data-slot="accent" id="panda-accent-12" fill="#26262e" style="fill:var(--slot-accent,#26262e)" stroke-width="2.5" transform="rotate(-24 152 94)"/>
+<circle cx="104" cy="94" r="6" fill="#fff" stroke-width="2"/>
+<circle cx="105" cy="95" r="2.8" fill="#26262e" stroke="none"/>
+<circle cx="103" cy="93" r="1" fill="#fff" stroke="none"/>
+<circle cx="152" cy="94" r="6" fill="#fff" stroke-width="2"/>
+<circle cx="153" cy="95" r="2.8" fill="#26262e" stroke="none"/>
+<circle cx="151" cy="93" r="1" fill="#fff" stroke="none"/>
+<ellipse cx="128" cy="112" rx="9" ry="6" fill="#26262e" stroke="none"/>
+<path d="M128 117V124" fill="none" stroke-width="2.5"/>
+<path d="M118 124Q128 132 138 124" fill="none" stroke-width="2.5"/>
+</g>
+</svg>

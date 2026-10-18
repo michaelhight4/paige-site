@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="fishing_boat" data-category="boats">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M0 118Q16 110 32 118T64 118T96 118T128 118T160 118T192 118T224 118T256 118V160H0Z" data-slot="water" id="fishing_boat-water-1" fill="#4aa8e0" style="fill:var(--slot-water,#4aa8e0)"/>
+<path d="M20 134q8 -5 16 0t16 0M150 140q8 -5 16 0t16 0" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+<path d="M20 84H226Q216 124 182 128H66Q34 120 20 84Z" data-slot="body" id="fishing_boat-body-2" fill="#2e6fa8" style="fill:var(--slot-body,#2e6fa8)"/>
+<rect x="20" y="80" width="206" height="6" rx="2" data-slot="trim" id="fishing_boat-trim-3" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="130" y="44" width="66" height="38" rx="3" data-slot="trim" id="fishing_boat-trim-4" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="138" y="52" width="22" height="18" rx="2" data-slot="glass" id="fishing_boat-glass-5" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="166" y="52" width="22" height="18" rx="2" data-slot="glass" id="fishing_boat-glass-6" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)"/>
+<rect x="124" y="38" width="78" height="8" rx="2" data-slot="roof" id="fishing_boat-roof-7" fill="#c4562a" style="fill:var(--slot-roof,#c4562a)"/>
+<rect x="90" y="20" width="5" height="60" data-slot="metal" id="fishing_boat-metal-8" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<path d="M92 22L40 70" fill="none" stroke-width="3"/>
+<path d="M40 70V92" fill="none" stroke-width="1.5"/>
+<circle cx="40" cy="96" r="4" data-slot="accent" id="fishing_boat-accent-9" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<circle cx="214" cy="96" r="8" data-slot="accent" id="fishing_boat-accent-10" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<circle cx="214" cy="96" r="3" data-slot="trim" id="fishing_boat-trim-11" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="20" y="96" width="206" height="5" data-slot="accent" id="fishing_boat-accent-12" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+</g>
+</svg>

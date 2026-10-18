@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="snake" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="230" rx="90" ry="8" data-slot="shadow" id="snake-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<polygon points="30.7,193.1 37,183.2 43.1,174.2 49,166.6 54.2,161.1 58.3,158.4 59.8,158.7 57.7,160.1 55.1,160.5 55.3,161.7 57.6,165.2 61.1,170.9 65.3,178.2 70,186.6 75,195.4 80.3,204.1 86.3,212.5 93.4,220.3 102.9,226.9 116,230.2 129.6,227.4 139.7,220.7 147.1,212.4 153.2,203.2 158.7,193.1 163.9,182.5 168.8,171.7 173.6,161.3 178.2,151.8 182.5,144 186.1,138.3 188.5,135.6 188.1,135.7 184.2,136.4 180.9,135.7 181.1,136 183.7,139 187.5,144.4 191.9,151.6 196.6,159.9 231.4,140.1 226.4,131.3 221,122.5 215,114.1 207.9,106.4 198.4,99.7 185.3,96.5 171.7,99.2 161.6,106 154.2,114.3 148.1,123.5 142.6,133.6 137.5,144.2 132.5,155 127.7,165.4 123.1,174.9 118.9,182.7 115.2,188.3 112.9,191.1 113.3,190.9 117.1,190.2 120.4,191 120.2,190.7 117.6,187.7 113.8,182.3 109.4,175.1 104.7,166.8 99.6,158 94.1,149.3 87.8,141.2 80.4,134 70.8,128.2 58.6,126.1 46.7,129.6 38.4,136.5 32.7,144.9 28.3,154.2 24.4,164.5 20.7,175.6 17.3,186.9" data-slot="body" id="snake-body-2" fill="#4aa84a" style="fill:var(--slot-body,#4aa84a)"/>
+<ellipse cx="33.7" cy="169.4" rx="6" ry="6" data-slot="accent" id="snake-accent-3" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="53.2" cy="144.1" rx="6" ry="6" data-slot="accent" id="snake-accent-4" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="72.7" cy="153.2" rx="6" ry="6" data-slot="accent" id="snake-accent-5" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="92.2" cy="185.2" rx="6" ry="6" data-slot="accent" id="snake-accent-6" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="111.7" cy="208.9" rx="6" ry="6" data-slot="accent" id="snake-accent-7" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="131.2" cy="200.4" rx="6" ry="6" data-slot="accent" id="snake-accent-8" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="150.7" cy="163.3" rx="6" ry="6" data-slot="accent" id="snake-accent-9" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="170.2" cy="126.3" rx="6" ry="6" data-slot="accent" id="snake-accent-10" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="189.6" cy="117.7" rx="6" ry="6" data-slot="accent" id="snake-accent-11" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="1.5"/>
+<ellipse cx="220" cy="144" rx="26" ry="18" data-slot="body" id="snake-body-12" fill="#4aa84a" style="fill:var(--slot-body,#4aa84a)" stroke-width="3" transform="rotate(-24 220 143.99999999999997)"/>
+<circle cx="224" cy="136" r="6" fill="#fff" stroke-width="2"/>
+<circle cx="225" cy="137" r="2.8" fill="#26262e" stroke="none"/>
+<circle cx="223" cy="135" r="1" fill="#fff" stroke="none"/>
+<path d="M244 133.99999999999997l14 -4m-14 4l12 8" fill="none" stroke="#d33a3a" stroke-width="2.5"/>
+</g>
+</svg>

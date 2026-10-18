@@ -1,0 +1,2000 @@
+[
+ {
+  "id": "common_cold",
+  "name": "Common Cold",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "flu",
+  "name": "Flu",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "pneumonia",
+  "name": "Pneumonia",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "tonsillitis",
+  "name": "Tonsillitis",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "bronchitis",
+  "name": "Bronchitis",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "diarrhea",
+  "name": "Diarrhea",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "food_poisoning",
+  "name": "Food Poisoning",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "swine_flu",
+  "name": "Swine Flu",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "coronavirus",
+  "name": "Coronavirus",
+  "cat": "deadly",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "viral_meningitis",
+  "name": "Viral Meningitis",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "cold_sores",
+  "name": "Cold Sores",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "shingles",
+  "name": "Shingles",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "pink_eye",
+  "name": "Pink Eye",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "middle_ear_infection",
+  "name": "Middle Ear Infection",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "laryngitis",
+  "name": "Laryngitis",
+  "cat": "viral",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "staph_infection",
+  "name": "Staph Infection",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "e._coli",
+  "name": "E. coli",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "hay_fever",
+  "name": "Hay Fever",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "hepatitis_a",
+  "name": "Hepatitis A",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "lice",
+  "name": "Lice",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "scabies",
+  "name": "Scabies",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "ringworm",
+  "name": "Ringworm",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "athletes_foot",
+  "name": "Athlete's Foot",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "malaria",
+  "name": "Malaria",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "lyme_disease",
+  "name": "Lyme Disease",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "yellow_fever",
+  "name": "Yellow Fever",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.02,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "mad_cow_disease",
+  "name": "Mad Cow Disease",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.02,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "typhoid_fever",
+  "name": "Typhoid Fever",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.02,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "tuberculosis",
+  "name": "Tuberculosis",
+  "cat": "viral",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "smallpox",
+  "name": "Smallpox",
+  "cat": "viral",
+  "sev": "deadly",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "came down with",
+  "w": 0.02,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "croup",
+  "name": "Croup",
+  "cat": "childhood",
+  "sev": "minor",
+  "ages": [
+   0,
+   14
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "chicken_pox",
+  "name": "Chicken Pox",
+  "cat": "childhood",
+  "sev": "minor",
+  "ages": [
+   0,
+   14
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "mumps",
+  "name": "Mumps",
+  "cat": "childhood",
+  "sev": "minor",
+  "ages": [
+   0,
+   14
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "measles",
+  "name": "Measles",
+  "cat": "childhood",
+  "sev": "can_kill_if_untreated",
+  "ages": [
+   0,
+   14
+  ],
+  "verb": "came down with",
+  "w": 0.25,
+  "onset": -8,
+  "yearly": -6,
+  "death": 0.04,
+  "tdeath": 0.01,
+  "cure": 0.9,
+  "rem": 0.3,
+  "cost": 900
+ },
+ {
+  "id": "whooping_cough",
+  "name": "Whooping Cough",
+  "cat": "childhood",
+  "sev": "can_kill_if_untreated",
+  "ages": [
+   0,
+   14
+  ],
+  "verb": "came down with",
+  "w": 0.25,
+  "onset": -8,
+  "yearly": -6,
+  "death": 0.04,
+  "tdeath": 0.01,
+  "cure": 0.9,
+  "rem": 0.3,
+  "cost": 900
+ },
+ {
+  "id": "scarlet_fever",
+  "name": "Scarlet Fever",
+  "cat": "childhood",
+  "sev": "can_kill_if_untreated",
+  "ages": [
+   0,
+   14
+  ],
+  "verb": "came down with",
+  "w": 0.25,
+  "onset": -8,
+  "yearly": -6,
+  "death": 0.04,
+  "tdeath": 0.01,
+  "cure": 0.9,
+  "rem": 0.3,
+  "cost": 900
+ },
+ {
+  "id": "lactose_intolerance",
+  "name": "Lactose Intolerance",
+  "cat": "childhood",
+  "sev": "chronic_harmless",
+  "ages": [
+   0,
+   14
+  ],
+  "verb": "came down with",
+  "w": 0.4,
+  "onset": 0,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 0,
+  "rem": 0,
+  "cost": 0
+ },
+ {
+  "id": "acne",
+  "name": "Acne",
+  "cat": "childhood",
+  "sev": "minor",
+  "ages": [
+   0,
+   14
+  ],
+  "verb": "came down with",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "gonorrhea",
+  "name": "Gonorrhea",
+  "cat": "std",
+  "sev": "serious",
+  "ages": [
+   15,
+   90
+  ],
+  "verb": "tested positive for",
+  "w": 0.125,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800,
+  "std": 1
+ },
+ {
+  "id": "genital_herpes",
+  "name": "Genital Herpes",
+  "cat": "std",
+  "sev": "chronic",
+  "ages": [
+   15,
+   90
+  ],
+  "verb": "tested positive for",
+  "w": 0.175,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15,
+  "std": 1
+ },
+ {
+  "id": "hiv",
+  "name": "HIV",
+  "cat": "std",
+  "sev": "deadly",
+  "ages": [
+   15,
+   90
+  ],
+  "verb": "tested positive for",
+  "w": 0.025,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000,
+  "std": 1
+ },
+ {
+  "id": "aids",
+  "name": "AIDS",
+  "cat": "std",
+  "sev": "deadly",
+  "ages": [
+   15,
+   90
+  ],
+  "verb": "tested positive for",
+  "w": 0.025,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000,
+  "std": 1
+ },
+ {
+  "id": "chlamydia",
+  "name": "Chlamydia",
+  "cat": "std",
+  "sev": "serious",
+  "ages": [
+   15,
+   90
+  ],
+  "verb": "tested positive for",
+  "w": 0.125,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800,
+  "std": 1
+ },
+ {
+  "id": "hepatitis_b",
+  "name": "Hepatitis B",
+  "cat": "std",
+  "sev": "deadly",
+  "ages": [
+   15,
+   90
+  ],
+  "verb": "tested positive for",
+  "w": 0.025,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000,
+  "std": 1
+ },
+ {
+  "id": "syphilis",
+  "name": "Syphilis",
+  "cat": "std",
+  "sev": "serious",
+  "ages": [
+   15,
+   90
+  ],
+  "verb": "tested positive for",
+  "w": 0.125,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800,
+  "std": 1
+ },
+ {
+  "id": "bacterial_vaginosis",
+  "name": "Bacterial Vaginosis",
+  "cat": "std",
+  "sev": "minor",
+  "ages": [
+   15,
+   90
+  ],
+  "verb": "tested positive for",
+  "w": 0.75,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150,
+  "std": 1
+ },
+ {
+  "id": "depression",
+  "name": "Depression",
+  "cat": "emotional",
+  "sev": "chronic",
+  "ages": [
+   10,
+   130
+  ],
+  "verb": "was struggling with",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "anxiety",
+  "name": "Anxiety",
+  "cat": "emotional",
+  "sev": "chronic",
+  "ages": [
+   10,
+   130
+  ],
+  "verb": "was struggling with",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "schizophrenia",
+  "name": "Schizophrenia",
+  "cat": "emotional",
+  "sev": "chronic",
+  "ages": [
+   10,
+   130
+  ],
+  "verb": "was struggling with",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "bulimia",
+  "name": "Bulimia",
+  "cat": "emotional",
+  "sev": "chronic",
+  "ages": [
+   10,
+   130
+  ],
+  "verb": "was struggling with",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "bipolar_disorder",
+  "name": "Bipolar Disorder",
+  "cat": "emotional",
+  "sev": "chronic",
+  "ages": [
+   10,
+   130
+  ],
+  "verb": "was struggling with",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "migraines",
+  "name": "Migraines",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "gout",
+  "name": "Gout",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "hives",
+  "name": "Hives",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "itchy_bottom",
+  "name": "Itchy Bottom",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "hemorrhoids",
+  "name": "Hemorrhoids",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "bunions",
+  "name": "Bunions",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "constipation",
+  "name": "Constipation",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "flatulence",
+  "name": "Flatulence",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "kidney_stones",
+  "name": "Kidney Stones",
+  "cat": "physical",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "psoriasis",
+  "name": "Psoriasis",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "arthritis",
+  "name": "Arthritis",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "asthma",
+  "name": "Asthma",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "diabetes",
+  "name": "Diabetes",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "fibromyalgia",
+  "name": "Fibromyalgia",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "lupus",
+  "name": "Lupus",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "insomnia",
+  "name": "Insomnia",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "sleep_apnea",
+  "name": "Sleep Apnea",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "restless_leg_syndrome",
+  "name": "Restless Leg Syndrome",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "narcolepsy",
+  "name": "Narcolepsy",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "epilepsy",
+  "name": "Epilepsy",
+  "cat": "deadly",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "multiple_sclerosis",
+  "name": "Multiple Sclerosis",
+  "cat": "deadly",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "ulcers",
+  "name": "Ulcers",
+  "cat": "physical",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "bowel_polyps",
+  "name": "Bowel Polyps",
+  "cat": "physical",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "bowel_incontinence",
+  "name": "Bowel Incontinence",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "pica",
+  "name": "Pica",
+  "cat": "physical",
+  "sev": "chronic",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "developed",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "gynecomastia",
+  "name": "Gynecomastia",
+  "cat": "physical",
+  "sev": "minor",
+  "ages": [
+   30,
+   130
+  ],
+  "verb": "developed",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "fish_odor_syndrome",
+  "name": "Fish Odor Syndrome",
+  "cat": "odd",
+  "sev": "chronic",
+  "ages": [
+   14,
+   120
+  ],
+  "verb": "was somehow afflicted with",
+  "w": 0.13999999999999999,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "appendicitis",
+  "name": "Appendicitis",
+  "cat": "deadly",
+  "sev": "serious",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.5,
+  "onset": -8,
+  "yearly": -4,
+  "death": 0.015,
+  "tdeath": 0.005,
+  "cure": 0.8,
+  "rem": 0.3,
+  "cost": 1800
+ },
+ {
+  "id": "hepatitis_c",
+  "name": "Hepatitis C",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.1,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "cancer",
+  "name": "Cancer",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   45,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.6,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.1,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "leukemia",
+  "name": "Leukemia",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.1,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "heart_disease",
+  "name": "Heart Disease",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   45,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.6,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.1,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "sickle_cell_disease",
+  "name": "Sickle Cell Disease",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.1,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "bubonic_plague",
+  "name": "Bubonic Plague",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.02,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "rabies",
+  "name": "Rabies",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.02,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "ebola",
+  "name": "Ebola",
+  "cat": "deadly",
+  "sev": "deadly",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.02,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "high_blood_pressure",
+  "name": "High Blood Pressure",
+  "cat": "deadly",
+  "sev": "chronic_stress_linked",
+  "ages": [
+   0,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.6,
+  "onset": -4,
+  "yearly": -4,
+  "death": 0.005,
+  "tdeath": 0.003,
+  "cure": 0.1,
+  "rem": 0,
+  "cost": 700,
+  "managed": -1,
+  "stress": 1
+ },
+ {
+  "id": "massive_heart_attack",
+  "name": "Massive Heart Attack",
+  "cat": "deadly",
+  "sev": "instant_death",
+  "ages": [
+   45,
+   130
+  ],
+  "verb": "was diagnosed with",
+  "w": 0.05,
+  "onset": 0,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 0,
+  "rem": 0,
+  "cost": 0,
+  "instant": 1
+ },
+ {
+  "id": "hair_loss",
+  "name": "Hair Loss",
+  "cat": "aging",
+  "sev": "minor",
+  "ages": [
+   55,
+   130
+  ],
+  "verb": "began suffering from",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "hearing_loss",
+  "name": "Hearing Loss",
+  "cat": "aging",
+  "sev": "chronic",
+  "ages": [
+   55,
+   130
+  ],
+  "verb": "began suffering from",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "dementia",
+  "name": "Dementia",
+  "cat": "aging",
+  "sev": "chronic",
+  "ages": [
+   55,
+   130
+  ],
+  "verb": "began suffering from",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "alzheimers_disease",
+  "name": "Alzheimer's Disease",
+  "cat": "aging",
+  "sev": "deadly",
+  "ages": [
+   55,
+   130
+  ],
+  "verb": "began suffering from",
+  "w": 0.1,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "parkinsons_disease",
+  "name": "Parkinson's Disease",
+  "cat": "aging",
+  "sev": "deadly",
+  "ages": [
+   55,
+   130
+  ],
+  "verb": "began suffering from",
+  "w": 0.1,
+  "onset": -16,
+  "yearly": -8,
+  "death": 0.11,
+  "tdeath": 0.07,
+  "cure": 0.35,
+  "rem": 0.02,
+  "cost": 25000
+ },
+ {
+  "id": "menopause",
+  "name": "Menopause",
+  "cat": "aging",
+  "sev": "minor",
+  "ages": [
+   45,
+   60
+  ],
+  "verb": "began suffering from",
+  "w": 1.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "erectile_dysfunction",
+  "name": "Erectile Dysfunction",
+  "cat": "aging",
+  "sev": "chronic",
+  "ages": [
+   30,
+   130
+  ],
+  "verb": "began suffering from",
+  "w": 0.7,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "vaginal_dryness",
+  "name": "Vaginal Dryness",
+  "cat": "aging",
+  "sev": "minor",
+  "ages": [
+   30,
+   130
+  ],
+  "verb": "began suffering from",
+  "w": 3.0,
+  "onset": -4,
+  "yearly": 0,
+  "death": 0,
+  "tdeath": 0,
+  "cure": 1.0,
+  "rem": 0.8,
+  "cost": 150
+ },
+ {
+  "id": "walking_corpse_syndrome",
+  "name": "Walking Corpse Syndrome",
+  "cat": "odd",
+  "sev": "chronic",
+  "ages": [
+   14,
+   120
+  ],
+  "verb": "was somehow afflicted with",
+  "w": 0.004,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "alien_hand_syndrome",
+  "name": "Alien Hand Syndrome",
+  "cat": "odd",
+  "sev": "chronic",
+  "ages": [
+   14,
+   120
+  ],
+  "verb": "was somehow afflicted with",
+  "w": 0.004,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "werewolf_syndrome",
+  "name": "Werewolf Syndrome",
+  "cat": "odd",
+  "sev": "chronic",
+  "ages": [
+   14,
+   120
+  ],
+  "verb": "was somehow afflicted with",
+  "w": 0.004,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "sexsomnia",
+  "name": "Sexsomnia",
+  "cat": "odd",
+  "sev": "chronic",
+  "ages": [
+   14,
+   120
+  ],
+  "verb": "was somehow afflicted with",
+  "w": 0.004,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "foreign_accent_syndrome",
+  "name": "Foreign Accent Syndrome",
+  "cat": "odd",
+  "sev": "chronic",
+  "ages": [
+   14,
+   120
+  ],
+  "verb": "was somehow afflicted with",
+  "w": 0.004,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ },
+ {
+  "id": "genital_retraction_syndrome",
+  "name": "Genital Retraction Syndrome",
+  "cat": "odd",
+  "sev": "chronic",
+  "ages": [
+   14,
+   120
+  ],
+  "verb": "was somehow afflicted with",
+  "w": 0.004,
+  "onset": -4,
+  "yearly": -0.45,
+  "death": 0.0,
+  "tdeath": 0,
+  "cure": 0.05,
+  "rem": 0.0,
+  "cost": 900,
+  "managed": -0.15
+ }
+]

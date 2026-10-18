@@ -1,0 +1,338 @@
+[
+ {
+  "activity": "Doctor (medical)",
+  "menu": "Mind&Body/Health",
+  "min_age": 4,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Doctor (alternative/psychiatrist/witch doctor)",
+  "menu": "Health",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Emergency room",
+  "menu": "Health",
+  "min_age": 4,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Accessories",
+  "menu": "Shop",
+  "min_age": 0,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Adoption",
+  "menu": "Family",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Crime: pickpocket/shoplift/porch pirate/delinquent",
+  "menu": "Crime",
+  "min_age": 8,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Crime: burglary",
+  "menu": "Crime",
+  "min_age": 10,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Crime: grand theft auto/murder",
+  "menu": "Crime",
+  "min_age": 14,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Hire hitman",
+  "menu": "Crime",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Emigrate",
+  "menu": "Life",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Fertility clinic",
+  "menu": "Family",
+  "min_age": 14,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Gamble/Casino/Horse races/Lottery/Sweepstakes",
+  "menu": "Money",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Identity (gender)",
+  "menu": "Life",
+  "min_age": 4,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Lawsuit",
+  "menu": "Life",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Date (school)",
+  "menu": "Love",
+  "min_age": 14,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Dating app/hook-up/threesome/mail-order",
+  "menu": "Love",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Acting lessons",
+  "menu": "Mind&Body",
+  "min_age": 8,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Read book",
+  "menu": "Mind&Body",
+  "min_age": 6,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Diet",
+  "menu": "Mind&Body",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Gardening",
+  "menu": "Mind&Body",
+  "min_age": 12,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Gym",
+  "menu": "Mind&Body",
+  "min_age": 12,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Instrument lessons",
+  "menu": "Mind&Body",
+  "min_age": 6,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Library",
+  "menu": "Mind&Body",
+  "min_age": 12,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Martial arts",
+  "menu": "Mind&Body",
+  "min_age": 8,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Meditate",
+  "menu": "Mind&Body",
+  "min_age": 12,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Memory test",
+  "menu": "Mind&Body",
+  "min_age": 6,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Walk",
+  "menu": "Mind&Body",
+  "min_age": 8,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Voice lessons",
+  "menu": "Mind&Body",
+  "min_age": 8,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Movie theater (family)",
+  "menu": "Fun",
+  "min_age": 6,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Movie theater (comedy/documentary)",
+  "menu": "Fun",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Nightlife/clubbing",
+  "menu": "Fun",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Plastic surgery",
+  "menu": "Looks",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Vacation/cruise",
+  "menu": "Travel",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Will/Testament",
+  "menu": "Life",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Part-time job/freelance gig",
+  "menu": "Work",
+  "min_age": 13,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Dog walker/pet sitter/babysitter freelance",
+  "menu": "Work",
+  "min_age": 13,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Lawnmower freelance",
+  "menu": "Work",
+  "min_age": 14,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Tutor freelance",
+  "menu": "Work",
+  "min_age": 15,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Handyman/Caretaker freelance",
+  "menu": "Work",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Own pet (self)",
+  "menu": "Pets",
+  "min_age": 15,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Adopt shelter pet with parental OK",
+  "menu": "Pets",
+  "min_age": 6,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Exotic pets/horses",
+  "menu": "Pets",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Driver's license",
+  "menu": "Licenses",
+  "min_age": 16,
+  "tag": "K",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Social media signup",
+  "menu": "Social",
+  "min_age": 13,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "OnlyFans",
+  "menu": "Social",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Buy assets (cars/houses/jewelry/planes/boats)",
+  "menu": "Assets",
+  "min_age": 18,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Rehab (AA/hypnotherapy/center)",
+  "menu": "Health",
+  "min_age": 18,
+  "tag": "K",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ },
+ {
+  "activity": "Surrender",
+  "menu": "Life",
+  "min_age": 0,
+  "tag": "V",
+  "source": "https://bitlife-life-simulator.fandom.com/wiki/Activities ; https://bitlife-life-simulator.fandom.com/wiki/Careers/Jobs ; /wiki/Pets"
+ }
+]

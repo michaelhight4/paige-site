@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" width="256" height="160" data-asset="sailboat" data-category="boats">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M0 118Q16 110 32 118T64 118T96 118T128 118T160 118T192 118T224 118T256 118V160H0Z" data-slot="water" id="sailboat-water-1" fill="#4aa8e0" style="fill:var(--slot-water,#4aa8e0)"/>
+<path d="M20 134q8 -5 16 0t16 0M150 140q8 -5 16 0t16 0" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+<path d="M40 98H216Q204 128 170 130H86Q52 128 40 98Z" data-slot="body" id="sailboat-body-2" fill="#e0485a" style="fill:var(--slot-body,#e0485a)"/>
+<rect x="40" y="94" width="176" height="6" rx="2" data-slot="trim" id="sailboat-trim-3" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<rect x="124" y="18" width="5" height="78" data-slot="metal" id="sailboat-metal-4" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)"/>
+<polygon points="132,22 210,90 132,90" data-slot="fabric" id="sailboat-fabric-5" fill="#3b82d6" style="fill:var(--slot-fabric,#3b82d6)"/>
+<polygon points="120,30 120,90 66,90" data-slot="trim" id="sailboat-trim-6" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)"/>
+<polygon points="129,18 150,24 129,30" data-slot="accent" id="sailboat-accent-7" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="2"/>
+<path d="M124 20L216 98" fill="none" stroke-width="1.5"/>
+<circle cx="80" cy="112" r="4" data-slot="glass" id="sailboat-glass-8" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+<circle cx="104" cy="114" r="4" data-slot="glass" id="sailboat-glass-9" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" stroke-width="2"/>
+</g>
+</svg>
