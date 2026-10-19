@@ -1,4 +1,5 @@
 // Businesses: shops (capacity/demand model), studios (game/film), sports team. Data-driven by D.bizTypes.
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, pick, gauss, clamp } from './rng.js';
 import { log, earn, spend } from './core.js';
@@ -54,7 +55,7 @@ export function found(s, type, name) {
   for (const r of rolesOfType(t)) { const n = t.kind === 'studio' ? (t.starters[r.id] || 0) : r.starter; for (let i = 0; i < n; i++) b.staff.push(mkStaff(s, r, TIERS[0])); }
   s.biz.push(b); b.valuation = valuation(s, b);
   if (t.kind === 'studio') listPlayerStudio(s, b);
-  log(s, `Founded ${b.name} LLC (${t.name}) for ${Math.round(cost).toLocaleString()}.`, 'biz');
+  log(s, `Founded ${b.name} LLC (${t.name}) for ${fmtMoney(cost)}.`, 'biz');
   return { ok: true, biz: b };
 }
 
@@ -78,7 +79,7 @@ export function refreshOffers(s) {
     b.rep = rint(s, 30, 70); b.id = -1; Plus.ensure(s, b);
     const f = annualFinance(s, b); b.profitAvg = f.profit; b.lastProfit = f.profit;
     if (t.kind === 'studio') { b.tail = rint(s, 0, 600000) * (type === 'game' ? 1 : 3); b.fame = rint(s, 0, 25); }
-    s.offers.push({ type, biz: b, price: Math.round(Math.max(30000, valuation(s, b) * (1.1 + rnd(s) * 0.3)) / 1000) * 1000, desc: `rep ${b.rep}, ${b.staff.length} staff, profit/yr ${Math.round(f.profit).toLocaleString()}` });
+    s.offers.push({ type, biz: b, price: Math.round(Math.max(30000, valuation(s, b) * (1.1 + rnd(s) * 0.3)) / 1000) * 1000, desc: `rep ${b.rep}, ${b.staff.length} staff, profit/yr ${fmtMoney(f.profit)}` });
   }
 }
 export function buyOffer(s, i) {
@@ -91,7 +92,7 @@ export function buyOffer(s, i) {
   } else { b = o.biz; b.id = s.nextId++; b.founded = s.age; }
   s.biz.push(b); s.offers.splice(i, 1); b.valuation = valuation(s, b);
   if (D.bizTypes[b.type].kind === 'studio') listPlayerStudio(s, b);
-  log(s, `Bought ${b.name} for ${Math.round(o.price).toLocaleString()}.`, 'biz');
+  log(s, `Bought ${b.name} for ${fmtMoney(o.price)}.`, 'biz');
   return { ok: true, biz: b };
 }
 export function hire(s, b, roleId, tierId) {
@@ -114,7 +115,7 @@ export function sell(s, b) {
   const v = valuation(s, b) * 0.9; earn(s, v);
   if (b.kind === 'sports') s.league.my = -1;
   if (b.tkr) s.market.cos = s.market.cos.filter((c) => c.bizId !== b.id);
-  s.biz = s.biz.filter((x) => x !== b); log(s, `Sold ${b.name} for ${Math.round(v).toLocaleString()}.`, 'biz'); return v;
+  s.biz = s.biz.filter((x) => x !== b); log(s, `Sold ${b.name} for ${fmtMoney(v)}.`, 'biz'); return v;
 }
 
 export function tickBiz(s, b, dt) {
@@ -134,6 +135,6 @@ export function tickBiz(s, b, dt) {
     b.rep = clamp(b.rep + (tgt - b.rep) * 0.2 * dt, 0, 100);
   } else if (b.kind === 'studio') b.rep = clamp(b.rep - 0.5 * dt, 0, 100);
   b.valuation = valuation(s, b);
-  s.report.push(`${b.name}: ${net >= 0 ? '+' : ''}${Math.round(net).toLocaleString()} ${net >= 0 ? 'profit (after tax)' : 'loss'}${rel ? ` | released "${rel.name}" ${rel.score}/10` : ''}`);
+  s.report.push(`${b.name}: ${net >= 0 ? '+' : ''}${fmtMoney(net)} ${net >= 0 ? 'profit (after tax)' : 'loss'}${rel ? ` | released "${rel.name}" ${rel.score}/10` : ''}`);
   return rel;
 }

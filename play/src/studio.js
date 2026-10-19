@@ -2,6 +2,7 @@
 // Merges Game dev's creator hooks (getTrends, calcScore, saveRelease, getConsoleShare, setEffort, getHistory, hire, fire)
 // with the team-skill duration model:  duration = base(tier) x difficulty(genre, quality) / experience_factor(team skill).
 // Hooks take the game state `s` and the studio business `b` explicitly (no globals).
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { rnd, gauss, chance, clamp, pick, rint } from './rng.js';
 import { log, earn, spend } from './core.js';
@@ -197,7 +198,7 @@ export function startProject(s, b, draft) {
   if ((b.fame || 0) < eng.minFame) return { ok: false, err: `${eng.name} needs fame ${eng.minFame}` };
   if (!b.staff.length) return { ok: false, err: 'Hire staff first' };
   const pv = calcScore(s, b, draft, { expected: true }), upfront = pv.budget * 0.1;
-  if (upfront > s.cash) return { ok: false, err: `Need 10% of budget up front (${Math.round(upfront).toLocaleString()})` };
+  if (upfront > s.cash) return { ok: false, err: `Need 10% of budget up front (${fmtMoney(upfront)})` };
   s.cash -= upfront;
   const d = JSON.parse(JSON.stringify(draft)); d.title = d.title || genName(s, d); d.startTurn = monthOf(s);
   let show = null;
@@ -253,7 +254,7 @@ export function release(s, b) {
   b.released.push(rel); b.lastRelease = rel; b.project = null;
   if (b.tkr) { studioReleaseShock(s, b, pre.score); if (sens) { const stk = s.market.stocks[b.tkr]; stk.p *= Math.exp(z.stockShock); } }
   const verdict = sens ? 'SENSATION' : pre.label;
-  log(s, `${b.name} released "${rel.title}": ${verdict} (${pre.score}/10), sales ${sales.toLocaleString()}, revenue ${Math.round(revenue).toLocaleString()}${sens ? `, fame +${rel.fameGain.toFixed(0)}` : ''}.`, 'biz');
+  log(s, `${b.name} released "${rel.title}": ${verdict} (${pre.score}/10), sales ${sales.toLocaleString()}, revenue ${fmtMoney(revenue)}${sens ? `, fame +${rel.fameGain.toFixed(0)}` : ''}.`, 'biz');
   if (sens) { s.market.news.push({ age: s.age, text: `SENSATION: ${rel.title} from ${b.name} takes the world by storm!` }); b.sensations = (b.sensations || 0) + 1; }
   (s.fx ||= []).push({ biz: b.id, rel: rel.id, sensation: sens });
   const tn = fameTier(b); if (tn.min > fameTierBefore(before)) log(s, `${b.name} is now "${tn.label}" - new talent, engines and deals unlocked!`, 'biz');

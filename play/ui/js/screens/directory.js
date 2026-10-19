@@ -40,6 +40,7 @@ export async function buildDirectory() {
   // Money & Assets
   const am = await adapter.getAssetsMenu();
   const aScreens = { finances: Ast.financesScreen, advisor: advisorScreen, investments: Ast.investmentsScreen, luxury: Ast.luxuryScreen, auctions: Ast.auctionsScreen, casino: Ast.casinoScreen, garage: Ast.garageScreen, zoo: Ast.zooScreen, belongings: Ast.belongingsScreen, properties: Ast.propertiesScreen, shopping: Ast.shoppingScreen, restoration: Ast.restorationScreen };
+  add('Money & Assets', 'money:news', 'Market News', 'Yearly headlines that hint at what to buy or avoid', '📰', async (n) => { const x = await import('./assets.js'); n.open('Market News', x.marketNewsScreen); }, 'news stocks crypto market headlines');
   for (const m of am) { if (m.id === 'businesses' || m.id === 'shopping') continue; add('Money & Assets', 'ast:' + m.id, m.label, m.sub, m.icon, (n) => n.open(m.label, aScreens[m.id]), 'money cash bank'); }
   // Shop
   add('Shop', 'shop:all', 'Shopping (all stores)', 'Brokers, dealers, jewelers, music, clothing', '🛍️', (n) => n.open('Shopping', Ast.shoppingScreen), 'store mall buy accessories');
@@ -47,6 +48,7 @@ export async function buildDirectory() {
   // Businesses & Studios
   for (const e of Ext.businessEntries()) add('Businesses & Studios', e.id, e.label, e.sub, e.icon, e.open, e.kw);
   // Social
+  add('Social', 'soc:fame', 'Use your fame', 'TV roles, movies, features, talk shows, books, endorsements, hosting', '🌟', async (n) => { const { fameScreen } = await import('./fame.js'); n.open('Use your fame', fameScreen); }, 'fame celebrity tv movie talk show podcast endorsement host awards');
   add('Social', 'soc:people', 'Relationships', 'Family, partner, friends, exes', '👪', (n) => n.open('Relationships', relationshipsScreen), 'people family friends partner dating');
   add('Social', 'soc:media', 'Social Media', 'Platforms, posts, followers, sponsors, verification, calendar, team, gear', '📱', async (n) => { const { socialHub } = await import('./social.js'); n.open('Social Media', socialHub); }, 'social media feed followers post sponsor verified influencer platform chirpr clipwave');
   add('Businesses & Studios', 'biz:esports', 'Esports Teams', 'Own a gaming org: RTS, shooter, MOBA or sim racing teams, players, staff, gaming house, tournaments', '🎮', (n) => n.open('Esports Teams', esportsScreen), 'esports gaming team org moba shooter rts racing tournament'),

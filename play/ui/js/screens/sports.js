@@ -5,18 +5,21 @@ import { store, h, row, section, kv, btn, empty, bar, money, sheet, act } from '
 let mtTab = 'team';
 const AW_ICON = { mvp: '🏅', score: '🎯', defense: '🛡️', roty: '🌟', allstar: '⭐', champion: '🏆', hof: '🏛️' };
 const rankTxt = (n) => (n ? '#' + n : '');
+export const secBar = (sec) => sec ? h('div', { 'data-el': 'roster-sec' }, bar(`Roster security (cut risk ${Math.round(sec.risk * 100)}%/season)`, sec.security, { thin: true }), h('div', { class: 'hint', text: sec.factors.map((f) => `${f.label}: ${f.value >= 0 ? '+' : ''}${f.value}`).join(' · ') })) : null;
+// open My Team straight on a tab (used by the Work page job card)
+export async function openMyTeam(nav, tab = 'team') { mtTab = tab; nav.open('Sports Career', sportsScreen); }
 async function myTeamScreen(body, ctx, v) {
   const refresh = (ctx && ctx.refresh) || (() => {}); const go = async (p) => { await act(p); refresh(); };
   await autoPageCard(body, 'myteam');
   const L = v.last, tc = v.titleChance;
   body.append(h('div', { class: 'card', 'data-el': 'mt-head' }, h('div', { class: 'asset' }, h('div', { class: 'ic', text: v.icon }), h('div', { class: 'main' }, h('div', { class: 'nm', 'data-el': 'mt-team', text: v.team }), h('div', { class: 'sb', 'data-el': 'mt-sub', text: `${v.sport} · ${v.levelLabel}${v.league ? ' · ' + v.league : ''}` }), h('div', { class: 'sb', text: v.position + ' · overall ' + v.overall }))),
     L ? h('div', { class: 'hint', 'data-el': 'mt-rec', text: `Last season: ${L.w}-${L.l}, ${L.team === v.team ? '' : L.team + ', '}finished ${L.rank}/${L.teams}${L.champion ? ' 🏆' : ''}` }) : h('div', { class: 'hint', text: 'No season played yet. Age up to play one.' })));
-  const tabs = [['team', '🏟️', 'My Team'], ['skills', '💪', 'Skills'], ['season', '📈', 'Season'], ['offers', '✍️', 'Offers' + (v.offers.length ? ` (${v.offers.length})` : '')], ['awards', '🏆', 'Awards']];
-  body.append(h('div', { class: 'mt-tabbar', 'data-el': 'mt-tabs', style: { position: 'sticky', top: '0', zIndex: 5, background: 'var(--bg)', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '4px', padding: '6px 4px', borderBottom: '1px solid var(--line)' } },
+  const tabs = [['team', '🏟️', 'My Team'], ['skills', '💪', 'Skills'], ['season', '📈', 'Season'], ['mates', '🤝', 'Teammates'], ['offers', '✍️', 'Offers' + (v.offers.length ? ` (${v.offers.length})` : '')], ['awards', '🏆', 'Awards']];
+  body.append(h('div', { class: 'mt-tabbar', 'data-el': 'mt-tabs', style: { position: 'sticky', top: '0', zIndex: 5, background: 'var(--bg)', display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '4px', padding: '6px 4px', borderBottom: '1px solid var(--line)' } },
     ...tabs.map(([id, ic, lb]) => h('button', { class: 'btn ' + (id === mtTab ? 'go sm' : 'alt sm'), 'data-mt': id, style: { padding: '6px 1px', fontSize: '10.5px', lineHeight: '1.2', minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }, onclick: () => { mtTab = id; refresh(); } }, h('span', { style: { fontSize: '16px' }, text: ic }), h('span', { text: lb })))));
   const tab = h('div', { 'data-el': 'mt-' + mtTab }); body.append(tab); const add = (...x) => tab.append(...x);
   if (mtTab === 'team') {
-    add(h('div', { class: 'card', 'data-el': 'mt-standing' }, h('h3', { text: '📊 League standing' }),
+    add(h('div', { class: 'card', 'data-el': 'mt-standing' }, h('h3', { text: '📊 League standing' }), secBar(v.security),
       kv('Team', v.team), kv('League', v.league || 'Draft class'), kv('Last season record', L ? `${L.w}-${L.l} (rank ${L.rank} of ${L.teams})` : '—'), kv('Your league rank', L ? `${rankTxt(L.rankOverall)} of ${L.fieldSize} players` : '—'),
       tc ? kv('League title chance', `${tc.champion}% (playoffs ${tc.playoffs}%)`, tc.champion >= 20 ? 'pos' : '') : null, v.contract ? kv('Contract', `${money(v.contract.salary)}/yr until age ${v.contract.until}`) : v.salary ? kv('Salary', money(v.salary) + '/yr') : null),
       L && L.standings ? h('div', { class: 'card', 'data-el': 'mt-table' }, h('h3', { text: 'Top of the table' }), ...L.standings.map((x, i) => h('div', { class: 'kv' }, h('span', { text: `${i + 1}. ${x.name}${x.mine ? ' (you)' : ''}` }), h('b', { text: `${x.w}-${x.l}` })))) : null);
@@ -25,8 +28,15 @@ async function myTeamScreen(body, ctx, v) {
     if (v.limbo) add(h('div', { class: 'hint', text: 'You are a draft prospect. Open Offers to accept or decline a draft offer.' }));
     return;
   }
+  if (mtTab === 'mates') {
+    const tm = await adapter.getTeammates(); if (!tm) { add(empty('No teammates yet.')); return; }
+    add(h('div', { class: 'hint', 'data-el': 'mt-mates-cap', style: { padding: '6px 12px' }, text: `Teammate interactions: ${tm.used}/${tm.cap} this year (one per teammate a year)` }));
+    for (const p of tm.list) add(h('button', { class: 'card', 'data-mate': p.id, style: { display: 'block', width: 'calc(100% - 24px)', textAlign: 'left', opacity: p.doneThisYear ? 0.6 : 1 }, onclick: async () => { const i = await sheet({ title: p.name, body: `${p.pos} · age ${p.age} · ${p.persona}`, options: tm.acts.map((a) => ({ label: a.label, disabled: p.doneThisYear || tm.used >= tm.cap })) }); if (i != null) go(adapter.mtMate(p.id, tm.acts[i].id)); } },
+      h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${p.name}${p.doneThisYear ? ' · done this year' : ''}` }), h('div', { class: 'hint', text: `${p.pos} · rating ${p.rating} · ${p.persona}` }), bar('Relationship', p.rel, { thin: true }), bar('Professionalism', p.prof, { thin: true })));
+    return;
+  }
   if (mtTab === 'skills') {
-    add(h('div', { class: 'card', 'data-el': 'mt-skills' }, h('h3', { text: `💪 ${v.sport} skills` }), h('div', { class: 'hint', 'data-el': 'mt-cap', text: `Individual training: ${v.train.used}/${v.train.cap} this year (resets every year, same at school, college and pro). Skills stay with you as you move up.${v.train.cost ? ' Cost ' + money(v.train.cost) + ' per skill.' : ' Free, like other sports training.'}` }),
+    add(h('div', { class: 'card', 'data-el': 'mt-skills' }, h('h3', { text: `💪 ${v.sport} skills` }), h('div', { class: 'hint', 'data-el': 'mt-decline', text: `Age decline risk: ${v.declineRisk}% per skill this year (halved for skills you train; untrained skills slip every year)` }), h('div', { class: 'hint', 'data-el': 'mt-cap', text: `Individual training: ${v.train.used}/${v.train.cap} this year (resets every year, same at school, college and pro). Skills stay with you as you move up.${v.train.cost ? ' Cost ' + money(v.train.cost) + ' per skill.' : ' Free, like other sports training.'}` }),
       ...v.skills.map((x) => h('div', { 'data-skill': x.name }, bar(x.name + (x.offense ? ' · offense' : x.defense ? ' · defense' : ''), x.value, { thin: true }), h('button', { class: 'btn alt sm', 'data-train': x.name, disabled: x.trained || v.train.used >= v.train.cap, style: { margin: '2px 0 8px' }, onclick: () => go(adapter.mtTrain(x.name)) }, x.trained ? '✓ Trained this year' : 'Train ' + x.name))),
       h('button', { class: 'btn go', 'data-act': 'mt-lowest', disabled: v.train.used >= v.train.cap, onclick: () => go(adapter.mtTrainLowest()) }, `Train my lowest 3 skills (${v.train.lowest.join(', ') || 'none left'})`)));
     return;

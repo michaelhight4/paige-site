@@ -1,4 +1,5 @@
 // Crime and prison (data/crimes.json): catch odds, trials, sentences that double on repeat, security tiers, parole, escape, appeals.
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, gauss } from './rng.js';
 import { log, earn, spend, addStat } from './core.js';
@@ -40,7 +41,7 @@ function success(s, c) {
   addStat(s, 'karma', c.karma); addStat(s, 'happiness', 4);
   if (['shoplift'].includes(c.id)) s.tally.theft += 1; if (['burglary', 'gta', 'bank'].includes(c.id)) s.tally.theft += 2;
   if (c.id === 'murder' || c.id === 'hitman') { s.tally.kills++; s.tally.wickedActs++; }
-  s.flags.criminal = 1; log(s, c.ok + (loot ? ` I made $${loot.toLocaleString()}.` : ''), 'crime'); return { ok: true, msg: c.ok, loot };
+  s.flags.criminal = 1; log(s, c.ok + (loot ? ` I made ${fmtMoney(loot)}.` : ''), 'crime'); return { ok: true, msg: c.ok, loot };
 }
 // Called from event choices: caught=null => roll normally; caught=true/false => already decided by the event
 export function fromEvent(s, id, caught) {

@@ -1,4 +1,5 @@
 // People: family, friends, partners, exes, children, coworkers; name/country generation; interactions; yearly NPC life.
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, pick, gauss, chance, clamp, wpick } from './rng.js';
 import { log, earn, spend, addStat, fill } from './core.js';
@@ -87,7 +88,7 @@ export function interact(s, pid, actId) {
   } else if (a.chance) {
     const pr = a.chance === 'bar' ? p.bar / 100 * 0.8 : a.chance === 'rich' ? clamp((p.bar / 100) * (p.cash > 5000 ? 0.9 : 0.4), 0.05, 0.9) : a.chance;
     ok = chance(s, pr);
-    if (ok && a.id === 'askmoney') { const amt = Math.round(Math.min(p.cash * 0.2, 500 + rnd(s) * 3000)); p.cash -= amt; earn(s, amt); ctx.amount = '$' + amt.toLocaleString(); }
+    if (ok && a.id === 'askmoney') { const amt = Math.round(Math.min(p.cash * 0.2, 500 + rnd(s) * 3000)); p.cash -= amt; earn(s, amt); ctx.amount = fmtMoney(amt); }
     if (a.mooch) s.tally.moochCount++;
     msg = say(ok ? a.ok : a.fail || a.ok); adjustBar(p, ok ? rint(s, 0, 4) : rint(s, -8, -3));
   } else {
@@ -163,7 +164,7 @@ export function yearTick(s) {
   }
   // partners/exes stale out
   for (const p of s.people) if (p.alive && p.rel === 'partner' && p.bar < L().dating.breakupBar && chance(s, 0.5)) { p.rel = 'ex'; log(s, `${p.first} broke up with me. ${p.gender === 'm' ? 'He' : 'She'} left a note and my hoodie.`, 'rel'); addStat(s, 'happiness', -8); }
-  for (const p of s.people) if (p.alive && p.rel === 'spouse' && p.bar < L().dating.breakupBar && chance(s, 0.35)) { p.rel = 'ex'; p.wasSpouse = true; p.married = false; s.tally.divorces++; const fee = Math.round(s.cash * L().dating.divorceCostFrac); s.cash -= fee; log(s, `${p.first} divorced me. A lawyer took ${'$' + fee.toLocaleString()} for the trouble.`, 'rel'); addStat(s, 'happiness', -16); }
+  for (const p of s.people) if (p.alive && p.rel === 'spouse' && p.bar < L().dating.breakupBar && chance(s, 0.35)) { p.rel = 'ex'; p.wasSpouse = true; p.married = false; s.tally.divorces++; const fee = Math.round(s.cash * L().dating.divorceCostFrac); s.cash -= fee; log(s, `${p.first} divorced me. A lawyer took ${fmtMoney(fee)} for the trouble.`, 'rel'); addStat(s, 'happiness', -16); }
   // friendships
   if (s.age >= 4 && friends(s).length < L().people.friendMax && chance(s, L().people.friendsPerYear)) { const f = makeFriend(s); log(s, `I made a new friend named ${f.name}.`, 'rel'); }
   const fl = friends(s); if (fl.length && chance(s, 0.08)) { const f = pick(s, fl); f.rel = 'ex'; f.wasFriend = true; log(s, `${f.name} and I drifted apart.`, 'rel'); }

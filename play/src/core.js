@@ -9,6 +9,7 @@ export function log(s, text, kind = 'info') {
 export const earn = (s, x) => { s.cash += x; if (x > 0) s.incYear = (s.incYear || 0) + x; };
 // Recurring costs may push the player into debt; purchases must check s.cash first.
 export function spend(s, x) {
+  if (!Number.isFinite(x)) return; // ignore NaN/undefined amounts (missing upkeep etc.)
   if (s.cash >= x) s.cash -= x;
   else if (s.age >= 18 && s.alive && s.flags && !s.noBankruptcy) { s.shortfall = (s.shortfall || 0) + (x - s.cash); s.cash = 0; } // adults: the bankruptcy popup decides (see bankruptcy.js)
   else { s.debt += x - s.cash; s.cash = 0; }

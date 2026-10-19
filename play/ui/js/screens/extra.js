@@ -14,6 +14,15 @@ export async function businessesScreen(body, { nav }) {
   const b = await adapter.getBusinesses();
   body.append(h('div', { class: 'card', 'data-el': 'biz-summary' }, h('h3', { text: 'Your businesses' }), kv('Cash', money(b.cash)), kv('Owned', String(b.owned.length)), kv('Total profit / yr', money(b.owned.reduce((a, x) => a + x.profit, 0)), 'pos')));
   body.append(h('div', { class: 'btns', style: { padding: '8px 12px 0' } }, btn('🏪 Start a business', () => nav.open('Start a business', foundScreen), 'go sm', { 'data-el': 'biz-found' }), btn('💰 Buy one', () => nav.open('Businesses for sale', offersScreen), 'alt sm', { 'data-el': 'biz-buy' })));
+  // every venture type can be started or bought right here (same screens and state as the Work menu)
+  body.append(section('Start or buy more'), ...[
+    ['start:team', '🏟️', 'Own a sports team', 'Buy or found a club (team page, staff, facilities)', async () => { const { franchiseScreen } = await import('./franchise.js'); nav.open('Own a Team', franchiseScreen); }],
+    ['start:esports', '🎮', 'Esports team', 'Own a gaming org', async () => { const { franchiseScreen } = await import('./franchise.js'); nav.open('Esports Teams', (bd, c) => franchiseScreen(bd, c, 'esports')); }],
+    ['start:racing', '🏁', 'Racing team', 'Own a racing team', async () => { const { racingScreen } = await import('./racing.js'); nav.open('Racing team', (bd, c) => racingScreen(bd, c, 'team')); }],
+    ['start:prod', '🎬', 'Production company', 'Record label, film, TV or game studio', async () => { const { prodcoScreen } = await import('./prodco.js'); nav.open('Production companies', prodcoScreen); }],
+    ['start:brand', '👗', 'Clothing brand', 'Launch your own label', async () => { const { brandScreen } = await import('./venture.js'); nav.open('Clothing brand', brandScreen); }],
+    ['start:farm', '🚜', 'Farm or ranch', 'Crops or livestock', async () => { const { farmScreen } = await import('./venture.js'); nav.open('Farm', farmScreen); }],
+  ].map(([id, icon, title, sub, onClick]) => row({ id, icon, title, sub, onClick })));
   if (!b.owned.length) body.append(empty(b.age < 18 ? 'You can start a business at 18 (some need more).' : 'You own no businesses yet.'));
   else body.append(section('Owned'), ...b.owned.map((x) => row({ id: 'b' + x.id, icon: x.icon, title: x.name, sub: `${x.typeName} · ${x.staff} staff · rep ${x.rep}${x.trust ? ' · in trust' : ''}`, right: money(x.profit) + '/yr', onClick: x.brand ? async () => { const { brandScreen } = await import('./venture.js'); nav.open(x.name, brandScreen); } : x.farm ? async () => { const { farmScreen } = await import('./venture.js'); nav.open(x.name, farmScreen); } : x.advisor ? async () => { const { advisorScreen } = await import('./venture.js'); nav.open(x.name, advisorScreen); } : x.racing ? async () => { const { racingScreen } = await import('./racing.js'); nav.open(x.name, (bd, c) => racingScreen(bd, c, 'team')); } : x.franchise ? async () => { const { franchiseScreen } = await import('./franchise.js'); await adapter.frAction('switch', x.teamId); nav.open(x.name, x.esports ? (bd, c) => franchiseScreen(bd, c, 'esports') : franchiseScreen); } : x.prodco ? async () => { const { companyScreen } = await import('./prodco.js'); nav.open(x.name, (bd, c) => companyScreen(bd, c, x.prodco)); } : () => nav.open(x.name, (bd, c) => businessDetail(bd, c, x.id)) })));
 }
@@ -32,7 +41,9 @@ export async function foundScreen(body, { nav }) {
 export async function offersScreen(body, { nav }) {
   const b = await adapter.getBusinesses();
   if (!b.offers.length) return body.append(empty('Nothing for sale right now.'));
-  body.append(...b.offers.map((o) => row({ id: 'offer:' + o.idx, icon: o.icon, title: o.name, sub: `${o.typeName} · ${o.desc}`, right: money(o.price), disabled: o.price > b.cash, onClick: async () => { if (await confirmSheet(o.name, `Buy for ${money(o.price)}?`, 'Buy', 'go')) { const r = await act(adapter.buyBusinessOffer(o.idx)); if (r.ok) nav.back(); } } })));
+  // sports clubs are bought through the same managed-club flow as Work > Own a Team (team page, staff, facilities); other offers buy directly and land on their manage screen
+  const before = new Set(b.owned.map((x) => x.id));
+  body.append(...b.offers.map((o) => row({ id: 'offer:' + o.idx, icon: o.icon, title: o.name, sub: o.type === 'sports' ? 'Sports club · opens the club market (same as Work > Own a Team)' : `${o.typeName} · ${o.desc}`, right: money(o.price), disabled: o.type !== 'sports' && o.price > b.cash, onClick: async () => { if (o.type === 'sports') { const { franchiseScreen } = await import('./franchise.js'); nav.open('Own a Team', franchiseScreen); return; } if (await confirmSheet(o.name, `Buy for ${money(o.price)}?`, 'Buy', 'go')) { const r = await act(adapter.buyBusinessOffer(o.idx)); if (r.ok) await landOnNew(nav, before); } } })));
 }
 export async function businessDetail(body, ctx, id) {
   const d = await adapter.getBusiness(id); if (!d) return body.append(empty('This business is gone.'));

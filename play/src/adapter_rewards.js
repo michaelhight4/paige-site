@@ -1,5 +1,6 @@
 // Rewarded-ad options (mixed into EngineAdapter). Policy lives in src/ads.js, the ad itself behind src/adapter_ads.js.
 // Every method checks that the action is valid BEFORE the ad starts, then grants the reward only if Ads.authorize() confirms the full duration was watched.
+import { fmtMoney } from './fmt.js';
 import * as E from './engine.js';
 import { D } from './data.js';
 import * as Ads from './ads.js';
@@ -7,7 +8,7 @@ import * as Ev from './events.js';
 import * as P from './people.js';
 import { log, addStat } from './core.js';
 
-const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
+const money = (n) => fmtMoney(Math.round(n));
 // ---- rare choice on event cards ----
 const baseChoices = (s) => { const p = s.pending[0]; return p && p.kind === 'event' ? Ev.eventById(p.id).choices.length : -1; };
 export function rareFor(s) {

@@ -3,6 +3,7 @@
 // - a simulated league (rival players with stats, teams with records) re-rolled every season; ranks, titles and awards compare you to the rivals
 // - play styles with trade-offs, contract/trade/draft offers (accept / decline / negotiate), Hall of Fame
 // State lives in s.mt (created lazily by ensure(), so old saves migrate on first use).
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, chance, clamp, gauss } from './rng.js';
 import { log, addStat } from './core.js';
@@ -45,8 +46,11 @@ export const ensure = (s) => {
   if (!s.mt) s.mt = { skills: {}, tr: { year: -1, list: [] }, style: 'balanced', styleYear: -1, league: null, seasons: [], awards: [], offers: [], career: { pts: 0, hof: false }, jobSport: null, limbo: null, last: null, contract: null };
   return s.mt;
 };
-const jobIsAthlete = (s) => !!(s.job && s.job.kind === 'special' && s.job.special === 'athlete') || !!(s.sl && s.sl.job && s.sl.job.special === 'athlete');
-const slJob = (s) => (s.sl && s.sl.job && s.sl.job.special === 'athlete' ? s.sl.job : null);
+// every athlete occupation: the Pro Athlete track (Amateur, Minor League, Pro Rookie, Starter, Franchise Player) however it is stored (slice job, mirrored job id, legacy special)
+const ATH_TITLES = ['Amateur', 'Minor League', 'Pro Rookie', 'Starter', 'Franchise Player'];
+const isAthJob = (j) => !!j && (j.special === 'athlete' || /(^|[_:])(sp_)?athlete/.test(String(j.id || '')) || (j.kind === 'special' && ATH_TITLES.includes(j.title)));
+export const jobIsAthlete = (s) => isAthJob(s.job) || !!(s.sl && isAthJob(s.sl.job));
+export const slJob = (s) => (s.sl && isAthJob(s.sl.job) ? s.sl.job : null);
 export const defOf = (sportId) => (sportId === 'racing' ? RACING_DEF : SS.sportDef(sportId));
 const pickJobSport = (s, m) => { if (!m.jobSport) { const ids = ['basketball', 'football', 'baseball', 'soccer', 'track', 'swimming']; m.jobSport = ids[hash(s.rs, 'pro') % ids.length]; } return m.jobSport; };
 
@@ -75,14 +79,26 @@ export function skillsOf(s, sid) {
 }
 export const overall = (s, sid) => { const v = Object.values(skillsOf(s, sid)); return v.length ? R(v.reduce((a, b) => a + b, 0) / v.length) : 0; };
 const setSkill = (s, sid, name, v) => { const m = ensure(s), sp = SPORTS[sid]; v = clamp(v, 5, 99); if (sid === 'racing' && s.rc && s.rc.stats) { s.rc.stats[sp.keys[sp.skills.indexOf(name)]] = v; return; } skillsOf(s, sid)[name] = v; };
-export function trainState(s) { const m = ensure(s), y = age(s); if (m.tr.year !== y) m.tr = { year: y, list: [] }; return m.tr; }
+// ---- athlete skill aging: trained skills already went up (train); untrained ones slip; plus a yearly age-decline roll per skill
+export const DECLINE_STEPS = [[28, 0.10], [32, 0.20], [35, 0.30], [38, 0.40], [40, 0.50], [42, 0.60], [45, 0.70]];
+export function declineRisk(a) { let p = 0; for (const [at, v] of DECLINE_STEPS) if (a >= at) p = v; if (a > 45) p = Math.min(0.95, 0.70 + (a - 45) * 0.03); return p; }
+export function skillAging(s, sid) {
+  const a = age(s), sk = skillsOf(s, sid), m0 = ensure(s); trainState(s); const tr = m0.trPrev && m0.trPrev.year === a - 1 ? m0.trPrev : { list: [] }, p = declineRisk(a), out = { slipped: [], declined: [] };
+  for (const k of Object.keys(sk)) { const trained = tr.list.includes(k); let v = skillsOf(s, sid)[k];
+    if (!trained) { v -= a < 20 ? 0 : 4; if (a >= 20) out.slipped.push(k); }
+    const pk = trained ? p * 0.5 : p; if (pk > 0 && chance(s, pk)) { v -= a >= 40 ? 8 : 4; out.declined.push(k); }
+    setSkill(s, sid, k, v); }
+  if (out.declined.length) log(s, `Age caught up with me: my ${out.declined.join(', ').toLowerCase()} slipped.`, 'sport');
+  return out;
+}
+export function trainState(s) { const m = ensure(s), y = age(s); if (m.tr.year !== y) { m.trPrev = m.tr; m.tr = { year: y, list: [] }; } return m.tr; }
 export const trainCost = (s, mem) => (mem.sportId === 'racing' && s.rc && s.rc.career ? 2000 * (1 + s.rc.license) * (1 + s.rc.career.tier * 2) : 0);
 export function trainSkill(s, name) {
   const mem = membership(s); if (!mem || mem.limbo) return { ok: false, msg: 'You are not on a team.' };
   const sid = mem.sportId, sp = SPORTS[sid], tr = trainState(s); if (!sp.skills.includes(name)) return { ok: false, msg: 'Pick one of your skills.' };
   if (tr.list.includes(name)) return { ok: false, msg: `${name} is already trained this year.` };
   if (tr.list.length >= TRAIN_CAP) return { ok: false, msg: `You can train ${TRAIN_CAP} skills a year (${tr.list.length}/${TRAIN_CAP} used).` };
-  const cost = trainCost(s, mem); if (s.cash < cost) return { ok: false, msg: `Training costs $${R(cost).toLocaleString('en-US')}.` };
+  const cost = trainCost(s, mem); if (s.cash < cost) return { ok: false, msg: `Training costs ${fmtMoney(R(cost))}.` };
   const sk = skillsOf(s, sid), cur = sk[name], gain = sid === 'racing' ? Math.max(1, R((7 - cur / 20) * (0.8 + rnd(s) * 0.5))) : rint(s, 2, 5);
   s.cash -= cost; setSkill(s, sid, name, cur + gain); tr.list.push(name); if (!s.acted.sporttrain) { s.acted.sporttrain = 1; s.fit = Math.min(5, (s.fit || 0) + 1); }
   if (s.sport && s.sport.id === sid) s.sport.skill = overall(s, sid);
@@ -175,9 +191,11 @@ export function postYear(s) {
     const sid = mem.sportId, sk = skillsOf(s, sid);
     if (mem.level !== 'draft' && SPORTS[sid]) { // natural growth / decline for pro, minor and racing; school growth already happened in SS.yearTick (synced below)
       if (s.sport && s.sport.id === sid && m.mark && m.mark.sp != null) { const dlt = s.sport.skill - m.mark.sp; for (const k of Object.keys(sk)) setSkill(s, sid, k, sk[k] + dlt + gauss(s) * 0.6); s.sport.skill = overall(s, sid); }
-      else if (!mem.racing) { const dv = a < 27 ? 1.4 : a < 31 ? 0.3 : -1.6 - (a - 31) * 0.15; for (const k of Object.keys(sk)) setSkill(s, sid, k, sk[k] + dv * (0.6 + (s.stats.health || 50) / 100) + gauss(s) * 0.8); }
+      else if (!mem.racing) { const dv = a < 24 ? 1 : 0; for (const k of Object.keys(sk)) setSkill(s, sid, k, sk[k] + dv + gauss(s) * 0.5); }
+      if (!mem.racing) skillAging(s, sid);
     }
-    if (mem.level === 'pro' || mem.level === 'minor') makeOffers(s, mem);
+    if (mem.level === 'pro' || mem.level === 'minor') { m.career.proYears = (m.career.proYears || 0) + 1; if (!releaseRoll(s)) makeOffers(s, mem); }
+    if (mem.level === 'college') m.career.collegeYears = (m.career.collegeYears || 0) + 1;
   }
   const l = m.limbo; if (l && a > l.age) expireLimbo(s);
   if (!mem || mem.limbo) hofCheck(s);
@@ -221,11 +239,11 @@ export function respond(ad, offerId, verb) {
   const drop = () => { m.offers = m.offers.filter((x) => x.id !== o.id); };
   if (verb === 'decline') { drop(); if (o.kind === 'draft' && !m.offers.some((x) => x.kind === 'draft')) { m.limbo = null; log(s, 'I turned down every draft offer and the whole room went quiet.', 'sport'); } if (o.kind === 'trade') addStat(s, 'happiness', 1); return { ok: true, msg: 'Offer declined.' }; }
   if (verb === 'negotiate') { if (o.negotiated) return { ok: false, msg: 'You already pushed once. Take it or leave it.' }; o.negotiated = true; const p = clamp(0.35 + (overall(s, (membership(s) || {}).sportId || o.sid) - 55) / 100 + (s.stats.fame || 0) / 400, 0.15, 0.8);
-    if (chance(s, p)) { o.salary = R(o.salary * 1.18); return { ok: true, msg: `They agreed to $${o.salary.toLocaleString('en-US')} a year.`, countered: true }; } if (chance(s, 0.3)) { drop(); return { ok: true, msg: 'They walked away from the table.', withdrawn: true }; } return { ok: true, msg: 'They would not move.', stuck: true }; }
+    if (chance(s, p)) { o.salary = R(o.salary * 1.18); return { ok: true, msg: `They agreed to ${fmtMoney(o.salary)} a year.`, countered: true }; } if (chance(s, 0.3)) { drop(); return { ok: true, msg: 'They walked away from the table.', withdrawn: true }; } return { ok: true, msg: 'They would not move.', stuck: true }; }
   if (verb !== 'accept') return { ok: false, msg: 'Unknown choice.' };
   if (o.kind === 'draft') { const r = turnPro(ad, o); if (!r.ok) return r; m.offers = m.offers.filter((x) => x.kind !== 'draft'); m.limbo = null; return r; }
   const mem = membership(s); drop(); m.contract = { team: o.team, salary: o.salary, until: age(s) + o.years, years: o.years }; m.jobTeam = o.team; if (mem && mem.level !== 'draft') leagueFor(s, { ...mem, team: o.team });
-  applyPay(s, o.salary); log(s, o.kind === 'trade' ? `I was traded to the ${o.team}.` : `I signed with the ${o.team}: $${o.salary.toLocaleString('en-US')} for ${o.years} year${o.years > 1 ? 's' : ''}.`, 'sport'); return { ok: true, msg: o.kind === 'trade' ? `Traded to the ${o.team}.` : `Signed with the ${o.team}.` };
+  applyPay(s, o.salary); log(s, o.kind === 'trade' ? `I was traded to the ${o.team}.` : `I signed with the ${o.team}: ${fmtMoney(o.salary)} for ${o.years} year${o.years > 1 ? 's' : ''}.`, 'sport'); return { ok: true, msg: o.kind === 'trade' ? `Traded to the ${o.team}.` : `Signed with the ${o.team}.` };
 }
 function applyPay(s, salary) { const j = slJob(s); if (j) { j.wage = salary; if (s.job) { const c = D.careers.find((x) => x.id === s.job.id); if (c) c.levels[0][1] = salary; } } else if (s.pro) { const t = s.league && s.league.teams[s.pro.team], p = t && t.roster.find((x) => x.id === s.pro.pid); if (p) p.sal = salary; } }
 function turnPro(ad, o) {
@@ -234,7 +252,7 @@ function turnPro(ad, o) {
   const step = o.phase === 'hs' ? 1 : 2, st = sd.steps[step]; const sl = B.pull(s);
   sl.job = { kind: 'special', special: 'athlete', id: st.id, title: st.title, wage: o.salary, years: 0, yearsInLevel: 0, step, sector: 'special' }; B.push(s);
   m.jobSport = sid; m.proSport = sid; m.contract = { team: o.team, salary: o.salary, until: age(s) + o.years, years: o.years }; m.jobTeam = o.team; m.league = null; s.sport = null; s.carry = null; s.pending = (s.pending || []).filter((p) => p.kind !== 'college');
-  log(s, `I was drafted by the ${o.team} (round ${o.round}, pick ${o.pick}) and signed for $${o.salary.toLocaleString('en-US')}. I cried on live television.`, 'sport'); addStat(s, 'fame', 8); addStat(s, 'happiness', 14);
+  log(s, `I was drafted by the ${o.team} (round ${o.round}, pick ${o.pick}) and signed for ${fmtMoney(o.salary)}. I cried on live television.`, 'sport'); addStat(s, 'fame', 8); addStat(s, 'happiness', 14);
   return { ok: true, msg: `Drafted by the ${o.team}.` };
 }
 
@@ -248,8 +266,83 @@ export function view(s) {
   const cost = trainCost(s, mem), ca = career(s, sid), stLabel = (k) => STAT_LABEL[k] || k;
   const line = (r) => r ? d.stats.map((k) => ({ key: k, label: stLabel(k), value: fmtStat(k, r.stats[k]), rank: r.ranks ? r.ranks[k] : null })) : [];
   const tot = ca ? d.stats.map((k) => ({ key: k, label: stLabel(k), value: fmtStat(k, ca.totals[k]) })) : [];
-  return { onTeam: true, kind: mem.kind, level: mem.level, levelLabel: mem.limbo ? 'Draft prospect' : (LEVELS[mem.level] || {}).label, sportId: sid, sport: sp.name, icon: sp.icon, team: mem.team, position: mem.position, league: mem.limbo ? '' : leagueName(sid, mem.level), limbo: !!mem.limbo, overall: overall(s, sid),
+  return { onTeam: true, declineRisk: Math.round(declineRisk(age(s)) * 100), kind: mem.kind, level: mem.level, levelLabel: mem.limbo ? 'Draft prospect' : (LEVELS[mem.level] || {}).label, sportId: sid, sport: sp.name, icon: sp.icon, team: mem.team, position: mem.position, league: mem.limbo ? '' : leagueName(sid, mem.level), limbo: !!mem.limbo, overall: overall(s, sid),
     skills: sp.skills.map((n) => ({ name: n, value: R(sk[n]), trained: tr.list.includes(n), offense: sp.off.includes(n), defense: sp.def.includes(n) })), train: { used: tr.list.length, cap: TRAIN_CAP, list: [...tr.list], cost, lowest: lowestSkills(s) },
     style: m.style, styles: STYLES.map((x) => ({ id: x.id, name: x.name, note: x.note })), styleChosen: m.styleYear === age(s), titleChance: tc, last, lastLine: line(last), career: ca, careerLine: tot, careerPts: m.career.pts, hof: m.career.hof, awards: [...m.awards].reverse(), contract: m.contract ? { ...m.contract } : null, salary: salaryBase(s, mem), history: [...m.seasons].filter((x) => x.sid === sid).reverse().slice(0, 12), field: lg && lg.field ? lg.field : [], offers: m.offers.map((o) => ({ ...o })), cash: R(s.cash), stress: s.stats.stress || 0 };
 }
 export const headline = (s) => { const v = ensure(s); return v; };
+
+// playing experience (any pro/semi-pro years, current or past, plus college); old saves derive it from the current athlete job's tenure
+export function playingYears(s) {
+  const m = ensure(s), c = m.career; const j = slJob(s) || (jobIsAthlete(s) ? s.job : null); const jobYrs = j ? (j.years || j.yrs || 0) : 0;
+  if (jobYrs > (c.proYears || 0)) c.proYears = jobYrs; // migration
+  const legacy = s.flags && s.flags.ex_pro ? Math.max(1, c.proYears || 0) : 0;
+  return { pro: Math.max(c.proYears || 0, legacy), college: Math.max(c.collegeYears || 0, s.flags && s.flags.ex_college ? 1 : 0), active: !!(s.pro || jobIsAthlete(s)) };
+}
+// end the playing career (pro league player or athlete job) so a coaching job can start
+export function retirePlayer(s) {
+  if (s.pro) { const t = s.league.teams[s.pro.team], i = t ? t.roster.findIndex((p) => p.id === s.pro.pid) : -1; if (i >= 0) t.roster.splice(i, 1); s.pro = null; }
+  if (s.sl && isAthJob(s.sl.job)) { s.sl.job = null; B.push(s); } if (isAthJob(s.job)) s.job = null;
+  s.flags.ex_pro = 1; log(s, 'I hung up my boots and retired from playing.', 'sport'); return { ok: true };
+}
+// ---- teammates: a stable roster per team, relationship + professionalism, yearly-capped interactions (same shape as coworkers) ----
+const MATE_CAP = 4;
+const PERSONAS = ['team-first', 'hothead', 'joker', 'quiet pro', 'diva', 'grinder', 'mentor type', 'party animal'];
+export function teammates(s) {
+  const m = ensure(s), mem = membership(s); if (!mem || mem.limbo) return null; const key = `${mem.sportId}|${mem.team}`; m.mates = m.mates || {};
+  if (!m.mates[key]) { const base = overall(s, mem.sportId), list = []; const sk = (SPORTS[mem.sportId] || {}).skills || ['Player'];
+    for (let i = 0; i < 8; i++) list.push({ id: i + 1, name: D.firstNames[(hash(s.rs, key, i, 'f') % D.firstNames.length)] + ' ' + D.lastNames[(hash(s.rs, key, i, 'l') % D.lastNames.length)], pos: sk[i % sk.length] + ' specialist', age: 19 + (hash(s.rs, key, i, 'a') % 15), rating: clamp(R(base + ((hash(s.rs, key, i, 'r') % 21) - 10)), 30, 97), rel: 45 + (hash(s.rs, key, i, 'b') % 15), prof: 30 + (hash(s.rs, key, i, 'p') % 66), persona: PERSONAS[hash(s.rs, key, i, 'q') % PERSONAS.length], done: -1 });
+    m.mates[key] = list; }
+  return { key, list: m.mates[key] };
+}
+const mateYear = (s) => { const m = ensure(s), a = age(s); if (!m.mateYr || m.mateYr.y !== a) m.mateYr = { y: a, n: 0 }; return m.mateYr; };
+export const MATE_ACTS = [{ id: 'hang', label: 'Hang out' }, { id: 'compliment', label: 'Compliment their game' }, { id: 'argue', label: 'Argue' }, { id: 'mentor', label: 'Mentor them' }];
+export function mateAct(s, id, act) {
+  const tm = teammates(s); if (!tm) return { ok: false, msg: 'You are not on a team.' }; const p = tm.list.find((x) => x.id === Number(id)); if (!p) return { ok: false, msg: 'No such teammate.' };
+  const y = mateYear(s), a = age(s); if (p.done === a) return { ok: false, msg: `You already spent time with ${p.name} this year.` }; if (y.n >= MATE_CAP) return { ok: false, msg: `Teammate interactions: ${MATE_CAP}/${MATE_CAP} used this year.` };
+  const mem = membership(s), me = overall(s, mem.sportId); let line;
+  if (act === 'mentor' && (me < p.rating + 5 || a < 24)) return { ok: false, msg: 'Mentoring needs you to be 24+ and clearly better than them.' };
+  p.done = a; y.n++;
+  if (act === 'hang') { p.rel = clamp(p.rel + 6 + (p.persona === 'party animal' ? 3 : 0), 0, 100); addStat(s, 'happiness', 2); line = `I hung out with my teammate ${p.name}.`; }
+  else if (act === 'compliment') { p.rel = clamp(p.rel + (p.persona === 'diva' ? 7 : 4), 0, 100); line = `I told ${p.name} their game has been sharp.`; }
+  else if (act === 'argue') { const win = chance(s, 0.35); p.rel = clamp(p.rel - (win ? 2 : 10), 0, 100); addStat(s, 'stress', 3); line = win ? `I argued with ${p.name} and we cleared the air.` : `I got into it with ${p.name}. The locker room went quiet.`; if (p.prof > 75 && !win) addStat(s, 'fame', -1); }
+  else if (act === 'mentor') { p.rel = clamp(p.rel + 7, 0, 100); p.rating = clamp(p.rating + 2, 30, 97); line = `I took ${p.name} under my wing.`; }
+  else { p.done = -1; y.n--; return { ok: false, msg: 'Unknown interaction.' }; }
+  log(s, line, 'sport'); return { ok: true, msg: line };
+}
+export function matesView(s) { const tm = teammates(s); if (!tm) return null; const y = mateYear(s), a = age(s); return { used: y.n, cap: MATE_CAP, list: tm.list.map((p) => ({ ...p, doneThisYear: p.done === a })), acts: MATE_ACTS }; }
+// ---- pro athlete release system: each season a cut chance from age (sport prime window) vs performance; Autopilot gets the same roll ----
+export const PRIME = { basketball: [23, 29], football: [23, 29], baseball: [25, 32], soccer: [23, 30], hockey: [24, 30], tennis: [22, 29], golf: [27, 36], racing: [25, 35], track: [22, 28], boxing: [24, 31], volleyball: [23, 30], swimming: [20, 26] };
+export function rosterSecurity(s) {
+  const mem = membership(s); if (!mem || mem.limbo || !['pro', 'minor'].includes(mem.level)) return null;
+  const m = ensure(s), a = age(s), sid = mem.sportId, [p0, p1] = PRIME[sid] || [24, 30], ov = overall(s, sid), mean = (LEVELS[mem.level] || LEVELS.pro).mean;
+  const ageF = a < p0 ? 8 : a <= p1 ? 0 : -R((a - p1) * 7 + (a - p1) ** 2 * 0.8);
+  const perfF = R((ov - mean) * 1.4);
+  const last = [...m.seasons].reverse().find((x) => x.sid === sid && x.age >= a - 1) || [...m.seasons].reverse().find((x) => x.sid === sid);
+  const statF = last && last.fieldSize ? R((0.5 - (last.rankOverall || last.fieldSize / 2) / last.fieldSize) * 30) : 0;
+  const injF = ((s.diseases || []).length ? -8 : 0) + ((s.stats.health || 60) < 40 ? -6 : 0);
+  const sec = clamp(R(65 + ageF + perfF + statF + injF), 0, 100), risk = sec >= 85 ? 0.01 : Math.round(((100 - sec) / 100) ** 2 * 70) / 100;
+  return { security: sec, risk, prime: `${p0}-${p1}`, factors: [{ label: `Age ${a} (prime ${p0}-${p1})`, value: ageF }, { label: `Rating ${ov} vs league ${mean}`, value: perfF }, { label: last ? `Last season: ${last.rankOverall || '?'} of ${last.fieldSize || '?'} players` : 'No season stats yet', value: statF }, { label: 'Injuries / health', value: injF }] };
+}
+export function releaseRoll(s) {
+  const m = ensure(s); if (s.pending && s.pending.some((p) => p.kind === 'released')) return false; const r = rosterSecurity(s); if (!r) return false;
+  if (!chance(s, r.risk)) return false; const mem = membership(s);
+  m.released = { age: age(s), team: mem.team, level: mem.level, sec: r.security }; m.offers = m.offers.filter((o) => o.kind === 'draft'); s.pending.push({ kind: 'released' }); log(s, `The ${mem.team} released me.`, 'sport'); return true;
+}
+export function releaseCard(s) {
+  const m = ensure(s), rl = m.released || {}, mem = membership(s), base = mem ? salaryBase(s, mem) : 0, signP = clamp(rl.sec / 100 + 0.25, 0.2, 0.9);
+  return { kind: 'released', id: 'released', title: '📋 You were released', text: `The ${rl.team} cut you after the season (roster security ${rl.sec}/100). What now?`, choices: [
+    { label: `Try to sign elsewhere (about ${fmtMoney(R(base * 0.6))}/yr, ${Math.round(signP * 100)}% chance)` },
+    { label: rl.level === 'pro' ? 'Move down to a minor-league team' : 'Keep grinding in the minors (pay cut)' },
+    { label: 'Retire and go into coaching' }] };
+}
+export function releaseResolve(s, i) {
+  const m = ensure(s), rl = m.released || {}, mem = membership(s); if (!s.pending[0] || s.pending[0].kind !== 'released') return null;
+  const done = (msg) => { s.pending.shift(); m.released = null; return { ok: true, msg }; };
+  if (!mem) return done('Your playing days are over.');
+  const base = salaryBase(s, mem), lg = leagueFor(s, mem);
+  if (i === 0) { const signP = clamp(rl.sec / 100 + 0.25, 0.2, 0.9); if (chance(s, signP)) { const others = lg.teams.filter((t) => !t.mine && t.name !== rl.team), t = others[rint(s, 0, others.length - 1)] || { name: 'Free agents XI' }; const sal = R(base * (0.5 + rnd(s) * 0.2)); m.contract = { team: t.name, salary: sal, until: age(s) + rint(s, 1, 2), years: 1 }; m.jobTeam = t.name; leagueFor(s, { ...mem, team: t.name }); applyPay(s, sal); log(s, `I signed with the ${t.name} for ${fmtMoney(sal)} a year.`, 'sport'); return done(`Signed with the ${t.name}.`); }
+    log(s, 'Nobody called. I was out of the league.', 'sport'); i = 1; }
+  if (i === 1) { const j = slJob(s); const sal = R(Math.max(40000, base * 0.25)); if (j) { const sd = D.sOcc.special.find((x) => x.id === 'athlete'), st = sd && sd.steps[1]; if (st) { j.id = st.id; j.title = st.title; } j.step = 1; j.wage = sal; B.push(s); } m.contract = null; m.jobTeam = null; m.jobTeam = teamNameFor(s, mem.sportId, 'minor'); log(s, `I dropped down to the minors with the ${m.jobTeam}.`, 'sport'); return done(`Now playing for the ${m.jobTeam} in the minors.`); }
+  retirePlayer(s); return done('Retired. Open Work > Coaching to start coaching.');
+}

@@ -2,6 +2,7 @@
 //  android: rewarded ads, unlimited.    steam: no ads shown; subscribers get the same reward options without an ad, once per option per real-life day.
 // Config: data/ads.json (`platform` flag, ?platform=steam on the URL, or setPlatform()). Device-local state (Steam subscription stub, daily usage)
 // is kept in localStorage `lifesim.ads.v1`, separate from saves. The reward is granted only after the adapter reports the FULL required duration.
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import * as Premium from './premium.js';
 import { getAdsAdapter } from './adapter_ads.js';
@@ -54,7 +55,7 @@ export async function authorize(key, { placement = key, now = Date.now() } = {})
 export const statKeys = () => config().rewards.stats;
 export function options(now = Date.now()) {
   const R = config().rewards, mk = (key, label, sub, icon) => ({ key, label, sub, icon, ...access(key, now) });
-  return [mk('cash', '+' + '$' + R.cash.toLocaleString('en-US') + ' cash', 'Instant cash', '💵'), ...R.stats.map((st) => mk('stat:' + st, `+${R.statPoints}% ${st}`, 'Permanent boost', { health: '❤️', happiness: '😊', smarts: '🧠', looks: '✨', fame: '⭐' }[st] || '⬆️')),
+  return [mk('cash', '+' + fmtMoney(R.cash) + ' cash', 'Instant cash', '💵'), ...R.stats.map((st) => mk('stat:' + st, `+${R.statPoints}% ${st}`, 'Permanent boost', { health: '❤️', happiness: '😊', smarts: '🧠', looks: '✨', fame: '⭐' }[st] || '⬆️')),
     mk('club', 'Join any school club', 'Skips the age window and the club cap', '🎒'), mk('romance', 'Start a romance instantly', 'Meet someone and start dating, guaranteed', '💘'), mk('rare', 'Unlock a rare choice', 'Appears on some events', '🌟')];
 }
 export function applyStat(s, st, addStat) { addStat(s, st, config().rewards.statPoints); }

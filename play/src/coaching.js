@@ -1,5 +1,6 @@
 // Sports coaching & management: study sports/coaching, then coach a team you do not own (assistant -> head). Transfers, stadium & gear,
 // style & training, season review, and a quarterly interactive mode with a top-down match you can watch or skip.
+import * as MT from './myteam.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, gauss } from './rng.js';
 import { log, earn } from './core.js';
@@ -12,12 +13,14 @@ void rr;
 export function ensure(s) { if (!s.coach) s.coach = { active: false, role: null, sportId: null, years: 0, headYears: 0, style: 'balanced', training: 'tactics', stadium: 0, gear: 0, budget: 0, conf: 60, team: null, league: [], market: [], season: null, mode: 'auto', hist: [], reviews: [], titles: 0, last: null, match: null, wins: 0, losses: 0, draws: 0 }; return s.coach; }
 const degrees = (s) => (s.sl && s.sl.edu && s.sl.edu.degrees) || {};
 export const hasDegree = (s) => Object.values(degrees(s)).some((d) => d && (d.major === 'Sports Science' || d.major === 'Coaching'));
-export const exPlayer = (s) => !!((s.flags && s.flags.ex_pro) || (s.sport && s.sport.seasons && s.sport.seasons.length >= 2) || (s.flags && s.flags.ex_college));
-const needYears = (s) => Math.max(1, 3 - (hasDegree(s) ? 1 : 0) - (s.flags && s.flags.ex_pro ? 1 : 0));
+export const exPlayer = (s) => { const y = MT.playingYears(s); return !!(y.pro > 0 || y.college > 0 || (s.flags && (s.flags.ex_pro || s.flags.ex_college)) || (s.sport && s.sport.seasons && s.sport.seasons.length >= 2)); };
+const proExp = (s) => MT.playingYears(s).pro > 0 || !!(s.flags && s.flags.ex_pro);
+export function expLabel(s) { const y = MT.playingYears(s); if (y.pro) return `Yes (${y.pro} yr${y.pro > 1 ? 's' : ''} pro${y.active ? ', still playing' : ''})`; if (y.college) return `Yes (${y.college} yr${y.college > 1 ? 's' : ''} college)`; return exPlayer(s) ? 'Yes' : 'No'; }
+const needYears = (s) => Math.max(1, 3 - (hasDegree(s) ? 1 : 0) - (proExp(s) ? 1 : 0));
 
 export function eligible(s) {
-  const c = ensure(s); if (c.active) return 'You already coach a team.'; if (age(s) < 21) return 'Coaches must be 21+.'; if (s.prison) return 'Not from prison.'; if (s.pro) return 'Retire from playing first.'; if (s.school && s.edu < 3) return 'Finish school first.';
-  if (!hasDegree(s) && !exPlayer(s)) return 'Study Sports Science or Coaching (Education), or play a sport first.'; return '';
+  const c = ensure(s); if (c.active) return 'You already coach a team.'; if (age(s) < 21) return 'Coaches must be 21+.'; if (s.prison) return 'Not from prison.'; if (s.pro || MT.jobIsAthlete(s)) return 'You are still playing. Retire & start coaching below.'; if (s.school && s.edu < 3) return 'Finish school first.';
+  if (!hasDegree(s) && !exPlayer(s)) return 'Study Sports Science or Coaching (Education), or play school, college or pro sports first.'; return '';
 }
 // ---------- teams ----------
 const ovrOf = (p) => p.ovr;
@@ -32,9 +35,10 @@ function newSeason(s) { const c = ensure(s); const n = c.league.length; c.season
 const pickOpp = (s) => { const c = ensure(s); return 1 + Math.floor(rnd(s) * (c.league.length - 1)); };
 export const myStrength = (s) => { const c = ensure(s); if (!c.team) return 0; const g = C().gear[c.gear].b; return strOf(c.team, lineN(c)) + g + (c.role === 'head' ? 1.5 : 0.5) + (hasDegree(s) ? 2 : 0) + (c.training === 'fitness' ? 0.5 : 0) + (c.team.players.reduce((a, p) => a + p.morale, 0) / c.team.players.length - 60) / 15; };
 
-export function take(s, sportId) {
+export function take(s, sportId, opts = {}) {
+  if (opts.retire && (s.pro || MT.jobIsAthlete(s))) { if (age(s) < 21) return { ok: false, msg: 'Coaches must be 21+.' }; MT.retirePlayer(s); }
   const c = ensure(s), why = eligible(s); if (why) return { ok: false, msg: why }; const sp = C().sports[sportId]; if (!sp) return { ok: false, msg: 'Pick a sport.' };
-  const head = (s.flags && s.flags.ex_pro) && chance(s, 0.35) ? 'head' : 'assistant'; // famous ex-pros sometimes land the top job
+  const head = proExp(s) && chance(s, Math.min(0.6, 0.35 + MT.playingYears(s).pro * 0.01 + (s.stats.fame || 0) / 400)) ? 'head' : 'assistant'; // famous ex-pros sometimes land the top job
   const used = new Set(); const league = []; const mine = mkTeam(s, 0, teamName(s, used), 50 + rint(s, -4, 6)); league.push(mine); for (let i = 1; i < 8; i++) league.push(mkTeam(s, i, teamName(s, used), 48 + rint(s, 0, 16)));
   Object.assign(c, { active: true, role: head, sportId, years: 0, headYears: 0, style: 'balanced', training: 'tactics', stadium: 0, gear: 0, budget: 900000, conf: 60, team: mine, league, mode: 'auto', last: null }); c.league.forEach((t) => (t.str = Math.round(strOf(t, sp.lineup))));
   refreshMarket(s); newSeason(s); log(s, `I took a job as ${C().roles[head].name} of the ${mine.name} (${sp.name}).`, 'job'); return { ok: true, msg: `You are now ${C().roles[head].name} of the ${mine.name}.` };
@@ -133,7 +137,7 @@ export function eventFx(s, v) { const c = ensure(s); if (!c.active) return; if (
 export const headline = (s) => (s.coach && s.coach.active ? C().roles[s.coach.role].name : null);
 export function status(s) {
   const c = ensure(s), why = eligible(s), sp = c.sportId && C().sports[c.sportId], S = c.season;
-  const base = { eligible: !why, why, hasDegree: hasDegree(s), exPlayer: exPlayer(s), sports: Object.entries(C().sports).map(([id, x]) => ({ id, name: x.name, icon: x.icon })), styles: C().styles, training: C().training, hist: c.hist, titles: c.titles, active: c.active };
+  const base = { eligible: !why, why, hasDegree: hasDegree(s), exPlayer: exPlayer(s), expLabel: expLabel(s), stillPlaying: !!(s.pro || MT.jobIsAthlete(s)), canRetireCoach: !!(s.pro || MT.jobIsAthlete(s)) && age(s) >= 21 && !c.active, sports: Object.entries(C().sports).map(([id, x]) => ({ id, name: x.name, icon: x.icon })), styles: C().styles, training: C().training, hist: c.hist, titles: c.titles, active: c.active };
   if (!c.active) return { ...base, reviews: c.reviews.slice(-5) };
   const table = S ? S.table.slice().sort((a, b) => b.pts - a.pts || b.gd - a.gd) : [];
   return { ...base, role: c.role, roleName: C().roles[c.role].name, sport: { id: c.sportId, name: sp.name, icon: sp.icon, formations: sp.formations }, team: { name: c.team.name, strength: Math.round(myStrength(s)), players: c.team.players.slice().sort((a, b) => b.ovr - a.ovr).map((p) => ({ id: p.id, name: p.name, pos: p.pos, age: p.age, ovr: p.ovr, pot: p.pot, morale: Math.round(p.morale), value: price(p) })) }, years: c.years, needYears: needYears(s), canPromote: c.role === 'assistant' && c.years >= needYears(s), style: c.style, trainingId: c.training, mode: c.mode, budget: Math.round(c.budget), conf: Math.round(c.conf), stadium: { ...C().stadium[c.stadium], level: c.stadium, next: C().stadium[c.stadium + 1] || null }, gear: { ...C().gear[c.gear], level: c.gear, next: C().gear[c.gear + 1] || null },

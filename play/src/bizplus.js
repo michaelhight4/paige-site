@@ -1,3 +1,4 @@
+import { fmtMoney } from './fmt.js';
 // Extended, data-driven business types (data/businesses.json): requirements, risks, upgrades, fleets. Layered on business.js (cyclic import is function-level only).
 import * as Social from './social.js';
 import { D } from './data.js';
@@ -33,7 +34,7 @@ export function requirement(s, type) {
 export function canFound(s, type) {
   const t = D.bizTypes[type]; if (!t || t.kind === 'sports') return 'Cannot found this type.';
   const why = requirement(s, type); if (why) return why;
-  if (startCost(s, type) > s.cash) return `Needs ${R(startCost(s, type)).toLocaleString('en-US')} startup cash`;
+  if (startCost(s, type) > s.cash) return `Needs ${fmtMoney(startCost(s, type))} startup cash`;
   return '';
 }
 

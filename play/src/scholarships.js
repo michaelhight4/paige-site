@@ -1,6 +1,7 @@
 // Scholarships (data/scholarships.json): apply near the end of high school (college) and before grad school. Requirements come from grades (GPA),
 // clubs/teams, service hours, awards, talent and skills; kinds: academic / athletic / arts / need / service / talent. A passion unlocks extra awards.
 // Tuition effect: college tuition is scaled by (1 - pct); slice schools (community college, university, graduate schools) are refunded pct of tuition.
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { clamp, chance, rint, gauss, pick as rpick } from './rng.js';
 import { log, addStat } from './core.js';
@@ -102,7 +103,7 @@ export function renew(s, id) {
   const before = a.pct; a.pct = st.raiseTo; a.renewals = (a.renewals || 0) + 1; a.probation = 0; if (a.yearsLeft < studyYearsLeft(s)) a.yearsLeft = Math.min(studyYearsLeft(s), a.yearsLeft + 1);
   const gain = Math.round((a.pct - before) * SD().collegeTuition); if (a.level === 'college' && s.debt > 0 && gain > 0) s.debt = Math.max(0, s.debt - gain);
   addStat(s, 'happiness', 4); log(s, `My ${t.name} was renewed for more: now ${Math.round(a.pct * 100)}% of tuition.`, 'school');
-  return { ok: true, won: true, msg: `Renewed! ${t.name} now covers ${Math.round(a.pct * 100)}% of tuition (+${'$' + gain.toLocaleString('en-US')}/yr).` };
+  return { ok: true, won: true, msg: `Renewed! ${t.name} now covers ${Math.round(a.pct * 100)}% of tuition (+${fmtMoney(gain)}/yr).` };
 }
 // yearly review while enrolled: slipping grades / lost team put an award on probation, then take it away
 function reviewAwards(s) {

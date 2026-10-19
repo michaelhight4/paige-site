@@ -1,4 +1,7 @@
 // Life-side methods of the UI adapter (ui/ADAPTER contract) implemented on the real engine. Mixed into EngineAdapter (engine_adapter.js).
+import * as MT from './myteam.js';
+import { fmtMoney } from './fmt.js';
+import * as Fame from './fame.js';
 import * as Pol from './politics.js';
 import * as Coach from './coaching.js';
 import * as E from './engine.js';
@@ -57,14 +60,14 @@ export const life = {
   getState() {
     const s = this.s, sl = s.sl, j = s.job && D.careers.find((c) => c.id === s.job.id), age = Math.floor(s.age);
     const st = s.stats, nw = Legacy.netWorthOf(s);
-    const job = j ? { id: s.job.id, title: j.levels[s.job.level][0], employer: sl && sl.job ? (D.sOcc.job_sectors?.find?.((x) => x.id === sl.job.sector)?.name || sl.job.sector || 'Self') : 'Employer', salary: Math.round(E.salaryNow(s)), years: Math.floor(s.job.yrs) } : null;
+    const job = j ? { id: s.job.id, title: j.levels[s.job.level][0], employer: sl && sl.job ? (sl.job.sector === 'special' ? (MT.jobIsAthlete(s) ? (MT.view(s).team || 'Pro team') : (D.sOcc.special.find((x) => x.id === sl.job.special)?.name || 'Self-employed')) : (D.sOcc.job_sectors?.find?.((x) => x.id === sl.job.sector)?.name || sl.job.sector || 'Self')) : 'Employer', salary: Math.round(E.salaryNow(s)), years: Math.max(Math.floor(s.job.yrs || 0), sl && sl.job && sl.job.mirrored ? (sl.job.years | 0) : 0) } : null;
     const pt = sl && sl.partTime ? { id: sl.partTime.id, title: sl.partTime.title, hourly: sl.partTime.hourly, weeklyHours: sl.partTime.weekly_hours, weeklyPay: sl.partTime.weekly_wage } : null;
     const inS = s.school === 'primary' ? { levelId: 'primary_school', label: 'Primary school', inSchool: true, year: Math.max(1, age - 4), years: 7 } : s.school === 'high' ? { levelId: 'high_school', label: 'High school', inSchool: true, year: Math.max(1, age - 11), years: 6 } : s.school === 'college' ? { levelId: 'university', label: 'University', inSchool: true, year: Math.floor(s.college.yrs) + 1, years: 4 } : sl && sl.edu.inSchool ? { levelId: sl.edu.inSchool.id, label: D.sOcc.education.names[sl.edu.inSchool.id] || sl.edu.inSchool.id, inSchool: true, year: 1, years: sl.edu.inSchool.yearsLeft } : null;
     const education = { ...(inS || { levelId: ['none', 'high_school', 'university', 'graduate_school'][Math.min(3, s.edu)], label: eduLabel(s), inSchool: false, year: 0, years: 0 }), major: sl && sl.edu.inSchool ? sl.edu.inSchool.majorName || null : null };
     const headline = s.prison ? 'Inmate' : job ? job.title : pt ? pt.title : s.pro ? 'Pro athlete' : Pol.headline(s) ? Pol.headline(s) : Coach.headline(s) ? Coach.headline(s) : Online.headline(s) && !s.school ? Online.headline(s) : s.retired ? 'Retired' : s.school ? 'Student' : age < 5 ? stageOf(age) : 'Unemployed';
     return { id: String(s.rs), name: s.name, gender: G(s.gender), age, stage: stageOf(age), alive: s.alive, country: P.country(s).name, city: s.city, stats: { happy: Math.round(st.happiness), health: Math.round(st.health), smarts: Math.round(st.smarts), looks: Math.round(st.looks), fame: Math.round(st.fame) },
       hidden: { karma: Math.round(st.karma), craziness: Math.round(st.crazy), stress: Math.round(st.stress) }, cash: Math.round(s.cash), netWorth: Math.round(nw.total), job, partTime: pt, education, headline, year: s.birthYear + age, prison: !!s.prison, avatar: { pid: 'me', seed: s.rs, gender: G(s.gender).toLowerCase(), age, ...(s.school ? { outfit: 'student' } : s.job ? { outfit: ({ doctor: 'surgeon', teacher: 'teacher', police: 'police', chef: 'chef', lawyer: 'lawyer', pilot: 'pilot', scientist: 'scientist', actor: 'actor', artist: 'artist' })[s.job.id] } : {}) },
-      auto: Auto.unlocked() && !!(s.auto && s.auto.on), premium: { subscribed: Premium.subscribed(), unlocked: Premium.passes().filter((p) => Premium.isUnlocked(p.id)).map((p) => p.id) } };
+      fameTier: { index: Fame.tierIndex(s.stats.fame), name: Fame.tierOf(s.stats.fame).name, fame: Math.round(s.stats.fame || 0) }, auto: Auto.unlocked() && !!(s.auto && s.auto.on), premium: { subscribed: Premium.subscribed(), unlocked: Premium.passes().filter((p) => Premium.isUnlocked(p.id)).map((p) => p.id) } };
   },
   getJournal() { return this.entriesSince(0 - 1e9).map((e) => e); },
   async age(opts = {}) {
@@ -77,9 +80,10 @@ export const life = {
       s.step = 1;
       if (s.league.finals && !s.league.finals.done) Sports.finalsAuto(s);
       E.takeTurn(s); if (s.alive) Ads.yearPassed(s);
-      if (pre) { auto = Auto.summarize(s, pre, null, pre.floor); A.last = auto; log(s, auto.line + (auto.spent ? ` Spent ${'$' + auto.spent.toLocaleString('en-US')}.` : ''), 'act'); }
+      if (pre) { auto = Auto.summarize(s, pre, null, pre.floor); A.last = auto; log(s, auto.line + (auto.spent ? ` Spent ${fmtMoney(auto.spent)}.` : ''), 'act'); }
       // the new year starts with Autopilot's routines already done, so the top chips and every page show DONE right away (no double dipping)
-      if (useAuto && !opts.routines && s.alive && !s.pending.length) { const p2 = await Auto.playYear(this, { floor: opts.floor }); if (!p2.stopBefore) A.ranAge = Math.floor(s.age); /* a safety pause retries at the next AGE press */ if (!pre) pre = p2; const a2 = Auto.summarize(s, p2, null, p2.floor); A.last = a2; if (!auto) auto = a2; log(s, a2.line + (a2.spent ? ` Spent ${'$' + a2.spent.toLocaleString('en-US')}.` : ''), 'act'); }
+      if (useAuto && !opts.routines && s.alive && s.pending.length) A.deferAge = Math.floor(s.age);
+      if (useAuto && !opts.routines && s.alive && !s.pending.length) { const p2 = await Auto.playYear(this, { floor: opts.floor }); if (!p2.stopBefore) A.ranAge = Math.floor(s.age); /* a safety pause retries at the next AGE press */ if (!pre) pre = p2; const a2 = Auto.summarize(s, p2, null, p2.floor); A.last = a2; if (!auto) auto = a2; log(s, a2.line + (a2.spent ? ` Spent ${fmtMoney(a2.spent)}.` : ''), 'act'); }
     }
     const event = s.alive ? this.nextEvent() : null;
     return { state: this.getState(), entries: this.entriesSince(n0), event, died: !s.alive, death: s.alive ? undefined : this.getDeathSummary(), blocked: !!(s.pending.length && !event), auto, adPrompt: opts.skip ? null : (s.alive && !event ? this.getAdPrompt() : null) };
@@ -87,7 +91,10 @@ export const life = {
   resolveEvent(eventId, i) {
     const s = this.s, n0 = this.mark(); if (!s.pending.length) return { ok: false, state: this.getState(), entries: [], event: null, message: 'Nothing pending.' };
     const p0 = s.pending[0], r = p0 && p0.adRare && i === baseChoices(s) ? resolveRare(s) : Ev.resolveCard(s, i);
-    return { ok: !!(r && r.ok), state: this.getState(), entries: this.entriesSince(n0), event: s.alive ? this.nextEvent() : null, message: r ? r.msg : '', died: !s.alive, death: s.alive ? undefined : this.getDeathSummary() };
+    const fin = (auto) => ({ ok: !!(r && r.ok), state: this.getState(), entries: this.entriesSince(n0), event: s.alive ? this.nextEvent() : null, message: r ? r.msg : '', died: !s.alive, death: s.alive ? undefined : this.getDeathSummary(), auto });
+    // Autopilot's after-AGE run was deferred because a card was waiting: run it as soon as the last card is answered
+    const A = s.auto; if (s.alive && !s.pending.length && A && A.on && Auto.unlocked() && A.ranAge !== Math.floor(s.age) && A.deferAge === Math.floor(s.age)) return Auto.playYear(this, {}).then((p2) => { if (!p2.stopBefore) A.ranAge = Math.floor(s.age); A.deferAge = null; return fin(Auto.summarize(s, p2, null, p2.floor)); });
+    return fin(null);
   },
   newLife(o = {}) { this.s = E.newGame({ name: o.name || null, seed: o.seed }); this.ensureSeen(); if (o.gender) { /* gender is generated with the name pool */ } return this.getState(); },
   getDeathSummary() { const s = this.s, e = s.ending; if (!e) return null; return { name: s.name, age: e.age, cause: e.cause, netWorth: Math.round(e.netWorth.total), headline: e.job === 'none' ? 'None' : e.job, ribbon: e.ribbon ? e.ribbon.name : null, obituary: e.obituary, epitaph: e.tombstone && e.tombstone.epitaph, born: e.tombstone && e.tombstone.born, died: e.tombstone && e.tombstone.died, ribbonIcon: e.ribbon && e.ribbon.icon, canContinue: Legacy.canContinue(s), creatorUsed: !!e.creatorUsed, gender: G(s.gender), heirs: (e.heirs || []).map((h) => ({ id: h.id, name: h.name, age: Math.floor(h.age) })) }; },

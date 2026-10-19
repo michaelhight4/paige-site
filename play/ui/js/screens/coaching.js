@@ -9,8 +9,9 @@ export async function coachingScreen(body, { nav, refresh }) {
   const st = await adapter.getCoaching();
   const go = async (a, a1, a2) => { const r = await act(adapter.coachAction(a, a1, a2)); await refresh(); return r; };
   if (!st.active) {
-    body.append(h('div', { class: 'card', 'data-el': 'coach-intro' }, h('h3', { text: '📋 Coaching & management' }), h('div', { class: 'hint', text: 'Study Sports Science or Coaching (Education), or retire from playing, then coach a team you do not own. Start as an assistant and work up to head coach.' }), kv('Sports degree', st.hasDegree ? 'Yes' : 'No'), kv('Playing experience', st.exPlayer ? 'Yes' : 'No')));
-    if (!st.eligible) body.append(empty(st.why)); else body.append(section('Pick a sport'), ...st.sports.map((x) => row({ id: 'take:' + x.id, icon: x.icon, title: x.name, sub: 'Apply for a coaching job', onClick: () => go('take', x.id) })));
+    body.append(h('div', { class: 'card', 'data-el': 'coach-intro' }, h('h3', { text: '📋 Coaching & management' }), h('div', { class: 'hint', text: 'Study Sports Science or Coaching (Education), or retire from playing, then coach a team you do not own. Start as an assistant and work up to head coach.' }), kv('Sports degree', st.hasDegree ? 'Yes' : 'No'), kv('Playing experience', st.expLabel || (st.exPlayer ? 'Yes' : 'No'))));
+    if (st.canRetireCoach) body.append(section('Retire & start coaching'), ...st.sports.map((x) => row({ id: 'retire-coach:' + x.id, icon: x.icon, title: `Retire & coach ${x.name}`, sub: 'Ends your playing career and starts a coaching job (famous pros can land head coach)', onClick: () => go('take', x.id, { retire: true }) })));
+    else if (!st.eligible) body.append(empty(st.why)); else body.append(section('Pick a sport'), ...st.sports.map((x) => row({ id: 'take:' + x.id, icon: x.icon, title: x.name, sub: 'Apply for a coaching job', onClick: () => go('take', x.id) })));
     if (st.reviews.length) body.append(section('Last season'), ...st.reviews.map(reviewRow));
     return;
   }

@@ -45,9 +45,11 @@ export function mountHub(root) {
 
   let lastAge = -1; let shown = 0;
   function renderTop(st) {
+    if (st.alive && store.root.classList.contains('ls-death-fade')) clearDeathFx(); // defensive: a living character is never shown faded/behind a stale backdrop
+    top.className = top.className.replace(/\s*fame-t\d/g, '') + (st.fameTier ? ' fame-t' + st.fameTier.index : '');
     top.replaceChildren(
       avatarFor(st.gender, st.age, st.avatar),
-      h('button', { class: 'who', 'data-el': 'profile-link', onclick: () => openPanel('Profile', profileScreen), 'aria-label': 'Open profile' }, h('span', { class: 'nm', text: st.name }), h('span', { class: 'hd', text: '💼 ' + st.headline })),
+      h('button', { class: 'who', 'data-el': 'profile-link', onclick: () => openPanel('Profile', profileScreen), 'aria-label': 'Open profile' }, h('span', { class: 'nm', text: st.name }), h('span', { class: 'hd', text: '💼 ' + st.headline }), st.fameTier && st.fameTier.index > 0 ? h('span', { class: 'fame-tag', 'data-el': 'fame-tier', role: 'link', onclick: (e) => { e.stopPropagation(); import('./fame.js').then((m) => openPanel('Use your fame', m.fameScreen)); }, text: `🌟 ${st.fameTier.name} · ${st.fameTier.fame}%` }) : null),
       h('button', { class: 'topbtn prem', 'data-el': 'store-link', 'aria-label': 'Premium store', onclick: () => openPanel('Premium', storeScreen) }, '⭐'),
       h('button', { class: 'topbtn', 'data-el': 'settings-link', 'aria-label': 'Settings', onclick: () => openPanel('Settings', settingsScreen) }, '⚙️'),
       h('div', { class: 'bank' }, h('b', { class: st.cash < 0 ? 'neg' : '', 'data-el': 'cash', text: money(st.cash, true) }), h('small', { text: 'Bank Balance' })));
@@ -89,13 +91,18 @@ export function mountHub(root) {
     const stone = h('div', { class: 'stone' });
     if (A) stone.innerHTML = A.renderTombstone({ name: d.name, born: d.born, died: d.died, age: d.age, epitaph: d.epitaph, cause: d.cause, netWorth: d.netWorth, style: ['classic', 'round', 'cross', 'obelisk'][d.age % 4], avatar: { seed: store.state.id, gender: (d.gender || 'M').toLowerCase(), age: d.age, dead: true }, ribbons: d.ribbon ? [{ id: d.ribbon, title: d.ribbon, tier: 'gold', icon: d.ribbonIcon }] : [] }); else stone.textContent = '🪦';
     const body = h('div', { class: 'death' }, stone, h('p', { text: `${d.name} died at age ${d.age} of ${String(d.cause).toLowerCase()}.` }), h('p', { text: `Last occupation: ${d.headline} · Net worth ${money(d.netWorth)}` }), d.obituary ? h('p', { class: 'hint', text: d.obituary }) : null, d.creatorUsed ? h('p', { class: 'hint', 'data-el': 'creator-flag', text: '🛠️ The Creator was used in this life (no challenges / leaderboards).' }) : null);
+    store.root.querySelectorAll('.overlay').forEach((o) => o.remove()); // never stack a second death/obit sheet
     const r = await sheet({ title: 'Rest in peace', body, center: true, dismissable: false, buttons: [{ id: 'legacy', label: 'Family Legacy', cls: 'alt' }, { id: 'new', label: d.canContinue ? 'Play an heir' : 'New Life', cls: 'go' }] });
+    clearDeathFx();
     if (r === 'legacy') { const { legacyScreen } = await import('./profile.js'); openPanel('Family Legacy', legacyScreen); }
     else if (d.canContinue) { const { legacyScreen } = await import('./profile.js'); openPanel('Family Legacy', legacyScreen); }
     else { await newLife(); }
   }
-  async function newLife() { closeAll(); const { runStart } = await import('./start.js'); const st = await adapter.getStartState(); await runStart('create', { slot: st.slot || 1, cancelable: false }); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
-  async function resetHub() { closeAll(); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
+  // the death fade class and any orphan sheet backdrops must go once the death sheet resolves / a new life starts
+  function clearDeathFx() { store.root.classList.remove('ls-death-fade'); document.body.classList.remove('ls-death-fade'); store.root.querySelectorAll('.overlay').forEach((o) => o.remove()); }
+  window.__clearDeathFx = clearDeathFx;
+  async function newLife() { clearDeathFx(); closeAll(); const { runStart } = await import('./start.js'); const st = await adapter.getStartState(); await runStart('create', { slot: st.slot || 1, cancelable: false }); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
+  async function resetHub() { clearDeathFx(); closeAll(); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
   document.addEventListener('newlife', resetHub);
   window.__showDeath = showDeath;
 

@@ -1,6 +1,7 @@
 // Every owned business: quality upgrade (+4/+8/+16/+30 steps) and swap an employee (fire + hire a chosen replacement) through one API.
 // kinds: biz (CEO companies, ref = business id) | prod (production company, ref = medium) | brand | farm | team (sports + esports, ref = team id) | racing (ref = team id)
 // The swap uses each domain's own fire() and hire() so severance, signing costs and role limits are identical to doing it by hand.
+import { fmtMoney } from './fmt.js';
 import * as Fr from './franchise.js';
 import * as Rc from './racing.js';
 import * as Fm from './farm.js';
@@ -30,9 +31,9 @@ export const boApi = {
   bizQualityUp(kind, ref, pts) {
     const s = this.s, n0 = this.mark(); if (!STEPS.includes(pts)) return this.res(false, 'Pick +4, +8, +16 or +30.', n0);
     const v = this.getBizQuality(kind, ref); if (!v.has || v.native) return this.res(false, 'Not available here.', n0); if (v.max) return this.res(false, 'Already at the top quality.', n0);
-    const st = v.steps[STEPS.indexOf(pts)]; if (!st.afford) return this.res(false, `Costs $${R(st.cost).toLocaleString('en-US')}.`, n0);
+    const st = v.steps[STEPS.indexOf(pts)]; if (!st.afford) return this.res(false, `Costs ${fmtMoney(R(st.cost))}.`, n0);
     s.cash -= st.cost; if (kind === 'biz') { const b = s.biz.find((x) => x.id === ref); b.q = Math.min(100, b.q + st.pts); log(s, `I invested in the quality of ${b.name}.`, 'biz'); } else { const co = s.prod.cos[ref]; co.q = Math.min(100, co.q + st.pts); log(s, 'I invested in the quality of the studio.', 'biz'); }
-    return this.res(true, `Quality +${st.pts} for $${R(st.cost).toLocaleString('en-US')}.`, n0);
+    return this.res(true, `Quality +${st.pts} for ${fmtMoney(R(st.cost))}.`, n0);
   },
   // people you can swap and the replacements available right now
   getSwapMembers(kind, ref) {

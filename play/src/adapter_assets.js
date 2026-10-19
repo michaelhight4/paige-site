@@ -24,6 +24,8 @@ function wearOf(a, v) {
   for (const k of def.slots) cols[k] = k === 'gem' ? (c.stone || c.accent || def.defaults.gem) : (c[k] || (k === 'fabric' ? c.body : null) || def.defaults[k]);
   return Char.previewSpec(slot, id, cols);
 }
+// fallback icon per auction category (never blank when no art exists)
+const LOT_ICON = { property: '🏠', car: '🚗', boat: '🛥️', aircraft: '✈️', instrument: '🎻', jewelry: '💍', art: '🖼️', watch: '⌚', antique: '🏺', collectible: '🏆', clothing: '👗', gear: '🎒', luxury: '💎' };
 export const assets = {
   // asset -> UI Asset (with art + recolor variant)
   asset(a, ctx = {}) {
@@ -48,14 +50,22 @@ export const assets = {
       income: [...(st.job ? [{ label: 'Salary (after tax)', amount: Math.round(st.job.salary * (0.78)) }] : []), ...(st.partTime ? [{ label: 'Part-time', amount: st.partTime.weeklyPay * 52 }] : []), ...(f.breakdown.bond_yield ? [{ label: 'Bond yield', amount: f.breakdown.bond_yield }] : []), ...(f.breakdown.zoo > 0 ? [{ label: 'Zoo profit', amount: f.breakdown.zoo }] : [])],
       expenses: [...(s.age >= 18 ? [{ label: 'Living costs', amount: LIVING_COST }] : []), ...(f.breakdown.upkeep ? [{ label: 'Asset upkeep', amount: f.breakdown.upkeep }] : []), ...(f.breakdown.loan_payments ? [{ label: 'Loan payments', amount: f.breakdown.loan_payments }] : [])], headline: '' };
   },
-  payDebt(id, amt) { const s = this.s, n0 = this.mark(), a = Math.min(amt, s.debt, s.cash); if (a <= 0) return this.res(false, 'Nothing to pay.', n0); s.cash -= a; s.debt -= a; log(s, `I paid $${Math.round(a).toLocaleString('en-US')} toward my debt.`, 'money'); return this.res(true, `Paid ${Math.round(a)}.`, n0); },
-  takeLoan(amt) { const s = this.s, n0 = this.mark(); if (s.age < 18) return this.res(false, 'Adults only.', n0); if (Bk.creditBad(s)) return this.res(false, `Your credit is ruined after bankruptcy. No loans until age ${s.bk.until}.`, n0); if (s.debt + amt > 250000) return this.res(false, 'The bank says no.', n0); s.cash += amt; s.debt += amt; log(s, `I took out a $${amt.toLocaleString('en-US')} loan.`, 'money'); return this.res(true, 'Loan approved.', n0); },
+  payDebt(id, amt) { const s = this.s, n0 = this.mark(), a = Math.min(amt, s.debt, s.cash); if (a <= 0) return this.res(false, 'Nothing to pay.', n0); s.cash -= a; s.debt -= a; log(s, `I paid ${fmtMoney(Math.round(a))} toward my debt.`, 'money'); return this.res(true, `Paid ${Math.round(a)}.`, n0); },
+  takeLoan(amt) { const s = this.s, n0 = this.mark(); if (s.age < 18) return this.res(false, 'Adults only.', n0); if (Bk.creditBad(s)) return this.res(false, `Your credit is ruined after bankruptcy. No loans until age ${s.bk.until}.`, n0); if (s.debt + amt > 250000) return this.res(false, 'The bank says no.', n0); s.cash += amt; s.debt += amt; log(s, `I took out a ${fmtMoney(amt)} loan.`, 'money'); return this.res(true, 'Loan approved.', n0); },
   getInvestments() {
     const sl = B.pull(this.s), d = B.sliceData(), items = H.listInvestments(d, sl), risk = (i) => (i.sigma < 0.05 ? 'Very low' : i.sigma < 0.12 ? 'Low' : i.sigma < 0.25 ? 'Medium' : i.sigma < 0.6 ? 'High' : 'Very high');
-    return { cash: Math.round(this.s.cash), products: items.map((i) => ({ id: i.id, label: i.name, icon: i.type === 'bond' ? '📊' : i.type === 'crypto' ? '🪙' : i.type === 'gold' ? '🪙' : '📈', risk: risk(i), sub: i.type + (i.yield ? ` · ${Math.round(i.yield * 1000) / 10}% yield` : '') + ` · ${Math.round(i.price).toLocaleString('en-US')}/unit` })), holdings: items.filter((i) => i.units > 0).map((i) => ({ id: i.id, productId: i.id, label: i.name, value: Math.round(i.value), costBasis: Math.round(i.cost), changePct: i.cost ? Math.round((i.value / i.cost - 1) * 100) : 0 })) };
+    const hist = H.investHistory(d, sl), icon = (i) => (i.type === 'bond' ? '📜' : i.type === 'crypto' ? '🪙' : i.type === 'fund' ? '🧺' : i.type === 'penny' ? '🎲' : '📈');
+    const chg = (id) => { const a = hist.prices[id] || []; if (a.length < 2) return 0; const x = a[a.length - 2].price, y = a[a.length - 1].price; return x ? Math.round((y / x - 1) * 1000) / 10 : 0; };
+    const holdings = items.filter((i) => i.units > 0).map((i) => { const hh = (hist.holdings[i.id] || []).slice(-15); return { id: i.id, productId: i.id, label: i.name, icon: icon(i), type: i.type, units: i.units, price: i.price, value: Math.round(i.value), costBasis: Math.round(i.cost), pnl: Math.round(i.value - i.cost), pnlPct: i.cost ? Math.round((i.value / i.cost - 1) * 1000) / 10 : 0, changePct: chg(i.id), lastYearPct: hh.length ? hh[hh.length - 1].pct : chg(i.id), history: hh, basisFlag: false }; });
+    const tv = holdings.reduce((a, x) => a + x.value, 0), tc = holdings.reduce((a, x) => a + x.costBasis, 0);
+    return { cash: Math.round(this.s.cash), total: { value: tv, cost: tc, pnl: tv - tc, pnlPct: tc ? Math.round((tv / tc - 1) * 1000) / 10 : 0 }, portfolioHistory: hist.portfolio.slice(-15), news: hist.news,
+      products: items.map((i) => ({ id: i.id, label: i.name, type: i.type, sector: H.INV_SECTOR[i.id] || 'market', icon: icon(i), risk: risk(i), price: i.price, decimals: i.decimals ?? (i.type === 'stock' || i.type === 'fund' ? 2 : 0), min: i.min, units: i.units, changePct: chg(i.id), sub: i.type + (i.yield ? ` · ${Math.round(i.yield * 1000) / 10}% yield` : '') + ` · ${fmtMoney(i.price)}/unit`, history: hist.prices[i.id] || [] })), holdings };
   },
   invest(id, amt) { return this.sl((d, sl) => H.buyInvestment(d, sl, id, amt), 'money'); },
   divest(id, amt) { return this.sl((d, sl) => { const it = H.listInvestments(d, sl).find((i) => i.id === id); return H.sellInvestment(d, sl, id, it && amt >= it.value ? 'all' : Math.max(1, Math.floor(amt / it.price))); }, 'money'); },
+  investQuoteMax(id) { const sl = B.pull(this.s), q = H.maxBuy(B.sliceData(), sl, id); return q ? { units: q.units, cost: Math.round(q.cost * 100) / 100, price: q.price, ok: q.ok } : null; },
+  investBuyMax(id) { const q = this.investQuoteMax(id); if (!q || !q.ok) return this.res(false, 'Not enough cash for even the minimum.', this.mark()); return this.sl((d, sl) => H.buyInvestment(d, sl, id, Math.min(sl.cash, q.cost + 1e-9)), 'money'); },
+  investSellUnits(id, units) { return this.sl((d, sl) => H.sellInvestment(d, sl, id, units === 'all' ? 'all' : Number(units)), 'money'); },
   getLuxury() { const sl = B.pull(this.s), d = B.sliceData(), L = d.assets.luxury; return { cash: Math.round(this.s.cash), owned: this.owned('luxury').map((a) => this.asset(a)), forSale: [...L.experiences, ...L.goods].map((x) => ({ id: x.id, name: x.name, price: x.cost })) }; },
   buy({ shopId, itemId, payment }) {
     if (shopId === 'luxury') return this.sl((d, sl) => H.buyLuxury(d, sl, itemId), 'asset');
@@ -64,7 +74,7 @@ export const assets = {
   // ---- auctions (live bidding: a rival raises, you may re-bid up to 3 rounds) ----
   getAuctionHouses() {
     const sl = B.pull(this.s), d = B.sliceData(), ic = { au_vance: '🏛️', au_concours: '🏎️', au_gavel: '🔨' };
-    return { cash: Math.round(this.s.cash), houses: H.listAuctions(d, sl).map((h) => ({ id: h.id, name: h.name, icon: ic[h.id] || '🔨', blurb: h.blurb, lots: H.listAuctions(d, sl, h.id).map((l) => ({ id: h.id + '|' + l.lot, name: l.address || l.name, estimate: Math.round((l.estimate[0] + l.estimate[1]) / 2), sold: !!l.closed, art: l.art, rounds: l.rounds || 0 })) })) };
+    return { cash: Math.round(this.s.cash), houses: H.listAuctions(d, sl).map((h) => ({ id: h.id, name: h.name, icon: ic[h.id] || '🔨', blurb: h.blurb, lots: H.listAuctions(d, sl, h.id).map((l) => { const aid = (l.art && B.artDef(l.art)) ? l.art : B.artFor(l), def = aid && B.artDef(aid); return { id: h.id + '|' + l.lot, name: l.address || l.name, cat: l.cat, rarity: l.rarity || 1, estimate: Math.round((l.estimate[0] + l.estimate[1]) / 2), sold: !!l.closed, art: aid || null, svg: l.art && l.vseed != null ? B.svgFor(l) : null, artUrl: def ? 'assets/art/' + def.file : null, icon: LOT_ICON[l.cat] || '🏺', rounds: l.rounds || 0 }; }) })) };
   },
   bid(lotId, amount) { const [h, lot] = lotId.split('|'); return this.sl((d, sl) => H.bidAuction(d, sl, h, Number(lot), amount, { live: true }), 'asset'); },
   // ---- casino: tables with merchants; blackjack and roulette are real hands/spins, the rest use the table odds ----
@@ -81,7 +91,7 @@ export const assets = {
       if (bet < t.min_bet || bet > t.max_bet) r = { ok: false, msg: `Bets are ${t.min_bet}-${t.max_bet}.` }; else if (s.cash < bet) r = { ok: false, msg: 'Not enough cash.' };
       else { const delta = win ? Math.round(bet * (pick === 'green' ? 35 : 1)) : -bet; sl.cash = s.cash + delta; sl.casino.net += delta; r = { ok: true, win, delta, msg: `${t.merchant}: the ball lands on ${rr} ${col}. ${win ? 'You win ' + delta : 'You lose ' + bet}.`, detail: `🎡 ${rr} ${col}` }; B.push(s); }
     } else { r = B.call(s, (dd, ss) => H.playTable(dd, ss, id, bet)); if (id === 'slots' && r.ok) { const sym = ['🍒', '🍋', '🔔', '⭐', '7️⃣'], pk = () => sym[Math.floor(Math.random() * sym.length)], w = pk(); r.detail = r.win ? `${w} ${w} ${w}` : (() => { let a = pk(), b = pk(), c = pk(); if (a === b && b === c) c = sym[(sym.indexOf(c) + 1) % sym.length]; return `${a} ${b} ${c}`; })(); } }
-    if (r.ok) log(s, voice(r.win ? `I won $${Math.abs(r.delta).toLocaleString('en-US')} at the ${t.name.toLowerCase()}.` : `I lost $${Math.abs(r.delta).toLocaleString('en-US')} at the ${t.name.toLowerCase()}.`), 'money');
+    if (r.ok) log(s, voice(r.win ? `I won ${fmtMoney(Math.abs(r.delta))} at the ${t.name.toLowerCase()}.` : `I lost ${fmtMoney(Math.abs(r.delta))} at the ${t.name.toLowerCase()}.`), 'money');
     return { ...this.res(!!r.ok, r.msg, n0), win: !!r.win, delta: r.delta || 0, detail: r.detail };
   },
   // blackjack: sl.bj = {bet, you:[], dealer:[]}; hit/stand via blackjackAction
@@ -101,7 +111,7 @@ export const assets = {
     const y = this.total(bj.you), dl = this.total(bj.dealer), nat = bj.you.length === 2 && y === 21; let delta = 0, msg;
     if (y > 21) { delta = -bj.bet; msg = 'Bust! You lose.'; } else if (dl > 21 || y > dl) { delta = Math.round(bj.bet * (nat ? 1.5 : 1)); msg = dl > 21 ? 'Dealer busts. You win!' : 'You beat the dealer!'; } else if (y === dl) msg = 'Push.'; else { delta = -bj.bet; msg = 'Dealer wins.'; }
     sl.cash = s.cash + delta; sl.casino.net += delta; const hand = this.bjView(bj, true); sl.bj = null; B.push(s);
-    log(s, delta > 0 ? `I won $${delta.toLocaleString('en-US')} at blackjack.` : delta < 0 ? `I lost $${(-delta).toLocaleString('en-US')} at blackjack.` : 'I pushed at blackjack and felt nothing.', 'money');
+    log(s, delta > 0 ? `I won ${fmtMoney(delta)} at blackjack.` : delta < 0 ? `I lost ${fmtMoney((-delta))} at blackjack.` : 'I pushed at blackjack and felt nothing.', 'money');
     return { ...this.res(true, msg, n0), interactive: false, win: delta > 0, delta, hand, detail: `🃏 ${hand.you.join(' ')} (${hand.youTotal}) vs ${hand.dealer.join(' ')} (${hand.dealerTotal})` };
   },
   // ---- race garage ----

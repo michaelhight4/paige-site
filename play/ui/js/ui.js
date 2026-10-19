@@ -1,4 +1,4 @@
-import { fmtMoney } from '../../src/fmt.js';
+import { fmtMoney, fmtCompact } from '../../src/fmt.js';
 // ui.js — tiny DOM helpers, navigation stack, modals. No state beyond what adapter returns.
 import { adapter } from './adapter.js';
 
@@ -45,7 +45,7 @@ export function h(tag, props, ...kids) {
 }
 
 export function money(n, compact = false) {
-  return fmtMoney(n);
+  return compact ? fmtCompact(n) : fmtMoney(n);
 }
 
 export function band(v) {

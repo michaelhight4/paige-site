@@ -164,3 +164,11 @@ html[data-style]:not([data-style=light]) .topbar{background:var(--surface2);bord
 @media (prefers-reduced-motion:reduce){.acc-body,.acc-chev{transition:none}}
 html[data-motion=reduced] .acc-body,html[data-motion=reduced] .acc-chev{transition:none}
 .acc-sec:not(.open) .acc-body{visibility:hidden;transition:max-height .24s ease,visibility 0s .24s}
+/* fame tiers on the profile banner: light backgrounds keep the existing dark banner text readable in every palette */
+.topbar .fame-tag{display:inline-block;white-space:nowrap;margin-top:2px;font-size:12px;font-weight:800;color:#2a1f00;background:rgba(255,255,255,.82);border:1px solid rgba(0,0,0,.18);border-radius:10px;padding:1px 7px;cursor:pointer}
+.topbar.fame-t1{border-bottom:3px solid #8fb0d6}
+.topbar.fame-t2{background:linear-gradient(180deg,#f6f8fb,#e2e8f0);border-bottom:3px solid #8a9bb0}
+.topbar.fame-t3{background:radial-gradient(120% 140% at 25% -20%,#fffbe6 0,#ffeaa0 55%,#ffd75e 100%);border-bottom:3px solid #b8890a;box-shadow:inset 0 -6px 14px rgba(184,137,10,.18)}
+.topbar.fame-t3 .fame-tag{background:#fff3c4;border-color:#b8890a;color:#3b2a00}
+.topbar.fame-t4{background:linear-gradient(135deg,#fbf3ff 0,#ead9ff 55%,#ffe9ad 100%);border-bottom:3px solid #6f35b0;box-shadow:inset 0 -6px 16px rgba(111,53,176,.18)}
+.topbar.fame-t4 .fame-tag{background:#2b1055;border-color:#e6c25a;color:#fff6d8}

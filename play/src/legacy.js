@@ -1,4 +1,5 @@
 // Death, ending, tombstone/obituary, ribbons, estate (tax, will, auction), continue-as-child, family legacy, cemetery meta store.
+import { fmtMoney } from './fmt.js';
 import * as Prod from './prodco.js';
 import * as Politics from './politics.js';
 import * as Fr from './franchise.js';
@@ -169,9 +170,9 @@ export function continueAs(s, heirId) {
   s.passions = undefined; s.skills = undefined; if (kid.rel === 'child') Passions.inherit(s, { passions: old.passions });
   s.history = [[Math.round(s.age * 4) / 4, Math.round(netWorthOf(s).total)]];
   s.city = kid.city || s.city;
-  const bits = [`$${Math.round(s.cash).toLocaleString()}`]; const nObj = objMine.length + sliceMine.length; if (nObj) bits.push(`${nObj} owned item${nObj > 1 ? 's' : ''}`); if (s.biz.length) bits.push(s.biz.map((b) => b.name).join(', '));
+  const bits = [`${fmtMoney(Math.round(s.cash))}`]; const nObj = objMine.length + sliceMine.length; if (nObj) bits.push(`${nObj} owned item${nObj > 1 ? 's' : ''}`); if (s.biz.length) bits.push(s.biz.map((b) => b.name).join(', '));
   log(s, `Generation ${s.legacy.gen}: I became ${s.name}, ${age} years old, ${kid.rel === 'child' ? 'child' : 'the ' + kid.rel} of ${old.name}. I inherited ${bits.join(', ')}.`, 'life');
-  if (plan.tax > 0) log(s, `Estate tax took $${plan.tax.toLocaleString()}.`, 'life');
+  if (plan.tax > 0) log(s, `Estate tax took ${fmtMoney(plan.tax)}.`, 'life');
   PFx.applyStart(s);
   if (royalRes.lost) log(s, `The line of ${royalRes.house} ends with my parent's generation: I am not in the succession.`, 'life');
   s.estateLast = { tax: plan.tax, mode: plan.mode, heirRel: kid.rel, items: nObj, biz: s.biz.length, trust: !!mine.trust };

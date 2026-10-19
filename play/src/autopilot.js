@@ -3,11 +3,13 @@
 // Routines are thin wrappers over the SAME actions the player triggers by hand (adapter.quickAction / adapter.interact), so costs, effects,
 // skill gains and once-per-year flags are identical. Nothing here has its own balance numbers.
 // State lives in the save: s.auto = { on, routines:[ids], floor, last, skipRemaining }.
+import { fmtMoney } from './fmt.js';
 import { isEsports as isEs } from './franchise.js';
 import { D } from './data.js';
 import * as Premium from './premium.js';
 import * as P from './people.js';
 import * as Bk from './bankruptcy.js';
+import * as Fame from './fame.js';
 import { money } from './rng.js';
 
 export const PASS = 'autopilot';
@@ -16,6 +18,7 @@ export const DEFAULT_FLOOR = 5000;
 export const unlocked = () => Premium.isUnlocked(PASS);
 export const ensure = (s) => { if (!s.auto) s.auto = { on: false, routines: ['train', 'read', 'study', 'workharder', 'practice'], floor: DEFAULT_FLOOR, last: null, skipRemaining: 0 }; if (!s.auto.pages) s.auto.pages = {};
   if (!s.auto.spDef && unlocked()) { s.auto.spDef = 1; if (!s.auto.routines.includes('sponsors_all')) s.auto.routines.push('sponsors_all'); } // owning the pass turns sponsor searching on by default (untick it any time)
+  if (!s.auto.mtDef && unlocked()) { s.auto.mtDef = 1; if (!s.auto.routines.includes('mt_train')) s.auto.routines.push('mt_train'); } // sport skill training on by default (school, college, pro)
   if (!s.auto.basicsDef && unlocked()) { s.auto.basicsDef = 1; for (const id of ['train', 'read', 'study', 'workharder', 'practice']) if (!s.auto.routines.includes(id)) s.auto.routines.push(id); } // the everyday yearly chips are on by default with the pass (untick any time)
   return s.auto; };
 
@@ -25,7 +28,7 @@ export const SECTIONS = [
   { id: 'school', icon: '🎓', label: 'School', ids: ['study'] },
   { id: 'job', icon: '💼', label: 'Job', ids: ['workharder'] },
   { id: 'business', icon: '🏢', label: 'Business', ids: ['prod_music', 'prod_film', 'prod_tv', 'prod_game', 'prod_back', 'racing_sponsor', 'racing_staff', 'racing_upgrade', 'brand_collection', 'brand_staff', 'brand_line', 'farm_contract', 'farm_staff', 'farm_sell', 'farm_upgrade', 'advisor_hire', 'advisor_setup'] },
-  { id: 'hobbies', icon: '🔥', label: 'Hobbies', ids: ['sponsors_all', 'practice', 'passion_pick', 'stress_relief', 'social_plan', 'stream_plan', 'media_plan', 'social_post', 'social_reply', 'social_deal', 'stream_start', 'stream_sponsor', 'racing_train', 'racing_license', 'racing_race'] },
+  { id: 'hobbies', icon: '🔥', label: 'Hobbies', ids: ['sponsors_all', 'fame_spots', 'practice', 'passion_pick', 'stress_relief', 'social_plan', 'stream_plan', 'media_plan', 'social_post', 'social_reply', 'social_deal', 'stream_start', 'stream_sponsor', 'racing_train', 'racing_license', 'racing_race'] },
   { id: 'activities', icon: '🎯', label: 'Activities (yearly)', ids: [] },
   { id: 'sports', icon: '🏟️', label: 'Sports team', ids: ['mt_train', 'mt_style', 'mt_offers'] },
   { id: 'people', icon: '💞', label: 'Relationships', ids: ['talk_partner', 'date_night', 'gift_partner', 'family_time', 'friend_time', 'volunteer'] },
@@ -80,6 +83,7 @@ export const ROUTINES = [
   { id: 'mt_train', icon: '🏋️', label: 'Sports: train my lowest 3 skills', desc: 'Trains the 3 lowest skills of your current sport (same cost and effect as the Skills tab; 3 a year at any level)', k: 'mt_train' },
   { id: 'mt_style', icon: '🎽', label: 'Sports: choose the season play style', desc: 'Sets your play style for the season (your preferred style, default Balanced)', k: 'mt_style' },
   { id: 'mt_offers', icon: '✍️', label: 'Sports: handle offers', desc: 'Accepts the best draft offer or contract that pays at least what you earn now, negotiates once, declines trade requests', k: 'mt_offers' },
+  { id: 'fame_spots', icon: '🌟', label: 'Use my fame: take the best spots', desc: 'Goes after the best-paying fame spots you qualify for (up to 3 a year, same odds, pay and risks as by hand; stops at stress 70+)', k: 'fame_spots' },
   { id: 'prod_back', icon: '📨', label: 'Back a pitched project', desc: 'Invest a small slice of spare cash in the best pitch (revenue cut)', k: 'prod_back' },
 ];
 // ---- generic yearly options: every world activity (once a year, with choices) and every freelance gig (max per year) is a routine too ----
@@ -94,7 +98,7 @@ export function dynRoutines() {
 export const allRoutines = () => ROUTINES.concat(dynRoutines());
 export const routineDef = (id) => ROUTINES.find((r) => r.id === id) || dynRoutines().find((r) => r.id === id);
 // page (panel title) -> routine ids shown in that page's yearly checklist
-const PAGE_MAP = { Skills: ['train', 'read', 'meditate', 'practice', 'passion_pick'], Passions: ['practice', 'passion_pick'], Scholarships: ['volunteer'], Work: ['workharder', 'study', 'train'], Education: ['study', 'volunteer'], 'Part-Time': ['workharder'],
+const PAGE_MAP = { 'Use your fame': ['fame_spots'], Skills: ['train', 'read', 'meditate', 'practice', 'passion_pick'], Passions: ['practice', 'passion_pick'], Scholarships: ['volunteer'], Work: ['workharder', 'study', 'train'], Education: ['study', 'volunteer'], 'Part-Time': ['workharder'],
   'Sports Career': ['mt_train', 'mt_style', 'mt_offers', 'sponsors_all'], 'Live Streaming': ['stream_plan', 'stream_start', 'stream_sponsor', 'sponsors_all'], Streamer: ['stream_plan', 'stream_start', 'stream_sponsor', 'sponsors_all'], Influencer: ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'], 'Social Media': ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'], Social: ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'],
   'Racing team': ['sponsors_all', 'racing_sponsor', 'racing_staff', 'racing_upgrade'], Racing: ['racing_train', 'racing_license', 'racing_race', 'racing_sponsor', 'racing_staff', 'racing_upgrade'], 'Clothing Brand': ['brand_collection', 'brand_staff', 'brand_line'], 'Farms & Ranches': ['farm_staff', 'farm_sell', 'farm_contract', 'farm_upgrade'], 'Investment Advisor': ['advisor_hire', 'advisor_setup'],
   'Production Companies': ['prod_music', 'prod_film', 'prod_tv', 'prod_game', 'prod_back', 'media_plan'], 'Time & Stress': ['stress_relief'], Relationships: ['talk_partner', 'date_night', 'gift_partner', 'family_time', 'friend_time'], 'Online Profiles': ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'] };
@@ -123,6 +127,7 @@ const sd = (ad, pid) => ad.getPlatform(pid);
 const openPlats = (ad) => (ad.getSocial().platforms || []).filter((p) => p.open && !p.locked && p.status === 'active');
 function bestPost(ad, p) { const rank = { Safe: 0, Spicy: 1, Risky: 2 }, fits = { great: 0, good: 1, ok: 2 }; return p.posts.filter((x) => !x.locked && x.tag === 'Safe').sort((x, y) => (fits[x.fit] ?? 3) - (fits[y.fit] ?? 3) || (rank[x.tag] - rank[y.tag]))[0]; }
 const CUSTOM = {
+  fame_spots(ad) { const s = ad.s; if ((s.stats.stress || 0) >= 70) return { ok: false, reason: 'Stress is too high for more spots' }; const b = Fame.bestSpot(s); if (!b) return { ok: false, reason: 'No fame spot available' }; return { ok: true, cost: 0, who: b.name, run: () => { let r = { ok: false, message: '' }; for (let i = 0; i < Fame.YEAR_CAP; i++) { const q = Fame.bestSpot(s); if (!q || (s.stats.stress || 0) >= 70) break; r = ad.fameTake(q.id); } return r; } }; },
   passion_practice(ad) {
     const st0 = ad.getPassions(), A = ensure(ad.s); if (st0.locked) return { ok: false, reason: 'Passions start at ' + st0.minAge };
     // nothing active yet, or the chosen passion is not active and a slot is free: pick it first (same adapter call as the Passions screen)
@@ -266,8 +271,9 @@ const planName = (ad, id) => { const o = ad.getSocial().postPlan.options.find((x
 export const PAGES = {
   social: { section: 'hobbies', icon: '📱', label: 'Social media', snap(ad) { const st = ad.getSocial(); return st.locked || !st.platforms.some((p) => p.open) ? null : { plan: st.postPlan.current || st.postPlan.effective }; }, sum: (ad, l) => `post plan: ${planName(ad, l.plan)}`,
     apply(ad, l) { const st = ad.getSocial(); if (!st.postPlan.needed) return { ok: false, reason: 'Plan already chosen this year' }; return { ok: true, cost: 0, who: planName(ad, l.plan), run: () => ad.setPostPlan(l.plan) }; } },
-  passions: { section: 'hobbies', icon: '🔥', label: 'Passions', snap(ad) { const p = ad.getPassions(); return p.locked || !p.active.length ? null : { ids: p.active.map((a) => a.id) }; }, sum: (ad, l) => 'train ' + l.ids.join(', ').replace(/_/g, ' '),
-    apply(ad, l) { const A = ensure(ad.s), keep = A.passion; A.passion = l.ids[0]; try { return CUSTOM.passion_practice(ad); } finally { A.passion = keep; } } },
+  passions: { section: 'hobbies', icon: '🔥', label: 'Passions', snap(ad) { const p = ad.getPassions(); return p.locked || !p.active.length ? null : { ids: p.active.map((a) => a.id) }; }, sum: (ad) => { const p = ad.getPassions(), live = p.active.filter((a) => !a.full); return live.length ? 'practise ' + live.map((a) => a.name).join(', ') + ' (whichever is furthest from mastery, once a year)' : 'nothing to practise right now (no open passion)'; },
+    // follows the passions you have NOW (not the ones you had when you locked it), lowest meter first
+    apply(ad) { const A = ensure(ad.s), keep = A.passion, p = ad.getPassions(), live = p.active.filter((a) => !a.full && !a.practiced).sort((x, y) => x.meter - y.meter); if (!live.length) return { ok: false, message: 'No open passion to practise' }; A.passion = live[0].id; try { return CUSTOM.passion_practice(ad); } finally { A.passion = keep; } } },
   school: { section: 'school', icon: '🎓', label: 'School', snap(ad) { const a = ad.getQuickActions('skills').actions.find((x) => x.id === 'study'); return ad.s.school && a ? { study: true } : null; }, sum: () => 'try harder in school every year',
     apply: (ad) => check(ad, routineDef('study')).ok ? { ok: true, cost: 0, run: () => ad.quickAction('study') } : { ok: false, reason: check(ad, routineDef('study')).reason } },
   job: { section: 'job', icon: '💼', label: 'Job', snap: (ad) => (ad.s.job ? { job: ad.s.job.id } : null), sum: () => 'work harder every year',
@@ -284,7 +290,7 @@ export const PAGES = {
     apply(ad, l) { const st = ad.getBrand(), b = st.brand; if (!b) return { ok: false, reason: 'No brand' }; if (!b.canSeason) return { ok: false, reason: 'All seasons launched' }; const sn = b.plans.find((p) => !p.done), e = ad.getBrandEstimate(sn.id); return { ok: true, cost: e.designCost + e.marketCost + e.productionCost, run: () => { ad.brandAction('policy', l.policy); for (const [id, pl] of Object.entries(l.plans)) if (!b.plans.find((p) => p.id === id).done) ad.brandAction('plan', id, pl); return ad.brandAction('launchAll'); } }; } },
   farm: { section: 'business', icon: '🌾', label: 'Farm / ranch', snap(ad) { const f = ad.getFarm().farm; return f ? { insured: f.insured, autoSell: f.autoSell, hire: true } : null; }, sum: (ad, l) => 'staff up, ' + (l.insured ? 'insured, ' : '') + (l.autoSell ? 'sell to the best offer' : 'keep stock'),
     apply(ad, l) { const f = ad.getFarm().farm; if (!f) return { ok: false, reason: 'No farm' }; return { ok: true, cost: 0, run: () => { let r = { ok: true, message: '' }; if (f.insured !== l.insured) r = ad.farmAction('insurance', l.insured); if (f.autoSell !== l.autoSell) r = ad.farmAction('autoSell', l.autoSell); const h = CUSTOM.farm_staff(ad); if (h.ok) r = h.run(); if (l.autoSell) { const sl = CUSTOM.farm_sell(ad); if (sl.ok) r = sl.run(); } return r; } }; } },
-  advisor: { section: 'business', icon: '💼', label: 'Investment advisor', snap(ad) { const a = ad.getAdvisor(); return a.has && a.plan ? { plan: JSON.parse(JSON.stringify(a.plan)), advisor: a.advisor ? a.advisor.name : null } : null; }, sum: (ad, l) => 'invest ' + (l.plan.mode === 'pct' ? l.plan.value + '% of income' : '$' + l.plan.value.toLocaleString('en-US') + '/yr') + ' into ' + l.plan.target,
+  advisor: { section: 'business', icon: '💼', label: 'Investment advisor', snap(ad) { const a = ad.getAdvisor(); return a.has && a.plan ? { plan: JSON.parse(JSON.stringify(a.plan)), advisor: a.advisor ? a.advisor.name : null } : null; }, sum: (ad, l) => 'invest ' + (l.plan.mode === 'pct' ? l.plan.value + '% of income' : fmtMoney(l.plan.value) + '/yr') + ' into ' + l.plan.target,
     apply(ad, l) { const a = ad.getAdvisor(); if (!a.has) return { ok: false, reason: 'No portfolio' }; const needHire = !a.advisor, diff = JSON.stringify(a.plan) !== JSON.stringify(l.plan); if (!needHire && !diff) return { ok: false, reason: 'Settings already in place' }; return { ok: true, cost: 0, run: () => { let r = { ok: true, message: '' }; if (needHire) { const h = CUSTOM.advisor_hire(ad); if (h.ok) r = h.run(); } if (diff) r = ad.advisorAction('plan', l.plan); return r; } }; } },
   streaming: { section: 'hobbies', icon: '📡', label: 'Live streaming', snap(ad) { const st = ad.s.stream; return st && st.active ? { plan: ensure(ad.s).streamPlan || 'steady' } : null; }, sum: (ad, l) => 'strategy ' + l.plan,
     apply(ad, l) { const st = ad.getStreamer(); if (!st.active) return { ok: false, reason: 'Not streaming' }; if (!st.plan.needed) return { ok: false, reason: 'Strategy already chosen this year' }; return { ok: true, cost: 0, run: () => ad.setStreamPlan(l.plan) }; } },
@@ -331,7 +337,7 @@ export function setAccount(ad, pid, patch) {
 }
 export const registerPage = (id, def) => { PAGES[id] = def; };
 CUSTOM.__page = (ad, def) => { const A = ensure(ad.s), pg = PAGES[def.pageId], st = A.pages[def.pageId]; if (!pg || !st || !st.on) return { ok: false, reason: 'Off' }; return pg.apply(ad, st.locked); };
-export function pageStatus(ad) { const A = ensure(ad.s); return Object.entries(PAGES).filter(([id, pg]) => !pg.hideIfOff || (A.pages[id] && A.pages[id].on) || (() => { try { return !!pg.snap(ad); } catch (e) { return false; } })()).map(([id, pg]) => { let now = null; try { now = ad.s.alive ? pg.snap(ad) : null; } catch (e) { now = null; } const st = A.pages[id]; return { id, section: pg.section, icon: pg.icon, label: pg.label, on: !!(st && st.on), available: !!now || !!(st && st.on), summary: st && st.on ? pg.sum(ad, st.locked) : now ? pg.sum(ad, now) : 'Not set up yet', since: st && st.on ? st.since : null }; }); }
+export function pageStatus(ad) { const A = ensure(ad.s); return Object.entries(PAGES).filter(([id, pg]) => !pg.hideIfOff || (A.pages[id] && A.pages[id].on) || (() => { try { return !!pg.snap(ad); } catch (e) { return false; } })()).map(([id, pg]) => { let now = null; try { now = ad.s.alive ? pg.snap(ad) : null; } catch (e) { now = null; } const st = A.pages[id]; return { id, section: pg.section, icon: pg.icon, label: pg.label, on: !!(st && st.on), available: !!now || !!(st && st.on), summary: (() => { try { return st && st.on ? pg.sum(ad, st.locked) : now ? pg.sum(ad, now) : 'Not set up yet'; } catch (e) { return 'Not set up yet'; } })(), since: st && st.on ? st.since : null }; }); }
 export function setPage(ad, id, on) { const A = ensure(ad.s), pg = PAGES[id]; if (!pg) return { ok: false, msg: 'Unknown page.' }; if (!on) { if (A.pages[id]) A.pages[id].on = false; return { ok: true, msg: pg.label + ': page autopilot off.' }; }
   let now = null; try { now = pg.snap(ad); } catch (e) { now = null; } if (!now) return { ok: false, msg: `Set up ${pg.label.toLowerCase()} first.` }; A.pages[id] = { on: true, locked: JSON.parse(JSON.stringify(now)), since: Math.floor(ad.s.age) }; return { ok: true, msg: `${pg.label}: locked in (${pg.sum(ad, now)}). It re-applies every year.` }; }
 export async function playYear(ad, { routines, floor } = {}) {

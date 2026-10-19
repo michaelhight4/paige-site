@@ -245,22 +245,66 @@ export function buyInvestment(data, state, id, amount) {
   state.cash -= cost; const h = state.invest[id] || (state.invest[id] = { units: 0, cost: 0 }); h.units += units; h.cost += cost;
   return ok(`Bought ${units} ${it.name}.`, { units, cost });
 }
+export function maxBuy(data, state, id) { const it = A(data).investments.items.find(i => i.id === id); if (!it) return null; const price = state.market[id] ?? it.price, dec = it.decimals ?? (it.type === 'stock' || it.type === 'fund' ? 2 : 0), f = Math.pow(10, dec); const units = Math.floor(Math.max(0, state.cash) / price * f) / f; return { units, cost: units * price, price, ok: units >= it.min }; }
 export function sellInvestment(data, state, id, units = 'all') {
   const h = state.invest[id]; if (!h || h.units <= 0) return fail('You do not own this');
   const u = units === 'all' ? h.units : Math.min(units, h.units), price = state.market[id], proceeds = u * price;
   h.cost *= (h.units - u) / h.units; h.units -= u; state.cash += proceeds; if (h.units <= 1e-9) delete state.invest[id];
   return ok(`Sold ${u} units for ${Math.round(proceeds)}.`, { proceeds });
 }
-function investmentYear(data, state, out) {
+// sectors for news (headlines move whole sectors or single names)
+export const INV_SECTOR = { stk_nimbus: 'tech', stk_orchard: 'tech', stk_ironworks: 'industry', stk_greenleaf: 'food', stk_voltix: 'auto', stk_atlas: 'banks', fund_index: 'market', fund_growth: 'tech', fund_reit: 'property', fund_bond: 'rates', bond_treasury: 'rates', bond_corp: 'rates', bond_muni: 'rates', pny_lumo: 'mining', pny_zing: 'food', pny_quark: 'biotech', pny_dusty: 'energy', cry_bitcell: 'crypto', cry_ethos: 'crypto', cry_dogewood: 'crypto', cry_stablex: 'stable' };
+const NEWS_T = {
+  up: { sector: ['{S} sector braces for a boom year as orders pile up', 'Analysts upgrade the whole {S} sector', '{S} demand surges ahead of the holidays'], name: ['{N} posts record earnings', '{N} wins a huge government contract', 'Insiders are quietly buying {N}'], crypto: ['Crypto hype returns: {N} trends worldwide', 'Big funds start buying {N}'], rates: ['Central bank hints at rate cuts', 'Inflation cools faster than expected'] },
+  down: { sector: ['{S} faces new regulations and a slow year', 'Warning signs pile up across {S}', '{S} sector hit by supply shortages'], name: ['{N} under investigation over its accounts', '{N} recalls its flagship product', '{N} CEO resigns in a scandal'], crypto: ['Exchange hack rattles {N} holders', 'Regulators circle {N}'], rates: ['Central bank signals more rate hikes', 'Bond markets brace for inflation'] },
+};
+const SECTOR_NAME = { tech: 'Tech', industry: 'Heavy industry', food: 'Food', auto: 'Auto', banks: 'Banking', market: 'The broad market', property: 'Real estate', rates: 'Bond', mining: 'Mining', biotech: 'Biotech', energy: 'Energy', crypto: 'Crypto', stable: 'Stablecoin' };
+// news for the coming year: 4 headlines, each a hint (up/down) that is right about 75% of the time; the real move is applied in investmentYear
+function makeNews(data, state) {
+  const items = A(data).investments.items.filter((i) => INV_SECTOR[i.id] !== 'stable'), out = [], used = new Set();
+  for (let k = 0; k < 4 && items.length; k++) {
+    const it = items[Math.floor(rand(state) * items.length)]; const sec = INV_SECTOR[it.id] || 'market'; if (used.has(sec)) continue; used.add(sec);
+    const dir = rand(state) < 0.5 ? 'up' : 'down', real = rand(state) < 0.75; const T = NEWS_T[dir]; const pool = sec === 'crypto' ? T.crypto : sec === 'rates' ? T.rates : rand(state) < 0.5 ? T.sector : T.name;
+    const text = pool[Math.floor(rand(state) * pool.length)].replace('{S}', SECTOR_NAME[sec] || sec).replace('{N}', it.name);
+    out.push({ id: it.id, sector: sec, scope: /\{N\}/.test(pool[0]) || sec === 'crypto' ? 'name' : 'sector', dir, real, text });
+  }
+  state.news = { age: (state.age | 0) + 1, items: out };
+}
+// effect of last year's headlines on this year's drift (true hints push the way they said, misleading ones push the other way, a bit weaker)
+function newsShift(state, it) {
+  const n = state.news; if (!n || !n.items) return 0; let sh = 0;
+  for (const x of n.items) { const hit = x.scope === 'name' ? x.id === it.id : INV_SECTOR[it.id] === x.sector; if (!hit) continue; const s = (x.dir === 'up' ? 1 : -1) * (x.real ? 1 : -0.6); sh += s * Math.max(0.06, (it.sigma || 0.1) * 0.8); }
+  return sh;
+}
+// price history per asset (backfilled once so charts have a past), yearly snapshots per holding and for the whole portfolio
+function ensureHist(data, state) {
+  state.priceHist = state.priceHist || {}; const age = state.age | 0;
   for (const it of A(data).investments.items) {
-    let p = state.market[it.id], sig = it.sigma, mu = it.mu;
+    if (state.priceHist[it.id] && state.priceHist[it.id].length) continue;
+    const p0 = state.market[it.id] ?? it.price, arr = []; let p = p0; const r = (k) => { const x = Math.sin((k + 1) * 9301 + it.id.length * 49297) * 233280; return x - Math.floor(x); };
+    for (let k = 0; k < 12; k++) { arr.unshift({ age: age - k, price: Math.round(p * 10000) / 10000 }); const z = (r(k) + r(k + 7) + r(k + 13) - 1.5) * 2; p = Math.max(0.01, p / Math.exp((it.mu || 0) + (it.sigma || 0.05) * z)); }
+    state.priceHist[it.id] = arr;
+  }
+}
+export const __marketYear = (data, state, out) => investmentYear(data, state, out); // test hook
+export function investHistory(data, state) { ensureHist(data, state); return { prices: state.priceHist, holdings: state.invHist || {}, portfolio: state.portHist || [], news: state.news || null }; }
+function investmentYear(data, state, out) {
+  ensureHist(data, state); state.invHist = state.invHist || {}; state.portHist = state.portHist || [];
+  let pStart = 0, pEnd = 0; const start = {};
+  for (const it of A(data).investments.items) { const h = state.invest[it.id]; if (h && h.units > 0) { start[it.id] = { v: h.units * state.market[it.id], cost: h.cost, units: h.units }; pStart += start[it.id].v; } }
+  for (const it of A(data).investments.items) {
+    let p = state.market[it.id], sig = it.sigma, mu = it.mu + newsShift(state, it);
     p *= Math.exp(mu - 0.5 * sig * sig + sig * randNorm(state));
     if (it.bust && rand(state) < it.bust) { p *= 0.05; const h = state.invest[it.id]; if (h) out.push(`${it.name} collapsed!`); }
     else if (it.moon && rand(state) < it.moon) { p *= 5; const h = state.invest[it.id]; if (h) out.push(`${it.name} skyrocketed!`); }
     state.market[it.id] = Math.max(0.01, Math.round(p * 10000) / 10000);
+    const ph = state.priceHist[it.id]; ph.push({ age: (state.age | 0) + 1, price: state.market[it.id] }); if (ph.length > 60) ph.shift();
     const h = state.invest[it.id];
     if (h && it.yield) { const c = h.units * it.price * it.yield; state.cash += c; }
+    if (start[it.id] && h) { const end = h.units * state.market[it.id]; pEnd += end; (state.invHist[it.id] = state.invHist[it.id] || []).push({ age: (state.age | 0) + 1, start: Math.round(start[it.id].v), end: Math.round(end), cost: Math.round(h.cost), pct: start[it.id].v ? Math.round((end / start[it.id].v - 1) * 1000) / 10 : 0 }); }
   }
+  if (pStart > 0) state.portHist.push({ age: (state.age | 0) + 1, start: Math.round(pStart), end: Math.round(pEnd), pct: Math.round((pEnd / pStart - 1) * 1000) / 10 });
+  makeNews(data, state);
 }
 
 // ---- luxury -------------------------------------------------------------

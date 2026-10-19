@@ -1,4 +1,5 @@
 // Core game state and the turn loop.
+import { fmtMoney } from './fmt.js';
 import { D, loadData } from './data.js';
 import { rnd, rint, pick, gauss, chance, clamp, wpick } from './rng.js';
 import { log, earn, spend, addStat, STATS, fill } from './core.js';
@@ -200,7 +201,7 @@ export function buyAsset(s, id, financed = false) {
 }
 export function sellAsset(s, uid) {
   const i = s.assets.findIndex((a) => a.uid === uid); if (i < 0) return false;
-  const a = s.assets[i], v = a.value * 0.95; earn(s, v); s.assets.splice(i, 1); log(s, `Sold ${a.name} for ${Math.round(v).toLocaleString()}.`, 'asset'); return true;
+  const a = s.assets[i], v = a.value * 0.95; earn(s, v); s.assets.splice(i, 1); log(s, `Sold ${a.name} for ${fmtMoney(v)}.`, 'asset'); return true;
 }
 
 // ---- save / load ----

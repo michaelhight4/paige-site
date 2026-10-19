@@ -53,6 +53,7 @@ export const fail = (msg, extra = {}) => ({ ok: false, msg, ...extra });
 // Pay from cash; any shortfall becomes debt. Returns amount that went to debt.
 export function spend(state, amt) {
   state.cash -= amt;
+  if (state.cash < 0 && state.bkMode) { state.shortfall = (state.shortfall || 0) - state.cash; state.cash = 0; return 0; } // adults: the bankruptcy popup decides
   if (state.cash < 0) { state.debt += -state.cash; const d = -state.cash; state.cash = 0; return d; }
   return 0;
 }

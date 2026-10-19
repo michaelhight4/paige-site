@@ -39,11 +39,74 @@ export async function financesScreen(body) {
   body.append(btn('Take a loan', async () => { const a = await askNumber('Loan amount', { min: 1000, max: 100000, def: 10000, note: 'Personal loan at 7.5% interest.' }); if (a) act(adapter.takeLoan(a)); }, 'alt block', { 'data-el': 'take-loan' }));
 }
 // ---------- investments ----------
-export async function investmentsScreen(body) {
-  const v = await adapter.getInvestments();
-  body.append(h('div', { class: 'card' }, h('h3', { text: 'Portfolio' }), h('div', { class: 'big', text: money(v.holdings.reduce((s, x) => s + x.value, 0)) }), kv('Cash available', money(v.cash))));
-  if (v.holdings.length) body.append(section('Holdings'), ...v.holdings.map(x => row({ icon: '📈', title: x.label, sub: `Cost ${money(x.costBasis)} · last year ${x.changePct >= 0 ? '+' : ''}${x.changePct}%`, right: money(x.value), onClick: async () => { const a = await askNumber('Sell how much of ' + x.label + '?', { min: 0, max: x.value, def: x.value }); if (a) act(adapter.divest(x.id, a)); } })));
-  body.append(section('Invest'), ...v.products.map(p => row({ id: p.id, icon: p.icon, title: p.label, sub: `${p.sub} · risk: ${p.risk}`, onClick: async () => { const a = await askNumber('Invest in ' + p.label, { min: 1, max: Math.max(1, v.cash), def: Math.min(1000, v.cash) }); if (a) act(adapter.invest(p.id, a)); } })));
+// ---------- investments: holdings with cost / value / P&L, tap for Buy more / Sell / History; market list opens a chart + Buy ----------
+const pctTxt = (p) => `${p >= 0 ? '+' : ''}${p}%`;
+const pnlCls = (v) => (v >= 0 ? 'pos' : 'neg');
+const unitsTxt = (u, dec = 2) => Number(u).toLocaleString('en-US', { maximumFractionDigits: Math.max(dec, 4) });
+// a money/units text input that keeps thousands commas while typing
+function numInput(def, { decimals = 0 } = {}) {
+  const inp = h('input', { type: 'text', inputmode: 'decimal', class: 'numin', 'data-el': 'num-input', style: { width: '100%', fontSize: '18px', padding: '8px', boxSizing: 'border-box' } });
+  const fmt = (n) => (n === '' || n == null || isNaN(n) ? '' : Number(n).toLocaleString('en-US', { maximumFractionDigits: decimals }));
+  inp.value = fmt(def); inp.num = () => Number(String(inp.value).replace(/[^\d.]/g, '')) || 0;
+  inp.addEventListener('input', () => { const raw = String(inp.value).replace(/[^\d.]/g, ''); const [a, b] = raw.split('.'); inp.value = (a ? Number(a).toLocaleString('en-US') : '') + (b != null && decimals ? '.' + b.slice(0, decimals) : ''); inp.dispatchEvent(new Event('change')); });
+  inp.setNum = (n) => { inp.value = fmt(n); inp.dispatchEvent(new Event('change')); };
+  return inp;
+}
+// SVG line chart of a price series (readable at 390px, high/low/current, timeframe chosen by the caller)
+export function priceChart(series, { w = 340, hgt = 140 } = {}) {
+  if (!series || series.length < 2) return h('div', { class: 'hint', text: 'Not enough history yet.' });
+  const ps = series.map((x) => x.price), lo = Math.min(...ps), hi = Math.max(...ps), pad = 16, X = (i) => pad + (i * (w - 2 * pad)) / (series.length - 1), Y = (v) => hgt - pad - ((v - lo) / (hi - lo || 1)) * (hgt - 2 * pad);
+  const up = ps[ps.length - 1] >= ps[0], col = up ? '#1b7f3b' : '#b3261e', pts = series.map((x, i) => `${X(i).toFixed(1)},${Y(x.price).toFixed(1)}`).join(' ');
+  const n = series.length, sx = series.reduce((a, _, i) => a + i, 0) / n, sy = ps.reduce((a, v) => a + v, 0) / n, sl = series.reduce((a, x, i) => a + (i - sx) * (x.price - sy), 0) / (series.reduce((a, _, i) => a + (i - sx) ** 2, 0) || 1), t0 = sy - sl * sx, t1 = t0 + sl * (n - 1);
+  const el = h('div', { 'data-el': 'price-chart', style: { padding: '4px 0' } }); el.innerHTML = `<svg viewBox="0 0 ${w} ${hgt}" width="100%" role="img" aria-label="Price history"><rect x="0" y="0" width="${w}" height="${hgt}" rx="10" fill="#ffffff" stroke="#c9d3df"/><line x1="${pad}" y1="${Y(t0).toFixed(1)}" x2="${w - pad}" y2="${Y(t1).toFixed(1)}" stroke="#6b7a8c" stroke-dasharray="4 4" stroke-width="1.5"/><polyline fill="none" stroke="${col}" stroke-width="2.5" points="${pts}"/><text x="${pad}" y="13" font-size="11" fill="#1d2a3a">High ${hi.toLocaleString('en-US', { maximumFractionDigits: 2 })}</text><text x="${pad}" y="${hgt - 4}" font-size="11" fill="#1d2a3a">Low ${lo.toLocaleString('en-US', { maximumFractionDigits: 2 })}</text><text x="${w - pad}" y="13" font-size="11" text-anchor="end" fill="#1d2a3a">Age ${series[0].age}–${series[n - 1].age}</text></svg>`;
+  return el;
+}
+async function buySheet(p, cash) {
+  const inp = numInput(Math.min(1000, Math.floor(cash))), info = h('div', { class: 'hint', 'data-el': 'buy-total' });
+  const upd = () => { const a = inp.num(), f = Math.pow(10, p.decimals), u = Math.floor((a / p.price) * f) / f; info.textContent = `${unitsTxt(u, p.decimals)} units × ${money(p.price)} = ${money(u * p.price)} · cash ${money(cash)}`; };
+  inp.addEventListener('change', upd); upd();
+  const maxBtn = h('button', { class: 'btn alt sm', 'data-el': 'buy-max', type: 'button', text: 'Buy Max', onclick: async () => { const q = await adapter.investQuoteMax(p.id); if (q) inp.setNum(Math.floor(q.cost * 100) / 100); } });
+  const r = await sheet({ title: `Buy ${p.label}`, center: true, body: h('div', null, h('div', { class: 'hint', text: `Price ${money(p.price)} per unit · you own ${unitsTxt(p.units || 0, p.decimals)}` }), inp, h('div', { class: 'btns' }, maxBtn), info), buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'ok', label: 'Buy', cls: 'go' }] });
+  if (r !== 'ok') return; const a = inp.num(); if (!(a > 0)) return;
+  const q = await adapter.investQuoteMax(p.id); if (q && a >= q.cost - 0.005) { if (await confirmSheet('Buy Max?', `Buy ${unitsTxt(q.units, p.decimals)} units of ${p.label} for ${money(q.cost)}? No loans are used.`, 'Buy', 'go')) await act(adapter.investBuyMax(p.id)); return; }
+  await act(adapter.invest(p.id, Math.min(a, cash)));
+}
+async function sellSheet(x, dec) {
+  const inp = numInput(x.units, { decimals: dec }), info = h('div', { class: 'hint', 'data-el': 'sell-total' });
+  const upd = () => { const u = Math.min(inp.num(), x.units); info.textContent = `Selling ${unitsTxt(u, dec)} units = ${money(u * x.price)}`; }; inp.addEventListener('change', upd); upd();
+  const r = await sheet({ title: `Sell ${x.label}`, center: true, body: h('div', null, h('div', { class: 'hint', text: `You own ${unitsTxt(x.units, dec)} units · ${money(x.price)} each · worth ${money(x.value)}` }), inp, h('div', { class: 'btns' }, h('button', { class: 'btn alt sm', type: 'button', 'data-el': 'sell-half', text: 'Sell Half', onclick: () => inp.setNum(Math.floor((x.units / 2) * 10 ** dec) / 10 ** dec) }), h('button', { class: 'btn alt sm', type: 'button', 'data-el': 'sell-all', text: 'Sell All', onclick: () => inp.setNum(x.units) })), info), buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'ok', label: 'Sell', cls: 'go' }] });
+  if (r !== 'ok') return; const u = inp.num(); if (!(u > 0)) return; await act(adapter.investSellUnits(x.id, u >= x.units ? 'all' : u));
+}
+function historyList(rows, title) {
+  if (!rows || !rows.length) return h('div', { class: 'hint', style: { padding: '4px 12px' }, text: 'History starts after your next birthday.' });
+  return h('details', { class: 'card', 'data-el': 'yearly-history' }, h('summary', { text: title || 'Yearly history' }), ...rows.slice().reverse().map((r) => h('div', { class: 'kv' }, h('span', { text: `Age ${r.age}: ${money(r.start)} → ${money(r.end)}` }), h('b', { class: pnlCls(r.pct), text: pctTxt(r.pct) }))));
+}
+export async function productScreen(body, ctx, id) {
+  const v = await adapter.getInvestments(), p = v.products.find((x) => x.id === id); if (!p) return body.append(empty('Gone.'));
+  let span = 10; const box = h('div');
+  const draw = () => { box.replaceChildren(priceChart(span ? p.history.slice(-span - 1) : p.history)); };
+  const ps = p.history.map((x) => x.price);
+  body.append(h('div', { class: 'card', 'data-el': 'product-card' }, h('h3', { text: `${p.icon} ${p.label}` }), kv('Current price', money(p.price)), kv('High / low', `${money(Math.max(...ps))} / ${money(Math.min(...ps))}`), kv('Last year', pctTxt(p.changePct), pnlCls(p.changePct)), kv('Risk', p.risk),
+    h('div', { class: 'tabs-inline', 'data-el': 'chart-span' }, ...[[5, '5y'], [10, '10y'], [0, 'All']].map(([n, l]) => h('button', { class: n === span ? 'on' : '', 'data-span': n, text: l, onclick: (e) => { span = n; e.target.parentNode.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b === e.target)); draw(); } }))), box,
+    h('div', { class: 'btns' }, btn('Buy', async () => { await buySheet(p, v.cash); await ctx.refresh(); }, 'go', { 'data-el': 'product-buy' }))));
+  draw();
+  const nw = (v.news && v.news.items || []).filter((n) => n.id === id || (n.scope === 'sector' && n.sector === (p.sector || ''))); if (nw.length) body.append(section('In the news'), ...nw.map((n) => h('div', { class: 'hint', style: { padding: '2px 14px' }, text: '📰 ' + n.text })));
+}
+export async function marketNewsScreen(body) {
+  const v = await adapter.getInvestments(); const n = v.news;
+  body.append(h('div', { class: 'card', 'data-el': 'news-intro' }, h('h3', { text: '📰 Market News' }), h('div', { class: 'hint', text: 'Headlines for the coming year. They are usually right about where prices go, but not always. Read them, then decide.' })));
+  if (!n || !n.items.length) return body.append(empty('No headlines yet. Check back after your next birthday.'));
+  body.append(...n.items.map((x) => h('div', { class: 'card', 'data-news': x.id }, h('div', { class: 'nm', style: { fontWeight: 800 }, text: x.text }), h('div', { class: 'hint', text: `Hint: ${x.dir === 'up' ? 'could rise' : 'could fall'} · ${x.scope === 'sector' ? 'whole sector' : 'single name'}` }))));
+}
+export async function investmentsScreen(body, ctx) {
+  const v = await adapter.getInvestments(), T = v.total;
+  body.append(h('div', { class: 'card', 'data-el': 'portfolio' }, h('h3', { text: 'Portfolio' }), h('div', { class: 'big', text: money(T.value) }), kv('Invested (cost)', money(T.cost)), kv('Profit / loss', `${money(T.pnl)} (${pctTxt(T.pnlPct)})`, pnlCls(T.pnl)), kv('Cash available', money(v.cash)), historyList(v.portfolioHistory, 'Portfolio yearly history')));
+  body.append(row({ id: 'market-news', icon: '📰', title: 'Market News', sub: (v.news && v.news.items[0] && v.news.items[0].text) || 'Yearly headlines that hint at what to buy or avoid', onClick: () => ctx.nav.open('Market News', marketNewsScreen) }));
+  if (v.holdings.length) body.append(section('Holdings'), ...v.holdings.map((x) => h('button', { class: 'card holding', 'data-hold': x.id, style: { display: 'block', width: 'calc(100% - 24px)', textAlign: 'left' }, onclick: async () => {
+    const dec = (v.products.find((p) => p.id === x.id) || {}).decimals ?? 2; const i = await sheet({ title: x.label, options: [{ label: 'Buy more' }, { label: 'Sell' }, { label: 'View history' }] });
+    if (i === 0) { await buySheet(v.products.find((p) => p.id === x.id), v.cash); await ctx.refresh(); } else if (i === 1) { await sellSheet(x, dec); await ctx.refresh(); } else if (i === 2) ctx.nav.open(x.label + ' history', (b) => { b.append(h('div', { class: 'card' }, h('h3', { text: 'While you held it' }), kv('Cost basis', money(x.costBasis)), kv('Value now', money(x.value)), kv('Profit / loss', `${money(x.pnl)} (${pctTxt(x.pnlPct)})`, pnlCls(x.pnl))), priceChart((v.products.find((p) => p.id === x.id) || {}).history || []), historyList(x.history)); }); } },
+    h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${x.icon} ${x.label}` }), h('div', { class: 'hint', text: `${unitsTxt(x.units)} units × ${money(x.price)}` }), kv('Cost', money(x.costBasis)), kv('Value', money(x.value)), kv('P/L', `${money(x.pnl)} (${pctTxt(x.pnlPct)})`, pnlCls(x.pnl)), kv('Last year', pctTxt(x.lastYearPct), pnlCls(x.lastYearPct)))));
+  body.append(section('Invest'), ...v.products.map((p) => row({ id: p.id, icon: p.icon, title: p.label, sub: `${p.sub} · ${pctTxt(p.changePct)} last year · risk ${p.risk}`, onClick: () => ctx.nav.open(p.label, (b, c) => productScreen(b, c, p.id)) })));
 }
 // ---------- luxury ----------
 export async function luxuryScreen(body) {
@@ -52,16 +115,25 @@ export async function luxuryScreen(body) {
   body.append(section('For sale'), ...l.forSale.map(x => row({ id: x.id, icon: '💎', title: x.name, right: money(x.price), onClick: async () => { if (await confirmSheet(x.name, `Buy for ${money(x.price)}?`, 'Buy', 'go')) act(adapter.buy({ shopId: 'luxury', itemId: x.id })); } })));
 }
 // ---------- auctions ----------
+// every lot shows a picture: recoloured SVG art when it has a variant, the category art file otherwise, and a category icon as the last fallback
+function lotPic(l, size) {
+  const pic = h('div', { class: 'lot-pic', 'data-el': 'lot-pic', style: { width: size + 'px', height: size + 'px', flex: `0 0 ${size}px`, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '10px', overflow: 'hidden', background: 'var(--card2, #eef2f7)', margin: size > 60 ? '0 auto 8px' : '0 8px 0 0' } });
+  if (l.svg) pic.innerHTML = l.svg; else if (l.artUrl) pic.append(h('img', { src: l.artUrl, alt: l.name, loading: 'lazy', style: { width: '100%', height: '100%', objectFit: 'contain' } })); else pic.append(h('span', { style: { fontSize: Math.round(size * 0.6) + 'px' }, text: l.icon || '🏺' }));
+  const svg = pic.querySelector('svg'); if (svg) { svg.setAttribute('width', '100%'); svg.setAttribute('height', '100%'); }
+  return pic;
+}
+function lotThumb(l, el) { const old = el.querySelector('.ic'); if (old) old.replaceWith(lotPic(l, 44)); else el.prepend(lotPic(l, 44)); return el; }
 export async function auctionsScreen(body, { nav }) {
   const r = await adapter.getAuctionHouses();
-  body.append(...r.houses.flatMap(hs => [section(hs.icon + ' ' + hs.name), ...hs.lots.map(l => row({ id: l.id, icon: '🔨', title: l.name, sub: l.sold ? 'Closed' : `Estimate ${money(l.estimate)}${l.rounds ? ' · round ' + (l.rounds + 1) + '/3' : ''}`, disabled: l.sold, onClick: async () => {
+  body.append(...r.houses.flatMap(hs => [section(hs.icon + ' ' + hs.name), ...hs.lots.map(l => lotThumb(l, row({ id: l.id, icon: l.icon, title: l.name, sub: l.sold ? 'Closed' : `Estimate ${money(l.estimate)}${l.rounds ? ' · round ' + (l.rounds + 1) + '/3' : ''}`, disabled: l.sold, onClick: async () => {
+    { const go = await sheet({ title: l.name, body: h('div', { 'data-el': 'lot-detail' }, lotPic(l, 160), h('div', { class: 'hint', text: `Estimate ${money(l.estimate)} · rarity ${'★'.repeat(l.rarity || 1)}` })), buttons: [{ id: 'no', label: 'Close', cls: 'alt' }, { id: 'bid', label: 'Bid', cls: 'go' }] }); if (go !== 'bid') return; }
     let amt = Math.min(l.estimate, r.cash);
     for (let round = l.rounds || 0; round < 3; round++) {
       const a = await askNumber('Bid on ' + l.name, { min: 1, max: Math.max(1, r.cash), def: amt, note: `Estimate ${money(l.estimate)}. Live auction: a rival may raise (round ${round + 1}/3).` }); if (a == null) return;
       const res = await act(adapter.bid(l.id, a), { quiet: true }); toast(res.message, res.data && res.data.won ? 'good' : res.ok ? '' : 'bad');
       if (!(res.ok && res.data && res.data.open)) return; amt = res.data.need || a;
     }
-  } }))]));
+  } })))]));
 }
 // ---------- casino ----------
 async function playHand(r, g) {
