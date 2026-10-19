@@ -1,9 +1,11 @@
 // Production companies: label / film / TV / game studios. Dashboard, hiring, greenlighting, backing other companies' projects, yearly results.
 import { adapter } from '../adapter.js';
+import { autoPageCard } from './autopage.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, askNumber, act } from '../ui.js';
 
 const pct = (x) => Math.round(x * 100) + '%';
 export async function prodcoScreen(body, { nav, refresh }) {
+  await autoPageCard(body, 'prodco');
   const st = await adapter.getProdCos();
   if (st.locked) return body.append(empty('Production companies start at age 18.'));
   body.append(h('div', { class: 'card', 'data-el': 'prod-summary' }, h('h3', { text: '🎞️ Production companies' }), h('div', { class: 'hint', text: 'Own a record label, film studio, TV studio or game studio, and back other companies\' projects for a cut of their revenue.' }), kv('Companies value', money(st.value)), kv('Backed projects', money(st.backed)), kv('Royalties earned', money(st.royalties), 'pos')));

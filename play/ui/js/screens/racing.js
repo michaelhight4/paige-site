@@ -1,5 +1,6 @@
 // Racing: careers (driver, pit crew, crew chief, racing coach, team manager) and race-team ownership hub with a watchable 2D race replay.
 import { adapter } from '../adapter.js';
+import { autoPageCard } from './autopage.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, askNumber, act } from '../ui.js';
 
 let top = 'career', hubTab = 'overview';
@@ -7,6 +8,7 @@ const svgBox = (svg, px, el) => { const d = h('div', { 'data-el': el, style: { w
 const ordinal = (n) => n + (['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) ? 0 : n % 10 < 4 ? n % 10 : 0]);
 
 export async function racingScreen(body, ctx, forceTab) {
+  await autoPageCard(body, 'racing');
   const { refresh } = ctx; if (forceTab) { top = forceTab; }
   const st = await adapter.getRacing(); if (st.locked) return body.append(empty(`Racing starts at age ${st.minAge}. No pack needed.`));
   const go = async (a, a1, a2) => { const r = await act(adapter.rcAction(a, a1, a2)); await refresh(); return r; };

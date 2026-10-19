@@ -5,6 +5,9 @@ import { log, earn, spend, addStat, STATS, fill } from './core.js';
 import * as Hw from './hardware.js';
 import * as Fr from './franchise.js';
 import * as Rc from './racing.js';
+import * as Brand from './brand.js';
+import * as Farm from './farm.js';
+import * as Adv from './advisor.js';
 import * as Market from './market.js';
 import * as Biz from './business.js';
 import * as Plus from './bizplus.js';
@@ -172,7 +175,7 @@ export function takeTurn(s) {
   for (const b of s.biz) Biz.tickBiz(s, b, dt);
   Sports.tickLeague(s, dt);
   if (newYear) {
-    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); SS.yearTick(s); Slice.yearTick(s); Online.yearTick(s); Social.yearTick(s); Politics.yearTick(s); Coach.yearTick(s); Prod.yearTick(s); Fr.yearTick(s); Rc.yearTick(s);
+    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); SS.yearTick(s); Slice.yearTick(s); Online.yearTick(s); Social.yearTick(s); Politics.yearTick(s); Coach.yearTick(s); Prod.yearTick(s); Fr.yearTick(s); Rc.yearTick(s); Brand.yearTick(s); Farm.yearTick(s); Adv.yearTick(s);
     for (const b of s.biz) if (b.fame) b.fame = Math.max(0, b.fame - D.studio.balance.sensation.fameDecayPerYear);
     const para = Journal.yearParagraph(s); if (para) log(s, para, 'yearly');
   }

@@ -14,6 +14,7 @@ import { politicsScreen } from './politics.js';
 import { prodcoScreen } from './prodco.js';
 import { franchiseScreen } from './franchise.js';
 import { racingScreen } from './racing.js';
+import { brandScreen, farmScreen, advisorScreen } from './venture.js';
 import { coachingScreen } from './coaching.js';
 import * as Ext from './extra.js'; // skills, passions, scholarships, businesses (later stages register here)
 
@@ -31,13 +32,13 @@ export async function buildDirectory() {
   for (const e of Ext.lifeEntries()) add('Life', e.id, e.label, e.sub, e.icon, e.open, e.kw);
   // Work & School
   const occ = await adapter.getOccupationMenu();
-  const occScreens = { education: Occ.educationScreen, fight: Occ.fightScreen, freelance: Occ.freelanceScreen, jobs: (b, c) => Occ.jobsScreen(b, c, 'jobs'), parttime: Occ.partTimeScreen, military: Occ.militaryScreen, special: (b, c) => Occ.jobsScreen(b, c, 'special'), sports: sportsScreen, collections: Occ.collectionsScreen, scholarships: Ext.scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, franchise: franchiseScreen, racing: racingScreen, prodco: prodcoScreen };
+  const occScreens = { education: Occ.educationScreen, brand: brandScreen, farm: farmScreen, fight: Occ.fightScreen, freelance: Occ.freelanceScreen, jobs: (b, c) => Occ.jobsScreen(b, c, 'jobs'), parttime: Occ.partTimeScreen, military: Occ.militaryScreen, special: (b, c) => Occ.jobsScreen(b, c, 'special'), sports: sportsScreen, collections: Occ.collectionsScreen, scholarships: Ext.scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, franchise: franchiseScreen, racing: racingScreen, prodco: prodcoScreen };
   for (const m of occ) add('Work & School', 'occ:' + m.id, m.label, m.sub, m.icon, (n) => n.open(m.label, occScreens[m.id]), 'job career school college university');
   add('Work & School', 'occ:menu', 'Work hub', 'Current job and all work screens', '💼', (n) => n.open('Work', Occ.occupationMenu), 'occupation');
   for (const e of Ext.workEntries()) add('Work & School', e.id, e.label, e.sub, e.icon, e.open, e.kw);
   // Money & Assets
   const am = await adapter.getAssetsMenu();
-  const aScreens = { finances: Ast.financesScreen, investments: Ast.investmentsScreen, luxury: Ast.luxuryScreen, auctions: Ast.auctionsScreen, casino: Ast.casinoScreen, garage: Ast.garageScreen, zoo: Ast.zooScreen, belongings: Ast.belongingsScreen, properties: Ast.propertiesScreen, shopping: Ast.shoppingScreen, restoration: Ast.restorationScreen };
+  const aScreens = { finances: Ast.financesScreen, advisor: advisorScreen, investments: Ast.investmentsScreen, luxury: Ast.luxuryScreen, auctions: Ast.auctionsScreen, casino: Ast.casinoScreen, garage: Ast.garageScreen, zoo: Ast.zooScreen, belongings: Ast.belongingsScreen, properties: Ast.propertiesScreen, shopping: Ast.shoppingScreen, restoration: Ast.restorationScreen };
   for (const m of am) { if (m.id === 'businesses' || m.id === 'shopping') continue; add('Money & Assets', 'ast:' + m.id, m.label, m.sub, m.icon, (n) => n.open(m.label, aScreens[m.id]), 'money cash bank'); }
   // Shop
   add('Shop', 'shop:all', 'Shopping (all stores)', 'Brokers, dealers, jewelers, music, clothing', '🛍️', (n) => n.open('Shopping', Ast.shoppingScreen), 'store mall buy accessories');
@@ -48,9 +49,14 @@ export async function buildDirectory() {
   add('Social', 'soc:people', 'Relationships', 'Family, partner, friends, exes', '👪', (n) => n.open('Relationships', relationshipsScreen), 'people family friends partner dating');
   add('Social', 'soc:media', 'Social Media', 'Platforms, posts, followers, sponsors, verification, calendar, team, gear', '📱', async (n) => { const { socialHub } = await import('./social.js'); n.open('Social Media', socialHub); }, 'social media feed followers post sponsor verified influencer platform chirpr clipwave');
   add('Businesses & Studios', 'biz:franchise', 'Own a Team', 'Team hub: buy or create a club, hire staff, roster, facilities, finances', '🏟️', (n) => n.open('Own a Team', franchiseScreen), 'sports team franchise own club stadium staff'),
+  add('Businesses & Studios', 'biz:brand', 'Clothing Brand', 'Launch a fashion label: seasons, lines, models, stores, online and wholesale', '👗', (n) => n.open('Clothing Brand', brandScreen), 'clothing brand fashion apparel swimwear streetwear collection models');
+  add('Businesses & Studios', 'biz:farm', 'Farms & Ranches', 'Buy land by the acre, crops or livestock, workers, distributors, contracts', '🌾', (n) => n.open('Farms & Ranches', farmScreen), 'farm ranch cattle crops acres land harvest');
+  add('Businesses & Studios', 'biz:advisor', 'Investment Advisor', 'Hire an advisor to auto-invest your income into stocks or crypto', '💼', (n) => n.open('Investment Advisor', advisorScreen), 'investment advisor portfolio stocks crypto fees');
   add('Businesses & Studios', 'biz:racing', 'Racing Team', 'Race team hub: staff, drivers, car & engine upgrades, sponsors, finances, season', '🏁', (n) => n.open('Racing', racingScreen), 'racing team motorsport stock car nascar rally drag bike driver'),
   add('Businesses & Studios', 'biz:prodco', 'Production Companies', 'Record label, film, TV and game studios; back other companies', '🎞️', (n) => n.open('Production Companies', prodcoScreen), 'production company label records film tv game studio music artists greenlight royalty invest');
   add('Work', 'work:coaching', 'Coaching', 'Coach or manage a team, transfers, stadium, season review, play the games', '📋', async (n) => { const { coachingScreen } = await import('./coaching.js'); n.open('Coaching', coachingScreen); }, 'coach coaching manager team transfers stadium sports season');
+  add('Social', 'soc:profiles', 'Online Profiles', 'Every account on each platform, influencer and channel profile: followers, bio, stats, manage', '🌐', async (n) => { const { profilesScreen } = await import('./onlinehub.js'); n.open('Online Profiles', profilesScreen); }, 'online profiles accounts platforms followers bio influencer');
+  add('Social', 'soc:live', 'Live Streaming', 'Go live, stream history, viewers, sponsors, gear, schedule', '🎥', async (n) => { const { liveScreen } = await import('./onlinehub.js'); n.open('Live Streaming', liveScreen); }, 'live streaming streamer twitch viewers sponsors gear schedule');
   add('Social', 'soc:tree', 'Family tree', 'Your relatives at a glance', '🌳', (n) => n.open('Family tree', familyTreeScreen), 'ancestors kids');
   add('Social', 'soc:will', 'Will & Testament', 'Decide who inherits', '📜', (n) => n.open('Will & Testament', willScreen), 'inheritance estate heirs');
   // Activities (one per menu category, plus every item as a searchable pointer to its category)

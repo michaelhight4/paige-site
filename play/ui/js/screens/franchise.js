@@ -1,10 +1,12 @@
 // Team ownership: buy a club (sport, team, type, stadium size + tier, stat weights), hire staff, customise stats/training/style, finances and results.
 import { adapter } from '../adapter.js';
+import { autoPageCard } from './autopage.js';
 import { watch } from './coaching.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, askNumber, act } from '../ui.js';
 
 let hubTab = 'overview';
 export async function franchiseScreen(body, ctx) {
+  await autoPageCard(body, 'franchise');
   const { nav, refresh } = ctx; const st = await adapter.getFranchise();
   const go = async (a, a1, a2) => { const r = await act(adapter.frAction(a, a1, a2)); await refresh(); return r; };
   if (st.locked) return body.append(empty(`Owning a team starts at age ${st.minAge}. No pack needed.`));

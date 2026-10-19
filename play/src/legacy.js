@@ -3,6 +3,9 @@ import * as Prod from './prodco.js';
 import * as Politics from './politics.js';
 import * as Fr from './franchise.js';
 import * as Rc from './racing.js';
+import * as Brand from './brand.js';
+import * as Farm from './farm.js';
+import * as Adv from './advisor.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp } from './rng.js';
 import { log, fill } from './core.js';
@@ -31,7 +34,7 @@ export function metaRecord(grave) {
 }
 // ---------- death ----------
 export function netWorthOf(s) {
-  const assets = s.assets.reduce((a, x) => a + x.value, 0), stocks = Market.portfolioValue(s), biz = s.biz.reduce((a, b) => a + b.valuation, 0) + Prod.value(s) + Fr.value(s) + Rc.value(s);
+  const assets = s.assets.reduce((a, x) => a + x.value, 0), stocks = Market.portfolioValue(s), biz = s.biz.reduce((a, b) => a + b.valuation, 0) + Prod.value(s) + Fr.value(s) + Rc.value(s) + Brand.value(s) + Farm.value(s) + Adv.value(s);
   const sw = Slice.wealth(s); // careers/shopping slice: assets, investments, zoo minus loans
   return { cash: s.cash, assets: assets + sw, stocks, biz, debt: s.debt, total: s.cash + assets + sw + stocks + biz - s.debt };
 }

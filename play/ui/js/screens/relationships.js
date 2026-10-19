@@ -17,6 +17,7 @@ async function personSheet(p) {
 export async function relationshipsScreen(body, ctx) {
   const r = await adapter.getRelationships();
   body.append(h('div', { class: 'tabs-inline' }, h('button', { class: 'on', text: 'People' }), h('button', { text: 'Family tree', onclick: async () => { const { familyTreeScreen } = await import('./profile.js'); ctx.nav.open('Family tree', familyTreeScreen); } }), h('button', { text: 'Legacy', onclick: async () => { const { legacyScreen } = await import('./profile.js'); ctx.nav.open('Family Legacy', legacyScreen); } })));
+  { const { onlineAccordion } = await import('./onlinehub.js'); body.append(await onlineAccordion(ctx)); }
   body.append(row({ id: 'social-media', icon: '📱', title: 'Social Media', sub: 'Platforms, posts, followers, sponsors, verification, calendar, team, gear', onClick: async () => { const { socialHub } = await import('./social.js'); ctx.nav.open('Social Media', socialHub); } }));
   body.append(h('div', { class: 'btns', style: { padding: '10px 12px 0' } }, btn('💘 Find partner', () => act(adapter.findPartner()), 'alt sm', { 'data-el': 'find-partner' }), !r.partner ? btn('📺 Instant romance', () => act(adapter.startRomanceWithAd()), 'alt sm', { 'data-el': 'ad-romance' }) : null, btn(r.premium && r.premium.rabbit ? '⭐ Have children (Rabbit)' : '👶 Have a child', () => act(adapter.haveChild()), 'alt sm', { 'data-el': 'have-child' })));
   const sec = (title, list, o = {}) => { if (!list.length) return; body.append(section(title), ...list.map(p => personCard(p, o))); };

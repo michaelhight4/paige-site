@@ -3,6 +3,7 @@ import * as Social from './social.js';
 import { D } from './data.js';
 export const socialApi = {
   getSocial() { return Social.status(this.s); },
+  setPostPlan(id) { const n0 = this.mark(); if (!this.s.alive) return this.res(false, 'Not available.', n0); const r = Social.choosePlan(this.s, id); return this.res(!!r.ok, r.msg, n0); },
   getPlatform(pid) { return Social.platformStatus(this.s, pid); },
   // action: open delete reply boost(pack) collab break post(type) accept(id) decline(id) verify ambassador endAmbassador plan(n,type)
   socialAction(pid, action, a1, a2) {

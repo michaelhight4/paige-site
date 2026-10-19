@@ -187,19 +187,33 @@
    "sub": "Buy a club in any sport, hire staff, run the stadium",
    "icon": "🏟️",
    "minAge": 18
-  },  {
+  },
+  {
    "id": "racing",
    "label": "Racing",
    "sub": "Stock car, open-wheel, rally, drag and bike careers, or run your own race team",
    "icon": "🏁",
    "minAge": 16
   },
-
   {
    "id": "prodco",
    "label": "Production Companies",
    "sub": "Record label, film, TV & game studios",
    "icon": "🎞️",
+   "minAge": 18
+  },
+  {
+   "id": "brand",
+   "label": "Clothing Brand",
+   "sub": "Launch a fashion label: collections, models, stores, online and wholesale",
+   "icon": "👗",
+   "minAge": 18
+  },
+  {
+   "id": "farm",
+   "label": "Farms & Ranches",
+   "sub": "Buy land by the acre, raise crops or animals, hire workers, sell to distributors",
+   "icon": "🌾",
    "minAge": 18
   }
  ],
@@ -270,6 +284,13 @@
    "label": "Investments",
    "sub": "Stocks, funds & crypto",
    "icon": "📈",
+   "section": "Money"
+  },
+  {
+   "id": "advisor",
+   "label": "Investment Advisor",
+   "sub": "Auto-invest income into stocks or crypto through a hired advisor",
+   "icon": "💼",
    "section": "Money"
   },
   {

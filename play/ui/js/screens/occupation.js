@@ -1,10 +1,13 @@
 import { adapter } from '../adapter.js';
+import { autoPageCard } from './autopage.js';
 import { store, h, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act, toast } from '../ui.js';
 import { sportsScreen } from './sports.js';
 import { scholarshipsScreen } from './extra.js';
 import { prodcoScreen } from './prodco.js';
 import { franchiseScreen } from './franchise.js';
 import { racingScreen } from './racing.js';
+import { brandScreen, farmScreen } from './venture.js';
+import { accordion } from './accordion.js';
 import { coachingScreen } from './coaching.js';
 import { politicsScreen } from './politics.js';
 import { streamerScreen, influencerScreen } from './online.js';
@@ -13,11 +16,12 @@ import { streamerScreen, influencerScreen } from './online.js';
 export async function occupationMenu(body, { nav }) {
   const items = await adapter.getOccupationMenu(); const st = store.state;
   if (st.job) body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: 'Current job' }), kv('Title', st.job.title), kv('Employer', st.job.employer), kv('Salary', money(st.job.salary) + '/yr', 'pos'), kv('Years', String(st.job.years)), h('div', { class: 'btns' }, btn('Quit job', async () => { if (await confirmSheet('Quit job?', `Quit your job as ${st.job.title}?`, 'Quit', 'danger')) act(adapter.quitJob()); }, 'danger sm'))));
-  const screens = { education: educationScreen, fight: fightScreen, freelance: freelanceScreen, jobs: (b, c) => jobsScreen(b, c, 'jobs'), parttime: partTimeScreen, military: militaryScreen, special: (b, c) => jobsScreen(b, c, 'special'), sports: sportsScreen, collections: collectionsScreen, scholarships: scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, franchise: franchiseScreen, racing: racingScreen, prodco: prodcoScreen };
+  const screens = { education: educationScreen, fight: fightScreen, freelance: freelanceScreen, jobs: (b, c) => jobsScreen(b, c, 'jobs'), parttime: partTimeScreen, military: militaryScreen, special: (b, c) => jobsScreen(b, c, 'special'), sports: sportsScreen, collections: collectionsScreen, scholarships: scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, franchise: franchiseScreen, racing: racingScreen, prodco: prodcoScreen, brand: brandScreen, farm: farmScreen };
   body.append(...items.map(m => row({ id: m.id, icon: m.icon, title: m.label, sub: m.locked ? m.lockReason : m.sub, disabled: m.locked, onClick: () => nav.open(m.label === 'Sports Career' ? 'Sports Career' : m.label, screens[m.id]) })));
 }
 
 export async function educationScreen(body, { nav }) {
+  await autoPageCard(body, 'school');
   const e = await adapter.getEducation();
   if (e.current) {
     const pct = e.current.years ? Math.round(e.current.year / e.current.years * 100) : 0;
@@ -25,6 +29,13 @@ export async function educationScreen(body, { nav }) {
       e.current.inSchool ? h('div', { class: 'btns' }, btn('Drop out', async () => { if (await confirmSheet('Drop out?', 'You will leave school without finishing.', 'Drop out', 'danger')) act(adapter.dropOut()); }, 'danger sm')) : null));
   } else body.append(empty('You are not in school yet. School starts at age 5.'));
   if (e.current && e.current.inSchool) { const sc = await adapter.getScholarships(); if (sc.enrolled) body.append(h('div', { class: 'card', 'data-el': 'edu-scholarships' }, h('h3', { text: '🎓 Scholarships' }), kv('Awards held', String(sc.active.length)), kv('Worth', money(sc.yearlyWorth) + '/yr', 'pos'), sc.active.map((a) => h('div', { class: 'hint', text: `${a.name}: ${Math.round(a.pct * 100)}%${a.probation ? ' ⚠ probation' : ''}${a.renew && a.renew.eligible ? ' · renewal open' : ''}` })), h('div', { class: 'btns' }, btn('Open Scholarships', () => nav.open('Scholarships', scholarshipsScreen), 'go sm', { 'data-el': 'edu-sch-open' })))); }
+  { const sa = await adapter.getSchoolActivities();
+    if (!sa.inSchool) body.append(h('div', { class: 'hint', 'data-el': 'sch-act-none', style: { padding: '6px 14px' }, text: 'School sports and clubs open up while you are a student.' }));
+    else body.append(accordion('lifesim.edu.acc', [
+      { id: 'sports', icon: '🏅', label: `Sports · ${sa.levelLabel}`, badge: sa.sport ? 'on a team' : sa.sports.filter((x) => x.eligible).length + ' open', on: !!sa.sport, rows: sa.sports.map((x) => row({ id: 'sport:' + x.id, icon: x.icon, title: x.label, sub: x.joined ? `On the ${x.team}${x.position ? ' · ' + x.position : ''} · skill ${x.skill} · ${x.years} yr` : x.eligible ? x.tryout : x.reason, right: x.joined ? 'Leave' : x.eligible ? 'Try out' : '', disabled: !x.joined && !x.eligible,
+        onClick: async () => { if (x.joined) { if (await confirmSheet('Leave the team?', `Quit ${x.label.toLowerCase()}?`, 'Leave', 'danger')) await act(adapter.sportsAction('retire')); return; } const i = await sheet({ title: `${x.label}: pick a position`, options: x.positions.map((p) => ({ label: p })) }); if (i == null) return; await act(adapter.joinSport({ sportId: x.id, position: x.positions[i] })); } })) },
+      { id: 'clubs', icon: '🎭', label: `Clubs · ${sa.levelLabel}`, badge: `${sa.clubCount}/${sa.maxClubs} joined`, on: sa.clubCount > 0, rows: sa.clubs.map((c) => row({ id: 'club:' + c.id, icon: c.icon, title: c.name, sub: c.joined ? `Member · ${c.years} yr · trains ${c.skills.slice(0, 2).join(', ').replace(/_/g, ' ')}` : c.adJoin ? c.blocked + ' Watch an ad to join anyway.' : c.blocked || `Ages ${c.minAge}-${c.maxAge} · trains ${c.skills.slice(0, 2).join(', ').replace(/_/g, ' ')}`, right: c.joined ? 'Leave' : c.adJoin ? '📺 Join' : c.locked ? '' : 'Join', disabled: c.locked,
+        onClick: () => (c.adJoin ? act(adapter.joinClubWithAd(c.id)) : act(adapter.joinClub(c.id))) })) }])); }
   if (e.completed.length) body.append(section('Completed'), ...e.completed.map(c => row({ icon: '✅', title: c.replace(/_/g, ' ').replace(/\b\w/g, x => x.toUpperCase()), chevron: false })));
   body.append(section('Enroll'));
   body.append(...e.options.map(o => row({ id: o.id, icon: '🎓', title: o.label, sub: o.eligible ? `${o.years} yrs · ${o.notes || 'Tap to enroll'}` : o.reason, disabled: !o.eligible, onClick: async () => {
@@ -40,6 +51,7 @@ function jobRow(j, ctx) {
     onClick: async () => { if (await confirmSheet(j.title, `Apply for a job as ${j.title} (${money(j.salary)}/yr)?`, 'Apply', 'go')) { await act(adapter.applyJob(j.id)); } } });
 }
 export async function jobsScreen(body, ctx, group = 'jobs') {
+  if (group === 'jobs') await autoPageCard(body, 'job');
   const g = await adapter.getJobs({ group });
   if (g.current) body.append(h('div', { class: 'card' }, h('b', { text: 'Employed: ' }), g.current.title));
   if (!g.groups.length) return body.append(empty('No openings available.'));

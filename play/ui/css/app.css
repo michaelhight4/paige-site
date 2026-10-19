@@ -149,3 +149,18 @@ html[data-style]:not([data-style=light]) .topbar{background:var(--surface2);bord
 .panel,.card,.kv,.sheet,.tile,.asset{color:var(--ink)}
 .kv{border-bottom-color:var(--line2)}
 .j-age{color:var(--head)}.j-age span{color:var(--mute)}
+
+/* Autopilot accordion (inline, no new screen) */
+.acc{margin:6px 12px}
+.acc-sec{margin:0 0 8px;border:1px solid var(--line2);border-radius:12px;background:var(--surface);overflow:hidden}
+.acc-head{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:10px 14px;border:0;background:var(--surface2);color:var(--head);font:inherit;font-weight:800;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.acc-head .acc-t{flex:1}
+.acc-n{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--surface3);color:var(--mute)}
+.acc-n.on{background:var(--accent);color:var(--on-accent)}
+.acc-chev{display:inline-block;transition:transform .22s ease;color:var(--head)}
+.acc-sec.open .acc-chev{transform:rotate(180deg)}
+.acc-body{overflow:hidden;max-height:0;transition:max-height .24s ease}
+.acc-body .row{border-radius:0}
+@media (prefers-reduced-motion:reduce){.acc-body,.acc-chev{transition:none}}
+html[data-motion=reduced] .acc-body,html[data-motion=reduced] .acc-chev{transition:none}
+.acc-sec:not(.open) .acc-body{visibility:hidden;transition:max-height .24s ease,visibility 0s .24s}

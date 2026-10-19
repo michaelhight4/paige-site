@@ -1,10 +1,11 @@
 import { adapter } from '../adapter.js';
 import { businessesScreen } from './extra.js';
+import { advisorScreen } from './venture.js';
 import { store, h, ico, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act, askNumber, toast } from '../ui.js';
 
 export async function assetsMenu(body, { nav }) {
   const items = await adapter.getAssetsMenu();
-  const screens = { finances: financesScreen, investments: investmentsScreen, luxury: luxuryScreen, auctions: auctionsScreen, casino: casinoScreen, garage: garageScreen, zoo: zooScreen, belongings: belongingsScreen, properties: propertiesScreen, shopping: shoppingScreen, restoration: restorationScreen, businesses: businessesScreen };
+  const screens = { advisor: advisorScreen, finances: financesScreen, investments: investmentsScreen, luxury: luxuryScreen, auctions: auctionsScreen, casino: casinoScreen, garage: garageScreen, zoo: zooScreen, belongings: belongingsScreen, properties: propertiesScreen, shopping: shoppingScreen, restoration: restorationScreen, businesses: businessesScreen };
   body.append(h('div', { class: 'tabs-inline', 'data-el': 'assets-tabs' }, h('button', { class: 'on', text: 'Holdings' }), h('button', { 'data-el': 'biz-tab', text: '🏢 Businesses & Studios', onclick: () => nav.open('Businesses & Studios', businessesScreen) })));
   let cur = null;
   for (const m of items) {

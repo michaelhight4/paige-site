@@ -1,5 +1,6 @@
 // Social Media hub: platforms, post picker, results, sponsorships, verification (progress bar), calendar, team, gear, merch/channel, drama/appeal/cancel.
 import { adapter } from '../adapter.js';
+import { autoPageCard } from './autopage.js';
 import { h, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act } from '../ui.js';
 
 const cnt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
@@ -12,11 +13,13 @@ export async function handlePrompt(pr) {
 const fameBars = (st) => [bar('Fame', st.fame, { thin: true, key: 'fame' }), bar('Reputation', st.reputation, { thin: true, key: 'rep' }), bar('Brand safety', st.brandSafety, { thin: true, key: 'safety' }), bar('Burnout', st.burnout, { thin: true, key: 'burnout' })];
 
 export async function socialHub(body, { nav, refresh }) {
+  await autoPageCard(body, 'social');
   const st = await adapter.getSocial();
   if (st.locked) return body.append(empty('Social media starts at age 13.'));
   body.append(h('div', { class: 'card', 'data-el': 'fame-panel' }, h('h3', { text: '📱 Fame & reputation' }), kv('Total followers', cnt(st.total)), kv('Earned from social', money(st.earned), 'pos'), ...fameBars(st),
     st.streak ? h('div', { class: 'hint', text: `🔥 Posting streak: ${st.streak} year${st.streak > 1 ? 's' : ''} (consistency bonus)` }) : null, st.cancelledUntil ? h('div', { class: 'hint neg', text: 'You are laying low after being cancelled.' }) : null,
     st.teen ? h('div', { class: 'hint', text: 'Under 18: kid-safe sponsors only, no fan club, parents take half of the money.' }) : null));
+  if (st.platforms.some((p) => p.open)) body.append(planCard(st, refresh));
   if (st.prompt) body.append(h('div', { class: 'card', 'data-el': 'social-prompt' }, h('h3', { text: st.prompt.kind === 'appeal' ? '⚖️ Appeal needed' : st.prompt.kind === 'cancel' ? '🚫 You were cancelled' : '⚡ Drama' }), h('p', { class: 'hint', text: st.prompt.text }), btn('Respond', async () => { await handlePrompt(st.prompt); await refresh(); }, 'go sm', { 'data-act': 'prompt' })));
   body.append(section('Platforms'), ...st.platforms.map((p) => row({ id: 'plat:' + p.id, icon: p.icon, title: p.name + (p.verified ? ' ✔' : ''), sub: p.locked ? p.lockReason : p.open ? `${cnt(p.followers)} followers · ${p.engagement}% engagement · ${p.postsLeft} posts left${p.status !== 'active' ? ' · ' + p.status : ''}${p.career ? ' · career' : ''}` : `${p.role} · tap to open an account`, right: p.open ? cnt(p.followers) : '', disabled: p.locked, onClick: async () => { if (!p.open) { if (!(await act(adapter.socialAction(p.id, 'open'))).ok) return; } nav.open(p.name, (b, c) => platformScreen(b, c, p.id)); } })));
   body.append(section('Tools'),
@@ -101,4 +104,17 @@ export async function merchScreen(body, { refresh }) {
   const st = await adapter.getSocial();
   body.append(h('div', { class: 'hint', style: { padding: '8px 12px' }, text: 'Merch and channel companies are real businesses (see Businesses). Their reputation, and so demand, follows your following.' }));
   for (const c of st.canMerch) body.append(row({ id: 'merch:' + c.type, icon: c.type === 'creator_merch' ? '👕' : '🎞️', title: c.name, sub: c.have ? 'You own one: manage it under Businesses' : c.why || 'Ready to found', right: c.have ? '✓' : '', disabled: c.have || !!c.why, onClick: async () => { await act(adapter.socialBusiness(c.type)); await refresh(); } }));
+}
+
+// ---- yearly post plan (popup after you age, and a card on the Social Media hub) ----
+const planSub = (o) => `Ban risk ${o.banPct}%${o.banPct === 0 ? ' (none)' : ''} · growth ${o.growth >= 0 ? '+' : ''}${o.growth}% · income ${o.income >= 0 ? '+' : ''}${o.income}% · sponsors ${o.sponsor >= 0 ? '+' : ''}${o.sponsor}% · drama ${o.drama === 0 ? 'none' : 'x' + o.drama}`;
+export async function showPostPlanPopup() {
+  const st = await adapter.getSocial(); if (st.locked || !st.postPlan.needed) return false;
+  const opts = st.postPlan.options, i = await sheet({ title: '🗓️ Your post plan for this year', body: h('div', { 'data-el': 'plan-popup' }, h('p', { class: 'hint', text: 'This choice decides the year: ban risk, follower growth, income, sponsor appeal and drama. Safe plans cannot get you banned.' })), options: opts.map((o) => ({ label: `${o.icon} ${o.name}`, sub: `${o.desc} ${planSub(o)}` })), dismissable: true });
+  if (i == null) return false; await act(adapter.setPostPlan(opts[i].id)); return true;
+}
+export function planCard(st, refresh) {
+  const cur = st.postPlan.options.find((o) => o.id === st.postPlan.effective);
+  return h('div', { class: 'card', 'data-el': 'plan-card' }, h('h3', { text: '🗓️ This year\'s post plan' }), h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${cur.icon} ${cur.name}${st.postPlan.current ? '' : ' (default, not chosen yet)'}` }), h('div', { class: 'hint', text: planSub(cur) }),
+    h('div', { class: 'btns' }, btn(st.postPlan.current ? 'Change plan' : 'Choose a plan', async () => { await showPostPlanPopup(); if (refresh) await refresh(); }, 'go sm', { 'data-act': 'plan-choose' })));
 }

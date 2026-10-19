@@ -4,6 +4,8 @@ import { log } from './core.js';
 
 export const autoApi = {
   getAutopilot() { return Auto.status(this); },
+  getAutoPage(id) { const pg = Auto.pageStatus(this).find((x) => x.id === id); return pg ? { ...pg, unlocked: Auto.unlocked() } : null; },
+  setAutoPage(id, on) { const n0 = this.mark(); if (!Auto.unlocked()) return this.res(false, 'Needs the Autopilot Pack ($5.99) or All Access.', n0); const r = Auto.setPage(this, id, on); return this.res(!!r.ok, r.msg, n0); },
   setAutopilot(o = {}) {
     if (!Auto.unlocked()) return { ok: false, message: 'Needs the Autopilot Pack ($5.99) or All Access.', ...Auto.status(this) };
     Auto.configure(this.s, o); return { ok: true, message: '', ...Auto.status(this) };

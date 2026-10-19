@@ -6,7 +6,7 @@ export function log(s, text, kind = 'info') {
   s.log.push({ age: Math.round(s.age * 100) / 100, text, kind }); s.logSeq = (s.logSeq || 0) + 1;
   if (s.log.length > 1500) s.log.shift();
 }
-export const earn = (s, x) => { s.cash += x; };
+export const earn = (s, x) => { s.cash += x; if (x > 0) s.incYear = (s.incYear || 0) + x; };
 // Recurring costs may push the player into debt; purchases must check s.cash first.
 export function spend(s, x) {
   if (s.cash >= x) s.cash -= x; else { s.debt += x - s.cash; s.cash = 0; }

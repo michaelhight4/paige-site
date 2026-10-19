@@ -16,6 +16,18 @@ export const fmt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n
 export const platDef = (id) => C().platforms.find((p) => p.id === id);
 export const postDef = (id) => C().posts.find((p) => p.id === id);
 const net = (g) => g * (1 - (PFx.noTax() ? 0 : TAX));
+// ---- yearly post plan: the choice drives that year's ban roll (0 for the safe plan), growth, income, sponsor appeal and drama ----
+export const PLANS = [
+  { id: 'safe', icon: '🧸', name: 'Safe & family-friendly', ban: 0, growAdd: -0.02, gain: 0.85, income: 0.9, sponsor: 1.25, safety: 7, drama: 0, desc: 'No rules broken, no drama. Slower growth, brand-safe sponsors.' },
+  { id: 'steady', icon: '📅', name: 'Steady & balanced', ban: 0.015, growAdd: 0, gain: 1, income: 1, sponsor: 1, safety: 4, drama: 1, desc: 'A normal mix of posts.' },
+  { id: 'edgy', icon: '😏', name: 'Edgy & opinionated', ban: 0.05, growAdd: 0.04, gain: 1.15, income: 1.05, sponsor: 0.85, safety: 1, drama: 1.6, desc: 'Spicy takes get attention and the odd warning.' },
+  { id: 'controversial', icon: '🔥', name: 'Controversial', ban: 0.1, growAdd: 0.08, gain: 1.3, income: 1.1, sponsor: 0.6, safety: -6, drama: 2.6, desc: 'Big growth, big blowups. Sponsors get nervous.' },
+  { id: 'viral', icon: '🚀', name: 'Chase virality', ban: 0.16, growAdd: 0.13, gain: 1.45, income: 1.15, sponsor: 0.7, safety: -4, drama: 3, desc: 'Stunts and bait. Could explode or get you banned.' },
+];
+export const planDef = (id) => PLANS.find((x) => x.id === id) || PLANS[1];
+export function planOf(s) { const so = ensure(s); return planDef(so.postPlan ? so.postPlan.id : 'steady'); }
+export function choosePlan(s, id) { const so = ensure(s); if (age(s) < 13) return { ok: false, msg: 'Social media starts at 13.' }; if (!Object.keys(so.accounts).length) return { ok: false, msg: 'Open an account first.' }; const d = PLANS.find((x) => x.id === id); if (!d) return { ok: false, msg: 'Unknown plan.' }; so.postPlan = { id, turn: s.turns }; return { ok: true, msg: `${d.name}: ${d.ban ? Math.round(d.ban * 1000) / 10 + '% ban risk this year' : 'no ban risk this year'}.` }; }
+export function planNeeded(s) { const so = ensure(s); return age(s) >= 13 && Object.keys(so.accounts).length > 0 && !so.postPlan; }
 export const ensure = (s) => { if (!s.social) s.social = { accounts: {}, reputation: 50, brandSafety: 70, cancelledUntil: 0, history: [], archive: [], plan: {}, streak: 0, burnout: 0, team: {}, offers: {}, prompt: null, earned: 0, last: null, year: {}, ambassador: null, lastSuspend: -99, cancels: 0, merch: null, heldMoney: 0, rivals: [], nextStory: 0 }; return s.social; };
 export const has = (s) => !!(s.social && Object.keys(s.social.accounts).length);
 export const totalFollowers = (s) => (s.social ? Object.values(s.social.accounts).reduce((a, x) => a + x.followers, 0) : 0);
@@ -66,7 +78,7 @@ export function post(s, pid, type, o = {}) {
   if (a.postsThisYear >= cap(s)) return { ok: false, msg: 'Posting limit reached this year (12).' };
   const gb = gearBoost(s), F = a.followers, q = quality(s, t), eff = 1 / (1 + 0.25 * Math.max(0, a.postsThisYear - 5)), fb = 1 + s.stats.fame / 50, niche = nicheOf(a);
   const nm = niche && niche === t.niche ? 1.15 : niche && niche !== t.niche && F > 1000 ? 0.7 : 1, fit = fitOf(pid, type), boost = o.boost || 1;
-  let gain = (200 + 0.02 * F) * t.base * (0.5 + q) * eff * fb * nm * fit * p.growth * (1 + gb.growth) * boost * (1 + Math.min(0.2, so.streak * 0.03)) * (so.burnout > 80 ? 0.7 : 1);
+  let gain = (200 + 0.02 * F) * t.base * (0.5 + q) * eff * fb * nm * fit * p.growth * (1 + gb.growth) * boost * (1 + Math.min(0.2, so.streak * 0.03)) * (so.burnout > 80 ? 0.7 : 1) * planOf(s).gain;
   const vp = Math.min(0.15, t.viral * p.viral * (0.5 + q) * (a.engagement + 0.5) * (1 + gb.viral)), viral = chance(s, vp);
   if (viral) { gain *= rint(s, 5, 25); addStat(s, 'fame', rint(s, 1, 3)); }
   let loss = 0; const off = nm < 1, risky = t.tag === 'Risky', rl = (off ? 0.06 : 0) + t.risk * p.risk * 0.5 + (risky ? 0.05 : 0);
@@ -132,7 +144,7 @@ export function reply(s, pid) { const w = need(s, pid, 'reply'); if (w) return {
 export function buyBoost(s, pid, pack = 1) {
   const w = need(s, pid, 'boost'); if (w) return { ok: false, msg: w }; const a = A(s, pid), k = [1, 5, 20][pack] ?? 1, cost = k * 20; if (s.cash < cost) return { ok: false, msg: `Costs ${money(cost)}.` }; if (age(s) < 16) return { ok: false, msg: 'Under 16: no card on file.' };
   s.cash -= cost; a.acted.boost = 1; a.boughtThisYear = true; a.followers += k * 1000; a.engagement = clamp(a.engagement * 0.8, 0.02, 0.25); let m = `+${k * 1000} followers for ${money(cost)}. Engagement dips.`;
-  if (chance(s, 0.25)) { suspend(s, pid, 'spam'); m += ' The platform noticed: suspended.'; } log(s, `I bought ${k}k followers. Most of them were bots.`, 'fame'); return { ok: true, msg: m };
+  if (planOf(s).ban > 0 && chance(s, 0.25)) { suspend(s, pid, 'spam'); m += ' The platform noticed: suspended.'; } log(s, `I bought ${k}k followers. Most of them were bots.`, 'fame'); return { ok: true, msg: m };
 }
 export function collab(s, pid) {
   const w = need(s, pid, 'collab'); if (w) return { ok: false, msg: w }; const a = A(s, pid), so = ensure(s), who = pick(s, C().rivals); a.acted.collab = 1; addStat(s, 'stress', 2);
@@ -150,7 +162,7 @@ export function genOffers(s, pid) {
   if (so.brandSafety < 40) pool = pool.filter((b) => !b.premium); if (age(s) >= 18 && so.brandSafety < 40) pool = pool.concat(C().brands.filter((b) => b.cat === 'dubious'));
   for (let i = 0; i < n && pool.length; i++) {
     const b = pool.splice(Math.floor(rnd(s) * pool.length), 1)[0], nic = nicheOf(a), fit = nic && b.niches.includes(nic) ? 1.5 : b.niches.some((x) => Object.keys(a.nicheCounts).includes(x)) ? 1 : 0.5;
-    const pay = Math.round(a.followers / 1000 * 8 * emult(a) * fit * b.pay * p.sponsor * (a.verified ? 1.2 : 1) * (so.brandSafety >= 75 ? 1.3 : 1) * (1 + gb.sponsor) * (so.team.agent ? 1.15 : 1) * (so.team.manager ? 1.1 : 1) * (0.85 + rnd(s) * 0.3) / 10) * 10;
+    const pay = Math.round(a.followers / 1000 * 8 * emult(a) * fit * b.pay * p.sponsor * (a.verified ? 1.2 : 1) * (so.brandSafety >= 75 ? 1.3 : 1) * (1 + gb.sponsor) * (so.team.agent ? 1.15 : 1) * (so.team.manager ? 1.1 : 1) * (0.85 + rnd(s) * 0.3) * planOf(s).sponsor / 10) * 10;
     out.push({ id: i, brand: b.name, cat: b.cat, pay: Math.max(40, pay), fit: fit >= 1.5 ? 'great' : fit >= 1 ? 'ok' : 'poor', yrs: rint(s, 1, 2) });
   }
   so.offers[pid] = out;
@@ -218,7 +230,7 @@ export function yearTick(s) {
     if (a.status === 'hacked') a.status = 'active';
     const own = careerOwned(s, pid), before = a.followers;
     if (a.status === 'active' || a.status === 'break') {
-      let g = 1 + (a.engagement - 0.3) * 0.1 - (a.postsThisYear < 2 ? 0.03 : 0); if (planCount) g += Math.min(0.12, so.streak * 0.02); g += Math.max(0, others - 1) * 0.01 * (a.followers > 1000 ? 1 : 0) + gb.growth * 0.15; if (so.burnout > 80) g -= 0.04;
+      let g = 1 + (a.engagement - 0.3) * 0.1 - (a.postsThisYear < 2 ? 0.03 : 0); if (planCount) g += Math.min(0.12, so.streak * 0.02); g += Math.max(0, others - 1) * 0.01 * (a.followers > 1000 ? 1 : 0) + gb.growth * 0.15 + (a.status === 'active' ? planOf(s).growAdd : 0); if (so.burnout > 80) g -= 0.04;
       a.followers = Math.max(0, Math.round(a.followers * g)); if (a.status === 'break') a.followers = Math.round(a.followers * 0.97);
     } else a.followers = Math.round(a.followers * 0.93);
     // income
@@ -233,29 +245,31 @@ export function yearTick(s) {
     if (so.accounts[pid]) genOffers(s, pid);
   }
   if (so.ambassador) { gross += so.ambassador.pay; so.ambassador.yrs--; if (so.ambassador.yrs <= 0) { res.events.push(`${so.ambassador.brand} ambassador deal ended`); so.ambassador = null; } }
+  gross *= planOf(s).income;
   // merch / channel businesses ride on your following
   const tf = totalFollowers(s); for (const b of biz(s)) { const floor = clamp(30 + 14 * Math.log10(1 + tf / 1000), 0, 90); b.rep = Math.max(b.rep, Math.min(95, floor)); b.socialBoost = Math.round(floor); }
   // team
   let cost = 0; for (const [r, m] of Object.entries(so.team)) { const d = C().team.find((x) => x.id === r); cost += m.salary; if (d.cut) { const c = gross * d.cut; cost += c; } } gross = Math.max(0, gross);
   let incomeNet = net(gross); if (teen(s)) { const held = incomeNet * 0.5; incomeNet -= held; res.events.push('Under 18: parents took half of the payouts'); }
-  earn(s, incomeNet); spend(s, cost); if (so.jobIncome) { earn(s, net(so.jobIncome)); res.parts['Media job'] = so.jobIncome; } res.income = Math.round(incomeNet - cost); so.earned += incomeNet - cost; so.reputation = clamp(so.reputation + (50 - so.reputation) * 0.04 + (so.brandSafety < 40 ? -1 : 0), 0, 100); so.brandSafety = clamp(so.brandSafety + 4, 0, 100);
+  earn(s, incomeNet); spend(s, cost); if (so.jobIncome) { earn(s, net(so.jobIncome)); res.parts['Media job'] = so.jobIncome; } res.income = Math.round(incomeNet - cost); so.earned += incomeNet - cost; so.reputation = clamp(so.reputation + (50 - so.reputation) * 0.04 + (so.brandSafety < 40 ? -1 : 0), 0, 100); so.brandSafety = clamp(so.brandSafety + planOf(s).safety, 0, 100);
   // fame: decays unless posting 3+/yr (handled by core -2/yr); give back when active
   if (totalPosts >= 3) addStat(s, 'fame', 2 * (s.stats.fame > 5 ? 1 : 0)); syncFame(s); careerSync(s, false);
-  res.after = totalFollowers(s); so.last = res; stories(s, res);
+  res.after = totalFollowers(s); res.plan = planOf(s).id; so.last = res; stories(s, res); so.postPlan = null;
   log(s, `Social media year: ${fmt(res.after)} followers across ${Object.keys(so.accounts).length} platforms, ${res.income >= 0 ? 'earned' : 'spent'} ${money(Math.abs(res.income))}.`, 'fame');
 }
 function pickAcct(s) { const l = Object.entries(ensure(s).accounts).sort((a, b) => b[1].followers - a[1].followers); return l[0]; }
 function stories(s, res) {
-  const so = ensure(s), top = pickAcct(s); if (!top) return; const [pid, a] = top, F = totalFollowers(s), rival = pick(s, C().rivals), ctx = { rival, collab: pick(s, C().rivals), plat: platDef(pid).name, parent: (P.living(s).find((p) => p.rel === 'mother' || p.rel === 'father') || { first: 'my mother' }).first, partner: P.partnerOf(s) ? P.partnerOf(s).first : 'my partner' };
+  const so = ensure(s), top = pickAcct(s); if (!top) return; const PL = planOf(s); const [pid, a] = top, F = totalFollowers(s), rival = pick(s, C().rivals), ctx = { rival, collab: pick(s, C().rivals), plat: platDef(pid).name, parent: (P.living(s).find((p) => p.rel === 'mother' || p.rel === 'father') || { first: 'my mother' }).first, partner: P.partnerOf(s) ? P.partnerOf(s).first : 'my partner' };
   if (s.pending.length >= 2) return;
   const q = (id, p) => { if (chance(s, p)) { Ev.queue(s, id, ctx); return true; } return false; };
-  if (a.followers > 2000 && so.archive.length) { const old = so.archive.filter((x) => s.age - x.age >= 2); if (old.length && chance(s, 0.06 + 0.02 * old.length * (s.flags.pol_running ? 3 : 1))) { const x = pick(s, old); ctx.post = x.name.toLowerCase(); ctx.postAge = Math.floor(x.age); ctx.plat = platDef(x.pid).name; so.archive.splice(so.archive.indexOf(x), 1); Ev.queue(s, 'soc_resurface', ctx); return; } }
-  if (F > 3000 && q('soc_feud', 0.07)) return; if (F > 3000 && q('soc_collab', 0.08)) return; if (F > 1000 && P.living(s).some((p) => p.rel === 'mother' || p.rel === 'father') && q('soc_family', 0.07)) return;
+  if (a.followers > 2000 && so.archive.length) { const old = so.archive.filter((x) => s.age - x.age >= 2); if (old.length && chance(s, (0.06 + 0.02 * old.length * (s.flags.pol_running ? 3 : 1)) * PL.drama)) { const x = pick(s, old); ctx.post = x.name.toLowerCase(); ctx.postAge = Math.floor(x.age); ctx.plat = platDef(x.pid).name; so.archive.splice(so.archive.indexOf(x), 1); Ev.queue(s, 'soc_resurface', ctx); return; } }
+  if (F > 3000 && q('soc_feud', 0.07 * PL.drama)) return; if (F > 3000 && q('soc_collab', 0.08)) return; if (F > 1000 && P.living(s).some((p) => p.rel === 'mother' || p.rel === 'father') && q('soc_family', 0.07)) return;
   if (F > 1000 && P.partnerOf(s) && q('soc_partner', 0.08)) return; if (F > 8000 && q('soc_shoutout', 0.06)) return; if (F > 10000 && age(s) >= 18 && q('soc_agency', 0.04)) return;
   if (F > 20000 && age(s) >= 16 && age(s) <= 18 && s.school && q('soc_scholarship', 0.35)) return; if (F > 50000 && age(s) >= 18 && q('soc_job', 0.05)) return;
   if (a.followers > 5000 && a.status === 'active' && chance(s, 0.03)) { a.status = 'hacked'; so.prompt = { kind: 'hack', pid, text: `Your ${platDef(pid).name} account was hacked.`, choices: [{ label: 'Report it' }, { label: 'Ignore it' }, { label: 'Pay the ransom ($2,000)' }] }; lose(s, a, 0.05 + rnd(s) * 0.1); }
-  else if (a.followers > 500 && chance(s, 0.07 * (platDef(pid).risk)) && !so.prompt) makeDrama(s, pid, postDef('rant'));
-  if (!so.prompt && chance(s, 0.015) && a.followers > 1000) suspend(s, pid, 'a random sweep');
+  else if (a.followers > 500 && PL.drama > 0 && chance(s, Math.min(0.6, 0.07 * (platDef(pid).risk) * PL.drama)) && !so.prompt) makeDrama(s, pid, postDef('rant'));
+  // the ban roll comes ONLY from the chosen plan: the safe plan has a 0 ban chance (no roll at all)
+  if (PL.ban > 0 && !so.prompt && a.followers > (PL.id === 'steady' ? 1000 : 200) && chance(s, PL.ban)) suspend(s, pid, PL.id === 'steady' ? 'a random sweep' : 'repeated rule violations');
 }
 const fxHandlers = { followersPct(s, v) { const so = ensure(s); for (const a of Object.values(so.accounts)) a.followers = Math.max(0, Math.round(a.followers * (1 + v / 100))); if (s.stream && s.stream.active) s.stream.subs = Math.max(1, Math.round(s.stream.subs * (1 + v / 100))); if (s.infl && s.infl.active) s.infl.followers = Math.max(1, Math.round(s.infl.followers * (1 + v / 100))); },
   rep(s, v) { const so = ensure(s); so.reputation = clamp(so.reputation + v, 0, 100); }, safety(s, v) { const so = ensure(s); so.brandSafety = clamp(so.brandSafety + v, 0, 100); }, burnout(s, v) { const so = ensure(s); so.burnout = clamp(so.burnout + v, 0, 100); },
@@ -267,7 +281,7 @@ export function jobPay(s) { return s.social ? s.social.jobIncome || 0 : 0; }
 // ---------- status for the UI ----------
 export function status(s) {
   const so = ensure(s), a = age(s), gb = gearBoost(s);
-  return { age: a, locked: a < 13, cash: Math.round(s.cash), fame: Math.round(s.stats.fame), reputation: Math.round(so.reputation), brandSafety: Math.round(so.brandSafety), burnout: Math.round(so.burnout), streak: so.streak, cancelledUntil: so.cancelledUntil, cancels: so.cancels, total: totalFollowers(s), earned: Math.round(so.earned), last: so.last, prompt: so.prompt ? { kind: so.prompt.kind, text: so.prompt.text, choices: so.prompt.choices, pid: so.prompt.pid } : null, ambassador: so.ambassador, teen: a < 18,
+  const PLN = planOf(s); return { postPlan: { needed: planNeeded(s), current: so.postPlan ? so.postPlan.id : null, effective: PLN.id, options: PLANS.map((x) => ({ id: x.id, icon: x.icon, name: x.name, desc: x.desc, banPct: Math.round(x.ban * 1000) / 10, growth: Math.round(x.growAdd * 100), gain: Math.round((x.gain - 1) * 100), income: Math.round((x.income - 1) * 100), sponsor: Math.round((x.sponsor - 1) * 100), drama: x.drama, chosen: !!so.postPlan && so.postPlan.id === x.id })) }, age: a, locked: a < 13, cash: Math.round(s.cash), fame: Math.round(s.stats.fame), reputation: Math.round(so.reputation), brandSafety: Math.round(so.brandSafety), burnout: Math.round(so.burnout), streak: so.streak, cancelledUntil: so.cancelledUntil, cancels: so.cancels, total: totalFollowers(s), earned: Math.round(so.earned), last: so.last, prompt: so.prompt ? { kind: so.prompt.kind, text: so.prompt.text, choices: so.prompt.choices, pid: so.prompt.pid } : null, ambassador: so.ambassador, teen: a < 18,
     gear: gb, team: Object.entries(so.team).map(([r, m]) => ({ role: r, name: m.name, salary: m.salary })), teamDefs: C().team.map((t) => ({ ...t, hired: !!so.team[t.id], locked: totalFollowers(s) < t.minFollowers || a < 18 })),
     platforms: C().platforms.map((p) => { const ac = so.accounts[p.id], g = gate(s, p.id); return { id: p.id, name: p.name, icon: p.icon, role: p.role, minAge: p.minAge, personality: p.personality, audience: p.audience, likes: p.likes, dislikes: p.dislikes, locked: !!g, lockReason: g, open: !!ac, career: careerOwned(s, p.id), followers: ac ? ac.followers : 0, engagement: ac ? Math.round(ac.engagement * 1000) / 10 : 0, status: ac ? ac.status : null, verified: ac ? ac.verified : false, postsLeft: ac ? postsLeft(s, p.id) : 0, niche: ac ? nicheOf(ac) : null, deals: ac ? ac.deals.length : 0, plan: so.plan[p.id] || null }; }),
     merch: biz(s).map((b) => ({ id: b.id, name: b.name, type: b.type })), canMerch: ['creator_merch', 'creator_channel'].map((t) => ({ type: t, name: D.bizTypes[t].name, why: canMerch(s, t) || (a < 16 ? 'Must be 16+' : ''), need: (D.bizTypes[t].req || {}).followers, have: !!biz(s).find((b) => b.type === t) })) };
