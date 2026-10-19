@@ -1,10 +1,12 @@
 // Politics: offices & odds, campaign (platform, budget, donors, trick questions), in office, judge track, war, royalty.
 import { adapter } from '../adapter.js';
+import { autoPageCard } from './autopage.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, act } from '../ui.js';
 
 const pct = (n) => (n == null ? '-' : n + '%');
 
 export async function politicsScreen(body, { nav, refresh }) {
+  await autoPageCard(body, 'politics');
   const st = await adapter.getPolitics(), ry = await adapter.getRoyalty();
   if (st.age < 18) return body.append(empty('Politics starts at age 18.'));
   const go = async (a, a1, a2) => { const r = await act(adapter.politicsAction(a, a1, a2)); await refresh(); return r; };

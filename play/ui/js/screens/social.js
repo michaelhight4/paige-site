@@ -1,7 +1,8 @@
 // Social Media hub: platforms, post picker, results, sponsorships, verification (progress bar), calendar, team, gear, merch/channel, drama/appeal/cancel.
 import { adapter } from '../adapter.js';
 import { autoPageCard } from './autopage.js';
-import { h, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act } from '../ui.js';
+import { accountAutopilot } from './acctauto.js';
+import { h, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act, toast } from '../ui.js';
 
 const cnt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
 const TAGCLS = { Safe: 'good', Spicy: '', Risky: 'bad' };
@@ -35,10 +36,11 @@ export async function socialHub(body, { nav, refresh }) {
 export async function platformScreen(body, { nav, refresh }, pid) {
   const p = await adapter.getPlatform(pid); if (!p) return body.append(empty('No such platform.'));
   const go = async (action, a1, a2, after) => { const r = await act(adapter.socialAction(pid, action, a1, a2)); if (after) await after(r); await refresh(); return r; };
-  body.append(h('div', { class: 'card', 'data-el': 'plat-card' }, h('h3', { text: `${p.icon} ${p.name}${p.verified ? ' ✔ Verified' : ''}` }), h('div', { class: 'hint', text: p.personality }), kv('Followers', cnt(p.followers)), kv('Engagement', p.engagement + '%'), kv('Niche', p.niche || 'none yet'), kv('Posts left this year', String(p.postsLeft)),
+  body.append(h('div', { class: 'card', 'data-el': 'plat-card' }, h('h3', { text: `${p.icon} ${p.name}${p.verified ? ' ✔ Verified' : ''}` }), h('div', { class: 'hint', text: p.personality }), kv('Followers', cnt(p.followers)), kv('Engagement', p.engagement + '%'), kv('Niche', p.niche || 'none yet'), kv('Posts this year', `${p.postsThisYear}/${p.postsMax}`, p.postsLeft ? '' : 'neg'),
     kv('Audience likes', p.likes.join(', ')), kv('Audience dislikes', p.dislikes.join(', ') || '-'), p.status !== 'active' ? h('div', { class: 'hint neg', text: `Status: ${p.status}${p.suspendedYears ? ' (~' + p.suspendedYears + ' yr)' : ''}` }) : null, p.careerOwned ? h('div', { class: 'hint', text: 'This account is your career account: the career pays your income here.' }) : null));
+  await accountAutopilot(body, pid, refresh);
   body.append(h('div', { class: 'btns', style: { flexWrap: 'wrap', padding: '0 12px' } },
-    btn('✍️ Post', () => nav.open('Pick a post', (b, c) => postPicker(b, c, pid)), 'go sm', { 'data-act': 'post' }),
+    btn(p.postsLeft ? '✍️ Post' : `Post limit ${p.postsThisYear}/${p.postsMax}`, () => (p.postsLeft ? nav.open('Pick a post', (b, c) => postPicker(b, c, pid)) : toast(`Post limit reached: ${p.postsMax} posts per account per year. It resets when you age.`, 'bad')), p.postsLeft ? 'go sm' : 'alt sm', { 'data-act': 'post', disabled: p.postsLeft ? null : true }),
     btn(p.done.reply ? 'Replied' : '💬 Reply to comments', () => go('reply'), 'alt sm', { 'data-act': 'reply', disabled: p.done.reply ? true : null }),
     btn('🤝 Sponsorships', () => nav.open('Sponsorships', (b, c) => sponsorScreen(b, c, pid)), 'alt sm', { 'data-act': 'sponsors' }),
     btn(p.verified ? 'Verified ✔' : '✔ Verification', () => nav.open('Verification', (b, c) => verifyScreen(b, c, pid)), 'alt sm', { 'data-act': 'verify' }),
@@ -52,7 +54,7 @@ export async function platformScreen(body, { nav, refresh }, pid) {
 
 export async function postPicker(body, { nav, refresh }, pid) {
   const p = await adapter.getPlatform(pid);
-  body.append(h('div', { class: 'hint', style: { padding: '8px 12px' }, text: `${p.name} audience likes: ${p.likes.join(', ')}. Posts left: ${p.postsLeft}. Fit shows how well a post suits this platform.` }));
+  body.append(h('div', { class: 'hint', style: { padding: '8px 12px' }, text: `${p.name} audience likes: ${p.likes.join(', ')}. Posts this year: ${p.postsThisYear}/${p.postsMax}. Fit shows how well a post suits this platform.` }));
   body.append(...p.posts.map((t) => row({ id: 'post:' + t.id, icon: t.icon, title: t.name, sub: `${t.tag} · niche ${t.niche} · fit ${t.fit}${t.locked ? ' · ' + (t.reason || 'locked') : ''}`, right: t.tag, disabled: t.locked || !p.postsLeft, onClick: async () => {
     const r = await act(adapter.socialAction(pid, 'post', t.id), { quiet: true }); if (!r.ok) { await act(Promise.resolve(r)); return; }
     const x = r.post; await sheet({ title: x.viral ? '🔥 VIRAL!' : 'Post result', center: true, body: h('div', { 'data-el': 'post-result' }, kv('Likes', cnt(x.likes)), kv('Comments', cnt(x.comments)), kv('Followers', (x.delta >= 0 ? '+' : '') + cnt(x.delta), x.delta >= 0 ? 'pos' : 'neg'), kv('Platform fit', x.fit), x.loss ? h('div', { class: 'hint neg', text: `Lost ${cnt(x.loss)} followers to backlash.` }) : null, x.drama ? h('div', { class: 'hint neg', text: '⚡ Drama is brewing in the replies.' }) : null), buttons: [{ id: 'ok', label: 'OK', cls: 'go' }] });

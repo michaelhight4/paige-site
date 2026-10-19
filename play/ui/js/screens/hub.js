@@ -110,7 +110,7 @@ export function mountHub(root) {
       if (r.event) await showEvent(r.event);
       if (r.died) await showDeath(r.death || await adapter.getDeathSummary());
       else if (r.adPrompt && !r.event) { const { showAdPrompt } = await import('../ads_ui.js'); await showAdPrompt(r.adPrompt); }
-      if (!r.died && !r.event) { try { const { showPostPlanPopup } = await import('./social.js'); await showPostPlanPopup(); } catch (e) { console.error(e); } }
+      if (!r.died && !r.event) { try { const { showPostPlanPopup } = await import('./social.js'); await showPostPlanPopup(); const sp = await import('./strategy.js'); await sp.showStreamPlanPopup(); await sp.showMediaPlanPopups(); } catch (e) { console.error(e); } }
     } finally { busy = false; }
   }
   ageBtn.addEventListener('click', () => doAge(true));

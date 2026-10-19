@@ -24,6 +24,20 @@ function pushFame(s, n) { const t = fameTarget(n); if (t > s.stats.fame) addStat
 
 // ================= STREAMER =================
 export const ensureStream = (s) => { if (!s.stream) s.stream = { active: false, topic: null, schedule: 'regular', subs: 0, viewers: 0, setup: { mic: 0, cam: 0, pc: 0, room: 0 }, sponsors: [], burnout: 10, strikes: 0, bans: 0, bannedUntil: 0, hiatus: 0, years: 0, earned: 0, peakSubs: 0, acted: {}, last: null, rest: false }; return s.stream; };
+
+// ---- yearly streaming strategy (picked each year like the social post plan; 'steady' and 'niche' have zero ban risk but grow slowly) ----
+export const STREAM_PLANS = [
+  { id: 'steady', icon: '🧸', name: 'Consistent & safe', ban: 0, growth: 0.82, income: 0.97, burn: -3, churn: 0, desc: 'Same schedule, family-friendly. No strikes, steady and slow.' },
+  { id: 'niche', icon: '🎯', name: 'Niche community', ban: 0, growth: 0.7, income: 1.12, burn: -1, churn: -0.05, desc: 'Serve a small loyal crowd: slow growth, fans stay and pay more. No strike risk.' },
+  { id: 'variety', icon: '🎲', name: 'Variety', ban: 0.55, growth: 1.0, income: 1.0, burn: 2, churn: 0, desc: 'Mix games and formats. Balanced growth, a little strike risk.' },
+  { id: 'collab', icon: '👯', name: 'Collab-heavy', ban: 0.9, growth: 1.25, income: 1.05, burn: 3, churn: 0.02, desc: 'Raids and guest streams. Faster growth, more burnout and drama.' },
+  { id: 'trend', icon: '🔥', name: 'Trend-chasing', ban: 2.3, growth: 1.5, income: 1.2, burn: 6, churn: 0.05, desc: 'Hot takes and stunts. Big growth and money, high strike and burnout risk.' },
+];
+export const streamPlanDef = (id) => STREAM_PLANS.find((x) => x.id === id) || { id: 'standard', icon: '⚖️', name: 'Unplanned', ban: 1, growth: 1, income: 1, burn: 0, churn: 0, desc: 'No plan chosen this year.' };
+export const streamPlanOf = (s) => streamPlanDef(s.stream && s.stream.plan ? s.stream.plan : null);
+export const streamPlanNeeded = (s) => { const st = s.stream; return !!(st && st.active && !st.plan && age(s) >= minAge() && !(st.bannedUntil >= s.age)); };
+export function chooseStreamPlan(s, id) { const st = ensureStream(s); if (!st.active) return { ok: false, msg: 'Start streaming first.' }; const d = STREAM_PLANS.find((x) => x.id === id); if (!d) return { ok: false, msg: 'Unknown plan.' }; st.plan = id; return { ok: true, msg: `Stream plan: ${d.name}.` }; }
+const streamRisk = (s, st, tp, hrs, pl) => clamp(tp.ban * pl.ban * (1 + s.stats.crazy / 100 + (100 - s.stats.karma) / 250) * (1 + st.strikes * 0.5) * (hrs >= 40 ? 1.15 : 1), 0, 0.6);
 export const topicDef = (id) => O().stream.topics.find((t) => t.id === id);
 export const schedDef = (id) => O().stream.schedules.find((t) => t.id === id);
 export function setupQuality(st) { const lv = Object.values(st.setup).reduce((a, b) => a + b, 0); return lv / (4 * 3); } // 0..1
@@ -73,7 +87,8 @@ function banStream(s, st, why) {
 function streamYear(s) {
   const st = ensureStream(s), S = O().stream, dt = 1; st.acted = {}; if (!st.active) return;
   const tp = topicDef(st.topic), sc = schedDef(st.schedule), q = setupQuality(st), hrs = sc.hours;
-  const res = { age: age(s), subsBefore: st.subs, income: 0, parts: {}, events: [] };
+  const PL = streamPlanOf(s); st.plan = null;
+  const res = { age: age(s), subsBefore: st.subs, income: 0, parts: {}, events: [], plan: PL.id };
   if (s.prison) { st.subs = Math.round(st.subs * 0.8); res.events.push('Prison: the channel went dark.'); st.last = res; return; }
   const banned = st.bannedUntil >= s.age, hiatus = st.hiatus > 0;
   if (banned || hiatus) { st.subs = Math.round(st.subs * 0.9); if (hiatus) st.hiatus--; st.viewers = Math.round(st.subs * 0.04); res.events.push(banned ? 'Channel suspended.' : 'On hiatus after burnout.'); if (banned) { st.burnout = Math.max(0, st.burnout - 15); } else st.burnout = Math.max(20, st.burnout - 15); res.subsAfter = st.subs; st.last = res; st.years++; return; }
@@ -81,20 +96,20 @@ function streamYear(s) {
   const cha = 1 + s.stats.looks / 220 + (Skills.get(s, 'people') + Skills.get(s, 'confidence')) / 600 + (s.stats.fame / 300);
   const sat = 1 / (1 + (st.subs / (25000 * (1.2 - tp.comp))));
   const rest = st.rest; st.rest = false;
-  let newSubs = (120 + st.subs * 0.35) * tp.growth * sc.growth * (0.55 + q * 0.9) * cha * sat * clamp(1 + gauss(s) * 0.3, 0.4, 1.8) * (rest ? 0.3 : 1) * (st.burnout > 70 ? 0.7 : 1) * (1 + Social.gearBoost(s).growth);
-  const churn = (rest ? 0.1 : 0.2) + (st.burnout > 70 ? 0.08 : 0); st.subs = Math.max(1, Math.round(st.subs * (1 - churn) + newSubs)); st.peakSubs = Math.max(st.peakSubs, st.subs);
+  let newSubs = (120 + st.subs * 0.35) * tp.growth * sc.growth * (0.55 + q * 0.9) * cha * sat * clamp(1 + gauss(s) * 0.3, 0.4, 1.8) * (rest ? 0.3 : 1) * (st.burnout > 70 ? 0.7 : 1) * (1 + Social.gearBoost(s).growth) * PL.growth;
+  const churn = Math.max(0.02, (rest ? 0.1 : 0.2) + (st.burnout > 70 ? 0.08 : 0) + PL.churn); st.subs = Math.max(1, Math.round(st.subs * (1 - churn) + newSubs)); st.peakSubs = Math.max(st.peakSubs, st.subs);
   st.viewers = Math.round(st.subs * (0.035 + 0.05 * q) * (hrs / 20) ** 0.4 * clamp(1 + gauss(s) * 0.12, 0.7, 1.4));
   // money
   const vh = st.viewers * hrs * 52, don = vh * S.rates.viewerHourDonation * (0.7 + q), ads = vh * S.rates.viewerHourAds, subRev = st.subs * S.rates.paidSubShare * S.rates.paidSubYear;
   let spons = 0; for (const x of st.sponsors) { spons += x.pay * (teen(s) ? O().teenCap.sponsorCut : 1); x.yrsLeft--; } st.sponsors = st.sponsors.filter((x) => x.yrsLeft > 0 || (res.events.push(`${x.brand} deal ended`), false));
-  const gross = don + ads + subRev + spons; res.parts = { donations: Math.round(don), ads: Math.round(ads), subs: Math.round(subRev), sponsors: Math.round(spons) }; res.income = Math.round(net(s, gross)); earn(s, net(s, gross)); st.earned += net(s, gross);
+  const gross = (don + ads + subRev) * PL.income + spons; res.parts = { donations: Math.round(don), ads: Math.round(ads), subs: Math.round(subRev), sponsors: Math.round(spons) }; res.income = Math.round(net(s, gross)); earn(s, net(s, gross)); st.earned += net(s, gross);
   // burnout, stress, happiness, health
-  st.burnout = clamp(st.burnout + sc.burn + (st.setup.room >= 2 ? -3 : 0) + (s.stats.stress - 30) / 10 - (rest ? 0 : 0), 0, 100);
+  st.burnout = clamp(st.burnout + sc.burn + PL.burn + (st.setup.room >= 2 ? -3 : 0) + (s.stats.stress - 30) / 10 - (rest ? 0 : 0), 0, 100);
   addStat(s, 'stress', (hrs - 15) / 4); addStat(s, 'happiness', st.subs > res.subsBefore ? 1 : -1); if (hrs >= 40) addStat(s, 'health', -2); addStat(s, 'looks', hrs >= 40 ? -0.5 : 0);
   for (const [k, w] of Object.entries(tp.skills)) Skills.use(s, k, w * (hrs / 20) * 1.2); Skills.use(s, 'people', 0.5);
   // ban risk: topic edge, crazy/karma, strikes
-  const risk = clamp(tp.ban * (1 + s.stats.crazy / 100 + (100 - s.stats.karma) / 250) * (1 + st.strikes * 0.5) * (hrs >= 40 ? 1.15 : 1), 0, 0.6);
-  if (chance(s, risk)) { st.strikes++; res.events.push('ToS strike ' + st.strikes); log(s, `My channel got a community-guidelines strike (${st.strikes}/${S.strikesToBan}).`, 'career'); if (st.strikes >= S.strikesToBan) { banStream(s, st, 'repeated strikes'); res.events.push('BANNED'); } }
+  const risk = streamRisk(s, st, tp, hrs, PL);
+  if (risk > 0 && chance(s, risk)) { st.strikes++; res.events.push('ToS strike ' + st.strikes); log(s, `My channel got a community-guidelines strike (${st.strikes}/${S.strikesToBan}).`, 'career'); if (st.strikes >= S.strikesToBan) { banStream(s, st, 'repeated strikes'); res.events.push('BANNED'); } }
   else if (st.strikes && chance(s, 0.5)) st.strikes--;
   // burnout wall
   if (st.burnout >= S.burnoutForce && !s.prison) { st.hiatus = 1; const lost = Math.round(st.subs * 0.2); st.subs -= lost; st.burnout = 50; addStat(s, 'happiness', -10); addStat(s, 'health', -6); st.burnouts = (st.burnouts || 0) + 1; res.events.push('BURNOUT'); log(s, `I burned out and went dark for a year. ${lost} subscribers moved on.`, 'career'); }
@@ -107,6 +122,7 @@ export function streamStatus(s) {
   return { minAge: minAge(), locked: a < minAge(), active: st.active, topic: st.topic, topicName: st.topic ? topicDef(st.topic).name : null, topicIcon: st.topic ? topicDef(st.topic).icon : null, schedule: st.schedule, subs: st.subs, viewers: st.viewers, burnout: Math.round(st.burnout), strikes: st.strikes, strikesToBan: S.strikesToBan, bans: st.bans,
     bannedYears: st.bannedUntil > s.age ? Math.ceil(st.bannedUntil - s.age) : 0, hiatus: st.hiatus > 0, years: st.years, earned: Math.round(st.earned), peakSubs: st.peakSubs, hist: (st.hist || []).slice().reverse(), quality: Math.round(setupQuality(st) * 100), last: st.last, teen: teen(s), cash: Math.round(s.cash), fame: Math.round(s.stats.fame),
     sponsors: st.sponsors.map((x, i) => ({ i, brand: x.brand, pay: x.pay, yrsLeft: x.yrsLeft })), canSponsor: st.subs >= S.minSubsForSponsor, minSubsForSponsor: S.minSubsForSponsor, maxSponsors: S.maxSponsors, done: { sponsor: !!st.acted.sponsor, rest: !!st.acted.rest, marathon: !!st.acted.marathon },
+    plan: { needed: streamPlanNeeded(s), current: st.plan || null, effective: streamPlanOf(s).id, options: STREAM_PLANS.map((x) => ({ id: x.id, icon: x.icon, name: x.name, desc: x.desc, banPct: st.topic ? Math.round(streamRisk(s, st, topicDef(st.topic), schedDef(st.schedule).hours, x) * 1000) / 10 : 0, growth: Math.round((x.growth - 1) * 100), income: Math.round((x.income - 1) * 100), burnout: x.burn })) },
     topics: S.topics.map((t) => ({ id: t.id, name: t.name, icon: t.icon, growth: t.growth, comp: t.comp, ban: t.ban, spons: t.spons, current: st.topic === t.id })), schedules: S.schedules.map((x) => ({ id: x.id, name: x.name, hours: x.hours, current: st.schedule === x.id, locked: !scheduleAllowed(s, x.id) })),
     setup: S.setup.map((it) => { const lv = st.setup[it.id], nx = it.levels[lv + 1]; return { id: it.id, name: it.name, icon: it.icon, level: lv, maxLevel: it.levels.length - 1, current: it.levels[lv].name, next: nx ? nx.name : null, cost: nx ? nx.cost : 0, afford: nx ? s.cash >= nx.cost : false }; }) };
 }

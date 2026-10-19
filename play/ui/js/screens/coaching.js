@@ -1,9 +1,11 @@
 // Coaching & management: take a job, plan/training, transfers, stadium & gear, quarterly interactive season with a watchable top-down match, season review.
 import { adapter } from '../adapter.js';
+import { autoPageCard } from './autopage.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, act } from '../ui.js';
 
 const KITS = [['#d94a4a', '#ffffff'], ['#3b6fd1', '#ffffff']];
 export async function coachingScreen(body, { nav, refresh }) {
+  await autoPageCard(body, 'coaching');
   const st = await adapter.getCoaching();
   const go = async (a, a1, a2) => { const r = await act(adapter.coachAction(a, a1, a2)); await refresh(); return r; };
   if (!st.active) {

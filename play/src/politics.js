@@ -126,7 +126,7 @@ export function applyJudge(s, slot) {
 }
 // ---------- in office ----------
 export function govern(s, how) {
-  const p = ensure(s), o = p.office; if (!o) return { ok: false, msg: 'You hold no office.' }; if (p.acted.govern) return { ok: false, msg: 'One big decision a year.' }; p.acted.govern = 1; const so = Social.ensure(s);
+  const p = ensure(s), o = p.office; if (!o) return { ok: false, msg: 'You hold no office.' }; if (p.acted.govern) return { ok: false, msg: 'One big decision a year.' }; p.acted.govern = 1; p.govStyle = how; const so = Social.ensure(s);
   if (how === 'popular') { o.approval = clamp(o.approval + 6, 0, 100); return { ok: true, msg: 'A popular bill: approval +6.' }; }
   if (how === 'townhall') { o.approval = clamp(o.approval + 3, 0, 100); so.reputation = clamp(so.reputation + 3, 0, 100); return { ok: true, msg: 'Town hall: approval +3, reputation +3.' }; }
   if (how === 'deal') { earn(s, 30000 * (slotDef(o.slot)||{tier:3}).tier); p.heat += 8; addStat(s, 'karma', -6); return { ok: true, msg: 'A backroom deal paid you well. Investigators may notice.' }; }

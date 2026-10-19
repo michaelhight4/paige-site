@@ -1,6 +1,7 @@
 // Production companies: label / film / TV / game studios. Dashboard, hiring, greenlighting, backing other companies' projects, yearly results.
 import { adapter } from '../adapter.js';
 import { autoPageCard } from './autopage.js';
+import { mediaPlanCard } from './strategy.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, askNumber, act } from '../ui.js';
 
 const pct = (x) => Math.round(x * 100) + '%';
@@ -24,6 +25,7 @@ export async function companyScreen(body, ctx, medium) {
     body.append(h('div', { class: 'card', 'data-el': 'prod-dash' }, h('h3', { text: `${co.icon} ${co.name}` }), kv('Company cash', money(co.cash), 'pos'), kv('Valuation', money(co.value)), bar('Reputation', co.rep, { thin: true, key: 'prod-rep' }), bar('Fame', co.fame, { thin: true, key: 'prod-fame' }), bar('Crew quality', co.quality, { thin: true, key: 'prod-quality' }), kv('Yearly payroll', money(co.payroll)), kv('Releases (hits / flops)', `${co.totals.releases} (${co.totals.hits} / ${co.totals.flops})`), kv('Lifetime revenue', money(co.totals.revenue)),
       co.scandal ? h('div', { class: 'hint neg', text: `⚠️ ${co.scandal.name} ${co.scandal.what}` }) : null,
       h('div', { class: 'btns', style: { flexWrap: 'wrap' } }, btn('➕ Add cash', async () => { const v = await askNumber('Add cash to company', { min: 1000, max: 1e9, def: 100000 }); if (v) await go('fund', v); }, 'alt sm', { 'data-act': 'fund' }), btn('Take cash out', async () => { const v = await askNumber('Take cash out', { min: 1000, max: 1e9, def: 50000 }); if (v) await go('withdraw', v); }, 'alt sm', { 'data-act': 'withdraw' }), btn('Sell company', async () => { if (await confirmSheet('Sell ' + co.name + '?', 'You get its valuation in cash.', 'Sell', 'danger')) { await go('sell'); nav.back && nav.back(); } }, 'danger sm'))));
+    body.append(mediaPlanCard(medium, co, refresh));
     const L = co.last;
     if (L) body.append(h('div', { class: 'card', 'data-el': 'prod-year' }, h('h3', { text: `Last year (age ${L.year})` }), kv('Release revenue', money(L.revenue), 'pos'), kv('Payroll', money(L.wages)), kv('Profit', money(L.profit), L.profit >= 0 ? 'pos' : 'neg'), ...L.releases.map((r) => h('div', { class: 'hint', text: `${r.label === 'Flop' ? '💥' : r.label === 'Blockbuster' ? '🏆' : '🎞️'} "${r.title}": ${r.label} (${r.score}/10), revenue ${money(r.revenue)}` })), ...L.notes.map((t) => h('div', { class: 'hint', text: '• ' + t }))));
     body.append(h('div', { class: 'card', 'data-el': 'prod-policy' }, h('h3', { text: 'Auto production' }), h('div', { class: 'hint', text: co.policy.auto ? `ON: ${co.name} greenlights up to ${co.slots} project(s) every year and releases them by itself.` : 'OFF: you greenlight by hand.' }),

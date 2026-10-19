@@ -5,6 +5,8 @@ import { log } from './core.js';
 export const autoApi = {
   getAutopilot() { return Auto.status(this); },
   getAutoPage(id) { const pg = Auto.pageStatus(this).find((x) => x.id === id); return pg ? { ...pg, unlocked: Auto.unlocked() } : null; },
+  getAutoAccount(pid) { const pg = Auto.pageStatus(this).find((x) => x.id === 'social_' + pid), A = this.s.auto || {}, st = this.getSocial(); return { pid, settings: Auto.acctSettings(this.s, pid), page: pg || null, unlocked: Auto.unlocked(), plan: A.socialPlan || 'safe', planOptions: st.postPlan ? st.postPlan.options : [], cap: 5 }; },
+  setAutoAccount(pid, patch) { const n0 = this.mark(); const r = Auto.setAccount(this, pid, patch); return this.res(!!r.ok, r.msg, n0); },
   setAutoPage(id, on) { const n0 = this.mark(); if (!Auto.unlocked()) return this.res(false, 'Needs the Autopilot Pack ($5.99) or All Access.', n0); const r = Auto.setPage(this, id, on); return this.res(!!r.ok, r.msg, n0); },
   setAutopilot(o = {}) {
     if (!Auto.unlocked()) return { ok: false, message: 'Needs the Autopilot Pack ($5.99) or All Access.', ...Auto.status(this) };

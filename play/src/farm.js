@@ -30,9 +30,9 @@ export const PRODUCTS = [
   P('veg', 'Vegetables', '🥕', 'crop', 'tons', 9, 520, 2900, 4, 0.1, { orchard: 1.2, valley: 1.15, coast: 1.1 }, 900, { drought: 0.9, flood: 1, frost: 1.2, hail: 1.1 }),
   P('fruit', 'Orchard fruit', '🍎', 'crop', 'tons', 8, 880, 4300, 3.2, 0.1, { orchard: 1.3, coast: 1.1 }, 1500, { drought: 0.7, flood: 0.7, frost: 1.6, hail: 1.3 }),
   P('beef', 'Beef cattle', '🐄', 'animal', 'head', 0.34, 1650, 690, 0.6, 0.08, { range: 1.3, mountain: 1.15, plains: 1.05 }, 800, { drought: 1.2, flood: 0.3, frost: 0.7, hail: 0.2 }),
-  P('dairy', 'Dairy cows', '🥛', 'animal', 'cans of milk', 1100, 38, 25000, 5, 0.1, { valley: 1.2, mountain: 1.1, plains: 1.05 }, 2600, { drought: 0.7, flood: 0.5, frost: 0.6, hail: 0.2 }),
+  P('dairy', 'Dairy cows', '🥛', 'animal', 'cans of milk', 450, 38, 25000, 5, 0.1, { valley: 1.2, mountain: 1.1, plains: 1.05 }, 2600, { drought: 0.7, flood: 0.5, frost: 0.6, hail: 0.2 }),
   P('hogs', 'Hogs', '🐖', 'animal', 'head', 4.5, 230, 700, 1.4, 0.12, { plains: 1.15, valley: 1.05 }, 600, { drought: 0.5, flood: 0.4, frost: 0.4, hail: 0.1 }),
-  P('poultry', 'Poultry & eggs', '🐔', 'animal', 'crates', 600, 52, 24000, 3.2, 0.13, { valley: 1.1, plains: 1.1, coast: 1.05 }, 1300, { drought: 0.3, flood: 0.4, frost: 0.4, hail: 0.1 }),
+  P('poultry', 'Poultry & eggs', '🐔', 'animal', 'crates', 220, 52, 24000, 3.2, 0.13, { valley: 1.1, plains: 1.1, coast: 1.05 }, 1300, { drought: 0.3, flood: 0.4, frost: 0.4, hail: 0.1 }),
   P('sheep', 'Sheep & wool', '🐑', 'animal', 'head', 1.6, 210, 120, 0.5, 0.08, { mountain: 1.25, range: 1.2 }, 220, { drought: 1, flood: 0.3, frost: 0.9, hail: 0.1 }),
 ];
 export const productDef = (id) => PRODUCTS.find((x) => x.id === id);

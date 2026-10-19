@@ -4270,9 +4270,9 @@
    "blurb": "Steady refills; recalls and shortages hurt.",
    "minAge": 24,
    "sector": "retail",
-   "fee": 27000.0,
+   "fee": 45000.0,
    "ticket": 22,
-   "cogs": 0.72,
+   "cogs": 0.76,
    "rent": 13800.0,
    "baseDemand": 40909.1,
    "unit": "prescriptions",
@@ -4280,21 +4280,21 @@
     {
      "id": "dispensing0",
      "name": "Dispensing counter",
-     "cost": 90000.0,
+     "cost": 162000.0,
      "cap": 17181.8,
      "starter": 1
     },
     {
      "id": "cold1",
      "name": "Cold storage",
-     "cost": 63000.0,
+     "cost": 108000.0,
      "cap": 17181.8,
      "starter": 1
     },
     {
      "id": "inventory2",
      "name": "Inventory system",
-     "cost": 36000.0,
+     "cost": 63000.0,
      "cap": 14727.3
     }
    ],
@@ -4395,9 +4395,9 @@
    "blurb": "Doctors, nurses and malpractice risk.",
    "minAge": 28,
    "sector": "retail",
-   "fee": 42000.0,
+   "fee": 70000.0,
    "ticket": 140,
-   "cogs": 0.45,
+   "cogs": 0.5,
    "rent": 60100.0,
    "baseDemand": 10000.0,
    "unit": "patient visits",
@@ -4405,21 +4405,21 @@
     {
      "id": "exam0",
      "name": "Exam rooms",
-     "cost": 140000.0,
+     "cost": 252000.0,
      "cap": 4200.0,
      "starter": 1
     },
     {
      "id": "lab1",
      "name": "Lab equipment",
-     "cost": 98000.0,
+     "cost": 168000.0,
      "cap": 4200.0,
      "starter": 1
     },
     {
      "id": "records2",
      "name": "Records system",
-     "cost": 56000.0,
+     "cost": 98000.0,
      "cap": 3600.0
     }
    ],
@@ -4520,9 +4520,9 @@
    "blurb": "Pets, vaccines and surgeries.",
    "minAge": 26,
    "sector": "retail",
-   "fee": 21000.0,
+   "fee": 35000.0,
    "ticket": 95,
-   "cogs": 0.42,
+   "cogs": 0.47,
    "rent": 37300.0,
    "baseDemand": 7368.4,
    "unit": "pet visits",
@@ -4530,21 +4530,21 @@
     {
      "id": "exam0",
      "name": "Exam room",
-     "cost": 70000.0,
+     "cost": 126000.0,
      "cap": 3094.7,
      "starter": 1
     },
     {
      "id": "surgery1",
      "name": "Surgery suite",
-     "cost": 49000.0,
+     "cost": 84000.0,
      "cap": 3094.7,
      "starter": 1
     },
     {
      "id": "kennel2",
      "name": "Kennel block",
-     "cost": 28000.0,
+     "cost": 49000.0,
      "cap": 2652.6
     }
    ],
@@ -4645,9 +4645,9 @@
    "blurb": "Massage, facials and memberships.",
    "minAge": 21,
    "sector": "retail",
-   "fee": 16000.0,
+   "fee": 26000.0,
    "ticket": 85,
-   "cogs": 0.38,
+   "cogs": 0.43,
    "rent": 44400.0,
    "baseDemand": 6117.6,
    "unit": "treatments",
@@ -4655,21 +4655,21 @@
     {
      "id": "treatment0",
      "name": "Treatment rooms",
-     "cost": 52000.0,
+     "cost": 93600.0,
      "cap": 2569.4,
      "starter": 1
     },
     {
      "id": "sauna1",
      "name": "Sauna",
-     "cost": 36400.0,
+     "cost": 62400.0,
      "cap": 2569.4,
      "starter": 1
     },
     {
      "id": "booking2",
      "name": "Booking system",
-     "cost": 20800.0,
+     "cost": 36400.0,
      "cap": 2202.4
     }
    ],
@@ -4760,9 +4760,9 @@
    "blurb": "Needs a clean record. Parents are demanding.",
    "minAge": 22,
    "sector": "retail",
-   "fee": 14000.0,
+   "fee": 24000.0,
    "ticket": 55,
-   "cogs": 0.4,
+   "cogs": 0.45,
    "rent": 24400.0,
    "baseDemand": 8727.3,
    "unit": "child-days",
@@ -4770,21 +4770,21 @@
     {
      "id": "play0",
      "name": "Play rooms",
-     "cost": 48000.0,
+     "cost": 86400.0,
      "cap": 3665.5,
      "starter": 1
     },
     {
      "id": "safety1",
      "name": "Safety system",
-     "cost": 33600.0,
+     "cost": 57600.0,
      "cap": 3665.5,
      "starter": 1
     },
     {
      "id": "kitchen2",
      "name": "Kitchen",
-     "cost": 19200.0,
+     "cost": 33600.0,
      "cap": 3141.8
     }
    ],
@@ -4886,9 +4886,9 @@
    "blurb": "Rain keeps customers away.",
    "minAge": 18,
    "sector": "transport",
-   "fee": 11000.0,
+   "fee": 18000.0,
    "ticket": 14,
-   "cogs": 0.3,
+   "cogs": 0.36,
    "rent": 28100.0,
    "baseDemand": 25714.3,
    "unit": "washes",
@@ -4896,21 +4896,21 @@
     {
      "id": "wash0",
      "name": "Wash tunnel",
-     "cost": 36000.0,
+     "cost": 64800.0,
      "cap": 10800.0,
      "starter": 1
     },
     {
      "id": "vacuum1",
      "name": "Vacuum bays",
-     "cost": 25200.0,
+     "cost": 43200.0,
      "cap": 10800.0,
      "starter": 1
     },
     {
      "id": "water2",
      "name": "Water recycler",
-     "cost": 14400.0,
+     "cost": 25200.0,
      "cap": 9257.1
     }
    ],
@@ -5008,9 +5008,9 @@
    "blurb": "Coin machines and low staff costs.",
    "minAge": 18,
    "sector": "retail",
-   "fee": 8000.0,
+   "fee": 13000.0,
    "ticket": 6,
-   "cogs": 0.32,
+   "cogs": 0.38,
    "rent": 33800.0,
    "baseDemand": 43333.3,
    "unit": "loads",
@@ -5018,21 +5018,21 @@
     {
      "id": "washers0",
      "name": "Washers",
-     "cost": 26000.0,
+     "cost": 46800.0,
      "cap": 18200.0,
      "starter": 1
     },
     {
      "id": "dryers1",
      "name": "Dryers",
-     "cost": 18200.0,
+     "cost": 31200.0,
      "cap": 18200.0,
      "starter": 1
     },
     {
      "id": "payment2",
      "name": "Payment kiosks",
-     "cost": 10400.0,
+     "cost": 18200.0,
      "cap": 15600.0
     }
    ],
@@ -5123,9 +5123,9 @@
    "blurb": "Readers love events and cozy corners.",
    "minAge": 18,
    "sector": "retail",
-   "fee": 11000.0,
+   "fee": 19000.0,
    "ticket": 18,
-   "cogs": 0.58,
+   "cogs": 0.62,
    "rent": 20600.0,
    "baseDemand": 21111.1,
    "unit": "books sold",
@@ -5133,21 +5133,21 @@
     {
      "id": "shelving0",
      "name": "Shelving",
-     "cost": 38000.0,
+     "cost": 68400.0,
      "cap": 8866.7,
      "starter": 1
     },
     {
      "id": "reading1",
      "name": "Reading nook",
-     "cost": 26600.0,
+     "cost": 45600.0,
      "cap": 8866.7,
      "starter": 1
     },
     {
      "id": "inventory2",
      "name": "Inventory system",
-     "cost": 15200.0,
+     "cost": 26600.0,
      "cap": 7600.0
     }
    ],
@@ -5238,9 +5238,9 @@
    "blurb": "Thin margins, new-model cycles.",
    "minAge": 21,
    "sector": "tech",
-   "fee": 45000.0,
+   "fee": 75000.0,
    "ticket": 240,
-   "cogs": 0.74,
+   "cogs": 0.78,
    "rent": 25100.0,
    "baseDemand": 6250.0,
    "unit": "devices sold",
@@ -5248,21 +5248,21 @@
     {
      "id": "display0",
      "name": "Display floor",
-     "cost": 150000.0,
+     "cost": 270000.0,
      "cap": 2625.0,
      "starter": 1
     },
     {
      "id": "repair1",
      "name": "Repair bench",
-     "cost": 105000.0,
+     "cost": 180000.0,
      "cap": 2625.0,
      "starter": 1
     },
     {
      "id": "inventory2",
      "name": "Inventory system",
-     "cost": 60000.0,
+     "cost": 105000.0,
      "cap": 2250.0
     }
    ],
@@ -5360,9 +5360,9 @@
    "blurb": "Holiday season makes or breaks the year.",
    "minAge": 18,
    "sector": "retail",
-   "fee": 13000.0,
+   "fee": 22000.0,
    "ticket": 26,
-   "cogs": 0.5,
+   "cogs": 0.54,
    "rent": 29100.0,
    "baseDemand": 16538.5,
    "unit": "toys sold",
@@ -5370,21 +5370,21 @@
     {
      "id": "play0",
      "name": "Play area",
-     "cost": 43000.0,
+     "cost": 77400.0,
      "cap": 6946.2,
      "starter": 1
     },
     {
      "id": "shelving1",
      "name": "Shelving",
-     "cost": 30100.0,
+     "cost": 51600.0,
      "cap": 6946.2,
      "starter": 1
     },
     {
      "id": "inventory2",
      "name": "Inventory system",
-     "cost": 17200.0,
+     "cost": 30100.0,
      "cap": 5953.8
     }
    ],
@@ -5475,9 +5475,9 @@
    "blurb": "Food, toys and the occasional puppy.",
    "minAge": 18,
    "sector": "retail",
-   "fee": 13000.0,
+   "fee": 21000.0,
    "ticket": 32,
-   "cogs": 0.55,
+   "cogs": 0.59,
    "rent": 22900.0,
    "baseDemand": 13125.0,
    "unit": "sales",
@@ -5485,21 +5485,21 @@
     {
      "id": "pet0",
      "name": "Pet habitats",
-     "cost": 42000.0,
+     "cost": 75600.0,
      "cap": 5512.5,
      "starter": 1
     },
     {
      "id": "grooming1",
      "name": "Grooming station",
-     "cost": 29400.0,
+     "cost": 50400.0,
      "cap": 5512.5,
      "starter": 1
     },
     {
      "id": "inventory2",
      "name": "Inventory system",
-     "cost": 16800.0,
+     "cost": 29400.0,
      "cap": 4725.0
     }
    ],
@@ -5590,9 +5590,9 @@
    "blurb": "Valentine's Day and weddings.",
    "minAge": 18,
    "sector": "retail",
-   "fee": 9000.0,
+   "fee": 15000.0,
    "ticket": 45,
-   "cogs": 0.4,
+   "cogs": 0.45,
    "rent": 23400.0,
    "baseDemand": 6666.7,
    "unit": "bouquets",
@@ -5600,21 +5600,21 @@
     {
      "id": "cooler0",
      "name": "Cooler",
-     "cost": 30000.0,
+     "cost": 54000.0,
      "cap": 2800.0,
      "starter": 1
     },
     {
      "id": "design1",
      "name": "Design table",
-     "cost": 21000.0,
+     "cost": 36000.0,
      "cap": 2800.0,
      "starter": 1
     },
     {
      "id": "delivery2",
      "name": "Delivery bike",
-     "cost": 12000.0,
+     "cost": 21000.0,
      "cap": 2400.0
     }
    ],
@@ -5705,9 +5705,9 @@
    "blurb": "Contractors buy in bulk.",
    "minAge": 21,
    "sector": "retail",
-   "fee": 33000.0,
+   "fee": 55000.0,
    "ticket": 42,
-   "cogs": 0.66,
+   "cogs": 0.7,
    "rent": 40500.0,
    "baseDemand": 26190.5,
    "unit": "sales",
@@ -5715,21 +5715,21 @@
     {
      "id": "aisles0",
      "name": "Aisles",
-     "cost": 110000.0,
+     "cost": 198000.0,
      "cap": 11000.0,
      "starter": 1
     },
     {
      "id": "lumber1",
      "name": "Lumber yard",
-     "cost": 77000.0,
+     "cost": 132000.0,
      "cap": 11000.0,
      "starter": 1
     },
     {
      "id": "inventory2",
      "name": "Inventory system",
-     "cost": 44000.0,
+     "cost": 77000.0,
      "cap": 9428.6
     }
    ],
@@ -5820,9 +5820,9 @@
    "blurb": "Blockbusters fill seats.",
    "minAge": 21,
    "sector": "media",
-   "fee": 28000.0,
+   "fee": 48000.0,
    "ticket": 13,
-   "cogs": 0.4,
+   "cogs": 0.45,
    "rent": 135800.0,
    "baseDemand": 73076.9,
    "unit": "tickets",
@@ -5830,21 +5830,21 @@
     {
      "id": "screens0",
      "name": "Screens",
-     "cost": 95000.0,
+     "cost": 171000.0,
      "cap": 30692.3,
      "starter": 1
     },
     {
      "id": "concession1",
      "name": "Concession stand",
-     "cost": 66500.0,
+     "cost": 114000.0,
      "cap": 30692.3,
      "starter": 1
     },
     {
      "id": "projectors2",
      "name": "Projectors",
-     "cost": 38000.0,
+     "cost": 66500.0,
      "cap": 26307.7
     }
    ],
@@ -5942,9 +5942,9 @@
    "blurb": "Leagues, parties and arcades.",
    "minAge": 21,
    "sector": "media",
-   "fee": 19000.0,
+   "fee": 32000.0,
    "ticket": 11,
-   "cogs": 0.36,
+   "cogs": 0.42,
    "rent": 74900.0,
    "baseDemand": 58181.8,
    "unit": "games",
@@ -5952,21 +5952,21 @@
     {
      "id": "lanes0",
      "name": "Lanes",
-     "cost": 64000.0,
+     "cost": 115200.0,
      "cap": 24436.4,
      "starter": 1
     },
     {
      "id": "arcade1",
      "name": "Arcade floor",
-     "cost": 44800.0,
+     "cost": 76800.0,
      "cap": 24436.4,
      "starter": 1
     },
     {
      "id": "snack2",
      "name": "Snack bar",
-     "cost": 25600.0,
+     "cost": 44800.0,
      "cap": 20945.5
     }
    ],
@@ -6057,9 +6057,9 @@
    "blurb": "Big nights, bigger liability.",
    "minAge": 21,
    "sector": "media",
-   "fee": 39000.0,
+   "fee": 65000.0,
    "ticket": 38,
-   "cogs": 0.45,
+   "cogs": 0.5,
    "rent": 122300.0,
    "baseDemand": 34210.5,
    "unit": "covers",
@@ -6067,21 +6067,21 @@
     {
      "id": "sound0",
      "name": "Sound system",
-     "cost": 130000.0,
+     "cost": 234000.0,
      "cap": 14368.4,
      "starter": 1
     },
     {
      "id": "vip1",
      "name": "VIP lounge",
-     "cost": 91000.0,
+     "cost": 156000.0,
      "cap": 14368.4,
      "starter": 1
     },
     {
      "id": "security2",
      "name": "Security gates",
-     "cost": 52000.0,
+     "cost": 91000.0,
      "cap": 12315.8
     }
    ],
@@ -6182,9 +6182,9 @@
    "blurb": "Desks, meeting rooms, coffee.",
    "minAge": 23,
    "sector": "realestate",
-   "fee": 25000.0,
+   "fee": 41000.0,
    "ticket": 320,
-   "cogs": 0.28,
+   "cogs": 0.35,
    "rent": 159900.0,
    "baseDemand": 2562.5,
    "unit": "desk-months",
@@ -6192,21 +6192,21 @@
     {
      "id": "open0",
      "name": "Open floor",
-     "cost": 82000.0,
+     "cost": 147600.0,
      "cap": 1076.2,
      "starter": 1
     },
     {
      "id": "meeting1",
      "name": "Meeting rooms",
-     "cost": 57400.0,
+     "cost": 98400.0,
      "cap": 1076.2,
      "starter": 1
     },
     {
      "id": "fast2",
      "name": "Fast network",
-     "cost": 32800.0,
+     "cost": 57400.0,
      "cap": 922.5
     }
    ],
@@ -6297,9 +6297,9 @@
    "blurb": "Win accounts, lose accounts.",
    "minAge": 24,
    "sector": "tech",
-   "fee": 48000.0,
+   "fee": 80000.0,
    "ticket": 9000,
-   "cogs": 0.38,
+   "cogs": 0.43,
    "rent": 63000.0,
    "baseDemand": 177.8,
    "unit": "campaigns",
@@ -6307,21 +6307,21 @@
     {
      "id": "studio0",
      "name": "Studio",
-     "cost": 160000.0,
+     "cost": 288000.0,
      "cap": 74.7,
      "starter": 1
     },
     {
      "id": "software1",
      "name": "Software licenses",
-     "cost": 112000.0,
+     "cost": 192000.0,
      "cap": 74.7,
      "starter": 1
     },
     {
      "id": "pitch2",
      "name": "Pitch room",
-     "cost": 64000.0,
+     "cost": 112000.0,
      "cap": 64.0
     }
    ],
@@ -6421,9 +6421,9 @@
    "blurb": "Billable talent, big retainers.",
    "minAge": 26,
    "sector": "tech",
-   "fee": 60000.0,
+   "fee": 100000.0,
    "ticket": 22000,
-   "cogs": 0.3,
+   "cogs": 0.36,
    "rent": 73800.0,
    "baseDemand": 90.9,
    "unit": "engagements",
@@ -6431,21 +6431,21 @@
     {
      "id": "office0",
      "name": "Office",
-     "cost": 200000.0,
+     "cost": 360000.0,
      "cap": 38.2,
      "starter": 1
     },
     {
      "id": "research1",
      "name": "Research tools",
-     "cost": 140000.0,
+     "cost": 240000.0,
      "cap": 38.2,
      "starter": 1
     },
     {
      "id": "travel2",
      "name": "Travel budget",
-     "cost": 80000.0,
+     "cost": 140000.0,
      "cap": 32.7
     }
    ],
@@ -6538,9 +6538,9 @@
    "blurb": "Placements fund the payroll.",
    "minAge": 23,
    "sector": "tech",
-   "fee": 51000.0,
+   "fee": 85000.0,
    "ticket": 3800,
-   "cogs": 0.8,
+   "cogs": 0.84,
    "rent": 9500.0,
    "baseDemand": 447.4,
    "unit": "placements",
@@ -6548,21 +6548,21 @@
     {
      "id": "office0",
      "name": "Office",
-     "cost": 170000.0,
+     "cost": 306000.0,
      "cap": 187.9,
      "starter": 1
     },
     {
      "id": "job1",
      "name": "Job board",
-     "cost": 119000.0,
+     "cost": 204000.0,
      "cap": 187.9,
      "starter": 1
     },
     {
      "id": "crm2",
      "name": "CRM",
-     "cost": 68000.0,
+     "cost": 119000.0,
      "cap": 161.1
     }
    ],
@@ -6653,9 +6653,9 @@
    "blurb": "Subscriptions scale; bugs and churn sting.",
    "minAge": 22,
    "sector": "tech",
-   "fee": 75000.0,
+   "fee": 125000.0,
    "ticket": 480,
-   "cogs": 0.2,
+   "cogs": 0.28,
    "rent": 81200.0,
    "baseDemand": 5208.3,
    "unit": "subscriptions",
@@ -6663,21 +6663,21 @@
     {
      "id": "dev0",
      "name": "Dev servers",
-     "cost": 250000.0,
+     "cost": 450000.0,
      "cap": 2187.5,
      "starter": 1
     },
     {
      "id": "cloud1",
      "name": "Cloud hosting",
-     "cost": 175000.0,
+     "cost": 300000.0,
      "cap": 2187.5,
      "starter": 1
     },
     {
      "id": "test2",
      "name": "Test lab",
-     "cost": 100000.0,
+     "cost": 175000.0,
      "cap": 1875.0
     }
    ],
@@ -6777,9 +6777,9 @@
    "blurb": "Slow, risky, occasionally huge.",
    "minAge": 28,
    "sector": "tech",
-   "fee": 105000.0,
+   "fee": 175000.0,
    "ticket": 9500,
-   "cogs": 0.35,
+   "cogs": 0.41,
    "rent": 218400.0,
    "baseDemand": 368.4,
    "unit": "research units",
@@ -6787,21 +6787,21 @@
     {
      "id": "lab0",
      "name": "Lab suite",
-     "cost": 350000.0,
+     "cost": 630000.0,
      "cap": 154.7,
      "starter": 1
     },
     {
      "id": "sequencers1",
      "name": "Sequencers",
-     "cost": 245000.0,
+     "cost": 420000.0,
      "cap": 154.7,
      "starter": 1
     },
     {
      "id": "clean2",
      "name": "Clean room",
-     "cost": 140000.0,
+     "cost": 245000.0,
      "cap": 132.6
     }
    ],
@@ -6901,9 +6901,9 @@
    "blurb": "Weather, permits and incentives.",
    "minAge": 21,
    "sector": "realestate",
-   "fee": 51000.0,
+   "fee": 85000.0,
    "ticket": 18000,
-   "cogs": 0.64,
+   "cogs": 0.68,
    "rent": 39400.0,
    "baseDemand": 94.4,
    "unit": "installs",
@@ -6911,21 +6911,21 @@
     {
      "id": "installer0",
      "name": "Installer van",
-     "cost": 170000.0,
+     "cost": 306000.0,
      "cap": 39.7,
      "starter": 1
     },
     {
      "id": "panel1",
      "name": "Panel stock",
-     "cost": 119000.0,
+     "cost": 204000.0,
      "cap": 39.7,
      "starter": 1
     },
     {
      "id": "design2",
      "name": "Design software",
-     "cost": 68000.0,
+     "cost": 119000.0,
      "cap": 34.0
     }
    ],
@@ -7023,9 +7023,9 @@
    "blurb": "Emergency calls pay double.",
    "minAge": 21,
    "sector": "realestate",
-   "fee": 33000.0,
+   "fee": 55000.0,
    "ticket": 240,
-   "cogs": 0.45,
+   "cogs": 0.5,
    "rent": 34800.0,
    "baseDemand": 4583.3,
    "unit": "service calls",
@@ -7033,21 +7033,21 @@
     {
      "id": "service0",
      "name": "Service vans",
-     "cost": 110000.0,
+     "cost": 198000.0,
      "cap": 1925.0,
      "starter": 1
     },
     {
      "id": "tool1",
      "name": "Tool crib",
-     "cost": 77000.0,
+     "cost": 132000.0,
      "cap": 1925.0,
      "starter": 1
     },
     {
      "id": "dispatch2",
      "name": "Dispatch software",
-     "cost": 44000.0,
+     "cost": 77000.0,
      "cap": 1650.0
     }
    ],
@@ -7141,9 +7141,9 @@
    "blurb": "Seasonal work, loyal clients.",
    "minAge": 18,
    "sector": "realestate",
-   "fee": 13000.0,
+   "fee": 21000.0,
    "ticket": 180,
-   "cogs": 0.45,
+   "cogs": 0.5,
    "rent": 12100.0,
    "baseDemand": 2333.3,
    "unit": "jobs",
@@ -7151,21 +7151,21 @@
     {
      "id": "mowers0",
      "name": "Mowers",
-     "cost": 42000.0,
+     "cost": 75600.0,
      "cap": 980.0,
      "starter": 1
     },
     {
      "id": "trailer1",
      "name": "Trailer",
-     "cost": 29400.0,
+     "cost": 50400.0,
      "cap": 980.0,
      "starter": 1
     },
     {
      "id": "irrigation2",
      "name": "Irrigation tools",
-     "cost": 16800.0,
+     "cost": 29400.0,
      "cap": 840.0
     }
    ],
@@ -7256,9 +7256,9 @@
    "blurb": "Harvest quality sets the vintage.",
    "minAge": 25,
    "sector": "food",
-   "fee": 26000.0,
+   "fee": 44000.0,
    "ticket": 34,
-   "cogs": 0.38,
+   "cogs": 0.43,
    "rent": 57200.0,
    "baseDemand": 25882.4,
    "unit": "bottles",
@@ -7266,21 +7266,21 @@
     {
      "id": "vineyard0",
      "name": "Vineyard",
-     "cost": 88000.0,
+     "cost": 158400.0,
      "cap": 10870.6,
      "starter": 1
     },
     {
      "id": "barrel1",
      "name": "Barrel room",
-     "cost": 61600.0,
+     "cost": 105600.0,
      "cap": 10870.6,
      "starter": 1
     },
     {
      "id": "tasting2",
      "name": "Tasting room",
-     "cost": 35200.0,
+     "cost": 61600.0,
      "cap": 9317.6
     }
    ],
@@ -7381,9 +7381,9 @@
    "blurb": "Subscribers pay monthly; outages churn them.",
    "minAge": 26,
    "sector": "tech",
-   "fee": 126000.0,
+   "fee": 210000.0,
    "ticket": 75,
-   "cogs": 0.4,
+   "cogs": 0.45,
    "rent": 327600.0,
    "baseDemand": 56000.0,
    "unit": "subscribers",
@@ -7391,21 +7391,21 @@
     {
      "id": "fiber0",
      "name": "Fiber backbone",
-     "cost": 420000.0,
+     "cost": 756000.0,
      "cap": 23520.0,
      "starter": 1
     },
     {
      "id": "data1",
      "name": "Data center",
-     "cost": 294000.0,
+     "cost": 504000.0,
      "cap": 23520.0,
      "starter": 1
     },
     {
      "id": "call2",
      "name": "Call center",
-     "cost": 168000.0,
+     "cost": 294000.0,
      "cap": 20160.0
     }
    ],
@@ -7505,9 +7505,9 @@
    "blurb": "Output, supply chains and safety.",
    "minAge": 25,
    "sector": "transport",
-   "fee": 144000.0,
+   "fee": 240000.0,
    "ticket": 120,
-   "cogs": 0.7,
+   "cogs": 0.74,
    "rent": 90100.0,
    "baseDemand": 40000.0,
    "unit": "units made",
@@ -7515,21 +7515,21 @@
     {
      "id": "assembly0",
      "name": "Assembly line",
-     "cost": 480000.0,
+     "cost": 864000.0,
      "cap": 16800.0,
      "starter": 1
     },
     {
      "id": "warehouse1",
      "name": "Warehouse",
-     "cost": 336000.0,
+     "cost": 576000.0,
      "cap": 16800.0,
      "starter": 1
     },
     {
      "id": "quality2",
      "name": "Quality lab",
-     "cost": 192000.0,
+     "cost": 336000.0,
      "cap": 14400.0
     }
    ],
@@ -7629,9 +7629,9 @@
    "blurb": "Commodity prices swing; collapses cost lives.",
    "minAge": 28,
    "sector": "transport",
-   "fee": 195000.0,
+   "fee": 325000.0,
    "ticket": 160,
-   "cogs": 0.62,
+   "cogs": 0.66,
    "rent": 177400.0,
    "baseDemand": 40625.0,
    "unit": "tons",
@@ -7639,21 +7639,21 @@
     {
      "id": "excavators0",
      "name": "Excavators",
-     "cost": 650000.0,
+     "cost": 1170000.0,
      "cap": 17062.5,
      "starter": 1
     },
     {
      "id": "processing1",
      "name": "Processing plant",
-     "cost": 455000.0,
+     "cost": 780000.0,
      "cap": 17062.5,
      "starter": 1
     },
     {
      "id": "safety2",
      "name": "Safety systems",
-     "cost": 260000.0,
+     "cost": 455000.0,
      "cap": 14625.0
     }
    ],
@@ -7753,9 +7753,9 @@
    "blurb": "Prices boom and bust. Spills are costly.",
    "minAge": 30,
    "sector": "transport",
-   "fee": 255000.0,
+   "fee": 425000.0,
    "ticket": 70,
-   "cogs": 0.55,
+   "cogs": 0.59,
    "rent": 276200.0,
    "baseDemand": 121428.6,
    "unit": "barrels",
@@ -7763,21 +7763,21 @@
     {
      "id": "drilling0",
      "name": "Drilling rigs",
-     "cost": 850000.0,
+     "cost": 1530000.0,
      "cap": 51000.0,
      "starter": 1
     },
     {
      "id": "pipeline1",
      "name": "Pipeline",
-     "cost": 595000.0,
+     "cost": 1020000.0,
      "cap": 51000.0,
      "starter": 1
     },
     {
      "id": "refinery2",
      "name": "Refinery",
-     "cost": 340000.0,
+     "cost": 595000.0,
      "cap": 43714.3
     }
    ],
@@ -7877,9 +7877,9 @@
    "blurb": "Ports, fuel and freight rates.",
    "minAge": 28,
    "sector": "transport",
-   "fee": 210000.0,
+   "fee": 350000.0,
    "ticket": 900,
-   "cogs": 0.7,
+   "cogs": 0.74,
    "rent": 91000.0,
    "baseDemand": 7777.8,
    "unit": "containers",
@@ -7887,21 +7887,21 @@
     {
      "id": "container0",
      "name": "Container ships",
-     "cost": 700000.0,
+     "cost": 1260000.0,
      "cap": 3266.7,
      "starter": 1
     },
     {
      "id": "port1",
      "name": "Port cranes",
-     "cost": 490000.0,
+     "cost": 840000.0,
      "cap": 3266.7,
      "starter": 1
     },
     {
      "id": "tracking2",
      "name": "Tracking system",
-     "cost": 280000.0,
+     "cost": 490000.0,
      "cap": 2800.0
     }
    ],
@@ -8001,9 +8001,9 @@
    "blurb": "Fuel, weather and delays.",
    "minAge": 32,
    "sector": "transport",
-   "fee": 360000.0,
+   "fee": 600000.0,
    "ticket": 210,
-   "cogs": 0.75,
+   "cogs": 0.79,
    "rent": 89100.0,
    "baseDemand": 57142.9,
    "unit": "passengers",
@@ -8011,21 +8011,21 @@
     {
      "id": "regional0",
      "name": "Regional jets",
-     "cost": 1200000.0,
+     "cost": 2160000.0,
      "cap": 24000.0,
      "starter": 1
     },
     {
      "id": "hangar1",
      "name": "Hangar",
-     "cost": 840000.0,
+     "cost": 1440000.0,
      "cap": 24000.0,
      "starter": 1
     },
     {
      "id": "booking2",
      "name": "Booking system",
-     "cost": 480000.0,
+     "cost": 840000.0,
      "cap": 20571.4
     }
    ],
@@ -8125,9 +8125,9 @@
    "blurb": "Scoops win readers; scandals lose them.",
    "minAge": 24,
    "sector": "media",
-   "fee": 45000.0,
+   "fee": 75000.0,
    "ticket": 160,
-   "cogs": 0.4,
+   "cogs": 0.45,
    "rent": 52400.0,
    "baseDemand": 9375.0,
    "unit": "subscribers",
@@ -8135,21 +8135,21 @@
     {
      "id": "press0",
      "name": "Press room",
-     "cost": 150000.0,
+     "cost": 270000.0,
      "cap": 3937.5,
      "starter": 1
     },
     {
      "id": "news1",
      "name": "News site",
-     "cost": 105000.0,
+     "cost": 180000.0,
      "cap": 3937.5,
      "starter": 1
     },
     {
      "id": "studio2",
      "name": "Studio",
-     "cost": 60000.0,
+     "cost": 105000.0,
      "cap": 3375.0
     }
    ],
@@ -8247,9 +8247,9 @@
    "blurb": "Loans earn interest, bad loans bite.",
    "minAge": 34,
    "sector": "tech",
-   "fee": 270000.0,
+   "fee": 450000.0,
    "ticket": 650,
-   "cogs": 0.45,
+   "cogs": 0.5,
    "rent": 292500.0,
    "baseDemand": 13846.2,
    "unit": "accounts",
@@ -8257,21 +8257,21 @@
     {
      "id": "vault0",
      "name": "Vault",
-     "cost": 900000.0,
+     "cost": 1620000.0,
      "cap": 5815.4,
      "starter": 1
     },
     {
      "id": "branch1",
      "name": "Branch network",
-     "cost": 630000.0,
+     "cost": 1080000.0,
      "cap": 5815.4,
      "starter": 1
     },
     {
      "id": "core2",
      "name": "Core system",
-     "cost": 360000.0,
+     "cost": 630000.0,
      "cap": 4984.6
     }
    ],
@@ -8373,9 +8373,9 @@
    "blurb": "Tuition and reputation.",
    "minAge": 27,
    "sector": "retail",
-   "fee": 48000.0,
+   "fee": 80000.0,
    "ticket": 9000,
-   "cogs": 0.5,
+   "cogs": 0.54,
    "rent": 52800.0,
    "baseDemand": 177.8,
    "unit": "students",
@@ -8383,21 +8383,21 @@
     {
      "id": "classrooms0",
      "name": "Classrooms",
-     "cost": 160000.0,
+     "cost": 288000.0,
      "cap": 74.7,
      "starter": 1
     },
     {
      "id": "gym1",
      "name": "Gym",
-     "cost": 112000.0,
+     "cost": 192000.0,
      "cap": 74.7,
      "starter": 1
     },
     {
      "id": "library2",
      "name": "Library",
-     "cost": 64000.0,
+     "cost": 112000.0,
      "cap": 64.0
     }
    ],

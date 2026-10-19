@@ -1,5 +1,7 @@
 // Live Streamer and Influencer career screens (Work menu).
 import { adapter } from '../adapter.js';
+import { autoPageCard } from './autopage.js';
+import { streamPlanCard } from './strategy.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, act } from '../ui.js';
 
 const cnt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
@@ -17,10 +19,12 @@ export async function streamerScreen(body, { nav, refresh }) {
     body.append(section('Pick a game or topic'), ...st.topics.map((t) => row({ id: 'topic:' + t.id, icon: t.icon, title: t.name, sub: `Growth x${t.growth} · competition ${Math.round(t.comp * 100)}% · ban risk ${Math.round(t.ban * 100)}%/yr`, disabled: !!st.bannedYears, onClick: async () => { await act(adapter.streamerAction('start', t.id)); await refresh(); } })));
     return;
   }
+  await autoPageCard(body, 'streaming');
   body.append(h('div', { class: 'card', 'data-el': 'stream-card' }, h('h3', { text: `${st.topicIcon} ${st.topicName}` }), kv('Subscribers', cnt(st.subs)), kv('Avg viewers', cnt(st.viewers)), kv('Earned so far', money(st.earned), 'pos'), kv('Years streaming', String(st.years)),
     bar('Burnout', st.burnout, { thin: true, key: 'burnout' }), bar('Setup quality', st.quality, { thin: true, key: 'setupq' }), kv('Strikes', `${st.strikes} / ${st.strikesToBan}`, st.strikes ? 'neg' : ''),
     st.bannedYears ? h('div', { class: 'hint neg', 'data-el': 'stream-banned', text: `⛔ Channel banned: ~${st.bannedYears} year(s) left.` }) : null, st.hiatus ? h('div', { class: 'hint neg', text: 'On hiatus after burnout.' }) : null,
     h('div', { class: 'btns' }, btn(st.done.marathon ? 'Marathon done' : '🏃 Marathon stream', async () => { await act(adapter.streamerAction('marathon')); await refresh(); }, 'go sm', { 'data-act': 'marathon', disabled: st.done.marathon ? true : null }), btn(st.done.rest ? 'Rested' : '😴 Take a break', async () => { await act(adapter.streamerAction('rest')); await refresh(); }, 'alt sm', { 'data-act': 'rest', disabled: st.done.rest ? true : null }))));
+  if (!st.bannedYears) body.append(streamPlanCard(st, refresh));
   const lastCard = yearCard(st.last, 'stream'); if (lastCard) body.append(lastCard);
   body.append(h('div', { class: 'card', 'data-el': 'live-chat' }, h('h3', { text: '💬 Live session' }), h('div', { class: 'hint', text: `Chat reacts to what you choose. Sessions left this year: ${st.chatLeft}.` }),
     btn('🎙️ Go live with chat', async () => { const r = await act(adapter.streamerAction('chatStart'), { quiet: true }); if (!r.ok) { await act(Promise.resolve(r)); return; } const sc = (await adapter.getStreamer()).chat; const i = await sheet({ title: '🔴 Live: chat is watching', body: sc.prompt, options: sc.choices.map((c) => ({ label: c.label })), dismissable: false });

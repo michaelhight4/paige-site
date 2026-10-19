@@ -23,6 +23,22 @@ const med = (m) => C().media[m];
 export const tierDef = (id) => C().tiers.find((t) => t.id === id) || C().tiers[0];
 export const budgetOf = (m, tierId) => med(m).tiers[C().tiers.findIndex((t) => t.id === tierId)] || med(m).tiers[0];
 // owner backstop: the company draws from your cash (never below your floor) when it is short, so it keeps producing without manual top-ups
+
+// ---- yearly media strategy per company (picked each year like the social post plan; 'steady' has zero scandal risk but is slow) ----
+export const MEDIA_PLANS = [
+  { id: 'steady', icon: '🧸', name: 'Steady & safe', score: 0, noise: 0.6, rev: 0.95, rep: 0.7, cost: 1, slots: 0, scandal: 0, seq: 0, fresh: 0, heat: 0, fat: 16, desc: 'Predictable output, clean crew. No scandal risk, slower reputation.' },
+  { id: 'quality', icon: '💎', name: 'Quality first', score: 0.8, noise: 0.9, rev: 0.92, rep: 1.1, cost: 1.18, slots: -1, scandal: 0.6, seq: 0, fresh: 0, heat: 0, fat: 16, desc: 'Fewer, better titles with bigger budgets. Better scores, fewer releases.' },
+  { id: 'quantity', icon: '🏭', name: 'Quantity', score: -0.6, noise: 1, rev: 1.08, rep: 0.8, cost: 0.85, slots: 1, scandal: 1.5, seq: 0, fresh: 0, heat: 0, fat: 16, desc: 'Cheap and fast, an extra slot. More revenue, lower scores, more scandal risk.' },
+  { id: 'trend', icon: '🔥', name: 'Trend-chasing', score: 0.2, noise: 1.7, rev: 1.15, rep: 1, cost: 1, slots: 0, scandal: 1.4, seq: 0, fresh: 0, heat: 1.2, fat: 16, desc: 'Ride the hot genres. Big hits and big misses.' },
+  { id: 'prestige', icon: '🏆', name: 'Prestige & awards', score: 0.6, noise: 0.9, rev: 0.8, rep: 1.6, cost: 1.25, slots: 0, scandal: 0.7, seq: 0, fresh: 0.2, heat: 0, fat: 16, fame: 1.5, desc: 'Chase critics and awards. Reputation and fame grow, profits shrink.' },
+  { id: 'franchise', icon: '♾️', name: 'Franchise-building', score: 0, noise: 1, rev: 1, rep: 1, cost: 1, slots: 0, scandal: 1, seq: 0.9, fresh: -0.5, heat: 0, fat: 11, desc: 'Sequels score higher and tire slower; fresh ideas do worse.' },
+];
+const STANDARD_PLAN = { id: 'standard', icon: '⚖️', name: 'Unplanned', score: 0, noise: 1, rev: 1, rep: 1, cost: 1, slots: 0, scandal: 1, seq: 0, fresh: 0, heat: 0, fat: 16, desc: 'No strategy chosen this year.' };
+export const mediaPlanDef = (id) => MEDIA_PLANS.find((x) => x.id === id) || STANDARD_PLAN;
+export const planOfCo = (co) => mediaPlanDef(co && co.strategy);
+export const mediaPlanNeeded = (s, m) => { const co = need(s, m); return !!co && !co.strategy; };
+export function chooseStrategy(s, m, id) { const co = need(s, m); if (!co) return { ok: false, msg: 'No company.' }; const d = MEDIA_PLANS.find((x) => x.id === id); if (!d) return { ok: false, msg: 'Unknown strategy.' }; co.strategy = id; return { ok: true, msg: `${co.name}: ${d.name}.` }; }
+const slotsOf = (co) => clamp(maxSlots(co) + planOfCo(co).slots, 1, 6);
 function topUp(s, co, needed) { if (co.cash >= needed || !co.policy.backstop) return; const draw = Math.min(needed - co.cash, Math.max(0, s.cash - co.policy.ownerFloor)); if (draw > 0) { s.cash -= draw; co.cash += draw; co.owed = (co.owed || 0) + draw; } }
 const wageOf = (skill) => R(C().crewWage.base + skill * C().crewWage.perSkill);
 
@@ -78,13 +94,13 @@ export function setPolicy(s, m, patch = {}) { const co = need(s, m); if (!co) re
 // ---------- greenlight (manual and policy use this same function) ----------
 export function greenlight(s, m, o = {}) {
   const co = need(s, m); if (!co) return { ok: false, msg: 'No company.' }; const p = co.policy;
-  if (co.slate.length >= Math.min(p.slots, maxSlots(co)) && !o.force) return { ok: false, msg: `Slate is full (${co.slate.length}/${Math.min(p.slots, maxSlots(co))}).` };
-  if (co.slate.length >= maxSlots(co)) return { ok: false, msg: 'No free production slot. Hire more crew or build reputation.' };
+  if (co.slate.length >= Math.min(p.slots, slotsOf(co)) && !o.force) return { ok: false, msg: `Slate is full (${co.slate.length}/${Math.min(p.slots, slotsOf(co))}).` };
+  if (co.slate.length >= slotsOf(co)) return { ok: false, msg: 'No free production slot. Hire more crew or build reputation.' };
   const tid = o.tier || p.tier, t = tierDef(tid); if (co.rep < t.repNeed) return { ok: false, msg: `${t.label} needs company reputation ${t.repNeed}.` };
   const genre0 = o.genre && o.genre !== 'trend' ? o.genre : (p.genre === 'trend' || !p.genre ? bestGenre(s, m) : p.genre); const genre = (o.sequelOf && frOf(co, o.sequelOf)) ? frOf(co, o.sequelOf).genre : genre0; if (!genresOf(m).some((g) => g.id === genre)) return { ok: false, msg: 'Unknown genre.' };
   const fr = o.sequelOf ? frOf(co, o.sequelOf) : null; if (o.sequelOf && !fr) return { ok: false, msg: 'That franchise is gone.' }; if (fr && !sequelReady(fr)) return { ok: false, msg: `${fr.title} is too tired for a sequel right now (fatigue ${R(fr.fatigue)}).` }; if (fr && co.slate.some((x) => x.fid === fr.id)) return { ok: false, msg: 'A sequel is already in production.' };
   const mkId = o.marketing || p.marketing || 'light', mk = MARKETING[mkId]; if (!mk) return { ok: false, msg: 'Unknown marketing plan.' };
-  const base = budgetOf(m, tid), cost = fr ? R(base * (1 + 0.08 * fr.entries)) : base, mcost = R(cost * mk.cost), total = cost + mcost; topUp(s, co, total); if (co.cash < total) return { ok: false, msg: `Needs $${total.toLocaleString('en-US')} in company cash (has $${R(co.cash).toLocaleString('en-US')}).` };
+  const PLN = planOfCo(co), base = R(budgetOf(m, tid) * PLN.cost), cost = fr ? R(base * (1 + 0.08 * fr.entries)) : base, mcost = R(cost * mk.cost), total = cost + mcost; topUp(s, co, total); if (co.cash < total) return { ok: false, msg: `Needs $${total.toLocaleString('en-US')} in company cash (has $${R(co.cash).toLocaleString('en-US')}).` };
   let artist = null;
   if (m === 'music') { const fa = fr && fr.artistId && co.roster.find((a) => a.id === fr.artistId && !a.busy); artist = fa || (o.artistId ? co.roster.find((a) => a.id === o.artistId) : co.roster.filter((a) => !a.busy).sort((a, b) => (b.talent + b.fame * 0.5) - (a.talent + a.fame * 0.5))[0]); if (!artist) return { ok: false, msg: 'Sign an available artist first.' }; if (artist.busy) return { ok: false, msg: `${artist.name} is already recording.` }; artist.busy = 1; }
   co.cash -= total; co.totals.spent += total; const title = fr ? `${fr.title} ${ROMAN[Math.min(fr.entries + 1, 12)]}` : (o.title || nameTitle(s));
@@ -93,25 +109,25 @@ export function greenlight(s, m, o = {}) {
 }
 const labelOf = (score) => { let l = C().labels[0][1]; for (const [min, name] of C().labels) if (score >= min) l = name; return l; };
 export function score(s, co, pr, noise = true) {
-  const t = tierDef(pr.tier), a = pr.artistId ? co.roster.find((x) => x.id === pr.artistId) : null, h = heat(s, co.medium, pr.genre), fr0 = pr.fid ? frOf(co, pr.fid) : null;
-  const sc = 3.6 + crewQuality(co) / 100 * 2.6 + t.bonus + h / 100 * 1.5 + co.rep / 100 * 0.9 + (a ? a.talent / 100 * 1.6 : 0) + (a ? 0 : 0.8) - (pr.troubled ? 1 : 0) + (MARKETING[pr.marketing] || MARKETING.none).score + (fr0 ? fr0.value / 100 * 1.2 - fr0.fatigue / 100 * 1.5 : 0) + (pr.deal ? pr.deal.scoreDelta || 0 : 0) + (noise ? gauss(s) * 1.1 : 0);
+  const PL = planOfCo(co), t = tierDef(pr.tier), a = pr.artistId ? co.roster.find((x) => x.id === pr.artistId) : null, h = heat(s, co.medium, pr.genre), fr0 = pr.fid ? frOf(co, pr.fid) : null;
+  const sc = 3.6 + crewQuality(co) / 100 * 2.6 + t.bonus + h / 100 * 1.5 + co.rep / 100 * 0.9 + (a ? a.talent / 100 * 1.6 : 0) + (a ? 0 : 0.8) - (pr.troubled ? 1 : 0) + (MARKETING[pr.marketing] || MARKETING.none).score + (fr0 ? fr0.value / 100 * 1.2 - fr0.fatigue / 100 * 1.5 : 0) + (pr.deal ? pr.deal.scoreDelta || 0 : 0) + PL.score + (pr.fid ? PL.seq : PL.fresh) + (PL.heat ? h / 100 * PL.heat : 0) + (noise ? gauss(s) * 1.1 * PL.noise : 0);
   return clamp(+sc.toFixed(1), 0, 10);
 }
 function releaseOne(s, co, pr) {
   const t = tierDef(pr.tier), a = pr.artistId ? co.roster.find((x) => x.id === pr.artistId) : null, d = pr.deal, notes = [];
   let sc = score(s, co, pr); if (d && d.risk && chance(s, d.risk)) { sc = clamp(+(sc + d.mishap).toFixed(1), 0, 10); notes.push(d.mishapText || 'The partner dropped the ball.'); }
-  const mk = MARKETING[pr.marketing] || MARKETING.none; let mult = t.mean * Math.exp((sc - 6) * 0.42) * (a ? 1 + a.fame / 120 : 1) * mk.rev * (d ? d.revMult : 1);
+  const mk = MARKETING[pr.marketing] || MARKETING.none; let mult = t.mean * Math.exp((sc - 6) * 0.42) * (a ? 1 + a.fame / 120 : 1) * mk.rev * (d ? d.revMult : 1) * planOfCo(co).rev;
   if (d && d.console && !Hw.makerOf(s, d.console)) { mult *= 0.6; notes.push(`${d.from} went bankrupt before launch: the exclusive lost most of its audience.`); }
   const gross = R(pr.cost * mult); let revenue = R(gross * (d ? d.keep : 1)); if (d && d.flopPenalty && sc < 5.5) { revenue = Math.max(0, revenue - R(pr.cost * d.flopPenalty)); notes.push('The wide release flopped: extra print and ad costs.'); }
   const now = R(revenue * (d && d.now ? d.now : 0.6)), tail = revenue - now, ty = d && d.tailYears ? d.tailYears : 3;
   co.cash += now; if (tail > 0) co.tail.push({ left: ty, per: R(tail / ty), title: pr.title });
   const label = labelOf(sc), profit = revenue - pr.cost - (pr.mcost || 0) + (d ? d.upfront : 0); co.totals.revenue += revenue; co.totals.releases++; if (sc >= 7.5) co.totals.hits++; if (sc < 4.5) co.totals.flops++;
-  const dRep = (sc - 6) * 2.5 + (d ? d.rep || 0 : 0), dFame = (sc >= 7.5 ? 3 + (sc - 7.5) * 3 : sc < 4.5 ? -2 : 0.5) + (d ? d.fame || 0 : 0); co.rep = clamp(co.rep + dRep, 0, 100); co.fame = clamp(co.fame + dFame, 0, 100);
+  const dRep = (sc - 6) * 2.5 + (d ? d.rep || 0 : 0), dFame = (sc >= 7.5 ? 3 + (sc - 7.5) * 3 : sc < 4.5 ? -2 : 0.5) + (d ? d.fame || 0 : 0); const PLN2 = planOfCo(co); co.rep = clamp(co.rep + (dRep > 0 ? dRep * PLN2.rep : dRep), 0, 100); co.fame = clamp(co.fame + dFame + (sc >= 7.5 ? PLN2.fame || 0 : 0), 0, 100);
   if (a) { a.busy = 0; a.albums++; a.fame = clamp(a.fame + (sc >= 7.5 ? 12 : sc >= 6 ? 4 : -2), 0, 100); a.talent = clamp(a.talent + (a.talent < a.pot ? 2 : 0), 1, 99); }
   s.stats.fame = clamp(s.stats.fame + (sc >= 9 ? 4 : sc >= 7.5 ? 2 : 0), 0, 100);
   // franchises: a hit (7+) can be continued; every entry adds fatigue, flops hurt the brand
   co.fran = co.fran || {}; let fr = pr.fid ? frOf(co, pr.fid) : null, fnote = null;
-  if (fr) { fr.entries++; fr.fatigue = clamp(fr.fatigue + 16, 0, 100); fr.value = clamp(fr.value + (sc >= 7 ? 8 : sc >= 5.5 ? -4 : -18), 0, 100); fr.last = age(s); fr.lastScore = sc; fr.gross += revenue; fnote = sc >= 7 ? `${fr.title}: the franchise keeps its audience.` : `${fr.title}: franchise fatigue shows.`; }
+  if (fr) { fr.entries++; fr.fatigue = clamp(fr.fatigue + planOfCo(co).fat, 0, 100); fr.value = clamp(fr.value + (sc >= 7 ? 8 : sc >= 5.5 ? -4 : -18), 0, 100); fr.last = age(s); fr.lastScore = sc; fr.gross += revenue; fnote = sc >= 7 ? `${fr.title}: the franchise keeps its audience.` : `${fr.title}: franchise fatigue shows.`; }
   else if (sc >= 7 && !Object.values(co.fran).some((x) => x.title === pr.title)) { fr = { id: 'f' + Math.floor(rnd(s) * 1e9), title: pr.title, genre: pr.genre, entries: 1, value: clamp(R(40 + (sc - 7) * 16), 35, 95), fatigue: 0, artistId: a ? a.id : null, artist: pr.artistName, last: age(s), lastScore: sc, gross: revenue }; co.fran[fr.id] = fr; fnote = `"${pr.title}" is now a franchise: sequels are possible.`; }
   const rel = { id: 'r' + Math.floor(rnd(s) * 1e9), title: pr.title, genre: pr.genre, tier: pr.tier, artist: pr.artistName, score: sc, label, revenue, gross, cost: pr.cost, marketing: pr.mcost || 0, deal: d ? d.label + ' · ' + d.from : null, sequel: !!pr.fid, profit, year: age(s), notes };
   co.released.push(rel); if (co.released.length > 14) co.released.shift();
@@ -196,17 +212,18 @@ function coYear(s, co) {
   for (const a of co.roster) { a.age++; if (!a.busy) a.contract--; }
   const left = co.roster.filter((a) => a.contract <= 0 && !a.busy); for (const a of left) { f.notes.push(`${a.name}'s contract ended.`); co.roster.splice(co.roster.indexOf(a), 1); }
   // scandals
-  const folks = [...co.roster.map((x) => ({ x, kind: 'artist' })), ...co.crew.map((x) => ({ x, kind: 'crew' }))]; let hit = null; for (const e of folks) if (!hit && chance(s, 0.008 + (e.x.wild == null ? 0.2 : e.x.wild) * 0.07)) hit = e;
+  const folks = [...co.roster.map((x) => ({ x, kind: 'artist' })), ...co.crew.map((x) => ({ x, kind: 'crew' }))]; let hit = null; for (const e of folks) if (!hit && planOfCo(co).scandal > 0 && chance(s, (0.008 + (e.x.wild == null ? 0.2 : e.x.wild) * 0.07) * planOfCo(co).scandal)) hit = e;
   if (hit && !s.prod.scandal) { const roleName = hit.kind === 'artist' ? 'artist' : (med(m).roles.find((r) => r.id === hit.x.role) || { name: 'crew' }).name.toLowerCase(), what = pick(s, C().scandals); s.prod.scandal = { medium: m, id: hit.x.id, name: hit.x.name, role: roleName, what, year: y }; Ev.queue(s, 'prod_scandal', { name: `${hit.x.name} (${roleName})`, company: co.name, what }); f.notes.push(`${hit.x.name} (${roleName}) ${what}.`); }
   // auto production by policy (same greenlight function as manual)
   if (co.policy.auto && m === 'music' && !co.roster.some((x) => !x.busy) && co.roster.length < 6) { const pick1 = co.market.artists.slice().sort((x, y) => (y.talent + y.pot) - (x.talent + x.pot))[0]; if (pick1) { topUp(s, co, signCost(pick1) + 40000); const r = sign(s, m, pick1.id); if (r.ok) f.notes.push('Auto: ' + r.msg); } }
   for (const fr of Object.values(co.fran)) { if (fr.last !== y) { fr.fatigue = clamp(fr.fatigue - 6, 0, 100); fr.value = clamp(fr.value - 2, 0, 100); } if (fr.value < 10) delete co.fran[fr.id]; }
-  if (co.policy.auto) { let guard = 0; while (guard++ < 5 && co.slate.length < Math.min(co.policy.slots, maxSlots(co))) { const fr = co.policy.sequels !== false ? Object.values(co.fran).filter((x) => x.value >= 45 && x.fatigue <= 50 && !co.slate.some((p) => p.fid === x.id)).sort((a, b) => b.value - a.value)[0] : null; let r = fr ? greenlight(s, m, { sequelOf: fr.id }) : null; if (!r || !r.ok) r = greenlight(s, m, {}); if (!r.ok) { f.notes.push('Auto: ' + r.msg); break; } f.budgets += r.project.cost + (r.project.mcost || 0); } }
+  if (co.policy.auto) { let guard = 0; while (guard++ < 5 && co.slate.length < Math.min(co.policy.slots, slotsOf(co))) { const fr = co.policy.sequels !== false ? Object.values(co.fran).filter((x) => x.value >= 45 && x.fatigue <= 50 && !co.slate.some((p) => p.fid === x.id)).sort((a, b) => b.value - a.value)[0] : null; let r = fr ? greenlight(s, m, { sequelOf: fr.id }) : null; if (!r || !r.ok) r = greenlight(s, m, {}); if (!r.ok) { f.notes.push('Auto: ' + r.msg); break; } f.budgets += r.project.cost + (r.project.mcost || 0); } }
   genOffers(s, co); if (co.policy.dealAuto) { const bo = bestOffer(co); if (bo) { const r = dealAccept(s, m, bo.id, true); if (r.ok) f.notes.push('Auto: ' + r.msg); } }
   for (const c of co.crew) if (rnd(s) < 0.4) c.skill = clamp(c.skill + 1, 5, 98);
   // payout
   if (co.policy.payout && co.cash > co.policy.reserve * 2 + payroll(co)) { const extra = R((co.cash - co.policy.reserve - payroll(co)) * 0.5); if (extra > 0) { co.cash -= extra; earn(s, extra); f.notes.push(`Paid you a $${extra.toLocaleString('en-US')} dividend.`); f.dividend = extra; } }
   refreshMarket(s, co); co.rep = clamp(co.rep - 0.5, 0, 100); co.fame = clamp(co.fame - 0.8, 0, 100);
+  f.plan = planOfCo(co).id; co.strategy = null;
   f.profit = R(co.cash - startCash + (f.dividend || 0)); f.cash = R(co.cash); f.year = y; f.rep = R(co.rep); f.fame = R(co.fame); co.lastYear = f; co.hist.push({ year: y, revenue: f.revenue, profit: f.profit, rep: f.rep }); if (co.hist.length > 15) co.hist.shift();
   if (co.cash < 1000 && co.crew.length <= 2 && co.rep < 3) { log(s, `${co.name} went bust.`, 'biz'); delete s.prod.cos[m]; }
 }
@@ -220,8 +237,9 @@ export function eventFx(s, v) {
 }
 
 // ---------- status for the UI ----------
-const coStatus = (s, co) => { const m = co.medium, d = med(m), cap = Math.min(co.policy.slots, maxSlots(co));
-  return { id: co.id, medium: m, name: co.name, icon: d.icon, kind: d.name, unit: d.unit, unitPlural: d.unitPlural, cash: R(co.cash), rep: R(co.rep), fame: R(co.fame), value: valueOf(co), founded: co.founded, quality: R(crewQuality(co)), payroll: payroll(co), slots: cap, maxSlots: maxSlots(co), policy: { ...co.policy },
+const planOpts = (co) => MEDIA_PLANS.map((x) => ({ id: x.id, icon: x.icon, name: x.name, desc: x.desc, scandalPct: Math.round(Math.min(0.2, 0.05 * x.scandal) * 1000) / 10, score: x.score + (x.fresh > 0 ? 0 : 0), revenue: Math.round((x.rev - 1) * 100), reputation: Math.round((x.rep - 1) * 100), budget: Math.round((x.cost - 1) * 100), slots: x.slots }));
+const coStatus = (s, co) => { const m = co.medium, d = med(m), cap = Math.min(co.policy.slots, slotsOf(co)); const plan = { needed: !co.strategy, current: co.strategy || null, effective: planOfCo(co).id, options: planOpts(co) };
+  return { plan, id: co.id, medium: m, name: co.name, icon: d.icon, kind: d.name, unit: d.unit, unitPlural: d.unitPlural, cash: R(co.cash), rep: R(co.rep), fame: R(co.fame), value: valueOf(co), founded: co.founded, quality: R(crewQuality(co)), payroll: payroll(co), slots: cap, maxSlots: maxSlots(co), policy: { ...co.policy },
     crew: co.crew.map((c) => ({ ...c, roleName: d.roles.find((r) => r.id === c.role).name, icon: d.roles.find((r) => r.id === c.role).icon, trainCost: R(5000 + c.skill * 400), trained: c.trained === age(s) })), roster: co.roster.map((a) => ({ ...a, advance: advanceOf(a) })),
     slate: co.slate.map((p) => ({ ...p, expected: score(s, co, p, false), marketingLabel: (MARKETING[p.marketing] || MARKETING.none).label })), offers: (co.offers || []).map((o) => ({ ...o })), franchises: Object.values(co.fran || {}).map((f) => ({ ...f, ready: sequelReady(f), inProduction: co.slate.some((p) => p.fid === f.id) })), marketing: Object.values(MARKETING).map((x) => ({ ...x, amount: 0 })), released: co.released.slice().reverse(), tail: co.tail.reduce((a, t) => a + t.per, 0), totals: { ...co.totals }, last: co.lastYear, hist: co.hist,
     market: { crew: co.market.crew.map((c) => ({ ...c, roleName: d.roles.find((r) => r.id === c.role).name, fee: R(c.wage * C().crewWage.signFrac) })), artists: co.market.artists.map((a) => ({ ...a, cost: signCost(a), advance: advanceOf(a) })) }, tiers: C().tiers.map((t, i) => ({ ...t, cost: d.tiers[i], locked: co.rep < t.repNeed })), genres: trends(s, m), roles: d.roles, scandal: s.prod.scandal && s.prod.scandal.medium === m ? s.prod.scandal : null }; };

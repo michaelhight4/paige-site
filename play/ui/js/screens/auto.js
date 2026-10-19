@@ -29,6 +29,16 @@ export async function autopilotScreen(body, { nav, refresh }) {
     body.append(row({ id: 'auto:socialplan', icon: cur.icon, title: 'Preferred post plan', sub: `${cur.name} · ban risk ${cur.banPct}%${cur.banPct === 0 ? ' (none)' : ''} · used for every autopilot year`, right: 'Change', onClick: async () => {
       const i = await sheet({ title: 'Autopilot post plan', body: 'Autopilot picks this plan each year (default Safe). Same risks as choosing it by hand.', options: ss.postPlan.options.map((o) => ({ label: `${o.icon} ${o.name}`, sub: `Ban risk ${o.banPct}% · growth ${o.growth >= 0 ? '+' : ''}${o.growth}% · income ${o.income >= 0 ? '+' : ''}${o.income}%` })) }); if (i == null) return;
       await adapter.setAutopilot({ socialPlan: ss.postPlan.options[i].id }); await refresh(); } })); } }
+  { const [sg, pc] = await Promise.all([adapter.getStreamer(), adapter.getProdCos()]);
+    if (!sg.locked && sg.active) { const cur = sg.plan.options.find((o) => o.id === a.streamPlan) || sg.plan.options[0];
+      body.append(row({ id: 'auto:streamplan', icon: cur.icon, title: 'Preferred stream strategy', sub: `${cur.name} · ban risk ${cur.banPct}%${cur.banPct === 0 ? ' (none)' : ''} · used for every autopilot year`, right: 'Change', onClick: async () => {
+        const i = await sheet({ title: 'Autopilot stream strategy', body: 'Autopilot picks this each year (default Consistent & safe). Same risks as choosing it by hand.', options: sg.plan.options.map((o) => ({ label: `${o.icon} ${o.name}`, sub: `Ban risk ${o.banPct}% · growth ${o.growth >= 0 ? '+' : ''}${o.growth}% · income ${o.income >= 0 ? '+' : ''}${o.income}%` })) }); if (i == null) return;
+        await adapter.setAutopilot({ streamPlan: sg.plan.options[i].id }); await refresh(); } })); }
+    const own = !pc.locked && pc.media.find((m) => m.company);
+    if (own) { const opts = own.company.plan.options, cur = opts.find((o) => o.id === a.mediaPlan) || opts[0];
+      body.append(row({ id: 'auto:mediaplan', icon: cur.icon, title: 'Preferred media strategy', sub: `${cur.name} · scandal risk ${cur.scandalPct}%${cur.scandalPct === 0 ? ' (none)' : ''} · used for every company`, right: 'Change', onClick: async () => {
+        const i = await sheet({ title: 'Autopilot media strategy', body: 'Autopilot picks this for every production company each year (default Steady & safe). Same risks as by hand.', options: opts.map((o) => ({ label: `${o.icon} ${o.name}`, sub: `Scandal risk ${o.scandalPct}% · revenue ${o.revenue >= 0 ? '+' : ''}${o.revenue}% · reputation ${o.reputation >= 0 ? '+' : ''}${o.reputation}%` })) }); if (i == null) return;
+        await adapter.setAutopilot({ mediaPlan: opts[i].id }); await refresh(); } })); } }
   body.append(section('Yearly routines'));
   // inline accordion: tap a banner to drop its routines down in place, tap again to collapse (open/closed is remembered)
   { const KEY = 'lifesim.auto.acc', rd = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }, wr = (v) => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* private mode */ } };

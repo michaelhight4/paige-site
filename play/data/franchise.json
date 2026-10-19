@@ -6,37 +6,37 @@
     {
      "id": "attack",
      "name": "Attack",
-     "icon": "🎯",
+     "icon": "\ud83c\udfaf",
      "desc": "Finishing and chances created"
     },
     {
      "id": "defense",
      "name": "Defense",
-     "icon": "🛡️",
+     "icon": "\ud83d\udee1\ufe0f",
      "desc": "Marking and clean sheets"
     },
     {
      "id": "passing",
      "name": "Passing",
-     "icon": "🔁",
+     "icon": "\ud83d\udd01",
      "desc": "Build-up and control"
     },
     {
      "id": "stamina",
      "name": "Stamina",
-     "icon": "🫁",
+     "icon": "\ud83e\udec1",
      "desc": "Late goals and fewer injuries"
     },
     {
      "id": "pace",
      "name": "Pace",
-     "icon": "⚡",
+     "icon": "\u26a1",
      "desc": "Counters and wide play"
     },
     {
      "id": "keeper",
      "name": "Goalkeeping",
-     "icon": "🧤",
+     "icon": "\ud83e\udde4",
      "desc": "Saves and command"
     }
    ],
@@ -44,62 +44,110 @@
     {
      "id": "soccer_0",
      "name": "Harbor United",
-     "city": "Harbor"
+     "city": "Harbor",
+     "minor": {
+      "id": "soccer_0_m",
+      "name": "Harbor Juniors"
+     }
     },
     {
      "id": "soccer_1",
      "name": "Riverside Athletic",
-     "city": "Riverside"
+     "city": "Riverside",
+     "minor": {
+      "id": "soccer_1_m",
+      "name": "Riverside Reserves"
+     }
     },
     {
      "id": "soccer_2",
      "name": "Northgate Rovers",
-     "city": "Northgate"
+     "city": "Northgate",
+     "minor": {
+      "id": "soccer_2_m",
+      "name": "Northgate Academy"
+     }
     },
     {
      "id": "soccer_3",
      "name": "Lakeshore Wanderers",
-     "city": "Lakeshore"
+     "city": "Lakeshore",
+     "minor": {
+      "id": "soccer_3_m",
+      "name": "Lakeshore Prospects"
+     }
     },
     {
      "id": "soccer_4",
      "name": "Bayview City",
-     "city": "Bayview"
+     "city": "Bayview",
+     "minor": {
+      "id": "soccer_4_m",
+      "name": "Bayview Development"
+     }
     },
     {
      "id": "soccer_5",
      "name": "Foxhall Albion",
-     "city": "Foxhall"
+     "city": "Foxhall",
+     "minor": {
+      "id": "soccer_5_m",
+      "name": "Foxhall Futures"
+     }
     },
     {
      "id": "soccer_6",
      "name": "Granite Town",
-     "city": "Granite"
+     "city": "Granite",
+     "minor": {
+      "id": "soccer_6_m",
+      "name": "Granite Rising"
+     }
     },
     {
      "id": "soccer_7",
      "name": "Cedar Dynamo",
-     "city": "Cedar"
+     "city": "Cedar",
+     "minor": {
+      "id": "soccer_7_m",
+      "name": "Cedar Cubs"
+     }
     },
     {
      "id": "soccer_8",
      "name": "Stonebridge Sporting",
-     "city": "Stonebridge"
+     "city": "Stonebridge",
+     "minor": {
+      "id": "soccer_8_m",
+      "name": "Stonebridge Colts"
+     }
     },
     {
      "id": "soccer_9",
      "name": "Westmere Real",
-     "city": "Westmere"
+     "city": "Westmere",
+     "minor": {
+      "id": "soccer_9_m",
+      "name": "Westmere Farmhands"
+     }
     },
     {
      "id": "soccer_10",
      "name": "Alder Olympic",
-     "city": "Alder"
+     "city": "Alder",
+     "minor": {
+      "id": "soccer_10_m",
+      "name": "Alder Youth"
+     }
     },
     {
      "id": "soccer_11",
      "name": "Kingsport Victoria",
-     "city": "Kingsport"
+     "city": "Kingsport",
+     "minor": {
+      "id": "soccer_11_m",
+      "name": "Kingsport Pups"
+     }
     }
    ]
   },
@@ -108,37 +156,37 @@
     {
      "id": "shooting",
      "name": "Shooting",
-     "icon": "🏀",
+     "icon": "\ud83c\udfc0",
      "desc": "Scoring from range"
     },
     {
      "id": "passing",
      "name": "Passing",
-     "icon": "🔁",
+     "icon": "\ud83d\udd01",
      "desc": "Ball movement"
     },
     {
      "id": "defense",
      "name": "Defense",
-     "icon": "🛡️",
+     "icon": "\ud83d\udee1\ufe0f",
      "desc": "Stops and steals"
     },
     {
      "id": "rebound",
      "name": "Rebounding",
-     "icon": "📦",
+     "icon": "\ud83d\udce6",
      "desc": "Second chances"
     },
     {
      "id": "athletic",
      "name": "Athleticism",
-     "icon": "⚡",
+     "icon": "\u26a1",
      "desc": "Pace and finishing"
     },
     {
      "id": "iq",
      "name": "Basketball IQ",
-     "icon": "🧠",
+     "icon": "\ud83e\udde0",
      "desc": "Decisions"
     }
    ],
@@ -146,62 +194,110 @@
     {
      "id": "basketball_0",
      "name": "Summit Hoopsters",
-     "city": "Summit"
+     "city": "Summit",
+     "minor": {
+      "id": "basketball_0_m",
+      "name": "Summit Juniors"
+     }
     },
     {
      "id": "basketball_1",
      "name": "Redwood Dunkers",
-     "city": "Redwood"
+     "city": "Redwood",
+     "minor": {
+      "id": "basketball_1_m",
+      "name": "Redwood Reserves"
+     }
     },
     {
      "id": "basketball_2",
      "name": "Copper Aces",
-     "city": "Copper"
+     "city": "Copper",
+     "minor": {
+      "id": "basketball_2_m",
+      "name": "Copper Academy"
+     }
     },
     {
      "id": "basketball_3",
      "name": "Silver Flyers",
-     "city": "Silver"
+     "city": "Silver",
+     "minor": {
+      "id": "basketball_3_m",
+      "name": "Silver Prospects"
+     }
     },
     {
      "id": "basketball_4",
      "name": "Ironwood Rim Riders",
-     "city": "Ironwood"
+     "city": "Ironwood",
+     "minor": {
+      "id": "basketball_4_m",
+      "name": "Ironwood Development"
+     }
     },
     {
      "id": "basketball_5",
      "name": "Skyline Swish",
-     "city": "Skyline"
+     "city": "Skyline",
+     "minor": {
+      "id": "basketball_5_m",
+      "name": "Skyline Futures"
+     }
     },
     {
      "id": "basketball_6",
      "name": "Eastgate Skyhawks",
-     "city": "Eastgate"
+     "city": "Eastgate",
+     "minor": {
+      "id": "basketball_6_m",
+      "name": "Eastgate Rising"
+     }
     },
     {
      "id": "basketball_7",
      "name": "Maple Alley Cats",
-     "city": "Maple"
+     "city": "Maple",
+     "minor": {
+      "id": "basketball_7_m",
+      "name": "Maple Cubs"
+     }
     },
     {
      "id": "basketball_8",
      "name": "Crescent Jumpers",
-     "city": "Crescent"
+     "city": "Crescent",
+     "minor": {
+      "id": "basketball_8_m",
+      "name": "Crescent Colts"
+     }
     },
     {
      "id": "basketball_9",
      "name": "Driftwood Bounce",
-     "city": "Driftwood"
+     "city": "Driftwood",
+     "minor": {
+      "id": "basketball_9_m",
+      "name": "Driftwood Farmhands"
+     }
     },
     {
      "id": "basketball_10",
      "name": "Highland Buzzers",
-     "city": "Highland"
+     "city": "Highland",
+     "minor": {
+      "id": "basketball_10_m",
+      "name": "Highland Youth"
+     }
     },
     {
      "id": "basketball_11",
      "name": "Vale Pivots",
-     "city": "Vale"
+     "city": "Vale",
+     "minor": {
+      "id": "basketball_11_m",
+      "name": "Vale Pups"
+     }
     }
    ]
   },
@@ -210,37 +306,37 @@
     {
      "id": "passing",
      "name": "Passing",
-     "icon": "🎯",
+     "icon": "\ud83c\udfaf",
      "desc": "Quarterback and receivers"
     },
     {
      "id": "rushing",
      "name": "Rushing",
-     "icon": "🏃",
+     "icon": "\ud83c\udfc3",
      "desc": "Ground game"
     },
     {
      "id": "blocking",
      "name": "Blocking",
-     "icon": "🧱",
+     "icon": "\ud83e\uddf1",
      "desc": "Protection and holes"
     },
     {
      "id": "tackling",
      "name": "Tackling",
-     "icon": "🛡️",
+     "icon": "\ud83d\udee1\ufe0f",
      "desc": "Run defense"
     },
     {
      "id": "coverage",
      "name": "Coverage",
-     "icon": "🕸️",
+     "icon": "\ud83d\udd78\ufe0f",
      "desc": "Pass defense"
     },
     {
      "id": "special",
      "name": "Special teams",
-     "icon": "🦵",
+     "icon": "\ud83e\uddb5",
      "desc": "Kicking and returns"
     }
    ],
@@ -248,62 +344,110 @@
     {
      "id": "football_0",
      "name": "Bedrock Gridiron Kings",
-     "city": "Bedrock"
+     "city": "Bedrock",
+     "minor": {
+      "id": "football_0_m",
+      "name": "Bedrock Juniors"
+     }
     },
     {
      "id": "football_1",
      "name": "Thunder Ridge Bulldozers",
-     "city": "Thunder Ridge"
+     "city": "Thunder Ridge",
+     "minor": {
+      "id": "football_1_m",
+      "name": "Thunder Ridge Reserves"
+     }
     },
     {
      "id": "football_2",
      "name": "Fort Hale Stampede",
-     "city": "Fort Hale"
+     "city": "Fort Hale",
+     "minor": {
+      "id": "football_2_m",
+      "name": "Fort Hale Academy"
+     }
     },
     {
      "id": "football_3",
      "name": "Prairie Linebackers",
-     "city": "Prairie"
+     "city": "Prairie",
+     "minor": {
+      "id": "football_3_m",
+      "name": "Prairie Prospects"
+     }
     },
     {
      "id": "football_4",
      "name": "Clayton Raiders",
-     "city": "Clayton"
+     "city": "Clayton",
+     "minor": {
+      "id": "football_4_m",
+      "name": "Clayton Development"
+     }
     },
     {
      "id": "football_5",
      "name": "Ashford Ironmen",
-     "city": "Ashford"
+     "city": "Ashford",
+     "minor": {
+      "id": "football_5_m",
+      "name": "Ashford Futures"
+     }
     },
     {
      "id": "football_6",
      "name": "Mesa Blitz",
-     "city": "Mesa"
+     "city": "Mesa",
+     "minor": {
+      "id": "football_6_m",
+      "name": "Mesa Rising"
+     }
     },
     {
      "id": "football_7",
      "name": "Dunmore Mustangs",
-     "city": "Dunmore"
+     "city": "Dunmore",
+     "minor": {
+      "id": "football_7_m",
+      "name": "Dunmore Cubs"
+     }
     },
     {
      "id": "football_8",
      "name": "Black Hollow Warhogs",
-     "city": "Black Hollow"
+     "city": "Black Hollow",
+     "minor": {
+      "id": "football_8_m",
+      "name": "Black Hollow Colts"
+     }
     },
     {
      "id": "football_9",
      "name": "Rockport Rams",
-     "city": "Rockport"
+     "city": "Rockport",
+     "minor": {
+      "id": "football_9_m",
+      "name": "Rockport Farmhands"
+     }
     },
     {
      "id": "football_10",
      "name": "Gravel Bay Outlaws",
-     "city": "Gravel Bay"
+     "city": "Gravel Bay",
+     "minor": {
+      "id": "football_10_m",
+      "name": "Gravel Bay Youth"
+     }
     },
     {
      "id": "football_11",
      "name": "Oakfield Chargers",
-     "city": "Oakfield"
+     "city": "Oakfield",
+     "minor": {
+      "id": "football_11_m",
+      "name": "Oakfield Pups"
+     }
     }
    ]
   },
@@ -312,37 +456,37 @@
     {
      "id": "hitting",
      "name": "Hitting",
-     "icon": "🏏",
+     "icon": "\ud83c\udfcf",
      "desc": "Contact and average"
     },
     {
      "id": "power",
      "name": "Power",
-     "icon": "💥",
+     "icon": "\ud83d\udca5",
      "desc": "Home runs"
     },
     {
      "id": "pitching",
      "name": "Pitching",
-     "icon": "⚾",
+     "icon": "\u26be",
      "desc": "Starters and relievers"
     },
     {
      "id": "fielding",
      "name": "Fielding",
-     "icon": "🧤",
+     "icon": "\ud83e\udde4",
      "desc": "Errors saved"
     },
     {
      "id": "speed",
      "name": "Baserunning",
-     "icon": "⚡",
+     "icon": "\u26a1",
      "desc": "Steals and extra bases"
     },
     {
      "id": "iq",
      "name": "Game IQ",
-     "icon": "🧠",
+     "icon": "\ud83e\udde0",
      "desc": "Situational play"
     }
    ],
@@ -350,62 +494,110 @@
     {
      "id": "baseball_0",
      "name": "Orchard Sluggers",
-     "city": "Orchard"
+     "city": "Orchard",
+     "minor": {
+      "id": "baseball_0_m",
+      "name": "Orchard Juniors"
+     }
     },
     {
      "id": "baseball_1",
      "name": "Sandlot Pitchers",
-     "city": "Sandlot"
+     "city": "Sandlot",
+     "minor": {
+      "id": "baseball_1_m",
+      "name": "Sandlot Reserves"
+     }
     },
     {
      "id": "baseball_2",
      "name": "Millbrook Diamonds",
-     "city": "Millbrook"
+     "city": "Millbrook",
+     "minor": {
+      "id": "baseball_2_m",
+      "name": "Millbrook Academy"
+     }
     },
     {
      "id": "baseball_3",
      "name": "Dockside Hurlers",
-     "city": "Dockside"
+     "city": "Dockside",
+     "minor": {
+      "id": "baseball_3_m",
+      "name": "Dockside Prospects"
+     }
     },
     {
      "id": "baseball_4",
      "name": "Pinecrest Bats",
-     "city": "Pinecrest"
+     "city": "Pinecrest",
+     "minor": {
+      "id": "baseball_4_m",
+      "name": "Pinecrest Development"
+     }
     },
     {
      "id": "baseball_5",
      "name": "Hartwell Catchers",
-     "city": "Hartwell"
+     "city": "Hartwell",
+     "minor": {
+      "id": "baseball_5_m",
+      "name": "Hartwell Futures"
+     }
     },
     {
      "id": "baseball_6",
      "name": "Brookline Home Runs",
-     "city": "Brookline"
+     "city": "Brookline",
+     "minor": {
+      "id": "baseball_6_m",
+      "name": "Brookline Rising"
+     }
     },
     {
      "id": "baseball_7",
      "name": "Cobalt Aces",
-     "city": "Cobalt"
+     "city": "Cobalt",
+     "minor": {
+      "id": "baseball_7_m",
+      "name": "Cobalt Cubs"
+     }
     },
     {
      "id": "baseball_8",
      "name": "Tidewater Bleachers",
-     "city": "Tidewater"
+     "city": "Tidewater",
+     "minor": {
+      "id": "baseball_8_m",
+      "name": "Tidewater Colts"
+     }
     },
     {
      "id": "baseball_9",
      "name": "Amber Switch Hitters",
-     "city": "Amber"
+     "city": "Amber",
+     "minor": {
+      "id": "baseball_9_m",
+      "name": "Amber Farmhands"
+     }
     },
     {
      "id": "baseball_10",
      "name": "Larkspur Fielders",
-     "city": "Larkspur"
+     "city": "Larkspur",
+     "minor": {
+      "id": "baseball_10_m",
+      "name": "Larkspur Youth"
+     }
     },
     {
      "id": "baseball_11",
      "name": "Ridgeway Pinstripes",
-     "city": "Ridgeway"
+     "city": "Ridgeway",
+     "minor": {
+      "id": "baseball_11_m",
+      "name": "Ridgeway Pups"
+     }
     }
    ]
   },
@@ -414,37 +606,37 @@
     {
      "id": "shooting",
      "name": "Shooting",
-     "icon": "🏒",
+     "icon": "\ud83c\udfd2",
      "desc": "Goals"
     },
     {
      "id": "skating",
      "name": "Skating",
-     "icon": "⛸️",
+     "icon": "\u26f8\ufe0f",
      "desc": "Speed and transition"
     },
     {
      "id": "passing",
      "name": "Passing",
-     "icon": "🔁",
+     "icon": "\ud83d\udd01",
      "desc": "Playmaking"
     },
     {
      "id": "defense",
      "name": "Defense",
-     "icon": "🛡️",
+     "icon": "\ud83d\udee1\ufe0f",
      "desc": "Blue line and checks"
     },
     {
      "id": "goalie",
      "name": "Goaltending",
-     "icon": "🧤",
+     "icon": "\ud83e\udde4",
      "desc": "Saves"
     },
     {
      "id": "grit",
      "name": "Grit",
-     "icon": "💪",
+     "icon": "\ud83d\udcaa",
      "desc": "Physical play"
     }
    ],
@@ -452,62 +644,110 @@
     {
      "id": "hockey_0",
      "name": "Frostholm Blades",
-     "city": "Frostholm"
+     "city": "Frostholm",
+     "minor": {
+      "id": "hockey_0_m",
+      "name": "Frostholm Juniors"
+     }
     },
     {
      "id": "hockey_1",
      "name": "Polar Pucks",
-     "city": "Polar"
+     "city": "Polar",
+     "minor": {
+      "id": "hockey_1_m",
+      "name": "Polar Reserves"
+     }
     },
     {
      "id": "hockey_2",
      "name": "Glacier Zambonis",
-     "city": "Glacier"
+     "city": "Glacier",
+     "minor": {
+      "id": "hockey_2_m",
+      "name": "Glacier Academy"
+     }
     },
     {
      "id": "hockey_3",
      "name": "Northwind Icebreakers",
-     "city": "Northwind"
+     "city": "Northwind",
+     "minor": {
+      "id": "hockey_3_m",
+      "name": "Northwind Prospects"
+     }
     },
     {
      "id": "hockey_4",
      "name": "Icebridge Slapshots",
-     "city": "Icebridge"
+     "city": "Icebridge",
+     "minor": {
+      "id": "hockey_4_m",
+      "name": "Icebridge Development"
+     }
     },
     {
      "id": "hockey_5",
      "name": "Whitepine Wolves",
-     "city": "Whitepine"
+     "city": "Whitepine",
+     "minor": {
+      "id": "hockey_5_m",
+      "name": "Whitepine Futures"
+     }
     },
     {
      "id": "hockey_6",
      "name": "Snowline Frost",
-     "city": "Snowline"
+     "city": "Snowline",
+     "minor": {
+      "id": "hockey_6_m",
+      "name": "Snowline Rising"
+     }
     },
     {
      "id": "hockey_7",
      "name": "Arctic Bay Goalies",
-     "city": "Arctic Bay"
+     "city": "Arctic Bay",
+     "minor": {
+      "id": "hockey_7_m",
+      "name": "Arctic Bay Cubs"
+     }
     },
     {
      "id": "hockey_8",
      "name": "Stonefrost Skaters",
-     "city": "Stonefrost"
+     "city": "Stonefrost",
+     "minor": {
+      "id": "hockey_8_m",
+      "name": "Stonefrost Colts"
+     }
     },
     {
      "id": "hockey_9",
      "name": "Cold Harbor Penalty Box",
-     "city": "Cold Harbor"
+     "city": "Cold Harbor",
+     "minor": {
+      "id": "hockey_9_m",
+      "name": "Cold Harbor Farmhands"
+     }
     },
     {
      "id": "hockey_10",
      "name": "Tundra Snowcats",
-     "city": "Tundra"
+     "city": "Tundra",
+     "minor": {
+      "id": "hockey_10_m",
+      "name": "Tundra Youth"
+     }
     },
     {
      "id": "hockey_11",
      "name": "Winterfell Polar Bears",
-     "city": "Winterfell"
+     "city": "Winterfell",
+     "minor": {
+      "id": "hockey_11_m",
+      "name": "Winterfell Pups"
+     }
     }
    ]
   }
@@ -516,7 +756,7 @@
   {
    "id": "semi",
    "name": "Semi-pro club",
-   "icon": "🥉",
+   "icon": "\ud83e\udd49",
    "cost": 28000000.0,
    "strength": 44,
    "payroll": 2.1,
@@ -530,7 +770,7 @@
   {
    "id": "pro",
    "name": "Professional club",
-   "icon": "🥈",
+   "icon": "\ud83e\udd48",
    "cost": 280000000.0,
    "strength": 58,
    "payroll": 11.5,
@@ -544,7 +784,7 @@
   {
    "id": "elite",
    "name": "Elite franchise",
-   "icon": "🥇",
+   "icon": "\ud83e\udd47",
    "cost": 1500000000.0,
    "strength": 72,
    "payroll": 21,
@@ -616,7 +856,7 @@
   {
    "id": "head_coach",
    "name": "Head coach",
-   "icon": "📋",
+   "icon": "\ud83d\udccb",
    "required": true,
    "salary": 150000,
    "effect": "performance",
@@ -625,7 +865,7 @@
   {
    "id": "assistant",
    "name": "Assistant coach",
-   "icon": "🧑‍🏫",
+   "icon": "\ud83e\uddd1\u200d\ud83c\udfeb",
    "required": false,
    "salary": 70000,
    "effect": "development",
@@ -634,7 +874,7 @@
   {
    "id": "scout",
    "name": "Scout / recruiter",
-   "icon": "🔭",
+   "icon": "\ud83d\udd2d",
    "required": true,
    "salary": 80000,
    "effect": "recruiting",
@@ -643,7 +883,7 @@
   {
    "id": "medic",
    "name": "Medical staff",
-   "icon": "🩺",
+   "icon": "\ud83e\ude7a",
    "required": true,
    "salary": 90000,
    "effect": "injuries",
@@ -652,7 +892,7 @@
   {
    "id": "ops",
    "name": "Operations / front office",
-   "icon": "🗂️",
+   "icon": "\ud83d\uddc2\ufe0f",
    "required": true,
    "salary": 100000,
    "effect": "finance",
@@ -661,7 +901,7 @@
   {
    "id": "marketing",
    "name": "Marketing manager",
-   "icon": "📣",
+   "icon": "\ud83d\udce3",
    "required": false,
    "salary": 75000,
    "effect": "attendance",
