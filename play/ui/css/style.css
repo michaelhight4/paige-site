@@ -5,7 +5,3 @@ html[data-style="contrast"] .row, html[data-style="contrast"] .card, html[data-s
 html[data-style="contrast"] .btn { border: 2px solid #ffe94d; }
 html[data-style="contrast"] :focus-visible, :focus-visible { outline: 3px solid #ffe94d; outline-offset: 2px; }
 .stylechip { display:inline-block; width:18px; height:18px; border-radius:5px; margin-right:3px; border:1px solid #0004; vertical-align:middle; }
-html[data-style="dark"] .j-line.k-death, html[data-style="dim"] .j-line.k-death { color: #ff8a8a; }
-html[data-style="dark"] .j-line.k-money, html[data-style="dim"] .j-line.k-money { color: #6fe0a0; }
-html[data-style="contrast"] .j-line.k-death { color: #ff6b6b; }
-html[data-style="contrast"] .j-line.k-money { color: #7dff9b; }

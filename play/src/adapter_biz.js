@@ -6,6 +6,7 @@ import * as Biz from './business.js';
 import * as Plus from './bizplus.js';
 import * as Prod from './prodco.js';
 import * as Fr from './franchise.js';
+import * as Rc from './racing.js';
 import { log } from './core.js';
 import { Legacy_minOwnerAge } from './bizplus.js';
 
@@ -18,7 +19,7 @@ export const bizApi = {
   getBusinesses() {
     const s = this.s, age = Math.floor(s.age);
     const types = Object.entries(D.bizTypes).filter(([, t]) => t.kind !== 'sports').map(([id, t]) => { const why = Plus.canFound(s, id); return { id, name: t.name, icon: t.icon || (t.kind === 'studio' ? '🎬' : '🏪'), group: t.group || (t.kind === 'studio' ? 'Studios' : 'Retail & services'), fee: R0(Plus.startCost(s, id)), minAge: t.minAge || 18, blurb: t.blurb || '', locked: !!why, reason: why || '', license: t.license || null, risk: t.risk || null }; });
-    return { cash: R0(s.cash), age, owned: [...s.biz.map((b) => this.bizSummary(b)), ...Prod.ownedRecords(s), ...Fr.ownedRecords(s)], types, offers: s.offers.map((o, i) => ({ idx: i, type: o.type, name: o.name || (o.biz && o.biz.name), price: o.price, desc: o.desc, typeName: D.bizTypes[o.type].name, icon: D.bizTypes[o.type].icon || (o.type === 'sports' ? '🏟️' : '🏪') })), minOwnerAge: Legacy_minOwnerAge(s) };
+    return { cash: R0(s.cash), age, owned: [...s.biz.map((b) => this.bizSummary(b)), ...Prod.ownedRecords(s), ...Fr.ownedRecords(s), ...Rc.ownedRecords(s)], types, offers: s.offers.map((o, i) => ({ idx: i, type: o.type, name: o.name || (o.biz && o.biz.name), price: o.price, desc: o.desc, typeName: D.bizTypes[o.type].name, icon: D.bizTypes[o.type].icon || (o.type === 'sports' ? '🏟️' : '🏪') })), minOwnerAge: Legacy_minOwnerAge(s) };
   },
   getBusiness(id) {
     const s = this.s, b = s.biz.find((x) => x.id === id); if (!b) return null; const t = D.bizTypes[b.type], f = Biz.annualFinance(s, b), roles = Biz.rolesOf(b);

@@ -29,17 +29,17 @@
 .qchips::-webkit-scrollbar{display:none}
 .qchip{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;max-width:96px;height:46px;padding:2px 8px;border-radius:12px;border:2px solid var(--navy2);background:var(--surface);color:var(--link);font-weight:800;font-size:12px;line-height:1.1;gap:1px}
 .qchip .qi{font-size:15px;line-height:1}.qchip small{font-size:9.5px;font-weight:700;color:var(--mute);max-width:84px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.qchip:active{background:#d3e1f8}
-.qchip.done{border-color:var(--line2);color:var(--good);background:var(--surface2)}
-.qchip[disabled]{opacity:.5;pointer-events:none}
-.qage{flex:none;width:76px;min-width:76px;max-width:76px;height:46px;box-sizing:border-box;padding:0;border:0;border-radius:12px;background:var(--accent);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;touch-action:manipulation;overflow:hidden;white-space:nowrap}
+.qchip:active{background:var(--surface3)}
+.qchip.done{border-color:var(--line2);color:var(--good-text);background:var(--surface2)}
+.qchip[disabled]{opacity:1;pointer-events:none;background:var(--surface3);border-color:var(--line2);color:var(--mute);border-style:dashed}
+.qage{flex:none;width:76px;min-width:76px;max-width:76px;height:46px;box-sizing:border-box;padding:0;border:0;border-radius:12px;background:var(--accent);color:var(--on-accent,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;touch-action:manipulation;overflow:hidden;white-space:nowrap}
 .qage b{font-size:17px;line-height:1}.qage small{font-size:10.5px;font-weight:700;opacity:.92;margin-top:1px}
 .qage:active{filter:brightness(.92)}
-.qage[disabled]{filter:grayscale(.8);opacity:.6;pointer-events:none}
+.qage[disabled]{filter:none;opacity:1;pointer-events:none;background:var(--surface3);color:var(--mute);border:2px dashed var(--line2)}
 /* Autopilot controls in the quick bar */
 .qauto{flex:none;display:flex;flex-direction:column;gap:2px;width:58px}
 .qa{flex:none;height:22px;padding:0 4px;border-radius:8px;border:2px solid var(--navy2);background:var(--surface);color:var(--navy);font-size:10.5px;font-weight:800;line-height:1;white-space:nowrap;touch-action:manipulation;overflow:hidden}
-.qa.on{background:var(--good);border-color:var(--good);color:#fff}
+.qa.on{background:var(--good);border-color:var(--good-text);color:#fff}
 .qa:active{filter:brightness(.92)}
 .agebtn.auto-on{box-shadow:0 0 0 3px var(--good)}
 .auto-year{margin:6px 12px}

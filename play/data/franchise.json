@@ -517,33 +517,42 @@
    "id": "semi",
    "name": "Semi-pro club",
    "icon": "🥉",
-   "cost": 1500000.0,
+   "cost": 28000000.0,
    "strength": 44,
-   "payroll": 0.35,
-   "ticket": 22,
+   "payroll": 2.1,
+   "ticket": 40,
    "fans": 6000,
+   "inc": 28,
+   "staff": 6,
+   "share": 0.07,
    "league": "regional"
   },
   {
    "id": "pro",
    "name": "Professional club",
    "icon": "🥈",
-   "cost": 12000000.0,
+   "cost": 280000000.0,
    "strength": 58,
-   "payroll": 1.0,
-   "ticket": 48,
+   "payroll": 11.5,
+   "ticket": 110,
    "fans": 22000,
+   "inc": 230,
+   "staff": 30,
+   "share": 0.1,
    "league": "national"
   },
   {
    "id": "elite",
    "name": "Elite franchise",
    "icon": "🥇",
-   "cost": 60000000.0,
+   "cost": 1500000000.0,
    "strength": 72,
-   "payroll": 2.6,
-   "ticket": 95,
+   "payroll": 21,
+   "ticket": 220,
    "fans": 48000,
+   "inc": 800,
+   "staff": 110,
+   "share": 0.09,
    "league": "premier"
   }
  ],
@@ -552,25 +561,25 @@
    "id": "small",
    "name": "Small",
    "cap": 4000,
-   "cost": 400000.0
+   "cost": 12000000.0
   },
   {
    "id": "medium",
    "name": "Medium",
    "cap": 14000,
-   "cost": 3000000.0
+   "cost": 80000000.0
   },
   {
    "id": "large",
    "name": "Large",
    "cap": 38000,
-   "cost": 18000000.0
+   "cost": 400000000.0
   },
   {
    "id": "mega",
    "name": "Mega",
    "cap": 75000,
-   "cost": 70000000.0
+   "cost": 1400000000.0
   }
  ],
  "tiers": [
@@ -586,21 +595,21 @@
    "name": "Standard",
    "gate": 1.25,
    "upkeep": 0.03,
-   "cost": 0.4
+   "cost": 0.3
   },
   {
    "id": "premium",
    "name": "Premium",
    "gate": 1.6,
    "upkeep": 0.045,
-   "cost": 1.0
+   "cost": 0.7
   },
   {
    "id": "elite",
    "name": "Elite",
    "gate": 2.1,
    "upkeep": 0.06,
-   "cost": 2.2
+   "cost": 1.4
   }
  ],
  "roles": [

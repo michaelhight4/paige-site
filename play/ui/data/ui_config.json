@@ -187,7 +187,14 @@
    "sub": "Buy a club in any sport, hire staff, run the stadium",
    "icon": "🏟️",
    "minAge": 18
+  },  {
+   "id": "racing",
+   "label": "Racing",
+   "sub": "Stock car, open-wheel, rally, drag and bike careers, or run your own race team",
+   "icon": "🏁",
+   "minAge": 16
   },
+
   {
    "id": "prodco",
    "label": "Production Companies",

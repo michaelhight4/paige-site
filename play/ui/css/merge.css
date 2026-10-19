@@ -20,9 +20,9 @@ img,svg,canvas{image-rendering:pixelated}.char-avatar svg{display:block}
 @media (max-width:380px){.tab{font-size:10px}.topbtn{width:30px;height:30px}}
 
 /* stage 2: fixed bottom tab bar, New badges, tips */
-.tab{position:relative;font-size:10.5px;min-width:0}.tab .tl{line-height:1.1}.tab.on{background:#ffffff22;box-shadow:inset 0 3px 0 var(--accent)}
+.tab{position:relative;font-size:10.5px;min-width:0}.tab .tl{line-height:1.1}.tab.on{background:transparent;box-shadow:inset 0 3px 0 var(--accent),inset 0 0 0 1px currentColor;border-radius:10px}
 .nbadge{position:absolute;top:4px;right:calc(50% - 26px);min-width:16px;height:16px;border-radius:8px;background:var(--accent);color:#fff;font-style:normal;font-size:10px;font-weight:900;display:grid;place-items:center;padding:0 4px;border:1px solid #fff}
-.badge.new{background:var(--accent);color:#fff;font-weight:900}
+.badge.new{background:var(--accent);color:var(--on-accent,#fff);font-weight:900}
 .tip{position:absolute;left:10px;right:10px;bottom:calc(var(--tab-h) + 34px);z-index:35;background:#fff8d9;border:2px solid var(--gold);border-radius:12px;padding:8px 10px;font-size:13px;display:flex;gap:8px;align-items:flex-start;box-shadow:0 4px 12px #0004}
 .tip span{flex:1}.tip button{border:0;background:none;font-weight:900;font-size:16px}
 .overlay{z-index:60}

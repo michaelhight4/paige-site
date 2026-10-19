@@ -21,7 +21,8 @@ export const ROUTINES = [
   { id: 'study', icon: '📚', label: 'Study', desc: 'Hit the books', q: 'study' },
   { id: 'meditate', icon: '🧘', label: 'Meditate', desc: 'Calm the mind', q: 'meditate' },
   { id: 'workharder', icon: '💼', label: 'Work harder', desc: 'Extra effort at your job', q: 'workharder' },
-  { id: 'practice', icon: '🔥', label: 'Practice passion', desc: 'Practice your first un-practiced passion', q: 'practice' },
+  { id: 'practice', icon: '🔥', label: 'Practice passions', desc: 'Practice every active passion once this year (same as the Practice button on each)', k: 'passion_practice' },
+  { id: 'passion_pick', icon: '🌱', label: 'Pick a passion', desc: 'Fill a free passion slot (your preferred passion, else the best fit for your skills)', k: 'passion_pick' },
   { id: 'talk_partner', icon: '💬', label: 'Talk to partner / spouse', desc: 'A real conversation (free)', i: 'talk', who: 'partner' },
   { id: 'date_night', icon: '🌹', label: 'Date night', desc: 'Romantic night with your partner / spouse ($100)', i: 'romance', who: 'partner' },
   { id: 'gift_partner', icon: '🎁', label: 'Gift for partner / spouse', desc: 'A gift so they stay ($50)', i: 'gift', who: 'partner' },
@@ -38,6 +39,13 @@ export const ROUTINES = [
   { id: 'prod_film', icon: '🎬', label: 'Greenlight a movie', desc: 'Your film studio greenlights a film with your default policy', k: 'prod_greenlight', m: 'film' },
   { id: 'prod_tv', icon: '📺', label: 'Greenlight a TV show', desc: 'Your TV studio greenlights a show with your default policy', k: 'prod_greenlight', m: 'tv' },
   { id: 'prod_game', icon: '🎮', label: 'Greenlight a game', desc: 'Your game studio greenlights a game with your default policy', k: 'prod_greenlight', m: 'game' },
+  // racing (same adapter calls as the Racing screens)
+  { id: 'racing_train', icon: '🏎️', label: 'Racing: train', desc: 'Train your weakest driving stat (or craft) once a year', k: 'racing_train' },
+  { id: 'racing_license', icon: '🪪', label: 'Racing: apply for next licence', desc: 'Buy the next racing licence as soon as you qualify', k: 'racing_license' },
+  { id: 'racing_race', icon: '🏁', label: 'Racing: run the season', desc: 'Race the rest of the season for your career and your team', k: 'racing_race' },
+  { id: 'racing_sponsor', icon: '📣', label: 'Racing: sign best team sponsor', desc: 'Take the best-paying sponsor offer that fits a free slot', k: 'racing_sponsor' },
+  { id: 'racing_staff', icon: '🧑‍🔧', label: 'Racing: fill vacant team staff', desc: 'Hire the best affordable candidate for each required role', k: 'racing_staff' },
+  { id: 'racing_upgrade', icon: '🛠️', label: 'Racing: upgrade the garage', desc: 'Upgrade the lowest facility if it costs under 10% of team cash', k: 'racing_upgrade' },
   { id: 'prod_back', icon: '📨', label: 'Back a pitched project', desc: 'Invest a small slice of spare cash in the best pitch (revenue cut)', k: 'prod_back' },
 ];
 export const routineDef = (id) => ROUTINES.find((r) => r.id === id);
@@ -54,6 +62,14 @@ const sd = (ad, pid) => ad.getPlatform(pid);
 const openPlats = (ad) => (ad.getSocial().platforms || []).filter((p) => p.open && !p.locked && p.status === 'active');
 function bestPost(ad, p) { const rank = { Safe: 0, Spicy: 1, Risky: 2 }, fits = { great: 0, good: 1, ok: 2 }; return p.posts.filter((x) => !x.locked && x.tag === 'Safe').sort((x, y) => (fits[x.fit] ?? 3) - (fits[y.fit] ?? 3) || (rank[x.tag] - rank[y.tag]))[0]; }
 const CUSTOM = {
+  passion_practice(ad) { const st = ad.getPassions(); if (st.locked) return { ok: false, reason: 'Passions start at ' + st.minAge }; if (!st.active.length) return { ok: false, reason: 'No active passion (add the Pick a passion routine)' }; const todo = st.active.filter((a) => !a.practiced); if (!todo.length) return { ok: false, reason: 'Already practiced this year' }; return { ok: true, cost: 0, who: todo.map((a) => a.name).join(', '), run: () => { let last = { ok: false, message: '' }; const msgs = []; for (const a of todo) { last = ad.practicePassion(a.id); msgs.push(last.message); } return { ok: todo.length > 0, message: msgs.join(' ') }; } }; },
+  passion_pick(ad) { const st = ad.getPassions(), A = ensure(ad.s); if (st.locked) return { ok: false, reason: 'Passions start at ' + st.minAge }; if (st.used >= st.slots) return { ok: false, reason: 'No free passion slot' }; if (!st.available.length) return { ok: false, reason: 'No passion left to pick' }; const fit = (p) => p.skills.reduce((a, k) => a + ((ad.s.skills && ad.s.skills[k]) || 0), 0) / p.skills.length; const pref = A.passion && st.available.find((p) => p.id === A.passion), best = pref || st.available.slice().sort((x, y) => fit(y) - fit(x) || (x.id < y.id ? -1 : 1))[0]; return { ok: true, cost: 0, who: best.name, run: () => ad.pickPassion(best.id) }; },
+  racing_train(ad) { const st = ad.getRacing(); if (!st.career) return { ok: false, reason: 'No racing career' }; if (st.trainedThisYear) return { ok: false, reason: 'Already trained this year' }; if (ad.s.cash < st.trainCost) return { ok: false, reason: 'Cannot afford training' }; const weak = st.career.role === 'driver' ? Object.entries(st.statValues).sort((a, b) => a[1] - b[1])[0][0] : null; return { ok: true, cost: st.trainCost, run: () => ad.rcAction('train', weak) }; },
+  racing_license(ad) { const st = ad.getRacing(); if (!st.career) return { ok: false, reason: 'No racing career' }; const n = st.license.next; if (!n) return { ok: false, reason: 'All licences held' }; if (!n.eligible) return { ok: false, reason: n.reason }; return { ok: true, cost: n.fee, run: () => ad.rcAction('license') }; },
+  racing_race(ad) { const st = ad.getRacing(); const c = st.career && st.career.season && !st.career.season.done, t = st.team && st.team.canRace; if (!c && !t) return { ok: false, reason: 'No race left this season' }; return { ok: true, cost: 0, run: () => { let r = { ok: false, message: '' }; const msgs = []; if (c) { r = ad.rcAction('race', true); msgs.push(r.message); } if (t) { r = ad.rcAction('teamRace', true); msgs.push(r.message); } return { ok: r.ok, message: msgs.join(' ') }; } }; },
+  racing_sponsor(ad) { const t = ad.getRacing().team; if (!t) return { ok: false, reason: 'No racing team' }; const free = (k) => t.sponsors.deals.filter((x) => x.kind === k).length < t.sponsors.slots[k]; const o = t.sponsors.offers.filter((x) => free(x.kind)).sort((a, b) => b.pay - a.pay)[0]; if (!o) return { ok: false, reason: 'No sponsor offer fits a free slot' }; return { ok: true, cost: 0, run: () => ad.rcAction('sponsor', o.id) }; },
+  racing_staff(ad) { const st = ad.getRacing(), t = st.team; if (!t) return { ok: false, reason: 'No racing team' }; const role = st.troles.find((r) => r.required && !t.staff.some((x) => x.role === r.id)); if (!role) return { ok: false, reason: 'No vacant required role' }; const c = ad.getRacingStaff(role.id).filter((x) => x.fee <= t.cash * 0.2).sort((a, b) => b.skill - a.skill)[0]; if (!c) return { ok: false, reason: 'No affordable candidate' }; return { ok: true, cost: 0, run: () => ad.rcAction('hire', role.id, c.id) }; },
+  racing_upgrade(ad) { const t = ad.getRacing().team; if (!t) return { ok: false, reason: 'No racing team' }; const f = t.facilities.filter((x) => x.cost && x.cost <= t.cash * 0.1).sort((a, b) => a.level - b.level)[0]; if (!f) return { ok: false, reason: 'Nothing affordable to upgrade' }; return { ok: true, cost: 0, run: () => ad.rcAction('upgrade', f.id) }; },
   social_post(ad) { const s = ad.s; if (s.age < 13) return { ok: false, reason: 'Social media starts at 13' }; let best = null; for (const sp of openPlats(ad)) { const p = sd(ad, sp.id); if (!p || p.postsLeft <= 0) continue; const post = bestPost(ad, p); if (post && (!best || sp.followers > best.f)) best = { pid: sp.id, post, f: sp.followers }; } if (!best) return { ok: false, reason: 'No open platform with a safe post to make' }; return { ok: true, cost: 0, who: best.pid, run: () => ad.socialAction(best.pid, 'post', best.post.id) }; },
   social_reply(ad) { const t = openPlats(ad).filter((sp) => { const p = sd(ad, sp.id); return p && !p.done.reply; })[0]; if (!t) return { ok: false, reason: 'Nothing to reply to' }; return { ok: true, cost: 0, who: t.id, run: () => { let last; for (const sp of openPlats(ad)) { const p = sd(ad, sp.id); if (p && !p.done.reply) last = ad.socialAction(sp.id, 'reply'); } return last; } }; },
   social_deal(ad) { let best = null; for (const sp of openPlats(ad)) { const p = sd(ad, sp.id); if (!p || !p.canSponsor || p.deals.length >= p.maxDeals) continue; for (const o of p.offers) if (o.fit !== 'poor' && (!best || o.pay > best.o.pay)) best = { pid: sp.id, o }; } if (!best) return { ok: false, reason: 'No sponsor offer to take' }; return { ok: true, cost: 0, who: best.o.brand, run: () => ad.socialAction(best.pid, 'accept', best.o.id) }; },
@@ -119,13 +135,14 @@ export function status(ad) {
   const s = ad.s, A = ensure(s), un = unlocked();
   const routines = ROUTINES.map((def) => { const c = s.alive ? check(ad, def) : { ok: false, reason: 'Not alive' }; return { id: def.id, icon: def.icon, label: def.label, desc: def.desc, selected: A.routines.includes(def.id), available: c.ok, reason: c.reason || '', cost: c.cost || 0 }; });
   const safe = safetyBefore(s, A.floor);
-  return { unlocked: un, price: 5.99, on: !!A.on && un, wantsOn: !!A.on, routines, floor: A.floor, selected: [...A.routines], safety: safe, last: A.last, skipRemaining: A.skipRemaining || 0, maxSkip: MAX_SKIP, nextAge: Math.floor(s.age) + 1 };
+  return { passion: A.passion || null, unlocked: un, price: 5.99, on: !!A.on && un, wantsOn: !!A.on, routines, floor: A.floor, selected: [...A.routines], safety: safe, last: A.last, skipRemaining: A.skipRemaining || 0, maxSkip: MAX_SKIP, nextAge: Math.floor(s.age) + 1 };
 }
 export function configure(s, o = {}) {
   const A = ensure(s);
   if (o.routines) A.routines = o.routines.filter((id, i, arr) => routineDef(id) && arr.indexOf(id) === i);
   if (o.floor != null) A.floor = Math.max(0, Math.min(1e9, Math.round(Number(o.floor) || 0)));
   if (o.on != null) A.on = !!o.on;
+  if (o.passion !== undefined) A.passion = o.passion ? String(o.passion) : null;
   return A;
 }
 
