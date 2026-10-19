@@ -2,6 +2,7 @@
 // (a) back OTHER companies' projects for a revenue cut (pitches, flops, royalty income over years), and/or
 // (b) run your own company: sign artists (music), hire crew, greenlight projects. With the default policy a company produces by itself every year.
 // Reuses src/studio.js genres/themes/trend curves and fame tiers (market trends). State: s.prod. Data: data/prodco.json.
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, gauss } from './rng.js';
 import { log, earn } from './core.js';
@@ -57,6 +58,7 @@ const bestGenre = (s, m) => trends(s, m)[0].id;
 // ---------- naming / people ----------
 const nameTitle = (s) => { const n = D.studio.nameGen; return pick(s, [`${pick(s, n.adjectives)} ${pick(s, n.nouns)}`, `The ${pick(s, n.adjectives)} ${pick(s, n.nouns)}`, `${pick(s, n.nouns)} of ${pick(s, n.nouns)}`]); };
 const personName = (s) => pick(s, C().firsts) + ' ' + pick(s, C().lasts);
+export const crewQuality = (co) => crewQ0(co) + (co.crew.length ? (co.q || 0) * 0.3 : 0);
 export function genCandidate(s, co, roleId) { const sk = clamp(R(25 + co.rep * 0.4 + gauss(s) * 16 + (co.fame || 0) * 0.15), 5, 95); return { id: 'c' + Math.floor(rnd(s) * 1e9), name: personName(s), role: roleId, skill: sk, wage: wageOf(sk), wild: +(rnd(s) ** 1.5).toFixed(2) }; }
 export function genArtist(s, co) { const talent = clamp(R(35 + co.rep * 0.3 + gauss(s) * 17), 10, 98), pot = clamp(talent + rint(s, 0, 20), 10, 99); return { id: 'a' + Math.floor(rnd(s) * 1e9), name: chance(s, 0.5) ? personName(s) : pick(s, C().artistWords) + ' ' + pick(s, C().artistWords), genre: pick(s, genresOf('music')).id, talent, pot, fame: rint(s, 0, 15), wild: +(rnd(s) ** 1.5).toFixed(2), age: rint(s, 18, 30), contract: 0, busy: 0, albums: 0 }; }
 const signCost = (a) => R(a.talent * a.talent * 12 + 8000);
@@ -69,7 +71,7 @@ export function mkCo(s, m) {
   refreshMarket(s, co); return co;
 }
 export function refreshMarket(s, co) { const m = co.medium; co.market = { crew: [], artists: [] }; for (const r of med(m).roles) for (let i = 0; i < 2; i++) co.market.crew.push(genCandidate(s, co, r.id)); if (m === 'music') for (let i = 0; i < 4; i++) co.market.artists.push(genArtist(s, co)); }
-export const crewQuality = (co) => co.crew.length ? co.crew.reduce((a, c) => a + c.skill, 0) / Math.max(co.crew.length, 3) * (co.crew.length >= med(co.medium).roles.length ? 1 : co.crew.length / med(co.medium).roles.length) : 0;
+const crewQ0 = (co) => co.crew.length ? co.crew.reduce((a, c) => a + c.skill, 0) / Math.max(co.crew.length, 3) * (co.crew.length >= med(co.medium).roles.length ? 1 : co.crew.length / med(co.medium).roles.length) : 0;
 export const maxSlots = (co) => clamp(1 + Math.floor(co.crew.length / 3) + Math.floor(co.rep / 45), 1, 5);
 const payroll = (co) => co.crew.reduce((a, c) => a + c.wage, 0) + co.roster.reduce((a, x) => a + advanceOf(x), 0) + C().overhead;
 const valueOf = (co) => Math.max(0, R(co.cash + (co.totals.revenue > 0 ? Math.max(0, (co.lastYear ? co.lastYear.profit : 0)) * 3 : 0) + co.rep * 5000 + co.fame * 8000));
@@ -138,7 +140,7 @@ function releaseOne(s, co, pr) {
 // ---------- inbound deals: other studios, streamers and console makers come to YOU about a project in production ----------
 const PARTNERS = { streamer: ['Streamline', 'Fluxcast', 'Orbitplay', 'Ripple+'], dist: ['Meridian Pictures', 'Crown Releasing', 'Lantern Films', 'Atlas Distribution'], network: ['Channel Nine-Nine', 'Beacon Network', 'Unity Broadcasting'], label: ['Vinyl Crown', 'Sonata Group', 'Halo Records', 'Northstar Music'], studio: null };
 const DEALS = { game: ['exclusive', 'port', 'license', 'publish'], film: ['streaming', 'theatrical', 'festival'], tv: ['streaming', 'network', 'syndication'], music: ['streaming', 'label', 'sync'] };
-const money = (n) => '$' + R(n).toLocaleString('en-US');
+const money = (n) => fmtMoney(n);
 function makeOffer(s, co, pr, type) {
   const m = co.medium, t = tierDef(pr.tier), E = pr.cost * t.mean * Math.exp((score(s, co, pr, false) - 6) * 0.42), o = { id: 'o' + Math.floor(rnd(s) * 1e9), type, projectId: pr.id, projectTitle: pr.title, upfront: 0, keep: 1, revMult: 1, scoreDelta: 0, risk: 0, mishap: 0, fame: 0, rep: 0, now: 0, tailYears: 0, flopPenalty: 0, console: null, mishapText: '', terms: [] };
   const P = (k) => pick(s, PARTNERS[k]); const T = o.terms;

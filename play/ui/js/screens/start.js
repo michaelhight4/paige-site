@@ -1,4 +1,5 @@
 // Start flow: Lifeline (2 save slots) + character creation. Rendered as a full-screen layer inside #app (never remounts the hub).
+import { colorName } from '../colorname.js';
 import { adapter } from '../adapter.js';
 import { store, h, btn, section, sheet, confirmSheet, money, sfx, toast } from '../ui.js';
 import { composeSprite } from '../character.js';
@@ -46,7 +47,7 @@ export function runStart(mode, opts = {}) {
       firstIn.addEventListener('input', () => { v.first = firstIn.value; }); lastIn.addEventListener('input', () => { v.last = lastIn.value; });
       const lookOf = () => ({ skin: v.skin, eye: v.eye, build: v.build, hair: v.hair, hairColor: v.hairColor, facial: v.gender === 'm' ? v.facial : null });
       let seq = 0; const paint = async () => { const n = ++seq, l = await adapter.getPreviewLook(lookOf(), O.previewAge); const svg = await composeSprite(l, { size: 200 }); if (n === seq) prev.innerHTML = svg; };
-      const swatches = (colors, cur, key, tag) => h('div', { class: 'swatches' }, ...colors.map((c) => h('button', { class: 'sw' + (c === cur ? ' on' : ''), 'data-swatch': tag + ':' + c, 'aria-label': tag + ' ' + c, title: c, style: { background: c }, onclick: () => { v[key] = c; redraw(); } })));
+      const swatches = (colors, cur, key, tag) => h('div', { class: 'swatches' }, ...colors.map((c) => h('button', { class: 'sw' + (c === cur ? ' on' : ''), 'data-swatch': tag + ':' + c, 'aria-label': tag + ' ' + colorName(c), title: colorName(c), style: { background: c }, onclick: () => { v[key] = c; redraw(); } })));
       const chips = (items, cur, key, tag) => h('div', { class: 'btns cr-chips' }, ...items.map((i) => btn(i.label, () => { v[key] = i.id; if (key === 'gender' && i.id !== 'm') v.facial = null; redraw(); }, (cur === i.id ? 'go' : 'alt') + ' sm', { 'data-opt': tag + ':' + i.id })));
       const lab = (t) => h('div', { class: 'hint cr-lab', text: t });
       function redraw() {

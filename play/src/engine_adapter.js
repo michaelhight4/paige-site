@@ -1,5 +1,6 @@
 // EngineAdapter: implements the UI adapter contract (ui/ADAPTER.md) against the real lifesim engine.
 // Pure JS (no DOM); runs in Node for tests. All state is the engine state `s` (saved with E.save after every mutating call).
+import { tbApi, installGates } from './adapter_tb.js';
 import * as E from './engine.js';
 import { D } from './data.js';
 import * as Premium from './premium.js';
@@ -25,6 +26,8 @@ import { frApi } from './adapter_fr.js';
 import { rcApi } from './adapter_rc.js';
 import { schApi } from './adapter_sch.js';
 import { cxApi } from './adapter_cx.js';
+import { mtApi } from './adapter_mt.js';
+import { boApi } from './adapter_bo.js';
 import * as Ads from './ads.js';
 
 const isNode = typeof window === 'undefined';
@@ -58,7 +61,7 @@ export class EngineAdapter {
   setSteamSub(on) { Ads.setSteamSubscription(on); return this.getSettings().ads; }
   debugSetup(o = {}) { const s = this.s; if (o.cash != null) s.cash = o.cash; if (o.age != null) { s.age = o.age; if (o.age >= 18) { s.school = null; s.edu = Math.max(s.edu, 1); } else if (o.age >= 12) s.school = 'high'; else if (o.age >= 5) s.school = 'primary'; } if (o.college != null) { s.school = 'college'; s.college = { yrs: o.college }; s.edu = Math.max(s.edu, 1); E.Scholar.ensure(s); if (o.gpa != null) s.sch.gpa = [o.gpa, o.gpa, o.gpa]; if (o.award) { const tp = D.scholarData.types.find((x) => x.id === o.award); if (tp) s.sch.active.push({ id: tp.id, name: tp.name, pct: 0.3, basePct: 0.3, yearsLeft: 3, level: 'college', awardedAt: s.age - 1, kind: tp.kind, renewals: 0, probation: 0 }); } } return this.getState(); }
 }
-Object.assign(EngineAdapter.prototype, slotsApi, quickApi, autoApi, rewardsApi, onlineApi, socialApi, politicsApi, coachApi, prodApi, frApi, rcApi, schApi, cxApi, life, assets, bizApi, unlockApi, growth);
+Object.assign(EngineAdapter.prototype, tbApi, slotsApi, quickApi, autoApi, rewardsApi, onlineApi, socialApi, politicsApi, coachApi, prodApi, frApi, rcApi, schApi, cxApi, mtApi, boApi, life, assets, bizApi, unlockApi, growth);
 // persist after every mutating call
 for (const k of Object.getOwnPropertyNames(EngineAdapter.prototype)) {
   const f = EngineAdapter.prototype[k];
@@ -66,3 +69,4 @@ for (const k of Object.getOwnPropertyNames(EngineAdapter.prototype)) {
   EngineAdapter.prototype[k] = function (...a) { const r = f.apply(this, a); if (r && typeof r.then === 'function') return r.then((x) => { this.save(); return x; }); this.save(); return r; };
 }
 export default EngineAdapter;
+installGates(EngineAdapter.prototype);

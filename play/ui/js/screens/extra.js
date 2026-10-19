@@ -5,6 +5,7 @@ export const businessEntries = () => [{ id: 'biz:hub', label: 'Businesses & Stud
   { id: 'biz:found', label: 'Start a business', sub: 'Shops, services, fleets, farms, hotels…', icon: '🏪', open: (n) => n.open('Start a business', foundScreen), kw: 'found open startup' },
   { id: 'biz:buy', label: 'Buy an established business', sub: 'Running businesses for sale', icon: '💰', open: (n) => n.open('Businesses for sale', offersScreen), kw: 'acquire offers' }];
 export const skillEntries = () => [{ id: 'skill:passions', label: 'Passions', sub: 'Meters, masteries, switching', icon: '🔥', open: (n) => n.open('Passions', passionsScreen), kw: 'passion' }, { id: 'skill:main', label: 'Skills', sub: 'Physical, mental, emotional, practical', icon: '📈', open: (n) => n.open('Skills', skillsScreen), kw: 'strength memory focus' }];
+import { colorName } from '../colorname.js';
 import { adapter } from '../adapter.js';
 import { autoPageCard } from './autopage.js';
 import { store, h, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act, askNumber, toast } from '../ui.js';
@@ -14,11 +15,19 @@ export async function businessesScreen(body, { nav }) {
   body.append(h('div', { class: 'card', 'data-el': 'biz-summary' }, h('h3', { text: 'Your businesses' }), kv('Cash', money(b.cash)), kv('Owned', String(b.owned.length)), kv('Total profit / yr', money(b.owned.reduce((a, x) => a + x.profit, 0)), 'pos')));
   body.append(h('div', { class: 'btns', style: { padding: '8px 12px 0' } }, btn('🏪 Start a business', () => nav.open('Start a business', foundScreen), 'go sm', { 'data-el': 'biz-found' }), btn('💰 Buy one', () => nav.open('Businesses for sale', offersScreen), 'alt sm', { 'data-el': 'biz-buy' })));
   if (!b.owned.length) body.append(empty(b.age < 18 ? 'You can start a business at 18 (some need more).' : 'You own no businesses yet.'));
-  else body.append(section('Owned'), ...b.owned.map((x) => row({ id: 'b' + x.id, icon: x.icon, title: x.name, sub: `${x.typeName} · ${x.staff} staff · rep ${x.rep}${x.trust ? ' · in trust' : ''}`, right: money(x.profit) + '/yr', onClick: x.brand ? async () => { const { brandScreen } = await import('./venture.js'); nav.open(x.name, brandScreen); } : x.farm ? async () => { const { farmScreen } = await import('./venture.js'); nav.open(x.name, farmScreen); } : x.advisor ? async () => { const { advisorScreen } = await import('./venture.js'); nav.open(x.name, advisorScreen); } : x.racing ? async () => { const { racingScreen } = await import('./racing.js'); nav.open(x.name, (bd, c) => racingScreen(bd, c, 'team')); } : x.franchise ? async () => { const { franchiseScreen } = await import('./franchise.js'); await adapter.frAction('switch', x.teamId); nav.open(x.name, franchiseScreen); } : x.prodco ? async () => { const { companyScreen } = await import('./prodco.js'); nav.open(x.name, (bd, c) => companyScreen(bd, c, x.prodco)); } : () => nav.open(x.name, (bd, c) => businessDetail(bd, c, x.id)) })));
+  else body.append(section('Owned'), ...b.owned.map((x) => row({ id: 'b' + x.id, icon: x.icon, title: x.name, sub: `${x.typeName} · ${x.staff} staff · rep ${x.rep}${x.trust ? ' · in trust' : ''}`, right: money(x.profit) + '/yr', onClick: x.brand ? async () => { const { brandScreen } = await import('./venture.js'); nav.open(x.name, brandScreen); } : x.farm ? async () => { const { farmScreen } = await import('./venture.js'); nav.open(x.name, farmScreen); } : x.advisor ? async () => { const { advisorScreen } = await import('./venture.js'); nav.open(x.name, advisorScreen); } : x.racing ? async () => { const { racingScreen } = await import('./racing.js'); nav.open(x.name, (bd, c) => racingScreen(bd, c, 'team')); } : x.franchise ? async () => { const { franchiseScreen } = await import('./franchise.js'); await adapter.frAction('switch', x.teamId); nav.open(x.name, x.esports ? (bd, c) => franchiseScreen(bd, c, 'esports') : franchiseScreen); } : x.prodco ? async () => { const { companyScreen } = await import('./prodco.js'); nav.open(x.name, (bd, c) => companyScreen(bd, c, x.prodco)); } : () => nav.open(x.name, (bd, c) => businessDetail(bd, c, x.id)) })));
+}
+// Every start path (Assets, Work, More, Businesses) lands the same way: on the Your-businesses list with the new business opened on its manage screen.
+const settle = (ms = 60) => new Promise((r) => setTimeout(r, ms));
+async function landOnNew(nav, before) {
+  nav.back(); await settle(120);
+  if (!document.querySelector('.panel.top [data-el=biz-summary]')) { nav.open('Businesses & Studios', businessesScreen); await settle(200); }
+  const now = await adapter.getBusinesses(); const nu = now.owned.find((x) => !before.has(x.id)) || now.owned[now.owned.length - 1]; if (!nu) return;
+  for (let i = 0; i < 12; i++) { const el = document.querySelector(`.panel.top [data-id="b${nu.id}"]`); if (el) { el.click(); return; } await settle(100); }
 }
 export async function foundScreen(body, { nav }) {
-  const b = await adapter.getBusinesses(); let cur = null;
-  for (const t of b.types) { if (t.group !== cur) { cur = t.group; body.append(section(cur)); } body.append(row({ id: 'found:' + t.id, icon: t.icon, title: t.name, sub: t.locked ? t.reason : (t.blurb || 'Startup ' + money(t.fee)) + (t.license ? ' · license: ' + t.license : ''), right: money(t.fee), disabled: t.locked, onClick: async () => { const r = await act(adapter.foundBusiness({ type: t.id })); if (r.ok) { nav.back(); nav.open('Businesses & Studios', businessesScreen); } } })); }
+  const b = await adapter.getBusinesses(); let cur = null; const before = new Set(b.owned.map((x) => x.id));
+  for (const t of b.types) { if (t.group !== cur) { cur = t.group; body.append(section(cur)); } body.append(row({ id: 'found:' + t.id, icon: t.icon, title: t.name, sub: t.locked ? t.reason : (t.blurb || 'Startup ' + money(t.fee)) + (t.license ? ' · license: ' + t.license : ''), right: money(t.fee), disabled: t.locked, onClick: async () => { const r = await act(adapter.foundBusiness({ type: t.id })); if (r.ok) await landOnNew(nav, before); } })); }
 }
 export async function offersScreen(body, { nav }) {
   const b = await adapter.getBusinesses();
@@ -35,6 +44,7 @@ export async function businessDetail(body, ctx, id) {
   }
   if (d.fleet) body.append(...fleetBlock(d, ctx));
   if (d.risks && d.risks.length) body.append(h('div', { class: 'card' }, h('h3', { text: 'Risks' }), ...d.risks.map((r) => h('div', { class: 'hint', text: `• ${r.label}${r.pct ? ' (~' + r.pct + '%/yr)' : ''}` }))));
+  { const { bizOpsCard } = await import('./bizops.js'); const c = await bizOpsCard('biz', id); if (c) body.append(c); }
   if (d.upgrades && d.upgrades.length) body.append(section('Upgrades'), ...d.upgrades.map((u) => row({ id: 'up:' + u.id, icon: u.owned ? '✅' : '⬆️', title: u.name, sub: u.owned ? 'Installed' : u.desc, right: u.owned ? null : money(u.cost), disabled: u.owned || u.cost > d.cash, onClick: () => act(adapter.businessUpgrade(id, u.id)) })));
   if (!d.editor) {
     body.append(section('Staff'), ...d.staffList.map((p) => row({ icon: '🧑‍💼', title: p.name, sub: `${p.role} · skill ${p.skill}`, right: money(p.salary), onClick: async () => { if (await confirmSheet('Let ' + p.name + ' go?', 'Severance is 15% of annual salary.', 'Fire', 'danger')) act(adapter.fireStaff(id, p.id)); } })));
@@ -74,7 +84,8 @@ export async function passionsScreen(body, { nav, refresh }) {
   if (p.locked) return body.append(empty(`Passions start at age ${p.minAge}.`));
   body.append(h('div', { class: 'card', 'data-el': 'passion-rules' }, h('h3', { text: `Passion slots ${p.used}/${p.slots}` }), ...p.rules.map((r) => h('div', { class: 'hint', text: '• ' + r })), kv('Masteries', `${p.mastered.length} / ${p.masteryCap}`), p.heritage.length ? h('div', { class: 'hint', text: '🧬 Head start from your parent: ' + p.heritage.join(', ') }) : null));
   if (p.active.length) body.append(section('Active'), ...p.active.map((a) => h('div', { class: 'card', 'data-passion': a.id }, h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${a.icon} ${a.name}` }), bar('Mastery meter', a.meter, { thin: true, key: 'meter_' + a.id }), h('div', { class: 'hint', text: 'Trains: ' + Object.keys(a.skills).map((x) => x.replace('_', ' ')).join(', ') }),
-    h('div', { class: 'btns' }, btn(a.practiced ? 'Practiced this year' : 'Practice', async () => { await act(adapter.practicePassion(a.id)); }, 'go sm', { 'data-act': 'practice', disabled: a.practiced ? true : null }), btn('Drop (resets meter)', async () => { if (await confirmSheet('Drop ' + a.name + '?', 'Its meter resets to zero.', 'Drop', 'danger')) act(adapter.dropPassion(a.id)); }, 'alt sm', { 'data-act': 'drop' })))));
+    a.full ? h('div', { class: 'hint', 'data-el': 'cap-note', text: `Meter full at 100, but the mastery cap (${p.masteryCap}) is reached, so it can't become a new mastery. Drop it to free the slot.` }) : null,
+    h('div', { class: 'btns' }, btn(a.full ? 'Meter full' : a.practiced ? 'Done this year' : 'Practice', async () => { await act(adapter.practicePassion(a.id)); }, 'go sm', { 'data-act': 'practice', disabled: a.practiced || a.full ? true : null }), btn('Drop (resets meter)', async () => { if (await confirmSheet('Drop ' + a.name + '?', 'Its meter resets to zero.', 'Drop', 'danger')) act(adapter.dropPassion(a.id)); }, 'alt sm', { 'data-act': 'drop' })))));
   if (p.mastered.length) body.append(section('Mastered'), ...p.mastered.map((m) => row({ icon: '🏆', title: `${m.title}`, sub: `${m.name} · mastered at age ${m.age}`, chevron: false })));
   body.append(section(p.used >= p.slots ? 'Switch to…' : 'Choose a passion'), ...p.available.map((a) => row({ id: 'pick:' + a.id, icon: a.icon, title: a.name, sub: 'Trains ' + a.skills.slice(0, 3).map((x) => x.replace('_', ' ')).join(', '), onClick: async () => {
     let rep = null;
@@ -125,7 +136,7 @@ import { composeSprite } from '../character.js';
 export async function appearanceScreen(body, ctx) {
   const A = await adapter.getAppearance(); const prev = h('div', { 'data-el': 'char-preview', style: { display: 'flex', justifyContent: 'center', padding: '6px 0', background: 'linear-gradient(#cfe3f0,#eaf3f9)', borderRadius: '12px', margin: '8px 12px' } });
   const paint = async () => { const a = await adapter.getAppearance(); prev.innerHTML = await composeSprite(a, { size: 192 }); }; await paint();
-  const swatches = (colors, cur, onPick, tag) => h('div', { class: 'chips', style: { padding: '2px 12px 8px', display: 'flex', flexWrap: 'wrap', gap: '6px' } }, ...colors.map((c) => h('button', { 'data-swatch': tag + ':' + c, title: c, style: { width: '26px', height: '26px', borderRadius: '6px', border: c === cur ? '3px solid #1b1b2a' : '2px solid #fff', background: c, boxShadow: '0 0 0 1px #0003' }, onclick: async () => { await onPick(c); await refresh(); } })));
+  const swatches = (colors, cur, onPick, tag) => h('div', { class: 'chips', style: { padding: '2px 12px 8px', display: 'flex', flexWrap: 'wrap', gap: '6px' } }, ...colors.map((c) => h('button', { 'data-swatch': tag + ':' + c, title: colorName(c), 'aria-label': colorName(c), style: { width: '26px', height: '26px', borderRadius: '6px', border: c === cur ? '3px solid #1b1b2a' : '2px solid #fff', background: c, boxShadow: '0 0 0 1px #0003' }, onclick: async () => { await onPick(c); await refresh(); } })));
   const root = h('div'); body.append(prev, root);
   async function refresh() {
     const a = await adapter.getAppearance(); await paint(); root.replaceChildren();

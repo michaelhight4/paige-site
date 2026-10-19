@@ -130,7 +130,7 @@ export function tickBiz(s, b, dt) {
   // reputation drift toward service quality
   if (b.kind === 'shop') {
     const t = D.bizTypes[b.type], avgSk = b.staff.length ? b.staff.reduce((a, p) => a + p.skill, 0) / b.staff.length : 0;
-    const tgt = 30 + 0.45 * avgSk + Math.min(15, b.staff.length * 3) + (f.cap >= f.demand ? 8 : -8);
+    const tgt = (b.q != null ? (b.q - 40) * 0.25 : 0) + 30 + 0.45 * avgSk + Math.min(15, b.staff.length * 3) + (f.cap >= f.demand ? 8 : -8);
     b.rep = clamp(b.rep + (tgt - b.rep) * 0.2 * dt, 0, 100);
   } else if (b.kind === 'studio') b.rep = clamp(b.rep - 0.5 * dt, 0, 100);
   b.valuation = valuation(s, b);

@@ -34,8 +34,8 @@ export const quickApi = {
       if (k === 'practice') {
         const st = E.Passions.status(s);
         if (age < (st.minAge ?? 12) || st.locked) { push({ id: 'practice', icon: '🔥', label: 'Practice', disabled: true, reason: `Passions start at age ${st.minAge ?? 12}` }); continue; }
-        const next = st.active.find((a) => !a.practiced);
-        push(next ? { id: 'practice', icon: next.icon || '🔥', label: 'Practice', hint: next.name } : { id: 'practice', icon: '🔥', label: 'Practice', done: !!st.active.length, disabled: true, reason: st.active.length ? 'Practiced this year' : 'Pick a passion first' });
+        const next = st.active.find((a) => !a.practiced && !a.full);
+        push(next ? { id: 'practice', icon: next.icon || '🔥', label: 'Practice', hint: next.name } : { id: 'practice', icon: '🔥', label: 'Practice', done: !!st.active.length, disabled: true, reason: st.active.length ? (st.active.every((a) => a.full) ? 'Meters full (mastery cap reached)' : 'Practiced this year') : 'Pick a passion first' });
         continue;
       }
       const d = DEF[k]; if (!d) continue;
@@ -52,7 +52,7 @@ export const quickApi = {
     if (!s.alive) return this.res(false, 'Not available.', n0);
     const [k, arg] = String(id).split(':');
     if (k === 'upkeep') return this.interact(Number(arg), 'spend');
-    if (k === 'practice') { const next = E.Passions.status(s).active.find((a) => !a.practiced); return next ? this.practicePassion(next.id) : this.res(false, 'Nothing to practice right now.', n0); }
+    if (k === 'practice') { const next = E.Passions.status(s).active.find((a) => !a.practiced && !a.full); return next ? this.practicePassion(next.id) : this.res(false, 'Nothing to practice right now.', n0); }
     const d = DEF[k]; if (!d) return this.res(false, 'Unknown action.', n0);
     if (d.world) return this.doActivity('w:' + d.world, 0);
     E.Skills.fromActivity(s, d.skill); const r = E.doActivity(s, d.life); return this.res(!!r.ok, r.msg, n0);

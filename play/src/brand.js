@@ -1,11 +1,12 @@
 // Clothing brand you launch: price range, quality range, target audience, 14 product lines, seasonal collections (hits and flops), models/ambassadors,
 // retail / online / wholesale channels, staff, brand investments (+4/+8/+16/+30 steps) and itemised yearly finances. State: s.brand. All money moves through your cash.
+import { fmtMoney } from './fmt.js';
 import { rnd, chance, clamp, gauss } from './rng.js';
 import { log, earn, spend } from './core.js';
 import { logoSvg, normLogo, autoLogo, cleanName } from './franchise.js';
 
 const R = Math.round, age = (s) => Math.floor(s.age);
-const money = (n) => '$' + R(n).toLocaleString('en-US');
+const money = (n) => fmtMoney(n);
 const hashStr = (str) => { let h = 2166136261; for (const c of String(str)) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
 const lcg = (seed) => { let t = seed >>> 0; return () => { t += 0x6d2b79f5; let x = Math.imul(t ^ (t >>> 15), 1 | t); x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; }; };
 export const MIN_AGE = 18;

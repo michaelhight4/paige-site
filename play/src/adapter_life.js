@@ -46,7 +46,7 @@ export const life = {
     return this.res(!!(r && r.ok), r && r.msg, n0, r && r.ok ? { data: r } : { data: r });
   },
   card() {
-    const s = this.s, c = Ev.pendingCard(s); if (!c) return null; const choices = c.choices.map((x) => ({ label: x.label }));
+    const s = this.s, c = Ev.pendingCard(s); if (!c) return null; const choices = c.choices.map((x) => ({ label: x.label, disabled: x.disabled || undefined }));
     const rare = c.kind === 'event' ? rareFor(s) : null, A = Ads.ensure(s);
     if (rare) { const p = s.pending[0]; choices.push({ label: rare.label, rare: true, ad: true, locked: !(A.unlockedRare && A.unlockedRare.id === p.id && A.unlockedRare.turn === s.turns), access: Ads.access('rare') }); }
     return { id: c.id || c.kind, title: c.title, prompt: c.text, category: c.cat, choices };
@@ -73,11 +73,13 @@ export const life = {
     if (!s.pending.length) {
       // Autopilot (premium): routines run first, with the same costs/effects as manual actions, then the year passes
       const A = Auto.ensure(s), useAuto = Auto.unlocked() && (opts.routines || (A.on && !opts.noAuto));
-      if (useAuto) pre = await Auto.playYear(this, { routines: opts.routines, floor: opts.floor });
+      if (useAuto && (opts.routines || A.ranAge !== Math.floor(s.age))) pre = await Auto.playYear(this, { routines: opts.routines, floor: opts.floor });
       s.step = 1;
       if (s.league.finals && !s.league.finals.done) Sports.finalsAuto(s);
       E.takeTurn(s); if (s.alive) Ads.yearPassed(s);
       if (pre) { auto = Auto.summarize(s, pre, null, pre.floor); A.last = auto; log(s, auto.line + (auto.spent ? ` Spent ${'$' + auto.spent.toLocaleString('en-US')}.` : ''), 'act'); }
+      // the new year starts with Autopilot's routines already done, so the top chips and every page show DONE right away (no double dipping)
+      if (useAuto && !opts.routines && s.alive && !s.pending.length) { const p2 = await Auto.playYear(this, { floor: opts.floor }); if (!p2.stopBefore) A.ranAge = Math.floor(s.age); /* a safety pause retries at the next AGE press */ if (!pre) pre = p2; const a2 = Auto.summarize(s, p2, null, p2.floor); A.last = a2; if (!auto) auto = a2; log(s, a2.line + (a2.spent ? ` Spent ${'$' + a2.spent.toLocaleString('en-US')}.` : ''), 'act'); }
     }
     const event = s.alive ? this.nextEvent() : null;
     return { state: this.getState(), entries: this.entriesSince(n0), event, died: !s.alive, death: s.alive ? undefined : this.getDeathSummary(), blocked: !!(s.pending.length && !event), auto, adPrompt: opts.skip ? null : (s.alive && !event ? this.getAdPrompt() : null) };

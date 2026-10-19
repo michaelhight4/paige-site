@@ -1,4 +1,5 @@
 // Racing adapter methods (mixed into EngineAdapter). Logic: src/racing.js.
+import { LOGO } from './franchise.js';
 import * as Rc from './racing.js';
 export const rcApi = {
   getRacing() { return Rc.status(this.s); },
@@ -6,6 +7,7 @@ export const rcApi = {
   getRacingQuote(o) { return Rc.quote(this.s, o); },
   getRacingStaff(role) { return Rc.staffMarket(this.s, role); },
   getRacingDrivers() { return Rc.driverMarket(this.s); },
+  getRacingLogoPalettes() { return LOGO.palettes.map((c) => [...c]); },
   getRacingLogo(logo) { return Rc.logoSvgOf(logo); },
   getRacingFrames(which) { return Rc.framesFor(this.s, which); },
   // career: join(role,type) quit license train(stat) race(all) moveUp | team: buy create hire fire sign release upgrade strategy sponsor drop teamRace(all) fund withdraw sell logo

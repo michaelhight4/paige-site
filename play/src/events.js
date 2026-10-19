@@ -1,3 +1,4 @@
+import * as Bk from './bankruptcy.js';
 // Data-driven life events (data/events.json): weighted, age-gated, condition-filtered, once-per-life flags, follow-up chains.
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, wpick } from './rng.js';
@@ -72,6 +73,7 @@ export const rates = () => ({ major: 0.34, minor: 0.1, youngMinorMult: 1.6, ...(
 const passionBoost = (s, e) => Passions.boost(s, e), passionRate = (s) => Passions.rate(s);
 export function pendingCard(s) {
   const p = s.pending[0]; if (!p) return null;
+  if (p.kind === 'bankruptcy') return Bk.card(s);
   if (p.kind === 'event') { const e = eventById(p.id); return { ...e, kind: 'event', text: fill(e.prompt, p.ctx || {}), choices: e.choices.map((c) => ({ ...c, label: fill(c.label, p.ctx || {}) })) }; }
   if (p.kind === 'college') return { kind: 'college', title: 'College?', text: 'You finished high school. Go to college? Tuition is $20,000/yr (student loan), 4 years, boosts smarts and unlocks top careers.',
     choices: [{ label: 'Enroll (student loan)' }, ...(Carry.carrySport(s) && Carry.carrySport(s).skill >= D.life.sports.draft.scholarshipSkill ? [{ label: 'Enroll on an athletic scholarship' }] : []), { label: 'Skip college, start working' }] };
@@ -103,6 +105,7 @@ export function applyFx(s, fx = {}, scale = 1) {
 const lines = (j) => (Array.isArray(j) ? j : [j]);
 export function resolveCard(s, i) {
   const p = s.pending[0]; if (!p) return null; let res = '';
+  if (p.kind === 'bankruptcy') return Bk.resolve(s, i);
   if (p.kind === 'college') {
     if (i < pendingCard(s).choices.length - 1) { s.school = 'college'; s.college = { yrs: 0 }; s.job = null; Carry.enter(s, 'college'); if (s.sport && s.sport.skill >= D.life.sports.draft.scholarshipSkill) s.sport.scholarship = true; res = 'I enrolled in college.'; }
     else { s.school = null; res = 'I headed into the workforce.'; Carry.drop(s); if (s.sport) SS.quit(s, 'graduated'); }

@@ -5,6 +5,7 @@ import { D } from './data.js';
 import { rnd, rint, pick, gauss, chance, clamp, wpick } from './rng.js';
 import { log, earn, addStat } from './core.js';
 import * as Sports from './sports.js';
+import * as MT from './myteam.js';
 
 const CFG = () => D.life.sports;
 export const sportDef = (id) => CFG().list.find((x) => x.id === id);
@@ -43,9 +44,9 @@ export function yearTick(s) {
   const def = sportDef(sp.id), g = CFG().skillGrowth;
   sp.skill = clamp(sp.skill + g * (0.55 + CFG().healthWeight * s.stats.health / 50) * (0.7 + s.stats.smarts / 250) * (sp.skill > 80 ? 0.5 : 1) + gauss(s), 0, 100);
   sp.skill = clamp(sp.skill + (Skills.avg(s, 'physical') - 30) / 40 + (Passions.has(s, 'sports') ? 1.5 : 0), 0, 100);
-  const st = seasonStats(s, def, sp.skill, lvl), w = clamp(Math.round(8 + (sp.skill - 50) / 10 + gauss(s) * 1.6), 0, 16);
-  const rec = { age: Math.floor(s.age), level: lvl, team: sp.team, w, l: 16 - w, stats: st, mvp: sp.skill > 75 && chance(s, 0.3) };
-  sp.seasons.push(rec); if (rec.mvp || w >= 11) Skills.outcome(s, 'sportswin'); if (rec.mvp) { (s.awards = s.awards || []).push({ id: 'mvp', age: rec.age, text: 'Team MVP' }); }
+  const ov = MT.seasonFor(s), st = ov ? ov.stats : seasonStats(s, def, sp.skill, lvl), w = ov ? ov.w : clamp(Math.round(8 + (sp.skill - 50) / 10 + gauss(s) * 1.6), 0, 16);
+  const rec = { age: Math.floor(s.age), level: lvl, team: sp.team, w, l: 16 - w, stats: st, mvp: ov ? ov.awards.includes('mvp') : sp.skill > 75 && chance(s, 0.3) };
+  sp.seasons.push(rec); if (rec.mvp || w >= 11) Skills.outcome(s, 'sportswin'); if (rec.mvp && !ov) { (s.awards = s.awards || []).push({ id: 'mvp', age: rec.age, text: 'Team MVP' }); }
   addStat(s, 'health', 2); addStat(s, 'happiness', 2); addStat(s, 'looks', 0.5); if (lvl !== 'elementary') addStat(s, 'fame', rec.mvp ? 4 : 1);
   log(s, `I played ${def.name.toLowerCase()} for the ${levelLabel(lvl).toLowerCase()} ${sp.team} (${w}-${16 - w}): ${statLine(def, st)}.${rec.mvp ? ' I was named MVP and told nobody on purpose.' : ''}`, 'sport');
   if (lvl === 'high' && s.age >= 17 && sp.skill >= CFG().draft.scholarshipSkill && !sp.offered) { sp.offered = true; log(s, 'A college scout told me I had a future in the sport, or in standing near it.', 'sport'); }
@@ -54,6 +55,7 @@ export function yearTick(s) {
 export function onCollegeGraduate(s) {
   const sp = s.sport; if (!sp) return null;
   const def = sportDef(sp.id), d = CFG().draft; let res = null;
+  if (MT.onGraduate(s, 'college')) { s.sport = null; return null; } // draft offers (accept / decline) instead of an automatic draft
   if (def.pro && sp.skill >= d.minSkill) res = draft(s);
   else log(s, `Nobody drafted me. I kept my ${def.name.toLowerCase()} trophies in a box.`, 'sport');
   s.sport = null; return res;

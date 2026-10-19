@@ -1,3 +1,4 @@
+import { fmtMoney } from '../fmt.js';
 // core.js - tiny shared helpers. NO hidden globals: every hook gets (data, state, ...) explicitly.
 // data  = { terms, occ, assets }   (parsed data/terms.json, occupations.json, assets.json)
 // state = plain JSON object (see newState); hooks mutate the state passed in and return {ok, msg, ...}.
@@ -26,12 +27,7 @@ export function barColor(data, v) {
   return v >= t.green_min ? 'green' : v >= t.orange_min ? 'orange' : 'red';
 }
 export function money(data, n) {
-  const c = (data.terms && data.terms.currency) || '$';
-  const a = Math.abs(Math.round(n));
-  let s;
-  if (a >= 1e9) s = (a / 1e9).toFixed(2) + 'B'; else if (a >= 1e7) s = (a / 1e6).toFixed(1) + 'M';
-  else s = a.toLocaleString('en-US');
-  return (n < 0 ? '-' : '') + c + s;
+  return fmtMoney(n, (data.terms && data.terms.currency) || '$');
 }
 
 export function newState(data, opts = {}) {

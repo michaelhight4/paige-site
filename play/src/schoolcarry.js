@@ -6,6 +6,7 @@ import { D } from './data.js';
 import { log } from './core.js';
 import * as SS from './schoolsports.js';
 import * as Scholar from './scholarships.js';
+import * as MT from './myteam.js';
 
 export const SCHOOL_LABEL = { high: 'high school', college: 'college' };
 const hash = (...xs) => { let h = 2166136261 >>> 0; for (const x of xs) for (const ch of String(x)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return h >>> 0; };
@@ -35,6 +36,7 @@ export function enter(s, to, { inYear = false } = {}) {
 export function stash(s) {
   const sch = Scholar.ensure(s); if (!s.sport && !sch.clubs.length) { s.carry = null; return; }
   s.carry = { to: 'college', age: Math.floor(s.age), sport: s.sport ? JSON.parse(JSON.stringify(s.sport)) : null, clubs: [...sch.clubs] }; s.sport = null; sch.clubs = [];
+  if (s.carry.sport) MT.onGraduate(s, 'hs');
 }
 // Skipped college / stale carry: the team days are over.
 export function drop(s) {

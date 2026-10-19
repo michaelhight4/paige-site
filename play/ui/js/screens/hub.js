@@ -74,7 +74,7 @@ export function mountHub(root) {
   async function showEvent(ev) {
     let i;
     for (;;) {
-      i = await sheet({ title: ev.title, body: ev.prompt, options: ev.choices.map(c => ({ label: c.rare ? (c.locked ? '🌟📺 ' : '🌟 ') + c.label : c.label, sub: c.rare ? (c.locked ? (c.access && c.access.ok ? 'Rare option: ' + (c.access.mode === 'ad' ? 'watch an ad to unlock' : 'subscriber unlock') : (c.access && c.access.reason) || 'Locked') : 'Rare option unlocked') : c.cost ? 'Costs ' + money(c.cost) : '', disabled: c.rare && c.locked && c.access && !c.access.ok })), dismissable: false });
+      i = await sheet({ title: ev.title, body: ev.prompt, options: ev.choices.map(c => ({ label: c.rare ? (c.locked ? '🌟📺 ' : '🌟 ') + c.label : c.label, sub: c.rare ? (c.locked ? (c.access && c.access.ok ? 'Rare option: ' + (c.access.mode === 'ad' ? 'watch an ad to unlock' : 'subscriber unlock') : (c.access && c.access.reason) || 'Locked') : 'Rare option unlocked') : c.cost ? 'Costs ' + money(c.cost) : '', disabled: !!c.disabled || (c.rare && c.locked && c.access && !c.access.ok) })), dismissable: false });
       const ch = ev.choices[i];
       if (ch && ch.rare && ch.locked) { const u = await adapter.unlockRareChoice(); if (u.ok) { toast('Rare option unlocked', 'good'); ev = { ...ev, choices: ev.choices.map((c, k) => (k === i ? { ...c, locked: false } : c)) }; } else toast(u.message || 'Not unlocked', 'bad'); continue; }
       break;

@@ -1,5 +1,7 @@
 // Asset-side methods of the UI adapter, on the careers/assets slice (src/slice) via slice_bridge. Surfaces zoo, race garage, casino tables,
 // luxury, live auctions, amenities, instruments, investments, restoration and shopping.
+import { fmtMoney } from './fmt.js';
+import * as Bk from './bankruptcy.js';
 import { D } from './data.js';
 import * as B from './slice_bridge.js';
 import * as Legacy from './legacy.js';
@@ -26,7 +28,7 @@ export const assets = {
   // asset -> UI Asset (with art + recolor variant)
   asset(a, ctx = {}) {
     const d = B.sliceData(), sl = this.s.sl, v = B.variantOf(a), value = H.assetValue(d, a);
-    const actions = [{ id: 'sell', label: `Sell (${Math.round(H.sellQuote(d, sl, a.uid)?.net ?? value).toLocaleString('en-US')})` }];
+    const actions = [{ id: 'sell', label: `Sell (${fmtMoney(H.sellQuote(d, sl, a.uid)?.net ?? value)})` }];
     if (H.listPlans(d, a.cat).length && !a.restoring) actions.push({ id: 'restore', label: 'Restore' });
     if (a.cat === 'property') actions.push({ id: 'amenity', label: 'Add amenity' });
     if (a.cat === 'car') actions.push({ id: 'garage', label: sl.raceGarage.includes(a.uid) ? 'Remove from race garage' : 'Move to race garage' }, { id: 'tune', label: 'Tune (race garage)' });
@@ -47,7 +49,7 @@ export const assets = {
       expenses: [...(s.age >= 18 ? [{ label: 'Living costs', amount: LIVING_COST }] : []), ...(f.breakdown.upkeep ? [{ label: 'Asset upkeep', amount: f.breakdown.upkeep }] : []), ...(f.breakdown.loan_payments ? [{ label: 'Loan payments', amount: f.breakdown.loan_payments }] : [])], headline: '' };
   },
   payDebt(id, amt) { const s = this.s, n0 = this.mark(), a = Math.min(amt, s.debt, s.cash); if (a <= 0) return this.res(false, 'Nothing to pay.', n0); s.cash -= a; s.debt -= a; log(s, `I paid $${Math.round(a).toLocaleString('en-US')} toward my debt.`, 'money'); return this.res(true, `Paid ${Math.round(a)}.`, n0); },
-  takeLoan(amt) { const s = this.s, n0 = this.mark(); if (s.age < 18) return this.res(false, 'Adults only.', n0); if (s.debt + amt > 250000) return this.res(false, 'The bank says no.', n0); s.cash += amt; s.debt += amt; log(s, `I took out a $${amt.toLocaleString('en-US')} loan.`, 'money'); return this.res(true, 'Loan approved.', n0); },
+  takeLoan(amt) { const s = this.s, n0 = this.mark(); if (s.age < 18) return this.res(false, 'Adults only.', n0); if (Bk.creditBad(s)) return this.res(false, `Your credit is ruined after bankruptcy. No loans until age ${s.bk.until}.`, n0); if (s.debt + amt > 250000) return this.res(false, 'The bank says no.', n0); s.cash += amt; s.debt += amt; log(s, `I took out a $${amt.toLocaleString('en-US')} loan.`, 'money'); return this.res(true, 'Loan approved.', n0); },
   getInvestments() {
     const sl = B.pull(this.s), d = B.sliceData(), items = H.listInvestments(d, sl), risk = (i) => (i.sigma < 0.05 ? 'Very low' : i.sigma < 0.12 ? 'Low' : i.sigma < 0.25 ? 'Medium' : i.sigma < 0.6 ? 'High' : 'Very high');
     return { cash: Math.round(this.s.cash), products: items.map((i) => ({ id: i.id, label: i.name, icon: i.type === 'bond' ? '📊' : i.type === 'crypto' ? '🪙' : i.type === 'gold' ? '🪙' : '📈', risk: risk(i), sub: i.type + (i.yield ? ` · ${Math.round(i.yield * 1000) / 10}% yield` : '') + ` · ${Math.round(i.price).toLocaleString('en-US')}/unit` })), holdings: items.filter((i) => i.units > 0).map((i) => ({ id: i.id, productId: i.id, label: i.name, value: Math.round(i.value), costBasis: Math.round(i.cost), changePct: i.cost ? Math.round((i.value / i.cost - 1) * 100) : 0 })) };
@@ -165,7 +167,7 @@ export const assets = {
   },
   getRestorationProjects() {
     const sl = B.pull(this.s), d = B.sliceData();
-    return { cash: Math.round(this.s.cash), projects: this.owned().filter((a) => H.listPlans(d, a.cat).length && a.cat !== 'instrument').map((a) => ({ assetId: a.uid, name: a.name, subtitle: a.restoring ? `Restoring: ${a.restoring.monthsLeft} month(s) left` : (a.address || a.cat), condition: a.cond, value: H.assetValue(d, a), estimatedValueAfter: H.assetValue(d, a, { cond: 100 }), classic: !!a.classic, restorable: true, cat: a.cat, restoring: !!a.restoring,
+    return { cash: Math.round(this.s.cash), projects: this.owned().filter((a) => H.listPlans(d, a.cat).length && ['car', 'boat', 'aircraft'].includes(a.cat)).map((a) => ({ assetId: a.uid, name: a.name, subtitle: a.restoring ? `Restoring: ${a.restoring.monthsLeft} month(s) left` : (a.address || a.cat), condition: a.cond, value: H.assetValue(d, a), estimatedValueAfter: H.assetValue(d, a, { cond: 100 }), classic: !!a.classic, restorable: true, cat: a.cat, restoring: !!a.restoring,
       stages: H.listPlans(d, a.cat).map((p) => { const q = H.restoreQuote(d, sl, a.uid, p.id); return { id: p.id, label: p.name, icon: '🛠️', cost: q ? q.total : 0, gain: p.cond_gain, months: p.months, done: a.cond >= 100 || !!a.restoring }; }) })) };
   },
   restoreCar(uid, planId) { return this.sl((d, sl) => H.startRestoration(d, sl, uid, planId), 'asset'); },

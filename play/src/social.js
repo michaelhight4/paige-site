@@ -1,6 +1,7 @@
 // Social media ("Feed"): 8 fictional platforms, post picker, sponsorships, verification, drama/appeal/cancel, fame + reputation, content calendar,
 // team, merch business, gear boosts, story events. Data: data/social.json, state: s.social. Ties into the Streamer/Influencer careers (src/online.js):
 // LiveLoop mirrors the streamer's subscribers, Snapfolio mirrors the influencer's followers; those two accounts are paid by the careers (no double pay).
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, gauss } from './rng.js';
 import { log, earn, spend, addStat } from './core.js';
@@ -11,7 +12,7 @@ import * as P from './people.js';
 
 const C = () => D.social, TAX = 0.22;
 const age = (s) => Math.floor(s.age);
-const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
+const money = (n) => fmtMoney(n);
 export const fmt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
 export const platDef = (id) => C().platforms.find((p) => p.id === id);
 export const postDef = (id) => C().posts.find((p) => p.id === id);

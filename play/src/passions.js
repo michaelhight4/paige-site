@@ -6,15 +6,15 @@ import { log, addStat } from './core.js';
 import * as Skills from './skills.js';
 
 const PD = () => D.passionsData, def = (id) => PD().passions.find((p) => p.id === id);
-export const ensure = (s) => { if (!s.passions) s.passions = { active: [], mastered: [], hist: {} }; if (!s.awards) s.awards = []; return s.passions; };
+export const ensure = (s) => { if (!s.passions) s.passions = { active: [], mastered: [], hist: {} }; if (!s.awards) s.awards = []; const P = s.passions; for (const a of P.active) if (!a.capped && a.meter >= 99 && P.mastered.length >= (PD().masteryCap || 4)) { a.capped = true; a.meter = 100; } return P; };
 export const has = (s, id) => ensure(s).active.some((a) => a.id === id);
 export const isMastered = (s, id) => ensure(s).mastered.some((m) => m.id === id);
 export const slotsFree = (s) => PD().slots - ensure(s).active.length;
 export function status(s) {
   const P = ensure(s), age = Math.floor(s.age), cfg = PD();
   return { slots: cfg.slots, used: P.active.length, masteryCap: cfg.masteryCap, locked: age < cfg.minAge, minAge: cfg.minAge, benchmark: cfg.benchmark,
-    active: P.active.map((a) => ({ ...a, ...def(a.id), meter: Math.round(a.meter), practiced: !!s.acted['passion:' + a.id] })), mastered: P.mastered.map((m) => ({ ...m, ...def(m.id) })),
-    available: cfg.passions.filter((p) => !has(s, p.id) && !isMastered(s, p.id)).map((p) => ({ id: p.id, name: p.name, icon: p.icon, skills: Object.keys(p.skills) })), capReached: P.mastered.length >= cfg.masteryCap };
+    active: P.active.map((a) => ({ ...a, ...def(a.id), meter: a.capped ? 100 : Math.min(99, Math.floor(a.meter)) , full: !!a.capped, practiced: !!s.acted['passion:' + a.id] || !!a.capped })), mastered: P.mastered.map((m) => ({ ...m, ...def(m.id) })),
+    available: cfg.passions.filter((p) => !has(s, p.id) && !isMastered(s, p.id)).map((p) => ({ id: p.id, name: p.name, icon: p.icon, skills: Object.keys(p.skills) })), capReached: P.mastered.length >= cfg.masteryCap, cap: cfg.masteryCap };
 }
 export function pick(s, id, replaceId) {
   const P = ensure(s), cfg = PD(), p = def(id); if (!p) return { ok: false, msg: 'Unknown passion.' };
@@ -35,14 +35,14 @@ export function gain(s, id, amt) {
   const P = ensure(s), a = P.active.find((x) => x.id === id); if (!a) return; a.meter = clamp(a.meter + amt, 0, 100); if (a.meter >= PD().benchmark) master(s, a);
 }
 export function practice(s, id) {
-  const a = ensure(s).active.find((x) => x.id === id); if (!a) return { ok: false, msg: 'Not an active passion.' }; if (s.acted['passion:' + id]) return { ok: false, msg: 'Already practiced this year.' };
+  const a = ensure(s).active.find((x) => x.id === id); if (!a) return { ok: false, msg: 'Not an active passion.' }; if (a.capped || a.meter >= 100) return { ok: false, msg: 'Meter is full. Mastery cap reached, nothing more to gain here.' }; if (s.acted['passion:' + id]) return { ok: false, msg: 'Already practiced this year.' };
   s.acted['passion:' + id] = 1; const p = def(id); for (const [k, w] of Object.entries(p.skills)) Skills.use(s, k, 3 * w);
   const g = PD().practiceGain * (1 + Skills.avg(s) / 150); gain(s, id, g); addStat(s, 'stress', 2);
   const line = `I spent the year practicing ${p.name.toLowerCase()}.`; log(s, line, 'act'); return { ok: true, msg: line };
 }
 function master(s, a) {
   const P = ensure(s), p = def(a.id); P.active = P.active.filter((x) => x !== a);
-  if (P.mastered.length >= PD().masteryCap) { P.active.push({ ...a, meter: 99 }); return; }
+  if (P.mastered.length >= PD().masteryCap) { P.active.push({ ...a, meter: 100, capped: true }); log(s, `My ${p.name.toLowerCase()} meter is full, but I already hold the maximum number of masteries (${PD().masteryCap}).`, 'life'); return; }
   P.mastered.push({ id: a.id, age: Math.floor(s.age), title: p.masteryTitle });
   for (const [k, w] of Object.entries(p.skills)) { Skills.ensure(s); s.skills[k] = Math.min(100, Math.max(s.skills[k], 70) + 6 * w); }
   s.awards.push({ id: 'mastery_' + a.id, age: Math.floor(s.age), text: p.masteryTitle }); addStat(s, 'happiness', 12); addStat(s, 'fame', p.perks.fame ? 4 : 1);

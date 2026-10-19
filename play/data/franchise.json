@@ -6,37 +6,37 @@
     {
      "id": "attack",
      "name": "Attack",
-     "icon": "\ud83c\udfaf",
+     "icon": "🎯",
      "desc": "Finishing and chances created"
     },
     {
      "id": "defense",
      "name": "Defense",
-     "icon": "\ud83d\udee1\ufe0f",
+     "icon": "🛡️",
      "desc": "Marking and clean sheets"
     },
     {
      "id": "passing",
      "name": "Passing",
-     "icon": "\ud83d\udd01",
+     "icon": "🔁",
      "desc": "Build-up and control"
     },
     {
      "id": "stamina",
      "name": "Stamina",
-     "icon": "\ud83e\udec1",
+     "icon": "🫁",
      "desc": "Late goals and fewer injuries"
     },
     {
      "id": "pace",
      "name": "Pace",
-     "icon": "\u26a1",
+     "icon": "⚡",
      "desc": "Counters and wide play"
     },
     {
      "id": "keeper",
      "name": "Goalkeeping",
-     "icon": "\ud83e\udde4",
+     "icon": "🧤",
      "desc": "Saves and command"
     }
    ],
@@ -156,37 +156,37 @@
     {
      "id": "shooting",
      "name": "Shooting",
-     "icon": "\ud83c\udfc0",
+     "icon": "🏀",
      "desc": "Scoring from range"
     },
     {
      "id": "passing",
      "name": "Passing",
-     "icon": "\ud83d\udd01",
+     "icon": "🔁",
      "desc": "Ball movement"
     },
     {
      "id": "defense",
      "name": "Defense",
-     "icon": "\ud83d\udee1\ufe0f",
+     "icon": "🛡️",
      "desc": "Stops and steals"
     },
     {
      "id": "rebound",
      "name": "Rebounding",
-     "icon": "\ud83d\udce6",
+     "icon": "📦",
      "desc": "Second chances"
     },
     {
      "id": "athletic",
      "name": "Athleticism",
-     "icon": "\u26a1",
+     "icon": "⚡",
      "desc": "Pace and finishing"
     },
     {
      "id": "iq",
      "name": "Basketball IQ",
-     "icon": "\ud83e\udde0",
+     "icon": "🧠",
      "desc": "Decisions"
     }
    ],
@@ -306,37 +306,37 @@
     {
      "id": "passing",
      "name": "Passing",
-     "icon": "\ud83c\udfaf",
+     "icon": "🎯",
      "desc": "Quarterback and receivers"
     },
     {
      "id": "rushing",
      "name": "Rushing",
-     "icon": "\ud83c\udfc3",
+     "icon": "🏃",
      "desc": "Ground game"
     },
     {
      "id": "blocking",
      "name": "Blocking",
-     "icon": "\ud83e\uddf1",
+     "icon": "🧱",
      "desc": "Protection and holes"
     },
     {
      "id": "tackling",
      "name": "Tackling",
-     "icon": "\ud83d\udee1\ufe0f",
+     "icon": "🛡️",
      "desc": "Run defense"
     },
     {
      "id": "coverage",
      "name": "Coverage",
-     "icon": "\ud83d\udd78\ufe0f",
+     "icon": "🕸️",
      "desc": "Pass defense"
     },
     {
      "id": "special",
      "name": "Special teams",
-     "icon": "\ud83e\uddb5",
+     "icon": "🦵",
      "desc": "Kicking and returns"
     }
    ],
@@ -456,37 +456,37 @@
     {
      "id": "hitting",
      "name": "Hitting",
-     "icon": "\ud83c\udfcf",
+     "icon": "🏏",
      "desc": "Contact and average"
     },
     {
      "id": "power",
      "name": "Power",
-     "icon": "\ud83d\udca5",
+     "icon": "💥",
      "desc": "Home runs"
     },
     {
      "id": "pitching",
      "name": "Pitching",
-     "icon": "\u26be",
+     "icon": "⚾",
      "desc": "Starters and relievers"
     },
     {
      "id": "fielding",
      "name": "Fielding",
-     "icon": "\ud83e\udde4",
+     "icon": "🧤",
      "desc": "Errors saved"
     },
     {
      "id": "speed",
      "name": "Baserunning",
-     "icon": "\u26a1",
+     "icon": "⚡",
      "desc": "Steals and extra bases"
     },
     {
      "id": "iq",
      "name": "Game IQ",
-     "icon": "\ud83e\udde0",
+     "icon": "🧠",
      "desc": "Situational play"
     }
    ],
@@ -606,37 +606,37 @@
     {
      "id": "shooting",
      "name": "Shooting",
-     "icon": "\ud83c\udfd2",
+     "icon": "🏒",
      "desc": "Goals"
     },
     {
      "id": "skating",
      "name": "Skating",
-     "icon": "\u26f8\ufe0f",
+     "icon": "⛸️",
      "desc": "Speed and transition"
     },
     {
      "id": "passing",
      "name": "Passing",
-     "icon": "\ud83d\udd01",
+     "icon": "🔁",
      "desc": "Playmaking"
     },
     {
      "id": "defense",
      "name": "Defense",
-     "icon": "\ud83d\udee1\ufe0f",
+     "icon": "🛡️",
      "desc": "Blue line and checks"
     },
     {
      "id": "goalie",
      "name": "Goaltending",
-     "icon": "\ud83e\udde4",
+     "icon": "🧤",
      "desc": "Saves"
     },
     {
      "id": "grit",
      "name": "Grit",
-     "icon": "\ud83d\udcaa",
+     "icon": "💪",
      "desc": "Physical play"
     }
    ],
@@ -750,13 +750,661 @@
      }
     }
    ]
+  },
+  "rts": {
+   "esports": true,
+   "meta": {
+    "name": "Real-time strategy",
+    "icon": "🏰",
+    "lineup": 5,
+    "teamWord": "Esports",
+    "pitch": "#2a2f45",
+    "goalScale": 1.0,
+    "formations": [
+     "standard"
+    ]
+   },
+   "stats": [
+    {
+     "id": "economy",
+     "name": "Economy",
+     "icon": "💰",
+     "desc": "Build orders and resource flow"
+    },
+    {
+     "id": "micro",
+     "name": "Micro",
+     "icon": "🖱️",
+     "desc": "Unit control in fights"
+    },
+    {
+     "id": "macro",
+     "name": "Macro",
+     "icon": "🗺️",
+     "desc": "Expansion and map control"
+    },
+    {
+     "id": "tactics",
+     "name": "Tactics",
+     "icon": "♟️",
+     "desc": "Army composition and timing"
+    },
+    {
+     "id": "reaction",
+     "name": "Reaction",
+     "icon": "⚡",
+     "desc": "APM and scouting response"
+    },
+    {
+     "id": "teamwork",
+     "name": "Teamwork",
+     "icon": "🤝",
+     "desc": "Coordinated pushes"
+    }
+   ],
+   "teams": [
+    {
+     "id": "rts_0",
+     "name": "Ironclad Esports",
+     "city": "Kingsreach",
+     "minor": {
+      "id": "rts_0_m",
+      "name": "Ironclad Juniors"
+     }
+    },
+    {
+     "id": "rts_1",
+     "name": "Citadel Gaming",
+     "city": "Ironvale",
+     "minor": {
+      "id": "rts_1_m",
+      "name": "Citadel Reserves"
+     }
+    },
+    {
+     "id": "rts_2",
+     "name": "Warlord Club",
+     "city": "Highmoor",
+     "minor": {
+      "id": "rts_2_m",
+      "name": "Warlord Academy"
+     }
+    },
+    {
+     "id": "rts_3",
+     "name": "Legion Team",
+     "city": "Dunhold",
+     "minor": {
+      "id": "rts_3_m",
+      "name": "Legion Prospects"
+     }
+    },
+    {
+     "id": "rts_4",
+     "name": "Bastion Esports",
+     "city": "Ravenfell",
+     "minor": {
+      "id": "rts_4_m",
+      "name": "Bastion Development"
+     }
+    },
+    {
+     "id": "rts_5",
+     "name": "Ember Throne Gaming",
+     "city": "Emberton",
+     "minor": {
+      "id": "rts_5_m",
+      "name": "Ember Throne Futures"
+     }
+    },
+    {
+     "id": "rts_6",
+     "name": "Stonewall Club",
+     "city": "Stonehaven",
+     "minor": {
+      "id": "rts_6_m",
+      "name": "Stonewall Rising"
+     }
+    },
+    {
+     "id": "rts_7",
+     "name": "Crimson Banner Team",
+     "city": "Redcliff",
+     "minor": {
+      "id": "rts_7_m",
+      "name": "Crimson Banner Cubs"
+     }
+    },
+    {
+     "id": "rts_8",
+     "name": "Sunforge Esports",
+     "city": "Sunport",
+     "minor": {
+      "id": "rts_8_m",
+      "name": "Sunforge Colts"
+     }
+    },
+    {
+     "id": "rts_9",
+     "name": "Dire Keep Gaming",
+     "city": "Blackmere",
+     "minor": {
+      "id": "rts_9_m",
+      "name": "Dire Keep Farmhands"
+     }
+    },
+    {
+     "id": "rts_10",
+     "name": "Valor Club",
+     "city": "Valorton",
+     "minor": {
+      "id": "rts_10_m",
+      "name": "Valor Youth"
+     }
+    },
+    {
+     "id": "rts_11",
+     "name": "Obsidian Team",
+     "city": "Greyspire",
+     "minor": {
+      "id": "rts_11_m",
+      "name": "Obsidian Pups"
+     }
+    }
+   ]
+  },
+  "shooter": {
+   "esports": true,
+   "meta": {
+    "name": "Shooter",
+    "icon": "🎯",
+    "lineup": 5,
+    "teamWord": "Esports",
+    "pitch": "#2a2f45",
+    "goalScale": 1.0,
+    "formations": [
+     "standard"
+    ]
+   },
+   "stats": [
+    {
+     "id": "aim",
+     "name": "Aim",
+     "icon": "🎯",
+     "desc": "Crosshair placement and flicks"
+    },
+    {
+     "id": "reaction",
+     "name": "Reaction",
+     "icon": "⚡",
+     "desc": "Peeks and trades"
+    },
+    {
+     "id": "gamesense",
+     "name": "Game sense",
+     "icon": "🧠",
+     "desc": "Rotations and reads"
+    },
+    {
+     "id": "teamplay",
+     "name": "Teamplay",
+     "icon": "🤝",
+     "desc": "Trades and comms"
+    },
+    {
+     "id": "utility",
+     "name": "Utility",
+     "icon": "💣",
+     "desc": "Grenades and abilities"
+    },
+    {
+     "id": "clutch",
+     "name": "Clutch",
+     "icon": "🧊",
+     "desc": "Late-round nerve"
+    }
+   ],
+   "teams": [
+    {
+     "id": "shooter_0",
+     "name": "Vortex Esports",
+     "city": "Neon City",
+     "minor": {
+      "id": "shooter_0_m",
+      "name": "Vortex Juniors"
+     }
+    },
+    {
+     "id": "shooter_1",
+     "name": "Headhunters Gaming",
+     "city": "Dustbowl",
+     "minor": {
+      "id": "shooter_1_m",
+      "name": "Headhunters Reserves"
+     }
+    },
+    {
+     "id": "shooter_2",
+     "name": "Crossfire Club",
+     "city": "Foxhollow",
+     "minor": {
+      "id": "shooter_2_m",
+      "name": "Crossfire Academy"
+     }
+    },
+    {
+     "id": "shooter_3",
+     "name": "Static Team",
+     "city": "Port Alpha",
+     "minor": {
+      "id": "shooter_3_m",
+      "name": "Static Prospects"
+     }
+    },
+    {
+     "id": "shooter_4",
+     "name": "Overwatch Ridge Esports",
+     "city": "Kestrel",
+     "minor": {
+      "id": "shooter_4_m",
+      "name": "Overwatch Ridge Development"
+     }
+    },
+    {
+     "id": "shooter_5",
+     "name": "Cobra Gaming",
+     "city": "Bunker Hill",
+     "minor": {
+      "id": "shooter_5_m",
+      "name": "Cobra Futures"
+     }
+    },
+    {
+     "id": "shooter_6",
+     "name": "Nightfall Club",
+     "city": "Nightgate",
+     "minor": {
+      "id": "shooter_6_m",
+      "name": "Nightfall Rising"
+     }
+    },
+    {
+     "id": "shooter_7",
+     "name": "Redline Team",
+     "city": "Redwater",
+     "minor": {
+      "id": "shooter_7_m",
+      "name": "Redline Cubs"
+     }
+    },
+    {
+     "id": "shooter_8",
+     "name": "Phantom Esports",
+     "city": "Phantom Bay",
+     "minor": {
+      "id": "shooter_8_m",
+      "name": "Phantom Colts"
+     }
+    },
+    {
+     "id": "shooter_9",
+     "name": "Havoc Gaming",
+     "city": "Havenport",
+     "minor": {
+      "id": "shooter_9_m",
+      "name": "Havoc Farmhands"
+     }
+    },
+    {
+     "id": "shooter_10",
+     "name": "Apex Club",
+     "city": "Summit",
+     "minor": {
+      "id": "shooter_10_m",
+      "name": "Apex Youth"
+     }
+    },
+    {
+     "id": "shooter_11",
+     "name": "Ricochet Team",
+     "city": "Ridgeway",
+     "minor": {
+      "id": "shooter_11_m",
+      "name": "Ricochet Pups"
+     }
+    }
+   ]
+  },
+  "moba": {
+   "esports": true,
+   "meta": {
+    "name": "MOBA",
+    "icon": "🧙",
+    "lineup": 5,
+    "teamWord": "Esports",
+    "pitch": "#2a2f45",
+    "goalScale": 1.0,
+    "formations": [
+     "standard"
+    ]
+   },
+   "stats": [
+    {
+     "id": "laning",
+     "name": "Laning",
+     "icon": "🛤️",
+     "desc": "Early lane control"
+    },
+    {
+     "id": "teamfight",
+     "name": "Teamfight",
+     "icon": "⚔️",
+     "desc": "Skirmishes and wombo combos"
+    },
+    {
+     "id": "macro",
+     "name": "Macro",
+     "icon": "🗺️",
+     "desc": "Objectives and rotations"
+    },
+    {
+     "id": "mechanics",
+     "name": "Mechanics",
+     "icon": "🖱️",
+     "desc": "Skillshots and combos"
+    },
+    {
+     "id": "vision",
+     "name": "Vision",
+     "icon": "👁️",
+     "desc": "Wards and map awareness"
+    },
+    {
+     "id": "draft",
+     "name": "Draft",
+     "icon": "📋",
+     "desc": "Champion picks and bans"
+    }
+   ],
+   "teams": [
+    {
+     "id": "moba_0",
+     "name": "Nexus Esports",
+     "city": "Nexon",
+     "minor": {
+      "id": "moba_0_m",
+      "name": "Nexus Juniors"
+     }
+    },
+    {
+     "id": "moba_1",
+     "name": "Arcane Gaming",
+     "city": "Arcadia",
+     "minor": {
+      "id": "moba_1_m",
+      "name": "Arcane Reserves"
+     }
+    },
+    {
+     "id": "moba_2",
+     "name": "Rift Walkers Club",
+     "city": "Riftgate",
+     "minor": {
+      "id": "moba_2_m",
+      "name": "Rift Walkers Academy"
+     }
+    },
+    {
+     "id": "moba_3",
+     "name": "Mythic Team",
+     "city": "Mythral",
+     "minor": {
+      "id": "moba_3_m",
+      "name": "Mythic Prospects"
+     }
+    },
+    {
+     "id": "moba_4",
+     "name": "Lotus Esports",
+     "city": "Lotusvale",
+     "minor": {
+      "id": "moba_4_m",
+      "name": "Lotus Development"
+     }
+    },
+    {
+     "id": "moba_5",
+     "name": "Titan Grove Gaming",
+     "city": "Titanwood",
+     "minor": {
+      "id": "moba_5_m",
+      "name": "Titan Grove Futures"
+     }
+    },
+    {
+     "id": "moba_6",
+     "name": "Dragonfire Club",
+     "city": "Drakeport",
+     "minor": {
+      "id": "moba_6_m",
+      "name": "Dragonfire Rising"
+     }
+    },
+    {
+     "id": "moba_7",
+     "name": "Spirit Team",
+     "city": "Spiritfall",
+     "minor": {
+      "id": "moba_7_m",
+      "name": "Spirit Cubs"
+     }
+    },
+    {
+     "id": "moba_8",
+     "name": "Eclipse Esports",
+     "city": "Eclipse Bay",
+     "minor": {
+      "id": "moba_8_m",
+      "name": "Eclipse Colts"
+     }
+    },
+    {
+     "id": "moba_9",
+     "name": "Tidecallers Gaming",
+     "city": "Tidehaven",
+     "minor": {
+      "id": "moba_9_m",
+      "name": "Tidecallers Farmhands"
+     }
+    },
+    {
+     "id": "moba_10",
+     "name": "Starfall Club",
+     "city": "Starhold",
+     "minor": {
+      "id": "moba_10_m",
+      "name": "Starfall Youth"
+     }
+    },
+    {
+     "id": "moba_11",
+     "name": "Ancients Team",
+     "city": "Elderglen",
+     "minor": {
+      "id": "moba_11_m",
+      "name": "Ancients Pups"
+     }
+    }
+   ]
+  },
+  "esracing": {
+   "esports": true,
+   "meta": {
+    "name": "Sim racing",
+    "icon": "🏁",
+    "lineup": 4,
+    "teamWord": "Esports",
+    "pitch": "#2a2f45",
+    "goalScale": 1.0,
+    "formations": [
+     "standard"
+    ]
+   },
+   "stats": [
+    {
+     "id": "pace",
+     "name": "Pace",
+     "icon": "🏎️",
+     "desc": "Raw lap time"
+    },
+    {
+     "id": "consistency",
+     "name": "Consistency",
+     "icon": "📈",
+     "desc": "Clean laps and low errors"
+    },
+    {
+     "id": "racecraft",
+     "name": "Racecraft",
+     "icon": "⚔️",
+     "desc": "Overtakes and defending"
+    },
+    {
+     "id": "setup",
+     "name": "Setup",
+     "icon": "🔧",
+     "desc": "Car setup and tuning"
+    },
+    {
+     "id": "braking",
+     "name": "Braking",
+     "icon": "🛑",
+     "desc": "Late braking and trail-braking"
+    },
+    {
+     "id": "nerve",
+     "name": "Nerve",
+     "icon": "🧊",
+     "desc": "Pressure and restarts"
+    }
+   ],
+   "teams": [
+    {
+     "id": "esracing_0",
+     "name": "Apex Lap Esports",
+     "city": "Monzaville",
+     "minor": {
+      "id": "esracing_0_m",
+      "name": "Apex Lap Juniors"
+     }
+    },
+    {
+     "id": "esracing_1",
+     "name": "Turbo Pixel Gaming",
+     "city": "Silver Ring",
+     "minor": {
+      "id": "esracing_1_m",
+      "name": "Turbo Pixel Reserves"
+     }
+    },
+    {
+     "id": "esracing_2",
+     "name": "Slipstream Club",
+     "city": "Redhill",
+     "minor": {
+      "id": "esracing_2_m",
+      "name": "Slipstream Academy"
+     }
+    },
+    {
+     "id": "esracing_3",
+     "name": "Redline Sim Team",
+     "city": "Lap City",
+     "minor": {
+      "id": "esracing_3_m",
+      "name": "Redline Sim Prospects"
+     }
+    },
+    {
+     "id": "esracing_4",
+     "name": "Pole Position Esports",
+     "city": "Polestone",
+     "minor": {
+      "id": "esracing_4_m",
+      "name": "Pole Position Development"
+     }
+    },
+    {
+     "id": "esracing_5",
+     "name": "Grid Wolves Gaming",
+     "city": "Gridford",
+     "minor": {
+      "id": "esracing_5_m",
+      "name": "Grid Wolves Futures"
+     }
+    },
+    {
+     "id": "esracing_6",
+     "name": "Chicane Club",
+     "city": "Chicaneport",
+     "minor": {
+      "id": "esracing_6_m",
+      "name": "Chicane Rising"
+     }
+    },
+    {
+     "id": "esracing_7",
+     "name": "Nitro Team",
+     "city": "Nitro Bay",
+     "minor": {
+      "id": "esracing_7_m",
+      "name": "Nitro Cubs"
+     }
+    },
+    {
+     "id": "esracing_8",
+     "name": "Overtake Esports",
+     "city": "Overtown",
+     "minor": {
+      "id": "esracing_8_m",
+      "name": "Overtake Colts"
+     }
+    },
+    {
+     "id": "esracing_9",
+     "name": "Pit Wall Gaming",
+     "city": "Pitlane",
+     "minor": {
+      "id": "esracing_9_m",
+      "name": "Pit Wall Farmhands"
+     }
+    },
+    {
+     "id": "esracing_10",
+     "name": "Drift King Club",
+     "city": "Driftwood",
+     "minor": {
+      "id": "esracing_10_m",
+      "name": "Drift King Youth"
+     }
+    },
+    {
+     "id": "esracing_11",
+     "name": "Checker Team",
+     "city": "Checkerton",
+     "minor": {
+      "id": "esracing_11_m",
+      "name": "Checker Pups"
+     }
+    }
+   ]
   }
  },
  "types": [
   {
    "id": "semi",
    "name": "Semi-pro club",
-   "icon": "\ud83e\udd49",
+   "icon": "🥉",
    "cost": 28000000.0,
    "strength": 44,
    "payroll": 2.1,
@@ -770,7 +1418,7 @@
   {
    "id": "pro",
    "name": "Professional club",
-   "icon": "\ud83e\udd48",
+   "icon": "🥈",
    "cost": 280000000.0,
    "strength": 58,
    "payroll": 11.5,
@@ -784,7 +1432,7 @@
   {
    "id": "elite",
    "name": "Elite franchise",
-   "icon": "\ud83e\udd47",
+   "icon": "🥇",
    "cost": 1500000000.0,
    "strength": 72,
    "payroll": 21,
@@ -856,7 +1504,7 @@
   {
    "id": "head_coach",
    "name": "Head coach",
-   "icon": "\ud83d\udccb",
+   "icon": "📋",
    "required": true,
    "salary": 150000,
    "effect": "performance",
@@ -865,7 +1513,7 @@
   {
    "id": "assistant",
    "name": "Assistant coach",
-   "icon": "\ud83e\uddd1\u200d\ud83c\udfeb",
+   "icon": "🧑‍🏫",
    "required": false,
    "salary": 70000,
    "effect": "development",
@@ -874,7 +1522,7 @@
   {
    "id": "scout",
    "name": "Scout / recruiter",
-   "icon": "\ud83d\udd2d",
+   "icon": "🔭",
    "required": true,
    "salary": 80000,
    "effect": "recruiting",
@@ -883,7 +1531,7 @@
   {
    "id": "medic",
    "name": "Medical staff",
-   "icon": "\ud83e\ude7a",
+   "icon": "🩺",
    "required": true,
    "salary": 90000,
    "effect": "injuries",
@@ -892,7 +1540,7 @@
   {
    "id": "ops",
    "name": "Operations / front office",
-   "icon": "\ud83d\uddc2\ufe0f",
+   "icon": "🗂️",
    "required": true,
    "salary": 100000,
    "effect": "finance",
@@ -901,7 +1549,7 @@
   {
    "id": "marketing",
    "name": "Marketing manager",
-   "icon": "\ud83d\udce3",
+   "icon": "📣",
    "required": false,
    "salary": 75000,
    "effect": "attendance",

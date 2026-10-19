@@ -2,12 +2,13 @@
 // Careers (driver, pit crew, crew chief, team manager, racing coach) climb three tiers per series type behind a licence ladder;
 // team ownership (built on franchise.js logos/hub conventions) has staff, drivers, car/engine/pit/factory upgrades, sponsors, itemised finances and a race season.
 // Every race (career or team) uses the same season engine; `frames()` is a pure function that makes the 2D replay.
+import { fmtMoney } from './fmt.js';
 import { rnd, rint, chance, clamp, gauss } from './rng.js';
 import { log, earn } from './core.js';
 import { logoSvg, normLogo, autoLogo, cleanName } from './franchise.js';
 
 const R = Math.round, age = (s) => Math.floor(s.age);
-const money = (n) => '$' + R(n).toLocaleString('en-US');
+const money = (n) => fmtMoney(n);
 const hashStr = (str) => { let h = 2166136261; for (const c of String(str)) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
 const lcg = (seed) => { let t = seed >>> 0; return () => { t += 0x6d2b79f5; let x = Math.imul(t ^ (t >>> 15), 1 | t); x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; }; };
 const gl = (r) => { let u = 0; for (let i = 0; i < 6; i++) u += r(); return (u - 3) / 0.7071; };

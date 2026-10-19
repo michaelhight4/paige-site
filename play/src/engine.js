@@ -34,6 +34,9 @@ import * as Politics from './politics.js';
 import * as Prod from './prodco.js';
 import * as Coach from './coaching.js';
 import { ALLSTATS } from './core.js';
+import * as TB from './timebudget.js';
+import * as MT from './myteam.js';
+import * as Bk from './bankruptcy.js';
 export { Social, Politics, Coach, Prod, Online, Skills, Passions, Scholar, Ev, P as People, Health, Legacy, Crime, SS as SchoolSports, Ribbons };
 export const applyFx = Ev.applyFx, pendingCard = Ev.pendingCard, resolveCard = Ev.resolveCard;
 
@@ -133,6 +136,8 @@ function lifeTick(s, dt) {
       j.level++; j.lvlYrs = 0; Skills.outcome(s, 'promoted'); log(s, `I was promoted to ${c.levels[j.level][0].toLowerCase()}.`, 'career');
     } else if (j.perf < 15 && chance(s, 0.3 * dt)) { log(s, 'I was fired for poor performance. The cake in the break room was not for me.', 'career'); Skills.outcome(s, 'fired'); s.job = null; P.newCoworkers(s); }
   }
+  if (s.job2 && !inPrison) { const j2 = s.job2, c2 = D.careers.find((x) => x.id === j2.id); if (!c2) s.job2 = null; else { j2.perf = clamp(j2.perf + ((s.stats.smarts - 50) / 40 + (s.stats.happiness - 50) / 60 + gauss(s) * 3) * dt, 0, 100); j2.yrs += dt; earn(s, TB.secondJobPay(D, s) * dt * (1 - (PFx.noTax() ? 0 : TAX))); if (j2.perf < 15 && chance(s, 0.3 * dt)) { log(s, 'I was let go from my second job for poor performance.', 'career'); s.job2 = null; } } }
+  if (!inPrison) { const tb = TB.yearTick(s, dt); if (tb && tb.notes.includes('burnout')) log(s, 'I burned out from carrying too much. My health, mood and work all took a hit.', 'health'); }
   SS.proYear(s, dt);
   if (s.age >= 65 && !s.job && !inPrison && !s.pro) earn(s, 18000 * dt * (P.country(s).wealth > 0.8 ? 1 : 0.5)); // state pension
   // living costs, assets, debt
@@ -151,7 +156,7 @@ function lifeTick(s, dt) {
   addStat(s, 'looks', s.age > 30 ? -0.4 * dt : 0);
   addStat(s, 'happiness', (55 - s.stats.happiness) * 0.15 * dt + gauss(s) * 1.5 * sq + (s.cash > 100000 ? 0.5 : s.debt > 100000 ? -1 : 0) * dt);
   addStat(s, 'health', gauss(s) * 1.2 * sq + Skills.healthBonus(s) * 0.4 * dt + (s.age < 45 && s.stats.health < 80 ? (80 - s.stats.health) * 0.06 * dt : 0));
-  addStat(s, 'stress', (20 + (s.job ? 10 : 0) + (s.debt > 100000 ? 10 : 0) - s.stats.stress) * 0.25 * dt + gauss(s) * 2 * sq);
+  addStat(s, 'stress', (20 + (s.job ? 10 : 0) + (s.debt > 100000 ? 10 : 0) + TB.stressAdd(s) - s.stats.stress) * 0.25 * dt + gauss(s) * 2 * sq);
   addStat(s, 'fame', -2 * dt * (s.stats.fame > 5 ? 1 : 0)); PFx.fameFloor(s); if (Math.floor(s.age) !== Math.floor(s.age - dt)) PFx.applyStart(s); addStat(s, 'karma', (50 - s.stats.karma) * 0.02 * dt); addStat(s, 'crazy', gauss(s) * 1 * sq);
   if (s.stats.happiness < 15) addStat(s, 'health', -1.5 * dt);
   s.tally.maxFame = Math.max(s.tally.maxFame, s.stats.fame); s.tally.maxSmarts = Math.max(s.tally.maxSmarts, s.stats.smarts);
@@ -175,11 +180,12 @@ export function takeTurn(s) {
   for (const b of s.biz) Biz.tickBiz(s, b, dt);
   Sports.tickLeague(s, dt);
   if (newYear) {
-    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); SS.yearTick(s); Slice.yearTick(s); Online.yearTick(s); Social.yearTick(s); Politics.yearTick(s); Coach.yearTick(s); Prod.yearTick(s); Fr.yearTick(s); Rc.yearTick(s); Brand.yearTick(s); Farm.yearTick(s); Adv.yearTick(s);
+    Scholar.yearTick(s); Skills.yearTick(s); Passions.yearTick(s); Market.tickConsolesYear(s); Biz.refreshOffers(s); Plus.yearTick(s); P.yearTick(s); MT.preYear(s); SS.yearTick(s); MT.postYear(s); Slice.yearTick(s); Online.yearTick(s); Social.yearTick(s); Politics.yearTick(s); Coach.yearTick(s); Prod.yearTick(s); Fr.yearTick(s); Rc.yearTick(s); Brand.yearTick(s); Farm.yearTick(s); Adv.yearTick(s);
     for (const b of s.biz) if (b.fame) b.fame = Math.max(0, b.fame - D.studio.balance.sensation.fameDecayPerYear);
     const para = Journal.yearParagraph(s); if (para) log(s, para, 'yearly');
   }
   Ev.draw(s, dt);
+  Bk.check(s);
   snap(s);
   return true;
 }

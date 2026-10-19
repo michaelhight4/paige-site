@@ -1,10 +1,11 @@
 // Farms and ranches: land bought by the acre (price scales with acres and location), buildings with quality and +4/+8/+16/+30 upgrade steps, crops or animals chosen at setup,
 // seasons / weather / disease risk, hired workers, selling to distribution companies (price offers and contracts) and itemised yearly finances. State: s.farm.
+import { fmtMoney } from './fmt.js';
 import { rnd, chance, clamp, gauss } from './rng.js';
 import { log, earn, spend } from './core.js';
 
 const R = Math.round, age = (s) => Math.floor(s.age);
-const money = (n) => '$' + R(n).toLocaleString('en-US');
+const money = (n) => fmtMoney(n);
 const hashStr = (str) => { let h = 2166136261; for (const c of String(str)) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
 const lcg = (seed) => { let t = seed >>> 0; return () => { t += 0x6d2b79f5; let x = Math.imul(t ^ (t >>> 15), 1 | t); x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; }; };
 export const MIN_AGE = 18, MIN_ACRES = 10, MAX_ACRES = 5000;
@@ -54,7 +55,7 @@ export const upgradeCost = (f, pts) => R(unit(f) * (STEPS.find((x) => x.pts === 
 export function landPrice(locId, acres, year = 0) { const l = locDef(locId); if (!l) return 0; const ppa = l.ppa * (acres < 40 ? 1.15 : acres > 640 ? 0.9 : 1) * landIndex(locId, year); return R(ppa * acres); }
 const landIndex = (locId, year) => { let v = 1; for (let y = 0; y < Math.max(0, Math.min(60, year)); y++) v *= 1 + (lcg(hashStr('land|' + locId + '|' + y))() - 0.45) * 0.08; return v; };
 const ppaNow = (s, f) => { const l = locDef(f.loc); return l.ppa * landIndex(f.loc, age(s) - 18); };
-export function quote(s, o = {}) { const f = { acres: clamp(R(o.acres || 100), MIN_ACRES, MAX_ACRES) }, loc = o.loc || 'plains', pr = productDef(o.product) || PRODUCTS[0], y = age(s) - 18; const land = landPrice(loc, f.acres, y), build = R(15000 + f.acres * 30), setup = R(pr.setup * f.acres * 0.35 + 8000); return { acres: f.acres, ppa: R(land / f.acres), land, buildings: build, setup, total: land + build + setup }; }
+export function quote(s, o = {}) { const f = { acres: clamp(R(o.acres || 100), MIN_ACRES, MAX_ACRES) }, loc = o.loc || 'plains', pr = productDef(o.product) || PRODUCTS[0], y = age(s) - 18; const land = landPrice(loc, f.acres, y), build = R(15000 + f.acres * 30), setup = R(pr.setup * f.acres * 0.35 + 8000); return { setupLabel: pr.kind === 'animal' ? 'Initial livestock purchase' : 'Seed & first planting', acres: f.acres, ppa: R(land / f.acres), land, buildings: build, setup, total: land + build + setup }; }
 export function found(s, o = {}) {
   if (s.farm) return { ok: false, msg: 'You already run a farm or ranch.' }; if (age(s) < MIN_AGE) return { ok: false, msg: `Farming starts at ${MIN_AGE}.` }; if (s.prison) return { ok: false, msg: 'Not from prison.' };
   const l = locDef(o.loc), pr = productDef(o.product); if (!l) return { ok: false, msg: 'Pick a location.' }; if (!pr) return { ok: false, msg: 'Pick crops or animals.' }; const acres = R(Number(o.acres)); if (!(acres >= MIN_ACRES && acres <= MAX_ACRES)) return { ok: false, msg: `Buy between ${MIN_ACRES} and ${MAX_ACRES} acres.` };
@@ -101,11 +102,11 @@ function weatherYear(s, f) {
 export function yearTick(s) {
   const f = need(s); if (!f) return; if (s.prison) return; const A = f.acct, y = age(s), l = locDef(f.loc), W = weatherYear(s, f), ins = f.insured ? 0.5 : 1, spec = skillOf(f, 'specialist'), mech = skillOf(f, 'mechanic'), fore = skillOf(f, 'foreman');
   const stf = Math.pow(staffing(f) >= 1 ? 1 : Math.max(0.2, staffing(f)), 0.7) * (1 + fore / 800), bq = 0.9 + f.bq / 500, ops = [], wxNotes = [];
-  let seedCost = 0, vet = 0;
+  let seedCost = 0, vet = 0, pest = 0; const lines = { seed: 0, fertilizer: 0, feed: 0, stock: 0, vetRoutine: 0 }; let cropAcres = 0, animalAcres = 0;
   for (const o of f.ops) {
     const pr = productDef(o.id), fit = (pr.fit[f.loc] || 1) * (pr.kind === 'animal' ? l.live : l.soil); let wx = 1; for (const [k, v] of Object.entries(W.ev)) wx *= 1 - v * (pr.wth[k] || 1) * ins; if (W.bump) wx *= 1.12;
-    let dis = 0, disNote = ''; const pd = clamp(pr.risk * l.disease * (1 - f.bq / 220) * (1 - spec / 260) * 1.4, 0, 0.5); if (chance(s, pd)) { dis = (0.15 + rnd(s) * 0.4) * ins; f.disease++; disNote = pr.kind === 'animal' ? 'disease outbreak' : 'blight / pests'; vet += R(o.acres * 40 * (1 - spec / 200)); }
-    const out = R(o.acres * pr.yld * fit * wx * (1 - dis) * stf * bq * (0.92 + rnd(s) * 0.16)), cost = R(o.acres * pr.cost * (1 - mech / 800)); seedCost += cost; f.stock[o.id] = R((f.stock[o.id] || 0) + out);
+    let dis = 0, disNote = ''; const pd = clamp(pr.risk * l.disease * (1 - f.bq / 220) * (1 - spec / 260) * 1.4, 0, 0.5); if (chance(s, pd)) { dis = (0.15 + rnd(s) * 0.4) * ins; f.disease++; disNote = pr.kind === 'animal' ? 'disease outbreak' : 'blight / pests'; { const tc = R(o.acres * 40 * (1 - spec / 200)); if (pr.kind === 'animal') vet += tc; else pest += tc; } }
+    const out = R(o.acres * pr.yld * fit * wx * (1 - dis) * stf * bq * (0.92 + rnd(s) * 0.16)), cost = R(o.acres * pr.cost * (1 - mech / 800)); seedCost += cost; if (pr.kind === 'animal') { animalAcres += o.acres; lines.feed += R(cost * 0.6); lines.stock += R(cost * 0.28); lines.vetRoutine += cost - R(cost * 0.6) - R(cost * 0.28); } else { cropAcres += o.acres; lines.seed += R(cost * 0.55); lines.fertilizer += cost - R(cost * 0.55); } f.stock[o.id] = R((f.stock[o.id] || 0) + out);
     ops.push({ id: o.id, name: pr.name, icon: pr.icon, acres: o.acres, produced: out, unit: pr.unit, cost, weather: R(wx * 100), disease: disNote }); }
   for (const w of W.list) wxNotes.push(w.kind === 'bumper' ? `Bumper year (+${w.severity}%)` : `${w.kind[0].toUpperCase() + w.kind.slice(1)} (-${w.severity}%)`);
   // contracts deliver first at the locked price
@@ -116,8 +117,8 @@ export function yearTick(s) {
   // storage spoilage, then optional auto sale at the best offer
   const spoil = clamp(0.1 - f.bq / 1200, 0.02, 0.1); let autoRev = 0; for (const id of Object.keys(f.stock)) { if (f.autoSell) { const of = offers(s, id)[0]; if (of) { const v = R(f.stock[id] * of.price * 0.97); autoRev += v; delete f.stock[id]; } } else { f.stock[id] = R(f.stock[id] * (1 - spoil)); if (f.stock[id] <= 0) delete f.stock[id]; } }
   earn(s, autoRev); A.revenue.spot += autoRev;
-  const wages = f.staff.reduce((a, x) => a + x.wage, 0), landVal = R(ppaNow(s, f) * f.acres), tax = R(landVal * 0.004), fuel = R(f.acres * 38 * (1 - mech / 600)), insCost = f.insured ? R(seedCost * 0.07 + landVal * 0.001) : 0, upkeep = R(8000 + f.acres * 12 + (f.bq > 60 ? f.bq * 40 : 0)), costs = { seed: seedCost, wages, fuel, tax, insurance: insCost, upkeep, vet, penalties: pen + A.costs.penalties, repairs: A.costs.repairs };
-  spend(s, wages + fuel + tax + insCost + upkeep + vet + seedCost + pen);
+  const wages = f.staff.reduce((a, x) => a + x.wage, 0), landVal = R(ppaNow(s, f) * f.acres), tax = R(landVal * 0.004), fuel = R((cropAcres * 38 + animalAcres * 20) * (1 - mech / 600)), insCost = f.insured ? R(seedCost * 0.07 + landVal * 0.001) : 0, upkeep = R(8000 + f.acres * 12 + (f.bq > 60 ? f.bq * 40 : 0)), costs = { seed: lines.seed, fertilizer: lines.fertilizer, feed: lines.feed, 'livestock restocking': lines.stock, vet: vet + lines.vetRoutine, pesticide: pest, wages, fuel, tax, insurance: insCost, upkeep, penalties: pen + A.costs.penalties, repairs: A.costs.repairs };
+  spend(s, wages + fuel + tax + insCost + upkeep + vet + pest + seedCost + pen);
   const rev = { spot: R(A.revenue.spot), contract: R(A.revenue.contract) }, totalRev = rev.spot + rev.contract, totalCost = R(Object.values(costs).reduce((a, v) => a + v, 0)), rec = { year: y, ops, weather: wxNotes, contracts: cnotes, revenue: { ...rev, total: totalRev }, costs: Object.fromEntries(Object.entries(costs).map(([k, v]) => [k, R(v)])), totalCosts: totalCost, profit: totalRev - totalCost, staffing: R(staffing(f) * 100) };
   f.hist.unshift(rec); if (f.hist.length > 12) f.hist.pop(); f.last = rec; f.totals.revenue += totalRev; f.totals.profit += rec.profit; f.bq = Math.max(5, f.bq - 3 - (W.list.some((w) => w.kind === 'hail' || w.kind === 'flood') ? 2 : 0));
   f.weather = wxNotes; f.acct = blankAcct(); f.year = y;

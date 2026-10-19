@@ -66,6 +66,7 @@ export async function brandScreen(body, ctx) {
   if (b.hist.length) fin.push(section('Yearly statements'), ...b.hist.slice(0, 5).map((r) => row({ icon: '🧾', title: 'Age ' + r.year, sub: `Revenue ${money(r.revenue.total ?? r.revenue)} · costs ${money(r.costs.total ?? r.costs)}`, right: sgn(r.profit), chevron: false })));
   secs.push({ id: 'fin', icon: '🧾', label: 'Itemised finances', rows: fin });
   secs.push({ id: 'sell', icon: '💼', label: 'Sell the brand', rows: [row({ id: 'brand-sell', icon: '💰', title: 'Sell ' + b.name, sub: `Offer ${money(b.sellValue)}`, onClick: async () => { if (await confirmSheet('Sell ' + b.name + '?', `You would receive ${money(b.sellValue)}.`, 'Sell', 'danger')) await go('sell'); } })] });
+  { const { bizOpsCard } = await import('./bizops.js'); const c = await bizOpsCard('brand', null, { refresh }); if (c) body.append(c); }
   body.append(accordion('lifesim.brand.acc', secs, 'data-brand'));
 }
 async function planSeason(b, st, p, go) {
@@ -109,7 +110,7 @@ export async function farmScreen(body, ctx) {
     row({ id: 'land-sell', icon: '➖', title: 'Sell acres', sub: `${f.free} free acres can be sold`, disabled: f.free < 1, onClick: async () => { const n = await askNumber('Acres to sell', { min: 1, max: Math.max(1, f.free), def: 1 }); if (n) await go('sellAcres', n); } }),
     kv('Property tax / yr', money(f.fixed.tax)), kv('Upkeep / yr', money(f.fixed.upkeep))] });
   // crops & animals
-  const ops = [h('div', { class: 'hint', text: 'Split your acres between crops and animals. Each has its own yield, feed/seed cost, disease risk and weather sensitivity.' })];
+  const ops = [h('div', { class: 'hint', text: 'Split your acres between crops and animals. Crops cost seed and fertiliser; animals cost feed, restocking and vet care (never seed). Each has its own yield, disease risk and weather sensitivity.' })];
   for (const o of f.ops) ops.push(row({ id: 'op-' + o.id, icon: o.icon, title: `${o.name} · ${o.acres} acres`, sub: `Expect about ${o.expect.toLocaleString('en-US')} ${o.unit} · spot ${money(o.spot)} · disease risk ${o.risk}%`, onClick: async () => { const i = await pick(o.name, [{ label: 'Change acreage' }, { label: 'Stop this operation', disabled: f.ops.length < 2 }]); if (i === 0) { const n = await askNumber('Acres of ' + o.name, { min: 1, max: o.acres + f.free, def: o.acres }); if (n) await go('setOp', o.id, n); } else if (i === 1) await go('dropOp', o.id); } }));
   ops.push(row({ id: 'op-add', icon: '➕', title: 'Add crops or animals', sub: `${f.free} free acres`, disabled: f.free < 1, onClick: async () => { const avail = st.products.filter((p) => !f.ops.some((o) => o.id === p.id)), i = await pick('Add an operation', avail.map((p) => ({ label: p.icon + ' ' + p.name, sub: `${p.kind === 'animal' ? 'Animals' : 'Crop'} · setup ${money(p.setup)}/acre-ish` }))); if (i == null) return; const n = await askNumber('Acres for ' + avail[i].name, { min: 1, max: f.free, def: Math.min(f.free, 20) }); if (n) await go('addOp', avail[i].id, n); } }));
   secs.push({ id: 'ops', icon: '🌾', label: 'Crops & animals', badge: String(f.ops.length), rows: ops });
@@ -134,6 +135,7 @@ export async function farmScreen(body, ctx) {
   if (f.hist.length > 1) fin.push(section('History'), ...f.hist.map((r) => row({ icon: '🧾', title: 'Age ' + r.year, sub: (r.weather.join(', ') || 'normal weather'), right: sgn(r.profit), chevron: false })));
   secs.push({ id: 'fin', icon: '🧾', label: 'Finances, weather & disease', rows: fin });
   secs.push({ id: 'sell', icon: '💼', label: 'Sell the farm', rows: [row({ id: 'farm-sell', icon: '💰', title: 'Sell ' + f.name, sub: `Offer ${money(f.sellValue)}`, onClick: async () => { if (await confirmSheet('Sell the farm?', `You would receive ${money(f.sellValue)}.`, 'Sell', 'danger')) await go('sellFarm'); } })] });
+  { const { bizOpsCard } = await import('./bizops.js'); const c = await bizOpsCard('farm', null, { refresh }); if (c) body.append(c); }
   body.append(accordion('lifesim.farm.acc', secs, 'data-farm'));
 }
 async function farmFound(body, st, go, refresh) {
@@ -143,7 +145,7 @@ async function farmFound(body, st, go, refresh) {
   body.append(row({ id: 'ff-loc', icon: loc.icon, title: 'Location: ' + loc.name, sub: `${money(loc.ppa)}/acre · ${loc.blurb}`, onClick: async () => { const i = await pick('Location', st.locations.map((l) => ({ label: l.icon + ' ' + l.name, sub: `${money(l.ppa)}/acre · ${l.blurb}` }))); if (i != null) { fform.loc = st.locations[i].id; refresh(); } } }));
   body.append(row({ id: 'ff-prod', icon: pr.icon, title: 'Crop or animals: ' + pr.name, sub: `${pr.kind === 'animal' ? 'Livestock' : 'Crop'} · spot ${money(pr.spot)} per ${pr.unit}`, onClick: async () => { const i = await pick('What will you raise?', st.products.map((p) => ({ label: p.icon + ' ' + p.name, sub: (p.kind === 'animal' ? 'Livestock' : 'Crop') + ` · about ${money(p.perAcre)} gross per acre` }))); if (i != null) { fform.product = st.products[i].id; refresh(); } } }));
   body.append(row({ id: 'ff-acres', icon: '📏', title: `Acres: ${fform.acres}`, sub: `${st.minAcres}–${st.maxAcres} acres`, onClick: async () => { const n = await askNumber('Acres to buy', { min: st.minAcres, max: st.maxAcres, def: fform.acres }); if (n) { fform.acres = n; refresh(); } } }));
-  body.append(card('Purchase price', kv(`Land (${q.acres} acres × ${money(q.ppa)})`, money(q.land)), kv('Barns & buildings', money(q.buildings)), kv('Setup (seed / stock)', money(q.setup)), kv('Total', money(q.total), st.cash >= q.total ? 'pos' : 'neg'), kv('Your cash', money(st.cash))));
+  body.append(card('Purchase price', kv(`Land (${q.acres} acres × ${money(q.ppa)})`, money(q.land)), kv('Barns & buildings', money(q.buildings)), kv(q.setupLabel || 'Setup', money(q.setup)), kv('Total', money(q.total), st.cash >= q.total ? 'pos' : 'neg'), kv('Your cash', money(st.cash))));
   body.append(h('div', { class: 'btns', style: { padding: '8px 12px' } }, btn('🚜 Buy the farm', async () => { const r = await go('found', { ...fform }); if (r && r.ok) fform = { name: '', loc: 'plains', product: 'corn', acres: 100 }; }, 'go', { 'data-el': 'farm-found' })));
 }
 

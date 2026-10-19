@@ -84,6 +84,13 @@
  ],
  "occupationMenu": [
   {
+   "id": "timebudget",
+   "label": "Time & Stress",
+   "sub": "Weekly hours budget, stress, burnout and relief",
+   "icon": "⏱️",
+   "minAge": 5
+  },
+  {
    "id": "education",
    "label": "Education",
    "sub": "School, college & majors",
@@ -186,6 +193,13 @@
    "label": "Own a Team",
    "sub": "Buy a club in any sport, hire staff, run the stadium",
    "icon": "🏟️",
+   "minAge": 18
+  },
+  {
+   "id": "esports",
+   "label": "Esports Teams",
+   "sub": "Own a gaming org: RTS, shooter, MOBA, sim racing; tournaments",
+   "icon": "🎮",
    "minAge": 18
   },
   {

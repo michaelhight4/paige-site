@@ -12,7 +12,7 @@ import { storeScreen, settingsScreen } from './store.js';
 import { streamerScreen, influencerScreen } from './online.js';
 import { politicsScreen } from './politics.js';
 import { prodcoScreen } from './prodco.js';
-import { franchiseScreen } from './franchise.js';
+import { franchiseScreen, esportsScreen } from './franchise.js';
 import { racingScreen } from './racing.js';
 import { brandScreen, farmScreen, advisorScreen } from './venture.js';
 import { coachingScreen } from './coaching.js';
@@ -28,11 +28,12 @@ export async function buildDirectory() {
   add('Life', 'profile', 'Profile', 'Stats, traits, ribbons, diseases', '🙂', (n) => n.open('Profile', profileScreen), 'me character avatar ribbons');
   add('Life', 'life:autopilot', 'Autopilot & Skip ahead', 'Yearly routines that run when you age, skip years (Premium)', '🤖', async (n) => { const { autopilotScreen } = await import('./auto.js'); n.open('Autopilot', autopilotScreen); }, 'auto routine skip fast forward age years premium');
   add('Life', 'life:rewards', 'Rewards (watch an ad)', 'Cash, stat boosts and bonuses from rewarded ads', '📺', async (n) => { const { rewardsScreen } = await import('../ads_ui.js'); n.open('Rewards', rewardsScreen); }, 'ad ads reward cash money stat boost sponsor steam subscriber');
+  add('Life', 'life:timebudget', 'Time & Stress', 'Weekly hours budget, stress, burnout, relief, second job', '⏱️', async (n) => { const { timeBudgetScreen } = await import('./timebudget.js'); n.open('Time & Stress', timeBudgetScreen); }, 'hours week stress burnout schedule second job relief vacation therapy'),
   add('Life', 'journal', 'Life journal', 'Back to the main screen', '📖', (n) => n.closeAll(), 'home timeline log');
   for (const e of Ext.lifeEntries()) add('Life', e.id, e.label, e.sub, e.icon, e.open, e.kw);
   // Work & School
   const occ = await adapter.getOccupationMenu();
-  const occScreens = { education: Occ.educationScreen, brand: brandScreen, farm: farmScreen, fight: Occ.fightScreen, freelance: Occ.freelanceScreen, jobs: (b, c) => Occ.jobsScreen(b, c, 'jobs'), parttime: Occ.partTimeScreen, military: Occ.militaryScreen, special: (b, c) => Occ.jobsScreen(b, c, 'special'), sports: sportsScreen, collections: Occ.collectionsScreen, scholarships: Ext.scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, franchise: franchiseScreen, racing: racingScreen, prodco: prodcoScreen };
+  const occScreens = { timebudget: async (b, c) => { const { timeBudgetScreen } = await import('./timebudget.js'); return timeBudgetScreen(b, c); }, education: Occ.educationScreen, brand: brandScreen, farm: farmScreen, fight: Occ.fightScreen, freelance: Occ.freelanceScreen, jobs: (b, c) => Occ.jobsScreen(b, c, 'jobs'), parttime: Occ.partTimeScreen, military: Occ.militaryScreen, special: (b, c) => Occ.jobsScreen(b, c, 'special'), sports: sportsScreen, collections: Occ.collectionsScreen, scholarships: Ext.scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, franchise: franchiseScreen, esports: esportsScreen, racing: racingScreen, prodco: prodcoScreen };
   for (const m of occ) add('Work & School', 'occ:' + m.id, m.label, m.sub, m.icon, (n) => n.open(m.label, occScreens[m.id]), 'job career school college university');
   add('Work & School', 'occ:menu', 'Work hub', 'Current job and all work screens', '💼', (n) => n.open('Work', Occ.occupationMenu), 'occupation');
   for (const e of Ext.workEntries()) add('Work & School', e.id, e.label, e.sub, e.icon, e.open, e.kw);
@@ -48,6 +49,7 @@ export async function buildDirectory() {
   // Social
   add('Social', 'soc:people', 'Relationships', 'Family, partner, friends, exes', '👪', (n) => n.open('Relationships', relationshipsScreen), 'people family friends partner dating');
   add('Social', 'soc:media', 'Social Media', 'Platforms, posts, followers, sponsors, verification, calendar, team, gear', '📱', async (n) => { const { socialHub } = await import('./social.js'); n.open('Social Media', socialHub); }, 'social media feed followers post sponsor verified influencer platform chirpr clipwave');
+  add('Businesses & Studios', 'biz:esports', 'Esports Teams', 'Own a gaming org: RTS, shooter, MOBA or sim racing teams, players, staff, gaming house, tournaments', '🎮', (n) => n.open('Esports Teams', esportsScreen), 'esports gaming team org moba shooter rts racing tournament'),
   add('Businesses & Studios', 'biz:franchise', 'Own a Team', 'Team hub: buy or create a club, hire staff, roster, facilities, finances', '🏟️', (n) => n.open('Own a Team', franchiseScreen), 'sports team franchise own club stadium staff'),
   add('Businesses & Studios', 'biz:brand', 'Clothing Brand', 'Launch a fashion label: seasons, lines, models, stores, online and wholesale', '👗', (n) => n.open('Clothing Brand', brandScreen), 'clothing brand fashion apparel swimwear streetwear collection models');
   add('Businesses & Studios', 'biz:farm', 'Farms & Ranches', 'Buy land by the acre, crops or livestock, workers, distributors, contracts', '🌾', (n) => n.open('Farms & Ranches', farmScreen), 'farm ranch cattle crops acres land harvest');

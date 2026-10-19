@@ -1,3 +1,4 @@
+import { fmtMoney } from './fmt.js';
 // Seeded RNG (mulberry32). All functions take an object with a numeric `rs` field
 // (the game state, or {rs: seed} for replays) so the generator state is saved with the game.
 export function rnd(o) {
@@ -21,10 +22,4 @@ export function wpick(o, items, wf) {
   for (let i = 0; i < items.length; i++) { r -= ws[i]; if (r <= 0) return items[i]; }
   return items[items.length - 1];
 }
-export const money = (n) => {
-  const a = Math.abs(n), s = n < 0 ? '-' : '';
-  if (a >= 1e9) return s + '$' + (a / 1e9).toFixed(2) + 'B';
-  if (a >= 1e6) return s + '$' + (a / 1e6).toFixed(2) + 'M';
-  if (a >= 1e4) return s + '$' + (a / 1e3).toFixed(1) + 'k';
-  return s + '$' + Math.round(a).toLocaleString('en-US');
-};
+export const money = (n) => fmtMoney(n);

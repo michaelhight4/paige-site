@@ -1,6 +1,7 @@
 // Politics career: elected offices (council, school board, sheriff, mayor, congress, governor, senate, president), judge track (appointed), per-country equivalents,
 // campaigns (platform, budget, donors, 4 trick questions, shady money), press digging up your past (incl. old social posts), favors owed, scandals, a simple presidential war,
 // and a royalty side (born or marry into a throne, duties, succession). Data: data/politics.json, state: s.pol / s.royal.
+import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, gauss } from './rng.js';
 import { log, earn, spend, addStat } from './core.js';
@@ -12,7 +13,7 @@ import * as P from './people.js';
 import * as Ev from './events.js';
 
 const C = () => D.politics, TAX = 0.22, age = (s) => Math.floor(s.age);
-const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
+const money = (n) => fmtMoney(n);
 export const slotDef = (id) => C().slots.find((x) => x.id === id);
 export const titleOf = (s, id) => (C().titles[s.country] || C().titles.us)[id];
 export const monarchy = (s) => C().monarchies[s.country] || null;

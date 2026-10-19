@@ -1,3 +1,4 @@
+import { fmtMoney } from '../../src/fmt.js';
 // ui.js — tiny DOM helpers, navigation stack, modals. No state beyond what adapter returns.
 import { adapter } from './adapter.js';
 
@@ -44,12 +45,7 @@ export function h(tag, props, ...kids) {
 }
 
 export function money(n, compact = false) {
-  if (n == null || isNaN(n)) return '—';
-  const neg = n < 0, a = Math.abs(n);
-  let s;
-  if (compact && a >= 1e9) s = (a / 1e9).toFixed(2) + ' Billion'; else if (compact && a >= 1e6) s = (a / 1e6).toFixed(2) + ' Million';
-  else s = Math.round(a).toLocaleString('en-US');
-  return (neg ? '-' : '') + '$' + s;
+  return fmtMoney(n);
 }
 
 export function band(v) {
@@ -173,5 +169,6 @@ async function drawTop() {
   const frag = h('div'); frag.dataset.screen = top.title;
   try { await top.render(frag, { refresh: rerenderTop, nav: { open: openPanel, back, closeAll } }); }
   catch (e) { console.error('screen error', top.title, e); frag.replaceChildren(empty('Something went wrong: ' + e.message)); }
+  try { const { yearlyChecklist } = await import('./screens/yearly.js'); await yearlyChecklist(frag, top.title); } catch (e) { /* optional */ }
   body.replaceChildren(frag); body.scrollTop = sc;
 }

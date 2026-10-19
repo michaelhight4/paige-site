@@ -4,6 +4,9 @@ import { log } from './core.js';
 
 export const autoApi = {
   getAutopilot() { return Auto.status(this); },
+  getYearlyOptions(title) { return { unlocked: Auto.unlocked(), on: !!Auto.ensure(this.s).on && Auto.unlocked(), options: Auto.yearlyOptions(this, title) }; },
+  setYearlyOption(id, on) { const r = Auto.setYearly(this.s, id, !!on); this.save(); return r; },
+  setYearlyChoice(id, idx) { const r = Auto.setYearlyChoice(this.s, id, idx); this.save(); return r; },
   getAutoPage(id) { const pg = Auto.pageStatus(this).find((x) => x.id === id); return pg ? { ...pg, unlocked: Auto.unlocked() } : null; },
   getAutoAccount(pid) { const pg = Auto.pageStatus(this).find((x) => x.id === 'social_' + pid), A = this.s.auto || {}, st = this.getSocial(); return { pid, settings: Auto.acctSettings(this.s, pid), page: pg || null, unlocked: Auto.unlocked(), plan: A.socialPlan || 'safe', planOptions: st.postPlan ? st.postPlan.options : [], cap: 5 }; },
   setAutoAccount(pid, patch) { const n0 = this.mark(); const r = Auto.setAccount(this, pid, patch); return this.res(!!r.ok, r.msg, n0); },
