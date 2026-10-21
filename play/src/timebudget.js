@@ -35,7 +35,8 @@ export function lines(s) {
   if (s.esc && s.esc.active) add('esports_career', 'Esports career', 30, 'teams', '🎮');
   if (s.stream && s.stream.active) { const h = { casual: 10, regular: 20, grind: 35, marathon: 50 }[s.stream.schedule]; add('stream', 'Live streaming', num(h, 20), 'hobby', '🎥'); }
   if (s.infl && s.infl.active) add('infl', 'Influencer work', 10, 'hobby', '📸');
-  if (s.social && len(s.social.accounts)) add('social', `Social accounts (${len(s.social.accounts)})`, 1.5 * len(s.social.accounts), 'hobby', '📱');
+  { const so = s.social, accs = so && so.accounts ? Object.values(so.accounts).filter((a) => a && !a.banned && !a.deleted) : []; // every opened platform account (incl. the ones your stream/influencer careers run on)
+    if (accs.length) { const per = { safe: 3, steady: 4, edgy: 5, controversial: 6, viral: 6 }[(so.postPlan && so.postPlan.id) || 'steady'] || 4; add('social', `Social accounts (${accs.length})`, per * accs.length, 'hobby', '📱'); } }
   if (s.pol && s.pol.office) add('politics', 'Political office', 30, 'work', '🏛️');
   return managed(s, L);
 }
@@ -44,14 +45,23 @@ export function lines(s) {
 export const MGMT_TIERS = [{ id: 'budget', name: 'Budget', pct: 0.25, fee: 15000 }, { id: 'standard', name: 'Standard', pct: 0.20, fee: 40000 }, { id: 'elite', name: 'Elite', pct: 0.15, fee: 100000 }];
 export const MANAGEABLE = { biz: 'corporate', prod: 'corporate', brand: 'corporate', farm: 'corporate', teams: 'corporate', racing_team: 'corporate', stream: 'talent', infl: 'talent', social: 'talent' };
 const units = (x) => { const m = /\((\d+)\)/.exec(x.label); return m ? +m[1] : 1; };
-function managed(s, L) { const M = s.mgmt || {}; for (const x of L) { if (!MANAGEABLE[x.id]) continue; x.manageable = MANAGEABLE[x.id]; const tr = MGMT_TIERS.find((q) => q.id === M[x.id]); if (!tr) continue; x.was = x.hours; x.hours = Math.round(x.was * tr.pct * 10) / 10; x.mgmt = tr.id; x.fee = tr.fee * units(x); x.label += ` · Managed: ${x.hours}h/wk (was ${x.was}h)`; } for (const k of Object.keys(M)) if (!L.some((x) => x.id === k)) delete M[k]; return L; }
-export function mgmtFees(s) { return lines(s).reduce((a, x) => a + (x.fee || 0), 0); }
+// Two shared slots (7c): one Corporate firm covers every company line, one Talent firm covers every social/stream line.
+const RANK = { budget: 1, standard: 2, elite: 3 };
+export function mgmtSlots(s) { if (s.mgmt && 'corporate' in s.mgmt && 'talent' in s.mgmt && !Object.keys(s.mgmt).some((k) => MANAGEABLE[k])) return s.mgmt; let M = s.mgmt || {}; const old = Object.keys(M).filter((k) => MANAGEABLE[k]);
+  if (old.length) { const n = {}; for (const k of Object.keys(M)) { const g = MANAGEABLE[k] || (k === 'corporate' || k === 'talent' ? k : null); if (!g || !RANK[M[k]]) continue; if (!n[g] || RANK[M[k]] > RANK[n[g]]) n[g] = M[k]; } M = n; } // 7b per-line firms -> highest tier per group
+  s.mgmt = { corporate: M.corporate || null, talent: M.talent || null }; return s.mgmt; }
+export const groupFee = (tier, n) => { const tr = MGMT_TIERS.find((q) => q.id === tier); return tr && n > 0 ? Math.round(tr.fee * (1 + 0.25 * (n - 1))) : 0; };
+function managed(s, L) { const M = mgmtSlots(s); for (const x of L) { if (!MANAGEABLE[x.id]) continue; x.manageable = MANAGEABLE[x.id]; x.units = units(x); const tr = MGMT_TIERS.find((q) => q.id === M[x.manageable]); if (!tr) continue; x.was = x.hours; x.hours = Math.round(x.was * tr.pct * 10) / 10; x.mgmt = tr.id; x.label += ` · Managed: ${x.hours}h (was ${x.was}h)`; } return L; }
+export function groups(s, L = lines(s)) { const M = mgmtSlots(s); return ['corporate', 'talent'].map((g) => { const ls = L.filter((x) => x.manageable === g), n = ls.reduce((a, x) => a + (x.units || 1), 0), tier = M[g]; const tr = MGMT_TIERS.find((q) => q.id === tier);
+  return { id: g, name: g === 'corporate' ? 'Corporate management firm' : 'Talent / social management', noun: g === 'corporate' ? 'compan' + (n === 1 ? 'y' : 'ies') : 'account' + (n === 1 ? '' : 's'), tier: tier || null, tierName: tr ? tr.name : null, units: n, fee: groupFee(tier, n), quotes: MGMT_TIERS.map((q) => ({ id: q.id, name: q.name, pct: q.pct, fee: groupFee(q.id, Math.max(1, n)) })), lines: ls.map((x) => x.id) }; }); }
+export function mgmtFees(s) { return groups(s).reduce((a, g) => a + g.fee, 0); }
 export function setMgmt(s, id, tier) {
-  if (!MANAGEABLE[id]) return { ok: false, msg: 'Nothing to manage there.' }; s.mgmt = s.mgmt || {};
-  if (!tier) { if (!s.mgmt[id]) return { ok: false, msg: 'No firm hired.' }; delete s.mgmt[id]; return { ok: true, msg: 'Fired the management firm. Those hours are back on you.' }; }
-  const tr = MGMT_TIERS.find((q) => q.id === tier); if (!tr) return { ok: false, msg: 'Unknown tier.' }; if (!lines(s).some((x) => x.id === id)) return { ok: false, msg: 'You have nothing there to manage.' };
-  s.mgmt[id] = tr.id; return { ok: true, msg: `Hired a ${tr.name} ${MANAGEABLE[id]} management firm.` };
+  const g = id === 'corporate' || id === 'talent' ? id : MANAGEABLE[id]; if (!g) return { ok: false, msg: 'Nothing to manage there.' }; const M = mgmtSlots(s), nm = g === 'corporate' ? 'corporate management firm' : 'talent management firm';
+  if (!tier) { if (!M[g]) return { ok: false, msg: 'No firm hired.' }; M[g] = null; return { ok: true, msg: `Fired the ${nm}. Those hours are back on you.` }; }
+  const tr = MGMT_TIERS.find((q) => q.id === tier); if (!tr) return { ok: false, msg: 'Unknown tier.' }; const G = groups(s).find((x) => x.id === g); if (!G.units) return { ok: false, msg: 'You have nothing there to manage.' };
+  M[g] = tr.id; return { ok: true, msg: `Hired a ${tr.name} ${nm}: covers ${G.units} ${G.noun} for ${fmtFee(groupFee(tr.id, G.units))}/yr.` };
 }
+const fmtFee = (n) => '$' + Math.round(n).toLocaleString('en-US');
 export function budget(s) {
   const L = lines(s), committed = Math.round(L.reduce((a, x) => a + x.hours, 0) * 10) / 10, by = (c) => Math.round(L.filter((x) => x.cat === c).reduce((a, x) => a + x.hours, 0) * 10) / 10;
   let free = WEEK - SLEEP - REST - committed, sleep = SLEEP, rest = REST;

@@ -42,9 +42,11 @@ export async function franchiseScreen(body, ctx, mode = 'sports') {
     const Ls = t.last; if (Ls) add(h('div', { class: 'card', 'data-el': 'fr-year' }, h('h3', { text: `Last season (age ${Ls.year})` }), kv('Result', `${Ls.w}-${Ls.l}${Ls.d ? '-' + Ls.d : ''}, finished ${Ls.pos}${Ls.champion ? ' 🏆' : ''}`), kv('Attendance / game', Ls.att.toLocaleString()), kv('Profit', money(Ls.profit), Ls.profit >= 0 ? 'pos' : 'neg'), ...Ls.notes.map((x) => h('div', { class: 'hint', text: '• ' + x }))));
     add(section('League'), ...[{ name: t.name + ' (you)', str: t.strength }, ...t.league].sort((a, b) => b.str - a.str).map((x) => row({ title: x.name, right: String(x.str), chevron: false })));
   } else if (hubTab === 'staff') {
+    if (!ES) tab.append(await autoHireCard(t, go));
     { const { bizOpsCard } = await import('./bizops.js'); const c = await bizOpsCard('team', t.id, { refresh }); if (c) tab.append(c); }
     add(h('div', { class: 'hint', style: { padding: '4px 14px' }, text: `Payroll for staff: ${money(t.staff.reduce((a, x) => a + x.salary, 0))}/yr. * = required. Tap a role to hire; tap a hired person to let them go.` }), ...st.roles.map((x) => ({ ...x, member: t.staff.find((m) => m.role === x.id) || null })).map((r) => row({ id: 'staff:' + r.id, icon: r.icon, title: r.name + (r.required ? ' *' : ''), sub: r.member ? `${r.member.name} · quality ${r.member.skill} · ${money(r.member.salary)}/yr · ${r.desc}` : `${r.desc} · vacant`, right: r.member ? 'Fire' : 'Hire', onClick: async () => { if (r.member) { if (await confirmSheet('Let ' + r.member.name + ' go?', 'Severance is 25% of salary.', 'Let go', 'danger')) await go('fire', r.member.id); } else { const c = await adapter.getFranchiseStaff(r.id); const i = await sheet({ title: 'Hire: ' + r.name, options: c.map((x) => ({ label: `${x.name} · quality ${x.skill}`, sub: `${money(x.salary)}/yr · fee ${money(x.fee)}` })) }); if (i != null) await go('hire', r.id, c[i].id); } } })));
   } else if (hubTab === 'roster') {
+    if (!ES) tab.append(await autoHireCard(t, go));
     const pros = await adapter.getFranchiseProspects();
     add(section(`Players (${t.roster.length}/${t.target}) · tap to release or replace`), ...t.roster.map((p) => row({ id: 'pl:' + p.id, icon: p.inj ? '🤕' : '🧑', title: p.name, sub: `age ${p.age} · rating ${p.ovr}${p.inj ? ' · injured' : ''}`, right: money(p.salary), onClick: async () => { const i = await sheet({ title: p.name, body: `Rating ${p.ovr}, age ${p.age}, ${money(p.salary)}/yr.`, options: [{ label: 'Release (30% of salary)' }, { label: 'Replace with a scouted recruit…', sub: pros.length ? '' : 'No recruits right now' }] }); if (i === 0 && await confirmSheet('Release ' + p.name + '?', 'Costs 30% of salary.', 'Release', 'danger')) await go('release', p.id); if (i === 1 && pros.length) { const k = await sheet({ title: 'Replace ' + p.name + ' with…', options: pros.map((x) => ({ label: `${x.name} · rating ${x.ovr} · age ${x.age}`, sub: 'Fee ' + money(x.fee) })) }); if (k != null) await go('replace', p.id, pros[k].id); } } })),
       section('Scouted recruits'), pros.length ? null : empty('Hire a scout to find recruits.'), ...pros.map((p) => row({ id: 'pr:' + p.id, icon: '🔭', title: p.name, sub: `age ${p.age} · rating ${p.ovr}`, right: 'Sign ' + money(p.fee), onClick: () => go('recruit', p.id) })));
@@ -88,3 +90,20 @@ async function createFlow(st, go) {
   if (q && await confirmSheet(`Found ${o.name || 'your club'}?`, `Founding fee ${money(q.team)} + stadium ${money(q.stadium)} + operating cash ${money(q.operating)} = ${money(q.total + q.operating)}`, 'Create', 'go')) await go('create', o);
 }
 function svgBox(svg, px, el) { const d = h('div', { 'data-el': el, style: { width: px + 'px', height: px + 'px', float: 'right' } }); d.innerHTML = svg; return d; }
+
+let ahTier = 'standard';
+async function autoHireCard(t, go) {
+  const tiers = await adapter.frHireTiers(), card = h('div', { class: 'card', 'data-el': 'autohire' });
+  const draw = async () => {
+    card.replaceChildren(h('h3', { text: '⚡ Auto-hire' }), h('div', { class: 'hint', text: 'Pick a quality tier, see the cost, then fill every gap in one tap.' }),
+      h('div', { class: 'chips' }, ...tiers.map((x) => h('button', { class: 'btn sm ' + (x.id === ahTier ? 'go' : 'alt'), 'data-ahtier': x.id, text: x.name, onclick: () => { ahTier = x.id; draw(); } }))));
+    for (const [what, label] of [['staff', 'Hire all staff'], ['roster', 'Fill roster'], ['all', 'Hire full team']]) {
+      const q = await adapter.frHireQuote(what, ahTier), p = q.plan || {}, empty_ = !p.staff.length && !p.players.length;
+      card.append(h('button', { class: 'btn ' + (what === 'all' ? 'go' : 'alt'), 'data-ah': what, disabled: empty_ ? true : null, text: `${label} — ${empty_ ? (p.noScout ? 'needs a scout' : 'nothing to fill') : `${money(p.fee)} now · ${money(p.salary)}/yr`}`,
+        onclick: async () => await confirmSheet(`${label} (${p.tier})`, `${p.staff.length} staff + ${p.players.length} players. Up front ${money(p.fee)}, then ${money(p.salary)}/yr in wages.`, 'Hire') && go('autoHire', { what, tier: ahTier }) }));
+    }
+    const kf = t.policy && t.policy.keepFilled;
+    card.append(h('button', { class: 'btn sm alt', 'data-ah': 'keep', text: kf ? `🔁 Keep filled: ${kf} (tap to stop)` : `🔁 Keep filled every year (${ahTier})`, onclick: () => go('keepFilled', kf ? null : ahTier) }));
+  };
+  await draw(); return card;
+}

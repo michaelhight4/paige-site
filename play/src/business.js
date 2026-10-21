@@ -138,3 +138,9 @@ export function tickBiz(s, b, dt) {
   s.report.push(`${b.name}: ${net >= 0 ? '+' : ''}${fmtMoney(net)} ${net >= 0 ? 'profit (after tax)' : 'loss'}${rel ? ` | released "${rel.name}" ${rel.score}/10` : ''}`);
   return rel;
 }
+
+// Train employees: once a year per company; cost 5% of payroll (min $2,000); every employee +4 skill (cap 95). Same rules by hand or on Autopilot.
+export const trainCost = (b) => Math.max(2000, Math.round(b.staff.reduce((a, p) => a + (p.salary || 0), 0) * 0.05));
+export const trainedThisYear = (s, b) => b.trainedAge === Math.floor(s.age);
+export function trainStaff(s, b) { if (!b.staff.length) return { ok: false, msg: 'No employees to train.' }; if (trainedThisYear(s, b)) return { ok: false, msg: 'Already trained this year.' }; const c = trainCost(b); if (s.cash < c) return { ok: false, msg: 'Not enough cash.' };
+  s.cash -= c; for (const p of b.staff) p.skill = clamp(p.skill + 4, 5, 95); b.trainedAge = Math.floor(s.age); log(s, `I paid for staff training at ${b.name}.`, 'biz'); return { ok: true, msg: `Trained ${b.staff.length} employees (+4 skill) for $${c.toLocaleString('en-US')}.` }; }

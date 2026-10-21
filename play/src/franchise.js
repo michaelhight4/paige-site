@@ -17,7 +17,10 @@ const lcg = (seed) => { let t = seed >>> 0; return () => { t += 0x6d2b79f5; let 
 const gl = (r) => { let u = 0; for (let i = 0; i < 6; i++) u += r(); return (u - 3) / 0.7071; }; // ~N(0,1)
 const money = (n) => fmtMoney(n);
 export const MIN_AGE = 18;
-export const ensure = (s) => { if (!s.fr) s.fr = { team: null, teams: [], history: [] }; const P = s.fr; if (!P.teams) P.teams = P.team ? [P.team] : []; for (const t of P.teams) { if (!t.pk) t.pk = t.founded ? t.id : String(t.id).replace(/_m$/, ''); if (!t.side) t.side = t.type === 'semi' ? 'minor' : 'major'; } if (P.team && !P.teams.includes(P.team)) P.teams.push(P.team); return P; };
+export const ensure = (s) => { if (!s.fr) s.fr = { team: null, teams: [], history: [] }; const P = s.fr; if (!P.teams) P.teams = P.team ? [P.team] : []; for (const t of P.teams) { if (!t.pk) t.pk = t.founded ? t.id : String(t.id).replace(/_m$/, ''); if (!t.side) t.side = t.type === 'semi' ? 'minor' : 'major'; } if (P.team && !P.teams.includes(P.team)) { const same = P.teams.find((x) => x.id === P.team.id); if (same) P.team = same; else P.teams.push(P.team); } // after a save/load P.team is a separate copy: match it by id, never push a clone
+  if (P.teams.length > 1) { const seen = new Map(), keep = []; for (const t of P.teams) { const k = t.id; if (!seen.has(k)) { seen.set(k, t); keep.push(t); continue; } const a = seen.get(k), loss = t.last && t.last.profit < 0 ? -t.last.profit : 0; if (loss && !t.refunded) { s.cash += R(loss); P.dupRefund = (P.dupRefund || 0) + R(loss); } a.titles = Math.max(a.titles || 0, t.titles || 0); } // 7b clone bug: drop duplicates, refund the doubled yearly loss
+    if (keep.length !== P.teams.length) { P.teams = keep; if (P.team) P.team = keep.find((x) => x.id === P.team.id) || keep[0]; } }
+  return P; };
 // ---- one ownership slot per sport: ONE major (pro/elite) and/or ONE minor (semi), and the two must be a sister pair
 export const SIDE = (typeId) => (typeId === 'semi' ? 'minor' : 'major');
 const baseId = (id) => String(id).replace(/_m$/, '');
@@ -186,7 +189,7 @@ export function playMatch(s, styleId, htStyle = null) {
 export function frames(s) { const t = s.fr && s.fr.team; return t && t.match ? { match: t.match, frames: Coach.frames(t.match, 6, 6) } : null; }
 // ---- the year
 const winP = (a, b, style) => { const k = style === 'attack' ? 10 : style === 'defend' ? 15 : 12.5; return 1 / (1 + Math.exp(-(a - b) / k)); };
-export function yearTick(s) { if (!s.fr) return; ensure(s); each(s, () => tickOne(s)); }
+export function yearTick(s) { if (!s.fr) return; ensure(s); each(s, () => { tickOne(s); const t = need(s); if (t && t.policy && t.policy.keepFilled && s.cash > 0) autoHire(s, { tier: t.policy.keepFilled }); }); }
 function tickOne(s) {
   const P = s.fr, t = P && P.team; if (!t) return; t.stressMult = TB.perfMult(s); const y = age(s); if (t.lastYear === y) return; t.lastYear = y; t.years++; t.half = null;
   const st = staffing(t), ids = statIds(t.sport), sp = coachSport(t.sport);
@@ -248,3 +251,21 @@ export function status(s) {
   const ES = isEsports(t.sport); return { ...base, team: { esports: ES, id: t.id, name: t.name, sport: t.sport, sportName: sp.name, icon: sp.icon, type: typeDef(t.type).name, typeId: t.type, size: sizeDef(t.size).name, sizeId: t.size, tier: tierDef(t.tier).name, tierId: t.tier, cap: t.cap, condition: R(t.condition), cash: R(t.cash), debt: R(t.debt), fans: t.fans, rep: R(t.rep), value: valueOne(s), strength: R(strengthOf(t)), years: t.years, wins: t.wins, losses: t.losses, titles: t.titles, style: t.style, focus: t.focus, stats: cat, weights: { ...t.weights }, weightsLocked: t.weightsYear === a && !!t.weightsChanged, policy: { ...t.policy }, payroll: payrollOf(t), understaffed: ES ? stf.missing.map((n) => { const r = F().roles.find((x) => x.name === n); return (r && ES_ROLE[r.id] ? ES_ROLE[r.id][0] : n); }) : stf.missing, effects: { performance: +stf.perf.toFixed(2), development: +stf.dev.toFixed(2), recruiting: R(stf.recruit), injuries: +stf.injury.toFixed(2), costs: +stf.cost.toFixed(2), attendance: +stf.attend.toFixed(2) }, target: target(t), nextSize: F().sizes[sizeIdx(t.size) + 1] || null, nextTier: F().tiers[tierIdx(t.tier) + 1] || null,
     roster: t.roster.slice().sort((x, y) => y.ovr - x.ovr).map((p) => ({ id: p.id, name: p.name, age: p.age, ovr: p.ovr, salary: p.salary, inj: !!p.inj, stats: p.stats })), logoSvg: logoSvg(t.logo), logo: t.logo, look: t.look, lookName: (LOOKS.find((x) => x.id === t.look) || LOOKS[0]).name, founded: !!t.founded, half: t.half ? { a: t.half.a, b: t.half.b, oppName: t.league[t.half.opp].name, style: t.half.style } : null, played: t.played && t.played.year === a ? t.played : null, canPlay: !ES && !!staffOf(t, 'head_coach') && !(t.played && t.played.year === a), hasMatch: !!t.match, nextOpp: t.league.length ? t.league[pickOpp(t)].name : null, staff: t.staff.map((x) => ({ ...x, roleName: (esRoleName(x.role, t.sport) || [F().roles.find((r) => r.id === x.role).name])[0], icon: (esRoleName(x.role, t.sport) || [0, F().roles.find((r) => r.id === x.role).icon])[1] })), last: t.last, rating: rating(t), facilities: FAC.map((f0) => ES ? { ...f0, ...({ training: { name: 'Gaming house', icon: '🏠', effect: 'Player development +6% per level (bootcamps, sleep, coaching)' }, medical: { name: 'Training tech', icon: '🖥️', effect: 'Fewer injuries and burnout, -7% per level (rigs, ergonomics, sports science)' } })[f0.id] } : f0).map((f) => ({ ...f, level: facLvl(t, f.id), max: 3, cost: facLvl(t, f.id) >= 3 ? null : facCost(t, f.id) })), finance: finance(t), hist: t.hist, league: t.league.map((o) => ({ name: o.name, str: o.str })) } };
 }
+// Auto-hire tiers (7c): one-tap staffing / roster fill. Cost is always quoted first (dry run).
+export const HIRE_TIERS = [{ id: 'budget', name: 'Budget', q: 35 }, { id: 'standard', name: 'Standard', q: 50 }, { id: 'skilled', name: 'Skilled', q: 65 }, { id: 'elite', name: 'Elite', q: 80 }];
+export function autoHire(s, o = {}) {
+  const t = need(s); if (!t) return { ok: false, msg: 'No team.' };
+  const tier = HIRE_TIERS.find((x) => x.id === o.tier) || HIRE_TIERS[1], what = o.what || 'all', dry = !!o.dry;
+  const r = lcg(hashStr(`ah|${s.name}|${age(s)}|${tier.id}|${t.id}`)), plan = { staff: [], players: [], fee: 0, salary: 0 };
+  if (what !== 'roster') for (const role of F().roles) if (!staffOf(t, role.id)) { const c = genStaff(r, role.id, tier.q, typeDef(t.type).staff); c.fee = R(c.salary * 0.2); plan.staff.push(c); plan.fee += c.fee; plan.salary += c.salary; }
+  const hasScout = staffOf(t, 'scout') || plan.staff.some((c) => c.role === 'scout');
+  const need_ = what === 'staff' ? 0 : Math.max(0, target(t) - t.roster.length);
+  if (need_ && hasScout) { const base = baseQuality(t) + (tier.q - 50) * 0.25; for (let i = 0; i < need_; i++) { const p = mkPlayer(r, t, base + gl(r) * 4, r() < 0.6); p.fee = R(p.salary * 0.25); plan.players.push(p); plan.fee += p.fee; plan.salary += p.salary; } }
+  plan.tier = tier.name; plan.needRoster = need_; plan.noScout = need_ > 0 && !hasScout;
+  if (dry) return { ok: true, plan, msg: `${plan.staff.length} staff + ${plan.players.length} players · ${money(plan.fee)} up front, ${money(plan.salary)}/yr` };
+  if (!plan.staff.length && !plan.players.length) return { ok: false, msg: plan.noScout ? 'Hire a scout first.' : 'Nothing to fill — fully staffed.' };
+  topUp(s, t, plan.fee); if (t.cash < plan.fee) return { ok: false, msg: `Needs ${money(plan.fee)} in team cash.` };
+  t.cash -= plan.fee; for (const c of plan.staff) { delete c.fee; t.staff.push(c); } for (const p of plan.players) { delete p.fee; p.ovr = ovrOf(t, p); t.roster.push(p); }
+  return { ok: true, plan, msg: `Hired ${plan.staff.length} staff and signed ${plan.players.length} players (${tier.name}) for ${money(plan.fee)}.` };
+}
+export function setKeepFilled(s, tier) { const t = need(s); if (!t) return { ok: false, msg: 'No team.' }; t.policy.keepFilled = tier || null; return { ok: true, msg: tier ? `Keep filled: ${tier}.` : 'Keep filled off.' }; }

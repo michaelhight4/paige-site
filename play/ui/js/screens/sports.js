@@ -7,6 +7,7 @@ const AW_ICON = { mvp: '🏅', score: '🎯', defense: '🛡️', roty: '🌟', 
 const rankTxt = (n) => (n ? '#' + n : '');
 export const secBar = (sec) => sec ? h('div', { 'data-el': 'roster-sec' }, bar(`Roster security (cut risk ${Math.round(sec.risk * 100)}%/season)`, sec.security, { thin: true }), h('div', { class: 'hint', text: sec.factors.map((f) => `${f.label}: ${f.value >= 0 ? '+' : ''}${f.value}`).join(' · ') })) : null;
 // open My Team straight on a tab (used by the Work page job card)
+export async function myTeamInline(body, ctx) { const v = await adapter.getMyTeam(); if (v.onTeam) return myTeamScreen(body, ctx, v); }
 export async function openMyTeam(nav, tab = 'team') { mtTab = tab; nav.open('Sports Career', sportsScreen); }
 async function myTeamScreen(body, ctx, v) {
   const refresh = (ctx && ctx.refresh) || (() => {}); const go = async (p) => { await act(p); refresh(); };
@@ -51,6 +52,7 @@ async function myTeamScreen(body, ctx, v) {
     return;
   }
   if (mtTab === 'offers') {
+    add(await brandCard(go));
     if (!v.offers.length) add(empty('No offers right now. Good seasons bring contract offers, trade requests and, after school or college, draft offers.'));
     for (const o of v.offers) {
       const title = o.kind === 'draft' ? `📋 Draft: ${o.team}` : o.kind === 'trade' ? `🔁 Trade request: ${o.team}` : o.kind === 'extension' ? `📝 Extension: ${o.team}` : `✍️ Contract: ${o.team}`;
@@ -59,6 +61,8 @@ async function myTeamScreen(body, ctx, v) {
     }
     return;
   }
+  { const tc = await adapter.getTrophyCase(); add(h('div', { class: 'card', 'data-el': 'trophy-case' }, h('h3', { text: '🏆 Trophy case' + (tc.hof ? ' · 🏛️ Hall of Fame' : '') }),
+    ...(tc.groups.length ? tc.groups.map((g) => h('div', { class: 'kv' }, h('span', { text: `${g.icon.repeat(Math.min(g.count, 5))} ${g.label}${g.count > 1 ? ' ×' + g.count : ''}` }), h('b', { text: g.years.join(', ') }))) : [h('div', { class: 'hint', text: 'Win a league title to earn a championship ring (basketball, football, baseball, hockey) or a trophy and winner\'s medal (other sports).' })]))); }
   add(h('div', { class: 'card', 'data-el': 'mt-awards' }, h('h3', { text: '🏆 Titles and awards' }), h('div', { class: 'hint', text: `Awards compare you with the ${v.field.length ? 'rivals in your league' : 'league'}. Career points ${v.careerPts}${v.hof ? ' · Hall of Fame' : ' (30 + a long career earns the Hall of Fame)'}.` }),
     ...(v.awards.length ? v.awards.map((a) => h('div', { class: 'kv' }, h('span', { text: `${AW_ICON[a.id] || '🏅'} ${a.label}` }), h('b', { text: `${a.year} · ${a.level}` }))) : [h('div', { class: 'hint', text: 'None yet. MVP, scoring and defensive titles, Rookie of the Year, All-Star, championships and the Hall of Fame come from beating the league.' })])));
 }
@@ -86,4 +90,15 @@ export async function sportsScreen(body, ctx) {
   body.append(section('Season history'));
   if (!cur.seasons.length) body.append(empty('No seasons played yet — age up to play your first season.'));
   else body.append(...[...cur.seasons].reverse().map(x => row({ icon: '📅', title: `${x.year} · ${x.label}`, sub: x.team, right: `${x.wins}W–${x.losses}L`, chevron: false })));
+}
+
+async function brandCard(go) {
+  const v = await adapter.getBrandDeals(), card = h('div', { class: 'card', 'data-el': 'brand-deals' }, h('h3', { text: `🤝 Brand deals (${v.deals.length}/${v.max})` + (v.yearly ? ` · ${money(v.yearly)}/yr` : '') }));
+  if (!v.eligible && !v.deals.length) { card.append(h('div', { class: 'hint', text: 'Shoe, drink, apparel and video game brands sign pro and minor-league athletes. Fame and results raise the pay.' })); return card; }
+  for (const d of v.deals) card.append(h('div', { class: 'kv', 'data-deal': d.id }, h('span', { text: `${d.icon} ${d.brand} · ${money(d.pay)}/yr · ${d.left} yr left` }), h('button', { class: 'btn sm alt', 'data-bdrop': d.id, text: 'Drop', onclick: () => go(adapter.brandDrop(d.id)) })));
+  if (v.offers.length) card.append(h('div', { class: 'hint', text: 'Offers this year (one brand per category):' }));
+  for (const o of v.offers) { const same = v.deals.find((d) => d.cat === o.cat), lo = [...v.deals].sort((a, b) => a.pay - b.pay)[0], swap = same || (v.deals.length >= v.max ? lo : null);
+    card.append(h('div', { class: 'kv', 'data-boffer': o.id }, h('span', { text: `${o.icon} ${o.brand} · ${money(o.pay)}/yr · ${o.years} yrs${swap ? (o.pay > swap.pay ? ' · better' : ' · lower') : ''}` }),
+      h('button', { class: 'btn sm go', 'data-bacc': o.id, text: swap ? `Swap for ${swap.brand}` : 'Sign', onclick: () => go(adapter.brandAccept(o.id, swap ? swap.id : undefined)) }))); }
+  return card;
 }

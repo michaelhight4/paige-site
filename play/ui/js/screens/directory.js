@@ -79,6 +79,8 @@ export async function buildDirectory() {
   // Settings
   add('Settings', 'set:settings', 'Settings', 'Sound, theme, ads, new life', '⚙️', (n) => n.open('Settings', settingsScreen), 'options mute theme fantasy new life');
   add('Life', 'life:look', 'Appearance & Wardrobe', 'Hair, eyes, skin, clothes and accessories', '🧍', async (n) => { const { appearanceScreen } = await import('./extra.js'); n.open('Appearance', appearanceScreen); }, 'look hair eyes skin clothes outfit glasses beard sprite');
+  add('Settings', 'set:terms', 'Terms of Service', 'Opens the terms in a new tab', '📜', () => { window.open('terms.html', '_blank', 'noopener'); }, 'terms legal tos agreement');
+  add('Settings', 'set:privacy', 'Privacy Policy', 'What the game stores and where', '🔒', () => { window.open('privacy.html', '_blank', 'noopener'); }, 'privacy legal data policy delete');
   add('Settings', 'set:style', 'Style & accessibility', 'Colors, large text, reduced motion', '🎨', async (n) => { const { styleScreen } = await import('./extra.js'); n.open('Style', styleScreen); }, 'style theme dark light contrast colorblind pastel large text motion accessibility');
   add('Settings', 'set:creator', 'The Creator', 'Edit stats and age of any character (Premium)', '🛠️', async (n) => { const { creatorScreen } = await import('./extra.js'); n.open('The Creator', creatorScreen); }, 'cheat edit stats age character creator');
   add('Settings', 'set:store', 'Premium store', 'Passes and subscription (test toggles)', '⭐', (n) => n.open('Premium', storeScreen), 'passes buy');

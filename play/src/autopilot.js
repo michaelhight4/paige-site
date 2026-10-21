@@ -17,7 +17,9 @@ export const MAX_SKIP = 50;
 export const DEFAULT_FLOOR = 5000;
 export const unlocked = () => Premium.isUnlocked(PASS);
 export const ensure = (s) => { if (!s.auto) s.auto = { on: false, routines: ['train', 'read', 'study', 'workharder', 'practice'], floor: DEFAULT_FLOOR, last: null, skipRemaining: 0 }; if (!s.auto.pages) s.auto.pages = {};
-  if (!s.auto.spDef && unlocked()) { s.auto.spDef = 1; if (!s.auto.routines.includes('sponsors_all')) s.auto.routines.push('sponsors_all'); } // owning the pass turns sponsor searching on by default (untick it any time)
+  if (!s.auto.spDef && unlocked()) { s.auto.spDef = 1; if (!s.auto.routines.includes('sponsors_all')) s.auto.routines.push('sponsors_all'); }
+  if (!s.auto.brDef && unlocked()) { s.auto.brDef = 1; if (!s.auto.routines.includes('athlete_brand')) s.auto.routines.push('athlete_brand'); }
+  if (!s.auto.spUpDef && unlocked()) { s.auto.spUpDef = 1; if (!s.auto.routines.includes('sponsor_upgrade')) s.auto.routines.push('sponsor_upgrade'); } // owning the pass turns sponsor searching on by default (untick it any time)
   if (!s.auto.mtDef && unlocked()) { s.auto.mtDef = 1; if (!s.auto.routines.includes('mt_train')) s.auto.routines.push('mt_train'); } // sport skill training on by default (school, college, pro)
   if (!s.auto.basicsDef && unlocked()) { s.auto.basicsDef = 1; for (const id of ['train', 'read', 'study', 'workharder', 'practice']) if (!s.auto.routines.includes(id)) s.auto.routines.push(id); } // the everyday yearly chips are on by default with the pass (untick any time)
   return s.auto; };
@@ -26,11 +28,11 @@ export const ensure = (s) => { if (!s.auto) s.auto = { on: false, routines: ['tr
 // accordion sections in the Autopilot screen (id -> routine ids); anything unlisted falls under 'other'
 export const SECTIONS = [
   { id: 'school', icon: '🎓', label: 'School', ids: ['study'] },
-  { id: 'job', icon: '💼', label: 'Job', ids: ['workharder'] },
-  { id: 'business', icon: '🏢', label: 'Business', ids: ['prod_music', 'prod_film', 'prod_tv', 'prod_game', 'prod_back', 'racing_sponsor', 'racing_staff', 'racing_upgrade', 'brand_collection', 'brand_staff', 'brand_line', 'farm_contract', 'farm_staff', 'farm_sell', 'farm_upgrade', 'advisor_hire', 'advisor_setup'] },
-  { id: 'hobbies', icon: '🔥', label: 'Hobbies', ids: ['sponsors_all', 'fame_spots', 'practice', 'passion_pick', 'stress_relief', 'social_plan', 'stream_plan', 'media_plan', 'social_post', 'social_reply', 'social_deal', 'stream_start', 'stream_sponsor', 'racing_train', 'racing_license', 'racing_race'] },
+  { id: 'job', icon: '💼', label: 'Job', ids: ['workharder', 'job_nurture', 'job_promo'] },
+  { id: 'business', icon: '🏢', label: 'Business', ids: ['train_employees', 'hire_all', 'prod_music', 'prod_film', 'prod_tv', 'prod_game', 'prod_back', 'racing_sponsor', 'racing_staff', 'racing_upgrade', 'brand_collection', 'brand_staff', 'brand_line', 'farm_contract', 'farm_staff', 'farm_sell', 'farm_upgrade', 'advisor_hire', 'advisor_setup'] },
+  { id: 'hobbies', icon: '🔥', label: 'Hobbies', ids: ['sponsors_all', 'sponsor_upgrade', 'fame_spots', 'practice', 'passion_pick', 'stress_relief', 'social_plan', 'stream_plan', 'media_plan', 'social_post', 'social_reply', 'social_deal', 'stream_start', 'stream_sponsor', 'racing_train', 'racing_license', 'racing_race'] },
   { id: 'activities', icon: '🎯', label: 'Activities (yearly)', ids: [] },
-  { id: 'sports', icon: '🏟️', label: 'Sports team', ids: ['mt_train', 'mt_style', 'mt_offers'] },
+  { id: 'sports', icon: '🏟️', label: 'Sports team', ids: ['mt_train', 'mt_style', 'mt_offers', 'athlete_brand'] },
   { id: 'people', icon: '💞', label: 'Relationships', ids: ['talk_partner', 'date_night', 'gift_partner', 'family_time', 'friend_time', 'volunteer'] },
   { id: 'health', icon: '🧘', label: 'Health & mind', ids: ['train', 'read', 'meditate'] },
 ];
@@ -79,9 +81,15 @@ export const ROUTINES = [
   { id: 'racing_sponsor', icon: '📣', label: 'Racing: sign best team sponsor', desc: 'Take the best-paying sponsor offer that fits a free slot', k: 'racing_sponsor' },
   { id: 'racing_staff', icon: '🧑‍🔧', label: 'Racing: fill vacant team staff', desc: 'Hire the best affordable candidate for each required role', k: 'racing_staff' },
   { id: 'racing_upgrade', icon: '🛠️', label: 'Racing: upgrade the garage', desc: 'Upgrade the lowest facility if it costs under 10% of team cash', k: 'racing_upgrade' },
+  { id: 'sponsor_upgrade', icon: '🔁', label: 'Upgrade sponsors when full', desc: 'When every sponsor slot is taken, swaps your weakest deal for a better offer (stream, influencer, social accounts). Never takes a worse deal; same odds and terms as by hand.', k: 'sponsor_upgrade' },
   { id: 'sponsors_all', icon: '🤝', label: 'Look for sponsors automatically', desc: 'Every year, takes the best sponsor offer on your social accounts, stream and racing team (same offers, caps and terms as searching by hand). On by default with the pass.', k: 'sponsors_all' },
+  { id: 'job_nurture', icon: '🤝', label: 'Job: nurture coworkers and the boss', desc: 'Chats with your lowest-relationship coworkers and impresses the boss (same caps and effects as by hand)', k: 'job_nurture' },
+  { id: 'job_promo', icon: '📈', label: 'Job: ask for a promotion when ready', desc: 'Asks once a year when promotion readiness is 70%+ (same odds as by hand)', k: 'job_promo' },
   { id: 'mt_train', icon: '🏋️', label: 'Sports: train my lowest 3 skills', desc: 'Trains the 3 lowest skills of your current sport (same cost and effect as the Skills tab; 3 a year at any level)', k: 'mt_train' },
   { id: 'mt_style', icon: '🎽', label: 'Sports: choose the season play style', desc: 'Sets your play style for the season (your preferred style, default Balanced)', k: 'mt_style' },
+  { id: 'train_employees', icon: '🎓', label: 'Train employees', desc: 'Once a year per company: pays for staff training (same cost and +skill as the button) at every business and trains untrained production crew. Skips what you cannot afford.', k: 'train_employees' },
+  { id: 'hire_all', icon: '🧑‍💼', label: 'Keep all spots filled', desc: 'Every year, fills open staff, crew and roster spots across all your companies and teams at your chosen tier (Businesses > Hire all). Same costs as by hand; skips anything you cannot afford.', k: 'hire_all' },
+  { id: 'athlete_brand', icon: '👟', label: 'Sports: brand deals', desc: 'Signs the best shoe, drink, apparel or game deal into a free slot, or swaps out a weaker deal. Never takes a worse one; same terms as by hand.', k: 'athlete_brand' },
   { id: 'mt_offers', icon: '✍️', label: 'Sports: handle offers', desc: 'Accepts the best draft offer or contract that pays at least what you earn now, negotiates once, declines trade requests', k: 'mt_offers' },
   { id: 'fame_spots', icon: '🌟', label: 'Use my fame: take the best spots', desc: 'Goes after the best-paying fame spots you qualify for (up to 3 a year, same odds, pay and risks as by hand; stops at stress 70+)', k: 'fame_spots' },
   { id: 'prod_back', icon: '📨', label: 'Back a pitched project', desc: 'Invest a small slice of spare cash in the best pitch (revenue cut)', k: 'prod_back' },
@@ -98,8 +106,8 @@ export function dynRoutines() {
 export const allRoutines = () => ROUTINES.concat(dynRoutines());
 export const routineDef = (id) => ROUTINES.find((r) => r.id === id) || dynRoutines().find((r) => r.id === id);
 // page (panel title) -> routine ids shown in that page's yearly checklist
-const PAGE_MAP = { 'Use your fame': ['fame_spots'], Skills: ['train', 'read', 'meditate', 'practice', 'passion_pick'], Passions: ['practice', 'passion_pick'], Scholarships: ['volunteer'], Work: ['workharder', 'study', 'train'], Education: ['study', 'volunteer'], 'Part-Time': ['workharder'],
-  'Sports Career': ['mt_train', 'mt_style', 'mt_offers', 'sponsors_all'], 'Live Streaming': ['stream_plan', 'stream_start', 'stream_sponsor', 'sponsors_all'], Streamer: ['stream_plan', 'stream_start', 'stream_sponsor', 'sponsors_all'], Influencer: ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'], 'Social Media': ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'], Social: ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'],
+const PAGE_MAP = { 'Use your fame': ['fame_spots'], 'Coworkers & boss': ['job_nurture', 'job_promo'], Skills: ['train', 'read', 'meditate', 'practice', 'passion_pick'], Passions: ['practice', 'passion_pick'], Scholarships: ['volunteer'], Work: ['workharder', 'study', 'train', 'job_nurture', 'job_promo'], Education: ['study', 'volunteer'], 'Part-Time': ['workharder'],
+  'Sports Career': ['mt_train', 'mt_style', 'mt_offers', 'athlete_brand', 'sponsors_all'], 'Live Streaming': ['stream_plan', 'stream_start', 'stream_sponsor', 'sponsors_all', 'sponsor_upgrade'], Streamer: ['stream_plan', 'stream_start', 'stream_sponsor', 'sponsors_all'], Influencer: ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all', 'sponsor_upgrade'], 'Social Media': ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'], Social: ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'],
   'Racing team': ['sponsors_all', 'racing_sponsor', 'racing_staff', 'racing_upgrade'], Racing: ['racing_train', 'racing_license', 'racing_race', 'racing_sponsor', 'racing_staff', 'racing_upgrade'], 'Clothing Brand': ['brand_collection', 'brand_staff', 'brand_line'], 'Farms & Ranches': ['farm_staff', 'farm_sell', 'farm_contract', 'farm_upgrade'], 'Investment Advisor': ['advisor_hire', 'advisor_setup'],
   'Production Companies': ['prod_music', 'prod_film', 'prod_tv', 'prod_game', 'prod_back', 'media_plan'], 'Time & Stress': ['stress_relief'], Relationships: ['talk_partner', 'date_night', 'gift_partner', 'family_time', 'friend_time'], 'Online Profiles': ['social_plan', 'social_post', 'social_reply', 'social_deal', 'sponsors_all'] };
 export function pageRoutineIds(title) {
@@ -126,7 +134,7 @@ function target(s, def) {
 const sd = (ad, pid) => ad.getPlatform(pid);
 const openPlats = (ad) => (ad.getSocial().platforms || []).filter((p) => p.open && !p.locked && p.status === 'active');
 function bestPost(ad, p) { const rank = { Safe: 0, Spicy: 1, Risky: 2 }, fits = { great: 0, good: 1, ok: 2 }; return p.posts.filter((x) => !x.locked && x.tag === 'Safe').sort((x, y) => (fits[x.fit] ?? 3) - (fits[y.fit] ?? 3) || (rank[x.tag] - rank[y.tag]))[0]; }
-const CUSTOM = {
+export const CUSTOM = {
   fame_spots(ad) { const s = ad.s; if ((s.stats.stress || 0) >= 70) return { ok: false, reason: 'Stress is too high for more spots' }; const b = Fame.bestSpot(s); if (!b) return { ok: false, reason: 'No fame spot available' }; return { ok: true, cost: 0, who: b.name, run: () => { let r = { ok: false, message: '' }; for (let i = 0; i < Fame.YEAR_CAP; i++) { const q = Fame.bestSpot(s); if (!q || (s.stats.stress || 0) >= 70) break; r = ad.fameTake(q.id); } return r; } }; },
   passion_practice(ad) {
     const st0 = ad.getPassions(), A = ensure(ad.s); if (st0.locked) return { ok: false, reason: 'Passions start at ' + st0.minAge };
@@ -158,7 +166,20 @@ const CUSTOM = {
   activity(ad, def) { const s = ad.s, a = ad.findWorld(def.actId.slice(2)); if (!a) return { ok: false, reason: 'Unknown activity' }; if (s.acted[def.actId]) return { ok: false, reason: 'Already done this year' }; if (Math.floor(s.age) < (a.minAge || 0)) return { ok: false, reason: `Unlocks at age ${a.minAge}` }; if (a.needsJob && !s.job) return { ok: false, reason: 'Needs a job' };
     const idx = Math.min(a.choices.length - 1, ((ensure(s).actChoice || {})[def.id] | 0)), c = a.choices[idx]; if (c.cost && s.cash < c.cost) return { ok: false, reason: 'Cannot afford that' }; return { ok: true, cost: c.cost || 0, who: c.label, run: () => ad.doActivity(def.actId, idx) }; },
   gig(ad, def) { const g = ad.getFreelanceGigs().gigs.find((x) => x.id === def.gigId); if (!g) return { ok: false, reason: 'Unknown gig' }; if (!g.eligible) return { ok: false, reason: g.reason || 'Not available' }; const left = g.maxPerYear - g.doneThisYear; return { ok: true, cost: 0, who: left + ' left', run: () => { let r = { ok: false, message: '' }; for (let i = 0; i < left; i++) { const x = ad.doGig(def.gigId); if (!x.ok) break; r = x; } return r; } }; },
+  train_employees(ad) { const s = ad.s, jobs = [];
+    for (const b of s.biz || []) if (b.staff && b.staff.length && b.trainedAge !== Math.floor(s.age)) jobs.push(() => ad.trainBizStaff(b.id));
+    if (s.prod && s.prod.cos) for (const [m, co] of Object.entries(s.prod.cos)) for (const c of co.crew || []) if (c.trained !== Math.floor(s.age)) jobs.push(() => (ad.prodAction ? ad.prodAction(m, 'train', c.id) : null));
+    if (!jobs.length) return { ok: false, reason: 'Everyone trained this year' }; return { ok: true, cost: 0, who: jobs.length + ' training' + (jobs.length > 1 ? 's' : ''), run: () => { let r = { ok: false }; for (const j of jobs) { const x = j(); if (x) r = x; } return r; } }; },
+  hire_all(ad) { const tier = (ad.s.auto && ad.s.auto.hireAllTier) || 'standard'; const p = ad.hireAllPlan(tier); if (!p.hires) return { ok: false, reason: 'Every spot is filled' }; return { ok: true, cost: p.cost, who: `${p.hires} hires (${p.tier})`, run: () => ad.hireAll(tier) }; },
+  athlete_brand(ad) { const H = ad.getBrandDeals(); if (!H.eligible) return { ok: false, reason: 'Not a pro athlete' }; let best = null; const lo = [...H.deals].sort((a, b) => a.pay - b.pay)[0]; for (const o of [...H.offers].sort((a, b) => b.pay - a.pay)) { const same = H.deals.find((d) => d.cat === o.cat); if (same) { if (o.pay > same.pay) { best = [o.id, same.id]; break; } continue; } if (H.deals.length < H.max) { best = [o.id]; break; } if (lo && o.pay > lo.pay) { best = [o.id, lo.id]; break; } } if (!best) return { ok: false, reason: 'No better brand deal' }; return { ok: true, cost: 0, run: () => ad.brandAccept(best[0], best[1]) }; },
+  sponsor_upgrade(ad) { const s = ad.s, jobs = [];
+    const st = s.stream; if (st && st.active && !(st.acted && st.acted.sponsor)) { try { const S = ad.getStreamer(); if (S.active && S.sponsors && S.maxSponsors && S.sponsors.length >= S.maxSponsors) jobs.push(() => ad.streamerAction('swapSponsor')); } catch (e) {} }
+    const f = s.infl; if (f && f.active && f.offers && f.offers.length && f.deals.length) { const lo = Math.min(...f.deals.map((d) => d.pay)), best = [...f.offers].filter((o) => !o.shady).sort((a, b) => b.pay - a.pay)[0]; if (best && best.pay > lo) jobs.push(() => ad.influencerAction('swapDeal', best.id)); }
+    const so = s.social; if (so && so.accounts) for (const [pid, a] of Object.entries(so.accounts)) { const offs = (so.offers && so.offers[pid]) || []; if (!a.deals || !a.deals.length || !offs.length) continue; const lo = Math.min(...a.deals.map((d) => d.pay)), best = [...offs].sort((x, y) => y.pay - x.pay)[0]; if (best.pay > lo) jobs.push(() => ad.socialAction(pid, 'accept', best.id, true)); }
+    if (!jobs.length) return { ok: false, reason: 'No better sponsor deal to swap in' }; return { ok: true, cost: 0, who: jobs.length + ' swap' + (jobs.length > 1 ? 's' : ''), run: () => { let r = { ok: false }; for (const j of jobs) r = j() || r; return r; } }; },
   sponsors_all(ad) { const parts = ['social_deal', 'stream_sponsor', 'racing_sponsor'].map((k) => [k, CUSTOM[k](ad)]).filter(([, c]) => c.ok); if (!parts.length) return { ok: false, reason: 'No sponsor offers to take right now' }; return { ok: true, cost: parts.reduce((a, [, c]) => a + (c.cost || 0), 0), who: parts.length + ' search' + (parts.length > 1 ? 'es' : ''), run: () => { let r = { ok: false, message: '' }; for (const [, c] of parts) { const x = c.run(); if (x && x.ok) r = x; } return r; } }; },
+  job_nurture(ad) { const v = ad.getJobPanel(); if (!v) return { ok: false, reason: 'No job' }; const todo = v.coworkers.filter((c) => !c.done).sort((a, b) => a.rel - b.rel).slice(0, Math.max(0, Math.min(2, v.cap - v.used))); if (!todo.length && v.impressed) return { ok: false, reason: 'Already done this year' }; return { ok: true, cost: 0, who: todo.map((c) => c.name).join(', ') || 'the boss', run: () => { let r = { ok: true, message: '' }; for (const c of todo) r = ad.jobCoworker(c.id, 'chat'); if (!v.impressed) r = ad.jobBoss('impress'); return r; } }; },
+  job_promo(ad) { const v = ad.getJobPanel(); if (!v) return { ok: false, reason: 'No job' }; if (v.top) return { ok: false, reason: 'Top of the ladder' }; if (v.promoAsked) return { ok: false, reason: 'Already asked this year' }; if (v.readiness < 70) return { ok: false, reason: `Readiness ${v.readiness}% (waits for 70%)` }; return { ok: true, cost: 0, run: () => ad.jobBoss('promotion') }; },
   mt_train(ad) { const v = ad.getMyTeam(); if (!v.onTeam || v.limbo) return { ok: false, reason: 'Not on a sports team' }; if (v.train.used >= v.train.cap) return { ok: false, reason: 'Already trained 3 skills this year' }; if (ad.s.cash < v.train.cost * (v.train.cap - v.train.used)) return { ok: false, reason: 'Cannot afford training' }; return { ok: true, cost: v.train.cost * (v.train.cap - v.train.used), who: v.train.lowest.join(', '), run: () => ad.mtTrainLowest() }; },
   mt_style(ad) { const v = ad.getMyTeam(); if (!v.onTeam || v.limbo) return { ok: false, reason: 'Not on a sports team' }; const id = ensure(ad.s).mtStyle || 'balanced'; if (v.styleChosen && v.style === id) return { ok: false, reason: 'Style already chosen this year' }; return { ok: true, cost: 0, who: id, run: () => ad.mtStyle(id) }; },
   mt_offers(ad) { const v = ad.getMyTeam(); if (!v.onTeam || !v.offers.length) return { ok: false, reason: 'No offers' }; return { ok: true, cost: 0, who: v.offers.length + ' offer(s)', run: () => handleOffers(ad) }; },
@@ -210,6 +231,7 @@ function runOne(ad, def, floor) {
 }
 
 // ---- safety stops ----
+export const SOFT = ['floor', 'illness', 'burnout', 'crisis'];
 export const SAFETY = ['bankruptcy', 'dead', 'event', 'prison', 'illness', 'floor', 'crisis'];
 export function safetyBefore(s, floor) {
   if (s.pending && s.pending[0] && s.pending[0].kind === 'bankruptcy') { const a = Bk.autoAnswer(s, ensure(s).bankruptcy || 'pause'); if (!a) return { stop: true, kind: 'bankruptcy', reason: 'You cannot pay your bills. Open the bankruptcy popup: take a loan, sell things or declare bankruptcy.' }; }
@@ -344,6 +366,10 @@ export async function playYear(ad, { routines, floor } = {}) {
   const s = ad.s, A = ensure(s), fl = floor ?? A.floor, ids = routines || A.routines;
   const before = snapshot(s), ran = [], skipped = [];
   const stopBefore = safetyBefore(s, fl);
+  // soft pauses (cash floor, illness, burnout, health crisis) still run the FREE everyday basics (train, read, study, work harder...):
+  // they cost nothing and the player could do them by hand in the same state, so a pause must not leave them undone (7c1 reliability fix)
+  const soft = stopBefore && SOFT.includes(stopBefore.kind);
+  if (soft) for (const id of ids) { const d = routineDef(id); if (!d || !(d.q || d.v || d.i)) continue; const c = check(ad, d, fl); if (!c.ok || c.cost) continue; const r = runOne(ad, d, fl); (r.ran ? ran : skipped).push(r); }
   if (!stopBefore) for (const id of ids) { const d = routineDef(id); if (!d) continue; const r = runOne(ad, d, fl); (r.ran ? ran : skipped).push(r); }
   if (!stopBefore) { const ap = autoAppeal(ad); if (ap) (ap.ran ? ran : skipped).push(ap); }
   // locked page settings re-apply every year (same safety stops, same cash floor)

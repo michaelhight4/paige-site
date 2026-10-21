@@ -55,5 +55,6 @@ export async function relationshipsScreen(body, ctx) {
   if (relTab === 'tree') { const { familyTreeScreen } = await import('./profile.js'); return familyTreeScreen(body, ctx); }
   if (relTab === 'legacy') { const { legacyScreen } = await import('./profile.js'); return legacyScreen(body, ctx); }
   if (relTab === 'social') { const { socialHub } = await import('./social.js'); return socialHub(body, ctx); }
+  if (relTab === 'live') { const { talentCard } = await import('./bizops.js'); const c = await talentCard(['stream', 'infl'], ctx.refresh); if (c) body.append(c); }
   const O = await import('./onlinehub.js'); body.append(section(relTab === 'live' ? 'Live Streaming' : 'Online Profiles'), ...(relTab === 'live' ? await O.streamRows(ctx) : await O.profileRows(ctx)));
 }

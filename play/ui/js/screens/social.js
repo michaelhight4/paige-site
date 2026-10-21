@@ -17,6 +17,7 @@ export async function socialHub(body, { nav, refresh }) {
   await autoPageCard(body, 'social');
   const st = await adapter.getSocial();
   if (st.locked) return body.append(empty('Social media starts at age 13.'));
+  { const { talentCard } = await import('./bizops.js'); const c = await talentCard('social', refresh); if (c) body.append(c); }
   body.append(h('div', { class: 'card', 'data-el': 'fame-panel' }, h('h3', { text: '📱 Fame & reputation' }), kv('Total followers', cnt(st.total)), kv('Earned from social', money(st.earned), 'pos'), ...fameBars(st),
     st.streak ? h('div', { class: 'hint', text: `🔥 Posting streak: ${st.streak} year${st.streak > 1 ? 's' : ''} (consistency bonus)` }) : null, st.cancelledUntil ? h('div', { class: 'hint neg', text: 'You are laying low after being cancelled.' }) : null,
     st.teen ? h('div', { class: 'hint', text: 'Under 18: kid-safe sponsors only, no fan club, parents take half of the money.' }) : null));
@@ -37,6 +38,7 @@ export async function socialHub(body, { nav, refresh }) {
 export async function platformScreen(body, { nav, refresh }, pid) {
   const p = await adapter.getPlatform(pid); if (!p) return body.append(empty('No such platform.'));
   const go = async (action, a1, a2, after) => { const r = await act(adapter.socialAction(pid, action, a1, a2)); if (after) await after(r); await refresh(); return r; };
+  { const { talentCard } = await import('./bizops.js'); const c = await talentCard('social', refresh); if (c) { c.dataset.acctMgmt = pid; body.append(c); } }
   body.append(h('div', { class: 'card', 'data-el': 'plat-card' }, h('h3', { text: `${p.icon} ${p.name}${p.verified ? ' ✔ Verified' : ''}` }), h('div', { class: 'hint', text: p.personality }), kv('Followers', cnt(p.followers)), kv('Engagement', p.engagement + '%'), kv('Niche', p.niche || 'none yet'), kv('Posts this year', `${p.postsThisYear}/${p.postsMax}`, p.postsLeft ? '' : 'neg'),
     kv('Audience likes', p.likes.join(', ')), kv('Audience dislikes', p.dislikes.join(', ') || '-'), p.status !== 'active' ? h('div', { class: 'hint neg', text: `Status: ${p.status}${p.suspendedYears ? ' (~' + p.suspendedYears + ' yr)' : ''}` }) : null, p.careerOwned ? h('div', { class: 'hint', text: 'This account is your career account: the career pays your income here.' }) : null));
   await accountAutopilot(body, pid, refresh);
@@ -65,14 +67,14 @@ export async function postPicker(body, { nav, refresh }, pid) {
 
 async function offerRows(p, pid, nav, refresh) {
   const items = [];
-  for (const o of p.offers) items.push(row({ id: 'offer:' + pid + o.id, icon: o.fit === 'great' ? '🟢' : o.fit === 'ok' ? '🟡' : '🔴', title: o.brand, sub: `${o.cat} · fit ${o.fit} · ${o.yrs} yr`, right: money(o.pay) + '/yr', onClick: async () => { const i = await sheet({ title: o.brand, body: `${money(o.pay)} a year for ${o.yrs} year(s). Product fit: ${o.fit}.${o.fit === 'poor' ? ' Poor fit can cost followers.' : ''}`, options: [{ label: 'Accept' }, { label: 'Decline' }] }); if (i === 0) await act(adapter.socialAction(pid, 'accept', o.id)); else if (i === 1) await act(adapter.socialAction(pid, 'decline', o.id)); await refresh(); } }));
+  for (const o of p.offers) items.push(row({ id: 'offer:' + pid + o.id, icon: o.fit === 'great' ? '🟢' : o.fit === 'ok' ? '🟡' : '🔴', title: o.brand, sub: `${o.cat} · fit ${o.fit} · ${o.yrs} yr`, right: money(o.pay) + '/yr', onClick: async () => { const i = await sheet({ title: o.brand, body: `${money(o.pay)} a year for ${o.yrs} year(s). Product fit: ${o.fit}.${o.fit === 'poor' ? ' Poor fit can cost followers.' : ''}`, options: [{ label: 'Accept' }, { label: 'Decline' }, ...(p.deals.length >= p.maxDeals ? [{ label: 'Swap for my weakest deal' }] : [])] }); if (i === 0) await act(adapter.socialAction(pid, 'accept', o.id)); else if (i === 1) await act(adapter.socialAction(pid, 'decline', o.id)); else if (i === 2) await act(adapter.socialAction(pid, 'accept', o.id, true)); await refresh(); } }));
   return items;
 }
 export async function sponsorScreen(body, { nav, refresh }, pid) {
   const p = await adapter.getPlatform(pid);
   if (p.careerOwned) body.append(h('div', { class: 'hint', style: { padding: '8px 12px' }, text: 'Your career account earns sponsors through the Work screen instead.' }));
   if (!p.canSponsor) return body.append(empty('Brands notice you at 5k followers.'));
-  body.append(section(`Deals (${p.deals.length}/${p.maxDeals})`), ...p.deals.map((d) => row({ icon: '🤝', title: d.brand, sub: `${money(d.pay)}/yr · ${d.yrsLeft} yr left · fit ${d.fit}`, chevron: false })));
+  body.append(section(`Deals (${p.deals.length}/${p.maxDeals})`), ...p.deals.map((d, i) => row({ id: 'deal:' + i, icon: '🤝', title: d.brand, sub: `${money(d.pay)}/yr · ${d.yrsLeft} yr left · fit ${d.fit} · tap to drop`, onClick: async () => { if (await confirmSheet('Drop ' + d.brand + '?', 'End this deal now.', 'Drop', 'danger')) { await act(adapter.socialAction(pid, 'dropDeal', i)); await refresh(); } } })));
   const rs = await offerRows(p, pid, nav, refresh); body.append(section('Offers'), ...(rs.length ? rs : [empty('No offers right now. New ones arrive each year.')]));
   if (p.ambassadorOk && !p.ambassadorDeal) body.append(btn('🏅 Become a brand ambassador', async () => { await act(adapter.socialAction(pid, 'ambassador')); await refresh(); }, 'go block', { 'data-act': 'ambassador' }));
   if (p.ambassadorDeal) body.append(btn('End ambassador deal (penalty)', async () => { if (await confirmSheet('End early?', 'Costs half a year of pay.', 'End', 'danger')) { await act(adapter.socialAction(pid, 'endAmbassador')); await refresh(); } }, 'danger block'));

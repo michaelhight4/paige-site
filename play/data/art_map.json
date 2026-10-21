@@ -7,7 +7,8 @@
   "aircraft": "prop_plane",
   "boat": "rowboat",
   "clothing": "tshirt",
-  "gear": "gear_cam_1"
+  "gear": "gear_cam_1",
+  "instrument": "acoustic_guitar"
  },
  "artCategory": {
   "car": "cars",
@@ -16,7 +17,8 @@
   "aircraft": "aircraft",
   "boat": "boats",
   "clothing": "clothes",
-  "gear": "gear"
+  "gear": "gear",
+  "instrument": "instruments"
  },
  "map": {
   "car": {
@@ -26,23 +28,23 @@
    "trailhand": "pickup_clean",
    "ridge": "suv",
    "voltaire": "electric",
-   "aurelian": "limo",
+   "aurelian": "sedan",
    "bellmont": "coupe",
    "falcon": "sports_clean",
    "stratos": "supercar",
    "lumen": "electric",
-   "nova": "race_car",
+   "nova": "supercar",
    "stallion": "muscle_clean",
    "corsair": "muscle_clean",
    "ardent": "classic_clean",
    "dellacroix": "classic_clean",
-   "silverwing": "sports_clean",
+   "silverwing": "classic_clean",
    "beetle": "hatchback"
   },
   "property": {
    "trailer": "trailer",
    "studio": "apartment",
-   "bungalow": "cottage",
+   "bungalow": "craftsman",
    "cabin": "log_cabin",
    "family": "colonial",
    "townhouse": "row_house",
@@ -89,9 +91,9 @@
    "fishing": "fishing_boat",
    "sailboat": "sailboat",
    "speedboat": "speedboat",
-   "tug": "pontoon",
+   "tug": "fishing_boat",
    "yacht": "yacht",
-   "superyacht": "cruise_ship"
+   "superyacht": "yacht"
   },
   "clothing": {
    "tshirt": "tshirt",
@@ -135,6 +137,19 @@
    "set_1": "gear_set_1",
    "set_2": "gear_set_2",
    "set_3": "gear_set_3"
+  },
+  "instrument": {
+   "guitar": "acoustic_guitar",
+   "ukulele": "acoustic_guitar",
+   "flute": "flute",
+   "recorder": "flute",
+   "violin": "violin",
+   "master_violin": "violin",
+   "trumpet": "trumpet",
+   "drums": "drum_kit",
+   "piano": "piano",
+   "keyboard": "piano",
+   "cello": "violin"
   }
  },
  "wreckArt": {

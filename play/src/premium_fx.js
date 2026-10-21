@@ -7,6 +7,7 @@ import { rnd, rint, pick, clamp } from './rng.js';
 import { log, addStat } from './core.js';
 import * as P from './people.js';
 import * as Biz from './business.js';
+import * as Fr from './franchise.js';
 import * as SS from './schoolsports.js';
 import * as B from './slice_bridge.js';
 
@@ -36,10 +37,24 @@ export function applyStart(s) {
   if (on('fountain')) { if (s.diseases.length) { s.diseases = []; log(s, 'My ailments evaporated overnight.', 'health'); } done.push('fountain'); }
   return done;
 }
+// the Sports Owner Pack grants a REAL franchise team (same path as buying one: team page, sister slot, staff, facilities, sponsors, Autopilot)
 export function grantTeam(s) {
-  if (s.biz.some((b) => b.type === 'sports')) return false;
-  Biz.refreshOffers(s); const i = s.offers.findIndex((o) => o.type === 'sports'); if (i < 0) return false;
-  s.offers[i].price = 0; const r = Biz.buyOffer(s, i); if (r.ok) log(s, `I became the owner of the ${r.biz.name}. Nobody asked how.`, 'biz'); return r.ok;
+  const F = Fr.ensure(s); if (F.teams && F.teams.length) return false;
+  const c = s.cash, d = s.debt; s.cash = 1e15; let r = { ok: false };
+  for (const sport of ['soccer', 'basketball', 'football', 'baseball', 'hockey']) { r = Fr.buy(s, { sport, teamId: sport + '_0', type: 'pro', size: 'small', tier: 'basic', preset: 'balanced' }); if (r.ok) break; }
+  s.cash = c; s.debt = d; if (r.ok) log(s, 'The Sports Owner Pack made me the owner of a pro club. Nobody asked how.', 'biz'); return !!r.ok;
+}
+// old saves: the pack used to hand out a bare 'sports' business with no team manager; upgrade it to a full franchise team
+// any bare 'sports' business (old perk or a bought sports-team offer) becomes a real franchise team with the full manager (staff, roster, tabs)
+export function convertSportsBiz(s) { if (!s || !s.biz) return 0; let n = 0;
+  for (const b of s.biz.filter((x) => x.type === 'sports' || x.kind === 'sports')) { s.biz = s.biz.filter((x) => x !== b); const F = Fr.ensure(s), before = F.teams.length, c = s.cash, d = s.debt; s.cash = 1e15;
+    for (const sport of ['soccer', 'basketball', 'football', 'baseball', 'hockey']) { if (F.teams.some((t) => t.sport === sport)) continue; const r = Fr.buy(s, { sport, teamId: sport + '_0', type: 'pro', size: 'small', tier: 'basic', preset: 'balanced' }); if (r.ok) break; }
+    s.cash = c + Math.max(0, Math.round(b.cash || 0)); s.debt = d; if (F.teams.length > before) { const t = F.teams[F.teams.length - 1]; if (b.name) t.name = b.name; if (b.rep != null) t.rep = Math.max(t.rep || 0, b.rep); Fr.autoHire(s, { what: 'staff', tier: 'standard' }); n++; } }
+  return n; }
+export function migrateTeam(s) { try { convertSportsBiz(s); } catch (e) { /* keep going */ }
+  if (!s || !s.flags || !s.flags.prem_team || s.flags.prem_team_v2) return false; s.flags.prem_team_v2 = 1;
+  const F = Fr.ensure(s); if (F.teams && F.teams.length) return false; const i = (s.biz || []).findIndex((b) => b.type === 'sports'); if (i >= 0) s.biz.splice(i, 1);
+  return grantTeam(s);
 }
 // fame never decays below the nepo floor
 export function fameFloor(s) { if (on('nepo')) { const f = gate('nepo', s) ? 5 : 60; if (s.stats.fame < f) s.stats.fame = f; } }

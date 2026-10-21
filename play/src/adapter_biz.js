@@ -1,3 +1,5 @@
+import * as PFx from './premium_fx.js';
+import * as HA from './hireall.js';
 // Business-side adapter methods (hub "Businesses & Studios"): list/found/buy/manage/sell any business type from D.bizTypes
 // (shops, extended types from data/businesses.json via bizplus.js, studios and sports teams). Mixed into EngineAdapter.
 import { D } from './data.js';
@@ -26,12 +28,17 @@ export const bizApi = {
   },
   getBusiness(id) {
     const s = this.s, b = s.biz.find((x) => x.id === id); if (!b) return null; const t = D.bizTypes[b.type], f = Biz.annualFinance(s, b), roles = Biz.rolesOf(b);
-    return { ...this.bizSummary(b), finance: Object.fromEntries(Object.entries(f).map(([k, v]) => [k, R0(v)])), unit: t.unit || '', founded: R0(b.founded), roles: roles.map((r) => ({ id: r.id, name: r.name, base: r.base, count: b.staff.filter((p) => p.role === r.id).length })), tiers: Biz.TIERS.map((x) => ({ id: x.id, name: x.name })),
+    return { ...this.bizSummary(b), finance: Object.fromEntries(Object.entries(f).map(([k, v]) => [k, R0(v)])), unit: t.unit || '', founded: R0(b.founded), train: { cost: Biz.trainCost(b), done: Biz.trainedThisYear(s, b), n: b.staff.length }, roles: roles.map((r) => ({ id: r.id, name: r.name, base: r.base, count: b.staff.filter((p) => p.role === r.id).length })), tiers: Biz.TIERS.map((x) => ({ id: x.id, name: x.name })),
       staffList: b.staff.map((p) => ({ id: p.id, name: p.name, role: (roles.find((r) => r.id === p.role) || {}).name || p.role, skill: p.skill, salary: p.salary })), equip: (t.equip || []).map((e) => ({ id: e.id, name: e.name, cost: e.cost, count: b.equip[e.id] || 0 })),
       ...Plus.detail(s, b), cash: R0(s.cash), adCost: R0(Math.max(2000, (f.revenue || 0) * 0.04)), sellValue: R0(Biz.valuation(s, b) * 0.9), blurb: t.blurb || '' };
   },
   foundBusiness({ type, name }) { const n0 = this.mark(), why = Plus.canFound(this.s, type); if (why) return this.res(false, why, n0); const r = Plus.found(this.s, type, name); return this.res(!!r.ok, r.ok ? `Founded ${r.biz.name}.` : r.err, n0, r.ok ? { id: r.biz.id } : {}); },
-  buyBusinessOffer(idx) { const n0 = this.mark(); const o = this.s.offers[idx]; if (o && o.type !== 'sports') { const why = Plus.canFound(this.s, o.type); if (why) return this.res(false, why, n0); } const r = Biz.buyOffer(this.s, idx); return this.res(!!r.ok, r.ok ? `Bought ${r.biz.name}.` : r.err, n0, r.ok ? { id: r.biz.id } : {}); },
+  trainBizStaff(id) { const n0 = this.mark(), b = this.s.biz.find((x) => x.id === id); if (!b) return this.res(false, 'No such business.', n0); const r = Biz.trainStaff(this.s, b); return this.res(r.ok, r.msg, n0); },
+  hireAllPlan(tier) { return HA.plan(this.s, tier); },
+  hireAllTiers() { return HA.TIERS; },
+  hireAll(tier) { const n0 = this.mark(), r = HA.run(this.s, tier); return this.res(r.ok, r.msg, n0, { hired: r.hired }); },
+  setHireAllKeep(tier) { const n0 = this.mark(), r = HA.setKeep(this.s, tier); return this.res(true, r.msg, n0); },
+  buyBusinessOffer(idx) { const n0 = this.mark(); const o = this.s.offers[idx]; if (o && o.type !== 'sports') { const why = Plus.canFound(this.s, o.type); if (why) return this.res(false, why, n0); } const r = Biz.buyOffer(this.s, idx); if (r.ok && o && o.type === 'sports') { PFx.convertSportsBiz(this.s); const t = this.s.fr && this.s.fr.teams[this.s.fr.teams.length - 1]; return this.res(true, `Bought ${t ? t.name : r.biz.name}. Open it from Businesses to run the club.`, n0, t ? { id: 'team_' + t.id } : {}); } return this.res(!!r.ok, r.ok ? `Bought ${r.biz.name}.` : r.err, n0, r.ok ? { id: r.biz.id } : {}); },
   hireStaff(id, roleId, tierId) { const n0 = this.mark(), b = this.s.biz.find((x) => x.id === id); if (!b) return this.res(false, 'No such business.', n0); const r = Plus.hire(this.s, b, roleId, tierId); if (r.ok) log(this.s, `I hired ${r.person.name} at ${b.name}.`, 'biz'); return this.res(!!r.ok, r.ok ? `Hired ${r.person.name}.` : r.err, n0); },
   fireStaff(id, staffId) { const n0 = this.mark(), b = this.s.biz.find((x) => x.id === id); if (!b) return this.res(false, 'No such business.', n0); const ok = Biz.fire(this.s, b, staffId); return this.res(ok, ok ? 'Let go (severance paid).' : 'No such employee.', n0); },
   buyBusinessEquip(id, equipId) { const n0 = this.mark(), b = this.s.biz.find((x) => x.id === id); if (!b) return this.res(false, 'No such business.', n0); const ok = Biz.buyEquip(this.s, b, equipId); return this.res(ok, ok ? 'Bought.' : 'Cannot afford that.', n0); },

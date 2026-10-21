@@ -17,7 +17,7 @@ export const growth = {
     const s = this.s, S = E.Skills; S.ensure(s); const P = D.passionsData.passions, act = [...(s.passions?.active || []), ...(s.passions?.mastered || [])].map((a) => a.id);
     return { categories: S.cats().map((c) => ({ id: c.id, name: c.name, icon: c.icon, avg: Math.round(S.avg(s, c.id)), skills: S.defs().filter((d) => d.cat === c.id).map((d) => ({ id: d.id, name: d.name, value: Math.round(s.skills[d.id] * 10) / 10, boosted: S.passionMult(s, d.id) > 1, trainedBy: P.filter((p) => (p.skills[d.id] || 0) >= 0.4).map((p) => p.name) })) })), active: act, heritage: s.heritage || [] };
   },
-  getPassions() { const st = E.Passions.status(this.s); return { ...st, rules: [D.passionsData.switchPenalty, `Up to ${st.slots} passions at once; a full meter (${st.benchmark}) makes a permanent mastery (max ${st.masteryCap} per life) and frees the slot.`], heritage: this.s.heritage || [] }; },
+  getPassions() { const st = E.Passions.status(this.s); return { ...st, rules: [D.passionsData.switchPenalty, `Up to ${st.slots} passions at once. A full meter (${st.benchmark}) makes a permanent mastery, frees its slot and unlocks 2 more slots.`], heritage: this.s.heritage || [] }; },
   pickPassion(id, replaceId) { const n0 = this.mark(), r = E.Passions.pick(this.s, id, replaceId); return this.res(r.ok, r.msg, n0, { needReplace: !!r.needReplace }); },
   dropPassion(id) { const n0 = this.mark(), r = E.Passions.drop(this.s, id); return this.res(r.ok, r.msg, n0); },
   practicePassion(id) { const n0 = this.mark(), r = E.Passions.practice(this.s, id); return this.res(r.ok, r.msg, n0); },

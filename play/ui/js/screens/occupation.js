@@ -14,14 +14,35 @@ import { politicsScreen } from './politics.js';
 import { streamerScreen, influencerScreen } from './online.js';
 
 
-export async function occupationMenu(body, { nav }) {
-  const items = await adapter.getOccupationMenu(); const st = store.state;
+export let workTab = null; export const setWorkTab = (t) => { workTab = t; };
+export async function occupationMenu(body, ctx) {
+  const { nav } = ctx, st = store.state, employed = !!(st.job || st.partTime || st.job2 || (st.secondJob));
+  const cur = workTab || 'myjob'; void employed;
+  body.append(h('div', { class: 'tabs-inline', 'data-el': 'work-tabs', style: { position: 'sticky', top: '0', zIndex: 6, background: 'var(--bg)', display: 'flex', gap: '6px', padding: '6px 10px', borderBottom: '1px solid var(--line)' } },
+    ...[['myjob', '💼 My Job'], ['all', '🧭 All Work']].map(([id, lb]) => h('button', { class: 'btn sm ' + (cur === id ? 'go' : 'alt'), 'data-wtab': id, style: { flex: 1 }, text: lb, onclick: () => { workTab = id; ctx.refresh && ctx.refresh(); } }))));
+  if (cur === 'myjob') return myJobBody(body, ctx);
+  return allWorkBody(body, ctx);
+}
+async function myJobBody(body, ctx) {
+  const { nav } = ctx, st = store.state, refresh = ctx.refresh || (() => {});
   const mt = st.job ? await adapter.getMyTeam() : null, ath = mt && mt.onTeam && !mt.limbo && /pro|minor/.test(mt.level || '') ? mt : null;
-  const L = ath && ath.last;
-  if (st.job) body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: 'Current job' }), kv('Title', st.job.title), kv(ath ? 'Team' : 'Employer', ath ? `${ath.icon} ${ath.team}` : st.job.employer),
-    ath ? kv('League standing', L ? `${L.w}-${L.l} · ${L.rank} of ${L.teams}${L.champion ? ' 🏆' : ''}` : `${ath.league} · season not played yet`) : null,
-    ath && ath.security ? (await import('./sports.js')).secBar(ath.security) : null,
-    ath ? h('div', { class: 'btns', 'data-el': 'job-team-links', style: { flexWrap: 'wrap' } }, ...[['team', '🏟️ My Team'], ['skills', '💪 Skills'], ['season', '📈 Season stats'], ['mates', '🤝 Teammates'], ['offers', '✍️ Offers']].map(([tab, lb]) => btn(lb, async () => { const { openMyTeam } = await import('./sports.js'); openMyTeam(nav, tab); }, 'alt sm', { 'data-jt': tab }))) : null, kv('Salary', money(st.job.salary) + '/yr', 'pos'), kv('Years', String(st.job.years)), h('div', { class: 'btns' }, btn('Quit job', async () => { if (await confirmSheet('Quit job?', `Quit your job as ${st.job.title}?`, 'Quit', 'danger')) act(adapter.quitJob()); }, 'danger sm'))));
+  if (!st.job && !st.partTime) { const tb = await adapter.listSecondJobs(); if (!tb.current) { body.append(h('div', { class: 'card', 'data-el': 'no-job' }, h('h3', { text: 'No job yet' }), h('div', { class: 'hint', text: 'Find work that fits your education and skills.' }), h('div', { class: 'btns' }, btn('Find a job', () => { workTab = 'all'; nav.open('Jobs', (b, c) => jobsScreen(b, c, 'jobs')); }, 'go', { 'data-act': 'find-job' })))); return; } }
+  if (st.job) {
+    const L = ath && ath.last;
+    body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: `💼 ${st.job.title}` }), kv(ath ? 'Team' : 'Employer', ath ? `${ath.icon} ${ath.team}` : st.job.employer), kv('Salary', money(st.job.salary) + '/yr', 'pos'), kv('Years', String(st.job.years)),
+      ath ? kv('League standing', L ? `${L.w}-${L.l} · ${L.rank} of ${L.teams}${L.champion ? ' 🏆' : ''}` : `${ath.league} · season not played yet`) : null,
+      ath && ath.security ? (await import('./sports.js')).secBar(ath.security) : null,
+      ath ? h('div', { class: 'btns', 'data-el': 'job-team-links', style: { flexWrap: 'wrap' } }, ...[['team', '🏟️ My Team'], ['skills', '💪 Skills'], ['season', '📈 Season stats'], ['mates', '🤝 Teammates'], ['offers', '✍️ Offers']].map(([tab, lb]) => btn(lb, async () => { const { openMyTeam } = await import('./sports.js'); openMyTeam(nav, tab); }, 'alt sm', { 'data-jt': tab }))) : null,
+      h('div', { class: 'btns', style: { flexWrap: 'wrap' } }, ath ? btn('✍️ Renegotiate contract', async () => { const { openMyTeam } = await import('./sports.js'); openMyTeam(nav, 'offers'); }, 'alt sm', { 'data-act': 'renegotiate' }) : null, btn('💪 Work harder', async () => { await act(adapter.quickAction('workharder')); refresh(); }, 'alt sm', { 'data-act': 'work-harder' }),
+        btn('Quit job', async () => { if (await confirmSheet('Quit job?', `Quit your job as ${st.job.title}?`, 'Quit', 'danger')) { await act(adapter.quitJob()); refresh(); } }, 'danger sm', { 'data-act': 'quit-job' }))));
+    if (ath) { const { myTeamInline } = await import('./sports.js'); await myTeamInline(body, ctx); }
+    else { const { jobPanelScreen } = await import('./jobpanel.js'); await jobPanelScreen(body, { ...ctx, refresh }); }
+  }
+  if (st.partTime) body.append(h('div', { class: 'card', 'data-el': 'parttime-job' }, h('h3', { text: `🕐 Part-time: ${st.partTime.title}` }), kv('Pay', `${money(st.partTime.weeklyPay || 0)}/wk · ${st.partTime.weeklyHours || ''}h`), h('div', { class: 'btns' }, btn('💪 Work harder', async () => { await act(adapter.quickAction('workharder')); refresh(); }, 'alt sm'), btn('Quit', async () => { await act(adapter.quitPartTime()); refresh(); }, 'danger sm'))));
+  { const tb = await adapter.listSecondJobs(); if (tb.current) body.append(h('div', { class: 'card', 'data-el': 'second-job' }, h('h3', { text: `🛠️ Second job: ${tb.current.name}` }), kv('Performance', tb.current.perf + '%'), h('div', { class: 'btns' }, btn('Quit', async () => { await act(adapter.quitSecondJob()); refresh(); }, 'danger sm')))); }
+}
+async function allWorkBody(body, { nav }) {
+  const items = await adapter.getOccupationMenu();
   const screens = { education: educationScreen, fight: fightScreen, freelance: freelanceScreen, jobs: (b, c) => jobsScreen(b, c, 'jobs'), parttime: partTimeScreen, military: militaryScreen, special: (b, c) => jobsScreen(b, c, 'special'), sports: sportsScreen, collections: collectionsScreen, scholarships: scholarshipsScreen, streamer: streamerScreen, influencer: influencerScreen, politics: politicsScreen, coaching: coachingScreen, franchise: franchiseScreen, esports: esportsScreen, racing: racingScreen, prodco: prodcoScreen, brand: brandScreen, farm: farmScreen, timebudget: timeBudgetScreen };
   body.append(...items.map(m => row({ id: m.id, icon: m.icon, title: m.label, sub: m.locked ? m.lockReason : m.sub, disabled: m.locked, onClick: () => nav.open(m.label === 'Sports Career' ? 'Sports Career' : m.label, screens[m.id]) })));
 }

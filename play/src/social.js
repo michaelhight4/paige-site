@@ -169,8 +169,8 @@ export function genOffers(s, pid) {
   }
   so.offers[pid] = out;
 }
-export function acceptOffer(s, pid, id) {
-  const so = ensure(s), a = A(s, pid), o = (so.offers[pid] || []).find((x) => x.id === id); if (!a || !o) return { ok: false, msg: 'That offer is gone.' }; if (a.followers < 5000) return { ok: false, msg: 'Sponsorships open at 5k followers.' }; if (a.deals.length >= maxDeals(a)) return { ok: false, msg: 'Deal limit reached.' };
+export function acceptOffer(s, pid, id, swap) {
+  const so = ensure(s), a = A(s, pid), o = (so.offers[pid] || []).find((x) => x.id === id); if (!a || !o) return { ok: false, msg: 'That offer is gone.' }; if (a.followers < 5000) return { ok: false, msg: 'Sponsorships open at 5k followers.' }; if (a.deals.length >= maxDeals(a)) { const lo = [...a.deals].sort((x, y) => x.pay - y.pay)[0]; if (!swap) return { ok: false, msg: 'Deal limit reached. Drop or swap a deal first.', canSwap: !!lo && lo.pay < o.pay }; if (!lo || lo.pay >= o.pay) return { ok: false, msg: 'This offer pays less than your weakest deal.' }; a.deals = a.deals.filter((d) => d !== lo); log(s, `I dropped ${lo.brand} to make room for a better deal.`, 'fame'); }
   if (so.ambassador && so.ambassador.exclusive) return { ok: false, msg: `Exclusive with ${so.ambassador.brand}: no other deals.` };
   so.offers[pid] = so.offers[pid].filter((x) => x.id !== id); a.deals.push({ brand: o.brand, pay: o.pay, yrsLeft: o.yrs, fit: o.fit }); log(s, `${o.brand} signed me for ${money(o.pay)} a year on ${platDef(pid).name}.`, 'fame'); return { ok: true, msg: `${o.brand}: ${money(o.pay)}/yr.` };
 }
@@ -310,3 +310,5 @@ export function chatChoose(s, i) {
   const acc = ensure(s).accounts.liveloop; if (acc) acc.followers = Math.max(acc.followers, st.subs); st.peakSubs = Math.max(st.peakSubs, st.subs); log(s, `Live chat: ${sc.prompt} I chose: ${c.label.toLowerCase()}.`, 'career'); return { ok: true, msg, lines };
 }
 export function careerPost(s, pid, type) { const so = ensure(s); if (!so.accounts[pid]) { if (!careerOwned(s, pid)) return null; so.accounts[pid] = mkAcct(s, pid); so.accounts[pid].followers = pid === 'liveloop' ? s.stream.subs : s.infl.followers; s.flags.has_social = 1; } return post(s, pid, type, { planned: true, boost: 1.5 }); }
+
+export function dropDeal(s, pid, i) { const a = A(s, pid); if (!a || !a.deals[i]) return { ok: false, msg: 'No such deal.' }; const d = a.deals.splice(i, 1)[0]; log(s, `I ended my deal with ${d.brand}.`, 'fame'); return { ok: true, msg: `Dropped ${d.brand}.` }; }

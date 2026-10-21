@@ -9,6 +9,7 @@ import { rnd, rint, chance, clamp, gauss } from './rng.js';
 import { log, addStat } from './core.js';
 import * as SS from './schoolsports.js';
 import * as B from './slice_bridge.js';
+import * as Hon from './honors.js';
 
 const R = Math.round, age = (s) => Math.floor(s.age);
 export const TRAIN_CAP = 3;
@@ -199,9 +200,10 @@ export function postYear(s) {
   }
   const l = m.limbo; if (l && a > l.age) expireLimbo(s);
   if (!mem || mem.limbo) hofCheck(s);
+  Hon.yearTick(s);
   m.trainReset = a; m.mark = {};
 }
-function hofCheck(s) { const m = ensure(s); if (m.career.hof || age(s) < 35) return; if (m.career.pts >= 30 || m.awards.filter((x) => x.id === 'champion').length >= 4) { m.career.hof = true; m.awards.push({ id: 'hof', label: AWARD_LABEL.hof, age: age(s), year: s.birthYear + age(s), sid: (m.last || {}).sid, level: 'pro' }); addStat(s, 'fame', 10); addStat(s, 'happiness', 12); log(s, 'I was inducted into the Hall of Fame. I gave a speech and nobody had to be told to clap.', 'sport'); } }
+function hofCheck(s) { const m = ensure(s); if (m.career.hof || age(s) < 35) return; if (m.career.pts >= 30 || m.awards.filter((x) => x.id === 'champion').length >= 4) { m.career.hof = true; m.awards.push({ id: 'hof', label: AWARD_LABEL.hof, age: age(s), year: s.birthYear + age(s), sid: (m.last || {}).sid, level: 'pro' }); addStat(s, 'fame', 10); addStat(s, 'happiness', 12); log(s, 'I was inducted into the Hall of Fame. I gave a speech and nobody had to be told to clap.', 'sport'); Hon.inducted(s, (m.last || {}).sid); } }
 export function retireCheck(s) { hofCheck(s); }
 
 // ---- offers: contract, extension, trade, draft ----

@@ -3,7 +3,8 @@ import { fmtMoney } from './fmt.js';
 import * as TB from './timebudget.js';
 import { D } from './data.js';
 export const tbApi = {
-  getTimeBudget() { return { ...TB.status(this.s), mgmtTiers: TB.MGMT_TIERS }; },
+  getTimeBudget() { return { ...TB.status(this.s), mgmtTiers: TB.MGMT_TIERS, mgmtGroups: TB.groups(this.s) }; },
+  getMgmtGroups() { return TB.groups(this.s); },
   setManagement(id, tier) { const n0 = this.mark(); const r = TB.setMgmt(this.s, id, tier); return this.res(r.ok, r.msg, n0); },
   timeAction(id) { const n0 = this.mark(); if (!this.s.alive) return this.res(false, 'Not available.', n0); const r = TB.relief(this.s, id); return this.res(!!r.ok, r.msg, n0); },
   listSecondJobs() { const s = this.s, E = this.E || null; return { current: s.job2 ? { id: s.job2.id, name: (D.careers.find((c) => c.id === s.job2.id) || {}).name, perf: Math.round(s.job2.perf) } : null, hours: 20, jobs: D.careers.filter((c) => s.age >= Math.max(16, c.minAge) && s.edu >= c.edu && s.stats.smarts >= c.smarts && c.minAge <= 21 && (!s.job || s.job.id !== c.id)).slice(0, 12).map((c) => ({ id: c.id, name: c.name, pay: Math.round(c.levels[0][1] * 0.6), title: c.levels[0][0] })) }; },

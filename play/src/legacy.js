@@ -13,6 +13,7 @@ import { log, fill } from './core.js';
 import * as P from './people.js';
 import * as Market from './market.js';
 import * as Ribbons from './ribbons.js';
+import * as Obit from './obituary.js';
 import * as Slice from './slice_bridge.js';
 import * as Premium from './premium.js';
 import * as PFx from './premium_fx.js';
@@ -48,7 +49,7 @@ export function die(s, kind, cause, causeId) {
   const rb = Ribbons.pickRibbon(s, ending); ending.ribbon = { id: rb.id, name: rb.name, icon: rb.icon, desc: rb.desc };
   const born = s.birthYear, died = s.birthYear + age;
   ending.tombstone = { name: s.name, born, died, epitaph: pick(s, LF().death.epitaphs), cause };
-  ending.obituary = obituary(s, ending);
+  { const ob = Obit.write(s, ending); ending.obituary = ob.text; ending.headline = ob.headline; ending.topAward = ob.topAward; }
   s.ending = ending; ending.creatorUsed = !!s.creatorUsed; ending.heirs = heirsOf(s).map((h) => ({ id: h.id, name: h.name, rel: h.rel, age: Math.floor(h.age) }));
   const prev = s.legacy.gens.find((g) => g.gen === s.legacy.gen);
   if (!prev) s.legacy.gens.push({ gen: s.legacy.gen, name: s.name, born, died, age, nw: Math.round(nw.total), cause, kind, ribbon: rb.id, ribbonName: rb.name, creator: !!s.creatorUsed, job: ending.job, gender: s.gender, kids: s.people.filter((p) => p.rel === 'child').length });
@@ -161,7 +162,8 @@ export function continueAs(s, heirId) {
   s.edu = age >= 18 ? Math.max(1, kid.edu || 1) : 0; s.school = age >= 18 ? null : age >= 12 ? 'high' : 'primary'; s.college = null; s.job = null; s.retired = age >= 65; s.postgrad = false;
   const wear = Math.max(0, age - 50);
   s.stats = { health: clamp(rint(s, 70, 95) - wear * 0.8, 20, 100), happiness: clamp(rint(s, 45, 85) - LF().legacy.continueStartHappyHit, 0, 100), smarts: clamp(Math.round(55 + (rnd(s) - 0.5) * 50), 5, 95), looks: clamp(rint(s, 25, 80) - wear * 0.3, 5, 100), fame: 0, karma: 50, crazy: rint(s, 0, 25), stress: rint(s, 10, 30) };
-  s.sl = null; s.diseases = []; s.flags = {}; s.chain = []; s.evLast = {}; s.acted = {}; s.pending = []; s.fx = []; s.cand = []; s.prison = null; s.record = { sentences: 0, priors: 0 }; s.sport = null; s.carry = null; s.carryNotes = []; s.pro = null; s.will = { mode: 'even', heir: null }; s.fit = 0;
+  s.sl = null; s.diseases = []; const hofFam = s.flags && (s.flags.hof_family || s.flags.hof_heir); s.flags = hofFam ? { hof_heir: 1 } : {}; s.chain = []; s.evLast = {}; s.acted = {}; s.pending = []; s.fx = []; s.cand = []; s.prison = null; s.record = { sentences: 0, priors: 0 }; s.sport = null; s.carry = null; s.carryNotes = []; s.pro = null; s.will = { mode: 'even', heir: null }; s.fit = 0;
+  if (hofFam && s.stats) s.stats.fame = Math.min(100, (s.stats.fame || 0) + 5); // Hall of Fame family name
   s.creatorLineage = !!(s.creatorLineage || s.creatorUsed); s.creatorUsed = false; s.creatorEdits = 0;
   const royalRes = Politics.passOn(s, oldRoyal, kid); // office/campaign/war end; royalty continues through a child
   s.tally = Ribbons.newTally(); s.alive = true; s.lastEnding = s.ending; s.ending = null; s.yr = [];

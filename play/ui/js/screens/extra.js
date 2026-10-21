@@ -10,7 +10,7 @@ import { adapter } from '../adapter.js';
 import { autoPageCard } from './autopage.js';
 import { store, h, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act, askNumber, toast } from '../ui.js';
 
-export async function businessesScreen(body, { nav }) {
+export async function businessesScreen(body, { nav, refresh }) {
   const b = await adapter.getBusinesses();
   body.append(h('div', { class: 'card', 'data-el': 'biz-summary' }, h('h3', { text: 'Your businesses' }), kv('Cash', money(b.cash)), kv('Owned', String(b.owned.length)), kv('Total profit / yr', money(b.owned.reduce((a, x) => a + x.profit, 0)), 'pos')));
   body.append(h('div', { class: 'btns', style: { padding: '8px 12px 0' } }, btn('🏪 Start a business', () => nav.open('Start a business', foundScreen), 'go sm', { 'data-el': 'biz-found' }), btn('💰 Buy one', () => nav.open('Businesses for sale', offersScreen), 'alt sm', { 'data-el': 'biz-buy' })));
@@ -24,7 +24,7 @@ export async function businessesScreen(body, { nav }) {
     ['start:farm', '🚜', 'Farm or ranch', 'Crops or livestock', async () => { const { farmScreen } = await import('./venture.js'); nav.open('Farm', farmScreen); }],
   ].map(([id, icon, title, sub, onClick]) => row({ id, icon, title, sub, onClick })));
   if (!b.owned.length) body.append(empty(b.age < 18 ? 'You can start a business at 18 (some need more).' : 'You own no businesses yet.'));
-  else body.append(section('Owned'), ...b.owned.map((x) => row({ id: 'b' + x.id, icon: x.icon, title: x.name, sub: `${x.typeName} · ${x.staff} staff · rep ${x.rep}${x.trust ? ' · in trust' : ''}`, right: money(x.profit) + '/yr', onClick: x.brand ? async () => { const { brandScreen } = await import('./venture.js'); nav.open(x.name, brandScreen); } : x.farm ? async () => { const { farmScreen } = await import('./venture.js'); nav.open(x.name, farmScreen); } : x.advisor ? async () => { const { advisorScreen } = await import('./venture.js'); nav.open(x.name, advisorScreen); } : x.racing ? async () => { const { racingScreen } = await import('./racing.js'); nav.open(x.name, (bd, c) => racingScreen(bd, c, 'team')); } : x.franchise ? async () => { const { franchiseScreen } = await import('./franchise.js'); await adapter.frAction('switch', x.teamId); nav.open(x.name, x.esports ? (bd, c) => franchiseScreen(bd, c, 'esports') : franchiseScreen); } : x.prodco ? async () => { const { companyScreen } = await import('./prodco.js'); nav.open(x.name, (bd, c) => companyScreen(bd, c, x.prodco)); } : () => nav.open(x.name, (bd, c) => businessDetail(bd, c, x.id)) })));
+  else body.append(section('Owned'), hireAllCard(refresh), ...b.owned.map((x) => row({ id: 'b' + x.id, icon: x.icon, title: x.name, sub: `${x.typeName} · ${x.staff} staff · rep ${x.rep}${x.trust ? ' · in trust' : ''}`, right: money(x.profit) + '/yr', onClick: x.brand ? async () => { const { brandScreen } = await import('./venture.js'); nav.open(x.name, brandScreen); } : x.farm ? async () => { const { farmScreen } = await import('./venture.js'); nav.open(x.name, farmScreen); } : x.advisor ? async () => { const { advisorScreen } = await import('./venture.js'); nav.open(x.name, advisorScreen); } : x.racing ? async () => { const { racingScreen } = await import('./racing.js'); nav.open(x.name, (bd, c) => racingScreen(bd, c, 'team')); } : x.franchise ? async () => { const { franchiseScreen } = await import('./franchise.js'); await adapter.frAction('switch', x.teamId); nav.open(x.name, x.esports ? (bd, c) => franchiseScreen(bd, c, 'esports') : franchiseScreen); } : x.prodco ? async () => { const { companyScreen } = await import('./prodco.js'); nav.open(x.name, (bd, c) => companyScreen(bd, c, x.prodco)); } : () => nav.open(x.name, (bd, c) => businessDetail(bd, c, x.id)) })));
 }
 // Every start path (Assets, Work, More, Businesses) lands the same way: on the Your-businesses list with the new business opened on its manage screen.
 const settle = (ms = 60) => new Promise((r) => setTimeout(r, ms));
@@ -58,6 +58,7 @@ export async function businessDetail(body, ctx, id) {
   { const { bizOpsCard } = await import('./bizops.js'); const c = await bizOpsCard('biz', id); if (c) body.append(c); }
   if (d.upgrades && d.upgrades.length) body.append(section('Upgrades'), ...d.upgrades.map((u) => row({ id: 'up:' + u.id, icon: u.owned ? '✅' : '⬆️', title: u.name, sub: u.owned ? 'Installed' : u.desc, right: u.owned ? null : money(u.cost), disabled: u.owned || u.cost > d.cash, onClick: () => act(adapter.businessUpgrade(id, u.id)) })));
   if (!d.editor) {
+    if (d.train && d.train.n) body.append(h('div', { class: 'btns', style: { padding: '4px 12px' } }, btn(d.train.done ? '🎓 Trained this year' : `🎓 Train employees (${money(d.train.cost)})`, async () => { await act(adapter.trainBizStaff(id)); ctx.refresh && ctx.refresh(); }, 'alt sm', { 'data-act': 'train-staff', disabled: d.train.done })));
     body.append(section('Staff'), ...d.staffList.map((p) => row({ icon: '🧑‍💼', title: p.name, sub: `${p.role} · skill ${p.skill}`, right: money(p.salary), onClick: async () => { if (await confirmSheet('Let ' + p.name + ' go?', 'Severance is 15% of annual salary.', 'Fire', 'danger')) act(adapter.fireStaff(id, p.id)); } })));
     body.append(btn('➕ Hire', async () => { const i = await sheet({ title: 'Hire a role', options: d.roles.map((r) => ({ label: r.name, sub: `${money(r.base)}/yr base · ${r.count} now` })) }); if (i == null) return; const j = await sheet({ title: 'Experience level', options: d.tiers.map((x) => ({ label: x.name })) }); if (j != null) act(adapter.hireStaff(id, d.roles[i].id, d.tiers[j].id)); }, 'alt block', { 'data-el': 'biz-hire' }));
     if (d.equip.length) body.append(section('Equipment'), ...d.equip.map((e) => row({ icon: '🛠️', title: e.name, sub: `Owned: ${e.count}`, right: money(e.cost), disabled: e.cost > d.cash, onClick: () => act(adapter.buyBusinessEquip(id, e.id)) })));
@@ -93,7 +94,7 @@ export async function passionsScreen(body, { nav, refresh }) {
   await autoPageCard(body, 'passions');
   const p = await adapter.getPassions(); adapter.markSeen('passions');
   if (p.locked) return body.append(empty(`Passions start at age ${p.minAge}.`));
-  body.append(h('div', { class: 'card', 'data-el': 'passion-rules' }, h('h3', { text: `Passion slots ${p.used}/${p.slots}` }), ...p.rules.map((r) => h('div', { class: 'hint', text: '• ' + r })), kv('Masteries', `${p.mastered.length} / ${p.masteryCap}`), p.heritage.length ? h('div', { class: 'hint', text: '🧬 Head start from your parent: ' + p.heritage.join(', ') }) : null));
+  body.append(h('div', { class: 'card', 'data-el': 'passion-rules' }, h('h3', { 'data-el': 'passion-slots', text: `Slots: ${p.used}/${p.slots}` }), ...p.rules.map((r) => h('div', { class: 'hint', text: '• ' + r })), kv('Masteries', `${p.mastered.length} (each one added 2 slots)`), p.heritage.length ? h('div', { class: 'hint', text: '🧬 Head start from your parent: ' + p.heritage.join(', ') }) : null));
   if (p.active.length) body.append(section('Active'), ...p.active.map((a) => h('div', { class: 'card', 'data-passion': a.id }, h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${a.icon} ${a.name}` }), bar('Mastery meter', a.meter, { thin: true, key: 'meter_' + a.id }), h('div', { class: 'hint', text: 'Trains: ' + Object.keys(a.skills).map((x) => x.replace('_', ' ')).join(', ') }),
     a.full ? h('div', { class: 'hint', 'data-el': 'cap-note', text: `Meter full at 100, but the mastery cap (${p.masteryCap}) is reached, so it can't become a new mastery. Drop it to free the slot.` }) : null,
     h('div', { class: 'btns' }, btn(a.full ? 'Meter full' : a.practiced ? 'Done this year' : 'Practice', async () => { await act(adapter.practicePassion(a.id)); }, 'go sm', { 'data-act': 'practice', disabled: a.practiced || a.full ? true : null }), btn('Drop (resets meter)', async () => { if (await confirmSheet('Drop ' + a.name + '?', 'Its meter resets to zero.', 'Drop', 'danger')) act(adapter.dropPassion(a.id)); }, 'alt sm', { 'data-act': 'drop' })))));
@@ -178,4 +179,17 @@ export async function styleScreen(body) {
     root.append(btn('Reset style', () => { Style.reset(); paint(); }, 'alt block', { 'data-el': 'style-reset' }));
   };
   paint();
+}
+
+let haTier = 'standard';
+function hireAllCard(refresh) {
+  return h('div', { class: 'card', 'data-el': 'hire-all' }, h('div', { class: 'btns', style: { flexWrap: 'wrap', alignItems: 'center' } },
+    btn('🧑‍💼 Hire all', async () => {
+      const tiers = await adapter.hireAllTiers(); const ti = await sheet({ title: 'Hire all: pick a tier', body: 'Fills every open staff, crew and roster spot across all your companies and teams.', options: tiers.map((t) => ({ label: t.name })) }); if (ti == null) return; haTier = tiers[ti].id;
+      const p = await adapter.hireAllPlan(haTier);
+      const body = h('div', {}, h('p', { 'data-el': 'ha-sum', text: `${p.hires} hires across ${p.companies} ${p.companies === 1 ? 'company' : 'companies'} · signing ${money(p.cost)} · +${money(p.payroll)}/yr payroll` }),
+        ...p.rows.map((r) => h('div', { class: 'kv', 'data-ha': r.key }, h('span', { text: `${r.name} (${r.kind})` }), h('b', { class: r.skip ? 'neg' : '', text: r.skip ? `Skipped: ${r.skip}` : `${r.hires} · ${money(r.cost)} + ${money(r.payroll)}/yr` }))));
+      const k = await sheet({ title: `Hire all (${p.tier})`, body, buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'keep', label: 'Keep filled yearly', cls: 'alt' }, { id: 'yes', label: 'Hire', cls: 'go' }] });
+      if (k === 'yes' && p.hires) { await act(adapter.hireAll(haTier)); refresh && refresh(); } else if (k === 'keep') { await act(adapter.setHireAllKeep(haTier)); }
+    }, 'go sm', { 'data-act': 'hire-all' }), h('span', { class: 'hint', text: 'Fill every open spot at one tier' })));
 }

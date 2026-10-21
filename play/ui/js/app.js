@@ -12,8 +12,10 @@ async function main() {
   document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('button')) sfx('click'); }, true);
   try {
     await Style.init();
-    await bootAdapter(); (await import('./ads_ui.js')).installAdPresenter();
+    const Native = await import('../../src/native_bridge.js'); await Native.installNativeAds(); // Android app: AdMob (no-op on web)
+    await bootAdapter(); Native.installNativeBilling(adapter.impl); (await import('./ads_ui.js')).installAdPresenter(); // Android app: Play Billing
     store.cfg = await adapter.getConfig();
+    { const { ensureTerms } = await import('./terms.js'); await ensureTerms(store.root); } // one-time ToS / Privacy agreement before any play
     const st0 = await adapter.getStartState();
     if (st0.mode !== 'play') { window.__start = st0.mode; window.__startReady = true; await runStart(st0.mode, { slot: st0.slot || 1 }); window.__start = null; }
     await refreshState();

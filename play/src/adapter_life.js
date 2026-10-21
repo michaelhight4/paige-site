@@ -54,7 +54,10 @@ export const life = {
     if (rare) { const p = s.pending[0]; choices.push({ label: rare.label, rare: true, ad: true, locked: !(A.unlockedRare && A.unlockedRare.id === p.id && A.unlockedRare.turn === s.turns), access: Ads.access('rare') }); }
     return { id: c.id || c.kind, title: c.title, prompt: c.text, category: c.cat, choices };
   },
-  nextEvent() { const s = this.s; while (s.pending.length && !Ev.pendingCard(s)) s.pending.shift(); return this.card(); },
+  nextEvent() { const s = this.s; while (s.pending.length && !Ev.pendingCard(s)) s.pending.shift(); this.autoCatchUp(); return this.card(); },
+  // a deferred after-AGE Autopilot run happens as soon as nothing is pending, however the queue emptied (card answered OR stale items dropped);
+  // playYear's work is synchronous, so the routines are done (greyed out) before the caller reads state (7c1 reliability fix)
+  autoCatchUp() { const s = this.s, A = s && s.auto; if (!s || !s.alive || s.pending.length || !A || !A.on || !Auto.unlocked()) return; const y = Math.floor(s.age); if (A.ranAge === y || A.deferAge !== y) return; A.deferAge = null; Auto.playYear(this, {}).then((p2) => { if (!p2.stopBefore || Auto.SOFT.includes(p2.stopBefore.kind)) A.ranAge = y; A.last = Auto.summarize(s, p2, null, p2.floor); }); },
 
   // ---------- core ----------
   getState() {
@@ -91,13 +94,13 @@ export const life = {
   resolveEvent(eventId, i) {
     const s = this.s, n0 = this.mark(); if (!s.pending.length) return { ok: false, state: this.getState(), entries: [], event: null, message: 'Nothing pending.' };
     const p0 = s.pending[0], r = p0 && p0.adRare && i === baseChoices(s) ? resolveRare(s) : Ev.resolveCard(s, i);
-    const fin = (auto) => ({ ok: !!(r && r.ok), state: this.getState(), entries: this.entriesSince(n0), event: s.alive ? this.nextEvent() : null, message: r ? r.msg : '', died: !s.alive, death: s.alive ? undefined : this.getDeathSummary(), auto });
+    const fin = (auto) => ({ ok: !!(r && r.ok), state: this.getState(), entries: this.entriesSince(n0), event: s.alive ? this.nextEvent() : null, message: r ? r.msg : '', died: !s.alive, death: s.alive ? undefined : this.getDeathSummary(), auto, openPicker: !!(r && r.openPicker) });
     // Autopilot's after-AGE run was deferred because a card was waiting: run it as soon as the last card is answered
     const A = s.auto; if (s.alive && !s.pending.length && A && A.on && Auto.unlocked() && A.ranAge !== Math.floor(s.age) && A.deferAge === Math.floor(s.age)) return Auto.playYear(this, {}).then((p2) => { if (!p2.stopBefore) A.ranAge = Math.floor(s.age); A.deferAge = null; return fin(Auto.summarize(s, p2, null, p2.floor)); });
     return fin(null);
   },
   newLife(o = {}) { this.s = E.newGame({ name: o.name || null, seed: o.seed }); this.ensureSeen(); if (o.gender) { /* gender is generated with the name pool */ } return this.getState(); },
-  getDeathSummary() { const s = this.s, e = s.ending; if (!e) return null; return { name: s.name, age: e.age, cause: e.cause, netWorth: Math.round(e.netWorth.total), headline: e.job === 'none' ? 'None' : e.job, ribbon: e.ribbon ? e.ribbon.name : null, obituary: e.obituary, epitaph: e.tombstone && e.tombstone.epitaph, born: e.tombstone && e.tombstone.born, died: e.tombstone && e.tombstone.died, ribbonIcon: e.ribbon && e.ribbon.icon, canContinue: Legacy.canContinue(s), creatorUsed: !!e.creatorUsed, gender: G(s.gender), heirs: (e.heirs || []).map((h) => ({ id: h.id, name: h.name, age: Math.floor(h.age) })) }; },
+  getDeathSummary() { const s = this.s, e = s.ending; if (!e) return null; return { name: s.name, age: e.age, cause: e.cause, netWorth: Math.round(e.netWorth.total), headline: e.headline || (e.job === 'none' ? 'Private citizen' : e.job), topAward: e.topAward || null, ribbonId: e.ribbon ? e.ribbon.id : null, ribbon: e.ribbon ? e.ribbon.name : null, obituary: e.obituary, epitaph: e.tombstone && e.tombstone.epitaph, born: e.tombstone && e.tombstone.born, died: e.tombstone && e.tombstone.died, ribbonIcon: e.ribbon && e.ribbon.icon, canContinue: Legacy.canContinue(s), creatorUsed: !!e.creatorUsed, gender: G(s.gender), heirs: (e.heirs || []).map((h) => ({ id: h.id, name: h.name, age: Math.floor(h.age) })) }; },
 
   // ---------- occupation ----------
   getOccupationMenu() { const age = Math.floor(this.s.age); return this.cfg.occupationMenu.map((m) => ({ ...m, locked: age < m.minAge, lockReason: age < m.minAge ? `Unlocks at age ${m.minAge}` : '' })); },

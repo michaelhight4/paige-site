@@ -63,12 +63,13 @@ export function upgradeSetup(s, item) {
   const lv = st.setup[item]; if (lv >= it.levels.length - 1) return { ok: false, msg: 'Already maxed.' }; const next = it.levels[lv + 1]; if (s.cash < next.cost) return { ok: false, msg: `Costs ${money(next.cost)}.` };
   s.cash -= next.cost; st.setup[item] = lv + 1; log(s, `I upgraded my ${it.name.toLowerCase()} to a ${next.name.toLowerCase()}.`, 'career'); return { ok: true, msg: `${it.name}: ${next.name}` };
 }
-export function seekSponsor(s) {
+export function seekSponsor(s, swap) {
   const st = ensureStream(s), S = O().stream; if (!st.active) return { ok: false, msg: 'Start streaming first.' }; if (st.acted.sponsor) return { ok: false, msg: 'You already pitched sponsors this year.' };
-  if (st.subs < S.minSubsForSponsor) return { ok: false, msg: `Sponsors want ${S.minSubsForSponsor}+ subscribers.` }; if (st.sponsors.length >= S.maxSponsors) return { ok: false, msg: 'You have the maximum number of sponsors.' };
+  if (st.subs < S.minSubsForSponsor) return { ok: false, msg: `Sponsors want ${S.minSubsForSponsor}+ subscribers.` }; if (st.sponsors.length >= S.maxSponsors && swap !== true && swap !== 'swap') return { ok: false, msg: 'You have the maximum number of sponsors. Swap (keeps the better deal) or drop one.' };
   st.acted.sponsor = 1; const tp = topicDef(st.topic), p = clamp(0.25 + st.viewers / 2500 + s.stats.fame / 220 + (tp.spons - 0.9) * 0.2 - st.strikes * 0.1, 0.08, 0.88);
   if (!chance(s, p)) { log(s, 'I pitched sponsors. Nobody replied except a bot.', 'career'); return { ok: true, won: false, msg: 'No sponsor bit this time.' }; }
   const brand = pick(s, S.sponsors.filter((b) => !st.sponsors.some((x) => x.brand === b)) || S.sponsors), pay = Math.round(st.viewers * S.rates.sponsorPerViewer * tp.spons * (0.7 + rnd(s) * 0.6) * (1 + Social.gearBoost(s).sponsor) / 10) * 10, yrs = rint(s, 1, 2);
+  if (st.sponsors.length >= S.maxSponsors) { const lo = [...st.sponsors].sort((x, y) => x.pay - y.pay)[0]; if (lo.pay >= Math.max(150, pay)) { log(s, `${brand} offered less than my weakest sponsor. I passed.`, 'career'); return { ok: true, won: false, msg: `${brand} offered ${money(Math.max(150, pay))}, less than your weakest sponsor.` }; } st.sponsors = st.sponsors.filter((x) => x !== lo); log(s, `I swapped ${lo.brand} for ${brand}.`, 'career'); }
   st.sponsors.push({ brand, pay: Math.max(150, pay), yrsLeft: yrs }); log(s, `${brand} signed me as a sponsor for ${money(Math.max(150, pay))} a year.`, 'career'); return { ok: true, won: true, msg: `${brand} signed you: ${money(Math.max(150, pay))}/yr for ${yrs} yr.` };
 }
 export function dropSponsor(s, i) { const st = ensureStream(s); const x = st.sponsors[i]; if (!x) return { ok: false, msg: 'No such sponsor.' }; st.sponsors.splice(i, 1); return { ok: true, msg: `Dropped ${x.brand}.` }; }
@@ -145,11 +146,12 @@ function makeOffers(s, f) {
   const I = O().infl; f.offers = []; if (f.followers < I.minFollowersForDeals || f.heat > 80) return; const nd = nicheDef(f.niche), n = rint(s, 1, 3);
   for (let i = 0; i < n; i++) { const shady = chance(s, 0.3), brand = pick(s, I.brands), base = f.followers * I.rates.dealPerFollower * nd.deal * (0.6 + rnd(s) * 0.8) * (f.engagement / 50); f.offers.push({ id: i, brand, pay: Math.max(100, Math.round(base * (shady ? 1.9 : 1) / 10) * 10), yrs: rint(s, 1, 2), shady }); }
 }
-export function acceptDeal(s, id) {
-  const f = ensureInfl(s), I = O().infl; if (!f.active) return { ok: false, msg: 'Start first.' }; const o = f.offers.find((x) => x.id === id); if (!o) return { ok: false, msg: 'That offer is gone.' }; if (f.deals.length >= I.maxDeals) return { ok: false, msg: 'You have the maximum number of deals.' };
+export function acceptDeal(s, id, swap) {
+  const f = ensureInfl(s), I = O().infl; if (!f.active) return { ok: false, msg: 'Start first.' }; const o = f.offers.find((x) => x.id === id); if (!o) return { ok: false, msg: 'That offer is gone.' }; if (f.deals.length >= I.maxDeals) { const lo = [...f.deals].sort((x, y) => x.pay - y.pay)[0]; if (!swap) return { ok: false, msg: 'You have the maximum number of deals. Drop or swap one first.', canSwap: !!lo && lo.pay < o.pay }; if (!lo || lo.pay >= o.pay) return { ok: false, msg: 'This offer pays less than your weakest deal.' }; f.deals = f.deals.filter((d) => d !== lo); log(s, `I dropped ${lo.brand} for a better deal.`, 'career'); }
   f.offers = f.offers.filter((x) => x.id !== id); f.deals.push({ brand: o.brand, pay: o.pay, yrsLeft: o.yrs, shady: o.shady }); if (o.shady) { f.trust = clamp(f.trust - 10, 0, 100); f.heat = clamp(f.heat + 8, 0, 100); }
   log(s, `I signed a ${o.shady ? 'questionable ' : ''}brand deal with ${o.brand}: ${money(o.pay)} a year.`, 'career'); return { ok: true, msg: `${o.brand}: ${money(o.pay)}/yr${o.shady ? ' (risky)' : ''}.` };
 }
+export function dropDeal(s, i) { const f = ensureInfl(s); const d = f.deals[i]; if (!d) return { ok: false, msg: 'No such deal.' }; f.deals.splice(i, 1); log(s, `I ended my deal with ${d.brand}.`, 'career'); return { ok: true, msg: `Dropped ${d.brand}.` }; }
 export function declineDeal(s, id) { const f = ensureInfl(s); f.offers = f.offers.filter((x) => x.id !== id); return { ok: true, msg: 'Declined.' }; }
 export function postBig(s) { // once a year: a big swing at going viral
   const f = ensureInfl(s); if (!f.active) return { ok: false, msg: 'Start first.' }; if (f.acted.big) return { ok: false, msg: 'You already made a big post this year.' }; f.acted.big = 1; const sd = styleDef(f.style), p = clamp(0.22 + s.stats.looks / 400 + Skills.get(s, 'creativity') / 500 + sd.growth * 0.1, 0.1, 0.6);

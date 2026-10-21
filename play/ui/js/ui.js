@@ -95,16 +95,25 @@ export function sheet({ title, body, options, buttons, center = false, dismissab
       body ? (typeof body === 'string' ? h('p', { text: body }) : body) : null,
       (options || []).map((o, i) => h('button', { class: 'opt' + (o.disabled ? ' dis' : ''), 'data-opt': i, onclick: () => close(i) }, o.label, o.sub ? h('div', { class: 'hint', text: o.sub }) : null)),
       buttons ? h('div', { class: 'btns' }, buttons.map((b) => h('button', { class: 'btn ' + (b.cls || ''), 'data-btn': b.id, onclick: () => close(b.id) }, b.label))) : null);
-    const ov = h('div', { class: 'overlay', onclick: (e) => { if (dismissable && e.target === ov) close(null); } }, content);
+    const ov = h('div', { class: 'overlay', 'data-mandatory': dismissable ? null : '1', onclick: (e) => { if (dismissable && e.target === ov) close(null); } }, content);
     store.root.append(ov);
   });
 }
 export const confirmSheet = async (title, body, yes = 'Yes', cls = '') => (await sheet({ title, body, center: true, buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'yes', label: yes, cls }] })) === 'yes';
-export async function askNumber(title, { min = 0, max = 1e9, def, note = '' } = {}) {
-  const inp = h('input', { type: 'number', min, max, value: def ?? min, inputmode: 'numeric', 'data-input': 'amount' });
-  const body = h('div', null, note ? h('p', { text: note }) : null, inp);
+export async function askNumber(title, { min = 0, max = 1e9, def, note = '', money: isMoney, cash } = {}) {
+  // formatted amount input (commas as you type, live short total, cash available, 25% / 50% / Max); never a raw prompt
+  isMoney = isMoney ?? (max > 1000 || /\$|cash|money|invest|fund|withdraw|loan|deposit|add|pay|price|amount/i.test(title));
+  const inp = h('input', { type: 'text', inputmode: 'decimal', class: 'numin', 'data-input': 'amount', style: { width: '100%', fontSize: '18px', padding: '8px', boxSizing: 'border-box' } });
+  const num = () => Number(String(inp.value).replace(/[^\d.]/g, '')) || 0, fmt = (n) => (n ? Math.round(n).toLocaleString('en-US') : '');
+  const cashNow = cash ?? (store.state && store.state.cash);
+  const live = h('div', { class: 'hint', 'data-el': 'amount-live' }), clampN = (n) => Math.max(min, Math.min(max, n));
+  const upd = () => { const n = num(); live.textContent = isMoney ? `${money(n, true)}${n > max ? ` · max ${money(max, true)}` : ''}` : (n > max ? `max ${max.toLocaleString('en-US')}` : ''); };
+  inp.addEventListener('input', () => { const raw = String(inp.value).replace(/[^\d]/g, ''); inp.value = raw ? Number(raw).toLocaleString('en-US') : ''; upd(); });
+  inp.value = fmt(def ?? min); upd();
+  const quick = h('div', { class: 'btns', 'data-el': 'amount-quick' }, ...[['25%', 0.25], ['50%', 0.5], ['Max', 1]].map(([lb, f]) => h('button', { class: 'btn alt sm', 'data-q': lb, text: lb, onclick: () => { const top = isMoney && cashNow != null && cashNow > 0 ? Math.min(max, cashNow) : max; inp.value = fmt(clampN(Math.floor(top * f))); upd(); } })));
+  const body = h('div', null, note ? h('p', { text: note }) : null, isMoney && cashNow != null ? h('div', { class: 'hint', 'data-el': 'amount-cash', text: `Cash available: ${money(cashNow, true)}` }) : null, inp, live, max < 1e12 ? quick : null);
   const r = await sheet({ title, body, center: true, buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'ok', label: 'OK', cls: 'go' }] });
-  return r === 'ok' ? Math.max(min, Math.min(max, Number(inp.value) || 0)) : null;
+  return r === 'ok' ? clampN(num()) : null;
 }
 
 // ---------- state & actions ----------
@@ -129,6 +138,8 @@ export function openPanel(title, render, { mini } = {}) {
 }
 export async function rerenderTop() { if (store.stack.length) await drawTop(); }
 export function closeAll() { store.root.querySelectorAll('.panel').forEach(p => p.remove()); store.stack = []; document.dispatchEvent(new CustomEvent('panelchange')); }
+// X: leave every screen + sheet and land on the main life screen (mandatory popups stay).
+export function closeHome() { closeAll(); store.root.querySelectorAll('.overlay:not([data-mandatory])').forEach((o) => { if (!o.querySelector('[data-mandatory]')) o.remove(); }); store.root.classList.remove('ls-death-fade'); document.dispatchEvent(new CustomEvent('panelchange')); }
 export function back() {
   store.stack.pop(); document.dispatchEvent(new CustomEvent('panelchange')); const ps = store.root.querySelectorAll('.panel'); if (ps.length) ps[ps.length - 1].remove();
   const rest = store.root.querySelectorAll('.panel');
@@ -138,8 +149,9 @@ function drawPanel(animate) {
   const top = store.stack[store.stack.length - 1];
   const el = h('div', { class: 'panel', 'data-title': top.title, style: animate ? null : { animation: 'none' } },
     h('div', { class: 'pbar' },
-      h('button', { class: 'pbtn', 'aria-label': store.stack.length > 1 ? 'Back' : 'Close', 'data-nav': 'back', onclick: back, text: store.stack.length > 1 ? '‹' : '✕' }),
-      h('h2', { text: top.title })),
+      h('button', { class: 'pbtn', 'aria-label': 'Back', 'data-nav': 'back', onclick: back, text: '‹' }),
+      h('h2', { text: top.title }),
+      h('button', { class: 'pclose', 'aria-label': 'Close to home', 'data-nav': 'home', onclick: closeHome, text: '✕' })),
     h('div', { class: 'mini', 'data-mini': '' }),
     h('div', { class: 'qbar', 'data-el': 'qbar', hidden: true }),
     h('div', { class: 'body' }));

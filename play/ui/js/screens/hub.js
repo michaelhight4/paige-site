@@ -2,7 +2,7 @@ import { adapter } from '../adapter.js';
 import { store, h, bar, money, avatarFor, avatarEl, ico, sfx, Art, openPanel, sheet, act, refreshState, closeAll, toast, btn, rerenderTop } from '../ui.js';
 import { storeScreen, settingsScreen } from './store.js';
 import { cemeteryScreen } from './profile.js';
-import { occupationMenu } from './occupation.js';
+import { occupationMenu, setWorkTab } from './occupation.js';
 import { assetsMenu } from './assets.js';
 import { relationshipsScreen } from './relationships.js';
 import { activitiesScreen } from './activities.js';
@@ -27,7 +27,7 @@ export function mountHub(root) {
   nav.style.gridTemplateColumns = `repeat(${half},1fr) 96px repeat(${tabs.length - half},1fr)`;
   let activeTab = 'life'; const tabEls = {};
   tabs.forEach((t, i) => {
-    const b = h('button', { class: 'tab', 'data-tab': t.id, onclick: () => { closeAll(); activeTab = t.id; if (t.id !== 'life') openPanel(titles[t.id] || t.label, openers[t.id]); paintTabs(); } }, ico(t.icon, 26), h('span', { class: 'tl', text: t.label }), h('i', { class: 'nbadge', 'data-badge': t.id }));
+    const b = h('button', { class: 'tab', 'data-tab': t.id, onclick: () => { closeAll(); activeTab = t.id; if (t.id === 'occupation') setWorkTab(null); if (t.id !== 'life') openPanel(titles[t.id] || t.label, openers[t.id]); paintTabs(); } }, ico(t.icon, 26), h('span', { class: 'tl', text: t.label }), h('i', { class: 'nbadge', 'data-badge': t.id }));
     tabEls[t.id] = b; if (i === half) nav.append(h('div'));
     nav.append(b);
   });
@@ -45,14 +45,14 @@ export function mountHub(root) {
 
   let lastAge = -1; let shown = 0;
   function renderTop(st) {
-    if (st.alive && store.root.classList.contains('ls-death-fade')) clearDeathFx(); // defensive: a living character is never shown faded/behind a stale backdrop
+    if (st.alive && (store.root.classList.contains('ls-death-fade') || store.root.querySelector('.ls-death-fade'))) clearDeathFx(); // defensive: a living character is never shown faded/behind a stale backdrop
     top.className = top.className.replace(/\s*fame-t\d/g, '') + (st.fameTier ? ' fame-t' + st.fameTier.index : '');
     top.replaceChildren(
       avatarFor(st.gender, st.age, st.avatar),
-      h('button', { class: 'who', 'data-el': 'profile-link', onclick: () => openPanel('Profile', profileScreen), 'aria-label': 'Open profile' }, h('span', { class: 'nm', text: st.name }), h('span', { class: 'hd', text: '💼 ' + st.headline }), st.fameTier && st.fameTier.index > 0 ? h('span', { class: 'fame-tag', 'data-el': 'fame-tier', role: 'link', onclick: (e) => { e.stopPropagation(); import('./fame.js').then((m) => openPanel('Use your fame', m.fameScreen)); }, text: `🌟 ${st.fameTier.name} · ${st.fameTier.fame}%` }) : null),
+      h('button', { class: 'who', 'data-el': 'profile-link', onclick: () => openPanel('Profile', profileScreen), 'aria-label': 'Open profile' }, h('span', { class: 'nm', text: st.name }), h('span', { class: 'hd', 'data-el': 'job-link', role: 'link', onclick: (e) => { e.stopPropagation(); closeAll(); activeTab = 'occupation'; setWorkTab('myjob'); openPanel('Work', occupationMenu); paintTabs(); }, text: '💼 ' + st.headline }), st.fameTier && st.fameTier.index > 0 ? h('span', { class: 'fame-tag', 'data-el': 'fame-tier', role: 'link', onclick: (e) => { e.stopPropagation(); import('./fame.js').then((m) => openPanel('Use your fame', m.fameScreen)); }, text: `🌟 ${st.fameTier.name} · ${st.fameTier.fame}%` }) : null),
       h('button', { class: 'topbtn prem', 'data-el': 'store-link', 'aria-label': 'Premium store', onclick: () => openPanel('Premium', storeScreen) }, '⭐'),
       h('button', { class: 'topbtn', 'data-el': 'settings-link', 'aria-label': 'Settings', onclick: () => openPanel('Settings', settingsScreen) }, '⚙️'),
-      h('div', { class: 'bank' }, h('b', { class: st.cash < 0 ? 'neg' : '', 'data-el': 'cash', text: money(st.cash, true) }), h('small', { text: 'Bank Balance' })));
+      h('div', { class: 'bank' }, h('b', { class: st.cash < 0 ? 'neg' : '', 'data-el': 'cash', text: money(st.cash, true) }), h('small', { 'data-el': 'cash-label', text: 'Cash in bank' })));
     agebar.replaceChildren(h('span', { text: `Age: ${st.age} · ${st.stage}` }), h('span', { text: st.education.inSchool ? '🎓 ' + st.education.label : st.alive ? `Net worth ${money(st.netWorth, true)}` : '🪦 Deceased' }));
     stats.replaceChildren(...store.cfg.stats.map(s => bar(s.label, st.stats[s.key] ?? 0, { icon: s.icon, key: s.key })));
     ageBtn.querySelector('small').textContent = 'Age ' + st.age;
@@ -82,15 +82,16 @@ export function mountHub(root) {
       break;
     }
     const r = await adapter.resolveEvent(ev.id, i);
+    if (r && r.openPicker) setTimeout(async () => { const x = await import('./extra.js'); openPanel('Passions', x.passionsScreen); }, 0);
     document.dispatchEvent(new CustomEvent('journal', { detail: r.entries || [] }));
     await refreshState();
     if (r.event) await showEvent(r.event);
   }
   async function showDeath(d) {
-    const A = Art(); sfx('death'); if (A) A.fx.deathFade(store.root);
+    const A = Art(); sfx('death'); if (A) A.fx.deathFade(store.root.querySelector('.hub') || store.root); // fade the life behind, never the death sheet itself
     const stone = h('div', { class: 'stone' });
-    if (A) stone.innerHTML = A.renderTombstone({ name: d.name, born: d.born, died: d.died, age: d.age, epitaph: d.epitaph, cause: d.cause, netWorth: d.netWorth, style: ['classic', 'round', 'cross', 'obelisk'][d.age % 4], avatar: { seed: store.state.id, gender: (d.gender || 'M').toLowerCase(), age: d.age, dead: true }, ribbons: d.ribbon ? [{ id: d.ribbon, title: d.ribbon, tier: 'gold', icon: d.ribbonIcon }] : [] }); else stone.textContent = '🪦';
-    const body = h('div', { class: 'death' }, stone, h('p', { text: `${d.name} died at age ${d.age} of ${String(d.cause).toLowerCase()}.` }), h('p', { text: `Last occupation: ${d.headline} · Net worth ${money(d.netWorth)}` }), d.obituary ? h('p', { class: 'hint', text: d.obituary }) : null, d.creatorUsed ? h('p', { class: 'hint', 'data-el': 'creator-flag', text: '🛠️ The Creator was used in this life (no challenges / leaderboards).' }) : null);
+    if (A) stone.innerHTML = A.renderTombstone({ name: d.name, born: d.born, died: d.died, age: d.age, epitaph: d.epitaph, cause: d.cause, netWorth: null, style: ['classic', 'round', 'cross', 'obelisk'][d.age % 4], avatar: { seed: store.state.id, gender: (d.gender || 'M').toLowerCase(), age: d.age, dead: true }, ribbons: (d.topAward || d.ribbon) ? [{ id: d.ribbonId || 'award', title: d.topAward || d.ribbon, tier: 'gold', icon: (A.iconData && A.iconData.ribbon && A.iconData.ribbon[d.ribbonId]) ? 'ribbon.' + d.ribbonId : d.topAward ? 'career.athlete' : 'ribbon.' + (Object.keys((A.iconData && A.iconData.ribbon) || {})[0] || 'x') }] : [] }); else stone.textContent = '🪦';
+    const body = h('div', { class: 'death' }, stone, h('p', { text: `${d.name} died at age ${d.age} of ${String(d.cause).toLowerCase()}.` }), h('p', { 'data-el': 'death-head', style: { overflowWrap: 'anywhere', fontWeight: 700 }, text: `${d.headline} · Net worth ${money(d.netWorth, true)}` }), h('p', { class: 'hint', 'data-el': 'death-nw', style: { overflowWrap: 'anywhere' }, text: `Net worth ${money(d.netWorth)}${d.topAward ? ' · ' + d.topAward : ''}` }), d.obituary ? h('p', { class: 'hint', text: d.obituary }) : null, d.creatorUsed ? h('p', { class: 'hint', 'data-el': 'creator-flag', text: '🛠️ The Creator was used in this life (no challenges / leaderboards).' }) : null);
     store.root.querySelectorAll('.overlay').forEach((o) => o.remove()); // never stack a second death/obit sheet
     const r = await sheet({ title: 'Rest in peace', body, center: true, dismissable: false, buttons: [{ id: 'legacy', label: 'Family Legacy', cls: 'alt' }, { id: 'new', label: d.canContinue ? 'Play an heir' : 'New Life', cls: 'go' }] });
     clearDeathFx();
@@ -99,7 +100,7 @@ export function mountHub(root) {
     else { await newLife(); }
   }
   // the death fade class and any orphan sheet backdrops must go once the death sheet resolves / a new life starts
-  function clearDeathFx() { store.root.classList.remove('ls-death-fade'); document.body.classList.remove('ls-death-fade'); store.root.querySelectorAll('.overlay').forEach((o) => o.remove()); }
+  function clearDeathFx() { store.root.classList.remove('ls-death-fade'); store.root.querySelectorAll('.ls-death-fade').forEach((e) => e.classList.remove('ls-death-fade')); document.body.classList.remove('ls-death-fade'); store.root.querySelectorAll('.overlay').forEach((o) => o.remove()); }
   window.__clearDeathFx = clearDeathFx;
   async function newLife() { clearDeathFx(); closeAll(); const { runStart } = await import('./start.js'); const st = await adapter.getStartState(); await runStart('create', { slot: st.slot || 1, cancelable: false }); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
   async function resetHub() { clearDeathFx(); closeAll(); journal.replaceChildren(); lastA = -1; await refreshState(); addEntries(await adapter.getJournal(), false); }
