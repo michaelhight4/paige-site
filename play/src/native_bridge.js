@@ -67,7 +67,7 @@ export const billing = {
     const r = await plug('LifelineBilling').restore(); if (!r.ok) return r; // offline / Play unavailable: keep local flags
     const own = new Set(r.passes || []);
     if (own.has(TESTER_PACK_ID)) TESTER_PACK_PASSES.forEach((id) => own.add(id)); // promo-code pack -> all current passes
-    for (const p of Premium.passes()) if (Premium.passDef(p.id) && Premium.owned(p.id) !== own.has(p.id)) (Premium.owned(p.id) !== own.has(p.id)) Premium.setOwned(p.id, own.has(p.id));
+  for (const p of Premium.passes()) if (Premium.passDef(p.id) && Premium.owned(p.id) !== own.has(p.id)) Premium.setOwned(p.id, own.has(p.id));
     const sub = (r.subs || []).find((s) => s.id === SUB_ID());
     let plan = 'monthly'; try { plan = localStorage.getItem(PLAN_KEY) || plan; } catch (e) { /* */ }
     Premium.setSubscription(sub ? plan : null); // re-synced every launch, so the local 'until' is only a cache
