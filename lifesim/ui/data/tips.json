@@ -1,0 +1,32 @@
+[
+ {
+  "id": "age",
+  "text": "Tap the big AGE button to live another year. Quiet years just scroll by; only big moments pop up.",
+  "minAge": 0
+ },
+ {
+  "id": "tabs",
+  "text": "The bottom bar: Life, Skills, Assets, Work, Social and More. More lists every screen and has a search box.",
+  "minAge": 1
+ },
+ {
+  "id": "new",
+  "text": "A red New badge marks something you just unlocked by growing up.",
+  "minAge": 5
+ },
+ {
+  "id": "passion",
+  "text": "Pick a Passion in Skills. It trains matching skills faster and brings related events.",
+  "minAge": 6
+ },
+ {
+  "id": "school",
+  "text": "Grades, clubs, sports and service in high school can win scholarships. Check Work > Scholarships.",
+  "minAge": 15
+ },
+ {
+  "id": "money",
+  "text": "At 18 you can open Businesses, invest, shop for cars and homes, and take out loans.",
+  "minAge": 18
+ }
+]

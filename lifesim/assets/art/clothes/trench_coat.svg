@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="trench_coat" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="70" ry="8" data-slot="shadow" id="trench_coat-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M88 34L128 52L168 34L226 86L210 170L180 154V236H76V154L46 170L30 86Z" data-slot="fabric" id="trench_coat-fabric-2" fill="#c8a46b" style="fill:var(--slot-fabric,#c8a46b)"/>
+<polygon points="88,34 128,100 112,62" data-slot="trim" id="trench_coat-trim-3" fill="#b38a4e" style="fill:var(--slot-trim,#b38a4e)" stroke-width="2.5"/>
+<polygon points="168,34 128,100 144,62" data-slot="trim" id="trench_coat-trim-4" fill="#b38a4e" style="fill:var(--slot-trim,#b38a4e)" stroke-width="2.5"/>
+<path d="M128 100V236" fill="none" stroke-width="2"/>
+<circle cx="112" cy="120" r="4.5" data-slot="metal" id="trench_coat-metal-5" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="144" cy="120" r="4.5" data-slot="metal" id="trench_coat-metal-6" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="112" cy="150" r="4.5" data-slot="metal" id="trench_coat-metal-7" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="144" cy="150" r="4.5" data-slot="metal" id="trench_coat-metal-8" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="112" cy="180" r="4.5" data-slot="metal" id="trench_coat-metal-9" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<circle cx="144" cy="180" r="4.5" data-slot="metal" id="trench_coat-metal-10" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<rect x="78" y="154" width="100" height="14" rx="4" data-slot="accent" id="trench_coat-accent-11" fill="#8a6a3a" style="fill:var(--slot-accent,#8a6a3a)" stroke-width="2.5"/>
+<rect x="120" y="153" width="16" height="16" rx="3" data-slot="metal" id="trench_coat-metal-12" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<path d="M76 90L100 80L100 110L76 120Z" data-slot="accent" id="trench_coat-accent-13" fill="#8a6a3a" style="fill:var(--slot-accent,#8a6a3a)" stroke-width="2"/>
+</g>
+</svg>

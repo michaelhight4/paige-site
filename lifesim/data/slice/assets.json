@@ -1,0 +1,3608 @@
+{
+ "meta": {
+  "generated_by": "tools/build_assets.py",
+  "research": "lifesim_research/data/assets_pricing.json (K values = design suggestions)"
+ },
+ "pricing": {
+  "condition_curve": [
+   [
+    0,
+    0.15
+   ],
+   [
+    20,
+    0.32
+   ],
+   [
+    40,
+    0.55
+   ],
+   [
+    60,
+    0.78
+   ],
+   [
+    80,
+    1.0
+   ],
+   [
+    100,
+    1.2
+   ]
+  ],
+  "rarity_premium": {
+   "cond_floor": 40,
+   "exponent": 2
+  },
+  "classic": {
+   "min_age": 25,
+   "floor": 0.35,
+   "appr_per_year": 0.025,
+   "max_age_gain": 40
+  },
+  "categories": {
+   "property": {
+    "name": "Property",
+    "icon": "🏠",
+    "appreciation": 0.03,
+    "cond_effect": 0.02,
+    "cond_decay": [
+     1,
+     4
+    ],
+    "upkeep_pct": 0.012,
+    "upkeep_age_pct": 0.00015,
+    "sell_factor": 0.97,
+    "max_owned": 20,
+    "min_age": 18
+   },
+   "car": {
+    "name": "Car",
+    "icon": "🚗",
+    "depr": 0.11,
+    "depr_cap_years": 14,
+    "cond_decay": [
+     3,
+     8
+    ],
+    "upkeep_pct": 0.04,
+    "sell_factor": 0.88,
+    "max_owned": 20,
+    "min_age": 18,
+    "scrap_value": 400,
+    "license": "drivers"
+   },
+   "jewelry": {
+    "name": "Jewelry",
+    "icon": "💍",
+    "depr": 0.03,
+    "depr_cap_years": 20,
+    "cond_decay": [
+     0,
+     2
+    ],
+    "upkeep_pct": 0,
+    "sell_factor": 0.6,
+    "max_owned": 40,
+    "min_age": 18
+   },
+   "aircraft": {
+    "name": "Aircraft",
+    "icon": "✈️",
+    "depr": 0.06,
+    "depr_cap_years": 25,
+    "cond_decay": [
+     1,
+     4
+    ],
+    "upkeep_pct": 0.06,
+    "sell_factor": 0.88,
+    "max_owned": 10,
+    "min_age": 18,
+    "license": "pilot"
+   },
+   "boat": {
+    "name": "Boat",
+    "icon": "⛵",
+    "depr": 0.07,
+    "depr_cap_years": 20,
+    "cond_decay": [
+     2,
+     5
+    ],
+    "upkeep_pct": 0.05,
+    "sell_factor": 0.85,
+    "max_owned": 10,
+    "min_age": 18,
+    "license": "boating"
+   },
+   "instrument": {
+    "name": "Instrument",
+    "icon": "🎻",
+    "depr": 0.04,
+    "depr_cap_years": 20,
+    "cond_decay": [
+     0,
+     2
+    ],
+    "upkeep_pct": 0,
+    "sell_factor": 0.7,
+    "max_owned": 20,
+    "min_age": 0
+   },
+   "luxury": {
+    "name": "Luxury Goods",
+    "icon": "💎",
+    "depr": 0.02,
+    "depr_cap_years": 20,
+    "cond_decay": [
+     0,
+     1
+    ],
+    "upkeep_pct": 0,
+    "sell_factor": 0.75,
+    "max_owned": 50,
+    "min_age": 18
+   },
+   "clothing": {
+    "name": "Clothing",
+    "icon": "👕",
+    "depr": 0.25,
+    "depr_cap_years": 6,
+    "cond_decay": [
+     4,
+     10
+    ],
+    "upkeep_pct": 0,
+    "sell_factor": 0.35,
+    "max_owned": 60,
+    "min_age": 0
+   },
+   "gear": {
+    "name": "Creator gear",
+    "icon": "🎥",
+    "depr": 0.05,
+    "depr_cap_years": 15,
+    "cond_decay": [
+     0,
+     1
+    ],
+    "upkeep_pct": 0,
+    "sell_factor": 0.6,
+    "max_owned": 30,
+    "min_age": 13
+   }
+  },
+  "loans": {
+   "property": {
+    "down_pct": 0.2,
+    "rate": 0.065,
+    "term": 30
+   },
+   "car": {
+    "down_pct": 0.1,
+    "rate": 0.075,
+    "term": 6
+   },
+   "aircraft": {
+    "down_pct": 0.25,
+    "rate": 0.08,
+    "term": 15
+   },
+   "boat": {
+    "down_pct": 0.2,
+    "rate": 0.08,
+    "term": 12
+   }
+  },
+  "amenities": [
+   {
+    "name": "Sauna",
+    "value_uplift_pct": 5,
+    "price_min": 7500,
+    "price_max": 10200
+   },
+   {
+    "name": "Swimming Pool",
+    "value_uplift_pct": 4,
+    "price_min": 47700,
+    "price_max": 58300
+   },
+   {
+    "name": "Patio",
+    "value_uplift_pct": 4,
+    "price_min": 13100,
+    "price_max": 16500
+   },
+   {
+    "name": "Observatory",
+    "value_uplift_pct": 3.5,
+    "price_min": 39300,
+    "price_max": 49000
+   },
+   {
+    "name": "Cryo Chamber",
+    "value_uplift_pct": 3,
+    "price_min": 31100,
+    "price_max": 38200
+   },
+   {
+    "name": "Infinity Pool",
+    "value_uplift_pct": 3,
+    "price_min": 100600,
+    "price_max": 122800
+   },
+   {
+    "name": "Panic Room",
+    "value_uplift_pct": 2,
+    "price_min": 25100,
+    "price_max": 32100
+   },
+   {
+    "name": "Housekeeping Robot",
+    "value_uplift_pct": 1.5,
+    "price_min": 109900,
+    "price_max": 122000
+   },
+   {
+    "name": "Pottery Studio",
+    "value_uplift_pct": 1,
+    "price_min": 42800,
+    "price_max": 56500
+   },
+   {
+    "name": "Adult Playroom",
+    "value_uplift_pct": 1,
+    "price_min": 22200,
+    "price_max": 27500
+   },
+   {
+    "name": "Sweat Lodge",
+    "value_uplift_pct": 1,
+    "price_min": 38100,
+    "price_max": 50300
+   },
+   {
+    "name": "Gym",
+    "value_uplift_pct": 1,
+    "price_min": 12900,
+    "price_max": 16400
+   },
+   {
+    "name": "Panoramic Reading Room",
+    "value_uplift_pct": 1,
+    "price_min": 37200,
+    "price_max": 44500
+   },
+   {
+    "name": "Yoga Studio",
+    "value_uplift_pct": 1,
+    "price_min": 27600,
+    "price_max": 33300
+   },
+   {
+    "name": "Hot Tub",
+    "value_uplift_pct": 0.6,
+    "price_min": 6600,
+    "price_max": 8800
+   },
+   {
+    "name": "Cocktail Bar",
+    "value_uplift_pct": 0.5,
+    "price_min": 14200,
+    "price_max": 18100
+   },
+   {
+    "name": "Photography Darkroom",
+    "value_uplift_pct": 0.5,
+    "price_min": 20000,
+    "price_max": 28500
+   },
+   {
+    "name": "Outhouse",
+    "value_uplift_pct": 0.5,
+    "price_min": 4200,
+    "price_max": 5300
+   },
+   {
+    "name": "Koi Pond",
+    "value_uplift_pct": 0.3,
+    "price_min": 10000,
+    "price_max": 12900
+   },
+   {
+    "name": "Game Room",
+    "value_uplift_pct": 0.25,
+    "price_min": 10000,
+    "price_max": 12300
+   },
+   {
+    "name": "Selfie Studio",
+    "value_uplift_pct": 0.15,
+    "price_min": 6200,
+    "price_max": 6800
+   },
+   {
+    "name": "Fire Pit",
+    "value_uplift_pct": 0.1,
+    "price_min": 2500,
+    "price_max": 3100
+   },
+   {
+    "name": "Tetherball Court",
+    "value_uplift_pct": 0.1,
+    "price_min": 1700,
+    "price_max": 2200
+   }
+  ],
+  "research_note": "condition curve, depreciation and appreciation rates are K (design suggestions) per assets_pricing.json gaps."
+ },
+ "catalogs": {
+  "property": [
+   {
+    "id": "trailer",
+    "name": "Trailer Home",
+    "base": 38000,
+    "age": [
+     5,
+     40
+    ],
+    "cond": [
+     15,
+     70
+    ],
+    "beds": 2,
+    "baths": 1,
+    "sqft": 700,
+    "acres": 0.1
+   },
+   {
+    "id": "studio",
+    "name": "Studio Flat",
+    "base": 95000,
+    "age": [
+     3,
+     60
+    ],
+    "cond": [
+     25,
+     90
+    ],
+    "beds": 1,
+    "baths": 1,
+    "sqft": 450,
+    "acres": 0
+   },
+   {
+    "id": "bungalow",
+    "name": "Starter Bungalow",
+    "base": 160000,
+    "age": [
+     10,
+     70
+    ],
+    "cond": [
+     20,
+     90
+    ],
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1100,
+    "acres": 0.2
+   },
+   {
+    "id": "cabin",
+    "name": "Lakeside Cabin",
+    "base": 220000,
+    "age": [
+     5,
+     60
+    ],
+    "cond": [
+     20,
+     85
+    ],
+    "beds": 2,
+    "baths": 1,
+    "sqft": 900,
+    "acres": 1.5
+   },
+   {
+    "id": "family",
+    "name": "Suburban Family Home",
+    "base": 280000,
+    "age": [
+     2,
+     50
+    ],
+    "cond": [
+     30,
+     95
+    ],
+    "beds": 3,
+    "baths": 2,
+    "sqft": 1900,
+    "acres": 0.3
+   },
+   {
+    "id": "townhouse",
+    "name": "Townhouse",
+    "base": 340000,
+    "age": [
+     2,
+     40
+    ],
+    "cond": [
+     40,
+     95
+    ],
+    "beds": 3,
+    "baths": 2,
+    "sqft": 1600,
+    "acres": 0.05
+   },
+   {
+    "id": "farmhouse",
+    "name": "Farmhouse",
+    "base": 380000,
+    "age": [
+     20,
+     100
+    ],
+    "cond": [
+     15,
+     80
+    ],
+    "beds": 4,
+    "baths": 2,
+    "sqft": 2400,
+    "acres": 20
+   },
+   {
+    "id": "condo",
+    "name": "Downtown Condo",
+    "base": 420000,
+    "age": [
+     1,
+     30
+    ],
+    "cond": [
+     50,
+     100
+    ],
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1200,
+    "acres": 0
+   },
+   {
+    "id": "colonial",
+    "name": "Colonial Estate",
+    "base": 520000,
+    "age": [
+     10,
+     120
+    ],
+    "cond": [
+     30,
+     95
+    ],
+    "beds": 5,
+    "baths": 3,
+    "sqft": 3400,
+    "acres": 1
+   },
+   {
+    "id": "haunted",
+    "name": "Haunted Victorian",
+    "base": 310000,
+    "age": [
+     100,
+     160
+    ],
+    "cond": [
+     10,
+     50
+    ],
+    "beds": 6,
+    "baths": 3,
+    "sqft": 3800,
+    "acres": 0.8,
+    "haunted": true,
+    "value_mult": 0.7
+   },
+   {
+    "id": "beach",
+    "name": "Beach House",
+    "base": 900000,
+    "age": [
+     2,
+     40
+    ],
+    "cond": [
+     40,
+     98
+    ],
+    "beds": 4,
+    "baths": 3,
+    "sqft": 2600,
+    "acres": 0.4
+   },
+   {
+    "id": "penthouse",
+    "name": "Skyline Penthouse",
+    "base": 2100000,
+    "age": [
+     1,
+     25
+    ],
+    "cond": [
+     60,
+     100
+    ],
+    "beds": 3,
+    "baths": 3,
+    "sqft": 3000,
+    "acres": 0
+   },
+   {
+    "id": "villa",
+    "name": "Modern Villa",
+    "base": 3200000,
+    "age": [
+     1,
+     15
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "beds": 6,
+    "baths": 6,
+    "sqft": 7000,
+    "acres": 2
+   },
+   {
+    "id": "ranch",
+    "name": "Ranch Acreage",
+    "base": 4500000,
+    "age": [
+     5,
+     80
+    ],
+    "cond": [
+     40,
+     95
+    ],
+    "beds": 5,
+    "baths": 4,
+    "sqft": 5200,
+    "acres": 400
+   },
+   {
+    "id": "mansion",
+    "name": "Grand Mansion",
+    "base": 8000000,
+    "age": [
+     1,
+     90
+    ],
+    "cond": [
+     50,
+     100
+    ],
+    "beds": 12,
+    "baths": 10,
+    "sqft": 16000,
+    "acres": 10
+   },
+   {
+    "id": "castle",
+    "name": "Hilltop Castle",
+    "base": 14000000,
+    "age": [
+     200,
+     600
+    ],
+    "cond": [
+     20,
+     80
+    ],
+    "beds": 22,
+    "baths": 14,
+    "sqft": 40000,
+    "acres": 60,
+    "rarity": 2.0
+   }
+  ],
+  "car": [
+   {
+    "id": "pip",
+    "name": "Pip Hatchback",
+    "base": 20000,
+    "age": [
+     0,
+     15
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "perf": 30,
+    "cls": "economy"
+   },
+   {
+    "id": "zephyr",
+    "name": "Zephyr Compact",
+    "base": 24000,
+    "age": [
+     0,
+     15
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "perf": 35,
+    "cls": "economy"
+   },
+   {
+    "id": "marlow",
+    "name": "Marlow Sedan",
+    "base": 32000,
+    "age": [
+     0,
+     15
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "perf": 45,
+    "cls": "sedan"
+   },
+   {
+    "id": "trailhand",
+    "name": "Trailhand Pickup",
+    "base": 42000,
+    "age": [
+     0,
+     15
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "perf": 40,
+    "cls": "truck"
+   },
+   {
+    "id": "ridge",
+    "name": "Ridgeline SUV",
+    "base": 48000,
+    "age": [
+     0,
+     15
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "perf": 45,
+    "cls": "suv"
+   },
+   {
+    "id": "voltaire",
+    "name": "Voltaire EV",
+    "base": 55000,
+    "age": [
+     0,
+     8
+    ],
+    "cond": [
+     50,
+     100
+    ],
+    "perf": 55,
+    "cls": "electric"
+   },
+   {
+    "id": "aurelian",
+    "name": "Aurelian Saloon",
+    "base": 95000,
+    "age": [
+     0,
+     12
+    ],
+    "cond": [
+     45,
+     100
+    ],
+    "perf": 60,
+    "cls": "luxury"
+   },
+   {
+    "id": "bellmont",
+    "name": "Bellmont Coupe",
+    "base": 140000,
+    "age": [
+     0,
+     12
+    ],
+    "cond": [
+     45,
+     100
+    ],
+    "perf": 70,
+    "cls": "luxury"
+   },
+   {
+    "id": "falcon",
+    "name": "Falcon GT",
+    "base": 110000,
+    "age": [
+     0,
+     10
+    ],
+    "cond": [
+     45,
+     100
+    ],
+    "perf": 80,
+    "cls": "sport"
+   },
+   {
+    "id": "stratos",
+    "name": "Stratos R",
+    "base": 190000,
+    "age": [
+     0,
+     10
+    ],
+    "cond": [
+     45,
+     100
+    ],
+    "perf": 85,
+    "cls": "sport"
+   },
+   {
+    "id": "lumen",
+    "name": "Lumen Vortex",
+    "base": 320000,
+    "age": [
+     0,
+     8
+    ],
+    "cond": [
+     55,
+     100
+    ],
+    "perf": 92,
+    "cls": "supercar"
+   },
+   {
+    "id": "nova",
+    "name": "Apex Nova Hypercar",
+    "base": 1800000,
+    "age": [
+     0,
+     5
+    ],
+    "cond": [
+     60,
+     100
+    ],
+    "perf": 100,
+    "cls": "hypercar",
+    "rarity": 1.5
+   },
+   {
+    "id": "stallion",
+    "name": "Marlow Stallion GT (1967)",
+    "base": 150000,
+    "age": [
+     55,
+     62
+    ],
+    "cond": [
+     3,
+     95
+    ],
+    "perf": 62,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 3.0
+   },
+   {
+    "id": "corsair",
+    "name": "Corsair Muscle (1970)",
+    "base": 120000,
+    "age": [
+     52,
+     58
+    ],
+    "cond": [
+     3,
+     95
+    ],
+    "perf": 66,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 2.5
+   },
+   {
+    "id": "ardent",
+    "name": "Ardent Tourer (1936)",
+    "base": 400000,
+    "age": [
+     85,
+     92
+    ],
+    "cond": [
+     3,
+     90
+    ],
+    "perf": 40,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 4.0
+   },
+   {
+    "id": "dellacroix",
+    "name": "Dellacroix Roadster (1957)",
+    "base": 220000,
+    "age": [
+     62,
+     68
+    ],
+    "cond": [
+     3,
+     90
+    ],
+    "perf": 58,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 3.5
+   },
+   {
+    "id": "silverwing",
+    "name": "Silverwing 300 (1955)",
+    "base": 900000,
+    "age": [
+     65,
+     72
+    ],
+    "cond": [
+     3,
+     85
+    ],
+    "perf": 70,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 5.0
+   },
+   {
+    "id": "beetle",
+    "name": "Bumble Bug (1962)",
+    "base": 30000,
+    "age": [
+     58,
+     64
+    ],
+    "cond": [
+     3,
+     95
+    ],
+    "perf": 25,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 1.8
+   }
+  ],
+  "car_wrecks": [
+   {
+    "id": "wreck_pip",
+    "name": "Wrecked Pip Hatchback",
+    "base": 20000,
+    "age": [
+     8,
+     23
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 30,
+    "cls": "economy",
+    "wreck": true
+   },
+   {
+    "id": "wreck_marlow",
+    "name": "Wrecked Marlow Sedan",
+    "base": 32000,
+    "age": [
+     8,
+     23
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 45,
+    "cls": "sedan",
+    "wreck": true
+   },
+   {
+    "id": "wreck_trailhand",
+    "name": "Wrecked Trailhand Pickup",
+    "base": 42000,
+    "age": [
+     8,
+     23
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 40,
+    "cls": "truck",
+    "wreck": true
+   },
+   {
+    "id": "wreck_bellmont",
+    "name": "Wrecked Bellmont Coupe",
+    "base": 140000,
+    "age": [
+     8,
+     20
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 70,
+    "cls": "luxury",
+    "wreck": true
+   },
+   {
+    "id": "wreck_falcon",
+    "name": "Wrecked Falcon GT",
+    "base": 110000,
+    "age": [
+     8,
+     18
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 80,
+    "cls": "sport",
+    "wreck": true
+   },
+   {
+    "id": "wreck_stallion",
+    "name": "Wrecked Marlow Stallion GT (1967)",
+    "base": 150000,
+    "age": [
+     55,
+     62
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 62,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 3.0,
+    "wreck": true
+   },
+   {
+    "id": "wreck_corsair",
+    "name": "Wrecked Corsair Muscle (1970)",
+    "base": 120000,
+    "age": [
+     52,
+     58
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 66,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 2.5,
+    "wreck": true
+   },
+   {
+    "id": "wreck_ardent",
+    "name": "Wrecked Ardent Tourer (1936)",
+    "base": 400000,
+    "age": [
+     85,
+     92
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 40,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 4.0,
+    "wreck": true
+   },
+   {
+    "id": "wreck_dellacroix",
+    "name": "Wrecked Dellacroix Roadster (1957)",
+    "base": 220000,
+    "age": [
+     62,
+     68
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 58,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 3.5,
+    "wreck": true
+   },
+   {
+    "id": "wreck_silverwing",
+    "name": "Wrecked Silverwing 300 (1955)",
+    "base": 900000,
+    "age": [
+     65,
+     72
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 70,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 5.0,
+    "wreck": true
+   },
+   {
+    "id": "wreck_beetle",
+    "name": "Wrecked Bumble Bug (1962)",
+    "base": 30000,
+    "age": [
+     58,
+     64
+    ],
+    "cond": [
+     2,
+     22
+    ],
+    "perf": 25,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 1.8,
+    "wreck": true
+   },
+   {
+    "id": "stallion",
+    "name": "Marlow Stallion GT (1967)",
+    "base": 150000,
+    "age": [
+     55,
+     62
+    ],
+    "cond": [
+     3,
+     95
+    ],
+    "perf": 62,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 3.0
+   },
+   {
+    "id": "corsair",
+    "name": "Corsair Muscle (1970)",
+    "base": 120000,
+    "age": [
+     52,
+     58
+    ],
+    "cond": [
+     3,
+     95
+    ],
+    "perf": 66,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 2.5
+   },
+   {
+    "id": "ardent",
+    "name": "Ardent Tourer (1936)",
+    "base": 400000,
+    "age": [
+     85,
+     92
+    ],
+    "cond": [
+     3,
+     90
+    ],
+    "perf": 40,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 4.0
+   },
+   {
+    "id": "dellacroix",
+    "name": "Dellacroix Roadster (1957)",
+    "base": 220000,
+    "age": [
+     62,
+     68
+    ],
+    "cond": [
+     3,
+     90
+    ],
+    "perf": 58,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 3.5
+   },
+   {
+    "id": "silverwing",
+    "name": "Silverwing 300 (1955)",
+    "base": 900000,
+    "age": [
+     65,
+     72
+    ],
+    "cond": [
+     3,
+     85
+    ],
+    "perf": 70,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 5.0
+   },
+   {
+    "id": "beetle",
+    "name": "Bumble Bug (1962)",
+    "base": 30000,
+    "age": [
+     58,
+     64
+    ],
+    "cond": [
+     3,
+     95
+    ],
+    "perf": 25,
+    "cls": "classic",
+    "classic": true,
+    "rarity": 1.8
+   }
+  ],
+  "jewelry": [
+   {
+    "id": "band",
+    "name": "Gold Band",
+    "base": 600,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "kind": "ring",
+    "carats": 0
+   },
+   {
+    "id": "solitaire_half",
+    "name": "Diamond Solitaire (0.5ct)",
+    "base": 4500,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "kind": "ring",
+    "carats": 0.5
+   },
+   {
+    "id": "solitaire_one",
+    "name": "Diamond Solitaire (1ct)",
+    "base": 9000,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "kind": "ring",
+    "carats": 1
+   },
+   {
+    "id": "solitaire_two",
+    "name": "Diamond Solitaire (2ct)",
+    "base": 28000,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     50,
+     100
+    ],
+    "kind": "ring",
+    "carats": 2
+   },
+   {
+    "id": "ruby_ring",
+    "name": "Ruby Ring",
+    "base": 22000,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     50,
+     100
+    ],
+    "kind": "ring",
+    "carats": 1.5
+   },
+   {
+    "id": "emerald_ear",
+    "name": "Emerald Earrings",
+    "base": 6000,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "kind": "earring",
+    "carats": 1
+   },
+   {
+    "id": "stud_ear",
+    "name": "Diamond Studs",
+    "base": 3800,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "kind": "earring",
+    "carats": 0.6
+   },
+   {
+    "id": "pearl_pend",
+    "name": "Pearl Pendant",
+    "base": 2500,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "kind": "pendant"
+   },
+   {
+    "id": "sapphire_pend",
+    "name": "Sapphire Pendant",
+    "base": 12000,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     50,
+     100
+    ],
+    "kind": "pendant"
+   },
+   {
+    "id": "charm",
+    "name": "Gold Charm Bracelet",
+    "base": 900,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     40,
+     100
+    ],
+    "kind": "charm"
+   },
+   {
+    "id": "tiara",
+    "name": "Heirloom Tiara",
+    "base": 250000,
+    "age": [
+     60,
+     120
+    ],
+    "cond": [
+     40,
+     90
+    ],
+    "kind": "pendant",
+    "rarity": 2.0
+   }
+  ],
+  "aircraft": [
+   {
+    "id": "glider",
+    "name": "Basic Glider",
+    "base": 25000,
+    "age": [
+     0,
+     25
+    ],
+    "cond": [
+     30,
+     100
+    ],
+    "perf": 0
+   },
+   {
+    "id": "ultralight",
+    "name": "Ultralight",
+    "base": 40000,
+    "age": [
+     0,
+     25
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "skylark",
+    "name": "Skylark Single-Prop",
+    "base": 180000,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "aerotwin",
+    "name": "Aerotwin Twin-Prop",
+    "base": 650000,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "heli",
+    "name": "Helicopter",
+    "base": 1200000,
+    "age": [
+     0,
+     25
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "turbo",
+    "name": "Turboprop",
+    "base": 2800000,
+    "age": [
+     0,
+     25
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "lightjet",
+    "name": "Light Jet",
+    "base": 6500000,
+    "age": [
+     0,
+     20
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "fighter",
+    "name": "Surplus Fighter Jet",
+    "base": 24000000,
+    "age": [
+     10,
+     40
+    ],
+    "cond": [
+     30,
+     90
+    ],
+    "rarity": 1.4
+   },
+   {
+    "id": "airliner",
+    "name": "Passenger Airliner",
+    "base": 90000000,
+    "age": [
+     5,
+     30
+    ],
+    "cond": [
+     40,
+     95
+    ]
+   }
+  ],
+  "boat": [
+   {
+    "id": "raft",
+    "name": "Inflatable Raft",
+    "base": 800,
+    "age": [
+     0,
+     10
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "paddle",
+    "name": "Paddle Boat",
+    "base": 2000,
+    "age": [
+     0,
+     15
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "dinghy",
+    "name": "Dinghy",
+    "base": 6000,
+    "age": [
+     0,
+     20
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "jetski",
+    "name": "Jet Ski",
+    "base": 14000,
+    "age": [
+     0,
+     12
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "fishing",
+    "name": "Fishing Boat",
+    "base": 55000,
+    "age": [
+     0,
+     25
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "sailboat",
+    "name": "Sailboat",
+    "base": 140000,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "speedboat",
+    "name": "Speedboat",
+    "base": 220000,
+    "age": [
+     0,
+     20
+    ],
+    "cond": [
+     30,
+     100
+    ]
+   },
+   {
+    "id": "tug",
+    "name": "Tugboat",
+    "base": 1400000,
+    "age": [
+     5,
+     40
+    ],
+    "cond": [
+     30,
+     90
+    ]
+   },
+   {
+    "id": "yacht",
+    "name": "Luxury Yacht",
+    "base": 3500000,
+    "age": [
+     0,
+     20
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "superyacht",
+    "name": "Superyacht",
+    "base": 28000000,
+    "age": [
+     0,
+     12
+    ],
+    "cond": [
+     50,
+     100
+    ]
+   }
+  ],
+  "instrument": [
+   {
+    "id": "kazoo",
+    "name": "Kazoo",
+    "base": 15,
+    "age": [
+     0,
+     5
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "harmonica",
+    "name": "Harmonica",
+    "base": 40,
+    "age": [
+     0,
+     10
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "recorder",
+    "name": "Recorder",
+    "base": 30,
+    "age": [
+     0,
+     10
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "ukulele",
+    "name": "Ukulele",
+    "base": 120,
+    "age": [
+     0,
+     10
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "guitar",
+    "name": "Acoustic Guitar",
+    "base": 450,
+    "age": [
+     0,
+     20
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "keyboard",
+    "name": "Keyboard",
+    "base": 700,
+    "age": [
+     0,
+     10
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "flute",
+    "name": "Flute",
+    "base": 900,
+    "age": [
+     0,
+     20
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "violin",
+    "name": "Violin",
+    "base": 1200,
+    "age": [
+     0,
+     40
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "trumpet",
+    "name": "Trumpet",
+    "base": 1500,
+    "age": [
+     0,
+     30
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "drums",
+    "name": "Drum Kit",
+    "base": 1800,
+    "age": [
+     0,
+     20
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "cello",
+    "name": "Cello",
+    "base": 4000,
+    "age": [
+     0,
+     40
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "piano",
+    "name": "Grand Piano",
+    "base": 38000,
+    "age": [
+     0,
+     60
+    ],
+    "cond": [
+     40,
+     100
+    ]
+   },
+   {
+    "id": "master_violin",
+    "name": "Cremona Master Violin (1710)",
+    "base": 1200000,
+    "age": [
+     290,
+     320
+    ],
+    "cond": [
+     50,
+     95
+    ],
+    "rarity": 4.0,
+    "classic": true
+   }
+  ],
+  "clothing": [
+   {
+    "id": "tshirt",
+    "name": "T-Shirt",
+    "base": 18,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "top"
+   },
+   {
+    "id": "hoodie",
+    "name": "Hoodie",
+    "base": 55,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "top"
+   },
+   {
+    "id": "sweater",
+    "name": "Sweater",
+    "base": 60,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "top"
+   },
+   {
+    "id": "jeans",
+    "name": "Jeans",
+    "base": 70,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "bottom"
+   },
+   {
+    "id": "shorts",
+    "name": "Shorts",
+    "base": 30,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "bottom"
+   },
+   {
+    "id": "skirt",
+    "name": "Skirt",
+    "base": 45,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "bottom"
+   },
+   {
+    "id": "sundress",
+    "name": "Sundress",
+    "base": 85,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "outfit"
+   },
+   {
+    "id": "dress_shirt",
+    "name": "Dress Shirt & Tie",
+    "base": 120,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "top"
+   },
+   {
+    "id": "blazer",
+    "name": "Blazer",
+    "base": 280,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "top"
+   },
+   {
+    "id": "evening_gown",
+    "name": "Evening Gown",
+    "base": 1400,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "outfit"
+   },
+   {
+    "id": "trench_coat",
+    "name": "Trench Coat",
+    "base": 420,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "coat"
+   },
+   {
+    "id": "puffer_coat",
+    "name": "Puffer Coat",
+    "base": 260,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "coat"
+   },
+   {
+    "id": "lab_coat",
+    "name": "Lab Coat",
+    "base": 60,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "uniform"
+   },
+   {
+    "id": "scrubs",
+    "name": "Scrubs",
+    "base": 45,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "uniform"
+   },
+   {
+    "id": "police_uniform",
+    "name": "Police Uniform",
+    "base": 130,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "uniform"
+   },
+   {
+    "id": "chef_coat",
+    "name": "Chef Coat",
+    "base": 70,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "uniform"
+   },
+   {
+    "id": "hard_hat",
+    "name": "Hard Hat",
+    "base": 35,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "hat"
+   },
+   {
+    "id": "grad_cap",
+    "name": "Graduation Cap",
+    "base": 40,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "hat"
+   },
+   {
+    "id": "sneakers",
+    "name": "Sneakers",
+    "base": 90,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "shoes"
+   },
+   {
+    "id": "heels",
+    "name": "Heels",
+    "base": 160,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "shoes"
+   },
+   {
+    "id": "boots",
+    "name": "Boots",
+    "base": 140,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "shoes"
+   },
+   {
+    "id": "baseball_cap",
+    "name": "Baseball Cap",
+    "base": 25,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "hat"
+   },
+   {
+    "id": "cowboy_hat",
+    "name": "Cowboy Hat",
+    "base": 120,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "hat"
+   },
+   {
+    "id": "top_hat",
+    "name": "Top Hat",
+    "base": 200,
+    "age": [
+     0,
+     3
+    ],
+    "cond": [
+     70,
+     100
+    ],
+    "kind": "hat"
+   }
+  ],
+  "gear": [
+   {
+    "id": "cam_1",
+    "name": "Starter camera",
+    "base": 180,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "cam"
+   },
+   {
+    "id": "cam_2",
+    "name": "Pro camera",
+    "base": 900,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "cam"
+   },
+   {
+    "id": "cam_3",
+    "name": "Studio camera",
+    "base": 4800,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "cam"
+   },
+   {
+    "id": "mic_1",
+    "name": "Starter microphone",
+    "base": 90,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "mic"
+   },
+   {
+    "id": "mic_2",
+    "name": "Pro microphone",
+    "base": 450,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "mic"
+   },
+   {
+    "id": "mic_3",
+    "name": "Studio microphone",
+    "base": 2400,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "mic"
+   },
+   {
+    "id": "light_1",
+    "name": "Starter lighting rig",
+    "base": 120,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "light"
+   },
+   {
+    "id": "light_2",
+    "name": "Pro lighting rig",
+    "base": 600,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "light"
+   },
+   {
+    "id": "light_3",
+    "name": "Studio lighting rig",
+    "base": 3200,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "light"
+   },
+   {
+    "id": "desk_1",
+    "name": "Starter desk & studio",
+    "base": 250,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "desk"
+   },
+   {
+    "id": "desk_2",
+    "name": "Pro desk & studio",
+    "base": 1400,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "desk"
+   },
+   {
+    "id": "desk_3",
+    "name": "Studio desk & studio",
+    "base": 7500,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "desk"
+   },
+   {
+    "id": "set_1",
+    "name": "Starter creator set",
+    "base": 900,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "set"
+   },
+   {
+    "id": "set_2",
+    "name": "Pro creator set",
+    "base": 5200,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "set"
+   },
+   {
+    "id": "set_3",
+    "name": "Studio creator set",
+    "base": 28000,
+    "age": [
+     0,
+     0
+    ],
+    "cond": [
+     96,
+     100
+    ],
+    "rarity": 1,
+    "kind": "set"
+   }
+  ]
+ },
+ "shops": [
+  {
+   "id": "re_hearth",
+   "name": "Hearth & Key Realty",
+   "category": "property",
+   "kind": "real_estate_broker",
+   "blurb": "Family homes, cabins and fixer-uppers.",
+   "catalog": "property",
+   "pick": [
+    "trailer",
+    "studio",
+    "bungalow",
+    "cabin",
+    "family",
+    "townhouse",
+    "farmhouse",
+    "condo",
+    "colonial",
+    "haunted"
+   ],
+   "count": 10,
+   "markup": [
+    1.0,
+    1.08
+   ]
+  },
+  {
+   "id": "re_pinnacle",
+   "name": "Pinnacle Estates",
+   "category": "property",
+   "kind": "real_estate_broker",
+   "blurb": "Luxury, land and landmarks.",
+   "catalog": "property",
+   "pick": [
+    "colonial",
+    "beach",
+    "penthouse",
+    "villa",
+    "ranch",
+    "mansion",
+    "castle",
+    "condo",
+    "haunted"
+   ],
+   "count": 10,
+   "markup": [
+    1.0,
+    1.12
+   ]
+  },
+  {
+   "id": "car_sunrise",
+   "name": "Sunrise Auto Mall",
+   "category": "car",
+   "kind": "car_dealer",
+   "blurb": "Late-model cars, great condition.",
+   "catalog": "car",
+   "pick": [
+    "pip",
+    "zephyr",
+    "marlow",
+    "trailhand",
+    "ridge",
+    "voltaire",
+    "aurelian",
+    "bellmont",
+    "falcon",
+    "stratos",
+    "lumen",
+    "nova"
+   ],
+   "count": 7,
+   "age": [
+    0,
+    3
+   ],
+   "cond": [
+    80,
+    100
+   ],
+   "markup": [
+    1.0,
+    1.1
+   ]
+  },
+  {
+   "id": "car_dependable",
+   "name": "Dependable Deals Used Cars",
+   "category": "car",
+   "kind": "car_dealer",
+   "blurb": "Pre-owned bargains. Mileage shows.",
+   "catalog": "car",
+   "pick": [
+    "pip",
+    "zephyr",
+    "marlow",
+    "trailhand",
+    "ridge",
+    "aurelian",
+    "falcon",
+    "bellmont"
+   ],
+   "count": 7,
+   "age": [
+    5,
+    16
+   ],
+   "cond": [
+    30,
+    78
+   ],
+   "markup": [
+    0.95,
+    1.05
+   ]
+  },
+  {
+   "id": "car_salvage",
+   "name": "Rust & Relic Salvage",
+   "category": "car",
+   "kind": "car_dealer",
+   "blurb": "Wrecks and forgotten classics. Restore them for profit.",
+   "catalog": "car_wrecks",
+   "count": 6,
+   "markup": [
+    0.9,
+    1.0
+   ]
+  },
+  {
+   "id": "jw_gilded",
+   "name": "Gilded Lily Fine Jewelry",
+   "category": "jewelry",
+   "kind": "jeweler",
+   "blurb": "Certified genuine stones.",
+   "catalog": "jewelry",
+   "count": 5,
+   "markup": [
+    1.05,
+    1.25
+   ]
+  },
+  {
+   "id": "jw_bazaar",
+   "name": "Sparkle Bazaar",
+   "category": "jewelry",
+   "kind": "jeweler",
+   "blurb": "Costume pieces. Looks real, is not.",
+   "catalog": "jewelry",
+   "fake": true,
+   "fake_price_mult": 0.04,
+   "count": 5,
+   "markup": [
+    1.0,
+    1.3
+   ],
+   "pick": [
+    "band",
+    "solitaire_half",
+    "solitaire_one",
+    "solitaire_two",
+    "ruby_ring",
+    "emerald_ear",
+    "stud_ear",
+    "pearl_pend",
+    "sapphire_pend",
+    "charm"
+   ]
+  },
+  {
+   "id": "air_skyward",
+   "name": "Skyward Aviation",
+   "category": "aircraft",
+   "kind": "aircraft_dealer",
+   "blurb": "Gliders to jets. Pilot license required.",
+   "catalog": "aircraft",
+   "count": 6,
+   "markup": [
+    1.0,
+    1.15
+   ],
+   "license": "pilot"
+  },
+  {
+   "id": "boat_harbor",
+   "name": "Harbor Point Marine",
+   "category": "boat",
+   "kind": "boat_dealer",
+   "blurb": "Rafts to superyachts. Boating license required.",
+   "catalog": "boat",
+   "count": 6,
+   "markup": [
+    1.0,
+    1.15
+   ],
+   "license": "boating"
+  },
+  {
+   "id": "inst_melody",
+   "name": "Melody Music Shop",
+   "category": "instrument",
+   "kind": "instrument_shop",
+   "blurb": "Kazoos to concert grands.",
+   "catalog": "instrument",
+   "count": 8,
+   "markup": [
+    1.0,
+    1.2
+   ]
+  },
+  {
+   "id": "cl_basics",
+   "name": "Threadbare Basics",
+   "category": "clothing",
+   "kind": "clothing_store",
+   "blurb": "Everyday tops and bottoms in any color.",
+   "catalog": "clothing",
+   "pick": [
+    "tshirt",
+    "hoodie",
+    "sweater",
+    "jeans",
+    "shorts",
+    "skirt",
+    "sundress"
+   ],
+   "count": 7,
+   "markup": [
+    1.0,
+    1.15
+   ]
+  },
+  {
+   "id": "cl_boutique",
+   "name": "Velvet Row Boutique",
+   "category": "clothing",
+   "kind": "clothing_store",
+   "blurb": "Formal wear, coats and gowns.",
+   "catalog": "clothing",
+   "pick": [
+    "dress_shirt",
+    "blazer",
+    "evening_gown",
+    "trench_coat",
+    "puffer_coat"
+   ],
+   "count": 5,
+   "markup": [
+    1.05,
+    1.4
+   ]
+  },
+  {
+   "id": "cl_work",
+   "name": "Workwear & Uniform Depot",
+   "category": "clothing",
+   "kind": "clothing_store",
+   "blurb": "Scrubs, lab coats, chef whites, hard hats.",
+   "catalog": "clothing",
+   "pick": [
+    "lab_coat",
+    "scrubs",
+    "police_uniform",
+    "chef_coat",
+    "hard_hat",
+    "grad_cap"
+   ],
+   "count": 6,
+   "markup": [
+    1.0,
+    1.1
+   ]
+  },
+  {
+   "id": "cl_acc",
+   "name": "Hats, Shoes & Accessories",
+   "category": "clothing",
+   "kind": "accessory_store",
+   "blurb": "Caps, hats, sneakers, heels and boots.",
+   "catalog": "clothing",
+   "pick": [
+    "sneakers",
+    "heels",
+    "boots",
+    "baseball_cap",
+    "cowboy_hat",
+    "top_hat"
+   ],
+   "count": 6,
+   "markup": [
+    1.0,
+    1.3
+   ]
+  },
+  {
+   "id": "gear_hub",
+   "name": "Creator Gear Hub",
+   "category": "gear",
+   "kind": "gear_store",
+   "blurb": "Cameras, mics, lighting, desks and full sets for streamers and podcasters.",
+   "catalog": "gear",
+   "count": 15,
+   "markup": [
+    1.0,
+    1.0
+   ],
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ]
+  }
+ ],
+ "restoration": {
+  "plans": {
+   "car": [
+    {
+     "id": "patch",
+     "name": "Patch-Up",
+     "desc": "Body filler, tyres, new fluids.",
+     "cond_gain": 15,
+     "parts_pct": 0.03,
+     "labor_pct": 0.02,
+     "months": 1
+    },
+    {
+     "id": "mechanical",
+     "name": "Mechanical Overhaul",
+     "desc": "Engine, brakes, suspension.",
+     "cond_gain": 30,
+     "parts_pct": 0.09,
+     "labor_pct": 0.06,
+     "months": 3
+    },
+    {
+     "id": "bodywork",
+     "name": "Full Bodywork & Paint",
+     "desc": "Strip, weld, respray, interior.",
+     "cond_gain": 45,
+     "parts_pct": 0.16,
+     "labor_pct": 0.12,
+     "months": 6
+    },
+    {
+     "id": "concours",
+     "name": "Concours Restoration",
+     "desc": "Period-correct everything. To 100.",
+     "cond_gain": 100,
+     "parts_pct": 0.3,
+     "labor_pct": 0.24,
+     "months": 12,
+     "min_cond_after": 98
+    }
+   ],
+   "property": [
+    {
+     "id": "repairs",
+     "name": "Basic Repairs",
+     "desc": "Roof patch, paint, plumbing.",
+     "cond_gain": 15,
+     "parts_pct": 0.02,
+     "labor_pct": 0.02,
+     "months": 1,
+     "upkeep_add": 0.0
+    },
+    {
+     "id": "renovation",
+     "name": "Renovation",
+     "desc": "Kitchen, baths, floors.",
+     "cond_gain": 35,
+     "parts_pct": 0.07,
+     "labor_pct": 0.05,
+     "months": 4,
+     "upkeep_add": 0.05
+    },
+    {
+     "id": "gut",
+     "name": "Full Gut Renovation",
+     "desc": "Down to the studs.",
+     "cond_gain": 100,
+     "parts_pct": 0.14,
+     "labor_pct": 0.1,
+     "months": 9,
+     "upkeep_add": 0.12,
+     "min_cond_after": 95
+    }
+   ],
+   "boat": [
+    {
+     "id": "refit",
+     "name": "Marine Refit",
+     "desc": "Hull, engine, interior.",
+     "cond_gain": 40,
+     "parts_pct": 0.08,
+     "labor_pct": 0.06,
+     "months": 4
+    }
+   ],
+   "aircraft": [
+    {
+     "id": "overhaul",
+     "name": "Airframe Overhaul",
+     "desc": "Certified overhaul.",
+     "cond_gain": 40,
+     "parts_pct": 0.1,
+     "labor_pct": 0.08,
+     "months": 5
+    }
+   ],
+   "instrument": [
+    {
+     "id": "tune",
+     "name": "Tune & Polish",
+     "desc": "Luthier service.",
+     "cond_gain": 25,
+     "parts_pct": 0.02,
+     "labor_pct": 0.03,
+     "months": 1
+    }
+   ]
+  },
+  "diy": {
+   "labor_mult": 0.0,
+   "months_mult": 2.0,
+   "fail_chance": 0.12,
+   "fail_loss_pct": 0.5,
+   "note": "Do it yourself: no labor cost, twice the time, 12% chance parts are wasted."
+  },
+  "rush": {
+   "cost_mult": 1.5,
+   "months_mult": 0.5
+  },
+  "max_projects": 3,
+  "cost_base": "ref_value",
+  "note": "Cost = plan % of ref_value (value at condition 80, no rarity premium). Same condition system for every category."
+ },
+ "investments": {
+  "types": [
+   {
+    "id": "bond",
+    "name": "Bonds",
+    "icon": "📜",
+    "blurb": "Steady coupons, low risk."
+   },
+   {
+    "id": "stock",
+    "name": "Stocks",
+    "icon": "📈",
+    "blurb": "Company shares."
+   },
+   {
+    "id": "fund",
+    "name": "Funds",
+    "icon": "🧺",
+    "blurb": "Diversified baskets."
+   },
+   {
+    "id": "penny",
+    "name": "Penny Stocks",
+    "icon": "🪙",
+    "blurb": "Cheap, wild, can go to zero."
+   },
+   {
+    "id": "crypto",
+    "name": "Crypto",
+    "icon": "🪪",
+    "blurb": "Extreme volatility."
+   }
+  ],
+  "items": [
+   {
+    "id": "bond_treasury",
+    "type": "bond",
+    "name": "Federal Treasury Bond",
+    "price": 1000,
+    "yield": 0.035,
+    "sigma": 0.01,
+    "mu": 0.0,
+    "min": 1
+   },
+   {
+    "id": "bond_corp",
+    "type": "bond",
+    "name": "Blue Chip Corporate Bond",
+    "price": 1000,
+    "yield": 0.05,
+    "sigma": 0.03,
+    "mu": 0.0,
+    "min": 1
+   },
+   {
+    "id": "bond_muni",
+    "type": "bond",
+    "name": "City Municipal Bond",
+    "price": 1000,
+    "yield": 0.03,
+    "sigma": 0.015,
+    "mu": 0.0,
+    "min": 1
+   },
+   {
+    "id": "stk_nimbus",
+    "type": "stock",
+    "name": "Nimbus Cloud Inc.",
+    "price": 180,
+    "mu": 0.11,
+    "sigma": 0.28,
+    "min": 1
+   },
+   {
+    "id": "stk_orchard",
+    "type": "stock",
+    "name": "Orchard Devices",
+    "price": 240,
+    "mu": 0.09,
+    "sigma": 0.22,
+    "min": 1
+   },
+   {
+    "id": "stk_ironworks",
+    "type": "stock",
+    "name": "Ironworks Heavy Industries",
+    "price": 62,
+    "mu": 0.06,
+    "sigma": 0.18,
+    "min": 1
+   },
+   {
+    "id": "stk_greenleaf",
+    "type": "stock",
+    "name": "Greenleaf Foods",
+    "price": 48,
+    "mu": 0.05,
+    "sigma": 0.12,
+    "min": 1
+   },
+   {
+    "id": "stk_voltix",
+    "type": "stock",
+    "name": "Voltix Motors",
+    "price": 95,
+    "mu": 0.12,
+    "sigma": 0.45,
+    "min": 1
+   },
+   {
+    "id": "stk_atlas",
+    "type": "stock",
+    "name": "Atlas Bank Holdings",
+    "price": 130,
+    "mu": 0.07,
+    "sigma": 0.2,
+    "min": 1
+   },
+   {
+    "id": "fund_index",
+    "type": "fund",
+    "name": "Total Market Index Fund",
+    "price": 100,
+    "mu": 0.08,
+    "sigma": 0.15,
+    "min": 1
+   },
+   {
+    "id": "fund_bond",
+    "type": "fund",
+    "name": "Aggregate Bond Fund",
+    "price": 100,
+    "mu": 0.03,
+    "sigma": 0.05,
+    "min": 1
+   },
+   {
+    "id": "fund_growth",
+    "type": "fund",
+    "name": "Aggressive Growth Fund",
+    "price": 100,
+    "mu": 0.11,
+    "sigma": 0.25,
+    "min": 1
+   },
+   {
+    "id": "fund_reit",
+    "type": "fund",
+    "name": "Real Estate REIT Fund",
+    "price": 100,
+    "mu": 0.07,
+    "sigma": 0.17,
+    "min": 1
+   },
+   {
+    "id": "pny_lumo",
+    "type": "penny",
+    "name": "Lumo Mining Co.",
+    "price": 0.42,
+    "mu": 0.0,
+    "sigma": 1.1,
+    "min": 100,
+    "bust": 0.12,
+    "moon": 0.08
+   },
+   {
+    "id": "pny_zing",
+    "type": "penny",
+    "name": "Zing Beverages",
+    "price": 0.15,
+    "mu": 0.0,
+    "sigma": 1.3,
+    "min": 100,
+    "bust": 0.18,
+    "moon": 0.1
+   },
+   {
+    "id": "pny_quark",
+    "type": "penny",
+    "name": "Quark Biotech",
+    "price": 0.88,
+    "mu": 0.0,
+    "sigma": 1.0,
+    "min": 100,
+    "bust": 0.1,
+    "moon": 0.07
+   },
+   {
+    "id": "pny_dusty",
+    "type": "penny",
+    "name": "Dusty Oil & Gas",
+    "price": 0.05,
+    "mu": 0.0,
+    "sigma": 1.5,
+    "min": 100,
+    "bust": 0.22,
+    "moon": 0.12
+   },
+   {
+    "id": "cry_bitcell",
+    "type": "crypto",
+    "name": "BitCell",
+    "price": 42000,
+    "mu": 0.15,
+    "sigma": 0.8,
+    "min": 0.001,
+    "decimals": 4
+   },
+   {
+    "id": "cry_ethos",
+    "type": "crypto",
+    "name": "Ethos",
+    "price": 2600,
+    "mu": 0.14,
+    "sigma": 0.9,
+    "min": 0.01,
+    "decimals": 3
+   },
+   {
+    "id": "cry_dogewood",
+    "type": "crypto",
+    "name": "Dogewood",
+    "price": 0.12,
+    "mu": 0.0,
+    "sigma": 1.6,
+    "min": 100,
+    "decimals": 0,
+    "bust": 0.1,
+    "moon": 0.1
+   },
+   {
+    "id": "cry_stablex",
+    "type": "crypto",
+    "name": "StableX",
+    "price": 1,
+    "mu": 0.0,
+    "sigma": 0.02,
+    "min": 10,
+    "decimals": 0
+   }
+  ]
+ },
+ "luxury": {
+  "experiences": [
+   {
+    "id": "spa",
+    "name": "Weekend Spa Retreat",
+    "cost": 1800,
+    "effects": {
+     "happiness": 8,
+     "looks": 2,
+     "health": 2
+    }
+   },
+   {
+    "id": "chef",
+    "name": "Private Chef for a Week",
+    "cost": 6500,
+    "effects": {
+     "happiness": 9
+    }
+   },
+   {
+    "id": "wardrobe",
+    "name": "Designer Wardrobe",
+    "cost": 14000,
+    "effects": {
+     "looks": 6,
+     "happiness": 4
+    }
+   },
+   {
+    "id": "cruise",
+    "name": "Luxury Cruise",
+    "cost": 22000,
+    "effects": {
+     "happiness": 12,
+     "health": 1
+    }
+   },
+   {
+    "id": "island",
+    "name": "Private Island Getaway",
+    "cost": 120000,
+    "effects": {
+     "happiness": 20,
+     "health": 3
+    }
+   },
+   {
+    "id": "space",
+    "name": "Orbital Flight Ticket",
+    "cost": 450000,
+    "effects": {
+     "happiness": 30
+    }
+   }
+  ],
+  "goods": [
+   {
+    "id": "watch",
+    "name": "Swiss-style Chronograph",
+    "cost": 18000,
+    "base": 18000,
+    "effects": {
+     "looks": 2
+    },
+    "rarity": 1.0
+   },
+   {
+    "id": "handbag",
+    "name": "Designer Handbag",
+    "cost": 5200,
+    "base": 5200,
+    "effects": {
+     "looks": 1
+    },
+    "rarity": 1.0
+   },
+   {
+    "id": "art",
+    "name": "Contemporary Painting",
+    "cost": 60000,
+    "base": 60000,
+    "effects": {
+     "happiness": 3
+    },
+    "rarity": 1.6
+   },
+   {
+    "id": "gold",
+    "name": "Gold Bullion Bar",
+    "cost": 70000,
+    "base": 70000,
+    "effects": {},
+    "rarity": 1.0,
+    "appreciates": 0.04
+   },
+   {
+    "id": "wine",
+    "name": "Vintage Wine Case",
+    "cost": 9000,
+    "base": 9000,
+    "effects": {
+     "happiness": 1
+    },
+    "rarity": 1.3,
+    "appreciates": 0.05
+   }
+  ]
+ },
+ "zoo": {
+  "setup_cost": 250000,
+  "enclosure_cost": 40000,
+  "enclosure_capacity": 4,
+  "ticket": 18,
+  "staff_per_animal": 1800,
+  "sell_factor": 0.6,
+  "species": [
+   {
+    "id": "meerkat",
+    "name": "Meerkat",
+    "price": 1800,
+    "upkeep": 500,
+    "visitors": 900,
+    "icon": "🦦"
+   },
+   {
+    "id": "flamingo",
+    "name": "Flamingo",
+    "price": 2500,
+    "upkeep": 600,
+    "visitors": 1100,
+    "icon": "🦩"
+   },
+   {
+    "id": "penguin",
+    "name": "Penguin",
+    "price": 6000,
+    "upkeep": 1500,
+    "visitors": 2200,
+    "icon": "🐧"
+   },
+   {
+    "id": "zebra",
+    "name": "Zebra",
+    "price": 9000,
+    "upkeep": 2800,
+    "visitors": 2600,
+    "icon": "🦓"
+   },
+   {
+    "id": "monkey",
+    "name": "Monkey",
+    "price": 7000,
+    "upkeep": 2000,
+    "visitors": 2400,
+    "icon": "🐒"
+   },
+   {
+    "id": "lion",
+    "name": "Lion",
+    "price": 22000,
+    "upkeep": 7000,
+    "visitors": 6500,
+    "icon": "🦁"
+   },
+   {
+    "id": "giraffe",
+    "name": "Giraffe",
+    "price": 30000,
+    "upkeep": 9000,
+    "visitors": 7500,
+    "icon": "🦒"
+   },
+   {
+    "id": "elephant",
+    "name": "Elephant",
+    "price": 60000,
+    "upkeep": 16000,
+    "visitors": 12000,
+    "icon": "🐘"
+   },
+   {
+    "id": "panda",
+    "name": "Giant Panda",
+    "price": 400000,
+    "upkeep": 60000,
+    "visitors": 60000,
+    "icon": "🐼",
+    "rare": true
+   }
+  ]
+ },
+ "race": {
+  "garage_slots": 4,
+  "garage_cost": 50000,
+  "field_size": 6,
+  "races": [
+   {
+    "id": "street",
+    "name": "Street Meet",
+    "entry": 500,
+    "purse": [
+     4000,
+     1500,
+     500
+    ],
+    "field_perf": [
+     25,
+     50
+    ],
+    "wear": [
+     1,
+     3
+    ],
+    "crash": 0.02,
+    "min_cond": 20
+   },
+   {
+    "id": "club",
+    "name": "Club Circuit",
+    "entry": 3000,
+    "purse": [
+     25000,
+     9000,
+     3000
+    ],
+    "field_perf": [
+     45,
+     70
+    ],
+    "wear": [
+     2,
+     5
+    ],
+    "crash": 0.04,
+    "min_cond": 35
+   },
+   {
+    "id": "national",
+    "name": "National Series",
+    "entry": 20000,
+    "purse": [
+     200000,
+     70000,
+     25000
+    ],
+    "field_perf": [
+     65,
+     88
+    ],
+    "wear": [
+     3,
+     7
+    ],
+    "crash": 0.06,
+    "min_cond": 50
+   },
+   {
+    "id": "grandprix",
+    "name": "Grand Prix Invitational",
+    "entry": 100000,
+    "purse": [
+     1500000,
+     500000,
+     150000
+    ],
+    "field_perf": [
+     85,
+     100
+    ],
+    "wear": [
+     4,
+     9
+    ],
+    "crash": 0.08,
+    "min_cond": 65
+   },
+   {
+    "id": "classic",
+    "name": "Concours Classic Rally",
+    "entry": 8000,
+    "purse": [
+     90000,
+     30000,
+     10000
+    ],
+    "field_perf": [
+     40,
+     66
+    ],
+    "wear": [
+     1,
+     3
+    ],
+    "crash": 0.02,
+    "min_cond": 50,
+    "classic_only": true
+   }
+  ],
+  "crash_loss": [
+   15,
+   35
+  ],
+  "tuning": [
+   {
+    "id": "tune1",
+    "name": "Stage 1 Tune",
+    "cost_pct": 0.05,
+    "perf_gain": 5,
+    "max_stage": 1
+   },
+   {
+    "id": "tune2",
+    "name": "Stage 2 Tune",
+    "cost_pct": 0.1,
+    "perf_gain": 8,
+    "max_stage": 2
+   },
+   {
+    "id": "tune3",
+    "name": "Stage 3 Tune",
+    "cost_pct": 0.2,
+    "perf_gain": 10,
+    "max_stage": 3
+   }
+  ]
+ },
+ "casino": {
+  "min_age": 18,
+  "name": "Gilded Spade Casino",
+  "tables": [
+   {
+    "id": "slots",
+    "merchant": "Lucky Lou",
+    "name": "Slot Machines",
+    "min_bet": 10,
+    "max_bet": 50000,
+    "win_p": 0.42,
+    "payout": 1.0,
+    "jackpot_p": 0.004,
+    "jackpot": 25,
+    "blurb": "Pull the lever."
+   },
+   {
+    "id": "blackjack",
+    "merchant": "Dealer Dana",
+    "name": "Blackjack Table",
+    "min_bet": 50,
+    "max_bet": 100000,
+    "win_p": 0.49,
+    "payout": 1.0,
+    "blurb": "Beat the dealer to 21."
+   },
+   {
+    "id": "roulette",
+    "merchant": "Madame Rouge",
+    "name": "Roulette Wheel",
+    "min_bet": 25,
+    "max_bet": 250000,
+    "win_p": 0.4865,
+    "payout": 1.0,
+    "blurb": "Red or black."
+   },
+   {
+    "id": "roulette_num",
+    "merchant": "Madame Rouge",
+    "name": "Roulette (Single Number)",
+    "min_bet": 25,
+    "max_bet": 50000,
+    "win_p": 0.027,
+    "payout": 35.0,
+    "blurb": "Pick one number."
+   },
+   {
+    "id": "dice",
+    "merchant": "Snake-Eyes Sam",
+    "name": "Dice Table",
+    "min_bet": 20,
+    "max_bet": 100000,
+    "win_p": 0.493,
+    "payout": 1.0,
+    "blurb": "Pass line."
+   },
+   {
+    "id": "poker",
+    "merchant": "The Professor",
+    "name": "High-Stakes Poker",
+    "min_bet": 1000,
+    "max_bet": 1000000,
+    "win_p": 0.47,
+    "payout": 1.0,
+    "skill_stat": "smarts",
+    "blurb": "Smarts tilt the odds."
+   }
+  ],
+  "smarts_bonus": 0.001,
+  "addiction_losses": 3
+ },
+ "auctions": {
+  "buyers_premium": 0.12,
+  "sellers_fee": 0.08,
+  "houses": [
+   {
+    "id": "au_vance",
+    "name": "Vance & Pell Estate Auctions",
+    "blurb": "Property and fine jewelry.",
+    "lots": [
+     [
+      "property",
+      6
+     ],
+     [
+      "jewelry",
+      3
+     ]
+    ],
+    "rival_range": [
+     0.7,
+     1.25
+    ],
+    "reserve_pct": [
+     0.55,
+     0.9
+    ]
+   },
+   {
+    "id": "au_concours",
+    "name": "Concours Classic Auctions",
+    "blurb": "Collector cars, aircraft, rarities.",
+    "lots": [
+     [
+      "car",
+      7
+     ],
+     [
+      "aircraft",
+      2
+     ]
+    ],
+    "rival_range": [
+     0.75,
+     1.35
+    ],
+    "reserve_pct": [
+     0.6,
+     0.95
+    ],
+    "classic_bias": true
+   },
+   {
+    "id": "au_gavel",
+    "name": "Gavel & Quill Fine Goods",
+    "blurb": "Instruments, boats and treasures.",
+    "lots": [
+     [
+      "instrument",
+      4
+     ],
+     [
+      "boat",
+      3
+     ],
+     [
+      "jewelry",
+      2
+     ]
+    ],
+    "rival_range": [
+     0.65,
+     1.2
+    ],
+    "reserve_pct": [
+     0.5,
+     0.85
+    ]
+   }
+  ],
+  "consign_range": [
+   0.85,
+   1.35
+  ]
+ },
+ "names": {
+  "streets": [
+   "Maple",
+   "Oak",
+   "Cedar",
+   "Birch",
+   "Harbor",
+   "Sunset",
+   "Willow",
+   "Lakeview",
+   "Highland",
+   "Pine",
+   "Elm",
+   "Riverside",
+   "Orchard",
+   "Meadow",
+   "Summit",
+   "Foxglove"
+  ],
+  "suffixes": [
+   "St",
+   "Ave",
+   "Rd",
+   "Ln",
+   "Dr",
+   "Ct",
+   "Way",
+   "Blvd"
+  ],
+  "cities": [
+   "Brookhaven",
+   "Port Alder",
+   "Stonebridge",
+   "Marrow Falls",
+   "Silver Pines"
+  ]
+ },
+ "belongings": [
+  {
+   "id": "property",
+   "name": "Properties",
+   "icon": "🏠"
+  },
+  {
+   "id": "car",
+   "name": "Cars",
+   "icon": "🚗"
+  },
+  {
+   "id": "jewelry",
+   "name": "Jewelry",
+   "icon": "💍"
+  },
+  {
+   "id": "aircraft",
+   "name": "Aircraft",
+   "icon": "✈️"
+  },
+  {
+   "id": "boat",
+   "name": "Boats",
+   "icon": "⛵"
+  },
+  {
+   "id": "instrument",
+   "name": "Instruments",
+   "icon": "🎻"
+  },
+  {
+   "id": "luxury",
+   "name": "Luxury Goods",
+   "icon": "💎"
+  }
+ ],
+ "licenses": [
+  {
+   "id": "drivers",
+   "name": "Driver's License",
+   "cost": 400
+  },
+  {
+   "id": "pilot",
+   "name": "Pilot License (40 flight hrs)",
+   "cost": 9000
+  },
+  {
+   "id": "boating",
+   "name": "Boating License",
+   "cost": 600
+  }
+ ],
+ "living": {
+  "annual_cost": 18000
+ }
+}

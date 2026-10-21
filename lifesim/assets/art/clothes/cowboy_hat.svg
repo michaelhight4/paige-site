@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="cowboy_hat" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="212" rx="100" ry="8" data-slot="shadow" id="cowboy_hat-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M70 150Q60 70 92 56Q112 76 128 70Q144 76 164 56Q196 70 186 150Z" data-slot="fabric" id="cowboy_hat-fabric-2" fill="#b67b3d" style="fill:var(--slot-fabric,#b67b3d)"/>
+<path d="M10 130Q40 170 128 168Q216 170 246 130Q226 164 186 150H70Q30 164 10 130Z" data-slot="fabric" id="cowboy_hat-fabric-3" fill="#b67b3d" style="fill:var(--slot-fabric,#b67b3d)" stroke-width="3"/>
+<path d="M10 130Q8 110 30 112Q52 140 70 150Q30 164 10 130Z" fill="none" fill-opacity="0" stroke="none"/>
+<rect x="70" y="134" width="116" height="16" rx="3" data-slot="accent" id="cowboy_hat-accent-4" fill="#4a2c17" style="fill:var(--slot-accent,#4a2c17)" stroke-width="2.5"/>
+<circle cx="128" cy="142" r="8" data-slot="metal" id="cowboy_hat-metal-5" fill="#e8c64a" style="fill:var(--slot-metal,#e8c64a)" stroke-width="2"/>
+<path d="M92 56Q112 76 128 70" fill="none" stroke-width="2"/>
+</g>
+</svg>

@@ -1,0 +1,509 @@
+{
+ "clubs": [
+  {
+   "id": "debate",
+   "name": "Debate Team",
+   "icon": "\ud83d\udde3\ufe0f",
+   "skills": {
+    "people": 1.2,
+    "confidence": 1,
+    "literacy": 0.6
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "chess",
+   "name": "Chess Club",
+   "icon": "\u265f\ufe0f",
+   "skills": {
+    "problem_solving": 1.2,
+    "focus": 1,
+    "memory": 0.6
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "band",
+   "name": "Band",
+   "icon": "\ud83c\udfba",
+   "skills": {
+    "creativity": 1.1,
+    "coordination": 0.8,
+    "discipline": 0.6
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "robotics",
+   "name": "Robotics Club",
+   "icon": "\ud83e\udd16",
+   "skills": {
+    "computer": 1.2,
+    "problem_solving": 1,
+    "math": 0.8
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "drama",
+   "name": "Drama Club",
+   "icon": "\ud83c\udfad",
+   "skills": {
+    "confidence": 1.2,
+    "creativity": 0.8,
+    "memory": 0.5
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "art",
+   "name": "Art Club",
+   "icon": "\ud83c\udfa8",
+   "skills": {
+    "creativity": 1.3,
+    "focus": 0.6
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "news",
+   "name": "School Newspaper",
+   "icon": "\ud83d\udcf0",
+   "skills": {
+    "literacy": 1.3,
+    "people": 0.7
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "gov",
+   "name": "Student Government",
+   "icon": "\ud83c\udfdb\ufe0f",
+   "skills": {
+    "leadership": 1.3,
+    "people": 0.8,
+    "maturity": 0.6
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "cook",
+   "name": "Cooking Club",
+   "icon": "\ud83c\udf73",
+   "skills": {
+    "cooking": 1.4,
+    "people": 0.4
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "service",
+   "name": "Service Corps",
+   "icon": "\ud83e\udd1d",
+   "skills": {
+    "empathy": 1.2,
+    "maturity": 0.8
+   },
+   "minAge": 11,
+   "maxAge": 22
+  }
+ ],
+ "maxClubs": 3,
+ "serviceHoursPerAct": [
+  30,
+  60
+ ],
+ "needCash": 9000,
+ "collegeTuition": 20000,
+ "maxActive": 2,
+ "windows": {
+  "high": {
+   "minAge": 16,
+   "maxAge": 19
+  },
+  "grad": {
+   "minAge": 21
+  }
+ },
+ "types": [
+  {
+   "id": "merit",
+   "name": "Merit Scholarship",
+   "kind": "academic",
+   "level": "college",
+   "pct": 0.5,
+   "years": 4,
+   "req": {
+    "gpa": 3.5
+   },
+   "desc": "Half tuition for strong grades."
+  },
+  {
+   "id": "valedictorian",
+   "name": "Valedictorian Full Ride",
+   "kind": "academic",
+   "level": "college",
+   "pct": 1.0,
+   "years": 4,
+   "req": {
+    "gpa": 3.85,
+    "awards": 1,
+    "clubs": 1
+   },
+   "desc": "Top grades plus an award and a club."
+  },
+  {
+   "id": "honors",
+   "name": "Honors Academy Grant",
+   "kind": "academic",
+   "level": "college",
+   "pct": 0.3,
+   "years": 4,
+   "req": {
+    "gpa": 3.2,
+    "clubs": 2
+   },
+   "desc": "Good grades and two clubs."
+  },
+  {
+   "id": "service",
+   "name": "Community Service Award",
+   "kind": "service",
+   "level": "college",
+   "pct": 0.3,
+   "years": 4,
+   "req": {
+    "service": 120
+   },
+   "desc": "120+ volunteer hours."
+  },
+  {
+   "id": "leader",
+   "name": "Leadership Scholarship",
+   "kind": "service",
+   "level": "college",
+   "pct": 0.4,
+   "years": 4,
+   "req": {
+    "skill": {
+     "leadership": 35
+    },
+    "clubs": 1
+   },
+   "desc": "Leadership skill and a club."
+  },
+  {
+   "id": "need",
+   "name": "Need-Based Grant",
+   "kind": "need",
+   "level": "both",
+   "pct": 0.6,
+   "years": 4,
+   "req": {
+    "need": true,
+    "gpa": 2.3
+   },
+   "desc": "For students without savings."
+  },
+  {
+   "id": "varsity",
+   "name": "Varsity Athletic Scholarship",
+   "kind": "athletic",
+   "level": "college",
+   "pct": 0.6,
+   "years": 4,
+   "req": {
+    "sportSkill": 60
+   },
+   "desc": "Play a school sport well."
+  },
+  {
+   "id": "elite",
+   "name": "Elite Athlete Full Ride",
+   "kind": "athletic",
+   "level": "college",
+   "pct": 1.0,
+   "years": 4,
+   "req": {
+    "sportSkill": 80,
+    "gpa": 2.5
+   },
+   "desc": "A star athlete with passing grades."
+  },
+  {
+   "id": "fine_arts",
+   "name": "Fine Arts Scholarship",
+   "kind": "arts",
+   "level": "college",
+   "pct": 0.45,
+   "years": 4,
+   "req": {
+    "skill": {
+     "creativity": 40
+    },
+    "anyClub": [
+     "art",
+     "band",
+     "drama"
+    ]
+   },
+   "desc": "Creative skill and an arts club."
+  },
+  {
+   "id": "talent",
+   "name": "Talent Showcase Award",
+   "kind": "talent",
+   "level": "college",
+   "pct": 0.4,
+   "years": 4,
+   "req": {
+    "awards": 2
+   },
+   "desc": "Two or more awards."
+  },
+  {
+   "id": "conservatory",
+   "name": "Conservatory Award",
+   "kind": "arts",
+   "level": "college",
+   "pct": 0.75,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "music": 35
+    }
+   },
+   "desc": "Music passion unlocks this.",
+   "passion": "music"
+  },
+  {
+   "id": "stage",
+   "name": "Stage & Screen Grant",
+   "kind": "arts",
+   "level": "college",
+   "pct": 0.7,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "acting": 35
+    }
+   },
+   "desc": "Acting passion unlocks this.",
+   "passion": "acting"
+  },
+  {
+   "id": "studio_art",
+   "name": "Studio Art Prize",
+   "kind": "arts",
+   "level": "college",
+   "pct": 0.7,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "art": 35
+    }
+   },
+   "desc": "Art passion unlocks this.",
+   "passion": "art"
+  },
+  {
+   "id": "stem",
+   "name": "STEM Excellence Fellowship",
+   "kind": "academic",
+   "level": "both",
+   "pct": 0.6,
+   "years": 4,
+   "req": {
+    "gpa": 3.0,
+    "skill": {
+     "math": 40,
+     "problem_solving": 35
+    }
+   },
+   "desc": "Math and problem solving."
+  },
+  {
+   "id": "science_pass",
+   "name": "Young Scientists Grant",
+   "kind": "academic",
+   "level": "both",
+   "pct": 0.7,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "science": 35
+    }
+   },
+   "desc": "Science passion unlocks this.",
+   "passion": "science"
+  },
+  {
+   "id": "tech_pass",
+   "name": "Tech Pioneers Scholarship",
+   "kind": "academic",
+   "level": "both",
+   "pct": 0.6,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "tech": 35
+    }
+   },
+   "desc": "Technology passion unlocks this.",
+   "passion": "tech"
+  },
+  {
+   "id": "biz_pass",
+   "name": "Young Entrepreneurs Fellowship",
+   "kind": "academic",
+   "level": "both",
+   "pct": 0.5,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "business": 30
+    }
+   },
+   "desc": "Business passion unlocks this.",
+   "passion": "business"
+  },
+  {
+   "id": "culinary",
+   "name": "Culinary Institute Award",
+   "kind": "talent",
+   "level": "college",
+   "pct": 0.5,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "cooking": 30
+    }
+   },
+   "desc": "Cooking passion unlocks this.",
+   "passion": "cooking"
+  },
+  {
+   "id": "writers",
+   "name": "Writers' Grant",
+   "kind": "arts",
+   "level": "both",
+   "pct": 0.5,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "writing": 30
+    }
+   },
+   "desc": "Writing passion unlocks this.",
+   "passion": "writing"
+  },
+  {
+   "id": "athlete_pass",
+   "name": "Passion for Sport Grant",
+   "kind": "athletic",
+   "level": "college",
+   "pct": 0.5,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "sports": 35
+    }
+   },
+   "desc": "Sports passion unlocks this.",
+   "passion": "sports"
+  },
+  {
+   "id": "trade_pass",
+   "name": "Skilled Trades Scholarship",
+   "kind": "talent",
+   "level": "college",
+   "pct": 0.5,
+   "years": 2,
+   "req": {
+    "passionMeter": {
+     "trades": 30
+    }
+   },
+   "desc": "Trades passion unlocks this.",
+   "passion": "trades"
+  },
+  {
+   "id": "civic_pass",
+   "name": "Civic Leaders Scholarship",
+   "kind": "service",
+   "level": "college",
+   "pct": 0.5,
+   "years": 4,
+   "req": {
+    "passionMeter": {
+     "leadership": 30
+    }
+   },
+   "desc": "Leadership passion unlocks this.",
+   "passion": "leadership"
+  },
+  {
+   "id": "grad_fellow",
+   "name": "Graduate Research Fellowship",
+   "kind": "academic",
+   "level": "grad",
+   "pct": 0.75,
+   "years": 3,
+   "req": {
+    "gpa": 3.4,
+    "skill": {
+     "intelligence": 50
+    }
+   },
+   "desc": "For top graduate applicants."
+  },
+  {
+   "id": "grad_assist",
+   "name": "Graduate Assistantship",
+   "kind": "academic",
+   "level": "grad",
+   "pct": 0.35,
+   "years": 3,
+   "req": {
+    "gpa": 3.0
+   },
+   "desc": "Teach or research for tuition."
+  },
+  {
+   "id": "grad_need",
+   "name": "Graduate Need Grant",
+   "kind": "need",
+   "level": "grad",
+   "pct": 0.4,
+   "years": 3,
+   "req": {
+    "need": true
+   },
+   "desc": "For applicants without savings."
+  },
+  {
+   "id": "grad_lead",
+   "name": "Dean's Leadership Award",
+   "kind": "service",
+   "level": "grad",
+   "pct": 0.4,
+   "years": 3,
+   "req": {
+    "skill": {
+     "leadership": 45
+    },
+    "awards": 1
+   },
+   "desc": "Leadership and an award."
+  }
+ ]
+}

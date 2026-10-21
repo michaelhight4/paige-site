@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="saxophone" data-category="instruments">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="70" ry="8" data-slot="shadow" id="saxophone-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M96 18Q60 14 74 36Q86 44 104 40L118 36Z" data-slot="metal" id="saxophone-metal-2" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)" stroke-width="2.5"/>
+<path d="M106 38H136V186Q136 226 176 222Q216 216 214 170Q212 150 232 142L238 150L214 126Q200 120 196 160Q194 188 182 188Q170 188 170 176V38Z" data-slot="metal" id="saxophone-metal-3" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)" stroke-width="3"/>
+<ellipse cx="230" cy="126" rx="22" ry="12" data-slot="metal" id="saxophone-metal-4" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)" stroke-width="3" transform="rotate(40 230 126)"/>
+<ellipse cx="228" cy="124" rx="12" ry="5" data-slot="accent" id="saxophone-accent-5" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2" transform="rotate(40 228 124)"/>
+<circle cx="153" cy="66" r="9" data-slot="accent" id="saxophone-accent-6" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2.5"/>
+<circle cx="153" cy="90" r="9" data-slot="accent" id="saxophone-accent-7" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2.5"/>
+<circle cx="153" cy="114" r="9" data-slot="accent" id="saxophone-accent-8" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2.5"/>
+<circle cx="153" cy="138" r="9" data-slot="accent" id="saxophone-accent-9" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2.5"/>
+<circle cx="153" cy="162" r="9" data-slot="accent" id="saxophone-accent-10" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2.5"/>
+</g>
+</svg>

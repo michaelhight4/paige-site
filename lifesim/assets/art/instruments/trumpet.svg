@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="trumpet" data-category="instruments">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="222" rx="90" ry="8" data-slot="shadow" id="trumpet-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M30 112H134V128H30Z" data-slot="metal" id="trumpet-metal-2" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<path d="M134 106L190 96L232 62Q248 128 232 194L190 160L134 150Z" data-slot="metal" id="trumpet-metal-3" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<ellipse cx="232" cy="128" rx="12" ry="66" data-slot="metal" id="trumpet-metal-4" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)" stroke-width="3"/>
+<ellipse cx="232" cy="128" rx="5" ry="44" data-slot="accent" id="trumpet-accent-5" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2"/>
+<rect x="52" y="118" width="12" height="70" rx="3" data-slot="metal" id="trumpet-metal-6" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<path d="M64 126Q18 118 18 150Q18 188 56 188H112V176H56Q34 176 34 150Q34 128 54 128Z" data-slot="metal" id="trumpet-metal-7" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)" stroke-width="2.5"/>
+<rect x="84" y="96" width="14" height="36" rx="3" data-slot="metal" id="trumpet-metal-8" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<circle cx="91" cy="90" r="7" data-slot="accent" id="trumpet-accent-9" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2.5"/>
+<rect x="104" y="96" width="14" height="36" rx="3" data-slot="metal" id="trumpet-metal-10" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<circle cx="111" cy="90" r="7" data-slot="accent" id="trumpet-accent-11" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2.5"/>
+<rect x="124" y="96" width="14" height="36" rx="3" data-slot="metal" id="trumpet-metal-12" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+<circle cx="131" cy="90" r="7" data-slot="accent" id="trumpet-accent-13" fill="#c9a020" style="fill:var(--slot-accent,#c9a020)" stroke-width="2.5"/>
+<rect x="24" y="108" width="14" height="28" rx="3" data-slot="metal" id="trumpet-metal-14" fill="#e8c230" style="fill:var(--slot-metal,#e8c230)"/>
+</g>
+</svg>

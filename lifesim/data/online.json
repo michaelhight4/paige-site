@@ -1,0 +1,446 @@
+{
+ "minAge": 13,
+ "teenCap": {
+  "age": 18,
+  "sponsorCut": 0.5,
+  "maxSchedule": "regular"
+ },
+ "stream": {
+  "topics": [
+   {
+    "id": "shooter",
+    "name": "Competitive shooters",
+    "icon": "🔫",
+    "growth": 1.15,
+    "comp": 0.9,
+    "ban": 0.07,
+    "spons": 1.0,
+    "skills": {
+     "coordination": 1,
+     "focus": 0.6
+    }
+   },
+   {
+    "id": "rpg",
+    "name": "Story RPGs",
+    "icon": "🗡️",
+    "growth": 1.0,
+    "comp": 0.6,
+    "ban": 0.02,
+    "spons": 0.9,
+    "skills": {
+     "creativity": 0.6,
+     "focus": 0.6
+    }
+   },
+   {
+    "id": "indie",
+    "name": "Indie gems",
+    "icon": "🕹️",
+    "growth": 0.9,
+    "comp": 0.3,
+    "ban": 0.015,
+    "spons": 0.7,
+    "skills": {
+     "creativity": 0.8
+    }
+   },
+   {
+    "id": "speedrun",
+    "name": "Speedruns",
+    "icon": "⏱️",
+    "growth": 0.95,
+    "comp": 0.35,
+    "ban": 0.03,
+    "spons": 0.8,
+    "skills": {
+     "focus": 1,
+     "memory": 0.8
+    }
+   },
+   {
+    "id": "chatting",
+    "name": "Just chatting",
+    "icon": "💬",
+    "growth": 1.1,
+    "comp": 0.8,
+    "ban": 0.05,
+    "spons": 1.1,
+    "skills": {
+     "people": 1,
+     "confidence": 0.8
+    }
+   },
+   {
+    "id": "irl",
+    "name": "IRL adventures",
+    "icon": "🌍",
+    "growth": 1.05,
+    "comp": 0.5,
+    "ban": 0.06,
+    "spons": 1.0,
+    "skills": {
+     "confidence": 0.8,
+     "people": 0.6
+    }
+   },
+   {
+    "id": "music",
+    "name": "Live music",
+    "icon": "🎸",
+    "growth": 0.95,
+    "comp": 0.4,
+    "ban": 0.04,
+    "spons": 0.9,
+    "skills": {
+     "creativity": 1,
+     "coordination": 0.6
+    }
+   },
+   {
+    "id": "art",
+    "name": "Art & crafts",
+    "icon": "🎨",
+    "growth": 0.85,
+    "comp": 0.25,
+    "ban": 0.01,
+    "spons": 0.8,
+    "skills": {
+     "creativity": 1.2
+    }
+   },
+   {
+    "id": "cooking",
+    "name": "Cooking",
+    "icon": "🍳",
+    "growth": 0.9,
+    "comp": 0.3,
+    "ban": 0.01,
+    "spons": 1.0,
+    "skills": {
+     "creativity": 0.6
+    }
+   },
+   {
+    "id": "esports",
+    "name": "Esports commentary",
+    "icon": "🏆",
+    "growth": 1.0,
+    "comp": 0.55,
+    "ban": 0.03,
+    "spons": 1.2,
+    "skills": {
+     "focus": 0.8,
+     "people": 0.6
+    }
+   },
+   {
+    "id": "edgy",
+    "name": "Shock & drama",
+    "icon": "🔥",
+    "growth": 1.35,
+    "comp": 0.7,
+    "ban": 0.14,
+    "spons": 0.5,
+    "skills": {
+     "confidence": 0.6
+    }
+   }
+  ],
+  "schedules": [
+   {
+    "id": "casual",
+    "name": "Casual (8 h/week)",
+    "hours": 8,
+    "growth": 0.8,
+    "burn": -4
+   },
+   {
+    "id": "regular",
+    "name": "Regular (20 h/week)",
+    "hours": 20,
+    "growth": 1.0,
+    "burn": 8
+   },
+   {
+    "id": "grind",
+    "name": "Grind (40 h/week)",
+    "hours": 40,
+    "growth": 1.25,
+    "burn": 30
+   }
+  ],
+  "setup": [
+   {
+    "id": "mic",
+    "name": "Microphone",
+    "icon": "🎙️",
+    "levels": [
+     {
+      "name": "Headset mic",
+      "cost": 0
+     },
+     {
+      "name": "USB condenser",
+      "cost": 150
+     },
+     {
+      "name": "XLR + interface",
+      "cost": 600
+     },
+     {
+      "name": "Broadcast arm + processor",
+      "cost": 2500
+     }
+    ]
+   },
+   {
+    "id": "cam",
+    "name": "Camera",
+    "icon": "📷",
+    "levels": [
+     {
+      "name": "Laptop webcam",
+      "cost": 0
+     },
+     {
+      "name": "1080p webcam",
+      "cost": 200
+     },
+     {
+      "name": "Mirrorless camera",
+      "cost": 900
+     },
+     {
+      "name": "Cinema rig",
+      "cost": 3500
+     }
+    ]
+   },
+   {
+    "id": "pc",
+    "name": "PC / console",
+    "icon": "🖥️",
+    "levels": [
+     {
+      "name": "Old laptop",
+      "cost": 0
+     },
+     {
+      "name": "Gaming PC",
+      "cost": 800
+     },
+     {
+      "name": "High-end rig",
+      "cost": 2500
+     },
+     {
+      "name": "Dual-PC stream setup",
+      "cost": 9000
+     }
+    ]
+   },
+   {
+    "id": "room",
+    "name": "Studio & lighting",
+    "icon": "💡",
+    "levels": [
+     {
+      "name": "Bedroom corner",
+      "cost": 0
+     },
+     {
+      "name": "Ring light",
+      "cost": 300
+     },
+     {
+      "name": "Panels & acoustic foam",
+      "cost": 1500
+     },
+     {
+      "name": "Dedicated studio",
+      "cost": 8000
+     }
+    ]
+   }
+  ],
+  "sponsors": [
+   "PixelFuel Energy",
+   "KeyClack Keyboards",
+   "VoltVPN",
+   "Throne Gaming Chairs",
+   "LootBox Meals",
+   "NovaStream Gear",
+   "SnackSquad",
+   "CloudLoom Hosting",
+   "BrightBulb Lamps",
+   "TurboTyre Games"
+  ],
+  "minSubsForSponsor": 300,
+  "maxSponsors": 3,
+  "rates": {
+   "viewerHourDonation": 0.005,
+   "viewerHourAds": 0.0025,
+   "paidSubShare": 0.035,
+   "paidSubYear": 15,
+   "sponsorPerViewer": 36
+  },
+  "burnoutForce": 85,
+  "banYears": [
+   1,
+   2
+  ],
+  "strikesToBan": 3
+ },
+ "infl": {
+  "niches": [
+   {
+    "id": "fashion",
+    "name": "Fashion & style",
+    "icon": "👗",
+    "growth": 1.1,
+    "deal": 1.2,
+    "risk": 0.9
+   },
+   {
+    "id": "fitness",
+    "name": "Fitness",
+    "icon": "💪",
+    "growth": 1.05,
+    "deal": 1.1,
+    "risk": 0.7
+   },
+   {
+    "id": "beauty",
+    "name": "Beauty",
+    "icon": "💄",
+    "growth": 1.15,
+    "deal": 1.3,
+    "risk": 1.0
+   },
+   {
+    "id": "travel",
+    "name": "Travel",
+    "icon": "✈️",
+    "growth": 1.0,
+    "deal": 1.2,
+    "risk": 0.6
+   },
+   {
+    "id": "food",
+    "name": "Food",
+    "icon": "🍜",
+    "growth": 1.0,
+    "deal": 1.0,
+    "risk": 0.5
+   },
+   {
+    "id": "tech",
+    "name": "Tech reviews",
+    "icon": "📱",
+    "growth": 0.95,
+    "deal": 1.4,
+    "risk": 0.7
+   },
+   {
+    "id": "comedy",
+    "name": "Comedy skits",
+    "icon": "😂",
+    "growth": 1.25,
+    "deal": 0.8,
+    "risk": 1.3
+   },
+   {
+    "id": "finance",
+    "name": "Money tips",
+    "icon": "💹",
+    "growth": 0.9,
+    "deal": 1.5,
+    "risk": 1.2
+   },
+   {
+    "id": "family",
+    "name": "Family life",
+    "icon": "👨‍👩‍👧",
+    "growth": 0.95,
+    "deal": 1.1,
+    "risk": 0.8
+   },
+   {
+    "id": "gaming",
+    "name": "Gaming culture",
+    "icon": "🎮",
+    "growth": 1.05,
+    "deal": 1.0,
+    "risk": 1.0
+   }
+  ],
+  "styles": [
+   {
+    "id": "safe",
+    "name": "Safe & friendly",
+    "growth": 0.85,
+    "heat": -4,
+    "trust": 3
+   },
+   {
+    "id": "trendy",
+    "name": "Trend-chasing",
+    "growth": 1.1,
+    "heat": 5,
+    "trust": -1
+   },
+   {
+    "id": "edgy",
+    "name": "Hot takes & edgy",
+    "growth": 1.4,
+    "heat": 16,
+    "trust": -5
+   }
+  ],
+  "posting": [
+   {
+    "id": "light",
+    "name": "3 posts / week",
+    "posts": 3,
+    "growth": 0.8,
+    "burn": -3
+   },
+   {
+    "id": "steady",
+    "name": "7 posts / week",
+    "posts": 7,
+    "growth": 1.0,
+    "burn": 6
+   },
+   {
+    "id": "nonstop",
+    "name": "14 posts / week",
+    "posts": 14,
+    "growth": 1.25,
+    "burn": 22
+   }
+  ],
+  "brands": [
+   "Glowwell",
+   "UrbanThread",
+   "FitFuel",
+   "Wanderly",
+   "FreshCrate",
+   "ByteBox",
+   "LuxeLabel",
+   "Zest Soda",
+   "CloudNine Mattress",
+   "PureSkin",
+   "QuickLoan Co.",
+   "DiscountDrip"
+  ],
+  "minFollowersForDeals": 1000,
+  "maxDeals": 3,
+  "rates": {
+   "engagementYear": 0.03,
+   "dealPerFollower": 0.02
+  },
+  "cancelHeat": 40
+ }
+}

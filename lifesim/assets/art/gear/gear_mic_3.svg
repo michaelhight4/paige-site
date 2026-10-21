@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" shape-rendering="crispEdges" data-asset="gear_mic_3" data-category="gear">
+<g stroke="#2b2a3a" stroke-width="2" stroke-linejoin="miter">
+<ellipse cx="64" cy="116" rx="30" ry="5" id="gear_mic_3-s1" data-slot="shadow" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="60" y="70" width="8" height="36" id="gear_mic_3-s2" data-slot="metal" fill="#b8bcc8" style="fill:var(--slot-metal,#b8bcc8)" />
+<rect x="46" y="106" width="36" height="8" id="gear_mic_3-s3" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<circle cx="64" cy="48" r="20" id="gear_mic_3-s4" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<circle cx="64" cy="48" r="15" id="gear_mic_3-s5" data-slot="metal" fill="#b8bcc8" style="fill:var(--slot-metal,#b8bcc8)" fill-opacity=".9"/>
+<rect x="60" y="40" width="4" height="4" fill="#fff" fill-opacity=".6" stroke="none"/>
+<rect x="58" y="52" width="12" height="3" fill="#000" fill-opacity=".25" stroke="none"/>
+<rect x="40" y="34" width="5" height="28" id="gear_mic_3-s6" data-slot="accent" fill="#e8573d" style="fill:var(--slot-accent,#e8573d)" />
+<rect x="83" y="34" width="5" height="28" id="gear_mic_3-s7" data-slot="accent" fill="#e8573d" style="fill:var(--slot-accent,#e8573d)" />
+<rect x="40" y="60" width="48" height="5" id="gear_mic_3-s8" data-slot="accent" fill="#e8573d" style="fill:var(--slot-accent,#e8573d)" />
+<rect x="54" y="22" width="20" height="5" id="gear_mic_3-s9" data-slot="trim" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" />
+<rect x="30" y="78" width="68" height="6" id="gear_mic_3-s10" data-slot="trim" fill="#f3efe4" style="fill:var(--slot-trim,#f3efe4)" />
+</g>
+</svg>

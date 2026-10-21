@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="hoodie" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="70" ry="8" data-slot="shadow" id="hoodie-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M92 44L128 56L164 44L222 74L206 150L180 142V218H76V142L50 150L34 74Z" data-slot="fabric" id="hoodie-fabric-2" fill="#6a4fc2" style="fill:var(--slot-fabric,#6a4fc2)"/>
+<path d="M92 44Q96 14 128 12Q160 14 164 44Q128 84 92 44Z" data-slot="fabric" id="hoodie-fabric-3" fill="#6a4fc2" style="fill:var(--slot-fabric,#6a4fc2)"/>
+<path d="M104 40Q128 70 152 40Q150 24 128 22Q106 24 104 40Z" data-slot="trim" id="hoodie-trim-4" fill="#d9d4f0" style="fill:var(--slot-trim,#d9d4f0)" stroke-width="2"/>
+<path d="M118 62V104M138 62V104" fill="none" stroke-width="3.5"/>
+<path d="M92 168H164L176 208H80Z" data-slot="accent" id="hoodie-accent-5" fill="#5b3fa8" style="fill:var(--slot-accent,#5b3fa8)" stroke-width="2.5"/>
+<rect x="50" y="140" width="24" height="12" rx="4" data-slot="trim" id="hoodie-trim-6" fill="#d9d4f0" style="fill:var(--slot-trim,#d9d4f0)" stroke-width="2"/>
+<rect x="182" y="140" width="24" height="12" rx="4" data-slot="trim" id="hoodie-trim-7" fill="#d9d4f0" style="fill:var(--slot-trim,#d9d4f0)" stroke-width="2"/>
+<rect x="76" y="206" width="104" height="12" rx="4" data-slot="trim" id="hoodie-trim-8" fill="#d9d4f0" style="fill:var(--slot-trim,#d9d4f0)" stroke-width="2"/>
+</g>
+</svg>

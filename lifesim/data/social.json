@@ -1,0 +1,1449 @@
+{
+ "platforms": [
+  {
+   "id": "chirpr",
+   "name": "Chirpr",
+   "icon": "🐦",
+   "role": "Short text",
+   "minAge": 13,
+   "growth": 1.0,
+   "viral": 1.0,
+   "sponsor": 0.8,
+   "risk": 1.6,
+   "verify": 1.0,
+   "likes": [
+    "humor",
+    "drama",
+    "info"
+   ],
+   "dislikes": [
+    "family",
+    "looks"
+   ],
+   "audience": "Fast, loud and argumentative.",
+   "personality": "Rewards hot takes and memes. Pretty photos and family albums barely move it. Drama-prone."
+  },
+  {
+   "id": "snapfolio",
+   "name": "Snapfolio",
+   "icon": "📷",
+   "role": "Photos",
+   "minAge": 13,
+   "growth": 1.0,
+   "viral": 0.8,
+   "sponsor": 1.2,
+   "risk": 0.8,
+   "verify": 1.0,
+   "likes": [
+    "looks",
+    "food",
+    "travel",
+    "pets"
+   ],
+   "dislikes": [
+    "drama",
+    "info"
+   ],
+   "audience": "Scrolls for pretty things.",
+   "personality": "Looks-weighted. Selfies, food and travel soar; rants and lectures sink."
+  },
+  {
+   "id": "clipwave",
+   "name": "Clipwave",
+   "icon": "🎬",
+   "role": "Short video",
+   "minAge": 13,
+   "growth": 1.2,
+   "viral": 1.8,
+   "sponsor": 0.9,
+   "risk": 1.0,
+   "verify": 1.5,
+   "likes": [
+    "dance",
+    "humor",
+    "challenge"
+   ],
+   "dislikes": [
+    "info",
+    "family"
+   ],
+   "audience": "Young, restless, fond of dances.",
+   "personality": "Highest viral chance. Dances, skits and challenges win. Long explanations die in six seconds."
+  },
+  {
+   "id": "vidnest",
+   "name": "VidNest",
+   "icon": "📺",
+   "role": "Long video / gaming",
+   "minAge": 13,
+   "growth": 0.7,
+   "viral": 0.7,
+   "sponsor": 1.6,
+   "risk": 0.9,
+   "verify": 2.0,
+   "likes": [
+    "gaming",
+    "info",
+    "career"
+   ],
+   "dislikes": [
+    "dance",
+    "looks"
+   ],
+   "audience": "Patient viewers who stay for 20 minutes.",
+   "personality": "Slow growth, best sponsor pay. Tutorials and gaming do well."
+  },
+  {
+   "id": "liveloop",
+   "name": "LiveLoop",
+   "icon": "🔴",
+   "role": "Live streaming",
+   "minAge": 13,
+   "growth": 0.9,
+   "viral": 1.0,
+   "sponsor": 1.1,
+   "risk": 1.3,
+   "verify": 1.2,
+   "likes": [
+    "live",
+    "gaming",
+    "humor"
+   ],
+   "dislikes": [
+    "family"
+   ],
+   "audience": "Chat that never stops typing.",
+   "personality": "Live Q&A and gaming shine. Donations need 16+. Ties to the Live Streamer career."
+  },
+  {
+   "id": "kinbook",
+   "name": "Kinbook",
+   "icon": "👪",
+   "role": "Family & friends",
+   "minAge": 13,
+   "growth": 0.5,
+   "viral": 0.3,
+   "sponsor": 0.5,
+   "risk": 0.4,
+   "verify": 0.5,
+   "likes": [
+    "family",
+    "food",
+    "pets",
+    "cause"
+   ],
+   "dislikes": [
+    "drama",
+    "mature"
+   ],
+   "audience": "Aunts, cousins and your old teachers.",
+   "personality": "Low ceiling, low risk. Family photos and causes are loved; edgy posts are noticed by grandma."
+  },
+  {
+   "id": "velvet",
+   "name": "Velvet Circle",
+   "icon": "💎",
+   "role": "Fan club (paid)",
+   "minAge": 18,
+   "growth": 0.6,
+   "viral": 0.2,
+   "sponsor": 0.6,
+   "risk": 1.4,
+   "verify": 0.8,
+   "likes": [
+    "mature",
+    "looks"
+   ],
+   "dislikes": [
+    "family",
+    "cause"
+   ],
+   "audience": "Paying subscribers, adults only.",
+   "personality": "18+. Subscriber income, no mainstream sponsors; text-described content only, never graphic."
+  },
+  {
+   "id": "podcastle",
+   "name": "Podcastle",
+   "icon": "🎙️",
+   "role": "Audio",
+   "minAge": 16,
+   "growth": 0.8,
+   "viral": 0.5,
+   "sponsor": 1.4,
+   "risk": 0.7,
+   "verify": 1.2,
+   "likes": [
+    "audio",
+    "info",
+    "career",
+    "cause"
+   ],
+   "dislikes": [
+    "dance",
+    "looks"
+   ],
+   "audience": "Commuters and dog walkers.",
+   "personality": "Smarts-weighted. Interviews and tutorials build a loyal audience. 16+."
+  }
+ ],
+ "posts": [
+  {
+   "id": "selfie",
+   "name": "Selfie",
+   "icon": "🤳",
+   "tag": "Safe",
+   "niche": "looks",
+   "styles": [
+    "looks"
+   ],
+   "plats": [
+    "snapfolio",
+    "clipwave",
+    "kinbook",
+    "chirpr"
+   ],
+   "minAge": 13,
+   "base": 1.0,
+   "viral": 0.03,
+   "risk": 0.03,
+   "stat": "looks",
+   "mature": false
+  },
+  {
+   "id": "outfit",
+   "name": "Outfit / fashion",
+   "icon": "👗",
+   "tag": "Safe",
+   "niche": "looks",
+   "styles": [
+    "looks"
+   ],
+   "plats": [
+    "snapfolio",
+    "clipwave",
+    "kinbook"
+   ],
+   "minAge": 13,
+   "base": 1.0,
+   "viral": 0.04,
+   "risk": 0.03,
+   "stat": "looks",
+   "mature": false
+  },
+  {
+   "id": "food",
+   "name": "Food",
+   "icon": "🍜",
+   "tag": "Safe",
+   "niche": "lifestyle",
+   "styles": [
+    "food"
+   ],
+   "plats": [
+    "snapfolio",
+    "clipwave",
+    "kinbook",
+    "vidnest"
+   ],
+   "minAge": 13,
+   "base": 0.9,
+   "viral": 0.03,
+   "risk": 0.02,
+   "stat": "looks",
+   "mature": false
+  },
+  {
+   "id": "pet",
+   "name": "Pet",
+   "icon": "🐶",
+   "tag": "Safe",
+   "niche": "lifestyle",
+   "styles": [
+    "pets"
+   ],
+   "plats": [
+    "snapfolio",
+    "clipwave",
+    "kinbook",
+    "chirpr"
+   ],
+   "minAge": 13,
+   "base": 0.9,
+   "viral": 0.05,
+   "risk": 0.01,
+   "stat": "health",
+   "mature": false
+  },
+  {
+   "id": "travel",
+   "name": "Travel",
+   "icon": "✈️",
+   "tag": "Safe",
+   "niche": "lifestyle",
+   "styles": [
+    "travel",
+    "looks"
+   ],
+   "plats": [
+    "snapfolio",
+    "vidnest",
+    "kinbook",
+    "clipwave"
+   ],
+   "minAge": 13,
+   "base": 1.0,
+   "viral": 0.03,
+   "risk": 0.03,
+   "stat": "looks",
+   "mature": false
+  },
+  {
+   "id": "meme",
+   "name": "Meme",
+   "icon": "😂",
+   "tag": "Safe",
+   "niche": "humor",
+   "styles": [
+    "humor"
+   ],
+   "plats": [
+    "chirpr",
+    "clipwave",
+    "snapfolio",
+    "kinbook"
+   ],
+   "minAge": 13,
+   "base": 1.1,
+   "viral": 0.06,
+   "risk": 0.06,
+   "stat": "smarts",
+   "mature": false
+  },
+  {
+   "id": "skit",
+   "name": "Random skit",
+   "icon": "🎭",
+   "tag": "Safe",
+   "niche": "humor",
+   "styles": [
+    "humor"
+   ],
+   "plats": [
+    "clipwave",
+    "vidnest",
+    "liveloop"
+   ],
+   "minAge": 13,
+   "base": 1.2,
+   "viral": 0.07,
+   "risk": 0.07,
+   "stat": "looks",
+   "mature": false
+  },
+  {
+   "id": "challenge",
+   "name": "Challenge",
+   "icon": "🏆",
+   "tag": "Spicy",
+   "niche": "humor",
+   "styles": [
+    "challenge",
+    "humor"
+   ],
+   "plats": [
+    "clipwave",
+    "chirpr",
+    "vidnest"
+   ],
+   "minAge": 13,
+   "base": 1.3,
+   "viral": 0.09,
+   "risk": 0.12,
+   "stat": "health",
+   "mature": false
+  },
+  {
+   "id": "dance",
+   "name": "Dance",
+   "icon": "💃",
+   "tag": "Safe",
+   "niche": "dance",
+   "styles": [
+    "dance",
+    "looks"
+   ],
+   "plats": [
+    "clipwave",
+    "snapfolio"
+   ],
+   "minAge": 13,
+   "base": 1.3,
+   "viral": 0.1,
+   "risk": 0.04,
+   "stat": "looks",
+   "mature": false
+  },
+  {
+   "id": "tutorial",
+   "name": "Tutorial / tips",
+   "icon": "📚",
+   "tag": "Safe",
+   "niche": "info",
+   "styles": [
+    "info"
+   ],
+   "plats": [
+    "vidnest",
+    "podcastle",
+    "chirpr",
+    "clipwave"
+   ],
+   "minAge": 13,
+   "base": 1.0,
+   "viral": 0.03,
+   "risk": 0.02,
+   "stat": "smarts",
+   "mature": false
+  },
+  {
+   "id": "gaming",
+   "name": "Gaming",
+   "icon": "🎮",
+   "tag": "Safe",
+   "niche": "gaming",
+   "styles": [
+    "gaming"
+   ],
+   "plats": [
+    "vidnest",
+    "liveloop",
+    "clipwave"
+   ],
+   "minAge": 13,
+   "base": 1.2,
+   "viral": 0.05,
+   "risk": 0.05,
+   "stat": "smarts",
+   "mature": false
+  },
+  {
+   "id": "bts",
+   "name": "Behind the scenes",
+   "icon": "🎥",
+   "tag": "Safe",
+   "niche": "career",
+   "styles": [
+    "career"
+   ],
+   "plats": [
+    "vidnest",
+    "snapfolio",
+    "podcastle",
+    "kinbook"
+   ],
+   "minAge": 13,
+   "base": 0.9,
+   "viral": 0.03,
+   "risk": 0.02,
+   "stat": "smarts",
+   "mature": false
+  },
+  {
+   "id": "family",
+   "name": "Family photo",
+   "icon": "👨‍👩‍👧",
+   "tag": "Safe",
+   "niche": "family",
+   "styles": [
+    "family"
+   ],
+   "plats": [
+    "kinbook",
+    "snapfolio",
+    "chirpr"
+   ],
+   "minAge": 13,
+   "base": 0.5,
+   "viral": 0.01,
+   "risk": 0.02,
+   "stat": "happiness",
+   "mature": false
+  },
+  {
+   "id": "hottake",
+   "name": "Hot take / political",
+   "icon": "🔥",
+   "tag": "Risky",
+   "niche": "drama",
+   "styles": [
+    "drama",
+    "info"
+   ],
+   "plats": [
+    "chirpr",
+    "vidnest",
+    "podcastle",
+    "liveloop"
+   ],
+   "minAge": 13,
+   "base": 1.4,
+   "viral": 0.12,
+   "risk": 0.3,
+   "stat": "smarts",
+   "mature": false
+  },
+  {
+   "id": "charity",
+   "name": "Charity / cause",
+   "icon": "💛",
+   "tag": "Safe",
+   "niche": "cause",
+   "styles": [
+    "cause"
+   ],
+   "plats": [
+    "kinbook",
+    "snapfolio",
+    "chirpr",
+    "podcastle",
+    "vidnest"
+   ],
+   "minAge": 13,
+   "base": 0.8,
+   "viral": 0.02,
+   "risk": 0.01,
+   "stat": "happiness",
+   "mature": false
+  },
+  {
+   "id": "rant",
+   "name": "Rant",
+   "icon": "😤",
+   "tag": "Risky",
+   "niche": "drama",
+   "styles": [
+    "drama"
+   ],
+   "plats": [
+    "chirpr",
+    "liveloop",
+    "vidnest",
+    "clipwave"
+   ],
+   "minAge": 13,
+   "base": 1.2,
+   "viral": 0.1,
+   "risk": 0.35,
+   "stat": "happiness",
+   "mature": false
+  },
+  {
+   "id": "qa",
+   "name": "Live Q&A",
+   "icon": "💬",
+   "tag": "Safe",
+   "niche": "live",
+   "styles": [
+    "live",
+    "humor"
+   ],
+   "plats": [
+    "liveloop",
+    "clipwave",
+    "chirpr"
+   ],
+   "minAge": 13,
+   "base": 1.1,
+   "viral": 0.05,
+   "risk": 0.08,
+   "stat": "smarts",
+   "mature": false
+  },
+  {
+   "id": "collabpost",
+   "name": "Collab post",
+   "icon": "🤝",
+   "tag": "Safe",
+   "niche": "humor",
+   "styles": [
+    "humor",
+    "live"
+   ],
+   "plats": [
+    "clipwave",
+    "vidnest",
+    "liveloop",
+    "podcastle",
+    "snapfolio"
+   ],
+   "minAge": 13,
+   "base": 1.3,
+   "viral": 0.08,
+   "risk": 0.06,
+   "stat": "looks",
+   "mature": false
+  },
+  {
+   "id": "interview",
+   "name": "Interview episode",
+   "icon": "🎤",
+   "tag": "Safe",
+   "niche": "audio",
+   "styles": [
+    "audio",
+    "info"
+   ],
+   "plats": [
+    "podcastle"
+   ],
+   "minAge": 16,
+   "base": 1.1,
+   "viral": 0.05,
+   "risk": 0.05,
+   "stat": "smarts",
+   "mature": false
+  },
+  {
+   "id": "storytime",
+   "name": "Storytime episode",
+   "icon": "📖",
+   "tag": "Safe",
+   "niche": "audio",
+   "styles": [
+    "audio",
+    "humor"
+   ],
+   "plats": [
+    "podcastle"
+   ],
+   "minAge": 16,
+   "base": 1.0,
+   "viral": 0.05,
+   "risk": 0.07,
+   "stat": "smarts",
+   "mature": false
+  },
+  {
+   "id": "nostalgia",
+   "name": "Nostalgia / old tech fumble",
+   "icon": "📼",
+   "tag": "Safe",
+   "niche": "humor",
+   "styles": [
+    "humor",
+    "info"
+   ],
+   "plats": [
+    "vidnest",
+    "kinbook",
+    "chirpr",
+    "clipwave"
+   ],
+   "minAge": 65,
+   "base": 1.2,
+   "viral": 0.07,
+   "risk": 0.01,
+   "stat": "happiness",
+   "mature": false
+  },
+  {
+   "id": "spicy",
+   "name": "Spicy photos (text-described)",
+   "icon": "🔞",
+   "tag": "Risky",
+   "niche": "mature",
+   "styles": [
+    "mature",
+    "looks"
+   ],
+   "plats": [
+    "velvet"
+   ],
+   "minAge": 18,
+   "base": 2.0,
+   "viral": 0.02,
+   "risk": 0.2,
+   "stat": "looks",
+   "mature": true
+  },
+  {
+   "id": "tease",
+   "name": "Late-night club post (text-described)",
+   "icon": "🌙",
+   "tag": "Risky",
+   "niche": "mature",
+   "styles": [
+    "mature"
+   ],
+   "plats": [
+    "velvet"
+   ],
+   "minAge": 18,
+   "base": 1.6,
+   "viral": 0.02,
+   "risk": 0.15,
+   "stat": "looks",
+   "mature": true
+  }
+ ],
+ "brands": [
+  {
+   "name": "Fizzy Pop Cola",
+   "cat": "drink",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 1.0,
+   "niches": [
+    "food",
+    "lifestyle",
+    "humor"
+   ],
+   "premium": false
+  },
+  {
+   "name": "Crunchy Bites",
+   "cat": "snacks",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 0.9,
+   "niches": [
+    "food",
+    "lifestyle"
+   ],
+   "premium": false
+  },
+  {
+   "name": "Pixel Gear",
+   "cat": "gaming",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 1.1,
+   "niches": [
+    "gaming",
+    "humor"
+   ],
+   "premium": false
+  },
+  {
+   "name": "GlowUp Skincare",
+   "cat": "beauty",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 1.2,
+   "niches": [
+    "looks",
+    "lifestyle"
+   ],
+   "premium": false
+  },
+  {
+   "name": "Urban Thread",
+   "cat": "fashion",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 1.1,
+   "niches": [
+    "looks",
+    "lifestyle"
+   ],
+   "premium": false
+  },
+  {
+   "name": "Wanderly Travel",
+   "cat": "travel",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 1.3,
+   "niches": [
+    "lifestyle",
+    "looks"
+   ],
+   "premium": true
+  },
+  {
+   "name": "StudyBuddy Apps",
+   "cat": "education",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 1.0,
+   "niches": [
+    "info",
+    "career"
+   ],
+   "premium": false
+  },
+  {
+   "name": "Pawfect Pet Co",
+   "cat": "pets",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 0.9,
+   "niches": [
+    "lifestyle",
+    "family"
+   ],
+   "premium": false
+  },
+  {
+   "name": "FitFuel Gym",
+   "cat": "fitness",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 1.2,
+   "niches": [
+    "dance",
+    "looks",
+    "lifestyle"
+   ],
+   "premium": false
+  },
+  {
+   "name": "Nimbus Phones",
+   "cat": "tech",
+   "minAge": 13,
+   "kidSafe": true,
+   "pay": 1.5,
+   "niches": [
+    "info",
+    "gaming",
+    "career"
+   ],
+   "premium": true
+  },
+  {
+   "name": "Everbank",
+   "cat": "finance",
+   "minAge": 18,
+   "kidSafe": false,
+   "pay": 1.6,
+   "niches": [
+    "info",
+    "career"
+   ],
+   "premium": true
+  },
+  {
+   "name": "Lucky Spin Casino",
+   "cat": "gambling",
+   "minAge": 18,
+   "kidSafe": false,
+   "pay": 2.0,
+   "niches": [
+    "humor",
+    "gaming"
+   ],
+   "premium": false
+  },
+  {
+   "name": "Cask & Ember Spirits",
+   "cat": "alcohol",
+   "minAge": 18,
+   "kidSafe": false,
+   "pay": 1.8,
+   "niches": [
+    "lifestyle",
+    "humor"
+   ],
+   "premium": false
+  },
+  {
+   "name": "QuickCash Loans",
+   "cat": "finance",
+   "minAge": 18,
+   "kidSafe": false,
+   "pay": 1.4,
+   "niches": [
+    "info"
+   ],
+   "premium": false
+  },
+  {
+   "name": "MiracleSlim Tea",
+   "cat": "dubious",
+   "minAge": 16,
+   "kidSafe": false,
+   "pay": 1.7,
+   "niches": [
+    "looks",
+    "lifestyle"
+   ],
+   "premium": false
+  }
+ ],
+ "gear": [
+  {
+   "id": "cam_1",
+   "name": "Starter camera",
+   "base": 180,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "cam",
+   "tier": 1,
+   "growth": 0.03,
+   "viral": 0.04,
+   "sponsor": 0.02,
+   "art": "gear_cam_1",
+   "rarity": 1
+  },
+  {
+   "id": "cam_2",
+   "name": "Pro camera",
+   "base": 900,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "cam",
+   "tier": 2,
+   "growth": 0.07,
+   "viral": 0.09,
+   "sponsor": 0.05,
+   "art": "gear_cam_2",
+   "rarity": 1
+  },
+  {
+   "id": "cam_3",
+   "name": "Studio camera",
+   "base": 4800,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "cam",
+   "tier": 3,
+   "growth": 0.12,
+   "viral": 0.16,
+   "sponsor": 0.09,
+   "art": "gear_cam_3",
+   "rarity": 1
+  },
+  {
+   "id": "mic_1",
+   "name": "Starter microphone",
+   "base": 90,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "mic",
+   "tier": 1,
+   "growth": 0.02,
+   "viral": 0.02,
+   "sponsor": 0.03,
+   "art": "gear_mic_1",
+   "rarity": 1
+  },
+  {
+   "id": "mic_2",
+   "name": "Pro microphone",
+   "base": 450,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "mic",
+   "tier": 2,
+   "growth": 0.05,
+   "viral": 0.05,
+   "sponsor": 0.06,
+   "art": "gear_mic_2",
+   "rarity": 1
+  },
+  {
+   "id": "mic_3",
+   "name": "Studio microphone",
+   "base": 2400,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "mic",
+   "tier": 3,
+   "growth": 0.09,
+   "viral": 0.09,
+   "sponsor": 0.11,
+   "art": "gear_mic_3",
+   "rarity": 1
+  },
+  {
+   "id": "light_1",
+   "name": "Starter lighting rig",
+   "base": 120,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "light",
+   "tier": 1,
+   "growth": 0.02,
+   "viral": 0.03,
+   "sponsor": 0.02,
+   "art": "gear_light_1",
+   "rarity": 1
+  },
+  {
+   "id": "light_2",
+   "name": "Pro lighting rig",
+   "base": 600,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "light",
+   "tier": 2,
+   "growth": 0.05,
+   "viral": 0.07,
+   "sponsor": 0.05,
+   "art": "gear_light_2",
+   "rarity": 1
+  },
+  {
+   "id": "light_3",
+   "name": "Studio lighting rig",
+   "base": 3200,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "light",
+   "tier": 3,
+   "growth": 0.09,
+   "viral": 0.12,
+   "sponsor": 0.09,
+   "art": "gear_light_3",
+   "rarity": 1
+  },
+  {
+   "id": "desk_1",
+   "name": "Starter desk & studio",
+   "base": 250,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "desk",
+   "tier": 1,
+   "growth": 0.03,
+   "viral": 0.02,
+   "sponsor": 0.03,
+   "art": "gear_desk_1",
+   "rarity": 1
+  },
+  {
+   "id": "desk_2",
+   "name": "Pro desk & studio",
+   "base": 1400,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "desk",
+   "tier": 2,
+   "growth": 0.06,
+   "viral": 0.05,
+   "sponsor": 0.07,
+   "art": "gear_desk_2",
+   "rarity": 1
+  },
+  {
+   "id": "desk_3",
+   "name": "Studio desk & studio",
+   "base": 7500,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "desk",
+   "tier": 3,
+   "growth": 0.1,
+   "viral": 0.09,
+   "sponsor": 0.12,
+   "art": "gear_desk_3",
+   "rarity": 1
+  },
+  {
+   "id": "set_1",
+   "name": "Starter creator set",
+   "base": 900,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "set",
+   "tier": 1,
+   "growth": 0.1,
+   "viral": 0.12,
+   "sponsor": 0.08,
+   "art": "gear_set_1",
+   "rarity": 1
+  },
+  {
+   "id": "set_2",
+   "name": "Pro creator set",
+   "base": 5200,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "set",
+   "tier": 2,
+   "growth": 0.2,
+   "viral": 0.25,
+   "sponsor": 0.18,
+   "art": "gear_set_2",
+   "rarity": 1
+  },
+  {
+   "id": "set_3",
+   "name": "Studio creator set",
+   "base": 28000,
+   "age": [
+    0,
+    0
+   ],
+   "cond": [
+    96,
+    100
+   ],
+   "kind": "set",
+   "tier": 3,
+   "growth": 0.34,
+   "viral": 0.42,
+   "sponsor": 0.3,
+   "art": "gear_set_3",
+   "rarity": 1
+  }
+ ],
+ "rivals": [
+  "Maxie Vale",
+  "Dex Quill",
+  "Juno Park",
+  "Tobias Reed",
+  "Lena Frost",
+  "Kai Moreno",
+  "Priya Nandan",
+  "Otis Bell",
+  "Sunny Cho",
+  "Rafa Duarte",
+  "Mina Aoki",
+  "Zed Holloway"
+ ],
+ "niches": [
+  "looks",
+  "lifestyle",
+  "humor",
+  "dance",
+  "info",
+  "gaming",
+  "career",
+  "family",
+  "cause",
+  "live",
+  "audio",
+  "drama",
+  "mature"
+ ],
+ "team": [
+  {
+   "id": "editor",
+   "name": "Editor",
+   "icon": "✂️",
+   "minFollowers": 5000,
+   "salary": 18000,
+   "blurb": "Raises post quality, cuts burnout, helps with consistency."
+  },
+  {
+   "id": "manager",
+   "name": "Manager",
+   "icon": "📋",
+   "minFollowers": 25000,
+   "salary": 30000,
+   "blurb": "+10% sponsor pay, fewer bad-fit deals, cools drama."
+  },
+  {
+   "id": "agent",
+   "name": "Agent",
+   "icon": "🕴️",
+   "minFollowers": 100000,
+   "salary": 0,
+   "cut": 0.1,
+   "blurb": "+1 offer a year, +15% sponsor pay, takes 10% of social income."
+  }
+ ],
+ "teamNames": [
+  "Sam Okafor",
+  "Rita Brandt",
+  "Chen Wei",
+  "Alba Torres",
+  "Moe Fitch",
+  "Dara Quinn",
+  "Lev Ortiz",
+  "Ada Mbeki"
+ ],
+ "chat": {
+  "users": [
+   "xX_pogchamp",
+   "nightowl88",
+   "mod_marta",
+   "tiny_tim",
+   "sleepy_sam",
+   "gg_gwen",
+   "lurker_lou",
+   "captain_chaos",
+   "pixelpete",
+   "byte_bella",
+   "donut_dan",
+   "salty_sal"
+  ],
+  "lines": {
+   "hype": [
+    "LETS GOOO",
+    "this is insane",
+    "W streamer",
+    "clip it clip it",
+    "chat is going wild",
+    "HYPE HYPE HYPE"
+   ],
+   "chill": [
+    "so cozy tonight",
+    "love this vibe",
+    "nice and relaxing",
+    "good talk honestly",
+    "this is my comfort stream"
+   ],
+   "edgy": [
+    "ooooh he said it",
+    "mods mods",
+    "this is gonna get clipped",
+    "spicy!!",
+    "chat is divided lol",
+    "report incoming?"
+   ],
+   "charity": [
+    "donating right now",
+    "so wholesome",
+    "you are a legend",
+    "all heart",
+    "took my last five bucks, worth it"
+   ],
+   "risky": [
+    "are you sure about this",
+    "this will not end well",
+    "F in chat",
+    "bro what",
+    "wait is this allowed?"
+   ],
+   "boring": [
+    "zzz",
+    "is this the same bit as last week",
+    "chat dead",
+    "lag?"
+   ]
+  },
+  "scenes": [
+   {
+    "id": "troll",
+    "prompt": "A troll floods your chat mid-game. Chat waits to see what you do.",
+    "choices": [
+     {
+      "label": "Ban them calmly",
+      "tone": "chill",
+      "subsPct": 2,
+      "rep": 2
+     },
+     {
+      "label": "Roast them on stream",
+      "tone": "edgy",
+      "subsPct": 6,
+      "rep": -2,
+      "strike": 0.12
+     },
+     {
+      "label": "Ignore it and keep playing",
+      "tone": "boring",
+      "subsPct": -1
+     }
+    ]
+   },
+   {
+    "id": "donation",
+    "prompt": "Someone donates $500 and asks you to say something outrageous.",
+    "choices": [
+     {
+      "label": "Do it",
+      "tone": "risky",
+      "subsPct": 7,
+      "money": 500,
+      "strike": 0.18,
+      "rep": -3
+     },
+     {
+      "label": "Thank them and decline",
+      "tone": "chill",
+      "subsPct": 2,
+      "money": 500,
+      "rep": 2
+     },
+     {
+      "label": "Turn it into a charity push",
+      "tone": "charity",
+      "subsPct": 4,
+      "money": 250,
+      "rep": 5
+     }
+    ]
+   },
+   {
+    "id": "challenge",
+    "prompt": "Chat votes for a hard challenge: finish the level with no healing.",
+    "choices": [
+     {
+      "label": "Accept the challenge",
+      "tone": "hype",
+      "subsPct": 8,
+      "burnout": 4
+     },
+     {
+      "label": "Negotiate an easier rule",
+      "tone": "chill",
+      "subsPct": 2
+     },
+     {
+      "label": "Refuse",
+      "tone": "boring",
+      "subsPct": -2
+     }
+    ]
+   },
+   {
+    "id": "guest",
+    "prompt": "A bigger streamer joins your raid and asks for a collab on the spot.",
+    "choices": [
+     {
+      "label": "Collab live",
+      "tone": "hype",
+      "subsPct": 10,
+      "rep": 1
+     },
+     {
+      "label": "Say you are busy",
+      "tone": "boring",
+      "subsPct": -1
+     },
+     {
+      "label": "Challenge them to a duel",
+      "tone": "edgy",
+      "subsPct": 6,
+      "strike": 0.06
+     }
+    ]
+   },
+   {
+    "id": "slip",
+    "prompt": "You accidentally say something you should not have on a hot mic.",
+    "choices": [
+     {
+      "label": "Own it and apologize",
+      "tone": "chill",
+      "subsPct": 0,
+      "rep": 2
+     },
+     {
+      "label": "Laugh it off",
+      "tone": "risky",
+      "subsPct": 3,
+      "strike": 0.15,
+      "rep": -3
+     },
+     {
+      "label": "Pretend it never happened",
+      "tone": "boring",
+      "subsPct": -3,
+      "rep": -2
+     }
+    ]
+   },
+   {
+    "id": "rant",
+    "prompt": "The game crashes before you save. Chat is watching.",
+    "choices": [
+     {
+      "label": "Rage quit",
+      "tone": "edgy",
+      "subsPct": 5,
+      "burnout": 3,
+      "strike": 0.1
+     },
+     {
+      "label": "Laugh and restart",
+      "tone": "hype",
+      "subsPct": 4
+     },
+     {
+      "label": "Call it a night",
+      "tone": "chill",
+      "subsPct": 0
+     }
+    ]
+   }
+  ]
+ }
+}

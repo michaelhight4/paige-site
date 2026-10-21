@@ -1,0 +1,36 @@
+{
+ "_note": "All UI strings + theme live here. A fantasy isekai reskin swaps this file plus occupations.json/assets.json.",
+ "app_title": "LifeSim",
+ "currency": "$",
+ "stats": [{"id":"health","name":"Health"},{"id":"happiness","name":"Happiness"},{"id":"smarts","name":"Smarts"},{"id":"looks","name":"Looks"}],
+ "bar_thresholds": {"green_min": 31, "orange_min": 13},
+ "labels": {
+  "occupation": "Occupation", "assets": "Assets", "shopping": "Shopping", "age": "Age", "cash": "Cash", "debt": "Debt",
+  "jobs": "Jobs", "part_time": "Part-Time Job", "freelance": "Freelance", "military": "Military", "special": "Special Careers",
+  "education": "Education", "collection": "Careers Collection", "finances": "Finances", "investments": "Investments",
+  "luxury": "Luxury", "properties": "Properties", "belongings": "Belongings", "zoo": "Zoo", "race_garage": "Race Garage",
+  "casino": "Casino", "auctions": "Auction Houses", "restoration": "Restoration Garage", "refresh": "Refresh Inventory",
+  "buy": "Buy", "sell": "Sell", "net_worth": "Net Worth", "condition": "Condition", "value": "Value", "apply": "Apply",
+  "age_up": "Age Up", "restore": "Restore", "renovate": "Renovate", "collected": "Collected", "locked": "Locked",
+  "grad_schools": "Graduate Schools", "majors": "University Majors", "none": "Nothing here yet."
+ },
+ "occupation_menu": [
+  {"id":"jobs","icon":"💼","key":"jobs","sub":"Careers by industry"},
+  {"id":"part_time","icon":"🕒","key":"part_time","sub":"Ages 13+"},
+  {"id":"freelance","icon":"🧰","key":"freelance","sub":"Gigs for quick cash"},
+  {"id":"military","icon":"🎖️","key":"military","sub":"Enlist or command"},
+  {"id":"special","icon":"🌟","key":"special","sub":"Fame, crime and more"},
+  {"id":"education","icon":"🎓","key":"education","sub":"Majors and graduate schools"},
+  {"id":"collection","icon":"🏆","key":"collection","sub":"Work 20 years to collect"}
+ ],
+ "assets_menu": [
+  {"id":"finances","icon":"💰","key":"finances"},{"id":"investments","icon":"📈","key":"investments"},
+  {"id":"luxury","icon":"👑","key":"luxury"},{"id":"properties","icon":"🏠","key":"properties"},
+  {"id":"belongings","icon":"🎒","key":"belongings"},{"id":"zoo","icon":"🦁","key":"zoo"},
+  {"id":"race_garage","icon":"🏁","key":"race_garage"},{"id":"casino","icon":"🎰","key":"casino"},
+  {"id":"auctions","icon":"🔨","key":"auctions"},{"id":"restoration","icon":"🔧","key":"restoration"}
+ ],
+ "shop_kind_icons": {"real_estate_broker":"🏘️","car_dealer":"🚘","jeweler":"💎","aircraft_dealer":"🛩️","boat_dealer":"🚤","instrument_shop":"🎺"},
+ "edu_level_names": {"none":"None","high_school":"High School","community_college":"Community College","university":"University"},
+ "start": {"age": 18, "cash": 25000, "stats": {"health":80,"happiness":70,"smarts":60,"looks":55}, "edu": "high_school", "licenses": ["drivers"]}
+}

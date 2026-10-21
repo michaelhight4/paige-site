@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="top_hat" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="212" rx="100" ry="8" data-slot="shadow" id="top_hat-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="76" y="40" width="104" height="128" rx="6" data-slot="fabric" id="top_hat-fabric-2" fill="#26262e" style="fill:var(--slot-fabric,#26262e)"/>
+<rect x="76" y="128" width="104" height="22" rx="2" data-slot="accent" id="top_hat-accent-3" fill="#c0392b" style="fill:var(--slot-accent,#c0392b)" stroke-width="3"/>
+<path d="M28 172Q28 156 76 160H180Q228 156 228 172Q228 192 128 194Q28 192 28 172Z" data-slot="fabric" id="top_hat-fabric-4" fill="#26262e" style="fill:var(--slot-fabric,#26262e)" stroke-width="3"/>
+<path d="M92 52V120" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="5"/>
+<rect x="114" y="128" width="28" height="22" rx="3" data-slot="metal" id="top_hat-metal-5" fill="#e8c64a" style="fill:var(--slot-metal,#e8c64a)" stroke-width="2"/>
+<rect x="120" y="134" width="16" height="10" rx="2" data-slot="fabric" id="top_hat-fabric-6" fill="#26262e" style="fill:var(--slot-fabric,#26262e)" stroke-width="1.5"/>
+</g>
+</svg>

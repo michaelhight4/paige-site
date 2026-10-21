@@ -1,0 +1,978 @@
+{
+ "slots": [
+  {
+   "id": "council",
+   "name": "Local Council Member",
+   "tier": 1,
+   "minAge": 18,
+   "term": 4,
+   "pay": 30000,
+   "seats": 8,
+   "cand": 16,
+   "needTier": 0,
+   "filing": 500,
+   "kind": "election",
+   "scope": "City"
+  },
+  {
+   "id": "school",
+   "name": "School Board Commissioner",
+   "tier": 1,
+   "minAge": 21,
+   "term": 4,
+   "pay": 24000,
+   "seats": 5,
+   "cand": 9,
+   "needTier": 0,
+   "filing": 400,
+   "kind": "election",
+   "scope": "District"
+  },
+  {
+   "id": "sheriff",
+   "name": "Sheriff",
+   "tier": 2,
+   "minAge": 25,
+   "term": 4,
+   "pay": 95000,
+   "seats": 1,
+   "cand": 3,
+   "needTier": 0,
+   "filing": 1500,
+   "kind": "election",
+   "scope": "County",
+   "clean": true
+  },
+  {
+   "id": "mayor",
+   "name": "Mayor",
+   "tier": 2,
+   "minAge": 25,
+   "term": 4,
+   "pay": 115000,
+   "seats": 1,
+   "cand": 4,
+   "needTier": 1,
+   "filing": 2500,
+   "kind": "election",
+   "scope": "City"
+  },
+  {
+   "id": "congress",
+   "name": "Congress",
+   "tier": 3,
+   "minAge": 25,
+   "term": 2,
+   "pay": 174000,
+   "seats": 1,
+   "cand": 5,
+   "needTier": 1,
+   "filing": 10000,
+   "kind": "election",
+   "scope": "District"
+  },
+  {
+   "id": "governor",
+   "name": "Governor",
+   "tier": 3,
+   "minAge": 30,
+   "term": 4,
+   "pay": 190000,
+   "seats": 1,
+   "cand": 4,
+   "needTier": 2,
+   "filing": 25000,
+   "kind": "election",
+   "scope": "State"
+  },
+  {
+   "id": "senate",
+   "name": "Senate",
+   "tier": 4,
+   "minAge": 30,
+   "term": 6,
+   "pay": 176000,
+   "seats": 1,
+   "cand": 4,
+   "needTier": 2,
+   "filing": 40000,
+   "kind": "election",
+   "scope": "State"
+  },
+  {
+   "id": "president",
+   "name": "President",
+   "tier": 5,
+   "minAge": 35,
+   "term": 4,
+   "pay": 400000,
+   "seats": 1,
+   "cand": 5,
+   "needTier": 3,
+   "filing": 150000,
+   "kind": "election",
+   "scope": "Nation",
+   "termLimit": 2
+  },
+  {
+   "id": "judge",
+   "name": "Judge",
+   "tier": 2,
+   "minAge": 30,
+   "term": 6,
+   "pay": 160000,
+   "seats": 1,
+   "cand": 1,
+   "needTier": 0,
+   "filing": 0,
+   "kind": "appointed",
+   "scope": "Court",
+   "degree": "law_school",
+   "years": 0
+  },
+  {
+   "id": "state_supreme",
+   "name": "State Supreme Court Justice",
+   "tier": 3,
+   "minAge": 35,
+   "term": 12,
+   "pay": 210000,
+   "seats": 1,
+   "cand": 1,
+   "needTier": 2,
+   "filing": 0,
+   "kind": "appointed",
+   "scope": "State",
+   "degree": "law_school",
+   "years": 4
+  },
+  {
+   "id": "federal_supreme",
+   "name": "Federal Supreme Court Justice",
+   "tier": 4,
+   "minAge": 40,
+   "term": 99,
+   "pay": 285000,
+   "seats": 1,
+   "cand": 1,
+   "needTier": 3,
+   "filing": 0,
+   "kind": "appointed",
+   "scope": "Nation",
+   "degree": "law_school",
+   "years": 8
+  }
+ ],
+ "titles": {
+  "us": {
+   "council": "Local Council Member",
+   "school": "School Board Commissioner",
+   "sheriff": "Sheriff",
+   "mayor": "Mayor",
+   "congress": "Congress Member",
+   "governor": "Governor",
+   "senate": "Senator",
+   "president": "President",
+   "judge": "Judge",
+   "state_supreme": "State Supreme Court Justice",
+   "federal_supreme": "Federal Supreme Court Justice"
+  },
+  "uk": {
+   "council": "Local Councillor",
+   "school": "School Governor",
+   "sheriff": "Police & Crime Commissioner",
+   "mayor": "Mayor",
+   "congress": "Member of Parliament",
+   "governor": "First Minister (devolved)",
+   "senate": "Peer (House of Lords seat)",
+   "president": "Prime Minister",
+   "judge": "Magistrate Judge",
+   "state_supreme": "High Court Judge",
+   "federal_supreme": "Supreme Court Justice"
+  },
+  "jp": {
+   "council": "Municipal Assembly Member",
+   "school": "Board of Education Member",
+   "sheriff": "Prefectural Police Chief",
+   "mayor": "Mayor",
+   "congress": "Member of the House of Representatives",
+   "governor": "Prefectural Governor",
+   "senate": "Member of the House of Councillors",
+   "president": "Prime Minister",
+   "judge": "District Court Judge",
+   "state_supreme": "High Court Judge",
+   "federal_supreme": "Supreme Court Justice"
+  },
+  "de": {
+   "council": "Gemeinderat Member",
+   "school": "School Board Member",
+   "sheriff": "District Police President",
+   "mayor": "Mayor (Bürgermeister)",
+   "congress": "Member of the Bundestag",
+   "governor": "Minister-President",
+   "senate": "Member of the Bundesrat",
+   "president": "Chancellor",
+   "judge": "Local Court Judge",
+   "state_supreme": "Higher Regional Court Judge",
+   "federal_supreme": "Federal Constitutional Court Justice"
+  },
+  "br": {
+   "council": "City Councillor (Vereador)",
+   "school": "School Council Member",
+   "sheriff": "Police Delegate",
+   "mayor": "Mayor (Prefeito)",
+   "congress": "Federal Deputy",
+   "governor": "Governor",
+   "senate": "Senator",
+   "president": "President",
+   "judge": "Judge",
+   "state_supreme": "State Appeals Judge",
+   "federal_supreme": "Federal Supreme Court Minister"
+  },
+  "ng": {
+   "council": "Local Government Councillor",
+   "school": "School Board Member",
+   "sheriff": "Divisional Police Officer",
+   "mayor": "Local Government Chairman",
+   "congress": "House of Representatives Member",
+   "governor": "Governor",
+   "senate": "Senator",
+   "president": "President",
+   "judge": "Magistrate",
+   "state_supreme": "State High Court Judge",
+   "federal_supreme": "Supreme Court Justice"
+  },
+  "in": {
+   "council": "Municipal Councillor",
+   "school": "School Management Member",
+   "sheriff": "Superintendent of Police",
+   "mayor": "Mayor",
+   "congress": "Member of the Lok Sabha",
+   "governor": "Chief Minister",
+   "senate": "Member of the Rajya Sabha",
+   "president": "Prime Minister",
+   "judge": "District Judge",
+   "state_supreme": "High Court Judge",
+   "federal_supreme": "Supreme Court Justice"
+  },
+  "mx": {
+   "council": "Municipal Regidor",
+   "school": "School Council Member",
+   "sheriff": "Municipal Police Chief",
+   "mayor": "Municipal President",
+   "congress": "Federal Deputy",
+   "governor": "Governor",
+   "senate": "Senator",
+   "president": "President",
+   "judge": "District Judge",
+   "state_supreme": "State Supreme Court Magistrate",
+   "federal_supreme": "Supreme Court Minister"
+  },
+  "fr": {
+   "council": "Conseiller Municipal",
+   "school": "School Board Delegate",
+   "sheriff": "Departmental Police Prefect",
+   "mayor": "Mayor (Maire)",
+   "congress": "Member of the National Assembly",
+   "governor": "Regional Council President",
+   "senate": "Senator",
+   "president": "President",
+   "judge": "Tribunal Judge",
+   "state_supreme": "Court of Appeal Judge",
+   "federal_supreme": "Constitutional Council Member"
+  },
+  "ua": {
+   "council": "City Council Deputy",
+   "school": "School Board Member",
+   "sheriff": "Chief of Regional Police",
+   "mayor": "Mayor",
+   "congress": "People's Deputy (Verkhovna Rada)",
+   "governor": "Regional Governor",
+   "senate": "Deputy Speaker (single chamber)",
+   "president": "President",
+   "judge": "Local Court Judge",
+   "state_supreme": "Appeals Court Judge",
+   "federal_supreme": "Constitutional Court Judge"
+  }
+ },
+ "systems": {
+  "us": "presidential",
+  "uk": "parliamentary",
+  "jp": "parliamentary",
+  "de": "parliamentary",
+  "br": "presidential",
+  "ng": "presidential",
+  "in": "parliamentary",
+  "mx": "presidential",
+  "fr": "presidential",
+  "ua": "presidential"
+ },
+ "monarchies": {
+  "uk": {
+   "house": "House of Windmere",
+   "male": "King",
+   "female": "Queen",
+   "consortM": "Prince Consort",
+   "consortF": "Queen Consort"
+  },
+  "jp": {
+   "house": "Imperial House of Yamato",
+   "male": "Emperor",
+   "female": "Empress",
+   "consortM": "Imperial Consort",
+   "consortF": "Empress Consort"
+  }
+ },
+ "platforms": [
+  {
+   "id": "economy",
+   "name": "Jobs & the economy",
+   "icon": "💼",
+   "fit": {
+    "council": 1,
+    "school": 0,
+    "sheriff": 0,
+    "mayor": 3,
+    "congress": 3,
+    "governor": 3,
+    "senate": 3,
+    "president": 3
+   }
+  },
+  {
+   "id": "safety",
+   "name": "Law & order",
+   "icon": "🚓",
+   "fit": {
+    "council": 2,
+    "school": 1,
+    "sheriff": 5,
+    "mayor": 3,
+    "congress": 1,
+    "governor": 2,
+    "senate": 1,
+    "president": 2
+   }
+  },
+  {
+   "id": "schools",
+   "name": "Schools & families",
+   "icon": "🏫",
+   "fit": {
+    "council": 2,
+    "school": 5,
+    "sheriff": 0,
+    "mayor": 2,
+    "congress": 2,
+    "governor": 2,
+    "senate": 1,
+    "president": 1
+   }
+  },
+  {
+   "id": "health",
+   "name": "Health care",
+   "icon": "🏥",
+   "fit": {
+    "council": 1,
+    "school": 1,
+    "sheriff": 0,
+    "mayor": 1,
+    "congress": 3,
+    "governor": 3,
+    "senate": 3,
+    "president": 3
+   }
+  },
+  {
+   "id": "green",
+   "name": "Environment & energy",
+   "icon": "🌱",
+   "fit": {
+    "council": 2,
+    "school": 1,
+    "sheriff": 0,
+    "mayor": 2,
+    "congress": 2,
+    "governor": 2,
+    "senate": 3,
+    "president": 2
+   }
+  },
+  {
+   "id": "taxes",
+   "name": "Lower taxes",
+   "icon": "💸",
+   "fit": {
+    "council": 2,
+    "school": 0,
+    "sheriff": 1,
+    "mayor": 2,
+    "congress": 2,
+    "governor": 3,
+    "senate": 3,
+    "president": 3
+   }
+  }
+ ],
+ "questions": [
+  {
+   "id": "q_taxes",
+   "text": "\"Will you raise taxes?\" The cameras are rolling.",
+   "choices": [
+    {
+     "label": "Promise never to, knowing you will have to",
+     "points": 8,
+     "cost": {
+      "cash": 0,
+      "rep": -3,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Dodge with a joke about the weather",
+     "points": 4,
+     "cost": {
+      "cash": -500,
+      "rep": -1,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Blame the other side loudly",
+     "points": 7,
+     "cost": {
+      "cash": 0,
+      "rep": 0,
+      "karma": -4
+     },
+     "scandal": 0.04
+    }
+   ]
+  },
+  {
+   "id": "q_past",
+   "text": "\"Is it true you once lied about your past?\"",
+   "choices": [
+    {
+     "label": "Deny everything",
+     "points": 8,
+     "cost": {
+      "cash": 0,
+      "rep": -4,
+      "karma": 0
+     },
+     "scandal": 0.08
+    },
+    {
+     "label": "Admit a small thing to bury the big thing",
+     "points": 5,
+     "cost": {
+      "cash": 0,
+      "rep": -2,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Attack the reporter",
+     "points": 6,
+     "cost": {
+      "cash": 0,
+      "rep": -3,
+      "karma": -4
+     },
+     "scandal": 0
+    }
+   ]
+  },
+  {
+   "id": "q_money",
+   "text": "\"Who is funding your campaign?\"",
+   "choices": [
+    {
+     "label": "\"Ordinary hard-working people\"",
+     "points": 8,
+     "cost": {
+      "cash": 0,
+      "rep": -3,
+      "karma": 0
+     },
+     "scandal": 0.05
+    },
+    {
+     "label": "Refuse to answer",
+     "points": 3,
+     "cost": {
+      "cash": 0,
+      "rep": -2,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "List only the friendly donors",
+     "points": 5,
+     "cost": {
+      "cash": 0,
+      "rep": -1,
+      "karma": 0
+     },
+     "scandal": 0.03
+    }
+   ]
+  },
+  {
+   "id": "q_crime",
+   "text": "\"What will you do about crime?\"",
+   "choices": [
+    {
+     "label": "Promise to lock up everyone",
+     "points": 8,
+     "cost": {
+      "cash": 0,
+      "rep": -2,
+      "karma": -3
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Promise miracles, no budget",
+     "points": 6,
+     "cost": {
+      "cash": 0,
+      "rep": -3,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Blame the previous administration",
+     "points": 5,
+     "cost": {
+      "cash": 0,
+      "rep": 0,
+      "karma": -2
+     },
+     "scandal": 0
+    }
+   ]
+  },
+  {
+   "id": "q_family",
+   "text": "\"Does your family support you?\"",
+   "choices": [
+    {
+     "label": "Stage a family photo shoot",
+     "points": 7,
+     "cost": {
+      "cash": -1500,
+      "rep": -1,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Say they are \"private people\"",
+     "points": 3,
+     "cost": {
+      "cash": 0,
+      "rep": 0,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Claim they inspire everything, awkwardly",
+     "points": 5,
+     "cost": {
+      "cash": 0,
+      "rep": -1,
+      "karma": -1
+     },
+     "scandal": 0
+    }
+   ]
+  },
+  {
+   "id": "q_debate",
+   "text": "\"Your opponent called you a fraud. Respond.\"",
+   "choices": [
+    {
+     "label": "Call them something worse",
+     "points": 8,
+     "cost": {
+      "cash": 0,
+      "rep": -3,
+      "karma": -4
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Laugh nervously",
+     "points": 2,
+     "cost": {
+      "cash": 0,
+      "rep": -1,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Bring up their divorce",
+     "points": 7,
+     "cost": {
+      "cash": 0,
+      "rep": -2,
+      "karma": -5
+     },
+     "scandal": 0.04
+    }
+   ]
+  },
+  {
+   "id": "q_future",
+   "text": "\"What is your plan for the next four years?\"",
+   "choices": [
+    {
+     "label": "Read a vague slogan three times",
+     "points": 6,
+     "cost": {
+      "cash": 0,
+      "rep": -2,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Promise something obviously impossible",
+     "points": 9,
+     "cost": {
+      "cash": 0,
+      "rep": -5,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Say \"change\" with great feeling",
+     "points": 5,
+     "cost": {
+      "cash": -300,
+      "rep": -1,
+      "karma": 0
+     },
+     "scandal": 0
+    }
+   ]
+  },
+  {
+   "id": "q_scandal",
+   "text": "\"A leaked recording sounds like you. Is it?\"",
+   "choices": [
+    {
+     "label": "\"That is AI-generated\"",
+     "points": 8,
+     "cost": {
+      "cash": 0,
+      "rep": -4,
+      "karma": 0
+     },
+     "scandal": 0.07
+    },
+    {
+     "label": "\"Taken out of context\"",
+     "points": 5,
+     "cost": {
+      "cash": 0,
+      "rep": -2,
+      "karma": 0
+     },
+     "scandal": 0
+    },
+    {
+     "label": "Walk off the stage",
+     "points": 3,
+     "cost": {
+      "cash": 0,
+      "rep": -3,
+      "karma": -1
+     },
+     "scandal": 0
+    }
+   ]
+  }
+ ],
+ "donors": [
+  {
+   "type": "Corporate PAC",
+   "names": [
+    "Titan Industries PAC",
+    "Meridian Holdings",
+    "Vanta Energy"
+   ],
+   "mult": 1.6,
+   "favors": [
+    "tax_break",
+    "contract",
+    "deregulate"
+   ]
+  },
+  {
+   "type": "Labor union",
+   "names": [
+    "United Workers Alliance",
+    "Trades Council 12"
+   ],
+   "mult": 1.1,
+   "favors": [
+    "jobs",
+    "wages"
+   ]
+  },
+  {
+   "type": "Billionaire",
+   "names": [
+    "Cassian Vale",
+    "Odette Marlowe",
+    "R. J. Hargrove"
+   ],
+   "mult": 2.2,
+   "favors": [
+    "appointment",
+    "contract",
+    "pardon"
+   ]
+  },
+  {
+   "type": "Lobby group",
+   "names": [
+    "Citizens for Progress",
+    "Agri-Voice Coalition",
+    "Tech Forward"
+   ],
+   "mult": 1.3,
+   "favors": [
+    "deregulate",
+    "tax_break"
+   ]
+  },
+  {
+   "type": "Local business owner",
+   "names": [
+    "Pat's Hardware",
+    "Dellacroix Motors",
+    "Sunny Side Diner"
+   ],
+   "mult": 0.4,
+   "favors": [
+    "contract",
+    "permit"
+   ]
+  }
+ ],
+ "favorKinds": {
+  "tax_break": "a tax break",
+  "contract": "a government contract",
+  "deregulate": "loosened regulations",
+  "jobs": "protecting their jobs bill",
+  "wages": "a wage deal",
+  "appointment": "a plum appointment for a friend",
+  "pardon": "a quiet pardon",
+  "permit": "a fast-tracked permit"
+ },
+ "foes": [
+  "Veskaria",
+  "the Northern Pact",
+  "Dravenmoor",
+  "the Corsair Coast",
+  "Khorazan"
+ ],
+ "royal": {
+  "duties": [
+   {
+    "id": "gala",
+    "name": "Charity gala",
+    "icon": "🎗️",
+    "pop": 3,
+    "fame": 2,
+    "karma": 2,
+    "stress": 2,
+    "gaffe": 0.05
+   },
+   {
+    "id": "visit",
+    "name": "State visit",
+    "icon": "🛬",
+    "pop": 4,
+    "fame": 3,
+    "karma": 0,
+    "stress": 4,
+    "gaffe": 0.1
+   },
+   {
+    "id": "ribbon",
+    "name": "Ribbon cutting",
+    "icon": "✂️",
+    "pop": 2,
+    "fame": 1,
+    "karma": 0,
+    "stress": 1,
+    "gaffe": 0.03
+   },
+   {
+    "id": "address",
+    "name": "Public address",
+    "icon": "🎙️",
+    "pop": 3,
+    "fame": 2,
+    "karma": 0,
+    "stress": 3,
+    "gaffe": 0.08
+   },
+   {
+    "id": "parade",
+    "name": "Military parade",
+    "icon": "🎖️",
+    "pop": 3,
+    "fame": 2,
+    "karma": 0,
+    "stress": 3,
+    "gaffe": 0.04
+   }
+  ],
+  "names": {
+   "male": [
+    "Edmund",
+    "Alaric",
+    "Hugh",
+    "Leopold",
+    "Casimir",
+    "Roland",
+    "Aldric"
+   ],
+   "female": [
+    "Isolde",
+    "Margaret",
+    "Beatrix",
+    "Adelaide",
+    "Seraphine",
+    "Eleanor",
+    "Wilhelmina"
+   ],
+   "jp_male": [
+    "Akihito",
+    "Naruhito",
+    "Hirohito",
+    "Fumihito"
+   ],
+   "jp_female": [
+    "Masako",
+    "Sayako",
+    "Kiko",
+    "Aiko"
+   ]
+  },
+  "allowance": {
+   "monarch": 900000,
+   "heir": 300000,
+   "royal": 120000,
+   "consort": 250000
+  }
+ },
+ "cases": [
+  {
+   "id": "c1",
+   "text": "A tech giant is accused of crushing smaller rivals.",
+   "choices": [
+    {
+     "label": "Rule against the giant",
+     "rep": 3,
+     "donors": -1,
+     "approval": 5
+    },
+    {
+     "label": "Rule for the giant",
+     "rep": -3,
+     "cash": 20000,
+     "approval": -4
+    },
+    {
+     "label": "Split the baby",
+     "rep": 0,
+     "approval": 0
+    }
+   ]
+  },
+  {
+   "id": "c2",
+   "text": "A protest group challenges a new law.",
+   "choices": [
+    {
+     "label": "Strike the law down",
+     "rep": 2,
+     "approval": 3,
+     "donors": -1
+    },
+    {
+     "label": "Uphold the law",
+     "rep": 1,
+     "approval": -2
+    },
+    {
+     "label": "Send it back to the legislature",
+     "rep": 0,
+     "approval": 1
+    }
+   ]
+  },
+  {
+   "id": "c3",
+   "text": "A defendant with famous friends asks for leniency.",
+   "choices": [
+    {
+     "label": "Show leniency",
+     "rep": -4,
+     "cash": 15000,
+     "approval": -3
+    },
+    {
+     "label": "Apply the law as written",
+     "rep": 4,
+     "approval": 4
+    },
+    {
+     "label": "Recuse yourself",
+     "rep": 1,
+     "approval": 0
+    }
+   ]
+  }
+ ],
+ "opponentNames": [
+  "Harlan Pike",
+  "Veronica Stahl",
+  "Dutch Calloway",
+  "Ingrid Lowell",
+  "Marcus Obi",
+  "Delia Fontaine",
+  "Bram Ketterly",
+  "Soledad Ruiz",
+  "Gideon Marsh",
+  "Tamsin Hale",
+  "Rex Aldous",
+  "Nia Okoro",
+  "Walt Brennigan",
+  "Esme Park",
+  "Lucian Frost",
+  "Hilda Voss"
+ ],
+ "party": [
+  "Unity",
+  "Liberty",
+  "Reform",
+  "Heritage"
+ ]
+}

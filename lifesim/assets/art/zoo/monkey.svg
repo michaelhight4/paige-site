@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="monkey" data-category="zoo">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="228" rx="70" ry="8" data-slot="shadow" id="monkey-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M190 210Q250 220 240 150Q236 120 214 130" fill="none" stroke="#2b2a3a" stroke-width="12"/>
+<path d="M190 210Q250 220 240 150Q236 120 214 130" fill="none" stroke="#8a5a2a" stroke-width="7"/>
+<ellipse cx="128" cy="176" rx="56" ry="54" data-slot="body" id="monkey-body-2" fill="#8a5a2a" style="fill:var(--slot-body,#8a5a2a)"/>
+<ellipse cx="128" cy="188" rx="32" ry="36" data-slot="skin" id="monkey-skin-3" fill="#f0cfa0" style="fill:var(--slot-skin,#f0cfa0)" stroke-width="2"/>
+<ellipse cx="84" cy="226" rx="22" ry="9" data-slot="body" id="monkey-body-4" fill="#8a5a2a" style="fill:var(--slot-body,#8a5a2a)"/>
+<ellipse cx="172" cy="226" rx="22" ry="9" data-slot="body" id="monkey-body-5" fill="#8a5a2a" style="fill:var(--slot-body,#8a5a2a)"/>
+<ellipse cx="70" cy="170" rx="14" ry="38" data-slot="body" id="monkey-body-6" fill="#8a5a2a" style="fill:var(--slot-body,#8a5a2a)" transform="rotate(14 70 170)"/>
+<ellipse cx="186" cy="170" rx="14" ry="38" data-slot="body" id="monkey-body-7" fill="#8a5a2a" style="fill:var(--slot-body,#8a5a2a)" transform="rotate(-14 186 170)"/>
+<circle cx="64" cy="94" r="22" data-slot="body" id="monkey-body-8" fill="#8a5a2a" style="fill:var(--slot-body,#8a5a2a)"/>
+<circle cx="64" cy="94" r="12" data-slot="skin" id="monkey-skin-9" fill="#f0cfa0" style="fill:var(--slot-skin,#f0cfa0)" stroke-width="2"/>
+<circle cx="192" cy="94" r="22" data-slot="body" id="monkey-body-10" fill="#8a5a2a" style="fill:var(--slot-body,#8a5a2a)"/>
+<circle cx="192" cy="94" r="12" data-slot="skin" id="monkey-skin-11" fill="#f0cfa0" style="fill:var(--slot-skin,#f0cfa0)" stroke-width="2"/>
+<circle cx="128" cy="94" r="48" data-slot="body" id="monkey-body-12" fill="#8a5a2a" style="fill:var(--slot-body,#8a5a2a)"/>
+<path d="M92 90Q108 70 128 86Q148 70 164 90Q172 124 128 134Q84 124 92 90Z" data-slot="skin" id="monkey-skin-13" fill="#f0cfa0" style="fill:var(--slot-skin,#f0cfa0)" stroke-width="2.5"/>
+<circle cx="110" cy="92" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="111" cy="93" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="109" cy="91" r="1.3" fill="#fff" stroke="none"/>
+<circle cx="146" cy="92" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="147" cy="93" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="145" cy="91" r="1.3" fill="#fff" stroke="none"/>
+<ellipse cx="128" cy="118" rx="24" ry="14" data-slot="skin" id="monkey-skin-14" fill="#f0cfa0" style="fill:var(--slot-skin,#f0cfa0)" stroke="none"/>
+<circle cx="120" cy="108" r="2.5" fill="#26262e" stroke="none"/>
+<circle cx="136" cy="108" r="2.5" fill="#26262e" stroke="none"/>
+<path d="M117 118Q128 126.8 139 118" fill="none" stroke-width="2.5"/>
+<path d="M60 190Q80 160 100 190Q86 200 70 204Z" fill="none" fill-opacity="0" stroke="none"/>
+<path d="M44 176Q50 156 64 160L80 196Q66 208 52 198Z" data-slot="accent" id="monkey-accent-15" fill="#f2d23a" style="fill:var(--slot-accent,#f2d23a)" stroke-width="2.5"/>
+<path d="M50 168L74 190" fill="none" stroke-width="1.5" stroke-opacity=".4"/>
+</g>
+</svg>

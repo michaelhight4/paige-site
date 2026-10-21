@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="baseball_cap" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="212" rx="90" ry="8" data-slot="shadow" id="baseball_cap-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M52 160Q40 70 128 60Q216 70 204 160Z" data-slot="fabric" id="baseball_cap-fabric-2" fill="#2b6fd6" style="fill:var(--slot-fabric,#2b6fd6)"/>
+<path d="M128 60Q106 100 108 160H148Q150 100 128 60Z" fill="none" stroke-width="2" fill-opacity="0"/>
+<path d="M128 60Q108 110 112 160M128 60Q148 110 144 160" fill="none" stroke-width="2" stroke-opacity=".4"/>
+<circle cx="128" cy="60" r="7" data-slot="metal" id="baseball_cap-metal-3" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<path d="M40 160H210Q248 168 246 190Q214 186 150 184Q80 182 40 160Z" data-slot="accent" id="baseball_cap-accent-4" fill="#e8262b" style="fill:var(--slot-accent,#e8262b)" stroke-width="3"/>
+<path d="M96 112h64v20h-64Z" fill="none" fill-opacity="0" stroke="none"/>
+<circle cx="128" cy="108" r="15" data-slot="trim" id="baseball_cap-trim-5" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2"/>
+<path d="M120 108H136M128 100V116" fill="none" stroke-width="2.5" stroke="#c0392b"/>
+</g>
+</svg>

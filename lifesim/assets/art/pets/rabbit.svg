@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="rabbit" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="228" rx="70" ry="8" data-slot="shadow" id="rabbit-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<circle cx="196" cy="196" r="20" data-slot="trim" id="rabbit-trim-2" fill="#fff" style="fill:var(--slot-trim,#fff)"/>
+<ellipse cx="124" cy="180" rx="56" ry="50" data-slot="body" id="rabbit-body-3" fill="#e8e0d4" style="fill:var(--slot-body,#e8e0d4)"/>
+<ellipse cx="124" cy="194" rx="30" ry="32" data-slot="skin" id="rabbit-skin-4" fill="#fff6ea" style="fill:var(--slot-skin,#fff6ea)" stroke-width="2"/>
+<ellipse cx="92" cy="224" rx="22" ry="10" data-slot="body" id="rabbit-body-5" fill="#e8e0d4" style="fill:var(--slot-body,#e8e0d4)"/>
+<ellipse cx="156" cy="224" rx="22" ry="10" data-slot="body" id="rabbit-body-6" fill="#e8e0d4" style="fill:var(--slot-body,#e8e0d4)"/>
+<ellipse cx="100" cy="54" rx="16" ry="50" data-slot="body" id="rabbit-body-7" fill="#e8e0d4" style="fill:var(--slot-body,#e8e0d4)" transform="rotate(-8 100 54)"/>
+<ellipse cx="148" cy="54" rx="16" ry="50" data-slot="body" id="rabbit-body-8" fill="#e8e0d4" style="fill:var(--slot-body,#e8e0d4)" transform="rotate(8 148 54)"/>
+<ellipse cx="100" cy="56" rx="7" ry="36" data-slot="accent" id="rabbit-accent-9" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" transform="rotate(-8 100 56)" stroke-width="2"/>
+<ellipse cx="148" cy="56" rx="7" ry="36" data-slot="accent" id="rabbit-accent-10" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" transform="rotate(8 148 56)" stroke-width="2"/>
+<circle cx="124" cy="116" r="46" data-slot="body" id="rabbit-body-11" fill="#e8e0d4" style="fill:var(--slot-body,#e8e0d4)"/>
+<ellipse cx="124" cy="132" rx="22" ry="16" data-slot="skin" id="rabbit-skin-12" fill="#fff6ea" style="fill:var(--slot-skin,#fff6ea)" stroke-width="2"/>
+<circle cx="106" cy="108" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="107" cy="109" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="105" cy="107" r="1.3" fill="#fff" stroke="none"/>
+<circle cx="142" cy="108" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="143" cy="109" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="141" cy="107" r="1.3" fill="#fff" stroke="none"/>
+<polygon points="118,122 130,122 124,129" data-slot="accent" id="rabbit-accent-13" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" stroke-width="2"/>
+<path d="M124 129V136M124 136q-8 8 -14 2M124 136q8 8 14 2" fill="none" stroke-width="2.2"/>
+<rect x="112" y="134" width="12" height="12" rx="2" data-slot="trim" id="rabbit-trim-14" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2"/>
+<rect x="124" y="134" width="12" height="12" rx="2" data-slot="trim" id="rabbit-trim-15" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2"/>
+<circle cx="90" cy="128" r="8" data-slot="accent" id="rabbit-accent-16" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" stroke="none" fill-opacity=".5"/>
+</g>
+</svg>

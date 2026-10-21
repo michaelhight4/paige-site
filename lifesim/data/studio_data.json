@@ -1,0 +1,1827 @@
+{
+ "meta": {
+  "version": 1,
+  "currency": "$",
+  "startYear": 2026,
+  "turnsPerYear": 12,
+  "scoreMax": 10,
+  "worldName": "Modern Earth",
+  "note": "All content lives here. Fantasy/isekai reskin: edit labels/ids/numbers only (see DESIGN.md).",
+  "unit": "copies"
+ },
+ "balance": {
+  "effortTotal": 100,
+  "effortStep": 5,
+  "minAreaPct": 5,
+  "maxAreaPct": 45,
+  "imbalanceWarnPct": 15,
+  "specialistCap": 6,
+  "weights": {
+   "match": 4.0,
+   "balance": 4.0,
+   "trend": 4.0,
+   "specialistCap": 2.0,
+   "noiseScale": 1.2,
+   "matchNeutral": 1.0,
+   "balanceNeutral": 0.7,
+   "salaryTurnsFactor": 1.0,
+   "salesExponent": 2.5,
+   "scoreRef": 7.0,
+   "shareBase": 0.25,
+   "skill": 5.0,
+   "skillNeutral": 0.4,
+   "hardware": 1.2,
+   "sequel": 0.15
+  },
+  "traitEffects": {
+   "Fast": {
+    "durationMult": 0.85
+   },
+   "Slow": {
+    "durationMult": 1.15,
+    "qualityBonus": 0.1
+   },
+   "Perfectionist": {
+    "riskDelta": -0.05
+   },
+   "Visionary": {
+    "trendBonus": 0.1
+   },
+   "Trendy": {
+    "trendBonus": 0.2
+   },
+   "Moody": {
+    "riskDelta": 0.05
+   },
+   "Wordy": {
+    "riskDelta": 0.0
+   }
+  },
+  "reviewLabels": [
+   [
+    9,
+    "Masterpiece"
+   ],
+   [
+    8,
+    "Great"
+   ],
+   [
+    7,
+    "Good"
+   ],
+   [
+    5,
+    "Mixed"
+   ],
+   [
+    3,
+    "Poor"
+   ],
+   [
+    0,
+    "Flop"
+   ]
+  ],
+  "sensation": {
+   "base": 0.005,
+   "qualityRef": 7.5,
+   "qualityWeight": 0.2,
+   "hypeWeight": 0.05,
+   "trendWeight": 0.06,
+   "shareWeight": 0.06,
+   "salesMultMin": 2.5,
+   "salesMultMax": 5.0,
+   "fameBase": 8,
+   "fameScale": 4,
+   "max": 0.7,
+   "fameDecayPerYear": 2,
+   "stockShock": 0.25
+  },
+  "consoles": {
+   "startPower": 85,
+   "powerLossPerYear": 6,
+   "refreshChancePerYear": 0.12,
+   "refreshPower": 90,
+   "refreshMindBoost": 1.3,
+   "driftPersist": 0.6,
+   "driftNoise": 0.05,
+   "mindNoise": 0.1,
+   "shareExponent": 1.0
+  }
+ },
+ "mediaTypes": {
+  "game": {
+   "label": "Game Studio",
+   "unitName": "Game",
+   "platformLabel": "Console",
+   "areas": [
+    {
+     "id": "gameplay",
+     "label": "Gameplay",
+     "icon": "🎮"
+    },
+    {
+     "id": "graphics",
+     "label": "Graphics",
+     "icon": "🖼️"
+    },
+    {
+     "id": "sound",
+     "label": "Sound",
+     "icon": "🔊"
+    },
+    {
+     "id": "story",
+     "label": "Story",
+     "icon": "📖"
+    },
+    {
+     "id": "polish",
+     "label": "Polish",
+     "icon": "✨"
+    }
+   ],
+   "genreLabels": {
+    "action": "Action",
+    "rpg": "RPG",
+    "puzzle": "Puzzle",
+    "sim": "Simulation",
+    "adventure": "Adventure",
+    "strategy": "Strategy",
+    "sports": "Sports",
+    "horror": "Horror"
+   },
+   "themeLabels": {
+    "fantasy": "Fantasy",
+    "space": "Space",
+    "medieval": "Medieval",
+    "pirates": "Pirates",
+    "cyber": "Cyberpunk",
+    "mystery": "Mystery",
+    "farming": "Farming",
+    "school": "School Life"
+   },
+   "platforms": null,
+   "sector": "tech",
+   "unit": "copies",
+   "studioShare": 0.7,
+   "tiers": [
+    {
+     "id": "small",
+     "label": "Small (indie)",
+     "icon": "🌱",
+     "cost": 20000,
+     "teamSize": 3,
+     "baseYears": 1,
+     "risk": 0.15,
+     "baseQuality": 5.0,
+     "baseRev": 800000,
+     "price": 10
+    },
+    {
+     "id": "medium",
+     "label": "Medium",
+     "icon": "🌿",
+     "cost": 90000,
+     "teamSize": 6,
+     "baseYears": 2,
+     "risk": 0.3,
+     "baseQuality": 5.8,
+     "baseRev": 2500000,
+     "price": 25
+    },
+    {
+     "id": "large",
+     "label": "Large (AA)",
+     "icon": "🌳",
+     "cost": 300000,
+     "teamSize": 10,
+     "baseYears": 4,
+     "risk": 0.5,
+     "baseQuality": 6.6,
+     "baseRev": 9000000,
+     "price": 50
+    },
+    {
+     "id": "epic",
+     "label": "Epic (AAA)",
+     "icon": "🏔️",
+     "cost": 1500000,
+     "teamSize": 16,
+     "baseYears": 7,
+     "risk": 0.65,
+     "baseQuality": 7.2,
+     "baseRev": 28000000,
+     "price": 70
+    }
+   ],
+   "roles": [
+    {
+     "id": "designer",
+     "name": "Designer",
+     "base": 65000
+    },
+    {
+     "id": "artist",
+     "name": "Artist",
+     "base": 60000
+    },
+    {
+     "id": "composer",
+     "name": "Composer",
+     "base": 55000
+    },
+    {
+     "id": "writer",
+     "name": "Writer",
+     "base": 55000
+    },
+    {
+     "id": "programmer",
+     "name": "Programmer",
+     "base": 70000
+    }
+   ],
+   "areaRoles": {
+    "gameplay": "designer",
+    "graphics": "artist",
+    "sound": "composer",
+    "story": "writer",
+    "polish": "programmer"
+   },
+   "engineLabel": "Engine",
+   "engines": [
+    {
+     "id": "e_basic",
+     "name": "Basic Engine",
+     "cost": 0,
+     "qualityBonus": 0.0,
+     "speedMult": 1.0,
+     "minFame": 0
+    },
+    {
+     "id": "e_custom",
+     "name": "Custom In-house Engine",
+     "cost": 40000,
+     "qualityBonus": 0.4,
+     "speedMult": 0.95,
+     "minFame": 0
+    },
+    {
+     "id": "e_licensed",
+     "name": "Premium Licensed Engine",
+     "cost": 150000,
+     "qualityBonus": 0.8,
+     "speedMult": 0.9,
+     "minFame": 15
+    },
+    {
+     "id": "e_next",
+     "name": "NextGen Engine",
+     "cost": 600000,
+     "qualityBonus": 1.3,
+     "speedMult": 0.85,
+     "minFame": 40
+    }
+   ]
+  },
+  "tv": {
+   "label": "TV Studio",
+   "unitName": "Series",
+   "platformLabel": "Network",
+   "areas": [
+    {
+     "id": "gameplay",
+     "label": "Script",
+     "icon": "📜"
+    },
+    {
+     "id": "graphics",
+     "label": "Cast",
+     "icon": "🎭"
+    },
+    {
+     "id": "sound",
+     "label": "VFX",
+     "icon": "💥"
+    },
+    {
+     "id": "story",
+     "label": "Music",
+     "icon": "🎼"
+    },
+    {
+     "id": "polish",
+     "label": "Marketing",
+     "icon": "📣"
+    }
+   ],
+   "genreLabels": {
+    "action": "Action",
+    "rpg": "Fantasy Saga",
+    "puzzle": "Crime",
+    "sim": "Sitcom",
+    "adventure": "Adventure",
+    "strategy": "Political",
+    "sports": "Sports",
+    "horror": "Horror"
+   },
+   "themeLabels": {
+    "fantasy": "Fantasy",
+    "space": "Space",
+    "medieval": "Period",
+    "pirates": "Seafaring",
+    "cyber": "Tech",
+    "mystery": "Mystery",
+    "farming": "Countryside",
+    "school": "Campus"
+   },
+   "platforms": [
+    {
+     "id": "n_one",
+     "name": "Channel One",
+     "reach": 0.8,
+     "feeFrac": 0.0
+    },
+    {
+     "id": "n_prime",
+     "name": "Primetime 9",
+     "reach": 1.2,
+     "feeFrac": 0.0
+    },
+    {
+     "id": "n_cable",
+     "name": "Cable Gold",
+     "reach": 0.7,
+     "feeFrac": 0.0
+    },
+    {
+     "id": "n_stream",
+     "name": "StreamBox",
+     "reach": 1.0,
+     "feeFrac": 0.0
+    }
+   ],
+   "sector": "media",
+   "unit": "viewers",
+   "studioShare": 0.6,
+   "tiers": [
+    {
+     "id": "small",
+     "label": "Cable-budget",
+     "icon": "🌱",
+     "cost": 600000,
+     "teamSize": 3,
+     "baseYears": 0.6,
+     "risk": 0.15,
+     "baseQuality": 5.0,
+     "baseRev": 900000,
+     "price": 6
+    },
+    {
+     "id": "medium",
+     "label": "Prestige-lite",
+     "icon": "🌿",
+     "cost": 4000000,
+     "teamSize": 5,
+     "baseYears": 1,
+     "risk": 0.3,
+     "baseQuality": 5.8,
+     "baseRev": 6000000,
+     "price": 7
+    },
+    {
+     "id": "large",
+     "label": "Premium",
+     "icon": "🌳",
+     "cost": 18000000,
+     "teamSize": 8,
+     "baseYears": 1.5,
+     "risk": 0.5,
+     "baseQuality": 6.6,
+     "baseRev": 26000000,
+     "price": 8
+    },
+    {
+     "id": "epic",
+     "label": "Event series",
+     "icon": "🏔️",
+     "cost": 60000000,
+     "teamSize": 12,
+     "baseYears": 2.5,
+     "risk": 0.65,
+     "baseQuality": 7.2,
+     "baseRev": 90000000,
+     "price": 9
+    }
+   ],
+   "roles": [
+    {
+     "id": "writer",
+     "name": "Screenwriter",
+     "base": 50000
+    },
+    {
+     "id": "actor",
+     "name": "Lead Actor",
+     "base": 90000
+    },
+    {
+     "id": "vfx_artist",
+     "name": "VFX Artist",
+     "base": 65000
+    },
+    {
+     "id": "composer",
+     "name": "Composer",
+     "base": 55000
+    },
+    {
+     "id": "producer",
+     "name": "Producer / Marketing",
+     "base": 60000
+    }
+   ],
+   "areaRoles": {
+    "gameplay": "writer",
+    "graphics": "actor",
+    "sound": "vfx_artist",
+    "story": "composer",
+    "polish": "producer"
+   },
+   "engineLabel": "Production Tech",
+   "episodeOptions": [
+    6,
+    10,
+    13,
+    22
+   ],
+   "engines": [
+    {
+     "id": "e_basic",
+     "name": "Standard Studio Lot",
+     "cost": 0,
+     "qualityBonus": 0.0,
+     "speedMult": 1.0,
+     "minFame": 0
+    },
+    {
+     "id": "e_set",
+     "name": "Streaming-grade Sets",
+     "cost": 250000,
+     "qualityBonus": 0.5,
+     "speedMult": 0.95,
+     "minFame": 0
+    },
+    {
+     "id": "e_virtual",
+     "name": "Virtual Set Volume",
+     "cost": 2000000,
+     "qualityBonus": 1.1,
+     "speedMult": 0.88,
+     "minFame": 35
+    }
+   ],
+   "formats": {
+    "live": {
+     "label": "Live action",
+     "costMult": 1.0,
+     "difficultyMult": 1.0
+    },
+    "animation": {
+     "label": "Animation",
+     "costMult": 0.9,
+     "difficultyMult": 1.1,
+     "areas": [
+      {
+       "id": "gameplay",
+       "label": "Script",
+       "icon": "📜"
+      },
+      {
+       "id": "graphics",
+       "label": "Voice Cast",
+       "icon": "🎙️"
+      },
+      {
+       "id": "sound",
+       "label": "Animation",
+       "icon": "🎞️"
+      },
+      {
+       "id": "story",
+       "label": "Music",
+       "icon": "🎼"
+      },
+      {
+       "id": "polish",
+       "label": "Marketing",
+       "icon": "📣"
+      }
+     ],
+     "genreLabels": {
+      "action": "Action-Toon",
+      "rpg": "Fantasy Saga",
+      "puzzle": "Mystery Toon",
+      "sim": "Family Sitcom",
+      "adventure": "Adventure",
+      "strategy": "Satire",
+      "sports": "Sports",
+      "horror": "Spooky"
+     },
+     "themeLabels": {
+      "fantasy": "Fantasy",
+      "space": "Space",
+      "medieval": "Feudal",
+      "pirates": "Seafaring",
+      "cyber": "Tech",
+      "mystery": "Mystery",
+      "farming": "Countryside",
+      "school": "School"
+     },
+     "roleNames": {
+      "actor": "Voice Lead",
+      "vfx_artist": "Animator"
+     },
+     "platforms": [
+      {
+       "id": "n_kids",
+       "name": "KidsNet",
+       "reach": 0.9,
+       "feeFrac": 0
+      },
+      {
+       "id": "n_prime",
+       "name": "Primetime 9",
+       "reach": 1.2,
+       "feeFrac": 0
+      },
+      {
+       "id": "n_stream",
+       "name": "StreamBox",
+       "reach": 1.0,
+       "feeFrac": 0
+      }
+     ]
+    },
+    "anime": {
+     "label": "Anime",
+     "costMult": 0.85,
+     "difficultyMult": 1.15,
+     "areas": [
+      {
+       "id": "gameplay",
+       "label": "Script",
+       "icon": "📜"
+      },
+      {
+       "id": "graphics",
+       "label": "Voice Cast",
+       "icon": "🎙️"
+      },
+      {
+       "id": "sound",
+       "label": "Animation",
+       "icon": "🎞️"
+      },
+      {
+       "id": "story",
+       "label": "Music",
+       "icon": "🎼"
+      },
+      {
+       "id": "polish",
+       "label": "Marketing",
+       "icon": "📣"
+      }
+     ],
+     "genreLabels": {
+      "action": "Shonen Action",
+      "rpg": "Isekai Quest",
+      "puzzle": "Psychological",
+      "sim": "Slice of Life",
+      "adventure": "Adventure",
+      "strategy": "Mecha Tactics",
+      "sports": "Sports",
+      "horror": "Horror"
+     },
+     "themeLabels": {
+      "fantasy": "Fantasy",
+      "space": "Space Opera",
+      "medieval": "Feudal",
+      "pirates": "Sky Pirates",
+      "cyber": "Cyber",
+      "mystery": "Mystery",
+      "farming": "Countryside",
+      "school": "High School"
+     },
+     "roleNames": {
+      "actor": "Voice Actor",
+      "vfx_artist": "Key Animator"
+     },
+     "platforms": [
+      {
+       "id": "b_late",
+       "name": "Late Night Block",
+       "reach": 0.7,
+       "feeFrac": 0
+      },
+      {
+       "id": "b_prime",
+       "name": "Prime Anime Slot",
+       "reach": 1.2,
+       "feeFrac": 0
+      },
+      {
+       "id": "b_stream",
+       "name": "AniStream (fict.)",
+       "reach": 1.0,
+       "feeFrac": 0
+      },
+      {
+       "id": "b_film",
+       "name": "Theatrical Run",
+       "reach": 1.1,
+       "feeFrac": 0
+      }
+     ]
+    }
+   },
+   "renewal": {
+    "renewScore": 6.5,
+    "chanceScore": 5.0,
+    "fatigue": 0.15,
+    "carryHype": 0.35,
+    "carryRatings": 0.5
+   }
+  },
+  "film": {
+   "label": "Film Studio",
+   "unitName": "Film",
+   "platformLabel": "Cinema Circuit",
+   "areas": [
+    {
+     "id": "gameplay",
+     "label": "Script",
+     "icon": "📜"
+    },
+    {
+     "id": "graphics",
+     "label": "Cast",
+     "icon": "🎭"
+    },
+    {
+     "id": "sound",
+     "label": "VFX",
+     "icon": "💥"
+    },
+    {
+     "id": "story",
+     "label": "Music",
+     "icon": "🎼"
+    },
+    {
+     "id": "polish",
+     "label": "Marketing",
+     "icon": "📣"
+    }
+   ],
+   "genreLabels": {
+    "action": "Action",
+    "rpg": "Epic Quest",
+    "puzzle": "Thriller",
+    "sim": "Drama",
+    "adventure": "Adventure",
+    "strategy": "War",
+    "sports": "Sports",
+    "horror": "Horror"
+   },
+   "themeLabels": {
+    "fantasy": "Fantasy",
+    "space": "Sci-Fi",
+    "medieval": "Historical",
+    "pirates": "Seafaring",
+    "cyber": "Dystopia",
+    "mystery": "Noir",
+    "farming": "Rural",
+    "school": "Coming of Age"
+   },
+   "platforms": [
+    {
+     "id": "p_multiplex",
+     "name": "Multiplex Chain",
+     "reach": 1.2,
+     "feeFrac": 0.04
+    },
+    {
+     "id": "p_arthouse",
+     "name": "Art-house Circuit",
+     "reach": 0.6,
+     "feeFrac": 0.0
+    },
+    {
+     "id": "p_stream",
+     "name": "StreamFlix (fict.)",
+     "reach": 0.9,
+     "feeFrac": 0.0
+    },
+    {
+     "id": "p_imax",
+     "name": "GrandScreen",
+     "reach": 1.4,
+     "feeFrac": 0.05
+    }
+   ],
+   "sector": "media",
+   "unit": "tickets",
+   "studioShare": 0.5,
+   "tiers": [
+    {
+     "id": "small",
+     "label": "Micro-budget",
+     "icon": "🌱",
+     "cost": 400000,
+     "teamSize": 3,
+     "baseYears": 1,
+     "risk": 0.15,
+     "baseQuality": 5.0,
+     "baseRev": 900000,
+     "price": 12
+    },
+    {
+     "id": "medium",
+     "label": "Indie",
+     "icon": "🌿",
+     "cost": 3000000,
+     "teamSize": 5,
+     "baseYears": 2,
+     "risk": 0.3,
+     "baseQuality": 5.8,
+     "baseRev": 6600000,
+     "price": 14
+    },
+    {
+     "id": "large",
+     "label": "Studio mid-budget",
+     "icon": "🌳",
+     "cost": 25000000,
+     "teamSize": 9,
+     "baseYears": 3.5,
+     "risk": 0.5,
+     "baseQuality": 6.6,
+     "baseRev": 55000000,
+     "price": 15
+    },
+    {
+     "id": "epic",
+     "label": "Blockbuster",
+     "icon": "🏔️",
+     "cost": 100000000,
+     "teamSize": 14,
+     "baseYears": 6,
+     "risk": 0.65,
+     "baseQuality": 7.2,
+     "baseRev": 220000000,
+     "price": 16
+    }
+   ],
+   "roles": [
+    {
+     "id": "writer",
+     "name": "Screenwriter",
+     "base": 50000
+    },
+    {
+     "id": "actor",
+     "name": "Lead Actor",
+     "base": 90000
+    },
+    {
+     "id": "vfx_artist",
+     "name": "VFX Artist",
+     "base": 65000
+    },
+    {
+     "id": "composer",
+     "name": "Composer",
+     "base": 55000
+    },
+    {
+     "id": "producer",
+     "name": "Producer / Marketing",
+     "base": 60000
+    }
+   ],
+   "areaRoles": {
+    "gameplay": "writer",
+    "graphics": "actor",
+    "sound": "vfx_artist",
+    "story": "composer",
+    "polish": "producer"
+   },
+   "engineLabel": "Production Tech",
+   "engines": [
+    {
+     "id": "e_basic",
+     "name": "Digital Cameras",
+     "cost": 0,
+     "qualityBonus": 0.0,
+     "speedMult": 1.0,
+     "minFame": 0
+    },
+    {
+     "id": "e_cine",
+     "name": "Cinema Rigs",
+     "cost": 300000,
+     "qualityBonus": 0.5,
+     "speedMult": 0.95,
+     "minFame": 0
+    },
+    {
+     "id": "e_virtual",
+     "name": "Virtual Production Stage",
+     "cost": 3000000,
+     "qualityBonus": 1.2,
+     "speedMult": 0.88,
+     "minFame": 35
+    }
+   ]
+  }
+ },
+ "genres": [
+  {
+   "id": "action",
+   "name": "Action",
+   "icon": "⚔️",
+   "idealSplit": {
+    "gameplay": 35,
+    "graphics": 20,
+    "sound": 15,
+    "story": 10,
+    "polish": 20
+   },
+   "difficulty": 1.0
+  },
+  {
+   "id": "rpg",
+   "name": "RPG",
+   "icon": "🛡️",
+   "idealSplit": {
+    "gameplay": 20,
+    "graphics": 15,
+    "sound": 15,
+    "story": 35,
+    "polish": 15
+   },
+   "difficulty": 1.3
+  },
+  {
+   "id": "puzzle",
+   "name": "Puzzle",
+   "icon": "🧩",
+   "idealSplit": {
+    "gameplay": 40,
+    "graphics": 10,
+    "sound": 15,
+    "story": 10,
+    "polish": 25
+   },
+   "difficulty": 0.8
+  },
+  {
+   "id": "sim",
+   "name": "Simulation",
+   "icon": "🏗️",
+   "idealSplit": {
+    "gameplay": 35,
+    "graphics": 15,
+    "sound": 10,
+    "story": 15,
+    "polish": 25
+   },
+   "difficulty": 1.1
+  },
+  {
+   "id": "adventure",
+   "name": "Adventure",
+   "icon": "🧭",
+   "idealSplit": {
+    "gameplay": 20,
+    "graphics": 20,
+    "sound": 15,
+    "story": 35,
+    "polish": 10
+   },
+   "difficulty": 1.0
+  },
+  {
+   "id": "strategy",
+   "name": "Strategy",
+   "icon": "♟️",
+   "idealSplit": {
+    "gameplay": 40,
+    "graphics": 10,
+    "sound": 10,
+    "story": 15,
+    "polish": 25
+   },
+   "difficulty": 1.2
+  },
+  {
+   "id": "sports",
+   "name": "Sports",
+   "icon": "🏀",
+   "idealSplit": {
+    "gameplay": 30,
+    "graphics": 25,
+    "sound": 15,
+    "story": 5,
+    "polish": 25
+   },
+   "difficulty": 0.9
+  },
+  {
+   "id": "horror",
+   "name": "Horror",
+   "icon": "👻",
+   "idealSplit": {
+    "gameplay": 15,
+    "graphics": 20,
+    "sound": 30,
+    "story": 25,
+    "polish": 10
+   },
+   "difficulty": 0.8
+  }
+ ],
+ "themes": [
+  {
+   "id": "fantasy",
+   "name": "Fantasy",
+   "icon": "🐉"
+  },
+  {
+   "id": "space",
+   "name": "Space",
+   "icon": "🚀"
+  },
+  {
+   "id": "medieval",
+   "name": "Medieval",
+   "icon": "🏰"
+  },
+  {
+   "id": "pirates",
+   "name": "Pirates",
+   "icon": "🏴‍☠️"
+  },
+  {
+   "id": "cyber",
+   "name": "Cyberpunk",
+   "icon": "🤖"
+  },
+  {
+   "id": "mystery",
+   "name": "Mystery",
+   "icon": "🕵️"
+  },
+  {
+   "id": "farming",
+   "name": "Farming",
+   "icon": "🌾"
+  },
+  {
+   "id": "school",
+   "name": "School Life",
+   "icon": "🎒"
+  }
+ ],
+ "compatibility": {
+  "action": [
+   1.1,
+   1.2,
+   1.0,
+   1.3,
+   1.2,
+   0.8,
+   0.6,
+   0.9
+  ],
+  "rpg": [
+   1.4,
+   1.1,
+   1.3,
+   1.1,
+   0.9,
+   0.9,
+   0.8,
+   1.0
+  ],
+  "puzzle": [
+   0.9,
+   1.0,
+   0.8,
+   0.9,
+   1.0,
+   1.4,
+   1.1,
+   1.2
+  ],
+  "sim": [
+   0.8,
+   1.2,
+   1.0,
+   0.7,
+   1.0,
+   0.8,
+   1.4,
+   1.3
+  ],
+  "adventure": [
+   1.2,
+   1.3,
+   1.1,
+   1.4,
+   1.0,
+   1.2,
+   0.9,
+   0.8
+  ],
+  "strategy": [
+   1.1,
+   1.3,
+   1.4,
+   1.0,
+   1.1,
+   0.9,
+   0.8,
+   0.6
+  ],
+  "sports": [
+   0.6,
+   1.0,
+   0.7,
+   0.8,
+   0.9,
+   0.6,
+   0.8,
+   1.4
+  ],
+  "horror": [
+   1.0,
+   1.3,
+   0.9,
+   1.0,
+   1.2,
+   1.4,
+   0.9,
+   1.1
+  ]
+ },
+ "compatibilityOrder": {
+  "rows": "genres",
+  "cols": [
+   "fantasy",
+   "space",
+   "medieval",
+   "pirates",
+   "cyber",
+   "mystery",
+   "farming",
+   "school"
+  ]
+ },
+ "trends": {
+  "genres": {
+   "action": {
+    "heat": 62,
+    "yearShift": 2,
+    "turnVolatility": 3
+   },
+   "rpg": {
+    "heat": 55,
+    "yearShift": -1,
+    "turnVolatility": 3
+   },
+   "puzzle": {
+    "heat": 40,
+    "yearShift": 3,
+    "turnVolatility": 3
+   },
+   "sim": {
+    "heat": 48,
+    "yearShift": 0,
+    "turnVolatility": 3
+   },
+   "adventure": {
+    "heat": 58,
+    "yearShift": -2,
+    "turnVolatility": 3
+   },
+   "strategy": {
+    "heat": 35,
+    "yearShift": 4,
+    "turnVolatility": 3
+   },
+   "sports": {
+    "heat": 45,
+    "yearShift": 1,
+    "turnVolatility": 3
+   },
+   "horror": {
+    "heat": 50,
+    "yearShift": -3,
+    "turnVolatility": 3
+   }
+  },
+  "themes": {
+   "fantasy": {
+    "heat": 70,
+    "yearShift": -2,
+    "turnVolatility": 3
+   },
+   "space": {
+    "heat": 52,
+    "yearShift": 3,
+    "turnVolatility": 3
+   },
+   "medieval": {
+    "heat": 38,
+    "yearShift": 1,
+    "turnVolatility": 3
+   },
+   "pirates": {
+    "heat": 45,
+    "yearShift": -1,
+    "turnVolatility": 3
+   },
+   "cyber": {
+    "heat": 66,
+    "yearShift": 4,
+    "turnVolatility": 3
+   },
+   "mystery": {
+    "heat": 48,
+    "yearShift": 0,
+    "turnVolatility": 3
+   },
+   "farming": {
+    "heat": 30,
+    "yearShift": 5,
+    "turnVolatility": 3
+   },
+   "school": {
+    "heat": 42,
+    "yearShift": -2,
+    "turnVolatility": 3
+   }
+  }
+ },
+ "effortAreas": [
+  {
+   "id": "gameplay",
+   "label": "Gameplay",
+   "icon": "🎮"
+  },
+  {
+   "id": "graphics",
+   "label": "Graphics",
+   "icon": "🖼️"
+  },
+  {
+   "id": "sound",
+   "label": "Sound",
+   "icon": "🔊"
+  },
+  {
+   "id": "story",
+   "label": "Story",
+   "icon": "📖"
+  },
+  {
+   "id": "polish",
+   "label": "Polish",
+   "icon": "✨"
+  }
+ ],
+ "budgetTiers": [
+  {
+   "id": "small",
+   "label": "Small",
+   "icon": "🌱",
+   "cost": 20000,
+   "teamSize": 3,
+   "durationTurns": 3,
+   "risk": 0.15,
+   "baseQuality": 5.0,
+   "baseAudience": 30000,
+   "price": 10
+  },
+  {
+   "id": "medium",
+   "label": "Medium",
+   "icon": "🌿",
+   "cost": 90000,
+   "teamSize": 6,
+   "durationTurns": 6,
+   "risk": 0.3,
+   "baseQuality": 5.8,
+   "baseAudience": 140000,
+   "price": 25
+  },
+  {
+   "id": "large",
+   "label": "Large",
+   "icon": "🌳",
+   "cost": 300000,
+   "teamSize": 10,
+   "durationTurns": 12,
+   "risk": 0.5,
+   "baseQuality": 6.6,
+   "baseAudience": 600000,
+   "price": 50
+  }
+ ],
+ "specialists": [
+  {
+   "id": "s_coder",
+   "name": "Mira Voss",
+   "role": "Systems Coder",
+   "icon": "⌨️",
+   "areaBonus": {
+    "gameplay": 1.0,
+    "polish": 0.4
+   },
+   "salaryPerTurn": 2800,
+   "traits": [
+    "Fast",
+    "Perfectionist"
+   ],
+   "bio": "Builds tight core loops.",
+   "media": [
+    "game"
+   ],
+   "minFame": 0
+  },
+  {
+   "id": "s_artist",
+   "name": "Tobin Ash",
+   "role": "Lead Artist",
+   "icon": "🎨",
+   "areaBonus": {
+    "graphics": 1.2
+   },
+   "salaryPerTurn": 2600,
+   "traits": [
+    "Visionary"
+   ],
+   "bio": "Makes screenshots sell.",
+   "media": [
+    "game"
+   ],
+   "minFame": 0
+  },
+  {
+   "id": "s_comp",
+   "name": "Lena Okoro",
+   "role": "Composer",
+   "icon": "🎵",
+   "areaBonus": {
+    "sound": 1.1
+   },
+   "salaryPerTurn": 2200,
+   "traits": [
+    "Moody"
+   ],
+   "bio": "Scores that stick in your head.",
+   "media": [
+    "game"
+   ],
+   "minFame": 0
+  },
+  {
+   "id": "s_writer",
+   "name": "Garrick Lund",
+   "role": "Narrative Writer",
+   "icon": "✒️",
+   "areaBonus": {
+    "story": 1.2
+   },
+   "salaryPerTurn": 2400,
+   "traits": [
+    "Wordy",
+    "Visionary"
+   ],
+   "bio": "Branching tales, memorable lines.",
+   "media": [
+    "game"
+   ],
+   "minFame": 0
+  },
+  {
+   "id": "s_qa",
+   "name": "Pia Nakamura",
+   "role": "QA Lead",
+   "icon": "🔍",
+   "areaBonus": {
+    "polish": 1.3,
+    "gameplay": 0.2
+   },
+   "salaryPerTurn": 2000,
+   "traits": [
+    "Perfectionist",
+    "Slow"
+   ],
+   "bio": "Squashes bugs before launch.",
+   "media": [
+    "game"
+   ],
+   "minFame": 0
+  },
+  {
+   "id": "s_design",
+   "name": "Rafe Delano",
+   "role": "Game Designer",
+   "icon": "📐",
+   "areaBonus": {
+    "gameplay": 0.8,
+    "story": 0.4
+   },
+   "salaryPerTurn": 3000,
+   "traits": [
+    "Trendy"
+   ],
+   "bio": "Reads the market; boosts trend gain.",
+   "media": [
+    "game"
+   ],
+   "minFame": 10
+  },
+  {
+   "id": "s_audio",
+   "name": "Suki Brandt",
+   "role": "Sound Engineer",
+   "icon": "🎧",
+   "areaBonus": {
+    "sound": 0.7,
+    "polish": 0.5
+   },
+   "salaryPerTurn": 1900,
+   "traits": [
+    "Fast"
+   ],
+   "bio": "Clean mixes, fewer audio bugs.",
+   "media": [
+    "game"
+   ],
+   "minFame": 0
+  },
+  {
+   "id": "s_tech",
+   "name": "Dax Holloway",
+   "role": "Tech Artist",
+   "icon": "🖥️",
+   "areaBonus": {
+    "graphics": 0.8,
+    "polish": 0.6
+   },
+   "salaryPerTurn": 2700,
+   "traits": [
+    "Slow",
+    "Perfectionist"
+   ],
+   "bio": "Shaders and performance.",
+   "media": [
+    "game"
+   ],
+   "minFame": 20
+  },
+  {
+   "id": "s_scribe",
+   "name": "Odile Park",
+   "role": "Screenwriter",
+   "icon": "📝",
+   "areaBonus": {
+    "gameplay": 1.2,
+    "story": 0.3
+   },
+   "salaryPerTurn": 2400,
+   "traits": [
+    "Wordy",
+    "Visionary"
+   ],
+   "bio": "Dialogue that gets quoted.",
+   "media": [
+    "film",
+    "tv"
+   ],
+   "minFame": 0
+  },
+  {
+   "id": "s_pr",
+   "name": "Bea Calloway",
+   "role": "Publicist",
+   "icon": "📣",
+   "areaBonus": {
+    "polish": 1.3
+   },
+   "salaryPerTurn": 2100,
+   "traits": [
+    "Trendy"
+   ],
+   "bio": "Turns premieres into events.",
+   "media": [
+    "film",
+    "tv"
+   ],
+   "minFame": 10
+  },
+  {
+   "id": "s_vfx",
+   "name": "Kiri Tan",
+   "role": "VFX Supervisor",
+   "icon": "💥",
+   "areaBonus": {
+    "sound": 1.2,
+    "polish": 0.3
+   },
+   "salaryPerTurn": 3000,
+   "traits": [
+    "Slow",
+    "Perfectionist"
+   ],
+   "bio": "Invisible effects.",
+   "media": [
+    "film"
+   ],
+   "minFame": 15
+  },
+  {
+   "id": "s_maestro",
+   "name": "Anselm Rook",
+   "role": "Composer",
+   "icon": "🎼",
+   "areaBonus": {
+    "story": 1.2
+   },
+   "salaryPerTurn": 2600,
+   "traits": [
+    "Moody"
+   ],
+   "bio": "Themes you hum for years.",
+   "media": [
+    "film",
+    "tv"
+   ],
+   "minFame": 20
+  },
+  {
+   "id": "s_showrunner",
+   "name": "Ravi Menon",
+   "role": "Showrunner",
+   "icon": "🎬",
+   "areaBonus": {
+    "gameplay": 0.8,
+    "polish": 0.6
+   },
+   "salaryPerTurn": 3000,
+   "traits": [
+    "Fast"
+   ],
+   "bio": "Keeps a writers room on schedule.",
+   "media": [
+    "tv"
+   ],
+   "minFame": 25
+  },
+  {
+   "id": "s_sensei",
+   "name": "Haru Ito",
+   "role": "Animation Director",
+   "icon": "🎞️",
+   "areaBonus": {
+    "sound": 1.3,
+    "graphics": 0.4
+   },
+   "salaryPerTurn": 3200,
+   "traits": [
+    "Perfectionist"
+   ],
+   "bio": "Every frame hand-checked.",
+   "media": [
+    "tv"
+   ],
+   "minFame": 25
+  },
+  {
+   "id": "s_star",
+   "name": "Dante Vale",
+   "role": "Star Actor",
+   "icon": "🌟",
+   "areaBonus": {
+    "graphics": 1.4
+   },
+   "salaryPerTurn": 6000,
+   "traits": [
+    "Trendy"
+   ],
+   "bio": "Opens a film by name alone.",
+   "media": [
+    "film",
+    "tv"
+   ],
+   "minFame": 30
+  },
+  {
+   "id": "s_auteur",
+   "name": "Vesper Lang",
+   "role": "Legendary Auteur",
+   "icon": "🏆",
+   "areaBonus": {
+    "gameplay": 1.0,
+    "graphics": 0.8,
+    "story": 0.8
+   },
+   "salaryPerTurn": 9000,
+   "traits": [
+    "Visionary",
+    "Perfectionist"
+   ],
+   "bio": "Awards-season royalty.",
+   "media": [
+    "film",
+    "tv",
+    "game"
+   ],
+   "minFame": 60
+  },
+  {
+   "id": "s_legend",
+   "name": "Zed Quartermain",
+   "role": "Industry Legend",
+   "icon": "👑",
+   "areaBonus": {
+    "gameplay": 0.7,
+    "graphics": 0.7,
+    "sound": 0.5,
+    "story": 0.5,
+    "polish": 0.7
+   },
+   "salaryPerTurn": 8000,
+   "traits": [
+    "Fast",
+    "Visionary"
+   ],
+   "bio": "Shipped a dozen classics.",
+   "media": [
+    "game"
+   ],
+   "minFame": 50
+  }
+ ],
+ "consoles": [
+  {
+   "id": "c_nova",
+   "name": "Novabox 4",
+   "maker": "Orbital Works",
+   "icon": "🟦",
+   "color": "#4aa3ff",
+   "blurb": "Incumbent powerhouse.",
+   "share0": 34,
+   "drift0": -0.0626,
+   "age0": 4
+  },
+  {
+   "id": "c_aegis",
+   "name": "Aegis Core",
+   "maker": "Shieldline",
+   "icon": "🟥",
+   "color": "#ff6b6b",
+   "blurb": "Steady and loyal fanbase.",
+   "share0": 28,
+   "drift0": -0.017,
+   "age0": 3
+  },
+  {
+   "id": "c_lumen",
+   "name": "Lumen Go",
+   "maker": "Brightfold",
+   "icon": "🟨",
+   "color": "#ffd24a",
+   "blurb": "Handheld, rising fast.",
+   "share0": 22,
+   "drift0": 0.0388,
+   "age0": 1
+  },
+  {
+   "id": "c_pixie",
+   "name": "Pixie One",
+   "maker": "Tinyforge",
+   "icon": "🟪",
+   "color": "#b784ff",
+   "blurb": "Indie darling, cheap.",
+   "share0": 16,
+   "drift0": 0.0554,
+   "age0": 0
+  }
+ ],
+ "consoleShare": {
+  "years": [
+   2026,
+   2027,
+   2028,
+   2029,
+   2030,
+   2031,
+   2032,
+   2033,
+   2034,
+   2035
+  ],
+  "share": {
+   "c_nova": [
+    34,
+    31,
+    28,
+    26,
+    24,
+    22,
+    21,
+    20,
+    20,
+    19
+   ],
+   "c_aegis": [
+    28,
+    29,
+    30,
+    30,
+    29,
+    28,
+    27,
+    26,
+    25,
+    24
+   ],
+   "c_lumen": [
+    22,
+    22,
+    23,
+    24,
+    26,
+    28,
+    29,
+    30,
+    30,
+    31
+   ],
+   "c_pixie": [
+    16,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26
+   ]
+  }
+ },
+ "sampleHistory": [],
+ "audiences": [
+  {
+   "id": "everyone",
+   "name": "Everyone",
+   "icon": "👪",
+   "salesMult": 1.0,
+   "genreFit": {}
+  },
+  {
+   "id": "kids",
+   "name": "Kids",
+   "icon": "🧒",
+   "salesMult": 0.85,
+   "genreFit": {
+    "horror": 0.5,
+    "action": 0.9,
+    "puzzle": 1.2,
+    "sim": 1.1,
+    "adventure": 1.15
+   }
+  },
+  {
+   "id": "teen",
+   "name": "Teens",
+   "icon": "🧑",
+   "salesMult": 1.05,
+   "genreFit": {
+    "action": 1.1,
+    "sports": 1.1,
+    "horror": 1.1
+   }
+  },
+  {
+   "id": "mature",
+   "name": "Mature",
+   "icon": "🧔",
+   "salesMult": 0.95,
+   "genreFit": {
+    "horror": 1.2,
+    "strategy": 1.1,
+    "rpg": 1.1,
+    "puzzle": 0.9,
+    "sim": 0.95
+   }
+  }
+ ],
+ "nameGen": {
+  "adjectives": [
+   "Crimson",
+   "Silent",
+   "Last",
+   "Neon",
+   "Hidden",
+   "Iron",
+   "Lost",
+   "Golden",
+   "Wild",
+   "Midnight",
+   "Broken",
+   "Eternal"
+  ],
+  "nouns": [
+   "Dragon",
+   "Harbor",
+   "Signal",
+   "Garden",
+   "Empire",
+   "Frontier",
+   "Legacy",
+   "Horizon",
+   "Tide",
+   "Vault",
+   "Echo",
+   "Odyssey"
+  ],
+  "patterns": [
+   "{adj} {noun}",
+   "The {adj} {noun}",
+   "{noun} of {noun2}",
+   "{adj} {noun}: Reborn",
+   "Project {noun}"
+  ]
+ },
+ "fameTiers": [
+  {
+   "min": 0,
+   "label": "Unknown",
+   "dealMult": 1.0
+  },
+  {
+   "min": 15,
+   "label": "Rising Name",
+   "dealMult": 1.05
+  },
+  {
+   "min": 35,
+   "label": "Industry Player",
+   "dealMult": 1.12
+  },
+  {
+   "min": 60,
+   "label": "Household Name",
+   "dealMult": 1.2
+  },
+  {
+   "min": 85,
+   "label": "Legend",
+   "dealMult": 1.3
+  }
+ ],
+ "marketing": [
+  {
+   "id": "none",
+   "name": "None",
+   "costFrac": 0.0,
+   "hype": 0
+  },
+  {
+   "id": "std",
+   "name": "Standard",
+   "costFrac": 0.06,
+   "hype": 15
+  },
+  {
+   "id": "blitz",
+   "name": "Blitz",
+   "costFrac": 0.15,
+   "hype": 35
+  }
+ ],
+ "sequel": {
+  "minReleases": 1
+ }
+}

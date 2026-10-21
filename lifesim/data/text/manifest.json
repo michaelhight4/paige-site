@@ -1,0 +1,1 @@
+{ "version": 1, "complete": false, "note": "Placeholder. Run: node tools/import_text.mjs /workspace/lifesim_text --complete when the Text Bot pack is finished.", "files": {} }

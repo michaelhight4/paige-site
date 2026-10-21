@@ -1,0 +1,338 @@
+[
+ {
+  "activity": "Doctor (medical)",
+  "menu": "Mind&Body/Health",
+  "min_age": 4,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Doctor (alternative/psychiatrist/witch doctor)",
+  "menu": "Health",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Emergency room",
+  "menu": "Health",
+  "min_age": 4,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Accessories",
+  "menu": "Shop",
+  "min_age": 0,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Adoption",
+  "menu": "Family",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Crime: pickpocket/shoplift/porch pirate/delinquent",
+  "menu": "Crime",
+  "min_age": 8,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Crime: burglary",
+  "menu": "Crime",
+  "min_age": 10,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Crime: grand theft auto/murder",
+  "menu": "Crime",
+  "min_age": 14,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Hire hitman",
+  "menu": "Crime",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Emigrate",
+  "menu": "Life",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Fertility clinic",
+  "menu": "Family",
+  "min_age": 14,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Gamble/Casino/Horse races/Lottery/Sweepstakes",
+  "menu": "Money",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Identity (gender)",
+  "menu": "Life",
+  "min_age": 4,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Lawsuit",
+  "menu": "Life",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Date (school)",
+  "menu": "Love",
+  "min_age": 14,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Dating app/hook-up/threesome/mail-order",
+  "menu": "Love",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Acting lessons",
+  "menu": "Mind&Body",
+  "min_age": 8,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Read book",
+  "menu": "Mind&Body",
+  "min_age": 6,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Diet",
+  "menu": "Mind&Body",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Gardening",
+  "menu": "Mind&Body",
+  "min_age": 12,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Gym",
+  "menu": "Mind&Body",
+  "min_age": 12,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Instrument lessons",
+  "menu": "Mind&Body",
+  "min_age": 6,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Library",
+  "menu": "Mind&Body",
+  "min_age": 12,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Martial arts",
+  "menu": "Mind&Body",
+  "min_age": 8,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Meditate",
+  "menu": "Mind&Body",
+  "min_age": 12,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Memory test",
+  "menu": "Mind&Body",
+  "min_age": 6,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Walk",
+  "menu": "Mind&Body",
+  "min_age": 8,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Voice lessons",
+  "menu": "Mind&Body",
+  "min_age": 8,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Movie theater (family)",
+  "menu": "Fun",
+  "min_age": 6,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Movie theater (comedy/documentary)",
+  "menu": "Fun",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Nightlife/clubbing",
+  "menu": "Fun",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Plastic surgery",
+  "menu": "Looks",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Vacation/cruise",
+  "menu": "Travel",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Will/Testament",
+  "menu": "Life",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Part-time job/freelance gig",
+  "menu": "Work",
+  "min_age": 13,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Dog walker/pet sitter/babysitter freelance",
+  "menu": "Work",
+  "min_age": 13,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Lawnmower freelance",
+  "menu": "Work",
+  "min_age": 14,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Tutor freelance",
+  "menu": "Work",
+  "min_age": 15,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Handyman/Caretaker freelance",
+  "menu": "Work",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Own pet (self)",
+  "menu": "Pets",
+  "min_age": 15,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Adopt shelter pet with parental OK",
+  "menu": "Pets",
+  "min_age": 6,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Exotic pets/horses",
+  "menu": "Pets",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Driver's license",
+  "menu": "Licenses",
+  "min_age": 16,
+  "tag": "K",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Social media signup",
+  "menu": "Social",
+  "min_age": 13,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "OnlyFans",
+  "menu": "Social",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Buy assets (cars/houses/jewelry/planes/boats)",
+  "menu": "Assets",
+  "min_age": 18,
+  "tag": "V",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Rehab (AA/hypnotherapy/center)",
+  "menu": "Health",
+  "min_age": 18,
+  "tag": "K",
+  "source": "public research notes"
+ },
+ {
+  "activity": "Surrender",
+  "menu": "Life",
+  "min_age": 0,
+  "tag": "V",
+  "source": "public research notes"
+ }
+]

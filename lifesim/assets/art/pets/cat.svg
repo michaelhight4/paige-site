@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="cat" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="228" rx="70" ry="8" data-slot="shadow" id="cat-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M184 200Q244 200 232 140Q228 112 206 120Q224 130 220 160Q214 180 178 176Z" data-slot="body" id="cat-body-2" fill="#e0873a" style="fill:var(--slot-body,#e0873a)"/>
+<ellipse cx="124" cy="176" rx="56" ry="54" data-slot="body" id="cat-body-3" fill="#e0873a" style="fill:var(--slot-body,#e0873a)"/>
+<ellipse cx="124" cy="190" rx="28" ry="34" data-slot="skin" id="cat-skin-4" fill="#fbe9d0" style="fill:var(--slot-skin,#fbe9d0)" stroke-width="2"/>
+<ellipse cx="100" cy="228" rx="16" ry="7" data-slot="skin" id="cat-skin-5" fill="#fbe9d0" style="fill:var(--slot-skin,#fbe9d0)"/>
+<ellipse cx="148" cy="228" rx="16" ry="7" data-slot="skin" id="cat-skin-6" fill="#fbe9d0" style="fill:var(--slot-skin,#fbe9d0)"/>
+<polygon points="74,62 80,20 112,50" data-slot="body" id="cat-body-7" fill="#e0873a" style="fill:var(--slot-body,#e0873a)"/>
+<polygon points="174,62 168,20 136,50" data-slot="body" id="cat-body-8" fill="#e0873a" style="fill:var(--slot-body,#e0873a)"/>
+<polygon points="82,54 84,36 100,50" data-slot="accent" id="cat-accent-9" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" stroke-width="2"/>
+<polygon points="166,54 164,36 148,50" data-slot="accent" id="cat-accent-10" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" stroke-width="2"/>
+<ellipse cx="124" cy="96" rx="54" ry="46" data-slot="body" id="cat-body-11" fill="#e0873a" style="fill:var(--slot-body,#e0873a)"/>
+<path d="M112 52V68M124 50V66M136 52V68" fill="none" stroke-width="4" stroke="#7a4a24"/>
+<circle cx="104" cy="92" r="8" fill="#fff" stroke-width="2"/>
+<circle cx="105" cy="93" r="4.2" fill="#26262e" stroke="none"/>
+<circle cx="103" cy="91" r="1.5" fill="#fff" stroke="none"/>
+<circle cx="144" cy="92" r="8" fill="#fff" stroke-width="2"/>
+<circle cx="145" cy="93" r="4.2" fill="#26262e" stroke="none"/>
+<circle cx="143" cy="91" r="1.5" fill="#fff" stroke="none"/>
+<polygon points="118,106 130,106 124,114" data-slot="accent" id="cat-accent-12" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" stroke-width="2"/>
+<path d="M108 118Q116 124.4 124 118" fill="none" stroke-width="2.5"/>
+<path d="M124 118Q132 124.4 140 118" fill="none" stroke-width="2.5"/>
+<path d="M82 106H58M82 114L60 122M166 106H190M166 114L188 122" fill="none" stroke-width="1.8"/>
+<path d="M200 150q14 -16 8 -34M210 168q18 -10 12 -34" fill="none" stroke-width="0"/>
+<path d="M190 190q8 -4 12 2" fill="none" stroke="#7a4a24" stroke-width="4"/>
+<path d="M204 176q8 -4 12 2" fill="none" stroke="#7a4a24" stroke-width="4"/>
+<path d="M216 176q8 -4 12 2" fill="none" stroke="#7a4a24" stroke-width="4"/>
+</g>
+</svg>

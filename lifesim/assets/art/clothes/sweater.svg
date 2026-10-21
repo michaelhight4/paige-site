@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="sweater" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="70" ry="8" data-slot="shadow" id="sweater-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M92 40L128 56L164 40L224 110L204 150L178 128V216H78V128L52 150L32 110Z" data-slot="fabric" id="sweater-fabric-2" fill="#c0392b" style="fill:var(--slot-fabric,#c0392b)"/>
+<path d="M96 40Q128 78 160 40L152 34Q128 56 104 34Z" data-slot="trim" id="sweater-trim-3" fill="#8f2b20" style="fill:var(--slot-trim,#8f2b20)" stroke-width="2.5"/>
+<rect x="78" y="204" width="100" height="14" rx="3" data-slot="trim" id="sweater-trim-4" fill="#8f2b20" style="fill:var(--slot-trim,#8f2b20)"/>
+<rect x="28" y="134" width="28" height="14" rx="3" data-slot="trim" id="sweater-trim-5" fill="#8f2b20" style="fill:var(--slot-trim,#8f2b20)" transform="rotate(-30 42 140)"/>
+<rect x="200" y="134" width="28" height="14" rx="3" data-slot="trim" id="sweater-trim-6" fill="#8f2b20" style="fill:var(--slot-trim,#8f2b20)" transform="rotate(30 214 140)"/>
+<path d="M104 100q10 8 0 16t0 16t0 16t0 16M128 92q10 8 0 16t0 16t0 16t0 16t0 16M152 100q-10 8 0 16t0 16t0 16t0 16" fill="none" stroke-width="2.5" stroke-opacity=".5"/>
+</g>
+</svg>

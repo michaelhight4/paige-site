@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" shape-rendering="crispEdges" data-asset="gear_mic_1" data-category="gear">
+<g stroke="#2b2a3a" stroke-width="2" stroke-linejoin="miter">
+<ellipse cx="64" cy="116" rx="30" ry="5" id="gear_mic_1-s1" data-slot="shadow" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="60" y="70" width="8" height="36" id="gear_mic_1-s2" data-slot="metal" fill="#b8bcc8" style="fill:var(--slot-metal,#b8bcc8)" />
+<rect x="46" y="106" width="36" height="8" id="gear_mic_1-s3" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<circle cx="64" cy="48" r="14" id="gear_mic_1-s4" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<circle cx="64" cy="48" r="9" id="gear_mic_1-s5" data-slot="metal" fill="#b8bcc8" style="fill:var(--slot-metal,#b8bcc8)" fill-opacity=".9"/>
+<rect x="60" y="40" width="4" height="4" fill="#fff" fill-opacity=".6" stroke="none"/>
+<rect x="58" y="52" width="12" height="3" fill="#000" fill-opacity=".25" stroke="none"/>
+</g>
+</svg>

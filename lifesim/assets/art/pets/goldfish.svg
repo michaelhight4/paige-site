@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="goldfish" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="232" rx="64" ry="8" data-slot="shadow" id="goldfish-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M52 104H204Q220 140 204 190Q190 224 128 226Q66 224 52 190Q36 140 52 104Z" data-slot="water" id="goldfish-water-2" fill="#8fd3ec" style="fill:var(--slot-water,#8fd3ec)"/>
+<path d="M58 200Q128 214 198 200Q186 222 128 224Q70 222 58 200Z" data-slot="stone" id="goldfish-stone-3" fill="#d9c3a0" style="fill:var(--slot-stone,#d9c3a0)" stroke-width="2"/>
+<path d="M80 200Q70 160 84 140Q88 170 96 196M96 200Q104 164 94 134Q112 166 108 200" data-slot="grass" id="goldfish-grass-4" fill="#6ec06a" style="fill:var(--slot-grass,#6ec06a)" stroke-width="2.5"/>
+<path d="M96 150Q130 112 160 148Q132 184 96 150Z" data-slot="accent" id="goldfish-accent-5" fill="#ff8a1e" style="fill:var(--slot-accent,#ff8a1e)"/>
+<path d="M158 148L186 126V172Z" data-slot="accent" id="goldfish-accent-6" fill="#ff8a1e" style="fill:var(--slot-accent,#ff8a1e)"/>
+<path d="M120 124Q132 108 144 128Z" data-slot="accent" id="goldfish-accent-7" fill="#ff8a1e" style="fill:var(--slot-accent,#ff8a1e)" stroke-width="2"/>
+<circle cx="112" cy="146" r="6" fill="#fff" stroke-width="2"/>
+<circle cx="113" cy="147" r="2.8" fill="#26262e" stroke="none"/>
+<circle cx="111" cy="145" r="1" fill="#fff" stroke="none"/>
+<path d="M100 154Q94 160 100 166" fill="none" stroke-width="2"/>
+<circle cx="170" cy="96" r="6" data-slot="glass" id="goldfish-glass-8" fill="#ffffff" style="fill:var(--slot-glass,#ffffff)" stroke-width="2" fill-opacity=".6"/>
+<circle cx="180" cy="80" r="4" data-slot="glass" id="goldfish-glass-9" fill="#ffffff" style="fill:var(--slot-glass,#ffffff)" stroke-width="2" fill-opacity=".6"/>
+<path d="M52 104Q44 60 76 56H180Q212 60 204 104Z" data-slot="glass" id="goldfish-glass-10" fill="#ffffff" style="fill:var(--slot-glass,#ffffff)" fill-opacity=".0" stroke="none"/>
+<path d="M60 96Q56 70 80 62M62 150Q60 130 66 120" fill="none" stroke="#fff" stroke-width="5" stroke-opacity=".8"/>
+<path d="M52 104Q52 80 80 74H176Q204 80 204 104" fill="none" stroke-width="3"/>
+<ellipse cx="128" cy="104" rx="76" ry="12" data-slot="glass" id="goldfish-glass-11" fill="#ffffff" style="fill:var(--slot-glass,#ffffff)" fill-opacity=".5" stroke-width="3"/>
+</g>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="piano" data-category="instruments">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="100" ry="8" data-slot="shadow" id="piano-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="24" y="36" width="208" height="120" rx="8" data-slot="body" id="piano-body-2" fill="#2a2a34" style="fill:var(--slot-body,#2a2a34)"/>
+<rect x="40" y="50" width="176" height="50" rx="4" data-slot="trim" id="piano-trim-3" fill="#f8f8f4" style="fill:var(--slot-trim,#f8f8f4)" stroke-width="2"/>
+<path d="M60 60H196M60 72H196M60 84H196" fill="none" stroke-width="2" stroke-opacity=".4"/>
+<rect x="20" y="148" width="216" height="22" rx="4" data-slot="body" id="piano-body-4" fill="#2a2a34" style="fill:var(--slot-body,#2a2a34)"/>
+<rect x="28" y="158" width="200" height="54" rx="3" data-slot="trim" id="piano-trim-5" fill="#f8f8f4" style="fill:var(--slot-trim,#f8f8f4)"/>
+<path d="M48 158V212" fill="none" stroke-width="2"/>
+<path d="M68 158V212" fill="none" stroke-width="2"/>
+<path d="M88 158V212" fill="none" stroke-width="2"/>
+<path d="M108 158V212" fill="none" stroke-width="2"/>
+<path d="M128 158V212" fill="none" stroke-width="2"/>
+<path d="M148 158V212" fill="none" stroke-width="2"/>
+<path d="M168 158V212" fill="none" stroke-width="2"/>
+<path d="M188 158V212" fill="none" stroke-width="2"/>
+<path d="M208 158V212" fill="none" stroke-width="2"/>
+<rect x="42" y="158" width="12" height="32" rx="2" fill="#26262e" stroke-width="2"/>
+<rect x="62" y="158" width="12" height="32" rx="2" fill="#26262e" stroke-width="2"/>
+<rect x="102" y="158" width="12" height="32" rx="2" fill="#26262e" stroke-width="2"/>
+<rect x="122" y="158" width="12" height="32" rx="2" fill="#26262e" stroke-width="2"/>
+<rect x="142" y="158" width="12" height="32" rx="2" fill="#26262e" stroke-width="2"/>
+<rect x="182" y="158" width="12" height="32" rx="2" fill="#26262e" stroke-width="2"/>
+<rect x="202" y="158" width="12" height="32" rx="2" fill="#26262e" stroke-width="2"/>
+<rect x="34" y="212" width="12" height="22" rx="2" data-slot="body" id="piano-body-6" fill="#2a2a34" style="fill:var(--slot-body,#2a2a34)"/>
+<rect x="210" y="212" width="12" height="22" rx="2" data-slot="body" id="piano-body-7" fill="#2a2a34" style="fill:var(--slot-body,#2a2a34)"/>
+<rect x="116" y="120" width="24" height="8" rx="2" data-slot="metal" id="piano-metal-8" fill="#e0b840" style="fill:var(--slot-metal,#e0b840)" stroke-width="2"/>
+</g>
+</svg>

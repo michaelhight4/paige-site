@@ -1,0 +1,392 @@
+{
+ "crimes": [
+  {
+   "id": "shoplift",
+   "name": "Shoplift",
+   "minAge": 8,
+   "severity": 1,
+   "catch": 0.25,
+   "sentence": [
+    0.25,
+    1
+   ],
+   "loot": [
+    10,
+    200
+   ],
+   "karma": -8,
+   "ok": "I shoplifted a few things and walked out like I owned the place.",
+   "caught": "I was caught shoplifting by a mall guard with a very small flashlight.",
+   "menu": true,
+   "src": "pickpocket/shoplift/porch pirate/delinquent"
+  },
+  {
+   "id": "burglary",
+   "name": "Burglary",
+   "minAge": 10,
+   "severity": 2,
+   "catch": 0.35,
+   "sentence": [
+    1,
+    4
+   ],
+   "loot": [
+    500,
+    6000
+   ],
+   "karma": -16,
+   "ok": "I burgled a house and left with a television and a sense of purpose.",
+   "caught": "I was caught burgling a house while eating its cereal.",
+   "menu": true,
+   "src": "burglary"
+  },
+  {
+   "id": "gta",
+   "name": "Grand Theft Auto",
+   "minAge": 14,
+   "severity": 3,
+   "catch": 0.4,
+   "sentence": [
+    1,
+    5
+   ],
+   "loot": [
+    3000,
+    25000
+   ],
+   "karma": -16,
+   "ok": "I stole a car and sold it to a man named Dave.",
+   "caught": "I was caught in a stolen car with a very loud radio.",
+   "menu": true,
+   "src": "grand theft auto"
+  },
+  {
+   "id": "resist",
+   "name": "Resisting arrest",
+   "minAge": 8,
+   "severity": 1,
+   "catch": 0.9,
+   "sentence": [
+    0.25,
+    1
+   ],
+   "loot": [
+    0,
+    0
+   ],
+   "karma": -8,
+   "ok": "I resisted arrest and then un-resisted.",
+   "caught": "I resisted arrest and lost.",
+   "menu": false,
+   "src": "delinquency (reckless endangerment/disorderly/mischief/piracy)"
+  },
+  {
+   "id": "assault",
+   "name": "Assault",
+   "minAge": 12,
+   "severity": 2,
+   "catch": 0.45,
+   "sentence": [
+    0.5,
+    3
+   ],
+   "loot": [
+    0,
+    0
+   ],
+   "karma": -16,
+   "ok": "I assaulted a man and he deserved it, mostly.",
+   "caught": "I was arrested for assault after a very public punch.",
+   "menu": false,
+   "src": "delinquency (reckless endangerment/disorderly/mischief/piracy)"
+  },
+  {
+   "id": "dui",
+   "name": "Drunk driving",
+   "minAge": 18,
+   "severity": 2,
+   "catch": 0.35,
+   "sentence": [
+    0.25,
+    2
+   ],
+   "loot": [
+    0,
+    0
+   ],
+   "karma": -16,
+   "ok": "I drove drunk and made it home.",
+   "caught": "I was arrested for driving while very festive.",
+   "menu": false,
+   "src": "DUI"
+  },
+  {
+   "id": "drugs",
+   "name": "Drug dealing",
+   "minAge": 14,
+   "severity": 3,
+   "catch": 0.3,
+   "sentence": [
+    1,
+    8
+   ],
+   "loot": [
+    1000,
+    15000
+   ],
+   "karma": -16,
+   "ok": "I sold drugs for a few weeks and made some money.",
+   "caught": "I was arrested for selling drugs to a man in a trench coat, who was a cop.",
+   "menu": true,
+   "src": "drug trafficking/possession"
+  },
+  {
+   "id": "embezzle",
+   "name": "Embezzle from work",
+   "minAge": 18,
+   "severity": 3,
+   "catch": 0.3,
+   "sentence": [
+    2,
+    8
+   ],
+   "loot": [
+    5000,
+    80000
+   ],
+   "karma": -16,
+   "ok": "I embezzled from my employer and bought a boat I could not afford to tell anyone about.",
+   "caught": "I was caught embezzling by an accountant with a long memory.",
+   "menu": true,
+   "src": "embezzle",
+   "if": {
+    "job": 1
+   }
+  },
+  {
+   "id": "bank",
+   "name": "Rob a bank",
+   "minAge": 18,
+   "severity": 4,
+   "catch": 0.55,
+   "sentence": [
+    5,
+    20
+   ],
+   "loot": [
+    20000,
+    250000
+   ],
+   "karma": -30,
+   "ok": "I robbed a bank in a rubber mask and escaped on a rented scooter.",
+   "caught": "I robbed a bank and was caught in the parking lot trying to start a scooter.",
+   "menu": true,
+   "src": "bank robbery"
+  },
+  {
+   "id": "murder",
+   "name": "Murder",
+   "minAge": 14,
+   "severity": 5,
+   "catch": 0.6,
+   "sentence": [
+    20,
+    99
+   ],
+   "loot": [
+    0,
+    0
+   ],
+   "karma": -30,
+   "ok": "I killed a man and told nobody.",
+   "caught": "I was arrested for murder and the evidence was a footprint and a note.",
+   "menu": true,
+   "src": "murder"
+  },
+  {
+   "id": "hitman",
+   "name": "Hire a hitman",
+   "minAge": 18,
+   "severity": 5,
+   "catch": 0.5,
+   "sentence": [
+    15,
+    99
+   ],
+   "loot": [
+    0,
+    0
+   ],
+   "karma": -30,
+   "ok": "I paid a man to take care of a problem. He did.",
+   "caught": "I hired a hitman who turned out to be an undercover cop.",
+   "menu": false,
+   "src": "hire hitman"
+  },
+  {
+   "id": "extortion",
+   "name": "Extortion",
+   "minAge": 18,
+   "severity": 4,
+   "catch": 0.45,
+   "sentence": [
+    5,
+    10
+   ],
+   "loot": [
+    10000,
+    100000
+   ],
+   "karma": -30,
+   "ok": "I extorted a local business owner and he paid on the first visit.",
+   "caught": "I was arrested for extortion after a very clear voicemail.",
+   "menu": false,
+   "src": "extortion (mafia)"
+  },
+  {
+   "id": "corruption",
+   "name": "Corruption",
+   "minAge": 18,
+   "severity": 4,
+   "catch": 0.35,
+   "sentence": [
+    10,
+    30
+   ],
+   "loot": [
+    50000,
+    500000
+   ],
+   "karma": -30,
+   "ok": "I took a bribe from a developer and got a new dock.",
+   "caught": "I was arrested for corruption after a reporter checked my dock.",
+   "menu": false,
+   "src": "corruption (politician)",
+   "if": {
+    "minFame": 40
+   }
+  },
+  {
+   "id": "securities",
+   "name": "Securities fraud",
+   "minAge": 21,
+   "severity": 4,
+   "catch": 0.35,
+   "sentence": [
+    4,
+    12
+   ],
+   "loot": [
+    100000,
+    2000000
+   ],
+   "karma": -30,
+   "ok": "I cooked the books and made the quarter.",
+   "caught": "I was arrested for securities fraud, which was in the books.",
+   "menu": false,
+   "src": "securities fraud (CEO cook the books)",
+   "if": {
+    "biz": 1
+   }
+  },
+  {
+   "id": "matchfix",
+   "name": "Match fixing",
+   "minAge": 18,
+   "severity": 3,
+   "catch": 0.4,
+   "sentence": [
+    2,
+    8
+   ],
+   "loot": [
+    20000,
+    200000
+   ],
+   "karma": -16,
+   "ok": "I fixed a match and bought a slightly better yacht.",
+   "caught": "I was arrested for match fixing.",
+   "menu": false,
+   "src": "match fixing",
+   "if": {
+    "sportsOwner": 1
+   }
+  },
+  {
+   "id": "casino",
+   "name": "Defraud a casino",
+   "minAge": 18,
+   "severity": 3,
+   "catch": 0.45,
+   "sentence": [
+    1,
+    5
+   ],
+   "loot": [
+    5000,
+    80000
+   ],
+   "karma": -16,
+   "ok": "I cheated a casino and left in a very good mood.",
+   "caught": "I was arrested for defrauding a casino, and was banned for life.",
+   "menu": true,
+   "src": "defraud casino"
+  }
+ ],
+ "tiers": [
+  {
+   "id": "juvie",
+   "name": "Juvenile Detention",
+   "maxYears": 4,
+   "escape": 0.3,
+   "healthLoss": 1,
+   "stress": 4,
+   "minAge": 0,
+   "maxAge": 17
+  },
+  {
+   "id": "minimum",
+   "name": "Minimum security",
+   "maxSentence": 3,
+   "escape": 0.3,
+   "healthLoss": 1,
+   "stress": 4
+  },
+  {
+   "id": "medium",
+   "name": "Medium security",
+   "maxSentence": 10,
+   "escape": 0.15,
+   "healthLoss": 2,
+   "stress": 8
+  },
+  {
+   "id": "maximum",
+   "name": "Maximum security",
+   "maxSentence": 9999,
+   "escape": 0.05,
+   "healthLoss": 4,
+   "stress": 12
+  }
+ ],
+ "rules": {
+  "repeatMultiplier": 2,
+  "repeatCap": 4,
+  "paroleFraction": 0.34,
+  "juvieMaxYears": 4,
+  "escapeAddYears": 2,
+  "escapeMinTier": "medium",
+  "appealCost": [
+   2000,
+   10000,
+   40000
+  ],
+  "appealChance": [
+   0.15,
+   0.3,
+   0.5
+  ],
+  "catchSmartsMod": 0.003,
+  "lifeSentence": 99
+ }
+}

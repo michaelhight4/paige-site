@@ -1,0 +1,696 @@
+[
+ {
+  "id": "wasteful",
+  "name": "Wasteful",
+  "icon": "🗑️",
+  "desc": "Surrender, execution <60, or negative net worth with avg(smarts,looks)>50",
+  "rule": {
+   "any": [
+    [
+     "surrendered",
+     "==",
+     1
+    ],
+    [
+     "all",
+     [
+      [
+       "nw",
+       "<",
+       0
+      ],
+      [
+       "avgSL",
+       ">",
+       50
+      ]
+     ]
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 0
+ },
+ {
+  "id": "unlucky",
+  "name": "Unlucky",
+  "icon": "⚡",
+  "desc": "Die <30 from disease/terror; lightning at any age",
+  "rule": {
+   "any": [
+    [
+     "cause",
+     "==",
+     "lightning"
+    ],
+    [
+     "all",
+     [
+      [
+       "age",
+       "<",
+       30
+      ],
+      [
+       "causeKind",
+       "in",
+       [
+        "disease",
+        "accident",
+        "war"
+       ]
+      ]
+     ]
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 1
+ },
+ {
+  "id": "geriatric",
+  "name": "Geriatric",
+  "icon": "🧓",
+  "desc": "Live to >=120",
+  "rule": {
+   "all": [
+    [
+     "age",
+     ">=",
+     120
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 2
+ },
+ {
+  "id": "deadly",
+  "name": "Deadly",
+  "icon": "🗡️",
+  "desc": "Kill >=5 people",
+  "rule": {
+   "all": [
+    [
+     "kills",
+     ">=",
+     5
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 3
+ },
+ {
+  "id": "houdini",
+  "name": "Houdini",
+  "icon": "🪄",
+  "desc": "Escape prison/juvie >=10 times",
+  "rule": {
+   "all": [
+    [
+     "escapes",
+     ">=",
+     10
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 4
+ },
+ {
+  "id": "scandalous",
+  "name": "Scandalous",
+  "icon": "📰",
+  "desc": "Serve >=5 years in prison",
+  "rule": {
+   "all": [
+    [
+     "prisonYears",
+     ">=",
+     5
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 5
+ },
+ {
+  "id": "jailbird",
+  "name": "Jailbird",
+  "icon": "🐦",
+  "desc": "Serve >=2 sentences",
+  "rule": {
+   "all": [
+    [
+     "sentences",
+     ">=",
+     2
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 6
+ },
+ {
+  "id": "thief",
+  "name": "Thief",
+  "icon": "🥷",
+  "desc": "Theft score >=10",
+  "rule": {
+   "all": [
+    [
+     "theft",
+     ">=",
+     10
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 7
+ },
+ {
+  "id": "wicked",
+  "name": "Wicked",
+  "icon": "😈",
+  "desc": "5+ STD spreads / abandon child or pet",
+  "rule": {
+   "all": [
+    [
+     "karma",
+     "<=",
+     8
+    ],
+    [
+     "wickedActs",
+     ">=",
+     3
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 8
+ },
+ {
+  "id": "stupid",
+  "name": "Stupid",
+  "icon": "🥴",
+  "desc": "Smarts <10% lifelong, or die of drug overdose",
+  "rule": {
+   "any": [
+    [
+     "maxSmarts",
+     "<",
+     10
+    ],
+    [
+     "cause",
+     "==",
+     "overdose"
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 9
+ },
+ {
+  "id": "addict",
+  "name": "Addict",
+  "icon": "💊",
+  "desc": "Die with >=2 addictions; lifetime gambling winnings <$1M",
+  "rule": {
+   "all": [
+    [
+     "addictions",
+     ">=",
+     2
+    ],
+    [
+     "gamblingWon",
+     "<",
+     1000000.0
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 10
+ },
+ {
+  "id": "highroller",
+  "name": "Highroller",
+  "icon": "🎰",
+  "desc": "Lifetime gambling winnings >= $1M",
+  "rule": {
+   "all": [
+    [
+     "gamblingWon",
+     ">=",
+     1000000.0
+    ]
+   ]
+  },
+  "locked": "needs casino/gambling feature",
+  "prio": 11
+ },
+ {
+  "id": "loaded",
+  "name": "Loaded",
+  "icon": "💰",
+  "desc": "Net worth > $20M at death",
+  "rule": {
+   "all": [
+    [
+     "nw",
+     ">",
+     20000000.0
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 12
+ },
+ {
+  "id": "rich",
+  "name": "Rich",
+  "icon": "💵",
+  "desc": "Net worth $2.5M-$20M",
+  "rule": {
+   "all": [
+    [
+     "nw",
+     ">=",
+     2500000.0
+    ],
+    [
+     "nw",
+     "<=",
+     20000000.0
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 13
+ },
+ {
+  "id": "fertile",
+  "name": "Fertile",
+  "icon": "👶",
+  "desc": "2*children + grandchildren > 15",
+  "rule": {
+   "all": [
+    [
+     "fertility",
+     ">",
+     15
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 14
+ },
+ {
+  "id": "lustful",
+  "name": "Lustful",
+  "icon": "💋",
+  "desc": "At least 20 sexual partners",
+  "rule": {
+   "all": [
+    [
+     "partners",
+     ">=",
+     20
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 15
+ },
+ {
+  "id": "famous",
+  "name": "Famous",
+  "icon": "⭐",
+  "desc": "Fame-related career",
+  "rule": {
+   "all": [
+    [
+     "maxFame",
+     ">=",
+     70
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 16
+ },
+ {
+  "id": "hero",
+  "name": "Hero",
+  "icon": "🦸",
+  "desc": "Intervene in SOS/save life or die nobly",
+  "rule": {
+   "all": [
+    [
+     "heroActs",
+     ">=",
+     1
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 17
+ },
+ {
+  "id": "generous",
+  "name": "Generous",
+  "icon": "🎁",
+  "desc": "Gift >=30 items; avoid arguments",
+  "rule": {
+   "all": [
+    [
+     "giftCount",
+     ">=",
+     30
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 18
+ },
+ {
+  "id": "lazy",
+  "name": "Lazy",
+  "icon": "🛋️",
+  "desc": "Reach 50+ never having a job; smarts >10",
+  "rule": {
+   "all": [
+    [
+     "age",
+     ">=",
+     50
+    ],
+    [
+     "jobYears",
+     "==",
+     0
+    ],
+    [
+     "smarts",
+     ">",
+     10
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 19
+ },
+ {
+  "id": "academic",
+  "name": "Academic",
+  "icon": "🎓",
+  "desc": "Complete a postgraduate education",
+  "rule": {
+   "all": [
+    [
+     "edu",
+     ">=",
+     3
+    ]
+   ]
+  },
+  "locked": "needs postgraduate (Game dev education menu)",
+  "prio": 20
+ },
+ {
+  "id": "familyguy",
+  "name": "Family Guy",
+  "icon": "👨‍👧",
+  "desc": "One spouse + >=2 kids; no prison; <8 kids; no Rich/Loaded",
+  "rule": {
+   "all": [
+    [
+     "kids",
+     ">=",
+     2
+    ],
+    [
+     "kids",
+     "<",
+     8
+    ],
+    [
+     "spouses",
+     "==",
+     1
+    ],
+    [
+     "sentences",
+     "==",
+     0
+    ],
+    [
+     "nw",
+     "<",
+     2500000.0
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 21
+ },
+ {
+  "id": "successful",
+  "name": "Successful",
+  "icon": "🏆",
+  "desc": "Net worth >=250k, no prison, live >=65, no addictions, good karma",
+  "rule": {
+   "all": [
+    [
+     "nw",
+     ">=",
+     250000
+    ],
+    [
+     "sentences",
+     "==",
+     0
+    ],
+    [
+     "age",
+     ">=",
+     65
+    ],
+    [
+     "addictions",
+     "==",
+     0
+    ],
+    [
+     "karma",
+     ">",
+     50
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 22
+ },
+ {
+  "id": "bigboss",
+  "name": "Big Boss",
+  "icon": "👔",
+  "desc": "Corporate ladder to CEO, net worth >$20M",
+  "rule": {
+   "all": [
+    [
+     "nw",
+     ">",
+     20000000.0
+    ],
+    [
+     "bizCount",
+     ">=",
+     3
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 23
+ },
+ {
+  "id": "mediocre",
+  "name": "Mediocre",
+  "icon": "😐",
+  "desc": "Ordinary life (fallback)",
+  "rule": {
+   "all": []
+  },
+  "locked": null,
+  "prio": 24
+ },
+ {
+  "id": "barbie",
+  "name": "Barbie Girl",
+  "icon": "💅",
+  "desc": "Female; get nearly all plastic surgeries",
+  "rule": null,
+  "locked": "needs plastic surgery menu",
+  "prio": 25
+ },
+ {
+  "id": "catlady",
+  "name": "Cat Lady",
+  "icon": "🐈",
+  "desc": "Female; own >=30 cats",
+  "rule": null,
+  "locked": "needs pets menu",
+  "prio": 26
+ },
+ {
+  "id": "cunning",
+  "name": "Cunning",
+  "icon": "🕵️",
+  "desc": "Escape jail + gender reassignment, or undiscovered murders",
+  "rule": null,
+  "locked": "needs special feature",
+  "prio": 27
+ },
+ {
+  "id": "globetrotter",
+  "name": "Globetrotter",
+  "icon": "🌍",
+  "desc": "Visit/emigrate in >=20 countries",
+  "rule": null,
+  "locked": "needs travel/emigration feature",
+  "prio": 28
+ },
+ {
+  "id": "golddigger",
+  "name": "Gold Digger",
+  "icon": "💎",
+  "desc": "Never have a job; marry rich; >$1.5M from divorce/widowing",
+  "rule": null,
+  "locked": "needs rich-spouse inheritance feature",
+  "prio": 29
+ },
+ {
+  "id": "influencer",
+  "name": "Influencer",
+  "icon": "📱",
+  "desc": "Verified on all social platforms with ~1M followers",
+  "rule": null,
+  "locked": "needs social media",
+  "prio": 30
+ },
+ {
+  "id": "monopoly",
+  "name": "Monopoly",
+  "icon": "🏠",
+  "desc": "Sell >=10 houses for profit",
+  "rule": null,
+  "locked": "needs property flipping",
+  "prio": 31
+ },
+ {
+  "id": "mooch",
+  "name": "Mooch",
+  "icon": "🧲",
+  "desc": "Ask relationships for money >=10 times; never give",
+  "rule": {
+   "all": [
+    [
+     "moochCount",
+     ">=",
+     10
+    ],
+    [
+     "giftCount",
+     "==",
+     0
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 32
+ },
+ {
+  "id": "moviebuff",
+  "name": "Movie Buff",
+  "icon": "🎬",
+  "desc": "Watch >=20 movies at theater",
+  "rule": null,
+  "locked": "needs cinema activity",
+  "prio": 33
+ },
+ {
+  "id": "rowdy",
+  "name": "Rowdy",
+  "icon": "🍻",
+  "desc": "Club >=10 times, accept drugs/alcohol, party house",
+  "rule": null,
+  "locked": "needs clubbing activity",
+  "prio": 34
+ },
+ {
+  "id": "tarzan",
+  "name": "Tarzan",
+  "icon": "🦍",
+  "desc": "Male; own >=20 exotic pets",
+  "rule": null,
+  "locked": "needs zoo/exotic pets",
+  "prio": 35
+ },
+ {
+  "id": "veteran",
+  "name": "Veteran",
+  "icon": "🎖️",
+  "desc": "Military career to top rank",
+  "rule": null,
+  "locked": "needs military career",
+  "prio": 36
+ },
+ {
+  "id": "modelbitizen",
+  "name": "Model Citizen (secret)",
+  "icon": "😇",
+  "desc": "Perfect-karma life",
+  "rule": {
+   "all": [
+    [
+     "karma",
+     ">=",
+     90
+    ],
+    [
+     "giftCount",
+     ">=",
+     10
+    ],
+    [
+     "nw",
+     ">=",
+     50000
+    ]
+   ]
+  },
+  "locked": null,
+  "prio": 37
+ },
+ {
+  "id": "teammate",
+  "name": "Teammate (secret)",
+  "icon": "🤝",
+  "desc": "Developer easter egg",
+  "rule": null,
+  "locked": "secret",
+  "prio": 38
+ },
+ {
+  "id": "bandit",
+  "name": "Bandit (secret)",
+  "icon": "🚂",
+  "desc": "Train robbery at the exact real-world time",
+  "rule": null,
+  "locked": "needs real-time minigame",
+  "prio": 39
+ }
+]

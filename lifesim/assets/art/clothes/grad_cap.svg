@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="grad_cap" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="222" rx="90" ry="8" data-slot="shadow" id="grad_cap-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M64 114V162Q128 196 192 162V114Q128 132 64 114Z" data-slot="fabric" id="grad_cap-fabric-2" fill="#26262e" style="fill:var(--slot-fabric,#26262e)" stroke-width="2.5"/>
+<polygon points="128,38 246,92 128,136 10,92" data-slot="fabric" id="grad_cap-fabric-3" fill="#26262e" style="fill:var(--slot-fabric,#26262e)" stroke-width="3"/>
+<circle cx="128" cy="90" r="8" data-slot="accent" id="grad_cap-accent-4" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="2.5"/>
+<path d="M128 90L210 108V170" fill="none" stroke="#2b2a3a" stroke-width="7"/>
+<path d="M128 90L210 108V170" fill="none" stroke="#f2c230" stroke-width="3.5"/>
+<rect x="202" y="168" width="16" height="36" rx="4" data-slot="accent" id="grad_cap-accent-5" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" stroke-width="2.5"/>
+</g>
+</svg>

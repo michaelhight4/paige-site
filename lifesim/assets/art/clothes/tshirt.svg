@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="tshirt" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="70" ry="8" data-slot="shadow" id="tshirt-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M92 40L128 54L164 40L222 68L202 116L176 102V214H80V102L54 116L34 68Z" data-slot="fabric" id="tshirt-fabric-2" fill="#3b82d6" style="fill:var(--slot-fabric,#3b82d6)"/>
+<path d="M100 40Q128 76 156 40L164 40L128 54L92 40Z" data-slot="trim" id="tshirt-trim-3" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="2.5"/>
+<path d="M96 40Q128 80 160 40" fill="none" fill-opacity="0"/>
+<path d="M54 116L76 102M202 116L180 102" fill="none" stroke-width="2"/>
+<circle cx="128" cy="138" r="20" data-slot="accent" id="tshirt-accent-4" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)"/>
+<polygon points="128,126 132,135 142,136 134,142 137,151 128,146 119,151 122,142 114,136 124,135" data-slot="trim" id="tshirt-trim-5" fill="#fff" style="fill:var(--slot-trim,#fff)" stroke-width="1.5"/>
+</g>
+</svg>

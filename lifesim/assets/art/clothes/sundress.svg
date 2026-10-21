@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="sundress" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="70" ry="8" data-slot="shadow" id="sundress-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M100 26L112 26L120 66H136L144 26H156L168 80L176 104L222 214Q128 232 34 214L80 104L88 80Z" data-slot="fabric" id="sundress-fabric-2" fill="#34b6c9" style="fill:var(--slot-fabric,#34b6c9)"/>
+<path d="M96 86Q128 106 160 86L166 104Q128 124 90 104Z" data-slot="trim" id="sundress-trim-3" fill="#fffbe6" style="fill:var(--slot-trim,#fffbe6)" stroke-width="2"/>
+<rect x="92" y="100" width="72" height="10" rx="4" data-slot="accent" id="sundress-accent-4" fill="#f2c230" style="fill:var(--slot-accent,#f2c230)" transform="rotate(0)"/>
+<circle cx="80" cy="156" r="6" data-slot="trim" id="sundress-trim-5" fill="#fffbe6" style="fill:var(--slot-trim,#fffbe6)" stroke-width="1.5"/>
+<circle cx="124" cy="176" r="6" data-slot="trim" id="sundress-trim-6" fill="#fffbe6" style="fill:var(--slot-trim,#fffbe6)" stroke-width="1.5"/>
+<circle cx="166" cy="150" r="6" data-slot="trim" id="sundress-trim-7" fill="#fffbe6" style="fill:var(--slot-trim,#fffbe6)" stroke-width="1.5"/>
+<circle cx="100" cy="198" r="6" data-slot="trim" id="sundress-trim-8" fill="#fffbe6" style="fill:var(--slot-trim,#fffbe6)" stroke-width="1.5"/>
+<circle cx="150" cy="204" r="6" data-slot="trim" id="sundress-trim-9" fill="#fffbe6" style="fill:var(--slot-trim,#fffbe6)" stroke-width="1.5"/>
+<circle cx="60" cy="200" r="6" data-slot="trim" id="sundress-trim-10" fill="#fffbe6" style="fill:var(--slot-trim,#fffbe6)" stroke-width="1.5"/>
+<circle cx="196" cy="196" r="6" data-slot="trim" id="sundress-trim-11" fill="#fffbe6" style="fill:var(--slot-trim,#fffbe6)" stroke-width="1.5"/>
+</g>
+</svg>

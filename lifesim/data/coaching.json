@@ -1,0 +1,242 @@
+{
+ "sports": {
+  "soccer": {
+   "name": "Soccer",
+   "icon": "⚽",
+   "teamWord": "FC",
+   "pitch": "#3f9b4f",
+   "lineup": 11,
+   "goalScale": 1.0,
+   "formations": [
+    "4-4-2",
+    "4-3-3",
+    "5-3-2"
+   ]
+  },
+  "basketball": {
+   "name": "Basketball",
+   "icon": "🏀",
+   "teamWord": "Hoops",
+   "pitch": "#c98a4b",
+   "lineup": 5,
+   "goalScale": 3.5,
+   "formations": [
+    "Balanced",
+    "Run & gun",
+    "Half court"
+   ]
+  },
+  "football": {
+   "name": "Football",
+   "icon": "🏈",
+   "teamWord": "Gridders",
+   "pitch": "#3f9b4f",
+   "lineup": 11,
+   "goalScale": 2.2,
+   "formations": [
+    "Pro set",
+    "Spread",
+    "I-form"
+   ]
+  },
+  "baseball": {
+   "name": "Baseball",
+   "icon": "⚾",
+   "teamWord": "Nine",
+   "pitch": "#6aa84f",
+   "lineup": 9,
+   "goalScale": 1.8,
+   "formations": [
+    "Small ball",
+    "Power",
+    "Balanced"
+   ]
+  },
+  "hockey": {
+   "name": "Hockey",
+   "icon": "🏒",
+   "teamWord": "Ice",
+   "pitch": "#cfe8f5",
+   "lineup": 6,
+   "goalScale": 1.4,
+   "formations": [
+    "Forecheck",
+    "Trap",
+    "Balanced"
+   ]
+  }
+ },
+ "cities": [
+  "Harbor",
+  "Riverside",
+  "Summit",
+  "Lakeshore",
+  "Granite",
+  "Cedar",
+  "Bayview",
+  "Redwood",
+  "Silver",
+  "Copper",
+  "Foxhall",
+  "Northgate"
+ ],
+ "mascots": [
+  "Hawks",
+  "Titans",
+  "Comets",
+  "Rangers",
+  "Storm",
+  "Knights",
+  "Sharks",
+  "Pioneers",
+  "Falcons",
+  "Miners"
+ ],
+ "styles": [
+  {
+   "id": "attack",
+   "name": "All-out attack",
+   "atk": 1.2,
+   "def": 0.85,
+   "sub": "More goals both ways"
+  },
+  {
+   "id": "balanced",
+   "name": "Balanced",
+   "atk": 1.0,
+   "def": 1.0,
+   "sub": "Solid and steady"
+  },
+  {
+   "id": "defend",
+   "name": "Park the bus",
+   "atk": 0.85,
+   "def": 1.2,
+   "sub": "Hard to beat"
+  },
+  {
+   "id": "counter",
+   "name": "Counter-attack",
+   "atk": 1.1,
+   "def": 1.05,
+   "sub": "Strong vs better teams"
+  }
+ ],
+ "training": [
+  {
+   "id": "fitness",
+   "name": "Fitness camp",
+   "sub": "Fewer injuries, late goals",
+   "fit": 1.0
+  },
+  {
+   "id": "tactics",
+   "name": "Tactics drills",
+   "sub": "Style works better",
+   "tac": 1.0
+  },
+  {
+   "id": "skills",
+   "name": "Skills sessions",
+   "sub": "Players improve faster",
+   "dev": 1.0
+  },
+  {
+   "id": "rest",
+   "name": "Rest & recovery",
+   "sub": "Morale up",
+   "mor": 1.0
+  }
+ ],
+ "roles": {
+  "assistant": {
+   "name": "Assistant Coach",
+   "pay": 65000,
+   "fire": 0
+  },
+  "head": {
+   "name": "Head Coach",
+   "pay": 180000
+  },
+  "manager": {
+   "name": "General Manager",
+   "pay": 320000
+  }
+ },
+ "stadium": [
+  {
+   "name": "Community pitch",
+   "cost": 0,
+   "gate": 1.0
+  },
+  {
+   "name": "Small stadium",
+   "cost": 400000,
+   "gate": 1.4
+  },
+  {
+   "name": "City stadium",
+   "cost": 1500000,
+   "gate": 2.0
+  },
+  {
+   "name": "Grand arena",
+   "cost": 6000000,
+   "gate": 3.2
+  }
+ ],
+ "gear": [
+  {
+   "name": "Basic kit",
+   "cost": 0,
+   "b": 0
+  },
+  {
+   "name": "Pro kit",
+   "cost": 120000,
+   "b": 2
+  },
+  {
+   "name": "Sports-science lab",
+   "cost": 600000,
+   "b": 4
+  },
+  {
+   "name": "Elite performance center",
+   "cost": 2500000,
+   "b": 7
+  }
+ ],
+ "kits": [
+  [
+   "#d94a4a",
+   "#fff"
+  ],
+  [
+   "#3b6fd1",
+   "#fff"
+  ],
+  [
+   "#f2c14e",
+   "#2b2a3a"
+  ],
+  [
+   "#4caf6a",
+   "#fff"
+  ],
+  [
+   "#7e57c2",
+   "#fff"
+  ],
+  [
+   "#2b2a3a",
+   "#f2c14e"
+  ]
+ ],
+ "quarters": [
+  "Q1 (Jan-Mar)",
+  "Q2 (Apr-Jun)",
+  "Q3 (Jul-Sep)",
+  "Q4 (Oct-Dec)"
+ ]
+}

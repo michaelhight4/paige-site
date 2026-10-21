@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="gecko" data-category="pets">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="226" rx="90" ry="8" data-slot="shadow" id="gecko-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<polygon points="48.1,148.2 48.1,153.3 48,157.7 47.4,161.8 46.1,165.9 43.9,170.3 40.7,175 36.7,179.9 32,184.8 27.2,189.8 22.5,194.7 18.3,199.6 15,204.3 12.6,208.8 15.9,211.2 19.2,207.9 23.3,204.6 28.2,201.2 33.7,197.6 39.5,193.8 45.5,189.7 51.3,185.4 56.6,180.6 61.3,175.2 65.2,169.5 68.1,163.4 70.2,157.4 71.9,151.8" data-slot="body" id="gecko-body-2" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)"/>
+<g transform="rotate(-30 64 108)">
+<ellipse cx="64" cy="108" rx="18" ry="7" data-slot="body" id="gecko-body-3" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)"/>
+<circle cx="84" cy="101" r="4" data-slot="body" id="gecko-body-4" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+<circle cx="84" cy="108" r="4" data-slot="body" id="gecko-body-5" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+<circle cx="84" cy="115" r="4" data-slot="body" id="gecko-body-6" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+</g>
+<g transform="rotate(30 190 100)">
+<ellipse cx="190" cy="100" rx="18" ry="7" data-slot="body" id="gecko-body-7" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)"/>
+<circle cx="210" cy="93" r="4" data-slot="body" id="gecko-body-8" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+<circle cx="210" cy="100" r="4" data-slot="body" id="gecko-body-9" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+<circle cx="210" cy="107" r="4" data-slot="body" id="gecko-body-10" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+</g>
+<g transform="rotate(150 70 190)">
+<ellipse cx="70" cy="190" rx="18" ry="7" data-slot="body" id="gecko-body-11" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)"/>
+<circle cx="90" cy="183" r="4" data-slot="body" id="gecko-body-12" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+<circle cx="90" cy="190" r="4" data-slot="body" id="gecko-body-13" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+<circle cx="90" cy="197" r="4" data-slot="body" id="gecko-body-14" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+</g>
+<g transform="rotate(210 190 190)">
+<ellipse cx="190" cy="190" rx="18" ry="7" data-slot="body" id="gecko-body-15" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)"/>
+<circle cx="210" cy="183" r="4" data-slot="body" id="gecko-body-16" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+<circle cx="210" cy="190" r="4" data-slot="body" id="gecko-body-17" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+<circle cx="210" cy="197" r="4" data-slot="body" id="gecko-body-18" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" stroke-width="2"/>
+</g>
+<ellipse cx="128" cy="150" rx="52" ry="74" data-slot="body" id="gecko-body-19" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)" transform="rotate(0)"/>
+<ellipse cx="128" cy="62" rx="34" ry="36" data-slot="body" id="gecko-body-20" fill="#9acd5a" style="fill:var(--slot-body,#9acd5a)"/>
+<circle cx="114" cy="52" r="8" fill="#fff" stroke-width="2"/>
+<circle cx="115" cy="53" r="4.2" fill="#26262e" stroke="none"/>
+<circle cx="113" cy="51" r="1.5" fill="#fff" stroke="none"/>
+<circle cx="142" cy="52" r="8" fill="#fff" stroke-width="2"/>
+<circle cx="143" cy="53" r="4.2" fill="#26262e" stroke="none"/>
+<circle cx="141" cy="51" r="1.5" fill="#fff" stroke="none"/>
+<path d="M118 78Q128 84 138 78" fill="none" stroke-width="2.5"/>
+<circle cx="128" cy="110" r="7" data-slot="accent" id="gecko-accent-21" fill="#e8a33b" style="fill:var(--slot-accent,#e8a33b)" stroke-width="2"/>
+<circle cx="112" cy="140" r="7" data-slot="accent" id="gecko-accent-22" fill="#e8a33b" style="fill:var(--slot-accent,#e8a33b)" stroke-width="2"/>
+<circle cx="146" cy="140" r="7" data-slot="accent" id="gecko-accent-23" fill="#e8a33b" style="fill:var(--slot-accent,#e8a33b)" stroke-width="2"/>
+<circle cx="128" cy="170" r="7" data-slot="accent" id="gecko-accent-24" fill="#e8a33b" style="fill:var(--slot-accent,#e8a33b)" stroke-width="2"/>
+<circle cx="116" cy="196" r="7" data-slot="accent" id="gecko-accent-25" fill="#e8a33b" style="fill:var(--slot-accent,#e8a33b)" stroke-width="2"/>
+<circle cx="140" cy="196" r="7" data-slot="accent" id="gecko-accent-26" fill="#e8a33b" style="fill:var(--slot-accent,#e8a33b)" stroke-width="2"/>
+<path d="M128 90V210" fill="none" stroke-opacity=".0"/>
+</g>
+</svg>

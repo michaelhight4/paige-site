@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="lion" data-category="zoo">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="228" rx="70" ry="8" data-slot="shadow" id="lion-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M196 190Q240 200 236 150" fill="none" stroke="#2b2a3a" stroke-width="9"/>
+<path d="M196 190Q240 200 236 150" fill="none" stroke="#d9a15a" stroke-width="5"/>
+<circle cx="232" cy="146" r="12" data-slot="hair" id="lion-hair-2" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<ellipse cx="128" cy="184" rx="60" ry="46" data-slot="body" id="lion-body-3" fill="#e8a33b" style="fill:var(--slot-body,#e8a33b)"/>
+<ellipse cx="128" cy="196" rx="30" ry="32" data-slot="skin" id="lion-skin-4" fill="#f6dcae" style="fill:var(--slot-skin,#f6dcae)" stroke-width="2"/>
+<ellipse cx="96" cy="228" rx="18" ry="8" data-slot="body" id="lion-body-5" fill="#e8a33b" style="fill:var(--slot-body,#e8a33b)"/>
+<ellipse cx="160" cy="228" rx="18" ry="8" data-slot="body" id="lion-body-6" fill="#e8a33b" style="fill:var(--slot-body,#e8a33b)"/>
+<circle cx="190" cy="100" r="20" data-slot="hair" id="lion-hair-7" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="183.9" cy="126.9" r="20" data-slot="hair" id="lion-hair-8" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="166.7" cy="148.5" r="20" data-slot="hair" id="lion-hair-9" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="141.8" cy="160.4" r="20" data-slot="hair" id="lion-hair-10" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="114.2" cy="160.4" r="20" data-slot="hair" id="lion-hair-11" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="89.3" cy="148.5" r="20" data-slot="hair" id="lion-hair-12" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="72.1" cy="126.9" r="20" data-slot="hair" id="lion-hair-13" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="66" cy="100" r="20" data-slot="hair" id="lion-hair-14" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="72.1" cy="73.1" r="20" data-slot="hair" id="lion-hair-15" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="89.3" cy="51.5" r="20" data-slot="hair" id="lion-hair-16" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="114.2" cy="39.6" r="20" data-slot="hair" id="lion-hair-17" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="141.8" cy="39.6" r="20" data-slot="hair" id="lion-hair-18" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="166.7" cy="51.5" r="20" data-slot="hair" id="lion-hair-19" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="183.9" cy="73.1" r="20" data-slot="hair" id="lion-hair-20" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)"/>
+<circle cx="128" cy="100" r="66" data-slot="hair" id="lion-hair-21" fill="#8a4a1f" style="fill:var(--slot-hair,#8a4a1f)" stroke="none"/>
+<circle cx="80" cy="56" r="16" data-slot="body" id="lion-body-22" fill="#e8a33b" style="fill:var(--slot-body,#e8a33b)"/>
+<circle cx="176" cy="56" r="16" data-slot="body" id="lion-body-23" fill="#e8a33b" style="fill:var(--slot-body,#e8a33b)"/>
+<circle cx="128" cy="104" r="46" data-slot="body" id="lion-body-24" fill="#e8a33b" style="fill:var(--slot-body,#e8a33b)"/>
+<circle cx="80" cy="56" r="7" data-slot="accent" id="lion-accent-25" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" stroke-width="2"/>
+<circle cx="176" cy="56" r="7" data-slot="accent" id="lion-accent-26" fill="#f5a8b8" style="fill:var(--slot-accent,#f5a8b8)" stroke-width="2"/>
+<ellipse cx="128" cy="124" rx="26" ry="20" data-slot="skin" id="lion-skin-27" fill="#f6dcae" style="fill:var(--slot-skin,#f6dcae)" stroke-width="2"/>
+<polygon points="118,108 138,108 128,120" fill="#26262e" stroke-width="2"/>
+<path d="M118 126Q128 134 138 126" fill="none" stroke-width="2.5"/>
+<path d="M128 120V126" fill="none" stroke-width="2"/>
+<circle cx="108" cy="96" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="109" cy="97" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="107" cy="95" r="1.3" fill="#fff" stroke="none"/>
+<circle cx="148" cy="96" r="7" fill="#fff" stroke-width="2"/>
+<circle cx="149" cy="97" r="3.5" fill="#26262e" stroke="none"/>
+<circle cx="147" cy="95" r="1.3" fill="#fff" stroke="none"/>
+<path d="M92 124H70M94 132L72 140M164 124H186M162 132L184 140" fill="none" stroke-width="1.8"/>
+</g>
+</svg>

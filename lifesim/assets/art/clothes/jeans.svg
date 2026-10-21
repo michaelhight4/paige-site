@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="jeans" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="60" ry="8" data-slot="shadow" id="jeans-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M70 24H186L196 226H140L128 100L116 226H60Z" data-slot="fabric" id="jeans-fabric-2" fill="#3a62a8" style="fill:var(--slot-fabric,#3a62a8)"/>
+<rect x="68" y="24" width="120" height="16" rx="3" data-slot="trim" id="jeans-trim-3" fill="#2d4d86" style="fill:var(--slot-trim,#2d4d86)"/>
+<circle cx="128" cy="32" r="6" data-slot="metal" id="jeans-metal-4" fill="#b9c0c8" style="fill:var(--slot-metal,#b9c0c8)" stroke-width="2"/>
+<path d="M128 40V98" fill="none" stroke-width="2"/>
+<path d="M76 52Q96 56 112 52M180 52Q160 56 144 52" fill="none" stroke-width="2.5" stroke="#f2c230"/>
+<path d="M64 214H132M140 214H192" fill="none" stroke-width="2" stroke-opacity=".4"/>
+<path d="M92 60V110M164 60V110" fill="none" stroke-width="1.5" stroke-opacity=".3"/>
+</g>
+</svg>

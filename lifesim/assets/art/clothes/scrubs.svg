@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="scrubs" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="70" ry="8" data-slot="shadow" id="scrubs-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M34 20L92 6L128 28L164 6L220 18L232 70L210 82L196 64V122H60V64L46 82L24 70Z" data-slot="fabric" id="scrubs-fabric-2" fill="#2fa7a0" style="fill:var(--slot-fabric,#2fa7a0)"/>
+<path d="M96 8L128 56L160 8L128 28Z" data-slot="trim" id="scrubs-trim-3" fill="#c7ece8" style="fill:var(--slot-trim,#c7ece8)" stroke-width="2.5"/>
+<rect x="148" y="84" width="30" height="24" rx="3" data-slot="trim" id="scrubs-trim-4" fill="#c7ece8" style="fill:var(--slot-trim,#c7ece8)" stroke-width="2"/>
+<path d="M70 130H186L190 238H138L128 160L118 238H66Z" data-slot="fabric" id="scrubs-fabric-5" fill="#2fa7a0" style="fill:var(--slot-fabric,#2fa7a0)"/>
+<rect x="68" y="128" width="120" height="12" rx="3" data-slot="trim" id="scrubs-trim-6" fill="#c7ece8" style="fill:var(--slot-trim,#c7ece8)" stroke-width="2"/>
+<path d="M128 140V160" fill="none" stroke-width="2"/>
+<circle cx="80" cy="84" r="6" data-slot="accent" id="scrubs-accent-7" fill="#fff" style="fill:var(--slot-accent,#fff)" stroke-width="2"/>
+</g>
+</svg>

@@ -1,0 +1,146 @@
+[
+{
+"id": "education",
+"tab": "occupation",
+"label": "Education",
+"minAge": 3
+},
+{
+"id": "parttime",
+"tab": "occupation",
+"label": "Part-Time",
+"minAge": 13
+},
+{
+"id": "freelance",
+"tab": "occupation",
+"label": "Freelance Gigs",
+"minAge": 13
+},
+{
+"id": "fight",
+"tab": "occupation",
+"label": "Fight",
+"minAge": 14
+},
+{
+"id": "jobs",
+"tab": "occupation",
+"label": "Jobs",
+"minAge": 16
+},
+{
+"id": "military",
+"tab": "occupation",
+"label": "Military",
+"minAge": 18
+},
+{
+"id": "sports",
+"tab": "occupation",
+"label": "Sports Career",
+"minAge": 8
+},
+{
+"id": "special",
+"tab": "occupation",
+"label": "Special Careers",
+"minAge": 10
+},
+{
+"id": "streamer",
+"tab": "occupation",
+"label": "Live Streamer",
+"minAge": 13
+},
+{
+"id": "influencer",
+"tab": "occupation",
+"label": "Influencer",
+"minAge": 13
+},
+{
+"id": "scholarships",
+"tab": "occupation",
+"label": "Scholarships",
+"minAge": 16
+},
+{
+"id": "passions",
+"tab": "skills",
+"label": "Passions",
+"minAge": 6
+},
+{
+"id": "skills",
+"tab": "skills",
+"label": "Skills",
+"minAge": 5
+},
+{
+"id": "finances",
+"tab": "assets",
+"label": "Finances",
+"minAge": 18
+},
+{
+"id": "investments",
+"tab": "assets",
+"label": "Investments",
+"minAge": 18
+},
+{
+"id": "casino",
+"tab": "assets",
+"label": "Casino",
+"minAge": 18
+},
+{
+"id": "auctions",
+"tab": "assets",
+"label": "Auction Houses",
+"minAge": 18
+},
+{
+"id": "luxury",
+"tab": "assets",
+"label": "Luxury",
+"minAge": 18
+},
+{
+"id": "garage",
+"tab": "assets",
+"label": "Race Car Garage",
+"minAge": 18
+},
+{
+"id": "zoo",
+"tab": "assets",
+"label": "Zoo",
+"minAge": 18
+},
+{
+"id": "restoration",
+"tab": "assets",
+"label": "Car Restoration",
+"minAge": 18
+},
+{
+"id": "properties",
+"tab": "assets",
+"label": "Properties",
+"minAge": 18
+},
+{
+"id": "shopping",
+"tab": "assets",
+"label": "Shopping",
+"minAge": 0
+},
+{
+"id": "businesses",
+"tab": "assets",
+"label": "Businesses & Studios",
+"minAge": 18
+}
+]

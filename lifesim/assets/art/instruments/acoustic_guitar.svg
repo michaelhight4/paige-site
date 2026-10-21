@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="acoustic_guitar" data-category="instruments">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="50" ry="8" data-slot="shadow" id="acoustic_guitar-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<g transform="rotate(28 128 128)">
+<rect x="116" y="14" width="24" height="100" rx="4" data-slot="accent" id="acoustic_guitar-accent-2" fill="#5a3a22" style="fill:var(--slot-accent,#5a3a22)"/>
+<path d="M112 10H144L148 34H108Z" data-slot="accent" id="acoustic_guitar-accent-3" fill="#5a3a22" style="fill:var(--slot-accent,#5a3a22)"/>
+<circle cx="108" cy="20" r="3.5" data-slot="metal" id="acoustic_guitar-metal-4" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="148" cy="20" r="3.5" data-slot="metal" id="acoustic_guitar-metal-5" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="108" cy="30" r="3.5" data-slot="metal" id="acoustic_guitar-metal-6" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="148" cy="30" r="3.5" data-slot="metal" id="acoustic_guitar-metal-7" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="108" cy="40" r="3.5" data-slot="metal" id="acoustic_guitar-metal-8" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="148" cy="40" r="3.5" data-slot="metal" id="acoustic_guitar-metal-9" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<path d="M122 34V176M128 34V176M134 34V176" fill="none" stroke-width="1.2"/>
+<path d="M128 90C162 90 168 120 152 140C182 154 184 214 128 232C72 214 74 154 104 140C88 120 94 90 128 90Z" data-slot="body" id="acoustic_guitar-body-10" fill="#d98a3d" style="fill:var(--slot-body,#d98a3d)"/>
+<path d="M128 90C162 90 168 120 152 140C182 154 184 214 128 232C72 214 74 154 104 140C88 120 94 90 128 90Z" fill="none" fill-opacity="0" stroke-width="2" transform="translate(0 0)"/>
+<circle cx="128" cy="160" r="15" fill="#2b2a3a" stroke="#c9a15a" stroke-width="4"/>
+<rect x="108" y="192" width="40" height="9" rx="3" data-slot="accent" id="acoustic_guitar-accent-11" fill="#5a3a22" style="fill:var(--slot-accent,#5a3a22)" stroke-width="2"/>
+<path d="M122 34V196M128 34V196M134 34V196" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" shape-rendering="crispEdges" data-asset="gear_light_3" data-category="gear">
+<g stroke="#2b2a3a" stroke-width="2" stroke-linejoin="miter">
+<ellipse cx="64" cy="118" rx="34" ry="5" id="gear_light_3-s1" data-slot="shadow" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<rect x="61" y="66" width="6" height="48" id="gear_light_3-s2" data-slot="metal" fill="#b8bcc8" style="fill:var(--slot-metal,#b8bcc8)" />
+<rect x="42" y="112" width="44" height="6" id="gear_light_3-s3" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<rect x="50" y="100" width="28" height="4" id="gear_light_3-s4" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<rect x="25" y="30" width="26" height="34" id="gear_light_3-s5" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<rect x="28" y="34" width="20" height="26" id="gear_light_3-s6" data-slot="glass" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" />
+<rect x="51" y="30" width="26" height="34" id="gear_light_3-s7" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<rect x="54" y="34" width="20" height="26" id="gear_light_3-s8" data-slot="glass" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" />
+<rect x="77" y="30" width="26" height="34" id="gear_light_3-s9" data-slot="body" fill="#3f4a6b" style="fill:var(--slot-body,#3f4a6b)" />
+<rect x="80" y="34" width="20" height="26" id="gear_light_3-s10" data-slot="glass" fill="#9fd8ee" style="fill:var(--slot-glass,#9fd8ee)" />
+<rect x="40" y="62" width="48" height="5" id="gear_light_3-s11" data-slot="accent" fill="#e8573d" style="fill:var(--slot-accent,#e8573d)" />
+</g>
+</svg>

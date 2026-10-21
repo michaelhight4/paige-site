@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="drum_kit" data-category="instruments">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="240" rx="110" ry="8" data-slot="shadow" id="drum_kit-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M44 100V176M212 90V176" fill="none" stroke="#2b2a3a" stroke-width="7"/>
+<path d="M44 100V176M212 90V176" fill="none" stroke="#b9c0c8" stroke-width="3"/>
+<ellipse cx="44" cy="100" rx="38" ry="8" data-slot="accent" id="drum_kit-accent-2" fill="#e8c230" style="fill:var(--slot-accent,#e8c230)" stroke-width="2.5"/>
+<ellipse cx="212" cy="90" rx="38" ry="8" data-slot="accent" id="drum_kit-accent-3" fill="#e8c230" style="fill:var(--slot-accent,#e8c230)" stroke-width="2.5"/>
+<circle cx="44" cy="100" r="3" data-slot="metal" id="drum_kit-metal-4" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<circle cx="212" cy="90" r="3" data-slot="metal" id="drum_kit-metal-5" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)"/>
+<rect x="58" y="118" width="52" height="30" rx="6" data-slot="fabric" id="drum_kit-fabric-6" fill="#2f4bb0" style="fill:var(--slot-fabric,#2f4bb0)"/>
+<ellipse cx="84" cy="118" rx="26" ry="8" data-slot="trim" id="drum_kit-trim-7" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)" stroke-width="2.5"/>
+<rect x="148" y="118" width="52" height="30" rx="6" data-slot="fabric" id="drum_kit-fabric-8" fill="#2f4bb0" style="fill:var(--slot-fabric,#2f4bb0)"/>
+<ellipse cx="174" cy="118" rx="26" ry="8" data-slot="trim" id="drum_kit-trim-9" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)" stroke-width="2.5"/>
+<rect x="94" y="140" width="68" height="78" rx="8" data-slot="body" id="drum_kit-body-10" fill="#2f4bb0" style="fill:var(--slot-body,#2f4bb0)" stroke-width="3.5"/>
+<path d="M94 140H162V218H94Z" fill="none" fill-opacity="0" stroke="none"/>
+<circle cx="128" cy="180" r="24" data-slot="trim" id="drum_kit-trim-11" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)" stroke-width="2.5"/>
+<circle cx="128" cy="180" r="10" data-slot="accent" id="drum_kit-accent-12" fill="#e8c230" style="fill:var(--slot-accent,#e8c230)" stroke-width="2"/>
+<ellipse cx="128" cy="140" rx="34" ry="9" data-slot="trim" id="drum_kit-trim-13" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)" stroke-width="2.5"/>
+<rect x="174" y="164" width="46" height="40" rx="6" data-slot="fabric" id="drum_kit-fabric-14" fill="#2f4bb0" style="fill:var(--slot-fabric,#2f4bb0)"/>
+<ellipse cx="197" cy="164" rx="23" ry="7" data-slot="trim" id="drum_kit-trim-15" fill="#fafafa" style="fill:var(--slot-trim,#fafafa)" stroke-width="2.5"/>
+<path d="M60 206L40 176M196 206L214 176M100 220L84 232M156 220L172 232" fill="none" stroke-width="3"/>
+<path d="M150 90L186 60M96 70L130 100" fill="none" stroke="#2b2a3a" stroke-width="6"/>
+<path d="M150 90L186 60M96 70L130 100" fill="none" stroke="#e8c88a" stroke-width="3"/>
+</g>
+</svg>

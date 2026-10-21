@@ -1,0 +1,4343 @@
+[
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "music"
+  },
+  "cool": 3,
+  "id": "p_music_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Music Mentor",
+  "prompt": "A music teacher notices your interest in music and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a music teacher and my music improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_creativity": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some music tips from a music teacher."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_creativity": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a music teacher. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "music"
+  },
+  "cool": 3,
+  "id": "p_music_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The open-mic night",
+  "prompt": "There is the open-mic night coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the open-mic night and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_creativity": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "music"
+    },
+    "fail": {
+     "journal": [
+      "I entered the open-mic night and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_creativity": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the open-mic night and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_creativity": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "music"
+  },
+  "cool": 3,
+  "id": "p_music_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Music Opportunity",
+  "prompt": "A chance appears to play at weddings.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to play at weddings and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_creativity": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to play at weddings but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_creativity": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to play at weddings."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_creativity": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "music"
+  },
+  "cool": 3,
+  "id": "p_music_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Music Rival",
+  "prompt": "Someone at the studio keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_creativity": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_creativity": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "music"
+  },
+  "cool": 3,
+  "id": "p_music_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Music Burnout",
+  "prompt": "You are tired of music and everything about the studio feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_creativity": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "music"
+  },
+  "cool": 3,
+  "id": "p_music_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Music",
+  "prompt": "A recruiter says you could work as a musician. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a musician and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_creativity": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_creativity": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_creativity": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "sports"
+  },
+  "cool": 3,
+  "id": "p_sports_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Sports Mentor",
+  "prompt": "A coach notices your interest in sports and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a coach and my sports improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_strength": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some sports tips from a coach."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_strength": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a coach. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "sports"
+  },
+  "cool": 3,
+  "id": "p_sports_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The regional tournament",
+  "prompt": "There is the regional tournament coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the regional tournament and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_strength": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "sports"
+    },
+    "fail": {
+     "journal": [
+      "I entered the regional tournament and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_strength": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the regional tournament and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_strength": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "sports"
+  },
+  "cool": 3,
+  "id": "p_sports_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Sports Opportunity",
+  "prompt": "A chance appears to join a local league.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to join a local league and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_strength": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to join a local league but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_strength": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to join a local league."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_strength": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "sports"
+  },
+  "cool": 3,
+  "id": "p_sports_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Sports Rival",
+  "prompt": "Someone at the field keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_strength": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_strength": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "sports"
+  },
+  "cool": 3,
+  "id": "p_sports_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Sports Burnout",
+  "prompt": "You are tired of sports and everything about the field feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_strength": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_strength": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "sports"
+  },
+  "cool": 3,
+  "id": "p_sports_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Sports",
+  "prompt": "A recruiter says you could work as a athlete. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a athlete and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_strength": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_strength": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_strength": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "science"
+  },
+  "cool": 3,
+  "id": "p_science_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Science Mentor",
+  "prompt": "A professor notices your interest in science and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a professor and my science improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_intelligence": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some science tips from a professor."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_intelligence": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a professor. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "science"
+  },
+  "cool": 3,
+  "id": "p_science_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The science fair",
+  "prompt": "There is the science fair coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the science fair and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_intelligence": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "science"
+    },
+    "fail": {
+     "journal": [
+      "I entered the science fair and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_intelligence": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the science fair and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_intelligence": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "science"
+  },
+  "cool": 3,
+  "id": "p_science_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Science Opportunity",
+  "prompt": "A chance appears to assist a research team.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to assist a research team and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_intelligence": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to assist a research team but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_intelligence": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to assist a research team."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_intelligence": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "science"
+  },
+  "cool": 3,
+  "id": "p_science_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Science Rival",
+  "prompt": "Someone at the lab keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_intelligence": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_intelligence": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "science"
+  },
+  "cool": 3,
+  "id": "p_science_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Science Burnout",
+  "prompt": "You are tired of science and everything about the lab feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_intelligence": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_intelligence": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "science"
+  },
+  "cool": 3,
+  "id": "p_science_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Science",
+  "prompt": "A recruiter says you could work as a researcher. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a researcher and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_intelligence": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_intelligence": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_intelligence": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "business"
+  },
+  "cool": 3,
+  "id": "p_business_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Business Mentor",
+  "prompt": "A retired founder notices your interest in business and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a retired founder and my business improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_business": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some business tips from a retired founder."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_business": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a retired founder. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "business"
+  },
+  "cool": 3,
+  "id": "p_business_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The pitch night",
+  "prompt": "There is the pitch night coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the pitch night and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_business": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "business"
+    },
+    "fail": {
+     "journal": [
+      "I entered the pitch night and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_business": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the pitch night and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_business": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "business"
+  },
+  "cool": 3,
+  "id": "p_business_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Business Opportunity",
+  "prompt": "A chance appears to launch a side hustle.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to launch a side hustle and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_business": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to launch a side hustle but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_business": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to launch a side hustle."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_business": 2,
+     "money": 1800
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "business"
+  },
+  "cool": 3,
+  "id": "p_business_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Business Rival",
+  "prompt": "Someone at the market keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_business": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_business": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "business"
+  },
+  "cool": 3,
+  "id": "p_business_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Business Burnout",
+  "prompt": "You are tired of business and everything about the market feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_business": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_business": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "business"
+  },
+  "cool": 3,
+  "id": "p_business_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Business",
+  "prompt": "A recruiter says you could work as a entrepreneur. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a entrepreneur and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_business": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_business": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_business": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "art"
+  },
+  "cool": 3,
+  "id": "p_art_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Art Mentor",
+  "prompt": "An art teacher notices your interest in art and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under an art teacher and my art improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_creativity": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some art tips from an art teacher."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_creativity": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down an art teacher. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "art"
+  },
+  "cool": 3,
+  "id": "p_art_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The gallery show",
+  "prompt": "There is the gallery show coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the gallery show and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_creativity": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "art"
+    },
+    "fail": {
+     "journal": [
+      "I entered the gallery show and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_creativity": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the gallery show and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_creativity": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "art"
+  },
+  "cool": 3,
+  "id": "p_art_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Art Opportunity",
+  "prompt": "A chance appears to sell a commission.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to sell a commission and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_creativity": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to sell a commission but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_creativity": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to sell a commission."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_creativity": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "art"
+  },
+  "cool": 3,
+  "id": "p_art_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Art Rival",
+  "prompt": "Someone at the studio keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_creativity": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_creativity": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "art"
+  },
+  "cool": 3,
+  "id": "p_art_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Art Burnout",
+  "prompt": "You are tired of art and everything about the studio feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_creativity": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "art"
+  },
+  "cool": 3,
+  "id": "p_art_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Art",
+  "prompt": "A recruiter says you could work as a artist. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a artist and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_creativity": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_creativity": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_creativity": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "crime"
+  },
+  "cool": 3,
+  "id": "p_crime_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Crime Mentor",
+  "prompt": "A smooth operator notices your interest in crime and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a smooth operator and my crime improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_composure": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some crime tips from a smooth operator."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_composure": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a smooth operator. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "crime"
+  },
+  "cool": 3,
+  "id": "p_crime_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The heist planning",
+  "prompt": "There is the heist planning coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the heist planning and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_composure": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "crime"
+    },
+    "fail": {
+     "journal": [
+      "I entered the heist planning and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_composure": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the heist planning and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_composure": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "crime"
+  },
+  "cool": 3,
+  "id": "p_crime_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Crime Opportunity",
+  "prompt": "A chance appears to take a risky gig.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to take a risky gig and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_composure": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to take a risky gig but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_composure": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to take a risky gig."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_composure": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "crime"
+  },
+  "cool": 3,
+  "id": "p_crime_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Crime Rival",
+  "prompt": "Someone at the back alley keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_composure": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_composure": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "crime"
+  },
+  "cool": 3,
+  "id": "p_crime_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Crime Burnout",
+  "prompt": "You are tired of crime and everything about the back alley feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_composure": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_composure": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "crime"
+  },
+  "cool": 3,
+  "id": "p_crime_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Crime",
+  "prompt": "A recruiter says you could work as a fixer. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a fixer and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_composure": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_composure": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_composure": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "cooking"
+  },
+  "cool": 3,
+  "id": "p_cooking_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Cooking Mentor",
+  "prompt": "A head chef notices your interest in cooking and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a head chef and my cooking improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_cooking": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some cooking tips from a head chef."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_cooking": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a head chef. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "cooking"
+  },
+  "cool": 3,
+  "id": "p_cooking_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The cook-off",
+  "prompt": "There is the cook-off coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the cook-off and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_cooking": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "cooking"
+    },
+    "fail": {
+     "journal": [
+      "I entered the cook-off and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_cooking": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the cook-off and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_cooking": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "cooking"
+  },
+  "cool": 3,
+  "id": "p_cooking_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Cooking Opportunity",
+  "prompt": "A chance appears to cater a party.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to cater a party and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_cooking": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to cater a party but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_cooking": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to cater a party."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_cooking": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "cooking"
+  },
+  "cool": 3,
+  "id": "p_cooking_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Cooking Rival",
+  "prompt": "Someone at the kitchen keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_cooking": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_cooking": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "cooking"
+  },
+  "cool": 3,
+  "id": "p_cooking_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Cooking Burnout",
+  "prompt": "You are tired of cooking and everything about the kitchen feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_cooking": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_cooking": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "cooking"
+  },
+  "cool": 3,
+  "id": "p_cooking_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Cooking",
+  "prompt": "A recruiter says you could work as a chef. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a chef and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_cooking": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_cooking": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_cooking": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "writing"
+  },
+  "cool": 3,
+  "id": "p_writing_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Writing Mentor",
+  "prompt": "An editor notices your interest in writing and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under an editor and my writing improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_literacy": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some writing tips from an editor."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down an editor. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "writing"
+  },
+  "cool": 3,
+  "id": "p_writing_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The writing contest",
+  "prompt": "There is the writing contest coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the writing contest and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_literacy": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "writing"
+    },
+    "fail": {
+     "journal": [
+      "I entered the writing contest and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_literacy": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the writing contest and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "writing"
+  },
+  "cool": 3,
+  "id": "p_writing_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Writing Opportunity",
+  "prompt": "A chance appears to sell an article.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to sell an article and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_literacy": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to sell an article but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_literacy": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to sell an article."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_literacy": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "writing"
+  },
+  "cool": 3,
+  "id": "p_writing_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Writing Rival",
+  "prompt": "Someone at the library keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_literacy": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_literacy": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "writing"
+  },
+  "cool": 3,
+  "id": "p_writing_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Writing Burnout",
+  "prompt": "You are tired of writing and everything about the library feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_literacy": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_literacy": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "writing"
+  },
+  "cool": 3,
+  "id": "p_writing_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Writing",
+  "prompt": "A recruiter says you could work as a writer. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a writer and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_literacy": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_literacy": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_literacy": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "tech"
+  },
+  "cool": 3,
+  "id": "p_tech_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Technology Mentor",
+  "prompt": "A senior developer notices your interest in technology and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a senior developer and my technology improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_computer": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some technology tips from a senior developer."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_computer": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a senior developer. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "tech"
+  },
+  "cool": 3,
+  "id": "p_tech_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The hackathon",
+  "prompt": "There is the hackathon coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the hackathon and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_computer": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "tech"
+    },
+    "fail": {
+     "journal": [
+      "I entered the hackathon and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_computer": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the hackathon and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_computer": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "tech"
+  },
+  "cool": 3,
+  "id": "p_tech_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Technology Opportunity",
+  "prompt": "A chance appears to ship a small app.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to ship a small app and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_computer": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to ship a small app but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_computer": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to ship a small app."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_computer": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "tech"
+  },
+  "cool": 3,
+  "id": "p_tech_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Technology Rival",
+  "prompt": "Someone at the hack space keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_computer": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_computer": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "tech"
+  },
+  "cool": 3,
+  "id": "p_tech_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Technology Burnout",
+  "prompt": "You are tired of technology and everything about the hack space feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_computer": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_computer": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "tech"
+  },
+  "cool": 3,
+  "id": "p_tech_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Technology",
+  "prompt": "A recruiter says you could work as a engineer. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a engineer and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_computer": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_computer": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_computer": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "acting"
+  },
+  "cool": 3,
+  "id": "p_acting_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Acting Mentor",
+  "prompt": "A drama coach notices your interest in acting and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a drama coach and my acting improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_confidence": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some acting tips from a drama coach."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_confidence": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a drama coach. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "acting"
+  },
+  "cool": 3,
+  "id": "p_acting_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The audition",
+  "prompt": "There is the audition coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the audition and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_confidence": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "acting"
+    },
+    "fail": {
+     "journal": [
+      "I entered the audition and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_confidence": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the audition and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_confidence": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "acting"
+  },
+  "cool": 3,
+  "id": "p_acting_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Acting Opportunity",
+  "prompt": "A chance appears to land a small role.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to land a small role and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_confidence": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to land a small role but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_confidence": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to land a small role."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_confidence": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "acting"
+  },
+  "cool": 3,
+  "id": "p_acting_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Acting Rival",
+  "prompt": "Someone at the stage keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_confidence": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_confidence": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "acting"
+  },
+  "cool": 3,
+  "id": "p_acting_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Acting Burnout",
+  "prompt": "You are tired of acting and everything about the stage feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_confidence": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_confidence": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "acting"
+  },
+  "cool": 3,
+  "id": "p_acting_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Acting",
+  "prompt": "A recruiter says you could work as a actor. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a actor and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_confidence": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_confidence": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_confidence": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "trades"
+  },
+  "cool": 3,
+  "id": "p_trades_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Trades Mentor",
+  "prompt": "A master mechanic notices your interest in trades and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a master mechanic and my trades improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_trades": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some trades tips from a master mechanic."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_trades": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a master mechanic. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "trades"
+  },
+  "cool": 3,
+  "id": "p_trades_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The build-off",
+  "prompt": "There is the build-off coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the build-off and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_trades": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "trades"
+    },
+    "fail": {
+     "journal": [
+      "I entered the build-off and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_trades": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the build-off and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_trades": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "trades"
+  },
+  "cool": 3,
+  "id": "p_trades_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Trades Opportunity",
+  "prompt": "A chance appears to take on a repair job.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to take on a repair job and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_trades": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to take on a repair job but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_trades": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to take on a repair job."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_trades": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "trades"
+  },
+  "cool": 3,
+  "id": "p_trades_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Trades Rival",
+  "prompt": "Someone at the workshop keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_trades": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_trades": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "trades"
+  },
+  "cool": 3,
+  "id": "p_trades_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Trades Burnout",
+  "prompt": "You are tired of trades and everything about the workshop feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_trades": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_trades": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "trades"
+  },
+  "cool": 3,
+  "id": "p_trades_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Trades",
+  "prompt": "A recruiter says you could work as a tradesperson. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a tradesperson and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_trades": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_trades": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_trades": 1,
+     "happy": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "leadership"
+  },
+  "cool": 3,
+  "id": "p_leadership_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Leadership Mentor",
+  "prompt": "A seasoned mayor notices your interest in leadership and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs $400)",
+    "req": 400,
+    "journal": [
+     "I trained under a seasoned mayor and my leadership improved a lot."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_leadership": 5,
+     "money": -400,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up some leadership tips from a seasoned mayor."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_leadership": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a seasoned mayor. Maybe next time."
+    ],
+    "fx": {
+     "happy": -2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "leadership"
+  },
+  "cool": 3,
+  "id": "p_leadership_contest",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "The debate",
+  "prompt": "There is the debate coming up. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "journal": [
+     "I entered the debate and won recognition."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_leadership": 3,
+     "happy": 4
+    },
+    "win": {
+     "fame": 2,
+     "money": 300,
+     "award": "leadership"
+    },
+    "fail": {
+     "journal": [
+      "I entered the debate and came up short, but learned plenty."
+     ],
+     "fx": {
+      "pm": 5,
+      "sk_leadership": 2,
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the debate and took notes."
+    ],
+    "fx": {
+     "pm": 5,
+     "sk_leadership": 2
+    }
+   },
+   {
+    "label": "Skip it",
+    "journal": [
+     "I skipped it."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "leadership"
+  },
+  "cool": 3,
+  "id": "p_leadership_gig",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 4,
+  "title": "A Leadership Opportunity",
+  "prompt": "A chance appears to run for a committee seat.",
+  "choices": [
+   {
+    "label": "Take it",
+    "p": 0.7,
+    "journal": [
+     "I managed to run for a committee seat and earned some money."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_leadership": 3,
+     "money": 600
+    },
+    "fail": {
+     "journal": [
+      "I tried to run for a committee seat but it fell through."
+     ],
+     "fx": {
+      "pm": 3,
+      "sk_leadership": 1,
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Take it and negotiate",
+    "p": 0.45,
+    "journal": [
+     "I negotiated a great deal to run for a committee seat."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_leadership": 3,
+     "money": 1800,
+     "sk_business": 2
+    },
+    "fail": {
+     "journal": [
+      "The negotiation soured the deal."
+     ],
+     "fx": {
+      "happy": -3
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I passed."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "leadership"
+  },
+  "cool": 3,
+  "id": "p_leadership_rival",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 3,
+  "title": "A Leadership Rival",
+  "prompt": "Someone at the council hall keeps outdoing you and everyone has noticed.",
+  "choices": [
+   {
+    "label": "Out-practice them",
+    "journal": [
+     "I practiced until I beat them."
+    ],
+    "fx": {
+     "pm": 11,
+     "sk_leadership": 4,
+     "sk_discipline": 2,
+     "stress": 5
+    }
+   },
+   {
+    "label": "Befriend them",
+    "journal": [
+     "We became friends and pushed each other."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_leadership": 2,
+     "sk_empathy": 2,
+     "rel_friend": 8
+    }
+   },
+   {
+    "label": "Sabotage them",
+    "p": 0.5,
+    "journal": [
+     "My sabotage worked. I felt guilty."
+    ],
+    "fx": {
+     "pm": 5,
+     "karma": -8
+    },
+    "fail": {
+     "journal": [
+      "I got caught sabotaging a rival."
+     ],
+     "fx": {
+      "karma": -10,
+      "happy": -6,
+      "fame": -2
+     }
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "leadership"
+  },
+  "cool": 3,
+  "id": "p_leadership_burnout",
+  "ages": [
+   12,
+   80
+  ],
+  "w": 2,
+  "title": "Leadership Burnout",
+  "prompt": "You are tired of leadership and everything about the council hall feels like a chore.",
+  "choices": [
+   {
+    "label": "Take a break",
+    "journal": [
+     "I rested and came back refreshed."
+    ],
+    "fx": {
+     "happy": 4,
+     "stress": -8,
+     "pm": -2
+    }
+   },
+   {
+    "label": "Push through",
+    "p": 0.6,
+    "journal": [
+     "I pushed through and broke the plateau."
+    ],
+    "fx": {
+     "pm": 9,
+     "sk_leadership": 3,
+     "stress": 6,
+     "sk_discipline": 2
+    },
+    "fail": {
+     "journal": [
+      "I pushed too hard and fizzled out."
+     ],
+     "fx": {
+      "happy": -5,
+      "health": -3,
+      "pm": -6
+     }
+    }
+   },
+   {
+    "label": "Switch it up creatively",
+    "journal": [
+     "I tried a new approach and loved it."
+    ],
+    "fx": {
+     "pm": 6,
+     "sk_leadership": 2,
+     "sk_creativity": 2
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "leadership"
+  },
+  "cool": 3,
+  "id": "p_leadership_career",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Career in Leadership",
+  "prompt": "A recruiter says you could work as a leader. It pays little at first.",
+  "choices": [
+   {
+    "label": "Take a part-time role",
+    "journal": [
+     "I worked part-time as a leader and learned fast."
+    ],
+    "fx": {
+     "pm": 10,
+     "sk_leadership": 3,
+     "money": 2500,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Network aggressively",
+    "p": 0.5,
+    "journal": [
+     "My network paid off."
+    ],
+    "fx": {
+     "pm": 8,
+     "sk_leadership": 3,
+     "sk_people": 2,
+     "money": 4000
+    },
+    "fail": {
+     "journal": [
+      "Networking went nowhere."
+     ],
+     "fx": {
+      "happy": -2
+     }
+    }
+   },
+   {
+    "label": "Keep it a hobby",
+    "journal": [
+     "I kept it as a hobby."
+    ],
+    "fx": {
+     "pm": 4,
+     "sk_leadership": 1,
+     "happy": 2
+    }
+   }
+  ]
+ }
+]

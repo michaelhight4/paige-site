@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" data-asset="dress_shirt" data-category="clothes">
+<g stroke="#2b2a3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="128" cy="236" rx="70" ry="8" data-slot="shadow" id="dress_shirt-shadow-1" fill="#1b1b2a" style="fill:var(--slot-shadow,#1b1b2a)" fill-opacity=".28" stroke="none"/>
+<path d="M92 40L128 54L164 40L222 68L202 116L176 102V214H80V102L54 116L34 68Z" data-slot="trim" id="dress_shirt-trim-2" fill="#f6f6f6" style="fill:var(--slot-trim,#f6f6f6)"/>
+<path d="M54 116L76 102M202 116L180 102" fill="none" stroke-width="2"/>
+<polygon points="100,36 128,62 112,74 88,48" data-slot="trim" id="dress_shirt-trim-3" fill="#f6f6f6" style="fill:var(--slot-trim,#f6f6f6)" stroke-width="2.5"/>
+<polygon points="156,36 128,62 144,74 168,48" data-slot="trim" id="dress_shirt-trim-4" fill="#f6f6f6" style="fill:var(--slot-trim,#f6f6f6)" stroke-width="2.5"/>
+<polygon points="122,64 134,64 138,80 128,92 118,80" data-slot="accent" id="dress_shirt-accent-5" fill="#c0392b" style="fill:var(--slot-accent,#c0392b)" stroke-width="2"/>
+<polygon points="118,82 138,82 144,176 128,190 112,176" data-slot="accent" id="dress_shirt-accent-6" fill="#c0392b" style="fill:var(--slot-accent,#c0392b)" stroke-width="2"/>
+<circle cx="160" cy="100" r="3" data-slot="metal" id="dress_shirt-metal-7" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)" stroke-width="1.5"/>
+<circle cx="160" cy="124" r="3" data-slot="metal" id="dress_shirt-metal-8" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)" stroke-width="1.5"/>
+<circle cx="160" cy="148" r="3" data-slot="metal" id="dress_shirt-metal-9" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)" stroke-width="1.5"/>
+<circle cx="160" cy="172" r="3" data-slot="metal" id="dress_shirt-metal-10" fill="#d8dde4" style="fill:var(--slot-metal,#d8dde4)" stroke-width="1.5"/>
+<path d="M80 214H176" fill="none" stroke-width="2"/>
+</g>
+</svg>
