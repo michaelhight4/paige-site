@@ -54,7 +54,7 @@ export function slice(s) {
 }
 export function pull(s) {
   const sl = slice(s);
-  sl.cash = s.cash; sl.debt = s.debt; sl.bkMode = s.age >= 18 && !s.noBankruptcy; sl.age = Math.floor(s.age); sl.name = s.name; sl.gender = s.gender;
+  sl.cash = s.cash; sl.debt = s.debt; sl.bkMode = s.age >= 18 && !s.noBankruptcy; sl.ledger = !!s.bkLedger; sl.age = Math.floor(s.age); sl.name = s.name; sl.gender = s.gender;
   for (const k of ['health', 'happiness', 'smarts', 'looks']) sl.stats[k] = s.stats[k];
   const want = s.edu >= 3 ? 'graduate_school' : s.edu >= 2 ? 'university' : s.edu >= 1 ? 'high_school' : 'none';
   if (EDU_RANK.indexOf(sl.edu.level) < EDU_RANK.indexOf(want)) sl.edu.level = want;

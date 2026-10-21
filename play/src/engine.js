@@ -166,8 +166,12 @@ export const die = (s, ...a) => Legacy.die(s, ...a);
 
 export function takeTurn(s) {
   if (!s.alive) return false;
+  Bk.reconcile(s); // a stale bankruptcy popup the player can now pay is cleared
   if (s.pending.length) return false;
   if (s.league.finals && !s.league.finals.done) return false;
+  s.bkLedger = true; try { return turnBody(s); } finally { if (s.bkLedger) Bk.settle(s); }
+}
+function turnBody(s) {
   const dt = s.step; s.report = []; s.acted = {}; s.turns++;
   const yrBefore = Math.floor(s.age); s.age = Math.round((s.age + dt) * 1000) / 1000;
   const newYear = Math.floor(s.age) > yrBefore;
@@ -177,7 +181,7 @@ export function takeTurn(s) {
   Slice.tick(s, dt);
   Crime.tick(s, dt);
   Health.tick(s, dt);
-  if (!s.alive) { snap(s); return true; }
+  if (!s.alive) { Bk.settle(s); snap(s); return true; }
   for (const b of s.biz) Biz.tickBiz(s, b, dt);
   Sports.tickLeague(s, dt);
   if (newYear) {
@@ -238,6 +242,6 @@ function readSlot(slot) { // -> { g, restored }
   const b = kget(BAK_KEY(slot)); if (b && looksValid(b)) return { g: JSON.parse(b), restored: true, raw: b };
   return { g: null, restored: false };
 }
-export const load = (slot = activeSlot) => { try { migrateLegacy(); const r = readSlot(slot); const g = r.g; if (g) { if (r.restored) { kset(SLOT_KEY(slot), r.raw); const bm = kget(BAKMETA_KEY(slot)); if (bm) kset(META_KEY(slot), bm); kdel(BAK_KEY(slot)); kdel(BAKMETA_KEY(slot)); loadNote = 'Your latest save was missing or damaged, so the previous backup was restored (you may lose the last year or action).'; } Slice.ensure(g); Hw.ensure(g); } return g; } catch (e) { return null; } };
+export const load = (slot = activeSlot) => { try { migrateLegacy(); const r = readSlot(slot); const g = r.g; if (g) { if (r.restored) { kset(SLOT_KEY(slot), r.raw); const bm = kget(BAKMETA_KEY(slot)); if (bm) kset(META_KEY(slot), bm); kdel(BAK_KEY(slot)); kdel(BAKMETA_KEY(slot)); loadNote = 'Your latest save was missing or damaged, so the previous backup was restored (you may lose the last year or action).'; } Slice.ensure(g); Hw.ensure(g); Bk.reconcile(g); } return g; } catch (e) { return null; } };
 export const slotInfo = (slot) => { migrateLegacy(); let t = kget(SLOT_KEY(slot)), mk = META_KEY(slot); if (!t || !looksValid(t)) { const b = kget(BAK_KEY(slot)); if (b && looksValid(b)) { t = b; mk = BAKMETA_KEY(slot); } else return null; } let m = null; try { m = JSON.parse(kget(mk)); } catch (e) { /* ignore */ } if (!m) { try { m = slotMeta(JSON.parse(t)); } catch (e) { return null; } } return m; };
 export const wipe = (slot = activeSlot) => { kdel(SLOT_KEY(slot)); kdel(META_KEY(slot)); kdel(BAK_KEY(slot)); kdel(BAKMETA_KEY(slot)); if (lastSlot() === slot) kdel(LAST_KEY); };

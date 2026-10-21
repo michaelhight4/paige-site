@@ -10,13 +10,16 @@ import * as Rc from './racing.js';
 import * as Prod from './prodco.js';
 import * as Ad from './advisor.js';
 import * as B from './slice_bridge.js';
+import * as Lg from './legacy.js';
 import { log, addStat, earn } from './core.js';
 
 import { fmtMoney } from './fmt.js';
 const R = Math.round, money = (n) => fmtMoney(n);
-export const LOAN_CAP = 250000, CREDIT_YEARS = 7;
+export const LOAN_CAP = 250000, LOAN_NW_SHARE = 0.4, CREDIT_YEARS = 7;
 export const creditBad = (s) => !!(s.bk && s.bk.until && s.age < s.bk.until);
-export const loanRoom = (s) => (creditBad(s) ? 0 : Math.max(0, LOAN_CAP - (s.debt || 0)));
+// bank limit scales with wealth: max($250K, 40% of net worth before debt)
+export function loanCap(s) { let gross = 0; try { const nw = Lg.netWorthOf(s); gross = (nw.total || 0) + (s.debt || 0); } catch (e) { gross = 0; } return Math.max(LOAN_CAP, R(LOAN_NW_SHARE * Math.max(0, gross))); }
+export const loanRoom = (s) => (creditBad(s) ? 0 : Math.max(0, loanCap(s) - (s.debt || 0)));
 // everything the player owns that can be sold, cheapest-hassle first, with what it would bring in after loans/fees
 export function sellables(s) {
   const out = [];
@@ -33,26 +36,57 @@ export function sellables(s) {
 }
 export const saleTotal = (s) => sellables(s).reduce((a, x) => a + x.value, 0);
 export function ensure(s) { if (!s.bk) s.bk = { times: 0, until: 0, history: [] }; return s.bk; }
+// Net ledger: during a turn tick (s.bkLedger) bills may push cash below 0; once ALL of the turn's income and charges are in,
+// settle() turns a negative balance into the shortfall (adults) or debt (minors / dead), and cash on hand pays off any older shortfall.
+export function settle(s) {
+  s.bkLedger = false;
+  if (s.cash < 0) { const neg = -s.cash; s.cash = 0; if (s.alive && s.age >= 18 && s.flags && !s.noBankruptcy) s.shortfall = (s.shortfall || 0) + neg; else s.debt = (s.debt || 0) + neg; }
+  if (s.shortfall > 0 && s.cash > 0) { const pay = Math.min(s.cash, s.shortfall); s.cash -= pay; s.shortfall -= pay; }
+  if (s.shortfall && s.shortfall <= 1) s.shortfall = 0;
+}
+// re-evaluate a queued popup (old saves from before the net-ledger fix, or cash that arrived since): if cash now covers it, pay and clear
+export function reconcile(s) {
+  if (!s || !Array.isArray(s.pending)) return false; const i = s.pending.findIndex((p) => p && p.kind === 'bankruptcy'); if (i < 0) return false;
+  if (s.bkLedger) s.bkLedger = false; if (!(s.cash >= 0)) { if (s.cash < 0) { s.shortfall = (s.shortfall || 0) - s.cash; } s.cash = 0; }
+  const owed = s.shortfall > 0 ? s.shortfall : (s.pending[i].owed || 0);
+  if (!s.alive || owed <= 1 || s.cash >= owed) { if (s.alive && owed > 1) { s.cash -= owed; log(s, `I paid ${money(owed)} of overdue bills.`, 'money'); } s.shortfall = 0; s.pending.splice(i, 1); return true; }
+  return false;
+}
 // end of every turn: queue the popup when bills could not be paid
 export function check(s) {
-  if (!s.alive || !(s.shortfall > 1)) { if (s.shortfall && s.shortfall <= 1) s.shortfall = 0; return false; }
-  if (s.pending.some((p) => p.kind === 'bankruptcy')) return true;
+  settle(s);
+  if (!s.alive || !(s.shortfall > 1)) { if (s.shortfall && s.shortfall <= 1) s.shortfall = 0; if (Array.isArray(s.pending)) s.pending = s.pending.filter((p) => p.kind !== 'bankruptcy'); return false; } // nothing owed: no popup
+  if (s.pending.some((p) => p.kind === 'bankruptcy')) { const p = s.pending.find((x) => x.kind === 'bankruptcy'); p.owed = R(s.shortfall); return true; }
   s.pending.push({ kind: 'bankruptcy', owed: R(s.shortfall), year: Math.floor(s.age) }); return true;
+}
+// "Sell my things" opens a picker (p.stage='sell'): the player chooses which item to sell, one at a time, or lets the game sell just enough.
+export function pickToCover(s, owed) { // fewest/cheapest set: smallest single item that covers it, else biggest-first until covered
+  const list = sellables(s); const one = list.filter((x) => x.value >= owed).sort((a, b) => a.value - b.value)[0]; if (one) return [one];
+  const out = []; let got = 0; for (const x of list) { if (got >= owed) break; out.push(x); got += x.value; } return out;
+}
+function sellAndPay(s, p, items, owed) {
+  let got = 0, n = 0; for (const x of items) { const before = s.cash; x.sell(); got += Math.max(0, s.cash - before); n++; }
+  const pay = Math.min(owed, s.cash); s.cash -= pay; s.shortfall = Math.max(0, owed - pay); if (n) log(s, `I sold ${n} thing${n === 1 ? '' : 's'} to pay my bills (${money(got)}).`, 'money');
+  if (s.shortfall <= 1) { s.shortfall = 0; s.pending.shift(); return { ok: true, msg: `Sold ${n} item${n === 1 ? '' : 's'} (${money(got)}), bills paid.` }; }
+  p.owed = R(s.shortfall); return { ok: true, msg: `Sold ${n} item${n === 1 ? '' : 's'} but you are still ${money(s.shortfall)} short. Choose again.` };
 }
 export function card(s) {
   const p = s.pending[0], owed = R(s.shortfall || p.owed), room = loanRoom(s), sale = saleTotal(s);
+  if (p.stage === 'sell') {
+    const list = sellables(s), auto = pickToCover(s, owed);
+    const choices = list.map((x) => ({ label: `Sell ${x.name} (${x.kind}), about ${money(x.value)}` }));
+    choices.push({ label: auto.length ? `Sell just enough for me (${auto.map((x) => x.name).join(', ')})` : 'Nothing left to sell', disabled: !auto.length }, { label: 'Back' });
+    return { kind: 'bankruptcy', id: 'bankruptcy', title: '🏦 What do you want to sell?', text: `You are ${money(owed)} short. Pick something to sell; only the bills are taken from the money and the rest stays in your cash. Or let the game sell just enough to cover it.`, choices };
+  }
   const choices = [{ label: room >= owed ? `Take a ${money(owed)} loan` : room > 0 ? `Loan not big enough (bank offers ${money(room)})` : 'No bank will lend to you', disabled: room < owed }, { label: sale > 0 ? `Sell my things (worth about ${money(sale)})` : 'Nothing left to sell', disabled: sale <= 0 }, { label: 'Declare bankruptcy' }];
   return { kind: 'bankruptcy', id: 'bankruptcy', title: '🏦 You cannot pay your bills', text: `Your yearly bills left you ${money(owed)} short and you are out of cash. Choose: borrow it (debt interest keeps running), sell what you own to cover it (${sale > 0 ? 'houses, cars, businesses, teams, farms, brands, investments and items count' : 'you own nothing sellable'}), or declare bankruptcy (assets seized, credit ruined for ${CREDIT_YEARS} years).`, choices };
 }
 export function resolve(s, i) {
-  const p = s.pending[0]; if (!p || p.kind !== 'bankruptcy') return null; const owed = R(s.shortfall || p.owed), c = card(s).choices[i]; if (!c) return { ok: false, msg: 'Pick one.' }; if (c.disabled) return { ok: false, msg: c.label };
+  const p = s.pending[0]; if (!p || p.kind !== 'bankruptcy') return null; const owed = R(s.shortfall || p.owed);
+  if (p.stage === 'sell') { const list = sellables(s); if (i === list.length + 1) { p.stage = null; return { ok: true, msg: 'Back.', keepOpen: true }; } if (i === list.length) { const auto = pickToCover(s, owed); if (!auto.length) return { ok: false, msg: 'Nothing left to sell.' }; const r = sellAndPay(s, p, auto, owed); if (s.pending[0] === p) p.stage = null; return r; } const x = list[i]; if (!x) return { ok: false, msg: 'Pick one.' }; return sellAndPay(s, p, [x], owed); }
+  const c = card(s).choices[i]; if (!c) return { ok: false, msg: 'Pick one.' }; if (c.disabled) return { ok: false, msg: c.label };
   if (i === 0) { s.debt += owed; s.shortfall = 0; s.pending.shift(); log(s, `I took a ${money(owed)} loan to cover my bills.`, 'money'); return { ok: true, msg: `Loan of ${money(owed)} approved.` }; }
-  if (i === 1) { // sell biggest items first until the bills are covered
-    let got = 0, n = 0; for (const x of sellables(s)) { if (got >= owed) break; const before = s.cash; x.sell(); got += Math.max(0, s.cash - before); n++; }
-    const pay = Math.min(owed, s.cash); s.cash -= pay; s.shortfall = Math.max(0, owed - pay); log(s, `I sold ${n} thing${n === 1 ? '' : 's'} to pay my bills (${money(got)}).`, 'money');
-    if (s.shortfall <= 1) { s.shortfall = 0; s.pending.shift(); return { ok: true, msg: `Sold ${n} item${n === 1 ? '' : 's'}, bills paid.` }; }
-    p.owed = R(s.shortfall); return { ok: true, msg: `Sold ${n} item${n === 1 ? '' : 's'} but you are still ${money(s.shortfall)} short. Choose again.` };
-  }
+  if (i === 1) { p.stage = 'sell'; return { ok: true, msg: 'Pick what to sell.', keepOpen: true }; }
   return declare(s);
 }
 export function declare(s) {
@@ -64,4 +98,4 @@ export function declare(s) {
   return { ok: true, msg: `Bankruptcy declared. ${money(seized)} seized, most debt wiped. No loans until age ${bk.until}.`, bankrupt: true };
 }
 // Autopilot answers the popup per preference (default: pause = leave it to the player)
-export function autoAnswer(s, pref) { const p = s.pending[0]; if (!p || p.kind !== 'bankruptcy') return null; if (pref === 'loan' && loanRoom(s) >= (s.shortfall || p.owed)) return resolve(s, 0); if (pref === 'sell') { const r = resolve(s, 1); return r; } return null; }
+export function autoAnswer(s, pref) { const p = s.pending[0]; if (!p || p.kind !== 'bankruptcy') return null; if (pref === 'loan' && loanRoom(s) >= (s.shortfall || p.owed)) return resolve(s, 0); if (pref === 'sell') { const auto = pickToCover(s, s.shortfall || p.owed); return auto.length ? sellAndPay(s, p, auto, R(s.shortfall || p.owed)) : null; } return null; }
