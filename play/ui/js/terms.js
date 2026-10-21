@@ -2,7 +2,7 @@
 // Acceptance lives in localStorage `lifesim.terms.v1` = { v, at, news }, SEPARATE from saves, so a new life or wiped saves never re-ask.
 // Bump TERMS_VERSION when terms.html / privacy.html change materially: players are asked once more.
 import { h } from './ui.js';
-export const TERMS_VERSION = 1;
+export const TERMS_VERSION = 2;
 const KEY = 'lifesim.terms.v1';
 export const TERMS_URL = 'terms.html', PRIVACY_URL = 'privacy.html';
 export function accepted() { try { const a = JSON.parse(localStorage.getItem(KEY) || 'null'); return a && a.v >= TERMS_VERSION ? a : null; } catch (e) { return null; } }
