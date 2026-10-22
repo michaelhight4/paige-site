@@ -3,7 +3,21 @@
 <title>Paige Industries · Games, music, webtoons by Gary</title>
 <meta name="description" content="Paige Games: play Lifeline and Riftward free in your browser, Kilumen coming soon. Plus The Start of the End webtoon.">
 <meta name="theme-color" content="#0c0f1d">
-<link rel="stylesheet" href="home.css"></head>
+<link rel="stylesheet" href="home.css"><meta property="og:type" content="website">
+<meta property="og:site_name" content="Paige Industries">
+<meta property="og:title" content="Paige Industries | Games, Webtoons and Music">
+<meta property="og:description" content="Free games you can play right in your browser, plus webtoons and music. No download needed.">
+<meta property="og:url" content="https://paigegames.net/">
+<meta property="og:image" content="https://paigegames.net/assets/og-share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Paige Industries: Games, Webtoons and Music. Free, no download.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Paige Industries | Games, Webtoons and Music">
+<meta name="twitter:description" content="Free games you can play right in your browser, plus webtoons and music. No download needed.">
+<meta name="twitter:image" content="https://paigegames.net/assets/og-share.jpg">
+<meta name="theme-color" content="#0a0b1a">
+</head>
 <body data-tab="home">
 <a class="skip" href="#main">Skip to content</a>
 <canvas id="sky" aria-hidden="true"></canvas>
@@ -22,9 +36,10 @@
 <li><a href="#wallet" data-go="wallet">Wallet</a></li>
 <li><a href="#social" data-go="social">Social</a></li>
 <li><a href="#about" data-go="about">About me</a></li></ul></nav>
+<div class="acct" id="acct"><button class="btn signin" id="acct-btn" type="button" aria-haspopup="dialog" aria-controls="auth">Sign in</button></div>
 <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button></div></header>
 <div class="scrim" id="scrim" hidden></div>
-<aside class="drawer" id="drawer" aria-label="Menu" aria-hidden="true" inert><div class="dhead"><span class="logo"><span class="mark" aria-hidden="true">P</span>Paige <b>Industries</b></span><button class="dx" id="dx" type="button" aria-label="Close menu">✕</button></div><ul class="dlinks" id="dlinks"></ul></aside>
+<aside class="drawer" id="drawer" aria-label="Menu" aria-hidden="true" inert><div class="dhead"><span class="logo"><span class="mark" aria-hidden="true">P</span>Paige <b>Industries</b></span><button class="dx" id="dx" type="button" aria-label="Close menu">✕</button></div><ul class="dlinks" id="dlinks"></ul><div class="dacct"><button class="btn signin" id="dacct-btn" type="button" aria-haspopup="dialog" aria-controls="auth">Sign in</button></div></aside>
 <main id="main">
 
 <!-- HOME -->
@@ -136,9 +151,51 @@
 <div class="soon-row"><span><b>Ad-Free for Life</b> pass · coming soon</span><span><b>Blue Bucks</b> · coming soon</span></div>
 <p class="social"><a href="https://tiktok.com/@gary.tsg" rel="noopener">TikTok</a><a href="https://instagram.com/gary.tsg" rel="noopener">Instagram</a><a href="https://linktr.ee/gary.tsg" rel="noopener">Linktree</a><a href="#social" data-go="social">All socials</a><a href="privacy.html">Privacy Policy</a><a href="contact.html">Contact</a></p>
 <p class="fine">© 2026 Paige Industries · Gary</p></div></footer>
+<dialog id="auth" class="auth" aria-labelledby="auth-title">
+<div class="authbox">
+<button class="ax" id="auth-x" type="button" aria-label="Close sign-in">✕</button>
+<h2 id="auth-title" tabindex="-1">Sign in</h2>
+<p class="amsg" id="auth-msg" role="status" aria-live="polite"></p>
+<form data-view="signin" novalidate>
+<label for="si-email">Email</label><input id="si-email" name="email" type="email" autocomplete="email" required>
+<label for="si-pass">Password</label><input id="si-pass" name="password" type="password" autocomplete="current-password" required>
+<button class="alink right" type="button" data-to="forgot">Forgot password?</button>
+<button class="btn" type="submit">Sign in</button>
+<div class="or" aria-hidden="true"><span>or</span></div>
+<button class="btn ghost google" type="button" data-google>Continue with Google</button>
+<p class="aswitch">New here? <button class="alink" type="button" data-to="signup">Create account</button></p>
+</form>
+<form data-view="signup" hidden novalidate>
+<p class="anote" id="su-guest" hidden>You're playing as a guest. Signing up keeps your guest progress on this new account.</p>
+<label for="su-email">Email</label><input id="su-email" name="email" type="email" autocomplete="email" required>
+<label for="su-pass">Password <span class="hint">(8+ characters)</span></label><input id="su-pass" name="password" type="password" autocomplete="new-password" minlength="8" required>
+<label for="su-pass2">Confirm password</label><input id="su-pass2" name="confirm" type="password" autocomplete="new-password" minlength="8" required>
+<p class="anote">We'll send a confirmation email. Click the link in it to activate your account.</p>
+<button class="btn" type="submit">Create account</button>
+<button class="btn ghost google" type="button" data-google>Continue with Google</button>
+<p class="aswitch">Already a member? <button class="alink" type="button" data-to="signin">Sign in</button></p>
+</form>
+<form data-view="forgot" hidden novalidate>
+<p class="anote">Enter your account email and we'll send you a link to reset your password.</p>
+<label for="fp-email">Email</label><input id="fp-email" name="email" type="email" autocomplete="email" required>
+<button class="btn" type="submit">Send reset link</button>
+<p class="aswitch"><button class="alink" type="button" data-to="signin">Back to sign in</button></p>
+</form>
+<form data-view="reset" hidden novalidate>
+<p class="anote">Choose a new password for your account.</p>
+<label for="rp-pass">New password <span class="hint">(8+ characters)</span></label><input id="rp-pass" name="password" type="password" autocomplete="new-password" minlength="8" required>
+<label for="rp-pass2">Confirm new password</label><input id="rp-pass2" name="confirm" type="password" autocomplete="new-password" minlength="8" required>
+<button class="btn" type="submit">Save new password</button>
+</form>
+<div data-view="account" hidden>
+<p class="who"><span id="acct-email"></span> <span class="creator" id="acct-creator" hidden>CREATOR</span></p>
+<button class="btn ghost" type="button" id="signout">Sign out</button>
+</div>
+</div></dialog>
 <script src="games.js" defer></script>
 <script src="webtoons.js" defer></script>
 <script src="socials.js" defer></script>
 <script src="songs.js" defer></script>
 <script src="home.js" defer></script>
+<script src="auth.js" type="module"></script>
 </body></html>
