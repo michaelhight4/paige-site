@@ -47,6 +47,7 @@
   const topSize = () => topSizes()[0];
   function placeTop() {
     document.querySelectorAll('.sa-top').forEach((e) => e.remove());
+    return; // top banner removed: never create or show the unit on any viewport
     const tab = document.body.dataset.tab; if (tab === NO_TAB) return;
     const wrap = document.querySelector(`.panel[data-panel="${tab}"] .wrap`); if (!wrap) return;
     const segs = segments(), sy = scrollY, cs = getComputedStyle(wrap), pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight);
