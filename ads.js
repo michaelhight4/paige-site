@@ -1,15 +1,14 @@
-/* Paige ad slots (paigegames.net). Placements: home (below hero), Games + Webtoons lists (after first row),
+/* Paige ad slots (paigegames.net). Placements: NO ads on the home page (Gary, Oct 22). Banner ads only: Games + Webtoons lists (after first row),
    desktop-only inline on long pages. Never in header/nav, sign-in, stats.html or the mini player.
    Until AdSense approval + slot IDs exist, slots stay collapsed; ?adpreview=1 shows labeled placeholders.
    Ad-Free for Life (network no-ads pass) => nothing loads (auth.js fires 'paige:ads' after public.ads_removed). */
 (() => {
   const ADSENSE_CLIENT = 'ca-pub-3732476962662887';
-  const SLOTS = { home: '', games: '', webtoons: '', inline: '' }; // fill with AdSense slot IDs after approval
+  const SLOTS = { games: '', webtoons: '', inline: '' }; // fill with AdSense slot IDs after approval
   const preview = new URLSearchParams(location.search).get('adpreview') === '1';
   const live = Object.values(SLOTS).some(Boolean);
   if (!preview && !live) return; // live site: no slots, no empty boxes
   const PLACES = [
-    { key: 'home', where: () => document.querySelector('#p-home .intro'), how: 'after' },
     { key: 'games', where: () => afterFirstRow('all-games', '.game'), how: 'after' },
     { key: 'webtoons', where: () => afterFirstRow('all-toons', ':scope > *'), how: 'after', list: true },
     { key: 'inline', where: () => document.querySelectorAll('#p-start-of-the-end .s-block')[1], how: 'after', desktop: true }, // long story page, after Roadmap
@@ -30,7 +29,7 @@
       box.className = 'ad-slot' + (p.desktop ? ' ad-desk' : '') + (preview && !SLOTS[p.key] ? ' ad-preview' : '');
       box.setAttribute('aria-label', 'Advertisement');
       box.innerHTML = '<span class="ad-lab">Advertisement</span>' + (SLOTS[p.key]
-        ? `<ins class="adsbygoogle" style="display:block" data-ad-client="${ADSENSE_CLIENT}" data-ad-slot="${SLOTS[p.key]}" data-ad-format="auto" data-full-width-responsive="true"></ins>`
+        ? `<ins class="adsbygoogle" style="display:block" data-ad-client="${ADSENSE_CLIENT}" data-ad-slot="${SLOTS[p.key]}" data-ad-format="horizontal" data-full-width-responsive="true"></ins>`
         : '<span class="ad-ph">Ad placeholder · ' + p.key + '</span>');
       ref.after(box);
     }
