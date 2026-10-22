@@ -21,9 +21,15 @@ const tCard=t=>`<article class="toon">${t.img?`<img src="${esc(t.img)}" alt="${e
 <h3>${esc(t.title)}</h3>${t.tags.length?`<ul class="chips">${t.tags.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>`:''}<p${t.blurb.startsWith('PLACEHOLDER')?' class="ph"':''}>${esc(t.blurb)}</p>
 ${t.links.length?`<p class="row">${t.links.map((l,i)=>`<a class="btn${i?' ghost':''}" href="${esc(l.url)}"${l.url[0]==='#'?'':' rel="noopener"'}>${esc(l.label)}</a>`).join(' ')}</p>`:''}</div></article>`;
 const $=id=>document.getElementById(id);
-$('home-games').innerHTML=G.filter(g=>g.featured).slice(0,2).map(g=>gCard(g,false)).join('');
+const pick=(arr,n,key)=>{const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+let last=[];try{last=JSON.parse(localStorage.getItem('feat-'+key)||'[]')}catch(e){}
+const img=arr.filter(x=>x.img),noimg=arr.filter(x=>!x.img);let pool=img.length>=n?img:img.concat(noimg);
+const fresh=pool.filter(x=>!last.includes(x.id));let out=sh(fresh).slice(0,n);if(out.length<n)out=out.concat(sh(pool.filter(x=>!out.includes(x))).slice(0,n-out.length));
+if(out.map(x=>x.id).sort().join()===last.slice().sort().join()&&pool.length>n){out=sh(pool).slice(0,n)}
+try{localStorage.setItem('feat-'+key,JSON.stringify(out.map(x=>x.id)))}catch(e){}return out};
+$('home-games').innerHTML=pick(G,2,'g').map(g=>gCard(g,false)).join('');
 $('all-games').innerHTML=G.map(g=>gCard(g,false)).join('');
-$('home-toons').innerHTML=T.filter(t=>t.featured).slice(0,2).map(tCard).join('');
+$('home-toons').innerHTML=pick(T,2,'t').map(tCard).join('');
 $('all-toons').innerHTML=T.map(tCard).join('');
 document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',x===b));
 document.querySelectorAll('#all-games .game').forEach(c=>c.hidden=!(b.dataset.f==='all'||c.dataset.status===b.dataset.f))});

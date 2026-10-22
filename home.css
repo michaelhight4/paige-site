@@ -223,3 +223,14 @@ body.dopen .burger span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}b
 .soc[data-i=webtoon] svg{background:#00a34a}.soc[data-i=spotify] svg{background:#127a3d}.soc[data-i=apple] svg{background:#d6243c}
 .soc[data-i=youtube] svg,.soc[data-i=ytmusic] svg{background:#c00}.soc[data-i=reddit] svg{background:#d93a00}.soc[data-i=gofundme] svg{background:#00804f}
 .soc[data-i=wattpad] svg{background:#d24d0b}.soc[data-i=hyperfollow] svg{background:#1b4fd1}
+/* neon rainbow chaser glow on nav hover/focus (soft, no hard line) */
+@property --chase{syntax:'<angle>';inherits:false;initial-value:0deg}
+.tabs a,.dlinks a{isolation:isolate}
+.tabs a::before,.dlinks a::before{content:"";position:absolute;inset:3px;z-index:-1;border-radius:12px;pointer-events:none;opacity:0;
+background:conic-gradient(from var(--chase),#ff3b6b,#ffb03b,#d8ff3a,#3bffb0,#3bb8ff,#9b5cff,#ff3bd4,#ff3b6b);
+filter:blur(7px);-webkit-mask-image:radial-gradient(farthest-side,transparent 45%,#000 100%);mask-image:radial-gradient(farthest-side,transparent 45%,#000 100%);transition:opacity .25s}
+.dlinks a{position:relative}
+.tabs a:hover::before,.tabs a:focus-visible::before,.dlinks a:hover::before,.dlinks a:focus-visible::before{opacity:.85;animation:chase 2.4s linear infinite}
+.tabs a:hover,.tabs a:focus-visible,.dlinks a:hover,.dlinks a:focus-visible{color:#fff;text-shadow:0 0 4px #000,0 0 2px #000}
+@keyframes chase{to{--chase:360deg}}
+@media(prefers-reduced-motion:reduce){.tabs a::before,.dlinks a::before{transition:none}.tabs a:hover::before,.tabs a:focus-visible::before,.dlinks a:hover::before,.dlinks a:focus-visible::before{animation:none;opacity:.7}}
