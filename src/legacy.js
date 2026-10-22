@@ -86,7 +86,7 @@ export function computeEstate(s) {
   const inv = Slice.inventory(s), invNet = inv.reduce((a, x) => a + x.value, 0), sliceRefs = new Set(inv.map((x) => x.a));
   // 7c6 item 12: slice investments (stocks/funds/crypto...) pass to heirs as units at market value instead of being auctioned.
   const slSt = s.sl ? Slice.pull(s) : null, slD = slSt ? Slice.sliceData() : null;
-  const invH = slSt ? Object.entries(slSt.invest || {}).filter(([, h]) => h.units > 0).map(([id, h]) => { const it = (slD.investments || []).find((x) => x.id === id); const price = slSt.market[id] ?? (it ? it.price : 0); return { id, name: it ? it.name : id, units: h.units, cost: h.cost || 0, divMode: h.divMode || 'reinvest', price, value: h.units * price }; }) : [];
+  const invH = slSt ? Object.entries(slSt.invest || {}).filter(([, h]) => h.units > 0).map(([id, h]) => { const it = ((slD.assets.investments || {}).items || []).find((x) => x.id === id); const price = slSt.market[id] ?? (it ? it.price : 0); return { id, name: it ? it.name : id, units: h.units, cost: h.cost || 0, divMode: h.divMode || 'reinvest', price, value: h.units * price }; }) : [];
   const invHVal = invH.reduce((a, x) => a + x.value, 0);
   let cash = s.cash + Math.max(0, Slice.wealth(s) - invNet - invHVal) * E.auctionRate, debt = s.debt, liquidated = 0; // investments/zoo are sold; owned objects are NOT
   const assets = [...s.assets.map((a) => ({ ref: a, value: a.value })), ...inv.map((x) => ({ ref: x.a, value: x.value, slice: true }))], biz = s.biz.map((b) => ({ ref: b, value: b.valuation }));
@@ -105,7 +105,7 @@ export function computeEstate(s) {
   const w = s.will || { mode: 'even' }, sh = willShares(s) && kids.some((k) => (willShares(s)[k.id] || 0) > 0) ? willShares(s) : null;
   const named = !sh && w.mode === 'one' && kids.length === 1 && kids[0].id === w.heir ? kids[0] : null;
   const heirs = kids.map((k) => ({ id: k.id, name: k.name, rel: k.rel, age: Math.floor(k.age), frac: sh ? sh[k.id] / 100 : 1 / kids.length, assets: [], biz: [], stocks: {}, cash: 0, auctioned: 0, trust: false, total: 0 }));
-  const net = cash + assets.reduce((a, x) => a + x.value, 0) + biz.reduce((a, x) => a + x.value, 0) + stocks.reduce((a, x) => a + x.value, 0);
+  const net = cash + assets.reduce((a, x) => a + x.value, 0) + biz.reduce((a, x) => a + x.value, 0) + stocks.reduce((a, x) => a + x.value, 0) + invH.reduce((a, x) => a + x.value, 0);
   if (heirs.length) {
     const items = [...assets.map((x) => ({ k: 'a', x, v: x.value })), ...biz.map((x) => ({ k: 'b', x, v: x.value }))].sort((a, b) => b.v - a.v);
     for (const it of items) { const h = heirs.reduce((m, y) => (y.total / y.frac < m.total / m.frac ? y : m), heirs[0]); (it.k === 'a' ? h.assets : h.biz).push(it.x.ref); h.total += it.v; }

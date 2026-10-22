@@ -5,7 +5,8 @@ const setup = (cash, units) => { const w = E.newGame({ seed: 12, name: 'Elder' }
   const st = Slice.slice(w); st.market.stk_atlas = 100; st.invest = { stk_atlas: { units, cost: units * 80, divMode: 'cash' } }; return { w, a, b }; };
 { const { w, a, b } = setup(1e7, 101); const plan = L.computeEstate(w); const ha = plan.heirs.find((h) => h.id === a.id), hb = plan.heirs.find((h) => h.id === b.id);
   const ua = ha.invest.stk_atlas?.units || 0, ub = hb.invest.stk_atlas?.units || 0; assert.equal(ua + ub, 101, 'every unit passes on'); assert.ok([ua, ub].includes(51) && [ua, ub].includes(50), `${ua}/${ub}`);
-  assert.ok(plan.estateVal >= 101 * 100, 'valued in the estate');
+  assert.ok(plan.estateVal >= 101 * 100, 'valued in the estate'); assert.ok(Math.abs(plan.net - (1e7 + 101 * 100 - plan.tax)) < 2, `net ${plan.net} includes the holdings`);
+  const tot = plan.heirs.reduce((t, h) => t + h.total, 0); assert.ok(Math.abs(tot - plan.net) < 2, `heirs get the whole net (${tot} vs ${plan.net})`); assert.ok(!/stk_/.test(ha.invest.stk_atlas.name), 'readable name');
   L.die(w, 'disease', 'test'); assert.ok(L.continueAs(w, a.id)); const st = Slice.slice(w); assert.equal(st.invest.stk_atlas.units, ua); assert.equal(st.invest.stk_atlas.divMode, 'cash'); assert.ok(Math.abs(st.invest.stk_atlas.cost - ua * 80) < 1e-6, 'cost basis kept');
   assert.equal(st.invLife.realized, 0); assert.equal(st.invLife.income, 0); }
 { const { w } = setup(0, 1e6); const plan = L.computeEstate(w); const left = plan.heirs.reduce((t, h) => t + (h.invest.stk_atlas?.units || 0), 0);
