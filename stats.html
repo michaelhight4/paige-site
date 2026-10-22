@@ -22,7 +22,10 @@
 .st-msg{padding:24px;text-align:center;color:var(--mut)}
 .testnote{border:1px dashed #f0c45c;color:#f0c45c;border-radius:12px;padding:8px 12px;margin-bottom:12px;font-weight:700}
 .empty{color:var(--mut);font-size:14px}
+.sec{margin:22px 0 10px;font:800 22px var(--disp);color:#fff}
 </style><meta name="google-adsense-account" content="ca-pub-3732476962662887">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
 </head>
 <body class="sub-page"><a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap bar"><a class="logo" href="/"><span class="mark" aria-hidden="true">P</span>Paige <b>Industries</b></a><nav aria-label="Main"><ul class="tabs sub-tabs"><li><a href="/#home">Home</a></li><li><a href="/#games">Games</a></li><li><a href="/#webtoons">Webtoons</a></li><li><a href="/#start-of-the-end">The Start of the End</a></li><li><a href="/#music">Music</a></li><li><a href="/#wallet">Wallet</a></li><li><a href="/#social">Social</a></li><li><a href="/#about">About me</a></li></ul></nav></div></header>
@@ -30,7 +33,7 @@
 <div class="st-head"><div><p class="eyebrow">Admin</p><h1>Site <span>stats</span></h1></div>
 <div class="range" role="group" aria-label="Date range"><button type="button" data-d="7" aria-pressed="false">7 days</button><button type="button" data-d="30" aria-pressed="true">30 days</button><button type="button" data-d="90" aria-pressed="false">90 days</button></div></div>
 <div id="out" aria-live="polite"><p class="st-msg">Loading…</p></div>
-<p class="empty">First-party only: no third-party trackers, no personal data. Visitors with Do Not Track or Global Privacy Control are not counted. Times are UTC days.</p>
+<p class="empty">First-party only: no third-party trackers, no personal data. Each visitor counts once per day; interactions (page views, Play, Listen, webtoon, gift, wallet/store, social clicks) are counted separately. Not counted: Do Not Track / Global Privacy Control, bots and link previews, automated/headless browsers, admins, and devices opted out with <code>?notrack=1</code>. Days are Central Time (America/Chicago) calendar days.</p>
 </div></main>
 <footer class="foot"><div class="wrap"><p class="social"><a href="https://tiktok.com/@gary.tsg" rel="noopener">TikTok</a><a href="https://instagram.com/gary.tsg" rel="noopener">Instagram</a><a href="https://linktr.ee/gary.tsg" rel="noopener">Linktree</a><a href="privacy.html">Privacy Policy</a><a href="contact.html">Contact</a></p><p class="fine">© 2026 Paige Industries · Gary</p></div></footer></body></html>
 <script type="module">
@@ -46,30 +49,39 @@ function bars(rows, label, val, emptyText) {
   const max = Math.max(...rows.map((r) => r[val]), 1);
   return '<ul class="bars">' + rows.map((r) => '<li><span class="lb">' + esc(r[label]) + '</span><span class="n">' + fmt(r[val]) + '</span><span class="tr" aria-hidden="true"><i style="width:' + Math.max(2, (r[val] / max) * 100).toFixed(1) + '%"></i></span></li>').join('') + '</ul>';
 }
-function line(days) {
-  const W = 640, H = 220, P = 30, n = days.length, max = Math.max(1, ...days.map((d) => d.visits));
+// Multi-series line chart. series = [[key, label, color, dashed]].
+function line(days, series, title) {
+  const W = 640, H = 220, P = 30, n = days.length, max = Math.max(1, ...days.flatMap((d) => series.map((s) => d[s[0]] || 0)));
   const x = (i) => P + (n < 2 ? 0 : (i * (W - P * 2)) / (n - 1)), y = (v) => H - P - (v / max) * (H - P * 2);
-  const path = (k) => days.map((d, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(d[k]).toFixed(1)).join(' ');
+  const path = (k) => days.map((d, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(d[k] || 0).toFixed(1)).join(' ');
   const grid = [0, 0.5, 1].map((f) => { const v = Math.round(max * f); return '<line x1="' + P + '" x2="' + (W - P) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="rgba(140,160,255,.18)"/><text x="' + (P - 6) + '" y="' + (y(v) + 4) + '" fill="#b5bbdb" font-size="11" text-anchor="end">' + v + '</text>'; }).join('');
-  const lab = [0, n - 1].map((i) => '<text x="' + x(i) + '" y="' + (H - 8) + '" fill="#b5bbdb" font-size="11" text-anchor="' + (i ? 'end' : 'start') + '">' + esc(days[i].day.slice(5)) + '</text>').join('');
-  const total = days.reduce((a, d) => a + d.visits, 0);
-  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Visits per day: ' + fmt(total) + ' visits over ' + n + ' days, peak ' + fmt(max) + ' in a day">' + grid + lab +
-    '<path d="' + path('visits') + ' L' + x(n - 1) + ' ' + (H - P) + ' L' + x(0) + ' ' + (H - P) + 'Z" fill="rgba(122,162,255,.12)"/>' +
-    '<path d="' + path('visits') + '" fill="none" stroke="#7aa2ff" stroke-width="3" stroke-linejoin="round" style="filter:drop-shadow(0 0 6px rgba(122,162,255,.8))"/>' +
-    '<path d="' + path('visitors') + '" fill="none" stroke="#4fe3c1" stroke-width="2" stroke-dasharray="5 4"/></svg>' +
-    '<p class="legend"><span><i style="background:#7aa2ff"></i>Visits</span><span><i style="background:#4fe3c1"></i>Unique visitors</span></p>';
+  const lab = n ? [0, n - 1].map((i) => '<text x="' + x(i) + '" y="' + (H - 8) + '" fill="#b5bbdb" font-size="11" text-anchor="' + (i ? 'end' : 'start') + '">' + esc(days[i].day.slice(5)) + '</text>').join('') : '';
+  const sums = series.map((s) => s[1] + ' ' + fmt(days.reduce((a, d) => a + (d[s[0]] || 0), 0)));
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(title + ' over ' + n + ' days: ' + sums.join(', ') + '; peak ' + fmt(max) + ' in a day') + '">' + grid + lab +
+    (n ? '<path d="' + path(series[0][0]) + ' L' + x(n - 1) + ' ' + (H - P) + ' L' + x(0) + ' ' + (H - P) + 'Z" fill="rgba(122,162,255,.12)"/>' : '') +
+    series.map((s, i) => '<path d="' + path(s[0]) + '" fill="none" stroke="' + s[2] + '" stroke-width="' + (i ? 2 : 3) + '"' + (s[3] ? ' stroke-dasharray="5 4"' : '') + ' stroke-linejoin="round"/>').join('') + '</svg>' +
+    '<p class="legend">' + series.map((s) => '<span><i style="background:' + s[2] + '"></i>' + s[1] + '</span>').join('') + '</p>';
 }
+const TYPES = { page_view: 'Page / tab views', play: 'Game Play clicks', listen: 'Song Listen now', webtoon_open: 'Webtoon opens', gift_claim: 'Gift claims', wallet_open: 'Wallet opens', store_open: 'Store opens', social_out: 'Social link clicks' };
+const card = (c) => '<div class="sc"><b>' + fmt(c[1]) + '</b><span>' + c[0] + '</span>' + (c[2] ? '<small>' + c[2] + '</small>' : '') + '</div>';
 function render(s) {
-  const a = s.accounts || {}, dv = s.devices || {}, dt = Object.values(dv).reduce((x, y) => x + y, 0) || 1;
-  const test = (s.sources || []).some((r) => /^test/.test(r.source)) ? '<p class="testnote">TEST DATA: seeded sample events for a screenshot, not real traffic.</p>' : '';
+  const a = s.accounts || {}, dv = s.devices || {}, dt = Object.values(dv).reduce((x, y) => x + y, 0) || 1, it = s.interactions || {}, pd = s.per_day || [];
+  const test = s.example || (s.sources || []).some((r) => /^test/.test(r.source)) ? '<p class="testnote">TEST / EXAMPLE DATA: sample numbers, not real traffic.</p>' : '';
+  const legacy = s.legacy_visits ?? s.visits ?? 0;
   out.innerHTML = test + '<div class="cards">' +
-    [['Visits', s.visits], ['Unique visitors', s.unique_visitors], ['Sign-ups', s.signups, fmt(a.registered_in_range) + ' new accounts (auth)'], ['Logins', s.logins, fmt(a.signed_in_in_range) + ' accounts signed in'], ['Total accounts', a.registered, fmt(a.guests) + ' guests · ' + fmt(a.total) + ' total']]
-      .map((c) => '<div class="sc"><b>' + fmt(c[1]) + '</b><span>' + c[0] + '</span>' + (c[2] ? '<small>' + c[2] + '</small>' : '') + '</div>').join('') + '</div>' +
-    '<div class="box chart" style="margin-bottom:12px"><h2>Visits per day</h2>' + line(s.per_day || []) + '</div>' +
-    '<div class="grid2"><div class="box"><h2>Visits by source</h2>' + bars(s.sources || [], 'source', 'visits', 'No visits yet.') + '</div>' +
+    [['Daily visitors', s.daily_visitors, 'each visitor once per day'], ['Unique visitors', s.unique_visitors, 'distinct over the range'], ['Interactions', it.total, 'counted separately'],
+     ['Sign-ups', s.signups, fmt(a.registered_in_range) + ' new accounts (auth)'], ['Logins', s.logins, fmt(a.signed_in_in_range) + ' accounts signed in'], ['Total accounts', a.registered, fmt(a.guests) + ' guests · ' + fmt(a.total) + ' total']]
+      .map(card).join('') + '</div>' +
+    '<div class="box chart" style="margin-bottom:12px"><h2>Daily visitors</h2>' + line(pd, [['daily_visitors', 'Visitors (once per day each)', '#7aa2ff']], 'Daily visitors') + '</div>' +
+    '<h2 class="sec" id="interactions">Interactions</h2>' +
+    '<div class="box chart" style="margin-bottom:12px"><h2>Interactions per day</h2>' + line(pd, [['interactions', 'Interactions', '#4fe3c1']], 'Interactions per day') + '</div>' +
+    '<div class="grid2"><div class="box"><h2>Interactions by type</h2>' + bars((it.by_type || []).map((r) => ({ l: TYPES[r.type] || r.type, n: r.n })), 'l', 'n', 'No interactions yet.') + '</div>' +
+    '<div class="box"><h2>Top targets</h2>' + bars((it.top_targets || []).map((r) => ({ l: (TYPES[r.type] || r.type) + ' · ' + r.target, n: r.n })), 'l', 'n', 'No interactions yet.') + '</div>' +
+    '<div class="box"><h2>Top pages (views)</h2>' + bars((s.pages || []).map((r) => ({ path: r.path, n: r.views ?? r.visits })), 'path', 'n', 'No page views yet.') + '</div>' +
+    '<div class="box"><h2>Visitors by source</h2>' + bars((s.sources || []).map((r) => ({ source: r.source, n: r.visitors })), 'source', 'n', 'No visitors yet.') + '</div>' +
     '<div class="box"><h2>Sign-ups by source</h2>' + bars(s.signup_sources || [], 'source', 'signups', 'No sign-ups yet.') + '</div>' +
-    '<div class="box"><h2>Top pages</h2>' + bars(s.pages || [], 'path', 'visits', 'No visits yet.') + '</div>' +
-    '<div class="box"><h2>Devices</h2>' + bars(['phone', 'desktop', 'tablet'].map((k) => ({ d: k[0].toUpperCase() + k.slice(1) + ' · ' + Math.round(((dv[k] || 0) / dt) * 100) + '%', n: dv[k] || 0 })), 'd', 'n', '') + '</div></div>';
+    '<div class="box"><h2>Devices (daily visitors)</h2>' + bars(['phone', 'desktop', 'tablet'].map((k) => ({ d: k[0].toUpperCase() + k.slice(1) + ' · ' + Math.round(((dv[k] || 0) / dt) * 100) + '%', n: dv[k] || 0 })), 'd', 'n', '') + '</div></div>' +
+    (legacy ? '<div class="box chart" style="margin-top:12px"><h2>Legacy visits</h2><p class="empty">Old counting (before the daily-visitor change): one per page per 30 min. Kept for history, not comparable. ' + fmt(legacy) + ' in range.</p>' + line(pd, [['legacy_visits', 'Legacy visits', '#f0c45c', true]], 'Legacy visits') + '</div>' : '');
 }
 let days = 30;
 async function load() {

@@ -129,6 +129,7 @@ $('signout').onclick = async () => { await sb.auth.signOut(); close(); };
 async function loadRole() {
   role = null;
   if (user && !user.is_anonymous) { const { data, error } = await sb.rpc('admin_me'); if (!error && data) role = data; }
+  if (user && !user.is_anonymous) window.__paigeAnalytics?.setAdmin(!!role); // admins aren't counted (same admin_me check as admin_site_stats)
   paint();
 }
 function paint() {
@@ -142,6 +143,7 @@ function paint() {
     if (tag) { const t = document.createElement('span'); t.className = 'creator'; t.textContent = tag; b.append(t); }
     b.setAttribute('aria-label', `Account: ${name}${tag ? ', ' + tag : ''}. Open account menu to sign out`);
   }
+  window.dispatchEvent(new CustomEvent('paige:user', { detail: { real: !!real, id: user?.id || null } }));
   $('acct-email').textContent = name; $('acct-creator').hidden = !tag; $('acct-stats').hidden = !tag; $('acct-creator').textContent = tag || 'CREATOR';
 }
 
@@ -175,4 +177,6 @@ if (location.hash.includes('access_token') || location.hash.includes('error_desc
   if (err) { open('signin'); say(err.includes('expired') ? 'That link has expired. Please request a new one.' : err, true); }
   else if (!recovering && user && !user.is_anonymous) { open('account'); say('Email confirmed — welcome to Paige Industries!'); }
 }
-window.__paigeAuth = { open, go };
+// gift.js (daily gift + invites) calls the server through these; it never sees a key beyond the publishable one.
+window.__paigeAuth = { open, go, rpc: (n, a) => sb.rpc(n, a), user: () => user };
+window.dispatchEvent(new CustomEvent('paige:auth-ready'));

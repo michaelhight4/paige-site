@@ -30,6 +30,8 @@
   const NK = 'paige_ad_notice_off';
   function onHome() { const h = location.hash.slice(1); return !h || h === 'home'; }
   function notice() {
+    // Daily gift (gift.js) goes first: never both at once. The ad notice waits until the gift popup closes or is skipped today.
+    if (window.__paigeGiftBusy) { if (!notice.wait) { notice.wait = true; addEventListener('paige:gift-done', () => { notice.wait = false; if (window.__paigeAdsRemoved !== true) notice(); }, { once: true }); } return; }
     try { if (localStorage.getItem(NK) === '1' || sessionStorage.getItem(NK) === '1') return; } catch (e) {}
     if (document.getElementById('ad-notice')) return;
     const d = document.createElement('div'); d.id = 'ad-notice'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'ad-n-t');

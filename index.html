@@ -18,6 +18,8 @@
 <meta name="twitter:image" content="https://paigegames.net/assets/og-share.jpg">
 <meta name="theme-color" content="#0a0b1a">
 <meta name="google-adsense-account" content="ca-pub-3732476962662887">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
 </head>
 <body data-tab="home">
 <a class="skip" href="#main">Skip to content</a>
@@ -37,7 +39,7 @@
 <li><a href="#wallet" data-go="wallet">Wallet</a></li>
 <li><a href="#social" data-go="social">Social</a></li>
 <li><a href="#about" data-go="about">About me</a></li></ul></nav>
-<div class="acct" id="acct"><button class="btn signin" id="acct-btn" type="button" aria-haspopup="dialog" aria-controls="auth">Sign in</button></div>
+<div class="acct" id="acct"><button class="giftbtn" id="gift-btn" type="button" aria-haspopup="dialog" aria-controls="gift" aria-label="Daily gift"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 7h-2.2A3 3 0 0 0 12 3.8 3 3 0 0 0 6.2 7H4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8h1a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zm-5-2a1 1 0 1 1 0 2h-2a2 2 0 0 1 2-2zM9 5a2 2 0 0 1 2 2H9a1 1 0 1 1 0-2zM5 9h6v1H5zm2 3h4v7H7zm10 7h-4v-7h4zm2-9h-6V9h6z"/></svg><i class="gdot" hidden></i></button><button class="btn signin" id="acct-btn" type="button" aria-haspopup="dialog" aria-controls="auth">Sign in</button></div>
 <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button></div></header>
 <div class="scrim" id="scrim" hidden></div>
 <aside class="drawer" id="drawer" aria-label="Menu" aria-hidden="true" inert><div class="dhead"><span class="logo"><span class="mark" aria-hidden="true">P</span>Paige <b>Industries</b></span><button class="dx" id="dx" type="button" aria-label="Close menu">✕</button></div><ul class="dlinks" id="dlinks"></ul><div class="dacct"><button class="btn signin" id="dacct-btn" type="button" aria-haspopup="dialog" aria-controls="auth">Sign in</button></div></aside>
@@ -124,13 +126,16 @@
 
 <!-- WALLET -->
 <section class="panel" id="p-wallet" data-panel="wallet" aria-label="Wallet" hidden><div class="wrap">
-<div class="intro"><p class="eyebrow">Paige Games network</p><h1>Wallet</h1><p class="lead">One wallet for every Paige Games game. Both items below are coming soon. Nothing can be bought yet.</p></div>
+<div class="intro"><p class="eyebrow">Paige Games network</p><h1>Wallet</h1><p class="lead">One wallet for every Paige Games game. Dollar Bucks are earned free. Blue Bucks and Ad-Free for Life are coming soon; nothing can be bought yet.</p></div>
+<p class="wal-bal" id="wal-bal" hidden><span class="cur db"><i class="cico db" aria-hidden="true">$</i><b id="bal-db">0</b> Dollar Bucks</span><span class="cur bb"><i class="cico bb" aria-hidden="true">B</i><b id="bal-bb">0</b> Blue Bucks</span></p>
 <div class="wallet">
-<article class="wcard bb"><div class="coin" aria-hidden="true">B</div><p class="tag soon">◆ Coming soon</p><h2>Blue Bucks</h2>
+<article class="wcard dbk"><div class="coin dollar" aria-hidden="true">$</div><p class="tag earn">◆ Earned free</p><h2 class="h-db">Dollar Bucks</h2>
+<p class="big">1 = 1 <span>Blue Buck</span></p><p>Earn them from daily gifts and inviting friends. Never sold. Spend them together with Blue Bucks on anything (Dollar Bucks go first), except Ad-Free for Life.</p></article>
+<article class="wcard bb"><div class="coin" aria-hidden="true">B</div><p class="tag soon">◆ Coming soon</p><h2 class="h-bb">Blue Bucks</h2>
 <p class="big">$1 = 1,000 <span>Blue Bucks</span></p><p>Spend them in every Paige Games game: Lifeline, Riftward and Kilumen.</p>
 <span class="btn ghost" aria-disabled="true">Coming soon</span></article>
 <article class="wcard af"><div class="coin gold" aria-hidden="true">∞</div><p class="tag soon">◆ Coming soon</p><h2>Ad-Free for Life</h2>
-<p class="big">$35 <span>one time</span></p><p>Removes ads in all Paige Games games and on this website, forever.</p>
+<p class="big">$35 <span>one time</span></p><p>Removes ads in all Paige Games games and on this website, forever.</p><p class="inv-note">Dollar Bucks can't be used for Ad-Free for Life.</p>
 <span class="btn ghost" aria-disabled="true">Coming soon</span></article></div></div></section>
 
 <!-- SOCIAL -->
@@ -152,6 +157,18 @@
 <div class="soon-row"><span><b>Ad-Free for Life</b> pass · coming soon</span><span><b>Blue Bucks</b> · coming soon</span></div>
 <p class="social"><a href="https://tiktok.com/@gary.tsg" rel="noopener">TikTok</a><a href="https://instagram.com/gary.tsg" rel="noopener">Instagram</a><a href="https://linktr.ee/gary.tsg" rel="noopener">Linktree</a><a href="#social" data-go="social">All socials</a><a href="privacy.html">Privacy Policy</a><a href="contact.html">Contact</a></p>
 <p class="fine">© 2026 Paige Industries · Gary</p></div></footer>
+<dialog id="gift" class="gift" aria-labelledby="gift-title" aria-describedby="gift-sub">
+<div class="giftbox">
+<button class="ax" id="gift-x" type="button" aria-label="Close daily gift">✕</button>
+<p class="eyebrow">Daily visit gift</p>
+<h2 id="gift-title" tabindex="-1">Come back every day</h2>
+<p class="gsub" id="gift-sub">Each day in a row pays more Dollar Bucks. Miss a day and it starts over at day 1.</p>
+<ol class="gdays" id="gift-days"></ol>
+<p class="gnext" id="gift-next"></p>
+<p class="gmsg" id="gift-msg" role="status" aria-live="polite"></p>
+<button class="btn gclaim" id="gift-claim" type="button">Claim</button>
+<p class="gfine">Days reset at midnight Central Time. Every other finished week unlocks a bonus reward.</p>
+</div></dialog>
 <dialog id="auth" class="auth" aria-labelledby="auth-title">
 <div class="authbox">
 <button class="ax" id="auth-x" type="button" aria-label="Close sign-in">✕</button>
@@ -200,6 +217,7 @@
 <script src="songs.js" defer></script>
 <script src="player.js" defer></script>
 <script src="home.js" defer></script>
+<script src="gift.js" defer></script>
 <script src="ads.js" defer></script>
 <script src="analytics.js" defer></script>
 <script src="auth.js" type="module"></script>

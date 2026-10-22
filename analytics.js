@@ -1,6 +1,10 @@
 // First-party analytics for paigegames.net. No third-party trackers, no cookies, no PII.
-// Logs: visit (at most once per visitor per page per 30 min), signup, login (from auth.js).
-// Skipped entirely when Do Not Track or Global Privacy Control is on. Read access is admin-only (admin_site_stats RPC).
+// Logs: daily_visit (at most ONCE per visitor per America/Chicago calendar day; server also dedupes on (visitor_id, ct_day)),
+// interaction (page_view, play, listen, webtoon_open, gift_claim, wallet_open, store_open, social_out; same type+target at most once per 10 s),
+// signup, login (from auth.js). Old 'visit' rows (pre Oct 2026) are shown as "Legacy visits".
+// Skipped entirely when: Do Not Track / Global Privacy Control, bots/crawlers/link previews, headless or automated browsers
+// (navigator.webdriver, HeadlessChrome, Playwright, Puppeteer, Lighthouse), admins (admin_me via auth.js -> pa_admin), or the
+// device opt-out pa_ignore=1 (set with ?notrack=1, cleared with ?notrack=0). Read access is admin-only (admin_site_stats RPC).
 (function (root) {
   'use strict';
   var URL_ = 'https://kjdubkeowcyuoazvpoyt.supabase.co', KEY = 'sb_publishable_NZC6vzmXDYRLnRh2vDHWAg_VCDi3FQc';
@@ -22,11 +26,52 @@
     return fromHost(h);
   }
   function device(ua, touch) { if (/iPad|Tablet|PlayBook|Silk|Kindle/i.test(ua) || (/Macintosh/.test(ua) && touch > 1) || (/Android/i.test(ua) && !/Mobi/i.test(ua))) return 'tablet'; return /Mobi|iPhone|iPod|Android/i.test(ua) ? 'phone' : 'desktop'; }
-  var api = { classify: classify, fromHost: fromHost, isTikTokUA: isTikTokUA, device: device };
+  var BOT_UA = /\bbot\b|[a-z]bot\/|crawl|spider|slurp|facebookexternalhit|discordbot|tiktokbot|twitterbot|preview|headlesschrome|playwright|puppeteer|lighthouse|chrome-lighthouse/i;
+  function isBot(ua, webdriver) { return webdriver === true || !ua || BOT_UA.test(ua); }
+  // CT calendar day (YYYY-MM-DD) for a Date; DST-safe via Intl.
+  function ctDay(d) {
+    var p = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d || new Date()), o = {};
+    p.forEach(function (x) { o[x.type] = x.value; }); return o.year + '-' + o.month + '-' + o.day;
+  }
+  // Client dedupe: true (and remembers) when this visitor has not yet been counted on CT day `day`. store = {get,set}.
+  function claimDaily(store, day) { if (store.get('pa_day') === day) return false; store.set('pa_day', day); return true; }
+  // Interaction throttle: same type+target at most once per `ms`. map is mutated (old keys pruned).
+  var THROTTLE_MS = 10000;
+  function throttleOk(map, key, now, ms) {
+    ms = ms || THROTTLE_MS; for (var k in map) if (now - map[k] >= ms) delete map[k];
+    if (map[key] !== undefined) return false; map[key] = now; return true;
+  }
+  var SOCIAL = { tiktok: 1, youtube: 1, instagram: 1, facebook: 1, x: 1, discord: 1, reddit: 1, linktree: 1 };
+  // Map a clicked element (duck-typed: closest(), getAttribute(), id) to {type, target} or null. selfHost = location.hostname.
+  function classifyClick(el, selfHost) {
+    if (!el || !el.closest) return null;
+    var t;
+    if ((t = el.closest('#gift-claim'))) return { type: 'gift_claim', target: 'daily' };
+    if ((t = el.closest('[data-song]'))) return { type: 'listen', target: 'song:' + clean(t.getAttribute('data-song'), 8) };
+    if ((t = el.closest('[data-here]'))) return { type: 'listen', target: 'song:' + clean(t.getAttribute('data-here'), 8) };
+    if ((t = el.closest('[data-store]'))) return { type: 'store_open', target: clean(t.getAttribute('data-store'), 60) || 'store' };
+    var a = el.closest('a[href]'); if (!a) return null;
+    var href = a.getAttribute('href') || '', u;
+    if (/^#wallet$/.test(href) || a.getAttribute('data-go') === 'wallet') return { type: 'wallet_open', target: 'wallet' };
+    try { u = new URL(href, 'https://' + (selfHost || 'paigegames.net') + '/'); } catch (e) { return null; }
+    var host = u.hostname.replace(/^www\./, '');
+    if (/(^|\.)webtoons\.com$/.test(host)) { var m = u.pathname.match(/\/canvas\/([^/]+)/); return { type: 'webtoon_open', target: clean(m ? m[1] : 'webtoon', 80) }; }
+    var cls = ' ' + (a.getAttribute('class') || '') + ' ';
+    if (/ play /.test(cls) || (host === selfHost && /^\/(play|games|riftward)(\/|$)/.test(u.pathname))) {
+      var seg = u.pathname.replace(/\.html$/, '').split('/').filter(Boolean); return { type: 'play', target: clean(seg[seg.length - 1] || host, 80) };
+    }
+    if (host !== selfHost) { var p = fromHost(host); if (SOCIAL[p]) return { type: 'social_out', target: p }; }
+    if (host === selfHost && /^\/(tiktok|youtube|instagram|facebook|x|discord)(\/|$)/.test(u.pathname)) return { type: 'social_out', target: ALIAS[u.pathname.split('/')[1]] };
+    return null;
+  }
+  var api = { classify: classify, fromHost: fromHost, isTikTokUA: isTikTokUA, device: device, isBot: isBot, ctDay: ctDay, claimDaily: claimDaily, throttleOk: throttleOk, classifyClick: classifyClick, THROTTLE_MS: THROTTLE_MS };
   if (typeof module !== 'undefined') { module.exports = api; return; }
 
-  var nav = root.navigator, off = nav.doNotTrack === '1' || root.doNotTrack === '1' || nav.msDoNotTrack === '1' || nav.globalPrivacyControl === true;
-  var ls = function (k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
+  var ls = function (k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return null; } };
+  var q0 = new URLSearchParams(location.search);
+  if (q0.get('notrack') === '1') ls('pa_ignore', '1'); else if (q0.get('notrack') === '0') ls('pa_ignore', null);
+  var nav = root.navigator, off = nav.doNotTrack === '1' || root.doNotTrack === '1' || nav.msDoNotTrack === '1' || nav.globalPrivacyControl === true ||
+    isBot(nav.userAgent, nav.webdriver) || ls('pa_ignore') === '1' || ls('pa_admin') === '1';
   var ss = function (k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } };
   var uuid = function () { return root.crypto && crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); }); };
   var q = new URLSearchParams(location.search), ref = '';
@@ -38,26 +83,28 @@
   ss('pa_src', source);
   if (!off && attributed !== 'direct' && !ls('pa_first')) ls('pa_first', attributed); // first-touch, for signups by source
   // Remove tracking params from the address bar (the values were captured above).
-  if (['src', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].some(function (k) { return q.has(k); })) {
-    ['src', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { q.delete(k); });
+  var STRIP = ['src', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'notrack'];
+  if (STRIP.some(function (k) { return q.has(k); })) {
+    STRIP.forEach(function (k) { q.delete(k); });
     var s = q.toString(); history.replaceState(history.state, '', location.pathname + (s ? '?' + s : '') + location.hash);
   }
   var vid = ls('pa_vid'); if (!/^[0-9a-f-]{36}$/.test(vid || '')) { vid = uuid(); if (!off) ls('pa_vid', vid); }
   var dev = device(nav.userAgent, nav.maxTouchPoints || 0);
   function pagePath() { var h = /^#[a-z0-9_-]{1,40}$/i.test(location.hash) ? location.hash : ''; return (location.pathname + h).slice(0, 200); }
-  function row(event, userId) {
-    return { event: event, path: pagePath(), source: source, first_source: ls('pa_first') || (source !== 'direct' ? source : null), referrer_host: ref && ref !== location.hostname ? ref.slice(0, 120) : null,
+  function row(event, userId, it) {
+    return { event: event, interaction_type: it ? it.type : null, target: it ? String(it.target || '').toLowerCase().replace(/[^a-z0-9:._\/#-]/g, '').slice(0, 200) || null : null, path: pagePath(), source: source, first_source: ls('pa_first') || (source !== 'direct' ? source : null), referrer_host: ref && ref !== location.hostname ? ref.slice(0, 120) : null,
       utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign, device: dev, visitor_id: vid, user_id: userId || null };
   }
   function post(r, token) {
     if (off) return;
     try { fetch(URL_ + '/rest/v1/site_events', { method: 'POST', keepalive: true, headers: { apikey: KEY, Authorization: 'Bearer ' + (token || KEY), 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(r) }).catch(function () {}); } catch (e) {}
   }
-  function visit() {
-    if (off) return; var p = pagePath(), seen = {}; try { seen = JSON.parse(ls('pa_seen') || '{}'); } catch (e) {}
-    var now = Date.now(); if (seen[p] && now - seen[p] < 30 * 60 * 1000) return;
-    for (var k in seen) if (now - seen[k] > 30 * 60 * 1000) delete seen[k];
-    seen[p] = now; ls('pa_seen', JSON.stringify(seen)); post(row('visit'));
+  var store = { get: function (k) { return ls(k); }, set: function (k, v) { ls(k, v); } };
+  function daily() { if (!off && claimDaily(store, ctDay(new Date()))) post(row('daily_visit')); }
+  var recent = {};
+  function interact(type, target) {
+    if (off || !type) return; var it = { type: type, target: target };
+    if (throttleOk(recent, type + '|' + (target || ''), Date.now())) post(row('interaction', null, it));
   }
   // Auth events (called by auth.js with the user's access token so user_id passes RLS). Deduped.
   function auth(event, user, token) {
@@ -67,7 +114,11 @@
     if (event === 'signup') ls(key, '1'); else ss(key, '1');
     post(row(event, user.id), token);
   }
-  root.__paigeAnalytics = { enabled: !off, auth: auth, source: function () { return source; } };
-  visit();
-  addEventListener('hashchange', function () { if (!/access_token|error_description|type=recovery/.test(location.hash)) visit(); });
+  // auth.js calls this after admin_me: admins are never counted on this device (remembered until a non-admin signs in here).
+  function setAdmin(isAdmin) { if (isAdmin) { ls('pa_admin', '1'); off = true; } else if (ls('pa_admin') === '1') ls('pa_admin', null); }
+  root.__paigeAnalytics = { enabled: !off, auth: auth, interact: interact, setAdmin: setAdmin, source: function () { return source; } };
+  function pageView() { if (!/access_token|error_description|type=recovery/.test(location.hash)) interact('page_view', pagePath()); }
+  daily(); pageView();
+  addEventListener('hashchange', function () { daily(); pageView(); });
+  document.addEventListener('click', function (e) { var c = classifyClick(e.target, location.hostname); if (c) interact(c.type, c.target); }, true);
 })(typeof window !== 'undefined' ? window : this);
