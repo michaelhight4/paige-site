@@ -4,6 +4,7 @@ import { tbApi, installGates } from './adapter_tb.js';
 import * as E from './engine.js';
 import { D } from './data.js';
 import * as Premium from './premium.js';
+const premiumTestHost = () => { if (typeof location === 'undefined') return true; try { return /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname); } catch (e) { return false; } };
 import * as PFx from './premium_fx.js';
 import * as Legacy from './legacy.js';
 import * as B from './slice_bridge.js';
@@ -54,9 +55,10 @@ export class EngineAdapter {
   getConfig() { return this.cfg; }
   save() { if (this.opts.noSave || !this.s) return; E.save(this.s, this.slot); }
   // ---- premium / store / settings ----
-  getPremium() { const st = Premium.status(); return { ...st, subscription: Premium.catalog().subscription, test: true, paymentsAvailable: false }; }
-  setPremiumFlag(id, on) { Premium.setOwned(id, on); return this.getPremium(); }
-  setSubscription(plan) { Premium.setSubscription(plan); return this.getPremium(); }
+  // SECURITY: free TEST toggles only on a local dev host (or Node tests). On the live site they must never unlock passes / All Access.
+  getPremium() { const st = Premium.status(); return { ...st, subscription: Premium.catalog().subscription, test: premiumTestHost(), paymentsAvailable: false }; }
+  setPremiumFlag(id, on) { if (on && !premiumTestHost()) return this.getPremium(); Premium.setOwned(id, on); return this.getPremium(); }
+  setSubscription(plan) { if (plan && !premiumTestHost()) return this.getPremium(); Premium.setSubscription(plan); return this.getPremium(); }
   applyPremiumNow() { const done = PFx.applyStart(this.s); return { ok: true, applied: done, message: done.length ? 'Applied: ' + done.join(', ') : 'Nothing new to apply.' }; }
   resetPremium() { Premium.resetAll(); return this.getPremium(); }
   getSettings() { return { muted: false, ads: { enabled: !Premium.isUnlocked('no_ads'), platform: Ads.platform(), showsAds: Ads.showsAds(), steamSub: Ads.steamSubscribed(), steamSubFlag: !!Ads.load().steamSub, requiredMs: Ads.requiredMs(), platforms: Object.keys(D.adsCfg.platforms), note: Ads.noAds() ? 'No Ads: no full-screen ads; rewards are instant (once per option per day).' : 'Rewarded ads play when you choose a reward; a full-screen ad also appears at a break every 8-15 years or after 20 active minutes (placeholder screen on web). No Ads removes it.' }, textPack: Text.status() }; }
