@@ -4,6 +4,8 @@
    ads.js waits for 'paige:gift-done' so the gift and the ad notice are never open together. */
 (() => {
   const $ = (id) => document.getElementById(id);
+  // Self-contained styles: link gift.css next to this script if the page doesn't already (fixes unstyled popup off home).
+  if (!document.querySelector('link[href*="gift.css"]')) { const me = document.currentScript?.src || 'gift.js', l = document.createElement('link'); l.rel = 'stylesheet'; l.href = new URL('gift.css?v=2', me).href; document.head.append(l); }
   const dlg = $('gift'), btn = $('gift-btn'); if (!dlg || !btn) return;
   const days = $('gift-days'), claim = $('gift-claim'), msg = $('gift-msg'), dot = btn.querySelector('.gdot');
   const FALLBACK = [25, 50, 75, 100, 125, 150, 175]; // display-only fallback if the server can't be reached; server table wins
@@ -26,7 +28,7 @@
     days.innerHTML = t.map((amt, i) => {
       const d = i + 1, done = st.signed_in && (d < today || (d === today && got)), now = d === today && !got;
       const cls = done ? 'done' : now ? 'today' : 'later', bonus = d === 7 && !!st.reward_week, label = `Day ${d}, ${fmt(amt)} Dollar Bucks${done ? ', claimed' : now ? ', today' : ''}${bonus ? ', plus a bonus reward' : ''}`;
-      return `<li class="gday ${cls}"${now ? ' aria-current="date"' : ''} aria-label="${label}"><span class="gd" aria-hidden="true">Day ${d}</span><span class="gc" aria-hidden="true">${done ? '✓' : '$'}</span><b aria-hidden="true">${fmt(amt)}</b>${bonus ? '<span class="gbonus" aria-hidden="true">+ bonus</span>' : ''}</li>`;
+      return `<li class="gday ${cls}"${now ? ' aria-current="date"' : ''} aria-label="${label}"><span class="gd" aria-hidden="true">Day ${d}</span><span class="gc" aria-hidden="true">${done ? '✓' : 'DB'}</span><b aria-hidden="true">${fmt(amt)}</b><small aria-hidden="true">Dollar Bucks</small>${bonus ? '<span class="gbonus" aria-hidden="true">+ bonus</span>' : ''}</li>`;
     }).join('');
     const nw = st.next_reward_in_weeks, gn = $('gift-next');
     if (gn) gn.textContent = st.reward_week ? 'Finish day 7 this week for a bonus reward.' : nw ? `Next reward in ${nw} week${nw === 1 ? '' : 's'}.` : '';
@@ -96,7 +98,24 @@
   async function balances() {
     const el = $('wal-bal'); if (!el) return;
     if (!st.signed_in) { el.hidden = true; return; }
-    try { const w = await rpc('wallet_status'); if (!w) return; $('bal-db').textContent = fmt(w.dollar_bucks); $('bal-bb').textContent = fmt(w.blue_bucks); el.hidden = false; } catch (e) {}
+    try { const w = await rpc('wallet_status'); if (!w) return; $('bal-db').textContent = fmt(w.dollar_bucks); $('bal-bb').textContent = fmt(w.blue_bucks); el.hidden = false; welcome(w.signup_bonus); } catch (e) {}
+    history_();
+  }
+  // Sign-up bonus (migration 017): server pays 100 DB once after email confirmation; show the toast once per account on this device.
+  function welcome(b) {
+    const uid = A()?.user?.()?.id; if (!b || !b.paid || !uid) return;
+    const k = 'paige_welcome_toast:' + uid; if (ls(k)) return; ls(k, '1');
+    const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status');
+    t.innerHTML = `<i class="cico db" aria-hidden="true">$</i> You got ${fmt(b.amount || 100)} Dollar Bucks for joining! <button type="button" aria-label="Dismiss">×</button>`;
+    t.querySelector('button').onclick = () => t.remove(); document.body.append(t); setTimeout(() => t.remove(), 8000);
+  }
+  window.__paigeWelcomeToast = welcome;
+  // Recent wallet activity (public.my_wallet_history, migration 016): 'Welcome bonus', 'Gift from Paige Industries', daily gifts...
+  async function history_() {
+    const box = $('wal-hist'); if (!box) return;
+    try { const rows = await rpc('my_wallet_history', { p_limit: 8 }); if (!rows || !rows.length) { box.hidden = true; return; }
+      box.innerHTML = '<h2>Recent activity</h2><ul>' + rows.map((r) => `<li><span>${String(r.label).replace(/[&<>]/g, '')}</span><b class="${r.delta < 0 ? 'neg' : 'pos'}">${r.delta > 0 ? '+' : ''}${fmt(r.delta)} ${r.currency === 'blue_bucks' ? 'Blue Bucks' : 'Dollar Bucks'}</b></li>`).join('') + '</ul>';
+      box.hidden = false; } catch (e) { box.hidden = true; }
   }
   addEventListener('paige:gift-state', balances);
 })();

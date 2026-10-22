@@ -1,0 +1,41 @@
+/* Daily visit gift popup (gift.js). Self-contained: linked by gift.js on every page that loads it, so it never depends on home.css.
+   All rules scoped to #gift / #gift-btn; literal colours with var() fallbacks. */
+#gift-btn.giftbtn{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;flex-shrink:0;border-radius:12px;border:1px solid rgba(160,170,255,.28);background:rgba(255,255,255,.06);color:#ffe066;cursor:pointer;padding:0}
+#gift-btn.giftbtn svg{width:22px;height:22px;fill:currentColor}#gift-btn.giftbtn:hover{background:rgba(255,224,102,.12)}
+#gift-btn:focus-visible{outline:3px solid #d8ff3a;outline-offset:2px}
+#gift-btn .gdot{position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:#ffe600;box-shadow:0 0 0 2px #06081a,0 0 10px #ffe600;animation:gpulse 1.8s ease-in-out infinite}
+#gift-btn .gdot[hidden]{display:none}
+@keyframes gpulse{50%{transform:scale(1.35);box-shadow:0 0 0 2px #06081a,0 0 16px #ffe600}}
+dialog#gift{margin:auto;padding:0;border:0;background:transparent;color:#eef1ff;width:min(100vw - 24px,640px);max-width:none;max-height:calc(100dvh - 24px);overflow:visible;font-family:var(--body,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);line-height:1.45}
+dialog#gift::backdrop{background:rgba(4,6,20,.72);-webkit-backdrop-filter:blur(8px) saturate(.8);backdrop-filter:blur(8px) saturate(.8)}
+#gift .giftbox{position:relative;box-sizing:border-box;background:linear-gradient(160deg,rgba(30,36,88,.96),rgba(14,17,48,.97));border:1px solid rgba(160,170,255,.28);border-radius:22px;padding:22px 20px 18px;box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 60px rgba(255,224,102,.16),inset 0 1px 0 rgba(255,255,255,.08);overflow-y:auto;max-height:calc(100dvh - 24px);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+#gift *,#gift *::before,#gift *::after{box-sizing:border-box}
+#gift .ax{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:12px;border:1px solid rgba(160,170,255,.28);background:rgba(255,255,255,.06);color:#fff;font-size:18px;line-height:1;cursor:pointer;padding:0}
+#gift .ax:hover{background:rgba(255,255,255,.12)}
+#gift .eyebrow{margin:0 48px 4px 0;font:800 12px var(--body,system-ui,sans-serif);letter-spacing:.14em;text-transform:uppercase;color:#4fe3c1}
+#gift h2{font:800 26px/1.15 var(--disp,var(--body,system-ui,sans-serif));margin:0 48px 6px 0;color:#fff;outline:none;letter-spacing:0;text-transform:none}
+#gift .gsub{color:#c9cfee;margin:0 0 14px;font-size:15px}
+#gift .gdays{list-style:none;margin:0 0 12px;padding:0;display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+#gift .gday{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 4px 9px;border-radius:14px;background:#1a1f4a;border:1px solid rgba(160,170,255,.28);text-align:center;margin:0}
+#gift .gday::marker{content:none}
+#gift .gday .gd{font:800 12px var(--body,system-ui,sans-serif);color:#c9cfee;text-transform:uppercase;letter-spacing:.06em}
+#gift .gday .gc{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font:900 11px/1 var(--body,system-ui,sans-serif);letter-spacing:.02em;color:#06081a;background:radial-gradient(circle at 35% 30%,#e6fff5,#4fe3c1);box-shadow:inset 0 -2px 0 rgba(0,0,0,.25),0 0 0 2px rgba(255,255,255,.12)}
+#gift .gday b{font:800 15px var(--disp,var(--body,system-ui,sans-serif));color:#fff}
+#gift .gday small{font:700 10px var(--body,system-ui,sans-serif);color:#c9cfee;text-transform:uppercase;letter-spacing:.04em}
+#gift .gday.today{background:#2a2a14;border:2px solid #ffe066;box-shadow:0 0 22px -4px #ffe066}
+#gift .gday.today .gc{background:radial-gradient(circle at 35% 30%,#fff7c4,#ffd23a)}
+#gift .gday.done{background:#123a2f;border-color:#4fe3c1}
+#gift .gday.done .gc{background:#4fe3c1;font-size:16px}
+#gift .gday.later .gc{opacity:.75}#gift .gday.later b,#gift .gday.later .gd,#gift .gday.later small{color:#b8bfe0}
+#gift .gbonus{position:absolute;top:-9px;right:-4px;padding:2px 6px;border-radius:99px;background:#ff6fa8;color:#14040d;font:900 10px var(--body,system-ui,sans-serif);text-transform:uppercase;letter-spacing:.04em}
+#gift .gnext{display:block;width:max-content;max-width:100%;margin:2px auto 10px;padding:5px 12px;border-radius:99px;background:rgba(255,224,102,.1);border:1px solid rgba(255,224,102,.45);text-align:center;font:700 13px var(--body,system-ui,sans-serif);color:#ffe9a3}
+#gift .gnext:empty{display:none}
+#gift .gmsg{min-height:1.4em;margin:0 0 8px;color:#e9fbbf;font-weight:700;text-align:center}
+#gift .gclaim{display:block;width:100%;min-height:50px;padding:12px 18px;border-radius:14px;border:0;background:#7aa2ff;color:#06081a;font:800 16px var(--body,system-ui,sans-serif);cursor:pointer;box-shadow:0 8px 26px -8px rgba(122,162,255,.8)}
+#gift .gclaim:hover{filter:brightness(1.08)}
+#gift .gclaim.ghost{background:transparent;color:#eef1ff;border:1px solid rgba(160,170,255,.55);box-shadow:none}
+#gift .gclaim[aria-disabled]{cursor:default}#gift .gclaim:disabled{opacity:.7}
+#gift button:focus-visible{outline:3px solid #d8ff3a;outline-offset:2px}
+#gift .gfine{margin:10px 0 0;color:#c9cfee;font-size:13px;text-align:center}
+@media(max-width:520px){#gift .gdays{grid-template-columns:repeat(4,1fr)}#gift .giftbox{padding:20px 14px 16px}#gift h2{font-size:22px}}
+@media(prefers-reduced-motion:reduce){#gift-btn .gdot{animation:none}}
