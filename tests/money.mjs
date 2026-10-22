@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'; import { fmtMoney } from '../src/fmt.js'; import { money as rm } from '../src/rng.js'; import { money as sm } from '../src/slice/core.js';
-assert.equal(fmtMoney(1250000), '$1,250,000 (1.25 mil)'); assert.equal(fmtMoney(8500), '$8,500'); assert.equal(fmtMoney(-42000), '-$42,000 (42K)');
+assert.equal(fmtMoney(1250000), '$1,250,000 (1.25 mil)'); assert.equal(fmtMoney(8500), '$8,500'); assert.equal(fmtMoney(-42000), '-$42,000 (-42K)');
 assert.equal(fmtMoney(3.2e9), '$3,200,000,000 (3.2 bill)'); assert.equal(fmtMoney(4.5e12), '$4,500,000,000,000 (4.5 trill)');
 assert.equal(rm(2500000), '$2,500,000 (2.5 mil)'); assert.equal(sm({ terms: {} }, 15000), '$15,000 (15K)');
 for (const m of ['advisor', 'brand', 'farm', 'franchise', 'racing', 'prodco', 'bankruptcy']) { const t = (await import('node:fs')).readFileSync(`src/${m}.js`, 'utf8'); assert.ok(/money = \(n\) => fmtMoney/.test(t), m + ' uses central formatter'); }

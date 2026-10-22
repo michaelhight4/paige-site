@@ -1,5 +1,5 @@
 // The one money formatter: thousands commas plus a short magnitude suffix for big amounts.
-// fmtMoney(1250000) -> "$1,250,000 (1.25 mil)"; fmtMoney(8500) -> "$8,500"; fmtMoney(-42000) -> "-$42,000 (42K)".
+// fmtMoney(1250000) -> "$1,250,000 (1.25 mil)"; fmtMoney(8500) -> "$8,500"; fmtMoney(-42000) -> "-$42,000 (-42K)".
 // Suffixes: K, mil, bill, trill, quad, quint, sext, sept, oct, non, dec; above dec the short form is scientific ("1.2e36").
 // Above ~9e15 integers are not exact in JS numbers, so the full number is formatted from the float (no fake precision claims).
 const SUF = [[1e33, 'dec'], [1e30, 'non'], [1e27, 'oct'], [1e24, 'sept'], [1e21, 'sext'], [1e18, 'quint'], [1e15, 'quad'], [1e12, 'trill'], [1e9, 'bill'], [1e6, 'mil']];
