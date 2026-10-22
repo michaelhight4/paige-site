@@ -20,9 +20,24 @@
     const cols = getComputedStyle(list).gridTemplateColumns.split(' ').length || 1;
     return items[0].classList.contains('feat') || cols < 2 ? items[0] : items[Math.min(1, items.length - 1)];
   }
+
+  // Friendly ad notice (Gary, Oct 22): never on home; OK closes for this visit, checkbox remembers forever.
+  const NK = 'paige_ad_notice_off';
+  function onHome() { const h = location.hash.slice(1); return !h || h === 'home'; }
+  function notice() {
+    try { if (localStorage.getItem(NK) === '1' || sessionStorage.getItem(NK) === '1') return; } catch (e) {}
+    if (onHome() || document.getElementById('ad-notice')) return;
+    const d = document.createElement('div'); d.id = 'ad-notice'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'ad-n-t');
+    d.innerHTML = '<div class="adn-card"><h2 id="ad-n-t">We use ads to keep things free</h2><p>Every Paige Games title is free to play with no download. A few banner ads help keep it that way.</p><a class="adn-free" href="#wallet"><b>Go ad-free for life · $35</b><span>Support the site and turn ads off in every game and here, for good.</span></a><label class="adn-chk"><input type="checkbox" id="adn-off"> Don\'t show me this again</label><button type="button" class="adn-ok">Got it</button></div>';
+    document.body.appendChild(d);
+    const ok = d.querySelector('.adn-ok'); ok.focus();
+    const close = () => { try { (d.querySelector('#adn-off').checked ? localStorage : sessionStorage).setItem(NK, '1'); } catch (e) {} d.remove(); };
+    ok.addEventListener('click', close); d.querySelector('.adn-free').addEventListener('click', close); d.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  }
+  function noticeWhenReady() { if (window.__paigeAdsRemoved === true) return; notice(); addEventListener('hashchange', () => { if (built && window.__paigeAdsRemoved !== true) notice(); }); }
   let built = false, loaded = false;
   function build() {
-    if (built) return; built = true;
+    if (built) return; built = true; noticeWhenReady();
     for (const p of PLACES) {
       const ref = p.where(); if (!ref) continue;
       const box = document.createElement('aside');
