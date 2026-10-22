@@ -402,3 +402,18 @@ dialog.gift{margin:auto;width:min(100vw - 24px,640px);max-height:calc(100dvh - 2
 #circuit #trace{animation:cpulse 4s ease-in-out infinite}
 @keyframes cpulse{0%,100%{opacity:.7}50%{opacity:1}}
 @media(prefers-reduced-motion:reduce){#circuit #bulb{display:none}#circuit #trace{animation:none}}
+/* SOTE maps + lightbox (maps.js) */
+.maps{display:grid;gap:16px;margin-top:16px}@media(min-width:760px){.maps{grid-template-columns:1fr 1fr}}
+.map-card{margin:0}.map-open{display:block;width:100%;padding:0;border:2px solid #2b241a;border-radius:8px;background:#111;cursor:zoom-in;overflow:hidden;box-shadow:0 10px 30px #000}
+.map-open img{display:block;width:100%;height:auto;transition:transform .3s}.map-open:hover img{transform:scale(1.03)}
+.map-open:hover,.map-open:focus-visible{border-color:var(--gold);box-shadow:0 0 22px -4px var(--gold)}.map-open:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.map-card figcaption{font:700 20px var(--serif);color:var(--gold);margin-top:8px}
+.maps-lb{width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:#080706;color:#f3e6c8}
+.maps-lb::backdrop{background:rgba(8,7,6,.92)}.maps-lb[open]{display:flex;flex-direction:column}
+.lb-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;border-bottom:1px solid rgba(240,196,92,.3)}
+.lb-bar h2{margin:0;font:700 20px "Cinzel",Georgia,serif;color:#f0c45c}
+.lb-close{min-height:44px;padding:8px 16px;border-radius:999px;background:rgba(10,8,6,.6);color:#f3e6c8;border:1px solid rgba(240,196,92,.55);font:700 15px Georgia,serif;cursor:pointer}
+.lb-close:focus-visible,.lb-view:focus-visible{outline:3px solid #f0c45c;outline-offset:2px}
+.lb-view{flex:1;overflow:auto;touch-action:pinch-zoom pan-x pan-y;display:grid;place-items:center}
+.lb-view img{max-width:100%;max-height:100%;cursor:zoom-in}.lb-view.zoomed{place-items:start}.lb-view.zoomed img{max-width:none;max-height:none;width:200%;cursor:zoom-out}
+@media(min-width:760px){.lb-view.zoomed img{width:auto}}
