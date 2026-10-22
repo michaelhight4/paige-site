@@ -1,5 +1,5 @@
 import { bootAdapter, adapter } from './adapter.js';
-import { store, h, refreshState, toast, sfx } from './ui.js';
+import { store, h, refreshState, toast, sfx, setBreakHook } from './ui.js';
 import { mountHub } from './screens/hub.js';
 import * as Style from './style.js';
 import { runStart } from './screens/start.js';
@@ -13,7 +13,7 @@ async function main() {
   try {
     await Style.init();
     const Native = await import('../../src/native_bridge.js'); await Native.installNativeAds(); // Android app: AdMob (no-op on web)
-    await bootAdapter(); Native.installNativeBilling(adapter.impl); (await import('./ads_ui.js')).installAdPresenter(); // Android app: Play Billing
+    await bootAdapter(); Native.installNativeBilling(adapter.impl); { const AU = await import('./ads_ui.js'); AU.installAdPresenter(); AU.installRealtimeAds(); setBreakHook({ due: AU.realtimeAdDue, run: AU.naturalBreak }); } // Android app: Play Billing
     store.cfg = await adapter.getConfig();
     { const { ensureTerms } = await import('./terms.js'); await ensureTerms(store.root); } // one-time ToS / Privacy agreement before any play
     const st0 = await adapter.getStartState();

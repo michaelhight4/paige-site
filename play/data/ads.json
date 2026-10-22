@@ -1,6 +1,6 @@
 {
   "platform": "android",
-  "note": "Flip `platform` (or use ?platform=steam) to switch the ad model. android: rewarded ads, unlimited. steam: no ads shown; subscribers get the same rewards without an ad, once per option per real-life day.",
+  "note": "android also shows a forced interstitial every 8-15 years (randomPrompt) or after 20 min of active play, whichever first, shown at the next natural break unless No Ads / All Access, which also make rewards instant once per option per day. Flip `platform` (or use ?platform=steam) to switch the ad model. android: rewarded ads, unlimited. steam: no ads shown; subscribers get the same rewards without an ad, once per option per real-life day.",
   "requiredMs": 5000,
   "platforms": {
     "android": {

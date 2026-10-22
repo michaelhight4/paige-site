@@ -1,7 +1,7 @@
 // NATIVE BRIDGE (Android Capacitor wrapper, package com.pagegames.lifeline).
 // On plain web this file does nothing: the PlaceholderAdsAdapter and the free TEST toggles stay in place.
 // Inside the Android app, Capacitor injects window.Capacitor with native plugin proxies:
-//   Capacitor.Plugins.AdMob            (@capacitor-community/admob) -> real rewarded ads
+//   Capacitor.Plugins.AdMob            (@capacitor-community/admob) -> real rewarded ads + interstitials (forced ad every 8-15 years)
 //   Capacitor.Plugins.LifelineBilling  (custom Java plugin)          -> Google Play Billing
 // Ad unit ids are NOT here: they come from the app's admob.properties via LifelineBilling.getConfig(), so swapping test -> real ids needs no site update.
 import { setAdsAdapter } from './adapter_ads.js';
@@ -15,11 +15,13 @@ const PLAN_KEY = 'lifesim.native.subplan';
 // One-time Play product handed out with promo codes. Unlocks exactly the passes that existed when it was created (hardcoded on purpose:
 // NOT the subscription and NOT passes added later).
 export const TESTER_PACK_ID = 'tester_pack';
+// founder_pack (Play pre-registration reward, $0 one-time product) is a normal pass in data/premium.json: restore() unlocks it when Play reports it
+// owned, and LifelineBillingPlugin.restore() acknowledges every owned INAPP purchase (incl. founder_pack). It is NOT in TESTER_PACK_PASSES.
 export const TESTER_PACK_PASSES = ['einstein', 'midas', 'nepo', 'baller', 'free_realestate', 'sports_owner', 'golden_gun', 'fountain', 'rabbit', 'tax_evasion', 'no_ads', 'creator', 'autopilot'];
 
 // Rewarded ads via AdMob. completed:true ONLY after the SDK's onUserEarnedReward (plugin event 'onRewardedVideoAdReward').
 export class AdMobAdsAdapter {
-  constructor({ adUnitId, testing }) { this.name = 'admob'; this.adUnitId = adUnitId; this.testing = !!testing; this.ready = null; }
+  constructor({ adUnitId, interstitialId, testing }) { this.name = 'admob'; this.adUnitId = adUnitId; this.interstitialId = interstitialId || null; this.testing = !!testing; this.ready = null; }
   init() {
     if (!this.ready) this.ready = (async () => {
       const A = plug('AdMob');
@@ -28,7 +30,26 @@ export class AdMobAdsAdapter {
     })().catch((e) => { this.ready = null; throw e; });
     return this.ready;
   }
+  // Forced full-screen ad (kind 'interstitial'): no reward. completed:true once it was shown and dismissed. Any failure resolves (never blocks the game).
+  async showInterstitial(req) {
+    const A = plug('AdMob'), t0 = Date.now(), hs = [];
+    if (!this.interstitialId) return { completed: false, watchedMs: 0, reason: 'no interstitial id' };
+    try { await this.init(); } catch (e) { return { completed: false, watchedMs: 0, reason: 'ads init failed' }; }
+    return new Promise(async (resolve) => {
+      let shown = false, done = false;
+      const end = (reason) => { if (done) return; done = true; clearTimeout(guard); hs.forEach((h) => h && h.remove && h.remove()); resolve(shown && !reason ? { completed: true, watchedMs: Math.max(Date.now() - t0, req.requiredMs || 0) } : { completed: false, watchedMs: Date.now() - t0, reason }); };
+      const guard = setTimeout(() => { if (!shown) end('load timeout'); }, 15000); // never hang the game on a slow load
+      const on = async (ev, fn) => { try { hs.push(await A.addListener(ev, fn)); } catch (e) { /* ignore */ } };
+      await on('interstitialAdShowed', () => { shown = true; });
+      await on('interstitialAdDismissed', () => end());
+      await on('interstitialAdFailedToLoad', () => end('no ad available'));
+      await on('interstitialAdFailedToShow', () => end('ad failed to show'));
+      try { await A.prepareInterstitial({ adId: this.interstitialId, isTesting: this.testing }); if (done) return; await A.showInterstitial(); }
+      catch (e) { end('no ad available'); }
+    });
+  }
   async show(req) {
+    if (req && req.kind === 'interstitial') return this.showInterstitial(req);
     const A = plug('AdMob'), t0 = Date.now(), hs = [];
     try { await this.init(); } catch (e) { return { completed: false, watchedMs: 0, reason: 'ads init failed' }; }
     return new Promise(async (resolve) => {
@@ -80,7 +101,7 @@ export async function installNativeAds() {
   if (!isNativeApp()) return false;
   try {
     const cfg = await plug('LifelineBilling').getConfig();
-    const a = new AdMobAdsAdapter({ adUnitId: cfg.rewardedAdUnitId, testing: cfg.testAds });
+    const a = new AdMobAdsAdapter({ adUnitId: cfg.rewardedAdUnitId, interstitialId: cfg.interstitialAdUnitId, testing: cfg.testAds });
     setAdsAdapter(a); a.init().catch(() => {});
     return true;
   } catch (e) { console.warn('native ads unavailable', e); return false; }

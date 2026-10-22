@@ -73,7 +73,8 @@
       "id": "no_ads",
       "name": "No Ads Forever",
       "price": 5.99,
-      "effect": "remove_ads"
+      "effect": "remove_ads",
+      "description": "Removes forced ads and gives ad rewards instantly without watching"
     },
     {
       "id": "creator",
@@ -86,6 +87,16 @@
       "name": "Autopilot Pack",
       "price": 5.99,
       "effect": "autopilot_routines_and_skip_ahead"
+    },
+    {
+      "id": "founder_pack",
+      "name": "Founder Pack",
+      "price": 0,
+      "effect": "founder_title_cash_150000_coffee_shop_18",
+      "description": "A thank-you for pre-registering. Earn the Founder title, start every life with an extra $150,000 and open your own coffee shop at 18.",
+      "hidden": true,
+      "notInSubscription": true,
+      "note": "Google Play pre-registration reward ($0 one-time product). Not sold in-game, not in All Access or the Tester Pack."
     }
   ]
 }

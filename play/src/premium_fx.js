@@ -31,12 +31,22 @@ function once(s, id, fn) { s.flags['prem_' + id] = s.flags['prem_' + id] || 0; i
 export function applyStart(s) {
   const done = [];
   if (on('midas') && once(s, 'midas', () => { s.cash += 1000000; log(s, 'I was born with a million dollars and no explanation.', 'money'); })) done.push('midas');
+  if (on('founder_pack') && once(s, 'founder', () => { s.cash += 150000; log(s, 'Founder perk: I started life with an extra $150,000.', 'money'); })) done.push('founder_pack');
+  if (on('founder_pack') && Math.floor(s.age) >= 18 && s.alive !== false && once(s, 'founder_cafe', () => { grantCoffeeShop(s); })) done.push('founder_cafe');
   if (on('nepo')) { if (!gate('nepo', s)) { if (once(s, 'nepo', () => { s.stats.fame = Math.max(s.stats.fame, 80); log(s, 'I was famous before I could walk. Somebody important was related to me.', 'fame'); })) done.push('nepo'); } else if (once(s, 'nepo_kid', () => { s.stats.fame = Math.max(s.stats.fame, 5); log(s, 'People already know my family name, a little.', 'fame'); })) done.push('nepo'); }
   if (on('free_realestate') && !gate('free_realestate', s) && once(s, 'house', () => { B.grantAsset(s, 'mansion', 2000000); log(s, 'I was handed the keys to a $2,000,000 house.', 'asset'); })) done.push('free_realestate');
   if (on('sports_owner') && !gate('sports_owner', s) && once(s, 'team', () => { grantTeam(s); })) done.push('sports_owner');
   if (on('fountain')) { if (s.diseases.length) { s.diseases = []; log(s, 'My ailments evaporated overnight.', 'health'); } done.push('fountain'); }
   return done;
 }
+// Founder Pack: a small Coffee Shop (the existing 'coffee' business type), given once per life at 18. Free: founding fee/starter kit are covered.
+export function grantCoffeeShop(s) {
+  if (!D.bizTypes || !D.bizTypes.coffee) return false; if (!s.biz) s.biz = [];
+  const c = s.cash, d = s.debt; s.cash = 1e15; const r = Biz.found(s, 'coffee'); s.cash = c; s.debt = d;
+  if (r.ok) { r.biz.founder = true; log(s, 'Founder perk: I opened my own coffee shop!', 'biz'); s.founderToast = 'Founder perk: you opened your own coffee shop!'; }
+  return !!r.ok;
+}
+export const isFounder = () => on('founder_pack');
 // the Sports Owner Pack grants a REAL franchise team (same path as buying one: team page, sister slot, staff, facilities, sponsors, Autopilot)
 export function grantTeam(s) {
   const F = Fr.ensure(s); if (F.teams && F.teams.length) return false;

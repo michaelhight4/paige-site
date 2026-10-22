@@ -142,9 +142,9 @@
   {
    "id": "special",
    "label": "Special Careers",
-   "sub": "Stage, screen, runway & ring",
+   "sub": "Stage, screen, runway, ring & sports (pro athlete, coaching)",
    "icon": "🎭",
-   "minAge": 10
+   "minAge": 8
   },
   {
    "id": "streamer",
@@ -161,13 +161,6 @@
    "minAge": 13
   },
   {
-   "id": "sports",
-   "label": "Sports Career",
-   "sub": "School teams, college, the draft",
-   "icon": "🏅",
-   "minAge": 8
-  },
-  {
    "id": "collections",
    "label": "Career Collections",
    "sub": "Mastered careers",
@@ -180,13 +173,6 @@
    "sub": "Run for office, judges, royalty",
    "icon": "🏛️",
    "minAge": 18
-  },
-  {
-   "id": "coaching",
-   "label": "Coaching",
-   "sub": "Coach or manage a team, transfers, season reviews",
-   "icon": "📋",
-   "minAge": 21
   },
   {
    "id": "franchise",

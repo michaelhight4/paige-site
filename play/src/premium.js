@@ -23,8 +23,10 @@ export function subscription(now = Date.now()) {
 }
 export const subscribed = (now) => !!subscription(now);
 export const owned = (id) => !!load().owned[id];
-// True if the pass is owned OR an All Access subscription is active.
-export function isUnlocked(id, now = Date.now()) { return !!id && (owned(id) || subscribed(now)); }
+// True if the pass is owned OR an All Access subscription is active (passes marked notInSubscription, e.g. founder_pack, need ownership).
+const inSub = (id) => { const p = passDef(id); return !(p && p.notInSubscription); };
+export function isUnlocked(id, now = Date.now()) { return !!id && (owned(id) || (inSub(id) && subscribed(now))); }
+export const forSale = () => passes().filter((p) => !p.hidden); // hidden passes (founder_pack) are granted, never sold
 export function setOwned(id, on = true) { if (!passDef(id)) throw new Error('unknown pass ' + id); const f = load(); if (on) f.owned[id] = true; else delete f.owned[id]; return save(f); }
 // plan: 'monthly' | 'yearly' | null (cancel -> lapses immediately, owned passes stay)
 export function setSubscription(plan, now = Date.now()) {
@@ -34,6 +36,6 @@ export function expireSubscription() { const f = load(); if (f.sub) f.sub.until 
 export const resetAll = () => save(blank());
 export function status() {
   const sub = subscription();
-  return { subscribed: !!sub, plan: sub ? sub.plan : null, passes: passes().map((p) => ({ ...p, owned: owned(p.id), unlocked: isUnlocked(p.id), viaSub: !owned(p.id) && !!sub })) };
+  return { subscribed: !!sub, plan: sub ? sub.plan : null, passes: passes().map((p) => ({ ...p, owned: owned(p.id), unlocked: isUnlocked(p.id), viaSub: !owned(p.id) && !!sub && inSub(p.id) })) };
 }
 export const price = (p) => '$' + p.price.toFixed(2);

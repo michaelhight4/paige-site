@@ -1,5 +1,6 @@
 // ADS ADAPTER INTERFACE. The game never talks to an ad SDK directly; src/ads.js (policy) calls `getAdsAdapter().show(request)`.
 //
+//   show({ placement, kind: 'rewarded' | 'interstitial', requiredMs, reward })   (interstitial = forced ad every 8-15 years, no reward)
 //   show({ placement, kind: 'rewarded', requiredMs, reward }) -> Promise<{ completed: boolean, watchedMs: number, reason?: string }>
 //
 // Contract: resolve `completed: true` ONLY when the ad ran for its full required duration (for AdMob: the RewardedAd `onUserEarnedReward`

@@ -49,7 +49,7 @@ export function mountHub(root) {
     top.className = top.className.replace(/\s*fame-t\d/g, '') + (st.fameTier ? ' fame-t' + st.fameTier.index : '');
     top.replaceChildren(
       avatarFor(st.gender, st.age, st.avatar),
-      h('button', { class: 'who', 'data-el': 'profile-link', onclick: () => openPanel('Profile', profileScreen), 'aria-label': 'Open profile' }, h('span', { class: 'nm', text: st.name }), h('span', { class: 'hd', 'data-el': 'job-link', role: 'link', onclick: (e) => { e.stopPropagation(); closeAll(); activeTab = 'occupation'; setWorkTab('myjob'); openPanel('Work', occupationMenu); paintTabs(); }, text: '💼 ' + st.headline }), st.fameTier && st.fameTier.index > 0 ? h('span', { class: 'fame-tag', 'data-el': 'fame-tier', role: 'link', onclick: (e) => { e.stopPropagation(); import('./fame.js').then((m) => openPanel('Use your fame', m.fameScreen)); }, text: `🌟 ${st.fameTier.name} · ${st.fameTier.fame}%` }) : null),
+      h('button', { class: 'who', 'data-el': 'profile-link', onclick: () => openPanel('Profile', profileScreen), 'aria-label': 'Open profile' }, h('span', { class: 'nm', text: st.name }), st.founder ? h('span', { class: 'founder-badge', 'data-el': 'founder-badge', title: 'Founder Pack', text: '🏅 Founder' }) : null, h('span', { class: 'hd', 'data-el': 'job-link', role: 'link', onclick: (e) => { e.stopPropagation(); closeAll(); activeTab = 'occupation'; setWorkTab('myjob'); openPanel('Work', occupationMenu); paintTabs(); }, text: '💼 ' + st.headline }), st.fameTier && st.fameTier.index > 0 ? h('span', { class: 'fame-tag', 'data-el': 'fame-tier', role: 'link', onclick: (e) => { e.stopPropagation(); import('./fame.js').then((m) => openPanel('Use your fame', m.fameScreen)); }, text: `🌟 ${st.fameTier.name} · ${st.fameTier.fame}%` }) : null),
       h('button', { class: 'topbtn prem', 'data-el': 'store-link', 'aria-label': 'Premium store', onclick: () => openPanel('Premium', storeScreen) }, '⭐'),
       h('button', { class: 'topbtn', 'data-el': 'settings-link', 'aria-label': 'Settings', onclick: () => openPanel('Settings', settingsScreen) }, '⚙️'),
       h('div', { class: 'bank' }, h('b', { class: st.cash < 0 ? 'neg' : '', 'data-el': 'cash', text: money(st.cash, true) }), h('small', { 'data-el': 'cash-label', text: 'Cash in bank' })));
@@ -111,10 +111,12 @@ export function mountHub(root) {
   async function doAge(fromBtn) {
     if (busy || !store.state.alive) return; busy = true;
     try {
+      { const AU = await import('../ads_ui.js'); if (AU.realtimeAdDue()) await AU.naturalBreak(); } // 20-min forced ad, before aging
       sfx('age'); if (Art() && fromBtn) Art().fx.agePop(ageBtn);
       const r = await adapter.age();
       addEntries(r.entries || [], true); await refreshState(); if (store.stack.length) await rerenderTop();
       if (r.auto && r.auto.paused) toast('Autopilot paused: ' + r.auto.paused.reason); else if (r.auto && r.auto.ran.length) toast('Autopilot: ' + r.auto.ran.length + ' routine' + (r.auto.ran.length === 1 ? '' : 's') + ' ran');
+      if (r.founderToast) toast(r.founderToast);
       if (r.event) await showEvent(r.event);
       if (r.died) await showDeath(r.death || await adapter.getDeathSummary());
       else if (r.adPrompt && !r.event) { const { showAdPrompt } = await import('../ads_ui.js'); await showAdPrompt(r.adPrompt); }

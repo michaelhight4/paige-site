@@ -33,7 +33,7 @@ export const rewardsApi = {
   getRewards() {
     const s = this.s, r = Ads.rules();
     return { platform: Ads.platform(), showsAds: Ads.showsAds(), subscriber: Ads.steamSubscribed(), perDay: r.rewardLimit === 'perOptionPerDay' ? r.perDay : null, requiredMs: Ads.requiredMs(), options: Ads.options(), cash: Math.round(s.cash), played: Ads.ensure(s).played, nextPromptAt: Ads.ensure(s).next, promptsEnabled: Ads.promptsEnabled(),
-      steamNote: r.subscribersOnly ? 'Steam: no ads are shown. Subscribers get each reward option once per real-life day.' : '' };
+      noAds: Ads.noAds(), steamNote: r.subscribersOnly ? 'Steam: no ads are shown. Subscribers get each reward option once per real-life day.' : '' };
   },
   async claimReward(key) {
     const s = this.s, n0 = this.mark(); if (!s.alive) return this.res(false, 'Not available.', n0);
@@ -63,11 +63,20 @@ export const rewardsApi = {
   },
   getAdPrompt() {
     const s = this.s, A = Ads.ensure(s); if (!A.due || !Ads.promptsEnabled()) return null;
-    const key = A.offer || 'cash', R = D.adsCfg.rewards; return { key, label: key === 'cash' ? `+${money(R.cash)} cash` : `+${R.statPoints}% ${key.slice(5)}`, requiredMs: Ads.requiredMs(), played: A.played };
+    return { forced: true, requiredMs: Ads.requiredMs(), played: A.played };
   },
-  async answerAdPrompt(accept) {
-    const s = this.s, n0 = this.mark(), pr = this.getAdPrompt(); if (!pr) return this.res(false, 'No offer right now.', n0);
-    let r = null; if (accept) r = await this.claimReward(pr.key);
-    Ads.dismissPrompt(s); return r ? { ...r, prompt: pr } : this.res(true, 'No thanks.', n0);
+  // Forced ad (cannot be declined, no reward). Always reschedules and continues, even if the ad failed to load.
+  async showForcedAd() {
+    const s = this.s, n0 = this.mark(), pr = this.getAdPrompt(); if (!pr) return this.res(false, 'No ad due.', n0);
+    let r; try { r = await Ads.showForced(); } catch (e) { r = { shown: false }; }
+    Ads.dismissPrompt(s); return this.res(true, r.shown ? 'Thanks for supporting the game.' : 'Ad skipped (unavailable).', n0, { forced: r, prompt: pr });
   },
+  // Real-time fallback (UI calls these): tick the visible-time clock; at a natural break, show the forced ad if 20 active minutes passed.
+  adClockTick(visible = true) { if (!Ads.promptsEnabled()) return { due: false, activeMs: 0 }; Ads.rtTick(visible); return { due: Ads.rtDue(), activeMs: Ads.rtActiveMs() }; },
+  async showRealtimeForcedAd() {
+    const s = this.s, n0 = this.mark(); if (!s || !Ads.rtDue()) return this.res(false, 'No ad due.', n0);
+    let r; try { r = await Ads.showForced({ placement: 'forced_realtime' }); } catch (e) { r = { shown: false }; }
+    const A = Ads.ensure(s); A.due = false; A.prompts++; Ads.resetCadence(s); return this.res(true, r.shown ? 'Thanks for supporting the game.' : 'Ad skipped (unavailable).', n0, { forced: r });
+  },
+  async answerAdPrompt() { return this.showForcedAd(); }, // legacy name: the prompt is forced now, so any answer shows the ad
 };

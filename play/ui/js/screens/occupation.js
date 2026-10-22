@@ -25,8 +25,17 @@ export async function occupationMenu(body, ctx) {
 }
 async function myJobBody(body, ctx) {
   const { nav } = ctx, st = store.state, refresh = ctx.refresh || (() => {});
-  const mt = st.job ? await adapter.getMyTeam() : null, ath = mt && mt.onTeam && !mt.limbo && /pro|minor/.test(mt.level || '') ? mt : null;
-  if (!st.job && !st.partTime) { const tb = await adapter.listSecondJobs(); if (!tb.current) { body.append(h('div', { class: 'card', 'data-el': 'no-job' }, h('h3', { text: 'No job yet' }), h('div', { class: 'hint', text: 'Find work that fits your education and skills.' }), h('div', { class: 'btns' }, btn('Find a job', () => { workTab = 'all'; nav.open('Jobs', (b, c) => jobsScreen(b, c, 'jobs')); }, 'go', { 'data-act': 'find-job' })))); return; } }
+  const mt = await adapter.getMyTeam().catch(() => null), ath = mt && mt.onTeam && !mt.limbo && /pro|minor/.test(mt.level || '') ? mt : null;
+  const co = await adapter.getCoaching().catch(() => null), coaching = !!(co && co.active);
+  if (!st.job && ath) { // pro athlete without a regular job record: the team IS the job
+    body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: '🏅 Pro athlete' }), kv('Team', `${ath.icon || ''} ${ath.team}`), ath.league ? kv('League', ath.league) : null));
+    const { myTeamInline } = await import('./sports.js'); await myTeamInline(body, ctx);
+  }
+  if (coaching) { // coaching counts as your job: show the full coaching page (season, roster, transfers, leave club) right here
+    body.append(h('div', { class: 'card', 'data-el': 'current-job-coach' }, h('h3', { text: `📋 ${co.roleName}` }), kv('Club', `${co.sport ? co.sport.icon + ' ' : ''}${co.team ? co.team.name : ''}`), co.years != null ? kv('Years', String(co.years)) : null));
+    await coachingScreen(body, { ...ctx, refresh });
+  }
+  if (!st.job && !st.partTime && !coaching && !ath) { const tb = await adapter.listSecondJobs(); if (!tb.current) { body.append(h('div', { class: 'card', 'data-el': 'no-job' }, h('h3', { text: 'No job yet' }), h('div', { class: 'hint', text: 'Find work that fits your education and skills.' }), h('div', { class: 'btns' }, btn('Find a job', () => { workTab = 'all'; nav.open('Jobs', (b, c) => jobsScreen(b, c, 'jobs')); }, 'go', { 'data-act': 'find-job' })))); return; } }
   if (st.job) {
     const L = ath && ath.last;
     body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: `💼 ${st.job.title}` }), kv(ath ? 'Team' : 'Employer', ath ? `${ath.icon} ${ath.team}` : st.job.employer), kv('Salary', money(st.job.salary) + '/yr', 'pos'), kv('Years', String(st.job.years)),
@@ -73,25 +82,33 @@ export async function educationScreen(body, { nav }) {
   if (e.premium !== false) body.append(section('Premium'), ...e.options.filter(o => o.years > 0 && !o.reason?.startsWith('Already')).slice(0, 8).map(o => row({ id: 'einstein:' + o.id, premium: 'einstein', icon: '🎓', title: (e.einstein ? '⭐ ' : '🔒 ') + 'Instant ' + o.label, sub: e.einstein ? 'Einstein pass: graduate right now' : 'Premium: Einstein pass', disabled: !e.einstein, onClick: async () => { let major = null; if (o.needsMajor) { const i = await sheet({ title: 'Pick a major', options: e.majors.slice(0, 40).map(m => ({ label: m })) }); if (i == null) return; major = e.majors[i]; } act(adapter.instantDegree({ levelId: o.id, major })); } })));
 }
 
-function jobRow(j, ctx) {
-  return row({ id: j.id, icon: '💼', title: j.title, sub: j.eligible ? `Requires ${String(j.educationReq).split('+')[0].replace(/_/g, ' ')}${j.promotesTo ? ' · → ' + j.promotesTo : ''}` : j.reason, right: money(j.salary) + '/yr', disabled: !j.eligible,
+function jobRow(j, ctx, iconId) {
+  return row({ id: j.id, icon: 'job:' + (iconId || j.sector || 'corporate'), title: j.title, sub: j.eligible ? `Requires ${String(j.educationReq).split('+')[0].replace(/_/g, ' ')}${j.promotesTo ? ' · → ' + j.promotesTo : ''}` : j.reason, right: money(j.salary) + '/yr', disabled: !j.eligible,
     onClick: async () => { if (await confirmSheet(j.title, `Apply for a job as ${j.title} (${money(j.salary)}/yr)?`, 'Apply', 'go')) { await act(adapter.applyJob(j.id)); } } });
 }
 export async function jobsScreen(body, ctx, group = 'jobs') {
   if (group === 'jobs') await autoPageCard(body, 'job');
   const g = await adapter.getJobs({ group });
   if (g.current) body.append(h('div', { class: 'card' }, h('b', { text: 'Employed: ' }), g.current.title));
-  if (!g.groups.length) return body.append(empty('No openings available.'));
+  if (!g.groups.length && group !== 'special') return body.append(empty('No openings available.'));
   body.append(section(group === 'special' ? 'Special careers' : 'Industries'));
-  body.append(...g.groups.map(s => row({ id: s.id, icon: group === 'special' ? '🎭' : '🏢', title: s.label, sub: `${s.jobs.length} positions · ${s.jobs.filter(j => j.eligible).length} you qualify for`, onClick: () => ctx.nav.open(s.label, (b, c) => sectorScreen(b, c, group, s.id)) })));
+  if (group === 'special') body.append(row({ id: 'special-sports', icon: 'job:sports', title: 'Sports', sub: 'Pro Athlete and Coaching', onClick: () => ctx.nav.open('Sports', sportsCareerTab) }));
+  body.append(...g.groups.filter((s) => !(group === 'special' && s.id === 'athlete')).map(s => row({ id: s.id, icon: 'job:' + s.id, title: s.label, sub: `${s.jobs.length} positions · ${s.jobs.filter(j => j.eligible).length} you qualify for`, onClick: () => ctx.nav.open(s.label, (b, c) => sectorScreen(b, c, group, s.id)) })));
+}
+// Special Careers > Sports: the pro-athlete path and coaching live together here.
+export async function sportsCareerTab(body, { nav }) {
+  body.append(section('Sports careers'),
+    row({ id: 'sports', icon: 'job:athlete', title: 'Pro Athlete', sub: 'School teams, college, the draft, pro contracts', onClick: () => nav.open('Sports Career', sportsScreen) }),
+    row({ id: 'athlete-ladder', icon: 'job:athlete', title: 'Pro Athlete career ladder', sub: 'Rookie to legend: the job steps and pay', onClick: () => nav.open('Pro Athlete', (b, c) => sectorScreen(b, c, 'special', 'athlete')) }),
+    row({ id: 'coaching', icon: 'job:coaching', title: 'Coaching', sub: 'Coach or manage a team, transfers, season reviews', onClick: () => nav.open('Coaching', coachingScreen) }));
 }
 async function sectorScreen(body, ctx, group, sector) {
   const g = await adapter.getJobs({ group, sector }); const s = g.groups[0]; if (!s) return body.append(empty('Nothing here.'));
-  body.append(...s.jobs.map(j => jobRow(j, ctx)));
+  body.append(...s.jobs.map(j => jobRow(j, ctx, group === 'military' ? 'military' : sector)));
 }
 export async function militaryScreen(body, ctx) {
   const g = await adapter.getJobs({ group: 'military' });
-  body.append(section('Branches & ranks'), ...g.groups.map(s => row({ id: s.id, icon: s.id.includes('officer') ? '🎖️' : '🪖', title: s.label, sub: `${s.jobs.length} ranks`, onClick: () => ctx.nav.open(s.label, (b, c) => sectorScreen(b, c, 'military', s.id)) })));
+  body.append(section('Branches & ranks'), ...g.groups.map(s => row({ id: s.id, icon: s.id.includes('officer') ? '🎖️' : 'job:military', title: s.label, sub: `${s.jobs.length} ranks`, onClick: () => ctx.nav.open(s.label, (b, c) => sectorScreen(b, c, 'military', s.id)) })));
 }
 export async function freelanceScreen(body) {
   const { gigs } = await adapter.getFreelanceGigs();

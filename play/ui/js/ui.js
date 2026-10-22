@@ -8,6 +8,8 @@ export const sfx = (n) => { try { const a = Art(); a && a.sfx && a.sfx.play(n); 
 // emoji used by the ui3 config -> art_ui icon ids (unmapped emoji stay as text)
 const EMO = { '💼': 'finance', '🎓': 'activity.study', '🥊': 'athlete', '🧰': 'builder', '🏢': 'finance', '🕑': 'retail', '🎖️': 'police', '🎭': 'actor', '🏅': 'athlete', '🗂️': 'agent', '💳': 'asset.cash', '📈': 'stocks', '💎': 'asset.jewelry', '🔨': 'collectibles', '🎰': 'activity.casino', '🏎️': 'vehicle.super', '🦒': 'activity.pet', '🛠️': 'builder', '🧳': 'asset.land', '🏠': 'property.suburb', '🏡': 'property.suburb', '🛍️': 'activity.shopping', '🚗': 'vehicle.sedan', '⛵': 'vehicle.dinghy', '✈️': 'vehicle.prop', '💍': 'asset.jewelry', '🎸': 'media', '🎹': 'media', '💪': 'activity.gym', '🏥': 'medicine', '🧘': 'activity.meditate', '🎉': 'activity.party', '🏖️': 'activity.vacation', '📚': 'activity.library', '🤝': 'activity.volunteer', '📜': 'lawyer', '🔪': 'criminal', '🏆': 'ribbon.honor', '🌳': 'property.cabin', '⭐': 'ribbon.famous', '🔧': 'builder', '🎯': 'activity.work', '👪': 'ribbon.parent', '🏦': 'asset.bonds' };
 export function ico(e, size = 40) {
+  // 'job:<sector or special id>' -> the per-industry job art (art/icon_data.js `job`); emoji fallback when the art pack is not loaded
+  if (typeof e === 'string' && e.startsWith('job:')) { const A0 = Art(), el0 = document.createElement('span'); el0.className = 'ic'; if (A0 && A0.iconData && A0.iconData.job && A0.iconData.job[e.slice(4)]) { el0.innerHTML = A0.icon('job.' + e.slice(4), { size, title: '' }); el0.classList.add('art'); } else el0.textContent = '💼'; el0.dataset.jobIcon = e.slice(4); return el0; }
   const A = Art(), id = EMO[e];
   const el = document.createElement('span'); el.className = 'ic';
   if (A && id) { el.innerHTML = A.icon(id, { size, title: '' }); el.classList.add('art'); } else el.textContent = e || '';
@@ -133,7 +135,9 @@ export async function act(promise, { quiet = false } = {}) {
 
 // ---------- panel navigation ----------
 // screen = async (body, ctx) => void ; ctx = {nav, refresh}
+let breakHook = null; export const setBreakHook = (h) => { breakHook = h; }; // forced real-time ad at a natural break (ui/js/ads_ui.js)
 export function openPanel(title, render, { mini } = {}) {
+  if (breakHook && breakHook.due()) { breakHook.run().finally(() => openPanel(title, render, { mini })); return; }
   store.stack.push({ title, render, mini }); drawPanel(true); document.dispatchEvent(new CustomEvent('panelchange'));
 }
 export async function rerenderTop() { if (store.stack.length) await drawTop(); }
