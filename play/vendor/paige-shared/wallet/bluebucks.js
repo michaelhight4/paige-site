@@ -7,7 +7,7 @@ import { err, ok } from "../net/result.js";
  * TestWallet exists for test builds only and is always labelled as test money.
  */
 export { BB_PER_USD, formatBB };
-export { BB_PASS_DISCOUNT, BB_PASS_DISCOUNT_PCT, BB_ROUND_TO, BB_DISCOUNT_TAG, priceInBB, fullPriceInBB, bbPayChoice, isPass } from "../billing/catalog.js";
+export { BB_PASS_DISCOUNT, BB_PASS_DISCOUNT_PCT, BB_ROUND_TO, BB_DISCOUNT_TAG, priceInBB, fullPriceInBB, bbPayChoice, isPass, BB_PACKS, BB_PACK_SKUS, BB_PACK_BANNER, isBBPackSku, smallestCoveringPack, shortfallText, packEvent } from "../billing/catalog.js";
 export const newIdemKey = () => (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `k${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`);
 export class ServerWallet {
     constructor(net) {

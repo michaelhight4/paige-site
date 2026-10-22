@@ -15,6 +15,7 @@ export async function storeScreen(body, { refresh, nav }) {
     h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${stars(p.subscribed)} ${sub.name || 'All Access'}` }),
     h('div', { class: 'hint', text: `$${sub.monthly}/month or $${sub.yearly}/year. Includes every pass while active; lapses on cancel.` + (p.subscribed ? ` Active (${p.plan}).` : '') }),
     p.subscribed ? null : h('div', { class: 'hint' }, NU.bbPriceLine('all_access_1m')),
+    p.subscribed ? null : h('div', { class: 'btns' }, NU.bbBuyButton('all_access_1m', refresh)),
     h('div', { class: 'btns' }, p.subscribed ? btn(p.test === false ? 'Manage in Google Play' : 'Cancel (test)', async () => { await adapter.setSubscription(null); await refresh(); }, 'danger sm', { 'data-el': 'sub-cancel' })
       : [btn(`Monthly $${sub.monthly}`, async () => { await adapter.setSubscription('monthly'); sfx('good'); await refresh(); }, 'go sm', { 'data-el': 'sub-monthly' }), btn(`Yearly $${sub.yearly}`, async () => { await adapter.setSubscription('yearly'); sfx('good'); await refresh(); }, 'go sm', { 'data-el': 'sub-yearly' })])));
   body.append(section('Passes ($5.99 each)'));
@@ -23,7 +24,7 @@ export async function storeScreen(body, { refresh, nav }) {
     const on = x.owned, via = x.unlocked && !x.owned;
     body.append(h('div', { class: 'row prem' + (x.unlocked ? '' : ' prem-lock'), 'data-pass': x.id },
       h('span', { class: 'ic', text: x.unlocked ? '🔓' : '🔒' }),
-      h('span', { class: 'tx' }, h('span', { class: 't', text: x.name }), h('span', { class: 's', text: (EFFECT[x.effect] || x.effect) + (via ? ' (via subscription)' : '') }), x.hidden || x.unlocked ? null : NU.bbPriceLine(x.id)),
+      h('span', { class: 'tx' }, h('span', { class: 't', text: x.name }), h('span', { class: 's', text: (EFFECT[x.effect] || x.effect) + (via ? ' (via subscription)' : '') }), x.hidden || x.unlocked ? null : NU.bbPriceLine(x.id), x.hidden || x.unlocked ? null : h('span', { class: 'btns' }, NU.bbBuyButton(x.id, refresh))),
       x.id === 'autopilot' && x.unlocked ? h('span', { class: 'rt' }, btn('Open', async () => { const { autopilotScreen } = await import('./auto.js'); nav.open('Autopilot', autopilotScreen); }, 'go sm', { 'data-el': 'auto-open' })) : x.id === 'creator' && x.unlocked ? h('span', { class: 'rt' }, btn('Open', async () => { const { creatorScreen } = await import('./extra.js'); nav.open('The Creator', creatorScreen); }, 'go sm', { 'data-el': 'creator-open' })) : h('span', { class: 'rt', text: x.hidden ? 'Reward' : '$' + x.price.toFixed(2) }),
       x.hidden && p.test === false ? null : h('label', { class: 'toggle', title: 'TEST TOGGLE' }, h('input', { type: 'checkbox', checked: on ? true : null, 'data-toggle': x.id, onchange: async (e) => { await adapter.setPremiumFlag(x.id, e.target.checked); sfx(e.target.checked ? 'good' : 'click'); await refreshState(); await refresh(); } }), h('span', { text: 'TEST' }))));
   }

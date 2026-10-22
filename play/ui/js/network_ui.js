@@ -21,7 +21,42 @@ export function bbPriceLine(sku) {
     x.usd ? h('b', { text: x.usd + ' or ' }) : null,
     x.discounted ? h('s', { 'data-el': 'bb-full', text: x.fullBB.toLocaleString('en-US') }) : null, x.discounted ? ' ' : null,
     h('b', { 'data-el': 'bb-now', text: '🔷 ' + N.formatBB(x.bb) }),
-    x.tag ? h('span', { class: 'bbtag', 'data-el': 'bb-tag', text: x.tag, style: { background: N.BB_TAG_COLORS.bg, color: N.BB_TAG_COLORS.fg, fontWeight: 800, borderRadius: '6px', padding: '1px 6px', marginLeft: '6px', whiteSpace: 'nowrap', display: 'inline-block' } }) : null);
+    x.tag ? h('span', { class: 'bbtag', 'data-el': 'bb-tag', text: x.tag, style: TAG_STYLE }) : null);
+}
+const TAG_STYLE = { background: N.BB_TAG_COLORS.bg, color: N.BB_TAG_COLORS.fg, fontWeight: 800, borderRadius: '6px', padding: '1px 6px', marginLeft: '6px', whiteSpace: 'nowrap', display: 'inline-block' };
+/** Blue Bucks button for a pass. Enough Blue Bucks: "Use N Blue Bucks". Short: "Get N Blue Bucks ($Y) & buy" (smallest covering
+ *  fixed pack, shared smallestCoveringPack) which opens that pack's purchase and then buys the pass in one tap. */
+export function bbBuyButton(sku, refresh, cls = 'alt sm') {
+  const x = N.redeemable(sku); if (!x || x.bb == null || x.owned) return null;
+  const use = `Use ${N.formatBB(x.bb)}`;
+  const b = btn(use, async () => {
+    if (!N.canBuy()) { await needAccount({ needsAccount: true }); return; }
+    const o = await N.packOfferFor(sku); if (!o) { const r = await N.redeem(sku); toast(r.ok ? `${x.title} is yours` : r.reason === 'insufficient' ? 'Not enough Blue Bucks' : 'Could not redeem: ' + r.reason); if (r.ok) sfx('good'); refreshAds(); await refresh(); return; }
+    await shortfallSheet(sku, o, refresh);
+  }, cls, { 'data-el': 'bb-buy', 'data-sku': sku, 'data-bb': String(x.bb) });
+  N.packOfferFor(sku).then((o) => { if (o) { b.textContent = o.label; b.dataset.pack = o.pack.sku; } }).catch(() => {});
+  return b;
+}
+async function shortfallSheet(sku, o, refresh) {
+  const x = N.redeemable(sku); N.trackPack('bb_shortfall_offer', o.pack.sku, sku);
+  const live = N.canBuyPacks();
+  const body = h('div', { 'data-el': 'bb-shortfall' }, h('p', { text: N.shortfallText(o) }),
+    h('p', { class: 'hint', text: `${x.title}: ${N.formatBB(x.bb)}. ${o.pack.title} costs ${N.formatUSD(o.pack.priceCents)}.` + (live ? ' TEST BUILD: pretend money.' : ' Buying Blue Bucks is coming soon.') }));
+  const id = await sheet({ title: 'Not enough Blue Bucks', body, center: true, buttons: [{ id: 'buy', label: live ? o.label + ' (TEST)' : 'Coming soon', cls: live ? 'go' : 'alt' }, { id: 'no', label: 'Not now', cls: 'alt' }] });
+  if (id !== 'buy' || !live) return;
+  const r = await N.buyPackAndRedeem(sku); if (await needAccount(r)) return;
+  toast(r.ok ? `TEST: bought ${o.pack.title} and got ${x.title}` : r.bought ? `TEST: bought ${o.pack.title}; you still need more` : r.comingSoon ? 'Buying Blue Bucks is coming soon' : 'Could not buy: ' + r.reason);
+  if (r.ok) sfx('good'); refreshAds(); await refresh();
+}
+/** Fixed Blue Bucks pack ladder (shared BB_PACKS, flat $1 = 1,000 Blue Bucks) with the bright "Save 10% on every pass" line. */
+function packLadder(refresh) {
+  const live = N.canBuyPacks();
+  return h('div', { 'data-el': 'bb-packs' },
+    h('div', { class: 'hint', style: { margin: '6px 0' } }, h('span', { 'data-el': 'bb-pack-banner', text: '🔷 ' + N.BB_PACK_BANNER, style: { ...TAG_STYLE, marginLeft: 0, whiteSpace: 'normal', padding: '3px 8px' } })),
+    N.BB_PACKS.map((p) => h('div', { class: 'row', 'data-el': 'bb-pack', 'data-sku': p.sku },
+      h('span', { class: 'ic', text: '🔷' }), h('span', { class: 'tx' }, h('span', { class: 't', text: p.title }), h('span', { class: 's', text: N.formatUSD(p.priceCents) })),
+      h('span', { class: 'rt' }, live ? btn(`${N.formatUSD(p.priceCents)} (TEST)`, async () => { const r = await N.buyPack(p.sku); if (await needAccount(r)) return; toast(r.ok ? `TEST: +${p.title}` : r.reason); await refresh(); }, 'go sm', { 'data-el': 'bb-pack-buy', 'data-sku': p.sku })
+        : btn('Coming soon', () => { N.trackPack('bb_pack_attempt', p.sku); toast('Buying Blue Bucks is coming soon'); }, 'alt sm', { 'data-el': 'bb-pack-buy', 'data-sku': p.sku, disabled: true })))));
 }
 /** Store: Blue Bucks balance + redeem, and the Ad-Free for Life $35 card. */
 export async function networkStoreCards(body, refresh) {
@@ -33,7 +68,8 @@ export async function networkStoreCards(body, refresh) {
     h('div', { class: 'hint', text: `$1 = ${N.BB_PER_USD.toLocaleString('en-US')} Blue Bucks. Use them in any Paige Games title. Your balance is kept on the Paige Games server, not on this device.` + (kind === 'test' ? ' TEST BUILD: pretend money for checking the flow.' : '') }),
     linked ? null : h('div', { class: 'hint', 'data-el': 'bb-signin', text: '🔑 ' + N.SIGN_IN_TO_BUY }),
     h('div', { class: 'btns' }, btn('Redeem', () => redeemSheet(refresh), 'go sm', { 'data-el': 'bb-redeem' }),
-      kind === 'test' ? btn('TEST: +10,000', async () => { N.addTestBucks(10000); await refresh(); }, 'alt sm', { 'data-el': 'bb-test-add' }) : null)));
+      kind === 'test' ? btn('TEST: +10,000', async () => { N.addTestBucks(10000); await refresh(); }, 'alt sm', { 'data-el': 'bb-test-add' }) : null),
+    packLadder(refresh)));
   const own = N.adFreeLife();
   body.append(section('Ad-Free for Life'), h('div', { class: 'card gold', 'data-el': 'ad-free-life' },
     h('div', { class: 'nm', style: { fontWeight: 800 }, text: (own ? '★ ' : '☆ ') + `Ad-Free for Life · ${N.formatUSD(N.AD_FREE_LIFE.priceCents)}` }),
@@ -42,7 +78,7 @@ export async function networkStoreCards(body, refresh) {
     own ? null : h('div', { class: 'btns' }, btn(linked ? `Buy ${N.formatUSD(N.AD_FREE_LIFE.priceCents)}${testBuild() ? ' (TEST)' : ''}` : 'Sign in to buy', async () => {
       const r = await N.buyAdFreeLife(); if (await needAccount(r)) return;
       toast(r.ok ? (r.test ? 'TEST: Ad-Free for Life granted on this device' : r.redirecting ? 'Opening checkout…' : 'Ad-Free for Life is active') : 'Purchase failed: ' + r.reason); if (r.ok) sfx('good'); refreshAds(); await refresh();
-    }, 'go sm', { 'data-el': 'afl-buy' }), btn(`Use ${N.formatBB(N.redeemable(N.AD_FREE_LIFE.sku).bb)}`, async () => { const r = await N.redeem(N.AD_FREE_LIFE.sku); if (await needAccount(r)) return; toast(r.ok ? 'Ad-Free for Life is active' : r.reason === 'insufficient' ? 'Not enough Blue Bucks' : r.reason); refreshAds(); await refresh(); }, 'alt sm', { 'data-el': 'afl-bb' })),
+    }, 'go sm', { 'data-el': 'afl-buy' }), bbBuyButton(N.AD_FREE_LIFE.sku, refresh)),
     testBuild() && own ? h('div', { class: 'btns' }, btn('TEST: remove', async () => { N.resetTestNetwork(); refreshAds(); await refresh(); }, 'alt sm', { 'data-el': 'afl-test-reset' })) : null));
 }
 async function redeemSheet(refresh) {
@@ -50,6 +86,7 @@ async function redeemSheet(refresh) {
   const list = N.redeemables(), bal = await N.walletBalance();
   const i = await sheet({ title: 'Redeem Blue Bucks', body: bal.ok ? `Balance: ${N.formatBB(bal.balance)}` : 'Balance unavailable', options: list.map((x) => ({ label: `${x.title} · ${N.formatBB(x.bb)}`, sub: x.owned ? 'Owned' : (x.discounted ? `${x.tag} (was ${x.fullBB.toLocaleString('en-US')}) · ` : '') + (x.usd ? `${x.usd} with money · ` : '') + (x.scope === 'network' ? 'Every Paige game + paigegames.net' : 'Lifeline only'), disabled: x.owned })) });
   if (i == null || list[i].owned) return;
+  const o = await N.packOfferFor(list[i].sku); if (o) { await shortfallSheet(list[i].sku, o, refresh); return; }
   const r = await N.redeem(list[i].sku); if (await needAccount(r)) return;
   toast(r.ok ? `Redeemed ${list[i].title}` : r.reason === 'insufficient' ? 'Not enough Blue Bucks' : 'Could not redeem: ' + r.reason); if (r.ok) sfx('good'); refreshAds(); await refresh();
 }

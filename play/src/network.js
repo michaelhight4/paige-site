@@ -7,7 +7,7 @@
 //   - The Blue Bucks balance is SERVER-AUTHORITATIVE. This module never changes a real balance locally.
 // Local flags (src/premium.js + the EntitlementCache in localStorage) are only an OFFLINE CACHE of server truth.
 import { EntitlementCache } from '../vendor/paige-shared/billing/entitlements.js';
-import { AD_FREE_LIFE, BB_PER_USD, BB_DISCOUNT_TAG, BB_TAG_COLORS, bbPayChoice, formatBB, formatUSD } from '../vendor/paige-shared/billing/catalog.js';
+import { AD_FREE_LIFE, BB_PER_USD, BB_DISCOUNT_TAG, BB_TAG_COLORS, bbPayChoice, formatBB, formatUSD, BB_PACKS, BB_PACK_BANNER, smallestCoveringPack, shortfallText, packEvent, isBBPackSku } from '../vendor/paige-shared/billing/catalog.js';
 import { PaigeNet } from '../vendor/paige-shared/net/rest.js';
 import { PlayBilling, capacitorPlugin } from '../vendor/paige-shared/billing/play.js';
 import { StripeCheckout } from '../vendor/paige-shared/billing/stripe.js';
@@ -19,7 +19,7 @@ import * as Premium from './premium.js';
 export const GAME = 'lifeline';
 // Public Supabase config (URL + anon key ONLY; never a service-role key). null until Gary turns the backend on for Lifeline.
 export const NET_CONFIG = null;
-export { AD_FREE_LIFE, BB_PER_USD, BB_DISCOUNT_TAG, BB_TAG_COLORS, bbPayChoice, formatBB, formatUSD };
+export { AD_FREE_LIFE, BB_PER_USD, BB_DISCOUNT_TAG, BB_TAG_COLORS, bbPayChoice, formatBB, formatUSD, BB_PACKS, BB_PACK_BANNER, smallestCoveringPack, shortfallText };
 
 const net = new PaigeNet(NET_CONFIG);
 export const netConfigured = () => !!net.configured;
@@ -31,7 +31,9 @@ export const admin = new AdminClient(net);
 // With a backend: an anonymous guest is created on first launch; buying needs a linked account (server enforces too).
 // Test build (no backend): a local TEST flag stands in for "account linked" so the flow can be exercised. Never real.
 const TEST_LINK_KEY = 'lifesim.testaccount.v1';
-const testLinked = () => { try { return localStorage.getItem(TEST_LINK_KEY) === '1'; } catch (e) { return false; } };
+// TEST wallet / test account only on a local dev host (localhost, 127.0.0.1). Never on the live site, even while the backend is off.
+export const localDevHost = () => { try { return /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname); } catch (e) { return false; } };
+const testLinked = () => { if (!localDevHost()) return false; try { return localStorage.getItem(TEST_LINK_KEY) === '1'; } catch (e) { return false; } };
 export const setTestLinked = (on) => { try { if (on) localStorage.setItem(TEST_LINK_KEY, '1'); else localStorage.removeItem(TEST_LINK_KEY); } catch (e) { /* */ } };
 export const canBuy = () => (net.configured ? auth.canBuy() : testLinked());
 export const accountState = () => (net.configured ? auth.state() : { configured: false, signedIn: testLinked(), guest: !testLinked(), userId: null, email: testLinked() ? 'test account (local)' : null });
@@ -98,7 +100,7 @@ export function redeemables() {
 }
 export const redeemable = (sku) => redeemables().find((r) => r.sku === sku) || null;
 const priceOf = (game, sku) => { const x = redeemables().find((r) => (r.serverSku === sku || r.sku === sku) && r.game === game); return x ? x.bb : null; };
-const testMode = () => !net.configured && !isNative();
+const testMode = () => !net.configured && !isNative() && localDevHost();
 export const wallet = net.configured ? new ServerWallet(net) : testMode() ? new TestWallet(priceOf, 'lifesim.testwallet.v1') : new NoWallet();
 export const walletKind = () => wallet.kind;
 export async function walletBalance() { const r = await wallet.balance(); return r.ok ? { ok: true, balance: r.value } : { ok: false, reason: r.error }; }
@@ -114,4 +116,39 @@ export async function redeem(sku, idemKey = newIdemKey()) {
   else if (sku === 'all_access_1m') Premium.setSubscription('monthly');
   else Premium.setOwned(sku, true);
   return r;
+}
+
+// ---- Blue Bucks packs (fixed SKUs only, from the shared BB_PACKS; never a custom amount) ----
+// Analytics: every pack view / attempt / purchase / shortfall offer is recorded with the pack SKU (shared packEvent()), never an amount.
+const EV_KEY = 'lifesim.bbevents.v1';
+export function trackPack(name, packSku, forSku) {
+  const ev = { ...packEvent(name, packSku, { for_sku: forSku, game: GAME }), at: Date.now() };
+  try { const a = JSON.parse(localStorage.getItem(EV_KEY) || '[]'); a.push(ev); localStorage.setItem(EV_KEY, JSON.stringify(a.slice(-200))); } catch (e) { /* */ }
+  try { window.dispatchEvent(new CustomEvent('paige:analytics', { detail: ev })); } catch (e) { /* */ }
+  return ev;
+}
+export const packEvents = () => { try { return JSON.parse(localStorage.getItem(EV_KEY) || '[]'); } catch (e) { return []; } };
+/** Real-money pack checkout is NOT live on the web yet (Stripe / Play Billing not wired): only the TEST wallet can "buy" a pack. */
+export const packCheckoutLive = () => false;
+export const canBuyPacks = () => wallet.kind === 'test';
+/** Buy one fixed pack. TEST wallet: credits the pack's Blue Bucks locally (labelled TEST). Otherwise: { comingSoon }. */
+export async function buyPack(packSku, forSku) {
+  if (!isBBPackSku(packSku)) return { ok: false, reason: 'unknown pack' };
+  const pack = BB_PACKS.find((p) => p.sku === packSku);
+  if (!canBuy()) return { ok: false, needsAccount: true, reason: SIGN_IN_TO_BUY };
+  trackPack('bb_pack_attempt', packSku, forSku);
+  if (wallet.kind !== 'test') return { ok: false, comingSoon: true, reason: 'Buying Blue Bucks is coming soon' };
+  wallet.addTest(pack.grantsBB); trackPack('bb_pack_purchase', packSku, forSku); return { ok: true, test: true, pack };
+}
+/** Shortfall offer for a redeemable item: null if the balance already covers it (or the balance is unknown). */
+export async function packOfferFor(sku) {
+  const item = redeemable(sku); if (!item || item.bb == null || item.owned) return null;
+  const bal = await walletBalance(); if (!bal.ok) return null;
+  return smallestCoveringPack(bal.balance, item.bb);
+}
+/** One tap: buy the smallest covering pack, then redeem the item with the new balance. */
+export async function buyPackAndRedeem(sku) {
+  const o = await packOfferFor(sku); if (!o) return redeem(sku);
+  const r = await buyPack(o.pack.sku, sku); if (!r.ok) return { ...r, offer: o };
+  return o.covers ? { ...(await redeem(sku)), bought: o.pack } : { ok: false, reason: 'still short', bought: o.pack, offer: o };
 }

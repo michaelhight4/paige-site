@@ -46,3 +46,36 @@ export function bbPayChoice(p) {
 }
 /** Bright, high-contrast tag colours (21:1-ish dark on yellow) shared by every game's pay choice. */
 export const BB_TAG_COLORS = { bg: "#ffd60a", fg: "#1a1300" };
+// ---------- Blue Bucks packs: fixed SKUs only (Gary, Oct 22 2026) ----------
+// Blue Bucks are sold ONLY as the fixed BB_PACKS above (stable SKUs bb_5000 / bb_10000 / bb_20000 / bb_50000), flat
+// $1 = 1,000 BB, no pack bonuses ("the bonus is the discount": 10% off every pass). Never sell a custom/exact amount:
+// purchase and analytics records carry the pack SKU only.
+export const BB_PACK_SKUS = BB_PACKS.map((p) => p.sku);
+export const isBBPackSku = (sku) => BB_PACK_SKUS.includes(sku);
+/** Bright highlight shown on every Blue Bucks pack store (same yellow tag style as the pass discount: BB_TAG_COLORS). */
+export const BB_PACK_BANNER = `Save ${BB_PASS_DISCOUNT_PCT}% on every pass with Blue Bucks`;
+/**
+ * Shortfall offer: the single SMALLEST pack whose Blue Bucks cover (price - balance).
+ * - balance >= price  -> null (nothing to buy).
+ * - exact match counts as covering (need 5,000 -> bb_5000).
+ * - need bigger than the biggest pack -> the biggest pack, covers = false (the player will still need more; we never combine packs).
+ */
+export function smallestCoveringPack(balance, price, packs = BB_PACKS) {
+    const need = Math.max(0, Math.ceil(price) - Math.max(0, Math.floor(balance)));
+    if (need <= 0 || !packs.length)
+        return null;
+    const sorted = [...packs].sort((a, b) => (a.grantsBB ?? 0) - (b.grantsBB ?? 0));
+    const hit = sorted.find((p) => (p.grantsBB ?? 0) >= need);
+    const pack = hit ?? sorted[sorted.length - 1];
+    const usd = pack.priceCents != null ? formatUSD(pack.priceCents) : "";
+    const label = hit ? `Get ${(pack.grantsBB ?? 0).toLocaleString("en-US")} Blue Bucks (${usd}) & buy` : `Get ${(pack.grantsBB ?? 0).toLocaleString("en-US")} Blue Bucks (${usd})`;
+    return { pack, need, covers: !!hit, label };
+}
+/** "You need X more Blue Bucks" line for a shortfall offer. */
+export const shortfallText = (o) => `You need ${o.need.toLocaleString("en-US")} more Blue Bucks` + (o.covers ? "" : `. This pack gets you closer; you'll need more after it.`);
+/** Analytics payload for a pack purchase or attempt: pack SKU only, never a free-form amount. Throws on a non-pack SKU. */
+export function packEvent(name, sku, extra = {}) {
+    if (!isBBPackSku(sku))
+        throw new Error(`not a Blue Bucks pack sku: ${sku}`);
+    return { name, pack_sku: sku, ...(extra.for_sku ? { for_sku: extra.for_sku } : {}), ...(extra.game ? { game: extra.game } : {}) };
+}
