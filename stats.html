@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Site stats | Paige Industries</title><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="home.css"><meta name="theme-color" content="#0a0b1a">
+<style>
+.st-head{display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between;margin:28px 0 18px}
+.st-head h1{margin:0}
+.range{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--glass)}
+.range button{min-height:44px;min-width:56px;padding:0 14px;border:0;background:none;color:var(--ink);font:800 14px var(--body);cursor:pointer}
+.range button[aria-pressed=true]{background:var(--sky);color:#06081a}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:16px}
+.sc,.box{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:16px;backdrop-filter:blur(8px)}
+.sc b{display:block;font:900 30px var(--disp);color:#fff;text-shadow:0 0 14px rgba(122,162,255,.55)}
+.sc span{color:var(--mut);font-size:14px}.sc small{display:block;color:var(--mut);font-size:12px;margin-top:4px}
+.grid2{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));margin-bottom:12px}
+.box h2{margin:0 0 10px;font:800 17px var(--disp);color:#fff}
+.chart svg{width:100%;height:auto;display:block}
+.bars{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.bars li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;font-size:14px}
+.bars .lb{overflow-wrap:anywhere}.bars .n{font-weight:800;color:#fff}
+.bars .tr{grid-column:1/-1;height:8px;border-radius:6px;background:rgba(140,160,255,.14)}
+.bars .tr i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--kil),var(--sky));box-shadow:0 0 10px rgba(79,227,193,.5)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--mut);margin-top:6px}.legend i{display:inline-block;width:12px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.st-msg{padding:24px;text-align:center;color:var(--mut)}
+.testnote{border:1px dashed #f0c45c;color:#f0c45c;border-radius:12px;padding:8px 12px;margin-bottom:12px;font-weight:700}
+.empty{color:var(--mut);font-size:14px}
+</style></head>
+<body class="sub-page"><a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap bar"><a class="logo" href="/"><span class="mark" aria-hidden="true">P</span>Paige <b>Industries</b></a><nav aria-label="Main"><ul class="tabs sub-tabs"><li><a href="/#home">Home</a></li><li><a href="/#games">Games</a></li><li><a href="/#webtoons">Webtoons</a></li><li><a href="/#start-of-the-end">The Start of the End</a></li><li><a href="/#music">Music</a></li><li><a href="/#wallet">Wallet</a></li><li><a href="/#social">Social</a></li><li><a href="/#about">About me</a></li></ul></nav></div></header>
+<main id="main" class="panel"><div class="wrap">
+<div class="st-head"><div><p class="eyebrow">Admin</p><h1>Site <span>stats</span></h1></div>
+<div class="range" role="group" aria-label="Date range"><button type="button" data-d="7" aria-pressed="false">7 days</button><button type="button" data-d="30" aria-pressed="true">30 days</button><button type="button" data-d="90" aria-pressed="false">90 days</button></div></div>
+<div id="out" aria-live="polite"><p class="st-msg">Loading…</p></div>
+<p class="empty">First-party only: no third-party trackers, no personal data. Visitors with Do Not Track or Global Privacy Control are not counted. Times are UTC days.</p>
+</div></main>
+<footer class="foot"><div class="wrap"><p class="social"><a href="https://tiktok.com/@gary.tsg" rel="noopener">TikTok</a><a href="https://instagram.com/gary.tsg" rel="noopener">Instagram</a><a href="https://linktr.ee/gary.tsg" rel="noopener">Linktree</a><a href="privacy.html">Privacy Policy</a><a href="contact.html">Contact</a></p><p class="fine">© 2026 Paige Industries · Gary</p></div></footer></body></html>
+<script type="module">
+// Admin-only: the server (admin_site_stats -> paige_private.need) rejects anyone not in public.admins. Publishable key only.
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.4';
+const sb = createClient('https://kjdubkeowcyuoazvpoyt.supabase.co', 'sb_publishable_NZC6vzmXDYRLnRh2vDHWAg_VCDi3FQc', { auth: { persistSession: true, autoRefreshToken: true } });
+const out = document.getElementById('out');
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = (n) => Number(n || 0).toLocaleString('en-US');
+const msg = (t) => { out.innerHTML = '<p class="st-msg">' + t + '</p>'; };
+function bars(rows, label, val, emptyText) {
+  if (!rows.length) return '<p class="empty">' + emptyText + '</p>';
+  const max = Math.max(...rows.map((r) => r[val]), 1);
+  return '<ul class="bars">' + rows.map((r) => '<li><span class="lb">' + esc(r[label]) + '</span><span class="n">' + fmt(r[val]) + '</span><span class="tr" aria-hidden="true"><i style="width:' + Math.max(2, (r[val] / max) * 100).toFixed(1) + '%"></i></span></li>').join('') + '</ul>';
+}
+function line(days) {
+  const W = 640, H = 220, P = 30, n = days.length, max = Math.max(1, ...days.map((d) => d.visits));
+  const x = (i) => P + (n < 2 ? 0 : (i * (W - P * 2)) / (n - 1)), y = (v) => H - P - (v / max) * (H - P * 2);
+  const path = (k) => days.map((d, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(d[k]).toFixed(1)).join(' ');
+  const grid = [0, 0.5, 1].map((f) => { const v = Math.round(max * f); return '<line x1="' + P + '" x2="' + (W - P) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="rgba(140,160,255,.18)"/><text x="' + (P - 6) + '" y="' + (y(v) + 4) + '" fill="#b5bbdb" font-size="11" text-anchor="end">' + v + '</text>'; }).join('');
+  const lab = [0, n - 1].map((i) => '<text x="' + x(i) + '" y="' + (H - 8) + '" fill="#b5bbdb" font-size="11" text-anchor="' + (i ? 'end' : 'start') + '">' + esc(days[i].day.slice(5)) + '</text>').join('');
+  const total = days.reduce((a, d) => a + d.visits, 0);
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Visits per day: ' + fmt(total) + ' visits over ' + n + ' days, peak ' + fmt(max) + ' in a day">' + grid + lab +
+    '<path d="' + path('visits') + ' L' + x(n - 1) + ' ' + (H - P) + ' L' + x(0) + ' ' + (H - P) + 'Z" fill="rgba(122,162,255,.12)"/>' +
+    '<path d="' + path('visits') + '" fill="none" stroke="#7aa2ff" stroke-width="3" stroke-linejoin="round" style="filter:drop-shadow(0 0 6px rgba(122,162,255,.8))"/>' +
+    '<path d="' + path('visitors') + '" fill="none" stroke="#4fe3c1" stroke-width="2" stroke-dasharray="5 4"/></svg>' +
+    '<p class="legend"><span><i style="background:#7aa2ff"></i>Visits</span><span><i style="background:#4fe3c1"></i>Unique visitors</span></p>';
+}
+function render(s) {
+  const a = s.accounts || {}, dv = s.devices || {}, dt = Object.values(dv).reduce((x, y) => x + y, 0) || 1;
+  const test = (s.sources || []).some((r) => /^test/.test(r.source)) ? '<p class="testnote">TEST DATA: seeded sample events for a screenshot, not real traffic.</p>' : '';
+  out.innerHTML = test + '<div class="cards">' +
+    [['Visits', s.visits], ['Unique visitors', s.unique_visitors], ['Sign-ups', s.signups, fmt(a.registered_in_range) + ' new accounts (auth)'], ['Logins', s.logins, fmt(a.signed_in_in_range) + ' accounts signed in'], ['Total accounts', a.registered, fmt(a.guests) + ' guests · ' + fmt(a.total) + ' total']]
+      .map((c) => '<div class="sc"><b>' + fmt(c[1]) + '</b><span>' + c[0] + '</span>' + (c[2] ? '<small>' + c[2] + '</small>' : '') + '</div>').join('') + '</div>' +
+    '<div class="box chart" style="margin-bottom:12px"><h2>Visits per day</h2>' + line(s.per_day || []) + '</div>' +
+    '<div class="grid2"><div class="box"><h2>Visits by source</h2>' + bars(s.sources || [], 'source', 'visits', 'No visits yet.') + '</div>' +
+    '<div class="box"><h2>Sign-ups by source</h2>' + bars(s.signup_sources || [], 'source', 'signups', 'No sign-ups yet.') + '</div>' +
+    '<div class="box"><h2>Top pages</h2>' + bars(s.pages || [], 'path', 'visits', 'No visits yet.') + '</div>' +
+    '<div class="box"><h2>Devices</h2>' + bars(['phone', 'desktop', 'tablet'].map((k) => ({ d: k[0].toUpperCase() + k.slice(1) + ' · ' + Math.round(((dv[k] || 0) / dt) * 100) + '%', n: dv[k] || 0 })), 'd', 'n', '') + '</div></div>';
+}
+let days = 30;
+async function load() {
+  msg('Loading…');
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session || session.user.is_anonymous) return msg('Admins only. <a href="/">Sign in on the home page</a> with an admin account.');
+  const { data, error } = await sb.rpc('admin_site_stats', { days });
+  if (error) return msg(/admin only|42501/i.test(error.message + error.code) ? 'Admins only. This account can’t view site stats.' : 'Couldn’t load stats. Please try again.');
+  render(data);
+}
+document.querySelectorAll('.range button').forEach((b) => b.addEventListener('click', () => {
+  days = +b.dataset.d; document.querySelectorAll('.range button').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); load();
+}));
+load();
+</script>
+</body></html>

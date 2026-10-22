@@ -142,11 +142,22 @@ function paint() {
     if (tag) { const t = document.createElement('span'); t.className = 'creator'; t.textContent = tag; b.append(t); }
     b.setAttribute('aria-label', `Account: ${name}${tag ? ', ' + tag : ''}. Open account menu to sign out`);
   }
-  $('acct-email').textContent = name; $('acct-creator').hidden = !tag; $('acct-creator').textContent = tag || 'CREATOR';
+  $('acct-email').textContent = name; $('acct-creator').hidden = !tag; $('acct-stats').hidden = !tag; $('acct-creator').textContent = tag || 'CREATOR';
 }
 
+// First-party analytics (analytics.js; skipped under DNT/GPC). signup = new real account or guest upgraded on this device; login = SIGNED_IN, once per session.
+let lastAnonId = null;
+function track(ev, session) {
+  const A = window.__paigeAnalytics, u = session?.user;
+  if (!A || !u) return;
+  if (u.is_anonymous) { lastAnonId = u.id; return; }
+  const ago = (t) => (t ? Date.now() - Date.parse(t) : Infinity), fresh = 60 * 60 * 1000;
+  if (lastAnonId === u.id || ago(u.created_at) < fresh || ago(u.email_confirmed_at || u.confirmed_at) < fresh) A.auth('signup', u, session.access_token);
+  if (ev === 'SIGNED_IN') A.auth('login', u, session.access_token);
+}
 sb.auth.onAuthStateChange((ev, session) => {
   user = session?.user || null; setTimeout(loadRole, 0);
+  if (ev === 'SIGNED_IN' || ev === 'USER_UPDATED' || ev === 'INITIAL_SESSION') setTimeout(() => track(ev, session), 0);
   if (ev === 'PASSWORD_RECOVERY') open('reset');
 });
 const { data: { session } } = await sb.auth.getSession();
