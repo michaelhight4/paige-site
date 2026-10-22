@@ -50,11 +50,12 @@ if(box){document.getElementById('artist-links').innerHTML=(window.ARTIST_LINKS||
 box.innerHTML=S.map((s,i)=>{const up=s.release>today;return `<article class="song"><img src="${esc(s.cover)}" alt="Cover art for ${esc(s.title)}" loading="lazy" width="400" height="400">
 <div class="sb"><h3>${esc(s.title)}</h3><p class="meta">${esc(s.type)} · ${up?'Out '+esc(s.release):esc(s.release.slice(0,4))}</p>
 <p class="plays">${s.plays!=null?new Intl.NumberFormat('en',{notation:'compact'}).format(s.plays)+' '+esc(s.playsLabel||'plays'):'— plays'}</p>
-<button class="btn play" type="button" data-song="${i}">${up?'Pre-save / listen':'▶ Listen now'}</button></div></article>`}).join('');
+<button class="btn play" type="button" data-song="${i}">${up?'Pre-save / listen':'▶ Listen now'}</button>${window.PaigePlayer&&PaigePlayer.hasYT(i)?`<button class="btn ghost here" type="button" data-here="${i}" aria-label="Play ${esc(s.title)} here in the mini player">▶ Play here</button>`:''}</div></article>`}).join('');
 const dlg=document.getElementById('chooser');
-box.addEventListener('click',e=>{const b=e.target.closest('[data-song]');if(!b)return;const s=S[b.dataset.song];
+box.addEventListener('click',e=>{const h=e.target.closest('[data-here]');if(h){PaigePlayer.play(h.dataset.here);return}const b=e.target.closest('[data-song]');if(!b)return;const s=S[b.dataset.song];
 document.getElementById('ch-title').textContent=s.title;document.getElementById('ch-img').src=s.cover;
-document.getElementById('ch-links').innerHTML=s.links.map(l=>`<li><a href="${esc(l.url)}" rel="noopener" target="_blank">${esc(l.platform)}<span>↗</span></a></li>`).join('');dlg.showModal();});
+document.getElementById('ch-links').innerHTML=(window.PaigePlayer&&PaigePlayer.hasYT(b.dataset.song)?`<li><button type="button" class="here" data-play="${b.dataset.song}">▶ Play here<span>mini player</span></button></li>`:'')+s.links.map(l=>`<li><a href="${esc(l.url)}" rel="noopener" target="_blank">${esc(l.platform)}<span>↗</span></a></li>`).join('');dlg.showModal();});
+document.getElementById('ch-links').addEventListener('click',e=>{const p=e.target.closest('[data-play]');if(p){dlg.close();PaigePlayer.play(p.dataset.play)}});
 document.getElementById('ch-close').onclick=()=>dlg.close();dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});}
 const cur=document.querySelector('.tabs a[aria-current]');
 addEventListener('hashchange',()=>{const a=document.querySelector('.tabs a[aria-current]');a&&a.scrollIntoView({block:'nearest',inline:'center'})});
