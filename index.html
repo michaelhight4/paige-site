@@ -1,24 +1,144 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Home | Gary · Paige</title><meta name="description" content="Gary: writer, artist and creator. Paige Hauling, Paige Records, Paige Games.">
-<link rel="stylesheet" href="style.css"></head><body>
+<title>Paige Industries · Games, music, webtoons by Gary</title>
+<meta name="description" content="Paige Games: play Lifeline and Riftward free in your browser, Kilumen coming soon. Plus The Start of the End webtoon.">
+<meta name="theme-color" content="#0c0f1d">
+<link rel="stylesheet" href="home.css"></head>
+<body data-tab="home">
 <a class="skip" href="#main">Skip to content</a>
-<header class="site"><div class="wrap bar"><a class="logo" href="index.html">Gary<span>·Paige</span></a>
-<details class="menu"><summary>Menu</summary><nav aria-label="Main"><ul><li><a href="index.html" aria-current="page">Home</a></li><li><a href="games/index.html">Games</a></li><li><a href="projects.html">Projects</a></li><li><a href="hauling.html">Paige Hauling</a></li><li><a href="records.html">Paige Records</a></li><li><a href="contact.html">Contact</a></li></ul></nav></details></div></header>
-<main id="main" class="wrap">
-<section class="hero"><p class="eyebrow">Writer · Artist · Creator</p><h1>Hi, I'm Gary.</h1>
-<p class="lead">I make webtoons, haul freight, write books and scripts, and create 2D games. Everything lives under three brands.</p>
-<p><a class="btn" href="projects.html">See my projects</a> <a class="btn ghost" href="games/index.html">Games</a></p></section>
-<h2>The three brands</h2>
-<div class="grid">
-<article class="card"><h3>Paige Hauling</h3><p>Hot shot freight, leased to Fix Point Cargo out of Conroe, Texas.</p><a href="hauling.html">Visit Paige Hauling →</a></article>
-<article class="card"><h3>Paige Records</h3><p>Music label, featuring artist Gary Styles.</p><a href="records.html">Visit Paige Records →</a></article>
-<article class="card"><h3>Paige Games</h3><p>2D games, starting with a text-based life sim.</p><a href="games/index.html">Visit Paige Games →</a></article></div>
-<h2>Quick links</h2><ul class="links">
-<li><a href="https://www.webtoons.com/en/canvas/the-start-of-the-end/list?title_no=1178955" rel="noopener">The Start of the End (Webtoon Canvas)</a></li>
-<li><a href="https://www.webtoons.com/p/community/en/u/_ijtr42" rel="noopener">Creator profile: Its Hight</a></li>
-<li><a href="https://linktr.ee/gary.tsg" rel="noopener">Latest books &amp; scripts (Linktree)</a></li>
-<li><a href="contact.html">Contact</a></li></ul></main>
-<footer class="site"><div class="wrap"><p>© 2026 Gary — Paige Hauling · Paige Records · Paige Games</p>
-<p><a href="mailto:Paigehauling@outlook.com">Paigehauling@outlook.com</a> · <a href="privacy.html">Privacy Policy</a></p></div></footer>
+<canvas id="sky" aria-hidden="true"></canvas>
+<svg id="circuit" aria-hidden="true" focusable="false" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"><defs><filter id="glow"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<path id="trace" d="M-10 140 H220 V260 H470 V120 H760 V330 H1010 V200 H1250 V420 H1450 M1250 420 V610 H1060 V760 H720 V560 H430 V700 H180 V520 H-10"/>
+<path id="pulse" d="M-10 140 H220 V260 H470 V120 H760 V330 H1010 V200 H1250 V420 H1450 M1250 420 V610 H1060 V760 H720 V560 H430 V700 H180 V520 H-10" pathLength="1000"/>
+<g class="vias"><circle cx="220" cy="260" r="3.5"/><circle cx="470" cy="120" r="3.5"/><circle cx="760" cy="330" r="3.5"/><circle cx="1010" cy="200" r="3.5"/><circle cx="1250" cy="420" r="4.5"/><circle cx="1060" cy="760" r="3.5"/><circle cx="720" cy="560" r="3.5"/><circle cx="430" cy="700" r="3.5"/><circle cx="180" cy="520" r="3.5"/></g></svg>
+<header class="top"><div class="wrap bar">
+<a class="logo" href="#home" data-go="home"><span class="mark" aria-hidden="true">P</span>Paige <b>Industries</b></a>
+<nav aria-label="Main"><ul class="tabs">
+<li><a href="#home" data-go="home">Home</a></li>
+<li><a href="#games" data-go="games">Games</a></li>
+<li><a href="#webtoons" data-go="webtoons">Webtoons</a></li>
+<li><a href="#start-of-the-end" data-go="start-of-the-end">The Start of the End</a></li>
+<li><a href="#music" data-go="music">Music</a></li>
+<li><a href="#wallet" data-go="wallet">Wallet</a></li>
+<li><a href="#social" data-go="social">Social</a></li>
+<li><a href="#about" data-go="about">About me</a></li></ul></nav>
+<button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button></div></header>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" aria-label="Menu" aria-hidden="true" inert><div class="dhead"><span class="logo"><span class="mark" aria-hidden="true">P</span>Paige <b>Industries</b></span><button class="dx" id="dx" type="button" aria-label="Close menu">✕</button></div><ul class="dlinks" id="dlinks"></ul></aside>
+<main id="main">
+
+<!-- HOME -->
+<section class="panel" id="p-home" data-panel="home" aria-label="Home">
+<div class="wrap">
+<div class="intro"><p class="eyebrow">Paige Games · free in your browser</p>
+<h1>Pick a world.<br><span>Start playing.</span></h1>
+<p class="lead">Small games made by Gary. No download, no account needed to start.</p></div>
+
+<div class="games" id="home-games"></div>
+<p class="row"><a class="btn ghost" href="#games" data-go="games">See all games →</a></p>
+
+<h2 class="sec">Webtoons <span class="pill">Free · updated monthly</span></h2>
+<div class="toons" id="home-toons"></div>
+<p class="row"><a class="btn ghost" href="#webtoons" data-go="webtoons">See all webtoons →</a></p>
+<h2 class="sec">Our brands</h2>
+<div class="brands">
+<a class="brand g" href="#home" data-go="home"><b>Paige Games</b><span>Free browser games</span></a>
+<a class="brand m" href="#music" data-go="music"><b>Paige Records</b><span>Gary Styles releases</span></a>
+<a class="brand w" href="#start-of-the-end" data-go="start-of-the-end"><b>Writing</b><span>The Start of the End and webtoons</span></a>
+<a class="brand h" href="hauling.html"><b>Paige Hauling</b><span>Hot shot freight, leased to Fix Point Cargo out of Conroe, Texas</span></a></div>
+</div></section>
+
+<!-- GAMES -->
+<section class="panel" id="p-games" data-panel="games" aria-label="Games" hidden><div class="wrap">
+<div class="intro"><p class="eyebrow">Paige Games</p><h1>All <span>games</span></h1><p class="lead">Everything Paige Games is playing, building or planning.</p></div>
+<div class="filters" role="group" aria-label="Filter games"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="live" aria-pressed="false">Play now</button><button type="button" data-f="dev" aria-pressed="false">In development</button></div>
+<div class="games dir" id="all-games"></div></div></section>
+
+<!-- WEBTOONS -->
+<section class="panel" id="p-webtoons" data-panel="webtoons" aria-label="Webtoons" hidden><div class="wrap">
+<div class="intro"><p class="eyebrow">Gary's writing</p><h1>All <span>webtoons</span></h1><p class="lead">Every series is free to read and updated monthly.</p></div>
+<div class="toons dir" id="all-toons"></div></div></section>
+
+<!-- SOTE -->
+<section class="panel sote" id="p-start-of-the-end" data-panel="start-of-the-end" aria-label="The Start of the End" hidden>
+<div class="s-hero"><img src="assets/home/sote-cover.webp" alt="" class="s-bg">
+<div class="wrap s-hero-in"><p class="s-kick">Gary's writing · A webtoon by Gary Hight · Free · Updated monthly</p>
+<p class="s-tags"><span>13+</span><span>YA fantasy</span></p>
+<h1 class="s-title">The Start<br>of the End</h1><p class="s-sub">Aether Bound</p>
+<p class="row"><a class="btn gold" href="https://www.webtoons.com/en/canvas/the-start-of-the-end/list?title_no=1178955" rel="noopener">Read Chapter 1 free</a> <a class="btn s-ghost" href="https://gofund.me/f96a3f87f" rel="noopener">Support on GoFundMe</a></p></div></div>
+<div class="wrap">
+<section class="s-block s-premise"><h2>The story</h2>
+<p>Two years after the fire, Lance lives in Shell Town, where purple banners hang over the river district and a bakery window glows at dusk. He carries a golden mark, the soft light of Aether, and it is starting to draw attention he cannot afford.</p>
+<p class="ph">PLACEHOLDER: one-line hook for Gary to confirm. Setting details come from the Chapter 2 production notes; the wording above was written for this page.</p>
+<figure class="s-panels"><img src="assets/home/sote-ch2-a.webp" alt="Chapter 2 panel: a hooded figure, a grey-bearded orc and a small girl in a stone vault" loading="lazy"><img src="assets/home/sote-ch2-b.webp" alt="Chapter 2 panel" loading="lazy"></figure></section>
+
+<section class="s-block"><h2>Roadmap</h2>
+<ol class="road">
+<li class="done"><b>Chapter 1</b><span>Out now on Webtoon</span></li>
+<li class="now"><b>Chapter 2 · Golden Marks and Sunlit Brats</b><span>In production</span></li>
+<li><b>Chapter 3</b><span>TBD (placeholder)</span></li>
+<li><b>Chapter 4+</b><span>TBD (placeholder)</span></li></ol></section>
+
+<section class="s-block s-cast"><h2>Cast</h2>
+<figure><img src="assets/home/sote-sven.webp" alt="Character sheet for Sven from Chapter 1" loading="lazy"><figcaption>Sven, Chapter 1 character sheet</figcaption></figure></section>
+
+<section class="s-block"><h2>Read it</h2>
+<div class="reads">
+<a class="read" href="https://www.webtoons.com/en/canvas/the-start-of-the-end/list?title_no=1178955" rel="noopener"><b>Webtoon Canvas</b><span>Free, read now →</span></a>
+<a class="read" href="https://www.wattpad.com/story/417435830" rel="noopener"><b>Wattpad</b><span>The novel →</span></a>
+<a class="read" href="https://www.webnovel.com/book/the-start-of-the-end-by-gary-h_37176745500269305" rel="noopener"><b>WebNovel</b><span>The novel →</span></a>
+<a class="read" href="https://www.scribblehub.com/series/2614965/the-start-of-the-end" rel="noopener"><b>Scribble Hub</b><span>The novel →</span></a>
+<a class="read" href="https://www.facebook.com/profile.php?id=61594964473553" rel="noopener"><b>Facebook page</b><span>News and updates →</span></a>
+<a class="read" href="https://linktr.ee/michael.hight4" rel="noopener"><b>All reading copies</b><span>Linktree →</span></a></div></section>
+
+<section class="s-block s-support"><h2>Join the readers</h2>
+<p>Help fund the next chapters, or come talk theories.</p>
+<p class="row"><a class="btn gold" href="https://gofund.me/f96a3f87f" rel="noopener">Support on GoFundMe</a>
+<a class="btn s-ghost" href="https://www.reddit.com/r/TheStartoftheendbook" rel="noopener">r/TheStartoftheendbook</a>
+<a class="btn s-ghost" href="https://discord.gg/Xj5qAe5Jj" rel="noopener">Discord</a></p></section>
+</div></section>
+
+<!-- MUSIC -->
+<section class="panel music" id="p-music" data-panel="music" aria-label="Music" hidden><div class="wrap">
+<div class="intro"><p class="eyebrow">Paige Records</p><h1>Music by <span>Gary Styles</span></h1><p class="lead">Every release, on every platform. Tap Listen now and pick where you stream.</p>
+<p class="row" id="artist-links"></p></div>
+<div class="songs" id="songs"></div></div></section>
+<dialog id="chooser" aria-labelledby="ch-title"><div class="sheet"><img id="ch-img" alt="" width="72" height="72"><div><p class="eyebrow">Listen now</p><h2 id="ch-title"></h2></div>
+<ul id="ch-links"></ul><button class="btn ghost" id="ch-close" type="button">Close</button></div></dialog>
+
+<!-- WALLET -->
+<section class="panel" id="p-wallet" data-panel="wallet" aria-label="Wallet" hidden><div class="wrap">
+<div class="intro"><p class="eyebrow">Paige Games network</p><h1>Wallet</h1><p class="lead">One wallet for every Paige Games game. Both items below are coming soon. Nothing can be bought yet.</p></div>
+<div class="wallet">
+<article class="wcard bb"><div class="coin" aria-hidden="true">B</div><p class="tag soon">◆ Coming soon</p><h2>Blue Bucks</h2>
+<p class="big">$1 = 1,000 <span>Blue Bucks</span></p><p>Spend them in every Paige Games game: Lifeline, Riftward and Kilumen.</p>
+<span class="btn ghost" aria-disabled="true">Coming soon</span></article>
+<article class="wcard af"><div class="coin gold" aria-hidden="true">∞</div><p class="tag soon">◆ Coming soon</p><h2>Ad-Free for Life</h2>
+<p class="big">$35 <span>one time</span></p><p>Removes ads in all Paige Games games and on this website, forever.</p>
+<span class="btn ghost" aria-disabled="true">Coming soon</span></article></div></div></section>
+
+<!-- SOCIAL -->
+<section class="panel" id="p-social" data-panel="social" aria-label="Social" hidden><div class="wrap">
+<div class="intro"><p class="eyebrow">Paige Industries</p><h1>Find us <span>everywhere</span></h1><p class="lead">Follow Gary, stream the music, and join the readers.</p></div>
+<div id="socials"></div></div></section>
+
+<!-- ABOUT -->
+<section class="panel" id="p-about" data-panel="about" aria-label="About me" hidden><div class="wrap about">
+<div class="avatar" aria-hidden="true">G</div>
+<div><p class="eyebrow">About me · Paige Industries</p><h1>Hi, I'm Gary.</h1>
+<p class="ph">PLACEHOLDER BIO: Gary to fill in. A few lines on who you are, what you make, and why.</p>
+<p class="ph">PLACEHOLDER: second paragraph (games, webtoons, books, music).</p>
+<h2 class="sub">What I run</h2><ul class="mini"><li><b>Paige Games</b> · free browser games</li><li><b>Paige Records</b> · releases as Gary Styles</li><li><b>Writing</b> · The Start of the End, After Annie</li><li><b>Paige Hauling</b> · hot shot freight, leased to Fix Point Cargo out of Conroe, Texas. Freight inquiries: <a href="mailto:Paigehauling@outlook.com">Paigehauling@outlook.com</a></li></ul>
+<p class="row"><a class="btn" href="https://www.webtoons.com/p/community/en/u/_ijtr42" rel="noopener">Creator profile on Webtoon</a> <a class="btn ghost" href="https://linktr.ee/gary.tsg" rel="noopener">Linktree</a></p></div></div></section>
+</main>
+
+<footer class="foot"><div class="wrap">
+<div class="soon-row"><span><b>Ad-Free for Life</b> pass · coming soon</span><span><b>Blue Bucks</b> · coming soon</span></div>
+<p class="social"><a href="https://tiktok.com/@gary.tsg" rel="noopener">TikTok</a><a href="https://instagram.com/gary.tsg" rel="noopener">Instagram</a><a href="https://linktr.ee/gary.tsg" rel="noopener">Linktree</a><a href="#social" data-go="social">All socials</a><a href="privacy.html">Privacy Policy</a><a href="contact.html">Contact</a></p>
+<p class="fine">© 2026 Paige Industries · Gary</p></div></footer>
+<script src="games.js" defer></script>
+<script src="webtoons.js" defer></script>
+<script src="socials.js" defer></script>
+<script src="songs.js" defer></script>
+<script src="home.js" defer></script>
 </body></html>
