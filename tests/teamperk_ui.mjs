@@ -1,0 +1,43 @@
+// Sports Owner Pack grants a full franchise team (and old perk saves migrate); opens from Assets with every manager tab. node tests/teamperk_ui.mjs
+// Also every owned kind (CEO company, brand, farm, production company) is listed and opens a manage screen with quality + staff swap. node tests/bizpaths_ui.mjs
+import { loadPuppeteer } from './_pp.mjs'; import { spawn } from 'node:child_process'; import fs from 'node:fs';
+const puppeteer = loadPuppeteer(); const ROOT = new URL('..', import.meta.url).pathname, PORT = 18820, OUT = '/workspace/lifesim_art128/feature_shots8'; fs.mkdirSync(OUT, { recursive: true });
+const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' }); await new Promise((r) => setTimeout(r, 800));
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox', '--disable-gpu'] });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); let fails = 0; const errors = [];
+const ok = (n, c, i = '') => { if (!c) fails++; console.log((c ? 'PASS ' : 'FAIL ') + n + (i ? ' — ' + i : '')); };
+const page = await browser.newPage(); await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+page.on('pageerror', (e) => errors.push('pageerror ' + e.message));
+await page.goto(`http://127.0.0.1:${PORT}/index.html?fresh=1&nosave=1&seed=5&age=30&cash=9000000`); await page.waitForFunction(() => window.__ready === true, { timeout: 20000 }); await sleep(500);
+const A = (code) => page.evaluate(`(async()=>{const {adapter}=await import('/ui/js/adapter.js'); ${code}})()`);
+const top = () => page.evaluate(() => (document.querySelector('.panel.top') || document.body).innerText);
+const depth = () => page.evaluate(() => document.querySelectorAll('.panel').length);
+const click = (sel) => page.evaluate((sel) => { const e = document.querySelector(sel); if (e) { e.scrollIntoView(); e.click(); return true; } return false; }, sel);
+const clickRow = (text) => page.evaluate((text) => { const el = [...document.querySelectorAll('.panel.top .row')].find((e) => e.textContent.includes(text)); if (el) { el.scrollIntoView(); el.click(); return true; } return false; }, text);
+const closeAll = async () => { for (let i = 0; i < 8 && (await depth()); i++) { await click('.panel.top [data-nav=back]'); await sleep(250); } };
+const r1 = await A(`const Pm=await import('/src/premium.js'); Pm.setOwned('sports_owner'); const F=await import('/src/premium_fx.js'); const s=adapter.impl.s; s.school=null; s.flags.prem_team=0; s.fr=null; const r=adapter.impl.applyPremiumNow(); return JSON.stringify({teams:(s.fr&&s.fr.teams||[]).length, biz:s.biz.filter(b=>b.type==='sports').length})`);
+ok('perk grants a franchise team (not a bare business)', JSON.parse(r1).teams === 1 && JSON.parse(r1).biz === 0, r1);
+const r2 = await A(`const F=await import('/src/premium_fx.js'); const s=adapter.impl.s; const keep=s.fr; s.fr=null; s.flags.prem_team=1; s.flags.prem_team_v2=0; s.biz.push({id:999,type:'sports',name:'Old Perk FC',released:[]}); F.migrateTeam(s); return JSON.stringify({teams:s.fr.teams.length, old:s.biz.some(b=>b.name==='Old Perk FC')})`);
+ok('old perk save migrates to the full team', JSON.parse(r2).teams === 1 && !JSON.parse(r2).old, r2);
+await closeAll(); await click('[data-tab=assets]'); await sleep(300); await click('[data-el=biz-tab]'); await sleep(700);
+const found = await page.evaluate(() => { const el = [...document.querySelectorAll('.panel.top .row')].find((e) => (e.dataset.id || '').startsWith('b') && /team|club|FC|United|City|🏟️|⚽/i.test(e.textContent) && !/Start|Own a/.test(e.textContent)); if (el) { el.scrollIntoView(); el.click(); return el.textContent.slice(0, 60); } return null; });
+ok('Assets > Businesses lists the team', !!found, String(found)); await sleep(1000);
+const tabs = await page.evaluate(() => [...document.querySelectorAll('.panel.top [data-hub]')].map((b) => b.dataset.hub));
+ok('team page has header + sticky tabs', !!(await page.$('.panel.top [data-el=fr-tabs]')) && ['overview', 'staff', 'roster', 'facilities', 'finances'].every((x) => tabs.includes(x)), tabs.join(','));
+for (const tb of ['overview', 'staff', 'roster', 'facilities', 'finances']) { await page.evaluate((tb) => document.querySelector(`.panel.top [data-hub=${tb}]`).click(), tb); await sleep(400); ok(`tab ${tb} renders`, (await top()).length > 200); }
+await page.evaluate(() => document.querySelector('.panel.top [data-hub=staff]').click()); await sleep(400); ok('staff tab offers hiring', /Hire/i.test(await top()));
+ok('auto-hire card with tiers + 3 buttons', !!(await page.$('.panel.top [data-el=autohire]')) && (await page.$$('.panel.top [data-ahtier]')).length === 4 && (await page.$$('.panel.top [data-ah]')).length === 4);
+await A(`const s = adapter.impl.s; s.fr.team.staff = []; s.fr.team.roster = s.fr.team.roster.slice(0, 11); s.cash = 1e9; return 1`); await page.evaluate(() => document.querySelector('.panel.top [data-hub=roster]').click()); await sleep(300); await page.evaluate(() => document.querySelector('.panel.top [data-hub=staff]').click()); await sleep(500);
+const qtxt = await page.evaluate(() => document.querySelector('.panel.top [data-ah=all]').textContent); ok('full-team cost shown before hiring', /\$.*now/.test(qtxt), qtxt);
+await page.screenshot({ path: `${OUT}/teamperk_autohire.png` });
+await page.evaluate(() => document.querySelector('.panel.top [data-ah=all]').click()); await sleep(500); await page.evaluate(() => document.querySelector('[data-btn=yes]').click()); await sleep(700);
+const after = await A(`const t=adapter.impl.s.fr.team; return JSON.stringify({staff:t.staff.length, roster:t.roster.length})`); ok('Hire full team fills staff + roster', JSON.parse(after).staff >= 5 && JSON.parse(after).roster >= 16, after);
+await page.screenshot({ path: `${OUT}/teamperk_team.png` });
+await A(`adapter.impl.s.fr.teams.forEach((t) => (t.staff = [])); return 1`); await closeAll(); await click('[data-tab=assets]'); await sleep(300); await click('[data-el=biz-tab]'); await sleep(700);
+ok('Businesses Owned list has Hire all', !!(await page.$('.panel.top [data-el=hire-all] [data-act=hire-all]')));
+await page.evaluate(() => document.querySelector('.panel.top [data-act=hire-all]').click()); await sleep(400); await page.evaluate(() => document.querySelector('.overlay [data-opt="3"]').click()); await sleep(600);
+ok('Hire all summary: X hires across Y companies + breakdown', /hires across \d+ compan/.test(await page.evaluate(() => document.querySelector('[data-el=ha-sum]')?.textContent || '')) && (await page.$$('.overlay [data-ha]')).length >= 1);
+await page.screenshot({ path: `${OUT}/hireall_sheet.png` });
+await page.evaluate(() => document.querySelector('.overlay [data-btn=yes]').click()); await sleep(700); ok('Hire all filled the team', JSON.parse(await A(`return JSON.stringify(adapter.impl.s.fr.teams.map(t=>t.staff.length))`)).every((n) => n >= 5));
+ok('no page errors', errors.length === 0, errors.join(' | ').slice(0, 300));
+await browser.close(); srv.kill(); console.log(fails ? `teamperk_ui: ${fails} FAIL` : 'teamperk_ui: PASS'); process.exit(fails ? 1 : 0);

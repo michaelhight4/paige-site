@@ -1,0 +1,102 @@
+{
+  "currency": "USD",
+  "subscription": {
+    "id": "all_access",
+    "name": "All Access",
+    "monthly": 8.0,
+    "yearly": 80.0,
+    "includes": "all passes while subscribed",
+    "lapses_on_cancel": true
+  },
+  "passes": [
+    {
+      "id": "einstein",
+      "name": "Einstein Mode",
+      "price": 5.99,
+      "effect": "instant_any_degree"
+    },
+    {
+      "id": "midas",
+      "name": "Midas Touch",
+      "price": 5.99,
+      "effect": "start_cash_1000000_every_life"
+    },
+    {
+      "id": "nepo",
+      "name": "Nepo Baby",
+      "price": 5.99,
+      "effect": "instant_famous"
+    },
+    {
+      "id": "baller",
+      "name": "Baller",
+      "price": 5.99,
+      "effect": "instant_draft_pick"
+    },
+    {
+      "id": "free_realestate",
+      "name": "Free Real-Estate",
+      "price": 5.99,
+      "effect": "free_house_2000000_every_new_life"
+    },
+    {
+      "id": "sports_owner",
+      "name": "Sports Owner Pack",
+      "price": 5.99,
+      "effect": "own_sports_team"
+    },
+    {
+      "id": "golden_gun",
+      "name": "Golden Gun",
+      "price": 5.99,
+      "effect": "kill_anyone_no_consequences"
+    },
+    {
+      "id": "fountain",
+      "name": "Fountain of Youth",
+      "price": 5.99,
+      "effect": "never_catch_disease"
+    },
+    {
+      "id": "rabbit",
+      "name": "Rabbit Like",
+      "price": 5.99,
+      "effect": "unlimited_children"
+    },
+    {
+      "id": "tax_evasion",
+      "name": "Tax Evasion",
+      "price": 5.99,
+      "effect": "never_pay_taxes"
+    },
+    {
+      "id": "no_ads",
+      "name": "No Ads Forever",
+      "price": 5.99,
+      "effect": "remove_ads",
+      "description": "Removes forced ads and gives ad rewards instantly without watching"
+    },
+    {
+      "id": "creator",
+      "name": "The Creator",
+      "price": 5.99,
+      "effect": "edit_any_character"
+    },
+    {
+      "id": "autopilot",
+      "name": "Autopilot Pack",
+      "price": 5.99,
+      "effect": "autopilot_routines_and_skip_ahead"
+    },
+    {
+      "id": "founder_pack",
+      "name": "Founder Pack",
+      "price": 0,
+      "effect": "founder_title_cash_150000_coffee_shop_18",
+      "description": "A thank-you for pre-registering. Earn the Founder title, start every life with an extra $150,000 and open your own coffee shop at 18.",
+      "hidden": true,
+      "notInSubscription": true,
+      "note": "Google Play pre-registration reward ($0 one-time product). Not sold in-game, not in All Access or the Tester Pack."
+    }
+  ]
+}

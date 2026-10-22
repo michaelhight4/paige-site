@@ -1,0 +1,68 @@
+// UI test: Clothing Brand, Farms & Ranches, Investment Advisor screens, menus, More directory, Your businesses. node tests/venture_ui.mjs
+import { loadPuppeteer } from './_pp.mjs'; import { spawn } from 'node:child_process'; import fs from 'node:fs';
+const puppeteer = loadPuppeteer(); const ROOT = new URL('..', import.meta.url).pathname, PORT = 18868, SHOTS = process.env.SHOTS || '/workspace/lifesim_art128/feature_shots7'; fs.mkdirSync(SHOTS, { recursive: true });
+const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' }); await new Promise((r) => setTimeout(r, 800));
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox', '--disable-gpu'] });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); let fails = 0; const errors = [];
+const ok = (n, c, i = '') => { if (!c) fails++; console.log((c ? 'PASS ' : 'FAIL ') + n + (i ? ' — ' + i : '')); };
+const page = await browser.newPage(); await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: false });
+page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errors.push(m.text()); }); page.on('pageerror', (e) => errors.push('pageerror ' + e.message));
+await page.goto(`http://127.0.0.1:${PORT}/index.html?fresh=1&nosave=1&seed=9&age=30&cash=50000000`); await page.evaluate(() => localStorage.clear()); await page.reload(); await page.waitForFunction(() => window.__ready === true, { timeout: 20000 }); await sleep(500);
+const A = (code) => page.evaluate(`(async()=>{const {adapter}=await import('/ui/js/adapter.js'); ${code}})()`);
+const shot = (n) => page.screenshot({ path: `${SHOTS}/${n}.png` });
+const clickRow = (text) => page.evaluate((text) => { const el = [...document.querySelectorAll('.panel.top .row')].find((e) => e.textContent.includes(text)); if (el) { el.scrollIntoView(); el.click(); return true; } return false; }, text);
+const clickId = async (id) => { const r = await page.evaluate((i) => { const e = document.querySelector(`.panel.top [data-id="${i}"]`); if (e) { e.scrollIntoView(); e.click(); return true; } return false; }, id); await sleep(450); return r; };
+const opt = async (i) => { await page.evaluate((i) => document.querySelectorAll('.sheet .opt')[i].click(), i); await sleep(500); };
+const btnSheet = async (b) => { await page.evaluate((b) => document.querySelector(`[data-btn=${b}]`).click(), b); await sleep(600); };
+const acc = async (id) => { await page.evaluate((i) => document.querySelector(`[data-acc="${i}"],[data-brand="${i}"],[data-farm="${i}"],[data-adv="${i}"]`).click(), id); await sleep(450); };
+const top = () => page.evaluate(() => document.querySelector('.panel.top')?.textContent || '');
+const back = async () => { await page.evaluate(() => (document.querySelector('.panel.top [data-el=back], .panel.top .back') || document.querySelector('[data-el=back]'))?.click()); await sleep(400); };
+// ---- menu entries ----
+await page.click('[data-tab=occupation]'); await sleep(400); await page.evaluate(() => document.querySelector('.panel.top [data-wtab=all]')?.click()); await sleep(400);
+ok('Work menu has Clothing Brand and Farms & Ranches', (await top()).includes('Clothing Brand') && (await top()).includes('Farms & Ranches'));
+await clickRow('Clothing Brand'); await sleep(700);
+ok('brand founding form shows', /Launch a clothing brand/.test(await top()) && !!(await page.$('[data-id="bf-name"]'))); await shot('20_brand_found_form');
+await clickId('bf-name'); await page.evaluate(() => { document.querySelector('[data-input=text]').value = 'Tidewear'; }); await btnSheet('ok');
+await clickId('bf-line-swim'); await clickId('bf-line-kids'); await clickId('bf-line-intimates'); await shot('21_brand_found_lines');
+const sel = await page.evaluate(() => [...document.querySelectorAll('[data-id^="bf-line-"]')].filter((e) => e.textContent.includes('✓')).map((e) => e.dataset.id)); ok('product lines can be toggled', sel.includes('bf-line-swim') && sel.includes('bf-line-kids'), sel.join());
+await page.evaluate(() => document.querySelector('[data-el=brand-found]').click()); await sleep(900);
+ok('brand launched through the UI', !!(await A(`return adapter.impl.s.brand && adapter.impl.s.brand.name`)) && (await A(`return adapter.impl.s.brand.lines.join()`)).includes('swim'), await A(`return adapter.impl.s.brand && adapter.impl.s.brand.lines.join()`));
+ok('brand hub shows accordion banners', (await page.$$('[data-brand]')).length >= 7); await shot('22_brand_hub');
+await acc('collections'); ok('Collections drop down in place', !!(await page.$('[data-id="sea-spring"]'))); await clickId('sea-spring'); await opt(1); await sleep(600);
+ok('collection launched (hit / flop result)', (await A(`return adapter.impl.s.brand.collections.length`)) >= 1); await shot('23_brand_collection_result');
+await acc('lines'); await acc('channels'); await acc('team'); await acc('fin'); await shot('24_brand_sections_open');
+ok('lines, channels, staff and finances sections exist', !!(await page.$('[data-id="line-swim"]')) && !!(await page.$('[data-id="ch-whole"]')) && !!(await page.$('[data-id="staff-designer"]')));
+ok('"Autopilot this page" card on the brand', !!(await page.$('.panel.top [data-el=autopage]')));
+await page.click('[data-tab=occupation]').catch(() => {}); await page.reload(); await page.waitForFunction(() => window.__ready === true); await sleep(500);
+// ---- farm ----
+await A(`adapter.impl.debugSetup({age:30,cash:50000000})`); await page.click('[data-tab=occupation]'); await sleep(400); await page.evaluate(() => document.querySelector('.panel.top [data-wtab=all]')?.click()); await sleep(400); await clickRow('Farms'); await sleep(700);
+ok('farm founding form', /Buy a farm or ranch/.test(await top())); await shot('25_farm_found_form');
+await clickId('ff-loc'); await opt(2); await clickId('ff-prod'); await opt(0); await clickId('ff-acres'); await page.evaluate(() => { document.querySelector('[data-input=amount]').value = '250'; }); await btnSheet('ok');
+const q = await page.evaluate(() => document.querySelector('.panel.top').textContent); ok('price follows acres and location', /250 acres/.test(q) && /\$14,433/.test(q), q.slice(q.indexOf('Purchase'), q.indexOf('Purchase') + 120));
+await page.evaluate(() => document.querySelector('[data-el=farm-found]').click()); await sleep(900);
+ok('farm bought through the UI', (await A(`return adapter.impl.s.farm && adapter.impl.s.farm.acres`)) === 250, String(await A(`return adapter.impl.s.farm && adapter.impl.s.farm.loc`)));
+await shot('26_farm_hub'); await acc('workers'); await clickId('w-hand'); await opt(0); ok('worker hired', (await A(`return adapter.impl.s.farm.staff.length`)) === 1);
+await acc('build'); await clickId('up-4'); ok('building upgrade (+4 step)', (await A(`return adapter.impl.s.farm.bq`)) === 24);
+await acc('ops'); await acc('market'); await acc('fin'); await shot('27_farm_sections_open'); ok('farm autopilot card', !!(await page.$('.panel.top [data-el=autopage]')));
+await A(`adapter.impl.s.pending.length=0; await adapter.impl.age({noAuto:true})`); await page.reload(); await page.waitForFunction(() => window.__ready === true); await sleep(500);
+// ---- advisor ----
+await A(`const a=adapter.impl; a.debugSetup({age:30,cash:50000000}); a.s.incYear=300000;`);
+await page.click('[data-tab=assets]'); await sleep(400); ok('Money menu has Investment Advisor', (await top()).includes('Investment Advisor')); await clickRow('Investment Advisor'); await sleep(700); await shot('28_advisor_start');
+await acc('advisors'); const nAdv = await page.evaluate(() => document.querySelectorAll('[data-id^="adv-a"]').length); ok('several advisors with stats and fees', nAdv >= 4, String(nAdv)); await shot('29_advisor_list');
+await clickId((await page.evaluate(() => document.querySelectorAll('[data-id^="adv-a"]')[2].dataset.id))); await opt(0); await sleep(500);
+ok('advisor hired via the UI', !!(await A(`return adapter.impl.s.advisor && adapter.impl.s.advisor.advisor`)));
+await acc('plan'); await clickId('plan-set'); await opt(0); await page.evaluate(() => { document.querySelector('[data-input=amount]').value = '20'; }); await btnSheet('ok'); await opt(2); await page.evaluate(() => { document.querySelector('[data-input=amount]').value = '50'; }); await btnSheet('ok'); await sleep(500);
+const plan = await A(`return JSON.stringify(adapter.impl.s.advisor.plan)`); ok('plan set (20% of income, 50/50 split)', /"value":20/.test(plan) && /"split":50/.test(plan), plan);
+await A(`adapter.impl.s.pending.length=0; await adapter.impl.age({noAuto:true})`); await sleep(500);
+ok('income was auto-invested; statement exists', (await A(`return adapter.impl.s.advisor.stmts.length`)) >= 1);
+await page.reload(); await page.waitForFunction(() => window.__ready === true); await sleep(500);
+await A(`const a=adapter.impl; a.debugSetup({age:30,cash:50000000}); a.advisorAction('hire', a.getAdvisor().market[0].id); a.advisorAction('invest', 200000,'stocks'); a.s.pending.length=0; await a.age({noAuto:true});`);
+await page.click('[data-tab=assets]'); await sleep(400); await clickRow('Investment Advisor'); await sleep(700); await acc('stmts'); await shot('30_advisor_statement'); ok('yearly statement visible', /Statement/.test(await top()));
+// ---- More directory + Your businesses ----
+await page.click('[data-tab=more]'); await sleep(500);
+const dir = await page.evaluate(() => document.body.innerText); ok('More directory lists the three', /Clothing Brand/.test(dir) && /Farms & Ranches/.test(dir) && /Investment Advisor/.test(dir), 'dir');
+await shot('31_more_directory_ventures');
+await A(`const a=adapter.impl; a.s.brand||a.brandAction('found',{name:'Biz Wear',lines:['street']}); a.s.farm||a.farmAction('found',{loc:'plains',product:'corn',acres:60});`);
+await page.click('[data-tab=assets]'); await sleep(400); await page.click('[data-el=biz-tab]'); await sleep(700); await shot('32_your_businesses');
+const owned = await A(`return JSON.stringify(adapter.impl.getBusinesses().owned.map(x=>x.kind))`); const bt = await top(); ok('Your businesses lists them', /brand/.test(owned) && /farm/.test(owned) && /advisor/.test(owned) && /Biz Wear|Tidewear/.test(bt), owned);
+ok('no JS errors', errors.length === 0, errors.join('; ')); await browser.close(); srv.kill(); console.log(fails ? 'FAIL venture_ui' : 'PASS venture_ui'); process.exit(fails ? 1 : 0);

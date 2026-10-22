@@ -1,0 +1,30 @@
+// Formatted money input (commas, live short total, cash available, 25%/50%/Max) on Add cash / invest sheets; no raw prompt. node tests/moneyinput_ui.mjs
+// Also every owned kind (CEO company, brand, farm, production company) is listed and opens a manage screen with quality + staff swap. node tests/bizpaths_ui.mjs
+import { loadPuppeteer } from './_pp.mjs'; import { spawn } from 'node:child_process'; import fs from 'node:fs';
+const puppeteer = loadPuppeteer(); const ROOT = new URL('..', import.meta.url).pathname, PORT = 18823, OUT = '/workspace/lifesim_art128/feature_shots8'; fs.mkdirSync(OUT, { recursive: true });
+const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' }); await new Promise((r) => setTimeout(r, 800));
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox', '--disable-gpu'] });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); let fails = 0; const errors = [];
+const ok = (n, c, i = '') => { if (!c) fails++; console.log((c ? 'PASS ' : 'FAIL ') + n + (i ? ' — ' + i : '')); };
+const page = await browser.newPage(); await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+page.on('pageerror', (e) => errors.push('pageerror ' + e.message));
+await page.goto(`http://127.0.0.1:${PORT}/index.html?fresh=1&nosave=1&seed=5&age=30&cash=9000000`); await page.waitForFunction(() => window.__ready === true, { timeout: 20000 }); await sleep(500);
+const A = (code) => page.evaluate(`(async()=>{const {adapter}=await import('/ui/js/adapter.js'); ${code}})()`);
+const top = () => page.evaluate(() => (document.querySelector('.panel.top') || document.body).innerText);
+const depth = () => page.evaluate(() => document.querySelectorAll('.panel').length);
+const click = (sel) => page.evaluate((sel) => { const e = document.querySelector(sel); if (e) { e.scrollIntoView(); e.click(); return true; } return false; }, sel);
+const clickRow = (text) => page.evaluate((text) => { const el = [...document.querySelectorAll('.panel.top .row')].find((e) => e.textContent.includes(text)); if (el) { el.scrollIntoView(); el.click(); return true; } return false; }, text);
+const closeAll = async () => { for (let i = 0; i < 8 && (await depth()); i++) { await click('.panel.top [data-nav=back]'); await sleep(250); } };
+let prompted = false; await page.evaluate(() => { window.prompt = () => { window.__prompted = true; return null; }; });
+const p = page.evaluate(async () => { const m = await import('/ui/js/ui.js'); window.__res = await m.askNumber('Add cash to the team', { min: 1000, max: 1e10, def: 1000 }); });
+await sleep(400);
+ok('cash available shown', /Cash available: \$/.test(await page.evaluate(() => document.querySelector('[data-el=amount-cash]')?.textContent || '')));
+await page.evaluate(() => { const i = document.querySelector('[data-input=amount]'); i.value = ''; }); await page.type('[data-input=amount]', '1234567'); await sleep(150);
+ok('commas as you type', (await page.evaluate(() => document.querySelector('[data-input=amount]').value)) === '1,234,567');
+ok('live short total', /1\.23 mil/.test(await page.evaluate(() => document.querySelector('[data-el=amount-live]').textContent)));
+await page.evaluate(() => document.querySelector('[data-q="50%"]').click()); await sleep(100); const half = await page.evaluate(() => document.querySelector('[data-input=amount]').value);
+ok('50% of cash available', half.replace(/,/g, '') > 0, half); await page.screenshot({ path: `${OUT}/money_input.png` });
+await page.evaluate(() => document.querySelector('[data-btn=ok]').click()); await p; ok('returns the number', (await page.evaluate(() => window.__res)) === Number(half.replace(/,/g, '')));
+prompted = await page.evaluate(() => !!window.__prompted); ok('no window.prompt', !prompted);
+ok('no page errors', errors.length === 0, errors.join(' | ').slice(0, 300));
+await browser.close(); srv.kill(); console.log(fails ? `moneyinput_ui: ${fails} FAIL` : 'moneyinput_ui: PASS'); process.exit(fails ? 1 : 0);

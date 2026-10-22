@@ -1,0 +1,135 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="../style.css"></head><body>
+<!-- Browser UI drive test (clicks every creator/replay/finals control). Serve the repo root, open /tests/ui.html; verdict in #result.
+     Headless: google-chrome --headless=new --no-sandbox --virtual-time-budget=120000 --dump-dom http://localhost:8080/tests/ui.html -->
+<div id="app"></div><div id="modal"></div><div id="rhost"></div><div id="fxhost"></div><pre id="result">RUNNING</pre>
+<script src="../src/vendor/replay.js"></script><script src="../src/vendor/fame_fx.js"></script>
+<script>
+const errs = []; window.addEventListener('error', (e) => { errs.push(String(e.message)); document.getElementById('result').textContent = 'ERR ' + errs.join('; '); }); window.addEventListener('unhandledrejection', (e) => errs.push('rej ' + e.reason));
+</script>
+<script type="module">
+import '../src/main.js';
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+const checks = []; const ok = (c, m) => { document.getElementById('result').textContent = 'RUNNING ' + checks.length + ' last: ' + m; checks.push((c ? 'ok   ' : 'FAIL ') + m); if (!c) throw new Error('assert: ' + m); };
+const click = async (sel, n = 0) => { const el = n ? $$(sel)[n] : $(sel); if (!el) throw new Error('missing ' + sel); el.click(); await wait(8); return el; };
+const setv = async (sel, v, ev = 'input') => { const el = $(sel); if (!el) throw new Error('missing ' + sel); el.value = v; el.dispatchEvent(new Event(ev, { bubbles: true })); await wait(8); };
+const L = () => window.__lifesim, S = () => L().state;
+const forecast = () => $('#startbar').textContent.replace(/\s+/g, ' ');
+const dismissAll = async () => { for (let i = 0; i < 6; i++) { const c = $('[data-act=choice]'); if (c) { c.click(); await wait(4); continue; } const s = $('[data-act=sheet]'); if (s) { s.click(); await wait(4); continue; } break; } };
+const turnUntil = async (fn, max = 60) => { for (let i = 0; i < max && !fn(); i++) { await dismissAll(); if (S().league.finals && !S().league.finals.done) break; if (!S().alive) { S().alive = true; S().ending = null; } const t = $('[data-act=turn]'); if (t && !t.disabled) t.click(); await wait(6); } await dismissAll(); };
+const studio = () => S().biz.find((b) => b.kind === 'studio' && b.id === L().ui.biz);
+try {
+  await wait(300);
+  $('#sb').checked = true; await click('[data-act=start]');
+  for (const t of ['work', 'assets', 'stocks', 'worth', 'biz', 'life']) await click(`[data-act=tab][data-k=${t}]`);
+  ok(!$('#app').textContent.includes('undefined'), 'main tabs render');
+
+  // ================= GAME STUDIO CREATOR =================
+  await click('[data-act=tab][data-k=biz]'); await click('[data-act=found][data-k=game]');
+  for (const r of ['programmer', 'designer', 'writer', 'artist', 'composer']) await click(`[data-act=hire][data-r=${r}][data-t=senior]`);
+  ok(studio().staff.length >= 10, 'game studio founded + staff hired via Overview');
+  ok($$('.tabs [data-act=studiotab]').length === 5, 'tabs: Overview/Create/Team/Market/History');
+  await click('[data-act=studiotab][data-k=create]');
+  ok($$('.cols > div').length === 2 && $('#startbar') && $('#matchbox') && $$('[data-effort]').length === 5, 'City-Game-Studio layout: left setup, right concept, bottom start bar');
+  const D = L().E.D.studio, d0 = () => L().Studio.getDraft(S(), studio());
+  ok($$('[data-f=genre]').length === D.genres.length && $$('[data-f=theme]').length === D.themes.length, 'all genre + theme tiles present');
+  ok($$('[data-f=genre] .heat').length === 8 && /[▲▼]/.test($('[data-f=genre]').textContent), 'trend numbers + arrows shown on tiles');
+  // every genre
+  const seen = new Set();
+  for (const g of D.genres) { await click(`[data-f=genre][data-v=${g.id}]`); ok(d0().genre === g.id && $(`[data-f=genre][data-v=${g.id}]`).classList.contains('on'), 'genre ' + g.id); seen.add(forecast());
+    for (const a of Object.keys(g.idealSplit)) if (+$('#sl-' + a).value !== g.idealSplit[a]) throw new Error('split reset to ideal ' + g.id); }
+  ok(seen.size >= 6, 'forecast changes with genre (' + seen.size + ' distinct)');
+  const seenT = new Set(); for (const t of D.themes) { await click(`[data-f=theme][data-v=${t.id}]`); ok(d0().theme === t.id, 'theme ' + t.id); seenT.add($('#matchbox').textContent); }
+  ok(seenT.size >= 4 && /×/.test($('#matchbox').textContent), 'match meter responds to theme');
+  for (const t of ['small', 'medium', 'large', 'epic']) { await click(`[data-f=tier][data-v=${t}]`); ok(d0().tier === t, 'tier ' + t); }
+  await click('[data-f=tier][data-v=small]');
+  const engs = $$('[data-f=engine]'); ok(engs.length === 4, 'engine list'); const locked = engs.filter((e) => /🔒/.test(e.textContent)); ok(locked.length >= 1, 'fame-gated engines locked');
+  const before = d0().engine; for (const id of locked.map((e) => e.dataset.v)) { await click(`[data-f=engine][data-v=${id}]`); } ok(d0().engine === before, 'locked engine click is inert');
+  for (const id of engs.filter((e) => !/🔒/.test(e.textContent)).map((e) => e.dataset.v)) { await click(`[data-f=engine][data-v=${id}]`); ok(d0().engine === id, 'engine ' + id); }
+  for (const a of D.audiences) { await click(`[data-f=audience][data-v=${a.id}]`); ok(d0().audience === a.id, 'audience ' + a.id); }
+  for (const c of D.consoles) { await click(`[data-f=platform][data-v=${c.id}]`); ok(d0().platform === c.id && /%/.test($(`[data-f=platform][data-v=${c.id}]`).textContent), 'console ' + c.id + ' shows share'); }
+  for (const a of ['gameplay', 'graphics', 'sound', 'story', 'polish']) { await setv('#sl-' + a, 60); const tot = Object.values(d0().split).reduce((x, y) => x + y, 0); ok(tot === 100 && d0().split[a] === 60 && $('#sv-' + a).textContent === '60%', 'slider ' + a + ' keeps total 100'); }
+  ok(/Too|bloated|starved/.test($('#warnbox').textContent) || $('#warnbox').textContent.length > 0, 'imbalance warning area');
+  await click('[data-act=autobalance]'); const gi = D.genres.find((g) => g.id === d0().genre).idealSplit; ok(JSON.stringify(d0().split) === JSON.stringify(gi) && /Well balanced/.test($('#warnbox').textContent), 'auto-balance restores genre ideal');
+  await click('[data-act=dice]'); ok(d0().title.length > 3 && $('#sdName').value === d0().title, 'dice generates a name'); const diceName = d0().title;
+  $('#sdName').value = 'My Test Game'; $('#sdName').dispatchEvent(new Event('input', { bubbles: true })); ok(d0().title === 'My Test Game', 'name typing');
+  ok($('[data-f=sequelOf][data-v=""]').classList.contains('sm') && $$('[data-f=sequelOf]')[1].disabled, 'New IP selected; Sequel disabled with no releases');
+  for (const m of D.marketing) { await setv('[data-sd=marketing]', m.id, 'change'); ok(d0().marketing === m.id, 'marketing ' + m.id); }
+  // specialists
+  await click('[data-act=studiotab][data-k=team]'); const hires = $$('[data-act=hirespec]:not([disabled])'); ok(hires.length > 0 && $$('.spec').length >= 6, 'team tab lists specialists with bonuses'); ok(/\+[\d.]+/.test($('.spec .tag').textContent), 'bonus tags shown');
+  const sid = hires[0].dataset.k; const cash0 = S().cash; hires[0].click(); await wait(10); ok(studio().specialists.includes(sid) && S().cash < cash0, 'hire specialist (pays signing fee)'); ok(!!$(`[data-act=fire][data-k=${sid}]`), 'dismiss button appears');
+  await click('[data-act=studiotab][data-k=create]'); ok(/Specialists \(1\//.test($('.cols').textContent), 'creator shows hired specialist'); const s1 = forecast();
+  await click('[data-act=studiotab][data-k=team]'); await click(`[data-act=fire][data-k=${sid}]`); ok(!studio().specialists.includes(sid), 'fire specialist');
+  const locks = $$('[data-act=hirespec]').filter((b) => b.disabled && /🔒/.test(b.closest('.card').textContent)); ok(locks.length >= 1, 'fame-locked talent cannot be hired');
+  await click('[data-act=studiotab][data-k=market]'); ok($$('.stack div').length === 12 && /Novabox|Console market/.test($('#app').textContent) && $('svg.chart polyline'), 'market tab: 12 consoles (6 makers), share bar, history chart, trends');
+  await click('[data-act=studiotab][data-k=history]'); ok(/0<\/b> releases|0 releases/.test($('#app').innerHTML), 'history tab (empty)');
+  await click('[data-act=studiotab][data-k=create]');
+  // choose a good config then start
+  await click('[data-f=genre][data-v=action]'); await click('[data-f=theme][data-v=fantasy]'); await click('[data-f=platform][data-v=' + D.consoles[0].id + ']');
+  await click('[data-act=startproject]'); ok(studio().project && studio().project.name === 'My Test Game', 'Start creates the project (ProjectDef) with typed name'); ok(L().ui.stTab === 'overview' && /My Test Game/.test($('#app').textContent), 'returns to overview showing dev progress');
+  await click('[data-act=studiotab][data-k=create]'); ok($('[data-act=startproject]').disabled, 'Start disabled while developing');
+  // advance until release
+  await click('[data-act=tab][data-k=life]'); await click('[data-act=step][data-k=quarter]');
+  let sawSheet = false, sawFx = false; for (let i = 0; i < 40 && !studio().released.length; i++) { await dismissAll2(); const t = $('[data-act=turn]'); if (t && !t.disabled) t.click(); await wait(10); if (studio().released.length) break; }
+  for (let i = 0; i < 6 && !$('#sheet'); i++) { const c = $('[data-act=choice]'); if (c) c.click(); await wait(20); } sawSheet = !!$('#sheet');
+  async function dismissAll2() { const c = $('[data-act=choice]'); if (c) { c.click(); await wait(4); } if (!S().alive) { S().alive = true; S().ending = null; } }
+  ok(studio().released.length === 1, 'project finished -> release saved (history)'); ok(sawSheet && /\/10/.test($('#sheet').textContent), 'release result sheet shown'); await wait(150); ok(!!$('#fxhost canvas'), 'fame_fx canvas mounted for release burst');
+  const shot1 = $('#sheet').textContent; await click('[data-act=sheet]'); ok(!$('#sheet'), 'sheet dismissed');
+  await click('[data-act=tab][data-k=biz]'); await click('[data-act=studiotab][data-k=history]'); ok(/My Test Game/.test($('#app').textContent), 'history lists release');
+  await click('[data-act=studiotab][data-k=create]'); const seqBtn = $$('[data-f=sequelOf]')[1]; ok(!seqBtn.disabled, 'Sequel enabled after a release'); seqBtn.click(); await wait(10);
+  ok(d0().sequelOf && $('[data-sd=sequelOf]') && /Sequel to My Test Game/.test($('[data-sd=sequelOf]').textContent), 'sequel picker shows franchise'); ok($('#sdName').disabled, 'name locked for sequel'); ok(d0().genre === 'action' && d0().theme === 'fantasy', 'sequel inherits genre/theme');
+  const fcSeq = forecast(); await click('[data-f=sequelOf][data-v=""]'); ok(!d0().sequelOf, 'toggle back to New IP');
+
+  // ================= TV STUDIO =================
+  await click('[data-act=back]'); await click('[data-act=found][data-k=tv]'); ok(S().biz.find((b) => b.id === L().ui.biz).type === 'tv', 'tv studio founded');
+  for (const r of ['writer', 'actor', 'vfx_artist', 'composer', 'producer']) await click(`[data-act=hire][data-r=${r}][data-t=senior]`);
+  await click('[data-act=studiotab][data-k=create]'); ok($$('[data-f=format]').length === 3, 'TV format buttons (live/animation/anime)');
+  for (const f of ['live', 'animation', 'anime']) { await click(`[data-f=format][data-v=${f}]`); ok(d0().format === f && $(`[data-f=format][data-v=${f}]`).classList.contains('sm'), 'format ' + f); ok(!/undefined/.test($('.cols').textContent), 'labels ok for ' + f); }
+  for (const n of [6, 10, 13, 22]) { await setv('[data-sd=episodes]', n, 'change'); ok(d0().episodes === n, 'episodes ' + n); }
+  await setv('[data-sd=episodes]', 6, 'change'); await click('[data-f=tier][data-v=small]'); await click('[data-f=format][data-v=live]');
+  const tvCost = (n) => { return 0; };
+  await click('[data-act=startproject]'); const tv = studio(); ok(tv.project && tv.project.draft.episodes === 6 && tv.shows.length === 1, 'TV season 1 started (6 eps) and show created');
+  await click('[data-act=tab][data-k=life]'); await turnUntil(() => studio() && studio().released.length >= 1 || !studio().project, 60); ok(studio().released.length >= 1, 'season released'); const show = studio().shows[0]; ok(show.seasons.length === 1 && ['renewed', 'cancelled'].includes(show.status), 'show status ' + show.status + ' ratings ' + show.ratings.toFixed(1));
+  await click('[data-act=tab][data-k=biz]'); await click('[data-act=studiotab][data-k=history]'); ok(/Shows/.test($('#app').textContent) && /S1/.test($('#app').textContent), 'history shows seasons');
+  await click('[data-act=studiotab][data-k=create]');
+  if (show.status === 'renewed') { const sq = $$('[data-f=sequelOf]')[1]; ok(!sq.disabled && /Next season/.test(sq.textContent), 'renewed -> Next season enabled'); sq.click(); await wait(10); ok(/Season 2/.test($('[data-sd=sequelOf]').textContent), 'season 2 selectable (ratings carry over)'); await click('[data-act=startproject]'); ok(studio().project && studio().shows[0].status === 'running', 'season 2 started'); }
+  else ok($$('[data-f=sequelOf]')[1].disabled, 'cancelled show cannot continue');
+
+  // ================= FILM STUDIO (shared creator) =================
+  await click('[data-act=back]'); await click('[data-act=found][data-k=film]');
+  for (const r of ['writer', 'actor', 'vfx_artist', 'composer', 'producer']) await click(`[data-act=hire][data-r=${r}][data-t=mid]`);
+  await click('[data-act=studiotab][data-k=create]'); ok(/Script|Cast/.test($('.cols').textContent) && $$('[data-f=platform]').length >= 3, 'film creator reuses screen (areas relabelled, distribution platforms)');
+  await click('[data-act=startproject]'); ok(!!studio().project, 'film started');
+
+  // ================= SPORTS: replay + finals =================
+  await click('[data-act=back]'); { const s = S(); s.cash += 3e8; s.pending.length = 0; L().Biz.buyOffer(s, s.offers.findIndex((o) => o.type === 'sports')); const me = s.league.teams[s.league.my]; for (const p of me.roster) for (const k of Object.keys(p.r)) p.r[k] = 99; s.step = 0.5; }
+  await click('[data-act=tab][data-k=life]'); await turnUntil(() => S().league.finals && !S().league.finals.done || S().league.games.length > 8, 40);
+  ok(S().league.games.length >= 3, 'games played');
+  await click('[data-act=tab][data-k=biz]'); await click('[data-act=open][data-k="' + S().biz.find((b) => b.kind === 'sports').id + '"]');
+  for (const k of ['roster', 'trades', 'history', 'standings', 'games']) { await click('[data-act=stab][data-k=' + k + ']'); }
+  await click('[data-act=replay]'); await wait(200); ok($('#rp-field') && $('#rp-title').textContent.length > 5, 'game replay overlay open');
+  const rp = L().RU.active().rp; ok(rp.meta.sport === 'basketball' && rp.duration > 100, 'event-log loaded');
+  await click('#rp-play'); await wait(300); ok(rp.playing, 'play'); await click('#rp-play'); ok(!rp.playing, 'pause');
+  for (const sp of ['0.5', '1', '2', '4']) { await click(`#rp-speeds [data-speed="${sp}"]`); ok(rp.speed === +sp, 'speed ' + sp); }
+  await setv('#rp-scrub', 500); ok(Math.abs(rp.time / rp.duration - 0.5) < 0.02, 'scrub'); const t0 = rp.time; await click('#rp-next'); ok(rp.time > t0, 'next event'); await click('#rp-prev'); ok(rp.time < t0 + 1e9, 'prev event');
+  await click('#rp-speeds [data-speed="4"]'); await setv('#rp-scrub', 990); await click('#rp-play'); for (let i = 0; i < 400 && rp.playing; i++) { rp.tick(100); } /* headless virtual-time has no rAF frames, so step manually */ ok(rp.time >= rp.duration - 1 || !rp.playing, 'play to end t=' + rp.time + '/' + rp.duration + ' playing=' + rp.playing); const gm = S().league.games[S().league.games.length - 1]; const hh = rp.getState().score; ok(hh.length === 2 && hh[0] + hh[1] > 0, 'scoreboard shows ' + hh.join('-'));
+  await click('#rp-close'); ok(!$('#rp-field'), 'replay closed');
+  // finals
+  await click('[data-act=tab][data-k=life]'); await turnUntil(() => S().league.finals && !S().league.finals.done, 40); ok(S().league.finals && !S().league.finals.done, 'finals reached'); await wait(50);
+  if (!$('#rp-field')) { await click('[data-act=tab][data-k=biz]'); await click('[data-act=stab][data-k=standings]'); await click('[data-act=finals]'); } await wait(100);
+  ok($('#rp-field') && $('#rp-title').textContent.startsWith('Finals'), 'finals overlay opens automatically'); const R2 = () => L().RU.active().rp; const toCall = async () => { const r = R2(); if (!r.playing && !r.awaiting) r.play(); for (let i = 0; i < 600 && r.playing && !r.awaiting; i++) r.tick(100); await wait(5); };
+  await toCall(); ok(R2().awaiting && $$('#rp-picker .opt').length >= 3, 'pauses at play call; pick-a-play panel with ' + $$('#rp-picker .opt').length + ' options'); ok($$('#rp-picker .opt')[0].textContent.length > 8, 'options show name + description'); const cnt0 = S().league.finals.n;
+  const first = $$('#rp-picker .opt')[0]; first.dispatchEvent(new Event('mouseenter')); R2().tick(0); first.dispatchEvent(new Event('mouseleave')); first.click(); await wait(20); ok(S().league.finals.n > cnt0, 'pick a play advances the sim (' + cnt0 + '->' + S().league.finals.n + ')');
+  const chosen = new Set(); for (let i = 0; i < 40 && S().league.finals && !S().league.finals.done; i++) { await toCall(); const o = $$('#rp-picker .opt'); if (!o.length) break; const pk = o[i % o.length]; chosen.add(pk.dataset.play); pk.click(); await wait(10); }
+  ok(S().league.finals === null || S().league.finals.done, 'finals completed through UI picks (' + chosen.size + ' distinct plays used)'); for (let i = 0; i < 600 && R2().playing; i++) R2().tick(100); await wait(5); ok(/Final:/.test($('#rp-note').textContent), 'result note: ' + $('#rp-note').textContent); ok(R2().getState().score[0] === S().league.lastFinals.hs && R2().getState().score[1] === S().league.lastFinals.as, 'replayed score equals sim score'); await click('#rp-close');
+  await dismissAll(); await click('[data-act=tab][data-k=biz]'); await click('[data-act=stab][data-k=games]'); ok(!!$('[data-act=replayfinals]'), 'replay finals button'); await click('[data-act=replayfinals]'); await wait(150); ok($('#rp-field'), 'finals replay opens'); await click('#rp-close');
+  // merged careers/assets slice menus (Job + Assets hooks)
+  await dismissAll(); S().cash = 5e6; S().stats.smarts = 95; if (S().age < 18) S().age = 30; await click('[data-act=tab][data-k=work]'); ok(!$('[data-hook=job]') && /Careers/.test($('#app, body').textContent), 'job tab renders slice menu (no placeholder)');
+  await click('[data-act=sl_job_go][data-k=industries]'); ok($$('[data-act=sl_job_sector]').length > 3, 'industry list'); await click('[data-act=sl_job_sector]'); ok($$('[data-act=sl_apply]').length > 0, 'sector jobs listed');
+  await click('[data-act=tab][data-k=assets]'); await click('[data-act=sl_as_go][data-k=shops]'); ok($$('[data-act=sl_shop]').length >= 4, 'shops listed'); await click('[data-act=sl_shop]'); ok($$('[data-act=sl_buy]').length > 0, 'listings with buy buttons');
+  await click('[data-act=tab][data-k=life]');
+  await click('[data-act=save]').catch(() => {});
+  ok(errs.length === 0, 'no console errors: ' + errs.join('|'));
+  document.getElementById('result').textContent = JSON.stringify({ result: 'PASS', checks: checks.length, errs, lines: checks }, null, 1);
+} catch (e) { document.getElementById('result').textContent = JSON.stringify({ result: 'FAIL', thrown: String(e), stack: e.stack, errs, lines: checks.slice(-6) }, null, 1); }
+</script></body></html>

@@ -1,0 +1,27 @@
+// Appearance/wardrobe click test. node tests/character_ui.mjs
+import { loadPuppeteer } from './_pp.mjs'; import { spawn } from 'node:child_process';
+const puppeteer = loadPuppeteer(); const ROOT = new URL('..', import.meta.url).pathname, PORT = 18802;
+const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' }); await new Promise((r) => setTimeout(r, 800));
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox', '--disable-gpu'] });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); let fails = 0; const errors = [];
+const ok = (n, c, i = '') => { if (!c) fails++; console.log((c ? 'PASS ' : 'FAIL ') + n + (i ? ' — ' + i : '')); };
+const page = await browser.newPage(); await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); }); page.on('pageerror', (e) => errors.push('pageerror ' + e.message));
+await page.goto(`http://127.0.0.1:${PORT}/index.html?fresh=1&nosave=1&seed=5&age=30`); await page.waitForFunction(() => window.__ready === true, { timeout: 20000 }); await sleep(500);
+const clickText = async (text) => page.evaluate((text) => { const el = [...document.querySelectorAll('.panel.top .row')].find((e) => e.textContent.includes(text)); if (el) { el.scrollIntoView(); el.click(); return true; } return false; }, text);
+await page.click('[data-tab=more]'); await sleep(300); await page.evaluate(() => { const i = document.querySelector('.panel.top input'); i.value = 'wardrobe'; i.dispatchEvent(new Event('input', { bubbles: true })); }); await sleep(300);
+ok('Appearance in the More directory', await clickText('Appearance')); await sleep(900);
+const layers = () => page.evaluate(() => [...document.querySelectorAll('[data-el=char-preview] g[data-layer]')].map((g) => g.dataset.layer));
+let l0 = await layers(); ok('sprite composed from layers', l0.length >= 6 && l0.includes('body:base') && l0.some((x) => x.startsWith('hair:')), l0.join(','));
+const rects = await page.evaluate(() => document.querySelectorAll('[data-el=char-preview] rect').length); ok('layers loaded (pixel rects)', rects > 100, String(rects));
+const sk0 = await page.evaluate(() => document.querySelector('[data-el=char-preview] g[data-layer="body:base"]').getAttribute('style'));
+await page.evaluate(() => { const b = [...document.querySelectorAll('[data-swatch^="skin:"]')].find((x) => !(x.getAttribute('style') || '').includes('3px')); b.click(); }); await sleep(700);
+const sk1 = await page.evaluate(() => document.querySelector('[data-el=char-preview] g[data-layer="body:base"]').getAttribute('style')); ok('skin tone swatch recolors the body', sk0 !== sk1);
+await page.evaluate(() => document.querySelector('[data-build=broad]').click()); await sleep(700); ok('build change reloads layers', (await page.evaluate(() => document.querySelectorAll('[data-el=char-preview] rect').length)) > 100);
+await clickText('Glasses'); await sleep(400); await page.evaluate(() => document.querySelectorAll('.overlay .opt')[1].click()); await sleep(800);
+ok('free glasses equip as a layer', (await layers()).some((x) => x.startsWith('glasses:')));
+await clickText('Top'); await sleep(400); const txt = await page.evaluate(() => document.querySelector('.overlay').innerText); ok('locked clothes show a lock and reason', /🔒/.test(txt) && /Buy it in a shop/.test(txt));
+await page.evaluate(() => { const o = [...document.querySelectorAll('.overlay .opt')].find((x) => /Blazer/.test(x.textContent)); o.click(); }); await sleep(700);
+ok('picking a locked item does not equip it', !(await layers()).includes('top:blazer'));
+ok('no console errors', errors.length === 0, errors.slice(0, 3).join(' | '));
+await browser.close(); srv.kill(); console.log(fails ? 'CHARACTER UI FAIL' : 'CHARACTER UI PASS'); process.exit(fails ? 1 : 0);

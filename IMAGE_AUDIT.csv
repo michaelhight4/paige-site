@@ -1,0 +1,38 @@
+category,item_id,item_name,old_image,new_image,status,note
+property,bungalow,Starter Bungalow,cottage,craftsman,remapped,Bungalow showed a thatched cottage; craftsman bungalow fits
+car,aurelian,Aurelian Saloon,limo,sedan,remapped,"""Saloon"" is a sedan; was shown as a stretch limo"
+car,nova,Apex Nova Hypercar,race_car,supercar,remapped,Hypercar was shown as an open-wheel race car
+car,silverwing,Silverwing 300 (1955),sports_clean,classic_clean,remapped,1955 car was shown as a modern sports coupe
+boat,tug,Tugboat,pontoon,fishing_boat,remapped,Tugboat was shown as a leisure pontoon; work boat is closer
+boat,superyacht,Superyacht,cruise_ship,yacht,remapped,Superyacht was shown as a cruise ship
+instrument,guitar,Acoustic Guitar,(none),acoustic_guitar,added,Instruments had no image; existing instrument art now used
+instrument,ukulele,Ukulele,(none),acoustic_guitar,added,Instruments had no image; existing instrument art now used
+instrument,flute,Flute,(none),flute,added,Instruments had no image; existing instrument art now used
+instrument,recorder,Recorder,(none),flute,added,Instruments had no image; existing instrument art now used
+instrument,violin,Violin,(none),violin,added,Instruments had no image; existing instrument art now used
+instrument,master_violin,Cremona Master Violin (1710),(none),violin,added,Instruments had no image; existing instrument art now used
+instrument,trumpet,Trumpet,(none),trumpet,added,Instruments had no image; existing instrument art now used
+instrument,drums,Drum Kit,(none),drum_kit,added,Instruments had no image; existing instrument art now used
+instrument,piano,Grand Piano,(none),piano,added,Instruments had no image; existing instrument art now used
+instrument,keyboard,Keyboard,(none),piano,added,Instruments had no image; existing instrument art now used
+instrument,kazoo,Kazoo,,acoustic_guitar (default),NEEDS NEW ART,no kazoo art; shows default guitar - needs new art
+instrument,harmonica,Harmonica,,acoustic_guitar (default),NEEDS NEW ART,needs new art (shows default guitar)
+instrument,cello,Cello,,violin,NEEDS NEW ART,Cello now shows the violin (same family); dedicated cello art needed
+instrument,ukulele,Ukulele,,,OK - better art wanted,uses acoustic guitar; dedicated ukulele art would be better
+instrument,keyboard,Keyboard,,,OK - better art wanted,uses grand piano; keyboard art would be better
+jewelry,ruby_ring,Ruby Ring,,,NEEDS NEW ART,Ruby Ring shows a plain signet ring - needs a ruby ring
+jewelry,stud_ear,Diamond Studs,,,NEEDS NEW ART,Diamond Studs shows hoop earrings - needs stud earrings
+jewelry,tiara,Heirloom Tiara,,,NEEDS NEW ART,Heirloom Tiara shows a gold chain & dog tag - needs a tiara
+aircraft,glider,Basic Glider,,,NEEDS NEW ART,Basic Glider shows a hot air balloon - needs a glider
+aircraft,fighter,Surplus Fighter Jet,,,NEEDS NEW ART,Surplus Fighter Jet shows a private jet - needs a fighter
+boat,raft,Inflatable Raft,,,NEEDS NEW ART,Inflatable Raft shows a rowboat - needs a raft
+boat,jetski,Jet Ski,,,NEEDS NEW ART,Jet Ski shows a speedboat - needs a jet ski
+boat,tug,Tugboat,,,OK - better art wanted,Tugboat uses fishing boat - dedicated tug art would be better
+car,beetle,Bumble Bug (1962),,,NEEDS NEW ART,Bumble Bug (1962) uses a modern hatchback - needs a classic bug
+car,wrecks,,,,NEEDS NEW ART,Wrecked hatchback/sedan/coupe fall back to the wrecked pickup - need wrecked versions
+luxury,goods,,,,no image,"Watch, handbag, painting, gold bar, wine: emoji icons only (watch art exists: watch_luxury could be wired)"
+zoo,species,,,,NEEDS NEW ART,"Zoo animals use emoji; art exists for lion, giraffe, elephant, zebra, monkey, panda, penguin (+tiger); meerkat & flamingo need art"
+pets,all,,,,no image,"Pets use emoji; art exists (dog, cat, rabbit, hamster, parrot, goldfish, turtle, snake, gecko, hedgehog, mouse, horse) but is not wired"
+businesses,all,,,,no image,Businesses use emoji icons; no business art exists
+teams,all,,,,no image,Teams use generated logos; no stadium/team art exists
+auction,lots,,,,no image,"Auction lots reuse catalog art (cars, jewelry etc.) via the same map; non-catalog lots show emoji"

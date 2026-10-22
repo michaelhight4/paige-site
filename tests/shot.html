@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="../style.css"></head><body>
+<!-- Screenshot helper: tests/shot.html?view=create|market|team|history|sheet|replay|finals -->
+<div id="app"></div><div id="modal"></div><div id="rhost"></div><div id="fxhost"></div>
+<script src="../src/vendor/replay.js"></script><script src="../src/vendor/fame_fx.js"></script>
+<script type="module">
+import '../src/main.js';
+const wait = (ms) => new Promise((r) => setTimeout(r, ms)), $ = (s) => document.querySelector(s), click = async (s) => { $(s).click(); await wait(20); };
+const v = new URLSearchParams(location.search).get('view'); await wait(300); $('#sb').checked = true; await click('[data-act=start]'); await click('[data-act=tab][data-k=biz]');
+const L = window.__lifesim, S = L.state;
+if (v === 'replay' || v === 'finals') { S.cash += 3e8; L.Biz.buyOffer(S, S.offers.findIndex((o) => o.type === 'sports')); const me = S.league.teams[S.league.my]; for (const p of me.roster) for (const k of Object.keys(p.r)) p.r[k] = 90; S.step = 0.5; await click('[data-act=tab][data-k=life]'); for (let i = 0; i < 12 && !(S.league.finals && !S.league.finals.done); i++) { S.pending.length = 0; $('[data-act=turn]') && $('[data-act=turn]').click(); await wait(5); }
+  if (v === 'replay') { L.RU.closeReplay(); await click('[data-act=tab][data-k=biz]'); await click('[data-act=open]'); await click('[data-act=stab][data-k=games]'); await click('[data-act=replay]'); const rp = L.RU.active().rp; rp.seek(900); for (let i = 0; i < 30; i++) rp.tick(100); }
+  else { const rp = L.RU.active().rp; rp.play(); for (let i = 0; i < 300 && !rp.awaiting; i++) rp.tick(100); }
+} else {
+  await click('[data-act=found][data-k=game]'); for (const r of ['programmer', 'designer', 'writer', 'artist', 'composer']) await click(`[data-act=hire][data-r=${r}][data-t=senior]`);
+  const b = S.biz[0]; L.Studio.hire(S, b, 's_coder'); L.Studio.hire(S, b, 's_writer'); b.fame = 30;
+  if (v === 'sheet') { b.released.push({ id: 'rx', media: 'game', title: 'Starfall Saga', genre: 'rpg', theme: 'space', year: 2031, score: 8.6, label: 'Great', sales: 2400000, revenue: 41e6, profit: 22e6, sensation: true, sensMult: 4.1, fameGain: 24, age: 30, franchise: null }); S.fx.push({ biz: b.id, rel: 'rx', sensation: true }); L.render(); }
+  else { await click(`[data-act=studiotab][data-k=${v}]`); if (v === 'create') { await click('[data-f=genre][data-v=rpg]'); await click('[data-f=theme][data-v=space]'); await click('[data-f=platform]'); } }
+}
+await wait(300); document.title = 'fx:' + [...document.querySelectorAll('#fxhost canvas')].map((c) => getComputedStyle(c).backgroundColor + '/' + c.width + 'x' + c.height + '/' + c.style.cssText.slice(0, 80)).join(' ; '); const cv = document.getElementById('rp-field'); if (cv && location.search.includes('img')) { const im = document.createElement('img'); im.src = cv.toDataURL(); im.style.cssText = 'position:fixed;left:10px;top:10px;width:300px;z-index:99'; document.body.appendChild(im); } if (cv) { cv.toDataURL(); const d = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data, set = new Set(); for (let i = 0; i < d.length; i += 200) set.add(d[i] + ',' + d[i + 1]); document.title = [...document.querySelectorAll('#rp-stage canvas')].map((c) => c.id + ':' + getComputedStyle(c).backgroundColor + ':' + getComputedStyle(c).position + ':' + c.width + 'x' + c.height).join(' ') + ' colors=' + set.size + ' ' + cv.width + 'x' + cv.height; } window.scrollTo(0, +new URLSearchParams(location.search).get('y') || 0);
+</script></body></html>

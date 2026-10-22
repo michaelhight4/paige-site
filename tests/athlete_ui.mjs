@@ -1,0 +1,44 @@
+// Work page job card for a Franchise Player: team name, standing, links to My Team tabs incl. Teammates; Coaching shows playing experience. node tests/athlete_ui.mjs
+// Also every owned kind (CEO company, brand, farm, production company) is listed and opens a manage screen with quality + staff swap. node tests/bizpaths_ui.mjs
+import { loadPuppeteer } from './_pp.mjs'; import { spawn } from 'node:child_process'; import fs from 'node:fs';
+const puppeteer = loadPuppeteer(); const ROOT = new URL('..', import.meta.url).pathname, PORT = 18817, OUT = '/workspace/lifesim_art128/feature_shots8'; fs.mkdirSync(OUT, { recursive: true });
+const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' }); await new Promise((r) => setTimeout(r, 800));
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox', '--disable-gpu'] });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); let fails = 0; const errors = [];
+const ok = (n, c, i = '') => { if (!c) fails++; console.log((c ? 'PASS ' : 'FAIL ') + n + (i ? ' — ' + i : '')); };
+const page = await browser.newPage(); await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+page.on('pageerror', (e) => errors.push('pageerror ' + e.message));
+await page.goto(`http://127.0.0.1:${PORT}/index.html?fresh=1&nosave=1&seed=5&age=50&cash=9000000`); await page.waitForFunction(() => window.__ready === true, { timeout: 20000 }); await sleep(500);
+const A = (code) => page.evaluate(`(async()=>{const {adapter}=await import('/ui/js/adapter.js'); ${code}})()`);
+const top = () => page.evaluate(() => (document.querySelector('.panel.top') || document.body).innerText);
+const depth = () => page.evaluate(() => document.querySelectorAll('.panel').length);
+const click = (sel) => page.evaluate((sel) => { const e = document.querySelector(sel); if (e) { e.scrollIntoView(); e.click(); return true; } return false; }, sel);
+const clickRow = (text) => page.evaluate((text) => { const el = [...document.querySelectorAll('.panel.top .row')].find((e) => e.textContent.includes(text)); if (el) { el.scrollIntoView(); el.click(); return true; } return false; }, text);
+const closeAll = async () => { for (let i = 0; i < 8 && (await depth()); i++) { await click('.panel.top [data-nav=back]'); await sleep(250); } };
+await A(`const s=adapter.impl.s; s.school=null; s.edu=2; const B=await import('/src/slice_bridge.js'); const sl=B.slice(s); sl.job={kind:'special',special:'athlete',id:'sp_athlete_4',title:'Franchise Player',wage:9000000,years:10,yearsInLevel:3,step:4,sector:'special'}; B.push(s); const E=await import('/src/engine.js'); s.pending=[]; s.cash=5e7; await adapter.impl.age({noAuto:true}); let g=0; while(s.pending.length&&g++<8) E.resolveCard(s,0); const u=await import('/ui/js/ui.js'); await u.refreshState(); return 1`);
+await closeAll(); await click('[data-tab=occupation]'); await sleep(700);
+let t = await top(); const team = await A('return adapter.impl.getMyTeam().team');
+ok('job card shows the team, not "special"', t.includes(team) && !/Employer\s+special/.test(t), t.slice(0, 200).replace(/\n/g, ' | '));
+ok('job card shows league standing', /League standing/.test(t));
+ok('job card has My Team / Skills / Season / Teammates / Offers links', (await page.$$('.panel.top [data-jt]')).length === 5);
+await page.screenshot({ path: `${OUT}/athlete_job_card.png` });
+await click('.panel.top [data-jt=mates]'); await sleep(900); t = await top();
+ok('Teammates tab opens straight from the card', !!(await page.$('.panel.top [data-el=mt-mates]')) && (await page.$$('.panel.top [data-mate]')).length >= 8 && /Relationship/.test(t) && /Professionalism/.test(t));
+await page.screenshot({ path: `${OUT}/athlete_teammates.png` });
+await click('.panel.top [data-mate="1"]'); await sleep(400); await page.evaluate(() => document.querySelector('.sheet .opt').click()); await sleep(800);
+ok('interaction uses one of 4', /1\/4 this year/.test(await top()));
+await click('.panel.top [data-nav=back]'); await sleep(400); await click('.panel.top [data-jt=skills]'); await sleep(800);
+const before = await A('return adapter.impl.getMyTeam().train.used'); await click('.panel.top [data-train]'); await sleep(800);
+ok('skills tab trains', (await A('return adapter.impl.getMyTeam().train.used')) === before + 1);
+await closeAll(); await click('[data-tab=occupation]'); await sleep(500); await page.evaluate(() => document.querySelector('.panel.top [data-wtab=all]')?.click()); await sleep(400); (await clickRow('Special Careers'), await sleep(500), await clickRow('Sports'), await sleep(500), await clickRow('Coaching')); await sleep(800); t = await top();
+ok('coaching shows Yes (N yrs pro) and Retire & coach', /Yes \(1[01] yrs pro/.test(t) && /Retire & coach/.test(t) && !/play a sport first/.test(t), t.slice(0, 300).replace(/\n/g, ' | '));
+await page.screenshot({ path: `${OUT}/coaching_experience.png` });
+await A(`const Pm=await import('/src/premium.js'); Pm.setOwned('autopilot'); const Au=await import('/src/autopilot.js'); const s=adapter.impl.s; s.flags.ex_pro=0; s.age=30; const B=await import('/src/slice_bridge.js'); const sl=B.slice(s); sl.job={kind:'special',special:'athlete',id:'sp_athlete_3',title:'Starter',wage:2000000,years:3,yearsInLevel:1,step:3,sector:'special'}; B.push(s); s.coach&&(s.coach.active=null); Au.ensure(s); s.auto.on=true; s.pending=[]; s.cash=5e7; return 1`);
+await closeAll(); await click('[data-el=age]'); await sleep(1500); for (let i = 0; i < 6 && await page.$('.overlay .opt, .overlay [data-btn]'); i++) { await page.evaluate(() => (document.querySelector('.overlay .opt') || document.querySelector('.overlay [data-btn]')).click()); await sleep(500); }
+await A("const x=await import('/ui/js/screens/sports.js'); const {openPanel}=await import('/ui/js/ui.js'); x.openMyTeam({open:(t,f)=>openPanel(t,f)},'skills'); return 1"); await sleep(1000);
+const sk = await page.evaluate(() => ({ cap: document.querySelector('.panel.top [data-el=mt-cap]')?.textContent || '', dis: [...document.querySelectorAll('.panel.top [data-train]')].map((b) => b.disabled), low: document.querySelector('.panel.top [data-act=mt-lowest]')?.disabled, dec: document.querySelector('.panel.top [data-el=mt-decline]')?.textContent || '' }));
+ok('Autopilot trained 3 skills after AGE: 3/3 used, every train button disabled', /3\/3/.test(sk.cap) && sk.dis.length && sk.dis.every(Boolean) && sk.low === true, JSON.stringify(sk));
+ok('Skills tab shows age decline risk', /Age decline risk: \d+%/.test(sk.dec), sk.dec);
+await page.screenshot({ path: `${OUT}/athlete_autopilot_skills.png` });
+ok('no page errors', errors.length === 0, errors.join(' | ').slice(0, 300));
+await browser.close(); srv.kill(); console.log(fails ? `athlete_ui: ${fails} FAIL` : 'athlete_ui: PASS'); process.exit(fails ? 1 : 0);

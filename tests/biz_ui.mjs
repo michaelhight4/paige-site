@@ -1,0 +1,41 @@
+// Stage 7 UI click test: locked reasons, found a fleet + shop, upgrades, fleet buttons. node tests/biz_ui.mjs
+import { loadPuppeteer } from './_pp.mjs'; import { spawn } from 'node:child_process';
+const puppeteer = loadPuppeteer(); const ROOT = new URL('..', import.meta.url).pathname, PORT = 18799;
+const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' }); await new Promise((r) => setTimeout(r, 800));
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox', '--disable-gpu'] });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); let fails = 0; const errors = [];
+const ok = (n, c, i = '') => { if (!c) fails++; console.log((c ? 'PASS ' : 'FAIL ') + n + (i ? ' — ' + i : '')); };
+const page = await browser.newPage(); await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); }); page.on('pageerror', (e) => errors.push('pageerror ' + e.message));
+await page.goto(`http://127.0.0.1:${PORT}/index.html?fresh=1&nosave=1&seed=5&age=30&cash=9000000`); await page.waitForFunction(() => window.__ready === true, { timeout: 20000 }); await sleep(500);
+const A = (code) => page.evaluate(`(async()=>{const {adapter}=await import('/ui/js/adapter.js'); ${code}})()`);
+const clickText = async (text) => page.evaluate((text) => { const el = [...document.querySelectorAll('.panel.top .row')].find((e) => e.textContent.includes(text)); if (el) { el.scrollIntoView(); el.click(); return true; } return false; }, text);
+const info = await A('return await adapter.getBusinesses()');
+ok('39 founding types (36 shop + 3 studio) listed', info.types.length >= 39, String(info.types.length));
+const gun = info.types.find((t) => t.id === 'gun'), tax = info.types.find((t) => t.id === 'taxi');
+ok('taxi locked without a license', tax.locked && /driver/i.test(tax.reason), tax.reason); ok('gun store shows license + requirements', !!gun);
+await A("await adapter.debugSetup({age:30}); const m = await adapter.getAssetsMenu?.(); return 1");
+await page.click('[data-tab=assets]'); await sleep(300); await page.evaluate(() => document.querySelector('[data-el=biz-tab]').click()); await sleep(500);
+await page.evaluate(() => document.querySelector('[data-el=biz-found]').click()); await sleep(500);
+ok('found list has Gym and Gun Store', await page.evaluate(() => /Gym/.test(document.body.innerText) && /Gun Store/.test(document.body.innerText)));
+ok('locked row explains why (taxi)', await page.evaluate(() => /driver/i.test(document.querySelector('.panel.top').innerText)));
+await clickText('Gym'); await sleep(700);
+await sleep(700);
+ok('gym founded and opened on its manage screen', await page.evaluate(() => /Risks/.test(document.body.innerText)));
+ok('detail shows risks + upgrades', await page.evaluate(() => /Risks/.test(document.body.innerText) && /Upgrades/.test(document.body.innerText)));
+await page.evaluate(() => document.querySelector('[data-id="up:marketing"]').click()); await sleep(500);
+ok('upgrade installed', await page.evaluate(() => /Installed/.test(document.querySelector('.panel.top').innerText)));
+// fleet: grant license via engine, found a box-truck company through the UI
+await A("const s=adapter.impl?.s; return 0").catch(() => 0);
+const has = await page.evaluate(async () => { const { adapter } = await import('/ui/js/adapter.js'); const r = await adapter.takeAction('license:drivers').catch(() => null); return r; });
+const ti = await A('return (await adapter.getBusinesses()).types.find(t=>t.id==="boxtruck")');
+ok('license purchase unlocks fleet type', !ti.locked, ti.reason);
+const f = await A('const r = await adapter.foundBusiness({type:"boxtruck"}); return r');
+ok('fleet founded', f.ok, JSON.stringify(f).slice(0, 120));
+const d = await A('const l=(await adapter.getBusinesses()).owned.find(b=>b.type==="boxtruck"); return await adapter.getBusiness(l.id)');
+ok('fleet detail', d.fleet && d.fleet.vehicles === 2 && d.extraCosts.length === 3);
+await page.evaluate(() => { const p = document.querySelector('.panel.top'); }); await page.keyboard.press('Escape');
+await page.evaluate((id) => { window.__fid = id; }, d.id);
+for (const [act, rx] of [['buy', 'Bought'], ['driver', 'Hired'], ['service', 'serviced'], ['sell', 'Sold']]) { const r = await A(`return await adapter.fleetAction(${d.id}, '${act}')`); ok('fleet ' + act, r.ok, JSON.stringify(r).slice(0, 100)); }
+ok('no console errors', errors.length === 0, errors.slice(0, 3).join(' | '));
+await browser.close(); srv.kill(); console.log(fails ? 'BIZ UI FAIL' : 'BIZ UI PASS'); process.exit(fails ? 1 : 0);

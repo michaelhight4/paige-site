@@ -1,0 +1,91 @@
+/* 7c5 vivid pass: a saturated hue per area, coloured stat bars, pill buttons, tinted rows, bright popups.
+   Colours are layered on top of the palette vars; text sits on solid background-colors chosen for >= 4.5:1 with white.
+   Tints and the sunny top bar apply to the Light palette only; Dark keeps its surfaces but gets the coloured headers and bars.
+   High contrast / colorblind / pastel / low-brightness palettes are left alone. */
+:root{
+  --v-life:#e0173f; --v-life2:#b8102f; --v-life-t:#fff6f7;
+  --v-skills:#6a3df0; --v-skills2:#4f24c9; --v-skills-t:#f6f2ff;
+  --v-assets:#00866a; --v-assets2:#006450; --v-assets-t:#effbf6;
+  --v-work:#0a6ad8; --v-work2:#084fa6; --v-work-t:#eef5ff;
+  --v-social:#c94a06; --v-social2:#a33a00; --v-social-t:#fff5ec;
+  --v-more:#8a2bc2; --v-more2:#6b1d99; --v-more-t:#f8f0ff;
+  --v-store:#ffc21a; --v-store2:#ff9f0a; --v-store-t:#fff8e1;
+}
+html[data-style="light"],html[data-style="dark"]{--v-on:1}
+/* per-area hue → generic vars */
+html[data-area="life"],html:not([data-area]){--hue:var(--v-life);--hue2:var(--v-life2);--tint:var(--v-life-t)}
+html[data-area="skills"]{--hue:var(--v-skills);--hue2:var(--v-skills2);--tint:var(--v-skills-t)}
+html[data-area="assets"]{--hue:var(--v-assets);--hue2:var(--v-assets2);--tint:var(--v-assets-t)}
+html[data-area="occupation"]{--hue:var(--v-work);--hue2:var(--v-work2);--tint:var(--v-work-t)}
+html[data-area="relationships"]{--hue:var(--v-social);--hue2:var(--v-social2);--tint:var(--v-social-t)}
+html[data-area="more"]{--hue:var(--v-more);--hue2:var(--v-more2);--tint:var(--v-more-t)}
+html[data-area="store"]{--hue:var(--v-more);--hue2:var(--v-more2);--tint:var(--v-store-t)}
+
+/* ---- panel title bar + section headers (Light + Dark) ---- */
+html:is([data-style="light"],[data-style="dark"]) .panel .pbar{background-color:var(--hue2);background-image:linear-gradient(135deg,var(--hue) 0%,var(--hue2) 100%);box-shadow:0 3px 0 #0002 inset,0 2px 6px #0003}
+html:is([data-style="light"],[data-style="dark"]) .panel .pbar h2{text-shadow:0 2px 0 #0003}
+html:is([data-style="light"],[data-style="dark"]) .panel .sec{background-color:var(--hue2);background-image:linear-gradient(90deg,var(--hue2),var(--hue) 50%,var(--hue2));color:#fff;border-radius:0;letter-spacing:.5px;font-size:13.5px;padding:6px 8px}
+html[data-area="store"]:is([data-style="light"],[data-style="dark"]) .panel .pbar{background-color:#6b1d99;background-image:linear-gradient(135deg,#8a2bc2,#6b1d99 60%,#4a1470)}
+
+/* ---- Light tints ---- */
+html[data-style="light"] .panel{--mute:#5a6478}
+html[data-style="light"] .panel .body{background:var(--tint)}
+html[data-style="light"] .panel .mini{background:var(--tint);color:#2a3550;border-bottom:2px solid var(--hue)}
+html[data-style="light"] .panel .row{background:#fff;border-left:4px solid var(--hue);border-bottom:1px solid #e6e1ee}
+html[data-style="light"] .panel .row:nth-of-type(even){background:var(--tint)}
+html[data-style="light"] .panel .row.dis{background:#f1f2f6;border-left-color:#c3c8d3}
+html[data-style="light"] .panel .card{background:#fff;border:2px solid var(--hue);box-shadow:0 3px 0 var(--hue2)22,0 2px 8px #0001}
+html[data-style="light"] .panel .card h3{color:var(--hue2)}
+html[data-style="light"] .tile{border:2px solid var(--hue);background:#fff;box-shadow:0 3px 0 var(--hue2)}
+
+/* ---- top bar (Light) ---- */
+html[data-style="light"] .topbar:not([class*="fame-t"]){background-color:#ffd75e;background-image:radial-gradient(circle at 12% 30%,#fff3 0 6px,transparent 7px),radial-gradient(circle at 78% 70%,#fff4 0 5px,transparent 6px),linear-gradient(120deg,#ffe46b 0%,#ffc94d 55%,#ffb84a 100%);border-bottom:3px solid #f08a00}
+html[data-style="light"] .topbar .hd,html[data-style="light"] .topbar .bank small{color:#4a3a10}
+html[data-style="light"] .topbar .bank b{color:#0b6b2e;text-shadow:0 1px 0 #fff8}
+html[data-style="light"] .topbar .bank b.neg{color:#a1121f}
+html[data-style="light"] .topbar .avatar{border-color:#fff;box-shadow:0 0 0 3px #ff7a1a}
+html[data-style="light"] .agebar{background:#fff0c2;color:#1f3a5f;border-bottom:2px solid #ffc94d}
+html[data-style="light"] .stats{background:#f4f0ff;border-top:3px solid #7c4dff}
+
+/* ---- stat bars: own colour per stat, with gradient (Light + Dark) ---- */
+html:is([data-style="light"],[data-style="dark"]) .bar .track{background:#0000001a;box-shadow:inset 0 1px 2px #0002}
+html[data-style="dark"] .bar .track{background:#ffffff1f}
+html:is([data-style="light"],[data-style="dark"]) .bar .fill{background-image:linear-gradient(180deg,#fff5 0,#fff0 55%),linear-gradient(90deg,var(--b1,#2fb457),var(--b2,#1f9e47));box-shadow:inset 0 -2px 0 #0002}
+html:is([data-style="light"],[data-style="dark"]) .bar.good{--b1:#3ddc6e;--b2:#16a34a}
+html:is([data-style="light"],[data-style="dark"]) .bar.warn{--b1:#ffb43d;--b2:#f07c0a}
+html:is([data-style="light"],[data-style="dark"]) .bar.bad{--b1:#ff6b6b;--b2:#d9263a}
+html:is([data-style="light"],[data-style="dark"]) .bar[data-bar="happy"]{--b1:#ff7ad9;--b2:#e0177f}
+html:is([data-style="light"],[data-style="dark"]) .bar[data-bar="health"]{--b1:#5ee87a;--b2:#12a33b}
+html:is([data-style="light"],[data-style="dark"]) .bar[data-bar="smarts"]{--b1:#ffb03d;--b2:#f06a00}
+html:is([data-style="light"],[data-style="dark"]) .bar[data-bar="looks"]{--b1:#ffe95c;--b2:#f5b800}
+html:is([data-style="light"],[data-style="dark"]) .bar[data-bar="fame"]{--b1:#b48cff;--b2:#6a3df0}
+html[data-style="light"] .bar .track{background:#d5d9e2}
+
+/* ---- pill buttons (Light + Dark) ---- */
+html:is([data-style="light"],[data-style="dark"]) .btn:not([disabled]){border-radius:999px;background-image:linear-gradient(180deg,#ffffff38 0,#fff0 60%);box-shadow:0 3px 0 #0003}
+html:is([data-style="light"],[data-style="dark"]) .btn:not([disabled]):active{transform:translateY(2px);box-shadow:0 1px 0 #0003}
+html:is([data-style="light"],[data-style="dark"]) .btn.alt:not([disabled]){background-image:none;box-shadow:0 2px 0 #0002}
+html:is([data-style="light"],[data-style="dark"]) .btn[disabled]{border-radius:999px}
+html[data-style="light"] .chip{border-radius:999px}
+
+/* ---- event popups (Light + Dark) ---- */
+html:is([data-style="light"],[data-style="dark"]) .sheet{border-top:6px solid transparent;border-image:linear-gradient(90deg,#e0173f,#ff8a00,#ffd23f,#16a34a,#0a6ad8,#6a3df0) 1;border-image-slice:1 0 0 0}
+html:is([data-style="light"],[data-style="dark"]) .sheet h3{font-size:21px;font-weight:900}
+html[data-style="light"] .sheet{background:#fffdf6}
+html[data-style="light"] .sheet h3{color:#b8102f}
+html[data-style="light"] .sheet .opt:not(.dis){background:#eef5ff;border:2px solid #0a6ad8;color:#0b3b78;border-radius:999px;box-shadow:0 3px 0 #084fa6;padding:12px 18px}
+html[data-style="light"] .sheet .opt:not(.dis):nth-of-type(3n+2){background:#f6f2ff;border-color:#6a3df0;color:#3a1a9a;box-shadow:0 3px 0 #4f24c9}
+html[data-style="light"] .sheet .opt:not(.dis):nth-of-type(3n){background:#effbf6;border-color:#00866a;color:#004a3a;box-shadow:0 3px 0 #006450}
+html[data-style="light"] .sheet .opt:not(.dis) .hint{color:#4a5568}
+html[data-style="light"] .sheet .opt.dis{border-radius:999px}
+/* ---- home journal (Light) ---- */
+html[data-style="light"] .journal{background:#fffdf8}
+html[data-style="light"] .j-age{color:#b8102f;border-bottom:2px solid #ffb3c0}
+/* ---- popups: intent colours + dark overlay (Light + Dark) ---- */
+html:is([data-style="light"],[data-style="dark"]) .overlay{background:#0a1020b8}
+html:is([data-style="light"],[data-style="dark"]) .btn.danger:not([disabled]){background-color:#b3122b;color:#fff}
+html:is([data-style="light"],[data-style="dark"]) .btn.go:not([disabled]){background-color:#12a33b}
+html[data-style="light"] .sheet .btn.alt:not([disabled]){background:#e3f1ff;border-color:#0a6ad8;color:#0b3b78}
+/* ---- banner-ad layout hooks (next step). Defaults are 0 so nothing is reserved; set --banner-h on #app only while a
+   banner will actually render (never for No Ads / All Access), then the nav lifts by exactly that height. ---- */
+#app{--banner-h:0px}

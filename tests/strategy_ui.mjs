@@ -1,0 +1,31 @@
+// UI test @390px: streaming + media strategy cards/popups, Autopilot preference rows. node tests/strategy_ui.mjs
+import { loadPuppeteer } from './_pp.mjs'; import { spawn } from 'node:child_process'; import fs from 'node:fs';
+const puppeteer = loadPuppeteer(); const ROOT = new URL('..', import.meta.url).pathname, PORT = 18872, SHOTS = process.env.SHOTS || '/workspace/lifesim_art128/feature_shots7'; fs.mkdirSync(SHOTS, { recursive: true });
+const srv = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' }); await new Promise((r) => setTimeout(r, 800));
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox', '--disable-gpu'] });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); let fails = 0; const errors = [];
+const ok = (n, c, i = '') => { if (!c) fails++; console.log((c ? 'PASS ' : 'FAIL ') + n + (i ? ' — ' + i : '')); };
+const page = await browser.newPage(); await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: false });
+page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errors.push(m.text()); }); page.on('pageerror', (e) => errors.push('pageerror ' + e.message));
+await page.goto(`http://127.0.0.1:${PORT}/index.html?fresh=1&nosave=1&seed=9&age=30&cash=500000000`); await page.evaluate(() => localStorage.clear()); await page.reload(); await page.waitForFunction(() => window.__ready === true, { timeout: 20000 }); await sleep(600);
+const A = (code) => page.evaluate(`(async()=>{const {adapter}=await import('/ui/js/adapter.js'); ${code}})()`);
+const shot = (n) => page.screenshot({ path: `${SHOTS}/${n}.png` });
+const top = () => page.evaluate(() => document.querySelector('.panel.top')?.innerText || '');
+const clickRow = (text) => page.evaluate((text) => { const el = [...document.querySelectorAll('.row')].find((e) => e.textContent.includes(text)); if (el) { el.scrollIntoView(); el.click(); return true; } return false; }, text);
+const back = async () => { await page.evaluate(() => document.querySelector('[data-nav=back]')?.click()); await sleep(400); };
+await A(`const Pm=await import('/src/premium.js'); Pm.setOwned('autopilot'); const a=adapter.impl; a.s.school=null; a.streamerAction('start','rpg'); a.prodAction('film','found','Test Pictures'); return 1`);
+await page.click('[data-tab=occupation]'); await sleep(400); await page.evaluate(() => document.querySelector('.panel.top [data-wtab=all]')?.click()); await sleep(400); ok('Work menu has a streamer entry', await clickRow('Streamer') || await clickRow('Stream')); await sleep(700);
+ok('stream strategy card with choose button', !!(await page.$('[data-el=stream-plan-card]')) && /not chosen yet/.test(await top())); await shot('34_stream_strategy_card');
+await page.evaluate(() => document.querySelector('[data-act=stream-plan-choose]').click()); await sleep(500);
+const opts = await page.evaluate(() => [...document.querySelectorAll('.sheet .opt')].map((e) => e.innerText)); ok('popup lists 5 strategies with risk numbers', opts.length === 5 && opts.every((t) => /Ban risk/.test(t)) && /Consistent/.test(opts[0]) && /Trend/.test(opts[4]), opts.map((t) => t.split('\n')[0]).join(' | ')); await shot('35_stream_strategy_popup');
+await page.evaluate(() => document.querySelectorAll('.sheet .opt')[4].click()); await sleep(600); ok('choice applied (Trend-chasing)', (await A(`return adapter.impl.s.stream.plan`)) === 'trend' && /Trend-chasing/.test(await top()));
+await back(); await page.click('[data-tab=more]'); await sleep(400); await clickRow('Production Companies'); await sleep(600); await page.evaluate(() => document.querySelector('[data-id="co:film"]')?.click()); await sleep(700);
+ok('media strategy card on the studio screen', !!(await page.$('[data-el=media-plan-card]'))); await page.evaluate(() => document.querySelector('[data-el=media-plan-card]')?.scrollIntoView()); await shot('36_media_strategy_card');
+await page.evaluate(() => document.querySelector('[data-act=media-plan-choose]').click()); await sleep(500); const mo = await page.evaluate(() => [...document.querySelectorAll('.sheet .opt')].map((e) => e.innerText)); ok('popup lists 6 media strategies with scandal risk', mo.length === 6 && mo.every((t) => /Scandal risk/.test(t)), mo.map((t) => t.split('\n')[0]).join(' | ')); await shot('37_media_strategy_popup');
+await page.evaluate(() => document.querySelectorAll('.sheet .opt')[4].click()); await sleep(600); ok('media strategy applied (Prestige)', (await A(`return adapter.impl.s.prod.cos.film.strategy`)) === 'prestige');
+await back(); await page.click('[data-tab=more]'); await sleep(400); await clickRow('Autopilot'); await sleep(700);
+ok('Autopilot screen has preferred stream + media strategy rows (default safe)', !!(await page.$('[data-id="auto:streamplan"]')) && !!(await page.$('[data-id="auto:mediaplan"]')) && /Consistent/.test(await top()) && /Steady/.test(await top())); await page.evaluate(() => document.querySelector('[data-id="auto:streamplan"]')?.scrollIntoView()); await shot('38_autopilot_strategy_rows');
+await page.evaluate(() => document.querySelector('[data-id="auto:streamplan"]').click()); await sleep(500); await page.evaluate(() => document.querySelectorAll('.sheet .opt')[1].click()); await sleep(600); ok('preference saved (Niche)', (await A(`return adapter.impl.getAutopilot().streamPlan`)) === 'niche');
+// popup after aging
+await A(`const a=adapter.impl; const s=a.s; s.stream.plan=null; s.prod.cos.film.strategy=null; return 1`); await page.evaluate(() => document.querySelector('[data-nav=back]')?.click()); 
+ok('no console errors', errors.length === 0, errors.slice(0, 2).join(' | ')); await browser.close(); srv.kill(); console.log(fails ? 'strategy_ui: FAIL ' + fails : 'strategy_ui: PASS'); process.exit(fails ? 1 : 0);
