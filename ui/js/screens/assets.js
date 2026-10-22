@@ -1,3 +1,4 @@
+import { fmtPrice, fmtPct } from '../../../src/fmt.js';
 import { adapter } from '../adapter.js';
 import { businessesScreen } from './extra.js';
 import { advisorScreen } from './venture.js';
@@ -40,7 +41,7 @@ export async function financesScreen(body) {
 }
 // ---------- investments ----------
 // ---------- investments: holdings with cost / value / P&L, tap for Buy more / Sell / History; market list opens a chart + Buy ----------
-const pctTxt = (p) => `${p >= 0 ? '+' : ''}${p}%`;
+const pctTxt = (p) => (p == null || !isFinite(p) ? '' : fmtPct(p)); // 7c6: small changes on huge values keep 2 decimals instead of +0%
 const pnlCls = (v) => (v >= 0 ? 'pos' : 'neg');
 const unitsTxt = (u, dec = 2) => Number(u).toLocaleString('en-US', { maximumFractionDigits: Math.max(dec, 4) });
 // a money/units text input that keeps thousands commas while typing
@@ -63,18 +64,18 @@ export function priceChart(series, { w = 340, hgt = 140 } = {}) {
 }
 async function buySheet(p, cash) {
   const inp = numInput(Math.min(1000, Math.floor(cash))), info = h('div', { class: 'hint', 'data-el': 'buy-total' });
-  const upd = () => { const a = inp.num(), f = Math.pow(10, p.decimals), u = Math.floor((a / p.price) * f) / f; info.textContent = `${unitsTxt(u, p.decimals)} units × ${money(p.price)} = ${money(u * p.price)} · cash ${money(cash)}`; };
+  const upd = () => { const a = inp.num(), f = Math.pow(10, p.decimals), u = Math.floor((a / p.price) * f) / f; info.textContent = `${unitsTxt(u, p.decimals)} units × ${fmtPrice(p.price)} = ${money(u * p.price)} · cash ${money(cash)}`; };
   inp.addEventListener('change', upd); upd();
   const maxBtn = h('button', { class: 'btn alt sm', 'data-el': 'buy-max', type: 'button', text: 'Buy Max', onclick: async () => { const q = await adapter.investQuoteMax(p.id); if (q) inp.setNum(Math.floor(q.cost * 100) / 100); } });
-  const r = await sheet({ title: `Buy ${p.label}`, center: true, body: h('div', null, h('div', { class: 'hint', text: `Price ${money(p.price)} per unit · you own ${unitsTxt(p.units || 0, p.decimals)}` }), inp, h('div', { class: 'btns' }, maxBtn), info), buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'ok', label: 'Buy', cls: 'go' }] });
+  const r = await sheet({ title: `Buy ${p.label}`, center: true, body: h('div', null, h('div', { class: 'hint', text: `Price ${fmtPrice(p.price)} per unit · you own ${unitsTxt(p.units || 0, p.decimals)}` }), inp, h('div', { class: 'btns' }, maxBtn), info), buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'ok', label: 'Buy', cls: 'go' }] });
   if (r !== 'ok') return; const a = inp.num(); if (!(a > 0)) return;
-  const q = await adapter.investQuoteMax(p.id); if (q && a >= q.cost - 0.005) { if (await confirmSheet('Buy Max?', `Buy ${unitsTxt(q.units, p.decimals)} units of ${p.label} for ${money(q.cost)}? No loans are used.`, 'Buy', 'go')) await act(adapter.investBuyMax(p.id)); return; }
+  const q = await adapter.investQuoteMax(p.id); if (q && a >= Math.min(q.cost - 0.005, q.cost * (1 - 1e-9))) { if (await confirmSheet('Buy Max?', `Buy ${unitsTxt(q.units, p.decimals)} units of ${p.label} for ${money(q.cost)}? No loans are used.`, 'Buy', 'go')) await act(adapter.investBuyMax(p.id)); return; }
   await act(adapter.invest(p.id, Math.min(a, cash)));
 }
 async function sellSheet(x, dec) {
   const inp = numInput(x.units, { decimals: dec }), info = h('div', { class: 'hint', 'data-el': 'sell-total' });
   const upd = () => { const u = Math.min(inp.num(), x.units); info.textContent = `Selling ${unitsTxt(u, dec)} units = ${money(u * x.price)}`; }; inp.addEventListener('change', upd); upd();
-  const r = await sheet({ title: `Sell ${x.label}`, center: true, body: h('div', null, h('div', { class: 'hint', text: `You own ${unitsTxt(x.units, dec)} units · ${money(x.price)} each · worth ${money(x.value)}` }), inp, h('div', { class: 'btns' }, h('button', { class: 'btn alt sm', type: 'button', 'data-el': 'sell-half', text: 'Sell Half', onclick: () => inp.setNum(Math.floor((x.units / 2) * 10 ** dec) / 10 ** dec) }), h('button', { class: 'btn alt sm', type: 'button', 'data-el': 'sell-all', text: 'Sell All', onclick: () => inp.setNum(x.units) })), info), buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'ok', label: 'Sell', cls: 'go' }] });
+  const r = await sheet({ title: `Sell ${x.label}`, center: true, body: h('div', null, h('div', { class: 'hint', text: `You own ${unitsTxt(x.units, dec)} units · ${fmtPrice(x.price)} each · worth ${money(x.value)}` }), inp, h('div', { class: 'btns' }, h('button', { class: 'btn alt sm', type: 'button', 'data-el': 'sell-half', text: 'Sell Half', onclick: () => inp.setNum(Math.floor((x.units / 2) * 10 ** dec) / 10 ** dec) }), h('button', { class: 'btn alt sm', type: 'button', 'data-el': 'sell-all', text: 'Sell All', onclick: () => inp.setNum(x.units) })), info), buttons: [{ id: 'no', label: 'Cancel', cls: 'alt' }, { id: 'ok', label: 'Sell', cls: 'go' }] });
   if (r !== 'ok') return; const u = inp.num(); if (!(u > 0)) return; await act(adapter.investSellUnits(x.id, u >= x.units ? 'all' : u));
 }
 function historyList(rows, title) {
@@ -86,7 +87,7 @@ export async function productScreen(body, ctx, id) {
   let span = 10; const box = h('div');
   const draw = () => { box.replaceChildren(priceChart(span ? p.history.slice(-span - 1) : p.history)); };
   const ps = p.history.map((x) => x.price);
-  body.append(h('div', { class: 'card', 'data-el': 'product-card' }, h('h3', { text: `${p.icon} ${p.label}` }), kv('Current price', money(p.price)), kv('High / low', `${money(Math.max(...ps))} / ${money(Math.min(...ps))}`), kv('Last year', pctTxt(p.changePct), pnlCls(p.changePct)), kv('Risk', p.risk),
+  body.append(h('div', { class: 'card', 'data-el': 'product-card' }, h('h3', { text: `${p.icon} ${p.label}` }), kv('Current price', fmtPrice(p.price)), kv('High / low', `${fmtPrice(Math.max(...ps))} / ${fmtPrice(Math.min(...ps))}`), kv('Last year', pctTxt(p.changePct), pnlCls(p.changePct)), kv('Risk', p.risk),
     h('div', { class: 'tabs-inline', 'data-el': 'chart-span' }, ...[[5, '5y'], [10, '10y'], [0, 'All']].map(([n, l]) => h('button', { class: n === span ? 'on' : '', 'data-span': n, text: l, onclick: (e) => { span = n; e.target.parentNode.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b === e.target)); draw(); } }))), box,
     h('div', { class: 'btns' }, btn('Buy', async () => { await buySheet(p, v.cash); await ctx.refresh(); }, 'go', { 'data-el': 'product-buy' }))));
   draw();
@@ -100,19 +101,23 @@ export async function marketNewsScreen(body) {
 }
 export async function investmentsScreen(body, ctx) {
   const v = await adapter.getInvestments(), T = v.total;
-  body.append(h('div', { class: 'card', 'data-el': 'portfolio' }, h('h3', { text: 'Portfolio' }), h('div', { class: 'big', text: money(T.value) }), kv('Invested (cost)', money(T.cost)), kv('Profit / loss', `${money(T.pnl)} (${pctTxt(T.pnlPct)})`, pnlCls(T.pnl)), kv('Cash available', money(v.cash)), historyList(v.portfolioHistory, 'Portfolio yearly history')));
+  body.append(h('div', { class: 'card', 'data-el': 'portfolio' }, h('h3', { text: 'Portfolio' }), h('div', { class: 'big', text: money(T.value) }), kv('Invested (cost)', money(T.cost)), kv('Profit / loss', `${money(T.pnl)} (${pctTxt(T.pnlPct)})`, pnlCls(T.pnl)), T.lifetime ? h('div', { class: 'kv', 'data-el': 'lifetime-pnl', title: `Sold: ${money(T.lifetime.realized, true)} · yields: ${money(T.lifetime.income, true)} · open: ${money(T.lifetime.unrealized, true)}` }, h('span', { text: 'Lifetime P/L' }), h('b', { class: pnlCls(T.lifetime.pnl), style: { overflowWrap: 'anywhere', textAlign: 'right' }, text: `${T.lifetime.pnl > 0 ? '+' : ''}${money(T.lifetime.pnl, true)} (${pctTxt(T.lifetime.pct)})` })) : null, kv('Cash available', money(v.cash)),
+    h('div', { class: 'kv', 'data-el': 'div-balance' }, h('span', { text: 'Dividends to collect' }), h('b', { style: { overflowWrap: 'anywhere', textAlign: 'right' }, text: money(T.dividendBalance || 0, true) })),
+    T.dividendBalance > 0 ? h('div', { class: 'btns', style: { flexWrap: 'wrap' } }, btn('Collect', async () => { if (await confirmSheet('Collect dividends?', `Move ${money(T.dividendBalance)} into your cash.`, 'Collect', 'go')) { await act(adapter.investCollectDividends()); await ctx.refresh(); } }, 'go sm', { 'data-el': 'div-collect' }), btn('Reinvest all', async () => { await act(adapter.investReinvestDividends()); await ctx.refresh(); }, 'alt sm', { 'data-el': 'div-reinvest' })) : null,
+    historyList(v.portfolioHistory, 'Portfolio yearly history')));
   body.append(row({ id: 'market-news', icon: '📰', title: 'Market News', sub: (v.news && v.news.items[0] && v.news.items[0].text) || 'Yearly headlines that hint at what to buy or avoid', onClick: () => ctx.nav.open('Market News', marketNewsScreen) }));
   if (v.holdings.length) body.append(section('Holdings'), ...v.holdings.map((x) => h('button', { class: 'card holding', 'data-hold': x.id, style: { display: 'block', width: 'calc(100% - 24px)', textAlign: 'left' }, onclick: async () => {
-    const dec = (v.products.find((p) => p.id === x.id) || {}).decimals ?? 2; const i = await sheet({ title: x.label, options: [{ label: 'Buy more' }, { label: 'Sell' }, { label: 'View history' }] });
+    const dec = (v.products.find((p) => p.id === x.id) || {}).decimals ?? 2; const i = await sheet({ title: x.label, options: [{ label: 'Buy more' }, { label: 'Sell' }, { label: 'View history' }, ...(x.divMode ? [{ label: x.divMode === 'cash' ? 'Dividends: switch to Reinvest' : 'Dividends: switch to Cash out' }] : [])] });
+    if (i === 3) { await act(adapter.investDivMode(x.id, x.divMode === 'cash' ? 'reinvest' : 'cash')); await ctx.refresh(); return; }
     if (i === 0) { await buySheet(v.products.find((p) => p.id === x.id), v.cash); await ctx.refresh(); } else if (i === 1) { await sellSheet(x, dec); await ctx.refresh(); } else if (i === 2) ctx.nav.open(x.label + ' history', (b) => { b.append(h('div', { class: 'card' }, h('h3', { text: 'While you held it' }), kv('Cost basis', money(x.costBasis)), kv('Value now', money(x.value)), kv('Profit / loss', `${money(x.pnl)} (${pctTxt(x.pnlPct)})`, pnlCls(x.pnl))), priceChart((v.products.find((p) => p.id === x.id) || {}).history || []), historyList(x.history)); }); } },
-    h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${x.icon} ${x.label}` }), h('div', { class: 'hint', text: `${unitsTxt(x.units)} units × ${money(x.price)}` }), kv('Cost', money(x.costBasis)), kv('Value', money(x.value)), kv('P/L', `${money(x.pnl)} (${pctTxt(x.pnlPct)})`, pnlCls(x.pnl)), kv('Last year', pctTxt(x.lastYearPct), pnlCls(x.lastYearPct)))));
+    h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${x.icon} ${x.label}` }), h('div', { class: 'hint', text: `${unitsTxt(x.units)} units × ${fmtPrice(x.price)}` }), kv('Cost', money(x.costBasis)), kv('Value', money(x.value)), kv('P/L', `${money(x.pnl)} (${pctTxt(x.pnlPct)})`, pnlCls(x.pnl)), kv('Last year', pctTxt(x.lastYearPct), pnlCls(x.lastYearPct)), x.divMode ? kv('Dividends', x.divMode === 'cash' ? 'Cash out (collect on Portfolio)' : 'Reinvest') : null)));
   body.append(section('Invest'), ...v.products.map((p) => row({ id: p.id, icon: p.icon, title: p.label, sub: `${p.sub} · ${pctTxt(p.changePct)} last year · risk ${p.risk}`, onClick: () => ctx.nav.open(p.label, (b, c) => productScreen(b, c, p.id)) })));
 }
 // ---------- luxury ----------
 export async function luxuryScreen(body) {
   const l = await adapter.getLuxury();
   if (l.owned.length) body.append(section('Owned'), ...l.owned.map(a => assetCard(a, { onTap: () => assetSheet(a) })));
-  body.append(section('For sale'), ...l.forSale.map(x => row({ id: x.id, icon: '💎', title: x.name, right: money(x.price), onClick: async () => { if (await confirmSheet(x.name, `Buy for ${money(x.price)}?`, 'Buy', 'go')) act(adapter.buy({ shopId: 'luxury', itemId: x.id })); } })));
+  body.append(section('For sale'), ...l.forSale.map(x => row({ id: x.id, icon: '💎', title: x.name, right: fmtPrice(x.price), onClick: async () => { if (await confirmSheet(x.name, `Buy for ${fmtPrice(x.price)}?`, 'Buy', 'go')) act(adapter.buy({ shopId: 'luxury', itemId: x.id })); } })));
 }
 // ---------- auctions ----------
 // every lot shows a picture: recoloured SVG art when it has a variant, the category art file otherwise, and a category icon as the last fallback

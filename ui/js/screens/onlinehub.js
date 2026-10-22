@@ -2,7 +2,7 @@
 import { adapter } from '../adapter.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, act } from '../ui.js';
 import { accordion } from './accordion.js';
-const cnt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
+import { fmtCount as cnt } from '../../../src/fmt.js';
 export async function profileRows(ctx) {
   const { nav } = ctx, [sm, inf, st] = await Promise.all([adapter.getSocial(), adapter.getInfluencer(), adapter.getStreamer()]), out = [];
   if (sm.locked) return [empty('Online profiles start at age 13.')];

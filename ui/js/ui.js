@@ -46,9 +46,14 @@ export function h(tag, props, ...kids) {
   return el;
 }
 
+// 7c6 item 13: values >= 1B show the compact form only ("$172.59 sept", "-$22.94 quint"); tapping a value reveals the full number.
+export const FULL = new Map();
 export function money(n, compact = false) {
-  return compact ? fmtCompact(n) : fmtMoney(n);
+  if (compact) return fmtCompact(n);
+  if (n != null && isFinite(n) && Math.abs(n) >= 1e9) { const c = fmtCompact(n); FULL.set(c, fmtMoney(n)); if (FULL.size > 5000) FULL.clear(); return c; }
+  return fmtMoney(n);
 }
+if (typeof document !== 'undefined') document.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('b, .big, .right, .sub'); if (!b || b.children.length) return; const t = b.textContent; if (b.dataset.compact) { b.textContent = b.dataset.compact; delete b.dataset.compact; return; } for (const [c, f] of FULL) if (t.includes(c)) { b.dataset.compact = t; b.textContent = t.replace(c, f); return; } });
 
 export function band(v) {
   for (const b of store.cfg.statBands) if (v >= b.min && v <= b.max) return b;
@@ -78,7 +83,7 @@ export function row({ icon, title, sub, right, badge, badgeCls, chevron = true, 
     right ? h('span', { class: 'rt', text: right }) : null,
     chevron && onClick && !disabled ? h('span', { class: 'chev', text: '›' }) : null);
 }
-export function kv(k, v, cls) { return h('div', { class: 'kv' }, h('span', { text: k }), h('b', { class: cls || '', text: v })); }
+export function kv(k, v, cls) { if (cls === 'pos' && /^\s*[-−]\s*\$?\d/.test(String(v))) cls = 'neg'; /* sign and colour always agree (7c6) */ return h('div', { class: 'kv' }, h('span', { text: k }), h('b', { class: cls || '', text: v })); }
 export const btn = (label, onClick, cls = '', extra = {}) => h('button', { class: 'btn ' + cls, onclick: onClick, ...extra }, label);
 export function empty(msg) { return h('div', { class: 'empty', text: msg }); }
 export function chip(text, cls = '') { return h('span', { class: 'chip ' + cls, text }); }

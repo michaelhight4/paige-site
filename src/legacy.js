@@ -84,16 +84,22 @@ export function setWill(s, mode, heirId, shares, charity) { s.will = { mode: mod
 export function computeEstate(s) {
   const E = LF().estate, nwv = netWorthOf(s), kids = heirsOf(s);
   const inv = Slice.inventory(s), invNet = inv.reduce((a, x) => a + x.value, 0), sliceRefs = new Set(inv.map((x) => x.a));
-  let cash = s.cash + Math.max(0, Slice.wealth(s) - invNet) * E.auctionRate, debt = s.debt, liquidated = 0; // investments/zoo are sold; owned objects are NOT
+  // 7c6 item 12: slice investments (stocks/funds/crypto...) pass to heirs as units at market value instead of being auctioned.
+  const slSt = s.sl ? Slice.pull(s) : null, slD = slSt ? Slice.sliceData() : null;
+  const invH = slSt ? Object.entries(slSt.invest || {}).filter(([, h]) => h.units > 0).map(([id, h]) => { const it = (slD.investments || []).find((x) => x.id === id); const price = slSt.market[id] ?? (it ? it.price : 0); return { id, name: it ? it.name : id, units: h.units, cost: h.cost || 0, divMode: h.divMode || 'reinvest', price, value: h.units * price }; }) : [];
+  const invHVal = invH.reduce((a, x) => a + x.value, 0);
+  let cash = s.cash + Math.max(0, Slice.wealth(s) - invNet - invHVal) * E.auctionRate, debt = s.debt, liquidated = 0; // investments/zoo are sold; owned objects are NOT
   const assets = [...s.assets.map((a) => ({ ref: a, value: a.value })), ...inv.map((x) => ({ ref: x.a, value: x.value, slice: true }))], biz = s.biz.map((b) => ({ ref: b, value: b.valuation }));
   const stocks = Object.entries(s.hold).filter(([, h]) => h.sh > 0).map(([t, h]) => ({ tkr: t, sh: h.sh, price: s.market.stocks[t].p, value: h.sh * s.market.stocks[t].p }));
   // pay debts from cash; only if cash is short, auction the cheapest objects
   const sellAssets = (need) => { const sorted = [...assets].sort((x, y) => x.value - y.value); let sold = 0; while (sold < need && sorted.length) { const x = sorted.shift(); const v = x.value * E.auctionRate; cash += v; sold += v; liquidated += v; assets.splice(assets.indexOf(x), 1); } };
   { let need = debt; const c = Math.min(cash, need); cash -= c; need -= c; if (need > 0) { sellAssets(need); cash = Math.max(0, cash - need); } }
   const gross = nwv.total + debt;
-  const estateVal = Math.max(0, cash + assets.reduce((a, x) => a + x.value, 0) + biz.reduce((a, x) => a + x.value, 0) + stocks.reduce((a, x) => a + x.value, 0));
+  const estateVal = Math.max(0, cash + assets.reduce((a, x) => a + x.value, 0) + biz.reduce((a, x) => a + x.value, 0) + stocks.reduce((a, x) => a + x.value, 0) + invH.reduce((a, x) => a + x.value, 0));
   const tax = Premium.isUnlocked('tax_evasion') ? 0 : Math.max(0, estateVal - E.exempt) * E.rate;
   let taxLeft = tax; const pay = Math.min(cash, taxLeft); cash -= pay; taxLeft -= pay;
+  // estate tax: cash first, then investment units sold at market price (biggest holding first), then stocks, then objects
+  for (const x of [...invH].sort((a, b) => b.value - a.value)) { if (!(taxLeft > 0)) break; if (!(x.price > 0)) continue; const sellU = Math.min(x.units, Math.ceil(taxLeft / x.price)), got = sellU * x.price; x.cost *= (x.units - sellU) / x.units; x.units -= sellU; x.value = x.units * x.price; cash += Math.max(0, got - taxLeft); taxLeft = Math.max(0, taxLeft - got); }
   while (taxLeft > 0 && stocks.length) { const x = stocks.shift(); const take = Math.min(x.value, taxLeft); taxLeft -= take; if (take < x.value) { const keep = (x.value - take) / x.price; stocks.unshift({ ...x, sh: Math.floor(keep), value: keep * x.price }); break; } }
   if (taxLeft > 0) { sellAssets(taxLeft); const p2 = Math.min(cash, taxLeft); cash -= p2; taxLeft -= p2; }
   const w = s.will || { mode: 'even' }, sh = willShares(s) && kids.some((k) => (willShares(s)[k.id] || 0) > 0) ? willShares(s) : null;
@@ -103,6 +109,10 @@ export function computeEstate(s) {
   if (heirs.length) {
     const items = [...assets.map((x) => ({ k: 'a', x, v: x.value })), ...biz.map((x) => ({ k: 'b', x, v: x.value }))].sort((a, b) => b.v - a.v);
     for (const it of items) { const h = heirs.reduce((m, y) => (y.total / y.frac < m.total / m.frac ? y : m), heirs[0]); (it.k === 'a' ? h.assets : h.biz).push(it.x.ref); h.total += it.v; }
+    // investments: floor(units x share) per heir, the rounding remainder goes to the main heir (largest share, first listed); cost basis splits with the units
+    const main = heirs.reduce((m, y) => (y.frac > m.frac ? y : m), heirs[0]); for (const h of heirs) h.invest = {};
+    for (const x of invH) { if (!(x.units > 0)) continue; let given = 0; for (const h of heirs) { const u = Math.floor(x.units * h.frac); if (u > 0) { h.invest[x.id] = { units: u, cost: x.cost * u / x.units, divMode: x.divMode, name: x.name, value: u * x.price }; h.total += u * x.price; given += u; } }
+      const rem = x.units - given; if (rem > 1e-9 && heirs.reduce((a, h) => a + h.frac, 0) > 0.999) { const g = main.invest[x.id] || (main.invest[x.id] = { units: 0, cost: 0, divMode: x.divMode, name: x.name, value: 0 }); g.units += rem; g.cost += x.cost * rem / x.units; g.value = g.units * x.price; main.total += rem * x.price; } }
     for (const st of stocks) { heirs.forEach((h) => { const n = Math.floor(st.sh * h.frac); if (n) { h.stocks[st.tkr] = n; h.total += n * st.price; } }); }
     for (const h of heirs) { h.cash = Math.max(0, Math.round(net * h.frac - h.total)); h.total += h.cash; }
     for (const h of heirs) h.trust = h.age < E.minOwnerAge && (h.biz.length > 0 || h.assets.length > 0); // minors keep everything, held in trust until 18
@@ -110,7 +120,7 @@ export function computeEstate(s) {
   const shareSum = heirs.reduce((a, h) => a + h.frac, 0), outside = sh ? Math.round(net * Math.max(0, 1 - shareSum)) : 0;
   return { gross, debt, outside, charity: sh && w.charityPct ? Math.round(net * w.charityPct / 100) : 0, charityId: w.charityId || null, tax: Math.round(tax), net: Math.round(net), estateVal: Math.round(estateVal), heirs, sliceRefs, exempt: E.exempt, rate: E.rate, mode: sh ? 'shares' : named ? 'one' : 'even', lostToTax: Math.round(tax) };
 }
-export function estateSummary(s) { const p = computeEstate(s); return { ...p, heirs: p.heirs.map((h) => ({ id: h.id, name: h.name, age: h.age, frac: h.frac, cash: Math.round(h.cash), assets: h.assets.map((a) => a.name), biz: h.biz.map((b) => b.name), auctioned: Math.round(h.auctioned), rel: h.rel, stocks: Object.keys(h.stocks).length, trust: h.trust, total: Math.round(h.total) })) }; }
+export function estateSummary(s) { const p = computeEstate(s); return { ...p, heirs: p.heirs.map((h) => ({ id: h.id, name: h.name, age: h.age, frac: h.frac, cash: Math.round(h.cash), assets: h.assets.map((a) => a.name), invest: Object.entries(h.invest || {}).map(([id, x]) => ({ id, name: x.name, units: x.units, value: Math.round(x.value) })), biz: h.biz.map((b) => b.name), auctioned: Math.round(h.auctioned), rel: h.rel, stocks: Object.keys(h.stocks).length, trust: h.trust, total: Math.round(h.total) })) }; }
 function dropBiz(s, b) { // clean handoff of a business that leaves the family: team/market listing released
   if (b.kind === 'sports' && s.league.teams[b.teamIdx]) s.league.my = -1;
   if (b.tkr) s.market.cos = s.market.cos.filter((c) => c.bizId !== b.id);
@@ -167,6 +177,7 @@ export function continueAs(s, heirId) {
   s.creatorLineage = !!(s.creatorLineage || s.creatorUsed); s.creatorUsed = false; s.creatorEdits = 0;
   const royalRes = Politics.passOn(s, oldRoyal, kid); // office/campaign/war end; royalty continues through a child
   s.tally = Ribbons.newTally(); s.alive = true; s.lastEnding = s.ending; s.ending = null; s.yr = [];
+  if (mine.invest && Object.keys(mine.invest).length) { const st = Slice.slice(s); st.invest = st.invest || {}; for (const [id, x] of Object.entries(mine.invest)) st.invest[id] = { units: x.units, cost: x.cost, divMode: x.divMode }; st.invLife = { realized: 0, income: 0, bought: Object.values(st.invest).reduce((a, h) => a + (h.cost || 0), 0) }; } // 7c6 item 12: holdings + cost basis pass on; Lifetime P/L starts fresh
   if (sliceMine.length) Slice.grant(s, sliceMine); // after the reset: the actual objects (tpl, art, vseed, condition) move to the heir
   s.char = heirLook; s.char.parts.hat = null;
   s.passions = undefined; s.skills = undefined; if (kid.rel === 'child') Passions.inherit(s, { passions: old.passions });

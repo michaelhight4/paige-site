@@ -1,5 +1,5 @@
 import { adapter } from '../adapter.js';
-import { store, h, avatarEl, row, section, kv, btn, empty, money, sheet, confirmSheet, act, openPanel, askNumber } from '../ui.js';
+import { store, h, avatarEl, row, section, kv, btn, empty, money, sheet, confirmSheet, act, openPanel, askNumber, toast } from '../ui.js';
 
 let catSel = null;
 export function setActivityCategory(id) { catSel = id; }
@@ -32,10 +32,10 @@ async function runActivity(i, nav) {
 }
 export async function willScreen(body) {
   const w = await adapter.getWill();
-  body.append(h('div', { class: 'card', 'data-el': 'will' }, h('h3', { text: 'Estate' }), h('div', { class: 'big', text: money(w.estateValue) }), h('div', { class: 'hint', text: 'Allocate percentages of your estate to living relatives.' })));
+  body.append(h('div', { class: 'card', 'data-el': 'will' }, h('h3', { text: 'Estate' }), h('div', { class: 'big', 'data-el': 'will-estate', style: { overflowWrap: 'anywhere' }, text: money(w.estateValue) }), h('div', { class: 'hint', text: 'Allocate percentages of your estate to living relatives.' })));
   if (!w.beneficiaries.length) return body.append(empty('You have no living relatives to inherit.'));
   const inputs = w.beneficiaries.map(b => ({ b, inp: h('input', { type: 'number', min: 0, max: 100, value: b.percent, 'data-person': b.personId, style: { width: '72px', padding: '8px', border: '2px solid #cddaf0', borderRadius: '8px', fontSize: '16px', textAlign: 'right' } }) }));
-  body.append(section('Beneficiaries'), ...inputs.map(({ b, inp }) => h('div', { class: 'row' }, avatarEl({ pid: b.personId, seed: b.personId, gender: 'm', age: 30 }, 36), h('span', { class: 'tx' }, h('span', { class: 't', text: b.name }), h('span', { class: 's', text: b.relation })), inp, h('span', { text: '%' }))));
+  body.append(section('Beneficiaries'), ...inputs.map(({ b, inp }) => h('div', { class: 'row' }, avatarEl({ pid: b.personId, seed: b.personId, gender: 'm', age: 30 }, 36), h('span', { class: 'tx' }, h('span', { class: 't', text: b.name }), h('span', { class: 's', text: b.relation })), h('div', { style: { display: 'flex', alignItems: 'center', gap: '6px', flex: '0 0 auto' } }, inp, h('span', { text: '%' }), btn('All', () => { for (const x of inputs) x.inp.value = x.inp === inp ? 100 : 0; cp.value = 0; ch.value = ''; toast(`${b.name} set to 100%. Tap Save will to keep it.`); }, 'alt sm', { 'data-el': 'will-all', 'data-person': b.personId, 'aria-label': 'Give 100% to ' + b.name })))));
   const ch = h('select', { 'data-el': 'charity', style: { padding: '8px', fontSize: '15px' } }, h('option', { value: '', text: 'No charity' }), ...(w.charities || []).map(c => h('option', { value: c.id, text: c.name, selected: w.charityId === c.id ? true : null })));
   const cp = h('input', { type: 'number', min: 0, max: 100, value: w.charityPct || 0, 'data-el': 'charity-pct', style: { width: '72px', padding: '8px', border: '2px solid #cddaf0', borderRadius: '8px', fontSize: '16px', textAlign: 'right' } });
   body.append(section('Charity'), h('div', { class: 'row' }, h('span', { class: 'tx' }, ch), cp, h('span', { text: '%' })), h('div', { class: 'hint', style: { padding: '6px 14px' }, text: `Estate tax ${Math.round((w.taxRate || 0) * 100)}%. Anything not allocated goes to the state.` }));

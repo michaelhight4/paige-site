@@ -10,7 +10,7 @@ export const METHODS = [
   // core
   'init', 'getConfig', 'getState', 'age', 'resolveEvent', 'getJournal', 'newLife',
   // occupation
-  'getOccupationMenu', 'getEducation', 'enroll', 'dropOut', 'getJobs', 'applyJob', 'quitJob',
+  'getOccupationMenu', 'getEducation', 'enroll', 'dropOut', 'getJobs', 'applyJob', 'quitJob', 'retireQuote', 'retireJob', 'investDivMode', 'investCollectDividends', 'investReinvestDividends',
   'getFreelanceGigs', 'doGig', 'getPartTimeJobs', 'applyPartTime', 'quitPartTime', 'getFight', 'fight',
   'getCareerCollections', 'collectCareer',
   // sports

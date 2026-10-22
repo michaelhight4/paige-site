@@ -3,6 +3,8 @@ import { adapter } from '../adapter.js';
 import { autoPageCard } from './autopage.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, act } from '../ui.js';
 
+// Squad grouped by position type (on-field order), each with a header showing count and average rating; best rated first inside.
+const squadGroups = (groups, mk) => groups.filter((g) => g.count).flatMap((g) => [h('div', { class: 'pos-group', 'data-el': 'pos-group', 'data-pos': g.id }, h('span', { class: 'pg-name', text: g.name }), h('span', { class: 'pg-meta', text: `${g.count} · avg ${g.avg}` })), ...g.players.map(mk)]);
 const KITS = [['#d94a4a', '#ffffff'], ['#3b6fd1', '#ffffff']];
 export async function coachingScreen(body, { nav, refresh }) {
   await autoPageCard(body, 'coaching');
@@ -18,20 +20,20 @@ export async function coachingScreen(body, { nav, refresh }) {
   body.append(h('div', { class: 'card', 'data-el': 'coach-card' }, h('h3', { text: `${st.sport.icon} ${st.team.name}` }), kv('Role', st.roleName), kv('Squad strength', String(st.team.strength)), bar('Board confidence', st.conf, { thin: true, key: 'conf' }), kv('Club budget', money(st.budget), 'pos'), kv('Years', String(st.years)), kv('Titles', String(st.titles)),
     st.role === 'assistant' ? h('div', { class: 'hint', text: st.canPromote ? 'The board will hear your case for head coach.' : `Head coach job after ${st.needYears} years as assistant (${st.years} so far).` }) : null,
     h('div', { class: 'btns', style: { flexWrap: 'wrap' } }, st.canPromote ? btn('Ask for the top job', () => go('promote'), 'go sm', { 'data-act': 'promote' }) : null, btn('Leave club', async () => { if (await confirmSheet('Leave the club?', 'You give up the job.', 'Leave', 'danger')) await go('quit'); }, 'alt sm'))));
-  if (st.season) body.append(seasonCard(st, go, nav));
+  if (st.season) body.append(seasonCard(st, go, nav, refresh));
   if (st.role === 'head') {
     body.append(h('div', { class: 'card', 'data-el': 'coach-plan' }, h('h3', { text: 'Game plan & training' }), h('div', { class: 'btns', style: { flexWrap: 'wrap' } }, ...st.styles.map((x) => btn(x.name, () => go('plan', x.id), x.id === st.style ? 'go sm' : 'alt sm', { 'data-act': 'style-' + x.id }))), h('div', { class: 'btns', style: { flexWrap: 'wrap' } }, ...st.training.map((x) => btn(x.name, () => go('plan', null, x.id), x.id === st.trainingId ? 'go sm' : 'alt sm', { 'data-act': 'train-' + x.id }))),
       h('div', { class: 'hint', text: st.mode === 'interactive' ? 'Interactive: play each quarter yourself.' : 'Auto: the season runs when you age up.' }), btn(st.mode === 'interactive' ? 'Switch to auto' : 'Switch to interactive', () => go('mode', st.mode === 'interactive' ? 'auto' : 'interactive'), 'alt sm', { 'data-act': 'mode' })));
     body.append(section('Club'), row({ id: 'stadium', icon: '🏟️', title: st.stadium.name, sub: st.stadium.next ? `Upgrade: ${st.stadium.next.name} (${money(st.stadium.next.cost)})` : 'Best stadium', disabled: !st.stadium.next, onClick: () => go('upgrade', 'stadium') }), row({ id: 'gear', icon: '🎽', title: st.gear.name, sub: st.gear.next ? `Upgrade: ${st.gear.next.name} (${money(st.gear.next.cost)})` : 'Best facilities', disabled: !st.gear.next, onClick: () => go('upgrade', 'gear') }),
       row({ id: 'transfers', icon: '🔁', title: 'Transfers', sub: `${st.market.length} players on the market`, onClick: () => nav.open('Transfers', transfersScreen) }), row({ id: 'donate', icon: '💵', title: 'Add $100,000 of your own money', sub: 'Boosts the club budget and confidence', onClick: () => go('donate', 100000) }));
   }
-  body.append(section('Squad'), ...st.team.players.slice(0, 12).map((p) => row({ icon: '🧍', title: p.name, sub: `${p.pos} · age ${p.age} · pot ${p.pot} · morale ${p.morale}`, right: String(p.ovr), chevron: false })));
+  body.append(section(`Squad · ${st.team.players.length} players`), ...squadGroups(st.team.groups, (p) => row({ icon: '🧍', title: p.name, sub: `${p.pos} · age ${p.age} · pot ${p.pot} · morale ${p.morale}`, right: String(p.ovr), chevron: false })));
   body.append(section('League table'), ...st.table.map((t) => row({ icon: t.me ? '⭐' : '🏳️', title: `${t.pos}. ${t.name}`, right: `${t.pts} pts`, sub: `GD ${t.gd >= 0 ? '+' : ''}${t.gd}`, chevron: false })));
   if (st.reviews.length) body.append(section('Season reviews'), ...st.reviews.slice().reverse().map(reviewRow));
 }
 const reviewRow = (r) => row({ icon: r.champion ? '🏆' : '📊', title: `${r.year} · ${r.team}: #${r.pos}`, sub: `${r.w}W-${r.l}L-${r.d}D · GF ${r.gf} GA ${r.ga} · ${r.notes.join(' ')}${r.best ? ' · Star: ' + r.best.name + ' (' + r.best.ovr + ')' : ''} · Income ${money(r.revenue.gate + r.revenue.sponsors)} · your pay ${money(r.revenue.salary)}`, chevron: false, 'data-el': 'review-row' });
 
-function seasonCard(st, go, nav) {
+function seasonCard(st, go, nav, refresh) {
   const S = st.season; const interactive = st.mode === 'interactive' || st.role === 'head';
   return h('div', { class: 'card', 'data-el': 'coach-season' }, h('h3', { text: `Season ${S.q >= 4 ? '(finished)' : S.quarters[S.q]}` }), kv('Record', `${S.w}W-${S.l}L-${S.d}D`), kv('Goals', `${S.gf}-${S.ga}`),
     S.nextOpp ? h('div', null, kv('Major game vs', `${S.nextOpp} (${S.nextOppStr})`), h('div', { class: 'btns', style: { flexWrap: 'wrap' } }, ...(st.role === 'head' ? st.styles.map((x) => btn(x.name, () => playQ(go, nav, x.id, true, st), x.id === st.style ? 'go sm' : 'alt sm', { 'data-act': 'q-' + x.id })) : [btn('Play the quarter (assistant)', () => playQ(go, nav, null, true), 'go sm', { 'data-act': 'q-assist' })]), btn('⏩ Auto-finish season', async () => { for (let i = 0; i < 4; i++) await adapter.coachAction('quarter'); await refresh(); }, 'alt sm', { 'data-act': 'finish' }))) : h('div', { class: 'hint', text: 'Age up to start the next season.' }),
@@ -55,5 +57,5 @@ export async function watch(data) {
 }
 async function transfersScreen(body, { refresh }) {
   const st = await adapter.getCoaching(); if (!st.active) return body.append(empty('No team.'));
-  body.append(h('div', { class: 'hint', style: { padding: '8px 12px' }, text: `Club budget: ${money(st.budget)}. Tap a market player to sign, or a squad player to sell.` }), section('Market'), ...st.market.map((p) => row({ id: 'buy:' + p.id, icon: '🛒', title: p.name, sub: `${p.pos} · age ${p.age} · pot ${p.pot}`, right: `${p.ovr} · ${money(p.price)}`, onClick: async () => { await act(adapter.coachAction('buy', p.id)); await refresh(); } })), section('Your squad'), ...st.team.players.map((p) => row({ id: 'sell:' + p.id, icon: '💱', title: p.name, sub: `${p.pos} · age ${p.age} · value ${money(Math.round(p.value * 0.8))}`, right: String(p.ovr), onClick: async () => { if (await confirmSheet('Sell ' + p.name + '?', 'You get 80% of their value.', 'Sell', 'danger')) { await act(adapter.coachAction('sell', p.id)); await refresh(); } } })));
+  body.append(h('div', { class: 'hint', style: { padding: '8px 12px' }, text: `Club budget: ${money(st.budget)}. Tap a market player to sign, or a squad player to sell.` }), section('Market'), ...st.market.map((p) => row({ id: 'buy:' + p.id, icon: '🛒', title: p.name, sub: `${p.pos} · age ${p.age} · pot ${p.pot}`, right: `${p.ovr} · ${money(p.price)}`, onClick: async () => { await act(adapter.coachAction('buy', p.id)); await refresh(); } })), section('Your squad'), ...squadGroups(st.team.groups, (p) => row({ id: 'sell:' + p.id, icon: '💱', title: p.name, sub: `${p.pos} · age ${p.age} · value ${money(Math.round(p.value * 0.8))}`, right: String(p.ovr), onClick: async () => { if (await confirmSheet('Sell ' + p.name + '?', 'You get 80% of their value.', 'Sell', 'danger')) { await act(adapter.coachAction('sell', p.id)); await refresh(); } } })));
 }

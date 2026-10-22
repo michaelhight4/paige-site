@@ -2,7 +2,7 @@
 // and have yearly events (data/events.json, flags is_streamer / is_influencer; effects through the `stream` / `infl` fx keys, see eventFx).
 // Streamer: pick a game/topic and schedule, subscribers + viewers, sponsors, donations, ban strikes, burnout, setup upgrades.
 // Influencer: pick a niche, style and posting rate, follower growth, brand deals, controversy heat and cancellation risk.
-import { fmtMoney } from './fmt.js';
+import { fmtMoney } from './fmt.js'; import { fmtCount as FC } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, gauss } from './rng.js';
 import { log, earn, spend, addStat } from './core.js';
@@ -17,7 +17,7 @@ const net = (s, g) => g * (1 - (PFx.noTax() ? 0 : TAX));
 const money = (n) => fmtMoney(n);
 const age = (s) => Math.floor(s.age);
 const teen = (s) => age(s) < O().teenCap.age;
-const tierName = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
+const tierName = (n) => FC(n);
 export const fmtCount = tierName;
 // fame floor each online career pulls you toward (log scale)
 const fameTarget = (n) => clamp(Math.log10(n + 1) * 13 - 12, 0, 88);

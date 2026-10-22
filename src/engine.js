@@ -30,6 +30,7 @@ import * as PFx from './premium_fx.js';
 import * as Char from './character.js';
 import * as Carry from './schoolcarry.js';
 import * as Online from './online.js';
+import * as Retire from './retire.js';
 import * as Social from './social.js';
 import * as Politics from './politics.js';
 import * as Prod from './prodco.js';
@@ -140,6 +141,7 @@ function lifeTick(s, dt) {
   if (s.job2 && !inPrison) { const j2 = s.job2, c2 = D.careers.find((x) => x.id === j2.id); if (!c2) s.job2 = null; else { j2.perf = clamp(j2.perf + ((s.stats.smarts - 50) / 40 + (s.stats.happiness - 50) / 60 + gauss(s) * 3) * dt, 0, 100); j2.yrs += dt; earn(s, TB.secondJobPay(D, s) * dt * (1 - (PFx.noTax() ? 0 : TAX))); if (j2.perf < 15 && chance(s, 0.3 * dt)) { log(s, 'I was let go from my second job for poor performance.', 'career'); s.job2 = null; } } }
   if (!inPrison) { const tb = TB.yearTick(s, dt); if (tb && tb.notes.includes('burnout')) log(s, 'I burned out from carrying too much. My health, mood and work all took a hit.', 'health'); }
   SS.proYear(s, dt);
+  Retire.payYear(s, earn, dt); // job pensions (7c6), one per retired job
   if (s.age >= 65 && !s.job && !inPrison && !s.pro) earn(s, 18000 * dt * (P.country(s).wealth > 0.8 ? 1 : 0.5)); // state pension
   // living costs, assets, debt
   if (s.age >= 18 && !inPrison) { const rent = s.assets.some((a) => a.kind === 'house') ? 0 : LIVING_COST; spend(s, (LIVING_COST * 0.5 + rent * 0.5) * dt); }

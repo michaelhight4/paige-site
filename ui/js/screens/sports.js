@@ -2,6 +2,11 @@ import { adapter } from '../adapter.js';
 import { autoPageCard } from './autopage.js';
 import { store, h, row, section, kv, btn, empty, bar, money, sheet, act } from '../ui.js';
 
+// 7c6 interactive: the season's key game, played from My Team or the Work page athlete card
+export async function playKeyGame(refresh) { const k = await adapter.getKeyGame(); if (!k || !k.available) return; const i = await sheet({ title: `🔥 Key game vs ${k.key.opp}`, body: 'Final minutes, the game is tied. What do you do?', options: k.calls.map((c) => ({ label: c.name, sub: c.sub })) }); if (i == null) return; await act(adapter.mtKeyGame(k.calls[i].id)); if (refresh) await refresh(); }
+export async function keyGameCard(refresh) { const k = await adapter.getKeyGame().catch(() => null); if (!k || (!k.available && !k.done)) return null;
+  return h('div', { class: 'card', 'data-el': 'key-game' }, h('h3', { text: '🔥 Key game' }), k.done ? kv(`vs ${k.key.opp}`, `${k.key.win ? 'Won' : 'Lost'} · ${k.key.callName}`, k.key.win ? 'pos' : 'neg') : h('div', null, h('div', { class: 'hint', text: `Big game vs ${k.key.opp} this season. Your call changes the season record.` }), h('div', { class: 'btns' }, btn('Play the key game', () => playKeyGame(refresh), 'go sm', { 'data-act': 'key-game' })))); }
+
 let mtTab = 'team';
 const AW_ICON = { mvp: '🏅', score: '🎯', defense: '🛡️', roty: '🌟', allstar: '⭐', champion: '🏆', hof: '🏛️' };
 const rankTxt = (n) => (n ? '#' + n : '');
@@ -12,6 +17,7 @@ export async function openMyTeam(nav, tab = 'team') { mtTab = tab; nav.open('Spo
 async function myTeamScreen(body, ctx, v) {
   const refresh = (ctx && ctx.refresh) || (() => {}); const go = async (p) => { await act(p); refresh(); };
   await autoPageCard(body, 'myteam');
+  { const kc = await keyGameCard(refresh); if (kc) body.append(kc); }
   const L = v.last, tc = v.titleChance;
   body.append(h('div', { class: 'card', 'data-el': 'mt-head' }, h('div', { class: 'asset' }, h('div', { class: 'ic', text: v.icon }), h('div', { class: 'main' }, h('div', { class: 'nm', 'data-el': 'mt-team', text: v.team }), h('div', { class: 'sb', 'data-el': 'mt-sub', text: `${v.sport} · ${v.levelLabel}${v.league ? ' · ' + v.league : ''}` }), h('div', { class: 'sb', text: v.position + ' · overall ' + v.overall }))),
     L ? h('div', { class: 'hint', 'data-el': 'mt-rec', text: `Last season: ${L.w}-${L.l}, ${L.team === v.team ? '' : L.team + ', '}finished ${L.rank}/${L.teams}${L.champion ? ' 🏆' : ''}` }) : h('div', { class: 'hint', text: 'No season played yet. Age up to play one.' })));

@@ -1,6 +1,6 @@
 // Asset-side methods of the UI adapter, on the careers/assets slice (src/slice) via slice_bridge. Surfaces zoo, race garage, casino tables,
 // luxury, live auctions, amenities, instruments, investments, restoration and shopping.
-import { fmtMoney } from './fmt.js';
+import { fmtMoney, fmtPrice } from './fmt.js';
 import * as Bk from './bankruptcy.js';
 import { D } from './data.js';
 import * as B from './slice_bridge.js';
@@ -47,7 +47,7 @@ export const assets = {
     const s = this.s, sl = B.pull(s), d = B.sliceData(), f = H.financesCard(d, sl), st = this.getState(), tax = s.job ? Math.round((st.job ? st.job.salary : 0)) : 0;
     const mort = this.owned().filter((a) => a.loan).map((a) => ({ assetId: a.uid, label: a.name, balance: Math.round(a.loan.balance) }));
     return { cash: Math.round(s.cash), netWorth: st.netWorth, investmentsValue: f.investments, assetsValue: f.assets + f.zoo, debts: s.debt > 1 ? [{ id: 'debt', label: 'Debt & loans', balance: Math.round(s.debt), rate: 7 }] : [], mortgages: mort,
-      income: [...(st.job ? [{ label: 'Salary (after tax)', amount: Math.round(st.job.salary * (0.78)) }] : []), ...(st.partTime ? [{ label: 'Part-time', amount: st.partTime.weeklyPay * 52 }] : []), ...(f.breakdown.bond_yield ? [{ label: 'Bond yield', amount: f.breakdown.bond_yield }] : []), ...(f.breakdown.zoo > 0 ? [{ label: 'Zoo profit', amount: f.breakdown.zoo }] : [])],
+      income: [...(st.job ? [{ label: 'Salary (after tax)', amount: Math.round(st.job.salary * (0.78)) }] : []), ...(st.partTime ? [{ label: 'Part-time', amount: st.partTime.weeklyPay * 52 }] : []), ...(f.breakdown.bond_yield ? [{ label: 'Bond yield', amount: f.breakdown.bond_yield }] : []), ...((this.s.pensions || []).length ? [{ label: 'Pensions', amount: Math.round((this.s.pensions || []).reduce((a, p) => a + (p.amount || 0), 0)) }] : []), ...(f.breakdown.dividends ? [{ label: 'Dividends (last year)', amount: f.breakdown.dividends }] : []), ...(f.breakdown.zoo > 0 ? [{ label: 'Zoo profit', amount: f.breakdown.zoo }] : [])],
       expenses: [...(s.age >= 18 ? [{ label: 'Living costs', amount: LIVING_COST }] : []), ...(f.breakdown.upkeep ? [{ label: 'Asset upkeep', amount: f.breakdown.upkeep }] : []), ...(f.breakdown.loan_payments ? [{ label: 'Loan payments', amount: f.breakdown.loan_payments }] : [])], headline: '' };
   },
   payDebt(id, amt) { const s = this.s, n0 = this.mark(), a = Math.min(amt, s.debt, s.cash); if (a <= 0) return this.res(false, 'Nothing to pay.', n0); s.cash -= a; s.debt -= a; log(s, `I paid ${fmtMoney(Math.round(a))} toward my debt.`, 'money'); return this.res(true, `Paid ${Math.round(a)}.`, n0); },
@@ -56,15 +56,19 @@ export const assets = {
     const sl = B.pull(this.s), d = B.sliceData(), items = H.listInvestments(d, sl), risk = (i) => (i.sigma < 0.05 ? 'Very low' : i.sigma < 0.12 ? 'Low' : i.sigma < 0.25 ? 'Medium' : i.sigma < 0.6 ? 'High' : 'Very high');
     const hist = H.investHistory(d, sl), icon = (i) => (i.type === 'bond' ? '📜' : i.type === 'crypto' ? '🪙' : i.type === 'fund' ? '🧺' : i.type === 'penny' ? '🎲' : '📈');
     const chg = (id) => { const a = hist.prices[id] || []; if (a.length < 2) return 0; const x = a[a.length - 2].price, y = a[a.length - 1].price; return x ? Math.round((y / x - 1) * 1000) / 10 : 0; };
-    const holdings = items.filter((i) => i.units > 0).map((i) => { const hh = (hist.holdings[i.id] || []).slice(-15); return { id: i.id, productId: i.id, label: i.name, icon: icon(i), type: i.type, units: i.units, price: i.price, value: Math.round(i.value), costBasis: Math.round(i.cost), pnl: Math.round(i.value - i.cost), pnlPct: i.cost ? Math.round((i.value / i.cost - 1) * 1000) / 10 : 0, changePct: chg(i.id), lastYearPct: hh.length ? hh[hh.length - 1].pct : chg(i.id), history: hh, basisFlag: false }; });
+    const holdings = items.filter((i) => i.units > 0).map((i) => { const hh = (hist.holdings[i.id] || []).slice(-15); return { id: i.id, productId: i.id, label: i.name, icon: icon(i), type: i.type, units: i.units, price: i.price, value: Math.round(i.value), costBasis: Math.round(i.cost), pnl: Math.round(i.value - i.cost), pnlPct: i.cost ? (i.value - i.cost) / i.cost * 100 : 0, changePct: chg(i.id), lastYearPct: hh.length ? hh[hh.length - 1].pct : chg(i.id), history: hh, basisFlag: false, divMode: H.DIV_TYPES.includes(i.type) ? ((sl.invest[i.id] && sl.invest[i.id].divMode) || 'reinvest') : null }; });
     const tv = holdings.reduce((a, x) => a + x.value, 0), tc = holdings.reduce((a, x) => a + x.costBasis, 0);
-    return { cash: Math.round(this.s.cash), total: { value: tv, cost: tc, pnl: tv - tc, pnlPct: tc ? Math.round((tv / tc - 1) * 1000) / 10 : 0 }, portfolioHistory: hist.portfolio.slice(-15), news: hist.news,
-      products: items.map((i) => ({ id: i.id, label: i.name, type: i.type, sector: H.INV_SECTOR[i.id] || 'market', icon: icon(i), risk: risk(i), price: i.price, decimals: i.decimals ?? (i.type === 'stock' || i.type === 'fund' ? 2 : 0), min: i.min, units: i.units, changePct: chg(i.id), sub: i.type + (i.yield ? ` · ${Math.round(i.yield * 1000) / 10}% yield` : '') + ` · ${fmtMoney(i.price)}/unit`, history: hist.prices[i.id] || [] })), holdings };
+    const L = H.invLife(sl), life = L.realized + L.income + (tv - tc);
+    return { cash: Math.round(this.s.cash), total: { value: tv, cost: tc, pnl: tv - tc, pnlPct: tc ? (tv - tc) / tc * 100 : 0, dividendBalance: Math.round((sl.divBal || 0) * 100) / 100, lifetime: { pnl: Math.round(life), pct: L.bought > 0 ? (life / L.bought) * 100 : 0, realized: Math.round(L.realized), income: Math.round(L.income), unrealized: Math.round(tv - tc), bought: Math.round(L.bought) } }, portfolioHistory: hist.portfolio.slice(-15), news: hist.news,
+      products: items.map((i) => ({ id: i.id, label: i.name, type: i.type, sector: H.INV_SECTOR[i.id] || 'market', icon: icon(i), risk: risk(i), price: i.price, decimals: i.decimals ?? (i.type === 'stock' || i.type === 'fund' ? 2 : 0), min: i.min, units: i.units, changePct: chg(i.id), sub: i.type + (i.yield ? ` · ${Math.round(i.yield * 1000) / 10}% yield` : '') + (H.DIV_TYPES.includes(i.type) ? ' · pays 25% of yearly gain' : '') + ` · ${fmtPrice(i.price)}/unit`, history: hist.prices[i.id] || [] })), holdings };
   },
   invest(id, amt) { return this.sl((d, sl) => H.buyInvestment(d, sl, id, amt), 'money'); },
   divest(id, amt) { return this.sl((d, sl) => { const it = H.listInvestments(d, sl).find((i) => i.id === id); return H.sellInvestment(d, sl, id, it && amt >= it.value ? 'all' : Math.max(1, Math.floor(amt / it.price))); }, 'money'); },
-  investQuoteMax(id) { const sl = B.pull(this.s), q = H.maxBuy(B.sliceData(), sl, id); return q ? { units: q.units, cost: Math.round(q.cost * 100) / 100, price: q.price, ok: q.ok } : null; },
-  investBuyMax(id) { const q = this.investQuoteMax(id); if (!q || !q.ok) return this.res(false, 'Not enough cash for even the minimum.', this.mark()); return this.sl((d, sl) => H.buyInvestment(d, sl, id, Math.min(sl.cash, q.cost + 1e-9)), 'money'); },
+  investQuoteMax(id) { const sl = B.pull(this.s), q = H.maxBuy(B.sliceData(), sl, id); return q ? { units: q.units, cost: Math.min(sl.cash, Math.round(q.cost * 100) / 100), price: q.price, ok: q.ok } : null; },
+  investBuyMax(id) { const q = this.investQuoteMax(id); if (!q || !q.ok) return this.res(false, 'Not enough cash for even the minimum.', this.mark()); return this.sl((d, sl) => H.buyInvestment(d, sl, id, sl.cash), 'money'); },
+  investDivMode(id, mode) { return this.sl((d, sl) => H.setDivMode(d, sl, id, mode), 'money'); },
+  investCollectDividends() { return this.sl((d, sl) => H.collectDividends(d, sl), 'money'); },
+  investReinvestDividends() { return this.sl((d, sl) => H.reinvestDividends(d, sl), 'money'); },
   investSellUnits(id, units) { return this.sl((d, sl) => H.sellInvestment(d, sl, id, units === 'all' ? 'all' : Number(units)), 'money'); },
   getLuxury() { const sl = B.pull(this.s), d = B.sliceData(), L = d.assets.luxury; return { cash: Math.round(this.s.cash), owned: this.owned('luxury').map((a) => this.asset(a)), forSale: [...L.experiences, ...L.goods].map((x) => ({ id: x.id, name: x.name, price: x.cost })) }; },
   buy({ shopId, itemId, payment }) {

@@ -17,8 +17,8 @@ console.log('Stage 4: passions');
   const a = run(true), b = run(false); assert.ok(a > 20 && b === 0, `passion events: ${a} vs ${b}`); ok(`passion-tied events fire only with a passion (${a} in 25 lives x 20 yrs)`); }
 { // mastery
   const s = E.newGame({ seed: 8 }); s.age = 12; Pa.pick(s, 'science'); Pa.pick(s, 'writing'); const sk0 = Sk.get(s, 'intelligence');
-  Pa.gain(s, 'science', 150); const P = Pa.ensure(s); assert.equal(P.mastered.length, 1); assert.equal(P.active.length, 1); assert.ok(Sk.get(s, 'intelligence') >= 70, 'mastery boosts skill'); assert.ok(Pa.slotsFree(s) === 3 && Pa.pick(s, 'tech').ok); ok('mastery: permanent, bonus skills, +2 slots');
-  for (const id of ['writing', 'tech', 'art', 'music', 'cooking', 'sports']) { if (Pa.slotsFree(s) < 1) Pa.drop(s, P.active[0].id, true); if (!Pa.isMastered(s, id)) { Pa.pick(s, id); Pa.gain(s, id, 150); } } assert.ok(P.mastered.length >= 5, 'no mastery cap, got ' + P.mastered.length); ok('no mastery cap (each adds 2 slots)');
+  Pa.gain(s, 'science', 150); const P = Pa.ensure(s); assert.equal(P.mastered.length, 1); assert.equal(P.active.length, 1); assert.ok(Sk.get(s, 'intelligence') >= 70, 'mastery boosts skill'); assert.ok(Pa.slotsFree(s) === 1 && Pa.pick(s, 'tech').ok); ok('mastery: permanent, bonus skills, frees its slot (7c6 cap: 2 slots until 2 masteries)');
+  for (const id of ['writing', 'tech', 'art', 'music', 'cooking', 'sports']) { if (Pa.slotsFree(s) < 1 && P.active[0]) Pa.drop(s, P.active[0].id, true); if (!Pa.isMastered(s, id)) { Pa.pick(s, id); Pa.gain(s, id, 150); } } assert.equal(P.mastered.length, 4, '7c6 cap: max 4 passions per life, got ' + P.mastered.length); ok('mastery capped at 4 passions per life (7c6)');
   // yearly perks + inheritance head start
   const kid = E.newGame({ seed: 9 }); kid.age = 8; Pa.inherit(kid, { passions: P }); assert.ok((kid.heritage || []).length >= 1 && Pa.ensure(kid).active.some((a) => a.head && a.meter === 25)); ok('kids inherit a passion head start'); }
 console.log('Stage 5: skills');
