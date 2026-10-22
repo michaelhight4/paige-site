@@ -399,3 +399,6 @@ dialog.gift{margin:auto;width:min(100vw - 24px,640px);max-height:calc(100dvh - 2
 /* circuit on top of the original background (background untouched) */
 #circuit{z-index:0!important;opacity:.35;pointer-events:none;mix-blend-mode:screen}
 @media(max-width:500px){#circuit{opacity:.24}}
+#circuit #trace{animation:cpulse 4s ease-in-out infinite}
+@keyframes cpulse{0%,100%{opacity:.7}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){#circuit #bulb{display:none}#circuit #trace{animation:none}}
