@@ -1,0 +1,3 @@
+# app-ads.txt for paigegames.net — must be at https://paigegames.net/app-ads.txt and paigegames.net must match the
+# developer website listed in Google Play Console.
+google.com, pub-3732476962662887, DIRECT, f08c47fec0942fa0

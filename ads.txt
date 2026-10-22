@@ -1,0 +1,2 @@
+# ads.txt for paigegames.net
+google.com, pub-3732476962662887, DIRECT, f08c47fec0942fa0
