@@ -22,18 +22,22 @@
     return items[0].classList.contains('feat') || cols < 2 ? items[0] : items[Math.min(1, items.length - 1)];
   }
 
-  // Friendly ad notice (Gary, Oct 22): never on home; OK closes for this visit, checkbox remembers forever.
+
+  // Launch sale (Gary, Oct 22): Ad-Free for Life $15 (was $35) for everyone until Jan 1, 2027 00:00 CT. Display only until Stripe checkout honors it.
+  const SALE_END = Date.parse('2027-01-01T00:00:00-06:00');
+  function priceTag() { return Date.now() < SALE_END ? '<s>$35</s> $15 until Jan 1' : '$35'; }
+  // Friendly ad notice (Gary, Oct 22): shown on home too; I understand closes for this visit, checkbox remembers forever.
   const NK = 'paige_ad_notice_off';
   function onHome() { const h = location.hash.slice(1); return !h || h === 'home'; }
   function notice() {
     try { if (localStorage.getItem(NK) === '1' || sessionStorage.getItem(NK) === '1') return; } catch (e) {}
-    if (onHome() || document.getElementById('ad-notice')) return;
+    if (document.getElementById('ad-notice')) return;
     const d = document.createElement('div'); d.id = 'ad-notice'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'ad-n-t');
-    d.innerHTML = '<div class="adn-card"><h2 id="ad-n-t">We use ads to keep things free</h2><p>Every Paige Games title is free to play with no download. A few banner ads help keep it that way.</p><a class="adn-free" href="#wallet"><b>Go ad-free for life · $35</b><span>Support the site and turn ads off in every game and here, for good.</span></a><label class="adn-chk"><input type="checkbox" id="adn-off"> Don\'t show me this again</label><button type="button" class="adn-ok">Got it</button></div>';
+    d.innerHTML = '<div class="adn-card"><h2 id="ad-n-t">We use ads to keep things free</h2><p>Every Paige Games title is free to play with no download. A few banner ads help keep it that way.</p><div class="adn-row"><button type="button" class="adn-ok">I understand</button><button type="button" class="adn-never">Don\'t show again</button></div><p class="adn-foot">Want to support the website? <a class="adn-free" href="#wallet">Go ad-free with the Ad-Free for Life pack · ' + priceTag() + '</a></p></div>';
     document.body.appendChild(d);
     const ok = d.querySelector('.adn-ok'); ok.focus();
-    const close = () => { try { (d.querySelector('#adn-off').checked ? localStorage : sessionStorage).setItem(NK, '1'); } catch (e) {} d.remove(); };
-    ok.addEventListener('click', close); d.querySelector('.adn-free').addEventListener('click', close); d.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    const close = (forever) => { try { (forever === true ? localStorage : sessionStorage).setItem(NK, '1'); } catch (e) {} d.remove(); };
+    ok.addEventListener('click', () => close(false)); d.querySelector('.adn-never').addEventListener('click', () => close(true)); d.querySelector('.adn-free').addEventListener('click', () => close(false)); d.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(false); });
   }
   function noticeWhenReady() { if (window.__paigeAdsRemoved === true) return; notice(); addEventListener('hashchange', () => { if (built && window.__paigeAdsRemoved !== true) notice(); }); }
   let built = false, loaded = false;
