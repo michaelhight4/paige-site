@@ -396,3 +396,9 @@ dialog.gift{margin:auto;width:min(100vw - 24px,640px);max-height:calc(100dvh - 2
 .gnext{margin:-4px 0 10px;text-align:center;font:700 14px var(--body);color:#c9cfee}.gnext:empty{display:none}
 .inv-next{font:700 16px var(--body);color:#e8ebff}.inv-next b{color:#4ade80}
 .inv-warn{padding:10px 14px;border-radius:12px;background:#2a2410;border:1px solid #ffe066;color:#ffe9a3;font-weight:700}
+/* circuit visibility fix: paint the page gradient on html so the fixed circuit (z-index:-1) shows above it */
+html{background:radial-gradient(1200px 700px at 80% -10%,#2a1f7a 0,transparent 60%),radial-gradient(900px 600px at -10% 30%,#0f2f6b 0,transparent 60%),linear-gradient(180deg,var(--bg1),var(--bg0) 70%),#05060d;background-attachment:fixed}
+body{background:transparent!important}
+body[data-tab="start-of-the-end"]{background:#080706!important}
+#circuit{opacity:.4}
+@media(max-width:500px){#circuit{opacity:.26}}
