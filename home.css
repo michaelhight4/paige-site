@@ -417,3 +417,11 @@ dialog.gift{margin:auto;width:min(100vw - 24px,640px);max-height:calc(100dvh - 2
 .lb-view{flex:1;overflow:auto;touch-action:pinch-zoom pan-x pan-y;display:grid;place-items:center}
 .lb-view img{max-width:100%;max-height:100%;cursor:zoom-in}.lb-view.zoomed{place-items:start}.lb-view.zoomed img{max-width:none;max-height:none;width:200%;cursor:zoom-out}
 @media(min-width:760px){.lb-view.zoomed img{width:auto}}
+/* site-ads.js (Gary, Oct 22 2026): top banner + circuit-aware rail ads. Labelled, never over the #circuit line. */
+.sa-unit{box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:4px}
+.sa-unit .sa-lab{font:700 11px/14px var(--body);letter-spacing:.12em;text-transform:uppercase;color:#b9bfd6}
+.sa-unit .sa-ph{display:flex;align-items:center;justify-content:center;max-width:100%;font:600 13px var(--body);color:#c9cde0;background:rgba(14,17,44,.85);border:1px dashed rgba(178,107,255,.55);border-radius:10px;box-sizing:border-box}
+.sa-top{margin:14px 0 4px;max-width:100%;overflow:hidden}
+.sa-rail{position:fixed;z-index:5}
+body[data-tab="start-of-the-end"] .sa-unit{display:none}
+@media(prefers-reduced-motion:reduce){.sa-unit,.sa-unit *{animation:none!important;transition:none!important}}

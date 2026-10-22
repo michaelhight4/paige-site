@@ -30,6 +30,8 @@
   const NK = 'paige_ad_notice_off';
   function onHome() { const h = location.hash.slice(1); return !h || h === 'home'; }
   function notice() {
+    if (!window.__paigeAuth && !notice.authWait) { notice.authWait = true; const go = () => { if (window.__paigeAdsRemoved !== true) notice(); }; addEventListener('paige:auth-ready', go, { once: true }); setTimeout(() => { if (!window.__paigeAuth) go(); }, 4000); return; }
+    if (window.paigeInterstitial && window.paigeInterstitial.verified()) return; // Gary, Oct 22: verified-email users never get a full-screen ad overlay (site-ads.js gate)
     // Daily gift (gift.js) goes first: never both at once. The ad notice waits until the gift popup closes or is skipped today.
     if (window.__paigeGiftBusy) { if (!notice.wait) { notice.wait = true; addEventListener('paige:gift-done', () => { notice.wait = false; if (window.__paigeAdsRemoved !== true) notice(); }, { once: true }); } return; }
     try { if (localStorage.getItem(NK) === '1' || sessionStorage.getItem(NK) === '1') return; } catch (e) {}
