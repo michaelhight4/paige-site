@@ -4,7 +4,7 @@ import { autoPageCard } from './autopage.js';
 import { accountAutopilot } from './acctauto.js';
 import { h, row, section, kv, btn, empty, chip, bar, money, sheet, confirmSheet, act, toast } from '../ui.js';
 
-const cnt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
+import { fmtCount as cnt } from '../../../src/fmt.js';
 const TAGCLS = { Safe: 'good', Spicy: '', Risky: 'bad' };
 
 export async function handlePrompt(pr) {

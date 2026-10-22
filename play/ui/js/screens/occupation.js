@@ -27,6 +27,7 @@ async function myJobBody(body, ctx) {
   const { nav } = ctx, st = store.state, refresh = ctx.refresh || (() => {});
   const mt = await adapter.getMyTeam().catch(() => null), ath = mt && mt.onTeam && !mt.limbo && /pro|minor/.test(mt.level || '') ? mt : null;
   const co = await adapter.getCoaching().catch(() => null), coaching = !!(co && co.active);
+  if (ath) { const { keyGameCard } = await import('./sports.js'); const kc = await keyGameCard(refresh); if (kc) body.append(kc); } // 7c6 interactive key game (also on My Team)
   if (!st.job && ath) { // pro athlete without a regular job record: the team IS the job
     body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: '🏅 Pro athlete' }), kv('Team', `${ath.icon || ''} ${ath.team}`), ath.league ? kv('League', ath.league) : null));
     const { myTeamInline } = await import('./sports.js'); await myTeamInline(body, ctx);
@@ -37,12 +38,15 @@ async function myJobBody(body, ctx) {
   }
   if (!st.job && !st.partTime && !coaching && !ath) { const tb = await adapter.listSecondJobs(); if (!tb.current) { body.append(h('div', { class: 'card', 'data-el': 'no-job' }, h('h3', { text: 'No job yet' }), h('div', { class: 'hint', text: 'Find work that fits your education and skills.' }), h('div', { class: 'btns' }, btn('Find a job', () => { workTab = 'all'; nav.open('Jobs', (b, c) => jobsScreen(b, c, 'jobs')); }, 'go', { 'data-act': 'find-job' })))); return; } }
   if (st.job) {
+    const rq = ath ? null : await adapter.retireQuote();
     const L = ath && ath.last;
-    body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: `💼 ${st.job.title}` }), kv(ath ? 'Team' : 'Employer', ath ? `${ath.icon} ${ath.team}` : st.job.employer), kv('Salary', money(st.job.salary) + '/yr', 'pos'), kv('Years', String(st.job.years)),
+    body.append(h('div', { class: 'card', 'data-el': 'current-job' }, h('h3', { text: `💼 ${st.job.title}` }), kv(ath ? 'Team' : 'Employer', ath ? `${ath.icon} ${ath.team}` : st.job.employer), kv('Salary', money(st.job.salary) + '/yr', 'pos'), kv('Years', String(st.job.years)), rq ? h('div', { class: 'kv', 'data-el': 'retire-countdown' }, h('span', { text: 'Retirement' }), h('b', { class: rq.eligible ? 'pos' : '', text: rq.countdown })) : null, rq && rq.pensionTotal ? kv('Pensions', money(rq.pensionTotal) + '/yr') : null,
       ath ? kv('League standing', L ? `${L.w}-${L.l} · ${L.rank} of ${L.teams}${L.champion ? ' 🏆' : ''}` : `${ath.league} · season not played yet`) : null,
       ath && ath.security ? (await import('./sports.js')).secBar(ath.security) : null,
       ath ? h('div', { class: 'btns', 'data-el': 'job-team-links', style: { flexWrap: 'wrap' } }, ...[['team', '🏟️ My Team'], ['skills', '💪 Skills'], ['season', '📈 Season stats'], ['mates', '🤝 Teammates'], ['offers', '✍️ Offers']].map(([tab, lb]) => btn(lb, async () => { const { openMyTeam } = await import('./sports.js'); openMyTeam(nav, tab); }, 'alt sm', { 'data-jt': tab }))) : null,
       h('div', { class: 'btns', style: { flexWrap: 'wrap' } }, ath ? btn('✍️ Renegotiate contract', async () => { const { openMyTeam } = await import('./sports.js'); openMyTeam(nav, 'offers'); }, 'alt sm', { 'data-act': 'renegotiate' }) : null, btn('💪 Work harder', async () => { await act(adapter.quickAction('workharder')); refresh(); }, 'alt sm', { 'data-act': 'work-harder' }),
+        rq ? btn(rq.eligible ? '🏖️ Retire' : `🔒 Retire (${rq.left} yr${rq.left === 1 ? '' : 's'})`, async () => { const q = await adapter.retireQuote(); if (!q.eligible) return toast(q.reason);
+          if (await confirmSheet('Retire from ' + q.title + '?', h('div', { 'data-el': 'retire-quote' }, h('div', { class: 'hint', text: `After ${q.years} years of service you get:` }), kv('Pension', money(q.pension) + '/yr', 'pos'), h('div', { class: 'hint', text: `${q.pct}% of your ${money(q.salary)} salary, paid every year for life` }), kv('Send-off lump sum', money(q.lump), 'pos'), kv('You give up', `${money(q.salary)}/yr salary`, 'neg'), q.pensionTotal ? h('div', { class: 'hint', text: `Your other pensions (${money(q.pensionTotal)}/yr) keep paying.` }) : null, h('div', { class: 'hint', text: 'You can take a new job later and keep this pension.' })), 'Retire', 'go')) { await act(adapter.retireJob()); refresh(); } }, rq.eligible ? 'go sm' : 'alt sm', { 'data-act': 'retire', 'aria-disabled': rq.eligible ? null : 'true' }) : null,
         btn('Quit job', async () => { if (await confirmSheet('Quit job?', `Quit your job as ${st.job.title}?`, 'Quit', 'danger')) { await act(adapter.quitJob()); refresh(); } }, 'danger sm', { 'data-act': 'quit-job' }))));
     if (ath) { const { myTeamInline } = await import('./sports.js'); await myTeamInline(body, ctx); }
     else { const { jobPanelScreen } = await import('./jobpanel.js'); await jobPanelScreen(body, { ...ctx, refresh }); }

@@ -6,11 +6,33 @@
    "teamWord": "FC",
    "pitch": "#3f9b4f",
    "lineup": 11,
-   "goalScale": 1.0,
+   "goalScale": 1,
    "formations": [
     "4-4-2",
     "4-3-3",
     "5-3-2"
+   ],
+   "positions": [
+    {
+     "id": "GK",
+     "name": "Goalkeepers",
+     "w": 2
+    },
+    {
+     "id": "DEF",
+     "name": "Defenders",
+     "w": 5
+    },
+    {
+     "id": "MID",
+     "name": "Midfielders",
+     "w": 5
+    },
+    {
+     "id": "FWD",
+     "name": "Forwards",
+     "w": 4
+    }
    ]
   },
   "basketball": {
@@ -24,6 +46,23 @@
     "Balanced",
     "Run & gun",
     "Half court"
+   ],
+   "positions": [
+    {
+     "id": "G",
+     "name": "Guards",
+     "w": 6
+    },
+    {
+     "id": "F",
+     "name": "Forwards",
+     "w": 6
+    },
+    {
+     "id": "C",
+     "name": "Centers",
+     "w": 3
+    }
    ]
   },
   "football": {
@@ -37,6 +76,38 @@
     "Pro set",
     "Spread",
     "I-form"
+   ],
+   "positions": [
+    {
+     "id": "QB",
+     "name": "Quarterbacks",
+     "w": 2
+    },
+    {
+     "id": "OFF",
+     "name": "Offense: backs & receivers",
+     "w": 4
+    },
+    {
+     "id": "OL",
+     "name": "Offensive line",
+     "w": 3
+    },
+    {
+     "id": "DL",
+     "name": "Defensive line",
+     "w": 3
+    },
+    {
+     "id": "DB",
+     "name": "Linebackers & secondary",
+     "w": 3
+    },
+    {
+     "id": "K",
+     "name": "Kickers",
+     "w": 1
+    }
    ]
   },
   "baseball": {
@@ -50,6 +121,28 @@
     "Small ball",
     "Power",
     "Balanced"
+   ],
+   "positions": [
+    {
+     "id": "P",
+     "name": "Pitchers",
+     "w": 6
+    },
+    {
+     "id": "C",
+     "name": "Catchers",
+     "w": 2
+    },
+    {
+     "id": "IF",
+     "name": "Infielders",
+     "w": 4
+    },
+    {
+     "id": "OF",
+     "name": "Outfielders",
+     "w": 4
+    }
    ]
   },
   "hockey": {
@@ -63,6 +156,23 @@
     "Forecheck",
     "Trap",
     "Balanced"
+   ],
+   "positions": [
+    {
+     "id": "G",
+     "name": "Goalies",
+     "w": 2
+    },
+    {
+     "id": "D",
+     "name": "Defense",
+     "w": 5
+    },
+    {
+     "id": "F",
+     "name": "Forwards",
+     "w": 8
+    }
    ]
   }
  },
@@ -103,8 +213,8 @@
   {
    "id": "balanced",
    "name": "Balanced",
-   "atk": 1.0,
-   "def": 1.0,
+   "atk": 1,
+   "def": 1,
    "sub": "Solid and steady"
   },
   {
@@ -127,25 +237,25 @@
    "id": "fitness",
    "name": "Fitness camp",
    "sub": "Fewer injuries, late goals",
-   "fit": 1.0
+   "fit": 1
   },
   {
    "id": "tactics",
    "name": "Tactics drills",
    "sub": "Style works better",
-   "tac": 1.0
+   "tac": 1
   },
   {
    "id": "skills",
    "name": "Skills sessions",
    "sub": "Players improve faster",
-   "dev": 1.0
+   "dev": 1
   },
   {
    "id": "rest",
    "name": "Rest & recovery",
    "sub": "Morale up",
-   "mor": 1.0
+   "mor": 1
   }
  ],
  "roles": {
@@ -167,7 +277,7 @@
   {
    "name": "Community pitch",
    "cost": 0,
-   "gate": 1.0
+   "gate": 1
   },
   {
    "name": "Small stadium",
@@ -177,7 +287,7 @@
   {
    "name": "City stadium",
    "cost": 1500000,
-   "gate": 2.0
+   "gate": 2
   },
   {
    "name": "Grand arena",

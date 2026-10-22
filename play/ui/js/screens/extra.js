@@ -12,7 +12,7 @@ import { store, h, row, section, kv, btn, empty, chip, bar, money, sheet, confir
 
 export async function businessesScreen(body, { nav, refresh }) {
   const b = await adapter.getBusinesses();
-  body.append(h('div', { class: 'card', 'data-el': 'biz-summary' }, h('h3', { text: 'Your businesses' }), kv('Cash', money(b.cash)), kv('Owned', String(b.owned.length)), kv('Total profit / yr', money(b.owned.reduce((a, x) => a + x.profit, 0)), 'pos')));
+  body.append(h('div', { class: 'card', 'data-el': 'biz-summary' }, h('h3', { text: 'Your businesses' }), kv('Cash', money(b.cash)), kv('Owned', String(b.owned.length)), (() => { const t = b.owned.reduce((a, x) => a + x.profit, 0); return kv('Total profit / yr', money(t), t < 0 ? 'neg' : t > 0 ? 'pos' : ''); })(), (() => { const w = b.owned.filter((x) => x.profit < 0).sort((x, y) => x.profit - y.profit)[0]; return w ? kv('Biggest loser', `${w.name}: ${money(w.profit)}`, 'neg') : null; })()));
   body.append(h('div', { class: 'btns', style: { padding: '8px 12px 0' } }, btn('🏪 Start a business', () => nav.open('Start a business', foundScreen), 'go sm', { 'data-el': 'biz-found' }), btn('💰 Buy one', () => nav.open('Businesses for sale', offersScreen), 'alt sm', { 'data-el': 'biz-buy' })));
   // every venture type can be started or bought right here (same screens and state as the Work menu)
   body.append(section('Start or buy more'), ...[
@@ -94,11 +94,13 @@ export async function passionsScreen(body, { nav, refresh }) {
   await autoPageCard(body, 'passions');
   const p = await adapter.getPassions(); adapter.markSeen('passions');
   if (p.locked) return body.append(empty(`Passions start at age ${p.minAge}.`));
-  body.append(h('div', { class: 'card', 'data-el': 'passion-rules' }, h('h3', { 'data-el': 'passion-slots', text: `Slots: ${p.used}/${p.slots}` }), ...p.rules.map((r) => h('div', { class: 'hint', text: '• ' + r })), kv('Masteries', `${p.mastered.length} (each one added 2 slots)`), p.heritage.length ? h('div', { class: 'hint', text: '🧬 Head start from your parent: ' + p.heritage.join(', ') }) : null));
+  body.append(h('div', { class: 'card', 'data-el': 'passion-rules' }, h('h3', { 'data-el': 'passion-slots', text: `Slots: ${p.used}/${p.slots}` }), ...p.rules.map((r) => h('div', { class: 'hint', text: '• ' + r })), kv('Masteries', `${p.mastered.length} of ${p.maxTotal}`), p.heritage.length ? h('div', { class: 'hint', text: '🧬 Head start from your parent: ' + p.heritage.join(', ') }) : null));
   if (p.active.length) body.append(section('Active'), ...p.active.map((a) => h('div', { class: 'card', 'data-passion': a.id }, h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${a.icon} ${a.name}` }), bar('Mastery meter', a.meter, { thin: true, key: 'meter_' + a.id }), h('div', { class: 'hint', text: 'Trains: ' + Object.keys(a.skills).map((x) => x.replace('_', ' ')).join(', ') }),
     a.full ? h('div', { class: 'hint', 'data-el': 'cap-note', text: `Meter full at 100, but the mastery cap (${p.masteryCap}) is reached, so it can't become a new mastery. Drop it to free the slot.` }) : null,
     h('div', { class: 'btns' }, btn(a.full ? 'Meter full' : a.practiced ? 'Done this year' : 'Practice', async () => { await act(adapter.practicePassion(a.id)); }, 'go sm', { 'data-act': 'practice', disabled: a.practiced || a.full ? true : null }), btn('Drop (resets meter)', async () => { if (await confirmSheet('Drop ' + a.name + '?', 'Its meter resets to zero.', 'Drop', 'danger')) act(adapter.dropPassion(a.id)); }, 'alt sm', { 'data-act': 'drop' })))));
   if (p.mastered.length) body.append(section('Mastered'), ...p.mastered.map((m) => row({ icon: '🏆', title: `${m.title}`, sub: `${m.name} · mastered at age ${m.age}`, chevron: false })));
+  if (p.lockedSlots && p.lockedSlots.length) body.append(section('Locked slots'), ...p.lockedSlots.map((x) => row({ id: 'locked-slot:' + x.n, icon: '🔒', title: `Slot ${x.n}`, sub: x.reason, chevron: false, disabled: true })));
+  if (p.slots === 0 || (p.used >= p.slots && !p.active.length)) return body.append(empty(p.lockReason || 'No passion slot free.'));
   body.append(section(p.used >= p.slots ? 'Switch to…' : 'Choose a passion'), ...p.available.map((a) => row({ id: 'pick:' + a.id, icon: a.icon, title: a.name, sub: 'Trains ' + a.skills.slice(0, 3).map((x) => x.replace('_', ' ')).join(', '), onClick: async () => {
     let rep = null;
     if (p.used >= p.slots) { const i = await sheet({ title: `Replace which passion with ${a.name}?`, body: 'The replaced passion\'s meter resets to zero.', options: p.active.map((x) => ({ label: `${x.icon} ${x.name} (meter ${x.meter})` })) }); if (i == null) return; rep = p.active[i].id; }

@@ -146,6 +146,17 @@ const win2 = (a, b, str, rf) => (rf() < 1 / (1 + Math.exp(-(str[a] - str[b]) / 8
 const bracket = (top, str, rf) => { const a = win2(top[0], top[3], str, rf), b = win2(top[1], top[2], str, rf); return win2(a, b, str, rf); };
 
 // ---- one season ----
+
+// ---------- interactive key game (7c6): one big game a season you play yourself; the call you make swings the season record ----------
+export const CALLS = [{ id: 'charge', name: 'Take charge', sub: 'Big risk, big reward', base: 0.42, k: 0.007, fame: 3 }, { id: 'pass', name: 'Find a teammate', sub: 'Team-first, steady', base: 0.5, k: 0.004, fame: 1 }, { id: 'safe', name: 'Play it safe', sub: 'Low risk, low reward', base: 0.58, k: 0.002, fame: 0 }];
+export function keyGame(s) { const mem = membership(s); if (!mem || mem.limbo || !/pro|minor|college/.test(mem.level || '')) return { available: false, why: 'Only for team athletes.' };
+  const m = ensure(s), a = age(s); if (m.key && m.key.age === a) return { available: !m.key.done, done: !!m.key.done, key: m.key, calls: CALLS };
+  const lg = leagueFor(s, mem), others = lg.teams.filter((t) => !t.mine); const opp = others.length ? others[(a * 7 + (s.name || '').length) % others.length].name : 'Rivals';
+  m.key = { age: a, opp, done: false, used: false }; return { available: true, done: false, key: m.key, calls: CALLS }; }
+export function keyGameCall(s, id) { const k = keyGame(s); if (!k.available) return { ok: false, msg: k.done ? 'Key game already played this season.' : k.why }; const c = CALLS.find((x) => x.id === id); if (!c) return { ok: false, msg: 'Pick a call.' };
+  const mem = membership(s), skill = overall(s, mem.sportId), p = clamp(c.base + (skill - 50) * c.k, 0.1, 0.92), win = rnd(s) < p; Object.assign(k.key, { done: true, call: c.id, callName: c.name, win, swing: c.id === 'charge' ? 2 : 1 });
+  addStat(s, 'fame', win ? c.fame : -Math.min(1, c.fame)); addStat(s, 'happiness', win ? 4 : -3);
+  log(s, `Key game vs ${k.key.opp}: I chose to ${c.name.toLowerCase()} and we ${win ? 'won' : 'lost'}.`, 'sport'); return { ok: true, msg: `${win ? 'Win' : 'Loss'} vs ${k.key.opp} (${c.name}).`, key: k.key }; }
 export function simSeason(s, mem) {
   const m = ensure(s), lg = leagueFor(s, mem), sid = mem.sportId, L = LEVELS[mem.level], st = styleDef(m.style), a = age(s); ensureMates(s, lg);
   const skill = overall(s, sid), sp = SPORTS[sid], d = defOf(sid), mineStat = statsFor(s, sid, skill, mem.level);
@@ -169,6 +180,7 @@ export function simSeason(s, mem) {
   if (meF.rank <= Math.max(3, Math.round(field.length * 0.1)) && !injured) awards.push('allstar'); if (champion) awards.push('champion');
   const leaders = [...field].slice(0, 5).map((p) => ({ name: p.name, team: p.team, me: !!p.me, stat: p.stats[sp.statOff], comp: Math.round(p.comp * 100) / 100 }));
   const rec = { age: a, year: s.birthYear + a, sid, level: mem.level, league: lg.name, team: mem.team, w: me.w, l: me.l, rank: me.rank, teams: L.teams, champion, playoffs: me.rank <= 4, stats: mineStat, ranks, rankOverall: meF.rank, fieldSize: field.length, awards, injured, style: m.style, leaders, skill, standings: recs.slice(0, 6).map((r) => ({ name: r.name, w: r.w, l: r.l, mine: r.mine })) };
+  { const K = m.key; if (K && K.done && !K.used && (K.age === a || K.age === a - 1)) { K.used = true; const sw = K.swing || 1; if (K.win) { const d = Math.min(sw, rec.l); rec.w += d; rec.l -= d; } else { const d = Math.min(sw, rec.w); rec.w -= d; rec.l += d; } rec.keyGame = { opp: K.opp, call: K.callName, win: K.win }; } }
   lg.field = field.filter((p, i) => i < 10 || p.me).map((p) => ({ name: p.name, team: p.team, me: !!p.me, rank: p.rank, stats: p.stats }));
   return rec;
 }

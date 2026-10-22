@@ -28,7 +28,7 @@ export const quickApi = {
       const [k, n] = key.split(':');
       if (k === 'upkeep') {
         const kin = P.living(s).filter((p) => p.rel !== 'ex' && P.interactionsFor(s, p).some((i) => i.id === 'spend')).sort((a, b) => a.bar - b.bar).slice(0, Number(n) || 1);
-        for (const p of kin) { const done = !!s.acted['p' + p.id + 'spend']; push({ id: 'upkeep:' + p.id, icon: '💬', label: 'Spend time: ' + p.first, hint: p.rel, done, disabled: done || !!s.prison }); }
+        for (const p of kin) { const done = !!s.acted['p' + p.id + 'spend']; push({ id: 'upkeep:' + p.id, icon: '💬', label: 'Spend time: ' + p.first, hint: P.relWord(p) ? P.relWord(p).toLowerCase() : p.rel, done, disabled: done || !!s.prison }); }
         continue;
       }
       if (k === 'practice') {

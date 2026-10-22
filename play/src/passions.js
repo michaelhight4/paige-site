@@ -10,7 +10,12 @@ const PD = () => D.passionsData, def = (id) => PD().passions.find((p) => p.id ==
 export const ensure = (s) => { if (!s.passions) s.passions = { active: [], mastered: [], hist: {} }; if (!s.awards) s.awards = []; const P = s.passions;
   for (const a of [...P.active]) if (a.capped || a.meter >= 99.5) { P.active = P.active.filter((x) => x !== a); if (!P.mastered.some((m) => m.id === a.id)) P.mastered.push({ id: a.id, age: Math.floor(s.age), title: (def(a.id) || {}).masteryTitle }); }
   return P; };
-export const totalSlots = (s) => PD().slots + 2 * ensure(s).mastered.length;
+// 7c6 cap (Gary): at most 4 passions per life (active + mastered). Only 2 can be held at first; slots 3-4 open once 2 passions are mastered.
+// Old saves over the cap keep what they have (no progress is deleted); they just can't pick new ones until they are back under it.
+export const MAX_PASSIONS = 4, FIRST_SLOTS = 2;
+export const unlockedMore = (s) => ensure(s).mastered.length >= FIRST_SLOTS;
+export const totalSlots = (s) => { const m = ensure(s).mastered.length; return Math.max(0, unlockedMore(s) ? MAX_PASSIONS - m : FIRST_SLOTS); };
+export const lockReason = (s) => { const P = ensure(s); if (P.mastered.length >= MAX_PASSIONS) return `All ${MAX_PASSIONS} passions mastered: that is the most one life can hold.`; if (P.active.length + P.mastered.length >= MAX_PASSIONS) return `${MAX_PASSIONS} passions is the limit for one life.`; if (!unlockedMore(s)) return `Master your first ${FIRST_SLOTS} passions to unlock slots 3 and 4.`; return ''; };
 export const has = (s, id) => ensure(s).active.some((a) => a.id === id);
 export const isMastered = (s, id) => ensure(s).mastered.some((m) => m.id === id);
 export const slotsFree = (s) => totalSlots(s) - ensure(s).active.length;
@@ -18,7 +23,8 @@ export function status(s) {
   const P = ensure(s), age = Math.floor(s.age), cfg = PD();
   return { slots: totalSlots(s), baseSlots: cfg.slots, used: P.active.length, masteryCap: null, locked: age < cfg.minAge, minAge: cfg.minAge, benchmark: cfg.benchmark,
     active: P.active.map((a) => ({ ...a, ...def(a.id), meter: Math.min(99, Math.floor(a.meter)), full: false, practiced: !!s.acted['passion:' + a.id] })), mastered: P.mastered.map((m) => ({ ...m, ...def(m.id) })),
-    available: cfg.passions.filter((p) => !has(s, p.id) && !isMastered(s, p.id)).map((p) => ({ id: p.id, name: p.name, icon: p.icon, skills: Object.keys(p.skills) })), capReached: false, cap: null };
+    available: cfg.passions.filter((p) => !has(s, p.id) && !isMastered(s, p.id)).map((p) => ({ id: p.id, name: p.name, icon: p.icon, skills: Object.keys(p.skills) })), capReached: P.active.length >= totalSlots(s), cap: MAX_PASSIONS, maxTotal: MAX_PASSIONS, firstSlots: FIRST_SLOTS, unlocked: unlockedMore(s), lockReason: lockReason(s),
+    lockedSlots: Array.from({ length: Math.max(0, MAX_PASSIONS - Math.max(totalSlots(s), P.active.length) - P.mastered.length) }, (_, i) => ({ n: P.active.length + P.mastered.length + i + 1, reason: lockReason(s) || 'Locked' })) };
 }
 export function pick(s, id, replaceId) {
   const P = ensure(s), cfg = PD(), p = def(id); if (!p) return { ok: false, msg: 'Unknown passion.' };
@@ -26,6 +32,7 @@ export function pick(s, id, replaceId) {
   if (has(s, id)) return { ok: false, msg: 'Already your passion.' }; if (isMastered(s, id)) return { ok: false, msg: 'You already mastered that.' };
   if (P.mastered.length >= cfg.masteryCap && false) return { ok: false, msg: 'No.' };
   if (P.active.length >= totalSlots(s)) {
+    if (!P.active.length || P.mastered.length >= MAX_PASSIONS) return { ok: false, msg: lockReason(s) || 'No passion slot free.', locked: true };
     if (!replaceId || !has(s, replaceId)) return { ok: false, msg: 'All passion slots are full. Choose one to switch away from.', needReplace: true };
     drop(s, replaceId, true);
   }
@@ -49,7 +56,7 @@ function master(s, a) {
   if (!P.mastered.some((m) => m.id === a.id)) P.mastered.push({ id: a.id, age: Math.floor(s.age), title: p.masteryTitle });
   for (const [k, w] of Object.entries(p.skills)) { Skills.ensure(s); s.skills[k] = Math.min(100, Math.max(s.skills[k], 70) + 6 * w); }
   s.awards.push({ id: 'mastery_' + a.id, age: Math.floor(s.age), text: p.masteryTitle }); addStat(s, 'happiness', 12); addStat(s, 'fame', p.perks.fame ? 4 : 1);
-  log(s, `I reached mastery in ${p.name.toLowerCase()} and became a ${p.masteryTitle}. Two new passion slots opened up.`, 'life'); if (s.pending && !s.pending.some((x) => x.kind === 'passion_mastered')) s.pending.push({ kind: 'passion_mastered', id: a.id }); s.flags['mastered_' + a.id] = 1; s.tally.masteries = (s.tally.masteries || 0) + 1;
+  log(s, `I reached mastery in ${p.name.toLowerCase()} and became a ${p.masteryTitle}. ${P.mastered.length === FIRST_SLOTS ? 'Passion slots 3 and 4 are now open.' : 'Its slot is free again.'}`, 'life'); if (s.pending && !s.pending.some((x) => x.kind === 'passion_mastered')) s.pending.push({ kind: 'passion_mastered', id: a.id }); s.flags['mastered_' + a.id] = 1; s.tally.masteries = (s.tally.masteries || 0) + 1;
 }
 export const perk = (s, key) => ensure(s).mastered.reduce((t, m) => t + ((def(m.id).perks || {})[key] || 0), 0);
 export function yearTick(s) {
@@ -68,5 +75,5 @@ export function inherit(s, prev) {
 export const boost = (s, e) => (e.if && e.if.passion ? 2.6 : 1);
 export const rate = (s) => Math.min(2, ensure(s).active.length) * 0.16;
 
-export function masteredCard(s) { const p = s.pending[0], d = def(p.id) || { name: 'A passion', masteryTitle: 'master' }; return { kind: 'passion_mastered', id: 'passion_mastered', title: '🏅 Passion mastered!', text: `You mastered ${d.name.toLowerCase()} and became a ${d.masteryTitle}. 2 new passion slots unlocked (${slotsFree(s)} free of ${totalSlots(s)}).`, choices: [{ label: 'Pick new passions' }, { label: 'Later' }] }; }
+export function masteredCard(s) { const p = s.pending[0], d = def(p.id) || { name: 'A passion', masteryTitle: 'master' }; return { kind: 'passion_mastered', id: 'passion_mastered', title: '🏅 Passion mastered!', text: `You mastered ${d.name.toLowerCase()} and became a ${d.masteryTitle}. ${ensure(s).mastered.length === FIRST_SLOTS ? 'Passion slots 3 and 4 unlocked' : 'Its slot is free'} (${Math.max(0, slotsFree(s))} free of ${totalSlots(s)}; max ${MAX_PASSIONS} per life).`, choices: [{ label: 'Pick new passions' }, { label: 'Later' }] }; }
 export function masteredResolve(s, i) { if (!s.pending[0] || s.pending[0].kind !== 'passion_mastered') return null; s.pending.shift(); return { ok: true, msg: i === 0 ? 'Opening the passion picker.' : 'Your new slots are waiting on the Passions page.', openPicker: i === 0 }; }

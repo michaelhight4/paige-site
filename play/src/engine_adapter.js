@@ -21,6 +21,7 @@ import { onlineApi } from './adapter_online.js';
 import { socialApi } from './adapter_social.js';
 import { politicsApi } from './adapter_politics.js';
 import { coachApi } from './adapter_coach.js';
+import * as Social from './social.js'; import * as Coach from './coaching.js';
 import { prodApi } from './adapter_prod.js';
 import { frApi } from './adapter_fr.js';
 import { rcApi } from './adapter_rc.js';
@@ -48,7 +49,7 @@ export class EngineAdapter {
       else if (this.opts.startFlow && E.SLOTS.some((n) => E.slotInfo(n))) this.startMode = 'lifeline';
     }
     if (!this.s && !(this.opts.startFlow && !this.opts.fresh)) this.s = E.newGame({ seed: this.opts.seed });
-    if (this.s) { this.ensureSeen(); try { PFx.migrateTeam(this.s); } catch (e) { /* old save */ } } try { B.preloadArt(); } catch (e) { /* cosmetic */ }
+    if (this.s) { this.ensureSeen(); try { PFx.migrateTeam(this.s); } catch (e) { /* old save */ } try { Social.capFollowers(this.s); Coach.migratePositions(this.s); } catch (e) { /* old save */ } } try { B.preloadArt(); } catch (e) { /* cosmetic */ }
   }
   getConfig() { return this.cfg; }
   save() { if (this.opts.noSave || !this.s) return; E.save(this.s, this.slot); }

@@ -27,6 +27,9 @@ function refreshOcc(s, p) {
 export const people = (s, rel) => s.people.filter((p) => (rel ? p.rel === rel : true));
 export const living = (s, rel) => s.people.filter((p) => p.alive && (rel ? p.rel === rel : true));
 export const byId = (s, id) => s.people.find((p) => p.id === id);
+// Relationship word for a person: married -> Wife/Husband (Spouse if gender unknown), dead spouse -> Late wife/husband, divorced -> Ex-wife/Ex-husband; dating stays Partner.
+export function relWord(p) { if (!p) return ''; const g = p.gender === 'f' ? 'wife' : p.gender === 'm' ? 'husband' : 'spouse', G = g[0].toUpperCase() + g.slice(1);
+  if (p.rel === 'spouse') return p.alive === false ? 'Late ' + g : G; if (p.rel === 'ex') return p.wasSpouse ? 'Ex-' + g : 'Ex'; if (p.rel === 'partner') return 'Partner'; return null; }
 export const partnerOf = (s) => living(s, 'spouse')[0] || living(s, 'partner')[0] || null;
 export const children = (s) => living(s, 'child');
 export const friends = (s) => living(s, 'friend');
@@ -184,7 +187,7 @@ function birth(s, pr) {
 }
 function npcDied(s, p) {
   const kin = ['mother', 'father', 'sibling', 'spouse', 'child', 'partner', 'friend'].includes(p.rel);
-  const label = { mother: 'my mother', father: 'my father', sibling: 'my ' + (p.gender === 'm' ? 'brother' : 'sister'), spouse: 'my spouse', child: 'my child', partner: 'my partner', friend: 'my friend', ex: 'my ex', coworker: 'a coworker' }[p.rel];
+  const label = { mother: 'my mother', father: 'my father', sibling: 'my ' + (p.gender === 'm' ? 'brother' : 'sister'), spouse: 'my ' + (relWord({ ...p, rel: 'spouse', alive: true }) || 'spouse').toLowerCase(), child: 'my child', partner: 'my partner', friend: 'my friend', ex: 'my ex', coworker: 'a coworker' }[p.rel];
   log(s, `${p.name}, ${label}, died at ${Math.floor(p.age)}. I tried to be strong about it.`, 'death');
   if (p.rel === 'spouse') { s.flags.pregnant = 0; }
   if (kin) addStat(s, 'happiness', p.rel === 'child' || p.rel === 'spouse' ? -30 : p.rel === 'friend' ? -8 : -16);

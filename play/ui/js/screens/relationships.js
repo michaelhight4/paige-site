@@ -25,7 +25,7 @@ async function peopleBody(body, ctx) {
 // Social first screen: tab bar (opens in place), current accounts with their breakdown, then "Platforms you don't have" in its own panel.
 export const SOCIAL_TABS = [['people', '👪 People'], ['tree', '🌳 Family Tree'], ['legacy', '🪦 Legacy'], ['profiles', '🌐 Online Profiles'], ['social', '📱 Social Media'], ['live', '🎥 Live Streaming']];
 let relTab = 'people';
-const cnt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(n));
+import { fmtCount as cnt } from '../../../src/fmt.js';
 export function accountCard(p, nav) {
   return h('button', { class: 'card acct', 'data-acct': p.id, style: { display: 'block', width: 'calc(100% - 24px)', textAlign: 'left' }, onclick: async () => { const { platformScreen } = await import('./social.js'); nav.open(p.name, (b, c) => platformScreen(b, c, p.id)); } },
     h('div', { class: 'nm', style: { fontWeight: 800 }, text: `${p.icon} ${p.name}${p.verified ? ' ✔ verified' : ''}` }),

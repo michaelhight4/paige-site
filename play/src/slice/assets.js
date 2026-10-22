@@ -1,3 +1,4 @@
+import { fmtMoney } from '../fmt.js';
 // assets.js - pricing, shops, inventory, restoration, investments, luxury, zoo, race garage, casino, auctions, finances.
 import { clamp, rand, randRange, randInt, randNorm, pick, ok, fail, log, spend } from './core.js';
 
@@ -236,22 +237,33 @@ export function listInvestments(data, state, type) {
     return { ...i, price, units: h.units, value, cost: h.cost, pnl: value - h.cost };
   });
 }
+// Largest whole-step unit count whose cost fits in cash, even at huge magnitudes where cash/price*price can round above cash (floats).
+export function fitUnits(cash, price, f = 1) { if (!(cash > 0) || !(price > 0)) return 0; let u = Math.floor((cash / price) * f) / f; for (let k = 0; k < 64 && u > 0 && u * price > cash; k++) u = Math.floor(u * (1 - Math.pow(2, Math.min(-1, k - 52))) * f) / f; return Math.max(0, u); }
+// Lifetime investing record for this life (7c6): realized P/L from sells, yields received, and total ever bought. Older saves start at 0 realized/income
+// with their current cost basis counted as bought (no earlier sell history was stored).
+export function invLife(state) { if (!state.invLife) { const basis = Object.values(state.invest || {}).reduce((a, h) => a + (h.cost || 0), 0); state.invLife = { realized: 0, income: 0, bought: basis, since: 'save' }; } return state.invLife; }
 export function buyInvestment(data, state, id, amount) {
   const it = A(data).investments.items.find(i => i.id === id); if (!it) return fail('Unknown');
   const price = state.market[id], dec = it.decimals ?? (it.type === 'stock' || it.type === 'fund' ? 2 : 0), f = Math.pow(10, dec);
-  const units = Math.floor(amount / price * f) / f;
+  const units = fitUnits(Math.min(amount, Math.max(0, state.cash)), price, f);
   if (units < it.min) return fail(`Minimum purchase: ${it.min} units (~${Math.ceil(it.min * price)})`);
-  const cost = units * price; if (cost > state.cash + 1e-6) return fail('Not enough cash');
-  state.cash -= cost; const h = state.invest[id] || (state.invest[id] = { units: 0, cost: 0 }); h.units += units; h.cost += cost;
+  let cost = units * price; if (cost > state.cash * (1 + 1e-12) + 1e-6) return fail('Not enough cash'); cost = Math.min(cost, state.cash);
+  invLife(state); state.cash -= cost; const h = state.invest[id] || (state.invest[id] = { units: 0, cost: 0 }); h.units += units; h.cost += cost; state.invLife.bought += cost;
   return ok(`Bought ${units} ${it.name}.`, { units, cost });
 }
-export function maxBuy(data, state, id) { const it = A(data).investments.items.find(i => i.id === id); if (!it) return null; const price = state.market[id] ?? it.price, dec = it.decimals ?? (it.type === 'stock' || it.type === 'fund' ? 2 : 0), f = Math.pow(10, dec); const units = Math.floor(Math.max(0, state.cash) / price * f) / f; return { units, cost: units * price, price, ok: units >= it.min }; }
+export function maxBuy(data, state, id) { const it = A(data).investments.items.find(i => i.id === id); if (!it) return null; const price = state.market[id] ?? it.price, dec = it.decimals ?? (it.type === 'stock' || it.type === 'fund' ? 2 : 0), f = Math.pow(10, dec); const units = fitUnits(Math.max(0, state.cash), price, f); return { units, cost: Math.min(units * price, state.cash), price, ok: units >= it.min }; }
 export function sellInvestment(data, state, id, units = 'all') {
   const h = state.invest[id]; if (!h || h.units <= 0) return fail('You do not own this');
   const u = units === 'all' ? h.units : Math.min(units, h.units), price = state.market[id], proceeds = u * price;
-  h.cost *= (h.units - u) / h.units; h.units -= u; state.cash += proceeds; if (h.units <= 1e-9) delete state.invest[id];
+  const L = invLife(state), basisOut = h.cost * (u / h.units); L.realized += proceeds - basisOut; h.cost *= (h.units - u) / h.units; h.units -= u; state.cash += proceeds; if (h.units <= 1e-9) delete state.invest[id];
   return ok(`Sold ${u} units for ${Math.round(proceeds)}.`, { proceeds });
 }
+// dividend settings & balance (cash-out payouts wait in state.divBal until collected)
+export function setDivMode(data, state, id, mode) { const h = state.invest[id]; if (!h) return fail('You do not own this'); h.divMode = mode === 'cash' ? 'cash' : 'reinvest'; return ok(h.divMode === 'cash' ? 'Dividends will wait in your Dividends balance.' : 'Dividends will buy more units.'); }
+export function collectDividends(data, state) { const b = state.divBal || 0; if (!(b > 0)) return fail('No dividends to collect'); state.cash += b; state.divBal = 0; return ok(`Collected ${fmtMoney(b)} of dividends.`, { amount: b }); }
+export function reinvestDividends(data, state) { const b = state.divBal || 0; if (!(b > 0)) return fail('No dividends to reinvest'); const hs = Object.entries(state.invest).filter(([id, h]) => h.units > 0 && DIV_TYPES.includes((A(data).investments.items.find((i) => i.id === id) || {}).type)); if (!hs.length) return fail('No stock or fund to reinvest in');
+  const tot = hs.reduce((a, [id, h]) => a + h.units * state.market[id], 0); let used = 0; for (const [id, h] of hs) { const it = A(data).investments.items.find((i) => i.id === id), f = Math.pow(10, it.decimals ?? 2), share = tot > 0 ? b * (h.units * state.market[id]) / tot : b / hs.length, uu = fitUnits(share, state.market[id], f), sp = uu * state.market[id]; h.units += uu; h.cost += sp; used += sp; }
+  state.divBal = Math.max(0, b - used); return ok(`Reinvested ${fmtMoney(used)} of dividends.`, { amount: used }); }
 // sectors for news (headlines move whole sectors or single names)
 export const INV_SECTOR = { stk_nimbus: 'tech', stk_orchard: 'tech', stk_ironworks: 'industry', stk_greenleaf: 'food', stk_voltix: 'auto', stk_atlas: 'banks', fund_index: 'market', fund_growth: 'tech', fund_reit: 'property', fund_bond: 'rates', bond_treasury: 'rates', bond_corp: 'rates', bond_muni: 'rates', pny_lumo: 'mining', pny_zing: 'food', pny_quark: 'biotech', pny_dusty: 'energy', cry_bitcell: 'crypto', cry_ethos: 'crypto', cry_dogewood: 'crypto', cry_stablex: 'stable' };
 const NEWS_T = {
@@ -288,9 +300,11 @@ function ensureHist(data, state) {
 }
 export const __marketYear = (data, state, out) => investmentYear(data, state, out); // test hook
 export function investHistory(data, state) { ensureHist(data, state); return { prices: state.priceHist, holdings: state.invHist || {}, portfolio: state.portHist || [], news: state.news || null }; }
+// Dividends (7c6, Gary): stocks and funds pay 25% of the year's price gain on units held all year; flat/down years pay 0. Crypto, penny stocks and bonds don't (bonds keep their yield).
+export const DIV_SHARE = 0.25, DIV_TYPES = ['stock', 'fund'];
 function investmentYear(data, state, out) {
   ensureHist(data, state); state.invHist = state.invHist || {}; state.portHist = state.portHist || [];
-  let pStart = 0, pEnd = 0; const start = {};
+  let pStart = 0, pEnd = 0, divPaid = 0, divRe = 0, divCash = 0; const start = {};
   for (const it of A(data).investments.items) { const h = state.invest[it.id]; if (h && h.units > 0) { start[it.id] = { v: h.units * state.market[it.id], cost: h.cost, units: h.units }; pStart += start[it.id].v; } }
   for (const it of A(data).investments.items) {
     let p = state.market[it.id], sig = it.sigma, mu = it.mu + newsShift(state, it);
@@ -300,9 +314,10 @@ function investmentYear(data, state, out) {
     state.market[it.id] = Math.max(0.01, Math.round(p * 10000) / 10000);
     const ph = state.priceHist[it.id]; ph.push({ age: (state.age | 0) + 1, price: state.market[it.id] }); if (ph.length > 60) ph.shift();
     const h = state.invest[it.id];
-    if (h && it.yield) { const c = h.units * it.price * it.yield; state.cash += c; }
+    if (h && it.yield) { const c = h.units * it.price * it.yield; state.cash += c; invLife(state).income += c; } if (h && start[it.id] && DIV_TYPES.includes(it.type)) { const prev = start[it.id].v / start[it.id].units, c = Math.min(start[it.id].units, h.units) * Math.max(0, state.market[it.id] - prev) * DIV_SHARE; if (isFinite(c) && c > 0) { const L = invLife(state); L.income += c; L.dividends = (L.dividends || 0) + c; divPaid += c; if (h.divMode === 'cash') { state.divBal = (state.divBal || 0) + c; divCash += c; } else { const dec = it.decimals ?? 2, f = Math.pow(10, dec), uu = fitUnits(c, state.market[it.id], f), spent = uu * state.market[it.id]; h.units += uu; h.cost += spent; divRe += spent; if (c - spent > 0) { state.divBal = (state.divBal || 0) + (c - spent); divCash += c - spent; } } } }
     if (start[it.id] && h) { const end = h.units * state.market[it.id]; pEnd += end; (state.invHist[it.id] = state.invHist[it.id] || []).push({ age: (state.age | 0) + 1, start: Math.round(start[it.id].v), end: Math.round(end), cost: Math.round(h.cost), pct: start[it.id].v ? Math.round((end / start[it.id].v - 1) * 1000) / 10 : 0 }); }
   }
+  invLife(state).lastDividends = divPaid; if (out && divPaid >= 1) out.push(`Dividends: ${fmtMoney(divRe)} reinvested, ${fmtMoney(state.divBal || 0)} waiting to collect.`);
   if (pStart > 0) state.portHist.push({ age: (state.age | 0) + 1, start: Math.round(pStart), end: Math.round(pEnd), pct: Math.round((pEnd / pStart - 1) * 1000) / 10 });
   makeNews(data, state);
 }
@@ -468,11 +483,12 @@ export function financesCard(data, state) {
   const zooValue = z.open ? Math.round(A(data).zoo.setup_cost * 0.7 + z.enclosures * A(data).zoo.enclosure_cost * 0.7 + z.animals.reduce((s, a) => s + a.count * a.price * 0.6, 0)) : 0;
   const salary = (state.job ? state.job.wage : 0) + (state.partTime ? state.partTime.weekly_wage * 52 : 0);
   const bondYield = listInvestments(data, state, 'bond').reduce((s, i) => s + i.units * i.price * i.yield, 0);
-  const income = salary + Math.round(bondYield) + Math.max(0, z.open ? z.profit : 0);
+  const dividends = (state.invLife && state.invLife.lastDividends) || 0; // last year's payout (depends on the price gain, so not forecastable)
+  const income = salary + Math.round(bondYield) + Math.round(dividends) + Math.max(0, z.open ? z.profit : 0);
   const expenses = A(data).living.annual_cost + Math.round(upkeep) + Math.round(loanPay) + (z.open && z.profit < 0 ? -z.profit : 0);
   return { cash: Math.round(state.cash), debt: Math.round(state.debt), loans: Math.round(loans), assets: Math.round(assetsTotal), by_category: byCat, investments: Math.round(inv), zoo: zooValue,
     net_worth: Math.round(state.cash + assetsTotal + inv + zooValue - state.debt - loans), income, expenses, cashflow: income - expenses,
-    breakdown: { salary, bond_yield: Math.round(bondYield), zoo: z.open ? z.profit : 0, living: A(data).living.annual_cost, upkeep: Math.round(upkeep), loan_payments: Math.round(loanPay) } };
+    breakdown: { salary, bond_yield: Math.round(bondYield), dividends: Math.round(dividends), zoo: z.open ? z.profit : 0, living: A(data).living.annual_cost, upkeep: Math.round(upkeep), loan_payments: Math.round(loanPay) } };
 }
 function loanPayment(l) { return l.balance * l.rate + l.balance / Math.max(1, l.term_left); }
 export const netWorth = (data, state) => financesCard(data, state).net_worth;

@@ -1,3 +1,5 @@
+import * as Retire from './retire.js';
+import { labelWithPrice } from './fmt.js';
 // Life-side methods of the UI adapter (ui/ADAPTER contract) implemented on the real engine. Mixed into EngineAdapter (engine_adapter.js).
 import * as MT from './myteam.js';
 import { fmtMoney } from './fmt.js';
@@ -30,7 +32,7 @@ const KIND = { yearly: 'age', school: 'edu', career: 'work', rel: 'relationship'
 export const stageOf = (a) => (a < 2 ? 'Baby' : a < 5 ? 'Toddler' : a < 13 ? 'Child' : a < 18 ? 'Teen' : a < 30 ? 'Young adult' : a < 65 ? 'Adult' : 'Senior');
 const G = (g) => (g === 'm' ? 'M' : 'F');
 const REL = { mother: 'Mother', father: 'Father', sibling: 'Sibling', friend: 'Friend', spouse: 'Spouse', partner: 'Partner', child: 'Child', ex: 'Ex', coworker: 'Coworker' };
-const relLabel = (p) => (p.rel === 'sibling' ? (p.gender === 'm' ? 'Brother' : 'Sister') : p.rel === 'child' ? (p.gender === 'm' ? 'Son' : 'Daughter') : p.rel === 'ex' && p.wasSpouse ? 'Ex-spouse' : REL[p.rel] || p.rel);
+const relLabel = (p) => (p.rel === 'sibling' ? (p.gender === 'm' ? 'Brother' : 'Sister') : p.rel === 'child' ? (p.gender === 'm' ? 'Son' : 'Daughter') : P.relWord(p) || REL[p.rel] || p.rel);
 const eduLabel = (s) => D.life.educations[s.edu] || 'None';
 
 const GO_MAP = [[/^Accessories/, 'shopping'], [/^Gamble/, 'casino'], [/^Exotic pets/, 'zoo'], [/^Part-time job/, 'parttime'], [/freelance$/i, 'freelance']];
@@ -139,6 +141,10 @@ export const life = {
       if (!chance(s, p) && !this.opts.noInterview) { log(s, 'I interviewed for a job but did not get it.', 'career'); return this.res(false, 'The interview did not go well. Try again or build your people skills.', n0); } }
     return this.sl((d, sl) => H.applyJob(d, sl, id), 'career');
   },
+  retireQuote() { const s = this.s, sl = s.sl, j = s.job && D.careers.find((c) => c.id === s.job.id); if (!j) return null; const yrs = Math.max(Math.floor(s.job.yrs || 0), sl && sl.job && sl.job.mirrored ? (sl.job.years | 0) : 0); return { title: j.levels[s.job.level][0], ...Retire.quote(E.salaryNow(s), yrs), pensions: Retire.ensure(s).map((p) => ({ ...p })), pensionTotal: Retire.total(s) }; },
+  retireJob() { const s = this.s, n0 = this.mark(), q = this.retireQuote(); if (!q) return this.res(false, 'No job to retire from.', n0); if (!q.eligible) return this.res(false, q.reason, n0);
+    if (s.sl && s.sl.job) { const r = this.quitJob(); if (s.job && s.sl.job) return r; } s.job = null; P.newCoworkers(s); Retire.ensure(s).push({ title: q.title, amount: q.pension, since: Math.floor(s.age), years: q.years }); s.cash += q.lump; s.retired = true;
+    log(s, `I retired as ${q.title} after ${q.years} years: a ${fmtMoney(q.pension)}/yr pension and a ${fmtMoney(q.lump)} send-off.`, 'career'); return this.res(true, `Retired. Pension ${fmtMoney(q.pension)}/yr.`, n0); },
   quitJob() { return this.sl((d, sl) => H.quitJob(d, sl), 'career'); },
   getFreelanceGigs() { const sl = B.pull(this.s); return { gigs: H.listFreelance(B.sliceData(), sl).map((g) => ({ id: g.id, label: g.title, minAge: g.min_age, minHourly: g.min_hourly, maxHourly: g.max_hourly, maxPerYear: g.max_per_year, doneThisYear: g.done, eligible: !!g.eligible, reason: (g.reasons || []).join(' · ') })) }; },
   doGig(id) { return this.sl((d, sl) => H.doGig(d, sl, id), 'money'); },
@@ -200,7 +206,7 @@ export const life = {
       canHaveChild: s.age >= 16 && (!!P.partnerOf(s) || Premium.isUnlocked('rabbit')), premium: { rabbit: Premium.isUnlocked('rabbit') } };
   },
   getRelationshipActions(pid) {
-    const s = this.s, p = P.byId(s, pid), out = p && p.alive ? P.interactionsFor(s, p).map((a) => ({ id: a.id, label: a.label + (a.cost ? ` ($${a.cost})` : '') })) : [];
+    const s = this.s, p = P.byId(s, pid), out = p && p.alive ? P.interactionsFor(s, p).map((a) => ({ id: a.id, label: labelWithPrice(a.label, a.cost) })) : [];
     if (p && p.alive) out.push({ id: 'premium_kill', label: 'Kill (Golden Gun)', premium: 'golden_gun', locked: !Premium.isUnlocked('golden_gun') });
     return out;
   },
@@ -297,7 +303,7 @@ export const life = {
     const s = this.s, sum = Legacy.legacySummary(s), heirs = s.alive ? [] : Legacy.heirsOf(s);
     return { surname: s.last, creatorUsed: sum.creatorUsed, rankingEligible: sum.rankingEligible, totalWealth: sum.wealth, canContinue: Legacy.canContinue(s), livingHeirs: heirs.map((h) => ({ id: h.id, name: h.name, age: Math.floor(h.age), relation: relLabel(h) })), over: sum.over, years: sum.years,
       generations: sum.gens.map((g) => ({ gen: g.gen, name: g.name, born: g.born, died: g.current ? null : g.died, cause: g.cause, netWorth: g.nw, job: g.job, ribbon: g.ribbonName || null, creator: !!g.creator, current: !!g.current, gender: G(g.gender || 'm') })),
-      estate: s.alive ? null : (() => { const p = Legacy.computeEstate(s); return { gross: p.gross, tax: p.tax, net: p.net, heirs: p.heirs.map((h) => ({ id: h.id, name: h.name, age: h.age, relation: h.rel, cash: Math.round(h.cash), assets: h.assets.length, biz: h.biz.length, auctioned: Math.round(h.auctioned), trust: h.trust })) }; })() };
+      estate: s.alive ? null : (() => { const p = Legacy.computeEstate(s); return { gross: p.gross, tax: p.tax, net: p.net, heirs: p.heirs.map((h) => ({ id: h.id, name: h.name, age: h.age, relation: h.rel, invest: Object.values(h.invest || {}).map((v) => ({ name: v.name, units: v.units, value: Math.round(v.value) })), cash: Math.round(h.cash), assets: h.assets.length, biz: h.biz.length, auctioned: Math.round(h.auctioned), trust: h.trust })) }; })() };
   },
   getFamilyTree() {
     const s = this.s, people = {}, unions = [], me = 'me';

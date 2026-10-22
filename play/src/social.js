@@ -1,7 +1,7 @@
 // Social media ("Feed"): 8 fictional platforms, post picker, sponsorships, verification, drama/appeal/cancel, fame + reputation, content calendar,
 // team, merch business, gear boosts, story events. Data: data/social.json, state: s.social. Ties into the Streamer/Influencer careers (src/online.js):
 // LiveLoop mirrors the streamer's subscribers, Snapfolio mirrors the influencer's followers; those two accounts are paid by the careers (no double pay).
-import { fmtMoney } from './fmt.js';
+import { fmtMoney, fmtCount, MAX_FOLLOWERS } from './fmt.js';
 import { D } from './data.js';
 import { rnd, rint, pick, chance, clamp, gauss } from './rng.js';
 import { log, earn, spend, addStat } from './core.js';
@@ -13,7 +13,10 @@ import * as P from './people.js';
 const C = () => D.social, TAX = 0.22;
 const age = (s) => Math.floor(s.age);
 const money = (n) => fmtMoney(n);
-export const fmt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
+export const fmt = fmtCount;
+// Clamp every account (and the linked stream/influencer counters) to MAX_FOLLOWERS; runs on ensure (load, every action/view) and after the year tick.
+export function capFollowers(s) { const so = s.social; if (so && so.accounts) for (const a of Object.values(so.accounts)) { if (!a) continue; if (!(a.followers >= 0) || !isFinite(a.followers)) a.followers = a.followers > 0 ? MAX_FOLLOWERS : 0; if (a.followers > MAX_FOLLOWERS) a.followers = MAX_FOLLOWERS; if (a.peak > MAX_FOLLOWERS || !isFinite(a.peak)) a.peak = MAX_FOLLOWERS; }
+  if (s.stream && s.stream.subs > MAX_FOLLOWERS) s.stream.subs = MAX_FOLLOWERS; if (s.infl && s.infl.followers > MAX_FOLLOWERS) s.infl.followers = MAX_FOLLOWERS; }
 export const platDef = (id) => C().platforms.find((p) => p.id === id);
 export const postDef = (id) => C().posts.find((p) => p.id === id);
 const net = (g) => g * (1 - (PFx.noTax() ? 0 : TAX));
@@ -29,7 +32,7 @@ export const planDef = (id) => PLANS.find((x) => x.id === id) || PLANS[1];
 export function planOf(s) { const so = ensure(s); return planDef(so.postPlan ? so.postPlan.id : 'steady'); }
 export function choosePlan(s, id) { const so = ensure(s); if (age(s) < 13) return { ok: false, msg: 'Social media starts at 13.' }; if (!Object.keys(so.accounts).length) return { ok: false, msg: 'Open an account first.' }; const d = PLANS.find((x) => x.id === id); if (!d) return { ok: false, msg: 'Unknown plan.' }; so.postPlan = { id, turn: s.turns }; return { ok: true, msg: `${d.name}: ${d.ban ? Math.round(d.ban * 1000) / 10 + '% ban risk this year' : 'no ban risk this year'}.` }; }
 export function planNeeded(s) { const so = ensure(s); return age(s) >= 13 && Object.keys(so.accounts).length > 0 && !so.postPlan; }
-export const ensure = (s) => { if (!s.social) s.social = { accounts: {}, reputation: 50, brandSafety: 70, cancelledUntil: 0, history: [], archive: [], plan: {}, streak: 0, burnout: 0, team: {}, offers: {}, prompt: null, earned: 0, last: null, year: {}, ambassador: null, lastSuspend: -99, cancels: 0, merch: null, heldMoney: 0, rivals: [], nextStory: 0 }; return s.social; };
+export const ensure = (s) => { if (!s.social) s.social = { accounts: {}, reputation: 50, brandSafety: 70, cancelledUntil: 0, history: [], archive: [], plan: {}, streak: 0, burnout: 0, team: {}, offers: {}, prompt: null, earned: 0, last: null, year: {}, ambassador: null, lastSuspend: -99, cancels: 0, merch: null, heldMoney: 0, rivals: [], nextStory: 0 }; capFollowers(s); return s.social; };
 export const has = (s) => !!(s.social && Object.keys(s.social.accounts).length);
 export const totalFollowers = (s) => (s.social ? Object.values(s.social.accounts).reduce((a, x) => a + x.followers, 0) : 0);
 export const careerOwned = (s, pid) => (pid === 'liveloop' && s.stream && s.stream.active) || (pid === 'snapfolio' && s.infl && s.infl.active);
@@ -211,7 +214,8 @@ function careerSync(s, up) {
   else { if (s.stream && s.stream.active && so.accounts.liveloop) s.stream.subs = Math.max(s.stream.subs, so.accounts.liveloop.followers); if (s.infl && s.infl.active && so.accounts.snapfolio) s.infl.followers = Math.max(s.infl.followers, so.accounts.snapfolio.followers); }
   for (const [pid, a] of Object.entries(so.accounts)) { if (pid === 'liveloop' && s.stream && s.stream.active) a.followers = Math.max(a.followers, s.stream.subs); if (pid === 'snapfolio' && s.infl && s.infl.active) a.followers = Math.max(a.followers, s.infl.followers); }
 }
-export function yearTick(s) {
+export function yearTick(s) { const r = yearTick0(s); capFollowers(s); return r; }
+function yearTick0(s) {
   if (age(s) < 13) return; const so = ensure(s); careerSync(s, true); if (!Object.keys(so.accounts).length) return;
   const res = { age: age(s), income: 0, parts: {}, events: [], before: totalFollowers(s) }; let planOk = true, planCount = 0, totalPosts = 0;
   if (so.prompt) { log(s, 'I ignored the drama and it resolved itself, mostly.', 'fame'); so.prompt = null; }

@@ -89,3 +89,15 @@ html[data-style="light"] .sheet .btn.alt:not([disabled]){background:#e3f1ff;bord
 /* ---- banner-ad layout hooks (next step). Defaults are 0 so nothing is reserved; set --banner-h on #app only while a
    banner will actually render (never for No Ads / All Access), then the nav lifts by exactly that height. ---- */
 #app{--banner-h:0px}
+
+/* 7c6 coaching squad: position-group headers (Work hue) */
+.pos-group{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:8px 10px 2px;padding:6px 12px;border-radius:999px;background:#eef5ff;border:2px solid #0a6ad8;color:#0b3b78;font-weight:800;font-size:14px;min-width:0}
+.pos-group .pg-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.pos-group .pg-meta{flex:none;background:#0a6ad8;color:#fff;border-radius:999px;padding:2px 9px;font-size:12px}
+html[data-style="dark"] .pos-group{background:#0b2a52;color:#eef5ff;border-color:#4a9bff}
+html[data-style="dark"] .pos-group .pg-meta{background:#084fa6}
+
+/* 7c6: key/value rows never jam label into value; long values wrap instead of scrolling sideways */
+.kv{gap:12px;align-items:baseline}.kv>span{flex:0 1 auto;min-width:0}.kv>b{flex:1 1 auto;min-width:0;text-align:right;overflow-wrap:anywhere}
+.kv-big{font-size:16px;padding:7px 0}.kv-big>b{font-size:17px}
+html,body{overflow-x:hidden}

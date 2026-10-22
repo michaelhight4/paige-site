@@ -51,7 +51,7 @@ export function eligible(s) { return D.events.filter((e) => !e.chainOnly && e.w 
 const wOf = (s, e) => e.w * (e.if?.warRisk ? P.country(s).war * 2 : 1);
 function ctxFor(s) {
   const fr = P.friends(s), par = P.living(s).filter((p) => p.rel === 'mother' || p.rel === 'father');
-  return { friend: fr.length ? pick(s, fr).first : 'a friend', place: pick(s, D.life.places), parent: par.length ? pick(s, par).first : 'my parent', boss: 'my boss', partner: P.partnerOf(s)?.first || 'my partner' };
+  return { friend: fr.length ? pick(s, fr).first : 'a friend', place: pick(s, D.life.places), parent: par.length ? pick(s, par).first : 'my parent', boss: 'my boss', partner: P.partnerOf(s)?.first || 'my partner', partnerWord: P.partnerOf(s) ? 'my ' + P.relWord(P.partnerOf(s)).toLowerCase() : 'my partner' };
 }
 export function queue(s, id, ctx) { if (s.pending.some((p) => p.kind === 'event' && p.id === id)) return; ctx = ctx || ctxFor(s); if (id === 'job_offer' && s.job) ctx = { ...ctx, offer: makeOffer(s) }; s.pending.push({ kind: 'event', id, ctx }); }
 // Competitive offers (7c): priced off what you earn now in your sector, 90-155%; lowballs are flagged.

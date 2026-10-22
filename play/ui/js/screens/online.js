@@ -4,7 +4,7 @@ import { autoPageCard } from './autopage.js';
 import { streamPlanCard } from './strategy.js';
 import { h, row, section, kv, btn, empty, bar, money, sheet, confirmSheet, act } from '../ui.js';
 
-const cnt = (n) => (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(n >= 1e4 ? 0 : 1) + 'k' : String(Math.round(n)));
+import { fmtCount as cnt } from '../../../src/fmt.js';
 const yearCard = (last, kind) => last ? h('div', { class: 'card', 'data-el': 'online-last' }, h('h3', { text: `Last year (age ${last.age})` }),
   kind === 'stream' ? [kv('Subscribers', `${cnt(last.subsBefore)} → ${cnt(last.subsAfter ?? last.subsBefore)}`), kv('Income', money(last.income), 'pos'), h('div', { class: 'hint', text: Object.entries(last.parts || {}).map(([k, v]) => `${k} ${money(v)}`).join(' · ') })]
     : [kv('Followers', `${cnt(last.followersBefore)} → ${cnt(last.followersAfter ?? last.followersBefore)}`), kv('Income', money(last.income), 'pos'), h('div', { class: 'hint', text: Object.entries(last.parts || {}).map(([k, v]) => `${k} ${money(v)}`).join(' · ') })],

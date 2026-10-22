@@ -22,6 +22,7 @@ export const ensure = (s) => { if (!s.auto) s.auto = { on: false, routines: ['tr
   if (!s.auto.spUpDef && unlocked()) { s.auto.spUpDef = 1; if (!s.auto.routines.includes('sponsor_upgrade')) s.auto.routines.push('sponsor_upgrade'); } // owning the pass turns sponsor searching on by default (untick it any time)
   if (!s.auto.mtDef && unlocked()) { s.auto.mtDef = 1; if (!s.auto.routines.includes('mt_train')) s.auto.routines.push('mt_train'); } // sport skill training on by default (school, college, pro)
   if (!s.auto.basicsDef && unlocked()) { s.auto.basicsDef = 1; for (const id of ['train', 'read', 'study', 'workharder', 'practice']) if (!s.auto.routines.includes(id)) s.auto.routines.push(id); } // the everyday yearly chips are on by default with the pass (untick any time)
+  if (!s.auto.maxDef && unlocked()) { s.auto.maxDef = 1; for (const id of ['spend_all', 'social_max']) if (!s.auto.routines.includes(id)) s.auto.routines.push(id); } // 7c6: keep relationships and post quotas maxed by default (untick any time)
   return s.auto; };
 
 // id, label, quick id (adapter.quickAction) or interaction (adapter.interact with a person picker)
@@ -30,10 +31,10 @@ export const SECTIONS = [
   { id: 'school', icon: '🎓', label: 'School', ids: ['study'] },
   { id: 'job', icon: '💼', label: 'Job', ids: ['workharder', 'job_nurture', 'job_promo'] },
   { id: 'business', icon: '🏢', label: 'Business', ids: ['train_employees', 'hire_all', 'prod_music', 'prod_film', 'prod_tv', 'prod_game', 'prod_back', 'racing_sponsor', 'racing_staff', 'racing_upgrade', 'brand_collection', 'brand_staff', 'brand_line', 'farm_contract', 'farm_staff', 'farm_sell', 'farm_upgrade', 'advisor_hire', 'advisor_setup'] },
-  { id: 'hobbies', icon: '🔥', label: 'Hobbies', ids: ['sponsors_all', 'sponsor_upgrade', 'fame_spots', 'practice', 'passion_pick', 'stress_relief', 'social_plan', 'stream_plan', 'media_plan', 'social_post', 'social_reply', 'social_deal', 'stream_start', 'stream_sponsor', 'racing_train', 'racing_license', 'racing_race'] },
+  { id: 'hobbies', icon: '🔥', label: 'Hobbies', ids: ['sponsors_all', 'sponsor_upgrade', 'fame_spots', 'practice', 'passion_pick', 'stress_relief', 'social_plan', 'stream_plan', 'media_plan', 'social_post', 'social_max', 'social_reply', 'social_deal', 'stream_start', 'stream_sponsor', 'racing_train', 'racing_license', 'racing_race'] },
   { id: 'activities', icon: '🎯', label: 'Activities (yearly)', ids: [] },
   { id: 'sports', icon: '🏟️', label: 'Sports team', ids: ['mt_train', 'mt_style', 'mt_offers', 'athlete_brand'] },
-  { id: 'people', icon: '💞', label: 'Relationships', ids: ['talk_partner', 'date_night', 'gift_partner', 'family_time', 'friend_time', 'volunteer'] },
+  { id: 'people', icon: '💞', label: 'Relationships', ids: ['talk_partner', 'date_night', 'gift_partner', 'family_time', 'friend_time', 'spend_all', 'volunteer'] },
   { id: 'health', icon: '🧘', label: 'Health & mind', ids: ['train', 'read', 'meditate'] },
 ];
 export const sectionOf = (id) => (String(id).startsWith('act:') ? 'activities' : String(id).startsWith('gig:') ? 'job' : (SECTIONS.find((x) => x.ids.includes(id)) || { id: 'other' }).id);
@@ -50,10 +51,12 @@ export const ROUTINES = [
   { id: 'gift_partner', icon: '🎁', label: 'Gift for partner / spouse', desc: 'A gift so they stay ($50)', i: 'gift', who: 'partner' },
   { id: 'family_time', icon: '👪', label: 'Family time', desc: 'Spend time with the relative you have neglected most', i: 'spend', who: 'family' },
   { id: 'friend_time', icon: '🍻', label: 'Friend time', desc: 'Spend time with the friend you have neglected most', i: 'spend', who: 'friend' },
+  { id: 'spend_all', icon: '🫶', label: 'Spend time with everyone', desc: 'Uses the yearly Spend time with every family member, partner/spouse and friend who has it (once each per year, free)', k: 'spend_all' },
   { id: 'volunteer', icon: '🤝', label: 'Volunteer', desc: 'Service hours (10+)', v: 'volunteer' },
   // social media, streaming and production companies: same adapter calls as the manual screens (see CUSTOM below)
   { id: 'social_plan', icon: '🗓️', label: 'Choose the yearly post plan', desc: 'Sets this year\'s post plan (your preferred plan, default Safe = 0% ban risk): same plan, same risks as the manual popup', k: 'social_plan' },
   { id: 'social_post', icon: '📱', label: 'Post on social media', desc: 'One safe, well-fitting post on your best open platform', k: 'social_post' },
+  { id: 'social_max', icon: '📲', label: 'Use every post', desc: 'Fills every remaining post this year on each active account (e.g. 2/5 -> 5/5) with safe, well-fitting posts: same outcomes as posting by hand. Accounts with their own Autopilot page settings keep those.', k: 'social_max' },
   { id: 'social_reply', icon: '💬', label: 'Reply to comments', desc: 'Answer comments on every open platform', k: 'social_reply' },
   { id: 'social_deal', icon: '🤝', label: 'Accept best sponsor deal', desc: 'Take the best-paying sponsor offer you qualify for', k: 'social_deal' },
   { id: 'stress_relief', icon: '🛋️', label: 'Stress relief when strained', desc: 'At stress 70+, takes a mental health day, therapy or a vacation (same costs as by hand). Autopilot also stops at burnout (90+).', k: 'stress_relief' },
@@ -188,6 +191,15 @@ export const CUSTOM = {
   media_plan(ad) { const s = ad.s, ms = ['music', 'film', 'tv', 'game'].filter((m) => s.prod && s.prod.cos[m] && !s.prod.cos[m].strategy); if (!ms.length) return { ok: false, reason: 'No company needs a strategy' }; const id = ensure(s).mediaPlan || 'steady'; return { ok: true, cost: 0, who: id, run: () => { let r = { ok: false, message: '' }; for (const m of ms) r = ad.setMediaPlan(m, id); return r; } }; },
   social_plan(ad) { const s = ad.s; if (s.age < 13) return { ok: false, reason: 'Social media starts at 13' }; const st = ad.getSocial(); if (!st.postPlan.needed) return { ok: false, reason: Object.keys(s.social ? s.social.accounts : {}).length ? 'Plan already chosen this year' : 'No social account' }; const id = ensure(s).socialPlan || 'safe'; return { ok: true, cost: 0, who: (st.postPlan.options.find((x) => x.id === id) || {}).name, run: () => ad.setPostPlan(id) }; },
   social_post(ad) { const s = ad.s; if (s.age < 13) return { ok: false, reason: 'Social media starts at 13' }; let best = null; for (const sp of openPlats(ad)) { const p = sd(ad, sp.id); if (!p || p.postsLeft <= 0) continue; const post = bestPost(ad, p); if (post && (!best || sp.followers > best.f)) best = { pid: sp.id, post, f: sp.followers }; } if (!best) return { ok: false, reason: 'No open platform with a safe post to make' }; return { ok: true, cost: 0, who: best.pid, run: () => ad.socialAction(best.pid, 'post', best.post.id) }; },
+  spend_all(ad) { const s = ad.s, todo = P.living(s).filter((p) => p.rel !== 'ex' && !s.acted['p' + p.id + 'spend'] && P.interactionsFor(s, p).some((i) => i.id === 'spend'));
+    if (!todo.length) return { ok: false, reason: 'Spent time with everyone already this year' };
+    return { ok: true, cost: 0, who: todo.length + (todo.length === 1 ? ' person' : ' people'), run: () => { let n = 0, last = { ok: false, message: '' }; for (const p of todo) { if (s.acted['p' + p.id + 'spend']) continue; const r = ad.interact(p.id, 'spend'); if (r && r.ok !== false) n++; last = r || last; } return { ok: n > 0, message: `Spent time with ${n} of ${todo.length}` }; } }; },
+  social_max(ad) { const s = ad.s, A = ensure(s); if (s.age < 13) return { ok: false, reason: 'Social media starts at 13' };
+    const plats = openPlats(ad).filter((sp) => !(A.pages['social_' + sp.id] && A.pages['social_' + sp.id].on)).filter((sp) => { const p = sd(ad, sp.id); return p && p.postsLeft > 0; });
+    if (!plats.length) return { ok: false, reason: 'Every account already used all its posts this year' };
+    return { ok: true, cost: 0, who: plats.length + (plats.length === 1 ? ' account' : ' accounts'), run: () => { if (ad.getSocial().postPlan.needed) ad.setPostPlan(A.socialPlan || 'safe'); let n = 0; const per = [];
+      for (const sp of plats) { let k = 0; for (let i = 0; i < 12; i++) { const q = sd(ad, sp.id); if (!q || q.status !== 'active' || q.postsLeft <= 0) break; const post = bestPost(ad, q) || pickPost(ad, q, 'safe'); if (!post) break; const r = ad.socialAction(sp.id, 'post', post.id); if (!r || r.ok === false) break; k++; } if (k) per.push(`${sp.name || sp.id} +${k}`); n += k; }
+      return { ok: n > 0, message: n ? `Posted ${n} times (${per.join(', ')})` : 'No post to make' }; } }; },
   social_reply(ad) { const t = openPlats(ad).filter((sp) => { const p = sd(ad, sp.id); return p && !p.done.reply; })[0]; if (!t) return { ok: false, reason: 'Nothing to reply to' }; return { ok: true, cost: 0, who: t.id, run: () => { let last; for (const sp of openPlats(ad)) { const p = sd(ad, sp.id); if (p && !p.done.reply) last = ad.socialAction(sp.id, 'reply'); } return last; } }; },
   social_deal(ad) { let best = null; for (const sp of openPlats(ad)) { const p = sd(ad, sp.id); if (!p || !p.canSponsor || p.deals.length >= p.maxDeals) continue; for (const o of p.offers) if (o.fit !== 'poor' && (!best || o.pay > best.o.pay)) best = { pid: sp.id, o }; } if (!best) return { ok: false, reason: 'No sponsor offer to take' }; return { ok: true, cost: 0, who: best.o.brand, run: () => ad.socialAction(best.pid, 'accept', best.o.id) }; },
   stream_start(ad) { const st = ad.getStreamer(); if (st.locked) return { ok: false, reason: 'Streaming starts at ' + st.minAge }; if (st.active) return { ok: false, reason: 'Already streaming (it runs every year)' }; if (st.bannedYears) return { ok: false, reason: 'Banned' }; return { ok: true, cost: 0, run: () => ad.streamerAction('start', st.topics[0].id) }; },
