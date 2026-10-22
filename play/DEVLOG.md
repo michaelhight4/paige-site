@@ -129,3 +129,10 @@
 - PWA: manifest.webmanifest, sw.js (cache lifeline-7c1, HTML/JS/CSS/JSON network-first), icons; theme-color #1f3a5f. Test pwa_ui.
 - Image audit (IMAGE_AUDIT.csv): bungalow->craftsman, saloon->sedan, hypercar->supercar, 1955 Silverwing->classic, tugboat->fishing boat, superyacht->yacht; instruments now use the existing instrument art. Test art_audit.
 - UI polish: 3+ button rows wrap under the text, distinct Theme icon, link rows unstyled. Shots in ui_shots/before and ui_shots/after.
+
+## Snapshot 7c7 (Oct 22, 2026): Blue Bucks pass discount
+- Every game pass costs 10% less when paid with Blue Bucks (shared paige-shared `BB_PASS_DISCOUNT` / `priceInBB` / `bbPayChoice`, rounded to the nearest 10 BB). Ad-Free for Life 35,000 -> 31,500 BB, All Access 8,000 -> 7,200, each pass 5,990 -> 5,390. Buying Blue Bucks is not discounted.
+- Pass pay choice shows the USD price, the full BB price struck through, the BB price and a "10% OFF with Blue Bucks" tag (Store pass rows, All Access card, Ad-Free card, redeem sheet).
+- Server charge matches (Supabase migration bb_pass_discount: `paige_private.bb_charge`, applied live Oct 22).
+- All Access now redeems with the server sku `all_access`.
+- sw cache lifeline-7c7. Tests: bb_discount, bb_discount_contrast, bb_discount_shots.

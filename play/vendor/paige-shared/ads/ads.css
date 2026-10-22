@@ -1,0 +1,14 @@
+/* VENDORED from paige-shared — do not edit; run `npm run sync` in /workspace/paige-shared. */
+/* Paige shared ads styles. Colours are CSS variables so each game maps them to its own palette (contrast-checked). */
+:root { --pg-ad-bg: #14161c; --pg-ad-fg: #f2f2f2; --pg-ad-line: #8a93a6; --pg-ad-accent: #f0c869; --pg-ad-accent-fg: #1d140a; }
+/* In-flow banner: sits in the layout above the bottom nav, so it never overlaps nav or controls. */
+.pg-ad-banner { flex: 0 0 auto; display: flex; justify-content: center; align-items: stretch; background: var(--pg-ad-bg); border-top: 1px solid var(--pg-ad-line); overflow: hidden; }
+.pg-ad-banner[hidden] { display: none; }
+.pg-ad-banner > * { width: min(100%, 468px); }
+.pg-ad-ph { display: grid; place-items: center; background: repeating-linear-gradient(45deg, #262a33 0 10px, #1f232b 10px 20px); color: var(--pg-ad-fg); font: 700 11px/1.2 system-ui, sans-serif; letter-spacing: .06em; border: 1px dashed var(--pg-ad-accent); }
+/* Placeholder full-screen ad (test builds / no publisher id yet). */
+.pg-ad-full { position: fixed; inset: 0; z-index: 9000; display: grid; place-items: center; background: rgba(6, 7, 10, .9); }
+.pg-ad-full-box { display: grid; gap: 10px; place-items: center; align-content: center; width: min(86vw, 420px); min-height: min(60vh, 480px); background: repeating-linear-gradient(45deg, #262a33 0 14px, #1f232b 14px 28px); border: 2px dashed var(--pg-ad-accent); color: var(--pg-ad-fg); font: 700 16px system-ui, sans-serif; text-align: center; padding: 16px; border-radius: 12px; }
+.pg-ad-full-box small { font-weight: 400; font-size: 13px; color: var(--pg-ad-fg); }
+.pg-ad-full-box button { min-height: 44px; min-width: 120px; padding: 0 18px; border-radius: 8px; border: 0; background: var(--pg-ad-accent); color: var(--pg-ad-accent-fg); font: 700 15px system-ui, sans-serif; }
+.pg-ad-full-box button:disabled { opacity: .7; }

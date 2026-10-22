@@ -7,6 +7,7 @@
 import { fmtMoney } from './fmt.js';
 import { D } from './data.js';
 import * as Premium from './premium.js';
+import { lifelineAdsRemoved } from './network.js';
 import { getAdsAdapter } from './adapter_ads.js';
 
 const KEY = 'lifesim.ads.v1', mem = { v: null };
@@ -33,7 +34,7 @@ const rint = (a, b) => a + Math.floor(rng() * (b - a + 1));
 
 // ---- platform / entitlement ----
 export const showsAds = () => !!rules().ads;                                   // rewarded ads are watched on this platform
-export const noAds = () => Premium.isUnlocked('no_ads');                         // No Ads pass OR All Access subscription
+export const noAds = () => lifelineAdsRemoved();                                 // No Ads pass OR All Access (Lifeline only) OR network Ad-Free for Life
 export const promptsEnabled = () => showsAds() && !noAds();                      // forced ad every 8-15 years (No Ads / All Access turns it off)
 export const dayKey = (now = Date.now()) => { const d = new Date(now); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
 export const usedToday = (key, now) => load().used[key] === dayKey(now);

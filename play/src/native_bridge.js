@@ -5,6 +5,7 @@
 //   Capacitor.Plugins.LifelineBilling  (custom Java plugin)          -> Google Play Billing
 // Ad unit ids are NOT here: they come from the app's admob.properties via LifelineBilling.getConfig(), so swapping test -> real ids needs no site update.
 import { setAdsAdapter } from './adapter_ads.js';
+const Net = () => import('./network.js'); // shared billing: server verify + entitlement sync when signed in (local flags = offline cache)
 import * as Premium from './premium.js';
 
 const cap = () => (typeof window !== 'undefined' ? window.Capacitor : null);
@@ -77,11 +78,11 @@ export const billing = {
   },
   async purchasePass(id) {
     await this.load(); const r = await plug('LifelineBilling').purchase({ productId: id });
-    if (r.ok || r.reason === 'already_owned') { Premium.setOwned(id, true); return { ok: true }; } return r;
+    if (r.ok || r.reason === 'already_owned') { Premium.setOwned(id, true); Net().then((N) => N.verifyPlayPurchase(id, r.purchaseToken)).catch(() => {}); return { ok: true }; } return r;
   },
   async subscribe(plan) {
     await this.load(); const r = await plug('LifelineBilling').purchase({ productId: SUB_ID(), basePlanId: plan });
-    if (r.ok || r.reason === 'already_owned') { try { localStorage.setItem(PLAN_KEY, plan); } catch (e) { /* */ } Premium.setSubscription(plan); return { ok: true }; } return r;
+    if (r.ok || r.reason === 'already_owned') { try { localStorage.setItem(PLAN_KEY, plan); } catch (e) { /* */ } Premium.setSubscription(plan); Net().then((N) => N.verifyPlayPurchase(SUB_ID(), r.purchaseToken)).catch(() => {}); return { ok: true }; } return r;
   },
   async manage() { await plug('LifelineBilling').manageSubscriptions({ productId: SUB_ID() }); return { ok: true }; },
   async restore() {

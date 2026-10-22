@@ -5,6 +5,7 @@ import { placeholder } from '../../src/adapter_ads.js';
 
 export function installAdPresenter() {
   const ph = placeholder(); if (!ph) return;
+  if (!/[?&]ads=legacy/.test(location.search)) return; // shared ads stack (ui/js/shared_ads.js) is installed instead; ?ads=legacy keeps the old screen for comparison
   ph.setPresenter((req) => new Promise((resolve) => {
     const t0 = performance.now(), need = req.requiredMs, forced = req.kind === 'interstitial';
     const cnt = h('div', { class: 'ad-count', 'data-el': 'ad-count', text: String(Math.ceil(need / 1000)) }), fill = h('i', { style: { width: '0%' } });

@@ -1,0 +1,14 @@
+/* VENDORED from paige-shared — do not edit; run `npm run sync` in /workspace/paige-shared. */
+/* Staff tag: gold with a subtle shimmer. Deliberately NOT a currency colour (Blue Bucks blue, Echo Coins teal, gold coins yellow). */
+.pg-creator-tag { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 4px; font: 800 10px/1.5 system-ui, sans-serif; letter-spacing: .12em; vertical-align: middle;
+  color: #2a1a00; background: linear-gradient(100deg, #b8860b 0%, #f7d774 35%, #fff4c2 50%, #f7d774 65%, #b8860b 100%); background-size: 220% 100%; border: 1px solid #7a5a00;
+  animation: pg-shimmer 3.2s linear infinite; text-shadow: none; white-space: nowrap; }
+@keyframes pg-shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+@media (prefers-reduced-motion: reduce) { .pg-creator-tag { animation: none; background-position: 50% 0; } }
+.pg-admin { display: grid; gap: 10px; padding: 12px; }
+.pg-admin-sec { background: var(--pg-admin-card, #fff); color: var(--pg-admin-ink, #1b2433); border: 1px solid var(--pg-admin-line, #c8cfdb); border-radius: 10px; padding: 10px; display: grid; gap: 8px; }
+.pg-admin-sec h3 { margin: 0; font-size: 15px; }
+.pg-admin-in { font: inherit; padding: 8px; border-radius: 8px; border: 1px solid #8a93a6; background: #fff; color: #1b2433; min-height: 40px; }
+.pg-admin-btn { min-height: 40px; padding: 0 12px; border-radius: 8px; border: 0; background: #1f3a5f; color: #fff; font-weight: 700; text-align: left; }
+.pg-admin-note { font-size: 13px; color: var(--pg-admin-ink, #1b2433); margin: 0; }
+.pg-admin-list { display: grid; gap: 4px; }
