@@ -1,6 +1,6 @@
 // Ads policy (platform-switchable) + rewarded options. No ad SDK lives here: ads are shown through the adapter in src/adapter_ads.js.
 //  android: rewarded ads, unlimited, plus a FORCED full-screen ad every 8-15 years. No Ads / All Access: no forced ads, and rewards are granted
-//  instantly without an ad, once per option per real-life day (same limit as Steam subscribers).
+//  instantly without an ad, as often as a normal player could watch it.
 //  android(old): rewarded ads, unlimited.    steam: no ads shown; subscribers get the same reward options without an ad, once per option per real-life day.
 // Config: data/ads.json (`platform` flag, ?platform=steam on the URL, or setPlatform()). Device-local state (Steam subscription stub, daily usage)
 // is kept in localStorage `lifesim.ads.v1`, separate from saves. The reward is granted only after the adapter reports the FULL required duration.
@@ -40,7 +40,7 @@ export const usedToday = (key, now) => load().used[key] === dayKey(now);
 export function access(key, now = Date.now()) {
   const r = rules();
   if (r.ads && !noAds()) return { ok: true, mode: 'ad' };
-  if (r.ads) return usedToday(key, now) ? { ok: false, mode: 'limit', reason: 'Used today. Back tomorrow.' } : { ok: true, mode: 'direct' }; // No Ads: instant, once per option per day
+  if (r.ads) return { ok: true, mode: 'direct' }; // No Ads / All Access: instant, same (no) limit as watching the ad
   if (r.subscribersOnly && !steamSubscribed()) return { ok: false, mode: 'locked', reason: 'Subscribers only on this platform' };
   if (r.rewardLimit === 'perOptionPerDay' && usedToday(key, now)) return { ok: false, mode: 'limit', reason: 'Used today. Back tomorrow.' };
   return { ok: true, mode: 'direct' };
