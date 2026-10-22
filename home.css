@@ -317,3 +317,24 @@ body.mp-on .foot{padding-bottom:calc(56vw + 90px)}}
 .drawer{border-left:0;box-shadow:-24px 0 60px rgba(0,0,0,.6),-1px 0 0 rgba(140,160,255,.12),-12px 0 40px -24px var(--kil)}
 .dx,.burger{border:0!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
 @media(prefers-reduced-motion:reduce){.tabs a:hover::before,.tabs a:focus-visible::before,.dlinks a:hover::before,.dlinks a:focus-visible::before{animation:none;opacity:.38}.btn.signin:hover{transform:none}}
+/* "free" flare */
+.flare{position:relative;display:inline-block;font-size:1.22em;line-height:1;vertical-align:-.04em;padding:0 .12em;background:linear-gradient(90deg,#b26bff,#d38cff,#b26bff);-webkit-background-clip:text;background-clip:text;color:#c47dff;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(178,107,255,.75))}
+.flare .spk{position:absolute;inset:-.9em -.5em -.4em;pointer-events:none;overflow:visible}
+.flare .spk i{position:absolute;font-style:normal;font-size:.6em;color:#e6c4ff;-webkit-text-fill-color:#e6c4ff;text-shadow:0 0 6px #b26bff;opacity:0;animation:spkfall 2.4s ease-in infinite}
+.flare .spk i:nth-child(1){left:2%;top:0;animation-delay:0s}
+.flare .spk i:nth-child(2){left:30%;top:-10%;font-size:.45em;animation-delay:.4s}
+.flare .spk i:nth-child(3){left:58%;top:5%;animation-delay:.8s}
+.flare .spk i:nth-child(4){left:86%;top:-5%;font-size:.5em;animation-delay:1.2s}
+.flare .spk i:nth-child(5){left:94%;top:55%;font-size:.4em;animation:spktw 1.6s ease-in-out infinite .3s}
+.flare .spk i:nth-child(6){left:-4%;top:60%;font-size:.4em;animation:spktw 1.6s ease-in-out infinite 1s}
+@keyframes spkfall{0%{opacity:0;transform:translateY(0) scale(.6) rotate(0)}20%{opacity:1;transform:translateY(.3em) scale(1) rotate(30deg)}100%{opacity:0;transform:translateY(1.6em) scale(.5) rotate(120deg)}}
+@keyframes spktw{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.flare .spk i{animation:none!important;opacity:.85;transform:none}}
+/* ad slots (ads.js). Collapsed unless ads.js inserts them; height reserved so nothing shifts; never fixed/overlaying. */
+.ad-slot{position:relative;display:block;grid-column:1/-1;min-height:120px;margin:22px 0;padding:22px 12px 12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);overflow:hidden;contain:layout paint;max-width:100%}
+@media(min-width:760px){.ad-slot{min-height:110px}}
+.ad-slot .ad-lab{position:absolute;top:5px;left:12px;font:700 11px var(--body);letter-spacing:.12em;text-transform:uppercase;color:#b9bfd6}
+.ad-slot.ad-preview{display:flex;align-items:center;justify-content:center;border:1px dashed rgba(178,107,255,.55)}
+.ad-slot .ad-ph{font:600 13px var(--body);color:#c9cde0}
+.ad-desk{display:none!important}
+@media(min-width:1024px){.ad-desk{display:block!important}.ad-desk.ad-preview{display:flex!important}}

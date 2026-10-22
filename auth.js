@@ -155,13 +155,19 @@ function track(ev, session) {
   if (lastAnonId === u.id || ago(u.created_at) < fresh || ago(u.email_confirmed_at || u.confirmed_at) < fresh) A.auth('signup', u, session.access_token);
   if (ev === 'SIGNED_IN') A.auth('login', u, session.access_token);
 }
+// Ad-Free for Life ($35 network pass): public.ads_removed(null) -> paige_private.ads_removed (network scope). ads.js listens for 'paige:ads'.
+async function checkAds() {
+  let removed = false;
+  if (user && !user.is_anonymous) { try { const { data, error } = await sb.rpc('ads_removed', { p_game: null }); removed = !error && data === true; } catch (_) {} }
+  window.__paigeAdsRemoved = removed; window.dispatchEvent(new CustomEvent('paige:ads', { detail: { removed } }));
+}
 sb.auth.onAuthStateChange((ev, session) => {
-  user = session?.user || null; setTimeout(loadRole, 0);
+  user = session?.user || null; setTimeout(loadRole, 0); setTimeout(checkAds, 0);
   if (ev === 'SIGNED_IN' || ev === 'USER_UPDATED' || ev === 'INITIAL_SESSION') setTimeout(() => track(ev, session), 0);
   if (ev === 'PASSWORD_RECOVERY') open('reset');
 });
 const { data: { session } } = await sb.auth.getSession();
-user = session?.user || null; await loadRole();
+user = session?.user || null; await loadRole(); checkAds();
 if (recovering && user && view !== 'reset') open('reset');
 if (location.hash.includes('access_token') || location.hash.includes('error_description')) {
   const err = new URLSearchParams(location.hash.slice(1)).get('error_description');
