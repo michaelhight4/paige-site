@@ -1,9 +1,9 @@
 // Lifeline offline cache. VERSION is bumped per snapshot (old caches are deleted on activate).
 // No stale builds after a publish: HTML, JS, CSS and JSON are NETWORK-FIRST (cache is only the offline fallback);
 // images / audio / fonts are cache-first (their content rarely changes and they are the bulk of the bytes).
-const VERSION = 'lifeline-7c4';
+const VERSION = 'lifeline-7c5';
 const CORE = ['./', './index.html', './manifest.webmanifest', './terms.html', './privacy.html',
-  './ui/css/app.css', './ui/css/merge.css', './ui/css/style.css', './ui/css/start.css',
+  './ui/css/app.css', './ui/css/merge.css', './ui/css/style.css', './ui/css/start.css', './ui/css/vivid.css',
   './art/theme.css', './art/fantasy.css', './ui/js/app.js',
   './assets/brand/icon-192.png', './assets/brand/icon-512.png'];
 self.addEventListener('install', (e) => {

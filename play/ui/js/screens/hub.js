@@ -27,7 +27,7 @@ export function mountHub(root) {
   nav.style.gridTemplateColumns = `repeat(${half},1fr) 96px repeat(${tabs.length - half},1fr)`;
   let activeTab = 'life'; const tabEls = {};
   tabs.forEach((t, i) => {
-    const b = h('button', { class: 'tab', 'data-tab': t.id, onclick: () => { closeAll(); activeTab = t.id; if (t.id === 'occupation') setWorkTab(null); if (t.id !== 'life') openPanel(titles[t.id] || t.label, openers[t.id]); paintTabs(); } }, ico(t.icon, 26), h('span', { class: 'tl', text: t.label }), h('i', { class: 'nbadge', 'data-badge': t.id }));
+    const b = h('button', { class: 'tab', 'data-tab': t.id, onclick: () => { closeAll(); activeTab = t.id; document.documentElement.dataset.area = t.id; if (t.id === 'occupation') setWorkTab(null); if (t.id !== 'life') openPanel(titles[t.id] || t.label, openers[t.id]); paintTabs(); } }, ico(t.icon, 26), h('span', { class: 'tl', text: t.label }), h('i', { class: 'nbadge', 'data-badge': t.id }));
     tabEls[t.id] = b; if (i === half) nav.append(h('div'));
     nav.append(b);
   });
@@ -49,9 +49,9 @@ export function mountHub(root) {
     top.className = top.className.replace(/\s*fame-t\d/g, '') + (st.fameTier ? ' fame-t' + st.fameTier.index : '');
     top.replaceChildren(
       avatarFor(st.gender, st.age, st.avatar),
-      h('button', { class: 'who', 'data-el': 'profile-link', onclick: () => openPanel('Profile', profileScreen), 'aria-label': 'Open profile' }, h('span', { class: 'nm', text: st.name }), st.founder ? h('span', { class: 'founder-badge', 'data-el': 'founder-badge', title: 'Founder Pack', text: '🏅 Founder' }) : null, h('span', { class: 'hd', 'data-el': 'job-link', role: 'link', onclick: (e) => { e.stopPropagation(); closeAll(); activeTab = 'occupation'; setWorkTab('myjob'); openPanel('Work', occupationMenu); paintTabs(); }, text: '💼 ' + st.headline }), st.fameTier && st.fameTier.index > 0 ? h('span', { class: 'fame-tag', 'data-el': 'fame-tier', role: 'link', onclick: (e) => { e.stopPropagation(); import('./fame.js').then((m) => openPanel('Use your fame', m.fameScreen)); }, text: `🌟 ${st.fameTier.name} · ${st.fameTier.fame}%` }) : null),
-      h('button', { class: 'topbtn prem', 'data-el': 'store-link', 'aria-label': 'Premium store', onclick: () => openPanel('Premium', storeScreen) }, '⭐'),
-      h('button', { class: 'topbtn', 'data-el': 'settings-link', 'aria-label': 'Settings', onclick: () => openPanel('Settings', settingsScreen) }, '⚙️'),
+      h('button', { class: 'who', 'data-el': 'profile-link', onclick: () => { document.documentElement.dataset.area = 'life'; openPanel('Profile', profileScreen); }, 'aria-label': 'Open profile' }, h('span', { class: 'nm', text: st.name }), st.founder ? h('span', { class: 'founder-badge', 'data-el': 'founder-badge', title: 'Founder Pack', text: '🏅 Founder' }) : null, h('span', { class: 'hd', 'data-el': 'job-link', role: 'link', onclick: (e) => { e.stopPropagation(); closeAll(); activeTab = 'occupation'; setWorkTab('myjob'); openPanel('Work', occupationMenu); paintTabs(); }, text: '💼 ' + st.headline }), st.fameTier && st.fameTier.index > 0 ? h('span', { class: 'fame-tag', 'data-el': 'fame-tier', role: 'link', onclick: (e) => { e.stopPropagation(); import('./fame.js').then((m) => openPanel('Use your fame', m.fameScreen)); }, text: `🌟 ${st.fameTier.name} · ${st.fameTier.fame}%` }) : null),
+      h('button', { class: 'topbtn prem', 'data-el': 'store-link', 'aria-label': 'Premium store', onclick: () => { document.documentElement.dataset.area = 'store'; openPanel('Premium', storeScreen); } }, '⭐'),
+      h('button', { class: 'topbtn', 'data-el': 'settings-link', 'aria-label': 'Settings', onclick: () => { document.documentElement.dataset.area = 'more'; openPanel('Settings', settingsScreen); } }, '⚙️'),
       h('div', { class: 'bank' }, h('b', { class: st.cash < 0 ? 'neg' : '', 'data-el': 'cash', text: money(st.cash, true) }), h('small', { 'data-el': 'cash-label', text: 'Cash in bank' })));
     agebar.replaceChildren(h('span', { text: `Age: ${st.age} · ${st.stage}` }), h('span', { text: st.education.inSchool ? '🎓 ' + st.education.label : st.alive ? `Net worth ${money(st.netWorth, true)}` : '🪦 Deceased' }));
     stats.replaceChildren(...store.cfg.stats.map(s => bar(s.label, st.stats[s.key] ?? 0, { icon: s.icon, key: s.key })));
