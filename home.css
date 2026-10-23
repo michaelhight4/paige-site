@@ -451,3 +451,10 @@ body[data-tab="start-of-the-end"] .sa-unit{display:none}
 .fx-wave{mix-blend-mode:screen;background:linear-gradient(100deg,transparent 0%,transparent 38%,rgba(255,255,255,.0) 42%,rgba(255,255,240,.85) 50%,rgba(255,255,255,0) 58%,transparent 62%,transparent 100%);background-size:300% 100%;background-repeat:no-repeat;-webkit-mask:var(--m) center/cover no-repeat;mask:var(--m) center/cover no-repeat;animation:fxWave 4.5s linear infinite}
 @keyframes fxWave{0%{background-position:100% 0}70%,100%{background-position:0% 0}}
 @media (prefers-reduced-motion:reduce){.fx-glow,.fx-wave{animation:none}.fx-wave{opacity:0}.fx-glow{opacity:.35}}
+/* Kilumen card: treasure shine on the title, crystal pulse, twinkling glints */
+.fx-gem{animation-duration:2.6s}
+.fx-shine{mix-blend-mode:normal;filter:brightness(1.15);background:linear-gradient(100deg,transparent 0%,transparent 40%,rgba(255,236,170,0) 44%,#fff 50%,rgba(255,236,170,0) 56%,transparent 60%,transparent 100%);background-size:300% 100%;background-repeat:no-repeat;animation:fxShine 5.5s ease-in-out infinite}
+@keyframes fxShine{0%,30%{background-position:100% 0}75%,100%{background-position:0% 0}}
+.fx-sparks i{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;filter:drop-shadow(0 0 4px #ffe9a8);opacity:0;background:radial-gradient(circle,#fff 0 12%,rgba(255,240,190,.9) 22%,transparent 60%);clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);animation:fxSpark 3.9s ease-in-out infinite}
+@keyframes fxSpark{0%,62%,100%{opacity:0;transform:scale(.3) rotate(0)}76%{opacity:1;transform:scale(1.2) rotate(45deg)}90%{opacity:.6;transform:scale(.8) rotate(90deg)}}
+@media (prefers-reduced-motion:reduce){.fx-shine,.fx-sparks i{animation:none;opacity:0}}
