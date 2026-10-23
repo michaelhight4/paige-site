@@ -1,0 +1,15 @@
+{
+  "name": "kilumen",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Kilumen overworld (dev). Zero-build static ES modules.",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "node --test tests/overworld.test.mjs",
+    "shots": "node tests/shots.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

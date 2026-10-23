@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Kilumen: Start of a Journey (overworld dev)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="world" aria-label="Kilumen overworld"></canvas>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <div id="touchpad" hidden>
+    <div class="dpad">
+      <button data-dir="up" aria-label="Up">&#9650;</button>
+      <button data-dir="left" aria-label="Left">&#9664;</button>
+      <button data-dir="right" aria-label="Right">&#9654;</button>
+      <button data-dir="down" aria-label="Down">&#9660;</button>
+    </div>
+    <div class="btns">
+      <button data-btn="debug" class="small" aria-label="Toggle debug overlay">DBG</button>
+      <button data-btn="a" aria-label="A">A</button>
+    </div>
+  </div>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+// Kilumen overworld: input. Keyboard always; standard-mapping gamepads; an on-screen D-pad + A button
+// for touch. Everything is reduced to {dir (latest held wins), a (edge), b (held), debug (edge)}.
+const KEY_DIR = {
+  ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right',
+  KeyW: 'up', KeyS: 'down', KeyA: 'left', KeyD: 'right',
+};
+const KEY_A = new Set(['KeyZ', 'Space', 'Enter']);
+const KEY_B = new Set(['KeyX', 'ShiftLeft', 'ShiftRight']); // reserved: running shoes (MOVEMENT.md), not wired
+const KEY_DEBUG = new Set(['F3', 'Backquote']);
+const PAD_DIR = { 12: 'up', 13: 'down', 14: 'left', 15: 'right' };
+const STICK_DEAD = 0.5;
+
+export class Input {
+  constructor(target = window) {
+    this.held = [];            // held directions, most recent last
+    this.sources = new Map();  // source id -> dir (keyboard key, touch pointer, pad)
+    this.aQueued = false; this.debugQueued = false; this.kbB = false; this.padB = false;
+    this.padPrev = new Map();
+    this._kd = (e) => this._key(e, true);
+    this._ku = (e) => this._key(e, false);
+    this._blur = () => { this.sources.clear(); this._rebuild(); this.kbB = false; };
+    target.addEventListener('keydown', this._kd);
+    target.addEventListener('keyup', this._ku);
+    window.addEventListener('blur', this._blur);
+    this.target = target;
+  }
+
+  _key(e, down) {
+    const code = e.code;
+    if (KEY_DIR[code]) {
+      e.preventDefault();
+      if (down) { if (!e.repeat) this._press('k:' + code, KEY_DIR[code]); } else this._release('k:' + code);
+      return;
+    }
+    if (KEY_A.has(code)) { e.preventDefault(); if (down && !e.repeat) this.aQueued = true; return; }
+    if (KEY_B.has(code)) { this.kbB = down; return; }
+    if (KEY_DEBUG.has(code)) { e.preventDefault(); if (down && !e.repeat) this.debugQueued = true; }
+  }
+
+  _press(src, dir) { this.sources.delete(src); this.sources.set(src, dir); this._rebuild(); }
+  _release(src) { if (this.sources.delete(src)) this._rebuild(); }
+  _rebuild() { this.held = [...this.sources.values()]; }
+
+  /** Attach a touch D-pad: elements with data-dir="up|down|left|right" and data-btn="a|debug". */
+  attachTouch(root) {
+    const dirAt = (x, y) => document.elementFromPoint(x, y)?.closest?.('[data-dir]')?.dataset.dir || null;
+    root.addEventListener('pointerdown', (e) => {
+      const btn = e.target.closest('[data-btn]');
+      if (btn) { e.preventDefault(); if (btn.dataset.btn === 'a') this.aQueued = true; else if (btn.dataset.btn === 'debug') this.debugQueued = true; return; }
+      const d = dirAt(e.clientX, e.clientY);
+      if (!d) return;
+      e.preventDefault();
+      root.setPointerCapture?.(e.pointerId);
+      this._press('p:' + e.pointerId, d);
+    });
+    root.addEventListener('pointermove', (e) => {
+      if (!this.sources.has('p:' + e.pointerId)) return;
+      const d = dirAt(e.clientX, e.clientY); // slide between arrows without lifting the thumb
+      if (d && d !== this.sources.get('p:' + e.pointerId)) this._press('p:' + e.pointerId, d);
+    });
+    const up = (e) => this._release('p:' + e.pointerId);
+    root.addEventListener('pointerup', up);
+    root.addEventListener('pointercancel', up);
+    root.addEventListener('contextmenu', (e) => e.preventDefault());
+  }
+
+  _pollPads() {
+    const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+    this.padB = false;
+    for (const p of pads) {
+      if (!p || p.mapping !== 'standard') continue;
+      const id = 'g' + p.index;
+      let dir = null;
+      for (const [b, d] of Object.entries(PAD_DIR)) if (p.buttons[b]?.pressed) dir = d;
+      if (!dir) {
+        const [ax, ay] = p.axes;
+        if (Math.abs(ax) > STICK_DEAD || Math.abs(ay) > STICK_DEAD)
+          dir = Math.abs(ax) > Math.abs(ay) ? (ax > 0 ? 'right' : 'left') : (ay > 0 ? 'down' : 'up');
+      }
+      if (dir !== (this.sources.get(id) ?? null)) { if (dir) this._press(id, dir); else this._release(id); }
+      const prev = this.padPrev.get(p.index) || {};
+      const a = !!p.buttons[0]?.pressed, sel = !!p.buttons[8]?.pressed;
+      if (a && !prev.a) this.aQueued = true;
+      if (sel && !prev.sel) this.debugQueued = true;
+      this.padB = this.padB || !!p.buttons[1]?.pressed;
+      this.padPrev.set(p.index, { a, sel });
+    }
+  }
+
+  /** Call once per frame. Returns the frame's input snapshot; edge-triggered buttons are consumed. */
+  poll() {
+    this._pollPads();
+    const snap = { dir: this.held.length ? this.held[this.held.length - 1] : null, a: this.aQueued, b: this.kbB || this.padB, debug: this.debugQueued };
+    this.aQueued = false; this.debugQueued = false;
+    return snap;
+  }
+}
