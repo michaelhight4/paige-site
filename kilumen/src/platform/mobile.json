@@ -95,6 +95,7 @@
  },
  "display": {
   "fitCanvas": true,
+  "nativeRender": true,
   "outsideMap": "edge",
   "edgeShade": "rgba(26,18,38,0.55)",
   "fullscreenButton": true,

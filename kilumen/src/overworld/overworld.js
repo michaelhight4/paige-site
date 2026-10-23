@@ -4,32 +4,32 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.5-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.5-alpha';
-import { GridMover } from './movement.js?v=v0.2.5-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.5-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.5-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.5-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.5-alpha';
-import { Renderer } from './renderer.js?v=v0.2.5-alpha';
-import { drawDebug } from './debug.js?v=v0.2.5-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.5-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.5-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.5-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.5-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.5-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.5-alpha';
-import { LivingWorld } from './living.js?v=v0.2.5-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.5-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.5-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.5-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.5-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.5-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.5-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.5-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.5-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.5-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.5-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.6-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.6-alpha';
+import { GridMover } from './movement.js?v=v0.2.6-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.6-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.6-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.6-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.6-alpha';
+import { Renderer } from './renderer.js?v=v0.2.6-alpha';
+import { drawDebug } from './debug.js?v=v0.2.6-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.6-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.6-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.6-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.6-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.6-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.6-alpha';
+import { LivingWorld } from './living.js?v=v0.2.6-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.6-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.6-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.6-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.6-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.6-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.6-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.6-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.6-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.6-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.6-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -39,10 +39,21 @@ const FOOTPRINT_MAX = 24;
 const PHASES = ['dawn', 'day', 'dusk', 'night'];
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 
+/** Mobile frame-rate fix (Oct 23, 2026; Gary: "Frames are super low on mobile"). Every overworld sheet above 1x is a nearest
+ *  copy of the 1x art and every fx draws in whole native px, so zoom N at full DPR is pixel-for-pixel the zoom 1 frame blown up
+ *  N times. With profile display.nativeRender the phone draws that zoom 1 frame (backing store / N) and the CSS box
+ *  (image-rendering: pixelated) does the blow-up: same picture, N*N fewer pixels to fill (2532x1170 -> 1266x585 on an
+ *  844x390 @3 iPhone). Returns the divisor N for a full-res backing height h (1 = off: pc, ?zoom=, or no flag). Used by Overworld resize() and _fitCheck(). */
+export function nativeRenderDiv(opts, h) {
+  const prof = opts?.platform?.profile;
+  if (opts?.zoom || !prof?.display?.fitCanvas || !prof.display.nativeRender) return 1;
+  return Math.max(1, pickZoom(h, prof.zoom));
+}
+
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.5-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.6-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -311,7 +322,9 @@ export class Overworld {
    *  difference: the landscape view always matches a fresh landscape load. One getBoundingClientRect per frame. */
   _fitCheck() {
     const dpr = window.devicePixelRatio || 1, r = this.canvas.getBoundingClientRect();
-    if (r.width > 0 && r.height > 0 && (Math.round(r.width * dpr) !== this.canvas.width || Math.round(r.height * dpr) !== this.canvas.height)) this.resize();
+    if (!(r.width > 0 && r.height > 0)) return;
+    const w = Math.round(r.width * dpr), h = Math.round(r.height * dpr), f = nativeRenderDiv(this.opts, h);
+    if (Math.ceil(w / f) !== this.canvas.width || Math.ceil(h / f) !== this.canvas.height) this.resize();
   }
 
   resize() {
@@ -321,11 +334,13 @@ export class Overworld {
       const r = this.canvas.getBoundingClientRect();
       if (r.width > 0 && r.height > 0) { w = Math.round(r.width * dpr); h = Math.round(r.height * dpr); }
     }
-    if (this.canvas.width !== w || this.canvas.height !== h) {
-      this.canvas.width = w; this.canvas.height = h;
+    const f = nativeRenderDiv(this.opts, h), bw = Math.ceil(w / f), bh = Math.ceil(h / f); // f > 1 only on phones with display.nativeRender
+    if (this.canvas.width !== bw || this.canvas.height !== bh) {
+      this.canvas.width = bw; this.canvas.height = bh;
       this.renderer.resetContext(); // resizing a canvas resets imageSmoothingEnabled to true
     }
-    const z = this.opts.zoom || pickZoom(h, this.opts.platform?.profile?.zoom); // zoom table from the platform profile (src/platform/*.json)
+    // zoom table from the platform profile (src/platform/*.json), always picked from the full-res height; native render draws it at zoom/f
+    const z = this.opts.zoom || pickZoom(h, this.opts.platform?.profile?.zoom) / f;
     if (z !== this.zoom) { this.zoom = z; if (this.map) this.ensureAssets(); }
   }
 
