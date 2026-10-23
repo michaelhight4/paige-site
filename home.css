@@ -427,3 +427,11 @@ body[data-tab="start-of-the-end"] .sa-unit{display:none}
 @media(prefers-reduced-motion:reduce){.sa-unit,.sa-unit *{animation:none!important;transition:none!important}}
 
 .s-cast .cast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}.s-cast .cast-grid figure{margin:0}.s-cast .cast-grid img{width:100%;height:auto;max-height:none;aspect-ratio:4/5;object-fit:cover}.s-cast .cast-grid figcaption b{color:#f3e6c4}
+.shot{position:relative}
+.shot .fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transition:transform .6s}
+.game:hover .shot .fx{transform:scale(1.05)}
+.fx-glow{object-fit:cover;mix-blend-mode:screen;animation:fxPulse 3.2s ease-in-out infinite}
+@keyframes fxPulse{0%,100%{opacity:.15;filter:blur(0)}50%{opacity:.65;filter:blur(1px) brightness(1.2)}}
+.fx-wave{mix-blend-mode:screen;background:linear-gradient(100deg,transparent 0%,transparent 38%,rgba(255,255,255,.0) 42%,rgba(255,255,240,.85) 50%,rgba(255,255,255,0) 58%,transparent 62%,transparent 100%);background-size:300% 100%;background-repeat:no-repeat;-webkit-mask:var(--m) center/cover no-repeat;mask:var(--m) center/cover no-repeat;animation:fxWave 4.5s linear infinite}
+@keyframes fxWave{0%{background-position:100% 0}70%,100%{background-position:0% 0}}
+@media (prefers-reduced-motion:reduce){.fx-glow,.fx-wave{animation:none}.fx-wave{opacity:0}.fx-glow{opacity:.35}}
