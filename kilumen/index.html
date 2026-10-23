@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kilumen: Start of a Journey (Alpha)</title>
+  <meta name="description" content="Kilumen is a free creature-raising adventure in your browser. Alpha: things will change.">
+  <link rel="canonical" href="https://paigegames.net/kilumen/">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="screen-orientation" content="landscape">
+  <!-- Mobile full screen pass (Oct 23, 2026): home-screen launch without browser bars on iOS (manifest display covers Android). -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="src/ui/theme.css">
+  <link rel="stylesheet" href="src/ui/ui.css">
+  <link rel="stylesheet" href="src/ui/ui_tools2.css">
+</head>
+<body>
+  <main><canvas id="world" aria-label="Kilumen overworld"></canvas></main>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <div id="touchpad" hidden>
+    <div class="dpad">
+      <button data-dir="up" aria-label="Up">&#9650;</button>
+      <button data-dir="left" aria-label="Left">&#9664;</button>
+      <button data-dir="right" aria-label="Right">&#9654;</button>
+      <button data-dir="down" aria-label="Down">&#9660;</button>
+    </div>
+    <div class="btns">
+      <button data-btn="debug" class="small" aria-label="Toggle debug overlay" hidden tabindex="-1">DBG</button>
+      <button data-btn="select" class="small" aria-label="Bike on or off">SEL</button>
+      <button data-btn="b" aria-label="B (hold to run)">B</button>
+      <button data-btn="a" aria-label="A">A</button>
+    </div>
+  </div>
+  <div id="rotate" role="alert" aria-hidden="true">
+    <div class="rot-phone" aria-hidden="true"></div>
+    <p>Turn your phone sideways to play</p>
+    <p class="rot-sub">Kilumen plays in landscape only.</p>
+  </div>
+  <script type="module" src="src/landscape.js"></script>
+  <script type="module" src="src/fullscreen.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

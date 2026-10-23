@@ -1,0 +1,1 @@
+{"char_id":"tr_scientist_f","anim":"capture_trainer","frames":["raise","hold"],"frame_w":84,"frame_h":128,"hold_px":[[7,49],[3,26]],"hold_px_by_frame":{"raise":[7,49],"hold":[3,26]},"pad":{"left":10,"right":10,"top":0,"bottom":0},"status":"draft, awaiting Gary"}

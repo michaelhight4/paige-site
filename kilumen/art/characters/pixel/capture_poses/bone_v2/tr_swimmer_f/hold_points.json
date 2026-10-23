@@ -1,0 +1,1 @@
+{"char_id":"tr_swimmer_f","anim":"capture_trainer","frames":["raise","hold"],"frame_w":96,"frame_h":128,"hold_px":[[10,53],[4,25]],"hold_px_by_frame":{"raise":[10,53],"hold":[4,25]},"pad":{"left":16,"right":16,"top":0,"bottom":0},"status":"draft, awaiting Gary"}

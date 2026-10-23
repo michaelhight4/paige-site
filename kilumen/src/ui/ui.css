@@ -1,0 +1,453 @@
+/* Kilumen UI components (UI pass, Oct 22, 2026). Colours / patterns / motion tokens: src/ui/theme.css. Platform sizes: the
+   "ui" block of src/platform/pc.json / mobile.json, applied by src/ui/ui.js as --ui-* vars on body. Everything here is scoped
+   to .ui-* elements, or to body.ui-skin for the restyle of the existing toast / dialogue / touch controls (visual only:
+   no size, position, opacity or visibility changes there, so dialog.js layout and the touch e2e checks stay as they were). */
+
+.ui-root { position: fixed; inset: 0; z-index: 6; font: 700 var(--ui-font, 18px)/1.3 var(--ui-family, ui-rounded, "Nunito", "Trebuchet MS", system-ui, sans-serif);
+  color: var(--ink); pointer-events: none; -webkit-font-smoothing: antialiased; }
+.ui-root[hidden] { display: none; }
+.ui-root.open { pointer-events: auto; }
+.ui-backdrop { position: absolute; inset: 0; opacity: .97; }
+.ui-backdrop::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, transparent 30%, rgba(16, 8, 32, .35)); pointer-events: none; }
+.ui-stage { position: absolute; top: var(--ui-inset-top, 4vh); left: var(--ui-inset-left, 4vw); right: var(--ui-inset-right, 4vw); bottom: var(--ui-inset-bottom, 4vh);
+  display: flex; flex-direction: column; gap: var(--ui-gap, 12px); max-width: var(--ui-max-w, 1280px); margin: 0 auto; min-height: 0; }
+.ui-stage.in { animation: ui-slide-in var(--t-slow) var(--ease-pop) both; }
+.ui-stage.back { animation: ui-slide-back var(--t-med) var(--ease-out) both; }
+@keyframes ui-slide-in { from { transform: translateY(18px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes ui-slide-back { from { transform: translateX(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* header: title chip + info chips + close (44px+) */
+.ui-head { display: flex; align-items: center; gap: 10px; flex: none; }
+.ui-title { display: inline-flex; align-items: center; gap: 10px; padding: 6px 18px 6px 8px; border: var(--bw) solid var(--outline); border-radius: var(--r-chip);
+  background: var(--plate); box-shadow: var(--shadow-drop); font-size: 1.2em; letter-spacing: .02em; }
+.ui-title .ico { width: 1.7em; height: 1.7em; border-radius: 50%; display: grid; place-items: center; background: var(--sc-a); border: 3px solid var(--outline); }
+.ui-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border: 3px solid var(--outline); border-radius: var(--r-chip); background: var(--plate);
+  box-shadow: 0 3px 0 var(--outline); font-size: .85em; white-space: nowrap; }
+.ui-chip.dark { background: var(--night); color: var(--on-night); }
+.ui-spacer { flex: 1; }
+.ui-x { min-width: var(--ui-hit, 44px); min-height: var(--ui-hit, 44px); border: var(--bw) solid var(--outline); border-radius: 50%; background: var(--plate); color: var(--ink);
+  font: inherit; font-size: 1.1em; cursor: pointer; box-shadow: var(--shadow-drop); display: grid; place-items: center; padding: 0; }
+.ui-x:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--outline); }
+
+/* panels */
+.ui-panel { position: relative; border: var(--bw) solid var(--outline); border-radius: var(--r-panel); box-shadow: var(--shadow-drop), var(--shadow-soft);
+  overflow: hidden; min-height: 0; isolation: isolate; }
+.ui-panel > .plate, .plate { background: var(--plate); color: var(--ink); border: 3px solid var(--outline); border-radius: var(--r-plate); }
+.plate.dark { background: var(--night); color: var(--on-night); }
+.ui-body { display: flex; gap: var(--ui-gap, 12px); flex: 1; min-height: 0; }
+.ui-col { display: flex; flex-direction: column; gap: var(--ui-gap, 12px); min-height: 0; min-width: 0; }
+.ui-grow { flex: 1; }
+.ui-pad { padding: var(--ui-pad, 14px); }
+.ui-scroll { overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; scrollbar-width: thin; }
+.soft { color: var(--ink-soft); font-weight: 600; }
+.plate.dark .soft { color: var(--on-night-soft); }
+.ui-hint { font-size: .78em; font-weight: 600; color: var(--on-night); background: rgba(26, 18, 38, .82); border-radius: var(--r-chip); padding: 4px 12px; align-self: center; }
+.ui-empty { padding: 1.2em; text-align: center; }
+
+/* selectable rows / tiles: cursor bob + selection pulse */
+.ui-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.ui-row { position: relative; display: flex; align-items: center; gap: 10px; min-height: var(--ui-row-h, 44px); padding: 4px 14px 4px 36px; cursor: pointer;
+  background: var(--plate); border: 3px solid var(--outline); border-radius: var(--r-plate); }
+.ui-row .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sel { background: var(--sc-sel) !important; }
+.ui-row.sel::before, .ui-tile.sel::after { content: ''; position: absolute; left: 10px; top: 50%; width: 0; height: 0; margin-top: -7px;
+  border: 7px solid transparent; border-left: 11px solid var(--outline); border-right: 0; animation: ui-cursor var(--bob) ease-in-out infinite; }
+@keyframes ui-cursor { 50% { transform: translateX(4px); } }
+.sel { animation: ui-pulse var(--pulse) ease-in-out infinite; }
+@keyframes ui-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } 50% { box-shadow: 0 0 0 4px rgba(255, 255, 255, .75); } }
+.ui-row.dim, .ui-tile.dim { opacity: .55; }
+.ui-press { transform: translateY(2px) scale(.98); }
+
+/* tabs (pockets, boxes, summary pages) */
+.ui-tabs { display: flex; gap: 6px; flex-wrap: nowrap; overflow: hidden; }
+.ui-tab { flex: 1; min-height: var(--ui-hit, 44px); display: grid; place-items: center; padding: 2px 8px; border: 3px solid var(--outline); border-radius: var(--r-plate);
+  background: var(--plate); cursor: pointer; font-size: .82em; white-space: nowrap; text-align: center; }
+.ui-tab.on { background: var(--sc-sel); transform: translateY(-3px); box-shadow: 0 3px 0 var(--outline); }
+
+/* phone apps */
+.ui-apps { display: grid; grid-template-columns: repeat(var(--ui-app-cols, 4), 1fr); gap: var(--ui-gap, 12px); }
+.ui-tile { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 10px 6px;
+  min-height: var(--ui-tile-h, 120px); border: 3px solid var(--outline); border-radius: var(--r-panel); background: var(--plate); cursor: pointer; text-align: center; }
+.ui-tile .badge { width: var(--ui-badge, 64px); height: var(--ui-badge, 64px); border-radius: 30%; border: 3px solid var(--outline); display: grid; place-items: center;
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, .15), inset 0 6px 0 rgba(255, 255, 255, .35); overflow: hidden; }
+.ui-tile .badge svg { width: 60%; height: 60%; }
+.ui-tile.sel .badge { animation: ui-wiggle 900ms ease-in-out infinite; }
+.ui-tile.sel::after { left: auto; right: 8px; top: 14px; transform: rotate(90deg); }
+@keyframes ui-wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-6deg) scale(1.06); } 75% { transform: rotate(6deg) scale(1.06); } }
+.ui-tile .lbl { font-size: .86em; line-height: 1.15; }
+
+/* creature bits */
+.ui-icon { width: var(--ui-icon, 64px); height: var(--ui-icon, 64px); image-rendering: pixelated; image-rendering: crisp-edges; flex: none; }
+.ui-icon.bob { animation: ui-icon-bob 1.2s steps(2) infinite; }
+@keyframes ui-icon-bob { 50% { transform: translateY(-3px); } }
+.ui-icon.sil { filter: brightness(0) opacity(.55); }
+.el-chip { display: inline-block; padding: 1px 10px; border: 2px solid var(--outline); border-radius: var(--r-chip); background: var(--sc-a); color: var(--ink);
+  font-size: .72em; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; }
+.el-chip[data-pat] { background-size: 12px 12px; }
+.ui-gem { display: inline-block; width: .9em; height: 1.1em; background: var(--gem, #b076ec); clip-path: polygon(50% 0, 100% 35%, 80% 100%, 20% 100%, 0 35%);
+  vertical-align: -.15em; filter: drop-shadow(0 0 4px var(--gem, #b076ec)); }
+
+/* bars: HP green/yellow/red, XP blue; width tweens */
+.bar { position: relative; height: var(--ui-bar-h, 12px); border: 3px solid var(--outline); border-radius: var(--r-chip); background: #3a2f4a; overflow: hidden; }
+.bar > i { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: var(--good); transition: width 650ms var(--ease-out), background-color 300ms;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .18), inset 0 3px 0 rgba(255, 255, 255, .4); }
+.bar[data-lvl=warn] > i { background: var(--warn); } .bar[data-lvl=bad] > i { background: var(--bad); animation: ui-blink 700ms steps(2) infinite; }
+.bar.xp > i { background: var(--xp); } .bar.en > i { background: var(--energy); }
+.bar .lab { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #fff; }
+@keyframes ui-blink { 50% { filter: brightness(1.35); } }
+.bar-row { display: flex; align-items: center; gap: 8px; font-size: .8em; }
+.bar-row .bar { flex: 1; }
+.bar-row b { min-width: 2.2em; display: inline-block; padding: 0 6px; border-radius: 6px; background: var(--night); color: var(--sun); font-size: .8em; text-align: center; }
+
+/* team cards */
+.ui-team { display: grid; grid-template-columns: repeat(var(--ui-team-cols, 2), 1fr); gap: var(--ui-gap, 12px); align-content: start; }
+.ui-card { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center; padding: 8px 12px 8px 10px; cursor: pointer;
+  border: 3px solid var(--outline); border-radius: var(--r-panel); background: var(--plate); min-height: var(--ui-card-h, 96px); }
+.ui-card .ui-icon { grid-row: span 2; background: radial-gradient(circle, var(--sc-b) 0 55%, transparent 56%); border-radius: 50%; }
+.ui-card.lead { border-color: var(--outline); box-shadow: inset 0 0 0 3px var(--sun); }
+.ui-card .nm { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ui-card .nm span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ui-card.sel::before { content: ''; position: absolute; inset: -7px; border: 4px dashed #fff; border-radius: calc(var(--r-panel) + 6px); animation: ui-march 2.4s linear infinite; pointer-events: none; }
+@keyframes ui-march { to { transform: rotate(0.0001deg); filter: hue-rotate(0); } }
+.ui-card.empty { opacity: .6; justify-content: center; grid-template-columns: 1fr; text-align: center; }
+.lv { display: inline-block; padding: 0 8px; border-radius: 6px; background: var(--night); color: var(--sun); font-size: .78em; }
+
+/* summary stage: element pattern behind a big sprite */
+.ui-stagebox { position: relative; display: grid; place-items: center; border: var(--bw) solid var(--outline); border-radius: var(--r-panel); min-height: 0; overflow: hidden; isolation: isolate; }
+.ui-sprite { image-rendering: pixelated; image-rendering: crisp-edges; width: calc(128px * var(--ui-sprite-scale, 2)); height: calc(128px * var(--ui-sprite-scale, 2)); }
+.ui-sprite.idle { animation: ui-breathe 1.8s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes ui-breathe { 50% { transform: translateY(-4px) scaleY(1.02); } }
+.ui-kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: center; }
+.ui-kv dt { color: var(--ink-soft); font-weight: 700; font-size: .85em; } .ui-kv dd { margin: 0; }
+
+/* Kilindex grid */
+.ui-dex { display: grid; grid-template-columns: repeat(var(--ui-dex-cols, 4), 1fr); gap: 8px; align-content: start; }
+.ui-dex .ui-tile { min-height: var(--ui-dex-h, 104px); padding: 6px 4px; }
+.ui-dex .no { position: absolute; left: 8px; top: 4px; font-size: .7em; color: var(--ink-soft); }
+.ui-dex .reg { position: absolute; right: 8px; top: 6px; width: 12px; height: 14px; background: var(--el-mystic); clip-path: polygon(50% 0, 100% 35%, 80% 100%, 20% 100%, 0 35%); }
+
+/* shop / qty */
+.price { margin-left: auto; padding: 0 10px; border-radius: 8px; background: var(--night); color: var(--sun); white-space: nowrap; }
+.qty { display: inline-flex; align-items: center; gap: 10px; }
+.qty button { min-width: var(--ui-hit, 44px); min-height: var(--ui-hit, 44px); border: 3px solid var(--outline); border-radius: 12px; background: var(--sc-sel); font: inherit; cursor: pointer; }
+.coin { display: inline-block; width: .9em; height: .9em; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff6b0, var(--sun) 45%, var(--sun-deep)); border: 2px solid #8a6200; vertical-align: -.1em; }
+
+/* archive grid */
+.ui-box { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.ui-slot { aspect-ratio: 1; border: 3px solid var(--outline); border-radius: 10px; background: rgba(255, 250, 240, .9); display: grid; place-items: center; cursor: pointer; position: relative; min-height: 0; }
+.ui-slot img { width: 85%; height: 85%; image-rendering: pixelated; }
+
+/* modal (save prompt, confirm, qty) */
+.ui-modal { position: absolute; inset: var(--ui-inset-top, 4vh) var(--ui-inset-right, 4vw) var(--ui-inset-bottom, 4vh) var(--ui-inset-left, 4vw); border-radius: var(--r-panel, 18px); display: grid; place-items: center; background: rgba(16, 8, 32, .45); z-index: 3; }
+.ui-modal .ui-panel { width: min(92%, 640px); max-height: 100%; overflow: auto; animation: ui-pop var(--t-slow) var(--ease-pop) both; }
+@keyframes ui-pop { from { transform: scale(.8); opacity: 0; } }
+.ui-filing { height: 14px; }
+.ui-filing > i { animation: ui-fill 900ms var(--ease-out) forwards; width: 0; }
+@keyframes ui-fill { to { width: 100%; } }
+
+/* sparkles (level up, save done, title) */
+.ui-spark { position: absolute; width: 14px; height: 14px; pointer-events: none; background: var(--sun);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: ui-spark 900ms var(--ease-out) forwards; }
+@keyframes ui-spark { 0% { transform: translate(0, 0) scale(.2) rotate(0); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(1.2) rotate(180deg); opacity: 0; } }
+
+/* in-UI notification (pops above everything in the UI) */
+.ui-note { position: absolute; left: 50%; top: var(--ui-note-top, 14px); transform: translateX(-50%); z-index: 9; padding: 8px 20px; border: 3px solid var(--outline);
+  border-radius: var(--r-chip); background: var(--sun); color: var(--ink); box-shadow: var(--shadow-drop); animation: ui-note-in var(--t-slow) var(--ease-pop) both; white-space: nowrap; }
+@keyframes ui-note-in { from { transform: translate(-50%, -30px); opacity: 0; } }
+
+/* ---------- HUD (overworld): location banner, clock chip, menu button, interaction prompt ---------- */
+.ui-hud { position: fixed; inset: 0; z-index: 3; pointer-events: none; font: 800 var(--ui-hud-font, 16px)/1.2 var(--ui-family, ui-rounded, "Nunito", system-ui, sans-serif); }
+body.ui-dlg-open .ui-hud .hud-top, body.ui-open .ui-hud { visibility: hidden; }
+.hud-banner { position: absolute; left: calc(var(--safe-left, 0px) + var(--ui-hud-edge, 16px)); top: calc(var(--safe-top, 0px) + var(--ui-hud-edge, 16px));
+  display: flex; align-items: center; gap: 10px; padding: 6px 22px 6px 8px; border: var(--bw) solid var(--outline); border-radius: var(--r-plate) var(--r-chip) var(--r-chip) var(--r-plate);
+  box-shadow: var(--shadow-drop); transform: translateX(-120%); transition: transform var(--t-slow) var(--ease-pop); overflow: hidden; }
+.hud-banner.show { transform: none; }
+.hud-banner .plate { padding: 4px 14px; font-size: 1.15em; }
+.hud-banner .kind { font-size: .7em; text-transform: uppercase; letter-spacing: .1em; color: var(--ink); background: var(--plate); padding: 2px 8px; border-radius: 8px; border: 2px solid var(--outline); }
+.hud-top { position: absolute; right: calc(var(--safe-right, 0px) + var(--ui-hud-edge, 16px)); top: calc(var(--safe-top, 0px) + var(--ui-hud-edge, 16px)); display: flex; gap: 8px; align-items: center; }
+.hud-clock { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border: 3px solid var(--outline); border-radius: var(--r-chip); background: var(--night); color: var(--on-night); box-shadow: 0 3px 0 var(--outline); }
+.hud-clock .sky { width: 14px; height: 14px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 6px var(--sun); }
+.hud-clock .sky.night { background: #dcd6ff; box-shadow: inset -4px -2px 0 #8a7fd0; }
+.hud-menu { pointer-events: auto; min-width: var(--ui-menu-btn, 48px); height: var(--ui-menu-btn, 48px); border: 3px solid var(--outline); border-radius: var(--r-chip); padding: 0 12px;
+  display: inline-flex; align-items: center; gap: 8px; font: inherit; color: var(--ink); cursor: pointer; box-shadow: 0 4px 0 var(--outline); }
+.hud-menu .k { padding: 0 6px; border-radius: 6px; background: var(--night); color: var(--on-night); font-size: .8em; }
+.hud-menu:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--outline); }
+.hud-menu svg { width: 22px; height: 22px; }
+.hud-prompt { position: absolute; transform: translate(-50%, -100%); display: none; align-items: center; gap: 6px; padding: 3px 10px 3px 4px; border: 3px solid var(--outline);
+  border-radius: var(--r-chip); background: var(--plate); color: var(--ink); box-shadow: 0 3px 0 var(--outline); font-size: .85em; animation: ui-prompt-bob 1s ease-in-out infinite; }
+.hud-prompt.show { display: inline-flex; }
+.hud-prompt .g { width: 1.5em; height: 1.5em; border-radius: 50%; display: grid; place-items: center; background: var(--tp-a); color: #fff; border: 2px solid var(--outline); font-size: .85em; }
+.hud-prompt::after { content: ''; position: absolute; left: 50%; bottom: -9px; margin-left: -7px; border: 7px solid transparent; border-top-color: var(--outline); border-bottom: 0; }
+@keyframes ui-prompt-bob { 50% { margin-top: -4px; } }
+
+/* ---------- title screen ---------- */
+.ui-title-scr { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
+.ui-title-scr .art { position: absolute; inset: -4%; background: center / cover no-repeat; animation: ui-kenburns 30s ease-in-out infinite alternate; }
+@keyframes ui-kenburns { to { transform: scale(1.06) translate(-1%, -1%); } }
+.ui-title-scr .veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(108, 43, 217, .35), transparent 40%, rgba(26, 18, 38, .65)); }
+.ui-logo { position: relative; text-align: center; margin-bottom: 4vh; }
+.ui-logo h1 { margin: 0; font-size: var(--ui-logo, 120px); line-height: .95; letter-spacing: .02em; color: var(--sun);
+  -webkit-text-stroke: calc(var(--ui-logo, 120px) * .05) var(--outline); paint-order: stroke fill; text-shadow: 0 .06em 0 var(--outline), 0 0 .3em rgba(255, 210, 63, .6);
+  animation: ui-logo-float 3.2s ease-in-out infinite; }
+.ui-logo h1 span { display: inline-block; animation: ui-letter 3.2s ease-in-out infinite; animation-delay: calc(var(--i) * 90ms); }
+@keyframes ui-letter { 0%, 70%, 100% { transform: none; } 80% { transform: translateY(-.08em); } }
+@keyframes ui-logo-float { 50% { transform: translateY(-6px); } }
+.ui-logo .sub { display: inline-block; margin-top: 10px; padding: 4px 20px; border: 3px solid var(--outline); border-radius: var(--r-chip); background: var(--plate); color: var(--ink); font-size: calc(var(--ui-logo, 120px) * .2); }
+.ui-press-start { position: absolute; left: 50%; bottom: 12vh; transform: translateX(-50%); padding: 8px 26px; border: 3px solid var(--outline); border-radius: var(--r-chip);
+  background: var(--night); color: var(--on-night); animation: ui-breathe-op 1.4s ease-in-out infinite; white-space: nowrap; }
+@keyframes ui-breathe-op { 50% { opacity: .55; } }
+.ui-title-menu { position: absolute; left: var(--ui-inset-left, 4vw); right: var(--ui-inset-right, 4vw); margin: 0 auto; bottom: 8vh; width: min(420px, calc(100vw - var(--ui-inset-left, 4vw) - var(--ui-inset-right, 4vw))); padding: 12px; }
+.ui-title-scr .foot { position: absolute; right: 12px; bottom: 8px; font-size: 12px; color: var(--on-night); background: rgba(26, 18, 38, .7); padding: 2px 10px; border-radius: 8px; }
+
+/* ---------- battle ---------- */
+.ui-battle { position: absolute; inset: 0; overflow: hidden; }
+.ui-battle .bg { position: absolute; inset: 0; background: center / cover no-repeat; image-rendering: auto; }
+.ui-battle .bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(26, 18, 38, .2)); }
+.b-field { position: absolute; top: var(--ui-inset-top, 4vh); left: var(--ui-inset-left, 4vw); right: var(--ui-inset-right, 4vw); bottom: calc(var(--ui-b-bottom-h, 26%) + var(--ui-inset-bottom, 4vh)); }
+.b-pad { position: absolute; width: calc(128px * var(--ui-sprite-scale, 2) * 1.3); height: calc(32px * var(--ui-sprite-scale, 2)); border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, .55), rgba(255, 255, 255, .15) 60%, transparent 70%); border: 3px solid rgba(26, 18, 38, .25); }
+.b-foe { position: absolute; right: 6%; top: 4%; display: grid; justify-items: center; }
+.b-ally { position: absolute; left: 6%; bottom: -2%; display: grid; justify-items: center; }
+.b-foe .b-pad { margin-top: calc(-24px * var(--ui-sprite-scale, 2)); }
+.b-ally .b-pad { margin-top: calc(-20px * var(--ui-sprite-scale, 2)); }
+.b-mon { position: relative; z-index: 1; }
+.b-mon.idle { animation: ui-battle-bob 1.4s ease-in-out infinite; }
+.b-ally .b-mon.idle { animation-delay: -.7s; }
+@keyframes ui-battle-bob { 50% { transform: translateY(calc(-2px * var(--ui-sprite-scale, 2))); } }
+.b-mon.enter { animation: ui-enter 700ms var(--ease-pop) both; }
+@keyframes ui-enter { 0% { transform: scale(0); filter: brightness(4); } 60% { transform: scale(1.08); filter: brightness(1.8); } 100% { transform: none; filter: none; } }
+.b-mon.lunge-r { animation: ui-lunge-r 380ms ease-out; } .b-mon.lunge-l { animation: ui-lunge-l 380ms ease-out; }
+@keyframes ui-lunge-r { 40% { transform: translate(14%, -6%); } } @keyframes ui-lunge-l { 40% { transform: translate(-14%, 6%); } }
+.b-mon.hit { animation: ui-hit 520ms steps(2) 1; }
+@keyframes ui-hit { 0%, 50% { filter: brightness(3) saturate(0); transform: translateX(-6px); } 25%, 75% { filter: none; transform: translateX(6px); } 100% { filter: none; transform: none; } }
+.b-mon.faint { animation: ui-faint 800ms ease-in forwards; }
+@keyframes ui-faint { to { transform: translateY(40%); opacity: 0; clip-path: inset(0 0 100% 0); } }
+.b-fx { position: absolute; z-index: 2; image-rendering: pixelated; pointer-events: none; }
+.b-dmg { position: absolute; z-index: 3; font-size: 2em; color: #fff; -webkit-text-stroke: 6px var(--outline); paint-order: stroke fill; animation: ui-dmg 900ms var(--ease-out) forwards; pointer-events: none; }
+@keyframes ui-dmg { 0% { transform: translateY(0) scale(.6); opacity: 0; } 20% { transform: translateY(-10px) scale(1.2); opacity: 1; } 100% { transform: translateY(-50px) scale(1); opacity: 0; } }
+.b-plate { position: absolute; width: var(--ui-b-plate-w, 360px); padding: 8px 14px 10px; border: var(--bw) solid var(--outline); border-radius: var(--r-panel); box-shadow: var(--shadow-drop); isolation: isolate; }
+.b-plate .plate { padding: 4px 10px 6px; }
+.b-plate .top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.b-plate .top .grow { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.b-plate.foe { left: 0; top: 0; animation: ui-plate-l 500ms var(--ease-pop) both; }
+.b-plate.ally { right: 0; bottom: 4%; animation: ui-plate-r 500ms var(--ease-pop) both; }
+@keyframes ui-plate-l { from { transform: translateX(-130%); } } @keyframes ui-plate-r { from { transform: translateX(130%); } }
+.b-plate .hpnum { text-align: right; font-size: .8em; margin-top: 2px; }
+.b-bottom { position: absolute; left: var(--ui-inset-left, 4vw); right: var(--ui-inset-right, 4vw); bottom: var(--ui-inset-bottom, 4vh); height: var(--ui-b-bottom-h, 26%); display: flex; gap: var(--ui-gap, 12px); }
+.b-msg { flex: 1.3; padding: 12px 18px; font-size: 1.1em; display: flex; align-items: center; background: var(--night) !important; color: var(--on-night) !important; position: relative; }
+.b-msg .more { position: absolute; right: 14px; bottom: 8px; color: var(--sun); animation: ui-cursor-d var(--bob) ease-in-out infinite; }
+@keyframes ui-cursor-d { 50% { transform: translateY(4px); } }
+.b-cmds { flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px; min-height: 0; }
+.b-cmds.skills { flex: 1.6; }
+.b-cmd { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 4px 12px 4px 30px; border: 3px solid var(--outline); border-radius: var(--r-plate);
+  cursor: pointer; min-height: var(--ui-hit, 44px); overflow: hidden; isolation: isolate; }
+.b-cmd .t { position: relative; display: inline-block; align-self: flex-start; padding: 0 8px; border-radius: 8px; background: var(--plate); color: var(--ink); }
+.b-cmd .s { position: relative; align-self: flex-start; margin-top: 3px; padding: 0 6px; border-radius: 6px; background: rgba(26, 18, 38, .85); color: var(--on-night); font-size: .7em; }
+.b-cmd.sel::before { content: ''; position: absolute; left: 9px; top: 50%; margin-top: -7px; border: 7px solid transparent; border-left: 11px solid var(--outline); border-right: 0; animation: ui-cursor var(--bob) ease-in-out infinite; z-index: 1; }
+.b-cmd.sel { outline: 4px solid #fff; outline-offset: -8px; }
+.b-lvup { position: absolute; right: var(--ui-inset-right, 4vw); bottom: calc(var(--ui-b-bottom-h, 26%) + var(--ui-inset-bottom, 4vh) + 10px); padding: 10px 16px; z-index: 5; animation: ui-pop var(--t-slow) var(--ease-pop) both; }
+.b-lvup .ui-kv { font-size: .85em; } .b-lvup .up { color: #0a7a35; }
+.b-flash { position: absolute; inset: 0; background: #fff; z-index: 8; pointer-events: none; animation: ui-flash 600ms ease-out forwards; }
+@keyframes ui-flash { 0%, 30% { opacity: 1; } 100% { opacity: 0; } }
+.b-bars { position: absolute; inset: 0; z-index: 8; pointer-events: none; background: repeating-linear-gradient(90deg, var(--outline) 0 6.25%, transparent 6.25% 12.5%); animation: ui-bars 700ms ease-in forwards; }
+@keyframes ui-bars { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 0 100%); } }
+
+/* ---------- restyle of existing surfaces (visual only) ---------- */
+/* toast: colours, pattern edge and pop-in; position/size untouched (dialog.js placeToast owns those) */
+body.ui-skin #toast { background: linear-gradient(var(--night), var(--night)) padding-box, repeating-linear-gradient(135deg, var(--sun) 0 8px, var(--el-mystic) 8px 16px) border-box;
+  border-color: transparent; border-radius: 14px; box-shadow: 0 4px 0 #000, 0 0 18px rgba(255, 210, 63, .35); animation: ui-toast-in var(--t-slow) var(--ease-pop); }
+@keyframes ui-toast-in { from { opacity: 0; margin-bottom: -12px; } }
+/* dialogue: patterned night box with an animated border, colour name tag, sticker-outlined portrait. Same border width,
+   padding, font and size as style.css, so dialog.js measurements are unchanged. */
+body.ui-skin .dlg-box { --sc-b: #241a38;
+  background: linear-gradient(180deg, rgba(42, 29, 64, .0), rgba(42, 29, 64, .6)) padding-box,
+              linear-gradient(45deg, transparent 46%, var(--sc-b) 46% 54%, transparent 54%) padding-box 0 0 / 28px 28px,
+              linear-gradient(-45deg, transparent 46%, var(--sc-b) 46% 54%, transparent 54%) padding-box 0 0 / 28px 28px,
+              linear-gradient(#1a1226, #1a1226) padding-box;
+  border-color: var(--dlg-rim, #ffd23f); border-radius: 16px; box-shadow: 0 5px 0 #000, 0 0 0 3px #000, 0 0 22px var(--dlg-glow, rgba(255, 210, 63, .35));
+  animation: ui-dlg-rim 4s ease-in-out infinite; }
+@keyframes ui-dlg-rim { 0%, 100% { border-color: #ffd23f; } 33% { border-color: #ff8ad8; } 66% { border-color: #7fd4ff; } }
+body.ui-skin .dlg-name { background: var(--dlg-name-bg, #ffd23f); color: var(--ink); border: 3px solid #000; border-radius: 999px; box-shadow: 0 3px 0 #000;
+  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, .35) 0 6px, transparent 6px 12px); }
+body.ui-skin .dlg-name[hidden] { display: none; } /* dialog.js hides an empty tag; keep the new pill from showing as an empty bar */
+body.ui-skin .dlg-more { color: #ffd23f; animation: ui-cursor-d 800ms ease-in-out infinite; }
+body.ui-skin .dlg-list li.sel { background: var(--sc-sel, #ffe07a); color: var(--ink); box-shadow: 0 0 0 3px #fff; animation: ui-pulse var(--pulse) ease-in-out infinite; }
+body.ui-skin .dlg-list li.sel .sub { color: var(--ink-soft); }
+body.ui-skin .dlg-portrait { filter: drop-shadow(3px 0 0 #fffaf0) drop-shadow(-3px 0 0 #fffaf0) drop-shadow(0 3px 0 #fffaf0) drop-shadow(0 -3px 0 #fffaf0) drop-shadow(0 5px 0 #000); }
+body.ui-skin .dlg-wrap.open .dlg-portrait { animation: ui-portrait-in 360ms var(--ease-pop) both; }
+@keyframes ui-portrait-in { from { translate: -24px 0; opacity: 0; } }
+.dlg-text .rv { opacity: 0; animation: ui-reveal 1ms linear forwards; animation-delay: calc(var(--i) * var(--reveal-ms)); }
+@keyframes ui-reveal { to { opacity: 1; } }
+
+/* touch controls: colour + pattern + shine; press = glow, inset squash and a ripple (::before). No size/position/opacity/
+   visibility/transition changes: the dialogue hide rules in style.css and tests/touch_e2e.mjs keep working. */
+body.ui-skin #touchpad button { border: 3px solid var(--rim); color: var(--fg); text-shadow: 0 2px 0 var(--rim); font-weight: 900;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .45) 45%, transparent 60%) 200% 0 / 300% 100% no-repeat,
+              radial-gradient(circle at 30% 30%, var(--c2) 0 2px, transparent 3px) 0 0 / 10px 10px,
+              linear-gradient(180deg, var(--c2), var(--c1));
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .25), inset 0 4px 0 rgba(255, 255, 255, .35), 0 3px 0 rgba(0, 0, 0, .45); animation: ui-shine 5s ease-in-out infinite; }
+body.ui-skin #touchpad [data-btn=a] { --c1: var(--tp-a); --c2: var(--tp-a-2); --fg: var(--tp-a-ink); --rim: var(--tp-a-rim); }
+body.ui-skin #touchpad [data-btn=b] { --c1: var(--tp-b); --c2: var(--tp-b-2); --fg: var(--tp-b-ink); --rim: var(--tp-b-rim); animation-delay: -1.2s;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .45) 45%, transparent 60%) 200% 0 / 300% 100% no-repeat,
+              repeating-linear-gradient(135deg, var(--c2) 0 4px, transparent 4px 9px), linear-gradient(180deg, var(--c2), var(--c1)); }
+body.ui-skin #touchpad .dpad button { --c1: var(--tp-pad); --c2: var(--tp-pad-2); --fg: var(--tp-pad-ink); --rim: var(--tp-pad-rim); animation-delay: -2.4s;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .4) 45%, transparent 60%) 200% 0 / 300% 100% no-repeat,
+              linear-gradient(45deg, transparent 44%, var(--c2) 44% 56%, transparent 56%) 0 0 / 12px 12px, linear-gradient(180deg, var(--c2), var(--c1)); }
+body.ui-skin #touchpad .small { --c1: var(--tp-small); --c2: var(--tp-small-2); --fg: var(--tp-small-ink); --rim: var(--tp-small-rim); text-shadow: none; }
+@keyframes ui-shine { 0%, 70% { background-position: 200% 0, 0 0, 0 0; } 100% { background-position: -100% 0, 0 0, 0 0; } }
+body.ui-skin #touchpad button.ui-down { filter: brightness(1.15) saturate(1.2); box-shadow: inset 0 5px 0 rgba(0, 0, 0, .3), 0 0 0 3px #fff, 0 0 18px var(--c2); }
+body.ui-skin #touchpad button::before { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; }
+body.ui-skin #touchpad button.ui-ripple::before { animation: ui-ripple 420ms ease-out; }
+@keyframes ui-ripple { from { opacity: 1; box-shadow: inset 0 0 0 40px rgba(255, 255, 255, .55); } to { opacity: 1; box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0), 0 0 0 10px rgba(255, 255, 255, 0); } }
+
+/* reduced motion: idle motion off, state changes stay readable */
+@media (prefers-reduced-motion: reduce) {
+  .ui-root *, .ui-hud *, body.ui-skin #touchpad button, body.ui-skin #toast, body.ui-skin .dlg-box, body.ui-skin .dlg-more, body.ui-skin .dlg-portrait, body.ui-skin .dlg-list li.sel { animation: none !important; }
+  .dlg-text .rv { opacity: 1; animation: none; } .ui-stage.in, .ui-stage.back { animation: none; } .hud-banner { transition: none; } .bar > i { transition: none; }
+}
+body.ui-reduce .ui-root *, body.ui-reduce .ui-hud *, body.ui-reduce #touchpad button, body.ui-reduce #toast, body.ui-reduce .dlg-box, body.ui-reduce .dlg-more, body.ui-reduce .dlg-portrait,
+body.ui-reduce .dlg-list li.sel { animation: none !important; }
+body.ui-reduce .dlg-text .rv { opacity: 1; } body.ui-reduce .ui-stage { animation: none !important; } body.ui-reduce .hud-banner { transition: none; } body.ui-reduce .bar > i { transition: none; }
+
+/* Keep the touch A/B (and any un-hidden touch buttons) above open menus so they stay visible and tappable (UI pass Oct 22, 2026).
+   Container z-index only; button size/position/opacity are untouched. */
+body.ui-open #touchpad { z-index: 7; }
+/* Skill menu: the profile can fold the message box away so four skills get the full row (mobile: "b-msg-skills": "none"). */
+.b-bottom:has(.b-cmds.skills:not([hidden])) .b-msg { display: var(--ui-b-msg-skills, flex); }
+.b-cmd .t { white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.b-cmd .s { white-space: nowrap; }
+
+/* Battle / UI screens on phones: the touchpad's transparent .dpad / .btns wrappers sat on top of the battle command grid and
+   swallowed taps on Pack / Retreat / the left column (found by tests/battle_touch_e2e.mjs, Oct 22 2026). While a UI screen is
+   open only the visible buttons take touches. */
+body.ui-open #touchpad .dpad, body.ui-open #touchpad .btns { pointer-events: none; }
+body.ui-open #touchpad .btns button { pointer-events: auto; }
+
+/* ---- UI tools pass (Oct 22, 2026): focus ring, drag-to-reorder, Kenney placeholders. Additive; tokens stay in theme.css. ----
+   Focus ring: two-tone (white inside, --outline outside) so one of the two always clears 3:1 against any pattern or plate
+   (WCAG 2.2 non-text contrast; checked in tests/ui_tools.test.mjs). It replaces the soft white pulse on menu items only
+   (dialogue lists keep theirs). Reduced motion: the ring stays, only the breathing stops. */
+.ui-stage [data-i].sel { z-index: 1; box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--outline); animation: ui-ring var(--pulse) ease-in-out infinite; }
+@keyframes ui-ring { 50% { box-shadow: 0 0 0 4px #fff, 0 0 0 8px var(--outline); } }
+.ui-stage [data-i]:focus { outline: none; }
+.ui-stage [data-i]:focus-visible:not(.sel) { outline: 3px dashed #fff; outline-offset: 2px; }
+/* Field Archive slots: 44px minimum touch target on every platform */
+.ui-slot { box-sizing: border-box; min-width: var(--ui-hit, 44px); min-height: var(--ui-hit, 44px); }
+/* the box needs 6 x 44 px + gaps; on narrow phones (iPhone 14/15 landscape: 268 px) reflow to 5 or 4 columns instead of cutting a column */
+.ui-panel[data-scr="archive"] { container-type: inline-size; }
+@container (max-width: 293px) { .ui-box { grid-template-columns: repeat(5, 1fr); } }
+@container (max-width: 243px) { .ui-box { grid-template-columns: repeat(4, 1fr); } }
+.ui-slot.held { box-shadow: inset 0 0 0 4px var(--sun-deep); background: var(--sun) !important; }
+/* SortableJS states (Team cards, Archive slots) */
+.ui-root .ui-team .ui-card[data-i], .ui-root .ui-box .ui-slot { touch-action: pan-y; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.ui-root .ui-team[data-sortable] .ui-card[data-i], .ui-root .ui-box[data-sortable] .ui-slot { cursor: grab; }
+.ui-root.ui-dragging, .ui-root.ui-dragging * { cursor: grabbing !important; }
+.ui-drag-ghost { opacity: .35; }
+.ui-drag-chosen { box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--outline), 0 10px 24px rgba(16, 8, 32, .45) !important; }
+.ui-drag-fly { opacity: .95 !important; transform: rotate(-2deg); }
+.ui-swap-hl { background: var(--sun) !important; box-shadow: inset 0 0 0 3px var(--outline); }
+/* Kenney CC0 PLACEHOLDER art (art/ui/kenney_placeholder/README.md): empty-state icons + hint-bar input glyphs */
+.ph-ico { display: block; width: 40px; height: 40px; margin: 0 auto 8px; opacity: .8; }
+.ph-keys { display: inline-flex; gap: 1px; vertical-align: middle; }
+.ph-key { width: 1.7em; height: 1.7em; margin: -.35em 0; image-rendering: auto; }
+.ph-keys .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---- Battle fix pass (Oct 22, 2026), ?battle=sd screen only. Additive; the before is in /tmp/kil_battle_fix_backup. ----
+   1) All platforms (timing): `.b-cmds { display: grid }` beat the [hidden] attribute, so the last command/skill grid stayed on
+      screen while battle messages ("Trainer sends out ...") played. Hidden now really hides; the grid appears only after
+      the message finishes (src/battle/ui_sd.js shows it in next()).
+   2) All platforms: ground platforms (src/battle/data/platforms.js, per biome) replace the .b-pad ellipses. Each creature
+      box's bottom edge is the sprite's feet line (--feet, measured in ui_sd.js), the platform is centred on that line, and the
+      foe now stands on the meadow instead of floating in the sky. Creatures bob 2px; platforms never move.
+   3) Phones only (body.platform-mobile; pc.json and the PC plates are untouched): compact info plates. Both plates sit in the centre
+      column between the creatures (foe plate top, ally plate bottom), foe top-right, ally bottom-left, so no plate covers a creature or a
+      platform and the plates never touch (iPhone 14/15, Pixel 7, 844x390@3x; tests/battle_touch_e2e.mjs checks it).
+      Menu labels wrap to two lines instead of an ellipsis (names up to 16 characters show in full). */
+.b-cmds[hidden] { display: none; }
+.ui-battle[data-engine="sd"] { --b-plat-px: 2px; }
+.ui-battle[data-engine="sd"] .b-mon { margin-bottom: calc((var(--feet, .94) - 1) * 100%); }
+.ui-battle[data-engine="sd"] .b-plat { position: absolute; left: 50%; top: 100%; z-index: 0; width: calc(var(--plat-w) * var(--b-plat-px) * var(--ui-sprite-scale, 2));
+  height: auto; transform: translate(-50%, -39%); image-rendering: pixelated; pointer-events: none; }
+.ui-battle[data-engine="sd"] .b-mon.idle { animation-name: ui-sd-bob; }
+@keyframes ui-sd-bob { 50% { transform: translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) { .ui-battle[data-engine="sd"] .b-mon.idle { animation: none; } }
+body.ui-reduce .ui-battle[data-engine="sd"] .b-mon.idle { animation: none; }
+.ui-battle[data-engine="sd"] .b-foe { top: auto; right: 9%; bottom: 32.5%; }
+.ui-battle[data-engine="sd"] .b-ally { left: 6%; bottom: 13.5%; }
+body.platform-mobile .ui-battle[data-engine="sd"] { --b-plat-px: 1.5px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-foe { right: 1%; bottom: 36%; }
+/* raised so the whole near platform clears the message/menu panel with ~14px of meadow under it (Oct 22 2026, review) */
+body.platform-mobile .ui-battle[data-engine="sd"] .b-ally { left: 3%; bottom: 38px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate { width: min(var(--ui-b-plate-w, 250px), 200px); padding: 2px 5px 3px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate .plate { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 6px; row-gap: 1px; padding: 1px 8px 3px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate .top { grid-column: 1 / -1; margin: 0; line-height: 1.15; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate .bar-row { grid-column: 1 / -1; gap: 6px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate .bar { height: 9px; border-width: 2px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate.ally .bar-row:nth-child(2) { grid-column: 1; grid-row: 2; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate.ally .hpnum { grid-column: 2; grid-row: 2; margin: 0; font-size: .75em; line-height: 1; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate.ally .bar.xp { height: 6px !important; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate.foe { left: calc(3% + 142px); top: 0; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-plate.ally { right: auto; left: calc(3% + 142px); bottom: 0; }
+/* the level-up box sits in the free column above the A/B buttons instead of over the field */
+body.platform-mobile .ui-battle[data-engine="sd"] .b-lvup { right: calc(10px + var(--safe-right, 0px)); top: var(--ui-inset-top, 6px); bottom: auto; max-width: calc(var(--ui-inset-right, 200px) - 16px); padding: 6px 10px; font-size: .9em; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-cmds { gap: 6px; padding: 6px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-cmds:not(.skills) { flex: 1.15; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-cmd { padding: 3px 6px 3px 24px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-cmd.sel::before { left: 6px; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-cmd .t { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; padding: 0 6px; font-size: 13px; line-height: 1.15; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-cmd .s { margin-top: 2px; font-size: 10px; }
+
+/* ---- Battle layout zones (Oct 22, 2026, layout pass; before: /tmp/kil_layout_backup/ui.css.orig) ----
+   Structure from the classic monster-battle screens (structure only): foe on its platform top-right with its info card in the
+   top-LEFT corner; your creature (back view) on its platform bottom-left with its card bottom-RIGHT, just above the
+   message/command panel; cards never cover a creature or a platform; feet stand on the platform centre; a compact
+   always-visible party HP readout (.b-party, mini bars) sits inside the card. Five fixed zones per profile:
+     PC (1920x1080):   foe sprite right 9% / bottom 32.5% of the field; foe card top-left; ally sprite left 6% / bottom 13.5%;
+                       ally card bottom-right (bottom 4%); panel = .b-bottom.
+     Phones (landscape only, body.platform-mobile): foe sprite right 1% / bottom 38%; foe card top-left, one row; ally sprite
+                       left 3% / 32px up; ally card bottom-right (right of the ally platform, below the foe platform), two rows.
+   Applies to BOTH battle screens ([data-scr="battle"]): the ?battle=sd screen and the old default shell (whose .b-pad
+   ellipse now sits on the feet line instead of floating; ui.js measures --feet for it). tests/battle_touch_e2e.mjs checks it
+   (all 5 profiles x 4 times of day); before/after sheet: shots/battle_engine/layout_ref/. */
+.ui-battle[data-scr="battle"] .b-mon { margin-bottom: calc((var(--feet, .94) - 1) * 100%); }
+.ui-battle[data-scr="battle"] .b-foe { top: auto; right: 9%; bottom: 32.5%; }
+.ui-battle[data-scr="battle"] .b-ally { left: 6%; bottom: 13.5%; }
+.ui-battle[data-scr="battle"]:not([data-engine]) .b-pad { left: 50%; top: 100%; margin: 0; transform: translate(-50%, -50%); z-index: 0; }
+.b-party { display: flex; gap: 3px; align-items: center; justify-content: flex-end; margin-top: 4px; }
+.b-party:empty { display: none; }
+.b-party i { flex: none; width: 18px; height: 8px; border: 2px solid var(--outline); border-radius: 4px; background: linear-gradient(90deg, var(--good) calc(var(--f, 1) * 100%), #3a2f4a 0); }
+.b-party i[data-lvl=warn] { background: linear-gradient(90deg, var(--warn) calc(var(--f) * 100%), #3a2f4a 0); }
+.b-party i[data-lvl=bad] { background: linear-gradient(90deg, var(--bad) calc(var(--f) * 100%), #3a2f4a 0); }
+.b-party i[data-lvl=out] { background: #3a2f4a; opacity: .6; }
+.b-party i.on { box-shadow: 0 0 0 2px var(--sun); }
+/* PC ally card: the party readout shares the XP line, so the card doesn't grow toward the foe platform */
+.ui-battle[data-scr="battle"] .b-plate.ally .plate { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; }
+.ui-battle[data-scr="battle"] .b-plate.ally .plate > * { grid-column: 1 / -1; }
+.ui-battle[data-scr="battle"] .b-plate.ally .plate > .bar-row:nth-child(4) { grid-column: 1; grid-row: 4; }
+.ui-battle[data-scr="battle"] .b-plate.ally .plate > .b-party { grid-column: 2; grid-row: 4; margin: 0; }
+/* phones (landscape) */
+body.platform-mobile .ui-battle[data-scr="battle"] { --b-plat-px: 1.5px; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-foe { right: 1%; bottom: 38%; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-ally { left: 3%; bottom: 32px; } /* clears the one-row foe card above it; platform stays >= 6px above the panel */
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate { padding: 2px 5px 3px; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate .plate { display: grid; align-items: center; column-gap: 8px; row-gap: 2px; padding: 1px 8px 3px; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate .plate > * { grid-column: auto; grid-row: 1; margin: 0; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate .top { line-height: 1.15; min-width: 0; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate .bar-row { gap: 6px; min-width: 0; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate .bar { height: 9px; border-width: 2px; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-party { gap: 2px; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-party i { width: 12px; height: 7px; border-width: 1.5px; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.foe { left: 0; top: 0; right: auto; bottom: auto; width: min(300px, 56%); }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.foe .plate { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) auto; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally { left: auto; right: 0; top: auto; bottom: 0; width: min(330px, calc(100% - 180px)); }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate > .top { grid-column: 1; grid-row: 1; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate > .bar-row:nth-child(2) { grid-column: 2; grid-row: 1; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate > .hpnum { grid-column: 3; grid-row: 1; font-size: .75em; line-height: 1; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate > .bar-row:nth-child(4) { grid-column: 1 / 3; grid-row: 2; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate > .b-party { grid-column: 3; grid-row: 2; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .bar.xp { height: 6px !important; }
+
+/* ALPHA build: title badge (dark plate, sun text: 12:1 contrast). Static, no animation. */
+.ui-logo .alpha-badge { display: inline-block; vertical-align: middle; margin: 10px 0 0 10px; padding: 3px 12px; border: 3px solid var(--outline); border-radius: var(--r-chip);
+  background: var(--night); color: var(--sun); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: max(12px, calc(var(--ui-logo, 120px) * .15)); }

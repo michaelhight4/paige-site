@@ -1,0 +1,1 @@
+{"char_id":"tr_hiker_m","anim":"capture_trainer","frames":["raise","hold"],"frame_w":104,"frame_h":128,"hold_px":[[10,60],[5,36]],"hold_px_by_frame":{"raise":[10,60],"hold":[5,36]},"pad":{"left":20,"right":20,"top":0,"bottom":0},"status":"draft, awaiting Gary"}

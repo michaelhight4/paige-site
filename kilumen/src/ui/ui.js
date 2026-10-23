@@ -1,0 +1,971 @@
+// Kilumen UI layer (UI pass, Oct 22, 2026; Gary: "a full ui that feels alive and colourful", "need patterns and colors").
+// Screens: title, phone menu (Team, Pack, Kilindex, Tasks, Map, Contacts, File today's report, Options), team, summary,
+// Kilindex, pack, RT Supply shop, Field Archive, save prompt, battle shell; overworld HUD (location banner, clock, menu
+// button, A prompt); restyle hooks for the dialogue box (text reveal, name tag colour) and touch controls (press feedback).
+// Additive only: it wraps scene.step to freeze the player while a screen is open and never edits overworld/dialog/input code.
+// Labels come from text/overworld_lines.json (system_phone, system_party, system_kilindex, system_shop, system_save,
+// system_heal, comfort.bag_pockets, catalogue). Stats / gold / bag / skills are PLACEHOLDERS from ./data.js (see report).
+// Open: Esc or M (keyboard), Start (pad button 9), the menu button (touch / mouse). Dev: ?ui=title|phone|team|summary|pack|
+// kilindex|shop|archive|save|options|map|battle|levelup, ?uidemo=1 (demo team/bag/gold, not saved), ?battle=shell
+// (old scripted battle shell instead of the default engine battle, src/battle/ui_sd.js; Oct 23, 2026), ?title=0|1 (title on a bare URL only by default).
+import { iconRel, battleSpriteRel } from './data.js'; // creature sync (Oct 23, 2026)
+import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js';
+// FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
+// HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
+import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js';
+import { installWildEncounters } from '../battle/encounters.js'; // battles default v1: wild encounters
+// UI tools pass (Oct 22, 2026; Gary: "use them and log them for later use"): lrud-spatial (Apache-2.0) picks the nearest item
+// in the pressed direction from the real layout; SortableJS (MIT, lazy) drags Team / Field Archive; ?dev=1 lazy-loads the
+// lil-gui tuning panel (./devpanel.js); Kenney CC0 PLACEHOLDER art (art/ui/kenney_placeholder) only where there was none.
+import { getNextFocus } from '../vendor/lrud-spatial/lrud.js';
+import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js';
+// UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
+// auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
+import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js';
+const KPH = 'art/ui/kenney_placeholder/';
+const kph = (f, cls = 'ph-ico') => `<img class="${cls}" data-placeholder="kenney" src="${KPH}${f}.png" alt="" aria-hidden="true" draggable="false">`;
+const LRUD_KEY = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
+
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const get = (o, p) => p.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
+const fill = (t, v) => String(t).replace(/\{(\w+)\}/g, (m, k) => (v[k] != null ? v[k] : m));
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const PIX = 'art/characters/pixel/';
+const icon = (sp, f = 0, sz = '2x') => { const rel = iconRel(sp, f, sz); return rel ? PIX + rel : `${PIX}icons/${sp}_icon_f${f}${sz ? '_' + sz : ''}.png`; }; // synced sets: own icon/ow frames
+const front = (sp) => PIX + battleSpriteRel(sp, 'front'); // creature sync: 160px big forms
+const back = (sp) => PIX + battleSpriteRel(sp, 'back');
+const fx = (el, anim = 'impact') => `${fxStem(el, anim)}.gif`; // live path (kept for callers); playback goes through ./hit_fx.js
+const lvlOf = (f) => (f > 0.5 ? 'good' : f > 0.2 ? 'warn' : 'bad');
+
+// tiny crisp glyphs (12x12 grids) for app badges: '#' = ink
+const GLYPHS = {
+  team: ['....##..##..', '...####.####', '...####.####', '....##..##..', '..##......##', '.####....###', '.####....###', '..##..##..#.', '.....####...', '....######..', '....######..', '.....####...'],
+  pack: ['....####....', '...#....#...', '..########..', '.##########.', '.##......##.', '.##.####.##.', '.##.#..#.##.', '.##.####.##.', '.##......##.', '.##########.', '..########..', '............'],
+  kilindex: ['.##########.', '.#........##', '.#.######.##', '.#........##', '.#.####...##', '.#........##', '.#..##....##', '.#.####...##', '.#..##....##', '.#........##', '.##########.', '............'],
+  tasks: ['..########..', '.#........#.', '.#......#.#.', '.#.....##.#.', '.#.#..##..#.', '.#.####...#.', '.#..##....#.', '.#........#.', '.#.######.#.', '.#........#.', '..########..', '............'],
+  map: ['....####....', '...######...', '..###..###..', '..##....##..', '..###..###..', '...######...', '...######...', '....####....', '.....##.....', '..#..##..#..', '.##########.', '............'],
+  contacts: ['....####....', '...######...', '...######...', '...######...', '....####....', '............', '..########..', '.##########.', '.##########.', '.##########.', '............', '............'],
+  save: ['.#########..', '.#...#...##.', '.#...#...#.#', '.#...#...#.#', '.#########.#', '.#.........#', '.#.#######.#', '.#.#.....#.#', '.#.#######.#', '.#.#.....#.#', '.###########', '............'],
+  options: ['.....##.....', '..#.####.#..', '.##########.', '..###..###..', '.###....###.', '####....####', '####....####', '.###....###.', '..###..###..', '.##########.', '..#.####.#..', '.....##.....'],
+  archive: ['.##########.', '.#........#.', '.#.##..##.#.', '.#.##..##.#.', '.#........#.', '.##########.', '.#........#.', '.#.##..##.#.', '.#.##..##.#.', '.#........#.', '.##########.', '............'],
+  shop: ['............', '.##########.', '#.#.#.#.#.##', '############', '.#........#.', '.#.###....#.', '.#.#.#.##.#.', '.#.#.#.##.#.', '.#.###....#.', '.#........#.', '.##########.', '............'],
+  battle: ['#.........##', '.#.......###', '..#.....###.', '...#...###..', '....#.###...', '.....###....', '....###.#...', '..####...#..', '..###.....#.', '.##........#', '##..........', '............'],
+  menu: ['............', '.##########.', '.##########.', '............', '............', '.##########.', '.##########.', '............', '............', '.##########.', '.##########.', '............'],
+};
+const ICONS_PX = typeof location === 'undefined' || new URLSearchParams(location.search).get('icons') !== 'classic'; // ?icons=classic: old 12x12 glyphs
+const glyph = (k, color = 'var(--ink)') => (ICONS_PX && MENU_ICONS[k] ? pxi(MENU_ICONS[k], 'pxi-g', color) : glyph12(k, color));
+const glyph12 = (k, color) => `<svg viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">${(GLYPHS[k] || GLYPHS.menu)
+  .flatMap((row, y) => [...row].map((c, x) => (c === '#' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${color}"/>` : ''))).join('')}</svg>`;
+
+const ELS = (sp) => speciesById(sp).el;
+// UI tools 2: floating-ui tooltip attributes (text only; ui_tools2.js sets it with textContent)
+const tipAttr = (title, body) => ` data-tip-t="${esc(title)}" data-tip="${esc(body)}"`;
+const elNames = (els) => els.map((e) => ELEMENT_LABEL(e)).join(' / ');
+const elChip = (e) => `<span class="el-chip" data-el="${e}" data-pat="stripes">${esc(ELEMENT_LABEL(e))}</span>`;
+
+export class GameUI {
+  constructor({ scene, platform, toast, params = new URLSearchParams(location.search), root = document.body }) {
+    this.scene = scene; this.platform = platform; this.toastFn = toast; this.q = params; this.body = root;
+    this.cfg = platform?.profile?.ui || {};
+    this.demo = params.get('uidemo') === '1';
+    this.stack = []; this.modal = null; this.active = false;
+    this.gold = this.demo ? DEMO.gold : null; this.bag = this.demo ? { ...DEMO.bag } : {};
+    this._padPrev = false; this._heldDir = null; this._heldT = 0;
+    this._applyProfile();
+    this._build();
+    this.fx = new UiTools2(this); // UI tools 2: tooltips, list animation, battle transitions (lazy libs)
+    this._wrapStep();
+    this._keys();
+    this._touchFx();
+    this._dialogFx();
+    this._loop();
+    root.classList.add('ui-skin');
+    if (this._reduced()) root.classList.add('ui-reduce');
+  }
+
+  // ---------- platform profile -> CSS vars ----------
+  _applyProfile() {
+    const vars = this.cfg.vars || {};
+    for (const [k, v] of Object.entries(vars)) this.body.style.setProperty(`--ui-${k}`, String(v));
+    const setScale = () => {
+      const rows = this.cfg.spriteScale || [{ minHeight: 0, scale: 2 }];
+      let s = rows[0].scale; for (const r of rows) if (innerHeight >= r.minHeight) s = r.scale;
+      this.body.style.setProperty('--ui-sprite-scale', String(s));
+    };
+    setScale(); addEventListener('resize', setScale);
+    for (const n of this.cfg.hideTouchDuringUI || []) this.body.classList.add(`ui-can-hide-${n}`);
+  }
+  _reduced() {
+    if (this.q.get('motion') === 'reduce') return true;
+    try { if (localStorage.getItem('kilumen_alpha_ui.motion') === 'reduce') return true; } catch { /* private mode */ }
+    return false;
+  }
+
+  // ---------- DOM ----------
+  _build() {
+    const el = (tag, cls, parent, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; parent?.appendChild(e); return e; };
+    this.hud = el('div', 'ui-hud', this.body); this.hud.dataset.scr = 'hud';
+    this.banner = el('div', 'hud-banner', this.hud); this.banner.dataset.pat = 'crystal'; this.banner.dataset.scr = 'phone';
+    this.hudTop = el('div', 'hud-top', this.hud);
+    this.clock = el('div', 'hud-clock', this.hudTop);
+    const touch = !!this.platform?.profile?.controls?.touch;
+    const mb = this.cfg.menuButton ?? (touch ? 'round' : 'chip');
+    if (mb) {
+      this.menuBtn = el('button', 'hud-menu', this.hudTop, touch ? `${glyph('menu')}<span>Menu</span>` : `${glyph('menu')}<span>Menu</span><span class="k">Esc</span>`);
+      this.menuBtn.dataset.pat = 'dots'; this.menuBtn.dataset.scr = 'title'; this.menuBtn.setAttribute('aria-label', 'Open menu');
+      this.menuBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); this.requestOpen('phone'); });
+    }
+    this.prompt = el('div', 'hud-prompt', this.hud, `<span class="g">A</span><span class="t">Talk</span>`);
+    this.root = el('div', 'ui-root', this.body); this.root.hidden = true; this.root.setAttribute('role', 'dialog'); this.root.setAttribute('aria-modal', 'true'); this.root.setAttribute('aria-label', 'Kilumen');
+    this.backdrop = el('div', 'ui-backdrop', this.root);
+    this.stage = el('div', 'ui-stage', this.root);
+    this.layer = el('div', '', this.root); // full-screen screens (title, battle)
+    this.root.addEventListener('pointerdown', (e) => this._pointer(e));
+    this.root.addEventListener('mousemove', (e) => { const t = e.target.closest?.('[data-i]'); if (t && this.top && !this.modal && !this._dragging && e.movementX + e.movementY !== 0) this._select(+t.dataset.i, true); });
+    this.root.addEventListener('pointerup', (e) => this._tapUp(e)); // UI tools pass: drag screens activate on release
+    this.root.addEventListener('focusin', (e) => { const it = e.target.closest?.('[data-i]'); if (it && this.top && !this.modal && this.stage.contains(it)) this._select(+it.dataset.i, true); });
+  }
+
+  get top() { return this.stack[this.stack.length - 1] || null; }
+  T(path, fb) { const v = get(this.scene.lines, path); return v == null ? fb : v; }
+  P(path, fb, vars = {}) { const v = this.T(path, null); const pages = Array.isArray(v) ? v : v?.pages || fb; return (pages || []).map((t) => fill(t, { player: this.scene.config?.playerName || 'Cal', ...vars })); }
+  party() { return this.scene.party?.length ? this.scene.party : this.demo ? DEMO.party : []; }
+
+  // ---------- input ----------
+  _wrapStep() {
+    const s = this.scene, orig = s.step.bind(s);
+    s.step = (snap) => {
+      if (this.active && !s.dialog?.active) { this._input(snap); return orig({ ...snap, dir: null, a: false, b: false, bTap: false, select: false }); }
+      if (this._pendingOpen && this._canOpen()) { const id = this._pendingOpen; this._pendingOpen = null; this.open(id); }
+      return orig(snap);
+    };
+  }
+  _canOpen() { const s = this.scene; return !s.dialog?.active && !s.busy && !s.fade && !s.player?.moving && !!s.map; }
+  requestOpen(id = 'phone') { if (this.active) return; if (this._canOpen()) this.open(id); else this._pendingOpen = id; }
+  _keys() {
+    const keys = new Set(this.cfg.menuKeys || ['Escape', 'KeyM']);
+    addEventListener('keydown', (e) => {
+      if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (!keys.has(e.code)) return;
+      e.preventDefault();
+      if (this.active) { if (this.modal) this._modalBack(); else this.back(); } else this.requestOpen('phone');
+    });
+  }
+  _input(snap) {
+    // pad Start (opens/closes) is polled here so it works with any profile
+    const pads = navigator.getGamepads?.() || [], btn = this.cfg.menuPadButton ?? 9;
+    const start = [...pads].some((p) => p?.buttons?.[btn]?.pressed);
+    const startEdge = start && !this._padPrev; this._padPrev = start;
+    const bEdge = (!!snap.b && !this._bPrev) || !!snap.bTap; this._bPrev = !!snap.b;
+    let dir = null;
+    if (snap.dir !== this._heldDir) { this._heldDir = snap.dir || null; this._heldT = 0; dir = snap.dir || null; }
+    else if (snap.dir) { this._heldT++; if (this._heldT > 22 && this._heldT % 6 === 0) dir = snap.dir; }
+    if (startEdge) { this.closeAll(); return; }
+    if (this.modal) { this.modal.handle({ dir, a: !!snap.a, b: bEdge }); return; }
+    const t = this.top; if (!t) return;
+    const dev = this.scene.input?.lastDevice; // UI tools pass: swap keyboard <-> controller glyphs when the device changes
+    if (dev !== this._hintDev) { this._hintDev = dev; const h = this.stage.querySelector('.ui-hint'); if (h && t.hint) h.innerHTML = t.hint(); }
+    if (t.handle) { t.handle({ dir, a: !!snap.a, b: bEdge }); return; }
+    if (dir) this._nav(dir);
+    if (snap.a) this._activate();
+    else if (bEdge) this.back();
+  }
+  _nav(dir) {
+    const t = this.top, n = t.count?.() ?? 0, cols = t.cols || 1;
+    if ((dir === 'left' || dir === 'right') && cols === 1 && t.onLR) { t.onLR(dir === 'left' ? -1 : 1); return; }
+    if (!n) return;
+    const sp = this._spatial(dir); if (sp != null) { this._select(sp); return; } // nothing that way -> index maths below
+    const d = { up: -cols, down: cols, left: -1, right: 1 }[dir];
+    let i = t.sel + d;
+    if (cols > 1 && (dir === 'left' || dir === 'right') && t.onLR && Math.floor(i / cols) !== Math.floor(t.sel / cols)) { t.onLR(d); return; }
+    i = Math.max(0, Math.min(n - 1, i));
+    this._select(i);
+  }
+  _spatial(dir) {
+    const t = this.top; if (!t || t.full || this.q.get('spatial') === '0') return null;
+    const cur = this.stage.querySelector(`[data-i="${t.sel}"]`); if (!cur) return null;
+    let nx = null; try { nx = getNextFocus(cur, LRUD_KEY[dir], this.stage); } catch { return null; }
+    const it = nx?.closest?.('[data-i]'); const i = it && this.stage.contains(it) ? +it.dataset.i : NaN;
+    return Number.isFinite(i) && i !== t.sel && i < (t.count?.() ?? 0) ? i : null;
+  }
+  _select(i, quiet) {
+    const t = this.top; if (!t || i === t.sel) return;
+    t.sel = i; this._markSel(); t.onSel?.(i); this.fx?.tipSel(); this.fx?.selMove(); // selMove: anime.js item pop (menu motion)
+    if (!quiet) this.scene.audio?.sfx('cursor'); // libs pass: placeholder menu sounds (src/audio)
+  }
+  _markSel() {
+    const t = this.top; if (!t) return;
+    for (const e of this.root.querySelectorAll('[data-i]')) { const on = +e.dataset.i === t.sel; e.classList.toggle('sel', on); e.tabIndex = 0;
+      // axe aria-allowed-attr: aria-selected only on roles that support it; plain buttons/links mark the cursor with aria-current
+      if (e.matches('[role="option"],[role="tab"],[role="row"],[role="gridcell"],[role="treeitem"],[role="columnheader"],[role="rowheader"]')) e.setAttribute('aria-selected', String(on));
+      else { e.removeAttribute('aria-selected'); if (on) e.setAttribute('aria-current', 'true'); else e.removeAttribute('aria-current'); } }
+    this.root.querySelector(`[data-i="${t.sel}"]`)?.scrollIntoView?.({ block: 'nearest' });
+  }
+  _activate() { const t = this.top; if (t?.onA) { this.scene.audio?.sfx('select'); t.onA(t.sel); } }
+  _pointer(e) {
+    const act = e.target.closest?.('[data-act]');
+    if (act) { e.preventDefault(); this._act(act.dataset.act, act); return; }
+    if (this.modal) { const r = e.target.closest?.('[data-m]'); if (r) { e.preventDefault(); this.modal.pick(+r.dataset.m); } return; }
+    const t = this.top; if (!t) return;
+    if (t.sortable) { const it = e.target.closest?.('[data-i]'); if (it) { this._tap = { id: e.pointerId, x: e.clientX, y: e.clientY, i: +it.dataset.i }; return; } }
+    if (t.handlePointer && t.handlePointer(e)) return;
+    const tab = e.target.closest?.('[data-tab]');
+    if (tab) { e.preventDefault(); t.onTab?.(+tab.dataset.tab); return; }
+    const it = e.target.closest?.('[data-i]');
+    if (it) { e.preventDefault(); const i = +it.dataset.i; const same = i === t.sel; this._select(i, true); if (same || e.pointerType !== 'mouse' || true) this._activate(); }
+  }
+  _tapUp(e) {
+    const p = this._tap, t = this.top; this._tap = null;
+    if (this._tipHold) { this._tipHold = false; return; } // UI tools 2: a long-press showed a tooltip, so do not open / pick
+    if (!p || !t || this.modal || this._dragging || p.id !== e.pointerId || Math.hypot(e.clientX - p.x, e.clientY - p.y) > 10) return;
+    if (!this.stage.querySelector(`[data-i="${p.i}"]`)) return;
+    this._select(p.i, true); this._activate();
+  }
+  _act(a, elx) {
+    if (a === 'close') { this.modal ? this._modalBack() : this.back(); }
+    else if (a === 'start') this.top?.onA?.(0);
+    else this.top?.onAct?.(a, elx);
+  }
+
+  // ---------- open / close / stack ----------
+  open(id, arg) {
+    const scr = this._make(id, arg); if (!scr) return;
+    if (!this.active) {
+      this.active = true; this.root.hidden = false; this.root.classList.add('open'); this.body.classList.add('ui-open');
+      for (const n of this.cfg.hideTouchDuringUI || []) this.body.classList.add(`tp-hide-${n}`, 'ui-hid-' + n);
+    }
+    this.stack.push(scr); this._render('in'); this.fx?.warm();
+  }
+  replace(id, arg) { this.stack.pop(); const scr = this._make(id, arg); this.stack.push(scr); this._render('in'); }
+  back() {
+    const t = this.top; if (!t) return;
+    this.scene.audio?.sfx('back');
+    if (t.onBack && t.onBack() === false) return;
+    this.stack.pop();
+    if (!this.stack.length) this._closeRoot(); else this._render('back');
+  }
+  closeAll() { this.stack = []; this.modal = null; this._closeRoot(); }
+  _closeRoot() {
+    this.fx?.closeOut(); // menu motion: an inert clone fades out; the real UI closes now, so input is never held
+    this.active = false; this.root.classList.remove('open'); this.root.hidden = true; this.stage.innerHTML = ''; this.layer.innerHTML = ''; this.modal = null;
+    this.body.classList.remove('ui-open'); this.fx?.tipHide();
+    for (const n of this.cfg.hideTouchDuringUI || []) {
+      this.body.classList.remove('ui-hid-' + n);
+      if (!this.scene.dialog?.active) this.body.classList.remove(`tp-hide-${n}`); // the dialogue owns them while it is open
+    }
+    this._onClose?.(); this._onClose = null;
+  }
+  _render(anim) {
+    const t = this.top; if (!t) return;
+    this.root.dataset.scr = t.scr;
+    const full = !!t.full;
+    this.stage.hidden = full; this.layer.hidden = !full; this.backdrop.hidden = full;
+    const keep = this.fx?.keep(this.stage, t); // UI tools 2: auto-animate reuses same-screen list nodes
+    if (!full) {
+      this.backdrop.dataset.scr = t.scr; this.backdrop.dataset.pat = t.pat || 'dots'; this.backdrop.toggleAttribute('data-scroll', true);
+      this.stage.dataset.scr = t.scr;
+      this.stage.innerHTML = `<div class="ui-head"><div class="ui-title"><span class="ico">${glyph(t.glyph || t.scr, '#fff')}</span>${esc(t.title)}</div>
+        <span class="ui-spacer"></span>${t.chips ? t.chips() : ''}<button class="ui-x" data-act="close" aria-label="Back">&#x2715;</button></div>${t.render()}
+        ${t.hint ? `<div class="ui-hint">${t.hint()}</div>` : ''}`;
+      if (keep) this.fx.adopt(this.stage, keep);
+      this.stage.classList.remove('in', 'back'); void this.stage.offsetWidth; this.stage.classList.add(anim === 'back' ? 'back' : 'in');
+      this.fx?.menuIn(this.stage, anim); // menu motion: anime.js open / back (120-220 ms; CSS fallback, none when reduced)
+    } else { this.layer.innerHTML = ''; this.layer.dataset.scr = t.scr; t.mount(this.layer); }
+    this._markSel(); t.after?.(); this._uiTools(t);
+  }
+  _uiTools(t) { // UI tools pass: keep lrud on [data-i] items; SortableJS on screens that return sortable()
+    for (const b of this.stage.querySelectorAll('button:not([data-i]), a:not([data-i]), input')) b.classList.add('lrud-ignore');
+    try { this._sortable?.destroy(); } catch { /* element already gone */ }
+    this._sortable = null; this._dragging = false;
+    const s = !t.full && t.sortable?.(); if (!s) return;
+    const el = this.stage.querySelector(s.el); if (!el) return;
+    const make = (Sortable) => {
+      if (this.top !== t || !el.isConnected) return;
+      this._sortable = Sortable.create(el, { animation: 150, forceFallback: true, fallbackTolerance: 6, delay: 160, delayOnTouchOnly: true, touchStartThreshold: 6,
+        draggable: s.draggable, swap: !!s.swap, swapClass: 'ui-swap-hl', ghostClass: 'ui-drag-ghost', chosenClass: 'ui-drag-chosen', dragClass: 'ui-drag-fly', scroll: true, bubbleScroll: true,
+        onStart: () => { this._dragging = true; this._tap = null; this._tipHold = false; this.root.classList.add('ui-dragging'); this.fx?.dragging(true); },
+        onEnd: (ev) => {
+          this.root.classList.remove('ui-dragging'); setTimeout(() => { this._dragging = false; }, 0); this.fx?.dragging(false);
+          const order = [...el.querySelectorAll(s.draggable)].map((n) => +n.dataset.i);
+          if (order.every((v, k) => v === k)) return;
+          this.scene.audio?.sfx('select'); s.onReorder(order, +ev.item.dataset.i);
+        } });
+      el.dataset.sortable = 'on';
+    };
+    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
+  }
+  async _reorderTeam(order, moved) { // drag-to-reorder: same creature objects, new order (duplicates of a species are kept)
+    const s = this.scene, real = !!s.party?.length, list = this.party(), name = (c) => c.nickname || speciesById(c.species).name;
+    const next = order.map((k) => list[k]).filter(Boolean); if (next.length !== list.length) { this.rerender(); return; }
+    const lead = next[0] !== list[0];
+    if (real) { s.party = next; s._dirty = true; if (lead) { s._placeFollower?.(); await s._loadActorSprites?.(); } }
+    else list.splice(0, list.length, ...next); // ?uidemo party: memory only, never saved
+    if (this.top?.scr !== 'team') return;
+    this.stack[this.stack.length - 1] = this._make('team'); this.top.sel = Math.max(0, order.indexOf(moved)); this.rerender();
+    if (lead) this.note(this.P('system_party.new_lead', ['{creature} takes the lead. It looks pleased.'], { creature: name(next[0]) })[0], 2200);
+  }
+  rerender() { const t = this.top; if (!t || t.full) return; const s = this.stage.querySelector('.ui-scroll')?.scrollTop; this._render(); this.stage.classList.remove('in', 'back'); const sc = this.stage.querySelector('.ui-scroll'); if (sc && s) sc.scrollTop = s; }
+  hintText(parts) {
+    const touch = !!this.platform?.profile?.controls?.touch;
+    const pad = this.scene.input?.lastDevice === 'controller';
+    if (!touch || pad) { // UI tools pass: Kenney input-prompt PLACEHOLDER glyphs (keyboard, or Xbox when a pad was used last); text kept for readers
+      const G = pad ? { A: ['xbox_button_a'], B: ['xbox_button_b'], '▲▼◀▶': ['xbox_dpad_all'], '▲▼': ['xbox_dpad_vertical'], '◀▶': ['xbox_dpad_horizontal'] }
+        : { A: ['keyboard_z', 'keyboard_enter'], B: ['keyboard_x', 'keyboard_escape'], '▲▼◀▶': ['keyboard_arrows_all'], '▲▼': ['keyboard_arrows_vertical'], '◀▶': ['keyboard_arrows_horizontal'] };
+      const T = pad ? { A: 'A', B: 'B' } : { A: 'Z / Enter', B: 'X / Esc' };
+      return parts.map(([k, v]) => (G[k] ? `<span class="ph-keys">${G[k].map((f) => kph(f, 'ph-key')).join('')}<span class="sr">${T[k] || k}</span></span> ${v}` : `${k} ${v}`)).join(' &nbsp;·&nbsp; ');
+    }
+    return parts.map(([k, v]) => `${touch ? (k === 'A' ? 'Tap / A' : k === 'B' ? 'B or X' : k) : k === 'A' ? 'Z / Enter' : k === 'B' ? 'X / Esc' : k} ${v}`).join(' &nbsp;·&nbsp; ');
+  }
+
+  // ---------- notes, sparkles ----------
+  note(text, ms = 1800) {
+    const n = document.createElement('div'); n.className = 'ui-note'; n.textContent = text; this.root.appendChild(n);
+    setTimeout(() => n.remove(), ms);
+  }
+  sparkle(x, y, n = 14, parent = this.root) {
+    if (this.body.classList.contains('ui-reduce') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    for (let i = 0; i < n; i++) {
+      const s = document.createElement('i'); s.className = 'ui-spark'; const a = (i / n) * Math.PI * 2, r = 50 + Math.random() * 60;
+      s.style.cssText = `left:${x}px;top:${y}px;--dx:${Math.cos(a) * r}px;--dy:${Math.sin(a) * r}px;background:${['#ffd23f', '#ff8ad8', '#7fd4ff', '#fff'][i % 4]}`;
+      parent.appendChild(s); setTimeout(() => s.remove(), 950);
+    }
+  }
+
+  // ---------- modal (choices) ----------
+  ask(scr, text, choices, { pat = 'sparkle' } = {}) {
+    return new Promise((resolve) => {
+      const wrap = document.createElement('div'); wrap.className = 'ui-modal'; wrap.setAttribute('role', 'dialog'); wrap.setAttribute('aria-modal', 'true'); wrap.setAttribute('aria-label', text[0] || 'Message'); this.fx?.tipHide();
+      const draw = (sel) => { // UI tools 2: moves only toggle .sel (rows are built once, so auto-animate can slide them in)
+        if (wrap.firstChild) { for (const r of wrap.querySelectorAll('[data-m]')) r.classList.toggle('sel', +r.dataset.m === sel); return; }
+        wrap.innerHTML = `<div class="ui-panel ui-pad" data-scr="${scr}" data-pat="${pat}" data-scroll><div class="plate ui-pad" style="margin-bottom:10px">${text.map(esc).join('<br>')}</div>
+          <ul class="ui-list"></ul></div>`;
+      };
+      let sel = 0; draw(sel); this.root.appendChild(wrap);
+      const rowsHtml = choices.map((c, i) => `<li class="ui-row ${i === sel ? 'sel' : ''}" data-m="${i}">${esc(c)}</li>`).join(''), ul = wrap.querySelector('.ui-list');
+      if (this.fx) this.fx.listIn(ul, rowsHtml); else ul.innerHTML = rowsHtml;
+      const done = (i) => { wrap.remove(); this.modal = null; resolve(i); };
+      this.modal = {
+        handle: ({ dir, a, b }) => { if (dir === 'up' || dir === 'down') { sel = (sel + (dir === 'up' ? -1 : 1) + choices.length) % choices.length; draw(sel); } if (a) done(sel); else if (b) done(-1); },
+        pick: (i) => done(i), back: () => done(-1),
+      };
+    });
+  }
+  _modalBack() { this.modal?.back?.(); }
+
+  // ---------- overworld HUD loop ----------
+  _loop() {
+    const tick = (t) => {
+      try { this._hud(t); } catch (e) { /* HUD must never break the game */ }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    setInterval(() => { if (this.body.classList.contains('ui-reduce')) return; for (const im of document.querySelectorAll('img.ui-icon.flip')) { const f = im.dataset.f === '1' ? '0' : '1'; im.dataset.f = f; im.src = icon(im.dataset.sp, f); } }, 420);
+  }
+  _hud() {
+    const s = this.scene; if (!s.map) return;
+    this.body.classList.toggle('ui-dlg-open', !!s.dialog?.active);
+    // location banner on map change
+    if (s.map.name !== this._lastMap && !s.fade) {
+      const first = this._lastMap == null; this._lastMap = s.map.name;
+      if (this.cfg.locationBanner !== false && !(first && this.active)) this.showBanner(s.map.title || s.map.name);
+    }
+    // clock
+    const h = s.hour, m = Math.floor(s.clock.min % 60), ph = s.phase;
+    const txt = `Day ${s.clock.day} · ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    if (txt !== this._clockTxt) { this._clockTxt = txt; this.clock.innerHTML = `<span class="sky ${ph === 'night' ? 'night' : ''}"></span>${txt}`; }
+    // A prompt over the faced thing
+    if (this.cfg.interactPrompt !== false) this._promptTick();
+  }
+  showBanner(title) {
+    const zone = (this.scene.layout?.zones || []).find((z) => z.id === this.scene.zone?.());
+    const kind = /_int$|^home_|^house_|^heal_|^lab_|^rt_|^office|^shop|^station|^club/.test(this.scene.map.name) ? 'Indoors' : zone?.type === 'town' ? 'Town' : /^route|thornwood|mirefen|greystone/.test(this.scene.map.name) ? 'Route' : 'Area';
+    const pat = { Town: 'dots', Route: 'leaf', Indoors: 'lattice', Area: 'crystal' }[kind];
+    const scr = { Town: 'team', Route: 'pack', Indoors: 'kilindex', Area: 'phone' }[kind];
+    this.banner.dataset.pat = pat; this.banner.dataset.scr = scr;
+    this.banner.innerHTML = `<span class="kind">${kind}</span><span class="plate">${esc(title)}</span>`;
+    this.banner.classList.remove('show'); void this.banner.offsetWidth; this.banner.classList.add('show');
+    clearTimeout(this._bannerT); this._bannerT = setTimeout(() => this.banner.classList.remove('show'), this.cfg.bannerMs || 2600);
+  }
+  _promptTick() {
+    const s = this.scene, p = s.player, show = (on) => this.prompt.classList.toggle('show', on);
+    if (!p || this.active || s.dialog?.active || s.busy || s.fade || p.moving || !s._cam) { show(false); return; }
+    const D = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[p.facing]; if (!D) { show(false); return; }
+    const m = s.map; let hit = null, verb = 'Check';
+    const fx0 = p.x + D[0], fy0 = p.y + D[1];
+    if (s.spots?.some((sp) => sp.kind !== 'trigger' && sp.x === fx0 && sp.y === fy0)) hit = [fx0, fy0];
+    else for (let k = 1; k <= 3 && !hit; k++) {
+      const x = p.x + D[0] * k, y = p.y + D[1] * k;
+      if (!m.inBounds(x, y)) break;
+      if (m.signs?.some((sg) => sg.x === x && sg.y === y)) { hit = [x, y]; verb = 'Read'; break; }
+      if (m.npcAt?.(x, y)) { hit = [x, y]; verb = 'Talk'; break; }
+      const c = m.code(x, y); if (c === 0 || c === 4 || c === 7) break; // Col.WALK / DOOR / PLATE: open floor, as in Overworld.interact
+    }
+    if (!hit) { show(false); return; }
+    const ts = s.tileset?.size || 32, z = s.zoom, cv = s.canvas, cr = cv.getBoundingClientRect(), k = cr.width / cv.width;
+    const x = cr.left + ((hit[0] + 0.5) * ts - s._cam.x) * z * k, y = cr.top + (hit[1] * ts - s._cam.y) * z * k - 4;
+    const glyphA = this.platform?.profile?.controls?.touch ? 'A' : (this.scene.input?.lastDevice === 'controller' ? 'A' : 'Z');
+    this.prompt.querySelector('.g').textContent = glyphA; this.prompt.querySelector('.t').textContent = verb;
+    this.prompt.style.left = `${Math.round(x)}px`; this.prompt.style.top = `${Math.round(y)}px`; show(true);
+  }
+
+  // ---------- touch control press feedback (visual only; input.js still owns the input) ----------
+  _touchFx() {
+    const tp = document.getElementById('touchpad'); if (!tp) return;
+    const down = new Map();
+    const press = (b, e) => {
+      if (!b) return; b.classList.add('ui-down'); b.classList.remove('ui-ripple'); void b.offsetWidth; b.classList.add('ui-ripple');
+      down.set(e.pointerId, b); navigator.vibrate?.(this.cfg.haptics ? 8 : 0);
+    };
+    const release = (e) => { const b = down.get(e.pointerId); if (b) { b.classList.remove('ui-down'); down.delete(e.pointerId); } };
+    tp.addEventListener('pointerdown', (e) => press(e.target.closest('button'), e), { passive: true });
+    tp.addEventListener('pointermove', (e) => {
+      const cur = down.get(e.pointerId); if (!cur || !cur.dataset.dir) return;
+      const b = document.elementFromPoint(e.clientX, e.clientY)?.closest?.('#touchpad [data-dir]');
+      if (b && b !== cur) { cur.classList.remove('ui-down'); press(b, e); }
+    }, { passive: true });
+    for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) tp.addEventListener(t, release, { passive: true });
+    addEventListener('blur', () => { for (const b of down.values()) b.classList.remove('ui-down'); down.clear(); });
+  }
+
+  // ---------- dialogue: text reveal + name tag colour (visual only; textContent stays the same) ----------
+  _dialogFx() {
+    const d = this.scene.dialog; if (!d?.text) return;
+    const NAME_COLS = ['#ffd23f', '#ff9d8f', '#8fe0c8', '#9fd3ff', '#f0a8ff', '#b8f0a6', '#ffc06a'];
+    const ob = new MutationObserver(() => {
+      if (this._revealing) return;
+      const t = d.text.textContent;
+      if (!t || d.text.querySelector('.rv') || this.body.classList.contains('ui-reduce') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      this._revealing = true;
+      const frag = document.createDocumentFragment(); let i = 0;
+      for (const ch of t) { const s = document.createElement('span'); s.className = 'rv'; s.style.setProperty('--i', String(i++)); s.textContent = ch; frag.appendChild(s); }
+      d.text.replaceChildren(frag);
+      this._revealing = false;
+    });
+    ob.observe(d.text, { childList: true, characterData: true, subtree: false });
+    const ob2 = new MutationObserver(() => {
+      const n = d.name.textContent || ''; let h = 0; for (const c of n) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+      d.name.style.setProperty('--dlg-name-bg', NAME_COLS[h % NAME_COLS.length]);
+    });
+    ob2.observe(d.name, { childList: true, characterData: true, subtree: true });
+  }
+
+  // ---------- screens ----------
+  _make(id, arg) {
+    const f = this['scr_' + id]; return f ? f.call(this, arg) : null;
+  }
+
+  scr_phone() {
+    const L = this.T('system_phone.menu.labels', {});
+    const apps = [['team', L.team || 'Team', 'team'], ['pack', L.pack || 'Pack', 'pack'], ['kilindex', L.kilindex || 'Kilindex', 'kilindex'], ['tasks', L.tasks || 'Tasks', 'tasks'],
+      ['map', L.map || 'Map', 'map'], ['contacts', L.contacts || 'Contacts', 'contacts'], ['save', L.save || "File today's report", 'save'], ['options', L.options || 'Options', 'options']];
+    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff' };
+    return { scr: 'phone', pat: 'crystal', title: 'Phone', glyph: 'contacts', sel: this._phoneSel || 0, cols: +(this.cfg.vars?.['app-cols'] || 4),
+      count: () => apps.length,
+      chips: () => `${this.gold != null ? `<span class="ui-chip"><i class="coin"></i>${this.gold.toLocaleString()}</span>` : ''}<span class="ui-chip dark">${esc(this.scene.map?.title || '')}</span>`,
+      render: () => `<div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="phone" data-pat="lattice"><div class="ui-apps">${apps.map(([k, l], i) =>
+        `<div class="ui-tile" data-i="${i}"><span class="badge" style="background:${COLS[k]}">${glyph(k, '#fff')}</span><span class="lbl">${esc(l)}</span></div>`).join('')}</div></div>`,
+      hint: () => this.hintText([['A', 'Open'], ['B', 'Close']]),
+      onA: (i) => { this._phoneSel = i; this.open(apps[i][0]); },
+      onSel: (i) => { this._phoneSel = i; },
+    };
+  }
+
+  scr_team() {
+    const party = this.party(), L = this.T('system_party.menu.labels', {});
+    const seenK = {}, keyOf = (c) => c.rt || `${c.species}#${(seenK[c.species] = (seenK[c.species] || 0) + 1)}`; // UI tools 2: stable auto-animate keys
+    const card = (c, i) => {
+      const sp = speciesById(c.species), st = statsFor(c, i), f = st.hp / st.hpMax;
+      return `<div class="ui-card ${i === 0 ? 'lead' : ''}" data-i="${i}" data-el="${sp.el[0]}" data-k="${esc(keyOf(c))}"${tipAttr(c.nickname || sp.name, `${elNames(sp.el)} · Lv.${st.level} · HP ${st.hp}/${st.hpMax}\n${sp.blurb || ''}`)}><img class="ui-icon flip bob" data-sp="${c.species}" data-f="0" src="${icon(c.species)}" alt="">
+        <div class="nm"><span>${esc(c.nickname || sp.name)}</span><span class="lv">Lv.${st.level}</span>${sp.el.map(elChip).join('')}</div>
+        <div><div class="bar-row"><b>HP</b><div class="bar" data-lvl="${lvlOf(f)}"><i style="width:${(f * 100).toFixed(1)}%"></i></div><span>${st.hp}/${st.hpMax}</span></div></div></div>`;
+    };
+    return { scr: 'team', pat: 'dots', title: this.T('system_phone.menu.labels.team', 'Team'), glyph: 'team', sel: 0, cols: +(this.cfg.vars?.['team-cols'] || 2), count: () => party.length,
+      render: () => `<div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="team" data-pat="dots">${party.length ? `<div class="ui-team" data-aa="team">${party.map(card).join('')}${
+        Array.from({ length: Math.max(0, 6 - party.length) }, (_, n) => `<div class="ui-card empty" data-k="empty-${n}"><span class="soft">Empty slot</span></div>`).join('')}</div>`
+        : `<div class="plate ui-empty">${pxi(EMPTY_ICONS.team, 'pxi pxi-empty')}No creatures on your team yet.</div>`}</div>`,
+      hint: () => this.hintText([['A', 'Choose'], ['B', 'Back']]) + (party.length > 1 ? ' &nbsp;·&nbsp; Drag to reorder' : ''),
+      sortable: () => (party.length > 1 ? { el: '.ui-team', draggable: '.ui-card[data-i]', onReorder: (order, moved) => this._reorderTeam(order, moved) } : null),
+      onA: async (i) => {
+        const c = party[i]; if (!c) return;
+        const name = c.nickname || speciesById(c.species).name;
+        const opts = [L.summary || 'Summary', ...(i > 0 && this.scene.party?.length ? [L.move || 'Move'] : []), L.back || 'Back'];
+        const k = await this.ask('team', [name], opts, { pat: 'dots' });
+        if (opts[k] === (L.summary || 'Summary')) this.open('summary', i);
+        else if (opts[k] === (L.move || 'Move')) {
+          await this.scene.setLead(c.species, { nickname: c.nickname, warmth: c.warmth, rt: c.rt });
+          this.note(this.P('system_party.new_lead', ['{creature} takes the lead. It looks pleased.'], { creature: name })[0], 2200); this.replace('team');
+        }
+      },
+    };
+  }
+
+  scr_summary(i = 0) {
+    const party = this.party(); let page = 0;
+    const L = this.T('system_party.summary_labels.labels', {}), K = this.T('catalogue.kilindex_labels', {});
+    const gemFor = (c) => { const t = this.scene.warmth?.creatures?.[c.species]; const st = c.warmth >= 75 ? 3 : c.warmth >= 50 ? 2 : c.warmth >= 20 ? 1 : 0; const pal = t?.stages?.[String(st)]; return pal ? Object.values(pal)[3] : '#b076ec'; };
+    const scr = { scr: 'summary', pat: 'chevron', title: 'Summary', glyph: 'kilindex', sel: 0, cols: 1, idx: i, count: () => 0,
+      render: () => {
+        const c = party[scr.idx]; if (!c) return '<div class="plate ui-empty">No creature.</div>';
+        const sp = speciesById(c.species), st = statsFor(c, scr.idx), f = st.hp / st.hpMax;
+        const info = `<dl class="ui-kv"><dt>${esc(K.catalogue_id || 'Catalogue ID')}</dt><dd>${esc(c.rt || 'RT-????')}</dd><dt>${esc(K.called || 'Called')}</dt><dd>${esc(c.nickname || '—')}</dd>
+          <dt>${esc(L.element || 'Element')}</dt><dd>${sp.el.map(elChip).join(' ')}</dd><dt>${esc(L.warmth || 'Crystal')}</dt><dd><i class="ui-gem" style="--gem:${gemFor(c)}"></i></dd>
+          <dt>${esc(L.met || 'Met in')}</dt><dd>${esc(sp.found.split(',')[0] || '—')}</dd></dl>
+          <div class="bar-row" style="margin-top:10px"><b>HP</b><div class="bar" data-lvl="${lvlOf(f)}"><i style="width:${f * 100}%"></i></div><span>${st.hp}/${st.hpMax}</span></div>
+          <div class="bar-row" style="margin-top:6px"><b>XP</b><div class="bar xp"><i style="width:${st.xp}%"></i></div><span>${st.xp}%</span></div>`;
+        const skills = `<ul class="ui-list">${skillsFor(c.species).map((s) => `<li class="ui-row" data-el="${s.el}" data-pat="stripes" style="padding-left:12px"${tipAttr(s.name, `${ELEMENT_LABEL(s.el)} skill · Power ${s.power ?? '?'} · ${L.energy || 'Energy'} ${s.en}/${s.enMax}`)}><span class="plate" style="padding:0 10px">${esc(s.name)}</span><span class="ui-spacer"></span><span class="plate dark" style="padding:0 8px;font-size:.8em">${esc(L.energy || 'Energy')} ${s.en}/${s.enMax}</span></li>`).join('')}</ul>`;
+        return `<div class="ui-body"><div class="ui-col ui-grow"><div class="ui-stagebox ui-grow" data-el="${sp.el[0]}" data-pat="waves" data-scroll>
+          <img class="ui-sprite idle" src="${front(c.species)}" alt="${esc(sp.name)}"></div>
+          <div class="plate ui-pad" style="display:flex;gap:10px;align-items:center"><span class="grow" style="font-size:1.2em">${esc(c.nickname || sp.name)}</span><span class="lv">${esc(L.level || 'Lv.')}${st.level}</span><span class="soft">${esc(sp.name)}</span></div></div>
+          <div class="ui-col ui-grow"><div class="ui-tabs"><div class="ui-tab ${page === 0 ? 'on' : ''}" data-tab="0">Info</div><div class="ui-tab ${page === 1 ? 'on' : ''}" data-tab="1">Skills</div></div>
+          <div class="plate ui-pad ui-grow ui-scroll">${page === 0 ? info : skills}</div></div></div>`;
+      },
+      hint: () => this.hintText([['◀▶', 'Page'], ['▲▼', 'Creature'], ['B', 'Back']]),
+      onTab: (t) => { page = t; this.rerender(); },
+      onLR: (d) => { page = (page + d + 2) % 2; this.rerender(); },
+      handle: ({ dir, a, b }) => {
+        if (dir === 'left' || dir === 'right') scr.onLR(dir === 'left' ? -1 : 1);
+        else if (dir === 'up' || dir === 'down') { scr.idx = (scr.idx + (dir === 'up' ? -1 : 1) + party.length) % party.length; this.rerender(); }
+        else if (b || a) this.back();
+      },
+    };
+    return scr;
+  }
+
+  scr_kilindex() {
+    const kx = this.scene.systems?.kilindex?.data; // [overnight hook] C15/M1 logging (src/overnight/kilindex.js)
+    const seen = new Set([...(this.demo ? DEMO.seen : []), ...this.party().map((c) => c.species), ...Object.keys(kx?.seen || {})]);
+    const reg = new Set([...this.party().map((c) => c.species), ...Object.keys(kx?.caught || {})]);
+    const L = this.T('system_kilindex.labels.labels', {});
+    const scr = { scr: 'kilindex', pat: 'lattice', title: this.T('system_phone.menu.labels.kilindex', 'Kilindex'), glyph: 'kilindex', sel: 0, cols: +(this.cfg.vars?.['dex-cols'] || 4), count: () => SPECIES.length,
+      chips: () => `<span class="ui-chip">${esc(L.seen || 'Seen')} ${seen.size}</span><span class="ui-chip">${esc(L.caught || 'Registered')} ${reg.size}</span>`,
+      render: () => `<div class="ui-body"><div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="kilindex" data-pat="lattice" style="flex:1.5"><div class="ui-dex">${SPECIES.map((s, i) => {
+        const k = seen.has(s.id); return `<div class="ui-tile" data-i="${i}" data-el="${s.el[0]}"${k ? tipAttr(s.name, `${elNames(s.el)}\n${s.blurbKey ? this.T(s.blurbKey, s.blurb) : s.blurb}`) : tipAttr('???', 'Not seen yet.')}><span class="no">No.${String(i + 1).padStart(3, '0')}</span>${reg.has(s.id) ? '<span class="reg"></span>' : ''}
+          <img class="ui-icon ${k ? 'flip' : 'sil'}" data-sp="${s.id}" data-f="0" src="${icon(s.id)}" alt=""><span class="lbl">${k ? esc(s.name) : '???'}</span></div>`; }).join('')}</div></div>
+        <div class="ui-col" style="flex:1"><div class="ui-stagebox" data-el="${SPECIES[scr.sel].el[0]}" data-pat="dots" data-scroll style="flex:1;min-height:0" id="dexart"></div><div class="plate ui-pad ui-scroll" id="dexinfo" style="max-height:45%"></div></div></div>`,
+      after: () => scr.onSel(scr.sel),
+      onSel: (i) => {
+        const s = SPECIES[i], k = seen.has(s.id), art = this.stage.querySelector('#dexart'), inf = this.stage.querySelector('#dexinfo'); if (!art) return;
+        art.dataset.el = s.el[0];
+        art.innerHTML = `<img class="ui-sprite ${k ? 'idle' : ''}" style="--ui-sprite-scale:calc(var(--ui-dex-sprite, 1));${k ? '' : 'filter:brightness(0) opacity(.5)'}" src="${front(s.id)}" alt="">`;
+        inf.innerHTML = k ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-size:1.15em">${esc(s.name)}</b>${s.el.map(elChip).join('')}</div>
+          <p style="margin:.4em 0" class="soft">${esc(s.blurbKey ? this.T(s.blurbKey, s.blurb) : s.blurb)}</p><div class="soft" style="font-size:.85em">${esc(L.regions || 'Found in')}: ${esc(s.found)}</div>`
+          : `<b>???</b><p class="soft" style="margin:.4em 0">Not seen yet.</p>`;
+      },
+      hint: () => this.hintText([['▲▼◀▶', 'Browse'], ['B', 'Back']]),
+      onA: () => {},
+    };
+    return scr;
+  }
+
+  _items(pocket) {
+    const cat = this.T('system_item_catalogue', {});
+    return Object.entries(this.bag).filter(([id, n]) => n > 0 && cat[id]?.pocket === pocket).map(([id, n]) => ({ id, n, ...cat[id] }));
+  }
+  scr_pack() {
+    const P = this.T('comfort.bag_pockets', {}); let pi = 0;
+    const scr = { scr: 'pack', pat: 'leaf', title: this.T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1,
+      count: () => this._items(POCKETS[pi]).length,
+      chips: () => (this.gold != null ? `<span class="ui-chip"><i class="coin"></i>${this.gold.toLocaleString()}</span>` : ''),
+      render: () => {
+        const items = this._items(POCKETS[pi]), cur = items[scr.sel];
+        return `<div class="ui-tabs">${POCKETS.map((p, i) => `<div class="ui-tab ${i === pi ? 'on' : ''}" data-tab="${i}">${pxi(POCKET_ICONS[p])}${esc(P[p]?.label || p)}</div>`).join('')}</div>
+        <div class="ui-body"><div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="pack" data-pat="${POCKET_PAT[POCKETS[pi]]}" data-scroll style="flex:1.4">
+          ${items.length ? `<ul class="ui-list" data-aa="pack-${pi}">${items.map((it, i) => `<li class="ui-row" data-i="${i}" data-k="${esc(it.id)}"${tipAttr(it.name, (it.pages || []).join(' '))}><span class="grow">${esc(it.name)}</span><span class="price">×${it.n}</span></li>`).join('')}</ul>`
+            : `<div class="plate ui-empty">${pxi(EMPTY_ICONS.pack, 'pxi pxi-empty')}Nothing in this pocket yet.</div>`}</div>
+          <div class="plate ui-pad" style="flex:1" id="packinfo">${cur ? `<b>${esc(cur.name)}</b><p class="soft">${esc((cur.pages || []).join(' '))}</p>` : `<p class="soft">${esc((P[POCKETS[pi]]?.help || []).join(' '))}</p>`}</div></div>`;
+      },
+      onSel: (i) => { const it = this._items(POCKETS[pi])[i], el = this.stage.querySelector('#packinfo'); if (el && it) el.innerHTML = `<b>${esc(it.name)}</b><p class="soft">${esc((it.pages || []).join(' '))}</p>`; },
+      onTab: (t) => { pi = t; scr.sel = 0; this.rerender(); },
+      onLR: (d) => scr.onTab((pi + d + POCKETS.length) % POCKETS.length),
+      hint: () => this.hintText([['◀▶', 'Pocket'], ['▲▼', 'Item'], ['B', 'Back']]),
+      onA: () => {},
+    };
+    return scr;
+  }
+
+  scr_shop() {
+    const M = this.T('system_shop.menu.labels', {}), cat = this.T('system_item_catalogue', {}); let mode = 0;
+    if (this.gold == null) this.gold = DEMO.gold; // PLACEHOLDER: gold is not in the save yet
+    const list = () => (mode === 0 ? SHOP_STOCK.map((id) => ({ id, ...cat[id], price: PLACEHOLDER_PRICES[id] || 100 }))
+      : Object.entries(this.bag).filter(([id, n]) => n > 0 && cat[id]).map(([id, n]) => ({ id, n, ...cat[id], price: Math.floor((PLACEHOLDER_PRICES[id] || 100) / 2) })));
+    const scr = { scr: 'shop', pat: 'awning', title: 'RT Supply', glyph: 'shop', sel: 0, cols: 1, count: () => list().length,
+      chips: () => `<span class="ui-chip"><i class="coin"></i>${this.gold.toLocaleString()}</span>`,
+      render: () => {
+        const l = list(), cur = l[scr.sel];
+        return `<div class="ui-tabs"><div class="ui-tab ${mode === 0 ? 'on' : ''}" data-tab="0">${esc(M.buy || 'Buy')}</div><div class="ui-tab ${mode === 1 ? 'on' : ''}" data-tab="1">${esc(M.sell || 'Sell')}</div></div>
+        <div class="ui-body"><div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="shop" data-pat="awning" data-scroll style="flex:1.4">
+          ${l.length ? `<ul class="ui-list" data-aa="shop-${mode}">${l.map((it, i) => `<li class="ui-row" data-i="${i}" data-k="${esc(it.id)}"${tipAttr(it.name, `${(it.pages || []).join(' ')}\nIn your pack: ${this.bag[it.id] || 0}`)}><span class="grow">${esc(it.name)}</span>${it.n ? `<span class="soft">×${it.n}</span>` : ''}<span class="price"><i class="coin"></i> ${it.price}</span></li>`).join('')}</ul>`
+            : `<div class="plate ui-empty">${pxi(EMPTY_ICONS.shop, 'pxi pxi-empty')}Nothing to sell.</div>`}</div>
+          <div class="plate ui-pad" style="flex:1" id="shopinfo">${cur ? `<b>${esc(cur.name)}</b><p class="soft">${esc((cur.pages || []).join(' '))}</p><p class="soft">In your pack: ${this.bag[cur.id] || 0}</p>` : ''}</div></div>`;
+      },
+      onTab: (t) => { mode = t; scr.sel = 0; this.rerender(); },
+      onLR: (d) => scr.onTab((mode + 1) % 2),
+      onSel: () => this.rerender(),
+      hint: () => this.hintText([['◀▶', `${M.buy || 'Buy'} / ${M.sell || 'Sell'}`], ['A', 'Pick'], ['B', M.done || "That's all"]]),
+      onA: async (i) => {
+        const it = list()[i]; if (!it) return;
+        const n = await this.qty(it, mode === 0 ? Math.max(1, Math.min(99, Math.floor(this.gold / it.price))) : it.n);
+        if (!n) return;
+        const total = it.price * n;
+        if (mode === 0) {
+          const k = await this.ask('shop', this.P('system_shop.confirm', ['{item} x{count} comes to {total}.', 'Ring it up?'], { item: it.name, count: n, total }), this.T('system_shop.confirm.choices', ['Ring it up', 'Never mind']), { pat: 'awning' });
+          if (k !== 0) return;
+          if (total > this.gold) { this.note(this.P('system_shop.short', ["You're {total} short, I'm afraid."], { total: total - this.gold })[0]); return; }
+          this.gold -= total; this.bag[it.id] = (this.bag[it.id] || 0) + n; this.note(this.P('system_shop.bought', ['Bagged. Pleasure doing business.'])[0]);
+        } else {
+          const k = await this.ask('shop', this.P('system_shop.sell_offer', ["I'll give you {total} for that. Deal?"], { total }), this.T('system_shop.sell_offer.choices', ['Deal', 'No deal']), { pat: 'awning' });
+          if (k !== 0) return;
+          this.gold += total; this.bag[it.id] -= n; this.note(this.P('system_shop.sold', ['Done. {total} for you.'], { total })[0]);
+        }
+        const r = this.root.getBoundingClientRect(); this.sparkle(r.width / 2, r.height / 3, 10); this.rerender();
+      },
+      onBack: () => { this.toastFn?.(this.P('system_shop.bye', ["See you. Prices won't move, promise."])[0]); },
+    };
+    return scr;
+  }
+  qty(it, max) {
+    return new Promise((resolve) => {
+      let n = 1; const wrap = document.createElement('div'); wrap.className = 'ui-modal'; this.fx?.tipHide();
+      const draw = () => { wrap.innerHTML = `<div class="ui-panel ui-pad" data-scr="shop" data-pat="awning"><div class="plate ui-pad" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <b class="grow" style="flex:1">${esc(it.name)}</b><span class="qty"><button data-m="-1" aria-label="Fewer">−</button><b style="min-width:2.5em;text-align:center">×${n}</b><button data-m="-2" aria-label="More">+</button></span>
+        <span class="price"><i class="coin"></i> ${it.price * n}</span></div><ul class="ui-list" style="margin-top:10px"><li class="ui-row sel" data-m="0">OK</li></ul></div>`; };
+      draw(); this.root.appendChild(wrap);
+      const done = (v) => { wrap.remove(); this.modal = null; resolve(v); };
+      const step = (d) => { n = Math.max(1, Math.min(Math.max(1, max), n + d)); draw(); };
+      this.modal = { handle: ({ dir, a, b }) => { if (dir === 'up' || dir === 'right') step(1); else if (dir === 'down' || dir === 'left') step(-1); if (a) done(n); else if (b) done(0); },
+        pick: (i) => (i === -1 ? step(-1) : i === -2 ? step(1) : done(n)), back: () => done(0) };
+    });
+  }
+
+  scr_archive() {
+    const H = this.T('system_heal.storage_menu.labels', {}); let box = 0;
+    const boxes = Array.from({ length: 8 }, (_, b) => Array.from({ length: 30 }, (_, k) => (this.demo && b === 0 ? DEMO.archive[k] : null) || null));
+    const stage = this.stage; // UI tools pass: narrow phones reflow the box to 5/4 columns (44 px slots), so read the live column count
+    const scr = { scr: 'archive', pat: 'checker', title: 'Field Archive', glyph: 'archive', sel: 0, get cols() { const b = stage.querySelector('.ui-box'); return (b && getComputedStyle(b).gridTemplateColumns.split(' ').filter(Boolean).length) || 6; }, count: () => 30,
+      chips: () => `<span class="ui-chip dark">${esc(this.P('system_heal.storage_open', ['Field Archive. Logged in as {player}.'])[0])}</span>`,
+      render: () => `<div class="ui-body"><div class="ui-col" style="flex:.8"><div class="plate ui-pad soft" style="font-size:.85em">${esc(H.move || 'Move creatures')} · ${esc(H.deposit || 'Drop off')} · ${esc(H.withdraw || 'Pick up')}</div>
+          <div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="team" data-pat="dots"><ul class="ui-list">${this.party().map((c) => `<li class="ui-row" style="padding-left:8px"><img class="ui-icon flip" data-sp="${c.species}" data-f="0" src="${icon(c.species)}" style="--ui-icon:40px" alt=""><span class="grow">${esc(c.nickname || speciesById(c.species).name)}</span></li>`).join('') || '<li class="plate ui-empty">No team.</li>'}</ul></div></div>
+        <div class="ui-col ui-grow"><div class="ui-tabs"><div class="ui-tab" data-act="prevbox">◀</div><div class="ui-tab on" style="flex:4">Box ${box + 1}</div><div class="ui-tab" data-act="nextbox">▶</div></div>
+        <div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="archive" data-pat="checker" data-scroll><div class="ui-box" data-aa="box-${box}">${boxes[box].map((c, i) => `<div class="ui-slot${scr.held?.b === box && scr.held.i === i ? ' held' : ''}" data-i="${i}" data-k="${c ? esc(c.rt || c.species + i) : 'e' + i}"${c ? tipAttr(speciesById(c.species).name, `${c.rt || ''} · ${elNames(ELS(c.species))}`) : ''}>${c ? `<img src="${icon(c.species)}" alt="" draggable="false">` : ''}</div>`).join('')}</div></div>
+        <div class="plate ui-pad" id="arcinfo" style="min-height:2.6em"></div></div></div>`,
+      after: () => scr.onSel(scr.sel),
+      onSel: (i) => { const c = boxes[box][i], el = this.stage.querySelector('#arcinfo'); if (el) el.innerHTML = c ? `<b>${esc(speciesById(c.species).name)}</b> <span class="soft">${esc(c.rt)}</span> ${ELS(c.species).map(elChip).join('')}` : '<span class="soft">Empty</span>'; },
+      onAct: (a) => { box = (box + (a === 'prevbox' ? 7 : 1)) % 8; this.rerender(); },
+      onLR: (d) => scr.onAct(d < 0 ? 'prevbox' : 'nextbox'),
+      hint: () => this.hintText([['▲▼◀▶', 'Slot'], ['A', scr.held ? 'Swap here' : 'Pick up'], ['B', scr.held ? 'Cancel' : H.logout || 'Log out']]) + ' &nbsp;·&nbsp; Drag to move',
+      // UI tools pass: drag a slot onto another to swap (SortableJS Swap plugin); A picks up / swaps (works across boxes)
+      sortable: () => ({ el: '.ui-box', draggable: '.ui-slot', swap: true, onReorder: (order, moved) => {
+        const b = boxes[box], nb = order.map((k) => b[k]); b.splice(0, b.length, ...nb); scr.held = null; scr.sel = Math.max(0, order.indexOf(moved)); this.rerender(); } }),
+      onA: (i) => {
+        if (!scr.held) { if (boxes[box][i]) { scr.held = { b: box, i }; this.rerender(); } return; }
+        const h = scr.held, a = boxes[h.b][h.i]; boxes[h.b][h.i] = boxes[box][i]; boxes[box][i] = a; scr.held = null; this.rerender();
+      },
+      onBack: () => { if (scr.held) { scr.held = null; this.rerender(); return false; } return true; },
+    };
+    return scr;
+  }
+
+  scr_save() {
+    const run = async () => {
+      const k = await this.ask('save', this.P('system_save.prompt', ["File today's report? This saves your game."]), this.T('system_save.prompt.choices', ['File it', 'Not yet']), { pat: 'sparkle' });
+      if (k !== 0) { this.back(); return; }
+      const wrap = document.createElement('div'); wrap.className = 'ui-modal';
+      wrap.innerHTML = `<div class="ui-panel ui-pad" data-scr="save" data-pat="sparkle" data-scroll><div class="plate ui-pad">${esc(this.P('system_save.saving', ['Filing... keep the game open.'])[0])}
+        <div class="bar xp ui-filing" style="margin-top:10px"><i></i></div></div></div>`;
+      this.root.appendChild(wrap); this.modal = { handle() {}, pick() {}, back() {} };
+      await wait(950);
+      const ok = this.scene.saveNow?.();
+      wrap.remove(); this.modal = null;
+      const msg = ok ? this.P('system_save.saved', ["Report filed. {player}'s day is on record."]) : this.P('system_save.failed', ["Couldn't file the report.", 'Try again in a moment.']);
+      this.back(); this.note(msg.join(' '), 2600);
+      if (ok) { const r = this.root.getBoundingClientRect(); this.sparkle(r.width / 2, 40, 16); }
+      if (ok) this.scene.audio?.sfx('save'); // manual save only (autosave stays silent)
+    };
+    const scr = { scr: 'save', pat: 'sparkle', title: this.T('system_save.menu_label.labels.save', "File today's report"), glyph: 'save', sel: 0, cols: 1, count: () => 0,
+      render: () => `<div class="ui-panel ui-pad ui-grow" data-scr="save" data-pat="sparkle"><div class="plate ui-pad"><b>${esc(this.scene.config?.playerName || 'Cal')}</b>
+        <p class="soft">${esc(this.scene.map?.title || '')} · Day ${this.scene.clock?.day ?? 1} · Team ${this.party().length}</p></div></div>`,
+      after: () => setTimeout(run, 30), onA: () => {},
+    };
+    return scr;
+  }
+
+  scr_options() {
+    const s = this.scene;
+    const rows = () => [
+      ['Cloud shadows', s.life?.state?.().clouds ? 'On' : 'Off', () => s.life.toggle('clouds')],
+      ['Ambient life', s.life?.state?.().life ? 'On' : 'Off', () => s.life.toggle('life')],
+      ['Depth shadows', s.depth?.state?.(s.map ? s.view() : null)?.enabled ? 'On' : 'Off', () => s.depth.toggle()],
+      ['Menu motion', this.body.classList.contains('ui-reduce') ? 'Reduced' : 'Full', () => { const r = this.body.classList.toggle('ui-reduce'); try { localStorage.setItem('kilumen_alpha_ui.motion', r ? 'reduce' : 'full'); } catch { /* */ } }],
+      ...audioRows(),
+    ];
+    // libs pass: sound rows (src/audio/audio.js; saved per platform). A cycles volume in 20% steps, left/right nudge 10%.
+    const a = s.audio, pct = (v) => `${Math.round(v * 100)}%`;
+    const nudge = (k, d) => a.setVolume(k, Math.round(a.settings[k] * 10 + d) / 10);
+    const cycle = (k) => a.setVolume(k, a.settings[k] >= 0.99 ? 0 : Math.min(1, Math.round(a.settings[k] * 10 + 2) / 10));
+    function audioRows() {
+      return !a ? [] : [
+        ['Sound', a.settings.muted ? 'Muted' : 'On', () => a.setMuted(!a.settings.muted)],
+        ['Volume', pct(a.settings.master), () => cycle('master'), (d) => nudge('master', d)],
+        ['Music volume', pct(a.settings.music), () => cycle('music'), (d) => nudge('music', d)],
+        ['Effects volume', pct(a.settings.sfx), () => cycle('sfx'), (d) => nudge('sfx', d)],
+      ];
+    }
+    const scr = { scr: 'options', pat: 'waves', title: this.T('system_phone.menu.labels.options', 'Options'), glyph: 'options', sel: 0, cols: 1, count: () => rows().length,
+      render: () => `<div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="options" data-pat="waves" data-scroll><ul class="ui-list">${rows().map(([l, v, , nudge], i) => // UI tools 2: pixelarticons per row; Kenney UI slider / checkbox PLACEHOLDERS (text value kept)
+        `<li class="ui-row" data-i="${i}"><span class="grow">${pxi(OPTION_ICONS[l], 'pxi opt-ico')} ${esc(l)}</span><span class="price">${nudge ? kuiSlider(parseInt(v, 10) / 100) : /^(On|Off|Muted)$/.test(v) ? kuiCheck(v === 'On') : ''}${esc(v)}</span></li>`).join('')}</ul></div>`,
+      hint: () => this.hintText([['A', 'Change'], ['B', 'Back']]),
+      onA: (i) => { rows()[i][2](); this.rerender(); },
+      onLR: (d) => { // volume rows: nudge; other rows: move like up/down did before
+        const r = rows()[scr.sel];
+        if (r?.[3]) { r[3](d); this.rerender(); s.audio?.sfx('cursor'); } else this._select(Math.max(0, Math.min(rows().length - 1, scr.sel + d)));
+      },
+    };
+    return scr;
+  }
+  scr_tasks() { return this._simple('tasks', this.T('system_phone.menu.labels.tasks', 'Tasks'), 'stripes', 'No tasks yet. Revival Tech will text you when there is work.'); }
+  scr_contacts() { return this._simple('contacts', this.T('system_phone.menu.labels.contacts', 'Contacts'), 'dots', 'No contacts yet. Trade numbers with trainers you meet.'); }
+  _simple(id, title, pat, text) {
+    return { scr: id, pat, title, glyph: id, sel: 0, cols: 1, count: () => 0, render: () => `<div class="ui-panel ui-pad ui-grow" data-scr="${id}" data-pat="${pat}" data-scroll><div class="plate ui-empty">${EMPTY_ICONS[id] ? pxi(EMPTY_ICONS[id], 'pxi pxi-empty') : ''}${esc(text)}</div></div>`, onA: () => {} };
+  }
+  scr_map() {
+    const zones = (this.scene.layout?.zones || []).filter((z) => z.map_pos), cur = this.scene.zone?.();
+    let sel = Math.max(0, zones.findIndex((z) => z.id === cur));
+    const scr = { scr: 'map', pat: 'leaf', title: this.T('system_phone.menu.labels.map', 'Map'), glyph: 'map', sel, cols: 1, count: () => zones.length,
+      render: () => `<div class="ui-body"><div class="ui-panel ui-grow" data-scr="map" data-pat="leaf" style="flex:2;display:grid;place-items:center;padding:8px">
+        <div style="position:relative;height:100%;aspect-ratio:4/3;max-width:100%;border:3px solid var(--outline);border-radius:12px;overflow:hidden;background:url(art/world/world_map.webp) center/cover">
+        ${zones.map((z, i) => `<span data-i="${i}" title="${esc(z.name)}" style="position:absolute;left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%;width:18px;height:18px;margin:-9px;border-radius:50%;border:3px solid var(--outline);background:${z.id === cur ? 'var(--bad)' : z.status === 'built' ? 'var(--sun)' : '#fff'};cursor:pointer"></span>`).join('')}
+        ${cur ? (() => { const z = zones.find((q) => q.id === cur); return z ? `<span class="hud-prompt show" style="left:${z.map_pos.x * 100}%;top:calc(${z.map_pos.y * 100}% - 12px)"><span class="g">★</span><span>You</span></span>` : ''; })() : ''}</div></div>
+        <div class="plate ui-pad ui-scroll" style="flex:1" id="mapinfo"></div></div>`,
+      after: () => scr.onSel(scr.sel),
+      onSel: (i) => { const z = zones[i], el = this.stage.querySelector('#mapinfo'); if (el && z) el.innerHTML = `<b style="font-size:1.15em">${esc(z.name)}</b><p class="soft">${esc(z.type === 'town' ? 'Town' : z.type === 'route' ? 'Route' : z.type || '')}${z.id === cur ? ' · You are here' : ''}</p>`; for (const e of this.stage.querySelectorAll('[data-i]')) e.style.transform = +e.dataset.i === i ? 'scale(1.5)' : ''; },
+      // [overnight hook] Skylift fast travel from the map (src/overnight/region_map.js, ?ov=regionmap; off by default)
+      hint: () => this.hintText([['▲▼', 'Place'], ...(this.scene.overnight?.region?.enabled ? [['A', 'Skylift']] : []), ['B', 'Back']]),
+      onA: (i) => { const r = this.scene.overnight?.region; if (r?.enabled && zones[i]) { this.closeAll(); r.travelTo(zones[i].id); } },
+    };
+    return scr;
+  }
+
+  scr_title() {
+    const hasSave = !!this.scene.store?.load?.();
+    const items = [...(hasSave ? ['Continue'] : []), 'New game', 'Options'];
+    let stage = 0;
+    const scr = { scr: 'title', full: true, sel: 0, cols: 1, count: () => (stage ? items.length : 0),
+      mount: (layer) => {
+        const name = 'Kilumen';
+        layer.innerHTML = `<div class="ui-title-scr" data-scr="title"><div class="art" style="background-image:url(art/world/key_art_notext.webp)"></div><div class="veil"></div>
+          <div class="ui-logo"><h1>${[...name].map((c, i) => `<span style="--i:${i}">${c}</span>`).join('')}</h1><span class="sub">Start of a Journey</span><span class="alpha-badge" title="Alpha: early version">Alpha</span></div>
+          ${stage ? `<div class="ui-panel ui-title-menu" data-scr="title" data-pat="sparkle" data-scroll><ul class="ui-list">${items.map((t, i) => `<li class="ui-row" data-i="${i}">${t}</li>`).join('')}</ul></div>`
+            : `<div class="ui-press-start" data-act="start">${this.platform?.profile?.controls?.touch ? 'Tap to start' : 'Press Enter or Start'}</div>`}
+          <span class="foot">${esc(ALPHA_VERSION)}</span></div>`;
+        const r = layer.getBoundingClientRect(); setTimeout(() => this.sparkle(r.width / 2, r.height * 0.3, 18, layer), 400);
+      },
+      handle: ({ dir, a, b }) => {
+        if (!stage) { if (a) { stage = 1; this._render(); } return; }
+        if (dir === 'up' || dir === 'down') { scr.sel = (scr.sel + (dir === 'up' ? -1 : 1) + items.length) % items.length; this._markSel(); }
+        if (a) scr.onA(scr.sel);
+      },
+      onA: async (i) => {
+        if (!stage) { stage = 1; this._render(); return; }
+        const it = items[i];
+        if (it !== 'Options' && this.scene.store) this.scene.store.hold = false; // ALPHA: saving starts with the first title choice
+        if (it === 'Continue') this.closeAll();
+        else if (it === 'New game') {
+          if (hasSave) { const k = await this.ask('title', ['Start a new game?', 'This writes over your current report.'], ['Start over', 'Keep playing'], { pat: 'sparkle' }); if (k !== 0) return; }
+          if (hasSave) { location.search = '?reset=1'; return; }
+          this.closeAll();
+        } else { this.stack = []; this.active = false; this.open('options'); }
+      },
+      onBack: () => false,
+    };
+    return scr;
+  }
+
+  // ---------- battle shell (scripted demo; the real battle system is a later pass) ----------
+  scr_battle(opts = {}) {
+    // engine-driven battle (src/battle/ui_sd.js, imported in mountUI) is the default since Oct 23, 2026; ?battle=shell keeps this scripted shell
+    if (this.sdMod && !opts.levelUpOnly) return this.sdMod.makeSdBattle(this, opts, { esc, front, back, fx, wait, lvlOf, speciesById, SPECIES, ELEMENT_LABEL, statsFor });
+    const party = this.party(), allyC = party[0] || { species: 'rillop', nickname: null, rt: 'RT-0147' };
+    const foeSp = opts.foe || (party[0]?.species === 'cindrip' ? 'rillop' : 'cindrip');
+    const ally = { c: allyC, sp: speciesById(allyC.species), ...statsFor(allyC, 0) }, foe = { c: { species: foeSp }, sp: speciesById(foeSp), level: Math.max(2, ally.level - 1) };
+    foe.hpMax = 14 + foe.level * 3; foe.hp = foe.hpMax; ally.hp = ally.hpMax;
+    const skills = skillsFor(allyC.species);
+    let mode = 'msg', msgResolve = null, busy = false;
+    const scr = { scr: 'battle', full: true, sel: 0, cols: 2, count: () => (mode === 'cmd' ? 4 : mode === 'skills' ? skills.length : 0) };
+    const $ = (s) => this.layer.querySelector(s);
+    const plate = (side, m) => `<div class="b-plate ${side}" data-el="${m.sp.el[0]}" data-pat="${side === 'foe' ? 'chevron' : 'dots'}"><div class="plate">
+        <div class="top"><span class="grow">${esc(m.c.nickname || m.sp.name)}</span><span class="lv">Lv.${m.level}</span></div>
+        <div class="bar-row"><b>HP</b><div class="bar" id="${side}-hp" data-lvl="good"><i style="width:100%"></i></div></div>
+        ${side === 'ally' ? `<div class="hpnum" id="ally-hpnum">${m.hp}/${m.hpMax}</div><div class="bar-row"><b>XP</b><div class="bar xp" id="ally-xp" style="height:8px"><i style="width:${m.xp}%"></i></div></div>` : ''}</div></div>`;
+    scr.mount = (layer) => {
+      this.fx?.battleWarm(); // UI tools 2: lazy anime.js for this default shell (skipped when motion is reduced)
+      layer.innerHTML = `<div class="ui-battle" data-scr="battle"><div class="bg" style="background-image:url(art/world/battle_bg.webp)"></div>
+        <div class="b-field"><div class="b-foe"><img class="ui-sprite b-mon" id="foe-mon" src="${front(foeSp)}" alt=""><div class="b-pad"></div></div>
+          <div class="b-ally"><img class="ui-sprite b-mon" id="ally-mon" src="${back(allyC.species)}" alt=""><div class="b-pad"></div></div>
+          ${plate('foe', foe)}${plate('ally', ally)}</div>
+        <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
+        <div class="b-bars"></div></div>`;
+      // layout pass (Oct 22, 2026): --feet = lowest opaque row / height of each sprite, so the pad and the zone rules in ui.css
+      // put the feet (not the image box) on the ground; re-measured whenever a sprite's src changes
+      layer.querySelectorAll('.b-mon').forEach((img) => { const go = () => { try {
+        const w = img.naturalWidth, hh = img.naturalHeight, c = Object.assign(document.createElement('canvas'), { width: w, height: hh }), g = c.getContext('2d');
+        g.drawImage(img, 0, 0); const d = g.getImageData(0, 0, w, hh).data; let y = hh - 1;
+        for (; y > 0; y--) { let x = 0; while (x < w && d[(y * w + x) * 4 + 3] <= 40) x++; if (x < w) break; }
+        img.parentElement.style.setProperty('--feet', String(Math.min(1, (y + 1) / hh)));
+      } catch { /* keep the CSS fallback */ } }; img.addEventListener('load', go); if (img.complete && img.naturalWidth) go(); });
+      if (!scr.started) { scr.started = true; script(); }
+    };
+    const say = (t, auto = 0) => new Promise((r) => {
+      const m = $('#b-msg'); m.innerHTML = `${esc(t)}${auto ? '' : '<span class="more">▼</span>'}`; mode = 'msg';
+      $('#b-cmds').hidden = true;
+      if (auto) setTimeout(r, auto); else msgResolve = r;
+    });
+    const setHp = (side, m) => {
+      const f = Math.max(0, m.hp / m.hpMax), b = $(`#${side}-hp`); b.dataset.lvl = lvlOf(f);
+      const num = side === 'ally' ? $('#ally-hpnum') : null; // UI tools 2: anime.js HP drain + counter (instant when reduced)
+      if (this.fx?.drainBar(b, f, { num, from: num ? +num.textContent.split('/')[0] : 0, to: m.hp, max: m.hpMax })) return;
+      b.firstElementChild.style.width = `${f * 100}%`;
+      if (side === 'ally') { const target = m.hp, el = $('#ally-hpnum'); let cur = +el.textContent.split('/')[0]; const t = setInterval(() => { cur += Math.sign(target - cur); el.textContent = `${cur}/${m.hpMax}`; if (cur === target) clearInterval(t); }, 40); }
+    };
+    const anim = (el, cls, ms) => { el.classList.remove('idle', cls); void el.offsetWidth; el.classList.add(cls); return wait(ms).then(() => { el.classList.remove(cls); }); };
+    const hit = async (att, def, side, skill) => {
+      const aEl = $(att === 'ally' ? '#ally-mon' : '#foe-mon'), dEl = $(side === 'foe' ? '#foe-mon' : '#ally-mon');
+      // hit effects (./hit_fx.js; off unless HIT_EFFECTS_ENABLED or ?fxpreview=staging): JSON + GIF load during the lunge; a
+      // ranged skill plays its travel effect first (HIT_TRAVEL_FX_ENABLED); frame 0 of the impact IS the hit, so the shake and
+      // damage number below start in the same tick the impact appears. Missing JSON/GIF -> no effect, the hit plays as before.
+      const fxs = fxSettings(this.q), fxEl = fxs.force || skill.el, box = this.layer.firstElementChild;
+      const pImp = fxs.on ? loadFx(fxEl, 'impact', fxs.base).then(prepFx) : null;
+      const pTr = fxs.on && fxs.travel && isRanged({ el: fxEl }) ? loadFx(fxEl, att === 'ally' ? 'travel_p2f' : 'travel_f2p', fxs.base).then(prepFx) : null;
+      await anim(aEl, att === 'ally' ? 'lunge-r' : 'lunge-l', 380); aEl.classList.add('idle');
+      if (pTr) { const tr = await showTravel(await pTr, box, aEl, dEl); if (tr) await tr.done; }
+      if (pImp) await showImpact(await pImp, box, dEl, side === 'ally'); // removes itself after the JSON total_ms
+      const r = dEl.getBoundingClientRect(), lr = this.layer.getBoundingClientRect();
+      const dmg = Math.max(1, Math.round((skill.power || 10) / 6 + Math.random() * 3));
+      const n = document.createElement('div'); n.className = 'b-dmg'; n.textContent = `-${dmg}`; n.style.cssText = `left:${r.left - lr.left + r.width / 2}px;top:${r.top - lr.top + 10}px`; this.layer.firstElementChild.appendChild(n);
+      await anim(dEl, 'hit', 520); dEl.classList.add('idle'); setTimeout(() => n.remove(), 600);
+      def.hp = Math.max(0, def.hp - dmg); setHp(side, def); await wait(700);
+    };
+    const showCmds = () => {
+      mode = 'cmd'; scr.sel = 0; const c = $('#b-cmds'); c.hidden = false; c.classList.remove('skills');
+      const cmds = [['Skills', 'battle', 'fire'], ['Pack', 'pack', 'earth'], ['Team', 'team', 'water'], ['Run', 'menu', 'wind']];
+      c.innerHTML = cmds.map(([t, g, el], i) => `<div class="b-cmd" data-i="${i}" data-el="${el}" data-pat="stripes"><span class="t">${t}</span></div>`).join('');
+      $('#b-msg').textContent = `What will ${ally.c.nickname || ally.sp.name} do?`; this._markSel(); this.fx?.cmdsIn(c);
+    };
+    const showSkills = () => {
+      mode = 'skills'; scr.sel = 0; const c = $('#b-cmds'); c.classList.add('skills');
+      c.innerHTML = skills.map((s, i) => `<div class="b-cmd" data-i="${i}" data-el="${s.el}" data-pat="${['stripes', 'dots', 'chevron', 'lattice'][i % 4]}"${tipAttr(s.name, `${ELEMENT_LABEL(s.el)} skill · Power ${s.power ?? '?'} · En ${s.en}/${s.enMax}`)}><span class="t">${esc(s.name)}</span><span class="s">${esc(ELEMENT_LABEL(s.el))} · En ${s.en}/${s.enMax}</span></div>`).join('');
+      this._markSel(); this.fx?.cmdsIn(c); this.fx?.tipSel();
+    };
+    const levelUp = async () => {
+      const xpB = $('#ally-xp > i'), xpBar = $('#ally-xp'); if (!this.fx?.fillBar(xpBar, 100)) xpB.style.width = '100%'; await wait(750);
+      ally.level++; this.layer.querySelector('.b-plate.ally .lv').textContent = `Lv.${ally.level}`;
+      if (!this.fx?.fillBar(xpBar, 18, { from: 0 })) { xpB.style.transition = 'none'; xpB.style.width = '0%'; void xpB.offsetWidth; xpB.style.transition = ''; xpB.style.width = '18%'; }
+      const r = $('#ally-mon').getBoundingClientRect(), lr = this.layer.getBoundingClientRect(); this.sparkle(r.left - lr.left + r.width / 2, r.top - lr.top + r.height / 2, 20, this.layer.firstElementChild);
+      $('#ally-mon').classList.add('idle');
+      const box = document.createElement('div'); box.className = 'plate b-lvup ui-pad';
+      box.innerHTML = `<b>${esc(ally.c.nickname || ally.sp.name)} grew to Lv.${ally.level}!</b><dl class="ui-kv"><dt>Health</dt><dd class="up">+3</dd><dt>Power</dt><dd class="up">+2</dd><dt>Guard</dt><dd class="up">+1</dd><dt>Speed</dt><dd class="up">+2</dd></dl>`;
+      this.layer.firstElementChild.appendChild(box); this.fx?.levelUpPop(box); // UI tools 2: anime.js timeline (CSS pop when not loaded)
+      await say(`${ally.c.nickname || ally.sp.name} grew to Lv.${ally.level}!`); box.remove();
+    };
+    const end = async () => { const fl = document.createElement('div'); fl.className = 'b-flash'; this.layer.firstElementChild.appendChild(fl); await wait(300); this.closeAll(); };
+    const script = async () => {
+      await wait(400); $('#foe-mon').classList.add('enter'); await wait(700); $('#foe-mon').classList.replace('enter', 'idle');
+      if (opts.levelUpOnly) { $('#ally-mon').classList.add('idle'); await levelUp(); await end(); return; }
+      await say(this.P('system_wild.grass', ['{creature} bursts out of the grass!'], { creature: foe.sp.name })[0]);
+      $('#ally-mon').classList.add('enter'); await wait(700); $('#ally-mon').classList.replace('enter', 'idle');
+      showCmds();
+    };
+    const turn = async (skill) => {
+      busy = true; $('#b-cmds').hidden = true;
+      await say(`${ally.c.nickname || ally.sp.name} used ${skill.name}!`, 500); skill.en = Math.max(0, skill.en - 1);
+      await hit('ally', foe, 'foe', skill);
+      if (foe.hp <= 0) {
+        await anim($('#foe-mon'), 'faint', 800); $('#foe-mon').style.opacity = '0';
+        await say(`${foe.sp.name} is out cold!`);
+        await levelUp(); await end(); return;
+      }
+      const fs = skillsFor(foeSp)[Math.floor(Math.random() * 2)];
+      await say(`${foe.sp.name} used ${fs.name}!`, 500); await hit('foe', ally, 'ally', fs);
+      busy = false; showCmds();
+    };
+    const holdCrystal = async () => { // scripted like ?battle=sd '-kcrystal' (Oct 22, 2026; SOUL_PLAYBOOK 5.3): no throw; the trainer holds the crystal up
+      busy = true; $('#b-cmds').hidden = true; const fm = $('#foe-mon');
+      const odds = 0.35 + 0.55 * (1 - foe.hp / foe.hpMax), caught = opts.forceChance != null ? !!opts.forceChance : Math.random() < odds;
+      const pulses = caught ? Math.max(1, Math.min(4, Math.round(1 + (1 - odds) * 3.4))) : 1 + Math.floor(Math.random() * 3); // fewer pulses when the odds are good
+      await say('You held up a Crystal.', 600);
+      await this.fx?.catchFx(this.layer.firstElementChild, { foe: fm, ally: $('#ally-mon'), name: foe.sp.name, pulses, caught, el: foe.sp.el?.[0] });
+      if (caught) {
+        fm.style.opacity = '0';
+        await say(`${foe.sp.name} is with you now!`); await end(); return;
+      }
+      fm.classList.add('idle'); await say(`${foe.sp.name} broke free!`);
+      const fs = skillsFor(foeSp)[Math.floor(Math.random() * 2)];
+      await say(`${foe.sp.name} used ${fs.name}!`, 500); await hit('foe', ally, 'ally', fs);
+      busy = false; showCmds();
+    };
+    scr.handle = ({ dir, a, b }) => {
+      if (mode === 'msg') { if ((a || b) && msgResolve) { const r = msgResolve; msgResolve = null; r(); } return; }
+      if (busy) return;
+      if (dir) { const d = { up: -2, down: 2, left: -1, right: 1 }[dir]; const n = scr.count(); const i = scr.sel + d; if (i >= 0 && i < n) { scr.sel = i; this._markSel(); this.fx?.tipSel(); } }
+      if (a) scr.onA(scr.sel); else if (b && mode === 'skills') showCmds();
+    };
+    scr.onA = async (i) => {
+      if (mode === 'msg') { if (msgResolve) { const r = msgResolve; msgResolve = null; r(); } return; }
+      if (busy) return;
+      if (mode === 'skills') { turn(skills[i]); return; }
+      if (i === 0) showSkills();
+      else if (i === 3) { busy = true; await say(this.P('system_wild.retreated', ['You slipped away.'])[0]); await end(); }
+      else if (i === 1 && !opts.trainer) holdCrystal(); // wild shell battles: Pack holds up a Crystal (catch celebration on success)
+      else { const m = $('#b-msg'); m.textContent = i === 1 ? 'The Pack opens in the full battle pass.' : 'Team swaps arrive in the full battle pass.'; }
+    };
+    scr.onAct = (a) => { if (a === 'msg' && msgResolve) { const r = msgResolve; msgResolve = null; r(); } };
+    scr.onBack = () => false;
+    return scr;
+  }
+  scr_levelup() { return this.scr_battle({ levelUpOnly: true }); }
+}
+
+/** Wild encounters (battles default v1): tall grass rolls encounters.json; the battle opens on the active battle screen
+ * (engine by default, the shell with ?battle=shell). Dev: ?enc=0 off, ?encrate=0..1 per-step chance (clips / tests). */
+function wireWild(ui, scene, q) {
+  if (q.get('enc') === '0' || !scene?.hooks) return;
+  const rate = q.has('encrate') ? Number(q.get('encrate')) : undefined;
+  const openBattle = (foe) => (ui.sdReady || Promise.resolve()).then(() => new Promise((res) => {
+    ui.closeAll(); ui.open('battle', { foe: foe.species, foeLevel: foe.level, biome: foe.biome });
+    const scr = ui.top; let out = null;
+    if (scr && ui.sdMod) scr.onDone = (r) => { out = r; };
+    ui._onClose = async () => { if (out?.systems === 'blackout') await scene.systems?.onPartyFainted(); res(out); };
+  }));
+  const artIds = new Set(SPECIES.map((s) => s.id)); // the battle's art lookup (data.js SPECIES -> battleSpriteRel); #62 filter, ?encart=0 off
+  ui.wild = installWildEncounters(scene, openBattle, { rate: Number.isFinite(rate) ? rate : undefined, blocked: () => !!ui.top,
+    hasArt: (id) => artIds.has(id), artFilter: q.get('encart') !== '0', dev: q.get('dev') === '1' || q.get('debug') === '1' });
+}
+
+export function mountUI(opts) {
+  const ui = new GameUI(opts);
+  const q = opts.params || new URLSearchParams(location.search);
+  const scene = opts.scene;
+  if (q.get('battle') === 'shell') { scene.hooks.onBattle = () => new Promise((res) => { ui.open('battle', { trainer: true }); ui._onClose = () => res(true); }); wireWild(ui, scene, q); }
+  const want = q.get('ui');
+  // Battles default v1 (Oct 23, 2026, Gary: "switch the dev build to the new battles"): the engine battle (src/battle/ui_sd.js)
+  // is the default; ?battle=shell keeps the old scripted shell (trainers always win) as the escape hatch.
+  const shell = q.get('battle') === 'shell';
+  if (!shell) wireWild(ui, scene, q); // wild encounters from tall grass (src/battle/encounters.js)
+  if (!shell) {
+    // trainers resolve won/lost from the engine result
+    const load = import('../battle/ui_sd.js').then((m) => { ui.sdMod = m; return m; });
+    ui.sdReady = load;
+    scene.hooks.onBattle = () => load.then(() => new Promise((res) => {
+      ui.open('battle', { trainer: true }); const scr = ui.top; let out = null;
+      scr.onDone = (r) => { out = r; }; ui._onClose = () => res(out ? out.outcome === 'win' : false);
+    }));
+    if (want === 'battle') { load.then(() => ui.open('battle', { trainer: q.get('trainer') === '1' })); return ui; }
+  }
+  // Dev/test hook (Oct 22, 2026): ?ui=evolve&from=cindrip[&to=..][&cancel=1] plays the Animator evolution FX (no evolution flow exists yet)
+  if (want === 'evolve') { ui.evolveDone = Promise.resolve().then(() => ui.fx?.evolveFx({ from: q.get('from') || 'cindrip', to: q.get('to') || undefined, cancel: q.get('cancel') === '1' })); return ui; }
+  const titleOnBoot = (ui.cfg.titleOnBoot !== false) && (q.get('title') === '1' || (q.get('title') !== '0' && !q.has('reset')));
+  if (want === 'phone' || want === 'title' || titleOnBoot) ui.open(want === 'phone' ? 'phone' : 'title');
+  // ALPHA build: first-launch notice (remembered in localStorage kilumen_alpha_notice_seen.v1).
+  if (!noticeSeen()) setTimeout(() => ui.ask('title', [ALPHA_NOTICE], ['Got it'], { pat: 'sparkle' }).then(markNoticeSeen), 300);
+  else if (want) { if (!['battle', 'levelup'].includes(want)) ui.open('phone'); ui.open(want); }
+  return ui;
+}

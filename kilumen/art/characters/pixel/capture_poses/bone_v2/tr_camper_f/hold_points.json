@@ -1,0 +1,1 @@
+{"char_id":"tr_camper_f","anim":"capture_trainer","frames":["raise","hold"],"frame_w":84,"frame_h":128,"hold_px":[[8,61],[4,39]],"hold_px_by_frame":{"raise":[8,61],"hold":[4,39]},"pad":{"left":10,"right":10,"top":0,"bottom":0},"status":"draft, awaiting Gary"}

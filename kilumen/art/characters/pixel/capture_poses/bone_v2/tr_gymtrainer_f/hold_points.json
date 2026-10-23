@@ -1,0 +1,1 @@
+{"char_id":"tr_gymtrainer_f","anim":"capture_trainer","frames":["raise","hold"],"frame_w":80,"frame_h":128,"hold_px":[[6,55],[2,34]],"hold_px_by_frame":{"raise":[6,55],"hold":[2,34]},"pad":{"left":8,"right":8,"top":0,"bottom":0},"status":"draft, awaiting Gary"}

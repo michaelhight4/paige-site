@@ -1,0 +1,1 @@
+{"char_id":"mira","anim":"capture_player","frames":["raise","hold","hold_strain","lowered"],"frame_w":64,"frame_h":96,"hold_px":[[59,49],[57,34],[57,35],[46,64]],"hold_px_by_frame":{"raise":[59,49],"hold":[57,34],"hold_strain":[57,35],"lowered":[46,64]},"pad":{"left":0,"right":0,"top":0,"bottom":0},"status":"draft, awaiting Gary"}

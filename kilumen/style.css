@@ -1,0 +1,96 @@
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; overscroll-behavior: none; }
+/* The canvas backing store is sized in device pixels by JS; CSS keeps it 1:1 with the viewport. */
+#world { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block;
+  image-rendering: pixelated; image-rendering: crisp-edges; touch-action: none; }
+#toast { position: fixed; left: 50%; bottom: var(--toast-bottom, 6vh); transform: translateX(-50%); max-width: min(90vw, 900px);
+  padding: 14px 22px; border: 3px solid #f4ecd8; border-radius: 6px; background: #1a1226; color: #fffaf0;
+  font: 600 clamp(16px, 2.2vh, 30px)/1.35 system-ui, sans-serif; box-shadow: 0 4px 0 #000; z-index: 3; white-space: pre-line; }
+/* Toast while a dialogue is open (profile hud.toastDuringDialog; dialog.js placeToast sets bottom/left/max-width): over the box in z. */
+body.dlg-toast-lift #toast { z-index: 5; padding: var(--toast-dlg-pad, 14px 22px); font-size: var(--toast-dlg-font, clamp(16px, 2.2vh, 30px)); }
+#touchpad { position: fixed; inset: auto 0 0 0; height: 0; z-index: 2; user-select: none; -webkit-user-select: none; touch-action: none; }
+/* Touch layout numbers come ONLY from src/platform/mobile.json (src/platform.js sets the --tp-* and --safe-* vars). */
+#touchpad .dpad { position: fixed; left: calc(var(--tp-dpad-left) + var(--safe-left)); bottom: calc(var(--tp-dpad-bottom) + var(--safe-bottom));
+  width: var(--tp-dpad-size); height: var(--tp-dpad-size); display: grid;
+  grid-template: repeat(3, var(--tp-dpad-cell)) / repeat(3, var(--tp-dpad-cell)); }
+#touchpad button { border: 2px solid rgba(255,255,255,.55); background: rgba(26,18,38,.55); color: #fff; font-size: 22px;
+  border-radius: 10px; touch-action: none; }
+#touchpad [data-dir=up] { grid-area: 1 / 2; } #touchpad [data-dir=left] { grid-area: 2 / 1; }
+#touchpad [data-dir=right] { grid-area: 2 / 3; } #touchpad [data-dir=down] { grid-area: 3 / 2; }
+#touchpad .btns { position: fixed; right: calc(var(--tp-btns-right) + var(--safe-right)); bottom: calc(var(--tp-btns-bottom) + var(--safe-bottom));
+  display: flex; gap: var(--tp-btns-gap); align-items: end; }
+#touchpad [data-btn=a], #touchpad [data-btn=b] { width: var(--tp-ab-size); height: var(--tp-ab-size); border-radius: 50%; font-weight: 700; }
+#touchpad .small { width: var(--tp-small-w); height: var(--tp-small-h); font-size: 13px; }
+/* Touch controls hidden while a dialogue is open (profile controls.hideDuringDialog; dialog.js toggles tp-hide-<name> on body).
+   tp-list-dpad (controls.showDpadForLists) brings d-pad up/down back while a choice / inbox list is open. Layout never shifts. */
+#touchpad .dpad button, #touchpad [data-btn=select], #touchpad [data-btn=debug] { transition: opacity var(--tp-fade, 150ms) ease-out, visibility 0s; }
+body.tp-hide-dpad #touchpad .dpad button, body.tp-hide-sel #touchpad [data-btn=select], body.tp-hide-dbg #touchpad [data-btn=debug] {
+  opacity: 0; visibility: hidden; pointer-events: none; transition: opacity var(--tp-fade, 150ms) ease-out, visibility 0s var(--tp-fade, 150ms); }
+body.tp-hide-dpad.tp-list-dpad #touchpad [data-dir=up], body.tp-hide-dpad.tp-list-dpad #touchpad [data-dir=down] {
+  opacity: 1; visibility: visible; pointer-events: auto; transition: opacity var(--tp-fade, 150ms) ease-out, visibility 0s; }
+/* controls.tapDialog: the box is tappable (A) and list rows pick themselves (dialog.js). */
+body.dlg-tap .dlg-box { pointer-events: auto; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
+/* Touch e2e (Oct 22, 2026, tests/touch_e2e.mjs): phones (body.touch-ui) get no page pan / pinch / double-tap zoom, no selection,
+   no long-press callout or tap flash anywhere; SEL / DBG (36px tall) get a 44px hit area without changing how they look. */
+html:has(> body.touch-ui), body.touch-ui { touch-action: none; }
+body.touch-ui { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+body.touch-ui #touchpad button { position: relative; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+body.touch-ui #touchpad .small::after { content: ''; position: absolute; left: 0; right: 0; top: min(0px, calc(50% - 22px)); bottom: min(0px, calc(50% - 22px)); }
+@media (prefers-reduced-motion: reduce) { #touchpad .dpad button, #touchpad [data-btn=select], #touchpad [data-btn=debug] { transition: none !important; } }
+/* Dialogue box (src/overworld/dialog.js). Text #fffaf0 on #1a1226 = 17:1; muted #cbbfe0 = 10:1 (checklist >= 4.5 / 3). */
+.dlg-wrap { position: fixed; inset: 0; z-index: 4; pointer-events: none; opacity: 0; transition: opacity 120ms ease-out; }
+.dlg-wrap.open { opacity: 1; }
+/* Dialogue bottom = the platform profile's hud.dialogBottom (pc 4vh; mobile clears the d-pad). */
+.dlg-box { position: absolute; left: 50%; bottom: var(--dlg-bottom, 4vh); transform: translateX(-50%); width: min(92vw, 980px); min-height: 6.2em;
+  box-sizing: border-box; padding: 18px 26px 22px; border: 4px solid #f4ecd8; border-radius: 8px; background: #1a1226; color: #fffaf0;
+  font: 600 clamp(17px, 2.6vh, 34px)/1.45 system-ui, sans-serif; box-shadow: 0 5px 0 #000; }
+.dlg-wrap.has-portrait .dlg-box { padding-left: var(--dlg-pad-left, clamp(150px, 24vh, 330px)); }
+.dlg-name { display: inline-block; margin: -40px 0 8px -6px; padding: 2px 14px; background: #f4ecd8; color: #1a1226; border-radius: 6px; font-size: .8em; }
+.dlg-text { white-space: pre-line; max-width: 40ch; }
+.dlg-more { position: absolute; right: 18px; bottom: 8px; font-size: .7em; animation: dlg-bob 900ms steps(2) infinite; }
+.dlg-portrait { position: absolute; left: max(4vw, calc(50% - 490px)); bottom: var(--dlg-portrait-bottom, 4vh); height: var(--dlg-portrait-height, clamp(220px, 36vh, 500px)); width: auto; z-index: 1;
+  max-width: var(--dlg-portrait-max-w, none); object-fit: contain; object-position: left bottom; filter: drop-shadow(0 4px 0 #000); }
+/* Battle image bottom = the profile's hud.battleBottom via --dlg-battle-bottom (pc: unset = the old portrait-bottom + 7.5em). */
+.dlg-battle { position: absolute; right: max(5vw, calc(50% - 470px)); bottom: var(--dlg-battle-bottom, calc(var(--dlg-portrait-bottom, 4vh) + 7.5em)); image-rendering: pixelated; image-rendering: crisp-edges; }
+.dlg-battle.over-box { z-index: 2; } /* mobile hud.battleImage fallback when the strip above the box is too short (dialog.js) */
+.dlg-list { list-style: none; margin: 4px 0 0; padding: 0; }
+.dlg-list li { padding: 2px 8px 2px 30px; border-radius: 4px; position: relative; }
+.dlg-list li.sel { background: #f4ecd8; color: #1a1226; }
+.dlg-list li.sel::before { content: '\25B6'; position: absolute; left: 8px; font-size: .75em; top: .35em; }
+.dlg-list .sub { margin-left: .8em; font-size: .78em; color: #cbbfe0; }
+.dlg-list li.sel .sub { color: #3d2f52; }
+.new-dot { display: inline-block; width: .55em; height: .55em; margin-right: .5em; border-radius: 50%; background: #ffd23f;
+  box-shadow: 0 0 8px #ffb000; vertical-align: .1em; }
+@keyframes dlg-bob { 50% { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .dlg-wrap { transition: none; } .dlg-more { animation: none; } .new-dot { box-shadow: none; } }
+
+/* Landscape-only play (Gary, Oct 22, 2026): platforms whose profile says orientation "landscape" (mobile.json; body.landscape-only)
+   get a "turn sideways" screen when held upright. */
+#rotate{display:none}
+@media (orientation:portrait){
+  body.landscape-only #rotate{display:flex;position:fixed;inset:0;z-index:1000;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;background:#0b0d1a;color:#f4efe2;font:600 20px/1.3 system-ui,sans-serif;text-align:center;touch-action:none}
+  body.landscape-only #rotate .rot-sub{font-weight:400;font-size:15px;color:#c9c3d8;margin:0}
+  body.landscape-only #rotate p{margin:0}
+  body.landscape-only #rotate .rot-phone{width:56px;height:96px;border:4px solid #f4efe2;border-radius:12px;animation:rotHint 2.4s ease-in-out infinite}
+  body.landscape-only #touchpad,body.landscape-only #world{visibility:hidden}
+}
+@keyframes rotHint{0%,25%{transform:rotate(0)}55%,85%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+@media (prefers-reduced-motion:reduce){#rotate .rot-phone{animation:none;transform:rotate(-90deg)}}
+/* Touch dialogue lift (Text Bot's 844x390 check, Oct 22, 2026) now lives in src/platform/mobile.json hud.dialogBottom /
+   dialogBottomRules (200px, 180px at max-height 340px) and reaches .dlg-box through --dlg-bottom. */
+/* Mobile full screen pass (Oct 23, 2026; Gary: "make sure the mobile version uses the whole screen"). body.platform-mobile only
+   (src/platform.js), so pc is pixel-identical. 100dvh follows the visible viewport as the browser bars slide (100vh fallback);
+   overworld.js sizes the backing store from this box (mobile.json display.fitCanvas). The art runs edge to edge under the notch
+   and home bar (viewport-fit=cover); touch controls / HUD keep clear through the --safe-* insets. */
+html:has(> body.platform-mobile), body.platform-mobile { height: 100vh; height: 100dvh; background: #1a1226; }
+body.platform-mobile #world { width: 100vw; height: 100vh; height: 100dvh; }
+/* One-tap full screen chip (src/fullscreen.js, mobile.json display.fullscreenButton): in the free strip right of the d-pad,
+   hidden with the d-pad (dialogue / menus), in full screen and when launched from the home screen. */
+#fs-btn { position: fixed; z-index: 2; left: calc(var(--safe-left, 0px) + var(--tp-dpad-left, 18px) + var(--tp-dpad-size, 174px) + 14px);
+  bottom: calc(var(--safe-bottom, 0px) + 18px); width: 44px; height: 36px; padding: 0; border: 2px solid rgba(255,255,255,.55);
+  border-radius: 10px; background: rgba(26,18,38,.55); color: #fff; font: 700 18px/1 system-ui, sans-serif; touch-action: none;
+  -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+#fs-btn[hidden], body.tp-hide-dpad #fs-btn { display: none; }
+@media (display-mode: fullscreen), (display-mode: standalone) { #fs-btn { display: none; } }
+
+/* ALPHA build: the debug overlay is off, so its touch button never shows. */
+#touchpad [data-btn=debug] { display: none !important; }

@@ -1,0 +1,243 @@
+{
+ "id": "mobile",
+ "zoom": {
+  "breakpoints": [
+   {
+    "minHeight": 0,
+    "zoom": 1
+   },
+   {
+    "minHeight": 600,
+    "zoom": 2
+   },
+   {
+    "minHeight": 1440,
+    "zoom": 3
+   },
+   {
+    "minHeight": 1920,
+    "zoom": 4
+   },
+   {
+    "minHeight": 2400,
+    "zoom": 5
+   },
+   {
+    "minHeight": 2880,
+    "zoom": 6
+   }
+  ]
+ },
+ "camera": {
+  "follow": "player_tile_centre",
+  "deadzonePx": {
+   "x": 0,
+   "y": 0
+  },
+  "clampToMapEdges": true,
+  "smallMapAxis": "centre",
+  "pinShortMaps": {
+   "enabled": true,
+   "slackTiles": 1.6
+  }
+ },
+ "hud": {
+  "dialogBottom": "calc(200px + var(--safe-bottom))",
+  "dialogBottomRules": [
+   {
+    "media": "(max-height: 340px)",
+    "dialogBottom": "calc(180px + var(--safe-bottom))"
+   }
+  ],
+  "dialogPortraitBottom": "calc(200px + var(--safe-bottom))",
+  "dialogFull": {
+   "marginPx": 8,
+   "gapPx": 8,
+   "topMarginPx": 4,
+   "minWidthPx": 560,
+   "listMinWidthPx": 420,
+   "maxWidthPx": 980
+  },
+  "dialogPortraitHeight": "clamp(200px, 56vh, 260px)",
+  "dialogPortraitMaxWidth": "180px",
+  "dialogPadLeft": "192px",
+  "battleImage": {
+   "fit": "aboveDialog",
+   "align": "boxRight",
+   "insetPx": 8,
+   "gapPx": 6,
+   "topMarginPx": 4,
+   "minScale": 2,
+   "maxScale": 5,
+   "maxHeightFrac": 0.5
+  },
+  "toastDuringDialog": {
+   "gapPx": 6,
+   "topMarginPx": 4,
+   "fontSize": "14px",
+   "padding": "5px 12px"
+  },
+  "toastBottom": "calc(200px + var(--safe-bottom))",
+  "toastBottomRules": [
+   {
+    "media": "(max-height: 340px)",
+    "toastBottom": "calc(180px + var(--safe-bottom))"
+   }
+  ],
+  "battleBottom": "calc(200px + var(--safe-bottom))",
+  "battleBottomRules": [
+   {
+    "media": "(max-height: 340px)",
+    "battleBottom": "calc(180px + var(--safe-bottom))"
+   }
+  ]
+ },
+ "display": {
+  "fitCanvas": true,
+  "outsideMap": "edge",
+  "edgeShade": "rgba(26,18,38,0.55)",
+  "fullscreenButton": true,
+  "iosHint": "For full screen on iPhone: tap Share, then Add to Home Screen, and play from the icon."
+ },
+ "controls": {
+  "touch": true,
+  "orientation": "landscape",
+  "hideDuringDialog": [
+   "dpad",
+   "sel",
+   "dbg"
+  ],
+  "showDpadForLists": true,
+  "tapDialog": true,
+  "dialogFadeMs": 150,
+  "inputs": [
+   "touch",
+   "controller"
+  ],
+  "safeArea": {
+   "top": "env(safe-area-inset-top, 0px)",
+   "right": "env(safe-area-inset-right, 0px)",
+   "bottom": "env(safe-area-inset-bottom, 0px)",
+   "left": "env(safe-area-inset-left, 0px)"
+  },
+  "touchLayout": {
+   "dpad": {
+    "size": 174,
+    "left": 18,
+    "bottom": 18
+   },
+   "buttons": {
+    "right": 22,
+    "bottom": 30,
+    "gap": 14
+   },
+   "ab": {
+    "size": 76
+   },
+   "small": {
+    "width": 56,
+    "height": 36,
+    "labels": [
+     "SEL",
+     "DBG"
+    ]
+   }
+  },
+  "prompts": {
+   "touch": {
+    "run_button": {
+     "glyph": "btn_b",
+     "label": "the B button"
+    },
+    "bike_button": {
+     "glyph": "btn_select",
+     "label": "the SEL button"
+    },
+    "confirm_button": {
+     "glyph": "btn_a",
+     "label": "the A button"
+    },
+    "debug": {
+     "glyph": "btn_dbg",
+     "label": "the DBG button"
+    }
+   }
+  }
+ },
+ "ui": {
+  "vars": {
+   "font": "14px",
+   "hud-font": "13px",
+   "family": "ui-rounded, \"Nunito\", \"Trebuchet MS\", system-ui, sans-serif",
+   "inset-top": "calc(6px + var(--safe-top, 0px))",
+   "inset-left": "calc(10px + var(--safe-left, 0px))",
+   "inset-right": "calc(200px + var(--safe-right, 0px))",
+   "inset-bottom": "calc(6px + var(--safe-bottom, 0px))",
+   "max-w": "none",
+   "gap": "8px",
+   "pad": "10px",
+   "row-h": "44px",
+   "hit": "44px",
+   "tile-h": "92px",
+   "badge": "46px",
+   "icon": "48px",
+   "app-cols": "4",
+   "team-cols": "2",
+   "card-h": "78px",
+   "dex-cols": "4",
+   "dex-h": "84px",
+   "dex-sprite": "1",
+   "bar-h": "10px",
+   "logo": "64px",
+   "menu-btn": "48px",
+   "hud-edge": "10px",
+   "b-plate-w": "250px",
+   "b-bottom-h": "max(30%, 126px)",
+   "b-msg-skills": "none"
+  },
+  "spriteScale": [
+   {
+    "minHeight": 0,
+    "scale": 1
+   }
+  ],
+  "menuKeys": [
+   "Escape",
+   "KeyM"
+  ],
+  "menuPadButton": 9,
+  "menuButton": "round",
+  "hideTouchDuringUI": [
+   "dpad",
+   "sel",
+   "dbg"
+  ],
+  "titleOnBoot": true,
+  "locationBanner": true,
+  "bannerMs": 2400,
+  "interactPrompt": true,
+  "haptics": true
+ },
+ "audio": {
+  "master": 0.9,
+  "music": 0.3,
+  "sfx": 0.5,
+  "muted": false,
+  "crossfadeMs": 1000,
+  "blip": true,
+  "blipEveryChars": 4,
+  "unlockOn": [
+   "touchend",
+   "pointerup",
+   "mousedown",
+   "keydown"
+  ],
+  "pauseWhenHidden": true
+ },
+ "nightFx": {
+  "lightCell": 8,
+  "clouds": true,
+  "flicker": true,
+  "windowsGoDark": 0.4
+ }
+}

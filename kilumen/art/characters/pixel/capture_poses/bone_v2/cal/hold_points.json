@@ -1,0 +1,1 @@
+{"char_id":"cal","anim":"capture_player","frames":["raise","hold","hold_strain","lowered"],"frame_w":68,"frame_h":96,"hold_px":[[63,46],[61,30],[61,31],[48,63]],"hold_px_by_frame":{"raise":[63,46],"hold":[61,30],"hold_strain":[61,31],"lowered":[48,63]},"pad":{"left":2,"right":2,"top":0,"bottom":0},"status":"draft, awaiting Gary"}

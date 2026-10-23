@@ -1,0 +1,543 @@
+THIRD-PARTY LICENSES: Kilumen
+==============================
+
+Third-party code in this repository and the licence each comes under. Each library also keeps its own LICENSE file
+next to its code. Kilumen's own code and content are not covered here.
+
+Sections are per owner, so other workers can add theirs without overwriting this file:
+  - "Libs pass (Oct 22, 2026)": src/vendor/* (shipped to players) and dev-only test tools.
+  - "Battle engine (Oct 22, 2026)": vendor/battle-sim, built to src/battle/engine.js (see that section below).
+  - "UI tools pass (Oct 22, 2026)": lil-gui (dev panel, ?dev=1 only), lrud-spatial, SortableJS, Kenney CC0 placeholders.
+
+################################################################################
+# Libs pass (Oct 22, 2026): shipped in the game (src/vendor)
+################################################################################
+
+--------------------------------------------------------------------------------
+howler.js 2.2.4
+Where: src/vendor/howler/ (howler.esm.js = verbatim howler.core.min.js inside a small ES module wrapper)
+Licence: MIT
+Source: https://github.com/goldfire/howler.js
+--------------------------------------------------------------------------------
+Copyright (c) 2013-2020 James Simpson and GoldFire Studios, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------------------
+ZzFX 1.4.0 (ZzFX.js)
+Where: src/vendor/zzfx/ (verbatim ZzFX.js ES module)
+Licence: MIT
+Source: https://github.com/KilledByAPixel/ZzFX
+--------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2019 Frank Force
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+idb-keyval 6.3.0
+Where: src/vendor/idb-keyval/ (verbatim dist/index.js ES module)
+Licence: Apache-2.0
+Source: https://github.com/jakearchibald/idb-keyval
+--------------------------------------------------------------------------------
+Copyright 2016, Jake Archibald
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--------------------------------------------------------------------------------
+easystar.js 0.4.4
+Where: src/vendor/easystar/ (easystar.esm.js = verbatim easystar-0.4.4.min.js plus one export line)
+Licence: MIT
+Source: https://github.com/prettymuchbryce/easystarjs
+--------------------------------------------------------------------------------
+The MIT License (MIT)
+
+Copyright (c) 2012-2020 Bryce Neal
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+Bundled inside easystar-0.4.4.min.js: heap 0.2.7 (binary heap). Its npm package metadata says MIT. Its repository
+LICENSE file has NOT been read yet (UNVERIFIED). Check it before release.
+
+Apache-2.0 note (idb-keyval): the full licence text is at https://www.apache.org/licenses/LICENSE-2.0. The npm package
+(idb-keyval@6.3.0) has no NOTICE file. The copy in src/vendor/idb-keyval is unmodified.
+
+################################################################################
+# Libs pass (Oct 22, 2026): dev only (tests), NOT shipped to players
+################################################################################
+
+--------------------------------------------------------------------------------
+fast-check 4.10.2
+Where: devDependencies (package.json), used by tests/save_props.test.mjs
+Licence: MIT
+Source: https://github.com/dubzzz/fast-check
+--------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2017 Nicolas DUBIEN
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+pure-rand 8.4.2 (dependency of fast-check)
+Where: devDependencies (package.json), used by tests/save_props.test.mjs
+Licence: MIT
+Source: https://github.com/dubzzz/pure-rand
+--------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2018 Nicolas DUBIEN
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+################################################################################
+# Battle engine (Oct 22, 2026): shipped behind ?battle=sd (src/battle/engine.js)
+################################################################################
+
+--------------------------------------------------------------------------------
+Kilumen battle engine: modified fork of @pkmn/sim 0.10.11 (pkmn/ps commit 4fec887), which is the
+Pokemon Showdown simulator repackaged by the pkmn project.
+Where: vendor/battle-sim/ (TypeScript source, LICENSE, LICENSE.pkmn, CHANGES.md), built to src/battle/engine.js
+(the bundle banner carries both notices below).
+Licence: MIT (both)
+Source: https://github.com/smogon/pokemon-showdown  /  https://github.com/pkmn/ps  /  https://www.npmjs.com/package/@pkmn/sim
+Modified: yes. All species / move / ability / item / format data, names, text and sprites removed; Kilumen rules added.
+See vendor/battle-sim/CHANGES.md.
+--------------------------------------------------------------------------------
+The MIT License (MIT)
+
+Copyright (c) 2011-2026 Guangcong Luo and other contributors http://pokemonshowdown.com/
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------------------
+(pkmn repackaging, same fork)
+--------------------------------------------------------------------------------
+Copyright (c) 2020-2026 pkmn contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+################################################################################
+# UI tools pass (Oct 22, 2026): src/vendor (UI) + art/ui/kenney_placeholder
+################################################################################
+
+--------------------------------------------------------------------------------
+lil-gui 0.21.0
+Where: src/vendor/lil-gui/ (lil-gui.esm.min.js, verbatim from the npm package). Loaded ONLY by src/ui/devpanel.js,
+       which is only imported with ?dev=1 (or the dev-only "Tuning panel" row). Not loaded in normal play.
+Licence: MIT (checked against the package's LICENSE file)
+Source: https://github.com/georgealways/lil-gui
+--------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2019 George Michael Brower
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+lrud-spatial 0.0.18 (@bbc/tv-lrud-spatial)
+Where: src/vendor/lrud-spatial/lrud.js (verbatim ES module). Spatial arrow / d-pad navigation in the menus.
+Licence: Apache-2.0 (full text in src/vendor/lrud-spatial/LICENSE; the npm tarball has no LICENSE, so it was taken from
+         the repository's master branch: the package.json "license" field also says Apache-2.0). No NOTICE file upstream.
+Source: https://github.com/bbc/lrud-spatial
+--------------------------------------------------------------------------------
+Author: BBC (package.json "author"). Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+
+--------------------------------------------------------------------------------
+SortableJS 1.15.7
+Where: src/vendor/sortablejs/sortable.esm.min.js = the package's modular core (modular/sortable.core.esm.js) with the
+       Swap and AutoScroll plugins mounted, minified with esbuild. Drag-to-reorder on Team and the Field Archive.
+Licence: MIT (the npm tarball has no LICENSE file; text taken from the GitHub repository, tag 1.15.7 / master)
+Source: https://github.com/SortableJS/Sortable
+--------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2019 All contributors to Sortable
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+Kenney "Input Prompts" (1.5A) and "Game Icons": a few PNGs, used as PLACEHOLDERS
+Where: art/ui/kenney_placeholder/ (keyboard / Xbox glyphs in menu hints, icons in empty states; see its README.md)
+Licence: CC0 1.0 (public domain dedication). Credit is optional; the licence files are kept next to the art.
+Source: https://kenney.nl/assets/input-prompts , https://kenney.nl/assets/game-icons
+Note: Kenney's "Game Icons" is NOT the CC-BY game-icons.net set; nothing from game-icons.net is used.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+AutoAnimate (@formkit/auto-animate) 0.10.0
+Where: src/vendor/auto-animate/auto-animate.min.js = the package's own index.min.js (unmodified, banner line added).
+       Lazy-loaded by src/ui/ui_tools2.js for menu / list moves (Team, Archive, Pack, Shop, ask() choices). Never loaded
+       when motion is reduced.
+Licence: MIT (LICENSE in the npm tarball, matches the GitHub repo LICENSE)
+Source: https://github.com/formkit/auto-animate , https://registry.npmjs.org/@formkit/auto-animate/-/auto-animate-0.10.0.tgz
+--------------------------------------------------------------------------------
+Copyright 2022 FormKit Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------------------
+Floating UI (@floating-ui/dom 1.8.0 + @floating-ui/core 1.8.0 + @floating-ui/utils 0.2.12)
+Where: src/vendor/floating-ui/floating-ui.dom.bundle.min.mjs = the three packages bundled + minified with esbuild (the
+       dom build imports core/utils by bare name, which a zero-build page cannot resolve). Lazy-loaded for tooltips.
+Licence: MIT (same LICENSE text in all three npm tarballs and the GitHub repo)
+Source: https://github.com/floating-ui/floating-ui , https://registry.npmjs.org/@floating-ui/dom/-/dom-1.8.0.tgz
+--------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2021 Floating UI contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+anime.js 4.5.0 (stable; 5.0.0-beta.2 was not used)
+Where: src/vendor/animejs/anime.ui.min.mjs = tree-shaken esbuild bundle of animate, createTimeline, stagger, utils from
+       the npm tarball. Lazy-loaded by the default battle shell (scr_battle in src/ui/ui.js) for menu, HP and level-up
+       transitions. Never loaded when motion is reduced.
+Licence: MIT (LICENSE.md in the npm tarball, matches the GitHub repo)
+Source: https://github.com/juliangarnier/anime , https://registry.npmjs.org/animejs/-/animejs-4.5.0.tgz
+--------------------------------------------------------------------------------
+The MIT License
+
+Copyright (c) 2025 Julian Garnier
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------------------
+pixelarticons 2.4.2 (32-icon subset)
+Where: src/vendor/pixelarticons/icons.js = path data for 32 of the 1036 SVGs, generated by
+       vendor_staging/ui/pixelarticons/make_subset.mjs (fill=currentColor). Menu / tab / empty-state / Options icons.
+Licence: MIT (LICENSE in the npm tarball, matches the GitHub repo)
+Source: https://github.com/halfmage/pixelarticons , https://registry.npmjs.org/pixelarticons/-/pixelarticons-2.4.2.tgz
+--------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) 2019 Gerrit Halfmann
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+Kenney "UI Pack 2.0" (12-06-2024) and "UI Pack - Pixel Adventure 2.0" (04/09/2024): 6 PNGs, used as PLACEHOLDERS
+Where: art/ui/kenney_ui_placeholder/ (Options slider + checkbox from UI Pack 2.0; the cream 9-slice tooltip panel from
+       Pixel Adventure; see its README.md). Replace when final UI art lands.
+Licence: CC0 1.0 (public domain dedication), per each pack's License.txt (kept next to the art). Credit is optional.
+Source: https://kenney.nl/assets/ui-pack , https://kenney.nl/assets/ui-pack-pixel-adventure
+--------------------------------------------------------------------------------
+
+================================================================================
+Online play groundwork (Oct 22, 2026; DRAFT, only loaded with ?online=1)
+================================================================================
+
+obscenity 0.4.6
+Where: src/vendor/obscenity/obscenity.mjs (one-file ES module bundled with esbuild from the npm package dist/,
+       vendor_staging/obscenity; includes its English word dataset). Used by src/online/filter.js.
+Licence: MIT (repo LICENSE read)
+Source: https://github.com/jo3-l/obscenity , https://registry.npmjs.org/obscenity/-/obscenity-0.4.6.tgz
+
+# The MIT License (MIT)
+
+Copyright © 2025 Joseph Liu.
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the “Software”), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------------------
+@supabase/supabase-js 2.118.0
+Where: src/vendor/supabase-js/supabase.js (verbatim dist/umd/supabase.js). Only loaded by src/online/supabase_transport.js
+       when a Supabase URL + publishable key are configured at runtime (never in git).
+Licence: MIT. The UMD bundle also contains auth-js, realtime-js, postgrest-js, storage-js and functions-js 2.118.0 from the
+         same monorepo (MIT per npm). Their individual LICENSE files have NOT been read yet (UNVERIFIED); check before release.
+Source: https://github.com/supabase/supabase-js , https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.118.0.tgz
+
+MIT License
+
+Copyright (c) 2020 Supabase
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+Evaluated for online play, NOT used or vendored: colyseus 0.18.10 (MIT), boardgame.io 0.50.2 (MIT). See docs/online_play_plan.md.
+--------------------------------------------------------------------------------
+DRAFT audio (Oct 22, 2026, wave 2): audio/music/kil_draft_{town,route,battle}.{ogg,m4a} and audio/sfx/kil_sfx_draft.{ogg,m4a}
+are ORIGINAL Kilumen works (our own scores in tools/audio/songs.mjs and our own sound parameters in tools/audio/make_sfx.mjs).
+They were rendered with tools that are NOT shipped and are not in src/: BeepBox 4.2.0 (MIT, (c) 2012-2024 John Nesky and
+contributing authors), jsfxr 1.4.1 (Unlicense / public domain) and ffmpeg (encoder). No third-party code or samples are
+inside these files. Playback uses howler.js 2.2.4 (MIT, listed above).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Valibot 1.5.0
+Where: src/vendor/valibot/valibot.min.js = the subset of valibot 1.5.0 used by src/overworld/save_schema.js (save-file
+       validation), bundled and minified with esbuild from src/vendor/valibot/entry.mjs (see the README there). ~2.3 KB gzip.
+Licence: MIT (src/vendor/valibot/LICENSE and LICENSE.md, from the npm tarball)
+Source: https://github.com/fabian-hiller/valibot , https://registry.npmjs.org/valibot/-/valibot-1.5.0.tgz
+--------------------------------------------------------------------------------
+MIT License
+
+Copyright (c) Fabian Hiller
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------------------
+stats.js 0.17.0 (DEBUG ONLY)
+Where: src/vendor/stats.js/stats.min.js, verbatim build/stats.min.js from the npm package. Loaded only by
+       src/debug_perf.js when the URL has ?debug=perf; normal play never downloads it.
+Licence: MIT (src/vendor/stats.js/LICENSE, from the npm tarball)
+Source: https://github.com/mrdoob/stats.js , https://registry.npmjs.org/stats.js/-/stats.js-0.17.0.tgz
+--------------------------------------------------------------------------------
+The MIT License
+
+Copyright (c) 2009-2016 stats.js authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

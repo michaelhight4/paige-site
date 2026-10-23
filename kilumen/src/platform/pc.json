@@ -1,0 +1,201 @@
+{
+ "id": "pc",
+ "zoom": {
+  "zoom1440p": 3,
+  "breakpoints": [
+   {
+    "minHeight": 0,
+    "zoom": 1
+   },
+   {
+    "minHeight": 600,
+    "zoom": 2
+   },
+   {
+    "minHeight": 1440,
+    "zoom": "zoom1440p"
+   },
+   {
+    "minHeight": 1920,
+    "zoom": 4
+   },
+   {
+    "minHeight": 2400,
+    "zoom": 5
+   },
+   {
+    "minHeight": 2880,
+    "zoom": 6
+   },
+   {
+    "minHeight": 3360,
+    "zoom": 7
+   },
+   {
+    "minHeight": 3840,
+    "zoom": 8
+   },
+   {
+    "minHeight": 4320,
+    "zoom": 9
+   }
+  ]
+ },
+ "camera": {
+  "follow": "player_tile_centre",
+  "deadzonePx": {
+   "x": 0,
+   "y": 0
+  },
+  "clampToMapEdges": true,
+  "smallMapAxis": "centre",
+  "pinShortMaps": {
+   "enabled": false,
+   "slackTiles": 1.6
+  }
+ },
+ "hud": {
+  "dialogBottom": "4vh",
+  "dialogBottomRules": [],
+  "dialogPortraitBottom": "4vh",
+  "toastBottom": "6vh",
+  "toastDuringDialog": {
+   "gapPx": 12,
+   "topMarginPx": 8
+  }
+ },
+ "controls": {
+  "touch": false,
+  "orientation": "any",
+  "inputs": [
+   "keyboard",
+   "mouse",
+   "controller"
+  ],
+  "prompts": {
+   "keyboard": {
+    "run_button": {
+     "glyph": "key_x",
+     "label": "the X key"
+    },
+    "bike_button": {
+     "glyph": "key_c",
+     "label": "the C key"
+    },
+    "confirm_button": {
+     "glyph": "key_z",
+     "label": "the Z key"
+    },
+    "debug": {
+     "glyph": "key_f3",
+     "label": "F3"
+    }
+   },
+   "controller": {
+    "run_button": {
+     "glyph": "btn_b",
+     "label": "the B button"
+    },
+    "bike_button": {
+     "glyph": "btn_select",
+     "label": "Select"
+    },
+    "confirm_button": {
+     "glyph": "btn_a",
+     "label": "the A button"
+    },
+    "debug": {
+     "glyph": "btn_l3",
+     "label": "L3"
+    }
+   },
+   "mouse": {
+    "confirm_button": {
+     "glyph": "mouse_left",
+     "label": "left click"
+    },
+    "run_button": null,
+    "bike_button": null
+   }
+  }
+ },
+ "ui": {
+  "vars": {
+   "font": "clamp(15px, 1.75vh, 26px)",
+   "hud-font": "clamp(14px, 1.55vh, 22px)",
+   "family": "ui-rounded, \"Nunito\", \"Trebuchet MS\", system-ui, sans-serif",
+   "inset-top": "5vh",
+   "inset-left": "6vw",
+   "inset-right": "6vw",
+   "inset-bottom": "4vh",
+   "max-w": "1360px",
+   "gap": "14px",
+   "pad": "16px",
+   "row-h": "48px",
+   "hit": "44px",
+   "tile-h": "clamp(110px, 17vh, 200px)",
+   "badge": "clamp(56px, 8vh, 96px)",
+   "icon": "64px",
+   "app-cols": "4",
+   "team-cols": "2",
+   "card-h": "clamp(92px, 13vh, 150px)",
+   "dex-cols": "4",
+   "dex-h": "clamp(96px, 12vh, 140px)",
+   "dex-sprite": "1",
+   "bar-h": "14px",
+   "logo": "clamp(80px, 14vh, 180px)",
+   "menu-btn": "44px",
+   "hud-edge": "16px",
+   "b-plate-w": "clamp(320px, 26vw, 460px)",
+   "b-bottom-h": "24%"
+  },
+  "spriteScale": [
+   {
+    "minHeight": 0,
+    "scale": 1
+   },
+   {
+    "minHeight": 700,
+    "scale": 2
+   },
+   {
+    "minHeight": 1000,
+    "scale": 3
+   }
+  ],
+  "menuKeys": [
+   "Escape",
+   "KeyM"
+  ],
+  "menuPadButton": 9,
+  "menuButton": "chip",
+  "hideTouchDuringUI": [],
+  "titleOnBoot": true,
+  "locationBanner": true,
+  "bannerMs": 2600,
+  "interactPrompt": true,
+  "haptics": false
+ },
+ "audio": {
+  "master": 0.8,
+  "music": 0.4,
+  "sfx": 0.55,
+  "muted": false,
+  "crossfadeMs": 1500,
+  "blip": true,
+  "blipEveryChars": 3,
+  "unlockOn": [
+   "pointerup",
+   "mousedown",
+   "keydown",
+   "touchend"
+  ],
+  "pauseWhenHidden": true
+ },
+ "nightFx": {
+  "lightCell": 4,
+  "clouds": true,
+  "flicker": true,
+  "windowsGoDark": 0.4
+ }
+}
