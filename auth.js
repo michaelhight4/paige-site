@@ -144,7 +144,7 @@ function paint() {
     b.setAttribute('aria-label', `Account: ${name}${tag ? ', ' + tag : ''}. Open account menu to sign out`);
   }
   window.dispatchEvent(new CustomEvent('paige:user', { detail: { real: !!real, id: user?.id || null } }));
-  $('acct-email').textContent = name; $('acct-creator').hidden = !tag; $('acct-stats').hidden = !tag; $('acct-creator').textContent = tag || 'CREATOR';
+  $('acct-email').textContent = name; $('acct-creator').hidden = !tag; $('acct-stats').hidden = !tag; if ($('acct-admin')) $('acct-admin').hidden = !(role && ['owner', 'admin'].includes(role.role)); $('acct-creator').textContent = tag || 'CREATOR';
 }
 
 // First-party analytics (analytics.js; skipped under DNT/GPC). signup = new real account or guest upgraded on this device; login = SIGNED_IN, once per session.
