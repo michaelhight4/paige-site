@@ -3,10 +3,24 @@ export const CONFIG = Object.freeze({
   overworldDir: 'art/world/overworld/',           // World Design kit (README: OVERWORLD_README.md)
   mapsDir: 'art/world/overworld/maps/',
   worldLayout: 'art/world/overworld/world_layout.json',
-  // Player overworld sheet (Character models pixel pilot): 5 cols (stand, walk0-3) x 4 rows (down, left, right, up), 64x96 native.
-  playerSheet: { 1: 'art/characters/pixel_pilot/overworld/cal_chibi_sheet.png',
-                 2: 'art/characters/pixel_pilot/overworld/cal_chibi_sheet_2x.png',
-                 3: 'art/characters/pixel_pilot/overworld/cal_chibi_sheet_3x.png' },
+  textLines: 'text/overworld_lines.json',          // Text Bot strings (items.*, blockers.*)
+  // Player sheets, 64x96 native cells, rows down/left/right/up (MOVEMENT.md 3; animator_manifest.json "run_bike").
+  //  walk: Character models, 5 cols (stand, walk0-3)   run: Animator, 6 cols (run0-5)   bike: Animator, 5 cols (bike_stand, bike0-3)
+  playerSheets: {
+    walk: { 1: 'art/characters/pixel/humans/cal/overworld/cal_chibi_sheet.png',
+            2: 'art/characters/pixel/humans/cal/overworld/cal_chibi_sheet_2x.png',
+            3: 'art/characters/pixel/humans/cal/overworld/cal_chibi_sheet_3x.png' },
+    run: { 1: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_run_sheet.png',
+           2: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_run_sheet_2x.png',
+           3: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_run_sheet_3x.png' },
+    bike: { 1: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_bike_sheet.png',
+            2: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_bike_sheet_2x.png',
+            3: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_bike_sheet_3x.png' },
+  },
+  // Story flags start empty (new game). Dev: ?flags=has_run_shoes,has_bike,beat_master_fernwick
+  // Flag names come from tools/progression.py / world_layout.json progression_flags.
+  startFlags: [],
+  buttonNames: { run_button: 'B', bike_button: 'Select' },
   // Dev start: outside the player's house in Brookhollow. The kit says "new-game spawn 2F" but gives no tile (README gap).
   start: { map: 'brookhollow', x: 5, y: 8, facing: 'down' },
   closedPathText: 'The path ahead is closed.',

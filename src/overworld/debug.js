@@ -1,4 +1,4 @@
-// Kilumen overworld: debug overlay (toggle F3 / ` / pad Select / ?debug=1).
+// Kilumen overworld: debug overlay (toggle F3 / ` / pad L3 / ?debug=1).
 // Colours match World Design's previews/<map>_debug.png where they overlap (block red, water blue, door green).
 import { TILE, Col } from './constants.js';
 import { isToCome } from './map.js';
@@ -16,7 +16,7 @@ export const DEBUG_COLORS = {
 };
 const LEGEND = [['block', Col.BLOCK], ['ledge (south only)', Col.LEDGE_S], ['water', Col.WATER], ['door/warp', Col.DOOR],
   ['boulder', Col.BOULDER], ['gate', Col.GATE], ['plate', Col.PLATE],
-  ['bike-only (blocked on foot)', Col.BIKE_ONLY], ['bike ramp (blocked on foot)', Col.RAMP]];
+  ['bike-only boardwalk', Col.BIKE_ONLY], ['bike ramp (one-way hop)', Col.RAMP]];
 
 export function drawDebug(ctx, v, r) {
   const z = v.zoom, m = v.map, cam = v.cam, T = TILE * z;
@@ -58,6 +58,16 @@ export function drawDebug(ctx, v, r) {
     const [lx, ly] = e.edge === 'north' ? [e.start, 0] : e.edge === 'south' ? [e.start, m.height - 1] : e.edge === 'west' ? [0, e.start] : [m.width - 1, e.start];
     label(ctx, `${e.edge} \u2192 ${e.to}${closed ? ' (closed)' : ` off ${e.offset || 0}`}`, Math.min(sx(lx), (m.width * TILE - cam.x) * z - 260), sy(ly) + 8 * z, closed ? '#ff6b6b' : '#00f0ff');
   }
+  for (const g of m.storyGates) { // story gates: purple outline, gate id + flag; dashed once cleared
+    const cleared = m.gateCleared(g);
+    ctx.strokeStyle = cleared ? '#9a8cff' : '#c14bff'; ctx.lineWidth = Math.max(2, z);
+    ctx.setLineDash(cleared ? [4 * z, 3 * z] : []);
+    for (const c of g.cells || []) ctx.strokeRect(sx(c.x) + 3, sy(c.y) + 3, T - 6, T - 6);
+    ctx.setLineDash([]);
+    const c0 = g.cells?.[0];
+    if (c0) label(ctx, `${g.id} [${g.flag}]${cleared ? ' cleared' : ''}`, Math.min(sx(c0.x), (m.width * TILE - cam.x) * z - 340), sy(c0.y) + T + 2, '#d9a3ff');
+  }
+  for (const [k] of m._noDismount) { const [x, y] = k.split(',').map(Number); ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(sx(x) + T / 2 - 3 * z, sy(y) + T / 2 - 3 * z, 6 * z, 6 * z); }
   for (const n of m.npcs) marker(ctx, sx(n.x), sy(n.y), T, '#ffffff', 'NPC ' + n.id);
   for (const s of m.signs) marker(ctx, sx(s.x), sy(s.y), T, '#ffd84a', 'sign');
   for (const it of m.items) marker(ctx, sx(it.x), sy(it.y), T, '#ff4ad8', it.hidden ? 'hidden item' : 'item');
@@ -67,7 +77,8 @@ export function drawDebug(ctx, v, r) {
   const lines = [
     `${m.title} [${m.name}] ${m.width}x${m.height}`,
     `tile ${p.x},${p.y}  facing ${p.facing}  ${p.state}  code ${m.code(p.x, p.y)}`,
-    `mode ${p.mode} x${p.speedMultiplier}  zoom x${z}  set ${v.tileset.size}px  ${v.fps} fps`,
+    `mode ${p.mode} x${p.speedMultiplier}  ${Math.round(p.ticksPerTile() * 1000 / 60)}ms/tile  zoom x${z}  set ${v.tileset.size}px  ${v.fps} fps`,
+    `flags ${v.flags?.length ? v.flags.join(' ') : '-'}`,
     `last door ${v.lastDoor ? `${v.lastDoor.map} ${v.lastDoor.x},${v.lastDoor.y}` : '-'}`,
   ];
   const lf = Math.max(15, 8 * z), sf = Math.round(lf * 0.85), pad = 10, gap = 4;
@@ -97,6 +108,7 @@ export function drawDebug(ctx, v, r) {
 
 function label(ctx, text, x, y, color) {
   const w = ctx.measureText(text).width, h = parseInt(ctx.font.match(/(\d+)px/)[1], 10);
+  x = Math.max(4, Math.min(x, ctx.canvas.width - w - 6)); // keep labels on screen
   ctx.fillStyle = 'rgba(0,0,0,0.8)'; ctx.fillRect(x - 3, y - 2, w + 6, h + 4);
   ctx.fillStyle = color; ctx.fillText(text, x, y);
 }

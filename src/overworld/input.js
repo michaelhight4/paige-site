@@ -1,11 +1,13 @@
 // Kilumen overworld: input. Keyboard always; standard-mapping gamepads; an on-screen D-pad + A button
-// for touch. Everything is reduced to {dir (latest held wins), a (edge), b (held), debug (edge)}.
+// for touch. Everything is reduced to {dir (latest held wins), a (edge), b (held), select (edge), debug (edge)}.
+// Gamepad (standard mapping): d-pad/left stick, A = 0, B = 1 (hold to run), Select = 8 (bike), L3 = 10 (debug).
 const KEY_DIR = {
   ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right',
   KeyW: 'up', KeyS: 'down', KeyA: 'left', KeyD: 'right',
 };
 const KEY_A = new Set(['KeyZ', 'Space', 'Enter']);
-const KEY_B = new Set(['KeyX', 'ShiftLeft', 'ShiftRight']); // reserved: running shoes (MOVEMENT.md), not wired
+const KEY_B = new Set(['KeyX', 'ShiftLeft', 'ShiftRight']); // B: hold to run (MOVEMENT.md, needs has_run_shoes)
+const KEY_SELECT = new Set(['KeyC', 'Backspace']);            // Select: bike on/off (MOVEMENT.md, needs has_bike)
 const KEY_DEBUG = new Set(['F3', 'Backquote']);
 const PAD_DIR = { 12: 'up', 13: 'down', 14: 'left', 15: 'right' };
 const STICK_DEAD = 0.5;
@@ -14,11 +16,11 @@ export class Input {
   constructor(target = window) {
     this.held = [];            // held directions, most recent last
     this.sources = new Map();  // source id -> dir (keyboard key, touch pointer, pad)
-    this.aQueued = false; this.debugQueued = false; this.kbB = false; this.padB = false;
+    this.aQueued = false; this.debugQueued = false; this.selQueued = false; this.kbB = false; this.padB = false; this.touchB = false;
     this.padPrev = new Map();
     this._kd = (e) => this._key(e, true);
     this._ku = (e) => this._key(e, false);
-    this._blur = () => { this.sources.clear(); this._rebuild(); this.kbB = false; };
+    this._blur = () => { this.sources.clear(); this._rebuild(); this.kbB = false; this.touchB = false; };
     target.addEventListener('keydown', this._kd);
     target.addEventListener('keyup', this._ku);
     window.addEventListener('blur', this._blur);
@@ -34,6 +36,7 @@ export class Input {
     }
     if (KEY_A.has(code)) { e.preventDefault(); if (down && !e.repeat) this.aQueued = true; return; }
     if (KEY_B.has(code)) { this.kbB = down; return; }
+    if (KEY_SELECT.has(code)) { e.preventDefault(); if (down && !e.repeat) this.selQueued = true; return; }
     if (KEY_DEBUG.has(code)) { e.preventDefault(); if (down && !e.repeat) this.debugQueued = true; }
   }
 
@@ -46,7 +49,13 @@ export class Input {
     const dirAt = (x, y) => document.elementFromPoint(x, y)?.closest?.('[data-dir]')?.dataset.dir || null;
     root.addEventListener('pointerdown', (e) => {
       const btn = e.target.closest('[data-btn]');
-      if (btn) { e.preventDefault(); if (btn.dataset.btn === 'a') this.aQueued = true; else if (btn.dataset.btn === 'debug') this.debugQueued = true; return; }
+      if (btn) {
+        e.preventDefault();
+        const b = btn.dataset.btn;
+        if (b === 'a') this.aQueued = true; else if (b === 'debug') this.debugQueued = true;
+        else if (b === 'select') this.selQueued = true; else if (b === 'b') { this.touchB = true; this._bPointer = e.pointerId; }
+        return;
+      }
       const d = dirAt(e.clientX, e.clientY);
       if (!d) return;
       e.preventDefault();
@@ -58,7 +67,7 @@ export class Input {
       const d = dirAt(e.clientX, e.clientY); // slide between arrows without lifting the thumb
       if (d && d !== this.sources.get('p:' + e.pointerId)) this._press('p:' + e.pointerId, d);
     });
-    const up = (e) => this._release('p:' + e.pointerId);
+    const up = (e) => { this._release('p:' + e.pointerId); if (e.pointerId === this._bPointer) { this.touchB = false; this._bPointer = null; } };
     root.addEventListener('pointerup', up);
     root.addEventListener('pointercancel', up);
     root.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -79,19 +88,20 @@ export class Input {
       }
       if (dir !== (this.sources.get(id) ?? null)) { if (dir) this._press(id, dir); else this._release(id); }
       const prev = this.padPrev.get(p.index) || {};
-      const a = !!p.buttons[0]?.pressed, sel = !!p.buttons[8]?.pressed;
+      const a = !!p.buttons[0]?.pressed, sel = !!p.buttons[8]?.pressed, dbg = !!p.buttons[10]?.pressed;
       if (a && !prev.a) this.aQueued = true;
-      if (sel && !prev.sel) this.debugQueued = true;
+      if (sel && !prev.sel) this.selQueued = true;
+      if (dbg && !prev.dbg) this.debugQueued = true;
       this.padB = this.padB || !!p.buttons[1]?.pressed;
-      this.padPrev.set(p.index, { a, sel });
+      this.padPrev.set(p.index, { a, sel, dbg });
     }
   }
 
   /** Call once per frame. Returns the frame's input snapshot; edge-triggered buttons are consumed. */
   poll() {
     this._pollPads();
-    const snap = { dir: this.held.length ? this.held[this.held.length - 1] : null, a: this.aQueued, b: this.kbB || this.padB, debug: this.debugQueued };
-    this.aQueued = false; this.debugQueued = false;
+    const snap = { dir: this.held.length ? this.held[this.held.length - 1] : null, a: this.aQueued, b: this.kbB || this.padB || this.touchB, select: this.selQueued, debug: this.debugQueued };
+    this.aQueued = false; this.debugQueued = false; this.selQueued = false;
     return snap;
   }
 }

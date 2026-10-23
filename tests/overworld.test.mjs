@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { Col, TILE, BASE_TICKS_PER_TILE, TURN_TICKS, MoveMode } from '../src/overworld/constants.js';
+import { Col, TILE, BASE_TICKS_PER_TILE, TURN_TICKS, MoveMode, ANIM } from '../src/overworld/constants.js';
 import { GameMap, exitSpawn, warpSpawn, isToCome } from '../src/overworld/map.js';
 import { GridMover } from '../src/overworld/movement.js';
 import { cameraFor, pickZoom } from '../src/overworld/camera.js';
@@ -15,8 +15,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const KIT = path.join(ROOT, 'art/world/overworld');
 const readJson = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
 const layout = readJson(path.join(KIT, 'world_layout.json'));
-const MAPS = Object.fromEntries(layout.maps_built.map((n) => [n, new GameMap(readJson(path.join(KIT, 'maps', n + '.json')))]));
 const TS = indexTileset(readJson(path.join(KIT, 'tileset.json')));
+const loadMap = (n) => new GameMap(readJson(path.join(KIT, 'maps', n + '.json'))).attachTileset(TS.byId);
+const MAPS = Object.fromEntries(layout.maps_built.map((n) => [n, loadMap(n)]));
 
 test('collision codes in tileset.json match the engine constants', () => {
   assert.deepEqual(TS.codes, { walk: Col.WALK, block: Col.BLOCK, ledge_s: Col.LEDGE_S, water: Col.WATER, door: Col.DOOR, boulder: Col.BOULDER, gate: Col.GATE, plate: Col.PLATE, bike_only: Col.BIKE_ONLY, ramp: Col.RAMP });
@@ -111,11 +112,11 @@ test('ledges: south hop lands on the tile below; any other direction is blocked'
 // --- mover on a tiny synthetic map --------------------------------------------------------------
 // . = walk, # = block, L = ledge, D = door
 function mini(rows) {
-  const col = rows.map((r) => [...r].map((c) => ({ '.': 0, '#': 1, L: 2, D: 4, '~': 3 })[c]));
+  const col = rows.map((r) => [...r].map((c) => ({ '.': 0, '#': 1, L: 2, D: 4, '~': 3, B: 8 })[c]));
   const H = rows.length, W = rows[0].length, z = () => Array.from({ length: H }, () => Array(W).fill(0));
   return new GameMap({ name: 'mini', width: W, height: H, layers: { ground: z(), decoration: z(), overlay: z(), collision: col, encounter: z() } });
 }
-const run = (mv, m, dir, ticks, extra = {}) => { const all = []; for (let i = 0; i < ticks; i++) all.push(...mv.tick({ dir }, { query: (x, y, d) => m.query(x, y, d), ...extra })); return all; };
+const run = (mv, m, dir, ticks, extra = {}) => { const all = []; for (let i = 0; i < ticks; i++) all.push(...mv.tick({ dir }, { query: (x, y, d, mode) => m.query(x, y, d, mode), ...extra })); return all; };
 
 test('mover: a tap turns in place, a hold walks one tile in 15 ticks (250 ms) at whole pixels', () => {
   const m = mini(['.....', '.....', '.....']);
@@ -218,4 +219,101 @@ test('tile animation: water loops; tall grass idles and rustles once on enter', 
   assert.equal(tileFrame(grass, 5000), grass.animation.idle_frame);
   assert.equal(tileFrame(grass, 1000, 1000), grass.animation.frames[0]);
   assert.equal(tileFrame(grass, 1000 + 90 * 3, 1000), grass.animation.idle_frame);
+});
+
+// --- MOVEMENT.md: run + bike ---------------------------------------------------------------------
+const stepTicks = (mv, m, dir, steps) => { const d = []; let t = 0, last = mv.x + mv.y * 1000;
+  for (let i = 0; i < 400 && d.length < steps; i++) { run(mv, m, dir, 1); t++; const now = mv.x + mv.y * 1000; if (now !== last) { d.push(t); t = 0; last = now; } }
+  return d; };
+
+test('run: 8 tiles/s (125 ms avg: 8/7 alternating ticks), run sheet frames by distance; bike: 12 tiles/s (5 ticks)', () => {
+  const m = mini(['....................']);
+  const mv = new GridMover({ x: 0, y: 0, facing: 'right' }); mv.mode = MoveMode.RUN;
+  const d = stepTicks(mv, m, 'right', 4);
+  assert.equal(d[1] + d[2], 15, 'two run steps = 250 ms (= one walk step): ' + d);
+  assert.equal(d[2] + d[3], 15, 'alternating 8/7: ' + d);
+  const cols = new Set(); for (let i = 0; i < 30; i++) { run(mv, m, 'right', 1); if (mv.moving) cols.add(mv.frame().col); }
+  assert.equal(mv.frame().anim, 'run'); assert.ok(cols.size >= 5, 'run frames cycle: ' + [...cols]);
+  run(mv, m, null, 20); assert.deepEqual(mv.frame(), { anim: 'walk', col: 0 }, 'stopping returns to walk stand'); assert.equal(mv.dist, 0);
+  const b = new GridMover({ x: 0, y: 0, facing: 'right' }); b.mode = MoveMode.BIKE;
+  assert.deepEqual(stepTicks(b, m, 'right', 3).slice(1), [5, 5], '83 ms per tile');
+  run(b, m, null, 10); assert.deepEqual(b.frame(), { anim: 'bike', col: 0 }, 'bike_stand when idle on the bike');
+});
+
+test('walk frames follow distance (32 px/frame) and reset only on stop', () => {
+  const m = mini(['..........']);
+  const mv = new GridMover({ x: 0, y: 0, facing: 'right' });
+  run(mv, m, 'right', 1); // step starts, dist 0 -> walk0
+  const seen = []; for (let i = 0; i < 45; i++) { run(mv, m, 'right', 1); seen.push(mv.frameCol()); }
+  assert.deepEqual([...new Set(seen)], [1, 2, 3, 4], 'walk0..walk3 in order over two tiles');
+  assert.equal(Math.floor(mv.dist / ANIM.walk.pxPerFrame) % 4 + 1, mv.frameCol());
+});
+
+test('bike_only (8): wall on foot and running, floor on the bike; ramp (9): one-way 2-tile hop on the bike only', () => {
+  const m = mini(['.BB.']);
+  assert.equal(m.query(0, 0, 'right', 'walk').type, 'block');
+  assert.equal(m.query(0, 0, 'right', 'run').type, 'block');
+  assert.deepEqual(m.query(0, 0, 'right', 'bike'), { type: 'walk', x: 1, y: 0 });
+  const tw = MAPS.thornwood; // MOVEMENT.md: ramp_e at (15,14), pocket x16-19 y13-16
+  assert.equal(tw.code(15, 14), Col.RAMP); assert.equal(tw.rampDir(15, 14), 'right');
+  const q = tw.query(14, 14, 'right', 'bike');
+  assert.deepEqual([q.type, q.x, q.y], ['ramp', 16, 14]);
+  assert.equal(tw.query(14, 14, 'right', 'walk').type, 'block');
+  assert.equal(tw.query(16, 14, 'left', 'bike').type, 'block', 'one-way: no jumping back up the ramp');
+  const mv = new GridMover({ x: 14, y: 14, facing: 'right' }); mv.mode = MoveMode.BIKE;
+  let ticks = 0, maxLift = 0; run(mv, tw, 'right', 1);
+  assert.equal(mv.state, 'hop'); assert.equal(mv.frame().col, 2, 'holds bike1');
+  while (mv.state === 'hop' && ticks < 40) { maxLift = Math.max(maxLift, mv.pixel().lift); run(mv, tw, null, 1); ticks++; }
+  assert.deepEqual([mv.x, mv.y], [16, 14]); assert.equal(ticks, 10, '2 x 83 ms'); assert.equal(maxLift, 6);
+});
+
+test('every no_dismount cell is bike-passable and the bike pockets have a bike exit (no stranding)', () => {
+  let n = 0;
+  for (const m of Object.values(MAPS)) {
+    if (!m.bike) continue;
+    assert.equal(m.movement.bike, true, m.name);
+    const cells = [...m._noDismount].map((k) => k.split(',').map(Number));
+    for (const [x, y] of cells) { assert.ok(m.passable(x, y, 'bike'), `${m.name} ${x},${y}`); n++; }
+    // flood fill on the bike from each pocket cell must reach a cell where you may dismount
+    for (const [sx, sy] of cells) {
+      const seen = new Set([sx + ',' + sy]), q = [[sx, sy]]; let ok = false;
+      while (q.length && !ok) { const [x, y] = q.shift();
+        for (const d of ['up', 'down', 'left', 'right']) { const r = m.query(x, y, d, 'bike'); if (r.type === 'walk' || r.type === 'ramp' || r.type === 'ledge') {
+          const k = r.x + ',' + r.y; if (seen.has(k)) continue; seen.add(k);
+          if (!m.noDismount(r.x, r.y) && m.code(r.x, r.y) !== Col.BIKE_ONLY) { ok = true; break; } q.push([r.x, r.y]); } } }
+      assert.ok(ok, `${m.name} ${sx},${sy} can ride out`);
+    }
+  }
+  assert.ok(n >= 20, 'checked ' + n);
+  for (const m of Object.values(MAPS)) if (/^house_|_int/.test(m.name) || /^greystone/.test(m.name)) assert.equal(m.movement.bike, false, m.name + ' no bike');
+});
+
+// --- CRITICAL_PATH.md: story gates + NPCs ------------------------------------------------------------
+test('story gates ship blocked, clear when their flag is set (decoration + collision swap), idempotent, per instance', () => {
+  const bh = loadMap('brookhollow'), r1 = loadMap('route1');
+  assert.equal(bh.code(32, 12), Col.BLOCK);
+  const q = bh.query(31, 12, 'right');
+  assert.equal(q.type, 'block'); assert.equal(q.gate?.id, 'gate_brookhollow_east');
+  assert.deepEqual(bh.applyGates(new Set(['has_bike'])), [], 'unrelated flag clears nothing');
+  assert.deepEqual(bh.applyGates(new Set(['beat_master_fernwick'])), ['gate_brookhollow_east']);
+  assert.deepEqual([bh.code(32, 12), bh.code(32, 13), bh.tile('decoration', 32, 12)], [0, 0, 0]);
+  assert.equal(bh.query(31, 12, 'right').type, 'walk');
+  assert.deepEqual(bh.applyGates(new Set(['beat_master_fernwick'])), [], 'idempotent');
+  r1.applyGates(new Set(['beat_master_frostspire']));
+  const dim = [...TS.byId.values()].find((t) => t.name === 'crystal_barrier_dim');
+  assert.deepEqual([r1.tile('decoration', 41, 4), r1.code(41, 4)], [dim.id, dim.collision_code]);
+  assert.equal(MAPS.brookhollow.code(32, 12), Col.BLOCK, 'other instances untouched');
+  for (const m of Object.values(MAPS)) for (const g of m.storyGates) {
+    for (const c of g.cells) assert.notEqual(m.code(c.x, c.y), Col.WALK, `${g.id} ${c.x},${c.y} ships blocked`);
+    assert.ok(layout.progression_flags ? JSON.stringify(layout.progression_flags).includes(g.flag) : true, g.flag + ' is a known flag');
+  }
+});
+
+test('NPCs are solid; the gate guard is an NPC on the gate map', () => {
+  const bh = MAPS.brookhollow;
+  const g = bh.storyGates.find((x) => x.id === 'gate_brookhollow_east');
+  assert.ok(bh.npcAt(g.npc.x, g.npc.y));
+  assert.equal(bh.passable(g.npc.x, g.npc.y), false);
+  for (const m of Object.values(MAPS)) for (const w of m.warps) if (w.to !== '$return' && MAPS[w.to])
+    assert.equal(MAPS[w.to].npcAt(w.tx, w.ty), null, `${m.name} warp lands on an NPC`);
 });

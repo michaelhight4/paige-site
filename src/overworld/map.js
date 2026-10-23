@@ -37,6 +37,61 @@ export class GameMap {
     this.items = json.items || [];
     this.puzzle = json.puzzle || null;
     this._warpAt = new Map(this.warps.map((w) => [w.x + ',' + w.y, w]));
+    // MOVEMENT.md 2/5: per-map movement block (read it, never infer from the map name).
+    this.movement = { run: json.movement?.run !== false, bike: json.movement?.bike === true };
+    this.bike = json.bike || null;
+    this._noDismount = new Set((json.bike?.no_dismount_cells || []).map(([x, y]) => x + ',' + y));
+    this.storyGates = json.story_gates || [];
+    this._gateAt = new Map();
+    for (const g of this.storyGates) for (const c of g.cells || []) this._gateAt.set(c.x + ',' + c.y, g);
+    this._appliedGates = new Set();
+    this._npcAt = new Map(this.npcs.filter((n) => Number.isInteger(n.x)).map((n) => [n.x + ',' + n.y, n]));
+    this._rampDir = new Map();
+  }
+
+  /**
+   * Hook the tileset in (pure: pass indexTileset().byId). Reads ramp directions from tile names
+   * (MOVEMENT.md 5.1: ramp_e = +x, ramp_s = +y) and the name -> tile lookup used by story gates.
+   */
+  attachTileset(byId) {
+    this._byId = byId;
+    this._byName = new Map([...byId.values()].map((t) => [t.name, t]));
+    this._rampDir.clear();
+    for (let y = 0; y < this.height; y++) for (let x = 0; x < this.width; x++) {
+      if (this.code(x, y) !== Col.RAMP) continue;
+      for (const layer of ['decoration', 'ground', 'overlay']) {
+        const m = /^ramp_([nsew])$/.exec(byId.get(this.tile(layer, x, y))?.name || '');
+        if (m) { this._rampDir.set(x + ',' + y, { e: 'right', w: 'left', s: 'down', n: 'up' }[m[1]]); break; }
+      }
+    }
+    return this;
+  }
+
+  rampDir(x, y) { return this._rampDir.get(x + ',' + y) || null; }
+  noDismount(x, y) { return this._noDismount.has(x + ',' + y); }
+  npcAt(x, y) { return this._npcAt.get(x + ',' + y) || null; }
+  gateAt(x, y) { return this._gateAt.get(x + ',' + y) || null; }
+  gateCleared(gate) { return this._appliedGates.has(gate.id); }
+
+  /**
+   * CRITICAL_PATH.md 3: the map ships in the BLOCKED state. For every gate whose flag is set, swap each
+   * cell's decoration to cleared_tile (null = remove) and take that tile's collision (or 0). Idempotent;
+   * flags only ever get set, so a cleared gate never re-blocks. Returns the ids applied this call.
+   */
+  applyGates(flags) {
+    const done = [];
+    for (const g of this.storyGates) {
+      if (this._appliedGates.has(g.id) || !flags?.has(g.flag)) continue;
+      for (const c of g.cells || []) {
+        if (!this.inBounds(c.x, c.y)) continue;
+        const t = c.cleared_tile ? this._byName?.get(c.cleared_tile) : null;
+        if (c.cleared_tile && !t) throw new Error(`${this.name}: gate ${g.id} cleared_tile "${c.cleared_tile}" not in tileset`);
+        if (this.layers.decoration) this.layers.decoration[c.y][c.x] = t ? t.id : 0;
+        this.layers.collision[c.y][c.x] = t ? (t.collision_code ?? 0) : 0;
+      }
+      this._appliedGates.add(g.id); done.push(g.id);
+    }
+    return done;
   }
 
   inBounds(x, y) { return x >= 0 && y >= 0 && x < this.width && y < this.height; }
@@ -58,20 +113,35 @@ export class GameMap {
 
   /**
    * What happens when an actor on (x,y) tries to move in `dir`.
-   * @returns {{type:'walk',x,y}|{type:'ledge',x,y,overX,overY}|{type:'block',code}|{type:'edge',exit}}
+   * `mode` is the MoveMode ('walk' | 'run' | 'bike'); only the bike changes collision (MOVEMENT.md 2).
+   * @returns {{type:'walk',x,y}|{type:'ledge'|'ramp',x,y,overX,overY}|{type:'block',code,gate?}|{type:'edge',exit}}
    */
-  query(x, y, dir) {
+  query(x, y, dir, mode = 'walk') {
     const d = DELTA[dir];
     const nx = x + d.x, ny = y + d.y;
     if (!this.inBounds(nx, ny)) return { type: 'edge', exit: this.exitFor(x, y, dir) };
     const c = this.code(nx, ny);
-    if (WALKABLE.has(c)) return { type: 'walk', x: nx, y: ny };
+    const bike = mode === 'bike';
+    if (this.passable(nx, ny, mode)) return { type: 'walk', x: nx, y: ny };
     if (c === Col.LEDGE_S && dir === 'down') {
-      const lx = nx, ly = ny + 1; // land on the tile below the ledge
-      if (this.isWalkable(lx, ly)) return { type: 'ledge', x: lx, y: ly, overX: nx, overY: ny };
+      const lx = nx, ly = ny + 1; // land on the tile below the ledge (every mode)
+      if (this.passable(lx, ly, mode)) return { type: 'ledge', x: lx, y: ly, overX: nx, overY: ny };
     }
-    // Col.BIKE_ONLY / Col.RAMP: blocked for every mode until MOVEMENT.md defines bike rules (hook: query gets dir only).
-    return { type: 'block', code: c };
+    if (c === Col.RAMP && bike && this.rampDir(nx, ny) === dir) {
+      const lx = nx + d.x, ly = ny + d.y; // one-way hop: the ramp plus the landing tile
+      if (this.passable(lx, ly, mode)) return { type: 'ramp', x: lx, y: ly, overX: nx, overY: ny };
+    }
+    const npc = this.npcAt(nx, ny);
+    if (npc) return { type: 'block', code: c, npc };
+    const gate = this.gateAt(nx, ny);
+    return gate && !this.gateCleared(gate) ? { type: 'block', code: c, gate } : { type: 'block', code: c };
+  }
+
+  /** Can an actor in `mode` stand on (x,y)? Walk/run: codes 0,4,7. Bike adds bike_only (8). NPCs are solid. */
+  passable(x, y, mode = 'walk') {
+    if (!this.inBounds(x, y) || this._npcAt.has(x + ',' + y)) return false;
+    const c = this.code(x, y);
+    return WALKABLE.has(c) || (mode === 'bike' && c === Col.BIKE_ONLY);
   }
 }
 

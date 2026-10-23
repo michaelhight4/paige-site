@@ -130,6 +130,67 @@ try {
     s = await st(page);
     check(s.map === 'brookhollow' && s.warpCount === 0 && s.log.some((e) => e.type === 'toast' && /closed/.test(e.text)), `${tag}: TO COME exit shows the closed message and stays put`);
 
+    // 8. Running shoes (MOVEMENT.md): hold B (X / Shift) + direction. No flag = still walking.
+    await open(page, '?map=brookhollow&x=5&y=8&facing=right');
+    await page.keyboard.down('KeyX'); await page.keyboard.down('ArrowRight'); await sleep(300);
+    s = await st(page);
+    await page.keyboard.up('ArrowRight'); await page.keyboard.up('KeyX'); await settle(page);
+    check(s.stepMode === 'walk', `${tag}: B without has_run_shoes still walks (${s.stepMode})`);
+    await open(page, '?map=brookhollow&x=5&y=8&facing=right&flags=has_run_shoes');
+    await page.keyboard.down('KeyX'); await page.keyboard.down('ArrowRight');
+    const t0 = Date.now(); let runShot = null;
+    for (let i = 0; i < 60 && !runShot; i++) { const r = await st(page); if (r.moving !== false && r.state === 'step' && r.frame.anim === 'run' && r.x >= 7) { runShot = r; await page.screenshot({ path: path.join(OUT, `${tag}_08_running.png`) }); } await sleep(10); }
+    await sleep(Math.max(0, 500 - (Date.now() - t0)));
+    await page.keyboard.up('ArrowRight'); await page.keyboard.up('KeyX'); await settle(page);
+    s = await st(page);
+    check(!!runShot && runShot.stepMode === 'run' && runShot.dur <= 8, `${tag}: has_run_shoes + B runs (run sheet, ${runShot?.dur} ticks/tile)`);
+    check(s.x >= 8 && s.frame.anim === 'walk' && s.frame.col === 0, `${tag}: ran to x=${s.x} in ~0.5 s, stops on walk stand`);
+
+    // 9. Bike (MOVEMENT.md): Select (C) mounts outdoors; ramp hop into the Thornwood pocket; no dismount in the pocket.
+    await open(page, '?map=thornwood&x=14&y=14&facing=right');
+    await hold(page, 'ArrowRight', 300); await settle(page);
+    s = await st(page);
+    check(s.x === 14 && s.log.some((e) => e.type === 'toast' && /ramp/i.test(e.text)), `${tag}: ramp is a wall on foot, with the ramp_on_foot line`);
+    await open(page, '?map=thornwood&x=14&y=14&facing=right&flags=has_bike&debug=1');
+    await page.keyboard.press('KeyC'); await sleep(100);
+    s = await st(page);
+    check(s.mode === 'bike' && s.frame.anim === 'bike' && s.frame.col === 0, `${tag}: Select mounts the bike (bike_stand)`);
+    await page.keyboard.down('ArrowRight');
+    let hopShot = null;
+    for (let i = 0; i < 40 && !hopShot; i++) { const r = await st(page); if (r.state === 'hop' && r.pixel.lift >= 4) { hopShot = r; await page.screenshot({ path: path.join(OUT, `${tag}_09_bike_ramp_hop.png`) }); } await sleep(5); }
+    await page.keyboard.up('ArrowRight'); await settle(page);
+    s = await st(page);
+    check(!!hopShot && hopShot.frame.col === 2 && s.x >= 16 && s.y === 14, `${tag}: ramp hop on the bike lands in the pocket at ${s.x},${s.y} (lift ${hopShot?.pixel.lift})`);
+    await page.keyboard.press('KeyC'); await sleep(100);
+    s = await st(page);
+    check(s.mode === 'bike' && s.log.some((e) => e.type === 'toast' && /get off/i.test(e.text)), `${tag}: no dismount inside the bike-only pocket`);
+
+    // 10. Bike indoors: doors dismount automatically; Select inside says no.
+    await open(page, '?map=brookhollow&x=5&y=8&facing=up&flags=has_bike');
+    await page.keyboard.press('KeyC'); await sleep(80);
+    await hold(page, 'ArrowUp', 200);
+    await page.waitForFunction(() => window.kilumen.state().warpCount === 1 && !window.kilumen.state().fading, null, { timeout: 5000 });
+    s = await st(page);
+    check(s.map === 'house_1f' && s.mode === 'walk' && s.log.some((e) => e.type === 'toast' && /indoors/i.test(e.text)), `${tag}: riding into a door dismounts (mode ${s.mode})`);
+    await page.keyboard.press('KeyC'); await sleep(80);
+    check((await st(page)).mode === 'walk', `${tag}: Select indoors does not mount`);
+
+    // 11. Story gate (CRITICAL_PATH.md): Brookhollow east checkpoint blocks until beat_master_fernwick.
+    await open(page, '?map=brookhollow&x=31&y=12&facing=right&debug=1');
+    await hold(page, 'ArrowRight', 350); await settle(page);
+    s = await st(page);
+    check(s.x === 31 && s.log.some((e) => e.type === 'bump' && e.gate === 'gate_brookhollow_east') && s.log.some((e) => e.type === 'toast' && /Survey/.test(e.text)), `${tag}: gate blocks with the Text Bot line`);
+    await page.screenshot({ path: path.join(OUT, `${tag}_10_story_gate_blocked.png`) });
+    await open(page, '?map=brookhollow&x=31&y=12&facing=right&debug=1&flags=beat_master_fernwick');
+    await hold(page, 'ArrowRight', 330); await settle(page);
+    s = await st(page);
+    check(s.x >= 32 && s.y === 12 && s.gatesCleared.includes('gate_brookhollow_east'), `${tag}: with beat_master_fernwick the barricade is gone (walked to ${s.x},${s.y})`);
+    await page.screenshot({ path: path.join(OUT, `${tag}_11_story_gate_cleared.png`) });
+    await open(page, '?map=brookhollow&x=31&y=12&facing=up');
+    await page.keyboard.press('KeyZ'); await sleep(80);
+    s = await st(page);
+    check(s.log.some((e) => e.type === 'toast' && /Survey|Fernwick/.test(e.text)), `${tag}: talking to the checkpoint guard gives the gate line`);
+
     check(errors.length === 0, `${tag}: no console/page errors ${errors.length ? JSON.stringify(errors.slice(0, 3)) : ''}`);
     await page.close();
   }
