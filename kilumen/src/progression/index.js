@@ -211,7 +211,7 @@ function openPuzzleOverlay(scene, ui, def, store, platform) {
     draw();
   };
   const close = () => { removeEventListener('keydown', key, true); wrap.remove(); };
-  const KEYS = { ArrowUp: 'U', KeyW: 'U', ArrowDown: 'D', KeyS: 'D', ArrowLeft: 'L', KeyA: 'L', ArrowRight: 'R', KeyD: 'R', KeyZ: 'A', Enter: 'A', Space: 'A' };
+  const KEYS = { ArrowUp: 'U', KeyW: 'U', ArrowDown: 'D', KeyS: 'D', ArrowLeft: 'L', KeyA: 'L', ArrowRight: 'R', KeyD: 'R', KeyZ: 'A', Enter: 'A', Space: 'A', KeyF: 'A' };
   const key = (e) => { if (e.code === 'Escape' || e.code === 'KeyX') { close(); e.preventDefault(); e.stopPropagation(); return; } const a = KEYS[e.code]; if (!a) return; e.preventDefault(); e.stopPropagation(); act(a); };
   addEventListener('keydown', key, true);
   for (const [t, a] of [['◀', 'L'], ['▲', 'U'], ['▼', 'D'], ['▶', 'R'], ['A', 'A'], ['Close', 'X']]) {

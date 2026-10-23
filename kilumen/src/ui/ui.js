@@ -401,9 +401,12 @@ export class GameUI {
       const c = m.code(x, y); if (c === 0 || c === 4 || c === 7) break; // Col.WALK / DOOR / PLATE: open floor, as in Overworld.interact
     }
     if (!hit) { show(false); return; }
-    const ts = s.tileset?.size || 32, z = s.zoom, cv = s.canvas, cr = cv.getBoundingClientRect(), k = cr.width / cv.width;
-    const x = cr.left + ((hit[0] + 0.5) * ts - s._cam.x) * z * k, y = cr.top + (hit[1] * ts - s._cam.y) * z * k - 4;
-    const glyphA = this.platform?.profile?.controls?.touch ? 'A' : (this.scene.input?.lastDevice === 'controller' ? 'A' : 'Z');
+    const ts = s.map?.json?.tile_size || 64, z = s.zoom, /* world tile (camera units); tileset.size is the zoomed sheet (128 at 2x), which put the bubble off screen */ cv = s.canvas, cr = cv.getBoundingClientRect(), k = cr.width / cv.width;
+    const x = cr.left + ((hit[0] + 0.5) * ts - s._cam.x) * z * k, y = cr.top + ((hit[1] - (verb === 'Talk' ? 0.5 : 0)) * ts - s._cam.y) * z * k - 4; // NPC sprites stand taller than their tile: lift half a tile so the bubble clears the head
+    const pad = this.platform?.profile?.controls?.touch || this.scene.input?.lastDevice === 'controller';
+    const glyphA = pad ? 'A' : (this.cfg.interactKey || 'F'), vb = this.cfg.interactVerbs || {};
+    verb = (verb === 'Talk' ? vb.npc : verb === 'Read' ? vb.sign : vb.object) || verb;
+    this.prompt.classList.toggle('key', !pad);
     this.prompt.querySelector('.g').textContent = glyphA; this.prompt.querySelector('.t').textContent = verb;
     this.prompt.style.left = `${Math.round(x)}px`; this.prompt.style.top = `${Math.round(y)}px`; show(true);
   }

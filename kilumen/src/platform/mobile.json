@@ -215,7 +215,7 @@
   "titleOnBoot": true,
   "locationBanner": true,
   "bannerMs": 2400,
-  "interactPrompt": true,
+  "interactPrompt": false,
   "haptics": true
  },
  "audio": {

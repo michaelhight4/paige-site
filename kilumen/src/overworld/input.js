@@ -5,7 +5,7 @@ const KEY_DIR = {
   ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right',
   KeyW: 'up', KeyS: 'down', KeyA: 'left', KeyD: 'right',
 };
-const KEY_A = new Set(['KeyZ', 'Space', 'Enter']);
+const KEY_A = new Set(['KeyZ', 'Space', 'Enter', 'KeyF']); // F: PC talk / read / check; Z / Space / Enter still work
 const KEY_B = new Set(['KeyX', 'ShiftLeft', 'ShiftRight']); // B: hold to run (MOVEMENT.md, needs has_run_shoes)
 const KEY_SELECT = new Set(['KeyC', 'Backspace']);            // Select: bike on/off (MOVEMENT.md, needs has_bike)
 const KEY_DEBUG = new Set(['F3', 'Backquote']);

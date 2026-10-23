@@ -174,6 +174,12 @@
   "locationBanner": true,
   "bannerMs": 2600,
   "interactPrompt": true,
+  "interactKey": "F",
+  "interactVerbs": {
+   "npc": "Talk",
+   "sign": "Read",
+   "object": "Check"
+  },
   "haptics": false
  },
  "audio": {
