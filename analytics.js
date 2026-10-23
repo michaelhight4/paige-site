@@ -96,11 +96,12 @@
       utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign, device: dev, visitor_id: vid, user_id: userId || null };
   }
   function post(r, token) {
-    if (off) return;
-    try { fetch(URL_ + '/rest/v1/site_events', { method: 'POST', keepalive: true, headers: { apikey: KEY, Authorization: 'Bearer ' + (token || KEY), 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(r) }).catch(function () {}); } catch (e) {}
+    if (off) return Promise.resolve();
+    try { return fetch(URL_ + '/rest/v1/site_events', { method: 'POST', keepalive: true, headers: { apikey: KEY, Authorization: 'Bearer ' + (token || KEY), 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(r) }).catch(function () {}); } catch (e) { return Promise.resolve(); }
   }
   var store = { get: function (k) { return ls(k); }, set: function (k, v) { ls(k, v); } };
-  function daily() { if (!off && claimDaily(store, ctDay(new Date()))) post(row('daily_visit')); }
+  var dailyReady = Promise.resolve(); // settles once today's daily_visit insert (if any) has finished; visitor-banner.js waits on it
+  function daily() { if (!off && claimDaily(store, ctDay(new Date()))) dailyReady = post(row('daily_visit')); }
   var recent = {};
   function interact(type, target) {
     if (off || !type) return; var it = { type: type, target: target };
@@ -115,8 +116,10 @@
     post(row(event, user.id), token);
   }
   // auth.js calls this after admin_me: admins are never counted on this device (remembered until a non-admin signs in here).
-  function setAdmin(isAdmin) { if (isAdmin) { ls('pa_admin', '1'); off = true; } else if (ls('pa_admin') === '1') ls('pa_admin', null); }
-  root.__paigeAnalytics = { enabled: !off, auth: auth, interact: interact, setAdmin: setAdmin, source: function () { return source; } };
+  function setAdmin(isAdmin) { if (isAdmin) { ls('pa_admin', '1'); off = true; try { root.dispatchEvent(new CustomEvent('paige:admin')); } catch (e) {} } else if (ls('pa_admin') === '1') ls('pa_admin', null); }
+  root.__paigeAnalytics = { enabled: !off, auth: auth, interact: interact, setAdmin: setAdmin, source: function () { return source; },
+    // For the "You're our Nth visitor today" line (visitor-banner.js): counted state, this device's random visitor id, CT day.
+    counted: function () { return !off; }, visitorId: function () { return off ? null : vid; }, dailyReady: function () { return dailyReady; }, ctDay: ctDay };
   function pageView() { if (!/access_token|error_description|type=recovery/.test(location.hash)) interact('page_view', pagePath()); }
   daily(); pageView();
   addEventListener('hashchange', function () { daily(); pageView(); });

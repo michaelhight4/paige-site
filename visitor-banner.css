@@ -1,0 +1,18 @@
+/* "You're our Nth visitor today" line on the Home tab (visitor-banner.js). Inline in the hero intro: never fixed/sticky, so the
+   site nav, bottom nav and ad rails don't move. Text: --ink #eef0ff / --lime #d8ff3a on a dark glass chip (>= 12:1). */
+.vb{display:flex;align-items:center;gap:10px;width:fit-content;max-width:100%;box-sizing:border-box;margin:16px 0 0;padding:9px 16px 9px 12px;
+  border-radius:99px;background:linear-gradient(135deg,rgba(18,22,52,.86),rgba(30,20,70,.86));border:1px solid rgba(79,227,193,.38);
+  box-shadow:0 0 0 1px rgba(0,0,0,.25),0 8px 26px -12px rgba(79,227,193,.55),inset 0 0 18px -10px rgba(216,255,58,.35);
+  color:#eef0ff;font:600 15px/1.35 var(--body,system-ui,sans-serif);letter-spacing:.005em;animation:vb-in .6s cubic-bezier(.2,.8,.2,1) both}
+.vb[hidden]{display:none}
+.vb-ico{flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle,rgba(255,95,168,.35),rgba(255,95,168,0) 70%);
+  color:#ff8cc0;font-size:14px;line-height:1;filter:drop-shadow(0 0 6px rgba(255,95,168,.7));animation:vb-beat 2.8s ease-in-out 1s infinite}
+.vb-n{display:inline-grid;vertical-align:baseline;color:#d8ff3a;font-weight:800;font-variant-numeric:tabular-nums;text-shadow:0 0 12px rgba(216,255,58,.45)}
+.vb-n>span{grid-area:1/1;text-align:center}
+.vb-ghost{visibility:hidden}
+.vb-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+@keyframes vb-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes vb-beat{0%,100%{transform:scale(1)}12%{transform:scale(1.18)}24%{transform:scale(1)}}
+@media (max-width:520px){.vb{font-size:14px;padding:8px 14px 8px 10px;border-radius:16px;gap:8px;margin-top:14px}}
+@media (min-width:1800px){.vb{font-size:16px;padding:10px 18px 10px 14px}}
+@media (prefers-reduced-motion:reduce){.vb,.vb-ico{animation:none}}
