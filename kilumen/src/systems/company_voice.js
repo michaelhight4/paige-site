@@ -21,7 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { employeeIdOf } from './employee_id.js?v=v0.2.4-alpha';
+import { employeeIdOf } from './employee_id.js?v=v0.2.5-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',
@@ -36,6 +36,7 @@ export const FALLBACK = {
   id_level_up: ['{employee_id}: Employee ID level {level}.', "Congratulations. You're a pricier number now."],
   board_node: ['{employee_id}: Benefits Board perk filed.', 'Happy staff move assets faster. Allegedly.'],
   quest_done: ['{employee_id}: task closed: {quest}.', 'Value delivered. Back to work.'],
+  rita_install: [], // RITA install (Gary 3:58 PM CT Oct 23 2026): no line of its own; the strip is the Trainer 1 intro alone
   crystal_resupply: ['{employee_id}: Crystal stock depleted. Revival Tech is resupplying you.', 'The cost will reflect on your paycheck.'], // battle end only, flavour (src/systems/crystal_resupply.js)
 };
 
@@ -54,6 +55,10 @@ const getPath = (o, path) => path.split('.').reduce((v, k) => (v == null ? v : v
 export const TRAINER1_KEY = 'cv#trainer1', TRAINER1_NAME = 'Trainer 1', TRAINER1_LINE = 'rita_trainer1';
 export const TRAINER1_INTRO = ['{employee_id}...', "Yeah, no. That uses too much company time. You're now Trainer 1."];
 /** What RITA calls the player: 'Trainer 1' once the intro has run, else the 6-digit number. */
+// RITA install (Gary 3:58 / 3:59 PM CT Oct 23 2026: the lab tech installs RITA during the tutorial, before the starter
+// pick). cfg.start_after_flag = this flag: nothing of hers fires before it. Old saves that already met her (Trainer 1 intro
+// seen) or are past the starter get it set automatically, no replay (started()).
+export const RITA_INSTALLED = 'rita_installed';
 export function ritaIdOf(scene) { return scene?.seen?.[TRAINER1_KEY] ? TRAINER1_NAME : employeeIdOf(scene); }
 
 export function loadMode(storage, cfg) {
@@ -136,7 +141,12 @@ export class CompanyVoice {
     try { const r = s.saveLockReason?.(); if (r && r !== 'company_voice') return r; } finally { this._self = false; }
     return null;
   }
-  started() { const f = this.cfg.start_after_flag; return !f || !!this.scene.flags?.has(f); }
+  started() {
+    const f = this.cfg.start_after_flag, s = this.scene, F = s.flags;
+    if (!f || F?.has(f)) return true;
+    if (f === RITA_INSTALLED && F?.has('got_starter')) { F.add(f); s._dirty = true; return true; } // old save: auto-installed
+    return false;
+  }
 
   // ---- events -----------------------------------------------------------------------------------------------------
   /** -> true if the event was accepted into the current burst. ctx: {key, count, area, creature, new, trainer, master, quest, level, node, tier} */
@@ -317,6 +327,8 @@ export class CompanyVoice {
     const s = this.scene, seen = (s.seen ||= {});
     const intro = !seen[TRAINER1_KEY] && this.cfg.trainer1_intro !== false ? this.trainer1Intro() : null;
     let pages = this.pages(item.name, intro ? { ...item.ctx, employee_id: TRAINER1_NAME } : item.ctx), voice = this.lastPick || null;
+    if (!pages.length && !intro) return; // a line-less event (rita_install) with the intro already seen: nothing to say
+    if (!pages.length) voice = null;
     this.scene.checkpoint?.('company_voice'); // save rule: save right before, never while it is up
     // Trainer 1 intro in front; voice chains: intro pages, then the line's own pick (rita_voice.js planFor follows .then)
     if (intro) { pages = [...intro.pages, ...pages]; voice = { ...intro.voice, n: intro.pages.length, then: voice }; seen[TRAINER1_KEY] = true; s._dirty = true; }

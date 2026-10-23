@@ -7,9 +7,9 @@
 // collision, door warps, camera, follower); his own input is ignored because this runs inside scene.script() (input frozen,
 // saves refused, checkpoint save right before). NPCs step through NpcSystem scripts like any live NPC. Doors are real
 // warps (map.warps), so every landing comes from the current (padded) map files; nothing here holds a coordinate.
-import { Npc, OPPOSITE } from './npcs.js?v=v0.2.4-alpha';
-import { DELTA, Col } from './constants.js?v=v0.2.4-alpha';
-import { walkGrid, findPath } from './pathing.js?v=v0.2.4-alpha';
+import { Npc, OPPOSITE } from './npcs.js?v=v0.2.5-alpha';
+import { DELTA, Col } from './constants.js?v=v0.2.5-alpha';
+import { walkGrid, findPath } from './pathing.js?v=v0.2.5-alpha';
 
 export const ESCORT = { stuckMs: 5000, legMs: 60000, doorMs: 8000, bossId: 'trip_boss' };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -18,6 +18,32 @@ const same = (a, b) => a && b && a.x === b.x && a.y === b.y;
 export function dirTo(a, b) {
   for (const [d, v] of Object.entries(DELTA)) if (a.x + v.x === b.x && a.y + v.y === b.y) return d;
   return null;
+}
+
+/**
+ * Scripted walk: everyone not in the line (map NPCs, wanderers) stands still and gives up its cells, so the line walks
+ * through them like ghosts and is never blocked (Gary 3:56 PM CT Oct 23 2026, live v0.2.4 soft-lock: the fisher wandered
+ * into the 1-cell lane between RT Supply and the river, the boss waited behind him and the walk ended in the 5 s stuck
+ * fallback). Returns restore(): bystanders take their cells back (where free) and wander again shortly after.
+ */
+export function ghostBystanders(s, line) {
+  const m = s.map, occ = m?._npcAt, held = [];
+  if (!m || !occ) return () => {};
+  for (const n of s.npcs?.list || []) {
+    if (line.includes(n)) continue;
+    held.push({ n, paused: n.paused });
+    n.script = []; n.goal = null; n.paused = 1e9;
+  }
+  const isHeld = (r) => held.some((h) => h.n === r);
+  for (const [k, r] of [...occ]) if (isHeld(r)) occ.delete(k);
+  let done = false;
+  return () => {
+    if (done) return; done = true;
+    for (const h of held) {
+      h.n.paused = Math.max(30, h.paused || 0);
+      if (s.npcs?.list.includes(h.n) && !m.npcAt(h.n.x, h.n.y)) m.occupy(h.n.x, h.n.y, h.n);
+    }
+  };
 }
 
 /** Shortest route (cells, both ends included) over plain floor, never across a warp; `avoid` cells blocked. */
@@ -59,7 +85,11 @@ export async function conga(s, leaders, goal, o = {}) {
   }
   for (const l of leaders) { l.talking = false; l.goal = null; l.script = []; l.paused = 0; }
   const last = [...Array(n).keys()].map(pos);
-  const t0 = Date.now(); let prog = Date.now();
+  let t0 = Date.now(), prog = Date.now();
+  // o.mid = { at: 0..1 of the head's route, run: async () => {} }: once, when everyone stands still past that point (a story
+  // beat on the way; the walk waits for it)
+  const headLen = q[0].length, mid = o.mid && typeof o.mid.run === 'function' ? { at: Math.max(1, Math.round(headLen * (o.mid.at ?? 0.5))), run: o.mid.run } : null;
+  let midDone = !mid;
   s.log?.push({ tick: s.tick, type: 'escort', step: 'start', map: m.name, goal: { x: goal.x, y: goal.y }, line: last.map((c) => `${c.x},${c.y}`) });
   while (true) {
     if (s.map !== m) return { ok: false, why: 'mapChanged' };
@@ -69,6 +99,14 @@ export async function conga(s, leaders, goal, o = {}) {
     }
     // done: head on the goal, everyone still, each follower right behind (its trail holds at most the cell the one ahead stands on)
     if (same(pos(0), goal) && q.every((x, i) => x.every((e) => i > 0 && same(e, pos(i - 1)))) && [...Array(n).keys()].every((i) => !moving(i))) break;
+    if (!midDone && headLen - q[0].length >= mid.at && [...Array(n).keys()].every((i) => !moving(i))) {
+      midDone = true;
+      s.log?.push({ tick: s.tick, type: 'escort', step: 'mid', map: m.name });
+      const tb = Date.now();
+      try { await mid.run(); } catch (e) { console.error('escort beat:', e); }
+      prog = Date.now(); t0 += prog - tb; // talk time is not walk time
+      if (s.map !== m) return { ok: false, why: 'mapChanged' };
+    }
     for (let i = 0; i < n; i++) {
       const qq = q[i], c = pos(i);
       let k = -1; qq.forEach((e, j) => { if (same(e, c)) k = j; });

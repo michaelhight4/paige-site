@@ -11,11 +11,11 @@
 // text/drafts/HOME_START_v2.md, used only while the file has no merged lines): see design/HOME_START_TEXT_NEEDS.md.
 // Nothing here hard-codes an outdoor tile: the outside spawn is looked up from the warps by `to` name (World Design pads
 // the outdoor maps), interiors (house_2f / house_1f) are read from their own map JSON.
-import { OPPOSITE, Npc } from './npcs.js?v=v0.2.4-alpha';
-import { StarterPicker } from './starter_pick.js?v=v0.2.4-alpha';
-import { approach, automoveOn } from './automove.js?v=v0.2.4-alpha';
-import { conga, throughDoor, spawnAhead, doorTo, ESCORT } from './escort.js?v=v0.2.4-alpha'; // office -> lab on foot, 3rd in line (Gary 2:35-2:36 PM CT) // story auto-walk (Gary, Oct 23 2026): walk up to the speaker first
-import { StoryRon, STORY_RON, loadNpcImgs } from './story_ron.js?v=v0.2.4-alpha'; // Ron at work + in the lab, his partner behind him (Gary 2:21 / 2:22 PM CT)
+import { OPPOSITE, Npc } from './npcs.js?v=v0.2.5-alpha';
+import { StarterPicker } from './starter_pick.js?v=v0.2.5-alpha';
+import { approach, automoveOn } from './automove.js?v=v0.2.5-alpha';
+import { conga, throughDoor, spawnAhead, doorTo, ghostBystanders, ESCORT } from './escort.js?v=v0.2.5-alpha'; // office -> lab on foot, 3rd in line (Gary 2:35-2:36 PM CT) // story auto-walk (Gary, Oct 23 2026): walk up to the speaker first
+import { StoryRon, STORY_RON, loadNpcImgs } from './story_ron.js?v=v0.2.5-alpha'; // Ron at work + in the lab, his partner behind him (Gary 2:21 / 2:22 PM CT)
 
 export const HOME = {
   bedroom: 'house_2f', downstairs: 'house_1f', outside: 'brookhollow', ron: 'ron',
@@ -96,6 +96,7 @@ export const OPEN = {
   area: ['brookhollow', 'route1'], // the starting area: until job_briefed you can't leave it (route1 only once the run starts)
   base: 'test_run_base', logged: 'test_run_logged', // counters (save.js keeps any finite counter)
   introSeen: 'intro:starter_intro',
+  ritaFlag: 'rita_installed',       // the lab tech installed RITA (company_voice.js RITA_INSTALLED: nothing of hers before it)
   cradles: { cradle_1: 'nibbin', cradle_2: 'cindrip', cradle_3: 'rillop' }, // fallback only (Nibbin replaced Tumbloam, Oct 23 2026): systems cfg.starterCradles wins
   objectives: {
     office: 'Go to the Revival Tech office', lab: 'Pick a partner at the lab',
@@ -173,6 +174,24 @@ export const FALLBACK_OFFICE = {
   },
   picker_title: 'Choose your partner', // [TODO Text Bot: system_opening.starter_picker_title]
   cradle_not_yet: ["Those cradles aren't for me. Not yet, anyway."],
+  // RITA install (Gary 3:58 / 3:59 PM CT Oct 23 2026: the lab guy "installs Rita" during the tutorial, before you choose a
+  // kilumen). Code defaults; Text Bot keys maps.lab_brookhollow.scene_rita_install / rita_install_progress
+  // (data/textbot_requests_rita_install.md).
+  scene_rita_install: [
+    'LAB TECH: Oh, one more thing before you pick. Your device, please. I need to install RITA.',
+    'LAB TECH: Resource Inventory and Tracking Assistant. Cutting-edge AI, built to assist the field teams.',
+    "LAB TECH: She tracks your creatures, your crystals, your progress. She's very helpful. She'll tell you so herself.",
+    'LAB TECH: She also has a bit of a personality. Revival Tech calls that a feature.',
+  ],
+  rita_install_progress: ['Installing RITA... 100%. The device chimes.'],
+  // Escort walk beats (Gary 4:00 PM CT: "the walk is supposed to give the story body"). Text Bot keys
+  // maps.brookhollow.escort_street / escort_midway (same request file).
+  escort_street: ["MANAGER: Lab's down by the river. Stay close, and don't stop to pet anything."],
+  escort_midway: [
+    "RON: So what's the lab like?",
+    "MANAGER: Clean. Quiet. Expensive. Don't touch anything you can't afford.",
+    'RON: So... nothing.',
+  ],
   leave_block: {
     office: ['Work first. The office is back in town.'],
     lab: ['Not without a partner. The lab first.'],
@@ -253,7 +272,7 @@ export function objectiveFor(flags, counters = {}) {
 }
 
 export class HomeStart {
-  /** @param {import('./overworld.js?v=v0.2.4-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
+  /** @param {import('./overworld.js?v=v0.2.5-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
   constructor(scene, opts = {}) {
     this.scene = scene; this.newGame = !!opts.newGame; this.gate = opts.gate || null;
     this.holding = false; this.wakePending = false; this._gateSince = null;
@@ -498,15 +517,22 @@ export class HomeStart {
       if (s.map?.name === OPEN.office) {
         const boss = s.npcs.byId(OPEN.manager), ron = story.npc() || story.spawn(), out = doorTo(s.map, HOME.outside, p);
         let ok = !!(boss && ron && out);
-        if (ok) ok = (await conga(s, [boss, ron], out.front)).ok;
-        if (ok) ok = await throughDoor(s, [boss, ron], out, remove);
+        const unghost = ghostBystanders(s, [boss, ron]); // nobody else in the way (coworkers stand still, walk-through)
+        try {
+          if (ok) ok = (await conga(s, [boss, ron], out.front)).ok;
+          if (ok) ok = await throughDoor(s, [boss, ron], out, remove);
+        } finally { unghost(); }
         if (!ok && s.map?.name === OPEN.office) await this._tripFallback('office');
       }
       if (s.map?.name === HOME.outside) {
         const lab = doorTo(s.map, OPEN.lab, p), line = lab ? spawnAhead(s, specs, lab.front) : [];
         let ok = !!(lab && line.length === specs.length);
-        if (ok) ok = (await conga(s, line, lab.front)).ok;
-        if (ok) ok = await throughDoor(s, line, lab, remove);
+        const unghost = ghostBystanders(s, line); // townsfolk stand still and never block the lane (live v0.2.4 soft-lock)
+        try {
+          if (ok) { for (const n of line) n.faceToward(p.x, p.y); await this._scene(this._pages(HOME.outside, 'escort_street', FALLBACK_OFFICE.escort_street)); }
+          if (ok) ok = (await conga(s, line, lab.front, { mid: { at: 0.5, run: () => this._scene(this._pages(HOME.outside, 'escort_midway', FALLBACK_OFFICE.escort_midway)) } })).ok;
+          if (ok) ok = await throughDoor(s, line, lab, remove);
+        } finally { unghost(); }
         if (!ok && s.map?.name !== OPEN.lab) { for (const n of line) if (s.npcs.list.includes(n)) remove(n); await this._tripFallback('street'); }
       }
       if (s.map?.name === OPEN.lab) { // they went in first and stepped aside; the lab beat (researcher, Ron joins) runs next
@@ -546,6 +572,7 @@ export class HomeStart {
       s.script(() => s.say(this._pages(OPEN.lab, 'cradle_not_yet', FALLBACK_OFFICE.cradle_not_yet), THOUGHT));
       return true;
     }
+    if (!F.has(OPEN.ritaFlag)) { s.script(() => this.ritaInstall()); return true; } // RITA first, then the pick
     s.script(() => this.pickStarter(c.id));
     return true;
   }
@@ -553,8 +580,10 @@ export class HomeStart {
   /** Lab arrival after the promotion (new game): scene_starter_intro plays by itself, once. */
   _tickLab() {
     const s = this.scene, F = s.flags;
-    if (s.map?.name !== OPEN.lab || !F.has(HOME.started) || !F.has(OPEN.promoted) || F.has(OPEN.starter) || s.seen[OPEN.introSeen]) return;
+    if (s.map?.name !== OPEN.lab || !F.has(HOME.started) || !F.has(OPEN.promoted) || F.has(OPEN.starter)) return;
+    if (s.seen[OPEN.introSeen] && F.has(OPEN.ritaFlag)) return;
     if (s.busy || s.fade || (this.gate && this.gate() === true)) return;
+    if (s.seen[OPEN.introSeen]) { s.script(() => this.ritaInstall()); return; } // closed between the intro and the install (or a v0.2.4 save): install only
     s.script(async () => { await this._autoApproach('starterIntro', OPEN.researcher); await this.story.join(s.npcs.byId(OPEN.researcher)); return this.starterIntro(); }); // walk up to the lab tech, Ron beside you
   }
 
@@ -569,6 +598,27 @@ export class HomeStart {
     s.log.push({ tick: s.tick, type: 'intro', step: 'arrowsOn' });
     await this._scene(pages.slice(1));
     s.seen[OPEN.introSeen] = true; s._dirty = true;
+    await this.ritaInstall(); // same script: the checkpoint save was right before the lab beat, none during
+  }
+
+  /** The lab tech installs RITA on your device (Gary 3:58 / 3:59 PM CT Oct 23 2026), in the tutorial before the starter pick.
+   *  His lines, an "installing" beat with a chime, then rita_installed is set and her first strip (the one-time Trainer 1
+   *  intro, company_voice.js) is queued; it shows as soon as this script lets go. Once per save. */
+  async ritaInstall() {
+    const s = this.scene, F = s.flags;
+    if (F.has(OPEN.ritaFlag)) return;
+    const res = s.npcs?.byId?.(OPEN.researcher);
+    s.log.push({ tick: s.tick, type: 'intro', step: 'ritaInstall' });
+    if (res) s.npcs.beginTalk(res);
+    try {
+      await this._scene(this._pages(OPEN.lab, 'scene_rita_install', FALLBACK_OFFICE.scene_rita_install), res ? { ...s.speakerFor(res), name: 'LAB TECH' } : null);
+      try { s.audio?.sfx?.('save'); } catch { /* no audio */ }
+      await s.say(s.fill(this._pages(OPEN.lab, 'rita_install_progress', FALLBACK_OFFICE.rita_install_progress), s.textVars()), { name: null, portrait: null, battle: null });
+    } finally { if (res) s.npcs.endTalk(res); }
+    if (s.setFlag) s.setFlag(OPEN.ritaFlag); else F.add(OPEN.ritaFlag);
+    s._dirty = true;
+    s.log.push({ tick: s.tick, type: 'intro', step: 'ritaInstalled' });
+    s.companyVoice?.emit('rita_install'); // her first strip: direct queue, shown once the script ends
   }
 
   /** Marker spots this module wants drawn (overworld view -> marker.js): the starter cases, page 2 until got_starter. */
@@ -603,7 +653,7 @@ export class HomeStart {
   async chooseStarter(species) {
     const s = this.scene, sys = s.systems;
     if (!s.seen[OPEN.introSeen]) await this.starterIntro();
-    const { speciesName } = await import('../systems/creature.js?v=v0.2.4-alpha').catch(() => ({}));
+    const { speciesName } = await import('../systems/creature.js?v=v0.2.5-alpha').catch(() => ({}));
     const lead = speciesName ? speciesName(species) : speciesLabel(species), vars = { ...s.textVars(), lead, creature: lead };
     const k = await s.ask(s.fill(this._pages(OPEN.lab, 'starter_confirm', FALLBACK_OFFICE.starter_confirm), vars), ['Yes', 'No']);
     if (k !== 0) return false;
