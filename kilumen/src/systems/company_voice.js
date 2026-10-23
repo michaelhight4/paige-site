@@ -21,7 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { employeeIdOf } from './employee_id.js?v=v0.2.1-alpha';
+import { employeeIdOf } from './employee_id.js?v=v0.2.2-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',
@@ -163,10 +163,13 @@ export class CompanyVoice {
     keys.push(base);
     let raw = null;
     const exclude = ev.per_count_lines ? (ev.counts || []) : []; // kilindex_milestone_10 is a count key, not variant 10
-    for (const k of keys) { raw = this.pickVariant(k, k === (ev.line || name) ? exclude : []); if (raw) break; }
+    let key = null;
+    for (const k of keys) { raw = this.pickVariant(k, k === (ev.line || name) ? exclude : []); if (raw) { key = this._pickedKey || k; break; } }
+    if (!raw) key = null; // FALLBACK text has no voice clip (RITA voice: silent text)
     raw ||= FALLBACK[ev.line || name] || ['{employee_id}: noted.'];
     const vars = { ...(this.scene.textVars?.() || {}), employee_id: employeeIdOf(this.scene), ...ctx };
     const fill = (p) => String(p).replace(/\{(\w+)\}/g, (m, k) => (vars[k] != null ? String(vars[k]) : m));
+    this.lastPick = { key, raw: raw.slice(0, this.cfg.timing.max_pages), vars }; // RITA voice (src/systems/rita_voice.js): exact variant key + unfilled pages
     return raw.slice(0, this.cfg.timing.max_pages).map(fill);
   }
   /**
@@ -188,12 +191,15 @@ export class CompanyVoice {
       const r = get(k); if (r) opts.push({ i: n, raw: r });
     }
     opts.sort((a, b) => a.i - b.i);
+    this._pickedKey = null;
     if (!opts.length) return null;
-    if (opts.length === 1) return opts[0].raw;
+    const keyOf = (o) => (o.i === 1 ? base : `${base}_${o.i}`);
+    if (opts.length === 1) { this._pickedKey = keyOf(opts[0]); return opts[0].raw; }
     const seen = (this.scene.seen ||= {}), lk = `cv#last#${base}`, last = seen[lk];
     const pool = opts.filter((o) => o.i !== last);
     const pick = pool[Math.min(pool.length - 1, Math.floor(this.rng() * pool.length))];
     seen[lk] = pick.i; this.scene._dirty = true;
+    this._pickedKey = keyOf(pick);
     return pick.raw;
   }
   speaker() {
@@ -290,15 +296,18 @@ export class CompanyVoice {
     const pages = this.pages(item.name, item.ctx);
     this.scene.checkpoint?.('company_voice'); // save rule: save right before, never while it is up
     const t = this.now();
-    this.current = { ...item, pages, page: 0, shownAt: t, pageEnd: t + this.pageMs(pages[0]), speaker: this.speaker() };
+    this.current = { ...item, pages, page: 0, shownAt: t, pageEnd: t + this.pageMs(pages[0]), speaker: this.speaker(), voice: this.lastPick || null };
     this.shownLog.push({ name: item.name, pages, at: t });
     this.scene.log?.push?.({ tick: this.scene.tick, type: 'companyVoice', event: item.name });
     this.view?.show(this.current);
     this.duckOn();
+    this.hookPage();
   }
+  /** RITA voice hook (src/systems/rita_voice.js sets this.onPage / this.onHide); never throws into the game loop. */
+  hookPage() { try { this.onPage?.(this.current); } catch (e) { console.error('rita voice:', e); } }
   advance(why) {
     const c = this.current; if (!c) return;
-    if (c.page + 1 < c.pages.length) { c.page++; c.pageEnd = this.now() + this.pageMs(c.pages[c.page]); this.view?.show(c); return; }
+    if (c.page + 1 < c.pages.length) { c.page++; c.pageEnd = this.now() + this.pageMs(c.pages[c.page]); this.view?.show(c); this.hookPage(); return; }
     this.hide(why);
   }
   hide(why = 'done') {
@@ -306,6 +315,7 @@ export class CompanyVoice {
     this.current = null; this.lastHideAt = this.now(); this.lastHideWhy = why;
     this.scene._dirty = true; // the step loop saves once nothing is locked
     this.view?.hide();
+    try { this.onHide?.(why); } catch (e) { console.error('rita voice:', e); }
     this.duckOff(why);
   }
   state() { return { mode: this.mode, showing: this.current ? { event: this.current.name, page: this.current.page, text: this.current.pages[this.current.page], speaker: this.current.speaker } : null, queue: this.queue.map((q) => q.name), burst: this.burst.map((b) => b.name), shown: this.shownLog.map((s) => s.name), lastHideWhy: this.lastHideWhy || null, ducked: !!this._ducked }; }

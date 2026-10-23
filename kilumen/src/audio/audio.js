@@ -16,7 +16,7 @@
 // - DRAFT audio (wave 2, Oct 22, 2026): three original BeepBox loops (town / route / battle) and a jsfxr SFX sprite,
 //   rendered by tools/audio/ (see /workspace/quality/toolkit/MUSIC_SFX_PIPELINE.md). They are DRAFTS for Gary to veto.
 //   ONE-LINE REVERT to the placeholder tones + ZzFX: set DRAFT_AUDIO below to { music: false, sfx: false }.
-import { isIndoor } from '../overworld/clock.js?v=v0.2.1-alpha';
+import { isIndoor } from '../overworld/clock.js?v=v0.2.2-alpha';
 
 /** DRAFT audio switch (Gary can veto): { music: false, sfx: false } puts every slot back on the placeholders. */
 export const DRAFT_AUDIO = { music: true, sfx: true };
@@ -204,7 +204,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
   let saved = null;
   try { saved = JSON.parse(storage?.getItem(KEY) || 'null'); } catch { saved = null; }
   const { settings, cfg } = audioSettings(profile?.audio, saved);
-  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js?v=v0.2.1-alpha');
+  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js?v=v0.2.2-alpha');
   Howler.autoSuspend = false; // we suspend on tab hide ourselves; SFX run on raw nodes howler does not track
   const st = { unlocked: false, failed: null, track: null, zzfx: null, cache: new Map(), bus: null, music: null, urls: new Map(), blipTimer: 0, followTimer: 0, sprite: null, spriteState: 'off' };
 
@@ -230,7 +230,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
       ctx.resume?.().catch(() => {});
       st.unlocked = true;
       for (const t of cfg.unlockOn) win.removeEventListener(t, unlock, true);
-      import('../vendor/zzfx/ZzFX.js?v=v0.2.1-alpha').then((m) => {
+      import('../vendor/zzfx/ZzFX.js?v=v0.2.2-alpha').then((m) => {
         try { m.ZZFX.audioContext?.close?.(); } catch { /* ignore */ }
         m.ZZFX.audioContext = Howler.ctx;
         st.zzfx = m.ZZFX;
@@ -326,6 +326,13 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
       if (kind === 'sfx' && st.sprite) st.sprite.volume(settings.sfx);
     },
     setMuted(m) { settings.muted = !!m; persist(); applyMaster(); },
+    /** RITA voice output (src/systems/rita_voice.js, Oct 23 2026): a gain node into howler's master gain, so master volume
+     *  and mute cover the voice. null until the first gesture unlocked audio. */
+    voiceOut() {
+      const ctx = Howler.ctx; if (!st.unlocked || !ctx || !Howler.masterGain) return null;
+      if (!st.voice || st.voice.context !== ctx) { st.voice = ctx.createGain(); st.voice.gain.value = 1; st.voice.connect(Howler.masterGain); }
+      return st.voice;
+    },
     /**
      * Turn the music down while something talks (RITA's comms strip). -> true when the hold was taken. A no-op (false)
      * when audio is locked, muted or the music volume is 0. Overlapping ids are reference-counted (lowest level wins).

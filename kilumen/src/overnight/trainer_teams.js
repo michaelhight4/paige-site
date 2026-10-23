@@ -3,7 +3,7 @@
 // a `team` on the map NPC def (array, or Ron's object keyed if_player_took_<starter>) fights that team. A species that is
 // not registered in SPECIES (not drawn / not synced yet, or excluded) uses the stand-in from
 // data/standins_overnight.json trainer_species (written by tools/sync_creatures.mjs), else the nearest registered species.
-import { SPECIES } from '../ui/data.js?v=v0.2.1-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.2-alpha';
 
 export const STARTERS = ['tumbloam', 'cindrip', 'rillop'];
 const known = (id) => SPECIES.some((s) => s.id === id);
