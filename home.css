@@ -458,3 +458,4 @@ body[data-tab="start-of-the-end"] .sa-unit{display:none}
 .fx-sparks i{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;filter:drop-shadow(0 0 4px #ffe9a8);opacity:0;background:radial-gradient(circle,#fff 0 12%,rgba(255,240,190,.9) 22%,transparent 60%);clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);animation:fxSpark 3.9s ease-in-out infinite}
 @keyframes fxSpark{0%,62%,100%{opacity:0;transform:scale(.3) rotate(0)}76%{opacity:1;transform:scale(1.2) rotate(45deg)}90%{opacity:.6;transform:scale(.8) rotate(90deg)}}
 @media (prefers-reduced-motion:reduce){.fx-shine,.fx-sparks i{animation:none;opacity:0}}
+.fx-halo{object-fit:cover}
