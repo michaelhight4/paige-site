@@ -36,6 +36,7 @@
   let loaded = false;
   function load() {
     if (loaded || !(live || test)) return; loaded = true;
+    if (document.querySelector('script[src*="adsbygoogle.js"]')) return; // one tag per page (anchor-ads.js loads it first)
     const s = document.createElement('script'); s.async = true; s.crossOrigin = 'anonymous';
     s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + CLIENT; document.head.appendChild(s);
   }
@@ -102,7 +103,7 @@
     const segs = segments();
     const obs = segs.slice();
     const mp = document.querySelector('.mp'); if (mp && mp.offsetParent) { const b = mp.getBoundingClientRect(); obs.push({ x1: b.left, y1: b.top, x2: b.right, y2: b.bottom }); }
-    const y0 = hb + GAP, y1 = innerHeight - GAP;
+    const y0 = hb + GAP, y1 = innerHeight - GAP - (window.__paigeAnchor?.state().bottom || 0); // stay clear of a bottom anchor ad
     const sides = [ { cls: 'sa-r', x0: cr.right + GAP, x1: innerWidth - GAP, max: 2 }, { cls: 'sa-l', x0: GAP, x1: cr.left - GAP, max: 1 } ];
     for (const s of sides) for (let n = 0; n < s.max; n++) {
       const f0 = (r) => r && { x: r.x, y: r.y, w: r.w, h: r.h };
@@ -133,7 +134,7 @@
   const refresh = () => { if (!on) return; placeTop(); placeRails(); };
   const later = () => { clearTimeout(t); t = setTimeout(() => on && placeRails(), 120); };
   const settle = () => { placeTopLater(); later(); };
-  function start() { if (on) return; on = true; load(); refresh(); addEventListener('load', settle); document.fonts?.ready.then(settle); addEventListener('resize', () => { if (on) { placeTopLater(); } later(); }); addEventListener('hashchange', () => setTimeout(refresh, 0)); new MutationObserver(() => setTimeout(refresh, 0)).observe(document.body, { attributes: true, attributeFilter: ['data-tab'] }); }
+  function start() { if (on) return; on = true; load(); refresh(); addEventListener('load', settle); document.fonts?.ready.then(settle); addEventListener('resize', () => { if (on) { placeTopLater(); } later(); }); addEventListener('hashchange', () => setTimeout(refresh, 0)); addEventListener('paige:anchor', later); new MutationObserver(() => setTimeout(refresh, 0)).observe(document.body, { attributes: true, attributeFilter: ['data-tab'] }); }
   function stop() { on = false; document.querySelectorAll('.sa-unit').forEach((e) => e.remove()); rails = []; }
   addEventListener('paige:ads', (e) => (e.detail?.removed ? stop() : start()));
   if (window.__paigeAdsRemoved === false || (preview && !live)) start();

@@ -1,0 +1,19 @@
+/* anchor.css — Lifeline web: the app shell resizes around Google's collapsible anchor ad (open, collapsed or absent).
+   --anchor-top-h / --anchor-bottom-h come from ui/js/anchor_ads.js (0px when there is no anchor, ad-free owners, or before approval).
+   The bottom nav (.nav, absolute at the bottom of #app) is NOT changed: #app gets shorter, so the nav and Age button simply sit above
+   a bottom anchor; a top anchor pushes #app (status card, header) down. Load AFTER style.css / vivid.css. */
+:root{--anchor-top-h:0px;--anchor-bottom-h:0px}
+html #app{margin-top:var(--anchor-top-h);height:calc(100dvh - var(--anchor-top-h) - var(--anchor-bottom-h))}
+@media (min-width:481px){html #app{margin-top:var(--anchor-top-h)}}
+/* #app also carries the art kit's .ls-app (min-height:100vh), which would otherwise stretch it back under the anchor */
+html #app.ls-app{min-height:calc(100vh - var(--anchor-top-h) - var(--anchor-bottom-h))}
+html[data-text="large"] #app.ls-app, html[data-text="xl"] #app.ls-app{min-height:calc((100vh - var(--anchor-top-h) - var(--anchor-bottom-h)) / var(--zoom))}
+/* text-size zoom (style.css): zoom also scales margin/height units */
+html[data-text="large"] #app, html[data-text="xl"] #app{margin-top:calc(var(--anchor-top-h) / var(--zoom));height:calc((100dvh - var(--anchor-top-h) - var(--anchor-bottom-h)) / var(--zoom))}
+/* legacy fixed-position theme pieces (art/theme.css) used by a few screens */
+.ls-tabs{bottom:var(--anchor-bottom-h)}
+.ls-age-btn{bottom:calc(30px + env(safe-area-inset-bottom,0px) + var(--anchor-bottom-h))}
+.ls-modal-backdrop{top:var(--anchor-top-h);bottom:var(--anchor-bottom-h)}
+/* top-layer modal <dialog>s: keep them and their ::backdrop out of the anchor strip (never cover or dim the ad) */
+dialog:modal{top:var(--anchor-top-h,0px);bottom:var(--anchor-bottom-h,0px);max-height:calc(100dvh - 2em - var(--anchor-top-h,0px) - var(--anchor-bottom-h,0px))}
+dialog::backdrop{top:var(--anchor-top-h,0px);bottom:var(--anchor-bottom-h,0px)}

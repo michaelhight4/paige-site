@@ -1,0 +1,20 @@
+/* anchor-ads.css — reflow paigegames.net around Google's collapsible anchor ad (open, collapsed or absent).
+   Vars are published on <html> by anchor-ads.js from the REAL anchor (ins.adsbygoogle[data-anchor-status]) or the ?adpreview=1 placeholder.
+   0px whenever there is no anchor, so this file is a no-op for ad-free owners and before approval. Nothing here hides, covers or dims the ad. */
+:root{--anchor-top-h:0px;--anchor-bottom-h:0px;--anchor-top-pad:0px;--anchor-bottom-pad:0px}
+/* Document: reserve the strip so the last content (footer) always scrolls clear of the anchor; anchor jumps land below a top anchor */
+html{scroll-padding-top:var(--anchor-top-h);scroll-padding-bottom:var(--anchor-bottom-h)}
+body{padding-top:var(--anchor-top-pad);padding-bottom:var(--anchor-bottom-pad)}
+/* Sticky header sticks under a top anchor instead of under it */
+header.top{top:var(--anchor-top-h)}
+/* Fixed UI rides above a bottom anchor / below a top anchor */
+.mp{bottom:calc(18px + var(--anchor-bottom-h))}
+.toast{bottom:calc(88px + var(--anchor-bottom-h))}
+/* Overlays (mobile drawer, scrim, ad notice) stop at the anchor edge: never dim or cover the ad, and their own buttons stay reachable */
+.scrim,#ad-notice{top:var(--anchor-top-h);bottom:var(--anchor-bottom-h)}
+.drawer{top:var(--anchor-top-h);bottom:var(--anchor-bottom-h)}
+/* Modal <dialog>s (gift, sign-in, chooser, maps lightbox) live in the browser top layer, ABOVE any z-index: keep them and their
+   ::backdrop out of the anchor strip so a dialog never covers or dims the anchor ad (phone bottom sheets sit on top of a bottom anchor) */
+dialog:modal{top:var(--anchor-top-h,0px);bottom:var(--anchor-bottom-h,0px);max-height:calc(100dvh - 2em - var(--anchor-top-h,0px) - var(--anchor-bottom-h,0px))}
+dialog.auth:modal,dialog.gift:modal{max-height:calc(100dvh - 24px - var(--anchor-top-h,0px) - var(--anchor-bottom-h,0px))}
+dialog::backdrop{top:var(--anchor-top-h,0px);bottom:var(--anchor-bottom-h,0px)}

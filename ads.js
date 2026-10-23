@@ -59,9 +59,11 @@
     }
     if (live && !loaded) {
       loaded = true;
-      const s = document.createElement('script'); s.async = true; s.crossOrigin = 'anonymous';
-      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADSENSE_CLIENT;
-      document.head.appendChild(s);
+      if (!document.querySelector('script[src*="adsbygoogle.js"]')) { // anchor-ads.js may already have loaded the one Auto ads tag
+        const s = document.createElement('script'); s.async = true; s.crossOrigin = 'anonymous';
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADSENSE_CLIENT;
+        document.head.appendChild(s);
+      }
       document.querySelectorAll('.ad-slot ins.adsbygoogle').forEach(() => (window.adsbygoogle = window.adsbygoogle || []).push({}));
     }
   }
