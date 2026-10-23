@@ -99,6 +99,8 @@ export class Overworld {
 
   async init() {
     this.resize();
+    const fit = !!this.opts.platform?.profile?.display?.fitCanvas;
+    if (fit) this._watchViewport(); // mobile: watch the viewport from the first frame, not only after the multi-second load
     try {
       this.layout = await loadJson(this.config.worldLayout);
       this.knownMaps = new Set(this.layout.maps_built || []);
@@ -111,12 +113,8 @@ export class Overworld {
     await this.ensureAssets();
     this.player.place(s.x, s.y, s.facing);
     await this._enterMap();
-    window.addEventListener('resize', () => this.resize());
-    if (this.opts.platform?.profile?.display?.fitCanvas) { // mobile: browser bars / rotation change the visual viewport without always firing window resize
-      window.visualViewport?.addEventListener('resize', () => this.resize());
-      window.addEventListener('orientationchange', () => setTimeout(() => this.resize(), 250));
-      document.addEventListener('fullscreenchange', () => this.resize());
-    }
+    if (!fit) window.addEventListener('resize', () => this.resize()); // pc: unchanged
+    else this._settle(); // mobile: re-measure for ~1 s once the game is up (URL bar settles after the first paint)
     window.addEventListener('pagehide', () => this.saveNow());
   }
 
@@ -201,23 +199,34 @@ export class Overworld {
   }
 
   /** Load the tileset set + player sheets that match the current integer zoom (+ the 1x set for graded draws). */
-  async ensureAssets() {
+  ensureAssets() { return (this._assetsLatest = this._ensureAssets()); }
+
+  async _ensureAssets() {
     const want = this.zoom === 2 || this.zoom === 3 ? this.zoom : 1;
+    // Rotate zoom fix (Oct 23, 2026): every call gets a ticket; a load that finishes after a newer call (phone turned from
+    // portrait zoom 4 / 1x art to landscape zoom 2 / 2x art while the 1x files were still downloading) must not put the old set back.
+    const ticket = (this._assetTicket = (this._assetTicket || 0) + 1);
     const tsUrl = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, want), this.mapUrl(this.map.name));
-    if (!this.tileset || this.tileset.url !== tsUrl) this.tileset = await loadTileset(tsUrl);
+    if (!this.tileset || this.tileset.url !== tsUrl) { const ts = await loadTileset(tsUrl); if (ticket !== this._assetTicket) return this._assetsSettled(); this.tileset = ts; }
     const ts1 = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name));
-    if (this.grades && (!this.tileset1x || this.tileset1x.url !== ts1)) this.tileset1x = want === 1 ? this.tileset : await loadTileset(ts1);
+    if (this.grades && (!this.tileset1x || this.tileset1x.url !== ts1)) { const t1 = want === 1 ? this.tileset : await loadTileset(ts1); if (ticket !== this._assetTicket) return this._assetsSettled(); this.tileset1x = t1; }
     if (this.playerScale !== want) {
       const sheets = this.config.playerSheets, imgs = {}, imgs1 = {};
       await Promise.all(Object.keys(sheets).map(async (k) => {
         try { imgs[k] = await loadImage(sheets[k][want]); imgs1[k] = want === 1 ? imgs[k] : await loadImage(sheets[k][1]); }
         catch (e) { if (k === 'walk') throw e; console.warn(e.message); }
       }));
+      if (ticket !== this._assetTicket) return this._assetsSettled();
       this.playerImgs = imgs; this.playerImgs1 = imgs1;
       this.playerScale = want;
       await this._loadActorSprites();
     }
+    if (ticket !== this._assetTicket) return this._assetsSettled();
+    if (this.sheetScale !== want) return this.ensureAssets(); // zoom moved on without a new call: load the set it wants now
   }
+
+  /** A superseded ensureAssets() resolves when the newest call has finished (callers that await it still get the right art). */
+  _assetsSettled() { return this._assetsLatest; }
 
   get sheetScale() { return this.zoom === 2 || this.zoom === 3 ? this.zoom : 1; }
 
@@ -238,6 +247,44 @@ export class Overworld {
         .then(([sheet, mask]) => { this.follower.sheet = sheet; this.follower.mask = mask; this.follower.rel = rel; }));
     }
     await Promise.all(jobs);
+  }
+
+  /** Mobile (fitCanvas) only. Phone squish fix, Oct 23, 2026: the listeners used to be attached at the END of init(), so a URL bar
+   *  collapse or a portrait-to-landscape turn during the load left the backing store at the old size while the CSS box (100vw x 100dvh)
+   *  had moved on: the frame was stretched until the next rotation. Now every source of viewport change re-measures from the start. */
+  _watchViewport() {
+    const re = () => this.resize();
+    window.addEventListener('resize', re);
+    window.visualViewport?.addEventListener('resize', re);
+    window.visualViewport?.addEventListener('scroll', re);
+    window.addEventListener('orientationchange', () => { re(); setTimeout(re, 250); this._settle(1500); });
+    // Rotate zoom fix (Oct 23, 2026): the 'turn sideways' overlay hides on this media query (landscape.js); re-measure from
+    // the same signal for 1.5 s, since iOS can report the landscape box a few frames after the overlay is gone.
+    window.matchMedia?.('(orientation: portrait)')?.addEventListener?.('change', () => { re(); this._settle(1500); });
+    document.addEventListener('fullscreenchange', re);
+    document.addEventListener('webkitfullscreenchange', re);
+    window.addEventListener('pageshow', () => this._settle()); // back/forward cache restore, returning from the home screen
+    window.addEventListener('load', () => this._settle());
+    if (typeof ResizeObserver === 'function') new ResizeObserver(re).observe(this.canvas); // the canvas's own CSS box (100dvh)
+    this._settle();
+  }
+
+  /** Re-measure every animation frame for ~1 s (iOS reports the final bar state a few frames late, without an event). */
+  _settle(ms = 1000) {
+    const until = performance.now() + ms;
+    if (this._settleUntil > performance.now()) { this._settleUntil = Math.max(this._settleUntil, until); return; }
+    this._settleUntil = until;
+    const step = () => { this.resize(); if (performance.now() < this._settleUntil) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+
+  /** Mobile (fitCanvas) only, every frame. Rotate zoom fix (Oct 23, 2026; Gary's iPhone: after portrait -> landscape the
+   *  frame stayed at the portrait backing store and zoom 4, stretched over the landscape box). Events can be missed or arrive
+   *  before the new size is laid out, so the loop itself compares the backing store with the CSS box x dpr and re-sizes on any
+   *  difference: the landscape view always matches a fresh landscape load. One getBoundingClientRect per frame. */
+  _fitCheck() {
+    const dpr = window.devicePixelRatio || 1, r = this.canvas.getBoundingClientRect();
+    if (r.width > 0 && r.height > 0 && (Math.round(r.width * dpr) !== this.canvas.width || Math.round(r.height * dpr) !== this.canvas.height)) this.resize();
   }
 
   resize() {
@@ -843,6 +890,7 @@ export class Overworld {
   }
 
   frame(now) {
+    if (this.opts.platform?.profile?.display?.fitCanvas) this._fitCheck(); // mobile: backing store always = CSS box x dpr (rotate zoom fix)
     if (!this.last) this.last = now;
     let dt = now - this.last; this.last = now;
     if (dt > 250) dt = 250; // tab was hidden: don't fast-forward
