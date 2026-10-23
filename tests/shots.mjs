@@ -21,7 +21,7 @@ const check = (ok, msg) => { results.push((ok ? 'PASS ' : 'FAIL ') + msg); if (!
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function open(page, q = '') {
-  await page.goto(base + q);
+  await page.goto(base + (q ? q + '&save=0' : '?save=0')); // no localStorage carry-over between checks
   await page.waitForFunction(() => window.kilumen && window.kilumen.scene && window.kilumen.scene.tileset);
   await page.evaluate(() => window.kilumen.ready);
   await sleep(150);
@@ -60,15 +60,17 @@ try {
     let s = await st(page);
     check(s.map === 'brookhollow' && s.zoom === wantZoom && s.tileSize === 64 * wantZoom, `${tag}: brookhollow loaded at zoom x${s.zoom}, ${s.tileSize}px tile set`);
     check(s.smoothing === false && s.canvas.w === w && s.canvas.h === h, `${tag}: canvas ${s.canvas.w}x${s.canvas.h}, imageSmoothingEnabled=${s.smoothing}`);
+    // Ron's bin (World Design, soul pass) now stands at 7,8: walk tests start east of it.
+    await open(page, '?map=brookhollow&x=8&y=8&facing=down');
     await hold(page, 'ArrowRight', 60); await settle(page);              // tap: turn only
     s = await st(page);
-    check(s.x === 5 && s.y === 8 && s.facing === 'right', `${tag}: tap turns in place (5,8 facing ${s.facing})`);
+    check(s.x === 8 && s.y === 8 && s.facing === 'right', `${tag}: tap turns in place (${s.x},${s.y} facing ${s.facing})`);
     const trace = [];
     await page.keyboard.down('ArrowRight');
     for (let i = 0; i < 40; i++) { trace.push(await st(page)); await sleep(16); }
     await page.keyboard.up('ArrowRight'); await settle(page);
     s = await st(page);
-    check(s.x > 6 && s.y === 8, `${tag}: holding right walks (now ${s.x},${s.y})`);
+    check(s.x > 9 && s.y === 8, `${tag}: holding right walks (now ${s.x},${s.y})`);
     check(trace.every((t) => Number.isInteger(t.pixel.px) && Number.isInteger(t.cam.x) && Number.isInteger(t.cam.y)), `${tag}: player px and camera stay whole native pixels while walking`);
     await hold(page, 'ArrowDown', 400); await settle(page);
     s = await st(page);
@@ -118,10 +120,10 @@ try {
     await page.screenshot({ path: path.join(OUT, `${tag}_05_route1_debug.png`) });
 
     // 5b. Walking into tall grass: grass front/tips overlay covers the legs, rustle plays.
-    await open(page, '?map=route1&x=5&y=30&facing=right');
+    await open(page, '?map=route1&x=7&y=30&facing=right');
     await hold(page, 'ArrowRight', 560); await settle(page);
     s = await st(page);
-    check(s.map === 'route1' && s.x >= 7 && s.y === 30, `${tag}: walked into tall grass at ${s.x},${s.y}`);
+    check(s.map === 'route1' && s.x >= 9 && s.y === 30, `${tag}: walked into tall grass at ${s.x},${s.y}`);
     await page.screenshot({ path: path.join(OUT, `${tag}_07_in_tall_grass.png`) });
 
     // 6. TO COME exit: Brookhollow east road -> closed message, no warp.
@@ -131,20 +133,20 @@ try {
     check(s.map === 'brookhollow' && s.warpCount === 0 && s.log.some((e) => e.type === 'toast' && /closed/.test(e.text)), `${tag}: TO COME exit shows the closed message and stays put`);
 
     // 8. Running shoes (MOVEMENT.md): hold B (X / Shift) + direction. No flag = still walking.
-    await open(page, '?map=brookhollow&x=5&y=8&facing=right');
+    await open(page, '?map=brookhollow&x=8&y=8&facing=right');
     await page.keyboard.down('KeyX'); await page.keyboard.down('ArrowRight'); await sleep(300);
     s = await st(page);
     await page.keyboard.up('ArrowRight'); await page.keyboard.up('KeyX'); await settle(page);
     check(s.stepMode === 'walk', `${tag}: B without has_run_shoes still walks (${s.stepMode})`);
-    await open(page, '?map=brookhollow&x=5&y=8&facing=right&flags=has_run_shoes');
+    await open(page, '?map=brookhollow&x=8&y=8&facing=right&flags=has_run_shoes');
     await page.keyboard.down('KeyX'); await page.keyboard.down('ArrowRight');
     const t0 = Date.now(); let runShot = null;
-    for (let i = 0; i < 60 && !runShot; i++) { const r = await st(page); if (r.moving !== false && r.state === 'step' && r.frame.anim === 'run' && r.x >= 7) { runShot = r; await page.screenshot({ path: path.join(OUT, `${tag}_08_running.png`) }); } await sleep(10); }
+    for (let i = 0; i < 60 && !runShot; i++) { const r = await st(page); if (r.moving !== false && r.state === 'step' && r.frame.anim === 'run' && r.x >= 10) { runShot = r; await page.screenshot({ path: path.join(OUT, `${tag}_08_running.png`) }); } await sleep(10); }
     await sleep(Math.max(0, 500 - (Date.now() - t0)));
     await page.keyboard.up('ArrowRight'); await page.keyboard.up('KeyX'); await settle(page);
     s = await st(page);
     check(!!runShot && runShot.stepMode === 'run' && runShot.dur <= 8, `${tag}: has_run_shoes + B runs (run sheet, ${runShot?.dur} ticks/tile)`);
-    check(s.x >= 8 && s.frame.anim === 'walk' && s.frame.col === 0, `${tag}: ran to x=${s.x} in ~0.5 s, stops on walk stand`);
+    check(s.x >= 11 && s.frame.anim === 'walk' && s.frame.col === 0, `${tag}: ran to x=${s.x} in ~0.5 s, stops on walk stand`);
 
     // 9. Bike (MOVEMENT.md): Select (C) mounts outdoors; ramp hop into the Thornwood pocket; no dismount in the pocket.
     await open(page, '?map=thornwood&x=14&y=14&facing=right');

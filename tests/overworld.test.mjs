@@ -20,7 +20,7 @@ const loadMap = (n) => new GameMap(readJson(path.join(KIT, 'maps', n + '.json'))
 const MAPS = Object.fromEntries(layout.maps_built.map((n) => [n, loadMap(n)]));
 
 test('collision codes in tileset.json match the engine constants', () => {
-  assert.deepEqual(TS.codes, { walk: Col.WALK, block: Col.BLOCK, ledge_s: Col.LEDGE_S, water: Col.WATER, door: Col.DOOR, boulder: Col.BOULDER, gate: Col.GATE, plate: Col.PLATE, bike_only: Col.BIKE_ONLY, ramp: Col.RAMP });
+  assert.deepEqual(TS.codes, { walk: Col.WALK, block: Col.BLOCK, ledge_s: Col.LEDGE_S, water: Col.WATER, door: Col.DOOR, boulder: Col.BOULDER, gate: Col.GATE, plate: Col.PLATE, bike_only: Col.BIKE_ONLY, ramp: Col.RAMP, ice: Col.ICE, deep_water: Col.DEEP_WATER });
 });
 
 test('1x/2x/3x tilesets share ids and indices; tile sizes 64/128/192; sheets are whole tiles', () => {
@@ -212,7 +212,7 @@ test('zoom table: 1080p x2, 1440p x3, 720p x2, 2160p x4', () => {
 });
 
 test('tile animation: water loops; tall grass idles and rustles once on enter', () => {
-  const water = TS.byId.get(22);
+  const water = [...TS.byId.values()].find((t) => t.name === 'water');
   assert.equal(tileFrame(water, 0), water.animation.frames[0]);
   assert.equal(tileFrame(water, 220 * 5), water.animation.frames[1]);
   const grass = [...TS.byId.values()].find((t) => t.animation?.type === 'rustle');

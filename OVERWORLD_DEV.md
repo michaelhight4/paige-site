@@ -33,6 +33,8 @@ Skylift flying, Lumen Line train; puzzles; NPC dialogue other than gate guards; 
 ```
 node --test tests/overworld.test.mjs   # npm test: data + logic (no browser)
 node tests/shots.mjs                   # npm run shots: headless Chromium, real key input, screenshots
+node --test tests/soul.test.mjs        # soul pass: line picker (v0.4.1), save, clock, Warmth stages
+node tests/soul_pass_shots.mjs         # soul pass: spots, bin, time of day, Warmth, NPCs, portraits, prints, seams, every map + warp
 ```
 `npm install` once for the Playwright devDependency (uses the cached Chromium in ~/.cache/ms-playwright).
 
@@ -49,3 +51,31 @@ node tests/shots.mjs                   # npm run shots: headless Chromium, real 
 
 Rendering rules: integer zoom only (x2 for 1080p, x3 for 1440p), the matching pre-scaled sheet, smoothing off
 (re-applied after every resize), camera and sprites on whole native pixels, fixed 60 Hz ticks.
+
+## Soul pass v1 (local only: art unapproved by Gary)
+Text, save, time of day, Warmth and NPC sprites. Data comes from `text/overworld_lines.json` (v0.4.1),
+`art/world/overworld/time_of_day/grades.json`, `art/characters/pixel/npcs/npc_sprite_map.json` and
+`art/characters/pixel/warmth/warmth_tints.json`.
+- Save: `localStorage` `kilumen.save.v1` plus a `.bak` copy. It holds flags, the counters `office_display_taps` and
+  `bin_inspects_after_8`, seen lines, the clock, the party (Warmth) and the position. It saves on any change, at the
+  end of a warp or script, every 60 s and on pagehide. `?save=0` turns persistence off, `?reset=1` wipes the save,
+  and `?flags=` still adds dev flags on top of the save.
+- Lines (`src/overworld/lines.js`): the first line whose flags are all set and whose `when` matches wins. Lines
+  marked `pending_story_call` are skipped. `bin_ron` lines must match the bin tile stage. `weekday` never matches yet.
+  Placeholders are `{player}`, `{coins}`, `{lead}`, `{nick}` and `{rt_number}` (`config.rtNumberPlaceholder`
+  until catalogue numbers exist). Ron's nicknames are behind `config.ronNicknames` (off). Text APIs for later
+  passes: `ronBattleOpener(id)`, `vaneLine()`, `catalogueText(key)`, `comfortText(path)`, `ronNickname()`.
+  The house_2f PC opens `company_inbox`; B closes it. Signs in `signs_awaiting_world_id` are not wired yet.
+- Interact spots and triggers: map `interact_spots` give the geometry and lines give the text. Spots cover the 14
+  props, `window_N` and the `bridge_mid` walk-on trigger (once per in-game day). The bed asks Yes/No (nap or dream);
+  the sofa gives Warmth.
+- Ron's bin: tile `bin_ron_<coins>` (0-8), flies from stage 6, `bin_ron_empty` after `finale_done`.
+- Time of day: 1 real minute = 1 game hour (dawn 5-7, day 8-16, dusk 17-19, night 20-4). Outdoors is graded with
+  the map palette and the LUT for sprites (day = identity). Interiors and caves stay on day, while window tiles
+  follow the outdoor phase. Dev params: `?hour=22`, `?phase=night`, `?timescale=0` (freeze).
+- Warmth: the lead follows the player using its overworld sheet. The stage is 0/1/2/3 at <25/<50/<75/75+, and the
+  mask-only exact-hex swap keeps alpha (stage 0 = identity, tints cached). Dev: `?lead=rillop&warmth=80&nick=Bubbles`.
+- Footprints: sand, mud and snow ground leaves prints that fade after about 4 s (max 24). The bike leaves none.
+- NPCs: 64x96 sheets from the sprite map. Villagers wander and trainers look around. Trainers challenge with the
+  battle sprite; dialogue shows portraits where the map has them.
+- Shots: `shots/soul_pass_v1/`.
