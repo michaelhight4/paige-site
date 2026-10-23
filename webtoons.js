@@ -3,7 +3,7 @@ window.WEBTOONS=[
 {id:"sote",title:"The Start of the End",status:"live",featured:true,img:"assets/home/sote-cover.webp",alt:"Cover of The Start of the End: a boy with a glowing gold mark before a green-lit spire city",
  tags:["13+","YA fantasy"],blurb:"A burned boy, a golden mark, and a city of spires.",
  links:[{label:"Read on Webtoon",url:"https://www.webtoons.com/en/canvas/the-start-of-the-end/list?title_no=1178955"},{label:"About the series",url:"#start-of-the-end"}]},
-{id:"after-annie",title:"After Annie",status:"live",featured:true,img:"assets/home/annie.webp",alt:"Full-colour panel from After Annie",
+{id:"after-annie",title:"After Annie",status:"live",featured:true,img:"assets/home/annie-cover.webp",alt:"Cover of After Annie: Dave laughing with a girl on his back as zombies close in",
  tags:["16+","Zombie drama"],blurb:"The night the outbreak hit, Dave was at his coworker Annie's place. Now he has to get home to his wife and daughter.",links:[{label:"Read on Webtoon",url:"https://www.webtoons.com/en/canvas/after-annie/list?title_no=1179075"}]},
 {id:"war-skill",title:"I Use My War Skill for Girls",status:"live",img:"assets/home/warskill.webp",alt:"Cover of I Use My War Skill for Girls: a wolf-eared hero with four companions before a castle city",
  tags:["Isekai rom-com","16+"],blurb:"He got isekai'd into a video game world and received a strategic planning skill meant for war. He's half wolf beast folk. Instead of using it to climb ranks or fight, he uses it to pick up girls. The same ability that could coordinate armies ends up getting him dates, avoiding fights he doesn't want, and accidentally keeping the peace because actual combat would mess up his plans.",
