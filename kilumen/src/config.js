@@ -22,7 +22,7 @@ export const CONFIG = Object.freeze({
   startFlags: [],
   buttonNames: { run_button: 'B', bike_button: 'Select' },
   // Dev start: outside the player's house in Brookhollow. The kit says "new-game spawn 2F" but gives no tile (README gap).
-  start: { map: 'brookhollow', x: 5, y: 8, facing: 'down' },
+  start: { map: 'brookhollow', x: 17, y: 15, facing: 'down' }, // padded frame (+12,+7; was 5,8 before the Oct 23 pad)
   closedPathText: 'The path ahead is closed.',
   // ---- soul pass (unapproved art: local only) ----
   playerName: 'Cal',

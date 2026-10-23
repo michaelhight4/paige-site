@@ -223,12 +223,14 @@ async function recoloured(a, map) { // 1x sheet -> canvas with the family colour
   for (let i = 0; i < px.length; i += 4) { if (!px[i + 3]) continue; for (const [f, t] of m) if (px[i] === f[0] && px[i + 1] === f[1] && px[i + 2] === f[2]) { px[i] = t[0]; px[i + 1] = t[1]; px[i + 2] = t[2]; break; } }
   x.putImageData(d, 0, 0); return c;
 }
-/** o: { from (species id), to?, host?, reduced, cancel (test: B during the hold), hold (ms the text waits) }. Resolves { from, to, steps, ms, cancelled }. */
+/** o: { from (species id), to?, host?, reduced, cancel (true = test: B during the hold; a function = polled live, src/systems/evolution.js),
+ *  text ({start, end} overrides hooks.text), hold (ms the text waits) }. Resolves { from, to, steps, ms, cancelled }. */
 export async function evolveFx(o = {}) {
   const old = SPECIES.find((x) => x.id === o.from), nw = o.to ? SPECIES.find((x) => x.id === o.to) : nextForm(o.from);
   if (!old || !nw) return { skipped: 'no next form', steps: [] };
   const E = await piece('evolution'), H = E?.hooks || {}, steps = [], t0 = performance.now();
-  const names = o.reduced ? ['evo_reduced_motion'] : ['evo_veins_grow', 'evo_veins_hold', o.cancel ? 'evo_cancel' : 'evo_reveal_front', 'evo_ring_burst'];
+  const live = typeof o.cancel === 'function', stopNow = () => (live ? !!o.cancel() : !!o.cancel); // live: B can stop it until the reveal starts
+  const names = o.reduced ? ['evo_reduced_motion'] : live ? ['evo_veins_grow', 'evo_veins_hold', 'evo_cancel', 'evo_reveal_front', 'evo_ring_burst'] : ['evo_veins_grow', 'evo_veins_hold', o.cancel ? 'evo_cancel' : 'evo_reveal_front', 'evo_ring_burst'];
   const set = await preload(names.map((k) => ['evolution', k])); if (!set) return { skipped: 'art missing', steps };
   const tints = await getJson('art/characters/pixel/warmth/warmth_tints.json'), fam = tints?.creatures?.[old.id]?.stages?.['3'] || null; // no entry -> violet
   const spr = (id) => getImg('art/characters/pixel/' + battleSpriteRel(id, 'front', false));
@@ -239,7 +241,7 @@ export async function evolveFx(o = {}) {
   (o.host || document.body).appendChild(st);
   const cv = st.firstChild, cx = cv.getContext('2d'), msg = st.lastChild, sz = 128, C = [64, 64]; // crystal point: sprite centre (crystal_anchors has no battle-sprite entry)
   const fill = (s, v) => s.replace('{old}', old.name).replace('{new}', nw.name);
-  const T = H.text || { start: '{old} is changing...', end: '{old} became {new}!' };
+  const T = o.text || H.text || { start: '{old} is changing...', end: '{old} became {new}!' };
   const off = document.createElement('canvas'); off.width = off.height = sz; const ox = off.getContext('2d');
   const mask = (imgs) => { const m = document.createElement('canvas'); m.width = m.height = sz; const mx = m.getContext('2d'); imgs.forEach((i) => mx.drawImage(i, 0, 0)); return m; };
   const mOld = mask([A0]), mBoth = mask([A0, A1]);
@@ -256,12 +258,12 @@ export async function evolveFx(o = {}) {
     idx.forEach((i, n) => { setTimeout(() => draw(i, n), t); t += a.frames[i].ms; }); setTimeout(res, t); });
   base(A0); msg.textContent = fill(T.start);
   let cancelled = false;
-  if (o.reduced) { await play('evo_reduced_motion', (i) => { base(A0); overlay('evo_reduced_motion', i, mOld); }); base(A1); }
+  if (o.reduced) { await play('evo_reduced_motion', (i) => { base(A0); overlay('evo_reduced_motion', i, mOld); }); if (live && stopNow()) { base(A0); cancelled = true; } else base(A1); }
   else {
     await play('evo_veins_grow', (i) => { base(A0); overlay('evo_veins_grow', i, mOld); });
     const loops = Math.max(1, Math.round((o.hold ?? 1332) / set.evo_veins_hold.total));
-    for (let l = 0; l < loops; l++) await play('evo_veins_hold', (i) => { base(A0); overlay('evo_veins_hold', i, mOld); });
-    if (o.cancel) { await play('evo_cancel', (i) => { base(A0); overlay('evo_cancel', i, mOld); }); base(A0); cancelled = true; }
+    for (let l = 0; l < loops && !(live && stopNow()); l++) await play('evo_veins_hold', (i) => { base(A0); overlay('evo_veins_hold', i, mOld); });
+    if (stopNow()) { await play('evo_cancel', (i) => { base(A0); overlay('evo_cancel', i, mOld); }); base(A0); cancelled = true; }
     else {
       const RR = H.reveal?.REVEAL_R || [16, 32, 48, 64, 80, 96, 112, 128, 144, 160], a = set.evo_reveal_front;
       const upto = a.frames.map((_, i) => i).filter((i, n, arr) => n === 0 || RR[arr[n - 1]] < Rmax + 6); // stop rule

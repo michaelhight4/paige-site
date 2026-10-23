@@ -10,6 +10,7 @@ import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js';
 import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js';
 import { fillText, coinCount } from '../overworld/lines.js';
 import { gradeImage } from '../overworld/palette.js';
+import { attachRtBenefits } from './rt_benefits.js'; // RT Employee Benefits (company XP tree, Oct 23 2026)
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)
@@ -131,10 +132,10 @@ export class Systems {
 
   async starterAt(cradle) {
     const species = this.cfg.starterCradles[cradle.id], name = displayName({ species });
-    const k = await this.ask([`[TODO Text Bot: starter cradle line] It's ${name}. Take it with you?`], ['Yes', 'No'], {});
+    const k = await this.ask([`Take ${name} as your partner?`], ['Yes', 'No'], {});
     if (k !== 0) return null;
     const r = this.party.chooseStarter(species, { origin: { map: this.scene.map.name, how: 'starter', day: this.scene.clock?.day ?? 0 } });
-    if (r.ok) await this.say([`[TODO Text Bot: starter received line] ${name} joined your team!`], {});
+    if (r.ok) await this.say([`${name} is on your team now.`], {});
     return r;
   }
 
@@ -258,5 +259,6 @@ export function satchelSprite(empty = false) {
 export function attachSystems(scene, opts = {}) {
   const sys = new Systems(scene, opts);
   scene.systems = sys;
+  try { attachRtBenefits(scene, sys, { config: opts.config, data: opts.rtBenefits }); } catch (e) { console.error('rt_benefits:', e); } // company XP tree (browser / opts.rtBenefits only)
   return sys;
 }

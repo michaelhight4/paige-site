@@ -49,7 +49,7 @@ export class Heal {
     const sc = this.sys.scene, T = this.sys.lines?.system_heal || {};
     const b = branchByCarer(def.id) || branchByMap(mapName) || (entry?.after_heal ? branchByZone(sc?.zone?.()) : null);
     if (!b) return false;
-    const L = T.choices?.labels || { rest: 'Rest my team', rest_go: 'Rest and go', skip_recal: 'Heal only, skip recal', no: 'Not now' };
+    const L = T.choices?.labels || { rest: 'Rest my team', rest_go: 'Rest and go', skip_recal: 'Heal only, skip retune', no: 'Not now' };
     const opts = ['rest'];
     if ((this.state.heals || 0) > 0) opts.push('rest_go');
     if (sc?.flags?.has('read_drift_log')) opts.push('skip_recal');

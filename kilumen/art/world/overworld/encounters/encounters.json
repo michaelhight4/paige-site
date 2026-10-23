@@ -51,6 +51,7 @@
   "calderax",
   "calderock",
   "candlewren",
+  "capling",
   "cascadorn",
   "cavernmaw",
   "cavernwing",
@@ -77,6 +78,7 @@
   "dewmite",
   "ditchsnap",
   "dormagnus",
+  "drenchcrab",
   "dripweaver",
   "dustbonnet",
   "eavesgrim",
@@ -96,10 +98,12 @@
   "fleecelight",
   "flickermole",
   "flockpup",
+  "floepaddle",
   "foalgust",
   "foamkin",
   "foldwing",
   "forgeharrow",
+  "foundrax",
   "frondhart",
   "frondlet",
   "frostlop",
@@ -159,12 +163,14 @@
   "musselin",
   "netspinner",
   "nibbin",
+  "northling",
   "novarch",
   "nudiblume",
   "obsidiax",
   "olmling",
   "ondravel",
   "paleminnow",
+  "parasoleaf",
   "pearlisk",
   "pebbadillo",
   "pebbit",
@@ -188,6 +194,7 @@
   "rakefin",
   "raywing",
   "reedmoot",
+  "reefshell",
   "reverion",
   "ribboneel",
   "rillop",
@@ -211,6 +218,7 @@
   "snapmoor",
   "snowcairn",
   "snowgrouse",
+  "snowmuff",
   "somnarch",
   "sparkplume",
   "spinelet",
@@ -224,6 +232,7 @@
   "stonepede",
   "stratodrake",
   "streambarb",
+  "sunderhoof",
   "talusmouse",
   "thistlehound",
   "thistlepup",
@@ -231,10 +240,12 @@
   "tidemarrow",
   "tidepony",
   "tinderwren",
+  "toadcap",
   "tollkin",
   "topiarix",
   "torrentpike",
   "tumbloam",
+  "tundrarch",
   "tuskwallow",
   "velvetabby",
   "vesperowl",
@@ -253,7 +264,7 @@
      "species": "tumbloam",
      "level": [
       2,
-      5
+      4
      ],
      "weight": 30
     },
@@ -261,7 +272,7 @@
      "species": "sailquill",
      "level": [
       2,
-      5
+      4
      ],
      "weight": 30,
      "time": [
@@ -271,18 +282,10 @@
      ]
     },
     {
-     "species": "burrowmane",
-     "level": [
-      5,
-      6
-     ],
-     "weight": 5
-    },
-    {
      "species": "gloamtick",
      "level": [
       3,
-      5
+      4
      ],
      "weight": 15,
      "time": [
@@ -293,8 +296,8 @@
     {
      "species": "halovy",
      "level": [
-      5,
-      6
+      3,
+      4
      ],
      "weight": 2,
      "time": [
@@ -305,7 +308,7 @@
      "species": "rillop",
      "level": [
       2,
-      5
+      4
      ],
      "weight": 18,
      "weather": [
@@ -317,7 +320,7 @@
      "species": "burlbeetle",
      "level": [
       2,
-      5
+      4
      ],
      "weight": 20
     }
@@ -1997,18 +2000,12 @@
  },
  "species_without_art": [
   "dewbell",
-  "drenchcrab",
   "driftknot",
-  "floepaddle",
   "glisterdew",
   "glyphmage",
   "mantleox",
   "mirejaw",
-  "northling",
-  "parasoleaf",
   "peatbellow",
-  "reefshell",
-  "snowmuff",
   "snowroller",
   "sunbasilisk"
  ],

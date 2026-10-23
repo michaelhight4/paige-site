@@ -29,8 +29,15 @@ export function isIndoor(mapName) { return INDOOR_OR_CAVE.test(mapName || ''); }
 export const FOLLOWS_OUTDOOR_CLOCK = new Set(['club_int']);
 export function followsOutdoorClock(mapName) { return FOLLOWS_OUTDOOR_CLOCK.has(mapName); }
 
-/** Grade to draw a map with. */
-export function gradeFor(mapName, phase) { return isIndoor(mapName) && !followsOutdoorClock(mapName) ? 'day' : phase; }
+/**
+ * Grade to draw a map with. `tint` = the map's top-level tint (World Design, batch 3: mirefen_hall_int is
+ * {kind:'darkness', grade:'night', phases:[...]}): when present and the phase is listed (no list = every phase), its
+ * grade wins over the indoor 'day' rule. The scene passes null once the tint is cleared (Mirefen: puzzle solved).
+ */
+export function gradeFor(mapName, phase, tint = null) {
+  if (tint?.grade && (!Array.isArray(tint.phases) || tint.phases.includes(phase))) return tint.grade;
+  return isIndoor(mapName) && !followsOutdoorClock(mapName) ? 'day' : phase;
+}
 
 /** Advance {day, min} by `gameMin` minutes, rolling the day at midnight. Returns true if a new day started. */
 export function advanceClock(clock, gameMin) {

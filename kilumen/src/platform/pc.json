@@ -42,6 +42,7 @@
   ]
  },
  "camera": {
+  "alwaysCentre": true,
   "follow": "player_tile_centre",
   "deadzonePx": {
    "x": 0,
@@ -84,7 +85,7 @@
     },
     "confirm_button": {
      "glyph": "key_z",
-     "label": "the Z key"
+     "label": "the F key"
     },
     "debug": {
      "glyph": "key_f3",
@@ -146,6 +147,8 @@
    "logo": "clamp(80px, 14vh, 180px)",
    "menu-btn": "44px",
    "hud-edge": "16px",
+   "banner-font": "1.15em",
+   "banner-max": "40vw",
    "b-plate-w": "clamp(320px, 26vw, 460px)",
    "b-bottom-h": "24%"
   },
@@ -203,5 +206,14 @@
   "clouds": true,
   "flicker": true,
   "windowsGoDark": 0.4
+ },
+ "mood": {
+  "enabled": true,
+  "tint": true,
+  "vignette": true,
+  "particles": 1,
+  "maxParticles": 48,
+  "rays": true,
+  "maxRays": 5
  }
 }

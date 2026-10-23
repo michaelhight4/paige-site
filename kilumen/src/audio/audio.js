@@ -150,16 +150,61 @@ export function audioSettings(profileAudio, saved) {
   return { settings: s, cfg: base };
 }
 
+// ---- music duck (Oct 23 2026, coder; Gary 1:41 PM CT: "music should turn down to let her talk") -----------------------
+// Generic, reference-counted: duck(id, level, fadeMs) / unduck(id, fadeMs). Several holders may duck at once; the music
+// plays at the user's music volume x the LOWEST active level, and comes back to the user's volume only when every holder
+// has let go. It scales the music only (never effects or master) and multiplies settings.music, never overwrites it.
+// A holder that never lets go is released after maxMs (fallback). First user: RITA's comms strip (company_voice.js).
+export const DUCK_DEFAULTS = { level: 0.35, fadeInMs: 250, fadeOutMs: 600, maxMs: 20000 };
+
+/** Pure duck bookkeeping (node-testable). onChange(factor, fadeMs) fires whenever the effective factor changes. */
+export function createMusicDuck({ onChange = () => {}, setTimer = setTimeout, clearTimer = clearTimeout } = {}) {
+  const holds = new Map(); // id -> {count, level, timer}
+  let last = 1;
+  const factor = () => { let f = 1; for (const h of holds.values()) f = Math.min(f, h.level); return f; };
+  const changed = (fadeMs) => { const f = factor(); if (f !== last) { last = f; onChange(f, fadeMs); } };
+  const drop = (id) => { const h = holds.get(id); if (h) { clearTimer(h.timer); holds.delete(id); } };
+  const d = {
+    factor,
+    /** -> true when the hold was taken. level 0..1 (0.35 = music at 35% of the user's volume). */
+    duck(id, level = DUCK_DEFAULTS.level, fadeMs = DUCK_DEFAULTS.fadeInMs, maxMs = DUCK_DEFAULTS.maxMs) {
+      if (id == null) return false;
+      const lv = clamp01(Number.isFinite(Number(level)) ? level : DUCK_DEFAULTS.level);
+      const h = holds.get(id) || { count: 0, level: 1, timer: 0 };
+      h.count++; h.level = Math.min(h.count > 1 ? h.level : 1, lv);
+      clearTimer(h.timer);
+      if (maxMs > 0) h.timer = setTimer(() => { drop(id); changed(DUCK_DEFAULTS.fadeOutMs); }, maxMs); // never stuck low
+      holds.set(id, h);
+      changed(fadeMs);
+      return true;
+    },
+    /** One release for id (all: every hold of id). -> holds left for id. Unknown id = no-op. */
+    unduck(id, fadeMs = DUCK_DEFAULTS.fadeOutMs, all = false) {
+      const h = holds.get(id); if (!h) return 0;
+      if (all || --h.count <= 0) drop(id);
+      changed(fadeMs);
+      return holds.get(id)?.count || 0;
+    },
+    /** Safety: drop every hold. */
+    clear(fadeMs = DUCK_DEFAULTS.fadeOutMs) { for (const id of [...holds.keys()]) drop(id); changed(fadeMs); },
+    state: () => ({ factor: factor(), holds: Object.fromEntries([...holds].map(([k, h]) => [k, { count: h.count, level: h.level }])) }),
+  };
+  return d;
+}
+/** Music howl volume for the user's music setting x the duck factor. */
+export const musicTarget = (settings, factor = 1) => clamp01((Number(settings?.music) || 0) * clamp01(factor));
+
 /**
  * Mount audio for the page. Nothing plays (and no AudioContext exists) until the first user gesture.
- * @param {{profile:object, platformId:string, storage?:Storage|null, enabled?:boolean, doc?:Document, win?:Window}} o
+ * @param {{profile:object, platformId:string, storage?:Storage|null, enabled?:boolean, doc?:Document, win?:Window, howler?:object}} o
+ *   howler: {Howler, Howl} stand-in (node tests only); default = the vendored howler.js.
  */
-export async function mountAudio({ profile, platformId, storage = null, enabled = true, win = window, doc = document }) {
+export async function mountAudio({ profile, platformId, storage = null, enabled = true, win = window, doc = document, howler = null }) {
   const KEY = 'kilumen_alpha_audio.' + platformId;
   let saved = null;
   try { saved = JSON.parse(storage?.getItem(KEY) || 'null'); } catch { saved = null; }
   const { settings, cfg } = audioSettings(profile?.audio, saved);
-  const { Howler, Howl } = await import('../vendor/howler/howler.esm.js');
+  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js');
   Howler.autoSuspend = false; // we suspend on tab hide ourselves; SFX run on raw nodes howler does not track
   const st = { unlocked: false, failed: null, track: null, zzfx: null, cache: new Map(), bus: null, music: null, urls: new Map(), blipTimer: 0, followTimer: 0, sprite: null, spriteState: 'off' };
 
@@ -203,6 +248,15 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
     const ctx = Howler.ctx; if (!st.unlocked || !ctx) return;
     if (doc.hidden) ctx.suspend?.().catch(() => {}); else ctx.resume?.().catch(() => {});
   });
+
+  // music duck: the current track fades to settings.music x factor; a crossfade-in targets the same (no fight: howler's
+  // fade() replaces any fade still running on that sound, and the outgoing track keeps fading to 0 untouched).
+  const duck = createMusicDuck({ onChange: (f, ms) => applyMusic(ms) });
+  function applyMusic(fadeMs = 0) {
+    const m = st.music; if (!m) return;
+    const to = musicTarget(settings, duck.factor());
+    if (fadeMs > 0) m.howl.fade(m.howl.volume(), to, fadeMs); else m.howl.volume(to);
+  }
 
   function trackUrl(id) {
     if (!st.urls.has(id)) st.urls.set(id, URL.createObjectURL(new Blob([wavBytes(synthTrack(id), 22050)], { type: 'audio/wav' })));
@@ -250,7 +304,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
       if (!id) return;
       const loop = draftLoopFor(id); // DRAFT loop (ogg, m4a fallback) or the generated placeholder WAV
       const howl = loop ? new Howl({ src: draftSrc('music/kil_draft_' + loop), loop: true, volume: 0 }) : new Howl({ src: [trackUrl(id)], format: ['wav'], loop: true, volume: 0 });
-      howl.play(); howl.fade(0, settings.music, fade);
+      howl.play(); howl.fade(0, musicTarget(settings, duck.factor()), fade);
       st.music = { id, howl };
     },
     /** Poll the scene (map, zone, phase) and switch music when the track changes. */
@@ -267,12 +321,25 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
       if (!['master', 'music', 'sfx'].includes(kind)) return;
       settings[kind] = Math.round(clamp01(v) * 100) / 100; persist();
       if (kind === 'master') applyMaster();
-      if (kind === 'music' && st.music) st.music.howl.volume(settings.music);
+      if (kind === 'music' && st.music) st.music.howl.volume(musicTarget(settings, duck.factor())); // still ducked if held
       if (kind === 'sfx' && st.bus) st.bus.gain.value = settings.sfx;
       if (kind === 'sfx' && st.sprite) st.sprite.volume(settings.sfx);
     },
     setMuted(m) { settings.muted = !!m; persist(); applyMaster(); },
-    state: () => ({ unlocked: st.unlocked, failed: st.failed, track: st.track, ctx: Howler.ctx?.state || null, sampleRate: Howler.ctx?.sampleRate || null, zzfx: !!st.zzfx, draft: { ...DRAFT_AUDIO }, sfxSprite: st.spriteState, musicLoop: draftLoopFor(st.track), ...settings }),
+    /**
+     * Turn the music down while something talks (RITA's comms strip). -> true when the hold was taken. A no-op (false)
+     * when audio is locked, muted or the music volume is 0. Overlapping ids are reference-counted (lowest level wins).
+     */
+    duck(id, level = DUCK_DEFAULTS.level, fadeMs = DUCK_DEFAULTS.fadeInMs, maxMs = DUCK_DEFAULTS.maxMs) {
+      if (!st.unlocked || settings.muted || !(settings.music > 0)) return false;
+      return duck.duck(id, level, fadeMs, maxMs);
+    },
+    /** Release one hold of id (all = every hold of id); music returns to the user's volume when nothing holds it. */
+    unduck(id, fadeMs = DUCK_DEFAULTS.fadeOutMs, all = false) { return duck.unduck(id, fadeMs, all); },
+    unduckAll(fadeMs = DUCK_DEFAULTS.fadeOutMs) { duck.clear(fadeMs); },
+    get duckFactor() { return duck.factor(); },
+    musicVolume: () => (st.music ? st.music.howl.volume() : null),
+    state: () => ({ unlocked: st.unlocked, failed: st.failed, track: st.track, ctx: Howler.ctx?.state || null, sampleRate: Howler.ctx?.sampleRate || null, zzfx: !!st.zzfx, draft: { ...DRAFT_AUDIO }, sfxSprite: st.spriteState, musicLoop: draftLoopFor(st.track), duck: duck.state(), ...settings }),
   };
   return api;
 }

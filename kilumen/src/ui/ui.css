@@ -162,7 +162,8 @@ body.ui-dlg-open .ui-hud .hud-top, body.ui-open .ui-hud { visibility: hidden; }
   display: flex; align-items: center; gap: 10px; padding: 6px 22px 6px 8px; border: var(--bw) solid var(--outline); border-radius: var(--r-plate) var(--r-chip) var(--r-chip) var(--r-plate);
   box-shadow: var(--shadow-drop); transform: translateX(-120%); transition: transform var(--t-slow) var(--ease-pop); overflow: hidden; }
 .hud-banner.show { transform: none; }
-.hud-banner .plate { padding: 4px 14px; font-size: 1.15em; }
+.hud-banner .plate { padding: 4px 14px; font-size: var(--ui-banner-font, 1.15em); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.hud-banner { box-sizing: border-box; max-width: var(--ui-banner-max, 46vw); } .hud-banner .kind { flex: none; }
 .hud-banner .kind { font-size: .7em; text-transform: uppercase; letter-spacing: .1em; color: var(--ink); background: var(--plate); padding: 2px 8px; border-radius: 8px; border: 2px solid var(--outline); }
 .hud-top { position: absolute; right: calc(var(--safe-right, 0px) + var(--ui-hud-edge, 16px)); top: calc(var(--safe-top, 0px) + var(--ui-hud-edge, 16px)); display: flex; gap: 8px; align-items: center; }
 .hud-clock { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border: 3px solid var(--outline); border-radius: var(--r-chip); background: var(--night); color: var(--on-night); box-shadow: 0 3px 0 var(--outline); }
@@ -177,6 +178,7 @@ body.ui-dlg-open .ui-hud .hud-top, body.ui-open .ui-hud { visibility: hidden; }
   border-radius: var(--r-chip); background: var(--plate); color: var(--ink); box-shadow: 0 3px 0 var(--outline); font-size: .85em; animation: ui-prompt-bob 1s ease-in-out infinite; }
 .hud-prompt.show { display: inline-flex; }
 .hud-prompt .g { width: 1.5em; height: 1.5em; border-radius: 50%; display: grid; place-items: center; background: var(--tp-a); color: #fff; border: 2px solid var(--outline); font-size: .85em; }
+/* PC talk prompt (Oct 23): keyboard keycap like the Menu chip's Esc key; pads keep the round A */
 .hud-prompt.key .g { width: auto; min-width: 1.5em; padding: 0 .3em; border-radius: 6px; background: var(--night); color: var(--on-night); box-shadow: 0 2px 0 var(--outline); font-weight: 800; }
 .hud-prompt::after { content: ''; position: absolute; left: 50%; bottom: -9px; margin-left: -7px; border: 7px solid transparent; border-top-color: var(--outline); border-bottom: 0; }
 @keyframes ui-prompt-bob { 50% { margin-top: -4px; } }
@@ -448,6 +450,24 @@ body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate > .hpnum
 body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate > .bar-row:nth-child(4) { grid-column: 1 / 3; grid-row: 2; }
 body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .plate > .b-party { grid-column: 3; grid-row: 2; }
 body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .bar.xp { height: 6px !important; }
+
+/* ---- Region map cleanup (Oct 23, 2026; src/ui/ui.js scr_map). The map box keeps the art's 4:3 inside the panel (container
+   units), so normalised world_layout map_pos lands on the same painted spot on PC and phone. Each dot's bottom tip sits on
+   map_pos (just above the painted name plate), so the dot, its selected ring and the 'You' pin never cover a name.
+   Dot colour (--dot): red = you are here, yellow = built, white = not built yet. Selected = the two-tone ring (no colour swap). */
+.rm-frame { display: grid; place-items: center; padding: 8px; container-type: size; min-height: 0; }
+.rm-box { position: relative; width: min(100cqw, calc(100cqh * 4 / 3)); aspect-ratio: 4 / 3; border: 3px solid var(--outline); border-radius: 12px; overflow: hidden;
+  background: center / 100% 100% no-repeat; box-sizing: border-box; } /* image: inline in scr_map (page-relative url) */
+.ui-stage .rm-dot { position: absolute; width: 16px; height: 16px; margin: 0; box-sizing: border-box; border-radius: 50%; border: 3px solid var(--outline); background: var(--dot) !important;
+  transform: translate(-50%, calc(-100% - 7px)); transform-origin: 50% 100%; cursor: pointer; }
+.ui-stage .rm-dot.sel { transform: translate(-50%, calc(-100% - 7px)) scale(1.25); box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--outline); animation: none; }
+.rm-you.hud-prompt { z-index: 2; pointer-events: none; font-size: .85em; transform: translate(-50%, calc(-100% - 42px)); }
+.rm-you[data-side=left] { transform: translate(calc(-100% - 22px), calc(-50% - 15px)); }
+.rm-you[data-side=right] { transform: translate(22px, calc(-50% - 15px)); }
+.rm-you[data-side=left]::after, .rm-you[data-side=right]::after { display: none; }
+.rm-legend { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; font-size: .9em; }
+.rm-legend li { display: flex; align-items: center; gap: 8px; }
+.rm-legend i { flex: none; width: 14px; height: 14px; box-sizing: border-box; border-radius: 50%; border: 3px solid var(--outline); background: var(--dot); }
 
 /* ALPHA build: title badge (dark plate, sun text: 12:1 contrast). Static, no animation. */
 .ui-logo .alpha-badge { display: inline-block; vertical-align: middle; margin: 10px 0 0 10px; padding: 3px 12px; border: 3px solid var(--outline); border-radius: var(--r-chip);

@@ -1,4 +1,5 @@
 // Kilumen: boot. Dev URL params: ?map=route1&x=4&y=30&facing=up&debug=1&zoom=3&touch=1&flags=has_run_shoes,has_bike
+// ?skipintro=1 = a new game starts outside the front door (no bedroom wake-up / Ron briefing gate; src/overworld/intro.js)
 // Platform (src/platform.js, DRAFT): ?platform=pc|mobile picks the profile; ?touch=1 = mobile, ?touch=0 = pc. Picked once at start-up.
 // Save: 'kilumen.save.v1' (+ .bak) in IndexedDB (idb-keyval, save_backend.js) mirrored to localStorage; ?idb=0 = localStorage
 // only. ?save=0 = no persistence, ?reset=1 = wipe the save first.
@@ -14,6 +15,7 @@
 // Night FX (src/overworld/nightfx.js, CONFIG.nightFx + profile nightFx): ?nightfx=0|1 all switches, ?moonlight=0|1,
 // ?nightlights=0|1, ?clouds=0|1 (also living-world clouds), ?lightcell=N (light buffer cell, native px). Key N = night FX on/off.
 // Never on in the alpha build (ALPHA_QUERY is only defined there).
+// Mood layers (src/overworld/mood.js + mood.json, profile `mood` block): ?mood=0|1 (area tint, vignette, particles, sun rays).
 // ALPHA build (src/alpha.js): none of the dev params above are read; only ?reset=1 (New game) is kept.
 import { ALPHA_QUERY } from './alpha.js';
 import { CONFIG } from './config.js';
@@ -24,8 +26,10 @@ import { openSaveStorage } from './overworld/save_backend.js';
 import { Dialog } from './overworld/dialog.js';
 import { attachSystems } from './systems/index.js'; // [systems-gd hook]
 import { attachOvernight } from './overnight/index.js'; // [overnight hook] links / field / Skylift / sight / Kilindex / learnsets (src/overnight/flags.js)
+import { attachEvolution } from './systems/evolution.js'; // [evolution hook] level-up evolution after battles
 import { startPlatform } from './platform.js';
 import { resolveNightFx } from './overworld/nightfx.js';
+import { Mood, resolveMood } from './overworld/mood.js';
 
 const q = new URLSearchParams(ALPHA_QUERY);
 const ALPHA = typeof ALPHA_QUERY !== 'undefined'; // alpha build only (build_alpha.py imports it); dev: undeclared -> 'undefined'
@@ -71,7 +75,12 @@ const input = new Input(window);
 input.attachTouch(touchPad);
 if (platform.profile.controls.touch) input.guardTouchPage(window); // phones: no stuck input, no page gestures (tests/touch_e2e.mjs)
 const flags = (q.get('flags') || '').split(',').map((f) => f.trim()).filter(Boolean); // dev only, merged into the save
+// home start v1 (src/overworld/intro.js): a new game holds on black until the UI (title) has mounted and closed.
+// 'loading' = UI not mounted yet (intro.js gives up waiting after 10 s), true = a UI screen is open, false = go.
+let uiState = q.get('ui') === '0' ? 'off' : 'loading';
+const introGate = () => (uiState === 'loading' ? 'loading' : uiState === 'ready' ? !!window.kilumen?.ui?.active : false);
 const scene = new Overworld(canvas, input, CONFIG, {
+  skipIntro: q.get('skipintro') === '1', introGate, // ?skipintro=1: a new game starts outside the house as before
   start, debug: q.get('debug') === '1', zoom: num('zoom'), platform, toast, flags, store, saveData: saveData || undefined,
   dialog: (dialog = new Dialog(document.body, platform.profile.hud, toastEl, platform.profile.controls)), hour: num('hour'), phase: q.get('phase') || undefined, timescale: num('timescale'),
   lead: q.get('lead') || undefined, warmth: num('warmth'), nick: q.get('nick') || undefined,
@@ -84,6 +93,8 @@ const scene = new Overworld(canvas, input, CONFIG, {
   litGreens: q.has('litgreens') ? q.get('litgreens') !== '0' : undefined, // CONFIG.litGreensAtNight override (preview)
   nightFx: resolveNightFx({ config: CONFIG.nightFx, profile: platform.profile.nightFx, query: q, alpha: ALPHA }), // Night FX switches
 });
+scene.mood = new Mood(scene, { switches: resolveMood({ profile: platform.profile.mood, query: q }) }); // cinematic mood layers (Gary's easy set, Oct 23)
+scene.mood.ready = fetch('src/overworld/mood.json').then((r) => r.json()).then((d) => { scene.mood.data = d; scene.mood._mapName = null; return true; }).catch((e) => { console.warn('mood presets off:', e.message); return false; });
 window.addEventListener('keydown', (e) => { // living-world toggles (K / L are free in input.js)
   if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.code === 'KeyK') toast(`Cloud shadows ${scene.life.toggle('clouds') ? 'on' : 'off'}`);
@@ -94,9 +105,12 @@ window.addEventListener('keydown', (e) => { // living-world toggles (K / L are f
 
 attachSystems(scene, { saveData: saveData || {}, config: q }); // [systems-gd hook] party/bag/heal/shop/puzzles (src/systems/HOOKS.md)
 try { attachOvernight(scene, { query: q, saveData: saveData || {} }); } catch (e) { console.error('overnight:', e); } // [overnight hook] never blocks boot
-window.kilumen = { scene, platform: { id: platform.id, profile: platform.profile }, state: () => scene.state(), ready: scene.init().then(() => { scene.run(); return true; }) };
+try { attachEvolution(scene, { query: q }); } catch (e) { console.error('evolution:', e); } // [evolution hook] level-up evolution after battles (src/systems/evolution.js, ?evo=0 off)
+window.kilumen = { scene, mood: scene.mood, platform: { id: platform.id, profile: platform.profile }, state: () => scene.state(), ready: scene.init().then(() => { scene.run(); return true; }) };
 window.kilumen.ready.catch((e) => { console.error(e); toast('Failed to load: ' + e.message); });
 window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.() };
+if (q.get('cv') !== '0') import('./systems/company_voice.js').then((m) => m.attachCompanyVoice(scene, { query: q })).then((cv) => { window.kilumen.companyVoice = cv; }).catch((e) => console.error('company voice:', e)); // [company voice hook] DEFAULT ON for region 1 (Gary 12:45 PM CT Oct 23 2026: "Yes, ship RITA in region 1"); ?cv=0 turns off (design/company_voice.md)
+if (q.get('contacts') !== '0') window.kilumen.ready.then(() => Promise.all([import('./systems/contacts.js'), import('./ui/data.js'), import('./systems/items.js')])).then(([m, d, it]) => m.attachContacts(scene, { query: q, ui: () => window.kilumen.ui, speciesName: (id) => d.speciesById(id).name, itemName: (id) => scene.lines?.items?.[id]?.name || it.BATTLE_ITEMS[id]?.name || id })).then((c) => { window.kilumen.contacts = c; }).catch((e) => console.error('contacts:', e)); // [contacts hook] DEFAULT ON (Gary 12:42 PM CT Oct 23 2026: ship in region 1); ?contacts=0 turns off (src/systems/contacts.js)
 
 // Audio (libs pass, Oct 22, 2026): howler music + ZzFX effects, placeholder tones. Mounted beside the world (not
 // awaited); nothing is created until the first gesture. Hooks: scene.audio (grass, door), dialog.onPage (blips), UI.
@@ -113,9 +127,9 @@ if (q.get('audio') !== '0') {
 // UI layer (src/ui/ui.js, UI pass Oct 22, 2026): phone menu (Esc / M / Start / menu button), HUD, title, screens, battle
 // shell. Loaded after the world is up and guarded, so a UI failure never stops the game. ?ui=0 skips it.
 if (q.get('ui') !== '0') {
-  window.kilumen.ready.then(() => import('./ui/ui.js')).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q });
+  window.kilumen.ready.then(() => import('./ui/ui.js')).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready';
     return import('./ui/systems_screens.js').then((m) => m.installSystemsScreens(window.kilumen.ui, scene.systems)); }) // [systems-gd hook]
     .then(() => import('./progression/index.js').then((m) => m.attachProgression(scene, window.kilumen.ui, { query: q, platform })).catch((e) => console.error('progression:', e))) // [progression hook] Masters / hall puzzles / quests (src/progression/flags.js, ?pg=)
-    .catch((e) => console.error('ui:', e));
+    .catch((e) => { console.error('ui:', e); if (uiState === 'loading') uiState = 'failed'; });
 }
 

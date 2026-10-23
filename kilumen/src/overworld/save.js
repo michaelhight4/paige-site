@@ -11,8 +11,15 @@
 // so an old save always loads. The storage key keeps its v1 name so existing saves are found.
 
 import { checkSave, isLoadableSave } from './save_schema.js'; // Valibot save check (free tools pass, Oct 23, 2026)
+import { normaliseContacts } from '../systems/contacts_save.js'; // [contacts] optional block, dev only (?contacts=1); no version bump
+import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js'; // company voice: per-save employee number (Gary 12:20 PM CT)
 
 export const SAVE_VERSION = 2;
+// Padded maps (Gary, Oct 23 2026, 10:25 AM CT): positions are stored in the padded-map frame from now on. A save without
+// frame:'padded' written before the padding landed (09:15 AM CT) holds unpadded coordinates; overworld.js shifts those by
+// the map's padding and snaps to the nearest walkable tile (pad_migrate.js).
+export const POS_FRAME = 'padded';
+export const PAD_SINCE = Date.parse('2026-10-23T09:15:00-05:00');
 export const SAVE_KEY = 'kilumen_alpha_save.v1'; // key name kept from v1 on purpose (existing saves); the version is inside
 
 /** Counters named in overworld_lines.json _meta.counters. */
@@ -30,13 +37,26 @@ function v2Defaults() {
     tasks: { boardWeek: 0, milestones: { total: 0, region: {}, species: {} }, research: {}, side: [], story: {}, done: 0 },
     company: {
       idLevel: 1, pointsFree: 0, board: {}, respecWeek: 0, // idLevel start value is a proposal (Gary's call)
+      employeeId: '', // 6-digit employee number, e.g. '001893' (src/systems/employee_id.js; set by freshSave / normalise)
       transfers: { total: 0, bySpecies: {}, goalTier: 0, weekly: null }, perkClaims: {},
+      xp: 0, xpClaims: {}, // RT Employee Benefits (src/systems/rt_benefits.js): company XP + once-claims; old saves load as 0
     },
     systems: {}, // [systems-gd hook] src/systems state (lastHeal, puzzles, bag recency...), open map
   };
 }
 
 /** Small string hash (FNV-1a, base 36). Deterministic ids for migrated saves. */
+/**
+ * Title screen "Continue" (dev fix, batch 3 wire, Oct 23 2026). Real cause of the first-launch bug: the overworld
+ * autosaves on its first frames (_dirty after _enterMap -> saveNow in the loop) before the UI module loads and opens the
+ * title, and scr_title asked the store live (store.load()), so the brand-new autosave looked like an old game.
+ * The answer is whether a save existed at BOOT (main.js loads it before the scene exists); once the player has left the
+ * title this session (played), a stored save counts too (title reopened from Screen previews).
+ */
+export function showContinue({ bootSave = null, played = false, stored = null } = {}) {
+  return !!bootSave || (!!played && !!stored);
+}
+
 export function hashStr(s) {
   let h = 0x811c9dc5;
   for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); }
@@ -51,7 +71,7 @@ export function newSaveId() {
 }
 
 export function freshSave() {
-  return {
+  const s = {
     v: SAVE_VERSION,
     saveId: newSaveId(),     // random per new game; seeds generated quests later
     flags: [],
@@ -63,8 +83,11 @@ export function freshSave() {
     pos: null,         // {map, x, y, facing}
     lastDoor: null,
     savedAt: 0,
+    frame: POS_FRAME, // position frame (padded maps); see POS_FRAME
     ...v2Defaults(),
   };
+  s.company.employeeId = employeeIdFor(s.saveId); // company voice: stable per-save employee number
+  return s;
 }
 
 // ---- migrations: MIGRATIONS[n] turns a raw v(n) object into a raw v(n+1) object -----------------------------
@@ -144,11 +167,14 @@ export function normalise(input) {
   if (o.pos && typeof o.pos.map === 'string' && Number.isInteger(o.pos.x) && Number.isInteger(o.pos.y)) s.pos = { map: o.pos.map, x: o.pos.x, y: o.pos.y, facing: o.pos.facing || 'down' };
   if (o.lastDoor && typeof o.lastDoor.map === 'string') s.lastDoor = { map: o.lastDoor.map, x: o.lastDoor.x, y: o.lastDoor.y };
   s.savedAt = Number(o.savedAt) || 0;
+  s.frame = o.frame === POS_FRAME || (!('frame' in o) && s.savedAt >= PAD_SINCE) ? POS_FRAME : 'unpadded';
   // v2 blocks
   const d = v2Defaults();
   s.coins = natInt(o.coins);
   s.bag = Object.fromEntries(Object.entries(isObj(o.bag) ? o.bag : {}).map(([k, n]) => [k, natInt(n)]).filter(([, n]) => n > 0));
   for (const k of ['archive', 'kilindex', 'tasks', 'company', 'systems']) s[k] = shaped(d[k], o[k]); // [systems-gd hook] + systems
+  if ('contacts' in o) s.contacts = normaliseContacts(o.contacts); // [contacts] only when present: flag-off saves are unchanged
+  if (!EMPLOYEE_ID_RE.test(s.company.employeeId)) s.company.employeeId = employeeIdFor(s.saveId); // old saves get their number on load
   return s;
 }
 
@@ -212,4 +238,5 @@ export class SaveStore {
   clear() { this.storage?.removeItem(this.key); this.storage?.removeItem(this.bakKey); this.extra = pickBlocks(freshSave()); }
 }
 
-function pickBlocks(s) { return Object.fromEntries(V2_BLOCKS.filter((k) => k in s).map((k) => [k, s[k]])); }
+const KEEP_BLOCKS = [...V2_BLOCKS, 'contacts']; // [contacts] optional block: carried through saves only if a save already has it
+function pickBlocks(s) { return Object.fromEntries(KEEP_BLOCKS.filter((k) => k in s).map((k) => [k, s[k]])); }

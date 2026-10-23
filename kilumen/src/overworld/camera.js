@@ -18,6 +18,19 @@ export function pinSlackPx(rules, ctx) {
   return (Number.isFinite(p.slackTiles) ? p.slackTiles : DEFAULT_PIN_SLACK_TILES) * TILE;
 }
 
+/** "Always centre" (Gary, Oct 23, 2026: mobile controls covered the player at map edges): when a profile sets
+ *  camera.alwaysCentre true, the player's tile centre is the screen centre on every map (whole native px). No clamp to
+ *  the map edges, no short-map centring, no pinShortMaps, no deadzone. Absent or false: the rules below, unchanged. */
+/**
+ * What the renderer draws outside the map. Gary (10:09 AM CT, Oct 23, 2026): under alwaysCentre anything past the map
+ * edge is simply left blank (the renderer's black clear): no edge tiles, no padding. Without alwaysCentre:
+ * display.outsideMap as before (mobile 'edge' around short maps, pc undefined = black).
+ */
+export function outsideFillFor(rules, display, mapName, indoor) {
+  if (rules?.alwaysCentre === true) return undefined;
+  return display?.outsideMap;
+}
+
 /**
  * @param {number} focusX native px of the point to centre (player tile centre)
  * @param {number} focusY
@@ -25,13 +38,14 @@ export function pinSlackPx(rules, ctx) {
  * @param {number} mapH map height in tiles
  * @param {number} viewW view width in native px (canvas px / zoom; may be fractional)
  * @param {number} viewH
- * @param {object} [rules] profile.camera (deadzonePx, clampToMapEdges, smallMapAxis 'centre'|'start')
+ * @param {object} [rules] profile.camera (alwaysCentre, deadzonePx, clampToMapEdges, smallMapAxis 'centre'|'start')
  * @param {{x:number,y:number}} [prev] last camera on this map (only used when a deadzone is set)
  * @param {{indoor?: boolean}} [ctx] map facts the rules need (indoor: clock.js isIndoor, for pinShortMaps)
  * @returns {{x:number,y:number}} top-left of the view in native px (integers; negative = map centred on black)
  */
 export function cameraFor(focusX, focusY, mapW, mapH, viewW, viewH, rules = DEFAULT_CAMERA, prev = null, ctx = null) {
   const r = rules || DEFAULT_CAMERA, dz = r.deadzonePx || { x: 0, y: 0 };
+  if (r.alwaysCentre === true) return { x: Math.round(focusX - viewW / 2), y: Math.round(focusY - viewH / 2) }; // centre camera rule
   return {
     x: axis(focusX, mapW * TILE, viewW, r, dz.x || 0, prev?.x),
     y: axis(focusY, mapH * TILE, viewH, r, dz.y || 0, prev?.y, pinSlackPx(r, ctx)),

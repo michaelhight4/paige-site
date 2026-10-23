@@ -1,0 +1,56 @@
+/* RT Employee Benefits phone tab (src/ui/rt_benefits_screen.js), Oct 23 2026. Text always sits on solid plates (contrast >= 4.5:1). */
+[data-scr=rt_benefits] { --sc-a: #e89a1c; --sc-b: #ffc560; --sc-c: #7a4a00; --sc-sel: #fff0a8; }   /* chevrons, company gold */
+.rtb-split { grid-template-columns: minmax(0, 1fr) minmax(240px, 32%); }
+.rtb-main { display: flex; flex-direction: column; gap: 10px; }
+.rtb-id { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4px 12px; padding: 8px 12px; }
+.rtb-id .rtb-eid { display: flex; flex-direction: column; line-height: 1.1; }
+.rtb-id .rtb-eid small { font-size: .72em; color: var(--ink-soft); font-weight: 700; }
+.rtb-id .rtb-eid b { font-size: 1.15em; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.rtb-id .bar-row { grid-column: 2; min-width: 0; }
+.rtb-id .bar-row span { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rtb-lv, .rtb-pts { padding: 2px 10px; border: 3px solid var(--outline); border-radius: var(--r-chip); font-weight: 800; white-space: nowrap; }
+.rtb-lv { background: var(--night); color: var(--sun); }
+.rtb-pts { background: var(--sun); color: var(--ink); }
+.rtb-id .bar.xp > i { background: var(--xp-deep); }
+.rtb-tree { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; align-items: start; }
+.rtb-branch { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.rtb-bh { margin: 0; padding: 4px 8px; font-size: .78em; font-weight: 800; text-align: center; line-height: 1.15; }
+.rtb-node { position: relative; display: flex; flex-direction: column; gap: 4px; min-height: 44px; padding: 6px 8px; cursor: pointer;
+  border: 3px solid var(--outline); border-radius: var(--r-plate); background: var(--plate); color: var(--ink); box-shadow: 0 3px 0 var(--outline);
+  transition: transform var(--t-fast) var(--ease-pop); }
+.rtb-node + .rtb-node::before { content: ''; position: absolute; left: 50%; top: -17px; width: 4px; height: 14px; margin-left: -2px; background: var(--outline); }
+.rtb-node .rtb-nm { font-weight: 800; font-size: .86em; line-height: 1.15; overflow-wrap: anywhere; }
+.rtb-node .rtb-st { align-self: flex-start; padding: 1px 7px; border-radius: 6px; font-size: .68em; font-weight: 800; background: var(--night); color: var(--on-night); white-space: nowrap; }
+.rtb-node[data-state=available] { background: #fff3b0; }
+.rtb-node[data-state=available] .rtb-st { background: #7a4a00; color: #fff; }
+.rtb-node[data-state=owned] { background: #c9f2d4; }
+.rtb-node[data-state=owned] .rtb-st { background: #17663a; color: #fff; }
+.rtb-node[data-state=locked] { background: #e6e0ef; color: var(--ink-soft); box-shadow: none; border-style: dashed; }
+.rtb-node[data-state=locked] .rtb-st { background: #4a3d66; color: #fff; }
+.rtb-node.sel { transform: translateY(-2px); outline: 4px solid var(--sc-c); outline-offset: 1px; }
+.rtb-node.sel[data-state=locked] { background: #e6e0ef !important; }  /* keep the state colour when selected (ui.css .sel is !important); the outline marks the selection */
+.rtb-node.sel[data-state=owned] { background: #c9f2d4 !important; }
+.rtb-pips { display: flex; gap: 4px; }
+.rtb-pips i { width: 12px; height: 12px; border: 2px solid var(--outline); border-radius: 3px; background: #fff; }
+.rtb-pips i.on { background: var(--sc-c); }
+.rtb-pips i.later { border-style: dashed; background: transparent; }
+.rtb-info b.rtb-title { font-size: 1.05em; }
+.rtb-info p { margin: 6px 0 0; }
+.rtb-info .rtb-why { padding: 4px 8px; border-radius: 8px; background: #e6e0ef; color: var(--ink); font-weight: 700; }
+.rtb-buy { margin-top: 10px; width: 100%; min-height: var(--ui-hit, 44px); border: 3px solid var(--outline); border-radius: var(--r-plate); background: var(--sun);
+  color: var(--ink); font: inherit; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 var(--outline); }
+.rtb-buy:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--outline); }
+.rtb-buy:focus-visible { outline: 4px solid var(--sc-c); outline-offset: 2px; }
+/* short landscape phones (844x390): tighter tree, two branch columns */
+@media (max-height: 480px) {
+  .rtb-split { grid-template-columns: minmax(0, 1fr) minmax(190px, 34%); }
+  .rtb-tree { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .rtb-main { gap: 8px; }
+  .rtb-id { padding: 4px 8px; gap: 2px 8px; }
+  .rtb-branch { gap: 10px; }
+  .rtb-node + .rtb-node::before { top: -13px; height: 10px; }
+  .rtb-node { padding: 4px 6px; }
+  .rtb-info p { margin-top: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { .rtb-node { transition: none; } }
+body.ui-reduce .rtb-node { transition: none; }

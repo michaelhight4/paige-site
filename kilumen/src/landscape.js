@@ -22,7 +22,11 @@ portrait.addEventListener?.('change', sync);
 async function tryLock() {
   if (!landscapeOnly) return;
   try {
-    if (!document.fullscreenElement && document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+    const r = document.documentElement;
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      if (r.requestFullscreen) await r.requestFullscreen({ navigationUI: 'hide' });
+      else if (r.webkitRequestFullscreen) r.webkitRequestFullscreen(); // phone menu fix: older Android / iPad Safari prefix
+    }
     await screen.orientation?.lock?.('landscape');
   } catch { /* iOS Safari and some browsers refuse; the overlay covers it */ }
 }

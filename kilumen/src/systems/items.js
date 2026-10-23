@@ -2,8 +2,9 @@
 // (was src/systems/bag_items.js). Ids are game ids (text/overworld_lines.json system_item_catalogue + the World
 // Design placeholder ids in art/world/overworld/items/ITEM_PLACEHOLDERS.json).
 // `battle` rows are the battle-engine numbers: src/battle/data/rules.js buildItems() builds the engine's item
-// table from BATTLE_ITEMS, so the field and the battle can never disagree. This module imports nothing (no cycle;
+// table from BATTLE_ITEMS, so the field and the battle can never disagree. This module imports only plain data (no cycle;
 // safe on a server). Effect amounts are PLACEHOLDER (design/MECHANICS_PARITY.md) until Gary signs them off.
+import { CRYSTAL_GRADES } from './data/crystal_grades.js'; // crystal grades + Benefits Board node (Oct 23, 2026)
 
 /** pocket ids: text/overworld_lines.json comfort.bag_pockets */
 export const POCKETS = ['care', 'feeds', 'gear', 'crystals', 'key', 'logs'];
@@ -17,6 +18,9 @@ export const BATTLE_ITEMS = {
   dominance_crystal: { num: 5, name: 'Dominance Crystal', kCrystalGrade: 1 },
   dominance_crystal_plus: { num: 6, name: 'Prime Crystal', kCrystalGrade: 1.5 },
 };
+// Crystal grades (Gary 12:17 PM CT Oct 23, 2026: "you can get more powerful crystal from the board nodes"): every grade
+// number comes from src/systems/data/crystal_grades.js; new grades (Fine, top tier) are added here. The battle reads kCrystalGrade.
+for (const g of CRYSTAL_GRADES.grades) BATTLE_ITEMS[g.item] = { ...(BATTLE_ITEMS[g.item] || { num: g.num, name: g.name }), kCrystalGrade: g.grade };
 
 // Overworld fields: pocket, field effect, key, stack (overrides the key-item cap of 1), money (pickup coins), held.
 const FIELD = {
@@ -38,6 +42,7 @@ const FIELD = {
   coin_pouch_small: { pocket: null, money: 100 },     // PLACEHOLDER tuning: coins in a small purse
   gold_coin: { pocket: 'gear', field: null, held: true }, // PLACEHOLDER id (DESIGN gold coin: x1.5 trainer money)
 };
+for (const g of CRYSTAL_GRADES.grades) if (!FIELD[g.item]) FIELD[g.item] = { pocket: 'crystals', field: null }; // board crystal grades
 
 /** Full table used by the bag: { id: {id, pocket, field, ..., heal, energy, cure, battle, name} } */
 export const ITEMS = Object.fromEntries(Object.entries(FIELD).map(([id, d]) => {

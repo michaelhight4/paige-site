@@ -22,8 +22,10 @@ body.dlg-toast-lift #toast { z-index: 5; padding: var(--toast-dlg-pad, 14px 22px
 #touchpad .small { width: var(--tp-small-w); height: var(--tp-small-h); font-size: 13px; }
 /* Touch controls hidden while a dialogue is open (profile controls.hideDuringDialog; dialog.js toggles tp-hide-<name> on body).
    tp-list-dpad (controls.showDpadForLists) brings d-pad up/down back while a choice / inbox list is open. Layout never shifts. */
-#touchpad .dpad button, #touchpad [data-btn=select], #touchpad [data-btn=debug] { transition: opacity var(--tp-fade, 150ms) ease-out, visibility 0s; }
-body.tp-hide-dpad #touchpad .dpad button, body.tp-hide-sel #touchpad [data-btn=select], body.tp-hide-dbg #touchpad [data-btn=debug] {
+#touchpad .dpad button, #touchpad [data-btn=select], #touchpad [data-btn=debug], #touchpad [data-btn=a], #touchpad [data-btn=b] { transition: opacity var(--tp-fade, 150ms) ease-out, visibility 0s; }
+/* tp-hide-a / tp-hide-b: phone menu fix (Oct 23, 2026), only set by profiles that list "a" / "b" (mobile.json); pc never does */
+body.tp-hide-dpad #touchpad .dpad button, body.tp-hide-sel #touchpad [data-btn=select], body.tp-hide-dbg #touchpad [data-btn=debug],
+body.tp-hide-a #touchpad [data-btn=a], body.tp-hide-b #touchpad [data-btn=b] {
   opacity: 0; visibility: hidden; pointer-events: none; transition: opacity var(--tp-fade, 150ms) ease-out, visibility 0s var(--tp-fade, 150ms); }
 body.tp-hide-dpad.tp-list-dpad #touchpad [data-dir=up], body.tp-hide-dpad.tp-list-dpad #touchpad [data-dir=down] {
   opacity: 1; visibility: visible; pointer-events: auto; transition: opacity var(--tp-fade, 150ms) ease-out, visibility 0s; }
@@ -46,6 +48,9 @@ body.touch-ui #touchpad .small::after { content: ''; position: absolute; left: 0
 .dlg-wrap.has-portrait .dlg-box { padding-left: var(--dlg-pad-left, clamp(150px, 24vh, 330px)); }
 .dlg-name { display: inline-block; margin: -40px 0 8px -6px; padding: 2px 14px; background: #f4ecd8; color: #1a1226; border-radius: 6px; font-size: .8em; }
 .dlg-text { white-space: pre-line; max-width: 40ch; }
+/* home start v1: inner-monologue thought (no speaker name): italic, softer ink, dashed edge */
+.dlg-wrap.thought .dlg-text { font-style: italic; font-weight: 500; color: #d8cdf0; }
+.dlg-wrap.thought .dlg-box { border-style: dashed; }
 .dlg-more { position: absolute; right: 18px; bottom: 8px; font-size: .7em; animation: dlg-bob 900ms steps(2) infinite; }
 .dlg-portrait { position: absolute; left: max(4vw, calc(50% - 490px)); bottom: var(--dlg-portrait-bottom, 4vh); height: var(--dlg-portrait-height, clamp(220px, 36vh, 500px)); width: auto; z-index: 1;
   max-width: var(--dlg-portrait-max-w, none); object-fit: contain; object-position: left bottom; filter: drop-shadow(0 4px 0 #000); }
@@ -58,6 +63,17 @@ body.touch-ui #touchpad .small::after { content: ''; position: absolute; left: 0
 .dlg-list li.sel::before { content: '\25B6'; position: absolute; left: 8px; font-size: .75em; top: .35em; }
 .dlg-list .sub { margin-left: .8em; font-size: .78em; color: #cbbfe0; }
 .dlg-list li.sel .sub { color: #3d2f52; }
+/* phone menu fix (Oct 23, 2026): choice rows are tapped on phones, so give them a 44px hit area (pc rows unchanged) */
+body.platform-mobile .dlg-list li { min-height: 44px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; column-gap: .8em; }
+body.platform-mobile .dlg-list li.sel::before { top: 50%; transform: translateY(-50%); }
+body.platform-mobile .dlg-list li .sub { margin-left: 0; }
+/* the generic ui.css .sel rule uses --sc-sel, undefined outside the UI root, so the picked choice lost its fill (dark ink on the dark box) */
+body.platform-mobile .dlg-list li.sel { background: var(--sc-sel, #ffe07a) !important; }
+/* one-time iPhone Safari "Add to Home Screen" hint (src/fullscreen.js, mobile.json display.iosHintOnce) */
+#ios-hint { position: fixed; z-index: 30; top: calc(var(--safe-top, 0px) + 6px); left: 50%; transform: translateX(-50%); max-width: min(560px, calc(100vw - 24px));
+  display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; border-radius: 12px; background: rgba(26,18,38,.92); color: #fff;
+  border: 2px solid rgba(255,255,255,.5); font: 600 13px/1.3 system-ui, sans-serif; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+#ios-hint button { flex: none; min-width: 44px; min-height: 44px; border: 0; border-radius: 10px; background: rgba(255,255,255,.14); color: #fff; font: 700 18px/1 system-ui, sans-serif; }
 .new-dot { display: inline-block; width: .55em; height: .55em; margin-right: .5em; border-radius: 50%; background: #ffd23f;
   box-shadow: 0 0 8px #ffb000; vertical-align: .1em; }
 @keyframes dlg-bob { 50% { transform: translateY(3px); } }

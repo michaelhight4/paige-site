@@ -29,6 +29,7 @@
   ]
  },
  "camera": {
+  "alwaysCentre": true,
   "follow": "player_tile_centre",
   "deadzonePx": {
    "x": 0,
@@ -97,7 +98,8 @@
   "outsideMap": "edge",
   "edgeShade": "rgba(26,18,38,0.55)",
   "fullscreenButton": true,
-  "iosHint": "For full screen on iPhone: tap Share, then Add to Home Screen, and play from the icon."
+  "iosHint": "For full screen on iPhone: tap Share, then Add to Home Screen, and play from the icon.",
+  "iosHintOnce": true
  },
  "controls": {
   "touch": true,
@@ -107,7 +109,11 @@
    "sel",
    "dbg"
   ],
-  "showDpadForLists": true,
+  "showDpadForLists": false,
+  "hideDuringLists": [
+   "a",
+   "b"
+  ],
   "tapDialog": true,
   "dialogFadeMs": 150,
   "inputs": [
@@ -191,6 +197,8 @@
    "logo": "64px",
    "menu-btn": "48px",
    "hud-edge": "10px",
+   "banner-font": "1.05em",
+   "banner-max": "44vw",
    "b-plate-w": "250px",
    "b-bottom-h": "max(30%, 126px)",
    "b-msg-skills": "none"
@@ -210,8 +218,16 @@
   "hideTouchDuringUI": [
    "dpad",
    "sel",
-   "dbg"
+   "dbg",
+   "a",
+   "b"
   ],
+  "keepTouchOn": {
+   "battle": [
+    "a",
+    "b"
+   ]
+  },
   "titleOnBoot": true,
   "locationBanner": true,
   "bannerMs": 2400,
@@ -239,5 +255,14 @@
   "clouds": true,
   "flicker": true,
   "windowsGoDark": 0.4
+ },
+ "mood": {
+  "enabled": true,
+  "tint": true,
+  "vignette": true,
+  "particles": 0.5,
+  "maxParticles": 20,
+  "rays": true,
+  "maxRays": 3
  }
 }

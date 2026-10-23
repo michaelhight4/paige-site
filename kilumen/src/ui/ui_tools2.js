@@ -245,7 +245,8 @@ export class UiTools2 {
     const r = await fa.healFx(sc, n, { reduced: this.reduced() }); this.motion.heal = r; return r; }
   /** Evolution player (self-contained: the game has no evolution flow yet). o: { from, to?, cancel?, hold? } */
   async evolveFx(o) { const fa = await this.art(); if (!fa?.FX_ART.evolution) return null;
-    const r = await fa.evolveFx({ ...o, reduced: this.reduced() }); this.motion.evolve = { from: r.from, to: r.to, steps: r.steps, ms: r.ms, skipped: r.skipped }; return r; }
+    this._evolving = true; let r; try { r = await fa.evolveFx({ ...o, reduced: this.reduced() }); } finally { this._evolving = false; } // save lock guard (ui.js mountUI)
+    this.motion.evolve = { from: r.from, to: r.to, steps: r.steps, ms: r.ms, skipped: r.skipped }; return r; }
 
   // ---------- menu motion (Oct 22, 2026; anime.js, 120-220 ms, never holds input) ----------
   // Open: the live stage animates (input works at once). Close: an inert, aria-hidden CLONE (ids / data-i / data-m / data-act stripped)

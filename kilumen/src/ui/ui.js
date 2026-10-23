@@ -21,7 +21,11 @@ import { getNextFocus } from '../vendor/lrud-spatial/lrud.js';
 import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js';
 // UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
 // auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
+import { showContinue } from '../overworld/save.js'; // first-launch Continue fix (batch 3 wire)
 import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js';
+import { catchNet, NET_TEXT } from '../systems/catch_net.js';
+import { attachWipNotice } from '../systems/wip_notice.js';
+import { captureChance, captureRoll, rarityOf } from '../battle/capture.js'; // capture rules (Gary, Oct 23 2026)
 const KPH = 'art/ui/kenney_placeholder/';
 const kph = (f, cls = 'ph-ico') => `<img class="${cls}" data-placeholder="kenney" src="${KPH}${f}.png" alt="" aria-hidden="true" draggable="false">`;
 const LRUD_KEY = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
@@ -253,11 +257,13 @@ export class GameUI {
       this.body.classList.remove('ui-hid-' + n);
       if (!this.scene.dialog?.active) this.body.classList.remove(`tp-hide-${n}`); // the dialogue owns them while it is open
     }
+    if (this.scene.dialog?.active) this.scene.dialog._controlsState?.(); // phone menu fix: hand the controls back to the open dialogue's state
     this._onClose?.(); this._onClose = null;
   }
   _render(anim) {
     const t = this.top; if (!t) return;
     this.root.dataset.scr = t.scr;
+    this._touchFor(t.scr);
     const full = !!t.full;
     this.stage.hidden = full; this.layer.hidden = !full; this.backdrop.hidden = full;
     const keep = this.fx?.keep(this.stage, t); // UI tools 2: auto-animate reuses same-screen list nodes
@@ -272,6 +278,15 @@ export class GameUI {
       this.fx?.menuIn(this.stage, anim); // menu motion: anime.js open / back (120-220 ms; CSS fallback, none when reduced)
     } else { this.layer.innerHTML = ''; this.layer.dataset.scr = t.scr; t.mount(this.layer); }
     this._markSel(); t.after?.(); this._uiTools(t);
+  }
+  _touchFor(scr) { // phone menu fix (Oct 23, 2026): profile ui.keepTouchOn {screen: [names]} keeps e.g. A/B on battle (B backs out of its submenus)
+    const keep = this.cfg.keepTouchOn?.[scr] || [];
+    for (const n of this.cfg.hideTouchDuringUI || []) {
+      const hide = !keep.includes(n);
+      this.body.classList.toggle('ui-hid-' + n, hide);
+      if (hide) this.body.classList.add(`tp-hide-${n}`); else if (!this.scene.dialog?.active) this.body.classList.remove(`tp-hide-${n}`);
+    }
+    if (this.scene.dialog?.active) this.scene.dialog._controlsState?.();
   }
   _uiTools(t) { // UI tools pass: keep lrud on [data-i] items; SortableJS on screens that return sortable()
     for (const b of this.stage.querySelectorAll('button:not([data-i]), a:not([data-i]), input')) b.classList.add('lrud-ignore');
@@ -365,7 +380,15 @@ export class GameUI {
     const s = this.scene; if (!s.map) return;
     this.body.classList.toggle('ui-dlg-open', !!s.dialog?.active);
     // location banner on map change
-    if (s.map.name !== this._lastMap && !s.fade) {
+    // Area name sign (Gary 10:33 AM CT): the scene decides (outdoor/cave maps only, no edge bounce re-show) and calls
+    // onAreaSign after the fade-in; older scenes without the hook keep the plain map-change banner.
+    if (typeof s._areaSignEnter === 'function') {
+      if (!this._areaHooked) {
+        this._areaHooked = true;
+        s.onAreaSign = (a) => { if (this.cfg.locationBanner !== false) this.showBanner(a.title, a.holdMs); };
+        if (s.areaSign && s.tick - s.areaSign.tick < 30) s.onAreaSign(s.areaSign); // fired just before the UI mounted
+      }
+    } else if (s.map.name !== this._lastMap && !s.fade) {
       const first = this._lastMap == null; this._lastMap = s.map.name;
       if (this.cfg.locationBanner !== false && !(first && this.active)) this.showBanner(s.map.title || s.map.name);
     }
@@ -376,16 +399,28 @@ export class GameUI {
     // A prompt over the faced thing
     if (this.cfg.interactPrompt !== false) this._promptTick();
   }
-  showBanner(title) {
+  showBanner(title, holdMs) {
     const zone = (this.scene.layout?.zones || []).find((z) => z.id === this.scene.zone?.());
-    const kind = /_int$|^home_|^house_|^heal_|^lab_|^rt_|^office|^shop|^station|^club/.test(this.scene.map.name) ? 'Indoors' : zone?.type === 'town' ? 'Town' : /^route|thornwood|mirefen|greystone/.test(this.scene.map.name) ? 'Route' : 'Area';
-    const pat = { Town: 'dots', Route: 'leaf', Indoors: 'lattice', Area: 'crystal' }[kind];
-    const scr = { Town: 'team', Route: 'pack', Indoors: 'kilindex', Area: 'phone' }[kind];
+    const kind = /_int$|^home_|^house_|^heal_|^lab_|^rt_|^office|^shop|^station|^club/.test(this.scene.map.name) ? 'Indoors' : /^greystone/.test(this.scene.map.name) ? 'Cave' : zone?.type === 'town' ? 'Town' : /^route|thornwood|mirefen/.test(this.scene.map.name) ? 'Trail' : 'Area';
+    const pat = { Town: 'dots', Trail: 'leaf', Indoors: 'lattice', Area: 'crystal', Cave: 'crystal' }[kind];
+    const scr = { Town: 'team', Trail: 'pack', Indoors: 'kilindex', Area: 'phone', Cave: 'phone' }[kind];
     this.banner.dataset.pat = pat; this.banner.dataset.scr = scr;
     this.banner.innerHTML = `<span class="kind">${kind}</span><span class="plate">${esc(title)}</span>`;
+    this._fitBanner();
     this.banner.classList.remove('show'); void this.banner.offsetWidth; this.banner.classList.add('show');
-    clearTimeout(this._bannerT); this._bannerT = setTimeout(() => this.banner.classList.remove('show'), this.cfg.bannerMs || 2600);
+    clearTimeout(this._bannerT); this._bannerT = setTimeout(() => this.banner.classList.remove('show'), holdMs ? this._bannerSlideMs() + holdMs : (this.cfg.bannerMs || 2600));
+    this.banner.dataset.title = title; this.bannerShownAt = performance.now();
   }
+  /** Keep the sign clear of the top-right HUD pills (clock, menu): cap its width at the gap, the plate ellipsizes. */
+  _fitBanner() {
+    try {
+      const top = this.hud.querySelector('.hud-top')?.getBoundingClientRect(), b = this.banner;
+      const left = b.offsetLeft || 0, right = top && top.width ? top.left : window.innerWidth;
+      b.style.maxWidth = `min(var(--ui-banner-max, 46vw), ${Math.max(120, Math.floor(right - left - 12))}px)`;
+    } catch { /* layout not ready */ }
+  }
+  /** Slide-in time (CSS --t-slow) so the hold starts once the sign is fully in. */
+  _bannerSlideMs() { const v = getComputedStyle(this.banner).transitionDuration || '0s'; const n = parseFloat(v) || 0; return /ms/.test(v) ? n : n * 1000; }
   _promptTick() {
     const s = this.scene, p = s.player, show = (on) => this.prompt.classList.toggle('show', on);
     if (!p || this.active || s.dialog?.active || s.busy || s.fade || p.moving || !s._cam) { show(false); return; }
@@ -403,6 +438,8 @@ export class GameUI {
     if (!hit) { show(false); return; }
     const ts = s.map?.json?.tile_size || 64, z = s.zoom, /* world tile (camera units); tileset.size is the zoomed sheet (128 at 2x), which put the bubble off screen */ cv = s.canvas, cr = cv.getBoundingClientRect(), k = cr.width / cv.width;
     const x = cr.left + ((hit[0] + 0.5) * ts - s._cam.x) * z * k, y = cr.top + ((hit[1] - (verb === 'Talk' ? 0.5 : 0)) * ts - s._cam.y) * z * k - 4; // NPC sprites stand taller than their tile: lift half a tile so the bubble clears the head
+    // PC talk prompt (Gary 11:31 AM CT Oct 23): keyboard shows a keycap (profile ui.interactKey, 'F'), a pad shows A.
+    // Words: profile ui.interactVerbs {npc, sign, object}; the phone profile turns the whole prompt off (interactPrompt).
     const pad = this.platform?.profile?.controls?.touch || this.scene.input?.lastDevice === 'controller';
     const glyphA = pad ? 'A' : (this.cfg.interactKey || 'F'), vb = this.cfg.interactVerbs || {};
     verb = (verb === 'Talk' ? vb.npc : verb === 'Read' ? vb.sign : vb.object) || verb;
@@ -460,8 +497,11 @@ export class GameUI {
   scr_phone() {
     const L = this.T('system_phone.menu.labels', {});
     const apps = [['team', L.team || 'Team', 'team'], ['pack', L.pack || 'Pack', 'pack'], ['kilindex', L.kilindex || 'Kilindex', 'kilindex'], ['tasks', L.tasks || 'Tasks', 'tasks'],
-      ['map', L.map || 'Map', 'map'], ['contacts', L.contacts || 'Contacts', 'contacts'], ['save', L.save || "File today's report", 'save'], ['options', L.options || 'Options', 'options']];
-    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff' };
+      ['map', L.map || 'Map', 'map'], ['contacts', L.contacts || 'Contacts', 'contacts'], ['save', L.save || "File today's report", 'save'], ['options', L.options || 'Options', 'options'],
+      ['rt_benefits', L.rt_benefits || this.T('system_rt_benefits.labels.tab_title', 'RT Employee Benefits'), 'rt_benefits']] // RT Employee Benefits (Oct 23 2026): appended, existing order kept
+      .filter(([k]) => k !== 'save' || !this.scene.saveLocked) // save lock: no manual save mid battle / talk / cutscene (overworld.js saveLockReason)
+      .filter(([k]) => k !== 'rt_benefits' || typeof this.scr_rt_benefits === 'function'); // only once src/ui/rt_benefits_screen.js installed it
+    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00' };
     return { scr: 'phone', pat: 'crystal', title: 'Phone', glyph: 'contacts', sel: this._phoneSel || 0, cols: +(this.cfg.vars?.['app-cols'] || 4),
       count: () => apps.length,
       chips: () => `${this.gold != null ? `<span class="ui-chip"><i class="coin"></i>${this.gold.toLocaleString()}</span>` : ''}<span class="ui-chip dark">${esc(this.scene.map?.title || '')}</span>`,
@@ -670,6 +710,7 @@ export class GameUI {
 
   scr_save() {
     const run = async () => {
+      if (this.scene.saveLocked) { this.back(); this.note(this.P('system_save.locked', ["Can't file a report right now."]).join(' '), 2200); return; } // save lock
       const k = await this.ask('save', this.P('system_save.prompt', ["File today's report? This saves your game."]), this.T('system_save.prompt.choices', ['File it', 'Not yet']), { pat: 'sparkle' });
       if (k !== 0) { this.back(); return; }
       const wrap = document.createElement('div'); wrap.className = 'ui-modal';
@@ -700,6 +741,7 @@ export class GameUI {
       ['Depth shadows', s.depth?.state?.(s.map ? s.view() : null)?.enabled ? 'On' : 'Off', () => s.depth.toggle()],
       ['Menu motion', this.body.classList.contains('ui-reduce') ? 'Reduced' : 'Full', () => { const r = this.body.classList.toggle('ui-reduce'); try { localStorage.setItem('kilumen_alpha_ui.motion', r ? 'reduce' : 'full'); } catch { /* */ } }],
       ...audioRows(),
+      ...(s.companyVoice ? [['Company voice', s.companyVoice.modeLabel(), () => s.companyVoice.cycleMode()]] : []), // [company voice hook] Full / Milestones only / Off (on by default; row absent with ?cv=0)
     ];
     // libs pass: sound rows (src/audio/audio.js; saved per platform). A cycles volume in 20% steps, left/right nudge 10%.
     const a = s.audio, pct = (v) => `${Math.round(v * 100)}%`;
@@ -731,25 +773,52 @@ export class GameUI {
     return { scr: id, pat, title, glyph: id, sel: 0, cols: 1, count: () => 0, render: () => `<div class="ui-panel ui-pad ui-grow" data-scr="${id}" data-pat="${pat}" data-scroll><div class="plate ui-empty">${EMPTY_ICONS[id] ? pxi(EMPTY_ICONS[id], 'pxi pxi-empty') : ''}${esc(text)}</div></div>`, onA: () => {} };
   }
   scr_map() {
+    // Region map cleanup (Oct 23, 2026, Gary: "can we clean this up some"): the box keeps the art's 4:3 (no cover crop, so
+    // world_layout map_pos lines up on PC and phone); each dot's bottom tip sits on map_pos, just above the painted name plate
+    // (map_label), so a dot never covers a name. Dot colours: red = you are here, yellow = status 'built', white = not built yet.
     const zones = (this.scene.layout?.zones || []).filter((z) => z.map_pos), cur = this.scene.zone?.();
     let sel = Math.max(0, zones.findIndex((z) => z.id === cur));
+    const KEY = [['here', 'var(--bad)', 'You are here'], ['built', 'var(--sun)', 'Open now'], ['later', '#fff', 'Coming later']];
+    const dot = (z) => KEY[z.id === cur ? 0 : z.status === 'built' ? 1 : 2];
     const scr = { scr: 'map', pat: 'leaf', title: this.T('system_phone.menu.labels.map', 'Map'), glyph: 'map', sel, cols: 1, count: () => zones.length,
-      render: () => `<div class="ui-body"><div class="ui-panel ui-grow" data-scr="map" data-pat="leaf" style="flex:2;display:grid;place-items:center;padding:8px">
-        <div style="position:relative;height:100%;aspect-ratio:4/3;max-width:100%;border:3px solid var(--outline);border-radius:12px;overflow:hidden;background:url(art/world/world_map.webp) center/cover">
-        ${zones.map((z, i) => `<span data-i="${i}" title="${esc(z.name)}" style="position:absolute;left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%;width:18px;height:18px;margin:-9px;border-radius:50%;border:3px solid var(--outline);background:${z.id === cur ? 'var(--bad)' : z.status === 'built' ? 'var(--sun)' : '#fff'};cursor:pointer"></span>`).join('')}
-        ${cur ? (() => { const z = zones.find((q) => q.id === cur); return z ? `<span class="hud-prompt show" style="left:${z.map_pos.x * 100}%;top:calc(${z.map_pos.y * 100}% - 12px)"><span class="g">★</span><span>You</span></span>` : ''; })() : ''}</div></div>
-        <div class="plate ui-pad ui-scroll" style="flex:1" id="mapinfo"></div></div>`,
-      after: () => scr.onSel(scr.sel),
-      onSel: (i) => { const z = zones[i], el = this.stage.querySelector('#mapinfo'); if (el && z) el.innerHTML = `<b style="font-size:1.15em">${esc(z.name)}</b><p class="soft">${esc(z.type === 'town' ? 'Town' : z.type === 'route' ? 'Route' : z.type || '')}${z.id === cur ? ' · You are here' : ''}</p>`; for (const e of this.stage.querySelectorAll('[data-i]')) e.style.transform = +e.dataset.i === i ? 'scale(1.5)' : ''; },
+      render: () => `<div class="ui-body"><div class="ui-panel ui-grow rm-frame" data-scr="map" data-pat="leaf" style="flex:2">
+        <div class="rm-box" style="background-image:url(art/world/world_map.webp)">
+        ${zones.map((z, i) => `<span data-i="${i}" class="rm-dot" data-dot="${dot(z)[0]}" title="${esc(z.name)}" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%;--dot:${dot(z)[1]}"></span>`).join('')}
+        ${cur ? (() => { const z = zones.find((q) => q.id === cur); return z ? `<span class="hud-prompt show rm-you" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%"><span class="g">★</span><span>You</span></span>` : ''; })() : ''}</div></div>
+        <div class="plate ui-pad ui-scroll" style="flex:1"><div id="mapinfo"></div>
+        <ul class="rm-legend" aria-label="${esc(this.T('system_phone.map.legend.title', 'Map key'))}">${KEY.map(([k, c, t]) => `<li><i style="--dot:${c}"></i>${esc(this.T(`system_phone.map.legend.${k}`, t))}</li>`).join('')}</ul></div></div>`,
+      after: () => { scr.onSel(scr.sel); this._mapPlaceYou(zones); },
+      onSel: (i) => { const z = zones[i], el = this.stage.querySelector('#mapinfo'); if (el && z) el.innerHTML = `<b style="font-size:1.15em">${esc(z.name)}</b><p class="soft">${esc(z.type === 'town' ? 'Town' : z.type === 'route' ? 'Route' : z.type || '')}${z.id === cur ? ' · You are here' : ''}</p>`; },
       // [overnight hook] Skylift fast travel from the map (src/overnight/region_map.js, ?ov=regionmap; off by default)
       hint: () => this.hintText([['▲▼', 'Place'], ...(this.scene.overnight?.region?.enabled ? [['A', 'Skylift']] : []), ['B', 'Back']]),
       onA: (i) => { const r = this.scene.overnight?.region; if (r?.enabled && zones[i]) { this.closeAll(); r.travelTo(zones[i].id); } },
     };
     return scr;
   }
+  /** 'You' pin: above the current dot; if that leaves the map or covers a name plate / another dot, try left, then right
+   *  (3 px clear). If none is clear, the side that covers the least (leaving the map counts most). */
+  _mapPlaceYou(zones) {
+    const box = this.stage.querySelector('.rm-box'), pin = box?.querySelector('.rm-you');
+    if (!pin) return;
+    const B = box.getBoundingClientRect();
+    const plates = zones.filter((z) => z.map_label).map((z) => ({ l: B.left + z.map_label.x0 * B.width, t: B.top + z.map_label.y0 * B.height, r: B.left + z.map_label.x1 * B.width, b: B.top + z.map_label.y1 * B.height }));
+    const dots = [...box.querySelectorAll('.rm-dot')].map((e) => { const d = e.getBoundingClientRect(); return { l: d.left, t: d.top, r: d.right, b: d.bottom }; });
+    const over = (p, q, g) => Math.max(0, Math.min(p.right, q.r + g) - Math.max(p.left, q.l - g)) * Math.max(0, Math.min(p.bottom, q.b + g) - Math.max(p.top, q.t - g));
+    const cost = (p, g) => [...plates, ...dots].reduce((n, q) => n + over(p, q, g), 0) + 100 * (p.width * p.height - over(p, { l: B.left, t: B.top, r: B.right, b: B.bottom }, 0));
+    let best = null;
+    for (const side of ['up', 'left', 'right']) {
+      pin.dataset.side = side;
+      const p = pin.getBoundingClientRect();
+      if (cost(p, 3) === 0) return;
+      const c = cost(p, 0); if (!best || c < best.c) best = { side, c };
+    }
+    pin.dataset.side = best.side;
+  }
 
   scr_title() {
-    const hasSave = !!this.scene.store?.load?.();
+    // first launch: the scene's own early autosave must not count as a save (src/overworld/save.js showContinue)
+    const played = !!this._leftTitle || !this._bootTitle; // boot title: only a save from before this launch counts
+    const hasSave = showContinue({ bootSave: this.scene.opts?.saveData, played, stored: played ? this.scene.store?.load?.() : null });
     const items = [...(hasSave ? ['Continue'] : []), 'New game', 'Options'];
     let stage = 0;
     const scr = { scr: 'title', full: true, sel: 0, cols: 1, count: () => (stage ? items.length : 0),
@@ -771,14 +840,16 @@ export class GameUI {
         if (!stage) { stage = 1; this._render(); return; }
         const it = items[i];
         if (it !== 'Options' && this.scene.store) this.scene.store.hold = false; // ALPHA: saving starts with the first title choice
-        if (it === 'Continue') this.closeAll();
+        if (it === 'Continue') { this._leftTitle = true; this.closeAll(); }
         else if (it === 'New game') {
           if (hasSave) { const k = await this.ask('title', ['Start a new game?', 'This writes over your current report.'], ['Start over', 'Keep playing'], { pat: 'sparkle' }); if (k !== 0) return; }
           if (hasSave) { location.search = '?reset=1'; return; }
-          this.closeAll();
+          this._leftTitle = true; this.closeAll();
         } else { this.stack = []; this.active = false; this.open('options'); }
       },
       onBack: () => false,
+      // phone menu fix (Oct 23, 2026): A is hidden under menus on phones, so a tap anywhere on 'Tap to start' starts (touch profile only)
+      handlePointer: () => { if (stage || !this.platform?.profile?.controls?.touch) return false; scr.onA(0); return true; },
     };
     return scr;
   }
@@ -892,8 +963,9 @@ export class GameUI {
     };
     const holdCrystal = async () => { // scripted like ?battle=sd '-kcrystal' (Oct 22, 2026; SOUL_PLAYBOOK 5.3): no throw; the trainer holds the crystal up
       busy = true; $('#b-cmds').hidden = true; const fm = $('#foe-mon');
-      const odds = 0.35 + 0.55 * (1 - foe.hp / foe.hpMax), caught = opts.forceChance != null ? !!opts.forceChance : Math.random() < odds;
-      const pulses = caught ? Math.max(1, Math.min(4, Math.round(1 + (1 - odds) * 3.4))) : 1 + Math.floor(Math.random() * 3); // fewer pulses when the odds are good
+      // capture rules (Gary, Oct 23 2026): species rarity x foe HP, one roll; the 1-4 pulses come from that roll (src/battle/capture.js)
+      const odds = captureChance({ rarity: rarityOf(foe.sp, SPECIES), hp: foe.hp, maxHp: foe.hpMax });
+      const { caught, pulses } = captureRoll(odds, Math.random(), opts.forceChance != null ? !!opts.forceChance : undefined);
       await say('You held up a Crystal.', 600);
       await this.fx?.catchFx(this.layer.firstElementChild, { foe: fm, ally: $('#ally-mon'), name: foe.sp.name, pulses, caught, el: foe.sp.el?.[0] });
       if (caught) {
@@ -917,7 +989,8 @@ export class GameUI {
       if (mode === 'skills') { turn(skills[i]); return; }
       if (i === 0) showSkills();
       else if (i === 3) { busy = true; await say(this.P('system_wild.retreated', ['You slipped away.'])[0]); await end(); }
-      else if (i === 1 && !opts.trainer) holdCrystal(); // wild shell battles: Pack holds up a Crystal (catch celebration on success)
+      else if (i === 1 && !opts.trainer && !opts.who && !opts.foes?.length) holdCrystal(); // wild shell battles: Pack holds up a Crystal (catch celebration on success)
+      else if (i === 1) $('#b-msg').textContent = this.P('system_trainers.no_capture', ["That creature already has a trainer. A crystal won't take it."])[0]; // no capturing a trainer's creatures (Gary, Oct 23 2026); PH key: data/textbot_requests_capture.md
       else { const m = $('#b-msg'); m.textContent = i === 1 ? 'The Pack opens in the full battle pass.' : 'Team swaps arrive in the full battle pass.'; }
     };
     scr.onAct = (a) => { if (a === 'msg' && msgResolve) { const r = msgResolve; msgResolve = null; r(); } };
@@ -933,6 +1006,7 @@ function wireWild(ui, scene, q) {
   if (q.get('enc') === '0' || !scene?.hooks) return;
   const rate = q.has('encrate') ? Number(q.get('encrate')) : undefined;
   const openBattle = (foe) => (ui.sdReady || Promise.resolve()).then(() => new Promise((res) => {
+    if (catchNet(scene)) ui.toastFn?.(ui.P('system.catch_net_topup', NET_TEXT)[0]); // first catch never soft-locks (src/systems/catch_net.js)
     ui.closeAll(); ui.open('battle', { foe: foe.species, foeLevel: foe.level, biome: foe.biome });
     const scr = ui.top; let out = null;
     if (scr && ui.sdMod) scr.onDone = (r) => { out = r; };
@@ -947,6 +1021,9 @@ export function mountUI(opts) {
   const ui = new GameUI(opts);
   const q = opts.params || new URLSearchParams(location.search);
   const scene = opts.scene;
+  // save lock (Gary, Oct 23 2026): an open battle screen (capture included) or the evolution player blocks every save
+  scene.saveGuards?.push(() => (ui.stack.some((s) => s.scr === 'battle') ? 'battle' : ui.fx?._evolving ? 'evolution' : null));
+  attachWipNotice(scene); // one-time WIP notice after the last beatable Master (src/systems/wip_notice.js)
   if (q.get('battle') === 'shell') { scene.hooks.onBattle = () => new Promise((res) => { ui.open('battle', { trainer: true }); ui._onClose = () => res(true); }); wireWild(ui, scene, q); }
   const want = q.get('ui');
   // Battles default v1 (Oct 23, 2026, Gary: "switch the dev build to the new battles"): the engine battle (src/battle/ui_sd.js)
@@ -957,8 +1034,8 @@ export function mountUI(opts) {
     // trainers resolve won/lost from the engine result
     const load = import('../battle/ui_sd.js').then((m) => { ui.sdMod = m; return m; });
     ui.sdReady = load;
-    scene.hooks.onBattle = () => load.then(() => new Promise((res) => {
-      ui.open('battle', { trainer: true }); const scr = ui.top; let out = null;
+    scene.hooks.onBattle = (who) => load.then(() => new Promise((res) => {
+      ui.open('battle', { trainer: true, who }); const scr = ui.top; let out = null;
       scr.onDone = (r) => { out = r; }; ui._onClose = () => res(out ? out.outcome === 'win' : false);
     }));
     if (want === 'battle') { load.then(() => ui.open('battle', { trainer: q.get('trainer') === '1' })); return ui; }
@@ -966,6 +1043,7 @@ export function mountUI(opts) {
   // Dev/test hook (Oct 22, 2026): ?ui=evolve&from=cindrip[&to=..][&cancel=1] plays the Animator evolution FX (no evolution flow exists yet)
   if (want === 'evolve') { ui.evolveDone = Promise.resolve().then(() => ui.fx?.evolveFx({ from: q.get('from') || 'cindrip', to: q.get('to') || undefined, cancel: q.get('cancel') === '1' })); return ui; }
   const titleOnBoot = (ui.cfg.titleOnBoot !== false) && (q.get('title') === '1' || (q.get('title') !== '0' && !q.has('reset')));
+  if (want !== 'phone' && (want === 'title' || titleOnBoot)) ui._bootTitle = true; // scr_title: first-launch Continue rule
   if (want === 'phone' || want === 'title' || titleOnBoot) ui.open(want === 'phone' ? 'phone' : 'title');
   // ALPHA build: first-launch notice (remembered in localStorage kilumen_alpha_notice_seen.v1).
   if (!noticeSeen()) setTimeout(() => ui.ask('title', [ALPHA_NOTICE], ['Got it'], { pat: 'sparkle' }).then(markNoticeSeen), 300);

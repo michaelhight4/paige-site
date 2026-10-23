@@ -43,11 +43,11 @@ export class Renderer {
   draw(v) {
     const { ctx } = this, z = v.zoom, W = this.canvas.width, H = this.canvas.height;
     ctx.globalAlpha = 1;
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = '#000'; // blank background: anything outside the map stays black (centre camera, Oct 23, 2026)
     ctx.fillRect(0, 0, W, H);
     if (!v.map || !v.tileset) return;
     const m = v.map, cam = v.cam;
-    if (v.outside === 'edge') this.edgeFill(v, W, H); // mobile profile display.outsideMap: no black around short maps
+    if (v.outside === 'edge') this.edgeFill(v, W, H); // mobile display.outsideMap without the centre camera: fill around short maps
     const x0 = Math.max(0, Math.floor(cam.x / TILE)), y0 = Math.max(0, Math.floor(cam.y / TILE));
     const x1 = Math.min(m.width - 1, Math.floor((cam.x + W / z - 1) / TILE));
     const y1 = Math.min(m.height - 1, Math.floor((cam.y + H / z - 1) / TILE));
@@ -77,7 +77,9 @@ export class Renderer {
     v.life?.over(ctx, v); // living world: smoke, butterflies, motes, bird shadows, then cloud shadows (shade sprites too)
     v.nightfx?.drawLights(ctx, v); // Night FX: warm lamp/window pools, additive on a cached low-res buffer (+ flame flicker)
     if (m.layers.fog) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile('fog', x, y), x, y);
+    v.mood?.draw(ctx, v); // cinematic mood (mood.js): area tint, sun rays, vignette, ambient particles; under birds/firefly glow/markers
     v.life?.top(ctx, v); // living world: birds in the sky, firefly glow (emissive)
+    v.markers?.(ctx, v); // golden spinning arrows: starter cases, quest items (marker.js; above the world, under the fade)
 
     if (v.debug && v.drawDebug) v.drawDebug(ctx, v, { x0, y0, x1, y1 });
     if (v.fade > 0) {

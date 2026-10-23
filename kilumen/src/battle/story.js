@@ -4,16 +4,32 @@
 //    so a loss doesn't black out and the story goes on. `beat_rival_ron_1` is set on a win only (open question
 //    for Gary: the CP table lists it for step 2 without saying "on a win").
 //  - step 3: the Master of Fernwick sets `beat_master_fernwick` (opens gate_brookhollow_east).
+//  - Ron rival battles 2-6 (Gary, Oct 23, 2026, 9:05 AM CT): a loss blacks out to the last clinic AND the player must
+//    beat Ron to progress: `beat_rival_ron_<n>` (the quest/story gate) is set on a win only, `defeated:` stays unset so
+//    he can be rematched until won. `blackoutOnLoss` forces the blackout even if the engine left a creature standing.
+//    Battle 1 above is unchanged (continueOnLoss).
 // Every other trainer: no flags (prize money only, Systems.onTrainerWin).
 export const TRAINER_RESULTS = {
   'fernwick.ron_rival_1': { win: ['beat_rival_ron_1'], either: ['has_run_shoes'], continueOnLoss: true, gift: 'running_shoes' },
   'fernwick_hall_int.master_fernwick': { win: ['beat_master_fernwick'] },
 };
 
-/** What a trainer battle result does to the story. -> {flags[], continueOnLoss, gift|null, done} */
+/** Ron rival battles 2-6: World Design map NPC (map.id) -> battle number. */
+export const RON_RIVALS = {
+  'saltmere.saltmere_ron_2': 2,
+  'revival_heights.revival_heights_ron_3': 3,
+  'frostspire_pass.frostspire_pass_ron_4': 4,
+  'lanternport.lanternport_ron_5': 5,
+  'aurelith.aurelith_ron_6': 6,
+};
+for (const [k, n] of Object.entries(RON_RIVALS)) TRAINER_RESULTS[k] = { win: [`beat_rival_ron_${n}`], blackoutOnLoss: true };
+
+/** What a trainer battle result does to the story. -> {flags[], continueOnLoss, gift|null, done[, blackoutOnLoss]} */
 export function trainerOutcome(mapName, id, won) {
   const r = TRAINER_RESULTS[`${mapName}.${id}`] || {};
   const flags = [...(won ? r.win || [] : []), ...(r.either || [])];
   const cont = !!r.continueOnLoss;
-  return { flags, continueOnLoss: cont, gift: r.gift || null, done: won || cont }; // done = don't re-challenge (defeated:)
+  const out = { flags, continueOnLoss: cont, gift: r.gift || null, done: won || cont }; // done = don't re-challenge (defeated:)
+  if (r.blackoutOnLoss && !cont) out.blackoutOnLoss = true; // Ron 2-6: a loss always goes back to the last clinic
+  return out;
 }

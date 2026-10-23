@@ -3,6 +3,7 @@
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
 import { KilumenBattle } from './battle.js';
+import { authoredTeam } from './data/trainer_teams.js';
 import { STAT_NAMES } from './data/creatures.js';
 import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
@@ -14,19 +15,26 @@ export function makeSdBattle(ui, opts, h) {
   const { esc, front, back, fx, wait, lvlOf, speciesById, ELEMENT_LABEL, statsFor } = h;
   const P1 = (k, fb, v) => ui.P(`${KEY}.${k}`, [fb], v)[0];
   const trainer = !!opts.trainer;
+  // no capturing a trainer's creatures (Gary, Oct 23 2026): any battle with an owner (trainer flag, overworld trainer id,
+  // injected Master / hall team, explicit owner) is not wild, so the engine refuses the crystal and keeps it in the bag
+  const owned = trainer || !!opts.who || !!opts.owner || !!opts.foes?.length;
+  const noCapture = () => ui.P('system_trainers.no_capture', ['That creature already has a trainer. A crystal won\'t take it.'])[0]; // PH: key requested in data/textbot_requests_capture.md
   const partySrc = ui.party().length ? ui.party() : [{ species: 'rillop', rt: 'RT-0147' }];
   // overworld entries have no level/HP yet: level from the same placeholder statsFor() the Team screen shows, HP full
   const party = partySrc.slice(0, 6).map((c, i) => ({ ...c, level: c.level || statsFor(c, i).level }));
   const lead = party[0];
   const foeSp = opts.foe || (lead.species === 'cindrip' ? 'rillop' : 'cindrip');
   const foeLv = opts.foeLevel || Math.max(2, lead.level - 1); // foeLevel: wild encounter slot level (src/battle/encounters.js)
-  // PLACEHOLDER trainer team (no trainer rosters in the data yet): two creatures around the lead's level
-  const foes = opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
-    : trainer ? [{ species: foeSp, level: foeLv }, { species: foeSp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: foeLv }] : [{ species: foeSp, level: foeLv }];
+  // PLACEHOLDER trainer team, only for trainers with no authored / injected team: two creatures around the lead's level
+  // authored teams first (src/battle/data/trainer_teams.js, keyed by the overworld's {map, id}), then injected teams, then the placeholder
+  const authored = trainer ? authoredTeam(opts.who, partySrc) : null;
+  const foes = authored || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
+    : trainer ? [{ species: foeSp, level: foeLv }, { species: foeSp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: foeLv }] : [{ species: foeSp, level: foeLv }]);
   const sys = ui.demo ? null : ui.scene?.systems; // [systems-gd hook] the real bag (src/systems); ?uidemo=1 keeps the demo team + demo bag (never saved)
   const bag = sys ? sys.bagForBattle() : Object.fromEntries(Object.entries(ui.bag || {}).filter(([, n]) => n > 0));
   const seed = opts.seed || (ui.q?.get('bseed') ? ui.q.get('bseed').split(',').map(Number) : undefined);
-  const kb = new KilumenBattle({ party, foes, wild: !trainer, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance });
+  const kb = new KilumenBattle({ party, foes, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance });
+  ui.currentBattle = kb; // read-only handle for scripted play-checks (tools/playcheck_browser.mjs)
   const cat = ui.T('system_item_catalogue', {});
   const Items = kb.battle.dex.data.Items;
   const itemName = (engineId) => { const it = Items[engineId]; return cat[it?.kGameId]?.name || it?.name || engineId; };
@@ -50,7 +58,16 @@ export function makeSdBattle(ui, opts, h) {
   let mode = 'msg', msgResolve = null, busy = true, list = [];
   const scr = { scr: 'battle', full: true, sel: 0, cols: 2, count: () => (mode === 'msg' ? 0 : list.length), kb };
   ui._sd = scr;
-  const $ = (s) => ui.layer.querySelector(s);
+  // force-close fix (batch 3 wire, Oct 23 2026): ui.closeAll() during a battle empties ui.layer while playback / a say()
+  // timer is still running, so the next $('#b-msg').innerHTML hit null ("Cannot set properties of null"). The battle keeps
+  // its own root; once that root is detached every DOM step throws BattleClosed and guard() ends the chain quietly
+  // (it also never writes into a newer battle that reuses the same ids).
+  let root = null;
+  const closed = () => !!root && !root.isConnected;
+  const host = () => { if (closed()) throw new BattleClosed(); return root || ui.layer.firstElementChild; };
+  const $ = (s) => { if (closed()) throw new BattleClosed(); return (root || ui.layer).querySelector(s); };
+  const guard = (p) => Promise.resolve(p).catch((e) => { if (e instanceof BattleClosed || closed()) { scr.aborted = true; return; } throw e; });
+  scr.isClosed = closed;
   const mon = { p1: null, p2: null }; // shown creature per side: { name, species, level, hp, maxhp }
   const plateHtml = (side) => `<div class="b-plate ${side === 'p2' ? 'foe' : 'ally'}" id="plate-${side}" data-pat="${side === 'p2' ? 'chevron' : 'dots'}"><div class="plate">
       <div class="top"><span class="grow" id="${side}-name"></span><span class="lv" id="${side}-lv"></span></div>
@@ -67,6 +84,7 @@ export function makeSdBattle(ui, opts, h) {
         ${plateHtml('p2')}${plateHtml('p1')}</div>
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
+    root = layer.firstElementChild;
     for (const s of ['p1', 'p2']) if (mon[s]) drawPlate(s);
     if (!scr.started) { scr.started = true; run(); }
   };
@@ -109,7 +127,7 @@ export function makeSdBattle(ui, opts, h) {
   const fxs = fxSettings(ui.q);
   const fxAt = async (s, el, from, ranged) => {
     if (!fxs.on) return null;
-    const e = fxs.force || el, box = ui.layer.firstElementChild, tgt = $(`#${s}-mon`);
+    const e = fxs.force || el, box = host(), tgt = $(`#${s}-mon`);
     const pImp = loadFx(e, 'impact', fxs.base).then(prepFx); // decoded while the travel plays
     if (fxs.travel && ranged && from && from !== s) {
       const tr = await showTravel(await loadFx(e, from === 'p1' ? 'travel_p2f' : 'travel_f2p', fxs.base), box, $(`#${from}-mon`), tgt);
@@ -120,7 +138,7 @@ export function makeSdBattle(ui, opts, h) {
   const dmgNum = (s, n) => {
     const d = $(`#${s}-mon`), r = d.getBoundingClientRect(), lr = ui.layer.getBoundingClientRect();
     const e = document.createElement('div'); e.className = 'b-dmg'; e.textContent = `-${n}`; e.style.cssText = `left:${r.left - lr.left + r.width / 2}px;top:${r.top - lr.top + 10}px`;
-    ui.layer.firstElementChild.appendChild(e); setTimeout(() => e.remove(), 600);
+    host().appendChild(e); setTimeout(() => e.remove(), 600);
   };
   let lastMove = null;
 
@@ -188,8 +206,8 @@ export function makeSdBattle(ui, opts, h) {
           mon.p1.level = +b; const st = c.split(',').map(Number);
           const box = document.createElement('div'); box.className = 'plate b-lvup ui-pad';
           box.innerHTML = `<b>${esc(P1('levelup', '{creature} grew to Lv.{level}!', { creature: who, level: b }))}</b><dl class="ui-kv">${['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map((k, i) => `<dt>${esc(STAT_NAMES[k])}</dt><dd>${st[i]}</dd>`).join('')}</dl>`;
-          ui.layer.firstElementChild.appendChild(box); drawPlate('p1');
-          const r = $('#p1-mon').getBoundingClientRect(), lr = ui.layer.getBoundingClientRect(); ui.sparkle?.(r.left - lr.left + r.width / 2, r.top - lr.top + r.height / 2, 20, ui.layer.firstElementChild);
+          host().appendChild(box); drawPlate('p1');
+          const r = $('#p1-mon').getBoundingClientRect(), lr = ui.layer.getBoundingClientRect(); ui.sparkle?.(r.left - lr.left + r.width / 2, r.top - lr.top + r.height / 2, 20, host());
           await say(P1('levelup', '{creature} grew to Lv.{level}!', { creature: who, level: b }) /* PH */, 0); box.remove();
           break;
         }
@@ -201,10 +219,10 @@ export function makeSdBattle(ui, opts, h) {
         case '-kcrystal': {
           await say(P1('crystal_throw', 'You held up a {item}.', { item: itemName(b) }) /* PH */, 600);
           const img = $('#p2-mon');
-          // capture sequence (Oct 22, 2026; SOUL_PLAYBOOK 5.3): the trainer holds the crystal up, the foe streams in, c pulses (1-4),
+          // capture sequence (Oct 22, 2026; SOUL_PLAYBOOK 5.3): the trainer holds the crystal up, the foe streams in, c pulses (1-4, from the same capture roll: src/battle/capture.js),
           // then rune lock + bloom ('catch' chime) or the light bursts back out. ui_tools2.js catchFx -> capture_fx.js (one swap point per step)
           const ok = d === 'caught';
-          await ui.fx?.catchFx(ui.layer.firstElementChild, { foe: img, ally: $('#p1-mon'), name: who, pulses: +c, caught: ok, el: $('#plate-p2')?.dataset.el });
+          await ui.fx?.catchFx(host(), { foe: img, ally: $('#p1-mon'), name: who, pulses: +c, caught: ok, el: $('#plate-p2')?.dataset.el });
           if (ok) { img.style.opacity = '0'; await say(P1('caught', '{creature} is with you now!', { creature: who }) /* PH */, 0); }
           else await say(P1('crystal_escape', '{creature} broke free!', { creature: who }) /* PH */, 700);
           break;
@@ -245,7 +263,8 @@ export function makeSdBattle(ui, opts, h) {
     const r = kb.request();
     const items = Object.entries(r.bag).filter(([id, n]) => n > 0 && Items[id.replace(/_/g, '')]).map(([id, n]) => {
       const it = Items[id.replace(/_/g, '')], crystal = !!it.kCrystalGrade;
-      return { t: `${cat[id]?.name || it.name} ×${n}`, el: crystal ? 'mystic' : 'grass', off: crystal && trainer, go: () => act(crystal ? `crystal ${id}` : `item ${id}`) };
+      return { t: `${cat[id]?.name || it.name} ×${n}`, el: crystal ? 'mystic' : 'grass', off: crystal && owned,
+        go: async () => { if (crystal && owned) { await say(noCapture(), 0); showCmds(); return; } act(crystal ? `crystal ${id}` : `item ${id}`); } }; // owned: refusal (tap-through so phones see it too), no item / turn used
     });
     if (!items.length) { $('#b-msg').textContent = P1('pack_empty', 'Nothing in the Pack you can use here.') /* PH */; return; }
     showList('pack', items, P1('pack_prompt', 'Use which item?') /* PH */);
@@ -256,18 +275,20 @@ export function makeSdBattle(ui, opts, h) {
       el: speciesById(c.species.id).el[0], off: c.fainted || i === 0, go: () => { if (!c.fainted && i > 0) act(`switch ${i + 1}`); } })),
     forced ? P1('send_next', 'Who goes in next?') /* PH */ : P1('team_prompt', 'Swap in who?') /* PH */);
   };
-  const act = async (choice) => {
+  const act = (choice) => guard(actInner(choice));
+  const actInner = async (choice) => {
     busy = true; const r = kb.choose(choice);
     if (r !== true) {
       busy = false;
       const err = String(r?.error || '');
-      if (/trainer/i.test(err) || (choice === 'retreat' && trainer) || (choice.startsWith('crystal') && trainer)) $('#b-msg').textContent = ui.P('system_trainers.no_retreat', ['No walking away from a trainer battle.'])[0];
+      if (choice.startsWith('crystal') && (owned || /wild/i.test(err))) $('#b-msg').textContent = noCapture();
+      else if (/trainer|wild/i.test(err) || (choice === 'retreat' && owned)) $('#b-msg').textContent = ui.P('system_trainers.no_retreat', ['No walking away from a trainer battle.'])[0];
       else $('#b-msg').textContent = err;
       return;
     }
     $('#b-cmds').hidden = true;
     await play(kb.drain());
-    next();
+    await next();
   };
   const next = async () => {
     if (kb.ended) { await finish(); return; }
@@ -280,15 +301,16 @@ export function makeSdBattle(ui, opts, h) {
     // [systems-gd hook] systems attached: party hp/energy/status/xp (by uid) + bag go back into the save; 'blackout' = team wiped
     if (sys) res.systems = sys.applyBattleResult(res);
     else if (ui.bag) for (const [k, n] of Object.entries(res.bag)) ui.bag[k] = n; // demo bag, in memory only
-    await wait(250); const fl = document.createElement('div'); fl.className = 'b-flash'; ui.layer.firstElementChild.appendChild(fl); await wait(300);
+    await wait(250); const fl = document.createElement('div'); fl.className = 'b-flash'; host().appendChild(fl); await wait(300);
     // [systems-gd hook] hand the result over BEFORE closing: ui.js resolves onBattle in _onClose (run by closeAll) from what
     // onDone stored, so the old close-then-onDone order made every ?battle=sd trainer battle count as lost
+    if (closed()) return; // force-closed during the flash: a later UI may be open, never close it
     const done = scr.onDone; done?.(res); ui.closeAll();
     // [systems-gd hook] no caller handles the result (wild / direct ?ui=battle): a wiped team blacks out here. Trainer
     // battles from talk() set onDone and black out there, after the trainer's line (overworld.js onTrainerLoss).
     if (!done && res.systems === 'blackout') await sys.onPartyFainted();
   };
-  const run = async () => { await wait(300); await play(kb.drain()); next(); };
+  const run = () => guard((async () => { await wait(300); await play(kb.drain()); await next(); })());
 
   scr.handle = ({ dir, a, b }) => {
     if (mode === 'msg') { if ((a || b) && msgResolve) { const r = msgResolve; msgResolve = null; r(); } return; }
@@ -305,3 +327,6 @@ export function makeSdBattle(ui, opts, h) {
   scr.onBack = () => { if (!busy && !['cmd', 'forced', 'msg'].includes(mode)) showCmds(); return false; };
   return scr;
 }
+
+/** Thrown by DOM steps after the battle was force-closed (ui.closeAll); guard() swallows it. */
+export class BattleClosed extends Error { constructor() { super('battle closed'); this.name = 'BattleClosed'; } }

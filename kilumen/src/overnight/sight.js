@@ -74,6 +74,16 @@ export class SightSystem {
     const s = this.scene, p = s.player;
     this.cooldown.add(n.id);
     s.log.push({ tick: s.tick, type: 'spotted', npc: n.id });
+    // save lock (Gary, Oct 23 2026): checkpoint before the walk-up, then no save until the talk + battle script has ended
+    s.checkpoint?.('trainer_spotted');
+    const release = s.lockSave ? s.lockSave('trainer_approach') : () => {};
+    try { await this._approach(n); s.talk(n, n.def); } // the trainer's own pages are the intro (system_trainers.spotted.note)
+    catch (e) { console.error(e); }
+    finally { if (s.busy) await this.wait(() => !s.busy, Infinity); release(); }
+  }
+
+  async _approach(n) {
+    const s = this.scene, p = s.player;
     await s.script(async () => {
       n.talking = false; n.faceToward(p.x, p.y);
       this.spark = { id: n.id, t: 36 };
@@ -91,7 +101,6 @@ export class SightSystem {
       n.faceToward(p.x, p.y);
       p.facing = sx > 0 ? 'right' : sx < 0 ? 'left' : sy > 0 ? 'down' : 'up';
     });
-    s.talk(n, n.def); // the trainer's own pages are the intro (system_trainers.spotted.note)
   }
 
   /** Placeholder spark: violet diamond over the trainer's head (no '!' anywhere). */

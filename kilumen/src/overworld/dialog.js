@@ -2,7 +2,7 @@
 //   await dlg.say(pages, speaker)          A advances a page (B too)
 //   const i = await dlg.ask(pages, choices, speaker)   up/down + A; B picks the last choice (No)
 //   await dlg.inbox(emails, isRead, markRead)          up/down + A opens; B goes back / closes
-// speaker = {name, portrait (url, one frame), battle (url of the 64x128 trainer sprite), zoom}
+// speaker = {name, portrait (url, one frame), battle (url of the 64x128 trainer sprite), zoom, thought (inner monologue style)}
 // Input comes from the scene each tick (handle(snap)), so it shares the game's keyboard / pad / touch mapping.
 
 /**
@@ -11,7 +11,8 @@
  */
 export function touchControlsFor(controls, { open = false, list = false } = {}) {
   const names = (open && controls?.hideDuringDialog) || [];
-  return { hide: [...names], listDpad: !!(open && list && controls?.showDpadForLists && names.includes('dpad')) };
+  const extra = (open && list && controls?.hideDuringLists) || []; // phone menu fix (Oct 23, 2026): rows are tapped, so A/B fade too
+  return { hide: [...names, ...extra.filter((n) => !names.includes(n))], listDpad: !!(open && list && controls?.showDpadForLists && names.includes('dpad')) };
 }
 
 /**
@@ -79,6 +80,7 @@ export class Dialog {
       if (this.layout.battleImage?.fit !== 'aboveDialog') { const z = sp.zoom || 2; this.battle.style.width = 64 * z + 'px'; this.battle.style.height = 128 * z + 'px'; }
     }
     this.wrap.classList.toggle('has-portrait', !!sp?.portrait);
+    this.wrap.classList.toggle('thought', !!sp?.thought); // home start v1: inner monologue (no name, italic; style.css .dlg-wrap.thought)
   }
 
   _show() { this.wrap.hidden = false; requestAnimationFrame(() => this.wrap.classList.add('open')); }
@@ -89,7 +91,9 @@ export class Dialog {
     const C = this.controls, body = this.wrap.ownerDocument?.body;
     if (!C.hideDuringDialog || !body) return;
     const st = touchControlsFor(C, { open: !!this.cur && !this.wrap.hidden, list: !!this.cur && !this.list.hidden });
-    for (const n of C.hideDuringDialog) body.classList.toggle(`tp-hide-${n}`, st.hide.includes(n));
+    // Phone menu fix (Oct 23, 2026; Gary: the d-pad covered the title menu): _place() runs on every resize (iOS Safari fires
+    // them as its bars slide), so never un-hide a control an open UI screen still owns (ui.js sets ui-hid-<name>).
+    for (const n of new Set([...C.hideDuringDialog, ...(C.hideDuringLists || [])])) body.classList.toggle(`tp-hide-${n}`, st.hide.includes(n) || body.classList.contains(`ui-hid-${n}`));
     body.classList.toggle('tp-list-dpad', st.listDpad);
   }
 

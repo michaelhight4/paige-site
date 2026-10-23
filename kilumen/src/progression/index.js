@@ -8,8 +8,11 @@ import { progressionFlags } from './flags.js';
 import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js';
 import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js';
 import { QuestBook, QFLAG } from './quests.js';
+import { applyLamps, activeTint } from './hall_lamps.js'; // batch 3: Mirefen hall tint + reed lamps
 import { HallPuzzle } from './puzzles.js';
 import { TRAINER_RESULTS } from '../battle/story.js';
+import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js';
+import { isBatch3Map } from '../overnight/npc_sprites.js'; // batch 3: route / rival trainers fight their map team
 
 const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url + ' ' + r.status))));
 const escH = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -28,13 +31,18 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     pg.registered.push(...registerHallNpcResults(pg.masters, TRAINER_RESULTS)); // World Design map ids (<hall_map>_master)
     wireHallText(scene, pg.masters); // halls 2-8: NPCs placed + text lookup with clean fallback (./halls.js)
     let pending = null;
+    const standIns = await getJSON('data/standins_overnight.json').then((d) => d.trainer_species || {}).catch(() => ({}));
+    pg.mapTeam = (who) => { // non-hall trainers on World Design's maps: def.team (Ron: branch for the player's starter)
+      const def = who && scene.map?.name === who.map && isBatch3Map(scene.map) ? scene.map.npcs?.find((d) => d.id === who.id) : null;
+      return def ? mapTeamFor(def, { starter: playerStarter([...(scene.party || []), ...(sys?.archive?.list || [])]), standIns }) : null;
+    };
     if (ui) {
       const open = ui.open.bind(ui);
       ui.open = (id, arg) => open(id, id === 'battle' && pending ? { ...(arg || {}), foes: pending.foes, foeName: pending.foeName } : arg);
     }
     const onBattle = scene.hooks.onBattle;
     if (onBattle) scene.hooks.onBattle = async (who) => {
-      pending = who ? teamFor(pg.masters, who.map, who.id, { fernwick: flags.masterTeamFernwick }) : null;
+      pending = who ? teamFor(pg.masters, who.map, who.id, { fernwick: flags.masterTeamFernwick }) || pg.mapTeam(who) : null;
       let won;
       try { won = await onBattle(who); } finally { pending = null; }
       const f = who && findHallTrainer(pg.masters, who.map, who.id);
@@ -54,6 +62,26 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     const mz = query?.get?.('master');
     if (mz && ui) Promise.resolve(ui.sdReady).then(() => pg.openMaster(mz));
   }
+
+  // ---- batch 3: hall map tint (mirefen_hall_int darkness) + reed lamp tiles from the hall puzzle state ----------------
+  // Always on (it is World Design map data, not a feature switch). gradeFor reads scene.mapTint() (src/overworld/clock.js).
+  pg.tintDefs = {};
+  const zoneOfMap = (m) => (m?.json?.tint && /_hall_int$/.test(m.name) ? m.name.replace(/_hall_int$/, '') : null);
+  scene.mapTint = () => {
+    const m = scene.map, z = zoneOfMap(m); if (!z) return m?.json?.tint || null;
+    return pg.tintDefs[z] ? activeTint(m, pg.tintDefs[z], store.puzzles[z], scene.flags) : m.json.tint;
+  };
+  pg.refreshLamps = async () => {
+    const m = scene.map, z = zoneOfMap(m); if (!z || !m.json.tint.lights) return [];
+    const def = pg.tintDefs[z] ||= await getJSON(`data/hall_puzzles/${z}.json`).catch(() => null);
+    const r = def ? applyLamps(m, def, store.puzzles[z], scene.flags) : [];
+    scene._dirty = true; return r;
+  };
+  if (typeof scene._enterMap === 'function') {
+    const enter = scene._enterMap.bind(scene);
+    scene._enterMap = async (...a) => { const r = await enter(...a); await pg.refreshLamps().catch((e) => console.error('hall lamps:', e)); return r; };
+  }
+  await pg.refreshLamps().catch((e) => console.error('hall lamps:', e));
 
   // ---- (b) hall puzzles ----------------------------------------------------------------------------------------------
   if (flags.hallPuzzles) {
@@ -208,6 +236,7 @@ function openPuzzleOverlay(scene, ui, def, store, platform) {
     if (a === 'A') a = 'A' + face; else face = a;
     const r = rt.act(a); store.puzzles[def.zone] = rt.toJSON();
     if (r.solvedNow) { scene.setFlag?.(def.solved_flag); scene.toast?.('The way to the Master is open.'); }
+    scene.progression?.refreshLamps?.(); // batch 3: overworld reed lamps follow the puzzle state
     draw();
   };
   const close = () => { removeEventListener('keydown', key, true); wrap.remove(); };

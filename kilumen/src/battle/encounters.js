@@ -14,6 +14,10 @@ export const ENCOUNTERS_WIRED_URL = 'data/encounters_wired.json';
 // Art filter (#62, Coder, Oct 23 2026): at load, slots whose species has no creature art are dropped from the in-memory
 // table (the JSON files keep everything). hasArt = the battle's own lookup (src/ui/data.js SPECIES: hand-written 16 +
 // species_synced.gen.js), so creatures the sync wires later are picked up on the next load. On by default; ?encart=0 off.
+// Trail level scaling (Coder, Oct 23 2026; Gary 11:48 AM CT: "well we need to have them be level scaling the closer to
+// town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
+// the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
+import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js';
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
 export const MAX_RATE = 0.2;
 export const GRACE_STEPS = 3;
@@ -39,7 +43,8 @@ export function slotOk(slot, ctx = {}) {
   return true;
 }
 
-/** Weighted pick among eligible slots, level uniform in [lo, hi]. rng() in [0,1). -> {species, level, slot} | null */
+/** Weighted pick among eligible slots. Level uniform in [lo, hi], or, when ctx.t (trail progress 0..1) is a number,
+ * scaledLevel(lo, hi, t) clamped to the zone cap (zone.cap.level). rng() in [0,1). -> {species, level, slot} | null */
 export function pickSlot(zone, ctx = {}, rng = Math.random) {
   const slots = (zone?.slots || []).filter((s) => (s.weight || 0) > 0 && slotOk(s, ctx));
   const total = slots.reduce((a, s) => a + s.weight, 0);
@@ -47,6 +52,7 @@ export function pickSlot(zone, ctx = {}, rng = Math.random) {
   let r = rng() * total, slot = slots[slots.length - 1];
   for (const s of slots) { if ((r -= s.weight) < 0) { slot = s; break; } }
   const [lo, hi] = Array.isArray(slot.level) ? slot.level : [slot.level, slot.level];
+  if (typeof ctx.t === 'number') return { species: slot.species, level: scaledLevel(lo, hi, ctx.t, rng, zone.cap?.level || null), slot };
   return { species: slot.species, level: lo + Math.floor(rng() * (hi - lo + 1)), slot };
 }
 
@@ -78,6 +84,7 @@ export class EncounterRoller {
     this.data = data; this.rng = opts.rng || Math.random;
     this.rateOverride = opts.rate ?? null; this.maxRate = opts.maxRate ?? MAX_RATE;
     this.graceSteps = opts.graceSteps ?? GRACE_STEPS; this.grace = this.graceSteps;
+    this.axes = opts.axes || null; // data/trail_axes.json (trail level scaling); null = uniform levels everywhere
   }
   rateFor(zone) {
     const r = this.rateOverride ?? zone?.rate ?? 0;
@@ -90,10 +97,11 @@ export class EncounterRoller {
     const z = zoneAt(this.data, mapName, rects, x, y, code);
     if (!z) return null;
     if (this.rng() >= this.rateFor(z.zone)) return null;
-    const hit = pickSlot(z.zone, ctx, this.rng);
+    const t = trailT(axisFor(this.axes, mapName), x, y);
+    const hit = pickSlot(z.zone, t == null ? ctx : { ...ctx, t }, this.rng);
     if (!hit) return null;
     this.resetGrace();
-    return { species: hit.species, level: hit.level, table: z.id, forced: z.forced };
+    return { species: hit.species, level: hit.level, table: z.id, forced: z.forced, t };
   }
 }
 
@@ -109,6 +117,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
   const st = { roller: null, ready: null, lastMap: null };
   if (opts.off) return st;
   const getJson = (u) => fetch(u).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const axesP = opts.levelScale === false ? Promise.resolve(null) : getJson(opts.axesUrl || TRAIL_AXES_URL);
   st.ready = (opts.url ? getJson(opts.url) : getJson(ENCOUNTERS_WIRED_URL).then((d) => (d?.zones ? d : getJson(ENCOUNTERS_URL)))).then((data) => {
     if (!data) return;
     if (opts.hasArt && opts.artFilter !== false) { // #62: no art -> not rolled (in memory only)
@@ -116,6 +125,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
       if (opts.dev) console.info('[encounters] art filter dropped', Object.values(f.dropped).reduce((a, n) => a + n, 0), 'slots', f.dropped, 'empty zones', f.empty, 'empty phases', f.emptyPhases);
     }
     st.roller = new EncounterRoller(data, { rate: opts.rate });
+    return axesP.then((axes) => { if (axes?.maps) st.roller.axes = axes; });
   }).catch((e) => console.warn('[encounters]', e.message));
   scene.hooks.onEncounterTile = (x, y, code) => {
     const m = scene.map, ro = st.roller;
@@ -125,7 +135,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
     const ctx = { phase: scene.phase, weather: scene.flags?.has('storm_season') ? 'storm' : 'clear', flood: /_storm$/.test(m.name) };
     const hit = ro.step(m.name, m.json?.encounter_zones, x, y, code, ctx);
     if (!hit) return;
-    scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y });
+    scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });
     scene.script(async () => {
       await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method) });
       ro.resetGrace();

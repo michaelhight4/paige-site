@@ -7,14 +7,15 @@
 import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js';
 import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js';
 import { GridMover } from './movement.js';
-import { cameraFor, pickZoom } from './camera.js';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js';
 import { promptScheme, promptVars } from '../platform.js';
 import { loadImage, loadJson, resolveUrl } from './assets.js';
 import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js';
 import { Renderer } from './renderer.js';
 import { drawDebug } from './debug.js';
 import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js';
-import { freshSave, clampWarmth } from './save.js';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js';
+import { migratePos, migrateDoor } from './pad_migrate.js'; // old saves -> padded maps (Gary 10:25 AM CT)
 import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js';
 import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js';
 import { NpcSystem, OPPOSITE } from './npcs.js';
@@ -23,6 +24,11 @@ import { DepthPass, normalizeDepth } from './depth.js';
 import { resolveFlagSwaps, isActive } from './props.js';
 import { litGreensGrade, wantsLitGreens } from './lighting.js';
 import { NightFx } from './nightfx.js';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js'; // home start v1: new game in the bedroom (intro.js)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
 import { trainerOutcome } from '../battle/story.js'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
@@ -86,6 +92,7 @@ export class Overworld {
     this.grades = null; this.spriteMap = null; this.warmth = null; this.layout = null;
     this.healedAt = null; this.stillSince = 0; this._stillKey = '';
     this._bPrev = false; this._dirPrev = null; this._dirty = false; this._sinceSave = 0;
+    this._saveLocks = new Map(); this.saveGuards = []; this._lockLogged = null; // save lock (Gary, Oct 23 2026): see saveLockReason()
     this.imgCache = new Map();
     this.hooks.onBattle = null; this.hooks.onScriptedEncounter = null;
     this.life = new LivingWorld(this, opts.life || {}); // cloud shadows + ambient life (living.js)
@@ -108,14 +115,34 @@ export class Overworld {
     try { this.lines = await loadJson(this.config.textLines); } catch { this.lines = null; }
     await Promise.all([this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
     const sv = this.opts.saveData;
-    const s = this.opts.start || (sv?.pos && (!this.knownMaps || this.knownMaps.has(sv.pos.map)) ? sv.pos : this.config.start);
+    let s = this.opts.start || (sv?.pos && (!this.knownMaps || this.knownMaps.has(sv.pos.map)) ? sv.pos : this.config.start);
+    // home start v1: a new game (no ?map=, no saved position) wakes up in the bedroom; ?skipintro=1 starts outside the
+    // front door as before (looked up from the warps, never a hard-coded outdoor tile). Saves with a position: unchanged.
+    const newGame = isNewGame(this.opts);
+    if (newGame) s = (await this._homeStart(!!this.opts.skipIntro)) || s;
+    this.intro = new HomeStart(this, { newGame: newGame && !this.opts.skipIntro, gate: this.opts.introGate });
     this.map = await this.loadMap(s.map);
+    if (sv?.frame === 'unpadded' && s === sv.pos) { // old save: shift by the map's padding, land on a walkable tile
+      s = migratePos(this.map, s);
+      if (this.lastDoor?.map) { try { this.lastDoor = migrateDoor((await this.loadMap(this.lastDoor.map)).json, this.lastDoor); } catch { this.lastDoor = null; } }
+    }
     await this.ensureAssets();
     this.player.place(s.x, s.y, s.facing);
     await this._enterMap();
+    this._areaSignEnter(); // shown once the opening fade (if any) is done
+    this.intro.begin(); // new game: black hold until the title closes, slow fade in, wake-up thought
     if (!fit) window.addEventListener('resize', () => this.resize()); // pc: unchanged
     else this._settle(); // mobile: re-measure for ~1 s once the game is up (URL bar settles after the first paint)
-    window.addEventListener('pagehide', () => this.saveNow());
+    window.addEventListener('pagehide', () => this.saveNow()); // refused (locked) mid battle / talk / cutscene: the checkpoint stands
+  }
+
+  /** New-game spawn: house_2f's player_start, or (skipIntro) the street outside the house_1f front door. */
+  async _homeStart(outside) {
+    try {
+      if (!outside) return bedroomSpawn((await this.loadMap(HOME.bedroom)).json);
+      const [house, street] = await Promise.all([this.loadMap(HOME.downstairs), this.loadMap(HOME.outside).catch(() => null)]);
+      return outsideSpawn(house.json, street?.json);
+    } catch (e) { console.warn('home start:', e.message); return null; }
   }
 
   async _loadGrades() {
@@ -322,6 +349,7 @@ export class Overworld {
         if (code === Col.DOOR) {
           const w = m.warpAt(x, y);
           if (w && !isToCome(w)) {
+            if (this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing
             if (w.to !== '$return') this.lastDoor = { map: m.name, x, y };
             this._doorDismount = this.player.mode === MoveMode.BIKE; // MOVEMENT.md 2: doors always dismount
             const spawn = warpSpawn(w, w.to === '$return' ? this.lastDoor : null)
@@ -338,6 +366,7 @@ export class Overworld {
       onEdge: (exit, x, y) => {
         if (!exit) return;
         if (isToCome(exit) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
+        if (this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
         this.startWarp({ exit, fromX: x, fromY: y }, 'edge');
         return 'stop';
       },
@@ -382,6 +411,7 @@ export class Overworld {
       ...this.promptVars(), player, nick, coins: coinCount(this.flags),
       lead: lead ? lead.nickname || cap(lead.species) : null,
       rt_number: lead?.rt || this.config.rtNumberPlaceholder,
+      employee_id: employeeIdOf(this), // company voice: always calls the player by number, e.g. 001893
     };
   }
 
@@ -469,6 +499,7 @@ export class Overworld {
       this._doorDismount = false; this._lastBumpMsg = null;
       this.rustles.clear();
       await this._enterMap();
+      this._areaSignEnter(); // queued; shown when the fade-in ends (_stepFade)
       this._dirty = true;
       this.warpCount++;
       this.log.push({ tick: this.tick, type: 'warpEnd', to: target.name, x, y });
@@ -479,19 +510,34 @@ export class Overworld {
     f.phase = 'in'; f.t = 0;
   }
 
+  /** Area name sign: decide on map entry, show after the fade-in. */
+  _areaSignEnter() {
+    this._areaSigns ||= new AreaSignTracker();
+    this._areaSignPending = this._areaSigns.enter(this.map, this.tick * TICK_MS, (k) => this.text(k)) || null;
+  }
+  _areaSignStep() {
+    if (!this._areaSignPending || this.fade) return;
+    const title = this._areaSignPending; this._areaSignPending = null;
+    this.areaSign = { title, map: this.map.name, tick: this.tick, holdMs: AREA_SIGN_HOLD_MS };
+    this.areaSignCount = (this.areaSignCount || 0) + 1;
+    this.log.push({ tick: this.tick, type: 'areaSign', map: this.map.name, title });
+    try { this.onAreaSign?.(this.areaSign); } catch (e) { console.error(e); }
+  }
+
   _stepFade() {
     const f = this.fade;
-    if (!f) return;
+    if (!f) { this._areaSignStep(); return; }
     if (f.phase === 'out' && ++f.t >= FADE_OUT_TICKS) { f.phase = 'load'; this._finishLoad(); }
-    else if (f.phase === 'in' && ++f.t >= FADE_IN_TICKS) { this.fade = null; this.player.locked = false; }
+    else if (f.phase === 'in' && ++f.t >= (f.len || FADE_IN_TICKS)) { this.fade = null; this.player.locked = false; }
+    // 'hold' (home start v1): black until intro.js lets it fade in
   }
 
   fadeAlpha() {
     const f = this.fade;
     if (!f) return 0;
     if (f.phase === 'out') return f.t / FADE_OUT_TICKS;
-    if (f.phase === 'load') return 1;
-    return 1 - f.t / FADE_IN_TICKS;
+    if (f.phase === 'load' || f.phase === 'hold') return 1;
+    return 1 - f.t / (f.len || FADE_IN_TICKS);
   }
 
   // ---- stateful props: bin, flag swaps, world props, windows ---------------------------------
@@ -550,7 +596,7 @@ export class Overworld {
   // ---- clock + phase -----------------------------------------------------------------------
   get hour() { return Math.floor(this.clock.min / 60) % 24; }
   get phase() { return phaseForHour(this.hour); }
-  get gradeName() { return this.grades ? gradeFor(this.map?.name, this.phase) : 'day'; }
+  get gradeName() { return this.grades ? gradeFor(this.map?.name, this.phase, this.mapTint ? this.mapTint() : this.map?.json?.tint) : 'day'; } // map tint (batch 3); hooks may clear it via scene.mapTint
   /** Prepared grade for the map: CONFIG.litGreensAtNight (default off, ?litgreens=) swaps in the lit-greens copy (lighting.js). */
   mapGrade() {
     const g = this.grades?.[this.gradeName] || null, on = this.opts.litGreens ?? this.config.litGreensAtNight;
@@ -696,15 +742,17 @@ export class Overworld {
   /** Run a dialogue script; the player is frozen until it ends. */
   async script(fn) {
     if (this.busy) return;
+    this.checkpoint('script'); // save lock: the pre-interaction state is what a mid-interaction close reloads
     this.busy = true; this.player.locked = true;
     try { await fn(); } catch (e) { console.error(e); }
-    finally { this.busy = false; this.player.locked = !!this.fade; this.saveNow(); }
+    finally { this.busy = false; this.player.locked = !!this.fade; this.saveNow(); } // after: a normal save (refused if a lockSave is still held)
   }
 
   interact() {
     if (this.busy) return;
     const p = this.player, d = DELTA[p.facing];
     const fx = p.x + d.x, fy = p.y + d.y, m = this.map;
+    if (this.intro?.onInteract(fx, fy)) return; // opening: new-game starter cradles (after the promotion, intro.js)
     if (this.systems?.onInteract(fx, fy)) return; // [systems-gd hook] pickups, crystal switches, starter cradles
     // 1) interact spots on the faced cell (props; triggers fire by standing, see _checkTriggers)
     const spot = this.spots.find((sp) => sp.kind !== 'trigger' && sp.x === fx && sp.y === fy);
@@ -739,6 +787,7 @@ export class Overworld {
   talk(n, def) {
     const mapName = this.map.name, key = `maps.${mapName}.${def.id}`, e = this._entryFor(mapName, def);
     this.log.push({ tick: this.tick, type: 'talk', npc: def.id });
+    if (this.intro?.onTalk(n, def)) return; // home start v1: Ron's morning briefing (sets talked_ron_morning)
     if (!e) return;
     this.script(async () => {
       if (n) this.npcs.beginTalk(n);
@@ -747,6 +796,13 @@ export class Overworld {
         if (e.battle_lost) { // trainer: challenge -> battle hook -> lost line; later talks use `after`
           const dk = `defeated:${mapName}.${def.id}`;
           if (this.seen[dk]) { await this.say(e.after || this.pick(e, key)?.pages, sp); return; }
+          // no creature yet (Gary 9:36): never open a battle with an empty party (the battle screens would lend a placeholder Rillop)
+          if (!(this.systems?.party?.list || this.party || []).length) {
+            this.log.push({ tick: this.tick, type: 'battleRefused', npc: def.id, reason: 'no_party' });
+            const nb = getPath(this.lines, 'system_opening.no_party_battle');
+            await this.say(nb?.pages || (Array.isArray(nb) ? nb : null) || ["[TODO Text Bot: system_opening.no_party_battle] I don't have a creature to battle with."], { name: null, portrait: null, battle: null, thought: true });
+            return;
+          }
           const line = this.pick(e, key);
           await this.say(line?.pages || e.pages, this.speakerFor(n, true));
           const won = this.hooks.onBattle ? await this.hooks.onBattle({ map: mapName, id: def.id }) : true; // battles: later pass
@@ -762,7 +818,8 @@ export class Overworld {
             if (this.systems) { this.systems.lastBattle = null; this.systems.party?.healAll?.(); } // free patch-up, no copay / warp (question for Gary)
           } else { // the trainer's line comes BEFORE the blackout warp; `defeated:` stays unset so they can be re-challenged
             await this.say(e.battle_won || [], sp);
-            await this.systems?.onTrainerLoss({ map: mapName, def }); // [systems-gd hook] wiped team: copay + warp (onPartyFainted)
+            const out = await this.systems?.onTrainerLoss({ map: mapName, def }); // [systems-gd hook] wiped team: copay + warp (onPartyFainted)
+            if (story.blackoutOnLoss && !out && this.systems) await this.systems.onPartyFainted(); // Ron 2-6 (Gary, Oct 23 2026): every loss -> last clinic
           }
           if (giving) { await this.say(gift.giver_pages || [], sp); await this.say(gift.received || []); } // items.<gift> text (Text Bot)
           for (const f of story.flags) if (!this.flags.has(f)) this.setFlag(f);
@@ -829,9 +886,9 @@ export class Overworld {
       const tk = 'trigger:' + sp.key;
       if (this.seenDay[tk] === this.clock.day) continue;
       if (!whenMatches(sp.trigger_when, this.env())) continue;
-      this.seenDay[tk] = this.clock.day; this._dirty = true;
       this.log.push({ tick: this.tick, type: 'trigger', key: sp.key });
-      this.script(() => this.runSpot(sp));
+      // seenDay is marked inside the script (after the checkpoint): a close mid-scene replays it from the start
+      this.script(() => { this.seenDay[tk] = this.clock.day; this._dirty = true; return this.runSpot(sp); });
     }
   }
 
@@ -849,12 +906,53 @@ export class Overworld {
     const p = this.player;
     return {
       flags: [...this.flags], counters: this.counters, seen: this.seen, seenDay: this.seenDay, clock: this.clock, party: this.party,
-      pos: this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null, lastDoor: this.lastDoor,
+      pos: this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null, lastDoor: this.lastDoor, frame: POS_FRAME,
       ...this.systems?.saveBlocks(), // [systems-gd hook] coins, bag, archive, systems
     };
   }
 
+  /**
+   * Save lock (Gary, Oct 23 2026: "game can not save during battle or talking interactions or cut scenes ... they save right
+   * before instead"). Non-null = a reason no save may be written now: a script (dialogue, trainer talk/battle, wild battle,
+   * cutscene, starter pick) is running, a dialog box / starter picker is open, an explicit lockSave() is held (trainer
+   * spotted -> walk-up -> battle), or a UI guard reports a battle / evolution screen. Every write goes through saveNow().
+   */
+  saveLockReason() {
+    if (this._saveLocks?.size) return [...this._saveLocks.keys()][0];
+    if (this.busy) return 'script';
+    if (this.dialog?.active) return 'dialogue';
+    if (this.intro?.picker?.active) return 'starter_pick';
+    for (const g of this.saveGuards || []) { const r = g(); if (r) return r; }
+    return null;
+  }
+  get saveLocked() { return !!this.saveLockReason(); }
+  /** Hold the save lock across steps that are not one script (returns release; the last release queues a normal save). */
+  lockSave(reason) {
+    this._saveLocks ||= new Map();
+    this._saveLocks.set(reason, (this._saveLocks.get(reason) || 0) + 1);
+    let done = false;
+    return () => {
+      if (done) return; done = true;
+      const n = (this._saveLocks.get(reason) || 1) - 1;
+      if (n > 0) this._saveLocks.set(reason, n); else this._saveLocks.delete(reason);
+      this._dirty = true; // the step loop saves once nothing is locked
+    };
+  }
+  /** Checkpoint right before an interaction starts (no-op when already locked: the earlier checkpoint stands). */
+  checkpoint(why = 'interaction') {
+    if (this.saveLocked) return false;
+    this.log?.push({ tick: this.tick, type: 'checkpoint', why });
+    return this.saveNow();
+  }
+
   saveNow() {
+    const lock = this.saveLockReason();
+    if (lock) { // refused: nothing is written, the state stays dirty and saves after the interaction
+      this._dirty = true;
+      if (this._lockLogged !== lock) { this._lockLogged = lock; this.log?.push({ tick: this.tick, type: 'saveLocked', why: lock }); }
+      return false;
+    }
+    this._lockLogged = null;
     this._dirty = false; this._sinceSave = 0;
     if (this.map && !this.fade) this._lastPos = { map: this.map.name, x: this.player.x, y: this.player.y, facing: this.player.facing };
     return this.store ? this.store.save(this.saveData()) : false;
@@ -865,8 +963,10 @@ export class Overworld {
     // ALPHA build: the debug overlay (F3 / ` / L3 / DBG) is off.
     const bEdge = (!!snap.b && !this._bPrev) || !!snap.bTap, dirEdge = snap.dir && snap.dir !== this._dirPrev ? snap.dir : null;
     this._bPrev = !!snap.b; this._dirPrev = snap.dir || null;
-    const talking = this.dialog?.active;
-    if (talking) this.dialog.handle({ a: !!snap.a, bEdge, dirEdge });
+    const picking = !this.dialog?.active && this.intro?.picker?.active; // starter preview panel (starter_pick.js) owns input
+    const talking = this.dialog?.active || picking;
+    if (picking) this.intro.picker.handle({ a: !!snap.a, bEdge, dirEdge });
+    else if (talking) this.dialog.handle({ a: !!snap.a, bEdge, dirEdge });
     else if (snap.a && !this.fade && !this.player.moving && !this.busy) this.interact();
     const input = talking || this.busy ? { ...snap, dir: null, b: false } : snap;
     if (snap.select && !talking && !this.busy) this.toggleBike();
@@ -885,6 +985,7 @@ export class Overworld {
     this.life.tick();
     if (this.log.length > 200) this.log.splice(0, this.log.length - 200);
     this._stepFade();
+    this.intro?.tick();
     if (++this._sinceSave >= AUTOSAVE_TICKS || (this._dirty && !this.busy && !this.fade)) this.saveNow();
     this.tick++;
   }
@@ -925,8 +1026,8 @@ export class Overworld {
       decals: this._decalsView(), overlays: this.overlays,
       zoom: z, cam, ms: this.ms, rustles: this.rustles, actors,
       fade: this.fadeAlpha(), debug: this.debug, drawDebug, player: p, fps: this.fps, lastDoor: this.lastDoor, flags: [...this.flags],
-      life: this.life, depth: this.depth, nightfx: this.nightfx,
-      outside: this.opts.platform?.profile?.display?.outsideMap, edgeShade: this.opts.platform?.profile?.display?.edgeShade, // mobile: fill around short maps (pc: unset = black)
+      life: this.life, depth: this.depth, nightfx: this.nightfx, mood: this.mood, markers: this._markerDraw(), // mood: cinematic layers (mood.js, set in main.js)
+      outside: outsideFillFor(this.opts.platform?.profile?.camera, this.opts.platform?.profile?.display, this.map.name, isIndoor(this.map.name)), edgeShade: this.opts.platform?.profile?.display?.edgeShade, // mobile/centre camera: fill off the map (pc without alwaysCentre: black)
     };
   }
 
@@ -943,6 +1044,28 @@ export class Overworld {
     const anim = imgs[f.anim] ? f.anim : 'walk'; // a missing run/bike sheet falls back to the walk sheet
     const col = imgs[f.anim] ? f.col : Math.min(f.col, 4);
     return { ...this._sheet(imgs[anim], imgs1[anim], grade), col, row: SHEET_ROW[p.facing], px, py, lift, feet: py + TILE, anim: f.anim };
+  }
+
+  /** Golden spinning arrows (marker.js): the intro's starter cases + active-quest items not yet picked up. Givers: never. */
+  markerSpots() {
+    const out = [...(this.intro?.markerSpots?.() || [])];
+    const qb = this.progression?.quests;
+    if (qb && this.map) {
+      const key = `${this.map.name}|${this.flags.size}|${this.tick >> 5}`; // re-scan twice a second at most
+      if (this._mkKey !== key) {
+        this._mkKey = key;
+        try { this._mkQuest = questItemSpots(qb, this.flags, this.map, { bagCount: (id) => this.systems?.bag?.count?.(id) || 0 }); } catch { this._mkQuest = []; }
+      }
+      out.push(...(this._mkQuest || []).map((q) => ({ x: q.x, y: q.y, up: 0, id: q.id })));
+    }
+    return out;
+  }
+
+  _markerDraw() {
+    const spots = this.markerSpots();
+    if (!spots.length) { this.markersDrawn = 0; return null; }
+    const reduced = markerReduced(this);
+    return (ctx, v) => { this.markersDrawn = drawMarkers(ctx, v, spots, { reduced }); };
   }
 
   _npcActor(n, grade) {
@@ -981,7 +1104,7 @@ export class Overworld {
       map: this.map?.name, x: p.x, y: p.y, facing: p.facing, state: p.state, mode: p.mode, stepMode: p.stepMode, speedMultiplier: p.speedMultiplier,
       frame: p.frame(), dur: p.dur, flags: [...this.flags], gatesCleared: this.map ? this.map.storyGates.filter((g) => this.map.gateCleared(g)).map((g) => g.id) : [],
       pixel: p.pixel(), cam: v?.cam, zoom: this.zoom, tileSize: this.tileset?.size, debug: this.debug,
-      fading: !!this.fade, warpCount: this.warpCount, lastDoor: this.lastDoor, tick: this.tick,
+      fading: !!this.fade, areaSign: this.areaSign || null, areaSignCount: this.areaSignCount || 0, objective: this.intro?.objective() ?? null, warpCount: this.warpCount, lastDoor: this.lastDoor, tick: this.tick,
       canvas: { w: this.canvas.width, h: this.canvas.height }, smoothing: this.renderer.ctx.imageSmoothingEnabled,
       counters: { ...this.counters }, clock: { ...this.clock }, hour: this.hour, phase: this.phase, grade: this.gradeName, litGreens: !!this.mapGrade()?.name?.endsWith('+greens'), zone: this.zone(),
       busy: this.busy, dialog: this.dialog?.active ? { text: this.dialog.text.textContent, name: this.dialog.name.hidden ? null : this.dialog.name.textContent, portrait: !this.dialog.portrait.hidden, battle: !this.dialog.battle.hidden } : null,

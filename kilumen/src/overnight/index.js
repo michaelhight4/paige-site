@@ -20,6 +20,7 @@ import { learnsetFor, learnsBetween, applyLearn } from './learnsets.js';
 import { PLACEHOLDER_SKILLS } from '../ui/data.js';
 import { toID } from '../battle/data/skills.js';
 import { speciesInfo, speciesName, defaultSkills } from '../systems/creature.js';
+import { withFallbacks } from './npc_sprites.js'; // batch 3: NPCs on World Design's overnight maps without a mapped sheet still draw
 
 const STAGED_INDEX = 'src/overnight/staged_maps.json';
 
@@ -43,6 +44,12 @@ export function attachOvernight(scene, { query = null, saveData = {} } = {}) {
     }
   }
   const registered = (name) => !!name && name !== 'TO COME' && (scene.knownMaps?.has(name) || name in ov.staged);
+
+  // ---- batch 3: sprite fallback for overnight-map NPCs with no npc_sprite_map entry (else invisible) -----------------
+  if (scene.npcs?.build) {
+    const build = scene.npcs.build.bind(scene.npcs);
+    scene.npcs.build = (map, spriteMap, phase) => build(map, withFallbacks(map, spriteMap), phase);
+  }
 
   // ---- systems ---------------------------------------------------------------------------------------------------
   ov.field = flags.field ? new FieldSystem(scene) : null;

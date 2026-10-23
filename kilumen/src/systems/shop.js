@@ -2,6 +2,7 @@
 // systems-gd pass, Oct 22, 2026. Money lives in save.coins (save.js v2). NOTE: the text var {coins} is the
 // Masters' coin count (lines.js coinCount); money text uses {total}/{fee}/{amount}/{price}.
 import { fmtMoney } from './config.js';
+import { CRYSTAL_GRADES, crystalRank } from './data/crystal_grades.js'; // board-gated crystal grades (Oct 23, 2026)
 
 // src/systems/data/shops.json is loaded once (fetch in the browser, fs in node) before the shop is used;
 // no JSON import attributes so older Safari/Firefox still run the zero-build game.
@@ -57,11 +58,23 @@ export function sellPriceOf(id, zone, bag, shops = getShops()) {
   return b == null ? null : Math.max(1, Math.floor(b * shops.sellRate));
 }
 
-/** Stock list for a zone with `badgeCoins` Masters' coins (stock grows with coins). */
-export function stockFor(zone, badgeCoins = 0, cfg = {}, shops = getShops()) {
+/** Stock list for a zone with `badgeCoins` Masters' coins (stock grows with coins). `company` ({board}) gates crystal grades. */
+export function stockFor(zone, badgeCoins = 0, cfg = {}, shops = getShops(), company = null) {
   const out = [];
   for (const tier of regionOf(zone, shops).stock) if (badgeCoins >= tier.coins) for (const id of tier.items) if (!out.includes(id)) out.push(id);
-  return out.filter((id) => id !== 'energy_tonic' || cfg.stockEnergyTonic || (cfg.potionsVsRest && cfg.potionsVsRest !== 'rest_only'));
+  return boardCrystals(zone, company, out).filter((id) => id !== 'energy_tonic' || cfg.stockEnergyTonic || (cfg.potionsVsRest && cfg.potionsVsRest !== 'rest_only'));
+}
+/**
+ * Benefits Board crystal grades (Gary 12:17 PM CT Oct 23, 2026: "you can get more powerful crystal from the board nodes";
+ * data: src/systems/data/crystal_grades.js). A grade with rank > 0 is stocked only once company.board[node] >= rank, and
+ * then in every board zone (priced by shops.json). Region 1 zones (hiddenInZones) and zone-less shops get no board stock; their
+ * existing coin tiers stay as they were (legacyStockIn keeps Prime Crystal there).
+ */
+export function boardCrystals(zone, company, list) {
+  const C = CRYSTAL_GRADES, hidden = !zone || C.hiddenInZones.includes(zone), rank = crystalRank(company);
+  const out = list.filter((id) => { const g = C.grades.find((r) => r.item === id); return !g || g.rank <= 0 || (g.legacyStockIn || []).includes(zone) || (!hidden && rank >= g.rank); });
+  if (!hidden) for (const g of C.grades) if (g.rank > 0 && rank >= g.rank && !out.includes(g.item)) out.push(g.item);
+  return out;
 }
 /** True when the last coin unlocked a stock tier (system_shop.new_stock). */
 export const newStockAt = (zone, badgeCoins, shops = getShops()) => regionOf(zone, shops).stock.some((t) => t.coins > 0 && t.coins === badgeCoins);
@@ -71,7 +84,7 @@ export class Shop {
   constructor(ctx) { Object.assign(this, { company: {}, badgeCoins: 0, cfg: {}, lastQty: {}, shops: getShops() }, ctx); }
   get discount() { return discountFor(this.company, this.shops); }
   stock() {
-    return stockFor(this.zone, this.badgeCoins, this.cfg, this.shops).map((id) => ({ id, price: priceOf(id, this.zone, this.discount, this.shops), base: basePrice(id, this.zone, this.shops) }));
+    return stockFor(this.zone, this.badgeCoins, this.cfg, this.shops, this.company).map((id) => ({ id, price: priceOf(id, this.zone, this.discount, this.shops), base: basePrice(id, this.zone, this.shops) }));
   }
   sellable() {
     return Object.entries(this.bag.counts).map(([id, n]) => ({ id, n, price: sellPriceOf(id, this.zone, this.bag, this.shops) }));
@@ -80,7 +93,7 @@ export class Shop {
   /** -> {ok, total, reason?:'short'|'bag_full'|'not_stocked', short?} */
   buy(id, n = 1) {
     n = Math.max(1, Math.floor(n));
-    if (!stockFor(this.zone, this.badgeCoins, this.cfg, this.shops).includes(id)) return { ok: false, reason: 'not_stocked' };
+    if (!stockFor(this.zone, this.badgeCoins, this.cfg, this.shops, this.company).includes(id)) return { ok: false, reason: 'not_stocked' };
     const total = priceOf(id, this.zone, this.discount, this.shops) * n;
     if (total > this.wallet.coins) return { ok: false, reason: 'short', total, short: total - this.wallet.coins };
     const r = this.bag.add(id, n);

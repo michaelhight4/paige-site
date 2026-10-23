@@ -10,7 +10,8 @@ export const KILUMEN_RULES = {
   overuseDamage: 0.6, overuseAccuracy: 0.7, overuseSelfDamage: 1 / 8, // PLACEHOLDER [B12]
   warmthEndure: 200,            // PLACEHOLDER: Warmth needed for the once-per-battle endure
   retreatBase: 128, retreatPerAttempt: 30, // PLACEHOLDER [B16]
-  catchStatus: { drowsy: 2, scorched: 1.5 }, catchShakes: 3, // [B17], multipliers PLACEHOLDER
+  catchStatus: { drowsy: 2, scorched: 1.5 }, catchShakes: 3, // [B17], multipliers PLACEHOLDER (catchShakes: legacy, unused since Oct 23)
+  catchHpWeight: 29 / 30, catchHpCurve: 0.85, catchMin: 0.005, catchMax: 0.95, catchPulses: 4, // capture (Gary Oct 23 2026, retuned 12:16 PM CT: full HP ~2%): see src/battle/capture.js
   xpDivisor: 7, xpTrainerMult: 1.5, xpCurveMult: 0.8, maxLevel: 100, // PLACEHOLDER [B20]
   partyMax: 6,
 };

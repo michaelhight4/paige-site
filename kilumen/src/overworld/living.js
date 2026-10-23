@@ -382,7 +382,7 @@ export class LivingWorld {
 
   _view() {
     const s = this.scene, z = s.zoom || 2, W = (s.canvas?.width || 1920) / z, H = (s.canvas?.height || 1080) / z;
-    const p = s.player?.pixel?.() || { px: 0, py: 0 }, c = cameraFor(p.px + TILE / 2, p.py + TILE / 2, this.map.width, this.map.height, W, H);
+    const p = s.player?.pixel?.() || { px: 0, py: 0 }, c = cameraFor(p.px + TILE / 2, p.py + TILE / 2, this.map.width, this.map.height, W, H, s.opts?.platform?.profile?.camera, s._cam?.map === this.map ? s._cam : null, { indoor: !this.outdoor }); // same profile rules as Overworld.view (centre camera)
     return { x: c.x, y: c.y, w: W, h: H };
   }
 
@@ -433,11 +433,12 @@ export class LivingWorld {
     if (!a) return;
     const img = this._cloudImage(v.grade, a), z = v.zoom, cam = v.cam;
     const m = v.map, mw = m.width * TILE, mh = m.height * TILE, W = ctx.canvas.width / z, H = ctx.canvas.height / z;
-    const vx0 = Math.max(0, cam.x), vy0 = Math.max(0, cam.y), vx1 = Math.min(mw, cam.x + W), vy1 = Math.min(mh, cam.y + H);
+    const ef = v.outside === 'edge'; // edge-filled off-map ground (centre camera / mobile): clouds run on over it, no seam at the map edge
+    const vx0 = ef ? cam.x : Math.max(0, cam.x), vy0 = ef ? cam.y : Math.max(0, cam.y), vx1 = ef ? cam.x + W : Math.min(mw, cam.x + W), vy1 = ef ? cam.y + H : Math.min(mh, cam.y + H);
     if (vx1 <= vx0 || vy1 <= vy0) return;
     const o = this.cloudOffset(), C = CLOUD_CHUNK, CP = C * CLOUD_CELL, { full, NC } = this._cloud, CD = CP * z;
     ctx.save();
-    if (cam.x < 0 || cam.y < 0 || cam.x + W > mw || cam.y + H > mh) { ctx.beginPath(); ctx.rect(-cam.x * z, -cam.y * z, mw * z, mh * z); ctx.clip(); }
+    if (!ef && (cam.x < 0 || cam.y < 0 || cam.x + W > mw || cam.y + H > mh)) { ctx.beginPath(); ctx.rect(-cam.x * z, -cam.y * z, mw * z, mh * z); ctx.clip(); }
     ctx.imageSmoothingEnabled = false;
     // world point w sits at mask coordinate (w + o) mod P; walk the chunks covering the visible map rect (whole px)
     for (let cy = Math.floor((vy0 + o.y) / CP); cy * CP - o.y < vy1; cy++) {
