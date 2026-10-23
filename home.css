@@ -396,6 +396,22 @@ dialog.gift{margin:auto;width:min(100vw - 24px,640px);max-height:calc(100dvh - 2
 .gnext{margin:-4px 0 10px;text-align:center;font:700 14px var(--body);color:#c9cfee}.gnext:empty{display:none}
 .inv-next{font:700 16px var(--body);color:#e8ebff}.inv-next b{color:#4ade80}
 .inv-warn{padding:10px 14px;border-radius:12px;background:#2a2410;border:1px solid #ffe066;color:#ffe9a3;font-weight:700}
+/* music: other platforms + plays breakdown + album grid sections */
+.stream-sum{margin:0 0 14px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;color:#e6d6ff}.stream-sum b{font-size:16px;color:#fff}.stream-sum span,.alb-tot{color:var(--mut);font-size:12px}
+.alb-tot{margin:2px 0 0}
+.ch-other{margin:10px 0;border:1px solid var(--line);border-radius:12px;padding:0 10px}
+.ch-other summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:6px;font-weight:700;color:#fff}.ch-other summary span{color:var(--mut);font-weight:400}
+.ch-other summary:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.ch-chips{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.ch-chips a{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:#fff;text-decoration:none;font-size:14px}
+.ch-chips a:hover,.ch-chips a:focus-visible{border-color:var(--life)}
+.ch-plays{margin:8px 0}.ch-ph{margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#ffc2df}
+.ch-plays ul{list-style:none;margin:0;padding:0}.ch-plays li{display:flex;justify-content:space-between;font-size:14px;color:#e6d6ff;padding:2px 0}.ch-plays li.tot{border-top:1px solid var(--line);margin-top:2px;color:#fff}
+.ch-src{margin:4px 0 0;font-size:12px;color:var(--mut)}
+.sheet>.ch-x{grid-column:1/-1}
+.ch-own{margin:0 0 6px;font-size:14px;color:#e6d6ff}.ch-own b{color:#fff}
+.songs.songs-sec{display:block}.msec{margin:0 0 28px}.msec-h{font-size:22px;margin:0 0 4px;color:#fff;letter-spacing:.01em;border-left:3px solid var(--life,#ff5fa8);padding-left:10px}
+.msec-s{margin:0 0 10px;color:var(--mut);font-size:13px}.msec>.songs{margin-top:10px}
 /* circuit on top of the original background (background untouched) */
 #circuit{z-index:0!important;opacity:.35;pointer-events:none;mix-blend-mode:screen}
 @media(max-width:500px){#circuit{opacity:.24}}

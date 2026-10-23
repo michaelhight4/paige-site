@@ -18,3 +18,31 @@ const one=Q.length<2;el.querySelectorAll('[data-a=prev],[data-a=next]').forEach(
 function go(d){if(cur<0)return;load((cur+d+Q.length)%Q.length)}
 function close(){if(!el)return;const f=el.contains(document.activeElement);el.remove();el=null;cur=-1;document.body.classList.remove('mp-on');if(f)document.querySelector('main')?.focus?.();}
 window.PaigePlayer={hasYT:i=>Q.some(t=>t.i===+i),play:i=>{const k=Q.findIndex(t=>t.i===+i);if(k>=0)load(k)},close,collapse:setCol};})();
+// Listen-now chooser: big platforms first, rest under collapsible "Other platforms"; per-platform public plays; owner-provided distributor totals.
+(()=>{const S=window.SONGS||[],T=window.STREAM_TOTALS||{},BIG=/^(Spotify|Apple Music|YouTube|YouTube Music|Amazon Music|TikTok|Pre-save)/;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nf=n=>new Intl.NumberFormat('en').format(n),dt=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+const alb=s=>(T.albums||[]).find(a=>(a.songs||[]).includes(s.title));
+let busy=false;
+function regroup(ul){if(busy||ul.dataset.grouped)return;const s=S.find(x=>x.title===document.getElementById('ch-title').textContent);if(!s)return;busy=true;
+const lis=[...ul.children],big=[],oth=[];for(const li of lis){const a=li.querySelector('a');(!a||BIG.test(a.firstChild.textContent)?big:oth).push(li)}
+oth.forEach(li=>li.remove());const box=ul.parentNode;box.querySelectorAll('.ch-x').forEach(e=>e.remove());
+let h='';if(oth.length)h+=`<details class="ch-x ch-other" id="ch-other"><summary>Other platforms <span>(${oth.length})</span></summary><ul class="ch-chips">${oth.map(li=>li.innerHTML.replace(/<span>↗<\/span>/,'')).map(x=>`<li>${x}</li>`).join('')}</ul></details>`;
+const by=s.playsBy||[];h+=`<div class="ch-x ch-plays">${s.playsOwner?`<p class="ch-own"><b>${nf(s.playsOwner.plays)} plays</b> · owner-provided, ${esc(dt(s.playsOwner.date))}</p>`:''}<p class="ch-ph">Public plays</p>${by.length?`<ul>${by.map(p=>`<li><span>${esc(p.platform)}</span><b>${nf(p.plays)}</b></li>`).join('')}${s.playsOwner?'':`<li class="tot"><span>Total (public)</span><b>${nf(s.plays)}</b></li>`}</ul><p class="ch-src">Public view counts, checked ${esc(dt(by[0].fetched))}. Other platforms don't show public numbers.</p>`:(s.playsOwner?'':`<p class="ch-src">No public play numbers yet.</p>`)}`;
+const a=alb(s);if(a)h+=`<p class="ch-src">Album “${esc(a.album)}”: ${nf(a.last365)} streams in the last year · distributor estimate, ${esc(dt(a.updated))}</p>`;h+='</div>';
+ul.insertAdjacentHTML('afterend',h);ul.dataset.grouped='1';busy=false}
+function cards(){const box=document.getElementById('songs');if(!box||box.dataset.tot)return;box.dataset.tot='1';
+if(T.all&&!document.getElementById('stream-sum'))box.insertAdjacentHTML('beforebegin',`<p class="stream-sum" id="stream-sum"><b>${nf(T.all.last365)} streams in the last year</b><span>across ${esc(T.all.services)} · distributor estimate, updated ${esc(dt(T.all.updated))}</span></p>`);
+const today=new Date().toISOString().slice(0,10),sec={pre:[],alb:[],sgl:[]};
+box.querySelectorAll('.song').forEach(c=>{const s=S.find(x=>x.title===c.querySelector('h3')?.textContent);if(!s){sec.sgl.push(c);return}
+if(s.release>today)sec.pre.push(c);else if(s.album)sec.alb.push([s.release||'',c]);else sec.sgl.push(c)});
+const mk=(id,t,sub)=>{const d=document.createElement('section');d.className='msec';d.setAttribute('aria-labelledby',id);d.innerHTML=`<h2 class="msec-h" id="${id}">${t}</h2>${sub||''}`;return d};
+const grid=()=>{const g=document.createElement('div');g.className='songs';return g};const out=[];
+if(sec.pre.length){const d=mk('ms-pre','Pre-release','<p class="msec-s">Coming soon. Pre-save now.</p>'),g=grid();sec.pre.forEach(c=>g.appendChild(c));d.appendChild(g);out.push(d)}
+// Albums: one grid like Pre-release/Singles (newest first); each album's distributor note sits inside its card (.alb-tot below).
+if(sec.alb.length){const d=mk('ms-alb','Albums'),g=grid();sec.alb.sort((x,y)=>y[0].localeCompare(x[0])).forEach(x=>g.appendChild(x[1]));d.appendChild(g);out.push(d)}
+if(sec.sgl.length){const d=mk('ms-sgl','Singles'),g=grid();sec.sgl.forEach(c=>g.appendChild(c));d.appendChild(g);out.push(d)}
+box.classList.add('songs-sec');out.forEach(d=>box.appendChild(d));
+box.querySelectorAll('.song').forEach(c=>{const s=S.find(x=>x.title===c.querySelector('h3')?.textContent),a=s&&alb(s);if(a)c.querySelector('.plays')?.insertAdjacentHTML('afterend',`<p class="alb-tot">${nf(a.last365)} streams in the last year · distributor estimate, ${esc(dt(a.updated))}</p>`)})}
+addEventListener('DOMContentLoaded',()=>{const ul=document.getElementById('ch-links');if(ul){const mo=new MutationObserver(()=>{delete ul.dataset.grouped;regroup(ul);mo.takeRecords()});mo.observe(ul,{childList:true})}
+const box=document.getElementById('songs');if(box){if(box.children.length)cards();else new MutationObserver((m,o)=>{if(box.children.length){o.disconnect();cards()}}).observe(box,{childList:true})}});})();
