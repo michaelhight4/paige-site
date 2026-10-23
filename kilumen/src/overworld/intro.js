@@ -11,8 +11,8 @@
 // text/drafts/HOME_START_v2.md, used only while the file has no merged lines): see design/HOME_START_TEXT_NEEDS.md.
 // Nothing here hard-codes an outdoor tile: the outside spawn is looked up from the warps by `to` name (World Design pads
 // the outdoor maps), interiors (house_2f / house_1f) are read from their own map JSON.
-import { OPPOSITE, Npc } from './npcs.js';
-import { StarterPicker } from './starter_pick.js';
+import { OPPOSITE, Npc } from './npcs.js?v=v0.2.1-alpha';
+import { StarterPicker } from './starter_pick.js?v=v0.2.1-alpha';
 
 export const HOME = {
   bedroom: 'house_2f', downstairs: 'house_1f', outside: 'brookhollow', ron: 'ron',
@@ -112,7 +112,7 @@ export const FALLBACK_OFFICE = {
     'RON: Is there a raise in this?',
     "MANAGER: There's a creature in this. Lab's next door. Come on.",
   ],
-  manager_starter_repeat: ["[TODO Text Bot: office_int.manager_starter_repeat] The lab's next door. Your partner's waiting."],
+  manager_starter_repeat: ["The lab's next door. Your partner's waiting."],
   scene_starter_intro: [ // 4 pages (OPENING_OFFICE_v1.md, 9:36): the golden arrows over the cases start on page 2
     "LAB TECH: Three cradles. Three creatures. Each one's been raised here since it hatched.",
     'MANAGER: They\'re in the cases with the lights spinning over them. Go and look.',
@@ -129,12 +129,12 @@ export const FALLBACK_OFFICE = {
     'RON: Race you.',
     "MANAGER: It's not a race. ...Fine. It's a race.",
   ],
-  crystals_received: ['[TODO Text Bot: lab_brookhollow.crystals_received] Got {count} dominance crystals.'],
+  crystals_received: ['Got {count} dominance crystals.'],
   manager_test_run_repeat: [
     'Two wild creatures, caught and logged. Tall grass is just outside town.',
     "Wear one down first, then hold a crystal up. Don't waste them.",
   ],
-  test_run_progress: ['[TODO Text Bot: system_opening.test_run_progress] Test run: {n}/{need} logged.'],
+  test_run_progress: ['Test run: {n}/{need} logged.'],
   test_run_logged: ["That's two in the Kilindex. Time to head back to the lab."],
   scene_test_run_return: [
     'MANAGER: Two logged. Clean entries, too. Nice work.',
@@ -163,12 +163,12 @@ export const FALLBACK_OFFICE = {
     ],
   },
   picker_title: 'Choose your partner', // [TODO Text Bot: system_opening.starter_picker_title]
-  cradle_not_yet: ["[TODO Text Bot: lab_brookhollow.cradle_not_yet] Those cradles aren't for me. Not yet, anyway."],
+  cradle_not_yet: ["Those cradles aren't for me. Not yet, anyway."],
   leave_block: {
-    office: ['[TODO Text Bot: system_opening.leave_block] Work first. The office is back in town.'],
-    lab: ['[TODO Text Bot: system_opening.leave_block] Not without a partner. The lab first.'],
-    run: ["[TODO Text Bot: system_opening.leave_block] Two creatures, then back to the lab. Fernwick can wait."],
-    back: ['[TODO Text Bot: system_opening.leave_block] The lab first. They want those two logged.'],
+    office: ['Work first. The office is back in town.'],
+    lab: ['Not without a partner. The lab first.'],
+    run: ["Two creatures, then back to the lab. Fernwick can wait."],
+    back: ['The lab first. They want those two logged.'],
   },
 };
 
@@ -244,7 +244,7 @@ export function objectiveFor(flags, counters = {}) {
 }
 
 export class HomeStart {
-  /** @param {import('./overworld.js').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
+  /** @param {import('./overworld.js?v=v0.2.1-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
   constructor(scene, opts = {}) {
     this.scene = scene; this.newGame = !!opts.newGame; this.gate = opts.gate || null;
     this.holding = false; this.wakePending = false; this._gateSince = null;
@@ -504,7 +504,7 @@ export class HomeStart {
   async chooseStarter(species) {
     const s = this.scene, sys = s.systems;
     if (!s.seen[OPEN.introSeen]) await this.starterIntro();
-    const { speciesName } = await import('../systems/creature.js').catch(() => ({}));
+    const { speciesName } = await import('../systems/creature.js?v=v0.2.1-alpha').catch(() => ({}));
     const lead = speciesName ? speciesName(species) : speciesLabel(species), vars = { ...s.textVars(), lead, creature: lead };
     const k = await s.ask(s.fill(this._pages(OPEN.lab, 'starter_confirm', FALLBACK_OFFICE.starter_confirm), vars), ['Yes', 'No']);
     if (k !== 0) return false;
@@ -565,7 +565,7 @@ export class HomeStart {
     s.setFlag(OPEN.briefed);
     s.log.push({ tick: s.tick, type: 'intro', step: 'jobBriefed' });
     s.progression?.hud?.update?.();
-    s.toast(this._sysPages('free_roam', ['[TODO Text Bot: system_opening.free_roam] Free roam: raise your Kilumen and log as many as you can.'])[0]);
+    s.toast(this._sysPages('free_roam', ['Free roam: raise your Kilumen and log as many as you can.'])[0]);
   }
 
   /** Map edge out of the starting area: thought + turned back. True = refused (caller returns 'stop'). */

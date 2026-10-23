@@ -4,32 +4,32 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js';
-import { GridMover } from './movement.js';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js';
-import { promptScheme, promptVars } from '../platform.js';
-import { loadImage, loadJson, resolveUrl } from './assets.js';
-import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js';
-import { Renderer } from './renderer.js';
-import { drawDebug } from './debug.js';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js';
-import { migratePos, migrateDoor } from './pad_migrate.js'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js';
-import { NpcSystem, OPPOSITE } from './npcs.js';
-import { LivingWorld } from './living.js';
-import { DepthPass, normalizeDepth } from './depth.js';
-import { resolveFlagSwaps, isActive } from './props.js';
-import { litGreensGrade, wantsLitGreens } from './lighting.js';
-import { NightFx } from './nightfx.js';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js'; // home start v1: new game in the bedroom (intro.js)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.1-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.1-alpha';
+import { GridMover } from './movement.js?v=v0.2.1-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.1-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.1-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.1-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.1-alpha';
+import { Renderer } from './renderer.js?v=v0.2.1-alpha';
+import { drawDebug } from './debug.js?v=v0.2.1-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.1-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.1-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.1-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.1-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.1-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.1-alpha';
+import { LivingWorld } from './living.js?v=v0.2.1-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.1-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.1-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.1-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.1-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.1-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.1-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.1-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.1-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.1-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.1-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -42,7 +42,7 @@ const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js').Input} input
+   * @param {import('./input.js?v=v0.2.1-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -488,6 +488,7 @@ export class Overworld {
         target = await this.loadMap(f.spawn.map);
         ({ x, y } = f.spawn); facing = f.spawn.facing;
       }
+      if (!target.isWalkable(x, y)) ({ target, x, y } = await this._staleLanding(target, x, y)); // exit warp fix (Gary 2:14 PM CT)
       this.map = target;
       await this.ensureAssets();
       const wasBike = this.player.mode === MoveMode.BIKE;
@@ -508,6 +509,24 @@ export class Overworld {
       this.toast(this.config.closedPathText);
     }
     f.phase = 'in'; f.t = 0;
+  }
+
+  /** Exit warp fix (Gary 2:14 PM CT Oct 23 2026: "exit home from spawn and end up on top of RT supply"). A warp landing on a
+   *  blocked tile means the two map files come from different builds: the browser / CDN kept v0.1.3's unpadded
+   *  brookhollow.json (34x32, where 17,15 is the RT Supply roof) while house_1f.json was fresh (padded tx 17,15). Re-fetch
+   *  the target past every cache; if it is still blocked, shift by its padding (stale source) or take the nearest walkable. */
+  async _staleLanding(target, x, y) {
+    const name = target.name;
+    try {
+      const fresh = reloadJson(this.mapUrl(name));
+      this.mapCache.delete(name);
+      await fresh;
+      target = await this.loadMap(name);
+    } catch (e) { console.warn('stale map reload:', e.message); }
+    const fix = fixLanding(target, x, y);
+    this.log.push({ tick: this.tick, type: 'warpFix', map: name, from: [x, y], to: [fix.x, fix.y], how: fix.how, size: [target.width, target.height] });
+    console.warn(`warp landing ${name} ${x},${y} was blocked: ${fix.how} -> ${fix.x},${fix.y}`);
+    return { target, x: fix.x, y: fix.y };
   }
 
   /** Area name sign: decide on map entry, show after the fade-in. */
@@ -800,7 +819,7 @@ export class Overworld {
           if (!(this.systems?.party?.list || this.party || []).length) {
             this.log.push({ tick: this.tick, type: 'battleRefused', npc: def.id, reason: 'no_party' });
             const nb = getPath(this.lines, 'system_opening.no_party_battle');
-            await this.say(nb?.pages || (Array.isArray(nb) ? nb : null) || ["[TODO Text Bot: system_opening.no_party_battle] I don't have a creature to battle with."], { name: null, portrait: null, battle: null, thought: true });
+            await this.say(nb?.pages || (Array.isArray(nb) ? nb : null) || ["I don't have a creature to battle with."], { name: null, portrait: null, battle: null, thought: true });
             return;
           }
           const line = this.pick(e, key);

@@ -3,8 +3,8 @@
 // and energy, free (map text: "Staff rest for free"). Resting sets the last-heal point. Losing with the whole
 // party out cold (the engine reports a loss) -> onPartyFainted(): flat regional copay, warp to the last heal
 // point, everyone rested. Warmth is never touched.
-import { getShops, regionOf } from './shop.js';
-import { fmtMoney } from './config.js';
+import { getShops, regionOf } from './shop.js?v=v0.2.1-alpha';
+import { fmtMoney } from './config.js?v=v0.2.1-alpha';
 
 let active = null; // the attached Systems (index.js) so the battle code can call onPartyFainted() with no args
 export function setActiveSystems(sys) { active = sys; }
@@ -55,10 +55,10 @@ export class Heal {
     if (sc?.flags?.has('read_drift_log')) opts.push('skip_recal');
     opts.push('no');
     const pick = opts[await sc.ask(line?.pages || entry.pages, opts.map((k) => L[k]), speaker)] || 'no';
-    if (pick === 'no') { await sc.say(entry.declined || ['[TODO declined]'], speaker); return true; }
+    if (pick === 'no') { await sc.say(entry.declined || ["Okay. They'll still be tired later, just so you know."], speaker); return true; }
     if (pick === 'rest') {
-      await sc.say(T.taking?.pages || ['[TODO system_heal.taking]'], speaker);
-      await sc.say(T.machine?.pages || ['[TODO system_heal.machine]'], speaker);
+      await sc.say(T.taking?.pages || ['Hand them over. Quick recalibrate and polish...'], speaker);
+      await sc.say(T.machine?.pages || ['Whirr... click... ding.'], speaker);
       await this.sys.ui?.fx?.healFx?.(sc, this.sys.party?.size ?? this.sys.party?.list?.length); // Animator heal_restore at the machine cradle (ui_tools2.js; skipped when motion is reduced)
     }
     this.restAt(b);
@@ -66,7 +66,7 @@ export class Heal {
     if (this.sys.ui && this.sys.cfg.healBoard) await new Promise((res) => this.sys.ui.open('sys_heal', { branch: b, done: true, onClose: res }));
     if (pick === 'skip_recal') sc.bump?.('skip_recal');
     const after = pick === 'rest' ? entry.after_heal || T.returning?.pages : T[pick]?.pages;
-    await sc.say(after || ['[TODO after_heal]'], speaker);
+    await sc.say(after || ['Here you go. Health, energy, the lot.', 'Come back whenever. We never close.'], speaker);
     return true;
   }
 
@@ -79,16 +79,16 @@ export class Heal {
     const run = async () => {
       const to = this.lastHeal();
       const r = copayFor(to, this.sys.wallet.coins);
-      await sc.say(T.lost?.pages || ['[TODO system_blackout.lost]']);
+      await sc.say(T.lost?.pages || ['Your whole team is out cold.', 'Time to get them to a branch. Fast.']);
       this.sys.wallet.take(r.paid);
       this.sys.party.healAll();
       if (to.returnDoor) sc.lastDoor = { ...to.returnDoor };
       await warpAndWait(sc, { map: to.map, x: to.x, y: to.y, facing: to.facing }, 'blackout');
       const city = regionOf(to.zone).city;
-      await this.sys.say(T.carried?.pages || ['[TODO] You hurry back to the {city} branch...'], { city });
-      await this.sys.say(T.copay?.pages || ['[TODO] Your copay is {fee}.'], { fee: fmtMoney(r.fee) });
-      if (r.short) await sc.say(T.copay_short?.pages || ['[TODO system_blackout.copay_short]']);
-      await sc.say(T.carer?.pages || ['[TODO system_blackout.carer]']);
+      await this.sys.say(T.carried?.pages || ['You hurry back to the {city} branch...'], { city });
+      await this.sys.say(T.copay?.pages || ['Company health plan covers the rest.', 'Your copay is {fee}.'], { fee: fmtMoney(r.fee) });
+      if (r.short) await sc.say(T.copay_short?.pages || ["Can't cover the copay? We'll take what you've got.", "We'll cover the rest. This once."]);
+      await sc.say(T.carer?.pages || ["Rest, then try again. They'll be fine."]);
       sc.healedAt = sc.ms; sc.log?.push({ tick: sc.tick, type: 'blackout', fee: r.fee, paid: r.paid, to: to.map });
       this.sys.state.blackouts = (this.sys.state.blackouts || 0) + 1;
       return { ...r, to };

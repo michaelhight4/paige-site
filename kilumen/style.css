@@ -52,6 +52,21 @@ body.touch-ui #touchpad .small::after { content: ''; position: absolute; left: 0
 .dlg-wrap.thought .dlg-text { font-style: italic; font-weight: 500; color: #d8cdf0; }
 .dlg-wrap.thought .dlg-box { border-style: dashed; }
 .dlg-more { position: absolute; right: 18px; bottom: 8px; font-size: .7em; animation: dlg-bob 900ms steps(2) infinite; }
+/* Advance hint (Gary 2:10 PM CT Oct 23, 2026): "Press F" (pc) / "Tap" (touch) at the box's bottom-right, just left of the ▼, inside
+   the padding. Solid #1a1226 plate so the skin's pattern never sits under it: #ffd23f on #1a1226 = 12.5:1. dialog.js toggles it
+   (hidden while a choice / inbox list is open); the last text line keeps room for it (.hint-on ::after) so it never covers text.
+   While ui.js types the page out (.rv spans) it waits --dlg-chars x --reveal-ms; then a gentle bob (off with reduced motion). */
+.dlg-hint { position: absolute; right: calc(18px + 1.5em); bottom: 6px; padding: 1px 8px; border: 2px solid #8a6d12; border-radius: 999px; background: #1a1226;
+  color: #ffd23f; font-size: .62em; font-weight: 700; font-style: normal; line-height: 1.3; letter-spacing: .03em; white-space: nowrap; pointer-events: none;
+  animation: dlg-hint-bob 1.6s ease-in-out infinite; }
+.dlg-hint[hidden] { display: none; }
+.dlg-box:has(.dlg-text .rv) .dlg-hint { animation: dlg-hint-in 1ms linear calc(var(--dlg-chars, 0) * var(--reveal-ms, 14ms)) both,
+  dlg-hint-bob 1.6s ease-in-out calc(var(--dlg-chars, 0) * var(--reveal-ms, 14ms)) infinite; }
+.dlg-box.hint-on .dlg-text::after { content: ''; display: inline-block; width: 5em; }
+@keyframes dlg-hint-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dlg-hint-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .dlg-hint, .dlg-box:has(.dlg-text .rv) .dlg-hint { animation: none; } }
+body.ui-reduce .dlg-hint { animation: none !important; }
 .dlg-portrait { position: absolute; left: max(4vw, calc(50% - 490px)); bottom: var(--dlg-portrait-bottom, 4vh); height: var(--dlg-portrait-height, clamp(220px, 36vh, 500px)); width: auto; z-index: 1;
   max-width: var(--dlg-portrait-max-w, none); object-fit: contain; object-position: left bottom; filter: drop-shadow(0 4px 0 #000); }
 /* Battle image bottom = the profile's hud.battleBottom via --dlg-battle-bottom (pc: unset = the old portrait-bottom + 7.5em). */
@@ -69,6 +84,8 @@ body.platform-mobile .dlg-list li.sel::before { top: 50%; transform: translateY(
 body.platform-mobile .dlg-list li .sub { margin-left: 0; }
 /* the generic ui.css .sel rule uses --sc-sel, undefined outside the UI root, so the picked choice lost its fill (dark ink on the dark box) */
 body.platform-mobile .dlg-list li.sel { background: var(--sc-sel, #ffe07a) !important; }
+/* pc too (Gary, Oct 23 2:20 PM: 'yes is missing'): same undefined --sc-sel left the picked row unfilled, dark text on the dark box */
+body:not(.platform-mobile) .dlg-list li.sel { background: var(--sc-sel, #f4ecd8) !important; color: #1a1226; }
 /* one-time iPhone Safari "Add to Home Screen" hint (src/fullscreen.js, mobile.json display.iosHintOnce) */
 #ios-hint { position: fixed; z-index: 30; top: calc(var(--safe-top, 0px) + 6px); left: 50%; transform: translateX(-50%); max-width: min(560px, calc(100vw - 24px));
   display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; border-radius: 12px; background: rgba(26,18,38,.92); color: #fff;

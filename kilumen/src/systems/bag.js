@@ -1,9 +1,9 @@
 // Kilumen bag: pockets, add / remove / use, engine export, and map pickups. systems-gd pass, Oct 22, 2026.
 // Save shape (save.js v2 `bag` block): flat { itemId: count } (pockets come from the item table, so moving an
 // item between pockets never needs a migration). The battle engine takes the same { itemId: count } shape.
-import { ITEMS, POCKETS } from './items.js';
-import { maxHp, energyOf, maxEnergy, isFainted } from './creature.js';
-import { fmtMoney } from './config.js';
+import { ITEMS, POCKETS } from './items.js?v=v0.2.1-alpha';
+import { maxHp, energyOf, maxEnergy, isFainted } from './creature.js?v=v0.2.1-alpha';
+import { fmtMoney } from './config.js?v=v0.2.1-alpha';
 
 export { POCKETS };
 const natInt = (n) => Math.max(0, Math.floor(Number(n) || 0));
@@ -23,7 +23,7 @@ export class Bag {
   }
   /** Player-facing name: Text Bot catalogue, else engine name, else a TODO label. */
   nameOf(id) {
-    return this.lines?.system_item_catalogue?.[id]?.name || this.def(id)?.name || `[TODO name: ${id}]`;
+    return this.lines?.system_item_catalogue?.[id]?.name || this.def(id)?.name || id;
   }
   pocketLabel(p) { return this.lines?.comfort?.bag_pockets?.[p]?.label || p; }
   isKey(id) { return !!this.def(id)?.key || this.pocketOf(id) === 'key'; }
@@ -136,22 +136,22 @@ export function collectPickup(mapName, it, { flags, bag, addMoney, cfg = {}, lin
   const flag = pickupFlag(mapName, it);
   const mark = (f) => (setFlag ? setFlag(f) : flags.add(f));
   const T = lines?.system_items || {};
-  if (flags.has(flag)) return { ok: false, kind: 'empty', flag, textKey: 'system_items.empty_satchel', pages: T.empty_satchel?.pages || ['[TODO system_items.empty_satchel]'], vars: {} };
-  if (isTbd(it) && !cfg.giveTbdItems) return { ok: false, kind: 'tbd', flag, pages: [`[TODO World Design/Text Bot: placed item ${it.id} is "${it.item}"]`], vars: {} };
+  if (flags.has(flag)) return { ok: false, kind: 'empty', flag, textKey: 'system_items.empty_satchel', pages: T.empty_satchel?.pages || ['An empty supply satchel. Someone beat you to it.'], vars: {} };
+  if (isTbd(it) && !cfg.giveTbdItems) return { ok: false, kind: 'tbd', flag, pages: [], vars: {} };
   const name = bag.nameOf(it.item), count = Math.max(1, it.count || 1);
   const money = bag.def(it.item)?.money;
   if (money) {
     const amount = money * count;
     addMoney?.(amount); mark(flag);
     const vars = { item: name, amount: fmtMoney(amount) };
-    return { ok: true, kind: 'money', flag, amount, textKey: 'system_items.picked_up_money', pages: T.picked_up_money?.pages || ['[TODO] You found {item}!', '{amount} goes in your wallet.'], vars };
+    return { ok: true, kind: 'money', flag, amount, textKey: 'system_items.picked_up_money', pages: T.picked_up_money?.pages || ['You found {item}!', '{amount} goes in your wallet.'], vars };
   }
   const pocket = bag.pocketOf(it.item), vars = { item: name, count, pocket: bag.pocketLabel(pocket) };
   const r = bag.add(it.item, count);
-  if (!r.added) return { ok: false, kind: 'full', flag, textKey: 'system_items.bag_full', pages: T.bag_full?.pages || ['[TODO] Your {pocket} pocket is stuffed.'], vars };
+  if (!r.added) return { ok: false, kind: 'full', flag, textKey: 'system_items.bag_full', pages: T.bag_full?.pages || ['Your {pocket} pocket is stuffed.'], vars };
   if (r.added < count) bag.remove(it.item, r.added); // all or nothing: the satchel stays for later
-  if (r.added < count) return { ok: false, kind: 'full', flag, textKey: 'system_items.bag_full', pages: T.bag_full?.pages || ['[TODO] Your {pocket} pocket is stuffed.'], vars };
+  if (r.added < count) return { ok: false, kind: 'full', flag, textKey: 'system_items.bag_full', pages: T.bag_full?.pages || ['Your {pocket} pocket is stuffed.'], vars };
   mark(flag);
   const key = bag.isKey(it.item) ? 'key_item' : it.hidden ? 'hidden_found' : count > 1 ? 'picked_up_many' : 'picked_up';
-  return { ok: true, kind: key === 'key_item' ? 'key' : 'item', flag, item: it.item, textKey: `system_items.${key}`, pages: T[key]?.pages || [`[TODO system_items.${key}] {item}`], vars };
+  return { ok: true, kind: key === 'key_item' ? 'key' : 'item', flag, item: it.item, textKey: `system_items.${key}`, pages: T[key]?.pages || ['You picked up {item}.'], vars };
 }

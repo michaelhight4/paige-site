@@ -3,15 +3,15 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js';
-import { POCKETS } from '../systems/items.js';
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js';
-import { fmtMoney } from '../systems/config.js';
-import { partyMax } from '../systems/party.js';
-import { getShops, regionOf } from '../systems/shop.js';
-import { branchByZone } from '../systems/heal.js';
+import { iconRel } from './data.js?v=v0.2.1-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.1-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.1-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.1-alpha';
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.1-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.1-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.1-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.1-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.1-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const lvlOf = (f) => (f > 0.5 ? 'good' : f > 0.2 ? 'warn' : 'bad');
@@ -81,7 +81,7 @@ export async function installSystemsScreens(ui, sys) {
     if (r.ok) { sys.scene._dirty = true; ui.note(P(r.textKey, [`${name} perks up.`], { creature: name, item: itemName(id) })[0] || `${name} perks up.`, 2000); }
     else if (r.reason === 'out_cold') ui.note(P('system_party.out_cold', [`${name} is out cold. A carer can help.`], { creature: name })[0], 2200);
     else if (r.reason === 'rest_only') ui.note(P('system_party.item_heal.variants.rest_only', ['Energy only comes back with rest at a branch.'], { creature: name })[0], 2400);
-    else ui.note(`[TODO Text Bot: no effect] It won't have any effect on ${name}.`, 1800);
+    else ui.note(`It won't have any effect on ${name}.`, 1800);
     ui.rerender();
   };
 
@@ -128,7 +128,7 @@ export async function installSystemsScreens(ui, sys) {
           sys.party.setLead(i); scr.sel = 0;
           ui.note(P('system_party.new_lead', ['{creature} takes the lead. It looks pleased.'], { creature: displayName(c) })[0], 2200);
         } else if (act === 'item') {
-          const j = await ui.ask('team', ['[TODO Text Bot: use which item?]'], [...usable.map((it) => `${itemName(it.id)} ×${it.n}`), L.back || 'Back'], { pat: 'dots' });
+          const j = await ui.ask('team', ['Use which item?'], [...usable.map((it) => `${itemName(it.id)} ×${it.n}`), L.back || 'Back'], { pat: 'dots' });
           if (j < usable.length) await useOn('team', usable[j].id, i);
         }
         ui.rerender();
@@ -141,7 +141,7 @@ export async function installSystemsScreens(ui, sys) {
   ui.scr_sys_bag = function () {
     const PK = T('comfort.bag_pockets', {}); let pi = 0;
     const items = () => sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || [] }));
-    const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || '[TODO Text Bot: item description]')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : ''}`
+    const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : ''}`
       : `<p class="soft">${esc((PK[POCKETS[pi]]?.help || []).join(' '))}</p>`);
     const scr = { scr: 'pack', pat: 'leaf', title: T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1, count: () => items().length,
       chips: () => money(sys.wallet.coins),

@@ -53,6 +53,10 @@ export class Dialog {
     this.text = el('div', 'dlg-text', this.box);
     this.list = el('ul', 'dlg-list', this.box);
     this.more = el('div', 'dlg-more', this.box); this.more.textContent = '\u25BC';
+    // Advance hint (Gary 2:10 PM CT Oct 23, 2026: "press f by the bottom right corner of speech bubbles"): F is an A key on PC;
+    // touch profiles have no F key, so the box (tapDialog) is tapped. Shown by _hint(); style.css .dlg-hint. Visual only (aria-hidden).
+    this.hint = el('div', 'dlg-hint', this.box); this.hint.hidden = true; this.hint.setAttribute('aria-hidden', 'true');
+    this.hint.textContent = this.controls.touch || this.controls.tapDialog ? 'Tap' : 'Press F';
     this.cur = null;
     this.shown = []; // every page shown (tests)
     root.ownerDocument?.defaultView?.addEventListener?.('resize', () => this._place());
@@ -84,7 +88,15 @@ export class Dialog {
   }
 
   _show() { this.wrap.hidden = false; requestAnimationFrame(() => this.wrap.classList.add('open')); }
-  _close() { this.wrap.classList.remove('open'); this.wrap.hidden = true; this.cur = null; this._tap = null; this._controlsState(); this.placeToast(); }
+  _close() { this.wrap.classList.remove('open'); this.wrap.hidden = true; this.cur = null; this._tap = null; this._hint(); this._controlsState(); this.placeToast(); }
+
+  /** Press F / Tap hint: on while the page can be advanced, off while a choice / inbox list is open. While ui.js types the page
+   *  out (.dlg-text .rv spans), style.css holds it back for --dlg-chars x --reveal-ms; each new page restarts that wait. */
+  _hint() {
+    const on = !!this.cur && this.list.hidden;
+    if (on) { this.hint.hidden = true; void this.hint.offsetWidth; this.hint.style.setProperty('--dlg-chars', String([...this.text.textContent].length)); }
+    this.hint.hidden = !on; this.box.classList.toggle('hint-on', on);
+  }
 
   /** Profile controls.hideDuringDialog / showDpadForLists -> body classes tp-hide-<name> and tp-list-dpad (style.css fades them). */
   _controlsState() {
@@ -215,6 +227,7 @@ export class Dialog {
         this.more.hidden = true;
       }
     }
+    this._hint();
     this._place();
   }
 

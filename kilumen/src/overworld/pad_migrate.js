@@ -31,3 +31,14 @@ export function migrateDoor(json, door) {
   const { dx, dy } = padOffset(json);
   return { ...door, x: door.x + dx, y: door.y + dy };
 }
+
+/** Door/edge landing that is not walkable = the two maps disagree on the coordinate frame (stale cache mix, Gary 2:14 PM
+ *  CT Oct 23 2026). Try, in order: as given; shifted by the target's padding (a stale SOURCE map still holding pre-padding
+ *  tx/ty); the nearest walkable tile. Pure; returns {x, y, how} with how = 'ok' | 'pad_shift' | 'nearest' | 'none'. */
+export function fixLanding(map, x, y) {
+  if (map.isWalkable(x, y)) return { x, y, how: 'ok' };
+  const { dx, dy } = padOffset(map.json);
+  if ((dx || dy) && map.isWalkable(x + dx, y + dy) && !map.warpAt?.(x + dx, y + dy)) return { x: x + dx, y: y + dy, how: 'pad_shift' };
+  const n = nearestWalkable(map, x, y);
+  return n ? { ...n, how: 'nearest' } : { x, y, how: 'none' };
+}
