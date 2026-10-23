@@ -1,0 +1,43 @@
+{
+  "name": "Riftward",
+  "short_name": "Riftward",
+  "description": "A 2D fantasy MMO RPG in your browser.",
+  "id": "/riftward/",
+  "start_url": "/riftward/",
+  "scope": "/riftward/",
+  "display": "standalone",
+  "background_color": "#14111f",
+  "theme_color": "#14111f",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
