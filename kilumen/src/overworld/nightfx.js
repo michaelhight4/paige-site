@@ -1,7 +1,8 @@
 // Kilumen overworld: night FX v1 (Oct 23, 2026). Gary: "need light from windows and lamps at night", "give it a moonlight
 // feel at night", "can add cloud moves too". Three switches (CONFIG.nightFx; dev ?nightfx=0|1, ?moonlight=, ?nightlights=,
-// ?clouds=0|1; per-device numbers in src/platform/<id>.json "nightFx"). ON in the dev preview only: the alpha build
-// (src/alpha.js) resolves every switch OFF, and when all three are off nothing here runs (no fetch, no draw, no grade change).
+// ?clouds=0|1; per-device numbers in src/platform/<id>.json "nightFx"). v0.2.3 (Oct 23, 2026, Gary: "Yes, turn on the glow and
+// add crystal glow too"): the alpha build honours CONFIG + profile like dev (URL flags still ignored there, KeyN stays dev-only);
+// when all three are off nothing here runs (no fetch, no draw, no grade change).
 //  1. moonlight: a coder-side grade VARIANT (like lighting.js litGreens). Outdoor maps at night: every palette colour goes
 //     through moonTarget() (cool blue-silver luminance ramp, a little of the colour kept) and is snapped to the nearest
 //     kilumen.hex colour, so the moon map is ON the 64-colour palette (tests/nightfx.test.mjs checks it). Off-palette
@@ -17,28 +18,28 @@
 //     map / lit set / level changes; flame lights flicker per frame as small cached stamps (off under reduced motion).
 //  3. clouds: living.js cloud shadows get a thin night layer (NIGHT_CLOUD_LEVEL) that dims the moonlight, and are
 //     paused (static) under reduced motion. Interiors / caves: nothing (clock.js isIndoor).
-import { TILE } from './constants.js?v=v0.2.2-alpha';
-import { isIndoor } from './clock.js?v=v0.2.2-alpha';
-import { mulberry32, hashStr } from './living.js?v=v0.2.2-alpha';
+import { TILE } from './constants.js?v=v0.2.3-alpha';
+import { isIndoor } from './clock.js?v=v0.2.3-alpha';
+import { mulberry32, hashStr } from './living.js?v=v0.2.3-alpha';
 
 export const NIGHTFX_KEYS = Object.freeze(['nightLights', 'moonlight', 'clouds']);
 export const DUSK_MOON_MIX = 0.3;
-export { NIGHT_CLOUD_LEVEL } from './living.js?v=v0.2.2-alpha'; // thin moonlit clouds (3/8 of the day shadow), defined next to the cloud code
+export { NIGHT_CLOUD_LEVEL } from './living.js?v=v0.2.3-alpha'; // thin moonlit clouds (3/8 of the day shadow), defined next to the cloud code
 export const LEVELS = 6;                // light buffer intensity steps (0 = no light)
 
 // ---------------------------------------------------------------------------------------------------------------------
 // switches
 /**
- * Resolve the three switches + device numbers. Order: alpha build -> all off (URL ignored, alpha strips flags anyway);
- * else CONFIG.nightFx[key] (dev defaults) -> profile.nightFx.<key> === false turns one off on that device ->
- * ?nightfx=0|1 sets all three -> ?moonlight= / ?nightlights= / ?clouds= set one (last word).
+ * Resolve the three switches + device numbers. Order: CONFIG.nightFx[key] (dev defaults) -> profile.nightFx.<key> === false turns one off on that device ->
+ * ?nightfx=0|1 sets all three -> ?moonlight= / ?nightlights= / ?clouds= set one (last word). Alpha build: CONFIG + profile
+ * only (URL ignored, alpha strips flags anyway).
  * @param {{config?: object, profile?: object, query?: URLSearchParams|string, alpha?: boolean}} o
  */
 export function resolveNightFx({ config = {}, profile = {}, query = '', alpha = false } = {}) {
   const q = typeof query === 'string' ? new URLSearchParams(query) : query || new URLSearchParams();
   const p = profile || {};
   const out = { alpha: !!alpha, lightCell: p.lightCell ?? 4, flicker: p.flicker !== false, windowsGoDark: p.windowsGoDark ?? 0.4, duskMoon: p.duskMoon === true, warmPass: p.warmPass !== false };
-  for (const k of NIGHTFX_KEYS) out[k] = !alpha && !!config[k] && p[k] !== false;
+  for (const k of NIGHTFX_KEYS) out[k] = !!config[k] && p[k] !== false;
   if (alpha) return out;
   const b = (k) => (q.has(k) ? q.get(k) !== '0' : undefined);
   const all = b('nightfx');
@@ -182,6 +183,11 @@ export function flicker(seed, tick, on = true) {
   const k = Math.floor(tick / 7), r = mulberry32((seed ^ Math.imul(k, 0x9e3779b1)) >>> 0)(), r2 = mulberry32((seed ^ Math.imul(k >> 2, 0x85ebca6b)) >>> 0)();
   return Math.round((0.72 + 0.16 * r + 0.12 * r2) * 8) / 8;
 }
+/** Crystal glow pulse multiplier: slow sine (~3.3 s at 60 fps) 0.76..1 in 1/16 steps (few cached stamps), 1 when reduced motion / off. */
+export function glowPulse(seed, tick, on = true) {
+  if (!on) return 1;
+  return Math.round((0.88 + 0.12 * Math.sin(2 * Math.PI * (tick / 200 + (seed % 997) / 997))) * 16) / 16;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 // anchors (pure): map tiles + nightfx_anchors.json -> windows + lights in native world px
@@ -209,7 +215,7 @@ export function findAnchors(map, nameAt, A) {
 }
 function light(A, l, x, y, key) {
   const k = A.kinds?.[l.kind] || {};
-  return { key, kind: l.kind, x, y, r: l.r ?? k.r ?? 40, colour: l.colour ?? k.colour ?? 'e29d40', strength: l.strength ?? k.strength ?? 1, flame: !!(l.flame ?? k.flame), alwaysOn: !!(l.alwaysOn ?? k.alwaysOn) };
+  return { key, kind: l.kind, x, y, r: l.r ?? k.r ?? 40, colour: l.colour ?? k.colour ?? 'e29d40', strength: l.strength ?? k.strength ?? 1, flame: !!(l.flame ?? k.flame), pulse: !!(l.pulse ?? k.pulse), alwaysOn: !!(l.alwaysOn ?? k.alwaysOn) };
 }
 
 // 4x4 Bayer matrix (0..15)
@@ -343,7 +349,7 @@ export class NightFx {
     const t0 = performance.now(), cell = this.sw.lightCell, m = this.map, W = Math.ceil((m.width * TILE) / cell), H = Math.ceil((m.height * TILE) / cell);
     const lv = lampLevel(min), acc = new Float32Array(W * H * 3);
     for (const l of this.lights) {
-      if (l.flame && this.sw.flicker) continue; // drawn per frame as a stamp
+      if ((l.flame || l.pulse) && this.sw.flicker) continue; // drawn per frame as a stamp
       const s = l.win ? (windowLit(l.win.sched, min) ? 1 : 0) : l.alwaysOn ? 1 : lv;
       if (!s) continue;
       addPool(acc, W, H, cell, l, s * l.strength);
@@ -379,10 +385,10 @@ export class NightFx {
     if (this.sw.flicker && lv) {
       const flick = !this.reducedMotion, tick = this.scene.tick;
       for (const l of this.lights) {
-        if (!l.flame) continue;
+        if (!l.flame && !l.pulse) continue; // flames flicker, crystals pulse (both static under reduced motion)
         const R = l.r, x0 = l.x - R, y0 = l.y - R;
         if ((x0 + 2 * R - cam.x) * z < 0 || (y0 + 2 * R - cam.y) * z < 0 || (x0 - cam.x) * z > cw || (y0 - cam.y) * z > ch) continue;
-        const f = flicker(l.seed, tick, flick) * lv * l.strength;
+        const f = (l.pulse ? glowPulse(l.seed, tick, flick) : flicker(l.seed, tick, flick)) * lv * l.strength;
         const st = this._stamp(l, f);
         // stamp cells are aligned to the world cell grid, so flames dither with the same pattern as the buffer
         const dx = (st.ox - cam.x) * z, dy = (st.oy - cam.y) * z, dw = st.c.width * cell * z, dh = st.c.height * cell * z;

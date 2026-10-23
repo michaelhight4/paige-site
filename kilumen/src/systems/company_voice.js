@@ -21,7 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { employeeIdOf } from './employee_id.js?v=v0.2.2-alpha';
+import { employeeIdOf } from './employee_id.js?v=v0.2.3-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',
@@ -36,6 +36,7 @@ export const FALLBACK = {
   id_level_up: ['{employee_id}: Employee ID level {level}.', "Congratulations. You're a pricier number now."],
   board_node: ['{employee_id}: Benefits Board perk filed.', 'Happy staff move assets faster. Allegedly.'],
   quest_done: ['{employee_id}: task closed: {quest}.', 'Value delivered. Back to work.'],
+  crystal_resupply: ['{employee_id}: Crystal stock depleted. Revival Tech is resupplying you.', 'The cost will reflect on your paycheck.'], // battle end only, flavour (src/systems/crystal_resupply.js)
 };
 
 const DUCK_ID = 'company_voice';
@@ -147,6 +148,7 @@ export class CompanyVoice {
     if (ev.cooldown_ms && t - (this.lastEmitAt[name] ?? -Infinity) < ev.cooldown_ms) return false;
     this.lastEmitAt[name] = t;
     if (onceKey) { seen[onceKey] = true; s._dirty = true; } // marked now: a burst loser never comes back later
+    if (ev.direct) { this.queue.push({ name, ctx, priority: ev.priority || 0, at: t }); return true; } // own queue slot (crystal_resupply): never knocks a once-only line out of a burst
     this.burst.push({ name, ctx, priority: ev.priority || 0, at: t, order: this.burst.length });
     this._burstAt = t;
     return true;

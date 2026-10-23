@@ -1,0 +1,474 @@
+{
+ "_status": "Night FX v1 (Oct 23, 2026), coder-owned light anchors. NOT map data: positions are native px relative to a building's top-left tile (<building>_0_0) or to a single tile, read from the building/prop art. The maps themselves (World Design) are never edited; src/overworld/nightfx.js finds every <building>_0_0 / tile name on the map's decoration+overlay layers and places these.",
+ "_windows": "[x, y, w, h] rects around window GLASS. Only pixels whose colour is in `glass` are recoloured warm inside a rect (frames, mullions, flower boxes stay graded). Placement is by position (this file), the recolour only picks the glass inside it (grades.json lights_rule: glow is never decided by colour alone). office windows are omitted: World Design's emissive mask already lights them.",
+ "glass": {
+  "_note": "day window glass -> lit warm glass, all kilumen.hex colours",
+  "1e4078": "9f4013",
+  "30488c": "e29d40",
+  "2c64a8": "eea23c",
+  "4a70ba": "fcd668",
+  "7ac2e8": "f8eabe"
+ },
+ "kinds": {
+  "_note": "r = pool radius in native px; colour = additive pool tint; strength 0..1; flame = flickers (per-frame stamp, still under reduced motion); pulse = slow soft crystal glow pulse (v0.2.3, still under reduced motion).",
+  "street_lamp": {
+   "r": 64,
+   "colour": "eea23c",
+   "strength": 1
+  },
+  "lamp_head": {
+   "r": 18,
+   "colour": "f8eabe",
+   "strength": 0.8
+  },
+  "paper_lantern": {
+   "r": 46,
+   "colour": "eea23c",
+   "strength": 0.9,
+   "flame": true
+  },
+  "wall_lantern": {
+   "r": 36,
+   "colour": "eea23c",
+   "strength": 0.85,
+   "flame": true
+  },
+  "brazier": {
+   "r": 56,
+   "colour": "e29d40",
+   "strength": 1,
+   "flame": true
+  },
+  "crystal": {
+   "r": 38,
+   "colour": "b076ec",
+   "strength": 0.7,
+   "pulse": true
+  },
+  "crystal_small": {
+   "r": 20,
+   "colour": "b076ec",
+   "strength": 0.6,
+   "pulse": true
+  },
+  "door_lamp": {
+   "r": 28,
+   "colour": "fcd668",
+   "strength": 0.8
+  },
+  "window_spill": {
+   "r": 30,
+   "colour": "e29d40",
+   "strength": 0.6,
+   "dy": 8
+  }
+ },
+ "buildings": {
+  "house_player": {
+   "windows": [
+    [
+     14,
+     202,
+     36,
+     40
+    ],
+    [
+     78,
+     202,
+     36,
+     40
+    ],
+    [
+     206,
+     202,
+     36,
+     40
+    ],
+    [
+     270,
+     202,
+     36,
+     40
+    ],
+    [
+     149,
+     150,
+     23,
+     23
+    ]
+   ],
+   "lights": [
+    {
+     "x": 213,
+     "y": 231,
+     "kind": "wall_lantern"
+    }
+   ]
+  },
+  "house_a": {
+   "windows": [
+    [
+     14,
+     202,
+     36,
+     40
+    ],
+    [
+     78,
+     202,
+     36,
+     40
+    ],
+    [
+     206,
+     202,
+     36,
+     40
+    ],
+    [
+     270,
+     202,
+     36,
+     40
+    ],
+    [
+     147,
+     104,
+     27,
+     21
+    ]
+   ],
+   "lights": [
+    {
+     "x": 213,
+     "y": 231,
+     "kind": "wall_lantern"
+    }
+   ]
+  },
+  "house_b": {
+   "windows": [
+    [
+     14,
+     202,
+     36,
+     40
+    ],
+    [
+     78,
+     202,
+     36,
+     40
+    ],
+    [
+     206,
+     202,
+     36,
+     40
+    ],
+    [
+     270,
+     202,
+     36,
+     40
+    ],
+    [
+     149,
+     150,
+     23,
+     23
+    ]
+   ],
+   "lights": [
+    {
+     "x": 213,
+     "y": 231,
+     "kind": "wall_lantern"
+    }
+   ]
+  },
+  "house_c": {
+   "windows": [
+    [
+     14,
+     202,
+     36,
+     40
+    ],
+    [
+     78,
+     202,
+     36,
+     40
+    ],
+    [
+     206,
+     202,
+     36,
+     40
+    ],
+    [
+     270,
+     202,
+     36,
+     40
+    ],
+    [
+     147,
+     104,
+     27,
+     21
+    ]
+   ],
+   "lights": [
+    {
+     "x": 219,
+     "y": 231,
+     "kind": "wall_lantern"
+    }
+   ]
+  },
+  "shop": {
+   "windows": [
+    [
+     14,
+     206,
+     40,
+     36
+    ],
+    [
+     263,
+     206,
+     43,
+     36
+    ],
+    [
+     70,
+     206,
+     57,
+     40
+    ],
+    [
+     198,
+     206,
+     52,
+     40
+    ],
+    [
+     147,
+     104,
+     27,
+     21
+    ]
+   ],
+   "lights": []
+  },
+  "heal_centre": {
+   "windows": [
+    [
+     14,
+     202,
+     36,
+     40
+    ],
+    [
+     78,
+     202,
+     36,
+     40
+    ],
+    [
+     142,
+     202,
+     36,
+     40
+    ],
+    [
+     270,
+     202,
+     36,
+     40
+    ],
+    [
+     334,
+     202,
+     36,
+     40
+    ],
+    [
+     398,
+     202,
+     36,
+     40
+    ]
+   ],
+   "lights": [
+    {
+     "x": 223,
+     "y": 158,
+     "kind": "crystal"
+    }
+   ]
+  },
+  "lab": {
+   "windows": [
+    [
+     14,
+     202,
+     36,
+     40
+    ],
+    [
+     78,
+     202,
+     36,
+     40
+    ],
+    [
+     142,
+     202,
+     36,
+     40
+    ],
+    [
+     270,
+     202,
+     36,
+     40
+    ],
+    [
+     334,
+     202,
+     36,
+     40
+    ],
+    [
+     398,
+     202,
+     36,
+     40
+    ],
+    [
+     213,
+     150,
+     23,
+     23
+    ]
+   ],
+   "lights": [
+    {
+     "x": 28,
+     "y": 304,
+     "kind": "crystal_small"
+    },
+    {
+     "x": 420,
+     "y": 304,
+     "kind": "crystal_small"
+    }
+   ]
+  },
+  "masters_hall": {
+   "windows": [
+    [
+     22,
+     226,
+     28,
+     57
+    ],
+    [
+     83,
+     226,
+     31,
+     57
+    ],
+    [
+     142,
+     226,
+     36,
+     57
+    ],
+    [
+     270,
+     226,
+     36,
+     57
+    ],
+    [
+     334,
+     226,
+     31,
+     57
+    ],
+    [
+     398,
+     226,
+     29,
+     57
+    ]
+   ],
+   "lights": [
+    {
+     "x": 224,
+     "y": 193,
+     "kind": "crystal"
+    },
+    {
+     "x": 174,
+     "y": 345,
+     "kind": "brazier"
+    },
+    {
+     "x": 274,
+     "y": 345,
+     "kind": "brazier"
+    }
+   ]
+  },
+  "club_front": {
+   "windows": [],
+   "lights": [
+    {
+     "x": 95,
+     "y": 86,
+     "kind": "door_lamp"
+    }
+   ]
+  }
+ },
+ "tiles": {
+  "lamp": [
+   {
+    "x": 32,
+    "y": 40,
+    "kind": "street_lamp"
+   },
+   {
+    "x": 32,
+    "y": 17,
+    "kind": "lamp_head"
+   }
+  ],
+  "keeper_lantern": [
+   {
+    "x": 33,
+    "y": 23,
+    "kind": "paper_lantern"
+   }
+  ],
+  "brazier": [
+   {
+    "x": 33,
+    "y": 19,
+    "kind": "brazier"
+   }
+  ],
+  "crystal": [
+   {
+    "x": 32,
+    "y": 31,
+    "kind": "crystal"
+   }
+  ]
+ }
+}

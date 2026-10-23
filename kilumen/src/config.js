@@ -39,7 +39,7 @@ export const CONFIG = Object.freeze({
   // club_int + fernwick (club dance floor / sign). Default OFF. Dev preview: ?litgreens=1. src/overworld/lighting.js
   litGreensAtNight: false,
   // Night FX v1 (Gary, Oct 23 2026: window/lamp light at night, moonlight feel, moving clouds). src/overworld/nightfx.js.
-  // ON in dev; the alpha build forces every switch OFF (main.js, ALPHA_QUERY present). Per-device: profiles' nightFx block
+  // ON in dev and (v0.2.3, Gary Oct 23) in the alpha build too; the alpha ignores the URL flags. Per-device: profiles' nightFx block
   // (pc.json / mobile.json: lightCell, clouds, flicker). Dev URL: ?nightfx=0|1 (all three), ?moonlight= ?nightlights= ?clouds=0|1.
   nightFx: Object.freeze({ nightLights: true, moonlight: true, clouds: true }),
   nightFxAnchors: 'src/overworld/nightfx_anchors.json', // coder-owned window/lamp light anchors (map files stay World Design's)

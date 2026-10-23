@@ -4,32 +4,32 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.2-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.2-alpha';
-import { GridMover } from './movement.js?v=v0.2.2-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.2-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.2-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.2-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.2-alpha';
-import { Renderer } from './renderer.js?v=v0.2.2-alpha';
-import { drawDebug } from './debug.js?v=v0.2.2-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.2-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.2-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.2-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.2-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.2-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.2-alpha';
-import { LivingWorld } from './living.js?v=v0.2.2-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.2-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.2-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.2-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.2-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.2-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.2-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.2-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.2-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.2-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.2-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.3-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.3-alpha';
+import { GridMover } from './movement.js?v=v0.2.3-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.3-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.3-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.3-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.3-alpha';
+import { Renderer } from './renderer.js?v=v0.2.3-alpha';
+import { drawDebug } from './debug.js?v=v0.2.3-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.3-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.3-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.3-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.3-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.3-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.3-alpha';
+import { LivingWorld } from './living.js?v=v0.2.3-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.3-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.3-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.3-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.3-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.3-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.3-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.3-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.3-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.3-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.3-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -42,7 +42,7 @@ const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.2-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.3-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -1032,7 +1032,8 @@ export class Overworld {
   view() {
     const p = this.player, { px, py, lift } = p.pixel(), z = this.zoom;
     const prevCam = this._cam?.map === this.map ? this._cam : null; // platform camera rules (deadzone needs the last camera on this map)
-    const cam = cameraFor(px + TILE / 2, py + TILE / 2, this.map.width, this.map.height, this.canvas.width / z, this.canvas.height / z, this.opts.platform?.profile?.camera, prevCam, { indoor: isIndoor(this.map.name) });
+    const cf = this.camFocus; // heal machine close-up (src/ui/fx_art.js healFx): a set {x, y} native px focus overrides the player for a moment
+    const cam = cameraFor(cf ? cf.x : px + TILE / 2, cf ? cf.y : py + TILE / 2, this.map.width, this.map.height, this.canvas.width / z, this.canvas.height / z, this.opts.platform?.profile?.camera, cf ? null : prevCam, { indoor: isIndoor(this.map.name) });
     this._cam = { map: this.map, x: cam.x, y: cam.y };
     const grade = this.mapGrade();
     const actors = [this._playerActor(px, py, lift, grade)];

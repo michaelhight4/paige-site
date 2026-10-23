@@ -3,7 +3,7 @@
 // Lazily imported by ui_tools2.js the first time one of these plays, so it adds nothing to the boot bundle.
 // Rollback: set a FX_ART flag to false -> capture goes back to the CSS/DOM placeholder (capture_fx.js); heal and
 // evolution then play nothing (there was no old path for them).
-import { SPECIES, battleSpriteRel } from './data.js?v=v0.2.2-alpha';
+import { SPECIES, battleSpriteRel } from './data.js?v=v0.2.3-alpha';
 
 export const FX_ART = { capture: true, evolution: true, heal: true };
 export const FX_CFG = {
@@ -16,6 +16,9 @@ export const FX_CFG = {
   // goes here). heal_restore.json hooks.cradle_centre.<base>_2x2_px overrides these when present. 11:43 PM CT: heal branches place
   // i_crystal_polisher (7476-7479); the old heal_machine eye [32,51] is retired (heal_centre_int only).
   cradle: [['i_crystal_polisher', [63, 28]], ['i_heal_machine', [63, 28]]],
+  // Heal camera (Gary 2:42 PM CT Oct 23 2026: "zoom in to highlight the machine healing"): the world canvas scales up about the
+  // cradle after the camera pans there (scene.camFocus; CSS transform, so the FX overlay, placed from getBoundingClientRect, stays aligned).
+  healZoom: { scale: 1.75, ms: 300 },
   // Character models' capture poses: bone_v2 (one arm extended; natural elbow bend, smoothed arm edges, slimmer hiker sleeve).
   // ON by default since Oct 23, 2026 (Gary approved 12:00 AM CT: "just pass them on as approved im going to sleep").
   // Rollbacks: ?poses=0 (old placeholder trainer + the single `hold` point above) or ?fxart=0 (whole art path off).
@@ -197,6 +200,36 @@ export async function healFx(sc, n, { reduced = false, steps = [] } = {}) {
   const H = (await piece('heal_restore'))?.hooks, mc = findMachine(sc, H?.cradle_centre); if (!mc) return { ms: 0, skipped: 'no machine', steps };
   const names = ['heal_cradle_open', `heal_float_${n}`, 'heal_scanner_sweep', `heal_glow_${n}`, 'heal_done_ping'];
   const set = await preload(names.map((k) => ['heal_restore', k])); if (!set) return { ms: 0, skipped: 'art missing', steps };
+  const zoom = await healZoomIn(sc, mc);
+  try { return await healPlay(sc, n, mc, set, steps, zoom); } finally { await healZoomOut(sc, zoom); }
+}
+/** Close-up on the machine (input is already held: the heal runs inside a dialogue script): the camera pans to the cradle
+ *  (scene.camFocus, overworld.js view), then the world canvas scales up about it (CSS transform: the FX overlay is placed from
+ *  getBoundingClientRect after this, so it stays on the cradle). -> undo info | null */
+const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+const tween = (ms, f) => new Promise((res) => { const t0 = performance.now(); const tick = (now) => { const t = Math.min(1, (now - t0) / ms); f(ease(t)); if (t < 1) requestAnimationFrame(tick); else res(); }; requestAnimationFrame(tick); });
+async function healZoomIn(sc, mc) {
+  const cv = sc.canvas, Z = FX_CFG.healZoom; if (!cv?.style || !Z || !(Z.scale > 1)) return null;
+  const T = 64, pp = sc.player?.pixel?.(), from = pp ? { x: pp.px + T / 2, y: pp.py + T / 2 } : null, to = { x: mc.x * T + mc.pt[0], y: mc.y * T + mc.pt[1] };
+  const prev = { transform: cv.style.transform, transformOrigin: cv.style.transformOrigin, transition: cv.style.transition };
+  const z = { cv, prev, from, to, ms: Z.ms, scale: Z.scale };
+  if (from) await tween(Z.ms, (e) => { sc.camFocus = { x: Math.round(from.x + (to.x - from.x) * e), y: Math.round(from.y + (to.y - from.y) * e) }; });
+  else sc.camFocus = to;
+  await new Promise((res) => requestAnimationFrame(() => requestAnimationFrame(res))); // the camera has drawn at the cradle
+  const r = cv.getBoundingClientRect(), cssK = r.width / cv.width, cam = sc._cam || { x: 0, y: 0 }, s = sc.zoom * cssK;
+  cv.style.transformOrigin = `${(to.x - cam.x) * s}px ${(to.y - cam.y) * s}px`; // cradle in canvas-local CSS px (centre unless clamped)
+  cv.style.transition = `transform ${Z.ms}ms ease-in-out`; void cv.offsetWidth; cv.style.transform = `scale(${Z.scale})`;
+  await new Promise((res) => setTimeout(res, Z.ms + 30));
+  return z;
+}
+async function healZoomOut(sc, z) {
+  if (!z) return; const { cv, prev, from, to, ms } = z;
+  cv.style.transform = prev.transform || ''; await new Promise((res) => setTimeout(res, ms + 30));
+  cv.style.transition = prev.transition || ''; cv.style.transformOrigin = prev.transformOrigin || '';
+  if (from) await tween(ms, (e) => { sc.camFocus = { x: Math.round(to.x + (from.x - to.x) * e), y: Math.round(to.y + (from.y - to.y) * e) }; });
+  sc.camFocus = null;
+}
+async function healPlay(sc, n, mc, set, steps, zoom) {
   const cv = sc.canvas, r = cv.getBoundingClientRect(), cssK = r.width / cv.width, z = sc.zoom, cam = sc._cam || { x: 0, y: 0 }, T = 64;
   const s = z * cssK, x = r.left + ((mc.x * T + mc.pt[0]) - cam.x) * s, y = r.top + ((mc.y * T + mc.pt[1]) - cam.y) * s;
   const host = document.createElement('div'); host.className = 'ax-heal'; host.setAttribute('aria-hidden', 'true'); document.body.appendChild(host);
@@ -209,7 +242,7 @@ export async function healFx(sc, n, { reduced = false, steps = [] } = {}) {
   (await step('heal_done_ping')).remove();
   (await step(`heal_float_${n}`, { reverse: true })).remove();       // crystals home
   host.remove();
-  return { ms: Math.round(performance.now() - t0), machine: mc, mapPx: [mc.x * T + mc.pt[0], mc.y * T + mc.pt[1]], at: { x: Math.round(x), y: Math.round(y) }, scale: s, steps };
+  return { ms: Math.round(performance.now() - t0), machine: mc, mapPx: [mc.x * T + mc.pt[0], mc.y * T + mc.pt[1]], at: { x: Math.round(x), y: Math.round(y) }, scale: s, steps, zoom: zoom ? zoom.scale : 1 };
 }
 
 // ---------- evolution (evolution.json hooks): veins grow -> hold -> reveal front -> ring burst; canvas, masked + recoloured ----------

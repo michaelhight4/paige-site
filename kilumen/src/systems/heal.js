@@ -3,8 +3,8 @@
 // and energy, free (map text: "Staff rest for free"). Resting sets the last-heal point. Losing with the whole
 // party out cold (the engine reports a loss) -> onPartyFainted(): flat regional copay, warp to the last heal
 // point, everyone rested. Warmth is never touched.
-import { getShops, regionOf } from './shop.js?v=v0.2.2-alpha';
-import { fmtMoney } from './config.js?v=v0.2.2-alpha';
+import { getShops, regionOf } from './shop.js?v=v0.2.3-alpha';
+import { fmtMoney } from './config.js?v=v0.2.3-alpha';
 
 let active = null; // the attached Systems (index.js) so the battle code can call onPartyFainted() with no args
 export function setActiveSystems(sys) { active = sys; }
@@ -86,6 +86,9 @@ export class Heal {
       await warpAndWait(sc, { map: to.map, x: to.x, y: to.y, facing: to.facing }, 'blackout');
       const city = regionOf(to.zone).city;
       await this.sys.say(T.carried?.pages || ['You hurry back to the {city} branch...'], { city });
+      // Gary 2:42 PM CT Oct 23 2026: the blackout rest plays the heal_restore machine animation too (map loaded + player placed by
+      // now, so fx_art.js findMachine sees the cradle). Branch with no machine / reduced motion -> ui.fx.motion.heal.skipped says why.
+      await this.sys.ui?.fx?.healFx?.(sc, this.sys.party?.size ?? this.sys.party?.list?.length);
       await this.sys.say(T.copay?.pages || ['Company health plan covers the rest.', 'Your copay is {fee}.'], { fee: fmtMoney(r.fee) });
       if (r.short) await sc.say(T.copay_short?.pages || ["Can't cover the copay? We'll take what you've got.", "We'll cover the rest. This once."]);
       await sc.say(T.carer?.pages || ["Rest, then try again. They'll be fine."]);

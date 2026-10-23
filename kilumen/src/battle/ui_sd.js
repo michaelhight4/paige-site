@@ -2,12 +2,12 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.2-alpha';
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.2-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.2-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.2-alpha';
+import { KilumenBattle } from './battle.js?v=v0.2.3-alpha';
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.3-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.3-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.3-alpha';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.2-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.3-alpha';
 
 const KEY = 'system_battle'; // PH: proposed namespace for the new battle lines
 
@@ -117,7 +117,11 @@ export function makeSdBattle(ui, opts, h) {
       if (c) { const lo = Math.floor(K.xpCurveMult * c.level ** 3), hi = Math.floor(K.xpCurveMult * (c.level + 1) ** 3); $('#p1-xp > i').style.width = `${Math.max(0, Math.min(100, ((c.set.xp ?? lo) - lo) / (hi - lo) * 100))}%`; }
     }
   };
-  const anim = (el, cls, ms) => { el.classList.remove('idle', cls); void el.offsetWidth; el.classList.add(cls); return wait(ms).then(() => { el.classList.remove(cls); el.classList.add('idle'); }); };
+  // One motion class at a time (Gary 2:41 PM CT Oct 23 2026, "faded" sprites): a new anim drops any earlier one still on the sprite, and only
+  // the call that still owns the sprite clears it, so overlapping hit / lunge / enter calls can't leave it mid-flash (ui.css ui-hit filter).
+  const MOTION = ['idle', 'enter', 'lunge-r', 'lunge-l', 'hit', 'faint'];
+  const anim = (el, cls, ms) => { el.classList.remove(...MOTION); void el.offsetWidth; el.classList.add(cls); const tok = (el._animTok = (el._animTok || 0) + 1);
+    return wait(ms).then(() => { if (el._animTok !== tok) return; el.classList.remove(cls); el.style.filter = ''; el.classList.add('idle'); }); };
   const sideOf = (ident) => ident.slice(0, 2);
   const nameOf = (ident) => ident.replace(/^p\da?: /, '');
   const hpOf = (s) => { const [hp, max] = String(s).split(' ')[0].split('/').map(Number); return { hp: hp || 0, max }; };
