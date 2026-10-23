@@ -1,7 +1,7 @@
 // Paige webtoons. Sources: Webtoon links and series list from Gary's shared notes (Oct 15-18, 2026). featured: true = on Home (exactly 2).
 window.WEBTOONS=[
 {id:"sote",title:"The Start of the End",status:"live",featured:true,img:"assets/home/sote-cover.webp",alt:"Cover of The Start of the End: a boy with a glowing gold mark before a green-lit spire city",
- tags:["13+","YA fantasy"],blurb:"A burned boy, a golden mark, and a city of spires.",
+ tags:["13+","YA fantasy"],blurb:"In Lumara Spire, progress comes with a collar.",
  links:[{label:"Read on Webtoon",url:"https://www.webtoons.com/en/canvas/the-start-of-the-end/list?title_no=1178955"},{label:"About the series",url:"#start-of-the-end"}]},
 {id:"after-annie",title:"After Annie",status:"live",featured:true,img:"assets/home/annie-cover-wide.webp",alt:"Cover of After Annie: Dave laughing with Annie on his back as zombies close in",
  tags:["16+","Zombie drama"],blurb:"The night the outbreak hit, Dave was at his coworker Annie's place. Now he has to get home to his wife and daughter.",links:[{label:"Read on Webtoon",url:"https://www.webtoons.com/en/canvas/after-annie/list?title_no=1179075"}]},

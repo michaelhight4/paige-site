@@ -425,3 +425,5 @@ dialog.gift{margin:auto;width:min(100vw - 24px,640px);max-height:calc(100dvh - 2
 .sa-rail{position:fixed;z-index:5}
 body[data-tab="start-of-the-end"] .sa-unit{display:none}
 @media(prefers-reduced-motion:reduce){.sa-unit,.sa-unit *{animation:none!important;transition:none!important}}
+
+.s-cast .cast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}.s-cast .cast-grid figure{margin:0}.s-cast .cast-grid img{width:100%;height:auto;max-height:none;aspect-ratio:4/5;object-fit:cover}.s-cast .cast-grid figcaption b{color:#f3e6c4}
