@@ -22,9 +22,11 @@ export const Col = Object.freeze({
   PLATE: 7,   // walkable trigger
   BIKE_ONLY: 8, // narrow boardwalk: bike only (MOVEMENT.md 2); a wall on foot
   RAMP: 9,      // bike jump ramp: one-way 2-tile hop on the bike in the ramp's direction; a wall otherwise
+  ICE: 10,        // EXTRA_TILES.md: walkable, slide-until-blocked (sliding not built yet: plain walk for now)
+  DEEP_WATER: 11, // EXTRA_TILES.md: needs Dive / strong Surf: blocked for now
 });
 
-export const WALKABLE = new Set([Col.WALK, Col.DOOR, Col.PLATE]);
+export const WALKABLE = new Set([Col.WALK, Col.DOOR, Col.PLATE, Col.ICE]);
 
 export const Dir = Object.freeze({ DOWN: 'down', LEFT: 'left', RIGHT: 'right', UP: 'up' });
 export const DIRS = [Dir.DOWN, Dir.LEFT, Dir.RIGHT, Dir.UP];

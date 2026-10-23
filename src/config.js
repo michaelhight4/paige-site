@@ -24,4 +24,14 @@ export const CONFIG = Object.freeze({
   // Dev start: outside the player's house in Brookhollow. The kit says "new-game spawn 2F" but gives no tile (README gap).
   start: { map: 'brookhollow', x: 5, y: 8, facing: 'down' },
   closedPathText: 'The path ahead is closed.',
+  // ---- soul pass (unapproved art: local only) ----
+  playerName: 'Cal',
+  ronNicknames: false,             // {nick}: Ron's nicknames (text ron_nicknames) only when on; off = the player's name
+  rtNumberPlaceholder: 'RT-0147',  // {rt_number}: no catalogue numbers exist yet (catch flow is a later pass)
+  pixelDir: 'art/characters/pixel/',
+  npcSpriteMap: 'art/characters/pixel/npcs/npc_sprite_map.json',
+  warmthTints: 'art/characters/pixel/warmth/warmth_tints.json',
+  warmthDir: 'art/characters/pixel/warmth/',
+  timeOfDayDir: 'art/world/overworld/time_of_day/',
+  grades: 'art/world/overworld/time_of_day/grades.json',
 });

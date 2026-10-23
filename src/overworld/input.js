@@ -16,7 +16,7 @@ export class Input {
   constructor(target = window) {
     this.held = [];            // held directions, most recent last
     this.sources = new Map();  // source id -> dir (keyboard key, touch pointer, pad)
-    this.aQueued = false; this.debugQueued = false; this.selQueued = false; this.kbB = false; this.padB = false; this.touchB = false;
+    this.aQueued = false; this.debugQueued = false; this.selQueued = false; this.kbB = false; this.padB = false; this.touchB = false; this.bQueued = false; // bQueued: a B press seen this frame (dialogue cancel), even if released before the frame
     this.padPrev = new Map();
     this._kd = (e) => this._key(e, true);
     this._ku = (e) => this._key(e, false);
@@ -35,7 +35,7 @@ export class Input {
       return;
     }
     if (KEY_A.has(code)) { e.preventDefault(); if (down && !e.repeat) this.aQueued = true; return; }
-    if (KEY_B.has(code)) { this.kbB = down; return; }
+    if (KEY_B.has(code)) { if (down && !e.repeat) this.bQueued = true; this.kbB = down; return; }
     if (KEY_SELECT.has(code)) { e.preventDefault(); if (down && !e.repeat) this.selQueued = true; return; }
     if (KEY_DEBUG.has(code)) { e.preventDefault(); if (down && !e.repeat) this.debugQueued = true; }
   }
@@ -53,7 +53,7 @@ export class Input {
         e.preventDefault();
         const b = btn.dataset.btn;
         if (b === 'a') this.aQueued = true; else if (b === 'debug') this.debugQueued = true;
-        else if (b === 'select') this.selQueued = true; else if (b === 'b') { this.touchB = true; this._bPointer = e.pointerId; }
+        else if (b === 'select') this.selQueued = true; else if (b === 'b') { this.touchB = true; this.bQueued = true; this._bPointer = e.pointerId; }
         return;
       }
       const d = dirAt(e.clientX, e.clientY);
@@ -100,8 +100,8 @@ export class Input {
   /** Call once per frame. Returns the frame's input snapshot; edge-triggered buttons are consumed. */
   poll() {
     this._pollPads();
-    const snap = { dir: this.held.length ? this.held[this.held.length - 1] : null, a: this.aQueued, b: this.kbB || this.padB || this.touchB, select: this.selQueued, debug: this.debugQueued };
-    this.aQueued = false; this.debugQueued = false; this.selQueued = false;
+    const snap = { dir: this.held.length ? this.held[this.held.length - 1] : null, a: this.aQueued, b: this.kbB || this.padB || this.touchB, bTap: this.bQueued, select: this.selQueued, debug: this.debugQueued };
+    this.aQueued = false; this.debugQueued = false; this.selQueued = false; this.bQueued = false;
     return snap;
   }
 }

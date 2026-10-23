@@ -15,3 +15,26 @@ html, body { margin: 0; height: 100%; background: #000; overflow: hidden; oversc
 #touchpad .btns { position: fixed; right: 22px; bottom: 30px; display: flex; gap: 14px; align-items: end; }
 #touchpad [data-btn=a], #touchpad [data-btn=b] { width: 76px; height: 76px; border-radius: 50%; font-weight: 700; }
 #touchpad .small { width: 56px; height: 36px; font-size: 13px; }
+/* Dialogue box (src/overworld/dialog.js). Text #fffaf0 on #1a1226 = 17:1; muted #cbbfe0 = 10:1 (checklist >= 4.5 / 3). */
+.dlg-wrap { position: fixed; inset: 0; z-index: 4; pointer-events: none; opacity: 0; transition: opacity 120ms ease-out; }
+.dlg-wrap.open { opacity: 1; }
+.dlg-box { position: absolute; left: 50%; bottom: 4vh; transform: translateX(-50%); width: min(92vw, 980px); min-height: 6.2em;
+  box-sizing: border-box; padding: 18px 26px 22px; border: 4px solid #f4ecd8; border-radius: 8px; background: #1a1226; color: #fffaf0;
+  font: 600 clamp(17px, 2.6vh, 34px)/1.45 system-ui, sans-serif; box-shadow: 0 5px 0 #000; }
+.dlg-wrap.has-portrait .dlg-box { padding-left: clamp(150px, 24vh, 330px); }
+.dlg-name { display: inline-block; margin: -40px 0 8px -6px; padding: 2px 14px; background: #f4ecd8; color: #1a1226; border-radius: 6px; font-size: .8em; }
+.dlg-text { white-space: pre-line; max-width: 40ch; }
+.dlg-more { position: absolute; right: 18px; bottom: 8px; font-size: .7em; animation: dlg-bob 900ms steps(2) infinite; }
+.dlg-portrait { position: absolute; left: max(4vw, calc(50% - 490px)); bottom: 4vh; height: clamp(220px, 36vh, 500px); width: auto; z-index: 1;
+  filter: drop-shadow(0 4px 0 #000); }
+.dlg-battle { position: absolute; right: max(5vw, calc(50% - 470px)); bottom: calc(4vh + 7.5em); image-rendering: pixelated; image-rendering: crisp-edges; }
+.dlg-list { list-style: none; margin: 4px 0 0; padding: 0; }
+.dlg-list li { padding: 2px 8px 2px 30px; border-radius: 4px; position: relative; }
+.dlg-list li.sel { background: #f4ecd8; color: #1a1226; }
+.dlg-list li.sel::before { content: '\25B6'; position: absolute; left: 8px; font-size: .75em; top: .35em; }
+.dlg-list .sub { margin-left: .8em; font-size: .78em; color: #cbbfe0; }
+.dlg-list li.sel .sub { color: #3d2f52; }
+.new-dot { display: inline-block; width: .55em; height: .55em; margin-right: .5em; border-radius: 50%; background: #ffd23f;
+  box-shadow: 0 0 8px #ffb000; vertical-align: .1em; }
+@keyframes dlg-bob { 50% { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .dlg-wrap { transition: none; } .dlg-more { animation: none; } .new-dot { box-shadow: none; } }

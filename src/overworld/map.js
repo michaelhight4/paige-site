@@ -3,7 +3,7 @@
 import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js';
 
 export const LAYER_ORDER = ['ground', 'decoration', 'overlay']; // overlay is y-sorted with characters (see renderer)
-const GRID_LAYERS = ['ground', 'decoration', 'overlay', 'collision', 'encounter'];
+const GRID_LAYERS = ['ground', 'decoration', 'overlay', 'collision', 'encounter', 'fog']; // fog: mirefen_bog, drawn last
 
 /** True when an exit or warp target is not built yet (README: "TO COME" links). */
 export function isToCome(link) {
@@ -70,6 +70,22 @@ export class GameMap {
   rampDir(x, y) { return this._rampDir.get(x + ',' + y) || null; }
   noDismount(x, y) { return this._noDismount.has(x + ',' + y); }
   npcAt(x, y) { return this._npcAt.get(x + ',' + y) || null; }
+
+  /** Replace the NPC occupancy with live actors [{x, y, ref}] (NpcSystem). */
+  resetOccupancy(list) { this._npcAt = new Map(list.map((o) => [o.x + ',' + o.y, o.ref])); }
+  /** An actor claims a cell (its step target) / releases one (the cell it left). */
+  occupy(x, y, ref) { this._npcAt.set(x + ',' + y, ref); }
+  vacate(x, y, ref) { if (this._npcAt.get(x + ',' + y) === ref) this._npcAt.delete(x + ',' + y); }
+
+  /** Swap one decoration-style cell to a tile (by name or id), taking its collision; used by stateful props. */
+  setTile(layer, x, y, tile) {
+    if (!this.inBounds(x, y) || !this.layers[layer]) return false;
+    const t = typeof tile === 'number' ? this._byId?.get(tile) : this._byName?.get(tile);
+    if (tile && !t) throw new Error(`${this.name}: tile "${tile}" not in tileset`);
+    this.layers[layer][y][x] = t ? t.id : 0;
+    return true;
+  }
+  tileByName(name) { return this._byName?.get(name) || null; }
   gateAt(x, y) { return this._gateAt.get(x + ',' + y) || null; }
   gateCleared(gate) { return this._appliedGates.has(gate.id); }
 

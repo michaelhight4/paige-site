@@ -2,7 +2,7 @@
 // Order (README 3 / tileset.json draw_order): ground -> decoration -> characters + overlay tiles flagged
 // `ysort` (tall-grass fronts/tips), sorted by tile row with the character first on a tie, so the blades of its
 // own cell cover its legs but blades in the row above never cover its head -> remaining overlay (canopies,
-// roofs) always above characters -> debug -> fade.
+// roofs) always above characters -> engine overlays (bin flies) -> fog -> debug -> fade.
 import { TILE, HUMAN_W, HUMAN_H } from './constants.js';
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
@@ -49,8 +49,10 @@ export class Renderer {
 
     for (const layer of ['ground', 'decoration'])
       for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile(layer, x, y), x, y);
+    // decals "under characters" (footprints: tileset animation type 'fade', frame picked by age)
+    for (const d of v.decals || []) if (d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1) this.tile(v, d.id, d.x, d.y, d.frame);
 
-    const actors = [...v.actors].sort((a, b) => a.feet - b.feet);
+    const actors = [...v.actors].sort((a, b) => a.feet - b.feet || (a.order || 0) - (b.order || 0));
     let ai = 0;
     for (let y = y0; y <= y1; y++) {
       const rowKey = (y + 1) * TILE;
@@ -62,6 +64,8 @@ export class Renderer {
       const id = m.tile('overlay', x, y);
       if (id && !v.tileset.byId.get(id)?.ysort) this.tile(v, id, x, y);
     }
+    for (const o of v.overlays || []) this.tile(v, o.id, o.x, o.y); // engine overlays on occupied cells (bin flies)
+    if (m.layers.fog) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile('fog', x, y), x, y);
 
     if (v.debug && v.drawDebug) v.drawDebug(ctx, v, { x0, y0, x1, y1 });
     if (v.fade > 0) {
@@ -72,30 +76,43 @@ export class Renderer {
     }
   }
 
-  tile(v, id, x, y) {
+  /**
+   * One tile. v.swap maps ids for stateful tiles (windows follow the outdoor phase). With a non-identity grade
+   * the native (1x) sheet is palette-graded once (cached) and scaled by the integer zoom; at day the pre-scaled
+   * sheet for this zoom is blitted 1:1. Both paths are nearest-neighbour on whole-pixel cells: no seams.
+   */
+  tile(v, id, x, y, frame) {
     if (!id) return;
-    const ts = v.tileset, t = ts.byId.get(id);
+    id = v.swap?.get(id) ?? id;
+    let ts = v.tileset, t = ts.byId.get(id);
     if (!t) return;
-    const img = ts.images.get(t.sheet);
+    const idx = frame ?? tileFrame(t, v.ms, v.rustles?.get(x + ',' + y));
+    let img, S = ts.size;
+    if (v.grade && !v.grade.identity && v.tileset1x && v.gradeImage) {
+      ts = v.tileset1x; t = ts.byId.get(id) || t;
+      img = v.gradeImage(ts.images.get(t.sheet), v.grade, 'map'); S = ts.size;
+    } else img = ts.images.get(t.sheet);
     if (!img) return;
-    const idx = tileFrame(t, v.ms, v.rustles?.get(x + ',' + y));
-    const S = ts.size, D = TILE * v.zoom;
+    const D = TILE * v.zoom;
     this.ctx.drawImage(img, (idx % ts.columns) * S, Math.floor(idx / ts.columns) * S, S, S,
       (x * TILE - v.cam.x) * v.zoom, (y * TILE - v.cam.y) * v.zoom, D, D);
   }
 
-  /** Human actor: 64x96 native, feet at bottom-centre of its tile; `lift` raises it for a ledge hop. */
+  /**
+   * Actor: humans 64x96, creatures 64x64 (a.w / a.h, native px), feet at the bottom-centre of the tile; `lift`
+   * raises it for a ledge hop. a.sheetScale = 1, 2 or 3 (pre-scaled nearest sheet; graded sprites use 1x).
+   */
   actor(v, a) {
-    const ctx = this.ctx, z = v.zoom;
+    const ctx = this.ctx, z = v.zoom, w = a.w || HUMAN_W, h = a.h || HUMAN_H;
     const sx = (a.px - v.cam.x) * z, groundY = (a.py + TILE - v.cam.y) * z;
     if (a.lift > 0) { // pixel shadow on the ground under a hopping actor
       ctx.fillStyle = SHADOW;
-      for (const [w, dy] of [[20, -4], [28, -3], [28, -2], [20, -1]])
-        ctx.fillRect(sx + ((TILE - w) / 2) * z, groundY + dy * z, w * z, z);
+      for (const [sw, dy] of [[20, -4], [28, -3], [28, -2], [20, -1]])
+        ctx.fillRect(sx + ((TILE - sw) / 2) * z, groundY + dy * z, sw * z, z);
     }
     if (!a.img) return;
-    const k = a.sheetScale; // 1, 2 or 3: the sheet is pre-scaled nearest-neighbour
-    ctx.drawImage(a.img, a.col * HUMAN_W * k, a.row * HUMAN_H * k, HUMAN_W * k, HUMAN_H * k,
-      sx, groundY - (HUMAN_H + a.lift) * z, HUMAN_W * z, HUMAN_H * z);
+    const k = a.sheetScale;
+    ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k,
+      sx + ((TILE - w) / 2) * z, groundY - (h + (a.lift || 0)) * z, w * z, h * z);
   }
 }
