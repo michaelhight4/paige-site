@@ -2,12 +2,25 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.3-alpha';
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.3-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.3-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.3-alpha';
+import { KilumenBattle } from './battle.js?v=v0.2.4-alpha';
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.4-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.4-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.4-alpha';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.3-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.4-alpha';
+
+// player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
+// mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
+const BACK_FACES_LEFT = new Set(['tumbloam', 'belfrydove', 'gnawford', 'ledgedove', 'hearthkit', 'kilnpaw', 'velvetabby', 'stonepede', 'pandember',
+  'thistlepup', 'glarekit', 'somnarch', 'cinderwyrm', 'ondravel', 'charlurcher', 'foalgust', 'geysirox']);
+// trainer intro (Gary, Oct 23 2026): player back view (cal; mira shares it) and the trainer's own battle sprite
+const PIXD = 'art/characters/pixel/';
+const PLAYER_BACK = PIXD + 'capture_poses/player/cal_back_capture_lowered.png';
+const trainerSrcs = (sid) => sid ? [`${PIXD}npcs/${sid}/trainer/${sid}_trainer_64x128_2x.png`, `${PIXD}humans/${sid}/trainer/${sid}_trainer_64x128_2x.png`] : [];
+const loadInto = (img, srcs) => new Promise((res) => {
+  const go = (i) => { if (!img || i >= srcs.length) return res(false); img.onload = () => res(true); img.onerror = () => go(i + 1); img.src = srcs[i]; };
+  go(0);
+});
 
 const KEY = 'system_battle'; // PH: proposed namespace for the new battle lines
 
@@ -19,6 +32,11 @@ export function makeSdBattle(ui, opts, h) {
   // injected Master / hall team, explicit owner) is not wild, so the engine refuses the crystal and keeps it in the bag
   const owned = trainer || !!opts.who || !!opts.owner || !!opts.foes?.length;
   const noCapture = () => ui.P('system_trainers.no_capture', ['That creature already has a trainer. A crystal won\'t take it.'])[0]; // PH: key requested in data/textbot_requests_capture.md
+  // Model swap (Gary 3:16 PM CT Oct 23 2026, "model changed after using crystal"): with an empty real party the fallback Rillop used to
+  // exist in this battle only, so a catch became the whole real party and led the next battle. With systems attached it now joins
+  // the real party first (Party.list fills in uid/stats), so results, catches and the next battle all see the same team. Not saved here.
+  const sysP = ui.demo ? null : ui.scene?.systems?.party;
+  if (!ui.party().length && sysP && ui.scene) { ui.scene.party = [{ species: 'rillop', rt: 'RT-0147', level: statsFor({ species: 'rillop' }, 0).level }]; void sysP.list; ui.scene.onPartyChange?.(true); }
   const partySrc = ui.party().length ? ui.party() : [{ species: 'rillop', rt: 'RT-0147' }];
   // overworld entries have no level/HP yet: level from the same placeholder statsFor() the Team screen shows, HP full
   const party = partySrc.slice(0, 6).map((c, i) => ({ ...c, level: c.level || statsFor(c, i).level }));
@@ -33,6 +51,15 @@ export function makeSdBattle(ui, opts, h) {
   const sys = ui.demo ? null : ui.scene?.systems; // [systems-gd hook] the real bag (src/systems); ?uidemo=1 keeps the demo team + demo bag (never saved)
   const bag = sys ? sys.bagForBattle() : Object.fromEntries(Object.entries(ui.bag || {}).filter(([, n]) => n > 0));
   const seed = opts.seed || (ui.q?.get('bseed') ? ui.q.get('bseed').split(',').map(Number) : undefined);
+  const tInfo = trainer ? (async () => {
+    const w = opts.who || {}; let e = {};
+    try { e = (w.map && w.id && ui.scene?._entryFor?.(w.map, { id: w.id })) || {}; } catch { e = {}; }
+    const cls = e.trainer_class || '', nm = e.name || '';
+    const label = opts.trainerName || (cls && nm && cls !== nm ? `${cls} ${nm}` : nm || cls) || opts.foeName || 'Trainer';
+    let sid = opts.trainerSprite || null;
+    if (!sid && w.map && w.id) try { sid = (await (await fetch(PIXD + 'npcs/npc_sprite_map.json')).json()).map?.[`${w.map}.${w.id}`]?.sprite_id || null; } catch { sid = null; }
+    return { label, sid };
+  })() : null;
   const kb = new KilumenBattle({ party, foes, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance });
   ui.currentBattle = kb; // read-only handle for scripted play-checks (tools/playcheck_browser.mjs)
   const cat = ui.T('system_item_catalogue', {});
@@ -73,15 +100,15 @@ export function makeSdBattle(ui, opts, h) {
       <div class="top"><span class="grow" id="${side}-name"></span><span class="lv" id="${side}-lv"></span></div>
       <div class="bar-row"><b>HP</b><div class="bar" id="${side}-hp" data-lvl="good"><i style="width:100%"></i></div></div>
       ${side === 'p1' ? '<div class="hpnum" id="p1-hpnum"></div><div class="bar-row"><b>XP</b><div class="bar xp" id="p1-xp" style="height:8px"><i style="width:0%"></i></div></div>' : ''}
-      ${side === 'p1' || trainer ? `<div class="b-party" id="${side}-party" role="img"></div>` : ''}</div></div>`;
+      ${side === 'p1' ? '<div class="b-party" id="p1-party" role="img"></div>' : trainer ? '<div class="b-trbar"><span class="b-trname" id="p2-trname"></span><div class="b-party" id="p2-party" role="img"></div></div>' : ''}</div></div>`;
   scr.mount = (layer) => {
     // ground platforms (per biome, src/battle/data/platforms.js) replace the old .b-pad ellipses; each creature container's
     // bottom edge is its feet line (--feet, measured from the sprite), and the platform is centred on it
     const plat = (s, size) => `<img class="b-plat ${size}" id="${s}-plat" alt="" src="${drawPlatform(biome, size)}" style="--plat-w:${PLATFORM_SIZES[size].w}">`;
-    layer.innerHTML = `<div class="ui-battle" data-scr="battle" data-engine="sd" data-biome="${esc(biome)}"><div class="bg" style="background-image:url(${biomeArt.bg})"></div>
-      <div class="b-field"><div class="b-foe">${plat('p2', 'far')}<img class="ui-sprite b-mon" id="p2-mon" alt="" style="opacity:0"></div>
-        <div class="b-ally">${plat('p1', 'near')}<img class="ui-sprite b-mon" id="p1-mon" alt="" style="opacity:0"></div>
-        ${plateHtml('p2')}${plateHtml('p1')}</div>
+    layer.innerHTML = `<div class="ui-battle${trainer ? ' b-intro' : ''}" data-scr="battle" data-engine="sd" data-biome="${esc(biome)}"><div class="bg" style="background-image:url(${biomeArt.bg})"></div>
+      <div class="b-field"><div class="b-foe">${plat('p2', 'far')}${trainer ? `<img class="b-trainer-fig foe" id="tr-p2" alt="" hidden><div class="b-tr-spot" id="tr-spot" hidden><img class="b-plat far b-tr-plat" alt="" src="${drawPlatform(biome, 'far')}" style="--plat-w:${PLATFORM_SIZES.far.w}"></div>` : ''}<img class="ui-sprite b-mon" id="p2-mon" alt="" style="opacity:0"></div>
+        <div class="b-ally">${plat('p1', 'near')}${trainer ? '<img class="b-trainer-fig ally" id="tr-p1" alt="" hidden>' : ''}<img class="ui-sprite b-mon" id="p1-mon" alt="" style="opacity:0"></div>
+        ${plateHtml('p2')}${plateHtml('p1')}${trainer ? '<div class="b-intro-row foe" id="intro-p2" aria-hidden="true"></div><div class="b-intro-row ally" id="intro-p1" aria-hidden="true"></div>' : ''}</div>
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
@@ -89,7 +116,7 @@ export function makeSdBattle(ui, opts, h) {
     if (!scr.started) { scr.started = true; run(); }
   };
   const say = (t, auto = 650) => new Promise((r) => {
-    const m = $('#b-msg'); m.innerHTML = `${esc(t)}${auto ? '' : '<span class="more">▼</span>'}`; mode = 'msg'; $('#b-cmds').hidden = true;
+    const m = $('#b-msg'); m.classList.remove('b-msg-caught'); m.innerHTML = `${esc(t)}${auto ? '' : '<span class="more">▼</span>'}`; mode = 'msg'; $('#b-cmds').hidden = true;
     if (auto) setTimeout(r, auto); else msgResolve = r;
   });
   // layout pass (Oct 22, 2026): compact party HP readout inside the info card (your whole team, and the trainer's team in
@@ -122,6 +149,64 @@ export function makeSdBattle(ui, opts, h) {
   const MOTION = ['idle', 'enter', 'lunge-r', 'lunge-l', 'hit', 'faint'];
   const anim = (el, cls, ms) => { el.classList.remove(...MOTION); void el.offsetWidth; el.classList.add(cls); const tok = (el._animTok = (el._animTok || 0) + 1);
     return wait(ms).then(() => { if (el._animTok !== tok) return; el.classList.remove(cls); el.style.filter = ''; el.classList.add('idle'); }); };
+  // Failed capture (Gary 3:14 PM CT Oct 23 2026, "after using dominance crystal"): the capture FX drives the foe sprite with inline
+  // opacity / transform / filter (anime.js tweens, fx_art.js frame timers, .ax-lit) and only restored it from late async callbacks,
+  // so a stalled tween or a late frame timer could leave it ghosted. Stop every script animation on it, clear the capture styles and
+  // classes (capDone tells fx_art.js's leftover frame timers to keep off), then a short pop back (static under reduced motion).
+  const restoreFoe = (img) => {
+    if (!img) return; img.dataset.capDone = '1';
+    try { const A = ui.fx?._A?.(); A?.utils?.remove?.(img); A?.remove?.(img); } catch { /* anime.js absent */ }
+    img.getAnimations?.().forEach((a) => { if (!(globalThis.CSSAnimation && a instanceof CSSAnimation) && !(globalThis.CSSTransition && a instanceof CSSTransition)) a.cancel(); });
+    img.classList.remove('ax-lit', ...MOTION); ['opacity', 'filter', 'transform', 'visibility', 'animation', 'translate', 'scale', 'rotate'].forEach((k) => img.style.removeProperty(k));
+    img.classList.add('idle');
+    if (!ui.fx?.reduced?.()) img.animate?.([{ transform: 'scale(.82)' }, { transform: 'scale(1.06)', offset: 0.6 }, { transform: 'none' }], { duration: 240, easing: 'ease-out' });
+  };
+  // the capture FX dims the player's creature to .35 while the crystal is up; its lower step reverted to that dimmed inline value
+  // (gary_fade.png: Rillop ghosted). Clear it outright once the capture is over (both outcomes).
+  const restoreAlly = (el) => { if (!el) return; try { const A = ui.fx?._A?.(); A?.utils?.remove?.(el); A?.remove?.(el); } catch { /* no anime */ }
+    el.getAnimations?.().forEach((a) => { if (!(globalThis.CSSAnimation && a instanceof CSSAnimation) && !(globalThis.CSSTransition && a instanceof CSSTransition)) a.cancel(); });
+    ['opacity', 'filter', 'transform', 'visibility', 'translate', 'scale', 'rotate'].forEach((k) => el.style.removeProperty(k)); };
+  // Caught announcement (Gary 3:15 PM CT): the creature's small overworld follower sprite (art/characters/pixel/creatures/<id>/overworld/
+  // <id>_ow_sheet.png, 64x64 frames, row 0 = facing down, col 0) centred under the text. Pops in; static under reduced motion. No sheet -> nothing.
+  const caughtMon = (sp) => new Promise((res) => {
+    if (!sp) return res(null); const url = `art/characters/pixel/creatures/${sp}/overworld/${sp}_ow_sheet.png`, im = new Image();
+    im.onload = () => res(im.naturalWidth >= 64 && im.naturalHeight >= 64 ? { url, w: im.naturalWidth, h: im.naturalHeight } : null); im.onerror = () => res(null);
+    im.src = url; setTimeout(() => res(null), 1500);
+  });
+  const showCaughtMon = (m, info) => {
+    if (!m || !info) return; const d = document.createElement('i'); d.className = 'b-caught-mon'; d.setAttribute('aria-hidden', 'true');
+    d.style.backgroundImage = `url(${info.url})`; d.style.backgroundSize = `${info.w}px ${info.h}px`;
+    m.classList.add('b-msg-caught'); const more = m.querySelector('.more'); m.insertBefore(d, more);
+    if (!ui.fx?.reduced?.()) d.animate?.([{ transform: 'translateY(6px) scale(.4)', opacity: 0 }, { transform: 'translateY(-2px) scale(1.12)', opacity: 1, offset: 0.65 }, { transform: 'none', opacity: 1 }], { duration: 320, easing: 'ease-out' });
+  };
+  // trainer intro: both trainers on their platforms, '<trainer> wants to battle!', large 6-slot crystal rows per side;
+  // at send-out the rows give way to the small rows on the cards, the foe trainer steps aside (stays for the fight) and
+  // the player's trainer slides off. Wild battles skip all of this.
+  const introRow = (s, list) => {
+    const el = $(`#intro-${s}`); if (!el) return;
+    el.innerHTML = Array.from({ length: 6 }, (_, i) => `<i data-st="${i >= list.length ? 'empty' : list[i].hp === 0 ? 'out' : 'ok'}"></i>`).join('');
+  };
+  const intro = async () => {
+    const t = await tInfo; if (!t) return;
+    const nmEl = $('#p2-trname'); if (nmEl) nmEl.textContent = t.label;
+    const [okF, okA] = await Promise.all([loadInto($('#tr-p2'), trainerSrcs(t.sid)), loadInto($('#tr-p1'), [PLAYER_BACK])]);
+    if (okF) $('#tr-p2').hidden = false; if (okA) $('#tr-p1').hidden = false;
+    introRow('p2', foes); introRow('p1', party);
+    await say(P1('trainer_wants', '{trainer} wants to battle!', { trainer: t.label }) /* PH */, 0);
+  };
+  const endIntro = (s) => {
+    const rb = ui.layer?.querySelector('.ui-battle'); if (!rb?.classList.contains('b-intro') && !rb?.classList.contains('b-intro-out')) return;
+    rb.classList.remove('b-intro'); rb.classList.add('b-intro-out');
+    if (s === 'p2') { // the trainer steps onto their own platform beside the creature's (same feet line), kept on screen
+      const f = $('#tr-p2'), spot = $('#tr-spot'), box = rb?.querySelector('.b-foe');
+      if (f && spot && box && !f.hidden) {
+        spot.hidden = false; spot.appendChild(f); f.classList.add('aside');
+        const over = spot.getBoundingClientRect().right - (ui.layer.getBoundingClientRect().right - 8);
+        if (over > 0) box.style.right = `${(parseFloat(getComputedStyle(box).right) || 0) + over}px`;
+      }
+    }
+    if (s === 'p1') { const f = $('#tr-p1'); if (f && !f.hidden) { f.classList.add('gone'); setTimeout(() => { f.hidden = true; }, 450); } }
+  };
   const sideOf = (ident) => ident.slice(0, 2);
   const nameOf = (ident) => ident.replace(/^p\da?: /, '');
   const hpOf = (s) => { const [hp, max] = String(s).split(' ')[0].split('/').map(Number); return { hp: hp || 0, max }; };
@@ -155,7 +240,8 @@ export function makeSdBattle(ui, opts, h) {
           const [spName, lv] = b.split(', L'); const sp = (h.SPECIES.find((x) => x.name === spName) || {}).id || spName.toLowerCase();
           const { hp, max } = hpOf(c); const first = !mon[s];
           mon[s] = { name: who, species: sp, level: +lv || 1, hp, maxhp: max }; drawPlate(s);
-          const img = $(`#${s}-mon`); img.src = s === 'p2' ? front(sp) : back(sp); img.style.opacity = '1'; setFeet(img);
+          if (trainer && first) endIntro(s);
+          const img = $(`#${s}-mon`); img.src = s === 'p2' ? front(sp) : back(sp); img.classList.toggle('b-flip', s === 'p1' && BACK_FACES_LEFT.has(sp)); img.style.opacity = '1'; setFeet(img);
           if (s === 'p2') await say(first && !trainer ? ui.P('system_wild.grass', ['{creature} bursts out of the grass!'], { creature: who })[0]
             : P1('foe_sends', 'Trainer sends out {creature}!', { creature: who }) /* PH */);
           else await say(P1('go', 'Go, {creature}!', { creature: who }) /* PH */);
@@ -227,8 +313,9 @@ export function makeSdBattle(ui, opts, h) {
           // then rune lock + bloom ('catch' chime) or the light bursts back out. ui_tools2.js catchFx -> capture_fx.js (one swap point per step)
           const ok = d === 'caught';
           await ui.fx?.catchFx(host(), { foe: img, ally: $('#p1-mon'), name: who, pulses: +c, caught: ok, el: $('#plate-p2')?.dataset.el });
-          if (ok) { img.style.opacity = '0'; await say(P1('caught', '{creature} is with you now!', { creature: who }) /* PH */, 0); }
-          else await say(P1('crystal_escape', '{creature} broke free!', { creature: who }) /* PH */, 700);
+          restoreAlly($('#p1-mon'));
+          if (ok) { img.style.opacity = '0'; const mi = await caughtMon(mon.p2?.species); const said = say(P1('caught', '{creature} is with you now!', { creature: who }) /* PH */, 0); showCaughtMon($('#b-msg'), mi); await said; }
+          else { restoreFoe(img); await say(P1('crystal_escape', '{creature} broke free!', { creature: who }) /* PH */, 700); }
           break;
         }
         case 'win': if (a !== kb.p1.name) await say(P1('lost', 'Your team is out of strength...') /* PH */, 0); break;
@@ -273,8 +360,14 @@ export function makeSdBattle(ui, opts, h) {
     if (!items.length) { $('#b-msg').textContent = P1('pack_empty', 'Nothing in the Pack you can use here.') /* PH */; return; }
     showList('pack', items, P1('pack_prompt', 'Use which item?') /* PH */);
   };
+  let pickAt = 0;
   const showTeam = (forced) => {
     const team = kb.request().team;
+    // forced (the active one is out cold, Gary 3:17 PM CT "pick the next one until they are all dead"): list only the ones that can
+    // still fight, no Back; a press already held from the faint text can't pick (input opens 350 ms later)
+    if (forced) { pickAt = performance.now() + 350;
+      return showList('forced', team.map((c, i) => ({ c, i })).filter(({ c, i }) => i > 0 && !c.fainted).map(({ c, i }) => ({ t: `${c.name} Lv.${c.level}`, s: `HP ${c.hp}/${c.maxhp}`,
+        el: speciesById(c.species.id).el[0], go: () => act(`switch ${i + 1}`) })), P1('send_next', 'Who goes in next?') /* PH */); }
     showList(forced ? 'forced' : 'team', team.map((c, i) => ({ t: `${c.name} Lv.${c.level}`, s: c.fainted ? P1('out_cold_tag', 'Out cold') /* PH */ : `HP ${c.hp}/${c.maxhp}`,
       el: speciesById(c.species.id).el[0], off: c.fainted || i === 0, go: () => { if (!c.fainted && i > 0) act(`switch ${i + 1}`); } })),
     forced ? P1('send_next', 'Who goes in next?') /* PH */ : P1('team_prompt', 'Swap in who?') /* PH */);
@@ -314,7 +407,7 @@ export function makeSdBattle(ui, opts, h) {
     // battles from talk() set onDone and black out there, after the trainer's line (overworld.js onTrainerLoss).
     if (!done && res.systems === 'blackout') await sys.onPartyFainted();
   };
-  const run = () => guard((async () => { await wait(300); await play(kb.drain()); await next(); })());
+  const run = () => guard((async () => { await wait(300); if (trainer) await intro(); await play(kb.drain()); await next(); })());
 
   scr.handle = ({ dir, a, b }) => {
     if (mode === 'msg') { if ((a || b) && msgResolve) { const r = msgResolve; msgResolve = null; r(); } return; }
@@ -324,7 +417,7 @@ export function makeSdBattle(ui, opts, h) {
   };
   scr.onA = (i) => {
     if (mode === 'msg') { if (msgResolve) { const r = msgResolve; msgResolve = null; r(); } return; }
-    if (busy) return;
+    if (busy || (mode === 'forced' && performance.now() < pickAt)) return;
     list[i]?.go?.();
   };
   scr.onAct = (a) => { if (a === 'msg' && msgResolve) { const r = msgResolve; msgResolve = null; r(); } };

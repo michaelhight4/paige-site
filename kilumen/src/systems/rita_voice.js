@@ -13,8 +13,9 @@
 //   on, localStorage kilumen.ritaVoice.v1). ?ritavoice=0 skips it entirely.
 // - Cache: fetches carry no query on purpose; the alpha build's fetch wrapper (src/alpha.js ALPHA_FETCH_V) adds ?v=<build>.
 //   Clip files are content-hashed, so a stale clip can never be paired with a new manifest.
-export const VOICE_KEY = 'kilumen_alpha_ritaVoice.v1';
+export const VOICE_KEY = 'kilumen_alpha_ritaVoice.v2';
 export const NUMBER_SLOTS = ['count', 'level', 'rank'];
+export const WAIT_MS = 1500; // a page whose clips are still loading waits up to this long (Gary 3:29 PM CT: first page silent after a catch)
 export const PAGE_TAIL_MS = 500; // strip stays this long after the voice ends (auto-advance)
 const norm = (s) => String(s).replace(/\s+/g, ' ').trim().toLowerCase();
 
@@ -40,6 +41,8 @@ export function sequenceFor(manifest, page, vars = {}) {
     else if (seg.p != null) out.push({ p: seg.p });
     else if (seg.s === 'employee_id') {
       const id = String(vars.employee_id ?? '');
+      const w = manifest.id_words?.[id]; // 'Trainer 1' (Gary 3:31 PM CT): one clip instead of digits
+      if (w) { push({ c: w }); continue; }
       if (!/^\d+$/.test(id)) return null;
       [...id].forEach((ch, i) => { if (i) out.push({ p: gaps.digit ?? 40 }); else if (out.length && out[out.length - 1].c) out.push({ p: gaps.word ?? 70 }); out.push({ c: manifest.digits?.[ch] }); });
       if (out.some((x) => 'c' in x && !x.c)) return null;
@@ -55,9 +58,11 @@ export function sequenceFor(manifest, page, vars = {}) {
 /** Play plan for what the strip shows now: {seq, stems, key} or null (silent). */
 export function planFor(manifest, current) {
   if (!manifest || !current) return null;
-  const page = pageFor(manifest, current.voice, current.page);
-  const seq = page && sequenceFor(manifest, page, current.voice?.vars || {});
-  return seq ? { key: current.voice.key, seq, stems: [...new Set(seq.filter((x) => x.c).map((x) => x.c))] } : null;
+  let pick = current.voice, i = current.page;
+  while (pick?.then !== undefined && pick.n != null && i >= pick.n) { i -= pick.n; pick = pick.then; } // Trainer 1 intro chain
+  const page = pageFor(manifest, pick, i);
+  const seq = page && sequenceFor(manifest, page, pick?.vars || {});
+  return seq ? { key: pick.key, seq, stems: [...new Set(seq.filter((x) => x.c).map((x) => x.c))] } : null;
 }
 
 /** Total ms of a sequence given clip ms. */
@@ -112,13 +117,17 @@ export class RitaVoice {
   /** Called by company_voice.js on every page shown. */
   async onPage(current) {
     this.stop('page');
-    const tok = this.token, r = this.ready();
+    const tok = this.token; let r = this.ready();
+    for (let i = 0; !r && i < WAIT_MS / 100 && this.on && this.audio()?.unlocked; i++) { await new Promise((ok) => setTimeout(ok, 100)); if (tok !== this.token) return false; r = this.ready(); }
     if (!r) { this.last = { key: current?.voice?.key || null, spoke: false, why: 'not ready' }; return false; }
     const m = this.manifest || await this.loadManifest();
     if (tok !== this.token) return false;
     const plan = planFor(m, current);
     if (!plan) { this.last = { key: current?.voice?.key || null, spoke: false, why: 'no clip (text only)' }; return false; }
-    const bufs = await Promise.all(plan.stems.map((s) => this.buffer(r.ctx, s)));
+    try { current.pageEnd = Math.max(current.pageEnd, this.cv.now() + WAIT_MS); } catch { /* */ } // hold the page while its clips load
+    this.prefetchPages(r.ctx, m, current);
+    let bufs = await Promise.all(plan.stems.map((s) => this.buffer(r.ctx, s)));
+    if (tok === this.token && bufs.some((b) => !b)) bufs = await Promise.all(plan.stems.map((s) => this.buffer(r.ctx, s))); // one retry
     if (tok !== this.token || this.cv.current !== current) return false; // page moved on while loading
     if (bufs.some((b) => !b)) { this.last = { key: plan.key, spoke: false, why: 'clip load failed (text only)' }; return false; }
     const by = new Map(plan.stems.map((s, i) => [s, bufs[i]]));
@@ -133,6 +142,24 @@ export class RitaVoice {
     this.last = { key: plan.key, page: current.page, spoke: true, ms, clips: plan.seq.filter((x) => x.c).length };
     return true;
   }
+  /** Warm every page of the shown message (page 2 is ready before page 1 ends). */
+  prefetchPages(ctx, m, current) {
+    for (let i = 0; i < (current?.pages?.length || 0); i++) { if (i === current.page) continue; const p = planFor(m, { ...current, page: i }); for (const s of p?.stems || []) this.buffer(ctx, s).catch(() => {}); }
+  }
+  /** Event accepted into the queue: load the clips of its line variants (+ digits) now, before the strip shows (cap 24). */
+  prefetchEvent(name) {
+    const r = this.ready(); if (!r) return;
+    this.loadManifest().then((m) => {
+      if (!m?.lines) return;
+      const base = this.cv.cfg?.events?.[name]?.line || name, stems = new Set([...Object.values(m.digits || {}), ...Object.values(m.id_words || {})]);
+      if (!this.cv.scene?.seen?.['cv#trainer1']) for (const p of m.lines.rita_trainer1?.pages || []) for (const sg of p.segs || []) if (sg.c) stems.add(sg.c);
+      for (const [k, line] of Object.entries(m.lines)) {
+        if (k !== base && !new RegExp('^' + base + '_\\d+$').test(k)) continue;
+        for (const p of line.pages || []) for (const sg of p.segs || []) if (sg.c) stems.add(sg.c);
+      }
+      [...stems].slice(0, 24).forEach((s) => this.buffer(r.ctx, s).catch(() => {}));
+    }).catch(() => {});
+  }
   state() { return { on: this.on, manifest: !!this.manifest, cached: this.buffers.size, playing: this.sources.length, last: this.last }; }
 }
 
@@ -144,6 +171,7 @@ export function attachRitaVoice(cv, opts = {}) {
   cv.ritaVoice = rv;
   cv.onPage = (c) => { rv.onPage(c).catch(() => { /* silent text */ }); };
   cv.onHide = (why) => rv.stop('hide:' + why);
+  if (typeof cv.emit === 'function') { const emit = cv.emit.bind(cv); cv.emit = (name, ctx) => { const ok = emit(name, ctx); if (ok) { try { rv.prefetchEvent(name); } catch { /* never break the game */ } } return ok; }; }
   const win = opts.win || globalThis.window;
   let warmed = false;
   const warm = () => {

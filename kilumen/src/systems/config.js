@@ -27,9 +27,10 @@ export const SYSTEMS_CONFIG = {
   // Placed items with no real id yet (World Design 'TBD' placeholders) are skipped, not given.
   giveTbdItems: false,
   // Starter flow: the three lab cradles (lab_brookhollow text_pending interact_spots). Species = first
-  // stage of each starter line (ui/data.js SPECIES line 1/2/3). Gary confirmed Oct 22, 2026: starters at level 5.
+  // stage of each starter line. Gary confirmed Oct 22, 2026: starters at level 5. Oct 23 2026: the earth starter is Nibbin
+  // (-> Gnawford at 16), not Tumbloam (Gary: Tumbloam "looks a lot like Cindrip"); see src/battle/data/starters.js.
   starterMap: 'lab_brookhollow',
-  starterCradles: { cradle_1: 'tumbloam', cradle_2: 'cindrip', cradle_3: 'rillop' },
+  starterCradles: { cradle_1: 'nibbin', cradle_2: 'cindrip', cradle_3: 'rillop' },
   starterLevel: 5,
   starterFlag: 'got_starter',
   // Replace the UI-pass placeholder Team / Pack / Shop screens with the systems ones (ui.scr_team etc.).

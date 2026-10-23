@@ -2675,6 +2675,30 @@
      ]
     }
    ]
+  },
+  "rita_trainer1": {
+   "region": "region_1",
+   "pages": [
+    {
+     "src": "{employee_id}...",
+     "segs": [
+      {
+       "s": "employee_id"
+      },
+      {
+       "p": 300
+      }
+     ]
+    },
+    {
+     "src": "Yeah, no. That uses too much company time. You're now Trainer 1.",
+     "segs": [
+      {
+       "c": "f_de749fdbd01c"
+      }
+     ]
+    }
+   ]
   }
  },
  "clips": {
@@ -3641,6 +3665,17 @@
   "w_00ab112d70a6": {
    "ms": 775,
    "say": "Beaconfly"
+  },
+  "f_de749fdbd01c": {
+   "ms": 3628,
+   "say": "Yeah, no. That uses too much company time. You're now Trainer 1."
+  },
+  "w_949c721f0f2e": {
+   "ms": 690,
+   "say": "Trainer 1"
   }
+ },
+ "id_words": {
+  "Trainer 1": "w_949c721f0f2e"
  }
 }

@@ -11,8 +11,11 @@
 // text/drafts/HOME_START_v2.md, used only while the file has no merged lines): see design/HOME_START_TEXT_NEEDS.md.
 // Nothing here hard-codes an outdoor tile: the outside spawn is looked up from the warps by `to` name (World Design pads
 // the outdoor maps), interiors (house_2f / house_1f) are read from their own map JSON.
-import { OPPOSITE, Npc } from './npcs.js?v=v0.2.3-alpha';
-import { StarterPicker } from './starter_pick.js?v=v0.2.3-alpha';
+import { OPPOSITE, Npc } from './npcs.js?v=v0.2.4-alpha';
+import { StarterPicker } from './starter_pick.js?v=v0.2.4-alpha';
+import { approach, automoveOn } from './automove.js?v=v0.2.4-alpha';
+import { conga, throughDoor, spawnAhead, doorTo, ESCORT } from './escort.js?v=v0.2.4-alpha'; // office -> lab on foot, 3rd in line (Gary 2:35-2:36 PM CT) // story auto-walk (Gary, Oct 23 2026): walk up to the speaker first
+import { StoryRon, STORY_RON, loadNpcImgs } from './story_ron.js?v=v0.2.4-alpha'; // Ron at work + in the lab, his partner behind him (Gary 2:21 / 2:22 PM CT)
 
 export const HOME = {
   bedroom: 'house_2f', downstairs: 'house_1f', outside: 'brookhollow', ron: 'ron',
@@ -93,7 +96,7 @@ export const OPEN = {
   area: ['brookhollow', 'route1'], // the starting area: until job_briefed you can't leave it (route1 only once the run starts)
   base: 'test_run_base', logged: 'test_run_logged', // counters (save.js keeps any finite counter)
   introSeen: 'intro:starter_intro',
-  cradles: { cradle_1: 'tumbloam', cradle_2: 'cindrip', cradle_3: 'rillop' }, // fallback only: systems cfg.starterCradles wins
+  cradles: { cradle_1: 'nibbin', cradle_2: 'cindrip', cradle_3: 'rillop' }, // fallback only (Nibbin replaced Tumbloam, Oct 23 2026): systems cfg.starterCradles wins
   objectives: {
     office: 'Go to the Revival Tech office', lab: 'Pick a partner at the lab',
     run: (n, need) => `Test run: catch and log ${need} wild Kilumen (${n}/${need})`, back: 'Return to the lab',
@@ -161,6 +164,12 @@ export const FALLBACK_OFFICE = {
       'Not without a creature. The wild out there would eat you alive.',
       "Lab first. Come on, I'll walk you back.",
     ],
+  },
+  // story Ron between beats (Gary 2:21 PM CT): keys requested in data/textbot_requests_nibbin_starter.md (maps.lab_brookhollow.ron_story_*)
+  ron_story: {
+    office: ["Go on. The boss is right there."],
+    lab: ["Go on, pick one. I'm going by looks."],
+    back: ['I got mine first, for the record.'],
   },
   picker_title: 'Choose your partner', // [TODO Text Bot: system_opening.starter_picker_title]
   cradle_not_yet: ["Those cradles aren't for me. Not yet, anyway."],
@@ -244,13 +253,14 @@ export function objectiveFor(flags, counters = {}) {
 }
 
 export class HomeStart {
-  /** @param {import('./overworld.js?v=v0.2.3-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
+  /** @param {import('./overworld.js?v=v0.2.4-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
   constructor(scene, opts = {}) {
     this.scene = scene; this.newGame = !!opts.newGame; this.gate = opts.gate || null;
     this.holding = false; this.wakePending = false; this._gateSince = null;
     this.arrowsOn = false;  // starter-case arrows: on from scene_starter_intro page 2 until got_starter
     this.picker = null;     // StarterPicker (DOM), made on first use; null in node tests
     this.catchRon = null;   // the temporary Ron of the "too dangerous" catch while he is on the map
+    this.story = new StoryRon(this); // story Ron (office / lab), house_1f Ron away, Ron's partner follower (story_ron.js)
   }
 
   /** After the first map is loaded (init). New game: mark it, hold on black, wake-up thought after the fade. */
@@ -269,6 +279,7 @@ export class HomeStart {
   tick() {
     const s = this.scene;
     if (!this._qPatched && s.progression?.quests) this._patchQuests(s.progression.quests);
+    if (this._tripPending && !s.busy && !s.fade && !s.dialog?.active) { this._tripPending = false; s.script(() => this.walkToLab()); }
     if (this.holding) {
       const blocked = this.gate ? this.gate() : false;
       if (this._gateSince == null) this._gateSince = s.tick;
@@ -285,10 +296,47 @@ export class HomeStart {
       s.script(() => { s.seen[HOME.wakeSeen] = true; s._dirty = true; return this.wake(); });
       return;
     }
+    this.story.tick();
+    this._tickAuto();
     this._tickRun();
     this._tickReturn();
     this._tickLab();
     this._tickCatchRon();
+  }
+
+  // ---- story auto-walk (automove.js; Gary Oct 23 2026: "force the players movements into the conversation same as pokemon")
+  /** Beats that wait for a talk start by themselves on arrival: spark, the player walks up, then the normal talk.
+   *  Ron's morning briefing (house_1f) and the manager's promotion (office_int). Off with ?automove=0. */
+  _tickAuto() {
+    const s = this.scene, F = s.flags, map = s.map?.name;
+    if (map !== this._autoMap) { this._autoMap = map; this._autoFired = new Set(); } // once per visit
+    if (!this._autoReady()) return;
+    if (map === HOME.downstairs && inMorning(F) && !F.has(HOME.briefed)) this._autoTalk('briefing', HOME.ron, (n, pre) => this.onTalk(n, n.def, pre));
+    else if (map === OPEN.office && F.has(HOME.started) && F.has(HOME.briefed) && !F.has(OPEN.promoted) && !F.has(OPEN.briefed)) {
+      this._autoTalk('promotion', OPEN.manager, (n, pre) => this._onOpeningTalk(n, n.def, pre));
+    }
+  }
+
+  _autoReady() {
+    const s = this.scene, p = s.player;
+    if (!automoveOn(s) || s.busy || s.fade || s.dialog?.active || this.picker?.active || (this.gate && this.gate() === true)) return false;
+    if (globalThis.kilumen?.ui?.active) return false; // a menu / phone is open: wait for it to close
+    return !!p && !p.moving && p.state === 'idle';
+  }
+
+  /** Start a talk beat with the walk-up as its first step (inside the talk's own script: checkpoint, no saves, input off). */
+  _autoTalk(beat, id, start) {
+    const n = this.scene.npcs?.byId?.(id);
+    if (!n || this._autoFired?.has(beat)) return false;
+    (this._autoFired ||= new Set()).add(beat);
+    return start(n, () => { this.story.kick(n); return approach(this.scene, n, { beat }); }); // Ron (if here) heads over too
+  }
+
+  /** Walk-up for beats that already start by themselves (lab intro, test-run return). No NPC / switched off: no-op. */
+  async _autoApproach(beat, id) {
+    const s = this.scene, n = s.npcs?.byId?.(id);
+    if (!n || !automoveOn(s)) return null;
+    return approach(s, n, { beat });
   }
 
   async wake() {
@@ -300,9 +348,11 @@ export class HomeStart {
   }
 
   /** Ron in house_1f. Returns true when this module handled the talk (Overworld.talk returns early). */
-  onTalk(n, def) {
+  onTalk(n, def, pre = null) {
     const s = this.scene;
-    if (this._onOpeningTalk(n, def)) return true;
+    if (def?.id === STORY_RON.id) return this._storyRonTalk(n);
+    if (def?.id === ESCORT.bossId) { s.script(async () => { s.npcs.beginTalk(n); try { await this._scene(this._pages(OPEN.office, 'manager_starter_repeat', FALLBACK_OFFICE.manager_starter_repeat), { name: 'Manager', portrait: null, battle: null }); } finally { s.npcs.endTalk(n); } }); return true; } // the boss, in the lab
+    if (this._onOpeningTalk(n, def, pre)) return true;
     if (s.map?.name !== HOME.downstairs || def?.id !== HOME.ron) return false;
     const e = s._entryFor(HOME.downstairs, def), merged = ronMerged(e);
     if (!merged && !s.flags.has(HOME.started)) return false; // old saves without the new game marker: unchanged
@@ -318,11 +368,13 @@ export class HomeStart {
     else return false; // past the morning (dev flags) with no merged line: the file's default
     s.log.push({ tick: s.tick, type: 'intro', step: briefing ? 'briefing' : 'ron' });
     s.script(async () => {
+      if (pre) await pre(); // story auto-walk: walk up to Ron first (same script: one checkpoint, no save mid-walk)
       if (n) s.npcs.beginTalk(n);
       try {
         await s.say(pages, s.speakerFor(n));
         if (briefing) this.afterBriefing();
       } finally { if (n) s.npcs.endTalk(n); }
+      if (briefing && n && s.flags.has(HOME.briefed)) await this.story.walkOut(n); // "I'll be right behind you": he heads out first
     });
     return true;
   }
@@ -389,6 +441,7 @@ export class HomeStart {
     const s = this.scene, v = { ...s.textVars(), ...(vars || {}) };
     for (const r of speakerRuns(pages, dflt?.name ?? null)) {
       const sp = r.name === (dflt?.name ?? null) && dflt ? dflt : { name: r.name, portrait: null, battle: null };
+      this.story?.faceFor(r.name); // story Ron faces whoever is talking
       await s.say(s.fill(r.pages, v), sp);
     }
   }
@@ -400,7 +453,7 @@ export class HomeStart {
   }
 
   /** Office manager / lab researcher. Returns true when handled. */
-  _onOpeningTalk(n, def) {
+  _onOpeningTalk(n, def, pre = null) {
     const s = this.scene, F = s.flags, map = s.map?.name;
     if (!F.has(HOME.started) || F.has(OPEN.briefed)) return false; // old saves / dev flag links / after the opening: unchanged
     const isMgr = map === OPEN.office && def?.id === OPEN.manager, isLab = map === OPEN.lab && def?.id === OPEN.researcher;
@@ -412,19 +465,65 @@ export class HomeStart {
     else if (isLab && F.has(OPEN.runDone)) run = () => this.jobBriefing();
     if (!run) return false;
     s.log.push({ tick: s.tick, type: 'intro', step: `talk:${def.id}` });
-    s.script(async () => { if (n) s.npcs.beginTalk(n); try { await run(); } finally { if (n) s.npcs.endTalk(n); } });
+    s.script(async () => { if (pre) await pre(); if (n) s.npcs.beginTalk(n); try { await run(); } finally { if (n) s.npcs.endTalk(n); } });
     return true;
   }
 
   /** office_int.scene_promotion: sets flg_promoted, then "Come on." -> fade to the lab, one tile inside its door. */
   async promotion(n) {
     const s = this.scene;
+    await this.story.join(n); // Ron next to the player, in front of the manager
     await this._scene(this._pages(OPEN.office, 'scene_promotion', FALLBACK_OFFICE.scene_promotion), s.speakerFor(n));
     s.setFlag(OPEN.promoted);
     s.log.push({ tick: s.tick, type: 'intro', step: 'promoted' });
     this._objectiveToast();
-    const spawn = await this.labSpawn();
+    // Gary 2:35 PM CT: no teleport; you follow your boss and Ron to the lab (walkToLab, its own script after this one's save)
+    if (automoveOn(s) && s.map?.name === OPEN.office) { this._tripPending = true; return; }
+    const spawn = await this.labSpawn(); // ?automove=0: the old fade to the lab door
     if (spawn) s.startWarp(spawn, 'door');
+  }
+
+  /** Office -> Brookhollow -> lab on foot (escort.js): the boss leads, Ron 2nd, the player 3rd, each into the tile the one
+   *  ahead left. Real steps through the real doors (landings from the map files); input frozen and no saves inside (this
+   *  is a scene.script: the checkpoint save is right before). Any leg with no route / stuck: the old fade to the lab. */
+  async walkToLab() {
+    const s = this.scene, p = s.player, story = this.story, load = (n) => loadNpcImgs(s, n);
+    const specs = [{ id: ESCORT.bossId, sprite: s.npcs.byId(OPEN.manager)?.sprite || this._bossSprite || null, load }, { id: STORY_RON.id, sprite: s.spriteMap?.[STORY_RON.sprite] || null, load }];
+    this._bossSprite = specs[0].sprite;
+    const hooks = s.hooks, enc = hooks?.onEncounterTile;
+    if (hooks) hooks.onEncounterTile = null; // no wild battles on the way
+    const remove = (n) => story.remove(n);
+    s.log.push({ tick: s.tick, type: 'intro', step: 'walkToLab', from: s.map?.name });
+    try {
+      if (s.map?.name === OPEN.office) {
+        const boss = s.npcs.byId(OPEN.manager), ron = story.npc() || story.spawn(), out = doorTo(s.map, HOME.outside, p);
+        let ok = !!(boss && ron && out);
+        if (ok) ok = (await conga(s, [boss, ron], out.front)).ok;
+        if (ok) ok = await throughDoor(s, [boss, ron], out, remove);
+        if (!ok && s.map?.name === OPEN.office) await this._tripFallback('office');
+      }
+      if (s.map?.name === HOME.outside) {
+        const lab = doorTo(s.map, OPEN.lab, p), line = lab ? spawnAhead(s, specs, lab.front) : [];
+        let ok = !!(lab && line.length === specs.length);
+        if (ok) ok = (await conga(s, line, lab.front)).ok;
+        if (ok) ok = await throughDoor(s, line, lab, remove);
+        if (!ok && s.map?.name !== OPEN.lab) { for (const n of line) if (s.npcs.list.includes(n)) remove(n); await this._tripFallback('street'); }
+      }
+      if (s.map?.name === OPEN.lab) { // they went in first and stepped aside; the lab beat (researcher, Ron joins) runs next
+        const res = s.npcs.byId(OPEN.researcher), tgt = res ? { x: res.x, y: res.y + 1 } : null;
+        if (!s.npcs.byId(ESCORT.bossId)) spawnAhead(s, story.npc() ? [specs[0]] : specs, tgt, { aside: true });
+        for (const n of [s.npcs.byId(ESCORT.bossId), story.npc()]) if (n) n.faceToward(p.x, p.y);
+      }
+    } finally { if (hooks) hooks.onEncounterTile = enc; }
+    s.log.push({ tick: s.tick, type: 'intro', step: 'walkToLabDone', map: s.map?.name, x: p.x, y: p.y });
+  }
+
+  async _tripFallback(where) {
+    const s = this.scene, spawn = await this.labSpawn();
+    s.log.push({ tick: s.tick, type: 'escort', step: 'fallback', where });
+    if (!spawn) return;
+    s.startWarp(spawn, 'door');
+    await this._until(() => s.map?.name === OPEN.lab && !s.fade, 8000);
   }
 
   /** Inside lab_brookhollow's street door (found by `to` name), facing in. */
@@ -456,7 +555,7 @@ export class HomeStart {
     const s = this.scene, F = s.flags;
     if (s.map?.name !== OPEN.lab || !F.has(HOME.started) || !F.has(OPEN.promoted) || F.has(OPEN.starter) || s.seen[OPEN.introSeen]) return;
     if (s.busy || s.fade || (this.gate && this.gate() === true)) return;
-    s.script(() => this.starterIntro());
+    s.script(async () => { await this._autoApproach('starterIntro', OPEN.researcher); await this.story.join(s.npcs.byId(OPEN.researcher)); return this.starterIntro(); }); // walk up to the lab tech, Ron beside you
   }
 
   /** lab_brookhollow.scene_starter_intro (4 pages): page 1, then the arrows switch on, then pages 2+. */
@@ -504,7 +603,7 @@ export class HomeStart {
   async chooseStarter(species) {
     const s = this.scene, sys = s.systems;
     if (!s.seen[OPEN.introSeen]) await this.starterIntro();
-    const { speciesName } = await import('../systems/creature.js?v=v0.2.3-alpha').catch(() => ({}));
+    const { speciesName } = await import('../systems/creature.js?v=v0.2.4-alpha').catch(() => ({}));
     const lead = speciesName ? speciesName(species) : speciesLabel(species), vars = { ...s.textVars(), lead, creature: lead };
     const k = await s.ask(s.fill(this._pages(OPEN.lab, 'starter_confirm', FALLBACK_OFFICE.starter_confirm), vars), ['Yes', 'No']);
     if (k !== 0) return false;
@@ -515,8 +614,10 @@ export class HomeStart {
     if (!s.flags.has(OPEN.starter)) s.setFlag(OPEN.starter);
     this.arrowsOn = false;
     s.log.push({ tick: s.tick, type: 'intro', step: 'starter', species });
+    await this.story.takeCradle(species); // "Then I'll take this one": Ron walks to his counter-pick, the case goes dark
     await this._scene(this._pages(OPEN.lab, 'scene_starter_after', FALLBACK_OFFICE.scene_starter_after), null, vars);
     await this.testRun();
+    await this.story.walkOut(); // "Race you": out the door, partner behind him
     return true;
   }
 
@@ -554,7 +655,7 @@ export class HomeStart {
     const s = this.scene;
     if (s.map?.name !== OPEN.lab || !s.flags.has(OPEN.runDone) || s.flags.has(OPEN.briefed)) return;
     if (s.busy || s.fade || (this.gate && this.gate() === true)) return;
-    s.script(() => this.jobBriefing());
+    s.script(async () => { await this._autoApproach('jobBriefing', OPEN.researcher); await this.story.join(s.npcs.byId(OPEN.researcher)); return this.jobBriefing(); }); // walk up to the lab tech, Ron beside you
   }
 
   async jobBriefing() {
@@ -566,6 +667,19 @@ export class HomeStart {
     s.log.push({ tick: s.tick, type: 'intro', step: 'jobBriefed' });
     s.progression?.hud?.update?.();
     s.toast(this._sysPages('free_roam', ['Free roam: raise your Kilumen and log as many as you can.'])[0]);
+    await this.story.walkOut(); // off to Fernwick (story Ron leaves; house_1f's Ron is home again)
+  }
+
+  /** Talking to the story Ron between beats: a short line by stage (code fallback; Text Bot keys requested). */
+  _storyRonTalk(n) {
+    const s = this.scene, F = s.flags;
+    const st = s.map?.name === OPEN.office ? 'office' : F.has(OPEN.runDone) ? 'back' : 'lab';
+    s.log.push({ tick: s.tick, type: 'intro', step: 'storyRonTalk', st });
+    s.script(async () => {
+      if (n) s.npcs.beginTalk(n);
+      try { await s.say(this._pages(OPEN.lab, `ron_story_${st}`, FALLBACK_OFFICE.ron_story[st]), { name: 'Ron', portrait: null, battle: null }); } finally { if (n) s.npcs.endTalk(n); }
+    });
+    return true;
   }
 
   /** Map edge out of the starting area: thought + turned back. True = refused (caller returns 'stop'). */

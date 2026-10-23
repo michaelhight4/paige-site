@@ -21,7 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { employeeIdOf } from './employee_id.js?v=v0.2.3-alpha';
+import { employeeIdOf } from './employee_id.js?v=v0.2.4-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',
@@ -44,6 +44,18 @@ const cap = (s) => String(s || '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.
 const getPath = (o, path) => path.split('.').reduce((v, k) => (v == null ? v : v[k]), o);
 
 /** Mode store (localStorage or a test stub). */
+// Trainer 1 (Gary 3:31 PM CT Oct 23 2026): "the very first time rita ever talks to you she needs to read your number and
+// say 'yeah no that uses too much company time, youre now trainer 1'" + "She calls me Trainer 1 from then on". Her very
+// first strip (any event) gets these 2 pages in front; scene.seen[TRAINER1_KEY] (saved with the save, set after the
+// pre-strip checkpoint so the save rule holds) makes it once only. Saves without the key (players who already met RITA)
+// get it once on their next line. After that RITA's {employee_id} is 'Trainer 1' (text + voice); the real number stays in
+// the save (company.employeeId) and in Overworld.textVars for any other text. Text Bot key: system_company_voice.rita_trainer1
+// (data/textbot_requests_trainer1.md); until then this default is used (the voice clips are built from it).
+export const TRAINER1_KEY = 'cv#trainer1', TRAINER1_NAME = 'Trainer 1', TRAINER1_LINE = 'rita_trainer1';
+export const TRAINER1_INTRO = ['{employee_id}...', "Yeah, no. That uses too much company time. You're now Trainer 1."];
+/** What RITA calls the player: 'Trainer 1' once the intro has run, else the 6-digit number. */
+export function ritaIdOf(scene) { return scene?.seen?.[TRAINER1_KEY] ? TRAINER1_NAME : employeeIdOf(scene); }
+
 export function loadMode(storage, cfg) {
   try { const m = JSON.parse(storage?.getItem(cfg.settings.storage_key) || 'null')?.mode; if (cfg.settings.modes.includes(m)) return m; } catch { /* bad json */ }
   return cfg.settings.default_mode;
@@ -169,7 +181,7 @@ export class CompanyVoice {
     for (const k of keys) { raw = this.pickVariant(k, k === (ev.line || name) ? exclude : []); if (raw) { key = this._pickedKey || k; break; } }
     if (!raw) key = null; // FALLBACK text has no voice clip (RITA voice: silent text)
     raw ||= FALLBACK[ev.line || name] || ['{employee_id}: noted.'];
-    const vars = { ...(this.scene.textVars?.() || {}), employee_id: employeeIdOf(this.scene), ...ctx };
+    const vars = { ...(this.scene.textVars?.() || {}), employee_id: ritaIdOf(this.scene), ...ctx };
     const fill = (p) => String(p).replace(/\{(\w+)\}/g, (m, k) => (vars[k] != null ? String(vars[k]) : m));
     this.lastPick = { key, raw: raw.slice(0, this.cfg.timing.max_pages), vars }; // RITA voice (src/systems/rita_voice.js): exact variant key + unfilled pages
     return raw.slice(0, this.cfg.timing.max_pages).map(fill);
@@ -294,11 +306,22 @@ export class CompanyVoice {
     }
   }
   pageMs(text) { return this.cfg.timing.page_ms + this.cfg.timing.per_char_ms * String(text).length; }
+  /** The one-time Trainer 1 intro: {pages, voice}. Page 1 reads the real number. */
+  trainer1Intro() {
+    const L = this.scene.lines?.system_company_voice?.[TRAINER1_LINE];
+    const raw = ((Array.isArray(L) ? L : L?.pages) || TRAINER1_INTRO).slice(0, 2);
+    const vars = { ...(this.scene.textVars?.() || {}), employee_id: employeeIdOf(this.scene) };
+    return { pages: raw.map((p) => String(p).replace(/\{(\w+)\}/g, (m, k) => (vars[k] != null ? String(vars[k]) : m))), voice: { key: TRAINER1_LINE, raw, vars } };
+  }
   show(item) {
-    const pages = this.pages(item.name, item.ctx);
+    const s = this.scene, seen = (s.seen ||= {});
+    const intro = !seen[TRAINER1_KEY] && this.cfg.trainer1_intro !== false ? this.trainer1Intro() : null;
+    let pages = this.pages(item.name, intro ? { ...item.ctx, employee_id: TRAINER1_NAME } : item.ctx), voice = this.lastPick || null;
     this.scene.checkpoint?.('company_voice'); // save rule: save right before, never while it is up
+    // Trainer 1 intro in front; voice chains: intro pages, then the line's own pick (rita_voice.js planFor follows .then)
+    if (intro) { pages = [...intro.pages, ...pages]; voice = { ...intro.voice, n: intro.pages.length, then: voice }; seen[TRAINER1_KEY] = true; s._dirty = true; }
     const t = this.now();
-    this.current = { ...item, pages, page: 0, shownAt: t, pageEnd: t + this.pageMs(pages[0]), speaker: this.speaker(), voice: this.lastPick || null };
+    this.current = { ...item, pages, page: 0, shownAt: t, pageEnd: t + this.pageMs(pages[0]), speaker: this.speaker(), voice };
     this.shownLog.push({ name: item.name, pages, at: t });
     this.scene.log?.push?.({ tick: this.scene.tick, type: 'companyVoice', event: item.name });
     this.view?.show(this.current);

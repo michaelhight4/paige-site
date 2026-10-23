@@ -3,7 +3,7 @@
 // Lazily imported by ui_tools2.js the first time one of these plays, so it adds nothing to the boot bundle.
 // Rollback: set a FX_ART flag to false -> capture goes back to the CSS/DOM placeholder (capture_fx.js); heal and
 // evolution then play nothing (there was no old path for them).
-import { SPECIES, battleSpriteRel } from './data.js?v=v0.2.3-alpha';
+import { SPECIES, battleSpriteRel } from './data.js?v=v0.2.4-alpha';
 
 export const FX_ART = { capture: true, evolution: true, heal: true };
 export const FX_CFG = {
@@ -173,8 +173,8 @@ export async function runCapture(ctx) {
   } else {
     const ref = P.hooks?.foe_reform || { frames: [6, 7, 8, 9], hidden_fraction: [1, 0.66, 0.33, 0] };
     await slot(end, () => { held.remove(); held = null; const b = sheet(layer, end, s, hold);
-      tail = b.play({ onFrame: (i) => { const j = ref.frames.indexOf(i); if (foe && j >= 0) { foe.classList.remove('ax-lit'); foe.style.opacity = String(1 - ref.hidden_fraction[j]); } } })
-        .then(() => { b.remove(); if (foe) { foe.style.opacity = ''; foe.style.animation = ''; } }); });
+      tail = b.play({ onFrame: (i) => { const j = ref.frames.indexOf(i); if (foe && j >= 0 && !foe.dataset.capDone) { foe.classList.remove('ax-lit'); foe.style.opacity = String(1 - ref.hidden_fraction[j]); } } })
+        .then(() => { b.remove(); if (foe) { foe.classList.remove('ax-lit'); foe.style.opacity = ''; foe.style.animation = ''; } }); });
   }
   // the breakout burst can outlive its slot by a frame; let it finish (max 100 ms) so it never sits off the lowered hand
   if (tail) await Promise.race([tail, sleepUntil(performance.now() + 100)]);

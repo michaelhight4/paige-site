@@ -3,18 +3,24 @@
 // a `team` on the map NPC def (array, or Ron's object keyed if_player_took_<starter>) fights that team. A species that is
 // not registered in SPECIES (not drawn / not synced yet, or excluded) uses the stand-in from
 // data/standins_overnight.json trainer_species (written by tools/sync_creatures.mjs), else the nearest registered species.
-import { SPECIES } from '../ui/data.js?v=v0.2.3-alpha';
+// Nibbin swap (Oct 23 2026): the map JSON Ron teams were authored with Tumbloam as the earth starter. Keys: a Nibbin player
+// reads if_player_took_nibbin, else the old if_player_took_tumbloam branch (same counter: Ron takes the fire line). Ron's
+// earth picks (tumbloam / burrowmane / bastonox, rillop branch) are remapped to Nibbin's line (starters.js EARTH_SWAP) so
+// the rival always fields the player's missing starter line; ordinary trainers keep their species.
+import { SPECIES } from '../ui/data.js?v=v0.2.4-alpha';
+import { STARTERS, ALL_STARTERS, EARTH_SWAP, partyStarter, starterKeys } from '../battle/data/starters.js?v=v0.2.4-alpha';
 
-export const STARTERS = ['tumbloam', 'cindrip', 'rillop'];
+export { STARTERS };
 const known = (id) => SPECIES.some((s) => s.id === id);
 
-/** The player's starter (tumbloam / cindrip / rillop) from party + archive: origin.how 'starter', matched by evolution line. */
+/** The player's starter (nibbin / cindrip / rillop, or legacy tumbloam) from party + archive: origin.how 'starter', matched by line. */
 export function playerStarter(creatures = []) {
+  const direct = partyStarter(creatures); if (direct) return direct;
   const lineOf = (id) => SPECIES.find((s) => s.id === id)?.line;
-  const byLine = new Map(STARTERS.map((s) => [lineOf(s), s]));
+  const byLine = new Map(ALL_STARTERS.map((s) => [lineOf(s), s]));
   const list = creatures.filter(Boolean);
   for (const c of [...list.filter((c) => c.origin?.how === 'starter'), ...list]) {
-    if (STARTERS.includes(c.species)) return c.species;
+    if (ALL_STARTERS.includes(c.species)) return c.species;
     const l = lineOf(c.species);
     if (c.origin?.how === 'starter' && byLine.has(l)) return byLine.get(l);
   }
@@ -35,7 +41,7 @@ export function rawTeam(def, starter = null) {
   if (Array.isArray(t)) return t.length ? t : null;
   if (t && typeof t === 'object') {
     const keys = Object.keys(t); if (!keys.length) return null;
-    const k = (starter && keys.find((x) => x === 'if_player_took_' + starter)) || keys[0];
+    const k = starterKeys(starter).map((x) => 'if_player_took_' + x).find((x) => keys.includes(x)) || keys[0];
     return t[k] || null;
   }
   return null;
@@ -43,10 +49,13 @@ export function rawTeam(def, starter = null) {
 
 /** {foes, foeName, fromMap:true} for a map NPC def, or null when it has no team. */
 export function mapTeamFor(def, { starter = null, standIns = {}, name = null } = {}) {
-  const rows = rawTeam(def, starter); if (!rows) return null;
+  let rows = rawTeam(def, starter); if (!rows) return null;
+  if (isRival(def)) rows = rows.map((r) => (r && EARTH_SWAP[r.species] ? { ...r, species: EARTH_SWAP[r.species] } : r));
   const foes = rows.filter((r) => r?.species).map((r) => ({ species: resolveSpecies(r.species, standIns), level: Math.max(1, r.level | 0 || 5), ...(known(r.species) ? {} : { standInFor: r.species }) }));
   return foes.length ? { foes, foeName: name || def.name || trainerName(def), fromMap: true } : null;
 }
+
+const isRival = (def) => def?.kind === 'rival' || def?.gd_class === 'ron';
 
 /** Display name for a map trainer: Ron for the rival, else the GD class ("harbour_hand" -> "Harbour hand"). */
 export function trainerName(def) {

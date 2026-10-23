@@ -52,7 +52,7 @@ export const CAPTURE_STEPS = {
     if (c.foe) { c.foe.classList.remove('ax-lit'); await c.tw(c.foe, { scale: [0.25, 1], opacity: [0, 1], duration: ms.breakout - 120, delay: 120, ease: 'outBack(1.4)' }); c.foe.style.animation = ''; } },
   // the trainer lowers the crystal and slides back out (not awaited by the battle: input is already free)
   async lower(c) { const { A, p, ms } = c;
-    if (c.ally) A.animate(c.ally, { opacity: [0.35, 1], duration: ms.lower, onComplete: (a) => a.revert() });
+    if (c.ally) A.animate(c.ally, { opacity: [0.35, 1], duration: ms.lower, onComplete: () => c.ally.style.removeProperty('opacity') }); // not revert(): that restored raise's inline .35 (ghosted ally)
     await c.tw(p.hold, { translateX: [0, -c.g.tw * 1.4], opacity: [1, 0], duration: ms.lower, ease: 'inCubic' }); p.hold.remove(); },
 };
 

@@ -1,11 +1,11 @@
 // Assembles the data object the vendored engine expects (vendor/battle-sim, installData()).
-import { buildTypeChart } from './elements.js?v=v0.2.3-alpha';
-import { buildSkills } from './skills.js?v=v0.2.3-alpha';
-import { buildCreatures } from './creatures.js?v=v0.2.3-alpha';
-import { KILUMEN_RULES, VARIANT_MODS, buildConditions, buildItems, buildFormats } from './rules.js?v=v0.2.3-alpha';
+import { buildTypeChart } from './elements.js?v=v0.2.4-alpha';
+import { buildSkills } from './skills.js?v=v0.2.4-alpha';
+import { buildCreatures } from './creatures.js?v=v0.2.4-alpha';
+import { KILUMEN_RULES, VARIANT_MODS, buildConditions, buildItems, buildFormats } from './rules.js?v=v0.2.4-alpha';
 
-export { STAT_NAMES } from './creatures.js?v=v0.2.3-alpha';
-export { skillIdsFor, toID } from './skills.js?v=v0.2.3-alpha';
+export { STAT_NAMES } from './creatures.js?v=v0.2.4-alpha';
+export { skillIdsFor, toID } from './skills.js?v=v0.2.4-alpha';
 
 export function buildData(overrides = {}) {
   const creatures = buildCreatures();

@@ -238,6 +238,8 @@ body.ui-dlg-open .ui-hud .hud-top, body.ui-open .ui-hud { visibility: hidden; }
 .b-plate .hpnum { text-align: right; font-size: .8em; margin-top: 2px; }
 .b-bottom { position: absolute; left: var(--ui-inset-left, 4vw); right: var(--ui-inset-right, 4vw); bottom: var(--ui-inset-bottom, 4vh); height: var(--ui-b-bottom-h, 26%); display: flex; gap: var(--ui-gap, 12px); }
 .b-msg { flex: 1.3; padding: 12px 18px; font-size: 1.1em; display: flex; align-items: center; background: var(--night) !important; color: var(--on-night) !important; position: relative; }
+.b-msg.b-msg-caught { flex-direction: column; justify-content: center; gap: 4px; text-align: center; }
+.b-msg .b-caught-mon { display: block; width: 64px; height: 64px; flex: none; background-repeat: no-repeat; background-position: 0 0; image-rendering: pixelated; }
 .b-msg .more { position: absolute; right: 14px; bottom: 8px; color: var(--sun); animation: ui-cursor-d var(--bob) ease-in-out infinite; }
 @keyframes ui-cursor-d { 50% { transform: translateY(4px); } }
 .b-cmds { flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px; min-height: 0; }
@@ -472,3 +474,54 @@ body.platform-mobile .ui-battle[data-scr="battle"] .b-plate.ally .bar.xp { heigh
 /* ALPHA build: title badge (dark plate, sun text: 12:1 contrast). Static, no animation. */
 .ui-logo .alpha-badge { display: inline-block; vertical-align: middle; margin: 10px 0 0 10px; padding: 3px 12px; border: 3px solid var(--outline); border-radius: var(--r-chip);
   background: var(--night); color: var(--sun); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: max(12px, calc(var(--ui-logo, 120px) * .15)); }
+
+/* ---- facing, trainer intro, team crystal pips (Gary, Oct 23 2026) ----
+   .b-flip: player-side back sprites drawn facing left are mirrored (CSS `scale`, so the transform keyframes still apply).
+   Pips: one small crystal per team member, dimmed when fainted; the foe row (with the trainer's name) hangs under the foe
+   card, the player's row sits on top of the player card. Intro: large 6-slot rows on bars (empty outline = unused slot). */
+.ui-battle[data-scr="battle"] .b-mon.b-flip { scale: -1 1; }
+.ui-battle[data-scr="battle"] .b-plate .b-party, .ui-battle[data-scr="battle"] .b-plate.ally .plate > .b-party { position: absolute; margin: 0; gap: 3px; padding: 3px 7px; background: var(--plate); border: 2px solid var(--outline); border-radius: 8px; }
+.ui-battle[data-scr="battle"] .b-plate.ally .b-party { right: 14px; bottom: calc(100% - 2px); }
+.ui-battle[data-scr="battle"] .b-trbar { position: absolute; left: 14px; top: calc(100% - 2px); display: flex; align-items: center; gap: 6px; max-width: calc(100% - 20px); }
+.ui-battle[data-scr="battle"] .b-trbar .b-party { position: static; }
+.ui-battle[data-scr="battle"] .b-trname { font-size: .72em; line-height: 1.2; padding: 3px 8px; background: var(--night, #2a2238); color: var(--on-night, #fff); border: 2px solid var(--outline); border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.ui-battle[data-scr="battle"] .b-trname:empty { display: none; }
+.ui-battle[data-scr="battle"] .b-party i, body.platform-mobile .ui-battle[data-scr="battle"] .b-party i { width: 11px; height: 15px; border: 0; border-radius: 0; box-shadow: none; clip-path: polygon(50% 0, 100% 38%, 50% 100%, 0 38%); background: var(--outline); position: relative; }
+.ui-battle[data-scr="battle"] .b-party i::after, .b-intro-row i::after { content: ''; position: absolute; inset: 2px; clip-path: polygon(50% 0, 100% 38%, 50% 100%, 0 38%); background: linear-gradient(160deg, #e9ddff 0 22%, #a77cf2 23% 60%, #6a45c4 61%); }
+.ui-battle[data-scr="battle"] .b-party i[data-lvl=warn]::after { background: linear-gradient(160deg, #fff3c4 0 22%, var(--warn) 23%); }
+.ui-battle[data-scr="battle"] .b-party i[data-lvl=bad]::after { background: linear-gradient(160deg, #ffd1c9 0 22%, var(--bad) 23%); }
+.ui-battle[data-scr="battle"] .b-party i[data-lvl=out] { opacity: .5; }
+.ui-battle[data-scr="battle"] .b-party i[data-lvl=out]::after, .b-intro-row i[data-st=out]::after { background: #4a4058; }
+.ui-battle[data-scr="battle"] .b-party i.on { filter: drop-shadow(0 0 2px var(--sun)); outline: none; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-party i { width: 9px; height: 12px; }
+body.platform-mobile .ui-battle[data-scr="battle"] .b-trname { font-size: .62em; padding: 1px 6px; }
+.b-trainer-fig { position: absolute; bottom: calc(var(--b-fig-feet, 14%)); left: 50%; translate: -50% 0; height: min(30vh, 250px); width: auto; image-rendering: pixelated; z-index: 0;
+  transition: translate .45s ease-out, opacity .45s ease-out, height .45s ease-out; }
+.b-trainer-fig.foe { --b-fig-feet: 9%; }
+.b-trainer-fig.ally { height: min(40vh, 340px); --b-fig-feet: 8%; }
+.b-trainer-fig.foe.aside { height: min(20vh, 170px); translate: 160% 0; opacity: .95; }
+.b-trainer-fig.ally.gone { translate: -260% 0; opacity: 0; }
+.ui-battle[data-scr="battle"] .b-foe .b-mon, .ui-battle[data-scr="battle"] .b-ally .b-mon { position: relative; z-index: 1; }
+.ui-battle.b-intro .b-plate { visibility: hidden; }
+.b-intro-row { position: absolute; display: flex; gap: 10px; padding: 8px 26px 10px; background: linear-gradient(transparent 62%, var(--outline) 62% 72%, transparent 72%); pointer-events: none; z-index: 3; transition: opacity .3s; }
+.b-intro-row.foe { left: 0; top: 10%; animation: ui-plate-l 500ms var(--ease-pop, ease-out) both; }
+.b-intro-row.ally { right: 0; bottom: 6%; animation: ui-plate-r 500ms var(--ease-pop, ease-out) both; }
+.b-intro-row i { position: relative; width: 26px; height: 36px; clip-path: polygon(50% 0, 100% 38%, 50% 100%, 0 38%); background: var(--outline); }
+.b-intro-row i[data-st=out] { opacity: .55; }
+.b-intro-row i[data-st=empty]::after { background: rgba(255, 255, 255, .18); }
+.ui-battle:not(.b-intro) .b-intro-row { opacity: 0; }
+body.platform-mobile .b-intro-row { gap: 6px; padding: 4px 14px 6px; }
+body.platform-mobile .b-intro-row i { width: 17px; height: 24px; }
+body.platform-mobile .b-trainer-fig.foe { height: min(34vh, 150px); }
+body.platform-mobile .b-trainer-fig.ally { height: min(46vh, 190px); }
+body.platform-mobile .b-trainer-fig.foe.aside { height: min(24vh, 100px); translate: 130% 0; }
+body.ui-reduce .b-trainer-fig, body.ui-reduce .b-intro-row { transition: none; animation: none; }
+@media (prefers-reduced-motion: reduce) { .b-trainer-fig, .b-intro-row { transition: none; animation: none; } }
+
+/* foe trainer's own platform (Gary 3:33 PM CT): same biome platform as the creature's, same feet line, to its right with a gap;
+   the trainer stands on it for the whole fight (ui_sd endIntro moves the figure in and nudges .b-foe left to stay on screen) */
+.ui-battle[data-engine="sd"] .b-tr-spot { position: absolute; left: calc(100% + 18px); bottom: 0; width: calc(var(--plat-w-tr, 70) * var(--b-plat-px, 2) * var(--ui-sprite-scale, 2) * .8); height: 0; z-index: 0; }
+.ui-battle[data-engine="sd"] .b-tr-spot .b-tr-plat { width: 100%; }
+.ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.aside { bottom: 0; left: 50%; translate: -50% 0; height: min(24vh, 190px); opacity: 1; z-index: 1; transition: none; }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot { left: calc(100% + 10px); }
+body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.aside { height: min(30vh, 112px); }
