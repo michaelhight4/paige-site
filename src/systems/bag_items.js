@@ -13,7 +13,7 @@ export const POCKETS = ['care', 'feeds', 'gear', 'crystals', 'key', 'logs'];
 const base = {
   tonic_small: { pocket: 'care', field: 'heal' },
   tonic_large: { pocket: 'care', field: 'heal' },
-  energy_tonic: { pocket: 'care', field: 'energy' }, // Gary pending potions_vs_rest: config.potionsVsRest
+  energy_tonic: { pocket: 'care', field: 'energy' }, // Gary Oct 22, 2026: energy potions restore energy but are expensive (config.potionsVsRest = potions_restore)
   calm_tea: { pocket: 'care', field: 'cure' },
   trail_mix: { pocket: 'feeds', field: null },        // Trail Buddy snack: Warmth system (later pass)
   feed_bag_small: { pocket: 'feeds', field: null },

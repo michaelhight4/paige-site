@@ -143,14 +143,16 @@ test('bag pockets, add/remove, key items cap at 1, engine export/import', () => 
   assert.equal(new Bag({}, { cfg: { ...cfg, stackMax: 3 } }).add('trail_mix', 4).ok, false);
 });
 
-test('bag field use: heal, cure, energy behind potionsVsRest (default rest_only)', () => {
+test('bag field use: heal, cure, energy per potionsVsRest (Gary: potions_restore; rest_only still works)', () => {
   const c = createCreature({ species: 'tumbloam', level: 20 });
   const b = new Bag({ tonic_small: 1, calm_tea: 1, energy_tonic: 2 }, { cfg });
   assert.equal(b.use('tonic_small', c).reason, 'no_effect');
   c.hp = 1; assert.equal(b.use('tonic_small', c).ok, true); assert.equal(c.hp, Math.min(maxHp(c), 21));
   c.status = 'psn'; assert.equal(b.use('calm_tea', c).ok, true); assert.equal(c.status, '');
   c.energy = c.energy.map(() => 0);
-  assert.equal(b.use('energy_tonic', c).reason, 'rest_only');
+  const bR = new Bag({ energy_tonic: 1 }, { cfg: systemsConfig({ potionsVsRest: 'rest_only' }) });
+  assert.equal(bR.use('energy_tonic', c).reason, 'rest_only');
+  assert.equal(cfg.potionsVsRest, 'potions_restore');
   const b2 = new Bag({ energy_tonic: 1 }, { cfg: systemsConfig({ potionsVsRest: 'potions_restore' }) });
   assert.equal(b2.use('energy_tonic', c).ok, true);
   assert.ok(c.energy.every((e) => e > 0));
@@ -186,8 +188,9 @@ test('shop: regional prices, discount stacks to the 65% cap, buy / sell', () => 
   assert.equal(discountFor({ idLevel: 2 }), S.discount.staff);
   assert.equal(discountFor({ idLevel: 2, board: { shopDiscount: 0.9 } }), S.discount.cap);
   assert.notEqual(priceOf('tonic_small', 'fernwick'), priceOf('tonic_small', 'brookhollow'));
-  assert.ok(!stockFor('brookhollow', 8, cfg).includes('energy_tonic'));
-  assert.ok(stockFor('brookhollow', 8, systemsConfig({ stockEnergyTonic: true })).includes('energy_tonic'));
+  assert.ok(!stockFor('brookhollow', 8, systemsConfig({ potionsVsRest: 'rest_only', stockEnergyTonic: false })).includes('energy_tonic'));
+  assert.ok(stockFor('brookhollow', 8, cfg).includes('energy_tonic'));
+  assert.ok(priceOf('energy_tonic', 'brookhollow') > 2 * priceOf('tonic_large', 'brookhollow')); // Gary: energy potions are expensive
   assert.ok(stockFor('brookhollow', 0, cfg).length < stockFor('brookhollow', 3, cfg).length);
   const wallet = new Wallet(1000), bag = new Bag({}, { cfg });
   const shop = new Shop({ wallet, bag, zone: 'brookhollow', company: { idLevel: 2 }, badgeCoins: 0, cfg });

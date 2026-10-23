@@ -1,7 +1,7 @@
 {
   "_TUNING": "PLACEHOLDER TUNING VALUES (systems-gd pass, Oct 22, 2026). Every price, rate, fee and payout below is a guess for playtesting, not signed off by Gary. Prices are fixed per region (system_shop: 'Prices fixed per region').",
   "basePrices": {
-    "tonic_small": 200, "tonic_large": 600, "energy_tonic": 350, "calm_tea": 250, "trail_mix": 100,
+    "tonic_small": 200, "tonic_large": 600, "energy_tonic": 1500, "calm_tea": 250, "trail_mix": 100,
     "feed_bag_small": 150, "feed_bag": 400, "vigor_seed": 1200, "dominance_crystal": 200,
     "dominance_crystal_plus": 600, "crystal_dust": 80
   },

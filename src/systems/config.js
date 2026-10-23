@@ -3,12 +3,12 @@
 // Override per run: attachSystems(scene, { config: { ... } }) or ?sys.<flag>=<value> in the URL (main.js hook).
 
 export const SYSTEMS_CONFIG = {
-  // Gary pending: potions_vs_rest. 'rest_only' (default) = remedies close wounds (HP) only and energy
+  // Gary ruled Oct 22, 2026 ("energy potions restore energy but are expensive"): potions_restore. Was pending: potions_vs_rest. 'rest_only' (default) = remedies close wounds (HP) only and energy
   // comes back only by resting at a carer; 'potions_restore' = Pep Remedy restores energy in the field;
   // 'partial_top_up' = Pep Remedy restores half of each skill's energy. Text: system_party.item_heal.<mode>.
-  potionsVsRest: 'rest_only',
+  potionsVsRest: 'potions_restore',
   // Shops only stock Pep Remedy when the potions_vs_rest call allows it (Gary's ruling: stays behind a flag).
-  stockEnergyTonic: false,
+  stockEnergyTonic: true,
   // Field Archive (PC boxes). DESIGN_DECISIONS proposal: 8 boxes x 30; the Company ID-L3 perk adds boxes.
   archiveBoxes: 8, archiveBoxSize: 30, archiveExtraBoxes: 4, archiveExtraAtIdLevel: 3,
   // Bag stacks. PLACEHOLDER tuning.
@@ -22,7 +22,7 @@ export const SYSTEMS_CONFIG = {
   // Placed items with no real id yet (World Design 'TBD' placeholders) are skipped, not given.
   giveTbdItems: false,
   // Starter flow: the three lab cradles (lab_brookhollow text_pending interact_spots). Species = first
-  // stage of each starter line (ui/data.js SPECIES line 1/2/3). Gary pending: starter roster/level.
+  // stage of each starter line (ui/data.js SPECIES line 1/2/3). Gary confirmed Oct 22, 2026: starters at level 5.
   starterMap: 'lab_brookhollow',
   starterCradles: { cradle_1: 'tumbloam', cradle_2: 'cindrip', cradle_3: 'rillop' },
   starterLevel: 5,
