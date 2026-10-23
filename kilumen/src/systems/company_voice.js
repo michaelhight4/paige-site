@@ -21,7 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { employeeIdOf } from './employee_id.js?v=v0.2.6-alpha';
+import { employeeIdOf } from './employee_id.js?v=v0.2.7-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',
@@ -290,8 +290,29 @@ export class CompanyVoice {
   input(snap) {
     const a = !!snap?.a, edge = a && !this._prevA; this._prevA = a;
     if (!a) this._eatA = false;
-    if (this.current && edge) { this.advance('a'); this._eatA = true; }
+    // facing something usable (hall crystal, NPC, sign, pickup, prop): A goes to the world, the strip runs on its timer.
+    // Eating it stranded players at Master 1: the trainer_first_win strip after helper_1 swallowed every crystal touch
+    // (Gary 5:17 PM CT Oct 23, "can't get to the gym").
+    if (this.current && edge && !this.facingUsable()) { this.advance('a'); this._eatA = true; }
     return this._eatA ? { ...snap, a: false } : snap; // held A after a dismiss never turns into a talk
+  }
+  /** True when an A press now would do something in the world (mirrors overworld.interact() targets). Never throws. */
+  facingUsable() {
+    try {
+      const s = this.scene, p = s.player, m = s.map;
+      if (!p || !m || s.busy || s.fade || p.moving) return false;
+      const d = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[p.facing]; if (!d) return false;
+      const fx = p.x + d[0], fy = p.y + d[1];
+      if (s.systems?.puzzles?.get?.(m.name)?.switchAt?.(fx, fy, 'crystal')) return true;
+      if ((m.items || []).some((it) => it.x === fx && it.y === fy && !s.flags?.has?.(it.flag || `item_${m.name}_${it.id}`))) return true; // bag.js pickupFlag
+      if ((s.spots || []).some((sp) => sp.kind !== 'trigger' && sp.x === fx && sp.y === fy)) return true;
+      for (let k = 1; k <= 3; k++) {
+        const x = p.x + d[0] * k, y = p.y + d[1] * k;
+        if (m.inBounds && !m.inBounds(x, y)) break;
+        if ((m.signs || []).some((sg) => sg.x === x && sg.y === y) || m.npcAt?.(x, y)) return true;
+      }
+    } catch { /* never block the strip on a lookup error */ }
+    return false;
   }
   tick() {
     const t = this.now(), blocked = this.blockedReason();
