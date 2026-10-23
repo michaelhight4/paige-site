@@ -10,7 +10,7 @@ show(location.hash.slice(1),false);
 if(!rm)setTimeout(()=>{document.querySelectorAll('[data-tilt]').forEach(c=>{c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();
 c.style.setProperty('--rx',((e.clientY-r.top)/r.height-.5)*-4+'deg');c.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*5+'deg')});
 c.addEventListener('pointerleave',()=>{c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')})});
-addEventListener('scroll',()=>{document.documentElement.style.setProperty('--sy',scrollY)},{passive:true});});
+const sbg=document.querySelector('.s-bg');let syr=0;addEventListener('scroll',()=>{if(syr||!sbg||document.body.dataset.tab!=='start-of-the-end')return;syr=requestAnimationFrame(()=>{syr=0;sbg.style.setProperty('--sy',scrollY)})},{passive:true});});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const G=window.GAMES||[],T=window.WEBTOONS||[];
 const gCard=(g,big)=>{const live=g.status==='live';const shot=g.img?`<${g.url?'a':'div'} class="shot${g.phone?' phone':''}"${g.url?` href="${esc(g.url)}" tabindex="-1"`:''} aria-hidden="true"><img src="${esc(g.img)}" alt="" loading="lazy">${g.fx==="glow"?`<img class="fx fx-glow" src="${esc(g.img.replace(".webp","-glow.webp"))}" alt="" loading="lazy">`:g.fx==="treasure"?`<img class="fx fx-halo" src="${esc(g.img.replace(".webp","-halo.webp"))}" alt="" loading="lazy"><img class="fx fx-glow fx-gem" src="${esc(g.img.replace(".webp","-glow.webp"))}" alt="" loading="lazy"><span class="fx fx-wave fx-shine" style="--m:url(${esc(g.img.replace(".webp","-path.webp"))})"></span><span class="fx fx-sparks"><i style="left:44%;top:12%"></i><i style="left:83%;top:18%;animation-delay:1.3s"></i><i style="left:63%;top:31%;animation-delay:2.6s"></i><i style="left:12.6%;top:40%;animation-delay:.7s"></i></span>`:
@@ -18,7 +18,7 @@ g.fx==="wave"?`<span class="fx fx-wave" style="--m:url(${esc(g.img.replace(".web
 return `<article class="game ${esc(g.accent)}${big?' feat':''}" data-status="${g.status}" data-tilt>${shot}<div class="body"><div class="tagrow">${live?'<p class="tag live">● Live now</p><p class="free">FREE · NO DOWNLOAD</p>':`<p class="tag soon">◆ In development${g.note?' · '+esc(g.note):''}</p><p class="free">FREE</p>`}</div>
 <h2>${esc(g.title)}${g.sub?` <small>${esc(g.sub)}</small>`:''}</h2><p>${esc(g.blurb)}</p><ul class="chips">${g.chips.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
 ${live?`<a class="btn play" href="${esc(g.url)}">▶ Play ${esc(g.title)}</a>`:'<span class="btn ghost" aria-disabled="true">In development</span>'}</div></article>`};
-const tCard=t=>`<article class="toon">${t.img?`<img src="${esc(t.img)}" alt="${esc(t.alt||'')}" loading="lazy">`:`<div class="toon-ph" aria-hidden="true"><span>${esc(t.title)}</span></div>`}<div class="tbody">${t.status==='live'?'<p class="tag live">● Reading now</p>':'<p class="tag soon">◆ Coming soon</p>'}
+const tCard=t=>`<article class="toon">${t.img?`<img src="${esc(t.img)}" alt="${esc(t.alt||'')}" loading="lazy" decoding="async">`:`<div class="toon-ph" aria-hidden="true"><span>${esc(t.title)}</span></div>`}<div class="tbody">${t.status==='live'?'<p class="tag live">● Reading now</p>':'<p class="tag soon">◆ Coming soon</p>'}
 <h3>${esc(t.title)}</h3>${t.tags.length?`<ul class="chips">${t.tags.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>`:''}<p${t.blurb.startsWith('PLACEHOLDER')?' class="ph"':''}>${esc(t.blurb)}</p>
 ${t.links.length?`<p class="row">${t.links.map((l,i)=>`<a class="btn${i?' ghost':''}" href="${esc(l.url)}"${l.url[0]==='#'?'':' rel="noopener"'}>${esc(l.label)}</a>`).join(' ')}</p>`:''}</div></article>`;
 const $=id=>document.getElementById(id);
@@ -60,10 +60,14 @@ document.getElementById('ch-links').addEventListener('click',e=>{const p=e.targe
 document.getElementById('ch-close').onclick=()=>dlg.close();dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});}
 const cur=document.querySelector('.tabs a[aria-current]');
 addEventListener('hashchange',()=>{const a=document.querySelector('.tabs a[aria-current]');a&&a.scrollIntoView({block:'nearest',inline:'center'})});
+// iOS Safari scroll perf (Oct 22 2026): WebKit repaints every running decorative animation (circuit glow, card fx, sky canvas, aurora) under the page each frame. On iOS only, pause them while scrolling and pause card fx offscreen. Android/desktop unchanged.
+const IOS=CSS.supports('-webkit-touch-callout','none'),de=document.documentElement,circ=document.getElementById('circuit');let scr=0,sct=0,skyP=0;
+if(IOS&&!rm){addEventListener('scroll',()=>{if(!scr){scr=1;de.classList.add('is-scrolling');circ&&circ.pauseAnimations&&circ.pauseAnimations()}clearTimeout(sct);sct=setTimeout(()=>{scr=0;de.classList.remove('is-scrolling');circ&&circ.unpauseAnimations&&circ.unpauseAnimations();if(skyP){skyP=0;requestAnimationFrame(draw)}},180)},{passive:true});
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('fx-off',!e.isIntersecting)),{rootMargin:'100px'});document.querySelectorAll('.game').forEach(g=>io.observe(g))}}
 const cv=document.getElementById('sky'),x=cv.getContext('2d');let W,H,ps=[];
 function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight;ps=Array.from({length:Math.min(70,W/18|0)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,v:Math.random()*.3+.08,h:Math.random()}))}
-rs();addEventListener('resize',rs);
-function draw(){x.clearRect(0,0,W,H);const s=document.body.dataset.tab==='start-of-the-end';
+rs();addEventListener('resize',()=>{if(IOS&&innerWidth===W){if(innerHeight!==H)H=cv.height=innerHeight;return}rs()});
+function draw(){if(scr){skyP=1;return}x.clearRect(0,0,W,H);const s=document.body.dataset.tab==='start-of-the-end';
 for(const p of ps){x.fillStyle=s?(p.h>.5?'rgba(240,196,92,.55)':'rgba(120,230,140,.35)'):(p.h>.6?'rgba(255,196,90,.5)':'rgba(130,170,255,.45)');
 x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();if(!rm){p.y-=p.v;p.x+=Math.sin(p.y/60)*.15;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}}}
 if(!rm)requestAnimationFrame(draw)}draw();})();

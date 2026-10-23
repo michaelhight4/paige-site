@@ -459,3 +459,14 @@ body[data-tab="start-of-the-end"] .sa-unit{display:none}
 @keyframes fxSpark{0%,62%,100%{opacity:0;transform:scale(.3) rotate(0)}76%{opacity:1;transform:scale(1.2) rotate(45deg)}90%{opacity:.6;transform:scale(.8) rotate(90deg)}}
 @media (prefers-reduced-motion:reduce){.fx-shine,.fx-sparks i{animation:none;opacity:0}}
 .fx-halo{object-fit:cover}
+
+/* iOS Safari scroll perf (Oct 22 2026; Gary: "mobile is having issues loading the sight when scrolling" on iPhone, fine on Android).
+   iOS WebKit only (-webkit-touch-callout is iOS-only); Android + desktop untouched. */
+@supports (-webkit-touch-callout:none){
+/* per-card backdrop blur re-blurs the animated fixed sky/circuit/aurora behind every card each frame; denser glass keeps the look */
+.game{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(18,22,52,.9)}
+/* SVG feGaussianBlur glow on the fixed full-screen #circuit is rasterised on the CPU by WebKit on every repaint (5x idle frame cost in tests) */
+#circuit #trace,#circuit #pulse,#circuit #bulb circle{filter:none}
+/* pause decorative animations while scrolling (home.js toggles html.is-scrolling) and card fx offscreen (.fx-off) */
+html.is-scrolling *,html.is-scrolling *::before,html.is-scrolling *::after,.game.fx-off .fx,.game.fx-off .fx *,.game.fx-off .free,.game.fx-off .orbs i{animation-play-state:paused}
+}
