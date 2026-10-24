@@ -525,3 +525,5 @@ body.ui-reduce .b-trainer-fig, body.ui-reduce .b-intro-row { transition: none; a
 .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.aside { bottom: 0; left: 50%; translate: -50% 0; height: min(24vh, 190px); opacity: 1; z-index: 1; transition: none; }
 body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot { left: calc(100% + 10px); }
 body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.aside { height: min(30vh, 112px); }
+
+.hud-stuck{pointer-events:auto;position:absolute;top:calc(100% + 6px);right:0;border:3px solid var(--outline);border-radius:var(--r-chip);padding:4px 10px;font:inherit;font-size:.8em;font-weight:800;background:#fff;color:#111;cursor:pointer}

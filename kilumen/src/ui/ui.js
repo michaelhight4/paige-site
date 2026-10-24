@@ -118,6 +118,12 @@ export class GameUI {
       this.menuBtn = el('button', 'hud-menu', this.hudTop, touch ? `${glyph('menu')}<span>Menu</span>` : `${glyph('menu')}<span>Menu</span><span class="k">Esc</span>`);
       this.menuBtn.dataset.pat = 'dots'; this.menuBtn.dataset.scr = 'title'; this.menuBtn.setAttribute('aria-label', 'Open menu');
       this.menuBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); this.requestOpen('phone'); });
+      // "I'm stuck" (Gary Oct 24): teleport to the front of the spawn house
+      this.stuckBtn = el('button', 'hud-stuck', this.hudTop, "I'm stuck");
+      this.stuckBtn.setAttribute('aria-label', "I'm stuck: return to your house");
+      this.stuckBtn.addEventListener('pointerdown', async (e) => { e.preventDefault(); e.stopPropagation();
+        const sc = this.scene; if (sc.saveLocked || sc.fade || sc.busy) return;
+        const sp = await sc._homeStart(true); if (sp) sc.startWarp(sp, 'stuck'); });
     }
     this.prompt = el('div', 'hud-prompt', this.hud, `<span class="g">A</span><span class="t">Talk</span>`);
     this.root = el('div', 'ui-root', this.body); this.root.hidden = true; this.root.setAttribute('role', 'dialog'); this.root.setAttribute('aria-modal', 'true'); this.root.setAttribute('aria-label', 'Kilumen');
