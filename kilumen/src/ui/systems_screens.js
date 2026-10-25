@@ -3,16 +3,18 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.10-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.10-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.10-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.10-alpha';
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.10-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.10-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.10-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.10-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.10-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.10-alpha';
+import { iconRel } from './data.js?v=v0.2.11-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.11-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.11-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.11-alpha';
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.11-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.11-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.11-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.11-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.11-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.11-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.11-alpha';
+const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
 const nameHtml = (c) => `<span class="nmw"><span class="nmt">${esc(_baseName(c))}</span>${c?.variant ? '<span class="vmark">✦</span>' : ''}</span>`;
 
@@ -98,7 +100,7 @@ export async function installSystemsScreens(ui, sys) {
       const en = energyOf(c), em = maxEnergy(c);
       return `<div class="sys-detail"><div class="sys-dh">${iconHtml(c, cfg)}<div><b class="nmb">${nameHtml(c)}</b> <span class="lv">${esc(S.level || 'Lv.')}${c.level}</span><div>${(sp.el || []).map(elChip).join(' ')} ${statusChip(c)}</div></div></div>
         ${bars(c, S)}<div class="bar-row"><b>XP</b><div class="bar xp"><i style="width:${(xf * 100).toFixed(1)}%"></i></div><span>${Math.round(xf * 100)}%</span></div>
-        <ul class="sys-skills">${(c.skills || []).map((s, k) => `<li><span>${esc(s.replace(/_/g, ' '))}</span><span class="soft">${en[k] ?? 0}/${em[k] ?? 0}</span></li>`).join('')}</ul>
+        <ul class="sys-skills">${(c.skills || []).map((s, k) => `<li><span>${esc(s.replace(/_/g, ' '))}</span><span class="soft">${en[k] ?? 0}/${em[k] ?? 0}</span></li>`).join('')}</ul>${statGrid(c)}
         <div class="soft sys-small">${esc(S.met || 'Met in')}: ${esc(c.origin?.map || c.origin?.at || '—')}${c.held ? ` · ${esc(S.held || 'Holding')}: ${esc(itemName(c.held))}` : ''}</div></div>`;
     };
     const card = (c, i) => `<div class="ui-card sys-card ${i === 0 ? 'lead' : ''} ${isFainted(c) ? 'out' : ''}" data-i="${i}" data-k="${esc(c.uid)}">${iconHtml(c, cfg)}

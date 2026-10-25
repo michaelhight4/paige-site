@@ -4,7 +4,7 @@
 // Pixel-crisp: an 11x11 sprite drawn in code (Kilumen palette, gold with a dark outline), scaled by whole art pixels.
 // Spin = a horizontal scale wave in whole art-pixel columns (the darker back face shows past 90 degrees), plus a 1-2 px bob.
 // Reduced motion: drawn still (no spin, no bob).
-import { TILE } from './constants.js?v=v0.2.10-alpha';
+import { TILE } from './constants.js?v=v0.2.11-alpha';
 
 const ART = [
   '..OOOOOOO..',

@@ -5,10 +5,10 @@
 //     lineage, rt, skills [ids], held, locked, origin {map, how, day} }
 // maxHp / maxEnergy / stats are DERIVED (statsOf) from the battle data, never saved. `uid` is the save key
 // (save.js names it uid); `id` is accepted on input as an alias.
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.10-alpha';
-import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.10-alpha';
-import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.10-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.10-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.11-alpha';
+import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.11-alpha';
+import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.11-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.11-alpha';
 
 let _creatures = null, _skills = null;
 const creatures = () => (_creatures ||= buildCreatures());
@@ -44,6 +44,12 @@ export function engineStats(c) {
   const sk = skillsData();
   const energy = (c.skills?.length ? c.skills : defaultSkills(c.species)).map((id) => sk[id]?.pp ?? 10);
   return { maxHp: hp, maxEnergy: energy };
+}
+/** v0.2.11 party screen: the five battle stats (same base-stat formula as HP, neutral; variant multipliers applied). */
+export function battleStats(c) {
+  const L = Math.max(1, c.level || 1), b = creatures()[c.species]?.baseStats || {}, out = {};
+  for (const k of ['atk', 'def', 'spa', 'spd', 'spe']) { let v = Math.floor((2 * (b[k] ?? 60) * L) / 100) + 5; const m = VARIANT_MODS[c.variant]?.[k]; if (m) v = Math.floor(v * m); out[k] = v; }
+  return out;
 }
 let provider = engineStats;
 export function setStatsProvider(fn) { provider = fn || engineStats; }

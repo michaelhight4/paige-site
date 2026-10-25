@@ -534,3 +534,8 @@ body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.
 .nmw .vmark, .ui-card .nm .nmw .vmark { flex: 0 0 auto; margin-left: .25em; overflow: visible; }
 .ui-card .nm .lv, .top .lv { flex: 0 0 auto; }
 .top .grow.nmw { min-width: 0; }
+
+/* v0.2.11 party stats grid */
+.sys-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 8px; font-size: .78em; margin: 4px 0; }
+.sys-stats span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sys-stats b { opacity: .75; font-weight: 600; margin-right: .3em; }
