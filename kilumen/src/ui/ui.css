@@ -527,3 +527,10 @@ body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot { left: calc(100% +
 body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.aside { height: min(30vh, 112px); }
 
 .hud-stuck{pointer-events:auto;position:absolute;top:calc(100% + 6px);right:0;border:3px solid var(--outline);border-radius:var(--r-chip);padding:4px 10px;font:inherit;font-size:.8em;font-weight:800;background:#fff;color:#111;cursor:pointer}
+
+/* v0.2.10: variant mark never hidden by the level */
+.nmw { display: inline-flex !important; align-items: baseline; min-width: 0; max-width: 100%; overflow: hidden; }
+.nmw .nmt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.nmw .vmark, .ui-card .nm .nmw .vmark { flex: 0 0 auto; margin-left: .25em; overflow: visible; }
+.ui-card .nm .lv, .top .lv { flex: 0 0 auto; }
+.top .grow.nmw { min-width: 0; }

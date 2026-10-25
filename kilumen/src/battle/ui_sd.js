@@ -2,12 +2,12 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.9-alpha';
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.9-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.9-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.9-alpha';
+import { KilumenBattle } from './battle.js?v=v0.2.10-alpha';
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.10-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.10-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.10-alpha';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.9-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.10-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -135,7 +135,7 @@ export function makeSdBattle(ui, opts, h) {
   const drawPlate = (s) => {
     const m = mon[s]; if (!m) return;
     $(`#plate-${s}`).dataset.el = speciesById(m.species).el[0];
-    $(`#${s}-name`).textContent = m.name; $(`#${s}-lv`).textContent = `Lv.${m.level}`;
+    { const el = $(`#${s}-name`), v = / ✦$/.test(m.name || ''); el.textContent = ''; const t = document.createElement('span'); t.className = 'nmt'; t.textContent = v ? m.name.slice(0, -2) : m.name; el.append(t); if (v) { const k = document.createElement('span'); k.className = 'vmark'; k.textContent = '✦'; el.append(k); } el.classList.add('nmw'); } $(`#${s}-lv`).textContent = `Lv.${m.level}`;
     drawParty(s);
     const f = Math.max(0, m.hp / m.maxhp), b = $(`#${s}-hp`); b.dataset.lvl = lvlOf(f); b.firstElementChild.style.width = `${f * 100}%`;
     if (s === 'p1') {

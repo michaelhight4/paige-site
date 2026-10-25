@@ -3,15 +3,18 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.9-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.9-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.9-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.9-alpha';
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.9-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.9-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.9-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.9-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.9-alpha';
+import { iconRel } from './data.js?v=v0.2.10-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.10-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.10-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.10-alpha';
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.10-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.10-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.10-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.10-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.10-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.10-alpha';
+// v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
+const nameHtml = (c) => `<span class="nmw"><span class="nmt">${esc(_baseName(c))}</span>${c?.variant ? '<span class="vmark">✦</span>' : ''}</span>`;
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const lvlOf = (f) => (f > 0.5 ? 'good' : f > 0.2 ? 'warn' : 'bad');
@@ -93,13 +96,13 @@ export async function installSystemsScreens(ui, sys) {
       const sp = speciesInfo(c.species) || { el: ['normal'], name: c.species }, next = xpForLevel(c.level + 1), base = xpForLevel(c.level);
       const xf = c.level >= 100 ? 1 : Math.max(0, Math.min(1, (c.xp - base) / Math.max(1, next - base)));
       const en = energyOf(c), em = maxEnergy(c);
-      return `<div class="sys-detail"><div class="sys-dh">${iconHtml(c, cfg)}<div><b>${esc(displayName(c))}</b> <span class="lv">${esc(S.level || 'Lv.')}${c.level}</span><div>${(sp.el || []).map(elChip).join(' ')} ${statusChip(c)}</div></div></div>
+      return `<div class="sys-detail"><div class="sys-dh">${iconHtml(c, cfg)}<div><b class="nmb">${nameHtml(c)}</b> <span class="lv">${esc(S.level || 'Lv.')}${c.level}</span><div>${(sp.el || []).map(elChip).join(' ')} ${statusChip(c)}</div></div></div>
         ${bars(c, S)}<div class="bar-row"><b>XP</b><div class="bar xp"><i style="width:${(xf * 100).toFixed(1)}%"></i></div><span>${Math.round(xf * 100)}%</span></div>
         <ul class="sys-skills">${(c.skills || []).map((s, k) => `<li><span>${esc(s.replace(/_/g, ' '))}</span><span class="soft">${en[k] ?? 0}/${em[k] ?? 0}</span></li>`).join('')}</ul>
         <div class="soft sys-small">${esc(S.met || 'Met in')}: ${esc(c.origin?.map || c.origin?.at || '—')}${c.held ? ` · ${esc(S.held || 'Holding')}: ${esc(itemName(c.held))}` : ''}</div></div>`;
     };
     const card = (c, i) => `<div class="ui-card sys-card ${i === 0 ? 'lead' : ''} ${isFainted(c) ? 'out' : ''}" data-i="${i}" data-k="${esc(c.uid)}">${iconHtml(c, cfg)}
-      <div class="nm"><span>${esc(displayName(c))}</span><span class="lv">Lv.${c.level}</span>${i === 0 ? '<span class="sys-lead" title="Trail Buddy">Lead</span>' : ''}${statusChip(c)}</div><div>${bars(c, S)}</div></div>`;
+      <div class="nm">${nameHtml(c)}<span class="lv">Lv.${c.level}</span>${i === 0 ? '<span class="sys-lead" title="Trail Buddy">Lead</span>' : ''}${statusChip(c)}</div><div>${bars(c, S)}</div></div>`;
     const scr = { scr: 'team', pat: 'dots', title: T('system_phone.menu.labels.team', 'Team'), glyph: 'team', sel: 0, cols: 1, count: () => party().length,
       chips: () => `<span class="ui-chip dark">${party().length}/${partyMax()}</span>`,
       render: () => {
@@ -226,7 +229,7 @@ export async function installSystemsScreens(ui, sys) {
   ui.scr_sys_heal = function (arg = {}) {
     const H = T('system_heal.choices.labels', {}), b = arg.branch || branchByZone(sys.zone), region = regionOf(b?.zone);
     const shops = getShops();
-    const row = (c, i) => `<div class="ui-card sys-card ${isFainted(c) ? 'out' : ''}" data-k="${esc(c.uid)}">${iconHtml(c, cfg)}<div class="nm"><span>${esc(displayName(c))}</span><span class="lv">Lv.${c.level}</span>${statusChip(c)}${!needsHeal(c) ? '<span class="sys-ok" data-pat="dots">Rested</span>' : ''}</div><div>${bars(c)}</div></div>`;
+    const row = (c, i) => `<div class="ui-card sys-card ${isFainted(c) ? 'out' : ''}" data-k="${esc(c.uid)}">${iconHtml(c, cfg)}<div class="nm">${nameHtml(c)}<span class="lv">Lv.${c.level}</span>${statusChip(c)}${!needsHeal(c) ? '<span class="sys-ok" data-pat="dots">Rested</span>' : ''}</div><div>${bars(c)}</div></div>`;
     const choices = [['rest', H.rest || 'Rest my team'], ['no', H.no || 'Not now']];
     const scr = { scr: 'heal', pat: 'crystal', title: `Revival Tech · ${region.city || ''}`, glyph: 'save', sel: 0, cols: 1, count: () => (arg.done ? 1 : choices.length),
       chips: () => `<span class="ui-chip dark">Copay ${fmtMoney(region.copay ?? shops.regions._default.copay)}</span>${money(sys.wallet.coins)}`,
