@@ -5,10 +5,10 @@
 //     lineage, rt, skills [ids], held, locked, origin {map, how, day} }
 // maxHp / maxEnergy / stats are DERIVED (statsOf) from the battle data, never saved. `uid` is the save key
 // (save.js names it uid); `id` is accepted on input as an alias.
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.8-alpha';
-import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.8-alpha';
-import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.8-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.8-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.9-alpha';
+import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.9-alpha';
+import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.9-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.9-alpha';
 
 let _creatures = null, _skills = null;
 const creatures = () => (_creatures ||= buildCreatures());
@@ -24,7 +24,9 @@ export function levelForXp(xp, rules = KILUMEN_RULES) {
 
 export const speciesInfo = (sp) => SPECIES.find((s) => s.id === sp) || null;
 export const speciesName = (sp) => speciesInfo(sp)?.name || (sp ? sp[0].toUpperCase() + sp.slice(1) : '?');
-export const displayName = (c) => (c?.nickname || speciesName(c?.species));
+export const VARIANT_MARK = '✦'; // variant creatures (c.variant set) show this right after the name
+export const baseName = (c) => (c?.nickname || speciesName(c?.species));
+export const displayName = (c) => baseName(c) + (c?.variant ? ' ' + VARIANT_MARK : '');
 export const defaultSkills = (sp) => skillIdsFor(speciesInfo(sp)?.el || ['normal'], speciesInfo(sp)?.skillPool);
 export const idOf = (c) => c?.uid || c?.id || null;
 

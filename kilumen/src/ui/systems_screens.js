@@ -3,15 +3,15 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.8-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.8-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.8-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.8-alpha';
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.8-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.8-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.8-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.8-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.8-alpha';
+import { iconRel } from './data.js?v=v0.2.9-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.9-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.9-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.9-alpha';
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.9-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.9-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.9-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.9-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.9-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const lvlOf = (f) => (f > 0.5 ? 'good' : f > 0.2 ? 'warn' : 'bad');
@@ -120,13 +120,20 @@ export async function installSystemsScreens(ui, sys) {
       onA: async (i) => {
         const c = party()[i]; if (!c) return;
         const usable = sys.bag.pocket('care').filter((it) => sys.bag.canUse(it.id, c).ok || sys.bag.canUse(it.id, c).reason === 'rest_only');
-        const opts = [...(i > 0 ? [['lead', L.move || 'Move']] : []), ...(usable.length ? [['item', 'Use item']] : []), ['back', L.back || 'Back']];
+        const opts = [...(i > 0 ? [['lead', L.move || 'Move']] : []), ...(usable.length ? [['item', 'Use item']] : []), ...(isDemo() ? [] : [['rename', 'Rename']]), ['back', L.back || 'Back']];
         const k = await ui.ask('team', [displayName(c)], opts.map((o) => o[1]), { pat: 'dots' });
         const act = opts[k]?.[0];
         if (act === 'lead' && isDemo()) { await demoOrder([i, ...party().map((_, k) => k).filter((k) => k !== i)], i); return; }
         if (act === 'lead') {
           sys.party.setLead(i); scr.sel = 0;
           ui.note(P('system_party.new_lead', ['{creature} takes the lead. It looks pleased.'], { creature: displayName(c) })[0], 2200);
+        } else if (act === 'rename') {
+          const v = typeof prompt === 'function' ? prompt('New name (max 12 letters). Leave empty to use the species name.', c.nickname || '') : null;
+          if (v !== null) {
+            const nn = v.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 12);
+            c.nickname = nn || null; if (sys.scene) sys.scene._dirty = true;
+            ui.note(`Now called ${displayName(c)}.`, 2000);
+          }
         } else if (act === 'item') {
           const j = await ui.ask('team', ['Use which item?'], [...usable.map((it) => `${itemName(it.id)} ×${it.n}`), L.back || 'Back'], { pat: 'dots' });
           if (j < usable.length) await useOn('team', usable[j].id, i);

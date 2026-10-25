@@ -1,8 +1,8 @@
 // Kilumen party + Field Archive (PC boxes) + starter flow. systems-gd pass, Oct 22, 2026.
 // The live party array stays scene.party (overworld.js reads it for the Trail Buddy follower and {lead});
 // Party only ever edits that array in place or reassigns scene.party, then asks the scene to refresh the follower.
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.8-alpha';
-import { createCreature, deserialise, serialise, healFull, isFainted, idOf } from './creature.js?v=v0.2.8-alpha';
+import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.9-alpha';
+import { createCreature, deserialise, serialise, healFull, isFainted, idOf } from './creature.js?v=v0.2.9-alpha';
 
 export const partyMax = (rules = KILUMEN_RULES) => rules.partyMax;
 
@@ -18,6 +18,7 @@ export class Archive {
   get size() { return this.boxes.reduce((n, b) => n + b.length, 0); }
   /** First box with room; null when every box is full. */
   deposit(c, idLevel = 1, from = 0) {
+    if (this.size >= (this.cfg.storageCap ?? 250)) return null; // company storage: 250 slots
     const n = this.boxCount(idLevel);
     for (let k = 0; k < n; k++) {
       const i = (from + k) % n, b = this.box(i);

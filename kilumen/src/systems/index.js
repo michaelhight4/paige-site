@@ -1,16 +1,16 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.8-alpha';
-import { Party, Archive } from './party.js?v=v0.2.8-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.8-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.8-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.8-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.8-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.8-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.8-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.8-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.8-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.9-alpha';
+import { Party, Archive } from './party.js?v=v0.2.9-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.9-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.9-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.9-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.9-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.9-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.9-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.9-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.9-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)
@@ -200,6 +200,8 @@ export class Systems {
       const c = createCreature({ species: res.caught.species, level: res.caught.level, variant: res.caught.variant, origin: { map: this.scene.map?.name || null, how: 'caught', day: this.scene.clock?.day ?? 0 } });
       if (Number.isFinite(res.caught.hp) && res.caught.hp > 0) c.hp = Math.min(maxHp(c), res.caught.hp);
       res.caughtTo = this.party.add(c, this.company?.idLevel || 1);
+      if (res.caughtTo.where === 'archive') this.scene.toast?.('Team full. Sent to company storage.');
+      else if (res.caughtTo.where === 'none') this.scene.toast?.('Team and company storage are both full. It slipped away.');
     }
     this.scene._dirty = true;
     return this.party.allFainted() ? 'blackout' : res?.outcome || null;
