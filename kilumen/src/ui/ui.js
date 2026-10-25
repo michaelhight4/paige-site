@@ -8,24 +8,25 @@
 // Open: Esc or M (keyboard), Start (pad button 9), the menu button (touch / mouse). Dev: ?ui=title|phone|team|summary|pack|
 // kilindex|shop|archive|save|options|map|battle|levelup, ?uidemo=1 (demo team/bag/gold, not saved), ?battle=shell
 // (old scripted battle shell instead of the default engine battle, src/battle/ui_sd.js; Oct 23, 2026), ?title=0|1 (title on a bare URL only by default).
-import { iconRel, battleSpriteRel } from './data.js?v=v0.2.22-alpha'; // creature sync (Oct 23, 2026)
-import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.22-alpha';
+import { iconRel, battleSpriteRel } from './data.js?v=v0.2.23-alpha';
+import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.23-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
+import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.23-alpha';
 // FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
-import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.22-alpha';
-import { installWildEncounters } from '../battle/encounters.js?v=v0.2.22-alpha'; // battles default v1: wild encounters
+import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.23-alpha';
+import { installWildEncounters } from '../battle/encounters.js?v=v0.2.23-alpha'; // battles default v1: wild encounters
 // UI tools pass (Oct 22, 2026; Gary: "use them and log them for later use"): lrud-spatial (Apache-2.0) picks the nearest item
 // in the pressed direction from the real layout; SortableJS (MIT, lazy) drags Team / Field Archive; ?dev=1 lazy-loads the
 // lil-gui tuning panel (./devpanel.js); Kenney CC0 PLACEHOLDER art (art/ui/kenney_placeholder) only where there was none.
-import { getNextFocus } from '../vendor/lrud-spatial/lrud.js?v=v0.2.22-alpha';
-import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js?v=v0.2.22-alpha';
+import { getNextFocus } from '../vendor/lrud-spatial/lrud.js?v=v0.2.23-alpha';
+import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js?v=v0.2.23-alpha';
 // UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
 // auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
-import { showContinue } from '../overworld/save.js?v=v0.2.22-alpha'; // first-launch Continue fix (batch 3 wire)
-import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.22-alpha';
-import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.22-alpha';
-import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.22-alpha';
-import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.22-alpha'; // capture rules (Gary, Oct 23 2026)
+import { showContinue } from '../overworld/save.js?v=v0.2.23-alpha'; // first-launch Continue fix (batch 3 wire)
+import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.23-alpha';
+import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.23-alpha';
+import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.23-alpha';
+import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.23-alpha'; // capture rules (Gary, Oct 23 2026)
 const KPH = 'art/ui/kenney_placeholder/';
 const kph = (f, cls = 'ph-ico') => `<img class="${cls}" data-placeholder="kenney" src="${KPH}${f}.png" alt="" aria-hidden="true" draggable="false">`;
 const LRUD_KEY = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
@@ -313,7 +314,7 @@ export class GameUI {
         } });
       el.dataset.sortable = 'on';
     };
-    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js?v=v0.2.22-alpha').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
+    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js?v=v0.2.23-alpha').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
   }
   async _reorderTeam(order, moved) { // drag-to-reorder: same creature objects, new order (duplicates of a species are kept)
     const s = this.scene, real = !!s.party?.length, list = this.party(), name = (c) => c.nickname || speciesById(c.species).name;
@@ -779,7 +780,50 @@ export class GameUI {
   _simple(id, title, pat, text) {
     return { scr: id, pat, title, glyph: id, sel: 0, cols: 1, count: () => 0, render: () => `<div class="ui-panel ui-pad ui-grow" data-scr="${id}" data-pat="${pat}" data-scroll><div class="plate ui-empty">${EMPTY_ICONS[id] ? pxi(EMPTY_ICONS[id], 'pxi pxi-empty') : ''}${esc(text)}</div></div>`, onA: () => {} };
   }
+  // v0.2.23 (Gary, Oct 24 2026): the map has two views. 'Region' = the painted overview (unchanged); 'Paths' = a node-and-line
+  // diagram GENERATED from the real map links (src/ui/connections.gen.js, tools/gen_connections.py) placed on the same
+  // world_layout map_pos as the painted dots. ◀▶ / L R or the tabs switch views; B backs out as before. Opening it never saves.
   scr_map() {
+    const subs = { art: this._scrMapArt(), paths: this._scrMapPaths() };
+    let view = this._mapView === 'paths' ? 'paths' : 'art';
+    const tabs = () => `<div class="cm-tabs" role="tablist">${[['art', 'Region'], ['paths', 'Paths']].map(([k, t]) => `<button type="button" role="tab" class="cm-tab${k === view ? ' on' : ''}" aria-pressed="${k === view}" data-act="mapview:${k}">${t}</button>`).join('')}</div>`;
+    const cur = () => subs[view];
+    const scr = { scr: 'map', pat: 'leaf', title: this.T('system_phone.menu.labels.map', 'Map'), glyph: 'map', cols: 1,
+      get sel() { return cur().sel; }, set sel(v) { cur().sel = v; },
+      count: () => cur().count(),
+      render: () => `<div class="cm-wrap">${tabs()}${cur().render()}</div>`,
+      after: () => cur().after?.(), onSel: (i) => cur().onSel?.(i),
+      hint: () => this.hintText([['◀▶', 'View'], ['▲▼', 'Place'], ...(view === 'art' && this.scene.overnight?.region?.enabled ? [['A', 'Skylift']] : []), ['B', 'Back']]),
+      onA: (i) => cur().onA?.(i),
+      onLR: () => { view = this._mapView = view === 'art' ? 'paths' : 'art'; this.rerender(); },
+      onAct: (a) => { const m = /^mapview:(art|paths)$/.exec(a || ''); if (m && m[1] !== view) scr.onLR(); },
+    };
+    return scr;
+  }
+  _scrMapPaths() {
+    const N = CONN_NODES, by = Object.fromEntries(N.map((n) => [n.id, n])), sc = this.scene;
+    const z = sc.zone?.(), here = by[sc.map?.name] ? sc.map.name : by[sc.lastDoor?.map] ? sc.lastDoor.map : N.find((n) => n.zone === z)?.id || (z === 'greystone_caverns' ? 'greystone_entrance' : null);
+    const order = [...N].sort((a, b) => (a.kind === 'road') - (b.kind === 'road') || a.y - b.y || a.x - b.x);
+    const scr = { sel: Math.max(0, order.findIndex((n) => n.id === here)), count: () => order.length,
+      render: () => {
+        const X = (n) => (n.x * 1000).toFixed(1), Y = (n) => (n.y * 750).toFixed(1);
+        const lines = CONN_EDGES.map((e) => { const a = by[e.a], b = by[e.b]; return `<line x1="${X(a)}" y1="${Y(a)}" x2="${X(b)}" y2="${Y(b)}" class="cm-l${a.draft || b.draft ? ' ea' : ''}${a.kind === 'cave' && b.kind === 'cave' ? ' cv' : ''}"/>`; }).join('');
+        const nodes = order.map((n, i) => { const r = n.kind === 'road' ? 7 : n.kind === 'cave' ? 8 : 13, ly = n.kind === 'road' ? -12 : n.kind === 'cave' ? (i % 2 ? -14 : r + 16) : r + 17;
+          return `<g class="cm-n k-${n.kind}${n.draft ? ' ea' : ''}${n.id === here ? ' here' : ''}" data-i="${i}" role="option" tabindex="0" aria-label="${esc(n.name)}${n.id === here ? ', you are here' : ''}">
+            ${n.id === here ? `<circle class="cm-ring" cx="${X(n)}" cy="${Y(n)}" r="${r + 7}"/>` : ''}<circle cx="${X(n)}" cy="${Y(n)}" r="${r}"/><text x="${X(n)}" y="${(+Y(n) + ly).toFixed(1)}">${esc(n.name)}</text></g>`; }).join('');
+        return `<div class="ui-body"><div class="ui-panel ui-grow cm-frame" data-scr="map" data-pat="leaf" style="flex:2"><div class="cm-scroll" data-scroll><svg class="cm-svg" viewBox="-40 -30 1080 820" role="listbox" aria-label="Paths between places">${lines}${nodes}</svg></div></div>
+          <div class="plate ui-pad ui-scroll" style="flex:1"><div id="mapinfo"></div><ul class="rm-legend cm-legend"><li><i class="cm-k here"></i>You are here</li><li><i class="cm-k town"></i>Town</li><li><i class="cm-k road"></i>Trail or Road</li><li><i class="cm-k ea"></i>Early access</li></ul></div></div>`;
+      },
+      after: () => { scr.onSel(scr.sel); this.stage.querySelector('.cm-n.here')?.scrollIntoView?.({ block: 'center', inline: 'center' }); },
+      onSel: (i) => { const n = order[i], el = this.stage.querySelector('#mapinfo'); if (!el || !n) return;
+        const to = CONN_EDGES.filter((e) => e.a === n.id || e.b === n.id).map((e) => by[e.a === n.id ? e.b : e.a]).filter(Boolean);
+        const kind = { town: 'Town', road: 'Trail', area: 'Area', cave: 'Cave' }[n.kind];
+        el.innerHTML = `<b style="font-size:1.15em">${esc(n.name)}</b><p class="soft">${kind}${n.draft ? ' · Early access' : ''}${n.id === here ? ' · You are here' : ''}</p><p>Leads to: ${to.map((t) => esc(t.name)).join(', ') || '—'}</p>`; },
+      onA: () => {},
+    };
+    return scr;
+  }
+  _scrMapArt() {
     // Region map cleanup (Oct 23, 2026, Gary: "can we clean this up some"): the box keeps the art's 4:3 (no cover crop, so
     // world_layout map_pos lines up on PC and phone); each dot's bottom tip sits on map_pos, just above the painted name plate
     // (map_label), so a dot never covers a name. Dot colours: red = you are here, yellow = status 'built', white = not built yet.
@@ -1039,7 +1083,7 @@ export function mountUI(opts) {
   if (!shell) wireWild(ui, scene, q); // wild encounters from tall grass (src/battle/encounters.js)
   if (!shell) {
     // trainers resolve won/lost from the engine result
-    const load = import('../battle/ui_sd.js?v=v0.2.22-alpha').then((m) => { ui.sdMod = m; return m; });
+    const load = import('../battle/ui_sd.js?v=v0.2.23-alpha').then((m) => { ui.sdMod = m; return m; });
     ui.sdReady = load;
     scene.hooks.onBattle = (who) => load.then(() => new Promise((res) => {
       ui.open('battle', { trainer: true, who }); const scr = ui.top; let out = null;
