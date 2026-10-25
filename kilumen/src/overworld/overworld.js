@@ -4,32 +4,32 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.12-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.12-alpha';
-import { GridMover } from './movement.js?v=v0.2.12-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.12-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.12-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.12-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.12-alpha';
-import { Renderer } from './renderer.js?v=v0.2.12-alpha';
-import { drawDebug } from './debug.js?v=v0.2.12-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.12-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.12-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.12-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.12-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.12-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.12-alpha';
-import { LivingWorld } from './living.js?v=v0.2.12-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.12-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.12-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.12-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.12-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.12-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.12-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.12-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.12-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.12-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.12-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.13-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.13-alpha';
+import { GridMover } from './movement.js?v=v0.2.13-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.13-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.13-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.13-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.13-alpha';
+import { Renderer } from './renderer.js?v=v0.2.13-alpha';
+import { drawDebug } from './debug.js?v=v0.2.13-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.13-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.13-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.13-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.13-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.13-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.13-alpha';
+import { LivingWorld } from './living.js?v=v0.2.13-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.13-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.13-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.13-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.13-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.13-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.13-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.13-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.13-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.13-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.13-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -53,7 +53,7 @@ export function nativeRenderDiv(opts, h) {
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.12-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.13-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -912,10 +912,11 @@ export class Overworld {
     const sys = this.systems;
     if (!sys?.party || !sys.archive) return this.openInbox();
     for (;;) {
-      const k = await this.ask([`Company terminal. Storage: ${sys.archive.size}/250.`], ['Inbox', 'Store', 'Retrieve', 'Log off']);
+      const k = await this.ask([`Company terminal. Storage: ${sys.archive.size}/250.`], ['Inbox', 'Store', 'Retrieve', 'Sell', 'Log off']);
       if (k === 0) await this.openInbox();
       else if (k === 1) await this._termStore();
       else if (k === 2) await this._termRetrieve();
+      else if (k === 3) await this._termSell();
       else return;
     }
   }
@@ -928,6 +929,40 @@ export class Overworld {
     const name = this._termName(L[k]), r = sys.party.depositAt(k, sys.company?.idLevel || 1);
     if (r.ok) { this._dirty = true; await this.say([`${name} was sent to company storage.`]); }
     else await this.say([r.reason === 'box_full' ? 'Company storage is full.' : 'Keep at least one creature able to battle in your team.']);
+  }
+  // v0.2.13 sell (Gary): 100 coins, 200 if rare (variant ✦, or an explicit rare/rarity field on the creature).
+  _sellPrice(c) { return (c.variant || c.rare === true || String(c.rarity || '').toLowerCase() === 'rare') ? 200 : 100; }
+  async _termSell() {
+    const sys = this.systems;
+    const from = await this.ask(['Sell from where?'], ['Team', 'Company storage', 'Back']);
+    if (from === 0) {
+      const L = sys.party.list;
+      const k = await this.ask(['Sell which creature?'], [...L.map((c) => this._termName(c) + ' (' + this._sellPrice(c) + ')'), 'Back']);
+      if (!(k >= 0 && k < L.length)) return;
+      const c = L[k], name = this._termName(c), price = this._sellPrice(c);
+      if (await this.ask([`Sell ${name} for ${price} coins?`], ['Yes', 'No']) !== 0) return;
+      const r = sys.party.sellAt(k);
+      if (!r.ok) { await this.say(['Keep at least one creature able to battle in your team.']); return; }
+      sys.wallet.add(price); this._dirty = true;
+      await this.say([`Sold ${name} for ${price} coins.`]);
+    } else if (from === 1) {
+      const all = []; sys.archive.boxes.forEach((b, bi) => b.forEach((c, si) => all.push({ c, bi, si })));
+      if (!all.length) { await this.say(['Company storage is empty.']); return; }
+      const per = 6;
+      for (let page = 0; ;) {
+        const slice = all.slice(page * per, page * per + per), more = all.length > (page + 1) * per;
+        const opts = [...slice.map((e) => this._termName(e.c) + ' (' + this._sellPrice(e.c) + ')'), ...(more ? ['Next page'] : []), ...(page > 0 ? ['Previous page'] : []), 'Back'];
+        const k = await this.ask([`Sell which creature? (${page * per + 1}-${page * per + slice.length} of ${all.length})`], opts);
+        if (k >= 0 && k < slice.length) {
+          const e = slice[k], name = this._termName(e.c), price = this._sellPrice(e.c);
+          if (await this.ask([`Sell ${name} for ${price} coins?`], ['Yes', 'No']) !== 0) return;
+          if (sys.archive.take(e.bi, e.si)) { sys.wallet.add(price); this._dirty = true; await this.say([`Sold ${name} for ${price} coins.`]); }
+          return;
+        }
+        const o = opts[k];
+        if (o === 'Next page') page++; else if (o === 'Previous page') page--; else return;
+      }
+    }
   }
   async _termRetrieve() {
     const sys = this.systems;

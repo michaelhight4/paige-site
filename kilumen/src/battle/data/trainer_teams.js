@@ -14,7 +14,7 @@
 // Kilumen species only. Thornwood (region 2) is a guess (L11-13), not play-checked, no higher than Master 1; its
 // bramblehog L13 is below its evolution level 16 (flagged to Gary). Master 2 / Saltmere: not authored.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.12-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.13-alpha';
 
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end

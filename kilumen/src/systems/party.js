@@ -1,8 +1,8 @@
 // Kilumen party + Field Archive (PC boxes) + starter flow. systems-gd pass, Oct 22, 2026.
 // The live party array stays scene.party (overworld.js reads it for the Trail Buddy follower and {lead});
 // Party only ever edits that array in place or reassigns scene.party, then asks the scene to refresh the follower.
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.12-alpha';
-import { createCreature, deserialise, serialise, healFull, isFainted, idOf } from './creature.js?v=v0.2.12-alpha';
+import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.13-alpha';
+import { createCreature, deserialise, serialise, healFull, isFainted, idOf } from './creature.js?v=v0.2.13-alpha';
 
 export const partyMax = (rules = KILUMEN_RULES) => rules.partyMax;
 
@@ -95,6 +95,14 @@ export class Party {
     if (!at) return { ok: false, reason: 'box_full' };
     this.list.splice(i, 1); this._changed(i === 0);
     return { ok: true, ...at };
+  }
+  /** v0.2.13 sell: remove team creature i; never the last one able to battle. */
+  sellAt(i) {
+    const c = this.list[i];
+    if (!c) return { ok: false, reason: 'none' };
+    if (this.list.filter((x) => x !== c && !isFainted(x)).length === 0) return { ok: false, reason: 'last_one' };
+    this.list.splice(i, 1); this._changed(i === 0);
+    return { ok: true, c };
   }
   withdraw(box, slot) {
     if (this.full) return { ok: false, reason: 'team_full' };
