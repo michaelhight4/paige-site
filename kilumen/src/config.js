@@ -45,3 +45,7 @@ export const CONFIG = Object.freeze({
   nightFxAnchors: 'src/overworld/nightfx_anchors.json', // coder-owned window/lamp light anchors (map files stay World Design's)
   paletteHex: 'art/palette/kilumen.hex',                // locked 64-colour palette (moon map snaps to it)
 });
+
+// v0.2.16 (Gary): every trainer with battle lines who sees the player engages (no talk-only / optional trainers). false = map sight data only.
+export const ALL_TRAINERS_ENGAGE = true;
+export const DEFAULT_SIGHT_RANGE = 3;

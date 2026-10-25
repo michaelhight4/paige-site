@@ -4,32 +4,32 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.15-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.15-alpha';
-import { GridMover } from './movement.js?v=v0.2.15-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.15-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.15-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.15-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.15-alpha';
-import { Renderer } from './renderer.js?v=v0.2.15-alpha';
-import { drawDebug } from './debug.js?v=v0.2.15-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.15-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.15-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.15-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.15-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.15-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.15-alpha';
-import { LivingWorld } from './living.js?v=v0.2.15-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.15-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.15-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.15-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.15-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.15-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.15-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.15-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.15-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.15-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.15-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.16-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.16-alpha';
+import { GridMover } from './movement.js?v=v0.2.16-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.16-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.16-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.16-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.16-alpha';
+import { Renderer } from './renderer.js?v=v0.2.16-alpha';
+import { drawDebug } from './debug.js?v=v0.2.16-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.16-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.16-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.16-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.16-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.16-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.16-alpha';
+import { LivingWorld } from './living.js?v=v0.2.16-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.16-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.16-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.16-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.16-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.16-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.16-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.16-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.16-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.16-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.16-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -53,7 +53,7 @@ export function nativeRenderDiv(opts, h) {
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.15-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.16-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -832,6 +832,10 @@ export class Overworld {
         if (e.battle_lost) { // trainer: challenge -> battle hook -> lost line; later talks use `after`
           const dk = `defeated:${mapName}.${def.id}`;
           if (this.seen[dk]) { await this.say(e.after || this.pick(e, key)?.pages, sp); return; }
+          if (def.kind === 'master' && /_hall_int$/.test(mapName)) { // v0.2.16 (Gary): beat every hall trainer before the Master
+            const left = (this.map.npcs || []).filter((d) => d && d.id !== def.id && d.kind !== 'master' && /trainer/.test(d.kind || '') && this._entryFor(mapName, d)?.battle_lost && !this.seen[`defeated:${mapName}.${d.id}`]).length;
+            if (left > 0) { await this.say([`Beat the rest of my hall first. ${left} trainer${left === 1 ? '' : 's'} left.`], sp); return; }
+          }
           // no creature yet (Gary 9:36): never open a battle with an empty party (the battle screens would lend a placeholder Rillop)
           if (!(this.systems?.party?.list || this.party || []).length) {
             this.log.push({ tick: this.tick, type: 'battleRefused', npc: def.id, reason: 'no_party' });
