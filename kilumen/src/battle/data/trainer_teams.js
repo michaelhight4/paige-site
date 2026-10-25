@@ -18,7 +18,7 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.18-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.19-alpha';
 
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end
@@ -77,6 +77,32 @@ export const TRAINER_TEAMS = {
   'saltmere_hall_int.saltmere_hall_int_h2': [{ species: 'medulet', level: 20 }, { species: 'whelkin', level: 20 }], // Ivo hall_helper
   'saltmere_hall_int.saltmere_hall_int_h3': [{ species: 'finnip', level: 20 }, { species: 'ribboneel', level: 21 }], // Sully hall_helper
   'saltmere_hall_int.saltmere_hall_int_master': [{ species: 'quaymouser', level: 20 }, { species: 'polypip', level: 21 }, { species: 'spratwyrm', level: 23 }], // Nerys Bryde master
+  // ---- region 3 early access (coder, Oct 24 2026; Gary: "a bit above region 2", wild L22-27, trainers L22-26, Master 3 L27-30) ----
+  'route_revival_saltmere.route_revival_saltmere_trainer_1': [{ species: 'slagrook', level: 23 }, { species: 'shalekin', level: 24 }], // Garrick worker
+  'route_revival_saltmere.route_revival_saltmere_trainer_2': [{ species: 'sailquill', level: 24 }, { species: 'kindlepup', level: 24 }], // Una courier
+  'route_revival_saltmere.route_revival_saltmere_trainer_3': [{ species: 'spiralith', level: 24 }, { species: 'bulwarkrab', level: 25 }], // Vale harbour hand
+  'route_revival_saltmere.route_revival_saltmere_trainer_4': [{ species: 'prismite', level: 25 }, { species: 'scutadillo', level: 26 }], // Wynn veteran
+  'route_revival.route_revival_trainer_1': [{ species: 'scutadillo', level: 22 }, { species: 'topiarix', level: 23 }], // Lark ranger
+  'route_revival.route_revival_trainer_2': [{ species: 'halovy', level: 22 }, { species: 'prismwing', level: 23 }], // Mabry researcher
+  'route_revival.route_revival_trainer_3': [{ species: 'burlbeetle', level: 22 }, { species: 'chiselbug', level: 23 }, { species: 'prismwing', level: 23 }], // Nico
+  'route_revival.route_revival_trainer_4': [{ species: 'slagrook', level: 23 }, { species: 'moatling', level: 23 }], // Orla rail worker
+  'route_revival.route_revival_trainer_5': [{ species: 'sailquill', level: 23 }, { species: 'kindlepup', level: 24 }], // Penn courier
+  'route_revival.route_revival_trainer_6': [{ species: 'reverion', level: 24 }, { species: 'cogwhisk', level: 25 }], // Ambrose scholar
+  'route_revival.route_revival_trainer_7': [{ species: 'ankerling', level: 24 }, { species: 'brinecube', level: 25 }], // Rhea worker
+  'revival_heights.revival_heights_trainer_1': [{ species: 'halovy', level: 25 }, { species: 'prismite', level: 26 }], // Lyle researcher
+  'revival_heights.revival_heights_ron_3': { // Ron rival 3
+    byStarter: {
+      nibbin: [{ species: 'sailquill', level: 24 }, { species: 'glassvine', level: 25 }, { species: 'mirrorkin', level: 25 }, { species: 'emberlunx', level: 27 }],
+      cindrip: [{ species: 'sailquill', level: 24 }, { species: 'topiarix', level: 25 }, { species: 'reverion', level: 25 }, { species: 'brookhorn', level: 27 }],
+      rillop: [{ species: 'sailquill', level: 24 }, { species: 'sproutwyrm', level: 25 }, { species: 'cogwhisk', level: 25 }, { species: 'burrowmane', level: 27 }],
+      tumbloam: [{ species: 'sailquill', level: 24 }, { species: 'glassvine', level: 25 }, { species: 'mirrorkin', level: 25 }, { species: 'emberlunx', level: 27 }], // legacy saves
+    },
+  },
+  'revival_hall_int.revival_hall_int_h1': [{ species: 'halovy', level: 25 }, { species: 'glarekit', level: 25 }], // Mags
+  'revival_hall_int.revival_hall_int_h2': [{ species: 'prismwing', level: 25 }, { species: 'glimmerlamb', level: 25 }], // Dov
+  'revival_hall_int.revival_hall_int_h3': [{ species: 'tollkin', level: 26 }, { species: 'dawnfin', level: 26 }], // Fen
+  'revival_hall_int.revival_hall_int_h4': [{ species: 'candlewren', level: 26 }, { species: 'halovy', level: 26 }], // Corwin
+  'revival_hall_int.revival_hall_int_master': [{ species: 'halovy', level: 27 }, { species: 'gildfinch', level: 28 }, { species: 'fleecelight', level: 28 }, { species: 'lampwick', level: 30 }], // Cassia Lume, Master 3
 };
 
 /** The authored team for `who` ({map, id}) or null. `party` picks Ron's counter team from the player's starter (any stage:

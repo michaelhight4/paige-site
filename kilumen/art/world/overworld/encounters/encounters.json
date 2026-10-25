@@ -931,7 +931,7 @@
     {
      "species": "gargolet",
      "level": [
-      20,
+      22,
       24
      ],
      "weight": 25
@@ -939,15 +939,15 @@
     {
      "species": "burlbeetle",
      "level": [
-      20,
-      23
+      22,
+      24
      ],
      "weight": 20
     },
     {
      "species": "sproutwyrm",
      "level": [
-      20,
+      22,
       24
      ],
      "weight": 20
@@ -955,7 +955,7 @@
     {
      "species": "sailquill",
      "level": [
-      20,
+      22,
       24
      ],
      "weight": 15,
@@ -968,7 +968,7 @@
     {
      "species": "gloamtick",
      "level": [
-      21,
+      22,
       24
      ],
      "weight": 15,
@@ -990,7 +990,7 @@
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_thornwood_revival.json zone tr_grass (grass)",
-   "band": "wild 20-24, trainers 21-25",
+   "band": "wild 22-26 (region 3 early access)",
    "maps": [
     "route_revival"
    ]
@@ -1002,16 +1002,16 @@
     {
      "species": "halovy",
      "level": [
-      22,
-      24
+      23,
+      25
      ],
      "weight": 30
     },
     {
      "species": "gildfinch",
      "level": [
-      21,
-      24
+      23,
+      25
      ],
      "weight": 40
     },
@@ -1019,7 +1019,7 @@
      "species": "tollkin",
      "level": [
       23,
-      24
+      25
      ],
      "weight": 5,
      "time": [
@@ -1029,14 +1029,14 @@
     {
      "species": "railmite",
      "level": [
-      21,
-      23
+      23,
+      25
      ],
      "weight": 25
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_thornwood_revival.json zone tr_crystal_grass (grass (crystal-lit))",
-   "band": "wild 20-24, trainers 21-25",
+   "band": "wild 23-27 (region 3 early access)",
    "maps": []
   },
   "route_revival_saltmere_grass": {
@@ -1046,40 +1046,40 @@
     {
      "species": "sailquill",
      "level": [
-      26,
-      29
+      25,
+      27
      ],
      "weight": 30
     },
     {
      "species": "spraytern",
      "level": [
-      26,
-      29
+      25,
+      27
      ],
      "weight": 20
     },
     {
      "species": "chiselbug",
      "level": [
-      26,
-      29
+      25,
+      27
      ],
      "weight": 20
     },
     {
      "species": "glarekit",
      "level": [
-      26,
-      28
+      25,
+      27
      ],
      "weight": 15
     },
     {
      "species": "gloamtick",
      "level": [
-      27,
-      29
+      25,
+      27
      ],
      "weight": 15,
      "time": [
@@ -1089,7 +1089,7 @@
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_revival_saltmere.json zone rs_grass (grass)",
-   "band": "wild 26-29, trainers 27-30",
+   "band": "wild 22-27 (region 3 early access)",
    "maps": [
     "route_revival_saltmere"
    ]

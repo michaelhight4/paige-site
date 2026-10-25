@@ -236,30 +236,30 @@
     "team": [
      {
       "species": "halovy",
-      "level": 25,
+      "level": 27,
       "battle_species": "halovy",
       "stand_in": false
      },
      {
       "species": "gildfinch",
-      "level": 26,
+      "level": 28,
       "battle_species": "gildfinch",
       "stand_in": false
      },
      {
       "species": "fleecelight",
-      "level": 26,
+      "level": 28,
       "battle_species": "fleecelight",
       "stand_in": false
      },
      {
       "species": "lampwick",
-      "level": 28,
+      "level": 30,
       "battle_species": "lampwick",
       "stand_in": false
      }
     ],
-    "ace_level": 28
+    "ace_level": 30
    },
    "trainers": [
     {
@@ -272,13 +272,13 @@
      "team": [
       {
        "species": "halovy",
-       "level": 24,
+       "level": 25,
        "battle_species": "halovy",
        "stand_in": false
       },
       {
        "species": "glarekit",
-       "level": 24,
+       "level": 25,
        "battle_species": "glarekit",
        "stand_in": false
       }
