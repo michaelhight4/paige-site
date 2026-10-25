@@ -4,7 +4,7 @@
 // `battle` rows are the battle-engine numbers: src/battle/data/rules.js buildItems() builds the engine's item
 // table from BATTLE_ITEMS, so the field and the battle can never disagree. This module imports only plain data (no cycle;
 // safe on a server). Effect amounts are PLACEHOLDER (design/MECHANICS_PARITY.md) until Gary signs them off.
-import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.11-alpha'; // crystal grades + Benefits Board node (Oct 23, 2026)
+import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.12-alpha'; // crystal grades + Benefits Board node (Oct 23, 2026)
 
 /** pocket ids: text/overworld_lines.json comfort.bag_pockets */
 export const POCKETS = ['care', 'feeds', 'gear', 'crystals', 'key', 'logs'];

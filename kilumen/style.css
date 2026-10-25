@@ -127,3 +127,7 @@ body.platform-mobile #world { width: 100vw; height: 100vh; height: 100dvh; }
 
 /* ALPHA build: the debug overlay is off, so its touch button never shows. */
 #touchpad [data-btn=debug] { display: none !important; }
+
+/* v0.2.12 dialog back arrow */
+.dlg-back { position: absolute; top: 4px; right: 4px; z-index: 3; min-width: 44px; min-height: 44px; padding: 0 10px; border: 2px solid #8a6d12; border-radius: 10px; background: #1a1226; color: #ffd75e; font-size: 1.4em; line-height: 1; cursor: pointer; pointer-events: auto; touch-action: manipulation; }
+.dlg-back[hidden] { display: none; }

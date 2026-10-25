@@ -57,6 +57,10 @@ export class Dialog {
     // touch profiles have no F key, so the box (tapDialog) is tapped. Shown by _hint(); style.css .dlg-hint. Visual only (aria-hidden).
     this.hint = el('div', 'dlg-hint', this.box); this.hint.hidden = true; this.hint.setAttribute('aria-hidden', 'true');
     this.hint.textContent = this.controls.touch || this.controls.tapDialog ? 'Tap' : 'Press F';
+    // v0.2.12 back arrow (Gary: stuck in the company inbox): top-right of the box on inbox / choice lists; same as B.
+    this.back = el('button', 'dlg-back', this.box); this.back.type = 'button'; this.back.hidden = true; this.back.textContent = '\u2190'; this.back.setAttribute('aria-label', 'Back');
+    const goBack = (e) => { e.preventDefault(); e.stopPropagation(); if (this.cur) this._tap = { b: true }; };
+    this.back.addEventListener('pointerdown', goBack); this.back.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); });
     this.cur = null;
     this.shown = []; // every page shown (tests)
     root.ownerDocument?.defaultView?.addEventListener?.('resize', () => this._place());
@@ -88,7 +92,7 @@ export class Dialog {
   }
 
   _show() { this.wrap.hidden = false; requestAnimationFrame(() => this.wrap.classList.add('open')); }
-  _close() { this.wrap.classList.remove('open'); this.wrap.hidden = true; this.cur = null; this._tap = null; this._hint(); this._controlsState(); this.placeToast(); }
+  _close() { this.wrap.classList.remove('open'); this.wrap.hidden = true; this.cur = null; this._tap = null; if (this.back) this.back.hidden = true; this._hint(); this._controlsState(); this.placeToast(); }
 
   /** Press F / Tap hint: on while the page can be advanced, off while a choice / inbox list is open. While ui.js types the page
    *  out (.dlg-text .rv spans), style.css holds it back for --dlg-chars x --reveal-ms; each new page restarts that wait. */
@@ -227,6 +231,7 @@ export class Dialog {
         this.more.hidden = true;
       }
     }
+    this.back.hidden = !(c.type === 'inbox' || (c.type === 'ask' && c.i >= c.pages.length - 1));
     this._hint();
     this._place();
   }
@@ -263,6 +268,7 @@ export class Dialog {
     if (!c) return;
     const tap = this._tap; this._tap = null;
     if (tap?.a) a = true;
+    if (tap?.b) { bEdge = true; a = false; }
     if (tap?.pick != null && !this.list.hidden) {
       // a tapped row: select it, then act as A (ask picks it; inbox opens it)
       const n = c.type === 'ask' ? c.choices.length : c.items?.length ?? 0;
