@@ -18,7 +18,7 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.19-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.20-alpha';
 
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end
@@ -103,6 +103,28 @@ export const TRAINER_TEAMS = {
   'revival_hall_int.revival_hall_int_h3': [{ species: 'tollkin', level: 26 }, { species: 'dawnfin', level: 26 }], // Fen
   'revival_hall_int.revival_hall_int_h4': [{ species: 'candlewren', level: 26 }, { species: 'halovy', level: 26 }], // Corwin
   'revival_hall_int.revival_hall_int_master': [{ species: 'halovy', level: 27 }, { species: 'gildfinch', level: 28 }, { species: 'fleecelight', level: 28 }, { species: 'lampwick', level: 30 }], // Cassia Lume, Master 3
+  // ---- region 4 early access (coder, Oct 24 2026; wild L28-33, trainers L28-32, hall L31-33, Master 4 L33-35) ----
+  'frostspire_pass.frostspire_pass_trainer_1': [{ species: 'ledgebex', level: 28 }, { species: 'talusmouse', level: 29 }],
+  'frostspire_pass.frostspire_pass_trainer_2': [{ species: 'shagmount', level: 29 }, { species: 'snowcairn', level: 29 }],
+  'frostspire_pass.frostspire_pass_trainer_3': [{ species: 'snowgrouse', level: 29 }, { species: 'signalwren', level: 30 }],
+  'frostspire_pass.frostspire_pass_trainer_4': [{ species: 'frostlop', level: 30 }, { species: 'delvelet', level: 30 }],
+  'frostspire_pass.frostspire_pass_trainer_5': [{ species: 'ledgebex', level: 30 }, { species: 'gloamtick', level: 30 }, { species: 'snowcairn', level: 31 }],
+  'frostspire.frostspire_trainer_1': [{ species: 'tundrarch', level: 31 }, { species: 'ledgebex', level: 31 }],
+  'frostspire.frostspire_trainer_2': [{ species: 'frostlop', level: 31 }, { species: 'skyrender', level: 31 }],
+  'frostspire.frostspire_trainer_3': [{ species: 'halovy', level: 31 }, { species: 'signalwren', level: 32 }],
+  'frostspire.frostspire_trainer_4': [{ species: 'tundrarch', level: 32 }, { species: 'burlbeetle', level: 32 }],
+  'frostspire_pass.frostspire_pass_ron_4': { // Ron rival 4
+    byStarter: {
+      nibbin: [{ species: 'sailquill', level: 30 }, { species: 'glassvine', level: 30 }, { species: 'mirrorkin', level: 31 }, { species: 'emberlunx', level: 32 }],
+      cindrip: [{ species: 'sailquill', level: 30 }, { species: 'topiarix', level: 30 }, { species: 'reverion', level: 31 }, { species: 'brookhorn', level: 32 }],
+      rillop: [{ species: 'sailquill', level: 30 }, { species: 'sproutwyrm', level: 30 }, { species: 'cogwhisk', level: 31 }, { species: 'burrowmane', level: 32 }],
+      tumbloam: [{ species: 'sailquill', level: 30 }, { species: 'glassvine', level: 30 }, { species: 'mirrorkin', level: 31 }, { species: 'emberlunx', level: 32 }], // legacy saves
+    },
+  },
+  'frostspire_hall_int.frostspire_hall_int_h1': [{ species: 'sailquill', level: 31 }, { species: 'snowgrouse', level: 31 }], // Rue
+  'frostspire_hall_int.frostspire_hall_int_h2': [{ species: 'highkite', level: 32 }, { species: 'signalwren', level: 32 }], // Bram
+  'frostspire_hall_int.frostspire_hall_int_h3': [{ species: 'spraytern', level: 33 }, { species: 'sailquill', level: 33 }], // Tilly
+  'frostspire_hall_int.frostspire_hall_int_master': [{ species: 'sailquill', level: 33 }, { species: 'highkite', level: 34 }, { species: 'pouchbill', level: 34 }, { species: 'gildfinch', level: 35 }], // Hale Corrie, Master 4
 };
 
 /** The authored team for `who` ({map, id}) or null. `party` picks Ron's counter team from the player's starter (any stage:

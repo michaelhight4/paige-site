@@ -904,6 +904,252 @@
    "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
+  },
+  "frostspire.frostspire_villager_1": {
+   "sprite_id": "vil_elder_f",
+   "class": "elder (grandmother, cane)",
+   "overworld_sheet": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_elder_f/overworld/vil_elder_f_chibi/"
+  },
+  "frostspire.frostspire_skylift_tutor": {
+   "sprite_id": "vil_scholar_m",
+   "class": "scholar (old man)",
+   "overworld_sheet": "npcs/vil_scholar_m/overworld/vil_scholar_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_scholar_m/overworld/vil_scholar_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_scholar_m/overworld/vil_scholar_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_scholar_m/overworld/vil_scholar_m_chibi/"
+  },
+  "frostspire.frostspire_trainer_1": {
+   "sprite_id": "tr_hiker_m",
+   "class": "hiker (man)",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/",
+   "trainer_64x128": "npcs/tr_hiker_m/trainer/tr_hiker_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_hiker_m/portraits/tr_hiker_m_angry.png",
+    "happy": "npcs/tr_hiker_m/portraits/tr_hiker_m_happy.png",
+    "neutral": "npcs/tr_hiker_m/portraits/tr_hiker_m_neutral.png"
+   }
+  },
+  "frostspire.frostspire_trainer_2": {
+   "sprite_id": "tr_camper_f",
+   "class": "camper (teen girl)",
+   "overworld_sheet": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_camper_f/overworld/tr_camper_f_chibi/",
+   "trainer_64x128": "npcs/tr_camper_f/trainer/tr_camper_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_camper_f/portraits/tr_camper_f_angry.png",
+    "happy": "npcs/tr_camper_f/portraits/tr_camper_f_happy.png",
+    "neutral": "npcs/tr_camper_f/portraits/tr_camper_f_neutral.png"
+   }
+  },
+  "frostspire.frostspire_trainer_3": {
+   "sprite_id": "tr_scientist_f",
+   "class": "lab aide (non-battling use of scientist sprite)",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "frostspire.frostspire_trainer_4": {
+   "sprite_id": "tr_ranger_m",
+   "class": "forest ranger (man)",
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/",
+   "trainer_64x128": "npcs/tr_ranger_m/trainer/tr_ranger_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_ranger_m/portraits/tr_ranger_m_angry.png",
+    "happy": "npcs/tr_ranger_m/portraits/tr_ranger_m_happy.png",
+    "neutral": "npcs/tr_ranger_m/portraits/tr_ranger_m_neutral.png"
+   }
+  },
+  "frostspire_pass.frostspire_pass_rt_engineer": {
+   "sprite_id": "vil_worker_f",
+   "class": "visitor at storage PC",
+   "overworld_sheet": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_worker_f/overworld/vil_worker_f_chibi/"
+  },
+  "frostspire_pass.frostspire_pass_ron_4": {
+   "sprite_id": "ron",
+   "class": "main cast",
+   "overworld_sheet": "humans/ron/overworld/ron_chibi_sheet.png",
+   "overworld_sheet_2x": "humans/ron/overworld/ron_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "humans/ron/overworld/ron_chibi_sheet_3x.png",
+   "overworld_frames_dir": "humans/ron/overworld/ron_chibi/",
+   "trainer_64x128": "humans/ron/trainer/ron_trainer_64x128.png",
+   "portraits": {
+    "angry": "humans/ron/portraits/ron_angry.png",
+    "happy": "humans/ron/portraits/ron_happy.png",
+    "neutral": "humans/ron/portraits/ron_neutral.png"
+   }
+  },
+  "frostspire_pass.frostspire_pass_trainer_1": {
+   "sprite_id": "tr_hiker_f",
+   "class": "hiker (woman)",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/",
+   "trainer_64x128": "npcs/tr_hiker_f/trainer/tr_hiker_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_hiker_f/portraits/tr_hiker_f_angry.png",
+    "happy": "npcs/tr_hiker_f/portraits/tr_hiker_f_happy.png",
+    "neutral": "npcs/tr_hiker_f/portraits/tr_hiker_f_neutral.png"
+   }
+  },
+  "frostspire_pass.frostspire_pass_trainer_2": {
+   "sprite_id": "tr_hiker_m",
+   "class": "hiker (man)",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/",
+   "trainer_64x128": "npcs/tr_hiker_m/trainer/tr_hiker_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_hiker_m/portraits/tr_hiker_m_angry.png",
+    "happy": "npcs/tr_hiker_m/portraits/tr_hiker_m_happy.png",
+    "neutral": "npcs/tr_hiker_m/portraits/tr_hiker_m_neutral.png"
+   }
+  },
+  "frostspire_pass.frostspire_pass_trainer_3": {
+   "sprite_id": "tr_lass_f",
+   "class": "lass (girl)",
+   "overworld_sheet": "npcs/tr_lass_f/overworld/tr_lass_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lass_f/overworld/tr_lass_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lass_f/overworld/tr_lass_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lass_f/overworld/tr_lass_f_chibi/",
+   "trainer_64x128": "npcs/tr_lass_f/trainer/tr_lass_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_lass_f/portraits/tr_lass_f_angry.png",
+    "happy": "npcs/tr_lass_f/portraits/tr_lass_f_happy.png",
+    "neutral": "npcs/tr_lass_f/portraits/tr_lass_f_neutral.png"
+   }
+  },
+  "frostspire_pass.frostspire_pass_trainer_4": {
+   "sprite_id": "tr_ranger_m",
+   "class": "forest ranger (man)",
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/",
+   "trainer_64x128": "npcs/tr_ranger_m/trainer/tr_ranger_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_ranger_m/portraits/tr_ranger_m_angry.png",
+    "happy": "npcs/tr_ranger_m/portraits/tr_ranger_m_happy.png",
+    "neutral": "npcs/tr_ranger_m/portraits/tr_ranger_m_neutral.png"
+   }
+  },
+  "frostspire_pass.frostspire_pass_trainer_5": {
+   "sprite_id": "tr_youngster_m",
+   "class": "youngster (boy)",
+   "overworld_sheet": "npcs/tr_youngster_m/overworld/tr_youngster_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_youngster_m/overworld/tr_youngster_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_youngster_m/overworld/tr_youngster_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_youngster_m/overworld/tr_youngster_m_chibi/",
+   "trainer_64x128": "npcs/tr_youngster_m/trainer/tr_youngster_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_youngster_m/portraits/tr_youngster_m_angry.png",
+    "happy": "npcs/tr_youngster_m/portraits/tr_youngster_m_happy.png",
+    "neutral": "npcs/tr_youngster_m/portraits/tr_youngster_m_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_master": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Fernwick hall trainee (young man)",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h1": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Fernwick hall trainee (young woman)",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h2": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Fernwick hall trainee (young man)",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h3": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Fernwick hall trainee (young woman)",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_guide": {
+   "sprite_id": "vil_scholar_m",
+   "class": "scholar (old man)",
+   "overworld_sheet": "npcs/vil_scholar_m/overworld/vil_scholar_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_scholar_m/overworld/vil_scholar_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_scholar_m/overworld/vil_scholar_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_scholar_m/overworld/vil_scholar_m_chibi/"
+  },
+  "heal_frostspire.heal_frostspire_carer": {
+   "sprite_id": "vil_healer_f",
+   "class": "heal-centre healer (woman)",
+   "overworld_sheet": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_healer_f/overworld/vil_healer_f_chibi/"
+  },
+  "heal_frostspire.heal_frostspire_technician": {
+   "sprite_id": "vil_worker_f",
+   "class": "visitor at storage PC",
+   "overworld_sheet": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_worker_f/overworld/vil_worker_f_chibi/"
+  },
+  "heal_frostspire.heal_frostspire_storage_user": {
+   "sprite_id": "vil_office_m",
+   "class": "office worker (young man)",
+   "overworld_sheet": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
   }
  },
  "unassigned_ready": {

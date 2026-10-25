@@ -149,6 +149,39 @@
      ]
     }
    ]
+  },
+  "frostspire": {
+   "city": "Frostspire",
+   "copay": 300,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag_small",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "dominance_crystal_plus",
+      "energy_tonic"
+     ]
+    },
+    {
+     "coins": 2,
+     "items": [
+      "fine_crystal",
+      "vigor_seed"
+     ]
+    }
+   ]
   }
  },
  "branches": {
@@ -206,6 +239,20 @@
     "map": "revival_heights",
     "x": 17,
     "y": 18
+   }
+  },
+  "heal_frostspire": {
+   "zone": "frostspire",
+   "carer": "heal_frostspire_carer",
+   "stand": {
+    "x": 6,
+    "y": 5,
+    "facing": "up"
+   },
+   "returnDoor": {
+    "map": "frostspire",
+    "x": 15,
+    "y": 21
    }
   }
  },

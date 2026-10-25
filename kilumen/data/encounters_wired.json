@@ -1974,7 +1974,7 @@
     {
      "species": "sailquill",
      "level": [
-      27,
+      28,
       31
      ],
      "weight": 30
@@ -1982,7 +1982,7 @@
     {
      "species": "snowgrouse",
      "level": [
-      27,
+      28,
       31
      ],
      "weight": 30
@@ -1990,7 +1990,7 @@
     {
      "species": "delvelet",
      "level": [
-      27,
+      28,
       30
      ],
      "weight": 15
@@ -2018,7 +2018,7 @@
     {
      "species": "frostlop",
      "level": [
-      27,
+      28,
       31
      ],
      "weight": 4,
@@ -2028,7 +2028,7 @@
     {
      "species": "shagmount",
      "level": [
-      27,
+      28,
       31
      ],
      "weight": 2,
@@ -2038,7 +2038,7 @@
     {
      "species": "ledgebex",
      "level": [
-      27,
+      28,
       31
      ],
      "weight": 4,
@@ -2048,7 +2048,7 @@
     {
      "species": "talusmouse",
      "level": [
-      27,
+      28,
       31
      ],
      "weight": 4,
@@ -2058,7 +2058,7 @@
     {
      "species": "snowcairn",
      "level": [
-      27,
+      28,
       31
      ],
      "weight": 1,
@@ -2067,7 +2067,7 @@
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
-   "band": "wild 27-31, trainers 28-31, Ron 4 L32",
+   "band": "wild 28-31 (region 4 early access)",
    "maps": [
     "frostspire_pass"
    ]
@@ -2079,7 +2079,7 @@
     {
      "species": "skyrender",
      "level": [
-      29,
+      30,
       33
      ],
      "weight": 35
@@ -2087,7 +2087,7 @@
     {
      "species": "sailquill",
      "level": [
-      29,
+      30,
       33
      ],
      "weight": 25
@@ -2114,7 +2114,7 @@
     {
      "species": "burlbeetle",
      "level": [
-      29,
+      30,
       32
      ],
      "weight": 15,
@@ -2124,7 +2124,7 @@
     {
      "species": "tundrarch",
      "level": [
-      29,
+      30,
       33
      ],
      "weight": 1,
@@ -2133,7 +2133,7 @@
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
-   "band": "wild 29-33, trainers 30-33; hall see halls/frostspire.json",
+   "band": "wild 30-33 (region 4 early access)",
    "maps": [
     "frostspire"
    ]

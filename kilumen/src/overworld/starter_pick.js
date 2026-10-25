@@ -7,7 +7,7 @@
 // whole-pixel sized so it stays crisp; its name; its element(s) as a coloured chip WITH the element name; its one-line blurb.
 // Data: src/ui/data.js SPECIES (real names, elements, blurbs). No stats shown (none invented).
 // Placed in the free band between the visible touch controls (phone), centred on PC, so nothing covers it.
-import { speciesById, battleSpriteRel, ELEMENT_LABEL } from '../ui/data.js?v=v0.2.19-alpha';
+import { speciesById, battleSpriteRel, ELEMENT_LABEL } from '../ui/data.js?v=v0.2.20-alpha';
 
 const PIX = 'art/characters/pixel/';
 export const idleGifRel = (id) => `creatures/${id}/anim/${id}_front_idle_2x.gif`;
