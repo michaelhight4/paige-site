@@ -551,3 +551,8 @@ body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.
     linear-gradient(160deg, #142038 0%, #0f1a2c 55%, #0b1324 100%);
 }
 .ui-battle .b-bottom:empty, .ui-battle .b-cmds:empty { background: transparent; }
+
+/* v0.2.21 wild 'Owned' badge: silver pill, crystal framed on the left, sits after the name (and ✦), never over Lv */
+.b-owned { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .2em; margin-left: .35em; padding: 0 .4em 0 .15em; height: 1.25em; font-size: .62em; line-height: 1; font-weight: 700; letter-spacing: .02em; color: #2b3138; text-shadow: 0 1px 0 rgba(255,255,255,.6); background: linear-gradient(#f4f6f8, #b9c0c7 55%, #d9dee3); border: 1px solid #7d8790; border-radius: 1em; vertical-align: middle; white-space: nowrap; }
+.b-owned svg { width: .95em; height: 1.1em; padding: .05em .1em; background: #fff; border: 1px solid #7d8790; border-radius: .6em; box-sizing: content-box; }
+#p2-name.nmw { min-width: 0; }

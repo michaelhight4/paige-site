@@ -3,8 +3,8 @@
 // and energy, free (map text: "Staff rest for free"). Resting sets the last-heal point. Losing with the whole
 // party out cold (the engine reports a loss) -> onPartyFainted(): flat regional copay, warp to the last heal
 // point, everyone rested. Warmth is never touched.
-import { getShops, regionOf } from './shop.js?v=v0.2.20-alpha';
-import { fmtMoney } from './config.js?v=v0.2.20-alpha';
+import { getShops, regionOf } from './shop.js?v=v0.2.21-alpha';
+import { fmtMoney } from './config.js?v=v0.2.21-alpha';
 
 let active = null; // the attached Systems (index.js) so the battle code can call onPartyFainted() with no args
 export function setActiveSystems(sys) { active = sys; }

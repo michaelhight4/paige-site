@@ -3,17 +3,17 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.20-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.20-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.20-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.20-alpha';
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.20-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.20-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.20-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.20-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.20-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.20-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.20-alpha';
+import { iconRel } from './data.js?v=v0.2.21-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.21-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.21-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.21-alpha';
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.21-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.21-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.21-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.21-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.21-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.21-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.21-alpha';
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
 const nameHtml = (c) => `<span class="nmw"><span class="nmt">${esc(_baseName(c))}</span>${c?.variant ? '<span class="vmark">✦</span>' : ''}</span>`;

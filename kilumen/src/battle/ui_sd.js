@@ -2,12 +2,12 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.20-alpha';
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.20-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.20-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.20-alpha';
+import { KilumenBattle } from './battle.js?v=v0.2.21-alpha';
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.21-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.21-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.21-alpha';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.20-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.21-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -31,6 +31,9 @@ export function makeSdBattle(ui, opts, h) {
   // no capturing a trainer's creatures (Gary, Oct 23 2026): any battle with an owner (trainer flag, overworld trainer id,
   // injected Master / hall team, explicit owner) is not wild, so the engine refuses the crystal and keeps it in the bag
   const owned = trainer || !!opts.who || !!opts.owner || !!opts.foes?.length;
+  // v0.2.21 (Gary, Oct 24 2026): wild only, a species already in the Kilindex caught record gets a silver 'Owned' badge with a crystal on its left
+  const kxCaught = ui.demo ? null : ui.scene?.systems?.kilindex?.data?.caught;
+  const ownedBadge = (sp) => !owned && !!kxCaught && !!kxCaught[sp];
   const noCapture = () => ui.P('system_trainers.no_capture', ['That creature already has a trainer. A crystal won\'t take it.'])[0]; // PH: key requested in data/textbot_requests_capture.md
   // Model swap (Gary 3:16 PM CT Oct 23 2026, "model changed after using crystal"): with an empty real party the fallback Rillop used to
   // exist in this battle only, so a catch became the whole real party and led the next battle. With systems attached it now joins
@@ -135,7 +138,7 @@ export function makeSdBattle(ui, opts, h) {
   const drawPlate = (s) => {
     const m = mon[s]; if (!m) return;
     $(`#plate-${s}`).dataset.el = speciesById(m.species).el[0];
-    { const el = $(`#${s}-name`), v = / ✦$/.test(m.name || ''); el.textContent = ''; const t = document.createElement('span'); t.className = 'nmt'; t.textContent = v ? m.name.slice(0, -2) : m.name; el.append(t); if (v) { const k = document.createElement('span'); k.className = 'vmark'; k.textContent = '✦'; el.append(k); } el.classList.add('nmw'); } $(`#${s}-lv`).textContent = `Lv.${m.level}`;
+    { const el = $(`#${s}-name`), v = / ✦$/.test(m.name || ''); el.textContent = ''; const t = document.createElement('span'); t.className = 'nmt'; t.textContent = v ? m.name.slice(0, -2) : m.name; el.append(t); if (v) { const k = document.createElement('span'); k.className = 'vmark'; k.textContent = '✦'; el.append(k); } if (s === 'p2' && ownedBadge(m.species)) { const o = document.createElement('span'); o.className = 'b-owned'; o.innerHTML = '<svg viewBox="0 0 10 14" aria-hidden="true"><path d="M5 0 10 5 5 14 0 5Z" fill="#8fd8ff" stroke="#2a5d86" stroke-width="1"/><path d="M5 1.5 7.5 5 5 11 2.5 5Z" fill="#e6f8ff" opacity=".7"/></svg>Owned'; el.append(o); } el.classList.add('nmw'); } $(`#${s}-lv`).textContent = `Lv.${m.level}`;
     drawParty(s);
     const f = Math.max(0, m.hp / m.maxhp), b = $(`#${s}-hp`); b.dataset.lvl = lvlOf(f); b.firstElementChild.style.width = `${f * 100}%`;
     if (s === 'p1') {
