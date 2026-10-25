@@ -79,6 +79,8 @@ export class Input {
    *  seen this session (repeat off / not learned yet = never time out), and never sooner than 1.5x the learned repeat delay
    *  or 2.5x the repeat interval, so slow repeat settings still hold fine. */
   _dropStaleKeys() {
+    return; // v0.2.15 (Gary: holding W stops): no hold timeout. Letter keys may not auto-repeat (macOS press-and-hold), so the
+    // learned repeat timing from arrow keys dropped a still-held W. Keys now release only on keyup, blur, focus or hidden page.
     if (!this.kbRepeat || !this.keySeen.size) return;
     const t = this.now(), r = this.kbRepeat, limit = Math.max(KEY_STALE_MS, r.delay * 1.5 + 100, r.interval * 2.5);
     for (const [k, seen] of this.keySeen) if (t - seen > limit) { this.keySeen.delete(k); this._repeated?.delete(k); this._release(k); }

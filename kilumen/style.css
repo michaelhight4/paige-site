@@ -131,3 +131,6 @@ body.platform-mobile #world { width: 100vw; height: 100vh; height: 100dvh; }
 /* v0.2.12 dialog back arrow */
 .dlg-back { position: absolute; top: 4px; right: 4px; z-index: 3; min-width: 44px; min-height: 44px; padding: 0 10px; border: 2px solid #8a6d12; border-radius: 10px; background: #1a1226; color: #ffd75e; font-size: 1.4em; line-height: 1; cursor: pointer; pointer-events: auto; touch-action: manipulation; }
 .dlg-back[hidden] { display: none; }
+
+/* v0.2.15 hold hardening */
+#touchpad, #touchpad *, canvas { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
