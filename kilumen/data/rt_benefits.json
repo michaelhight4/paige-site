@@ -1,24 +1,28 @@
 {
   "_note": "RT Employee Benefits (company XP skill tree), coder Oct 23 2026. Gary 1:01-1:02 PM CT: \"the job board is the skill tree ui for leveling up company xp\" / \"yes its the company benifits bord\" / \"RT Employee Benifits\" / \"build into region one on the phone\". Read by src/systems/rt_benefits.js. Company XP is ONLY for the company ID level (Gary); creature XP is never touched. All numbers are tunable. Text: system_rt_benefits.* (data/textbot_requests_rt_benefits.md).",
   "region": 1,
+  "regionFlags": { "2": "beat_master_fernwick", "_note": "region 2 build (coder, Oct 23 2026): the live region = the highest N whose flag is set (else 'region'). Region 2 opens with the Fernwick coin (the East Road / Thornwood open then); no region gating otherwise." },
   "regions": {
-    "1": { "maxIdLevel": 4, "_note": "region 1 cap: XP stops at the ID 4 threshold; a normal run lands on ID 3" }
+    "1": { "maxIdLevel": 4, "_note": "region 1 cap: XP stops at the ID 4 threshold; a normal run lands on ID 3" },
+    "2": { "maxIdLevel": 6, "_note": "region 2 cap: a normal run through Master 2 lands on ID 5 (about 1,000 XP); a full region 2 (Thornwood camp, Ron 2, Kilindex 25, every new log) reaches ID 6" }
   },
   "curve": {
     "_note": "xpTo[L-1] = total company XP needed to reach ID level L (index 0 = ID 1). Past the table each level costs 'step' more.",
-    "xpTo": [0, 100, 280, 550, 900, 1300, 1800, 2400, 3100, 3900],
-    "step": 900
+    "xpTo": [0, 100, 280, 550, 900, 1200, 1600, 2100, 2700, 3400],
+    "step": 800,
+    "_note2": "region 2 build: ID 6+ thresholds lowered (was 1300/1800/2400/3100/3900, step 900) so ID 6 is reachable in region 2; ID 1-5 unchanged (region 1 balance unchanged)"
   },
   "pointsPerLevel": 1,
   "sources": {
     "_note": "once = claimed once per save (company.xpClaims). kilindex_new = every new Kilindex log (starter included). Same events RITA (company_voice) reacts to.",
     "first_catch":       { "xp": 30, "once": true },
     "kilindex_new":      { "xp": 10 },
-    "kilindex_milestone": { "xp": { "5": 20, "10": 30, "15": 40 }, "once": true },
-    "main_quest":        { "xp": 40, "once": true, "flag_re": "^q_(mq_.+)_done$", "done_on_flag": { "got_starter": "mq_brookhollow_promotion" } },
+    "kilindex_milestone": { "xp": { "5": 20, "10": 30, "15": 40, "20": 50, "25": 70 }, "once": true },
+    "main_quest":        { "xp": 40, "once": true, "flag_re": "^q_(mq_.+)_done$", "done_on_flag": { "got_starter": "mq_brookhollow_promotion", "has_bike": "mq_saltmere_parcel", "camp_restored_thornwood": "mq_thornwood_camp" },
+                           "_note": "region 2: Signed For (mq_saltmere_parcel) pays when the parcel is delivered (has_bike: the office clerk lends the Courier Bike; an alias on beat_master_saltmere would swallow the master_beaten award), Ferns Over the Tent (mq_thornwood_camp) with the restored camp; a real q_<id>_done flag pays the same claim once" },
     "trainer_first_win": { "xp": 20, "once": true },
-    "rival_beaten":      { "xp": { "1": 40 }, "once": true, "flag_re": "^beat_rival_ron_(\\d+)$" },
-    "master_beaten":     { "xp": { "fernwick": 80 }, "once": true, "flag_re": "^beat_master_([a-z_]+)$" }
+    "rival_beaten":      { "xp": { "1": 40, "2": 70 }, "once": true, "flag_re": "^beat_rival_ron_(\\d+)$" },
+    "master_beaten":     { "xp": { "fernwick": 80, "saltmere": 150 }, "once": true, "flag_re": "^beat_master_([a-z_]+)$" }
   },
   "branches": [
     { "id": "field_logistics", "label": "Field Logistics" },
@@ -27,8 +31,9 @@
     { "id": "unit_performance", "label": "Unit Performance" }
   ],
   "nodes": [
-    { "id": "copay_coverage", "branch": "field_logistics", "effect": "heal.copay (not wired yet)",
-      "ranks": [ { "cost": 1, "minIdLevel": 5 }, { "cost": 2, "minIdLevel": 12 } ],
+    { "id": "copay_coverage", "branch": "field_logistics", "effect": "heal.copay",
+      "_note": "region 2: wired in src/systems/heal.js copayFor (blackout copay x (1 - value))",
+      "ranks": [ { "cost": 1, "minIdLevel": 5, "value": 0.25 }, { "cost": 2, "minIdLevel": 12, "value": 0.50 } ],
       "maxRankByRegion": { "1": 0, "2": 1, "3": 2 }, "unlockRegion": 2 },
     { "id": "store_discount", "branch": "supply_pay", "effect": "shop.discount",
       "_note": "shops.json discount.boardTiers [0, .03, .06, .10] (src/systems/shop.js discountFor); stacks with the ID 2 staff 10%, cap 65%",
@@ -44,6 +49,15 @@
       "maxRankByRegion": { "1": 0, "2": 1, "3": 3 }, "unlockRegion": 2 },
     { "id": "unit_training", "branch": "unit_performance", "effect": "creature.xp_boost (not wired; creature XP untouched in region 1)",
       "ranks": [ { "cost": 1, "minIdLevel": 5 }, { "cost": 2, "minIdLevel": 15 } ],
+      "maxRankByRegion": { "1": 0, "2": 1, "3": 2 }, "unlockRegion": 2,
+      "_note2": "region 2: buyable, but the creature-XP effect is NOT wired (xpDivisor 7 / xpTrainerMult 1.5 kept, Gary's grind rule): question for Gary" },
+    { "id": "asset_logging_bonus", "branch": "crystal_lab", "effect": "money.kilindex_log",
+      "_note": "NEW region 2 perk (coder, Oct 23 2026): coins for every NEW Kilindex log after buying (rt_benefits.js diff()); placeholder amounts",
+      "ranks": [ { "cost": 1, "minIdLevel": 4, "value": 60 }, { "cost": 2, "minIdLevel": 8, "value": 120 } ],
+      "maxRankByRegion": { "1": 0, "2": 1, "3": 2 }, "unlockRegion": 2 },
+    { "id": "hall_hazard_pay", "branch": "supply_pay", "effect": "money.hall_payout",
+      "_note": "NEW region 2 perk (coder, Oct 23 2026): extra % on prize money from hall trainers and Masters (ids '<map>_hall_int.*' or class helper / master); stacks with Field Bonus; placeholder",
+      "ranks": [ { "cost": 1, "minIdLevel": 5, "value": 0.25 }, { "cost": 2, "minIdLevel": 9, "value": 0.50 } ],
       "maxRankByRegion": { "1": 0, "2": 1, "3": 2 }, "unlockRegion": 2 }
   ],
   "respec": { "supported": false, "_note": "company.respecWeek exists in the save but there is no terminal / fee / week clock yet: no respec in region 1" }

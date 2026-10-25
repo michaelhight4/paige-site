@@ -3,6 +3,7 @@
  "date": "2026-10-22",
  "owner": "World Design",
  "placeholder_species": true,
+ "note": "Placeholder tables (parity C1/C2/C5/C8). Species are the 16 creatures that have art; Story Bot/Gary own the final pools. Levels follow the CRITICAL_PATH order (route1 before coin 1, thornwood before coin 2, greystone before coin 4, mirefen at coin 5). Structural reference only: no names, numbers or text from any other game.",
  "roll": {
   "per": "step onto an encounter cell (layer code 1 grass / 2 cave) or a zone rect",
   "rate": "chance per step (zone.rate)",
@@ -314,7 +315,8 @@
      "weather": [
       "storm"
      ],
-     "flood": true
+     "flood": true,
+     "note": "storm variant only: floodwater washes river creatures into the grass"
     },
     {
      "species": "burlbeetle",
@@ -1185,6 +1187,14 @@
      "time": [
       "dawn"
      ]
+    },
+    {
+     "species": "snowroller",
+     "level": [
+      29,
+      32
+     ],
+     "weight": 15
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_frostspire.json zone fs_snow (grass (deep snow))",
@@ -1204,6 +1214,14 @@
       33
      ],
      "weight": 40
+    },
+    {
+     "species": "mantleox",
+     "level": [
+      31,
+      33
+     ],
+     "weight": 25
     },
     {
      "species": "squallwhirl",
@@ -1247,6 +1265,17 @@
      "weight": 20
     },
     {
+     "species": "glyphmage",
+     "level": [
+      33,
+      34
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ]
+    },
+    {
      "species": "sailquill",
      "level": [
       31,
@@ -1272,6 +1301,14 @@
    "slots": [
     {
      "species": "sailquill",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 25
+    },
+    {
+     "species": "glisterdew",
      "level": [
       30,
       34
@@ -1328,6 +1365,14 @@
    "method": "water (Tideglide)",
    "rate": 0.0667,
    "slots": [
+    {
+     "species": "dewbell",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 60
+    },
     {
      "species": "floepaddle",
      "level": [
@@ -1569,6 +1614,22 @@
    "rate": 0.0667,
    "slots": [
     {
+     "species": "peatbellow",
+     "level": [
+      36,
+      40
+     ],
+     "weight": 30
+    },
+    {
+     "species": "mirejaw",
+     "level": [
+      38,
+      42
+     ],
+     "weight": 35
+    },
+    {
      "species": "drenchcrab",
      "level": [
       38,
@@ -1760,6 +1821,14 @@
    "rate": 0.0833,
    "slots": [
     {
+     "species": "driftknot",
+     "level": [
+      44,
+      47
+     ],
+     "weight": 30
+    },
+    {
      "species": "shorehound",
      "level": [
       44,
@@ -1925,6 +1994,14 @@
       50
      ],
      "weight": 5
+    },
+    {
+     "species": "sunbasilisk",
+     "level": [
+      47,
+      50
+     ],
+     "weight": 15
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_aurelith_cindervale.json zone ac_tube (cave (lava tube))",
@@ -2008,6 +2085,5 @@
   "peatbellow",
   "snowroller",
   "sunbasilisk"
- ],
- "alpha_note": "Alpha build: slots for species without art removed (dewbell, driftknot, glisterdew, glyphmage, mantleox, mirejaw, peatbellow, snowroller, sunbasilisk)."
+ ]
 }

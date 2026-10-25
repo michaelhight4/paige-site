@@ -82,7 +82,9 @@
    "hushowl": "w_ff6393a32969",
    "thistlepup": "w_da3390a77b68",
    "pebblant": "w_9ffb92e60c45",
-   "glintfly": "w_41875eb87e0e"
+   "glintfly": "w_41875eb87e0e",
+   "larkspar": "w_ddcdc6269db8",
+   "huskling": "w_58e4ef558d45"
   },
   "new": {
    "burrowmane": "w_e041c77260e4",
@@ -3689,6 +3691,9 @@
    "ms": 521,
    "say": "Four"
   }
+ },
+ "parts": {
+  "region_2": "manifest_region_2.json"
  },
  "id_words": {
   "Trainer 1": "w_949c721f0f2e"

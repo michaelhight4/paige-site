@@ -1,11 +1,11 @@
 // One-time "story ends here for now" notice (Cut A, Oct 23, 2026, coder; Gary 9:51 + 10:08 AM CT).
 // Shown once, right after the script that sets the trigger flag ends (the post-battle flow of the last beatable Master),
 // with a single OK choice (keyboard + tap via dialog.ask). Sets seen_wip_notice so it never shows again. No road block:
-// nothing is gated on it. Trigger = beat_master_fernwick because Master 1 is the last Master with authored, beatable
-// teams in this cut (the key keeps Gary's name system.wip_after_master2; move TRIGGER to Master 2's flag once Cut B lands).
+// nothing is gated on it. Trigger = beat_master_saltmere, the Master 2 win flag (coin 2, saltmere_hall_int; set by the
+// win via TRAINER_RESULTS from src/progression/masters.js). Moved off Master 1 (beat_master_fernwick) Oct 23 2026, Gary.
 export const WIP_KEY = 'system.wip_after_master2';
 export const WIP_FLAG = 'seen_wip_notice';
-export const TRIGGER = 'beat_master_fernwick';
+export const TRIGGER = 'beat_master_saltmere'; // Master 2 (was beat_master_fernwick = Master 1)
 export const WIP_TEXT = [
   "That's as far as the story goes for now. The rest is still being built.",
   "You're free to keep exploring. Just try not to break anything.",

@@ -3,8 +3,8 @@
 // Employee ID (bare 6 digits), ID level, XP bar, points, then the node tree by branch: locked / available / owned + rank pips.
 // Tap a perk: details + a Buy button (tap again or press A to buy), then a confirm. Keyboard: arrows (spatial), Z/Enter, X/Esc.
 // Text: system_rt_benefits.* through ui.T (placeholders until Text Bot fills them: data/textbot_requests_rt_benefits.md).
-import { MENU_ICONS } from './ui_tools2.js?v=v0.2.17-alpha';
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.17-alpha';
+import { MENU_ICONS } from './ui_tools2.js?v=v0.2.18-alpha';
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.18-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fill = (t, v = {}) => String(t).replace(/\{(\w+)\}/g, (m, k) => (v[k] != null ? v[k] : m));
@@ -30,6 +30,11 @@ export const RTB_TEXT = {
       ranks: { 1: 'Field Crystals in RT shops.', 2: 'Prime Crystals in RT shops.', 3: 'Apex Crystals in RT shops.' } },
     unit_training: { name: 'Unit Training', desc: 'Your team learns faster. Assets that learn are worth more. To us.',
       ranks: { 1: 'Team training boost I.', 2: 'Team training boost II.' } },
+    // region 2 perks (coder, Oct 23 2026): fallbacks only, Text Bot request data/textbot_requests_region2.md
+    asset_logging_bonus: { name: 'Logging Bonus', desc: 'Coins for every new kind you log. We pay for assets. Not for you.',
+      ranks: { 1: '+60 coins per new Kilindex log.', 2: '+120 coins per new Kilindex log.' } },
+    hall_hazard_pay: { name: 'Hall Hazard Pay', desc: 'Extra prize money from hall trainers and Masters. Risk is billable.',
+      ranks: { 1: '+25% hall and Master prize money.', 2: '+50% hall and Master prize money.' } },
   },
   locked: {
     region: 'Locked until Region {region}. Legal says no.', id: 'Needs ID level {level}. Keep logging assets.',

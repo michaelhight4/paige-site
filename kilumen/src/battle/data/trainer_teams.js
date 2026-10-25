@@ -11,10 +11,14 @@
 // point of the game is to grind in the grass and log more kilumen"): trainers do NOT carry the player to L12-13, grass
 // grinding does (tools/playcheck_master1.mjs models it). r1_d/e/f + fw_a are world-feel trainers (Gary 12:02: "trainers
 // are still important to make the world feel full and alive"), levels between the local wilds and Master 1, rising north.
-// Kilumen species only. Thornwood (region 2) is a guess (L11-13), not play-checked, no higher than Master 1; its
-// bramblehog L13 is below its evolution level 16 (flagged to Gary). Master 2 / Saltmere: not authored.
+// Kilumen species only.
+// REGION 2 (coder, Oct 23 2026; Gary 2:11 PM CT "start on region 2"): East Road, Salt Road, Ron 2 (byStarter), Saltmere
+// hall h1-h3 and Master 2 (Nerys Bryde, raised to L19-21 hall / L20-23 Master over the staged 17-21) promoted from data/region2/trainer_teams_region2.json
+// (source tools/region2/region2_spec.mjs; names/classes/why there). Thornwood raised from the L11-13 guess to region 2
+// levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
+// below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.17-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.18-alpha';
 
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end
@@ -42,8 +46,37 @@ export const TRAINER_TEAMS = {
   'fernwick_hall_int.helper_1': [{ species: 'tumbloam', level: 10 }, { species: 'peeplark', level: 11 }],
   'fernwick_hall_int.helper_2': [{ species: 'pebblant', level: 11 }, { species: 'dewmite', level: 11 }],
   'fernwick_hall_int.master_fernwick': [{ species: 'pebblant', level: 12 }, { species: 'pondkin', level: 12 }, { species: 'tumbloam', level: 13 }],
-  'thornwood.trainer_tw_bug': [{ species: 'thornpod', level: 11 }, { species: 'gloamtick', level: 11 }],
-  'thornwood.trainer_tw_b': [{ species: 'briarlet', level: 12 }, { species: 'burlbeetle', level: 12 }, { species: 'bramblehog', level: 13 }],
+  // ---- region 2: Thornwood (side forest west of Fernwick; raised to region 2, Oct 23 2026) ----
+  'thornwood.trainer_tw_bug': [{ species: 'thornpod', level: 13 }, { species: 'gloamtick', level: 13 }],
+  'thornwood.trainer_tw_b': [{ species: 'burlbeetle', level: 14 }, { species: 'bramblehog', level: 16 }], // bramblehog = its evo level 16
+  'thornwood.thornwood_c_gardener': [{ species: 'cobblepup', level: 13 }, { species: 'briarlet', level: 14 }], // optional
+  'thornwood.thornwood_d_kid': [{ species: 'gloamtick', level: 13 }], // optional
+  'thornwood.thornwood_e_researcher': [{ species: 'thornpod', level: 14 }, { species: 'burlbeetle', level: 15 }], // optional
+  // ---- region 2: East Road -> Salt Road -> Saltmere (data/region2/trainer_teams_region2.json) ----
+  'route_east.route_east_trainer_1': [{ species: 'sailquill', level: 12 }, { species: 'flockpup', level: 13 }], // Penrose courier
+  'route_east.route_east_trainer_2': [{ species: 'ditchsnap', level: 13 }, { species: 'pondkin', level: 14 }, { species: 'puddlenip', level: 15 }], // Rue angler
+  'route_east.route_east_trainer_3': [{ species: 'burlbeetle', level: 13 }, { species: 'gloamtick', level: 14 }], // Bram kid
+  'route_east.route_east_trainer_4': [{ species: 'millwhirl', level: 14 }, { species: 'sailquill', level: 14 }], // Tilly skater
+  'route_east.route_east_trainer_5': [{ species: 'bleatling', level: 16 }, { species: 'loamworm', level: 16 }], // Cass worker
+  'route_east.route_east_trainer_6': [{ species: 'sailquill', level: 15 }, { species: 'crowkin', level: 16 }], // Juno birder, optional
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_1': [{ species: 'pinchkin', level: 16 }, { species: 'brinepipit', level: 17 }], // Dunstan harbour_hand
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_2': [{ species: 'sailquill', level: 16 }, { species: 'brinepipit', level: 16 }], // Gil birder
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_3': [{ species: 'blubbet', level: 17 }, { species: 'sandstarlet', level: 17 }], // Hana angler
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_4': [{ species: 'burlbeetle', level: 16 }, { species: 'moatling', level: 16 }, { species: 'grainling', level: 18 }], // Iska camper
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_5': [{ species: 'tinderwren', level: 15 }, { species: 'sailquill', level: 15 }], // Jem courier
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_6': [{ species: 'whelkin', level: 19 }, { species: 'sandstarlet', level: 19 }], // Kerr veteran, optional
+  'saltmere.saltmere_ron_2': { // Ron rival
+    byStarter: {
+      nibbin: [{ species: 'sailquill', level: 17 }, { species: 'grainling', level: 17 }, { species: 'emberlunx', level: 19 }],
+      cindrip: [{ species: 'sailquill', level: 18 }, { species: 'bramblehog', level: 19 }, { species: 'brookhorn', level: 20 }],
+      rillop: [{ species: 'sailquill', level: 18 }, { species: 'larkspar', level: 18 }, { species: 'gnawford', level: 20 }],
+      tumbloam: [{ species: 'sailquill', level: 17 }, { species: 'grainling', level: 17 }, { species: 'emberlunx', level: 19 }], // legacy saves
+    },
+  },
+  'saltmere_hall_int.saltmere_hall_int_h1': [{ species: 'sandstarlet', level: 19 }, { species: 'blubbet', level: 19 }], // Lorna hall_helper
+  'saltmere_hall_int.saltmere_hall_int_h2': [{ species: 'medulet', level: 20 }, { species: 'whelkin', level: 20 }], // Ivo hall_helper
+  'saltmere_hall_int.saltmere_hall_int_h3': [{ species: 'finnip', level: 20 }, { species: 'ribboneel', level: 21 }], // Sully hall_helper
+  'saltmere_hall_int.saltmere_hall_int_master': [{ species: 'quaymouser', level: 20 }, { species: 'polypip', level: 21 }, { species: 'spratwyrm', level: 23 }], // Nerys Bryde master
 };
 
 /** The authored team for `who` ({map, id}) or null. `party` picks Ron's counter team from the player's starter (any stage:

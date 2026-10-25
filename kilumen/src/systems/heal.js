@@ -3,8 +3,8 @@
 // and energy, free (map text: "Staff rest for free"). Resting sets the last-heal point. Losing with the whole
 // party out cold (the engine reports a loss) -> onPartyFainted(): flat regional copay, warp to the last heal
 // point, everyone rested. Warmth is never touched.
-import { getShops, regionOf } from './shop.js?v=v0.2.17-alpha';
-import { fmtMoney } from './config.js?v=v0.2.17-alpha';
+import { getShops, regionOf } from './shop.js?v=v0.2.18-alpha';
+import { fmtMoney } from './config.js?v=v0.2.18-alpha';
 
 let active = null; // the attached Systems (index.js) so the battle code can call onPartyFainted() with no args
 export function setActiveSystems(sys) { active = sys; }
@@ -21,9 +21,10 @@ export function branchByZone(zone, shops = getShops()) {
 /** Last-heal warp point for a branch (stored in save.systems.lastHeal). */
 export const healPoint = (b) => ({ branch: b.id, map: b.id, x: b.stand.x, y: b.stand.y, facing: b.stand.facing || 'up', zone: b.zone, returnDoor: b.returnDoor || null });
 
-/** Copay for a blackout at this heal point: flat regional fee, capped at what you have. */
-export function copayFor(point, coins, shops = getShops()) {
-  const fee = regionOf(point?.zone, shops).copay;
+/** Copay for a blackout at this heal point: flat regional fee, capped at what you have. `cover` = RT Employee Benefits
+ * Copay Coverage share (0..1, region 2 build Oct 23 2026: sys.rtBenefits.effect('copay_coverage')). */
+export function copayFor(point, coins, shops = getShops(), cover = 0) {
+  const c = Math.min(1, Math.max(0, Number(cover) || 0)), fee = Math.round(regionOf(point?.zone, shops).copay * (1 - c));
   const paid = Math.min(fee, Math.max(0, coins));
   return { fee, paid, short: paid < fee };
 }
@@ -78,7 +79,7 @@ export class Heal {
     const sc = this.sys.scene, T = this.sys.lines?.system_blackout || {};
     const run = async () => {
       const to = this.lastHeal();
-      const r = copayFor(to, this.sys.wallet.coins);
+      const r = copayFor(to, this.sys.wallet.coins, undefined, this.sys.rtBenefits?.effect?.('copay_coverage') || 0);
       await sc.say(T.lost?.pages || ['Your whole team is out cold.', 'Time to get them to a branch. Fast.']);
       this.sys.wallet.take(r.paid);
       this.sys.party.healAll();

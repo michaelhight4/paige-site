@@ -11,7 +11,7 @@
 // Saving: XP awards only mark the scene dirty (the overworld autosave already refuses mid battle / talk / cutscene); a rank
 // bought from the phone menu calls scene.saveNow(), which is refused while a save lock is held (it then saves right after).
 // Wiring: attachSystems (src/systems/index.js) -> attachRtBenefits; the phone tab is src/ui/rt_benefits_screen.js.
-import { fmtMoney } from './config.js?v=v0.2.17-alpha';
+import { fmtMoney } from './config.js?v=v0.2.18-alpha';
 
 export const COMPANY_DEFAULTS = () => ({ idLevel: 1, pointsFree: 0, board: {}, respecWeek: 0, xp: 0, xpClaims: {} });
 const KI_KEY = 'kilindex_count'; // xpClaims slot: highest Kilindex log count already paid for (baseline on first look)
@@ -26,6 +26,15 @@ export function xpToReach(data, L) {
 }
 /** Region cap (max ID level) for a region; null = no cap. */
 export function regionCap(data, region = data?.region || 1) { const c = data?.regions?.[String(region)]?.maxIdLevel; return c ? Math.floor(c) : null; }
+/**
+ * Live region (region 2 build, Oct 23 2026): data.region, raised to the highest N in data.regionFlags {"N": flag} whose flag
+ * is set. `flags` = a Set / array / {has()} of story flags. Region 2 opens with beat_master_fernwick (no other gating).
+ */
+export function regionForFlags(data, flags) {
+  let r = num(data?.region, 1); const has = flags?.has ? (f) => flags.has(f) : Array.isArray(flags) ? (f) => flags.includes(f) : () => false;
+  for (const [k, f] of Object.entries(data?.regionFlags || {})) if (/^\d+$/.test(k) && typeof f === 'string' && has(f)) r = Math.max(r, Number(k));
+  return r;
+}
 /** ID level for an XP total (capped by the region). */
 export function levelForXp(data, xp, region = data?.region || 1) {
   const cap = regionCap(data, region) || 999;
@@ -79,9 +88,17 @@ export class RtBenefits {
   }
   setData(data) {
     this.data = data;
-    this.region = num(this.opts.region, 0) || num(data.region, 1);
+    this.region = num(this.opts.region, 0) || regionForFlags(data, this.scene?.flags);
     this.syncLevel();
     const q = this.pending; this.pending = []; for (const f of q) f();
+  }
+  /** Re-read the live region from the story flags (opts.region pins it). Region up -> new cap -> syncLevel. -> changed */
+  updateRegion() {
+    if (!this.data || num(this.opts.region, 0)) return false;
+    const r = regionForFlags(this.data, this.scene?.flags);
+    if (r === this.region) return false;
+    this.region = r; this._emit({ type: 'region', region: r }); this.syncLevel();
+    return true;
   }
   get nodes() { return this.data?.nodes || []; }
   get branches() { return this.data?.branches || []; }
@@ -131,6 +148,7 @@ export class RtBenefits {
   }
   onFlag(flag) {
     if (!this.data) { this.pending.push(() => this.onFlag(flag)); return; }
+    if (Object.values(this.data.regionFlags || {}).includes(flag)) this.updateRegion(); // before the award: the new cap applies
     const S = this.data.sources || {}, alias = S.main_quest?.done_on_flag?.[flag];
     if (alias) { this.award('main_quest', alias); return; }
     for (const name of ['main_quest', 'rival_beaten', 'master_beaten']) {
@@ -141,6 +159,7 @@ export class RtBenefits {
   onBattleResult(res) { if (res?.outcome === 'caught' && res.caught?.species) this.award('first_catch'); }
   /** Per-step: new Kilindex logs (+ milestones). First look on a save without a baseline = baseline only (old saves: 0 XP). */
   diff() {
+    if (this.data) this.updateRegion(); // a loaded save / a flag set without a log entry
     const ki = this.sys?.kilindex; if (!ki || !this.data) return;
     const n = Math.floor(num(ki.caughtCount)), claims = this.company.xpClaims;
     if (claims[KI_KEY] == null) {
@@ -152,7 +171,11 @@ export class RtBenefits {
     if (n <= prev) return;
     claims[KI_KEY] = n;
     const ms = this.data.sources?.kilindex_milestone?.xp || {};
-    for (let c = prev + 1; c <= n; c++) { this.award('kilindex_new', c); if (ms[String(c)] != null) this.award('kilindex_milestone', c); }
+    const perLog = this.effect('asset_logging_bonus'); // region 2 perk: coins per new log
+    for (let c = prev + 1; c <= n; c++) {
+      this.award('kilindex_new', c); if (ms[String(c)] != null) this.award('kilindex_milestone', c);
+      if (perLog > 0 && this.sys?.wallet?.add) { this.sys.wallet.add(Math.floor(perLog)); this._emit({ type: 'log_bonus', count: c, coins: Math.floor(perLog) }); }
+    }
   }
 
   // ---- buying ------------------------------------------------------------------------------------------------------------
@@ -174,6 +197,9 @@ export class RtBenefits {
   effect(id) { const n = this.node(id), r = num(this.company.board?.[id]); return n && r > 0 ? num(n.ranks?.[r - 1]?.value) : 0; }
   respec() { return { ok: false, reason: 'unsupported' }; } // data.respec.supported is false: no terminal / fee / week clock yet
 }
+
+/** Hall Hazard Pay targets: hall interiors ('<town>_hall_int.<id>') and the helper / master classes. */
+export const isHallTrainer = (t = {}) => /_hall_int\./.test(String(t.id || '')) || t.class === 'helper' || t.class === 'master';
 
 /** Load data/rt_benefits.json (browser). Node tests pass the data in. */
 export async function loadRtBenefitsData(url = new URL('../../data/rt_benefits.json', import.meta.url)) {
@@ -210,11 +236,13 @@ export function attachRtBenefits(scene, sys = scene?.systems, opts = {}) {
     const step = scene.step.bind(scene);
     scene.step = (...a) => { const r = step(...a); try { rt.diff(); } catch (err) { console.error('rt_benefits diff:', err); } return r; };
   }
-  // effect: rt_payout (extra % on trainer prize money); shop.js / shops.json untouched
+  // effects: rt_payout (extra % on trainer prize money) + hall_hazard_pay (hall / Master fights only); shop.js / shops.json
+  // untouched. copay_coverage is read by heal.js (sys.rtBenefits.effect), asset_logging_bonus by diff().
   if (typeof sys.awardBattleMoney === 'function') {
     const award = sys.awardBattleMoney.bind(sys);
     sys.awardBattleMoney = (trainer, ...a) => {
-      const r = award(trainer, ...a), pct = rt.effect('rt_payout'), bonus = r && r.amount > 0 && pct > 0 ? Math.floor(r.amount * pct) : 0;
+      const hall = isHallTrainer(trainer), pct = rt.effect('rt_payout') + (hall ? rt.effect('hall_hazard_pay') : 0);
+      const r = award(trainer, ...a), bonus = r && r.amount > 0 && pct > 0 ? Math.floor(r.amount * pct) : 0;
       if (!bonus) return r;
       sys.wallet?.add?.(bonus);
       const amount = r.amount + bonus;
@@ -226,7 +254,7 @@ export function attachRtBenefits(scene, sys = scene?.systems, opts = {}) {
     let tries = 0;
     const tryUi = () => {
       const ui = sys.ui || globalThis.kilumen?.ui;
-      if (ui?.open) import('../ui/rt_benefits_screen.js?v=v0.2.17-alpha').then((m) => m.installRtBenefitsScreen(ui, rt)).catch((e) => console.error('rt_benefits ui:', e));
+      if (ui?.open) import('../ui/rt_benefits_screen.js?v=v0.2.18-alpha').then((m) => m.installRtBenefitsScreen(ui, rt)).catch((e) => console.error('rt_benefits ui:', e));
       else if (++tries < 240) setTimeout(tryUi, 250);
     };
     tryUi();

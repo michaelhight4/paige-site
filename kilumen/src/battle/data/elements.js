@@ -4,7 +4,8 @@
 //
 // DRAFT CHART (Cut B pass, Oct 23 2026, coder; NOT signed off by Gary). design/MECHANICS_PARITY.md B6 had "no chart
 // anywhere", so this draft is Kilumen's own: the starter triangle is earth > water > fire > earth (matches the Ron
-// counter-pick GD already uses: tumbloam -> Ron's cindrip, cindrip -> rillop, rillop -> tumbloam). Every element the
+// counter-pick GD already uses: nibbin -> Ron's cindrip, cindrip -> rillop, rillop -> nibbin; Nibbin replaced Tumbloam as
+// the earth starter Oct 23 2026, src/battle/data/starters.js RON_COUNTER). Every element the
 // Cut B species and skills use has a row; god / legendary rows are minimal (not in Cut B). No x0 immunities yet
 // (DD asks for "a counter and an immunity" per element: Gary decision, listed in dev_notes). Multipliers come from B6
 // (x1.5 strong / x0.6 weak / x0 immune) and live in rules.js, not here.

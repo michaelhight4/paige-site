@@ -1,16 +1,17 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.17-alpha';
-import { Party, Archive } from './party.js?v=v0.2.17-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.17-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.17-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.17-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.17-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.17-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.17-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.17-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.17-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.18-alpha';
+import { giftTalk } from './npc_gifts.js?v=v0.2.18-alpha';
+import { Party, Archive } from './party.js?v=v0.2.18-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.18-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.18-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.18-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.18-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.18-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.18-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.18-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.18-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)
@@ -139,8 +140,9 @@ export class Systems {
     return r;
   }
 
-  /** talk(): carer -> heal counter; shop_int clerk -> shop. Returns true when handled. */
+  /** talk(): parcel/bike gifts (npc_gifts.js); carer -> heal counter; shop_int clerk -> shop. Returns true when handled. */
   async onTalk({ mapName, def, entry, line, speaker }) {
+    if (await giftTalk(this, { mapName, def, entry, line, speaker })) return true; // region 2: parcel -> Courier Bike + office gift (npc_gifts.js)
     if (entry?.after_heal || /_carer$/.test(def.id)) return this.heal.carerTalk({ mapName, def, entry, line, speaker });
     if (mapName === 'shop_int' && (def.id === 'clerk' || def.variant_of === 'clerk')) {
       await this.scene.say(line?.pages || entry.pages, speaker);

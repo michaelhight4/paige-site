@@ -90,6 +90,18 @@ export class RitaVoice {
     if (typeof a.voiceOut !== 'function') return null;
     const out = a.voiceOut(); return out ? { a, out, ctx: out.context } : null;
   }
+  /** Region parts (manifest_<region>.json) merge into the loaded manifest; fetched once, only when a page has no plan. */
+  loadParts() {
+    const m = this.manifest; if (!m?.parts) return Promise.resolve(m);
+    this._pp ||= Promise.all(Object.values(m.parts).map((f) => this.fetch(this.base + f).then((r) => (r.ok ? r.json() : null)).catch(() => null))).then((ps) => {
+      for (const p of ps) if (p) {
+        Object.assign(m.lines ||= {}, p.lines); Object.assign(m.clips ||= {}, p.clips); Object.assign(m.numbers ||= {}, p.numbers);
+        for (const [sl, d] of Object.entries(p.names || {})) Object.assign((m.names ||= {})[sl] ||= {}, d);
+      }
+      this._partsDone = true; return m;
+    });
+    return this._pp;
+  }
   loadManifest() {
     this._mf ||= this.fetch(this.base + 'manifest.json').then((r) => (r.ok ? r.json() : null)).then((m) => { this.manifest = m; return m; }).catch(() => null);
     return this._mf;
@@ -122,7 +134,8 @@ export class RitaVoice {
     if (!r) { this.last = { key: current?.voice?.key || null, spoke: false, why: 'not ready' }; return false; }
     const m = this.manifest || await this.loadManifest();
     if (tok !== this.token) return false;
-    const plan = planFor(m, current);
+    let plan = planFor(m, current);
+    if (!plan && m && m.parts && !this._partsDone) { await this.loadParts(); if (tok !== this.token) return false; plan = planFor(this.manifest, current); }
     if (!plan) { this.last = { key: current?.voice?.key || null, spoke: false, why: 'no clip (text only)' }; return false; }
     try { current.pageEnd = Math.max(current.pageEnd, this.cv.now() + WAIT_MS); } catch { /* */ } // hold the page while its clips load
     this.prefetchPages(r.ctx, m, current);
