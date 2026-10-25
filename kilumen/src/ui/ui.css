@@ -539,3 +539,15 @@ body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.
 .sys-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 8px; font-size: .78em; margin: 4px 0; }
 .sys-stats span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sys-stats b { opacity: .75; font-weight: 600; margin-right: .3em; }
+
+/* v0.2.17 (Gary): pattern behind the battle scene instead of plain black where the art doesn't reach (letterbox / side bands).
+   Background of .ui-battle itself, so it sits under .bg, the field, plates and menus. */
+.ui-battle {
+  background-color: #10142a;
+  background-image:
+    radial-gradient(ellipse at center, rgba(16, 20, 42, 0) 45%, rgba(6, 8, 18, .75) 100%),
+    repeating-linear-gradient(45deg, rgba(64, 160, 170, .07) 0 2px, transparent 2px 18px),
+    repeating-linear-gradient(-45deg, rgba(64, 160, 170, .05) 0 2px, transparent 2px 18px),
+    linear-gradient(160deg, #142038 0%, #0f1a2c 55%, #0b1324 100%);
+}
+.ui-battle .b-bottom:empty, .ui-battle .b-cmds:empty { background: transparent; }
