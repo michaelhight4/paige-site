@@ -576,7 +576,7 @@ body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.
 .cm-n.k-road circle { fill: #c99b5c; }
 .cm-n.k-cave circle { fill: #9a9aa6; }
 .cm-n.ea circle { stroke-dasharray: 4 3; }
-.cm-n text { font: 700 20px/1 system-ui, sans-serif; text-anchor: middle; fill: #222; paint-order: stroke; stroke: #f3ead2; stroke-width: 5px; }
+.cm-n text { font: 700 20px/1 system-ui, sans-serif; fill: #222; paint-order: stroke; stroke: #f3ead2; stroke-width: 5px; }
 .cm-n.k-cave text { font-size: 15px; }
 @media (max-width: 640px) and (orientation: portrait) { .cm-wrap > .ui-body { flex-direction: column; } .cm-wrap > .ui-body > .plate { flex: 0 0 auto !important; max-height: 30%; } }
 .cm-n.k-road text { font-size: 16px; font-weight: 600; font-style: italic; }
