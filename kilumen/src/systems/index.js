@@ -1,17 +1,17 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.21-alpha';
-import { giftTalk } from './npc_gifts.js?v=v0.2.21-alpha';
-import { Party, Archive } from './party.js?v=v0.2.21-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.21-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.21-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.21-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.21-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.21-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.21-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.21-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.21-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.22-alpha';
+import { giftTalk } from './npc_gifts.js?v=v0.2.22-alpha';
+import { Party, Archive } from './party.js?v=v0.2.22-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.22-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.22-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.22-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.22-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.22-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.22-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.22-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.22-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)
