@@ -10,9 +10,9 @@
 // no system reads or writes those blocks yet. Older saves go through MIGRATIONS one step at a time (v1 -> v2 ...),
 // so an old save always loads. The storage key keeps its v1 name so existing saves are found.
 
-import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.25-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
-import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.25-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
-import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.25-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
+import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.26-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
+import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.26-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
+import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.26-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
 
 export const SAVE_VERSION = 2;
 // Padded maps (Gary, Oct 23 2026, 10:25 AM CT): positions are stored in the padded-map frame from now on. A save without
@@ -166,7 +166,7 @@ export function normalise(input) {
   if (Array.isArray(o.party)) s.party = normParty(o.party, s.saveId);
   if (o.pos && typeof o.pos.map === 'string' && Number.isInteger(o.pos.x) && Number.isInteger(o.pos.y)) s.pos = { map: o.pos.map, x: o.pos.x, y: o.pos.y, facing: o.pos.facing || 'down' };
   if (o.lastDoor && typeof o.lastDoor.map === 'string') s.lastDoor = { map: o.lastDoor.map, x: o.lastDoor.x, y: o.lastDoor.y };
-  if (o.devTouched === true) s.devTouched = true; // v0.2.25: dev console / master key marker, kept on every later save
+  if (o.devTouched === true) s.devTouched = true; // v0.2.26: dev console / master key marker, kept on every later save
   s.savedAt = Number(o.savedAt) || 0;
   s.frame = o.frame === POS_FRAME || (!('frame' in o) && s.savedAt >= PAD_SINCE) ? POS_FRAME : 'unpadded';
   // v2 blocks

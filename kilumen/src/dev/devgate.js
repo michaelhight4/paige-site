@@ -1,4 +1,4 @@
-// Dev console gate (v0.2.25). The console is allowed only when ALL of these hold:
+// Dev console gate (v0.2.26). The console is allowed only when ALL of these hold:
 //   1. the URL asked for it (?dev=1, read by alpha.js before it strips the query), and
 //   2. a real (non-anonymous) Supabase session exists, validated by the auth server (auth.getUser), and
 //   3. the server's own admin check says so: the same `admin_me` RPC the site's admin page and header tag use

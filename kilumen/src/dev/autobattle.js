@@ -1,9 +1,9 @@
-// Dev console: "Auto-complete battle" (v0.2.25). Only ever imported by battle/ui_sd.js while DEV.active (admin + ?dev=1).
+// Dev console: "Auto-complete battle" (v0.2.26). Only ever imported by battle/ui_sd.js while DEV.active (admin + ?dev=1).
 // The computer picks the player's side each turn (best-damage picker; a forced switch when a creature faints), skipping all
 // animations. It drives the ordinary engine (kb.choose / kb.drain) so rolls, accuracy, crits, status and AI are the game's own,
 // then the screen's normal finish() runs (XP split, applyBattleResult, evolution queue, post-battle flow, the usual save).
 // Nothing here saves; nothing is forced to win.
-import { DEV } from './runtime.js?v=v0.2.25-alpha';
+import { DEV } from './runtime.js?v=v0.2.26-alpha';
 
 export const logs = []; // newest last, max 20
 const MAX_LOGS = 20, MAX_STEPS = 600;

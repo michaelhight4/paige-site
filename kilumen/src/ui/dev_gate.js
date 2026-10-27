@@ -1,4 +1,4 @@
-// Kilumen developer console gate (v0.2.25). The console only exists when BOTH are true:
+// Kilumen developer console gate (v0.2.26). The console only exists when BOTH are true:
 //   1. the page was opened with ?dev=1 (alpha.js remembers it before it strips the query), and
 //   2. the signed-in paigegames.net account is a site owner / admin: the same server check the site's own Admin link uses
 //      (RPC admin_me -> {role, tag}; role 'owner' or 'admin'; anonymous / guest sessions never count).
@@ -31,7 +31,7 @@ export async function startDevGate(k) {
   if (!verdict.ok) { console.info('Kilumen dev console: off (' + verdict.why + ')'); return null; }
   for (let i = 0; i < 160 && !(k.ui && k.scene?.systems?.party); i++) await new Promise((r) => setTimeout(r, 250)); // up to 40 s
   if (!(k.ui && k.scene?.systems?.party)) { console.info('Kilumen dev console: off (game not ready)'); return null; }
-  const m = await import('./dev_console.js?v=v0.2.25-alpha');
+  const m = await import('./dev_console.js?v=v0.2.26-alpha');
   k.devConsole = m.mountDevConsole({ scene: k.scene, ui: k.ui, role: verdict.role });
   console.info('Kilumen dev console: on (' + verdict.role + '). DEV button, or F2.');
   return k.devConsole;
