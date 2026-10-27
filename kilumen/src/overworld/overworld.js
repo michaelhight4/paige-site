@@ -7,6 +7,7 @@
 import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.25-alpha';
 import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.25-alpha';
 import { GridMover } from './movement.js?v=v0.2.25-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.25-alpha';
 import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.25-alpha';
 import { promptScheme, promptVars } from '../platform.js?v=v0.2.25-alpha';
 import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.25-alpha';
@@ -93,6 +94,7 @@ export class Overworld {
     else if (opts.phase && PHASE_HOUR[opts.phase] != null) this.clock.min = PHASE_HOUR[opts.phase] * 60;
     this.timescale = opts.timescale ?? 1;     // ?timescale=0 freezes the clock (shots)
     if (sv.lastDoor) this.lastDoor = sv.lastDoor;
+    this.devTouched = sv.devTouched === true;  // set once the dev console / master key touched this save (v0.2.25)
     this.dialog = opts.dialog || null;
     this.busy = false;                        // a dialogue script is running
     this.npcs = new NpcSystem(this);
@@ -371,8 +373,9 @@ export class Overworld {
         const code = m.code(x, y);
         if (code === Col.DOOR) {
           const w = m.warpAt(x, y);
-          if (w && !isToCome(w)) {
-            if (this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing
+          const mkDoor = DEV.masterKey && w && isToCome(w) && this.knownMaps?.has(w.to); // dev master key: a TO COME door whose map is built opens
+          if (w && (!isToCome(w) || mkDoor)) {
+            if (!DEV.masterKey && this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing
             if (w.to !== '$return') this.lastDoor = { map: m.name, x, y };
             this._doorDismount = this.player.mode === MoveMode.BIKE; // MOVEMENT.md 2: doors always dismount
             const spawn = warpSpawn(w, w.to === '$return' ? this.lastDoor : null)
@@ -380,16 +383,19 @@ export class Overworld {
             this.startWarp(spawn, 'door');
             return 'stop';
           }
-          if (w && isToCome(w)) this.toast(this.config.closedPathText);
+          if (w && isToCome(w) && !mkDoor) this.toast(this.config.closedPathText);
         }
+        const lw = DEV.masterKey && m._lockedAt?.get(x + ',' + y); // dev master key: locked staff door (collision 1, unlock_flag not set) opens
+        if (lw && lw.to && lw.to !== '$return') { this.lastDoor = { map: m.name, x, y }; this.startWarp({ map: lw.to, x: lw.tx, y: lw.ty, facing: lw.facing || 'up' }, 'door'); return 'stop'; }
         if (code === Col.PLATE) this.hooks.onPlate?.(x, y);
         if (m.encounter(x, y)) this.hooks.onEncounterTile?.(x, y, m.encounter(x, y)); // run/bike: same rate (MOVEMENT.md)
         this._lastBumpMsg = null;
       },
       onEdge: (exit, x, y) => {
         if (!exit) return;
-        if (isToCome(exit) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
-        if (this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
+        const mkEdge = DEV.masterKey && !!this.knownMaps?.has(exit.to); // dev master key: a TO COME / blocked exit opens when its map is built
+        if ((isToCome(exit) && !mkEdge) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
+        if (!DEV.masterKey && this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
         this.startWarp({ exit, fromX: x, fromY: y }, 'edge');
         return 'stop';
       },
@@ -842,7 +848,7 @@ export class Overworld {
           if (this.seen[dk]) { await this.say(e.after || this.pick(e, key)?.pages, sp); return; }
           if (def.kind === 'master' && /_hall_int$/.test(mapName)) { // v0.2.16 (Gary): beat every hall trainer before the Master
             const left = (this.map.npcs || []).filter((d) => d && d.id !== def.id && d.kind !== 'master' && /trainer/.test(d.kind || '') && this._entryFor(mapName, d)?.battle_lost && !this.seen[`defeated:${mapName}.${d.id}`]).length;
-            if (left > 0) { await this.say([`Beat the rest of my hall first. ${left} trainer${left === 1 ? '' : 's'} left.`], sp); return; }
+            if (left > 0 && !DEV.masterKey) { await this.say([`Beat the rest of my hall first. ${left} trainer${left === 1 ? '' : 's'} left.`], sp); return; }
           }
           // no creature yet (Gary 9:36): never open a battle with an empty party (the battle screens would lend a placeholder Rillop)
           if (!(this.systems?.party?.list || this.party || []).length) {
@@ -1036,7 +1042,7 @@ export class Overworld {
       flags: [...this.flags], counters: this.counters, seen: this.seen, seenDay: this.seenDay, clock: this.clock, party: this.party,
       pos: this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null, lastDoor: this.lastDoor, frame: POS_FRAME,
       ...this.systems?.saveBlocks(), // [systems-gd hook] coins, bag, archive, systems
-      ...(this.devTouched ? { devTouched: true } : {}), // developer console (v0.2.25): marks a save a tester edited
+      ...(this.devTouched || DEV.masterKey ? { devTouched: true } : {}), // v0.2.25: a dev console change / master key was used: sticky, never cleared
     };
   }
 

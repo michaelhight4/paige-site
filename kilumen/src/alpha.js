@@ -8,8 +8,6 @@ export const ALPHA_NOTICE_KEY = ALPHA_PREFIX + 'notice_seen.v1';
 
 const raw = new URLSearchParams(location.search);
 const keep = new URLSearchParams();
-// v0.2.25: ?dev=1 is only REMEMBERED here (the query is stripped below). It does nothing by itself: ui/dev_gate.js also needs a signed-in site admin.
-export const DEV_REQUESTED = raw.get('dev') === '1';
 if (raw.get('reset') === '1') keep.set('reset', '1');
 // Hidden fallbacks kept: ?battle=shell (old scripted battles), ?enc=0 (wild encounters off), ?encrate=0..1 (per-step chance; default rate otherwise).
 if (raw.get('battle') === 'shell') keep.set('battle', 'shell');
@@ -18,6 +16,9 @@ if (raw.has('encrate') && Number.isFinite(Number(raw.get('encrate')))) keep.set(
 // v0.2.0 opt-outs (Gary Oct 23 2026: contacts / RITA are default on, ?contacts=0 / ?cv=0 turn them off). Only the '0' value is kept.
 for (const k of ['contacts', 'cv']) if (raw.get(k) === '0') keep.set(k, '0');
 export const ALPHA_QUERY = keep.toString();
+// v0.2.25: ?dev=1 only REQUESTS the dev console. It is read here (the query is stripped just below) and does nothing alone:
+// src/dev/devgate.js still needs a signed-in admin account (server check) before any dev code is loaded.
+export const DEV_REQUESTED = raw.get('dev') === '1';
 if (location.search) { try { history.replaceState(history.state, '', location.pathname + location.hash); } catch { /* ignore */ } }
 
 export function noticeSeen() { try { return localStorage.getItem(ALPHA_NOTICE_KEY) === '1'; } catch { return false; } }

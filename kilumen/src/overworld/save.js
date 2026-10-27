@@ -166,6 +166,7 @@ export function normalise(input) {
   if (Array.isArray(o.party)) s.party = normParty(o.party, s.saveId);
   if (o.pos && typeof o.pos.map === 'string' && Number.isInteger(o.pos.x) && Number.isInteger(o.pos.y)) s.pos = { map: o.pos.map, x: o.pos.x, y: o.pos.y, facing: o.pos.facing || 'down' };
   if (o.lastDoor && typeof o.lastDoor.map === 'string') s.lastDoor = { map: o.lastDoor.map, x: o.lastDoor.x, y: o.lastDoor.y };
+  if (o.devTouched === true) s.devTouched = true; // v0.2.25: dev console / master key marker, kept on every later save
   s.savedAt = Number(o.savedAt) || 0;
   s.frame = o.frame === POS_FRAME || (!('frame' in o) && s.savedAt >= PAD_SINCE) ? POS_FRAME : 'unpadded';
   // v2 blocks
@@ -174,7 +175,6 @@ export function normalise(input) {
   s.bag = Object.fromEntries(Object.entries(isObj(o.bag) ? o.bag : {}).map(([k, n]) => [k, natInt(n)]).filter(([, n]) => n > 0));
   for (const k of ['archive', 'kilindex', 'tasks', 'company', 'systems']) s[k] = shaped(d[k], o[k]); // [systems-gd hook] + systems
   if ('contacts' in o) s.contacts = normaliseContacts(o.contacts); // [contacts] only when present: flag-off saves are unchanged
-  if (o.devTouched === true) s.devTouched = true; // v0.2.25: set by the developer console (ui/dev_console.js) so test saves can be told apart
   if (!EMPLOYEE_ID_RE.test(s.company.employeeId)) s.company.employeeId = employeeIdFor(s.saveId); // old saves get their number on load
   return s;
 }
