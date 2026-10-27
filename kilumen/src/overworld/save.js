@@ -10,9 +10,9 @@
 // no system reads or writes those blocks yet. Older saves go through MIGRATIONS one step at a time (v1 -> v2 ...),
 // so an old save always loads. The storage key keeps its v1 name so existing saves are found.
 
-import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.24-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
-import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.24-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
-import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.24-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
+import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.25-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
+import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.25-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
+import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.25-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
 
 export const SAVE_VERSION = 2;
 // Padded maps (Gary, Oct 23 2026, 10:25 AM CT): positions are stored in the padded-map frame from now on. A save without
@@ -174,6 +174,7 @@ export function normalise(input) {
   s.bag = Object.fromEntries(Object.entries(isObj(o.bag) ? o.bag : {}).map(([k, n]) => [k, natInt(n)]).filter(([, n]) => n > 0));
   for (const k of ['archive', 'kilindex', 'tasks', 'company', 'systems']) s[k] = shaped(d[k], o[k]); // [systems-gd hook] + systems
   if ('contacts' in o) s.contacts = normaliseContacts(o.contacts); // [contacts] only when present: flag-off saves are unchanged
+  if (o.devTouched === true) s.devTouched = true; // v0.2.25: set by the developer console (ui/dev_console.js) so test saves can be told apart
   if (!EMPLOYEE_ID_RE.test(s.company.employeeId)) s.company.employeeId = employeeIdFor(s.saveId); // old saves get their number on load
   return s;
 }
@@ -238,5 +239,5 @@ export class SaveStore {
   clear() { this.storage?.removeItem(this.key); this.storage?.removeItem(this.bakKey); this.extra = pickBlocks(freshSave()); }
 }
 
-const KEEP_BLOCKS = [...V2_BLOCKS, 'contacts']; // [contacts] optional block: carried through saves only if a save already has it
+const KEEP_BLOCKS = [...V2_BLOCKS, 'contacts', 'devTouched']; // [contacts] optional block: carried through saves only if a save already has it
 function pickBlocks(s) { return Object.fromEntries(KEEP_BLOCKS.filter((k) => k in s).map((k) => [k, s[k]])); }
