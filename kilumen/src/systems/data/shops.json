@@ -182,6 +182,70 @@
      ]
     }
    ]
+  },
+  "aurelith": {
+   "city": "Aurelith",
+   "copay": 200,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag_small",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "dominance_crystal_plus",
+      "energy_tonic"
+     ]
+    },
+    {
+     "coins": 2,
+     "items": [
+      "vigor_seed"
+     ]
+    }
+   ]
+  },
+  "saltmere": {
+   "city": "Saltmere",
+   "copay": 200,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag_small",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "dominance_crystal_plus",
+      "energy_tonic"
+     ]
+    },
+    {
+     "coins": 2,
+     "items": [
+      "vigor_seed"
+     ]
+    }
+   ]
   }
  },
  "branches": {

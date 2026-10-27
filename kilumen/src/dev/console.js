@@ -3,16 +3,16 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.26-alpha';
-import * as AB from './autobattle.js?v=v0.2.26-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.26-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.26-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.26-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.26-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.26-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.26-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.26-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.26-alpha';
+import { DEV } from './runtime.js?v=v0.2.27-alpha';
+import * as AB from './autobattle.js?v=v0.2.27-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.27-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.27-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.27-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.27-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.27-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.27-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.27-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.27-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;

@@ -1150,6 +1150,46 @@
    "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
+  },
+  "heal_saltmere.heal_saltmere_carer": {
+   "sprite_id": "vil_healer_f",
+   "class": "branch carer, company uniform",
+   "overworld_sheet": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_healer_f/overworld/vil_healer_f_chibi/"
+  },
+  "heal_saltmere.heal_saltmere_technician": {
+   "sprite_id": "vil_office_m_b",
+   "class": "polishing technician, uniform",
+   "overworld_sheet": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi/"
+  },
+  "heal_saltmere.heal_saltmere_storage_user": {
+   "sprite_id": "vil_courier_f",
+   "class": "visitor at storage PC",
+   "overworld_sheet": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_courier_f/overworld/vil_courier_f_chibi/"
+  },
+  "thornwood.thornwood_c_gardener": {
+   "sprite_id": "vil_gardener_f",
+   "class": "forest gardener (v0.2.27)",
+   "overworld_sheet": "npcs/vil_gardener_f/overworld/vil_gardener_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_gardener_f/overworld/vil_gardener_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_gardener_f/overworld/vil_gardener_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_gardener_f/overworld/vil_gardener_f_chibi/"
+  },
+  "thornwood.thornwood_e_researcher": {
+   "sprite_id": "tr_scientist_f",
+   "class": "field researcher (v0.2.27)",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
   }
  },
  "unassigned_ready": {
