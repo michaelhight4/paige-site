@@ -4,32 +4,33 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.24-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.24-alpha';
-import { GridMover } from './movement.js?v=v0.2.24-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.24-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.24-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.24-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.24-alpha';
-import { Renderer } from './renderer.js?v=v0.2.24-alpha';
-import { drawDebug } from './debug.js?v=v0.2.24-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.24-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.24-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.24-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.24-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.24-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.24-alpha';
-import { LivingWorld } from './living.js?v=v0.2.24-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.24-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.24-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.24-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.24-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.24-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.24-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.24-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.24-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.24-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.24-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.25-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.25-alpha';
+import { GridMover } from './movement.js?v=v0.2.25-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.25-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.25-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.25-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.25-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.25-alpha';
+import { Renderer } from './renderer.js?v=v0.2.25-alpha';
+import { drawDebug } from './debug.js?v=v0.2.25-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.25-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.25-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.25-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.25-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.25-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.25-alpha';
+import { LivingWorld } from './living.js?v=v0.2.25-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.25-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.25-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.25-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.25-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.25-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.25-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.25-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.25-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.25-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.25-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -53,7 +54,7 @@ export function nativeRenderDiv(opts, h) {
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.24-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.25-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -93,6 +94,7 @@ export class Overworld {
     else if (opts.phase && PHASE_HOUR[opts.phase] != null) this.clock.min = PHASE_HOUR[opts.phase] * 60;
     this.timescale = opts.timescale ?? 1;     // ?timescale=0 freezes the clock (shots)
     if (sv.lastDoor) this.lastDoor = sv.lastDoor;
+    this.devTouched = sv.devTouched === true;  // set once the dev console / master key touched this save (v0.2.25)
     this.dialog = opts.dialog || null;
     this.busy = false;                        // a dialogue script is running
     this.npcs = new NpcSystem(this);
@@ -371,8 +373,9 @@ export class Overworld {
         const code = m.code(x, y);
         if (code === Col.DOOR) {
           const w = m.warpAt(x, y);
-          if (w && !isToCome(w)) {
-            if (this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing
+          const mkDoor = DEV.masterKey && w && isToCome(w) && this.knownMaps?.has(w.to); // dev master key: a TO COME door whose map is built opens
+          if (w && (!isToCome(w) || mkDoor)) {
+            if (!DEV.masterKey && this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing
             if (w.to !== '$return') this.lastDoor = { map: m.name, x, y };
             this._doorDismount = this.player.mode === MoveMode.BIKE; // MOVEMENT.md 2: doors always dismount
             const spawn = warpSpawn(w, w.to === '$return' ? this.lastDoor : null)
@@ -380,16 +383,19 @@ export class Overworld {
             this.startWarp(spawn, 'door');
             return 'stop';
           }
-          if (w && isToCome(w)) this.toast(this.config.closedPathText);
+          if (w && isToCome(w) && !mkDoor) this.toast(this.config.closedPathText);
         }
+        const lw = DEV.masterKey && m._lockedAt?.get(x + ',' + y); // dev master key: locked staff door (collision 1, unlock_flag not set) opens
+        if (lw && lw.to && lw.to !== '$return') { this.lastDoor = { map: m.name, x, y }; this.startWarp({ map: lw.to, x: lw.tx, y: lw.ty, facing: lw.facing || 'up' }, 'door'); return 'stop'; }
         if (code === Col.PLATE) this.hooks.onPlate?.(x, y);
         if (m.encounter(x, y)) this.hooks.onEncounterTile?.(x, y, m.encounter(x, y)); // run/bike: same rate (MOVEMENT.md)
         this._lastBumpMsg = null;
       },
       onEdge: (exit, x, y) => {
         if (!exit) return;
-        if (isToCome(exit) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
-        if (this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
+        const mkEdge = DEV.masterKey && !!this.knownMaps?.has(exit.to); // dev master key: a TO COME / blocked exit opens when its map is built
+        if ((isToCome(exit) && !mkEdge) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
+        if (!DEV.masterKey && this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
         this.startWarp({ exit, fromX: x, fromY: y }, 'edge');
         return 'stop';
       },
@@ -842,7 +848,7 @@ export class Overworld {
           if (this.seen[dk]) { await this.say(e.after || this.pick(e, key)?.pages, sp); return; }
           if (def.kind === 'master' && /_hall_int$/.test(mapName)) { // v0.2.16 (Gary): beat every hall trainer before the Master
             const left = (this.map.npcs || []).filter((d) => d && d.id !== def.id && d.kind !== 'master' && /trainer/.test(d.kind || '') && this._entryFor(mapName, d)?.battle_lost && !this.seen[`defeated:${mapName}.${d.id}`]).length;
-            if (left > 0) { await this.say([`Beat the rest of my hall first. ${left} trainer${left === 1 ? '' : 's'} left.`], sp); return; }
+            if (left > 0 && !DEV.masterKey) { await this.say([`Beat the rest of my hall first. ${left} trainer${left === 1 ? '' : 's'} left.`], sp); return; }
           }
           // no creature yet (Gary 9:36): never open a battle with an empty party (the battle screens would lend a placeholder Rillop)
           if (!(this.systems?.party?.list || this.party || []).length) {
@@ -1036,6 +1042,7 @@ export class Overworld {
       flags: [...this.flags], counters: this.counters, seen: this.seen, seenDay: this.seenDay, clock: this.clock, party: this.party,
       pos: this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null, lastDoor: this.lastDoor, frame: POS_FRAME,
       ...this.systems?.saveBlocks(), // [systems-gd hook] coins, bag, archive, systems
+      ...(this.devTouched || DEV.masterKey ? { devTouched: true } : {}), // v0.2.25: a dev console change / master key was used: sticky, never cleared
     };
   }
 

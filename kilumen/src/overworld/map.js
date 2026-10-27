@@ -1,6 +1,7 @@
 // Kilumen overworld: map model (pure, no DOM). Loads the World Design map JSON format
 // (art/world/overworld/OVERWORLD_README.md sections 6-7) and answers collision / warp / exit queries.
-import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.24-alpha';
+import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.25-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.25-alpha';
 
 export const LAYER_ORDER = ['ground', 'decoration', 'overlay']; // overlay is y-sorted with characters (see renderer)
 const GRID_LAYERS = ['ground', 'decoration', 'overlay', 'collision', 'encounter', 'fog']; // fog: mirefen_bog, drawn last
@@ -44,6 +45,7 @@ export class GameMap {
     this.storyGates = json.story_gates || [];
     this._gateAt = new Map();
     for (const g of this.storyGates) for (const c of g.cells || []) this._gateAt.set(c.x + ',' + c.y, g);
+    this._lockedAt = new Map(); for (const w of json.locked_warps || []) this._lockedAt.set(w.x + ',' + w.y, w); // locked staff doors (dev master key only)
     this._appliedGates = new Set();
     this._npcAt = new Map(this.npcs.filter((n) => Number.isInteger(n.x)).map((n) => [n.x + ',' + n.y, n]));
     this._rampDir = new Map();
@@ -156,6 +158,7 @@ export class GameMap {
   /** Can an actor in `mode` stand on (x,y)? Walk/run: codes 0,4,7. Bike adds bike_only (8). NPCs are solid. */
   passable(x, y, mode = 'walk') {
     if (!this.inBounds(x, y) || this._npcAt.has(x + ',' + y)) return false;
+    if (DEV.masterKey) { const k = x + ',' + y, g = this._gateAt.get(k); if ((g && !this.gateCleared(g)) || this._lockedAt.has(k)) return true; } // dev master key: runtime override, never saved
     const c = this.code(x, y);
     return WALKABLE.has(c) || (mode === 'bike' && c === Col.BIKE_ONLY);
   }

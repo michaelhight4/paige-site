@@ -12,8 +12,8 @@
 // Out of scope (not by level): shard / fossil / bond forms. Only one of them has a level in the game data (wavelin ->
 // breakerfin, a Warmth/bond evolution in DEX_450), so it is held back here (NOT_BY_LEVEL).
 // Hook: one line in src/main.js after attachOvernight. ?evo=0 turns it off.
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.24-alpha';
-import { speciesName, displayName, maxHp, idOf } from './creature.js?v=v0.2.24-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.25-alpha';
+import { speciesName, displayName, maxHp, idOf } from './creature.js?v=v0.2.25-alpha';
 
 export const NOT_BY_LEVEL = Object.freeze({ breakerfin: 'bond (DEX_450: Warmth, high bond)' });
 export const EVOLVE_OUTCOMES = new Set(['win', 'caught']); // a catch also ends a battle the player won
@@ -108,7 +108,7 @@ export function attachEvolution(scene, opts = {}) {
 
   async function one(job) {
     const c = (scene.party || []).find((p) => idOf(p) === job.uid);
-    if (!c || c.species !== job.from || !nextEvolution(c, { phase: scene.phase || null })) return null;
+    if (!c || c.species !== job.from || (!job.force && !nextEvolution(c, { phase: scene.phase || null }))) return null; // job.force: dev console only (v0.2.25)
     const vars = { creature: displayName(c), new: speciesName(job.to) };
     const start = lines('start', vars), done = lines('done', vars), stopped = lines('stopped', vars);
     const fx = globalThis.kilumen?.ui?.fx;
@@ -154,5 +154,7 @@ export function attachEvolution(scene, opts = {}) {
     while (ev.queue.length) { const j = ev.queue.shift(); try { await one(j); } catch (e) { console.error('evolution:', e); } }
   }
   ev.run = run;
+  // dev console (v0.2.25): evolve a party creature now through this same path (animation, nickname / skills / variant kept, Kilindex mark). Not used by normal play.
+  ev.force = (c, to) => { if (!c || !to || ev.queue.some((j) => j.uid === idOf(c))) return false; ev.queue.push({ uid: idOf(c), from: c.species, to, level: c.level, force: true }); return true; };
   return ev;
 }

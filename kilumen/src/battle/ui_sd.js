@@ -2,12 +2,13 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.24-alpha';
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.24-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.24-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.24-alpha';
+import { KilumenBattle } from './battle.js?v=v0.2.25-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.25-alpha';
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.25-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.25-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.25-alpha';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.24-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.25-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -338,8 +339,20 @@ export function makeSdBattle(ui, opts, h) {
   };
   const whoName = () => kb.p1.active[0]?.name || '';
   const showCmds = () => showList('cmd', [{ t: 'Skills', el: 'fire', go: showSkills }, { t: 'Pack', el: 'earth', go: showPack },
-    { t: 'Team', el: 'water', go: () => showTeam(false) }, { t: 'Retreat', el: 'wind', go: () => act('retreat') }],
+    { t: 'Team', el: 'water', go: () => showTeam(false) }, { t: 'Retreat', el: 'wind', go: () => act('retreat') }, ...autoItem()],
   P1('prompt', 'What will {creature} do?', { creature: whoName() }) /* PH (old shell line) */);
+  // dev console (v0.2.25): "Auto-complete" only while DEV.active (admin account + ?dev=1). Plays the rest of the battle through the normal
+  // engine with a computer-picked player side (no animations), then the ordinary finish() below runs unchanged (XP split, evolutions, save after).
+  const autoItem = () => (DEV.active ? [{ t: 'Auto-complete', el: 'light', go: () => guard(autoRun()) }] : []);
+  const autoRun = async () => {
+    if (!DEV.active || kb.ended || busy) return;
+    busy = true; $('#b-cmds').hidden = true; $('#b-msg').textContent = 'Auto-completing…';
+    const AB = await import('../dev/autobattle.js?v=v0.2.25-alpha');
+    const entry = AB.runAuto(kb, { trainer, owned });
+    if (!kb.ended) { busy = false; $('#b-msg').textContent = 'Auto-complete stopped early (see the dev battle logs).'; AB.afterFinish(entry); return; }
+    await finish();
+    AB.afterFinish(entry);
+  };
   const showSkills = () => {
     const r = kb.request();
     showList('skills', r.moves.map((m, i) => { const mv = kb.battle.dex.moves.get(m.id); const el = mv.type.toLowerCase();
@@ -370,7 +383,7 @@ export function makeSdBattle(ui, opts, h) {
     // still fight, no Back; a press already held from the faint text can't pick (input opens 350 ms later)
     if (forced) { pickAt = performance.now() + 350;
       return showList('forced', team.map((c, i) => ({ c, i })).filter(({ c, i }) => i > 0 && !c.fainted).map(({ c, i }) => ({ t: `${c.name} Lv.${c.level}`, s: `HP ${c.hp}/${c.maxhp}`,
-        el: speciesById(c.species.id).el[0], go: () => act(`switch ${i + 1}`) })), P1('send_next', 'Who goes in next?') /* PH */); }
+        el: speciesById(c.species.id).el[0], go: () => act(`switch ${i + 1}`) })).concat(autoItem()), P1('send_next', 'Who goes in next?') /* PH */); }
     showList(forced ? 'forced' : 'team', team.map((c, i) => ({ t: `${c.name} Lv.${c.level}`, s: c.fainted ? P1('out_cold_tag', 'Out cold') /* PH */ : `HP ${c.hp}/${c.maxhp}`,
       el: speciesById(c.species.id).el[0], off: c.fainted || i === 0, go: () => { if (!c.fainted && i > 0) act(`switch ${i + 1}`); } })),
     forced ? P1('send_next', 'Who goes in next?') /* PH */ : P1('team_prompt', 'Swap in who?') /* PH */);
