@@ -7,7 +7,7 @@
 // Depth pass (depth.js, Oct 22 2026): its cached static layer (object contact shadows + indoor wall-base shading) runs
 // right after ground/decoration, before the decals; the character contact shadows run after living `under`, just
 // before the first character. Both are under every character and over the floor.
-import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.35-alpha';
+import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.36-alpha';
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
 
@@ -151,6 +151,11 @@ export class Renderer {
     }
     if (!a.img) return;
     const k = a.sheetScale;
+    if (a.sq) { // creature motion (creature_idle.js): scale about the feet centre, whole art px only
+      const q = a.sq, dw = Math.round(w * q.sx) * z, dh = Math.round(h * q.sy) * z;
+      ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k, sx + (TILE * z - dw) / 2, groundY - dh - Math.round(q.lift) * z, dw, dh);
+      return;
+    }
     ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k,
       sx + ((TILE - w) / 2) * z, groundY - (h + (a.lift || 0)) * z, w * z, h * z);
   }
