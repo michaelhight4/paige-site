@@ -5,10 +5,10 @@
 //     lineage, rt, skills [ids], held, locked, origin {map, how, day} }
 // maxHp / maxEnergy / stats are DERIVED (statsOf) from the battle data, never saved. `uid` is the save key
 // (save.js names it uid); `id` is accepted on input as an alias.
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.36-alpha';
-import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.36-alpha';
-import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.36-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.36-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.37-alpha';
+import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.37-alpha';
+import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.37-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.37-alpha';
 
 let _creatures = null, _skills = null;
 const creatures = () => (_creatures ||= buildCreatures());
@@ -98,6 +98,7 @@ export function serialise(c) {
     variant: c.variant || '', lineage: c.lineage ?? null, rt: c.rt ?? null, skills: (c.skills || []).slice(),
     held: c.held || null, locked: !!c.locked, origin: c.origin || null,
   };
+  if (c.ath && typeof c.ath === 'object' && c.ath.q) o.ath = JSON.parse(JSON.stringify(c.ath)); // sports athletics roll (src/sports/athletics.js; re-rolls from uid if absent)
   return o;
 }
 
@@ -116,6 +117,7 @@ export function deserialise(o, { fallbackLevel = 5 } = {}) {
     skills: Array.isArray(o.skills) && o.skills.length ? o.skills.filter((s) => typeof s === 'string').slice(0, 4) : defaultSkills(o.species),
     held: typeof o.held === 'string' ? o.held : null, locked: o.locked === true, origin: o.origin ?? (o.caughtAt ? { at: o.caughtAt } : null),
   };
+  if (o.ath && typeof o.ath === 'object' && o.ath.q && typeof o.ath.q === 'object') c.ath = JSON.parse(JSON.stringify(o.ath)); // sports roll (optional)
   const mx = maxHp(c);
   c.hp = Number.isFinite(o.hp) ? Math.max(0, Math.min(mx, Math.floor(o.hp))) : mx;
   c.energy = Array.isArray(o.energy) ? energyOf({ ...c, energy: o.energy }) : maxEnergy(c).slice();

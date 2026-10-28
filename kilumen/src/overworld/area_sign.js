@@ -3,7 +3,7 @@
 // name. Re-entering the map the player just left within REENTRY_MS (edge back-and-forth) does not re-show it, and
 // stepping back out of a building into the same town does not either. Pure logic here; overworld.js drives the timing
 // from its fade (_finishLoad / _stepFade) and ui.js draws it (hud-banner, sized per platform profile).
-import { INDOOR_OR_CAVE } from './clock.js?v=v0.2.36-alpha';
+import { INDOOR_OR_CAVE } from './clock.js?v=v0.2.37-alpha';
 
 export const REENTRY_MS = 5000;
 export const HOLD_MS = 2000;
