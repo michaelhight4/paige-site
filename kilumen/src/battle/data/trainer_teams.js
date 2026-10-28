@@ -18,7 +18,7 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.28-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.29-alpha';
 
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end
@@ -109,7 +109,7 @@ export const TRAINER_TEAMS = {
   'frostspire_pass.frostspire_pass_trainer_3': [{ species: 'snowgrouse', level: 29 }, { species: 'signalwren', level: 30 }],
   'frostspire_pass.frostspire_pass_trainer_4': [{ species: 'frostlop', level: 30 }, { species: 'delvelet', level: 30 }],
   'frostspire_pass.frostspire_pass_trainer_5': [{ species: 'ledgebex', level: 30 }, { species: 'gloamtick', level: 30 }, { species: 'snowcairn', level: 31 }],
-  'frostspire.frostspire_trainer_1': [{ species: 'tundrarch', level: 31 }, { species: 'ledgebex', level: 31 }],
+  'frostspire.frostspire_trainer_1': [{ species: 'tundrarch', level: 32 }, { species: 'ledgebex', level: 31 }],
   'frostspire.frostspire_trainer_2': [{ species: 'frostlop', level: 31 }, { species: 'skyrender', level: 31 }],
   'frostspire.frostspire_trainer_3': [{ species: 'halovy', level: 31 }, { species: 'signalwren', level: 32 }],
   'frostspire.frostspire_trainer_4': [{ species: 'tundrarch', level: 32 }, { species: 'burlbeetle', level: 32 }],
