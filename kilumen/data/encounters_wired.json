@@ -40,11 +40,13 @@
  ],
  "generated": "tools/sync_creatures.mjs 10/23/2026, 14:38:26 CT",
  "species_with_art": [
+  "alpuff",
   "ankerling",
   "barnaclump",
   "bastonox",
   "beaconfly",
   "belfrydove",
+  "belugoo",
   "bleachghast",
   "bleatling",
   "blubbet",
@@ -85,6 +87,7 @@
   "combwarden",
   "cragmont",
   "crowkin",
+  "crownlet",
   "dartling",
   "dawnfin",
   "delvelet",
@@ -95,6 +98,7 @@
   "drenchcrab",
   "dripweaver",
   "drizzlebill",
+  "dunehop",
   "dustbonnet",
   "eavesgrim",
   "echoshell",
@@ -143,6 +147,7 @@
   "gnawford",
   "grainling",
   "halovy",
+  "haysquee",
   "hearthkit",
   "highkite",
   "hullwhale",
@@ -156,6 +161,7 @@
   "kilnowl",
   "kilnpaw",
   "kindlepup",
+  "kinkalume",
   "lampwick",
   "lancebeetle",
   "lanternkeep",
@@ -167,17 +173,20 @@
   "loamworm",
   "lumoris",
   "lurelamp",
+  "marmallow",
   "medulet",
   "millwhirl",
   "minewisp",
   "mirewump",
   "mirrorkin",
+  "mittling",
   "moatling",
   "mooncrab",
   "moorcoil",
   "mossmote",
   "mournhorn",
   "mournlily",
+  "mufflynx",
   "mumblet",
   "musselin",
   "netspinner",
@@ -186,6 +195,7 @@
   "novarch",
   "nudiblume",
   "obsidiax",
+  "okapip",
   "olmling",
   "ondravel",
   "paleminnow",
@@ -238,8 +248,10 @@
   "sluicekin",
   "snapmoor",
   "snowcairn",
+  "snowdrowse",
   "snowgrouse",
   "snowmuff",
+  "snugworm",
   "somnarch",
   "sparkplume",
   "spinelet",
@@ -1270,6 +1282,40 @@
      "time": [
       "dawn"
      ]
+    },
+    {
+     "species": "haysquee",
+     "level": [
+      12,
+      15
+     ],
+     "weight": 4,
+     "cute_r2": true,
+     "placeholder": true
+    },
+    {
+     "species": "okapip",
+     "level": [
+      13,
+      16
+     ],
+     "weight": 4,
+     "cute_r2": true,
+     "placeholder": true
+    },
+    {
+     "species": "crownlet",
+     "level": [
+      13,
+      16
+     ],
+     "weight": 2,
+     "time": [
+      "dawn",
+      "day"
+     ],
+     "cute_r2": true,
+     "placeholder": true
     }
    ],
    "band": "wild 12-16",
@@ -1549,6 +1595,40 @@
      ],
      "weight": 4,
      "kept_from_sync": true,
+     "placeholder": true
+    },
+    {
+     "species": "dunehop",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 4,
+     "cute_r2": true,
+     "placeholder": true
+    },
+    {
+     "species": "belugoo",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 4,
+     "cute_r2": true,
+     "placeholder": true
+    },
+    {
+     "species": "kinkalume",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 2,
+     "time": [
+      "dusk",
+      "night"
+     ],
+     "cute_r2": true,
      "placeholder": true
     }
    ],
@@ -1960,6 +2040,16 @@
       24
      ],
      "weight": 2
+    },
+    {
+     "species": "mittling",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 4,
+     "cute_r3": true,
+     "placeholder": true
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2083,6 +2173,16 @@
       27
      ],
      "weight": 3
+    },
+    {
+     "species": "marmallow",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 4,
+     "cute_r3": true,
+     "placeholder": true
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2188,6 +2288,26 @@
      "weight": 1,
      "sync_added": true,
      "placeholder": true
+    },
+    {
+     "species": "mufflynx",
+     "level": [
+      28,
+      31
+     ],
+     "weight": 4,
+     "cute_r3": true,
+     "placeholder": true
+    },
+    {
+     "species": "snugworm",
+     "level": [
+      28,
+      31
+     ],
+     "weight": 4,
+     "cute_r3": true,
+     "placeholder": true
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2253,6 +2373,34 @@
      ],
      "weight": 1,
      "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "alpuff",
+     "level": [
+      30,
+      32
+     ],
+     "weight": 2,
+     "time": [
+      "dawn",
+      "day"
+     ],
+     "cute_r3": true,
+     "placeholder": true
+    },
+    {
+     "species": "snowdrowse",
+     "level": [
+      30,
+      32
+     ],
+     "weight": 2,
+     "time": [
+      "dusk",
+      "night"
+     ],
+     "cute_r3": true,
      "placeholder": true
     }
    ],
