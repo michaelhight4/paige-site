@@ -3,22 +3,23 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.31-alpha';
-import * as AB from './autobattle.js?v=v0.2.31-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.31-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.31-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.31-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.31-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.31-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.31-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.31-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.31-alpha';
+import { DEV } from './runtime.js?v=v0.2.32-alpha';
+import * as AB from './autobattle.js?v=v0.2.32-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.32-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.32-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.32-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.32-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.32-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.32-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.32-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.32-alpha';
+import { createRitaPanel } from './rita_panel.js?v=v0.2.32-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
 const VARIANTS = Object.keys(VARIANT_MODS || {});
 const MAX_ROWS = 60;
-const TABS = [['item', 'Items'], ['mon', 'Kilumen'], ['party', 'Party'], ['money', 'Coins/ID'], ['travel', 'Travel'], ['tools', 'Tools']];
+const TABS = [['item', 'Items'], ['mon', 'Kilumen'], ['party', 'Party'], ['money', 'Coins/ID'], ['travel', 'Travel'], ['tools', 'Tools'], ['rita', 'RITA voice']];
 const CSS = `.kdev{position:fixed;inset:0;z-index:100000;background:rgba(8,10,16,.9);display:flex;align-items:stretch;justify-content:center;font:14px/1.35 system-ui,sans-serif;color:#e8ecf4;padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom))}
 .kdev *{box-sizing:border-box}
 .kdev .box{background:#141a26;border:1px solid #3a4560;border-radius:12px;width:min(760px,100%);display:flex;flex-direction:column;overflow:hidden}
@@ -41,6 +42,7 @@ export async function installDevConsole(scene, access) {
   let panel = null, tab = 'item', msgEl = null, closeBlockB = false, travelling = false, selUid = null, slot = 0;
   const q = { item: '', mon: '', skill: '', travel: '' }, num = { qty: 1, lvl: 20, setLv: 20, coins: 1000, idl: 1 };
   let variant = '';
+  let rita = null; // RITA voice test panel (rita_panel.js), made on first open of its tab
   let skillsData = null;
   const skillRows = () => (skillsData ||= Object.entries(buildSkills()).filter(([id]) => id !== 'struggle').map(([id, s]) => ({ id, name: s.name, type: s.type, bp: s.basePower })).sort((a, b) => a.name.localeCompare(b.name)));
 
@@ -117,8 +119,8 @@ export async function installDevConsole(scene, access) {
     if (!panel) return;
     const tabs = panel.querySelector('.tabs'); tabs.innerHTML = TABS.map(([id, n]) => `<button data-tab="${id}" class="${id === tab ? 'on' : ''}">${n}</button>`).join('');
     tabs.querySelectorAll('button').forEach((b) => { b.onclick = () => { tab = b.dataset.tab; render(); }; });
-    const body = panel.querySelector('.body'); body.scrollTop = 0;
-    ({ item: tItem, mon: tMon, party: tParty, money: tMoney, travel: tTravel, tools: tTools })[tab](body);
+    const body = panel.querySelector('.body'); body.scrollTop = 0; body.className = 'body';
+    ({ item: tItem, mon: tMon, party: tParty, money: tMoney, travel: tTravel, tools: tTools, rita: (b) => (rita ||= createRitaPanel({ scene, say })).render(b) })[tab](body);
   };
   const searchBox = (body, key, ph, extra = '') => {
     body.innerHTML = `<div class="kbar"><input type="search" placeholder="${esc(ph)}" value="${esc(q[key])}">${extra}</div><div data-list></div>`;
@@ -260,7 +262,7 @@ export async function installDevConsole(scene, access) {
     const cr = body.querySelector('[data-cr]'); cr.onchange = () => { AB.options.useCrystals = cr.checked; };
   }
 
-  window.kilumen.dev = { active: true, role: access?.role, open, close, flags: DEV, logs: AB.logs, autobattle: AB };
+  window.kilumen.dev = { active: true, role: access?.role, open, close, rita: () => (rita ||= createRitaPanel({ scene, say })), flags: DEV, logs: AB.logs, autobattle: AB };
   console.info('Kilumen dev console ready: press ` or F2, or tap DEV.');
   return window.kilumen.dev;
 }
