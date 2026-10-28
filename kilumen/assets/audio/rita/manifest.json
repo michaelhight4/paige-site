@@ -35,7 +35,11 @@
   "8": "d_447eded4a933",
   "9": "d_387c7790ec5f"
  },
+ "id_words": {
+  "Trainer 1": "w_949c721f0f2e"
+ },
  "numbers": {
+  "1": "n_cbb6d694a1f4",
   "2": "n_e7632ef66384",
   "3": "n_5d9f640b762e",
   "4": "n_03d4afcc8bb7",
@@ -97,6 +101,15 @@
    "thistlehound": "w_43b7dc2ad9e5",
    "cairnant": "w_6b3db3a5cec8",
    "beaconfly": "w_00ab112d70a6"
+  },
+  "node": {
+   "copay coverage": "w_6d268a8c2e89",
+   "store discount": "w_90bc43644db7",
+   "rt payout": "w_a7cccdf0c78b",
+   "crystal grade": "w_fddd02824804",
+   "unit training": "w_f72fb60f2d25",
+   "asset logging bonus": "w_1e1042dcaf1f",
+   "hall hazard pay": "w_0aa9ea651ac5"
   }
  },
  "lines": {
@@ -572,6 +585,150 @@
      "segs": [
       {
        "c": "f_44ccf2e07aa7"
+      }
+     ]
+    }
+   ]
+  },
+  "crystal_resupply": {
+   "region": "region_1",
+   "pages": [
+    {
+     "src": "{employee_id}: out of crystals already. Company stock, gone.",
+     "segs": [
+      {
+       "s": "employee_id"
+      },
+      {
+       "p": 220
+      },
+      {
+       "c": "f_03d0ee055201"
+      }
+     ]
+    },
+    {
+     "src": "Supply is sending {count} more. It's going to reflect on your check.",
+     "segs": [
+      {
+       "c": "f_ceb008596a6a"
+      },
+      {
+       "p": 70
+      },
+      {
+       "s": "count"
+      },
+      {
+       "c": "f_b8c4dc0ea98d"
+      }
+     ]
+    }
+   ]
+  },
+  "crystal_resupply_2": {
+   "region": "region_1",
+   "pages": [
+    {
+     "src": "Crystals depleted, {employee_id}. In a test run.",
+     "segs": [
+      {
+       "c": "f_b8c009894473"
+      },
+      {
+       "p": 150
+      },
+      {
+       "s": "employee_id"
+      },
+      {
+       "p": 300
+      },
+      {
+       "c": "f_7792e629ba15"
+      }
+     ]
+    },
+    {
+     "src": "{count} more issued. Your check will hear about this.",
+     "segs": [
+      {
+       "s": "count"
+      },
+      {
+       "c": "f_e1d6204df1b0"
+      }
+     ]
+    }
+   ]
+  },
+  "crystal_resupply_3": {
+   "region": "region_1",
+   "pages": [
+    {
+     "src": "{employee_id}: zero crystals and the test run is not done.",
+     "segs": [
+      {
+       "s": "employee_id"
+      },
+      {
+       "p": 220
+      },
+      {
+       "c": "f_511ca26e6531"
+      }
+     ]
+    },
+    {
+     "src": "Here are {count} more. This will reflect on your check.",
+     "segs": [
+      {
+       "c": "f_b0cb04657f28"
+      },
+      {
+       "p": 70
+      },
+      {
+       "s": "count"
+      },
+      {
+       "c": "f_a288f460be52"
+      }
+     ]
+    }
+   ]
+  },
+  "crystal_resupply_4": {
+   "region": "region_1",
+   "pages": [
+    {
+     "src": "{employee_id}: crystal stock empty. Restocking {count}.",
+     "segs": [
+      {
+       "s": "employee_id"
+      },
+      {
+       "p": 220
+      },
+      {
+       "c": "f_cb5f426913e1"
+      },
+      {
+       "p": 70
+      },
+      {
+       "s": "count"
+      },
+      {
+       "p": 300
+      }
+     ]
+    },
+    {
+     "src": "Hold them up at creatures this time. It shows on your check.",
+     "segs": [
+      {
+       "c": "f_b9c1949aa3d9"
       }
      ]
     }
@@ -2309,6 +2466,30 @@
     }
    ]
   },
+  "rita_trainer1": {
+   "region": "region_1",
+   "pages": [
+    {
+     "src": "{employee_id}...",
+     "segs": [
+      {
+       "s": "employee_id"
+      },
+      {
+       "p": 300
+      }
+     ]
+    },
+    {
+     "src": "Yeah, no. That uses too much company time. You're now Trainer 1.",
+     "segs": [
+      {
+       "c": "f_de749fdbd01c"
+      }
+     ]
+    }
+   ]
+  },
   "rival_beaten": {
    "region": "region_1",
    "pages": [
@@ -2680,30 +2861,6 @@
      ]
     }
    ]
-  },
-  "rita_trainer1": {
-   "region": "region_1",
-   "pages": [
-    {
-     "src": "{employee_id}...",
-     "segs": [
-      {
-       "s": "employee_id"
-      },
-      {
-       "p": 300
-      }
-     ]
-    },
-    {
-     "src": "Yeah, no. That uses too much company time. You're now Trainer 1.",
-     "segs": [
-      {
-       "c": "f_de749fdbd01c"
-      }
-     ]
-    }
-   ]
   }
  },
  "clips": {
@@ -2746,6 +2903,10 @@
   "d_387c7790ec5f": {
    "ms": 532,
    "say": "Nine"
+  },
+  "w_949c721f0f2e": {
+   "ms": 690,
+   "say": "Trainer 1"
   },
   "f_7723f10e819a": {
    "ms": 579,
@@ -2882,6 +3043,50 @@
   "f_44ccf2e07aa7": {
    "ms": 2358,
    "say": "Enjoyment is measured in assets per hour."
+  },
+  "f_03d0ee055201": {
+   "ms": 2563,
+   "say": "out of crystals already. Company stock, gone."
+  },
+  "f_ceb008596a6a": {
+   "ms": 1083,
+   "say": "Supply is sending"
+  },
+  "f_b8c4dc0ea98d": {
+   "ms": 2005,
+   "say": "more. It's going to reflect on your check."
+  },
+  "f_b8c009894473": {
+   "ms": 1137,
+   "say": "Crystals depleted"
+  },
+  "f_7792e629ba15": {
+   "ms": 914,
+   "say": "In a test run."
+  },
+  "f_e1d6204df1b0": {
+   "ms": 2302,
+   "say": "more issued. Your check will hear about this."
+  },
+  "f_511ca26e6531": {
+   "ms": 2804,
+   "say": "zero crystals and the test run is not done."
+  },
+  "f_b0cb04657f28": {
+   "ms": 550,
+   "say": "Here are"
+  },
+  "f_a288f460be52": {
+   "ms": 1805,
+   "say": "more. This will reflect on your check."
+  },
+  "f_cb5f426913e1": {
+   "ms": 2181,
+   "say": "crystal stock empty. Restocking"
+  },
+  "f_b9c1949aa3d9": {
+   "ms": 3219,
+   "say": "Hold them up at creatures this time. It shows on your check."
   },
   "f_40d4fa1e2ff8": {
    "ms": 738,
@@ -3391,6 +3596,10 @@
    "ms": 3056,
    "say": "From here the graph may only go up. Company policy."
   },
+  "f_de749fdbd01c": {
+   "ms": 3628,
+   "say": "Yeah, no. That uses too much company time. You're now Trainer 1."
+  },
   "f_826801bc33ee": {
    "ms": 688,
    "say": "you beat"
@@ -3502,6 +3711,22 @@
   "f_79778f30acc9": {
    "ms": 1837,
    "say": "Losing would have been bad for the brand."
+  },
+  "n_cbb6d694a1f4": {
+   "ms": 463,
+   "say": "One"
+  },
+  "n_e7632ef66384": {
+   "ms": 504,
+   "say": "Two"
+  },
+  "n_5d9f640b762e": {
+   "ms": 550,
+   "say": "Three"
+  },
+  "n_03d4afcc8bb7": {
+   "ms": 521,
+   "say": "Four"
   },
   "n_39e2fe61063b": {
    "ms": 551,
@@ -3671,31 +3896,37 @@
    "ms": 775,
    "say": "Beaconfly"
   },
-  "f_de749fdbd01c": {
-   "ms": 3628,
-   "say": "Yeah, no. That uses too much company time. You're now Trainer 1."
+  "w_6d268a8c2e89": {
+   "ms": 1032,
+   "say": "Copay Coverage"
   },
-  "w_949c721f0f2e": {
-   "ms": 690,
-   "say": "Trainer 1"
+  "w_90bc43644db7": {
+   "ms": 895,
+   "say": "Store Discount"
   },
-  "n_e7632ef66384": {
-   "ms": 504,
-   "say": "Two"
+  "w_a7cccdf0c78b": {
+   "ms": 962,
+   "say": "R T Payout"
   },
-  "n_5d9f640b762e": {
-   "ms": 550,
-   "say": "Three"
+  "w_fddd02824804": {
+   "ms": 919,
+   "say": "Crystal Grade"
   },
-  "n_03d4afcc8bb7": {
-   "ms": 521,
-   "say": "Four"
+  "w_f72fb60f2d25": {
+   "ms": 843,
+   "say": "Unit Training"
+  },
+  "w_1e1042dcaf1f": {
+   "ms": 1266,
+   "say": "Asset Logging Bonus"
+  },
+  "w_0aa9ea651ac5": {
+   "ms": 1082,
+   "say": "Hall Hazard Pay"
   }
  },
  "parts": {
-  "region_2": "manifest_region_2.json"
- },
- "id_words": {
-  "Trainer 1": "w_949c721f0f2e"
+  "region_2": "manifest_region_2.json",
+  "region_3": "manifest_region_3.json"
  }
 }
