@@ -1,15 +1,15 @@
 // One-time "story ends here for now" notice (Cut A, Oct 23, 2026, coder; Gary 9:51 + 10:08 AM CT).
 // Shown once, right after the script that sets the trigger flag ends (the post-battle flow of the last beatable Master),
 // with a single OK choice (keyboard + tap via dialog.ask). Sets seen_wip_notice so it never shows again. No road block:
-// nothing is gated on it. Trigger = beat_master_saltmere, the Master 2 win flag (coin 2, saltmere_hall_int; set by the
+// nothing is gated on it. v0.2.30: moved to Master 3 (beat_master_revival), Gary Oct 27 2026. Trigger = beat_master_saltmere, the Master 2 win flag (coin 2, saltmere_hall_int; set by the
 // win via TRAINER_RESULTS from src/progression/masters.js). Moved off Master 1 (beat_master_fernwick) Oct 23 2026, Gary.
-import { DEV } from '../dev/runtime.js?v=v0.2.29-alpha';
-export const WIP_KEY = 'system.wip_after_master2';
-export const WIP_FLAG = 'seen_wip_notice';
-export const TRIGGER = 'beat_master_saltmere'; // Master 2 (was beat_master_fernwick = Master 1)
+import { DEV } from '../dev/runtime.js?v=v0.2.30-alpha';
+export const WIP_KEY = 'system.wip_after_master3'; // v0.2.30: new key (Text Bot); the old wip_after_master2 text spoke of region 3 as unbuilt
+export const WIP_FLAG = 'seen_wip_notice_r3'; // v0.2.30: new flag so saves that saw the Master 2 notice still get this one
+export const TRIGGER = 'beat_master_revival'; // Master 3, Revival Heights (v0.2.30; was beat_master_saltmere = Master 2)
 export const WIP_TEXT = [
-  "That's the end of region 2. The story is finished up to here, through Saltmere and its Master.",
-  "Region 3 is still being built and will open later in early access. You're free to keep exploring.",
+  "That's the end of region 3. The story is finished up to here, through Revival Heights and its Master.",
+  "Region 4 is still being built and will come later. You're free to keep exploring.",
 ];
 
 export function wipDue(scene) {

@@ -16,7 +16,7 @@
 // - DRAFT audio (wave 2, Oct 22, 2026): three original BeepBox loops (town / route / battle) and a jsfxr SFX sprite,
 //   rendered by tools/audio/ (see /workspace/quality/toolkit/MUSIC_SFX_PIPELINE.md). They are DRAFTS for Gary to veto.
 //   ONE-LINE REVERT to the placeholder tones + ZzFX: set DRAFT_AUDIO below to { music: false, sfx: false }.
-import { isIndoor } from '../overworld/clock.js?v=v0.2.29-alpha';
+import { isIndoor } from '../overworld/clock.js?v=v0.2.30-alpha';
 
 /** DRAFT audio switch (Gary can veto): { music: false, sfx: false } puts every slot back on the placeholders. */
 export const DRAFT_AUDIO = { music: true, sfx: true };
@@ -25,6 +25,7 @@ export const DRAFT_AUDIO = { music: true, sfx: true };
 export const DRAFT_MUSIC = {
   'brookhollow.day': 'town', 'brookhollow.night': 'town', 'fernwick.day': 'town', 'fernwick.night': 'town', 'lanternport.day': 'town', 'lanternport.night': 'town',
   'route.day': 'route', 'route.night': 'route', 'sunmeadow_fields.day': 'route', 'sunmeadow_fields.night': 'route', 'thornwood.day': 'route', 'thornwood.night': 'route',
+  'aurelith.day': 'town', 'aurelith.night': 'town', 'saltmere.day': 'town', 'saltmere.night': 'town', 'revival_heights.day': 'town', 'revival_heights.night': 'town', // v0.2.30: region 2-3 towns (draft town loop until their own music lands)
   battle: 'battle',
 };
 /** DRAFT SFX sprite map [offset ms, duration ms] (copied from audio/sfx/kil_sfx_draft.json by tools/audio/make_sfx.mjs). */
@@ -204,7 +205,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
   let saved = null;
   try { saved = JSON.parse(storage?.getItem(KEY) || 'null'); } catch { saved = null; }
   const { settings, cfg } = audioSettings(profile?.audio, saved);
-  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js?v=v0.2.29-alpha');
+  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js?v=v0.2.30-alpha');
   Howler.autoSuspend = false; // we suspend on tab hide ourselves; SFX run on raw nodes howler does not track
   const st = { unlocked: false, failed: null, track: null, zzfx: null, cache: new Map(), bus: null, music: null, urls: new Map(), blipTimer: 0, followTimer: 0, sprite: null, spriteState: 'off' };
 
@@ -230,7 +231,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
       ctx.resume?.().catch(() => {});
       st.unlocked = true;
       for (const t of cfg.unlockOn) win.removeEventListener(t, unlock, true);
-      import('../vendor/zzfx/ZzFX.js?v=v0.2.29-alpha').then((m) => {
+      import('../vendor/zzfx/ZzFX.js?v=v0.2.30-alpha').then((m) => {
         try { m.ZZFX.audioContext?.close?.(); } catch { /* ignore */ }
         m.ZZFX.audioContext = Howler.ctx;
         st.zzfx = m.ZZFX;

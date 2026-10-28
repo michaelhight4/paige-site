@@ -1860,6 +1860,38 @@
      "weight": 1,
      "sync_added": true,
      "placeholder": true
+    },
+    {
+     "species": "glassvine",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 15
+    },
+    {
+     "species": "prismite",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 6
+    },
+    {
+     "species": "mirrorkin",
+     "level": [
+      23,
+      24
+     ],
+     "weight": 2
+    },
+    {
+     "species": "shalekin",
+     "level": [
+      23,
+      24
+     ],
+     "weight": 2
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -1959,6 +1991,30 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "glassvine",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 12
+    },
+    {
+     "species": "prismite",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 6
+    },
+    {
+     "species": "spiralith",
+     "level": [
+      26,
+      27
+     ],
+     "weight": 3
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3535,6 +3591,15 @@
      "time": [
       "dawn"
      ]
+    },
+    {
+     "species": "eftling",
+     "level": [
+      12,
+      15
+     ],
+     "weight": 8,
+     "tier": "uncommon"
     }
    ],
    "band": "wild 12-16",

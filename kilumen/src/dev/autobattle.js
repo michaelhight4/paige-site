@@ -3,7 +3,7 @@
 // animations. It drives the ordinary engine (kb.choose / kb.drain) so rolls, accuracy, crits, status and AI are the game's own,
 // then the screen's normal finish() runs (XP split, applyBattleResult, evolution queue, post-battle flow, the usual save).
 // Nothing here saves; nothing is forced to win.
-import { DEV } from './runtime.js?v=v0.2.29-alpha';
+import { DEV } from './runtime.js?v=v0.2.30-alpha';
 
 export const logs = []; // newest last, max 20
 const MAX_LOGS = 20, MAX_STEPS = 600;
@@ -73,7 +73,7 @@ function makeRecorder(entry, party) {
           case '-curestatus': out(`  ${who(a)} recovered from ${b}`); break;
           case 'cant': out(`  ${who(a)} could not move (${b || '?'})`); break;
           case '-resisted': out(`    (not very effective on ${who(a)})`); break;
-          case '-supereffective': out(`    (strong hit on ${who(a)})`); break;
+          case '-weakspot': out(`    (strong hit on ${who(a)})`); break;
           case '-crit': out(`  Critical hit on ${who(a)}`); break;
           case '-miss': out(`  ${who(a)}'s skill missed`); break;
           case '-immune': out(`  ${who(a)} is unaffected`); break;

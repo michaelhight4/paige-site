@@ -1,10 +1,11 @@
 {
   "_note": "RT Employee Benefits (company XP skill tree), coder Oct 23 2026. Gary 1:01-1:02 PM CT: \"the job board is the skill tree ui for leveling up company xp\" / \"yes its the company benifits bord\" / \"RT Employee Benifits\" / \"build into region one on the phone\". Read by src/systems/rt_benefits.js. Company XP is ONLY for the company ID level (Gary); creature XP is never touched. All numbers are tunable. Text: system_rt_benefits.* (data/textbot_requests_rt_benefits.md).",
   "region": 1,
-  "regionFlags": { "2": "beat_master_fernwick", "_note": "region 2 build (coder, Oct 23 2026): the live region = the highest N whose flag is set (else 'region'). Region 2 opens with the Fernwick coin (the East Road / Thornwood open then); no region gating otherwise." },
+  "regionFlags": { "2": "beat_master_fernwick", "3": "beat_master_saltmere", "_note": "region 2 build (coder, Oct 23 2026): the live region = the highest N whose flag is set (else 'region'). Region 2 opens with the Fernwick coin (the East Road / Thornwood open then); no region gating otherwise." },
   "regions": {
     "1": { "maxIdLevel": 4, "_note": "region 1 cap: XP stops at the ID 4 threshold; a normal run lands on ID 3" },
-    "2": { "maxIdLevel": 6, "_note": "region 2 cap: a normal run through Master 2 lands on ID 5 (about 1,000 XP); a full region 2 (Thornwood camp, Ron 2, Kilindex 25, every new log) reaches ID 6" }
+    "2": { "maxIdLevel": 6, "_note": "region 2 cap: a normal run through Master 2 lands on ID 5 (about 1,000 XP); a full region 2 (Thornwood camp, Ron 2, Kilindex 25, every new log) reaches ID 6" },
+    "3": { "maxIdLevel": 9, "_note": "region 3 cap (v0.2.30, Oct 27 2026): opens with the Saltmere coin; a normal run through Master 3 lands on ID 8, a full region 3 reaches ID 9" }
   },
   "curve": {
     "_note": "xpTo[L-1] = total company XP needed to reach ID level L (index 0 = ID 1). Past the table each level costs 'step' more.",
@@ -22,7 +23,7 @@
                            "_note": "region 2: Signed For (mq_saltmere_parcel) pays when the parcel is delivered (has_bike: the office clerk lends the Courier Bike; an alias on beat_master_saltmere would swallow the master_beaten award), Ferns Over the Tent (mq_thornwood_camp) with the restored camp; a real q_<id>_done flag pays the same claim once" },
     "trainer_first_win": { "xp": 20, "once": true },
     "rival_beaten":      { "xp": { "1": 40, "2": 70 }, "once": true, "flag_re": "^beat_rival_ron_(\\d+)$" },
-    "master_beaten":     { "xp": { "fernwick": 80, "saltmere": 150 }, "once": true, "flag_re": "^beat_master_([a-z_]+)$" }
+    "master_beaten":     { "xp": { "fernwick": 80, "saltmere": 150, "revival": 200 }, "once": true, "flag_re": "^beat_master_([a-z_]+)$" }
   },
   "branches": [
     { "id": "field_logistics", "label": "Field Logistics" },
@@ -33,22 +34,22 @@
   "nodes": [
     { "id": "copay_coverage", "branch": "field_logistics", "effect": "heal.copay",
       "_note": "region 2: wired in src/systems/heal.js copayFor (blackout copay x (1 - value))",
-      "ranks": [ { "cost": 1, "minIdLevel": 5, "value": 0.25 }, { "cost": 2, "minIdLevel": 12, "value": 0.50 } ],
+      "ranks": [ { "cost": 1, "minIdLevel": 5, "value": 0.25 }, { "cost": 2, "minIdLevel": 8, "value": 0.50 } ],
       "maxRankByRegion": { "1": 0, "2": 1, "3": 2 }, "unlockRegion": 2 },
     { "id": "store_discount", "branch": "supply_pay", "effect": "shop.discount",
       "_note": "shops.json discount.boardTiers [0, .03, .06, .10] (src/systems/shop.js discountFor); stacks with the ID 2 staff 10%, cap 65%",
-      "ranks": [ { "cost": 1, "minIdLevel": 1, "value": 0.03 }, { "cost": 2, "minIdLevel": 15, "value": 0.06 }, { "cost": 3, "minIdLevel": 40, "value": 0.10 } ],
-      "maxRankByRegion": { "1": 1, "2": 2, "3": 3 } },
+      "ranks": [ { "cost": 1, "minIdLevel": 1, "value": 0.03 }, { "cost": 2, "minIdLevel": 7, "value": 0.06 }, { "cost": 3, "minIdLevel": 40, "value": 0.10 } ],
+      "maxRankByRegion": { "1": 1, "2": 1, "3": 2, "4": 3 } },
     { "id": "rt_payout", "branch": "supply_pay", "effect": "money.trainer_payout",
       "_note": "extra % on trainer prize money (wraps systems.awardBattleMoney in rt_benefits.js; shop.js untouched)",
-      "ranks": [ { "cost": 1, "minIdLevel": 2, "value": 0.10 }, { "cost": 1, "minIdLevel": 3, "value": 0.20 }, { "cost": 2, "minIdLevel": 10, "value": 0.30 } ],
-      "maxRankByRegion": { "1": 2, "2": 3 } },
+      "ranks": [ { "cost": 1, "minIdLevel": 2, "value": 0.10 }, { "cost": 1, "minIdLevel": 3, "value": 0.20 }, { "cost": 2, "minIdLevel": 7, "value": 0.30 } ],
+      "maxRankByRegion": { "1": 2, "2": 2, "3": 3 } },
     { "id": "crystal_grade", "branch": "crystal_lab", "effect": "shop.crystal_grades",
       "_note": "src/systems/data/crystal_grades.js (I Field ID 1 cost 1, II Prime ID 15 cost 2, III Apex ID 40 cost 3); region 1 shops hide board crystals, so locked here",
       "ranks": [ { "cost": 1, "minIdLevel": 1 }, { "cost": 2, "minIdLevel": 15 }, { "cost": 3, "minIdLevel": 40 } ],
-      "maxRankByRegion": { "1": 0, "2": 1, "3": 3 }, "unlockRegion": 2 },
+      "maxRankByRegion": { "1": 0, "2": 1, "3": 1, "4": 3 }, "unlockRegion": 2 },
     { "id": "unit_training", "branch": "unit_performance", "effect": "creature.xp_boost",
-      "ranks": [ { "cost": 1, "minIdLevel": 5, "value": 1.10 }, { "cost": 2, "minIdLevel": 15, "value": 1.20 } ],
+      "ranks": [ { "cost": 1, "minIdLevel": 5, "value": 1.10 }, { "cost": 2, "minIdLevel": 8, "value": 1.20 } ],
       "maxRankByRegion": { "1": 0, "2": 1, "3": 2 }, "unlockRegion": 2,
       "_note2": "v0.2.28 (Gary, Oct 27 2026): wired. Owned rank multiplies creature battle XP x1.10 (rank 1) / x1.20 (rank 2); base xpDivisor 7 / xpTrainerMult 1.5 unchanged. Optional perk: makes the game easier as you progress" },
     { "id": "asset_logging_bonus", "branch": "crystal_lab", "effect": "money.kilindex_log",

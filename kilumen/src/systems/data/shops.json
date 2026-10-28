@@ -192,18 +192,17 @@
      "coins": 0,
      "items": [
       "dominance_crystal",
+      "dominance_crystal_plus",
       "tonic_small",
       "tonic_large",
       "calm_tea",
-      "trail_mix",
-      "feed_bag_small",
-      "feed_bag"
+      "trail_mix"
      ]
     },
     {
      "coins": 1,
      "items": [
-      "dominance_crystal_plus",
+      "feed_bag",
       "energy_tonic"
      ]
     },
@@ -226,7 +225,6 @@
       "dominance_crystal",
       "tonic_small",
       "tonic_large",
-      "calm_tea",
       "trail_mix",
       "feed_bag_small",
       "feed_bag"
@@ -235,13 +233,9 @@
     {
      "coins": 1,
      "items": [
+      "calm_tea",
       "dominance_crystal_plus",
-      "energy_tonic"
-     ]
-    },
-    {
-     "coins": 2,
-     "items": [
+      "energy_tonic",
       "vigor_seed"
      ]
     }
