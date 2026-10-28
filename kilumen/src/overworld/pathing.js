@@ -2,8 +2,8 @@
 // src/vendor/easystar), run synchronously: maps are small (largest ~60x60) and a path is planned once per order
 // plus a replan when blocked, so there is no per-frame cost. Walkable = the same cells a scripted NPC step allows
 // (npcs.js _canStep: Col.WALK or Col.PLATE), minus cells the caller blocks (warps, stand cells, actors).
-import EasyStar from '../vendor/easystar/easystar.esm.js?v=v0.2.27-alpha';
-import { Col } from './constants.js?v=v0.2.27-alpha';
+import EasyStar from '../vendor/easystar/easystar.esm.js?v=v0.2.28-alpha';
+import { Col } from './constants.js?v=v0.2.28-alpha';
 
 const STEP = { '0,-1': 'up', '0,1': 'down', '-1,0': 'left', '1,0': 'right' };
 
