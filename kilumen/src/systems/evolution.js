@@ -12,8 +12,8 @@
 // Out of scope (not by level): shard / fossil / bond forms. Only one of them has a level in the game data (wavelin ->
 // breakerfin, a Warmth/bond evolution in DEX_450), so it is held back here (NOT_BY_LEVEL).
 // Hook: one line in src/main.js after attachOvernight. ?evo=0 turns it off.
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.37-alpha';
-import { speciesName, displayName, maxHp, idOf } from './creature.js?v=v0.2.37-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.38-alpha';
+import { speciesName, displayName, maxHp, idOf } from './creature.js?v=v0.2.38-alpha';
 
 export const NOT_BY_LEVEL = Object.freeze({ breakerfin: 'bond (DEX_450: Warmth, high bond)' });
 export const EVOLVE_OUTCOMES = new Set(['win', 'caught']); // a catch also ends a battle the player won

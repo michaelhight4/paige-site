@@ -4,15 +4,15 @@
 //    battles, coin record in save.systems.progression.masters, gift behind masterGifts. Dev: ?pg=masters&master=<zone>.
 //  - hallPuzzles (off): hall puzzle preview overlay ?pg=hallPuzzles&hall=<zone> (hall maps 2-8 are not built yet).
 //  - quests (off): quest book + phone Tasks = quest log + HUD tracker + NPC give / turn-in + rewards.
-import { progressionFlags } from './flags.js?v=v0.2.37-alpha';
-import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.37-alpha';
-import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.37-alpha';
-import { QuestBook, QFLAG } from './quests.js?v=v0.2.37-alpha';
-import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.37-alpha'; // batch 3: Mirefen hall tint + reed lamps
-import { HallPuzzle } from './puzzles.js?v=v0.2.37-alpha';
-import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.37-alpha';
-import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.37-alpha';
-import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.37-alpha'; // batch 3: route / rival trainers fight their map team
+import { progressionFlags } from './flags.js?v=v0.2.38-alpha';
+import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.38-alpha';
+import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.38-alpha';
+import { QuestBook, QFLAG } from './quests.js?v=v0.2.38-alpha';
+import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.38-alpha'; // batch 3: Mirefen hall tint + reed lamps
+import { HallPuzzle } from './puzzles.js?v=v0.2.38-alpha';
+import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.38-alpha';
+import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.38-alpha';
+import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.38-alpha'; // batch 3: route / rival trainers fight their map team
 
 const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url + ' ' + r.status))));
 const escH = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
