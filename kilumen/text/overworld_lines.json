@@ -338,6 +338,9 @@
     "maps.office_int.water_cooler",
     "maps.heal_brookhollow.company_terminal",
     "maps.heal_fernwick.company_terminal",
+    "maps.heal_saltmere.company_terminal",
+    "maps.heal_revival.company_terminal",
+    "maps.heal_frostspire.company_terminal",
     "maps.home_brookhollow_a.bookcase",
     "maps.home_brookhollow_b.home_brookhollow_b_parent",
     "maps.home_brookhollow_b.bookcase",
@@ -384,7 +387,10 @@
     "maps.heal_brookhollow.sofa",
     "maps.heal_brookhollow.lap_nap_seat",
     "maps.heal_fernwick.sofa",
-    "maps.heal_fernwick.lap_nap_seat"
+    "maps.heal_fernwick.lap_nap_seat",
+    "maps.heal_saltmere.sofa",
+    "maps.heal_revival.sofa",
+    "maps.heal_frostspire.sofa"
    ],
    "15:E14": [
     "maps.house_2f.bed"
@@ -423,13 +429,19 @@
     "maps.fernwick.elder",
     "maps.heal_brookhollow.heal_brookhollow_carer",
     "maps.heal_fernwick.heal_fernwick_carer",
+    "maps.heal_saltmere.heal_saltmere_carer",
+    "maps.heal_revival.heal_revival_carer",
+    "maps.heal_frostspire.heal_frostspire_carer",
     "maps.home_fernwick_a.home_fernwick_a_parent",
     "maps.home_fernwick_a_2f.home_fernwick_a_kid",
     "maps.mirefen_bog.mirefen_angler"
    ],
    "8.2e": [
     "maps.heal_brookhollow.suggestion_box",
-    "maps.heal_fernwick.suggestion_box"
+    "maps.heal_fernwick.suggestion_box",
+    "maps.heal_saltmere.suggestion_box",
+    "maps.heal_revival.suggestion_box",
+    "maps.heal_frostspire.suggestion_box"
    ],
    "signs": [
     "signs_awaiting_world_id"
@@ -1227,12 +1239,13 @@
     "dream_unseen": 8,
     "facing": 1,
     "hour": 6,
-    "lead_has_nickname": 5,
+    "idle_after_heal_s": 3,
+    "lead_has_nickname": 8,
     "lead_type": 1,
     "once": 11,
-    "once_per_day": 1,
+    "once_per_day": 4,
     "party_nickname": 1,
-    "phase": 60,
+    "phase": 63,
     "slept": 1,
     "standing_still_s": 3,
     "weekday": 1,
@@ -5118,6 +5131,852 @@
     ]
    },
    "area_name": "Revival Tech, Fernwick"
+  },
+  "heal_saltmere": {
+   "heal_saltmere_carer": {
+    "pages": [
+     "Welcome to Revival Tech, Saltmere branch.",
+     "Salt gets into everything here. Want me to rest your team?"
+    ],
+    "after_heal": [
+     "All rested. I rinsed the salt off them too.",
+     "No charge for the rinse. Harbour policy."
+    ],
+    "declined": [
+     "Fair enough. They'll be tired and salty later."
+    ],
+    "text_was": "maps.heal_centre_int.healer",
+    "lines": [
+     {
+      "id": "healer_lead",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "when": {
+       "lead_has_nickname": true
+      },
+      "soul_item": "8",
+      "pages": [
+       "Welcome back. {lead} again?",
+       "It always looks a bit smug after a rest. Want me to rest your team?"
+      ]
+     },
+     {
+      "id": "carer_coin",
+      "flags": [
+       "beat_master_saltmere"
+      ],
+      "pages": [
+       "Saltmere's coin. The harbour will hear by teatime.",
+       "Want me to rest your team?"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to Revival Tech, Saltmere branch.",
+       "Salt gets into everything here. Want me to rest your team?"
+      ]
+     }
+    ]
+   },
+   "heal_saltmere_technician": {
+    "pages": [
+     "Sea air fogs the crystals. I polish them twice here.",
+     "Twice the polish, same pay. Saltmere rates."
+    ],
+    "lines": [
+     {
+      "id": "tech_night",
+      "flags": [],
+      "when": {
+       "phase": "night"
+      },
+      "pages": [
+       "Late shift. You can hear the boats knocking.",
+       "Hull on hull. All night. I've named them."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Sea air fogs the crystals. I polish them twice here.",
+       "Twice the polish, same pay. Saltmere rates."
+      ]
+     }
+    ]
+   },
+   "heal_saltmere_storage_user": {
+    "pages": [
+     "I keep my water types in box one. Nearest the sea.",
+     "They can't tell. I can tell."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "I keep my water types in box one. Nearest the sea.",
+       "They can't tell. I can tell."
+      ]
+     }
+    ]
+   },
+   "staff_door_locked": {
+    "pages": [
+     "STAFF ONLY\nBranch Access Card required.",
+     "Under it, in biro: 'Knock. We won't answer.'"
+    ],
+    "lines": [
+     {
+      "id": "door_card",
+      "flags": [
+       "has_branch_card"
+      ],
+      "pages": [
+       "STAFF ONLY",
+       "Your Branch Access Card blinks green. Click."
+      ],
+      "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "STAFF ONLY\nBranch Access Card required.",
+       "Under it, in biro: 'Knock. We won't answer.'"
+      ]
+     }
+    ]
+   },
+   "suggestion_box": {
+    "pages": [
+     "SUGGESTION BOX\n'Tell us how we did!'",
+     "Pinned beside it: 'More chairs.' Reply: 'Noted!'"
+    ],
+    "lines": [
+     {
+      "id": "box_crystal",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "soul_item": "8.2e",
+      "pages": [
+       "A suggestion's been pinned up: 'Why are the crystals violet?'",
+       "Reply, in neat pen: 'Great question!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX\n'Tell us how we did!'",
+       "Pinned beside it: 'More chairs.' Reply: 'Noted!'"
+      ]
+     }
+    ]
+   },
+   "newsletter": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN:",
+     "'Welcome, new lab techs!' Page two is a soup recipe."
+    ],
+    "lines": [
+     {
+      "id": "bulletin_final",
+      "flags": [
+       "finale_done"
+      ],
+      "pending_story_call": true,
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, final issue:",
+       "'Under New Management: Us.'"
+      ]
+     },
+     {
+      "id": "bulletin_eight",
+      "flags": [
+       "all_badges"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Field staff earns all eight coins. HR asks: how?'"
+      ]
+     },
+     {
+      "id": "bulletin_hq",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'HQ thanks field staff for record catalogue numbers.'"
+      ]
+     },
+     {
+      "id": "bulletin_coin",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'One of our own wins a coin! Parking space pending.'"
+      ]
+     },
+     {
+      "id": "bulletin_field",
+      "flags": [
+       "flg_promoted"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Two of our own head into the field. Wish them luck!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Welcome, new lab techs!' Page two is a soup recipe."
+      ]
+     }
+    ]
+   },
+   "sofa": {
+    "kind": "prop",
+    "x": 2,
+    "y": 6,
+    "stand": [
+     2,
+     7
+    ],
+    "face": "up",
+    "tile": "i_sofa_brook",
+    "soul_item": "15:E10",
+    "pages": [
+     "A soft sofa. Somebody's left a feeds magazine open on it."
+    ],
+    "text_was": "maps.heal_centre_int.sofa",
+    "lines": [
+     {
+      "id": "e10_lap_nap",
+      "flags": [],
+      "when": {
+       "idle_after_heal_s": 30,
+       "once_per_day": true
+      },
+      "soul_item": "15:E10",
+      "pages": [
+       "You sit for a moment. {lead} climbs into your lap and falls asleep.",
+       "Carer: Don't move. Those are the rules."
+      ],
+      "effect": "lead +2 Warmth, once per day"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A soft sofa. Somebody's left a feeds magazine open on it."
+      ]
+     }
+    ]
+   },
+   "company_terminal": {
+    "kind": "prop",
+    "x": 11,
+    "y": 4,
+    "stand": [
+     10,
+     4
+    ],
+    "face": "right",
+    "tile": "i_company_terminal",
+    "soul_item": "1",
+    "pages": [
+     "Revival Tech terminal. Logging in with your employee ID...",
+     "Storage, company tasks and sell orders. Your Kilindex syncs here too."
+    ],
+    "text_was": "maps.heal_centre_int.company_terminal",
+    "note": "opens storage / company tasks; the company inbox is shared with maps.house_2f.pc",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Revival Tech terminal. Logging in with your employee ID...",
+       "Storage, company tasks and sell orders. Your Kilindex syncs here too."
+      ]
+     }
+    ]
+   },
+   "area_name": "Revival Tech, Saltmere"
+  },
+  "heal_revival": {
+   "heal_revival_carer": {
+    "pages": [
+     "Welcome to Revival Tech, Heights branch. Head office is upstairs.",
+     "So we smile a lot. Want me to rest your team?"
+    ],
+    "after_heal": [
+     "All rested. Energy's back to full.",
+     "Head office logged it. They log everything up here."
+    ],
+    "declined": [
+     "Okay. I'll log that as a no. Everything gets logged."
+    ],
+    "text_was": "maps.heal_centre_int.healer",
+    "lines": [
+     {
+      "id": "healer_lead",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "when": {
+       "lead_has_nickname": true
+      },
+      "soul_item": "8",
+      "pages": [
+       "Welcome back. {lead} again?",
+       "It always looks a bit smug after a rest. Want me to rest your team?"
+      ]
+     },
+     {
+      "id": "carer_coin",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "pages": [
+       "Revival Heights' coin. Head office will want a photo.",
+       "Want me to rest your team first?"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to Revival Tech, Heights branch. Head office is upstairs.",
+       "So we smile a lot. Want me to rest your team?"
+      ]
+     }
+    ]
+   },
+   "heal_revival_technician": {
+    "pages": [
+     "Head office checks my polish with a little torch.",
+     "Every crystal, every shift. I polish faster now."
+    ],
+    "lines": [
+     {
+      "id": "tech_night",
+      "flags": [],
+      "when": {
+       "phase": "night"
+      },
+      "pages": [
+       "Late shift. Someone upstairs is always typing.",
+       "Nobody's up there. I think. I don't ask."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Head office checks my polish with a little torch.",
+       "Every crystal, every shift. I polish faster now."
+      ]
+     }
+    ]
+   },
+   "heal_revival_storage_user": {
+    "pages": [
+     "My boxes are sorted by asset value. Company app does it.",
+     "My favourite's in box nine. Apparently it's worth less."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "My boxes are sorted by asset value. Company app does it.",
+       "My favourite's in box nine. Apparently it's worth less."
+      ]
+     }
+    ]
+   },
+   "staff_door_locked": {
+    "pages": [
+     "STAFF ONLY\nBranch Access Card required.",
+     "Under it, in biro: 'Knock. We won't answer.'"
+    ],
+    "lines": [
+     {
+      "id": "door_card",
+      "flags": [
+       "has_branch_card"
+      ],
+      "pages": [
+       "STAFF ONLY",
+       "Your Branch Access Card blinks green. Click."
+      ],
+      "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "STAFF ONLY\nBranch Access Card required.",
+       "Under it, in biro: 'Knock. We won't answer.'"
+      ]
+     }
+    ]
+   },
+   "suggestion_box": {
+    "pages": [
+     "SUGGESTION BOX\n'Tell us how we did!'",
+     "Pinned beside it: 'More chairs.' Reply: 'Noted!'"
+    ],
+    "lines": [
+     {
+      "id": "box_crystal",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "soul_item": "8.2e",
+      "pages": [
+       "A suggestion's been pinned up: 'Why are the crystals violet?'",
+       "Reply, in neat pen: 'Great question!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX\n'Tell us how we did!'",
+       "Pinned beside it: 'More chairs.' Reply: 'Noted!'"
+      ]
+     }
+    ]
+   },
+   "newsletter": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN:",
+     "'Welcome, new lab techs!' Page two is a soup recipe."
+    ],
+    "lines": [
+     {
+      "id": "bulletin_final",
+      "flags": [
+       "finale_done"
+      ],
+      "pending_story_call": true,
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, final issue:",
+       "'Under New Management: Us.'"
+      ]
+     },
+     {
+      "id": "bulletin_eight",
+      "flags": [
+       "all_badges"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Field staff earns all eight coins. HR asks: how?'"
+      ]
+     },
+     {
+      "id": "bulletin_hq",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'HQ thanks field staff for record catalogue numbers.'"
+      ]
+     },
+     {
+      "id": "bulletin_coin",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'One of our own wins a coin! Parking space pending.'"
+      ]
+     },
+     {
+      "id": "bulletin_field",
+      "flags": [
+       "flg_promoted"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Two of our own head into the field. Wish them luck!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Welcome, new lab techs!' Page two is a soup recipe."
+      ]
+     }
+    ]
+   },
+   "sofa": {
+    "kind": "prop",
+    "x": 2,
+    "y": 6,
+    "stand": [
+     2,
+     7
+    ],
+    "face": "up",
+    "tile": "i_sofa_brook",
+    "soul_item": "15:E10",
+    "pages": [
+     "A soft sofa. Somebody's left a feeds magazine open on it."
+    ],
+    "text_was": "maps.heal_centre_int.sofa",
+    "lines": [
+     {
+      "id": "e10_lap_nap",
+      "flags": [],
+      "when": {
+       "idle_after_heal_s": 30,
+       "once_per_day": true
+      },
+      "soul_item": "15:E10",
+      "pages": [
+       "You sit for a moment. {lead} climbs into your lap and falls asleep.",
+       "Carer: Don't move. Those are the rules."
+      ],
+      "effect": "lead +2 Warmth, once per day"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A soft sofa. Somebody's left a feeds magazine open on it."
+      ]
+     }
+    ]
+   },
+   "company_terminal": {
+    "kind": "prop",
+    "x": 11,
+    "y": 4,
+    "stand": [
+     10,
+     4
+    ],
+    "face": "right",
+    "tile": "i_company_terminal",
+    "soul_item": "1",
+    "pages": [
+     "Revival Tech terminal. Logging in with your employee ID...",
+     "Storage, company tasks and sell orders. Your Kilindex syncs here too."
+    ],
+    "text_was": "maps.heal_centre_int.company_terminal",
+    "note": "opens storage / company tasks; the company inbox is shared with maps.house_2f.pc",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Revival Tech terminal. Logging in with your employee ID...",
+       "Storage, company tasks and sell orders. Your Kilindex syncs here too."
+      ]
+     }
+    ]
+   },
+   "area_name": "Revival Tech, Heights"
+  },
+  "heal_frostspire": {
+   "heal_frostspire_carer": {
+    "pages": [
+     "Welcome to Revival Tech, Frostspire branch. Shut the door, please.",
+     "The heater's on full. Want me to rest your team?"
+    ],
+    "after_heal": [
+     "All rested and warmed through.",
+     "Try not to let them freeze on the way out."
+    ],
+    "declined": [
+     "Okay. At least stand by the heater a minute."
+    ],
+    "text_was": "maps.heal_centre_int.healer",
+    "lines": [
+     {
+      "id": "healer_lead",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "when": {
+       "lead_has_nickname": true
+      },
+      "soul_item": "8",
+      "pages": [
+       "Welcome back. {lead} again?",
+       "It always looks a bit smug after a rest. Want me to rest your team?"
+      ]
+     },
+     {
+      "id": "carer_coin",
+      "flags": [
+       "beat_master_frostspire"
+      ],
+      "pages": [
+       "Frostspire's coin. Somebody climbed for that.",
+       "Want me to rest your team?"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to Revival Tech, Frostspire branch. Shut the door, please.",
+       "The heater's on full. Want me to rest your team?"
+      ]
+     }
+    ]
+   },
+   "heal_frostspire_technician": {
+    "pages": [
+     "Cold crystals crack if you polish them too fast.",
+     "So I go slow. Management calls it a thaw cycle."
+    ],
+    "lines": [
+     {
+      "id": "tech_night",
+      "flags": [],
+      "when": {
+       "phase": "night"
+      },
+      "pages": [
+       "Late shift. The pass wind sounds like a kettle.",
+       "I wish it was a kettle."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Cold crystals crack if you polish them too fast.",
+       "So I go slow. Management calls it a thaw cycle."
+      ]
+     }
+    ]
+   },
+   "heal_frostspire_storage_user": {
+    "pages": [
+     "Box four is all fire types. It's the warm box.",
+     "I visit it on my lunch break."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Box four is all fire types. It's the warm box.",
+       "I visit it on my lunch break."
+      ]
+     }
+    ]
+   },
+   "staff_door_locked": {
+    "pages": [
+     "STAFF ONLY\nBranch Access Card required.",
+     "Under it, in biro: 'Knock. We won't answer.'"
+    ],
+    "lines": [
+     {
+      "id": "door_card",
+      "flags": [
+       "has_branch_card"
+      ],
+      "pages": [
+       "STAFF ONLY",
+       "Your Branch Access Card blinks green. Click."
+      ],
+      "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "STAFF ONLY\nBranch Access Card required.",
+       "Under it, in biro: 'Knock. We won't answer.'"
+      ]
+     }
+    ]
+   },
+   "suggestion_box": {
+    "pages": [
+     "SUGGESTION BOX\n'Tell us how we did!'",
+     "Pinned beside it: 'More chairs.' Reply: 'Noted!'"
+    ],
+    "lines": [
+     {
+      "id": "box_crystal",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "soul_item": "8.2e",
+      "pages": [
+       "A suggestion's been pinned up: 'Why are the crystals violet?'",
+       "Reply, in neat pen: 'Great question!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX\n'Tell us how we did!'",
+       "Pinned beside it: 'More chairs.' Reply: 'Noted!'"
+      ]
+     }
+    ]
+   },
+   "newsletter": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN:",
+     "'Welcome, new lab techs!' Page two is a soup recipe."
+    ],
+    "lines": [
+     {
+      "id": "bulletin_final",
+      "flags": [
+       "finale_done"
+      ],
+      "pending_story_call": true,
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, final issue:",
+       "'Under New Management: Us.'"
+      ]
+     },
+     {
+      "id": "bulletin_eight",
+      "flags": [
+       "all_badges"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Field staff earns all eight coins. HR asks: how?'"
+      ]
+     },
+     {
+      "id": "bulletin_hq",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'HQ thanks field staff for record catalogue numbers.'"
+      ]
+     },
+     {
+      "id": "bulletin_coin",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'One of our own wins a coin! Parking space pending.'"
+      ]
+     },
+     {
+      "id": "bulletin_field",
+      "flags": [
+       "flg_promoted"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Two of our own head into the field. Wish them luck!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Welcome, new lab techs!' Page two is a soup recipe."
+      ]
+     }
+    ]
+   },
+   "sofa": {
+    "kind": "prop",
+    "x": 2,
+    "y": 6,
+    "stand": [
+     2,
+     7
+    ],
+    "face": "up",
+    "tile": "i_sofa_brook",
+    "soul_item": "15:E10",
+    "pages": [
+     "A soft sofa. Somebody's left a feeds magazine open on it."
+    ],
+    "text_was": "maps.heal_centre_int.sofa",
+    "lines": [
+     {
+      "id": "e10_lap_nap",
+      "flags": [],
+      "when": {
+       "idle_after_heal_s": 30,
+       "once_per_day": true
+      },
+      "soul_item": "15:E10",
+      "pages": [
+       "You sit for a moment. {lead} climbs into your lap and falls asleep.",
+       "Carer: Don't move. Those are the rules."
+      ],
+      "effect": "lead +2 Warmth, once per day"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A soft sofa. Somebody's left a feeds magazine open on it."
+      ]
+     }
+    ]
+   },
+   "company_terminal": {
+    "kind": "prop",
+    "x": 11,
+    "y": 4,
+    "stand": [
+     10,
+     4
+    ],
+    "face": "right",
+    "tile": "i_company_terminal",
+    "soul_item": "1",
+    "pages": [
+     "Revival Tech terminal. Logging in with your employee ID...",
+     "Storage, company tasks and sell orders. Your Kilindex syncs here too."
+    ],
+    "text_was": "maps.heal_centre_int.company_terminal",
+    "note": "opens storage / company tasks; the company inbox is shared with maps.house_2f.pc",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Revival Tech terminal. Logging in with your employee ID...",
+       "Storage, company tasks and sell orders. Your Kilindex syncs here too."
+      ]
+     }
+    ]
+   },
+   "area_name": "Revival Tech, Frostspire"
   },
   "home_brookhollow_a": {
    "home_brookhollow_a_owner": {
@@ -16832,7 +17691,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "kilindex_milestone_50_3": {
    "pages": [
@@ -16841,7 +17700,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "kilindex_milestone_50_4": {
    "pages": [
@@ -16850,7 +17709,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "kilindex_milestone_100_2": {
    "pages": [
@@ -16859,7 +17718,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "kilindex_milestone_100_3": {
    "pages": [
@@ -16868,7 +17727,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "kilindex_milestone_100_4": {
    "pages": [
@@ -16877,7 +17736,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "kilindex_milestone_150_2": {
    "pages": [
@@ -17219,7 +18078,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "kilindex_milestone_100": {
    "pages": [
@@ -17228,7 +18087,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "kilindex_milestone_150": {
    "pages": [
@@ -18065,7 +18924,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "area_new_greystone_entrance_2": {
    "pages": [
@@ -18074,7 +18933,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "area_new_greystone_entrance_3": {
    "pages": [
@@ -18083,7 +18942,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "area_new_greystone_entrance_4": {
    "pages": [
@@ -18092,7 +18951,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "area_new_aurelith": {
    "pages": [
@@ -18605,7 +19464,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "quest_done_mq_greystone_camp_2": {
    "pages": [
@@ -18614,7 +19473,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "quest_done_mq_greystone_camp_3": {
    "pages": [
@@ -18623,7 +19482,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "quest_done_mq_greystone_camp_4": {
    "pages": [
@@ -18632,7 +19491,7 @@
    ],
    "parity": "E10",
    "build": "partial",
-   "region": 2
+   "region": 3
   },
   "quest_done_mq_saltmere_parcel": {
    "pages": [
@@ -19029,6 +19888,46 @@
    "parity": "E10",
    "build": "partial",
    "region": 1
+  },
+  "crystal_resupply": {
+   "pages": [
+    "{employee_id}: out of crystals already. Company stock, gone.",
+    "Supply is sending {count} more. It's going to reflect on your check."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 1,
+   "status": "DRAFT"
+  },
+  "crystal_resupply_2": {
+   "pages": [
+    "Crystals depleted, {employee_id}. In a test run.",
+    "{count} more issued. Your check will hear about this."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 1,
+   "status": "DRAFT"
+  },
+  "crystal_resupply_3": {
+   "pages": [
+    "{employee_id}: zero crystals and the test run is not done.",
+    "Here are {count} more. This will reflect on your check."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 1,
+   "status": "DRAFT"
+  },
+  "crystal_resupply_4": {
+   "pages": [
+    "{employee_id}: crystal stock empty. Restocking {count}.",
+    "Hold them up at creatures this time. It shows on your check."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 1,
+   "status": "DRAFT"
   }
  },
  "system_phone": {
@@ -19888,6 +20787,18 @@
    "bought": "{node} rank {rank} filed. Asset value up. Slightly.",
    "level_up": "ID level {level}. +1 benefit point. Try not to waste it.",
    "not_yet": "{reason}"
+  }
+ },
+ "system": {
+  "_section": "One-off story pop-ups. Read as system.<key>.pages; single OK choice.",
+  "wip_after_master3": {
+   "pages": [
+    "That's as far as the story goes for now. Region 4 is still being built.",
+    "You're free to keep exploring. Just try not to break anything."
+   ],
+   "trigger": "beat_master_revival",
+   "status": "DRAFT",
+   "note": "Master 3 (Revival Heights, coin 3). Model: wip_notice.js WIP_TEXT (system.wip_after_master2 has no text yet)"
   }
  }
 }

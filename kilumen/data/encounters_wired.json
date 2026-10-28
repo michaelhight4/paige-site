@@ -456,6 +456,74 @@
      "weight": 2,
      "sync_added": true,
      "placeholder": true
+    },
+    {
+     "species": "mossmote",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4,
+     "cute_r1": true,
+     "placeholder": true
+    },
+    {
+     "species": "drizzlebill",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4,
+     "cute_r1": true,
+     "placeholder": true
+    },
+    {
+     "species": "buoyling",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4,
+     "cute_r1": true,
+     "placeholder": true
+    },
+    {
+     "species": "pandember",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4,
+     "cute_r1": true,
+     "placeholder": true
+    },
+    {
+     "species": "gladlet",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 2,
+     "time": [
+      "dawn",
+      "day"
+     ],
+     "cute_r1": true,
+     "placeholder": true
+    },
+    {
+     "species": "lumoris",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 2,
+     "time": [
+      "dusk",
+      "night"
+     ],
+     "cute_r1": true,
+     "placeholder": true
     }
    ],
    "maps": [
