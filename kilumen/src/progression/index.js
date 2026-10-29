@@ -4,15 +4,16 @@
 //    battles, coin record in save.systems.progression.masters, gift behind masterGifts. Dev: ?pg=masters&master=<zone>.
 //  - hallPuzzles (off): hall puzzle preview overlay ?pg=hallPuzzles&hall=<zone> (hall maps 2-8 are not built yet).
 //  - quests (off): quest book + phone Tasks = quest log + HUD tracker + NPC give / turn-in + rewards.
-import { progressionFlags } from './flags.js?v=v0.2.52-alpha';
-import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.52-alpha';
-import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.52-alpha';
-import { QuestBook, QFLAG } from './quests.js?v=v0.2.52-alpha';
-import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.52-alpha'; // batch 3: Mirefen hall tint + reed lamps
-import { HallPuzzle } from './puzzles.js?v=v0.2.52-alpha';
-import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.52-alpha';
-import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.52-alpha';
-import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.52-alpha'; // batch 3: route / rival trainers fight their map team
+import { progressionFlags } from './flags.js?v=v0.2.53-alpha';
+import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.53-alpha';
+import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.53-alpha';
+import { QuestBook, QFLAG } from './quests.js?v=v0.2.53-alpha';
+import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.53-alpha'; // batch 3: Mirefen hall tint + reed lamps
+import { HallPuzzle } from './puzzles.js?v=v0.2.53-alpha';
+import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.53-alpha'; // v6: Frostspire Hall ice + wind overlay theme
+import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.53-alpha';
+import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.53-alpha';
+import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.53-alpha'; // batch 3: route / rival trainers fight their map team
 
 const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url + ' ' + r.status))));
 const escH = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -84,17 +85,19 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
   await pg.refreshLamps().catch((e) => console.error('hall lamps:', e));
 
   // ---- (b) hall puzzles ----------------------------------------------------------------------------------------------
-  if (flags.hallPuzzles) {
+  // v6 item 6 (dev/region4-station): the Frostspire hall's gust puzzle is live even while hallPuzzles stays off for the other halls
+  const puzzleZone = (z) => flags.hallPuzzles || (z === 'frostspire' && query?.get?.('r4') !== '0');
+  {
     pg.loadPuzzle = async (zone) => (pg.puzzles[zone] ||= await getJSON(`data/hall_puzzles/${zone}.json`));
     pg.openPuzzle = async (zone) => { const def = await pg.loadPuzzle(zone); return openPuzzleOverlay(scene, ui, def, store, platform); };
     const hz = query?.get?.('hall');
-    if (hz) pg.openPuzzle(hz).catch((e) => console.error('hall puzzle:', e));
+    if (hz && puzzleZone(hz)) pg.openPuzzle(hz).catch((e) => console.error('hall puzzle:', e));
     // halls 2-8 puzzle start: the hall guide opens the puzzle; the Master only battles once puzzle_<zone>_hall_solved is set
     if (pg.masters && typeof scene.talk === 'function') {
       const talk = scene.talk.bind(scene);
       scene.talk = (n, def) => {
         const info = def && scene.map && hallNpc(pg.masters, scene.map.name, def.id);
-        if (!info || info.hall.zone === 'fernwick' || info.role === 'trainer') return talk(n, def);
+        if (!info || info.hall.zone === 'fernwick' || info.role === 'trainer' || !puzzleZone(info.hall.zone)) return talk(n, def);
         const zone = info.hall.zone;
         const solvedFlag = `puzzle_${zone}_hall_solved`;
         if (info.role === 'master' && scene.flags?.has(solvedFlag)) return talk(n, def);
@@ -215,12 +218,18 @@ function openPuzzleOverlay(scene, ui, def, store, platform) {
   const cv = document.createElement('canvas'); cv.style.cssText = 'image-rendering:pixelated;border:3px solid #f4ead2;border-radius:8px;max-width:96vw';
   const pad = document.createElement('div'); pad.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;justify-content:center';
   wrap.append(head, cv, pad); document.body.appendChild(wrap);
-  let face = 'U';
+  let face = 'U', anim = null, raf = 0;
   const mobile = platform?.id === 'mobile';
   const draw = () => {
     const g = rt.g, ts = Math.floor(Math.min((innerWidth * (mobile ? 0.62 : 0.9)) / g.w, (innerHeight * (mobile ? 0.78 : 0.72)) / g.h, 64));
     cv.width = g.w * ts; cv.height = g.h * ts; const c = cv.getContext('2d');
     c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = `bold ${Math.floor(ts * 0.55)}px sans-serif`;
+    if (def.kind === 'gust') { // v6 item 6: Frostspire ice + wind theme, animated (see src/region4/gust_draw.js)
+      const now = performance.now(), sl = anim && now < anim.t1 ? anim : null, k = sl ? (now - sl.t0) / (sl.t1 - sl.t0) : 1;
+      drawGustBoard(c, def, rt, ts, now, sl ? { x: sl.x0 + (rt.x - sl.x0) * k, y: sl.y0 + (rt.y - sl.y0) * k, sliding: true, dx: Math.sign(rt.x - sl.x0) } : { x: rt.x, y: rt.y });
+      head.textContent = `${def.name_placeholder}${rt.solved ? ' · SOLVED' : ''}`;
+      return;
+    }
     for (let y = 0; y < g.h; y++) for (let x = 0; x < g.w; x++) {
       const v = rt.view(x, y); c.fillStyle = v.c; c.fillRect(x * ts, y * ts, ts, ts);
       c.strokeStyle = 'rgba(0,0,0,.25)'; c.strokeRect(x * ts + 0.5, y * ts + 0.5, ts - 1, ts - 1);
@@ -234,12 +243,14 @@ function openPuzzleOverlay(scene, ui, def, store, platform) {
   };
   const act = (a) => {
     if (a === 'A') a = 'A' + face; else face = a;
-    const r = rt.act(a); store.puzzles[def.zone] = rt.toJSON();
+    const x0 = rt.x, y0 = rt.y, b0 = rt.st?.b;
+    const r = rt.act(a);
+    if (def.kind === 'gust') { const n = Math.abs(rt.x - x0) + Math.abs(rt.y - y0), now = performance.now(); if (n > 1) anim = { x0, y0, t0: now, t1: now + n * 90 }; if (rt.st?.b !== b0) { rt._rung = now; scene.audio?.sfx?.('select'); } } store.puzzles[def.zone] = rt.toJSON();
     if (r.solvedNow) { scene.setFlag?.(def.solved_flag); scene.toast?.('The way to the Master is open.'); }
     scene.progression?.refreshLamps?.(); // batch 3: overworld reed lamps follow the puzzle state
     draw();
   };
-  const close = () => { removeEventListener('keydown', key, true); wrap.remove(); };
+  const close = () => { cancelAnimationFrame(raf); removeEventListener('keydown', key, true); wrap.remove(); };
   const KEYS = { ArrowUp: 'U', KeyW: 'U', ArrowDown: 'D', KeyS: 'D', ArrowLeft: 'L', KeyA: 'L', ArrowRight: 'R', KeyD: 'R', KeyZ: 'A', Enter: 'A', Space: 'A', KeyF: 'A' };
   const key = (e) => { if (e.code === 'Escape' || e.code === 'KeyX') { close(); e.preventDefault(); e.stopPropagation(); return; } const a = KEYS[e.code]; if (!a) return; e.preventDefault(); e.stopPropagation(); act(a); };
   addEventListener('keydown', key, true);
@@ -250,6 +261,7 @@ function openPuzzleOverlay(scene, ui, def, store, platform) {
     pad.appendChild(b);
   }
   draw();
+  if (def.kind === 'gust' && typeof requestAnimationFrame === 'function') { const loop = () => { if (!wrap.isConnected) return; draw(); raf = requestAnimationFrame(loop); }; raf = requestAnimationFrame(loop); }
   return { rt, act, draw, close, el: wrap };
 }
 

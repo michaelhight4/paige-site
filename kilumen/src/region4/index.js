@@ -7,7 +7,8 @@
 // - Cold Hands side quest (sq_cold_hands) and reactive NPC lines.
 // Saving: ride / ceremony push saveGuards; everything else runs inside scene.script (busy = save locked). Never saves itself.
 // Every player string is a PLACEHOLDER from data/region4/region4.json until Text Bot keys land (region4.* in overworld_lines).
-import { xpToReach, regionCap } from '../systems/rt_benefits.js?v=v0.2.52-alpha';
+import { xpToReach, regionCap } from '../systems/rt_benefits.js?v=v0.2.53-alpha';
+import { attachSoul } from './soul.js?v=v0.2.53-alpha';
 
 export const R4 = { pass: 'frostspire_pass', town: 'frostspire', openFlag: 'beat_master_revival', visited: 'visited_frostspire', bankKey: 'r4_banked', bonusKey: 'r4#daily_bonus' };
 
@@ -115,7 +116,7 @@ export function attachRegion4(scene, { systems, data } = {}) {
     const g = cv2.getContext('2d'); g.imageSmoothingEnabled = false;
     const im = (n) => Object.assign(new Image(), { src: `art/fx/region4/${n}.png` });
     const snow = im('frost_snow_sheet'), far = im('skylift/lift_far'), mid = im('skylift/lift_mid_loop'), cab = im('skylift/lift_cabin');
-    const hr = scene.hour ?? 12, night = hr >= 19 || hr < 6;
+    const hr = scene.clock?.hour ?? scene.hour ?? 12, night = hr >= 19 || hr < 6;
     const ok = (i) => i.complete && i.naturalWidth;
     scene.audio?.sfx?.('door');
     return new Promise((res) => {
@@ -189,7 +190,13 @@ export function attachRegion4(scene, { systems, data } = {}) {
       await say(N('rt_supervisor', 'idle'), {}, sp); return true;
     }
     if (id === 'frostspire_kid_sledder') { await say(N('kid_sledder', flags.has('beat_master_frostspire') ? 'after_master' : 'default'), {}, sp); return true; }
-    if (id === 'frostspire_hut_keeper') { await say(N('hut_keeper', flags.has('beat_master_frostspire') ? 'after_master' : night() ? 'night' : 'default'), {}, sp); return true; }
+    if (id === 'frostspire_hut_keeper') {
+      await say(N('hut_keeper', flags.has('beat_master_frostspire') ? 'after_master' : night() ? 'night' : 'default'), {}, sp);
+      // v6 soul: the keeper offers tea (placeholder lines; Text Bot request in data/textbot_requests_region4.md)
+      if (await ask([N('hut_keeper', 'tea_offer')], ['Yes', 'No'], {}, sp) === 0) { scene.audio?.sfx?.('select'); await say(N('hut_keeper', 'tea_yes'), {}, sp); set('r4_had_tea'); }
+      else await say(N('hut_keeper', 'tea_no'), {}, sp);
+      return true;
+    }
     return false;
   }
   async function coldHands(sp) {
@@ -212,7 +219,8 @@ export function attachRegion4(scene, { systems, data } = {}) {
   }
   seedRita(); hookRt();
   const iv = typeof setInterval !== 'undefined' && typeof window !== 'undefined' ? setInterval(() => { try { seedRita(); tick(); } catch (e) { console.error('region4 tick:', e); } }, 1000) : null;
-  const api = { state: st, tick, talk, ceremony, clamp, hookRt, liftFx, stop: () => iv && clearInterval(iv), data: D };
+  const soul = typeof scene.view === 'function' && typeof setInterval === 'function' && typeof document !== 'undefined' ? attachSoul(scene, { mobile: scene.opts?.platform?.id === 'mobile' }) : null; // v6 item 7
+  const api = { state: st, tick, talk, ceremony, clamp, hookRt, liftFx, soul, stop: () => { if (iv) clearInterval(iv); soul?.stop(); }, data: D };
   scene.region4 = api;
   return api;
 }

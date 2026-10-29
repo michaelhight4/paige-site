@@ -241,6 +241,7 @@
   "streambarb",
   "sunderhoof",
   "talusmouse",
+  "tbdcandle",
   "thistlehound",
   "thistlepup",
   "thornpod",
@@ -1288,6 +1289,19 @@
      ],
      "weight": 10,
      "cute_r4": true
+    },
+    {
+     "species": "tbdcandle",
+     "level": [
+      26,
+      28
+     ],
+     "weight": 6,
+     "cute_r4": true,
+     "time": [
+      "dusk",
+      "night"
+     ]
     },
     {
      "species": "aurorel",

@@ -243,6 +243,15 @@
    ],
    "after_master": [
     "Hale's in a good mood. First time in years someone made it fair."
+   ],
+   "tea_offer": [
+    "Cold out. Cup of pine tea?"
+   ],
+   "tea_yes": [
+    "Here. Hold it with both hands. There, colour in your cheeks again."
+   ],
+   "tea_no": [
+    "Pot stays warm. Come back any time."
    ]
   }
  },
