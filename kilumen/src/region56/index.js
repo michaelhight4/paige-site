@@ -9,6 +9,7 @@
 // Maps tidewater_coast / mirefen are built (World Design); attached by default since dev/regions-5-8.
 // Warmth gates (story_beats.md) are NOT wired: the builder has no Warmth condition yet (see WARMTH_GATES).
 import { oldGusHook } from './tutor.js?v=v0.2.87-alpha';
+import { LOW_TIDE, boatLeaveDue, syncLowTide } from '../progression/low_tide.js?v=v0.2.87-alpha';
 
 export const R56 = {
   ronMap: 'tidewater_coast', slipMap: 'tidewater_coast',
@@ -107,6 +108,13 @@ export function attachRegion56(scene, { systems } = {}) {
     if (ron5Missed({ has }) && scene.map?.name === R56.slipMap && !scene.busy && !scene._r56Parting) {
       scene._r56Parting = true;
       scene.script?.(async () => { try { await parting({ name: 'Ron' }); } finally { scene._r56Parting = false; } });
+    }
+    // G6: Ron's boat leaves from the cove after the forced low tide (once; after the lab, or on a cove return without it).
+    syncLowTide(scene);
+    if (!scene.busy && !scene._r56Boat && boatLeaveDue({ has }, scene.map?.name, scene.player)) {
+      scene._r56Boat = true; set(LOW_TIDE.done);
+      const pg = (getPath(scene.lines, `system_story_r56.${LOW_TIDE.key}`)?.pages || []).map(fill);
+      scene.script?.(async () => { try { if (pg.length) await scene.say(pg, { name: 'Ron' }); } finally { scene._r56Boat = false; } });
     }
     const lvl = sys()?.rtBenefits?.idLevel?.() ?? sys()?.rtBenefits?.company?.idLevel;
     const cap = Number.isFinite(lvl) ? idCapFlag(lvl) : null;

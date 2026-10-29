@@ -99,7 +99,7 @@ export class GameMap {
   applyGates(flags) {
     const done = [];
     for (const g of this.storyGates) {
-      if (this._appliedGates.has(g.id) || !flags?.has(g.flag)) continue;
+      if (this._appliedGates.has(g.id) || !flags?.has(g.flag) || (g.also || []).some((f) => !flags.has(f))) continue; // also: extra flags (all needed)
       for (const c of g.cells || []) {
         if (!this.inBounds(c.x, c.y)) continue;
         const t = c.cleared_tile ? this._byName?.get(c.cleared_tile) : null;

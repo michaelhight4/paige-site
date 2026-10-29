@@ -10,7 +10,10 @@
 // - Lanternport access: R78.lanternportGate (single config flag). Gary 3:51 PM CT: OPEN before the Tidewater coin (null).
 // - Promotions ID 18 / 20 (promoted_id18 / promoted_id20) unlock the R7 / R8 key card nodes (data/rt_benefits.json).
 // - ID cap flags id_cap_r7 / id_cap_r8 for RITA when company XP sits at the region cap.
+// - Aurelith Arena (aurelith_arena): clerk + 8 Arena fighters back to back (arena.js, talkHooks).
 // Text: system_story_r78.* (Text Bot owns text/*.py; keys listed in data/textbot_requests_r78.md). Placeholders below.
+
+import { arenaHook } from './arena.js?v=v0.2.87-alpha';
 
 export const R78 = {
   pageMap: 'lanternport', pageFlag: 'ron_page_shared', pageItemFlag: 'has_log_page', pageReadFlag: 'read_log_lanternport',
@@ -97,6 +100,7 @@ export function attachRegion78(scene, { systems } = {}) {
     for (const f of promotions78({ has }, lvl)) set(f);
   }
 
+  (scene.talkHooks ||= []).push(arenaHook(scene)); // Aurelith Arena (arena.js)
   const cv = typeof window !== 'undefined' ? window.kilumen?.companyVoice : scene.companyVoice;
   if (cv && (cv.maxRegion ?? 0) < 8) cv.maxRegion = 8;
   const iv = typeof setInterval !== 'undefined' && typeof window !== 'undefined' ? setInterval(() => { try { tick(); } catch (e) { console.error('region78 tick:', e); } }, 1000) : null;

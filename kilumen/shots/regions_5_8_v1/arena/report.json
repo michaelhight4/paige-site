@@ -1,0 +1,18 @@
+[
+ {
+  "plat": "pc",
+  "errors": [],
+  "shots": [
+   "pc_lobby.png",
+   "pc_event_room.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "errors": [],
+  "shots": [
+   "phone_lobby.png",
+   "phone_event_room.png"
+  ]
+ }
+]

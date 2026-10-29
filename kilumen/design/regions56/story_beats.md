@@ -358,7 +358,7 @@ Three threads point north: the sea lane (Jory), the crate stencilled Lanternport
 - **Note:** in §F the player sees the night this batch was released. R5-4 log (1) is the same event, so no change is needed.
 
 ## D3. R6: full truth in `lab_tidewater_cave`, Ron alongside
-**Why Ron is here:** the lab key card comes after the Master (G5, `pq_storm_duty`), and G6 says that by then Ron is leaving whether you fought him or not. His boat north sails from the cove at the next low tide, the same tide that opens the cave. He's at the cave mouth with his bag. Intent: he's got an hour and nowhere to be, so he comes in "to keep you out of trouble". G3/G6 stand: the fight window still closes at the Master, and the parting beat still plays there. This is just his last hour in town.
+**Why Ron is here:** the lab key card comes after the Master (G5, `pq_storm_duty`), and G6 says that by then Ron is leaving whether you fought him or not. His boat north sails from the cove at the next low tide, the same tide that opens the cave. **CANON (Gary, 5:55 PM CT, via Coder): beating the Tidewater Master forces the low tide.** Story trigger flag `tidewater_low_tide_forced` is set with `beat_master_tidewater`; it opens the cave mouth and, when the player leaves the lab (or skips it and returns to the cove), it fires `ron.r6.boat_leave` at the cove. He's at the cave mouth with his bag. Intent: he's got an hour and nowhere to be, so he comes in "to keep you out of trouble". G3/G6 stand: the fight window still closes at the Master, and the parting beat still plays there. This is just his last hour in town.
 | # | Place | Who | Emotion | Beat | Key |
 |---|---|---|---|---|---|
 | R6-0 | Cave mouth, low tide | Ron | bravado over nerves | [SAMPLE] "Boat's not till the tide turns. I'm coming in. Someone has to read the signs out loud." Sets `ron_in_lab_r6`. | `ron.r6.lab_join` |
@@ -440,12 +440,12 @@ Three threads point north: the sea lane (Jory), the crate stencilled Lanternport
 2. SOUL #7 "nobody states it before the finale" → now fully kept: Coralie implies, and Ron and the player infer.
 3. SOUL #7 ore "old pooled lumen" → Kilumora crystal from the lab era.
 4. Glyph Scholar line → kept, with the Heritage stamp.
-5. G6 timing → Ron's parting beat still plays at the Master; R6 lab and boat are his last hour (no rematch). **Gary to glance.**
+5. G6 timing → Ron's parting beat still plays at the Master; R6 lab and boat are his last hour (no rematch). **CANON (Gary, 5:55 PM CT, via Coder):** closed. The Master win sets `tidewater_low_tide_forced` → low tide → `ron.r6.boat_leave` at the cove.
 6. Q10 (lab staff) → untouched.
 
 ## D10. Still open (reveal)
 - Map ids (Coder).
-- G6 glance (D9.5).
+- G6: CLOSED (CANON (Gary, 5:55 PM CT, via Coder)), flag `tidewater_low_tide_forced`.
 
 ---
 ## §F. FINALE: "The Night of Test 7"
@@ -475,7 +475,7 @@ This answers Q-F5: the lead-in is the courier letter, and the present first lab/
 | **Lantern Rest blank stone → bench** | Stone stays, uncarved. | **The bench** (SOUL #14 canon line, "Best kind of stone to lose."). Marta rates it. | Only one change after the reunion, per SOUL #14. |
 | **Guardian / River / crystals** | Untouched. The dream returns once, in the night after credits 1, just before the knock. | Ondravel freed; the River resolves; **crystals keep working** (canon F2). | G1. |
 | **Origin truth (canon reveal)** | Already known from R6. Ending 1 doesn't re-address it. | Paid off: the player stands in the night it happened. | — |
-| **Coralie** | — | Optional epilogue (Q-F3). | — |
+| **Coralie** | — | Optional epilogue, **CANON (Gary, 5:55 PM CT, via Coder): kept**. | — |
 **Ending 1 location:** credits 1 follow Ron 7 at the Aurelith Games Stadium entrance (F-0); the bins beat plays at Brookhollow after Ron 7, before the credits.
 **Risk flagged:** players who stop at credits 1 never see the team home. Mitigation: the postcard, and credits 1 ends on "To be continued…"-style post-credit play (the knock), not a fade.
 
@@ -545,18 +545,18 @@ This answers Q-F5: the lead-in is the courier letter, and the present first lab/
 ### F3. Research-team fights (three labs, the same night as the R6 logs)
 The teams are not villains: they're scared staff trying to regain control with **prototype control bands** (pre-crystal). Each lab ends in a boss whose fight is about protecting people, and each one leaves something the present already shows (closed loop).
 **F3a. Station M: "Line 14 Annexe".** Trainers: annexe handlers ×3.
-- **Boss: Annexe Lead Dr. Ansel Greave** (PLACEHOLDER name). Wants to "hold the batch" to save his jobs and his staff.
+- **Boss: Annexe Lead Dr. Ansel Greave** (CANON (Gary, 5:55 PM CT, via Coder)). Wants to "hold the batch" to save his jobs and his staff.
 - **After the win:** he opens the sluice to get his staff out, and the Line 14 batch floods out into the river bend. This IS R5 terminal log (1)-(2) ("Batch released… field trial lost"); the "field trial" wording was the cover-up.
 - Exit by river current (Tideglide on the full river) down to the coast. After F3b, the Guardian's light pulls the player back up the river to its source on the mountaintop (river blue, a travel cut).
 **F3b. Signal Lab: "Test 7".** Trainers: signal techs ×3.
-- **Boss: Signal Lead Dr. Maren Holt** (PLACEHOLDER name). Wants to run **Test 8**, pushing harder to regain control, which would finish the Guardian.
+- **Boss: Signal Lead Dr. Maren Holt** (CANON (Gary, 5:55 PM CT, via Coder)). Wants to run **Test 8**, pushing harder to regain control, which would finish the Guardian.
 - **Young Coralie Finch** (about 20, junior tech, on the tea trolley; canon in D4: "I was on nights that week. I made the tea."):
   - Before the boss, she unlocks the tide door for the player.
   - She asks their name; the player's answer is cut off. [SAMPLE] "No. Don't tell me. I'd only have to forget it."
   - After the boss she pulls the Test 8 plug herself. Her shaky hand writes the last row of the run sheet (R6-3b).
 - **Avoid:** the player never reads the R6 sheet's future text to her.
 **F3c. First lab: the spire.** Trainers: containment staff ×4, one per floor.
-- **Boss: Containment Chief** (PLACEHOLDER, unnamed: "the Chief"). Holds the top landing to keep Line 1 shut in, believing it's the source of the danger, which it is, though it's hurting, not hostile.
+- **Boss: Containment Chief** (CANON (Gary, 5:55 PM CT, via Coder): stays unnamed, "the Chief"). Holds the top landing to keep Line 1 shut in, believing it's the source of the danger, which it is, though it's hurting, not hostile.
 - **Vane does not appear** (motive OPEN; Q-F1).
 - **Climb:** four floors. Each pulse shakes the floor; the team reacts by Warmth tier (flavour only; never disobeys). The Kilumora-crystal walls (Line 2 growth) cast the violet. On the top floor a window shows the three labs' lights going out one by one.
 
@@ -579,7 +579,7 @@ The teams are not villains: they're scared staff trying to regain control with *
 | 4 | `fin_summit_camp` | morning | The field team packs up. They saw the spire go quiet. Teo crosses "find source" off his list. |
 | 5 | Credits 2 | — | Home, River (**resolved for the first time**) and Ron's motif together (SOUL motif ruling). (Ron's bins beat was Ending 1, F-A.) |
 | 6 | **Epilogue: Lantern Rest** | day | **The field team comes home alive** (canon SOUL #14), walking in with the player from the mountain road. Ron is already there with the keeper. The keeper lifts the blank stone away and sets a bench there: "Didn't need it. Best kind of stone to lose." Marta sits first and rates the bench out loud [SAMPLE] "Eight. It's a good bench." Imke hums the River phrase, resolved. **F2 beat:** Teo has the drift readings in a folder. He doesn't say what to do with them; he asks the player to keep a copy. [SAMPLE] "Crystals work. So does this. People get to choose now." |
-| 7 | Optional epilogue: Tidewater cove | — | Old Coralie, to the player: [SAMPLE] "I knew your face the minute you walked in. I couldn't say. You hadn't done it yet." (Closes the loop. Q-F3.) |
+| 7 | Optional epilogue: Tidewater cove | — | Old Coralie, to the player: [SAMPLE] "I knew your face the minute you walked in. I couldn't say. You hadn't done it yet." (Closes the loop. CANON (Gary, 5:55 PM CT, via Coder): kept; final wording is Text Bot's.) |
 
 ### F6. Time-paradox risks and how they're avoided
 | Risk | Avoided by |
@@ -599,7 +599,7 @@ The teams are not villains: they're scared staff trying to regain control with *
 ### F7. Checks against canon
 - **G1:** facts 1-3 all play (the full river in the past, the throb by water, Warmth pushes back). Release outcome OPEN. ✓
 - **G2:** Marta home and canon. ✓
-- **G3/G6:** Ron 5 and his parting beat are untouched; Ron isn't in the past. G6 timing note (D9.5) still open. ✓
+- **G3/G6:** Ron 5 and his parting beat are untouched; Ron isn't in the past. G6 CANON (Gary, 5:55 PM CT, via Coder): `tidewater_low_tide_forced`. ✓
 - **Two endings:** SOUL #3 bins = Ending 1 credits ✓; SOUL #14 reunion = post-game = Ending 2 ✓; SOUL motif rule (River resolves only at the ending, the credits trio) = Ending 2 ✓; the canon origin reveal is known before both endings ✓; the Head Office letter is unsigned (Vane memo OPEN) ✓.
 - **G4/G7:** no conflict. ✓
 - **G5:** the past has no Benefits board; the lanyard is rejected. ✓
@@ -629,9 +629,9 @@ The teams are not villains: they're scared staff trying to regain control with *
 
 ### F9. Open questions for Gary (finale)
 - **Q-F1 (OPEN):** Does a young Vane appear on the rebellion night? Recommendation: no.
-- **Q-F3 (OPEN):** Keep Coralie's "I knew your face" epilogue?
-- **Q-F4 (OPEN):** Boss names (Greave, Holt, the Chief) are placeholders.
-- **G6 timing (OPEN):** D9.5.
+- **Q-F3: CLOSED** (CANON (Gary, 5:55 PM CT, via Coder)): keep Coralie's "I knew your face" epilogue.
+- **Q-F4: CLOSED** (CANON (Gary, 5:55 PM CT, via Coder)): boss names Greave, Holt and the Chief stay.
+- **G6 timing: CLOSED** (CANON (Gary, 5:55 PM CT, via Coder)): beating the Tidewater Master forces low tide; flag `tidewater_low_tide_forced` fires `ron.r6.boat_leave` at the cove.
 - **Q-F11 (answered):** the bottom fight is Ron 7; there's no free heal (Gary dropped it, 5:15 PM CT via Coder).
 - **Q-F12 (new):** after the release, does the river come back slowly (recommended) or stay low?
 - **Q-F13 (new):** pick the mountain name: Wellspire (recommended) / Mount Ondra / Headwater Crown / Stillwater Peak.
@@ -642,7 +642,7 @@ The teams are not villains: they're scared staff trying to regain control with *
 - Q-F11: Ron 7 (`ron_7`, flag `beat_n_ron_7`) is at the Stadium **bottom**, after the player heals; **no Ron heal** (dropped by Gary). Numbering: after the existing Ron #6 in Aurelith city; ron_final_beaten aliases beat_n_ron_7.
 - Q-F12: the river comes back SLOWLY after the release (spring trickles in Ending 2 epilogue; flow returns over later visits).
 - F1: NO young Vane on the rebellion night.
-- Still open: F3 (Coralie epilogue line), F4 (boss names Greave/Holt/the Chief), G6 timing.
+- F3, F4 and G6 CLOSED (CANON (Gary, 5:55 PM CT, via Coder)). Still open: F1 (young Vane; the 3:25 PM note says no).
 
 ---
 ## §L. Lanternport: Ron's page hand-off (DRAFT, rev 2, Oct 29 3:53 PM CT, awaiting Gary)

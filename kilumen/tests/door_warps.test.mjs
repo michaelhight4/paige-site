@@ -15,7 +15,7 @@ const MAPS = Object.fromEntries(Object.entries(JS).map(([n, j]) => [n, new GameM
 const STAND = new Set([Col.WALK, Col.PLATE, Col.ICE]); // a landing must be walkable and not itself a trigger
 const outdoor = (j) => !!j.padding || (j.exits || []).length > 0;
 // Explicit 2-tile landings: tunnel mouths where the landing sits one tile further in (straight walkable corridor).
-const TWO_TILE = new Set(['greystone_entrance>lantern_rest']);
+const TWO_TILE = new Set(['greystone_entrance>lantern_rest', 'aurelith_arena>aurelith_stadium_int']); // arena: the cell between is gate_aurelith_arena (open once you are inside)
 
 function* doorWarps() {
   for (const [name, j] of Object.entries(JS)) for (const w of j.warps || []) {
@@ -50,7 +50,7 @@ test('door warps: every landing is just outside a door back to where you came fr
     const d = Math.abs(b.x - w.tx) + Math.abs(b.y - w.ty);
     if (TWO_TILE.has(`${name}>${w.to}`)) {
       assert.ok(d === 2 && (b.x === w.tx || b.y === w.ty), id + ' tunnel landing not 2 tiles straight from its door');
-      assert.ok(T.isWalkable((b.x + w.tx) / 2, (b.y + w.ty) / 2), id + ' tunnel corridor blocked');
+      assert.ok(T.isWalkable((b.x + w.tx) / 2, (b.y + w.ty) / 2) || T.gateAt((b.x + w.tx) / 2, (b.y + w.ty) / 2), id + ' tunnel corridor blocked');
     } else assert.equal(d, 1, `${id}: ${d} tiles from its door back (${b.x},${b.y})`);
     assert.equal(T.code(b.x, b.y), Col.DOOR, `${id}: door back (${b.x},${b.y}) is not a door tile`);
     // outdoors, a building door (wall above, street below): you step out in front of it, i.e. directly below
@@ -62,7 +62,7 @@ test('door warps: every landing is just outside a door back to where you came fr
 test('door warps: shared interiors ($return) put you on a walkable tile in front of the town door you used', () => {
   let n = 0;
   for (const [name, j] of Object.entries(JS)) for (const w of j.warps || []) {
-    const T = JS[w.to]; if (!T || !(T.warps || []).some((b) => b.to === '$return')) continue;
+    const T = JS[w.to]; if (!T || w.keep_return || !(T.warps || []).some((b) => b.to === '$return')) continue; // keep_return doors never become lastDoor
     const s = warpSpawn({ to: '$return' }, { map: name, x: w.x, y: w.y }), M = MAPS[name];
     assert.ok(STAND.has(M.code(s.x, s.y)) && !M.warpAt(s.x, s.y), `${name}@${w.x},${w.y} ($return from ${w.to}) -> ${s.x},${s.y} code ${M.code(s.x, s.y)}`);
     n++;

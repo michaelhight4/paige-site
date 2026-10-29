@@ -21,6 +21,7 @@
 import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.87-alpha';
 import { applyHeldPicks } from './trainer_held.js?v=v0.2.87-alpha';
 import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.87-alpha';
+import { ARENA_TEAMS } from '../../region78/arena.js?v=v0.2.87-alpha'; // Aurelith Arena fighters (8, back to back)
 
 const RON_TIDEWATER = {"nibbin": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}], "cindrip": [{species: "sailquill", level: 40}, {species: "pearlisk", level: 40, held: "runestitch_charm"}, {species: "tidemarrow", level: 40, held: "sprig_charm"}, {species: "nudiblume", level: 40, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}, {species: "brineseal", level: 39, held: "droplet_charm"}, {species: "tidemarrow", level: 41, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}], "rillop": [{species: "sailquill", level: 40}, {species: "glassvine", level: 40}, {species: "gearwarden", level: 40}, {species: "bramblehog", level: 41}, {species: "skyrender", level: 40}, {species: "gnawford", level: 41}], "tumbloam": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}]};
 export const TRAINER_TEAMS = {
@@ -138,6 +139,7 @@ export const TRAINER_TEAMS = {
   // balance.json ron_6; stand-ins: stampedor -> bramblehog, seraphawk -> skyrender, driftknot -> tidemarrow, deluvane -> brineseal.
   'tidewater_coast.tidewater_coast_ron_5': { byStarter: RON_TIDEWATER },
   'tidewater_coast.tidewater_coast_ron_5_slip': { byStarter: RON_TIDEWATER },
+  ...ARENA_TEAMS, // aurelith_arena.arena_fighter_1..8 (src/region78/arena.js)
 };
 
 // Held items for Masters and Ron: per-creature picks per fight in src/battle/data/trainer_held.js (Oct 29 2026, P2-P5).

@@ -6,6 +6,7 @@
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
 import { setRonRoll, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.87-alpha';
 import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.87-alpha';
+import { syncLowTide } from '../progression/low_tide.js?v=v0.2.87-alpha'; // G6 forced low tide
 import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.87-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
 import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.87-alpha';
 import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.87-alpha';
@@ -155,6 +156,7 @@ export class Overworld {
     this.player.place(s.x, s.y, s.facing);
     await this._enterMap();
     this._areaSignEnter(); // shown once the opening fade (if any) is done
+    syncLowTide(this); // G6: old saves that beat the Tidewater Master get tidewater_low_tide_forced on load
     syncAllBadges(this); // interim ending: old saves that already hold 8 coins get all_badges (and the open arena gate) on load
     this._endingOnLoad = !newGame && endingDue(this.flags); // a save that beat the tower (ENDING.tower): credits once, when idle
     this.intro.begin(); // new game: black hold until the title closes, slow fade in, wake-up thought
@@ -409,7 +411,7 @@ export class Overworld {
               return 'stop';
             }
             if (!DEV.masterKey && this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing
-            if (w.to !== '$return') this.lastDoor = { map: m.name, x, y };
+            if (w.to !== '$return' && !w.keep_return) this.lastDoor = { map: m.name, x, y }; // keep_return: inner door pair (stadium <-> arena) keeps the street door
             this._doorDismount = this.player.mode === MoveMode.BIKE; // MOVEMENT.md 2: doors always dismount
             const spawn = warpSpawn(w, w.to === '$return' ? this.lastDoor : null)
               || { ...this.config.start }; // $return with no stored door (debug start inside): go to the dev start
@@ -446,6 +448,7 @@ export class Overworld {
     if (!this.flags.has('has_bike') && this.player.mode === MoveMode.BIKE) this.player.mode = MoveMode.WALK;
     this.log.push({ tick: this.tick, type: 'flag', flag, on, opened });
     this._dirty = true;
+    if (on && flag === 'beat_master_tidewater') syncLowTide(this); // G6: same moment as the Master win
     if (on && /^beat_master_/.test(flag)) syncAllBadges(this); // interim ending: the 8th coin sets all_badges (opens gate_aurelith_arena)
     return opened;
   }

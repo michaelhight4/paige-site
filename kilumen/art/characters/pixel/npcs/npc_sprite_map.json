@@ -2469,6 +2469,84 @@
    },
    "portraits_stand_in": true,
    "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "aurelith_arena.aurelith_arena_clerk": {
+   "sprite_id": "vil_receptionist_f",
+   "class": "Arena sign-up clerk, talk across the counter",
+   "overworld_sheet": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi/"
+  },
+  "aurelith_arena.arena_fighter_1": {
+   "sprite_id": "tr_swimmer_m",
+   "class": "Arena fighter 1 of 8",
+   "overworld_sheet": "npcs/tr_swimmer_m/overworld/tr_swimmer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_swimmer_m/overworld/tr_swimmer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_swimmer_m/overworld/tr_swimmer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_swimmer_m/overworld/tr_swimmer_m_chibi/",
+   "trainer_64x128": "npcs/tr_swimmer_m/trainer/tr_swimmer_m_trainer_64x128.png"
+  },
+  "aurelith_arena.arena_fighter_2": {
+   "sprite_id": "tr_camper_f",
+   "class": "Arena fighter 2 of 8",
+   "overworld_sheet": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_camper_f/overworld/tr_camper_f_chibi/",
+   "trainer_64x128": "npcs/tr_camper_f/trainer/tr_camper_f_trainer_64x128.png"
+  },
+  "aurelith_arena.arena_fighter_3": {
+   "sprite_id": "tr_ranger_m",
+   "class": "Arena fighter 3 of 8",
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/",
+   "trainer_64x128": "npcs/tr_ranger_m/trainer/tr_ranger_m_trainer_64x128.png"
+  },
+  "aurelith_arena.arena_fighter_4": {
+   "sprite_id": "tr_lass_f",
+   "class": "Arena fighter 4 of 8",
+   "overworld_sheet": "npcs/tr_lass_f/overworld/tr_lass_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lass_f/overworld/tr_lass_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lass_f/overworld/tr_lass_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lass_f/overworld/tr_lass_f_chibi/",
+   "trainer_64x128": "npcs/tr_lass_f/trainer/tr_lass_f_trainer_64x128.png"
+  },
+  "aurelith_arena.arena_fighter_5": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Arena fighter 5 of 8",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/",
+   "trainer_64x128": "npcs/tr_hiker_m/trainer/tr_hiker_m_trainer_64x128.png"
+  },
+  "aurelith_arena.arena_fighter_6": {
+   "sprite_id": "tr_bugcatcher_f",
+   "class": "Arena fighter 6 of 8",
+   "overworld_sheet": "npcs/tr_bugcatcher_f/overworld/tr_bugcatcher_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_bugcatcher_f/overworld/tr_bugcatcher_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_bugcatcher_f/overworld/tr_bugcatcher_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_bugcatcher_f/overworld/tr_bugcatcher_f_chibi/",
+   "trainer_64x128": "npcs/tr_bugcatcher_f/trainer/tr_bugcatcher_f_trainer_64x128.png"
+  },
+  "aurelith_arena.arena_fighter_7": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Arena fighter 7 of 8",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "aurelith_arena.arena_fighter_8": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Arena fighter 8 of 8",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
   }
  },
  "unassigned_ready": {

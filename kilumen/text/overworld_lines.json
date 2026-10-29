@@ -1903,9 +1903,9 @@
   },
   "pending_lighthouse_spots": {
    "_map_names": {
-    "lanternport_lighthouse_int": "Lighthouse 1F",
-    "lanternport_lighthouse_f2": "Lighthouse 2F",
-    "lanternport_lighthouse_f3": "Lighthouse 3F"
+    "lanternport_lighthouse_int": "Lighthouse Floor 1",
+    "lanternport_lighthouse_f2": "Lighthouse Floor 2",
+    "lanternport_lighthouse_f3": "Lighthouse Floor 3"
    }
   },
   "pending_ron_final": {
@@ -1941,7 +1941,9 @@
       "tower_healed"
      ],
      "sets_flag": "beat_n_ron_7",
-     "note": "Ron final (GD ron_final). pages = bottom-of-tower opener, then challenge, then battle. tower_top = line at the tower top by the final tower opponent. Mirrors ron.final_tower.*. DRAFT, pending Gary",
+     "note": "Ron final (GD ron_final). pages = bottom-of-tower opener, then challenge, then battle. tower_top = line at the tower top by the final tower opponent. Mirrors ron.final_tower.*. APPROVED: Gary 5:55 PM CT Oct 29, relayed by Coder",
+     "status": "approved",
+     "approved": "Gary 5:55 PM CT Oct 29, relayed by Coder",
      "lines": [
       {
        "id": "default",
@@ -15403,7 +15405,7 @@
      }
     ]
    },
-   "area_name": "Lighthouse"
+   "area_name": "Lighthouse Floor 1"
   },
   "lanternport_lighthouse_f2": {
    "lanternport_lighthouse_f2_window": {
@@ -15484,7 +15486,7 @@
      }
     ]
    },
-   "area_name": "Lighthouse Stair"
+   "area_name": "Lighthouse Floor 2"
   },
   "lanternport_lighthouse_f3": {
    "lanternport_lighthouse_f3_window": {
@@ -15565,7 +15567,7 @@
      }
     ]
    },
-   "area_name": "Lighthouse Gallery"
+   "area_name": "Lighthouse Floor 3"
   },
   "aurelith_galleria_1f_int": {
    "aurelith_galleria_clerk_1": {
@@ -29562,20 +29564,6 @@
     "key": "lore.r6.teo_note_v2",
     "gate": "visitor sheet in lab_tidewater_cave"
    },
-   "ron.r6.boat_leave": {
-    "pages": [
-     "Right. Boat. Tide. Me.\nIn that order.",
-     "I'll think about it on the boat.\nBoats are good for thinking. Mostly.",
-     "Don't read anything else without me.\nI mean it. I'll know."
-    ],
-    "parity": "D",
-    "build": "partial",
-    "status": "DRAFT",
-    "group": "origin",
-    "speaker": "Ron",
-    "key": "ron.r6.boat_leave",
-    "gate": "cove, tide turning; Ron motif stays major (bright toy piano)"
-   },
    "seed.r1.home_drawing": {
     "pages": [
      "A child's drawing, framed. The river,\nreeds, a big sun. Nothing else.",
@@ -29653,6 +29641,22 @@
     "key": "seed.r4.returned_board",
     "gate": "R4 Greystone / Frostspire tally board"
    }
+  },
+  "ron.r6.boat_leave": {
+   "pages": [
+    "Right. Boat. Tide. Me.\nIn that order.",
+    "I'll think about it on the boat.\nBoats are good for thinking. Mostly.",
+    "Don't read anything else without me.\nI mean it. I'll know."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": "origin",
+   "speaker": "Ron",
+   "key": "ron.r6.boat_leave",
+   "gate": "forced low tide right after beat_master_tidewater",
+   "ruling": "G6 ruled: Gary 5:55 PM CT Oct 29",
+   "note": "trigger = the forced low tide after beat_master_tidewater (G6). Wording DRAFT; cove, Ron motif stays major (bright toy piano)"
   },
   "old_gus_offer": {
    "pages": [
@@ -30025,7 +30029,8 @@
      "Ron: Oh, hey! Took your time.\nI already beat this one. Easy.",
      "Ron: Your turn. I'll wait for you\nat the bottom. Don't keep me long!"
     ],
-    "status": "DRAFT"
+    "status": "approved",
+    "approved": "Gary 5:55 PM CT Oct 29, relayed by Coder"
    },
    "intro": {
     "pages": [
@@ -30033,34 +30038,39 @@
      "Ron: I've been out here three hours.\nThree. I named a pigeon. Twice.",
      "Ron: Brought snacks. Ate the snacks.\nThen I ate yours. Sorry. Not sorry."
     ],
-    "status": "DRAFT"
+    "status": "approved",
+    "approved": "Gary 5:55 PM CT Oct 29, relayed by Coder"
    },
    "challenge": {
     "pages": [
      "Ron: Right. No more waiting around.\nOne last battle. You and me. Now!"
     ],
-    "status": "DRAFT"
+    "status": "approved",
+    "approved": "Gary 5:55 PM CT Oct 29, relayed by Coder"
    },
    "battle_lost": {
     "pages": [
      "Ron: Yeah. That's it, then.\nYou're the best there is, {nick}.",
      "Ron: I knew it back in Brookhollow.\nProud of you. Properly proud."
     ],
-    "status": "DRAFT"
+    "status": "approved",
+    "approved": "Gary 5:55 PM CT Oct 29, relayed by Coder"
    },
    "battle_won": {
     "pages": [
      "Ron: Ha! Got you! Finally!\nWrite it down. Frame it. Somewhere.",
      "Ron: You were brilliant, though.\nGo heal up. I'll still be here."
     ],
-    "status": "DRAFT"
+    "status": "approved",
+    "approved": "Gary 5:55 PM CT Oct 29, relayed by Coder"
    },
    "after": {
     "pages": [
      "Ron: So. What's next? Bigger maps?\nWeirder creatures? Better snacks?",
      "Ron: Whatever it is, I'm in.\nSame team as always. You and me."
     ],
-    "status": "DRAFT"
+    "status": "approved",
+    "approved": "Gary 5:55 PM CT Oct 29, relayed by Coder"
    },
    "_alias": "maps.aurelith_arena_int.aurelith_arena_ron_final (same text)"
   }
