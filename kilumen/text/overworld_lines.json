@@ -29948,6 +29948,14 @@
    "trigger": "beat_master_cindervale",
    "status": "DRAFT",
    "note": "r78 request; wip_notice.js on dev/regions-5-8"
+  },
+  "catch_net_topup": {
+   "pages": [
+    "A few Dominance Crystals were hiding\nin a Pack seam. Back to it, {player}!"
+   ],
+   "trigger": "catch_net (src/systems/catch_net.js): out of crystals, Pack topped up",
+   "status": "DRAFT",
+   "note": "single page on purpose: the toast shows pages[0] only; no count placeholder (NET_COUNT isn't passed)"
   }
  },
  "ron": {
