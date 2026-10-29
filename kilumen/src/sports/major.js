@@ -3,11 +3,11 @@
 // 3 rounds, each a random town event (seeded per Games, all different). Three strong rivals post a score per round.
 // Points per round 10 / 6 / 4 / 2; most points after 3 rounds wins 3000 gold (x difficulty money) and the Aurelith badge.
 // Ties go to the rivals (same as the cups: you have to beat them).
-import { EVENTS, eventById } from './town_events.js?v=v0.2.84-alpha';
-import { tug } from './tug.js?v=v0.2.84-alpha';
-import { cupState, RIVAL_SPECIES, RIVAL_TRAINERS } from './town_cup.js?v=v0.2.84-alpha';
-import { rollRivalAthletics } from './athletics.js?v=v0.2.84-alpha';
-import { rngFor } from './rng.js?v=v0.2.84-alpha';
+import { EVENTS, eventById } from './town_events.js?v=v0.2.85-alpha';
+import { tug } from './tug.js?v=v0.2.85-alpha';
+import { cupState, RIVAL_SPECIES, RIVAL_TRAINERS } from './town_cup.js?v=v0.2.85-alpha';
+import { rollRivalAthletics } from './athletics.js?v=v0.2.85-alpha';
+import { rngFor } from './rng.js?v=v0.2.85-alpha';
 
 export const MAJOR = { fee: 500, prize: 3000, everyDays: 9, offset: 4, rounds: 3, needTowns: 4, rivals: 3, points: [10, 6, 4, 2] };
 export const MAJOR_POOL = [...EVENTS, tug];

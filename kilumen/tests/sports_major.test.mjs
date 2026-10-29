@@ -47,3 +47,9 @@ test('Harbour Haul pop-ups (HEAVE! / They dig in!) sit in separate lanes and nev
   assert.ok(lanes[1][2] - lanes[0][2] >= 22, 'rows at least one 22px plate apart');
   assert.ok(TUG_POP_GAP >= 22 && TUG_POP_TOP + TUG_POP_GAP < 250, 'both lanes above the pier');
 });
+test('npc_sprite_map: sports NPC sprites sit under "map" (top level is only map + unassigned_ready)', async () => {
+  const fs = await import('node:fs'); const d = JSON.parse(fs.readFileSync(new URL('../art/characters/pixel/npcs/npc_sprite_map.json', import.meta.url)));
+  assert.deepEqual(Object.keys(d).sort(), ['map', 'unassigned_ready']);
+  for (const k of ['aurelith.aurelith_games_announcer', 'saltmere.saltmere_tug_coach']) { const e = d.map[k]; assert.ok(e?.overworld_sheet, k);
+    assert.ok(fs.existsSync(new URL('../art/characters/pixel/' + e.overworld_sheet, import.meta.url)), e.overworld_sheet); }
+});

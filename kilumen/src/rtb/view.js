@@ -2,14 +2,14 @@
 // screen = (world - cam) * zoom, as src/overworld/overworld.js view()), plus a small DOM HUD. All the "juice" lives here:
 // hitstop, shake, white hit flash, knockback dust, damage numbers, element sparks, telegraph wedges, "!" alerts, faint poof,
 // crystal pulses, level-up column, start/end banners. Reduced motion (?rm=1 / prefers-reduced-motion): no shake, no flashes, fewer particles.
-import { displayName } from '../systems/creature.js?v=v0.2.84-alpha';
-import { SHAPE_STATS } from './moves.js?v=v0.2.84-alpha';
-import { RT } from './sim.js?v=v0.2.84-alpha';
-import { loadFx } from '../ui/hit_fx.js?v=v0.2.84-alpha';
-import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.84-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.85-alpha';
+import { SHAPE_STATS } from './moves.js?v=v0.2.85-alpha';
+import { RT } from './sim.js?v=v0.2.85-alpha';
+import { loadFx } from '../ui/hit_fx.js?v=v0.2.85-alpha';
+import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.85-alpha';
 // crystal icon (inline, no asset): a faceted gem
 export const GEM_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 9 12 22 4 9Z" fill="#bff6ff"/><path d="M12 2 16 9 12 22 8 9Z" fill="#7fe3ff"/><path d="M4 9h16L12 22Z" fill="#4fc7ef" opacity=".55"/><path d="M12 2 8 9h8Z" fill="#fff" opacity=".8"/></svg>';
-import { heldIconHtml, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.84-alpha'; // held-item icon per slot (Oct 29 2026)
+import { heldIconHtml, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.85-alpha'; // held-item icon per slot (Oct 29 2026)
 
 export const EL_COLOR = { fire: '#ff7a2f', magma: '#ff5a1f', water: '#3fa9ff', freshwater: '#5cc3ff', sea: '#2f86ff', earth: '#c9935a', grass: '#62d65a',
   bug: '#a6d93d', wind: '#c6ecff', bird: '#d6e6ff', light: '#fff1a0', angelic: '#ffe6c2', god: '#ffe08a', dark: '#9a6bff', ghost: '#b796ff', demon: '#ff4f7a',
