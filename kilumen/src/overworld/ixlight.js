@@ -5,8 +5,8 @@
 // a few stepped levels (pixel-art look, no gradients) and cache it as two map-sized native canvases (lower = ground +
 // decoration, upper = overlay tiles). Per frame it is 2 drawImage calls clipped to the view, like the depth pass.
 // Toggle: ?ixlight=0 falls back to the baked shading only. No per-frame lighting maths, so phones stay cheap.
-import { TILE } from './constants.js?v=v0.2.85-alpha';
-import { loadImage } from './assets.js?v=v0.2.85-alpha';
+import { TILE } from './constants.js?v=v0.2.86-alpha';
+import { loadImage } from './assets.js?v=v0.2.86-alpha';
 
 const N_URL_RE = /tiles_\dx\/interior\.png$/;
 const PHASE_LIGHT = { // window light by OUTDOOR phase: colour, strength

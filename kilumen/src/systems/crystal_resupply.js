@@ -7,7 +7,7 @@
 // after. No coin cost: the paycheck line is flavour only (Gary 2:40 PM CT "no actual deduction").
 // Restock happens without RITA too (?cv=0 / mode Off) so the run can never soft-lock. Save: _dirty -> the usual step
 // save; company_voice.js checkpoints before showing and never saves while the strip is up.
-import { OPEN, ownedLogged } from '../overworld/intro.js?v=v0.2.85-alpha';
+import { OPEN, ownedLogged } from '../overworld/intro.js?v=v0.2.86-alpha';
 
 const PLUS = 'dominance_crystal_plus'; // Prime Crystals also count as "not out"
 
