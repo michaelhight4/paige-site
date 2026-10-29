@@ -5,7 +5,7 @@
 
 /** The three lab starters, cradle order (config.starterCradles cradle_1..3). */
 export const STARTERS = ['nibbin', 'cindrip', 'rillop'];
-/** Starters from older builds (v0.2.72-alpha saves picked Tumbloam). They keep working: same counter as the earth slot. */
+/** Starters from older builds (v0.2.73-alpha saves picked Tumbloam). They keep working: same counter as the earth slot. */
 export const LEGACY_STARTERS = ['tumbloam'];
 export const ALL_STARTERS = [...STARTERS, ...LEGACY_STARTERS];
 

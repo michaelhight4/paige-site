@@ -1,7 +1,7 @@
 // Kilumen overworld: map model (pure, no DOM). Loads the World Design map JSON format
 // (art/world/overworld/OVERWORLD_README.md sections 6-7) and answers collision / warp / exit queries.
-import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.72-alpha';
-import { DEV } from '../dev/runtime.js?v=v0.2.72-alpha';
+import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.73-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.73-alpha';
 
 export const LAYER_ORDER = ['ground', 'decoration', 'overlay']; // overlay is y-sorted with characters (see renderer)
 const GRID_LAYERS = ['ground', 'decoration', 'overlay', 'collision', 'encounter', 'fog']; // fog: mirefen_bog, drawn last
