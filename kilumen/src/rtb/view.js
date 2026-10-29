@@ -6,6 +6,9 @@ import { displayName } from '../systems/creature.js?v=v0.2.60-alpha';
 import { SHAPE_STATS } from './moves.js?v=v0.2.60-alpha';
 import { RT } from './sim.js?v=v0.2.60-alpha';
 import { loadFx } from '../ui/hit_fx.js?v=v0.2.60-alpha';
+import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.60-alpha';
+// crystal icon (inline, no asset): a faceted gem
+export const GEM_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 9 12 22 4 9Z" fill="#bff6ff"/><path d="M12 2 16 9 12 22 8 9Z" fill="#7fe3ff"/><path d="M4 9h16L12 22Z" fill="#4fc7ef" opacity=".55"/><path d="M12 2 8 9h8Z" fill="#fff" opacity=".8"/></svg>';
 
 export const EL_COLOR = { fire: '#ff7a2f', magma: '#ff5a1f', water: '#3fa9ff', freshwater: '#5cc3ff', sea: '#2f86ff', earth: '#c9935a', grass: '#62d65a',
   bug: '#a6d93d', wind: '#c6ecff', bird: '#d6e6ff', light: '#fff1a0', angelic: '#ffe6c2', god: '#ffe08a', dark: '#9a6bff', ghost: '#b796ff', demon: '#ff4f7a',
@@ -73,6 +76,37 @@ body.rtb-touch .rtb-nm{font-size:13px}
 body.rtb-touch .rtb-s{font-size:12px}
 body.rtb-touch .rtb-help{display:none}
 body.rtb-touch .rtb-banner{font-size:22px;top:30%}
+.rtb-cap{display:flex;align-items:center;gap:7px;min-width:118px;border-color:#7fe3ff;background:linear-gradient(#1d4a66e6,#0f2a40e6);box-shadow:0 0 0 0 rgba(127,227,255,.6);animation:rtbCapGlow 1.8s ease-in-out infinite}
+.rtb-cap .ci{width:22px;height:22px;display:inline-block;animation:rtbGem 1.8s ease-in-out infinite}.rtb-cap .ci svg{width:100%;height:100%}
+.rtb-cap .cl{font-size:14px;font-weight:800;letter-spacing:.02em}
+.rtb-cap kbd{font:700 11px/1 system-ui,sans-serif;padding:3px 6px;border-radius:5px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45)}
+.rtb-cap .cn{font-style:normal;font-size:11px;opacity:.85;margin-left:auto}
+.rtb-cap.open{border-color:#ffd25a;background:linear-gradient(#5a4a1ae6,#3a2c0ae6)}
+.rtb-cap[disabled]{animation:none;filter:grayscale(.7)}.rtb-cap[disabled] .ci{animation:none}
+.rtb-cap[hidden]{display:none}
+@keyframes rtbCapGlow{50%{box-shadow:0 0 14px 2px rgba(127,227,255,.55)}}
+@keyframes rtbGem{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.12)}}
+body.rtb-touch .rtb-cap{position:fixed;right:max(14px,env(safe-area-inset-right));top:42%;width:82px;height:82px;min-width:0;border-radius:50%;flex-direction:column;justify-content:center;gap:2px;padding:4px;border-width:3px}
+body.rtb-touch .rtb-cap .ci{width:34px;height:34px}body.rtb-touch .rtb-cap kbd{display:none}body.rtb-touch .rtb-cap .cl{font-size:13px}
+body.rtb-touch .rtb-cap .cn{position:absolute;right:-4px;top:-4px;background:#0f2a40;border:2px solid #7fe3ff;border-radius:10px;padding:1px 5px;opacity:1;margin:0}
+.rtb-captab{position:absolute;left:50%;bottom:150px;transform:translateX(-50%) scale(.85);opacity:0;width:330px;background:rgba(12,22,36,.93);border:2px solid #7fe3ff;border-radius:14px;padding:9px 10px 7px;pointer-events:auto;transition:opacity .14s,transform .2s cubic-bezier(.2,1.5,.4,1);box-shadow:0 8px 30px rgba(0,0,0,.5),0 0 22px rgba(127,227,255,.25)}
+.rtb-captab.on{opacity:1;transform:translateX(-50%) scale(1)}
+.rtb-captab h3{margin:0 0 4px;font-size:15px;display:flex;align-items:center;gap:6px}.rtb-captab h3 svg{width:18px;height:18px}
+.rtb-captab h3 .sl{margin-left:auto;font-size:10px;font-weight:700;color:#ffd25a;letter-spacing:.05em;text-transform:uppercase;animation:rtbQ2 .8s infinite alternate}
+@keyframes rtbQ2{to{opacity:.45}}
+.rtb-cf{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}.rtb-cf span{font-size:11px;padding:1px 6px;border-radius:9px;background:rgba(255,255,255,.1)}
+.rtb-cf .g{color:#8be37a}.rtb-cf .b{color:#ffa94d}
+.rtb-cr{display:grid;grid-template-columns:22px 26px 1fr auto;align-items:center;gap:7px;min-height:44px;padding:4px 7px;margin-top:4px;border-radius:9px;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.1);cursor:pointer;touch-action:none}
+.rtb-cr:hover,.rtb-cr.hi{border-color:#7fe3ff;background:rgba(127,227,255,.14)}
+.rtb-cr .k{font:700 11px/17px system-ui,sans-serif;text-align:center;border-radius:4px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4)}
+.rtb-cr svg{width:24px;height:24px}.rtb-cr .nm{font-size:13px;font-weight:700;line-height:1.1}.rtb-cr .nm small{display:block;font-weight:400;opacity:.75}
+.rtb-cr .od{min-width:70px;text-align:right;font-size:12px;font-weight:800}.rtb-cr .od i{display:block;height:5px;margin-top:3px;border-radius:3px;background:rgba(0,0,0,.5);overflow:hidden}.rtb-cr .od i b{display:block;height:100%;border-radius:3px}
+.rtb-ch{font-size:11px;opacity:.7;text-align:center;margin-top:6px}
+.rtb-cnone{font-size:13px;opacity:.85;padding:6px 2px}
+body.rtb-touch .rtb-cr .k{visibility:hidden}
+body.rtb-touch .rtb-captab{bottom:auto;top:50%;transform:translate(-50%,-50%) scale(.85);width:min(360px,60vw)}
+body.rtb-touch .rtb-captab.on{transform:translate(-50%,-50%) scale(1)}
+.rtb-hud.cap-open .rtb-vig{box-shadow:inset 0 0 160px rgba(60,170,255,.35)}
 `;
 
 const hpCls = (f) => (f < 0.25 ? 'low' : f < 0.5 ? 'mid' : '');
@@ -88,10 +122,10 @@ export class RtView {
     document.body.classList.toggle('rtb-touch', !!touch);
     this.hud = document.createElement('div'); this.hud.className = 'rtb-hud'; this.hud.dataset.rtb = 'hud';
     this.hud.innerHTML = `<div class="rtb-bars"></div><div class="rtb-vig"></div><div class="rtb-plates"></div>
-      <div class="rtb-act"><button class="rtb-b" data-rtb="swap">Team<small>${keyNames.swap}</small></button><button class="rtb-b" data-rtb="crystal">Crystal<small>${keyNames.crystal}</small></button><button class="rtb-b" data-rtb="leave">Leave<small>${keyNames.leave}</small></button></div>
+      <div class="rtb-act"><button class="rtb-b" data-rtb="swap">Team<small>${keyNames.swap}</small></button><button class="rtb-b rtb-cap" data-rtb="crystal" aria-label="${CT.button} (${keyNames.crystal || 'tap'})"><span class="ci">${GEM_SVG}</span><span class="cl">${CT.button}</span>${keyNames.crystal ? `<kbd>${keyNames.crystal}</kbd>` : ''}<em class="cn"></em></button><button class="rtb-b" data-rtb="leave">Leave<small>${keyNames.leave}</small></button></div>
       <div class="rtb-me"><div class="rtb-nm"><span data-rtb="aname"></span><span data-rtb="alv"></span></div><div class="rtb-bar" data-rtb="ahp"><b></b><i></i></div>
       <div class="rtb-bar rtb-xp" data-rtb="axp"><i></i></div><div class="rtb-sk"></div><div class="rtb-party" data-rtb="party"></div></div>
-      <div class="rtb-banner"></div><div class="rtb-help">${keyNames.help}</div>`;
+      <div class="rtb-captab" data-rtb="captab" hidden></div><div class="rtb-banner"></div><div class="rtb-help">${keyNames.help}</div>`;
     document.body.appendChild(this.hud);
     this.$ = (s) => this.hud.querySelector(s);
     this.parts = []; this.nums = []; this.rings = []; this.trails = new WeakMap(); this.gone = new Map(); this.shake = 0; this.shakeX = 0; this.shakeY = 0;
@@ -174,12 +208,17 @@ export class RtView {
         case 'xp': this.num(f.x, f.y - 74, `+${e.n} XP`, '#6cc8ff'); break;
         case 'levelup': this.banner(`${name(f)} grew to Lv ${e.level}!`, '', 1500); this.rings.push({ x: f.x, y: f.y, column: true, t: 0, life: 0.9, color: '#ffe27a' }); this.burst(f.x, f.y - 20, '#ffe27a', 24, 140, 0.9, 3); break;
         case 'swap': this.banner(`Go, ${name(e.to)}!`, '', 900); this.burst(e.to.x, e.to.y - 10, '#ffffff', 16, 150, 0.5, 3); this.gone.delete(e.to); break;
-        case 'crystalCast': this.num(f.x, f.y - 60, 'Crystal!', '#bff6ff'); break;
-        case 'crystalMiss': this.burst(e.x, e.y, '#bff6ff', 8, 90, 0.4, 2); this.num(e.x, e.y - 20, 'Missed', '#bff6ff'); break;
-        case 'crystalHit': this.rings.push({ x: f.x, y: f.y - 10, r0: 60, r1: 24, t: 0, life: 0.35, color: '#bff6ff' }); stop = Math.max(stop, 0.08); break;
-        case 'pulse': this.rings.push({ x: f.x, y: f.y - 10, r0: 20, r1: 46, t: 0, life: 0.35, color: '#bff6ff' }); this.kick(2); this.num(f.x, f.y - 70, '.'.repeat(e.n), '#bff6ff'); break;
-        case 'caught': this.gone.set(f, { t: 0, caught: true }); this.burst(f.x, f.y - 10, '#bff6ff', 30, 200, 0.9, 4); this.scene.audio?.sfx('catch'); this.banner('Caught!', `${name(f)} joins you.`, 1700); stop = 0.15; break;
-        case 'breakFree': this.burst(f.x, f.y - 10, '#bff6ff', 14, 220, 0.5, 3); this.banner(`${name(f)} broke free!`, 'And it is angry.', 1100); this.bubbles.push({ who: f, text: '!!', t: 0, life: 0.9, color: '#ff6b6b' }); this.kick(5); break;
+        case 'crystalCast': this.num(f.x, f.y - 60, CT.launch, '#bff6ff'); this.burst(f.x, f.y - 14, '#e9fdff', 8, 110, 0.35, 2); this.scene.audio?.sfx('select'); break;
+        case 'crystalMiss': this.burst(e.x, e.y, '#bff6ff', 8, 90, 0.4, 2); this.num(e.x, e.y - 20, CT.missed, '#bff6ff'); break;
+        case 'crystalHit': this.rings.push({ x: f.x, y: f.y - 10, r0: 60, r1: 24, t: 0, life: 0.35, color: '#bff6ff' }); stop = Math.max(stop, 0.08);
+          this.cap = { foe: f, x: f.x, y: f.y + 6, t: 0, wob: 0, dir: 1, n: 0, end: null }; this.burst(f.x, f.y - 10, '#ffffff', 12, 160, 0.4, 3); break;
+        case 'pulse': if (this.cap) { this.cap.wob = 1; this.cap.dir = e.n % 2 ? 1 : -1; this.cap.n = e.n; }
+          this.rings.push({ x: f.x, y: f.y - 4, r0: 14, r1: 40, t: 0, life: 0.35, color: '#bff6ff' }); this.kick(2); this.num(f.x, f.y - 50, '.'.repeat(e.n), '#bff6ff'); this.scene.audio?.sfx('cursor'); break;
+        case 'caught': this.gone.set(f, { t: 0, caught: true }); this.sparkle(f.x, f.y - 4); this.scene.audio?.sfx('catch');
+          if (this.cap) this.cap.end = { ok: true, t: 0 }; this.banner(CT.caught, ct(CT.caught_sub, { name: name(f) }), 1700); stop = 0.15; break;
+        case 'breakFree': { if (this.cap) this.cap.end = { ok: false, t: 0 }; this.shards(this.cap?.x ?? f.x, (this.cap?.y ?? f.y) - 8); f.popT = 0.35;
+          this.banner(ct(CT.broke, { name: name(f) }), CT.broke_sub, 1100);
+          this.bubbles.push({ who: f, text: CT.react[Math.floor(Math.random() * CT.react.length)], t: 0, life: 1.1, color: '#ff6b6b' }); this.kick(6); stop = Math.max(stop, 0.07); this.scene.audio?.sfx('back'); break; }
         case 'select': { const s = this.hud.querySelectorAll('.rtb-s')[e.slot]; s?.classList.remove('pop'); void s?.offsetWidth; s?.classList.add('pop'); this.scene.audio?.sfx('cursor'); break; }
         case 'end':
           if (e.outcome === 'win') this.banner('Fight won!', this.sim.xpGained ? `+${this.sim.xpGained} XP` : '', 1500);
@@ -220,8 +259,12 @@ export class RtView {
     for (const f of bodies) this.drawBody(c, f, dt);
     // shots
     for (const s of sim.shots) this.drawShot(c, s, dt);
+    this.drawCapture(c, dt);
     // particles
-    for (const p of this.parts) { p.t += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 260 * dt; p.vx *= 0.96; c.globalAlpha = Math.max(0, 1 - p.t / p.life); c.fillStyle = p.color; c.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size); }
+    for (const p of this.parts) { p.t += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 260 * dt; p.vx *= 0.96; c.globalAlpha = Math.max(0, 1 - p.t / p.life); c.fillStyle = p.color;
+      if (p.star) { const r = p.size * (1 + 0.5 * Math.sin(p.t * 20)); p.vy -= 200 * dt; c.beginPath(); c.moveTo(p.x, p.y - r * 1.6); c.lineTo(p.x + r * 0.35, p.y - r * 0.35); c.lineTo(p.x + r * 1.6, p.y); c.lineTo(p.x + r * 0.35, p.y + r * 0.35); c.lineTo(p.x, p.y + r * 1.6); c.lineTo(p.x - r * 0.35, p.y + r * 0.35); c.lineTo(p.x - r * 1.6, p.y); c.lineTo(p.x - r * 0.35, p.y - r * 0.35); c.closePath(); c.fill(); }
+      else if (p.shard != null) { c.save(); c.translate(p.x, p.y); c.rotate(p.shard + p.t * 12); c.beginPath(); c.moveTo(0, -p.size); c.lineTo(p.size * 0.5, 0); c.lineTo(0, p.size * 0.7); c.lineTo(-p.size * 0.5, 0); c.closePath(); c.fill(); c.restore(); }
+      else c.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size); }
     c.globalAlpha = 1; this.parts = this.parts.filter((p) => p.t < p.life);
     // floating HP bars over foes
     for (const f of sim.foes) if (f.alive && !f.caught) { const w = 46, fr = f.c.hp / f.mhp; c.fillStyle = 'rgba(0,0,0,.6)'; c.fillRect(f.x - w / 2 - 1, f.y - 64, w + 2, 7); c.fillStyle = fr < 0.25 ? '#ff5252' : fr < 0.5 ? '#ffd34d' : '#5be37a'; c.fillRect(f.x - w / 2, f.y - 63, w * fr, 5); if (f === sim.target) { c.strokeStyle = '#ffd25a'; c.lineWidth = 2; const b = 4 + Math.sin(this.t * 8) * 2; c.strokeRect(f.x - 30 - b, f.y - 50 - b, 60 + 2 * b, 70 + 2 * b); } }
@@ -245,6 +288,8 @@ export class RtView {
     const g = this.gone.get(f); let alpha = 1, scale = 1, spin = 0;
     if (g) { g.t += dt; const p = Math.min(1, g.t / 0.5); alpha = 1 - p; scale = g.caught ? 1 - p : 1 + p * 0.3; spin = g.caught ? 0 : p * 0.6; if (p >= 1) return; }
     if (f.ai?.state === 'alert') scale *= Math.min(1, 0.3 + (this.sim.t) / 0.25);
+    if (f.held && !g) { const k = this.cap; const p = k ? Math.min(1, k.t / 0.25) : 1; scale *= 1 - 0.75 * p; alpha *= 1 - 0.7 * p; }
+    if (f.popT > 0) { f.popT -= dt; scale *= 1 + f.popT * 1.4; }
     const im = this.sheet(f.c.species);
     const fx = f.face?.x || 0, fy = f.face?.y || 0, row = Math.abs(fx) > Math.abs(fy) ? (fx < 0 ? 1 : 2) : (fy < 0 ? 3 : 0);
     const moving = Math.hypot(f.vx, f.vy) > 20 || f.dash, colN = moving ? 1 + (Math.floor(this.t * (f.dash ? 16 : 9)) % 4) : 0;
@@ -264,7 +309,7 @@ export class RtView {
       if (f.act && f.side === 'foe' && !this.reduced) { const fc = this.flashC.getContext('2d'); fc.clearRect(0, 0, 64, 64); fc.globalCompositeOperation = 'source-over'; fc.drawImage(im, colN * 64, row * 64, 64, 64, 0, 0, 64, 64); fc.globalCompositeOperation = 'source-atop'; fc.fillStyle = 'rgba(255,60,60,0.45)'; fc.fillRect(0, 0, 64, 64); c.drawImage(this.flashC, -32, -62); }
     } else { c.fillStyle = f.side === 'ally' ? '#7dd3ff' : '#ff9a7a'; c.beginPath(); c.arc(0, -22, 20, 0, Math.PI * 2); c.fill(); }
     c.restore();
-    if (f.held) { c.strokeStyle = '#bff6ff'; c.lineWidth = 3; c.globalAlpha = 0.6 + 0.4 * Math.sin(this.t * 10); c.beginPath(); c.arc(f.x, f.y - 10, 34, 0, Math.PI * 2); c.stroke(); for (let i = 0; i < 4; i++) { const a = this.t * 3 + i * Math.PI / 2; c.fillStyle = '#bff6ff'; c.fillRect(f.x + Math.cos(a) * 36 - 3, f.y - 10 + Math.sin(a) * 36 - 3, 6, 6); } }
+    if (f.held && !this.cap) { c.strokeStyle = '#bff6ff'; c.lineWidth = 3; c.globalAlpha = 0.6 + 0.4 * Math.sin(this.t * 10); c.beginPath(); c.arc(f.x, f.y - 10, 34, 0, Math.PI * 2); c.stroke(); for (let i = 0; i < 4; i++) { const a = this.t * 3 + i * Math.PI / 2; c.fillStyle = '#bff6ff'; c.fillRect(f.x + Math.cos(a) * 36 - 3, f.y - 10 + Math.sin(a) * 36 - 3, 6, 6); } }
     if (f.drowsy > 0) { c.fillStyle = '#c6b6ff'; c.font = '700 16px system-ui'; c.fillText('z', f.x + 18 + Math.sin(this.t * 3) * 4, f.y - 46 - (this.t * 20) % 16); }
     c.globalAlpha = 1;
   }
@@ -304,7 +349,7 @@ export class RtView {
       r.classList.toggle('sel', i === sim.selected); r.classList.toggle('empty', en <= 0);
     });
     this.partyFrame();
-    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.disabled = !cr || !!sim.caught || sim.trainer; cb.firstChild.textContent = `Crystal ×${cr}`;
+    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.hidden = !!sim.trainer; cb.disabled = !cr || !!sim.caught || !!sim.trainer || !!sim.capture; cb.querySelector('.cn').textContent = ct(CT.count, { n: cr }); cb.querySelector('.cl').textContent = cr ? CT.button : CT.button_none; cb.classList.toggle('open', !!this.capOpen);
     this.$('[data-rtb="swap"]').disabled = sim.party.filter((c) => c.hp > 0).length < 2 || sim.swapCd > 0;
     this.$('[data-rtb="leave"]').classList.toggle('hold', sim.retreatT > 0);
   }
@@ -322,6 +367,51 @@ export class RtView {
       el.classList.toggle('on', i === sim.active); el.classList.toggle('ko', !(c.hp > 0)); el.classList.toggle('cd', i !== sim.active && sim.swapCd > 0);
       el.querySelector('.ph').style.width = `calc(${Math.max(0, c.hp / (this.maxHpOf?.(c) || c.maxHp || c.hp || 1)) * 100}% - 4px)`;
     });
+  }
+
+  /** success: four-point stars that twinkle out + a soft ring */
+  sparkle(x, y) {
+    const n = this.reduced ? 6 : 18;
+    for (let i = 0; i < n; i++) { const a = (i / n) * Math.PI * 2 + Math.random() * 0.3, s = 70 + Math.random() * 120; this.parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 60, t: 0, life: 0.9 + Math.random() * 0.5, color: i % 3 ? '#e9fdff' : '#ffe27a', size: 5, star: true }); }
+    this.rings.push({ x, y, r0: 8, r1: 70, t: 0, life: 0.5, color: '#ffe27a' });
+  }
+  /** break-out: crystal shards fly off, spinning */
+  shards(x, y) {
+    const n = this.reduced ? 4 : 12;
+    for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, s = 120 + Math.random() * 180; this.parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 90, t: 0, life: 0.6 + Math.random() * 0.3, color: i % 2 ? '#bff6ff' : '#7fe3ff', size: 6, shard: Math.random() * 6 }); }
+  }
+  /** the crystal on the ground: wobbles on each pulse, glows, then shines (caught) or cracks (broke free) */
+  drawCapture(c, dt) {
+    const k = this.cap; if (!k) return; k.t += dt; k.wob = Math.max(0, k.wob - dt * 2.4);
+    if (k.end) { k.end.t += dt; if (k.end.t > (k.end.ok ? 1.1 : 0.05)) { this.cap = null; return; } }
+    const drop = Math.min(1, k.t / 0.18), y = k.y - (1 - drop) * 30;
+    const ang = this.reduced ? 0 : Math.sin(k.t * 22) * 0.45 * k.wob * k.dir;
+    const glow = 0.35 + 0.25 * Math.sin(k.t * 6) + (k.end?.ok ? 0.5 : 0);
+    c.save(); c.translate(k.x, y);
+    c.globalAlpha = 0.3; c.fillStyle = '#000'; c.beginPath(); c.ellipse(0, 4, 12, 4, 0, 0, Math.PI * 2); c.fill();
+    const gr = c.createRadialGradient(0, -10, 1, 0, -10, 30); gr.addColorStop(0, `rgba(191,246,255,${Math.min(1, glow)})`); gr.addColorStop(1, 'rgba(191,246,255,0)');
+    c.globalAlpha = 1; c.fillStyle = gr; c.beginPath(); c.arc(0, -10, 30, 0, Math.PI * 2); c.fill();
+    c.rotate(ang); c.translate(0, -12);
+    const sq = k.wob > 0.6 && !this.reduced ? 1 + (k.wob - 0.6) * 0.5 : 1; c.scale(1 / sq, sq);
+    c.fillStyle = '#4fc7ef'; c.beginPath(); c.moveTo(0, -14); c.lineTo(10, -3); c.lineTo(0, 13); c.lineTo(-10, -3); c.closePath(); c.fill();
+    c.fillStyle = '#bff6ff'; c.beginPath(); c.moveTo(0, -14); c.lineTo(5, -3); c.lineTo(0, 13); c.lineTo(-5, -3); c.closePath(); c.fill();
+    c.fillStyle = '#ffffff'; c.globalAlpha = 0.85; c.beginPath(); c.moveTo(0, -14); c.lineTo(-5, -3); c.lineTo(5, -3); c.closePath(); c.fill();
+    if (k.end?.ok) { c.globalAlpha = Math.max(0, 1 - k.end.t); c.fillStyle = '#ffe27a'; c.beginPath(); c.arc(0, 0, 18 * (1 + k.end.t), 0, Math.PI * 2); c.fill(); }
+    // pips for pulses done (1-4)
+    c.restore(); c.globalAlpha = 1;
+    for (let i = 0; i < 4; i++) { c.fillStyle = i < k.n ? '#bff6ff' : 'rgba(255,255,255,.18)'; c.fillRect(k.x - 15 + i * 8, k.y + 10, 6, 3); }
+  }
+  /** capture tab: st = {open, items:[{id,name,n,p,band}], foe, factors:[{k,good}], hl} */
+  capTab(st) {
+    const el = this.$('[data-rtb="captab"]'); if (!el) return;
+    this.hud.classList.toggle('cap-open', !!st?.open);
+    if (!st?.open) { if (el.classList.contains('on')) { el.classList.remove('on'); clearTimeout(this._ct); this._ct = setTimeout(() => { el.hidden = true; }, 160); } return; }
+    clearTimeout(this._ct);
+    if (el.hidden) { el.hidden = false; void el.offsetWidth; el.classList.add('on'); }
+    const key = JSON.stringify([st.items.map((i) => [i.id, i.n, Math.round(i.p * 100)]), st.factors, st.hl, st.foe]);
+    if (el.dataset.k === key) return; el.dataset.k = key;
+    const rows = st.items.length ? st.items.map((it, i) => `<div class="rtb-cr${i === st.hl ? ' hi' : ''}" data-cap="${i}" role="button" aria-label="${it.name}"><span class="k">${i + 1}</span>${GEM_SVG}<span class="nm">${it.name}<small>${ct(CT.count, { n: it.n })}</small></span><span class="od" style="color:${BAND_COLOR[it.band]}">${CT['odds_' + it.band]}<i><b style="width:${Math.max(4, Math.round(it.p * 100))}%;background:${BAND_COLOR[it.band]}"></b></i></span></div>`).join('') : `<div class="rtb-cnone">${CT.none}</div>`;
+    el.innerHTML = `<h3>${GEM_SVG}${CT.title}: ${st.foe}<span class="sl">${CT.slowed}</span></h3><div class="rtb-cf">${st.factors.map((f) => `<span class="${f.good ? 'g' : 'b'}">${CT[f.k]}</span>`).join('')}</div>${rows}<div class="rtb-ch">${this.touch ? CT.hint_touch : ct(CT.hint_pc, { n: Math.max(1, st.items.length) })}</div>`;
   }
   partyNo(i) { const el = this.$(`.rtb-pi[data-i="${i}"]`); if (!el) return; el.classList.remove('no'); void el.offsetWidth; el.classList.add('no'); }
   destroy() {
