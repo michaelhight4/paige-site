@@ -1,7 +1,7 @@
 // Kilumen sports: Dash Race simulation (pure, no DOM). 100 m straight, 4 lanes, ~20-26 s. Dev test, Oct 28 2026.
 // Outcome = stats + traits + light seeded noise + 3 timed inputs (start tap, mid push, final sprint). The inputs are worth
 // a few percent of race time; a stat gap between species is worth much more, so taps help but do not override stats.
-import { rngFor } from './rng.js?v=v0.2.40-alpha';
+import { rngFor } from './rng.js?v=v0.2.41-alpha';
 
 export const DIST = 100, PUSH_AT = 45, SPRINT_AT = 78, WINDOW_S = 1.5;
 export const TUNING = {

@@ -10,9 +10,9 @@
 // no system reads or writes those blocks yet. Older saves go through MIGRATIONS one step at a time (v1 -> v2 ...),
 // so an old save always loads. The storage key keeps its v1 name so existing saves are found.
 
-import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.40-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
-import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.40-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
-import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.40-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
+import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.41-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
+import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.41-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
+import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.41-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
 
 export const SAVE_VERSION = 2;
 // Padded maps (Gary, Oct 23 2026, 10:25 AM CT): positions are stored in the padded-map frame from now on. A save without
@@ -232,6 +232,7 @@ export class SaveStore {
       const prev = this.storage.getItem(this.key);
       if (prev && isLoadableSave(prev)) this.storage.setItem(this.bakKey, prev); // [free-tools pass] never replace a good backup with a bad save
       this.storage.setItem(this.key, json);
+      try { this.onSaved?.(json); } catch (e) { console.warn('cloud save:', e?.message || e); } // cloud saves: only after the local save succeeded
       return true;
     } catch (e) { this.lastError = e.message; return false; }
   }
