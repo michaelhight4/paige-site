@@ -22,7 +22,7 @@ export const RT = {
   enragedAt: 0.35, moveBase: 150, movePerSpe: 1.5, moveMax: 300, sprint: 1.45, foeMoveMult: 0.85,
   dodgeTime: 0.17, dodgeSpeed: 3.1, dodgeIframes: 0.24, dodgeCd: 0.65, nearMiss: 20,
   hitIframes: 0.14, hitstun: 0.16, flinchFrac: 0.12, swapTime: 0.45, swapCd: 2.5, retreatHold: 1.0,
-  pulse: 0.5, crystalSpeed: 560, crystalRange: 420, alert: 0.55, bodyR: 22, foeDodge: 0.22, foeDodgeCd: 2.2,
+  pulse: 0.5, crystalSpeed: 560, crystalRange: 420, raiseT: 0.42, alert: 0.55, bodyR: 22, foeDodge: 0.22, foeDodgeCd: 2.2,
   boostTime: 10, drowsyTime: 2.6, scorchTime: 6, scorchTick: 2, buffer: 0.2, outro: 1.1, forcedSwapDelay: 0.9,
 };
 
@@ -76,7 +76,7 @@ export class RtBattle {
       this._place(fx); return fx;
     });
     this.shots = []; this.events = []; this.t = 0; this.state = 'fight'; this.outT = 0; this.outcome = null;
-    this.token = null; this.caught = null; this.crystalUsed = 0; this.capture = null; this.swapCd = 0; this.retreatT = 0;
+    this.token = null; this.caught = null; this.crystalUsed = 0; this.capture = null; this.raising = null; this.swapCd = 0; this.retreatT = 0;
     this.buffer = null; this.xpGained = 0; this.forced = 0; this.selected = 0; this.target = null; this.used = new Set();
     for (const f of this.foes) { f.ai.state = 'alert'; f.ai.t = RT.alert + this.rng() * 0.25; this.emit('alert', { who: f }); }
   }
@@ -118,6 +118,7 @@ export class RtBattle {
     for (const f of this.foes) if (f.alive && !f.caught) this._ai(f, dt);
     this._tickBodies(dt, input);
     this._tickShots(dt);
+    this._tickRaise(dt);
     this._tickCapture(dt);
     if (this.forced > 0 && (this.forced -= dt) <= 0) this._forcedSwap();
     if (this.state === 'fight' && !this.living.length && !this.capture) this._end('win');
@@ -214,7 +215,6 @@ export class RtBattle {
         s.x += (s.vx * dt) / n; s.y += (s.vy * dt) / n; s.left -= dist / n;
         if (s.sh === 'lob') s.z = Math.sin(Math.min(1, s.age / s.flight) * Math.PI) * 40;
         if (s.sh !== 'lob' && this.solid(s.x, s.y)) { s.dead = true; this.emit('fizzle', { x: s.x, y: s.y, el: s.el }); break; }
-        if (s.crystal) { this._crystalStep(s); continue; }
         if (s.sh === 'lob') continue; // lands at the end of its arc
         for (const o of this._enemiesOf(s.owner)) {
           if (s.hit.has(o)) continue;
@@ -225,8 +225,7 @@ export class RtBattle {
       }
       if (!s.dead && s.left <= 0) {
         s.dead = true;
-        if (s.crystal) this.emit('crystalMiss', { x: s.x, y: s.y });
-        else if (s.splash) { this.emit('splash', { x: s.x, y: s.y, el: s.el, r: s.splash }); for (const o of this._enemiesOf(s.owner)) if (Math.hypot(o.x - s.x, o.y - s.y) < s.splash + o.r) this._strike(s.owner, o, s.slot, o.x - s.x, o.y - s.y, s.overuse); }
+        if (s.splash) { this.emit('splash', { x: s.x, y: s.y, el: s.el, r: s.splash }); for (const o of this._enemiesOf(s.owner)) if (Math.hypot(o.x - s.x, o.y - s.y) < s.splash + o.r) this._strike(s.owner, o, s.slot, o.x - s.x, o.y - s.y, s.overuse); }
         else this.emit('fizzle', { x: s.x, y: s.y, el: s.el });
       }
     }
@@ -337,35 +336,38 @@ export class RtBattle {
   }
   _forcedSwap() { this.swapCd = 0; this.swap(); }
 
-  // ---- capture: a Crystal flies at the locked foe; it can be dodged. On contact: hold + 1-4 pulses (captureRoll)
-  canCrystal() { return this.state === 'fight' && !this.trainer && !this.caught && !this.capture && this.ally.alive && !!this.target && !this.shots.some((s) => s.crystal); }
+  // ---- capture (Kilumen signature, Oct 29 2026; no throw): the trainer HOLDS the crystal up, it glows and draws a ribbon of
+  // light to the locked foe over RT.raiseT s (the ally stands still). A foe that is mid-dodge (dash iframes) when the ribbon
+  // lands slips it; one that leaves crystalRange or faints breaks the link. On contact: the foe dissolves into light that
+  // streams into the held crystal, then 1-4 pulses (captureRoll) and a seal, or it breaks free.
+  canCrystal() { return this.state === 'fight' && !this.trainer && !this.caught && !this.capture && !this.raising && this.ally.alive && !!this.target; }
   castCrystal({ id, grade = 1 } = {}) {
     if (!this.canCrystal()) return false;
-    const a = this.ally, t = this.target, d = Math.hypot(t.x - a.x, t.y - a.y) || 1;
-    this.shots.push({ crystal: { id, grade }, owner: a, x: a.x, y: a.y - 8, vx: ((t.x - a.x) / d) * RT.crystalSpeed, vy: ((t.y - a.y) / d) * RT.crystalSpeed, r: 9, left: RT.crystalRange, hit: new Set(), age: 0, sh: 'crystal', el: 'light' });
-    this.crystalUsed++; a.recover = 0.3;
-    this.emit('crystalCast', { who: a, id });
+    const a = this.ally, t = this.target;
+    this.raising = { crystal: { id, grade }, foe: t, t: RT.raiseT };
+    this.crystalUsed++; a.recover = RT.raiseT + 0.1; a.vx = a.vy = 0;
+    this.emit('crystalCast', { who: a, id, foe: t });
     return true;
   }
-  /** capture odds right now for a foe and a crystal grade (the same numbers _crystalStep rolls against) */
+  _tickRaise(dt) {
+    const r = this.raising; if (!r) return;
+    const o = r.foe, a = this.ally;
+    if (!o.alive || !a.alive || Math.hypot(o.x - a.x, o.y - a.y) > RT.crystalRange + 60) { this.raising = null; this.emit('crystalMiss', { x: o.x, y: o.y - 10 }); return; }
+    if ((r.t -= dt) > 0) return;
+    this.raising = null;
+    if (o.iframes > 0 && o.dash) { this.emit('dodged', { who: o }); this.emit('crystalMiss', { x: o.x, y: o.y - 10 }); return; }
+    const { p } = this.oddsFor(o, r.crystal.grade);
+    const roll = captureRoll(p, this.rng(), this.forceCatch);
+    o.held = true; o.act = null; o.dash = null; o.vx = o.vy = 0; if (this.token === o) this.token = null;
+    this.capture = { foe: o, p, roll, n: 0, t: RT.pulse + 0.25, id: r.crystal.id }; // +0.25 s: the dissolve stream reaches the crystal first
+    this.emit('crystalHit', { who: o, p, id: r.crystal.id });
+  }
+  /** capture odds right now for a foe and a crystal grade (the same numbers _tickRaise rolls against) */
   oddsFor(o = this.target, grade = 1) {
     if (!o) return { p: 0, rarity: 0.5 };
     const sp = CREATURES()[o.c.species] || {}, st = o.drowsy > 0 ? KILUMEN_RULES.catchStatus.drowsy : o.scorch > 0 ? KILUMEN_RULES.catchStatus.scorched : 1;
     const rarity = sp.catchRate ?? 0.5;
     return { p: captureChance({ rarity, hp: o.c.hp, maxHp: o.mhp, status: st, grade }), rarity };
-  }
-  _crystalStep(s) {
-    for (const o of this.living) {
-      if (Math.hypot(o.x - s.x, o.y - s.y) >= o.r + s.r) continue;
-      s.dead = true;
-      if (o.iframes > 0 && o.dash) { this.emit('dodged', { who: o }); return; }
-      const { p } = this.oddsFor(o, s.crystal.grade);
-      const roll = captureRoll(p, this.rng(), this.forceCatch);
-      o.held = true; o.act = null; o.dash = null; o.vx = o.vy = 0; if (this.token === o) this.token = null;
-      this.capture = { foe: o, p, roll, n: 0, t: RT.pulse, id: s.crystal.id };
-      this.emit('crystalHit', { who: o, p, id: s.crystal.id });
-      return;
-    }
   }
   _tickCapture(dt) {
     const c = this.capture; if (!c) return;

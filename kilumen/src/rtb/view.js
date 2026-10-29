@@ -208,15 +208,18 @@ export class RtView {
         case 'xp': this.num(f.x, f.y - 74, `+${e.n} XP`, '#6cc8ff'); break;
         case 'levelup': this.banner(`${name(f)} grew to Lv ${e.level}!`, '', 1500); this.rings.push({ x: f.x, y: f.y, column: true, t: 0, life: 0.9, color: '#ffe27a' }); this.burst(f.x, f.y - 20, '#ffe27a', 24, 140, 0.9, 3); break;
         case 'swap': this.banner(`Go, ${name(e.to)}!`, '', 900); this.burst(e.to.x, e.to.y - 10, '#ffffff', 16, 150, 0.5, 3); this.gone.delete(e.to); break;
-        case 'crystalCast': this.num(f.x, f.y - 60, CT.launch, '#bff6ff'); this.burst(f.x, f.y - 14, '#e9fdff', 8, 110, 0.35, 2); this.scene.audio?.sfx('select'); break;
-        case 'crystalMiss': this.burst(e.x, e.y, '#bff6ff', 8, 90, 0.4, 2); this.num(e.x, e.y - 20, CT.missed, '#bff6ff'); break;
-        case 'crystalHit': this.rings.push({ x: f.x, y: f.y - 10, r0: 60, r1: 24, t: 0, life: 0.35, color: '#bff6ff' }); stop = Math.max(stop, 0.08);
-          this.cap = { foe: f, x: f.x, y: f.y + 6, t: 0, wob: 0, dir: 1, n: 0, end: null }; this.burst(f.x, f.y - 10, '#ffffff', 12, 160, 0.4, 3); break;
-        case 'pulse': if (this.cap) { this.cap.wob = 1; this.cap.dir = e.n % 2 ? 1 : -1; this.cap.n = e.n; }
-          this.rings.push({ x: f.x, y: f.y - 4, r0: 14, r1: 40, t: 0, life: 0.35, color: '#bff6ff' }); this.kick(2); this.num(f.x, f.y - 50, '.'.repeat(e.n), '#bff6ff'); this.scene.audio?.sfx('cursor'); break;
-        case 'caught': this.gone.set(f, { t: 0, caught: true }); this.sparkle(f.x, f.y - 4); this.scene.audio?.sfx('catch');
-          if (this.cap) this.cap.end = { ok: true, t: 0 }; this.banner(CT.caught, ct(CT.caught_sub, { name: name(f) }), 1700); stop = 0.15; break;
-        case 'breakFree': { if (this.cap) this.cap.end = { ok: false, t: 0 }; this.shards(this.cap?.x ?? f.x, (this.cap?.y ?? f.y) - 8); f.popT = 0.35;
+        case 'crystalCast': this.cap = { phase: 'raise', ally: f, foe: e.foe, t: 0, tA: 0, wob: 0, dir: 1, n: 0, end: null }; // signature: held high, no throw
+          this.num(f.x, f.y - 92, CT.launch, '#bff6ff'); this.burst(f.x + 8, f.y - 64, '#e9fdff', 10, 90, 0.4, 2); this.scene.audio?.sfx('select'); break;
+        case 'crystalMiss': if (this.cap?.phase === 'raise') this.cap = null; this.burst(e.x, e.y, '#bff6ff', 8, 90, 0.4, 2); this.num(e.x, e.y - 20, CT.missed, '#bff6ff'); break;
+        case 'crystalHit': { this.rings.push({ x: f.x, y: f.y - 10, r0: 24, r1: 60, t: 0, life: 0.35, color: '#bff6ff' }); stop = Math.max(stop, 0.08);
+          const k = this.cap || (this.cap = { ally: this.sim.ally, foe: f, t: 0.42, wob: 0, dir: 1, n: 0, end: null });
+          k.phase = 'absorb'; k.tA = 0; k.fx = f.x; k.fy = f.y - 14; k.col = col(f.c?.el || f.el) || '#bff6ff';
+          k.motes = Array.from({ length: this.reduced ? 6 : 16 }, (_, i) => ({ d: i * 0.016, ox: (Math.random() - 0.5) * 36, oy: (Math.random() - 0.5) * 30, w: (Math.random() - 0.5) * 50 })); break; }
+        case 'pulse': if (this.cap) { this.cap.wob = 1; this.cap.dir = e.n % 2 ? 1 : -1; this.cap.n = e.n; const g = this.capGem(); if (g) this.rings.push({ x: g.x, y: g.y, r0: 12, r1: 38, t: 0, life: 0.35, color: '#bff6ff' }); }
+          this.kick(2); this.scene.audio?.sfx('cursor'); break;
+        case 'caught': { this.gone.set(f, { t: 0, caught: true }); const g = this.capGem() || { x: f.x, y: f.y }; this.sparkle(g.x, g.y); this.scene.audio?.sfx('catch');
+          if (this.cap) this.cap.end = { ok: true, t: 0 }; this.banner(CT.caught, ct(CT.caught_sub, { name: name(f) }), 1700); stop = 0.15; break; }
+        case 'breakFree': { const g = this.capGem() || { x: f.x, y: f.y }; if (this.cap) this.cap.end = { ok: false, t: 0 }; this.shards(g.x, g.y); this.burst(f.x, f.y - 14, '#bff6ff', 14, 170, 0.45, 3); f.popT = 0.35;
           this.banner(ct(CT.broke, { name: name(f) }), CT.broke_sub, 1100);
           this.bubbles.push({ who: f, text: CT.react[Math.floor(Math.random() * CT.react.length)], t: 0, life: 1.1, color: '#ff6b6b' }); this.kick(6); stop = Math.max(stop, 0.07); this.scene.audio?.sfx('back'); break; }
         case 'select': { const s = this.hud.querySelectorAll('.rtb-s')[e.slot]; s?.classList.remove('pop'); void s?.offsetWidth; s?.classList.add('pop'); this.scene.audio?.sfx('cursor'); break; }
@@ -288,7 +291,7 @@ export class RtView {
     const g = this.gone.get(f); let alpha = 1, scale = 1, spin = 0;
     if (g) { g.t += dt; const p = Math.min(1, g.t / 0.5); alpha = 1 - p; scale = g.caught ? 1 - p : 1 + p * 0.3; spin = g.caught ? 0 : p * 0.6; if (p >= 1) return; }
     if (f.ai?.state === 'alert') scale *= Math.min(1, 0.3 + (this.sim.t) / 0.25);
-    if (f.held && !g) { const k = this.cap; const p = k ? Math.min(1, k.t / 0.25) : 1; scale *= 1 - 0.75 * p; alpha *= 1 - 0.7 * p; }
+    if (f.held && !g) { const k = this.cap; const p = k?.phase === 'absorb' ? Math.min(1, k.tA / 0.3) : 1; scale *= 1 - 0.6 * p; alpha *= 1 - p; if (alpha <= 0.01) return; } // dissolves into the light stream
     if (f.popT > 0) { f.popT -= dt; scale *= 1 + f.popT * 1.4; }
     const im = this.sheet(f.c.species);
     const fx = f.face?.x || 0, fy = f.face?.y || 0, row = Math.abs(fx) > Math.abs(fy) ? (fx < 0 ? 1 : 2) : (fy < 0 ? 3 : 0);
@@ -316,14 +319,13 @@ export class RtView {
   drawShot(c, s, dt) {
     let tr = this.trails.get(s); if (!tr) { tr = []; this.trails.set(s, tr); }
     tr.push({ x: s.x, y: s.y - (s.z || 0) }); if (tr.length > (this.reduced ? 3 : 8)) tr.shift();
-    const color = s.crystal ? '#bff6ff' : col(s.el);
+    const color = col(s.el);
     for (let i = 0; i < tr.length; i++) { c.globalAlpha = (i / tr.length) * 0.5; c.fillStyle = color; const r = s.r * (0.4 + 0.6 * i / tr.length); c.beginPath(); c.arc(tr[i].x, tr[i].y, r, 0, Math.PI * 2); c.fill(); }
     c.globalAlpha = 1;
     if (s.z != null) { c.globalAlpha = 0.3; c.fillStyle = '#000'; c.beginPath(); c.ellipse(s.x, s.y + 12, s.r, s.r * 0.4, 0, 0, Math.PI * 2); c.fill(); c.globalAlpha = 1; }
     const y = s.y - (s.z || 0), gr = c.createRadialGradient(s.x, y, 1, s.x, y, s.r * 1.8);
     gr.addColorStop(0, '#ffffff'); gr.addColorStop(0.35, color); gr.addColorStop(1, 'rgba(255,255,255,0)');
     c.fillStyle = gr; c.beginPath(); c.arc(s.x, y, s.r * 1.8, 0, Math.PI * 2); c.fill();
-    if (s.crystal) { c.save(); c.translate(s.x, y); c.rotate(s.age * 14); c.fillStyle = '#e9fdff'; c.beginPath(); c.moveTo(0, -11); c.lineTo(7, 0); c.lineTo(0, 11); c.lineTo(-7, 0); c.closePath(); c.fill(); c.restore(); }
   }
   hudFrame() {
     const sim = this.sim, a = sim.ally, plates = this.$('.rtb-plates');
@@ -349,7 +351,7 @@ export class RtView {
       r.classList.toggle('sel', i === sim.selected); r.classList.toggle('empty', en <= 0);
     });
     this.partyFrame();
-    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.hidden = !!sim.trainer || globalThis.KILUMEN_RTB_CAPTURE_OFF === true; cb.disabled = !cr || !!sim.caught || !!sim.trainer || !!sim.capture; cb.querySelector('.cn').textContent = ct(CT.count, { n: cr }); cb.querySelector('.cl').textContent = cr ? CT.button : CT.button_none; cb.classList.toggle('open', !!this.capOpen);
+    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.hidden = !!sim.trainer || globalThis.KILUMEN_RTB_CAPTURE_OFF === true; cb.disabled = !cr || !!sim.caught || !!sim.trainer || !!sim.capture || !!sim.raising; cb.querySelector('.cn').textContent = ct(CT.count, { n: cr }); cb.querySelector('.cl').textContent = cr ? CT.button : CT.button_none; cb.classList.toggle('open', !!this.capOpen);
     this.$('[data-rtb="swap"]').disabled = sim.party.filter((c) => c.hp > 0).length < 2 || sim.swapCd > 0;
     this.$('[data-rtb="leave"]').classList.toggle('hold', sim.retreatT > 0);
   }
@@ -381,25 +383,48 @@ export class RtView {
     for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, s = 120 + Math.random() * 180; this.parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 90, t: 0, life: 0.6 + Math.random() * 0.3, color: i % 2 ? '#bff6ff' : '#7fe3ff', size: 6, shard: Math.random() * 6 }); }
   }
   /** the crystal on the ground: wobbles on each pulse, glows, then shines (caught) or cracks (broke free) */
+  /** where the held crystal is: above the trainer-side ally's head, bobbing a little */
+  capGem() { const k = this.cap; if (!k?.ally) return null; return { x: k.ally.x + 10, y: k.ally.y - 66 - (this.reduced ? 0 : Math.sin(k.t * 5) * 2) }; }
+  // Signature capture (no throw): crystal held high -> ribbon of light to the foe -> the foe dissolves into motes that stream
+  // into the crystal -> pulses (wobble) in hand -> seal sparkle, or shatter + break free. Cheap: 1 path + <=16 arcs a frame.
   drawCapture(c, dt) {
     const k = this.cap; if (!k) return; k.t += dt; k.wob = Math.max(0, k.wob - dt * 2.4);
     if (k.end) { k.end.t += dt; if (k.end.t > (k.end.ok ? 1.1 : 0.05)) { this.cap = null; return; } }
-    const drop = Math.min(1, k.t / 0.18), y = k.y - (1 - drop) * 30;
-    const ang = this.reduced ? 0 : Math.sin(k.t * 22) * 0.45 * k.wob * k.dir;
-    const glow = 0.35 + 0.25 * Math.sin(k.t * 6) + (k.end?.ok ? 0.5 : 0);
-    c.save(); c.translate(k.x, y);
-    c.globalAlpha = 0.3; c.fillStyle = '#000'; c.beginPath(); c.ellipse(0, 4, 12, 4, 0, 0, Math.PI * 2); c.fill();
-    const gr = c.createRadialGradient(0, -10, 1, 0, -10, 30); gr.addColorStop(0, `rgba(191,246,255,${Math.min(1, glow)})`); gr.addColorStop(1, 'rgba(191,246,255,0)');
-    c.globalAlpha = 1; c.fillStyle = gr; c.beginPath(); c.arc(0, -10, 30, 0, Math.PI * 2); c.fill();
-    c.rotate(ang); c.translate(0, -12);
-    const sq = k.wob > 0.6 && !this.reduced ? 1 + (k.wob - 0.6) * 0.5 : 1; c.scale(1 / sq, sq);
+    const g = this.capGem(), f = k.foe, up = Math.min(1, k.t / 0.14);
+    const gx = g.x, gy = g.y + (1 - up) * 26; // rises from the hand, never leaves it
+    c.save(); c.lineCap = 'round';
+    // raised arm
+    c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 3; c.beginPath(); c.moveTo(k.ally.x + 6, k.ally.y - 34); c.lineTo(gx, gy + 12); c.stroke();
+    const tx = k.phase === 'absorb' ? k.fx : f.x, ty = k.phase === 'absorb' ? k.fy : f.y - 14;
+    const mx = (gx + tx) / 2, my = Math.min(gy, ty) - 40;
+    let beam = 0; if (k.phase === 'raise') beam = Math.min(1, Math.max(0, (k.t - 0.1) / 0.3)); else if (k.phase === 'absorb') beam = Math.max(0, 1 - k.tA / 0.4);
+    if (beam > 0) { // the ribbon: grows out to the foe during the raise, fades after the stream
+      const n = 18, reach = k.phase === 'raise' ? beam : 1, wav = this.reduced ? 0 : 5;
+      for (const [w, a, colr] of [[10, 0.25, '#7fe3ff'], [4, 0.9, '#e9fdff']]) {
+        c.globalAlpha = a * (k.phase === 'absorb' ? beam : 1); c.strokeStyle = colr; c.lineWidth = w; c.beginPath();
+        for (let i = 0; i <= n * reach; i++) { const u = i / n, v = 1 - u, x = v * v * gx + 2 * v * u * mx + u * u * tx, y = v * v * gy + 2 * v * u * my + u * u * ty + Math.sin(u * 12 - k.t * 18) * wav * u * v * 4; i ? c.lineTo(x, y) : c.moveTo(x, y); }
+        c.stroke();
+      }
+    }
+    if (k.phase === 'absorb' && k.motes) { k.tA += dt; // the creature as light, streaming along the ribbon into the crystal
+      for (const m of k.motes) { const u = Math.min(1, Math.max(0, (k.tA - m.d) / 0.3)); if (u <= 0 || u >= 1) continue;
+        const e = u * u * (3 - 2 * u), v = 1 - e, x = v * v * (tx + m.ox) + 2 * v * e * (mx + m.w) + e * e * gx, y = v * v * (ty + m.oy) + 2 * v * e * my + e * e * gy;
+        c.globalAlpha = 0.9; c.fillStyle = u < 0.5 ? k.col : '#ffffff'; c.beginPath(); c.arc(x, y, 4.5 * (1 - u * 0.6), 0, Math.PI * 2); c.fill(); }
+    } else if (k.phase === 'absorb') k.tA += dt;
+    // the crystal, held aloft, glowing; pulses = squash + tilt in hand
+    const ang = this.reduced ? 0 : Math.sin(k.t * 22) * 0.4 * k.wob * k.dir;
+    const glow = 0.45 + 0.25 * Math.sin(k.t * 7) + (k.phase === 'absorb' && k.tA < 0.4 ? 0.4 : 0) + 0.5 * k.wob + (k.end?.ok ? 0.5 : 0);
+    c.translate(gx, gy); c.globalAlpha = 1;
+    const R = 26 + 10 * k.wob, gr = c.createRadialGradient(0, 0, 1, 0, 0, R); gr.addColorStop(0, `rgba(191,246,255,${Math.min(1, glow)})`); gr.addColorStop(1, 'rgba(191,246,255,0)');
+    c.fillStyle = gr; c.beginPath(); c.arc(0, 0, R, 0, Math.PI * 2); c.fill();
+    c.rotate(ang); const sq = k.wob > 0.5 && !this.reduced ? 1 + (k.wob - 0.5) * 0.5 : 1; c.scale(1 / sq, sq);
     c.fillStyle = '#4fc7ef'; c.beginPath(); c.moveTo(0, -14); c.lineTo(10, -3); c.lineTo(0, 13); c.lineTo(-10, -3); c.closePath(); c.fill();
     c.fillStyle = '#bff6ff'; c.beginPath(); c.moveTo(0, -14); c.lineTo(5, -3); c.lineTo(0, 13); c.lineTo(-5, -3); c.closePath(); c.fill();
     c.fillStyle = '#ffffff'; c.globalAlpha = 0.85; c.beginPath(); c.moveTo(0, -14); c.lineTo(-5, -3); c.lineTo(5, -3); c.closePath(); c.fill();
-    if (k.end?.ok) { c.globalAlpha = Math.max(0, 1 - k.end.t); c.fillStyle = '#ffe27a'; c.beginPath(); c.arc(0, 0, 18 * (1 + k.end.t), 0, Math.PI * 2); c.fill(); }
-    // pips for pulses done (1-4)
+    if (k.end?.ok) { const p = k.end.t; c.globalAlpha = Math.max(0, 1 - p); c.fillStyle = '#ffe27a'; // seal: 4-point star flare
+      c.rotate(p * 2); c.beginPath(); for (let i = 0; i < 8; i++) { const r = i % 2 ? 6 : 26 * (0.6 + p); const a = i * Math.PI / 4; c.lineTo(Math.cos(a) * r, Math.sin(a) * r); } c.closePath(); c.fill(); }
     c.restore(); c.globalAlpha = 1;
-    for (let i = 0; i < 4; i++) { c.fillStyle = i < k.n ? '#bff6ff' : 'rgba(255,255,255,.18)'; c.fillRect(k.x - 15 + i * 8, k.y + 10, 6, 3); }
+    if (k.phase === 'absorb') for (let i = 0; i < 4; i++) { c.fillStyle = i < k.n ? '#bff6ff' : 'rgba(255,255,255,.25)'; c.fillRect(gx - 15 + i * 8, gy - 30, 6, 3); }
   }
   /** capture tab: st = {open, items:[{id,name,n,p,band}], foe, factors:[{k,good}], hl} */
   capTab(st) {

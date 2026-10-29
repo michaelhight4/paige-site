@@ -153,7 +153,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const loop = (now) => {
       if (finished) return;
       let dt = Math.min(0.05, (now - last) / 1000); last = now;
-      if (inp.mode) { if (sim.state !== 'fight') inp.mode = false; else if (!sim.capture && sim.foes.some((f) => f.alive && !f.caught)) return finish(true); } // mid crystal: waits for the result
+      if (inp.mode) { if (sim.state !== 'fight') inp.mode = false; else if (!sim.capture && !sim.raising && sim.foes.some((f) => f.alive && !f.caught)) return finish(true); } // mid crystal: waits for the result
       pollPads();
       if (stop > 0) stop -= dt;
       else {

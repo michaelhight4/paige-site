@@ -600,7 +600,7 @@ Art: art/ui/achievements/*.png are crops / palette recolours of Kilumen's own ma
 Fishing v1, added Oct 29 2026
 --------------------------------------------------------------------------------
 src/fishing/logic.js `ease` (quadOut, backOut, sineInOut): three easing functions adapted (rewritten, same maths) from
-tween.js 25.0.0 (github.com/tweenjs/tween.js, src/Easing.ts: Quadratic.Out, Back.Out, Sinusoidal.InOut), used for the
+tween.js 25.0.0 (github.com/tweenjs/tween.js, src/Easing.ts: Quadratic.Out, Back.Out, Sinusoidal.InOut, Elastic.Out), used for the
 cast arc, the bobber bob and the bite "!" pop. All fishing art (rod, line, bobber, splash, ripples, leaping shadow) is
 drawn in code by Kilumen from its own palette; no third-party art.
 

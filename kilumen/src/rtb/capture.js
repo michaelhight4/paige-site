@@ -4,11 +4,11 @@
 // PLACEHOLDER player-facing text (Text Bot owns the lines; keys rtb_capture.* are stable). {n} {name} {key} fill in.
 export const CT = {
   button: 'Capture', button_none: 'No crystals', title: 'Capture', foe: '{name}',
-  hint_pc: '1-{n} or click to launch · G close', hint_touch: 'Tap a crystal to launch',
+  hint_pc: '1-{n} or click to raise it · G close', hint_touch: 'Tap a crystal to raise it',
   slowed: 'Time slowed', none: 'No crystals left.', count: '×{n}',
   odds_slim: 'Slim', odds_low: 'Low', odds_fair: 'Fair', odds_good: 'Good', odds_great: 'Great',
   f_full: 'Full HP: weaken it first', f_hurt: 'Hurt', f_weak: 'Badly hurt', f_drowsy: 'Drowsy', f_scorched: 'Scorched', f_rare: 'Rare kind',
-  launch: 'Crystal!', missed: 'Missed', caught: 'Caught!', caught_sub: '{name} joins you.',
+  launch: 'Crystal, shine!', missed: 'Missed', caught: 'Caught!', caught_sub: '{name} joins you.',
   broke: '{name} broke free!', broke_sub: 'And it is angry.',
   react: ['Hmph!', 'Grr!', 'Nope!', 'Not today!', '!!'],
 };

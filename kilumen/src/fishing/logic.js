@@ -162,6 +162,8 @@ export const ease = {
   quadOut: (k) => k * (2 - k),
   backOut: (k) => { const s = 1.70158; return --k * k * ((s + 1) * k + s) + 1; },
   sineInOut: (k) => 0.5 * (1 - Math.cos(Math.PI * k)),
+  // Elastic.Out from tween.js (MIT, (c) tween.js authors; credited in THIRD_PARTY_LICENSES): rod-bend spring + reveal pop
+  elasticOut: (k) => (k === 0 ? 0 : k === 1 ? 1 : Math.pow(2, -10 * k) * Math.sin((k - 0.1) * 5 * Math.PI) + 1),
 };
 
 /** Key name for the bite prompt from a profile control label ("the F key" -> "F", "Space" -> "Space"); default Space. */

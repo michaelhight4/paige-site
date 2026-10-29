@@ -1,0 +1,155 @@
+{
+ "pc": {
+  "fish": {
+   "phases": [
+    "cast",
+    "wait",
+    "bite",
+    "hooked",
+    "leap",
+    "battle"
+   ]
+  },
+  "capSeal": {
+   "states": [
+    "raise",
+    "pulses",
+    "caught"
+   ]
+  },
+  "capBreak": {
+   "states": [
+    "raise",
+    "pulses",
+    "fight"
+   ]
+  },
+  "texts": null,
+  "pageErrors": []
+ },
+ "phone": {
+  "fish": {
+   "phases": [
+    "cast",
+    "wait",
+    "bite",
+    "hooked",
+    "leap",
+    "battle"
+   ]
+  },
+  "capSeal": {
+   "states": [
+    "raise",
+    "pulses",
+    "caught"
+   ]
+  },
+  "capBreak": {
+   "states": [
+    "raise",
+    "pulses",
+    "fight"
+   ]
+  },
+  "texts": null,
+  "fps_fish": {
+   "phases": [
+    "cast",
+    "wait",
+    "bite",
+    "hooked",
+    "leap",
+    "battle"
+   ],
+   "ft": {
+    "frames": 120,
+    "avg": 35.55,
+    "p50": 33.3,
+    "p95": 83.2,
+    "p99": 100,
+    "max": 183.4,
+    "over16_7": 71,
+    "over25": 71,
+    "fps": 28.1
+   }
+  },
+  "fps_capSeal": {
+   "states": [
+    "raise",
+    "pulses",
+    "caught"
+   ],
+   "ft": {
+    "frames": 121,
+    "avg": 38.01,
+    "p50": 33.3,
+    "p95": 83.3,
+    "p99": 116.6,
+    "max": 166.7,
+    "over16_7": 73,
+    "over25": 73,
+    "fps": 26.3
+   }
+  },
+  "fps_capBreak": {
+   "states": [
+    "fight",
+    "raise",
+    "pulses"
+   ],
+   "ft": {
+    "frames": 117,
+    "avg": 38.18,
+    "p50": 33.4,
+    "p95": 66.7,
+    "p99": 83.3,
+    "max": 83.4,
+    "over16_7": 80,
+    "over25": 80,
+    "fps": 26.2
+   }
+  },
+  "fps_idle_world": {
+   "frames": 184,
+   "avg": 21.56,
+   "p50": 16.7,
+   "p95": 33.4,
+   "p99": 50,
+   "max": 50,
+   "over16_7": 50,
+   "over25": 50,
+   "fps": 46.4
+  },
+  "pageErrors": []
+ },
+ "phoneS": {
+  "fish": {
+   "phases": [
+    "cast",
+    "wait",
+    "bite",
+    "hooked",
+    "leap",
+    "battle"
+   ]
+  },
+  "capSeal": {
+   "states": [
+    "fight",
+    "raise",
+    "pulses",
+    "caught"
+   ]
+  },
+  "capBreak": {
+   "states": [
+    "raise",
+    "pulses",
+    "fight"
+   ]
+  },
+  "texts": null,
+  "pageErrors": []
+ }
+}

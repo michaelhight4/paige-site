@@ -1,0 +1,98 @@
+{
+ "phone": {
+  "texts": null,
+  "fps_fish": {
+   "phases": [
+    "cast",
+    "wait",
+    "bite",
+    "hooked",
+    "leap",
+    "battle"
+   ],
+   "ft": {
+    "frames": 136,
+    "avg": 35.17,
+    "p50": 33.3,
+    "p95": 66.7,
+    "p99": 116.7,
+    "max": 283.3,
+    "over16_7": 79,
+    "over25": 79,
+    "fxDrawMs": {
+     "n": 0,
+     "avg": 0,
+     "p95": 0,
+     "max": 0
+    },
+    "fps": 28.4
+   }
+  },
+  "fps_capSeal": {
+   "states": [
+    "raise",
+    "pulses",
+    "caught"
+   ],
+   "ft": {
+    "frames": 128,
+    "avg": 37.76,
+    "p50": 33.3,
+    "p95": 83.3,
+    "p99": 100,
+    "max": 150,
+    "over16_7": 79,
+    "over25": 79,
+    "fxDrawMs": {
+     "n": 129,
+     "avg": 0.447,
+     "p95": 2,
+     "max": 7.8
+    },
+    "fps": 26.5
+   }
+  },
+  "fps_capBreak": {
+   "states": [
+    "raise",
+    "pulses",
+    "fight"
+   ],
+   "ft": {
+    "frames": 129,
+    "avg": 37.21,
+    "p50": 33.3,
+    "p95": 83.2,
+    "p99": 83.4,
+    "max": 83.4,
+    "over16_7": 85,
+    "over25": 85,
+    "fxDrawMs": {
+     "n": 130,
+     "avg": 0.174,
+     "p95": 0.6,
+     "max": 6.5
+    },
+    "fps": 26.9
+   }
+  },
+  "fps_idle_world": {
+   "frames": 156,
+   "avg": 25.64,
+   "p50": 16.7,
+   "p95": 50,
+   "p99": 50.1,
+   "max": 66.7,
+   "over16_7": 68,
+   "over25": 68,
+   "fxDrawMs": {
+    "n": 0,
+    "avg": 0,
+    "p95": 0,
+    "max": 0
+   },
+   "fps": 39
+  },
+  "pageErrors": []
+ }
+}

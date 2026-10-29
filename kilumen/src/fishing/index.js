@@ -16,6 +16,8 @@ export const ROD_GIVER = Object.freeze({ map: 'brookhollow', npc: 'fisher', flag
 const C = { ink: '#1a1226', red: '#a23432', white: '#fcf6e8', line: '#ecdec4', rod: '#6a442e', foam: '#c6ecfa', drop: '#7ac2e8', deep: '#1e4078', shadow: '#29252b', gold: '#fcd668' };
 const now = () => (globalThis.performance?.now?.() ?? Date.now());
 const frame = () => new Promise((r) => (globalThis.requestAnimationFrame ? requestAnimationFrame(() => r()) : setTimeout(r, 16)));
+const fanfare = (a) => { if (!a?.sfx) return; a.sfx('blip'); setTimeout(() => a.sfx('select'), 110); setTimeout(() => a.sfx('save'), 240); };
+const BAIT_ICON = { ripple_grub: ['#9bd06a', '#e8f7c8'], reed_nymph: ['#7ab08a', '#d8f0c0'], brine_fleck: ['#7ac2e8', '#e6f6ff'], glimmer_worm: ['#e8a0f0', '#fff0ff'], deepgut_paste: ['#a07850', '#e0c8a0'], lantern_moth: ['#fcd668', '#fcf6e8'], hollowstar_roe: ['#f08cb0', '#ffd2e1'] };
 const wait = async (ms) => { const t = now(); while (now() - t < ms) await frame(); };
 
 export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.ui, rng = Math.random, tablesUrl = FISHING_URL } = {}) {
@@ -159,7 +161,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
       fx.rare = plan.fish.rarity === 'rare';
       if (fx.rare) scene.audio?.sfx?.('select');
       await scene.say([...T(fx.rare ? 'fishing.rare_bite' : 'fishing.hooked'), ...(baitOut ? T('fishing.bait_out', { bait: nameOf(baitId) }) : [])]);
-      fx.phase = 'leap'; fx.tLeap = now();
+      fx.phase = 'leap'; fx.tLeap = now(); fanfare(scene.audio); // catch reveal: splash burst + a 3-note fanfare
       await wait(TIMING.REEL + 300);
       st.fx = null;
       const w = ui()?.wild;
@@ -197,14 +199,27 @@ export function drawFishing(ctx, v, fx) {
   }
   ctx.save();
   ctx.imageSmoothingEnabled = false;
-  // rod
-  ctx.strokeStyle = C.rod; ctx.lineWidth = Math.max(2, Math.round(z * 2.5));
-  ctx.beginPath(); ctx.moveTo(sx(tip.x - (DELTA[fx.facing]?.x || 0) * 22), sy(tip.y + 26)); ctx.lineTo(sx(tip.x), sy(tip.y)); ctx.stroke();
+  // rod: a quadratic curve that bends with the phase (whip on the cast, sway on the wait, hard bend + wobble on a bite/hook),
+  // springing back with tween.js Elastic.Out. The tip the line hangs from follows the bend.
+  const dx = DELTA[fx.facing]?.x || 0, butt = { x: tip.x - dx * 22, y: tip.y + 26 };
+  let bend = 0;
+  if (fx.phase === 'cast') { const k = Math.min(1, (t - fx.t0) / TIMING.CAST); bend = -10 * (1 - ease.elasticOut(k)); }
+  else if (fx.phase === 'wait') bend = 1.5 * Math.sin(t / 420);
+  else if (fx.phase === 'bite') bend = 9 + Math.sin((t - fx.tBite) / 45) * 4;
+  else if (fx.phase === 'hooked') bend = 13 + Math.sin(t / 38) * 3;
+  else if (fx.phase === 'leap') bend = 12 * (1 - ease.elasticOut(Math.min(1, (t - fx.tLeap) / 700)));
+  const rt = { x: tip.x + (dx || 0.3) * bend * 0.35, y: tip.y + Math.abs(bend) * 0.6 };
+  ctx.strokeStyle = C.rod; ctx.lineWidth = Math.max(2, Math.round(z * 2.5)); ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(sx(butt.x), sy(butt.y)); ctx.quadraticCurveTo(sx((butt.x + tip.x) / 2 - dx * 2), sy((butt.y + tip.y) / 2 - 4), sx(rt.x), sy(rt.y)); ctx.stroke();
+  // cast: motion streak behind the flying bobber
+  if (fx.phase === 'cast') { const k0 = (t - fx.t0) / TIMING.CAST;
+    for (let i = 1; i <= 4; i++) { const q = castArc(tip, water, k0 - i * 0.05, 46); ctx.fillStyle = `rgba(252,246,232,${0.5 - i * 0.1})`; ctx.fillRect(sx(q.x) - P / 2, sy(q.y) - P / 2, P, P); } }
   // line (slack curve)
   if (fx.phase !== 'leap') {
     ctx.strokeStyle = C.line; ctx.lineWidth = Math.max(1, Math.round(z));
-    ctx.beginPath(); ctx.moveTo(sx(tip.x), sy(tip.y));
-    ctx.quadraticCurveTo(sx((tip.x + b.x) / 2), sy(Math.max(tip.y, b.y) + 10), sx(b.x), sy(b.y + dip)); ctx.stroke();
+    const taut = fx.phase === 'bite' || fx.phase === 'hooked'; // taut line: no sag, a little vibration
+    ctx.beginPath(); ctx.moveTo(sx(rt.x), sy(rt.y));
+    ctx.quadraticCurveTo(sx((rt.x + b.x) / 2 + (taut ? Math.sin(t / 25) * 1.5 : 0)), sy(taut ? (rt.y + b.y) / 2 : Math.max(rt.y, b.y) + 10), sx(b.x), sy(b.y + dip)); ctx.stroke();
   }
   const inWater = fx.phase === 'wait' || fx.phase === 'bite' || fx.phase === 'hooked';
   // ripples
@@ -229,6 +244,22 @@ export function drawFishing(ctx, v, fx) {
     const rows = inWater ? (fx.phase === 'bite' ? 3 : 5) : 6; // the bottom sits under the surface
     for (let y = 0; y < rows; y++) for (let x = 0; x < 4; x++) { const c = pal[ART[y][x]]; if (c) { ctx.fillStyle = c; ctx.fillRect(bx + x * P, by + y * P, P, P); } }
   }
+  // bite: water-sparkle flash (first 320 ms) - a white ring + 6 glints around the bobber
+  if (fx.phase === 'bite') { const k = (t - fx.tBite) / 320;
+    if (k < 1) { ctx.strokeStyle = `rgba(255,255,255,${1 - k})`; ctx.lineWidth = Math.max(1, Math.round(z * 2)); ctx.beginPath(); ctx.ellipse(sx(water.x), sy(water.y + 4), (8 + k * 30) * z, (3 + k * 10) * z, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = `rgba(255,255,255,${1 - k})`; for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3 + k, r = (10 + k * 26) * z, gx = sx(water.x) + Math.cos(a) * r, gy = sy(water.y) + Math.sin(a) * r * 0.45; ctx.fillRect(gx - P, gy, 3 * P, P); ctx.fillRect(gx, gy - P, P, 3 * P); } } }
+  // bait icon: a small ink-rimmed chip by the bobber while the bait is out
+  if (fx.bait && (fx.phase === 'wait' || fx.phase === 'bite')) { const [c1, c2] = BAIT_ICON[fx.bait] || ['#c6ecfa', '#fcf6e8'];
+    const ix = sx(b.x) + 6 * P, iy = sy(b.y + dip) - 9 * P; ctx.fillStyle = C.ink; ctx.fillRect(ix - P, iy - P, 6 * P, 6 * P);
+    ctx.fillStyle = c1; ctx.fillRect(ix, iy, 4 * P, 4 * P); ctx.fillStyle = c2; ctx.fillRect(ix + P, iy + P, P, P); ctx.fillRect(ix + 2 * P, iy + 2 * P, P, P); }
+  // tension / reel meter (hooked + leap): ink frame by the player, fill climbs green->gold->red with jitter and a glint
+  if (fx.phase === 'hooked' || fx.phase === 'leap') {
+    const px = sx((v.player.x + 1.25) * TILE), py = sy((v.player.y - 0.2) * TILE), H = 30 * P / 1.5, W = 3 * P;
+    const k = fx.phase === 'hooked' ? Math.min(0.92, 0.35 + (t - fx.tHook) / 1600 + Math.sin(t / 60) * 0.05) : Math.max(0, 0.92 - (t - fx.tLeap) / 500);
+    ctx.fillStyle = C.ink; ctx.fillRect(px - P, py - H - P, W + 2 * P, H + 2 * P); ctx.fillStyle = '#2b2440'; ctx.fillRect(px, py - H, W, H);
+    ctx.fillStyle = k > 0.75 ? '#e05a4a' : k > 0.5 ? C.gold : '#6fd18a'; const fh = Math.round(H * k); ctx.fillRect(px, py - fh, W, fh);
+    ctx.fillStyle = C.white; ctx.fillRect(px, py - fh, W, P); if (k > 0.75 && Math.floor(t / 90) % 2) ctx.fillRect(px - 2 * P, py - fh - P, P, P);
+  }
   // "!" over the player when it bites
   if (fx.phase === 'bite' || fx.phase === 'hooked') {
     const px = sx((v.player.x + 0.5) * TILE), py = sy((v.player.y - 1.6) * TILE);
@@ -248,6 +279,11 @@ export function drawFishing(ctx, v, fx) {
     ctx.beginPath(); ctx.moveTo(sx(lx - 12), sy(ly)); ctx.lineTo(sx(lx - 22), sy(ly - 7)); ctx.lineTo(sx(lx - 22), sy(ly + 7)); ctx.fill();
     ctx.fillStyle = C.white; ctx.fillRect(sx(lx + 7), sy(ly - 3), P, P);
     if (fx.rare) drawSparkles(ctx, sx(lx), sy(ly), z, t, 1.4); // rare catch: gold glints around the leap
+    const kb = Math.min(1, (t - fx.tLeap) / 450); // reveal burst: second splash + expanding foam ring
+    if (kb < 1) { drawSplash(ctx, sx(water.x), sy(water.y), z, kb, 2.6); ctx.strokeStyle = `rgba(198,236,250,${1 - kb})`; ctx.lineWidth = Math.max(1, Math.round(z * 2)); ctx.beginPath(); ctx.ellipse(sx(water.x), sy(water.y + 4), (10 + kb * 40) * z, (4 + kb * 13) * z, 0, 0, Math.PI * 2); ctx.stroke(); }
+    if (k > 0.15) { const pop = ease.elasticOut(Math.min(1, (k - 0.15) / 0.35)), bx2 = sx(lx), by2 = sy(ly - 26); // the creature's reaction: "!?" bubble
+      ctx.save(); ctx.translate(bx2, by2); ctx.scale(pop, pop); ctx.fillStyle = C.ink; ctx.fillRect(-7 * P, -5 * P, 14 * P, 10 * P); ctx.fillStyle = C.white; ctx.fillRect(-6 * P, -4 * P, 12 * P, 8 * P);
+      ctx.fillRect(-P, 4 * P, 2 * P, 2 * P); ctx.fillStyle = C.red; ctx.font = `bold ${Math.max(12, Math.round(7 * P))}px monospace`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(fx.rare ? '!!' : '!?', 0, 0); ctx.restore(); }
   }
   ctx.restore();
 }
