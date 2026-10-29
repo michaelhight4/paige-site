@@ -101,3 +101,13 @@ test('terrain roller: cave floor outside rects rolls only with the flag; surf st
   assert.equal(near.stepWater('route1', 1, 1), null);
   assert.equal(on.step('greystone_b1', [], 999, 999, 0), null); // plain floor: nothing
 });
+
+test('bite prompt: bound key on PC, A on pad, Tap A on touch', () => {
+  assert.equal(L.biteKeyName('the F key'), 'F');
+  assert.equal(L.biteKeyName(null), 'Space');
+  assert.deepEqual(L.bitePrompt({ device: 'keyboard', confirmLabel: 'the F key' }), { textKey: 'fishing.prompt_pc', key: 'F', icon: 'F' });
+  assert.equal(L.bitePrompt({}).key, 'Space');
+  assert.equal(L.bitePrompt({ device: 'controller' }).textKey, 'fishing.prompt_pad');
+  assert.equal(L.bitePrompt({ touch: true, device: 'keyboard' }).textKey, 'fishing.prompt_touch');
+  assert.match(L.TEXT['fishing.prompt_pc'][0], /\{key\}/);
+});

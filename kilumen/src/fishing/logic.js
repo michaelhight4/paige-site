@@ -92,6 +92,20 @@ export const ease = {
   sineInOut: (k) => 0.5 * (1 - Math.cos(Math.PI * k)),
 };
 
+/** Key name for the bite prompt from a profile control label ("the F key" -> "F", "Space" -> "Space"); default Space. */
+export function biteKeyName(label) {
+  const m = String(label || '').trim().match(/^(?:the\s+)?(.+?)(?:\s+key)?$/i);
+  return (m && m[1]) || 'Space';
+}
+
+/** Bite prompt {key, text key} for a device: touch -> Tap A, controller -> Press A, keyboard -> Press <bound key>. */
+export function bitePrompt({ touch = false, device = null, confirmLabel = null } = {}) {
+  if (touch || device === 'touch') return { textKey: 'fishing.prompt_touch', key: 'A', icon: 'A' };
+  if (device === 'controller') return { textKey: 'fishing.prompt_pad', key: 'A', icon: 'A' };
+  const key = biteKeyName(confirmLabel);
+  return { textKey: 'fishing.prompt_pc', key, icon: key };
+}
+
 /** Cast arc from the rod tip (a) to the water cell (b), k in 0..1 -> {x, y}. Parabola peaking `lift` px above the line. */
 export function castArc(a, b, k, lift = 40) {
   const e = ease.quadOut(Math.max(0, Math.min(1, k)));
@@ -113,7 +127,8 @@ export const TEXT = Object.freeze({
   'fishing.no_table': ['Nothing seems to live here.'],
   'fishing.no_rod': ['The water looks deep and calm.'],
   'fishing.no_team': ['Better bring a creature along first.'],
-  'fishing.prompt_pc': ['Press A!'],
+  'fishing.prompt_pc': ['Press {key}!'],
+  'fishing.prompt_pad': ['Press A!'],
   'fishing.prompt_touch': ['Tap A!'],
   'fishing.battle_intro': ['{creature} leaps out of the water!'],
 });

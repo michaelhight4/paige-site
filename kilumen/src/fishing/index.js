@@ -6,7 +6,7 @@
 //  - A during the wait is eaten here (keyboard Z/Space/Enter, pad A, the touch A button: all arrive as snap.a)
 //  - a hook opens the normal wild battle (ui.wild.openBattle, same path as grass) with a water intro line
 // Art: bobber, line, splash, ripples and the leaping shadow are drawn in code from the Kilumen palette (our own art).
-import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease } from './logic.js?v=v0.2.58-alpha';
+import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt } from './logic.js?v=v0.2.58-alpha';
 import { TILE, DELTA } from '../overworld/constants.js?v=v0.2.58-alpha';
 
 export const ROD_GIVER = Object.freeze({ map: 'brookhollow', npc: 'fisher', flag: 'got_fishing_rod', item: 'fishing_rod' });
@@ -23,6 +23,15 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
   const T = (key, vars) => (scene.fill ? scene.fill(lines(key), vars) : lines(key));
   const pick = (key, vars) => { const a = T(key, vars); return [a[Math.floor(rng() * a.length)]]; };
   const touch = () => scene.opts?.platform?.id === 'mobile' || !!globalThis.matchMedia?.('(pointer: coarse)').matches;
+
+  // bite prompt words: the profile's keyboard confirm key (controls.prompts, e.g. "the F key" -> F), else Space
+  const promptFor = (fx) => {
+    const device = scene.input?.lastDevice || null;
+    let confirmLabel = null;
+    try { confirmLabel = device === 'keyboard' || !device ? (scene.opts?.platform?.profile?.controls?.prompts?.keyboard?.confirm_button?.label ?? null) : null; } catch {}
+    const pr = bitePrompt({ touch: fx.touch, device, confirmLabel });
+    return { ...pr, label: String(T(pr.textKey, { key: pr.key })[0]).replace('{key}', pr.key) };
+  };
 
   // --- rod gift: the Brookhollow fisher (first talk after the rod exists; then their normal lines) ---
   if (sys?.onTalk) {
@@ -87,7 +96,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
       await frame();
       const t = now() - fx.tLand;
       const pressedAt = fx.press == null ? null : fx.press - fx.tLand;
-      if (plan.bite && t >= plan.waitMs && fx.phase === 'wait') { fx.phase = 'bite'; fx.tBite = now(); scene.audio?.sfx?.('grass'); }
+      if (plan.bite && t >= plan.waitMs && fx.phase === 'wait') { fx.phase = 'bite'; fx.tBite = now(); fx.prompt = promptFor(fx); scene.audio?.sfx?.('grass'); }
       if (plan.empty && t > 900) result = 'no_table';
       else if (pressedAt != null) result = judgePress(plan, pressedAt, true, fx.touch) || 'early';
       else if (!plan.bite && t >= plan.waitMs + TIMING.WINDOW) result = 'nothing';
@@ -175,13 +184,7 @@ export function drawFishing(ctx, v, fx) {
     ctx.fillStyle = C.ink; ctx.fillRect(px - w / 2 - P, py - h - P, w + 2 * P, h + 2 * P);
     ctx.fillStyle = C.white; ctx.fillRect(px - w / 2, py - h, w, h);
     ctx.fillStyle = C.red; ctx.fillRect(px - P, py - h + 2 * P * pop, 2 * P, 6 * P * pop); ctx.fillRect(px - P, py - 3 * P * pop, 2 * P, 2 * P * pop);
-    if (fx.phase === 'bite') { // prompt chip
-      const label = fx.touch ? TEXT['fishing.prompt_touch'][0] : TEXT['fishing.prompt_pc'][0];
-      ctx.font = `bold ${Math.round(9 * z)}px monospace`; ctx.textAlign = 'center';
-      const tw = ctx.measureText(label).width + 10 * z;
-      ctx.fillStyle = C.ink; ctx.fillRect(px - tw / 2, py + 4 * z, tw, 14 * z);
-      ctx.fillStyle = C.gold; ctx.fillText(label, px, py + 15 * z);
-    }
+    if (fx.phase === 'bite') drawBiteChip(ctx, px, py, z, t, fx);
   }
   // the creature leaps out (shadow silhouette + big splash)
   if (fx.phase === 'leap') {
@@ -192,6 +195,46 @@ export function drawFishing(ctx, v, fx) {
     ctx.beginPath(); ctx.moveTo(sx(lx - 12), sy(ly)); ctx.lineTo(sx(lx - 22), sy(ly - 7)); ctx.lineTo(sx(lx - 22), sy(ly + 7)); ctx.fill();
     ctx.fillStyle = C.white; ctx.fillRect(sx(lx + 7), sy(ly - 3), P, P);
   }
+  ctx.restore();
+}
+
+// Bite prompt chip: pops in (backOut), bobs, sways/tilts, pulses, and shakes harder as the window closes.
+// Gold ink-outlined chip with a key-cap icon (white cap, ink rim, red underline) + the prompt words. Min 12px text for phones.
+function drawBiteChip(ctx, px, py, z, t, fx) {
+  const pr = fx.prompt || { label: fx.touch ? TEXT['fishing.prompt_touch'][0] : TEXT['fishing.prompt_pc'][0].replace('{key}', 'Space'), icon: fx.touch ? 'A' : 'Space' };
+  const age = t - (fx.tBite || t), win = fx.touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
+  const urgency = Math.min(1, age / win); // 0 at the bite -> 1 when the window shuts
+  const pop = ease.backOut(Math.min(1, age / 260));
+  const bob = Math.sin(age / 140) * 3 * z;
+  const tilt = Math.sin(age / 210) * 0.09;
+  const pulse = 1 + 0.07 * ease.sineInOut((age / 300) % 1 < 0.5 ? ((age / 300) % 1) * 2 : 2 - ((age / 300) % 1) * 2);
+  const amp = (0.4 + urgency * urgency * 3.2) * z;
+  const shx = Math.sin(age / 23) * amp, shy = Math.cos(age / 31) * amp * 0.6;
+  const fs = Math.max(12, Math.round(11 * z));
+  ctx.save();
+  ctx.translate(Math.round(px + shx), Math.round(py + 12 * z + fs + bob + shy));
+  ctx.rotate(tilt + Math.sin(age / 37) * 0.04 * urgency);
+  ctx.scale(pop * pulse, pop * pulse);
+  ctx.font = `bold ${fs}px monospace`; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  const tw = ctx.measureText(pr.label).width;
+  ctx.font = `bold ${Math.round(fs * 0.85)}px monospace`;
+  const iw = Math.max(fs * 1.4, ctx.measureText(pr.icon).width + fs * 0.7), ih = fs * 1.45;
+  const pad = fs * 0.55, gap = fs * 0.45, w = pad * 2 + iw + gap + tw, h = ih + pad * 1.2, x0 = -w / 2, y0 = -h / 2, o = Math.max(2, Math.round(z));
+  // drop shadow, ink outline, gold body, light top band
+  ctx.fillStyle = 'rgba(26,18,38,0.35)'; ctx.fillRect(x0 + o * 2, y0 + o * 2, w, h);
+  ctx.fillStyle = C.ink; ctx.fillRect(x0 - o, y0 - o, w + 2 * o, h + 2 * o);
+  ctx.fillStyle = C.gold; ctx.fillRect(x0, y0, w, h);
+  ctx.fillStyle = C.white; ctx.globalAlpha = 0.45; ctx.fillRect(x0, y0, w, Math.max(2, h * 0.18)); ctx.globalAlpha = 1;
+  // key cap (presses down on the pulse beat)
+  const press = Math.sin(age / 150) > 0.6 ? o : 0;
+  const kx = x0 + pad, ky = -ih / 2;
+  ctx.fillStyle = C.ink; ctx.fillRect(kx - o, ky - o + press, iw + 2 * o, ih + 2 * o - press);
+  ctx.fillStyle = C.red; ctx.fillRect(kx, ky + ih - o * 2, iw, o * 2);
+  ctx.fillStyle = C.white; ctx.fillRect(kx, ky + press, iw, ih - o * 2 - press);
+  ctx.fillStyle = C.ink; ctx.textAlign = 'center'; ctx.fillText(pr.icon, kx + iw / 2, ky + press + (ih - o * 2) / 2 + 1);
+  // words
+  ctx.font = `bold ${fs}px monospace`; ctx.textAlign = 'left';
+  ctx.fillStyle = C.ink; ctx.fillText(pr.label, kx + iw + gap, 1);
   ctx.restore();
 }
 
