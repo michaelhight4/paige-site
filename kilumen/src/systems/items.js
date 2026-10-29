@@ -45,6 +45,7 @@ const FIELD = {
   reel_pounce: { pocket: 'gear', field: null, key: true, teach: 'pounce' },
   reel_gustdart: { pocket: 'gear', field: null, key: true, teach: 'gustdart' },
   reel_halflash: { pocket: 'gear', field: null, key: true, teach: 'haloflash' },
+  fishing_rod: { pocket: 'key', field: 'fish', key: true, name: 'Fishing Rod', rod: 'basic' }, // fishing v1 (Oct 29 2026, flag fishing): from the Brookhollow fisher; upgrades good/super = src/fishing/logic.js ROD_TIERS (not placed) // PLACEHOLDER id + name
   team_link_band: { pocket: 'gear', field: null, held: true, key: true, name: 'Team Link Band' }, // Oct 29 2026: holder that sat out a faint gets half XP (src/battle/battle.js linkShare); from Saltmere (src/systems/link_band.js) // PLACEHOLDER id (DESIGN gold coin: x1.5 trainer money)
 };
 for (const g of CRYSTAL_GRADES.grades) if (!FIELD[g.item]) FIELD[g.item] = { pocket: 'crystals', field: null }; // board crystal grades

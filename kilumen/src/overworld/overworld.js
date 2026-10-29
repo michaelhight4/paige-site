@@ -386,6 +386,7 @@ export class Overworld {
         if (lw && lw.to && lw.to !== '$return') { this.lastDoor = { map: m.name, x, y }; this.startWarp({ map: lw.to, x: lw.tx, y: lw.ty, facing: lw.facing || 'up' }, 'door'); return 'stop'; }
         if (code === Col.PLATE) this.hooks.onPlate?.(x, y);
         if (m.encounter(x, y)) this.hooks.onEncounterTile?.(x, y, m.encounter(x, y)); // run/bike: same rate (MOVEMENT.md)
+        else if (code === Col.WATER || code === Col.DEEP_WATER) this.hooks.onSurfStep?.(x, y, code); // riding on water (terrain flag; no surf runtime yet)
         this._lastBumpMsg = null;
       },
       onEdge: (exit, x, y) => {

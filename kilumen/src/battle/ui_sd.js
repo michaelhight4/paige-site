@@ -274,7 +274,7 @@ export function makeSdBattle(ui, opts, h) {
           const img = $(`#${s}-mon`); img.src = cidleSrc(s === 'p2' ? front(sp) : back(sp)) || (s === 'p2' ? front(sp) : back(sp)); img.classList.toggle('b-flip', s === 'p1' && BACK_FACES_LEFT.has(sp)); img.style.opacity = '1'; setFeet(img);
           if (s === 'p2' && first && carryFoes) { const rl = reactionLines('turn', kb.p1.active[0]?.name, who); await say(rl.foe); }
           else if (s === 'p2' && !first && !trainer && !owned) await say(`Another wild ${who} jumps in!` /* PH */);
-          else if (s === 'p2') await say(first && !trainer ? ui.P('system_wild.grass', ['{creature} bursts out of the grass!'], { creature: who })[0]
+          else if (s === 'p2') await say(first && !trainer ? ui.P(opts.intro?.key || 'system_wild.grass', opts.intro?.fallback || ['{creature} bursts out of the grass!'], { creature: who })[0]
             : P1('foe_sends', 'Trainer sends out {creature}!', { creature: who }) /* PH */);
           else if (first && carryFoes) await say(reactionLines('turn', who, '').ally);
           else await say(P1('go', 'Go, {creature}!', { creature: who }) /* PH */);

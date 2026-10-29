@@ -18,6 +18,7 @@ export const ENCOUNTERS_WIRED_URL = 'data/encounters_wired.json';
 // town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
 // the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
 import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.58-alpha';
+import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.58-alpha'; // water + cave floor at 0.3x grass (flag, off)
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
 export const MAX_RATE = 0.2;
 export const GRACE_STEPS = 3;
@@ -85,6 +86,7 @@ export class EncounterRoller {
     this.rateOverride = opts.rate ?? null; this.maxRate = opts.maxRate ?? MAX_RATE;
     this.graceSteps = opts.graceSteps ?? GRACE_STEPS; this.grace = this.graceSteps;
     this.axes = opts.axes || null; // data/trail_axes.json (trail level scaling); null = uniform levels everywhere
+    this.terrain = opts.terrain || null; // data/terrain_encounters.json (flag `terrain`); null = no water / cave-floor rolls
   }
   rateFor(zone) {
     const r = this.rateOverride ?? zone?.rate ?? 0;
@@ -94,7 +96,15 @@ export class EncounterRoller {
   /** One step on an encounter cell. -> {species, level, table, forced} | null */
   step(mapName, rects, x, y, code, ctx = {}) {
     if (this.grace > 0) { this.grace--; return null; }
-    const z = zoneAt(this.data, mapName, rects, x, y, code);
+    const z = zoneAt(this.data, mapName, rects, x, y, code) || (code === 2 && this.terrain ? terrainZone(this.terrain, this.data, mapName, 'cave') : null);
+    return this._roll(z, mapName, x, y, ctx);
+  }
+  /** One step onto water while riding on it (terrain flag): the map's water table at 0.3x the grass rate. */
+  stepWater(mapName, x, y, ctx = {}) {
+    if (this.grace > 0) { this.grace--; return null; }
+    return this._roll(this.terrain ? terrainZone(this.terrain, this.data, mapName, 'water') : null, mapName, x, y, ctx);
+  }
+  _roll(z, mapName, x, y, ctx) {
     if (!z) return null;
     if (this.rng() >= this.rateFor(z.zone)) return null;
     const t = trailT(axisFor(this.axes, mapName), x, y);
@@ -125,21 +135,26 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
       if (opts.dev) console.info('[encounters] art filter dropped', Object.values(f.dropped).reduce((a, n) => a + n, 0), 'slots', f.dropped, 'empty zones', f.empty, 'empty phases', f.emptyPhases);
     }
     st.roller = new EncounterRoller(data, { rate: opts.rate });
+    if (opts.terrain) getJson(opts.terrainUrl || TERRAIN_URL).then((t) => { if (t && st.roller) st.roller.terrain = opts.hasArt && opts.artFilter !== false ? filterTerrain(t, opts.hasArt) : t; });
     return axesP.then((axes) => { if (axes?.maps) st.roller.axes = axes; });
   }).catch((e) => console.warn('[encounters]', e.message));
-  scene.hooks.onEncounterTile = (x, y, code) => {
+  st.hasArt = opts.hasArt; st.openBattle = openBattle; // fishing (src/fishing/index.js) opens its hooked creature through the same battle path
+  const onStep = (x, y, code, water) => {
     const m = scene.map, ro = st.roller;
     if (!ro || !m) return;
     if (st.lastMap !== m.name) { st.lastMap = m.name; ro.resetGrace(); } // a few free steps after every map change
     if (scene.busy || scene.fade || !scene.party?.length || opts.blocked?.()) return;
     const ctx = { phase: scene.phase, weather: scene.flags?.has('storm_season') ? 'storm' : 'clear', flood: /_storm$/.test(m.name) };
-    const hit = ro.step(m.name, m.json?.encounter_zones, x, y, code, ctx);
+    const hit = water ? ro.stepWater(m.name, x, y, ctx) : ro.step(m.name, m.json?.encounter_zones, x, y, code, ctx);
     if (!hit) return;
     scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });
     scene.script(async () => {
-      await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method) });
+      const terr = /^terrain_(water|cave)/.exec(hit.table || '')?.[1]; // terrain encounters: the existing system_wild.water / .cave lines
+      await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method || (terr === 'cave' ? 'cave' : '')), ...(terr && { intro: { key: 'system_wild.' + terr, fallback: [terr === 'cave' ? '{creature} drops out of the dark!' : '{creature} surfaces right beside you!'] } }) });
       ro.resetGrace();
     });
   };
+  scene.hooks.onEncounterTile = (x, y, code) => onStep(x, y, code, false);
+  scene.hooks.onSurfStep = (x, y, code) => onStep(x, y, code, true); // called by overworld onArrive on water (riding on it)
   return st;
 }
