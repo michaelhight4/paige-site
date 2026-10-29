@@ -5,6 +5,7 @@
 // Lumen Line (rail): railStops() + RegionMap.railTo(stopId) are ready, but NOT bound to any NPC: station_attendant talk is
 // Story/quests territory (question for Gary). Whoever owns the clerk calls scene.overnight.region.railTo(id).
 import { Col } from '../overworld/constants.js?v=v0.2.79-alpha';
+import { quote, fareLine } from '../systems/travel_fares.js?v=v0.2.79-alpha'; // fares (Coder, Oct 29 2026)
 
 const INDOOR = (n) => /_int$|^house_|^home_|^heal_|^lab_|^shop|^club|^office|^station|^rt_branch|^lantern_rest/.test(n);
 const CAVE = (n) => /^greystone/.test(n);
@@ -86,6 +87,7 @@ export class RegionMap {
 
   onEnter(m) {
     const s = this.scene, f = visitedFlagFor(this.layout, m.name);
+    const t = townOf(this.layout, m.name); if (t) this.lastTown = t; // fare origin (rail clerk stands in station_int)
     if (f && !s.flags.has(f)) { s.flags.add(f); s._dirty = true; s.log.push({ tick: s.tick, type: 'flag', flag: f, on: true, opened: [] }); }
     if (this.pendingLanding) { // Skylift lands on foot; nudge off an occupied fly point
       this.pendingLanding = false;
@@ -105,13 +107,37 @@ export class RegionMap {
       if (!st.ok) { await s.say(this.pages('field_skills.skylift.not_visited', { city: st.name }) || [`${st.name}: not yet.`]); return; }
       const town = await s.loadMap(stopId), spawn = railArrival(town);
       if (!spawn) { await s.say([`[PLACEHOLDER] ${st.name} has no station door yet.`]); return; }
-      await s.say(this.pages(R + 'confirm', { city: st.name }) || [`Next train to ${st.name}.`]);
+      let q = this.fare('rail', stopId), dest = st, dspawn = spawn;
+      if (!q.afford) { // never strand: free standby seat to the next stop on the line
+        const sb = q.standby && railStops(this.layout, s.flags, s.knownMaps || undefined).find((r) => r.id === q.standby);
+        const yes = sb && (await s.ask(this.withFare(q, st.name, [fareLine('standby', { city: sb.name })]), ['Standby', 'No'])) === 0;
+        if (!sb) { await s.say([`${this.farePages(q, st.name)[0]}\n${fareLine('short_skylift', { fare: q.fare })}`]); return; }
+        if (!yes) return;
+        const t2 = await s.loadMap(sb.id); dspawn = railArrival(t2) || spawn; dest = sb; q = { ...q, fare: 0 };
+      } else {
+        const yes = (await s.ask(this.withFare(q, st.name, this.pages(R + 'confirm', { city: st.name }) || [`Next train to ${st.name}.`]), ['Yes', 'No'])) === 0;
+        if (!yes || !this.pay(q)) return;
+      }
       if (s.player.mode !== 'walk') s.player.mode = 'walk';
-      s.log.push({ tick: s.tick, type: 'rail', to: stopId });
-      s.startWarp(spawn, 'rail');
+      s.log.push({ tick: s.tick, type: 'rail', to: dest.id, fare: q.fare });
+      s.startWarp(dspawn, 'rail');
     });
     return true;
   }
+
+  /** Fare quote from the current town (or last town walked into) to `to`. */
+  fare(kind, to) {
+    const s = this.scene, sys = s.systems, from = townOf(this.layout, s.map?.name) || this.lastTown || null;
+    return quote(kind, from, to, this.layout, sys?.wallet?.coins ?? 0, (n) => sys?.rtBenefits?.travelFare ? sys.rtBenefits.travelFare(n) : n);
+  }
+  /** Fare pages for a confirm box. */
+  farePages(q, city) {
+    const total = this.scene.systems?.wallet?.coins ?? 0;
+    return [fareLine(q.discounted ? 'confirm_discount' : 'confirm', { city, fare: q.fare, base: q.base }) + ' ' + fareLine('wallet', { total })];
+  }
+  /** Confirm pages with the fare on the last page (the one that shows Yes / No). */
+  withFare(q, city, pages) { const p = [].concat(pages); p[p.length - 1] = `${p[p.length - 1]}\n${this.farePages(q, city)[0]}`; return p; }
+  pay(q) { const w = this.scene.systems?.wallet; if (!q.fare) return true; if (!w?.spend(q.fare)) return false; this.scene._dirty = true; return true; }
 
   vars(extra = {}) { const s = this.scene, lead = s.party?.[0]; return { ...s.textVars(), skill: 'Skylift', creature: lead ? lead.nickname || lead.species[0].toUpperCase() + lead.species.slice(1) : 'Your creature', nearest_station: 'Saltmere Central', ...extra }; }
   pages(path, extra) { let v = this.scene.lines; for (const k of path.split('.')) v = v?.[k]; return v ? this.scene.fill([].concat(v), this.vars(extra)) : null; }
@@ -136,12 +162,14 @@ export class RegionMap {
         await s.say(this.pages(key, { city: d.name }) || [`${d.name}: not yet.`]);
         return;
       }
-      const yes = (await s.ask(this.pages(SK + 'confirm', { city: d.name }) || [`Head to ${d.name}?`], s.lines?.field_skills?.skylift?.choices || ['Yes', 'No'])) === 0;
-      if (!yes) return;
+      const q = this.fare('skylift', d.id);
+      if (!q.afford) { await s.say([`${this.farePages(q, d.name)[0]}\n${fareLine('short_skylift', { fare: q.fare })}`]); return; } // walking always works
+      const yes = (await s.ask(this.withFare(q, d.name, this.pages(SK + 'confirm', { city: d.name }) || [`Head to ${d.name}?`]), s.lines?.field_skills?.skylift?.choices || ['Yes', 'No'])) === 0;
+      if (!yes || !this.pay(q)) return;
       await s.say(this.pages(SK + 'use') || ['Up and away!']);
       if (p.mode !== 'walk') p.mode = 'walk'; // Skylift always leaves the player on foot
       this.pendingLanding = true;
-      s.log.push({ tick: s.tick, type: 'skylift', to: d.id });
+      s.log.push({ tick: s.tick, type: 'skylift', to: d.id, fare: q.fare });
       s.startWarp({ ...d.spawn }, 'skylift');
     });
     return true;

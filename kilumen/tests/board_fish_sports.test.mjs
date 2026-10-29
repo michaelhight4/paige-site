@@ -50,9 +50,9 @@ test('balance: new nodes cost more than the points a region-4 player can ever ha
   assert.ok(cost(buyableR4) > income * 2, `new sink ${cost(buyableR4)} vs income ${income}`);
 });
 
-test('nodeState: comingSoon (commuter benefit, key cards) is shown locked and cannot be bought', () => {
+test('nodeState: comingSoon (key cards) is shown locked and cannot be bought', () => {
   const { rt } = mk({ idLevel: 12, pointsFree: 30 }, 8);
-  for (const id of ['commuter_benefit', 'rt_node_station_m']) { assert.equal(rt.state(id).reason, 'soon'); assert.equal(rt.buy(id).ok, false); }
+  for (const id of ['rt_node_station_m']) { assert.equal(rt.state(id).reason, 'soon'); assert.equal(rt.buy(id).ok, false); }
 });
 
 test('buy + effect: rank, points, save, and perk bundles', () => {

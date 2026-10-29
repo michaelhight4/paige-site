@@ -608,8 +608,7 @@
       "id": "commuter_benefit",
       "branch": "commuter_plan",
       "effect": "travel.discount",
-      "comingSoon": true,
-      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. DORMANT: no paid fast travel exists yet (rail is free with the pass, Skylift free). travelFare() in rt_benefits.js is ready.",
+      "_note": "Commuter Benefit: cuts Skylift and Lumen Line fares (src/systems/travel_fares.js). Live from v0.2.79 fares (Gary Oct 29 2026).",
       "ranks": [
         {
           "cost": 1,

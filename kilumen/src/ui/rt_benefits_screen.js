@@ -31,7 +31,7 @@ export const RTB_TEXT = {
     training_allowance: { name: 'Training Allowance', desc: 'Fruit builds more. The +15 stat cap still applies.', ranks: { 1: 'Fruit build gain +10%.', 2: 'Fruit build gain +20%.' } },
     wellness_days: { name: 'Wellness Days', desc: 'Fullness clears faster after practice and battle wins.', ranks: { 1: 'Fullness clears +25% faster.', 2: 'Fullness clears +50% faster.' } },
     light_lunch: { name: 'Light Lunch', desc: 'Fruit fills your team up less.', ranks: { 1: 'Fruit fills 10% less.', 2: 'Fruit fills 20% less.' } },
-    commuter_benefit: { name: 'Commuter Benefit', desc: 'Cheaper paid fast travel. Once someone charges for it.', ranks: { 1: 'Fares -15%.', 2: 'Fares -30%.', 3: 'Fares -50%.' } },
+    commuter_benefit: { name: 'Commuter Benefit', desc: 'Cheaper Skylift and Lumen Line fares. The company pays the rest.', ranks: { 1: 'Fares -15%.', 2: 'Fares -30%.', 3: 'Fares -50%.' } },
     rt_node_station_m: { name: 'Lab Pass: Mirefen', desc: 'Opens the Mirefen sunken station. Waders not included.', ranks: { 1: 'Key card issued.' } },
     rt_node_station_t: { name: 'Lab Pass: Tidewater', desc: 'Opens the Tidewater sea-cave lab.', ranks: { 1: 'Key card issued.' } },
     keycard_r7: { name: 'Lab Pass: Region 7', desc: 'Opens the Region 7 research area.', ranks: { 1: 'Key card issued.' } },
