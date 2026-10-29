@@ -221,7 +221,7 @@ export function attachSports(scene, { query, systems } = {}) {
     const myBest = Math.min(...races.flatMap((r) => r.res.filter((x) => x.entrantId === me.key).map((x) => x.time)));
     st.meet.myBest = myBest; st.meet.coinsBefore = wallet()?.coins ?? 0;
     if (tour) st.meet.prize = settle({ place: mine?.place, time: myBest, wallet: wallet(), state: sstate(), mult: diffOf(getDifficulty(sys()?.state)).money });
-    else { const ss = sstate(); ss.practice++; if (Number.isFinite(myBest) && (ss.best == null || myBest < ss.best)) ss.best = +myBest.toFixed(2); }
+    else { const ss = sstate(); ss.practice++; try { globalThis.kilumen?.feeds?.onPractice?.((scene.party || []).find((c) => (c.uid || c.id || c._sportsSeed) === me.key)); } catch (e) { /* feeds off */ } if (Number.isFinite(myBest) && (ss.best == null || myBest < ss.best)) ss.best = +myBest.toFixed(2); }
   }
   /** Tournament win -> the champion screen (the prize is already in the wallet; the screen counts it up). */
   async function celebrate() {
