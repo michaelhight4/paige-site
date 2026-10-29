@@ -1,8 +1,9 @@
-// Ron's teams (Oct 29 2026, Gary 5:09 PM): same base 3 all game + 3 slots rolled once per save, sizes 2/3/4 then 6.
+// Ron's teams (Oct 29 2026, Gary 5:09 / 5:24 PM): same base 3 all game + 3 slots re-rolled per fight from that region's pool
+// (seed = save ID + fight number), sizes 2/3/4 then 6.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { ronTeam, rollRon, ensureRonRoll, normRonRoll, RON_FIGHTS, RON_ORDER, stageFor, debutFight } from '../src/battle/data/ron_team.js';
+import { ronTeam, rollRon, ensureRonRoll, normRonRoll, RON_FIGHTS, RON_ORDER, stageFor, rolledFor } from '../src/battle/data/ron_team.js';
 import { RON_POOLS } from '../src/battle/data/ron_pools.gen.js';
 import { evoTable } from '../src/systems/evolution.js';
 import { SPECIES } from '../src/ui/data.js';
@@ -16,10 +17,10 @@ const hasArt = (s) => fs.existsSync(`art/characters/pixel/creatures/${s}`);
 const t = evoTable(), prevo = {}; for (const [id, e] of Object.entries(t)) prevo[e.to] = id;
 const root = (s) => { while (prevo[s]) s = prevo[s]; return s; };
 
-test('same save -> same team; different seeds -> different teams', () => {
+test('same save + fight -> same team; different seeds -> different teams', () => {
   const a = rollRon('kAAA'), b = rollRon('kAAA');
   assert.deepEqual(a, b);
-  assert.deepEqual(ronTeam('ron_final', 'nibbin', a), ronTeam('ron_final', 'nibbin', b));
+  for (const f of RON_ORDER) assert.deepEqual(ronTeam(f, 'nibbin', a), ronTeam(f, 'nibbin', b), f);
   const teams = new Set(); for (let i = 0; i < 40; i++) teams.add(JSON.stringify(ronTeam('ron_final', 'nibbin', rollRon('seed' + i))));
   assert.ok(teams.size > 10, `only ${teams.size} distinct teams from 40 seeds`);
 });
@@ -44,33 +45,32 @@ test('sizes 2/3/4 (regions 1-3 as authored), then 6; ace = counter-starter line,
   assert.equal(ronTeam('ron_final', 'nibbin', rollRon(1)).at(-1).level, 69);
 });
 
-test('rolled slot k is the same lineage in every fight it is in, from its debut region pool, never a base/starter line', () => {
+test('rolled slots re-roll per fight from that fight\'s own region pool; never base / starter lines', () => {
+  const base = ['peeplark', 'sailquill', ...Object.values(STARTER_LINES).flat()];
+  let differs = 0;
   for (let i = 0; i < 30; i++) {
     const roll = rollRon('s' + i);
-    assert.equal(new Set(roll.picks).size, 3);
-    roll.picks.forEach((p, k) => assert.ok(RON_POOLS[debutFight(k)].includes(p), `${p} in ${debutFight(k)} pool`));
-    for (const p of roll.picks) assert.ok(!['peeplark', 'sailquill', ...Object.values(STARTER_LINES).flat()].includes(p));
     for (const f of RON_ORDER) {
       const team = ronTeam(f, 'cindrip', roll), rolled = team.slice(2, -1).map((m) => root(m.species));
-      assert.deepEqual(rolled, roll.picks.slice(0, rolled.length), f);
-      const base = [team[0], ...(team.length > 2 ? [team[1]] : [])].map((m) => root(m.species));
-      assert.deepEqual(base, ['peeplark', 'sailquill'].slice(0, base.length));
+      assert.deepEqual(rolled, rolledFor(f, rolled.length, roll), f);
+      for (const p of rolled) { assert.ok(RON_POOLS[f].includes(p), `${p} in ${f} pool`); assert.ok(!base.includes(p), p); }
+      assert.deepEqual(team.slice(0, Math.min(2, team.length - 1)).map((m) => root(m.species)), ['peeplark', 'sailquill'].slice(0, Math.min(2, team.length - 1)));
     }
+    if (JSON.stringify(rolledFor('ron_5', 3, roll)) !== JSON.stringify(rolledFor('ron_final', 3, roll))) differs++;
   }
+  assert.ok(differs > 20, 'fights re-roll, not one set of lines all game');
 });
 
-test('save: new game rolls once; reload keeps it; old save without a roll rolls on load (stable)', () => {
+test('save: new game gets a seed from its save ID; reload keeps it; old saves (none / v1 picks) migrate', () => {
   const s = freshSave();
-  assert.ok(normRonRoll(s.ron_roll));
-  const back = normalise(JSON.parse(JSON.stringify(s)));
-  assert.deepEqual(back.ron_roll, s.ron_roll);
+  assert.deepEqual(s.ron_roll, rollRon(s.saveId));
+  assert.deepEqual(normalise(JSON.parse(JSON.stringify(s))).ron_roll, s.ron_roll);
   const old = JSON.parse(JSON.stringify(s)); delete old.ron_roll;
-  const m1 = normalise(JSON.parse(JSON.stringify(old))), m2 = normalise(JSON.parse(JSON.stringify(old)));
-  assert.ok(normRonRoll(m1.ron_roll));
-  assert.deepEqual(m1.ron_roll, m2.ron_roll);
+  assert.deepEqual(normalise(JSON.parse(JSON.stringify(old))).ron_roll, rollRon(s.saveId));
   assert.deepEqual(ensureRonRoll({ saveId: s.saveId }), rollRon(s.saveId));
-  const bad = { ...s, ron_roll: { seed: 1, picks: ['a', 'a', 'b'] } };
-  assert.deepEqual(normalise(JSON.parse(JSON.stringify(bad))).ron_roll, rollRon(s.saveId));
+  const v1 = { ...s, ron_roll: { v: 1, seed: 1234, picks: ['glarekit', 'rimewick', 'snowgrouse'] } };
+  assert.deepEqual(normalise(JSON.parse(JSON.stringify(v1))).ron_roll, { v: 2, seed: 1234 });
+  assert.equal(normRonRoll({ picks: [] }), null);
 });
 
 test('authoredTeam routes every Ron fight (incl. Ron 6 map and final) through ronTeam', () => {

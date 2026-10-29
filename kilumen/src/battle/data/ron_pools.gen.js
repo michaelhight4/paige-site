@@ -111,6 +111,7 @@ export const RON_POOLS = {
  ],
  "ron_6": [
   "bleachghast",
+  "breakerfin",
   "gloamtick",
   "pinchkin",
   "reefshell",

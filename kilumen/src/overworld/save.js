@@ -88,7 +88,7 @@ export function freshSave() {
     ...v2Defaults(),
   };
   s.company.employeeId = employeeIdFor(s.saveId); // company voice: stable per-save employee number
-  s.ron_roll = rollRon(s.saveId); // Ron's 3 rolled slots: rolled once at save start (ron_team.js)
+  s.ron_roll = rollRon(s.saveId); // Ron's seed (from the save ID): each Ron fight re-rolls its 3 slots from it + the fight number (ron_team.js)
   return s;
 }
 
@@ -179,7 +179,7 @@ export function normalise(input) {
   for (const k of ['archive', 'kilindex', 'tasks', 'company', 'systems']) s[k] = shaped(d[k], o[k]); // [systems-gd hook] + systems
   if ('contacts' in o) s.contacts = normaliseContacts(o.contacts); // [contacts] only when present: flag-off saves are unchanged
   if (!EMPLOYEE_ID_RE.test(s.company.employeeId)) s.company.employeeId = employeeIdFor(s.saveId); // old saves get their number on load
-  s.ron_roll = ensureRonRoll({ ron_roll: o.ron_roll, saveId: s.saveId }); // old saves without one roll on load (seeded by saveId)
+  s.ron_roll = ensureRonRoll({ ron_roll: o.ron_roll, saveId: s.saveId }); // old saves without one get the seed from their save ID
   return s;
 }
 

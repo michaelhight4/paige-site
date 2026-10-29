@@ -105,7 +105,7 @@ export class Overworld {
     else if (opts.phase && PHASE_HOUR[opts.phase] != null) this.clock.min = PHASE_HOUR[opts.phase] * 60;
     this.timescale = opts.timescale ?? 1;     // ?timescale=0 freezes the clock (shots)
     if (sv.lastDoor) this.lastDoor = sv.lastDoor;
-    setRonRoll(ensureRonRoll(sv)); // Ron's per-save rolled slots (src/battle/data/ron_team.js); old saves roll from saveId
+    setRonRoll(ensureRonRoll(sv)); // Ron's per-save seed (src/battle/data/ron_team.js); old saves seed from saveId
     this.gameCleared = normClear(sv[ENDING.save]); // interim ending: {at, day, team} once the game is cleared (null before)
     this.devTouched = sv.devTouched === true;  // set once the dev console / master key touched this save (v0.2.26)
     this.dialog = opts.dialog || null;
