@@ -6,9 +6,9 @@
 // sport ribbon medal, or its grey ? silhouette until earned (xN stacking unchanged). Milestones keep the v1 art below.
 // v1 art: Kilumen's own master_coin frame (art/characters/pixel/soul/battle_feedback/transitions/master_coin, frame 00)
 // and palette recolours of it (tools: art/ui/achievements/*.png). Strings: system_badges.* (Text Bot), fallbacks below.
-import { ACH_DEFS } from './defs.js?v=v0.2.73-alpha';
-import { sync, view, markSeen } from './engine.js?v=v0.2.73-alpha';
-import { coinAnim, coinSocket, sportOf, sportPng } from './coin_art.js?v=v0.2.73-alpha'; // v2: Animator's coins + sport medals
+import { ACH_DEFS } from './defs.js?v=v0.2.74-alpha';
+import { sync, view, markSeen } from './engine.js?v=v0.2.74-alpha';
+import { coinAnim, coinSocket, sportOf, sportPng } from './coin_art.js?v=v0.2.74-alpha'; // v2: Animator's coins + sport medals
 
 export const badgesOn = () => !!globalThis.KILUMEN_BADGES_TAB;
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -17,7 +17,7 @@ const ART = (k) => new URL(`../../art/ui/achievements/${k}.png`, import.meta.url
 let cssDone = false;
 function css() {
   if (cssDone || typeof document === 'undefined') return; cssDone = true;
-  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = new URL('./badges.css?v=v0.2.73-alpha', import.meta.url).href; document.head.appendChild(l);
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = new URL('./badges.css?v=v0.2.74-alpha', import.meta.url).href; document.head.appendChild(l);
 }
 
 export const holderOf = (scene) => scene.systems?.state || (scene._achHolder ||= {});

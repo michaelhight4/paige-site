@@ -20,10 +20,10 @@
 // Switches: ?mood=0|1 (URL, not saved), profile `mood` block (pc.json / mobile.json: particle scale + caps, per-layer
 // vetoes). Reduced motion (?motion=reduce, prefers-reduced-motion, the UI motion toggle): no particles; tint,
 // vignette and rays (which move only with the already-slowed clouds) stay.
-import { TILE } from './constants.js?v=v0.2.73-alpha';
-import { INDOOR_OR_CAVE } from './clock.js?v=v0.2.73-alpha';
-import { WIND, cloudLevel, cloudLevels, periodicFbm, mulberry32, hashStr, CLOUD_MASK, CLOUD_CELL } from './living.js?v=v0.2.73-alpha';
-import { reducedMotion as sceneReducedMotion } from './marker.js?v=v0.2.73-alpha';
+import { TILE } from './constants.js?v=v0.2.74-alpha';
+import { INDOOR_OR_CAVE } from './clock.js?v=v0.2.74-alpha';
+import { WIND, cloudLevel, cloudLevels, periodicFbm, mulberry32, hashStr, CLOUD_MASK, CLOUD_CELL } from './living.js?v=v0.2.74-alpha';
+import { reducedMotion as sceneReducedMotion } from './marker.js?v=v0.2.74-alpha';
 
 export const MOOD_KEYS = ['tint', 'vignette', 'particles', 'rays'];
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
