@@ -25,7 +25,6 @@ const prettyId = (id) => String(id || '').replace(/_int$/, '').split('_').filter
 import { giveHeld, takeHeld, swapHeld } from '../systems/held.js?v=v0.2.87-alpha'; // held items P2-P5 (Oct 29 2026)
 import { HELD_DESC, HELD_LINES, charmDesc } from '../systems/data/held_text.js?v=v0.2.87-alpha';
 import { HELD_BATTLE_ITEMS } from '../battle/data/held_items.js?v=v0.2.87-alpha';
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.87-alpha'; // max level 90
 import { heldIconHtml, heldIconSrc, wireHeldIcons } from './held_icons.js?v=v0.2.87-alpha'; // held-item icon on every slot (Gary, Oct 29 2026)
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
@@ -195,7 +194,7 @@ export async function installSystemsScreens(ui, sys) {
     const detail = (c) => {
       if (!c) return '';
       const sp = speciesInfo(c.species) || { el: ['normal'], name: c.species }, next = xpForLevel(c.level + 1), base = xpForLevel(c.level);
-      const xf = c.level >= KILUMEN_RULES.maxLevel ? 1 : Math.max(0, Math.min(1, (c.xp - base) / Math.max(1, next - base)));
+      const xf = c.level >= 100 ? 1 : Math.max(0, Math.min(1, (c.xp - base) / Math.max(1, next - base)));
       const en = energyOf(c), em = maxEnergy(c);
       return `<div class="sys-detail"><div class="sys-dh">${iconHtml(c, cfg)}<div><b class="nmb">${nameHtml(c)}</b> <span class="lv">${esc(S.level || 'Lv.')}${c.level}</span><div>${(sp.el || []).map(elChip).join(' ')} ${statusChip(c)}</div></div></div>${heldRow(c, S)}
         ${bars(c, S)}<div class="bar-row"><b>XP</b><div class="bar xp"><i style="width:${(xf * 100).toFixed(1)}%"></i></div><span>${Math.round(xf * 100)}%</span></div>

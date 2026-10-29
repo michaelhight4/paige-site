@@ -3,7 +3,6 @@
 //   - foe damage x0.5 / x1.5 (engine getDamage hook on side p2, src/battle/battle.js opts.foeDamageMult)
 //   - foe level: half of the level gap above your lead is removed (Easy) or added (Hard, at least +1, at most +5)
 // and pay: Easy x0.6 money / prizes, Hard x1.15. Missing in a save -> 'normal'.
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.87-alpha';
 export const DIFFICULTIES = {
   easy: { id: 'easy', label: 'Easy', damage: 0.5, money: 0.6, healAt: 0.25, healsPer: 1, blurb: 'Foes hit half as hard and sit closer to your level. Pays less.' },
   normal: { id: 'normal', label: 'Normal', damage: 1, money: 1, healAt: 0.25, healsPer: 1, blurb: 'The game as it is meant to be played.' },
@@ -20,7 +19,7 @@ export function scaleLevel(level, lead, mode) {
   if (mode === 'normal' || !DIFFICULTIES[mode]) return level;
   const gap = Math.max(0, level - (lead || level));
   if (mode === 'easy') return Math.max(2, level - Math.round(gap * 0.5));
-  return Math.min(KILUMEN_RULES.maxLevel, level + Math.min(5, Math.max(1, Math.ceil(gap * 0.5))));
+  return Math.min(100, level + Math.min(5, Math.max(1, Math.ceil(gap * 0.5))));
 }
 export const scaleFoes = (foes, lead, mode) => foes.map((f) => ({ ...f, level: scaleLevel(f.level, lead, mode) }));
 
@@ -37,8 +36,3 @@ export function masterItems(n, mode = 'normal') {
   while (small + large > MAX_FOE_ITEMS) small > 0 ? small-- : large--;
   const out = {}; if (small) out.tonicsmall = small; if (large) out.toniclarge = large; return out;
 }
-
-// Master rematch scaling (Gary Oct 29 2026): levels x1.3 per previous win, capped at the game max (90, was 100).
-export const MASTER_REMATCH_GROWTH = 1.3;
-export const masterRematchLevel = (level, wins = 0) => Math.max(1, Math.min(KILUMEN_RULES.maxLevel, Math.round((level | 0) * MASTER_REMATCH_GROWTH ** Math.max(0, wins | 0))));
-export const masterRematchTeam = (team, wins = 0) => (team || []).map((f) => ({ ...f, level: masterRematchLevel(f.level, wins) }));

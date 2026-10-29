@@ -20,7 +20,6 @@
 import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.87-alpha';
 import { areaName } from '../overworld/area_sign.js?v=v0.2.87-alpha';
 import { contactsDefault, normaliseContacts } from './contacts_save.js?v=v0.2.87-alpha';
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.87-alpha'; // max level 90
 
 export const CONTACTS_DATA_URL = 'src/systems/data/contacts.json';
 export const contactsEnabled = (query) => !!query && typeof query.get === 'function' && query.get('contacts') !== '0';
@@ -71,7 +70,7 @@ export function rematchTeam(base, { wins = 0, playerTop = 0, step = 2, cap = nul
   if (!team.length) return team;
   const top = Math.max(...team.map((f) => f.level));
   const lift = Math.max(step * (wins + 1), (playerTop | 0) - 1 - top, 0);
-  const hi = Math.min(Number.isFinite(cap) ? cap : Infinity, KILUMEN_RULES.maxLevel); // game max 90
+  const hi = Number.isFinite(cap) ? cap : Infinity;
   return team.map((f) => ({ ...f, level: Math.max(f.level, Math.min(f.level + lift, hi)) }));
 }
 
