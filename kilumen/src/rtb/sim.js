@@ -4,13 +4,13 @@
 // Reused Kilumen rules, unchanged: battleStats / maxHp / energyOf / levelForXp (src/systems/creature.js), skills
 // (src/battle/data/skills.js), DRAFT_CHART + KILUMEN_RULES (strong 1.5, weak 0.6, affinity 1.3, Clean Strike 1/20 x1.4,
 // overuse 0.6 / self 1/8, XP baseXp * L / 7), capture (src/battle/capture.js captureChance / captureRoll).
-import { battleStats, maxHp, energyOf, levelForXp, speciesInfo, createCreature, defaultSkills } from '../systems/creature.js?v=v0.2.50-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.50-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.50-alpha';
-import { DRAFT_CHART } from '../battle/data/elements.js?v=v0.2.50-alpha';
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.50-alpha';
-import { captureChance, captureRoll } from '../battle/capture.js?v=v0.2.50-alpha';
-import { SHAPE_STATS, shapeOf, cooldownFor, reachOf } from './moves.js?v=v0.2.50-alpha';
+import { battleStats, maxHp, energyOf, levelForXp, speciesInfo, createCreature, defaultSkills } from '../systems/creature.js?v=v0.2.51-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.51-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.51-alpha';
+import { DRAFT_CHART } from '../battle/data/elements.js?v=v0.2.51-alpha';
+import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.51-alpha';
+import { captureChance, captureRoll } from '../battle/capture.js?v=v0.2.51-alpha';
+import { SHAPE_STATS, shapeOf, cooldownFor, reachOf } from './moves.js?v=v0.2.51-alpha';
 
 let _sk = null, _cr = null;
 const SKILLS = () => (_sk ||= buildSkills());
