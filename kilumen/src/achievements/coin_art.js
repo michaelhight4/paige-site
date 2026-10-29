@@ -14,7 +14,7 @@ export const sportOf = (id) => (id === 'games_aurelith_major' ? 'aurelith_major'
 let cssDone = false;
 export function coinCss() {
   if (cssDone || typeof document === 'undefined') return; cssDone = true;
-  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = new URL('./badges.css?v=v0.2.69-alpha', import.meta.url).href; document.head.appendChild(l);
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = new URL('./badges.css?v=v0.2.70-alpha', import.meta.url).href; document.head.appendChild(l);
 }
 /** Looping in-place idle shine for an earned coin (static icon underneath for reduced motion). delay in s staggers a row. */
 export const coinAnim = (town, cls = '', delay = 0) => (coinCss(), `<span class="cna ${cls}" style="--cs:url('${sheetPng(town)}');animation-delay:-${delay}s"><img src="${coinPng(town)}" alt="" draggable="false"></span>`);

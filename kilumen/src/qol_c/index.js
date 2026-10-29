@@ -2,9 +2,9 @@
 // existing GameUI (src/ui/ui.js is NOT edited): phone apps (Storage, Quick save), Summary A-menu (Stats, Rename),
 // encounter hook (blocker renew prompt, chain counter). Every feature has a kill switch in ./flags.js (?qolc=).
 // Text: every label is a PLACEHOLDER fallback read through ui.T('qol_c.*'); Text Bot request: design/QOL_BATCH_C_TEXT_NEEDS.md
-import { qolcFlags, QOLC_CFG } from './flags.js?v=v0.2.69-alpha';
-import { quickSave, quickSaveBlock, storageAvailable, statRows, renameCreature, Blocker, ChainCounter, qolcState } from './logic.js?v=v0.2.69-alpha';
-import { displayName } from '../systems/creature.js?v=v0.2.69-alpha';
+import { qolcFlags, QOLC_CFG } from './flags.js?v=v0.2.70-alpha';
+import { quickSave, quickSaveBlock, storageAvailable, statRows, renameCreature, Blocker, ChainCounter, qolcState } from './logic.js?v=v0.2.70-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.70-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const STAT_FB = { hp: 'Health', atk: 'Power', def: 'Guard', spa: 'Focus', spd: 'Resolve', spe: 'Speed' };

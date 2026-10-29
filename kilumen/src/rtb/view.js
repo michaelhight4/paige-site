@@ -2,11 +2,11 @@
 // screen = (world - cam) * zoom, as src/overworld/overworld.js view()), plus a small DOM HUD. All the "juice" lives here:
 // hitstop, shake, white hit flash, knockback dust, damage numbers, element sparks, telegraph wedges, "!" alerts, faint poof,
 // crystal pulses, level-up column, start/end banners. Reduced motion (?rm=1 / prefers-reduced-motion): no shake, no flashes, fewer particles.
-import { displayName } from '../systems/creature.js?v=v0.2.69-alpha';
-import { SHAPE_STATS } from './moves.js?v=v0.2.69-alpha';
-import { RT } from './sim.js?v=v0.2.69-alpha';
-import { loadFx } from '../ui/hit_fx.js?v=v0.2.69-alpha';
-import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.69-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.70-alpha';
+import { SHAPE_STATS } from './moves.js?v=v0.2.70-alpha';
+import { RT } from './sim.js?v=v0.2.70-alpha';
+import { loadFx } from '../ui/hit_fx.js?v=v0.2.70-alpha';
+import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.70-alpha';
 // crystal icon (inline, no asset): a faceted gem
 export const GEM_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 9 12 22 4 9Z" fill="#bff6ff"/><path d="M12 2 16 9 12 22 8 9Z" fill="#7fe3ff"/><path d="M4 9h16L12 22Z" fill="#4fc7ef" opacity=".55"/><path d="M12 2 8 9h8Z" fill="#fff" opacity=".8"/></svg>';
 
