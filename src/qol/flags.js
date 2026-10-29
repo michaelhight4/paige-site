@@ -5,7 +5,7 @@ export const QOL_B_DEFAULTS = Object.freeze({
   matchup: true,      // #7 Strong / Weak arrows on the battle skill list (vs the foe out now)
   dmgPreview: false,  // #7 optional damage-range preview on the skill list (off by default: the game stays hard)
   skillRecall: true,  // #5 Team menu > Skills > Recall: relearn a skill from the learnset up to the current level
-  teachReuse: true,   // #6 Teach Discs are not used up when they teach a skill
+  teachReuse: true,   // #6 Training Reels are not used up when they teach a skill
 });
 export const XP_SHARE = 0.5; // Gary: benched creatures get 50%
 
@@ -13,7 +13,7 @@ export function qolFlags(query = globalThis.location ? new URLSearchParams(globa
   const f = { ...QOL_B_DEFAULTS };
   const raw = query?.get?.('qol') || '';
   for (const t of raw.split(',').map((s) => s.trim()).filter(Boolean)) {
-    if (t === 'all' || t === 'none') for (const k of Object.keys(f)) f[k] = t === 'all';
+    if (t === 'all' || t === 'none' || t === '0') for (const k of Object.keys(f)) f[k] = t === 'all'; // '0' = all off, shared with the batch A switch (src/qol/qol.js)
     else if (t[0] === '-' && t.slice(1) in f) f[t.slice(1)] = false;
     else if (t in f) f[t] = true;
   }
