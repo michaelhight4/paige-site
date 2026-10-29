@@ -17,6 +17,7 @@ import { Renderer } from './renderer.js?v=v0.2.50-alpha';
 import { drawDebug } from './debug.js?v=v0.2.50-alpha';
 import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.50-alpha';
 import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.50-alpha';
+const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
 import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.50-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
 import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.50-alpha';
 import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.50-alpha';
@@ -85,7 +86,7 @@ export class Overworld {
     const sv = opts.saveData || freshSave();
     this.store = opts.store || null;          // SaveStore (null = no persistence)
     this.audio = opts.audio || null;          // src/audio/audio.js (music follows the scene; sfx hooks below), optional
-    for (const f of sv.flags) this.flags.add(f);
+    for (const f of sv.flags) this.flags.add(RENAMED_FLAGS[f] || f); // old saves: renamed quest flags (berry -> plum)
     this.counters = { ...sv.counters };
     this.seen = { ...sv.seen }; this.seenDay = { ...sv.seenDay };
     this.clock = { ...sv.clock };
