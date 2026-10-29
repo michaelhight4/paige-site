@@ -35,18 +35,26 @@ export function capsFlipped(e, prev) { const now = typeof e?.getModifierState ==
 export function padSkillEdges(now, prev) { return PAD_SKILL_BUTTONS.map((b, i) => (now[b] && !prev[b] ? i : -1)).filter((i) => i >= 0); }
 /** cooldown sweep angle (deg, 0 = ready) for a slot; cd remaining / total */
 export function sweepDeg(left, total) { return total > 0 ? Math.round(360 * Math.max(0, Math.min(1, left / total))) : 0; }
-// Face buttons X / Y (Gary Oct 29 2026: "add x and y buttons for the battle screen and attach each to a skill"): each holds one
-// skill of the active creature, player picks which (default skills 1 + 2). Phone: on-screen X / Y above B / A. Pad: X (2) / Y (3).
-// Keyboard keeps Q E R F for every skill (KeyX is already dodge), so no extra keys.
-export const PAD_X = 2, PAD_Y = 3, XY_STORE = 'kilumen_rtb_xy';
-/** pad buttons now / before -> ['x'] / ['y'] edges */
-export function padXYEdges(now, prev) { const o = []; if (now[PAD_X] && !prev[PAD_X]) o.push('x'); if (now[PAD_Y] && !prev[PAD_Y]) o.push('y'); return o; }
-/** [xSlot, ySlot] for a creature with n skills: the saved pick when valid, else the first two skills (one skill: both on it) */
-export function xySlots(saved, n) {
-  if (n <= 1) return [0, 0];
-  const ok = (i) => Number.isInteger(i) && i >= 0 && i < n;
-  const x = ok(saved?.[0]) ? saved[0] : 0; let y = ok(saved?.[1]) ? saved[1] : x === 1 ? 0 : 1; if (y === x) y = x === 0 ? 1 : 0;
-  return [x, y];
+// Face buttons A / B / X / Y (Gary Oct 29 2026: X / Y first, then "A and B also need skill binds"): each face holds one skill of the
+// active creature, the player picks which in 'set' mode (default skills 1-4), saved per creature uid. Phone: the touchpad A / B plus
+// on-screen X / Y above them. Pad (standard mapping): A 0 / B 1 / X 2 / Y 3. Keyboard keeps Q E R F for every skill (KeyX is dodge).
+// Dodge used to sit on phone B: it moves to its own Dodge button in the skill bar (tap = dodge, hold = sprint); pad dodge = R3 (11).
+export const FACES = ['a', 'b', 'x', 'y'], PAD_FACE = { a: 0, b: 1, x: 2, y: 3 }, PAD_X = 2, PAD_Y = 3, PAD_DODGE = 11, XY_STORE = 'kilumen_rtb_faces';
+/** pad buttons now / before -> face edges in FACES order, e.g. ['a', 'y'] */
+export function padFaceEdges(now, prev) { return FACES.filter((k) => now[PAD_FACE[k]] && !prev[PAD_FACE[k]]); }
+/** kept for older callers: X / Y edges only */
+export function padXYEdges(now, prev) { return padFaceEdges(now, prev).filter((k) => k === 'x' || k === 'y'); }
+/** [a, b, x, y] skill slots for a creature with n skills: the saved pick when valid, else skills 1-4 (fewer skills wrap round) */
+export function faceSlots(saved, n) {
+  if (n <= 0) return [0, 0, 0, 0];
+  const def = FACES.map((_, i) => i % n);
+  if (!Array.isArray(saved) || saved.length !== 4 || !saved.every((i) => Number.isInteger(i) && i >= 0 && i < n)) return def;
+  if (new Set(saved).size < Math.min(4, n)) return def; // every skill reachable when it fits
+  return saved.slice();
 }
-/** put skill slot on face b ('x' | 'y'); when the other face already holds it, the two swap */
-export function assignXY([x, y], b, slot) { return b === 'x' ? (slot === y ? [slot, x] : [slot, y]) : (slot === x ? [y, slot] : [x, slot]); }
+/** put skill slot on face k; the face that already held it takes the old skill (swap), so no skill drops off */
+export function assignFace(slots, k, slot) {
+  const o = slots.slice(), f = FACES.indexOf(k); if (f < 0) return o;
+  const j = o.indexOf(slot); if (j >= 0 && j !== f) o[j] = o[f]; o[f] = slot; return o;
+}
+export const faceIndex = (k) => FACES.indexOf(k);

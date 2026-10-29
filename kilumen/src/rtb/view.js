@@ -2,11 +2,11 @@
 // screen = (world - cam) * zoom, as src/overworld/overworld.js view()), plus a small DOM HUD. All the "juice" lives here:
 // hitstop, shake, white hit flash, knockback dust, damage numbers, element sparks, telegraph wedges, "!" alerts, faint poof,
 // crystal pulses, level-up column, start/end banners. Reduced motion (?rm=1 / prefers-reduced-motion): no shake, no flashes, fewer particles.
-import { displayName } from '../systems/creature.js?v=v0.2.66-alpha';
-import { SHAPE_STATS } from './moves.js?v=v0.2.66-alpha';
-import { RT } from './sim.js?v=v0.2.66-alpha';
-import { loadFx } from '../ui/hit_fx.js?v=v0.2.66-alpha';
-import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.66-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.67-alpha';
+import { SHAPE_STATS } from './moves.js?v=v0.2.67-alpha';
+import { RT } from './sim.js?v=v0.2.67-alpha';
+import { loadFx } from '../ui/hit_fx.js?v=v0.2.67-alpha';
+import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.67-alpha';
 // crystal icon (inline, no asset): a faceted gem
 export const GEM_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 9 12 22 4 9Z" fill="#bff6ff"/><path d="M12 2 16 9 12 22 8 9Z" fill="#7fe3ff"/><path d="M4 9h16L12 22Z" fill="#4fc7ef" opacity=".55"/><path d="M12 2 8 9h8Z" fill="#fff" opacity=".8"/></svg>';
 
@@ -81,19 +81,26 @@ body.rtb-touch .rtb-banner{font-size:22px;top:30%}
 .rtb-skbar .rtb-s{flex:1;min-width:0;min-height:36px;padding:2px 4px 2px 8px;font-size:11px;border-radius:7px}
 .rtb-skbar .rtb-s .n{padding-right:0}.rtb-skbar .rtb-s .e{font-size:10px}
 .rtb-s .xy{position:absolute;right:3px;bottom:3px;width:15px;height:15px;border-radius:50%;font:900 10px/13px system-ui,sans-serif;text-align:center;color:#1b1530;border:1px solid rgba(0,0,0,.5);z-index:2}
-.rtb-s .xy:empty{display:none}.rtb-s .xy.x{background:#58d68d}.rtb-s .xy.y{background:#ffd25a}
-.rtb-xyset{flex:0 0 32px;border-radius:7px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25);color:#fff;font:900 11px/1.05 system-ui,sans-serif;padding:0;touch-action:none}
+.rtb-s .xy:empty{display:none}.rtb-s .xy.a{background:#ff7a7a}.rtb-s .xy.b{background:#7ab8ff}.rtb-s .xy.x{background:#58d68d}.rtb-s .xy.y{background:#ffd25a}
+.rtb-s .xy{width:auto;min-width:15px;padding:0 3px;border-radius:8px}
+.rtb-xyset{flex:0 0 32px;border-radius:7px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25);color:#fff;font:900 9px/1.1 system-ui,sans-serif;padding:0;touch-action:none}
 .rtb-xyset b{color:#58d68d}.rtb-xyset i{font-style:normal;color:#ffd25a}
 .rtb-skbar.assign{border-color:#ffd25a;box-shadow:0 0 12px rgba(255,210,90,.45)}.rtb-skbar.assign .rtb-xyset{background:#ffd25a;color:#1b1530}
-.rtb-skbar.assign .rtb-s:before,.rtb-skbar.assign .rtb-s:after{position:absolute;top:0;bottom:0;width:50%;z-index:3;display:flex;align-items:center;justify-content:center;font:900 15px system-ui,sans-serif;color:#1b1530;opacity:.88}
-.rtb-skbar.assign .rtb-s:before{content:"X";left:0;background:rgba(88,214,141,.85)}.rtb-skbar.assign .rtb-s:after{content:"Y";right:0;background:rgba(255,210,90,.85)}
+.rtb-skbar.assign .rtb-s{outline:2px dashed #ffd25a;outline-offset:-2px}
+.rtb-dodge{flex:0 0 52px;border-radius:7px;background:linear-gradient(#3b4a6b,#26304a);border:2px solid rgba(255,255,255,.3);color:#fff;font:800 12px/1.05 system-ui,sans-serif;padding:0 2px;touch-action:none}
+.rtb-dodge small{display:block;font-size:9px;font-weight:600;opacity:.75}.rtb-dodge.down{transform:scale(.92);background:#26304a}
+.rtb-face.arm{outline:4px solid #fff;outline-offset:3px;animation:rtbArm .6s ease-in-out infinite alternate}@keyframes rtbArm{to{outline-color:#ffd25a}}
 .rtb-face{position:absolute;width:62px;height:62px;border-radius:50%;pointer-events:auto;touch-action:none;border:3px solid #1b1530;color:#fff;font:900 24px/1 system-ui,sans-serif;text-shadow:0 2px 0 rgba(0,0,0,.55);
   box-shadow:inset 0 -5px 0 rgba(0,0,0,.25),inset 0 4px 0 rgba(255,255,255,.35),0 3px 0 #1b1530;padding:0;transition:transform .08s ease-out,box-shadow .08s ease-out;overflow:visible}
+.rtb-face[data-face="a"]{background:radial-gradient(circle at 35% 30%,#ffb0b0,#e2534f 60%,#a8302e)}
+.rtb-face[data-face="b"]{background:radial-gradient(circle at 35% 30%,#b6d8ff,#4a8fe0 60%,#2b5fa6)}
 .rtb-face[data-face="x"]{background:radial-gradient(circle at 35% 30%,#8ff0b4,#2fae64 60%,#1e7d48)}
 .rtb-face[data-face="y"]{background:radial-gradient(circle at 35% 30%,#ffe9a0,#f2b630 60%,#b9821a)}
 .rtb-face .cd{position:absolute;inset:0;border-radius:50%;background:conic-gradient(rgba(0,0,0,.55) var(--sw,0deg),transparent 0);pointer-events:none}
 .rtb-face .lt{position:relative;z-index:1}
 .rtb-face .sn{position:absolute;left:50%;bottom:calc(100% + 3px);transform:translateX(-50%);max-width:96px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:700 11px/1.3 system-ui,sans-serif;padding:1px 6px;border-radius:6px;background:rgba(14,18,30,.86);border:1px solid rgba(255,255,255,.25);text-shadow:none}
+.rtb-face[data-face="a"] .sn,.rtb-face[data-face="b"] .sn{bottom:4px;max-width:calc(100% - 6px);font-size:10px}
+.rtb-face[data-face="a"] .lt,.rtb-face[data-face="b"] .lt{top:-8px}
 .rtb-face.down{transform:translateY(3px) scale(.9);box-shadow:inset 0 -2px 0 rgba(0,0,0,.25),inset 0 3px 8px rgba(0,0,0,.35),0 0 0 #1b1530}
 .rtb-face.fire:after{content:"";position:absolute;inset:-3px;border-radius:50%;border:3px solid #fff;animation:rtbRing .35s ease-out forwards;pointer-events:none}
 @keyframes rtbRing{0%{opacity:.95;transform:scale(1)}100%{opacity:0;transform:scale(1.45)}}
@@ -143,6 +150,7 @@ const sty = (e, k, v) => { if (!e) return; const m = e._s || (e._s = {}); if (m[
 const cls = (e, v) => { if (e && e.className !== v) e.className = v; };
 const hpCls = (f) => (f < 0.25 ? 'low' : f < 0.5 ? 'mid' : '');
 
+const FACE_I = { a: 0, b: 1, x: 2, y: 3 };
 export class RtView {
   constructor({ scene, sim, touch, reduced, keyNames }) {
     this.scene = scene; this.sim = sim; this.touch = touch; this.reduced = reduced; this.keyNames = keyNames;
@@ -163,9 +171,9 @@ export class RtView {
     this.xy = [0, 1]; this.xyOf = null; // index.js sets xyOf(c) -> [xSlot, ySlot]
     if (touch) { // phone layout: skills leave the creature card for a bottom bar; X / Y face buttons
       const bar = document.createElement('div'); bar.className = 'rtb-skbar'; bar.dataset.rtb = 'skbar';
-      bar.innerHTML = '<button class="rtb-xyset" data-rtb="xyset" aria-label="Choose the skills on X and Y"><b>X</b>/<i>Y</i><br>set</button>';
+      bar.innerHTML = '<button class="rtb-dodge" data-rtb="dodge" aria-label="Dodge, hold to sprint">Dodge<small>hold: run</small></button><button class="rtb-xyset" data-rtb="xyset" aria-label="Choose the skills on A, B, X and Y">A B<br>X Y<br>set</button>';
       bar.appendChild(this.$('.rtb-sk')); this.hud.appendChild(bar);
-      this.faces = ['x', 'y'].map((k) => { const b = document.createElement('button'); b.className = 'rtb-face'; b.dataset.face = k; b.setAttribute('aria-label', `${k.toUpperCase()} skill`);
+      this.faces = ['a', 'b', 'x', 'y'].map((k) => { const b = document.createElement('button'); b.className = 'rtb-face'; b.dataset.face = k; b.setAttribute('aria-label', `${k.toUpperCase()} skill`);
         b.innerHTML = `<span class="cd"></span><span class="lt">${k.toUpperCase()}</span><span class="sn"></span>`; this.hud.appendChild(b); return b; });
       this.layoutTouch(); this._rs = () => this.layoutTouch(); window.addEventListener('resize', this._rs); setTimeout(this._rs, 250);
     }
@@ -417,17 +425,25 @@ export class RtView {
     const sz = Math.round(Math.max(48, Math.min(66, (bb?.width || 80) * 0.78)));
     const top = Math.min(bb?.top ?? H - 100, ab?.top ?? H - 100) - sz - 22;
     const cx = [bb ? bb.left + bb.width / 2 : W - 150, ab ? ab.left + ab.width / 2 : W - 55];
-    this.faces.forEach((f, i) => Object.assign(f.style, { width: sz + 'px', height: sz + 'px', left: Math.round(cx[i] - sz / 2) + 'px', top: Math.round(top) + 'px', fontSize: Math.round(sz * 0.4) + 'px' }));
+    // A / B sit right over the touchpad's own A / B (same size), X above B, Y above A
+    const ov = (f, b, fx, fy) => Object.assign(f.style, b ? { width: b.width + 'px', height: b.height + 'px', left: b.left + 'px', top: b.top + 'px', fontSize: Math.round(b.width * 0.36) + 'px' }
+      : { width: sz + 'px', height: sz + 'px', left: Math.round(fx - sz / 2) + 'px', top: Math.round(fy) + 'px', fontSize: Math.round(sz * 0.4) + 'px' });
+    ov(this.faces[0], ab, cx[1], H - sz - 14); ov(this.faces[1], bb, cx[0], H - sz - 14);
+    [2, 3].forEach((i) => Object.assign(this.faces[i].style, { width: sz + 'px', height: sz + 'px', left: Math.round(cx[i - 2] - sz / 2) + 'px', top: Math.round(top) + 'px', fontSize: Math.round(sz * 0.4) + 'px' }));
+    // Capture button (rtb-capture): sits above the X / Y row on the right edge so the two never overlap
+    const capB = this.$('[data-rtb="crystal"]'); if (capB) { const cs = Math.max(58, Math.min(76, Math.round(top - 20 - 58))); Object.assign(capB.style, { width: cs + 'px', height: cs + 'px', top: Math.max(44, Math.round(top - 24 - cs)) + 'px' }); }
     this.touchBox = { barTop: bar.getBoundingClientRect().top || H - 46, faceLeft: Math.min(cx[0] - sz / 2, bb?.left ?? W) };
   }
   /** press feedback on a face button: squash while held, ring burst on fire */
   facePress(k, down) {
-    const f = this.faces?.[k === 'x' ? 0 : 1]; if (!f) return;
+    const f = this.faces?.[FACE_I[k]]; if (!f) return;
     f.classList.toggle('down', !!down);
     if (down) { f.classList.remove('fire'); void f.offsetWidth; f.classList.add('fire'); }
   }
-  faceNo(k) { const f = this.faces?.[k === 'x' ? 0 : 1]; if (!f) return; f.classList.remove('no'); void f.offsetWidth; f.classList.add('no'); }
-  setAssign(on) { const bar = this.$('.rtb-skbar'); if (bar) bar.classList.toggle('assign', !!on); this.assigning = !!on; }
+  faceNo(k) { const f = this.faces?.[FACE_I[k]]; if (!f) return; f.classList.remove('no'); void f.offsetWidth; f.classList.add('no'); }
+  /** set mode: on = the face being bound ('a' | 'b' | 'x' | 'y'), false = off */
+  setAssign(on) { const bar = this.$('.rtb-skbar'); this.assigning = on || false; if (bar) { bar.classList.toggle('assign', !!on); bar.dataset.arm = on ? on.toUpperCase() : ''; }
+    this.faces?.forEach((f) => f.classList.toggle('arm', f.dataset.face === on)); }
   hudFrame() {
     const sim = this.sim, a = sim.ally, plates = this.$('.rtb-plates');
     const key = sim.foes.map((f) => f.c.uid).join();
@@ -453,7 +469,7 @@ export class RtView {
     });
     if (this.faces) {
       const xy = this.xyOf ? this.xyOf(a.c, a.skills.length) : this.xy; this.xy = xy; const xk = a.c.uid + ':' + xy.join();
-      if (this._xyk !== xk) { this._xyk = xk; rows.forEach((r, i) => { const t = r.querySelector('.xy'); if (!t) return; const k = a.skills.length > 1 && i === xy[0] ? 'x' : i === xy[1] ? 'y' : ''; t.textContent = k.toUpperCase(); t.className = 'xy ' + k; }); }
+      if (this._xyk !== xk) { this._xyk = xk; rows.forEach((r, i) => { const t = r.querySelector('.xy'); if (!t) return; const ks = ['a', 'b', 'x', 'y'].filter((_, j) => xy[j] === i); t.textContent = ks.join(' ').toUpperCase(); t.className = 'xy ' + (ks[0] || ''); }); }
       this.faces.forEach((f, k) => {
         const i = xy[k], id = a.skills[i], sk = id ? this.skillInfo(id) : null, en = a.c.energy?.[i] ?? 0; f.hidden = !id;
         const nm = sk?.name || id || ''; if (f._nm !== nm) { f._nm = nm; f.querySelector('.sn').textContent = nm; }

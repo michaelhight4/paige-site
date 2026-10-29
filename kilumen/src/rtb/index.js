@@ -7,28 +7,29 @@
 // taken before the encounter is what a mid-fight reload restores).
 // Controls  PC (v0.2.60, keys.js): WASD / arrows move, Q E R F use skill 1-4, 1-6 switch to party slot 1-6, Z / Space / Enter
 //               use the selected skill, C next skill, X / Shift tap = dodge, hold = sprint, Tab team, G crystal, T turn-based, hold Esc = leave.
-//           pad: LB / RB / LT / RT skills 1-4, X / Y = the skills set on X / Y (default 1 + 2), A selected skill, B dodge / sprint, Select next skill.
-//           phone: D-pad move, X / Y face buttons = their skills (X/Y set + tap a chip's X or Y half to choose), A = selected skill,
-//               SEL = next skill, B tap = dodge / hold = sprint, skill bar at the bottom (tap a chip = use it),
+//           pad: A / B / X / Y = the skills set on each face (default skills 1-4), LB / RB / LT / RT skills 1-4, R3 tap dodge / hold sprint,
+//               Select next skill.
+//           phone: D-pad move, A / B / X / Y = their skills ('set': tap a face, then a skill), Dodge button in the skill bar
+//               (tap = dodge / hold = sprint), SEL = next skill, skill bar at the bottom (tap a chip = use it),
 //               Team / Leave (hold) buttons top right, big round Capture button on the right edge.
 // Capture tab (rtb-capture, Oct 29 2026): G / the Capture button opens a small tab with the player's crystal types, counts and the
 // foe's odds right now (same captureChance the roll uses). 1-n / click / tap launches that crystal (sim.castCrystal, unchanged
 // capture logic). Not in trainer fights (button hidden). Fairness for a hard game: the fight does NOT pause. It runs at 40 %
 // (CAP_TAB.slow) so foes keep moving and telegraphing, skills are locked while the tab is open (dodge still works), a hit on
 // your creature snaps the tab shut, and it closes on its own after 4 s real time. You get time to read the odds, not a free pause.
-import { RtBattle } from './sim.js?v=v0.2.66-alpha';
-import { RtView } from './view.js?v=v0.2.66-alpha';
-import { cooldownFor } from './moves.js?v=v0.2.66-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.66-alpha';
-import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.66-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.66-alpha';
-import { Col } from '../overworld/constants.js?v=v0.2.66-alpha';
-import { reducedMotion } from '../sports/hype.js?v=v0.2.66-alpha';
-import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padXYEdges, xySlots, assignXY, XY_STORE } from './keys.js?v=v0.2.66-alpha';
-import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.66-alpha';
-import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.66-alpha';
-import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.66-alpha';
-import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.66-alpha';
+import { RtBattle } from './sim.js?v=v0.2.67-alpha';
+import { RtView } from './view.js?v=v0.2.67-alpha';
+import { cooldownFor } from './moves.js?v=v0.2.67-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.67-alpha';
+import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.67-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.67-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.67-alpha';
+import { reducedMotion } from '../sports/hype.js?v=v0.2.67-alpha';
+import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padFaceEdges, faceSlots, assignFace, faceIndex, FACES, PAD_DODGE, XY_STORE } from './keys.js?v=v0.2.67-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.67-alpha';
+import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.67-alpha';
+import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.67-alpha';
+import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.67-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
 let SK = null;
@@ -103,9 +104,11 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
         itemName: (id) => cat[IN[id]]?.name || BATTLE_ITEMS[IN[id]]?.name || 'Remedy' };
       if (tn) { tn.talking = true; }
     }
-    // X / Y face skills, per creature (uid), saved across fights; default skills 1 + 2
+    // A / B / X / Y face skills, per creature (uid), saved across fights; default skills 1-4
     let xyMap = {}; try { xyMap = JSON.parse(localStorage.getItem(XY_STORE) || '{}') || {}; } catch { xyMap = {}; }
-    const xyOf = (c, n) => xySlots(xyMap[c.uid], n);
+    const xyOf = (c, n) => faceSlots(xyMap[c.uid], n);
+    const faceSlot = (k) => xyOf(sim.ally.c, sim.ally.skills.length)[faceIndex(k)];
+    const faceHit = (k) => { if (view.assigning) { view.setAssign(k); scene.audio?.sfx('cursor'); return; } inp.fire = faceSlot(k); view.facePress(k, true); faceDown = k; };
     const setXY = (c, v) => { xyMap[c.uid] = v; try { localStorage.setItem(XY_STORE, JSON.stringify(xyMap)); } catch { /* private mode */ } };
     view.xyOf = xyOf;
     view.skillInfo = (id) => SK[id]; view.cdOf = cooldownFor; view.maxEn = (c) => maxEnergy(c); view.maxHpOf = (c) => maxHp(c);
@@ -144,12 +147,14 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const ku = (e) => { capsCheck(e); if (e.code === 'Escape') { inp.retreat = false; e.stopPropagation(); } if (BKEY.has(e.code)) bRelease(); };
     window.addEventListener('keydown', kd, true); window.addEventListener('keyup', ku, true);
     const mCaps = (e) => capsCheck(e); window.addEventListener('mousedown', mCaps, true); window.addEventListener('mousemove', mCaps, true); window.addEventListener('focus', mCaps);
-    const offs = [];
+    const offs = []; let faceDown = null;
     const on = (el, ev, fn) => { if (!el) return; el.addEventListener(ev, fn, true); offs.push(() => el.removeEventListener(ev, fn, true)); };
     const pad = document.getElementById('touchpad');
-    on(pad?.querySelector('[data-btn="a"]'), 'pointerdown', () => { inp.fire = 'sel'; });
+    on(pad?.querySelector('[data-btn="a"]'), 'pointerdown', (e) => { e.stopPropagation(); faceHit('a'); });
     on(pad?.querySelector('[data-btn="select"]'), 'pointerdown', (e) => { e.stopPropagation(); inp.select = true; });
-    const pb = pad?.querySelector('[data-btn="b"]'); on(pb, 'pointerdown', bPress); on(pb, 'pointerup', bRelease); on(pb, 'pointercancel', bRelease); on(pb, 'pointerleave', bRelease);
+    on(pad?.querySelector('[data-btn="b"]'), 'pointerdown', (e) => { e.stopPropagation(); faceHit('b'); });
+    const db = view.$('[data-rtb="dodge"]'); on(db, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); bPress(); db.classList.add('down'); });
+    for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) on(db, ev, () => { bRelease(); db?.classList.remove('down'); });
     const hud = view.hud;
     const modeBtn = modeButton('turn', { touch, key: 'T' }); modeBtn.classList.add('in-rtb'); if (!trainer) hud.appendChild(modeBtn); else hud.querySelectorAll('[data-rtb="crystal"],[data-rtb="leave"]').forEach((b) => { b.hidden = true; b.style.display = 'none'; });
     on(modeBtn, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); inp.mode = true; });
@@ -158,21 +163,22 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       const s = e.target.closest?.('.rtb-s'), b = e.target.closest?.('[data-rtb]');
       const cr = e.target.closest?.('.rtb-cr'); if (cr) { inp.capPick = +cr.dataset.cap; e.preventDefault(); return; }
       const pi = e.target.closest?.('.rtb-pi'); if (pi) { inp.party = +pi.dataset.i; e.preventDefault(); return; }
-      const fb = e.target.closest?.('.rtb-face'); if (fb) { e.preventDefault(); const k = fb.dataset.face, slot = xyOf(sim.ally.c, sim.ally.skills.length)[k === 'x' ? 0 : 1]; inp.fire = slot; view.facePress(k, true); faceDown = k; return; }
-      if (s && view.assigning) { e.preventDefault(); const r = s.getBoundingClientRect(), k = e.clientX < r.left + r.width / 2 ? 'x' : 'y'; setXY(sim.ally.c, assignXY(xyOf(sim.ally.c, sim.ally.skills.length), k, +s.dataset.slot)); view.facePress(k, true); setTimeout(() => view.facePress(k, false), 120); scene.audio?.sfx('cursor'); return; }
+      const fb = e.target.closest?.('.rtb-face'); if (fb) { e.preventDefault(); faceHit(fb.dataset.face); return; }
+      if (s && view.assigning) { e.preventDefault(); const k = view.assigning; setXY(sim.ally.c, assignFace(xyOf(sim.ally.c, sim.ally.skills.length), k, +s.dataset.slot)); view.facePress(k, true); setTimeout(() => view.facePress(k, false), 120); view.setAssign(FACES[(faceIndex(k) + 1) % 4]); scene.audio?.sfx('cursor'); return; }
       if (s) { sim.selected = +s.dataset.slot; inp.fire = +s.dataset.slot; e.preventDefault(); return; }
-      if (b?.dataset.rtb === 'xyset') { e.preventDefault(); view.setAssign(!view.assigning); if (view.assigning) view.banner('Tap the X or Y side of a skill', '', 1300); scene.audio?.sfx('cursor'); return; }
+      if (b?.dataset.rtb === 'xyset') { e.preventDefault(); view.setAssign(view.assigning ? false : 'a'); if (view.assigning) view.banner('Tap A, B, X or Y, then a skill', '', 1400); scene.audio?.sfx('cursor'); return; }
       if (!b) return; e.preventDefault();
       if (b.dataset.rtb === 'swap') inp.swap = true; else if (b.dataset.rtb === 'crystal') inp.crystal = globalThis.KILUMEN_RTB_CAPTURE_OFF !== true; else if (b.dataset.rtb === 'leave') inp.retreat = true;
     });
-    let faceDown = null;
+
     const leaveUp = () => { inp.retreat = false; if (faceDown) { view.facePress(faceDown, false); faceDown = null; } }; on(window, 'pointerup', leaveUp); on(window, 'pointercancel', leaveUp);
     const padPrev = new Map();
-    const pollPads = () => { // standard-mapping pads: LB / RB / LT / RT = skills 1-4 (edges)
+    const pollPads = () => { // standard-mapping pads: A / B / X / Y = face skills, LB / RB / LT / RT = skills 1-4, R3 dodge (edges)
       const pads = navigator.getGamepads?.() || [];
       for (const p of pads) { if (!p || p.mapping !== 'standard') continue; const now = p.buttons.map((b) => !!b?.pressed), prev = padPrev.get(p.index) || [];
         const e = padSkillEdges(now, prev); if (e.length) inp.fire = e[0];
-        for (const k of padXYEdges(now, prev)) { inp.fire = xyOf(sim.ally.c, sim.ally.skills.length)[k === 'x' ? 0 : 1]; view.facePress(k, true); setTimeout(() => view.facePress(k, false), 110); }
+        for (const k of padFaceEdges(now, prev)) { inp.fire = faceSlot(k); view.facePress(k, true); setTimeout(() => view.facePress(k, false), 110); }
+        if (now[PAD_DODGE] && !prev[PAD_DODGE]) bPress(); else if (!now[PAD_DODGE] && prev[PAD_DODGE]) bRelease();
         padPrev.set(p.index, now); }
     };
     const moveVec = () => {
