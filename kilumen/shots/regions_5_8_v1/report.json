@@ -1,0 +1,26 @@
+{
+ "attached": {
+  "r56": true,
+  "r78": true
+ },
+ "mirefen": "mirefen",
+ "sunmeadow_fields": "sunmeadow_fields",
+ "mirefen_bog": "mirefen_bog",
+ "mirefen_hall_int": "mirefen_hall_int",
+ "aurelith": "aurelith",
+ "aurelith_stadium_int": "aurelith_stadium_int",
+ "route_coast": "route_coast",
+ "tidewater_coast": "tidewater_coast",
+ "tidewater_hall_int": "tidewater_hall_int",
+ "tidewater_cave_int": "tidewater_cave_int",
+ "route_fernwick_lanternport": "route_fernwick_lanternport",
+ "lanternport": "lanternport",
+ "lanternport_hall_int": "lanternport_hall_int",
+ "route_cindervale": "route_cindervale",
+ "cindervale": "cindervale",
+ "cindervale_hall_int": "cindervale_hall_int",
+ "errs": [],
+ "miss": [
+  "http://127.0.0.1:40981/playtime.js?game=kilumen&v=v0.2.87-alpha"
+ ]
+}

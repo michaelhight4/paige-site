@@ -952,6 +952,13 @@ export class Overworld {
 
   /** One interact spot (props + triggers). */
   async runSpot(sp) {
+    if (sp.kind === 'lift') { // Aurelith city v1: Galleria / hotel lift - pick a floor, then a plain door warp (lastDoor untouched, so $return still exits the building)
+      const floors = (sp.floors || []).filter((f) => f.map !== this.map.name);
+      const k = await this.ask([this.text('system_field.lift_prompt') ?? 'Lift. Which floor?'], [...floors.map((f) => f.label), 'Cancel']);
+      const f = floors[k];
+      if (f) this.startWarp({ map: f.map, x: f.x, y: f.y, facing: 'down' }, 'door');
+      return;
+    }
     if (sp.counter) this.bump(sp.counter);
     if (sp.id === 'bin_ron' && this.flags.has('all_badges') && !this.flags.has('finale_done')) this.bump('bin_inspects_after_8');
     if (sp.prompt_after_line) { // camps: the look line, then the prompt only after that line; Yes sets sets_flag

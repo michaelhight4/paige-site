@@ -1393,6 +1393,334 @@
    "overworld_sheet_2x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_3x.png",
    "note": "Harbour Haul tug coach (dev/sports-major, reuses a coach sprite until art lands)"
+  },
+  "aurelith.aurelith_arena_doorman": {
+   "sprite_id": "vil_guard_m",
+   "overworld_sheet": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m/overworld/vil_guard_m_chibi/",
+   "class": "arena doorman (reuse route guard)",
+   "note": "region 2 (region2_wd Oct 23 2026): reuse of an existing region 1 sheet (same 320x384 layout, rows down/left/right/up, palette-checked); no new art"
+  },
+  "aurelith.aurelith_airspace_officer": {
+   "sprite_id": "vil_officer_f",
+   "overworld_sheet": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_officer_f/overworld/vil_officer_f_chibi/",
+   "class": "transit / airspace officer (woman)",
+   "note": "region 2 (region2_wd Oct 23 2026): reuse of an existing region 1 sheet (same 320x384 layout, rows down/left/right/up, palette-checked); no new art"
+  },
+  "aurelith.aurelith_lucky_crystal_seller": {
+   "sprite_id": "vil_guard_m_b",
+   "overworld_sheet": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi/",
+   "class": "lucky crystal seller (same sheet as unplaced.lucky_crystal_seller)",
+   "note": "region 2 (region2_wd Oct 23 2026): reuse of an existing region 1 sheet (same 320x384 layout, rows down/left/right/up, palette-checked); no new art"
+  },
+  "aurelith.aurelith_villager_1": {
+   "sprite_id": "vil_elder_m",
+   "overworld_sheet": "npcs/vil_elder_m/overworld/vil_elder_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_elder_m/overworld/vil_elder_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_elder_m/overworld/vil_elder_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_elder_m/overworld/vil_elder_m_chibi/",
+   "class": "elder (grandfather)",
+   "note": "region 2 (region2_wd Oct 23 2026): reuse of an existing region 1 sheet (same 320x384 layout, rows down/left/right/up, palette-checked); no new art"
+  },
+  "aurelith.aurelith_villager_2": {
+   "sprite_id": "vil_cook_f",
+   "overworld_sheet": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_cook_f/overworld/vil_cook_f_chibi/",
+   "class": "townsperson (reuse cook sheet)",
+   "note": "region 2 (region2_wd Oct 23 2026): reuse of an existing region 1 sheet (same 320x384 layout, rows down/left/right/up, palette-checked); no new art"
+  },
+  "aurelith.aurelith_ron_6": {
+   "sprite_id": "ron",
+   "class": "main cast",
+   "overworld_sheet": "humans/ron/overworld/ron_chibi_sheet.png",
+   "overworld_sheet_2x": "humans/ron/overworld/ron_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "humans/ron/overworld/ron_chibi_sheet_3x.png",
+   "overworld_frames_dir": "humans/ron/overworld/ron_chibi/",
+   "trainer_64x128": "humans/ron/trainer/ron_trainer_64x128.png",
+   "portraits": {
+    "angry": "humans/ron/portraits/ron_angry.png",
+    "happy": "humans/ron/portraits/ron_happy.png",
+    "neutral": "humans/ron/portraits/ron_neutral.png"
+   },
+   "note": "existing main-cast sheet (Ron)"
+  },
+  "aurelith.aurelith_commuter": {
+   "sprite_id": "vil_commuter_f",
+   "overworld_sheet": "npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_commuter_f/overworld/vil_commuter_f_chibi/",
+   "class": "commuter by the terminal",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_business": {
+   "sprite_id": "vil_business_m",
+   "overworld_sheet": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_business_m/overworld/vil_business_m_chibi/",
+   "class": "business person outside RT HQ",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_fan_1": {
+   "sprite_id": "vil_fan_m",
+   "overworld_sheet": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_fan_m/overworld/vil_fan_m_chibi/",
+   "class": "Games fan on the stadium forecourt",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_fan_2": {
+   "sprite_id": "vil_fan_m",
+   "overworld_sheet": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_fan_m/overworld/vil_fan_m_chibi/",
+   "class": "Games fan on the stadium forecourt",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_station_guard": {
+   "sprite_id": "vil_stationguard_m",
+   "overworld_sheet": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi/",
+   "class": "station guard at the Grand Terminal door",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_tourist": {
+   "sprite_id": "vil_tourist_f",
+   "overworld_sheet": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi/",
+   "class": "tourist admiring the Lumen Spire",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_gate_guide_e": {
+   "sprite_id": "vil_stationguard_m",
+   "overworld_sheet": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi/",
+   "class": "guide at the east gate",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_gate_guide_s": {
+   "sprite_id": "vil_stationguard_m",
+   "overworld_sheet": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi/",
+   "class": "guide at the south gate",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_park_walker": {
+   "sprite_id": "vil_tourist_f",
+   "overworld_sheet": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi/",
+   "class": "walker in Canal Park",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith.aurelith_cafe_regular": {
+   "sprite_id": "vil_business_m",
+   "overworld_sheet": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_business_m/overworld/vil_business_m_chibi/",
+   "class": "cafe regular",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_terminal_int.aurelith_terminal_clerk": {
+   "sprite_id": "vil_receptionist_f_b",
+   "class": "pass clerk / office clerk (woman) - burgundy suit swap",
+   "overworld_sheet": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi/"
+  },
+  "aurelith_terminal_int.aurelith_terminal_traveller": {
+   "sprite_id": "vil_office_m_b",
+   "class": "commuter / clerk (young man) - mint shirt swap",
+   "overworld_sheet": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi/"
+  },
+  "aurelith_terminal_int.aurelith_terminal_guard": {
+   "sprite_id": "vil_stationguard_m",
+   "overworld_sheet": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi/",
+   "class": "station guard",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_stadium_int.aurelith_arena_doorman": {
+   "sprite_id": "vil_guard_m",
+   "overworld_sheet": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m/overworld/vil_guard_m_chibi/",
+   "class": "arena doorman (reuse route guard)",
+   "note": "region 2 (region2_wd Oct 23 2026): reuse of an existing region 1 sheet (same 320x384 layout, rows down/left/right/up, palette-checked); no new art"
+  },
+  "aurelith_stadium_int.aurelith_stadium_attendant": {
+   "sprite_id": "vil_clerk_f",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/",
+   "class": "ticket attendant",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_stadium_int.aurelith_stadium_fan": {
+   "sprite_id": "vil_fan_m",
+   "overworld_sheet": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_fan_m/overworld/vil_fan_m_chibi/",
+   "class": "Games fan",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_rthq_int.aurelith_rthq_receptionist": {
+   "sprite_id": "vil_clerk_f",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/",
+   "class": "reception",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_rthq_int.aurelith_rthq_staffer": {
+   "sprite_id": "vil_business_m",
+   "overworld_sheet": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_business_m/overworld/vil_business_m_chibi/",
+   "class": "staffer with company lore",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_1f_int.aurelith_galleria_clerk_1": {
+   "sprite_id": "vil_clerk_f",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/",
+   "class": "1F floor clerk",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_1f_int.aurelith_galleria_shopper_1": {
+   "sprite_id": "vil_commuter_f",
+   "overworld_sheet": "npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_commuter_f/overworld/vil_commuter_f_chibi/",
+   "class": "shopper",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_2f_int.aurelith_galleria_clerk_2": {
+   "sprite_id": "vil_clerk_f",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/",
+   "class": "2F floor clerk",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_2f_int.aurelith_galleria_shopper_2": {
+   "sprite_id": "vil_business_m",
+   "overworld_sheet": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_business_m/overworld/vil_business_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_business_m/overworld/vil_business_m_chibi/",
+   "class": "shopper",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_3f_int.aurelith_galleria_clerk_3": {
+   "sprite_id": "vil_clerk_f",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/",
+   "class": "3F floor clerk",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_3f_int.aurelith_galleria_shopper_3": {
+   "sprite_id": "vil_fan_m",
+   "overworld_sheet": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_fan_m/overworld/vil_fan_m_chibi/",
+   "class": "shopper",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_4f_int.aurelith_galleria_clerk_4": {
+   "sprite_id": "vil_clerk_f",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/",
+   "class": "4F floor clerk",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_4f_int.aurelith_galleria_shopper_4": {
+   "sprite_id": "vil_tourist_f",
+   "overworld_sheet": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi/",
+   "class": "shopper",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_galleria_roof.aurelith_roof_kid": {
+   "sprite_id": "vil_tourist_f",
+   "overworld_sheet": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi/",
+   "class": "roof garden visitor",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_hotel_int.aurelith_hotel_clerk": {
+   "sprite_id": "vil_clerk_f",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/",
+   "class": "front desk",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_hotel_int.aurelith_hotel_guest": {
+   "sprite_id": "vil_tourist_f",
+   "overworld_sheet": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi/",
+   "class": "guest",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "aurelith_hotel_2f_int.aurelith_hotel_tourist": {
+   "sprite_id": "vil_tourist_f",
+   "overworld_sheet": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi/",
+   "class": "hotel guest",
+   "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
   }
  },
  "unassigned_ready": {

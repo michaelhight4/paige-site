@@ -32,7 +32,7 @@ test('the 8th coin sets all_badges (and only then); the arena gate keys on it', 
   assert.equal(E.syncAllBadges(s), false);
   s.setFlag(MASTERS[7]);
   assert.ok(s.flags.has('all_badges'));
-  const au = JSON.parse(fs.readFileSync(path.join(root, 'art/world/overworld/maps/aurelith.json'), 'utf8'));
+  const au = JSON.parse(fs.readFileSync(path.join(root, 'art/world/overworld/maps/aurelith_stadium_int.json'), 'utf8')); // Aurelith city v1: the gate moved into the stadium lobby
   assert.equal(au.story_gates.find((g) => g.id === 'gate_aurelith_arena').flag, E.ENDING.badges);
 });
 

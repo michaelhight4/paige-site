@@ -74,9 +74,11 @@ export function railStops(layout, flags, built = new Set(layout?.maps_built || [
   });
 }
 
-/** Arrival cell for a stop: one tile below the town's door warp into station_int (the shared interior uses $return). */
+/** Arrival cell for a stop: one tile below the town's station door - a warp marked rail:true (Aurelith Grand Terminal)
+ *  wins, else the door warp into station_int (the shared interior uses $return). */
 export function railArrival(townMap, interior = 'station_int') {
-  const w = (townMap?.warps || []).find((q) => q.to === interior);
+  const ws = townMap?.warps || [];
+  const w = ws.find((q) => q.rail) || ws.find((q) => q.to === interior);
   return w ? { map: townMap.name, x: w.x, y: w.y + 1, facing: 'down' } : null;
 }
 

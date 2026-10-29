@@ -8940,7 +8940,313 @@
      }
     ]
    },
-   "area_name": "Aurelith"
+   "area_name": "Aurelith",
+   "aurelith_commuter": {
+    "pages": [
+     "Trains every hour, on the hour.\nThe capital doesn't do sleep.",
+     "I've a meeting in four minutes.\nI'm walking in three."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Trains every hour, on the hour.\nThe capital doesn't do sleep.",
+       "I've a meeting in four minutes.\nI'm walking in three."
+      ]
+     }
+    ]
+   },
+   "aurelith_business": {
+    "pages": [
+     "See that tower? Revival Tech.\nHalf the city clocks in there.",
+     "The other half sells them coffee.\nGuess which half is happier."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "See that tower? Revival Tech.\nHalf the city clocks in there.",
+       "The other half sells them coffee.\nGuess which half is happier."
+      ]
+     }
+    ]
+   },
+   "aurelith_fan_1": {
+    "pages": [
+     "I'm waiting for a challenger with\nall eight coins. Any day now.",
+     "Oh! Are you...? No? Shame.\nI'll keep the banner rolled up."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "v_all_badges",
+      "flags": [
+       "all_badges"
+      ],
+      "pages": [
+       "Eight coins?! On you? Right now?",
+       "Hold still. I'm unrolling the banner."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "I'm waiting for a challenger with\nall eight coins. Any day now.",
+       "Oh! Are you...? No? Shame.\nI'll keep the banner rolled up."
+      ]
+     }
+    ]
+   },
+   "aurelith_fan_2": {
+    "pages": [
+     "Got this scarf in the Galleria.\nOfficial Games colours, apparently.",
+     "It's August. I'm melting.\nWorth it."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Got this scarf in the Galleria.\nOfficial Games colours, apparently.",
+       "It's August. I'm melting.\nWorth it."
+      ]
+     }
+    ]
+   },
+   "aurelith_station_guard": {
+    "pages": [
+     "Airspace over the capital is closed.\nRail's the only way in or out.",
+     "No flying, no gliding, no 'just a\nquick hop'. Rules are rules."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Airspace over the capital is closed.\nRail's the only way in or out.",
+       "No flying, no gliding, no 'just a\nquick hop'. Rules are rules."
+      ]
+     }
+    ]
+   },
+   "aurelith_tourist": {
+    "pages": [
+     "First time in the capital!\nI've taken four hundred photos.",
+     "The fountain's a must. I've seen it\nsix times. It's still a must."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "First time in the capital!\nI've taken four hundred photos.",
+       "The fountain's a must. I've seen it\nsix times. It's still a must."
+      ]
+     }
+    ]
+   },
+   "aurelith_gate_guide_e": {
+    "pages": [
+     "East Gate. Back toward the eastern\npaths and the quieter towns.",
+     "Mind the hedges past the gate.\nThey've opinions about trespassers."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "East Gate. Back toward the eastern\npaths and the quieter towns.",
+       "Mind the hedges past the gate.\nThey've opinions about trespassers."
+      ]
+     }
+    ]
+   },
+   "aurelith_gate_guide_s": {
+    "pages": [
+     "South Gate. Keep going and you'll\nreach Cindervale. Feel the heat.",
+     "Pack water. Cindervale folk say\n'warm'. They mean 'very warm'."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "South Gate. Keep going and you'll\nreach Cindervale. Feel the heat.",
+       "Pack water. Cindervale folk say\n'warm'. They mean 'very warm'."
+      ]
+     }
+    ]
+   },
+   "aurelith_park_walker": {
+    "pages": [
+     "The canal's lovely and calm.\nNo creatures nest along here.",
+     "Too many joggers, I reckon.\nI'd move out too."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The canal's lovely and calm.\nNo creatures nest along here.",
+       "Too many joggers, I reckon.\nI'd move out too."
+      ]
+     }
+    ]
+   },
+   "aurelith_cafe_regular": {
+    "pages": [
+     "The café's shut today. Today!\nOf all days. I had a routine.",
+     "Sign says 'back soon'.\nI'll wait. I have a bench. I'm fine."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The café's shut today. Today!\nOf all days. I had a routine.",
+       "Sign says 'back soon'.\nI'll wait. I have a bench. I'm fine."
+      ]
+     }
+    ]
+   },
+   "aurelith_capitol_door": {
+    "pages": [
+     "CAPITOL\nClosed today. Public tours resume soon."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "CAPITOL\nClosed today. Public tours resume soon."
+      ]
+     }
+    ]
+   },
+   "aurelith_museum_door": {
+    "pages": [
+     "AURELITH MUSEUM\nClosed for a new exhibit. Hush-hush."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "AURELITH MUSEUM\nClosed for a new exhibit. Hush-hush."
+      ]
+     }
+    ]
+   },
+   "aurelith_cafe_door": {
+    "pages": [
+     "CAFÉ\nShut today. Back soon. - Management"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "CAFÉ\nShut today. Back soon. - Management"
+      ]
+     }
+    ]
+   },
+   "aurelith_school_door": {
+    "pages": [
+     "AURELITH SCHOOL\nClosed today. Yes, the whole day. Yay."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "AURELITH SCHOOL\nClosed today. Yes, the whole day. Yay."
+      ]
+     }
+    ]
+   },
+   "aurelith_tram_stop": {
+    "pages": [
+     "TRAM STOP\nTerminal - Stadium",
+     "Service starting soon.\nWe apologise for the walking."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "TRAM STOP\nTerminal - Stadium",
+       "Service starting soon.\nWe apologise for the walking."
+      ]
+     }
+    ]
+   },
+   "aurelith_kiosk": {
+    "pages": [
+     "CITY INFO\nWelcome to Aurelith, the capital.",
+     "North: Capitol, Museum, Revival Tech.\nEast: Rail Blvd, Terminal, East Gate.",
+     "Centre: Crown Ave, Galleria, fountain.\nSouth: Stadium, Hotel. Canal park west."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "CITY INFO\nWelcome to Aurelith, the capital.",
+       "North: Capitol, Museum, Revival Tech.\nEast: Rail Blvd, Terminal, East Gate.",
+       "Centre: Crown Ave, Galleria, fountain.\nSouth: Stadium, Hotel. Canal park west."
+      ]
+     }
+    ]
+   },
+   "aurelith_crown_avenue_sign": {
+    "pages": [
+     "CROWN AVENUE\nNorth Street this way"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "CROWN AVENUE\nNorth Street this way"
+      ]
+     }
+    ]
+   },
+   "aurelith_rail_blvd_sign": {
+    "pages": [
+     "RAIL BOULEVARD\nTerminal and East Gate"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RAIL BOULEVARD\nTerminal and East Gate"
+      ]
+     }
+    ]
+   }
   },
   "route_aurelith_saltmere": {
    "route_aurelith_saltmere_trainer_1": {
@@ -14269,6 +14575,522 @@
     ]
    },
    "area_name": "Lantern Rest"
+  },
+  "aurelith_galleria_1f_int": {
+   "aurelith_galleria_clerk_1": {
+    "pages": [
+     "Welcome to the Galleria!\nFive floors and a garden on top.",
+     "Heals and capture crystals here.\nThe lift goes all the way up."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to the Galleria!\nFive floors and a garden on top.",
+       "Heals and capture crystals here.\nThe lift goes all the way up."
+      ]
+     }
+    ]
+   },
+   "aurelith_galleria_shopper_1": {
+    "pages": [
+     "Capture crystals, two dozen.\nOptimism, one.",
+     "My partner says I overbuy.\nMy partner was a capture crystal buy."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Capture crystals, two dozen.\nOptimism, one.",
+       "My partner says I overbuy.\nMy partner was a capture crystal buy."
+      ]
+     }
+    ]
+   },
+   "aurelith_galleria_dir_1": {
+    "pages": [
+     "1F  Heals and capture crystals\n2F  Battle items",
+     "3F  Sports gear and team kits\n4F  Home and decor - Roof garden"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "1F  Heals and capture crystals\n2F  Battle items",
+       "3F  Sports gear and team kits\n4F  Home and decor - Roof garden"
+      ]
+     }
+    ]
+   },
+   "area_name": "Aurelith Galleria 1F"
+  },
+  "aurelith_galleria_2f_int": {
+   "aurelith_galleria_clerk_2": {
+    "pages": [
+     "Second floor: battle items.\nEverything for the big day.",
+     "Guards, boosts, cures. No refunds\nif you lose. Morale is free."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Second floor: battle items.\nEverything for the big day.",
+       "Guards, boosts, cures. No refunds\nif you lose. Morale is free."
+      ]
+     }
+    ]
+   },
+   "aurelith_galleria_shopper_2": {
+    "pages": [
+     "I'm prepping for the Arena.\nOne day. Not soon. One day.",
+     "Today I'm prepping my shopping list.\nIt's very strong."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "I'm prepping for the Arena.\nOne day. Not soon. One day.",
+       "Today I'm prepping my shopping list.\nIt's very strong."
+      ]
+     }
+    ]
+   },
+   "aurelith_galleria_dir_2": {
+    "pages": [
+     "2F  Battle items\nLift to all floors and the roof"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "2F  Battle items\nLift to all floors and the roof"
+      ]
+     }
+    ]
+   },
+   "area_name": "Aurelith Galleria 2F"
+  },
+  "aurelith_galleria_3f_int": {
+   "aurelith_galleria_clerk_3": {
+    "pages": [
+     "Sports gear and team kits!\nLook the part, play the part.",
+     "Sweatbands are half price.\nThey're also half sweatband."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Sports gear and team kits!\nLook the part, play the part.",
+       "Sweatbands are half price.\nThey're also half sweatband."
+      ]
+     }
+    ]
+   },
+   "aurelith_galleria_shopper_3": {
+    "pages": [
+     "I need the Stadium jersey.\nThe home one. Not the away one.",
+     "The away one's fine. Just wrong.\nYou understand."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "I need the Stadium jersey.\nThe home one. Not the away one.",
+       "The away one's fine. Just wrong.\nYou understand."
+      ]
+     }
+    ]
+   },
+   "aurelith_galleria_dir_3": {
+    "pages": [
+     "3F  Sports gear and team kits\nLift to all floors and the roof"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "3F  Sports gear and team kits\nLift to all floors and the roof"
+      ]
+     }
+    ]
+   },
+   "area_name": "Aurelith Galleria 3F"
+  },
+  "aurelith_galleria_4f_int": {
+   "aurelith_galleria_clerk_4": {
+    "pages": [
+     "Home and decor. Make it yours!\nCushions are our bestsellers.",
+     "Nobody needs eleven cushions.\nEveryone buys eleven cushions."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Home and decor. Make it yours!\nCushions are our bestsellers.",
+       "Nobody needs eleven cushions.\nEveryone buys eleven cushions."
+      ]
+     }
+    ]
+   },
+   "aurelith_galleria_shopper_4": {
+    "pages": [
+     "Just got a flat in Aurelith!\nIt's tiny. It's perfect.",
+     "Lamp, rug, plant. Then I'll\nsee if there's room for me."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Just got a flat in Aurelith!\nIt's tiny. It's perfect.",
+       "Lamp, rug, plant. Then I'll\nsee if there's room for me."
+      ]
+     }
+    ]
+   },
+   "aurelith_galleria_dir_4": {
+    "pages": [
+     "4F  Home and decor\nRoof garden one floor up by lift"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "4F  Home and decor\nRoof garden one floor up by lift"
+      ]
+     }
+    ]
+   },
+   "area_name": "Aurelith Galleria 4F"
+  },
+  "aurelith_galleria_roof": {
+   "aurelith_roof_kid": {
+    "pages": [
+     "You can see the whole stadium\nfrom up here! And the tower!",
+     "I waved at the Arena.\nI think it waved back. Maybe."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "You can see the whole stadium\nfrom up here! And the tower!",
+       "I waved at the Arena.\nI think it waved back. Maybe."
+      ]
+     }
+    ]
+   },
+   "area_name": "Galleria Roof Garden"
+  },
+  "aurelith_hotel_int": {
+   "aurelith_hotel_clerk": {
+    "pages": [
+     "Welcome to the Grand! Sadly we're\nfully booked for the Games.",
+     "There's a waiting list. It has a\nwaiting list. Very exclusive."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to the Grand! Sadly we're\nfully booked for the Games.",
+       "There's a waiting list. It has a\nwaiting list. Very exclusive."
+      ]
+     }
+    ]
+   },
+   "aurelith_hotel_guest": {
+    "pages": [
+     "Came in on the morning train for\nthe Games. Booked a year ahead.",
+     "Room's lovely. View's of a wall.\nA very grand wall, mind."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Came in on the morning train for\nthe Games. Booked a year ahead.",
+       "Room's lovely. View's of a wall.\nA very grand wall, mind."
+      ]
+     }
+    ]
+   },
+   "area_name": "The Grand, Aurelith"
+  },
+  "aurelith_hotel_2f_int": {
+   "aurelith_hotel_tourist": {
+    "pages": [
+     "I've lost my room key. Again.\nThird time. Same pocket.",
+     "Good thing the lift's handy.\nI've ridden it nine times."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "I've lost my room key. Again.\nThird time. Same pocket.",
+       "Good thing the lift's handy.\nI've ridden it nine times."
+      ]
+     }
+    ]
+   },
+   "area_name": "The Grand 2F"
+  },
+  "aurelith_rthq_int": {
+   "aurelith_rthq_receptionist": {
+    "pages": [
+     "Welcome to Revival Tech Head Office.\nStaff only past the lobby.",
+     "Your pass says 'field'. This is\n'lobby'. Lovely to see you, though."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to Revival Tech Head Office.\nStaff only past the lobby.",
+       "Your pass says 'field'. This is\n'lobby'. Lovely to see you, though."
+      ]
+     }
+    ]
+   },
+   "aurelith_rthq_staffer": {
+    "pages": [
+     "Revival Tech started in a two-room\nworkshop, three streets from here.",
+     "Healers, revival machines, storage.\nNow look. We have a lobby fern."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Revival Tech started in a two-room\nworkshop, three streets from here.",
+       "Healers, revival machines, storage.\nNow look. We have a lobby fern."
+      ]
+     }
+    ]
+   },
+   "aurelith_rthq_plaque": {
+    "pages": [
+     "REVIVAL TECH - HEAD OFFICE\nFounded in Aurelith. Here to help."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "REVIVAL TECH - HEAD OFFICE\nFounded in Aurelith. Here to help."
+      ]
+     }
+    ]
+   },
+   "area_name": "Revival Tech Head Office"
+  },
+  "aurelith_stadium_int": {
+   "aurelith_stadium_attendant": {
+    "pages": [
+     "The Arena doors open only for\nholders of all eight coins.",
+     "No coins, no door. I don't make\nthe rules. I just stand by them."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "v_all_badges",
+      "flags": [
+       "all_badges"
+      ],
+      "pages": [
+       "Eight coins. Well, well.",
+       "The Arena's not quite ready.\nYou'll be first through. Promise."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The Arena doors open only for\nholders of all eight coins.",
+       "No coins, no door. I don't make\nthe rules. I just stand by them."
+      ]
+     }
+    ]
+   },
+   "aurelith_stadium_fan": {
+    "pages": [
+     "Seats sell out every single Games.\nI queued two nights for mine.",
+     "Brought a flask, a blanket and\na very patient grandmother."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Seats sell out every single Games.\nI queued two nights for mine.",
+       "Brought a flask, a blanket and\na very patient grandmother."
+      ]
+     }
+    ]
+   },
+   "aurelith_stadium_board": {
+    "pages": [
+     "AURELITH GAMES\nArena open to holders of all 8 coins."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "AURELITH GAMES\nArena open to holders of all 8 coins."
+      ]
+     }
+    ]
+   },
+   "aurelith_arena_doorman": {
+    "pages": [
+     "You've got {coins} coins. Come back with eight.",
+     "No, I can't make an exception. Nobody gets an exception."
+    ],
+    "kind": "guard",
+    "gate": "gate_aurelith_arena",
+    "note": "speaks blockers.gate_aurelith_arena (proposed arena_doorman); same words",
+    "lines": [
+     {
+      "id": "v_all_badges",
+      "flags": [
+       "all_badges"
+      ],
+      "pages": [
+       "Eight coins. Huh. Most people stop at five and blame the weather.",
+       "Go on in. Good luck. You'll need it."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "You've got {coins} coins. Come back with eight.",
+       "No, I can't make an exception. Nobody gets an exception."
+      ]
+     }
+    ]
+   },
+   "area_name": "Aurelith Stadium"
+  },
+  "aurelith_terminal_int": {
+   "aurelith_terminal_clerk": {
+    "pages": [
+     "Aurelith Terminal, ticket desk.\nAll lines run on the hour.",
+     "Rail tickets are coming soon.\nFor now: arrivals welcome!"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Aurelith Terminal, ticket desk.\nAll lines run on the hour.",
+       "Rail tickets are coming soon.\nFor now: arrivals welcome!"
+      ]
+     }
+    ]
+   },
+   "aurelith_terminal_traveller": {
+    "pages": [
+     "Just got off the train. Wow.\nThe capital is enormous.",
+     "I asked for the fountain. Someone\nsaid 'which one'. Which one?!"
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Just got off the train. Wow.\nThe capital is enormous.",
+       "I asked for the fountain. Someone\nsaid 'which one'. Which one?!"
+      ]
+     }
+    ]
+   },
+   "aurelith_terminal_guard": {
+    "pages": [
+     "Reminder: Government restricted\nairspace over Aurelith.",
+     "Arrivals by rail only. Yes, even\nif your creature has wings."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Reminder: Government restricted\nairspace over Aurelith.",
+       "Arrivals by rail only. Yes, even\nif your creature has wings."
+      ]
+     }
+    ]
+   },
+   "aurelith_terminal_restricted_airspace": {
+    "pages": [
+     "GOVERNMENT RESTRICTED AIRSPACE\nArrivals by rail only."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "GOVERNMENT RESTRICTED AIRSPACE\nArrivals by rail only."
+      ]
+     }
+    ]
+   },
+   "aurelith_terminal_timetable": {
+    "pages": [
+     "DEPARTURES\nEvery hour, on the hour.",
+     "Today: all lines on time.\nNobody believes it either."
+    ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DEPARTURES\nEvery hour, on the hour.",
+       "Today: all lines on time.\nNobody believes it either."
+      ]
+     }
+    ]
+   },
+   "area_name": "Aurelith Terminal"
   }
  },
  "closed_exits": {
@@ -17944,6 +18766,15 @@
    "build": "partial",
    "status": "DRAFT",
    "note": "src/progression/index.js:176 other in-map halls"
+  },
+  "lift_prompt": {
+   "pages": [
+    "Lift. Which floor?"
+   ],
+   "note": "Aurelith Galleria + Grand hotel lifts; floor labels stay in the map json",
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   }
  },
  "system_company_voice": {
