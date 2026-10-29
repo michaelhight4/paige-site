@@ -3,7 +3,7 @@
 // Lazily imported by ui_tools2.js the first time one of these plays, so it adds nothing to the boot bundle.
 // Rollback: set a FX_ART flag to false -> capture goes back to the CSS/DOM placeholder (capture_fx.js); heal and
 // evolution then play nothing (there was no old path for them).
-import { SPECIES, battleSpriteRel } from './data.js?v=v0.2.86-alpha';
+import { SPECIES, battleSpriteRel } from './data.js?v=v0.2.87-alpha';
 
 export const FX_ART = { capture: true, evolution: true, heal: true };
 export const FX_CFG = {

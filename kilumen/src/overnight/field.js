@@ -8,7 +8,7 @@
 //    No skill needed (FIELD_SKILLS.md: Greystone boulders stay push puzzles). Plates with mode 'hold' (greystone_b1)
 //    are held by a boulder or the player standing on them; the gates follow (puzzle.gates[].channel may be a list).
 //    Boulders reset when the map reloads (puzzle.rules).
-import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.86-alpha';
+import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.87-alpha';
 
 export const BRUSH_TILES = { thick_brush: { skill: 'brushbreak', flag: 'has_brushbreak' }, cracked_rock: { skill: 'stonebreak', flag: 'has_stonebreak' } };
 export const BOULDER_TILES = new Set(['push_boulder']);

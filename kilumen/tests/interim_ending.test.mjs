@@ -45,15 +45,34 @@ test('old save with 8 Master flags: all_badges on load (wired in overworld.js in
   assert.match(ow, /endingDue\(this\.flags\)\) await runInterimEnding\(this\)/);
 });
 
-test('ending is due only with Ron 6 + all 8 coins, never twice', () => {
+test('ending is due only after the Aurelith tower (tower_done / beat_n_ron_7), never on Ron 6 + 8 coins, never twice', () => {
   assert.equal(E.endingDue(new Set(['beat_rival_ron_6'])), false);
   assert.equal(E.endingDue(new Set(['all_badges'])), false);
-  assert.equal(E.endingDue(new Set(['all_badges', 'beat_rival_ron_6'])), true);
-  assert.equal(E.endingDue(new Set(['all_badges', 'beat_rival_ron_6', 'finale_done'])), false);
+  assert.equal(E.endingDue(new Set([...MASTERS, 'all_badges', 'beat_rival_ron_6'])), false);
+  assert.equal(E.endingDue(new Set(['tower_done'])), true);
+  assert.equal(E.endingDue(new Set(['beat_n_ron_7'])), true);
+  assert.equal(E.endingDue(new Set(['ron_final_beaten'])), true);
+  assert.equal(E.endingDue(new Set(['tower_done', 'finale_done'])), false);
+});
+
+test('Ron 6 win does not run the ending (no credits, no flags, returns false)', async () => {
+  const s = fakeScene([...MASTERS, 'all_badges', 'beat_rival_ron_6']);
+  let rolled = false;
+  const ok = await E.runInterimEnding(s, { credits: async () => { rolled = true; }, wait: async () => { s.fade = null; } });
+  assert.equal(ok, false); assert.equal(rolled, false);
+  assert.ok(!s.flags.has('finale_done')); assert.equal(s.locks.size, 0);
+});
+
+test('nothing in the game sets the tower flags yet (ending unreachable in live play)', () => {
+  const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.name === 'tests' || e.name === 'design' || e.name === 'shots' || e.name === 'art' || e.name === 'audio' ? [] : e.isDirectory() ? walk(path.join(d, e.name)) : /\.(js|json)$/.test(e.name) ? [path.join(d, e.name)] : []);
+  for (const f of walk(root)) {
+    if (f.endsWith(path.join('progression', 'ending.js'))) continue;
+    assert.doesNotMatch(fs.readFileSync(f, 'utf8'), /tower_done|beat_n_ron_7|ron_final_beaten/, f);
+  }
 });
 
 test('full ending: Ron + RITA, credits under the save lock, finale_done + game_cleared, home with a postgame note', async () => {
-  const s = fakeScene([...MASTERS, 'all_badges', 'beat_rival_ron_6']);
+  const s = fakeScene([...MASTERS, 'all_badges', 'beat_rival_ron_6', 'tower_done']);
   let lockedInCredits = null;
   const ok = await E.runInterimEnding(s, {
     credits: async (sc, rec) => { lockedInCredits = sc.saveLocked; assert.equal(rec.team[0].nickname, 'Pip'); assert.ok(!sc.flags.has('finale_done')); },

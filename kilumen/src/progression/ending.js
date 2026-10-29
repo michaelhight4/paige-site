@@ -9,11 +9,16 @@
 //   3. finale_done + the save field game_cleared {at, day, team} are set, then a warp home to Brookhollow (outside the
 //      house) with a postgame note. A save that already cleared never replays it.
 // Text: system_ending.* in text/overworld_lines.json (Text Bot), else the code fallbacks below. {player} is filled by scene.say.
-import { coinCount } from '../overworld/lines.js?v=v0.2.86-alpha';
+import { coinCount } from '../overworld/lines.js?v=v0.2.87-alpha';
 
 export const ENDING = {
   badges: 'all_badges', finalWin: 'beat_rival_ron_6', done: 'finale_done', coins: 8,
   ron: 'aurelith.aurelith_ron_6', save: 'game_cleared',
+  // v0.2.87 (Gary, Oct 29 2026: "you only get that ending after beating the tower"): the ending is gated on the
+  // Aurelith Stadium tower (8 floors, one run, Ron 7 on the roof). Story Bot flags: tower_done / beat_n_ron_7
+  // (alias ron_final_beaten). The tower is NOT built yet and nothing sets these flags, so the ending is unreachable
+  // in live play; beating Ron 6 just continues normally (his battle_won lines still play).
+  tower: ['tower_done', 'beat_n_ron_7', 'ron_final_beaten'],
 };
 
 // Code fallbacks ONLY (existing written lines where they exist; new ones requested from Text Bot).
@@ -34,8 +39,9 @@ export function syncAllBadges(scene) {
   return true;
 }
 
-/** The ending is due: Ron 6 beaten, all 8 coins, not cleared yet (in either order: Ron first, then the 8th coin, works too). */
-export const endingDue = (flags) => flags.has(ENDING.finalWin) && flags.has(ENDING.badges) && !flags.has(ENDING.done);
+/** The ending is due: the Aurelith Stadium tower is beaten (tower_done / beat_n_ron_7 / ron_final_beaten), not cleared yet.
+ *  (Before v0.2.87 it was Ron 6 + all_badges; that no longer triggers anything.) */
+export const endingDue = (flags) => ENDING.tower.some((f) => flags.has(f)) && !flags.has(ENDING.done);
 
 /** Save field game_cleared: when, the in-game day and the team that did it. */
 export function clearRecord(scene, now = Date.now()) {
@@ -75,7 +81,7 @@ export async function runInterimEnding(scene, opts = {}) {
     if (!opts.onLoad) await scene.say(lines(scene, 'ron_after'), ronSp); // onLoad: an old save, the fight was long ago
     if (!opts.onLoad) await scene.say(textOr(scene, 'system_company_voice.rival_beaten_ron_6_2', ENDING_FALLBACK.rita), ritaSp);
     const record = clearRecord(scene);
-    const credits = opts.credits || (async (s, r) => (await import('../ui/credits.js?v=v0.2.86-alpha')).runCredits(s, r));
+    const credits = opts.credits || (async (s, r) => (await import('../ui/credits.js?v=v0.2.87-alpha')).runCredits(s, r));
     try { await credits(scene, record); } catch (e) { console.error('credits:', e); }
     scene.gameCleared = record;
     scene.setFlag(ENDING.done);
