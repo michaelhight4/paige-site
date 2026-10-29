@@ -29,7 +29,7 @@ function fakeScene(h, { flags = [], seen = {}, counters = {}, coins = 1000, answ
   const sc = {
     map, flags: new Set(flags), seen, counters, lines, out, ms: 0, rustles: new Map(), busy: false,
     player: { x: map.json.hall_v2.arrival[0], y: map.json.hall_v2.arrival[1], facing: 'up', locked: false },
-    systems: { wallet: { coins, spend(n) { if (this.coins < n) return false; this.coins -= n; return true; } }, onTrainerLoss: async () => true },
+    systems: { wallet: { coins, spend(n) { if (this.coins < n) return false; this.coins -= n; return true; }, add(n) { this.coins += n; return n; } }, onTrainerLoss: async () => true },
     npcs: { byId: () => null, beginTalk() {}, endTalk() {}, walkTo() {} },
     setFlag(f) { this.flags.add(f); },
     script: async (fn) => fn(), say: async (p) => { out.said.push(p.join(' ')); }, ask: async () => answer,
@@ -117,11 +117,11 @@ for (const h of HALLS) {
   });
 }
 
-test('rematch: 300 gold up front (kept on a loss), x1.3^wins, counter bumps, under 300 declines', async () => {
+test('rematch: 300 gold up front (kept on a loss), win pays flat 1200, x1.3^wins, counter bumps, under 300 declines', async () => {
   const m = mapJson('mirefen'), mid = master(m), z = m.hall_v2.zone, flags = [`beat_master_${z}`];
   let f = fakeScene('mirefen', { flags, coins: 650 });
   await f.sc.talk(null, mid);
-  assert.equal(f.sc.systems.wallet.coins, 350); assert.equal(f.out.battles[0].masterRematch, true); assert.equal(f.out.battles[0].masterWins, 1);
+  assert.equal(f.sc.systems.wallet.coins, 650 - 300 + 1200); assert.equal(f.out.battles[0].masterRematch, true); assert.equal(f.out.battles[0].masterWins, 1);
   assert.equal(f.sc.counters[`master_${z}_wins`], 2);
   f = fakeScene('mirefen', { flags, coins: 300, won: false, counters: { [`master_${z}_wins`]: 3 } });
   await f.sc.talk(null, mid); assert.equal(f.sc.systems.wallet.coins, 0); assert.equal(f.sc.counters[`master_${z}_wins`], 3);

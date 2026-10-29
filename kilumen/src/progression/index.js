@@ -57,7 +57,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     }
     const onBattle = scene.hooks.onBattle;
     if (onBattle) scene.hooks.onBattle = async (who) => {
-      if (who?.masterRematch) { // hall v2 rematch: the Master's team x1.3^wins, no award
+      if (who?.masterRematch) { // hall v2 rematch: the Master's team x1.3^wins, no coin / Master award (hall_v2 pays the flat 1200 rematch prize)
         const t = teamFor(pg.masters, who.map, who.id, { fernwick: true }) || pg.mapTeam(who);
         pending = t ? { ...t, foes: scaleMasterTeam(t.foes, who.masterWins) } : null;
         try { return await onBattle(who); } finally { pending = null; }

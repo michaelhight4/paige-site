@@ -11,13 +11,15 @@
 //  - Master rematch: after the first win, talking to the Master asks system_halls.rematch_prompt; 300 gold is paid up front
 //    and kept win or lose (the first challenge is free). Under 300 gold: system_halls.rematch_no_gold. The team scales by
 //    1.3^wins (wins = counter master_<zone>_wins, at least 1 once beaten), levels capped at KILUMEN_RULES.maxLevel (100).
-//    A rematch win bumps the counter; no prize money or coin on rematches (Coder's choice, flagged in the report).
+//    A rematch win bumps the counter and pays a flat REMATCH_PRIZE (1200 gold, Gary Oct 29 2026; no difficulty / perk
+//    multipliers, no coin), said with system_trainers.payout. The first Master win keeps its normal prize + coin.
 //  - Trainers walk back to their seat after a talk / battle so the walk the solver proved stays open.
+import { fmtMoney } from '../systems/config.js?v=v0.2.85-alpha';
 import { HallV2, V2_PUSH } from './puzzles.js?v=v0.2.85-alpha';
 import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.85-alpha';
 import { applyHallAnim, hallAnimOn } from './hall_anim.js?v=v0.2.85-alpha';
 
-export const REMATCH_FEE = 300, WIN_SCALE = 1.3;
+export const REMATCH_FEE = 300, REMATCH_PRIZE = 1200, WIN_SCALE = 1.3;
 const NAME = { U: 'up', D: 'down', L: 'left', R: 'right' }, LETTER = { up: 'U', down: 'D', left: 'L', right: 'R' };
 
 /** Rematch team: every level x 1.3^wins, rounded, capped at maxLevel (never below 1). Pure; keeps the other fields. */
@@ -173,6 +175,10 @@ export function attachHallV2(scene, ui, pg) {
     if (won !== false) {
       scene.counters[`master_${z}_wins`] = wins + 1; scene._dirty = true;
       await scene.say(text('rematch_won', e.battle_lost || ['Well fought.']), sp);
+      w.add?.(REMATCH_PRIZE); if (!w.add && 'coins' in w) w.coins += REMATCH_PRIZE;
+      scene.log?.push({ tick: scene.tick, type: 'prize', npc: def.id, amount: REMATCH_PRIZE, rematch: true });
+      const pay = scene.lines?.system_trainers?.payout?.pages || ['{trainer} hands over {total}.']; // reused key, no new text
+      await scene.say(fillv(pay, { trainer: sp?.name || def.name || 'The Master', total: fmtMoney(REMATCH_PRIZE) }), sp);
       return 'won';
     }
     await scene.say(e.battle_won || [], sp);
