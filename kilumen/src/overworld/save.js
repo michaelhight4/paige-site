@@ -10,9 +10,9 @@
 // no system reads or writes those blocks yet. Older saves go through MIGRATIONS one step at a time (v1 -> v2 ...),
 // so an old save always loads. The storage key keeps its v1 name so existing saves are found.
 
-import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.51-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
-import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.51-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
-import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.51-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
+import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.52-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
+import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.52-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
+import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.52-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
 
 export const SAVE_VERSION = 2;
 // Padded maps (Gary, Oct 23 2026, 10:25 AM CT): positions are stored in the padded-map frame from now on. A save without

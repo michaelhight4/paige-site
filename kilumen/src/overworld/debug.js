@@ -1,7 +1,7 @@
 // Kilumen overworld: debug overlay (toggle F3 / ` / pad L3 / ?debug=1).
 // Colours match World Design's previews/<map>_debug.png where they overlap (block red, water blue, door green).
-import { TILE, Col } from './constants.js?v=v0.2.51-alpha';
-import { isToCome } from './map.js?v=v0.2.51-alpha';
+import { TILE, Col } from './constants.js?v=v0.2.52-alpha';
+import { isToCome } from './map.js?v=v0.2.52-alpha';
 
 export const DEBUG_COLORS = {
   [Col.BLOCK]: 'rgba(255,0,0,0.38)',

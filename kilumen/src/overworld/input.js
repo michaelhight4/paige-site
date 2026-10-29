@@ -24,6 +24,8 @@ export class Input {
     this.sources = new Map();  // source id -> dir (keyboard key, touch pointer, pad)
     this.aQueued = false; this.debugQueued = false; this.selQueued = false; this.kbB = false; this.padB = false; this.touchB = false; this.bQueued = false; // bQueued: a B press seen this frame (dialogue cancel), even if released before the frame
     this.padPrev = new Map();
+    this.bPtrs = new Set();    // pointer ids holding the on-screen B (two thumbs on B, or a lost pointerup, can't drop it early)
+    this.bTouches = new Set(); // touch identifiers that started on B (backup when the browser cancels the B pointer)
     this.dirQueued = null;     // touch: a d-pad press seen this frame, so a tap shorter than a frame still turns / steps / moves a list
     this.lastDevice = null;    // 'keyboard' | 'controller' | 'touch': last device used (dialogue prompts, platform.js promptVars)
     this.now = now;            // clock (tests swap it)
@@ -35,7 +37,7 @@ export class Input {
     this._ku = (e) => this._key(e, false);
     this._kdCap = (e) => this._keepAlive(e);
     this._kuCap = (e) => this._keyUpAny(e);
-    this._blur = () => { this.sources.clear(); this.keySeen.clear(); this.ptr.clear(); this._rebuild(); this.kbB = false; this.touchB = false; this._bPointer = null; this.dirQueued = null; };
+    this._blur = () => { this.sources.clear(); this.keySeen.clear(); this.ptr.clear(); this._rebuild(); this.kbB = false; this.touchB = false; this.bPtrs.clear(); this.bTouches.clear(); this.dirQueued = null; };
     this._clearKeys = () => { for (const k of [...this.sources.keys()]) if (k.startsWith('k:')) this.sources.delete(k); this.keySeen.clear(); this.kbB = false; this._rebuild(); };
     // Releases are capture phase, so an overlay that stops keyup (online.js chat input, ui/devpanel.js lil-gui panel) or
     // takes focus mid-hold can no longer leave a direction held. Presses stay bubble phase on purpose: overlays that stop
@@ -118,7 +120,7 @@ export class Input {
         e.preventDefault();
         const b = btn.dataset.btn;
         if (b === 'a') this.aQueued = true; else if (b === 'debug') this.debugQueued = true;
-        else if (b === 'select') this.selQueued = true; else if (b === 'b') { this.touchB = true; this.bQueued = true; this._bPointer = e.pointerId; }
+        else if (b === 'select') this.selQueued = true; else if (b === 'b') { this.bPtrs.add(e.pointerId); this._syncTouchB(); this.bQueued = true; }
         return;
       }
       const d = dirAt(e.clientX, e.clientY);
@@ -133,7 +135,7 @@ export class Input {
       const d = dirAt(e.clientX, e.clientY); // slide between arrows without lifting the thumb
       if (d && d !== this.sources.get('p:' + e.pointerId)) { this._press('p:' + e.pointerId, d); this.dirQueued = d; }
     });
-    const up = (e) => { this._release('p:' + e.pointerId); if (e.pointerId === this._bPointer) { this.touchB = false; this._bPointer = null; } };
+    const up = (e) => { this._release('p:' + e.pointerId); if (this.bPtrs.delete(e.pointerId)) this._syncTouchB(); };
     root.addEventListener('pointerup', up);
     root.addEventListener('pointercancel', up);
     root.addEventListener('lostpointercapture', up); // touchpad re-rendered / capture lost: no pointerup will come to root
@@ -142,7 +144,33 @@ export class Input {
     win?.addEventListener?.('pointercancel', up, { capture: true });
     this._touchRoot = root;
     root.addEventListener('contextmenu', (e) => e.preventDefault());
+    // v0.2.52 mobile sprint fix (Gary 9:12 AM CT Oct 29 2026: "the sprint doesn't work on mobile"). Touch events back up the
+    // pointer events for B and the d-pad: iOS Safari / installed PWAs can send pointercancel for one finger once a second
+    // finger lands (two touches on the pad read as a pinch / scroll), which dropped B (sprint) and the held direction while
+    // both thumbs were still down. A touch identifier stays held until its own touchend / touchcancel. preventDefault on the
+    // pad's touchstart / touchmove (non-passive) stops the page gesture that caused the cancel; pointer events still fire.
+    const scan = (e, end) => {
+      const ended = new Set(end ? [...e.changedTouches].map((t) => t.identifier) : []);
+      for (const t of e.changedTouches || []) {
+        const id = t.identifier, src = 't:' + id;
+        if (ended.has(id)) { this._release(src); this.bTouches.delete(id); continue; }
+        const el = document.elementFromPoint(t.clientX, t.clientY);
+        if (e.type === 'touchstart' && el?.closest?.('[data-btn=b]')) { this.bTouches.add(id); continue; }
+        if (this.bTouches.has(id)) continue; // a thumb that started on B stays B while it rests / wobbles
+        const d = el?.closest?.('[data-dir]')?.dataset.dir || null;
+        if (d && d !== this.sources.get(src)) this._press(src, d);
+      }
+      this._syncTouchB();
+    };
+    const opt = { passive: false };
+    root.addEventListener('touchstart', (e) => { if (e.cancelable) e.preventDefault(); this.lastDevice = 'touch'; scan(e, false); }, opt);
+    root.addEventListener('touchmove', (e) => { if (e.cancelable) e.preventDefault(); scan(e, false); }, opt);
+    root.addEventListener('touchend', (e) => scan(e, true));
+    root.addEventListener('touchcancel', (e) => scan(e, true));
   }
+
+  /** touchB = any finger on B, by pointer id or by touch identifier (either source alone keeps it held). */
+  _syncTouchB() { this.touchB = this.bPtrs.size > 0 || this.bTouches.size > 0; }
 
   _ptrSeen(e) {
     // buttons first (0 = nothing down), else pressure (0 = hovering); neither reported = assume pressed (never drop early)
