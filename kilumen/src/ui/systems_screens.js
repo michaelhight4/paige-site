@@ -3,21 +3,25 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.66-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.66-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.66-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.66-alpha';
-import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.66-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
-import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.66-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.66-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.66-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.66-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.66-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.66-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.66-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.66-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.66-alpha';
-let _SKILLS = null; const skillDef = (id) => (_SKILLS ||= buildSkills())[id] || null;
+import { iconRel } from './data.js?v=v0.2.71-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.71-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.71-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.71-alpha';
+import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.71-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
+import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.71-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.71-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.71-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.71-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.71-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.71-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.71-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.71-alpha';
+import { buildSkills, toID } from '../battle/data/skills.js?v=v0.2.71-alpha';
+import { areaName } from '../overworld/area_sign.js?v=v0.2.71-alpha';
+// playtest fixes 3: older saves can hold skill ids in another case/spacing ('Sparksneeze', 'spark_sneeze'); look up by toID so
+// the row shows the display name ('Spark Sneeze') and its description instead of the raw id.
+let _SKILLS = null; const skillDef = (id) => { const S = (_SKILLS ||= buildSkills()); return S[id] || S[toID(String(id || ''))] || null; };
+const prettyId = (id) => String(id || '').replace(/_int$/, '').split('_').filter(Boolean).map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
 const nameHtml = (c) => `<span class="nmw"><span class="nmt">${esc(_baseName(c))}</span>${c?.variant ? '<span class="vmark">✦</span>' : ''}</span>`;
@@ -53,7 +57,7 @@ const statusChip = (c) => (isFainted(c) ? '<span class="sys-st out" data-pat="ch
   : c.status ? `<span class="sys-st" data-st="${esc(c.status)}" data-pat="${STATUS_PAT[c.status] || 'dots'}">${esc(STATUS[c.status] || c.status)}</span>` : '');
 
 export async function installSystemsScreens(ui, sys) {
-  import('../qol/skills_menu.js?v=v0.2.66-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
+  import('../qol/skills_menu.js?v=v0.2.71-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
   if (!ui || !sys) return null;
   const cfg = sys.cfg;
   if (typeof document !== 'undefined' && !document.querySelector('link[data-sys-css]')) {
@@ -114,6 +118,18 @@ export async function installSystemsScreens(ui, sys) {
   };
 
   // ---------------- Team ----------------
+  // playtest fixes 3: "Met in" shows the place's display name (not the map id) and never a bare dash: a creature with no
+  // recorded map (dev-console adds, old gifts) reads as a gift, a starter without one as the player's first partner.
+  const _metTitles = {};
+  const metIn = (c) => {
+    const id = c.origin?.map || c.origin?.at || null;
+    if (!id) return c.origin?.how === 'starter' ? T('system_party.summary_labels.labels.met_starter', 'Your first partner') : T('system_party.summary_labels.labels.met_gift', 'A gift');
+    if (!(id in _metTitles)) {
+      const sc = ui.scene; _metTitles[id] = areaName({ name: id }, (k) => sc?.text?.(k) ?? null).title || prettyId(id);
+      sc?.loadMap?.(id).then((m) => { const t = areaName(m, (k) => sc.text?.(k) ?? null).title; if (t && t !== _metTitles[id]) { _metTitles[id] = t; ui.rerender?.(); } }).catch(() => {});
+    }
+    return _metTitles[id];
+  };
   ui.scr_sys_party = function () {
     const L = T('system_party.menu.labels', {}), S = T('system_party.summary_labels.labels', {});
     const detail = (c) => {
@@ -123,8 +139,8 @@ export async function installSystemsScreens(ui, sys) {
       const en = energyOf(c), em = maxEnergy(c);
       return `<div class="sys-detail"><div class="sys-dh">${iconHtml(c, cfg)}<div><b class="nmb">${nameHtml(c)}</b> <span class="lv">${esc(S.level || 'Lv.')}${c.level}</span><div>${(sp.el || []).map(elChip).join(' ')} ${statusChip(c)}</div></div></div>
         ${bars(c, S)}<div class="bar-row"><b>XP</b><div class="bar xp"><i style="width:${(xf * 100).toFixed(1)}%"></i></div><span>${Math.round(xf * 100)}%</span></div>
-        <ul class="sys-skills">${(c.skills || []).map((s, k) => { const d = skillDef(s); return `<li style="flex-wrap:wrap"><span>${esc(d?.name || s.replace(/_/g, ' '))}</span><span class="soft">${esc(S.energy_short || 'En')} ${en[k] ?? 0}/${em[k] ?? 0}</span><span class="soft sys-small" style="flex-basis:100%;text-transform:none">${esc(skillDesc(s, d))}</span></li>`; }).join('')}</ul>${statGrid(c)}
-        <div class="soft sys-small">${esc(S.met || 'Met in')}: ${esc(c.origin?.map || c.origin?.at || '—')}${c.held ? ` · ${esc(S.held || 'Holding')}: ${esc(itemName(c.held))}` : ''}</div></div>`;
+        <ul class="sys-skills">${(c.skills || []).map((s, k) => { const d = skillDef(s); return `<li style="flex-wrap:wrap"><span>${esc(d?.name || prettyId(s))}</span><span class="soft">${esc(S.energy_short || 'En')} ${en[k] ?? 0}/${em[k] ?? 0}</span><span class="soft sys-small" style="flex-basis:100%;text-transform:none">${esc(skillDesc(toID(String(s || "")), d))}</span></li>`; }).join('')}</ul>${statGrid(c)}
+        <div class="soft sys-small">${esc(S.met || 'Met in')}: ${esc(metIn(c))}${c.held ? ` · ${esc(S.held || 'Holding')}: ${esc(itemName(c.held))}` : ''}</div></div>`;
     };
     const card = (c, i) => `<div class="ui-card sys-card ${i === 0 ? 'lead' : ''} ${isFainted(c) ? 'out' : ''}" data-i="${i}" data-k="${esc(c.uid)}">${iconHtml(c, cfg)}
       <div class="nm">${nameHtml(c)}<span class="lv">Lv.${c.level}</span>${i === 0 ? '<span class="sys-lead" title="Trail Buddy">Lead</span>' : ''}${statusChip(c)}</div><div>${bars(c, S)}</div></div>`;
@@ -182,6 +198,8 @@ export async function installSystemsScreens(ui, sys) {
     // Items pocket lists one row per earned coin from data/masters.json. Text: system_items.master_coins.<zone> (PH keys).
     // v0.2.61: items with no catalogue text yet (Text Bot placeholder keys, fallback here)
     const ITEM_FALLBACK_PAGES = { team_link_band: () => T('system_items.team_link_band.pages', ['Shares battle XP: the team earns 25% more. Give it to a creature to hold.']) };
+    // playtest fixes 3: an empty catalogue entry (pages: [] / '') counted as text and showed 'No description yet.'
+    const nonEmpty = (p) => { const a = (Array.isArray(p) ? p : p ? [String(p)] : []).filter((x) => String(x || '').trim()); return a.length ? a : null; };
     const coinRows = () => {
       const halls = sys.scene?.progression?.masters?.halls || [], fl = sys.scene?.flags, rec = sys.state?.progression?.masters || {};
       const has = (h) => (fl?.has ? fl.has(h.flag) : false) || !!rec[h.zone];
@@ -189,7 +207,7 @@ export async function installSystemsScreens(ui, sys) {
         name: T(`system_items.master_coins.${h.zone}.name`, h.reward?.coin_name_placeholder || `Coin ${h.coin_number}`),
         pages: T(`system_items.master_coins.${h.zone}.pages`, [`Master coin ${h.coin_number} of 8. Proof you beat the Master here.`]) }));
     };
-    const items = () => (isB() ? [] : [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || ITEM_FALLBACK_PAGES[it.id]?.() || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])]);
+    const items = () => (isB() ? [] : [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: nonEmpty(cat()[it.id]?.pages) || nonEmpty(ITEM_FALLBACK_PAGES[it.id]?.()) || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])]);
     const info = (it) => (it ? `${it.coin && coinArtOn() ? `<div class="sys-coin-big">${coinAnim(it.zone)}</div>` : ''}<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
       : `<p class="soft">${esc((PK[POCKETS[pi]]?.help || []).join(' '))}</p>`);
     const scr = { scr: 'pack', pat: 'leaf', title: T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1, count: () => items().length,

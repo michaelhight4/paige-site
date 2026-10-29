@@ -35,7 +35,6 @@ export function fruitSvg(id, stage = null) {
   return `<svg class="fd-ico" viewBox="0 0 32 32" aria-hidden="true">${SHAPE[sh](a, b)}</svg>`;
 }
 export const CSS = `
-#feeds-btn{position:fixed;right:10px;top:54px;z-index:40;font:600 13px system-ui;padding:6px 12px;border-radius:14px;border:2px solid #f3e6b8;background:#3b5d2e;color:#fff6d8}
 #feeds-ov{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;background:rgba(10,14,8,.6);font:14px system-ui;color:#2a2418}
 #feeds-ov .fd-box{width:min(920px,96vw);max-height:94vh;overflow:auto;background:#fbf3dc;border:3px solid #6b4f2a;border-radius:14px;padding:10px;box-shadow:0 8px 30px #0008}
 .fd-tabs{display:flex;gap:6px;margin-bottom:8px}.fd-tabs button{flex:0 0 auto;padding:6px 16px;border-radius:10px;border:2px solid #6b4f2a;background:#efe1b8;font-weight:700}

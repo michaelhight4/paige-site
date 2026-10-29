@@ -37,7 +37,7 @@ export class Input {
     this._ku = (e) => this._key(e, false);
     this._kdCap = (e) => this._keepAlive(e);
     this._kuCap = (e) => this._keyUpAny(e);
-    this._blur = () => { this.sources.clear(); this.keySeen.clear(); this.ptr.clear(); this._rebuild(); this.kbB = false; this.touchB = false; this.bPtrs.clear(); this.bTouches.clear(); this.dirQueued = null; };
+    this._blur = () => { this.sources.clear(); this.keySeen.clear(); this.ptr.clear(); this._rebuild(); this.kbB = false; this.touchB = false; this.bPtrs.clear(); this.bTouches.clear(); this.dirQueued = null; this.tapQueued = null; };
     this._clearKeys = () => { for (const k of [...this.sources.keys()]) if (k.startsWith('k:')) this.sources.delete(k); this.keySeen.clear(); this.kbB = false; this._rebuild(); };
     // Releases are capture phase, so an overlay that stops keyup (online.js chat input, ui/devpanel.js lil-gui panel) or
     // takes focus mid-hold can no longer leave a direction held. Presses stay bubble phase on purpose: overlays that stop
@@ -97,7 +97,7 @@ export class Input {
       if (!down) { this._release('k:' + code); return; }
       if (e.ctrlKey || e.metaKey || e.altKey) return; // Ctrl/Cmd+S etc. are browser shortcuts (save dialog steals the keyup)
       const src = 'k:' + code;
-      if (!e.repeat || !this.sources.has(src)) { this._press(src, KEY_DIR[code]); this.keySeen.set(src, this.now()); } // a repeat re-adds a key dropped while still held
+      if (!e.repeat || !this.sources.has(src)) { this._press(src, KEY_DIR[code]); this.keySeen.set(src, this.now()); if (!e.repeat) this.tapQueued = KEY_DIR[code]; } // playtest fixes 3: a key tap shorter than a frame still turns (snap.tap, not dir) // a repeat re-adds a key dropped while still held
       return;
     }
     if (KEY_A.has(code)) { e.preventDefault(); if (down && !e.repeat) this.aQueued = true; return; }
@@ -241,8 +241,8 @@ export class Input {
   poll() {
     this._pollPads();
     this._dropStaleKeys(); this._dropStaleTouch();
-    const snap = { dir: this.held.length ? this.held[this.held.length - 1] : this.dirQueued, a: this.aQueued, b: this.kbB || this.padB || this.touchB, bTap: this.bQueued, select: this.selQueued, debug: this.debugQueued };
-    this.aQueued = false; this.debugQueued = false; this.selQueued = false; this.bQueued = false; this.dirQueued = null;
+    const snap = { dir: this.held.length ? this.held[this.held.length - 1] : this.dirQueued, a: this.aQueued, b: this.kbB || this.padB || this.touchB, bTap: this.bQueued, select: this.selQueued, debug: this.debugQueued, tap: this.tapQueued || null };
+    this.aQueued = false; this.debugQueued = false; this.selQueued = false; this.bQueued = false; this.dirQueued = null; this.tapQueued = null;
     return snap;
   }
 }

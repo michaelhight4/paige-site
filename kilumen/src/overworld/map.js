@@ -1,7 +1,7 @@
 // Kilumen overworld: map model (pure, no DOM). Loads the World Design map JSON format
 // (art/world/overworld/OVERWORLD_README.md sections 6-7) and answers collision / warp / exit queries.
-import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.66-alpha';
-import { DEV } from '../dev/runtime.js?v=v0.2.66-alpha';
+import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.71-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.71-alpha';
 
 export const LAYER_ORDER = ['ground', 'decoration', 'overlay']; // overlay is y-sorted with characters (see renderer)
 const GRID_LAYERS = ['ground', 'decoration', 'overlay', 'collision', 'encounter', 'fog']; // fog: mirefen_bog, drawn last
@@ -17,7 +17,7 @@ export class GameMap {
     for (const k of ['name', 'width', 'height', 'layers']) if (json[k] == null) throw new Error(`map missing "${k}"`);
     this.json = json;
     this.name = json.name;
-    this.title = json.title || json.name;
+    this.title = String(json.title || '').replace(/^\s*DRAFT\s*[-–:]\s*/i, '').trim() || json.name; // playtest fixes 3: no 'DRAFT - ' in player-facing labels
     this.width = json.width;
     this.height = json.height;
     this.tileSize = json.tile_size || 64;

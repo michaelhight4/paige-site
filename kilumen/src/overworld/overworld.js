@@ -4,35 +4,35 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.66-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.66-alpha';
-import { GridMover } from './movement.js?v=v0.2.66-alpha';
-import { DEV } from '../dev/runtime.js?v=v0.2.66-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.66-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.66-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.66-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit } from './tileset.js?v=v0.2.66-alpha';
-import { IxLight, ixFlags } from './ixlight.js?v=v0.2.66-alpha';
-import { Renderer } from './renderer.js?v=v0.2.66-alpha';
-import { drawDebug } from './debug.js?v=v0.2.66-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.66-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.66-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.66-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.66-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.66-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.66-alpha';
-import { LivingWorld } from './living.js?v=v0.2.66-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.66-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.66-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.66-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.66-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.66-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.66-alpha'; // creature idle/walk motion (v0.2.36)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.66-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.66-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.66-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.66-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.66-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.71-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.71-alpha';
+import { GridMover } from './movement.js?v=v0.2.71-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.71-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.71-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.71-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.71-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit } from './tileset.js?v=v0.2.71-alpha';
+import { IxLight, ixFlags } from './ixlight.js?v=v0.2.71-alpha';
+import { Renderer } from './renderer.js?v=v0.2.71-alpha';
+import { drawDebug } from './debug.js?v=v0.2.71-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.71-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.71-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.71-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.71-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.71-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.71-alpha';
+import { LivingWorld } from './living.js?v=v0.2.71-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.71-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.71-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.71-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.71-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.71-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.71-alpha'; // creature idle/walk motion (v0.2.36)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.71-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.71-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.71-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.71-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.71-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -56,7 +56,7 @@ export function nativeRenderDiv(opts, h) {
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.66-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.71-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -124,12 +124,10 @@ export class Overworld {
     this.resize();
     const fit = !!this.opts.platform?.profile?.display?.fitCanvas;
     if (fit) this._watchViewport(); // mobile: watch the viewport from the first frame, not only after the multi-second load
-    try {
-      this.layout = await loadJson(this.config.worldLayout);
-      this.knownMaps = new Set(this.layout.maps_built || []);
-    } catch { this.knownMaps = null; }
-    try { this.lines = await loadJson(this.config.textLines); } catch { this.lines = null; }
-    await Promise.all([this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
+    // playtest fixes 3 (slow reload): these loads are independent, so fetch them together instead of one round trip after another
+    const layoutP = loadJson(this.config.worldLayout).then((l) => { this.layout = l; this.knownMaps = new Set(l.maps_built || []); }, () => { this.knownMaps = null; });
+    const linesP = loadJson(this.config.textLines).then((l) => { this.lines = l; }, () => { this.lines = null; });
+    await Promise.all([layoutP, linesP, this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
     const sv = this.opts.saveData;
     let s = this.opts.start || (sv?.pos && (!this.knownMaps || this.knownMaps.has(sv.pos.map)) ? sv.pos : this.config.start);
     // home start v1: a new game (no ?map=, no saved position) wakes up in the bedroom; ?skipintro=1 starts outside the
@@ -251,10 +249,18 @@ export class Overworld {
     // portrait zoom 4 / 1x art to landscape zoom 2 / 2x art while the 1x files were still downloading) must not put the old set back.
     const ticket = (this._assetTicket = (this._assetTicket || 0) + 1);
     const tsUrl = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, want), this.mapUrl(this.map.name));
+    const ts1 = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name));
     if (!this.tileset || this.tileset.url !== tsUrl) { const ts = await loadTileset(tsUrl); if (ticket !== this._assetTicket) return this._assetsSettled(); this.tileset = ts; }
     await this.ixlight.load(tsUrl);
-    const ts1 = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name));
-    if (this.grades && (!this.tileset1x || this.tileset1x.url !== ts1)) { const t1 = want === 1 ? this.tileset : await loadTileset(ts1); if (ticket !== this._assetTicket) return this._assetsSettled(); this.tileset1x = t1; }
+    if (this.grades && (!this.tileset1x || this.tileset1x.url !== ts1)) {
+      if (want === 1) this.tileset1x = this.tileset;
+      else {
+        // playtest fixes 3 (5 s black reload): don't hold the first frame for ~5 MB of 1x sheets. Until they land the renderer
+        // draws the zoom set ungraded (its tileset1x fallback); a stale 1x set from another tileset is dropped so ids never mismatch.
+        this.tileset1x = null;
+        Promise.resolve(this._assetsLatest).catch(() => {}).then(() => loadTileset(ts1)).then((t1) => { if (this.tileset?.url === tsUrl && ts1 === resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name))) this.tileset1x = t1; }).catch((e) => console.warn('1x tileset:', e.message));
+      }
+    }
     if (this.playerScale !== want) {
       const sheets = this.config.playerSheets, imgs = {}, imgs1 = {};
       await Promise.all(Object.keys(sheets).map(async (k) => {
@@ -883,7 +889,9 @@ export class Overworld {
           const gift = story.gift && this.lines?.items?.[story.gift];
           const giving = gift && !this.flags.has(gift.flag);
           if (won !== false) {
-            this.seen[dk] = true; await this.say(e.battle_lost, sp);
+            this.seen[dk] = true;
+            for (const f of story.flags) if (!this.flags.has(f)) this.setFlag(f); // playtest fixes 3: the coin flag lands with the win, not after the closing lines
+            await this.say(e.battle_lost, sp);
             await this.systems?.onTrainerWin({ map: mapName, def, speaker: sp }); // [systems-gd hook] prize money (awardBattleMoney)
           } else if (story.continueOnLoss) { // Ron 1 (CRITICAL_PATH §2): the story goes on win or lose, no blackout
             this.seen[dk] = true; await this.say(e.battle_won || [], sp);
@@ -1148,11 +1156,12 @@ export class Overworld {
     if (!this.last) this.last = now;
     let dt = now - this.last; this.last = now;
     if (dt > 250) dt = 250; // tab was hidden: don't fast-forward
-    // v0.2.66-alpha dev world speed: only src/dev/console.js (admin + ?dev=1) ever sets worldSpeed; everyone else stays at 1.
+    // v0.2.71-alpha dev world speed: only src/dev/console.js (admin + ?dev=1) ever sets worldSpeed; everyone else stays at 1.
     // Faster = more fixed TICK_MS steps per frame (never a bigger step), so movement / collisions stay tick-exact at 100x.
     const ws = this.worldSpeed > 1 ? this.worldSpeed : 1, maxTicks = MAX_TICKS_PER_FRAME * ws;
     this.acc += dt * ws;
-    const snap = this.input.poll();
+    let snap = this.input.poll();
+    if (!snap.dir && snap.tap) snap = { ...snap, dir: snap.tap }; // playtest fixes 3: a key pressed and released between two polls still turns / steps once
     let n = 0;
     while (this.acc >= TICK_MS && n < maxTicks) {
       this.step(n === 0 ? snap : { ...snap, a: false, bTap: false, debug: false, select: false });
@@ -1162,6 +1171,7 @@ export class Overworld {
     else if (n === 0 && (snap.a || snap.bTap || snap.debug || snap.select)) {
       this.input.aQueued ||= snap.a; this.input.bQueued ||= !!snap.bTap; this.input.debugQueued ||= snap.debug; this.input.selQueued ||= snap.select;
     }
+    if (n === 0 && snap.tap && !this.input.held?.length) this.input.tapQueued ||= snap.tap; // playtest fixes 3: a quick key tap on a frame with no tick is kept for the next one
     this._fpsN++; if (now - this._fpsT >= 500) { this.fps = Math.round((this._fpsN * 1000) / (now - this._fpsT)); this._fpsT = now; this._fpsN = 0; }
     this.render();
   }

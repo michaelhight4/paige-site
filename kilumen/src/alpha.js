@@ -1,7 +1,7 @@
 // Kilumen ALPHA build (paigegames.net/kilumen/). Loaded before everything else (imported first by landscape.js and
 // main.js). Public build: every dev / experimental URL flag is ignored. Only ?reset=1 (the title screen's
 // "New game" uses it), ?battle=shell, ?enc=0, ?encrate=, ?contacts=0 and ?cv=0 are kept (plus the =0 kill switches listed below: fishing, feeds, rtbcap, badges, ...), and the query is removed from the address bar at once so a later reload never wipes a save.
-export const ALPHA_VERSION = 'v0.2.66-alpha (Oct 2026)';
+export const ALPHA_VERSION = 'v0.2.71-alpha (Oct 2026)';
 export const ALPHA_PREFIX = 'kilumen_alpha_'; // every save / setting key in this build starts with this
 export const ALPHA_NOTICE = 'Kilumen is in alpha. Things will change, and saves may be reset between updates.';
 export const ALPHA_NOTICE_KEY = ALPHA_PREFIX + 'notice_seen.v1';
@@ -22,13 +22,20 @@ if (raw.get('feeds') === '0') globalThis.KILUMEN_FEEDS = false; // fruit feeds k
 if (raw.get('rtb') === '0') globalThis.KILUMEN_RTB_OFF = true; // real-time wild battles kill switch (Oct 29 2026): turn-based only, no switch button
 globalThis.KILUMEN_BADGES_TAB = raw.get('badges') !== '0'; // Badges tab in the Pack (default ON since v0.2.64; ?badges=0 kill switch)
 globalThis.KILUMEN_COIN_ART = raw.get('badges') !== '0' && raw.get('coinart') !== '0'; // Animator's coin art (default ON; ?badges=0 or ?coinart=0 kill switch)
+if (raw.get('tasks') === '0') globalThis.KILUMEN_TASKS_OFF = true; // Tasks (quests + milestones) kill switch (Oct 29 2026): old placeholder screen
 if (raw.get('cidle') === '0') globalThis.KILUMEN_CIDLE_OFF = true; // creature idle off switch (creature_idle.js)
 // QoL kill switches (Oct 29 2026): ?qol= (batch A/B, src/qol) and ?qolc= (batch C, src/qol_c) are kept, letters / , / - only.
 for (const k of ['qol', 'qolc']) if (raw.has(k) && /^[A-Za-z0-9,-]{1,80}$/.test(raw.get(k))) keep.set(k, raw.get(k));
 export const ALPHA_QUERY = keep.toString();
 // v0.2.26: ?dev=1 only REQUESTS the dev console. It is read here (the query is stripped just below) and does nothing alone:
 // src/dev/devgate.js still needs a signed-in admin account (server check) before any dev code is loaded.
-export const DEV_REQUESTED = raw.get('dev') === '1';
+// playtest fixes 3: the query is stripped below, so a hard refresh lost ?dev=1. Remember the request for this tab only
+// (sessionStorage; ?dev=0 forgets it). Still only a request: devgate.js keeps the server-side admin check.
+const DEV_SS = ALPHA_PREFIX + 'dev_requested';
+const ss = (fn) => { try { return fn(globalThis.sessionStorage); } catch { return null; } };
+if (raw.get('dev') === '1') ss((s) => s.setItem(DEV_SS, '1'));
+else if (raw.get('dev') === '0') ss((s) => s.removeItem(DEV_SS));
+export const DEV_REQUESTED = raw.get('dev') === '1' || (raw.get('dev') !== '0' && ss((s) => s.getItem(DEV_SS)) === '1');
 if (typeof location !== 'undefined' && location.search) { try { history.replaceState(history.state, '', location.pathname + location.hash); } catch { /* ignore */ } }
 
 export function noticeSeen() { try { return localStorage.getItem(ALPHA_NOTICE_KEY) === '1'; } catch { return false; } }
@@ -38,7 +45,7 @@ export function markNoticeSeen() { try { localStorage.setItem(ALPHA_NOTICE_KEY, 
 
 // v0.2.1 cache-busting (_tools/build_alpha.py cache_bust): same-origin data fetches with no query get ?v=<build>, so a returning
 // player never mixes new code with a stale cached JSON (GitHub Pages max-age=600, no service worker).
-export const ALPHA_FETCH_V = "v0.2.66-alpha";
+export const ALPHA_FETCH_V = "v0.2.71-alpha";
 if (typeof globalThis.fetch === 'function' && typeof location !== 'undefined') {
   const f0 = globalThis.fetch.bind(globalThis);
   globalThis.fetch = (input, init) => {

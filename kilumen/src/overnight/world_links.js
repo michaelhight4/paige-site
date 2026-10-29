@@ -2,7 +2,7 @@
 // New World Design maps plug in from data only: a map is "registered" when it is in world_layout.json maps_built
 // (World Design's list) or in an extra registry entry {name: url} (staged maps, src/overnight/flags.js stagedMaps).
 // The overworld resolves map URLs through mapUrlFor() and treats every registered name as a known link target.
-import { GameMap, isToCome } from '../overworld/map.js?v=v0.2.66-alpha';
+import { GameMap, isToCome } from '../overworld/map.js?v=v0.2.71-alpha';
 
 /** Registry: {names:Set, urls:{name:url}}. layout = world_layout.json, extra = {name: url} (overrides mapsDir). */
 export function buildRegistry(layout, mapsDir, extra = {}) {

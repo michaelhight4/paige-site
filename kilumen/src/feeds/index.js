@@ -3,13 +3,13 @@
 // wins are read through a wrap of systems.applyBattleResult (as evolution.js does), practice calls api.onPractice(c).
 // Save rules: the overlay can only open in free roam (no battle, dialogue, cutscene, scene.script or other UI), and a
 // saveGuard ('feeds_menu') blocks saving while it is open; the next normal save after close keeps the feed.
-import { feedsEnabled } from './flags.js?v=v0.2.66-alpha';
-import * as L from './logic.js?v=v0.2.66-alpha';
-import { FS, ft } from './strings.js?v=v0.2.66-alpha';
-import { setAthleticBonus, speciesAthletics } from '../sports/athletics.js?v=v0.2.66-alpha';
-import { fruitSvg, CSS } from './ui_art.js?v=v0.2.66-alpha';
-import { feedTabHtml, playFeed, growBars, feedSfx, CSS2 } from './feed_view.js?v=v0.2.66-alpha';
-import { createBackdrop, BG_CSS } from './backdrop.js?v=v0.2.66-alpha';
+import { feedsEnabled } from './flags.js?v=v0.2.71-alpha';
+import * as L from './logic.js?v=v0.2.71-alpha';
+import { FS, ft } from './strings.js?v=v0.2.71-alpha';
+import { setAthleticBonus, speciesAthletics } from '../sports/athletics.js?v=v0.2.71-alpha';
+import { fruitSvg, CSS } from './ui_art.js?v=v0.2.71-alpha';
+import { feedTabHtml, playFeed, growBars, feedSfx, CSS2 } from './feed_view.js?v=v0.2.71-alpha';
+import { createBackdrop, BG_CSS } from './backdrop.js?v=v0.2.71-alpha';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const uidOf = (c) => c?.uid || c?.id || null;
@@ -53,16 +53,11 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
   function onBattleWin(fought) { for (const u of fought || []) L.drain(fs(), u, L.DRAIN.battleWin); scene._dirty = true; }
   function onPractice(c) { const u = uidOf(c); if (u) L.drain(fs(), u, L.DRAIN.practice); L.practiceBoost(fs()); scene._dirty = true; }
 
-  let btn = null;
-  if (typeof document !== 'undefined') {
-    btn = document.createElement('button'); btn.id = 'feeds-btn'; btn.textContent = FS['feeds.button']; document.body.appendChild(btn);
-    btn.addEventListener('click', () => openFeeds());
-  }
+  // v0.2.69 (Gary): no floating #feeds-btn any more; Feeds opens from its own top-row Phone menu entry (src/ui/ui.js, scr_phone).
   const blocked = () => {
     const ui = globalThis.kilumen?.ui;
     return !!(scene.busy || scene.fade || scene.dialog?.active || scene.saveLocked || ui?.active || ui?.stack?.some?.((s) => s.scr === 'battle') || globalThis.kilumen?.sports?.state?.()?.open);
   };
-  if (btn) setInterval(() => { btn.hidden = st.open || blocked(); }, 250); // only offered in free roam
   let ov = null, keyH = null, savedTs = 1, timer = 0, bg = null;
   function openFeeds(tab = 'feed') {
     if (st.open) return true;

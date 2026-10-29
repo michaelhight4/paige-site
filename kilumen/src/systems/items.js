@@ -4,8 +4,8 @@
 // `battle` rows are the battle-engine numbers: src/battle/data/rules.js buildItems() builds the engine's item
 // table from BATTLE_ITEMS, so the field and the battle can never disagree. This module imports only plain data (no cycle;
 // safe on a server). Effect amounts are PLACEHOLDER (design/MECHANICS_PARITY.md) until Gary signs them off.
-import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.66-alpha'; // crystal grades + Benefits Board node (Oct 23, 2026)
-import { FRUIT_IDS as FEED_FRUIT_IDS } from '../feeds/logic.js?v=v0.2.66-alpha'; // fruit feeds bag rows (Oct 29 2026)
+import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.71-alpha'; // crystal grades + Benefits Board node (Oct 23, 2026)
+import { FRUIT_IDS as FEED_FRUIT_IDS } from '../feeds/logic.js?v=v0.2.71-alpha'; // fruit feeds bag rows (Oct 29 2026)
 
 /** pocket ids: text/overworld_lines.json comfort.bag_pockets */
 export const POCKETS = ['care', 'feeds', 'gear', 'crystals', 'key', 'logs'];
@@ -61,6 +61,12 @@ const FIELD = {
 };
 // Fruit feeds (Coder Oct 29 2026, src/feeds/logic.js FRUIT_IDS; names: Text Bot keys feeds.fruit.<id>.name). Gary: fruit goes in the bag.
 for (const id of FEED_FRUIT_IDS) { FIELD[`fruit_${id}`] = { pocket: 'feeds', field: null, feedFruit: id }; FIELD[`seedling_${id}`] = { pocket: 'feeds', field: null, feedSeedling: id }; }
+// Milestone Platinum charms (Tasks > Milestones, Oct 29 2026): earned-only key items. No base price = no sell price, never stocked.
+// Effects are PLACEHOLDERS for Gary (research: type charm = +catch rate for that type, Lumen Charm = rare-variant odds). Names: system_items.<id> (Text Bot).
+const CHARM_NAMES = { catch_charm: 'Catch Charm', lumen_charm: 'Lumen Charm', region_charm_1: 'Region 1 Charm', region_charm_2: 'Region 2 Charm', region_charm_3: 'Region 3 Charm', region_charm_4: 'Region 4 Charm',
+  sparring_charm: 'Sparring Charm', explorers_compass: "Explorer's Compass", mentor_charm: 'Mentor Charm', bloom_charm: 'Bloom Charm', merchant_charm: 'Merchant Charm' };
+for (const t of ['fire', 'water', 'earth', 'wind', 'light', 'dark', 'mystic', 'normal']) CHARM_NAMES[`type_charm_${t}`] = `${t[0].toUpperCase()}${t.slice(1)} Charm`;
+for (const [id, name] of Object.entries(CHARM_NAMES)) FIELD[id] = { pocket: 'key', field: null, key: true, earnedOnly: true, name };
 for (const g of CRYSTAL_GRADES.grades) if (!FIELD[g.item]) FIELD[g.item] = { pocket: 'crystals', field: null }; // board crystal grades
 
 /** Full table used by the bag: { id: {id, pocket, field, ..., heal, energy, cure, battle, name} } */
