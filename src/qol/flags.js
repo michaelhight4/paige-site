@@ -7,7 +7,7 @@ export const QOL_B_DEFAULTS = Object.freeze({
   skillRecall: true,  // #5 Team menu > Skills > Recall: relearn a skill from the learnset up to the current level
   teachReuse: true,   // #6 Training Reels are not used up when they teach a skill
 });
-export const XP_SHARE = 0.5; // Gary: benched creatures get 50%
+export const XP_SHARE = 0.25; // Gary 11:02 AM CT Oct 29: benched creatures that haven't fainted get 25%
 
 export function qolFlags(query = globalThis.location ? new URLSearchParams(globalThis.location.search) : null) {
   const f = { ...QOL_B_DEFAULTS };

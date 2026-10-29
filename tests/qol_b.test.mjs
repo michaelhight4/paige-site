@@ -20,16 +20,16 @@ test('flags: every feature has a kill switch, URL overrides', () => {
   assert.equal(qolFlags(q('qol=-xpShare')).xpShare, false);
   assert.equal(qolFlags(q('qol=dmgPreview')).dmgPreview, true);
   assert.ok(Object.values(qolFlags(q('qol=none'))).every((v) => !v));
-  assert.equal(XP_SHARE, 0.5);
+  assert.equal(XP_SHARE, 0.25);
 });
 
-test('#4 benched creatures get 50% of the XP; fainted and off = nothing', () => {
+test('#4 benched creatures get 25% of the XP; fainted and off = nothing', () => {
   const on = KO(XP_SHARE), off = KO(0);
   const gain = (kb, i) => kb.result().team[i].xp;
   const lead = on.battle.log.filter((l) => l.startsWith('|-kxp|')).map((l) => +l.split('|')[3]).reduce((a, b) => a + b, 0);
   const share = on.battle.log.filter((l) => l.startsWith('|-kxpshare|'));
   assert.ok(lead > 0 && share.length >= 1);
-  assert.equal(+share[0].split('|')[3], Math.floor(lead * 0.5));
+  assert.equal(+share[0].split('|')[3], Math.floor(lead * 0.25));
   assert.ok(!share.some((l) => /Rillop/.test(l)), 'fainted member gets none');
   assert.ok(gain(on, 1) > (gain(off, 1) ?? 0));
   assert.ok(!off.battle.log.some((l) => l.startsWith('|-kxpshare|')));
