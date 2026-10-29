@@ -4,12 +4,12 @@
 // cutscene; it only marks the save dirty (the normal autosave rules decide when to write).
 // Text: every player line below is a /* PH */ fallback; keys requested from Text Bot in data/textbot_requests_qol_b.md.
 import { learnsetFor, applyLearn } from '../overnight/learnsets.js?v=v0.2.79-alpha';
-import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.79-alpha';
+import { PLACEHOLDER_SKILLS, EXTRA_SKILL_ROWS } from '../ui/data.js?v=v0.2.79-alpha';
 import { toID } from '../battle/data/skills.js?v=v0.2.79-alpha';
 import { speciesInfo, defaultSkills, displayName } from '../systems/creature.js?v=v0.2.79-alpha';
 import { qolFlags } from './flags.js?v=v0.2.79-alpha';
 
-const SK = {}; for (const [name, el] of Object.values(PLACEHOLDER_SKILLS).flat()) SK[toID(name)] ||= { name, el };
+const SK = {}; for (const [name, el] of [...Object.values(PLACEHOLDER_SKILLS).flat(), ...EXTRA_SKILL_ROWS]) SK[toID(name)] ||= { name, el };
 export const skillName = (id) => SK[id]?.name || (id ? id[0].toUpperCase() + id.slice(1) : '?');
 
 /** Training Reels (B22, PLACEHOLDER ids + skills; Gary / World Design to place them in RT Supply or pickups). */

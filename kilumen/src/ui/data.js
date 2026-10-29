@@ -41,6 +41,10 @@ export const SPECIES = [
   // PLACEHOLDER stats/skills (flag ph:1), blurb '' + blurbKey TODO for Text Bot. Regenerate: node tools/sync_creatures.mjs
   ...SYNCED_SPECIES,
 ];
+// r56 (Oct 29 2026): gnawford buffed 390 -> 480 total (GD regions56_gd sims assume it; Coder default, PENDING GARY).
+// Same spread scaled up; the generated file stays untouched so a creature sync does not drop it.
+export const STAT_OVERRIDES = { gnawford: { hp: 89, atk: 84, def: 100, spa: 64, spd: 76, spe: 67 } };
+for (const s of SPECIES) if (STAT_OVERRIDES[s.id] && s.baseStats) s.baseStats = { ...STAT_OVERRIDES[s.id] };
 export const speciesById = (id) => SPECIES.find((s) => s.id === id) || { id, name: id ? id[0].toUpperCase() + id.slice(1) : '?', el: ['normal'], found: '', blurb: '' };
 
 // Creature sync: party/Kilindex icon for a species, relative to art/characters/pixel/ (synced sets keep icons in their own folder,
@@ -62,10 +66,18 @@ export const PLACEHOLDER_SKILLS = {
   light: [['Halo Flash', 'light', 45], ['Dawn Glow', 'angelic', 0], ['Flutter', 'normal', 30], ['Gleam', 'light', 35]],
   dark: [['Lantern Haunt', 'ghost', 45], ['Dusk Bite', 'dark', 50], ['Fade Out', 'dark', 0], ['Ear Flick', 'normal', 25]],
   mystic: [['Thread Weave', 'mystic', 45], ['Bead Spark', 'spirit', 40], ['Unravel', 'mystic', 0], ['Ferret Dash', 'normal', 35]],
+  // r56 moves (Oct 29 2026, design/regions56_gd/moves_swamp_sea.json; GD proposal, numbers PLACEHOLDER for Gary):
+  // real swamp / sea pools replace the old swamp/sea -> water fallback (a water + swamp creature uses swamp, water + sea uses sea).
+  swamp: [['Bog Snap', 'swamp', 55], ['Mire Lob', 'swamp', 40], ['Ripple Shot', 'water', 40], ['Stomp', 'earth', 45]],
+  sea: [['Brine Lash', 'sea', 55], ['Undertow', 'sea', 40], ['Ripple Shot', 'water', 40], ['Pebble Toss', 'earth', 35]],
   normal: [['Pounce', 'normal', 40], ['Nudge', 'normal', 25], ['Stomp', 'earth', 45], ['Huff', 'normal', 0]],
 };
+// Skills that are in no default pool (learnset / Master teams only). r56: Kelp Lash (atollback L38, nudiblume L34).
+export const EXTRA_SKILL_ROWS = [['Kelp Lash', 'grass', 55]];
+/** r56: water + swamp -> 'swamp' pool, water + sea -> 'sea' pool (first element water); else null (use skillPool / el[0]). */
+export const r56PoolFor = (el = []) => (el[0] === 'water' && el.includes('swamp') ? 'swamp' : el[0] === 'water' && el.includes('sea') ? 'sea' : null);
 // Creature sync (Oct 23, 2026): synced species carry skillPool (nearest existing pool for elements with no pool of their own). PLACEHOLDER.
-export const skillPoolOf = (s) => PLACEHOLDER_SKILLS[s?.skillPool] || PLACEHOLDER_SKILLS[s?.el?.[0]] || PLACEHOLDER_SKILLS.normal;
+export const skillPoolOf = (s) => PLACEHOLDER_SKILLS[r56PoolFor(s?.el)] || PLACEHOLDER_SKILLS[s?.skillPool] || PLACEHOLDER_SKILLS[s?.el?.[0]] || PLACEHOLDER_SKILLS.normal;
 export const skillsFor = (sp) => skillPoolOf(speciesById(sp)).map(([name, el, power], i) => ({ name, el, power, en: 15 - i * 3, enMax: 15 - i * 3 }));
 
 // PLACEHOLDER prices (gold) for the RT Supply counter; names/pockets/descriptions are Text Bot's system_item_catalogue.

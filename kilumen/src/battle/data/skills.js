@@ -1,12 +1,14 @@
 // Kilumen skills for the battle engine, built from PLACEHOLDER_SKILLS in src/ui/data.js
 // (names already in the game; owner Character models / SKR). Energy per slot 15/12/9/6 as skillsFor().
 // Every effect, category, accuracy and priority below is a PLACEHOLDER for Gary; see PLACEHOLDERS in README.md.
-import { PLACEHOLDER_SKILLS } from '../../ui/data.js?v=v0.2.79-alpha';
+import { PLACEHOLDER_SKILLS, EXTRA_SKILL_ROWS, r56PoolFor } from '../../ui/data.js?v=v0.2.79-alpha';
 import { cap } from './elements.js?v=v0.2.79-alpha';
 
 // PLACEHOLDER (creature sync): nearest existing skill pool for elements that have none (same table as tools/sync_creatures.mjs).
-export const SKILL_POOL_ALIAS = { grass: 'earth', bug: 'earth', magma: 'fire', freshwater: 'water', sea: 'water', swamp: 'water', rain: 'water',
+export const SKILL_POOL_ALIAS = { grass: 'earth', bug: 'earth', magma: 'fire', freshwater: 'water', rain: 'water', // r56: sea / swamp have their own pools now
   bird: 'wind', angelic: 'light', god: 'light', ghost: 'dark', demon: 'dark', devil: 'dark', spirit: 'mystic', dragos: 'mystic', legendary: 'mystic' };
+// Element family for non-skill uses (milestone type pools): sea / swamp still count as water there.
+export const ELEMENT_FAMILY = { ...SKILL_POOL_ALIAS, sea: 'water', swamp: 'water' };
 export const toID = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '');
 
 // PLACEHOLDER: which elements use Focus/Resolve (special) instead of Might/Guard (physical).
@@ -24,11 +26,17 @@ const EXTRA = {
   coalcharge: { priority: -1, tags: ['heavy'] },
   swoop: { priority: 1, tags: ['swift'] },
   ferretdash: { priority: 1, tags: ['swift'] },
+  // r56 (design/regions56_gd/moves_swamp_sea.json). Shapes adapted from Pokemon Showdown data/moves.ts (MIT, THIRD_PARTY_LICENSES).
+  bogsnap: { accuracy: 90 },                                       // swamp 55, Physical
+  mirelob: { secondary: { chance: 20, boosts: { spe: -1 } } },     // swamp 40, may lower the target's Speed
+  brinelash: { accuracy: 90 },                                     // sea 55, Special
+  undertow: { secondary: { chance: 20, boosts: { atk: -1 } } },    // sea 40, may lower the target's Might
+  kelplash: { accuracy: 95 },                                      // grass 55, Physical (no pool: learnset only)
 };
 
 export function buildSkills() {
   const out = {};
-  for (const list of Object.values(PLACEHOLDER_SKILLS)) {
+  for (const list of [...Object.values(PLACEHOLDER_SKILLS), EXTRA_SKILL_ROWS]) {
     list.forEach(([name, el, power], i) => {
       const id = toID(name);
       if (out[id]) return;
@@ -54,6 +62,6 @@ export function buildSkills() {
 /** skills a species knows, in slot order (same rule as skillsFor in src/ui/data.js) */
 export function skillIdsFor(elements, pool = null) {
   // creature sync (Oct 23, 2026): synced species pass their skillPool; elements with no pool of their own use the nearest one
-  const list = PLACEHOLDER_SKILLS[pool] || PLACEHOLDER_SKILLS[elements[0]] || PLACEHOLDER_SKILLS[SKILL_POOL_ALIAS[elements[0]]] || PLACEHOLDER_SKILLS.normal;
+  const list = PLACEHOLDER_SKILLS[r56PoolFor(elements)] || PLACEHOLDER_SKILLS[pool] || PLACEHOLDER_SKILLS[elements[0]] || PLACEHOLDER_SKILLS[SKILL_POOL_ALIAS[elements[0]]] || PLACEHOLDER_SKILLS.normal;
   return list.map(([name]) => toID(name));
 }

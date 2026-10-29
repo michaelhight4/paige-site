@@ -5,6 +5,7 @@
 // tagged placeholder:true. Replace with real data by passing {data: {species: [{level, skill}]}} (data wins).
 import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.79-alpha';
 import { toID } from '../battle/data/skills.js?v=v0.2.79-alpha';
+import { R56_LEARNSETS } from '../battle/data/learnsets_r56.js?v=v0.2.79-alpha';
 import { maxEnergy } from '../systems/creature.js?v=v0.2.79-alpha';
 
 export const PLACEHOLDER_LEVELS = [8, 14, 20, 27, 34];
@@ -13,10 +14,11 @@ function hash(s) { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(
 
 /** [{level, skill, placeholder}] sorted by level. els = species elements, defaults = its default skill ids. */
 export function learnsetFor(species, els, defaults, data = null) {
-  if (data?.[species]) return data[species].map((e) => ({ ...e, placeholder: false }));
+  const real = data?.[species] || R56_LEARNSETS[species]; // r56: real swamp / sea learnsets (data still wins)
+  if (real) return real.map((e) => ({ ...e, placeholder: false }));
   const out = defaults.map((skill) => ({ level: 1, skill, placeholder: true }));
   const have = new Set(defaults);
-  const keys = Object.keys(PLACEHOLDER_SKILLS).sort();
+  const keys = Object.keys(PLACEHOLDER_SKILLS).filter((k) => k !== 'swamp' && k !== 'sea').sort(); // r56 pools kept out so cousins do not shift
   const cousin = keys[hash(species) % keys.length];
   const pools = [els[1], 'normal', cousin, els[0]].filter(Boolean);
   const cand = [];

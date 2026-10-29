@@ -21,6 +21,7 @@
 import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.79-alpha';
 import { applyHeldPicks } from './trainer_held.js?v=v0.2.79-alpha';
 
+const RON_TIDEWATER = {"nibbin": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}], "cindrip": [{species: "sailquill", level: 40}, {species: "pearlisk", level: 40, held: "runestitch_charm"}, {species: "tidemarrow", level: 40, held: "sprig_charm"}, {species: "nudiblume", level: 40, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}, {species: "brineseal", level: 39, held: "droplet_charm"}, {species: "tidemarrow", level: 41, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}], "rillop": [{species: "sailquill", level: 40}, {species: "glassvine", level: 40}, {species: "gearwarden", level: 40}, {species: "bramblehog", level: 41}, {species: "skyrender", level: 40}, {species: "gnawford", level: 41}], "tumbloam": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}]};
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end
   'route1.trainer_r1_a': [{ species: 'sailquill', level: 4 }, { species: 'burlbeetle', level: 4 }],
@@ -126,6 +127,10 @@ export const TRAINER_TEAMS = {
   'frostspire_hall_int.frostspire_hall_int_h2': [{ species: 'highkite', level: 32 }, { species: 'signalwren', level: 32 }], // Bram
   'frostspire_hall_int.frostspire_hall_int_h3': [{ species: 'spraytern', level: 33 }, { species: 'sailquill', level: 33 }], // Tilly
   'frostspire_hall_int.frostspire_hall_int_master': [{ species: 'sailquill', level: 33 }, { species: 'highkite', level: 34 }, { species: 'pouchbill', level: 34 }, { species: 'gildfinch', level: 35 }], // Hale Corrie, Master 4
+  // r56 (Oct 29 2026): Ron at Tidewater (GD 'ron_6' id rival_ron_tidewater, optional, story.js RON_RIVALS 5). design/regions56_gd/
+  // balance.json ron_6; stand-ins: stampedor -> bramblehog, seraphawk -> skyrender, driftknot -> tidemarrow, deluvane -> brineseal.
+  'tidewater_coast.tidewater_coast_ron_5': { byStarter: RON_TIDEWATER },
+  'tidewater_coast.tidewater_coast_ron_5_slip': { byStarter: RON_TIDEWATER },
 };
 
 // Held items for Masters and Ron: per-creature picks per fight in src/battle/data/trainer_held.js (Oct 29 2026, P2-P5).

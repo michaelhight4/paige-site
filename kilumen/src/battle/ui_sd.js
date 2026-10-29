@@ -64,7 +64,7 @@ export function makeSdBattle(ui, opts, h) {
   const authored = trainer ? authoredTeam(opts.who, partySrc) : null;
   // carry (mode switch, Oct 29 2026): a wild fight switched over from real-time keeps its foes' HP (wild only; never owned)
   const carryFoes = !owned && opts.carry?.foes?.length ? opts.carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '', hp: Math.max(1, Math.round(f.hp)) })) : null;
-  const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level, ...(f.held ? { held: f.held } : {}) })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
+  const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level, ...(f.held ? { held: f.held } : {}), ...(f.skills ? { skills: [...f.skills] } : {}) })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
     : trainer ? [{ species: foeSp, level: foeLv }, { species: foeSp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: foeLv }] : [{ species: foeSp, level: foeLv }]);
   const sys = ui.demo ? null : ui.scene?.systems; // [systems-gd hook] the real bag (src/systems); ?uidemo=1 keeps the demo team + demo bag (never saved)
   const bag = sys ? sys.bagForBattle() : Object.fromEntries(Object.entries(ui.bag || {}).filter(([, n]) => n > 0));

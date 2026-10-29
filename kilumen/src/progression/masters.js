@@ -56,7 +56,8 @@ export function findHallTrainer(data, map, id) {
 export function teamFor(data, map, id, { fernwick = false } = {}) {
   const f = findHallTrainer(data, map, id);
   if (!f || (f.hall.zone === 'fernwick' && !fernwick)) return null;
-  const foes = f.who.team.map((m) => ({ species: m.battle_species, level: m.level }));
+  // r56: an authored held item / skill list (balance.json Masters 5-6) rides along; picks only fill members without one.
+  const foes = f.who.team.map((m) => ({ species: m.battle_species, level: m.level, ...(m.held ? { held: m.held } : {}), ...(m.skills ? { skills: [...m.skills] } : {}) }));
   return { foes: f.isMaster ? applyHeldPicks(heldRoleFor({ zone: f.hall.zone }), foes) : foes, // held items (Oct 29 2026): Master picks, src/battle/data/trainer_held.js
     foeName: f.who.name_placeholder || 'Trainer', zone: f.hall.zone, isMaster: f.isMaster, masterNumber: f.isMaster ? f.hall.coin_number : 0 };
 }

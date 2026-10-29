@@ -509,37 +509,61 @@
     "prize_placeholder": 4800,
     "team": [
      {
-      "species": "mirewump",
-      "level": 37,
-      "battle_species": "mirewump",
-      "stand_in": false
+      "species": "mirejaw",
+      "level": 36,
+      "battle_species": "snapmoor",
+      "stand_in": true,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     },
+     {
+      "species": "runeskein",
+      "level": 36,
+      "battle_species": "runeskein",
+      "stand_in": false,
+      "held": "runestitch_charm"
      },
      {
       "species": "silteel",
-      "level": 37,
-      "battle_species": "mirewump",
-      "stand_in": true
+      "level": 36,
+      "battle_species": "reedmoot",
+      "stand_in": true,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
      },
      {
-      "species": "gloamtick",
-      "level": 38,
-      "battle_species": "gloamtick",
-      "stand_in": false
+      "species": "duckmoss",
+      "level": 35,
+      "battle_species": "toadcap",
+      "stand_in": true,
+      "held": "sprig_charm"
      },
      {
-      "species": "mudwhisk",
-      "level": 38,
+      "species": "fenmaw",
+      "level": 36,
       "battle_species": "mirewump",
-      "stand_in": true
-     },
-     {
-      "species": "bulrusher",
-      "level": 40,
-      "battle_species": "mirewump",
-      "stand_in": true
+      "stand_in": true,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
      }
     ],
-    "ace_level": 40
+    "ace_level": 36,
+    "r56_source": "design/regions56_gd/balance.json masters.M5_wenna_peat (GD proposal, sim in SIM_RESULTS.md)"
    },
    "trainers": [
     {
@@ -640,37 +664,86 @@
     "prize_placeholder": 5520,
     "team": [
      {
-      "species": "bulwarkrab",
-      "level": 43,
-      "battle_species": "bulwarkrab",
-      "stand_in": false
+      "species": "lurelamp",
+      "level": 38,
+      "battle_species": "lurelamp",
+      "stand_in": false,
+      "held": "dusk_charm",
+      "skills": [
+       "duskbite",
+       "lanternhaunt",
+       "brinelash",
+       "earflick"
+      ]
      },
      {
-      "species": "kelpstrider",
-      "level": 43,
-      "battle_species": "kelpstrider",
-      "stand_in": false
+      "species": "pearlisk",
+      "level": 38,
+      "battle_species": "pearlisk",
+      "stand_in": false,
+      "held": "runestitch_charm",
+      "skills": [
+       "threadweave",
+       "brinelash",
+       "beadspark",
+       "ferretdash"
+      ]
      },
      {
-      "species": "spraytern",
-      "level": 44,
-      "battle_species": "spraytern",
-      "stand_in": false
+      "species": "driftknot",
+      "level": 39,
+      "battle_species": "tidemarrow",
+      "stand_in": true,
+      "held": "sprig_charm",
+      "skills": [
+       "mossslam",
+       "brinelash",
+       "shellroll",
+       "hornnudge"
+      ]
      },
      {
-      "species": "galepetrel",
-      "level": 44,
-      "battle_species": "sailquill",
-      "stand_in": true
+      "species": "nudiblume",
+      "level": 38,
+      "battle_species": "nudiblume",
+      "stand_in": false,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
      },
      {
-      "species": "hullwhale",
-      "level": 46,
-      "battle_species": "hullwhale",
-      "stand_in": false
+      "species": "deluvane",
+      "level": 33,
+      "battle_species": "brineseal",
+      "stand_in": true,
+      "held": "droplet_charm",
+      "skills": [
+       "rippleshot",
+       "frillsplash",
+       "undertow",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "atollback",
+      "level": 41,
+      "battle_species": "tuskwallow",
+      "stand_in": true,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "kelplash",
+       "undertow",
+       "rippleshot"
+      ]
      }
     ],
-    "ace_level": 46
+    "ace_level": 41,
+    "r56_source": "design/regions56_gd/balance.json masters.M6_jory_swell (GD proposal, sim in SIM_RESULTS.md)"
    },
    "trainers": [
     {

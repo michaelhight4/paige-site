@@ -18,7 +18,7 @@ import { RegionMap } from './region_map.js?v=v0.2.79-alpha';
 import { SightSystem } from './sight.js?v=v0.2.79-alpha';
 import { Kilindex } from './kilindex.js?v=v0.2.79-alpha';
 import { learnsetFor, learnsBetween, applyLearn } from './learnsets.js?v=v0.2.79-alpha';
-import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.79-alpha';
+import { PLACEHOLDER_SKILLS, EXTRA_SKILL_ROWS } from '../ui/data.js?v=v0.2.79-alpha';
 import { toID } from '../battle/data/skills.js?v=v0.2.79-alpha';
 import { speciesInfo, speciesName, defaultSkills } from '../systems/creature.js?v=v0.2.79-alpha';
 import { withFallbacks } from './npc_sprites.js?v=v0.2.79-alpha'; // batch 3: NPCs on World Design's overnight maps without a mapped sheet still draw
@@ -206,5 +206,5 @@ export async function learnPrompt(scene, ov, c, skill) {
   return 'kept';
 }
 
-const SKILL_NAMES = Object.fromEntries(Object.values(PLACEHOLDER_SKILLS).flat().map(([name]) => [toID(name), name]));
+const SKILL_NAMES = Object.fromEntries([...Object.values(PLACEHOLDER_SKILLS).flat(), ...EXTRA_SKILL_ROWS].map(([name]) => [toID(name), name]));
 function skillName(id) { return SKILL_NAMES[id] || (id ? id[0].toUpperCase() + id.slice(1) : '?'); }

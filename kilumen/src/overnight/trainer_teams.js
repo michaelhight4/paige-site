@@ -51,7 +51,7 @@ export function rawTeam(def, starter = null) {
 export function mapTeamFor(def, { starter = null, standIns = {}, name = null } = {}) {
   let rows = rawTeam(def, starter); if (!rows) return null;
   if (isRival(def)) rows = rows.map((r) => (r && EARTH_SWAP[r.species] ? { ...r, species: EARTH_SWAP[r.species] } : r));
-  const foes = rows.filter((r) => r?.species).map((r) => ({ species: resolveSpecies(r.species, standIns), level: Math.max(1, r.level | 0 || 5), ...(known(r.species) ? {} : { standInFor: r.species }) }));
+  const foes = rows.filter((r) => r?.species).map((r) => ({ species: resolveSpecies(r.species, standIns), level: Math.max(1, r.level | 0 || 5), ...(r.held ? { held: r.held } : {}), ...(Array.isArray(r.skills) ? { skills: [...r.skills] } : {}), ...(known(r.species) ? {} : { standInFor: r.species }) }));
   return foes.length ? { foes, foeName: name || def.name || trainerName(def), fromMap: true } : null;
 }
 

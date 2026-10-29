@@ -5,7 +5,7 @@
 // dex, areas). Text: system_tasks.milestones.<id>.{title,rule} keys (Text Bot); strings here are fallbacks.
 // Counters: 'count' = event counter in the save (store.milestones.counts[id]); 'derived' = recomputed from game state.
 import { SPECIES } from '../ui/data.js?v=v0.2.79-alpha';
-import { SKILL_POOL_ALIAS } from '../battle/data/skills.js?v=v0.2.79-alpha';
+import { ELEMENT_FAMILY as SKILL_POOL_ALIAS } from '../battle/data/skills.js?v=v0.2.79-alpha';
 import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.79-alpha';
 
 export const TIER_NAMES = ['Bronze', 'Silver', 'Gold', 'Platinum'];
