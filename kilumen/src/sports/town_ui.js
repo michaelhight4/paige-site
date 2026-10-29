@@ -290,6 +290,13 @@ function drawQuip(g, q, y0 = 30) {
 
 // ---------------- drawing ----------------
 function pop(g, text, x, y, col = '#ffe58a') { g.fillStyle = col; g.font = 'bold 18px monospace'; g.textAlign = 'center'; g.fillText(text, x, y); }
+// Harbour Haul pop-up lanes: one row each, TUG_POP_GAP px apart, from TUG_POP_TOP down (all above the pier at y=250)
+export const TUG_POP_TOP = 186, TUG_POP_GAP = 26;
+export const tugPopLanes = (pops) => pops.slice(0, 2).map(([txt, col], i) => [txt, col, TUG_POP_TOP + i * TUG_POP_GAP]);
+function popBox(g, text, x, y, col) { // dark backing plate so a pop always reads cleanly over the water
+  g.font = 'bold 18px monospace'; const w = Math.min(W - 8, g.measureText(text).width + 14);
+  g.fillStyle = '#0b1e2ecc'; g.fillRect(Math.round(x - w / 2), y - 17, Math.round(w), 22); pop(g, text, x, y, col);
+}
 function hud(g, ev, s, extra = '') {
   g.fillStyle = '#000a'; g.fillRect(0, 0, W, 26); g.fillStyle = '#f3ead2'; g.font = '13px monospace'; g.textAlign = 'left';
   g.fillText(`${Math.max(0, Math.ceil(s.left))}s  ${scoreOf(ev, s)} ${ev.unit}  ${extra}`, 8, 18);
@@ -401,8 +408,11 @@ function dTug(g, ev, s, c, t) {
   const ring = s.pulse > 0.8 || s.pulse < 0.1; g.strokeStyle = ring ? '#ffe58a' : '#ffffff44'; g.lineWidth = ring ? 4 : 2;
   g.beginPath(); g.arc(W / 2, 400, 16 + 18 * s.pulse, 0, 7); g.stroke(); g.beginPath(); g.arc(W / 2, 400, 34, 0, 7); g.stroke(); g.lineWidth = 1;
   g.fillStyle = '#ffffff33'; g.fillRect(110, 448, 140, 6); g.fillStyle = s.grip < 0.4 ? '#ff9a9a' : '#8fd'; g.fillRect(110, 448, 140 * s.grip, 6);
-  if (s.surge && s.surge.warn > 0) pop(g, TS.pop_dig_in, W / 2, 220, '#ff9a9a');
   if (s.brace) { g.fillStyle = '#ffe58a'; g.font = '11px monospace'; g.textAlign = 'center'; g.fillText(TS.pop_bracing, W / 2, 470); }
-  if (s.fx) pop(g, TS['pop_' + (s.fx.k === 'perfect' ? 'heave' : s.fx.k === 'good' ? 'good' : s.fx.k === 'brace' ? 'held' : 'slip')], W / 2, 200, s.fx.k === 'slip' ? '#ff9a9a' : '#ffe58a');
+  // pop-ups never overlap: the rival's "dig in" warning owns the top lane, the heave/held/slip result stacks below it
+  const pops = [];
+  if (s.surge && s.surge.warn > 0) pops.push([TS.pop_dig_in, '#ff9a9a']);
+  if (s.fx) pops.push([TS['pop_' + (s.fx.k === 'perfect' ? 'heave' : s.fx.k === 'good' ? 'good' : s.fx.k === 'brace' ? 'held' : 'slip')], s.fx.k === 'slip' ? '#ff9a9a' : '#ffe58a']);
+  tugPopLanes(pops).forEach(([txt, col, y]) => popBox(g, txt, W / 2, y, col));
   hud(g, ev, s, '');
 }

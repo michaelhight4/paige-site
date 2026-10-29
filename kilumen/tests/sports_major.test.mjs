@@ -39,3 +39,11 @@ test('new placeholder text: no blocked words', () => {
   const all = JSON.stringify([TS.major, TS.tug_of_war, TS.tug_crew, TS.tug_q_grunter, TS.tug_q_showoff, TS.tug_q_steady, TS.tug_q_nervous, TS.major_cheer, TS.major_oops, TS.major_final, TS.pop_heave, TS.pop_dig_in]);
   for (const re of [/\bPP\b/, /shiny/i, /super effective/i, /pok[eé]dex/i, /pok[eé] ?ball/i, /\bnurse\b/i, /\bweed/i, /\broute\b/i, /berr(y|ies)/i, /\bthrow/i]) assert.ok(!re.test(all), 'blocked: ' + re);
 });
+
+test('Harbour Haul pop-ups (HEAVE! / They dig in!) sit in separate lanes and never overlap', async () => {
+  const { tugPopLanes, TUG_POP_GAP, TUG_POP_TOP } = await import('../src/sports/town_ui.js');
+  const lanes = tugPopLanes([['They dig in!', '#f00'], ['HEAVE!', '#ff0']]);
+  assert.equal(lanes.length, 2);
+  assert.ok(lanes[1][2] - lanes[0][2] >= 22, 'rows at least one 22px plate apart');
+  assert.ok(TUG_POP_GAP >= 22 && TUG_POP_TOP + TUG_POP_GAP < 250, 'both lanes above the pier');
+});
