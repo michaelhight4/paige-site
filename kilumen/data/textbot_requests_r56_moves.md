@@ -6,7 +6,7 @@ Skill names/descs (`skills.*` catalogue): bogsnap "Bog Snap", mirelob "Mire Lob"
 - mirelob: may lower the target's Speed. undertow: may lower the target's Attack.
 
 Old Gus tutor (`system_story_r56.*`, src/region56/tutor.js TUTOR_KEYS; NPC tr_tidewater_coast_lighthouse_keeper not placed yet):
-- old_gus_offer: offers to teach Brine Lash ({creature}).
+- old_gus_offer: offers to teach Brine Lash ({creature}). Needs `choices: ['Teach it', 'Not today']` next to `pages` (tutor.js reads system_story_r56.old_gus_offer.choices; that pair is the fallback). {skill} is also filled.
 - old_gus_none: nobody in the party can learn it.
 - old_gus_taught: {creature} learned Brine Lash.
 - old_gus_known: {creature} already knows it.

@@ -151,8 +151,18 @@ export class EncounterRoller {
 export const MAP_BIOMES = { greystone_entrance: 'cave', greystone_b1: 'cave', frostspire: 'snow', frostspire_pass: 'snow', revival_heights: 'mountain', route_cindervale: 'mountain', cindervale: 'mountain' };
 // Area (encounter table) id -> backdrop; checked first (Frostspire: Oct 29 2026).
 export const AREA_BIOMES = { frostspire_grass: 'snow', frostspire_pass_grass: 'snow', frostspire_cave: 'cave' };
+// Regions 5-6 maps (Animator art package #5): the map decides, water / surf / fishing there use reef_surf (sea) or bog_deep (Mirefen).
+export const R56_MAP_BIOMES = {
+  mirefen: 'bog', mirefen_bog: 'bog_deep', route_saltmere_mirefen: 'causeway', route_sunmeadow_mirefen: 'causeway',
+  sunmeadow_fields: 'meadow', route_revival_sunmeadow: 'meadow', mirefen_hall_int: 'hall_mirefen', tidewater_hall_int: 'hall_tidewater',
+  lab_mirefen_sunken: 'lab_mirefen', station_int: 'lab_mirefen', lab_tidewater_cave: 'lab_seacave', tidewater_cave_int: 'sea_cave',
+  tidewater_coast: 'coast', route_coast: 'coast',
+};
+const R56_WATER = { coast: 'reef_surf', bog: 'bog_deep', causeway: 'bog_deep' };
 export const biomeFor = (method, map, area) => {
   if (area && AREA_BIOMES[area]) return AREA_BIOMES[area];
+  const r56 = map && R56_MAP_BIOMES[map.replace(/_storm$/, '')];
+  if (r56) return /water|surf|fishing/.test(method || '') ? (R56_WATER[r56] || r56) : r56;
   if (area && /_cave\b|^terrain_cave/.test(area)) return 'cave';
   const m = method || '';
   if (/water|surf|fishing/.test(m)) return 'water';

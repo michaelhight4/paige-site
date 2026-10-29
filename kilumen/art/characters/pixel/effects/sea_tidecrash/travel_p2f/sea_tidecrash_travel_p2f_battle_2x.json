@@ -1,0 +1,103 @@
+{
+ "element": "sea",
+ "effect_id": "sea_tidecrash",
+ "anim": "travel_p2f",
+ "description": "sea skill: swell surges along the ground; impact = a tall wave rears behind the target and slams down into foam",
+ "generated_by": "kilumen_regions56_art/skill_fx/_tools/fx56.py",
+ "generated_at": "2026-10-29T13:52:59-05:00",
+ "scale": 2,
+ "filter": "nearest",
+ "background": "fully transparent (1-bit alpha), palette-only opaque pixels",
+ "gif": "sea_tidecrash_travel_p2f_battle_2x.gif",
+ "gif_disposal": 2,
+ "loop": "gif loop=0 is set; play ONCE in game (remove after total_ms)",
+ "sheet": "sea_tidecrash_travel_p2f_battle_2x_sheet.png",
+ "sheet_layout": "horizontal strip, frame i at x=i*frame_w",
+ "frame_w": 384,
+ "frame_h": 244,
+ "frame_count": 7,
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 384,
+   "h": 244,
+   "ms": 83
+  },
+  {
+   "i": 1,
+   "x": 384,
+   "y": 0,
+   "w": 384,
+   "h": 244,
+   "ms": 83
+  },
+  {
+   "i": 2,
+   "x": 768,
+   "y": 0,
+   "w": 384,
+   "h": 244,
+   "ms": 83
+  },
+  {
+   "i": 3,
+   "x": 1152,
+   "y": 0,
+   "w": 384,
+   "h": 244,
+   "ms": 83
+  },
+  {
+   "i": 4,
+   "x": 1536,
+   "y": 0,
+   "w": 384,
+   "h": 244,
+   "ms": 83
+  },
+  {
+   "i": 5,
+   "x": 1920,
+   "y": 0,
+   "w": 384,
+   "h": 244,
+   "ms": 83
+  },
+  {
+   "i": 6,
+   "x": 2304,
+   "y": 0,
+   "w": 384,
+   "h": 244,
+   "ms": 83
+  }
+ ],
+ "total_ms": 581,
+ "native_frame_w": 192,
+ "native_frame_h": 122,
+ "rendered_with_margin": true,
+ "anchor": {
+  "type": "screen_space_path",
+  "start": [
+   68,
+   178
+  ],
+  "end": [
+   300,
+   56
+  ],
+  "start_is": "player mouth (back sprite)",
+  "end_is": "foe centre",
+  "canvas_offset_on_pilot_screen_native": [
+   80,
+   72
+  ],
+  "canvas_offset_on_pilot_screen_2x": [
+   160,
+   144
+  ],
+  "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+ }
+}

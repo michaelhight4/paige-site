@@ -161,6 +161,8 @@ export class GridMover {
    */
   frame() {
     const mode = this.moving ? this.stepMode : this.mode;
+    // Tideglide (r56 art #5, tideglide.json): set by src/overnight/field.js while riding; col 0 = idle, 1..4 = glide0..3 (16 px per frame)
+    if (this.gliding) return { anim: 'tideglide', col: this.moving ? 1 + (Math.floor(this.dist / 16) % 4) : 0 };
     if (mode === MoveMode.BIKE) {
       if (!this.moving) return { anim: 'bike', col: 0 };
       if (this.hopKind === 'ramp') return { anim: 'bike', col: 2 };

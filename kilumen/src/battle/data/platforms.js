@@ -6,6 +6,7 @@
 // Colours for 'grass' were sampled from art/world/battle_bg.png (meadow ground, #a0a331 to #c1be2b).
 const PHASES = ['dawn', 'day', 'dusk', 'night'], ph = (p) => (PHASES.includes(p) ? p : 'day');
 const artBg = (b, p) => `art/world/battle_biomes/${b}/bg_${ph(p)}.webp`, artLife = (b, p) => `art/world/battle_biomes/${b}/life_${ph(p)}.webp`;
+const r56 = (b, near, far) => ({ bg: artBg(b, 'day'), art: true, bgFor: (phase) => artBg(b, phase), life: (phase) => artLife(b, phase), spots: { near, far } });
 export const PLATFORM_BIOMES = {
   grass: {
     bg: 'art/world/battle_bg.png',
@@ -27,6 +28,18 @@ export const PLATFORM_BIOMES = {
   cave: { bg: artBg('cave', 'day'), art: true, bgFor: (phase) => artBg('cave', phase), life: (phase) => artLife('cave', phase), spots: { near: [0.3, 0.79], far: [0.69, 0.72] } },
   mountain: { bg: artBg('mountain', 'day'), art: true, bgFor: (phase) => artBg('mountain', phase), life: (phase) => artLife('mountain', phase), spots: { near: [0.3, 0.81], far: [0.73, 0.735] } },
   snow: { bg: artBg('snow', 'day'), art: true, bgFor: (phase) => artBg('snow', phase), life: (phase) => artLife('snow', phase), spots: { near: [0.31, 0.68], far: [0.755, 0.58] } },
+  // Regions 5-6 (Animator art package #5, Gary approved Oct 29 2026): same format; spots from each index.json spots_frac.
+  bog: r56('bog', [0.322, 0.747], [0.703, 0.582]),
+  bog_deep: r56('bog_deep', [0.337, 0.75], [0.674, 0.674]),
+  causeway: r56('causeway', [0.332, 0.743], [0.747, 0.472]),
+  coast: r56('coast', [0.303, 0.78], [0.737, 0.668]),
+  hall_mirefen: r56('hall_mirefen', [0.405, 0.755], [0.646, 0.538]),
+  hall_tidewater: r56('hall_tidewater', [0.298, 0.738], [0.762, 0.616]),
+  lab_mirefen: r56('lab_mirefen', [0.312, 0.8], [0.72, 0.686]),
+  lab_seacave: r56('lab_seacave', [0.376, 0.816], [0.695, 0.646]),
+  meadow: r56('meadow', [0.293, 0.743], [0.728, 0.639]),
+  reef_surf: r56('reef_surf', [0.332, 0.712], [0.747, 0.573]),
+  sea_cave: r56('sea_cave', [0.371, 0.743], [0.664, 0.587]),
 };
 // Sizes in art pixels. Shown at --b-plat-px CSS px per art pixel x sprite scale (2 on PC, 1.5 on phones; .b-plat in
 // src/ui/ui.css), i.e. a little chunkier than the 128px creature sprites, in Kilumen's 64px pixel style.

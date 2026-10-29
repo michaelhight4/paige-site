@@ -8,6 +8,7 @@
 // - ID cap flags id_cap_r5 / id_cap_r6 for RITA when company XP sits at the region cap.
 // Maps tidewater_coast / mirefen / stations are NOT built yet: everything here is dormant until those NPC ids exist.
 // Warmth gates (story_beats.md) are NOT wired: the builder has no Warmth condition yet (see WARMTH_GATES).
+import { oldGusHook } from './tutor.js?v=v0.2.79-alpha';
 
 export const R56 = {
   ronMap: 'tidewater_coast', slipMap: 'tidewater_coast',
@@ -114,6 +115,7 @@ export function attachRegion56(scene, { systems } = {}) {
   }
 
   (scene.trainerHooks ||= []).push(onTrainer);
+  (scene.talkHooks ||= []).push(oldGusHook(scene)); // Old Gus tutor (tutor.js)
   const cv = typeof window !== 'undefined' ? window.kilumen?.companyVoice : scene.companyVoice;
   if (cv && (cv.maxRegion ?? 0) < 6) cv.maxRegion = 6; // only when region56 is attached (?r56=1)
   const iv = typeof setInterval !== 'undefined' && typeof window !== 'undefined' ? setInterval(() => { try { tick(); } catch (e) { console.error('region56 tick:', e); } }, 1000) : null;

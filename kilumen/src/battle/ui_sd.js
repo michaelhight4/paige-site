@@ -20,6 +20,7 @@ import { heldFromEngine, heldToEngine } from './data/held_items.js?v=v0.2.79-alp
 import { pxi } from '../ui/ui_tools2.js?v=v0.2.79-alpha'; // held-item chip icon (pixelarticons handbag, MIT)
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
 import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.79-alpha';
+import { SKILL_FX } from '../ui/data.js?v=v0.2.79-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -328,7 +329,7 @@ export function makeSdBattle(ui, opts, h) {
           else if (lastMove) {
             const mv = kb.battle.dex.moves.get(lastMove.move);
             // frame 0 of the impact is the hit: shake + damage number start with it (effect off -> resolves at once)
-            const f = await fxAt(s, (mv.type || 'Normal').toLowerCase(), lastMove.s, isRanged({ category: mv.category }));
+            const f = await fxAt(s, SKILL_FX[mv.id] || (mv.type || 'Normal').toLowerCase(), lastMove.s, isRanged({ category: mv.category }));
             if (f && lost > 0) dmgNum(s, lost);
             await Promise.all([anim($(`#${s}-mon`), 'hit', 420), f?.done]);
             if (!f && lost > 0) dmgNum(s, lost); // no effect shown: same order as before the FX prep

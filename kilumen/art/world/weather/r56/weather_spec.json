@@ -1,0 +1,66 @@
+{
+ "created": "2026-10-29 (CT)",
+ "status": "NOT wired - for Gary approval",
+ "art_space": "1280x720 (battle) - same tiles work on the overworld canvas at 1:1 device px",
+ "rain": {
+  "tile": "rain_tile_256.webp (4 frames, 60 ms)",
+  "draw": "createPattern, fill viewport, offset y += 900 px/s, x += 160 px/s",
+  "alpha": 1.0,
+  "splashes": "rain_splash_24x12.webp: 6-10 live at random ground points (y > 0.62 H), each plays once",
+  "living.js": "WEATHER.rain (coverage 0.7, wet) -> draw on the 'over' layer"
+ },
+ "storm": {
+  "tile": "storm_rain_tile_256.webp (4 frames, 50 ms)",
+  "draw": "pattern scroll y += 1500 px/s, x += 520 px/s",
+  "tint": {
+   "rgba": [
+    18,
+    24,
+    48,
+    0.28
+   ],
+   "op": "multiply (or source-over at 0.22 alpha if multiply is slow)"
+  },
+  "lightning": {
+   "bolts": [
+    "lightning_bolt_0.webp",
+    "lightning_bolt_1.webp",
+    "lightning_bolt_2.webp"
+   ],
+   "every_s": [
+    6,
+    14
+   ],
+   "sequence_ms": [
+    [
+     60,
+     "bolt+flash 0.55"
+    ],
+    [
+     50,
+     "off"
+    ],
+    [
+     70,
+     "bolt+flash 0.35"
+    ],
+    [
+     220,
+     "fade flash to 0"
+    ]
+   ],
+   "flash": "full-screen white rgba(235,240,255,a) source-over",
+   "safety": "max 3 flashes per 10 s, never > 0.55 alpha (photosensitivity); respect a reduce-flashing setting"
+  },
+  "plan_hook": "storm season after beat_master_mirefen: rain + darker tint east of Fernwick"
+ },
+ "fog": {
+  "tiles": [
+   "fog_band_a_512x256.webp",
+   "fog_band_b_512x256.webp"
+  ],
+  "draw": "band a at y 0.45 H scrolled +18 px/s, band b at y 0.60 H scrolled -11 px/s, each stretched to 2x height, alpha 0.8",
+  "battle_rule": "keep fog BELOW the HP cards/message box layer and above the backdrop only; keep sprites above fog so they stay readable",
+  "conflict": "Gary's no-smoke/haze rule is for fx_extra particles; ambient fog is a weather layer, but needs his explicit OK"
+ }
+}

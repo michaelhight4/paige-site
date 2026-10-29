@@ -16,6 +16,10 @@ export const CONFIG = Object.freeze({
     bike: { 1: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_bike_sheet.png',
             2: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_bike_sheet_2x.png',
             3: 'art/characters/pixel/humans/cal/run_bike/sheets/cal_chibi_bike_sheet_3x.png' },
+    // Tideglide skiff (Animator r56 package #5): cols idle0, glide0-3 (wake composited under), built from tideglide/cal/*
+    tideglide: { 1: 'art/characters/pixel/humans/cal/tideglide/cal_tideglide_sheet.png',
+                 2: 'art/characters/pixel/humans/cal/tideglide/cal_tideglide_sheet_2x.png',
+                 3: 'art/characters/pixel/humans/cal/tideglide/cal_tideglide_sheet_3x.png' },
   },
   // Story flags start empty (new game). Dev: ?flags=has_run_shoes,has_bike,beat_master_fernwick
   // Flag names come from tools/progression.py / world_layout.json progression_flags.

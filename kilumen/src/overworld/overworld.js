@@ -877,6 +877,9 @@ export class Overworld {
     const mapName = this.map.name, key = `maps.${mapName}.${def.id}`, e = this._entryFor(mapName, def);
     this.log.push({ tick: this.tick, type: 'talk', npc: def.id });
     if (this.intro?.onTalk(n, def)) return; // home start v1: Ron's morning briefing (sets talked_ron_morning)
+    // r56: scripted NPCs with no maps.* entry of their own (Old Gus tutor, src/region56/tutor.js): {match(mapName, def), run(ctx)}
+    const th = (this.talkHooks || []).find((h) => h.match(mapName, def));
+    if (th) { this.script(async () => { if (n) this.npcs.beginTalk(n); try { await th.run({ mapName, def, speaker: this.speakerFor(n) }); } finally { if (n) this.npcs.endTalk(n); } }); return; }
     if (!e) return;
     this.script(async () => {
       if (n) this.npcs.beginTalk(n);
