@@ -3,9 +3,9 @@
 // placeholder skill pools (src/ui/data.js PLACEHOLDER_SKILLS): the species' own 4 default skills at level 1, then skills
 // from its second element, the normal pool and one hashed 'cousin' element at levels 8, 14, 20, 27, 34. Every entry is
 // tagged placeholder:true. Replace with real data by passing {data: {species: [{level, skill}]}} (data wins).
-import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.70-alpha';
-import { toID } from '../battle/data/skills.js?v=v0.2.70-alpha';
-import { maxEnergy } from '../systems/creature.js?v=v0.2.70-alpha';
+import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.71-alpha';
+import { toID } from '../battle/data/skills.js?v=v0.2.71-alpha';
+import { maxEnergy } from '../systems/creature.js?v=v0.2.71-alpha';
 
 export const PLACEHOLDER_LEVELS = [8, 14, 20, 27, 34];
 

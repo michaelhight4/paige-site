@@ -3,21 +3,21 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.70-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.70-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.70-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.70-alpha';
-import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.70-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
-import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.70-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.70-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.70-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.70-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.70-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.70-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.70-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.70-alpha';
-import { buildSkills, toID } from '../battle/data/skills.js?v=v0.2.70-alpha';
-import { areaName } from '../overworld/area_sign.js?v=v0.2.70-alpha';
+import { iconRel } from './data.js?v=v0.2.71-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.71-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.71-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.71-alpha';
+import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.71-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
+import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.71-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.71-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.71-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.71-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.71-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.71-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.71-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.71-alpha';
+import { buildSkills, toID } from '../battle/data/skills.js?v=v0.2.71-alpha';
+import { areaName } from '../overworld/area_sign.js?v=v0.2.71-alpha';
 // playtest fixes 3: older saves can hold skill ids in another case/spacing ('Sparksneeze', 'spark_sneeze'); look up by toID so
 // the row shows the display name ('Spark Sneeze') and its description instead of the raw id.
 let _SKILLS = null; const skillDef = (id) => { const S = (_SKILLS ||= buildSkills()); return S[id] || S[toID(String(id || ''))] || null; };
@@ -57,7 +57,7 @@ const statusChip = (c) => (isFainted(c) ? '<span class="sys-st out" data-pat="ch
   : c.status ? `<span class="sys-st" data-st="${esc(c.status)}" data-pat="${STATUS_PAT[c.status] || 'dots'}">${esc(STATUS[c.status] || c.status)}</span>` : '');
 
 export async function installSystemsScreens(ui, sys) {
-  import('../qol/skills_menu.js?v=v0.2.70-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
+  import('../qol/skills_menu.js?v=v0.2.71-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
   if (!ui || !sys) return null;
   const cfg = sys.cfg;
   if (typeof document !== 'undefined' && !document.querySelector('link[data-sys-css]')) {
