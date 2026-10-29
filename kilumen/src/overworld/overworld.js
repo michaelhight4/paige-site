@@ -14,6 +14,7 @@ import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.
 import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit } from './tileset.js?v=v0.2.70-alpha';
 import { IxLight, ixFlags } from './ixlight.js?v=v0.2.70-alpha';
 import { Renderer } from './renderer.js?v=v0.2.70-alpha';
+import { Wind } from './wind.js?v=v0.2.70-alpha'; // world wind: tree sway, grass ripple, flower bob (draw-time only)
 import { drawDebug } from './debug.js?v=v0.2.70-alpha';
 import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.70-alpha';
 import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.70-alpha';
@@ -63,6 +64,7 @@ export class Overworld {
   constructor(canvas, input, config, opts = {}) {
     this.canvas = canvas; this.input = input; this.config = config; this.opts = opts;
     this.renderer = new Renderer(canvas);
+    this.wind = new Wind({ reduced: () => !!(this.life?.reducedMotion || globalThis.document?.body?.classList?.contains('ui-reduce')), lite: this.opts.platform?.id === 'mobile' });
     this.player = new GridMover(opts.start || config.start);
     this.map = null; this.tileset = null; this.zoom = 2;
     this.debug = !!opts.debug;
@@ -1194,7 +1196,7 @@ export class Overworld {
       zoom: z, cam, ms: this.ms, rustles: this.rustles, actors,
       fade: this.fadeAlpha(), debug: this.debug, drawDebug, player: p, fps: this.fps, lastDoor: this.lastDoor, flags: [...this.flags],
       ixlight: this.ixlight, phase: this.phase,
-      life: this.life, depth: this.depth, nightfx: this.nightfx, mood: this.mood, markers: this._markerDraw(), // mood: cinematic layers (mood.js, set in main.js)
+      wind: this.wind, life: this.life, depth: this.depth, nightfx: this.nightfx, mood: this.mood, markers: this._markerDraw(), // mood: cinematic layers (mood.js, set in main.js)
       outside: outsideFillFor(this.opts.platform?.profile?.camera, this.opts.platform?.profile?.display, this.map.name, isIndoor(this.map.name)), edgeShade: this.opts.platform?.profile?.display?.edgeShade, // mobile/centre camera: fill off the map (pc without alwaysCentre: black)
     };
   }

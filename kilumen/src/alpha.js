@@ -14,7 +14,7 @@ if (raw.get('battle') === 'shell') keep.set('battle', 'shell');
 if (raw.get('enc') === '0') keep.set('enc', '0');
 if (raw.has('encrate') && Number.isFinite(Number(raw.get('encrate')))) keep.set('encrate', raw.get('encrate'));
 // v0.2.0 opt-outs (Gary Oct 23 2026: contacts / RITA are default on, ?contacts=0 / ?cv=0 turn them off). Only the '0' value is kept.
-for (const k of ['contacts', 'cv', 'sports', 'ix2', 'ixlight', 'cloudsave', 'rtb', 'fishing', 'feeds', 'rtbcap']) if (raw.get(k) === '0') keep.set(k, '0');
+for (const k of ['contacts', 'cv', 'sports', 'ix2', 'ixlight', 'cloudsave', 'rtb', 'fishing', 'feeds', 'rtbcap', 'wind']) if (raw.get(k) === '0') keep.set(k, '0');
 if (raw.get('ix2') === '0') globalThis.KILUMEN_IX2_OFF = true; // Interiors v2 kill switch (Oct 29 2026): old interiors
 if (raw.get('ixlight') === '0') globalThis.KILUMEN_IXLIGHT_OFF = true; // no ix2 plane lighting / indoor night shade
 if (raw.get('rtbcap') === '0') globalThis.KILUMEN_RTB_CAPTURE_OFF = true; // real-time Capture button / tab kill switch (v0.2.65): no crystals in real-time (T to turn-based still captures)
@@ -23,6 +23,7 @@ if (raw.get('rtb') === '0') globalThis.KILUMEN_RTB_OFF = true; // real-time wild
 globalThis.KILUMEN_BADGES_TAB = raw.get('badges') !== '0'; // Badges tab in the Pack (default ON since v0.2.64; ?badges=0 kill switch)
 globalThis.KILUMEN_COIN_ART = raw.get('badges') !== '0' && raw.get('coinart') !== '0'; // Animator's coin art (default ON; ?badges=0 or ?coinart=0 kill switch)
 if (raw.get('tasks') === '0') globalThis.KILUMEN_TASKS_OFF = true; // Tasks (quests + milestones) kill switch (Oct 29 2026): old placeholder screen
+if (raw.get('wind') === '0') globalThis.KILUMEN_WIND_OFF = true; // world wind kill switch (Oct 29 2026, wind.js): no tree sway / grass ripple / flower bob
 if (raw.get('cidle') === '0') globalThis.KILUMEN_CIDLE_OFF = true; // creature idle off switch (creature_idle.js)
 // QoL kill switches (Oct 29 2026): ?qol= (batch A/B, src/qol) and ?qolc= (batch C, src/qol_c) are kept, letters / , / - only.
 for (const k of ['qol', 'qolc']) if (raw.has(k) && /^[A-Za-z0-9,-]{1,80}$/.test(raw.get(k))) keep.set(k, raw.get(k));

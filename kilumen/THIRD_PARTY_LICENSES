@@ -634,3 +634,7 @@ THE SOFTWARE.
 Pixel Water (Godot shader) by Francisco Cidade: CC0. https://fcidade.itch.io/pixel-water-godot-shader-free
 Where: src/battle/data/water_bg.js. Only the technique (flat banded water shades, thin crests, sparse glints, long swell)
 was adapted; no code copied. Credited anyway. All art is drawn in code by Kilumen.
+
+src/overworld/wind.js (world wind, Oct 29 2026): technique adapted (no code copied verbatim) from "Wind with pixel snapping"
+by Stixxy, https://godotshaders.com/shader/wind-with-pixel-snapping/ (godotshaders.com, CC0 1.0 unless stated): per-row
+pixel-snapped horizontal offset, height cutoff so the base stays fixed, world-position phase offset.
