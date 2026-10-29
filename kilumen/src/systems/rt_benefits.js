@@ -11,7 +11,7 @@
 // Saving: XP awards only mark the scene dirty (the overworld autosave already refuses mid battle / talk / cutscene); a rank
 // bought from the phone menu calls scene.saveNow(), which is refused while a save lock is held (it then saves right after).
 // Wiring: attachSystems (src/systems/index.js) -> attachRtBenefits; the phone tab is src/ui/rt_benefits_screen.js.
-import { fmtMoney } from './config.js?v=v0.2.74-alpha';
+import { fmtMoney } from './config.js?v=v0.2.75-alpha';
 
 export const COMPANY_DEFAULTS = () => ({ idLevel: 1, pointsFree: 0, board: {}, respecWeek: 0, xp: 0, xpClaims: {} });
 const KI_KEY = 'kilindex_count'; // xpClaims slot: highest Kilindex log count already paid for (baseline on first look)
@@ -267,7 +267,7 @@ export function attachRtBenefits(scene, sys = scene?.systems, opts = {}) {
     let tries = 0;
     const tryUi = () => {
       const ui = sys.ui || globalThis.kilumen?.ui;
-      if (ui?.open) import('../ui/rt_benefits_screen.js?v=v0.2.74-alpha').then((m) => m.installRtBenefitsScreen(ui, rt)).catch((e) => console.error('rt_benefits ui:', e));
+      if (ui?.open) import('../ui/rt_benefits_screen.js?v=v0.2.75-alpha').then((m) => m.installRtBenefitsScreen(ui, rt)).catch((e) => console.error('rt_benefits ui:', e));
       else if (++tries < 240) setTimeout(tryUi, 250);
     };
     tryUi();
