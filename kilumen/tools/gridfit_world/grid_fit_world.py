@@ -29,7 +29,7 @@ class World:
         s.root = root; s.ow = os.path.join(root, 'art', 'world', 'overworld'); s.sliver = sliver
         ts = json.load(open(os.path.join(s.ow, 'tileset.json'), encoding='utf-8'))
         s.T = ts.get('tile_size', 64); s.cols = ts.get('columns_per_sheet', 16); s.tiles = {}
-        for f in ('tileset.json', 'tileset_ix2.json'):
+        for f in ('tileset.json', 'tileset_ix2.json', 'tileset_arena.json'):
             p = os.path.join(s.ow, f)
             if os.path.isfile(p):
                 for t in json.load(open(p, encoding='utf-8'))['tiles']: s.tiles[t['id']] = t

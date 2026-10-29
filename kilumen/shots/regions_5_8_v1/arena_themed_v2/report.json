@@ -1,0 +1,32 @@
+[
+ {
+  "plat": "pc",
+  "errors": [],
+  "shots": [
+   "pc_lobby.png",
+   "pc_room_1.png",
+   "pc_room_2.png",
+   "pc_room_3.png",
+   "pc_room_4.png",
+   "pc_room_5.png",
+   "pc_room_6.png",
+   "pc_room_7.png",
+   "pc_room_8.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "errors": [],
+  "shots": [
+   "phone_lobby.png",
+   "phone_room_1.png",
+   "phone_room_2.png",
+   "phone_room_3.png",
+   "phone_room_4.png",
+   "phone_room_5.png",
+   "phone_room_6.png",
+   "phone_room_7.png",
+   "phone_room_8.png"
+  ]
+ }
+]

@@ -66,7 +66,7 @@ class Repo:
         if not os.path.isdir(os.path.join(root, 'art', 'world', 'overworld')) and os.path.isdir(os.path.join(root, 'kilumen')): root = os.path.join(root, 'kilumen')
         s.ow = os.path.join(root, 'art', 'world', 'overworld'); s.root = root; s.T = tile
         if not os.path.isfile(os.path.join(s.ow, 'tileset.json')): sys.exit(f'no art/world/overworld/tileset.json under {root}')
-        s.ts_files = [f for f in ('tileset.json', 'tileset_ix2.json') if os.path.isfile(os.path.join(s.ow, f))]
+        s.ts_files = [f for f in ('tileset.json', 'tileset_ix2.json', 'tileset_arena.json') if os.path.isfile(os.path.join(s.ow, f))]
         s.ts = {f: json.load(open(os.path.join(s.ow, f), encoding='utf-8')) for f in s.ts_files}
         s.tiles = {t['id']: t for f in s.ts_files for t in s.ts[f]['tiles']}
         s.byname = {t['name']: t for t in s.tiles.values()}

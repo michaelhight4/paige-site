@@ -5,10 +5,10 @@
 //     lineage, rt, skills [ids], held, locked, origin {map, how, day} }
 // maxHp / maxEnergy / stats are DERIVED (statsOf) from the battle data, never saved. `uid` is the save key
 // (save.js names it uid); `id` is accepted on input as an alias.
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.89-alpha';
-import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.89-alpha';
-import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.89-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.89-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.90-alpha';
+import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.90-alpha';
+import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.90-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.90-alpha';
 
 let _creatures = null, _skills = null;
 const creatures = () => (_creatures ||= buildCreatures());
