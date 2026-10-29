@@ -14,3 +14,14 @@
 - Chimney smoke puffs render in town shots (engine ambient) – breaks no-smoke rule; needs an engine/ambient switch-off.
 - Quest HUD overlaps top-left of the screen (UI, not map).
 - Aurelith Games Announcer: left out (not touched).
+
+## P2 + P3 (Oct 29 2026)
+- Unique interiors (tools/wd_r78/build_interiors.py): heal_lanternport, shop_lanternport, home_lanternport_a/b/d/e;
+  heal_cindervale, shop_cindervale, home_cindervale_a/b/c. Doors repointed both ways (town warp -> arrival one above
+  the mat; mat -> town door +1), entered_from, world_layout (zones, interior_doors, unique_interiors, maps_built),
+  shops.json branches heal_lanternport / heal_cindervale. Lanternport keeps the shared station_int (rail engine
+  hard-codes RAIL.interior = 'station_int'); Cindervale has no station in the plan.
+- Engine one-liner (src/systems/index.js onTalk): clerk opens the mart in shop_int OR any map with interior_kind 'mart'.
+- Town life (tools/wd_r78/town_life.py): Lanternport pier + harbour lanterns, quay crates/benches, two stalls,
+  flowers; Cindervale forge yard (anvil, tool rack, ore carts, crates), two stalls, benches; 8 townsfolk + 5th
+  Tide-lock Road trainer in text_pending.

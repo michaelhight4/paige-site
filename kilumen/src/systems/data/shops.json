@@ -526,6 +526,34 @@
     "x": 17,
     "y": 18
    }
+  },
+  "heal_lanternport": {
+   "zone": "lanternport",
+   "carer": "heal_lanternport_carer",
+   "stand": {
+    "x": 6,
+    "y": 5,
+    "facing": "up"
+   },
+   "returnDoor": {
+    "map": "lanternport",
+    "x": 15,
+    "y": 21
+   }
+  },
+  "heal_cindervale": {
+   "zone": "cindervale",
+   "carer": "heal_cindervale_carer",
+   "stand": {
+    "x": 6,
+    "y": 5,
+    "facing": "up"
+   },
+   "returnDoor": {
+    "map": "cindervale",
+    "x": 15,
+    "y": 21
+   }
   }
  },
  "defaultBranch": "heal_brookhollow",
@@ -544,5 +572,7 @@
  },
  "_baitNote": "Fishing gear v1 bait (design/FISHING_GEAR.md, Gary approved Oct 29 2026). lantern_moth / hollowstar_roe are earned only (no price, cannot be sold).",
  "_heldNote": "Held items (design/HELD_ITEMS.md section 4, Oct 29 2026): Charms x1.15 priced 2,000-3,000; earned-only items (survive-a-hit, Oath, life drain, x1.5 XP and the quest / hall / post-game rewards) are never stocked. Each town's held rows unlock at the coin count you'd have on arrival. PLACEHOLDER prices. Sunmeadow has no shop row of its own: zoneAlias maps sunmeadow_fields to the Tidewater Coast row (Steady Sight).",
- "zoneAlias": { "sunmeadow_fields": "tidewater_coast" }
+ "zoneAlias": {
+  "sunmeadow_fields": "tidewater_coast"
+ }
 }

@@ -138,7 +138,7 @@ for town, cave, (dx, dy), sign in [('lanternport', 'lanternport_grotto', (39, 13
             x, y = dx - 1 + k, dy - 1 + r; tid = ID[ENT[r][k]]
             t['layers']['decoration'][y][x] = tid; t['layers']['collision'][y][x] = CODE[tid]
     t['warps'] = [w for w in t['warps'] if w['to'] != cave] + [{"x": dx, "y": dy, "to": cave, "tx": 15 if cave.startswith('lantern') else 16, "ty": 20 if cave.startswith('lantern') else 22, "facing": "up"}]
-    sid = f"{town}_{cave}_sign"
+    sid = f"{cave}_sign"  # town-side sign (renamed Oct 29 2026 from {town}_{cave}_sign)
     t['layers']['decoration'][sign[1]][sign[0]] = ID['sign']; t['layers']['collision'][sign[1]][sign[0]] = 1
     t['signs'] = [s for s in t['signs'] if s['id'] != sid] + [{"id": sid, "x": sign[0], "y": sign[1], "text": f"DRAFT dev label: {cave} mouth", "read_from": "down", "text_ref": tref(town, sid), "text_note": "dev label only; final text = text_ref"}]
     json.dump(t, open(p, 'w'), separators=(',', ':'))
