@@ -2,16 +2,17 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.44-alpha';
-import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.44-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
+import { KilumenBattle } from './battle.js?v=v0.2.45-alpha';
+import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.45-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
-import { DEV } from '../dev/runtime.js?v=v0.2.44-alpha';
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.44-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.44-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.44-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.45-alpha';
+import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.45-alpha'; // battle mode switch (wild only, Oct 29 2026)
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.45-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.45-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.45-alpha';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.44-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.45-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -53,7 +54,9 @@ export function makeSdBattle(ui, opts, h) {
   // PLACEHOLDER trainer team, only for trainers with no authored / injected team: two creatures around the lead's level
   // authored teams first (src/battle/data/trainer_teams.js, keyed by the overworld's {map, id}), then injected teams, then the placeholder
   const authored = trainer ? authoredTeam(opts.who, partySrc) : null;
-  const foes = authored || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
+  // carry (mode switch, Oct 29 2026): a wild fight switched over from real-time keeps its foes' HP (wild only; never owned)
+  const carryFoes = !owned && opts.carry?.foes?.length ? opts.carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '', hp: Math.max(1, Math.round(f.hp)) })) : null;
+  const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
     : trainer ? [{ species: foeSp, level: foeLv }, { species: foeSp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: foeLv }] : [{ species: foeSp, level: foeLv }]);
   const sys = ui.demo ? null : ui.scene?.systems; // [systems-gd hook] the real bag (src/systems); ?uidemo=1 keeps the demo team + demo bag (never saved)
   const bag = sys ? sys.bagForBattle() : Object.fromEntries(Object.entries(ui.bag || {}).filter(([, n]) => n > 0));
@@ -119,6 +122,7 @@ export function makeSdBattle(ui, opts, h) {
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
+    if (opts.rtSwitch && !owned) mountModeSwitch();
     for (const s of ['p1', 'p2']) if (mon[s]) drawPlate(s);
     if (!scr.started) { scr.started = true; run(); }
   };
@@ -249,8 +253,11 @@ export function makeSdBattle(ui, opts, h) {
           mon[s] = { name: who, species: sp, level: +lv || 1, hp, maxhp: max }; drawPlate(s);
           if (trainer && first) endIntro(s);
           const img = $(`#${s}-mon`); img.src = cidleSrc(s === 'p2' ? front(sp) : back(sp)) || (s === 'p2' ? front(sp) : back(sp)); img.classList.toggle('b-flip', s === 'p1' && BACK_FACES_LEFT.has(sp)); img.style.opacity = '1'; setFeet(img);
-          if (s === 'p2') await say(first && !trainer ? ui.P('system_wild.grass', ['{creature} bursts out of the grass!'], { creature: who })[0]
+          if (s === 'p2' && first && carryFoes) { const rl = reactionLines('turn', kb.p1.active[0]?.name, who); await say(rl.foe); }
+          else if (s === 'p2' && !first && !trainer && !owned) await say(`Another wild ${who} jumps in!` /* PH */);
+          else if (s === 'p2') await say(first && !trainer ? ui.P('system_wild.grass', ['{creature} bursts out of the grass!'], { creature: who })[0]
             : P1('foe_sends', 'Trainer sends out {creature}!', { creature: who }) /* PH */);
+          else if (first && carryFoes) await say(reactionLines('turn', who, '').ally);
           else await say(P1('go', 'Go, {creature}!', { creature: who }) /* PH */);
           await anim(img, 'enter', 600);
           break;
@@ -350,7 +357,7 @@ export function makeSdBattle(ui, opts, h) {
   const autoRun = async () => {
     if (!DEV.active || kb.ended || busy) return;
     busy = true; $('#b-cmds').hidden = true; $('#b-msg').textContent = 'Auto-completing…';
-    const AB = await import('../dev/autobattle.js?v=v0.2.44-alpha');
+    const AB = await import('../dev/autobattle.js?v=v0.2.45-alpha');
     const entry = AB.runAuto(kb, { trainer, owned });
     if (!kb.ended) { busy = false; $('#b-msg').textContent = 'Auto-complete stopped early (see the dev battle logs).'; AB.afterFinish(entry); return; }
     await finish();
@@ -428,6 +435,41 @@ export function makeSdBattle(ui, opts, h) {
   };
   const run = () => guard((async () => { await wait(300); if (trainer) await intro(); await play(kb.drain()); await next(); })());
 
+  // ---- battle mode switch (wild only, Oct 29 2026): turn-based -> real-time. The fight carries over: party HP / energy / XP / bag
+  // go into the real party now (no outcome, nothing saved: the encounter script and the save guards block saves), foe HP rides in
+  // the result's carry, and ui.js wireWild opens the real-time fight with it.
+  let switching = false;
+  const canSwitch = () => !switching && !closed() && !kb.ended && (!busy || (mode === 'msg' && !!msgResolve));
+  let wantSwitch = null; // a press mid-animation is queued until the next message / menu (never lost)
+  const doSwitch = () => {
+    if (!canSwitch()) {
+      if (switching || closed() || kb.ended || wantSwitch) return false;
+      root?.querySelector('#b-mode')?.classList.add('queued');
+      wantSwitch = setInterval(() => { if (closed() || kb.ended) { clearInterval(wantSwitch); wantSwitch = null; root?.querySelector('#b-mode')?.classList.remove('queued'); } else if (canSwitch()) { clearInterval(wantSwitch); wantSwitch = null; doSwitch(); } }, 80);
+      return false;
+    }
+    switching = true; busy = true;
+    const r = kb.result();
+    const carry = { foes: kb.p2.creature.filter((c) => c.hp > 0).map((c) => ({ species: c.species.id, level: c.level, variant: c.set?.variant || '', hp: c.hp })) };
+    const res = { outcome: 'switch', team: r.team, bag: r.bag, caught: null, carry, turns: r.turns };
+    if (sys) res.systems = sys.applyBattleResult({ outcome: 'switch', team: r.team, bag: r.bag });
+    else if (ui.bag) for (const [k, n] of Object.entries(r.bag)) ui.bag[k] = n;
+    const done = scr.onDone; done?.(res); ui.closeAll();
+    return true;
+  };
+  scr.modeSwitch = doSwitch; // tests / play-checks
+  const mountModeSwitch = () => {
+    const touch = !document.getElementById('touchpad')?.hidden;
+    const btn = modeButton('rt', { touch }); btn.id = 'b-mode'; root.appendChild(btn);
+    btn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); doSwitch(); });
+    btn.addEventListener('pointerdown', (e) => e.stopPropagation()); // never also advances the message box underneath
+    const kd = (e) => {
+      if (closed()) { window.removeEventListener('keydown', kd, true); return; }
+      if (e.code !== 'KeyR' || e.repeat || ui.top !== scr) return;
+      e.preventDefault(); e.stopPropagation(); doSwitch();
+    };
+    window.addEventListener('keydown', kd, true);
+  };
   scr.handle = ({ dir, a, b }) => {
     if (mode === 'msg') { if ((a || b) && msgResolve) { const r = msgResolve; msgResolve = null; r(); } return; }
     if (busy) return;
