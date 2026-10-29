@@ -42,8 +42,19 @@ async function withFurnitureAnim(ts, url) {
   } catch (e) { console.warn('furniture anim not loaded', e.message); }
 }
 
+/** Aurelith Arena themed set dressing (ids 11001+, tools/city/arena_art_kit.py, Oct 29 2026 DRAFT). Always on: the arena
+ *  room maps point at these ids. */
+export async function withArenaArt(ts, url) {
+  if (ts.tiles.some((t) => t.category === 'arena_art')) return ts;
+  try {
+    const kit = await loadJson(resolveUrl('tileset_arena.json', url));
+    const z = (/tileset_(\d)x\.json$/.exec(url) || [0, '1'])[1];
+    return { ...ts, tiles: [...ts.tiles, ...kit.tiles.map((t) => ({ ...t, sheet: t.sheet.replace(/^tiles_1x\//, `tiles_${z}x/`) }))] };
+  } catch (e) { console.warn('arena art kit not loaded', e.message); return ts; }
+}
+
 export async function loadTileset(url) {
-  const ts = await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(url), url), url), url); // hall animated tiles (flag hallanim, dev default on)
+  const ts = await withArenaArt(await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(url), url), url), url), url); // arena art, hall animated tiles (flag hallanim, dev default on)
   await withFurnitureAnim(ts, url);
   const idx = indexTileset(ts);
   const sheetPaths = new Set(ts.tiles.map((t) => t.sheet));

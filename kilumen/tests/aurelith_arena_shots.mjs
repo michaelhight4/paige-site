@@ -16,6 +16,7 @@ for (let i = 0; i < 50; i++) { try { if ((await fetch(base)).ok) break; } catch 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const PROFILES = [{ plat: 'pc', w: 1280, h: 720, dpr: 1, touch: false }, { plat: 'phone', w: 844, h: 390, dpr: 2, touch: true }];
 const COMMON = 'save=0&timescale=0&hour=12&audio=0&enc=0';
+const ZOOM = +process.env.ZOOM || 0, PHONE_ZOOM = +process.env.PHONE_ZOOM || ZOOM; // ZOOM=1: whole-room framing (scene.opts.zoom override, shots only)
 // the alpha build drops ?map= flags, so the hall is entered through the scene's own warp
 const warp = async (page, map, x, y) => { await page.evaluate(() => {}); for (let i = 0; i < 8; i++) { await page.keyboard.press('f'); await sleep(400); } await page.evaluate(() => { const s = kilumen.scene; s.fade = null; s.player.locked = false; }); await page.evaluate(([map, x, y]) => kilumen.scene.startWarp({ map, x, y, facing: 'up' }, 'door'), [map, x, y]); await sleep(2500); };
 
@@ -39,6 +40,7 @@ try {
         if (first) { await warp(page, map, x, y); first = false; }
         else { await page.evaluate(([map, x, y]) => { const s = kilumen.scene; s.fade = null; s.player.locked = false; s.startWarp({ map, x, y, facing: 'up' }, 'door'); }, [map, x, y]); await sleep(2500); }
         for (let i = 0; i < 20 && await page.evaluate(() => kilumen.scene.busy); i++) { await page.keyboard.press('f'); await sleep(350); }
+        if (ZOOM) { await page.evaluate((z) => { const s = kilumen.scene; s.opts.zoom = z; s.resize(); }, p.touch ? PHONE_ZOOM : ZOOM); await sleep(1500); }
         const on = await page.evaluate(() => kilumen.scene.map.name); if (on !== map) errors.push(`${tag} on ${on}`);
         const fn = `${p.plat}_${tag}.png`; await page.screenshot({ path: path.join(OUT, fn) }); shots.push(fn);
       }

@@ -109,6 +109,14 @@
       "extends": "outdoor",
       "tint": { "color": "#f08868", "alpha": 0.06 },
       "particles": [ { "kind": "embers", "density": 8, "phases": ["dusk", "night"] }, { "kind": "motes", "density": 8, "phases": ["dawn", "day"] } ]
-    }
+    },
+    "aurelith_arena_room_1": {"_why": "Arena room 1, water: themed light (Gary 6:19 PM CT; DRAFT)", "extends": "indoor", "tint": {"color": "#3f8ad8", "alpha": 0.07}, "vignette": {"color": "#0a1a33", "alpha": 0.3, "inner": 0.5}, "particles": [{"kind": "motes", "density": 10}]},
+    "aurelith_arena_room_2": {"_why": "Arena room 2, fire: themed light (Gary 6:19 PM CT; DRAFT)", "extends": "indoor", "tint": {"color": "#ff7a3a", "alpha": 0.09}, "vignette": {"color": "#2a0c06", "alpha": 0.36, "inner": 0.46}, "particles": [{"kind": "embers", "density": 14}]},
+    "aurelith_arena_room_3": {"_why": "Arena room 3, wind: themed light (Gary 6:19 PM CT; DRAFT)", "extends": "indoor", "tint": {"color": "#cfeaff", "alpha": 0.08}, "vignette": {"alpha": 0.16, "inner": 0.62}, "particles": [{"kind": "snow", "density": 6}]},
+    "aurelith_arena_room_4": {"_why": "Arena room 4, earth: themed light (Gary 6:19 PM CT; DRAFT)", "extends": "indoor", "tint": {"color": "#c89058", "alpha": 0.08}, "vignette": {"color": "#1a1008", "alpha": 0.38, "inner": 0.46}, "particles": [{"kind": "dust", "density": 14}]},
+    "aurelith_arena_room_5": {"_why": "Arena room 5, grass: themed light (Gary 6:19 PM CT; DRAFT)", "extends": "indoor", "tint": {"color": "#9ad86a", "alpha": 0.06}, "vignette": {"alpha": 0.2, "inner": 0.56}, "particles": [{"kind": "leaves", "density": 8}]},
+    "aurelith_arena_room_6": {"_why": "Arena room 6, light: themed light (Gary 6:19 PM CT; DRAFT)", "extends": "indoor", "tint": {"color": "#fff0a8", "alpha": 0.1}, "vignette": {"alpha": 0.1, "inner": 0.7}, "particles": [{"kind": "motes", "density": 16}]},
+    "aurelith_arena_room_7": {"_why": "Arena room 7, mystic: themed light (Gary 6:19 PM CT; DRAFT)", "extends": "indoor", "tint": {"color": "#a070f0", "alpha": 0.1}, "vignette": {"color": "#120626", "alpha": 0.36, "inner": 0.48}, "particles": [{"kind": "fireflies", "density": 8}]},
+    "aurelith_arena_room_8": {"_why": "Arena room 8, dark: themed light (Gary 6:19 PM CT; DRAFT)", "extends": "indoor", "tint": {"color": "#5a2a8a", "alpha": 0.1, "phases": {"dawn": 1, "day": 1, "dusk": 1, "night": 1}}, "vignette": {"color": "#06020c", "alpha": 0.45, "inner": 0.4}, "particles": [{"kind": "fireflies", "density": 5}]}
   }
 }
