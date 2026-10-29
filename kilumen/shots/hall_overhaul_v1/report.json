@@ -1,0 +1,346 @@
+[
+ {
+  "plat": "pc",
+  "hall": "fernwick",
+  "moves": 40,
+  "info": {
+   "map": "fernwick_hall_int",
+   "anim": 3,
+   "of": 3,
+   "reached_dais": true,
+   "at": [
+    9,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_fernwick_lobby.png",
+   "pc_fernwick_puzzle.png",
+   "pc_fernwick_dais.png",
+   "clip_fernwick.webm"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "mirefen",
+  "moves": 77,
+  "info": {
+   "map": "mirefen_hall_int",
+   "anim": 19,
+   "of": 19,
+   "reached_dais": true,
+   "at": [
+    9,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_mirefen_lobby.png",
+   "pc_mirefen_puzzle.png",
+   "pc_mirefen_dais.png",
+   "clip_mirefen.webm"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "saltmere",
+  "moves": 68,
+  "info": {
+   "map": "saltmere_hall_int",
+   "anim": 0,
+   "of": 0,
+   "reached_dais": true,
+   "at": [
+    7,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_saltmere_lobby.png",
+   "pc_saltmere_puzzle.png",
+   "pc_saltmere_dais.png",
+   "clip_saltmere.webm"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "tidewater",
+  "moves": 81,
+  "info": {
+   "map": "tidewater_hall_int",
+   "anim": 61,
+   "of": 61,
+   "reached_dais": true,
+   "at": [
+    10,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_tidewater_lobby.png",
+   "pc_tidewater_puzzle.png",
+   "pc_tidewater_dais.png",
+   "clip_tidewater.webm"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "frostspire",
+  "moves": 42,
+  "info": {
+   "map": "frostspire_hall_int",
+   "anim": 52,
+   "of": 52,
+   "reached_dais": true,
+   "at": [
+    8,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_frostspire_lobby.png",
+   "pc_frostspire_puzzle.png",
+   "pc_frostspire_dais.png",
+   "clip_frostspire.webm"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "lanternport",
+  "moves": 98,
+  "info": {
+   "map": "lanternport_hall_int",
+   "anim": 22,
+   "of": 22,
+   "reached_dais": true,
+   "at": [
+    11,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_lanternport_lobby.png",
+   "pc_lanternport_puzzle.png",
+   "pc_lanternport_dais.png",
+   "clip_lanternport.webm"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "revival",
+  "moves": 130,
+  "info": {
+   "map": "revival_hall_int",
+   "anim": 2,
+   "of": 2,
+   "reached_dais": true,
+   "at": [
+    8,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_revival_lobby.png",
+   "pc_revival_puzzle.png",
+   "pc_revival_dais.png",
+   "clip_revival.webm"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "cindervale",
+  "moves": 124,
+  "info": {
+   "map": "cindervale_hall_int",
+   "anim": 41,
+   "of": 41,
+   "reached_dais": true,
+   "at": [
+    12,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_cindervale_lobby.png",
+   "pc_cindervale_puzzle.png",
+   "pc_cindervale_dais.png",
+   "clip_cindervale.webm"
+  ]
+ },
+ {
+  "plat": "phone",
+  "hall": "fernwick",
+  "moves": 40,
+  "info": {
+   "map": "fernwick_hall_int",
+   "anim": 3,
+   "of": 3,
+   "reached_dais": true,
+   "at": [
+    9,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_fernwick_lobby.png",
+   "phone_fernwick_puzzle.png",
+   "phone_fernwick_dais.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "hall": "mirefen",
+  "moves": 77,
+  "info": {
+   "map": "mirefen_hall_int",
+   "anim": 19,
+   "of": 19,
+   "reached_dais": true,
+   "at": [
+    9,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_mirefen_lobby.png",
+   "phone_mirefen_puzzle.png",
+   "phone_mirefen_dais.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "hall": "saltmere",
+  "moves": 68,
+  "info": {
+   "map": "saltmere_hall_int",
+   "anim": 0,
+   "of": 0,
+   "reached_dais": true,
+   "at": [
+    7,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_saltmere_lobby.png",
+   "phone_saltmere_puzzle.png",
+   "phone_saltmere_dais.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "hall": "tidewater",
+  "moves": 81,
+  "info": {
+   "map": "tidewater_hall_int",
+   "anim": 61,
+   "of": 61,
+   "reached_dais": true,
+   "at": [
+    10,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_tidewater_lobby.png",
+   "phone_tidewater_puzzle.png",
+   "phone_tidewater_dais.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "hall": "frostspire",
+  "moves": 42,
+  "info": {
+   "map": "frostspire_hall_int",
+   "anim": 52,
+   "of": 52,
+   "reached_dais": true,
+   "at": [
+    8,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_frostspire_lobby.png",
+   "phone_frostspire_puzzle.png",
+   "phone_frostspire_dais.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "hall": "lanternport",
+  "moves": 98,
+  "info": {
+   "map": "lanternport_hall_int",
+   "anim": 22,
+   "of": 22,
+   "reached_dais": true,
+   "at": [
+    11,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_lanternport_lobby.png",
+   "phone_lanternport_puzzle.png",
+   "phone_lanternport_dais.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "hall": "revival",
+  "moves": 130,
+  "info": {
+   "map": "revival_hall_int",
+   "anim": 2,
+   "of": 2,
+   "reached_dais": true,
+   "at": [
+    8,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_revival_lobby.png",
+   "phone_revival_puzzle.png",
+   "phone_revival_dais.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "hall": "cindervale",
+  "moves": 124,
+  "info": {
+   "map": "cindervale_hall_int",
+   "anim": 41,
+   "of": 41,
+   "reached_dais": true,
+   "at": [
+    12,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "phone_cindervale_lobby.png",
+   "phone_cindervale_puzzle.png",
+   "phone_cindervale_dais.png"
+  ]
+ }
+]

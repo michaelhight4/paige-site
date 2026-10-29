@@ -284,3 +284,90 @@ export function trivial(def) {
   return false;
 }
 export { OPP };
+
+// ---- hall overhaul v2 (Phase 2, Oct 29 2026): the built Master's halls (maps/<hall>_hall_int.json hall_v2.grid) ---------
+// Same legend as tools/hall_overhaul/plan.py (the Phase 1 planner Gary approved): '#' wall, 'x' invisible wall, 'M' Master,
+// 'S' door, 'G' dais front, 'i' slide floor (slide on until blocked), '^v<>' push tiles (carry you one way until blocked),
+// 'T'/'U' plates (flip bit 0 / bit 1 when you land), 'a'/'b' gates open while bit0 is 0/1, 'c'/'d' gates open while bit1
+// is 0/1, '1'-'6' warp pad pairs (land -> teleport to the partner pad and stop). Trainers are solid. Reuses Grid + DIRS.
+// The runtime (./hall_v2.js) drives the real player through these same rules; the solver proves every hall here.
+export const V2_PUSH = { '^': 'U', v: 'D', '<': 'L', '>': 'R' };
+const V2_SOLID = new Set(['#', 'x', 'M']);
+export class HallV2 {
+  constructor(rows, trainers = []) { this.g = new Grid(rows); this.tr = new Set(trainers.map(([x, y]) => k2(x, y))); }
+  at(x, y) { return this.g.at(x, y); }
+  /** Can you stand on (x,y) with gate bits b? */
+  open(x, y, b) {
+    const c = this.at(x, y);
+    if (V2_SOLID.has(c) || this.tr.has(k2(x, y))) return false;
+    if (c === 'a') return (b & 1) === 0; if (c === 'b') return (b & 1) === 1;
+    if (c === 'c') return (b & 2) === 0; if (c === 'd') return (b & 2) === 2;
+    return true;
+  }
+  /** One forced-move link: land on (x,y) moving d with bits b -> {b, next:{x,y,d}|null, warp:[x,y]|null} (plates already applied). */
+  land(x, y, b, d) {
+    const c = this.at(x, y);
+    if (c === 'T') b ^= 1; if (c === 'U') b ^= 2;
+    if (/[1-6]/.test(c)) { const o = this.g.find(c).find(([px, py]) => px !== x || py !== y); return { b, next: null, warp: o || null }; }
+    const nd = V2_PUSH[c] || (c === 'i' ? d : null);
+    if (!nd) return { b, next: null, warp: null };
+    const nx = x + DIRS[nd][0], ny = y + DIRS[nd][1];
+    return { b, next: this.open(nx, ny, b) ? { x: nx, y: ny, d: nd } : null, warp: null };
+  }
+  /** Resolve a whole move (slides, pushes, warps) -> {x, y, b, trail}. */
+  enter(x, y, b, d) {
+    const trail = [];
+    for (let n = 0; n < 400; n++) {
+      trail.push([x, y]); const r = this.land(x, y, b, d); b = r.b;
+      if (r.warp) { trail.push(r.warp); return { x: r.warp[0], y: r.warp[1], b, trail }; }
+      if (!r.next) return { x, y, b, trail };
+      ({ x, y, d } = r.next);
+    }
+    return { x, y, b, trail };
+  }
+  *moves([x, y, b]) {
+    for (const d of 'UDLR') { const nx = x + DIRS[d][0], ny = y + DIRS[d][1]; if (this.open(nx, ny, b)) { const r = this.enter(nx, ny, b, d); yield [d, [r.x, r.y, r.b], r.trail]; } }
+  }
+  /** BFS door -> dais front. -> {moves, states, softlocks} | null. Softlock = a reachable state that can not reach both the
+   *  dais front and the door again. */
+  check() {
+    const [S] = this.g.find('S'), [G] = this.g.find('G'), key = (s) => s.join(',');
+    const s0 = [S[0], S[1], 0], prev = new Map([[key(s0), null]]), q = [s0], rev = new Map();
+    for (let i = 0; i < q.length; i++) for (const [d, v] of this.moves(q[i])) {
+      const vk = key(v); (rev.get(vk) || rev.set(vk, []).get(vk)).push(key(q[i]));
+      if (!prev.has(vk)) { prev.set(vk, [key(q[i]), d]); q.push(v); }
+    }
+    const goals = q.filter((s) => s[0] === G[0] && s[1] === G[1]).map(key); if (!goals.length) return null;
+    const back = (t) => { const seen = new Set(t), st = [...t]; while (st.length) for (const u of rev.get(st.pop()) || []) if (!seen.has(u)) { seen.add(u); st.push(u); } return seen; };
+    const tg = back(goals), td = back(q.filter((s) => s[0] === S[0] && s[1] === S[1]).map(key));
+    const path = []; let k = goals[0]; while (prev.get(k)) { const [pk, d] = prev.get(k); path.unshift(d); k = pk; }
+    return { moves: path.join(''), states: q.length, softlocks: q.map(key).filter((s) => !tg.has(s) || !td.has(s)).length };
+  }
+  /** Battle-aware BFS (port of tools/hall_overhaul/battles.py): state (x, y, bits, beaten mask). Coming to rest inside an
+   *  unbeaten trainer's sight forces that battle (first in list order, like findSpotter). -> the walk door -> dais front with
+   *  at least `need` and at most `cap` battles: {moves, battles, beaten (1-based)} | null. rays: [[[x,y],..], ..]. */
+  battles(rays, need, cap) {
+    const [S] = this.g.find('S'), [G] = this.g.find('G'), R = rays.map((r) => new Set(r.map(([x, y]) => k2(x, y))));
+    const pop = (m) => { let n = 0; for (; m; m &= m - 1) n++; return n; };
+    const s0 = [S[0], S[1], 0, 0], key = (s) => s.join(','), prev = new Map([[key(s0), null]]), q = [s0];
+    for (let i = 0; i < q.length; i++) {
+      const [x, y, b, m] = q[i];
+      if (x === G[0] && y === G[1] && pop(m) >= need) {
+        const path = []; let k = key(q[i]); while (prev.get(k)) { const [pk, d] = prev.get(k); path.unshift(d); k = pk; }
+        return { moves: path.join(''), battles: pop(m), beaten: R.map((_, j) => j + 1).filter((j) => (m >> (j - 1)) & 1) };
+      }
+      for (const [d, [nx, ny, nb]] of this.moves([x, y, b])) {
+        let nm = m; for (let j = 0; j < R.length; j++) if (!((m >> j) & 1) && R[j].has(k2(nx, ny))) { nm = m | (1 << j); break; }
+        if (pop(nm) > cap) continue;
+        const v = [nx, ny, nb, nm], vk = key(v); if (prev.has(vk)) continue;
+        prev.set(vk, [key(q[i]), d]); q.push(v);
+      }
+    }
+    return null;
+  }
+}
+/** The hall_v2 model of a built map JSON: {hall, rays, need, trainers} (trainers = kind trainer_hooded, map order). */
+export function hallV2FromMap(m) {
+  const tr = (m.npcs || []).filter((n) => n.kind === 'trainer_hooded');
+  return { hall: new HallV2(m.hall_v2.grid, tr.map((n) => [n.x, n.y])), rays: tr.map((n) => n.sight_cells || []), need: Math.min(4, tr.length), trainers: tr };
+}

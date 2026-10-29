@@ -13,6 +13,9 @@ Fair-sight rules (--check):
   F3 no sight cell is a door cell or a door arrival cell (row in front of the door): nobody is ambushed on the mat
   F4 no two trainers share a sight cell (one battle per step) and no trainer stands in another's sight line
   F5 every floor cell reachable before the trainers were added is still reachable (no trainer blocks a corridor)
+  F7 (hall overhaul v2 maps, hall_v2 block) F2 uses the sight.js see-through codes (floor 0, ledge 2, plate 7, slide 10;
+     closed gates 6 block) and F5 is replaced by the plan solver: no softlock with trainers solid, and a walk door ->
+     dais front that beats exactly min(4, n) trainers (tools/hall_overhaul/battles.py); counts = V2_TARGET per hall
   F6 levels: every hall trainer's team is below the Master's lowest level and within 4 of it (halls 1-4 use the
      authored teams in src/battle/data/trainer_teams.js, halls 5-8 data/masters.json; both must agree for new rows)
 """
@@ -20,6 +23,9 @@ import json, re, sys, os, hashlib
 from collections import deque
 
 TARGET = 6
+V2_TARGET = {'fernwick_hall_int': 3, 'saltmere_hall_int': 4, 'revival_hall_int': 5, 'frostspire_hall_int': 6,
+             'mirefen_hall_int': 7, 'tidewater_hall_int': 8, 'lanternport_hall_int': 10, 'cindervale_hall_int': 12}
+SEE_V2 = {0, 2, 7, 10}
 STRIDE = {'up': (0, -1), 'down': (0, 1), 'left': (-1, 0), 'right': (1, 0)}
 # Halls whose existing lobby trainers stood shoulder to shoulder with overlapping sight (F4): re-seated by the solver.
 RESEAT = {'mirefen_hall_int', 'tidewater_hall_int', 'lanternport_hall_int', 'cindervale_hall_int'}
@@ -91,8 +97,26 @@ def no_go(m):
     d = doors(m); arr = {(x, y - 1) for x, y in d} | {(x, y - 2) for x, y in d}
     return d, arr
 
+def grid_see(m):
+    C = m['layers']['collision']; W, H = m['width'], m['height']; flat = not isinstance(C[0], list)
+    return lambda x, y: 0 <= x < W and 0 <= y < H and (C[y * W + x] if flat else C[y][x]) in SEE_V2
+
+def solver_v2(m):
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'hall_overhaul'))
+    from plan import Hall
+    from battles import search
+    hv = m['hall_v2']; F = {'up': 'U', 'down': 'D', 'left': 'L', 'right': 'R'}
+    tr = [{'at': [n['x'], n['y']], 'facing': F[n['facing']], 'sight': len(n.get('sight_cells') or [])} for n in m['npcs'] if n['kind'] == 'trainer_hooded']
+    h = Hall(hv['grid']); h.tr = {tuple(t['at']) for t in tr}; r = h.check(); out = []
+    if not r: return ['F7 solver: dais front unreachable with trainers solid']
+    if r['softlocks']: out.append(f"F7 solver: {r['softlocks']} softlock states with trainers solid")
+    need = min(4, len(tr)); e = search(hv['grid'], tr, need, need)
+    if not e: out.append(f'F7 solver: no walk that beats exactly {need} trainers')
+    return out
+
 def check_map(m, extra_npcs=None):
-    ok = grid(m); probs = []
+    v2 = 'hall_v2' in m
+    ok = grid_see(m) if v2 else grid(m); probs = []
     npcs = m['npcs'] if extra_npcs is None else extra_npcs
     cells = {(n['x'], n['y']): n['id'] for n in npcs}
     d, arr = no_go(m); pz = puzzle_cells(m); seen_sight = {}
@@ -110,6 +134,7 @@ def check_map(m, extra_npcs=None):
     for n in trainers:
         if (n['x'], n['y']) in seen_sight and seen_sight[(n['x'], n['y'])] != n['id']:
             probs.append(f"F4 {n['id']} stands in {seen_sight[(n['x'], n['y'])]}'s sight")
+    if v2: return probs + solver_v2(m)
     before = reach(m, ok, set()); after = reach(m, ok, set(cells))
     lost = before - after - set(cells)
     if lost: probs.append(f"F5 cells cut off by NPCs: {sorted(lost)[:6]}")
@@ -238,7 +263,9 @@ def run(root, apply):
             dump(mp, m)
         h_tr = [n for n in m['npcs'] if n['kind'] == 'trainer_hooded']
         probs += [f'{hm}: {p}' for p in check_map(m)]
-        if len(h['trainers']) < 5 or len(h['trainers']) > 8: probs.append(f'{hm}: {len(h["trainers"])} trainers (want 5-8)')
+        if 'hall_v2' in m:
+            if len(h['trainers']) != V2_TARGET[hm]: probs.append(f'{hm}: {len(h["trainers"])} trainers (want {V2_TARGET[hm]})')
+        elif len(h['trainers']) < 5 or len(h['trainers']) > 8: probs.append(f'{hm}: {len(h["trainers"])} trainers (want 5-8)')
         if len(h_tr) != len(h['trainers']): probs.append(f'{hm}: map has {len(h_tr)} trainer NPCs, masters.json {len(h["trainers"])}')
         for i, t in enumerate(h['trainers']):
             nid = t['id'] if hm == 'fernwick_hall_int' and t['id'].startswith('helper') else f'{hm}_h{i + 1}'

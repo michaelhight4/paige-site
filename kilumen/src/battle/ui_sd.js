@@ -2,6 +2,7 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
+import { scaleMasterTeam } from '../progression/hall_v2.js?v=v0.2.85-alpha';
 import { KilumenBattle } from './battle.js?v=v0.2.85-alpha';
 import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.85-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
 import { skillTag } from '../qol/matchup.js?v=v0.2.85-alpha';
@@ -61,7 +62,8 @@ export function makeSdBattle(ui, opts, h) {
   const foeLv = opts.foeLevel || Math.max(2, lead.level - 1); // foeLevel: wild encounter slot level (src/battle/encounters.js)
   // PLACEHOLDER trainer team, only for trainers with no authored / injected team: two creatures around the lead's level
   // authored teams first (src/battle/data/trainer_teams.js, keyed by the overworld's {map, id}), then injected teams, then the placeholder
-  const authored = trainer ? authoredTeam(opts.who, partySrc) : null;
+  const authored0 = trainer ? authoredTeam(opts.who, partySrc) : null;
+  const authored = authored0 && opts.who?.masterRematch ? scaleMasterTeam(authored0, opts.who.masterWins) : authored0; // hall v2 Master rematch x1.3^wins
   // carry (mode switch, Oct 29 2026): a wild fight switched over from real-time keeps its foes' HP (wild only; never owned)
   const carryFoes = !owned && opts.carry?.foes?.length ? opts.carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '', hp: Math.max(1, Math.round(f.hp)) })) : null;
   const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level, ...(f.held ? { held: f.held } : {}) })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)

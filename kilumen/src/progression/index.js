@@ -10,6 +10,7 @@ import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from '
 import { QuestBook, QFLAG } from './quests.js?v=v0.2.85-alpha';
 import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.85-alpha'; // batch 3: Mirefen hall tint + reed lamps
 import { HallPuzzle } from './puzzles.js?v=v0.2.85-alpha';
+import { attachHallV2, scaleMasterTeam } from './hall_v2.js?v=v0.2.85-alpha';
 import { InMapHall, inmapZone, INMAP_HALLS } from './hall_inmap.js?v=v0.2.85-alpha'; // playtest fixes 3: prism relay / reed lamps in the hall map
 import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.85-alpha'; // v2 badges: in-place coin award card
 import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.85-alpha'; // v6: Frostspire Hall ice + wind overlay theme
@@ -56,6 +57,11 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     }
     const onBattle = scene.hooks.onBattle;
     if (onBattle) scene.hooks.onBattle = async (who) => {
+      if (who?.masterRematch) { // hall v2 rematch: the Master's team x1.3^wins, no award
+        const t = teamFor(pg.masters, who.map, who.id, { fernwick: true }) || pg.mapTeam(who);
+        pending = t ? { ...t, foes: scaleMasterTeam(t.foes, who.masterWins) } : null;
+        try { return await onBattle(who); } finally { pending = null; }
+      }
       pending = who ? teamFor(pg.masters, who.map, who.id, { fernwick: flags.masterTeamFernwick }) || pg.mapTeam(who) : null;
       let won;
       try { won = await onBattle(who); } finally { pending = null; }
@@ -106,7 +112,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
   };
   pg.inmap = null;
   pg.refreshInMap = async () => {
-    const zone = inmapZone(scene.map?.name); if (!zone) { pg.inmap = null; return null; }
+    const zone = scene.map?.json?.hall_v2 ? null : inmapZone(scene.map?.name); if (!zone) { pg.inmap = null; return null; } // hall_v2 maps replace the in-map puzzles
     const def = pg.puzzles[zone] ||= await getJSON(`data/hall_puzzles/${zone}.json`);
     const already = scene.flags?.has(def.solved_flag) || hallBeaten(zone);
     const hp = pg.inmap = new InMapHall(def, store, already);
@@ -172,6 +178,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     if (pg.masters && typeof scene.talk === 'function') {
       const talk = scene.talk.bind(scene);
       scene.talk = (n, def) => {
+        if (scene.map?.json?.hall_v2) return talk(n, def); // hall_v2: hall_v2.js gates the Master
         const info = def && scene.map && hallNpc(pg.masters, scene.map.name, def.id);
         if (info && INMAP_HALLS[info.hall.zone] && info.role === 'master') { // playtest fixes 3: the in-map puzzle gates the Master
           const z = info.hall.zone, solved = scene.flags?.has(`puzzle_${z}_hall_solved`) || pg.inmap?.solved || hallBeaten(z);
@@ -286,6 +293,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     if (ui) installQuestLog(ui, scene, sys, qb, mb, save, pg, hud);
     tick(); pg.timer = setInterval(tick, 400);
   }
+  attachHallV2(scene, ui, pg); // hall overhaul v2 (outermost talk / worldApi / enterMap wrappers)
   return pg;
 }
 
