@@ -2,6 +2,8 @@
 //  - Time-of-day grade (time_of_day/grades.json): exact palette.hex swap via grade.map; the one translucent
 //    SHADOW colour (alpha 96) uses grade.shadow.dst; anything off-palette goes through the 16^3 LUT
 //    (lut_<grade>.png, blue slice k at tile (k%4, k//4), red = x, green = y, step 17, NEAREST). day = identity.
+//    Tiles are graded with NO lights; only pixels inside the sheet's emissive mask (time_of_day/emissive/*.png, generated
+//    from time_of_day.py EMISSIVE) use the lit grade (grade.lit / lut_<grade>_lit.png). Glow is never decided by colour.
 //  - Crystal Warmth (art/characters/pixel/warmth/warmth_tints.json): exact #rrggbb swap ONLY where the crystal
 //    mask is non-zero; alpha unchanged; stage 0 = identity (the source image is returned untouched).
 // Results are canvases at the same native size; the renderer scales them by the integer zoom (nearest), which is
@@ -18,15 +20,22 @@ function pixels(img) {
   return { c, x, d: x.getImageData(0, 0, c.width, c.height) };
 }
 
-/** Prepared grade: {name, identity, map: Map<int,int>, shadowSrc, shadowDst, lut: Uint8ClampedArray|null} */
-export function prepareGrade(name, def, lutImg) {
+/** Prepared grade: {name, identity, map: Map<int,int>, litMap, shadowSrc, shadowDst, lut, litLut: Uint8ClampedArray|null} */
+export function prepareGrade(name, def, lutImg, spriteLutImg, litLutImg) {
   const map = new Map();
   let identity = true;
   for (const [k, v] of Object.entries(def.map || {})) { map.set(hexInt(k), hexInt(v)); if (k.toLowerCase() !== String(v).toLowerCase()) identity = false; }
   const ss = def.shadow?.src || [26, 18, 38, 96], sd = def.shadow?.dst || ss;
   if (ss.join() !== sd.join()) identity = false;
   const lut = lutImg ? pixels(lutImg).d.data : null;
-  return { name, identity: identity && name === 'day', map, shadowSrc: ss, shadowDst: sd, lut, cache: new WeakMap() };
+  // sprites (NPCs, player, creatures) use the no-lights grade: pale skin / blond hair must not glow like lamps at night
+  const spriteLut = spriteLutImg ? pixels(spriteLutImg).d.data : null;
+  const ssd = def.sprite?.shadow?.dst || sd;
+  // lit grade: used only on emissive-mask pixels (lamp heads, lit windows, crystals). Missing -> base grade (nothing glows).
+  const litMap = new Map();
+  for (const [k, v] of Object.entries(def.lit?.map || def.map || {})) litMap.set(hexInt(k), hexInt(v));
+  const litLut = litLutImg ? pixels(litLutImg).d.data : lut;
+  return { name, identity: identity && name === 'day', map, litMap, shadowSrc: ss, shadowDst: sd, spriteShadowDst: ssd, lut, litLut, spriteLut, cache: new WeakMap() };
 }
 
 function lutLookup(lut, r, g, b) {
@@ -35,33 +44,55 @@ function lutLookup(lut, r, g, b) {
   return (lut[i] << 16) | (lut[i + 1] << 8) | lut[i + 2];
 }
 
+const maskCache = new WeakMap();
+function maskData(mask) {
+  if (!mask) return null;
+  let m = maskCache.get(mask);
+  if (!m) { const p = pixels(mask); m = { w: p.c.width, h: p.c.height, a: p.d.data }; maskCache.set(mask, m); }
+  return m;
+}
+
 /**
- * Graded copy of a native image. mode 'map' (tiles: palette map first, lit LUT for the rest) or 'lut' (sprites/UI: the LUT only).
- * Returns the source untouched for the identity grade.
+ * Graded copy of a native image. mode 'map' (tiles: palette map first, no-lights LUT for the rest; pixels where the
+ * same-size emissive `mask` is non-zero use the lit map / lit LUT instead) or 'lut' (sprites/UI: the no-lights sprite LUT,
+ * lut_<grade>_sprite.png). Returns the source untouched for the identity grade.
  */
-export function gradeImage(img, grade, mode = 'map') {
+export function gradeImage(img, grade, mode = 'map', mask = null) {
   if (!img || !grade || grade.identity) return img;
-  const key = grade.cache.get(img)?.[mode];
+  const ck = mode + (mode === 'map' && mask ? ':lit' : '');
+  const key = grade.cache.get(img)?.[ck];
   if (key) return key;
-  const { c, x, d } = pixels(img), a = d.data, memo = new Map();
-  const lut = grade.lut;
-  const [sr, sg, sb, sa] = grade.shadowSrc, [dr, dg, db] = grade.shadowDst;
+  const { c, x, d } = pixels(img), a = d.data, memo = new Map(), litMemo = new Map();
+  const sprite = mode === 'lut', lut = sprite ? (grade.spriteLut || grade.lut) : grade.lut;
+  const md = mode === 'map' ? maskData(mask) : null, W = c.width;
+  const [sr, sg, sb, sa] = grade.shadowSrc, [dr, dg, db] = sprite ? grade.spriteShadowDst : grade.shadowDst;
   for (let i = 0; i < a.length; i += 4) {
     const al = a[i + 3];
     if (!al) continue;
     const r = a[i], g = a[i + 1], b = a[i + 2];
     if (al === sa && r === sr && g === sg && b === sb) { a[i] = dr; a[i + 1] = dg; a[i + 2] = db; continue; }
     const k = (r << 16) | (g << 8) | b;
-    let o = memo.get(k);
-    if (o === undefined) {
-      o = mode === 'map' && grade.map.has(k) ? grade.map.get(k) : lut ? lutLookup(lut, r, g, b) : (grade.map.get(k) ?? k);
-      memo.set(k, o);
+    let o;
+    const p = i >> 2, px = p % W, py = (p - px) / W;
+    if (md && px < md.w && py < md.h && md.a[(py * md.w + px) * 4]) {
+      o = litMemo.get(k);
+      if (o === undefined) {
+        const lm = grade.litMap || grade.map, ll = grade.litLut || lut;
+        o = lm.has(k) ? lm.get(k) : ll ? lutLookup(ll, r, g, b) : k;
+        litMemo.set(k, o);
+      }
+    } else {
+      o = memo.get(k);
+      if (o === undefined) {
+        o = mode === 'map' && grade.map.has(k) ? grade.map.get(k) : lut ? lutLookup(lut, r, g, b) : (grade.map.get(k) ?? k);
+        memo.set(k, o);
+      }
     }
     a[i] = o >> 16; a[i + 1] = (o >> 8) & 255; a[i + 2] = o & 255;
   }
   x.putImageData(d, 0, 0);
   const entry = grade.cache.get(img) || {};
-  entry[mode] = c; grade.cache.set(img, entry);
+  entry[ck] = c; grade.cache.set(img, entry);
   return c;
 }
 

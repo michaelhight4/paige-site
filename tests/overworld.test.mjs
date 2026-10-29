@@ -10,6 +10,7 @@ import { GridMover } from '../src/overworld/movement.js';
 import { cameraFor, pickZoom } from '../src/overworld/camera.js';
 import { indexTileset, tilesetFileForZoom } from '../src/overworld/tileset.js';
 import { tileFrame } from '../src/overworld/renderer.js';
+import { padOf } from './_pad.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const KIT = path.join(ROOT, 'art/world/overworld');
@@ -254,17 +255,18 @@ test('bike_only (8): wall on foot and running, floor on the bike; ramp (9): one-
   assert.equal(m.query(0, 0, 'right', 'walk').type, 'block');
   assert.equal(m.query(0, 0, 'right', 'run').type, 'block');
   assert.deepEqual(m.query(0, 0, 'right', 'bike'), { type: 'walk', x: 1, y: 0 });
-  const tw = MAPS.thornwood; // MOVEMENT.md: ramp_e at (15,14), pocket x16-19 y13-16
-  assert.equal(tw.code(15, 14), Col.RAMP); assert.equal(tw.rampDir(15, 14), 'right');
-  const q = tw.query(14, 14, 'right', 'bike');
-  assert.deepEqual([q.type, q.x, q.y], ['ramp', 16, 14]);
-  assert.equal(tw.query(14, 14, 'right', 'walk').type, 'block');
-  assert.equal(tw.query(16, 14, 'left', 'bike').type, 'block', 'one-way: no jumping back up the ramp');
-  const mv = new GridMover({ x: 14, y: 14, facing: 'right' }); mv.mode = MoveMode.BIKE;
+  const tw = MAPS.thornwood; // MOVEMENT.md: ramp_e at (15,14), pocket x16-19 y13-16 (unpadded; + thornwood padding)
+  const { dx: X, dy: Y } = padOf('thornwood');
+  assert.equal(tw.code(15 + X, 14 + Y), Col.RAMP); assert.equal(tw.rampDir(15 + X, 14 + Y), 'right');
+  const q = tw.query(14 + X, 14 + Y, 'right', 'bike');
+  assert.deepEqual([q.type, q.x, q.y], ['ramp', 16 + X, 14 + Y]);
+  assert.equal(tw.query(14 + X, 14 + Y, 'right', 'walk').type, 'block');
+  assert.equal(tw.query(16 + X, 14 + Y, 'left', 'bike').type, 'block', 'one-way: no jumping back up the ramp');
+  const mv = new GridMover({ x: 14 + X, y: 14 + Y, facing: 'right' }); mv.mode = MoveMode.BIKE;
   let ticks = 0, maxLift = 0; run(mv, tw, 'right', 1);
   assert.equal(mv.state, 'hop'); assert.equal(mv.frame().col, 2, 'holds bike1');
   while (mv.state === 'hop' && ticks < 40) { maxLift = Math.max(maxLift, mv.pixel().lift); run(mv, tw, null, 1); ticks++; }
-  assert.deepEqual([mv.x, mv.y], [16, 14]); assert.equal(ticks, 10, '2 x 83 ms'); assert.equal(maxLift, 6);
+  assert.deepEqual([mv.x, mv.y], [16 + X, 14 + Y]); assert.equal(ticks, 10, '2 x 83 ms'); assert.equal(maxLift, 6);
 });
 
 test('every no_dismount cell is bike-passable and the bike pockets have a bike exit (no stranding)', () => {
@@ -291,18 +293,19 @@ test('every no_dismount cell is bike-passable and the bike pockets have a bike e
 // --- CRITICAL_PATH.md: story gates + NPCs ------------------------------------------------------------
 test('story gates ship blocked, clear when their flag is set (decoration + collision swap), idempotent, per instance', () => {
   const bh = loadMap('brookhollow'), r1 = loadMap('route1');
-  assert.equal(bh.code(32, 12), Col.BLOCK);
-  const q = bh.query(31, 12, 'right');
+  const B = padOf('brookhollow'), R1 = padOf('route1'); // unpadded coords + padding
+  assert.equal(bh.code(32 + B.dx, 12 + B.dy), Col.BLOCK);
+  const q = bh.query(31 + B.dx, 12 + B.dy, 'right');
   assert.equal(q.type, 'block'); assert.equal(q.gate?.id, 'gate_brookhollow_east');
   assert.deepEqual(bh.applyGates(new Set(['has_bike'])), [], 'unrelated flag clears nothing');
   assert.deepEqual(bh.applyGates(new Set(['beat_master_fernwick'])), ['gate_brookhollow_east']);
-  assert.deepEqual([bh.code(32, 12), bh.code(32, 13), bh.tile('decoration', 32, 12)], [0, 0, 0]);
-  assert.equal(bh.query(31, 12, 'right').type, 'walk');
+  assert.deepEqual([bh.code(32 + B.dx, 12 + B.dy), bh.code(32 + B.dx, 13 + B.dy), bh.tile('decoration', 32 + B.dx, 12 + B.dy)], [0, 0, 0]);
+  assert.equal(bh.query(31 + B.dx, 12 + B.dy, 'right').type, 'walk');
   assert.deepEqual(bh.applyGates(new Set(['beat_master_fernwick'])), [], 'idempotent');
   r1.applyGates(new Set(['beat_master_frostspire']));
   const dim = [...TS.byId.values()].find((t) => t.name === 'crystal_barrier_dim');
-  assert.deepEqual([r1.tile('decoration', 41, 4), r1.code(41, 4)], [dim.id, dim.collision_code]);
-  assert.equal(MAPS.brookhollow.code(32, 12), Col.BLOCK, 'other instances untouched');
+  assert.deepEqual([r1.tile('decoration', 41 + R1.dx, 4 + R1.dy), r1.code(41 + R1.dx, 4 + R1.dy)], [dim.id, dim.collision_code]);
+  assert.equal(MAPS.brookhollow.code(32 + B.dx, 12 + B.dy), Col.BLOCK, 'other instances untouched');
   for (const m of Object.values(MAPS)) for (const g of m.storyGates) {
     for (const c of g.cells) assert.notEqual(m.code(c.x, c.y), Col.WALK, `${g.id} ${c.x},${c.y} ships blocked`);
     assert.ok(layout.progression_flags ? JSON.stringify(layout.progression_flags).includes(g.flag) : true, g.flag + ' is a known flag');

@@ -80,6 +80,8 @@ export function drawDebug(ctx, v, r) {
     `mode ${p.mode} x${p.speedMultiplier}  ${Math.round(p.ticksPerTile() * 1000 / 60)}ms/tile  zoom x${z}  set ${v.tileset.size}px  ${v.fps} fps`,
     `flags ${v.flags?.length ? v.flags.join(' ') : '-'}`,
     `last door ${v.lastDoor ? `${v.lastDoor.map} ${v.lastDoor.x},${v.lastDoor.y}` : '-'}`,
+    ...(v.life ? [v.life.status()] : []),
+    ...(v.depth ? [v.depth.status(v)] : []),
   ];
   const lf = Math.max(15, 8 * z), sf = Math.round(lf * 0.85), pad = 10, gap = 4;
   ctx.font = `${lf}px ui-monospace, Menlo, Consolas, monospace`;

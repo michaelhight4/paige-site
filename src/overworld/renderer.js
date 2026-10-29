@@ -2,7 +2,11 @@
 // Order (README 3 / tileset.json draw_order): ground -> decoration -> characters + overlay tiles flagged
 // `ysort` (tall-grass fronts/tips), sorted by tile row with the character first on a tie, so the blades of its
 // own cell cover its legs but blades in the row above never cover its head -> remaining overlay (canopies,
-// roofs) always above characters -> engine overlays (bin flies) -> fog -> debug -> fade.
+// roofs) always above characters -> living-world `over` (smoke, butterflies, motes, bird shadows, cloud shadows)
+// -> fog -> living-world `top` (birds, fireflies) -> debug -> fade. Living `under` (fish) runs after the decals.
+// Depth pass (depth.js, Oct 22 2026): its cached static layer (object contact shadows + indoor wall-base shading) runs
+// right after ground/decoration, before the decals; the character contact shadows run after living `under`, just
+// before the first character. Both are under every character and over the floor.
 import { TILE, HUMAN_W, HUMAN_H } from './constants.js';
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
@@ -39,18 +43,24 @@ export class Renderer {
   draw(v) {
     const { ctx } = this, z = v.zoom, W = this.canvas.width, H = this.canvas.height;
     ctx.globalAlpha = 1;
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = '#000'; // blank background: anything outside the map stays black (centre camera, Oct 23, 2026)
     ctx.fillRect(0, 0, W, H);
     if (!v.map || !v.tileset) return;
     const m = v.map, cam = v.cam;
+    if (v.outside === 'edge') this.edgeFill(v, W, H); // mobile display.outsideMap without the centre camera: fill around short maps
     const x0 = Math.max(0, Math.floor(cam.x / TILE)), y0 = Math.max(0, Math.floor(cam.y / TILE));
     const x1 = Math.min(m.width - 1, Math.floor((cam.x + W / z - 1) / TILE));
     const y1 = Math.min(m.height - 1, Math.floor((cam.y + H / z - 1) / TILE));
 
     for (const layer of ['ground', 'decoration'])
       for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile(layer, x, y), x, y);
+    v.ixlight?.draw(ctx, v, 'lower'); // Interiors v2 (?ix2=1): cached plane lighting on redrawn furniture + floor light spill
+    v.depth?.drawStatic(ctx, v); // depth pass: contact shadows under furniture/decoration + wall-base shading (cached per map)
+    v.nightfx?.drawWindows(ctx, v); // Night FX: lit window glass (dusk on, some dark late; under characters)
     // decals "under characters" (footprints: tileset animation type 'fade', frame picked by age)
     for (const d of v.decals || []) if (d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1) this.tile(v, d.id, d.x, d.y, d.frame);
+    v.life?.under(ctx, v); // living world: fish shadows + ripples on water, under characters
+    v.depth?.drawActors(ctx, v, v.actors); // depth pass: contact shadows under every character (before any character)
 
     const actors = [...v.actors].sort((a, b) => a.feet - b.feet || (a.order || 0) - (b.order || 0));
     let ai = 0;
@@ -64,8 +74,15 @@ export class Renderer {
       const id = m.tile('overlay', x, y);
       if (id && !v.tileset.byId.get(id)?.ysort) this.tile(v, id, x, y);
     }
+    v.ixlight?.draw(ctx, v, 'upper'); // Interiors v2: same lighting on overlay-row furniture tops
     for (const o of v.overlays || []) this.tile(v, o.id, o.x, o.y); // engine overlays on occupied cells (bin flies)
+    v.life?.over(ctx, v); // living world: smoke, butterflies, motes, bird shadows, then cloud shadows (shade sprites too)
+    v.ixlight?.draw(ctx, v, 'night'); // Interiors v2: indoor night shade + lamp/TV/stove pools
+    v.nightfx?.drawLights(ctx, v); // Night FX: warm lamp/window pools, additive on a cached low-res buffer (+ flame flicker)
     if (m.layers.fog) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile('fog', x, y), x, y);
+    v.mood?.draw(ctx, v); // cinematic mood (mood.js): area tint, sun rays, vignette, ambient particles; under birds/firefly glow/markers
+    v.life?.top(ctx, v); // living world: birds in the sky, firefly glow (emissive)
+    v.markers?.(ctx, v); // golden spinning arrows: starter cases, quest items (marker.js; above the world, under the fade)
 
     if (v.debug && v.drawDebug) v.drawDebug(ctx, v, { x0, y0, x1, y1 });
     if (v.fade > 0) {
@@ -74,6 +91,31 @@ export class Renderer {
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
     }
+  }
+
+  /**
+   * Mobile full screen pass (Oct 23, 2026): cells of the view that fall outside the map (a map narrower or shorter than the
+   * screen, centred by the camera) get the map's nearest edge ground tile (clamped row/column, so walls and floor run on
+   * outward) and a flat shade (v.edgeShade) so the real room still reads. Same integer zoom and whole-px cells as tile().
+   * pc never sets v.outside.
+   */
+  edgeFill(v, W, H) {
+    const m = v.map, cam = v.cam, z = v.zoom;
+    const vx0 = Math.floor(cam.x / TILE), vy0 = Math.floor(cam.y / TILE);
+    const vx1 = Math.floor((cam.x + W / z - 1) / TILE), vy1 = Math.floor((cam.y + H / z - 1) / TILE);
+    if (vx0 >= 0 && vy0 >= 0 && vx1 < m.width && vy1 < m.height) return;
+    const cl = (n, hi) => Math.max(0, Math.min(hi - 1, n));
+    for (let y = vy0; y <= vy1; y++) for (let x = vx0; x <= vx1; x++) {
+      if (x >= 0 && y >= 0 && x < m.width && y < m.height) continue;
+      this.tile(v, m.tile('ground', cl(x, m.width), cl(y, m.height)), x, y); // edge tile drawn at the outside cell (same grade path)
+    }
+    const ctx = this.ctx, mx = -cam.x * z, my = -cam.y * z, mw = m.width * TILE * z, mh = m.height * TILE * z;
+    ctx.fillStyle = v.edgeShade || 'rgba(26,18,38,0.55)';
+    if (my > 0) ctx.fillRect(0, 0, W, my);
+    if (my + mh < H) ctx.fillRect(0, my + mh, W, H - my - mh);
+    const top = Math.max(0, my), bot = Math.min(H, my + mh);
+    if (mx > 0) ctx.fillRect(0, top, mx, bot - top);
+    if (mx + mw < W) ctx.fillRect(mx + mw, top, W - mx - mw, bot - top);
   }
 
   /**
@@ -90,7 +132,7 @@ export class Renderer {
     let img, S = ts.size;
     if (v.grade && !v.grade.identity && v.tileset1x && v.gradeImage) {
       ts = v.tileset1x; t = ts.byId.get(id) || t;
-      img = v.gradeImage(ts.images.get(t.sheet), v.grade, 'map'); S = ts.size;
+      img = v.gradeImage(ts.images.get(t.sheet), v.grade, 'map', v.emissive?.get(t.sheet)); S = ts.size; // lit only inside the emissive mask
     } else img = ts.images.get(t.sheet);
     if (!img) return;
     const D = TILE * v.zoom;
@@ -112,6 +154,12 @@ export class Renderer {
     }
     if (!a.img) return;
     const k = a.sheetScale;
+    if (a.sq) { // ?cidle=1 creature motion: scale about the feet centre, whole art px only
+      const q = a.sq, dw = Math.round(w * q.sx) * z, dh = Math.round(h * q.sy) * z;
+      ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k,
+        sx + (TILE * z - dw) / 2, groundY - dh - Math.round(q.lift) * z, dw, dh);
+      return;
+    }
     ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k,
       sx + ((TILE - w) / 2) * z, groundY - (h + (a.lift || 0)) * z, w * z, h * z);
   }

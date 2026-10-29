@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fillText, pickLine, inboxEmails, pickNick, coinCount, whenMatches } from '../src/overworld/lines.js';
-import { SaveStore, freshSave, normalise } from '../src/overworld/save.js';
+import { SaveStore, freshSave, normalise, SAVE_KEY } from '../src/overworld/save.js';
 import { phaseForHour, gradeFor, advanceClock } from '../src/overworld/clock.js';
 import { warmthStage } from '../src/overworld/palette.js';
 
@@ -72,7 +72,7 @@ test('save: round trip, backup fallback on a corrupt main save, ?save=0 = no sto
   assert.ok(st.save(s));
   s.flags.push('has_run_shoes'); assert.ok(st.save(s));
   assert.deepEqual(st.load().flags, ['has_bike', 'has_run_shoes']);
-  mem.set('kilumen.save.v1', '{broken');
+  mem.set(SAVE_KEY, '{broken');
   const back = st.load();
   assert.deepEqual(back.flags, ['has_bike']); assert.equal(back.counters.office_display_taps, 3); assert.equal(back.party[0].warmth, 80);
   assert.equal(new SaveStore(null).load(), null);
@@ -84,6 +84,9 @@ test('clock: phases, indoor grade, day roll; warmth stages', () => {
   assert.equal(gradeFor('house_1f', 'night'), 'day');
   assert.equal(gradeFor('heal_centre_int', 'night'), 'day');
   assert.equal(gradeFor('lantern_rest', 'night'), 'night');
+  // every interior prefix stays on day (clock.INDOOR_OR_CAVE is the one list; living.js re-uses it)
+  for (const m of ['heal_brookhollow', 'home_brookhollow_a', 'lab_brookhollow', 'rt_branch_backroom', 'mart_x', 'station_int', 'hall_x', 'greystone_b1']) assert.equal(gradeFor(m, 'night'), 'day', m);
+  for (const m of ['brookhollow', 'fernwick', 'route1', 'thornwood', 'mirefen_bog']) assert.equal(gradeFor(m, 'night'), 'night', m);
   const c = { day: 0, min: 1439 }; assert.equal(advanceClock(c, 2), true); assert.deepEqual(c, { day: 1, min: 1 });
   assert.deepEqual([0, 24, 25, 49, 50, 74, 75, 100].map(warmthStage), [0, 0, 1, 1, 2, 2, 3, 3]);
 });

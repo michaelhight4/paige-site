@@ -5,10 +5,13 @@
 // into (GameMap.occupy), so the player can never walk into one mid-step.
 import { DELTA, DIRS, Col } from './constants.js';
 import { GridMover } from './movement.js';
+import { npcForPhase, isActive } from './props.js';
+import { walkGrid, findPath, pathToDirs } from './pathing.js';
 
 const WANDER = new Set(['villager', 'villager_hooded', 'villager_elder', 'kid']);
 const LOOK = new Set(['trainer', 'trainer_hooded']);
 const OPPOSITE = { up: 'down', down: 'up', left: 'right', right: 'left' };
+const REPLAN_TICKS = 45; // walkTo: blocked this long (0.75 s) -> plan a new route around the obstacle
 
 /** Deterministic per-NPC random stream (mulberry32) so shots and tests are reproducible. */
 function rng(seed) {
@@ -28,6 +31,7 @@ export class Npc {
     this.wait = 60 + Math.floor(this.rand() * 120);
     this.hold = null;     // direction held for the current step
     this.script = [];     // scripted directions (npcWalk)
+    this.goal = null;     // walkTo target {x, y, stay} (pathing.js); replanned when blocked
     this.paused = 0;      // ticks to stand still (after a talk)
     this.talking = false;
   }
@@ -48,9 +52,9 @@ export class NpcSystem {
   constructor(scene) { this.scene = scene; this.list = []; }
 
   /** Build NPC actors for a map (call after the map instance exists; map.npcs already holds merged pending NPCs). */
-  build(map, spriteMap) {
+  build(map, spriteMap, phase) {
     const gateIds = new Set(map.storyGates.filter((g) => g.npc).map((g) => g.npc.id));
-    this.list = map.npcs.filter((d) => Number.isInteger(d.x) && d.kind !== 'spawn')
+    this.list = map.npcs.map((d) => npcForPhase(d, phase)).filter((d) => Number.isInteger(d.x) && d.kind !== 'spawn' && isActive(d, this.scene?.flags)) // by_phase / active_when: props.js
       .map((d) => new Npc(d, map.name, spriteMap?.[map.name + '.' + d.id], gateIds.has(d.id)));
     map.resetOccupancy(this.list.map((n) => ({ x: n.x, y: n.y, ref: n })));
     return this.list;
@@ -94,8 +98,15 @@ export class NpcSystem {
       if (!mv.moving && mv.state === 'idle') {
         if (n.script.length && !frozen) {
           const dir = n.script[0];
-          if (this._canStep(n, dir, true)) { n.script.shift(); n.hold = dir; mv.facing = dir; }
-          else { n.blockedTicks = (n.blockedTicks || 0) + 1; if (n.blockedTicks > 240) { n.script = []; n.blockedTicks = 0; } }
+          if (this._canStep(n, dir, true)) { n.script.shift(); n.hold = dir; mv.facing = dir; n.blockedTicks = 0; }
+          else {
+            n.blockedTicks = (n.blockedTicks || 0) + 1;
+            if (n.goal && n.blockedTicks % REPLAN_TICKS === 0 && n.blockedTicks <= 240) this._plan(n, true); // route around
+            if (n.blockedTicks > 240) { n.script = []; n.blockedTicks = 0; n.goal = null; }
+          }
+        } else if (n.goal && !frozen && !n.talking && !n.paused) {
+          if (n.x === n.goal.x && n.y === n.goal.y) { if (n.goal.stay) n.home = { x: n.x, y: n.y, facing: mv.facing }; n.goal = null; n.wait = 90; }
+          else if (!this._plan(n, true)) n.goal = null; // pushed off the route with no way back: give up
         } else if (n.paused > 0 || n.talking || frozen) {
           n.paused = Math.max(0, n.paused - 1);
         } else if (--n.wait <= 0) {
@@ -118,6 +129,33 @@ export class NpcSystem {
 
   /** Scripted walk for cutscenes / shots: ['left','left','up'] (stops early if blocked for 4 s). */
   walk(id, dirs) { const n = this.byId(id); if (n) n.script.push(...dirs); return !!n; }
+
+  /**
+   * Walk an NPC to a cell along the shortest path over existing collision (easystar A*, pathing.js). Uses the same
+   * rules as a scripted step: WALK/PLATE only, never onto warps, interact stand cells, the player or the follower.
+   * Other NPCs count as walls when planning; if one steps into the way later, the NPC waits, then replans every
+   * REPLAN_TICKS, and gives up after 4 s blocked (same as walk()). On arrival a wanderer adopts the goal as its new
+   * home (stay: true, default) so it keeps wandering there. Returns the planned directions, or null if unreachable.
+   */
+  walkTo(id, x, y, { stay = true } = {}) {
+    const n = this.byId(id);
+    if (!n || !this.scene.map?.inBounds(x, y)) return null;
+    n.goal = { x, y, stay };
+    const dirs = this._plan(n, true);
+    if (!dirs) n.goal = null;
+    return dirs;
+  }
+
+  /** (Re)plan n.script toward n.goal. avoidActors: treat other NPCs, player and follower as walls. */
+  _plan(n, avoidActors) {
+    const m = this.scene.map, g = n.goal;
+    const blocked = (x, y) => (avoidActors && ((m.npcAt(x, y) && m.npcAt(x, y) !== n) || this._forbidden(x, y)))
+      || m.warpAt(x, y) || (this.scene.standCells || new Set()).has(x + ',' + y);
+    const path = findPath(walkGrid(m, blocked, [{ x: n.x, y: n.y }]), { x: n.x, y: n.y }, g);
+    if (!path) return null;
+    n.script = pathToDirs(path); n.blockedTicks = 0;
+    return [...n.script];
+  }
 }
 
 export { OPPOSITE };

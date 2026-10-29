@@ -71,11 +71,40 @@ Text, save, time of day, Warmth and NPC sprites. Data comes from `text/overworld
   the sofa gives Warmth.
 - Ron's bin: tile `bin_ron_<coins>` (0-8), flies from stage 6, `bin_ron_empty` after `finale_done`.
 - Time of day: 1 real minute = 1 game hour (dawn 5-7, day 8-16, dusk 17-19, night 20-4). Outdoors is graded with
-  the map palette and the LUT for sprites (day = identity). Interiors and caves stay on day, while window tiles
-  follow the outdoor phase. Dev params: `?hour=22`, `?phase=night`, `?timescale=0` (freeze).
+  the map palette and the LUT for sprites (day = identity). Tiles get the no-lights grade everywhere; only pixels in
+  the emissive masks (`time_of_day/emissive/*.png`, generated from `EMISSIVE` in `tools/time_of_day.py`: lamp heads,
+  lanterns, lit windows, crystals, fires) use the lit grade. Glow is never chosen by colour; to make a tile glow, add
+  it to `EMISSIVE` and re-run the tool. Interiors and caves (`clock.js` `INDOOR_OR_CAVE`, the one list; `living.js`
+  reuses it) stay on day, while window tiles follow the outdoor phase. Dev params: `?hour=22`, `?phase=night`,
+  `?timescale=0` (freeze).
 - Warmth: the lead follows the player using its overworld sheet. The stage is 0/1/2/3 at <25/<50/<75/75+, and the
   mask-only exact-hex swap keeps alpha (stage 0 = identity, tints cached). Dev: `?lead=rillop&warmth=80&nick=Bubbles`.
 - Footprints: sand, mud and snow ground leaves prints that fade after about 4 s (max 24). The bike leaves none.
 - NPCs: 64x96 sheets from the sprite map. Villagers wander and trainers look around. Trainers challenge with the
   battle sprite; dialogue shows portraits where the map has them.
 - Shots: `shots/soul_pass_v1/`.
+- Living world (`src/overworld/living.js`, `LivingWorld` as `scene.life`): unseen cloud shadows plus ambient life,
+  all driven by one wind (`WIND`). It runs outdoors only, using the full `INDOOR_OR_CAVE` rule.
+  - Clouds: a seeded, wrapping fBm mask (768² cells × 2 native px, 1536 px period) drifts 8 native px per game
+    minute. Its colour is the phase's `grade.shadowDst`. Alpha is 56 at day, 35 at dawn and dusk, and 0 at night,
+    stepped in eighths.
+    It is drawn as 32-cell chunks of a cached image with the alpha already baked in: empty chunks are skipped and
+    globalAlpha is never used. Non-emissive sprites use the character `'lut'` grade.
+  - Coverage comes from `?weather=clear|fair|cloudy|overcast|rain` (default `fair`) or
+    `scene.life.setWeather()`. There is no weather system yet.
+  - Life: fish shadows with ripples (`ambient.fish_spots`), butterflies by day and fireflies by night (emissive,
+    ungraded), bird flocks with ground shadows (`scene.life.spawnBirds(n)`), chimney smoke and wind motes.
+  - Toggles: K turns clouds on or off and L turns life on or off (both saved in `kilumen.settings.v1`). URL
+    overrides: `?clouds=0|1`, `?life=0|1`, `?motion=reduce|full`. prefers-reduced-motion slows clouds and
+    disables birds and motes. The F3 HUD has a `life` line.
+  - Draw hooks are in `Renderer.draw` (under / over / top). Previews: `node tests/life_previews.mjs 8097` writes to
+    `_previews/living_world/`. Perf: `node tests/life_perf.mjs 8097 <label> [extraQuery]`.
+
+## Platform profiles (DRAFT, local only, Oct 22, 2026)
+Gary: "make coder have a mobile and pc set up independtly". `src/platform.js` picks `pc` or `mobile` once at start-up
+(mobile on `(pointer: coarse)` or a touch-capable device; `?platform=pc|mobile` overrides, `?touch=1` = mobile, `?touch=0` = pc),
+loads `src/platform/<id>.json`, sets `body.platform-<id>` and the CSS variables, and exposes `window.kilumen.platform = {id, profile}`.
+Each file holds its own zoom table (PC 1440p = `zoom.zoom1440p`, 3x, undecided), camera rules, HUD/dialogue offsets and controls.
+Tune a platform only in its own file. Checks: `node --test tests/platform.test.mjs`, `node tests/platform_shots.mjs`, `python3 tests/platform_contact_sheet.py`.
+
+- 2026-10-28 (Coder): **v0.2.36-alpha live (commit 957eb3a)** — creature idle ON by default. The overworld follower breathes while standing and bobs/squashes while walking (`src/overworld/creature_idle.js`, renderer `a.sq` scales from the feet). Battles use `anim/<id>_<side>_idle_2x.gif` instead of the still 128 PNG (`ui_sd.js cidleSrc`), and 459 back/front idle GIFs were added (~12MB). Off switch: `?cidle=0` (captured in alpha.js), and `prefers-reduced-motion` also turns it off. The 3 species with 160px forms keep the still. Probe: `tests/_cidle_smoke.mjs` (C1/C2, `CIDLE_ONLY=1`). Shots: `shots/creature_idle_v1/`.

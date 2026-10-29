@@ -61,7 +61,7 @@ export function installQolSkills(ui, sys, flags = qolFlags(ui.q || undefined)) {
     const reels = Object.keys(TEACH_ITEMS).filter((id) => sys.bag?.has(id));
     if (reels.length) out.push(['Teach from Reel' /* PH */, async () => {
       const j = await ui.ask('team', ['Use which Reel?'] /* PH */, [...reels.map((id) => sys.bag.nameOf(id)), 'Back'], { pat: 'dots' });
-      if (j < reels.length) await teachFlow(reels[j], c);
+      if (j >= 0 && j < reels.length) await teachFlow(reels[j], c);
     }]);
     return out;
   };
@@ -75,7 +75,7 @@ export function installQolSkills(ui, sys, flags = qolFlags(ui.q || undefined)) {
     if (!TEACH_ITEMS[id]) return false;
     const list = party(); if (!list.length) return true;
     const k = await ui.ask('pack', [`${sys.bag.nameOf(id)}: teach who?`] /* PH */, [...list.map((c) => `${displayName(c)} · ${canTeach(c, TEACH_ITEMS[id].skill) === 'ok' ? 'Can learn' : canTeach(c, TEACH_ITEMS[id].skill) === 'known' ? 'Knows it' : "Can't learn"}`), 'Back'], { pat: 'dots' });
-    if (k < list.length) await teachFlow(id, list[k]);
+    if (k >= 0 && k < list.length) await teachFlow(id, list[k]); // ask() gives -1 when closed
     return true;
   };
 }

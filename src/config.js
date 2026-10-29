@@ -22,7 +22,7 @@ export const CONFIG = Object.freeze({
   startFlags: [],
   buttonNames: { run_button: 'B', bike_button: 'Select' },
   // Dev start: outside the player's house in Brookhollow. The kit says "new-game spawn 2F" but gives no tile (README gap).
-  start: { map: 'brookhollow', x: 5, y: 8, facing: 'down' },
+  start: { map: 'brookhollow', x: 17, y: 15, facing: 'down' }, // padded frame (+12,+7; was 5,8 before the Oct 23 pad)
   closedPathText: 'The path ahead is closed.',
   // ---- soul pass (unapproved art: local only) ----
   playerName: 'Cal',
@@ -34,4 +34,18 @@ export const CONFIG = Object.freeze({
   warmthDir: 'art/characters/pixel/warmth/',
   timeOfDayDir: 'art/world/overworld/time_of_day/',
   grades: 'art/world/overworld/time_of_day/grades.json',
+  depth: 'src/overworld/depth.json',               // depth pass (contact shadows + wall-base shading), src/overworld/depth.js
+  // Optional, Gary's call (CODER_LIST.md item 5): keep palette greens lit at dusk/night inside the emissive mask on
+  // club_int + fernwick (club dance floor / sign). Default OFF. Dev preview: ?litgreens=1. src/overworld/lighting.js
+  litGreensAtNight: false,
+  // Night FX v1 (Gary, Oct 23 2026: window/lamp light at night, moonlight feel, moving clouds). src/overworld/nightfx.js.
+  // ON in dev and (v0.2.3, Gary Oct 23) in the alpha build too; the alpha ignores the URL flags. Per-device: profiles' nightFx block
+  // (pc.json / mobile.json: lightCell, clouds, flicker). Dev URL: ?nightfx=0|1 (all three), ?moonlight= ?nightlights= ?clouds=0|1.
+  nightFx: Object.freeze({ nightLights: true, moonlight: true, clouds: true }),
+  nightFxAnchors: 'src/overworld/nightfx_anchors.json', // coder-owned window/lamp light anchors (map files stay World Design's)
+  paletteHex: 'art/palette/kilumen.hex',                // locked 64-colour palette (moon map snaps to it)
 });
+
+// v0.2.16 (Gary): every trainer with battle lines who sees the player engages (no talk-only / optional trainers). false = map sight data only.
+export const ALL_TRAINERS_ENGAGE = true;
+export const DEFAULT_SIGHT_RANGE = 3;
