@@ -76,10 +76,9 @@
    ],
    "0.4.6": [
     "The Firefly (Fernwick juice bar): rebel_bouncer, rebel_bartender (juice and snack counter keeper, id unchanged), rebel_dj, rebel_patron_1-3, rebel_paint_vendor in unplaced_npcs (map club_int, text_pending). Back-room MISSING wall + location notes in unplaced.club_props. Side story 'The Missing Note' on rebel_dj. Ron gag pending (ron_in_party, ron_mode).",
-    "Items: pond_berry_juice, mossberry_shake, fern_mint_tea, firefly_shake in system_item_catalogue (effects pending, Coder); items.firefly_lantern (Missing Note reward).",
+    "Items: pond_plum_juice, mossplum_shake, fern_mint_tea, firefly_shake in system_item_catalogue (effects pending, Coder); items.firefly_lantern (Missing Note reward).",
     "Gary's juice-bar rule: BAN_DRINK in the validator (player text and names). Existing lines changed to pass: Small/Big/Energy Tonic -> Small Remedy / Big Remedy / Pep Remedy (ids unchanged), shop clerk 'tonics' -> 'remedies', Care pocket help, blackout copay 'on the house'.",
-    "World README 17.3: TV/bookcase anchors removed from unplaced.props (World reads map geometry now). Tile check also looks in the overlay layer (World depth pass, house_2f bed).",
-    "Items: pond_plum_juice, mossplum_shake, fern_mint_tea, firefly_shake in system_item_catalogue (effects pending, Coder); items.firefly_lantern (Missing Note reward)."
+    "World README 17.3: TV/bookcase anchors removed from unplaced.props (World reads map geometry now). Tile check also looks in the overlay layer (World depth pass, house_2f bed)."
    ],
    "0.4.5": [
     "World map pass (OVERWORLD_README 16-17): text checked for every new spot (TVs, bookcases, windows, lap_nap_seat at (2,4) facing up, cradle_1-3, aide at (10,6)). Geometry copied from interact_spots/text_pending.",
@@ -117,11 +116,10 @@
     "Remapped off retired maps: heal_centre_int.healer -> heal_brookhollow.heal_brookhollow_carer + heal_fernwick.heal_fernwick_carer; sofa + company_terminal -> both heal maps; house_int_b.bookcase_left/right -> home_brookhollow_b.bookcase / home_brookhollow_b_2f.shelf; house_int_b.scholar -> home_brookhollow_b.scholar; house_int_c.tv/parent_c/kid_c -> home_fernwick_a.tv / home_fernwick_a_parent / home_fernwick_a_2f.home_fernwick_a_kid. Every entry carries text_was.",
     "World's text_pending ids written (heal x2, homes H1-H4 + uniques, lab_brookhollow, rt_branch_backroom): World's drafts adopted where they fit (Bulletin, suggestion box, 'Field team? Sit, sit.'), the rest rewritten to page size, house tone and the shared-interior rules.",
     "Shared designs get per-town lines with when.zone (carer, technician, H1 owner, H2 hobbyist, H3 parent + kid, H4 hobbyist); defaults stay town-neutral.",
-    "New top-level 'unplaced': 5 window spots from retired maps, house_int_a.cook (Berry Snack, proposed for home_brookhollow_b_parent) and 7 TV/bookcase texts with proposed spots (geometry validated).",
+    "New top-level 'unplaced': 5 window spots from retired maps, house_int_a.cook (Mossplum Snack, proposed for home_brookhollow_b_parent) and 7 TV/bookcase texts with proposed spots (geometry validated).",
     "Wording: Heal Centre -> Revival Tech (route1 trainer, sofa 'Carer:', when-key note); KID_TV lines point upstairs (kid moved to 2F).",
     "Flags: has_branch_card and got_starter accepted as World flags (not in progression_flags yet).",
-    "Validator: phases from grades.json; retired maps must carry no text; text_pending ids need text; shared interiors: no town names outside zone lines, no recolour names, no room colours; indoor phase lines (progression.INDOOR_OR_CAVE) must not talk about light; zone lines on maps not listed in world_layout zones -> warning + meta.zone_wiring_todo; unplaced proposals checked. All new checks mutation-tested.",
-    "New top-level 'unplaced': 5 window spots from retired maps, house_int_a.cook (Mossplum Snack, proposed for home_brookhollow_b_parent) and 7 TV/bookcase texts with proposed spots (geometry validated)."
+    "Validator: phases from grades.json; retired maps must carry no text; text_pending ids need text; shared interiors: no town names outside zone lines, no recolour names, no room colours; indoor phase lines (progression.INDOOR_OR_CAVE) must not talk about light; zone lines on maps not listed in world_layout zones -> warning + meta.zone_wiring_todo; unplaced proposals checked. All new checks mutation-tested."
    ],
    "0.4.1": [
     "World soul-pass art (OVERWORLD_README 14): 9 window spots written (window_1/2 on house_1f, house_2f, house_int_b, house_int_c; window_1 on house_int_a), varied by phase dawn/day/dusk/night, hour 3 and story flags; prop_templates.window removed.",
@@ -261,7 +259,15 @@
    "{level}": "creature level",
    "{element}": "element display name",
    "{fare}": "rail/ferry fare incl. currency word (only if Gary picks paid travel)",
-   "{amount}": "money found in a purse, incl. currency word"
+   "{amount}": "money found in a purse, incl. currency word",
+   "{ron_partner_species}": "species name of Ron's partner creature",
+   "{ron_partner_line}": "containment line no. of Ron's partner species (origin reveal)",
+   "{dex_no}": "Kilindex number",
+   "{line}": "containment line no. of a species (origin reveal)",
+   "{facility}": "RT facility no. of a species (origin reveal)",
+   "{wins}": "hall trainers beaten in this hall (digits)",
+   "{left}": "hall trainer wins still needed (digits)",
+   "{prize}": "Master rematch prize, bare number (1200); text adds gold"
   },
   "proposed_flags": {
    "intro_new_game": "New game started through the opening (Coder intro.js). Cut A opening flags below are all set by code (design/HOME_START_TEXT_NEEDS.md).",
@@ -343,6 +349,7 @@
     "maps.heal_saltmere.company_terminal",
     "maps.heal_revival.company_terminal",
     "maps.heal_frostspire.company_terminal",
+    "maps.heal_aurelith.company_terminal",
     "maps.home_brookhollow_a.bookcase",
     "maps.home_brookhollow_b.home_brookhollow_b_parent",
     "maps.home_brookhollow_b.bookcase",
@@ -434,6 +441,7 @@
     "maps.heal_saltmere.heal_saltmere_carer",
     "maps.heal_revival.heal_revival_carer",
     "maps.heal_frostspire.heal_frostspire_carer",
+    "maps.heal_aurelith.heal_aurelith_carer",
     "maps.home_fernwick_a.home_fernwick_a_parent",
     "maps.home_fernwick_a_2f.home_fernwick_a_kid",
     "maps.mirefen_bog.mirefen_angler"
@@ -443,7 +451,8 @@
     "maps.heal_fernwick.suggestion_box",
     "maps.heal_saltmere.suggestion_box",
     "maps.heal_revival.suggestion_box",
-    "maps.heal_frostspire.suggestion_box"
+    "maps.heal_frostspire.suggestion_box",
+    "maps.heal_aurelith.suggestion_box"
    ],
    "signs": [
     "signs_awaiting_world_id"
@@ -456,6 +465,1130 @@
    "brookhollow.sign_bh_north (12,2 -> World cell, by proposed_id)",
    "brookhollow.sign_bh_barricade (29,11 -> World cell, by proposed_id)"
   ],
+  "pending_r78_interiors": {
+   "lanternport": {
+    "lanternport_practice_coach": {
+     "pages": [
+      "Lantern Catch! Lights fall, you\ncatch them. Dodge the sooty ones.",
+      "Practice is free. Keep to the drum\nbeat and the lights come to you."
+     ],
+     "kind": "coach",
+     "note": "opens the practice event (src/sports/town_events.js lantern_catch); same fields as dash_coach",
+     "status": "PARKED",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Lantern Catch! Lights fall, you\ncatch them. Dodge the sooty ones.",
+        "Practice is free. Keep to the drum\nbeat and the lights come to you."
+       ]
+      }
+     ]
+    },
+    "lanternport_pier_fisher": {
+     "pages": [
+      "Line's been in since sunrise.\nThe fish are being very polite about it.",
+      "Not one bite. They're waiting for\nme to give up. I won't."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Line's been in since sunrise.\nThe fish are being very polite about it.",
+        "Not one bite. They're waiting for\nme to give up. I won't."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "lanternport_stall_vendor": {
+     "pages": [
+      "Storm blew my awning clean off.\nFound it on the lighthouse rail!",
+      "Fruit's fine, though. Fruit always\nsurvives. Better than us."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Storm blew my awning clean off.\nFound it on the lighthouse rail!",
+        "Fruit's fine, though. Fruit always\nsurvives. Better than us."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "lanternport_sailmaker": {
+     "pages": [
+      "Every storm, the same holes.\nEvery morning, the same patches.",
+      "My stitches are stronger than the\ncloth now. Don't tell the cloth."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Every storm, the same holes.\nEvery morning, the same patches.",
+        "My stitches are stronger than the\ncloth now. Don't tell the cloth."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "lanternport_dock_worker": {
+     "pages": [
+      "Crates up, crates down. That's the\nharbour. Mind your toes.",
+      "Some come in damp and nobody\nclaims them. Odd, that."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Crates up, crates down. That's the\nharbour. Mind your toes.",
+        "Some come in damp and nobody\nclaims them. Odd, that."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "cindervale": {
+    "cindervale_practice_coach": {
+     "pages": [
+      "Forge Push! Get the cart up the\nramp to the furnace. Tap in time.",
+      "Practice is free. Push on the beat,\nnot the panic. The ramp wins ties."
+     ],
+     "kind": "coach",
+     "note": "opens the practice event (src/sports/town_events.js forge_push); same fields as dash_coach",
+     "status": "PARKED",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Forge Push! Get the cart up the\nramp to the furnace. Tap in time.",
+        "Practice is free. Push on the beat,\nnot the panic. The ramp wins ties."
+       ]
+      }
+     ]
+    },
+    "cindervale_ore_hauler": {
+     "pages": [
+      "Ten carts before lunch.\nMy back keeps a tally too.",
+      "The ore's warm when it comes up.\nLike it's been somewhere cosy."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Ten carts before lunch.\nMy back keeps a tally too.",
+        "The ore's warm when it comes up.\nLike it's been somewhere cosy."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "cindervale_apprentice": {
+     "pages": [
+      "Clang! Sorry. Practice.\nClang! Sorry again.",
+      "My teacher says one day the anvil\nwill sing. Today it just yells."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Clang! Sorry. Practice.\nClang! Sorry again.",
+        "My teacher says one day the anvil\nwill sing. Today it just yells."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "cindervale_stall_baker": {
+     "pages": [
+      "Bread baked in a forge oven.\nCrust like armour, soft as clouds.",
+      "The hall trainers buy it all.\nThey say it's warm-up food."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Bread baked in a forge oven.\nCrust like armour, soft as clouds.",
+        "The hall trainers buy it all.\nThey say it's warm-up food."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "cindervale_crystal_seller": {
+     "pages": [
+      "Polished ore, crystal charms.\nAll found right here in the hills.",
+      "Hold one to the light. See?\nEach one glows its own colour."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Polished ore, crystal charms.\nAll found right here in the hills.",
+        "Hold one to the light. See?\nEach one glows its own colour."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "heal_lanternport": {
+    "newsletter": {
+     "pages": [
+      "THE REVIVAL TECH BULLETIN, harbour:\n'Harbour branch stays open in storm!'",
+      "'Staff thank the mop. The mop\nhas asked for a raise.'"
+     ],
+     "status": "PARKED",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "THE REVIVAL TECH BULLETIN, harbour:\n'Harbour branch stays open in storm!'",
+        "'Staff thank the mop. The mop\nhas asked for a raise.'"
+       ]
+      }
+     ]
+    },
+    "suggestion_box": {
+     "pages": [
+      "SUGGESTION BOX (WATERPROOF)\n'Revival Tech hears every wave!'",
+      "Top card: 'Fewer gulls in here.'\nReply: 'The gulls are customers.'"
+     ],
+     "status": "PARKED",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "SUGGESTION BOX (WATERPROOF)\n'Revival Tech hears every wave!'",
+        "Top card: 'Fewer gulls in here.'\nReply: 'The gulls are customers.'"
+       ]
+      }
+     ]
+    },
+    "staff_door_locked": {
+     "pages": [
+      "STAFF ONLY. Branch Access Card\nrequired. Salt on the brass plate.",
+      "It's locked. Someone inside\nis humming a sea shanty."
+     ],
+     "status": "PARKED",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "STAFF ONLY. Branch Access Card\nrequired. Salt on the brass plate.",
+        "It's locked. Someone inside\nis humming a sea shanty."
+       ]
+      }
+     ]
+    },
+    "heal_lanternport_carer": {
+     "pages": [
+      "Welcome in, out of the spray.\nI'll look after your team.",
+      "Warm towels for everyone.\nEven the ones made of seaweed."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Welcome in, out of the spray.\nI'll look after your team.",
+        "Warm towels for everyone.\nEven the ones made of seaweed."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "heal_lanternport_technician": {
+     "pages": [
+      "Salt gets in the crystals here.\nI polish it out, every single one.",
+      "Bit of sea air never hurt anyone.\nBit of sea water, though..."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Salt gets in the crystals here.\nI polish it out, every single one.",
+        "Bit of sea air never hurt anyone.\nBit of sea water, though..."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "heal_lanternport_deckhand": {
+     "pages": [
+      "Fell off the quay. Twice.\nMy team pulled me out. Twice.",
+      "Least I can do is wait for them.\nWith a towel. Or three."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Fell off the quay. Twice.\nMy team pulled me out. Twice.",
+        "Least I can do is wait for them.\nWith a towel. Or three."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "company_terminal": {
+     "pages": [
+      "A company terminal. Storage and\ntasks, all in one place."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "A company terminal. Storage and\ntasks, all in one place."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "sofa": {
+     "pages": [
+      "A squashy sofa. Perfect for\na Lap Nap."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "A squashy sofa. Perfect for\na Lap Nap."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "anchor": {
+     "pages": [
+      "An old anchor from the town's\nfirst lifeboat. Kept for luck."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "An old anchor from the town's\nfirst lifeboat. Kept for luck."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "heal_cindervale": {
+    "newsletter": {
+     "pages": [
+      "THE REVIVAL TECH BULLETIN, forge ed.:\n'Cindervale hits polish target early!'",
+      "'Reminder: the crystal oven is\nNOT for toast. Thank you.'"
+     ],
+     "status": "PARKED",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "THE REVIVAL TECH BULLETIN, forge ed.:\n'Cindervale hits polish target early!'",
+        "'Reminder: the crystal oven is\nNOT for toast. Thank you.'"
+       ]
+      }
+     ]
+    },
+    "suggestion_box": {
+     "pages": [
+      "SUGGESTION BOX (FIREPROOF)\n'Your warmth fuels our service!'",
+      "Top card: 'Open a window?'\nReply: 'Windows are a cost centre.'"
+     ],
+     "status": "PARKED",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "SUGGESTION BOX (FIREPROOF)\n'Your warmth fuels our service!'",
+        "Top card: 'Open a window?'\nReply: 'Windows are a cost centre.'"
+       ]
+      }
+     ]
+    },
+    "staff_door_locked": {
+     "pages": [
+      "STAFF ONLY. Branch Access Card\nrequired. The handle is warm.",
+      "Locked. Behind it, something\nhisses, then a kettle clicks off."
+     ],
+     "status": "PARKED",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "STAFF ONLY. Branch Access Card\nrequired. The handle is warm.",
+        "Locked. Behind it, something\nhisses, then a kettle clicks off."
+       ]
+      }
+     ]
+    },
+    "heal_cindervale_carer": {
+     "pages": [
+      "Come in, cool down.\nI'll take good care of your team.",
+      "Soot-proof sleeves. Best thing\nthe foundry ever gave me."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Come in, cool down.\nI'll take good care of your team.",
+        "Soot-proof sleeves. Best thing\nthe foundry ever gave me."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "heal_cindervale_technician": {
+     "pages": [
+      "Heat cracks crystals if you rush.\nSo I don't rush. Ever.",
+      "Slow and even. Like good bread.\nOr a good nap."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Heat cracks crystals if you rush.\nSo I don't rush. Ever.",
+        "Slow and even. Like good bread.\nOr a good nap."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "heal_cindervale_smith": {
+     "pages": [
+      "Singed my glove grabbing a hot\ntong. My team grabbed me.",
+      "They're getting looked after now.\nI'm getting a new glove."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Singed my glove grabbing a hot\ntong. My team grabbed me.",
+        "They're getting looked after now.\nI'm getting a new glove."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "company_terminal": {
+     "pages": [
+      "A company terminal. Storage and\ntasks, all in one place."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "A company terminal. Storage and\ntasks, all in one place."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "sofa": {
+     "pages": [
+      "A sofa, warm from the forge wall.\nLap Nap ready."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "A sofa, warm from the forge wall.\nLap Nap ready."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "shop_lanternport": {
+    "shop_lanternport_clerk": {
+     "pages": [
+      "Rope, lamps, oilskins and more.\nAll sea-tested. What'll it be?"
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Rope, lamps, oilskins and more.\nAll sea-tested. What'll it be?"
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "shop_lanternport_sailor": {
+     "pages": [
+      "This rope or that rope?\nThey're both rope. I know.",
+      "But one of them will hold in\na gale. Choosing is everything."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "This rope or that rope?\nThey're both rope. I know.",
+        "But one of them will hold in\na gale. Choosing is everything."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "fishing_rods": {
+     "pages": [
+      "Rods for hire. A note says:\n\"Bring them back. With or without fish.\""
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Rods for hire. A note says:\n\"Bring them back. With or without fish.\""
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "shop_cindervale": {
+    "shop_cindervale_clerk": {
+     "pages": [
+      "Gloves, gear, and grit.\nEverything for the foundry life."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Gloves, gear, and grit.\nEverything for the foundry life."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "shop_cindervale_miner": {
+     "pages": [
+      "Stocking up for the slag tunnels.\nThey're hotter than they look.",
+      "Spare boots, spare gloves,\nspare courage. Two of each."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Stocking up for the slag tunnels.\nThey're hotter than they look.",
+        "Spare boots, spare gloves,\nspare courage. Two of each."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "tool_rack": {
+     "pages": [
+      "Tongs and hammers, freshly made.\nStill a little warm."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Tongs and hammers, freshly made.\nStill a little warm."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "home_lanternport_a": {
+    "home_lanternport_a_keeper": {
+     "pages": [
+      "Forty years on the lighthouse.\nI still log the weather daily.",
+      "Wind east, sky grey, sea grumpy.\nSame as yesterday. Lovely."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Forty years on the lighthouse.\nI still log the weather daily.",
+        "Wind east, sky grey, sea grumpy.\nSame as yesterday. Lovely."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "telescope": {
+     "pages": [
+      "A brass telescope, aimed at the\nlighthouse. The lamp winks back."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "A brass telescope, aimed at the\nlighthouse. The lamp winks back."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "logbook": {
+     "pages": [
+      "Shelves of weather logbooks.\n\"Windy\" appears a great deal."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Shelves of weather logbooks.\n\"Windy\" appears a great deal."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "home_lanternport_b": {
+    "home_lanternport_b_mender": {
+     "pages": [
+      "One hole, then another, then\nthe whole net. Story of my life.",
+      "Mend a net, feed a family.\nMend it badly, feed the fish."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "One hole, then another, then\nthe whole net. Story of my life.",
+        "Mend a net, feed a family.\nMend it badly, feed the fish."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "net": {
+     "pages": [
+      "A half-mended net, the shuttle\nstill tucked in the knot."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "A half-mended net, the shuttle\nstill tucked in the knot."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "radio": {
+     "pages": [
+      "The harbour radio. Tide times,\nover and over. Oddly soothing."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "The harbour radio. Tide times,\nover and over. Oddly soothing."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "home_lanternport_d": {
+    "home_lanternport_d_parent": {
+     "pages": [
+      "Morning catch, straight to the\npan. Smells good, doesn't it?",
+      "Mind the kid. They'll tell you\nall about the lighthouse."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Morning catch, straight to the\npan. Smells good, doesn't it?",
+        "Mind the kid. They'll tell you\nall about the lighthouse."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "home_lanternport_d_kid": {
+     "pages": [
+      "I'm gonna be a lighthouse keeper!\nI'll keep ALL the boats safe.",
+      "I practise every night.\nWith a torch. Under the blanket."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "I'm gonna be a lighthouse keeper!\nI'll keep ALL the boats safe.",
+        "I practise every night.\nWith a torch. Under the blanket."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "home_lanternport_e": {
+    "home_lanternport_e_captain": {
+     "pages": [
+      "That storm? I've seen worse.\nOnce. Maybe twice. Hm.",
+      "The trick is to keep the lamp lit\nand your hat on. Both matter."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "That storm? I've seen worse.\nOnce. Maybe twice. Hm.",
+        "The trick is to keep the lamp lit\nand your hat on. Both matter."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "ship_wheel": {
+     "pages": [
+      "The wheel from the captain's last\nboat. Polished smooth by hands."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "The wheel from the captain's last\nboat. Polished smooth by hands."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "trophy_case": {
+     "pages": [
+      "Regatta cups and a framed chart.\nOne cup is a bit dented. Proudly."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Regatta cups and a framed chart.\nOne cup is a bit dented. Proudly."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "home_cindervale_a": {
+    "home_cindervale_a_smith": {
+     "pages": [
+      "Home for lunch. Apron stays on.\nSaves time. Ruins chairs.",
+      "Ten minutes, then back to the\nforge. It misses me, I'm sure."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Home for lunch. Apron stays on.\nSaves time. Ruins chairs.",
+        "Ten minutes, then back to the\nforge. It misses me, I'm sure."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "home_cindervale_a_kid": {
+     "pages": [
+      "Tink! Tink! Tink! I'm making\na sword. Well, a spoon.",
+      "When I'm big, I'll make\nreal ones. Big spoons."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Tink! Tink! Tink! I'm making\na sword. Well, a spoon.",
+        "When I'm big, I'll make\nreal ones. Big spoons."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "tool_rack": {
+     "pages": [
+      "Spare hammers by the door.\nOne is very small. Kid-sized."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Spare hammers by the door.\nOne is very small. Kid-sized."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "home_cindervale_b": {
+    "home_cindervale_b_miner": {
+     "pages": [
+      "This one's from tunnel three.\nThis one's from tunnel four.",
+      "They look the same to you?\nThey're cousins, not twins."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "This one's from tunnel three.\nThis one's from tunnel four.",
+        "They look the same to you?\nThey're cousins, not twins."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "ore_cart": {
+     "pages": [
+      "A cart of ore samples, each\nlabelled with its tunnel."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "A cart of ore samples, each\nlabelled with its tunnel."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "home_cindervale_c": {
+    "home_cindervale_c_potter": {
+     "pages": [
+      "Glazing jars. Steady hands.\nNo sneezing. That's the secret.",
+      "Fire makes the colour. Each jar\ncomes out different. I love that."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Glazing jars. Steady hands.\nNo sneezing. That's the secret.",
+        "Fire makes the colour. Each jar\ncomes out different. I love that."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    },
+    "jars": {
+     "pages": [
+      "Glazed jars drying on the shelf.\nNo two the same colour."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Glazed jars drying on the shelf.\nNo two the same colour."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "pending Gary"
+    }
+   },
+   "route_fernwick_lanternport": {
+    "route_fernwick_lanternport_trainer_5": {
+     "pages": [
+      "Captain Wren Halyard, at your service.\nI've sailed every storm on this coast.",
+      "Let's see if you can weather me."
+     ],
+     "battle_lost": [
+      "Ha! Out-sailed on dry land."
+     ],
+     "after": [
+      "Lanternport's just ahead. Tell the\nharbour Wren sends her best."
+     ],
+     "trainer_class": "Captain",
+     "name": "Wren Halyard",
+     "note": "road trainer 5 (r78 interiors), DRAFT pending Gary",
+     "status": "PARKED"
+    }
+   }
+  },
+  "pending_caves_r78": {
+   "lanternport": {
+    "lanternport_grotto_sign": {
+     "pages": [
+      "Lanternport Grotto",
+      "Under the lighthouse. Mind the drips."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Lanternport Grotto",
+        "Under the lighthouse. Mind the drips."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    }
+   },
+   "lanternport_grotto": {
+    "lanternport_grotto_tidewatcher": {
+     "pages": [
+      "Forty years I've kept the keeper's lamps lit down here.",
+      "The sea likes a bit of light. So do I."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Forty years I've kept the keeper's lamps lit down here.",
+        "The sea likes a bit of light. So do I."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    },
+    "lanternport_grotto_keeper_lamps": {
+     "pages": [
+      "The keeper's lanterns. Freshly trimmed and glowing.",
+      "Someone still looks after these every night."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "The keeper's lanterns. Freshly trimmed and glowing.",
+        "Someone still looks after these every night."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    },
+    "lanternport_grotto_nets": {
+     "pages": [
+      "Fishing nets, hung up to dry.",
+      "A tiny crab is living in one. It looks proud."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Fishing nets, hung up to dry.",
+        "A tiny crab is living in one. It looks proud."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    },
+    "_trainers": {
+     "lines": {
+      "trainer_1": [
+       "The crates wash up here. So do I, most days.",
+       "Let's see what the tide brought you!"
+      ],
+      "trainer_2": [
+       "Something glows down here, and it isn't me.",
+       "Battle first, spooky stuff later!"
+      ]
+     },
+     "status": "PARKED",
+     "note": "WD placed no cave trainers"
+    }
+   },
+   "cindervale": {
+    "cindervale_caldera_sign": {
+     "pages": [
+      "Cindervale Caldera",
+      "Old slag tunnels. Hot floors, cool rocks."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Cindervale Caldera",
+        "Old slag tunnels. Hot floors, cool rocks."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    }
+   },
+   "cindervale_caldera": {
+    "cindervale_caldera_smelter": {
+     "pages": [
+      "Thirty years at the smelter. Retired now.",
+      "The rocks still wave at me. Some of them walk."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Thirty years at the smelter. Retired now.",
+        "The rocks still wave at me. Some of them walk."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    },
+    "cindervale_caldera_sign": {
+     "pages": [
+      "CALDERA NOTICE: Keep off the slag channel.",
+      "Use the bridges. Your boots will thank you."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "CALDERA NOTICE: Keep off the slag channel.",
+        "Use the bridges. Your boots will thank you."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    },
+    "cindervale_caldera_old_forge": {
+     "pages": [
+      "A cold forge and a dented anvil.",
+      "Hard to believe this place used to roar."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "A cold forge and a dented anvil.",
+        "Hard to believe this place used to roar."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    },
+    "cindervale_caldera_ore_cart": {
+     "pages": [
+      "An old ore cart on the north rail.",
+      "It's stuck fast. Probably for the best."
+     ],
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "An old ore cart on the north rail.",
+        "It's stuck fast. Probably for the best."
+       ]
+      }
+     ],
+     "status": "PARKED",
+     "note": "map/spot not on this tree yet"
+    },
+    "_trainers": {
+     "lines": {
+      "trainer_1": [
+       "The foundry dumped its slag here for years.",
+       "Now the rocks walk around. Wanna see?"
+      ],
+      "trainer_2": [
+       "It's warm in here all year. Great for naps.",
+       "Terrible for losing. Let's go!"
+      ]
+     },
+     "status": "PARKED",
+     "note": "WD placed no cave trainers"
+    }
+   }
+  },
   "club_moved": [
    "unplaced_npcs.rebel_bouncer -> maps.club_int.rebel_bouncer",
    "unplaced_npcs.rebel_bartender -> maps.club_int.rebel_bartender",
@@ -1218,6 +2351,12 @@
    "tiers": "pick the last tier whose min <= value (Kilindex caught count, Croft Warmth)",
    "placeholders": "every page is width-checked with the longest sample of each placeholder (system_lines.SAMPLES)"
   },
+  "zone_wiring_todo": {
+   "_note": "World: add these maps to world_layout zones[<zone>].maps so the when.zone lines can fire (until then they stay silent and the neutral default shows). 2F maps also need Coder: zone() should follow $return to the outdoor map.",
+   "saltmere": [
+    "home_saltmere_a"
+   ]
+  },
   "when_key_audit": {
    "_note": "Every when / trigger_when key used in this file vs Coder's picker (src/overworld/lines.js whenMatches, dev/overworld-v1). Unknown keys never match there.",
    "supported_by_picker": [
@@ -1242,12 +2381,12 @@
     "facing": 1,
     "hour": 6,
     "idle_after_heal_s": 3,
-    "lead_has_nickname": 9,
+    "lead_has_nickname": 10,
     "lead_type": 1,
     "once": 11,
     "once_per_day": 4,
     "party_nickname": 1,
-    "phase": 65,
+    "phase": 66,
     "slept": 1,
     "standing_still_s": 3,
     "weekday": 1,
@@ -1264,19 +2403,514 @@
   },
   "spare_maps": {
    "_note": "Maps World keeps as spares until a town needs them (8:20 PM CT). Their text is parked under maps.<map> as usual (ids match the map file) and passes every check; no door leads there, which is expected, not an error.",
-   "station_int": "World 8:20 PM CT: spare until a town needs a station (no door leads here). Text parked, kept valid; rail_only paths in its text_refs resolve to the same entries.",
-   "home_saltmere_a": "World 8:20 PM CT: spare until Saltmere is built (no door leads here). Text parked, kept valid; its zone lines are not a wiring todo while spare.",
-   "_zone_lines_parked": {
-    "home_saltmere_a": [
-     "saltmere"
-    ]
+   "station_int": "World 8:20 PM CT: spare until a town needs a station (no door leads here). Text parked, kept valid; rail_only paths in its text_refs resolve to the same entries."
+  },
+  "pending_lighthouse_spots": {
+   "lanternport_lighthouse_int": {
+    "lanternport_lighthouse_int_stairs_up": {
+     "pages": [
+      "Spiral stairs, worn smooth in the\nmiddle. Up and up they go.",
+      "Somewhere above, a lamp is turning.\nCan you hear it hum?"
+     ],
+     "note": "lighthouse climb flavour, PROPOSED id: floor maps have no signs/spots yet; Coder to add spot. DRAFT pending Gary"
+    },
+    "lanternport_lighthouse_int_logbook": {
+     "pages": [
+      "KEEPER'S LOG, page one:\n'Storm. Lamp held. Kettle did not.'"
+     ],
+     "note": "lighthouse climb flavour, PROPOSED id: floor maps have no signs/spots yet; Coder to add spot. DRAFT pending Gary"
+    }
+   },
+   "lanternport_lighthouse_f2": {
+    "lanternport_lighthouse_f2_window": {
+     "pages": [
+      "A round window. The harbour's\nalready small down there.",
+      "Gulls wheel past at eye level.\nOne looks impressed."
+     ],
+     "note": "lighthouse climb flavour, PROPOSED id: floor maps have no signs/spots yet; Coder to add spot. DRAFT pending Gary"
+    },
+    "lanternport_lighthouse_f2_stairs_up": {
+     "pages": [
+      "More stairs. The wind whistles\nthrough the gaps. Keep climbing."
+     ],
+     "note": "lighthouse climb flavour, PROPOSED id: floor maps have no signs/spots yet; Coder to add spot. DRAFT pending Gary"
+    }
+   },
+   "lanternport_lighthouse_f3": {
+    "lanternport_lighthouse_f3_window": {
+     "pages": [
+      "The whole coast, laid out like a\nmap. The sea goes on forever.",
+      "Your legs say stop.\nThe lamp says nearly there."
+     ],
+     "note": "lighthouse climb flavour, PROPOSED id: floor maps have no signs/spots yet; Coder to add spot. DRAFT pending Gary"
+    },
+    "lanternport_lighthouse_f3_stairs_up": {
+     "pages": [
+      "Last flight. Warm light spills\ndown from the lamp room above."
+     ],
+     "note": "lighthouse climb flavour, PROPOSED id: floor maps have no signs/spots yet; Coder to add spot. DRAFT pending Gary"
+    }
+   },
+   "_map_names": {
+    "lanternport_lighthouse_int": "Lighthouse 1F",
+    "lanternport_lighthouse_f2": "Lighthouse 2F",
+    "lanternport_lighthouse_f3": "Lighthouse 3F"
    }
   },
-  "zone_wiring_todo": {
-   "_note": "World: add these maps to world_layout zones[<zone>].maps so the when.zone lines can fire (until then they stay silent and the neutral default shows). 2F maps also need Coder: zone() should follow $return to the outdoor map.",
-   "saltmere": [
-    "home_saltmere_a"
-   ]
+  "pending_hall_trainers": {
+   "_note": "spot ids not in maps/<hall>.json on this tree yet; adopted automatically when they appear",
+   "fernwick_hall_int": {
+    "fernwick_hall_int_h3": {
+     "pages": [
+      "Dig in, newbie. Earth doesn't rush.\nNeither do I.",
+      "Well. Bit of rushing. Ready?"
+     ],
+     "battle_lost": [
+      "Buried. Fair and square."
+     ],
+     "after": [
+      "Soft ground gives. Hard ground holds.\nFind the hard ground."
+     ],
+     "name": "Mabyn",
+     "trainer_class": "Hall Trainee",
+     "note": "hall trainer h3 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   },
+   "saltmere_hall_int": {
+    "saltmere_hall_int_h4": {
+     "pages": [
+      "Tide's coming in. So am I.",
+      "Hope you packed a towel."
+     ],
+     "battle_lost": [
+      "Washed out. Happens to the best."
+     ],
+     "after": [
+      "The pans fill in order.\nWatch which one fills last."
+     ],
+     "name": "Maud",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   },
+   "revival_hall_int": {
+    "revival_hall_int_h5": {
+     "pages": [
+      "Hold still. You're in my light.",
+      "...Now you're in my battle."
+     ],
+     "battle_lost": [
+      "Dazzled. By you. How rude."
+     ],
+     "after": [
+      "Follow where the light lands,\nnot where it starts."
+     ],
+     "name": "Cressida",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   },
+   "frostspire_hall_int": {
+    "frostspire_hall_int_h4": {
+     "pages": [
+      "Feel that draught? That's us.\nWe're the draught."
+     ],
+     "battle_lost": [
+      "Blown away. Literally, almost."
+     ],
+     "after": [
+      "The wind here always comes back.\nTime your steps to it."
+     ],
+     "name": "Solveig",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "frostspire_hall_int_h5": {
+     "pages": [
+      "I climbed up here on foot.\nThe birds laughed. Let's battle."
+     ],
+     "battle_lost": [
+      "The birds are laughing again."
+     ],
+     "after": [
+      "Stand where the gusts cross\nand you'll go nowhere fast."
+     ],
+     "name": "Torvald",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "frostspire_hall_int_h6": {
+     "pages": [
+      "High up, cold, very windy.\nI love it. Can you tell?"
+     ],
+     "battle_lost": [
+      "Brr. That one stung."
+     ],
+     "after": [
+      "The Master reads the wind first,\nthe challenger second."
+     ],
+     "name": "Ingrid",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   },
+   "mirefen_hall_int": {
+    "mirefen_hall_int_h4": {
+     "pages": [
+      "Squelch! Sorry. That was me.\nBoots full of bog. Battle anyway?"
+     ],
+     "battle_lost": [
+      "Squelched. Properly this time."
+     ],
+     "after": [
+      "Bubbles mean solid ground below.\nNo bubbles, no footing."
+     ],
+     "name": "Tilda",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "mirefen_hall_int_h5": {
+     "pages": [
+      "Swamp folk are patient.\nI've waited all day for this."
+     ],
+     "battle_lost": [
+      "Worth the wait. Mostly."
+     ],
+     "after": [
+      "Reeds bend toward the safe path.\nTrust the reeds."
+     ],
+     "name": "Barnaby",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "mirefen_hall_int_h6": {
+     "pages": [
+      "Don't mind the frogs. They judge,\nbut quietly."
+     ],
+     "battle_lost": [
+      "The frogs are judging me now."
+     ],
+     "after": [
+      "The Master never steps in the same\npuddle twice. Neither should you."
+     ],
+     "name": "Imelda",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "mirefen_hall_int_h7": {
+     "pages": [
+      "I've stood in this bog so long,\nthe moss thinks I'm a post."
+     ],
+     "battle_lost": [
+      "Uprooted. Fair enough."
+     ],
+     "after": [
+      "Moss grows on the dry side.\nFollow the moss, keep your boots."
+     ],
+     "name": "Halden",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   },
+   "tidewater_hall_int": {
+    "tidewater_hall_int_h5": {
+     "pages": [
+      "I surf every morning.\nToday I surf you."
+     ],
+     "battle_lost": [
+      "Wiped out. Gnarly, though."
+     ],
+     "after": [
+      "Every wave has a gap.\nCount three, then go."
+     ],
+     "name": "Linnea",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "tidewater_hall_int_h6": {
+     "pages": [
+      "Big swell today. Bigger battle.\nShell up!"
+     ],
+     "battle_lost": [
+      "Shell's cracked. Spirit's not."
+     ],
+     "after": [
+      "The Master waits for the low tide.\nThen moves fast."
+     ],
+     "name": "Fergal",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "tidewater_hall_int_h7": {
+     "pages": [
+      "I count waves for fun.\nYou're wave number one hundred."
+     ],
+     "battle_lost": [
+      "Wave one hundred broke me."
+     ],
+     "after": [
+      "Big waves come in sevens.\nRest on the small ones."
+     ],
+     "name": "Perrin",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "tidewater_hall_int_h8": {
+     "pages": [
+      "My crab carries my lunch.\nWin, and it's still my lunch."
+     ],
+     "battle_lost": [
+      "Lunch survives. My pride doesn't."
+     ],
+     "after": [
+      "Jory's calm as still water.\nThat's the scary part."
+     ],
+     "name": "Senna",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   },
+   "lanternport_lighthouse_int": {
+    "lanternport_hall_int_h1": {
+     "pages": [
+      "Lit every lamp in this town for thirty years. Never this one."
+     ],
+     "battle_lost": [
+      "Still never lit it."
+     ],
+     "after": [
+      "Long beam, short beam. Write it down if you need to. I did."
+     ],
+     "name": "Gil",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer tr_hall_lanternport_h1 (masters.json order h1); overnight hall draft, DRAFT pending Gary",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "Lit every lamp in this town for thirty years. Never this one."
+       ]
+      }
+     ]
+    },
+    "lanternport_hall_int_h2": {
+     "pages": [
+      "People say this place is haunted. It is. They're friendly."
+     ],
+     "battle_lost": [
+      "Friendly, not strong. Noted."
+     ],
+     "after": [
+      "Each floor uses the same four colours. The order changes."
+     ],
+     "name": "Hana",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer tr_hall_lanternport_h2 (masters.json order h2); overnight hall draft, DRAFT pending Gary",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "People say this place is haunted. It is. They're friendly."
+       ]
+      }
+     ]
+    },
+    "lanternport_hall_int_guide": {
+     "pages": [
+      "The lens flashes long and short beams through four coloured panes.",
+      "Each floor has four lamps in those colours. Light them in that order.",
+      "Get it wrong and they go out. No harm done. The ghosts find it funny."
+     ],
+     "note": "stationary hall guide; overnight hall draft",
+     "lines": [
+      {
+       "id": "default",
+       "flags": [],
+       "pages": [
+        "The lens flashes long and short beams through four coloured panes.",
+        "Each floor has four lamps in those colours. Light them in that order.",
+        "Get it wrong and they go out. No harm done. The ghosts find it funny."
+       ]
+      }
+     ]
+    }
+   },
+   "lanternport_lighthouse_f2": {
+    "lanternport_hall_int_h7": {
+     "pages": [
+      "I knit scarves for the ghosts.\nThey never say thank you."
+     ],
+     "battle_lost": [
+      "Unravelled. Like my last scarf."
+     ],
+     "after": [
+      "Cold spots mean company.\nFriendly company, mostly."
+     ],
+     "name": "Rosalind",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "lanternport_hall_int_h8": {
+     "pages": [
+      "The lighthouse beam passes every\nten seconds. So do my wins."
+     ],
+     "battle_lost": [
+      "Missed a beat. Or ten."
+     ],
+     "after": [
+      "Count the beam's turns.\nThe dark gaps are your chance."
+     ],
+     "name": "Nyssa",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   },
+   "lanternport_lighthouse_f3": {
+    "lanternport_hall_int_h9": {
+     "pages": [
+      "Shh. The lanterns are listening.\nThey love a good battle."
+     ],
+     "battle_lost": [
+      "The lanterns clapped. For you."
+     ],
+     "after": [
+      "Delphine talks to every lantern.\nThey always answer kindly."
+     ],
+     "name": "Jessamy",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "lanternport_hall_int_h10": {
+     "pages": [
+      "Delphine's just up those steps.\nI've been practising my spooky face."
+     ],
+     "battle_lost": [
+      "Not spooky enough, apparently."
+     ],
+     "after": [
+      "Delphine's spirits fight gently,\nthen all at once. Be ready."
+     ],
+     "name": "Delwyn",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   },
+   "cindervale_hall_int": {
+    "cindervale_hall_int_h5": {
+     "pages": [
+      "Hot in here? I hadn't noticed.\nI never notice. I'm a forge."
+     ],
+     "battle_lost": [
+      "Cooled off. Briefly. Tragic."
+     ],
+     "after": [
+      "Metal tells you when it's ready.\nListen for the ring."
+     ],
+     "name": "Rasmus",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "cindervale_hall_int_h6": {
+     "pages": [
+      "Nearly at the Master!\nI've warmed up. Literally."
+     ],
+     "battle_lost": [
+      "Toasted. Lightly. Fair enough."
+     ],
+     "after": [
+      "Brannock respects a quick strike\nwhile the iron's still glowing."
+     ],
+     "name": "Effie",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "cindervale_hall_int_h7": {
+     "pages": [
+      "Sparks in my hair again.\nOccupational hazard. Let's go!"
+     ],
+     "battle_lost": [
+      "Singed. Mostly my eyebrows."
+     ],
+     "after": [
+      "Hot floors cool in order.\nWatch the glow fade, then step."
+     ],
+     "name": "Branwen",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "cindervale_hall_int_h8": {
+     "pages": [
+      "I sweep the ash every hour.\nIt comes right back. Like me."
+     ],
+     "battle_lost": [
+      "Swept away. Ironic."
+     ],
+     "after": [
+      "Ash settles where the air is still.\nStill air, safe path."
+     ],
+     "name": "Merrit",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "cindervale_hall_int_h9": {
+     "pages": [
+      "My bellows wheeze when I'm excited.\nListen. They're wheezing."
+     ],
+     "battle_lost": [
+      "Out of puff. Me and the bellows."
+     ],
+     "after": [
+      "The bellows push heat down the hall.\nRide the cool gust after."
+     ],
+     "name": "Esme",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "cindervale_hall_int_h10": {
+     "pages": [
+      "I make kettles. Unbreakable ones.\nLet's test that theory."
+     ],
+     "battle_lost": [
+      "Dented. The kettle's fine, though."
+     ],
+     "after": [
+      "Good metal rings clear.\nA dull clang means wait."
+     ],
+     "name": "Clem",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "cindervale_hall_int_h11": {
+     "pages": [
+      "Ten years at the anvil.\nMy arms are basically hammers."
+     ],
+     "battle_lost": [
+      "Hammered. By you. Respect."
+     ],
+     "after": [
+      "Brannock tests every blade twice.\nHe'll test you the same."
+     ],
+     "name": "Gideon",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h11 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    },
+    "cindervale_hall_int_h12": {
+     "pages": [
+      "Brannock's right behind me.\nI've kept the forge warm for you."
+     ],
+     "battle_lost": [
+      "Cooled off. You're the hot one now."
+     ],
+     "after": [
+      "Brannock never rushes a pour.\nWait for his tell, then strike."
+     ],
+     "name": "Hesper",
+     "trainer_class": "Hall Helper",
+     "note": "hall trainer h12 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary"
+    }
+   }
   }
  },
  "_proposed_names": {
@@ -1551,6 +3185,24 @@
       "pages": [
        "Survey in progress. East road's closed to unregistered trainers.",
        "Bring me the Fernwick Master's coin. Yes, even if you work here."
+      ]
+     }
+    ]
+   },
+   "dash_coach": {
+    "pages": [
+     "Dash Track's open! Practice is free, so lace up and give it a go.",
+     "Tournament every three days. Bring your fastest friend!"
+    ],
+    "kind": "coach",
+    "note": "by the Dash Track gate (50,28); talk opens the dash venue (src/sports)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Dash Track's open! Practice is free, so lace up and give it a go.",
+       "Tournament every three days. Bring your fastest friend!"
       ]
      }
     ]
@@ -1880,25 +3532,7 @@
      }
     ]
    },
-   "area_name": "Brookhollow",
-   "dash_coach": {
-    "pages": [
-     "Dash Track's open! Practice is free, so lace up and give it a go.",
-     "Tournament every three days. Bring your fastest friend!"
-    ],
-    "kind": "coach",
-    "note": "by the Dash Track gate (50,28); talk opens the dash venue (src/sports)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Dash Track's open! Practice is free, so lace up and give it a go.",
-       "Tournament every three days. Bring your fastest friend!"
-      ]
-     }
-    ]
-   }
+   "area_name": "Brookhollow"
   },
   "house_2f": {
    "player_start": {
@@ -2532,7 +4166,7 @@
       ],
       "soul_item": "1",
       "pages": [
-       "Storm warning for the coast road. Stay indoors.",
+       "Storm warning for the Coast Road. Stay indoors.",
        "Two hikers missing near Frostspire. Revival Tech declined to comment."
       ]
      },
@@ -2789,7 +4423,6 @@
      }
     ]
    },
-   "area_name": "Home",
    "ron_home_after_lanternport": {
     "pages": [
      "Ron: Coin 7! Did the lighthouse ghosts cheer?",
@@ -2833,7 +4466,8 @@
       "flags": []
      }
     ]
-   }
+   },
+   "area_name": "Home"
   },
   "office_int": {
    "receptionist": {
@@ -4145,22 +5779,7 @@
      }
     ]
    },
-   "area_name": "Fernwick Master's Hall",
-   "fernwick_hall_int_h3": {
-    "pages": [
-     "Dig in, newbie. Earth doesn't rush.\nNeither do I.",
-     "Well. Bit of rushing. Ready?"
-    ],
-    "battle_lost": [
-     "Buried. Fair and square."
-    ],
-    "after": [
-     "Soft ground gives. Hard ground holds.\nFind the hard ground."
-    ],
-    "name": "Mabyn",
-    "trainer_class": "Hall Trainee",
-    "note": "hall trainer h3 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   }
+   "area_name": "Fernwick Master's Hall"
   },
   "thornwood": {
    "trainer_tw_bug": {
@@ -5848,14 +7467,6 @@
       ]
      },
      {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Cold crystals crack if you polish them too fast.",
-       "So I go slow. Management calls it a thaw cycle."
-      ]
-     },
-     {
       "id": "tech_frostwick",
       "flags": [],
       "when": {
@@ -5864,6 +7475,14 @@
       "pages": [
        "Out on the pass at dusk? Look for a blue flame.",
        "That's a Frostwick. It drips icicles, not wax."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Cold crystals crack if you polish them too fast.",
+       "So I go slow. Management calls it a thaw cycle."
       ]
      }
     ]
@@ -6073,6 +7692,245 @@
     ]
    },
    "area_name": "Revival Tech, Frostspire"
+  },
+  "heal_aurelith": {
+   "heal_aurelith_carer": {
+    "pages": [
+     "Welcome to Revival Tech, Aurelith branch. Our flagship.",
+     "Marble floors, the good chairs. Want me to rest your team?"
+    ],
+    "after_heal": [
+     "All rested. Flagship polish, at no extra charge.",
+     "Do come again. We'll keep your chair warm."
+    ],
+    "declined": [
+     "Of course. We'll be here. We are always here."
+    ],
+    "text_was": "maps.heal_centre_int.healer",
+    "lines": [
+     {
+      "id": "healer_lead",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "when": {
+       "lead_has_nickname": true
+      },
+      "soul_item": "8",
+      "pages": [
+       "Welcome back. {lead} again?",
+       "It always looks a bit smug after a rest. Want me to rest your team?"
+      ]
+     },
+     {
+      "id": "carer_coin",
+      "flags": [
+       "beat_master_fernwick",
+       "beat_master_cindervale",
+       "beat_master_lanternport",
+       "beat_master_saltmere",
+       "beat_master_mirefen",
+       "beat_master_frostspire",
+       "beat_master_tidewater",
+       "beat_master_revival"
+      ],
+      "pages": [
+       "Eight coins, in the capital! Mind the photographers.",
+       "Want me to rest your team?"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to Revival Tech, Aurelith branch. Our flagship.",
+       "Marble floors, the good chairs. Want me to rest your team?"
+      ]
+     }
+    ]
+   },
+   "heal_aurelith_technician": {
+    "pages": [
+     "The capital machines run hot. Watch the flames.",
+     "They don't burn. They just like to show off."
+    ],
+    "lines": [
+     {
+      "id": "tech_night",
+      "flags": [],
+      "when": {
+       "phase": "night"
+      },
+      "pages": [
+       "Late shift. The flames go blue around midnight.",
+       "Head office says that's normal. Head office is asleep."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The capital machines run hot. Watch the flames.",
+       "They don't burn. They just like to show off."
+      ]
+     }
+    ]
+   },
+   "heal_aurelith_storage_user": {
+    "pages": [
+     "Biggest branch in the country, and still a queue.",
+     "My first catch is asset 2. I asked who's asset 1. Silence."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Biggest branch in the country, and still a queue.",
+       "My first catch is asset 2. I asked who's asset 1. Silence."
+      ]
+     }
+    ]
+   },
+   "heal_aurelith_visitor": {
+    "pages": [
+     "I came in from the station just to watch the machine.",
+     "Nobody back home believes me about the fire."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "I came in from the station just to watch the machine.",
+       "Nobody back home believes me about the fire."
+      ]
+     }
+    ]
+   },
+   "suggestion_box": {
+    "pages": [
+     "SUGGESTION BOX (SOLID BRASS)\n'Your Capital Branch Values You!'",
+     "Top card: 'Fewer pigeons in the lobby.' Reply: 'No.'"
+    ],
+    "lines": [
+     {
+      "id": "box_crystal",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "soul_item": "8.2e",
+      "pages": [
+       "A suggestion's been pinned up: 'Why are the crystals violet?'",
+       "Reply, in neat pen: 'Great question!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX (SOLID BRASS)\n'Your Capital Branch Values You!'",
+       "Top card: 'Fewer pigeons in the lobby.' Reply: 'No.'"
+      ]
+     }
+    ]
+   },
+   "newsletter": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, capital edition:",
+     "'Flagship sets polish record!' Page two is still soup."
+    ],
+    "lines": [
+     {
+      "id": "bulletin_final",
+      "flags": [
+       "finale_done"
+      ],
+      "pending_story_call": true,
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, final issue:",
+       "'Under New Management: Us.'"
+      ]
+     },
+     {
+      "id": "bulletin_eight",
+      "flags": [
+       "all_badges"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Field staff earns all eight coins. HR asks: how?'"
+      ]
+     },
+     {
+      "id": "bulletin_hq",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'HQ thanks field staff for record catalogue numbers.'"
+      ]
+     },
+     {
+      "id": "bulletin_coin",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'One of our own wins a coin! Parking space pending.'"
+      ]
+     },
+     {
+      "id": "bulletin_field",
+      "flags": [
+       "flg_promoted"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Two of our own head into the field. Wish them luck!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, capital edition:",
+       "'Flagship sets polish record!' Page two is still soup."
+      ]
+     }
+    ]
+   },
+   "company_terminal": {
+    "kind": "prop",
+    "x": 12,
+    "y": 4,
+    "stand": [
+     11,
+     4
+    ],
+    "face": "right",
+    "tile": "i_company_terminal",
+    "soul_item": "1",
+    "pages": [
+     "Revival Tech terminal, flagship model. Gold trim.",
+     "Storage, company tasks, sell orders. Same login, fancier font."
+    ],
+    "text_was": "maps.heal_centre_int.company_terminal",
+    "note": "opens storage / company tasks; the company inbox is shared with maps.house_2f.pc",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Revival Tech terminal, flagship model. Gold trim.",
+       "Storage, company tasks, sell orders. Same login, fancier font."
+      ]
+     }
+    ]
+   },
+   "area_name": "Revival Tech, Aurelith"
   },
   "home_brookhollow_a": {
    "home_brookhollow_a_owner": {
@@ -6652,7 +8510,7 @@
       ],
       "soul_item": "1",
       "pages": [
-       "The news. Storm on the coast road, hikers missing up north.",
+       "The news. Storm on the Coast Road, hikers missing up north.",
        "Upstairs, the kid groans. They wanted the cartoon."
       ]
      },
@@ -7725,15 +9583,12 @@
      "Juices, teas and shakes. I'm somebody's aunt."
     ],
     "stock": [
-     "pond_berry_juice",
-     "mossberry_shake",
-     "fern_mint_tea",
-     "firefly_shake",
      "pond_plum_juice",
-     "mossplum_shake"
+     "mossplum_shake",
+     "fern_mint_tea",
+     "firefly_shake"
     ],
     "pages": [
-     "Your {lead} looks thirsty. Pond Berry Juice should sort that out.",
      "Your {lead} looks thirsty. Pond Plum Juice should sort that out."
     ],
     "lines": [
@@ -7771,7 +9626,6 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "Your {lead} looks thirsty. Pond Berry Juice should sort that out.",
        "Your {lead} looks thirsty. Pond Plum Juice should sort that out."
       ]
      }
@@ -8755,7 +10609,7 @@
    "route_east_sign": {
     "pages": [
      "EAST ROAD\nAhead: Aurelith (arrivals by rail only).",
-     "South: the coast road to Tidewater."
+     "South: the Coast Road to Tidewater."
     ],
     "lines": [
      {
@@ -8763,7 +10617,7 @@
       "flags": [],
       "pages": [
        "EAST ROAD\nAhead: Aurelith (arrivals by rail only).",
-       "South: the coast road to Tidewater."
+       "South: the Coast Road to Tidewater."
       ]
      }
     ]
@@ -8999,7 +10853,6 @@
      }
     ]
    },
-   "area_name": "Aurelith",
    "aurelith_commuter": {
     "pages": [
      "Trains every hour, on the hour.\nThe capital doesn't do sleep.",
@@ -9305,7 +11158,8 @@
       ]
      }
     ]
-   }
+   },
+   "area_name": "Aurelith"
   },
   "route_aurelith_saltmere": {
    "route_aurelith_saltmere_trainer_1": {
@@ -9908,22 +11762,7 @@
      }
     ]
    },
-   "area_name": "Saltmere Master's Hall",
-   "saltmere_hall_int_h4": {
-    "pages": [
-     "Tide's coming in. So am I.",
-     "Hope you packed a towel."
-    ],
-    "battle_lost": [
-     "Washed out. Happens to the best."
-    ],
-    "after": [
-     "The pans fill in order.\nWatch which one fills last."
-    ],
-    "name": "Maud",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   }
+   "area_name": "Saltmere Master's Hall"
   },
   "route_revival": {
    "route_revival_trainer_1": {
@@ -10582,22 +12421,7 @@
      }
     ]
    },
-   "area_name": "Revival Heights Hall",
-   "revival_hall_int_h5": {
-    "pages": [
-     "Hold still. You're in my light.",
-     "...Now you're in my battle."
-    ],
-    "battle_lost": [
-     "Dazzled. By you. How rude."
-    ],
-    "after": [
-     "Follow where the light lands,\nnot where it starts."
-    ],
-    "name": "Cressida",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   }
+   "area_name": "Revival Heights Hall"
   },
   "route_revival_saltmere": {
    "route_revival_saltmere_trainer_1": {
@@ -11358,49 +13182,7 @@
      }
     ]
    },
-   "area_name": "Frostspire Master's Hall",
-   "frostspire_hall_int_h4": {
-    "pages": [
-     "Feel that draught? That's us.\nWe're the draught."
-    ],
-    "battle_lost": [
-     "Blown away. Literally, almost."
-    ],
-    "after": [
-     "The wind here always comes back.\nTime your steps to it."
-    ],
-    "name": "Solveig",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "frostspire_hall_int_h5": {
-    "pages": [
-     "I climbed up here on foot.\nThe birds laughed. Let's battle."
-    ],
-    "battle_lost": [
-     "The birds are laughing again."
-    ],
-    "after": [
-     "Stand where the gusts cross\nand you'll go nowhere fast."
-    ],
-    "name": "Torvald",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "frostspire_hall_int_h6": {
-    "pages": [
-     "High up, cold, very windy.\nI love it. Can you tell?"
-    ],
-    "battle_lost": [
-     "Brr. That one stung."
-    ],
-    "after": [
-     "The Master reads the wind first,\nthe challenger second."
-    ],
-    "name": "Ingrid",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   }
+   "area_name": "Frostspire Master's Hall"
   },
   "sunmeadow_fields": {
    "sunmeadow_fields_trainer_1": {
@@ -12117,14 +13899,6 @@
     "kind": "villager",
     "lines": [
      {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Mirefen's built on stilts. Grandad built ours. It leans left.",
-       "So do we, now."
-      ]
-     },
-     {
       "id": "mf_keycard",
       "flags": [
        "rt_keycard_r5"
@@ -12156,6 +13930,14 @@
        "Grandad says it's fine. Grandad's not in it."
       ],
       "status": "DRAFT"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Mirefen's built on stilts. Grandad built ours. It leans left.",
+       "So do we, now."
+      ]
      }
     ]
    },
@@ -12246,15 +14028,11 @@
     "coin_name": "Reed Coin",
     "name_status": "DRAFT, pending Gary (name + coin name)",
     "note": "Master Wenna Peat (master_mirefen); win sets beat_master_mirefen. Overnight hall draft (drafts/overnight/halls_mirefen.md); after_2 + soul lines DRAFT (Text Bot Oct 29 2026, regions 5-6 pass)",
+    "after_2": [
+     "My gran ran this hall on stilts and stubbornness.",
+     "I've only ever replaced the stilts."
+    ],
     "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Folk call the bog dirty. It's honest. Everything in it is busy.",
-       "Same as my team. Come on, then."
-      ]
-     },
      {
       "id": "wenna_storm",
       "flags": [
@@ -12277,11 +14055,15 @@
        "The bog's loud. So am I. Come on, then."
       ],
       "status": "DRAFT"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Folk call the bog dirty. It's honest. Everything in it is busy.",
+       "Same as my team. Come on, then."
+      ]
      }
-    ],
-    "after_2": [
-     "My gran ran this hall on stilts and stubbornness.",
-     "I've only ever replaced the stilts."
     ]
    },
    "mirefen_hall_int_h1": {
@@ -12449,63 +14231,7 @@
      }
     ]
    },
-   "area_name": "Mirefen Master's Hall",
-   "mirefen_hall_int_h4": {
-    "pages": [
-     "Squelch! Sorry. That was me.\nBoots full of bog. Battle anyway?"
-    ],
-    "battle_lost": [
-     "Squelched. Properly this time."
-    ],
-    "after": [
-     "Bubbles mean solid ground below.\nNo bubbles, no footing."
-    ],
-    "name": "Tilda",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "mirefen_hall_int_h5": {
-    "pages": [
-     "Swamp folk are patient.\nI've waited all day for this."
-    ],
-    "battle_lost": [
-     "Worth the wait. Mostly."
-    ],
-    "after": [
-     "Reeds bend toward the safe path.\nTrust the reeds."
-    ],
-    "name": "Barnaby",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "mirefen_hall_int_h6": {
-    "pages": [
-     "Don't mind the frogs. They judge,\nbut quietly."
-    ],
-    "battle_lost": [
-     "The frogs are judging me now."
-    ],
-    "after": [
-     "The Master never steps in the same\npuddle twice. Neither should you."
-    ],
-    "name": "Imelda",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "mirefen_hall_int_h7": {
-    "pages": [
-     "I've stood in this bog so long,\nthe moss thinks I'm a post."
-    ],
-    "battle_lost": [
-     "Uprooted. Fair enough."
-    ],
-    "after": [
-     "Moss grows on the dry side.\nFollow the moss, keep your boots."
-    ],
-    "name": "Halden",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   }
+   "area_name": "Mirefen Master's Hall"
   },
   "route_coast": {
    "route_coast_trainer_1": {
@@ -12516,10 +14242,11 @@
      "Back in the water for me."
     ],
     "after": [
-     "The coast road floods every spring. This year it didn't stop."
+     "The Coast Road floods every spring. This year it didn't stop."
     ],
     "trainer_class": "Reef Swimmer",
     "name": "Gwen",
+    "gd_id": "tr_route_coast_a",
     "note": "overnight draft (drafts/overnight/route_brookhollow_tidewater.md), DRAFT pending Gary",
     "lines": [
      {
@@ -12543,6 +14270,7 @@
     ],
     "trainer_class": "Harbour Hand",
     "name": "Heath",
+    "gd_id": "tr_route_coast_b",
     "note": "overnight draft (drafts/overnight/route_brookhollow_tidewater.md), DRAFT pending Gary",
     "lines": [
      {
@@ -12566,6 +14294,7 @@
     ],
     "trainer_class": "Birdwatcher",
     "name": "Ines",
+    "gd_id": "tr_route_coast_c",
     "note": "overnight draft (drafts/overnight/route_brookhollow_tidewater.md), DRAFT pending Gary",
     "lines": [
      {
@@ -12589,6 +14318,7 @@
     ],
     "trainer_class": "Angler",
     "name": "Jarrah",
+    "gd_id": "tr_route_coast_d",
     "note": "overnight draft (drafts/overnight/route_brookhollow_tidewater.md), DRAFT pending Gary",
     "lines": [
      {
@@ -12612,6 +14342,7 @@
     ],
     "trainer_class": "Skater",
     "name": "Kestrel",
+    "gd_id": "tr_route_coast_e",
     "note": "overnight draft (drafts/overnight/route_brookhollow_tidewater.md), DRAFT pending Gary",
     "lines": [
      {
@@ -12635,6 +14366,7 @@
     ],
     "trainer_class": "Reef Swimmer",
     "name": "Linnet",
+    "gd_id": "tr_route_coast_f",
     "note": "overnight draft (drafts/overnight/route_brookhollow_tidewater.md), DRAFT pending Gary",
     "lines": [
      {
@@ -12851,19 +14583,11 @@
    },
    "tidewater_coast_villager_1": {
     "pages": [
-     "The coast road's under water half the year.",
+     "The Coast Road's under water half the year.",
      "We get our post by boat. When the boat feels like it."
     ],
     "kind": "villager",
     "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "The coast road's under water half the year.",
-       "We get our post by boat. When the boat feels like it."
-      ]
-     },
      {
       "id": "tc_coin",
       "flags": [
@@ -12885,6 +14609,14 @@
        "Lights under the water at night. Gives me the shivers."
       ],
       "status": "DRAFT"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The Coast Road's under water half the year.",
+       "We get our post by boat. When the boat feels like it."
+      ]
      }
     ]
    },
@@ -12896,14 +14628,6 @@
     "kind": "villager",
     "lines": [
      {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Swim between the flags. And not in the grotto. And not at dusk.",
-       "Honestly, just paddle."
-      ]
-     },
-     {
       "id": "tc_glide",
       "flags": [
        "has_tideglide"
@@ -12913,6 +14637,14 @@
        "And {lead} stays between them too."
       ],
       "status": "DRAFT"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Swim between the flags. And not in the grotto. And not at dusk.",
+       "Honestly, just paddle."
+      ]
      }
     ]
    },
@@ -13011,15 +14743,11 @@
     "coin_name": "Undertow Coin",
     "name_status": "DRAFT, pending Gary (name + coin name)",
     "note": "Master Jory Swell (master_tidewater_coast); win sets beat_master_tidewater. Overnight hall draft (drafts/overnight/halls_tidewater_coast.md); after_2 + soul lines DRAFT (Text Bot Oct 29 2026, regions 5-6 pass)",
+    "after_2": [
+     "Forty years I've watched this bay. Never once the same.",
+     "That's why I stay. Go on, it's waiting for you."
+    ],
     "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Calm water lies. Down here, the pull's always going somewhere.",
-       "Let's see if your team keeps its footing."
-      ]
-     },
      {
       "id": "jory_storm",
       "flags": [
@@ -13042,11 +14770,15 @@
        "Let's see if you notice it before it's at your knees."
       ],
       "status": "DRAFT"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Calm water lies. Down here, the pull's always going somewhere.",
+       "Let's see if your team keeps its footing."
+      ]
      }
-    ],
-    "after_2": [
-     "Forty years I've watched this bay. Never once the same.",
-     "That's why I stay. Go on, it's waiting for you."
     ]
    },
    "tidewater_hall_int_h1": {
@@ -13240,65 +14972,43 @@
      }
     ]
    },
-   "area_name": "Tidewater Master's Hall",
-   "tidewater_hall_int_h5": {
-    "pages": [
-     "I surf every morning.\nToday I surf you."
-    ],
-    "battle_lost": [
-     "Wiped out. Gnarly, though."
-    ],
-    "after": [
-     "Every wave has a gap.\nCount three, then go."
-    ],
-    "name": "Linnea",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "tidewater_hall_int_h6": {
-    "pages": [
-     "Big swell today. Bigger battle.\nShell up!"
-    ],
-    "battle_lost": [
-     "Shell's cracked. Spirit's not."
-    ],
-    "after": [
-     "The Master waits for the low tide.\nThen moves fast."
-    ],
-    "name": "Fergal",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "tidewater_hall_int_h7": {
-    "pages": [
-     "I count waves for fun.\nYou're wave number one hundred."
-    ],
-    "battle_lost": [
-     "Wave one hundred broke me."
-    ],
-    "after": [
-     "Big waves come in sevens.\nRest on the small ones."
-    ],
-    "name": "Perrin",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "tidewater_hall_int_h8": {
-    "pages": [
-     "My crab carries my lunch.\nWin, and it's still my lunch."
-    ],
-    "battle_lost": [
-     "Lunch survives. My pride doesn't."
-    ],
-    "after": [
-     "Jory's calm as still water.\nThat's the scary part."
-    ],
-    "name": "Senna",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   }
+   "area_name": "Tidewater Master's Hall"
   },
   "lanternport": {
+   "lanternport_ron_5": {
+    "pages": [
+     "The neighbour left a note about the bins.",
+     "I'm choosing to battle you instead, {nick}."
+    ],
+    "battle_lost": [
+     "Yeah. You'd have won with or without this.",
+     "Hang on. Before you go."
+    ],
+    "battle_won": [
+     "Don't read into it.",
+     "I'll be around, {nick}. I've got something for you."
+    ],
+    "after": [
+     "Found this in a lost-and-found box at the station. Revival Tech paper.",
+     "I read it. Then I thought about keeping it. Then I didn't."
+    ],
+    "after_2": [
+     "No job, remember? So I'm not doing this for the company.",
+     "I'm doing it because they're ours. Same as you."
+    ],
+    "opener": "ron_battle_openers.ron_rival_lanternport",
+    "note": "Ron battle (GD ron_5); the existing opener ron_rival_lanternport plays first, then these pages. DRAFT, pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The neighbour left a note about the bins.",
+       "I'm choosing to battle you instead, {nick}."
+      ]
+     }
+    ]
+   },
    "lanternport_trainer_1": {
     "pages": [
      "End of the pier's my office. Today it's a battlefield."
@@ -13404,42 +15114,7 @@
      }
     ]
    },
-   "area_name": "Lanternport",
-   "lanternport_grotto_sign": {
-    "pages": [
-     "Lanternport Grotto",
-     "Under the lighthouse. Mind the drips."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Lanternport Grotto",
-       "Under the lighthouse. Mind the drips."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026); key renamed by Text Bot to match WD sign id"
-   },
-   "lanternport_lighthouse_door": {
-    "pages": [
-     "The lighthouse door. Locked tight,\nsalt crusted on the hinges.",
-     "Somewhere above, the lamp turns\nand turns. Not today, though."
-    ],
-    "status": "DRAFT",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "The lighthouse door. Locked tight,\nsalt crusted on the hinges.",
-       "Somewhere above, the lamp turns\nand turns. Not today, though."
-      ]
-     }
-    ],
-    "note": "Text Bot r78 interior line (DRAFT, Oct 29 2026); pulled from _meta.pending_r78_interiors"
-   }
+   "area_name": "Lanternport"
   },
   "lanternport_hall_int": {
    "lanternport_hall_int_master": {
@@ -13526,6 +15201,29 @@
       "flags": [],
       "pages": [
        "People say this place is haunted. It is. They're friendly."
+      ]
+     }
+    ]
+   },
+   "lanternport_hall_int_h3": {
+    "pages": [
+     "Top floor's the darkest. You'll want to look at the sea."
+    ],
+    "battle_lost": [
+     "Go on, then. Look at the sea."
+    ],
+    "after": [
+     "The code's in the water. The reflection, not the waves."
+    ],
+    "name": "Iska",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer tr_hall_lanternport_h3 (masters.json order h3); overnight hall draft, DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Top floor's the darkest. You'll want to look at the sea."
       ]
      }
     ]
@@ -13641,106 +15339,7 @@
      }
     ]
    },
-   "area_name": "Lighthouse Lamp Room",
-   "lanternport_hall_int_h4": {
-    "pages": [
-     "Boo! ...No? Tough crowd.",
-     "Fine. We'll do it the hard way."
-    ],
-    "battle_lost": [
-     "I'd go pale, but I'm already pale."
-    ],
-    "after": [
-     "Some lanterns flicker on purpose.\nWatch which ones stay steady."
-    ],
-    "name": "Cosima",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "lanternport_hall_int_h5": {
-    "pages": [
-     "They call me Iggy. The spirits\ncall me... also Iggy."
-    ],
-    "battle_lost": [
-     "Spooked. Thoroughly."
-    ],
-    "after": [
-     "Shadows here point the wrong way.\nFollow the shadow, not the lamp."
-    ],
-    "name": "Ignatius",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "lanternport_hall_int_h6": {
-    "pages": [
-     "I tell ghost stories for a living.\nThis is the scary bit."
-    ],
-    "battle_lost": [
-     "Ending's a bit sad, isn't it?"
-    ],
-    "after": [
-     "The Master's lantern never goes\nout. Find the light that lasts."
-    ],
-    "name": "Dulcie",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "lanternport_hall_int_h7": {
-    "pages": [
-     "I knit scarves for the ghosts.\nThey never say thank you."
-    ],
-    "battle_lost": [
-     "Unravelled. Like my last scarf."
-    ],
-    "after": [
-     "Cold spots mean company.\nFriendly company, mostly."
-    ],
-    "name": "Rosalind",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "lanternport_hall_int_h8": {
-    "pages": [
-     "The lighthouse beam passes every\nten seconds. So do my wins."
-    ],
-    "battle_lost": [
-     "Missed a beat. Or ten."
-    ],
-    "after": [
-     "Count the beam's turns.\nThe dark gaps are your chance."
-    ],
-    "name": "Nyssa",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "lanternport_hall_int_h9": {
-    "pages": [
-     "Shh. The lanterns are listening.\nThey love a good battle."
-    ],
-    "battle_lost": [
-     "The lanterns clapped. For you."
-    ],
-    "after": [
-     "Delphine talks to every lantern.\nThey always answer kindly."
-    ],
-    "name": "Jessamy",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "lanternport_hall_int_h10": {
-    "pages": [
-     "Delphine's just up those steps.\nI've been practising my spooky face."
-    ],
-    "battle_lost": [
-     "Not spooky enough, apparently."
-    ],
-    "after": [
-     "Delphine's spirits fight gently,\nthen all at once. Be ready."
-    ],
-    "name": "Delwyn",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   }
+   "area_name": "Lighthouse Lamp Room"
   },
   "route_fernwick_lanternport": {
    "route_fernwick_lanternport_trainer_1": {
@@ -14219,24 +15818,7 @@
      }
     ]
    },
-   "area_name": "Cindervale",
-   "cindervale_caldera_sign": {
-    "pages": [
-     "Cindervale Caldera",
-     "Old slag tunnels. Hot floors, cool rocks."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Cindervale Caldera",
-       "Old slag tunnels. Hot floors, cool rocks."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026); key renamed by Text Bot to match WD sign id"
-   }
+   "area_name": "Cindervale"
   },
   "cindervale_hall_int": {
    "cindervale_hall_int_master": {
@@ -14510,520 +16092,7 @@
      }
     ]
    },
-   "area_name": "The Forge",
-   "cindervale_hall_int_h5": {
-    "pages": [
-     "Hot in here? I hadn't noticed.\nI never notice. I'm a forge."
-    ],
-    "battle_lost": [
-     "Cooled off. Briefly. Tragic."
-    ],
-    "after": [
-     "Metal tells you when it's ready.\nListen for the ring."
-    ],
-    "name": "Rasmus",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "cindervale_hall_int_h6": {
-    "pages": [
-     "Last one before the Master!\nI've warmed up. Literally."
-    ],
-    "battle_lost": [
-     "Toasted. Lightly. Fair enough."
-    ],
-    "after": [
-     "Brannock respects a quick strike\nwhile the iron's still glowing."
-    ],
-    "name": "Effie",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
-   },
-   "cindervale_hall_int_h7": {
-    "pages": [
-     "Sparks in my hair again.\nOccupational hazard. Let's go!"
-    ],
-    "battle_lost": [
-     "Singed. Mostly my eyebrows."
-    ],
-    "after": [
-     "Hot floors cool in order.\nWatch the glow fade, then step."
-    ],
-    "name": "Branwen",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "cindervale_hall_int_h8": {
-    "pages": [
-     "I sweep the ash every hour.\nIt comes right back. Like me."
-    ],
-    "battle_lost": [
-     "Swept away. Ironic."
-    ],
-    "after": [
-     "Ash settles where the air is still.\nStill air, safe path."
-    ],
-    "name": "Merrit",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "cindervale_hall_int_h9": {
-    "pages": [
-     "My bellows wheeze when I'm excited.\nListen. They're wheezing."
-    ],
-    "battle_lost": [
-     "Out of puff. Me and the bellows."
-    ],
-    "after": [
-     "The bellows push heat down the hall.\nRide the cool gust after."
-    ],
-    "name": "Esme",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "cindervale_hall_int_h10": {
-    "pages": [
-     "I make kettles. Unbreakable ones.\nLet's test that theory."
-    ],
-    "battle_lost": [
-     "Dented. The kettle's fine, though."
-    ],
-    "after": [
-     "Good metal rings clear.\nA dull clang means wait."
-    ],
-    "name": "Clem",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "cindervale_hall_int_h11": {
-    "pages": [
-     "Ten years at the anvil.\nMy arms are basically hammers."
-    ],
-    "battle_lost": [
-     "Hammered. By you. Respect."
-    ],
-    "after": [
-     "Brannock tests every blade twice.\nHe'll test you the same."
-    ],
-    "name": "Gideon",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h11 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   },
-   "cindervale_hall_int_h12": {
-    "pages": [
-     "Brannock's right behind me.\nI've kept the forge warm for you."
-    ],
-    "battle_lost": [
-     "Cooled off. You're the hot one now."
-    ],
-    "after": [
-     "Brannock never rushes a pour.\nWait for his tell, then strike."
-    ],
-    "name": "Hesper",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h12 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   }
-  },
-  "station_int": {
-   "rail_buffer": {
-    "kind": "prop",
-    "x": 19,
-    "y": 3,
-    "stand": [
-     19,
-     4
-    ],
-    "face": "up",
-    "tile": "x_rail_buffer",
-    "world_prop": {
-     "tile": "handcar_locked",
-     "x": 18,
-     "y": 3,
-     "states": {
-      "locked": "handcar_locked",
-      "new_padlock": "handcar_new_padlock"
-     },
-     "state_rule": "new_padlock after beat_master_frostspire (E8 line); always locked + empty"
-    },
-    "soul_item": "15:E8",
-    "pages": [
-     "An old handcar, chained to the buffer stop.",
-     "It's locked."
-    ],
-    "note": "handcar_locked at (18,3); handcar_new_padlock after beat_master_frostspire (world_prop)",
-    "lines": [
-     {
-      "id": "e8_never",
-      "flags": [
-       "beat_aurelith_arena"
-      ],
-      "soul_item": "15:E8",
-      "pages": [
-       "It was never going anywhere."
-      ]
-     },
-     {
-      "id": "e8_oiled",
-      "flags": [
-       "beat_master_lanternport"
-      ],
-      "soul_item": "15:E8",
-      "pages": [
-       "Someone's oiled the hinges.",
-       "It's still locked."
-      ]
-     },
-     {
-      "id": "e8_padlock",
-      "flags": [
-       "beat_master_frostspire"
-      ],
-      "soul_item": "15:E8",
-      "pages": [
-       "A brand-new padlock. Same old handcar."
-      ]
-     },
-     {
-      "id": "e8_still",
-      "flags": [
-       "has_rail_pass"
-      ],
-      "soul_item": "15:E8",
-      "pages": [
-       "Still locked."
-      ]
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "An old handcar, chained to the buffer stop.",
-       "It's locked."
-      ]
-     }
-    ]
-   },
-   "station_clerk": {
-    "pages": [
-     "Welcome to the Lumen Line. Where are you headed?"
-    ],
-    "no_pass": [
-     "You'll need a Lumen Line pass. We sell them at Revival Heights Central."
-    ],
-    "confirm": [
-     "Next train to {city} leaves in a minute. Go on."
-    ],
-    "after": [
-     "Mind the gap. And the guy selling 'lucky crystals'. He's not licensed."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Welcome to the Lumen Line. Where are you headed?"
-      ]
-     }
-    ]
-   },
-   "station_traveller": {
-    "pages": [
-     "You used to be able to just fly in.",
-     "Then somebody landed on the Council roof. Now we all take the train."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "You used to be able to just fly in.",
-       "Then somebody landed on the Council roof. Now we all take the train."
-      ]
-     }
-    ]
-   },
-   "restricted_airspace": {
-    "pages": [
-     "GOVERNMENT RESTRICTED AIRSPACE\nArrivals by rail only."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "GOVERNMENT RESTRICTED AIRSPACE\nArrivals by rail only."
-      ]
-     }
-    ]
-   },
-   "timetable": {
-    "pages": [
-     "LUMEN LINE DEPARTURES\nEvery 20 minutes, give or take.",
-     "Stops: Saltmere, Lanternport, Revival Heights, Aurelith."
-    ],
-    "note": "stops = rail towns in progression.py TOWNS; confirm list with World. Replaces the old rail_only.signs.sign_platform text ('Government restricted airspace: arrivals by rail only.' / 'Lumen Line, platform 1.'), which the restricted_airspace board already says",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "LUMEN LINE DEPARTURES\nEvery 20 minutes, give or take.",
-       "Stops: Saltmere, Lanternport, Revival Heights, Aurelith."
-      ]
-     }
-    ]
-   },
-   "area_name": "Lumen Line"
-  },
-  "mirefen_bog": {
-   "mirefen_angler": {
-    "pages": [
-     "Fish? In this bog? No. I just like the quiet.",
-     "Stay on the boards. The mud takes boots and doesn't give them back."
-    ],
-    "lines": [
-     {
-      "id": "angler_glide",
-      "flags": [
-       "has_tideglide"
-      ],
-      "soul_item": "8",
-      "pages": [
-       "Saw you crossing on {lead}. The frogs were furious."
-      ]
-     },
-     {
-      "id": "angler_storm",
-      "flags": [
-       "storm_season"
-      ],
-      "soul_item": "8",
-      "pages": [
-       "Storm's got the whole bog stirred up.",
-       "Even the frogs went home."
-      ]
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Fish? In this bog? No. I just like the quiet.",
-       "Stay on the boards. The mud takes boots and doesn't give them back."
-      ]
-     }
-    ]
-   },
-   "mirefen_sign": {
-    "pages": [
-     "MIREFEN BOG\nStay on the boardwalk.",
-     "Narrow boards are bikes only. Lights over the water are not a path."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "MIREFEN BOG\nStay on the boardwalk.",
-       "Narrow boards are bikes only. Lights over the water are not a path."
-      ]
-     }
-    ]
-   },
-   "area_name": "Mirefen Bog"
-  },
-  "lantern_rest": {
-   "keeper": {
-    "pages": [
-     "This lantern holds the spark of my old friend.",
-     "Folk come here to sit. You can too. No rush.",
-     "The blank stone? That's for the field team. Until they come home."
-    ],
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "keeper_home",
-      "flags": [
-       "field_team_home"
-      ],
-      "soul_item": "14",
-      "pages": [
-       "Didn't need it. Best kind of stone to lose."
-      ],
-      "story_ruling": "STORY_RULINGS_SOUL #14"
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "This lantern holds the spark of my old friend.",
-       "Folk come here to sit. You can too. No rush.",
-       "The blank stone? That's for the field team. Until they come home."
-      ]
-     }
-    ]
-   },
-   "stone_1": {
-    "pages": [
-     "MARTA OLLEN & PIP\nWalked every morning. Both of them."
-    ],
-    "soul_item": "14",
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "MARTA OLLEN & PIP\nWalked every morning. Both of them."
-      ]
-     }
-    ]
-   },
-   "stone_2": {
-    "pages": [
-     "TOMAS REED & SORREL\nHe fished. She ate the fish. Fair trade."
-    ],
-    "soul_item": "14",
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "TOMAS REED & SORREL\nHe fished. She ate the fish. Fair trade."
-      ]
-     }
-    ]
-   },
-   "stone_3": {
-    "pages": [
-     "AUNTIE BEA & DUMPLING\nKept the kettle on for the whole street."
-    ],
-    "soul_item": "14",
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "AUNTIE BEA & DUMPLING\nKept the kettle on for the whole street."
-      ]
-     }
-    ]
-   },
-   "stone_4": {
-    "pages": [
-     "JONAH WEST & MOSS\nLost every race. Never once minded."
-    ],
-    "soul_item": "14",
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "JONAH WEST & MOSS\nLost every race. Never once minded."
-      ]
-     }
-    ]
-   },
-   "stone_5": {
-    "pages": [
-     "IRIS KANE & TALLOW\nShe read aloud. He pretended to listen."
-    ],
-    "soul_item": "14",
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "IRIS KANE & TALLOW\nShe read aloud. He pretended to listen."
-      ]
-     }
-    ]
-   },
-   "stone_6": {
-    "pages": [
-     "OLD HAL & CINDER\nFixed every roof in Fernwick.",
-     "Cinder supervised."
-    ],
-    "soul_item": "14",
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "OLD HAL & CINDER\nFixed every roof in Fernwick.",
-       "Cinder supervised."
-      ]
-     }
-    ]
-   },
-   "stone_7": {
-    "pages": [
-     "NELL ASHBY & BRAMBLE\nTaught half the town to swim.",
-     "Bramble taught the other half."
-    ],
-    "soul_item": "14",
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "NELL ASHBY & BRAMBLE\nTaught half the town to swim.",
-       "Bramble taught the other half."
-      ]
-     }
-    ]
-   },
-   "stone_8": {
-    "pages": [
-     "DESMOND PRICE & OTTO\nSang off-key at every wedding.",
-     "Otto howled along."
-    ],
-    "soul_item": "14",
-    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "DESMOND PRICE & OTTO\nSang off-key at every wedding.",
-       "Otto howled along."
-      ]
-     }
-    ]
-   },
-   "stone_blank": {
-    "pages": [
-     "An uncarved stone. Someone keeps the moss off it."
-    ],
-    "lines": [
-     {
-      "id": "bench",
-      "flags": [
-       "field_team_home"
-      ],
-      "soul_item": "14",
-      "pages": [
-       "A small bench where the blank stone used to be.",
-       "It's warm from the sun."
-      ],
-      "story_ruling": "STORY_RULINGS_SOUL #14",
-      "note": "map flag_swaps: memorial_stone_blank -> memorial_bench"
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "An uncarved stone. Someone keeps the moss off it."
-      ]
-     }
-    ]
-   },
-   "area_name": "Lantern Rest"
+   "area_name": "The Forge"
   },
   "aurelith_galleria_1f_int": {
    "aurelith_galleria_clerk_1": {
@@ -15541,255 +16610,426 @@
    },
    "area_name": "Aurelith Terminal"
   },
-  "lanternport_grotto": {
-   "lanternport_grotto_tidewatcher": {
+  "home_aurelith_flat": {
+   "home_aurelith_flat_resident": {
     "pages": [
-     "Forty years I've kept the keeper's lamps lit down here.",
-     "The sea likes a bit of light. So do I."
+     "Small flat, great view of the canal.\nEstate agent called it 'bijou'.",
+     "That means 'small'. I've measured.\nStill, the view! The view!"
     ],
+    "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Forty years I've kept the keeper's lamps lit down here.",
-       "The sea likes a bit of light. So do I."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
-   },
-   "lanternport_grotto_keeper_lamps": {
-    "pages": [
-     "The keeper's lanterns. Freshly trimmed and glowing.",
-     "Someone still looks after these every night."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "The keeper's lanterns. Freshly trimmed and glowing.",
-       "Someone still looks after these every night."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
-   },
-   "lanternport_grotto_nets": {
-    "pages": [
-     "Fishing nets, hung up to dry.",
-     "A tiny crab is living in one. It looks proud."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Fishing nets, hung up to dry.",
-       "A tiny crab is living in one. It looks proud."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
-   }
-  },
-  "cindervale_caldera": {
-   "cindervale_caldera_smelter": {
-    "pages": [
-     "Thirty years at the smelter. Retired now.",
-     "The rocks still wave at me. Some of them walk."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Thirty years at the smelter. Retired now.",
-       "The rocks still wave at me. Some of them walk."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
-   },
-   "cindervale_caldera_sign": {
-    "pages": [
-     "CALDERA NOTICE: Keep off the slag channel.",
-     "Use the bridges. Your boots will thank you."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "CALDERA NOTICE: Keep off the slag channel.",
-       "Use the bridges. Your boots will thank you."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
-   },
-   "cindervale_caldera_old_forge": {
-    "pages": [
-     "A cold forge and a dented anvil.",
-     "Hard to believe this place used to roar."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "A cold forge and a dented anvil.",
-       "Hard to believe this place used to roar."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
-   },
-   "cindervale_caldera_ore_cart": {
-    "pages": [
-     "An old ore cart on the north rail.",
-     "It's stuck fast. Probably for the best."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "An old ore cart on the north rail.",
-       "It's stuck fast. Probably for the best."
-      ]
-     }
-    ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
-   }
-  },
-  "lanternport_lighthouse_int": {
-   "lanternport_hall_int_h1": {
-    "pages": [
-     "Lit every lamp in this town for thirty years. Never this one."
-    ],
-    "battle_lost": [
-     "Still never lit it."
-    ],
-    "after": [
-     "Long beam, short beam. Write it down if you need to. I did."
-    ],
-    "name": "Gil",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer tr_hall_lanternport_h1 (masters.json order h1); overnight hall draft, DRAFT pending Gary",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Lit every lamp in this town for thirty years. Never this one."
+       "Small flat, great view of the canal.\nEstate agent called it 'bijou'.",
+       "That means 'small'. I've measured.\nStill, the view! The view!"
       ]
      }
     ]
    },
-   "lanternport_hall_int_h2": {
-    "pages": [
-     "People say this place is haunted. It is. They're friendly."
+   "area_name": "Canal Flat, Aurelith"
+  },
+  "station_int": {
+   "rail_buffer": {
+    "kind": "prop",
+    "x": 19,
+    "y": 3,
+    "stand": [
+     19,
+     4
     ],
-    "battle_lost": [
-     "Friendly, not strong. Noted."
+    "face": "up",
+    "tile": "x_rail_buffer",
+    "world_prop": {
+     "tile": "handcar_locked",
+     "x": 18,
+     "y": 3,
+     "states": {
+      "locked": "handcar_locked",
+      "new_padlock": "handcar_new_padlock"
+     },
+     "state_rule": "new_padlock after beat_master_frostspire (E8 line); always locked + empty"
+    },
+    "soul_item": "15:E8",
+    "pages": [
+     "An old handcar, chained to the buffer stop.",
+     "It's locked."
+    ],
+    "note": "handcar_locked at (18,3); handcar_new_padlock after beat_master_frostspire (world_prop)",
+    "lines": [
+     {
+      "id": "e8_never",
+      "flags": [
+       "beat_aurelith_arena"
+      ],
+      "soul_item": "15:E8",
+      "pages": [
+       "It was never going anywhere."
+      ]
+     },
+     {
+      "id": "e8_oiled",
+      "flags": [
+       "beat_master_lanternport"
+      ],
+      "soul_item": "15:E8",
+      "pages": [
+       "Someone's oiled the hinges.",
+       "It's still locked."
+      ]
+     },
+     {
+      "id": "e8_padlock",
+      "flags": [
+       "beat_master_frostspire"
+      ],
+      "soul_item": "15:E8",
+      "pages": [
+       "A brand-new padlock. Same old handcar."
+      ]
+     },
+     {
+      "id": "e8_still",
+      "flags": [
+       "has_rail_pass"
+      ],
+      "soul_item": "15:E8",
+      "pages": [
+       "Still locked."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "An old handcar, chained to the buffer stop.",
+       "It's locked."
+      ]
+     }
+    ]
+   },
+   "station_clerk": {
+    "pages": [
+     "Welcome to the Lumen Line. Where are you headed?"
+    ],
+    "no_pass": [
+     "You'll need a Lumen Line pass. We sell them at Revival Heights Central."
+    ],
+    "confirm": [
+     "Next train to {city} leaves in a minute. Go on."
     ],
     "after": [
-     "Each floor uses the same four colours. The order changes."
+     "Mind the gap. And the guy selling 'lucky crystals'. He's not licensed."
     ],
-    "name": "Hana",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer tr_hall_lanternport_h2 (masters.json order h2); overnight hall draft, DRAFT pending Gary",
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "People say this place is haunted. It is. They're friendly."
+       "Welcome to the Lumen Line. Where are you headed?"
       ]
      }
     ]
    },
-   "lanternport_hall_int_guide": {
+   "station_traveller": {
     "pages": [
-     "The lens flashes long and short beams through four coloured panes.",
-     "Each floor has four lamps in those colours. Light them in that order.",
-     "Get it wrong and they go out. No harm done. The ghosts find it funny."
+     "You used to be able to just fly in.",
+     "Then somebody landed on the Council roof. Now we all take the train."
     ],
-    "note": "stationary hall guide; overnight hall draft",
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "The lens flashes long and short beams through four coloured panes.",
-       "Each floor has four lamps in those colours. Light them in that order.",
-       "Get it wrong and they go out. No harm done. The ghosts find it funny."
+       "You used to be able to just fly in.",
+       "Then somebody landed on the Council roof. Now we all take the train."
       ]
      }
     ]
-   }
-  },
-  "lanternport_lighthouse_f2": {
-   "lanternport_hall_int_h7": {
-    "pages": [
-     "I knit scarves for the ghosts.\nThey never say thank you."
-    ],
-    "battle_lost": [
-     "Unravelled. Like my last scarf."
-    ],
-    "after": [
-     "Cold spots mean company.\nFriendly company, mostly."
-    ],
-    "name": "Rosalind",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
-   "lanternport_hall_int_h8": {
+   "restricted_airspace": {
     "pages": [
-     "The lighthouse beam passes every\nten seconds. So do my wins."
+     "GOVERNMENT RESTRICTED AIRSPACE\nArrivals by rail only."
     ],
-    "battle_lost": [
-     "Missed a beat. Or ten."
-    ],
-    "after": [
-     "Count the beam's turns.\nThe dark gaps are your chance."
-    ],
-    "name": "Nyssa",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   }
-  },
-  "lanternport_lighthouse_f3": {
-   "lanternport_hall_int_h9": {
-    "pages": [
-     "Shh. The lanterns are listening.\nThey love a good battle."
-    ],
-    "battle_lost": [
-     "The lanterns clapped. For you."
-    ],
-    "after": [
-     "Delphine talks to every lantern.\nThey always answer kindly."
-    ],
-    "name": "Jessamy",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "GOVERNMENT RESTRICTED AIRSPACE\nArrivals by rail only."
+      ]
+     }
+    ]
    },
-   "lanternport_hall_int_h10": {
+   "timetable": {
     "pages": [
-     "Delphine's just up those steps.\nI've been practising my spooky face."
+     "LUMEN LINE DEPARTURES\nEvery 20 minutes, give or take.",
+     "Stops: Saltmere, Lanternport, Revival Heights, Aurelith."
     ],
-    "battle_lost": [
-     "Not spooky enough, apparently."
+    "note": "stops = rail towns in progression.py TOWNS; confirm list with World. Replaces the old rail_only.signs.sign_platform text ('Government restricted airspace: arrivals by rail only.' / 'Lumen Line, platform 1.'), which the restricted_airspace board already says",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "LUMEN LINE DEPARTURES\nEvery 20 minutes, give or take.",
+       "Stops: Saltmere, Lanternport, Revival Heights, Aurelith."
+      ]
+     }
+    ]
+   },
+   "area_name": "Lumen Line"
+  },
+  "mirefen_bog": {
+   "mirefen_angler": {
+    "pages": [
+     "Fish? In this bog? No. I just like the quiet.",
+     "Stay on the boards. The mud takes boots and doesn't give them back."
     ],
-    "after": [
-     "Delphine's spirits fight gently,\nthen all at once. Be ready."
+    "lines": [
+     {
+      "id": "angler_glide",
+      "flags": [
+       "has_tideglide"
+      ],
+      "soul_item": "8",
+      "pages": [
+       "Saw you crossing on {lead}. The frogs were furious."
+      ]
+     },
+     {
+      "id": "angler_storm",
+      "flags": [
+       "storm_season"
+      ],
+      "soul_item": "8",
+      "pages": [
+       "Storm's got the whole bog stirred up.",
+       "Even the frogs went home."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Fish? In this bog? No. I just like the quiet.",
+       "Stay on the boards. The mud takes boots and doesn't give them back."
+      ]
+     }
+    ]
+   },
+   "mirefen_sign": {
+    "pages": [
+     "MIREFEN BOG\nStay on the boardwalk.",
+     "Narrow boards are bikes only. Lights over the water are not a path."
     ],
-    "name": "Delwyn",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
-   }
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "MIREFEN BOG\nStay on the boardwalk.",
+       "Narrow boards are bikes only. Lights over the water are not a path."
+      ]
+     }
+    ]
+   },
+   "area_name": "Mirefen Bog"
+  },
+  "lantern_rest": {
+   "keeper": {
+    "pages": [
+     "This lantern holds the spark of my old friend.",
+     "Folk come here to sit. You can too. No rush.",
+     "The blank stone? That's for the field team. Until they come home."
+    ],
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "keeper_home",
+      "flags": [
+       "field_team_home"
+      ],
+      "soul_item": "14",
+      "pages": [
+       "Didn't need it. Best kind of stone to lose."
+      ],
+      "story_ruling": "STORY_RULINGS_SOUL #14"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "This lantern holds the spark of my old friend.",
+       "Folk come here to sit. You can too. No rush.",
+       "The blank stone? That's for the field team. Until they come home."
+      ]
+     }
+    ]
+   },
+   "stone_1": {
+    "pages": [
+     "MARTA OLLEN & PIP\nWalked every morning. Both of them."
+    ],
+    "soul_item": "14",
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "MARTA OLLEN & PIP\nWalked every morning. Both of them."
+      ]
+     }
+    ]
+   },
+   "stone_2": {
+    "pages": [
+     "TOMAS REED & SORREL\nHe fished. She ate the fish. Fair trade."
+    ],
+    "soul_item": "14",
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "TOMAS REED & SORREL\nHe fished. She ate the fish. Fair trade."
+      ]
+     }
+    ]
+   },
+   "stone_3": {
+    "pages": [
+     "AUNTIE BEA & DUMPLING\nKept the kettle on for the whole street."
+    ],
+    "soul_item": "14",
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "AUNTIE BEA & DUMPLING\nKept the kettle on for the whole street."
+      ]
+     }
+    ]
+   },
+   "stone_4": {
+    "pages": [
+     "JONAH WEST & MOSS\nLost every race. Never once minded."
+    ],
+    "soul_item": "14",
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "JONAH WEST & MOSS\nLost every race. Never once minded."
+      ]
+     }
+    ]
+   },
+   "stone_5": {
+    "pages": [
+     "IRIS KANE & TALLOW\nShe read aloud. He pretended to listen."
+    ],
+    "soul_item": "14",
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "IRIS KANE & TALLOW\nShe read aloud. He pretended to listen."
+      ]
+     }
+    ]
+   },
+   "stone_6": {
+    "pages": [
+     "OLD HAL & CINDER\nFixed every roof in Fernwick.",
+     "Cinder supervised."
+    ],
+    "soul_item": "14",
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "OLD HAL & CINDER\nFixed every roof in Fernwick.",
+       "Cinder supervised."
+      ]
+     }
+    ]
+   },
+   "stone_7": {
+    "pages": [
+     "NELL ASHBY & BRAMBLE\nTaught half the town to swim.",
+     "Bramble taught the other half."
+    ],
+    "soul_item": "14",
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "NELL ASHBY & BRAMBLE\nTaught half the town to swim.",
+       "Bramble taught the other half."
+      ]
+     }
+    ]
+   },
+   "stone_8": {
+    "pages": [
+     "DESMOND PRICE & OTTO\nSang off-key at every wedding.",
+     "Otto howled along."
+    ],
+    "soul_item": "14",
+    "status": "draft: Story Bot tone check (STORY_RULINGS_SOUL #14)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DESMOND PRICE & OTTO\nSang off-key at every wedding.",
+       "Otto howled along."
+      ]
+     }
+    ]
+   },
+   "stone_blank": {
+    "pages": [
+     "An uncarved stone. Someone keeps the moss off it."
+    ],
+    "lines": [
+     {
+      "id": "bench",
+      "flags": [
+       "field_team_home"
+      ],
+      "soul_item": "14",
+      "pages": [
+       "A small bench where the blank stone used to be.",
+       "It's warm from the sun."
+      ],
+      "story_ruling": "STORY_RULINGS_SOUL #14",
+      "note": "map flag_swaps: memorial_stone_blank -> memorial_bench"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "An uncarved stone. Someone keeps the moss off it."
+      ]
+     }
+    ]
+   },
+   "area_name": "Lantern Rest"
   }
  },
  "closed_exits": {
@@ -15914,13 +17154,13 @@
   },
   "gate_coast_road_flood": {
    "role": "flooded path",
-   "status": "proposed id (unbuilt: brookhollow_south_road to tidewater_coast)",
+   "status": "proposed id (map route_coast, 'Coast Road', to tidewater_coast)",
    "type": "field_skill",
    "skill": "tideglide",
    "flag": "has_tideglide",
    "active_when": "storm_season",
    "before": [
-    "The coast road is underwater. Deep enough to lose a boot. Maybe both."
+    "The Coast Road is underwater. Deep enough to lose a boot. Maybe both."
    ],
    "prompt": [
     "The water's calm enough to cross. Use {skill}?"
@@ -16986,14 +18226,12 @@
     "id": "default",
     "flags": [],
     "pages": [
-     "The flies have names now.",
-     "Don't ask me their names, {nick}.",
      "Neighbour says the bags have started paying rent.",
      "Five bags. One for each of your coins. I counted."
     ],
-    "soul_item": "3,10",
     "status": "DRAFT",
-    "note": "coin-5 bin line, 5 bags, no flies (Gary G3)"
+    "note": "coin-5 bin line, 5 bags, no flies (Gary G3)",
+    "soul_item": "3,10"
    }
   ],
   "ron_rival_lanternport": [
@@ -17001,13 +18239,11 @@
     "id": "default",
     "flags": [],
     "pages": [
-     "The neighbour left a note about the bins.",
-     "I'm choosing to battle you instead, {nick}.",
      "The flies have names now.",
      "Don't ask me their names, {nick}."
     ],
-    "soul_item": "3,10",
-    "note": "moved from Tidewater (Gary G3); old line 'The neighbour left a note about the bins.' stays on lanternport_ron_5"
+    "note": "moved from Tidewater (Gary G3); old line 'The neighbour left a note about the bins.' stays on lanternport_ron_5",
+    "soul_item": "3,10"
    }
   ],
   "ron_rival_cindervale": [
@@ -17337,13 +18573,11 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "I made way too much. Here, take a Berry Snack before it goes to waste.",
        "I made way too much. Here, take a Mossplum Snack before it goes to waste."
       ]
      }
     ],
     "after": [
-     "That was the last one. I'm not made of berries.",
      "That was the last one. I'm not made of mossplums."
     ]
    }
@@ -17492,11 +18726,11 @@
    "pending_gary_call": "potions_vs_rest",
    "note": "World's role says it restores energy; the description stays neutral until Gary rules on potions vs resting"
   },
-  "pond_berry_juice": {
-   "name": "Pond Berry Juice",
+  "pond_plum_juice": {
+   "name": "Pond Plum Juice",
    "pocket": "feeds",
    "pages": [
-    "Fresh-pressed pond berries. Tart, cold and picked this morning."
+    "Fresh-pressed pond plums. Tart, cold and picked this morning."
    ],
    "parity": "E4",
    "build": "partial",
@@ -17504,11 +18738,11 @@
    "effect": "pending: feed / small heal, Coder sets",
    "note": "proposed item id (no World id yet); juice-bar rule: juice, tea and shakes only"
   },
-  "mossberry_shake": {
-   "name": "Mossberry Shake",
+  "mossplum_shake": {
+   "name": "Mossplum Shake",
    "pocket": "feeds",
    "pages": [
-    "Berry milkshake, extra thick. Comes with a very bendy straw."
+    "Mossplum milkshake, extra thick. Comes with a very bendy straw."
    ],
    "parity": "E4",
    "build": "partial",
@@ -17564,9 +18798,8 @@
    "name": "Trail Mix",
    "pocket": "feeds",
    "pages": [
-    "Nuts, seeds and dried berries.",
-    "Trail Buddies go wild for it.",
-    "Nuts, seeds and dried mossplums."
+    "Nuts, seeds and dried mossplums.",
+    "Trail Buddies go wild for it."
    ],
    "parity": "E4",
    "build": "partial"
@@ -17648,30 +18881,6 @@
    "parity": "E4",
    "build": "partial",
    "note": "money: use system_items.picked_up_money. Named 'purse', not 'coin pouch': players only see 'coin' for a Master's token"
-  },
-  "pond_plum_juice": {
-   "name": "Pond Plum Juice",
-   "pocket": "feeds",
-   "pages": [
-    "Fresh-pressed pond plums. Tart, cold and picked this morning."
-   ],
-   "parity": "E4",
-   "build": "partial",
-   "sold_by": "unplaced_npcs.rebel_bartender",
-   "effect": "pending: feed / small heal, Coder sets",
-   "note": "proposed item id (no World id yet); juice-bar rule: juice, tea and shakes only"
-  },
-  "mossplum_shake": {
-   "name": "Mossplum Shake",
-   "pocket": "feeds",
-   "pages": [
-    "Mossplum milkshake, extra thick. Comes with a very bendy straw."
-   ],
-   "parity": "E4",
-   "build": "partial",
-   "sold_by": "unplaced_npcs.rebel_bartender",
-   "effect": "pending: feed / small heal, Coder sets",
-   "note": "proposed item id (no World id yet); juice-bar rule: juice, tea and shakes only"
   }
  },
  "system_heal": {
@@ -18408,6 +19617,48 @@
    ],
    "parity": "B22",
    "build": "designed"
+  },
+  "_pending_skill_desc_r56": {
+   "bogsnap": {
+    "pages": [
+     "Snaps shut with a jaw full of bog mud. The swamp never lets go easily."
+    ],
+    "parity": "B21",
+    "build": "designed",
+    "status": "DRAFT"
+   },
+   "mirelob": {
+    "pages": [
+     "Lobs a sticky glob of mire. Squelch! May lower the target's Agility."
+    ],
+    "parity": "B21",
+    "build": "designed",
+    "status": "DRAFT"
+   },
+   "brinelash": {
+    "pages": [
+     "Cracks a whip of stinging salt spray. Smarts like a wave to the face."
+    ],
+    "parity": "B21",
+    "build": "designed",
+    "status": "DRAFT"
+   },
+   "undertow": {
+    "pages": [
+     "Drags the target into a sneaky pull of current. May lower its Might."
+    ],
+    "parity": "B21",
+    "build": "designed",
+    "status": "DRAFT"
+   },
+   "kelplash": {
+    "pages": [
+     "Swings a long rope of kelp like a whip. Slippery, smelly and fast."
+    ],
+    "parity": "B21",
+    "build": "designed",
+    "status": "DRAFT"
+   }
   }
  },
  "system_evolution": {
@@ -18662,36 +19913,6 @@
     "build": "different",
     "status": "DRAFT"
    },
-   "jestrix": {
-    "blurb": "Rings its ear bell before every prank. Laughs loudest when it gets caught.",
-    "parity": "M1",
-    "build": "different",
-    "status": "DRAFT"
-   },
-   "japkit": {
-    "blurb": "Juggles acorns, pebbles, anything. Drops the lot, except what it loves.",
-    "parity": "M1",
-    "build": "different",
-    "status": "DRAFT"
-   },
-   "harlequop": {
-    "blurb": "Deals cards with a wink. Somehow the little ones always win the hand.",
-    "parity": "M1",
-    "build": "different",
-    "status": "DRAFT"
-   },
-   "mummerhop": {
-    "blurb": "Twirls ribbons mid-battle. Every fight turns into a show, with encores.",
-    "parity": "M1",
-    "build": "different",
-    "status": "DRAFT"
-   },
-   "maestrix": {
-    "blurb": "One ring of its bell and the meadow goes hush. It bows to friend and foe.",
-    "parity": "M1",
-    "build": "different",
-    "status": "DRAFT"
-   },
    "tbdcandle": {
     "blurb": "Its flame burns pale blue in the cold. Drips little icicles, never wax.",
     "parity": "M1",
@@ -18818,6 +20039,36 @@
     "build": "different",
     "status": "DRAFT"
    },
+   "jestrix": {
+    "blurb": "Rings its ear bell before every prank. Laughs loudest when it gets caught.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "japkit": {
+    "blurb": "Juggles acorns, pebbles, anything. Drops the lot, except what it loves.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "harlequop": {
+    "blurb": "Deals cards with a wink. Somehow the little ones always win the hand.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "mummerhop": {
+    "blurb": "Twirls ribbons mid-battle. Every fight turns into a show, with encores.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "maestrix": {
+    "blurb": "One ring of its bell and the meadow goes hush. It bows to friend and foe.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
    "_pending_r5_r6": {
     "helioseed": "Turns its face to follow the sun all day. Sulks a bit at night.",
     "heliobloom": "Shares its seeds with every bird in the meadow. Birds adore it.",
@@ -18881,6 +20132,41 @@
     "sandpup": "Digs a hole in the beach, lies in it, and naps till high tide.",
     "divegannet": "Drops like an arrow from great heights. Barely a splash.",
     "shellsinger": "Sings with the tide, and the sea sings back."
+   }
+  },
+  "_pending_origin_fields": {
+   "dex.field.line": {
+    "pages": [
+     "Line: {line}"
+    ],
+    "default_pages": [
+     "Line: —"
+    ],
+    "flags": [
+     "lore_origin_full"
+    ],
+    "values": {
+     "442": "1",
+     "443": "2"
+    },
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "dex.field.heritage_note": {
+    "pages": [
+     "Entry source: RT Heritage Office."
+    ],
+    "applies_to": [
+     "442",
+     "443"
+    ],
+    "flags": [
+     "lore_origin_full"
+    ],
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
    }
   }
  },
@@ -22435,210 +23721,6 @@
    "region": 6,
    "status": "DRAFT"
   },
-  "area_new_route1_east": {
-   "pages": [
-    "{employee_id}: Route 1 East logged. Land behind the barrier.",
-    "Now land on the asset map. Mind the ridge."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "area_new_route1_east_2": {
-   "pages": [
-    "Ridge added, {employee_id}. It glows. Glow is value.",
-    "Do not chip it. That's our job."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "area_new_route1_east_3": {
-   "pages": [
-    "{employee_id}: new area past the wall.",
-    "It was always ours. Now it's on paper."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "area_new_route1_east_4": {
-   "pages": [
-    "Crystal ridge on file, {employee_id}.",
-    "Readings are down. Your output shouldn't be."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "area_new_station_mirefen": {
-   "pages": [
-    "New asset site logged, {employee_id}.",
-    "It was always ours. You just weren't cleared."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "area_new_station_mirefen_2": {
-   "pages": [
-    "{employee_id}: research site Station M on file.",
-    "Things you saw down there are company property."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "area_new_station_mirefen_3": {
-   "pages": [
-    "Peat Station logged, {employee_id}. Sunk, not lost.",
-    "Assets don't sink. They wait."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "area_new_station_mirefen_4": {
-   "pages": [
-    "{employee_id}: welcome to research. Briefly.",
-    "Touch only what you can log."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "storm_weather_event": {
-   "pages": [
-    "Weather event logged, {employee_id}.",
-    "Assets are not waterproof. Please keep them dry."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "storm_weather_event_2": {
-   "pages": [
-    "{employee_id}: lightning detected. Stay low.",
-    "Assets with antennae, stay lower."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "storm_weather_event_3": {
-   "pages": [
-    "Storm on file, {employee_id}. Field work continues.",
-    "Rain is not an absence reason. We checked."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "storm_weather_event_4": {
-   "pages": [
-    "{employee_id}: storm conditions. Asset value: holding.",
-    "Unlike that porch."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT"
-  },
-  "storm_turn": {
-   "pages": [
-    "Storm damage below forecast, {employee_id}.",
-    "Asset losses: acceptable. You: also acceptable."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 6,
-   "status": "DRAFT"
-  },
-  "storm_turn_2": {
-   "pages": [
-    "{employee_id}: storm peak passed. Inventory intact.",
-    "Please resume normal levels of productivity."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 6,
-   "status": "DRAFT"
-  },
-  "storm_turn_3": {
-   "pages": [
-    "Clear skies logged, {employee_id}.",
-    "Sun dries assets. Dry assets log faster."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 6,
-   "status": "DRAFT"
-  },
-  "storm_turn_4": {
-   "pages": [
-    "{employee_id}: storm over, mostly.",
-    "Rescues logged as asset retention. Lovely."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 6,
-   "status": "DRAFT"
-  },
-  "landmark_unregistered": {
-   "pages": [
-    "Unregistered landmark, {employee_id}. Not on the asset map.",
-    "Please stop finding things that aren't on the asset map."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT",
-   "note": "sq_gd_riverglint step 6"
-  },
-  "landmark_unregistered_2": {
-   "pages": [
-    "{employee_id}: you found a hole in a bog.",
-    "Holes have no resale value. Moving on."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT",
-   "note": "sq_gd_riverglint step 6"
-  },
-  "landmark_unregistered_3": {
-   "pages": [
-    "Landmark not on file, {employee_id}. So it isn't there.",
-    "That's how files work."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT",
-   "note": "sq_gd_riverglint step 6"
-  },
-  "landmark_unregistered_4": {
-   "pages": [
-    "{employee_id}: a stone in a bog. Logged as 'stone'.",
-    "Asset value: under review. Forever."
-   ],
-   "parity": "E10",
-   "build": "partial",
-   "region": 5,
-   "status": "DRAFT",
-   "note": "sq_gd_riverglint step 6"
-  },
   "id_cap_r7": {
    "pages": [
     "{employee_id}: ID level capped for this region.",
@@ -22878,6 +23960,326 @@
    "build": "partial",
    "region": 8,
    "status": "DRAFT"
+  },
+  "area_new_route1_east": {
+   "pages": [
+    "{employee_id}: Trail 1 East logged. Land behind the barrier.",
+    "Now land on the asset map. Mind the ridge."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_route1_east_2": {
+   "pages": [
+    "Ridge added, {employee_id}. It glows. Glow is value.",
+    "Do not chip it. That's our job."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_route1_east_3": {
+   "pages": [
+    "{employee_id}: new area past the wall.",
+    "It was always ours. Now it's on paper."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_route1_east_4": {
+   "pages": [
+    "Crystal ridge on file, {employee_id}.",
+    "Readings are down. Your output shouldn't be."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_station_mirefen": {
+   "pages": [
+    "New asset site logged, {employee_id}.",
+    "It was always ours. You just weren't cleared."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_station_mirefen_2": {
+   "pages": [
+    "{employee_id}: research site Station M on file.",
+    "Things you saw down there are company property."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_station_mirefen_3": {
+   "pages": [
+    "Peat Station logged, {employee_id}. Sunk, not lost.",
+    "Assets don't sink. They wait."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_station_mirefen_4": {
+   "pages": [
+    "{employee_id}: welcome to research. Briefly.",
+    "Touch only what you can log."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_weather_event": {
+   "pages": [
+    "Weather event logged, {employee_id}.",
+    "Assets are not waterproof. Please keep them dry."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_weather_event_2": {
+   "pages": [
+    "{employee_id}: lightning detected. Stay low.",
+    "Assets with antennae, stay lower."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_weather_event_3": {
+   "pages": [
+    "Storm on file, {employee_id}. Field work continues.",
+    "Rain is not an absence reason. We checked."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_weather_event_4": {
+   "pages": [
+    "{employee_id}: storm conditions. Asset value: holding.",
+    "Unlike that porch."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_turn": {
+   "pages": [
+    "Storm damage below forecast, {employee_id}.",
+    "Asset losses: acceptable. You: also acceptable."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "storm_turn_2": {
+   "pages": [
+    "{employee_id}: storm peak passed. Inventory intact.",
+    "Please resume normal levels of productivity."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "storm_turn_3": {
+   "pages": [
+    "Clear skies logged, {employee_id}.",
+    "Sun dries assets. Dry assets log faster."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "storm_turn_4": {
+   "pages": [
+    "{employee_id}: storm over, mostly.",
+    "Rescues logged as asset retention. Lovely."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "landmark_unregistered": {
+   "pages": [
+    "Unregistered landmark, {employee_id}. Not on the asset map.",
+    "Please stop finding things that aren't on the asset map."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT",
+   "note": "sq_gd_riverglint step 6"
+  },
+  "landmark_unregistered_2": {
+   "pages": [
+    "{employee_id}: you found a hole in a bog.",
+    "Holes have no resale value. Moving on."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT",
+   "note": "sq_gd_riverglint step 6"
+  },
+  "landmark_unregistered_3": {
+   "pages": [
+    "Landmark not on file, {employee_id}. So it isn't there.",
+    "That's how files work."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT",
+   "note": "sq_gd_riverglint step 6"
+  },
+  "landmark_unregistered_4": {
+   "pages": [
+    "{employee_id}: a stone in a bog. Logged as 'stone'.",
+    "Asset value: under review. Forever."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT",
+   "note": "sq_gd_riverglint step 6"
+  },
+  "_pending_origin_rita": {
+   "rita.lab_m.exit": {
+    "pages": [
+     "Reminder, {employee_id}: research areas\nare a Benefits perk. Not a story."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 5,
+    "status": "DRAFT"
+   },
+   "rita.lab_m.exit_2": {
+    "pages": [
+     "{employee_id}, exiting research area.",
+     "Perks are perks. Plots are not provided."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 5,
+    "status": "DRAFT"
+   },
+   "rita.lab_m.exit_3": {
+    "pages": [
+     "Research perk used, {employee_id}.\nNo story is included in that package."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 5,
+    "status": "DRAFT"
+   },
+   "rita.lab_m.exit_4": {
+    "pages": [
+     "{employee_id}: facility visit logged.",
+     "Reading old logs is not a career path."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 5,
+    "status": "DRAFT"
+   },
+   "rita.lab_t.exit": {
+    "pages": [
+     "Your session in an unlisted area has\nbeen noted, {employee_id}."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 6,
+    "status": "DRAFT"
+   },
+   "rita.lab_t.exit_2": {
+    "pages": [
+     "{employee_id}: unlisted area, logged.\nYour file now has a new tab."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 6,
+    "status": "DRAFT"
+   },
+   "rita.lab_t.exit_3": {
+    "pages": [
+     "Session noted, {employee_id}.\nUnlisted rooms are not a Benefit."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 6,
+    "status": "DRAFT"
+   },
+   "rita.lab_t.exit_4": {
+    "pages": [
+     "{employee_id}. You were in a room\nthat isn't on the list. Noted."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 6,
+    "status": "DRAFT"
+   },
+   "rita.lab_t.exit_beat": {
+    "pages": [
+     "...",
+     "...Have a nice day."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 6,
+    "status": "DRAFT"
+   },
+   "rita.lab_t.exit_beat_2": {
+    "pages": [
+     "...",
+     "...Please have a nice day, {employee_id}."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 6,
+    "status": "DRAFT"
+   },
+   "rita.lab_t.exit_beat_3": {
+    "pages": [
+     "Further comment is...",
+     "...Have a nice day."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 6,
+    "status": "DRAFT"
+   },
+   "rita.lab_t.exit_beat_4": {
+    "pages": [
+     "...",
+     "Have a nice day. That's all. Good."
+    ],
+    "parity": "E10",
+    "build": "partial",
+    "region": 6,
+    "status": "DRAFT"
+   }
   }
  },
  "system_phone": {
@@ -22950,6 +24352,14 @@
    ],
    "parity": "E10",
    "build": "different"
+  },
+  "options": {
+   "labels": {
+    "wind": "Wind"
+   },
+   "parity": "M8",
+   "build": "built",
+   "status": "DRAFT"
   }
  },
  "system_contacts": {
@@ -23765,161 +25175,6 @@
    "cap_raised": "Region {region} open. ID cap now {level}. Back to work."
   }
  },
- "system_ending": {
-  "_section": "Interim ending: Ron 6 win with 8 coins -> Ron + RITA -> credits -> home to Brookhollow -> postgame note.",
-  "ron_after": {
-   "pages": [
-    "Six losses. Eight coins. Yours, mind.\nStill. Not a bad week, was it?",
-    "Head Office can wait a day.\nLet's go home first, {player}."
-   ],
-   "note": "Suggested key: Ron 6 after-battle variant when the win rolls straight into credits (replaces maps.aurelith.aurelith_ron_6.after there; that line stays for the arena walk-in). Coder to wire.",
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "ron_home": {
-   "pages": [
-    "Home, then. Head Office can wait\none more day.",
-    "Somebody should take the bins out.\n...Fine. Tomorrow."
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "postgame": {
-   "pages": [
-    "GAME CLEARED.",
-    "Your save keeps going. Catch, battle\nand explore anywhere you like.",
-    "The Aurelith Arena opens in a future\nupdate. Head Office is still up there."
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_open": {
-   "pages": [
-    "You did it, {name}.",
-    "Eight coins. One Ron. A very long week."
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_team_head": {
-   "pages": [
-    "The team that got you here"
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_coins_head": {
-   "pages": [
-    "Eight halls, eight coins"
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_ron": {
-   "pages": [
-    "Ron",
-    "Who lost six times",
-    "and came along anyway."
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_rita": {
-   "pages": [
-    "RITA",
-    "Who logged every step.",
-    "Lunch break: still pending."
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_bin": {
-   "pages": [
-    "The bin",
-    "Still waiting.",
-    "Ron says tomorrow."
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_crew_head": {
-   "pages": [
-    "Made with care by"
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_crew": {
-   "pages": [
-    [
-     "Dev team",
-     "Gary Hight"
-    ]
-   ],
-   "note": "Gary, Oct 29 2026 (dictated): dev team is just Gary Hight; no bot role names; no studio line.",
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_thanks": {
-   "pages": [
-    "And you.",
-    "Thank you for playing Kilumen."
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_end": {
-   "pages": [
-    "To be continued...",
-    "Head Office is still up there."
-   ],
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  },
-  "credits_crew_note": {
-   "pages": [
-    "Grok Bot was used in the production of this game."
-   ],
-   "note": "Gary, Oct 29 2026 (dictated).",
-   "parity": "M1",
-   "build": "different",
-   "status": "LIVE"
-  }
- },
- "system": {
-  "_section": "One-off story pop-ups. Read as system.<key>.pages; single OK choice.",
-  "wip_after_master3": {
-   "pages": [
-    "That's as far as the story goes for now. Region 4 is still being built.",
-    "You're free to keep exploring. Just try not to break anything."
-   ],
-   "trigger": "beat_master_revival",
-   "status": "DRAFT",
-   "note": "Master 3 (Revival Heights, coin 3). Model: wip_notice.js WIP_TEXT (system.wip_after_master2 has no text yet)"
-  },
-  "wip_after_master8": {
-   "pages": [
-    "That's as far as the story goes for now.",
-    "The road to Aurelith is still being built."
-   ],
-   "trigger": "beat_master_cindervale",
-   "status": "DRAFT",
-   "note": "r78 request; wip_notice.js on dev/regions-5-8"
-  }
- },
  "system_research": {
   "_section": "RT research key cards and research-only areas, regions 5-6 (REGIONS_5_6_PLAN.md section 5). Text Bot DRAFT Oct 29 2026; map spots, item ids and flags pending World Design / Coder (RT_KEYCARD_SPEC.md). Keys are proposals.",
   "keycard_r5_name": {
@@ -24141,6 +25396,116 @@
    "status": "DRAFT"
   }
  },
+ "system_story_r78": {
+  "_section": "Regions 7-8 story bits (src/region78/index.js reads system_story_r78.<key>). DRAFT, r78 request.",
+  "r7_ron_page_handoff": {
+   "pages": [
+    "Ron: Remember the page I wouldn't show you? It's dry now. Here.",
+    "A page from an old company field log. Someone drew the river up the mountain.",
+    "Ron: I don't know what it means yet. But I'm not scared of it anymore."
+   ],
+   "speaker": "Ron",
+   "region": 7,
+   "mood": "major key",
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r7_ron_flies": {
+   "pages": [
+    "Ron: The bags out back? The flies have names now.",
+    "Don't ask me their names, {nick}."
+   ],
+   "speaker": "Ron",
+   "region": 7,
+   "status": "DRAFT",
+   "note": "moved from Tidewater (G3)",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r7_node_name": {
+   "pages": [
+    "Research Access: Lighthouse"
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r7_node_desc": {
+   "pages": [
+    "Key card for the lighthouse signal store.",
+    "Flares, lenses and one very old radio."
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r8_node_name": {
+   "pages": [
+    "Research Access: Foundry Lab"
+   ],
+   "region": 8,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r8_node_desc": {
+   "pages": [
+    "Key card for the Cindervale foundry lab.",
+    "Mind the kilns. They mind you back."
+   ],
+   "region": 8,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "field_reading_sheet_name": {
+   "pages": [
+    "Field Reading Sheet"
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "field_reading_sheet_desc": {
+   "pages": [
+    "A field team's reading sheet, from Ron.",
+    "\"Drift: bonded, stable. Not a fault.\""
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "_pending_crate": {
+   "signal_crate_first": {
+    "pages": [
+     "LANTERNPORT. INSTRUMENTS – SIGNAL.\nThe lid's pried up. The straw is damp.",
+     "One gauge left. Past 100%, the dial\nturns red. Someone scratched a 7 there.",
+     "The needle's jammed past the red.\nSlip: \"Facility 1. Do not exceed 100%.\""
+    ],
+    "sets": "found_signal_crate_r7",
+    "region": 7,
+    "status": "DRAFT",
+    "note": "pending Gary (story_beats §S)",
+    "parity": "F15",
+    "build": "partial"
+   },
+   "signal_crate_again": {
+    "pages": [
+     "The SIGNAL gauge.\nStill jammed past the red. Still."
+    ],
+    "region": 7,
+    "status": "DRAFT",
+    "note": "pending Gary (story_beats §S)",
+    "parity": "F15",
+    "build": "partial"
+   }
+  }
+ },
  "system_story_r56": {
   "_section": "Regions 5-6 story lines from Story Bot's handoff (27 groups). Keys g<NN>_<what>. Pending map spots from World Design; flags in 'gate' are proposals unless already known. DRAFT pending Gary.",
   "g01_ridge_sign": {
@@ -24208,69 +25573,6 @@
    "status": "DRAFT",
    "group": 2,
    "speaker": "Field Researcher"
-  },
-  "g02_trainer_a_intro": {
-   "pages": [
-    "Ridgeskinks won't move for anyone. I respect that.",
-    "I won't move for you either. Battle?"
-   ],
-   "parity": "F15",
-   "build": "partial",
-   "status": "DRAFT",
-   "group": 2,
-   "speaker": "Ridge Climber"
-  },
-  "g02_trainer_a_lost": {
-   "pages": [
-    "Moved. Fine. You earned it."
-   ],
-   "parity": "F15",
-   "build": "partial",
-   "status": "DRAFT",
-   "group": 2,
-   "speaker": "Ridge Climber"
-  },
-  "g02_trainer_a_after": {
-   "pages": [
-    "Spinemonitor up the nook walks the same loop daily.",
-    "Step in its way and it rushes you. Walk round."
-   ],
-   "parity": "F15",
-   "build": "partial",
-   "status": "DRAFT",
-   "group": 2,
-   "speaker": "Ridge Climber"
-  },
-  "g02_trainer_b_intro": {
-   "pages": [
-    "Hold that stake straight while we battle, would you?"
-   ],
-   "parity": "F15",
-   "build": "partial",
-   "status": "DRAFT",
-   "group": 2,
-   "speaker": "Surveyor"
-  },
-  "g02_trainer_b_lost": {
-   "pages": [
-    "The stake's crooked now. Like my team."
-   ],
-   "parity": "F15",
-   "build": "partial",
-   "status": "DRAFT",
-   "group": 2,
-   "speaker": "Surveyor"
-  },
-  "g02_trainer_b_after": {
-   "pages": [
-    "Ten years I've measured this ridge.",
-    "First year I've measured it going down."
-   ],
-   "parity": "F15",
-   "build": "partial",
-   "status": "DRAFT",
-   "group": 2,
-   "speaker": "Surveyor"
   },
   "g03_pillars_hum": {
    "pages": [
@@ -26660,6 +27962,14 @@
    "speaker": "system",
    "gate": "near the lab's tight contour"
   },
+  "_route_coast_trainers": {
+   "tr_route_coast_a": "maps.route_coast.route_coast_trainer_1",
+   "tr_route_coast_b": "maps.route_coast.route_coast_trainer_2",
+   "tr_route_coast_c": "maps.route_coast.route_coast_trainer_3",
+   "tr_route_coast_d": "maps.route_coast.route_coast_trainer_4",
+   "tr_route_coast_e": "maps.route_coast.route_coast_trainer_5",
+   "tr_route_coast_f": "maps.route_coast.route_coast_trainer_6"
+  },
   "g21_ron_missed_parting": {
    "pages": [
     "Coin six. Look at you, {nick}. All grown up.",
@@ -26672,117 +27982,1019 @@
    "group": 21,
    "speaker": "Ron",
    "gate": "ron5_missed: beat_master_tidewater, never fought Ron 5; harbour slip, bag packed"
+  },
+  "tr_route1_east_a": {
+   "pages": [
+    "Hold still. That rock by your boot might be a gem.",
+    "...It's a rock. Battle me while I get over it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Tamsin",
+   "battle_lost": [
+    "Lost the battle. Still got a pocket full of maybes."
+   ],
+   "after": [
+    "Four hundred rocks this year. Not one gem.",
+    "Tomorrow, though. I've a feeling about tomorrow."
+   ],
+   "trainer_class": "Rock Hound",
+   "name": "Tamsin",
+   "gd_id": "tr_route1_east_a",
+   "map": "route1_east"
+  },
+  "tr_route1_east_b": {
+   "pages": [
+    "These ancient marks declare... that you must battle me.",
+    "Probably. The light's bad. I'm confident anyway."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Oswin",
+   "battle_lost": [
+    "I may have read that one upside down. I stand by it."
+   ],
+   "after": [
+    "The stones were carved long before the company.",
+    "I can't read them. I read them anyway. Someone should."
+   ],
+   "trainer_class": "Glyph Scholar",
+   "name": "Oswin",
+   "gd_id": "tr_route1_east_b",
+   "map": "route1_east"
+  },
+  "tr_route1_east_c": {
+   "pages": [
+    "Race you! Oh. Battles. Fine. Race you in a battle.",
+    "The wind's winning today, but it's not here to fight."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Tavi",
+   "battle_lost": [
+    "Wind beat me, and you beat me. Big day."
+   ],
+   "after": [
+    "Four hundred and twelve losses to the wind. Zero wins.",
+    "I keep the sheet. One day it'll have a tick on it."
+   ],
+   "trainer_class": "Kite Runner",
+   "name": "Tavi",
+   "gd_id": "tr_route1_east_c",
+   "map": "route1_east"
+  },
+  "tr_route1_east_d": {
+   "pages": [
+    "Stand still. I want to remember your face.",
+    "I cut a hedge for everyone who beats me. Mostly one shape."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Marlo",
+   "battle_lost": [
+    "Yours'll be a big hedge. I'll need a ladder."
+   ],
+   "after": [
+    "Grief's easier with shears in your hand.",
+    "Losing's just a shape. I make it a nice one."
+   ],
+   "trainer_class": "Hedge Keeper",
+   "name": "Marlo",
+   "gd_id": "tr_route1_east_d",
+   "map": "route1_east"
+  },
+  "tr_tidewater_coast_cliffdiver_1": {
+   "pages": [
+    "And Skye steps up to the edge. The crowd goes quiet.",
+    "There is no crowd. It's you. Battle me anyway!"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Skye",
+   "battle_lost": [
+    "Skye loses! A ten from the judges, still. I'm the judges."
+   ],
+   "after": [
+    "Highest drop on the coast, that ledge. I do it daily.",
+    "Scared every time. Scared's how you know it counts."
+   ],
+   "trainer_class": "Cliff Diver",
+   "name": "Skye",
+   "gd_id": "tr_tidewater_coast_cliffdiver_1",
+   "map": "tidewater_coast"
+  },
+  "tr_tidewater_coast_cliffdiver_2": {
+   "pages": [
+    "We're twins, and we always finish each other's...",
+    "Socks. No, sentences! Bram, it's sentences. Battle!"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Bram & Bree",
+   "battle_lost": [
+    "You beat... Us. Both of us. Together, for once."
+   ],
+   "after": [
+    "Bram says we argue too much. I say we just talk loud.",
+    "We'd jump off anything for each other. Just not in time."
+   ],
+   "trainer_class": "Cliff Divers",
+   "name": "Bram & Bree",
+   "gd_id": "tr_tidewater_coast_cliffdiver_2",
+   "map": "tidewater_coast"
+  },
+  "tr_tidewater_coast_lighthouse_keeper": {
+   "pages": [
+    "Forty years I've polished that lens. I can tell a person.",
+    "Let's see how you treat things that work hard for you."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Old Gus",
+   "battle_lost": [
+    "You'll do. Your team trusts you. That's the whole test."
+   ],
+   "after": [
+    "Light doesn't care who's out there. It just keeps on.",
+    "That's the job. Shine. Don't ask who for."
+   ],
+   "trainer_class": "Lamp Keeper",
+   "name": "Old Gus",
+   "gd_id": "tr_tidewater_coast_lighthouse_keeper",
+   "map": "tidewater_coast"
+  },
+  "tr_tidewater_coast_reef_researcher_1": {
+   "pages": [
+    "Four hundred and six barnacles. Four hundred and--",
+    "You've made me lose count. Again. You'll battle for that."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Dr. Coralie Finch",
+   "battle_lost": [
+    "Fine. Fine. I'll start again from one. I like one."
+   ],
+   "after": [
+    "Five times I've lost count in this cave.",
+    "Doesn't matter. Somebody counting is the point."
+   ],
+   "trainer_class": "Reef Researcher",
+   "name": "Dr. Coralie Finch",
+   "gd_id": "tr_tidewater_coast_reef_researcher_1",
+   "map": "tidewater_coast_cave",
+   "gate": "map tidewater_coast_cave; cave mouth, low tide"
+  },
+  "tr_tidewater_coast_reef_researcher_2": {
+   "pages": [
+    "(whispering) Night shift. Everyone else went home.",
+    "(whispering, but fiercely) Battle stations."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Idris",
+   "battle_lost": [
+    "(whispering) Well played. Don't wake the Lurelamps."
+   ],
+   "after": [
+    "(whispering) I talk quiet so the cave can talk loud.",
+    "Listen. Drips. Tide. It's never actually quiet."
+   ],
+   "trainer_class": "Reef Researcher",
+   "name": "Idris",
+   "gd_id": "tr_tidewater_coast_reef_researcher_2",
+   "map": "tidewater_coast_cave",
+   "gate": "map tidewater_coast_cave; cave, low tide; not the Signal Lab staff (Q10)"
+  },
+  "_pending_old_gus": {
+   "old_gus_offer": {
+    "pages": [
+     "Forty years by the sea teaches you a trick.",
+     "Brine Lash. I could show {creature} how.",
+     "Salt spray, one good crack. Want it?"
+    ],
+    "parity": "B21",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "tutor",
+    "speaker": "Old Gus",
+    "choices": [
+     "Teach it",
+     "Not today"
+    ],
+    "npc": "tr_tidewater_coast_lighthouse_keeper"
+   },
+   "old_gus_none": {
+    "pages": [
+     "None of yours have the sea in them yet.",
+     "No shame. The tide comes in for everyone."
+    ],
+    "parity": "B21",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "tutor",
+    "speaker": "Old Gus",
+    "npc": "tr_tidewater_coast_lighthouse_keeper"
+   },
+   "old_gus_taught": {
+    "pages": [
+     "There. {creature} learned Brine Lash.",
+     "Treat it well. It works hard, like a lamp."
+    ],
+    "parity": "B21",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "tutor",
+    "speaker": "Old Gus",
+    "npc": "tr_tidewater_coast_lighthouse_keeper"
+   },
+   "old_gus_known": {
+    "pages": [
+     "{creature} already knows Brine Lash.",
+     "Can't polish a lens that's already clean."
+    ],
+    "parity": "B21",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "tutor",
+    "speaker": "Old Gus",
+    "npc": "tr_tidewater_coast_lighthouse_keeper"
+   }
+  },
+  "_pending_origin": {
+   "lore.r5.plaque_old": {
+    "pages": [
+     "Under the LUMEN YIELD SURVEY plaque,\nan older one peeks out.",
+     "Only the end of it shows:\n'...LINE 14 BREEDING ANNEXE'"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r5.plaque_old",
+    "gate": "ins_m_plaque_old; sets seen_old_plaque_m"
+   },
+   "lore.r5.jar_species": {
+    "pages": [
+     "A row of jars, labelled by hand.\nNot numbers. Names.",
+     "BOGBEACON, GEN 3.\nMIREWUMP, GEN 5.",
+     "{lead} sniffs the Mirewump jar.\nIt doesn't stop for a long time."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r5.jar_species",
+    "gate": "ins_m_jar_species"
+   },
+   "lore.r5.term_log_1": {
+    "pages": [
+     "TERMINAL 1. LOG 0114.\nLine 14 stable. Batch healthy.",
+     "Batch released to the bog for field\ntrial. Handlers on rotation."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "terminal",
+    "key": "lore.r5.term_log_1",
+    "gate": "term_m_log; rt_keycard_r5 + station power"
+   },
+   "lore.r5.term_log_2": {
+    "pages": [
+     "LOG 0115.\nField trial lost.",
+     "Batch not responding to handlers.\nStation sealed. Pumps off."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "terminal",
+    "key": "lore.r5.term_log_2",
+    "gate": "term_m_log page 2"
+   },
+   "lore.r5.term_log_3": {
+    "pages": [
+     "LOG 0116. From: Head Office.",
+     "Count what got out.\nDo not say 'got out'."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "terminal",
+    "key": "lore.r5.term_log_3",
+    "gate": "term_m_log page 3; sets lore_origin_r5"
+   },
+   "lore.r5.station_m_counter": {
+    "pages": [
+     "A cracked handheld counter. The number\nwas counted up, then counted back down.",
+     "On the back: 'Count by hand.\nThe scanners don't like our four.'"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "CHANGED intent: Station M counter",
+    "gate": "flooded locker, has_tideglide",
+    "note": "replaces live g11_counter when lab_mirefen_sunken ships (tally of escapes counted back; sticky note meaning kept). g16_count_3 still reads fine."
+   },
+   "lore.r5.visitor_dc": {
+    "pages": [
+     "VISITOR BOOK. Marta's handwriting:",
+     "'Damage control, they call it.\nWe call it a census. Sounds kinder.'"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r5.visitor_dc",
+    "gate": "ins_m_visitor_dc"
+   },
+   "lore.r5.marta_census_line": {
+    "pages": [
+     "Marta's last camp page:\n'Twelve today. All fine.'",
+     "'I don't think they're escapes.\nI think they live here now.'"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r5.marta_census_line",
+    "gate": "camp_restored_mirefen (Marta's camp, G2)"
+   },
+   "ron.r6.lab_join": {
+    "pages": [
+     "Boat's not till the tide turns.\nSo. I'm coming in.",
+     "Someone has to read the signs out loud.\nYou go all quiet when it's spooky."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.lab_join",
+    "gate": "cave mouth, low tide; met_ron_tidewater + beat_master_tidewater + rt_keycard_r6; sets ron_in_lab_r6"
+   },
+   "ron.r6.cheer_1": {
+    "pages": [
+     "Go on! Show them what a bin-man's\nbest mate can do!"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.cheer",
+    "gate": "reef battle 1 (optional)"
+   },
+   "ron.r6.cheer_2": {
+    "pages": [
+     "She's counting barnacles mid-battle.\nHonestly? Respect."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.cheer",
+    "gate": "reef battle vs Coralie (optional)"
+   },
+   "ron.r6.cheer_3": {
+    "pages": [
+     "I'd help, but I'm holding the torch.\nMorally, I'm helping."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.cheer",
+    "gate": "reef battle 3 (optional)"
+   },
+   "lore.r6.term_index_header": {
+    "pages": [
+     "CONTAINMENT INDEX. RESTRICTED.\nDEX NO. / SPECIES / LINE / FACILITY"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "terminal",
+    "key": "lore.r6.term_index_header",
+    "gate": "term_t_index; rt_keycard_r6 + low tide; sets read_containment_index"
+   },
+   "lore.r6.term_index_row": {
+    "pages": [
+     "{dex_no}  {species}\nLine {line}, Facility {facility}"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "terminal",
+    "key": "lore.r6.term_index_row",
+    "gate": "term_t_index rows: the lead's species, then Ron's partner",
+    "fixed_rows": {
+     "442": [
+      "442  RIVER UNIT\nLine 1, Facility 1"
+     ],
+     "443": [
+      "443\nLine 2, Facility 1"
+     ]
+    }
+   },
+   "ron.r6.index_react": {
+    "pages": [
+     "Hang on. Let me look up {ron_partner_species}.",
+     "Line {ron_partner_line}! Fancy.\nLike a postcode.",
+     "...Why's my partner got a postcode?"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.index_react",
+    "gate": "after term_t_index while ron_in_lab_r6"
+   },
+   "lore.r6.breakout_log_1": {
+    "pages": [
+     "FACILITY 3. NIGHT LOG, DAY 1:\nUnits unresponsive. Signal check due."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r6.breakout_log_1",
+    "gate": "ins_t_breakout_logs; sets read_breakout_logs after 3"
+   },
+   "lore.r6.breakout_log_2": {
+    "pages": [
+     "FACILITY 5. DAY 2:\nUnits attacking staff. Doors holding.",
+     "Doors not holding."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r6.breakout_log_2",
+    "gate": "ins_t_breakout_logs"
+   },
+   "lore.r6.breakout_log_3": {
+    "pages": [
+     "FACILITY 1. DAY 3:\nFacility breached.",
+     "A map is pinned behind. Red rings round\nevery RT site. Revival Heights too."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r6.breakout_log_3",
+    "gate": "ins_t_breakout_logs"
+   },
+   "lore.r6.test7_sheet": {
+    "pages": [
+     "SIGNAL TEST 7. RUN SHEET.",
+     "Objective: single-carrier command,\nall lines.",
+     "Source: Line 1. Load: 140%.\nDated the night before the first log.",
+     "Rows of neat ticks. Then the last row,\nin a hand that won't keep still:",
+     "'Source crystal fracture.\nAll lines reacting.'"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r6.test7_sheet",
+    "gate": "ins_t_test7_sheet; sets read_test7_sheet"
+   },
+   "lore.r6.brief": {
+    "pages": [
+     "PRODUCT BRIEF. Unsigned.",
+     "Dominance crystal: containment,\nrebranded as companionship.",
+     "Field teams: damage control,\nrebranded as research.",
+     "In the margin, someone has drawn\na small, neat smiley face."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r6.brief",
+    "gate": "ins_t_brief",
+    "note": "unsigned; NOT Vane"
+   },
+   "ron.r6.logs_react": {
+    "pages": [
+     "Day one. Day two. Day three. Same week.",
+     "And the test was the night before?",
+     "'All lines.' All of them? Every one?",
+     "And the index starts at Line 1. So...",
+     "...So before that week, there weren't\nany? Not one?",
+     "Revival Heights is on that map.\nI took the bins out there for two years."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.logs_react",
+    "gate": "after read_containment_index + read_breakout_logs + read_test7_sheet while ron_in_lab_r6; sets ron_knows_origin + lore_origin_full"
+   },
+   "ron.r6.logs_react_short": {
+    "pages": [
+     "I keep doing the dates in my head.\nThe night before. All lines.",
+     "So before that week... there weren't\nany. Were there?"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.logs_react",
+    "gate": "cove variant: player left the lab early; sets ron_knows_origin + lore_origin_full"
+   },
+   "ron.r6.still_mine": {
+    "pages": [
+     "Ron looks at {ron_partner_species}\nfor a long time.",
+     "Still mine, though. Right?",
+     "{lead} leans against Ron's leg."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.still_mine",
+    "gate": "right after ron.r6.logs_react"
+   },
+   "npc.confessor.c1": {
+    "pages": [
+     "You read the shelf.\nEveryone reads the shelf."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Dr. Coralie Finch",
+    "key": "npc.confessor.c1",
+    "gate": "npc_confessor; Coralie beaten + read_containment_index"
+   },
+   "npc.confessor.c2": {
+    "pages": [
+     "Read the dates.\nThen read them again."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Dr. Coralie Finch",
+    "key": "npc.confessor.c2",
+    "gate": "npc_confessor"
+   },
+   "npc.confessor.c3": {
+    "pages": [
+     "They call it research.\nIt's counting. Bringing back.",
+     "Mopping up. Forty-odd years of it."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Dr. Coralie Finch",
+    "key": "npc.confessor.c3",
+    "gate": "npc_confessor"
+   },
+   "npc.confessor.c3b_cause": {
+    "pages": [
+     "She looks at the run sheet a long time.\nShe doesn't pick it up.",
+     "I was on nights that week.\nI made the tea. That's all I did.",
+     "...That's all I'm saying."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Dr. Coralie Finch",
+    "key": "npc.confessor.c3b_cause",
+    "gate": "Ron asks what Test 7 was (ron_in_lab_r6)",
+    "note": "implied only; also the finale loop (she made the tea that night)"
+   },
+   "npc.confessor.c4": {
+    "pages": [
+     "This one was a 'retrieval'.\nSix years ago.",
+     "I'd fight anyone who called her\nan escape now. Anyone."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Dr. Coralie Finch",
+    "key": "npc.confessor.c4",
+    "gate": "npc_confessor"
+   },
+   "npc.confessor.c5": {
+    "pages": [
+     "What do you call yours?",
+     "...Good. Call it that.\nNot the number. Never the number."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Dr. Coralie Finch",
+    "key": "npc.confessor.c5",
+    "gate": "npc_confessor"
+   },
+   "npc.confessor.c5_warmth60": {
+    "pages": [
+     "{lead}'s colour shifts.\nCoralie goes very quiet.",
+     "Theirs did that too.\nYour four."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Dr. Coralie Finch",
+    "key": "npc.confessor.c5_warmth60",
+    "gate": "npc_confessor; lead Warmth 60+"
+   },
+   "npc.confessor.c6_ron": {
+    "pages": [
+     "She nods, once.",
+     "Always was."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Dr. Coralie Finch",
+    "key": "npc.confessor.c6_ron",
+    "gate": "after ron.r6.still_mine; sets confessor_done"
+   },
+   "lore.r6.teo_note_v2": {
+    "pages": [
+     "Teo, on the visitor sheet, in a list:\n1. Readings copied.",
+     "2. Taking them north.\n3. If the scanners don't like our four,",
+     "maybe the scanners are wrong."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "lore.r6.teo_note_v2",
+    "gate": "visitor sheet in lab_tidewater_cave"
+   },
+   "ron.r6.boat_leave": {
+    "pages": [
+     "Right. Boat. Tide. Me.\nIn that order.",
+     "I'll think about it on the boat.\nBoats are good for thinking. Mostly.",
+     "Don't read anything else without me.\nI mean it. I'll know."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Ron",
+    "key": "ron.r6.boat_leave",
+    "gate": "cove, tide turning; Ron motif stays major (bright toy piano)"
+   },
+   "seed.r1.home_drawing": {
+    "pages": [
+     "A child's drawing, framed. The river,\nreeds, a big sun. Nothing else.",
+     "Signed in crayon: 'Grandad, age 8.'"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "seed.r1.home_drawing",
+    "gate": "R1 home (house_1f)"
+   },
+   "seed.r1.mum_drawing": {
+    "pages": [
+     "Grandad drew that when he was your age.",
+     "Said it was very quiet back then.\nHe always said it like a question."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Mum",
+    "key": "seed.r1.mum_drawing",
+    "gate": "R1 home, after seed.r1.home_drawing"
+   },
+   "seed.r2.poster_fineprint": {
+    "pages": [
+     "REVIVAL TECH.\nRest. Care. Recovery.",
+     "Tiny print at the bottom:\n'Serving the region since the Incident.'"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "sign",
+    "key": "seed.r2.poster_fineprint",
+    "gate": "Revival Centre poster (R2)"
+   },
+   "seed.r2.stone_stamp": {
+    "pages": [
+     "Low on the stone, almost worn away:\na small stamp. 'RT HERITAGE OFFICE.'"
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "seed.r2.stone_stamp",
+    "gate": "R2 old stones, after lore_origin_full; live Glyph Scholar line stays"
+   },
+   "seed.r3.club_enraged": {
+    "pages": [
+     "Enraged, they call it. Eyes go all red.",
+     "My dad said that's what the first lot\nwere like. Dunno what he meant."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "Club patron",
+    "key": "seed.r3.club_enraged",
+    "gate": "R3 club_int patron"
+   },
+   "seed.r4.returned_board": {
+    "pages": [
+     "An old tally board, chalk gone grey:\n'RETURNED: 312'",
+     "Newer chalk underneath: 'RETURNED: 313'\nNext to it, a little drawn heart."
+    ],
+    "parity": "D",
+    "build": "partial",
+    "status": "DRAFT",
+    "group": "origin",
+    "speaker": "inspect",
+    "key": "seed.r4.returned_board",
+    "gate": "R4 Greystone / Frostspire tally board"
+   }
   }
  },
- "system_story_r78": {
-  "_section": "Regions 7-8 story bits (src/region78/index.js reads system_story_r78.<key>). DRAFT, r78 request.",
-  "r7_ron_page_handoff": {
+ "system_ending": {
+  "_section": "Interim ending: Ron 6 win with 8 coins -> Ron + RITA -> credits -> home to Brookhollow -> postgame note. DRAFT, pending Gary.",
+  "ron_after": {
    "pages": [
-    "Ron: Remember the page I wouldn't show you? It's dry now. Here.",
-    "A page from an old company field log. Someone drew the river up the mountain.",
-    "Ron: I don't know what it means yet. But I'm not scared of it anymore."
+    "Six losses. Eight coins. Yours, mind.\nStill. Not a bad week, was it?",
+    "Head Office can wait a day.\nLet's go home first, {player}."
    ],
-   "speaker": "Ron",
-   "region": 7,
-   "mood": "major key",
-   "status": "DRAFT",
-   "parity": "F15",
-   "build": "partial"
+   "note": "Suggested key: Ron 6 after-battle variant when the win rolls straight into credits (replaces maps.aurelith.aurelith_ron_6.after there; that line stays for the arena walk-in). Coder to wire.",
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "r7_ron_flies": {
+  "ron_home": {
    "pages": [
-    "Ron: Oh, and the bins at home? The flies have names now.",
-    "Don't ask me their names, {nick}."
+    "Home, then. Head Office can wait\none more day.",
+    "Somebody should take the bins out.\n...Fine. Tomorrow."
    ],
-   "speaker": "Ron",
-   "region": 7,
-   "status": "DRAFT",
-   "note": "moved from Tidewater (G3)",
-   "parity": "F15",
-   "build": "partial"
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "r7_node_name": {
+  "postgame": {
    "pages": [
-    "Research Access: Lighthouse"
+    "GAME CLEARED.",
+    "Your save keeps going. Catch, battle\nand explore anywhere you like.",
+    "The Aurelith Arena opens in a future\nupdate. Head Office is still up there."
    ],
-   "region": 7,
-   "status": "DRAFT",
-   "parity": "F15",
-   "build": "partial"
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "r7_node_desc": {
+  "credits_open": {
    "pages": [
-    "Key card for the lighthouse signal store.",
-    "Flares, lenses and one very old radio."
+    "You did it, {name}.",
+    "Eight coins. One Ron. A very long week."
    ],
-   "region": 7,
-   "status": "DRAFT",
-   "parity": "F15",
-   "build": "partial"
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "r8_node_name": {
+  "credits_team_head": {
    "pages": [
-    "Research Access: Foundry Lab"
+    "The team that got you here"
    ],
-   "region": 8,
-   "status": "DRAFT",
-   "parity": "F15",
-   "build": "partial"
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "r8_node_desc": {
+  "credits_coins_head": {
    "pages": [
-    "Key card for the Cindervale foundry lab.",
-    "Mind the kilns. They mind you back."
+    "Eight halls, eight coins"
    ],
-   "region": 8,
-   "status": "DRAFT",
-   "parity": "F15",
-   "build": "partial"
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "field_reading_sheet_name": {
+  "credits_ron": {
    "pages": [
-    "Field Reading Sheet"
+    "Ron",
+    "Who lost six times",
+    "and came along anyway."
    ],
-   "region": 7,
-   "status": "DRAFT",
-   "parity": "F15",
-   "build": "partial"
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "field_reading_sheet_desc": {
+  "credits_rita": {
    "pages": [
-    "A field team's reading sheet, from Ron.",
-    "\"Drift: bonded, stable. Not a fault.\""
+    "RITA",
+    "Who logged every step.",
+    "Lunch break: still pending."
    ],
-   "region": 7,
-   "status": "DRAFT",
-   "parity": "F15",
-   "build": "partial"
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "signal_crate_first": {
+  "credits_bin": {
    "pages": [
-    "LANTERNPORT. INSTRUMENTS – SIGNAL.\nThe lid's pried up. The straw is damp.",
-    "One gauge left. Past 100%, the dial\nturns red. Someone scratched a 7 there.",
-    "The needle's jammed past the red.\nSlip: \"Facility 1. Do not exceed 100%.\""
+    "The bin",
+    "Still waiting.",
+    "Ron says tomorrow."
    ],
-   "sets": "found_signal_crate_r7",
-   "region": 7,
-   "status": "DRAFT",
-   "note": "pending Gary (story_beats §S)",
-   "parity": "F15",
-   "build": "partial"
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
   },
-  "signal_crate_again": {
+  "credits_crew_head": {
    "pages": [
-    "The SIGNAL gauge.\nStill jammed past the red. Still."
+    "Made with care by"
    ],
-   "region": 7,
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "credits_crew": {
+   "pages": [
+    [
+     "Dev team",
+     "Gary Hight"
+    ]
+   ],
+   "note": "Gary, Oct 29 2026 (dictated): dev team is just Gary Hight; no bot role names; no studio line.",
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "credits_crew_note": {
+   "pages": [
+    "Grok Bot was used in the production of this game."
+   ],
+   "note": "Gary, Oct 29 2026 (dictated).",
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "credits_thanks": {
+   "pages": [
+    "And you.",
+    "Thank you for playing Kilumen."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "credits_end": {
+   "pages": [
+    "To be continued...",
+    "Head Office is still up there."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  }
+ },
+ "system_halls": {
+  "_section": "Hall v2: attendant progress, Master gate, rematch. Coins are Master awards; money is gold.",
+  "progress": {
+   "pages": [
+    "Beat {need} trainers here to face\nthe Master. You've beaten {wins}.",
+    "{left} to go. The Master's watching."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "progress_open": {
+   "pages": [
+    "{wins} wins. You needed {need}.\nThe Master will see you now.",
+    "Go on up. Mind the last step."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "master_locked": {
+   "pages": [
+    "Not yet. Win {left} more in my hall.",
+    "{wins} of {need}. Come back with the rest."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "prism_open": {
+   "pages": [
+    "The prism catches the light and\nsplits it into every colour.",
+    "The way to the Master is open.\nGo on up. Mind your eyes."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "master_puzzle": {
+   "pages": [
+    "You'll have to reach me first.",
+    "The hall is the first test.\nFind your way to the front."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "rematch_prompt": {
+   "pages": [
+    "Back for more? A rematch costs\n{fee} gold, paid now, win or lose."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "rematch_no_gold": {
+   "pages": [
+    "A rematch is {fee} gold.\nCome back when your wallet agrees."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "rematch_won": {
+   "pages": [
+    "Beaten again. Fair's fair:\n{prize} gold, as promised.",
+    "Spend it well. I'll be training."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  }
+ },
+ "system": {
+  "_section": "One-off story pop-ups. Read as system.<key>.pages; single OK choice.",
+  "wip_after_master3": {
+   "pages": [
+    "That's as far as the story goes for now. Region 4 is still being built.",
+    "You're free to keep exploring. Just try not to break anything."
+   ],
+   "trigger": "beat_master_revival",
    "status": "DRAFT",
-   "note": "pending Gary (story_beats §S)",
-   "parity": "F15",
-   "build": "partial"
+   "note": "Master 3 (Revival Heights, coin 3). Model: wip_notice.js WIP_TEXT (system.wip_after_master2 has no text yet)"
+  },
+  "wip_after_master8": {
+   "pages": [
+    "That's as far as the story goes for now.",
+    "The road to Aurelith is still being built."
+   ],
+   "trigger": "beat_master_cindervale",
+   "status": "DRAFT",
+   "note": "r78 request; wip_notice.js on dev/regions-5-8"
   }
  },
  "ron": {
+  "_section": "Ron scenes read by key path (ron.<town>.<beat>). DRAFT.",
   "lanternport": {
    "greet": {
     "pages": [
@@ -26840,9 +29052,55 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "final_tower": {
+   "_note": "top_wait: at the TOP of the tower when the player reaches the final tower opponent. intro + challenge: at the BOTTOM of the tower, after the player heals following the last tower battle, with all 8 beat_master_* flags set AND the Arena top floor beaten (Game dev gates that in code); show intro, then challenge, then start the battle. Tower = aurelith_stadium_int (dev/regions-5-8; Stadium + endgame Arena share the building); spot ids not final, so key-only, not map-placed. battle_lost/battle_won/after follow the rival trainer fields (cf. aurelith_ron_6).",
+   "top_wait": {
+    "pages": [
+     "Ron: Oh, hey! Took your time.\nI already beat this one. Easy.",
+     "Ron: Your turn. I'll wait for you\nat the bottom. Don't keep me long!"
+    ],
+    "status": "DRAFT"
+   },
+   "intro": {
+    "pages": [
+     "Ron: There you are! All eight Masters.\nEight! You absolute legend, {nick}.",
+     "Ron: I've been out here three hours.\nThree. I named a pigeon. Twice.",
+     "Ron: Brought snacks. Ate the snacks.\nThen I ate yours. Sorry. Not sorry."
+    ],
+    "status": "DRAFT"
+   },
+   "challenge": {
+    "pages": [
+     "Ron: Right. No more waiting around.\nOne last battle. You and me. Now!"
+    ],
+    "status": "DRAFT"
+   },
+   "battle_lost": {
+    "pages": [
+     "Ron: Yeah. That's it, then.\nYou're the best there is, {nick}.",
+     "Ron: I knew it back in Brookhollow.\nProud of you. Properly proud."
+    ],
+    "status": "DRAFT"
+   },
+   "battle_won": {
+    "pages": [
+     "Ron: Ha! Got you! Finally!\nWrite it down. Frame it. Somewhere.",
+     "Ron: You were brilliant, though.\nGo heal up. I'll still be here."
+    ],
+    "status": "DRAFT"
+   },
+   "after": {
+    "pages": [
+     "Ron: So. What's next? Bigger maps?\nWeirder creatures? Better snacks?",
+     "Ron: Whatever it is, I'm in.\nSame team as always. You and me."
+    ],
+    "status": "DRAFT"
+   }
   }
  },
  "lore": {
+  "_section": "Lore reads by key path (lore.<town>.<item>). DRAFT.",
   "lanternport": {
    "page": {
     "pages": [
@@ -26853,57 +29111,6 @@
     ],
     "status": "DRAFT"
    }
-  }
- },
- "system_halls": {
-  "progress": {
-   "pages": [
-    "Hall wins: {wins} of {need}. Win {left} more and the Master will see you."
-   ],
-   "placeholder": true,
-   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
-  },
-  "progress_open": {
-   "pages": [
-    "Hall wins: {wins} of {need}. The Master will see you now."
-   ],
-   "placeholder": true,
-   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
-  },
-  "master_locked": {
-   "pages": [
-    "Win {left} more in my hall first. Then we battle."
-   ],
-   "placeholder": true,
-   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
-  },
-  "rematch_prompt": {
-   "pages": [
-    "Again? A rematch costs {fee} gold, paid now, win or lose."
-   ],
-   "placeholder": true,
-   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
-  },
-  "rematch_no_gold": {
-   "pages": [
-    "A rematch is {fee} gold. Come back when you have it."
-   ],
-   "placeholder": true,
-   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
-  },
-  "rematch_won": {
-   "pages": [
-    "You beat me again. My team will be stronger next time."
-   ],
-   "placeholder": true,
-   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
-  },
-  "master_puzzle": {
-   "pages": [
-    "You walked a path that does not reach me. Solve the hall first, then come up."
-   ],
-   "placeholder": true,
-   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
   }
  }
 }
