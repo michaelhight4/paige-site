@@ -1,11 +1,14 @@
 // Town practice events UI (Oct 29 2026). Talk to <town>_practice_coach -> pick a creature -> play -> result + reaction.
 // Practice only: no prize, no podium; best score per event saved in sports state (.town). Logic: town_events.js.
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
-import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.76-alpha';
-import { TS, tt } from './town_strings.js?v=v0.2.76-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.76-alpha';
+import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.75-alpha';
+import { TS, tt } from './town_strings.js?v=v0.2.75-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.75-alpha';
+import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.75-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.75-alpha';
+import { runChampion, reducedMotion } from './hype.js?v=v0.2.75-alpha';
 
-export const LIVE_REGION = 3; // R1-R3 are playable; Frostspire (R4), Lanternport (R7), Cindervale (R8) unlock with their region
+export const LIVE_REGION = 8; // all six town events are playable (dev/sports-events, Oct 29 2026); each coach also runs the town cup
 const W = 360, H = 480;
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const CSS = `#town-ev{position:fixed;inset:0;z-index:9000;background:#141a26ee;color:#f3ead2;font:14px/1.35 monospace;display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none}
@@ -14,13 +17,14 @@ const CSS = `#town-ev{position:fixed;inset:0;z-index:9000;background:#141a26ee;c
 #town-ev button{font:inherit;background:#384260;color:#f3ead2;border:2px solid #e8c26a;border-radius:4px;padding:6px 12px;margin:3px;cursor:pointer}
 #town-ev .pad{display:flex;justify-content:center;gap:4px;margin-top:6px}#town-ev .pad button{min-width:52px;min-height:44px;font-size:18px}
 #town-ev .mon{display:inline-flex;flex-direction:column;align-items:center;margin:4px;padding:4px;border:2px solid #384260;border-radius:4px;cursor:pointer}#town-ev .mon.sel{border-color:#e8c26a}
-#town-ev .mon img{width:48px;height:48px;image-rendering:pixelated}#town-ev .react{margin:8px 0;font-style:italic}`;
+#town-ev canvas#sports-champ{width:min(96vw,calc(96vh*16/9));aspect-ratio:16/9}#town-ev .rivals{display:flex;justify-content:center;gap:6px;margin:6px 0}#town-ev .rv{border:2px solid #384260;border-radius:4px;padding:4px;min-width:84px}#town-ev .rv b{color:#e8c26a}#town-ev .rank{margin:6px auto;border-collapse:collapse}#town-ev .rank td{padding:2px 8px}#town-ev .rank tr.me{color:#e8c26a;font-weight:bold}#town-ev button:disabled{opacity:.45}#town-ev .mon img{width:48px;height:48px;image-rendering:pixelated}#town-ev .react{margin:8px 0;font-style:italic}`;
 const sheet = new Map();
 const imgFor = (sp) => { if (!sheet.has(sp)) { const im = new Image(); im.src = `art/characters/pixel/creatures/${sp}/overworld/${sp}_ow/${sp}_ow_right_walk0_2x.png`; sheet.set(sp, im); } return sheet.get(sp); };
 const nameOf = (c) => c.nickname || c.name || c.species;
 
 export function attachTownEvents(scene, { sys, sstate, isOpen }) {
-  const st = { open: false, phase: 'closed', ev: null, run: null, mon: null, raf: 0, input: null, last: null };
+  const day = () => scene.clock?.day || 0, wallet = () => sys()?.wallet, rm = reducedMotion(new URLSearchParams(location.search));
+  const st = { mode: 'practice', rivals: null, crowd: null, open: false, phase: 'closed', ev: null, run: null, mon: null, raf: 0, input: null, last: null };
   (scene.saveGuards ||= []).push(() => (st.open ? (st.phase === 'play' ? 'town_event' : 'town_event_menu') : null));
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
   let ov = null, savedTs = 1;
@@ -37,8 +41,8 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     s.onInteract = (fx, fy) => {
       const ev = coachAt(fx, fy); if (!ev) return prev(fx, fy);
       scene.script(async () => {
-        if (ev.region > LIVE_REGION) { await scene.say?.([TS.not_ready], { name: TS.coach_name, portrait: null }); return; }
-        await scene.say?.([TS[ev.id].hello], { name: TS.coach_name, portrait: null }); await openEvent(ev);
+        if (ev.region > LIVE_REGION) { await scene.say?.([TS.not_ready], { name: TS[ev.id].coach || TS.coach_name, portrait: null }); return; }
+        await scene.say?.([TS[ev.id].hello], { name: TS[ev.id].coach || TS.coach_name, portrait: null }); await openEvent(ev);
       });
       return true;
     };
@@ -71,16 +75,35 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     st.mon = st.mon && mons.includes(st.mon) ? st.mon : mons[0];
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><div>${esc(rec?.best ? tt(TS.best, { best: rec.best, unit: ev.unit }) : TS.none_yet)}</div>
       <div>${esc(TS.pick)}</div><div>${mons.map((c, i) => `<div class="mon${c === st.mon ? ' sel' : ''}" data-i="${i}"><img src="${imgFor(c.species).src}"><span>${esc(nameOf(c))}</span></div>`).join('')}</div>
-      <div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div><button data-a="go">${esc(TS.start)}</button><button data-a="back">${esc(TS.back)}</button></div>`;
+      <div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div><div class="cupline" id="cup-status">${esc(cupStatus(ev).msg)}</div>
+      <button data-a="go">${esc(TS.practice)}</button><button data-a="cup"${cupStatus(ev).ok ? '' : ' disabled'}>${esc(tt(TS.cup_enter, { fee: CUP.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
     ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { st.mon = mons[+m.dataset.i]; showPick(); }));
-    ov.querySelector('[data-a=go]').onclick = () => play(); ov.querySelector('[data-a=back]').onclick = () => close();
+    ov.querySelector('[data-a=go]').onclick = () => { st.mode = 'practice'; play(); }; ov.querySelector('[data-a=back]').onclick = () => close();
+    ov.querySelector('[data-a=cup]').onclick = () => cupIntro();
+  }
+  function cupStatus(ev) {
+    const r = cupState(sstate(), ev), c = canEnterCup({ ev, day: day(), coins: wallet()?.coins ?? 0, sstate: sstate() });
+    const msg = c.ok ? tt(TS.cup_today, { prize: CUP.prize, cups: r.cups }) : c.reason === 'not_today' ? tt(TS.cup_in_days, { days: c.days, cups: r.cups }) : c.reason === 'entered' ? TS.cup_entered : tt(TS.cup_no_gold, { fee: CUP.fee });
+    return { ...c, msg };
+  }
+  /** Cup: pay, meet the three rivals (their posted scores), the coach sets the target, then the real event. */
+  function cupIntro() {
+    const ev = st.ev; if (!payCup({ ev, day: day(), wallet: wallet(), sstate: sstate() })) return showPick();
+    st.mode = 'cup'; st.rivals = rivalsFor(ev, day()); st.coinsBefore = wallet()?.coins ?? 0; st.phase = 'cup_intro';
+    const top = Math.max(...st.rivals.map((r) => r.score));
+    ov.innerHTML = `<div class="box" id="cup-intro"><h2>${esc(tt(TS.cup_title, { event: TS[ev.id].title }))}</h2><div>${esc(TS.cup_field)}</div>
+      <div class="rivals">${st.rivals.map((r) => `<div class="rv"><img src="${imgFor(r.species).src}" style="width:48px;image-rendering:pixelated"><div>${esc(r.trainer)}</div><b>${r.score} ${esc(ev.unit)}</b></div>`).join('')}</div>
+      <div class="react">${esc(TS[ev.id].coach || TS.coach_name)}: ${esc(tt(TS.cup_target, { score: top + 1, unit: ev.unit, creature: nameOf(st.mon) }))}</div>
+      <button data-a="go">${esc(TS.start)}</button></div>`;
+    try { window.kilumen?.audio?.sfx?.('select'); } catch (e) { /* no audio */ }
+    ov.querySelector('[data-a=go]').onclick = () => play();
   }
 
   function play() {
     const ev = st.ev, c = st.mon; if (!c) return close();
     let stats = {}; try { stats = athleticStats(c.uid || c.id ? c : { ...c, uid: `${c.species}:${c.nickname || ''}` }); } catch (e) { /* no athletics: average */ }
     st.run = ev.create(`${ev.id}:${Date.now()}`, stats, team().length); st.run.team = [c, ...team().filter((x) => x !== c)]; st.phase = 'play';
-    st.input = { hold: {}, edge: {}, pointerX: null };
+    st.input = { hold: {}, edge: {}, pointerX: null }; st.crowd = makeCrowd(st.mode === 'cup' ? 2 : 1, ev.id); st.prevScore = 0; st.prevBad = 0; st.quip = null;
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><canvas width="${W}" height="${H}"></canvas>
       <div class="pad"><button data-k="left">◀</button><button data-k="up">▲</button><button data-k="down">▼</button><button data-k="right">▶</button><button data-k="tap">A</button></div></div>`;
     const cv = ov.querySelector('canvas'), g = cv.getContext('2d');
@@ -92,14 +115,21 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
       const dt = Math.min(0.05, (now - st.last) / 1000); st.last = now;
       const I = st.input, inp = { ...I.edge, hold: { ...I.hold }, pointerX: I.pointerX }; I.edge = {};
       ev.step(st.run, dt, inp); draw(g, ev, st.run, c, now / 1000);
+      { const sc = scoreOf(ev, st.run), bad = badOf(st.run), cr = st.crowd;
+        if (sc > st.prevScore) { cr.hype = Math.min(1, cr.hype + 0.22); if (sc % 5 === 0 || cr.hype > 0.9) quip('cheer'); }
+        if (bad > st.prevBad) { cr.gasp = 0.8; cr.hype *= 0.5; quip('oops'); }
+        st.prevScore = sc; st.prevBad = bad; if (st.run.left < 5 && st.run.left + dt >= 5) quip('final');
+        drawCrowd(g, cr, dt, now / 1000, rm); if (st.quip) { st.quip.t -= dt; drawQuip(g, st.quip, (st.crowd.bottom || 40) + 16); if (st.quip.t <= 0) st.quip = null; } }
       if (st.run.done) { st.phase = 'result'; setTimeout(() => showResult(), 500); return; }
       st.raf = requestAnimationFrame(loop);
     };
     st.raf = requestAnimationFrame(loop);
   }
 
+  function quip(kind) { const L = TS['coach_' + kind]; if (!L || (st.quip && st.quip.t > 0.6)) return; st.quip = { text: L[Math.floor(Math.random() * L.length)], t: 1.6 }; }
   function showResult() {
     if (!ov) return;
+    if (st.mode === 'cup') return showCupResult();
     const ev = st.ev, r = recordRun(sstate(), ev, st.run), c = st.mon, lines = TS['react_' + r.grade];
     try { globalThis.kilumen?.feeds?.onPractice?.(c); } catch (e) { /* feeds off */ } // fruit feeds: practice drains Fullness + speeds grow timers
     const react = tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) });
@@ -111,8 +141,54 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     st.phase = 'result';
   }
 
-  const api = { openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, ev: st.ev?.id, run: st.run }), close, hook };
+  async function showCupResult() {
+    const ev = st.ev, c = st.mon, r = recordRun(sstate(), ev, st.run);
+    try { globalThis.kilumen?.feeds?.onPractice?.(c); } catch (e) { /* feeds off */ }
+    let mult = 1; try { mult = diffOf(getDifficulty(sys()?.state)).money || 1; } catch (e) { mult = 1; }
+    const res = settleCup({ ev, score: r.score, rivals: st.rivals, wallet: wallet(), sstate: sstate(), mult }); st.cupResult = res;
+    if (res.place === 1) {
+      st.phase = 'champion'; const ss = sstate(); ss.pid ??= Math.floor(Math.random() * 100000);
+      const big = (sp) => { const im = new Image(); im.src = `art/characters/pixel/creatures/${sp}/battle/${sp}_front_128.png`; im.onerror = () => { im.onerror = null; im.src = `art/characters/pixel/creatures/${sp}/base/${sp}_front.png`; }; return im; };
+      await runChampion({ st, ov, party: [c.species], playerSrc: 'art/characters/pixel/humans/cal/run_bike/frames_3x/cal_chibi_down_run0_3x.png', title: tt(TS.cup_champ, { town: TS[ev.id].town || '' }),
+        scoreLabel: TS.cup_score, scoreText: `${r.score} ${ev.unit}`, name: scene.config?.playerName || 'Cal', id: ss.pid, time: 0, coinsFrom: st.coinsBefore, prize: res.prize, reduced: rm, audio: window.kilumen?.audio,
+        framesBig: big });
+      st.tapFn = null; if (!ov) return;
+    }
+    st.phase = 'cup_result';
+    const lines = TS['cup_react_' + (res.place === 1 ? 'win' : res.place === 2 ? 'close' : 'lose')];
+    ov.innerHTML = `<div class="box" id="cup-result"><h2>${esc(tt(TS.cup_title, { event: TS[ev.id].title }))}</h2>
+      <table class="rank">${res.field.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(x.me ? nameOf(c) : `${x.trainer}'s ${x.species}`)}</td><td>${x.score} ${esc(ev.unit)}</td></tr>`).join('')}</table>
+      <div>${esc(res.place === 1 ? tt(TS.cup_won, { prize: res.prize, cups: res.cups }) : TS.cup_lost)}</div>
+      <div class="react">${esc(TS[ev.id].coach || TS.coach_name)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
+      <button data-a="back">${esc(TS.back)}</button></div>`;
+    ov.querySelector('[data-a=back]').onclick = () => close();
+  }
+
+  const api = { openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, crowd: st.crowd && { hype: st.crowd.hype } }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };
   return api;
+}
+
+// ---------------- crowd (pre-rendered strip, one drawImage per frame: cheap on phones) ----------------
+const badOf = (s) => (3 - (s.lives ?? 3)) + (s.falls || 0) + (s.miss || 0) + (s.washed || 0);
+const CROWD_COLS = { garden_hop: ['#f2a7c3', '#9bd18b', '#ffe08a'], tide_run: ['#7fc4e8', '#f3ead2', '#e8875a'], signal_relay: ['#9ad1ff', '#c3a6ff', '#ffe58a'],
+  ice_slide: ['#dff1ff', '#8fb8ff', '#ff9aa8'], lantern_catch: ['#ffb347', '#ffe58a', '#c38bff'], forge_push: ['#ff7a1a', '#c86b3c', '#ffd77a'] };
+function makeCrowd(rows, evId) {
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = 14 * rows + 6; const g = cv.getContext('2d'), cols = CROWD_COLS[evId] || ['#ccc'];
+  g.fillStyle = '#0b0f1a'; g.fillRect(0, 0, cv.width, cv.height);
+  for (let r = 0; r < rows; r++) for (let i = 0; i < 30; i++) { const x = i * 12 + (r % 2) * 6 + 4, y = 9 + r * 14; g.fillStyle = cols[(i + r) % cols.length]; g.fillRect(x - 4, y, 8, 6); g.fillStyle = '#e8c9a0'; g.beginPath(); g.arc(x, y - 2, 3, 0, 7); g.fill(); }
+  return { cv, hype: 0.2, gasp: 0, rows };
+}
+function drawCrowd(g, cr, dt, t, rm) {
+  cr.hype = Math.max(0.15, cr.hype - dt * 0.12); cr.gasp = Math.max(0, cr.gasp - dt);
+  const y = 26, bob = rm ? 0 : Math.round(Math.abs(Math.sin(t * (4 + cr.hype * 8))) * (1 + cr.hype * 4));
+  g.globalAlpha = 0.9; g.drawImage(cr.cv, 0, y - bob, W, cr.cv.height); g.globalAlpha = 1; cr.bottom = y + cr.cv.height;
+  if (!rm && cr.hype > 0.6) { g.fillStyle = '#ffe58a'; for (let i = 0; i < 6; i++) { const x = (i * 61 + t * 40) % W; g.fillRect(x, y - 6 - ((t * 30 + i * 7) % 10), 2, 5); } } // waving arms / sparkle
+  if (cr.gasp > 0) { g.fillStyle = '#fff'; g.font = 'bold 11px monospace'; g.textAlign = 'center'; g.fillText(TS.crowd_gasp, W / 2, y + cr.cv.height + 12); }
+  else if (cr.hype > 0.75) { g.fillStyle = '#ffe58a'; g.font = 'bold 11px monospace'; g.textAlign = 'center'; g.fillText(TS.crowd_roar, W / 2, y + cr.cv.height + 12); }
+}
+function drawQuip(g, q, y0 = 30) {
+  g.globalAlpha = Math.min(1, q.t * 2); g.fillStyle = '#22293aee'; g.fillRect(6, y0, W - 12, 22); g.strokeStyle = '#e8c26a'; g.strokeRect(6, y0, W - 12, 22);
+  g.fillStyle = '#f3ead2'; g.font = '12px monospace'; g.textAlign = 'left'; g.fillText(q.text, 12, y0 + 15); g.globalAlpha = 1;
 }
 
 // ---------------- drawing ----------------
