@@ -4,14 +4,18 @@ cradle ring opens at the polisher cradle, the team's crystals rise from the mach
 sweep, a single warm/violet glow, done ping, crystals home. This redraw keeps the same steps, names, anchor and timing hooks
 but at v2 quality: outlined faceted crystals (stepped violet ramp, no dither), a burning ring of flame round the cradle,
 flame tongues licking off every crystal, the crystals ORBIT the ring during the scan, a fire flare on the glow and an
-ember burst on the done ping. Originals are kept in heal_restore/_v1/ (rollback: copy them back + restore the JSON there).
+ember burst on the done ping.
+Gary 2:33 PM CT Oct 29 2026: "i like the regular purple, make the fire animation only for the ones in the capital" ->
+this writes a SEPARATE piece heal_restore_fire/ (seeded from heal_restore.json); heal_restore/ stays the original purple.
+fx_art.js FX_CFG.healFire picks the piece per heal (capital = Aurelith).
 Run:  python3 tools/furniture_v2/heal_fire_v2.py
 """
 import json, math, os, random, shutil
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-REL = 'art/characters/pixel/fx_extra/heal_restore'
+SRC = os.path.join(ROOT, 'art/characters/pixel/fx_extra/heal_restore/heal_restore.json')
+REL = 'art/characters/pixel/fx_extra/heal_restore_fire'
 D = os.path.join(ROOT, REL)
 W, H, AX, AY, R = 72, 88, 36, 36, 18          # canvas, anchor (cradle centre), crystal ring radius
 RF = 23                                       # fire ring radius (outside the crystals so they read clearly)
@@ -188,12 +192,8 @@ def anims():
 
 
 def main():
-    jp = os.path.join(D, 'heal_restore.json'); J = json.load(open(jp))
-    bk = os.path.join(D, '_v1')
-    if not os.path.exists(bk):  # keep the originals once
-        os.makedirs(bk)
-        shutil.copy(jp, os.path.join(bk, 'heal_restore.json'))
-        for k in J['anims']: shutil.copytree(os.path.join(D, k), os.path.join(bk, k))
+    os.makedirs(D, exist_ok=True); jp = os.path.join(D, 'heal_restore_fire.json')
+    J = json.load(open(SRC)); J['piece'] = 'heal_restore_fire'; J['anims'] = {}
     for k, (frames, ms) in anims().items():
         dd = os.path.join(D, k); os.makedirs(dd, exist_ok=True)
         sh = Image.new('RGBA', (W * len(frames), H), T)
@@ -208,7 +208,7 @@ def main():
                          'anchor': {'canvas_px': [AX, AY], 'meaning': 'cradle centre on the polisher cradle (i_crystal_polisher 2x2 px [63, 28])'},
                          'rects': [[i * W, 0, W, H] for i in range(len(frames))],
                          'sheet': f'{REL}/{k}/{k}_sheet.png', 'sheet_2x': f'{REL}/{k}/{k}_sheet_2x.png', 'gif_2x': f'{REL}/{k}/{k}_2x.gif', 'emissive': 'all'}
-    J['status'] = 'v2 fire redraw (Oct 29 2026, tools/furniture_v2/heal_fire_v2.py) - wired in src/ui/fx_art.js healFx; originals in _v1/'
+    J['status'] = 'v2 fire redraw (Oct 29 2026, tools/furniture_v2/heal_fire_v2.py) - capital (Aurelith) heal centres only, picked in src/ui/fx_art.js FX_CFG.healFire'
     J['generated_by'] = 'tools/furniture_v2/heal_fire_v2.py'
     J['about'] = ('Heal-centre restore FX v2: a ring of fire opens round the polisher cradle, the team crystals are lifted off the machine '
                   'through the flames into the ring, orbit it during one scanner sweep, flare white-hot, ember burst, then home.')

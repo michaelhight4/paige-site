@@ -19,6 +19,11 @@ export const FX_CFG = {
   // Heal camera (Gary 2:42 PM CT Oct 23 2026: "zoom in to highlight the machine healing"): the world canvas scales up about the
   // cradle after the camera pans there (scene.camFocus; CSS transform, so the FX overlay, placed from getBoundingClientRect, stays aligned).
   healZoom: { scale: 1.75, ms: 300 },
+  // Heal variant (Gary 2:33 PM CT Oct 29 2026: "i like the regular purple, make the fire animation only for the ones in the capital"):
+  // every heal centre plays the original purple heal_restore; capital (Aurelith) heals play heal_restore_fire (v2 fire + orbit).
+  // Aurelith has no heal map of its own: its door (aurelith 17,18) leads into the shared heal_brookhollow, so the capital is
+  // recognised by the door the player came in through (scene.lastDoor.map) or a dedicated heal map listed in `maps`.
+  healFire: { maps: ['heal_aurelith'], fromDoor: ['aurelith'] },
   // Character models' capture poses: bone_v2 (one arm extended; natural elbow bend, smoothed arm edges, slimmer hiker sleeve).
   // ON by default since Oct 23, 2026 (Gary approved 12:00 AM CT: "just pass them on as approved im going to sleep").
   // Rollbacks: ?poses=0 (old placeholder trainer + the single `hold` point above) or ?fxart=0 (whole art path off).
@@ -193,15 +198,19 @@ function findMachine(sc, cc) {
     for (let y = 0; y < g.length; y++) for (let x = 0; x < g[y].length; x++) if (g[y][x] && nameOf(g[y][x]) === `${base}_0_0`) return { x, y, base, pt }; } }
   return null;
 }
+/** 'heal_restore_fire' in the capital (FX_CFG.healFire), else the original purple 'heal_restore'. */
+export function healPiece(sc) { const F = FX_CFG.healFire, m = sc?.map?.name, d = sc?.lastDoor?.map;
+  return F && (F.maps?.includes(m) || F.fromDoor?.includes(d)) ? 'heal_restore_fire' : 'heal_restore'; }
 /** sc: the overworld scene; n: team size. Resolves { ms, machine, steps } (skipped: reduced motion / no machine / art missing). */
 export async function healFx(sc, n, { reduced = false, steps = [] } = {}) {
   n = Math.max(1, Math.min(6, n || 1));
   if (reduced) return { ms: 0, skipped: 'reduced', steps };
-  const H = (await piece('heal_restore'))?.hooks, mc = findMachine(sc, H?.cradle_centre); if (!mc) return { ms: 0, skipped: 'no machine', steps };
-  const names = ['heal_cradle_open', `heal_float_${n}`, 'heal_scanner_sweep', `heal_orbit_${n}`, `heal_glow_${n}`, 'heal_done_ping'];
-  const set = await preload(names.map((k) => ['heal_restore', k])); if (!set) return { ms: 0, skipped: 'art missing', steps };
+  const P = healPiece(sc), fire = P === 'heal_restore_fire';
+  const H = (await piece(P))?.hooks, mc = findMachine(sc, H?.cradle_centre); if (!mc) return { ms: 0, skipped: 'no machine', steps };
+  const names = ['heal_cradle_open', `heal_float_${n}`, 'heal_scanner_sweep', ...(fire ? [`heal_orbit_${n}`] : []), `heal_glow_${n}`, 'heal_done_ping'];
+  const set = await preload(names.map((k) => [P, k])); if (!set) return { ms: 0, skipped: 'art missing', steps };
   const zoom = await healZoomIn(sc, mc);
-  try { return await healPlay(sc, n, mc, set, steps, zoom); } finally { await healZoomOut(sc, zoom); }
+  try { return { ...(await healPlay(sc, n, mc, set, steps, zoom, fire)), variant: P }; } finally { await healZoomOut(sc, zoom); }
 }
 /** Close-up on the machine (input is already held: the heal runs inside a dialogue script): the camera pans to the cradle
  *  (scene.camFocus, overworld.js view), then the world canvas scales up about it (CSS transform: the FX overlay is placed from
@@ -229,19 +238,24 @@ async function healZoomOut(sc, z) {
   if (from) await tween(ms, (e) => { sc.camFocus = { x: Math.round(to.x + (from.x - to.x) * e), y: Math.round(to.y + (from.y - to.y) * e) }; });
   sc.camFocus = null;
 }
-async function healPlay(sc, n, mc, set, steps, zoom) {
+async function healPlay(sc, n, mc, set, steps, zoom, fire = false) {
   const cv = sc.canvas, r = cv.getBoundingClientRect(), cssK = r.width / cv.width, z = sc.zoom, cam = sc._cam || { x: 0, y: 0 }, T = 64;
   const s = z * cssK, x = r.left + ((mc.x * T + mc.pt[0]) - cam.x) * s, y = r.top + ((mc.y * T + mc.pt[1]) - cam.y) * s;
   const host = document.createElement('div'); host.className = 'ax-heal'; host.setAttribute('aria-hidden', 'true'); document.body.appendChild(host);
   const t0 = performance.now(), pos = { x, y };
   const step = async (k, o) => { steps.push(o?.reverse ? `${k}_back` : k); const sp = sheet(host, set[k], s, pos); await sp.play(o); return sp; };
   (await step('heal_cradle_open')).remove();
-  const fl = await step(`heal_float_${n}`); fl.remove();           // crystals lifted off the machine through the fire ring
-  // v2 fire redraw (Oct 29 2026, tools/furniture_v2/heal_fire_v2.py): the crystals orbit the burning ring during the one sweep
-  steps.push('heal_scanner_sweep', `heal_orbit_${n}`);
-  const sw = sheet(host, set.heal_scanner_sweep, s, pos), orb = sheet(host, set[`heal_orbit_${n}`], s, pos); // crystals drawn over the burning ring
-  await Promise.all([sw.play(), orb.play()]); sw.remove(); orb.remove();
-  (await step(`heal_glow_${n}`)).remove();                            // fire flares, crystals white-hot
+  if (fire) { // capital: v2 fire (tools/furniture_v2/heal_fire_v2.py) - crystals lifted through the fire, orbit the burning ring during the sweep
+    (await step(`heal_float_${n}`)).remove();
+    steps.push('heal_scanner_sweep', `heal_orbit_${n}`);
+    const sw = sheet(host, set.heal_scanner_sweep, s, pos), orb = sheet(host, set[`heal_orbit_${n}`], s, pos); // crystals over the ring
+    await Promise.all([sw.play(), orb.play()]); sw.remove(); orb.remove();
+  } else { // original purple (Animator 28159ebd), unchanged
+    const fl = await step(`heal_float_${n}`); fl.last();             // crystals held up over the cradle
+    (await step('heal_scanner_sweep')).remove();                         // one sweep over the held float
+    fl.remove();
+  }
+  (await step(`heal_glow_${n}`)).remove();
   (await step('heal_done_ping')).remove();
   (await step(`heal_float_${n}`, { reverse: true })).remove();       // crystals home
   host.remove();
