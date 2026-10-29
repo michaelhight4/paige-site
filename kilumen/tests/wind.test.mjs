@@ -31,3 +31,12 @@ test('canopy bottom band (trunk join) is drawn unshifted; ?wind=0 / reduced moti
   globalThis.KILUMEN_WIND_OFF = true; w.frame({ tileset: ts, ms: 0, life: { outdoor: true } }); assert.equal(w.kind(546), 0); delete globalThis.KILUMEN_WIND_OFF;
   const r = new W.Wind({ reduced: () => true }); r.frame({ tileset: ts, ms: 0, life: { outdoor: true } }); assert.equal(r.kind(546), 0);
 });
+test('Options Wind toggle: default on, off via life.settings.wind, ?wind=0 always wins', () => {
+  assert.equal(W.windEnabled({ settings: { clouds: true } }), true);
+  assert.equal(W.windEnabled({ settings: { wind: false } }), false);
+  const w = new W.Wind({ life: { outdoor: true, weather: 'fair', settings: { wind: false } } });
+  const v = { ms: 1000, tileset: { byId: new Map([[1, { name: 'tree_top' }]]) } };
+  assert.equal(w.frame(v), false); assert.equal(w.kind(1), 0); // rest pose: plain draw
+  w.life.settings.wind = true; assert.equal(w.frame(v), true); assert.equal(w.kind(1), 1); // live, no reload
+  globalThis.KILUMEN_WIND_OFF = true; try { assert.equal(W.windEnabled({ settings: { wind: true } }), false); assert.equal(w.frame(v), false); } finally { delete globalThis.KILUMEN_WIND_OFF; }
+});

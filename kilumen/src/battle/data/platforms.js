@@ -1,9 +1,11 @@
 // Battle ground platforms, one entry per biome (battle fix pass, Oct 22, 2026). Kilumen's own art, drawn in code: an oval
 // patch of ground each creature stands on, the far (foe) one smaller for perspective. Each biome supplies its battle
 // background and a palette; drawPlatform() turns the palette into a small pixel-art PNG (data URL, cached) that the battle
-// screen (src/battle/ui_sd.js) shows with image-rendering: pixelated. 'grass' and 'water' exist. To add a biome, add an entry
+// screen (src/battle/ui_sd.js) shows with image-rendering: pixelated. 'grass' (drawn platforms) plus painted 'water', 'cave', 'mountain', 'snow'. To add a biome, add an entry
 // here with its own `bg` and colours and pass `biome` in the battle opts; nothing else changes.
 // Colours for 'grass' were sampled from art/world/battle_bg.png (meadow ground, #a0a331 to #c1be2b).
+const PHASES = ['dawn', 'day', 'dusk', 'night'], ph = (p) => (PHASES.includes(p) ? p : 'day');
+const artBg = (b, p) => `art/world/battle_biomes/${b}/bg_${ph(p)}.webp`, artLife = (b, p) => `art/world/battle_biomes/${b}/life_${ph(p)}.webp`;
 export const PLATFORM_BIOMES = {
   grass: {
     bg: 'art/world/battle_bg.png',
@@ -16,16 +18,15 @@ export const PLATFORM_BIOMES = {
     tuft: '#5e6a20',                    // grass tufts poking over the rim
     feet: 'rgba(40, 46, 12, 0.38)',     // soft contact shadow where the feet rest
   },
-  // 'water' (fishing battles, Oct 29 2026): live backdrop drawn in code (src/battle/data/water_bg.js) over a static
-  // fallback PNG; near = the wooden end of the pier, far = a foamy ripple patch on the water. Per-size palettes.
-  water: {
-    // Animator's painted backdrop (Oct 29 2026): bgFor(phase) picks the still from the game clock; art: true means the pier
-    // and ripple are painted in, so drawPlatform is skipped and creatures stand on WATER_SPOTS (src/battle/data/water_bg.js).
-    bg: 'art/world/battle_bg_water_day.png', live: 'water', art: true,
-    bgFor: (phase) => `art/world/battle_bg_water_${['dawn', 'day', 'dusk', 'night'].includes(phase) ? phase : 'day'}.png`,
-    near: { shadow: 'rgba(10, 30, 60, 0.40)', rim: '#3c2414', side: '#6b4224', top: '#8a5a32', light: '#a87444', fleck: ['#6b4224', '#b88352', '#5a3620'], tuft: '#2e1a0e', feet: 'rgba(30, 16, 8, 0.36)' },
-    far: { shadow: 'rgba(10, 40, 80, 0.35)', rim: '#2a6fae', side: '#3a86c8', top: '#6fb8e8', light: '#a6d8f4', fleck: ['#eaf8ff', '#ffffff', '#4f9ad6'], tuft: '#eaf8ff', feet: 'rgba(16, 60, 110, 0.32)' },
-  },
+  // Painted biome backdrops (Animator, grass battle screen quality; Gary approved live Oct 29 2026). Each is 4 phase stills
+  // (2560x1440 webp) + an animated life layer (16 frames x 120 ms, 1280x720 animated webp) under art/world/battle_biomes/<biome>/.
+  // bgFor(phase) picks the still from the game clock; art: true = the ground is painted in, so drawPlatform is skipped and the
+  // creatures stand on `spots` (frame fractions from that biome's index.json). Nothing loads until a battle of that biome opens.
+  // 'water' replaces the old pixel water set (fishing / surf battles); its night and dusk are Animator's auto-graded phases.
+  water: { bg: artBg('water', 'day'), art: true, bgFor: (phase) => artBg('water', phase), life: (phase) => artLife('water', phase), spots: { near: [0.24, 0.66], far: [0.66, 0.49] } },
+  cave: { bg: artBg('cave', 'day'), art: true, bgFor: (phase) => artBg('cave', phase), life: (phase) => artLife('cave', phase), spots: { near: [0.3, 0.79], far: [0.69, 0.72] } },
+  mountain: { bg: artBg('mountain', 'day'), art: true, bgFor: (phase) => artBg('mountain', phase), life: (phase) => artLife('mountain', phase), spots: { near: [0.3, 0.81], far: [0.73, 0.735] } },
+  snow: { bg: artBg('snow', 'day'), art: true, bgFor: (phase) => artBg('snow', phase), life: (phase) => artLife('snow', phase), spots: { near: [0.31, 0.68], far: [0.755, 0.58] } },
 };
 // Sizes in art pixels. Shown at --b-plat-px CSS px per art pixel x sprite scale (2 on PC, 1.5 on phones; .b-plat in
 // src/ui/ui.css), i.e. a little chunkier than the 128px creature sprites, in Kilumen's 64px pixel style.

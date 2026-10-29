@@ -1,13 +1,14 @@
 // Kilumen battle glue: runs the vendored engine (src/battle/engine.js) with Kilumen data and turns
 // overworld party/bag entries into engine sets and back. Pure and deterministic for a given seed:
 // no DOM, no timers, so the same module can run on a server for PvP (see docs/battle_engine_eval.md).
-import { Battle, installData, PRNG, teamState } from './engine.js?v=v0.2.72-alpha';
-import { buildData, skillIdsFor } from './data/index.js?v=v0.2.72-alpha';
-import { KILUMEN_RULES } from './data/rules.js?v=v0.2.72-alpha';
+import { Battle, installData, PRNG, teamState } from './engine.js?v=v0.2.79-alpha';
+import { buildData, skillIdsFor } from './data/index.js?v=v0.2.79-alpha';
+import { KILUMEN_RULES } from './data/rules.js?v=v0.2.79-alpha';
+import { heldToEngine, heldFromEngine } from './data/held_items.js?v=v0.2.79-alpha';
 
 /** total XP needed to be at `level` (same curve as the engine; PLACEHOLDER [B20]) */
 export const xpForLevel = (level, rules = KILUMEN_RULES) => Math.floor(rules.xpCurveMult * level ** 3);
-import { SPECIES } from '../ui/data.js?v=v0.2.72-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.79-alpha';
 
 let installed = false;
 export function ensureData(overrides) {
@@ -19,11 +20,13 @@ const bagIn = (bag = {}) => Object.fromEntries(Object.entries(bag).map(([k, v]) 
 const bagOut = (bag, orig = {}) => Object.fromEntries(Object.keys(orig).map((k) => [k, bag[engineId(k)] ?? orig[k]]));
 const elementsOf = (sp) => (SPECIES.find((s) => s.id === sp) || { el: ['normal'] }).el;
 
-/** overworld party entry -> engine set. Fields not in the save yet fall back to PLACEHOLDERS. */
+/** overworld party entry -> engine set. Fields not in the save yet fall back to PLACEHOLDERS.
+ * Held items (design/HELD_ITEMS.md P1, Oct 29 2026): `held` (game id, same field for the player, trainers, Masters and Ron;
+ * `heldItem` accepted as an alias) becomes the engine `item` when it has a battle effect (src/battle/data/held_items.js). */
 export function toSet(c, fallbackLevel = 5) {
   return {
     name: (c.nickname || c.name || (SPECIES.find((s) => s.id === c.species) || { name: c.species }).name) + (c.variant ? ' ✦' : ''),
-    species: c.species, item: '', ability: 'No Ability', nature: '', gender: '', evs: {}, ivs: {},
+    species: c.species, item: heldToEngine(c.held ?? c.heldItem), kHeld: c.held ?? c.heldItem ?? '', ability: 'No Ability', nature: '', gender: '', evs: {}, ivs: {},
     moves: c.skills || skillIdsFor(elementsOf(c.species), SPECIES.find((s) => s.id === c.species)?.skillPool),
     level: c.level || fallbackLevel, xp: c.xp, hp: c.hp, energy: c.energy, status: c.status,
     warmth: c.warmth || 0, variant: c.variant || '', lineage: c.lineage, rt: c.rt,
@@ -142,6 +145,11 @@ export class KilumenBattle {
     const b = this.battle;
     const outcome = b.kEndReason || (b.winner === this.p1.name ? 'win' : b.winner ? 'lose' : b.ended ? 'tie' : 'ongoing');
     const team = teamState(this.p1).map((s, i) => ({ ...this.partyIn[i], ...s, species: this.partyIn[i].species }));
+    // held items: a consumed one (Remedy Pouch, Mint Sprig, Last Stand Ribbon) is gone after the battle -> heldUsed + held null
+    team.forEach((t, i) => {
+      const start = heldToEngine(this.partyIn[i]?.held ?? this.partyIn[i]?.heldItem), now = this.p1.creature[i]?.item || '';
+      if (start && now !== start) { t.heldUsed = heldFromEngine(start); t.held = now ? heldFromEngine(now) : null; }
+    });
     const linkXp = this.linkShare();
     for (const { i, xp } of linkXp) { const t = team[i]; if (!t || !xp) continue; t.xp = (t.xp || xpForLevel(t.level)) + xp; while (t.level < 100 && t.xp >= xpForLevel(t.level + 1)) t.level++; }
     const caught = b.kCaught ? { species: b.kCaught.species.id, level: b.kCaught.level, hp: b.kCaught.hp, variant: b.kCaught.set.variant || '' } : null;

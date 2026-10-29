@@ -8,9 +8,9 @@
 // Gear v1 (design/FISHING_GEAR.md): Driftline / Lanternreach rod gifts (Saltmere fisher, Lanternport keeper), earned baits
 // (Lantern Moth, Hollowstar Roe), a bait picker before each cast (only when the bag holds bait), one bait used per landed cast.
 // Art: bobber, line, splash, ripples and the leaping shadow are drawn in code from the Kilumen palette (our own art).
-import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags } from './logic.js?v=v0.2.72-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.72-alpha';
-import { TILE, DELTA } from '../overworld/constants.js?v=v0.2.72-alpha';
+import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags } from './logic.js?v=v0.2.79-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.79-alpha';
+import { TILE, DELTA } from '../overworld/constants.js?v=v0.2.79-alpha';
 
 export const ROD_GIVER = Object.freeze({ map: 'brookhollow', npc: 'fisher', flag: 'got_fishing_rod', item: 'fishing_rod' });
 const C = { ink: '#1a1226', red: '#a23432', white: '#fcf6e8', line: '#ecdec4', rod: '#6a442e', foam: '#c6ecfa', drop: '#7ac2e8', deep: '#1e4078', shadow: '#29252b', gold: '#fcd668' };

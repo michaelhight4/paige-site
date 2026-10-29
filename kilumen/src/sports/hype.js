@@ -3,11 +3,11 @@
 // Everything is drawn on the race canvas (640x360 logical, pixel art, no smoothing). Pure presentation: the race sim
 // (race.js) is stepped exactly as before at fixed 1/60 s, so hitstop / slow-mo never change a result.
 // Reduced motion (prefers-reduced-motion or ?rm=1): no shake, no flashes, a fifth of the confetti, slower beams.
-import { S, t } from './strings.js?v=v0.2.72-alpha';
-import { stepRace, applyStart, applyPush, applySprint, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.72-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.72-alpha';
-import { rngFor } from './rng.js?v=v0.2.72-alpha';
-import { dashScore } from './dash.js?v=v0.2.72-alpha';
+import { S, t } from './strings.js?v=v0.2.79-alpha';
+import { stepRace, applyStart, applyPush, applySprint, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.79-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.79-alpha';
+import { rngFor } from './rng.js?v=v0.2.79-alpha';
+import { dashScore } from './dash.js?v=v0.2.79-alpha';
 
 export const W = 640, H = 360, PPM = 30, LANE_Y = [164, 222, 280, 338], SPR = 84; // v4: 58px lanes, track starts at y=112 so the 1.3x runners fit without covering the lane above
 export const TIMING = { intro: 1.6, beat: 0.55, oneMin: 0.45, oneMax: 0.8, play: 2.0, hitstop: 0.22, photoGap: 0.2, slowmo: 0.3, stretchAt: 80, afterAll: 1.1, wipe: 0.45, board: 1.6 };
@@ -424,7 +424,7 @@ export function runRaceShow(o) {
 }
 
 // ---------------- tournament champion screen ----------------
-/** o: { ov, party:[species], playerSrc, name, id, time, coinsFrom, prize, reduced, audio, framesBig(sp) -> Image, st }. Resolves on tap after the count-up. */
+/** o: { title?, scoreLabel?, scoreText? (town cups), ov, party:[species], playerSrc, name, id, time, coinsFrom, prize, reduced, audio, framesBig(sp) -> Image, st }. Resolves on tap after the count-up. */
 export function runChampion(o) {
   const rm = o.reduced, sfx = makeSfx(o.audio);
   return new Promise((resolve) => {
@@ -472,13 +472,13 @@ export function runChampion(o) {
       if (hero.complete && hero.naturalWidth) { const h = 200, w = h * hero.naturalWidth / hero.naturalHeight; g.drawImage(hero, Math.round(W / 2 - w / 2), 292 - h, w, h);
       }
       // banner
-      const u = Math.min(1, tm / 0.35); g.save(); g.translate(W / 2, 40); g.scale(2 - ease(u), 2 - ease(u)); bigText(g, S.champ_title, 0, 0, 36); g.restore();
+      const u = Math.min(1, tm / 0.35); g.save(); g.translate(W / 2, 40); g.scale(2 - ease(u), 2 - ease(u)); bigText(g, o.title || S.champ_title, 0, 0, o.title && o.title.length > 16 ? 28 : 36); g.restore();
       if (tm > 0.3) bigText(g, S.champ_congrats, W / 2, 76, 22, ['#ffffff', '#ffe3f0', '#ff7ab0']);
       conf.draw(g, dt, tm);
       // bottom bar: name, ID, time, gold count-up
       g.fillStyle = '#1b1f2aee'; g.fillRect(0, 314, W, 46); g.fillStyle = '#ffc928'; g.fillRect(0, 314, W, 3);
-      g.textAlign = 'left'; g.font = 'bold 13px monospace'; g.fillStyle = '#9ad1ff'; g.fillText(S.champ_name, 14, 334); g.fillText(S.champ_id, 160, 334); g.fillText(S.champ_time, 300, 334);
-      g.fillStyle = '#f3ead2'; g.fillText(o.name, 14, 352); g.fillText(idText(o.id), 160, 352); g.fillText(showTime(o.time).toFixed(2) + 's', 300, 352);
+      g.textAlign = 'left'; g.font = 'bold 13px monospace'; g.fillStyle = '#9ad1ff'; g.fillText(S.champ_name, 14, 334); g.fillText(S.champ_id, 160, 334); g.fillText(o.scoreLabel || S.champ_time, 300, 334);
+      g.fillStyle = '#f3ead2'; g.fillText(o.name, 14, 352); g.fillText(idText(o.id), 160, 352); g.fillText(o.scoreText ?? (showTime(o.time).toFixed(2) + 's'), 300, 352);
       if (tm > 0.9 && coinT < 0) coinT = 0; if (coinT >= 0) { coinT += dt; const n = Math.min(o.prize, Math.round(o.prize * ease(coinT / 1.4))); if (n > shown) { shown = n; sfx.coin(); if (n >= o.prize && !flashed) { flashed = true; sfx.stamp(); } } }
       g.textAlign = 'right'; bigText(g, t('champ_gold', { n: shown.toLocaleString('en-US') }), 560, 336, 20); g.textAlign = 'right'; g.font = '11px monospace'; g.fillStyle = '#ffd77a';
       g.fillText(S.wallet + ' ' + (o.coinsFrom + shown).toLocaleString('en-US'), W - 12, 354);

@@ -3,25 +3,29 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.72-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.72-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.72-alpha';
-import { POCKETS, R5_R6_ITEM_TEXT } from '../systems/items.js?v=v0.2.72-alpha';
-import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.72-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
-import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.72-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.72-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.72-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.72-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.72-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.72-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.72-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.72-alpha';
-import { buildSkills, toID } from '../battle/data/skills.js?v=v0.2.72-alpha';
-import { areaName } from '../overworld/area_sign.js?v=v0.2.72-alpha';
+import { iconRel } from './data.js?v=v0.2.79-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.79-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.79-alpha';
+import { POCKETS, R5_R6_ITEM_TEXT } from '../systems/items.js?v=v0.2.79-alpha';
+import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.79-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
+import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.79-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.79-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.79-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.79-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.79-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.79-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.79-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.79-alpha';
+import { buildSkills, toID } from '../battle/data/skills.js?v=v0.2.79-alpha';
+import { areaName } from '../overworld/area_sign.js?v=v0.2.79-alpha';
 // playtest fixes 3: older saves can hold skill ids in another case/spacing ('Sparksneeze', 'spark_sneeze'); look up by toID so
 // the row shows the display name ('Spark Sneeze') and its description instead of the raw id.
 let _SKILLS = null; const skillDef = (id) => { const S = (_SKILLS ||= buildSkills()); return S[id] || S[toID(String(id || ''))] || null; };
 const prettyId = (id) => String(id || '').replace(/_int$/, '').split('_').filter(Boolean).map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+import { giveHeld, takeHeld, swapHeld } from '../systems/held.js?v=v0.2.79-alpha'; // held items P2-P5 (Oct 29 2026)
+import { HELD_DESC, HELD_LINES, charmDesc } from '../systems/data/held_text.js?v=v0.2.79-alpha';
+import { HELD_BATTLE_ITEMS } from '../battle/data/held_items.js?v=v0.2.79-alpha';
+import { heldIconHtml, heldIconSrc, wireHeldIcons } from './held_icons.js?v=v0.2.79-alpha'; // held-item icon on every slot (Gary, Oct 29 2026)
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
 const nameHtml = (c) => `<span class="nmw"><span class="nmt">${esc(_baseName(c))}</span>${c?.variant ? '<span class="vmark">✦</span>' : ''}</span>`;
@@ -57,7 +61,7 @@ const statusChip = (c) => (isFainted(c) ? '<span class="sys-st out" data-pat="ch
   : c.status ? `<span class="sys-st" data-st="${esc(c.status)}" data-pat="${STATUS_PAT[c.status] || 'dots'}">${esc(STATUS[c.status] || c.status)}</span>` : '');
 
 export async function installSystemsScreens(ui, sys) {
-  import('../qol/skills_menu.js?v=v0.2.72-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
+  import('../qol/skills_menu.js?v=v0.2.79-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
   if (!ui || !sys) return null;
   const cfg = sys.cfg;
   if (typeof document !== 'undefined' && !document.querySelector('link[data-sys-css]')) {
@@ -99,6 +103,61 @@ export async function installSystemsScreens(ui, sys) {
     ui.rerender();
   };
 
+  // ---------------- Held items (P2-P5, Oct 29 2026) ----------------
+  // Model v2 (src/systems/held.js): giving moves one copy out of the Pack, taking puts it back. Lines are PLACEHOLDER
+  // (src/systems/data/held_text.js) for Text Bot.
+  const heldBadge = (c) => (wireHeldIcons(), heldIconHtml(c?.held, { name: c?.held ? itemName(c.held) : '' })); // icon + hover / long-press tip; empty socket when nothing
+  const heldRow = (c, S = {}) => `<div class="sys-heldrow${c.held ? '' : ' none'}">${c.held ? heldIconHtml(c.held, { name: itemName(c.held) }) : pxi('handbag')}<span>${esc(S.held || 'Holding')}:</span> <b>${c.held ? esc(itemName(c.held)) : 'Nothing'}</b></div>`;
+  const heldDesc = (id) => { const h = HELD_BATTLE_ITEMS[id]; return HELD_DESC[id] || (h?.kHeldKind === 'charm' ? charmDesc(ELEMENT_LABEL(h.kElement)) : ''); };
+  const holdable = () => sys.bag.pocket('gear').filter((it) => sys.bag.def(it.id)?.held && it.n > 0);
+  const elsOf = (c) => (speciesInfo(c.species)?.el || []);
+  let lineN = 0;
+  const line = (kind, vars) => { const L = HELD_LINES[kind] || ['']; return L[(lineN++) % L.length].replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? ''); };
+  const reduced = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /** Little creature reaction: it hops, the item pops onto it, an emote bubble shows. Reduced motion: no hop, just a fade. */
+  const react = (c, kind) => {
+    if (typeof document === 'undefined' || !c) return;
+    const host = ui.root || document.body; host.querySelector?.('.sys-react')?.remove();
+    const el = document.createElement('div');
+    el.className = `sys-react k-${kind}${reduced() ? ' still' : ''}`; el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = `<span class="who">${iconHtml(c, cfg)}</span><span class="it">${pxi(kind === 'take' ? 'backpack' : 'handbag')}</span><span class="emo">${kind === 'match' ? '♪' : kind === 'take' ? '…' : '!'}</span>`;
+    host.appendChild(el); setTimeout(() => el.remove(), 1700);
+  };
+  /** Give item `id` to creature c (swaps out its old one). Shows the reaction + line. */
+  const doGive = (c, id) => {
+    const r = giveHeld(sys.bag, c, id), name = displayName(c), item = itemName(id);
+    if (!r.ok) { if (r.reason === 'bag_full') ui.note(line('full', { item: itemName(c.held) }), 2000); else if (r.reason === 'same') ui.note(`${name} is already holding the ${item}.`, 1800); return false; }
+    const h = HELD_BATTLE_ITEMS[id], match = h?.kHeldKind === 'charm' && elsOf(c).includes(h.kElement);
+    const kind = r.old ? 'swap' : match ? 'match' : 'give';
+    if (sys.scene) sys.scene._dirty = true;
+    ui.note(line(kind, { creature: name, item, old: r.old ? itemName(r.old) : '' }), 2400); react(c, match ? 'match' : 'give');
+    return true;
+  };
+  const doTake = (c) => {
+    const r = takeHeld(sys.bag, c); if (!r.ok) { if (r.reason === 'bag_full') ui.note(line('full', { item: itemName(r.id) }), 2000); return false; }
+    if (sys.scene) sys.scene._dirty = true;
+    ui.note(line('take', { creature: displayName(c), item: itemName(r.id) }), 2200); react(c, 'take'); return true;
+  };
+  /** Team > Held item: give / swap with a teammate / take back. */
+  const heldMenu = async (scr, i) => {
+    const c = party()[i]; if (!c) return;
+    const mates = party().filter((o, k) => k !== i && (o.held || c.held));
+    const opts = [['give', c.held ? 'Swap for a Pack item' : 'Give an item'], ...(mates.length ? [['move', c.held ? 'Trade with a teammate' : 'Borrow from a teammate']] : []), ...(c.held ? [['take', 'Take it back']] : []), ['back', 'Back']];
+    const k = await ui.ask(scr, [`${displayName(c)} · ${c.held ? `holding the ${itemName(c.held)}` : 'holding nothing'}`], opts.map((o) => o[1]), { pat: 'dots' });
+    const act = opts[k]?.[0];
+    if (act === 'give') {
+      const l = holdable().filter((it) => it.id !== c.held);
+      if (!l.length) { ui.note('Nothing to hold in the Gear pocket yet.', 2000); return; }
+      const j = await ui.ask(scr, ['Hold which item?'], [...l.map((it) => `${itemName(it.id)} ×${it.n}`), 'Back'], { pat: 'dots' });
+      if (j < l.length) doGive(c, l[j].id);
+    } else if (act === 'move') {
+      const j = await ui.ask(scr, ['Trade with who?'], [...mates.map((o) => `${displayName(o)} · ${o.held ? itemName(o.held) : 'nothing'}`), 'Back'], { pat: 'dots' });
+      const o = mates[j]; if (!o) return;
+      swapHeld(c, o); if (sys.scene) sys.scene._dirty = true;
+      ui.note(c.held ? `${displayName(c)} takes the ${itemName(c.held)} from ${displayName(o)}.` : `${displayName(o)} takes the ${itemName(o.held)}.`, 2400); // PLACEHOLDER
+      react(c.held ? c : o, 'give');
+    } else if (act === 'take') doTake(c);
+  };
   // v0.2.60: move details in Team. The energy count is labelled like the battle Skills list ("En"); the description is
   // Text Bot's system_skills.skill_desc.<id> (PH key) when written, else built from the skill's battle data.
   const skillDesc = (id, d) => {
@@ -137,13 +196,13 @@ export async function installSystemsScreens(ui, sys) {
       const sp = speciesInfo(c.species) || { el: ['normal'], name: c.species }, next = xpForLevel(c.level + 1), base = xpForLevel(c.level);
       const xf = c.level >= 100 ? 1 : Math.max(0, Math.min(1, (c.xp - base) / Math.max(1, next - base)));
       const en = energyOf(c), em = maxEnergy(c);
-      return `<div class="sys-detail"><div class="sys-dh">${iconHtml(c, cfg)}<div><b class="nmb">${nameHtml(c)}</b> <span class="lv">${esc(S.level || 'Lv.')}${c.level}</span><div>${(sp.el || []).map(elChip).join(' ')} ${statusChip(c)}</div></div></div>
+      return `<div class="sys-detail"><div class="sys-dh">${iconHtml(c, cfg)}<div><b class="nmb">${nameHtml(c)}</b> <span class="lv">${esc(S.level || 'Lv.')}${c.level}</span><div>${(sp.el || []).map(elChip).join(' ')} ${statusChip(c)}</div></div></div>${heldRow(c, S)}
         ${bars(c, S)}<div class="bar-row"><b>XP</b><div class="bar xp"><i style="width:${(xf * 100).toFixed(1)}%"></i></div><span>${Math.round(xf * 100)}%</span></div>
         <ul class="sys-skills">${(c.skills || []).map((s, k) => { const d = skillDef(s); return `<li style="flex-wrap:wrap"><span>${esc(d?.name || prettyId(s))}</span><span class="soft">${esc(S.energy_short || 'En')} ${en[k] ?? 0}/${em[k] ?? 0}</span><span class="soft sys-small" style="flex-basis:100%;text-transform:none">${esc(skillDesc(toID(String(s || "")), d))}</span></li>`; }).join('')}</ul>${statGrid(c)}
         <div class="soft sys-small">${esc(S.met || 'Met in')}: ${esc(metIn(c))}${c.held ? ` · ${esc(S.held || 'Holding')}: ${esc(itemName(c.held))}` : ''}</div></div>`;
     };
     const card = (c, i) => `<div class="ui-card sys-card ${i === 0 ? 'lead' : ''} ${isFainted(c) ? 'out' : ''}" data-i="${i}" data-k="${esc(c.uid)}">${iconHtml(c, cfg)}
-      <div class="nm">${nameHtml(c)}<span class="lv">Lv.${c.level}</span>${i === 0 ? '<span class="sys-lead" title="Trail Buddy">Lead</span>' : ''}${statusChip(c)}</div><div>${bars(c, S)}</div></div>`;
+      <div class="nm">${nameHtml(c)}<span class="lv">Lv.${c.level}</span>${i === 0 ? '<span class="sys-lead" title="Trail Buddy">Lead</span>' : ''}${statusChip(c)}${heldBadge(c)}</div><div>${bars(c, S)}</div></div>`;
     const scr = { scr: 'team', pat: 'dots', title: T('system_phone.menu.labels.team', 'Team'), glyph: 'team', sel: 0, cols: 1, count: () => party().length,
       chips: () => `<span class="ui-chip dark">${party().length}/${partyMax()}</span>`,
       render: () => {
@@ -164,7 +223,7 @@ export async function installSystemsScreens(ui, sys) {
       onA: async (i) => {
         const c = party()[i]; if (!c) return;
         const usable = sys.bag.pocket('care').filter((it) => sys.bag.canUse(it.id, c).ok || sys.bag.canUse(it.id, c).reason === 'rest_only');
-        const opts = [...(i > 0 ? [['lead', L.move || 'Move']] : []), ...(usable.length ? [['item', 'Use item']] : []), ...(isDemo() ? [] : [['rename', 'Rename']]), ...(isDemo() ? [] : (ui.qolTeamOpts?.(c) || []).map(([t, go]) => [go, t])), ['back', L.back || 'Back']]; // QoL #5/#6 rows (src/qol/skills_menu.js)
+        const opts = [...(i > 0 ? [['lead', L.move || 'Move']] : []), ...(usable.length ? [['item', 'Use item']] : []), ...(isDemo() ? [] : [['held', 'Held item']]), ...(isDemo() ? [] : [['rename', 'Rename']]), ...(isDemo() ? [] : (ui.qolTeamOpts?.(c) || []).map(([t, go]) => [go, t])), ['back', L.back || 'Back']]; // QoL #5/#6 rows (src/qol/skills_menu.js)
         const k = await ui.ask('team', [displayName(c)], opts.map((o) => o[1]), { pat: 'dots' });
         const act = opts[k]?.[0];
         if (typeof act === 'function') { await act(); ui.rerender(); return; }
@@ -172,6 +231,7 @@ export async function installSystemsScreens(ui, sys) {
         if (act === 'lead') {
           sys.party.setLead(i); scr.sel = 0;
           ui.note(P('system_party.new_lead', ['{creature} takes the lead. It looks pleased.'], { creature: displayName(c) })[0], 2200);
+        } else if (act === 'held') { await heldMenu('team', i); ui.rerender(); return;
         } else if (act === 'rename') {
           const v = typeof prompt === 'function' ? prompt('New name (max 12 letters). Leave empty to use the species name.', c.nickname || '') : null;
           if (v !== null) {
@@ -208,8 +268,8 @@ export async function installSystemsScreens(ui, sys) {
         name: T(`system_items.master_coins.${h.zone}.name`, h.reward?.coin_name_placeholder || `Coin ${h.coin_number}`),
         pages: T(`system_items.master_coins.${h.zone}.pages`, [`Master coin ${h.coin_number} of 8. Proof you beat the Master here.`]) }));
     };
-    const items = () => (isB() ? [] : [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: nonEmpty(cat()[it.id]?.pages) || nonEmpty(ITEM_FALLBACK_PAGES[it.id]?.()) || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])]);
-    const info = (it) => (it ? `${it.coin && coinArtOn() ? `<div class="sys-coin-big">${coinAnim(it.zone)}</div>` : ''}<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
+    const items = () => (isB() ? [] : [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: nonEmpty(cat()[it.id]?.pages) || nonEmpty(ITEM_FALLBACK_PAGES[it.id]?.()) || (heldDesc(it.id) ? [heldDesc(it.id)] : []) })), ...(POCKETS[pi] === 'key' ? coinRows() : [])]);
+    const info = (it) => (it ? `${it.coin && coinArtOn() ? `<div class="sys-coin-big">${coinAnim(it.zone)}</div>` : ''}${sys.bag.def(it.id)?.held ? `<img class="sys-held-big" src="${heldIconSrc(it.id).replace('.png', '_3x.png')}" width="48" height="48" alt="">` : ''}<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
       : `<p class="soft">${esc((PK[POCKETS[pi]]?.help || []).join(' '))}</p>`);
     const scr = { scr: 'pack', pat: 'leaf', title: T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1, count: () => items().length,
       chips: () => money(sys.wallet.coins),
@@ -218,7 +278,7 @@ export async function installSystemsScreens(ui, sys) {
         if (isB()) { const b = renderBadges(sys.scene, T); b.settle(); return `${tabsHtml}<div class="ui-body">${b.html}</div>`; }
         return `${tabsHtml}
         <div class="ui-body sys-split"><div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="pack" data-pat="leaf" data-scroll>
-          ${l.length ? `<ul class="ui-list" data-aa="sys-pack-${pi}">${l.map((it, i) => `<li class="ui-row" data-i="${i}" data-k="${esc(it.id)}"><span class="grow">${it.coin && coinArtOn() ? coinAnim(it.zone, 'sm sys-coin-ico', i * 0.2) : ''}${esc(it.name)}</span><span class="price">×${it.n}</span></li>`).join('')}</ul>`
+          ${l.length ? `<ul class="ui-list" data-aa="sys-pack-${pi}">${l.map((it, i) => `<li class="ui-row" data-i="${i}" data-k="${esc(it.id)}"><span class="grow">${it.coin && coinArtOn() ? coinAnim(it.zone, 'sm sys-coin-ico', i * 0.2) : ''}${sys.bag.def(it.id)?.held ? `<img class="sys-held-spr" src="${heldIconSrc(it.id)}" srcset="${heldIconSrc(it.id).replace('.png', '_2x.png')} 2x" width="16" height="16" alt="">` : ''}${esc(it.name)}</span><span class="price">×${it.n}</span></li>`).join('')}</ul>`
             : `<div class="plate ui-empty">${pxi(EMPTY_ICONS.pack, 'pxi pxi-empty')}Nothing in this pocket yet.</div>`}</div>
           <div class="plate ui-pad sys-side" id="sysinfo">${info(l[scr.sel])}</div></div>`;
       },
@@ -229,12 +289,11 @@ export async function installSystemsScreens(ui, sys) {
       onA: async (i) => {
         const it = items()[i];
         if (it?.coin) return; // Master coins: nothing to use
-        if (it && sys.bag.def(it.id)?.held) { // held gear (Oct 29 2026): one holder at a time; picking the holder again takes it back
-          const k = await pickCreature('pack', `${it.name}: who holds it?`); if (k < 0) return;
-          const c = party()[k], name = displayName(c), was = c.held === it.id;
-          for (const o of party()) if (o.held === it.id) o.held = null;
-          if (!was) c.held = it.id;
-          sys.scene._dirty = true; ui.note(was ? `${name} hands the ${it.name} back.` : `${name} is holding the ${it.name}.`, 1800); ui.rerender(); return; // PH lines (data/textbot_requests_overnight_1029.md)
+        if (it && sys.bag.def(it.id)?.held) { // held gear (P2-P5, Oct 29 2026): the copy moves onto the creature; its old item comes back
+          const list = party();
+          const k = await ui.ask('pack', [`${it.name}: who holds it?`], [...list.map((c) => `${displayName(c)} · ${c.held ? `has ${itemName(c.held)}` : 'free'}`), T('system_party.menu.labels.back', 'Back')], { pat: 'dots' });
+          if (k < list.length && doGive(list[k], it.id)) { scr.sel = Math.min(scr.sel, Math.max(0, items().length - 1)); ui.rerender(); }
+          return;
         }
         if (it && await ui.qolTeach?.(it.id)) { ui.rerender(); return; } // QoL #6 Training Reels
         if (!it || !sys.bag.def(it.id)?.field) return;
@@ -258,8 +317,8 @@ export async function installSystemsScreens(ui, sys) {
   ui.scr_sys_shop = function (arg = {}) {
     const M = T('system_shop.menu.labels', {}); let mode = 0;
     const shop = sys.makeShop(), region = regionOf(sys.zone);
-    const list = () => (mode === 0 ? shop.stock() : shop.sellable().filter((it) => it.price != null)).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || [] }));
-    const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' '))}</p><p class="soft">In your pack: ${sys.bag.count(it.id)}</p>` : '');
+    const list = () => (mode === 0 ? shop.stock() : shop.sellable().filter((it) => it.price != null)).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || (heldDesc(it.id) ? [heldDesc(it.id)] : []) }));
+    const info = (it) => (it ? `${sys.bag.def(it.id)?.held ? `<img class="sys-held-big" src="${heldIconSrc(it.id).replace('.png', '_3x.png')}" width="48" height="48" alt="">` : ''}<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' '))}</p><p class="soft">In your pack: ${sys.bag.count(it.id)}</p>` : '');
     const scr = { scr: 'shop', pat: 'awning', title: `RT Supply · ${region.city || sys.zone || ''}`, glyph: 'shop', sel: 0, cols: 1, count: () => list().length,
       chips: () => `${shop.discount ? `<span class="ui-chip sys-disc" data-pat="stripes">−${Math.round(shop.discount * 100)}%</span>` : ''}${money(sys.wallet.coins)}`,
       render: () => {

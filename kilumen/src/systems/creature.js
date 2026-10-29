@@ -5,10 +5,10 @@
 //     lineage, rt, skills [ids], held, locked, origin {map, how, day} }
 // maxHp / maxEnergy / stats are DERIVED (statsOf) from the battle data, never saved. `uid` is the save key
 // (save.js names it uid); `id` is accepted on input as an alias.
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.72-alpha';
-import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.72-alpha';
-import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.72-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.72-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.79-alpha';
+import { buildSkills, skillIdsFor } from '../battle/data/skills.js?v=v0.2.79-alpha';
+import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.79-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.79-alpha';
 
 let _creatures = null, _skills = null;
 const creatures = () => (_creatures ||= buildCreatures());
@@ -134,6 +134,7 @@ export function applyBattleTeam(party, team = []) {
     if (Number.isFinite(t.hp)) c.hp = Math.max(0, Math.min(maxHp(c), t.hp));
     if (Array.isArray(t.energy)) c.energy = t.energy.slice();
     if (typeof t.status === 'string') c.status = t.status;
+    if (t.heldUsed && c.held === t.heldUsed) c.held = t.held || null; // held items P1: a used-up held item is gone
   }
   return party;
 }

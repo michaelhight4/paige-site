@@ -1,19 +1,21 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.72-alpha';
-import { giftTalk } from './npc_gifts.js?v=v0.2.72-alpha';
-import { Party, Archive } from './party.js?v=v0.2.72-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.72-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.72-alpha';
-import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.72-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.72-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.72-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.72-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.72-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.72-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.72-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
-import { attachLinkBand } from './link_band.js?v=v0.2.72-alpha';
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.79-alpha';
+import { giftTalk } from './npc_gifts.js?v=v0.2.79-alpha';
+import { Party, Archive } from './party.js?v=v0.2.79-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.79-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.79-alpha';
+import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.79-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.79-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.79-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.79-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.79-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.79-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.79-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { attachLinkBand } from './link_band.js?v=v0.2.79-alpha';
+import { migrateHeld, allOwned } from './held.js?v=v0.2.79-alpha'; // held items P2-P5 (Oct 29 2026)
+import { injectHiddenSpots, grantFlagRewards, FLAG_REWARDS } from './held_rewards.js?v=v0.2.79-alpha';
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)
@@ -43,7 +45,22 @@ export class Systems {
     // plates fire through the existing hook (overworld worldApi().onArrive); chain whatever was there
     const prevPlate = scene.hooks?.onPlate;
     if (scene.hooks) scene.hooks.onPlate = (x, y) => { this.onPlate(x, y); prevPlate?.(x, y); };
+    // held-item rewards (Oct 29 2026): a Master win / quest / post-game flag hands over its earned-only item right away
+    const rewardFlags = new Set(FLAG_REWARDS.map((r) => r.flag));
+    if (typeof scene.setFlag === 'function') {
+      const prevSet = scene.setFlag.bind(scene);
+      scene.setFlag = (f, on, ...rest) => { const r = prevSet(f, on, ...rest); if (on !== false && rewardFlags.has(f)) this.grantHeldRewards(); return r; };
+    }
     setActiveSystems(this);
+  }
+
+  /** Earned-only held items due from story flags (src/systems/held_rewards.js). Toasts each one. */
+  grantHeldRewards({ quiet = false } = {}) {
+    const sc = this.scene, set = (f) => (sc.setFlag ? sc.setFlag(f, true) : sc.flags.add(f));
+    const got = grantFlagRewards({ flags: sc.flags, bag: this.bag, setFlag: set });
+    if (got.length) sc._dirty = true;
+    if (!quiet) for (const g of got) sc.toast?.(`Received the ${this.bag.nameOf(g.item)}! It's in the Gear pocket.`); // PLACEHOLDER line (Text Bot)
+    return got;
   }
 
   get lines() { return this.scene.lines || null; }
@@ -51,7 +68,7 @@ export class Systems {
   // used Brookhollow's list. Use that town's shops.json region instead (world_layout is untouched: music reads it).
   get zone() {
     const sc = this.scene, from = sc.lastDoor?.map;
-    if (sc.map?.name === 'shop_int' && ['aurelith', 'saltmere', 'revival_heights', 'frostspire'].includes(from)) return from;
+    if (sc.map?.name === 'shop_int' && ['aurelith', 'saltmere', 'revival_heights', 'frostspire', 'mirefen', 'tidewater_coast', 'lanternport', 'cindervale'].includes(from)) return from; // + held items P2 shop rows
     return sc.zone?.() || null;
   }
   get badgeCoins() { return coinCount(this.scene.flags); }
@@ -72,6 +89,9 @@ export class Systems {
   /** _enterMap: puzzle state onto the map, satchels solid. */
   async onMapEnter(m) {
     this.bag.lines = this.lines;
+    migrateHeld(this.bag, allOwned(this.scene.party || [], this.archive), this.state); // v1 saves: holder shared the bag copy
+    injectHiddenSpots(m, this.scene.flags); // hidden held-item spots (before visiblePickups)
+    this.grantHeldRewards();
     for (const it of visiblePickups(m, this.scene.flags, this.cfg)) if (m.inBounds?.(it.x, it.y)) m.layers.collision[it.y][it.x] = BLOCK;
     const rt = await this.puzzleFor(m);
     if (rt) applyPuzzleToMap(rt, m);

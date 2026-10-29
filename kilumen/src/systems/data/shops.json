@@ -18,7 +18,31 @@
   "reed_nymph": 80,
   "brine_fleck": 80,
   "glimmer_worm": 150,
-  "deepgut_paste": 400
+  "deepgut_paste": 400,
+  "remedy_pouch": 400,
+  "mint_sprig": 500,
+  "sprig_charm": 2000,
+  "droplet_charm": 2000,
+  "tidebell_charm": 2000,
+  "plainthread_charm": 2000,
+  "glint_charm": 2000,
+  "gustfeather_charm": 2000,
+  "quill_charm": 2000,
+  "clodstone_charm": 2200,
+  "ember_charm": 2200,
+  "bogroot_charm": 2400,
+  "drizzle_charm": 2400,
+  "runestitch_charm": 2400,
+  "dusk_charm": 2400,
+  "slag_charm": 2600,
+  "brimtooth_charm": 3000,
+  "iron_brace": 3000,
+  "focus_lens": 3000,
+  "hawk_lens": 2800,
+  "steady_sight": 2500,
+  "quick_tassel": 3000,
+  "hush_cloak": 1500,
+  "tally_purse": 4000
  },
  "_crystalNote": "basePrices fine_crystal / apex_crystal: Benefits Board crystal grades (Gary 12:17 PM CT Oct 23, 2026). Stocked only when company.board.crystal_grade rank is owned (src/systems/data/crystal_grades.js); never in region 1 shops. PLACEHOLDER prices.",
  "sellRate": 0.5,
@@ -51,7 +75,8 @@
       "trail_mix",
       "feed_bag_small",
       "ripple_grub",
-      "reed_nymph"
+      "reed_nymph",
+      "remedy_pouch"
      ]
     },
     {
@@ -91,7 +116,9 @@
       "feed_bag_small",
       "feed_bag",
       "ripple_grub",
-      "reed_nymph"
+      "reed_nymph",
+      "sprig_charm",
+      "mint_sprig"
      ]
     },
     {
@@ -157,7 +184,10 @@
      "coins": 2,
      "items": [
       "fine_crystal",
-      "vigor_seed"
+      "vigor_seed",
+      "glint_charm",
+      "plainthread_charm",
+      "clodstone_charm"
      ]
     }
    ]
@@ -193,6 +223,16 @@
       "fine_crystal",
       "vigor_seed"
      ]
+    },
+    {
+     "coins": 3,
+     "items": [
+      "hawk_lens",
+      "hush_cloak",
+      "gustfeather_charm",
+      "quill_charm",
+      "drizzle_charm"
+     ]
     }
    ]
   },
@@ -225,6 +265,12 @@
      "items": [
       "vigor_seed"
      ]
+    },
+    {
+     "coins": 7,
+     "items": [
+      "brimtooth_charm"
+     ]
     }
    ]
   },
@@ -254,7 +300,143 @@
       "energy_tonic",
       "vigor_seed",
       "glimmer_worm",
-      "deepgut_paste"
+      "deepgut_paste",
+      "iron_brace",
+      "focus_lens",
+      "droplet_charm",
+      "tidebell_charm"
+     ]
+    }
+   ]
+  },
+  "mirefen": {
+   "city": "Mirefen",
+   "copay": 350,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "dominance_crystal_plus",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "energy_tonic",
+      "vigor_seed"
+     ]
+    },
+    {
+     "coins": 4,
+     "items": [
+      "quick_tassel",
+      "bogroot_charm"
+     ]
+    }
+   ]
+  },
+  "lanternport": {
+   "city": "Lanternport",
+   "copay": 400,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "dominance_crystal_plus",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "energy_tonic",
+      "vigor_seed"
+     ]
+    },
+    {
+     "coins": 6,
+     "items": [
+      "tally_purse",
+      "runestitch_charm",
+      "dusk_charm"
+     ]
+    }
+   ]
+  },
+  "cindervale": {
+   "city": "Cindervale",
+   "copay": 450,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "dominance_crystal_plus",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "energy_tonic",
+      "vigor_seed"
+     ]
+    },
+    {
+     "coins": 7,
+     "items": [
+      "ember_charm",
+      "slag_charm"
+     ]
+    }
+   ]
+  },
+  "tidewater_coast": {
+   "city": "Tidewater Coast",
+   "copay": 350,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "dominance_crystal",
+      "dominance_crystal_plus",
+      "tonic_small",
+      "tonic_large",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 1,
+     "items": [
+      "energy_tonic",
+      "vigor_seed"
+     ]
+    },
+    {
+     "coins": 5,
+     "items": [
+      "steady_sight"
      ]
     }
    ]
@@ -346,5 +528,7 @@
    "ron": 60
   }
  },
- "_baitNote": "Fishing gear v1 bait (design/FISHING_GEAR.md, Gary approved Oct 29 2026). lantern_moth / hollowstar_roe are earned only (no price, cannot be sold)."
+ "_baitNote": "Fishing gear v1 bait (design/FISHING_GEAR.md, Gary approved Oct 29 2026). lantern_moth / hollowstar_roe are earned only (no price, cannot be sold).",
+ "_heldNote": "Held items (design/HELD_ITEMS.md section 4, Oct 29 2026): Charms x1.15 priced 2,000-3,000; earned-only items (survive-a-hit, Oath, life drain, x1.5 XP and the quest / hall / post-game rewards) are never stocked. Each town's held rows unlock at the coin count you'd have on arrival. PLACEHOLDER prices. Sunmeadow has no shop row of its own: zoneAlias maps sunmeadow_fields to the Tidewater Coast row (Steady Sight).",
+ "zoneAlias": { "sunmeadow_fields": "tidewater_coast" }
 }

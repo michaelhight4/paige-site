@@ -9,10 +9,10 @@
 //   grass   plain ground grass: only where a gust front is passing, the top rows are re-drawn 1 px over themselves
 //           (no gap can open in the ground layer).
 // Phase is offset by world position and gust waves travel across the map along living.js WIND.
-// Weather: strength follows life.weather (stronger in rain/storm), 0 indoors / caves. Off with reduced motion or ?wind=0.
+// Weather: strength follows life.weather (stronger in rain/storm), 0 indoors / caves. Off with reduced motion, the Options 'Wind' toggle, or ?wind=0.
 // Adapted idea (per-row pixel-snapped offset, height cutoff, world-position phase): "Wind with pixel snapping" by Stixxy,
 // godotshaders.com (CC0 per godotshaders.com default licence) - see THIRD_PARTY_LICENSES.
-import { WIND } from './living.js?v=v0.2.72-alpha';
+import { WIND } from './living.js?v=v0.2.79-alpha';
 
 export const WIND_STRENGTH = Object.freeze({ clear: 0.8, fair: 1, cloudy: 1.15, overcast: 1.3, custom: 1.2, rain: 1.6, storm: 2.2 });
 const CANOPY = /^(tree_top|treed_top|snowpine_top|x_pine_snow(_small)?_\d+_0)$/, TALL = /^tall_grass/, FLOWER = /^flowers?_/, GRASS = /^grass_(dark_)?\d+$/;
@@ -24,6 +24,8 @@ export function windKind(t) {
   return CANOPY.test(n) ? KIND.canopy : TALL.test(n) ? KIND.tall : FLOWER.test(n) ? KIND.flower : GRASS.test(n) ? KIND.grass : 0;
 }
 export const killedByUrl = () => !!globalThis.KILUMEN_WIND_OFF;
+/** Options 'Wind' toggle (life.settings.wind, default on, saved with clouds / life); ?wind=0 always wins. */
+export const windEnabled = (life) => !killedByUrl() && life?.settings?.wind !== false;
 
 /** Gust front 0..1 at world tile (x, y), time s: a soft band travelling along WIND every ~9 s. */
 export function gustAt(x, y, s) {
@@ -48,7 +50,7 @@ export class Wind {
   /** Per frame: strength from weather, off indoors / reduced motion / ?wind=0. `phone` drops canopy to 2 bands. */
   frame(v) {
     const life = this.life || v.life;
-    this.on = !killedByUrl() && !this.reduced() && !!life?.outdoor;
+    this.on = windEnabled(life) && !this.reduced() && !!life?.outdoor; // off -> kind() 0 -> plain draw (rest pose)
     this.k = WIND_STRENGTH[life?.weather] ?? 1; this.s = v.ms / 1000;
     if (this._ts !== v.tileset) { this._ts = v.tileset; this._kinds = new Map(); for (const [id, t] of v.tileset.byId) { const k = windKind(t); if (k) this._kinds.set(id, k); } }
     return this.on;

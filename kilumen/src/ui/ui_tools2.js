@@ -11,13 +11,13 @@
 //   await ui.fx.battleWarm();                     // lazy-load anime.js (no-op when motion is reduced)
 //   ui.fx.drainBar(barEl, f, { num, from, to, max })  // HP drain, ghost chunk, counter; instant when reduced
 //   ui.fx.cmdsIn(panelEl) / ui.fx.levelUpPop(boxEl)   // panel slide-in + stagger / level-up timeline
-import { PXI } from '../vendor/pixelarticons/icons.js?v=v0.2.72-alpha';
-import { CAPTURE_STEPS, CAPTURE_MS, BURST_COL, buildCapture } from './capture_fx.js?v=v0.2.72-alpha'; // capture sequence (Oct 22, 2026; swap points per step)
+import { PXI } from '../vendor/pixelarticons/icons.js?v=v0.2.79-alpha';
+import { CAPTURE_STEPS, CAPTURE_MS, BURST_COL, buildCapture } from './capture_fx.js?v=v0.2.79-alpha'; // capture sequence (Oct 22, 2026; swap points per step)
 
 const KUI = 'art/ui/kenney_ui_placeholder/';
-const AA_URL = '../vendor/auto-animate/auto-animate.min.js?v=v0.2.72-alpha';
-const FUI_URL = '../vendor/floating-ui/floating-ui.dom.bundle.min.mjs?v=v0.2.72-alpha';
-const ANIME_URL = '../vendor/animejs/anime.ui.min.mjs?v=v0.2.72-alpha';
+const AA_URL = '../vendor/auto-animate/auto-animate.min.js?v=v0.2.79-alpha';
+const FUI_URL = '../vendor/floating-ui/floating-ui.dom.bundle.min.mjs?v=v0.2.79-alpha';
+const ANIME_URL = '../vendor/animejs/anime.ui.min.mjs?v=v0.2.79-alpha';
 const mods = {}; const loads = {};
 const load = (k, url) => (loads[k] ||= import(url).then((m) => (mods[k] = m)).catch((e) => { delete loads[k]; console.warn(`ui tools (${k}):`, e.message); return null; }));
 
@@ -26,7 +26,7 @@ export const MENU_ICONS = { team: 'users', pack: 'backpack', kilindex: 'book-ope
   options: 'sliders', archive: 'archive', shop: 'store', battle: 'sword', menu: 'menu', summary: 'info-box' };
 export const POCKET_ICONS = { care: 'heart', feeds: 'leaf', gear: 'tools', crystals: 'diamond-gem', key: 'key', logs: 'notebook' };
 export const EMPTY_ICONS = { team: 'users', pack: 'backpack', shop: 'shopping-cart', tasks: 'clipboard-note', contacts: 'contact' };
-export const OPTION_ICONS = { 'Cloud shadows': 'cloud', 'Ambient life': 'tree', 'Depth shadows': 'sun', 'Menu motion': 'speed-medium', Sound: 'volume-3',
+export const OPTION_ICONS = { 'Cloud shadows': 'cloud', 'Ambient life': 'tree', Wind: 'cloud', 'Depth shadows': 'sun', 'Menu motion': 'speed-medium', Sound: 'volume-3',
   Volume: 'volume-3', 'Music volume': 'music', 'Effects volume': 'audio-waveform', 'Screen previews (dev build)': 'gamepad', 'Wild battles': 'zap' };
 export const hasPx = (n) => !!PXI[n];
 export const pxi = (name, cls = 'pxi', color = '') => (PXI[name] ? `<svg class="${cls}" viewBox="0 0 24 24" fill="currentColor"${color ? ` style="color:${color}"` : ''} shape-rendering="crispEdges" aria-hidden="true" focusable="false" data-icon="pixelarticons:${name}">${PXI[name]}</svg>` : '');
@@ -240,7 +240,7 @@ export class UiTools2 {
 
   // ---------- Animator FX art (fx_art.js, lazy): capture / evolution / heal_restore ----------
   art() { if (new URLSearchParams(location.search).get('fxart') === '0') return Promise.resolve(null);
-    return (loads.art ||= import('./fx_art.js?v=v0.2.72-alpha').catch((e) => { delete loads.art; console.warn('fx art:', e.message); return null; })); }
+    return (loads.art ||= import('./fx_art.js?v=v0.2.79-alpha').catch((e) => { delete loads.art; console.warn('fx art:', e.message); return null; })); }
   /** Heal machine sequence at the cradle (src/systems/heal.js). Skipped when motion is reduced. */
   async healFx(sc, n) { const fa = await this.art(); if (!fa?.FX_ART.heal || !sc) return null;
     const r = await fa.healFx(sc, n, { reduced: this.reduced() }); this.motion.heal = r; return r; }

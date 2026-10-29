@@ -11,9 +11,9 @@
 // deterministic from map id + game time and never pops on a warp. Outdoor maps only (progression.INDOOR_OR_CAVE).
 // New sprites are drawn here at 1x from palette.hex colours and graded like characters with gradeImage(sheet, grade, 'lut')
 // (sprite grade: no light colours, so smoke/butterfly highlights never glow); firefly glow stays ungraded (emissive). All motion shares WIND.
-import { TILE, Col } from './constants.js?v=v0.2.72-alpha';
-import { cameraFor } from './camera.js?v=v0.2.72-alpha';
-import { INDOOR_OR_CAVE, isIndoor } from './clock.js?v=v0.2.72-alpha';
+import { TILE, Col } from './constants.js?v=v0.2.79-alpha';
+import { cameraFor } from './camera.js?v=v0.2.79-alpha';
+import { INDOOR_OR_CAVE, isIndoor } from './clock.js?v=v0.2.79-alpha';
 
 /** Interiors + caves: one list, defined in clock.js (same rule as tools/progression.py INDOOR_OR_CAVE). */
 export { INDOOR_OR_CAVE };
@@ -168,7 +168,7 @@ export class LivingWorld {
    */
   constructor(scene, opts = {}) {
     this.scene = scene; this.opts = opts;
-    this.settings = { clouds: true, life: true };
+    this.settings = { clouds: true, life: true, wind: true }; // wind: Options 'Wind' toggle (wind.js)
     try { Object.assign(this.settings, JSON.parse(globalThis.localStorage?.getItem(SETTINGS_KEY) || '{}')); } catch { /* private mode */ }
     if (opts.clouds != null) this.settings.clouds = !!opts.clouds;
     if (opts.life != null) this.settings.life = !!opts.life;

@@ -1,5 +1,5 @@
-# Aurorel - pixel sprites (DRAFT, awaiting Gary; not wired)
-Kilindex #477 (water/light, small). Brief: Small aurora eel that swims through the night air above the peaks. Drawn in Aseprite (tools/region4/creatures.lua).
+# Aurorel - pixel sprites (v2, approved by Gary Oct 29 2026; wired)
+Kilindex #477 (water/light, small). Brief: Chubby floating eel with green-teal aurora ribbon fins; swims through the night air above the peaks. Art: v2, Character-models pipeline (generated reference -> creatures/_overnight c_build snap/palette/INK; tools/region4/c_build_r4.py).
 Built by creatures/_overnight/tools/c_build.py (Character-models overnight pipeline, re-run for region 4 v2 on Oct 29 2026 via tools/region4/c_build_r4.py) from raw/ (generated reference art from the DEX_450 brief), same pipeline as the wild set: snap -> 64-colour palette -> INK outline/clean.
 - battle/: aurorel_front_128, aurorel_back_128 (+_2x). Back = player side, seen from behind.
 - anim/: aurorel_front_idle, aurorel_back_idle: 4 frames (frames dir native+2x, sheet, sheet_2x, 2x GIF), 180/160/200/160 ms. Only the violet crystal glows.

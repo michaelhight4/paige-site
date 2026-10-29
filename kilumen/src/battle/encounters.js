@@ -17,8 +17,9 @@ export const ENCOUNTERS_WIRED_URL = 'data/encounters_wired.json';
 // Trail level scaling (Coder, Oct 23 2026; Gary 11:48 AM CT: "well we need to have them be level scaling the closer to
 // town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
 // the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
-import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.72-alpha';
-import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.72-alpha'; // water + cave floor at 0.3x grass (flag, off)
+import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.79-alpha';
+import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.79-alpha'; // water + cave floor at 0.3x grass (flag, off)
+import { leadEncounterMult } from '../systems/held.js?v=v0.2.79-alpha'; // Lure Lantern / Hush Cloak (Oct 29 2026)
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
 export const MAX_RATE = 0.2;
 export const GRACE_STEPS = 3;
@@ -113,10 +114,13 @@ export class EncounterRoller {
     this.graceSteps = opts.graceSteps ?? GRACE_STEPS; this.grace = this.graceSteps;
     this.axes = opts.axes || null; // data/trail_axes.json (trail level scaling); null = uniform levels everywhere
     this.terrain = opts.terrain || null; // data/terrain_encounters.json (flag `terrain`); null = no water / cave-floor rolls
+    this.rateMult = opts.rateMult || null; // held items (Oct 29 2026): () => lead's Lure Lantern x1.5 / Hush Cloak x0.5 (src/systems/held.js)
   }
   rateFor(zone) {
     const r = this.rateOverride ?? zone?.rate ?? 0;
-    return Math.max(0, Math.min(this.rateOverride != null ? 1 : this.maxRate, r)); // dev override may go to 1 (clips/tests); data never above MAX_RATE
+    if (this.rateOverride != null) return Math.max(0, Math.min(1, r)); // dev override may go to 1 (clips/tests)
+    const k = Math.max(0, Number(this.rateMult?.()) || 1); // the cap scales too, so a Lure Lantern still helps at the cap
+    return Math.max(0, Math.min(this.maxRate * Math.max(1, k), Math.min(this.maxRate, r) * k)); // data never above MAX_RATE
   }
   resetGrace() { this.grace = this.graceSteps; }
   /** One step on an encounter cell. -> {species, level, table, forced} | null */
@@ -141,8 +145,23 @@ export class EncounterRoller {
   }
 }
 
-/** Battle background per table method (only 'grass' art exists; ui_sd.js falls back to grass for the rest). */
-export const biomeFor = (method) => (/fern|cave/.test(method || '') ? 'cave' : 'grass');
+/** Battle backdrop per area (painted biomes, Oct 29 2026; src/battle/data/platforms.js). The map decides first (caves, the
+ * mountain routes, Frostspire's snow), then the table method (water / surf / fishing, caves, snow tables); else grass.
+ * Indoor maps (_int) stay on grass. */
+export const MAP_BIOMES = { greystone_entrance: 'cave', greystone_b1: 'cave', frostspire: 'snow', frostspire_pass: 'snow', revival_heights: 'mountain', route_cindervale: 'mountain', cindervale: 'mountain' };
+// Area (encounter table) id -> backdrop; checked first (Frostspire: Oct 29 2026).
+export const AREA_BIOMES = { frostspire_grass: 'snow', frostspire_pass_grass: 'snow', frostspire_cave: 'cave' };
+export const biomeFor = (method, map, area) => {
+  if (area && AREA_BIOMES[area]) return AREA_BIOMES[area];
+  if (area && /_cave\b|^terrain_cave/.test(area)) return 'cave';
+  const m = method || '';
+  if (/water|surf|fishing/.test(m)) return 'water';
+  if (/cave/.test(m)) return 'cave'; // incl. cave_fern; 'snow-fern' grass is snow
+  if (map && MAP_BIOMES[map]) return MAP_BIOMES[map];
+  if (/snow/.test(m)) return 'snow';
+  if (/ash/.test(m)) return 'mountain';
+  return 'grass';
+};
 
 /**
  * Hook the roller into the overworld: scene.hooks.onEncounterTile -> scene.script(openBattle(foe)).
@@ -164,8 +183,8 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
       const f = filterEncounters(data, opts.hasArt); st.artFilter = f; data = f.data;
       if (opts.dev) console.info('[encounters] art filter dropped', Object.values(f.dropped).reduce((a, n) => a + n, 0), 'slots', f.dropped, 'empty zones', f.empty, 'empty phases', f.emptyPhases);
     }
-    st.roller = new EncounterRoller(data, { rate: opts.rate });
     if (opts.terrain) getJson(opts.terrainUrl || TERRAIN_URL).then((t) => { if (t && st.roller) st.roller.terrain = opts.hasArt && opts.artFilter !== false ? filterTerrain(t, opts.hasArt) : t; });
+    st.roller = new EncounterRoller(data, { rate: opts.rate, rateMult: () => leadEncounterMult(scene.party || []) });
     return axesP.then((axes) => { if (axes?.maps) st.roller.axes = axes; });
   }).catch((e) => console.warn('[encounters]', e.message));
   st.hasArt = opts.hasArt; st.openBattle = openBattle; // fishing (src/fishing/index.js) opens its hooked creature through the same battle path
@@ -180,7 +199,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
     scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });
     scene.script(async () => {
       const terr = /^terrain_(water|cave)/.exec(hit.table || '')?.[1]; // terrain encounters: the existing system_wild.water / .cave lines
-      await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method || (terr === 'cave' ? 'cave' : '')), ...(terr && { intro: { key: 'system_wild.' + terr, fallback: [terr === 'cave' ? '{creature} drops out of the dark!' : '{creature} surfaces right beside you!'] } }) });
+      await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method || (water ? 'water' : terr || ''), m.name, hit.table), ...(terr && { intro: { key: 'system_wild.' + terr, fallback: [terr === 'cave' ? '{creature} drops out of the dark!' : '{creature} surfaces right beside you!'] } }) });
       ro.resetGrace();
     });
   };

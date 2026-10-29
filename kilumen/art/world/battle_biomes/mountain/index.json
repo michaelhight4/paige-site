@@ -1,0 +1,32 @@
+{
+ "biome": "mountain",
+ "size": [
+  2560,
+  1440
+ ],
+ "spots_frac": {
+  "near": [
+   0.3,
+   0.81
+  ],
+  "far": [
+   0.73,
+   0.735
+  ]
+ },
+ "life_layer": {
+  "frames": 16,
+  "ms_per_frame": 120,
+  "size": [
+   1280,
+   720
+  ],
+  "blend": "normal, stretched to the backdrop box"
+ },
+ "readability": {
+  "dawn": 0.936,
+  "day": 1.0,
+  "dusk": 0.94,
+  "night": 0.863
+ }
+}
