@@ -1,0 +1,264 @@
+[
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "hour": 22,
+  "label": "night",
+  "file": "before_pc_1920x1080_night.png",
+  "mapName": "club_int",
+  "npcs": [
+   {
+    "id": "rebel_bartender",
+    "x": 2,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_dj",
+    "x": 11,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_1",
+    "x": 6,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_2",
+    "x": 5,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_3",
+    "x": 8,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_bouncer",
+    "x": 8,
+    "y": 13,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_paint_vendor",
+    "x": 13,
+    "y": 4,
+    "sprite": null,
+    "drawn": false
+   }
+  ],
+  "drawn": 0,
+  "total": 7,
+  "errors": []
+ },
+ {
+  "plat": "pc",
+  "w": 1920,
+  "h": 1080,
+  "dpr": 1,
+  "touch": false,
+  "hour": 12,
+  "label": "day",
+  "file": "before_pc_1920x1080_day.png",
+  "mapName": "club_int",
+  "npcs": [
+   {
+    "id": "rebel_bartender",
+    "x": 2,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_dj",
+    "x": 10,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_1",
+    "x": 6,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_2",
+    "x": 5,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_3",
+    "x": 8,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_bouncer",
+    "x": 8,
+    "y": 13,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_paint_vendor",
+    "x": 13,
+    "y": 4,
+    "sprite": null,
+    "drawn": false
+   }
+  ],
+  "drawn": 0,
+  "total": 7,
+  "errors": []
+ },
+ {
+  "plat": "phone",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "touch": true,
+  "tag": "2340x1080",
+  "hour": 22,
+  "label": "night",
+  "file": "before_phone_2340x1080_night.png",
+  "mapName": "club_int",
+  "npcs": [
+   {
+    "id": "rebel_bartender",
+    "x": 2,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_dj",
+    "x": 11,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_1",
+    "x": 6,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_2",
+    "x": 5,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_3",
+    "x": 8,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_bouncer",
+    "x": 8,
+    "y": 13,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_paint_vendor",
+    "x": 13,
+    "y": 4,
+    "sprite": null,
+    "drawn": false
+   }
+  ],
+  "drawn": 0,
+  "total": 7,
+  "errors": []
+ },
+ {
+  "plat": "phone",
+  "w": 780,
+  "h": 360,
+  "dpr": 3,
+  "touch": true,
+  "tag": "2340x1080",
+  "hour": 12,
+  "label": "day",
+  "file": "before_phone_2340x1080_day.png",
+  "mapName": "club_int",
+  "npcs": [
+   {
+    "id": "rebel_bartender",
+    "x": 2,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_dj",
+    "x": 10,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_1",
+    "x": 6,
+    "y": 9,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_2",
+    "x": 5,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_patron_3",
+    "x": 8,
+    "y": 12,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_bouncer",
+    "x": 8,
+    "y": 13,
+    "sprite": null,
+    "drawn": false
+   },
+   {
+    "id": "rebel_paint_vendor",
+    "x": 13,
+    "y": 4,
+    "sprite": null,
+    "drawn": false
+   }
+  ],
+  "drawn": 0,
+  "total": 7,
+  "errors": []
+ }
+]
