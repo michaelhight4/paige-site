@@ -34,11 +34,11 @@ export function registerHallNpcResults(data, results) {
  *  (<hall_map>_master, <hall_map>_h<N> = trainers[N-1], <hall_map>_guide). -> {hall, role, who, index} | null */
 export function hallNpc(data, map, id) {
   for (const h of data.halls) {
-    if (h.hall_map !== map) continue;
+    if (h.hall_map !== map && !(h.floor_maps || []).includes(map)) continue; // floor_maps: Lanternport lighthouse floors 1F-3F
     if (id === h.master.id || id === `${map}_master`) return { hall: h, role: 'master', who: h.master, index: -1 };
     if (id === `${map}_guide`) return { hall: h, role: 'guide', who: null, index: -1 };
     let i = h.trainers.findIndex((t) => t.id === id || t.gd_id === id);
-    const m = new RegExp(`^${map}_h(\\d+)$`).exec(id);
+    const m = new RegExp(`^${map}_h(\\d+)$`).exec(id) || new RegExp(`^${h.hall_map}_h(\\d+)$`).exec(id);
     if (i < 0 && m) i = +m[1] - 1;
     if (i >= 0 && h.trainers[i]) return { hall: h, role: 'trainer', who: h.trainers[i], index: i };
     return null;

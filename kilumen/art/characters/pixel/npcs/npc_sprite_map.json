@@ -1721,6 +1721,754 @@
    "overworld_frames_dir": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi/",
    "class": "hotel guest",
    "note": "Aurelith city v1 (Oct 29 2026): new city NPC sheet (tools/city), 320x384 layout rows down/left/right/up"
+  },
+  "fernwick_hall_int.fernwick_hall_int_h3": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Trainee (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "revival_hall_int.revival_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "tidewater_hall_int.tidewater_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "tidewater_hall_int.tidewater_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "lanternport_hall_int.lanternport_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "lanternport_hall_int.lanternport_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "lanternport_hall_int.lanternport_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "cindervale_hall_int.cindervale_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "cindervale_hall_int.cindervale_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h1": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h2": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h3": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h1": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h2": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h3": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h7": {
+   "sprite_id": "tr_mirefen_hall_int_h7",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_mirefen_hall_int_h7/overworld/tr_mirefen_hall_int_h7_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_mirefen_hall_int_h7/overworld/tr_mirefen_hall_int_h7_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_mirefen_hall_int_h7/overworld/tr_mirefen_hall_int_h7_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_mirefen_hall_int_h7/overworld/tr_mirefen_hall_int_h7_chibi/",
+   "trainer_64x128": "npcs/tr_mirefen_hall_int_h7/trainer/tr_mirefen_hall_int_h7_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "tidewater_hall_int.tidewater_hall_int_h1": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "tidewater_hall_int.tidewater_hall_int_h2": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "tidewater_hall_int.tidewater_hall_int_h3": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "tidewater_hall_int.tidewater_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "tidewater_hall_int.tidewater_hall_int_h7": {
+   "sprite_id": "tr_tidewater_hall_int_h7",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_tidewater_hall_int_h7/overworld/tr_tidewater_hall_int_h7_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_tidewater_hall_int_h7/overworld/tr_tidewater_hall_int_h7_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_tidewater_hall_int_h7/overworld/tr_tidewater_hall_int_h7_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_tidewater_hall_int_h7/overworld/tr_tidewater_hall_int_h7_chibi/",
+   "trainer_64x128": "npcs/tr_tidewater_hall_int_h7/trainer/tr_tidewater_hall_int_h7_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "tidewater_hall_int.tidewater_hall_int_h8": {
+   "sprite_id": "tr_tidewater_hall_int_h8",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_tidewater_hall_int_h8/overworld/tr_tidewater_hall_int_h8_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_tidewater_hall_int_h8/overworld/tr_tidewater_hall_int_h8_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_tidewater_hall_int_h8/overworld/tr_tidewater_hall_int_h8_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_tidewater_hall_int_h8/overworld/tr_tidewater_hall_int_h8_chibi/",
+   "trainer_64x128": "npcs/tr_tidewater_hall_int_h8/trainer/tr_tidewater_hall_int_h8_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_hall_int.lanternport_hall_int_h1": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "lanternport_hall_int.lanternport_hall_int_h2": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "lanternport_hall_int.lanternport_hall_int_h7": {
+   "sprite_id": "tr_lanternport_hall_int_h7",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h7/trainer/tr_lanternport_hall_int_h7_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_hall_int.lanternport_hall_int_h8": {
+   "sprite_id": "tr_lanternport_hall_int_h8",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h8/trainer/tr_lanternport_hall_int_h8_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_hall_int.lanternport_hall_int_h9": {
+   "sprite_id": "tr_lanternport_hall_int_h9",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h9/trainer/tr_lanternport_hall_int_h9_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_hall_int.lanternport_hall_int_h10": {
+   "sprite_id": "tr_lanternport_hall_int_h10",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h10/trainer/tr_lanternport_hall_int_h10_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "cindervale_hall_int.cindervale_hall_int_h1": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "cindervale_hall_int.cindervale_hall_int_h2": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "cindervale_hall_int.cindervale_hall_int_h3": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "cindervale_hall_int.cindervale_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "cindervale_hall_int.cindervale_hall_int_h7": {
+   "sprite_id": "tr_cindervale_hall_int_h7",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_cindervale_hall_int_h7/overworld/tr_cindervale_hall_int_h7_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_cindervale_hall_int_h7/overworld/tr_cindervale_hall_int_h7_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_cindervale_hall_int_h7/overworld/tr_cindervale_hall_int_h7_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_cindervale_hall_int_h7/overworld/tr_cindervale_hall_int_h7_chibi/",
+   "trainer_64x128": "npcs/tr_cindervale_hall_int_h7/trainer/tr_cindervale_hall_int_h7_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "cindervale_hall_int.cindervale_hall_int_h8": {
+   "sprite_id": "tr_cindervale_hall_int_h8",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_cindervale_hall_int_h8/overworld/tr_cindervale_hall_int_h8_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_cindervale_hall_int_h8/overworld/tr_cindervale_hall_int_h8_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_cindervale_hall_int_h8/overworld/tr_cindervale_hall_int_h8_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_cindervale_hall_int_h8/overworld/tr_cindervale_hall_int_h8_chibi/",
+   "trainer_64x128": "npcs/tr_cindervale_hall_int_h8/trainer/tr_cindervale_hall_int_h8_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "cindervale_hall_int.cindervale_hall_int_h9": {
+   "sprite_id": "tr_cindervale_hall_int_h9",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_cindervale_hall_int_h9/overworld/tr_cindervale_hall_int_h9_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_cindervale_hall_int_h9/overworld/tr_cindervale_hall_int_h9_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_cindervale_hall_int_h9/overworld/tr_cindervale_hall_int_h9_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_cindervale_hall_int_h9/overworld/tr_cindervale_hall_int_h9_chibi/",
+   "trainer_64x128": "npcs/tr_cindervale_hall_int_h9/trainer/tr_cindervale_hall_int_h9_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "cindervale_hall_int.cindervale_hall_int_h10": {
+   "sprite_id": "tr_cindervale_hall_int_h10",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_cindervale_hall_int_h10/overworld/tr_cindervale_hall_int_h10_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_cindervale_hall_int_h10/overworld/tr_cindervale_hall_int_h10_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_cindervale_hall_int_h10/overworld/tr_cindervale_hall_int_h10_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_cindervale_hall_int_h10/overworld/tr_cindervale_hall_int_h10_chibi/",
+   "trainer_64x128": "npcs/tr_cindervale_hall_int_h10/trainer/tr_cindervale_hall_int_h10_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "cindervale_hall_int.cindervale_hall_int_h11": {
+   "sprite_id": "tr_cindervale_hall_int_h11",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_cindervale_hall_int_h11/overworld/tr_cindervale_hall_int_h11_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_cindervale_hall_int_h11/overworld/tr_cindervale_hall_int_h11_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_cindervale_hall_int_h11/overworld/tr_cindervale_hall_int_h11_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_cindervale_hall_int_h11/overworld/tr_cindervale_hall_int_h11_chibi/",
+   "trainer_64x128": "npcs/tr_cindervale_hall_int_h11/trainer/tr_cindervale_hall_int_h11_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "cindervale_hall_int.cindervale_hall_int_h12": {
+   "sprite_id": "tr_cindervale_hall_int_h12",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_cindervale_hall_int_h12/overworld/tr_cindervale_hall_int_h12_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_cindervale_hall_int_h12/overworld/tr_cindervale_hall_int_h12_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_cindervale_hall_int_h12/overworld/tr_cindervale_hall_int_h12_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_cindervale_hall_int_h12/overworld/tr_cindervale_hall_int_h12_chibi/",
+   "trainer_64x128": "npcs/tr_cindervale_hall_int_h12/trainer/tr_cindervale_hall_int_h12_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_lighthouse_int.lanternport_hall_int_h1": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "lanternport_lighthouse_int.lanternport_hall_int_h2": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "lanternport_lighthouse_f2.lanternport_hall_int_h7": {
+   "sprite_id": "tr_lanternport_hall_int_h7",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h7/trainer/tr_lanternport_hall_int_h7_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_lighthouse_f2.lanternport_hall_int_h8": {
+   "sprite_id": "tr_lanternport_hall_int_h8",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h8/trainer/tr_lanternport_hall_int_h8_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_lighthouse_f3.lanternport_hall_int_h9": {
+   "sprite_id": "tr_lanternport_hall_int_h9",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h9/trainer/tr_lanternport_hall_int_h9_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_lighthouse_f3.lanternport_hall_int_h10": {
+   "sprite_id": "tr_lanternport_hall_int_h10",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h10/trainer/tr_lanternport_hall_int_h10_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
   }
  },
  "unassigned_ready": {

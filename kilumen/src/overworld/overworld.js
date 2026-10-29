@@ -37,6 +37,7 @@ import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=
 import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.87-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
 import { hallLockFor, HALL_LOCK_KEY } from '../systems/hall_order.js?v=v0.2.87-alpha'; // hall order lock (Gary 3:52 PM CT)
 import { trainerOutcome } from '../battle/story.js?v=v0.2.87-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.87-alpha';
 // Save migration (berry -> plum, dev/r56-wiring): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
 export const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
 
@@ -254,7 +255,7 @@ export class Overworld {
         }
         c.npcs = (c.npcs || []).filter((d) => d.kind !== 'spawn'); // house_2f player_start is a spawn, not a person
         const m = new GameMap(c);
-        if (!this.tilesetIndex) { const u = resolveUrl(m.tilesetRef, this.mapUrl(name)); this.tilesetIndex = indexTileset(await withIx2Kit(await loadJson(u), u)); }
+        if (!this.tilesetIndex) { const u = resolveUrl(m.tilesetRef, this.mapUrl(name)); this.tilesetIndex = indexTileset(await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(u), u), u), u)); }
         return m.attachTileset(this.tilesetIndex.byId);
       }));
     }
@@ -906,7 +907,7 @@ export class Overworld {
             const rk = `after_n:${mapName}.${def.id}`, n = (Number(this.seen[rk]) || 0) + 1; this.seen[rk] = n;
             await this.say((n >= 2 && e.after_2) || e.after || this.pick(e, key)?.pages, sp); return;
           }
-          if (def.kind === 'master' && /_hall_int$/.test(mapName)) { // v0.2.16 (Gary): beat every hall trainer before the Master
+          if (def.kind === 'master' && /_hall_int$/.test(mapName) && !this.map.json?.hall_v2) { // hall_v2 maps: progression/hall_v2.js gates the Master (puzzle + any-4 wins) // v0.2.16 (Gary): beat every hall trainer before the Master
             const left = (this.map.npcs || []).filter((d) => d && d.id !== def.id && d.kind !== 'master' && /trainer/.test(d.kind || '') && this._entryFor(mapName, d)?.battle_lost && !this.seen[`defeated:${mapName}.${d.id}`]).length;
             if (left > 0 && !DEV.masterKey) { await this.say([`Beat the rest of my hall first. ${left} trainer${left === 1 ? '' : 's'} left.`], sp); return; }
           }

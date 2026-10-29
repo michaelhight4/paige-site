@@ -4145,7 +4145,22 @@
      }
     ]
    },
-   "area_name": "Fernwick Master's Hall"
+   "area_name": "Fernwick Master's Hall",
+   "fernwick_hall_int_h3": {
+    "pages": [
+     "Dig in, newbie. Earth doesn't rush.\nNeither do I.",
+     "Well. Bit of rushing. Ready?"
+    ],
+    "battle_lost": [
+     "Buried. Fair and square."
+    ],
+    "after": [
+     "Soft ground gives. Hard ground holds.\nFind the hard ground."
+    ],
+    "name": "Mabyn",
+    "trainer_class": "Hall Trainee",
+    "note": "hall trainer h3 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   }
   },
   "thornwood": {
    "trainer_tw_bug": {
@@ -9893,7 +9908,22 @@
      }
     ]
    },
-   "area_name": "Saltmere Master's Hall"
+   "area_name": "Saltmere Master's Hall",
+   "saltmere_hall_int_h4": {
+    "pages": [
+     "Tide's coming in. So am I.",
+     "Hope you packed a towel."
+    ],
+    "battle_lost": [
+     "Washed out. Happens to the best."
+    ],
+    "after": [
+     "The pans fill in order.\nWatch which one fills last."
+    ],
+    "name": "Maud",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   }
   },
   "route_revival": {
    "route_revival_trainer_1": {
@@ -10552,7 +10582,22 @@
      }
     ]
    },
-   "area_name": "Revival Heights Hall"
+   "area_name": "Revival Heights Hall",
+   "revival_hall_int_h5": {
+    "pages": [
+     "Hold still. You're in my light.",
+     "...Now you're in my battle."
+    ],
+    "battle_lost": [
+     "Dazzled. By you. How rude."
+    ],
+    "after": [
+     "Follow where the light lands,\nnot where it starts."
+    ],
+    "name": "Cressida",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   }
   },
   "route_revival_saltmere": {
    "route_revival_saltmere_trainer_1": {
@@ -11313,7 +11358,49 @@
      }
     ]
    },
-   "area_name": "Frostspire Master's Hall"
+   "area_name": "Frostspire Master's Hall",
+   "frostspire_hall_int_h4": {
+    "pages": [
+     "Feel that draught? That's us.\nWe're the draught."
+    ],
+    "battle_lost": [
+     "Blown away. Literally, almost."
+    ],
+    "after": [
+     "The wind here always comes back.\nTime your steps to it."
+    ],
+    "name": "Solveig",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "frostspire_hall_int_h5": {
+    "pages": [
+     "I climbed up here on foot.\nThe birds laughed. Let's battle."
+    ],
+    "battle_lost": [
+     "The birds are laughing again."
+    ],
+    "after": [
+     "Stand where the gusts cross\nand you'll go nowhere fast."
+    ],
+    "name": "Torvald",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "frostspire_hall_int_h6": {
+    "pages": [
+     "High up, cold, very windy.\nI love it. Can you tell?"
+    ],
+    "battle_lost": [
+     "Brr. That one stung."
+    ],
+    "after": [
+     "The Master reads the wind first,\nthe challenger second."
+    ],
+    "name": "Ingrid",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   }
   },
   "sunmeadow_fields": {
    "sunmeadow_fields_trainer_1": {
@@ -12362,7 +12449,63 @@
      }
     ]
    },
-   "area_name": "Mirefen Master's Hall"
+   "area_name": "Mirefen Master's Hall",
+   "mirefen_hall_int_h4": {
+    "pages": [
+     "Squelch! Sorry. That was me.\nBoots full of bog. Battle anyway?"
+    ],
+    "battle_lost": [
+     "Squelched. Properly this time."
+    ],
+    "after": [
+     "Bubbles mean solid ground below.\nNo bubbles, no footing."
+    ],
+    "name": "Tilda",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "mirefen_hall_int_h5": {
+    "pages": [
+     "Swamp folk are patient.\nI've waited all day for this."
+    ],
+    "battle_lost": [
+     "Worth the wait. Mostly."
+    ],
+    "after": [
+     "Reeds bend toward the safe path.\nTrust the reeds."
+    ],
+    "name": "Barnaby",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "mirefen_hall_int_h6": {
+    "pages": [
+     "Don't mind the frogs. They judge,\nbut quietly."
+    ],
+    "battle_lost": [
+     "The frogs are judging me now."
+    ],
+    "after": [
+     "The Master never steps in the same\npuddle twice. Neither should you."
+    ],
+    "name": "Imelda",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "mirefen_hall_int_h7": {
+    "pages": [
+     "I've stood in this bog so long,\nthe moss thinks I'm a post."
+    ],
+    "battle_lost": [
+     "Uprooted. Fair enough."
+    ],
+    "after": [
+     "Moss grows on the dry side.\nFollow the moss, keep your boots."
+    ],
+    "name": "Halden",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   }
   },
   "route_coast": {
    "route_coast_trainer_1": {
@@ -13097,7 +13240,63 @@
      }
     ]
    },
-   "area_name": "Tidewater Master's Hall"
+   "area_name": "Tidewater Master's Hall",
+   "tidewater_hall_int_h5": {
+    "pages": [
+     "I surf every morning.\nToday I surf you."
+    ],
+    "battle_lost": [
+     "Wiped out. Gnarly, though."
+    ],
+    "after": [
+     "Every wave has a gap.\nCount three, then go."
+    ],
+    "name": "Linnea",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "tidewater_hall_int_h6": {
+    "pages": [
+     "Big swell today. Bigger battle.\nShell up!"
+    ],
+    "battle_lost": [
+     "Shell's cracked. Spirit's not."
+    ],
+    "after": [
+     "The Master waits for the low tide.\nThen moves fast."
+    ],
+    "name": "Fergal",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "tidewater_hall_int_h7": {
+    "pages": [
+     "I count waves for fun.\nYou're wave number one hundred."
+    ],
+    "battle_lost": [
+     "Wave one hundred broke me."
+    ],
+    "after": [
+     "Big waves come in sevens.\nRest on the small ones."
+    ],
+    "name": "Perrin",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "tidewater_hall_int_h8": {
+    "pages": [
+     "My crab carries my lunch.\nWin, and it's still my lunch."
+    ],
+    "battle_lost": [
+     "Lunch survives. My pride doesn't."
+    ],
+    "after": [
+     "Jory's calm as still water.\nThat's the scary part."
+    ],
+    "name": "Senna",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   }
   },
   "lanternport": {
    "lanternport_trainer_1": {
@@ -13331,29 +13530,6 @@
      }
     ]
    },
-   "lanternport_hall_int_h3": {
-    "pages": [
-     "Top floor's the darkest. You'll want to look at the sea."
-    ],
-    "battle_lost": [
-     "Go on, then. Look at the sea."
-    ],
-    "after": [
-     "The code's in the water. The reflection, not the waves."
-    ],
-    "name": "Iska",
-    "trainer_class": "Hall Helper",
-    "note": "hall trainer tr_hall_lanternport_h3 (masters.json order h3); overnight hall draft, DRAFT pending Gary",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Top floor's the darkest. You'll want to look at the sea."
-      ]
-     }
-    ]
-   },
    "lanternport_hall_int_guide": {
     "pages": [
      "The lens flashes long and short beams through four coloured panes.",
@@ -13465,7 +13641,106 @@
      }
     ]
    },
-   "area_name": "The Old Lighthouse"
+   "area_name": "Lighthouse Lamp Room",
+   "lanternport_hall_int_h4": {
+    "pages": [
+     "Boo! ...No? Tough crowd.",
+     "Fine. We'll do it the hard way."
+    ],
+    "battle_lost": [
+     "I'd go pale, but I'm already pale."
+    ],
+    "after": [
+     "Some lanterns flicker on purpose.\nWatch which ones stay steady."
+    ],
+    "name": "Cosima",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h4 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h5": {
+    "pages": [
+     "They call me Iggy. The spirits\ncall me... also Iggy."
+    ],
+    "battle_lost": [
+     "Spooked. Thoroughly."
+    ],
+    "after": [
+     "Shadows here point the wrong way.\nFollow the shadow, not the lamp."
+    ],
+    "name": "Ignatius",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h6": {
+    "pages": [
+     "I tell ghost stories for a living.\nThis is the scary bit."
+    ],
+    "battle_lost": [
+     "Ending's a bit sad, isn't it?"
+    ],
+    "after": [
+     "The Master's lantern never goes\nout. Find the light that lasts."
+    ],
+    "name": "Dulcie",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h7": {
+    "pages": [
+     "I knit scarves for the ghosts.\nThey never say thank you."
+    ],
+    "battle_lost": [
+     "Unravelled. Like my last scarf."
+    ],
+    "after": [
+     "Cold spots mean company.\nFriendly company, mostly."
+    ],
+    "name": "Rosalind",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h8": {
+    "pages": [
+     "The lighthouse beam passes every\nten seconds. So do my wins."
+    ],
+    "battle_lost": [
+     "Missed a beat. Or ten."
+    ],
+    "after": [
+     "Count the beam's turns.\nThe dark gaps are your chance."
+    ],
+    "name": "Nyssa",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h9": {
+    "pages": [
+     "Shh. The lanterns are listening.\nThey love a good battle."
+    ],
+    "battle_lost": [
+     "The lanterns clapped. For you."
+    ],
+    "after": [
+     "Delphine talks to every lantern.\nThey always answer kindly."
+    ],
+    "name": "Jessamy",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h10": {
+    "pages": [
+     "Delphine's just up those steps.\nI've been practising my spooky face."
+    ],
+    "battle_lost": [
+     "Not spooky enough, apparently."
+    ],
+    "after": [
+     "Delphine's spirits fight gently,\nthen all at once. Be ready."
+    ],
+    "name": "Delwyn",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   }
   },
   "route_fernwick_lanternport": {
    "route_fernwick_lanternport_trainer_1": {
@@ -14235,7 +14510,119 @@
      }
     ]
    },
-   "area_name": "The Forge"
+   "area_name": "The Forge",
+   "cindervale_hall_int_h5": {
+    "pages": [
+     "Hot in here? I hadn't noticed.\nI never notice. I'm a forge."
+    ],
+    "battle_lost": [
+     "Cooled off. Briefly. Tragic."
+    ],
+    "after": [
+     "Metal tells you when it's ready.\nListen for the ring."
+    ],
+    "name": "Rasmus",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h5 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "cindervale_hall_int_h6": {
+    "pages": [
+     "Last one before the Master!\nI've warmed up. Literally."
+    ],
+    "battle_lost": [
+     "Toasted. Lightly. Fair enough."
+    ],
+    "after": [
+     "Brannock respects a quick strike\nwhile the iron's still glowing."
+    ],
+    "name": "Effie",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h6 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall overhaul phase 2 (Oct 29 2026)"
+   },
+   "cindervale_hall_int_h7": {
+    "pages": [
+     "Sparks in my hair again.\nOccupational hazard. Let's go!"
+    ],
+    "battle_lost": [
+     "Singed. Mostly my eyebrows."
+    ],
+    "after": [
+     "Hot floors cool in order.\nWatch the glow fade, then step."
+    ],
+    "name": "Branwen",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "cindervale_hall_int_h8": {
+    "pages": [
+     "I sweep the ash every hour.\nIt comes right back. Like me."
+    ],
+    "battle_lost": [
+     "Swept away. Ironic."
+    ],
+    "after": [
+     "Ash settles where the air is still.\nStill air, safe path."
+    ],
+    "name": "Merrit",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "cindervale_hall_int_h9": {
+    "pages": [
+     "My bellows wheeze when I'm excited.\nListen. They're wheezing."
+    ],
+    "battle_lost": [
+     "Out of puff. Me and the bellows."
+    ],
+    "after": [
+     "The bellows push heat down the hall.\nRide the cool gust after."
+    ],
+    "name": "Esme",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "cindervale_hall_int_h10": {
+    "pages": [
+     "I make kettles. Unbreakable ones.\nLet's test that theory."
+    ],
+    "battle_lost": [
+     "Dented. The kettle's fine, though."
+    ],
+    "after": [
+     "Good metal rings clear.\nA dull clang means wait."
+    ],
+    "name": "Clem",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "cindervale_hall_int_h11": {
+    "pages": [
+     "Ten years at the anvil.\nMy arms are basically hammers."
+    ],
+    "battle_lost": [
+     "Hammered. By you. Respect."
+    ],
+    "after": [
+     "Brannock tests every blade twice.\nHe'll test you the same."
+    ],
+    "name": "Gideon",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h11 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "cindervale_hall_int_h12": {
+    "pages": [
+     "Brannock's right behind me.\nI've kept the forge warm for you."
+    ],
+    "battle_lost": [
+     "Cooled off. You're the hot one now."
+    ],
+    "after": [
+     "Brannock never rushes a pour.\nWait for his tell, then strike."
+    ],
+    "name": "Hesper",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h12 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   }
   },
   "station_int": {
    "rail_buffer": {
@@ -15275,6 +15662,133 @@
      }
     ],
     "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+   }
+  },
+  "lanternport_lighthouse_int": {
+   "lanternport_hall_int_h1": {
+    "pages": [
+     "Lit every lamp in this town for thirty years. Never this one."
+    ],
+    "battle_lost": [
+     "Still never lit it."
+    ],
+    "after": [
+     "Long beam, short beam. Write it down if you need to. I did."
+    ],
+    "name": "Gil",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer tr_hall_lanternport_h1 (masters.json order h1); overnight hall draft, DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Lit every lamp in this town for thirty years. Never this one."
+      ]
+     }
+    ]
+   },
+   "lanternport_hall_int_h2": {
+    "pages": [
+     "People say this place is haunted. It is. They're friendly."
+    ],
+    "battle_lost": [
+     "Friendly, not strong. Noted."
+    ],
+    "after": [
+     "Each floor uses the same four colours. The order changes."
+    ],
+    "name": "Hana",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer tr_hall_lanternport_h2 (masters.json order h2); overnight hall draft, DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "People say this place is haunted. It is. They're friendly."
+      ]
+     }
+    ]
+   },
+   "lanternport_hall_int_guide": {
+    "pages": [
+     "The lens flashes long and short beams through four coloured panes.",
+     "Each floor has four lamps in those colours. Light them in that order.",
+     "Get it wrong and they go out. No harm done. The ghosts find it funny."
+    ],
+    "note": "stationary hall guide; overnight hall draft",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The lens flashes long and short beams through four coloured panes.",
+       "Each floor has four lamps in those colours. Light them in that order.",
+       "Get it wrong and they go out. No harm done. The ghosts find it funny."
+      ]
+     }
+    ]
+   }
+  },
+  "lanternport_lighthouse_f2": {
+   "lanternport_hall_int_h7": {
+    "pages": [
+     "I knit scarves for the ghosts.\nThey never say thank you."
+    ],
+    "battle_lost": [
+     "Unravelled. Like my last scarf."
+    ],
+    "after": [
+     "Cold spots mean company.\nFriendly company, mostly."
+    ],
+    "name": "Rosalind",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h8": {
+    "pages": [
+     "The lighthouse beam passes every\nten seconds. So do my wins."
+    ],
+    "battle_lost": [
+     "Missed a beat. Or ten."
+    ],
+    "after": [
+     "Count the beam's turns.\nThe dark gaps are your chance."
+    ],
+    "name": "Nyssa",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   }
+  },
+  "lanternport_lighthouse_f3": {
+   "lanternport_hall_int_h9": {
+    "pages": [
+     "Shh. The lanterns are listening.\nThey love a good battle."
+    ],
+    "battle_lost": [
+     "The lanterns clapped. For you."
+    ],
+    "after": [
+     "Delphine talks to every lantern.\nThey always answer kindly."
+    ],
+    "name": "Jessamy",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h10": {
+    "pages": [
+     "Delphine's just up those steps.\nI've been practising my spooky face."
+    ],
+    "battle_lost": [
+     "Not spooky enough, apparently."
+    ],
+    "after": [
+     "Delphine's spirits fight gently,\nthen all at once. Be ready."
+    ],
+    "name": "Delwyn",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    }
   }
  },
@@ -26339,6 +26853,57 @@
     ],
     "status": "DRAFT"
    }
+  }
+ },
+ "system_halls": {
+  "progress": {
+   "pages": [
+    "Hall wins: {wins} of {need}. Win {left} more and the Master will see you."
+   ],
+   "placeholder": true,
+   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+  },
+  "progress_open": {
+   "pages": [
+    "Hall wins: {wins} of {need}. The Master will see you now."
+   ],
+   "placeholder": true,
+   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+  },
+  "master_locked": {
+   "pages": [
+    "Win {left} more in my hall first. Then we battle."
+   ],
+   "placeholder": true,
+   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+  },
+  "rematch_prompt": {
+   "pages": [
+    "Again? A rematch costs {fee} gold, paid now, win or lose."
+   ],
+   "placeholder": true,
+   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+  },
+  "rematch_no_gold": {
+   "pages": [
+    "A rematch is {fee} gold. Come back when you have it."
+   ],
+   "placeholder": true,
+   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+  },
+  "rematch_won": {
+   "pages": [
+    "You beat me again. My team will be stronger next time."
+   ],
+   "placeholder": true,
+   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+  },
+  "master_puzzle": {
+   "pages": [
+    "You walked a path that does not reach me. Solve the hall first, then come up."
+   ],
+   "placeholder": true,
+   "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
   }
  }
 }

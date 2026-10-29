@@ -47,6 +47,7 @@ export class SightSystem {
   isDone(n) {
     const s = this.scene, map = s.map.name;
     if (s.seen?.[`defeated:${map}.${n.id}`]) return true;
+    if (s.hallQuiet?.(n)) return true; // hall overhaul v2: no spotting after the Master, or mid-slide
     if (this.cooldown.has(n.id)) return true;
     const e = s._entryFor?.(map, n.def);
     return !e?.battle_lost; // only real trainers (Text Bot entry with battle_lost) challenge

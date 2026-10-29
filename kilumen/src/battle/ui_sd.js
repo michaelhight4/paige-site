@@ -6,6 +6,7 @@ import { KilumenBattle } from './battle.js?v=v0.2.87-alpha';
 import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.87-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
 import { skillTag } from '../qol/matchup.js?v=v0.2.87-alpha';
 import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.87-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
+import { scaleMasterTeam } from '../progression/hall_v2.js?v=v0.2.87-alpha';
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
 import { DEV } from '../dev/runtime.js?v=v0.2.87-alpha';
@@ -62,7 +63,8 @@ export function makeSdBattle(ui, opts, h) {
   const foeLv = opts.foeLevel || Math.max(2, lead.level - 1); // foeLevel: wild encounter slot level (src/battle/encounters.js)
   // PLACEHOLDER trainer team, only for trainers with no authored / injected team: two creatures around the lead's level
   // authored teams first (src/battle/data/trainer_teams.js, keyed by the overworld's {map, id}), then injected teams, then the placeholder
-  const authored = trainer ? authoredTeam(opts.who, partySrc) : null;
+  const authored0 = trainer ? authoredTeam(opts.who, partySrc) : null;
+  const authored = authored0 && opts.who?.masterRematch ? scaleMasterTeam(authored0, opts.who.masterWins) : authored0; // hall v2 Master rematch x1.3^wins
   // carry (mode switch, Oct 29 2026): a wild fight switched over from real-time keeps its foes' HP (wild only; never owned)
   const carryFoes = !owned && opts.carry?.foes?.length ? opts.carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '', hp: Math.max(1, Math.round(f.hp)) })) : null;
   const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level, ...(f.held ? { held: f.held } : {}), ...(f.skills ? { skills: [...f.skills] } : {}) })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)

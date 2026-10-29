@@ -1,0 +1,27 @@
+[
+ {
+  "plat": "pc",
+  "hall": "revival",
+  "moves": 70,
+  "info": {
+   "map": "revival_hall_int",
+   "anim": 2,
+   "of": 2,
+   "turns": 11,
+   "opened": true,
+   "reached_dais": true,
+   "at": [
+    8,
+    2
+   ]
+  },
+  "errors": [],
+  "shots": [
+   "pc_revival_lobby.png",
+   "pc_revival_before_first_turn.png",
+   "pc_revival_after_beam_lit.png",
+   "pc_revival_dais.png",
+   "clip_revival_prism.webm"
+  ]
+ }
+]

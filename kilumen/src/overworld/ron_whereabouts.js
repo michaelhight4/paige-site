@@ -126,7 +126,7 @@ export function applyRonWhereabouts(story, isRon) {
 /** Free walkable cell near the hall door (or the town's first warp / the player) for the spawned town Ron. */
 export function townRonCell(s) {
   const m = s.map, warps = m.warps || m.json?.warps || [];
-  const door = warps.find((w) => /_hall_int$/.test(w.to || '')) || null;
+  const door = warps.find((w) => /_hall_int$|_lighthouse_int$/.test(w.to || '')) || null;
   const free = (x, y) => m.inBounds?.(x, y) && m.code(x, y) === 0 && !m.npcAt?.(x, y) && !m.warpAt?.(x, y)
     && !(s.player && s.player.x === x && s.player.y === y) && !warps.some((w) => w.x === x && w.y === y);
   const near = (c, offs) => { for (const [dx, dy] of offs) if (free(c.x + dx, c.y + dy)) return { x: c.x + dx, y: c.y + dy }; return null; };
