@@ -39,7 +39,7 @@ export function payCup({ ev, day, wallet, sstate }) {
 }
 
 /** Rival score: event-relevant stat mean (0..1) mapped between the bronze and gold bars (+ a little luck). */
-const KEYSTAT = { garden_hop: ['agility', 'focus'], tide_run: ['agility', 'speed'], signal_relay: ['focus', 'stamina'], ice_slide: ['agility', 'focus'], lantern_catch: ['agility', 'speed'], forge_push: ['power', 'stamina'] };
+const KEYSTAT = { garden_hop: ['agility', 'focus'], tide_run: ['agility', 'speed'], signal_relay: ['focus', 'stamina'], ice_slide: ['agility', 'focus'], lantern_catch: ['agility', 'speed'], forge_push: ['power', 'stamina'], tug_of_war: ['power', 'stamina'] };
 export function rivalsFor(ev, day, n = CUP.rivals) {
   const r = rngFor(`cup:${ev.id}:${cupWindow(ev, day)}`), out = [], used = new Set();
   for (let i = 0; i < n; i++) {

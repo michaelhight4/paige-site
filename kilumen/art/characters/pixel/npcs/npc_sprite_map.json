@@ -1448,5 +1448,19 @@
   "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
   "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
   "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
+ },
+ "aurelith.aurelith_games_announcer": {
+  "sprite_id": "coach_aurelith",
+  "overworld_sheet": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet.png",
+  "overworld_sheet_2x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_2x.png",
+  "overworld_sheet_3x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_3x.png",
+  "note": "Aurelith Games announcer (dev/sports-major)"
+ },
+ "saltmere.saltmere_tug_coach": {
+  "sprite_id": "coach_cindervale",
+  "overworld_sheet": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet.png",
+  "overworld_sheet_2x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_2x.png",
+  "overworld_sheet_3x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_3x.png",
+  "note": "Harbour Haul tug coach (dev/sports-major, reuses a coach sprite until art lands)"
  }
 }
