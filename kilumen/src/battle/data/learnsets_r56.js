@@ -1,8 +1,10 @@
 // r56 learnsets (Oct 29 2026, Coder) from design/regions56_gd/moves_swamp_sea.json (GD proposal; levels PLACEHOLDER for Gary).
 // Real data for the swamp / sea lines: src/overnight/learnsets.js learnsetFor() uses these before its generated fallback.
 // Tutor: Old Gus (the Lamp Keeper, tidewater_coast) teaches Brine Lash; wiring in src/region56/tutor.js.
-const SWAMP_LINE = [{ level: 1, skill: 'mirelob' }, { level: 1, skill: 'rippleshot' }, { level: 18, skill: 'stomp' }, { level: 28, skill: 'bogsnap' }];
-const SEA_LINE = [{ level: 1, skill: 'undertow' }, { level: 1, skill: 'rippleshot' }, { level: 18, skill: 'pebbletoss' }, { level: 28, skill: 'brinelash' }];
+const SWAMP_LINE = [{ level: 1, skill: 'mirelob' }, { level: 1, skill: 'rippleshot' }, { level: 18, skill: 'stomp' }, { level: 28, skill: 'bogsnap' },
+  { level: 40, skill: 'frillsplash' }, { level: 52, skill: 'mossslam' }, { level: 64, skill: 'pounce' }]; // L40+ (Oct 29 2026): regions 5-8
+const SEA_LINE = [{ level: 1, skill: 'undertow' }, { level: 1, skill: 'rippleshot' }, { level: 18, skill: 'pebbletoss' }, { level: 28, skill: 'brinelash' },
+  { level: 40, skill: 'frillsplash' }, { level: 52, skill: 'shellroll' }, { level: 64, skill: 'pounce' }]; // L40+ (Oct 29 2026): regions 5-8
 export const SWAMP_SPECIES = ['mirejaw', 'silteel', 'fenmaw', 'peatbellow', 'bulrusher', 'eftwarden'];
 export const SEA_SPECIES = ['nudiblume', 'atollback', 'reefshell', 'abyssray', 'hullwhale'];
 export const KELP_LASH = { atollback: 38, nudiblume: 34 };

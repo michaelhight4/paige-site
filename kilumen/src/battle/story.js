@@ -33,6 +33,8 @@ for (const [k, n] of Object.entries(RON_RIVALS)) {
     ? { win: [`beat_rival_ron_${n}`], either: [...RON5_EITHER], optional: true }
     : { win: [`beat_rival_ron_${n}`], blackoutOnLoss: true };
 }
+// Final Ron (Ron 7, tower bottom; ron_team.js RON_FINAL): a win sets both ending flags ending.js ENDING.tower checks.
+TRAINER_RESULTS['aurelith_arena_int.aurelith_arena_ron_final'] = { win: ['beat_n_ron_7', 'ron_final_beaten'], blackoutOnLoss: true };
 
 /** What a trainer battle result does to the story. -> {flags[], continueOnLoss, gift|null, done[, blackoutOnLoss]} */
 export function trainerOutcome(mapName, id, won) {

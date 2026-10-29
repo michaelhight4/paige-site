@@ -1,6 +1,6 @@
 // Habitat spread (Coder, Oct 29 2026; Gary: "some of the kilumen and their level 2 evos can be found almost anywhere
 // their habitat exists at the level that's correct for that zone"). Plan: design/HABITAT_SPREAD.md.
-// Adds a small set of common, adaptable lines (base form + stage-2 form) to every live table whose habitat matches.
+// Adds a small set of common, adaptable lines (base form + stage-2 form; where a table's lowest level is past the evo level, only the evolved form, Oct 29 2026) to every live table whose habitat matches.
 // Spread slots carry "spread": "habitat" so this script is idempotent: it strips old spread slots and re-adds them.
 // Writes art/world/overworld/encounters/encounters.json (source), data/encounters_wired.json (generated) and the basic
 // rod tables in data/fishing_tables.json. Re-run after tools/sync_creatures.mjs regenerates the wired table.
@@ -58,6 +58,12 @@ export const TAG = 'habitat';
 
 export function evoLevelOf(byId, stage2) { const e = byId(stage2); return Number.isFinite(e?.evoLevel) ? e.evoLevel : 16; }
 
+/** stage2 (or its next form, when the band's low level is past that form's evo level). */
+export function evolvedAt(byId, sp, lo) {
+  for (let n = byId(sp)?.evo; n && Number.isFinite(byId(n)?.evoLevel) && lo >= byId(n).evoLevel; n = byId(n).evo) sp = n;
+  return sp;
+}
+
 /** Spread slots for one table. slots = the table's own (non-spread) slots; habitats = zone habitats.
  * Lines whose base or stage2 already lives in the table are skipped (the local slot stays as authored). */
 export function spreadSlots(slots, habitats, byId, opts = {}) {
@@ -75,6 +81,7 @@ export function spreadSlots(slots, habitats, byId, opts = {}) {
       const ev = evoLevelOf(byId, e), withEvo = hi >= ev;
       let bw = Math.max(withEvo ? 2 : 1, Math.round(2 * u)), ew = Math.max(1, Math.round(u));
       if (ew >= bw) ew = bw - 1;
+      if (lo >= ev) { out.push({ species: evolvedAt(byId, e, lo), level: [lo, hi], weight: bw, spread: TAG }); continue; } // whole band past evo: evolved form only
       out.push({ species: b, level: [lo, hi], weight: bw, spread: TAG });
       if (withEvo && ew >= 1) out.push({ species: e, level: [Math.max(lo, ev), hi], weight: ew, spread: TAG });
     }

@@ -9,6 +9,9 @@ import { R56_LEARNSETS } from '../battle/data/learnsets_r56.js?v=v0.2.87-alpha';
 import { maxEnergy } from '../systems/creature.js?v=v0.2.87-alpha';
 
 export const PLACEHOLDER_LEVELS = [8, 14, 20, 27, 34];
+// Oct 29 2026: generated sets stopped at L34, so regions 5-8 (levels 40-70) learned nothing. Extra slots through L70, drawn from
+// existing moves whose type matches the species' elements first, then its element pools, normal moves, then hashed cousin pools.
+export const LATE_LEVELS = [40, 46, 52, 58, 64, 70];
 
 function hash(s) { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 
@@ -24,6 +27,14 @@ export function learnsetFor(species, els, defaults, data = null) {
   const cand = [];
   for (const p of pools) for (const [name] of PLACEHOLDER_SKILLS[p] || []) { const id = toID(name); if (!have.has(id) && !cand.includes(id)) cand.push(id); }
   PLACEHOLDER_LEVELS.forEach((level, i) => { if (cand[i]) out.push({ level, skill: cand[i], placeholder: true }); });
+  const used = new Set([...have, ...cand.slice(0, PLACEHOLDER_LEVELS.length)]), late = [];
+  const add = (name) => { const id = toID(name); if (!used.has(id)) { used.add(id); late.push(id); } };
+  const all = keys.flatMap((k) => PLACEHOLDER_SKILLS[k]);
+  for (const [name, type] of all) if (els.includes(type)) add(name);
+  for (const p of [els[0], els[1]].filter(Boolean)) for (const [name] of PLACEHOLDER_SKILLS[p] || []) add(name);
+  for (const [name, type] of all) if (type === 'normal') add(name);
+  for (let i = 1; late.length < LATE_LEVELS.length && i < keys.length; i++) for (const [name] of PLACEHOLDER_SKILLS[keys[(hash(species) + i * 7) % keys.length]]) add(name);
+  LATE_LEVELS.forEach((level, i) => { if (late[i]) out.push({ level, skill: late[i], placeholder: true }); });
   return out;
 }
 

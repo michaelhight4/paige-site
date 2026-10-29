@@ -63,10 +63,11 @@ test('Ron 6 win does not run the ending (no credits, no flags, returns false)', 
   assert.ok(!s.flags.has('finale_done')); assert.equal(s.locks.size, 0);
 });
 
-test('nothing in the game sets the tower flags yet (ending unreachable in live play)', () => {
+test('nothing in the game sets the tower flags yet except the final Ron result (map not built: ending unreachable in live play)', () => {
+  assert.ok(!fs.existsSync(path.join(root, 'art/world/overworld/maps/aurelith_arena_int.json')), 'final Ron map now exists: revisit this test');
   const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.name === 'tests' || e.name === 'design' || e.name === 'shots' || e.name === 'art' || e.name === 'audio' ? [] : e.isDirectory() ? walk(path.join(d, e.name)) : /\.(js|json)$/.test(e.name) ? [path.join(d, e.name)] : []);
   for (const f of walk(root)) {
-    if (f.endsWith(path.join('progression', 'ending.js'))) continue;
+    if (f.endsWith(path.join('progression', 'ending.js')) || f.endsWith(path.join('battle', 'story.js'))) continue; // story.js: final Ron win (Oct 29 2026)
     assert.doesNotMatch(fs.readFileSync(f, 'utf8'), /tower_done|beat_n_ron_7|ron_final_beaten/, f);
   }
 });

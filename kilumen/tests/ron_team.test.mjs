@@ -90,3 +90,10 @@ test('heal after the last tower battle sets tower_healed once; not before, not a
   s = sc([done]); markTowerHeal(s); assert.ok(s.flags.has(healed));
   s = sc([done, RON_FINAL.winFlag]); markTowerHeal(s); assert.ok(!s.flags.has(healed));
 });
+
+test('beating final Ron sets beat_n_ron_7 and ron_final_beaten', async () => {
+  const { trainerOutcome } = await import('../src/battle/story.js');
+  const o = trainerOutcome('aurelith_arena_int', 'aurelith_arena_ron_final', true);
+  assert.ok(o.flags.includes('beat_n_ron_7') && o.flags.includes('ron_final_beaten'));
+  assert.ok(!trainerOutcome('aurelith_arena_int', 'aurelith_arena_ron_final', false).flags.includes('beat_n_ron_7'));
+});

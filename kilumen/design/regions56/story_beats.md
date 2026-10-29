@@ -461,8 +461,8 @@ This answers Q-F5: the lead-in is the courier letter, and the present first lab/
   - The lobby has an RT sponsor banner (company_voice).
   - Floor themes and trainers are Game dev's.
   - Story asks only for floor 8's trainer to say one line about "the run" being the point, not the trophy.
-- **Ron after the tower (CANON: "the final tower and Ron"; details DRAFT):** Ron waits on the stadium **roof** after floor 8. Recommendation: one free heal first, from Ron himself, who refuses to beat you tired: [SAMPLE] "Heal up. I'm not winning on a technicality." Then the final Ron battle. **Flag (Q-F11):** the live Aurelith city NPC is "rival Ron #6, Lv 58-62" before the Arena, and our outline has Ron 5 at Tidewater. This roof fight's number (7? 8?) and whether the city Ron stays need Coder/Gary.
-- **First clear only:** credits 1 roll after the roof (`ending1_done`). Re-battles of the 8 floors (and of Ron, if Game dev wants) never replay the credits.
+- **Ron after the tower (CANON: "the final tower and Ron"; flow DRAFT rev 2, Oct 29 5:17 PM CT, awaiting Gary's wording approval):** Gary dropped Ron's free heal (via Coder). New flow: **(1) Tower top, after floor 8:** Ron is there, already done. Intent: he beat this one earlier and he'll wait at the bottom. [SAMPLE] "Already did this one. See you downstairs." `ron.tower_top_wait` (no battle). **(2)** The player heals normally (no heal from Ron). **(3) Stadium entrance (bottom):** Ron is waiting. He congratulates the player and says he's been waiting 3 hours. [SAMPLE] "Congrats. Three hours. I counted." `ron.bottom_congrats`, then **Ron 7** (`ron_7`, flag `beat_n_ron_7`): `ron.ron7_intro` / `ron.ron7_lose` / `ron.ron7_after`.
+- **First clear only:** credits 1 roll after Ron 7 at the bottom (`ending1_done`). Re-battles of the 8 floors (and of Ron, if Game dev wants) never replay the credits.
 
 ### F-A. Two endings: what each resolves (CANON: Gary approved the split, F8)
 **Principle:** Ending 1 closes the **people** story (Ron, home, the league); Ending 2 closes the **world** story (the Guardian, the lab, the missing team). Each gets its own soul payoff, so neither is hollow.
@@ -476,7 +476,7 @@ This answers Q-F5: the lead-in is the courier letter, and the present first lab/
 | **Guardian / River / crystals** | Untouched. The dream returns once, in the night after credits 1, just before the knock. | Ondravel freed; the River resolves; **crystals keep working** (canon F2). | G1. |
 | **Origin truth (canon reveal)** | Already known from R6. Ending 1 doesn't re-address it. | Paid off: the player stands in the night it happened. | — |
 | **Coralie** | — | Optional epilogue (Q-F3). | — |
-**Ending 1 location:** credits 1 follow the Aurelith Games Stadium roof (F-0); the bins beat plays at Brookhollow after the roof, before the credits.
+**Ending 1 location:** credits 1 follow Ron 7 at the Aurelith Games Stadium entrance (F-0); the bins beat plays at Brookhollow after Ron 7, before the credits.
 **Risk flagged:** players who stop at credits 1 never see the team home. Mitigation: the postcard, and credits 1 ends on "To be continued…"-style post-credit play (the knock), not a fade.
 
 ### F-B. The courier and the Head Office letter (DRAFT)
@@ -484,7 +484,7 @@ This answers Q-F5: the lead-in is the courier letter, and the present first lab/
 |---|---|---|---|---|---|
 | 1 | Brookhollow, home | night after credits 1 | player | peace | Sleep. The River dream, one fragment. |
 | 2 | Front door | morning | **courier = the R6 Coast Road postman** (the one who wouldn't leave his dry letters) | comic warmth | Knock. He's soaked and proud: "Dry. Every one." Hands over the letter, plus the field team's postcard (F-A). |
-| 3 | Kitchen | morning | player, Mum | unease | **The letter (CANON tone: EERILY KIND, Gary F7; wording DRAFT).** Intent: warm, personal, too personal. Head Office knows the lead creature's name and calls it by name, not number (the one thing RT never does, which is the chill). It knows about Mum's soup, Ron's bins and the stadium roof. It thanks the player for "everything you've done for them". It asks, gently, for a favour: there's "a disturbance on (mountain)" and "we think it would like to see you". It promises nothing bad and makes no threat. Unsigned, just "With love, Head Office". NOT a Vane memo (OPEN). The player should feel looked after and watched at once. Mum: "Who writes to a child like that?" |
+| 3 | Kitchen | morning | player, Mum | unease | **The letter (CANON tone: EERILY KIND, Gary F7; wording DRAFT).** Intent: warm, personal, too personal. Head Office knows the lead creature's name and calls it by name, not number (the one thing RT never does, which is the chill). It knows about Mum's soup, Ron's bins and the Stadium. It thanks the player for "everything you've done for them". It asks, gently, for a favour: there's "a disturbance on (mountain)" and "we think it would like to see you". It promises nothing bad and makes no threat. Unsigned, just "With love, Head Office". NOT a Vane memo (OPEN). The player should feel looked after and watched at once. Mum: "Who writes to a child like that?" |
 | 4 | Same | — | RITA (on the letter's QR) | unease | [SAMPLE] "I didn't write this one, {employee_id}." Beat. "...Wear a coat." (RITA, for once, not sarcastic.) |
 | 5 | Ron's house | — | Ron | friendship | Ron reads it over your shoulder (eerily kind version, see below). He doesn't come (Ron is home, his story's done), but he gives you a thermos (no drink hint: soup, Nan's recipe). |
 - **Tone: CANON eerily kind (F7).** Ron's line becomes: [SAMPLE] "'With love.' ...Yeah, I'd be scared too."
@@ -610,12 +610,12 @@ The teams are not villains: they're scared staff trying to regain control with *
 - **Structure flags:** `stadium_floor_1..8`, `stadium_cleared_once`, `ron_final_beaten`, `ending1_done`, `courier_delivered`, `read_ho_letter`, `got_team_postcard`, `reached_summit`, `found_team_summit`, `ending2_done`.
 - **Flags:** `fin_timeslip`, `fin_past_m_done`, `fin_past_t_done`, `fin_spire_floor_1..4`, `fin_released`, `fin_guardian_beaten`, `fin_present_release` (variant, pending ruling B), `fin_coralie_epilogue`.
 - **Region (Wellspire, placeholder):** `r9_unlocked` (on `read_ho_letter`), `skylift_upper_open`, `r9_entered_via_riverbed`, `r9_survey_crew_done`, `found_team_summit`, `spire_floor_1..3`, `spring_running` (on `fin_present_release`).
-- **Structure triggers:** credits 1 after the first Stadium clear + roof Ron (sets `ending1_done`); the courier at the door on the next sleep/wake; the summit map unlocks on `read_ho_letter`; the spire top needs `found_team_summit`; credits 2 + the epilogue on `fin_present_release`.
+- **Structure triggers:** credits 1 after the first Stadium clear + Ron 7 at the bottom (sets `ending1_done`); the courier at the door on the next sleep/wake; the summit map unlocks on `read_ho_letter`; the spire top needs `found_team_summit`; credits 2 + the epilogue on `fin_present_release`.
 - **Triggers:** the timeslip on the Guardian interaction in `fin_lab1_now`; the past maps in order M → T → lab1 (river current between them); each boss win opens the next; the dome needs all three; the epilogue after the credits.
 - **Interactables:** `fin_reader` (reject), `fin_sluice` (Station M), `fin_test8_plug` (Coralie), `fin_dome`, `fin_bench_swap` (live Lantern Rest hook).
 - **Keys:**
   - Ending 1 / courier: `end1.credits_last_card`, `end1.keeper_not_yet`, `courier.knock`, `courier.dry_every_one`, `letter.ho_assignment`, `letter.team_postcard`, `rita.letter_qr`, `ron.letter_react`, `ron.thermos`, `mum.letter_react`
-  - Stadium: `stadium.floor8_run_line`, `stadium.lobby_banner`, `ron.roof_heal`, `ron.roof_intro/lose/after`
+  - Stadium: `stadium.floor8_run_line`, `stadium.lobby_banner`, `ron.tower_top_wait`, `ron.bottom_congrats`, `ron.ron7_intro/lose/after` (DRAFT; `ron.roof_heal` and `ron.roof_intro/lose/after` REMOVED 5:17 PM CT)
   - Courier letter: `letter.ho_assignment` (**REWRITTEN intent: eerily kind**), `rita.letter_qr` (REWRITTEN: "I didn't write this one."), `ron.letter_react` (REWRITTEN)
   - Wellspire: `r9.name_sign`, `r9.riverbed_marks`, `r9.skylift_notice`, `r9.cairnfold_*`, `r9.lodge_legend` (cover copy), `r9.kid_drawing`, `r9.survey_crew_1..3`, `r9.icefall_*`, `r9.spire_f1..f3_*`
   - Summit: `summit.sign_*`, `summit.trainers_*`, `summit.camp.teo/marta/pell/imke`, `summit.team_morning`
@@ -632,14 +632,14 @@ The teams are not villains: they're scared staff trying to regain control with *
 - **Q-F3 (OPEN):** Keep Coralie's "I knew your face" epilogue?
 - **Q-F4 (OPEN):** Boss names (Greave, Holt, the Chief) are placeholders.
 - **G6 timing (OPEN):** D9.5.
-- **Q-F11 (new):** the roof Ron's battle number vs the live Aurelith "Ron #6" city NPC; free heal before Ron on the roof?
+- **Q-F11 (answered):** the bottom fight is Ron 7; there's no free heal (Gary dropped it, 5:15 PM CT via Coder).
 - **Q-F12 (new):** after the release, does the river come back slowly (recommended) or stay low?
 - **Q-F13 (new):** pick the mountain name: Wellspire (recommended) / Mount Ondra / Headwater Crown / Stillwater Peak.
 - **ANSWERED (CANON, 3:19-3:22 PM CT):** F2 crystals keep working; F5 courier + mountaintop; F6 Ondravel; F7 eerily kind; F8 split approved; F9 full region; F10 Aurelith Games Stadium (8 themed floors, one run with no heal back-out, re-battleable, credits 1 after it).
 
 ## CANON PICKS (Gary via Coder, Oct 29 2026, 3:25 PM CT)
 - Q-F13: the mountain region is **Wellspire** (replace PLACEHOLDER region name; r9 = Wellspire).
-- Q-F11: Ron heals the player before the roof fight. Numbering (Story Bot call): the roof fight is **Ron 7** (`ron_7`, flag `beat_n_ron_7`), after the existing Ron #6 in Aurelith city; ron_final_beaten aliases beat_n_ron_7.
+- Q-F11: Ron 7 (`ron_7`, flag `beat_n_ron_7`) is at the Stadium **bottom**, after the player heals; **no Ron heal** (dropped by Gary). Numbering: after the existing Ron #6 in Aurelith city; ron_final_beaten aliases beat_n_ron_7.
 - Q-F12: the river comes back SLOWLY after the release (spring trickles in Ending 2 epilogue; flow returns over later visits).
 - F1: NO young Vane on the rebellion night.
 - Still open: F3 (Coralie epilogue line), F4 (boss names Greave/Holt/the Chief), G6 timing.
@@ -649,7 +649,7 @@ The teams are not villains: they're scared staff trying to regain control with *
 **Status:** DRAFT. Talk only, **no battle**. Requested by Coder (regions 7-8). The Ron numbering (Coder, 3:49 PM CT) is not yet a Gary ruling:
 - Ron 5 at Tidewater (optional, G3).
 - Ron 6 in Aurelith city, before the Arena.
-- Ron 7 on the Stadium roof, with Ron's heal first (`ron_7` / `beat_n_ron_7`; F-0, which answers Q-F11).
+- Ron 7 at the Stadium entrance after the tower, with no heal from Ron (`ron_7` / `beat_n_ron_7`; F-0).
 
 **Intent.** Ron already knows the origin (R6-5, alongside the player). This scene is about **what he does with it**, not about learning anything new. The page is NOT an origin reveal. It is the **field team's lost reading sheet** that Ron picked up (R5, the pocket plant at R6 beat 8). It has Ron's partner's species on it, with a hand-drawn swatch of its *own* colour, logged as "drift, bonded, stable". It's proof his partner's colour is its own. He could keep it (it's the nicest thing anyone's written about them), but he gives it to the player because it says the team "went north", and the player's going north, not him.
 
@@ -668,13 +668,13 @@ The teams are not villains: they're scared staff trying to regain control with *
 
 **Order check (story-quality-standard):**
 - **Order (story order, not map order):** the scene always plays after Tidewater (Ron 5 window, R6 lab, the boat) because of the gate, and before Aurelith (Ron 6), since Aurelith needs all 8 coins. Lanternport itself may be visited earlier, but that has no effect. **It fits between Ron 5 and Ron 6, not between Ron 6 and Ron 7.**
-- **Ron's arc:** laid off (R6 low) → learns the origin with the player (R6-5) → "think about it on the boat" (R6-9) → **here he chooses his partner over the paperwork and lets go of chasing** → Ron 6 as a friend-rival → Ron 7 on the roof → Ending 1's bins "Told you. Tomorrow." OK.
+- **Ron's arc:** laid off (R6 low) → learns the origin with the player (R6-5) → "think about it on the boat" (R6-9) → **here he chooses his partner over the paperwork and lets go of chasing** → Ron 6 as a friend-rival → Ron 7 at the Stadium bottom → Ending 1's bins "Told you. Tomorrow." OK.
 - **Origin canon:** no new reveal. Ron's knowledge stays as in R6. Coralie isn't mentioned (she only implies). Warmth is shown, not explained. The banned-word list is respected.
 
 **Conflicts for Coder/Gary:**
 1. **The live quest `mq_lanternport_s1` says "Battle him (Ron 5)"** (`beat_rival_ron_5`) and s2 says "Afterwards Ron hands you a log page". It needs a data change to talk-only (s1 → `ron_page_shared`).
 2. **`lanternport_ron_5` "optional Ron 5 catch-up"** (plan line 37) clashes with G3 (Ron 5 is at Tidewater) and G6 (the rematch window ends at the Tidewater Master). Recommendation: remove it.
-3. **The plan calls Ron 6 the "final Ron"** (lines 14, 38, 45). That's superseded by Ron 7 on the roof (Coder 3:49 PM CT; needs Gary's OK).
+3. **The plan calls Ron 6 the "final Ron"** (lines 14, 38, 45). That's superseded by Ron 7 at the Stadium bottom (Coder 3:49 PM CT; needs Gary's OK).
 4. **Plan Q4: ANSWERED (Gary, 3:52 PM CT):** Lanternport stays reachable before Tidewater. The scene waits for the Tidewater coin and fires on a later visit.
 5. The bag count is 6 or 7 depending on whether the Lanternport coin came first (G3: one bag per coin). Text Bot needs both variants. Coder: read the coin count at scene time.
 

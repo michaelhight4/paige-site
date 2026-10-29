@@ -863,9 +863,9 @@
        "stand_in": false
       },
       {
-       "species": "pondkin",
+       "species": "reedmoot",
        "level": 41,
-       "battle_species": "pondkin",
+       "battle_species": "reedmoot",
        "stand_in": false
       }
      ],
@@ -1322,9 +1322,9 @@
        "stand_in": false
       },
       {
-       "species": "lanternkeep",
+       "species": "pharolith",
        "level": 57,
-       "battle_species": "lanternkeep",
+       "battle_species": "pharolith",
        "stand_in": false
       }
      ]
@@ -1367,9 +1367,9 @@
        "stand_in": false
       },
       {
-       "species": "lanternkeep",
+       "species": "pharolith",
        "level": 56,
-       "battle_species": "lanternkeep",
+       "battle_species": "pharolith",
        "stand_in": false
       }
      ],
@@ -1445,9 +1445,9 @@
        "stand_in": false
       },
       {
-       "species": "lanternkeep",
+       "species": "pharolith",
        "level": 56,
-       "battle_species": "lanternkeep",
+       "battle_species": "pharolith",
        "stand_in": false
       }
      ],
@@ -1871,9 +1871,9 @@
        "stand_in": false
       },
       {
-       "species": "emberlunx",
+       "species": "forgeharrow",
        "level": 65,
-       "battle_species": "emberlunx",
+       "battle_species": "forgeharrow",
        "stand_in": false
       }
      ],
