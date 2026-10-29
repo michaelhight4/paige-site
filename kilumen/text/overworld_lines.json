@@ -20420,7 +20420,10 @@
    "parity": "M9",
    "build": "built",
    "note": "save.js .bak fallback"
-  }
+  },
+  "locked": [
+   "Not now! RITA can't file reports\nmid-scene. Try again in a moment."
+  ]
  },
  "system_skills": {
   "_section": "Skills (parity B12, B20-B23, B7; design skill-structure research doc, SKR): 4 slots, level list, evolution skill first, free relearning via Skill Memory, Affinity bonus, energy meter.",
@@ -25292,6 +25295,15 @@
    "parity": "M8",
    "build": "built",
    "status": "DRAFT"
+  },
+  "map": {
+   "legend": {
+    "title": "Map key",
+    "here": "You are here",
+    "built": "Open now",
+    "later": "Coming soon",
+    "status": "DRAFT"
+   }
   }
  },
  "system_contacts": {
@@ -26434,7 +26446,10 @@
    "note": "pending Gary (story_beats §S)",
    "parity": "F15",
    "build": "partial"
-  }
+  },
+  "lanternport_gate": [
+   "Lanternport's keeping its lamps low.\nBest earn your Tidewater coin first."
+  ]
  },
  "system_story_r56": {
   "_section": "Regions 5-6 story lines from Story Bot's handoff (27 groups). Keys g<NN>_<what>. Pending map spots from World Design; flags in 'gate' are proposals unless already known. DRAFT pending Gary.",
