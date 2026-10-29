@@ -34,7 +34,7 @@ test('cave text: WD spot ids listed for Text Bot; town signs wired', () => {
 test('SIGNAL crate: first look sets the flag, later looks use the again key', async () => {
   assert.ok(MAP('lanternport_grotto').interact_spots.some((s) => s.id === SIGNAL_SPOT));
   const flags = new Set(), said = [];
-  const lines = { system_story_r78: { signal_crate_first: { pages: ['FIRST'] }, signal_crate_again: { pages: ['AGAIN'] } } };
+  const lines = J('text/overworld_lines.json'), T = lines.system_story_r78;
   const scene = { flags, lines, map: { name: 'lanternport_grotto' }, setFlag: (f) => flags.add(f), say: async (p) => said.push(p.join(' ')) };
   const api = attachRegion78(scene, {});
   assert.equal(await api.runSpot({ id: 'lanternport_grotto_nets' }), false);
@@ -42,7 +42,8 @@ test('SIGNAL crate: first look sets the flag, later looks use the again key', as
   assert.equal(await api.runSpot({ id: SIGNAL_SPOT }), true);
   assert.ok(flags.has(SIGNAL_FLAG)); assert.equal(signalKey(flags), 'system_story_r78.signal_crate_again');
   await api.runSpot({ id: SIGNAL_SPOT }); api.stop();
-  assert.deepEqual(said, ['FIRST', 'AGAIN']);
+  assert.deepEqual(said, [T.signal_crate_first.pages.join(' '), T.signal_crate_again.pages.join(' ')]);
+  assert.ok(said[0].includes('Do not exceed 100%') && said[1].includes('Still jammed past the red'));
 });
 
 test('SIGNAL crate: missing keys say nothing (no placeholder, no raw key) but still set the flag', async () => {
@@ -56,7 +57,7 @@ test('Tidewater lab crate: examine spot on a crate prop, reads g23_crate, no fla
   const m = MAP('lab_tidewater_cave'), sp = m.interact_spots.find((s) => s.id === LAB_CRATE_SPOT);
   assert.ok(sp && m.layers.collision[sp.y][sp.x]);
   assert.ok(J('text/overworld_lines.json').system_story_r56.g23_crate.pages.join(' ').includes('SIGNAL'));
-  for (const [lines, want] of [[{ system_story_r56: { g23_crate: { pages: ['NAILED'] } } }, ['NAILED']], [{}, []]]) {
+  for (const [lines, want] of [[J('text/overworld_lines.json'), J('text/overworld_lines.json').system_story_r56.g23_crate.pages], [{}, []]]) {
     const flags = new Set(), said = [];
     const api = attachRegion78({ flags, lines, map: { name: 'lab_tidewater_cave' }, setFlag: (f) => flags.add(f), say: async (p) => said.push(...p) }, {});
     assert.equal(await api.runSpot({ id: LAB_CRATE_SPOT }), true); api.stop();

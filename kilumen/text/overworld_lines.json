@@ -26225,6 +26225,29 @@
    "status": "DRAFT",
    "parity": "F15",
    "build": "partial"
+  },
+  "signal_crate_first": {
+   "pages": [
+    "LANTERNPORT. INSTRUMENTS – SIGNAL.\nThe lid's pried up. The straw is damp.",
+    "One gauge left. Past 100%, the dial\nturns red. Someone scratched a 7 there.",
+    "The needle's jammed past the red.\nSlip: \"Facility 1. Do not exceed 100%.\""
+   ],
+   "sets": "found_signal_crate_r7",
+   "region": 7,
+   "status": "DRAFT",
+   "note": "pending Gary (story_beats §S)",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "signal_crate_again": {
+   "pages": [
+    "The SIGNAL gauge.\nStill jammed past the red. Still."
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "note": "pending Gary (story_beats §S)",
+   "parity": "F15",
+   "build": "partial"
   }
  },
  "ron": {
