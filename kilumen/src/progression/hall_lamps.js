@@ -4,7 +4,7 @@
 // litLamps), so the map cell of each lit lamp shows tile_lit (2068) and the rest tile_unlit (2067). Runtime only: the
 // map file is never edited. Solved (st.p >= order.length or def.solved_flag set): every lamp lit and the tint clears
 // (= halls.js lightAt returns full light), so the hall goes back to the indoor grade.
-import { litLamps } from './halls.js?v=v0.2.46-alpha';
+import { litLamps } from './halls.js?v=v0.2.47-alpha';
 
 /** Lamp id -> map cell [x, y] (def.darkness.lamps are already mirefen_hall_int map cells). */
 export const lampMapCells = (def) => Object.entries(def?.darkness?.lamps || {}).map(([id, c]) => ({ id, x: c[0], y: c[1] }));

@@ -9,15 +9,15 @@
 //               X / Shift tap = dodge, hold = sprint, Q team, E crystal, hold Esc = leave.
 //           phone: D-pad move, A = selected skill, SEL = next skill, B tap = dodge / hold = sprint, tap a skill chip = use it,
 //               Team / Crystal / Leave (hold) buttons top right.
-import { RtBattle } from './sim.js?v=v0.2.46-alpha';
-import { RtView } from './view.js?v=v0.2.46-alpha';
-import { cooldownFor } from './moves.js?v=v0.2.46-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.46-alpha';
-import { maxEnergy, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.46-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.46-alpha';
-import { Col } from '../overworld/constants.js?v=v0.2.46-alpha';
-import { reducedMotion } from '../sports/hype.js?v=v0.2.46-alpha';
-import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.46-alpha';
+import { RtBattle } from './sim.js?v=v0.2.47-alpha';
+import { RtView } from './view.js?v=v0.2.47-alpha';
+import { cooldownFor } from './moves.js?v=v0.2.47-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.47-alpha';
+import { maxEnergy, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.47-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.47-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.47-alpha';
+import { reducedMotion } from '../sports/hype.js?v=v0.2.47-alpha';
+import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.47-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
 let SK = null;

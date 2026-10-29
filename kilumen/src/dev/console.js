@@ -3,17 +3,17 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.46-alpha';
-import * as AB from './autobattle.js?v=v0.2.46-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.46-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.46-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.46-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.46-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.46-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.46-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.46-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.46-alpha';
-import { createRitaPanel } from './rita_panel.js?v=v0.2.46-alpha'; // v0.2.32: RITA voice test tab
+import { DEV } from './runtime.js?v=v0.2.47-alpha';
+import * as AB from './autobattle.js?v=v0.2.47-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.47-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.47-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.47-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.47-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.47-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.47-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.47-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.47-alpha';
+import { createRitaPanel } from './rita_panel.js?v=v0.2.47-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
@@ -33,7 +33,12 @@ const CSS = `.kdev{position:fixed;inset:0;z-index:100000;background:rgba(8,10,16
 .kdev button.go{background:#2e6b43;border-color:#55b575}.kdev button.warn{background:#7a3a2e;border-color:#c97a66}.kdev button.sel{background:#3d5fb0;border-color:#7da0ff}
 .kdev .row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #222b3d}.kdev .row .n{flex:1;min-width:0;word-break:break-word}.kdev .row small{color:#8d9ab8}
 .kdev .kbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0}.kdev h4{margin:12px 0 4px;font-size:13px;color:#9db3e8}
-.kdev-chip{position:relative;z-index:5;pointer-events:auto;touch-action:manipulation;background:#7a3a2e;color:#fff;border:1px solid #c97a66;border-radius:8px;padding:4px 10px;font:600 12px system-ui,sans-serif;min-height:30px}`;
+.kdev-chip{position:relative;z-index:5;pointer-events:auto;touch-action:manipulation;background:#7a3a2e;color:#fff;border:1px solid #c97a66;border-radius:8px;padding:4px 10px;font:600 13px system-ui,sans-serif;min-height:44px;min-width:44px}
+.kdev .box{max-height:100%}.kdev .hd [data-x]{min-width:88px;min-height:44px;font-weight:700;background:#7a3a2e;border-color:#c97a66}
+.kdev button,.kdev select,.kdev input{min-height:44px;touch-action:manipulation}.kdev .tabs button{min-width:64px}
+.kdev .tabs{scrollbar-width:thin;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+@media (max-width:560px){.kdev{padding-left:0;padding-right:0;padding-bottom:0}.kdev .box{border-radius:12px 12px 0 0}.kdev .row{flex-wrap:wrap}.kdev .row .n{flex-basis:100%}.kdev .kbar>*{flex:1 1 auto}.kdev input[type=number]{width:84px}}
+@media (max-height:500px){.kdev{padding:max(2px,env(safe-area-inset-top)) max(4px,env(safe-area-inset-right)) 2px max(4px,env(safe-area-inset-left))}.kdev .hd{padding:2px 8px}.kdev .tabs{padding:3px 6px}.kdev .body{padding:6px 10px}.kdev .msg{min-height:22px;padding:2px 10px}.kdev .msg:empty{display:none}.kdev .box{width:min(980px,100%)}}`;
 
 export async function installDevConsole(scene, access) {
   if (!scene || window.kilumen?.dev) return null;
@@ -58,12 +63,13 @@ export async function installDevConsole(scene, access) {
     if (scene.saveLockReason?.() || scene.busy || scene.dialog?.active || scene.fade || u?.active || scene.evolution?.running || scene.evolution?.queue?.length || scene.player?.moving) return false;
     return !!scene.map;
   };
-  const open = () => {
+  const canOpenSoon = () => !!scene.map && !scene.saveLockReason?.() && !scene.busy && !scene.dialog?.active && !scene.fade; // menu closing animation may still be running
+  const open = (o) => {
     if (panel) return;
-    if (!canOpen()) { scene.toast?.('Dev console: not during a battle, conversation, cutscene or menu.'); return; }
+    if (!canOpen() && !(o?.fromMenu && !ui()?.active && canOpenSoon())) { scene.toast?.('Dev console: not during a battle, conversation, cutscene or menu.'); return; }
     if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
     panel = document.createElement('div'); panel.className = 'kdev';
-    panel.innerHTML = `<div class="box"><div class="hd"><b>Dev console <small style="font-weight:400;color:#8d9ab8">${esc(access?.role || '')}</small></b><button data-x>Close (B / Esc)</button></div><div class="tabs"></div><div class="body"></div><div class="msg"></div></div>`;
+    panel.innerHTML = `<div class="box"><div class="hd"><b>Dev console <small style="font-weight:400;color:#8d9ab8">${esc(access?.role || '')}</small></b><button data-x aria-label="Close dev console">✕ Close</button></div><div class="tabs"></div><div class="body"></div><div class="msg"></div></div>`;
     msgEl = panel.querySelector('.msg');
     panel.querySelector('[data-x]').onclick = close;
     panel.addEventListener('keydown', (e) => e.stopPropagation()); panel.addEventListener('keyup', (e) => e.stopPropagation());
