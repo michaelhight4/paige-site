@@ -1,0 +1,139 @@
+[
+ {
+  "plat": "pc",
+  "hall": "fernwick",
+  "info": {
+   "map": "fernwick_hall_int",
+   "hall_art_cells": 0,
+   "hall_art_tiles_loaded": true,
+   "new_trainers": 0
+  },
+  "views": 0,
+  "errors": [],
+  "shots": [
+   "pc_fernwick_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "mirefen",
+  "info": {
+   "map": "mirefen_hall_int",
+   "hall_art_cells": 13,
+   "hall_art_tiles_loaded": true,
+   "new_trainers": 1
+  },
+  "views": 2,
+  "errors": [],
+  "shots": [
+   "pc_mirefen_lobby.png",
+   "pc_mirefen_art1.png",
+   "pc_mirefen_art2.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "saltmere",
+  "info": {
+   "map": "saltmere_hall_int",
+   "hall_art_cells": 0,
+   "hall_art_tiles_loaded": true,
+   "new_trainers": 0
+  },
+  "views": 0,
+  "errors": [],
+  "shots": [
+   "pc_saltmere_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "tidewater",
+  "info": {
+   "map": "tidewater_hall_int",
+   "hall_art_cells": 0,
+   "hall_art_tiles_loaded": true,
+   "new_trainers": 2
+  },
+  "views": 2,
+  "errors": [],
+  "shots": [
+   "pc_tidewater_lobby.png",
+   "pc_tidewater_art1.png",
+   "pc_tidewater_art2.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "frostspire",
+  "info": {
+   "map": "frostspire_hall_int",
+   "hall_art_cells": 0,
+   "hall_art_tiles_loaded": true,
+   "new_trainers": 0
+  },
+  "views": 0,
+  "errors": [],
+  "shots": [
+   "pc_frostspire_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "lanternport",
+  "info": {
+   "map": "lanternport_hall_int",
+   "hall_art_cells": 8,
+   "hall_art_tiles_loaded": true,
+   "new_trainers": 4
+  },
+  "views": 5,
+  "errors": [],
+  "shots": [
+   "pc_lanternport_lobby.png",
+   "pc_lanternport_art1.png",
+   "pc_lanternport_art2.png",
+   "pc_lanternport_art3.png",
+   "pc_lanternport_art4.png",
+   "pc_lanternport_art5.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "revival",
+  "info": {
+   "map": "revival_hall_int",
+   "hall_art_cells": 0,
+   "hall_art_tiles_loaded": true,
+   "new_trainers": 0
+  },
+  "views": 0,
+  "errors": [],
+  "shots": [
+   "pc_revival_lobby.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "hall": "cindervale",
+  "info": {
+   "map": "cindervale_hall_int",
+   "hall_art_cells": 47,
+   "hall_art_tiles_loaded": true,
+   "new_trainers": 6
+  },
+  "views": 8,
+  "errors": [],
+  "shots": [
+   "pc_cindervale_lobby.png",
+   "pc_cindervale_art1.png",
+   "pc_cindervale_art2.png",
+   "pc_cindervale_art3.png",
+   "pc_cindervale_art4.png",
+   "pc_cindervale_art5.png",
+   "pc_cindervale_art6.png",
+   "pc_cindervale_art7.png",
+   "pc_cindervale_art8.png"
+  ]
+ }
+]

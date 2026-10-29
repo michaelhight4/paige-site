@@ -2,7 +2,7 @@
 // we load the set that matches the integer zoom so tiles blit 1:1 at 1080p (2x) and 1440p (3x).
 import { loadImage, loadJson, resolveUrl } from './assets.js?v=v0.2.85-alpha';
 import { ixFlags } from './ixlight.js?v=v0.2.85-alpha';
-import { withHallAnim } from '../progression/hall_anim.js?v=v0.2.85-alpha';
+import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.85-alpha';
 
 export const COLUMNS = 16;
 
@@ -43,7 +43,7 @@ async function withFurnitureAnim(ts, url) {
 }
 
 export async function loadTileset(url) {
-  const ts = await withHallAnim(await withIx2Kit(await loadJson(url), url), url); // hall animated tiles (flag hallanim, dev default on)
+  const ts = await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(url), url), url), url); // hall animated tiles (flag hallanim, dev default on)
   await withFurnitureAnim(ts, url);
   const idx = indexTileset(ts);
   const sheetPaths = new Set(ts.tiles.map((t) => t.sheet));

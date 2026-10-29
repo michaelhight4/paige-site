@@ -874,7 +874,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Halden"
     }
    ],
    "reward": {
@@ -1107,7 +1108,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Perrin"
     },
     {
      "id": "tidewater_hall_int_h8",
@@ -1136,7 +1138,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Senna"
     }
    ],
    "reward": {
@@ -1371,7 +1374,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Rosalind"
     },
     {
      "id": "lanternport_hall_int_h8",
@@ -1394,7 +1398,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Nyssa"
     },
     {
      "id": "lanternport_hall_int_h9",
@@ -1417,7 +1422,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Jessamy"
     },
     {
      "id": "lanternport_hall_int_h10",
@@ -1446,7 +1452,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Delwyn"
     }
    ],
    "reward": {
@@ -1686,7 +1693,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Branwen"
     },
     {
      "id": "cindervale_hall_int_h8",
@@ -1709,7 +1717,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Merrit"
     },
     {
      "id": "cindervale_hall_int_h9",
@@ -1732,7 +1741,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Esme"
     },
     {
      "id": "cindervale_hall_int_h10",
@@ -1755,7 +1765,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Clem"
     },
     {
      "id": "cindervale_hall_int_h11",
@@ -1778,7 +1789,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Gideon"
     },
     {
      "id": "cindervale_hall_int_h12",
@@ -1807,7 +1819,8 @@
        "stand_in": false
       }
      ],
-     "added": "hall overhaul phase 2, Oct 29 2026"
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Hesper"
     }
    ],
    "reward": {

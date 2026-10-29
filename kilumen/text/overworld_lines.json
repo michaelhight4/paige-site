@@ -12043,18 +12043,17 @@
    },
    "mirefen_hall_int_h7": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "I've stood in this bog so long,\nthe moss thinks I'm a post."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Uprooted. Fair enough."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Moss grows on the dry side.\nFollow the moss, keep your boots."
     ],
-    "name": "Rushton",
+    "name": "Halden",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    }
   },
   "route_coast": {
@@ -12761,33 +12760,31 @@
    },
    "tidewater_hall_int_h7": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "I count waves for fun.\nYou're wave number one hundred."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Wave one hundred broke me."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Big waves come in sevens.\nRest on the small ones."
     ],
-    "name": "Morwen",
+    "name": "Perrin",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "tidewater_hall_int_h8": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "My crab carries my lunch.\nWin, and it's still my lunch."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Lunch survives. My pride doesn't."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Jory's calm as still water.\nThat's the scary part."
     ],
-    "name": "Kit",
+    "name": "Senna",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    }
   },
   "lanternport": {
@@ -13201,63 +13198,59 @@
    },
    "lanternport_hall_int_h7": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "I knit scarves for the ghosts.\nThey never say thank you."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Unravelled. Like my last scarf."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Cold spots mean company.\nFriendly company, mostly."
     ],
-    "name": "Sable",
+    "name": "Rosalind",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "lanternport_hall_int_h8": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "The lighthouse beam passes every\nten seconds. So do my wins."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Missed a beat. Or ten."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Count the beam's turns.\nThe dark gaps are your chance."
     ],
-    "name": "Wick",
+    "name": "Nyssa",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "lanternport_hall_int_h9": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "Shh. The lanterns are listening.\nThey love a good battle."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "The lanterns clapped. For you."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Delphine talks to every lantern.\nThey always answer kindly."
     ],
-    "name": "Elowen",
+    "name": "Jessamy",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "lanternport_hall_int_h10": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "Delphine's just up those steps.\nI've been practising my spooky face."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Not spooky enough, apparently."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Delphine's spirits fight gently,\nthen all at once. Be ready."
     ],
-    "name": "Thane",
+    "name": "Delwyn",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    }
   },
   "route_fernwick_lanternport": {
@@ -14042,93 +14035,87 @@
    },
    "cindervale_hall_int_h7": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "Sparks in my hair again.\nOccupational hazard. Let's go!"
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Singed. Mostly my eyebrows."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Hot floors cool in order.\nWatch the glow fade, then step."
     ],
-    "name": "Cinda",
+    "name": "Branwen",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "cindervale_hall_int_h8": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "I sweep the ash every hour.\nIt comes right back. Like me."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Swept away. Ironic."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Ash settles where the air is still.\nStill air, safe path."
     ],
-    "name": "Forge",
+    "name": "Merrit",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "cindervale_hall_int_h9": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "My bellows wheeze when I'm excited.\nListen. They're wheezing."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Out of puff. Me and the bellows."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "The bellows push heat down the hall.\nRide the cool gust after."
     ],
-    "name": "Hollis",
+    "name": "Esme",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "cindervale_hall_int_h10": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "I make kettles. Unbreakable ones.\nLet's test that theory."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Dented. The kettle's fine, though."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Good metal rings clear.\nA dull clang means wait."
     ],
-    "name": "Embry",
+    "name": "Clem",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "cindervale_hall_int_h11": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "Ten years at the anvil.\nMy arms are basically hammers."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Hammered. By you. Respect."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Brannock tests every blade twice.\nHe'll test you the same."
     ],
-    "name": "Petra",
+    "name": "Gideon",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h11 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    },
    "cindervale_hall_int_h12": {
     "pages": [
-     "You made it this far. Let's see your team."
+     "Brannock's right behind me.\nI've kept the forge warm for you."
     ],
     "battle_lost": [
-     "Fair win. Go on."
+     "Cooled off. You're the hot one now."
     ],
     "after": [
-     "Keep going. The Master is up ahead."
+     "Brannock never rushes a pour.\nWait for his tell, then strike."
     ],
-    "name": "Slag",
+    "name": "Hesper",
     "trainer_class": "Hall Helper",
-    "placeholder": true,
-    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+    "note": "hall trainer h12 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
    }
   },
   "station_int": {

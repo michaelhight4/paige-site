@@ -19,7 +19,7 @@ const { KILUMEN_RULES } = await import(path.join(root, 'src/battle/data/rules.js
 const HALLS = ['fernwick', 'mirefen', 'saltmere', 'tidewater', 'frostspire', 'lanternport', 'revival', 'cindervale'];
 const COUNT = { fernwick: 3, saltmere: 4, revival: 5, mirefen: 7, tidewater: 8, lanternport: 10, cindervale: 12, frostspire: 6 };
 const byId = new Map();
-for (const f of ['tileset.json', 'tileset_ix2.json', 'tileset_hallanim.json']) for (const t of J(`art/world/overworld/${f}`).tiles) byId.set(t.id, t);
+for (const f of ['tileset.json', 'tileset_ix2.json', 'tileset_hallanim.json', 'tileset_hallart.json']) for (const t of J(`art/world/overworld/${f}`).tiles) byId.set(t.id, t);
 const mapJson = (h) => J(`art/world/overworld/maps/${h}_hall_int.json`);
 const lines = J('text/overworld_lines.json');
 
@@ -214,4 +214,27 @@ test('revival prism relay runtime: A on a prism turns it, the door opens on the 
   assert.equal(r.open, true); assert.equal(f.sc.map.layers.collision[ly][lx], 0);
   const calls = []; const ctx = new Proxy({}, { get: (_, k) => (typeof k === 'string' ? (...a) => calls.push(k) : undefined), set: () => true });
   hv.drawBeam(ctx, { zoom: 1, cam: { x: 0, y: 0 }, ms: 0 }); assert.ok(calls.filter((k) => k === 'lineTo').length >= 5, 'beam segments drawn');
+});
+
+test('hall art (Character models): 13 trainers off the stand-ins, push/warp cells on hall_art tiles, Text Bot names', () => {
+  const smap = J('art/characters/pixel/npcs/npc_sprite_map.json').map;
+  const art = J('art/world/overworld/tileset_hallart.json').tiles;
+  assert.equal(art.length, 32); assert.ok(art.every((t) => t.collision_code === 0 && t.id >= 9981));
+  const T = J('text/overworld_lines.json').maps; let n = 0;
+  for (const [k, e] of Object.entries(smap)) {
+    if (!/_hall_int_h\d+$/.test(k) || !e.sprite_id?.startsWith('tr_') || !e.sprite_id.includes('_hall_int_h')) continue;
+    n++; assert.ok(fs.existsSync(`art/characters/pixel/${e.overworld_sheet}`), k); assert.ok(fs.existsSync(`art/characters/pixel/${e.trainer_64x128}`), k);
+    const [hm, id] = k.split('.'); assert.ok(T[hm][id].name && !T[hm][id].placeholder, k);
+  }
+  assert.equal(n, 13);
+  const PUSH = { '^': 'up', v: 'down', '<': 'left', '>': 'right' };
+  for (const hm of ['cindervale_hall_int', 'mirefen_hall_int', 'lanternport_hall_int']) {
+    const m = J(`art/world/overworld/maps/${hm}.json`), g = m.hall_v2.grid;
+    g.forEach((row, y) => [...row].forEach((c, x) => {
+      const t = byId.get(m.layers.ground[y][x]);
+      if (PUSH[c]) assert.match(t?.name ?? '', new RegExp(`^ha_push_${PUSH[c]}__`), `${hm} ${x},${y}`);
+      if (m.hall_v2.warps?.[c]) assert.match(t?.name ?? '', /^ha_warp_pad_[1-4]__/, `${hm} ${x},${y}`);
+      if (PUSH[c] || m.hall_v2.warps?.[c]) assert.equal(m.layers.collision[y][x], 0);
+    }));
+  }
 });
