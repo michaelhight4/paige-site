@@ -17,9 +17,9 @@ export const ENCOUNTERS_WIRED_URL = 'data/encounters_wired.json';
 // Trail level scaling (Coder, Oct 23 2026; Gary 11:48 AM CT: "well we need to have them be level scaling the closer to
 // town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
 // the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
-import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.81-alpha';
-import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.81-alpha'; // water + cave floor at 0.3x grass (flag, off)
-import { leadEncounterMult } from '../systems/held.js?v=v0.2.81-alpha'; // Lure Lantern / Hush Cloak (Oct 29 2026)
+import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.82-alpha';
+import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.82-alpha'; // water + cave floor at 0.3x grass (flag, off)
+import { leadEncounterMult } from '../systems/held.js?v=v0.2.82-alpha'; // Lure Lantern / Hush Cloak (Oct 29 2026)
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
 export const MAX_RATE = 0.2;
 export const GRACE_STEPS = 3;
