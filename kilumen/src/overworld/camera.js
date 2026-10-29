@@ -2,8 +2,8 @@
 // so the screen scroll offset is a multiple of the zoom and pixels never shimmer.
 // Rules and zoom come from the active platform profile (src/platform/<id>.json, see src/platform.js); the
 // defaults below are only for callers with no profile (Node tests) and match how the camera worked before profiles.
-import { TILE } from './constants.js?v=v0.2.42-alpha';
-import { zoomFromTable } from '../platform.js?v=v0.2.42-alpha';
+import { TILE } from './constants.js?v=v0.2.43-alpha';
+import { zoomFromTable } from '../platform.js?v=v0.2.43-alpha';
 
 /** Camera rules when no profile is given: hard follow, clamped to map edges, short axis centred on black. */
 export const DEFAULT_CAMERA = Object.freeze({ follow: 'player_tile_centre', deadzonePx: { x: 0, y: 0 }, clampToMapEdges: true, smallMapAxis: 'centre' });
@@ -45,7 +45,18 @@ export function outsideFillFor(rules, display, mapName, indoor) {
  */
 export function cameraFor(focusX, focusY, mapW, mapH, viewW, viewH, rules = DEFAULT_CAMERA, prev = null, ctx = null) {
   const r = rules || DEFAULT_CAMERA, dz = r.deadzonePx || { x: 0, y: 0 };
-  if (r.alwaysCentre === true) return { x: Math.round(focusX - viewW / 2), y: Math.round(focusY - viewH / 2) }; // centre camera rule
+  if (r.alwaysCentre === true) {
+    const x = Math.round(focusX - viewW / 2); let y = Math.round(focusY - viewH / 2); // centre camera rule
+    // v0.2.41 (Gary: phone camera cut off the top of the wall indoors): an interior that fits the view (or is at most 3 tiles taller) keeps its top wall on screen until the player nears the bottom
+    // (the player can sit up to 1.5 tiles under centre, still clear of the bottom controls); a taller one never scrolls past its
+    // bottom by more than 1.5 tiles, so less of the top wall is lost. Outdoors: unchanged.
+    if (ctx?.indoor) {
+      const mapPx = mapH * TILE, slack = 1.5 * TILE;
+      if (mapPx <= viewH + 3 * TILE) y = Math.max(Math.min(y, 0), Math.round(focusY + slack - viewH));
+      else y = Math.min(y, Math.floor(mapPx - viewH + slack));
+    }
+    return { x, y };
+  }
   return {
     x: axis(focusX, mapW * TILE, viewW, r, dz.x || 0, prev?.x),
     y: axis(focusY, mapH * TILE, viewH, r, dz.y || 0, prev?.y, pinSlackPx(r, ctx)),

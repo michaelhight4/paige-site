@@ -1,7 +1,7 @@
 // Kilumen overworld: tileset loading (README section 6). The 1x/2x/3x JSON files share ids and indices;
 // we load the set that matches the integer zoom so tiles blit 1:1 at 1080p (2x) and 1440p (3x).
-import { loadImage, loadJson, resolveUrl } from './assets.js?v=v0.2.42-alpha';
-import { ixFlags } from './ixlight.js?v=v0.2.42-alpha';
+import { loadImage, loadJson, resolveUrl } from './assets.js?v=v0.2.43-alpha';
+import { ixFlags } from './ixlight.js?v=v0.2.43-alpha';
 
 export const COLUMNS = 16;
 
@@ -34,8 +34,9 @@ export async function loadTileset(url) {
   const idx = indexTileset(ts);
   const sheetPaths = new Set(ts.tiles.map((t) => t.sheet));
   idx.images = new Map();
-  const ix2 = ixFlags().ix2; // Interiors v2: same ids/indices, redrawn cells come from interior_v2.png
-  const file = (p) => (ix2 && /tiles_\dx\/interior\.png$/.test(p) ? p.replace(/interior\.png$/, 'interior_v2.png') : p);
+  const ix2 = ixFlags().ix2; // Interiors v2: same ids/indices, redrawn cells come from the *_v2.png sheets
+  // v0.2.41 full overhaul: every interior sheet has a same-index pass-3/4 redraw (*_v2.png), so all towns' rooms get it
+  const file = (p) => (ix2 && /tiles_\dx\/(interior|i_wall|i_floor|i_furniture|i_brand|x_furniture_fix)\.png$/.test(p) ? p.replace(/\.png$/, '_v2.png') : p);
   await Promise.all([...sheetPaths].map(async (p) => idx.images.set(p, await loadImage(resolveUrl(file(p), url)))));
   idx.url = url;
   return idx;
