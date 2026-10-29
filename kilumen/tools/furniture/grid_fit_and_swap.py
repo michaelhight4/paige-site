@@ -7,7 +7,7 @@ Standalone: Python 3.8+ and Pillow only, no machine-specific paths. Works on Win
     python tools/furniture/grid_fit_and_swap.py <path> --apply                        # write tileset + maps (+ trim art)
     python tools/furniture/grid_fit_and_swap.py <path> --check                        # exit 1 if any gap is blocked / art overhangs
     options: --report FILE (default <path>/tools/furniture/grid_fit_report.md)  --overworld (also rewrite overworld maps)
-             --no-swap  --no-trim  --tile 64  --sliver 0.04
+             --swap (opt in: kit swaps are OFF by default since furniture v3 - rooms keep their original pieces)  --no-trim  --tile 64  --sliver 0.04
 
 How it works (per asset DEFINITION, not per placement - fix once in data, applies everywhere):
  1. Every managed tile (furniture / prop / deco / interior kit; not floors, rugs, walls, buildings, terrain) is grouped
@@ -20,7 +20,7 @@ How it works (per asset DEFINITION, not per placement - fix once in data, applie
  4. Each map's collision is recomputed only on squares that hold a managed asset (codes walk/block only; doors, stairs,
     water, ledges, warps are never touched): block iff some tile on that square blocks. Interiors are rewritten;
     overworld maps are report-only unless --overworld.
- 5. Swap: the map's room set (home / lab / shop) is picked from its name and generic old pieces are swapped for the kit
+ 5. Swap (only with --swap): the map's room set (home / lab / shop) is picked from its name and generic old pieces are swapped for the kit
     equivalent of the same shape (e.g. home 'bed' -> 'i_bed_<town>', lab 'desk_pc' -> 'i_lab_desk', shop 'shelf' -> 'goods').
  6. --check fails on: a square with no blocking art that is still blocked (blocked gap), a blocking asset on a walkable
     square (walk-through seam), or art overhanging its footprint.
@@ -121,7 +121,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('repo'); g = ap.add_mutually_exclusive_group()
     g.add_argument('--apply', action='store_true'); g.add_argument('--check', action='store_true'); g.add_argument('--dry-run', action='store_true')
-    ap.add_argument('--report'); ap.add_argument('--overworld', action='store_true'); ap.add_argument('--no-swap', action='store_true')
+    ap.add_argument('--report'); ap.add_argument('--overworld', action='store_true'); ap.add_argument('--no-swap', action='store_true', help='default; kept for old scripts'); ap.add_argument('--swap', action='store_true', help='opt in to kit swaps')
     ap.add_argument('--no-trim', action='store_true'); ap.add_argument('--tile', type=int, default=64); ap.add_argument('--sliver', type=float, default=0.04)
     A = ap.parse_args(); R = Repo(A.repo, A.tile); mode = 'apply' if A.apply else 'check' if A.check else 'dry-run'
     rep = [f'# grid_fit_and_swap report ({mode})', f'repo: {R.root}', '']
@@ -149,7 +149,7 @@ def main():
         name = m.get('name') or os.path.splitext(os.path.basename(f))[0]; inter = bool(INTERIOR.search(name)); rs = room_set(name)
         layers = [k for k in ('ground', 'decoration', 'overlay') if isinstance(L.get(k), list)]; col = L['collision']; changed = False
         if inter: rooms.append(f'{name} ({rs or "hall"})')
-        if inter and rs and not A.no_swap:
+        if inter and rs and A.swap and not A.no_swap:
             sw = SWAPS.get(rs, {}); tw = town(name)
             for k in layers:
                 for y, row in enumerate(L[k]):
