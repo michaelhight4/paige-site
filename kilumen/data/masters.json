@@ -82,6 +82,104 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "fernwick_hall_int_h3",
+     "gd_id": "tr_hall_fernwick_h3",
+     "name_placeholder": "Tamsin",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 450,
+     "team": [
+      {
+       "species": "cobblepup",
+       "level": 9,
+       "battle_species": "cobblepup",
+       "stand_in": false
+      },
+      {
+       "species": "lintmouse",
+       "level": 9,
+       "battle_species": "lintmouse",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "fernwick_hall_int_h4",
+     "gd_id": "tr_hall_fernwick_h4",
+     "name_placeholder": "Hobb",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 450,
+     "team": [
+      {
+       "species": "pebblant",
+       "level": 9,
+       "battle_species": "pebblant",
+       "stand_in": false
+      },
+      {
+       "species": "tumbloam",
+       "level": 9,
+       "battle_species": "tumbloam",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "fernwick_hall_int_h5",
+     "gd_id": "tr_hall_fernwick_h5",
+     "name_placeholder": "Wren",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 500,
+     "team": [
+      {
+       "species": "burlbeetle",
+       "level": 10,
+       "battle_species": "burlbeetle",
+       "stand_in": false
+      },
+      {
+       "species": "pumicepuff",
+       "level": 10,
+       "battle_species": "pumicepuff",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "fernwick_hall_int_h6",
+     "gd_id": "tr_hall_fernwick_h6",
+     "name_placeholder": "Pell",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 550,
+     "team": [
+      {
+       "species": "bleatling",
+       "level": 10,
+       "battle_species": "bleatling",
+       "stand_in": false
+      },
+      {
+       "species": "netspinner",
+       "level": 10,
+       "battle_species": "netspinner",
+       "stand_in": false
+      },
+      {
+       "species": "railmite",
+       "level": 11,
+       "battle_species": "railmite",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -201,6 +299,81 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "saltmere_hall_int_h4",
+     "gd_id": "tr_hall_saltmere_h4",
+     "name_placeholder": "Odile",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 600,
+     "team": [
+      {
+       "species": "sandstarlet",
+       "level": 12,
+       "battle_species": "sandstarlet",
+       "stand_in": false
+      },
+      {
+       "species": "blubbet",
+       "level": 12,
+       "battle_species": "blubbet",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "saltmere_hall_int_h5",
+     "gd_id": "tr_hall_saltmere_h5",
+     "name_placeholder": "Brannock",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 650,
+     "team": [
+      {
+       "species": "ribboneel",
+       "level": 13,
+       "battle_species": "ribboneel",
+       "stand_in": false
+      },
+      {
+       "species": "spratwyrm",
+       "level": 13,
+       "battle_species": "spratwyrm",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "saltmere_hall_int_h6",
+     "gd_id": "tr_hall_saltmere_h6",
+     "name_placeholder": "Peg",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 700,
+     "team": [
+      {
+       "species": "polypip",
+       "level": 13,
+       "battle_species": "polypip",
+       "stand_in": false
+      },
+      {
+       "species": "medulet",
+       "level": 13,
+       "battle_species": "medulet",
+       "stand_in": false
+      },
+      {
+       "species": "quaymouser",
+       "level": 14,
+       "battle_species": "quaymouser",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -349,6 +522,58 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "revival_hall_int_h5",
+     "gd_id": "tr_hall_revival_heights_h5",
+     "name_placeholder": "Seren",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 950,
+     "team": [
+      {
+       "species": "halovy",
+       "level": 19,
+       "battle_species": "halovy",
+       "stand_in": false
+      },
+      {
+       "species": "gildfinch",
+       "level": 19,
+       "battle_species": "gildfinch",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "revival_hall_int_h6",
+     "gd_id": "tr_hall_revival_heights_h6",
+     "name_placeholder": "Alder",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1050,
+     "team": [
+      {
+       "species": "glarekit",
+       "level": 20,
+       "battle_species": "glarekit",
+       "stand_in": false
+      },
+      {
+       "species": "dawnfin",
+       "level": 20,
+       "battle_species": "dawnfin",
+       "stand_in": false
+      },
+      {
+       "species": "lampwick",
+       "level": 21,
+       "battle_species": "lampwick",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -475,6 +700,81 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "frostspire_hall_int_h4",
+     "gd_id": "tr_hall_frostspire_h4",
+     "name_placeholder": "Halvard",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1500,
+     "team": [
+      {
+       "species": "spraytern",
+       "level": 30,
+       "battle_species": "spraytern",
+       "stand_in": false
+      },
+      {
+       "species": "signalwren",
+       "level": 30,
+       "battle_species": "signalwren",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "frostspire_hall_int_h5",
+     "gd_id": "tr_hall_frostspire_h5",
+     "name_placeholder": "Isolde",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1550,
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 31,
+       "battle_species": "sailquill",
+       "stand_in": false
+      },
+      {
+       "species": "highkite",
+       "level": 31,
+       "battle_species": "highkite",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "frostspire_hall_int_h6",
+     "gd_id": "tr_hall_frostspire_h6",
+     "name_placeholder": "Kestrel",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1600,
+     "team": [
+      {
+       "species": "pouchbill",
+       "level": 31,
+       "battle_species": "pouchbill",
+       "stand_in": false
+      },
+      {
+       "species": "snowgrouse",
+       "level": 31,
+       "battle_species": "snowgrouse",
+       "stand_in": false
+      },
+      {
+       "species": "belfrydove",
+       "level": 32,
+       "battle_species": "belfrydove",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -607,6 +907,81 @@
        "stand_in": true
       }
      ]
+    },
+    {
+     "id": "mirefen_hall_int_h4",
+     "gd_id": "tr_hall_mirefen_h4",
+     "name_placeholder": "Nettle",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1700,
+     "team": [
+      {
+       "species": "mirewump",
+       "level": 34,
+       "battle_species": "mirewump",
+       "stand_in": false
+      },
+      {
+       "species": "snapmoor",
+       "level": 34,
+       "battle_species": "snapmoor",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "mirefen_hall_int_h5",
+     "gd_id": "tr_hall_mirefen_h5",
+     "name_placeholder": "Osric",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1750,
+     "team": [
+      {
+       "species": "reedmoot",
+       "level": 35,
+       "battle_species": "reedmoot",
+       "stand_in": false
+      },
+      {
+       "species": "eftwarden",
+       "level": 35,
+       "battle_species": "eftwarden",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "mirefen_hall_int_h6",
+     "gd_id": "tr_hall_mirefen_h6",
+     "name_placeholder": "Bryony",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1800,
+     "team": [
+      {
+       "species": "brimtoad",
+       "level": 35,
+       "battle_species": "brimtoad",
+       "stand_in": false
+      },
+      {
+       "species": "ditchsnap",
+       "level": 35,
+       "battle_species": "ditchsnap",
+       "stand_in": false
+      },
+      {
+       "species": "pondkin",
+       "level": 36,
+       "battle_species": "pondkin",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -760,6 +1135,58 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "tidewater_hall_int_h5",
+     "gd_id": "tr_hall_tidewater_coast_h5",
+     "name_placeholder": "Coral",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2000,
+     "team": [
+      {
+       "species": "coilarch",
+       "level": 40,
+       "battle_species": "coilarch",
+       "stand_in": false
+      },
+      {
+       "species": "spraytern",
+       "level": 40,
+       "battle_species": "spraytern",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "tidewater_hall_int_h6",
+     "gd_id": "tr_hall_tidewater_coast_h6",
+     "name_placeholder": "Fitch",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2100,
+     "team": [
+      {
+       "species": "bulwarkrab",
+       "level": 41,
+       "battle_species": "bulwarkrab",
+       "stand_in": false
+      },
+      {
+       "species": "tundrarch",
+       "level": 41,
+       "battle_species": "tundrarch",
+       "stand_in": false
+      },
+      {
+       "species": "squidge",
+       "level": 42,
+       "battle_species": "squidge",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -892,6 +1319,81 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "lanternport_hall_int_h4",
+     "gd_id": "tr_hall_lanternport_h4",
+     "name_placeholder": "Vesper",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2200,
+     "team": [
+      {
+       "species": "runeskein",
+       "level": 44,
+       "battle_species": "runeskein",
+       "stand_in": false
+      },
+      {
+       "species": "lanternkeep",
+       "level": 44,
+       "battle_species": "lanternkeep",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "lanternport_hall_int_h5",
+     "gd_id": "tr_hall_lanternport_h5",
+     "name_placeholder": "Morrow",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2250,
+     "team": [
+      {
+       "species": "foamkin",
+       "level": 45,
+       "battle_species": "foamkin",
+       "stand_in": false
+      },
+      {
+       "species": "wreckwarden",
+       "level": 45,
+       "battle_species": "wreckwarden",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "lanternport_hall_int_h6",
+     "gd_id": "tr_hall_lanternport_h6",
+     "name_placeholder": "Ysolde",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2300,
+     "team": [
+      {
+       "species": "novarch",
+       "level": 45,
+       "battle_species": "novarch",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 45,
+       "battle_species": "bleachghast",
+       "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 46,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -1052,6 +1554,58 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "cindervale_hall_int_h5",
+     "gd_id": "tr_hall_cindervale_h5",
+     "name_placeholder": "Ashby",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2400,
+     "team": [
+      {
+       "species": "cinderwraith",
+       "level": 48,
+       "battle_species": "cinderwraith",
+       "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 48,
+       "battle_species": "slagrook",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "cindervale_hall_int_h6",
+     "gd_id": "tr_hall_cindervale_h6",
+     "name_placeholder": "Tolla",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2500,
+     "team": [
+      {
+       "species": "kilnant",
+       "level": 49,
+       "battle_species": "kilnant",
+       "stand_in": false
+      },
+      {
+       "species": "foundrax",
+       "level": 49,
+       "battle_species": "foundrax",
+       "stand_in": false
+      },
+      {
+       "species": "kilnowl",
+       "level": 50,
+       "battle_species": "kilnowl",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {

@@ -46,6 +46,10 @@ export const TRAINER_TEAMS = {
   'fernwick.trainer_fw_old': [{ species: 'burlbeetle', level: 7 }, { species: 'dewmite', level: 8 }], // Old Trainer (generic), by the heal centre
   'fernwick_hall_int.helper_1': [{ species: 'tumbloam', level: 10 }, { species: 'peeplark', level: 11 }],
   'fernwick_hall_int.helper_2': [{ species: 'pebblant', level: 11 }, { species: 'dewmite', level: 11 }],
+  'fernwick_hall_int.fernwick_hall_int_h3': [{ species: 'cobblepup', level: 9 }, { species: 'lintmouse', level: 9 }], // Tamsin (hall trainers v1, Oct 29 2026)
+  'fernwick_hall_int.fernwick_hall_int_h4': [{ species: 'pebblant', level: 9 }, { species: 'tumbloam', level: 9 }], // Hobb (hall trainers v1, Oct 29 2026)
+  'fernwick_hall_int.fernwick_hall_int_h5': [{ species: 'burlbeetle', level: 10 }, { species: 'pumicepuff', level: 10 }], // Wren (hall trainers v1, Oct 29 2026)
+  'fernwick_hall_int.fernwick_hall_int_h6': [{ species: 'bleatling', level: 10 }, { species: 'netspinner', level: 10 }, { species: 'railmite', level: 11 }], // Pell (hall trainers v1, Oct 29 2026)
   'fernwick_hall_int.master_fernwick': [{ species: 'pebblant', level: 12 }, { species: 'pondkin', level: 12 }, { species: 'tumbloam', level: 13 }],
   // ---- region 2: Thornwood (side forest west of Fernwick; raised to region 2, Oct 23 2026) ----
   'thornwood.trainer_tw_bug': [{ species: 'thornpod', level: 13 }, { species: 'gloamtick', level: 13 }],
@@ -77,6 +81,9 @@ export const TRAINER_TEAMS = {
   'saltmere_hall_int.saltmere_hall_int_h1': [{ species: 'sandstarlet', level: 16 }, { species: 'blubbet', level: 16 }], // Lorna hall_helper
   'saltmere_hall_int.saltmere_hall_int_h2': [{ species: 'medulet', level: 16 }, { species: 'whelkin', level: 16 }], // Ivo hall_helper
   'saltmere_hall_int.saltmere_hall_int_h3': [{ species: 'finnip', level: 16 }, { species: 'ribboneel', level: 17 }], // Sully hall_helper
+  'saltmere_hall_int.saltmere_hall_int_h4': [{ species: 'sandstarlet', level: 12 }, { species: 'blubbet', level: 12 }], // Odile (hall trainers v1, Oct 29 2026)
+  'saltmere_hall_int.saltmere_hall_int_h5': [{ species: 'ribboneel', level: 13 }, { species: 'spratwyrm', level: 13 }], // Brannock (hall trainers v1, Oct 29 2026)
+  'saltmere_hall_int.saltmere_hall_int_h6': [{ species: 'polypip', level: 13 }, { species: 'medulet', level: 13 }, { species: 'quaymouser', level: 14 }], // Peg (hall trainers v1, Oct 29 2026)
   'saltmere_hall_int.saltmere_hall_int_master': [{ species: 'quaymouser', level: 15 }, { species: 'polypip', level: 16 }, { species: 'spratwyrm', level: 18 }], // Nerys Bryde master
   // ---- region 3 early access (coder, Oct 24 2026; Gary: "a bit above region 2", wild L22-27, trainers L22-26, Master 3 L27-30) ----
   'route_revival_saltmere.route_revival_saltmere_trainer_1': [{ species: 'slagrook', level: 19 }, { species: 'shalekin', level: 21 }], // Garrick worker
@@ -103,6 +110,8 @@ export const TRAINER_TEAMS = {
   'revival_hall_int.revival_hall_int_h2': [{ species: 'prismwing', level: 22 }, { species: 'glimmerlamb', level: 22 }], // Dov
   'revival_hall_int.revival_hall_int_h3': [{ species: 'tollkin', level: 23 }, { species: 'dawnfin', level: 23 }], // Fen
   'revival_hall_int.revival_hall_int_h4': [{ species: 'candlewren', level: 23 }, { species: 'halovy', level: 23 }], // Corwin
+  'revival_hall_int.revival_hall_int_h5': [{ species: 'halovy', level: 19 }, { species: 'gildfinch', level: 19 }], // Seren (hall trainers v1, Oct 29 2026)
+  'revival_hall_int.revival_hall_int_h6': [{ species: 'glarekit', level: 20 }, { species: 'dawnfin', level: 20 }, { species: 'lampwick', level: 21 }], // Alder (hall trainers v1, Oct 29 2026)
   'revival_hall_int.revival_hall_int_master': [{ species: 'halovy', level: 22 }, { species: 'gildfinch', level: 23 }, { species: 'fleecelight', level: 23 }, { species: 'lampwick', level: 24 }], // Cassia Lume, Master 3
   // ---- region 4 early access (coder, Oct 24 2026; wild L28-33, trainers L28-32, hall L31-33, Master 4 L33-35) ----
   'frostspire_pass.frostspire_pass_trainer_1': [{ species: 'ledgebex', level: 28 }, { species: 'talusmouse', level: 29 }],
@@ -125,6 +134,9 @@ export const TRAINER_TEAMS = {
   'frostspire_hall_int.frostspire_hall_int_h1': [{ species: 'sailquill', level: 31 }, { species: 'snowgrouse', level: 31 }], // Rue
   'frostspire_hall_int.frostspire_hall_int_h2': [{ species: 'highkite', level: 32 }, { species: 'signalwren', level: 32 }], // Bram
   'frostspire_hall_int.frostspire_hall_int_h3': [{ species: 'spraytern', level: 33 }, { species: 'sailquill', level: 33 }], // Tilly
+  'frostspire_hall_int.frostspire_hall_int_h4': [{ species: 'spraytern', level: 30 }, { species: 'signalwren', level: 30 }], // Halvard (hall trainers v1, Oct 29 2026)
+  'frostspire_hall_int.frostspire_hall_int_h5': [{ species: 'sailquill', level: 31 }, { species: 'highkite', level: 31 }], // Isolde (hall trainers v1, Oct 29 2026)
+  'frostspire_hall_int.frostspire_hall_int_h6': [{ species: 'pouchbill', level: 31 }, { species: 'snowgrouse', level: 31 }, { species: 'belfrydove', level: 32 }], // Kestrel (hall trainers v1, Oct 29 2026)
   'frostspire_hall_int.frostspire_hall_int_master': [{ species: 'sailquill', level: 33 }, { species: 'highkite', level: 34 }, { species: 'pouchbill', level: 34 }, { species: 'gildfinch', level: 35 }], // Hale Corrie, Master 4
 };
 

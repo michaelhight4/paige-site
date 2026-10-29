@@ -1393,6 +1393,314 @@
    "overworld_sheet_2x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_3x.png",
    "note": "Harbour Haul tug coach (dev/sports-major, reuses a coach sprite until art lands)"
+  },
+  "fernwick_hall_int.fernwick_hall_int_h3": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Trainee (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "fernwick_hall_int.fernwick_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Trainee (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "fernwick_hall_int.fernwick_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Trainee (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "fernwick_hall_int.fernwick_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Trainee (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "saltmere_hall_int.saltmere_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "revival_hall_int.revival_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "revival_hall_int.revival_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "frostspire_hall_int.frostspire_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "mirefen_hall_int.mirefen_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "tidewater_hall_int.tidewater_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "tidewater_hall_int.tidewater_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "lanternport_hall_int.lanternport_hall_int_h4": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "lanternport_hall_int.lanternport_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "lanternport_hall_int.lanternport_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "cindervale_hall_int.cindervale_hall_int_h5": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "cindervale_hall_int.cindervale_hall_int_h6": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall trainers v1",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
   }
  },
  "unassigned_ready": {
