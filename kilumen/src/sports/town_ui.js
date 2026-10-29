@@ -9,6 +9,7 @@ import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.85-alpha'
 import { runChampion, reducedMotion } from './hype.js?v=v0.2.85-alpha';
 import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.85-alpha';
 import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.85-alpha';
+import { FLAIR_CSS, themeOf, medalHtml, arrowHtml, gradePlace, rankMoves, countUps, pressFx, padFlash, wipe, shakeBox, burst, shakeAt, drawCrowdWave, addReact, drawReacts, drawHud, drawGo, spray, drawSpray } from './flair.js?v=v0.2.85-alpha';
 import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.85-alpha';
 export const TUG_COACH = 'saltmere_tug_coach', ANNOUNCER = 'aurelith_games_announcer';
 
@@ -30,8 +31,9 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   const day = () => scene.clock?.day || 0, wallet = () => sys()?.wallet, rm = reducedMotion(new URLSearchParams(location.search));
   const st = { mode: 'practice', rivals: null, crowd: null, open: false, phase: 'closed', ev: null, run: null, mon: null, raf: 0, input: null, last: null };
   (scene.saveGuards ||= []).push(() => (st.open ? (st.phase === 'play' ? 'town_event' : 'town_event_menu') : null));
-  const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
+  const style = document.createElement('style'); style.textContent = CSS + FLAIR_CSS; document.head.appendChild(style);
   let ov = null, savedTs = 1;
+  const dress = (opts = {}) => { if (!ov) return; if (rm) ov.classList.add('rm'); pressFx(ov); countUps(ov, rm); if (opts.wipe) wipe(ov, rm); if (opts.burst) burst(ov, opts.burst, undefined, rm); if (opts.sfx) { try { window.kilumen?.audio?.sfx?.(opts.sfx); } catch (e) { /* no audio */ } } };
   const team = () => (scene.party || []).filter((c) => c && c.species && c.hp !== 0);
   const npcAt = (id, fx, fy) => {
     const m = scene.map, n = (m?.npcs || m?.json?.npcs || []).find((x) => x.id === id); if (!n) return false;
@@ -63,7 +65,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   function openEvent(ev) {
     if (st.open || isOpen?.()) return Promise.resolve();
     st.open = true; st.ev = ev; savedTs = scene.timescale ?? 1; scene.timescale = 0;
-    ov = document.createElement('div'); ov.id = 'town-ev'; document.body.appendChild(ov);
+    ov = document.createElement('div'); ov.id = 'town-ev'; ov.dataset.town = themeOf(ev.id); document.body.appendChild(ov);
     window.addEventListener('keydown', key, true); window.addEventListener('keyup', key, true);
     showPick();
     return new Promise((res) => { st.onClose = res; });
@@ -77,7 +79,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   function press(k, down) { const I = st.input; if (!I) return; if (down && !I.hold[k]) I.edge[k] = true; I.hold[k] = down; }
   function key(e) {
     e.stopPropagation();
-    if (st.phase === 'play') { const k = keyAction(e); if (k) { e.preventDefault(); press(k, e.type === 'keydown'); } return; }
+    if (st.phase === 'play') { const k = keyAction(e); if (k) { e.preventDefault(); press(k, e.type === 'keydown'); if (e.type === 'keydown' && !e.repeat) padFlash(ov, k); } return; }
     if (e.type === 'keydown' && e.key === 'Escape' && !(st.mode === 'major' && st.major && !st.major.over)) close();
   }
 
@@ -90,7 +92,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
       <button data-a="go">${esc(TS.practice)}</button><button data-a="cup"${cupStatus(ev).ok ? '' : ' disabled'}>${esc(tt(TS.cup_enter, { fee: CUP.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
     ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { st.mon = mons[+m.dataset.i]; showPick(); }));
     ov.querySelector('[data-a=go]').onclick = () => { st.mode = 'practice'; play(); }; ov.querySelector('[data-a=back]').onclick = () => close();
-    ov.querySelector('[data-a=cup]').onclick = () => cupIntro();
+    ov.querySelector('[data-a=cup]').onclick = () => cupIntro(); dress();
   }
   function cupStatus(ev) {
     const r = cupState(sstate(), ev), c = canEnterCup({ ev, day: day(), coins: wallet()?.coins ?? 0, sstate: sstate() });
@@ -103,11 +105,11 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     st.mode = 'cup'; st.rivals = rivalsFor(ev, day()); st.coinsBefore = wallet()?.coins ?? 0; st.phase = 'cup_intro';
     const top = Math.max(...st.rivals.map((r) => r.score));
     ov.innerHTML = `<div class="box" id="cup-intro"><h2>${esc(tt(TS.cup_title, { event: TS[ev.id].title }))}</h2><div>${esc(TS.cup_field)}</div>
-      <div class="rivals">${st.rivals.map((r) => `<div class="rv"><img src="${imgFor(r.species).src}" style="width:48px;image-rendering:pixelated"><div>${esc(r.trainer)}</div><b>${r.score} ${esc(ev.unit)}</b></div>`).join('')}</div>
+      <div class="rivals">${st.rivals.map((r) => `<div class="rv"><img src="${imgFor(r.species).src}" style="width:48px;image-rendering:pixelated"><div>${esc(r.trainer)}</div><b data-count="${r.score}" data-suf=" ${esc(ev.unit)}">${r.score} ${esc(ev.unit)}</b></div>`).join('')}</div>
       <div class="react">${esc(TS[ev.id].coach || TS.coach_name)}: ${esc(tt(TS.cup_target, { score: top + 1, unit: ev.unit, creature: nameOf(st.mon) }))}</div>
       <button data-a="go">${esc(TS.start)}</button></div>`;
     try { window.kilumen?.audio?.sfx?.('select'); } catch (e) { /* no audio */ }
-    ov.querySelector('[data-a=go]').onclick = () => play();
+    ov.querySelector('[data-a=go]').onclick = () => play(); dress({ wipe: true });
   }
 
   function play() {
@@ -116,11 +118,11 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     const rival = st.mode === 'major' ? Math.max(...st.major.field.map((x) => x.rival)) : st.mode === 'cup' ? 0.6 : 0.45;
     st.run = ev.team ? ev.create(`${ev.id}:${Date.now()}`, stats, team().length, crew.map(statsOf), rival) : ev.create(`${ev.id}:${Date.now()}`, stats, team().length);
     st.run.team = crew || [c, ...team().filter((x) => x !== c)]; st.phase = 'play';
-    st.input = { hold: {}, edge: {}, pointerX: null }; st.pad = {}; st.crowd = makeCrowd(st.mode === 'major' ? 3 : st.mode === 'cup' ? 2 : 1, ev.id, st.mode === 'major'); st.prevScore = 0; st.prevBad = 0; st.quip = null;
+    st.input = { hold: {}, edge: {}, pointerX: null }; st.pad = {}; st.crowd = makeCrowd(st.mode === 'major' ? 3 : st.mode === 'cup' ? 2 : 1, ev.id, st.mode === 'major'); st.prevScore = 0; st.prevBad = 0; st.quip = null; st.run.theme = themeOf(ev.id, st.mode === 'major'); st.run.hs = { shown: 0, bump: 0 }; st.goT = 0; st.shk = 0; st.lastFx = null;
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><canvas width="${W}" height="${H}"></canvas>
       <div class="pad"><button data-k="left">◀</button><button data-k="up">▲</button><button data-k="down">▼</button><button data-k="right">▶</button><button data-k="tap">A</button></div></div>`;
     const cv = ov.querySelector('canvas'), g = cv.getContext('2d');
-    ov.querySelectorAll('.pad button').forEach((b) => { const k = b.dataset.k; b.onpointerdown = (e) => { e.preventDefault(); press(k, true); }; b.onpointerup = b.onpointerleave = b.onpointercancel = () => press(k, false); });
+    ov.querySelectorAll('.pad button').forEach((b) => { const k = b.dataset.k; b.onpointerdown = (e) => { e.preventDefault(); press(k, true); padFlash(ov, k); }; b.onpointerup = b.onpointerleave = b.onpointercancel = () => press(k, false); });
     if (ev.id === 'lantern_catch') { const mv = (e) => { const r = cv.getBoundingClientRect(); st.input.pointerX = (e.clientX - r.left) / r.width; }; cv.onpointerdown = mv; cv.onpointermove = (e) => { if (e.buttons) mv(e); }; cv.onpointerup = () => (st.input.pointerX = null); }
     st.last = performance.now();
     const loop = (now) => {
@@ -128,12 +130,14 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
       const dt = Math.min(0.05, (now - st.last) / 1000); st.last = now;
       st.pad = feedPad(st.pad || {}, pollPad(), press);
       const I = st.input, inp = { ...I.edge, hold: { ...I.hold }, pointerX: I.pointerX }; I.edge = {};
-      ev.step(st.run, dt, inp); draw(g, ev, st.run, c, now / 1000);
+      ev.step(st.run, dt, inp); st.goT += dt; st.run._dt = dt;
+      { const fx = st.run.fx; if (fx && fx !== st.lastFx && fx.k === 'perfect' && ev.team) { st.shk = 1; shakeBox(ov, rm); spray(st.run, W / 2 - 40, 262, 12); spray(st.run, W / 2 + 40, 262, 8); } st.lastFx = fx; st.shk = Math.max(0, st.shk - dt * 4); }
+      { const [sx, sy] = shakeAt(st.shk * 5, now / 1000, rm); g.save(); g.translate(sx, sy); draw(g, ev, st.run, c, now / 1000); drawSpray(g, st.run, dt); g.restore(); }
       { const sc = ev.team ? st.run.perfects : scoreOf(ev, st.run), bad = badOf(st.run), cr = st.crowd;
-        if (sc > st.prevScore) { cr.hype = Math.min(1, cr.hype + 0.22); if (sc % 5 === 0 || cr.hype > 0.9) quip('cheer'); }
-        if (bad > st.prevBad) { cr.gasp = 0.8; cr.hype *= 0.5; quip('oops'); }
+        if (sc > st.prevScore) { cr.hype = Math.min(1, cr.hype + 0.22); addReact(cr, 'cheer', W, cr.hype > 0.7 ? 3 : 1); if (sc % 5 === 0 || cr.hype > 0.9) quip('cheer'); }
+        if (bad > st.prevBad) { cr.gasp = 0.8; addReact(cr, 'gasp', W, 2); cr.hype *= 0.5; quip('oops'); }
         st.prevScore = sc; st.prevBad = bad; if (st.run.left < 5 && st.run.left + dt >= 5) quip('final');
-        drawCrowd(g, cr, dt, now / 1000, rm); if (st.quip) { st.quip.t -= dt; drawQuip(g, st.quip, (st.crowd.bottom || 40) + 16); if (st.quip.t <= 0) st.quip = null; } }
+        drawCrowd(g, cr, dt, now / 1000, rm); if (st.quip) { st.quip.t -= dt; drawQuip(g, st.quip, (st.crowd.bottom || 40) + 16); if (st.quip.t <= 0) st.quip = null; } drawGo(g, W, H, st.goT, st.run.theme); }
       if (st.run.done) { st.phase = 'result'; setTimeout(() => showResult(), 500); return; }
       st.raf = requestAnimationFrame(loop);
     };
@@ -154,11 +158,11 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     try { globalThis.kilumen?.feeds?.onPractice?.(c); } catch (e) { /* feeds off */ } // fruit feeds: practice drains Fullness + speeds grow timers
     const react = tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) });
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><img src="${imgFor(c.species).src}" class="hopmon" style="width:72px;image-rendering:pixelated;animation:tevj .5s ease ${r.grade === 'none' ? 1 : 3}">
-      <div><b>${esc(tt(TS.result, { creature: nameOf(c), score: r.score, unit: ev.unit }))}</b>${r.isBest ? ` · ${esc(TS.new_best)}` : ''}</div>
+      ${medalHtml(gradePlace(r.grade))}<span class="score" data-count="${r.score}" data-suf=" ${esc(ev.unit)}">${r.score} ${esc(ev.unit)}</span>${r.isBest ? `<span class="stamp">${esc(TS.new_best)}</span>` : ''}<div><b>${esc(tt(TS.result, { creature: nameOf(c), score: r.score, unit: ev.unit }))}</b></div>
       <div>${esc(TS['grade_' + r.grade])} · ${esc(tt(TS.best, { best: r.best, unit: ev.unit }))}</div><div class="react">${esc(react)}</div>
       <button data-a="again">${esc(TS.again)}</button><button data-a="back">${esc(TS.back)}</button></div><style>@keyframes tevj{50%{transform:translateY(${r.grade === 'none' ? 4 : -14}px)}}</style>`;
     ov.querySelector('[data-a=again]').onclick = () => showPick(); ov.querySelector('[data-a=back]').onclick = () => close();
-    st.phase = 'result';
+    st.phase = 'result'; dress({ burst: r.isBest || gradePlace(r.grade) === 1 ? 'confetti' : null, sfx: r.grade === 'none' ? null : 'select' });
   }
 
   async function showCupResult() {
@@ -177,11 +181,11 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     st.phase = 'cup_result';
     const lines = TS['cup_react_' + (res.place === 1 ? 'win' : res.place === 2 ? 'close' : 'lose')];
     ov.innerHTML = `<div class="box" id="cup-result"><h2>${esc(tt(TS.cup_title, { event: TS[ev.id].title }))}</h2>
-      <table class="rank">${res.field.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(x.me ? nameOf(c) : `${x.trainer}'s ${x.species}`)}</td><td>${x.score} ${esc(ev.unit)}</td></tr>`).join('')}</table>
+      ${medalHtml(res.place)}<table class="rank board">${res.field.map((x, i) => `<tr class="${x.me ? 'me' : ''}" style="--i:${i}"><td class="pl">${i + 1}.</td><td>${esc(x.me ? nameOf(c) : `${x.trainer}'s ${x.species}`)}</td><td data-count="${x.score}" data-suf=" ${esc(ev.unit)}">${x.score} ${esc(ev.unit)}</td></tr>`).join('')}</table>
       <div>${esc(res.place === 1 ? tt(TS.cup_won, { prize: res.prize, cups: res.cups }) : TS.cup_lost)}</div>
       <div class="react">${esc(TS[ev.id].coach || TS.coach_name)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
       <button data-a="back">${esc(TS.back)}</button></div>`;
-    ov.querySelector('[data-a=back]').onclick = () => close();
+    ov.querySelector('[data-a=back]').onclick = () => close(); dress({ burst: res.place <= 3 ? 'confetti' : null });
   }
 
   // ---------------- Aurelith Games (the major): 3 rounds, points table, champion screen ----------------
@@ -194,7 +198,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   function openMajor() {
     if (st.open || isOpen?.()) return Promise.resolve();
     st.open = true; st.ev = null; st.mode = 'major'; st.major = null; savedTs = scene.timescale ?? 1; scene.timescale = 0;
-    ov = document.createElement('div'); ov.id = 'town-ev'; ov.className = 'major'; document.body.appendChild(ov);
+    ov = document.createElement('div'); ov.id = 'town-ev'; ov.className = 'major'; ov.dataset.town = 'aurelith'; document.body.appendChild(ov);
     window.addEventListener('keydown', key, true); window.addEventListener('keyup', key, true);
     majorIntro();
     return new Promise((res) => { st.onClose = res; });
@@ -214,12 +218,13 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
       const rounds = roundsFor(day()); st.coinsBefore = (wallet()?.coins ?? 0) + MAJOR.fee;
       st.major = { rounds, field: majorField(day(), rounds), scores: [], i: 0, over: false }; majorRoundCard();
     };
+    dress();
   }
   function majorRoundCard() {
     const mj = st.major, M = TS.major, ev = majorEvent(mj.rounds[mj.i]); st.ev = ev; st.phase = 'major_round';
     const L = M.round_calls, call = tt(L[mj.i % L.length], { creature: nameOf(st.mon), event: TS[ev.id].title });
-    ov.innerHTML = `<div class="box" id="major-round"><h2>${esc(tt(M.round_title, { n: mj.i + 1, of: mj.rounds.length }))}</h2><h2>${esc(TS[ev.id].title)}</h2>
-      <div class="rivals">${mj.field.map((r) => `<div class="rv"><img src="${imgFor(r.species).src}" style="width:48px;image-rendering:pixelated"><div>${esc(r.trainer)}</div><b>${r.scores[mj.i]} ${esc(ev.unit)}</b></div>`).join('')}</div>
+    ov.innerHTML = `<div class="box" id="major-round"><span class="stamp">${esc(tt(M.round_title, { n: mj.i + 1, of: mj.rounds.length }))}</span><h2>${esc(TS[ev.id].title)}</h2>
+      <div class="rivals">${mj.field.map((r) => `<div class="rv"><img src="${imgFor(r.species).src}" style="width:48px;image-rendering:pixelated"><div>${esc(r.trainer)}</div><b data-count="${r.scores[mj.i]}" data-suf=" ${esc(ev.unit)}">${r.scores[mj.i]} ${esc(ev.unit)}</b></div>`).join('')}</div>
       <div class="react">${esc(M.coach)}: ${esc(call)}</div><div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div>
       <button data-a="go">${esc(TS.start)}</button></div>`;
     try { window.kilumen?.audio?.sfx?.('select'); } catch (e) { /* no audio */ }
@@ -229,15 +234,16 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     const mj = st.major, ev = st.ev, M = TS.major, c = st.mon, r = recordRun(sstate(), ev, st.run);
     mj.scores.push(r.score); const rows = scoreRound(mj.i, r.score, mj.field), table = standings(mj.scores, mj.field), mePlace = rows.findIndex((x) => x.me) + 1;
     const who = (x) => (x.me ? nameOf(c) : `${mj.field[x.idx].trainer}'s ${mj.field[x.idx].species}`);
-    const last = mj.i + 1 >= mj.rounds.length;
+    const last = mj.i + 1 >= mj.rounds.length, key = (x) => (x.me ? 'me' : x.idx), ids = table.map(key), mv = rankMoves(mj.prevIds, ids); mj.prevIds = ids;
     st.phase = 'major_table';
     const lines = M['react_' + (mePlace === 1 ? 'first' : mePlace === 2 ? 'second' : 'back')];
     ov.innerHTML = `<div class="box" id="major-table"><h2>${esc(tt(M.round_title, { n: mj.i + 1, of: mj.rounds.length }))} · ${esc(TS[ev.id].title)}</h2>
-      <table class="rank">${rows.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(who(x))}</td><td>${x.score} ${esc(ev.unit)}</td><td>+${x.pts}</td></tr>`).join('')}</table>
-      <div><b>${esc(M.standings)}</b></div><table class="rank">${table.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(who(x))}</td><td>${x.pts} ${esc(M.pts)}</td></tr>`).join('')}</table>
+      <table class="rank board">${rows.map((x, i) => `<tr class="${x.me ? 'me' : ''}" style="--i:${i}"><td class="pl">${i + 1}.</td><td>${esc(who(x))}</td><td>${x.score} ${esc(ev.unit)}</td><td>+${x.pts}</td></tr>`).join('')}</table>
+      <div><b>${esc(M.standings)}</b></div><table class="rank board">${table.map((x, i) => `<tr class="${x.me ? 'me' : ''}${mv[i] ? ' mv' : ''}" style="--i:${i};--from:${-(mv[i] || 0)}"><td class="pl">${i + 1}.</td><td>${esc(who(x))}</td><td data-count="${x.pts}" data-from="${x.pts - (rows.find((y) => key(y) === key(x))?.pts || 0)}" data-suf=" ${esc(M.pts)}">${x.pts} ${esc(M.pts)}</td><td>${arrowHtml(mv[i] || 0)}</td></tr>`).join('')}</table>
       <div class="react">${esc(M.coach)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
       <button data-a="next">${esc(last ? M.to_finale : M.next_round)}</button></div>`;
     ov.querySelector('[data-a=next]').onclick = () => { if (!last) { mj.i++; majorRoundCard(); } else majorFinale(); };
+    dress({ burst: mePlace === 1 ? 'confetti' : null });
   }
   async function majorFinale() {
     const mj = st.major, M = TS.major, c = st.mon; let mult = 1; try { mult = diffOf(getDifficulty(sys()?.state)).money || 1; } catch (e) { mult = 1; }
@@ -253,11 +259,11 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     }
     st.phase = 'major_final';
     const who = (x) => (x.me ? nameOf(c) : `${mj.field[x.idx].trainer}'s ${mj.field[x.idx].species}`), lines = M['final_' + (res.place === 1 ? 'win' : 'lose')];
-    ov.innerHTML = `<div class="box" id="major-final"><h2>${esc(M.title)}</h2><table class="rank">${res.table.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(who(x))}</td><td>${x.pts} ${esc(M.pts)}</td></tr>`).join('')}</table>
+    ov.innerHTML = `<div class="box" id="major-final"><h2>${esc(M.title)}</h2>${medalHtml(res.place)}<table class="rank board">${res.table.map((x, i) => `<tr class="${x.me ? 'me' : ''}" style="--i:${i}"><td class="pl">${i + 1}.</td><td>${esc(who(x))}</td><td data-count="${x.pts}" data-suf=" ${esc(M.pts)}">${x.pts} ${esc(M.pts)}</td><td>${medalHtml(i + 1)}</td></tr>`).join('')}</table>
       <div>${esc(res.place === 1 ? tt(M.won, { prize: res.prize, wins: res.wins }) : tt(M.lost, { place: res.place }))}</div>
       <div class="react">${esc(M.coach)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
       <button data-a="back">${esc(TS.back)}</button></div>`;
-    ov.querySelector('[data-a=back]').onclick = () => close();
+    ov.querySelector('[data-a=back]').onclick = () => close(); dress({ burst: res.place === 1 ? 'fire' : res.place <= 3 ? 'confetti' : null });
   }
 
   const api = { openMajor, openTug: () => openEvent(tug), majorStatus, openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, major: st.major && { ...st.major, result: st.majorResult || null }, crowd: st.crowd && { hype: st.crowd.hype }, hold: st.input ? { ...st.input.hold } : null }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };
@@ -278,7 +284,7 @@ function makeCrowd(rows, evId, major = false) {
 function drawCrowd(g, cr, dt, t, rm) {
   cr.hype = Math.max(0.15, cr.hype - dt * 0.12); cr.gasp = Math.max(0, cr.gasp - dt);
   const y = 26, bob = rm ? 0 : Math.round(Math.abs(Math.sin(t * (4 + cr.hype * 8))) * (1 + cr.hype * 4));
-  g.globalAlpha = 0.9; g.drawImage(cr.cv, 0, y - bob, W, cr.cv.height); g.globalAlpha = 1; cr.bottom = y + cr.cv.height;
+  g.globalAlpha = 0.9; drawCrowdWave(g, cr.cv, y, W, t, cr.hype, rm); g.globalAlpha = 1; cr.bottom = y + cr.cv.height; drawReacts(g, cr, y, dt);
   if (!rm && cr.hype > 0.6) { g.fillStyle = '#ffe58a'; for (let i = 0; i < 6; i++) { const x = (i * 61 + t * 40) % W; g.fillRect(x, y - 6 - ((t * 30 + i * 7) % 10), 2, 5); } } // waving arms / sparkle
   if (cr.gasp > 0) { g.fillStyle = '#fff'; g.font = 'bold 11px monospace'; g.textAlign = 'center'; g.fillText(TS.crowd_gasp, W / 2, y + cr.cv.height + 12); }
   else if (cr.hype > 0.75) { g.fillStyle = '#ffe58a'; g.font = 'bold 11px monospace'; g.textAlign = 'center'; g.fillText(TS.crowd_roar, W / 2, y + cr.cv.height + 12); }
@@ -298,6 +304,7 @@ function popBox(g, text, x, y, col) { // dark backing plate so a pop always read
   g.fillStyle = '#0b1e2ecc'; g.fillRect(Math.round(x - w / 2), y - 17, Math.round(w), 22); pop(g, text, x, y, col);
 }
 function hud(g, ev, s, extra = '') {
+  if (s.hs) return drawHud(g, W, s.theme, s.left, scoreOf(ev, s), ev.unit, extra, s.hs, s._dt || 0.016);
   g.fillStyle = '#000a'; g.fillRect(0, 0, W, 26); g.fillStyle = '#f3ead2'; g.font = '13px monospace'; g.textAlign = 'left';
   g.fillText(`${Math.max(0, Math.ceil(s.left))}s  ${scoreOf(ev, s)} ${ev.unit}  ${extra}`, 8, 18);
 }

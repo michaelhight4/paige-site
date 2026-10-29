@@ -51,6 +51,7 @@ export const TS = {
     final_lose: ['What a Games. {creature} did the town proud.', 'Not today, but the crowd will remember {creature}.'] },
   major_cheer: ['What a move!', 'The stadium erupts!', 'Unbelievable!'], major_oops: ['Oh! A stumble on the big stage!', 'The crowd gasps!'], major_final: ['Final seconds! On your feet!', 'Here comes the finish!'],
   crowd_gasp: 'Ooooh!', crowd_roar: 'Yeaaah!',
+  ui_go: 'GO!', // placeholder: sports UI v2 title card
   pop_perfect: 'Perfect!', pop_splash: 'Splash!', pop_sink: 'Too slow!', pop_washed: 'Washed back!', pop_fall: 'Whoa!', pop_soot: 'Soot!', pop_miss: 'Miss', pop_good: 'Good',
 };
 export const tt = (s, v = {}) => String(s ?? '').replace(/\{(\w+)\}/g, (_, x) => v[x] ?? '');
