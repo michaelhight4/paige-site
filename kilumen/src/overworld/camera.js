@@ -2,8 +2,8 @@
 // so the screen scroll offset is a multiple of the zoom and pixels never shimmer.
 // Rules and zoom come from the active platform profile (src/platform/<id>.json, see src/platform.js); the
 // defaults below are only for callers with no profile (Node tests) and match how the camera worked before profiles.
-import { TILE } from './constants.js?v=v0.2.53-alpha';
-import { zoomFromTable } from '../platform.js?v=v0.2.53-alpha';
+import { TILE } from './constants.js?v=v0.2.54-alpha';
+import { zoomFromTable } from '../platform.js?v=v0.2.54-alpha';
 
 /** Camera rules when no profile is given: hard follow, clamped to map edges, short axis centred on black. */
 export const DEFAULT_CAMERA = Object.freeze({ follow: 'player_tile_centre', deadzonePx: { x: 0, y: 0 }, clampToMapEdges: true, smallMapAxis: 'centre' });

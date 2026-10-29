@@ -1239,6 +1239,114 @@
    "overworld_sheet_2x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_3x.png",
    "note": "town practice coach (Oct 29 2026)"
+  },
+  "club_int.rebel_bartender": {
+   "sprite_id": "vil_cook_f",
+   "class": "townsperson (reuse cook sheet)",
+   "overworld_sheet": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_cook_f/overworld/vil_cook_f_chibi/",
+   "note": "club_int (The Firefly) cast: reused existing sheet, Oct 29 2026 invisible bar NPC fix; swap when bespoke art lands"
+  },
+  "club_int.rebel_dj": {
+   "sprite_id": "vil_dissident_m",
+   "class": "forest dissident (young man)",
+   "overworld_sheet": "npcs/vil_dissident_m/overworld/vil_dissident_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_dissident_m/overworld/vil_dissident_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_dissident_m/overworld/vil_dissident_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_dissident_m/overworld/vil_dissident_m_chibi/",
+   "note": "club_int (The Firefly) cast: reused existing sheet, Oct 29 2026 invisible bar NPC fix; swap when bespoke art lands"
+  },
+  "club_int.rebel_patron_1": {
+   "sprite_id": "vil_worker_f",
+   "class": "visitor at storage PC",
+   "overworld_sheet": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_worker_f/overworld/vil_worker_f_chibi/",
+   "note": "club_int (The Firefly) cast: reused existing sheet, Oct 29 2026 invisible bar NPC fix; swap when bespoke art lands"
+  },
+  "club_int.rebel_patron_2": {
+   "sprite_id": "vil_gardener_f_b",
+   "class": "hobbyist",
+   "overworld_sheet": "npcs/vil_gardener_f_b/overworld/vil_gardener_f_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_gardener_f_b/overworld/vil_gardener_f_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_gardener_f_b/overworld/vil_gardener_f_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_gardener_f_b/overworld/vil_gardener_f_b_chibi/",
+   "note": "club_int (The Firefly) cast: reused existing sheet, Oct 29 2026 invisible bar NPC fix; swap when bespoke art lands"
+  },
+  "club_int.rebel_patron_3": {
+   "sprite_id": "vil_parent_m",
+   "class": "parent at kitchen",
+   "overworld_sheet": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_parent_m/overworld/vil_parent_m_chibi/",
+   "note": "club_int (The Firefly) cast: reused existing sheet, Oct 29 2026 invisible bar NPC fix; swap when bespoke art lands"
+  },
+  "club_int.rebel_bouncer": {
+   "sprite_id": "vil_guard_m_b",
+   "class": "station attendant / doorman (man) - navy+gold swap",
+   "overworld_sheet": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi/",
+   "note": "club_int (The Firefly) cast: reused existing sheet, Oct 29 2026 invisible bar NPC fix; swap when bespoke art lands"
+  },
+  "club_int.rebel_paint_vendor": {
+   "sprite_id": "vil_courier_f",
+   "class": "ex-courier (young woman)",
+   "overworld_sheet": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_courier_f/overworld/vil_courier_f_chibi/",
+   "note": "club_int (The Firefly) cast: reused existing sheet, Oct 29 2026 invisible bar NPC fix; swap when bespoke art lands"
+  },
+  "frostspire_lift_int.frostspire_lift_clerk": {
+   "sprite_id": "vil_receptionist_f_b",
+   "class": "pass clerk / office clerk (woman) - burgundy suit swap",
+   "overworld_sheet": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi/",
+   "note": "Frostspire interior cast: reused existing sheet, Oct 29 2026 invisible NPC sweep (v0.2.54)"
+  },
+  "frostspire_lift_int.frostspire_lift_traveller": {
+   "sprite_id": "vil_office_m_b",
+   "class": "commuter / clerk (young man) - mint shirt swap",
+   "overworld_sheet": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi/",
+   "note": "Frostspire interior cast: reused existing sheet, Oct 29 2026 invisible NPC sweep (v0.2.54)"
+  },
+  "frostspire_office_int.frostspire_office_int_clerk": {
+   "sprite_id": "vil_receptionist_f",
+   "class": "office receptionist (young woman)",
+   "overworld_sheet": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi/",
+   "note": "Frostspire interior cast: reused existing sheet, Oct 29 2026 invisible NPC sweep (v0.2.54)"
+  },
+  "frostspire_office_int.frostspire_office_int_coworker": {
+   "sprite_id": "vil_office_m",
+   "class": "office worker (young man)",
+   "overworld_sheet": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/",
+   "note": "Frostspire interior cast: reused existing sheet, Oct 29 2026 invisible NPC sweep (v0.2.54)"
+  },
+  "greystone_b1.greystone_caverns_c_researcher": {
+   "sprite_id": "tr_scientist_f",
+   "class": "lab aide (non-battling use of scientist sprite)",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/",
+   "note": "Greystone B1 researcher (text_pending, placed when lines exist): reused sheet, Oct 29 2026 invisible NPC sweep (v0.2.54)"
   }
  },
  "unassigned_ready": {

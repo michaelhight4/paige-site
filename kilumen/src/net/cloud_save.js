@@ -118,7 +118,7 @@ export async function bootCloudSave(o) {
   if (!sess || !sess.token || sess.anonymous) return { ok: false, action: 'guest' };
   let token = sess.token;
   const api = o.api || restClient({ fetchFn: o.fetchFn, getToken: async () => { const s = await o.session(); if (s?.token) token = s.token; return s?.token || null; } });
-  if (o.reset) return { ok: true, action: 'reset', uploader: uploader({ api, device: o.device, locked: o.locked, onResult: o.onResult, cachedToken: () => token }) }; // New game: the new save replaces the cloud one when it is saved
+  if (o.reset) return { ok: true, action: 'reset', api, uid: sess.uid, uploader: uploader({ api, device: o.device, locked: o.locked, onResult: o.onResult, cachedToken: () => token }) }; // New game: the new save replaces the cloud one when it is saved
   const localRaw = o.storage.getItem(o.key);
   const localObj = localRaw && o.isLoadable(localRaw) ? parse(localRaw) : null;
   const cloud = await api.meta();
@@ -146,7 +146,7 @@ export async function bootCloudSave(o) {
     o.storage.setItem(o.key, re); await o.storage.flush?.();
     up.saved(re);
   }
-  return { ok: true, action, uploader: up, cloud };
+  return { ok: true, action, uploader: up, cloud, api, uid: sess.uid };
 }
 
 /** The one-time choice: two cards, "This device" / "Cloud". Resolves 'device' | 'cloud'. */
@@ -179,4 +179,64 @@ export function supabaseSession(loadLib = () => import(SB_LIB)) {
     const { data } = await sb.auth.getSession(); const s = data?.session;
     return s ? { token: s.access_token, uid: s.user?.id, anonymous: !!s.user?.is_anonymous } : null;
   };
+}
+
+// ---- v0.2.54 (Gary 11:04 AM CT Oct 29: "saves arent working across my devices yet") -------------------------------
+// Before: a device only compared with the cloud at boot. A home-screen app / phone tab that is resumed (not reloaded)
+// never saw the other device's newer save, and nothing on screen said whether cloud saving was on at all.
+// Now: (1) a small "Cloud: synced <time>" / "Cloud: off, sign in" indicator; (2) on resume (tab visible again) and every
+// 60 s, the cloud meta is checked; a newer save of the same playthrough from another device is offered with one tap
+// ("Load"), which writes it locally with saving held, then reloads. Never while a battle / talk / cutscene holds the lock.
+const hhmm = (t) => { try { return new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); } catch { return ''; } };
+export function cloudIndicator(doc = document) {
+  let el = doc.getElementById('cloud-ind');
+  if (!el) {
+    el = doc.createElement('div'); el.id = 'cloud-ind';
+    el.style.cssText = 'position:fixed;left:6px;bottom:4px;z-index:9000;font:11px/1.3 system-ui,sans-serif;color:#cfe;background:rgba(6,10,22,.55);padding:2px 7px;border-radius:8px;pointer-events:none;opacity:.85';
+    doc.body.appendChild(el);
+  }
+  return {
+    el,
+    set(state, at = 0) {
+      const txt = state === 'synced' ? `Cloud: synced ${hhmm(at)}` : state === 'saving' ? 'Cloud: saving…' : state === 'off' ? 'Cloud: off (sign in in Options)'
+        : state === 'newer' ? 'Cloud: newer save on another device' : state === 'error' ? 'Cloud: offline, will retry' : 'Cloud: ' + state;
+      el.textContent = txt; el.dataset.state = state; if (at) el.dataset.at = String(at);
+      try { (globalThis.kilumen ||= {}).cloudStatus = { state, at, text: txt }; } catch { /* */ }
+    },
+  };
+}
+export function liveSync({ api, storage, key, store, locked = () => false, ind, doc = document, every = 60000, reload = () => location.reload() }) {
+  let busy = false, offered = null;
+  const localMeta = () => { try { return metaOf(parse(storage.getItem(key))); } catch { return null; } };
+  const offer = (cloud) => {
+    if (offered === cloud.savedAt || doc.getElementById('cloud-newer')) return; offered = cloud.savedAt;
+    const b = doc.createElement('div'); b.id = 'cloud-newer';
+    b.style.cssText = 'position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:9999;background:#141a2b;border:1px solid #4a5a9a;border-radius:12px;padding:10px 12px;color:#eef;font:15px system-ui,sans-serif;display:flex;gap:10px;align-items:center;max-width:94vw';
+    b.innerHTML = `<span>Newer cloud save from ${cloud.device === 'mobile' ? 'your phone' : cloud.device === 'pc' ? 'your PC' : 'another device'} (${hhmm(cloud.savedAt)})</span><button data-l style="min-height:40px;padding:6px 12px;border-radius:8px;background:#2f7a45;color:#fff;border:1px solid #4fae6a">Load</button><button data-x style="min-height:40px;padding:6px 10px;border-radius:8px;background:#2a3560;color:#fff;border:1px solid #5a6aa0">Later</button>`;
+    ['keydown', 'keyup', 'pointerdown', 'touchstart'].forEach((t) => b.addEventListener(t, (e) => e.stopPropagation()));
+    b.querySelector('[data-x]').onclick = () => b.remove();
+    b.querySelector('[data-l]').onclick = async () => {
+      b.querySelector('span').textContent = 'Loading cloud save…';
+      try {
+        const data = await api.data(); if (!data || data.saveId !== cloud.saveId) throw new Error('changed');
+        if (store) store.hold = true; // no local save may overwrite it before the reload
+        const raw = storage.getItem(key); if (raw) storage.setItem(key + '.bak', raw);
+        storage.setItem(key, JSON.stringify(data)); await storage.flush?.(); reload();
+      } catch (e) { b.querySelector('span').textContent = 'Could not load it, try again later.'; }
+    };
+    doc.body.appendChild(b);
+  };
+  const check = async () => {
+    if (busy || doc.visibilityState === 'hidden') return; busy = true;
+    try {
+      const cloud = await api.meta(), loc = localMeta();
+      if (cloud && loc && cloud.saveId === loc.saveId && cloud.savedAt > loc.savedAt) {
+        ind?.set('newer', cloud.savedAt);
+        if (!locked()) offer(cloud);
+      } else if (cloud && loc && cloud.saveId === loc.saveId && cloud.savedAt === loc.savedAt) ind?.set('synced', cloud.savedAt);
+    } catch { /* offline: keep the last status */ } finally { busy = false; }
+  };
+  doc.addEventListener('visibilitychange', () => { if (doc.visibilityState === 'visible') check(); });
+  const t = setInterval(check, every);
+  return { check, stop: () => clearInterval(t) };
 }

@@ -1,6 +1,6 @@
 // Kilumen battle rules (constants + conditions + items + format). Numbers are PLACEHOLDERS taken
 // from the proposals in design/MECHANICS_PARITY.md (row in brackets) until Gary signs them off.
-import { BATTLE_ITEMS } from '../../systems/items.js?v=v0.2.53-alpha';
+import { BATTLE_ITEMS } from '../../systems/items.js?v=v0.2.54-alpha';
 export const KILUMEN_RULES = {
   critStages: [0, 20, 8, 2, 1], // Clean Strike 1/20 base [B8]
   critMult: 1.4,                // [B8]
