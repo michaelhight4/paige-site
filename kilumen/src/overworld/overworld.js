@@ -4,6 +4,7 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
+import { setRonRoll, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.87-alpha';
 import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.87-alpha';
 import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.87-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
 import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.87-alpha';
@@ -104,6 +105,7 @@ export class Overworld {
     else if (opts.phase && PHASE_HOUR[opts.phase] != null) this.clock.min = PHASE_HOUR[opts.phase] * 60;
     this.timescale = opts.timescale ?? 1;     // ?timescale=0 freezes the clock (shots)
     if (sv.lastDoor) this.lastDoor = sv.lastDoor;
+    setRonRoll(ensureRonRoll(sv)); // Ron's per-save rolled slots (src/battle/data/ron_team.js); old saves roll from saveId
     this.gameCleared = normClear(sv[ENDING.save]); // interim ending: {at, day, team} once the game is cleared (null before)
     this.devTouched = sv.devTouched === true;  // set once the dev console / master key touched this save (v0.2.26)
     this.dialog = opts.dialog || null;

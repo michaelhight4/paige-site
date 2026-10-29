@@ -670,11 +670,11 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 4800,
+    "prize_placeholder": 5040,
     "team": [
      {
       "species": "mirejaw",
-      "level": 36,
+      "level": 42,
       "battle_species": "snapmoor",
       "stand_in": true,
       "held": "bogroot_charm",
@@ -687,14 +687,14 @@
      },
      {
       "species": "runeskein",
-      "level": 36,
+      "level": 42,
       "battle_species": "runeskein",
       "stand_in": false,
       "held": "runestitch_charm"
      },
      {
       "species": "silteel",
-      "level": 36,
+      "level": 42,
       "battle_species": "reedmoot",
       "stand_in": true,
       "held": "bogroot_charm",
@@ -707,14 +707,14 @@
      },
      {
       "species": "duckmoss",
-      "level": 35,
+      "level": 41,
       "battle_species": "toadcap",
       "stand_in": true,
       "held": "sprig_charm"
      },
      {
       "species": "fenmaw",
-      "level": 36,
+      "level": 42,
       "battle_species": "mirewump",
       "stand_in": true,
       "held": "bogroot_charm",
@@ -740,13 +740,13 @@
      "team": [
       {
        "species": "mirewump",
-       "level": 35,
+       "level": 40,
        "battle_species": "mirewump",
        "stand_in": false
       },
       {
        "species": "bulrusher",
-       "level": 36,
+       "level": 41,
        "battle_species": "mirewump",
        "stand_in": true
       }
@@ -762,13 +762,13 @@
      "team": [
       {
        "species": "gloamtick",
-       "level": 36,
+       "level": 41,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "mirewump",
-       "level": 36,
+       "level": 41,
        "battle_species": "mirewump",
        "stand_in": false
       }
@@ -784,13 +784,13 @@
      "team": [
       {
        "species": "cypresshade",
-       "level": 37,
+       "level": 41,
        "battle_species": "mirewump",
        "stand_in": true
       },
       {
        "species": "mirejaw",
-       "level": 37,
+       "level": 41,
        "battle_species": "mirewump",
        "stand_in": true
       }
@@ -806,13 +806,13 @@
      "team": [
       {
        "species": "mirewump",
-       "level": 34,
+       "level": 40,
        "battle_species": "mirewump",
        "stand_in": false
       },
       {
        "species": "snapmoor",
-       "level": 34,
+       "level": 40,
        "battle_species": "snapmoor",
        "stand_in": false
       }
@@ -829,13 +829,13 @@
      "team": [
       {
        "species": "reedmoot",
-       "level": 35,
+       "level": 40,
        "battle_species": "reedmoot",
        "stand_in": false
       },
       {
        "species": "eftwarden",
-       "level": 35,
+       "level": 40,
        "battle_species": "eftwarden",
        "stand_in": false
       }
@@ -852,19 +852,19 @@
      "team": [
       {
        "species": "brimtoad",
-       "level": 35,
+       "level": 40,
        "battle_species": "brimtoad",
        "stand_in": false
       },
       {
        "species": "ditchsnap",
-       "level": 35,
+       "level": 40,
        "battle_species": "ditchsnap",
        "stand_in": false
       },
       {
        "species": "pondkin",
-       "level": 36,
+       "level": 41,
        "battle_species": "pondkin",
        "stand_in": false
       }
@@ -881,19 +881,19 @@
      "team": [
       {
        "species": "snapmoor",
-       "level": 35,
+       "level": 40,
        "battle_species": "snapmoor",
        "stand_in": false
       },
       {
        "species": "eftwarden",
-       "level": 35,
+       "level": 40,
        "battle_species": "eftwarden",
        "stand_in": false
       },
       {
        "species": "reedmoot",
-       "level": 36,
+       "level": 41,
        "battle_species": "reedmoot",
        "stand_in": false
       }
@@ -904,7 +904,7 @@
    ],
    "reward": {
     "coin_name_placeholder": "Reed Coin",
-    "money_placeholder": 4800,
+    "money_placeholder": 5040,
     "gift_item_placeholder": {
      "id": "vigor_seed",
      "qty": 2
@@ -935,11 +935,11 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 5520,
+    "prize_placeholder": 5880,
     "team": [
      {
       "species": "lurelamp",
-      "level": 38,
+      "level": 47,
       "battle_species": "lurelamp",
       "stand_in": false,
       "held": "dusk_charm",
@@ -952,7 +952,7 @@
      },
      {
       "species": "pearlisk",
-      "level": 38,
+      "level": 47,
       "battle_species": "pearlisk",
       "stand_in": false,
       "held": "runestitch_charm",
@@ -965,7 +965,7 @@
      },
      {
       "species": "driftknot",
-      "level": 39,
+      "level": 48,
       "battle_species": "tidemarrow",
       "stand_in": true,
       "held": "sprig_charm",
@@ -978,7 +978,7 @@
      },
      {
       "species": "nudiblume",
-      "level": 38,
+      "level": 47,
       "battle_species": "nudiblume",
       "stand_in": false,
       "held": "tidebell_charm",
@@ -991,7 +991,7 @@
      },
      {
       "species": "deluvane",
-      "level": 33,
+      "level": 43,
       "battle_species": "brineseal",
       "stand_in": true,
       "held": "droplet_charm",
@@ -1004,7 +1004,7 @@
      },
      {
       "species": "atollback",
-      "level": 41,
+      "level": 49,
       "battle_species": "tuskwallow",
       "stand_in": true,
       "held": "tidebell_charm",
@@ -1030,13 +1030,13 @@
      "team": [
       {
        "species": "squidge",
-       "level": 41,
+       "level": 47,
        "battle_species": "squidge",
        "stand_in": false
       },
       {
        "species": "spinyclaw",
-       "level": 42,
+       "level": 48,
        "battle_species": "spinyclaw",
        "stand_in": false
       }
@@ -1052,13 +1052,13 @@
      "team": [
       {
        "species": "downpaw",
-       "level": 42,
+       "level": 48,
        "battle_species": "tidemarrow",
        "stand_in": true
       },
       {
        "species": "driftknot",
-       "level": 42,
+       "level": 48,
        "battle_species": "tidemarrow",
        "stand_in": true
       }
@@ -1074,13 +1074,13 @@
      "team": [
       {
        "species": "nudiblume",
-       "level": 43,
+       "level": 48,
        "battle_species": "nudiblume",
        "stand_in": false
       },
       {
        "species": "tundrarch",
-       "level": 43,
+       "level": 48,
        "battle_species": "tundrarch",
        "stand_in": false
       }
@@ -1096,13 +1096,13 @@
      "team": [
       {
        "species": "foamkin",
-       "level": 43,
+       "level": 48,
        "battle_species": "foamkin",
        "stand_in": false
       },
       {
        "species": "coilarch",
-       "level": 44,
+       "level": 48,
        "battle_species": "coilarch",
        "stand_in": false
       }
@@ -1118,13 +1118,13 @@
      "team": [
       {
        "species": "coilarch",
-       "level": 40,
+       "level": 47,
        "battle_species": "coilarch",
        "stand_in": false
       },
       {
        "species": "spraytern",
-       "level": 40,
+       "level": 47,
        "battle_species": "spraytern",
        "stand_in": false
       }
@@ -1141,19 +1141,19 @@
      "team": [
       {
        "species": "bulwarkrab",
-       "level": 41,
+       "level": 47,
        "battle_species": "bulwarkrab",
        "stand_in": false
       },
       {
        "species": "tundrarch",
-       "level": 41,
+       "level": 47,
        "battle_species": "tundrarch",
        "stand_in": false
       },
       {
        "species": "squidge",
-       "level": 42,
+       "level": 48,
        "battle_species": "squidge",
        "stand_in": false
       }
@@ -1170,13 +1170,13 @@
      "team": [
       {
        "species": "coilarch",
-       "level": 40,
+       "level": 47,
        "battle_species": "coilarch",
        "stand_in": false
       },
       {
        "species": "spraytern",
-       "level": 40,
+       "level": 47,
        "battle_species": "spraytern",
        "stand_in": false
       }
@@ -1194,19 +1194,19 @@
      "team": [
       {
        "species": "bulwarkrab",
-       "level": 41,
+       "level": 47,
        "battle_species": "bulwarkrab",
        "stand_in": false
       },
       {
        "species": "tundrarch",
-       "level": 41,
+       "level": 47,
        "battle_species": "tundrarch",
        "stand_in": false
       },
       {
        "species": "squidge",
-       "level": 42,
+       "level": 48,
        "battle_species": "squidge",
        "stand_in": false
       }
@@ -1217,7 +1217,7 @@
    ],
    "reward": {
     "coin_name_placeholder": "Undertow Coin",
-    "money_placeholder": 5520,
+    "money_placeholder": 5880,
     "gift_item_placeholder": {
      "id": "energy_tonic",
      "qty": 2
@@ -1249,35 +1249,35 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 6000,
+    "prize_placeholder": 6960,
     "team": [
      {
       "species": "gloamtick",
-      "level": 47,
+      "level": 55,
       "battle_species": "gloamtick",
       "stand_in": false
      },
      {
       "species": "runeskein",
-      "level": 47,
+      "level": 55,
       "battle_species": "runeskein",
       "stand_in": false
      },
      {
       "species": "mournhorn",
-      "level": 48,
+      "level": 56,
       "battle_species": "mournhorn",
       "stand_in": false
      },
      {
       "species": "bleachghast",
-      "level": 48,
+      "level": 56,
       "battle_species": "bleachghast",
       "stand_in": false
      },
      {
       "species": "foamkin",
-      "level": 50,
+      "level": 58,
       "battle_species": "foamkin",
       "stand_in": false
      }
@@ -1295,13 +1295,13 @@
      "team": [
       {
        "species": "gloamtick",
-       "level": 45,
+       "level": 56,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "wreckwarden",
-       "level": 46,
+       "level": 57,
        "battle_species": "wreckwarden",
        "stand_in": false
       }
@@ -1317,13 +1317,13 @@
      "team": [
       {
        "species": "runeskein",
-       "level": 46,
+       "level": 57,
        "battle_species": "runeskein",
        "stand_in": false
       },
       {
        "species": "lanternkeep",
-       "level": 46,
+       "level": 57,
        "battle_species": "lanternkeep",
        "stand_in": false
       }
@@ -1339,13 +1339,13 @@
      "team": [
       {
        "species": "kelpstrider",
-       "level": 47,
+       "level": 57,
        "battle_species": "kelpstrider",
        "stand_in": false
       },
       {
        "species": "novarch",
-       "level": 47,
+       "level": 57,
        "battle_species": "novarch",
        "stand_in": false
       }
@@ -1362,13 +1362,13 @@
      "team": [
       {
        "species": "runeskein",
-       "level": 44,
+       "level": 56,
        "battle_species": "runeskein",
        "stand_in": false
       },
       {
        "species": "lanternkeep",
-       "level": 44,
+       "level": 56,
        "battle_species": "lanternkeep",
        "stand_in": false
       }
@@ -1386,13 +1386,13 @@
      "team": [
       {
        "species": "foamkin",
-       "level": 45,
+       "level": 56,
        "battle_species": "foamkin",
        "stand_in": false
       },
       {
        "species": "wreckwarden",
-       "level": 45,
+       "level": 56,
        "battle_species": "wreckwarden",
        "stand_in": false
       }
@@ -1410,19 +1410,19 @@
      "team": [
       {
        "species": "novarch",
-       "level": 45,
+       "level": 56,
        "battle_species": "novarch",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 45,
+       "level": 56,
        "battle_species": "bleachghast",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 46,
+       "level": 57,
        "battle_species": "gloamtick",
        "stand_in": false
       }
@@ -1440,13 +1440,13 @@
      "team": [
       {
        "species": "runeskein",
-       "level": 44,
+       "level": 56,
        "battle_species": "runeskein",
        "stand_in": false
       },
       {
        "species": "lanternkeep",
-       "level": 44,
+       "level": 56,
        "battle_species": "lanternkeep",
        "stand_in": false
       }
@@ -1464,13 +1464,13 @@
      "team": [
       {
        "species": "foamkin",
-       "level": 44,
+       "level": 56,
        "battle_species": "foamkin",
        "stand_in": false
       },
       {
        "species": "wreckwarden",
-       "level": 44,
+       "level": 56,
        "battle_species": "wreckwarden",
        "stand_in": false
       }
@@ -1488,13 +1488,13 @@
      "team": [
       {
        "species": "novarch",
-       "level": 45,
+       "level": 56,
        "battle_species": "novarch",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 45,
+       "level": 56,
        "battle_species": "bleachghast",
        "stand_in": false
       }
@@ -1512,19 +1512,19 @@
      "team": [
       {
        "species": "mournhorn",
-       "level": 45,
+       "level": 56,
        "battle_species": "mournhorn",
        "stand_in": false
       },
       {
        "species": "kelpstrider",
-       "level": 45,
+       "level": 56,
        "battle_species": "kelpstrider",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 46,
+       "level": 57,
        "battle_species": "gloamtick",
        "stand_in": false
       }
@@ -1535,7 +1535,7 @@
    ],
    "reward": {
     "coin_name_placeholder": "Beacon Coin",
-    "money_placeholder": 6000,
+    "money_placeholder": 6960,
     "gift_item_placeholder": {
      "id": "dominance_crystal_plus",
      "qty": 5
@@ -1578,41 +1578,41 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 6600,
+    "prize_placeholder": 8040,
     "team": [
      {
       "species": "slagrook",
-      "level": 51,
+      "level": 63,
       "battle_species": "slagrook",
       "stand_in": false
      },
      {
       "species": "sparkplume",
-      "level": 51,
+      "level": 63,
       "battle_species": "sparkplume",
       "stand_in": false
      },
      {
       "species": "charlurcher",
-      "level": 52,
+      "level": 64,
       "battle_species": "charlurcher",
       "stand_in": false
      },
      {
       "species": "kilnowl",
-      "level": 53,
+      "level": 65,
       "battle_species": "kilnowl",
       "stand_in": false
      },
      {
       "species": "embermink",
-      "level": 53,
+      "level": 65,
       "battle_species": "embermink",
       "stand_in": false
      },
      {
       "species": "glyphforge",
-      "level": 55,
+      "level": 67,
       "battle_species": "glyphforge",
       "stand_in": false
      }
@@ -1630,13 +1630,13 @@
      "team": [
       {
        "species": "slagrook",
-       "level": 49,
+       "level": 65,
        "battle_species": "slagrook",
        "stand_in": false
       },
       {
        "species": "foundrax",
-       "level": 50,
+       "level": 66,
        "battle_species": "foundrax",
        "stand_in": false
       }
@@ -1652,13 +1652,13 @@
      "team": [
       {
        "species": "pyrogrim",
-       "level": 50,
+       "level": 66,
        "battle_species": "pyrogrim",
        "stand_in": false
       },
       {
        "species": "sunderhoof",
-       "level": 50,
+       "level": 66,
        "battle_species": "forgeharrow",
        "stand_in": true
       }
@@ -1674,13 +1674,13 @@
      "team": [
       {
        "species": "ingotitan",
-       "level": 51,
+       "level": 66,
        "battle_species": "ingotitan",
        "stand_in": false
       },
       {
        "species": "slagrook",
-       "level": 51,
+       "level": 66,
        "battle_species": "slagrook",
        "stand_in": false
       }
@@ -1696,13 +1696,13 @@
      "team": [
       {
        "species": "kilnant",
-       "level": 51,
+       "level": 66,
        "battle_species": "kilnant",
        "stand_in": false
       },
       {
        "species": "cinderwraith",
-       "level": 52,
+       "level": 66,
        "battle_species": "cinderwraith",
        "stand_in": false
       }
@@ -1718,13 +1718,13 @@
      "team": [
       {
        "species": "cinderwraith",
-       "level": 48,
+       "level": 65,
        "battle_species": "cinderwraith",
        "stand_in": false
       },
       {
        "species": "slagrook",
-       "level": 48,
+       "level": 65,
        "battle_species": "slagrook",
        "stand_in": false
       }
@@ -1741,19 +1741,19 @@
      "team": [
       {
        "species": "kilnant",
-       "level": 49,
+       "level": 65,
        "battle_species": "kilnant",
        "stand_in": false
       },
       {
        "species": "foundrax",
-       "level": 49,
+       "level": 65,
        "battle_species": "foundrax",
        "stand_in": false
       },
       {
        "species": "kilnowl",
-       "level": 50,
+       "level": 66,
        "battle_species": "kilnowl",
        "stand_in": false
       }
@@ -1770,13 +1770,13 @@
      "team": [
       {
        "species": "cinderwraith",
-       "level": 48,
+       "level": 65,
        "battle_species": "cinderwraith",
        "stand_in": false
       },
       {
        "species": "slagrook",
-       "level": 48,
+       "level": 65,
        "battle_species": "slagrook",
        "stand_in": false
       }
@@ -1794,13 +1794,13 @@
      "team": [
       {
        "species": "kilnant",
-       "level": 48,
+       "level": 65,
        "battle_species": "kilnant",
        "stand_in": false
       },
       {
        "species": "foundrax",
-       "level": 48,
+       "level": 65,
        "battle_species": "foundrax",
        "stand_in": false
       }
@@ -1818,13 +1818,13 @@
      "team": [
       {
        "species": "sparkplume",
-       "level": 48,
+       "level": 65,
        "battle_species": "sparkplume",
        "stand_in": false
       },
       {
        "species": "pyrogrim",
-       "level": 48,
+       "level": 65,
        "battle_species": "pyrogrim",
        "stand_in": false
       }
@@ -1842,13 +1842,13 @@
      "team": [
       {
        "species": "kilnowl",
-       "level": 49,
+       "level": 65,
        "battle_species": "kilnowl",
        "stand_in": false
       },
       {
        "species": "embermink",
-       "level": 49,
+       "level": 65,
        "battle_species": "embermink",
        "stand_in": false
       }
@@ -1866,13 +1866,13 @@
      "team": [
       {
        "species": "pharolith",
-       "level": 49,
+       "level": 65,
        "battle_species": "pharolith",
        "stand_in": false
       },
       {
        "species": "emberlunx",
-       "level": 49,
+       "level": 65,
        "battle_species": "emberlunx",
        "stand_in": false
       }
@@ -1890,19 +1890,19 @@
      "team": [
       {
        "species": "calderock",
-       "level": 49,
+       "level": 65,
        "battle_species": "calderock",
        "stand_in": false
       },
       {
        "species": "forgeharrow",
-       "level": 49,
+       "level": 65,
        "battle_species": "forgeharrow",
        "stand_in": false
       },
       {
        "species": "kilnpaw",
-       "level": 50,
+       "level": 66,
        "battle_species": "kilnpaw",
        "stand_in": false
       }
@@ -1913,7 +1913,7 @@
    ],
    "reward": {
     "coin_name_placeholder": "Forge Coin",
-    "money_placeholder": 6600,
+    "money_placeholder": 8040,
     "gift_item_placeholder": {
      "id": "vigor_seed",
      "qty": 3

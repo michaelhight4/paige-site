@@ -5,6 +5,7 @@
 // point, everyone rested. Warmth is never touched.
 import { getShops, regionOf } from './shop.js?v=v0.2.87-alpha';
 import { fmtMoney } from './config.js?v=v0.2.87-alpha';
+import { RON_FINAL } from '../battle/data/ron_team.js?v=v0.2.87-alpha';
 
 let active = null; // the attached Systems (index.js) so the battle code can call onPartyFainted() with no args
 export function setActiveSystems(sys) { active = sys; }
@@ -29,6 +30,14 @@ export function copayFor(point, coins, shops = getShops(), cover = 0) {
   return { fee, paid, short: paid < fee };
 }
 
+/** Final Ron gate (ron_team.js RON_FINAL): a heal after the last tower battle (tower floor 8 flag, final Ron not beaten yet) sets
+ *  tower_healed (RON_FINAL.requires), which brings Ron to the tower bottom. Replaces Ron's free heal at the tower top (ron.roof_heal). */
+export function markTowerHeal(sc) {
+  const f = sc?.flags;
+  const [done, healed] = RON_FINAL.requires;
+  if (f?.has?.(done) && !f.has(RON_FINAL.winFlag) && !f.has(healed)) f.add(healed);
+}
+
 export class Heal {
   /** sys: Systems (index.js) {scene, party, wallet, state, cfg, lines} */
   constructor(sys) { this.sys = sys; }
@@ -39,6 +48,7 @@ export class Heal {
   /** Full rest: party + last heal point. */
   restAt(b) {
     this.sys.party.healAll();
+    markTowerHeal(this.sys.scene);
     this.setLastHeal(b);
     this.state.heals = (this.state.heals || 0) + 1;
     const sc = this.sys.scene;
@@ -83,6 +93,7 @@ export class Heal {
       await sc.say(T.lost?.pages || ['Your whole team is out cold.', 'Time to get them to a branch. Fast.']);
       this.sys.wallet.take(r.paid);
       this.sys.party.healAll();
+      markTowerHeal(sc);
       if (to.returnDoor) sc.lastDoor = { ...to.returnDoor };
       await warpAndWait(sc, { map: to.map, x: to.x, y: to.y, facing: to.facing }, 'blackout');
       const city = regionOf(to.zone).city;

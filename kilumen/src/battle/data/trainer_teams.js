@@ -20,6 +20,7 @@
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
 import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.87-alpha';
 import { applyHeldPicks } from './trainer_held.js?v=v0.2.87-alpha';
+import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.87-alpha';
 
 const RON_TIDEWATER = {"nibbin": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}], "cindrip": [{species: "sailquill", level: 40}, {species: "pearlisk", level: 40, held: "runestitch_charm"}, {species: "tidemarrow", level: 40, held: "sprig_charm"}, {species: "nudiblume", level: 40, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}, {species: "brineseal", level: 39, held: "droplet_charm"}, {species: "tidemarrow", level: 41, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}], "rillop": [{species: "sailquill", level: 40}, {species: "glassvine", level: 40}, {species: "gearwarden", level: 40}, {species: "bramblehog", level: 41}, {species: "skyrender", level: 40}, {species: "gnawford", level: 41}], "tumbloam": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}]};
 export const TRAINER_TEAMS = {
@@ -157,9 +158,10 @@ const withHeld = (key, team) => applyHeldPicks(TRAINER_HELD[key], team);
  *  an evolved starter still counts, starters.js partyStarter; a legacy Tumbloam save uses the `tumbloam` branch). */
 export function authoredTeam(who, party = []) {
   if (!who?.map || !who?.id) return null;
-  const e = TRAINER_TEAMS[`${who.map}.${who.id}`];
-  if (!e) return null;
   const key = `${who.map}.${who.id}`;
+  if (RON_KEYS[key]) return withHeld(key, ronTeam(RON_KEYS[key], partyStarter(party) || STARTERS[0])); // Ron: base 3 + per-save roll (ron_team.js)
+  const e = TRAINER_TEAMS[key];
+  if (!e) return null;
   if (Array.isArray(e)) return withHeld(key, e.map((f) => ({ ...f })));
   const starter = partyStarter(party) || STARTERS[0];
   const sk = starterKeys(starter).find((k) => e.byStarter[k]) || Object.keys(e.byStarter)[0];
