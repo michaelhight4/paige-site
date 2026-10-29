@@ -101,6 +101,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   function showResult() {
     if (!ov) return;
     const ev = st.ev, r = recordRun(sstate(), ev, st.run), c = st.mon, lines = TS['react_' + r.grade];
+    try { globalThis.kilumen?.feeds?.onPractice?.(c); } catch (e) { /* feeds off */ } // fruit feeds: practice drains Fullness + speeds grow timers
     const react = tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) });
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><img src="${imgFor(c.species).src}" class="hopmon" style="width:72px;image-rendering:pixelated;animation:tevj .5s ease ${r.grade === 'none' ? 1 : 3}">
       <div><b>${esc(tt(TS.result, { creature: nameOf(c), score: r.score, unit: ev.unit }))}</b>${r.isBest ? ` · ${esc(TS.new_best)}` : ''}</div>

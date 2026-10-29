@@ -39,10 +39,14 @@ export function ensureAthletics(c) {
   return c.ath;
 }
 
+// Fruit feeds (src/feeds, flag off by default): a provider c -> {stat: flat bonus} set only when feeds are on. Null = no change.
+let bonusFn = null;
+export function setAthleticBonus(fn) { bonusFn = typeof fn === 'function' ? fn : null; }
 /** Integer stat values for a creature (rolls lazily). */
 export function athleticStats(c) {
   const a = ensureAthletics(c), R = speciesAthletics(c.species).ranges, out = {};
   for (const s of STATS) { const [lo, hi] = R[s]; out[s] = Math.round(lo + a.q[s] * (hi - lo)); }
+  if (bonusFn) { let b = null; try { b = bonusFn(c); } catch { b = null; } if (b) for (const s of STATS) out[s] = Math.min(100, out[s] + (b[s] | 0)); }
   return out;
 }
 
