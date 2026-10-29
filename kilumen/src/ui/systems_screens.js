@@ -3,18 +3,19 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.63-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.63-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.63-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.63-alpha';
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.63-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.63-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.63-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.63-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.63-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.63-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.63-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.63-alpha';
+import { iconRel } from './data.js?v=v0.2.61-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.61-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.61-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.61-alpha';
+import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.61-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.61-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.61-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.61-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.61-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.61-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.61-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.61-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.61-alpha';
 let _SKILLS = null; const skillDef = (id) => (_SKILLS ||= buildSkills())[id] || null;
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
@@ -174,6 +175,8 @@ export async function installSystemsScreens(ui, sys) {
   // ---------------- Pack ----------------
   ui.scr_sys_bag = function () {
     const PK = T('comfort.bag_pockets', {}); let pi = 0;
+    const TABS = badgesOn() ? [...POCKETS, 'badges'] : POCKETS, isB = () => TABS[pi] === 'badges'; // Badges tab: last, flag only
+    const tabLbl = (p) => (p === 'badges' ? `${BADGE_TAB_ICON()}${esc(T('system_badges.labels.tab', 'Badges'))}` : `${pxi(POCKET_ICONS[p])}${esc(PK[p]?.label || p)}`);
     // v0.2.60: Masters' coins are story flags (beat_master_<zone>, src/progression/masters.js), not bag items, so the Key
     // Items pocket lists one row per earned coin from data/masters.json. Text: system_items.master_coins.<zone> (PH keys).
     // v0.2.61: items with no catalogue text yet (Text Bot placeholder keys, fallback here)
@@ -185,22 +188,23 @@ export async function installSystemsScreens(ui, sys) {
         name: T(`system_items.master_coins.${h.zone}.name`, h.reward?.coin_name_placeholder || `Coin ${h.coin_number}`),
         pages: T(`system_items.master_coins.${h.zone}.pages`, [`Master coin ${h.coin_number} of 8. Proof you beat the Master here.`]) }));
     };
-    const items = () => [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || ITEM_FALLBACK_PAGES[it.id]?.() || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])];
+    const items = () => (isB() ? [] : [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || ITEM_FALLBACK_PAGES[it.id]?.() || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])]);
     const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
       : `<p class="soft">${esc((PK[POCKETS[pi]]?.help || []).join(' '))}</p>`);
     const scr = { scr: 'pack', pat: 'leaf', title: T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1, count: () => items().length,
       chips: () => money(sys.wallet.coins),
       render: () => {
-        const l = items();
-        return `<div class="ui-tabs">${POCKETS.map((p, i) => `<div class="ui-tab ${i === pi ? 'on' : ''}" data-tab="${i}">${pxi(POCKET_ICONS[p])}${esc(PK[p]?.label || p)}</div>`).join('')}</div>
+        const l = items(), tabsHtml = `<div class="ui-tabs">${TABS.map((p, i) => `<div class="ui-tab ${i === pi ? 'on' : ''}" data-tab="${i}">${tabLbl(p)}</div>`).join('')}</div>`;
+        if (isB()) { const b = renderBadges(sys.scene, T); b.settle(); return `${tabsHtml}<div class="ui-body">${b.html}</div>`; }
+        return `${tabsHtml}
         <div class="ui-body sys-split"><div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="pack" data-pat="leaf" data-scroll>
           ${l.length ? `<ul class="ui-list" data-aa="sys-pack-${pi}">${l.map((it, i) => `<li class="ui-row" data-i="${i}" data-k="${esc(it.id)}"><span class="grow">${esc(it.name)}</span><span class="price">×${it.n}</span></li>`).join('')}</ul>`
             : `<div class="plate ui-empty">${pxi(EMPTY_ICONS.pack, 'pxi pxi-empty')}Nothing in this pocket yet.</div>`}</div>
           <div class="plate ui-pad sys-side" id="sysinfo">${info(l[scr.sel])}</div></div>`;
       },
-      onSel: (i) => { const el = ui.stage.querySelector('#sysinfo'); if (el) el.innerHTML = info(items()[i]); },
+      onSel: (i) => { const el = ui.stage.querySelector('#sysinfo'); if (el && !isB()) el.innerHTML = info(items()[i]); },
       onTab: (t) => { pi = t; scr.sel = 0; ui.rerender(); },
-      onLR: (d) => scr.onTab((pi + d + POCKETS.length) % POCKETS.length),
+      onLR: (d) => scr.onTab((pi + d + TABS.length) % TABS.length),
       hint: () => ui.hintText([['◀▶', 'Pocket'], ['A', 'Use'], ['B', 'Back']]),
       onA: async (i) => {
         const it = items()[i];

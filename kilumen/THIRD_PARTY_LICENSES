@@ -581,3 +581,17 @@ src/sports/town_events.js: small mechanics ported (rewritten in plain JS, no Pha
     games/.../one-car        -> Frostspire Ice Slide (falling obstacle spawn toward the player row)
     games/.../fruit-basket   -> Lanternport Lantern Catch (spawn interval, fall speed, clamped basket, bombs/lives)
     games/racing/straight-rush (pingPong, already in src/sports/ported.js) -> Cindervale Forge Push timing bar
+
+################################################################################
+# Badges tab (Oct 29, 2026): src/achievements/engine.js (adapted, shipped behind globalThis.KILUMEN_BADGES_TAB)
+################################################################################
+achievements-manager by ntatoud: https://github.com/ntatoud/achievements-manager
+Licence: MIT. Adapted: the definition / progress / auto-unlock-at-maxProgress / seen pattern, rewritten in plain JS
+for Kilumen (stacked counts with first/latest dates and coming-soon entries are Kilumen's own). No code copied verbatim.
+MIT License: Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and
+this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED
+"AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+Art: art/ui/achievements/*.png are crops / palette recolours of Kilumen's own master_coin frame 00 (no third-party art).
