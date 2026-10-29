@@ -292,14 +292,50 @@ export { OPP };
 // is 0/1, '1'-'6' warp pad pairs (land -> teleport to the partner pad and stop). Trainers are solid. Reuses Grid + DIRS.
 // The runtime (./hall_v2.js) drives the real player through these same rules; the solver proves every hall here.
 export const V2_PUSH = { '^': 'U', v: 'D', '<': 'L', '>': 'R' };
-const V2_SOLID = new Set(['#', 'x', 'M']);
+// Prism relay (Revival Heights, Gary Oct 29 2026, restored inside the v2 hall): 'E' beam emitter, 'P' rotatable prism,
+// 'r' receiver (all solid), 'L' beam door (open while every receiver is lit). hall_v2.prism = {sources:[{at,dir}],
+// prisms:[{at,facing}]} (facing 0..3 = U R D L, the beam leaves a prism in its facing; A on a prism turns it U->R->D->L).
+// Prism turns ride in the same state number as the gate bits: bits 2+2i = prism i's turns past its start facing, so the
+// door reset (b = 0) puts every prism back and the solver BFS sees turns as moves ('A' + the faced direction).
+const V2_SOLID = new Set(['#', 'x', 'M', 'E', 'P', 'r']);
+const BEAM_STOP = new Set(['#', 'x', 'M', 'E', 'S', 'r']);
 export class HallV2 {
-  constructor(rows, trainers = []) { this.g = new Grid(rows); this.tr = new Set(trainers.map(([x, y]) => k2(x, y))); }
+  constructor(rows, trainers = [], prism = null) {
+    this.g = new Grid(rows); this.tr = new Set(trainers.map(([x, y]) => k2(x, y)));
+    this.prism = prism && prism.prisms?.length ? prism : null;
+    this.pi = new Map((this.prism?.prisms || []).map((p, i) => [k2(...p.at), i]));
+  }
   at(x, y) { return this.g.at(x, y); }
+  /** Prism i's facing (0..3 = U R D L) under state b. */
+  facing(i, b) { return (this.prism.prisms[i].facing + ((b >> (2 + 2 * i)) & 3)) % 4; }
+  /** Turn the prism at (x,y) once -> new b (or b if no prism there). */
+  turn(x, y, b) { const i = this.pi.get(k2(x, y)); if (i == null) return b; const s = 2 + 2 * i, t = ((b >> s) & 3) + 1; return (b & ~(3 << s)) | ((t & 3) << s); }
+  /** Trace every beam under b -> {segs: [[x0,y0,x1,y1],..] cell centres, lit: Set of receiver keys}. Doors 'L' never block
+   *  (they are what the beam opens), closed gates do. */
+  beam(b) {
+    const segs = [], lit = new Set(); if (!this.prism) return { segs, lit };
+    for (const s of this.prism.sources || []) {
+      let [x, y] = s.at, dir = s.dir, sx = x, sy = y; const seen = new Set();
+      for (let n = 0; n < 400; n++) {
+        const key = `${x},${y},${dir}`; if (seen.has(key)) break; seen.add(key);
+        const nx = x + DIRS[dir][0], ny = y + DIRS[dir][1], c = this.at(nx, ny);
+        const gate = 'abcd'.includes(c) && c && !this.openGate(c, b);
+        if (c == null || BEAM_STOP.has(c) || gate) { if (c === 'r') { lit.add(k2(nx, ny)); x = nx; y = ny; } break; }
+        x = nx; y = ny;
+        if (c === 'P') { const d = 'URDL'[this.facing(this.pi.get(k2(x, y)), b)]; if (d !== dir) { segs.push([sx, sy, x, y]); sx = x; sy = y; dir = d; } }
+      }
+      segs.push([sx, sy, x, y]);
+    }
+    return { segs, lit };
+  }
+  /** All receivers lit under b? */
+  beamOpen(b) { if (!this.prism) return false; const rs = this.g.find('r'); if (!rs.length) return false; const { lit } = this.beam(b); return rs.every(([x, y]) => lit.has(k2(x, y))); }
+  openGate(c, b) { return c === 'a' ? (b & 1) === 0 : c === 'b' ? (b & 1) === 1 : c === 'c' ? (b & 2) === 0 : c === 'd' ? (b & 2) === 2 : true; }
   /** Can you stand on (x,y) with gate bits b? */
   open(x, y, b) {
     const c = this.at(x, y);
     if (V2_SOLID.has(c) || this.tr.has(k2(x, y))) return false;
+    if (c === 'L') return this.beamOpen(b);
     if (c === 'a') return (b & 1) === 0; if (c === 'b') return (b & 1) === 1;
     if (c === 'c') return (b & 2) === 0; if (c === 'd') return (b & 2) === 2;
     return true;
@@ -327,6 +363,7 @@ export class HallV2 {
   }
   *moves([x, y, b]) {
     for (const d of 'UDLR') { const nx = x + DIRS[d][0], ny = y + DIRS[d][1]; if (this.open(nx, ny, b)) { const r = this.enter(nx, ny, b, d); yield [d, [r.x, r.y, r.b], r.trail]; } }
+    if (this.prism) for (const d of 'UDLR') { const nx = x + DIRS[d][0], ny = y + DIRS[d][1]; if (this.pi.has(k2(nx, ny))) yield ['A' + d, [x, y, this.turn(nx, ny, b)], [[x, y]]]; }
   }
   /** BFS door -> dais front. -> {moves, states, softlocks} | null. Softlock = a reachable state that can not reach both the
    *  dais front and the door again. */
@@ -369,5 +406,5 @@ export class HallV2 {
 /** The hall_v2 model of a built map JSON: {hall, rays, need, trainers} (trainers = kind trainer_hooded, map order). */
 export function hallV2FromMap(m) {
   const tr = (m.npcs || []).filter((n) => n.kind === 'trainer_hooded');
-  return { hall: new HallV2(m.hall_v2.grid, tr.map((n) => [n.x, n.y])), rays: tr.map((n) => n.sight_cells || []), need: Math.min(4, tr.length), trainers: tr };
+  return { hall: new HallV2(m.hall_v2.grid, tr.map((n) => [n.x, n.y]), m.hall_v2.prism), rays: tr.map((n) => n.sight_cells || []), need: Math.min(4, tr.length), trainers: tr };
 }

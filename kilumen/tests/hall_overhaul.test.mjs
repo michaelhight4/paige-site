@@ -59,7 +59,7 @@ for (const h of HALLS) {
   });
 
   test(`${h}: the dais is NOT reachable by plain walking (no plates, pushes or warps) - the puzzle gates the Master`, () => {
-    const m = mapJson(h), g = new HallV2(m.hall_v2.grid, trainers(m).map((n) => [n.x, n.y]));
+    const m = mapJson(h), g = new HallV2(m.hall_v2.grid, trainers(m).map((n) => [n.x, n.y]), m.hall_v2.prism);
     const [sx, sy] = m.hall_v2.arrival, [dx, dy] = m.hall_v2.dais_front, seenC = new Set([`${sx},${sy}`]), q = [[sx, sy]];
     while (q.length) {
       const [x, y] = q.shift();
@@ -178,4 +178,40 @@ test('system_halls keys exist and hall text has no banned words', () => {
   const BANNED = /\b(PP|shiny|super effective|Pok[eé]dex|Pok[eé] Ball|nurse|weed|routes?|berr(y|ies)|gym)\b/i;
   for (const h of HALLS) { const t = JSON.stringify(lines.maps[`${h}_hall_int`] || {}); assert.ok(!BANNED.test(t), `${h}: ${t.match(BANNED)?.[0]}`); }
   assert.ok(!BANNED.test(JSON.stringify(lines.system_halls)));
+});
+
+// ---- Revival Heights prism relay (Gary Oct 29 2026: restored in place of the light gates) ----------------------------
+test('revival prism relay: door shut at the start, all 4 prisms needed, beam reaches the receiver only when solved', () => {
+  const m = mapJson('revival'), h = m.hall_v2, g = new HallV2(h.grid, trainers(m).map((n) => [n.x, n.y]), h.prism);
+  assert.ok(!/[abT]/.test(h.grid.join('')), 'no light gates / plates left in Revival');
+  assert.equal(h.prism.prisms.length, 4); assert.equal(g.beamOpen(0), false);
+  const [[lx, ly]] = h.prism.door; assert.equal(h.grid[ly][lx], 'L'); assert.equal(g.open(lx, ly, 0), false);
+  let b = 0; for (const [i, want] of [[0, 2], [1, 1], [2, 0], [3, 1]]) { const pr = h.prism.prisms[i]; while (g.facing(i, b) !== want) b = g.turn(...pr.at, b); }
+  assert.equal(g.beamOpen(b), true); assert.equal(g.open(lx, ly, b), true);
+  for (let i = 0; i < 4; i++) { const pr = h.prism.prisms[i]; let bb = g.turn(...pr.at, b); assert.equal(g.beamOpen(bb), false, `prism ${i} matters`); }
+  const turned = new Set(), [sx, sy] = h.door; let x = sx, y = sy, s = 0;
+  for (const mv of h.solution_moves.match(/A?[UDLR]/g)) { const d = { U: [0, -1], D: [0, 1], L: [-1, 0], R: [1, 0] }[mv.at(-1)];
+    if (mv[0] === 'A') { turned.add(`${x + d[0]},${y + d[1]}`); s = g.turn(x + d[0], y + d[1], s); } else { const r = g.enter(x + d[0], y + d[1], s, mv); x = r.x; y = r.y; s = r.b; } }
+  assert.equal(turned.size, 4, 'the shortest walk turns every prism'); assert.deepEqual([x, y], h.dais_front);
+});
+test('revival prism relay: grid fit - prisms / emitter / receiver / crate solid, one-square gaps walkable, NPCs off beam cells', () => {
+  const m = mapJson('revival'), h = m.hall_v2, col = m.layers.collision, g = new HallV2(h.grid, [], h.prism);
+  for (let y = 0; y < h.grid.length; y++) for (let x = 0; x < h.grid[y].length; x++) {
+    const c = h.grid[y][x];
+    if ('PEr'.includes(c)) assert.ok(col[y][x] > 0, `${c} at ${x},${y} must be solid`);
+    if (c === '.') assert.equal(col[y][x], 0, `floor ${x},${y} blocked (furniture on a walk cell)`);
+  }
+  for (const pr of h.prism.prisms) assert.ok([[0, 1], [0, -1], [1, 0], [-1, 0]].some(([dx, dy]) => g.open(pr.at[0] + dx, pr.at[1] + dy, 0)), 'a prism you can stand next to');
+  let b = 0; for (const [i, want] of [[0, 2], [1, 1], [2, 0], [3, 1]]) while (g.facing(i, b) !== want) b = g.turn(...h.prism.prisms[i].at, b);
+  const cells = new Set(); for (const [x0, y0, x1, y1] of g.beam(b).segs) for (let t = 0; t <= Math.abs(x1 - x0) + Math.abs(y1 - y0); t++) cells.add(`${x0 + Math.sign(x1 - x0) * t},${y0 + Math.sign(y1 - y0) * t}`);
+  for (const n of m.npcs) assert.ok(!cells.has(`${n.x},${n.y}`), `${n.id} stands in the beam`);
+});
+test('revival prism relay runtime: A on a prism turns it, the door opens on the 12th right turn, beam draws', async () => {
+  const m = mapJson('revival'), h = m.hall_v2, f = fakeScene('revival'), hv = f.sc.pg?.hallV2 || f.hv;
+  assert.ok(hv?.turnPrism, 'hall v2 runtime exposes turnPrism');
+  const [[lx, ly]] = h.prism.door; assert.ok(f.sc.map.layers.collision[ly][lx] > 0);
+  let r; for (const [i, n] of [[0, 3], [1, 3], [2, 3], [3, 2]]) for (let k = 0; k < n; k++) r = hv.turnPrism(...h.prism.prisms[i].at);
+  assert.equal(r.open, true); assert.equal(f.sc.map.layers.collision[ly][lx], 0);
+  const calls = []; const ctx = new Proxy({}, { get: (_, k) => (typeof k === 'string' ? (...a) => calls.push(k) : undefined), set: () => true });
+  hv.drawBeam(ctx, { zoom: 1, cam: { x: 0, y: 0 }, ms: 0 }); assert.ok(calls.filter((k) => k === 'lineTo').length >= 5, 'beam segments drawn');
 });

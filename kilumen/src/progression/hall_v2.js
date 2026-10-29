@@ -13,8 +13,12 @@
 //    1.3^wins (wins = counter master_<zone>_wins, at least 1 once beaten), levels capped at KILUMEN_RULES.maxLevel (100).
 //    A rematch win bumps the counter and pays a flat REMATCH_PRIZE (1200 gold, Gary Oct 29 2026; no difficulty / perk
 //    multipliers, no coin), said in system_halls.rematch_won ({prize}, bare number). The first Master win keeps its normal prize + coin.
+//  - Prism relay (Revival Heights, Gary Oct 29 2026; replaces its light gates): hall_v2.prism + grid 'E' emitter, 'P'
+//    prisms (A turns one U->R->D->L), 'r' receiver, 'L' crystal door. The live beam is drawn over the floor every frame
+//    (HallV2.beam = the same trace the solver uses); the door opens while the receiver is lit. Turns live in the state bits.
 //  - Trainers walk back to their seat after a talk / battle so the walk the solver proved stays open.
 import { HallV2, V2_PUSH } from './puzzles.js?v=v0.2.85-alpha';
+import { TILE } from '../overworld/constants.js?v=v0.2.85-alpha';
 import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.85-alpha';
 import { applyHallAnim, hallAnimOn } from './hall_anim.js?v=v0.2.85-alpha';
 
@@ -80,7 +84,14 @@ export function attachHallV2(scene, ui, pg) {
           if (L === 'ground') { if (!open && g.closed) m.setTile('ground', x, y, g.closed); }
           else m.setTile(L, x, y, open ? g.open || 0 : g.closed);
         }
-      } else if (ch === 'T' || ch === 'U') m.setTile('ground', x, y, (ch === 'T' ? T.plate0 : T.plate1)[(ch === 'T' ? b & 1 : (b >> 1) & 1)]);
+      } else if (ch === 'L') {
+        const open = c.model.beamOpen(b) || (scene.player?.x === x && scene.player?.y === y);
+        m.layers.collision[y][x] = open ? 0 : 6;
+        if (tileOk('crystal_barrier_lit')) m.setTile('decoration', x, y, open ? 'crystal_barrier_dim' : 'crystal_barrier_lit');
+      } else if (ch === 'E') { if (tileOk('i_beam_emitter')) m.setTile('decoration', x, y, 'i_beam_emitter'); m.layers.collision[y][x] = 1; }
+      else if (ch === 'r') { if (tileOk('i_beam_receiver_off')) m.setTile('decoration', x, y, c.model.beam(b).lit.has(`${x},${y}`) ? 'i_beam_receiver_on' : 'i_beam_receiver_off'); m.layers.collision[y][x] = 1; }
+      else if (ch === 'P') m.layers.collision[y][x] = 1;
+      else if (ch === 'T' || ch === 'U') m.setTile('ground', x, y, (ch === 'T' ? T.plate0 : T.plate1)[(ch === 'T' ? b & 1 : (b >> 1) & 1)]);
     }
     scene._dirty = true;
   };
@@ -134,6 +145,57 @@ export function attachHallV2(scene, ui, pg) {
     };
   }
 
+  // ---- prism relay: A on a prism turns it; the beam is drawn live ----------------------------------------------------
+  hv.turnPrism = (x, y) => {
+    const c = hv.cur; if (!c?.model.prism || !c.model.pi.has(`${x},${y}`)) return null;
+    const was = c.model.beamOpen(c.bits), nb = c.model.turn(x, y, c.bits);
+    c.bits = nb; (store.puzzles ||= {})[`v2_${c.json.hall_v2.zone}`] = { bits: nb }; hv.apply();
+    const i = c.model.pi.get(`${x},${y}`), now = c.model.beamOpen(nb);
+    scene.audio?.sfx?.('select'); scene.log?.push({ tick: scene.tick, type: 'hall_prism', at: [x, y], facing: 'URDL'[c.model.facing(i, nb)], open: now });
+    if (now && !was) { scene.audio?.sfx?.('warp'); scene.toast?.('The crystal door hums open.' /* PH: Text Bot key system_halls.prism_open */); }
+    return { facing: 'URDL'[c.model.facing(i, nb)], open: now };
+  };
+  if (typeof scene.interact === 'function') {
+    const interact = scene.interact.bind(scene);
+    scene.interact = (...a) => {
+      const p = scene.player, c = hv.cur;
+      if (!scene.busy && c?.model.prism && p) {
+        const d = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[p.facing] || [0, 0];
+        if (hv.turnPrism(p.x + d[0], p.y + d[1])) return;
+      }
+      return interact(...a);
+    };
+  }
+  const drawBeam = (ctx, v) => {
+    const c = hv.cur; if (!c?.model.prism || scene.map?.json !== c.json) return;
+    const z = v.zoom, P = (gx, gy) => [((gx + 0.5) * TILE - v.cam.x) * z, ((gy + 0.5) * TILE - v.cam.y) * z], { segs, lit } = c.model.beam(c.bits);
+    const pulse = 0.75 + 0.25 * Math.sin((v.ms || 0) / 160);
+    ctx.save(); ctx.lineCap = 'round'; ctx.globalCompositeOperation = 'lighter';
+    for (const [w, col] of [[18, `rgba(170,120,255,${0.25 * pulse})`], [8, `rgba(200,170,255,${0.7 * pulse})`], [3, 'rgba(255,250,255,0.95)']]) {
+      ctx.lineWidth = w * z / 2; ctx.strokeStyle = col; ctx.beginPath();
+      for (const [x0, y0, x1, y1] of segs) { ctx.moveTo(...P(x0, y0)); ctx.lineTo(...P(x1, y1)); }
+      ctx.stroke();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    c.model.prism.prisms.forEach((pr, i) => { // prism body + a notch on its facing side
+      const [cx, cy] = P(...pr.at), r = TILE * z * 0.34, f = c.model.facing(i, c.bits), [dx, dy] = [[0, -1], [1, 0], [0, 1], [-1, 0]][f];
+      ctx.fillStyle = 'rgba(120,90,200,0.9)'; ctx.strokeStyle = '#efe4ff'; ctx.lineWidth = 2 * z;
+      ctx.beginPath(); ctx.moveTo(cx, cy - r); ctx.lineTo(cx + r, cy); ctx.lineTo(cx, cy + r); ctx.lineTo(cx - r, cy); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#fff6c8'; ctx.beginPath(); ctx.arc(cx + dx * r * 0.95, cy + dy * r * 0.95, r * 0.28, 0, 7); ctx.fill();
+    });
+    for (const k of lit) { const [x, y] = k.split(',').map(Number), [cx, cy] = P(x, y); ctx.fillStyle = `rgba(255,240,255,${0.5 * pulse})`; ctx.beginPath(); ctx.arc(cx, cy, TILE * z * 0.45, 0, 7); ctx.fill(); }
+    ctx.restore();
+  };
+  hv.drawBeam = drawBeam;
+  if (typeof scene.view === 'function') {
+    const view = scene.view.bind(scene);
+    scene.view = (...a) => {
+      const v = view(...a); if (!hv.cur?.model.prism || !v) return v;
+      const under = v.markers; v.markers = (ctx, vv) => { drawBeam(ctx, vv || v); return typeof under === 'function' ? under(ctx, vv) : undefined; };
+      return v;
+    };
+  }
+
   // ---- map entry -------------------------------------------------------------------------------------------------------
   hv.enter = () => {
     for (const t of hv.cur?.timers || []) clearTimeout(t);
@@ -142,7 +204,7 @@ export function attachHallV2(scene, ui, pg) {
     const h = m.hall_v2, z = h.zone, p = scene.player;
     const atDoor = p && ((p.x === h.arrival[0] && p.y === h.arrival[1]) || (p.x === h.door[0] && p.y === h.door[1]));
     const saved = store.puzzles?.[`v2_${z}`]?.bits | 0;
-    hv.cur = { json: m, model: new HallV2(h.grid, hallTrainers(m).map((n) => [n.x, n.y])), bits: atDoor ? 0 : saved, release: null, sunk: new Set(), timers: [] };
+    hv.cur = { json: m, model: new HallV2(h.grid, hallTrainers(m).map((n) => [n.x, n.y]), h.prism), bits: atDoor ? 0 : saved, release: null, sunk: new Set(), timers: [] };
     (store.puzzles ||= {})[`v2_${z}`] = { bits: hv.cur.bits };
     if (hallAnimOn()) applyHallAnim(scene.map);
     hv.apply(); syncWins();
