@@ -3,11 +3,11 @@
 // until real data lands). Only runs from the phone Team / Pack menus (overworld, menu open), never in a battle, talk or
 // cutscene; it only marks the save dirty (the normal autosave rules decide when to write).
 // Text: every player line below is a /* PH */ fallback; keys requested from Text Bot in data/textbot_requests_qol_b.md.
-import { learnsetFor, applyLearn } from '../overnight/learnsets.js?v=v0.2.54-alpha';
-import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.54-alpha';
-import { toID } from '../battle/data/skills.js?v=v0.2.54-alpha';
-import { speciesInfo, defaultSkills, displayName } from '../systems/creature.js?v=v0.2.54-alpha';
-import { qolFlags } from './flags.js?v=v0.2.54-alpha';
+import { learnsetFor, applyLearn } from '../overnight/learnsets.js?v=v0.2.55-alpha';
+import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.55-alpha';
+import { toID } from '../battle/data/skills.js?v=v0.2.55-alpha';
+import { speciesInfo, defaultSkills, displayName } from '../systems/creature.js?v=v0.2.55-alpha';
+import { qolFlags } from './flags.js?v=v0.2.55-alpha';
 
 const SK = {}; for (const [name, el] of Object.values(PLACEHOLDER_SKILLS).flat()) SK[toID(name)] ||= { name, el };
 export const skillName = (id) => SK[id]?.name || (id ? id[0].toUpperCase() + id.slice(1) : '?');
@@ -40,7 +40,7 @@ export function teach(bag, id, c, slot, flags = qolFlags()) {
 async function learnWithSlot(ui, c, skill, doLearn) {
   if ((c.skills || []).length < 4) return doLearn(null);
   const k = await ui.ask('team', [`${displayName(c)} knows four skills. Replace which one with ${skillName(skill)}?`] /* PH */, [...c.skills.map(skillName), 'Keep all four' /* PH */], { pat: 'dots' });
-  return k < 4 ? doLearn(k) : { result: 'kept' };
+  return k >= 0 && k < 4 ? doLearn(k) : { result: 'kept' };
 }
 const say = (ui, c, skill, r) => ui.note(r.result === 'learned' ? `${displayName(c)} learned ${skillName(skill)}.` : r.result === 'swapped' ? `${displayName(c)} forgot ${skillName(r.old)} and learned ${skillName(skill)}.`
   : r.result === 'known' ? `${displayName(c)} already knows it.` : r.result === 'unfit' ? `${displayName(c)} can't learn that one.` : 'Nothing changed.', 2200) /* PH */;
@@ -54,7 +54,7 @@ export function installQolSkills(ui, sys, flags = qolFlags(ui.q || undefined)) {
     if (flags.skillRecall && recallable(c).length) out.push(['Recall skill' /* PH */, async () => {
       const list = recallable(c);
       const j = await ui.ask('team', [`Which skill should ${displayName(c)} remember?`] /* PH */, [...list.map(skillName), 'Back'], { pat: 'dots' });
-      if (j >= list.length) return;
+      if (j < 0 || j >= list.length) return; // ask() gives -1 when closed
       const r = await learnWithSlot(ui, c, list[j], (slot) => applyLearn(c, list[j], slot));
       if (r.result !== 'kept') dirty(); say(ui, c, list[j], r);
     }]);

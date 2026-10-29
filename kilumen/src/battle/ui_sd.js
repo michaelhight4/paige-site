@@ -2,20 +2,20 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.54-alpha';
-import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.54-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
-import { skillTag } from '../qol/matchup.js?v=v0.2.54-alpha';
-import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.54-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
+import { KilumenBattle } from './battle.js?v=v0.2.55-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.55-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
+import { skillTag } from '../qol/matchup.js?v=v0.2.55-alpha';
+import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.55-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
-import { DEV } from '../dev/runtime.js?v=v0.2.54-alpha';
-import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.54-alpha'; // battle mode switch (wild only, Oct 29 2026)
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.54-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.54-alpha';
-import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.54-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.54-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.55-alpha';
+import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.55-alpha'; // battle mode switch (wild only, Oct 29 2026)
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.55-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.55-alpha';
+import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.55-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.55-alpha';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.54-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.55-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -378,7 +378,7 @@ export function makeSdBattle(ui, opts, h) {
   const autoRun = async () => {
     if (!DEV.active || kb.ended || busy) return;
     busy = true; $('#b-cmds').hidden = true; $('#b-msg').textContent = 'Auto-completing…';
-    const AB = await import('../dev/autobattle.js?v=v0.2.54-alpha');
+    const AB = await import('../dev/autobattle.js?v=v0.2.55-alpha');
     const entry = AB.runAuto(kb, { trainer, owned });
     if (!kb.ended) { busy = false; $('#b-msg').textContent = 'Auto-complete stopped early (see the dev battle logs).'; AB.afterFinish(entry); return; }
     await finish();

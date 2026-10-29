@@ -5,7 +5,8 @@
 export const QOL_DEFAULTS = Object.freeze({ pace: true, text: true, run: true });
 export const PACES = [1, 2, 3];
 export const TEXT_SPEEDS = { slow: 28, normal: 14, fast: 6, instant: 0 }; // ms per character (--reveal-ms)
-const KEY = 'kilumen.qol.v1';
+export const KEY = 'kilumen_alpha_qol.v1'; // live ALPHA_PREFIX (src/alpha.js) + qol.v1
+const OLD_KEY = 'kilumen.qol.v1'; // pre-v0.2.55 key: moved to KEY once, then removed
 const DEF = { pace: 1, text: 'normal', run: 'hold' };
 
 export function qolFlags(query) {
@@ -20,6 +21,10 @@ export function qolFlags(query) {
 
 export function loadSettings(store = globalThis.localStorage) {
   let s = {};
+  try {
+    const old = store?.getItem(OLD_KEY);
+    if (old != null) { if (store.getItem(KEY) == null) store.setItem(KEY, old); store.removeItem(OLD_KEY); }
+  } catch { /* private mode */ }
   try { s = JSON.parse(store?.getItem(KEY) || '{}') || {}; } catch { s = {}; }
   return { pace: PACES.includes(s.pace) ? s.pace : DEF.pace, text: s.text in TEXT_SPEEDS ? s.text : DEF.text, run: s.run === 'toggle' ? 'toggle' : 'hold' };
 }
