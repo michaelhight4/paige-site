@@ -34,11 +34,13 @@ test('§L: bin line follows the coin count (6 -> bins6_flies, 7 -> bins7_flies)'
 
 for (const n of [6, 7]) test(`§L: hand-off at ${n} coins plays bins${n}, sets flags, gives the sheet`, async () => {
   const flags = F(...coins(n)), said = [], bag = new Map();
-  const scene = { flags, lines: {}, map: { name: 'lanternport' }, setFlag: (f) => flags.add(f),
+  const L = J('text/overworld_lines.json'); const scene = { flags, lines: L, map: { name: 'lanternport' }, setFlag: (f) => flags.add(f),
     say: async (p) => { said.push(p.join(' ')); }, systems: { bag: { has: (i) => bag.has(i), add: (i) => bag.set(i, 1) } } };
   const api = attachRegion78(scene, {}); await api.pageHandoff(); api.stop();
-  assert.ok(said.some((s) => s.includes(`bins${n}_flies`)));
-  assert.ok(!said.some((s) => s.includes(`bins${n === 6 ? 7 : 6}_flies`)));
+  const other = n === 6 ? 7 : 6, txt = (m) => L.ron.lanternport[`bins${m}_flies`].pages.join(' ');
+  assert.ok(said.includes(txt(n))); assert.ok(!said.includes(txt(other)));
+  assert.ok(said.some((s) => s.startsWith(L.lore.lanternport.page.pages[0])));
+  assert.ok(!said.some((s) => s.includes('PLACEHOLDER')));
   for (const f of ['ron_page_shared', 'read_log_lanternport', 'item_field_reading_sheet']) assert.ok(flags.has(f), f);
   assert.ok(bag.has('field_reading_sheet'));
 });
@@ -66,5 +68,5 @@ test('hall order: old saves are never locked out of halls they already beat (or 
   assert.equal(hallLockFor('mirefen_hall_int', F('beat_master_mirefen')), null);
   assert.equal(hallLockFor('saltmere_hall_int', F('beat_master_revival')), null); // skipped order on an old save
   const tl = J('text/overworld_lines.json').system_field?.hall_locked_prev;
-  assert.ok(tl === undefined || tl.pages?.length); // Text Bot key requested; code has a fallback
+  assert.ok(tl.pages.join(' ').includes('{master}')); // Text Bot key, filled with the previous town name
 });

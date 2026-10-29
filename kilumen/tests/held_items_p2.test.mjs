@@ -62,7 +62,7 @@ test('Master and rival picks: real items, no repeats, Charms match an element on
     assert.equal(new Set(ids).size, ids.length, role);
     for (const id of ids) assert.ok(HELD_BATTLE_ITEMS[id], role + ' ' + id);
   }
-  assert.equal(heldRoleFor({ map: 'x', id: 'lanternport_ron_5' }), 'ron_5');
+  assert.equal(heldRoleFor({ map: 'x', id: 'tidewater_coast_ron_5' }), 'ron_5');
   assert.equal(heldRoleFor({ map: 'mirefen_hall_int', id: 'hall_helper' }), null);
   const team = [mk('rillop', 30), mk('cindrip', 30, { held: 'moss_wrap' })];
   const out = applyHeldPicks('master_fernwick', team);

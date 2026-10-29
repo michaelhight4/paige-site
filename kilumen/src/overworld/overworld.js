@@ -402,7 +402,7 @@ export class Overworld {
             const hallNeed = !DEV.masterKey && hallLockFor(w.to, this.flags);
             if (hallNeed) { // hall N locked until Master N-1 is beaten
               const prev = hallNeed.replace('beat_master_', ''), town = prev.charAt(0).toUpperCase() + prev.slice(1);
-              this.toast((this.text(HALL_LOCK_KEY) ?? 'The hall is locked. Beat the {master} Master first.').replace('{master}', town));
+              { let v = this.lines; for (const k of HALL_LOCK_KEY.split('.')) v = v?.[k]; const p = Array.isArray(v) ? v : v?.pages; if (p?.length) this.toast(p.join(' ').replaceAll('{master}', town)); }
               return 'stop';
             }
             if (!DEV.masterKey && this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing

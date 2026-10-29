@@ -14,7 +14,7 @@ Placeholders live in code until these keys exist (Text Bot owns text/*.py). Plan
 | `maps.house_1f.ron_home_after_lanternport`, `..._after_cindervale` | ron_whereabouts.js | Ron's home reaction to coins 7 / 8 |
 
 ## Oct 29 2026, story §L rev 2 + hall order (coder)
-Still needed (code has placeholders or fallbacks):
+DONE (Text Bot, 3:56 PM CT, backups *_prer78b_155452); wired, placeholders removed:
 - `ron.lanternport.greet`, `bins6_flies`, `bins7_flies`, `page_offer`, `page_why`, `page_give`, `leave`, `ron6_plant`, and `lore.lanternport.page`. Until these land, the hand-off falls back to `system_story_r78.r7_ron_page_handoff` and `r7_ron_flies`.
 - `system_story_r78.field_reading_sheet_name` / `_desc` (key item Field Reading Sheet).
 - `system_field.hall_locked_prev`: the hall door prompt, with a {master} slot for the previous town.

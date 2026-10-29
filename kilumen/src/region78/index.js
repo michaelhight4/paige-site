@@ -6,7 +6,7 @@
 //   Tidewater coin; may fire before or after the Lanternport hall, so the bin line reads the live coin count (6 or 7 bags).
 //   Sets ron_page_shared + read_log_lanternport, gives the key item Field Reading Sheet (item_field_reading_sheet).
 //   Ron order: Ron 5 Tidewater (optional) -> this hand-off -> Cindervale -> Ron 6 Aurelith -> Ron 7 Stadium roof (final).
-//   The old optional lanternport_ron_5 catch-up is removed.
+//   The old optional Lanternport Ron 5 catch-up is removed.
 // - Lanternport access: R78.lanternportGate (single config flag). Gary 3:51 PM CT: OPEN before the Tidewater coin (null).
 // - Promotions ID 18 / 20 (promoted_id18 / promoted_id20) unlock the R7 / R8 key card nodes (data/rt_benefits.json).
 // - ID cap flags id_cap_r7 / id_cap_r8 for RITA when company XP sits at the region cap.
@@ -22,19 +22,7 @@ export const R78 = {
   flags: ['ron_page_shared', 'has_log_page', 'read_log_lanternport', 'item_field_reading_sheet', 'promoted_id18', 'promoted_id20', 'rt_keycard_r7', 'rt_keycard_r8', 'id_cap_r7', 'id_cap_r8'],
 };
 
-export const PLACEHOLDER = {
-  'ron.lanternport.greet': ['[PLACEHOLDER ron.lanternport.greet] Ron is sitting on the harbour steps. "Oh. Hi."'],
-  'ron.lanternport.bins6_flies': ['[PLACEHOLDER ron.lanternport.bins6_flies] "Six bags out back now. The flies have names now."'],
-  'ron.lanternport.bins7_flies': ['[PLACEHOLDER ron.lanternport.bins7_flies] "Seven bags out back now. The flies have names now."'],
-  'ron.lanternport.page_offer': ['[PLACEHOLDER ron.lanternport.page_offer] He takes out the page and unfolds it.'],
-  'lore.lanternport.page': ['[PLACEHOLDER lore.lanternport.page] A field reading sheet. "Drift: bonded, stable. Not a fault."'],
-  'ron.lanternport.page_why': ['[PLACEHOLDER ron.lanternport.page_why]'],
-  'ron.lanternport.page_give': ['[PLACEHOLDER ron.lanternport.page_give]'],
-  'ron.lanternport.leave': ['[PLACEHOLDER ron.lanternport.leave]'],
-  'ron.lanternport.ron6_plant': ['[PLACEHOLDER ron.lanternport.ron6_plant]'],
-};
-/** Text Bot's earlier r78 keys stand in until the §L keys land. */
-const FALLBACK = { 'ron.lanternport.greet': 'system_story_r78.r7_ron_page_handoff', 'ron.lanternport.bins6_flies': 'system_story_r78.r7_ron_flies', 'ron.lanternport.bins7_flies': 'system_story_r78.r7_ron_flies' };
+// §L text: Text Bot keys ron.lanternport.* + lore.lanternport.page (DRAFT, Oct 29 3:56 PM CT); placeholders removed.
 export const COIN_FLAGS = ['fernwick', 'saltmere', 'revival', 'frostspire', 'mirefen', 'tidewater', 'lanternport', 'cindervale'].map((z) => `beat_master_${z}`);
 export const coinCount = (flags) => COIN_FLAGS.filter((f) => flags.has(f)).length;
 /** Pure: the §L bin line key for the coin count when the scene fires (6 or 7; 8+ never happens before Cindervale, clamp). */
@@ -69,7 +57,7 @@ export function attachRegion78(scene, { systems } = {}) {
   const vars = () => scene.textVars?.() || {};
   const fill = (s) => String(s).replace(/\{(\w+)\}/g, (m, k) => (vars()[k] ?? m));
   const look = (k) => { const v = getPath(scene.lines, k); const p = Array.isArray(v) ? v : v?.pages; return p?.length ? p : null; };
-  const pages = (k) => (look(k) || (FALLBACK[k] && look(FALLBACK[k])) || PLACEHOLDER[k] || []).map(fill);
+  const pages = (k) => (look(k) || []).map(fill);
   const say = (k, sp) => (pages(k).length && scene.say ? scene.say(pages(k), sp) : Promise.resolve());
 
   async function pageHandoff() {

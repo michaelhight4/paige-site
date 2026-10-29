@@ -68,7 +68,7 @@ export function withOpener(lines, e, flags = new Set(), env = {}) {
   return { ...e, pages: [...op, ...(e.pages || [])], lines: Array.isArray(e.lines) ? e.lines.map(pre) : e.lines, _openerDone: true };
 }
 
-/** Multi-line afters: `after_2` (Text Bot v0.4.11, e.g. lanternport_ron_5) plays straight after `after`, same box sequence. */
+/** Multi-line afters: `after_2` (Text Bot v0.4.11, e.g. a rival's two-box parting) plays straight after `after`, same box sequence. */
 export function chainAfter(e) {
   if (!e || !Array.isArray(e.after_2) || !e.after_2.length || e._after2Done) return e;
   return { ...e, after: [...(e.after || []), ...e.after_2], _after2Done: true };

@@ -13100,40 +13100,6 @@
    "area_name": "Tidewater Master's Hall"
   },
   "lanternport": {
-   "lanternport_ron_5": {
-    "pages": [
-     "The neighbour left a note about the bins.",
-     "I'm choosing to battle you instead, {nick}."
-    ],
-    "battle_lost": [
-     "Yeah. You'd have won with or without this.",
-     "Hang on. Before you go."
-    ],
-    "battle_won": [
-     "Don't read into it.",
-     "I'll be around, {nick}. I've got something for you."
-    ],
-    "after": [
-     "Found this in a lost-and-found box at the station. Revival Tech paper.",
-     "I read it. Then I thought about keeping it. Then I didn't."
-    ],
-    "after_2": [
-     "No job, remember? So I'm not doing this for the company.",
-     "I'm doing it because they're ours. Same as you."
-    ],
-    "opener": "ron_battle_openers.ron_rival_lanternport",
-    "note": "Ron battle (GD ron_5); the existing opener ron_rival_lanternport plays first, then these pages. DRAFT, pending Gary",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "The neighbour left a note about the bins.",
-       "I'm choosing to battle you instead, {nick}."
-      ]
-     }
-    ]
-   },
    "lanternport_trainer_1": {
     "pages": [
      "End of the pier's my office. Today it's a battlefield."
@@ -18816,6 +18782,16 @@
     "Lift. Which floor?"
    ],
    "note": "Aurelith Galleria + Grand hotel lifts; floor labels stay in the map json",
+   "parity": "M1",
+   "build": "different",
+   "status": "DRAFT"
+  },
+  "hall_locked_prev": {
+   "pages": [
+    "The door's locked. A note says:",
+    "\"Beat the {master} Master first.\""
+   ],
+   "note": "{master} = previous town name",
    "parity": "M1",
    "build": "different",
    "status": "DRAFT"
@@ -26073,6 +26049,98 @@
    "status": "DRAFT",
    "parity": "F15",
    "build": "partial"
+  },
+  "field_reading_sheet_name": {
+   "pages": [
+    "Field Reading Sheet"
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "field_reading_sheet_desc": {
+   "pages": [
+    "A field team's reading sheet, from Ron.",
+    "\"Drift: bonded, stable. Not a fault.\""
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  }
+ },
+ "ron": {
+  "lanternport": {
+   "greet": {
+    "pages": [
+     "Ron: Oh. Hi, {nick}.",
+     "Nice here. The gulls steal your chips, but politely."
+    ],
+    "status": "DRAFT"
+   },
+   "bins6_flies": {
+    "pages": [
+     "Ron: Six bags out back now. One per coin.",
+     "The flies have names now. Don't ask me their names."
+    ],
+    "status": "DRAFT"
+   },
+   "bins7_flies": {
+    "pages": [
+     "Ron: Seven bags out back now. Seven!",
+     "The flies have names now. Don't ask me their names."
+    ],
+    "status": "DRAFT"
+   },
+   "page_offer": {
+    "pages": [
+     "Ron: Remember the page I wouldn't show you?",
+     "He unfolds it carefully and holds it out."
+    ],
+    "status": "DRAFT"
+   },
+   "page_why": {
+    "pages": [
+     "Ron: First time anyone official said they're mine.",
+     "Not a fault. They wrote that down. On paper."
+    ],
+    "status": "DRAFT"
+   },
+   "page_give": {
+    "pages": [
+     "Ron: It says the team went north. You're going up there anyway.",
+     "Take it to them. I'm done chasing."
+    ],
+    "status": "DRAFT"
+   },
+   "leave": {
+    "pages": [
+     "Ron: I'm heading home for a bit. Bins won't empty themselves.",
+     "Well. They might. The flies are very organised."
+    ],
+    "status": "DRAFT"
+   },
+   "ron6_plant": {
+    "pages": [
+     "Ron: Then Aurelith, obviously.",
+     "Someone has to beat you, {nick}. Might as well be me."
+    ],
+    "status": "DRAFT"
+   }
+  }
+ },
+ "lore": {
+  "lanternport": {
+   "page": {
+    "pages": [
+     "FIELD READING SHEET. Neat, careful handwriting.",
+     "A swatch of colour. Not crystal violet. Its own.",
+     "\"Drift: bonded, stable. Not a fault.\"",
+     "At the bottom: \"Team heading north after the ore.\""
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }
