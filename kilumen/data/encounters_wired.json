@@ -543,6 +543,15 @@
      ],
      "cute_r1": true,
      "placeholder": true
+    },
+    {
+     "species": "briarlet",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 30,
+     "spread": "habitat"
     }
    ],
    "maps": [
@@ -634,6 +643,24 @@
      ],
      "weight": 5,
      "tier": "rare"
+    },
+    {
+     "species": "dewmite",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 14,
+     "spread": "habitat"
+    },
+    {
+     "species": "capling",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 14,
+     "spread": "habitat"
     }
    ],
    "band": "wild 9-13",
@@ -972,6 +999,60 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "capling",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "toadcap",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "ditchsnap",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "snapmoor",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "maps": [
@@ -1045,6 +1126,60 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "capling",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "toadcap",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "ditchsnap",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "snapmoor",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      33,
+      38
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "maps": [
@@ -1118,6 +1253,60 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "capling",
+     "level": [
+      34,
+      39
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "toadcap",
+     "level": [
+      34,
+      39
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "ditchsnap",
+     "level": [
+      34,
+      39
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "snapmoor",
+     "level": [
+      34,
+      39
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      34,
+      39
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      34,
+      39
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "maps": [
@@ -1164,6 +1353,42 @@
       "storm"
      ],
      "flood": true
+    },
+    {
+     "species": "ditchsnap",
+     "level": [
+      30,
+      41
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "snapmoor",
+     "level": [
+      30,
+      41
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      30,
+      41
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      30,
+      41
+     ],
+     "weight": 3,
+     "spread": "habitat"
     }
    ],
    "maps": [
@@ -1323,6 +1548,78 @@
      ],
      "cute_r2": true,
      "placeholder": true
+    },
+    {
+     "species": "peeplark",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 8,
+     "spread": "habitat"
+    },
+    {
+     "species": "larkspar",
+     "level": [
+      16,
+      16
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "dewmite",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 8,
+     "spread": "habitat"
+    },
+    {
+     "species": "huskling",
+     "level": [
+      16,
+      16
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebblant",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 8,
+     "spread": "habitat"
+    },
+    {
+     "species": "cairnant",
+     "level": [
+      16,
+      16
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "briarlet",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 8,
+     "spread": "habitat"
+    },
+    {
+     "species": "bramblehog",
+     "level": [
+      16,
+      16
+     ],
+     "weight": 4,
+     "spread": "habitat"
     }
    ],
    "band": "wild 12-16",
@@ -1378,6 +1675,24 @@
      ],
      "weight": 15,
      "tier": "uncommon"
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 11,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      16,
+      18
+     ],
+     "weight": 5,
+     "spread": "habitat"
     }
    ],
    "band": "wild 25-32",
@@ -1637,6 +1952,42 @@
      ],
      "cute_r2": true,
      "placeholder": true
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      15,
+      17
+     ],
+     "weight": 22,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      16,
+      17
+     ],
+     "weight": 11,
+     "spread": "habitat"
+    },
+    {
+     "species": "ledgedove",
+     "level": [
+      15,
+      17
+     ],
+     "weight": 22,
+     "spread": "habitat"
+    },
+    {
+     "species": "belfrydove",
+     "level": [
+      16,
+      17
+     ],
+     "weight": 11,
+     "spread": "habitat"
     }
    ],
    "band": "wild 15-18",
@@ -1722,6 +2073,42 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 7,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      16,
+      18
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "wavelin",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 7,
+     "spread": "habitat"
+    },
+    {
+     "species": "breakerfin",
+     "level": [
+      16,
+      18
+     ],
+     "weight": 3,
+     "spread": "habitat"
     }
    ],
    "band": "wild 28-34",
@@ -1834,6 +2221,24 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "wavelin",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 24,
+     "spread": "habitat"
+    },
+    {
+     "species": "breakerfin",
+     "level": [
+      16,
+      18
+     ],
+     "weight": 12,
+     "spread": "habitat"
     }
    ],
    "band": "wild 28-35",
@@ -2018,6 +2423,60 @@
      "weight": 4,
      "cute_r3": true,
      "placeholder": true
+    },
+    {
+     "species": "peeplark",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "larkspar",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebblant",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "cairnant",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebbit",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "rubblon",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 3,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2151,6 +2610,42 @@
      "weight": 4,
      "cute_r3": true,
      "placeholder": true
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      23,
+      24
+     ],
+     "weight": 7,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      23,
+      24
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "ledgedove",
+     "level": [
+      23,
+      24
+     ],
+     "weight": 7,
+     "spread": "habitat"
+    },
+    {
+     "species": "belfrydove",
+     "level": [
+      23,
+      24
+     ],
+     "weight": 4,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2307,6 +2802,78 @@
      ],
      "weight": 5,
      "cute_r4": true
+    },
+    {
+     "species": "peeplark",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "larkspar",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebblant",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "cairnant",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebbit",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "rubblon",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebbadillo",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "scutadillo",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2446,6 +3013,42 @@
      "time": [
       "night"
      ]
+    },
+    {
+     "species": "peeplark",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 8,
+     "spread": "habitat"
+    },
+    {
+     "species": "larkspar",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebbadillo",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 8,
+     "spread": "habitat"
+    },
+    {
+     "species": "scutadillo",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 4,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2482,6 +3085,60 @@
      ],
      "weight": 15,
      "cute_r4": true
+    },
+    {
+     "species": "pebbit",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "rubblon",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "stonepede",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "columnpede",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "delvelet",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "delvemaw",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2541,6 +3198,78 @@
       "day",
       "dusk"
      ]
+    },
+    {
+     "species": "peeplark",
+     "level": [
+      31,
+      34
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "larkspar",
+     "level": [
+      31,
+      34
+     ],
+     "weight": 1,
+     "spread": "habitat"
+    },
+    {
+     "species": "dewmite",
+     "level": [
+      31,
+      34
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "huskling",
+     "level": [
+      31,
+      34
+     ],
+     "weight": 1,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebblant",
+     "level": [
+      31,
+      34
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "cairnant",
+     "level": [
+      31,
+      34
+     ],
+     "weight": 1,
+     "spread": "habitat"
+    },
+    {
+     "species": "briarlet",
+     "level": [
+      31,
+      34
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "bramblehog",
+     "level": [
+      31,
+      34
+     ],
+     "weight": 1,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2609,6 +3338,78 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "peeplark",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "larkspar",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 1,
+     "spread": "habitat"
+    },
+    {
+     "species": "dewmite",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "huskling",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 1,
+     "spread": "habitat"
+    },
+    {
+     "species": "pebblant",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "cairnant",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 1,
+     "spread": "habitat"
+    },
+    {
+     "species": "briarlet",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "bramblehog",
+     "level": [
+      30,
+      34
+     ],
+     "weight": 1,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2646,6 +3447,42 @@
       35
      ],
      "weight": 10
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "dartling",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "streambarb",
+     "level": [
+      28,
+      35
+     ],
+     "weight": 3,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2706,6 +3543,60 @@
       "day",
       "dusk"
      ]
+    },
+    {
+     "species": "capling",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "toadcap",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "ditchsnap",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "snapmoor",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2766,6 +3657,42 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "capling",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "toadcap",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "ditchsnap",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "snapmoor",
+     "level": [
+      32,
+      35
+     ],
+     "weight": 3,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2793,6 +3720,42 @@
       36
      ],
      "weight": 20
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      32,
+      36
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      32,
+      36
+     ],
+     "weight": 1,
+     "spread": "habitat"
+    },
+    {
+     "species": "wavelin",
+     "level": [
+      32,
+      36
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "breakerfin",
+     "level": [
+      32,
+      36
+     ],
+     "weight": 1,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2851,6 +3814,42 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      38,
+      42
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      38,
+      42
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "ledgedove",
+     "level": [
+      38,
+      42
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "belfrydove",
+     "level": [
+      38,
+      42
+     ],
+     "weight": 3,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2898,6 +3897,42 @@
       43
      ],
      "weight": 10
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      36,
+      43
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      36,
+      43
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "wavelin",
+     "level": [
+      36,
+      43
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "breakerfin",
+     "level": [
+      36,
+      43
+     ],
+     "weight": 3,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3066,6 +4101,60 @@
      "weight": 4,
      "sync_added": true,
      "placeholder": true
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      40,
+      44
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      40,
+      44
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "brinepipit",
+     "level": [
+      40,
+      44
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    },
+    {
+     "species": "spraytern",
+     "level": [
+      40,
+      44
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "ledgedove",
+     "level": [
+      40,
+      44
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    },
+    {
+     "species": "belfrydove",
+     "level": [
+      40,
+      44
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3093,6 +4182,24 @@
       44
      ],
      "weight": 20
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      40,
+      45
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      40,
+      45
+     ],
+     "weight": 3,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3131,6 +4238,60 @@
      "time": [
       "night"
      ]
+    },
+    {
+     "species": "pebbit",
+     "level": [
+      41,
+      45
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "rubblon",
+     "level": [
+      41,
+      45
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "stonepede",
+     "level": [
+      41,
+      45
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "columnpede",
+     "level": [
+      41,
+      45
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "delvelet",
+     "level": [
+      41,
+      45
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "delvemaw",
+     "level": [
+      41,
+      45
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3158,6 +4319,24 @@
      "weight": 2,
      "sync_added": true,
      "placeholder": true
+    },
+    {
+     "species": "pinchkin",
+     "level": [
+      42,
+      46
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      42,
+      46
+     ],
+     "weight": 1,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3500,6 +4679,42 @@
       44
      ],
      "weight": 30
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      40,
+      47
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      40,
+      47
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "dartling",
+     "level": [
+      40,
+      47
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    },
+    {
+     "species": "streambarb",
+     "level": [
+      40,
+      47
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3700,6 +4915,60 @@
       50
      ],
      "weight": 40
+    },
+    {
+     "species": "pebbit",
+     "level": [
+      47,
+      50
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "rubblon",
+     "level": [
+      47,
+      50
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "stonepede",
+     "level": [
+      47,
+      50
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "columnpede",
+     "level": [
+      47,
+      50
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "delvelet",
+     "level": [
+      47,
+      50
+     ],
+     "weight": 3,
+     "spread": "habitat"
+    },
+    {
+     "species": "delvemaw",
+     "level": [
+      47,
+      50
+     ],
+     "weight": 2,
+     "spread": "habitat"
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3801,6 +5070,42 @@
      ],
      "weight": 8,
      "tier": "uncommon"
+    },
+    {
+     "species": "capling",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 11,
+     "spread": "habitat"
+    },
+    {
+     "species": "toadcap",
+     "level": [
+      16,
+      16
+     ],
+     "weight": 6,
+     "spread": "habitat"
+    },
+    {
+     "species": "pondkin",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 11,
+     "spread": "habitat"
+    },
+    {
+     "species": "reedmoot",
+     "level": [
+      16,
+      16
+     ],
+     "weight": 6,
+     "spread": "habitat"
     }
    ],
    "band": "wild 12-16",
