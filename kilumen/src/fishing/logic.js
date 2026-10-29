@@ -58,18 +58,19 @@ export const BAIT_IDS = Object.freeze(['ripple_grub', 'reed_nymph', 'brine_fleck
 export const baitOf = (tables, bait) => (bait && typeof bait === 'object' ? bait : (bait && tables?.baits?.[bait]) || null);
 
 /** Bite chance for the rod (tables.rods[id].bite) plus the bait, clamped to tables.bite_clamp (default 0.05..0.95). */
-export function biteChance(tables, rod, bait = null) {
+// weather v1 (src/weather/logic.js fishMods): optional wx {bite, rare, uncommon, wait} multipliers; null = no change.
+export function biteChance(tables, rod, bait = null, wx = null) {
   const base = tables?.rods?.[rod?.id]?.bite ?? 0.7, b = baitOf(tables, bait);
-  if (!b) return base;
+  if (!b && (!wx || wx.bite === 1)) return base;
   const [lo, hi] = tables?.bite_clamp || [0.05, 0.95];
-  return Math.round(Math.min(hi, Math.max(lo, base + (b.bite || 0))) * 1e6) / 1e6;
+  return Math.round(Math.min(hi, Math.max(lo, (base + (b?.bite || 0)) * (wx?.bite ?? 1))) * 1e6) / 1e6;
 }
 
 /** Effective weight of one slot under a bait. elOf(species) -> element list (tables.species_el). */
-export function effectiveWeight(slot, bait = null, elOf = null) {
-  const w = slot.weight ?? 1;
+export function effectiveWeight(slot, bait = null, elOf = null, wx = null) {
+  const w0 = slot.weight ?? 1, r = slot.rarity || 'common';
+  const w = w0 > 0 && wx ? w0 * (r === 'rare' ? (wx.rare ?? 1) : r === 'uncommon' ? (wx.uncommon ?? 1) : 1) : w0;
   if (!bait || w <= 0) return Math.max(0, w);
-  const r = slot.rarity || 'common';
   const R = r === 'rare' ? (bait.rare ?? 1) : r === 'uncommon' ? (bait.uncommon ?? 1) : 1;
   const E = bait.element && isWaterEl(elOf?.(slot.species)) && (elOf?.(slot.species) || []).includes(bait.element) ? (bait.elementMult ?? 1) : 1;
   return w * R * E;
@@ -81,8 +82,8 @@ export const elFrom = (tables) => (sp) => tables?.species_el?.[sp] || [];
 /** Weighted species pick + uniform level. Optional hasArt drops creatures without art (same rule as grass, #62).
  * Optional bait row + elOf apply the gear multipliers; with elOf, any non-water species is dropped (water-only rule).
  * planCast always passes elOf, so fishing can never roll a non-water creature. Returns rarity too. */
-export function pickFish(table, rng = Math.random, hasArt = null, bait = null, elOf = null) {
-  const slots = (table?.slots || []).map((s) => ({ s, w: effectiveWeight(s, bait, elOf) }))
+export function pickFish(table, rng = Math.random, hasArt = null, bait = null, elOf = null, wx = null) {
+  const slots = (table?.slots || []).map((s) => ({ s, w: effectiveWeight(s, bait, elOf, wx) }))
     .filter((x) => x.w > 0 && (!hasArt || hasArt(x.s.species)) && (!elOf || isWaterEl(elOf(x.s.species))));
   const total = slots.reduce((a, x) => a + x.w, 0);
   if (!total) return null;
@@ -93,11 +94,11 @@ export function pickFish(table, rng = Math.random, hasArt = null, bait = null, e
 }
 
 /** Expected catches per 100 clean casts -> {bite, bites, common, uncommon, rare} (design §5 point 5). */
-export function expectedPer100(tables, mapName, rod, bait = null) {
+export function expectedPer100(tables, mapName, rod, bait = null, wx = null) {
   const tab = tableFor(tables, mapName, rod), b = baitOf(tables, bait), elOf = elFrom(tables);
-  const p = biteChance(tables, rod, b), out = { bite: p, bites: 100 * p, common: 0, uncommon: 0, rare: 0 };
+  const p = biteChance(tables, rod, b, wx), out = { bite: p, bites: 100 * p, common: 0, uncommon: 0, rare: 0 };
   if (!tab) return { ...out, bites: 0 };
-  const ws = tab.slots.filter((s) => isWaterEl(elOf(s.species))).map((s) => [s.rarity || 'common', effectiveWeight(s, b, elOf)]), tot = ws.reduce((a, [, w]) => a + w, 0);
+  const ws = tab.slots.filter((s) => isWaterEl(elOf(s.species))).map((s) => [s.rarity || 'common', effectiveWeight(s, b, elOf, wx)]), tot = ws.reduce((a, [, w]) => a + w, 0);
   for (const [k, w] of ws) out[k] += (100 * p * w) / tot;
   return out;
 }
@@ -106,12 +107,12 @@ export function expectedPer100(tables, mapName, rod, bait = null) {
  * One cast, decided up front (so tests and replays are deterministic). -> {bite: bool, waitMs, fish|null}
  * The player's timing is judged later by judgePress.
  */
-export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null) {
+export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null, wx = null) {
   const tab = tableFor(tables, mapName, rod), b = baitOf(tables, bait);
-  const waitMs = Math.round(TIMING.WAIT_MIN + rng() * (TIMING.WAIT_MAX - TIMING.WAIT_MIN));
+  const waitMs = Math.round((TIMING.WAIT_MIN + rng() * (TIMING.WAIT_MAX - TIMING.WAIT_MIN)) * (wx?.wait ?? 1));
   if (!tab) return { bite: false, waitMs, fish: null, empty: true };
-  const bite = rng() < biteChance(tables, rod, b);
-  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, b, elFrom(tables)) : null, table: tab.from, tier: tab.tier, empty: false };
+  const bite = rng() < biteChance(tables, rod, b, wx);
+  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, b, elFrom(tables), wx) : null, table: tab.from, tier: tab.tier, empty: false };
 }
 
 /** Judge an A press at time t (ms since the cast landed). -> 'early' | 'hooked' | 'late' | null (no press yet). */

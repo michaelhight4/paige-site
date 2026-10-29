@@ -14,7 +14,8 @@ const TILE = 64;
 /** Same gust curve as living.js (1..1.6). */
 export const gust = (t) => 1 + 0.6 * Math.max(0, Math.sin(t / 420)) * Math.max(0, Math.sin(t / 97));
 /** Flake count for a screen: phones get ~40%, reduced motion none. */
-export const flakeCount = (w, h, mobile, reduced) => (reduced ? 0 : Math.round(Math.min(160, (w * h) / 9000) * (mobile ? 0.4 : 1)));
+// weather v1 (Gary Oct 29: "make the snow effect a little more noticable"): cap 160 -> 210, density /9000 -> /6800, phone 0.4 -> 0.45
+export const flakeCount = (w, h, mobile, reduced) => (reduced ? 0 : Math.round(Math.min(210, (w * h) / 6800) * (mobile ? 0.45 : 1)));
 /** Snowfall strength 0..1 on a map at player tile y (pass: fades out over 3 rows above the snowline). */
 export function snowfallAt(mapName, y, snowlineY) {
   if (!SNOWFALL_MAPS.has(mapName)) return 0;
@@ -100,17 +101,17 @@ export function attachSoul(scene, { mobile = false } = {}) {
   function drawSnow(ctx, v) {
     const k = snowfallAt(scene.map?.name, scene.player?.y ?? 0, scene.map?.json?.snowline_y);
     if (k <= 0) return;
-    const W = ctx.canvas.width, H = ctx.canvas.height, n = Math.round(flakeCount(W, H, mobile, reduced()) * k);
+    const W = ctx.canvas.width, H = ctx.canvas.height, n = Math.round(flakeCount(W, H, mobile, reduced()) * k * (scene.weather?.snowMul?.() ?? 1)); // blizzard: denser (src/weather)
     while (st.flakes.length < n) st.flakes.push({ x: Math.random(), y: Math.random(), d: [0.35, 0.6, 1][st.flakes.length % 3], ph: Math.random() * 6.28 });
     const ms = scene.ms || 0, g = gust(tnow()), z = v.zoom;
     for (let i = 0; i < n; i++) {
-      const f = st.flakes[i], sz = Math.max(2, Math.round((1.5 + f.d * 2.5) * z * 0.5));
+      const f = st.flakes[i], sz = Math.max(2, Math.round((1.8 + f.d * 3) * z * 0.5)); // weather v1: slightly larger
       // parallax: near flakes (d=1) move with the camera more than far ones; wind pushes harder in a gust
-      const sx = (f.x * (W + 40) - v.cam.x * z * f.d * 0.5 + ms * 0.012 * g * f.d * z + Math.sin(ms / 700 + f.ph) * 6 * z) % (W + 40);
+      const sx = (f.x * (W + 40) - v.cam.x * z * f.d * 0.5 + ms * 0.012 * g * f.d * z * (scene.weather?.snowMul?.() > 1.5 ? 4 : 1) + Math.sin(ms / 700 + f.ph) * 6 * z) % (W + 40);
       const sy = (f.y * (H + 40) - v.cam.y * z * f.d * 0.5 + ms * 0.02 * f.d * z) % (H + 40);
       const fx = Math.round((sx + W + 40) % (W + 40)) - 20, fy = Math.round((sy + H + 40) % (H + 40)) - 20;
       ctx.fillStyle = `rgba(92,112,148,${(0.18 + 0.2 * f.d).toFixed(2)})`; ctx.fillRect(fx + 1, fy + 1, sz, sz); // soft shade so flakes read against white snow
-      ctx.fillStyle = `rgba(255,255,255,${(0.6 + 0.4 * f.d).toFixed(2)})`; ctx.fillRect(fx, fy, sz, sz);
+      ctx.fillStyle = `rgba(255,255,255,${(0.72 + 0.28 * f.d).toFixed(2)})`; // weather v1: brighter far flakes ctx.fillRect(fx, fy, sz, sz);
     }
   }
   // ---- audio -----------------------------------------------------------------------------------------------------

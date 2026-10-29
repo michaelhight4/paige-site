@@ -634,3 +634,9 @@ THE SOFTWARE.
 Pixel Water (Godot shader) by Francisco Cidade: CC0. https://fcidade.itch.io/pixel-water-godot-shader-free
 Where: src/battle/data/water_bg.js. Only the technique (flat banded water shades, thin crests, sparse glints, long swell)
 was adapted; no code copied. Credited anyway. All art is drawn in code by Kilumen.
+
+################################################################################
+# Dynamic weather v1 (Oct 29, 2026)
+################################################################################
+No third-party code. Evaluated only (all MIT): weather-canvas, sparkle, let-it-go, minimal-snow, canvas-snowfall.
+src/weather/ is original Kilumen code.

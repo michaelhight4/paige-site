@@ -128,7 +128,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
     const choice = await openPicker();
     if (choice.cancel) return;
     const baitId = choice.bait && sys.bag.count(choice.bait) > 0 ? choice.bait : null;
-    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId);
+    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId, scene.weather?.fishMods?.() || null); // weather v1: rain / fog / blizzard fishing multipliers
     const p = scene.player, d = DELTA[p.facing];
     const fx = st.fx = { phase: 'cast', t0: now(), cell, facing: p.facing, from: { x: (p.x + 0.5 + d.x * 0.45) * TILE, y: (p.y - 0.15) * TILE }, press: null, touch: touch(), plan };
     st.casts++;

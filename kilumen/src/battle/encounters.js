@@ -18,6 +18,7 @@ export const ENCOUNTERS_WIRED_URL = 'data/encounters_wired.json';
 // town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
 // the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
 import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.68-alpha';
+import { wxMatch, encWeight, extraSlots, encRate, areaType } from '../weather/logic.js?v=v0.2.68-alpha'; // weather v1 (src/weather/)
 import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.68-alpha'; // water + cave floor at 0.3x grass (flag, off)
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
 export const MAX_RATE = 0.2;
@@ -39,7 +40,7 @@ export function zoneAt(data, mapName, rects, x, y, code = 1) {
 /** Slot conditions (encounters.json "conditions"): time phase list, weather list, flood-only. */
 export function slotOk(slot, ctx = {}) {
   if (slot.time && !slot.time.includes(ctx.phase || 'day')) return false;
-  if (slot.weather && !slot.weather.includes(ctx.weather || 'clear')) return false;
+  if (Array.isArray(slot.weather) && !wxMatch(slot.weather, ctx.weather)) return false; // list = only in that weather ('rain' / 'fog' / 'snow' groups ok); an object {kind: x} is a weight multiplier (encWeight)
   if (slot.flood && !ctx.flood) return false;
   return true;
 }
@@ -47,11 +48,14 @@ export function slotOk(slot, ctx = {}) {
 /** Weighted pick among eligible slots. Level uniform in [lo, hi], or, when ctx.t (trail progress 0..1) is a number,
  * scaledLevel(lo, hi, t) clamped to the zone cap (zone.cap.level). rng() in [0,1). -> {species, level, slot} | null */
 export function pickSlot(zone, ctx = {}, rng = Math.random) {
-  const slots = (zone?.slots || []).filter((s) => (s.weight || 0) > 0 && slotOk(s, ctx));
-  const total = slots.reduce((a, s) => a + s.weight, 0);
+  // weather v1: ctx.weather kind re-weights slots (encWeight: slot.weather {kind: x} + MODS element / species boosts) and
+  // adds the weather-only slots of that kind (extraSlots) when ctx.wxOn; without ctx.wxOn the weights are untouched.
+  const base = [...(zone?.slots || []), ...(ctx.wxOn ? extraSlots(zone, ctx.weather, ctx.area || 'temperate', ctx.hasArt) : [])];
+  const slots = base.filter((s) => (s.weight || 0) > 0 && slotOk(s, ctx)).map((s) => ({ s, w: ctx.wxOn ? encWeight(s, ctx.weather, ctx.elOf) : s.weight })).filter((x) => x.w > 0);
+  const total = slots.reduce((a, x) => a + x.w, 0);
   if (!total) return null;
-  let r = rng() * total, slot = slots[slots.length - 1];
-  for (const s of slots) { if ((r -= s.weight) < 0) { slot = s; break; } }
+  let r = rng() * total, slot = slots[slots.length - 1].s;
+  for (const x of slots) { if ((r -= x.w) < 0) { slot = x.s; break; } }
   const [lo, hi] = Array.isArray(slot.level) ? slot.level : [slot.level, slot.level];
   if (typeof ctx.t === 'number') return { species: slot.species, level: scaledLevel(lo, hi, ctx.t, rng, zone.cap?.level || null), slot };
   return { species: slot.species, level: lo + Math.floor(rng() * (hi - lo + 1)), slot };
@@ -132,7 +136,7 @@ export class EncounterRoller {
   }
   _roll(z, mapName, x, y, ctx) {
     if (!z) return null;
-    if (this.rng() >= this.rateFor(z.zone)) return null;
+    if (this.rng() >= Math.min(this.rateOverride != null ? 1 : this.maxRate, this.rateFor(z.zone) * (ctx.wxOn ? encRate(ctx.weather) : 1))) return null; // weather v1: fog / blizzard rate x (still capped)
     const t = trailT(axisFor(this.axes, mapName), x, y);
     const hit = pickSlot(z.zone, t == null ? ctx : { ...ctx, t }, this.rng);
     if (!hit) return null;
@@ -174,7 +178,9 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
     if (!ro || !m) return;
     if (st.lastMap !== m.name) { st.lastMap = m.name; ro.resetGrace(); } // a few free steps after every map change
     if (scene.busy || scene.fade || !scene.party?.length || opts.blocked?.()) return;
-    const ctx = { phase: scene.phase, weather: scene.flags?.has('storm_season') ? 'storm' : 'clear', flood: /_storm$/.test(m.name) };
+    const wk = scene.weather?.kind?.(); // weather v1 (src/weather/index.js); absent -> the old storm_season rule
+    const ctx = { phase: scene.phase, weather: wk || (scene.flags?.has('storm_season') ? 'storm' : 'clear'), flood: /_storm$/.test(m.name),
+      wxOn: !!wk, area: areaType(m.name), elOf: opts.elOf, hasArt: opts.hasArt && opts.artFilter !== false ? opts.hasArt : null };
     const hit = water ? ro.stepWater(m.name, x, y, ctx) : ro.step(m.name, m.json?.encounter_zones, x, y, code, ctx);
     if (!hit) return;
     scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });
