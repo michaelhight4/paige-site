@@ -3,11 +3,11 @@
 // Everything is drawn on the race canvas (640x360 logical, pixel art, no smoothing). Pure presentation: the race sim
 // (race.js) is stepped exactly as before at fixed 1/60 s, so hitstop / slow-mo never change a result.
 // Reduced motion (prefers-reduced-motion or ?rm=1): no shake, no flashes, a fifth of the confetti, slower beams.
-import { S, t } from './strings.js?v=v0.2.38-alpha';
-import { stepRace, applyStart, applyPush, applySprint, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.38-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.38-alpha';
-import { rngFor } from './rng.js?v=v0.2.38-alpha';
-import { dashScore } from './dash.js?v=v0.2.38-alpha';
+import { S, t } from './strings.js?v=v0.2.39-alpha';
+import { stepRace, applyStart, applyPush, applySprint, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.39-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.39-alpha';
+import { rngFor } from './rng.js?v=v0.2.39-alpha';
+import { dashScore } from './dash.js?v=v0.2.39-alpha';
 
 export const W = 640, H = 360, PPM = 30, LANE_Y = [176, 222, 268, 314], SPR = 96; // runners drawn 1.5x (was 64)
 export const TIMING = { intro: 1.6, beat: 0.55, oneMin: 0.45, oneMax: 0.8, play: 2.0, playPrompt: 1.25, hitstop: 0.22, photoGap: 0.2, slowmo: 0.3, stretchAt: 80, afterAll: 1.1, wipe: 0.45, board: 1.6 };

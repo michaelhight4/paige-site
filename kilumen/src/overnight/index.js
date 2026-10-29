@@ -8,19 +8,20 @@
 //   kilindex   kilindex.js     seen / registered logging, save block, new_entry line
 //   learnsets  learnsets.js    [PLACEHOLDER] generated learnsets + learn prompt after battles
 //   starterLines               G12: system_party.starter_offer / starter_received when Text Bot adds them
-import { Col } from '../overworld/constants.js?v=v0.2.38-alpha';
-import { isToCome, warpSpawn } from '../overworld/map.js?v=v0.2.38-alpha';
-import { overnightFlags } from './flags.js?v=v0.2.38-alpha';
-import { buildRegistry, mapUrlFor } from './world_links.js?v=v0.2.38-alpha';
-import { FieldSystem } from './field.js?v=v0.2.38-alpha';
-import { RegionMap } from './region_map.js?v=v0.2.38-alpha';
-import { SightSystem } from './sight.js?v=v0.2.38-alpha';
-import { Kilindex } from './kilindex.js?v=v0.2.38-alpha';
-import { learnsetFor, learnsBetween, applyLearn } from './learnsets.js?v=v0.2.38-alpha';
-import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.38-alpha';
-import { toID } from '../battle/data/skills.js?v=v0.2.38-alpha';
-import { speciesInfo, speciesName, defaultSkills } from '../systems/creature.js?v=v0.2.38-alpha';
-import { withFallbacks } from './npc_sprites.js?v=v0.2.38-alpha'; // batch 3: NPCs on World Design's overnight maps without a mapped sheet still draw
+import { Col } from '../overworld/constants.js?v=v0.2.39-alpha';
+import { isToCome, warpSpawn } from '../overworld/map.js?v=v0.2.39-alpha';
+import { overnightFlags } from './flags.js?v=v0.2.39-alpha';
+import { buildRegistry, mapUrlFor } from './world_links.js?v=v0.2.39-alpha';
+import { ixFlags } from '../overworld/ixlight.js?v=v0.2.39-alpha';
+import { FieldSystem } from './field.js?v=v0.2.39-alpha';
+import { RegionMap } from './region_map.js?v=v0.2.39-alpha';
+import { SightSystem } from './sight.js?v=v0.2.39-alpha';
+import { Kilindex } from './kilindex.js?v=v0.2.39-alpha';
+import { learnsetFor, learnsBetween, applyLearn } from './learnsets.js?v=v0.2.39-alpha';
+import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.39-alpha';
+import { toID } from '../battle/data/skills.js?v=v0.2.39-alpha';
+import { speciesInfo, speciesName, defaultSkills } from '../systems/creature.js?v=v0.2.39-alpha';
+import { withFallbacks } from './npc_sprites.js?v=v0.2.39-alpha'; // batch 3: NPCs on World Design's overnight maps without a mapped sheet still draw
 
 const STAGED_INDEX = 'src/overnight/staged_maps.json';
 
@@ -32,7 +33,7 @@ export function attachOvernight(scene, { query = null, saveData = {} } = {}) {
   // ---- 1. links: registry + data-driven link targets -----------------------------------------------------------
   const reg = () => (ov.registry ||= buildRegistry(scene.layout, scene.config.mapsDir, ov.staged));
   if (flags.links) {
-    scene.mapUrl = (name) => mapUrlFor(scene.layout ? reg() : null, scene.config.mapsDir, name);
+    scene.mapUrl = (name) => (name === 'house_1f' && ixFlags().ix2 ? scene.config.mapsDir + 'house_1f_v2.json' : mapUrlFor(scene.layout ? reg() : null, scene.config.mapsDir, name)); // Interiors v2 starter house
     let known = null; // init() assigns knownMaps from maps_built: add staged names on top
     Object.defineProperty(scene, 'knownMaps', { configurable: true, get: () => known, set: (v) => { known = v ? new Set([...v, ...Object.keys(ov.staged)]) : v; ov.registry = null; } });
     if (flags.stagedMaps) {
@@ -163,7 +164,7 @@ export function attachOvernight(scene, { query = null, saveData = {} } = {}) {
   }
 
   // KilumenBattle.result() has no foe list for wild battles: add foesSeen (species of the p2 side) without editing battle.js.
-  if (flags.kilindex) import('../battle/battle.js?v=v0.2.38-alpha').then(({ KilumenBattle }) => patchBattleResult(KilumenBattle)).catch(() => {});
+  if (flags.kilindex) import('../battle/battle.js?v=v0.2.39-alpha').then(({ KilumenBattle }) => patchBattleResult(KilumenBattle)).catch(() => {});
 
   return ov;
 }

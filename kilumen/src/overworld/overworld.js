@@ -4,34 +4,35 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.38-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.38-alpha';
-import { GridMover } from './movement.js?v=v0.2.38-alpha';
-import { DEV } from '../dev/runtime.js?v=v0.2.38-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.38-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.38-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.38-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset } from './tileset.js?v=v0.2.38-alpha';
-import { Renderer } from './renderer.js?v=v0.2.38-alpha';
-import { drawDebug } from './debug.js?v=v0.2.38-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.38-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.38-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.38-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor } from './clock.js?v=v0.2.38-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.38-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.38-alpha';
-import { LivingWorld } from './living.js?v=v0.2.38-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.38-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.38-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.38-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.38-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.38-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.38-alpha'; // creature idle/walk motion (v0.2.36)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.38-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.38-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.38-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.38-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.38-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.39-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.39-alpha';
+import { GridMover } from './movement.js?v=v0.2.39-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.39-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.39-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.39-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.39-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit } from './tileset.js?v=v0.2.39-alpha';
+import { IxLight, ixFlags } from './ixlight.js?v=v0.2.39-alpha';
+import { Renderer } from './renderer.js?v=v0.2.39-alpha';
+import { drawDebug } from './debug.js?v=v0.2.39-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.39-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.39-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.39-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.39-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.39-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.39-alpha';
+import { LivingWorld } from './living.js?v=v0.2.39-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.39-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.39-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.39-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.39-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.39-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.39-alpha'; // creature idle/walk motion (v0.2.36)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.39-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.39-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.39-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.39-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.39-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -55,7 +56,7 @@ export function nativeRenderDiv(opts, h) {
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.38-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.39-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -111,6 +112,7 @@ export class Overworld {
     this.hooks.onBattle = null; this.hooks.onScriptedEncounter = null;
     this.life = new LivingWorld(this, opts.life || {}); // cloud shadows + ambient life (living.js)
     this.depth = new DepthPass(null, { enabled: opts.depth }); // contact shadows + wall-base shading (depth.js); config loaded in init()
+    this.ixlight = new IxLight(undefined, (n) => isIndoor(n) && !followsOutdoorClock(n) && !/^(rt_|greystone)/.test(n)); // Interiors v2 plane lighting + indoor night shade (?ix2=0 / ?ixlight=0 = off)
     this.nightfx = new NightFx(this, opts.nightFx); // Night FX v1: moonlight grade, lit windows, lamp pools, night clouds (nightfx.js); all off unless switched on
     this.life.nightClouds = !!opts.nightFx?.clouds; // thin moonlit clouds at night + cloud drift paused under reduced motion (living.js)
     this._gradeImage = this.nightfx.wrapGradeImage(gradeImage);
@@ -213,7 +215,7 @@ export class Overworld {
     await this._loadActorSprites();
   }
 
-  mapUrl(name) { return this.config.mapsDir + name + '.json'; }
+  mapUrl(name) { return this.config.mapsDir + (name === 'house_1f' && ixFlags().ix2 ? 'house_1f_v2' : name) + '.json'; } // Interiors v2 starter house (same size, warps, collisions)
 
   async loadMap(name) {
     if (!this.mapCache.has(name)) {
@@ -233,7 +235,7 @@ export class Overworld {
         }
         c.npcs = (c.npcs || []).filter((d) => d.kind !== 'spawn'); // house_2f player_start is a spawn, not a person
         const m = new GameMap(c);
-        if (!this.tilesetIndex) this.tilesetIndex = indexTileset(await loadJson(resolveUrl(m.tilesetRef, this.mapUrl(name))));
+        if (!this.tilesetIndex) { const u = resolveUrl(m.tilesetRef, this.mapUrl(name)); this.tilesetIndex = indexTileset(await withIx2Kit(await loadJson(u), u)); }
         return m.attachTileset(this.tilesetIndex.byId);
       }));
     }
@@ -250,6 +252,7 @@ export class Overworld {
     const ticket = (this._assetTicket = (this._assetTicket || 0) + 1);
     const tsUrl = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, want), this.mapUrl(this.map.name));
     if (!this.tileset || this.tileset.url !== tsUrl) { const ts = await loadTileset(tsUrl); if (ticket !== this._assetTicket) return this._assetsSettled(); this.tileset = ts; }
+    await this.ixlight.load(tsUrl);
     const ts1 = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name));
     if (this.grades && (!this.tileset1x || this.tileset1x.url !== ts1)) { const t1 = want === 1 ? this.tileset : await loadTileset(ts1); if (ticket !== this._assetTicket) return this._assetsSettled(); this.tileset1x = t1; }
     if (this.playerScale !== want) {
@@ -1156,6 +1159,7 @@ export class Overworld {
       decals: this._decalsView(), overlays: this.overlays,
       zoom: z, cam, ms: this.ms, rustles: this.rustles, actors,
       fade: this.fadeAlpha(), debug: this.debug, drawDebug, player: p, fps: this.fps, lastDoor: this.lastDoor, flags: [...this.flags],
+      ixlight: this.ixlight, phase: this.phase,
       life: this.life, depth: this.depth, nightfx: this.nightfx, mood: this.mood, markers: this._markerDraw(), // mood: cinematic layers (mood.js, set in main.js)
       outside: outsideFillFor(this.opts.platform?.profile?.camera, this.opts.platform?.profile?.display, this.map.name, isIndoor(this.map.name)), edgeShade: this.opts.platform?.profile?.display?.edgeShade, // mobile/centre camera: fill off the map (pc without alwaysCentre: black)
     };

@@ -7,7 +7,7 @@
 // Depth pass (depth.js, Oct 22 2026): its cached static layer (object contact shadows + indoor wall-base shading) runs
 // right after ground/decoration, before the decals; the character contact shadows run after living `under`, just
 // before the first character. Both are under every character and over the floor.
-import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.38-alpha';
+import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.39-alpha';
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
 
@@ -54,6 +54,7 @@ export class Renderer {
 
     for (const layer of ['ground', 'decoration'])
       for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile(layer, x, y), x, y);
+    v.ixlight?.draw(ctx, v, 'lower'); // Interiors v2: cached plane lighting on redrawn furniture + floor light spill
     v.depth?.drawStatic(ctx, v); // depth pass: contact shadows under furniture/decoration + wall-base shading (cached per map)
     v.nightfx?.drawWindows(ctx, v); // Night FX: lit window glass (dusk on, some dark late; under characters)
     // decals "under characters" (footprints: tileset animation type 'fade', frame picked by age)
@@ -73,8 +74,10 @@ export class Renderer {
       const id = m.tile('overlay', x, y);
       if (id && !v.tileset.byId.get(id)?.ysort) this.tile(v, id, x, y);
     }
+    v.ixlight?.draw(ctx, v, 'upper'); // Interiors v2: same lighting on overlay-row furniture tops
     for (const o of v.overlays || []) this.tile(v, o.id, o.x, o.y); // engine overlays on occupied cells (bin flies)
     v.life?.over(ctx, v); // living world: smoke, butterflies, motes, bird shadows, then cloud shadows (shade sprites too)
+    v.ixlight?.draw(ctx, v, 'night'); // Interiors v2: indoor night shade + lamp/TV/stove pools (interiors used to stay on the day grade)
     v.nightfx?.drawLights(ctx, v); // Night FX: warm lamp/window pools, additive on a cached low-res buffer (+ flame flicker)
     if (m.layers.fog) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile('fog', x, y), x, y);
     v.mood?.draw(ctx, v); // cinematic mood (mood.js): area tint, sun rays, vignette, ambient particles; under birds/firefly glow/markers
