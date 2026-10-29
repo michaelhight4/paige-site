@@ -7,6 +7,8 @@ import { KILUMEN_RULES } from './data/rules.js?v=v0.2.87-alpha';
 import { heldToEngine, heldFromEngine } from './data/held_items.js?v=v0.2.87-alpha';
 
 /** total XP needed to be at `level` (same curve as the engine; PLACEHOLDER [B20]) */
+/** any level source -> 1..KILUMEN_RULES.maxLevel (90) */
+export const clampLevel = (l) => Math.max(1, Math.min(KILUMEN_RULES.maxLevel, Math.floor(Number(l) || 1)));
 export const xpForLevel = (level, rules = KILUMEN_RULES) => Math.floor(rules.xpCurveMult * level ** 3);
 import { SPECIES } from '../ui/data.js?v=v0.2.87-alpha';
 
@@ -28,7 +30,7 @@ export function toSet(c, fallbackLevel = 5) {
     name: (c.nickname || c.name || (SPECIES.find((s) => s.id === c.species) || { name: c.species }).name) + (c.variant ? ' ✦' : ''),
     species: c.species, item: heldToEngine(c.held ?? c.heldItem), kHeld: c.held ?? c.heldItem ?? '', ability: 'No Ability', nature: '', gender: '', evs: {}, ivs: {},
     moves: c.skills || skillIdsFor(elementsOf(c.species), SPECIES.find((s) => s.id === c.species)?.skillPool),
-    level: c.level || fallbackLevel, xp: c.xp, hp: c.hp, energy: c.energy, status: c.status,
+    level: clampLevel(c.level || fallbackLevel), xp: c.xp, hp: c.hp, energy: c.energy, status: c.status,
     warmth: c.warmth || 0, variant: c.variant || '', lineage: c.lineage, rt: c.rt,
   };
 }
@@ -151,7 +153,7 @@ export class KilumenBattle {
       if (start && now !== start) { t.heldUsed = heldFromEngine(start); t.held = now ? heldFromEngine(now) : null; }
     });
     const linkXp = this.linkShare();
-    for (const { i, xp } of linkXp) { const t = team[i]; if (!t || !xp) continue; t.xp = (t.xp || xpForLevel(t.level)) + xp; while (t.level < 100 && t.xp >= xpForLevel(t.level + 1)) t.level++; }
+    for (const { i, xp } of linkXp) { const t = team[i]; if (!t || !xp) continue; t.xp = (t.xp || xpForLevel(t.level)) + xp; while (t.level < KILUMEN_RULES.maxLevel && t.xp >= xpForLevel(t.level + 1)) t.level++; }
     const caught = b.kCaught ? { species: b.kCaught.species.id, level: b.kCaught.level, hp: b.kCaught.hp, variant: b.kCaught.set.variant || '' } : null;
     return { outcome, linkXp, team, bag: bagOut(this.p1.kBag, this.bagIn), caught, turns: b.turn, seed: this.seed, inputLog: b.inputLog.slice() };
   }

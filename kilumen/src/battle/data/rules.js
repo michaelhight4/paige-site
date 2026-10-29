@@ -13,7 +13,7 @@ export const KILUMEN_RULES = {
   retreatBase: 128, retreatPerAttempt: 30, // PLACEHOLDER [B16]
   catchStatus: { drowsy: 2, scorched: 1.5 }, catchShakes: 3, // [B17], multipliers PLACEHOLDER (catchShakes: legacy, unused since Oct 23)
   catchHpWeight: 29 / 30, catchHpCurve: 0.85, catchMin: 0.005, catchMax: 0.95, catchPulses: 4, // capture (Gary Oct 23 2026, retuned 12:16 PM CT: full HP ~2%): see src/battle/capture.js
-  xpDivisor: 7, xpTrainerMult: 1.5, xpCurveMult: 0.8, maxLevel: 100, // PLACEHOLDER [B20]
+  xpDivisor: 7, xpTrainerMult: 1.5, xpCurveMult: 0.8, maxLevel: 90, // Gary Oct 29 2026: hard game-wide max level 90 (was 100)
   partyMax: 6,
 };
 // Variant stat multipliers [B27]; amounts PLACEHOLDER. Cosmic is cosmetic only.
