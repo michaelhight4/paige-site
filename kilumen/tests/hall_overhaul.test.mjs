@@ -225,7 +225,8 @@ test('hall art (Character models): 13 trainers off the stand-ins, push/warp cell
   for (const [k, e] of Object.entries(smap)) {
     if (!/_hall_int_h\d+$/.test(k) || !e.sprite_id?.startsWith('tr_') || !e.sprite_id.includes('_hall_int_h')) continue;
     n++; ids.push(e.sprite_id); assert.ok(fs.existsSync(`art/characters/pixel/${e.overworld_sheet}`), k); assert.ok(fs.existsSync(`art/characters/pixel/${e.trainer_64x128}`), k);
-    const [hm, id] = k.split('.'); assert.ok(T[hm][id].name && !T[hm][id].placeholder, k);
+    const [hm, id] = k.split('.'), te = T[hm]?.[id] || Object.values(T).find((mp) => mp?.[id]?.name)?.[id]; // Lanternport helpers h1-h10 now live under lanternport_lighthouse_int/f2/f3
+    assert.ok(te?.name && !te.placeholder, k);
   }
   assert.equal(new Set(ids).size, 13);
   const PUSH = { '^': 'up', v: 'down', '<': 'left', '>': 'right' };
