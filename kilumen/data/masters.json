@@ -112,28 +112,28 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 2760,
+    "prize_placeholder": 2160,
     "team": [
      {
       "species": "quaymouser",
-      "level": 20,
+      "level": 15,
       "battle_species": "quaymouser",
       "stand_in": false
      },
      {
       "species": "polypip",
-      "level": 21,
+      "level": 16,
       "battle_species": "polypip",
       "stand_in": false
      },
      {
       "species": "spratwyrm",
-      "level": 23,
+      "level": 18,
       "battle_species": "spratwyrm",
       "stand_in": false
      }
     ],
-    "ace_level": 23
+    "ace_level": 18
    },
    "trainers": [
     {
@@ -146,13 +146,13 @@
      "team": [
       {
        "species": "sandstarlet",
-       "level": 19,
+       "level": 16,
        "battle_species": "sandstarlet",
        "stand_in": false
       },
       {
        "species": "blubbet",
-       "level": 19,
+       "level": 16,
        "battle_species": "blubbet",
        "stand_in": false
       }
@@ -168,13 +168,13 @@
      "team": [
       {
        "species": "medulet",
-       "level": 20,
+       "level": 16,
        "battle_species": "medulet",
        "stand_in": false
       },
       {
        "species": "whelkin",
-       "level": 20,
+       "level": 16,
        "battle_species": "whelkin",
        "stand_in": false
       }
@@ -190,13 +190,13 @@
      "team": [
       {
        "species": "finnip",
-       "level": 20,
+       "level": 16,
        "battle_species": "finnip",
        "stand_in": false
       },
       {
        "species": "ribboneel",
-       "level": 21,
+       "level": 17,
        "battle_species": "ribboneel",
        "stand_in": false
       }
@@ -232,34 +232,34 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 3360,
+    "prize_placeholder": 2880,
     "team": [
      {
       "species": "halovy",
-      "level": 27,
+      "level": 22,
       "battle_species": "halovy",
       "stand_in": false
      },
      {
       "species": "gildfinch",
-      "level": 28,
+      "level": 23,
       "battle_species": "gildfinch",
       "stand_in": false
      },
      {
       "species": "fleecelight",
-      "level": 28,
+      "level": 23,
       "battle_species": "fleecelight",
       "stand_in": false
      },
      {
       "species": "lampwick",
-      "level": 30,
+      "level": 24,
       "battle_species": "lampwick",
       "stand_in": false
      }
     ],
-    "ace_level": 30
+    "ace_level": 24
    },
    "trainers": [
     {
@@ -272,13 +272,13 @@
      "team": [
       {
        "species": "halovy",
-       "level": 25,
+       "level": 22,
        "battle_species": "halovy",
        "stand_in": false
       },
       {
        "species": "glarekit",
-       "level": 25,
+       "level": 22,
        "battle_species": "glarekit",
        "stand_in": false
       }
@@ -294,13 +294,13 @@
      "team": [
       {
        "species": "prismwing",
-       "level": 25,
+       "level": 22,
        "battle_species": "prismwing",
        "stand_in": false
       },
       {
        "species": "glimmerlamb",
-       "level": 25,
+       "level": 22,
        "battle_species": "glimmerlamb",
        "stand_in": false
       }
@@ -316,13 +316,13 @@
      "team": [
       {
        "species": "tollkin",
-       "level": 26,
+       "level": 23,
        "battle_species": "tollkin",
        "stand_in": false
       },
       {
        "species": "dawnfin",
-       "level": 26,
+       "level": 23,
        "battle_species": "dawnfin",
        "stand_in": false
       }
@@ -338,13 +338,13 @@
      "team": [
       {
        "species": "candlewren",
-       "level": 26,
+       "level": 23,
        "battle_species": "candlewren",
        "stand_in": false
       },
       {
        "species": "halovy",
-       "level": 26,
+       "level": 23,
        "battle_species": "halovy",
        "stand_in": false
       }

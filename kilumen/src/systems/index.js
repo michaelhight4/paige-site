@@ -1,17 +1,17 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.43-alpha';
-import { giftTalk } from './npc_gifts.js?v=v0.2.43-alpha';
-import { Party, Archive } from './party.js?v=v0.2.43-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.43-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.43-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.43-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.43-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.43-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.43-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.43-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.43-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.44-alpha';
+import { giftTalk } from './npc_gifts.js?v=v0.2.44-alpha';
+import { Party, Archive } from './party.js?v=v0.2.44-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.44-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.44-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.44-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.44-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.44-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.44-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.44-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.44-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)
@@ -223,7 +223,7 @@ export class Systems {
   trainerClassOf(def = {}) {
     if (def.class || def.trainer_class) return def.class || def.trainer_class;
     const id = def.id || '';
-    return /^master_/.test(id) ? 'master' : /^ron_/.test(id) ? 'ron' : /^helper_/.test(id) ? 'helper' : null; // null = trainerMoney.default
+    return /(^|_)master(_|$)/.test(id) ? 'master' : /(^|_)ron(_|$)/.test(id) ? 'ron' : /^helper_/.test(id) ? 'helper' : null; // null = trainerMoney.default (Gary 2:48 AM CT Oct 29: 'fix money bug' - *_hall_int_master / *_ron_N ids)
   }
   /** Won a trainer battle: pay out and show system_trainers.payout. Foe level from the last battle, else the
    * battle UI's placeholder foe level (lead level - 1, min 2) when no engine battle ran (default / shell path). */

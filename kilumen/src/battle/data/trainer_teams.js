@@ -18,7 +18,7 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.43-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.44-alpha';
 
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end
@@ -48,61 +48,61 @@ export const TRAINER_TEAMS = {
   'fernwick_hall_int.master_fernwick': [{ species: 'pebblant', level: 12 }, { species: 'pondkin', level: 12 }, { species: 'tumbloam', level: 13 }],
   // ---- region 2: Thornwood (side forest west of Fernwick; raised to region 2, Oct 23 2026) ----
   'thornwood.trainer_tw_bug': [{ species: 'thornpod', level: 13 }, { species: 'gloamtick', level: 13 }],
-  'thornwood.trainer_tw_b': [{ species: 'burlbeetle', level: 14 }, { species: 'bramblehog', level: 16 }], // bramblehog = its evo level 16
-  'thornwood.thornwood_c_gardener': [{ species: 'cobblepup', level: 13 }, { species: 'briarlet', level: 14 }], // optional
+  'thornwood.trainer_tw_b': [{ species: 'burlbeetle', level: 13 }, { species: 'bramblehog', level: 16 }], // bramblehog = its evo level 16
+  'thornwood.thornwood_c_gardener': [{ species: 'cobblepup', level: 13 }, { species: 'briarlet', level: 13 }], // optional
   'thornwood.thornwood_d_kid': [{ species: 'gloamtick', level: 13 }], // optional
-  'thornwood.thornwood_e_researcher': [{ species: 'thornpod', level: 14 }, { species: 'burlbeetle', level: 15 }], // optional
+  'thornwood.thornwood_e_researcher': [{ species: 'thornpod', level: 13 }, { species: 'burlbeetle', level: 14 }], // optional
   // ---- region 2: East Road -> Salt Road -> Saltmere (data/region2/trainer_teams_region2.json) ----
   'route_east.route_east_trainer_1': [{ species: 'sailquill', level: 12 }, { species: 'flockpup', level: 13 }], // Penrose courier
-  'route_east.route_east_trainer_2': [{ species: 'ditchsnap', level: 13 }, { species: 'pondkin', level: 14 }, { species: 'puddlenip', level: 15 }], // Rue angler
-  'route_east.route_east_trainer_3': [{ species: 'burlbeetle', level: 13 }, { species: 'gloamtick', level: 14 }], // Bram kid
-  'route_east.route_east_trainer_4': [{ species: 'millwhirl', level: 14 }, { species: 'sailquill', level: 14 }], // Tilly skater
-  'route_east.route_east_trainer_5': [{ species: 'bleatling', level: 16 }, { species: 'loamworm', level: 16 }], // Cass worker
-  'route_east.route_east_trainer_6': [{ species: 'sailquill', level: 15 }, { species: 'crowkin', level: 16 }], // Juno birder, optional
-  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_1': [{ species: 'pinchkin', level: 16 }, { species: 'brinepipit', level: 17 }], // Dunstan harbour_hand
-  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_2': [{ species: 'sailquill', level: 16 }, { species: 'brinepipit', level: 16 }], // Gil birder
-  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_3': [{ species: 'blubbet', level: 17 }, { species: 'sandstarlet', level: 17 }], // Hana angler
-  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_4': [{ species: 'burlbeetle', level: 16 }, { species: 'moatling', level: 16 }, { species: 'grainling', level: 18 }], // Iska camper
-  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_5': [{ species: 'tinderwren', level: 15 }, { species: 'sailquill', level: 15 }], // Jem courier
-  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_6': [{ species: 'whelkin', level: 19 }, { species: 'sandstarlet', level: 19 }], // Kerr veteran, optional
+  'route_east.route_east_trainer_2': [{ species: 'ditchsnap', level: 13 }, { species: 'pondkin', level: 13 }, { species: 'puddlenip', level: 14 }], // Rue angler
+  'route_east.route_east_trainer_3': [{ species: 'burlbeetle', level: 13 }, { species: 'gloamtick', level: 13 }], // Bram kid
+  'route_east.route_east_trainer_4': [{ species: 'millwhirl', level: 13 }, { species: 'sailquill', level: 13 }], // Tilly skater
+  'route_east.route_east_trainer_5': [{ species: 'bleatling', level: 14 }, { species: 'loamworm', level: 14 }], // Cass worker
+  'route_east.route_east_trainer_6': [{ species: 'sailquill', level: 14 }, { species: 'crowkin', level: 14 }], // Juno birder, optional
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_1': [{ species: 'pinchkin', level: 14 }, { species: 'brinepipit', level: 15 }], // Dunstan harbour_hand
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_2': [{ species: 'sailquill', level: 14 }, { species: 'brinepipit', level: 14 }], // Gil birder
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_3': [{ species: 'blubbet', level: 15 }, { species: 'sandstarlet', level: 15 }], // Hana angler
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_4': [{ species: 'burlbeetle', level: 14 }, { species: 'moatling', level: 14 }, { species: 'grainling', level: 15 }], // Iska camper
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_5': [{ species: 'tinderwren', level: 14 }, { species: 'sailquill', level: 14 }], // Jem courier
+  'route_aurelith_saltmere.route_aurelith_saltmere_trainer_6': [{ species: 'whelkin', level: 16 }, { species: 'sandstarlet', level: 16 }], // Kerr veteran, optional
   'saltmere.saltmere_ron_2': { // Ron rival
     byStarter: {
-      nibbin: [{ species: 'sailquill', level: 17 }, { species: 'grainling', level: 17 }, { species: 'emberlunx', level: 19 }],
-      cindrip: [{ species: 'sailquill', level: 18 }, { species: 'bramblehog', level: 19 }, { species: 'brookhorn', level: 20 }],
-      rillop: [{ species: 'sailquill', level: 18 }, { species: 'larkspar', level: 18 }, { species: 'gnawford', level: 20 }],
-      tumbloam: [{ species: 'sailquill', level: 17 }, { species: 'grainling', level: 17 }, { species: 'emberlunx', level: 19 }], // legacy saves
+      nibbin: [{ species: 'sailquill', level: 15 }, { species: 'grainling', level: 15 }, { species: 'emberlunx', level: 16 }],
+      cindrip: [{ species: 'sailquill', level: 15 }, { species: 'bramblehog', level: 16 }, { species: 'brookhorn', level: 16 }],
+      rillop: [{ species: 'sailquill', level: 15 }, { species: 'larkspar', level: 16 }, { species: 'gnawford', level: 16 }],
+      tumbloam: [{ species: 'sailquill', level: 15 }, { species: 'grainling', level: 15 }, { species: 'emberlunx', level: 16 }], // legacy saves
     },
   },
-  'saltmere_hall_int.saltmere_hall_int_h1': [{ species: 'sandstarlet', level: 19 }, { species: 'blubbet', level: 19 }], // Lorna hall_helper
-  'saltmere_hall_int.saltmere_hall_int_h2': [{ species: 'medulet', level: 20 }, { species: 'whelkin', level: 20 }], // Ivo hall_helper
-  'saltmere_hall_int.saltmere_hall_int_h3': [{ species: 'finnip', level: 20 }, { species: 'ribboneel', level: 21 }], // Sully hall_helper
-  'saltmere_hall_int.saltmere_hall_int_master': [{ species: 'quaymouser', level: 20 }, { species: 'polypip', level: 21 }, { species: 'spratwyrm', level: 23 }], // Nerys Bryde master
+  'saltmere_hall_int.saltmere_hall_int_h1': [{ species: 'sandstarlet', level: 16 }, { species: 'blubbet', level: 16 }], // Lorna hall_helper
+  'saltmere_hall_int.saltmere_hall_int_h2': [{ species: 'medulet', level: 16 }, { species: 'whelkin', level: 16 }], // Ivo hall_helper
+  'saltmere_hall_int.saltmere_hall_int_h3': [{ species: 'finnip', level: 16 }, { species: 'ribboneel', level: 17 }], // Sully hall_helper
+  'saltmere_hall_int.saltmere_hall_int_master': [{ species: 'quaymouser', level: 15 }, { species: 'polypip', level: 16 }, { species: 'spratwyrm', level: 18 }], // Nerys Bryde master
   // ---- region 3 early access (coder, Oct 24 2026; Gary: "a bit above region 2", wild L22-27, trainers L22-26, Master 3 L27-30) ----
-  'route_revival_saltmere.route_revival_saltmere_trainer_1': [{ species: 'slagrook', level: 23 }, { species: 'shalekin', level: 24 }], // Garrick worker
-  'route_revival_saltmere.route_revival_saltmere_trainer_2': [{ species: 'sailquill', level: 24 }, { species: 'kindlepup', level: 24 }], // Una courier
-  'route_revival_saltmere.route_revival_saltmere_trainer_3': [{ species: 'spiralith', level: 24 }, { species: 'bulwarkrab', level: 25 }], // Vale harbour hand
-  'route_revival_saltmere.route_revival_saltmere_trainer_4': [{ species: 'prismite', level: 25 }, { species: 'scutadillo', level: 26 }], // Wynn veteran
-  'route_revival.route_revival_trainer_1': [{ species: 'scutadillo', level: 22 }, { species: 'topiarix', level: 23 }], // Lark ranger
-  'route_revival.route_revival_trainer_2': [{ species: 'halovy', level: 22 }, { species: 'prismwing', level: 23 }], // Mabry researcher
-  'route_revival.route_revival_trainer_3': [{ species: 'burlbeetle', level: 22 }, { species: 'chiselbug', level: 23 }, { species: 'prismwing', level: 23 }], // Nico
-  'route_revival.route_revival_trainer_4': [{ species: 'slagrook', level: 23 }, { species: 'moatling', level: 23 }], // Orla rail worker
-  'route_revival.route_revival_trainer_5': [{ species: 'sailquill', level: 23 }, { species: 'kindlepup', level: 24 }], // Penn courier
-  'route_revival.route_revival_trainer_6': [{ species: 'reverion', level: 24 }, { species: 'cogwhisk', level: 25 }], // Ambrose scholar
-  'route_revival.route_revival_trainer_7': [{ species: 'ankerling', level: 24 }, { species: 'brinecube', level: 25 }], // Rhea worker
-  'revival_heights.revival_heights_trainer_1': [{ species: 'halovy', level: 25 }, { species: 'prismite', level: 26 }], // Lyle researcher
+  'route_revival_saltmere.route_revival_saltmere_trainer_1': [{ species: 'slagrook', level: 19 }, { species: 'shalekin', level: 21 }], // Garrick worker
+  'route_revival_saltmere.route_revival_saltmere_trainer_2': [{ species: 'sailquill', level: 21 }, { species: 'kindlepup', level: 21 }], // Una courier
+  'route_revival_saltmere.route_revival_saltmere_trainer_3': [{ species: 'spiralith', level: 21 }, { species: 'bulwarkrab', level: 22 }], // Vale harbour hand
+  'route_revival_saltmere.route_revival_saltmere_trainer_4': [{ species: 'prismite', level: 22 }, { species: 'scutadillo', level: 23 }], // Wynn veteran
+  'route_revival.route_revival_trainer_1': [{ species: 'scutadillo', level: 18 }, { species: 'topiarix', level: 19 }], // Lark ranger
+  'route_revival.route_revival_trainer_2': [{ species: 'halovy', level: 18 }, { species: 'prismwing', level: 19 }], // Mabry researcher
+  'route_revival.route_revival_trainer_3': [{ species: 'burlbeetle', level: 18 }, { species: 'chiselbug', level: 19 }, { species: 'prismwing', level: 19 }], // Nico
+  'route_revival.route_revival_trainer_4': [{ species: 'slagrook', level: 19 }, { species: 'moatling', level: 19 }], // Orla rail worker
+  'route_revival.route_revival_trainer_5': [{ species: 'sailquill', level: 19 }, { species: 'kindlepup', level: 21 }], // Penn courier
+  'route_revival.route_revival_trainer_6': [{ species: 'reverion', level: 21 }, { species: 'cogwhisk', level: 22 }], // Ambrose scholar
+  'route_revival.route_revival_trainer_7': [{ species: 'ankerling', level: 21 }, { species: 'brinecube', level: 22 }], // Rhea worker
+  'revival_heights.revival_heights_trainer_1': [{ species: 'halovy', level: 22 }, { species: 'prismite', level: 23 }], // Lyle researcher
   'revival_heights.revival_heights_ron_3': { // Ron rival 3
     byStarter: {
-      nibbin: [{ species: 'sailquill', level: 24 }, { species: 'glassvine', level: 25 }, { species: 'mirrorkin', level: 25 }, { species: 'emberlunx', level: 27 }],
-      cindrip: [{ species: 'sailquill', level: 24 }, { species: 'topiarix', level: 25 }, { species: 'reverion', level: 25 }, { species: 'brookhorn', level: 27 }],
-      rillop: [{ species: 'sailquill', level: 24 }, { species: 'sproutwyrm', level: 25 }, { species: 'cogwhisk', level: 25 }, { species: 'burrowmane', level: 27 }],
-      tumbloam: [{ species: 'sailquill', level: 24 }, { species: 'glassvine', level: 25 }, { species: 'mirrorkin', level: 25 }, { species: 'emberlunx', level: 27 }], // legacy saves
+      nibbin: [{ species: 'sailquill', level: 21 }, { species: 'glassvine', level: 22 }, { species: 'mirrorkin', level: 22 }, { species: 'emberlunx', level: 23 }],
+      cindrip: [{ species: 'sailquill', level: 21 }, { species: 'topiarix', level: 22 }, { species: 'reverion', level: 22 }, { species: 'brookhorn', level: 23 }],
+      rillop: [{ species: 'sailquill', level: 21 }, { species: 'sproutwyrm', level: 22 }, { species: 'cogwhisk', level: 22 }, { species: 'burrowmane', level: 23 }],
+      tumbloam: [{ species: 'sailquill', level: 21 }, { species: 'glassvine', level: 22 }, { species: 'mirrorkin', level: 22 }, { species: 'emberlunx', level: 23 }], // legacy saves
     },
   },
-  'revival_hall_int.revival_hall_int_h1': [{ species: 'halovy', level: 25 }, { species: 'glarekit', level: 25 }], // Mags
-  'revival_hall_int.revival_hall_int_h2': [{ species: 'prismwing', level: 25 }, { species: 'glimmerlamb', level: 25 }], // Dov
-  'revival_hall_int.revival_hall_int_h3': [{ species: 'tollkin', level: 26 }, { species: 'dawnfin', level: 26 }], // Fen
-  'revival_hall_int.revival_hall_int_h4': [{ species: 'candlewren', level: 26 }, { species: 'halovy', level: 26 }], // Corwin
-  'revival_hall_int.revival_hall_int_master': [{ species: 'halovy', level: 27 }, { species: 'gildfinch', level: 28 }, { species: 'fleecelight', level: 28 }, { species: 'lampwick', level: 30 }], // Cassia Lume, Master 3
+  'revival_hall_int.revival_hall_int_h1': [{ species: 'halovy', level: 22 }, { species: 'glarekit', level: 22 }], // Mags
+  'revival_hall_int.revival_hall_int_h2': [{ species: 'prismwing', level: 22 }, { species: 'glimmerlamb', level: 22 }], // Dov
+  'revival_hall_int.revival_hall_int_h3': [{ species: 'tollkin', level: 23 }, { species: 'dawnfin', level: 23 }], // Fen
+  'revival_hall_int.revival_hall_int_h4': [{ species: 'candlewren', level: 23 }, { species: 'halovy', level: 23 }], // Corwin
+  'revival_hall_int.revival_hall_int_master': [{ species: 'halovy', level: 22 }, { species: 'gildfinch', level: 23 }, { species: 'fleecelight', level: 23 }, { species: 'lampwick', level: 24 }], // Cassia Lume, Master 3
   // ---- region 4 early access (coder, Oct 24 2026; wild L28-33, trainers L28-32, hall L31-33, Master 4 L33-35) ----
   'frostspire_pass.frostspire_pass_trainer_1': [{ species: 'ledgebex', level: 28 }, { species: 'talusmouse', level: 29 }],
   'frostspire_pass.frostspire_pass_trainer_2': [{ species: 'shagmount', level: 29 }, { species: 'snowcairn', level: 29 }],

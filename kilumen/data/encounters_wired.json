@@ -1339,8 +1339,8 @@
     {
      "species": "musselin",
      "level": [
-      28,
-      32
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1348,8 +1348,8 @@
     {
      "species": "ditchsnap",
      "level": [
-      25,
-      30
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1357,8 +1357,8 @@
     {
      "species": "streambarb",
      "level": [
-      25,
-      30
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1366,8 +1366,8 @@
     {
      "species": "snapmoor",
      "level": [
-      30,
-      32
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1392,7 +1392,7 @@
      "species": "sailquill",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 30,
      "tier": "common"
@@ -1414,7 +1414,7 @@
      "species": "ankerling",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 30,
      "tier": "common"
@@ -1423,7 +1423,7 @@
      "species": "railmite",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 30,
      "tier": "common"
@@ -1432,7 +1432,7 @@
      "species": "pennantail",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 30,
      "tier": "common",
@@ -1445,7 +1445,7 @@
      "species": "brinepipit",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 30,
      "tier": "common"
@@ -1454,7 +1454,7 @@
      "species": "pouchbill",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 30,
      "tier": "common"
@@ -1463,7 +1463,7 @@
      "species": "lampwick",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 30,
      "tier": "common",
@@ -1476,7 +1476,7 @@
      "species": "gloamtick",
      "level": [
       16,
-      18
+      17
      ],
      "weight": 15,
      "tier": "uncommon",
@@ -1489,7 +1489,7 @@
      "species": "larkspar",
      "level": [
       16,
-      18
+      17
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1498,7 +1498,7 @@
      "species": "huskling",
      "level": [
       16,
-      18
+      17
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1507,7 +1507,7 @@
      "species": "gildfinch",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 15,
      "tier": "uncommon",
@@ -1520,7 +1520,7 @@
      "species": "cogwhisk",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1529,7 +1529,7 @@
      "species": "tollkin",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 15,
      "tier": "uncommon",
@@ -1541,7 +1541,7 @@
      "species": "moatling",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1550,7 +1550,7 @@
      "species": "halovy",
      "level": [
       17,
-      18
+      17
      ],
      "weight": 5,
      "tier": "rare",
@@ -1561,8 +1561,8 @@
     {
      "species": "frondhart",
      "level": [
-      18,
-      18
+      17,
+      17
      ],
      "weight": 5,
      "tier": "rare"
@@ -1571,7 +1571,7 @@
      "species": "rooftrove",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 4,
      "kept_from_sync": true,
@@ -1581,7 +1581,7 @@
      "species": "foldwing",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 4,
      "kept_from_sync": true,
@@ -1591,7 +1591,7 @@
      "species": "velvetabby",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 4,
      "kept_from_sync": true,
@@ -1601,7 +1601,7 @@
      "species": "dunehop",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 4,
      "cute_r2": true,
@@ -1611,7 +1611,7 @@
      "species": "belugoo",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 4,
      "cute_r2": true,
@@ -1621,7 +1621,7 @@
      "species": "kinkalume",
      "level": [
       15,
-      18
+      17
      ],
      "weight": 2,
      "time": [
@@ -1652,8 +1652,8 @@
     {
      "species": "whelkin",
      "level": [
-      28,
-      34
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1661,8 +1661,8 @@
     {
      "species": "medulet",
      "level": [
-      28,
-      34
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1670,8 +1670,8 @@
     {
      "species": "ankerling",
      "level": [
-      28,
-      34
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1679,8 +1679,8 @@
     {
      "species": "plashcrown",
      "level": [
-      28,
-      34
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1688,8 +1688,8 @@
     {
      "species": "ribboneel",
      "level": [
-      30,
-      34
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1697,8 +1697,8 @@
     {
      "species": "streambarb",
      "level": [
-      28,
-      34
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1706,8 +1706,8 @@
     {
      "species": "rakefin",
      "level": [
-      28,
-      33
+      15,
+      18
      ],
      "weight": 5,
      "tier": "rare"
@@ -1715,8 +1715,8 @@
     {
      "species": "eftwarden",
      "level": [
-      28,
-      34
+      15,
+      18
      ],
      "weight": 5,
      "tier": "rare",
@@ -1746,8 +1746,8 @@
     {
      "species": "pinchkin",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1755,8 +1755,8 @@
     {
      "species": "sandstarlet",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1764,8 +1764,8 @@
     {
      "species": "brinecube",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1773,8 +1773,8 @@
     {
      "species": "quaymouser",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1782,8 +1782,8 @@
     {
      "species": "polypip",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1791,8 +1791,8 @@
     {
      "species": "whelkin",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 30,
      "tier": "common"
@@ -1800,8 +1800,8 @@
     {
      "species": "bulwarkrab",
      "level": [
-      30,
-      34
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1809,8 +1809,8 @@
     {
      "species": "spraytern",
      "level": [
-      32,
-      35
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1818,8 +1818,8 @@
     {
      "species": "blubbet",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1827,8 +1827,8 @@
     {
      "species": "finnip",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -1836,8 +1836,8 @@
     {
      "species": "brineseal",
      "level": [
-      28,
-      30
+      15,
+      18
      ],
      "weight": 5,
      "tier": "rare"
@@ -1845,8 +1845,8 @@
     {
      "species": "dawnfin",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 5,
      "tier": "rare",
@@ -1857,8 +1857,8 @@
     {
      "species": "spratwyrm",
      "level": [
-      28,
-      35
+      15,
+      18
      ],
      "weight": 5,
      "tier": "rare",
@@ -2066,7 +2066,7 @@
      "species": "halovy",
      "level": [
       23,
-      25
+      24
      ],
      "weight": 30
     },
@@ -2074,7 +2074,7 @@
      "species": "gildfinch",
      "level": [
       23,
-      25
+      24
      ],
      "weight": 40
     },
@@ -2082,7 +2082,7 @@
      "species": "tollkin",
      "level": [
       23,
-      25
+      24
      ],
      "weight": 5,
      "time": [
@@ -2093,7 +2093,7 @@
      "species": "railmite",
      "level": [
       23,
-      25
+      24
      ],
      "weight": 25
     }
@@ -2109,40 +2109,40 @@
     {
      "species": "sailquill",
      "level": [
-      25,
-      27
+      23,
+      24
      ],
      "weight": 30
     },
     {
      "species": "spraytern",
      "level": [
-      25,
-      27
+      23,
+      24
      ],
      "weight": 20
     },
     {
      "species": "chiselbug",
      "level": [
-      25,
-      27
+      23,
+      24
      ],
      "weight": 20
     },
     {
      "species": "glarekit",
      "level": [
-      25,
-      27
+      23,
+      24
      ],
      "weight": 15
     },
     {
      "species": "gloamtick",
      "level": [
-      25,
-      27
+      23,
+      24
      ],
      "weight": 15,
      "time": [
@@ -2153,32 +2153,32 @@
     {
      "species": "glassvine",
      "level": [
-      25,
-      27
+      23,
+      24
      ],
      "weight": 12
     },
     {
      "species": "prismite",
      "level": [
-      25,
-      27
+      23,
+      24
      ],
      "weight": 6
     },
     {
      "species": "spiralith",
      "level": [
-      26,
-      27
+      23,
+      24
      ],
      "weight": 3
     },
     {
      "species": "marmallow",
      "level": [
-      25,
-      27
+      23,
+      24
      ],
      "weight": 4,
      "cute_r3": true,
@@ -5127,8 +5127,8 @@
     {
      "species": "puddlenip",
      "level": [
-      26,
-      30
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -5136,8 +5136,8 @@
     {
      "species": "streambarb",
      "level": [
-      25,
-      30
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
@@ -5145,8 +5145,8 @@
     {
      "species": "reedmoot",
      "level": [
-      24,
-      30
+      15,
+      18
      ],
      "weight": 15,
      "tier": "uncommon"
