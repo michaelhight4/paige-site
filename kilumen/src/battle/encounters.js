@@ -11,15 +11,25 @@ export const ENCOUNTERS_URL = 'art/world/overworld/encounters/encounters.json';
 // Creature sync (Oct 23, 2026): tools/sync_creatures.mjs writes the merged table (live + GD swaps + staged zones, wired species only,
 // stand-ins flagged). Tried first; falls back to ENCOUNTERS_URL if missing or invalid.
 export const ENCOUNTERS_WIRED_URL = 'data/encounters_wired.json';
+/** One shared fetch of encounters_wired.json per page (the roller and contacts tips both read it; was fetched twice).
+ *  Resolves to the parsed JSON or null; callers must treat it as read-only. A failed fetch is not cached. */
+export function encountersWired() {
+  const g = globalThis;
+  if (!g.__kilEncWired) {
+    g.__kilEncWired = fetch(ENCOUNTERS_WIRED_URL).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    g.__kilEncWired.then((d) => { if (!d) g.__kilEncWired = null; });
+  }
+  return g.__kilEncWired;
+}
 // Art filter (#62, Coder, Oct 23 2026): at load, slots whose species has no creature art are dropped from the in-memory
 // table (the JSON files keep everything). hasArt = the battle's own lookup (src/ui/data.js SPECIES: hand-written 16 +
 // species_synced.gen.js), so creatures the sync wires later are picked up on the next load. On by default; ?encart=0 off.
 // Trail level scaling (Coder, Oct 23 2026; Gary 11:48 AM CT: "well we need to have them be level scaling the closer to
 // town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
 // the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
-import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.87-alpha';
-import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.87-alpha'; // water + cave floor at 0.3x grass (flag, off)
-import { leadEncounterMult } from '../systems/held.js?v=v0.2.87-alpha'; // Lure Lantern / Hush Cloak (Oct 29 2026)
+import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.88-alpha';
+import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.88-alpha'; // water + cave floor at 0.3x grass (flag, off)
+import { leadEncounterMult } from '../systems/held.js?v=v0.2.88-alpha'; // Lure Lantern / Hush Cloak (Oct 29 2026)
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
 export const MAX_RATE = 0.2;
 export const GRACE_STEPS = 3;
@@ -173,7 +183,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
   if (opts.off) return st;
   const getJson = (u) => fetch(u).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   const axesP = opts.levelScale === false ? Promise.resolve(null) : getJson(opts.axesUrl || TRAIL_AXES_URL);
-  st.ready = (opts.url ? getJson(opts.url) : getJson(ENCOUNTERS_WIRED_URL).then((d) => (d?.zones ? d : getJson(ENCOUNTERS_URL)))).then((data) => {
+  st.ready = (opts.url ? getJson(opts.url) : encountersWired().then((d) => (d?.zones ? structuredClone(d) : getJson(ENCOUNTERS_URL)))).then((data) => {
     if (!data) return;
     if (opts.elOf) { // habitat rule: surf = water types only, caves = cave dwellers only (in memory, always on)
       const h = filterHabitat(data, opts.elOf, opts.foundOf); st.habitat = h; data = h.data;

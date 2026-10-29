@@ -17,9 +17,9 @@
 // - Text: Text Bot keys under system_contacts.* (data/textbot_requests_contacts.md); existing system_trainers /
 //   system_phone keys next; then the placeholders below (PH, plain sentences).
 // Pure logic first (node-testable), then attachContacts(scene, opts) for the browser.
-import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.87-alpha';
-import { areaName } from '../overworld/area_sign.js?v=v0.2.87-alpha';
-import { contactsDefault, normaliseContacts } from './contacts_save.js?v=v0.2.87-alpha';
+import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.88-alpha';
+import { areaName } from '../overworld/area_sign.js?v=v0.2.88-alpha';
+import { contactsDefault, normaliseContacts } from './contacts_save.js?v=v0.2.88-alpha';
 
 export const CONTACTS_DATA_URL = 'src/systems/data/contacts.json';
 export const contactsEnabled = (query) => !!query && typeof query.get === 'function' && query.get('contacts') !== '0';
@@ -216,7 +216,7 @@ export async function attachContacts(scene, opts = {}) {
   const rng = opts.rng || Math.random;
   const fetchJson = async (u) => { try { const r = await fetch(u); return r.ok ? await r.json() : null; } catch { return null; } };
   const data = opts.data || await fetchJson(CONTACTS_DATA_URL) || { trainers: {} };
-  const enc = opts.encounters !== undefined ? opts.encounters : await fetchJson('data/encounters_wired.json');
+  const enc = opts.encounters !== undefined ? opts.encounters : await (globalThis.__kilEncWired || fetchJson('data/encounters_wired.json')) /* shared with battle/encounters.js encountersWired() */;
   const store = scene.store?.extra;
   const state = normaliseContacts(store?.contacts);
   if (store) store.contacts = state;

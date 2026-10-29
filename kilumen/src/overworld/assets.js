@@ -1,15 +1,30 @@
 // Kilumen overworld: browser asset loading (images + JSON) with a small cache.
+import { WEBP_SHEETS } from './webp_sheets.js?v=v0.2.88-alpha';
 const images = new Map();
 const json = new Map();
+
+const OW_DIR = '/art/world/overworld/';
+/** The lossless .webp twin of an overworld tile sheet URL, or null when that sheet ships PNG only. */
+export function webpFor(url) {
+  const m = /^([^?#]*)\.png([?#].*)?$/.exec(String(url));
+  if (!m) return null;
+  const i = m[1].lastIndexOf(OW_DIR);
+  if (i < 0 || !WEBP_SHEETS.has(m[1].slice(i + OW_DIR.length) + '.png')) return null;
+  return m[1] + '.webp' + (m[2] || '');
+}
 
 export function loadImage(url) {
   if (!images.has(url)) {
     images.set(url, new Promise((resolve, reject) => {
       const img = new Image();
       img.decoding = 'async';
+      const webp = webpFor(url);
       img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error('image failed: ' + url));
-      img.src = url;
+      img.onerror = () => {
+        if (webp && !img.dataset.pngFallback) { img.dataset.pngFallback = '1'; img.src = url; return; } // WebP failed: PNG
+        reject(new Error('image failed: ' + url));
+      };
+      img.src = webp || url;
     }));
   }
   return images.get(url);
