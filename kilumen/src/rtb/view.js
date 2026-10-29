@@ -2,10 +2,10 @@
 // screen = (world - cam) * zoom, as src/overworld/overworld.js view()), plus a small DOM HUD. All the "juice" lives here:
 // hitstop, shake, white hit flash, knockback dust, damage numbers, element sparks, telegraph wedges, "!" alerts, faint poof,
 // crystal pulses, level-up column, start/end banners. Reduced motion (?rm=1 / prefers-reduced-motion): no shake, no flashes, fewer particles.
-import { displayName } from '../systems/creature.js?v=v0.2.59-alpha';
-import { SHAPE_STATS } from './moves.js?v=v0.2.59-alpha';
-import { RT } from './sim.js?v=v0.2.59-alpha';
-import { loadFx } from '../ui/hit_fx.js?v=v0.2.59-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.60-alpha';
+import { SHAPE_STATS } from './moves.js?v=v0.2.60-alpha';
+import { RT } from './sim.js?v=v0.2.60-alpha';
+import { loadFx } from '../ui/hit_fx.js?v=v0.2.60-alpha';
 
 export const EL_COLOR = { fire: '#ff7a2f', magma: '#ff5a1f', water: '#3fa9ff', freshwater: '#5cc3ff', sea: '#2f86ff', earth: '#c9935a', grass: '#62d65a',
   bug: '#a6d93d', wind: '#c6ecff', bird: '#d6e6ff', light: '#fff1a0', angelic: '#ffe6c2', god: '#ffe08a', dark: '#9a6bff', ghost: '#b796ff', demon: '#ff4f7a',
@@ -31,11 +31,22 @@ const CSS = `
 @keyframes rtbLow{50%{border-color:#ff5252;box-shadow:0 0 18px rgba(255,60,60,.55)}}
 .rtb-sk{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:7px}
 .rtb-s{position:relative;min-height:44px;border-radius:8px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.12);padding:4px 7px 4px 10px;overflow:hidden;font-size:13px;line-height:1.15;cursor:pointer;touch-action:none}
-.rtb-s .k{position:absolute;right:5px;top:3px;font-size:10px;opacity:.6}
+.rtb-s .k{position:absolute;right:4px;top:3px;min-width:17px;height:17px;padding:0 3px;border-radius:4px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);font:700 11px/15px system-ui,sans-serif;text-align:center;z-index:2}
+.rtb-s .k:empty{display:none}
 .rtb-s .n{font-weight:700;display:block;padding-right:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rtb-s .e{font-size:11px;opacity:.8}
 .rtb-s .el{position:absolute;left:0;top:0;bottom:0;width:4px}
-.rtb-s .cd{position:absolute;left:0;bottom:0;height:100%;background:rgba(0,0,0,.55);pointer-events:none}
+.rtb-s .cd{position:absolute;inset:0;background:conic-gradient(rgba(0,0,0,.6) var(--sw,0deg),transparent 0);pointer-events:none;z-index:1}
+.rtb-s.ready{animation:rtbReady .45s ease-out}
+@keyframes rtbReady{0%{box-shadow:0 0 0 0 rgba(255,255,255,.9);border-color:#fff}100%{box-shadow:0 0 0 8px rgba(255,255,255,0)}}
+.rtb-party{display:flex;gap:4px;margin-top:6px}
+.rtb-pi{position:relative;width:38px;height:38px;border-radius:7px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.14);overflow:hidden;cursor:pointer;touch-action:none}
+.rtb-pi canvas{position:absolute;left:1px;top:1px;width:32px;height:32px;image-rendering:pixelated}
+.rtb-pi.on{border-color:#7dd3ff}.rtb-pi.ko{opacity:.35;filter:grayscale(1)}.rtb-pi.cd:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.rtb-pi.no{animation:rtbNo .3s}@keyframes rtbNo{25%,75%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
+.rtb-pi .pk{position:absolute;right:1px;bottom:0;font:700 11px/1 system-ui,sans-serif;text-shadow:0 1px 0 #000,0 0 3px #000;z-index:2}
+.rtb-pi .ph{position:absolute;left:2px;right:2px;bottom:2px;height:3px;background:#5be37a;border-radius:2px}
+body.rtb-touch .rtb-pi{width:34px;height:34px}body.rtb-touch .rtb-pi .pk{display:none}
 .rtb-s.sel{border-color:#ffd25a;background:rgba(255,210,90,.16)}
 .rtb-s.empty .e{color:#ff8a8a}
 .rtb-s.pop{animation:rtbPop .22s}
@@ -79,7 +90,7 @@ export class RtView {
     this.hud.innerHTML = `<div class="rtb-bars"></div><div class="rtb-vig"></div><div class="rtb-plates"></div>
       <div class="rtb-act"><button class="rtb-b" data-rtb="swap">Team<small>${keyNames.swap}</small></button><button class="rtb-b" data-rtb="crystal">Crystal<small>${keyNames.crystal}</small></button><button class="rtb-b" data-rtb="leave">Leave<small>${keyNames.leave}</small></button></div>
       <div class="rtb-me"><div class="rtb-nm"><span data-rtb="aname"></span><span data-rtb="alv"></span></div><div class="rtb-bar" data-rtb="ahp"><b></b><i></i></div>
-      <div class="rtb-bar rtb-xp" data-rtb="axp"><i></i></div><div class="rtb-sk"></div></div>
+      <div class="rtb-bar rtb-xp" data-rtb="axp"><i></i></div><div class="rtb-sk"></div><div class="rtb-party" data-rtb="party"></div></div>
       <div class="rtb-banner"></div><div class="rtb-help">${keyNames.help}</div>`;
     document.body.appendChild(this.hud);
     this.$ = (s) => this.hud.querySelector(s);
@@ -288,13 +299,31 @@ export class RtView {
     a.skills.forEach((id, i) => {
       const r = rows[i]; if (!r) return; const sk = this.skillInfo(id), en = a.c.energy?.[i] ?? 0, mx = this.maxEn?.(a.c)?.[i] ?? en;
       r.querySelector('.n').textContent = sk?.name || id; r.querySelector('.e').textContent = `En ${en}/${mx}`; r.querySelector('.el').style.background = col(String(sk?.type || '').toLowerCase());
-      const cd = sk ? Math.max(0, a.cds[i]) / (this.cdOf(sk) || 1) : 0; r.querySelector('.cd').style.width = Math.min(1, cd) * 100 + '%';
+      const cd = sk ? Math.max(0, a.cds[i]) / (this.cdOf(sk) || 1) : 0; r.querySelector('.cd').style.setProperty('--sw', Math.round(Math.min(1, cd) * 360) + 'deg');
+      if (r._cd > 0 && cd <= 0) { r.classList.remove('ready'); void r.offsetWidth; r.classList.add('ready'); } r._cd = cd; r.dataset.ready = cd <= 0 ? '1' : '0';
       r.classList.toggle('sel', i === sim.selected); r.classList.toggle('empty', en <= 0);
     });
+    this.partyFrame();
     const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.disabled = !cr || !!sim.caught || sim.trainer; cb.firstChild.textContent = `Crystal ×${cr}`;
     this.$('[data-rtb="swap"]').disabled = sim.party.filter((c) => c.hp > 0).length < 2 || sim.swapCd > 0;
     this.$('[data-rtb="leave"]').classList.toggle('hold', sim.retreatT > 0);
   }
+  partyFrame() {
+    const sim = this.sim, box = this.$('[data-rtb="party"]'); if (!box) return;
+    const key = sim.party.map((c) => c.uid).join();
+    if (box.dataset.k !== key) {
+      box.dataset.k = key;
+      box.innerHTML = sim.party.map((c, i) => `<div class="rtb-pi" data-i="${i}" role="button" aria-label="Switch to ${displayName(c)} (${i + 1})" title="${displayName(c)}"><canvas width="64" height="64"></canvas><span class="pk">${this.keyNames.party ? i + 1 : ''}</span><span class="ph"></span></div>`).join('');
+      box._drawn = new Set();
+    }
+    sim.party.forEach((c, i) => {
+      const el = box.children[i]; if (!el) return;
+      if (!box._drawn.has(i)) { const im = this.sheet(c.species); if (im) { el.querySelector('canvas').getContext('2d').drawImage(im, 0, 0, 64, 64, 0, 0, 64, 64); box._drawn.add(i); } }
+      el.classList.toggle('on', i === sim.active); el.classList.toggle('ko', !(c.hp > 0)); el.classList.toggle('cd', i !== sim.active && sim.swapCd > 0);
+      el.querySelector('.ph').style.width = `calc(${Math.max(0, c.hp / (this.maxHpOf?.(c) || c.maxHp || c.hp || 1)) * 100}% - 4px)`;
+    });
+  }
+  partyNo(i) { const el = this.$(`.rtb-pi[data-i="${i}"]`); if (!el) return; el.classList.remove('no'); void el.offsetWidth; el.classList.add('no'); }
   destroy() {
     this.$('.rtb-bars')?.classList.remove('on');
     this.world.style.transform = ''; this.cv.remove(); this.hud.remove(); document.body.classList.remove('rtb-touch');

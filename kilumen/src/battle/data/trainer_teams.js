@@ -18,7 +18,7 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.59-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.60-alpha';
 
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end

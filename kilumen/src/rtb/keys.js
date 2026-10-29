@@ -1,0 +1,32 @@
+// rtb keybinds (v0.2.60, Gary Oct 29 2026): Q / E / R / F = active creature's skills 1-4, 1-6 = switch to party slot 1-6.
+// Pure tables + lookups so tests can check them. Only read while a real-time battle runs (index.js adds / removes the listener).
+// Moved to make room: Team list = Tab, Crystal = G, Turn-based switch = T. Unchanged: WASD / arrows move, Z / Space / Enter
+// selected skill, C next skill, X / Shift dodge + sprint, hold Esc leave (Esc is also B in the overworld; nothing new uses it).
+export const SKILL_KEYS = ['KeyQ', 'KeyE', 'KeyR', 'KeyF'];
+export const SKILL_LABELS = ['Q', 'E', 'R', 'F'];
+export const PARTY_KEYS = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6'];
+export const NUMPAD_PARTY = ['Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5', 'Numpad6'];
+export const TEAM_KEYS = ['Tab'], CRYSTAL_KEYS = ['KeyG'], MODE_KEYS = ['KeyT'];
+export const FIRE_KEYS = ['KeyZ', 'Space', 'Enter'], NEXT_KEYS = ['KeyC', 'Backspace'], B_KEYS = ['KeyX', 'ShiftLeft', 'ShiftRight'], LEAVE_KEYS = ['Escape'];
+// Gamepad (standard mapping): LB / RB / LT / RT = skills 1-4 (A stays selected skill, B dodge / sprint, Select next skill).
+export const PAD_SKILL_BUTTONS = [4, 5, 6, 7];
+
+/** keydown code -> action {type:'skill'|'party'|'team'|'crystal'|'mode'|'fire'|'next'|'b'|'leave', slot?} or null */
+export function actionFor(code) {
+  let i = SKILL_KEYS.indexOf(code); if (i >= 0) return { type: 'skill', slot: i };
+  i = PARTY_KEYS.indexOf(code); if (i < 0) i = NUMPAD_PARTY.indexOf(code); if (i >= 0) return { type: 'party', slot: i };
+  if (TEAM_KEYS.includes(code)) return { type: 'team' };
+  if (CRYSTAL_KEYS.includes(code)) return { type: 'crystal' };
+  if (MODE_KEYS.includes(code)) return { type: 'mode' };
+  if (FIRE_KEYS.includes(code)) return { type: 'fire' };
+  if (NEXT_KEYS.includes(code)) return { type: 'next' };
+  if (B_KEYS.includes(code)) return { type: 'b' };
+  if (LEAVE_KEYS.includes(code)) return { type: 'leave' };
+  return null;
+}
+/** all codes the rtb listener claims (tests: no duplicates across actions) */
+export const ALL_CODES = [...SKILL_KEYS, ...PARTY_KEYS, ...NUMPAD_PARTY, ...TEAM_KEYS, ...CRYSTAL_KEYS, ...MODE_KEYS, ...FIRE_KEYS, ...NEXT_KEYS, ...B_KEYS, ...LEAVE_KEYS];
+/** pad buttons now / before -> skill slots pressed this frame (edges) */
+export function padSkillEdges(now, prev) { return PAD_SKILL_BUTTONS.map((b, i) => (now[b] && !prev[b] ? i : -1)).filter((i) => i >= 0); }
+/** cooldown sweep angle (deg, 0 = ready) for a slot; cd remaining / total */
+export function sweepDeg(left, total) { return total > 0 ? Math.round(360 * Math.max(0, Math.min(1, left / total))) : 0; }

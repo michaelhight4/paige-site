@@ -29,12 +29,12 @@ export function ensureModeCss() {
 }
 export const MODE_LABEL = { rt: 'Real-time', turn: 'Turn-based' };
 /** a <button> that switches TO `to` ('rt' | 'turn') */
-export function modeButton(to, { touch = false } = {}) {
+export function modeButton(to, { touch = false, key = 'R' } = {}) {
   ensureModeCss();
   const b = document.createElement('button'); b.type = 'button'; b.className = 'rtb-mode' + (touch ? ' touch' : ''); b.dataset.rtbMode = to;
-  b.setAttribute('aria-label', `Switch to ${MODE_LABEL[to].toLowerCase()} battle (R)`);
-  b.title = `Switch to ${MODE_LABEL[to].toLowerCase()} battle (R)`;
-  b.innerHTML = `<span class="ico" aria-hidden="true">${to === 'rt' ? '⚡' : '⏸'}</span><span>${MODE_LABEL[to]}</span><kbd>R</kbd>`;
+  b.setAttribute('aria-label', `Switch to ${MODE_LABEL[to].toLowerCase()} battle (${key})`);
+  b.title = `Switch to ${MODE_LABEL[to].toLowerCase()} battle (${key})`;
+  b.innerHTML = `<span class="ico" aria-hidden="true">${to === 'rt' ? '⚡' : '⏸'}</span><span>${MODE_LABEL[to]}</span><kbd>${key}</kbd>`;
   return b;
 }
 /** short full-screen flash with the new mode's name; resolves when it is gone */

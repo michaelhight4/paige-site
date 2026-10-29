@@ -1,8 +1,8 @@
 // Kilumen party + Field Archive (PC boxes) + starter flow. systems-gd pass, Oct 22, 2026.
 // The live party array stays scene.party (overworld.js reads it for the Trail Buddy follower and {lead});
 // Party only ever edits that array in place or reassigns scene.party, then asks the scene to refresh the follower.
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.59-alpha';
-import { createCreature, deserialise, serialise, healFull, isFainted, idOf } from './creature.js?v=v0.2.59-alpha';
+import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.60-alpha';
+import { createCreature, deserialise, serialise, healFull, isFainted, idOf } from './creature.js?v=v0.2.60-alpha';
 
 export const partyMax = (rules = KILUMEN_RULES) => rules.partyMax;
 

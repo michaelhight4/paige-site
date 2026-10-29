@@ -5,19 +5,21 @@
 // Results fold back through scene.systems.applyBattleResult (same shape as the turn battle), blackout through onPartyFainted.
 // Save lock: a scene.saveGuards entry returns 'rtb' for the whole fight (never save mid-battle; the scene.script checkpoint
 // taken before the encounter is what a mid-fight reload restores).
-// Controls  PC: WASD / arrows move, 1-4 use a skill, Z / Space / Enter / F use the selected skill, C next skill,
-//               X / Shift tap = dodge, hold = sprint, Q team, E crystal, hold Esc = leave.
+// Controls  PC (v0.2.60, keys.js): WASD / arrows move, Q E R F use skill 1-4, 1-6 switch to party slot 1-6, Z / Space / Enter
+//               use the selected skill, C next skill, X / Shift tap = dodge, hold = sprint, Tab team, G crystal, T turn-based, hold Esc = leave.
+//           pad: LB / RB / LT / RT skills 1-4, A selected skill, B dodge / sprint, Select next skill.
 //           phone: D-pad move, A = selected skill, SEL = next skill, B tap = dodge / hold = sprint, tap a skill chip = use it,
 //               Team / Crystal / Leave (hold) buttons top right.
-import { RtBattle } from './sim.js?v=v0.2.59-alpha';
-import { RtView } from './view.js?v=v0.2.59-alpha';
-import { cooldownFor } from './moves.js?v=v0.2.59-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.59-alpha';
-import { maxEnergy, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.59-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.59-alpha';
-import { Col } from '../overworld/constants.js?v=v0.2.59-alpha';
-import { reducedMotion } from '../sports/hype.js?v=v0.2.59-alpha';
-import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.59-alpha';
+import { RtBattle } from './sim.js?v=v0.2.60-alpha';
+import { RtView } from './view.js?v=v0.2.60-alpha';
+import { cooldownFor } from './moves.js?v=v0.2.60-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.60-alpha';
+import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.60-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.60-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.60-alpha';
+import { reducedMotion } from '../sports/hype.js?v=v0.2.60-alpha';
+import { actionFor, SKILL_LABELS, padSkillEdges } from './keys.js?v=v0.2.60-alpha';
+import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.60-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
 let SK = null;
@@ -64,9 +66,9 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     if (q.get('rtbcatch') === '1') sim.forceCatch = true; if (q.get('rtbcatch') === '0') sim.forceCatch = false; // dev / clips only
     const touch = !document.getElementById('touchpad')?.hidden;
     const keyNames = touch ? { skills: ['', '', '', ''], swap: '', crystal: '', leave: 'hold', help: '' }
-      : { skills: ['1', '2', '3', '4'], swap: 'Q', crystal: 'E', leave: 'hold Esc', help: 'Move WASD · Skills 1-4 or Z · C next skill · X tap dodge / hold sprint · Q team · E crystal · R turn-based · hold Esc leave' };
+      : { skills: SKILL_LABELS.slice(), party: true, swap: 'Tab', crystal: 'G', leave: 'hold Esc', help: 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team · G crystal · T turn-based · hold Esc leave' };
     const view = new RtView({ scene, sim, touch, reduced: reducedMotion(q), keyNames });
-    view.skillInfo = (id) => SK[id]; view.cdOf = cooldownFor; view.maxEn = (c) => maxEnergy(c);
+    view.skillInfo = (id) => SK[id]; view.cdOf = cooldownFor; view.maxEn = (c) => maxEnergy(c); view.maxHpOf = (c) => maxHp(c);
     view.crystals = () => crystalStock(scene.systems?.bag).reduce((n, c) => n + c.n, 0);
     view.xpBar = (c) => { const a = xpForLevel(c.level), b = xpForLevel(c.level + 1); return Math.max(0, Math.min(1, ((c.xp || 0) - a) / Math.max(1, b - a))); };
     // hide the follower (it is the one fighting) while the fight runs
@@ -74,16 +76,19 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const guard = () => 'rtb'; scene.saveGuards?.push(guard);
 
     // ---- input
-    const inp = { mode: false, fire: null, select: false, swap: false, crystal: false, dodge: false, retreat: false, bDown: null, bHeld: false };
-    const ACT = { Digit1: 0, Digit2: 1, Digit3: 2, Digit4: 3 }, FIRE = new Set(['KeyZ', 'Space', 'Enter', 'KeyF']), BKEY = new Set(['KeyX', 'ShiftLeft', 'ShiftRight']);
+    const inp = { mode: false, fire: null, party: null, select: false, swap: false, crystal: false, dodge: false, retreat: false, bDown: null, bHeld: false };
+    const BKEY = new Set(['KeyX', 'ShiftLeft', 'ShiftRight']);
     const bPress = () => { if (inp.bDown == null) inp.bDown = performance.now(); };
     const bRelease = () => { if (inp.bDown != null && (performance.now() - inp.bDown) / 1000 < B_TAP) inp.dodge = true; inp.bDown = null; };
     const kd = (e) => {
-      const c = e.code; let used = true;
-      if (c in ACT) inp.fire = ACT[c]; else if (FIRE.has(c)) { if (!e.repeat) inp.fire = 'sel'; } else if (c === 'KeyC' || c === 'Backspace') { if (!e.repeat) inp.select = true; }
-      else if (c === 'KeyQ' || c === 'Tab') { if (!e.repeat) inp.swap = true; } else if (c === 'KeyE') { if (!e.repeat) inp.crystal = true; } else if (c === 'KeyR') { if (!e.repeat) inp.mode = true; } else if (c === 'Escape') inp.retreat = true;
-      else if (BKEY.has(c)) { if (!e.repeat) bPress(); used = false; } else used = false;
-      if (used) { e.preventDefault(); e.stopPropagation(); }
+      if (e.ctrlKey || e.metaKey || e.altKey) return; // browser shortcuts (Ctrl+R reload, Ctrl+F find) stay the browser's
+      const a = actionFor(e.code); if (!a) return;
+      if (a.type === 'b') { if (!e.repeat) bPress(); return; } // B keys still reach the overworld input (sprint hold)
+      e.preventDefault(); e.stopPropagation();
+      if (a.type === 'leave') { inp.retreat = true; return; }
+      if (e.repeat) return;
+      if (a.type === 'skill') inp.fire = a.slot; else if (a.type === 'party') inp.party = a.slot; else if (a.type === 'fire') inp.fire = 'sel';
+      else if (a.type === 'next') inp.select = true; else if (a.type === 'team') inp.swap = true; else if (a.type === 'crystal') inp.crystal = true; else if (a.type === 'mode') inp.mode = true;
     };
     const ku = (e) => { if (e.code === 'Escape') { inp.retreat = false; e.stopPropagation(); } if (BKEY.has(e.code)) bRelease(); };
     window.addEventListener('keydown', kd, true); window.addEventListener('keyup', ku, true);
@@ -94,16 +99,23 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     on(pad?.querySelector('[data-btn="select"]'), 'pointerdown', (e) => { e.stopPropagation(); inp.select = true; });
     const pb = pad?.querySelector('[data-btn="b"]'); on(pb, 'pointerdown', bPress); on(pb, 'pointerup', bRelease); on(pb, 'pointercancel', bRelease); on(pb, 'pointerleave', bRelease);
     const hud = view.hud;
-    const modeBtn = modeButton('turn', { touch }); modeBtn.classList.add('in-rtb'); hud.appendChild(modeBtn);
+    const modeBtn = modeButton('turn', { touch, key: 'T' }); modeBtn.classList.add('in-rtb'); hud.appendChild(modeBtn);
     on(modeBtn, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); inp.mode = true; });
     on(modeBtn, 'click', (e) => { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) inp.mode = true; }); // keyboard Enter / Space on the focused button
     on(hud, 'pointerdown', (e) => {
       const s = e.target.closest?.('.rtb-s'), b = e.target.closest?.('[data-rtb]');
+      const pi = e.target.closest?.('.rtb-pi'); if (pi) { inp.party = +pi.dataset.i; e.preventDefault(); return; }
       if (s) { sim.selected = +s.dataset.slot; inp.fire = +s.dataset.slot; e.preventDefault(); return; }
       if (!b) return; e.preventDefault();
       if (b.dataset.rtb === 'swap') inp.swap = true; else if (b.dataset.rtb === 'crystal') inp.crystal = true; else if (b.dataset.rtb === 'leave') inp.retreat = true;
     });
     const leaveUp = () => { inp.retreat = false; }; on(hud, 'pointerup', leaveUp); on(hud, 'pointercancel', leaveUp);
+    const padPrev = new Map();
+    const pollPads = () => { // standard-mapping pads: LB / RB / LT / RT = skills 1-4 (edges)
+      const pads = navigator.getGamepads?.() || [];
+      for (const p of pads) { if (!p || p.mapping !== 'standard') continue; const now = p.buttons.map((b) => !!b?.pressed), prev = padPrev.get(p.index) || [];
+        const e = padSkillEdges(now, prev); if (e.length) inp.fire = e[0]; padPrev.set(p.index, now); }
+    };
     const moveVec = () => {
       let x = 0, y = 0; for (const d of new Set(scene.input?.held || [])) { const v = DIRV[d]; if (v) { x += v[0]; y += v[1]; } }
       return { mx: x, my: y };
@@ -123,6 +135,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       if (finished) return;
       let dt = Math.min(0.05, (now - last) / 1000); last = now;
       if (inp.mode) { if (sim.state !== 'fight') inp.mode = false; else if (!sim.capture && sim.foes.some((f) => f.alive && !f.caught)) return finish(true); } // mid crystal: waits for the result
+      pollPads();
       if (stop > 0) stop -= dt;
       else {
         let scale = 1; if (slow) { scale = slow.scale; if ((slow.time -= dt) <= 0) slow = null; }
@@ -132,6 +145,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
           const mv = moveVec(), sprint = inp.bDown != null && (performance.now() - inp.bDown) / 1000 >= B_TAP;
           let crystal = null;
           if (inp.crystal) { const st = crystalStock(scene.systems?.bag)[0]; if (!st) view.num(sim.ally.x, sim.ally.y - 60, 'No crystals', '#ff8a8a'); else if (sim.canCrystal()) crystal = st; }
+          if (inp.party != null) { const ok = sim.swap(inp.party); if (!ok && inp.party !== sim.active) view.partyNo?.(inp.party); inp.party = null; }
           const used = crystal; sim.step(STEP, { ...mv, sprint, dodge: inp.dodge, fire: inp.fire, select: inp.select, swap: inp.swap, crystal, retreat: inp.retreat });
           if (used && sim.crystalUsed && sim.events.some((e) => e.type === 'crystalCast')) scene.systems.bag.remove(used.id, 1);
           inp.fire = null; inp.select = inp.swap = inp.crystal = inp.dodge = false;
