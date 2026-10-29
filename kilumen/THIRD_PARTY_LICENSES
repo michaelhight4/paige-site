@@ -613,3 +613,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+################################################################################
+# Water battle biome (Oct 29, 2026)
+################################################################################
+Pixel Water (Godot shader) by Francisco Cidade: CC0. https://fcidade.itch.io/pixel-water-godot-shader-free
+Where: src/battle/data/water_bg.js. Only the technique (flat banded water shades, thin crests, sparse glints, long swell)
+was adapted; no code copied. Credited anyway. All art is drawn in code by Kilumen.

@@ -14,6 +14,7 @@ import { authoredTeam } from './data/trainer_teams.js?v=v0.2.58-alpha';
 import { STAT_NAMES } from './data/creatures.js?v=v0.2.58-alpha';
 import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.58-alpha';
 import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.58-alpha';
+import { mountWaterBg } from './data/water_bg.js?v=v0.2.58-alpha'; // animated water backdrop (biome 'water')
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
 import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.58-alpha';
 
@@ -85,7 +86,7 @@ export function makeSdBattle(ui, opts, h) {
   const Items = kb.battle.dex.data.Items;
   const itemName = (engineId) => { const it = Items[engineId]; return cat[it?.kGameId]?.name || it?.name || engineId; };
 
-  // battle biome: picks the background and the ground platform art (only 'grass' so far; opts.biome or ?biome=)
+  // battle biome: picks the background and the ground platform art ('grass', 'water'; opts.biome or ?biome=)
   const biome = PLATFORM_BIOMES[opts.biome || ui.q?.get('biome')] ? (opts.biome || ui.q.get('biome')) : 'grass', biomeArt = PLATFORM_BIOMES[biome];
   // feet line of a sprite = lowest non-transparent row / height, so the platform sits under the feet, not the image box
   const feetCache = new Map();
@@ -141,6 +142,11 @@ export function makeSdBattle(ui, opts, h) {
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
+    if (biomeArt.live === 'water') { // live water layer; ripples follow the foe's platform once laid out
+      const foe = { x: 0.8, y: 0.6 }, bgEl = root.querySelector('.bg');
+      mountWaterBg(bgEl, { phase: ui.q?.get('phase') || ui.scene?.phase || 'day', reduced: reducedMotion(), foe });
+      requestAnimationFrame(() => { const pl = root.querySelector('#p2-plat')?.getBoundingClientRect(), r = bgEl.getBoundingClientRect(); if (pl?.width && r.width) { foe.x = (pl.left + pl.width / 2 - r.left) / r.width; foe.y = (pl.top + pl.height * 0.6 - r.top) / r.height; } });
+    }
     if (opts.rtSwitch && !owned) mountModeSwitch();
     for (const s of ['p1', 'p2']) if (mon[s]) drawPlate(s);
     if (!scr.started) { scr.started = true; run(); }

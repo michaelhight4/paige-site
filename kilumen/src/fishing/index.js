@@ -112,7 +112,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
       st.fx = null;
       const w = ui()?.wild;
       if (w?.openBattle) {
-        await w.openBattle({ species: plan.fish.species, level: plan.fish.level, biome: 'grass', intro: { key: 'fishing.battle_intro', fallback: TEXT['fishing.battle_intro'] } });
+        await w.openBattle({ species: plan.fish.species, level: plan.fish.level, biome: 'water', intro: { key: 'fishing.battle_intro', fallback: TEXT['fishing.battle_intro'] } });
         w.roller?.resetGrace?.();
       }
       return;
