@@ -1,8 +1,8 @@
 // Kilumen shop + money: regional prices, stock by Master coins, staff/board discount, buy/sell, trainer money.
 // systems-gd pass, Oct 22, 2026. Money lives in save.coins (save.js v2). NOTE: the text var {coins} is the
 // Masters' coin count (lines.js coinCount); money text uses {total}/{fee}/{amount}/{price}.
-import { fmtMoney } from './config.js?v=v0.2.77-alpha';
-import { CRYSTAL_GRADES, crystalRank } from './data/crystal_grades.js?v=v0.2.77-alpha'; // board-gated crystal grades (Oct 23, 2026)
+import { fmtMoney } from './config.js?v=v0.2.78-alpha';
+import { CRYSTAL_GRADES, crystalRank } from './data/crystal_grades.js?v=v0.2.78-alpha'; // board-gated crystal grades (Oct 23, 2026)
 
 // src/systems/data/shops.json is loaded once (fetch in the browser, fs in node) before the shop is used;
 // no JSON import attributes so older Safari/Firefox still run the zero-build game.

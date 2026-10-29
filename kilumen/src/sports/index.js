@@ -6,18 +6,19 @@
 // Save rules: the coach talk runs inside scene.script() (checkpoint before, normal save after) and a saveGuard blocks
 // saving the whole time the overlay is open, so the fee, the race and the prize land in one save after the overlay
 // closes. Closing the tab mid-race reloads the pre-talk checkpoint: fee not taken, window not used.
-import { attachTownEvents } from './town_ui.js?v=v0.2.77-alpha';
-import { S, t } from './strings.js?v=v0.2.77-alpha';
-import { STATS, POINTS } from './rules.js?v=v0.2.77-alpha';
-import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.77-alpha';
-import { runMeet } from './meet.js?v=v0.2.77-alpha';
-import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.77-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.77-alpha';
-import { speciesAthletics } from './athletics.js?v=v0.2.77-alpha';
-import { rngFor } from './rng.js?v=v0.2.77-alpha';
-import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.77-alpha';
-import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.77-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.77-alpha';
+import { attachTownEvents } from './town_ui.js?v=v0.2.78-alpha';
+import { S, t } from './strings.js?v=v0.2.78-alpha';
+import { STATS, POINTS } from './rules.js?v=v0.2.78-alpha';
+import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.78-alpha';
+import { runMeet } from './meet.js?v=v0.2.78-alpha';
+import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.78-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.78-alpha';
+import { speciesAthletics } from './athletics.js?v=v0.2.78-alpha';
+import { rngFor } from './rng.js?v=v0.2.78-alpha';
+import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.78-alpha';
+import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.78-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.78-alpha';
+import { keyAction, pollPad } from './pad_input.js?v=v0.2.78-alpha';
 
 const W = 640, H = 360, PPM = 22, LANE_Y = [176, 222, 268, 314], SPR = 64;
 const sheet = new Map();
@@ -82,7 +83,7 @@ export function attachSports(scene, { query, systems } = {}) {
   const day = () => scene.clock?.day || 0;
   (scene.saveGuards ||= []).push(() => (st.open ? (st.phase === 'race' ? 'sports_race' : 'sports_menu') : null));
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
-  let ov = null, keyH = null, savedTs = 1;
+  let ov = null, padT = 0, keyH = null, savedTs = 1;
   // snappy UI sounds (tiny WebAudio blips; silent if audio is locked or muted)
   let ac = null;
   const blip = (f = 660, d = 0.06, type = 'square', v = 0.05) => { try { ac ||= new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), gn = ac.createGain(); o.type = type; o.frequency.setValueAtTime(f, ac.currentTime); o.frequency.exponentialRampToValueAtTime(f * 1.5, ac.currentTime + d); gn.gain.setValueAtTime(v, ac.currentTime); gn.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + d); o.connect(gn).connect(ac.destination); o.start(); o.stop(ac.currentTime + d); } catch (e) { /* no audio */ } };
@@ -114,12 +115,15 @@ export function attachSports(scene, { query, systems } = {}) {
     st.open = true; st.phase = 'venue';
     savedTs = scene.timescale ?? 1; scene.timescale = 0;
     ov = document.createElement('div'); ov.id = 'sports-ov'; document.body.appendChild(ov);
-    keyH = (e) => { e.stopPropagation(); if (e.type !== 'keydown') return; if ([' ', 'Enter', 'f', 'F', 'a', 'A'].includes(e.key)) { e.preventDefault(); st.tapFn?.(); } else if (e.key === 'Escape' && st.phase !== 'race' && st.phase !== 'champion') close(); };
+    keyH = (e) => { e.stopPropagation(); if (e.type !== 'keydown') return; if ([' ', 'Enter', 'f', 'F', 'a', 'A'].includes(e.key) || keyAction(e)) { e.preventDefault(); st.tapFn?.(); } else if (e.key === 'Escape' && st.phase !== 'race' && st.phase !== 'champion') close(); };
     for (const ty of ['keydown', 'keyup']) window.addEventListener(ty, keyH, true);
+    // gamepad: any face button / d-pad / stick push counts as a tap (edge-triggered), polled only while open
+    let padWas = false; padT = setInterval(() => { const p = pollPad(), on = p.tap || p.left || p.right || p.up || p.down; if (on && !padWas) st.tapFn?.(); padWas = on; }, 33);
   }
   function close() {
     if (!st.open) return;
     for (const ty of ['keydown', 'keyup']) window.removeEventListener(ty, keyH, true);
+    clearInterval(padT); padT = 0;
     ov?.remove(); ov = null; st.tapFn = null; st.open = false; st.phase = 'closed'; st.race = null;
     scene.timescale = savedTs;
     const cb = st.onClose; st.onClose = null; cb?.();

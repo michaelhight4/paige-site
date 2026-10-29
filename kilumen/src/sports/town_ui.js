@@ -1,12 +1,13 @@
 // Town practice events UI (Oct 29 2026). Talk to <town>_practice_coach -> pick a creature -> play -> result + reaction.
 // Practice only: no prize, no podium; best score per event saved in sports state (.town). Logic: town_events.js.
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
-import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.77-alpha';
-import { TS, tt } from './town_strings.js?v=v0.2.77-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.77-alpha';
-import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.77-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.77-alpha';
-import { runChampion, reducedMotion } from './hype.js?v=v0.2.77-alpha';
+import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.78-alpha';
+import { TS, tt } from './town_strings.js?v=v0.2.78-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.78-alpha';
+import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.78-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.78-alpha';
+import { runChampion, reducedMotion } from './hype.js?v=v0.2.78-alpha';
+import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.78-alpha';
 
 export const LIVE_REGION = 8; // all six town events are playable (dev/sports-events, Oct 29 2026); each coach also runs the town cup
 const W = 360, H = 480;
@@ -66,7 +67,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   function press(k, down) { const I = st.input; if (!I) return; if (down && !I.hold[k]) I.edge[k] = true; I.hold[k] = down; }
   function key(e) {
     e.stopPropagation();
-    if (st.phase === 'play') { const k = KEYMAP[e.key]; if (k) { e.preventDefault(); press(k, e.type === 'keydown'); } return; }
+    if (st.phase === 'play') { const k = keyAction(e); if (k) { e.preventDefault(); press(k, e.type === 'keydown'); } return; }
     if (e.type === 'keydown' && e.key === 'Escape') close();
   }
 
@@ -103,7 +104,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     const ev = st.ev, c = st.mon; if (!c) return close();
     let stats = {}; try { stats = athleticStats(c.uid || c.id ? c : { ...c, uid: `${c.species}:${c.nickname || ''}` }); } catch (e) { /* no athletics: average */ }
     st.run = ev.create(`${ev.id}:${Date.now()}`, stats, team().length); st.run.team = [c, ...team().filter((x) => x !== c)]; st.phase = 'play';
-    st.input = { hold: {}, edge: {}, pointerX: null }; st.crowd = makeCrowd(st.mode === 'cup' ? 2 : 1, ev.id); st.prevScore = 0; st.prevBad = 0; st.quip = null;
+    st.input = { hold: {}, edge: {}, pointerX: null }; st.pad = {}; st.crowd = makeCrowd(st.mode === 'cup' ? 2 : 1, ev.id); st.prevScore = 0; st.prevBad = 0; st.quip = null;
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><canvas width="${W}" height="${H}"></canvas>
       <div class="pad"><button data-k="left">◀</button><button data-k="up">▲</button><button data-k="down">▼</button><button data-k="right">▶</button><button data-k="tap">A</button></div></div>`;
     const cv = ov.querySelector('canvas'), g = cv.getContext('2d');
@@ -113,6 +114,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     const loop = (now) => {
       if (st.phase !== 'play') return;
       const dt = Math.min(0.05, (now - st.last) / 1000); st.last = now;
+      st.pad = feedPad(st.pad || {}, pollPad(), press);
       const I = st.input, inp = { ...I.edge, hold: { ...I.hold }, pointerX: I.pointerX }; I.edge = {};
       ev.step(st.run, dt, inp); draw(g, ev, st.run, c, now / 1000);
       { const sc = scoreOf(ev, st.run), bad = badOf(st.run), cr = st.crowd;
@@ -164,7 +166,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     ov.querySelector('[data-a=back]').onclick = () => close();
   }
 
-  const api = { openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, crowd: st.crowd && { hype: st.crowd.hype } }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };
+  const api = { openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, crowd: st.crowd && { hype: st.crowd.hype }, hold: st.input ? { ...st.input.hold } : null }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };
   return api;
 }
 
