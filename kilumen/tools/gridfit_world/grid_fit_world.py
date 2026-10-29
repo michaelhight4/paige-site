@@ -12,7 +12,7 @@ So an asset only blocks the whole squares its ground art covers; overhang sliver
 neighbour, and solid art can never be walked onto. Only codes walk(0)/block(1) are ever changed. Never touched:
 solid objects on the overlay layer (tile collision block) always count. Never touched:
 doors, stairs, water, ledges, puzzles (any non walk/block code or tile), warp + exit + locked-warp squares, story-gate and
-flag-swap cells, NPC squares, the map edge, the centre-camera padding border, and void (no ground art).
+flag-swap cells, hall_v2 puzzle cells (prisms, receivers, beam doors, warp pads, push tiles), NPC squares, the map edge, the centre-camera padding border, and void (no ground art).
 """
 import argparse, collections, glob, json, os, re, sys
 try:
@@ -76,6 +76,16 @@ def protected(m):
     for k in ('flag_swaps', 'npcs', 'interact_spots', 'signs', 'items'):
         for c in m.get(k) or []:
             if isinstance(c, dict) and isinstance(c.get('x'), int): P.add((c['x'], c['y']))
+    hv = m.get('hall_v2') or {}  # hall puzzle pieces (prism sources/prisms/receivers, beam doors, warp pads, push tiles): runtime-drawn, never re-fit
+    pz = hv.get('prism') or {}
+    for c in [e.get('at') for e in (pz.get('sources') or []) + (pz.get('prisms') or []) + (pz.get('receivers') or [])] + list(pz.get('door') or []) + ([pz['receiver']] if isinstance(pz.get('receiver'), list) else []):
+        if isinstance(c, list) and len(c) == 2: P.add(tuple(c))
+    for cells in (hv.get('warps') or {}).values():
+        for c in cells: P.add(tuple(c))
+    for k in (hv.get('push') or {}): x, y = k.split(','); P.add((int(x), int(y)))
+    for y, row in enumerate(hv.get('grid') or []):  # 'r' receiver, 'L' beam door, 'P' prism, 'E' emitter cells in the hall grid
+        for x, ch in enumerate(row):
+            if ch in 'rLPE': P.add((x, y))
     pad = m.get('padding') or {}; dx, dy = pad.get('dx', 0), pad.get('dy', 0)
     if pad.get('old_size'): ow, oh = pad['old_size']
     else: ow, oh = Wd - 2 * dx, H - 2 * dy
