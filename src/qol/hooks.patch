@@ -1,0 +1,102 @@
+--- a/src/ui/ui.js
++++ b/src/ui/ui.js
+@@ -21,6 +21,7 @@
+ // UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
+ // auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
+ import { showContinue } from '../overworld/save.js'; // first-launch Continue fix (batch 3 wire)
++import { installQol } from '../qol/qol.js'; // [qol hook] Battle pace / Text speed / Run toggle (Oct 29 2026)
+ import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js';
+ import { catchNet, NET_TEXT } from '../systems/catch_net.js';
+ import { CONN_NODES, CONN_EDGES } from './connections.gen.js'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
+@@ -742,6 +743,7 @@
+       ['Depth shadows', s.depth?.state?.(s.map ? s.view() : null)?.enabled ? 'On' : 'Off', () => s.depth.toggle()],
+       ['Menu motion', this.body.classList.contains('ui-reduce') ? 'Reduced' : 'Full', () => { const r = this.body.classList.toggle('ui-reduce'); try { localStorage.setItem('kilumen.ui.motion', r ? 'reduce' : 'full'); } catch { /* */ } }],
+       ...audioRows(),
++      ...(this.qol?.rows() || []), // [qol hook] src/qol/qol.js (?qol=0 kill switch)
+       ...(s.companyVoice ? [['Company voice', s.companyVoice.modeLabel(), () => s.companyVoice.cycleMode()]] : []),
+       ...(s.companyVoice?.ritaVoice ? [['RITA voice', s.companyVoice.ritaVoice.label(), () => s.companyVoice.ritaVoice.toggle()]] : []), // [rita voice hook] spoken lines on/off (default on) // [company voice hook] Full / Milestones only / Off (on by default; row absent with ?cv=0)
+       ...(window.kilumen?.dev?.active && window.kilumen.dev.role === 'owner' ? [['Dev menu', 'Open', () => { this.closeAll(); setTimeout(() => window.kilumen?.dev?.open?.({ fromMenu: true }), 80); }]] : []), // v0.2.47 (Gary): owner-only, set by dev/console.js after the server owner check
+@@ -1084,6 +1086,7 @@
+   const ui = new GameUI(opts);
+   const q = opts.params || new URLSearchParams(location.search);
+   const scene = opts.scene;
++  installQol(ui, scene, q); // [qol hook]
+   // save lock (Gary, Oct 23 2026): an open battle screen (capture included) or the evolution player blocks every save
+   scene.saveGuards?.push(() => (ui.stack.some((s) => s.scr === 'battle') ? 'battle' : ui.fx?._evolving ? 'evolution' : null));
+   attachWipNotice(scene); // one-time WIP notice after the last beatable Master (src/systems/wip_notice.js)
+--- a/src/battle/ui_sd.js
++++ b/src/battle/ui_sd.js
+@@ -3,6 +3,8 @@
+ // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
+ // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
+ import { KilumenBattle } from './battle.js';
++import { qolFlags, XP_SHARE } from '../qol/flags.js'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
++import { skillTag } from '../qol/matchup.js';
+ import { cidleOn } from '../overworld/creature_idle.js'; // ?cidle=1 (DEV): existing 4-frame idle GIF instead of the still
+ const cidleSrc = (url) => (cidleOn() && !globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches && /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png$/.test(url)
+   ? url.replace(/\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png$/, '/anim/$1_$2_idle_2x.gif') : null);
+@@ -28,7 +30,8 @@
+ const KEY = 'system_battle'; // PH: proposed namespace for the new battle lines
+ 
+ export function makeSdBattle(ui, opts, h) {
+-  const { esc, front, back, fx, wait, lvlOf, speciesById, ELEMENT_LABEL, statsFor } = h;
++  const { esc, front, back, fx, lvlOf, speciesById, ELEMENT_LABEL, statsFor } = h;
++  const pace = (ms) => (ui.qol ? ui.qol.pace(ms) : ms), wait = (ms) => h.wait(pace(ms)); // [qol hook] Battle pace x1/x2/x3
+   const P1 = (k, fb, v) => ui.P(`${KEY}.${k}`, [fb], v)[0];
+   const trainer = !!opts.trainer;
+   // no capturing a trainer's creatures (Gary, Oct 23 2026): any battle with an owner (trainer flag, overworld trainer id,
+@@ -66,7 +69,9 @@
+     if (!sid && w.map && w.id) try { sid = (await (await fetch(PIXD + 'npcs/npc_sprite_map.json')).json()).map?.[`${w.map}.${w.id}`]?.sprite_id || null; } catch { sid = null; }
+     return { label, sid };
+   })() : null;
+-  const kb = new KilumenBattle({ party, foes, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance });
++  const qol = qolFlags(ui.q || undefined);
++  const kb = new KilumenBattle({ party, foes, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpShare: qol.xpShare ? XP_SHARE : 0 });
++  let sharedSaid = false; // QoL #4: one line per KO for the benched share, not one per creature
+   ui.currentBattle = kb; // read-only handle for scripted play-checks (tools/playcheck_browser.mjs)
+   const cat = ui.T('system_item_catalogue', {});
+   const Items = kb.battle.dex.data.Items;
+@@ -123,7 +128,7 @@
+   };
+   const say = (t, auto = 650) => new Promise((r) => {
+     const m = $('#b-msg'); m.classList.remove('b-msg-caught'); m.innerHTML = `${esc(t)}${auto ? '' : '<span class="more">▼</span>'}`; mode = 'msg'; $('#b-cmds').hidden = true;
+-    if (auto) setTimeout(r, auto); else msgResolve = r;
++    if (auto) setTimeout(r, pace(auto)); else msgResolve = r;
+   });
+   // layout pass (Oct 22, 2026): compact party HP readout inside the info card (your whole team, and the trainer's team in
+   // trainer battles): one mini bar per creature, empty when fainted. The shown creature uses the played-back HP (mon[s]);
+@@ -297,7 +302,9 @@
+           await say(P1('fainted', '{creature} is out cold!', { creature: who }) /* PH (old shell line) */, 700);
+           break;
+         }
+-        case '-kxp': await say(P1('xp', '{creature} gained {n} XP.', { creature: who, n: b }) /* PH */, 700); drawPlate('p1'); break;
++        case '-kxp': await say(P1('xp', '{creature} gained {n} XP.', { creature: who, n: b }) /* PH */, 700); drawPlate('p1'); sharedSaid = false; break;
++        case '-kxpshare': if (!sharedSaid) { sharedSaid = true; await say(P1('xp_share', 'The rest of the team gained {n} XP.', { n: b }) /* PH: QoL #4, Text Bot request */, 600); } break;
++        case '-kbenchlevel': await say(P1('bench_levelup', '{creature} grew to Lv.{level}!', { creature: who, level: b }) /* PH: QoL #4, Text Bot request */, 600); break;
+         case '-klevelup': {
+           mon.p1.level = +b; const st = c.split(',').map(Number);
+           const box = document.createElement('div'); box.className = 'plate b-lvup ui-pad';
+@@ -346,7 +353,8 @@
+   const showSkills = () => {
+     const r = kb.request();
+     showList('skills', r.moves.map((m, i) => { const mv = kb.battle.dex.moves.get(m.id); const el = mv.type.toLowerCase();
+-      return { t: m.move, s: `${ELEMENT_LABEL(el)} · En ${m.pp}/${m.maxpp}`, el, go: async () => {
++      let tag = ''; try { tag = skillTag(kb, m.id, qol); } catch { tag = ''; } // QoL #7 (flags matchup / dmgPreview)
++      return { t: m.move, s: `${ELEMENT_LABEL(el)} · En ${m.pp}/${m.maxpp}${tag ? ' · ' + tag : ''}`, el, go: async () => {
+         if (m.pp <= 0) {
+           const k = await ui.ask('battle', ui.P('system_skills.energy_out', ['{skill} is out of energy. Use it anyway?'], { skill: m.move, creature: whoName() }),
+             ui.T('system_skills.energy_out.choices', ['Use anyway', 'Pick another']));
+--- a/src/overworld/overworld.js
++++ b/src/overworld/overworld.js
+@@ -461,7 +461,10 @@
+     const p = this.player;
+     if (p.mode === MoveMode.BIKE) return;
+     const shoes = this.flags.has('has_run_shoes');
+-    p.mode = snap.b && shoes && this.map.movement.run ? MoveMode.RUN : MoveMode.WALK;
++    const runOk = shoes && !!this.map.movement.run, q = this.qol; // [qol hook] Run: Hold/Toggle (src/qol/qol.js), same B button
++    if (q && (this.busy || this.dialog?.active || this.fade)) q.latch.prev = true; // a B used to close a talk / menu is not a run press
++    const b = q?.flags.run ? q.latch.step(snap.b, q.settings.run, runOk) : snap.b;
++    p.mode = b && runOk ? MoveMode.RUN : MoveMode.WALK;
+     if (snap.b && snap.dir && !shoes && this.map.movement.run) this._runLockedHint();
+   }
+ 
