@@ -70,7 +70,7 @@ test('Ron: Lanternport page hand-off once, after the Tidewater coin; Ron 6 stays
   assert.equal(pageDue(F('beat_master_tidewater', R78.pageFlag), 'lanternport'), false);
   assert.equal(pageDue(F('beat_master_tidewater'), 'cindervale'), false);
   assert.equal(RON_PUNCH_LIST.at(-1).flag, 'beat_rival_ron_6');
-  assert.ok(trainerOutcome('lanternport', 'lanternport_ron_5', false).optional); // Ron 5 catch-up, never a gate
+  assert.ok(!MAP('lanternport').npcs.some((n) => n.id === 'lanternport_ron_5')); // §L: catch-up removed, talk-only hand-off
   assert.ok(trainerOutcome('aurelith', 'aurelith_ron_6', false).blackoutOnLoss);
 });
 test('ID caps + promotions 18 / 20', () => {

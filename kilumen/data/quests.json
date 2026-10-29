@@ -5018,16 +5018,16 @@
    "steps": [
     {
      "id": "mq_lanternport_s1",
-     "desc": "Ron is waiting on the harbour steps. Battle him (Ron 5).",
+     "desc": "Ron is waiting on the harbour steps. Hear him out (talk only, no battle).",
      "map": "lanternport",
      "at": null,
-     "flag": "beat_rival_ron_5",
+     "flag": "ron_page_shared",
      "condition": null,
      "optional": false
     },
     {
      "id": "mq_lanternport_s2",
-     "desc": "Afterwards Ron hands you a log page he found. He could have kept it.",
+     "desc": "Ron hands you the Field Reading Sheet he kept. He could have kept it.",
      "map": "lanternport",
      "at": null,
      "flag": "read_log_lanternport",

@@ -363,6 +363,66 @@
       "on_flag": "storm_weather_event",
       "region": 6,
       "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "id_cap_r7": {
+      "line": "id_cap_r7",
+      "tier": "full",
+      "priority": 60,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "id_cap_r7",
+      "region": 7,
+      "note": "r78 wiring (Oct 29 2026): Text Bot keys system_company_voice.<line> (DRAFT); hidden until maxRegion >= 7."
+    },
+    "rt_keycard_r7": {
+      "line": "rt_keycard_r7",
+      "tier": "milestone",
+      "priority": 80,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "rt_keycard_r7",
+      "region": 7,
+      "note": "r78 wiring (Oct 29 2026): Text Bot keys system_company_voice.<line> (DRAFT); hidden until maxRegion >= 7."
+    },
+    "promoted_id18": {
+      "line": "promoted_id18",
+      "tier": "milestone",
+      "priority": 95,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "promoted_id18",
+      "region": 7,
+      "note": "r78 wiring (Oct 29 2026): Text Bot keys system_company_voice.<line> (DRAFT); hidden until maxRegion >= 7."
+    },
+    "id_cap_r8": {
+      "line": "id_cap_r8",
+      "tier": "full",
+      "priority": 60,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "id_cap_r8",
+      "region": 8,
+      "note": "r78 wiring (Oct 29 2026): Text Bot keys system_company_voice.<line> (DRAFT); hidden until maxRegion >= 7."
+    },
+    "rt_keycard_r8": {
+      "line": "rt_keycard_r8",
+      "tier": "milestone",
+      "priority": 80,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "rt_keycard_r8",
+      "region": 8,
+      "note": "r78 wiring (Oct 29 2026): Text Bot keys system_company_voice.<line> (DRAFT); hidden until maxRegion >= 7."
+    },
+    "promoted_id20": {
+      "line": "promoted_id20",
+      "tier": "milestone",
+      "priority": 95,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "promoted_id20",
+      "region": 8,
+      "note": "r78 wiring (Oct 29 2026): Text Bot keys system_company_voice.<line> (DRAFT); hidden until maxRegion >= 7."
     }
   },
   "_r56_note": "dev/r56-wiring: 14 on_flag events + 4 area_new specific keys = the 18 region 5/6 RITA lines. Raise maxRegion to 6 at the R5/R6 release (region56 attach does it under ?r56=1)."

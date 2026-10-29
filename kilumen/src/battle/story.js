@@ -19,12 +19,11 @@ export const RON_RIVALS = {
   'saltmere.saltmere_ron_2': 2,
   'revival_heights.revival_heights_ron_3': 3,
   'frostspire_pass.frostspire_pass_ron_4': 4,
-  'lanternport.lanternport_ron_5': 5,
   'aurelith.aurelith_ron_6': 6,
 };
 // Ron 5 at Tidewater (G3, story_beats R6 §5, dev/r56-wiring): OPTIONAL. Exempt from the Ron 2-6 hard gate: a loss is a normal
 // blackout but blocks nothing and closes the fight (no forced rematch). Win, loss: met_ron_tidewater + ron5_fought + the umbrella.
-// Decline / rematch / missed parting: src/region56/ron5.js. The Lanternport id stays mapped in case World Design keeps it there.
+// Decline / rematch / missed parting: src/region56/ron5.js. The Lanternport catch-up was removed (story_beats §L: Lanternport is a talk-only page hand-off).
 RON_RIVALS['tidewater_coast.tidewater_coast_ron_5'] = 5;
 RON_RIVALS['tidewater_coast.tidewater_coast_ron_5_slip'] = 5; // harbour slip rematch (after a decline, until beat_master_tidewater)
 export const RON_OPTIONAL = new Set([5]);

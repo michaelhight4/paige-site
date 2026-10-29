@@ -2789,7 +2789,51 @@
      }
     ]
    },
-   "area_name": "Home"
+   "area_name": "Home",
+   "ron_home_after_lanternport": {
+    "pages": [
+     "Ron: Coin 7! Did the lighthouse ghosts cheer?",
+     "Mine would. Mine are very polite.",
+     "Ron: I keep reading that page, {nick}. It feels lighter now."
+    ],
+    "flags": [
+     "beat_master_lanternport"
+    ],
+    "status": "DRAFT",
+    "kind": "scene",
+    "lines": [
+     {
+      "id": "default",
+      "pages": [
+       "Ron: Coin 7! Did the lighthouse ghosts cheer?",
+       "Mine would. Mine are very polite.",
+       "Ron: I keep reading that page, {nick}. It feels lighter now."
+      ],
+      "flags": []
+     }
+    ]
+   },
+   "ron_home_after_cindervale": {
+    "pages": [
+     "Ron: Coin 8! You smell like a hot oven. A good one.",
+     "Ron: One more door, {nick}. Aurelith's waiting. So am I, with snacks."
+    ],
+    "flags": [
+     "beat_master_cindervale"
+    ],
+    "status": "DRAFT",
+    "kind": "scene",
+    "lines": [
+     {
+      "id": "default",
+      "pages": [
+       "Ron: Coin 8! You smell like a hot oven. A good one.",
+       "Ron: One more door, {nick}. Aurelith's waiting. So am I, with snacks."
+      ],
+      "flags": []
+     }
+    ]
+   }
   },
   "office_int": {
    "receptionist": {
@@ -21929,6 +21973,246 @@
    "region": 5,
    "status": "DRAFT",
    "note": "sq_gd_riverglint step 6"
+  },
+  "id_cap_r7": {
+   "pages": [
+    "{employee_id}: ID level capped for this region.",
+    "Win coin 7 to unlock further growth."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "id_cap_r7_2": {
+   "pages": [
+    "Cap reached, {employee_id}. Lanternport's Master",
+    "holds the paperwork for your next level."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "id_cap_r7_3": {
+   "pages": [
+    "{employee_id}, you've hit the ceiling. Again.",
+    "Coin 7 raises it. Head Office loves a raise."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "id_cap_r7_4": {
+   "pages": [
+    "Growth paused, {employee_id}. Not a demotion.",
+    "Just a very long coffee break. Win coin 7."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "id_cap_r8": {
+   "pages": [
+    "{employee_id}: ID level capped for this region.",
+    "Win coin 8 to unlock further growth."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "id_cap_r8_2": {
+   "pages": [
+    "Cap reached, {employee_id}. The Cindervale",
+    "Master signs off on the next step."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "id_cap_r8_3": {
+   "pages": [
+    "{employee_id}, the ladder ends here for now.",
+    "Coin 8 adds rungs. Hot ones, probably."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "id_cap_r8_4": {
+   "pages": [
+    "Growth paused, {employee_id}. Foundry rules.",
+    "Nothing leaves until it's been tested."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "promoted_id18": {
+   "pages": [
+    "Promotion! {employee_id} is now ID 18.",
+    "Lighthouse signal store access approved."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "promoted_id18_2": {
+   "pages": [
+    "{employee_id}: ID 18 confirmed. Well done,",
+    "said with full corporate sincerity."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "promoted_id18_3": {
+   "pages": [
+    "ID 18, {employee_id}. New key card on the board.",
+    "Please don't lose it in the sea."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "promoted_id18_4": {
+   "pages": [
+    "{employee_id} promoted to ID 18. A new door",
+    "awaits. Probably a damp one."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "promoted_id20": {
+   "pages": [
+    "Promotion! {employee_id} is now ID 20.",
+    "Foundry lab access approved."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "promoted_id20_2": {
+   "pages": [
+    "{employee_id}: ID 20 confirmed. That's senior.",
+    "Act like it, at least near cameras."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "promoted_id20_3": {
+   "pages": [
+    "ID 20, {employee_id}. New key card on the",
+    "Benefits board. Mind the hot surfaces."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "promoted_id20_4": {
+   "pages": [
+    "{employee_id} promoted to ID 20. Head Office",
+    "sends its warmest regards. Very warm."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "rt_keycard_r7": {
+   "pages": [
+    "{employee_id}: Lanternport key card issued.",
+    "The signal store is yours to inventory."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "rt_keycard_r7_2": {
+   "pages": [
+    "Key card logged, {employee_id}. Lighthouse",
+    "signal store. Count every flare twice."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "rt_keycard_r7_3": {
+   "pages": [
+    "{employee_id}, signal store access granted.",
+    "Whatever's blinking in there, log it."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "rt_keycard_r7_4": {
+   "pages": [
+    "Key card active, {employee_id}. Salt damage",
+    "to company property comes out of wages."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 7,
+   "status": "DRAFT"
+  },
+  "rt_keycard_r8": {
+   "pages": [
+    "{employee_id}: Cindervale key card issued.",
+    "The foundry lab is open to you."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "rt_keycard_r8_2": {
+   "pages": [
+    "Key card logged, {employee_id}. Foundry lab.",
+    "Gloves recommended. Eyebrows optional."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "rt_keycard_r8_3": {
+   "pages": [
+    "{employee_id}, foundry lab access granted.",
+    "Please return all samples un-melted."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
+  },
+  "rt_keycard_r8_4": {
+   "pages": [
+    "Key card active, {employee_id}. The lab's",
+    "research is company property. So are you."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 8,
+   "status": "DRAFT"
   }
  },
  "system_phone": {
@@ -22960,6 +23244,15 @@
    "trigger": "beat_master_revival",
    "status": "DRAFT",
    "note": "Master 3 (Revival Heights, coin 3). Model: wip_notice.js WIP_TEXT (system.wip_after_master2 has no text yet)"
+  },
+  "wip_after_master8": {
+   "pages": [
+    "That's as far as the story goes for now.",
+    "The road to Aurelith is still being built."
+   ],
+   "trigger": "beat_master_cindervale",
+   "status": "DRAFT",
+   "note": "r78 request; wip_notice.js on dev/regions-5-8"
   }
  },
  "system_research": {
@@ -25714,6 +26007,72 @@
    "group": 21,
    "speaker": "Ron",
    "gate": "ron5_missed: beat_master_tidewater, never fought Ron 5; harbour slip, bag packed"
+  }
+ },
+ "system_story_r78": {
+  "_section": "Regions 7-8 story bits (src/region78/index.js reads system_story_r78.<key>). DRAFT, r78 request.",
+  "r7_ron_page_handoff": {
+   "pages": [
+    "Ron: Remember the page I wouldn't show you? It's dry now. Here.",
+    "A page from an old company field log. Someone drew the river up the mountain.",
+    "Ron: I don't know what it means yet. But I'm not scared of it anymore."
+   ],
+   "speaker": "Ron",
+   "region": 7,
+   "mood": "major key",
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r7_ron_flies": {
+   "pages": [
+    "Ron: Oh, and the bins at home? The flies have names now.",
+    "Don't ask me their names, {nick}."
+   ],
+   "speaker": "Ron",
+   "region": 7,
+   "status": "DRAFT",
+   "note": "moved from Tidewater (G3)",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r7_node_name": {
+   "pages": [
+    "Research Access: Lighthouse"
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r7_node_desc": {
+   "pages": [
+    "Key card for the lighthouse signal store.",
+    "Flares, lenses and one very old radio."
+   ],
+   "region": 7,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r8_node_name": {
+   "pages": [
+    "Research Access: Foundry Lab"
+   ],
+   "region": 8,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
+  },
+  "r8_node_desc": {
+   "pages": [
+    "Key card for the Cindervale foundry lab.",
+    "Mind the kilns. They mind you back."
+   ],
+   "region": 8,
+   "status": "DRAFT",
+   "parity": "F15",
+   "build": "partial"
   }
  }
 }

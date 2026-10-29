@@ -35,6 +35,7 @@ import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.
 import { questItemSpots } from './quest_markers.js?v=v0.2.87-alpha';
 import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.87-alpha'; // area name sign (Gary 10:33 AM CT)
 import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.87-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { hallLockFor, HALL_LOCK_KEY } from '../systems/hall_order.js?v=v0.2.87-alpha'; // hall order lock (Gary 3:52 PM CT)
 import { trainerOutcome } from '../battle/story.js?v=v0.2.87-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 // Save migration (berry -> plum, dev/r56-wiring): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
 export const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
@@ -398,6 +399,12 @@ export class Overworld {
           const w = m.warpAt(x, y);
           const mkDoor = DEV.masterKey && w && isToCome(w) && this.knownMaps?.has(w.to); // dev master key: a TO COME door whose map is built opens
           if (w && (!isToCome(w) || mkDoor)) {
+            const hallNeed = !DEV.masterKey && hallLockFor(w.to, this.flags);
+            if (hallNeed) { // hall N locked until Master N-1 is beaten
+              const prev = hallNeed.replace('beat_master_', ''), town = prev.charAt(0).toUpperCase() + prev.slice(1);
+              this.toast((this.text(HALL_LOCK_KEY) ?? 'The hall is locked. Beat the {master} Master first.').replace('{master}', town));
+              return 'stop';
+            }
             if (!DEV.masterKey && this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing
             if (w.to !== '$return') this.lastDoor = { map: m.name, x, y };
             this._doorDismount = this.player.mode === MoveMode.BIKE; // MOVEMENT.md 2: doors always dismount
@@ -419,6 +426,7 @@ export class Overworld {
         if (!exit) return;
         const mkEdge = DEV.masterKey && !!this.knownMaps?.has(exit.to); // dev master key: a TO COME / blocked exit opens when its map is built
         if ((isToCome(exit) && !mkEdge) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
+        if (!DEV.masterKey && this.region78?.edgeBlocked?.(exit)) { this.toast(this.text('system_story_r78.lanternport_gate') ?? this.config.closedPathText); return; } // R78.lanternportGate (off = open)
         if (!DEV.masterKey && this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
         this.startWarp({ exit, fromX: x, fromY: y }, 'edge');
         return 'stop';

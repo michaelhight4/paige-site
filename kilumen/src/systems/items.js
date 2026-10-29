@@ -70,6 +70,7 @@ const FIELD = {
   rons_umbrella: { pocket: 'key', field: null, key: true, earnedOnly: true, name: "Ron's Umbrella", flag: 'has_rons_umbrella' }, // Ron 5 wall: win, loss or decline (also a room decoration)
   old_river_drawing: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Old River Drawing', flag: 'sq_rested_done' }, // Where It Rested (sq_rested_done)
   reed_lamp: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Reed Lamp' }, // Mirefen (Wenna's lamp quest)
+  field_reading_sheet: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Field Reading Sheet', flag: 'item_field_reading_sheet' }, // Lanternport page hand-off (story_beats §L); pays off at the summit camp
 };
 /** Text Bot keys for the region 5-6 items: [name path, desc path] in overworld_lines.json. */
 export const R5_R6_ITEM_TEXT = {
@@ -78,6 +79,7 @@ export const R5_R6_ITEM_TEXT = {
   rons_umbrella: ['system_story_r56.g27_rons_umbrella_name', 'system_story_r56.g27_rons_umbrella_desc'],
   old_river_drawing: ['system_story_r56.g16_drawing_name', 'system_story_r56.g16_drawing_desc'],
   reed_lamp: ['system_story_r56.g27_reed_lamp_name', 'system_story_r56.g27_reed_lamp_desc'],
+  field_reading_sheet: ['system_story_r78.field_reading_sheet_name', 'system_story_r78.field_reading_sheet_desc'],
 };
 // Fruit feeds (Coder Oct 29 2026, src/feeds/logic.js FRUIT_IDS; names: Text Bot keys feeds.fruit.<id>.name). Gary: fruit goes in the bag.
 for (const id of FEED_FRUIT_IDS) { FIELD[`fruit_${id}`] = { pocket: 'feeds', field: null, feedFruit: id }; FIELD[`seedling_${id}`] = { pocket: 'feeds', field: null, feedSeedling: id }; }
