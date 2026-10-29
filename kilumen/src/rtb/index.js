@@ -7,8 +7,9 @@
 // taken before the encounter is what a mid-fight reload restores).
 // Controls  PC (v0.2.60, keys.js): WASD / arrows move, Q E R F use skill 1-4, 1-6 switch to party slot 1-6, Z / Space / Enter
 //               use the selected skill, C next skill, X / Shift tap = dodge, hold = sprint, Tab team, G crystal, T turn-based, hold Esc = leave.
-//           pad: LB / RB / LT / RT skills 1-4, A selected skill, B dodge / sprint, Select next skill.
-//           phone: D-pad move, A = selected skill, SEL = next skill, B tap = dodge / hold = sprint, tap a skill chip = use it,
+//           pad: LB / RB / LT / RT skills 1-4, X / Y = the skills set on X / Y (default 1 + 2), A selected skill, B dodge / sprint, Select next skill.
+//           phone: D-pad move, X / Y face buttons = their skills (X/Y set + tap a chip's X or Y half to choose), A = selected skill,
+//               SEL = next skill, B tap = dodge / hold = sprint, skill bar at the bottom (tap a chip = use it),
 //               Team / Crystal / Leave (hold) buttons top right.
 import { RtBattle } from './sim.js?v=v0.2.64-alpha';
 import { RtView } from './view.js?v=v0.2.64-alpha';
@@ -18,7 +19,7 @@ import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.j
 import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.64-alpha';
 import { Col } from '../overworld/constants.js?v=v0.2.64-alpha';
 import { reducedMotion } from '../sports/hype.js?v=v0.2.64-alpha';
-import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped } from './keys.js?v=v0.2.64-alpha';
+import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padXYEdges, xySlots, assignXY, XY_STORE } from './keys.js?v=v0.2.64-alpha';
 import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.64-alpha';
 import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.64-alpha';
 import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.64-alpha';
@@ -52,8 +53,14 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const pp = scene.player.pixel(), fd = DIRV[scene.player.facing] || [0, 1];
     const pcx = pp.px + TILE / 2, pcy = pp.py + TILE / 2;
     // arena: what is on screen (minus a margin), inside the map, at most 13 x 8 tiles around the player
-    const vw = cv.width / z, vh = cv.height / z;
-    const arena = { x0: Math.max(0, cam.x + 24, pcx - 6.5 * TILE), y0: Math.max(0, cam.y + 40, pcy - 4 * TILE),
+    const touch = !document.getElementById('touchpad')?.hidden;
+    // phone: the skill bar (bottom) and the X / Y column (right) sit outside the arena, so they never cover the fight
+    const cssW = (cv.width / (innerWidth || cv.width)) / z, tr = (q) => document.querySelector(q)?.getBoundingClientRect?.();
+    const dpR = touch ? tr('#touchpad .dpad')?.right || 0 : 0, bL = touch ? tr('#touchpad [data-btn="b"]')?.left || innerWidth : innerWidth;
+    let padL = touch ? (dpR + 4) * cssW : 0, padR = touch ? (innerWidth - bL + 4) * cssW : 0; const padB = touch ? 48 * cssW : 0;
+    if (cv.width / z - padL - padR < 6 * TILE) padL = padR = 0; // tiny screens: keep a usable arena
+    const vw = cv.width / z - padR, vh = cv.height / z - padB;
+    const arena = { x0: Math.max(0, cam.x + 24 + padL, pcx - 6.5 * TILE), y0: Math.max(0, cam.y + 40, pcy - 4 * TILE),
       x1: Math.min(map.width * TILE, cam.x + vw - 24, pcx + 6.5 * TILE), y1: Math.min(map.height * TILE, cam.y + vh - 24, pcy + 4 * TILE) };
     // trainer fights: the trainer NPC stays standing on its tile (Gary Oct 29: "leave their trainer standing where they are just like ours")
     const tn = trainer?.npc || null, tTile = tn ? { x: tn.x, y: tn.y } : null;
@@ -79,7 +86,6 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     });
     if (carry) sim.foes.forEach((f, i) => { const h = carry.foes[i]?.hp; if (Number.isFinite(h)) f.c.hp = Math.max(1, Math.min(f.mhp, Math.round(h))); });
     if (q.get('rtbcatch') === '1') sim.forceCatch = true; if (q.get('rtbcatch') === '0') sim.forceCatch = false; // dev / clips only
-    const touch = !document.getElementById('touchpad')?.hidden;
     const keyNames = touch ? { skills: ['', '', '', ''], swap: '', crystal: '', leave: 'hold', help: '' }
       : { skills: SKILL_LABELS.slice(), party: true, swap: 'Tab', crystal: 'G', leave: 'Caps', help: trainer ? 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team' // trainer fights: no crystal, mode switch or leave
         : 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team · G crystal · T turn-based · Caps run (wild) · hold Esc leave' };
@@ -91,6 +97,11 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
         itemName: (id) => cat[IN[id]]?.name || BATTLE_ITEMS[IN[id]]?.name || 'Remedy' };
       if (tn) { tn.talking = true; }
     }
+    // X / Y face skills, per creature (uid), saved across fights; default skills 1 + 2
+    let xyMap = {}; try { xyMap = JSON.parse(localStorage.getItem(XY_STORE) || '{}') || {}; } catch { xyMap = {}; }
+    const xyOf = (c, n) => xySlots(xyMap[c.uid], n);
+    const setXY = (c, v) => { xyMap[c.uid] = v; try { localStorage.setItem(XY_STORE, JSON.stringify(xyMap)); } catch { /* private mode */ } };
+    view.xyOf = xyOf;
     view.skillInfo = (id) => SK[id]; view.cdOf = cooldownFor; view.maxEn = (c) => maxEnergy(c); view.maxHpOf = (c) => maxHp(c);
     view.crystals = () => crystalStock(scene.systems?.bag).reduce((n, c) => n + c.n, 0);
     view.xpBar = (c) => { const a = xpForLevel(c.level), b = xpForLevel(c.level + 1); return Math.max(0, Math.min(1, ((c.xp || 0) - a) / Math.max(1, b - a))); };
@@ -132,16 +143,22 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     on(hud, 'pointerdown', (e) => {
       const s = e.target.closest?.('.rtb-s'), b = e.target.closest?.('[data-rtb]');
       const pi = e.target.closest?.('.rtb-pi'); if (pi) { inp.party = +pi.dataset.i; e.preventDefault(); return; }
+      const fb = e.target.closest?.('.rtb-face'); if (fb) { e.preventDefault(); const k = fb.dataset.face, slot = xyOf(sim.ally.c, sim.ally.skills.length)[k === 'x' ? 0 : 1]; inp.fire = slot; view.facePress(k, true); faceDown = k; return; }
+      if (s && view.assigning) { e.preventDefault(); const r = s.getBoundingClientRect(), k = e.clientX < r.left + r.width / 2 ? 'x' : 'y'; setXY(sim.ally.c, assignXY(xyOf(sim.ally.c, sim.ally.skills.length), k, +s.dataset.slot)); view.facePress(k, true); setTimeout(() => view.facePress(k, false), 120); scene.audio?.sfx('cursor'); return; }
       if (s) { sim.selected = +s.dataset.slot; inp.fire = +s.dataset.slot; e.preventDefault(); return; }
+      if (b?.dataset.rtb === 'xyset') { e.preventDefault(); view.setAssign(!view.assigning); if (view.assigning) view.banner('Tap the X or Y side of a skill', '', 1300); scene.audio?.sfx('cursor'); return; }
       if (!b) return; e.preventDefault();
       if (b.dataset.rtb === 'swap') inp.swap = true; else if (b.dataset.rtb === 'crystal') inp.crystal = true; else if (b.dataset.rtb === 'leave') inp.retreat = true;
     });
-    const leaveUp = () => { inp.retreat = false; }; on(hud, 'pointerup', leaveUp); on(hud, 'pointercancel', leaveUp);
+    let faceDown = null;
+    const leaveUp = () => { inp.retreat = false; if (faceDown) { view.facePress(faceDown, false); faceDown = null; } }; on(window, 'pointerup', leaveUp); on(window, 'pointercancel', leaveUp);
     const padPrev = new Map();
     const pollPads = () => { // standard-mapping pads: LB / RB / LT / RT = skills 1-4 (edges)
       const pads = navigator.getGamepads?.() || [];
       for (const p of pads) { if (!p || p.mapping !== 'standard') continue; const now = p.buttons.map((b) => !!b?.pressed), prev = padPrev.get(p.index) || [];
-        const e = padSkillEdges(now, prev); if (e.length) inp.fire = e[0]; padPrev.set(p.index, now); }
+        const e = padSkillEdges(now, prev); if (e.length) inp.fire = e[0];
+        for (const k of padXYEdges(now, prev)) { inp.fire = xyOf(sim.ally.c, sim.ally.skills.length)[k === 'x' ? 0 : 1]; view.facePress(k, true); setTimeout(() => view.facePress(k, false), 110); }
+        padPrev.set(p.index, now); }
     };
     const moveVec = () => {
       let x = 0, y = 0; for (const d of new Set(scene.input?.held || [])) { const v = DIRV[d]; if (v) { x += v[0]; y += v[1]; } }

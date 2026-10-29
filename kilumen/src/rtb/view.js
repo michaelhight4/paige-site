@@ -67,14 +67,46 @@ body.rtb-touch .rtb-pi{width:34px;height:34px}body.rtb-touch .rtb-pi .pk{display
 .rtb-vig.hurt{box-shadow:inset 0 0 120px rgba(255,0,0,.45)}
 .rtb-help{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-size:12px;opacity:.75;text-shadow:0 1px 0 #000;white-space:nowrap}
 .rtb-fx{position:fixed;pointer-events:none;z-index:39;image-rendering:pixelated}
-body.rtb-touch .rtb-me{right:auto;left:50%;transform:translateX(-50%);bottom:6px;width:min(330px,42vw);padding:5px 7px}
 body.rtb-touch .rtb-plate{min-width:170px;padding:4px 8px}
 body.rtb-touch .rtb-nm{font-size:13px}
 body.rtb-touch .rtb-s{font-size:12px}
 body.rtb-touch .rtb-help{display:none}
 body.rtb-touch .rtb-banner{font-size:22px;top:30%}
+/* phone: skills in a slim bar at the bottom between the D-pad and SEL / B; X / Y face buttons above B / A; creature card top left */
+.rtb-skbar{position:absolute;bottom:4px;left:200px;width:380px;display:flex;gap:4px;align-items:stretch;pointer-events:auto;background:rgba(14,18,30,.86);border:2px solid rgba(255,255,255,.2);border-radius:12px;padding:3px}
+.rtb-skbar .rtb-sk{display:flex;gap:4px;margin:0;flex:1;min-width:0}
+.rtb-skbar .rtb-s{flex:1;min-width:0;min-height:36px;padding:2px 4px 2px 8px;font-size:11px;border-radius:7px}
+.rtb-skbar .rtb-s .n{padding-right:0}.rtb-skbar .rtb-s .e{font-size:10px}
+.rtb-s .xy{position:absolute;right:3px;bottom:3px;width:15px;height:15px;border-radius:50%;font:900 10px/13px system-ui,sans-serif;text-align:center;color:#1b1530;border:1px solid rgba(0,0,0,.5);z-index:2}
+.rtb-s .xy:empty{display:none}.rtb-s .xy.x{background:#58d68d}.rtb-s .xy.y{background:#ffd25a}
+.rtb-xyset{flex:0 0 32px;border-radius:7px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25);color:#fff;font:900 11px/1.05 system-ui,sans-serif;padding:0;touch-action:none}
+.rtb-xyset b{color:#58d68d}.rtb-xyset i{font-style:normal;color:#ffd25a}
+.rtb-skbar.assign{border-color:#ffd25a;box-shadow:0 0 12px rgba(255,210,90,.45)}.rtb-skbar.assign .rtb-xyset{background:#ffd25a;color:#1b1530}
+.rtb-skbar.assign .rtb-s:before,.rtb-skbar.assign .rtb-s:after{position:absolute;top:0;bottom:0;width:50%;z-index:3;display:flex;align-items:center;justify-content:center;font:900 15px system-ui,sans-serif;color:#1b1530;opacity:.88}
+.rtb-skbar.assign .rtb-s:before{content:"X";left:0;background:rgba(88,214,141,.85)}.rtb-skbar.assign .rtb-s:after{content:"Y";right:0;background:rgba(255,210,90,.85)}
+.rtb-face{position:absolute;width:62px;height:62px;border-radius:50%;pointer-events:auto;touch-action:none;border:3px solid #1b1530;color:#fff;font:900 24px/1 system-ui,sans-serif;text-shadow:0 2px 0 rgba(0,0,0,.55);
+  box-shadow:inset 0 -5px 0 rgba(0,0,0,.25),inset 0 4px 0 rgba(255,255,255,.35),0 3px 0 #1b1530;padding:0;transition:transform .08s ease-out,box-shadow .08s ease-out;overflow:visible}
+.rtb-face[data-face="x"]{background:radial-gradient(circle at 35% 30%,#8ff0b4,#2fae64 60%,#1e7d48)}
+.rtb-face[data-face="y"]{background:radial-gradient(circle at 35% 30%,#ffe9a0,#f2b630 60%,#b9821a)}
+.rtb-face .cd{position:absolute;inset:0;border-radius:50%;background:conic-gradient(rgba(0,0,0,.55) var(--sw,0deg),transparent 0);pointer-events:none}
+.rtb-face .lt{position:relative;z-index:1}
+.rtb-face .sn{position:absolute;left:50%;bottom:calc(100% + 3px);transform:translateX(-50%);max-width:96px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:700 11px/1.3 system-ui,sans-serif;padding:1px 6px;border-radius:6px;background:rgba(14,18,30,.86);border:1px solid rgba(255,255,255,.25);text-shadow:none}
+.rtb-face.down{transform:translateY(3px) scale(.9);box-shadow:inset 0 -2px 0 rgba(0,0,0,.25),inset 0 3px 8px rgba(0,0,0,.35),0 0 0 #1b1530}
+.rtb-face.fire:after{content:"";position:absolute;inset:-3px;border-radius:50%;border:3px solid #fff;animation:rtbRing .35s ease-out forwards;pointer-events:none}
+@keyframes rtbRing{0%{opacity:.95;transform:scale(1)}100%{opacity:0;transform:scale(1.45)}}
+.rtb-face.ready{animation:rtbReady .45s ease-out}
+.rtb-face.empty{filter:grayscale(.7) brightness(.8)}.rtb-face.empty .sn{color:#ff8a8a}
+.rtb-face.no{animation:rtbNo .3s}
+body.rtb-touch .rtb-me{left:8px;right:auto;bottom:auto;top:60px;transform:none;width:184px;padding:4px 6px}
+body.rtb-touch .rtb-me .rtb-nm{font-size:12px}
+body.rtb-touch .rtb-me .rtb-party{margin-top:4px;gap:3px}body.rtb-touch .rtb-me .rtb-pi{width:28px;height:28px}body.rtb-touch .rtb-me .rtb-pi canvas{width:24px;height:24px}
+@media (prefers-reduced-motion:reduce){.rtb-face{transition:none}.rtb-face.fire:after{animation:none;display:none}}
 `;
 
+// per-frame HUD writes only when the value changes (no style / layout churn on phones)
+const txt = (e, v) => { if (e && e._t !== v) { e._t = v; e.textContent = v; } };
+const sty = (e, k, v) => { if (!e) return; const m = e._s || (e._s = {}); if (m[k] !== v) { m[k] = v; e.style.setProperty(k, v); } };
+const cls = (e, v) => { if (e && e.className !== v) e.className = v; };
 const hpCls = (f) => (f < 0.25 ? 'low' : f < 0.5 ? 'mid' : '');
 
 export class RtView {
@@ -94,6 +126,15 @@ export class RtView {
       <div class="rtb-banner"></div><div class="rtb-help">${keyNames.help}</div>`;
     document.body.appendChild(this.hud);
     this.$ = (s) => this.hud.querySelector(s);
+    this.xy = [0, 1]; this.xyOf = null; // index.js sets xyOf(c) -> [xSlot, ySlot]
+    if (touch) { // phone layout: skills leave the creature card for a bottom bar; X / Y face buttons
+      const bar = document.createElement('div'); bar.className = 'rtb-skbar'; bar.dataset.rtb = 'skbar';
+      bar.innerHTML = '<button class="rtb-xyset" data-rtb="xyset" aria-label="Choose the skills on X and Y"><b>X</b>/<i>Y</i><br>set</button>';
+      bar.appendChild(this.$('.rtb-sk')); this.hud.appendChild(bar);
+      this.faces = ['x', 'y'].map((k) => { const b = document.createElement('button'); b.className = 'rtb-face'; b.dataset.face = k; b.setAttribute('aria-label', `${k.toUpperCase()} skill`);
+        b.innerHTML = `<span class="cd"></span><span class="lt">${k.toUpperCase()}</span><span class="sn"></span>`; this.hud.appendChild(b); return b; });
+      this.layoutTouch(); this._rs = () => this.layoutTouch(); window.addEventListener('resize', this._rs); setTimeout(this._rs, 250);
+    }
     this.parts = []; this.nums = []; this.rings = []; this.trails = new WeakMap(); this.gone = new Map(); this.shake = 0; this.shakeX = 0; this.shakeY = 0;
     this.sheets = new Map(); this.flashC = document.createElement('canvas'); this.flashC.width = this.flashC.height = 64;
     this.bannerT = 0; this.bubbles = []; this.speech = []; this.t = 0; this.allyKey = null;
@@ -321,31 +362,64 @@ export class RtView {
     c.fillStyle = gr; c.beginPath(); c.arc(s.x, y, s.r * 1.8, 0, Math.PI * 2); c.fill();
     if (s.crystal) { c.save(); c.translate(s.x, y); c.rotate(s.age * 14); c.fillStyle = '#e9fdff'; c.beginPath(); c.moveTo(0, -11); c.lineTo(7, 0); c.lineTo(0, 11); c.lineTo(-7, 0); c.closePath(); c.fill(); c.restore(); }
   }
+  /** phone: bar between the D-pad and SEL / B, faces above B / A (measured from the live touchpad; fallbacks for no pad) */
+  layoutTouch() {
+    if (!this.faces) return;
+    const W = innerWidth, H = innerHeight, r = (q) => { const e = document.querySelector(q); const b = e && !e.hidden ? e.getBoundingClientRect() : null; return b && b.width ? b : null; };
+    const dp = r('#touchpad .dpad'), se = r('#touchpad [data-btn="select"]'), bb = r('#touchpad [data-btn="b"]'), ab = r('#touchpad [data-btn="a"]');
+    const left = (dp ? dp.right : 190) + 8, right = (se || bb) ? Math.min(...[se, bb].filter(Boolean).map((b) => b.left)) - 8 : W - 260;
+    const bar = this.$('.rtb-skbar'); bar.style.left = left + 'px'; bar.style.width = Math.max(220, right - left) + 'px';
+    const sz = Math.round(Math.max(48, Math.min(66, (bb?.width || 80) * 0.78)));
+    const top = Math.min(bb?.top ?? H - 100, ab?.top ?? H - 100) - sz - 22;
+    const cx = [bb ? bb.left + bb.width / 2 : W - 150, ab ? ab.left + ab.width / 2 : W - 55];
+    this.faces.forEach((f, i) => Object.assign(f.style, { width: sz + 'px', height: sz + 'px', left: Math.round(cx[i] - sz / 2) + 'px', top: Math.round(top) + 'px', fontSize: Math.round(sz * 0.4) + 'px' }));
+    this.touchBox = { barTop: bar.getBoundingClientRect().top || H - 46, faceLeft: Math.min(cx[0] - sz / 2, bb?.left ?? W) };
+  }
+  /** press feedback on a face button: squash while held, ring burst on fire */
+  facePress(k, down) {
+    const f = this.faces?.[k === 'x' ? 0 : 1]; if (!f) return;
+    f.classList.toggle('down', !!down);
+    if (down) { f.classList.remove('fire'); void f.offsetWidth; f.classList.add('fire'); }
+  }
+  faceNo(k) { const f = this.faces?.[k === 'x' ? 0 : 1]; if (!f) return; f.classList.remove('no'); void f.offsetWidth; f.classList.add('no'); }
+  setAssign(on) { const bar = this.$('.rtb-skbar'); if (bar) bar.classList.toggle('assign', !!on); this.assigning = !!on; }
   hudFrame() {
     const sim = this.sim, a = sim.ally, plates = this.$('.rtb-plates');
     const key = sim.foes.map((f) => f.c.uid).join();
-    if (plates.dataset.k !== key) { plates.dataset.k = key; plates.innerHTML = sim.foes.map((f, i) => `<div class="rtb-plate" data-i="${i}"><div class="rtb-nm"><span>${displayName(f.c)}</span><span>Lv ${f.c.level}</span></div><div class="rtb-bar"><b></b><i></i></div></div>`).join(''); }
-    sim.foes.forEach((f, i) => { const el = plates.children[i]; if (!el) return; const fr = Math.max(0, f.c.hp / f.mhp); el.classList.toggle('gone', !f.alive || !!f.caught); el.classList.toggle('lock', f === sim.target); const bar = el.querySelector('.rtb-bar'); bar.className = 'rtb-bar ' + hpCls(fr); bar.querySelector('i').style.width = fr * 100 + '%'; bar.querySelector('b').style.width = fr * 100 + '%'; });
+    if (plates.dataset.k !== key) { plates.dataset.k = key; plates.innerHTML = sim.foes.map((f, i) => `<div class="rtb-plate" data-i="${i}"><div class="rtb-nm"><span>${displayName(f.c)}</span><span>Lv ${f.c.level}</span></div><div class="rtb-bar"><b></b><i></i></div></div>`).join(''); if (this.faces) this.$('.rtb-me').style.top = Math.round(plates.offsetTop + plates.offsetHeight + 6) + 'px'; }
+    sim.foes.forEach((f, i) => { const el = plates.children[i]; if (!el) return; const fr = Math.max(0, f.c.hp / f.mhp); el.classList.toggle('gone', !f.alive || !!f.caught); el.classList.toggle('lock', f === sim.target); const bar = el.querySelector('.rtb-bar'); cls(bar, 'rtb-bar ' + hpCls(fr)); sty(bar.querySelector('i'), 'width', fr * 100 + '%'); sty(bar.querySelector('b'), 'width', fr * 100 + '%'); });
     if (this.allyKey !== a.c.uid) {
       this.allyKey = a.c.uid; this.$('[data-rtb="aname"]').textContent = displayName(a.c);
-      this.$('.rtb-sk').innerHTML = a.skills.map((id, i) => `<div class="rtb-s" data-slot="${i}" role="button" aria-label="Skill ${i + 1}"><span class="el"></span><span class="k">${this.keyNames.skills[i] || ''}</span><span class="n"></span><span class="e"></span><span class="cd"></span></div>`).join('');
-      this.onSkillsBuilt?.();
+      this.$('.rtb-sk').innerHTML = a.skills.map((id, i) => `<div class="rtb-s" data-slot="${i}" role="button" aria-label="Skill ${i + 1}"><span class="el"></span><span class="k">${this.keyNames.skills[i] || ''}</span><span class="n"></span><span class="e"></span><span class="cd"></span><span class="xy"></span></div>`).join('');
+      this._xyk = null; this.onSkillsBuilt?.();
     }
-    this.$('[data-rtb="alv"]').textContent = `Lv ${a.c.level}`;
-    const fr = Math.max(0, a.c.hp / a.mhp), hb = this.$('[data-rtb="ahp"]'); hb.className = 'rtb-bar ' + hpCls(fr); hb.querySelector('i').style.width = fr * 100 + '%'; hb.querySelector('b').style.width = fr * 100 + '%';
+    txt(this.$('[data-rtb="alv"]'), `Lv ${a.c.level}`);
+    const fr = Math.max(0, a.c.hp / a.mhp), hb = this.$('[data-rtb="ahp"]'); cls(hb, 'rtb-bar ' + hpCls(fr)); sty(hb.querySelector('i'), 'width', fr * 100 + '%'); sty(hb.querySelector('b'), 'width', fr * 100 + '%');
     this.$('.rtb-me').classList.toggle('low', fr > 0 && fr < 0.25);
-    this.$('[data-rtb="ahp"]').title = `${a.c.hp}/${a.mhp}`;
-    const xl = this.xpBar?.(a.c); if (xl != null) this.$('[data-rtb="axp"] i').style.width = xl * 100 + '%';
+    if (hb.title !== `${a.c.hp}/${a.mhp}`) hb.title = `${a.c.hp}/${a.mhp}`;
+    const xl = this.xpBar?.(a.c); if (xl != null) sty(this.$('[data-rtb="axp"] i'), 'width', xl * 100 + '%');
     const rows = this.hud.querySelectorAll('.rtb-s');
     a.skills.forEach((id, i) => {
       const r = rows[i]; if (!r) return; const sk = this.skillInfo(id), en = a.c.energy?.[i] ?? 0, mx = this.maxEn?.(a.c)?.[i] ?? en;
-      r.querySelector('.n').textContent = sk?.name || id; r.querySelector('.e').textContent = `En ${en}/${mx}`; r.querySelector('.el').style.background = col(String(sk?.type || '').toLowerCase());
-      const cd = sk ? Math.max(0, a.cds[i]) / (this.cdOf(sk) || 1) : 0; r.querySelector('.cd').style.setProperty('--sw', Math.round(Math.min(1, cd) * 360) + 'deg');
+      txt(r.querySelector('.n'), sk?.name || id); txt(r.querySelector('.e'), `En ${en}/${mx}`); sty(r.querySelector('.el'), 'background', col(String(sk?.type || '').toLowerCase()));
+      const cd = sk ? Math.max(0, a.cds[i]) / (this.cdOf(sk) || 1) : 0; sty(r.querySelector('.cd'), '--sw', Math.round(Math.min(1, cd) * 360) + 'deg');
       if (r._cd > 0 && cd <= 0) { r.classList.remove('ready'); void r.offsetWidth; r.classList.add('ready'); } r._cd = cd; r.dataset.ready = cd <= 0 ? '1' : '0';
       r.classList.toggle('sel', i === sim.selected); r.classList.toggle('empty', en <= 0);
     });
+    if (this.faces) {
+      const xy = this.xyOf ? this.xyOf(a.c, a.skills.length) : this.xy; this.xy = xy; const xk = a.c.uid + ':' + xy.join();
+      if (this._xyk !== xk) { this._xyk = xk; rows.forEach((r, i) => { const t = r.querySelector('.xy'); if (!t) return; const k = a.skills.length > 1 && i === xy[0] ? 'x' : i === xy[1] ? 'y' : ''; t.textContent = k.toUpperCase(); t.className = 'xy ' + k; }); }
+      this.faces.forEach((f, k) => {
+        const i = xy[k], id = a.skills[i], sk = id ? this.skillInfo(id) : null, en = a.c.energy?.[i] ?? 0; f.hidden = !id;
+        const nm = sk?.name || id || ''; if (f._nm !== nm) { f._nm = nm; f.querySelector('.sn').textContent = nm; }
+        const cd = sk ? Math.max(0, a.cds[i]) / (this.cdOf(sk) || 1) : 0, sw = Math.round(Math.min(1, cd) * 360);
+        if (f._sw !== sw) { f._sw = sw; f.querySelector('.cd').style.setProperty('--sw', sw + 'deg'); }
+        if (f._cd > 0 && cd <= 0) { f.classList.remove('ready'); void f.offsetWidth; f.classList.add('ready'); } f._cd = cd;
+        f.classList.toggle('empty', en <= 0);
+      });
+    }
     this.partyFrame();
-    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.disabled = !cr || !!sim.caught || sim.trainer; cb.firstChild.textContent = `Crystal ×${cr}`;
+    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.disabled = !cr || !!sim.caught || sim.trainer; if (cb.firstChild.textContent !== `Crystal ×${cr}`) cb.firstChild.textContent = `Crystal ×${cr}`;
     this.$('[data-rtb="swap"]').disabled = sim.party.filter((c) => c.hp > 0).length < 2 || sim.swapCd > 0;
     this.$('[data-rtb="leave"]').classList.toggle('hold', sim.retreatT > 0);
   }
@@ -361,13 +435,14 @@ export class RtView {
       const el = box.children[i]; if (!el) return;
       if (!box._drawn.has(i)) { const im = this.sheet(c.species); if (im) { el.querySelector('canvas').getContext('2d').drawImage(im, 0, 0, 64, 64, 0, 0, 64, 64); box._drawn.add(i); } }
       el.classList.toggle('on', i === sim.active); el.classList.toggle('ko', !(c.hp > 0)); el.classList.toggle('cd', i !== sim.active && sim.swapCd > 0);
-      el.querySelector('.ph').style.width = `calc(${Math.max(0, c.hp / (this.maxHpOf?.(c) || c.maxHp || c.hp || 1)) * 100}% - 4px)`;
+      sty(el.querySelector('.ph'), 'width', `calc(${Math.max(0, c.hp / (this.maxHpOf?.(c) || c.maxHp || c.hp || 1)) * 100}% - 4px)`);
     });
   }
   partyNo(i) { const el = this.$(`.rtb-pi[data-i="${i}"]`); if (!el) return; el.classList.remove('no'); void el.offsetWidth; el.classList.add('no'); }
   destroy() {
     if (this.trainer?.npc) { this.trainer.npc.rtbLift = 0; this.scene._dirty = true; }
     this.$('.rtb-bars')?.classList.remove('on');
+    if (this._rs) window.removeEventListener('resize', this._rs);
     this.world.style.transform = ''; this.cv.remove(); this.hud.remove(); document.body.classList.remove('rtb-touch');
     document.querySelectorAll('.rtb-fx').forEach((e) => e.remove());
   }

@@ -35,3 +35,18 @@ export function capsFlipped(e, prev) { const now = typeof e?.getModifierState ==
 export function padSkillEdges(now, prev) { return PAD_SKILL_BUTTONS.map((b, i) => (now[b] && !prev[b] ? i : -1)).filter((i) => i >= 0); }
 /** cooldown sweep angle (deg, 0 = ready) for a slot; cd remaining / total */
 export function sweepDeg(left, total) { return total > 0 ? Math.round(360 * Math.max(0, Math.min(1, left / total))) : 0; }
+// Face buttons X / Y (Gary Oct 29 2026: "add x and y buttons for the battle screen and attach each to a skill"): each holds one
+// skill of the active creature, player picks which (default skills 1 + 2). Phone: on-screen X / Y above B / A. Pad: X (2) / Y (3).
+// Keyboard keeps Q E R F for every skill (KeyX is already dodge), so no extra keys.
+export const PAD_X = 2, PAD_Y = 3, XY_STORE = 'kilumen_rtb_xy';
+/** pad buttons now / before -> ['x'] / ['y'] edges */
+export function padXYEdges(now, prev) { const o = []; if (now[PAD_X] && !prev[PAD_X]) o.push('x'); if (now[PAD_Y] && !prev[PAD_Y]) o.push('y'); return o; }
+/** [xSlot, ySlot] for a creature with n skills: the saved pick when valid, else the first two skills (one skill: both on it) */
+export function xySlots(saved, n) {
+  if (n <= 1) return [0, 0];
+  const ok = (i) => Number.isInteger(i) && i >= 0 && i < n;
+  const x = ok(saved?.[0]) ? saved[0] : 0; let y = ok(saved?.[1]) ? saved[1] : x === 1 ? 0 : 1; if (y === x) y = x === 0 ? 1 : 0;
+  return [x, y];
+}
+/** put skill slot on face b ('x' | 'y'); when the other face already holds it, the two swap */
+export function assignXY([x, y], b, slot) { return b === 'x' ? (slot === y ? [slot, x] : [slot, y]) : (slot === x ? [y, slot] : [x, slot]); }
