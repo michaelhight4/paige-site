@@ -15,6 +15,9 @@ import { ENDING } from '../../progression/ending.js?v=v0.2.87-alpha';
 import { RON_POOLS, RON_FORMS_OK } from './ron_pools.gen.js?v=v0.2.87-alpha';
 
 export const RON_BASE = ['peeplark', 'counter', 'sailquill'];
+/** Fights where Ron fields ONLY final-evolution Kilu (Gary 5:42 PM CT): base 3 forced to final stage, rolled pools filtered
+ *  to lines whose final stage he can field (single-stage species count as final). */
+export const RON_FINAL_ONLY = ['ron_6', 'ron_final'];
 /** Fight -> level per slot (ascending, ace last) + where the rolled slots debut. Levels: LEVEL_CURVE_V2 (approved). */
 export const RON_FIGHTS = {
   ron_1: { levels: [7, 8] },
@@ -58,7 +61,7 @@ export function ensureRonRoll(save) { return normRonRoll(save?.ron_roll) || roll
 
 /** Rolled lineages (line roots) for one fight: n distinct picks from that fight's pool, seeded by save seed + fight number. */
 export function rolledFor(fight, n, roll, pools = RON_POOLS) {
-  const num = RON_ORDER.indexOf(fight) + 1, r = rng(seedOf(`${roll.seed}:${num}`)), opts = [...(pools[fight] || [])], out = [];
+  const num = RON_ORDER.indexOf(fight) + 1, r = rng(seedOf(`${roll.seed}:${num}`)), opts = [...poolFor(fight, pools)], out = [];
   while (out.length < n && opts.length) out.push(opts.splice(Math.floor(r() * opts.length), 1)[0]);
   return out;
 }
@@ -76,6 +79,18 @@ export function stageFor(root, level, table = evoTable()) {
   return s;
 }
 
+/** Last form of root's level line, or null when that form has no art / is not fieldable (FORMS_OK). */
+export function finalStage(root, table = evoTable()) {
+  let s = root;
+  for (let i = 0; i < 4 && table[s]; i++) s = table[s].to;
+  return FORMS_OK.has(s) ? s : null;
+}
+/** Rolled-slot pool for a fight (final-only fights keep only lines with a fieldable final stage). */
+export function poolFor(fight, pools = RON_POOLS) {
+  const p = pools[fight] || [];
+  return RON_FINAL_ONLY.includes(fight) ? p.filter((r) => finalStage(r)) : p;
+}
+
 /** Ron's team for a fight: [{species, level}] ace last. starter = the player's (nibbin | cindrip | rillop | tumbloam). */
 export function ronTeam(fight, starter, roll = getRonRoll()) {
   const f = RON_FIGHTS[fight]; if (!f) return null;
@@ -83,7 +98,8 @@ export function ronTeam(fight, starter, roll = getRonRoll()) {
   const n = f.levels.length;
   const roots = ['peeplark', 'sailquill', ...rolledFor(fight, Math.max(0, n - 3), roll)]; // non-ace slots: base first, then this fight's roll
   const others = roots.slice(0, n - 1);
-  const team = others.map((r, i) => ({ species: stageFor(r, f.levels[i]), level: f.levels[i] }));
-  team.push({ species: stageFor(counter, f.levels[n - 1]), level: f.levels[n - 1] });
+  const form = RON_FINAL_ONLY.includes(fight) ? (r) => finalStage(r) || stageFor(r, 100) : (r, lv) => stageFor(r, lv);
+  const team = others.map((r, i) => ({ species: form(r, f.levels[i]), level: f.levels[i] }));
+  team.push({ species: form(counter, f.levels[n - 1]), level: f.levels[n - 1] });
   return team;
 }

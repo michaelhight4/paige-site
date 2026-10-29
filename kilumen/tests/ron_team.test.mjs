@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { ronTeam, rollRon, ensureRonRoll, normRonRoll, RON_FIGHTS, RON_ORDER, stageFor, rolledFor } from '../src/battle/data/ron_team.js';
+import { ronTeam, rollRon, ensureRonRoll, normRonRoll, RON_FIGHTS, RON_ORDER, stageFor, rolledFor, RON_FINAL_ONLY, poolFor, finalStage } from '../src/battle/data/ron_team.js';
 import { RON_POOLS } from '../src/battle/data/ron_pools.gen.js';
 import { evoTable } from '../src/systems/evolution.js';
 import { SPECIES } from '../src/ui/data.js';
@@ -53,7 +53,7 @@ test('rolled slots re-roll per fight from that fight\'s own region pool; never b
     for (const f of RON_ORDER) {
       const team = ronTeam(f, 'cindrip', roll), rolled = team.slice(2, -1).map((m) => root(m.species));
       assert.deepEqual(rolled, rolledFor(f, rolled.length, roll), f);
-      for (const p of rolled) { assert.ok(RON_POOLS[f].includes(p), `${p} in ${f} pool`); assert.ok(!base.includes(p), p); }
+      for (const p of rolled) { assert.ok(poolFor(f).includes(p) && RON_POOLS[f].includes(p), `${p} in ${f} pool`); assert.ok(!base.includes(p), p); }
       assert.deepEqual(team.slice(0, Math.min(2, team.length - 1)).map((m) => root(m.species)), ['peeplark', 'sailquill'].slice(0, Math.min(2, team.length - 1)));
     }
     if (JSON.stringify(rolledFor('ron_5', 3, roll)) !== JSON.stringify(rolledFor('ron_final', 3, roll))) differs++;
@@ -96,4 +96,17 @@ test('beating final Ron sets beat_n_ron_7 and ron_final_beaten', async () => {
   const o = trainerOutcome('aurelith_arena_int', 'aurelith_arena_ron_final', true);
   assert.ok(o.flags.includes('beat_n_ron_7') && o.flags.includes('ron_final_beaten'));
   assert.ok(!trainerOutcome('aurelith_arena_int', 'aurelith_arena_ron_final', false).flags.includes('beat_n_ron_7'));
+});
+
+test('Ron 6 and final Ron field ONLY final-evolution Kilu (base 3 and rolled), whatever the level', () => {
+  assert.deepEqual(RON_FINAL_ONLY, ['ron_6', 'ron_final']);
+  for (const f of RON_FINAL_ONLY) for (const r of poolFor(f)) assert.ok(!t[finalStage(r)], `${r} final ${finalStage(r)}`);
+  for (let i = 0; i < 40; i++) for (const st of STARTERS3) for (const f of RON_FINAL_ONLY) {
+    const team = ronTeam(f, st, rollRon('fin' + i));
+    assert.equal(team.length, 6);
+    for (const m of team) { assert.ok(!t[m.species], `${f} ${m.species} is not a final stage`); assert.ok(reg.has(m.species) && hasArt(m.species)); }
+    assert.deepEqual(team.slice(0, 2).map((m) => m.species), ['galespar', 'sailquill']);
+    assert.equal(team.at(-1).species, { nibbin: 'forgeharrow', cindrip: 'tidemarrow', rillop: 'gnawford' }[st]);
+    assert.equal(new Set(team.map((m) => root(m.species))).size, 6);
+  }
 });
