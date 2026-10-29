@@ -15,17 +15,17 @@
 // capture logic). Not in trainer fights (button hidden). Fairness for a hard game: the fight does NOT pause. It runs at 40 %
 // (CAP_TAB.slow) so foes keep moving and telegraphing, skills are locked while the tab is open (dodge still works), a hit on
 // your creature snaps the tab shut, and it closes on its own after 4 s real time. You get time to read the odds, not a free pause.
-import { RtBattle } from './sim.js?v=v0.2.60-alpha';
-import { RtView } from './view.js?v=v0.2.60-alpha';
-import { cooldownFor } from './moves.js?v=v0.2.60-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.60-alpha';
-import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.60-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.60-alpha';
-import { Col } from '../overworld/constants.js?v=v0.2.60-alpha';
-import { reducedMotion } from '../sports/hype.js?v=v0.2.60-alpha';
-import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped } from './keys.js?v=v0.2.60-alpha';
-import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.60-alpha';
-import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.60-alpha';
+import { RtBattle } from './sim.js?v=v0.2.65-alpha';
+import { RtView } from './view.js?v=v0.2.65-alpha';
+import { cooldownFor } from './moves.js?v=v0.2.65-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.65-alpha';
+import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.65-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.65-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.65-alpha';
+import { reducedMotion } from '../sports/hype.js?v=v0.2.65-alpha';
+import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped } from './keys.js?v=v0.2.65-alpha';
+import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.65-alpha';
+import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.65-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
 let SK = null;
@@ -105,7 +105,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
         if (a.type === 'next') { inp.capNext = true; return; } if (a.type === 'skill') return;
       }
       if (a.type === 'skill') inp.fire = a.slot; else if (a.type === 'party') inp.party = a.slot; else if (a.type === 'fire') inp.fire = 'sel';
-      else if (a.type === 'next') inp.select = true; else if (a.type === 'team') inp.swap = true; else if (a.type === 'crystal') inp.crystal = true; else if (a.type === 'mode') inp.mode = true;
+      else if (a.type === 'next') inp.select = true; else if (a.type === 'team') inp.swap = true; else if (a.type === 'crystal') inp.crystal = globalThis.KILUMEN_RTB_CAPTURE_OFF !== true; else if (a.type === 'mode') inp.mode = true;
     };
     const ku = (e) => { capsCheck(e); if (e.code === 'Escape') { inp.retreat = false; e.stopPropagation(); } if (BKEY.has(e.code)) bRelease(); };
     window.addEventListener('keydown', kd, true); window.addEventListener('keyup', ku, true);
@@ -126,7 +126,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       const pi = e.target.closest?.('.rtb-pi'); if (pi) { inp.party = +pi.dataset.i; e.preventDefault(); return; }
       if (s) { sim.selected = +s.dataset.slot; inp.fire = +s.dataset.slot; e.preventDefault(); return; }
       if (!b) return; e.preventDefault();
-      if (b.dataset.rtb === 'swap') inp.swap = true; else if (b.dataset.rtb === 'crystal') inp.crystal = true; else if (b.dataset.rtb === 'leave') inp.retreat = true;
+      if (b.dataset.rtb === 'swap') inp.swap = true; else if (b.dataset.rtb === 'crystal') inp.crystal = globalThis.KILUMEN_RTB_CAPTURE_OFF !== true; else if (b.dataset.rtb === 'leave') inp.retreat = true;
     });
     const leaveUp = () => { inp.retreat = false; }; on(hud, 'pointerup', leaveUp); on(hud, 'pointercancel', leaveUp);
     const padPrev = new Map();

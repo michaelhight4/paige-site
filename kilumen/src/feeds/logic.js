@@ -3,7 +3,7 @@
 // practice and battles (never with time), opposite-part trade-offs, fins/wings only on fitting type + body shape, real-time
 // grow timers that practice speeds up, likes/dislikes reactions. State lives in systems.state.feeds (saved with systems);
 // build is keyed by creature uid because the creature save format (systems/creature.js toSave) keeps only known fields.
-import { rngFor } from '../sports/rng.js?v=v0.2.57-alpha';
+import { rngFor } from '../sports/rng.js?v=v0.2.65-alpha';
 
 export const PARTS = ['legs', 'lungs', 'grip', 'mind', 'fins', 'wings'];
 export const PART_CAP = 60, TOTAL_CAP = 150, BUILD_TO_STAT = 0.25, STAT_BONUS_CAP = 15, FULL_MAX = 100;

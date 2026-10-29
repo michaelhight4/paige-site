@@ -2,11 +2,11 @@
 // screen = (world - cam) * zoom, as src/overworld/overworld.js view()), plus a small DOM HUD. All the "juice" lives here:
 // hitstop, shake, white hit flash, knockback dust, damage numbers, element sparks, telegraph wedges, "!" alerts, faint poof,
 // crystal pulses, level-up column, start/end banners. Reduced motion (?rm=1 / prefers-reduced-motion): no shake, no flashes, fewer particles.
-import { displayName } from '../systems/creature.js?v=v0.2.60-alpha';
-import { SHAPE_STATS } from './moves.js?v=v0.2.60-alpha';
-import { RT } from './sim.js?v=v0.2.60-alpha';
-import { loadFx } from '../ui/hit_fx.js?v=v0.2.60-alpha';
-import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.60-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.65-alpha';
+import { SHAPE_STATS } from './moves.js?v=v0.2.65-alpha';
+import { RT } from './sim.js?v=v0.2.65-alpha';
+import { loadFx } from '../ui/hit_fx.js?v=v0.2.65-alpha';
+import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.65-alpha';
 // crystal icon (inline, no asset): a faceted gem
 export const GEM_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 9 12 22 4 9Z" fill="#bff6ff"/><path d="M12 2 16 9 12 22 8 9Z" fill="#7fe3ff"/><path d="M4 9h16L12 22Z" fill="#4fc7ef" opacity=".55"/><path d="M12 2 8 9h8Z" fill="#fff" opacity=".8"/></svg>';
 
@@ -349,7 +349,7 @@ export class RtView {
       r.classList.toggle('sel', i === sim.selected); r.classList.toggle('empty', en <= 0);
     });
     this.partyFrame();
-    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.hidden = !!sim.trainer; cb.disabled = !cr || !!sim.caught || !!sim.trainer || !!sim.capture; cb.querySelector('.cn').textContent = ct(CT.count, { n: cr }); cb.querySelector('.cl').textContent = cr ? CT.button : CT.button_none; cb.classList.toggle('open', !!this.capOpen);
+    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.hidden = !!sim.trainer || globalThis.KILUMEN_RTB_CAPTURE_OFF === true; cb.disabled = !cr || !!sim.caught || !!sim.trainer || !!sim.capture; cb.querySelector('.cn').textContent = ct(CT.count, { n: cr }); cb.querySelector('.cl').textContent = cr ? CT.button : CT.button_none; cb.classList.toggle('open', !!this.capOpen);
     this.$('[data-rtb="swap"]').disabled = sim.party.filter((c) => c.hp > 0).length < 2 || sim.swapCd > 0;
     this.$('[data-rtb="leave"]').classList.toggle('hold', sim.retreatT > 0);
   }

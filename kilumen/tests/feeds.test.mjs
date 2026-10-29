@@ -13,9 +13,10 @@ const fresh = () => { const fs = L.feedsState({}); Object.defineProperty(fs, 'ba
 const give = (fs, id, n = 50) => { fs.bag.add(L.fruitItem(id), n); };
 const uidNeutral = (id) => { for (let i = 0; i < 500; i++) { const u = 'u' + i; if (L.reactionOf(u, id) === 'neutral') return u; } };
 
-test('flag is off by default, ?feeds=1 turns it on', () => {
-  assert.equal(feedsEnabled(new URLSearchParams('')), false);
-  assert.equal(feedsEnabled(null), false);
+test('flag is ON by default since v0.2.65, ?feeds=0 kill switch', () => {
+  assert.equal(feedsEnabled(new URLSearchParams('')), true);
+  assert.equal(feedsEnabled(null), true);
+  assert.equal(feedsEnabled(new URLSearchParams('feeds=0')), false);
   assert.equal(feedsEnabled(new URLSearchParams('feeds=1')), true);
 });
 test('no berries, no blocked words in fruit ids or player text', () => {

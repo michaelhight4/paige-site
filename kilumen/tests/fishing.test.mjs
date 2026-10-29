@@ -13,9 +13,10 @@ const fish = J('data/fishing_tables.json'), terr = J('data/terrain_encounters.js
 const seq = (...a) => { let i = 0; return () => a[i++ % a.length]; };
 const BLOCKED = /\b(PP|shiny|super effective|Pok[eé]dex|Pok[eé] ?Ball|nurse|weed|route|berry|throw)\b/i;
 
-test('flags: both off by default, query turns them on', () => {
-  assert.deepEqual(FISHING_DEFAULTS, { fishing: false, terrain: false });
-  assert.deepEqual(fishingFlags(new URLSearchParams('')), { fishing: false, terrain: false });
+test('flags: fishing ON by default (v0.2.65), terrain off; query overrides', () => {
+  assert.deepEqual(FISHING_DEFAULTS, { fishing: true, terrain: false });
+  assert.deepEqual(fishingFlags(new URLSearchParams('')), { fishing: true, terrain: false });
+  assert.deepEqual(fishingFlags(new URLSearchParams('fishing=0')), { fishing: false, terrain: false });
   assert.deepEqual(fishingFlags(new URLSearchParams('fishing=1&terrainenc=1')), { fishing: true, terrain: true });
 });
 
