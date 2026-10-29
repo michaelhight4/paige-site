@@ -3,10 +3,10 @@
 // same layout as Cal's: rows down/left/right/up, cols stand + walk0-3). NPCs move on the same 60 Hz GridMover as
 // the player, so they share pixel-exact stepping. Occupancy: an NPC holds its cell AND the cell it is stepping
 // into (GameMap.occupy), so the player can never walk into one mid-step.
-import { DELTA, DIRS, Col } from './constants.js?v=v0.2.55-alpha';
-import { GridMover } from './movement.js?v=v0.2.55-alpha';
-import { npcForPhase, isActive } from './props.js?v=v0.2.55-alpha';
-import { walkGrid, findPath, pathToDirs } from './pathing.js?v=v0.2.55-alpha';
+import { DELTA, DIRS, Col } from './constants.js?v=v0.2.56-alpha';
+import { GridMover } from './movement.js?v=v0.2.56-alpha';
+import { npcForPhase, isActive } from './props.js?v=v0.2.56-alpha';
+import { walkGrid, findPath, pathToDirs } from './pathing.js?v=v0.2.56-alpha';
 
 const WANDER = new Set(['villager', 'villager_hooded', 'villager_elder', 'kid']);
 const LOOK = new Set(['trainer', 'trainer_hooded']);
@@ -111,7 +111,7 @@ export class NpcSystem {
           n.paused = Math.max(0, n.paused - 1);
         } else if (--n.wait <= 0) {
           n.wait = 90 + Math.floor(n.rand() * 150);
-          if (n.behaviour === 'look') mv.facing = DIRS[Math.floor(n.rand() * 4)];
+          if (n.behaviour === 'look') { const fi = Array.isArray(n.def?.idle_facings) ? n.def.idle_facings.filter((d) => d === n.def.facing || d !== 'up') : []; const f = fi.length ? fi : DIRS; mv.facing = f[Math.floor(n.rand() * f.length)]; } // hall layouts: themed glances, never back-to-camera (design/HALL_LAYOUTS.md)
           else if (n.behaviour === 'wander') {
             const dir = DIRS[Math.floor(n.rand() * 4)];
             if (this._canStep(n, dir, false)) { n.hold = dir; mv.facing = dir; } else mv.facing = dir;
