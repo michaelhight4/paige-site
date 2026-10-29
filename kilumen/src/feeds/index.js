@@ -53,16 +53,11 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
   function onBattleWin(fought) { for (const u of fought || []) L.drain(fs(), u, L.DRAIN.battleWin); scene._dirty = true; }
   function onPractice(c) { const u = uidOf(c); if (u) L.drain(fs(), u, L.DRAIN.practice); L.practiceBoost(fs()); scene._dirty = true; }
 
-  let btn = null;
-  if (typeof document !== 'undefined') {
-    btn = document.createElement('button'); btn.id = 'feeds-btn'; btn.textContent = FS['feeds.button']; document.body.appendChild(btn);
-    btn.addEventListener('click', () => openFeeds());
-  }
+  // v0.2.69 (Gary): no floating #feeds-btn any more; Feeds opens from its own top-row Phone menu entry (src/ui/ui.js, scr_phone).
   const blocked = () => {
     const ui = globalThis.kilumen?.ui;
     return !!(scene.busy || scene.fade || scene.dialog?.active || scene.saveLocked || ui?.active || ui?.stack?.some?.((s) => s.scr === 'battle') || globalThis.kilumen?.sports?.state?.()?.open);
   };
-  if (btn) setInterval(() => { btn.hidden = st.open || blocked(); }, 250); // only offered in free roam
   let ov = null, keyH = null, savedTs = 1, timer = 0, bg = null;
   function openFeeds(tab = 'feed') {
     if (st.open) return true;

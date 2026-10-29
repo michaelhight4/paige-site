@@ -61,6 +61,7 @@ const GLYPHS = {
   shop: ['............', '.##########.', '#.#.#.#.#.##', '############', '.#........#.', '.#.###....#.', '.#.#.#.##.#.', '.#.#.#.##.#.', '.#.###....#.', '.#........#.', '.##########.', '............'],
   battle: ['#.........##', '.#.......###', '..#.....###.', '...#...###..', '....#.###...', '.....###....', '....###.#...', '..####...#..', '..###.....#.', '.##........#', '##..........', '............'],
   badges: ['...######...', '..#......#..', '.#..####..#.', '#..#....#..#', '#.#..##..#.#', '#.#.####.#.#', '#.#.####.#.#', '#.#..##..#.#', '#..#....#..#', '.#..####..#.', '..#......#..', '...######...'],
+  feeds: ['.....##.....', '......#.##..', '...####.#...', '..########..', '.###########', '.####.######', '.###.#######', '.###########', '.###########', '..#########.', '...#######..', '....####....'], // fruit (Feeds, v0.2.69)
   menu: ['............', '.##########.', '.##########.', '............', '............', '.##########.', '.##########.', '............', '............', '.##########.', '.##########.', '............'],
 };
 const ICONS_PX = typeof location === 'undefined' || new URLSearchParams(location.search).get('icons') !== 'classic'; // ?icons=classic: old 12x12 glyphs
@@ -540,15 +541,17 @@ export class GameUI {
       .filter(([k]) => k !== 'rt_benefits' || typeof this.scr_rt_benefits === 'function'); // only once src/ui/rt_benefits_screen.js installed it
     const hasBdg = typeof this.scr_badges === 'function'; // Badges (v0.2.65): own top-row entry after Tasks; only installed when badgesOn() (?badges=0 kill switch)
     if (hasBdg) apps.splice(4, 0, ['badges', this.T('system_badges.labels.tab', 'Badges'), 'badges']);
-    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00', badges: '#c8962a' };
-    const cols = +(this.cfg.vars?.['app-cols'] || 4) + (hasBdg ? 1 : 0); // one more column so Badges sits on the top row
+    const feeds = globalThis.window?.kilumen?.feeds, hasFeeds = typeof feeds?.open === 'function'; // Feeds (v0.2.69, Gary): top-row entry after Badges; only when src/feeds attached (flag on)
+    if (hasFeeds) apps.splice(hasBdg ? 5 : 4, 0, ['feeds', this.T('feeds.title', 'Feeds'), 'feeds']);
+    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00', badges: '#c8962a', feeds: '#3b9a3e' };
+    const cols = +(this.cfg.vars?.['app-cols'] || 4) + (hasBdg ? 1 : 0) + (hasFeeds ? 1 : 0); // one more column each so Badges sits on the top row
     return { scr: 'phone', pat: 'crystal', title: 'Phone', glyph: 'contacts', sel: Math.min(this._phoneSel || 0, apps.length - 1), cols,
       count: () => apps.length,
       chips: () => `${this.gold != null ? `<span class="ui-chip"><i class="coin"></i>${this.gold.toLocaleString()}</span>` : ''}<span class="ui-chip dark">${esc(this.scene.map?.title || '')}</span>`,
       render: () => `<div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="phone" data-pat="lattice"><div class="ui-apps" style="--ui-app-cols:${cols}">${apps.map(([k, l], i) =>
         `<div class="ui-tile" data-i="${i}" data-app="${k}"><span class="badge" style="background:${COLS[k]}">${k === 'badges' && this.badgeIcon ? this.badgeIcon() : glyph(k, '#fff')}</span><span class="lbl">${esc(l)}</span></div>`).join('')}</div></div>`,
       hint: () => this.hintText([['A', 'Open'], ['B', 'Close']]),
-      onA: (i) => { this._phoneSel = i; this.open(apps[i][0]); },
+      onA: (i) => { this._phoneSel = i; if (apps[i][0] === 'feeds') { this.closeAll(); setTimeout(() => feeds.open('feed'), 60); return; } this.open(apps[i][0]); }, // Feeds is its own overlay (needs free roam, so the Phone closes first)
       onSel: (i) => { this._phoneSel = i; },
     };
   }
