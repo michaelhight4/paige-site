@@ -1,9 +1,9 @@
 // Town practice events UI (Oct 29 2026). Talk to <town>_practice_coach -> pick a creature -> play -> result + reaction.
 // Practice only: no prize, no podium; best score per event saved in sports state (.town). Logic: town_events.js.
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
-import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.75-alpha';
-import { TS, tt } from './town_strings.js?v=v0.2.75-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.75-alpha';
+import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.76-alpha';
+import { TS, tt } from './town_strings.js?v=v0.2.76-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.76-alpha';
 
 export const LIVE_REGION = 3; // R1-R3 are playable; Frostspire (R4), Lanternport (R7), Cindervale (R8) unlock with their region
 const W = 360, H = 480;

@@ -3,7 +3,7 @@
 // animations. It drives the ordinary engine (kb.choose / kb.drain) so rolls, accuracy, crits, status and AI are the game's own,
 // then the screen's normal finish() runs (XP split, applyBattleResult, evolution queue, post-battle flow, the usual save).
 // Nothing here saves; nothing is forced to win.
-import { DEV } from './runtime.js?v=v0.2.75-alpha';
+import { DEV } from './runtime.js?v=v0.2.76-alpha';
 
 export const logs = []; // newest last, max 20
 const MAX_LOGS = 20, MAX_STEPS = 600;
