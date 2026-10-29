@@ -5,7 +5,7 @@ export const PROGRESSION_DEFAULTS = Object.freeze({
   masterTeamFernwick: false, // use Game dev's real team for the LIVE Fernwick Master + hall trainers (changes today's difficulty: Gary to OK)
   masterGifts: false,        // Master gift items (ids are PLACEHOLDERS from Game dev; given only when the id exists in src/systems/items.js)
   hallPuzzles: false,        // generic hall puzzle runtime + preview overlay (?hall=<zone>); hall maps 2-8 not built yet
-  quests: false,             // data/quests.json quest system: quest log (phone Tasks), HUD tracker, NPC give / turn-in, rewards
+  quests: true,              // Tasks fix Oct 29 2026: default ON (?tasks=0 kill switch in alpha.js). data/quests.json quest system: quest log (phone Tasks), HUD tracker, NPC give / turn-in, rewards
 });
 
 export function progressionFlags(query) {
