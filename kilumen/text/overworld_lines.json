@@ -16936,6 +16936,36 @@
     "parity": "M1",
     "build": "different",
     "status": "DRAFT"
+   },
+   "jestrix": {
+    "blurb": "Rings its ear bell before every prank. Laughs loudest when it gets caught.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "japkit": {
+    "blurb": "Juggles acorns, pebbles, anything. Drops the lot, except what it loves.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "harlequop": {
+    "blurb": "Deals cards with a wink. Somehow the little ones always win the hand.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "mummerhop": {
+    "blurb": "Twirls ribbons mid-battle. Every fight turns into a show, with encores.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "maestrix": {
+    "blurb": "One ring of its bell and the meadow goes hush. It bows to friend and foe.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
    }
   }
  },
