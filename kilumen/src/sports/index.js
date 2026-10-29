@@ -6,16 +6,18 @@
 // Save rules: the coach talk runs inside scene.script() (checkpoint before, normal save after) and a saveGuard blocks
 // saving the whole time the overlay is open, so the fee, the race and the prize land in one save after the overlay
 // closes. Closing the tab mid-race reloads the pre-talk checkpoint: fee not taken, window not used.
-import { S, t } from './strings.js?v=v0.2.45-alpha';
-import { STATS, POINTS } from './rules.js?v=v0.2.45-alpha';
-import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.45-alpha';
-import { runMeet } from './meet.js?v=v0.2.45-alpha';
-import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.45-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.45-alpha';
-import { speciesAthletics } from './athletics.js?v=v0.2.45-alpha';
-import { rngFor } from './rng.js?v=v0.2.45-alpha';
-import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.45-alpha';
-import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.45-alpha';
+import { attachTownEvents } from './town_ui.js?v=v0.2.46-alpha';
+import { S, t } from './strings.js?v=v0.2.46-alpha';
+import { STATS, POINTS } from './rules.js?v=v0.2.46-alpha';
+import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.46-alpha';
+import { runMeet } from './meet.js?v=v0.2.46-alpha';
+import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.46-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.46-alpha';
+import { speciesAthletics } from './athletics.js?v=v0.2.46-alpha';
+import { rngFor } from './rng.js?v=v0.2.46-alpha';
+import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.46-alpha';
+import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.46-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.46-alpha';
 
 const W = 640, H = 360, PPM = 22, LANE_Y = [176, 222, 268, 314], SPR = 64;
 const sheet = new Map();
@@ -99,6 +101,7 @@ export function attachSports(scene, { query, systems } = {}) {
     };
   };
   hookInteract(sys());
+  const town = attachTownEvents(scene, { sys, sstate, isOpen: () => st.open });
 
   /** Opens the venue screen; resolves when the overlay closes. */
   function openVenue() {
@@ -217,7 +220,7 @@ export function attachSports(scene, { query, systems } = {}) {
     const { me, races } = st.meet, { mine } = finalOf(), tour = st.meet.mode === 'tourney';
     const myBest = Math.min(...races.flatMap((r) => r.res.filter((x) => x.entrantId === me.key).map((x) => x.time)));
     st.meet.myBest = myBest; st.meet.coinsBefore = wallet()?.coins ?? 0;
-    if (tour) st.meet.prize = settle({ place: mine?.place, time: myBest, wallet: wallet(), state: sstate() });
+    if (tour) st.meet.prize = settle({ place: mine?.place, time: myBest, wallet: wallet(), state: sstate(), mult: diffOf(getDifficulty(sys()?.state)).money });
     else { const ss = sstate(); ss.practice++; if (Number.isFinite(myBest) && (ss.best == null || myBest < ss.best)) ss.best = +myBest.toFixed(2); }
   }
   /** Tournament win -> the champion screen (the prize is already in the wallet; the screen counts it up). */
@@ -243,7 +246,7 @@ export function attachSports(scene, { query, systems } = {}) {
     const verdict = mine ? (mine.place === 1 ? S.result_win : mine.place <= 3 ? S.result_podium : S.result_lose) : S.result_out;
     const tour = st.meet.mode === 'tourney';
     settleMeet();
-    const extra = tour ? (st.meet.prize ? t('tourney_prize', { prize: TOURNEY.prize }) : S.tourney_no_prize) : S.practice_note;
+    const extra = tour ? (st.meet.prize ? t('tourney_prize', { prize: st.meet.prize }) : S.tourney_no_prize) : S.practice_note;
     ov.innerHTML = `<div class="box" id="sports-results"><h2>${esc(S.results)}: ${esc(tour ? S.tourney_title : S.practice_title)}</h2><div class="sub">${esc(verdict)}</div><div class="sub gold" id="sports-prize">${esc(extra)}${wallet() ? ' · ' + esc(S.wallet) + ': ' + wallet().coins.toLocaleString('en-US') : ''}</div>
       <b>${esc(S.final)}</b>${table(fin, me.key)}
       ${out.heats.map((h, i) => `<b>${esc(t('heat', { n: i + 1 }))}</b>${table(nameFix(h.placed, h.label), me.key)}`).join('')}
@@ -252,6 +255,6 @@ export function attachSports(scene, { query, systems } = {}) {
     ov.querySelector('[data-a=close]').onclick = () => showVenue(); wireUi();
   }
 
-  const api = { openVenue, hookInteract, tourney: () => ({ day: day(), tourneyDay: isTourneyDay(day()), daysUntil: daysUntil(day()), coins: wallet()?.coins ?? null, state: { ...sstate() }, status: tourneyStatus() }), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, prompt: st.prompt?.kind || null, promptT0: st.prompt?.t0 ?? null, clock: st.race?.clock ?? null, log: st.log.slice(), fx: st.fx || null, champ: st.champ || null, forceWin }), open, close, tap: () => st.tapFn?.(), points: POINTS, speciesAthletics };
+  const api = { openVenue, hookInteract, town, tourney: () => ({ day: day(), tourneyDay: isTourneyDay(day()), daysUntil: daysUntil(day()), coins: wallet()?.coins ?? null, state: { ...sstate() }, status: tourneyStatus() }), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, prompt: st.prompt?.kind || null, promptT0: st.prompt?.t0 ?? null, clock: st.race?.clock ?? null, log: st.log.slice(), fx: st.fx || null, champ: st.champ || null, forceWin }), open, close, tap: () => st.tapFn?.(), points: POINTS, speciesAthletics };
   return api;
 }

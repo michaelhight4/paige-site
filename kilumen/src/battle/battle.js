@@ -1,13 +1,13 @@
 // Kilumen battle glue: runs the vendored engine (src/battle/engine.js) with Kilumen data and turns
 // overworld party/bag entries into engine sets and back. Pure and deterministic for a given seed:
 // no DOM, no timers, so the same module can run on a server for PvP (see docs/battle_engine_eval.md).
-import { Battle, installData, PRNG, teamState } from './engine.js?v=v0.2.45-alpha';
-import { buildData, skillIdsFor } from './data/index.js?v=v0.2.45-alpha';
-import { KILUMEN_RULES } from './data/rules.js?v=v0.2.45-alpha';
+import { Battle, installData, PRNG, teamState } from './engine.js?v=v0.2.46-alpha';
+import { buildData, skillIdsFor } from './data/index.js?v=v0.2.46-alpha';
+import { KILUMEN_RULES } from './data/rules.js?v=v0.2.46-alpha';
 
 /** total XP needed to be at `level` (same curve as the engine; PLACEHOLDER [B20]) */
 export const xpForLevel = (level, rules = KILUMEN_RULES) => Math.floor(rules.xpCurveMult * level ** 3);
-import { SPECIES } from '../ui/data.js?v=v0.2.45-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.46-alpha';
 
 let installed = false;
 export function ensureData(overrides) {
@@ -51,6 +51,27 @@ export class KilumenBattle {
     });
     this.bagIn = { ...(opts.bag || {}) };
     this.cursor = 0;
+    // difficulty (src/systems/difficulty.js): foe damage x foeDamageMult (Easy 0.5 / Hard 1.5); the player's damage is untouched
+    const dm = opts.foeDamageMult ?? 1;
+    if (dm !== 1 && typeof this.battle.actions?.getDamage === 'function') {
+      const act = this.battle.actions, orig = act.getDamage.bind(act), p2 = this.p2;
+      act.getDamage = (src, tgt, move, ...rest) => { const d = orig(src, tgt, move, ...rest); return typeof d === 'number' && d > 0 && src?.side === p2 ? Math.max(1, Math.round(d * dm)) : d; };
+    }
+    // Masters' healing items (task E, Oct 29 2026): engine bag for p2; foeChoice heals at <= foeHealAt HP (25-35%, by difficulty), one item per turn
+    this.p2.kBag = { ...(opts.foeItems || {}) };
+    this.foeHeals = new Map(); // creature -> heals used (max foeHealsPer each, so a Master can't stall forever)
+    this.foeHealAt = opts.foeHealAt ?? 0.25; this.foeHealsPer = opts.foeHealsPer ?? 1;
+    this.holders = opts.linkBand || 'team_link_band';
+  }
+  /** foe heal pick: the active foe at <= foeHealAt HP with an item left -> "item ID", else null */
+  foeHeal() {
+    const side = this.p2, bag = side.kBag || {}, c = side.active?.[0];
+    if (!c || c.fainted || !c.hp || c.hp / c.maxhp > this.foeHealAt || (this.foeHeals.get(c) || 0) >= this.foeHealsPer) return null;
+    const miss = c.maxhp - c.hp, big = (bag.toniclarge || 0) > 0, small = (bag.tonicsmall || 0) > 0;
+    const id = big && (miss >= 40 || !small) ? 'toniclarge' : small ? 'tonicsmall' : null;
+    if (!id) return null;
+    this.foeHeals.set(c, (this.foeHeals.get(c) || 0) + 1);
+    return `item ${id}`;
   }
   get ended() { return this.battle.ended; }
   get p1() { return this.battle.sides[0]; }
@@ -76,6 +97,7 @@ export class KilumenBattle {
       return i >= 0 ? `switch ${i + 1}` : 'pass';
     }
     if (side.requestState !== 'move') return '';
+    const heal = this.foeHeal(); if (heal) return heal;
     const req = side.activeRequest?.active?.[0];
     const usable = (req?.moves || []).map((m, n) => ({ m, n })).filter(({ m }) => !m.disabled);
     if (!usable.length) return 'move 1';
@@ -100,11 +122,27 @@ export class KilumenBattle {
     const r = this.p1.activeRequest;
     return { state: this.p1.requestState, moves: r?.active?.[0]?.moves || [], team: this.p1.creature, bag: bagOut(this.p1.kBag, this.bagIn), wild: this.wild };
   }
+  /** Team Link Band (task C): a holder that did not fight a faint gets half the XP the fighters got. -> [{i, xp}] */
+  linkShare() {
+    const log = this.battle.log, out = new Map();
+    for (let i = 0; i < log.length; i++) {
+      if (!log[i].startsWith('|faint|p2a')) continue;
+      const got = new Set(); let amt = 0;
+      for (let j = i + 1; j < log.length && log[j].startsWith('|-k'); j++) {
+        const m = log[j].match(/^\|-kxp\|p1a: ([^|]+)\|(\d+)/); if (m) { got.add(m[1]); amt = Math.max(amt, +m[2]); }
+      }
+      if (!amt) continue;
+      this.p1.creature.forEach((c, n) => { if (this.partyIn[n]?.held === this.holders && !c.fainted && !got.has(c.name)) out.set(n, (out.get(n) || 0) + Math.floor(amt / 2)); });
+    }
+    return [...out].map(([i, xp]) => ({ i, xp }));
+  }
   result() {
     const b = this.battle;
     const outcome = b.kEndReason || (b.winner === this.p1.name ? 'win' : b.winner ? 'lose' : b.ended ? 'tie' : 'ongoing');
     const team = teamState(this.p1).map((s, i) => ({ ...this.partyIn[i], ...s, species: this.partyIn[i].species }));
+    const linkXp = this.linkShare();
+    for (const { i, xp } of linkXp) { const t = team[i]; if (!t || !xp) continue; t.xp = (t.xp || xpForLevel(t.level)) + xp; while (t.level < 100 && t.xp >= xpForLevel(t.level + 1)) t.level++; }
     const caught = b.kCaught ? { species: b.kCaught.species.id, level: b.kCaught.level, hp: b.kCaught.hp, variant: b.kCaught.set.variant || '' } : null;
-    return { outcome, team, bag: bagOut(this.p1.kBag, this.bagIn), caught, turns: b.turn, seed: this.seed, inputLog: b.inputLog.slice() };
+    return { outcome, linkXp, team, bag: bagOut(this.p1.kBag, this.bagIn), caught, turns: b.turn, seed: this.seed, inputLog: b.inputLog.slice() };
   }
 }

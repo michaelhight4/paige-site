@@ -1197,6 +1197,48 @@
    "overworld_sheet_2x": "npcs/coach/coach_brookhollow/overworld/coach_brookhollow_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/coach/coach_brookhollow/overworld/coach_brookhollow_chibi_sheet_3x.png",
    "note": "one coach model, per-town palette swap (npcs/coach/_tools/build_coach.py + coach_palettes.json)"
+  },
+  "fernwick.fernwick_practice_coach": {
+   "sprite_id": "coach_fernwick",
+   "overworld_sheet": "npcs/coach/coach_fernwick/overworld/coach_fernwick_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/coach/coach_fernwick/overworld/coach_fernwick_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/coach/coach_fernwick/overworld/coach_fernwick_chibi_sheet_3x.png",
+   "note": "town practice coach (Oct 29 2026)"
+  },
+  "saltmere.saltmere_practice_coach": {
+   "sprite_id": "coach_saltmere",
+   "overworld_sheet": "npcs/coach/coach_saltmere/overworld/coach_saltmere_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/coach/coach_saltmere/overworld/coach_saltmere_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/coach/coach_saltmere/overworld/coach_saltmere_chibi_sheet_3x.png",
+   "note": "town practice coach (Oct 29 2026)"
+  },
+  "revival_heights.revival_heights_practice_coach": {
+   "sprite_id": "coach_aurelith",
+   "overworld_sheet": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_3x.png",
+   "note": "town practice coach (Oct 29 2026); palette borrowed until a town palette exists"
+  },
+  "frostspire.frostspire_practice_coach": {
+   "sprite_id": "coach_frostspire",
+   "overworld_sheet": "npcs/coach/coach_frostspire/overworld/coach_frostspire_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/coach/coach_frostspire/overworld/coach_frostspire_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/coach/coach_frostspire/overworld/coach_frostspire_chibi_sheet_3x.png",
+   "note": "town practice coach (Oct 29 2026)"
+  },
+  "lanternport.lanternport_practice_coach": {
+   "sprite_id": "coach_saltmere",
+   "overworld_sheet": "npcs/coach/coach_saltmere/overworld/coach_saltmere_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/coach/coach_saltmere/overworld/coach_saltmere_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/coach/coach_saltmere/overworld/coach_saltmere_chibi_sheet_3x.png",
+   "note": "town practice coach (Oct 29 2026); palette borrowed until a town palette exists"
+  },
+  "cindervale.cindervale_practice_coach": {
+   "sprite_id": "coach_cindervale",
+   "overworld_sheet": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_3x.png",
+   "note": "town practice coach (Oct 29 2026)"
   }
  },
  "unassigned_ready": {

@@ -1,8 +1,8 @@
 // Kilumen shop + money: regional prices, stock by Master coins, staff/board discount, buy/sell, trainer money.
 // systems-gd pass, Oct 22, 2026. Money lives in save.coins (save.js v2). NOTE: the text var {coins} is the
 // Masters' coin count (lines.js coinCount); money text uses {total}/{fee}/{amount}/{price}.
-import { fmtMoney } from './config.js?v=v0.2.45-alpha';
-import { CRYSTAL_GRADES, crystalRank } from './data/crystal_grades.js?v=v0.2.45-alpha'; // board-gated crystal grades (Oct 23, 2026)
+import { fmtMoney } from './config.js?v=v0.2.46-alpha';
+import { CRYSTAL_GRADES, crystalRank } from './data/crystal_grades.js?v=v0.2.46-alpha'; // board-gated crystal grades (Oct 23, 2026)
 
 // src/systems/data/shops.json is loaded once (fetch in the browser, fs in node) before the shop is used;
 // no JSON import attributes so older Safari/Firefox still run the zero-build game.
@@ -137,7 +137,7 @@ export function awardBattleMoney(trainer = {}, ctx = {}, shops = getShops()) {
   const tm = shops.trainerMoney;
   const baseAmount = trainer.baseAmount ?? tm.classes[trainer.class] ?? tm.default;
   const level = trainer.level ?? Math.max(1, ...(trainer.team || []).map((c) => c?.level || 1));
-  const amount = awardPrize({ trainerId: trainer.id, baseAmount, level }, ctx);
+  const amount = awardPrize({ trainerId: trainer.id, baseAmount: Math.max(1, Math.round(baseAmount * (ctx.mult ?? 1))), level }, ctx); // ctx.mult: difficulty pay (Easy 0.6 / Hard 1.15)
   const coin = awardPrize.last.coin, key = coin ? 'payout_coin' : 'payout';
   const pages = ctx.lines?.system_trainers?.[key]?.pages || ['{trainer} hands over {total}.'];
   return { amount, coin, textKey: `system_trainers.${key}`, pages, vars: { trainer: trainer.name || trainer.id || '', total: fmtMoney(amount) } };

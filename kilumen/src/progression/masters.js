@@ -55,7 +55,7 @@ export function findHallTrainer(data, map, id) {
 export function teamFor(data, map, id, { fernwick = false } = {}) {
   const f = findHallTrainer(data, map, id);
   if (!f || (f.hall.zone === 'fernwick' && !fernwick)) return null;
-  return { foes: f.who.team.map((m) => ({ species: m.battle_species, level: m.level })), foeName: f.who.name_placeholder || 'Trainer', zone: f.hall.zone, isMaster: f.isMaster };
+  return { foes: f.who.team.map((m) => ({ species: m.battle_species, level: m.level })), foeName: f.who.name_placeholder || 'Trainer', zone: f.hall.zone, isMaster: f.isMaster, masterNumber: f.isMaster ? f.hall.coin_number : 0 };
 }
 
 export const hallByZone = (data, zone) => data.halls.find((h) => h.zone === zone) || null;

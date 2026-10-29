@@ -3,17 +3,17 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.45-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.45-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.45-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.45-alpha';
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.45-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.45-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.45-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.45-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.45-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.45-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.45-alpha';
+import { iconRel } from './data.js?v=v0.2.46-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.46-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.46-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.46-alpha';
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.46-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.46-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.46-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.46-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.46-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.46-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.46-alpha';
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
 const nameHtml = (c) => `<span class="nmw"><span class="nmt">${esc(_baseName(c))}</span>${c?.variant ? '<span class="vmark">✦</span>' : ''}</span>`;
@@ -153,7 +153,7 @@ export async function installSystemsScreens(ui, sys) {
   ui.scr_sys_bag = function () {
     const PK = T('comfort.bag_pockets', {}); let pi = 0;
     const items = () => sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || [] }));
-    const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : ''}`
+    const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
       : `<p class="soft">${esc((PK[POCKETS[pi]]?.help || []).join(' '))}</p>`);
     const scr = { scr: 'pack', pat: 'leaf', title: T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1, count: () => items().length,
       chips: () => money(sys.wallet.coins),
@@ -170,7 +170,15 @@ export async function installSystemsScreens(ui, sys) {
       onLR: (d) => scr.onTab((pi + d + POCKETS.length) % POCKETS.length),
       hint: () => ui.hintText([['◀▶', 'Pocket'], ['A', 'Use'], ['B', 'Back']]),
       onA: async (i) => {
-        const it = items()[i]; if (!it || !sys.bag.def(it.id)?.field) return;
+        const it = items()[i];
+        if (it && sys.bag.def(it.id)?.held) { // held gear (Oct 29 2026): one holder at a time; picking the holder again takes it back
+          const k = await pickCreature('pack', `${it.name}: who holds it?`); if (k < 0) return;
+          const c = party()[k], name = displayName(c), was = c.held === it.id;
+          for (const o of party()) if (o.held === it.id) o.held = null;
+          if (!was) c.held = it.id;
+          sys.scene._dirty = true; ui.note(was ? `${name} hands the ${it.name} back.` : `${name} is holding the ${it.name}.`, 1800); ui.rerender(); return; // PH lines (data/textbot_requests_overnight_1029.md)
+        }
+        if (!it || !sys.bag.def(it.id)?.field) return;
         const k = await pickCreature('pack', `${it.name}: on who?`);
         if (k >= 0) await useOn('pack', it.id, k);
       },

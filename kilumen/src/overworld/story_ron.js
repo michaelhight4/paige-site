@@ -13,13 +13,13 @@
 //     moves into Ron's previous cell, interpolated with his step). Evolved form when that Ron's authored team uses one and
 //     its ow sheet loads; else the base form.
 // No map JSON, no overworld.js edit: drawing is an instance wrap of scene.view / scene.render (like src/overnight/index.js).
-import { Npc, OPPOSITE } from './npcs.js?v=v0.2.45-alpha';
-import { TILE, SHEET_ROW, DELTA } from './constants.js?v=v0.2.45-alpha';
-import { gradeImage } from './palette.js?v=v0.2.45-alpha';
-import { automoveOn } from './automove.js?v=v0.2.45-alpha';
-import { HOME, OPEN } from './intro.js?v=v0.2.45-alpha';
-import { RON_COUNTER, STARTER_LINES, partyStarter, starterOf } from '../battle/data/starters.js?v=v0.2.45-alpha';
-import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.45-alpha';
+import { Npc, OPPOSITE } from './npcs.js?v=v0.2.46-alpha';
+import { TILE, SHEET_ROW, DELTA } from './constants.js?v=v0.2.46-alpha';
+import { gradeImage } from './palette.js?v=v0.2.46-alpha';
+import { automoveOn } from './automove.js?v=v0.2.46-alpha';
+import { HOME, OPEN } from './intro.js?v=v0.2.46-alpha';
+import { RON_COUNTER, STARTER_LINES, partyStarter, starterOf } from '../battle/data/starters.js?v=v0.2.46-alpha';
+import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.46-alpha';
 
 export const STORY_RON = { id: 'ron_story', sprite: 'house_1f.ron', walkMs: 6000 };
 
@@ -80,7 +80,7 @@ const dirTo = (a, b) => { const dx = b.x - a.x, dy = b.y - a.y; if (!dx && !dy) 
 const speakerNpcId = (name) => ({ Manager: OPEN.manager, 'Lab Tech': OPEN.researcher })[name] || null; // lazy: intro.js <-> story_ron.js import cycle
 
 export class StoryRon {
-  /** @param {import('./intro.js?v=v0.2.45-alpha').HomeStart} intro */
+  /** @param {import('./intro.js?v=v0.2.46-alpha').HomeStart} intro */
   constructor(intro) {
     this.intro = intro; this.scene = intro.scene;
     this.pals = new Map();   // Ron Npc -> partner {species, x, y, fromX, fromY, facing, stepping, lead, sheet}

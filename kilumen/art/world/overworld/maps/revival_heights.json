@@ -12120,6 +12120,15 @@
  ],
  "npcs": [
   {
+   "id": "revival_heights_practice_coach",
+   "x": 35,
+   "y": 21,
+   "facing": "down",
+   "kind": "coach",
+   "note": "sports: town practice event coach (src/sports/town_events.js, Oct 29 2026). Talk opens the practice event.",
+   "text_ref": "src/sports/town_events.js EVENTS"
+  },
+  {
    "id": "revival_heights_rt_guard",
    "x": 29,
    "y": 29,

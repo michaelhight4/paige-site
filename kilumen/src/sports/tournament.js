@@ -35,9 +35,9 @@ export function payEntry({ day, wallet, state }) {
 }
 
 /** After the final: pays the prize to a winner. -> prize paid (0 if not first). */
-export function settle({ place, time, wallet, state }) {
+export function settle({ place, time, wallet, state, mult = 1 }) {
   if (Number.isFinite(time) && (state.best == null || time < state.best)) state.best = +time.toFixed(2);
   if (place !== 1) return 0;
   state.wins++;
-  return wallet.add(TOURNEY.prize);
+  return wallet.add(Math.round(TOURNEY.prize * mult)); // mult: difficulty pay (Easy 0.6 / Hard 1.15)
 }

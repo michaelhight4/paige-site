@@ -12967,6 +12967,15 @@
  ],
  "npcs": [
   {
+   "id": "frostspire_practice_coach",
+   "x": 18,
+   "y": 23,
+   "facing": "down",
+   "kind": "coach",
+   "note": "sports: town practice event coach (src/sports/town_events.js, Oct 29 2026). Talk opens the practice event.",
+   "text_ref": "src/sports/town_events.js EVENTS"
+  },
+  {
    "id": "frostspire_villager_1",
    "x": 14,
    "y": 23,

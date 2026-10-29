@@ -1,17 +1,19 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.45-alpha';
-import { giftTalk } from './npc_gifts.js?v=v0.2.45-alpha';
-import { Party, Archive } from './party.js?v=v0.2.45-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.45-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.45-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.45-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.45-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.45-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.45-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.45-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.45-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.46-alpha';
+import { giftTalk } from './npc_gifts.js?v=v0.2.46-alpha';
+import { Party, Archive } from './party.js?v=v0.2.46-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.46-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.46-alpha';
+import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.46-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.46-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.46-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.46-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.46-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.46-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.46-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { attachLinkBand } from './link_band.js?v=v0.2.46-alpha';
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)
@@ -23,6 +25,8 @@ export class Systems {
     this.scene = scene;
     this.cfg = systemsConfig(opts.config);
     this.state = { lastHeal: null, heals: 0, blackouts: 0, puzzles: {}, shopLastQty: {}, bagRecent: [], ...(sv.systems || {}) };
+    // difficulty: an old save has none -> Normal; a New game picked on the title screen leaves its pick in localStorage once
+    if (!this.state.difficulty) { let p = null; try { p = globalThis.localStorage?.getItem(PENDING_KEY); globalThis.localStorage?.removeItem(PENDING_KEY); } catch { p = null; } this.state.difficulty = diffOf(p).id; }
     this.wallet = new Wallet(sv.coins);
     this.company = sv.company || { idLevel: 1, board: {} };
     this.archive = new Archive(sv.archive, this.cfg);
@@ -215,7 +219,7 @@ export class Systems {
     return this.party.allFainted() ? 'blackout' : res?.outcome || null;
   }
   awardPrize(o) { return awardPrizeFn(o, { wallet: this.wallet, party: this.scene.party, cfg: this.cfg }); }
-  awardBattleMoney(trainer) { return awardBattleMoneyFn(trainer, { wallet: this.wallet, party: this.scene.party, cfg: this.cfg, lines: this.lines }); }
+  awardBattleMoney(trainer) { return awardBattleMoneyFn(trainer, { mult: diffOf(getDifficulty(this.state)).money, wallet: this.wallet, party: this.scene.party, cfg: this.cfg, lines: this.lines }); }
   onPartyFainted() { return this.heal.blackout(); }
 
   // ---- trainer results (overworld talk() hooks, merge Oct 22, 2026) -------------------------------------
@@ -270,5 +274,6 @@ export function attachSystems(scene, opts = {}) {
   const sys = new Systems(scene, opts);
   scene.systems = sys;
   try { attachRtBenefits(scene, sys, { config: opts.config, data: opts.rtBenefits }); } catch (e) { console.error('rt_benefits:', e); } // company XP tree (browser / opts.rtBenefits only)
+  try { attachLinkBand(scene, sys); } catch (e) { console.error('link_band:', e); } // Team Link Band from the Saltmere fisher (Oct 29 2026)
   return sys;
 }

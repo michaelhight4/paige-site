@@ -8,26 +8,27 @@
 // Open: Esc or M (keyboard), Start (pad button 9), the menu button (touch / mouse). Dev: ?ui=title|phone|team|summary|pack|
 // kilindex|shop|archive|save|options|map|battle|levelup, ?uidemo=1 (demo team/bag/gold, not saved), ?battle=shell
 // (old scripted battle shell instead of the default engine battle, src/battle/ui_sd.js; Oct 23, 2026), ?title=0|1 (title on a bare URL only by default).
-import { iconRel, battleSpriteRel } from './data.js?v=v0.2.45-alpha';
-import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.45-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
-import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.45-alpha';
+import { iconRel, battleSpriteRel } from './data.js?v=v0.2.46-alpha';
+import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.46-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
+import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.46-alpha';
 // FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
-import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.45-alpha';
-import { installWildEncounters } from '../battle/encounters.js?v=v0.2.45-alpha'; // battles default v1: wild encounters
+import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.46-alpha';
+import { installWildEncounters } from '../battle/encounters.js?v=v0.2.46-alpha'; // battles default v1: wild encounters
 // UI tools pass (Oct 22, 2026; Gary: "use them and log them for later use"): lrud-spatial (Apache-2.0) picks the nearest item
 // in the pressed direction from the real layout; SortableJS (MIT, lazy) drags Team / Field Archive; ?dev=1 lazy-loads the
 // lil-gui tuning panel (./devpanel.js); Kenney CC0 PLACEHOLDER art (art/ui/kenney_placeholder) only where there was none.
-import { getNextFocus } from '../vendor/lrud-spatial/lrud.js?v=v0.2.45-alpha';
-import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js?v=v0.2.45-alpha';
+import { getNextFocus } from '../vendor/lrud-spatial/lrud.js?v=v0.2.46-alpha';
+import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js?v=v0.2.46-alpha';
 // UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
 // auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
-import { showContinue } from '../overworld/save.js?v=v0.2.45-alpha'; // first-launch Continue fix (batch 3 wire)
-import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.45-alpha';
-import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.45-alpha';
-import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.45-alpha';
-import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.45-alpha'; // capture rules (Gary, Oct 23 2026)
-import { rtbMode, setRtbMode, rtbKilled } from '../rtb/flag.js?v=v0.2.45-alpha'; // real-time wild battles option (Oct 29 2026)
+import { showContinue } from '../overworld/save.js?v=v0.2.46-alpha'; // first-launch Continue fix (batch 3 wire)
+import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.46-alpha';
+import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.46-alpha';
+import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.46-alpha';
+import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.46-alpha'; // capture rules (Gary, Oct 23 2026)
+import { rtbMode, setRtbMode, rtbKilled } from '../rtb/flag.js?v=v0.2.46-alpha'; // real-time wild battles option (Oct 29 2026)
+import { DIFFICULTIES, DIFF_ORDER, PENDING_KEY, diffOf, getDifficulty, setDifficulty } from '../systems/difficulty.js?v=v0.2.46-alpha';
 const KPH = 'art/ui/kenney_placeholder/';
 const kph = (f, cls = 'ph-ico') => `<img class="${cls}" data-placeholder="kenney" src="${KPH}${f}.png" alt="" aria-hidden="true" draggable="false">`;
 const LRUD_KEY = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
@@ -315,7 +316,7 @@ export class GameUI {
         } });
       el.dataset.sortable = 'on';
     };
-    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js?v=v0.2.45-alpha').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
+    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js?v=v0.2.46-alpha').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
   }
   async _reorderTeam(order, moved) { // drag-to-reorder: same creature objects, new order (duplicates of a species are kept)
     const s = this.scene, real = !!s.party?.length, list = this.party(), name = (c) => c.nickname || speciesById(c.species).name;
@@ -746,6 +747,8 @@ export class GameUI {
     const rows = () => [
       ['Cloud shadows', s.life?.state?.().clouds ? 'On' : 'Off', () => s.life.toggle('clouds')],
       ['Ambient life', s.life?.state?.().life ? 'On' : 'Off', () => s.life.toggle('life')],
+      ...(s.systems?.state ? [['Difficulty', diffOf(getDifficulty(s.systems.state)).label, () => { const st = s.systems.state; setDifficulty(st, DIFF_ORDER[(DIFF_ORDER.indexOf(getDifficulty(st)) + 1) % 3]); s._dirty = true; },
+        (d) => { const st = s.systems.state; setDifficulty(st, DIFF_ORDER[Math.max(0, Math.min(2, DIFF_ORDER.indexOf(getDifficulty(st)) + d))]); s._dirty = true; }]] : []), // Oct 29 2026: Easy / Normal / Hard (src/systems/difficulty.js)
       ['Depth shadows', s.depth?.state?.(s.map ? s.view() : null)?.enabled ? 'On' : 'Off', () => s.depth.toggle()],
       ['Menu motion', this.body.classList.contains('ui-reduce') ? 'Reduced' : 'Full', () => { const r = this.body.classList.toggle('ui-reduce'); try { localStorage.setItem('kilumen_alpha_ui.motion', r ? 'reduce' : 'full'); } catch { /* */ } }],
       ...audioRows(),
@@ -843,7 +846,7 @@ export class GameUI {
     const dot = (z) => KEY[z.id === cur ? 0 : z.status === 'built' ? 1 : 2];
     const scr = { scr: 'map', pat: 'leaf', title: this.T('system_phone.menu.labels.map', 'Map'), glyph: 'map', sel, cols: 1, count: () => zones.length,
       render: () => `<div class="ui-body"><div class="ui-panel ui-grow rm-frame" data-scr="map" data-pat="leaf" style="flex:2">
-        <div class="rm-box" style="background-image:url(art/world/world_map.webp?v=v0.2.45-alpha)">
+        <div class="rm-box" style="background-image:url(art/world/world_map.webp?v=v0.2.46-alpha)">
         ${zones.map((z, i) => `<span data-i="${i}" class="rm-dot" data-dot="${dot(z)[0]}" title="${esc(z.name)}" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%;--dot:${dot(z)[1]}"></span>`).join('')}
         ${cur ? (() => { const z = zones.find((q) => q.id === cur); return z ? `<span class="hud-prompt show rm-you" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%"><span class="g">★</span><span>You</span></span>` : ''; })() : ''}</div></div>
         <div class="plate ui-pad ui-scroll" style="flex:1"><div id="mapinfo"></div>
@@ -881,13 +884,17 @@ export class GameUI {
     const played = !!this._leftTitle || !this._bootTitle; // boot title: only a save from before this launch counts
     const hasSave = showContinue({ bootSave: this.scene.opts?.saveData, played, stored: played ? this.scene.store?.load?.() : null });
     const items = [...(hasSave ? ['Continue'] : []), 'New game', 'Options'];
+    // save card: the Continue row names the save's difficulty (old saves: Normal)
+    const PICK_ORDER = ['normal', 'easy', 'hard']; // Normal is the highlighted first choice
+    const savedDiff = diffOf(getDifficulty((this.scene.store?.load?.() || this.scene.opts?.saveData || {})?.systems || this.scene.systems?.state)).label;
+    const rowText = (t) => (t === 'Continue' ? `Continue <span class="soft" data-k="save-diff">· ${esc(savedDiff)}</span>` : t);
     let stage = 0;
     const scr = { scr: 'title', full: true, sel: 0, cols: 1, count: () => (stage ? items.length : 0),
       mount: (layer) => {
         const name = 'Kilumen';
         layer.innerHTML = `<div class="ui-title-scr" data-scr="title"><div class="art" style="background-image:url(art/world/key_art_notext.webp)"></div><div class="veil"></div>
           <div class="ui-logo"><h1>${[...name].map((c, i) => `<span style="--i:${i}">${c}</span>`).join('')}</h1><span class="sub">Start of a Journey</span><span class="alpha-badge" title="Alpha: early version">Alpha</span></div>
-          ${stage ? `<div class="ui-panel ui-title-menu" data-scr="title" data-pat="sparkle" data-scroll><ul class="ui-list">${items.map((t, i) => `<li class="ui-row" data-i="${i}">${t}</li>`).join('')}</ul></div>`
+          ${stage ? `<div class="ui-panel ui-title-menu" data-scr="title" data-pat="sparkle" data-scroll><ul class="ui-list">${items.map((t, i) => `<li class="ui-row" data-i="${i}">${rowText(t)}</li>`).join('')}</ul></div>`
             : `<div class="ui-press-start" data-act="start">${this.platform?.profile?.controls?.touch ? 'Tap to start' : 'Press Enter or Start'}</div>`}
           <span class="foot">${esc(ALPHA_VERSION)}</span></div>`;
         const r = layer.getBoundingClientRect(); setTimeout(() => this.sparkle(r.width / 2, r.height * 0.3, 18, layer), 400);
@@ -904,7 +911,10 @@ export class GameUI {
         if (it === 'Continue') { this._leftTitle = true; this.closeAll(); }
         else if (it === 'New game') {
           if (hasSave) { const k = await this.ask('title', ['Start a new game?', 'This writes over your current report.'], ['Start over', 'Keep playing'], { pat: 'sparkle' }); if (k !== 0) return; }
-          if (hasSave) { location.search = '?reset=1'; return; }
+          const dk = await this.ask('title', ['Pick a difficulty.', 'You can change it later in Options.'], PICK_ORDER.map((d) => `${DIFFICULTIES[d].label}: ${DIFFICULTIES[d].blurb}`), { pat: 'sparkle' });
+          const pick = PICK_ORDER[dk] || 'normal';
+          if (hasSave) { try { localStorage.setItem(PENDING_KEY, pick); } catch { /* private mode: Normal */ } location.search = '?reset=1'; return; }
+          setDifficulty(this.scene.systems?.state, pick);
           this._leftTitle = true; this.closeAll();
         } else { this.stack = []; this.active = false; this.open('options'); }
       },
@@ -1082,10 +1092,10 @@ function wireWild(ui, scene, q) {
     for (;;) {
       const rt = mode === 'rt' && !rtbKilled(q);
       if (rt) catchNet(scene);
-      const out = rt ? await import('../rtb/index.js?v=v0.2.45-alpha').then((m) => m.openRtBattle(ui, scene, foe, { q, carry })) : await openBattle(foe, carry);
+      const out = rt ? await import('../rtb/index.js?v=v0.2.46-alpha').then((m) => m.openRtBattle(ui, scene, foe, { q, carry })) : await openBattle(foe, carry);
       if (out?.outcome !== 'switch' || !out.carry?.foes?.length) return out;
       carry = out.carry; mode = setRtbMode(scene, rt ? 'turn' : 'rt');
-      const sw = await import('../rtb/switch.js?v=v0.2.45-alpha'); await sw.modeFlash(mode, { reduced: ui.body?.classList.contains('ui-reduce') || reducedMotionQ() });
+      const sw = await import('../rtb/switch.js?v=v0.2.46-alpha'); await sw.modeFlash(mode, { reduced: ui.body?.classList.contains('ui-reduce') || reducedMotionQ() });
     }
   };
   const reducedMotionQ = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } };
@@ -1108,7 +1118,7 @@ export function mountUI(opts) {
   if (!shell) wireWild(ui, scene, q); // wild encounters from tall grass (src/battle/encounters.js)
   if (!shell) {
     // trainers resolve won/lost from the engine result
-    const load = import('../battle/ui_sd.js?v=v0.2.45-alpha').then((m) => { ui.sdMod = m; return m; });
+    const load = import('../battle/ui_sd.js?v=v0.2.46-alpha').then((m) => { ui.sdMod = m; return m; });
     ui.sdReady = load;
     scene.hooks.onBattle = (who) => load.then(() => new Promise((res) => {
       ui.open('battle', { trainer: true, who }); const scr = ui.top; let out = null;

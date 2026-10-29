@@ -2,17 +2,18 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.45-alpha';
-import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.45-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
+import { KilumenBattle } from './battle.js?v=v0.2.46-alpha';
+import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.46-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
-import { DEV } from '../dev/runtime.js?v=v0.2.45-alpha';
-import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.45-alpha'; // battle mode switch (wild only, Oct 29 2026)
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.45-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.45-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.45-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.46-alpha';
+import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.46-alpha'; // battle mode switch (wild only, Oct 29 2026)
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.46-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.46-alpha';
+import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.46-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.46-alpha';
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.45-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.46-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -70,7 +71,10 @@ export function makeSdBattle(ui, opts, h) {
     if (!sid && w.map && w.id) try { sid = (await (await fetch(PIXD + 'npcs/npc_sprite_map.json')).json()).map?.[`${w.map}.${w.id}`]?.sprite_id || null; } catch { sid = null; }
     return { label, sid };
   })() : null;
-  const kb = new KilumenBattle({ party, foes, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1 }); // Unit Training perk (v0.2.28)
+  // difficulty (Oct 29 2026): the battle fights scaled foes; payout (res.foes) keeps the authored levels, the money mult is in systems
+  const dMode = getDifficulty(sys?.state), foesBattle = scaleFoes(foes, Math.max(...party.map((c) => c.level || 1)), dMode);
+  const foeItems = trainer ? masterItems(opts.masterNumber || 0, dMode) : {};
+  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1 }); // Unit Training perk (v0.2.28)
   ui.currentBattle = kb; // read-only handle for scripted play-checks (tools/playcheck_browser.mjs)
   const cat = ui.T('system_item_catalogue', {});
   const Items = kb.battle.dex.data.Items;
@@ -92,6 +96,16 @@ export function makeSdBattle(ui, opts, h) {
     if (img.complete && img.naturalWidth) go(); else img.addEventListener('load', go, { once: true });
   };
 
+  // Master heal (task E): a sparkle + bounce on the foe and a line with a little personality (PH strings; Text Bot request data/textbot_requests_overnight_1029.md)
+  const FOE_HEAL_PH = ['{trainer} isn\'t done yet! A {item} for {creature}.', '{trainer} digs into the bag. {creature} gets a {item}!', '"Hold on, {creature}!" {trainer} uses a {item}.'];
+  let foeHealN = 0;
+  const foeItemFx = async (who, id) => {
+    const img = $('#p2-mon'); const r = img.getBoundingClientRect(), lr = ui.layer.getBoundingClientRect();
+    ui.sparkle?.(r.left - lr.left + r.width / 2, r.top - lr.top + r.height / 2, 16, host());
+    img.animate?.([{ transform: 'translateY(0)', filter: 'brightness(1)' }, { transform: 'translateY(-10px)', filter: 'brightness(1.6) drop-shadow(0 0 8px #9fffb0)' }, { transform: 'translateY(0)', filter: 'brightness(1)' }], { duration: 520, easing: 'ease-out' });
+    const line = FOE_HEAL_PH[foeHealN++ % FOE_HEAL_PH.length];
+    await say(P1('foe_item_used', line, { trainer: opts.foeName || 'The trainer', item: itemName(id), creature: who }), 900);
+  };
   let mode = 'msg', msgResolve = null, busy = true, list = [];
   const scr = { scr: 'battle', full: true, sel: 0, cols: 2, count: () => (mode === 'msg' ? 0 : list.length), kb };
   ui._sd = scr;
@@ -319,7 +333,7 @@ export function makeSdBattle(ui, opts, h) {
           await say(b === 'success' ? ui.P('system_wild.retreated', ['You slipped away.'])[0]
             : ui.P('system_wild.cant_retreat', ["{creature} won't let you leave!"], { creature: mon.p2?.name || '' })[0], 800);
           break;
-        case '-kitem': await say(P1('item_used', 'You used a {item} on {creature}.', { item: itemName(b), creature: who }) /* PH */, 700); break;
+        case '-kitem': if (s === 'p2') { await foeItemFx(who, b); break; } await say(P1('item_used', 'You used a {item} on {creature}.', { item: itemName(b), creature: who }) /* PH */, 700); break;
         case '-kcrystal': {
           await say(P1('crystal_throw', 'You held up a {item}.', { item: itemName(b) }) /* PH */, 600);
           const img = $('#p2-mon');
@@ -357,7 +371,7 @@ export function makeSdBattle(ui, opts, h) {
   const autoRun = async () => {
     if (!DEV.active || kb.ended || busy) return;
     busy = true; $('#b-cmds').hidden = true; $('#b-msg').textContent = 'Auto-completing…';
-    const AB = await import('../dev/autobattle.js?v=v0.2.45-alpha');
+    const AB = await import('../dev/autobattle.js?v=v0.2.46-alpha');
     const entry = AB.runAuto(kb, { trainer, owned });
     if (!kb.ended) { busy = false; $('#b-msg').textContent = 'Auto-complete stopped early (see the dev battle logs).'; AB.afterFinish(entry); return; }
     await finish();
@@ -420,6 +434,7 @@ export function makeSdBattle(ui, opts, h) {
   };
   const finish = async () => {
     const res = kb.result(); ui.lastBattle = res;
+    for (const { i, xp } of res.linkXp || []) { const t = res.team[i]; if (t && xp && res.outcome === 'win') await guard(say(P1('link_band_xp', '{creature} watched and learned: +{n} XP from the Team Link Band.', { creature: kb.p1.creature[i]?.name || t.species, n: xp }) /* PH */, 800)); }
     res.foes = trainer ? foes : null; // [systems-gd hook] trainer payout level (Systems.onTrainerWin); wild: none, so a stale wild team never sets a payout
     // [systems-gd hook] systems attached: party hp/energy/status/xp (by uid) + bag go back into the save; 'blackout' = team wiped
     if (sys) res.systems = sys.applyBattleResult(res);
