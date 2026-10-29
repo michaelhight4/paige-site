@@ -87,7 +87,7 @@ export class IxLight {
   constructor(flags = ixFlags(), indoorFn = null) { this.flags = flags; this.cache = new Map(); this.nimg = null; this.indoor = indoorFn; this.shade = new Map(); }
   async load(tilesetUrl) {
     if (!this.flags.light || this.nimg) return;
-    try { this.nimg = await loadImage(new URL('tiles_1x/interior_v2_n.png', tilesetUrl).href); } catch (e) { console.warn('ixlight: no normal sheet', e.message); this.flags.light = false; }
+    try { this.nimg = await loadImage(new URL('tiles_1x/interior_v3_n.png', tilesetUrl).href); } catch (e) { console.warn('ixlight: no normal sheet', e.message); this.flags.light = false; }
   }
   _build(v, phase) {
     const m = v.map, W = m.width * TILE, H = m.height * TILE, byId = v.tileset.byId;

@@ -36,7 +36,9 @@ export async function loadTileset(url) {
   idx.images = new Map();
   const ix2 = ixFlags().ix2; // Interiors v2: same ids/indices, redrawn cells come from the *_v2.png sheets
   // v0.2.41 full overhaul: every interior sheet has a same-index pass-3/4 redraw (*_v2.png), so all towns' rooms get it
-  const file = (p) => (ix2 && /tiles_\dx\/(interior|i_wall|i_floor|i_furniture|i_brand|x_furniture_fix)\.png$/.test(p) ? p.replace(/\.png$/, '_v2.png') : p);
+  // furniture v2 (v0.2.59): redrawn house-style kit lives in *_v3.png (same ids); sheets without a v3 fall back to v2
+  const V3 = /tiles_\dx\/(interior|i_furniture|i_brand|x_furniture_fix)\.png$/;
+  const file = (p) => (ix2 && /tiles_\dx\/(interior|i_wall|i_floor|i_furniture|i_brand|x_furniture_fix)\.png$/.test(p) ? p.replace(/\.png$/, V3.test(p) ? '_v3.png' : '_v2.png') : p);
   await Promise.all([...sheetPaths].map(async (p) => idx.images.set(p, await loadImage(resolveUrl(file(p), url)))));
   idx.url = url;
   return idx;
