@@ -1,8 +1,8 @@
 // Kilumen skills for the battle engine, built from PLACEHOLDER_SKILLS in src/ui/data.js
 // (names already in the game; owner Character models / SKR). Energy per slot 15/12/9/6 as skillsFor().
 // Every effect, category, accuracy and priority below is a PLACEHOLDER for Gary; see PLACEHOLDERS in README.md.
-import { PLACEHOLDER_SKILLS } from '../../ui/data.js?v=v0.2.82-alpha';
-import { cap } from './elements.js?v=v0.2.82-alpha';
+import { PLACEHOLDER_SKILLS } from '../../ui/data.js?v=v0.2.83-alpha';
+import { cap } from './elements.js?v=v0.2.83-alpha';
 
 // PLACEHOLDER (creature sync): nearest existing skill pool for elements that have none (same table as tools/sync_creatures.mjs).
 export const SKILL_POOL_ALIAS = { grass: 'earth', bug: 'earth', magma: 'fire', freshwater: 'water', sea: 'water', swamp: 'water', rain: 'water',

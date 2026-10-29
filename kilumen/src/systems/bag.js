@@ -1,9 +1,9 @@
 // Kilumen bag: pockets, add / remove / use, engine export, and map pickups. systems-gd pass, Oct 22, 2026.
 // Save shape (save.js v2 `bag` block): flat { itemId: count } (pockets come from the item table, so moving an
 // item between pockets never needs a migration). The battle engine takes the same { itemId: count } shape.
-import { ITEMS, POCKETS } from './items.js?v=v0.2.82-alpha';
-import { maxHp, energyOf, maxEnergy, isFainted } from './creature.js?v=v0.2.82-alpha';
-import { fmtMoney } from './config.js?v=v0.2.82-alpha';
+import { ITEMS, POCKETS } from './items.js?v=v0.2.83-alpha';
+import { maxHp, energyOf, maxEnergy, isFainted } from './creature.js?v=v0.2.83-alpha';
+import { fmtMoney } from './config.js?v=v0.2.83-alpha';
 
 export { POCKETS };
 const natInt = (n) => Math.max(0, Math.floor(Number(n) || 0));
