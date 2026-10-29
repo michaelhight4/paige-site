@@ -7,8 +7,8 @@
 // reads if_player_took_nibbin, else the old if_player_took_tumbloam branch (same counter: Ron takes the fire line). Ron's
 // earth picks (tumbloam / burrowmane / bastonox, rillop branch) are remapped to Nibbin's line (starters.js EARTH_SWAP) so
 // the rival always fields the player's missing starter line; ordinary trainers keep their species.
-import { SPECIES } from '../ui/data.js?v=v0.2.62-alpha';
-import { STARTERS, ALL_STARTERS, EARTH_SWAP, partyStarter, starterKeys } from '../battle/data/starters.js?v=v0.2.62-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.63-alpha';
+import { STARTERS, ALL_STARTERS, EARTH_SWAP, partyStarter, starterKeys } from '../battle/data/starters.js?v=v0.2.63-alpha';
 
 export { STARTERS };
 const known = (id) => SPECIES.some((s) => s.id === id);

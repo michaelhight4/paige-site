@@ -909,14 +909,6 @@
      "weight": 55
     },
     {
-     "species": "spraytern",
-     "level": [
-      32,
-      35
-     ],
-     "weight": 15
-    },
-    {
      "species": "brineseal",
      "level": [
       28,
@@ -1341,14 +1333,6 @@
       29
      ],
      "weight": 25
-    },
-    {
-     "species": "squallwhirl",
-     "level": [
-      27,
-      29
-     ],
-     "weight": 35
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_frostspire.json zone fs_ice_cave (cave)",
@@ -1484,14 +1468,6 @@
    "method": "water (Tideglide)",
    "rate": 0.0667,
    "slots": [
-    {
-     "species": "dewbell",
-     "level": [
-      30,
-      34
-     ],
-     "weight": 60
-    },
     {
      "species": "floepaddle",
      "level": [
@@ -1640,14 +1616,6 @@
    "rate": 0.0667,
    "slots": [
     {
-     "species": "spraytern",
-     "level": [
-      32,
-      36
-     ],
-     "weight": 50
-    },
-    {
      "species": "paleminnow",
      "level": [
       32,
@@ -1732,22 +1700,6 @@
    "method": "water (Tideglide)",
    "rate": 0.0667,
    "slots": [
-    {
-     "species": "peatbellow",
-     "level": [
-      36,
-      40
-     ],
-     "weight": 30
-    },
-    {
-     "species": "mirejaw",
-     "level": [
-      38,
-      42
-     ],
-     "weight": 35
-    },
     {
      "species": "drenchcrab",
      "level": [
@@ -1834,14 +1786,6 @@
    "rate": 0.0667,
    "slots": [
     {
-     "species": "barnaclump",
-     "level": [
-      40,
-      45
-     ],
-     "weight": 55
-    },
-    {
      "species": "hullwhale",
      "level": [
       42,
@@ -1904,22 +1848,6 @@
    "method": "water (Tideglide)",
    "rate": 0.0667,
    "slots": [
-    {
-     "species": "mooncrab",
-     "level": [
-      42,
-      46
-     ],
-     "weight": 60
-    },
-    {
-     "species": "seaglint",
-     "level": [
-      43,
-      46
-     ],
-     "weight": 25
-    },
     {
      "species": "reefshell",
      "level": [
@@ -2017,14 +1945,6 @@
       44
      ],
      "weight": 30
-    },
-    {
-     "species": "seaglint",
-     "level": [
-      46,
-      47
-     ],
-     "weight": 20
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_fernwick_lanternport.json zone fl_canal (water (Tideglide))",
@@ -2105,22 +2025,6 @@
       50
      ],
      "weight": 40
-    },
-    {
-     "species": "pharolith",
-     "level": [
-      50,
-      50
-     ],
-     "weight": 5
-    },
-    {
-     "species": "sunbasilisk",
-     "level": [
-      47,
-      50
-     ],
-     "weight": 15
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_aurelith_cindervale.json zone ac_tube (cave (lava tube))",

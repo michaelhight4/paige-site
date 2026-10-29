@@ -1675,15 +1675,6 @@
      "tier": "common"
     },
     {
-     "species": "ankerling",
-     "level": [
-      15,
-      18
-     ],
-     "weight": 30,
-     "tier": "common"
-    },
-    {
      "species": "plashcrown",
      "level": [
       15,
@@ -1769,15 +1760,6 @@
      "tier": "common"
     },
     {
-     "species": "brinecube",
-     "level": [
-      15,
-      18
-     ],
-     "weight": 30,
-     "tier": "common"
-    },
-    {
      "species": "quaymouser",
      "level": [
       15,
@@ -1814,15 +1796,6 @@
      "tier": "uncommon"
     },
     {
-     "species": "spraytern",
-     "level": [
-      15,
-      18
-     ],
-     "weight": 15,
-     "tier": "uncommon"
-    },
-    {
      "species": "blubbet",
      "level": [
       15,
@@ -1848,18 +1821,6 @@
      ],
      "weight": 5,
      "tier": "rare"
-    },
-    {
-     "species": "dawnfin",
-     "level": [
-      15,
-      18
-     ],
-     "weight": 5,
-     "tier": "rare",
-     "time": [
-      "dawn"
-     ]
     },
     {
      "species": "spratwyrm",
@@ -2505,14 +2466,6 @@
      "weight": 25
     },
     {
-     "species": "squallwhirl",
-     "level": [
-      27,
-      29
-     ],
-     "weight": 35
-    },
-    {
      "species": "cairnhorn",
      "level": [
       27,
@@ -2817,14 +2770,6 @@
    "rate": 0.0667,
    "slots": [
     {
-     "species": "spraytern",
-     "level": [
-      32,
-      36
-     ],
-     "weight": 50
-    },
-    {
      "species": "paleminnow",
      "level": [
       32,
@@ -3125,14 +3070,6 @@
    "rate": 0.0667,
    "slots": [
     {
-     "species": "barnaclump",
-     "level": [
-      40,
-      45
-     ],
-     "weight": 55
-    },
-    {
      "species": "hullwhale",
      "level": [
       42,
@@ -3195,22 +3132,6 @@
    "method": "water (Tideglide)",
    "rate": 0.0667,
    "slots": [
-    {
-     "species": "mooncrab",
-     "level": [
-      42,
-      46
-     ],
-     "weight": 60
-    },
-    {
-     "species": "seaglint",
-     "level": [
-      43,
-      46
-     ],
-     "weight": 25
-    },
     {
      "species": "reefshell",
      "level": [
@@ -3570,14 +3491,6 @@
       44
      ],
      "weight": 30
-    },
-    {
-     "species": "seaglint",
-     "level": [
-      46,
-      47
-     ],
-     "weight": 20
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -3778,24 +3691,6 @@
       50
      ],
      "weight": 40
-    },
-    {
-     "species": "pharolith",
-     "level": [
-      50,
-      50
-     ],
-     "weight": 5
-    },
-    {
-     "species": "forgeharrow",
-     "level": [
-      47,
-      50
-     ],
-     "weight": 15,
-     "wants": "sunbasilisk",
-     "stand_in": true
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -4017,14 +3912,6 @@
      "weight": 25,
      "wants": "mantleox",
      "stand_in": true
-    },
-    {
-     "species": "squallwhirl",
-     "level": [
-      30,
-      32
-     ],
-     "weight": 35
     }
    ],
    "source": "design/overnight_gd/encounters_frostspire.json",
@@ -4118,23 +4005,6 @@
    "rate": 0.0667,
    "slots": [
     {
-     "species": "mooncrab",
-     "level": [
-      42,
-      46
-     ],
-     "weight": 60
-    },
-    {
-     "species": "seaglint",
-     "level": [
-      43,
-      46
-     ],
-     "weight": 25,
-     "replaced": "tidemarrow"
-    },
-    {
      "species": "reefshell",
      "level": [
       42,
@@ -4220,25 +4090,6 @@
       50
      ],
      "weight": 40
-    },
-    {
-     "species": "pharolith",
-     "level": [
-      50,
-      50
-     ],
-     "weight": 5,
-     "replaced": "forgeharrow"
-    },
-    {
-     "species": "forgeharrow",
-     "level": [
-      47,
-      50
-     ],
-     "weight": 15,
-     "wants": "sunbasilisk",
-     "stand_in": true
     }
    ],
    "source": "design/overnight_gd/encounters_route_aurelith_cindervale.json",
@@ -4528,15 +4379,6 @@
      ],
      "weight": 30,
      "replaced": "rillop"
-    },
-    {
-     "species": "seaglint",
-     "level": [
-      46,
-      47
-     ],
-     "weight": 20,
-     "replaced": "tidemarrow"
     }
    ],
    "source": "design/overnight_gd/encounters_route_fernwick_lanternport.json",
@@ -4867,14 +4709,6 @@
    "rate": 0.0667,
    "slots": [
     {
-     "species": "spraytern",
-     "level": [
-      32,
-      36
-     ],
-     "weight": 50
-    },
-    {
      "species": "paleminnow",
      "level": [
       32,
@@ -5076,15 +4910,6 @@
       34
      ],
      "weight": 55
-    },
-    {
-     "species": "spraytern",
-     "level": [
-      32,
-      35
-     ],
-     "weight": 15,
-     "replaced": "tidemarrow"
     },
     {
      "species": "brineseal",
@@ -5304,14 +5129,6 @@
    "method": "water (Tideglide, sea lane)",
    "rate": 0.0667,
    "slots": [
-    {
-     "species": "barnaclump",
-     "level": [
-      40,
-      45
-     ],
-     "weight": 55
-    },
     {
      "species": "hullwhale",
      "level": [

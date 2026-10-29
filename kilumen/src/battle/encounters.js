@@ -17,7 +17,7 @@ export const ENCOUNTERS_WIRED_URL = 'data/encounters_wired.json';
 // Trail level scaling (Coder, Oct 23 2026; Gary 11:48 AM CT: "well we need to have them be level scaling the closer to
 // town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
 // the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
-import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.62-alpha';
+import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.63-alpha';
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
 export const MAX_RATE = 0.2;
 export const GRACE_STEPS = 3;
@@ -54,6 +54,32 @@ export function pickSlot(zone, ctx = {}, rng = Math.random) {
   const [lo, hi] = Array.isArray(slot.level) ? slot.level : [slot.level, slot.level];
   if (typeof ctx.t === 'number') return { species: slot.species, level: scaledLevel(lo, hi, ctx.t, rng, zone.cap?.level || null), slot };
   return { species: slot.species, level: lo + Math.floor(rng() * (hi - lo + 1)), slot };
+}
+
+/** Habitat rules (Gary, Oct 29 2026). Surf ("water (Tideglide)" tables): water-type species ONLY. Caves (any table whose
+ * method mentions cave): only Kilumen you could actually find in a cave - an underground element (earth/rock/ground,
+ * dark, ghost, crystal/mystic, poison, bug, magma) or lore that places it in a cave (its "found" line names a
+ * cavern / cave / grotto / mine). Unknown species (no element data) fail closed. elOf(id) -> element list. */
+export const CAVE_ELEMENTS = Object.freeze(['earth', 'rock', 'ground', 'dark', 'ghost', 'crystal', 'mystic', 'poison', 'bug', 'magma']);
+export const CAVE_LORE = /cavern|\bcave|grotto|\bmine\b|underground/i;
+export const isSurf = (method) => /^water/i.test(method || '');
+export const isCave = (method) => /cave/i.test(method || '');
+export function habitatOk(method, species, elOf, foundOf = () => '') {
+  const el = elOf(species) || [];
+  if (isSurf(method)) return el.includes('water');
+  if (isCave(method)) return el.some((e) => CAVE_ELEMENTS.includes(e)) || CAVE_LORE.test(foundOf(species) || '');
+  return true;
+}
+/** Runtime habitat filter (in memory; same re-weighting as filterEncounters). -> {data, removed: {zid: [species]}} */
+export function filterHabitat(data, elOf, foundOf) {
+  const out = { ...data, zones: {} }, removed = {};
+  for (const [zid, z] of Object.entries(data?.zones || {})) {
+    const slots = z.slots || [], keep = slots.filter((s) => habitatOk(z.method, s.species, elOf, foundOf));
+    if (keep.length === slots.length) { out.zones[zid] = z; continue; }
+    removed[zid] = slots.filter((s) => !keep.includes(s)).map((s) => s.species);
+    out.zones[zid] = { ...z, slots: keep };
+  }
+  return { data: out, removed };
 }
 
 /** Drop slots whose species has no art, re-weight the rest so each zone keeps its original total weight.
@@ -120,6 +146,10 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
   const axesP = opts.levelScale === false ? Promise.resolve(null) : getJson(opts.axesUrl || TRAIL_AXES_URL);
   st.ready = (opts.url ? getJson(opts.url) : getJson(ENCOUNTERS_WIRED_URL).then((d) => (d?.zones ? d : getJson(ENCOUNTERS_URL)))).then((data) => {
     if (!data) return;
+    if (opts.elOf) { // habitat rule: surf = water types only, caves = cave dwellers only (in memory, always on)
+      const h = filterHabitat(data, opts.elOf, opts.foundOf); st.habitat = h; data = h.data;
+      if (opts.dev && Object.keys(h.removed).length) console.info('[encounters] habitat filter removed', h.removed);
+    }
     if (opts.hasArt && opts.artFilter !== false) { // #62: no art -> not rolled (in memory only)
       const f = filterEncounters(data, opts.hasArt); st.artFilter = f; data = f.data;
       if (opts.dev) console.info('[encounters] art filter dropped', Object.values(f.dropped).reduce((a, n) => a + n, 0), 'slots', f.dropped, 'empty zones', f.empty, 'empty phases', f.emptyPhases);
