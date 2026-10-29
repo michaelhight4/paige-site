@@ -17,6 +17,7 @@ import { Renderer } from './renderer.js?v=v0.2.50-alpha';
 import { drawDebug } from './debug.js?v=v0.2.50-alpha';
 import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.50-alpha';
 import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.50-alpha';
+// Save migration (berry -> plum): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
 const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
 import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.50-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
 import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.50-alpha';
