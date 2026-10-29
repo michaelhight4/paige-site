@@ -10,7 +10,7 @@
 // - Lanternport access: R78.lanternportGate (single config flag). Gary 3:51 PM CT: OPEN before the Tidewater coin (null).
 // - Promotions ID 18 / 20 (promoted_id18 / promoted_id20) unlock the R7 / R8 key card nodes (data/rt_benefits.json).
 // - ID cap flags id_cap_r7 / id_cap_r8 for RITA when company XP sits at the region cap.
-// - Aurelith Arena (aurelith_arena): clerk + 8 Arena fighters back to back (arena.js, talkHooks).
+// - Aurelith Arena (aurelith_arena lobby + aurelith_arena_room_1..8 themed rooms): clerk + 8 Arena fighters back to back (arena.js, talkHooks).
 // Text: system_story_r78.* (Text Bot owns text/*.py; keys listed in data/textbot_requests_r78.md). Placeholders below.
 
 import { arenaHook } from './arena.js?v=v0.2.87-alpha';

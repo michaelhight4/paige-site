@@ -9793,7 +9793,7 @@
    "aurelith_arena_sign": {
     "pages": [
      "AURELITH ARENA\nChallengers must hold eight coins.",
-     "No healing between Battle Masters."
+     "No healing between Arena fighters."
     ],
     "lines": [
      {
@@ -9801,7 +9801,7 @@
       "flags": [],
       "pages": [
        "AURELITH ARENA\nChallengers must hold eight coins.",
-       "No healing between Battle Masters."
+       "No healing between Arena fighters."
       ]
      }
     ]
@@ -15911,8 +15911,8 @@
   "aurelith_stadium_int": {
    "aurelith_stadium_attendant": {
     "pages": [
-     "The Arena doors open only for\nholders of all eight coins.",
-     "No coins, no door. I don't make\nthe rules. I just stand by them."
+     "The Arena's open! Through those doors.\nBut only with all eight coins.",
+     "Eight coins, eight rooms, eight\nArena fighters. No shortcuts."
     ],
     "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
     "lines": [
@@ -15922,16 +15922,16 @@
        "all_badges"
       ],
       "pages": [
-       "Eight coins. Well, well.",
-       "The Arena's not quite ready.\nYou'll be first through. Promise."
+       "Eight coins! The Arena's open to you.\nStraight through the doors.",
+       "Eight rooms, one after another.\nGood luck in there."
       ]
      },
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "The Arena doors open only for\nholders of all eight coins.",
-       "No coins, no door. I don't make\nthe rules. I just stand by them."
+       "The Arena's open! Through those doors.\nBut only with all eight coins.",
+       "Eight coins, eight rooms, eight\nArena fighters. No shortcuts."
       ]
      }
     ]
@@ -17907,6 +17907,222 @@
     ]
    },
    "area_name": "Tidewater Sea Cave"
+  },
+  "aurelith_arena": {
+   "aurelith_arena_clerk": {
+    "pages": [
+     "Welcome to the Aurelith Arena!\nEight fighters. Eight rooms.",
+     "Each room leads to the next.\nNo breaks, no clinic in between.",
+     "Ready? Marisol's waiting\nin the first room."
+    ],
+    "status": "DRAFT",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to the Aurelith Arena!\nEight fighters. Eight rooms.",
+       "Each room leads to the next.\nNo breaks, no clinic in between.",
+       "Ready? Marisol's waiting\nin the first room."
+      ]
+     }
+    ]
+   },
+   "arena_fighter_1": {
+    "pages": [
+     "Marisol. First up, so I set the tide.\nIt's coming in. You'll feel it."
+    ],
+    "name": "Marisol",
+    "battle_lost": [
+     "Tide's out. Fair enough.\nSeven more waves to go, friend."
+    ],
+    "battle_won": [
+     "Washed out at the first wave.\nHappens. The sea doesn't gloat."
+    ],
+    "kind": "trainer",
+    "status": "DRAFT",
+    "note": "Arena fighter (water); DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Marisol. First up, so I set the tide.\nIt's coming in. You'll feel it."
+      ]
+     }
+    ]
+   },
+   "arena_fighter_2": {
+    "pages": [
+     "Ignatia. Been warming up all day.\nLet's turn the heat right up!"
+    ],
+    "name": "Ignatia",
+    "battle_lost": [
+     "Burned out. Ugh! Fine!\nGo on. Don't let me cool you down."
+    ],
+    "battle_won": [
+     "Too hot to handle? Thought so.\nCome back when you're fireproof."
+    ],
+    "kind": "trainer",
+    "status": "DRAFT",
+    "note": "Arena fighter (fire); DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Ignatia. Been warming up all day.\nLet's turn the heat right up!"
+      ]
+     }
+    ]
+   },
+   "arena_fighter_3": {
+    "pages": [
+     "Zephra! Hi! Quick one? I'm always quick.\nBlink and I've blown right past you."
+    ],
+    "name": "Zephra",
+    "battle_lost": [
+     "Whoosh. That was you, wasn't it?\nGo on, the wind's at your back."
+    ],
+    "battle_won": [
+     "Swept clean off your feet!\nNo hard feelings. Just gusts."
+    ],
+    "kind": "trainer",
+    "status": "DRAFT",
+    "note": "Arena fighter (wind); DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Zephra! Hi! Quick one? I'm always quick.\nBlink and I've blown right past you."
+      ]
+     }
+    ]
+   },
+   "arena_fighter_4": {
+    "pages": [
+     "Ottoline. Halfway, and I'm the wall.\nNobody moves me. Nobody yet."
+    ],
+    "name": "Ottoline",
+    "battle_lost": [
+     "...Huh. I moved.\nThe ground's yours. Go on."
+    ],
+    "battle_won": [
+     "Solid as bedrock. Told you.\nDig in deeper next time."
+    ],
+    "kind": "trainer",
+    "status": "DRAFT",
+    "note": "Arena fighter (earth); DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Ottoline. Halfway, and I'm the wall.\nNobody moves me. Nobody yet."
+      ]
+     }
+    ]
+   },
+   "arena_fighter_5": {
+    "pages": [
+     "Fennick. Things grow slowly in here.\nYou're tired. My team isn't."
+    ],
+    "name": "Fennick",
+    "battle_lost": [
+     "Pruned right back to the roots.\nThe last three won't be so gentle."
+    ],
+    "battle_won": [
+     "Everything wilts eventually.\nRest up. Then come grow again."
+    ],
+    "kind": "trainer",
+    "status": "DRAFT",
+    "note": "Arena fighter (grass); DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Fennick. Things grow slowly in here.\nYou're tired. My team isn't."
+      ]
+     }
+    ]
+   },
+   "arena_fighter_6": {
+    "pages": [
+     "Iona. Lights up! Big crowd tonight.\nLet's give them something to see."
+    ],
+    "name": "Iona",
+    "battle_lost": [
+     "Dazzling! Honestly, I'm seeing spots.\nTwo left. Shine for them too."
+    ],
+    "battle_won": [
+     "Lights out, superstar.\nThe crowd still clapped for you."
+    ],
+    "kind": "trainer",
+    "status": "DRAFT",
+    "note": "Arena fighter (light); DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Iona. Lights up! Big crowd tonight.\nLet's give them something to see."
+      ]
+     }
+    ]
+   },
+   "arena_fighter_7": {
+    "pages": [
+     "Oriel. I saw you coming. Six fights\nago, in a teacup. Shall we?"
+    ],
+    "name": "Oriel",
+    "battle_lost": [
+     "The teacup said I'd lose. Rude.\nOne room left. He's expecting you."
+    ],
+    "battle_won": [
+     "Just as the leaves foretold.\nThey also said: try again."
+    ],
+    "kind": "trainer",
+    "status": "DRAFT",
+    "note": "Arena fighter (mystic); DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Oriel. I saw you coming. Six fights\nago, in a teacup. Shall we?"
+      ]
+     }
+    ]
+   },
+   "arena_fighter_8": {
+    "pages": [
+     "Corvin. Seven down. Nobody's done\nthat in a long while.",
+     "Lights low, now. Let's see what\nyou are when no one's watching."
+    ],
+    "name": "Corvin",
+    "battle_lost": [
+     "Well. That's the whole run, then.\nThe board's yours. You earned it."
+    ],
+    "battle_won": [
+     "The dark keeps its title tonight.\nBack to the first room with you."
+    ],
+    "kind": "trainer",
+    "status": "DRAFT",
+    "note": "Arena fighter (dark); DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Corvin. Seven down. Nobody's done\nthat in a long while.",
+       "Lights low, now. Let's see what\nyou are when no one's watching."
+      ]
+     }
+    ]
+   },
+   "area_name": "Aurelith Arena"
   }
  },
  "closed_exits": {
@@ -29642,21 +29858,25 @@
     "gate": "R4 Greystone / Frostspire tally board"
    }
   },
-  "ron.r6.boat_leave": {
-   "pages": [
-    "Right. Boat. Tide. Me.\nIn that order.",
-    "I'll think about it on the boat.\nBoats are good for thinking. Mostly.",
-    "Don't read anything else without me.\nI mean it. I'll know."
-   ],
-   "parity": "F15",
-   "build": "partial",
-   "status": "DRAFT",
-   "group": "origin",
-   "speaker": "Ron",
-   "key": "ron.r6.boat_leave",
-   "gate": "forced low tide right after beat_master_tidewater",
-   "ruling": "G6 ruled: Gary 5:55 PM CT Oct 29",
-   "note": "trigger = the forced low tide after beat_master_tidewater (G6). Wording DRAFT; cove, Ron motif stays major (bright toy piano)"
+  "ron": {
+   "r6": {
+    "boat_leave": {
+     "pages": [
+      "Right. Boat. Tide. Me.\nIn that order.",
+      "I'll think about it on the boat.\nBoats are good for thinking. Mostly.",
+      "Don't read anything else without me.\nI mean it. I'll know."
+     ],
+     "parity": "F15",
+     "build": "partial",
+     "status": "DRAFT",
+     "group": "origin",
+     "speaker": "Ron",
+     "key": "ron.r6.boat_leave",
+     "gate": "forced low tide right after beat_master_tidewater",
+     "ruling": "G6 ruled: Gary 5:55 PM CT Oct 29",
+     "note": "trigger = the forced low tide after beat_master_tidewater (G6). Wording DRAFT; cove, Ron motif stays major (bright toy piano)"
+    }
+   }
   },
   "old_gus_offer": {
    "pages": [
@@ -29931,6 +30151,69 @@
    "status": "DRAFT",
    "placeholder": true,
    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+  }
+ },
+ "system_arena": {
+  "_section": "Aurelith Arena: 8 Arena fighters back to back, no heal between. DRAFT pending Gary.",
+  "run_start": {
+   "pages": [
+    "Eight rooms, no breaks, no clinic.\nIs your team ready to go?"
+   ],
+   "trigger": "fighter 1, before the run; Yes / No follows",
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "note": "arena.js ARENA_KEYS; data/textbot_requests_arena.md (18e06603)"
+  },
+  "next_fighter": {
+   "pages": [
+    "On to the next room!\nThe crowd's getting louder."
+   ],
+   "trigger": "between fights",
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "note": "arena.js ARENA_KEYS; data/textbot_requests_arena.md (18e06603)"
+  },
+  "fighter_waiting": {
+   "pages": [
+    "Not yet! Rooms go in order.\nStart with Marisol, in the first room."
+   ],
+   "trigger": "fighters 2-8 talked to directly",
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "note": "arena.js ARENA_KEYS; data/textbot_requests_arena.md (18e06603)"
+  },
+  "run_lost": {
+   "pages": [
+    "That's the run over.\nBack to the first room next time!"
+   ],
+   "trigger": "loss; blackout to the last clinic follows",
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "note": "arena.js ARENA_KEYS; data/textbot_requests_arena.md (18e06603)"
+  },
+  "run_won": {
+   "pages": [
+    "That's all eight, back to back!\nThe Aurelith Arena is yours!"
+   ],
+   "trigger": "all 8 beaten; sets arena_cleared",
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "note": "arena.js ARENA_KEYS; data/textbot_requests_arena.md (18e06603)"
+  },
+  "clerk_cleared": {
+   "pages": [
+    "All eight in a row. Your name's\non the board now, in big letters."
+   ],
+   "trigger": "clerk after arena_cleared",
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "note": "arena.js ARENA_KEYS; data/textbot_requests_arena.md (18e06603)"
   }
  },
  "system": {

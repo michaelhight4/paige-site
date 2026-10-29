@@ -1,4 +1,4 @@
-// Aurelith Arena shots. Usage: node tests/aurelith_arena_shots.mjs -> shots/regions_5_8_v1/arena/
+// Aurelith Arena themed-room shots. Usage: node tests/aurelith_arena_shots.mjs -> shots/regions_5_8_v1/arena_themed/
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
@@ -7,7 +7,7 @@ import net from 'node:net';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const OUT = process.env.OUT || path.join(ROOT, 'shots/regions_5_8_v1/arena');
+const OUT = process.env.OUT || path.join(ROOT, 'shots/regions_5_8_v1/arena_themed');
 fs.mkdirSync(OUT, { recursive: true });
 const PORT = await new Promise((res) => { const sv = net.createServer(); sv.listen(0, '127.0.0.1', () => { const p = sv.address().port; sv.close(() => res(p)); }); });
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' });
@@ -20,8 +20,8 @@ const COMMON = 'save=0&timescale=0&hour=12&audio=0&enc=0';
 const warp = async (page, map, x, y) => { await page.evaluate(() => {}); for (let i = 0; i < 8; i++) { await page.keyboard.press('f'); await sleep(400); } await page.evaluate(() => { const s = kilumen.scene; s.fade = null; s.player.locked = false; }); await page.evaluate(([map, x, y]) => kilumen.scene.startWarp({ map, x, y, facing: 'up' }, 'door'), [map, x, y]); await sleep(2500); };
 
 
-// Aurelith Arena v1 shots (Oct 29 2026, DRAFT visual change awaiting Gary): lobby + event room, PC + phone.
-const VIEWS = [['lobby', 9, 12, 'up'], ['event_room', 9, 7, 'up']];
+// Themed rooms (Oct 29 2026 pt2156u, DRAFT visual change awaiting Gary): lobby + aurelith_arena_room_1..8, PC + phone.
+const VIEWS = [['lobby', 'aurelith_arena', 9, 8], ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => [`room_${n}`, `aurelith_arena_room_${n}`, 5, 8])];
 const browser = await chromium.launch(); const report = [];
 try {
   for (const p of PROFILES) {
@@ -34,13 +34,14 @@ try {
       await page.waitForFunction(() => window.kilumen?.ready || window.kilumen?.ui, null, { timeout: 15000 });
       await page.evaluate(() => Promise.race([window.kilumen.ready, new Promise((r) => setTimeout(r, 15000))]).then(() => window.kilumen.ui?.sdReady));
       await sleep(1200); await page.evaluate(() => { try { kilumen.ui?.closeAll?.(); } catch {} });
-      await warp(page, 'aurelith_arena', 8, 12);
-      for (let i = 0; i < 20 && await page.evaluate(() => kilumen.scene.busy); i++) { await page.keyboard.press('f'); await sleep(350); }
-      for (const [tag, x, y, f] of VIEWS) {
-        await page.evaluate(([x, y, f]) => { const s = kilumen.scene; s.player.place(x, y, f); s.camera?.snap?.(); }, [x, y, f]); await sleep(900);
+      let first = true;
+      for (const [tag, map, x, y] of VIEWS) {
+        if (first) { await warp(page, map, x, y); first = false; }
+        else { await page.evaluate(([map, x, y]) => { const s = kilumen.scene; s.fade = null; s.player.locked = false; s.startWarp({ map, x, y, facing: 'up' }, 'door'); }, [map, x, y]); await sleep(2500); }
+        for (let i = 0; i < 20 && await page.evaluate(() => kilumen.scene.busy); i++) { await page.keyboard.press('f'); await sleep(350); }
+        const on = await page.evaluate(() => kilumen.scene.map.name); if (on !== map) errors.push(`${tag} on ${on}`);
         const fn = `${p.plat}_${tag}.png`; await page.screenshot({ path: path.join(OUT, fn) }); shots.push(fn);
       }
-      const title = await page.evaluate(() => kilumen.scene.map.name); if (title !== 'aurelith_arena') errors.push('on ' + title);
     } catch (e) { errors.push('runner: ' + e.message); }
     await ctx.close(); report.push({ plat: p.plat, errors, shots });
     console.log(p.plat, shots.length, errors.length ? 'ERRORS ' + errors.join(' | ').slice(0, 300) : 'ok');

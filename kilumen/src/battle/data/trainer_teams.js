@@ -139,7 +139,7 @@ export const TRAINER_TEAMS = {
   // balance.json ron_6; stand-ins: stampedor -> bramblehog, seraphawk -> skyrender, driftknot -> tidemarrow, deluvane -> brineseal.
   'tidewater_coast.tidewater_coast_ron_5': { byStarter: RON_TIDEWATER },
   'tidewater_coast.tidewater_coast_ron_5_slip': { byStarter: RON_TIDEWATER },
-  ...ARENA_TEAMS, // aurelith_arena.arena_fighter_1..8 (src/region78/arena.js)
+  ...ARENA_TEAMS, // aurelith_arena_room_N.arena_fighter_N (src/region78/arena.js)
 };
 
 // Held items for Masters and Ron: per-creature picks per fight in src/battle/data/trainer_held.js (Oct 29 2026, P2-P5).

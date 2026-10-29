@@ -51,5 +51,6 @@ test('boat leave plays once, at the cove only, after the forced low tide', () =>
 
 test('boat leave text exists', () => {
   const t = JSON.parse(fs.readFileSync('text/overworld_lines.json', 'utf8'));
-  assert.ok(t.system_story_r56[LOW_TIDE.key].pages.length >= 1);
+  const e = `system_story_r56.${LOW_TIDE.key}`.split('.').reduce((a, k) => a?.[k], t); // dotted path, as region56 reads it
+  assert.ok(e.pages.length >= 1);
 });

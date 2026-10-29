@@ -1,9 +1,9 @@
-// Aurelith Arena (Coder, Oct 29 2026): map, 8 Arena fighters (mono-type, final stage, L59-69, ace 67-69), back to back run.
+// Aurelith Arena (Coder, Oct 29 2026; themed rooms pt2156u): lobby + 8 themed rooms, 8 Arena fighters (mono-type, final stage, L59-69, ace 67-69), back to back run.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { ARENA, ARENA_TEAMS, runArena } from '../src/region78/arena.js';
+import { ARENA, ARENA_TEAMS, fighterState, fightRoom, runFlags, arenaHook } from '../src/region78/arena.js';
 import { authoredTeam } from '../src/battle/data/trainer_teams.js';
 import { evoTable } from '../src/systems/evolution.js';
 import { SPECIES } from '../src/ui/data.js';
@@ -11,7 +11,9 @@ import { STARTER_ONLY } from '../src/battle/data/starters.js';
 import { RON_KEYS } from '../src/battle/data/ron_team.js';
 
 const MAPS = 'art/world/overworld/maps/';
-const map = JSON.parse(fs.readFileSync(MAPS + 'aurelith_arena.json', 'utf8'));
+const load = (m) => JSON.parse(fs.readFileSync(MAPS + m + '.json', 'utf8'));
+const map = load('aurelith_arena');
+const rooms = ARENA.fighters.map((f, i) => load(ARENA.room(i + 1)));
 const SP = Object.fromEntries(SPECIES.map((s) => [s.id, s])), evo = evoTable();
 const hasArt = (s) => fs.existsSync(`art/characters/pixel/creatures/${s}`);
 
@@ -22,7 +24,7 @@ test('8 fighters: one type each (8 distinct incl. water, fire, wind, dark), 6 re
   for (const t of ['water', 'fire', 'wind', 'dark']) assert.ok(types.includes(t), t);
   const all = new Set();
   for (const f of ARENA.fighters) {
-    const team = authoredTeam({ map: 'aurelith_arena', id: f.id });
+    const team = authoredTeam({ map: ARENA.room(ARENA.fighters.indexOf(f) + 1), id: f.id });
     assert.equal(team.length, 6, f.id);
     for (const c of team) {
       assert.ok(SP[c.species], `${c.species} is a real species`);
@@ -38,39 +40,80 @@ test('8 fighters: one type each (8 distinct incl. water, fire, wind, dark), 6 re
   }
 });
 
-test('map: doors from the stadium resolve, exit mats return, NPCs on walkable squares, no banned words', () => {
-  const st = JSON.parse(fs.readFileSync(MAPS + 'aurelith_stadium_int.json', 'utf8'));
+test('lobby: stadium doors land on walkable squares, mats return, stairs go up to room 1, no banned words', () => {
+  const st = load('aurelith_stadium_int');
   const doors = st.warps.filter((w) => w.to === 'aurelith_arena');
   assert.equal(doors.length, 2);
-  for (const d of doors) assert.equal(map.layers.collision[d.ty][d.tx], 0, 'arrival square walkable');
+  for (const d of doors) { assert.equal(map.layers.collision[d.ty][d.tx], 0, 'arrival square walkable'); assert.ok(!/^\s*TO COME/i.test(d.note || ''), 'door is live'); }
   for (const w of map.warps) {
-    assert.equal(w.to, 'aurelith_stadium_int'); assert.equal(map.layers.collision[w.y][w.x], 4);
-    assert.equal(st.layers.collision[w.ty][w.tx], 0, 'lands on a walkable stadium square');
+    assert.ok(['aurelith_stadium_int', ARENA.room(1)].includes(w.to), w.to); assert.equal(map.layers.collision[w.y][w.x], 4);
+    assert.equal(load(w.to).layers.collision[w.ty][w.tx], 0, `lands walkable on ${w.to}`);
   }
-  const ids = map.npcs.map((n) => n.id);
-  assert.ok(ids.includes(ARENA.clerk));
-  for (const f of ARENA.fighters) assert.ok(ids.includes(f.id));
-  for (const n of map.npcs) assert.equal(map.layers.collision[n.y][n.x], 0, n.id);
-  assert.ok(!/elite|\bgym\b/i.test(fs.readFileSync(MAPS + 'aurelith_arena.json', 'utf8') + fs.readFileSync('src/region78/arena.js', 'utf8')));
+  assert.deepEqual(map.npcs.map((n) => n.id), [ARENA.clerk]);
+  const all = ['aurelith_arena', ...rooms.map((r) => r.name)].map((m) => fs.readFileSync(MAPS + m + '.json', 'utf8')).join('') + fs.readFileSync('src/region78/arena.js', 'utf8');
+  assert.ok(!/elite|\bgym\b|\bnurse\b|\broute\b|\bberry\b|shiny|super effective|pokedex|poke ball/i.test(all));
   assert.ok(!fs.existsSync(MAPS + 'aurelith_arena_int.json'), 'final Ron (tower) map not built here');
   assert.ok(RON_KEYS['aurelith_arena_int.aurelith_arena_ron_final'], 'final Ron key untouched');
 });
 
-test('every lobby square reaches the event room through the doorway (flood fill)', () => {
-  const C = map.layers.collision, H = C.length, W = C[0].length, seen = new Set(['8,12']), q = [[8, 12]];
-  while (q.length) { const [x, y] = q.pop(); for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= W || ny >= H || C[ny][nx] === 1 || seen.has(`${nx},${ny}`)) continue; seen.add(`${nx},${ny}`); if (C[ny][nx] === 0) q.push([nx, ny]); } }
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (C[y][x] === 0) assert.ok(seen.has(`${x},${y}`), `${x},${y} reachable`);
-  for (const n of map.npcs) assert.ok([[0, 1], [0, -1], [1, 0], [-1, 0], [0, 2]].some(([dx, dy]) => seen.has(`${n.x + dx},${n.y + dy}`)), `${n.id} can be talked to`);
+test('8 rooms in a chain: one fighter each, themed to its type (distinct floor/walls/props/tint), gated stairs up, mats down', () => {
+  const sig = new Set();
+  rooms.forEach((r, i) => {
+    const n = i + 1, f = ARENA.fighters[i], C = r.layers.collision;
+    assert.deepEqual(r.npcs.map((x) => x.id), [f.id]); assert.equal(C[r.npcs[0].y][r.npcs[0].x], 0);
+    assert.equal(r.arena_theme.type, f.type, `room ${n} theme matches fighter type`);
+    assert.ok(['dawn', 'day', 'dusk', 'night'].includes(r.tint.grade));
+    sig.add(`${r.layers.ground[5][1]}|${r.layers.ground[0][0]}|${r.tint.grade}|${r.layers.decoration.flat().filter(Boolean).sort().join(',')}`);
+    const back = r.warps.filter((w) => w.y === r.height - 1), up = r.warps.filter((w) => w.y < r.height - 1);
+    assert.equal(back.length, 2); for (const w of back) assert.equal(w.to, n === 1 ? ARENA.map : ARENA.room(n - 1));
+    for (const w of r.warps) { assert.equal(C[w.y][w.x], 4); assert.equal(load(w.to).layers.collision[w.ty][w.tx], 0, `${r.name} -> ${w.to} lands walkable`); }
+    if (n === 8) { assert.equal(up.length, 0); assert.equal((r.story_gates || []).length, 0); return; }
+    assert.equal(up.length, 2); for (const w of up) assert.equal(w.to, ARENA.room(n + 1));
+    const [g] = r.story_gates; assert.equal(g.flag, ARENA.wonFlag(n));
+    for (const c of g.cells) { assert.equal(C[c.y][c.x], 6, 'gate closed in json'); assert.ok(up.some((w) => w.x === c.x && w.y === c.y - 2), 'gate guards the stairs'); }
+  });
+  assert.equal(sig.size, 8, 'every room looks different');
 });
 
-test('runArena: back to back in order; a loss stops the run; 8 wins = cleared', async () => {
-  const fought = [];
-  const ctx = (loseAt) => ({ text: () => [], fighter: () => [], say: async () => {}, battle: async (id) => { fought.push(id); return id !== loseAt; } });
-  assert.deepEqual(await runArena(ctx(null)), { won: true, beaten: 8 });
-  assert.deepEqual(fought, ARENA.fighters.map((f) => f.id));
-  fought.length = 0;
-  assert.deepEqual(await runArena(ctx('arena_fighter_3')), { won: false, beaten: 2 });
-  assert.equal(fought.length, 3);
+test('every room/lobby square is reachable (gates open) and each fighter can be talked to', () => {
+  for (const m of [map, ...rooms]) {
+    const C = m.layers.collision.map((r) => r.map((c) => (c === 6 ? 0 : c))), H = C.length, W = C[0].length;
+    const start = m.warps.find((w) => w.y === H - 1), seen = new Set([`${start.x},${start.y}`]), q = [[start.x, start.y]];
+    while (q.length) { const [x, y] = q.pop(); for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= W || ny >= H || ![0, 4].includes(C[ny][nx]) || seen.has(`${nx},${ny}`)) continue; seen.add(`${nx},${ny}`); q.push([nx, ny]); } }
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (C[y][x] === 0) assert.ok(seen.has(`${x},${y}`), `${m.name} ${x},${y} reachable`);
+    for (const n of m.npcs) assert.ok([[0, 1], [0, -1], [1, 0], [-1, 0], [0, 2]].some(([dx, dy]) => seen.has(`${n.x + dx},${n.y + dy}`)), `${n.id} can be talked to`);
+  }
+});
+
+test('run: room 1 starts it, rooms go in order, a win opens the stairs, a loss resets, 8 wins = cleared', async () => {
+  const flags = new Set();
+  assert.equal(fighterState(flags, 1), 'start'); assert.equal(fighterState(flags, 2), 'waiting');
+  flags.add(ARENA.runFlag);
+  const ctx = (won, log) => ({ text: (k) => [k], fighter: () => ['x'], say: async () => {}, battle: async () => won,
+    set: (fl) => flags.add(fl), reset: () => runFlags().forEach((fl) => flags.delete(fl)), done: async () => log.push('done') });
+  const log = [];
+  for (let n = 1; n <= 8; n++) {
+    assert.equal(fighterState(flags, n), 'fight', `room ${n}`);
+    if (n < 8) assert.equal(fighterState(flags, n + 1), 'waiting');
+    assert.equal(await fightRoom(ctx(true, log), ARENA.fighters[n - 1]), n < 8 ? 'next' : 'won');
+    if (n < 8) { assert.ok(flags.has(ARENA.wonFlag(n))); assert.equal(fighterState(flags, n), 'beaten'); }
+  }
+  assert.deepEqual(log, ['done']); assert.equal(flags.size, 0, 'run flags cleared after the clear');
+  flags.add(ARENA.runFlag); await fightRoom(ctx(true, log), ARENA.fighters[0]); await fightRoom(ctx(true, log), ARENA.fighters[1]);
+  assert.equal(await fightRoom(ctx(false, log), ARENA.fighters[2]), 'lost');
+  assert.equal(flags.size, 0, 'loss resets'); assert.equal(fighterState(flags, 3), 'waiting'); assert.equal(fighterState(flags, 1), 'start');
+});
+
+test('fighter names come from text (name), code fallback only when text has none', async () => {
+  const said = [];
+  const lines = { maps: { aurelith_arena: Object.fromEntries(ARENA.fighters.map((f) => [f.id, { name: `TXT_${f.id}` }])) } };
+  const scene = { lines, flags: new Set([ARENA.runFlag]), seen: {}, setFlag(fl, on = true) { on ? this.flags.add(fl) : this.flags.delete(fl); },
+    say: async (p) => said.push(...p), hooks: { onBattle: async () => true }, party: [1] };
+  const h = arenaHook(scene);
+  assert.ok(h.match(ARENA.room(3), { id: ARENA.fighters[2].id }) && !h.match(ARENA.map, { id: ARENA.fighters[2].id }));
+  await h.run({ def: { id: ARENA.fighters[0].id } });
+  assert.ok(said.some((p) => p.includes(`TXT_${ARENA.fighters[0].id}`)), 'text name used');
+  assert.ok(!said.some((p) => p.includes(ARENA.fighters[0].name)), 'fallback name not used when text has one');
 });
 
 test('world graph: aurelith_arena resolves, nothing dangling', () => {
