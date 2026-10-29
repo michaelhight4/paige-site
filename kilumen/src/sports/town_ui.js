@@ -1,9 +1,9 @@
 // Town practice events UI (Oct 29 2026). Talk to <town>_practice_coach -> pick a creature -> play -> result + reaction.
 // Practice only: no prize, no podium; best score per event saved in sports state (.town). Logic: town_events.js.
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
-import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.64-alpha';
-import { TS, tt } from './town_strings.js?v=v0.2.64-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.64-alpha';
+import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.66-alpha';
+import { TS, tt } from './town_strings.js?v=v0.2.66-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.66-alpha';
 
 export const LIVE_REGION = 3; // R1-R3 are playable; Frostspire (R4), Lanternport (R7), Cindervale (R8) unlock with their region
 const W = 360, H = 480;
@@ -101,6 +101,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   function showResult() {
     if (!ov) return;
     const ev = st.ev, r = recordRun(sstate(), ev, st.run), c = st.mon, lines = TS['react_' + r.grade];
+    try { globalThis.kilumen?.feeds?.onPractice?.(c); } catch (e) { /* feeds off */ } // fruit feeds: practice drains Fullness + speeds grow timers
     const react = tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) });
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><img src="${imgFor(c.species).src}" class="hopmon" style="width:72px;image-rendering:pixelated;animation:tevj .5s ease ${r.grade === 'none' ? 1 : 3}">
       <div><b>${esc(tt(TS.result, { creature: nameOf(c), score: r.score, unit: ev.unit }))}</b>${r.isBest ? ` · ${esc(TS.new_best)}` : ''}</div>

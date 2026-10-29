@@ -1,13 +1,13 @@
 // Kilumen battle glue: runs the vendored engine (src/battle/engine.js) with Kilumen data and turns
 // overworld party/bag entries into engine sets and back. Pure and deterministic for a given seed:
 // no DOM, no timers, so the same module can run on a server for PvP (see docs/battle_engine_eval.md).
-import { Battle, installData, PRNG, teamState } from './engine.js?v=v0.2.64-alpha';
-import { buildData, skillIdsFor } from './data/index.js?v=v0.2.64-alpha';
-import { KILUMEN_RULES } from './data/rules.js?v=v0.2.64-alpha';
+import { Battle, installData, PRNG, teamState } from './engine.js?v=v0.2.66-alpha';
+import { buildData, skillIdsFor } from './data/index.js?v=v0.2.66-alpha';
+import { KILUMEN_RULES } from './data/rules.js?v=v0.2.66-alpha';
 
 /** total XP needed to be at `level` (same curve as the engine; PLACEHOLDER [B20]) */
 export const xpForLevel = (level, rules = KILUMEN_RULES) => Math.floor(rules.xpCurveMult * level ** 3);
-import { SPECIES } from '../ui/data.js?v=v0.2.64-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.66-alpha';
 
 let installed = false;
 export function ensureData(overrides) {

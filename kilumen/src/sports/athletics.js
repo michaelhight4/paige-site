@@ -3,9 +3,9 @@
 // species range, so the stat value is lo + q*(hi-lo) of the CURRENT species: an evolved creature keeps its individuality
 // and moves up to the new range. The roll is seeded from the creature's uid, so a lazy roll for an old save gives the same
 // numbers every time (and on every device) and needs no save at all to stay stable.
-import { ATHLETICS } from './data/athletics.gen.js?v=v0.2.64-alpha';
-import { STATS, TRAITS, SECOND_TRAIT_CHANCE } from './rules.js?v=v0.2.64-alpha';
-import { rngFor } from './rng.js?v=v0.2.64-alpha';
+import { ATHLETICS } from './data/athletics.gen.js?v=v0.2.66-alpha';
+import { STATS, TRAITS, SECOND_TRAIT_CHANCE } from './rules.js?v=v0.2.66-alpha';
+import { rngFor } from './rng.js?v=v0.2.66-alpha';
 
 export const ATH_VERSION = 1;
 const FALLBACK = { shape: 'standard', ranges: Object.fromEntries(STATS.map((s) => [s, [36, 64]])), traitWeights: Object.fromEntries(TRAITS.map((t) => [t, 5])) };
@@ -39,10 +39,14 @@ export function ensureAthletics(c) {
   return c.ath;
 }
 
+// Fruit feeds (src/feeds, flag off by default): a provider c -> {stat: flat bonus} set only when feeds are on. Null = no change.
+let bonusFn = null;
+export function setAthleticBonus(fn) { bonusFn = typeof fn === 'function' ? fn : null; }
 /** Integer stat values for a creature (rolls lazily). */
 export function athleticStats(c) {
   const a = ensureAthletics(c), R = speciesAthletics(c.species).ranges, out = {};
   for (const s of STATS) { const [lo, hi] = R[s]; out[s] = Math.round(lo + a.q[s] * (hi - lo)); }
+  if (bonusFn) { let b = null; try { b = bonusFn(c); } catch { b = null; } if (b) for (const s of STATS) out[s] = Math.min(100, out[s] + (b[s] | 0)); }
   return out;
 }
 

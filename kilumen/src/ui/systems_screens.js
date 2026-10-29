@@ -3,20 +3,20 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.64-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.64-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.64-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.64-alpha';
-import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.64-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
-import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.64-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.64-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.64-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.64-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.64-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.64-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.64-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.64-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.64-alpha';
+import { iconRel } from './data.js?v=v0.2.66-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.66-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.66-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.66-alpha';
+import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.66-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
+import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.66-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.66-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.66-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.66-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.66-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.66-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.66-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.66-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.66-alpha';
 let _SKILLS = null; const skillDef = (id) => (_SKILLS ||= buildSkills())[id] || null;
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
@@ -53,7 +53,7 @@ const statusChip = (c) => (isFainted(c) ? '<span class="sys-st out" data-pat="ch
   : c.status ? `<span class="sys-st" data-st="${esc(c.status)}" data-pat="${STATUS_PAT[c.status] || 'dots'}">${esc(STATUS[c.status] || c.status)}</span>` : '');
 
 export async function installSystemsScreens(ui, sys) {
-  import('../qol/skills_menu.js?v=v0.2.64-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
+  import('../qol/skills_menu.js?v=v0.2.66-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
   if (!ui || !sys) return null;
   const cfg = sys.cfg;
   if (typeof document !== 'undefined' && !document.querySelector('link[data-sys-css]')) {
@@ -176,8 +176,8 @@ export async function installSystemsScreens(ui, sys) {
   // ---------------- Pack ----------------
   ui.scr_sys_bag = function () {
     const PK = T('comfort.bag_pockets', {}); let pi = 0;
-    const TABS = badgesOn() ? [...POCKETS, 'badges'] : POCKETS, isB = () => TABS[pi] === 'badges'; // Badges tab: last, flag only
-    const tabLbl = (p) => (p === 'badges' ? `${BADGE_TAB_ICON()}${esc(T('system_badges.labels.tab', 'Badges'))}` : `${pxi(POCKET_ICONS[p])}${esc(PK[p]?.label || p)}`);
+    const TABS = POCKETS, isB = () => false; // v0.2.65: Badges moved out of the Pack to its own top-row menu entry (ui.scr_badges below)
+    const tabLbl = (p) => `${pxi(POCKET_ICONS[p])}${esc(PK[p]?.label || p)}`;
     // v0.2.60: Masters' coins are story flags (beat_master_<zone>, src/progression/masters.js), not bag items, so the Key
     // Items pocket lists one row per earned coin from data/masters.json. Text: system_items.master_coins.<zone> (PH keys).
     // v0.2.61: items with no catalogue text yet (Text Bot placeholder keys, fallback here)
@@ -225,6 +225,15 @@ export async function installSystemsScreens(ui, sys) {
     };
     return scr;
   };
+
+  // ---------------- Badges (own top-row menu entry, v0.2.65; ?badges=0 removes it) ----------------
+  if (badgesOn()) ui.scr_badges = function () {
+    return { scr: 'badges', pat: 'sparkle', title: T('system_badges.labels.tab', 'Badges'), glyph: 'badges', sel: 0, cols: 1, count: () => 0,
+      render: () => { const b = renderBadges(sys.scene, T); b.settle(); return `<div class="ui-body">${b.html}</div>`; },
+      hint: () => ui.hintText([['▲▼', 'Scroll'], ['B', 'Back']]),
+    };
+  };
+  ui.badgeIcon = BADGE_TAB_ICON;
 
   // ---------------- RT Supply ----------------
   ui.scr_sys_shop = function (arg = {}) {

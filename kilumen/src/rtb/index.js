@@ -10,19 +10,25 @@
 //           pad: LB / RB / LT / RT skills 1-4, X / Y = the skills set on X / Y (default 1 + 2), A selected skill, B dodge / sprint, Select next skill.
 //           phone: D-pad move, X / Y face buttons = their skills (X/Y set + tap a chip's X or Y half to choose), A = selected skill,
 //               SEL = next skill, B tap = dodge / hold = sprint, skill bar at the bottom (tap a chip = use it),
-//               Team / Crystal / Leave (hold) buttons top right.
-import { RtBattle } from './sim.js?v=v0.2.64-alpha';
-import { RtView } from './view.js?v=v0.2.64-alpha';
-import { cooldownFor } from './moves.js?v=v0.2.64-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.64-alpha';
-import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.64-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.64-alpha';
-import { Col } from '../overworld/constants.js?v=v0.2.64-alpha';
-import { reducedMotion } from '../sports/hype.js?v=v0.2.64-alpha';
-import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padXYEdges, xySlots, assignXY, XY_STORE } from './keys.js?v=v0.2.64-alpha';
-import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.64-alpha';
-import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.64-alpha';
-import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.64-alpha';
+//               Team / Leave (hold) buttons top right, big round Capture button on the right edge.
+// Capture tab (rtb-capture, Oct 29 2026): G / the Capture button opens a small tab with the player's crystal types, counts and the
+// foe's odds right now (same captureChance the roll uses). 1-n / click / tap launches that crystal (sim.castCrystal, unchanged
+// capture logic). Not in trainer fights (button hidden). Fairness for a hard game: the fight does NOT pause. It runs at 40 %
+// (CAP_TAB.slow) so foes keep moving and telegraphing, skills are locked while the tab is open (dodge still works), a hit on
+// your creature snaps the tab shut, and it closes on its own after 4 s real time. You get time to read the odds, not a free pause.
+import { RtBattle } from './sim.js?v=v0.2.66-alpha';
+import { RtView } from './view.js?v=v0.2.66-alpha';
+import { cooldownFor } from './moves.js?v=v0.2.66-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.66-alpha';
+import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.66-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.66-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.66-alpha';
+import { reducedMotion } from '../sports/hype.js?v=v0.2.66-alpha';
+import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padXYEdges, xySlots, assignXY, XY_STORE } from './keys.js?v=v0.2.66-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.66-alpha';
+import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.66-alpha';
+import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.66-alpha';
+import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.66-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
 let SK = null;
@@ -88,7 +94,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     if (q.get('rtbcatch') === '1') sim.forceCatch = true; if (q.get('rtbcatch') === '0') sim.forceCatch = false; // dev / clips only
     const keyNames = touch ? { skills: ['', '', '', ''], swap: '', crystal: '', leave: 'hold', help: '' }
       : { skills: SKILL_LABELS.slice(), party: true, swap: 'Tab', crystal: 'G', leave: 'Caps', help: trainer ? 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team' // trainer fights: no crystal, mode switch or leave
-        : 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team · G crystal · T turn-based · Caps run (wild) · hold Esc leave' };
+        : 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team · G capture · T turn-based · Caps run (wild) · hold Esc leave' };
     const view = new RtView({ scene, sim, touch, reduced: reducedMotion(q), keyNames });
     if (trainer) { // the overworld trainer reacts + talks (speech bubbles above their head; PH text keys rtb_trainer.*, Text Bot owns the lines)
       const cat = ui.T?.('system_item_catalogue', {}) || {}, IN = { tonicsmall: 'tonic_small', toniclarge: 'tonic_large' };
@@ -104,13 +110,17 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     view.xyOf = xyOf;
     view.skillInfo = (id) => SK[id]; view.cdOf = cooldownFor; view.maxEn = (c) => maxEnergy(c); view.maxHpOf = (c) => maxHp(c);
     view.crystals = () => crystalStock(scene.systems?.bag).reduce((n, c) => n + c.n, 0);
+    const bag = () => scene.systems?.bag;
+    const capItems = () => crystalStock(bag()).map((c) => { const { p } = sim.oddsFor(sim.target, c.grade); return { ...c, name: BATTLE_ITEMS[c.id]?.name || bag()?.def?.(c.id)?.name || c.id, p, band: oddsBand(p) }; });
+    const cap = { open: false, t: 0, hl: 0 };
+    const capState = () => { if (!cap.open) return null; const t = sim.target; return { open: true, items: capItems(), hl: cap.hl, foe: t ? displayName(t.c) : '', factors: t ? factorsOf(t, sim.oddsFor(t).rarity) : [] }; };
     view.xpBar = (c) => { const a = xpForLevel(c.level), b = xpForLevel(c.level + 1); return Math.max(0, Math.min(1, ((c.xp || 0) - a) / Math.max(1, b - a))); };
     // hide the follower (it is the one fighting) while the fight runs
     const fol = scene.follower, folSheet = fol?.sheet; if (fol) fol.sheet = null;
     const guard = () => 'rtb'; scene.saveGuards?.push(guard);
 
     // ---- input
-    const inp = { mode: false, fire: null, party: null, select: false, swap: false, crystal: false, dodge: false, retreat: false, flee: false, bDown: null, bHeld: false };
+    const inp = { capPick: null, capNext: false, mode: false, fire: null, party: null, select: false, swap: false, crystal: false, dodge: false, retreat: false, flee: false, bDown: null, bHeld: false };
     let capsPrev = null; const capsCheck = (e) => { const r = capsFlipped(e, capsPrev); capsPrev = r.now; if (r.flip) inp.flee = true; };
     const BKEY = new Set(['KeyX', 'ShiftLeft', 'ShiftRight']);
     const bPress = () => { if (inp.bDown == null) inp.bDown = performance.now(); };
@@ -124,8 +134,12 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       if (a.type === 'leave') { inp.retreat = true; return; }
       if (a.type === 'flee') { inp.flee = true; return; }
       if (e.repeat) return;
+      if (cap.open) { // tab open: 1-n / Z Space Enter launch, C next row, skills locked, G closes
+        if (a.type === 'party') { inp.capPick = a.slot; return; } if (a.type === 'fire') { inp.capPick = cap.hl; return; }
+        if (a.type === 'next') { inp.capNext = true; return; } if (a.type === 'skill') return;
+      }
       if (a.type === 'skill') inp.fire = a.slot; else if (a.type === 'party') inp.party = a.slot; else if (a.type === 'fire') inp.fire = 'sel';
-      else if (a.type === 'next') inp.select = true; else if (a.type === 'team') inp.swap = true; else if (a.type === 'crystal') inp.crystal = true; else if (a.type === 'mode') inp.mode = true;
+      else if (a.type === 'next') inp.select = true; else if (a.type === 'team') inp.swap = true; else if (a.type === 'crystal') inp.crystal = globalThis.KILUMEN_RTB_CAPTURE_OFF !== true; else if (a.type === 'mode') inp.mode = true;
     };
     const ku = (e) => { capsCheck(e); if (e.code === 'Escape') { inp.retreat = false; e.stopPropagation(); } if (BKEY.has(e.code)) bRelease(); };
     window.addEventListener('keydown', kd, true); window.addEventListener('keyup', ku, true);
@@ -142,13 +156,14 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     on(modeBtn, 'click', (e) => { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) inp.mode = true; }); // keyboard Enter / Space on the focused button
     on(hud, 'pointerdown', (e) => {
       const s = e.target.closest?.('.rtb-s'), b = e.target.closest?.('[data-rtb]');
+      const cr = e.target.closest?.('.rtb-cr'); if (cr) { inp.capPick = +cr.dataset.cap; e.preventDefault(); return; }
       const pi = e.target.closest?.('.rtb-pi'); if (pi) { inp.party = +pi.dataset.i; e.preventDefault(); return; }
       const fb = e.target.closest?.('.rtb-face'); if (fb) { e.preventDefault(); const k = fb.dataset.face, slot = xyOf(sim.ally.c, sim.ally.skills.length)[k === 'x' ? 0 : 1]; inp.fire = slot; view.facePress(k, true); faceDown = k; return; }
       if (s && view.assigning) { e.preventDefault(); const r = s.getBoundingClientRect(), k = e.clientX < r.left + r.width / 2 ? 'x' : 'y'; setXY(sim.ally.c, assignXY(xyOf(sim.ally.c, sim.ally.skills.length), k, +s.dataset.slot)); view.facePress(k, true); setTimeout(() => view.facePress(k, false), 120); scene.audio?.sfx('cursor'); return; }
       if (s) { sim.selected = +s.dataset.slot; inp.fire = +s.dataset.slot; e.preventDefault(); return; }
       if (b?.dataset.rtb === 'xyset') { e.preventDefault(); view.setAssign(!view.assigning); if (view.assigning) view.banner('Tap the X or Y side of a skill', '', 1300); scene.audio?.sfx('cursor'); return; }
       if (!b) return; e.preventDefault();
-      if (b.dataset.rtb === 'swap') inp.swap = true; else if (b.dataset.rtb === 'crystal') inp.crystal = true; else if (b.dataset.rtb === 'leave') inp.retreat = true;
+      if (b.dataset.rtb === 'swap') inp.swap = true; else if (b.dataset.rtb === 'crystal') inp.crystal = globalThis.KILUMEN_RTB_CAPTURE_OFF !== true; else if (b.dataset.rtb === 'leave') inp.retreat = true;
     });
     let faceDown = null;
     const leaveUp = () => { inp.retreat = false; if (faceDown) { view.facePress(faceDown, false); faceDown = null; } }; on(window, 'pointerup', leaveUp); on(window, 'pointercancel', leaveUp);
@@ -166,7 +181,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     };
 
     // ---- loop: fixed 1/60 steps, hitstop freezes the sim, slow-mo on the last KO
-    let last = performance.now(), acc = 0, stop = 0, slow = null, finished = false;
+    let last = performance.now(), acc = 0, stop = 0, slow = null, finished = false, pick = null;
     if (carry) { // creature reactions to the mode switch
       const rl = reactionLines('rt', nameOf(sim.ally), nameOf(sim.foes[0]), rng);
       view.banner(rl.ally, rl.foe, 1500);
@@ -184,21 +199,33 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       pollPads();
       if (stop > 0) stop -= dt;
       else {
-        let scale = 1; if (slow) { scale = slow.scale; if ((slow.time -= dt) <= 0) slow = null; }
+        // capture tab: open / close / launch (real-time seconds, outside the fixed steps)
+        if (inp.crystal) { inp.crystal = false;
+          if (cap.open) cap.open = false;
+          else if (!sim.trainer) { if (!crystalStock(bag()).length) view.num(sim.ally.x, sim.ally.y - 60, CT.button_none, '#ff8a8a'); else if (sim.canCrystal()) { cap.open = true; cap.t = 0; cap.hl = 0; scene.audio?.sfx('select'); } } }
+        if (cap.open) {
+          cap.t += dt; const items = capItems();
+          if (inp.capNext && items.length) cap.hl = (cap.hl + 1) % items.length;
+          if (inp.capPick != null && items[inp.capPick]) { pick = items[inp.capPick]; cap.open = false; }
+          else if (cap.t >= CAP_TAB.maxOpen || !sim.canCrystal() || !items.length) cap.open = false;
+        }
+        inp.capPick = null; inp.capNext = false;
+        let scale = cap.open ? CAP_TAB.slow : 1; if (slow) { scale = slow.scale; if ((slow.time -= dt) <= 0) slow = null; }
         acc += dt * scale;
         while (acc >= STEP) {
           acc -= STEP;
           const mv = moveVec(), sprint = inp.bDown != null && (performance.now() - inp.bDown) / 1000 >= B_TAP;
           let crystal = null;
-          if (inp.crystal) { const st = crystalStock(scene.systems?.bag)[0]; if (!st) view.num(sim.ally.x, sim.ally.y - 60, 'No crystals', '#ff8a8a'); else if (sim.canCrystal()) crystal = st; }
+          if (pick && sim.canCrystal()) { crystal = { id: pick.id, grade: pick.grade }; pick = null; }
           if (inp.party != null) { const ok = sim.swap(inp.party); if (!ok && inp.party !== sim.active) view.partyNo?.(inp.party); inp.party = null; }
-          const used = crystal; sim.step(STEP, { ...mv, sprint, dodge: inp.dodge, fire: inp.fire, select: inp.select, swap: inp.swap, crystal, retreat: inp.retreat, flee: inp.flee }); inp.flee = false;
+          const used = crystal; sim.step(STEP, { ...mv, sprint, dodge: inp.dodge, fire: cap.open ? null : inp.fire, select: inp.select, swap: inp.swap, crystal, retreat: inp.retreat, flee: inp.flee }); inp.flee = false;
           if (used && sim.crystalUsed && sim.events.some((e) => e.type === 'crystalCast')) scene.systems.bag.remove(used.id, 1);
-          inp.fire = null; inp.select = inp.swap = inp.crystal = inp.dodge = false;
-          const r = view.onEvents(sim.drain()); if (r.stop) stop = Math.max(stop, view.reduced ? r.stop / 2 : r.stop); if (r.slow) slow = r.slow;
+          inp.fire = null; inp.select = inp.swap = inp.dodge = false;
+          const evs = sim.drain(); if (cap.open && evs.some((e) => e.type === 'hit' && e.who === sim.ally)) { cap.open = false; view.num(sim.ally.x, sim.ally.y - 80, '!', '#ff6b6b'); } const r = view.onEvents(evs); if (r.stop) stop = Math.max(stop, view.reduced ? r.stop / 2 : r.stop); if (r.slow) slow = r.slow;
           if (stop > 0) break;
         }
       }
+      view.capOpen = cap.open; view.capTab(capState());
       view.frame(dt);
       if (sim.done) return finish();
       requestAnimationFrame(loop);

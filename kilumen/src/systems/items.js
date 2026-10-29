@@ -4,7 +4,8 @@
 // `battle` rows are the battle-engine numbers: src/battle/data/rules.js buildItems() builds the engine's item
 // table from BATTLE_ITEMS, so the field and the battle can never disagree. This module imports only plain data (no cycle;
 // safe on a server). Effect amounts are PLACEHOLDER (design/MECHANICS_PARITY.md) until Gary signs them off.
-import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.64-alpha'; // crystal grades + Benefits Board node (Oct 23, 2026)
+import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.66-alpha'; // crystal grades + Benefits Board node (Oct 23, 2026)
+import { FRUIT_IDS as FEED_FRUIT_IDS } from '../feeds/logic.js?v=v0.2.66-alpha'; // fruit feeds bag rows (Oct 29 2026)
 
 /** pocket ids: text/overworld_lines.json comfort.bag_pockets */
 export const POCKETS = ['care', 'feeds', 'gear', 'crystals', 'key', 'logs'];
@@ -45,8 +46,21 @@ const FIELD = {
   reel_pounce: { pocket: 'gear', field: null, key: true, teach: 'pounce' },
   reel_gustdart: { pocket: 'gear', field: null, key: true, teach: 'gustdart' },
   reel_halflash: { pocket: 'gear', field: null, key: true, teach: 'haloflash' },
+  fishing_rod: { pocket: 'key', field: 'fish', key: true, name: 'Fishing Rod', rod: 'basic' }, // fishing v1 (Oct 29 2026, flag fishing): from the Brookhollow fisher; upgrades good/super = src/fishing/logic.js ROD_TIERS (not placed) // PLACEHOLDER id + name
+  fishing_rod_good: { pocket: 'key', field: 'fish', key: true, name: 'Driftline Rod', rod: 'good' }, // gear v1 (design/FISHING_GEAR.md): Saltmere fisher gift // PLACEHOLDER id + name
+  fishing_rod_super: { pocket: 'key', field: 'fish', key: true, name: 'Lanternreach Rod', rod: 'super' }, // gear v1: Lanternport lighthouse keeper gift // PLACEHOLDER id + name
+  // gear v1 bait (one used per landed cast; effects in data/fishing_tables.json baits). Sold: shops.json. Earned only: lantern_moth, hollowstar_roe.
+  ripple_grub: { pocket: 'gear', field: null, bait: true, name: 'Ripple Grub' },
+  reed_nymph: { pocket: 'gear', field: null, bait: true, name: 'Reed Nymph' },
+  brine_fleck: { pocket: 'gear', field: null, bait: true, name: 'Brine Fleck' },
+  glimmer_worm: { pocket: 'gear', field: null, bait: true, name: 'Glimmer Worm' },
+  deepgut_paste: { pocket: 'gear', field: null, bait: true, name: 'Deepgut Paste' },
+  lantern_moth: { pocket: 'gear', field: null, bait: true, name: 'Lantern Moth' },
+  hollowstar_roe: { pocket: 'gear', field: null, bait: true, name: 'Hollowstar Roe' },
   team_link_band: { pocket: 'gear', field: null, held: true, key: true, name: 'Team Link Band' }, // Oct 29 2026: holder that sat out a faint gets half XP (src/battle/battle.js linkShare); from Saltmere (src/systems/link_band.js) // PLACEHOLDER id (DESIGN gold coin: x1.5 trainer money)
 };
+// Fruit feeds (Coder Oct 29 2026, src/feeds/logic.js FRUIT_IDS; names: Text Bot keys feeds.fruit.<id>.name). Gary: fruit goes in the bag.
+for (const id of FEED_FRUIT_IDS) { FIELD[`fruit_${id}`] = { pocket: 'feeds', field: null, feedFruit: id }; FIELD[`seedling_${id}`] = { pocket: 'feeds', field: null, feedSeedling: id }; }
 for (const g of CRYSTAL_GRADES.grades) if (!FIELD[g.item]) FIELD[g.item] = { pocket: 'crystals', field: null }; // board crystal grades
 
 /** Full table used by the bag: { id: {id, pocket, field, ..., heal, energy, cure, battle, name} } */

@@ -7,9 +7,9 @@
 // - coin: a Master's coin_handover pages follow its battle_lost pages; without them the existing placeholder toast is used.
 // - Mirefen darkness: def.darkness (data/hall_puzzles/mirefen.json, World Design spec
 //   art/world/overworld/qa/autotile_port/integ/mirefen_hall_darkness.json). Light falloff = nightfx pool().
-import { getPath, fillText, pickLine } from '../overworld/lines.js?v=v0.2.64-alpha';
-import { hallNpc } from './masters.js?v=v0.2.64-alpha';
-import { pool } from '../overworld/nightfx.js?v=v0.2.64-alpha';
+import { getPath, fillText, pickLine } from '../overworld/lines.js?v=v0.2.66-alpha';
+import { hallNpc } from './masters.js?v=v0.2.66-alpha';
+import { pool } from '../overworld/nightfx.js?v=v0.2.66-alpha';
 
 /** Draft key path Text Bot uses for a hall NPC (halls_<zone>.md). */
 export function draftPath(info) {

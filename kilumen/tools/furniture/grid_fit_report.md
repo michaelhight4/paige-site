@@ -1,5 +1,5 @@
 # grid_fit_and_swap report (check)
-repo: /workspace/kilumen_badges/kilumen
+repo: /workspace/wt_v0265/kilumen
 
 ## Assets: 475 definitions, 713 tiles managed
 ### Tile collision changes (0)

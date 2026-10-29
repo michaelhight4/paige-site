@@ -6,18 +6,18 @@
 // Save rules: the coach talk runs inside scene.script() (checkpoint before, normal save after) and a saveGuard blocks
 // saving the whole time the overlay is open, so the fee, the race and the prize land in one save after the overlay
 // closes. Closing the tab mid-race reloads the pre-talk checkpoint: fee not taken, window not used.
-import { attachTownEvents } from './town_ui.js?v=v0.2.64-alpha';
-import { S, t } from './strings.js?v=v0.2.64-alpha';
-import { STATS, POINTS } from './rules.js?v=v0.2.64-alpha';
-import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.64-alpha';
-import { runMeet } from './meet.js?v=v0.2.64-alpha';
-import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.64-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.64-alpha';
-import { speciesAthletics } from './athletics.js?v=v0.2.64-alpha';
-import { rngFor } from './rng.js?v=v0.2.64-alpha';
-import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.64-alpha';
-import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.64-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.64-alpha';
+import { attachTownEvents } from './town_ui.js?v=v0.2.66-alpha';
+import { S, t } from './strings.js?v=v0.2.66-alpha';
+import { STATS, POINTS } from './rules.js?v=v0.2.66-alpha';
+import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.66-alpha';
+import { runMeet } from './meet.js?v=v0.2.66-alpha';
+import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.66-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.66-alpha';
+import { speciesAthletics } from './athletics.js?v=v0.2.66-alpha';
+import { rngFor } from './rng.js?v=v0.2.66-alpha';
+import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.66-alpha';
+import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.66-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.66-alpha';
 
 const W = 640, H = 360, PPM = 22, LANE_Y = [176, 222, 268, 314], SPR = 64;
 const sheet = new Map();
@@ -221,7 +221,7 @@ export function attachSports(scene, { query, systems } = {}) {
     const myBest = Math.min(...races.flatMap((r) => r.res.filter((x) => x.entrantId === me.key).map((x) => x.time)));
     st.meet.myBest = myBest; st.meet.coinsBefore = wallet()?.coins ?? 0;
     if (tour) st.meet.prize = settle({ place: mine?.place, time: myBest, wallet: wallet(), state: sstate(), mult: diffOf(getDifficulty(sys()?.state)).money });
-    else { const ss = sstate(); ss.practice++; if (Number.isFinite(myBest) && (ss.best == null || myBest < ss.best)) ss.best = +myBest.toFixed(2); }
+    else { const ss = sstate(); ss.practice++; try { globalThis.kilumen?.feeds?.onPractice?.((scene.party || []).find((c) => (c.uid || c.id || c._sportsSeed) === me.key)); } catch (e) { /* feeds off */ } if (Number.isFinite(myBest) && (ss.best == null || myBest < ss.best)) ss.best = +myBest.toFixed(2); }
   }
   /** Tournament win -> the champion screen (the prize is already in the wallet; the screen counts it up). */
   async function celebrate() {

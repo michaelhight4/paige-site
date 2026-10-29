@@ -1,0 +1,519 @@
+{
+ "note": "DRAFT fruit art for src/feeds (logic.js FRUIT_IDS, PLOT_STAGES). Not wired in. 32x32 1x + _2x nearest.",
+ "count": 84,
+ "fruits": 14,
+ "stages": [
+  "icon",
+  "seedling",
+  "sprout",
+  "leaf",
+  "flower",
+  "fruit"
+ ],
+ "items": {
+  "rumblemelon": {
+   "fruit": "rumblemelon",
+   "name": "Rumblemelon",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_rumblemelon": {
+   "fruit": "rumblemelon",
+   "name": "Rumblemelon seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "rumblemelon_plant_sprout": {
+   "fruit": "rumblemelon",
+   "name": "Rumblemelon plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "rumblemelon_plant_leaf": {
+   "fruit": "rumblemelon",
+   "name": "Rumblemelon plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "rumblemelon_plant_flower": {
+   "fruit": "rumblemelon",
+   "name": "Rumblemelon plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "rumblemelon_plant_fruit": {
+   "fruit": "rumblemelon",
+   "name": "Rumblemelon plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "dashfig": {
+   "fruit": "dashfig",
+   "name": "Dashfig",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_dashfig": {
+   "fruit": "dashfig",
+   "name": "Dashfig seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "dashfig_plant_sprout": {
+   "fruit": "dashfig",
+   "name": "Dashfig plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "dashfig_plant_leaf": {
+   "fruit": "dashfig",
+   "name": "Dashfig plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "dashfig_plant_flower": {
+   "fruit": "dashfig",
+   "name": "Dashfig plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "dashfig_plant_fruit": {
+   "fruit": "dashfig",
+   "name": "Dashfig plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "padgourd": {
+   "fruit": "padgourd",
+   "name": "Padgourd",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_padgourd": {
+   "fruit": "padgourd",
+   "name": "Padgourd seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "padgourd_plant_sprout": {
+   "fruit": "padgourd",
+   "name": "Padgourd plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "padgourd_plant_leaf": {
+   "fruit": "padgourd",
+   "name": "Padgourd plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "padgourd_plant_flower": {
+   "fruit": "padgourd",
+   "name": "Padgourd plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "padgourd_plant_fruit": {
+   "fruit": "padgourd",
+   "name": "Padgourd plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "mossplum": {
+   "fruit": "mossplum",
+   "name": "Mossplum",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_mossplum": {
+   "fruit": "mossplum",
+   "name": "Mossplum seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "mossplum_plant_sprout": {
+   "fruit": "mossplum",
+   "name": "Mossplum plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "mossplum_plant_leaf": {
+   "fruit": "mossplum",
+   "name": "Mossplum plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "mossplum_plant_flower": {
+   "fruit": "mossplum",
+   "name": "Mossplum plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "mossplum_plant_fruit": {
+   "fruit": "mossplum",
+   "name": "Mossplum plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "saltlime": {
+   "fruit": "saltlime",
+   "name": "Saltlime",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_saltlime": {
+   "fruit": "saltlime",
+   "name": "Saltlime seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "saltlime_plant_sprout": {
+   "fruit": "saltlime",
+   "name": "Saltlime plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "saltlime_plant_leaf": {
+   "fruit": "saltlime",
+   "name": "Saltlime plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "saltlime_plant_flower": {
+   "fruit": "saltlime",
+   "name": "Saltlime plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "saltlime_plant_fruit": {
+   "fruit": "saltlime",
+   "name": "Saltlime plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "tidepod": {
+   "fruit": "tidepod",
+   "name": "Tidepod",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_tidepod": {
+   "fruit": "tidepod",
+   "name": "Tidepod seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "tidepod_plant_sprout": {
+   "fruit": "tidepod",
+   "name": "Tidepod plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "tidepod_plant_leaf": {
+   "fruit": "tidepod",
+   "name": "Tidepod plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "tidepod_plant_flower": {
+   "fruit": "tidepod",
+   "name": "Tidepod plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "tidepod_plant_fruit": {
+   "fruit": "tidepod",
+   "name": "Tidepod plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "sparkcitron": {
+   "fruit": "sparkcitron",
+   "name": "Sparkcitron",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_sparkcitron": {
+   "fruit": "sparkcitron",
+   "name": "Sparkcitron seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "sparkcitron_plant_sprout": {
+   "fruit": "sparkcitron",
+   "name": "Sparkcitron plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "sparkcitron_plant_leaf": {
+   "fruit": "sparkcitron",
+   "name": "Sparkcitron plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "sparkcitron_plant_flower": {
+   "fruit": "sparkcitron",
+   "name": "Sparkcitron plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "sparkcitron_plant_fruit": {
+   "fruit": "sparkcitron",
+   "name": "Sparkcitron plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "frostquince": {
+   "fruit": "frostquince",
+   "name": "Frostquince",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_frostquince": {
+   "fruit": "frostquince",
+   "name": "Frostquince seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "frostquince_plant_sprout": {
+   "fruit": "frostquince",
+   "name": "Frostquince plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "frostquince_plant_leaf": {
+   "fruit": "frostquince",
+   "name": "Frostquince plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "frostquince_plant_flower": {
+   "fruit": "frostquince",
+   "name": "Frostquince plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "frostquince_plant_fruit": {
+   "fruit": "frostquince",
+   "name": "Frostquince plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "glidepod": {
+   "fruit": "glidepod",
+   "name": "Glidepod",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_glidepod": {
+   "fruit": "glidepod",
+   "name": "Glidepod seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "glidepod_plant_sprout": {
+   "fruit": "glidepod",
+   "name": "Glidepod plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "glidepod_plant_leaf": {
+   "fruit": "glidepod",
+   "name": "Glidepod plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "glidepod_plant_flower": {
+   "fruit": "glidepod",
+   "name": "Glidepod plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "glidepod_plant_fruit": {
+   "fruit": "glidepod",
+   "name": "Glidepod plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "glowmelon": {
+   "fruit": "glowmelon",
+   "name": "Glowmelon",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_glowmelon": {
+   "fruit": "glowmelon",
+   "name": "Glowmelon seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "glowmelon_plant_sprout": {
+   "fruit": "glowmelon",
+   "name": "Glowmelon plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "glowmelon_plant_leaf": {
+   "fruit": "glowmelon",
+   "name": "Glowmelon plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "glowmelon_plant_flower": {
+   "fruit": "glowmelon",
+   "name": "Glowmelon plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "glowmelon_plant_fruit": {
+   "fruit": "glowmelon",
+   "name": "Glowmelon plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "embergourd": {
+   "fruit": "embergourd",
+   "name": "Embergourd",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_embergourd": {
+   "fruit": "embergourd",
+   "name": "Embergourd seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "embergourd_plant_sprout": {
+   "fruit": "embergourd",
+   "name": "Embergourd plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "embergourd_plant_leaf": {
+   "fruit": "embergourd",
+   "name": "Embergourd plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "embergourd_plant_flower": {
+   "fruit": "embergourd",
+   "name": "Embergourd plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "embergourd_plant_fruit": {
+   "fruit": "embergourd",
+   "name": "Embergourd plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "cinderapricot": {
+   "fruit": "cinderapricot",
+   "name": "Cinderapricot",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_cinderapricot": {
+   "fruit": "cinderapricot",
+   "name": "Cinderapricot seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "cinderapricot_plant_sprout": {
+   "fruit": "cinderapricot",
+   "name": "Cinderapricot plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "cinderapricot_plant_leaf": {
+   "fruit": "cinderapricot",
+   "name": "Cinderapricot plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "cinderapricot_plant_flower": {
+   "fruit": "cinderapricot",
+   "name": "Cinderapricot plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "cinderapricot_plant_fruit": {
+   "fruit": "cinderapricot",
+   "name": "Cinderapricot plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "sunheart_fig": {
+   "fruit": "sunheart_fig",
+   "name": "Sunheart Fig",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_sunheart_fig": {
+   "fruit": "sunheart_fig",
+   "name": "Sunheart Fig seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "sunheart_fig_plant_sprout": {
+   "fruit": "sunheart_fig",
+   "name": "Sunheart Fig plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "sunheart_fig_plant_leaf": {
+   "fruit": "sunheart_fig",
+   "name": "Sunheart Fig plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "sunheart_fig_plant_flower": {
+   "fruit": "sunheart_fig",
+   "name": "Sunheart Fig plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "sunheart_fig_plant_fruit": {
+   "fruit": "sunheart_fig",
+   "name": "Sunheart Fig plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  },
+  "hollowpith": {
+   "fruit": "hollowpith",
+   "name": "Hollowpith",
+   "kind": "fruit_item",
+   "stage": "icon"
+  },
+  "seedling_hollowpith": {
+   "fruit": "hollowpith",
+   "name": "Hollowpith seedling",
+   "kind": "seedling_item",
+   "stage": "seedling"
+  },
+  "hollowpith_plant_sprout": {
+   "fruit": "hollowpith",
+   "name": "Hollowpith plant (sprout)",
+   "kind": "plot_stage",
+   "stage": "sprout"
+  },
+  "hollowpith_plant_leaf": {
+   "fruit": "hollowpith",
+   "name": "Hollowpith plant (leaf)",
+   "kind": "plot_stage",
+   "stage": "leaf"
+  },
+  "hollowpith_plant_flower": {
+   "fruit": "hollowpith",
+   "name": "Hollowpith plant (flower)",
+   "kind": "plot_stage",
+   "stage": "flower"
+  },
+  "hollowpith_plant_fruit": {
+   "fruit": "hollowpith",
+   "name": "Hollowpith plant (fruit)",
+   "kind": "plot_stage",
+   "stage": "fruit"
+  }
+ }
+}

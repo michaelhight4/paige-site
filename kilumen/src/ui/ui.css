@@ -589,3 +589,11 @@ body.platform-mobile .ui-battle[data-engine="sd"] .b-tr-spot .b-trainer-fig.foe.
 .cm-k { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--outline); margin-right: 6px; vertical-align: middle; }
 .cm-k.here { background: var(--bad, #e34b4b); } .cm-k.town { background: var(--sun, #ffd34d); } .cm-k.road { background: #c99b5c; } .cm-k.ea { background: #fff; border-style: dashed; }
 @media (prefers-reduced-motion: reduce) { .cm-ring { animation: none; } }
+/* water biome, painted backdrop (Oct 29 2026): ui_sd.js sets left/top of .b-ally/.b-foe to the painted pier / ripple spot
+   (index.json near 0.261,0.65 / far 0.727,0.458 of the cover-fitted frame); the container's bottom edge is the feet line. */
+body .ui-battle[data-biome-art][data-scr="battle"][data-engine] :is(.b-foe, .b-ally) { right: auto; bottom: auto; transform: translate(-50%, -100%); }
+/* phones (844x390-ish): the frame is bottom-aligned so the pier deck (frame y <= 0.694) stays above the 30% message box,
+   and creatures show at 1x so the foe on the far ripple fits under the top edge without reaching the top-left foe card. */
+body.platform-mobile .ui-battle[data-biome-art] .bg { background-position: center bottom; }
+body.platform-mobile .ui-battle[data-biome-art] .bg .b-water { object-position: center bottom; }
+body.platform-mobile .ui-battle[data-biome-art][data-scr="battle"] .b-field { --ui-sprite-scale: 1; }

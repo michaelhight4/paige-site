@@ -81,3 +81,5 @@ body.ui-reduce .cna, body.ui-reduce .cna-award { animation: none; background: no
 @media (prefers-reduced-motion: reduce) { .cna, .cna-award { animation: none; background: none; } .cna > img { opacity: 1; } }
 @media (max-height: 500px) { .cna { --w: 40px; } .cns { width: 40px; height: 40px; } .cna.sm { --w: 22px; } .cna.big { --w: 80px; } }
 .cna-award b { font-family: system-ui, sans-serif; font-size: 14px; }
+.ui-tile[data-app="badges"] .badge { display: grid; place-items: center; }
+.ui-tile[data-app="badges"] .badge .bdg-tabico { width: 72%; height: 72%; margin: 0; vertical-align: 0; object-fit: contain; } /* v0.2.65: top-row menu entry */

@@ -4,13 +4,13 @@
 // Reused Kilumen rules, unchanged: battleStats / maxHp / energyOf / levelForXp (src/systems/creature.js), skills
 // (src/battle/data/skills.js), DRAFT_CHART + KILUMEN_RULES (strong 1.5, weak 0.6, affinity 1.3, Clean Strike 1/20 x1.4,
 // overuse 0.6 / self 1/8, XP baseXp * L / 7), capture (src/battle/capture.js captureChance / captureRoll).
-import { battleStats, maxHp, energyOf, levelForXp, speciesInfo, createCreature, defaultSkills } from '../systems/creature.js?v=v0.2.64-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.64-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.64-alpha';
-import { DRAFT_CHART } from '../battle/data/elements.js?v=v0.2.64-alpha';
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.64-alpha';
-import { captureChance, captureRoll } from '../battle/capture.js?v=v0.2.64-alpha';
-import { SHAPE_STATS, shapeOf, cooldownFor, reachOf } from './moves.js?v=v0.2.64-alpha';
+import { battleStats, maxHp, energyOf, levelForXp, speciesInfo, createCreature, defaultSkills } from '../systems/creature.js?v=v0.2.66-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.66-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.66-alpha';
+import { DRAFT_CHART } from '../battle/data/elements.js?v=v0.2.66-alpha';
+import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.66-alpha';
+import { captureChance, captureRoll } from '../battle/capture.js?v=v0.2.66-alpha';
+import { SHAPE_STATS, shapeOf, cooldownFor, reachOf } from './moves.js?v=v0.2.66-alpha';
 
 let _sk = null, _cr = null;
 const SKILLS = () => (_sk ||= buildSkills());
@@ -409,17 +409,23 @@ export class RtBattle {
     this.emit('crystalCast', { who: a, id });
     return true;
   }
+  /** capture odds right now for a foe and a crystal grade (the same numbers _crystalStep rolls against) */
+  oddsFor(o = this.target, grade = 1) {
+    if (!o) return { p: 0, rarity: 0.5 };
+    const sp = CREATURES()[o.c.species] || {}, st = o.drowsy > 0 ? KILUMEN_RULES.catchStatus.drowsy : o.scorch > 0 ? KILUMEN_RULES.catchStatus.scorched : 1;
+    const rarity = sp.catchRate ?? 0.5;
+    return { p: captureChance({ rarity, hp: o.c.hp, maxHp: o.mhp, status: st, grade }), rarity };
+  }
   _crystalStep(s) {
     for (const o of this.living) {
       if (Math.hypot(o.x - s.x, o.y - s.y) >= o.r + s.r) continue;
       s.dead = true;
       if (o.iframes > 0 && o.dash) { this.emit('dodged', { who: o }); return; }
-      const sp = CREATURES()[o.c.species] || {}, st = o.drowsy > 0 ? KILUMEN_RULES.catchStatus.drowsy : o.scorch > 0 ? KILUMEN_RULES.catchStatus.scorched : 1;
-      const p = captureChance({ rarity: sp.catchRate ?? 0.5, hp: o.c.hp, maxHp: o.mhp, status: st, grade: s.crystal.grade });
+      const { p } = this.oddsFor(o, s.crystal.grade);
       const roll = captureRoll(p, this.rng(), this.forceCatch);
       o.held = true; o.act = null; o.dash = null; o.vx = o.vy = 0; if (this.token === o) this.token = null;
-      this.capture = { foe: o, p, roll, n: 0, t: RT.pulse };
-      this.emit('crystalHit', { who: o, p });
+      this.capture = { foe: o, p, roll, n: 0, t: RT.pulse, id: s.crystal.id };
+      this.emit('crystalHit', { who: o, p, id: s.crystal.id });
       return;
     }
   }
