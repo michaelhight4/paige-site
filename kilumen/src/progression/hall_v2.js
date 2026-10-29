@@ -12,9 +12,8 @@
 //    and kept win or lose (the first challenge is free). Under 300 gold: system_halls.rematch_no_gold. The team scales by
 //    1.3^wins (wins = counter master_<zone>_wins, at least 1 once beaten), levels capped at KILUMEN_RULES.maxLevel (100).
 //    A rematch win bumps the counter and pays a flat REMATCH_PRIZE (1200 gold, Gary Oct 29 2026; no difficulty / perk
-//    multipliers, no coin), said with system_trainers.payout. The first Master win keeps its normal prize + coin.
+//    multipliers, no coin), said in system_halls.rematch_won ({prize}, bare number). The first Master win keeps its normal prize + coin.
 //  - Trainers walk back to their seat after a talk / battle so the walk the solver proved stays open.
-import { fmtMoney } from '../systems/config.js?v=v0.2.85-alpha';
 import { HallV2, V2_PUSH } from './puzzles.js?v=v0.2.85-alpha';
 import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.85-alpha';
 import { applyHallAnim, hallAnimOn } from './hall_anim.js?v=v0.2.85-alpha';
@@ -174,11 +173,9 @@ export function attachHallV2(scene, ui, pg) {
     scene.log?.push({ tick: scene.tick, type: 'battle', npc: def.id, won, rematch: true });
     if (won !== false) {
       scene.counters[`master_${z}_wins`] = wins + 1; scene._dirty = true;
-      await scene.say(text('rematch_won', e.battle_lost || ['Well fought.']), sp);
       w.add?.(REMATCH_PRIZE); if (!w.add && 'coins' in w) w.coins += REMATCH_PRIZE;
       scene.log?.push({ tick: scene.tick, type: 'prize', npc: def.id, amount: REMATCH_PRIZE, rematch: true });
-      const pay = scene.lines?.system_trainers?.payout?.pages || ['{trainer} hands over {total}.']; // reused key, no new text
-      await scene.say(fillv(pay, { trainer: sp?.name || def.name || 'The Master', total: fmtMoney(REMATCH_PRIZE) }), sp);
+      await scene.say(fillv(text('rematch_won', ['Well fought. Here is your {prize} gold.']), { prize: REMATCH_PRIZE }), sp); // Text Bot: {prize} bare number
       return 'won';
     }
     await scene.say(e.battle_won || [], sp);
@@ -202,7 +199,7 @@ export function attachHallV2(scene, ui, pg) {
         const g = masterOpen(ctx(), m);
         if (!g.ok) {
           scene.log?.push({ tick: scene.tick, type: 'hall_wins_gate', zone: z, wins, need, puzzle: g.puzzle });
-          const pages = !g.puzzle ? text('master_puzzle', ['Find your way up here properly first.']) : fillv(text('master_locked', ['Win {left} more in my hall first. Then we battle.']), { wins, need, left: need - wins });
+          const pages = !g.puzzle ? text('master_puzzle', ['Find your way up here properly first.']) : fillv(text('master_locked', ['Win {left} more in my hall first. Then we battle.']), { wins, need, left: Math.max(0, need - wins) });
           return scene.script(async () => { n && scene.npcs.beginTalk(n); try { await scene.say(pages, scene.speakerFor?.(n)); } finally { n && scene.npcs.endTalk(n); } });
         }
         const r = talk(n, def); const iv = setInterval(() => { if (!scene.busy) { clearInterval(iv); if (scene.seen?.[`defeated:${m.name}.${def.id}`]) { const k = `master_${z}_wins`; if (!(scene.counters[k] > 0)) { scene.counters[k] = 1; scene._dirty = true; } } } }, 150);
