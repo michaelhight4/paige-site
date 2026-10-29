@@ -46,7 +46,8 @@ export class KilumenBattle {
       formatid: 'kilumensingle', seed: this.seed, wild: this.wild,
       // tests only: force every chance roll (accuracy, crits, secondaries, catch) to succeed or fail
       ...(typeof opts.forceChance === 'boolean' ? { debug: true, forceRandomChance: opts.forceChance } : {}),
-      p1: { name: opts.playerName || 'You', team: this.partyIn.map((c) => toSet(c)), bag: bagIn(opts.bag), gainsXp: true, xpBoost: opts.xpBoost || 1, xpShare: opts.xpShare || 0 },
+      p1: { name: opts.playerName || 'You', team: this.partyIn.map((c) => toSet(c)), bag: bagIn(opts.bag), gainsXp: true, xpBoost: opts.xpBoost || 1, xpShare: opts.xpShare || 0,
+        xpShareBand: (opts.xpShare || 0) > 0 ? this.partyIn.map((c) => c.held === (opts.linkBand || 'team_link_band')) : [] }, // v0.2.57: Link Band holders get share + 25% (engine Fe)
       p2: { name: opts.foeName || (this.wild ? 'Wild' : 'Trainer'), team: opts.foes.map((c) => toSet(c)) },
     });
     this.bagIn = { ...(opts.bag || {}) };
@@ -124,6 +125,7 @@ export class KilumenBattle {
   }
   /** Team Link Band (task C): a holder that did not fight a faint gets half the XP the fighters got. -> [{i, xp}] */
   linkShare() {
+    if (this.p1.kXpShare > 0) return []; // v0.2.57: with the XP share on, the engine pays band holders (share + 25%, -kxpshare ... band); old half-XP rule only when ?qol=-xpShare
     const log = this.battle.log, out = new Map();
     for (let i = 0; i < log.length; i++) {
       if (!log[i].startsWith('|faint|p2a')) continue;

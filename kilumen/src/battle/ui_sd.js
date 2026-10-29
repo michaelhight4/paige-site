@@ -325,7 +325,7 @@ export function makeSdBattle(ui, opts, h) {
           break;
         }
         case '-kxp': await say(P1('xp', '{creature} gained {n} XP.', { creature: who, n: b }) /* PH */, 700); drawPlate('p1'); sharedSaid = false; break;
-        case '-kxpshare': if (!sharedSaid) { sharedSaid = true; await say(P1('xp_share', 'The rest of the team gained {n} XP.', { n: b }) /* PH: QoL #4, Text Bot request */, 600); } break;
+        case '-kxpshare': if (d === 'band') { await say(P1('link_band_xp', '{creature} watched and learned: +{n} XP from the Team Link Band.', { creature: who, n: b }), 600); break; } if (!sharedSaid) { sharedSaid = true; await say(P1('xp_share', 'The rest of the team gained {n} XP.', { n: b }) /* PH: QoL #4, Text Bot request */, 600); } break;
         case '-kbenchlevel': await say(P1('bench_levelup', '{creature} grew to Lv.{level}!', { creature: who, level: b }) /* PH: QoL #4, Text Bot request */, 600); break;
         case '-klevelup': {
           mon.p1.level = +b; const st = c.split(',').map(Number);
