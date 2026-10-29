@@ -174,7 +174,7 @@ export class Systems {
   async onTalk({ mapName, def, entry, line, speaker }) {
     if (await giftTalk(this, { mapName, def, entry, line, speaker })) return true; // region 2: parcel -> Courier Bike + office gift (npc_gifts.js)
     if (entry?.after_heal || /_carer$/.test(def.id)) return this.heal.carerTalk({ mapName, def, entry, line, speaker });
-    if (mapName === 'shop_int' && (def.id === 'clerk' || def.variant_of === 'clerk')) {
+    if ((mapName === 'shop_int' || this.scene.map?.json?.interior_kind === 'mart') && (def.id === 'clerk' || def.variant_of === 'clerk')) { // r78 WD: unique marts (shop_lanternport / shop_cindervale) set interior_kind 'mart'
       await this.scene.say(line?.pages || entry.pages, speaker);
       await this.openShop();
       return true;
