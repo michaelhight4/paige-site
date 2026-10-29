@@ -3,8 +3,8 @@
 // Employee ID (bare 6 digits), ID level, XP bar, points, then the node tree by branch: locked / available / owned + rank pips.
 // Tap a perk: details + a Buy button (tap again or press A to buy), then a confirm. Keyboard: arrows (spatial), Z/Enter, X/Esc.
 // Text: system_rt_benefits.* through ui.T (placeholders until Text Bot fills them: data/textbot_requests_rt_benefits.md).
-import { MENU_ICONS } from './ui_tools2.js?v=v0.2.67-alpha';
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.67-alpha';
+import { MENU_ICONS } from './ui_tools2.js?v=v0.2.68-alpha';
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.68-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fill = (t, v = {}) => String(t).replace(/\{(\w+)\}/g, (m, k) => (v[k] != null ? v[k] : m));

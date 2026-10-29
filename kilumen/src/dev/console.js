@@ -3,17 +3,17 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.67-alpha';
-import * as AB from './autobattle.js?v=v0.2.67-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.67-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.67-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.67-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.67-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.67-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.67-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.67-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.67-alpha';
-import { createRitaPanel } from './rita_panel.js?v=v0.2.67-alpha'; // v0.2.32: RITA voice test tab
+import { DEV } from './runtime.js?v=v0.2.68-alpha';
+import * as AB from './autobattle.js?v=v0.2.68-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.68-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.68-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.68-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.68-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.68-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.68-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.68-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.68-alpha';
+import { createRitaPanel } from './rita_panel.js?v=v0.2.68-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
@@ -98,7 +98,7 @@ export async function installDevConsole(scene, access) {
     }
     return step(snap);
   };
-  // ---- v0.2.67-alpha world speed (1x/4x/10x/25x/100x): scales the whole simulation for this admin session only ----------------
+  // ---- v0.2.68-alpha world speed (1x/4x/10x/25x/100x): scales the whole simulation for this admin session only ----------------
   // overworld: scene.worldSpeed = extra fixed ticks per frame (overworld.js frame, sub-stepped, so no collision skipping);
   // battle: the qol pace hook divides every battle wait; CSS / Web Animations (text reveal, UI + battle fx): playbackRate.
   // Never saved (DEV is memory-only); saving itself stays behind scene.saveLockReason (no battle / conversation / cutscene).
