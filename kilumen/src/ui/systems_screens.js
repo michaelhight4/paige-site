@@ -176,8 +176,8 @@ export async function installSystemsScreens(ui, sys) {
   // ---------------- Pack ----------------
   ui.scr_sys_bag = function () {
     const PK = T('comfort.bag_pockets', {}); let pi = 0;
-    const TABS = badgesOn() ? [...POCKETS, 'badges'] : POCKETS, isB = () => TABS[pi] === 'badges'; // Badges tab: last, flag only
-    const tabLbl = (p) => (p === 'badges' ? `${BADGE_TAB_ICON()}${esc(T('system_badges.labels.tab', 'Badges'))}` : `${pxi(POCKET_ICONS[p])}${esc(PK[p]?.label || p)}`);
+    const TABS = POCKETS, isB = () => false; // v0.2.65: Badges moved out of the Pack to its own top-row menu entry (ui.scr_badges below)
+    const tabLbl = (p) => `${pxi(POCKET_ICONS[p])}${esc(PK[p]?.label || p)}`;
     // v0.2.60: Masters' coins are story flags (beat_master_<zone>, src/progression/masters.js), not bag items, so the Key
     // Items pocket lists one row per earned coin from data/masters.json. Text: system_items.master_coins.<zone> (PH keys).
     // v0.2.61: items with no catalogue text yet (Text Bot placeholder keys, fallback here)
@@ -225,6 +225,15 @@ export async function installSystemsScreens(ui, sys) {
     };
     return scr;
   };
+
+  // ---------------- Badges (own top-row menu entry, v0.2.65; ?badges=0 removes it) ----------------
+  if (badgesOn()) ui.scr_badges = function () {
+    return { scr: 'badges', pat: 'sparkle', title: T('system_badges.labels.tab', 'Badges'), glyph: 'badges', sel: 0, cols: 1, count: () => 0,
+      render: () => { const b = renderBadges(sys.scene, T); b.settle(); return `<div class="ui-body">${b.html}</div>`; },
+      hint: () => ui.hintText([['▲▼', 'Scroll'], ['B', 'Back']]),
+    };
+  };
+  ui.badgeIcon = BADGE_TAB_ICON;
 
   // ---------------- RT Supply ----------------
   ui.scr_sys_shop = function (arg = {}) {

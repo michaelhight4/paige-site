@@ -60,6 +60,7 @@ const GLYPHS = {
   archive: ['.##########.', '.#........#.', '.#.##..##.#.', '.#.##..##.#.', '.#........#.', '.##########.', '.#........#.', '.#.##..##.#.', '.#.##..##.#.', '.#........#.', '.##########.', '............'],
   shop: ['............', '.##########.', '#.#.#.#.#.##', '############', '.#........#.', '.#.###....#.', '.#.#.#.##.#.', '.#.#.#.##.#.', '.#.###....#.', '.#........#.', '.##########.', '............'],
   battle: ['#.........##', '.#.......###', '..#.....###.', '...#...###..', '....#.###...', '.....###....', '....###.#...', '..####...#..', '..###.....#.', '.##........#', '##..........', '............'],
+  badges: ['...######...', '..#......#..', '.#..####..#.', '#..#....#..#', '#.#..##..#.#', '#.#.####.#.#', '#.#.####.#.#', '#.#..##..#.#', '#..#....#..#', '.#..####..#.', '..#......#..', '...######...'],
   menu: ['............', '.##########.', '.##########.', '............', '............', '.##########.', '.##########.', '............', '............', '.##########.', '.##########.', '............'],
 };
 const ICONS_PX = typeof location === 'undefined' || new URLSearchParams(location.search).get('icons') !== 'classic'; // ?icons=classic: old 12x12 glyphs
@@ -536,12 +537,15 @@ export class GameUI {
       ['rt_benefits', L.rt_benefits || this.T('system_rt_benefits.labels.tab_title', 'RT Employee Benefits'), 'rt_benefits']] // RT Employee Benefits (Oct 23 2026): appended, existing order kept
       .filter(([k]) => k !== 'save' || !this.scene.saveLocked) // save lock: no manual save mid battle / talk / cutscene (overworld.js saveLockReason)
       .filter(([k]) => k !== 'rt_benefits' || typeof this.scr_rt_benefits === 'function'); // only once src/ui/rt_benefits_screen.js installed it
-    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00' };
-    return { scr: 'phone', pat: 'crystal', title: 'Phone', glyph: 'contacts', sel: this._phoneSel || 0, cols: +(this.cfg.vars?.['app-cols'] || 4),
+    const hasBdg = typeof this.scr_badges === 'function'; // Badges (v0.2.65): own top-row entry after Tasks; only installed when badgesOn() (?badges=0 kill switch)
+    if (hasBdg) apps.splice(4, 0, ['badges', this.T('system_badges.labels.tab', 'Badges'), 'badges']);
+    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00', badges: '#c8962a' };
+    const cols = +(this.cfg.vars?.['app-cols'] || 4) + (hasBdg ? 1 : 0); // one more column so Badges sits on the top row
+    return { scr: 'phone', pat: 'crystal', title: 'Phone', glyph: 'contacts', sel: Math.min(this._phoneSel || 0, apps.length - 1), cols,
       count: () => apps.length,
       chips: () => `${this.gold != null ? `<span class="ui-chip"><i class="coin"></i>${this.gold.toLocaleString()}</span>` : ''}<span class="ui-chip dark">${esc(this.scene.map?.title || '')}</span>`,
-      render: () => `<div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="phone" data-pat="lattice"><div class="ui-apps">${apps.map(([k, l], i) =>
-        `<div class="ui-tile" data-i="${i}"><span class="badge" style="background:${COLS[k]}">${glyph(k, '#fff')}</span><span class="lbl">${esc(l)}</span></div>`).join('')}</div></div>`,
+      render: () => `<div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="phone" data-pat="lattice"><div class="ui-apps" style="--ui-app-cols:${cols}">${apps.map(([k, l], i) =>
+        `<div class="ui-tile" data-i="${i}" data-app="${k}"><span class="badge" style="background:${COLS[k]}">${k === 'badges' && this.badgeIcon ? this.badgeIcon() : glyph(k, '#fff')}</span><span class="lbl">${esc(l)}</span></div>`).join('')}</div></div>`,
       hint: () => this.hintText([['A', 'Open'], ['B', 'Close']]),
       onA: (i) => { this._phoneSel = i; this.open(apps[i][0]); },
       onSel: (i) => { this._phoneSel = i; },
