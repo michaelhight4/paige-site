@@ -59,3 +59,18 @@ test('Kilindex text is Text Bot keys only; no blocked words', () => {
   const shown = JSON.stringify(JESTRIX_LINE.map(({ name, found }) => [name, found]));
   for (const w of [/\bPP\b/, /shiny/i, /super effective/i, /Pok[eé]/i, /Gotcha/i, /nurse/i, /weed/i, /\broute\b/i, /berry/i, /throw/i]) assert.ok(!w.test(shown), String(w));
 });
+
+test('Sunmeadow grass: Jestrix wild as uncommon at a modest weight; evolved forms never wild', () => {
+  const enc = JSON.parse(fs.readFileSync(new URL('../data/encounters_wired.json', import.meta.url), 'utf8'));
+  const zones = [];
+  const walk = (o) => { if (o && typeof o === 'object') for (const [k, v] of Object.entries(o)) { if (v && Array.isArray(v.slots)) zones.push([k, v]); else walk(v); } };
+  walk(enc);
+  const sm = zones.find(([k]) => k === 'sunmeadow_grass')[1];
+  const slots = sm.slots.filter((s) => s.species === 'jestrix');
+  assert.equal(slots.length, 1);
+  const j = slots[0], total = sm.slots.reduce((a, s) => a + s.weight, 0);
+  assert.equal(j.rarity, 'uncommon');
+  assert.ok(j.weight > 0 && j.weight / total <= 0.05, `share ${j.weight}/${total}`);
+  assert.ok(j.weight <= Math.max(...sm.slots.filter((s) => s !== j).map((s) => s.weight)) / 3, 'below common slots');
+  for (const [k, z] of zones) for (const s of z.slots) assert.ok(!['japkit', 'harlequop', 'mummerhop', 'maestrix'].includes(s.species), `${k}: ${s.species}`);
+});
