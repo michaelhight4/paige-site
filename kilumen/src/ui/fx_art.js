@@ -198,7 +198,7 @@ export async function healFx(sc, n, { reduced = false, steps = [] } = {}) {
   n = Math.max(1, Math.min(6, n || 1));
   if (reduced) return { ms: 0, skipped: 'reduced', steps };
   const H = (await piece('heal_restore'))?.hooks, mc = findMachine(sc, H?.cradle_centre); if (!mc) return { ms: 0, skipped: 'no machine', steps };
-  const names = ['heal_cradle_open', `heal_float_${n}`, 'heal_scanner_sweep', `heal_glow_${n}`, 'heal_done_ping'];
+  const names = ['heal_cradle_open', `heal_float_${n}`, 'heal_scanner_sweep', `heal_orbit_${n}`, `heal_glow_${n}`, 'heal_done_ping'];
   const set = await preload(names.map((k) => ['heal_restore', k])); if (!set) return { ms: 0, skipped: 'art missing', steps };
   const zoom = await healZoomIn(sc, mc);
   try { return await healPlay(sc, n, mc, set, steps, zoom); } finally { await healZoomOut(sc, zoom); }
@@ -236,9 +236,12 @@ async function healPlay(sc, n, mc, set, steps, zoom) {
   const t0 = performance.now(), pos = { x, y };
   const step = async (k, o) => { steps.push(o?.reverse ? `${k}_back` : k); const sp = sheet(host, set[k], s, pos); await sp.play(o); return sp; };
   (await step('heal_cradle_open')).remove();
-  const fl = await step(`heal_float_${n}`); fl.last();             // crystals held up over the cradle
-  (await step('heal_scanner_sweep')).remove();                         // one sweep over the held float
-  fl.remove(); (await step(`heal_glow_${n}`)).remove();
+  const fl = await step(`heal_float_${n}`); fl.remove();           // crystals lifted off the machine through the fire ring
+  // v2 fire redraw (Oct 29 2026, tools/furniture_v2/heal_fire_v2.py): the crystals orbit the burning ring during the one sweep
+  steps.push('heal_scanner_sweep', `heal_orbit_${n}`);
+  const sw = sheet(host, set.heal_scanner_sweep, s, pos), orb = sheet(host, set[`heal_orbit_${n}`], s, pos); // crystals drawn over the burning ring
+  await Promise.all([sw.play(), orb.play()]); sw.remove(); orb.remove();
+  (await step(`heal_glow_${n}`)).remove();                            // fire flares, crystals white-hot
   (await step('heal_done_ping')).remove();
   (await step(`heal_float_${n}`, { reverse: true })).remove();       // crystals home
   host.remove();
