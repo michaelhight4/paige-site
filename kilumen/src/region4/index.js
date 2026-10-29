@@ -7,8 +7,8 @@
 // - Cold Hands side quest (sq_cold_hands) and reactive NPC lines.
 // Saving: ride / ceremony push saveGuards; everything else runs inside scene.script (busy = save locked). Never saves itself.
 // Every player string is a PLACEHOLDER from data/region4/region4.json until Text Bot keys land (region4.* in overworld_lines).
-import { xpToReach, regionCap } from '../systems/rt_benefits.js?v=v0.2.63-alpha';
-import { attachSoul } from './soul.js?v=v0.2.63-alpha';
+import { xpToReach, regionCap } from '../systems/rt_benefits.js?v=v0.2.64-alpha';
+import { attachSoul } from './soul.js?v=v0.2.64-alpha';
 
 export const R4 = { pass: 'frostspire_pass', town: 'frostspire', openFlag: 'beat_master_revival', visited: 'visited_frostspire', bankKey: 'r4_banked', bonusKey: 'r4#daily_bonus' };
 

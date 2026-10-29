@@ -1,7 +1,7 @@
 // Kilumen ALPHA build (paigegames.net/kilumen/). Loaded before everything else (imported first by landscape.js and
 // main.js). Public build: every dev / experimental URL flag is ignored. Only ?reset=1 (the title screen's
 // "New game" uses it), ?battle=shell, ?enc=0, ?encrate=, ?contacts=0 and ?cv=0 are kept, and the query is removed from the address bar at once so a later reload never wipes a save.
-export const ALPHA_VERSION = 'v0.2.63-alpha (Oct 2026)';
+export const ALPHA_VERSION = 'v0.2.64-alpha (Oct 2026)';
 export const ALPHA_PREFIX = 'kilumen_alpha_'; // every save / setting key in this build starts with this
 export const ALPHA_NOTICE = 'Kilumen is in alpha. Things will change, and saves may be reset between updates.';
 export const ALPHA_NOTICE_KEY = ALPHA_PREFIX + 'notice_seen.v1';
@@ -18,8 +18,8 @@ for (const k of ['contacts', 'cv', 'sports', 'ix2', 'ixlight', 'cloudsave', 'rtb
 if (raw.get('ix2') === '0') globalThis.KILUMEN_IX2_OFF = true; // Interiors v2 kill switch (Oct 29 2026): old interiors
 if (raw.get('ixlight') === '0') globalThis.KILUMEN_IXLIGHT_OFF = true; // no ix2 plane lighting / indoor night shade
 if (raw.get('rtb') === '0') globalThis.KILUMEN_RTB_OFF = true; // real-time wild battles kill switch (Oct 29 2026): turn-based only, no switch button
-if (raw.get('badges') === '1') globalThis.KILUMEN_BADGES_TAB = true; // Badges tab in the Pack (dev/badges-tab, default off)
-if (raw.get('coinart') === '1') globalThis.KILUMEN_COIN_ART = true; // Animator's coin art in Key Items + award card without the Badges tab
+globalThis.KILUMEN_BADGES_TAB = raw.get('badges') !== '0'; // Badges tab in the Pack (default ON since v0.2.64; ?badges=0 kill switch)
+globalThis.KILUMEN_COIN_ART = raw.get('badges') !== '0' && raw.get('coinart') !== '0'; // Animator's coin art (default ON; ?badges=0 or ?coinart=0 kill switch)
 if (raw.get('cidle') === '0') globalThis.KILUMEN_CIDLE_OFF = true; // creature idle off switch (creature_idle.js)
 // QoL kill switches (Oct 29 2026): ?qol= (batch A/B, src/qol) and ?qolc= (batch C, src/qol_c) are kept, letters / , / - only.
 for (const k of ['qol', 'qolc']) if (raw.has(k) && /^[A-Za-z0-9,-]{1,80}$/.test(raw.get(k))) keep.set(k, raw.get(k));
@@ -36,7 +36,7 @@ export function markNoticeSeen() { try { localStorage.setItem(ALPHA_NOTICE_KEY, 
 
 // v0.2.1 cache-busting (_tools/build_alpha.py cache_bust): same-origin data fetches with no query get ?v=<build>, so a returning
 // player never mixes new code with a stale cached JSON (GitHub Pages max-age=600, no service worker).
-export const ALPHA_FETCH_V = "v0.2.63-alpha";
+export const ALPHA_FETCH_V = "v0.2.64-alpha";
 if (typeof globalThis.fetch === 'function' && typeof location !== 'undefined') {
   const f0 = globalThis.fetch.bind(globalThis);
   globalThis.fetch = (input, init) => {
