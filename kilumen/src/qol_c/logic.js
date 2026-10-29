@@ -1,9 +1,9 @@
 // QoL batch C pure logic (no DOM). UI wiring: ./index.js. Tests: tests/qol_batch_c.test.mjs.
-import { checkText } from '../online/filter.js?v=v0.2.56-alpha';
-import { battleStats, statsOf } from '../systems/creature.js?v=v0.2.56-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.56-alpha';
-import { VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.56-alpha';
-import { QOLC_CFG } from './flags.js?v=v0.2.56-alpha';
+import { checkText } from '../online/filter.js?v=v0.2.57-alpha';
+import { battleStats, statsOf } from '../systems/creature.js?v=v0.2.57-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.57-alpha';
+import { VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.57-alpha';
+import { QOLC_CFG } from './flags.js?v=v0.2.57-alpha';
 
 // Player-facing word gate (project rule). Shared by the rename check and the tests.
 export const BANNED_RE = /pok[eé]mon|\bPP\b|shiny|super[\s-]*effective|pok[eé]dex|pok[eé][\s-]*ball|gotcha|\bnurse\b|\bweed\b|\broutes?\b|\bthrow/i;

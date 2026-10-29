@@ -1,10 +1,10 @@
 // Kilumen sports: the Dash event (registers with meet.js) + rival picking. Dev test, Oct 28 2026.
-import { SPECIES } from '../ui/data.js?v=v0.2.56-alpha';
-import { speciesAthletics, athleticStats, ensureAthletics, rollRivalAthletics } from './athletics.js?v=v0.2.56-alpha';
-import { STATS } from './rules.js?v=v0.2.56-alpha';
-import { registerEvent } from './meet.js?v=v0.2.56-alpha';
-import { simulate } from './race.js?v=v0.2.56-alpha';
-import { rngFor } from './rng.js?v=v0.2.56-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.57-alpha';
+import { speciesAthletics, athleticStats, ensureAthletics, rollRivalAthletics } from './athletics.js?v=v0.2.57-alpha';
+import { STATS } from './rules.js?v=v0.2.57-alpha';
+import { registerEvent } from './meet.js?v=v0.2.57-alpha';
+import { simulate } from './race.js?v=v0.2.57-alpha';
+import { rngFor } from './rng.js?v=v0.2.57-alpha';
 
 // How much each stat matters for a dash (also used to match rival difficulty)
 export const DASH_WEIGHT = { speed: 0.45, power: 0.15, stamina: 0.2, agility: 0.12, focus: 0.08 };
