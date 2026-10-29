@@ -3,17 +3,19 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.60-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.60-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.60-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.60-alpha';
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.60-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.60-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.60-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.60-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.60-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.60-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.60-alpha';
+import { iconRel } from './data.js?v=v0.2.61-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.61-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.61-alpha';
+import { POCKETS } from '../systems/items.js?v=v0.2.61-alpha';
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.61-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.61-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.61-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.61-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.61-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.61-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.61-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.61-alpha';
+let _SKILLS = null; const skillDef = (id) => (_SKILLS ||= buildSkills())[id] || null;
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
 const nameHtml = (c) => `<span class="nmw"><span class="nmt">${esc(_baseName(c))}</span>${c?.variant ? '<span class="vmark">✦</span>' : ''}</span>`;
@@ -49,7 +51,7 @@ const statusChip = (c) => (isFainted(c) ? '<span class="sys-st out" data-pat="ch
   : c.status ? `<span class="sys-st" data-st="${esc(c.status)}" data-pat="${STATUS_PAT[c.status] || 'dots'}">${esc(STATUS[c.status] || c.status)}</span>` : '');
 
 export async function installSystemsScreens(ui, sys) {
-  import('../qol/skills_menu.js?v=v0.2.60-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
+  import('../qol/skills_menu.js?v=v0.2.61-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
   if (!ui || !sys) return null;
   const cfg = sys.cfg;
   if (typeof document !== 'undefined' && !document.querySelector('link[data-sys-css]')) {
@@ -91,6 +93,24 @@ export async function installSystemsScreens(ui, sys) {
     ui.rerender();
   };
 
+  // v0.2.60: move details in Team. The energy count is labelled like the battle Skills list ("En"); the description is
+  // Text Bot's system_skills.skill_desc.<id> (PH key) when written, else built from the skill's battle data.
+  const skillDesc = (id, d) => {
+    const t = T(`system_skills.skill_desc.${id}`, null); if (t) return Array.isArray(t) ? t.join(' ') : String(t?.pages?.join(' ') || t);
+    if (!d) return '';
+    const out = [`${ELEMENT_LABEL(String(d.type || 'normal').toLowerCase())} skill.`];
+    if (d.basePower) out.push(`Power ${d.basePower}.`);
+    const boost = (b, who) => Object.entries(b || {}).map(([k, v]) => `${STAT_NAMES[k] || (k === 'evasion' ? 'Evasion' : k)} ${v > 0 ? '+' : ''}${v}`).join(', ') + (who ? ` (${who})` : '');
+    if (d.boosts) out.push(`Raises ${boost(d.boosts, d.target === 'self' ? 'self' : '')}.`);
+    if (d.self?.boosts) out.push(`Then ${boost(d.self.boosts, 'self')}.`);
+    if (d.heal) out.push(`Restores ${Math.round((d.heal[0] / d.heal[1]) * 100)}% HP.`);
+    if (d.status) out.push(`Makes the foe ${d.status[0].toUpperCase() + d.status.slice(1)}.`);
+    if (d.secondary?.status) out.push(`${d.secondary.chance}% chance to ${d.secondary.status === 'scorched' ? 'Scorch' : d.secondary.status}.`);
+    if (d.priority > 0) out.push('Strikes first.'); else if (d.priority < 0) out.push('Strikes last.');
+    if (typeof d.accuracy === 'number' && d.accuracy < 95) out.push(`Accuracy ${d.accuracy}%.`);
+    return out.join(' ');
+  };
+
   // ---------------- Team ----------------
   ui.scr_sys_party = function () {
     const L = T('system_party.menu.labels', {}), S = T('system_party.summary_labels.labels', {});
@@ -101,7 +121,7 @@ export async function installSystemsScreens(ui, sys) {
       const en = energyOf(c), em = maxEnergy(c);
       return `<div class="sys-detail"><div class="sys-dh">${iconHtml(c, cfg)}<div><b class="nmb">${nameHtml(c)}</b> <span class="lv">${esc(S.level || 'Lv.')}${c.level}</span><div>${(sp.el || []).map(elChip).join(' ')} ${statusChip(c)}</div></div></div>
         ${bars(c, S)}<div class="bar-row"><b>XP</b><div class="bar xp"><i style="width:${(xf * 100).toFixed(1)}%"></i></div><span>${Math.round(xf * 100)}%</span></div>
-        <ul class="sys-skills">${(c.skills || []).map((s, k) => `<li><span>${esc(s.replace(/_/g, ' '))}</span><span class="soft">${en[k] ?? 0}/${em[k] ?? 0}</span></li>`).join('')}</ul>${statGrid(c)}
+        <ul class="sys-skills">${(c.skills || []).map((s, k) => { const d = skillDef(s); return `<li style="flex-wrap:wrap"><span>${esc(d?.name || s.replace(/_/g, ' '))}</span><span class="soft">${esc(S.energy_short || 'En')} ${en[k] ?? 0}/${em[k] ?? 0}</span><span class="soft sys-small" style="flex-basis:100%;text-transform:none">${esc(skillDesc(s, d))}</span></li>`; }).join('')}</ul>${statGrid(c)}
         <div class="soft sys-small">${esc(S.met || 'Met in')}: ${esc(c.origin?.map || c.origin?.at || '—')}${c.held ? ` · ${esc(S.held || 'Holding')}: ${esc(itemName(c.held))}` : ''}</div></div>`;
     };
     const card = (c, i) => `<div class="ui-card sys-card ${i === 0 ? 'lead' : ''} ${isFainted(c) ? 'out' : ''}" data-i="${i}" data-k="${esc(c.uid)}">${iconHtml(c, cfg)}
@@ -154,7 +174,16 @@ export async function installSystemsScreens(ui, sys) {
   // ---------------- Pack ----------------
   ui.scr_sys_bag = function () {
     const PK = T('comfort.bag_pockets', {}); let pi = 0;
-    const items = () => sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || [] }));
+    // v0.2.60: Masters' coins are story flags (beat_master_<zone>, src/progression/masters.js), not bag items, so the Key
+    // Items pocket lists one row per earned coin from data/masters.json. Text: system_items.master_coins.<zone> (PH keys).
+    const coinRows = () => {
+      const halls = sys.scene?.progression?.masters?.halls || [], fl = sys.scene?.flags, rec = sys.state?.progression?.masters || {};
+      const has = (h) => (fl?.has ? fl.has(h.flag) : false) || !!rec[h.zone];
+      return halls.filter(has).sort((a, b) => a.coin_number - b.coin_number).map((h) => ({ id: `master_coin_${h.zone}`, n: 1, coin: true,
+        name: T(`system_items.master_coins.${h.zone}.name`, h.reward?.coin_name_placeholder || `Coin ${h.coin_number}`),
+        pages: T(`system_items.master_coins.${h.zone}.pages`, [`Master coin ${h.coin_number} of 8. Proof you beat the Master here.`]) }));
+    };
+    const items = () => [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])];
     const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
       : `<p class="soft">${esc((PK[POCKETS[pi]]?.help || []).join(' '))}</p>`);
     const scr = { scr: 'pack', pat: 'leaf', title: T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1, count: () => items().length,
@@ -173,6 +202,7 @@ export async function installSystemsScreens(ui, sys) {
       hint: () => ui.hintText([['◀▶', 'Pocket'], ['A', 'Use'], ['B', 'Back']]),
       onA: async (i) => {
         const it = items()[i];
+        if (it?.coin) return; // Master coins: nothing to use
         if (it && sys.bag.def(it.id)?.held) { // held gear (Oct 29 2026): one holder at a time; picking the holder again takes it back
           const k = await pickCreature('pack', `${it.name}: who holds it?`); if (k < 0) return;
           const c = party()[k], name = displayName(c), was = c.held === it.id;

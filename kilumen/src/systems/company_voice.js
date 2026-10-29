@@ -21,7 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { employeeIdOf } from './employee_id.js?v=v0.2.60-alpha';
+import { employeeIdOf } from './employee_id.js?v=v0.2.61-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',

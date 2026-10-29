@@ -11,8 +11,8 @@
 //   fruit-basket   -> Lantern Catch: spawn every 700 ms, fall 350 px/s and ramping, basket clamped to the play area,
 //                     bombs (here soot puffs) cost a life
 //   straight-rush  -> Forge Push: the ping-pong timing marker (already ported as pingPong in ported.js)
-import { rngFor } from './rng.js?v=v0.2.60-alpha';
-import { pingPong } from './ported.js?v=v0.2.60-alpha';
+import { rngFor } from './rng.js?v=v0.2.61-alpha';
+import { pingPong } from './ported.js?v=v0.2.61-alpha';
 
 const cl = (v, a, b) => (v < a ? a : v > b ? b : v);
 const n01 = (stats, k) => cl((stats?.[k] ?? 50) / 100, 0, 1); // athletics stat -> 0..1
