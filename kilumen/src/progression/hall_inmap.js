@@ -3,7 +3,7 @@
 // by def.map_origin; checking a prism turns it, lit receivers open their crystal barrier. Mirefen "Bog-light boardwalk":
 // checking a reed lamp lights it in the frogs' order (a wrong lamp puts them all out). Solved -> def.solved_flag, which
 // gates the Master (progression/index.js). Puzzle state lives in save.systems.progression.puzzles[zone] (same as overlay).
-import { KINDS, Grid } from './puzzles.js?v=v0.2.79-alpha';
+import { KINDS, Grid } from './puzzles.js?v=v0.2.80-alpha';
 
 export const INMAP_HALLS = Object.freeze({ revival_heights: 'revival_hall_int', mirefen: 'mirefen_hall_int' });
 export const inmapZone = (mapName) => Object.keys(INMAP_HALLS).find((z) => INMAP_HALLS[z] === mapName) || null;

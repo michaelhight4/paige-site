@@ -3,7 +3,7 @@
 // with a single OK choice (keyboard + tap via dialog.ask). Sets seen_wip_notice so it never shows again. No road block:
 // nothing is gated on it. v0.2.30: moved to Master 3 (beat_master_revival), Gary Oct 27 2026. Trigger = beat_master_saltmere, the Master 2 win flag (coin 2, saltmere_hall_int; set by the
 // win via TRAINER_RESULTS from src/progression/masters.js). Moved off Master 1 (beat_master_fernwick) Oct 23 2026, Gary.
-import { DEV } from '../dev/runtime.js?v=v0.2.79-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.80-alpha';
 export const WIP_KEY = 'system.wip_after_master4'; // Text Bot key (pages wired Oct 27 2026); the old wip_after_master2 text spoke of region 3 as unbuilt
 export const WIP_FLAG = 'seen_wip_notice_r4'; // v0.2.30: new flag so saves that saw the Master 2 notice still get this one
 export const TRIGGER = 'beat_master_frostspire'; // Master 3, Revival Heights (v0.2.30; was beat_master_saltmere = Master 2)

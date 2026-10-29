@@ -4,26 +4,26 @@
 //    battles, coin record in save.systems.progression.masters, gift behind masterGifts. Dev: ?pg=masters&master=<zone>.
 //  - hallPuzzles (off): hall puzzle preview overlay ?pg=hallPuzzles&hall=<zone> (hall maps 2-8 are not built yet).
 //  - quests (off): quest book + phone Tasks = quest log + HUD tracker + NPC give / turn-in + rewards.
-import { progressionFlags } from './flags.js?v=v0.2.79-alpha';
-import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.79-alpha';
-import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.79-alpha';
-import { QuestBook, QFLAG } from './quests.js?v=v0.2.79-alpha';
-import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.79-alpha'; // batch 3: Mirefen hall tint + reed lamps
-import { HallPuzzle } from './puzzles.js?v=v0.2.79-alpha';
-import { InMapHall, inmapZone, INMAP_HALLS } from './hall_inmap.js?v=v0.2.79-alpha'; // playtest fixes 3: prism relay / reed lamps in the hall map
-import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.79-alpha'; // v2 badges: in-place coin award card
-import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.79-alpha'; // v6: Frostspire Hall ice + wind overlay theme
-import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.79-alpha';
-import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.79-alpha';
-import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.79-alpha'; // batch 3: route / rival trainers fight their map team
-import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES, boardPointsFor, creditBoardPoints } from './milestones.js?v=v0.2.79-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
-import { Shop } from '../systems/shop.js?v=v0.2.79-alpha';
-import { levelForXp } from '../systems/creature.js?v=v0.2.79-alpha';
-import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.79-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.79-alpha';
-import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.79-alpha';
+import { progressionFlags } from './flags.js?v=v0.2.80-alpha';
+import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.80-alpha';
+import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.80-alpha';
+import { QuestBook, QFLAG } from './quests.js?v=v0.2.80-alpha';
+import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.80-alpha'; // batch 3: Mirefen hall tint + reed lamps
+import { HallPuzzle } from './puzzles.js?v=v0.2.80-alpha';
+import { InMapHall, inmapZone, INMAP_HALLS } from './hall_inmap.js?v=v0.2.80-alpha'; // playtest fixes 3: prism relay / reed lamps in the hall map
+import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.80-alpha'; // v2 badges: in-place coin award card
+import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.80-alpha'; // v6: Frostspire Hall ice + wind overlay theme
+import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.80-alpha';
+import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.80-alpha';
+import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.80-alpha'; // batch 3: route / rival trainers fight their map team
+import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES, boardPointsFor, creditBoardPoints } from './milestones.js?v=v0.2.80-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
+import { Shop } from '../systems/shop.js?v=v0.2.80-alpha';
+import { levelForXp } from '../systems/creature.js?v=v0.2.80-alpha';
+import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.80-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.80-alpha';
+import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.80-alpha';
 
-import { DEV } from '../dev/runtime.js?v=v0.2.79-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.80-alpha';
 const DEV_KEY = () => !!DEV.masterKey; // dev master key skips the hall puzzle gate
 const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url + ' ' + r.status))));
 const escH = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));

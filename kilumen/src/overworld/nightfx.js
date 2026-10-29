@@ -18,13 +18,13 @@
 //     map / lit set / level changes; flame lights flicker per frame as small cached stamps (off under reduced motion).
 //  3. clouds: living.js cloud shadows get a thin night layer (NIGHT_CLOUD_LEVEL) that dims the moonlight, and are
 //     paused (static) under reduced motion. Interiors / caves: nothing (clock.js isIndoor).
-import { TILE } from './constants.js?v=v0.2.79-alpha';
-import { isIndoor } from './clock.js?v=v0.2.79-alpha';
-import { mulberry32, hashStr } from './living.js?v=v0.2.79-alpha';
+import { TILE } from './constants.js?v=v0.2.80-alpha';
+import { isIndoor } from './clock.js?v=v0.2.80-alpha';
+import { mulberry32, hashStr } from './living.js?v=v0.2.80-alpha';
 
 export const NIGHTFX_KEYS = Object.freeze(['nightLights', 'moonlight', 'clouds']);
 export const DUSK_MOON_MIX = 0.3;
-export { NIGHT_CLOUD_LEVEL } from './living.js?v=v0.2.79-alpha'; // thin moonlit clouds (3/8 of the day shadow), defined next to the cloud code
+export { NIGHT_CLOUD_LEVEL } from './living.js?v=v0.2.80-alpha'; // thin moonlit clouds (3/8 of the day shadow), defined next to the cloud code
 export const LEVELS = 6;                // light buffer intensity steps (0 = no light)
 
 // ---------------------------------------------------------------------------------------------------------------------
