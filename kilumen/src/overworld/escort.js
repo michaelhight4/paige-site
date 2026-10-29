@@ -7,9 +7,9 @@
 // collision, door warps, camera, follower); his own input is ignored because this runs inside scene.script() (input frozen,
 // saves refused, checkpoint save right before). NPCs step through NpcSystem scripts like any live NPC. Doors are real
 // warps (map.warps), so every landing comes from the current (padded) map files; nothing here holds a coordinate.
-import { Npc, OPPOSITE } from './npcs.js?v=v0.2.61-alpha';
-import { DELTA, Col } from './constants.js?v=v0.2.61-alpha';
-import { walkGrid, findPath } from './pathing.js?v=v0.2.61-alpha';
+import { Npc, OPPOSITE } from './npcs.js?v=v0.2.62-alpha';
+import { DELTA, Col } from './constants.js?v=v0.2.62-alpha';
+import { walkGrid, findPath } from './pathing.js?v=v0.2.62-alpha';
 
 export const ESCORT = { stuckMs: 5000, legMs: 60000, doorMs: 8000, bossId: 'trip_boss' };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

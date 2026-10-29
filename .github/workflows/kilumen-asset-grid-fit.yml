@@ -1,0 +1,24 @@
+name: Kilumen asset grid-fit check
+# Quality standard for every Kilumen asset: collision = opaque pixels snapped to 64px squares,
+# map collision matches furniture art (doors/stairs/water/ledges untouched). Fails if any asset or map drifts.
+on:
+  push:
+    paths: ['kilumen/art/**', 'kilumen/tools/furniture/**', '.github/workflows/kilumen-asset-grid-fit.yml']
+  pull_request:
+    paths: ['kilumen/art/**', 'kilumen/tools/furniture/**', '.github/workflows/kilumen-asset-grid-fit.yml']
+  workflow_dispatch:
+jobs:
+  grid-fit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            kilumen/art/world/overworld
+            kilumen/tools
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m pip install --quiet pillow
+      - run: python kilumen/tools/furniture/grid_fit_and_swap.py kilumen --check --overworld --report /tmp/grid_fit_report.md
+      - if: always()
+        run: cat /tmp/grid_fit_report.md
