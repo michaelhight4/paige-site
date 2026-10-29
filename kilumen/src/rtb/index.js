@@ -19,6 +19,8 @@ import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.60-alpha';
 import { Col } from '../overworld/constants.js?v=v0.2.60-alpha';
 import { reducedMotion } from '../sports/hype.js?v=v0.2.60-alpha';
 import { actionFor, SKILL_LABELS, padSkillEdges } from './keys.js?v=v0.2.60-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.60-alpha';
+import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.60-alpha';
 import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.60-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
@@ -42,7 +44,8 @@ function packMate(ui, scene, foe, rng) {
   return { species: s.species, level: Math.max(2, Math.min(foe.level, lv || foe.level)) };
 }
 
-export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.search), rng = Math.random, carry = null } = {}) {
+export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.search), rng = Math.random, carry = null, trainer = null } = {}) {
+  // trainer (branch rtb-trainer, NOT live): {foes:[{species, level}], name} one foe out at a time, AI sends / recalls; no crystals, retreat or mode switch
   return new Promise((resolve) => {
     SK ||= buildSkills();
     const map = scene.map, z = scene.zoom || 1, cam = scene._cam || { x: 0, y: 0 }, cv = scene.canvas || document.getElementById('world');
@@ -54,9 +57,9 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       x1: Math.min(map.width * TILE, cam.x + vw - 24, pcx + 6.5 * TILE), y1: Math.min(map.height * TILE, cam.y + vh - 24, pcy + 4 * TILE) };
     const walk = (x, y) => map.isWalkable(Math.floor(x / TILE), Math.floor(y / TILE));
     const solid = (x, y) => map.code(Math.floor(x / TILE), Math.floor(y / TILE)) === Col.BLOCK;
-    const foes = carry?.foes?.length ? carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '' })) : [foe]; const mate = carry ? null : q.get('rtbpack') === '1' ? { species: foe.species, level: foe.level } : q.get('rtbpack') === '0' ? null : packMate(ui, scene, foe, rng); if (mate) foes.push(mate);
+    const foes = trainer ? scaleFoes(trainer.foes, Math.max(...scene.party.map((c) => c.level || 1)), getDifficulty(scene.systems?.state)).map((f) => ({ species: f.species, level: f.level, variant: f.variant || '' })) : carry?.foes?.length ? carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '' })) : [foe]; const mate = carry || trainer ? null : q.get('rtbpack') === '1' ? { species: foe.species, level: foe.level } : q.get('rtbpack') === '0' ? null : packMate(ui, scene, foe, rng); if (mate) foes.push(mate);
     let sx = pcx + fd[0] * TILE, sy = pcy + fd[1] * TILE + 8; if (!walk(sx, sy)) { sx = pcx; sy = pcy + 8; }
-    const sim = new RtBattle({ party: scene.party, foes, start: { x: sx, y: sy }, arena, walk, solid, rng });
+    const sim = new RtBattle({ party: scene.party, foes, start: { x: sx, y: sy }, arena, walk, solid, rng, trainer: !!trainer, xpShare: qolFlags(q).xpShare ? XP_SHARE : 0, foeDamageMult: trainer ? diffOf(getDifficulty(scene.systems?.state)).damage || 1 : 1 });
     // put foes ahead of the player, on walkable ground
     sim.foes.forEach((f, i) => {
       const base = Math.atan2(fd[1], fd[0]) + (i ? 0.7 : -0.2);
@@ -99,7 +102,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     on(pad?.querySelector('[data-btn="select"]'), 'pointerdown', (e) => { e.stopPropagation(); inp.select = true; });
     const pb = pad?.querySelector('[data-btn="b"]'); on(pb, 'pointerdown', bPress); on(pb, 'pointerup', bRelease); on(pb, 'pointercancel', bRelease); on(pb, 'pointerleave', bRelease);
     const hud = view.hud;
-    const modeBtn = modeButton('turn', { touch, key: 'T' }); modeBtn.classList.add('in-rtb'); hud.appendChild(modeBtn);
+    const modeBtn = modeButton('turn', { touch, key: 'T' }); modeBtn.classList.add('in-rtb'); if (!trainer) hud.appendChild(modeBtn); else hud.querySelectorAll('[data-rtb="crystal"],[data-rtb="leave"]').forEach((b) => { b.hidden = true; b.style.display = 'none'; });
     on(modeBtn, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); inp.mode = true; });
     on(modeBtn, 'click', (e) => { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) inp.mode = true; }); // keyboard Enter / Space on the focused button
     on(hud, 'pointerdown', (e) => {
@@ -134,6 +137,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const loop = (now) => {
       if (finished) return;
       let dt = Math.min(0.05, (now - last) / 1000); last = now;
+      if (inp.mode && trainer) inp.mode = false;
       if (inp.mode) { if (sim.state !== 'fight') inp.mode = false; else if (!sim.capture && sim.foes.some((f) => f.alive && !f.caught)) return finish(true); } // mid crystal: waits for the result
       pollPads();
       if (stop > 0) stop -= dt;
@@ -161,6 +165,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       if (finished) return; finished = true;
       window.removeEventListener('keydown', kd, true); window.removeEventListener('keyup', ku, true); offs.forEach((f) => f());
       const res = sim.result();
+      if (trainer) { res.foes = trainer.foes; res.trainer = true; delete res.caught; } // payout level from the authored team (Systems.onTrainerWin)
       if (toTurn) { // mode switch: party state goes into the real party now (no outcome effects), the foes' HP rides in carry
         res.outcome = 'switch'; delete res.caught;
         res.carry = { foes: sim.foes.filter((f) => f.alive && !f.caught).map((f) => ({ species: f.c.species, level: f.c.level, variant: f.c.variant || '', hp: f.c.hp })) };

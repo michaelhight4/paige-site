@@ -759,7 +759,7 @@ export class GameUI {
       ['Menu motion', this.body.classList.contains('ui-reduce') ? 'Reduced' : 'Full', () => { const r = this.body.classList.toggle('ui-reduce'); try { localStorage.setItem('kilumen_alpha_ui.motion', r ? 'reduce' : 'full'); } catch { /* */ } }],
       ...audioRows(),
       ...(this.qol?.rows() || []), // [qol hook] src/qol/qol.js (?qol=0 kill switch)
-      ...(rtbKilled(this.q) ? [] : [['Wild battles', rtbMode(s, this.q) === 'rt' ? 'Real-time' : 'Turn-based', () => setRtbMode(s, rtbMode(s, this.q) === 'rt' ? 'turn' : 'rt')]]), // real-time option (Oct 29 2026; also on the wild battle screen)
+      ...(rtbKilled(this.q) ? [] : [['Battles', rtbMode(s, this.q) === 'rt' ? 'Real-time' : 'Turn-based', () => setRtbMode(s, rtbMode(s, this.q) === 'rt' ? 'turn' : 'rt')]]), // real-time option (Oct 29 2026; also on the wild battle screen)
       ...(s.companyVoice ? [['Company voice', s.companyVoice.modeLabel(), () => s.companyVoice.cycleMode()]] : []), // [company voice hook] Full / Milestones only / Off (on by default; row absent with ?cv=0)
       ...(s.companyVoice?.ritaVoice ? [['RITA voice', s.companyVoice.ritaVoice.label(), () => s.companyVoice.ritaVoice.toggle()]] : []), // [rita voice hook] spoken lines on/off (default on)
       [hasSessionHintUI() ? 'Account' : 'Sign in', hasSessionHintUI() ? 'Signed in' : 'Open', () => { import('../net/account.js?v=v0.2.60-alpha').then((m) => m.openAccount()); }], // v0.2.49: in-app sign-in
@@ -1132,10 +1132,22 @@ export function mountUI(opts) {
     // trainers resolve won/lost from the engine result
     const load = import('../battle/ui_sd.js?v=v0.2.60-alpha').then((m) => { ui.sdMod = m; return m; });
     ui.sdReady = load;
-    scene.hooks.onBattle = (who) => load.then(() => new Promise((res) => {
+    // real-time trainer fights (branch rtb-trainer, NOT live; Gary Oct 29 2026): the same Options mode picks real-time for trainers,
+    // Masters and the rival too. Team: injected Master / map team (progression) > authored team > the turn screen's placeholder pair.
+    const rtTrainer = async (who) => {
+      const { authoredTeam } = await import('../battle/data/trainer_teams.js?v=v0.2.60-alpha');
+      const party = scene.party || [], lead = party[0] || { species: 'rillop', level: 5 };
+      const inj = ui.trainerTeam?.(), lv = Math.max(2, (lead.level || 5) - 1), sp = lead.species === 'cindrip' ? 'rillop' : 'cindrip';
+      const foes = inj?.foes?.length ? inj.foes.map((f) => ({ species: f.species, level: f.level })) : authoredTeam(who, party)
+        || [{ species: sp, level: lv }, { species: sp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: lv }];
+      const m = await import('../rtb/index.js?v=v0.2.60-alpha');
+      const out = await m.openRtBattle(ui, scene, null, { q, trainer: { foes, name: inj?.foeName || 'Trainer' } });
+      return out?.outcome === 'win';
+    };
+    scene.hooks.onBattle = (who) => (rtbMode(scene, q) === 'rt' && !rtbKilled(q) && scene.party?.some((c) => c.hp == null || c.hp > 0) ? rtTrainer(who) : load.then(() => new Promise((res) => {
       ui.open('battle', { trainer: true, who }); const scr = ui.top; let out = null;
       scr.onDone = (r) => { out = r; }; ui._onClose = () => res(out ? out.outcome === 'win' : false);
-    }));
+    })));
     if (want === 'battle') { load.then(() => ui.open('battle', { trainer: q.get('trainer') === '1' })); return ui; }
   }
   // Dev/test hook (Oct 22, 2026): ?ui=evolve&from=cindrip[&to=..][&cancel=1] plays the Animator evolution FX (no evolution flow exists yet)

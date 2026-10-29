@@ -21,7 +21,7 @@ export const RT = {
   allyWindupMult: 1, foeTelegraph: 0.38, foeTelegraphEnraged: 0.26, foeGap: [0.55, 1.15], foeGapEnraged: [0.3, 0.7],
   enragedAt: 0.35, moveBase: 150, movePerSpe: 1.5, moveMax: 300, sprint: 1.45, foeMoveMult: 0.85,
   dodgeTime: 0.17, dodgeSpeed: 3.1, dodgeIframes: 0.24, dodgeCd: 0.65, nearMiss: 20,
-  hitIframes: 0.14, hitstun: 0.16, flinchFrac: 0.12, swapTime: 0.45, swapCd: 2.5, retreatHold: 1.0,
+  hitIframes: 0.14, hitstun: 0.16, flinchFrac: 0.12, swapTime: 0.45, swapCd: 2.5, trainerSend: 1.1, trainerRecall: 0.35, retreatHold: 1.0,
   pulse: 0.5, crystalSpeed: 560, crystalRange: 420, alert: 0.55, bodyR: 22, foeDodge: 0.22, foeDodgeCd: 2.2,
   boostTime: 10, drowsyTime: 2.6, scorchTime: 6, scorchTick: 2, buffer: 0.2, outro: 1.1, forcedSwapDelay: 0.9,
 };
@@ -64,8 +64,13 @@ function fighter(c, side, x, y) {
 export class RtBattle {
   /** opts: party (creature records, cloned here), foes [{species, level, variant}], start {x,y} native px, arena {x0,y0,x1,y1},
    *  walk(x,y) -> bool (body may stand), solid(x,y) -> bool (stops shots), rng, foeSkills(sp) */
-  constructor({ party, foes, start, arena, walk = () => true, solid = () => false, rng = Math.random, trainer = false }) {
-    this.rng = rng; this.arena = arena; this.walk = walk; this.solid = solid; this.trainer = trainer;
+  constructor({ party, foes, start, arena, walk = () => true, solid = () => false, rng = Math.random, trainer = false, xpShare = 0, foeDamageMult = 1 }) {
+    this.rng = rng; this.arena = arena; this.walk = walk; this.solid = solid; this.trainer = trainer; this.xpShare = xpShare; this.foeDamageMult = foeDamageMult;
+    // trainer fights (branch rtb-trainer, Gary Oct 29 2026): one foe on the field at a time, the rest wait in this.reserve;
+    // the trainer sends the next one after a faint and may recall a badly hurt one (real-time trainer AI). No capture, no retreat.
+    this.reserve = [];
+    if (trainer && foes.length > 1) { this.reserve = foes.slice(1).map((f) => createCreature({ species: f.species, level: f.level, variant: f.variant || '' })); foes = foes.slice(0, 1); }
+    this.sendT = 0; this.recalls = 0;
     this.party = party.map((c) => ({ ...c, energy: energyOf(c).slice(), skills: (c.skills?.length ? c.skills : defaultSkills(c.species)).slice() }));
     this.active = Math.max(0, this.party.findIndex((c) => c.hp > 0));
     this.ally = fighter(this.party[this.active], 'ally', start.x, start.y);
@@ -119,7 +124,29 @@ export class RtBattle {
     this._tickShots(dt);
     this._tickCapture(dt);
     if (this.forced > 0 && (this.forced -= dt) <= 0) this._forcedSwap();
-    if (this.state === 'fight' && !this.living.length && !this.capture) this._end('win');
+    if (this.trainer) this._trainerAi(dt);
+    if (this.state === 'fight' && !this.living.length && !this.capture && !this.reserve.some((c) => c.hp > 0)) this._end('win');
+  }
+
+  /** trainer: send the next creature after a faint (short pause), recall a foe under 20 % HP sometimes (max 1 per fight per creature) */
+  _trainerAi(dt) {
+    if (!this.living.length) {
+      const next = this.reserve.findIndex((c) => c.hp > 0); if (next < 0) return;
+      if ((this.sendT += dt) < RT.trainerSend) return;
+      this.sendT = 0; this._sendOut(this.reserve.splice(next, 1)[0]); return;
+    }
+    const f = this.living[0];
+    if (!f.recalled && f.c.hp / f.mhp < 0.2 && !f.act && this.reserve.some((c) => c.hp / maxHp(c) > 0.5) && this.rng() < dt * RT.trainerRecall) {
+      const i = this.reserve.findIndex((c) => c.hp / maxHp(c) > 0.5), into = this.reserve.splice(i, 1)[0];
+      this.foes.splice(this.foes.indexOf(f), 1); f.c._recalled = true; this.reserve.push(f.c); this.recalls++;
+      this.emit('recall', { who: f, x: f.x, y: f.y }); const nf = this._sendOut(into, f); nf.recalled = true;
+    }
+  }
+  _sendOut(c, at = null) {
+    const a = this.ally, ang = this.rng() * Math.PI * 2;
+    const nf = fighter(c, 'foe', at ? at.x : a.x + Math.cos(ang) * 200, at ? at.y : a.y + Math.sin(ang) * 140); this._place(nf);
+    nf.ai.state = 'alert'; nf.ai.t = RT.alert; nf.iframes = 0.4; if (c._recalled) nf.recalled = true;
+    this.foes.push(nf); this.emit('sendOut', { who: nf }); this.emit('alert', { who: nf }); return nf;
   }
 
   _tickBodies(dt) {
@@ -241,6 +268,7 @@ export class RtBattle {
       return;
     }
     const r = damageOf(att, o, sk, this.rng, { overuse });
+    if (att.side === 'foe' && this.foeDamageMult !== 1 && r.dmg > 0) r.dmg = Math.max(1, Math.floor(r.dmg * this.foeDamageMult));
     const km = Math.hypot(kx, ky) || 1, kb = SHAPE_STATS[shapeOf(att.skills[slot], sk)].kb * (r.mult > 1 ? 1.3 : 1) * (r.crit ? 1.3 : 1);
     o.vx = (kx / km) * kb; o.vy = (ky / km) * kb; o.iframes = RT.hitIframes; o.flash = 0.12;
     const flinch = r.dmg >= o.mhp * RT.flinchFrac || r.crit;
@@ -259,7 +287,9 @@ export class RtBattle {
     this.emit('faint', { who: o, x: o.x, y: o.y });
     if (o.side === 'foe') {
       const a = this.ally;
-      if (a.alive) this._gainXp(a, xpFor(o.c.species, o.c.level));
+      const n = xpFor(o.c.species, o.c.level);
+      if (a.alive) this._gainXp(a, n);
+      if (this.xpShare > 0) this._shareXp(Math.max(1, Math.floor(n * this.xpShare)));
     } else {
       if (this.party.some((c) => c.hp > 0)) this.forced = RT.forcedSwapDelay;
       else this._end('lose', RT.outro + 0.4);
@@ -273,6 +303,15 @@ export class RtBattle {
       const oldMax = a.mhp; c.level = L; a.mhp = maxHp(c); c.hp = Math.min(a.mhp, c.hp + (a.mhp - oldMax)); a.stats = battleStats(c);
       this.emit('levelup', { who: a, level: L });
     }
+  }
+  /** XP share (QoL #4 rule, same rate the turn battle uses): every other conscious party member gets share of the XP */
+  _shareXp(n) {
+    this.party.forEach((c, i) => {
+      if (i === this.active || !(c.hp > 0)) return;
+      const before = c.level; c.xp = (c.xp || 0) + n; const L = Math.min(KILUMEN_RULES.maxLevel, levelForXp(c.xp));
+      if (L > before) { c.level = L; this.emit('benchLevel', { c, level: L }); }
+      this.emit('xpShare', { c, n });
+    });
   }
   _dodge(f, dx, dy) {
     if (!f.alive || f.held || f.dash || f.dodgeCd > 0 || (f.stun > 0 && f.side === 'foe')) return false;
@@ -382,7 +421,9 @@ export class RtBattle {
     const out = { outcome: this.outcome, rt: true, xp: this.xpGained,
       team: this.party.map((c) => ({ uid: c.uid, level: c.level, xp: c.xp, hp: c.hp, energy: c.energy.slice(), status: c.status || '' })) };
     if (this.caught) { const c = this.caught.c; out.caught = { species: c.species, level: c.level, variant: c.variant || '', hp: c.hp }; }
-    out.foes = this.foes.map((f) => ({ species: f.c.species, level: f.c.level, fainted: !f.alive, caught: !!f.caught }));
+    out.foes = this.foes.map((f) => ({ species: f.c.species, level: f.c.level, fainted: !f.alive, caught: !!f.caught }))
+      .concat(this.reserve.map((c) => ({ species: c.species, level: c.level, fainted: !(c.hp > 0), caught: false })));
+    if (this.trainer) out.trainer = true;
     return out;
   }
 }
