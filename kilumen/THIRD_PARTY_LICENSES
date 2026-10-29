@@ -8,6 +8,7 @@ Sections are per owner, so other workers can add theirs without overwriting this
   - "Libs pass (Oct 22, 2026)": src/vendor/* (shipped to players) and dev-only test tools.
   - "Battle engine (Oct 22, 2026)": vendor/battle-sim, built to src/battle/engine.js (see that section below).
   - "Held items (Oct 29, 2026)": item handlers adapted from Pokemon Showdown data/items.ts (src/battle/data/held_items.js).
+  - "Swamp/sea moves (Oct 29, 2026)": Bog Snap, Mire Lob, Brine Lash, Undertow, Kelp Lash effect shapes adapted from Pokemon Showdown data/moves.ts (MIT, Copyright (c) 2011-2026 Guangcong Luo and other contributors; src/battle/data/skills.js EXTRA).
   - "UI tools pass (Oct 22, 2026)": lil-gui (dev panel, ?dev=1 only), lrud-spatial, SortableJS, Kenney CC0 placeholders.
 
 ################################################################################
@@ -678,3 +679,19 @@ Held-item sprites (art/items/held/*.png, Oct 29 2026)
 Not third-party: all 47 icons were drawn for Kilumen as pixel maps in tools/held_icons/ (designs.py, rendered by
 build.py with Pillow at build time only). Palette and outline are sampled from art/characters/pixel/icons; charm tints
 come from EL_COLOR in src/rtb/view.js. No outside art was used. (The bag glyph still used as a fallback is pixelarticons, above.)
+
+################################################################################
+# Free tools pass 2 (Oct 29, 2026): dev/offline tools only, nothing ships to players
+################################################################################
+None of these are vendored or loaded by the game. Scripts live in tools/ and fetch the tool at a pinned version
+(npx cache or an npm install into /tmp), so no third-party code is committed.
+
+esbuild 0.25.12 (MIT, Copyright (c) 2020 Evan Wallace) - github.com/evanw/esbuild
+  Used by: tools/build/bundle_report.mjs (bundle/minify size report into /tmp/kilumen_bundle)
+c8 12.0.0 (ISC, Copyright (c) 2017, Contributors) - github.com/bcoe/c8
+  Used by: tools/coverage/coverage.sh (coverage report into /tmp/kilumen_coverage)
+tinybench 6.2.2 (MIT, Copyright (c) 2022 Tinylibs) - github.com/tinylibs/tinybench
+  Used by: tools/bench/boot_bench.mjs
+ngraph.graph 20.1.2 (BSD-3-Clause, Copyright (c) Andrei Kashcha) - github.com/anvaka/ngraph.graph
+ngraph.path 1.6.1 (MIT, Copyright (c) 2017-2025 Andrei Kashcha) - github.com/anvaka/ngraph.path
+  Used by: tools/world_graph/world_graph.mjs (map connectivity / dangling warp report)

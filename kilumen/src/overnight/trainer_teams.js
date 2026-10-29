@@ -7,8 +7,8 @@
 // reads if_player_took_nibbin, else the old if_player_took_tumbloam branch (same counter: Ron takes the fire line). Ron's
 // earth picks (tumbloam / burrowmane / bastonox, rillop branch) are remapped to Nibbin's line (starters.js EARTH_SWAP) so
 // the rival always fields the player's missing starter line; ordinary trainers keep their species.
-import { SPECIES } from '../ui/data.js?v=v0.2.88-alpha';
-import { STARTERS, ALL_STARTERS, EARTH_SWAP, partyStarter, starterKeys } from '../battle/data/starters.js?v=v0.2.88-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.89-alpha';
+import { STARTERS, ALL_STARTERS, EARTH_SWAP, partyStarter, starterKeys } from '../battle/data/starters.js?v=v0.2.89-alpha';
 
 export { STARTERS };
 const known = (id) => SPECIES.some((s) => s.id === id);
@@ -51,7 +51,7 @@ export function rawTeam(def, starter = null) {
 export function mapTeamFor(def, { starter = null, standIns = {}, name = null } = {}) {
   let rows = rawTeam(def, starter); if (!rows) return null;
   if (isRival(def)) rows = rows.map((r) => (r && EARTH_SWAP[r.species] ? { ...r, species: EARTH_SWAP[r.species] } : r));
-  const foes = rows.filter((r) => r?.species).map((r) => ({ species: resolveSpecies(r.species, standIns), level: Math.max(1, r.level | 0 || 5), ...(known(r.species) ? {} : { standInFor: r.species }) }));
+  const foes = rows.filter((r) => r?.species).map((r) => ({ species: resolveSpecies(r.species, standIns), level: Math.max(1, r.level | 0 || 5), ...(r.held ? { held: r.held } : {}), ...(Array.isArray(r.skills) ? { skills: [...r.skills] } : {}), ...(known(r.species) ? {} : { standInFor: r.species }) }));
   return foes.length ? { foes, foeName: name || def.name || trainerName(def), fromMap: true } : null;
 }
 

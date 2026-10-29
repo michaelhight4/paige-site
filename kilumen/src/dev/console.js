@@ -3,17 +3,17 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.88-alpha';
-import * as AB from './autobattle.js?v=v0.2.88-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.88-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.88-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.88-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.88-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.88-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.88-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.88-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.88-alpha';
-import { createRitaPanel } from './rita_panel.js?v=v0.2.88-alpha'; // v0.2.32: RITA voice test tab
+import { DEV } from './runtime.js?v=v0.2.89-alpha';
+import * as AB from './autobattle.js?v=v0.2.89-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.89-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.89-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.89-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.89-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.89-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.89-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.89-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.89-alpha';
+import { createRitaPanel } from './rita_panel.js?v=v0.2.89-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
@@ -249,7 +249,7 @@ export async function installDevConsole(scene, access) {
     ['Region 2', ['saltmere', 'saltmere_hall_int', 'saltmere_office_int', 'route_revival_saltmere', 'route_saltmere_mirefen', 'mirefen', 'mirefen_hall_int', 'mirefen_bog']],
     ['Region 3', ['revival_heights', 'revival_hall_int', 'route_revival', 'route_revival_sunmeadow', 'sunmeadow_fields', 'route_sunmeadow_mirefen']],
     ['Region 4: Frostspire', ['frostspire', 'frostspire_pass', 'frostspire_hall_int', 'frostspire_lift_int', 'frostspire_office_int', 'heal_frostspire']],
-    ['Later regions', ['lanternport', 'lanternport_hall_int', 'route_fernwick_lanternport', 'cindervale', 'cindervale_hall_int', 'route_cindervale', 'aurelith', 'heal_aurelith', 'route_aurelith_saltmere', 'route_east', 'tidewater_coast', 'tidewater_hall_int', 'route_coast']],
+    ['Later regions', ['lanternport', 'lanternport_lighthouse_int', 'lanternport_lighthouse_f2', 'lanternport_lighthouse_f3', 'lanternport_hall_int', 'route_fernwick_lanternport', 'cindervale', 'cindervale_hall_int', 'route_cindervale', 'aurelith', 'heal_aurelith', 'route_aurelith_saltmere', 'route_east', 'tidewater_coast', 'tidewater_hall_int', 'route_coast']],
   ];
   const pretty = (n) => String(n).replace(/_int$/, '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + (/_int$/.test(n) ? ' (inside)' : '');
   function tTravel(body) {

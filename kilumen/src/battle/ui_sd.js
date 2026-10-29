@@ -2,24 +2,26 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.88-alpha';
-import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.88-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
-import { skillTag } from '../qol/matchup.js?v=v0.2.88-alpha';
-import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.88-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
+import { KilumenBattle } from './battle.js?v=v0.2.89-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.89-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
+import { skillTag } from '../qol/matchup.js?v=v0.2.89-alpha';
+import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.89-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
+import { scaleMasterTeam } from '../progression/hall_v2.js?v=v0.2.89-alpha';
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
-import { DEV } from '../dev/runtime.js?v=v0.2.88-alpha';
-import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.88-alpha'; // battle mode switch (wild only, Oct 29 2026)
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.88-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.88-alpha';
-import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.88-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.88-alpha';
-import { coverPoint } from './data/water_bg.js?v=v0.2.88-alpha'; // cover-fit maths for the painted biome backdrops
-import { heldIconHtml, heldIconSrc, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.88-alpha'; // held-item icon per slot (Oct 29 2026)
-import { heldFromEngine, heldToEngine } from './data/held_items.js?v=v0.2.88-alpha';
-import { pxi } from '../ui/ui_tools2.js?v=v0.2.88-alpha'; // held-item chip icon (pixelarticons handbag, MIT)
+import { DEV } from '../dev/runtime.js?v=v0.2.89-alpha';
+import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.89-alpha'; // battle mode switch (wild only, Oct 29 2026)
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.89-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.89-alpha';
+import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.89-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.89-alpha';
+import { coverPoint } from './data/water_bg.js?v=v0.2.89-alpha'; // cover-fit maths for the painted biome backdrops
+import { heldIconHtml, heldIconSrc, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.89-alpha'; // held-item icon per slot (Oct 29 2026)
+import { heldFromEngine, heldToEngine } from './data/held_items.js?v=v0.2.89-alpha';
+import { pxi } from '../ui/ui_tools2.js?v=v0.2.89-alpha'; // held-item chip icon (pixelarticons handbag, MIT)
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.88-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.89-alpha';
+import { SKILL_FX } from '../ui/data.js?v=v0.2.89-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -61,10 +63,11 @@ export function makeSdBattle(ui, opts, h) {
   const foeLv = opts.foeLevel || Math.max(2, lead.level - 1); // foeLevel: wild encounter slot level (src/battle/encounters.js)
   // PLACEHOLDER trainer team, only for trainers with no authored / injected team: two creatures around the lead's level
   // authored teams first (src/battle/data/trainer_teams.js, keyed by the overworld's {map, id}), then injected teams, then the placeholder
-  const authored = trainer ? authoredTeam(opts.who, partySrc) : null;
+  const authored0 = trainer ? authoredTeam(opts.who, partySrc) : null;
+  const authored = authored0 && opts.who?.masterRematch ? scaleMasterTeam(authored0, opts.who.masterWins) : authored0; // hall v2 Master rematch x1.3^wins
   // carry (mode switch, Oct 29 2026): a wild fight switched over from real-time keeps its foes' HP (wild only; never owned)
   const carryFoes = !owned && opts.carry?.foes?.length ? opts.carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '', hp: Math.max(1, Math.round(f.hp)) })) : null;
-  const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level, ...(f.held ? { held: f.held } : {}) })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
+  const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level, ...(f.held ? { held: f.held } : {}), ...(f.skills ? { skills: [...f.skills] } : {}) })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
     : trainer ? [{ species: foeSp, level: foeLv }, { species: foeSp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: foeLv }] : [{ species: foeSp, level: foeLv }]);
   const sys = ui.demo ? null : ui.scene?.systems; // [systems-gd hook] the real bag (src/systems); ?uidemo=1 keeps the demo team + demo bag (never saved)
   const bag = sys ? sys.bagForBattle() : Object.fromEntries(Object.entries(ui.bag || {}).filter(([, n]) => n > 0));
@@ -146,6 +149,7 @@ export function makeSdBattle(ui, opts, h) {
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
+    if (ui.scene?.region56 || ui.q?.get('wx')) import('../region56/weather_lite.js?v=v0.2.89-alpha').then((m) => { if (root.isConnected) scr.wx = m.attachBattleWeather(root, { scene: ui.scene, query: ui.q }); }).catch((e) => console.error('weather lite:', e)); // [r56 weather lite] .wx between .bg and .b-field
     if (biomeArt.art) { // painted backdrop (water / cave / mountain / snow): animated life layer over the still; creatures on the painted spots
       const bgEl = root.querySelector('.bg'), field = root.querySelector('.b-field');
       if (biomeArt.life && !reducedMotion()) { // animated webp (16 x 120 ms, decoded by the browser frame by frame; no JS per frame)
@@ -328,7 +332,7 @@ export function makeSdBattle(ui, opts, h) {
           else if (lastMove) {
             const mv = kb.battle.dex.moves.get(lastMove.move);
             // frame 0 of the impact is the hit: shake + damage number start with it (effect off -> resolves at once)
-            const f = await fxAt(s, (mv.type || 'Normal').toLowerCase(), lastMove.s, isRanged({ category: mv.category }));
+            const f = await fxAt(s, SKILL_FX[mv.id] || (mv.type || 'Normal').toLowerCase(), lastMove.s, isRanged({ category: mv.category }));
             if (f && lost > 0) dmgNum(s, lost);
             await Promise.all([anim($(`#${s}-mon`), 'hit', 420), f?.done]);
             if (!f && lost > 0) dmgNum(s, lost); // no effect shown: same order as before the FX prep
@@ -425,7 +429,7 @@ export function makeSdBattle(ui, opts, h) {
   const autoRun = async () => {
     if (!DEV.active || kb.ended || busy) return;
     busy = true; $('#b-cmds').hidden = true; $('#b-msg').textContent = 'Auto-completing…';
-    const AB = await import('../dev/autobattle.js?v=v0.2.88-alpha');
+    const AB = await import('../dev/autobattle.js?v=v0.2.89-alpha');
     const entry = AB.runAuto(kb, { trainer, owned });
     if (!kb.ended) { busy = false; $('#b-msg').textContent = 'Auto-complete stopped early (see the dev battle logs).'; AB.afterFinish(entry); return; }
     await finish();

@@ -758,7 +758,7 @@
      "placeholder": true
     },
     {
-     "species": "pebbit",
+     "species": "rubblon",
      "level": [
       20,
       27
@@ -918,7 +918,7 @@
      "placeholder": true
     },
     {
-     "species": "stonepede",
+     "species": "columnpede",
      "level": [
       20,
       27
@@ -950,32 +950,32 @@
     {
      "species": "mirewump",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 35
     },
     {
      "species": "brookhorn",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 20
     },
     {
      "species": "burlbeetle",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 15
     },
     {
      "species": "runeskein",
      "level": [
-      37,
-      38
+      39,
+      39
      ],
      "weight": 3,
      "time": [
@@ -985,8 +985,8 @@
     {
      "species": "sailquill",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 15,
      "weather": [
@@ -1001,8 +1001,8 @@
     {
      "species": "gloamtick",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 12,
      "time": [
@@ -1011,28 +1011,10 @@
      ]
     },
     {
-     "species": "capling",
-     "level": [
-      33,
-      38
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
      "species": "toadcap",
      "level": [
-      33,
-      38
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "ditchsnap",
-     "level": [
-      33,
-      38
+      37,
+      39
      ],
      "weight": 4,
      "spread": "habitat"
@@ -1040,17 +1022,8 @@
     {
      "species": "snapmoor",
      "level": [
-      33,
-      38
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "pondkin",
-     "level": [
-      33,
-      38
+      37,
+      39
      ],
      "weight": 4,
      "spread": "habitat"
@@ -1058,10 +1031,10 @@
     {
      "species": "reedmoot",
      "level": [
-      33,
-      38
+      37,
+      39
      ],
-     "weight": 2,
+     "weight": 4,
      "spread": "habitat"
     }
    ],
@@ -1077,32 +1050,32 @@
     {
      "species": "mirewump",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 35
     },
     {
      "species": "brookhorn",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 20
     },
     {
      "species": "burlbeetle",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 15
     },
     {
      "species": "runeskein",
      "level": [
-      37,
-      38
+      39,
+      39
      ],
      "weight": 4,
      "time": [
@@ -1112,8 +1085,8 @@
     {
      "species": "sailquill",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 15,
      "weather": [
@@ -1128,8 +1101,8 @@
     {
      "species": "gloamtick",
      "level": [
-      33,
-      37
+      37,
+      39
      ],
      "weight": 12,
      "time": [
@@ -1138,28 +1111,10 @@
      ]
     },
     {
-     "species": "capling",
-     "level": [
-      33,
-      38
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
      "species": "toadcap",
      "level": [
-      33,
-      38
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "ditchsnap",
-     "level": [
-      33,
-      38
+      37,
+      39
      ],
      "weight": 4,
      "spread": "habitat"
@@ -1167,17 +1122,8 @@
     {
      "species": "snapmoor",
      "level": [
-      33,
-      38
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "pondkin",
-     "level": [
-      33,
-      38
+      37,
+      39
      ],
      "weight": 4,
      "spread": "habitat"
@@ -1185,10 +1131,10 @@
     {
      "species": "reedmoot",
      "level": [
-      33,
-      38
+      37,
+      39
      ],
-     "weight": 2,
+     "weight": 4,
      "spread": "habitat"
     }
    ],
@@ -1204,32 +1150,32 @@
     {
      "species": "mirewump",
      "level": [
-      34,
-      38
+      37,
+      39
      ],
      "weight": 35
     },
     {
      "species": "brookhorn",
      "level": [
-      34,
-      38
+      37,
+      39
      ],
      "weight": 20
     },
     {
      "species": "burlbeetle",
      "level": [
-      34,
-      38
+      37,
+      39
      ],
      "weight": 15
     },
     {
      "species": "runeskein",
      "level": [
-      38,
-      39
+      39,
+      40
      ],
      "weight": 5,
      "time": [
@@ -1239,8 +1185,8 @@
     {
      "species": "sailquill",
      "level": [
-      34,
-      38
+      37,
+      39
      ],
      "weight": 15,
      "weather": [
@@ -1255,8 +1201,8 @@
     {
      "species": "gloamtick",
      "level": [
-      34,
-      38
+      37,
+      39
      ],
      "weight": 12,
      "time": [
@@ -1265,28 +1211,10 @@
      ]
     },
     {
-     "species": "capling",
-     "level": [
-      34,
-      39
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
      "species": "toadcap",
      "level": [
-      34,
-      39
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "ditchsnap",
-     "level": [
-      34,
-      39
+      37,
+      40
      ],
      "weight": 4,
      "spread": "habitat"
@@ -1294,17 +1222,8 @@
     {
      "species": "snapmoor",
      "level": [
-      34,
-      39
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "pondkin",
-     "level": [
-      34,
-      39
+      37,
+      40
      ],
      "weight": 4,
      "spread": "habitat"
@@ -1312,10 +1231,10 @@
     {
      "species": "reedmoot",
      "level": [
-      34,
-      39
+      37,
+      40
      ],
-     "weight": 2,
+     "weight": 4,
      "spread": "habitat"
     }
    ],
@@ -1331,23 +1250,23 @@
     {
      "species": "mirewump",
      "level": [
-      34,
-      39
+      37,
+      40
      ],
      "weight": 45
     },
     {
      "species": "brookhorn",
      "level": [
-      34,
-      39
+      37,
+      40
      ],
      "weight": 35
     },
     {
      "species": "tidemarrow",
      "level": [
-      39,
+      40,
       41
      ],
      "weight": 5
@@ -1355,8 +1274,8 @@
     {
      "species": "rillop",
      "level": [
-      30,
-      34
+      35,
+      37
      ],
      "weight": 15,
      "weather": [
@@ -1365,27 +1284,9 @@
      "flood": true
     },
     {
-     "species": "ditchsnap",
-     "level": [
-      30,
-      41
-     ],
-     "weight": 6,
-     "spread": "habitat"
-    },
-    {
      "species": "snapmoor",
      "level": [
-      30,
-      41
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "pondkin",
-     "level": [
-      30,
+      35,
       41
      ],
      "weight": 6,
@@ -1394,10 +1295,10 @@
     {
      "species": "reedmoot",
      "level": [
-      30,
+      35,
       41
      ],
-     "weight": 3,
+     "weight": 6,
      "spread": "habitat"
     }
    ],
@@ -2435,25 +2336,7 @@
      "placeholder": true
     },
     {
-     "species": "peeplark",
-     "level": [
-      22,
-      24
-     ],
-     "weight": 6,
-     "spread": "habitat"
-    },
-    {
      "species": "larkspar",
-     "level": [
-      22,
-      24
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "pebblant",
      "level": [
       22,
       24
@@ -2467,15 +2350,6 @@
       22,
       24
      ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "pebbit",
-     "level": [
-      22,
-      24
-     ],
      "weight": 6,
      "spread": "habitat"
     },
@@ -2485,7 +2359,7 @@
       22,
       24
      ],
-     "weight": 3,
+     "weight": 6,
      "spread": "habitat"
     }
    ],
@@ -2622,25 +2496,7 @@
      "placeholder": true
     },
     {
-     "species": "pinchkin",
-     "level": [
-      23,
-      24
-     ],
-     "weight": 7,
-     "spread": "habitat"
-    },
-    {
      "species": "bulwarkrab",
-     "level": [
-      23,
-      24
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
-     "species": "ledgedove",
      "level": [
       23,
       24
@@ -2654,7 +2510,7 @@
       23,
       24
      ],
-     "weight": 4,
+     "weight": 7,
      "spread": "habitat"
     }
    ],
@@ -2685,7 +2541,7 @@
      "weight": 30
     },
     {
-     "species": "delvelet",
+     "species": "delvemaw",
      "level": [
       25,
       27
@@ -2814,30 +2670,12 @@
      "cute_r4": true
     },
     {
-     "species": "peeplark",
-     "level": [
-      25,
-      30
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
      "species": "larkspar",
      "level": [
       25,
       30
      ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "pebblant",
-     "level": [
-      25,
-      30
-     ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
@@ -2846,16 +2684,7 @@
       25,
       30
      ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "pebbit",
-     "level": [
-      25,
-      30
-     ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
@@ -2864,16 +2693,7 @@
       25,
       30
      ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "pebbadillo",
-     "level": [
-      25,
-      30
-     ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
@@ -2882,7 +2702,7 @@
       25,
       30
      ],
-     "weight": 2,
+     "weight": 5,
      "spread": "habitat"
     }
    ],
@@ -3025,25 +2845,7 @@
      ]
     },
     {
-     "species": "peeplark",
-     "level": [
-      26,
-      33
-     ],
-     "weight": 8,
-     "spread": "habitat"
-    },
-    {
      "species": "larkspar",
-     "level": [
-      26,
-      33
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
-     "species": "pebbadillo",
      "level": [
       26,
       33
@@ -3057,7 +2859,7 @@
       26,
       33
      ],
-     "weight": 4,
+     "weight": 8,
      "spread": "habitat"
     }
    ],
@@ -3097,25 +2899,7 @@
      "cute_r4": true
     },
     {
-     "species": "pebbit",
-     "level": [
-      27,
-      32
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
      "species": "rubblon",
-     "level": [
-      27,
-      32
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "stonepede",
      "level": [
       27,
       32
@@ -3129,15 +2913,6 @@
       27,
       32
      ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "delvelet",
-     "level": [
-      27,
-      32
-     ],
      "weight": 3,
      "spread": "habitat"
     },
@@ -3147,7 +2922,7 @@
       27,
       32
      ],
-     "weight": 2,
+     "weight": 3,
      "spread": "habitat"
     }
    ],
@@ -3162,32 +2937,32 @@
     {
      "species": "northling",
      "level": [
-      31,
-      34
+      36,
+      37
      ],
      "weight": 40
     },
     {
      "species": "halovy",
      "level": [
-      32,
-      34
+      36,
+      37
      ],
      "weight": 20
     },
     {
      "species": "snowmuff",
      "level": [
-      31,
-      34
+      36,
+      37
      ],
      "weight": 20
     },
     {
      "species": "runeskein",
      "level": [
-      33,
-      34
+      37,
+      37
      ],
      "weight": 5,
      "time": [
@@ -3199,8 +2974,8 @@
     {
      "species": "sailquill",
      "level": [
-      31,
-      34
+      36,
+      37
      ],
      "weight": 15,
      "time": [
@@ -3210,46 +2985,19 @@
      ]
     },
     {
-     "species": "peeplark",
+     "species": "galespar",
      "level": [
-      31,
-      34
+      36,
+      37
      ],
      "weight": 3,
      "spread": "habitat"
     },
     {
-     "species": "larkspar",
+     "species": "gauzewing",
      "level": [
-      31,
-      34
-     ],
-     "weight": 1,
-     "spread": "habitat"
-    },
-    {
-     "species": "dewmite",
-     "level": [
-      31,
-      34
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "huskling",
-     "level": [
-      31,
-      34
-     ],
-     "weight": 1,
-     "spread": "habitat"
-    },
-    {
-     "species": "pebblant",
-     "level": [
-      31,
-      34
+      36,
+      37
      ],
      "weight": 3,
      "spread": "habitat"
@@ -3257,17 +3005,8 @@
     {
      "species": "cairnant",
      "level": [
-      31,
-      34
-     ],
-     "weight": 1,
-     "spread": "habitat"
-    },
-    {
-     "species": "briarlet",
-     "level": [
-      31,
-      34
+      36,
+      37
      ],
      "weight": 3,
      "spread": "habitat"
@@ -3275,10 +3014,10 @@
     {
      "species": "bramblehog",
      "level": [
-      31,
-      34
+      36,
+      37
      ],
-     "weight": 1,
+     "weight": 3,
      "spread": "habitat"
     }
    ],
@@ -3295,16 +3034,16 @@
     {
      "species": "sailquill",
      "level": [
-      30,
-      34
+      35,
+      37
      ],
      "weight": 25
     },
     {
      "species": "burrowmane",
      "level": [
-      30,
-      34
+      35,
+      37
      ],
      "weight": 25,
      "wants": "glisterdew",
@@ -3313,24 +3052,24 @@
     {
      "species": "burlbeetle",
      "level": [
-      30,
-      33
+      35,
+      37
      ],
      "weight": 15
     },
     {
      "species": "snowmuff",
      "level": [
-      31,
-      34
+      36,
+      37
      ],
      "weight": 15
     },
     {
      "species": "halovy",
      "level": [
-      32,
-      34
+      36,
+      37
      ],
      "weight": 8,
      "time": [
@@ -3340,8 +3079,8 @@
     {
      "species": "gloamtick",
      "level": [
-      31,
-      34
+      36,
+      37
      ],
      "weight": 12,
      "time": [
@@ -3350,46 +3089,19 @@
      ]
     },
     {
-     "species": "peeplark",
+     "species": "galespar",
      "level": [
-      30,
-      34
+      35,
+      37
      ],
      "weight": 3,
      "spread": "habitat"
     },
     {
-     "species": "larkspar",
+     "species": "gauzewing",
      "level": [
-      30,
-      34
-     ],
-     "weight": 1,
-     "spread": "habitat"
-    },
-    {
-     "species": "dewmite",
-     "level": [
-      30,
-      34
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "huskling",
-     "level": [
-      30,
-      34
-     ],
-     "weight": 1,
-     "spread": "habitat"
-    },
-    {
-     "species": "pebblant",
-     "level": [
-      30,
-      34
+      35,
+      37
      ],
      "weight": 3,
      "spread": "habitat"
@@ -3397,17 +3109,8 @@
     {
      "species": "cairnant",
      "level": [
-      30,
-      34
-     ],
-     "weight": 1,
-     "spread": "habitat"
-    },
-    {
-     "species": "briarlet",
-     "level": [
-      30,
-      34
+      35,
+      37
      ],
      "weight": 3,
      "spread": "habitat"
@@ -3415,10 +3118,10 @@
     {
      "species": "bramblehog",
      "level": [
-      30,
-      34
+      35,
+      37
      ],
-     "weight": 1,
+     "weight": 3,
      "spread": "habitat"
     }
    ],
@@ -3435,8 +3138,8 @@
     {
      "species": "brookhorn",
      "level": [
-      30,
-      34
+      35,
+      37
      ],
      "weight": 60,
      "wants": "dewbell",
@@ -3445,53 +3148,35 @@
     {
      "species": "floepaddle",
      "level": [
-      28,
-      30
+      34,
+      35
      ],
      "weight": 30
     },
     {
      "species": "bulwarkrab",
      "level": [
-      34,
-      35
+      37,
+      38
      ],
      "weight": 10
     },
     {
-     "species": "pondkin",
-     "level": [
-      28,
-      35
-     ],
-     "weight": 6,
-     "spread": "habitat"
-    },
-    {
      "species": "reedmoot",
      "level": [
-      28,
-      35
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "dartling",
-     "level": [
-      28,
-      35
+      34,
+      38
      ],
      "weight": 6,
      "spread": "habitat"
     },
     {
-     "species": "streambarb",
+     "species": "torrentpike",
      "level": [
-      28,
-      35
+      34,
+      38
      ],
-     "weight": 3,
+     "weight": 6,
      "spread": "habitat"
     }
    ],
@@ -3508,32 +3193,32 @@
     {
      "species": "frostweevil",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 30
     },
     {
      "species": "eftwarden",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 25
     },
     {
      "species": "burlbeetle",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 15
     },
     {
      "species": "gloamtick",
      "level": [
-      33,
-      35
+      37,
+      38
      ],
      "weight": 15,
      "time": [
@@ -3544,8 +3229,8 @@
     {
      "species": "sailquill",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 15,
      "time": [
@@ -3555,28 +3240,10 @@
      ]
     },
     {
-     "species": "capling",
-     "level": [
-      32,
-      35
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
      "species": "toadcap",
      "level": [
-      32,
-      35
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "ditchsnap",
-     "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 4,
      "spread": "habitat"
@@ -3584,17 +3251,8 @@
     {
      "species": "snapmoor",
      "level": [
-      32,
-      35
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "pondkin",
-     "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 4,
      "spread": "habitat"
@@ -3602,10 +3260,10 @@
     {
      "species": "reedmoot",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
-     "weight": 2,
+     "weight": 4,
      "spread": "habitat"
     }
    ],
@@ -3622,32 +3280,32 @@
     {
      "species": "frostweevil",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 30
     },
     {
      "species": "bulwarkrab",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 25
     },
     {
      "species": "reedmoot",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 20
     },
     {
      "species": "sailquill",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 15,
      "time": [
@@ -3659,8 +3317,8 @@
     {
      "species": "gloamtick",
      "level": [
-      33,
-      35
+      37,
+      38
      ],
      "weight": 10,
      "time": [
@@ -3669,28 +3327,10 @@
      ]
     },
     {
-     "species": "capling",
-     "level": [
-      32,
-      35
-     ],
-     "weight": 6,
-     "spread": "habitat"
-    },
-    {
      "species": "toadcap",
      "level": [
-      32,
-      35
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "ditchsnap",
-     "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 6,
      "spread": "habitat"
@@ -3698,10 +3338,10 @@
     {
      "species": "snapmoor",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
-     "weight": 3,
+     "weight": 6,
      "spread": "habitat"
     }
    ],
@@ -3718,42 +3358,24 @@
     {
      "species": "paleminnow",
      "level": [
-      32,
-      35
+      36,
+      38
      ],
      "weight": 30
     },
     {
      "species": "brineseal",
      "level": [
-      35,
-      36
+      38,
+      38
      ],
      "weight": 20
     },
     {
-     "species": "pinchkin",
-     "level": [
-      32,
-      36
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
      "species": "bulwarkrab",
      "level": [
-      32,
-      36
-     ],
-     "weight": 1,
-     "spread": "habitat"
-    },
-    {
-     "species": "wavelin",
-     "level": [
-      32,
-      36
+      36,
+      38
      ],
      "weight": 3,
      "spread": "habitat"
@@ -3761,10 +3383,10 @@
     {
      "species": "breakerfin",
      "level": [
-      32,
-      36
+      36,
+      38
      ],
-     "weight": 1,
+     "weight": 3,
      "spread": "habitat"
     }
    ],
@@ -3781,24 +3403,24 @@
     {
      "species": "sailquill",
      "level": [
-      38,
-      42
+      41,
+      45
      ],
      "weight": 30
     },
     {
      "species": "spraytern",
      "level": [
-      38,
-      42
+      41,
+      45
      ],
      "weight": 25
     },
     {
      "species": "parasoleaf",
      "level": [
-      38,
-      41
+      41,
+      44
      ],
      "weight": 20,
      "weather": [
@@ -3808,16 +3430,16 @@
     {
      "species": "burlbeetle",
      "level": [
-      38,
-      41
+      41,
+      44
      ],
      "weight": 10
     },
     {
      "species": "gloamtick",
      "level": [
-      39,
-      42
+      42,
+      45
      ],
      "weight": 15,
      "time": [
@@ -3826,28 +3448,10 @@
      ]
     },
     {
-     "species": "pinchkin",
-     "level": [
-      38,
-      42
-     ],
-     "weight": 6,
-     "spread": "habitat"
-    },
-    {
      "species": "bulwarkrab",
      "level": [
-      38,
-      42
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "ledgedove",
-     "level": [
-      38,
-      42
+      41,
+      45
      ],
      "weight": 6,
      "spread": "habitat"
@@ -3855,10 +3459,10 @@
     {
      "species": "belfrydove",
      "level": [
-      38,
-      42
+      41,
+      45
      ],
-     "weight": 3,
+     "weight": 6,
      "spread": "habitat"
     }
    ],
@@ -3875,8 +3479,8 @@
     {
      "species": "mirewump",
      "level": [
-      36,
-      40
+      41,
+      43
      ],
      "weight": 30,
      "wants": "peatbellow",
@@ -3885,8 +3489,8 @@
     {
      "species": "mirewump",
      "level": [
-      38,
-      42
+      41,
+      45
      ],
      "weight": 35,
      "wants": "mirejaw",
@@ -3895,42 +3499,24 @@
     {
      "species": "drenchcrab",
      "level": [
-      38,
-      42
+      41,
+      45
      ],
      "weight": 25
     },
     {
      "species": "tuskwallow",
      "level": [
-      41,
-      43
+      44,
+      46
      ],
      "weight": 10
     },
     {
-     "species": "pinchkin",
-     "level": [
-      36,
-      43
-     ],
-     "weight": 6,
-     "spread": "habitat"
-    },
-    {
      "species": "bulwarkrab",
      "level": [
-      36,
-      43
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "wavelin",
-     "level": [
-      36,
-      43
+      41,
+      46
      ],
      "weight": 6,
      "spread": "habitat"
@@ -3938,10 +3524,10 @@
     {
      "species": "breakerfin",
      "level": [
-      36,
-      43
+      41,
+      46
      ],
-     "weight": 3,
+     "weight": 6,
      "spread": "habitat"
     }
    ],
@@ -3958,445 +3544,34 @@
     {
      "species": "sailquill",
      "level": [
-      40,
-      44
+      43,
+      47
      ],
      "weight": 35
     },
     {
      "species": "nudiblume",
      "level": [
-      40,
-      44
+      43,
+      47
      ],
      "weight": 30
     },
     {
      "species": "burlbeetle",
      "level": [
-      40,
-      43
+      43,
+      46
      ],
      "weight": 10
     },
     {
      "species": "gloamtick",
      "level": [
-      41,
-      44
+      44,
+      47
      ],
      "weight": 15,
-     "time": [
-      "dusk",
-      "night"
-     ]
-    },
-    {
-     "species": "halovy",
-     "level": [
-      43,
-      44
-     ],
-     "weight": 10,
-     "time": [
-      "dawn"
-     ]
-    },
-    {
-     "species": "cliffpuff",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 2,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "raywing",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 1,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "lurelamp",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 1,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "bristlereef",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 2,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "breakerfin",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 2,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "spinyclaw",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 4,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "foamkin",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 4,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "kelpstrider",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 1,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "tidepony",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 2,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "bleachghast",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 2,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "squidge",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 4,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "pinchkin",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 5,
-     "spread": "habitat"
-    },
-    {
-     "species": "bulwarkrab",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "brinepipit",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 5,
-     "spread": "habitat"
-    },
-    {
-     "species": "spraytern",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "ledgedove",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 5,
-     "spread": "habitat"
-    },
-    {
-     "species": "belfrydove",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    }
-   ],
-   "source": "art/world/overworld/encounters/encounters.json",
-   "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json",
-   "maps": [
-    "tidewater_coast"
-   ]
-  },
-  "tidewater_coast_water": {
-   "method": "water (Tideglide)",
-   "rate": 0.0667,
-   "slots": [
-    {
-     "species": "hullwhale",
-     "level": [
-      42,
-      45
-     ],
-     "weight": 25
-    },
-    {
-     "species": "wavelin",
-     "level": [
-      40,
-      44
-     ],
-     "weight": 20
-    },
-    {
-     "species": "pinchkin",
-     "level": [
-      40,
-      45
-     ],
-     "weight": 5,
-     "spread": "habitat"
-    },
-    {
-     "species": "bulwarkrab",
-     "level": [
-      40,
-      45
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    }
-   ],
-   "source": "art/world/overworld/encounters/encounters.json",
-   "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json",
-   "maps": [
-    "tidewater_coast"
-   ]
-  },
-  "tidewater_coast_cave": {
-   "method": "cave",
-   "rate": 0.05,
-   "slots": [
-    {
-     "species": "gloamtick",
-     "level": [
-      41,
-      45
-     ],
-     "weight": 40
-    },
-    {
-     "species": "pearlisk",
-     "level": [
-      41,
-      45
-     ],
-     "weight": 40
-    },
-    {
-     "species": "runeskein",
-     "level": [
-      44,
-      45
-     ],
-     "weight": 20,
-     "time": [
-      "night"
-     ]
-    },
-    {
-     "species": "pebbit",
-     "level": [
-      41,
-      45
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
-     "species": "rubblon",
-     "level": [
-      41,
-      45
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "stonepede",
-     "level": [
-      41,
-      45
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
-     "species": "columnpede",
-     "level": [
-      41,
-      45
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "delvelet",
-     "level": [
-      41,
-      45
-     ],
-     "weight": 4,
-     "spread": "habitat"
-    },
-    {
-     "species": "delvemaw",
-     "level": [
-      41,
-      45
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    }
-   ],
-   "source": "art/world/overworld/encounters/encounters.json",
-   "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json",
-   "maps": []
-  },
-  "lanternport_water": {
-   "method": "water (Tideglide)",
-   "rate": 0.0667,
-   "slots": [
-    {
-     "species": "reefshell",
-     "level": [
-      42,
-      45
-     ],
-     "weight": 15
-    },
-    {
-     "species": "moorcoil",
-     "level": [
-      42,
-      46
-     ],
-     "weight": 2,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "pinchkin",
-     "level": [
-      42,
-      46
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "bulwarkrab",
-     "level": [
-      42,
-      46
-     ],
-     "weight": 1,
-     "spread": "habitat"
-    }
-   ],
-   "source": "art/world/overworld/encounters/encounters.json",
-   "band": "Ron 5 L47; hall see halls/lanternport.json",
-   "maps": [
-    "lanternport"
-   ]
-  },
-  "route_fernwick_lanternport_grass": {
-   "method": "grass",
-   "rate": 0.0833,
-   "slots": [
-    {
-     "species": "tidemarrow",
-     "level": [
-      44,
-      47
-     ],
-     "weight": 30,
-     "wants": "driftknot",
-     "stand_in": true
-    },
-    {
-     "species": "shorehound",
-     "level": [
-      44,
-      47
-     ],
-     "weight": 20
-    },
-    {
-     "species": "sailquill",
-     "level": [
-      44,
-      47
-     ],
-     "weight": 20,
-     "time": [
-      "dawn",
-      "day",
-      "dusk"
-     ]
-    },
-    {
-     "species": "gloamtick",
-     "level": [
-      44,
-      47
-     ],
-     "weight": 20,
      "time": [
       "dusk",
       "night"
@@ -4414,9 +3589,9 @@
      ]
     },
     {
-     "species": "frondlet",
+     "species": "cliffpuff",
      "level": [
-      44,
+      43,
       47
      ],
      "weight": 2,
@@ -4424,10 +3599,358 @@
      "placeholder": true
     },
     {
-     "species": "frondhart",
+     "species": "raywing",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 1,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "lurelamp",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 1,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "bristlereef",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 2,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "breakerfin",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 2,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "spinyclaw",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 4,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 4,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "kelpstrider",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 1,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "tidepony",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 2,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "bleachghast",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 2,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "squidge",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 4,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    },
+    {
+     "species": "spraytern",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    },
+    {
+     "species": "belfrydove",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    }
+   ],
+   "source": "art/world/overworld/encounters/encounters.json",
+   "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json",
+   "maps": [
+    "tidewater_coast"
+   ]
+  },
+  "tidewater_coast_water": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "hullwhale",
+     "level": [
+      45,
+      48
+     ],
+     "weight": 25
+    },
+    {
+     "species": "wavelin",
+     "level": [
+      43,
+      47
+     ],
+     "weight": 20
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      43,
+      48
+     ],
+     "weight": 5,
+     "spread": "habitat"
+    }
+   ],
+   "source": "art/world/overworld/encounters/encounters.json",
+   "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json",
+   "maps": [
+    "tidewater_coast"
+   ]
+  },
+  "tidewater_coast_cave": {
+   "method": "cave",
+   "rate": 0.05,
+   "slots": [
+    {
+     "species": "gloamtick",
      "level": [
       44,
-      47
+      48
+     ],
+     "weight": 40
+    },
+    {
+     "species": "pearlisk",
+     "level": [
+      44,
+      48
+     ],
+     "weight": 40
+    },
+    {
+     "species": "runeskein",
+     "level": [
+      47,
+      48
+     ],
+     "weight": 20,
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "cragmont",
+     "level": [
+      44,
+      48
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "vaultpede",
+     "level": [
+      44,
+      48
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    },
+    {
+     "species": "delvemaw",
+     "level": [
+      44,
+      48
+     ],
+     "weight": 4,
+     "spread": "habitat"
+    }
+   ],
+   "source": "art/world/overworld/encounters/encounters.json",
+   "band": "wild 40-45, trainers 41-45; hall see halls/tidewater_coast.json",
+   "maps": []
+  },
+  "lanternport_water": {
+   "method": "water (Tideglide)",
+   "rate": 0.0667,
+   "slots": [
+    {
+     "species": "reefshell",
+     "level": [
+      50,
+      57
+     ],
+     "weight": 15
+    },
+    {
+     "species": "moorcoil",
+     "level": [
+      50,
+      57
+     ],
+     "weight": 2,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      50,
+      57
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "breakerfin",
+     "level": [
+      50,
+      57
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    }
+   ],
+   "source": "art/world/overworld/encounters/encounters.json",
+   "band": "Ron 5 L47; hall see halls/lanternport.json",
+   "maps": [
+    "lanternport"
+   ]
+  },
+  "route_fernwick_lanternport_grass": {
+   "method": "grass",
+   "rate": 0.0833,
+   "slots": [
+    {
+     "species": "tidemarrow",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 30,
+     "wants": "driftknot",
+     "stand_in": true
+    },
+    {
+     "species": "shorehound",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 20
+    },
+    {
+     "species": "sailquill",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 20,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ]
+    },
+    {
+     "species": "gloamtick",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 20,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "halovy",
+     "level": [
+      63,
+      64
+     ],
+     "weight": 10,
+     "time": [
+      "dawn"
+     ]
+    },
+    {
+     "species": "fernstag",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 2,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "fernstag",
+     "level": [
+      62,
+      64
      ],
      "weight": 1,
      "sync_added": true,
@@ -4436,8 +3959,8 @@
     {
      "species": "fernstag",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 1,
      "sync_added": true,
@@ -4446,28 +3969,18 @@
     {
      "species": "shellbloom",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 4,
      "sync_added": true,
      "placeholder": true
     },
     {
-     "species": "pondkin",
+     "species": "reedmoot",
      "level": [
-      44,
-      47
-     ],
-     "weight": 4,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "hearthkit",
-     "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 4,
      "sync_added": true,
@@ -4476,8 +3989,18 @@
     {
      "species": "kilnpaw",
      "level": [
-      44,
-      47
+      62,
+      64
+     ],
+     "weight": 4,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "kilnpaw",
+     "level": [
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
@@ -4486,8 +4009,8 @@
     {
      "species": "wickerling",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
@@ -4496,18 +4019,18 @@
     {
      "species": "dustbonnet",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
      "placeholder": true
     },
     {
-     "species": "ledgedove",
+     "species": "belfrydove",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 4,
      "sync_added": true,
@@ -4516,18 +4039,18 @@
     {
      "species": "belfrydove",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
      "placeholder": true
     },
     {
-     "species": "capling",
+     "species": "toadcap",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 4,
      "sync_added": true,
@@ -4536,8 +4059,8 @@
     {
      "species": "toadcap",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
@@ -4546,8 +4069,8 @@
     {
      "species": "candlewren",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 1,
      "sync_added": true,
@@ -4556,18 +4079,18 @@
     {
      "species": "cobblepup",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 4,
      "sync_added": true,
      "placeholder": true
     },
     {
-     "species": "hummbel",
+     "species": "combwarden",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
@@ -4576,8 +4099,8 @@
     {
      "species": "combwarden",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 1,
      "sync_added": true,
@@ -4586,8 +4109,8 @@
     {
      "species": "lintmouse",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 4,
      "sync_added": true,
@@ -4596,18 +4119,18 @@
     {
      "species": "weathervex",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
      "placeholder": true
     },
     {
-     "species": "lanternkeep",
+     "species": "pharolith",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 1,
      "sync_added": true,
@@ -4616,8 +4139,8 @@
     {
      "species": "novarch",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 1,
      "sync_added": true,
@@ -4626,8 +4149,8 @@
     {
      "species": "wreckwarden",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 1,
      "sync_added": true,
@@ -4636,8 +4159,8 @@
     {
      "species": "mournhorn",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
@@ -4646,8 +4169,8 @@
     {
      "species": "netspinner",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 4,
      "sync_added": true,
@@ -4656,8 +4179,8 @@
     {
      "species": "chartmouse",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 2,
      "sync_added": true,
@@ -4677,53 +4200,35 @@
     {
      "species": "sluicekin",
      "level": [
-      44,
-      47
+      62,
+      64
      ],
      "weight": 50
     },
     {
      "species": "reefshell",
      "level": [
-      40,
-      44
+      59,
+      62
      ],
      "weight": 30
     },
     {
-     "species": "pondkin",
-     "level": [
-      40,
-      47
-     ],
-     "weight": 5,
-     "spread": "habitat"
-    },
-    {
      "species": "reedmoot",
      "level": [
-      40,
-      47
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "dartling",
-     "level": [
-      40,
-      47
+      59,
+      64
      ],
      "weight": 5,
      "spread": "habitat"
     },
     {
-     "species": "streambarb",
+     "species": "torrentpike",
      "level": [
-      40,
-      47
+      59,
+      64
      ],
-     "weight": 2,
+     "weight": 5,
      "spread": "habitat"
     }
    ],
@@ -4738,40 +4243,40 @@
     {
      "species": "slagrook",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 30
     },
     {
      "species": "obsidiax",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 25
     },
     {
      "species": "brimtoad",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 15
     },
     {
      "species": "pumicepuff",
      "level": [
-      47,
-      50
+      64,
+      66
      ],
      "weight": 15
     },
     {
      "species": "gloamtick",
      "level": [
-      47,
-      50
+      64,
+      66
      ],
      "weight": 15,
      "time": [
@@ -4782,18 +4287,8 @@
     {
      "species": "foundrax",
      "level": [
-      46,
-      50
-     ],
-     "weight": 1,
-     "sync_added": true,
-     "placeholder": true
-    },
-    {
-     "species": "cinderwyrm",
-     "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 1,
      "sync_added": true,
@@ -4802,8 +4297,18 @@
     {
      "species": "calderax",
      "level": [
-      46,
-      50
+      63,
+      66
+     ],
+     "weight": 1,
+     "sync_added": true,
+     "placeholder": true
+    },
+    {
+     "species": "calderax",
+     "level": [
+      63,
+      66
      ],
      "weight": 1,
      "sync_added": true,
@@ -4812,8 +4317,8 @@
     {
      "species": "pyrogrim",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 1,
      "sync_added": true,
@@ -4822,8 +4327,8 @@
     {
      "species": "ingotitan",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 2,
      "sync_added": true,
@@ -4832,8 +4337,8 @@
     {
      "species": "kilnant",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 2,
      "sync_added": true,
@@ -4842,8 +4347,8 @@
     {
      "species": "cinderwraith",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 1,
      "sync_added": true,
@@ -4852,8 +4357,8 @@
     {
      "species": "charlurcher",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 2,
      "sync_added": true,
@@ -4862,8 +4367,8 @@
     {
      "species": "glyphforge",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 1,
      "sync_added": true,
@@ -4872,8 +4377,8 @@
     {
      "species": "sparkplume",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 4,
      "sync_added": true,
@@ -4882,8 +4387,8 @@
     {
      "species": "kilnowl",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 2,
      "sync_added": true,
@@ -4892,8 +4397,8 @@
     {
      "species": "embermink",
      "level": [
-      46,
-      50
+      63,
+      66
      ],
      "weight": 4,
      "sync_added": true,
@@ -4913,60 +4418,33 @@
     {
      "species": "slagrook",
      "level": [
-      47,
-      50
+      64,
+      66
      ],
      "weight": 40
     },
     {
      "species": "pumicepuff",
      "level": [
-      47,
-      50
+      64,
+      66
      ],
      "weight": 40
     },
     {
-     "species": "pebbit",
+     "species": "cragmont",
      "level": [
-      47,
-      50
+      64,
+      66
      ],
      "weight": 3,
      "spread": "habitat"
     },
     {
-     "species": "rubblon",
+     "species": "vaultpede",
      "level": [
-      47,
-      50
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "stonepede",
-     "level": [
-      47,
-      50
-     ],
-     "weight": 3,
-     "spread": "habitat"
-    },
-    {
-     "species": "columnpede",
-     "level": [
-      47,
-      50
-     ],
-     "weight": 2,
-     "spread": "habitat"
-    },
-    {
-     "species": "delvelet",
-     "level": [
-      47,
-      50
+      64,
+      66
      ],
      "weight": 3,
      "spread": "habitat"
@@ -4974,10 +4452,10 @@
     {
      "species": "delvemaw",
      "level": [
-      47,
-      50
+      64,
+      66
      ],
-     "weight": 2,
+     "weight": 3,
      "spread": "habitat"
     }
    ],
@@ -5729,7 +5207,7 @@
      "weight": 30
     },
     {
-     "species": "delvelet",
+     "species": "delvemaw",
      "level": [
       27,
       30
@@ -6509,6 +5987,70 @@
    ],
    "source": "design/overnight_gd/encounters_tidewater_coast.json",
    "inert": true
+  },
+  "lanternport_grotto_cave": {
+   "method": "cave",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "DRAFT dev/regions-5-8: region 7 cave, map not built yet (World Design request in design/REGIONS_78_PLAN.md). Species with art only.",
+   "slots": [
+    {
+     "species": "gloamtick",
+     "level": [
+      55,
+      57
+     ],
+     "weight": 30
+    },
+    {
+     "species": "bleachghast",
+     "level": [
+      55,
+      57
+     ],
+     "weight": 25
+    },
+    {
+     "species": "runeskein",
+     "level": [
+      55,
+      57
+     ],
+     "weight": 20
+    }
+   ]
+  },
+  "cindervale_caldera_cave": {
+   "method": "cave",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "DRAFT dev/regions-5-8: region 8 cave, map not built yet (World Design request in design/REGIONS_78_PLAN.md). Species with art only.",
+   "slots": [
+    {
+     "species": "slagrook",
+     "level": [
+      65,
+      66
+     ],
+     "weight": 30
+    },
+    {
+     "species": "obsidiax",
+     "level": [
+      65,
+      66
+     ],
+     "weight": 25
+    },
+    {
+     "species": "pumicepuff",
+     "level": [
+      65,
+      66
+     ],
+     "weight": 15
+    }
+   ]
   }
  }
 }

@@ -8,7 +8,8 @@ import { habitatOk } from '../src/battle/encounters.js';
 
 const read = (rel) => JSON.parse(fs.readFileSync(new URL('../' + rel, import.meta.url), 'utf8'));
 const src = read(FILES.source), wired = read(FILES.wired), fish = read(FILES.fishing);
-const lineOf = Object.fromEntries(LINES.flatMap(([b, e, h]) => [[b, { h, stage: 1 }], [e, { h, stage: 2, base: b }]]));
+const lineOf = Object.fromEntries(LINES.flatMap(([b, e, h]) => [[b, { h, stage: 1, root: b }], [e, { h, stage: 2, base: b, root: b }],
+  ...(speciesById(e).evo ? [[speciesById(e).evo, { h, stage: 3, base: e, root: b }]] : [])]));
 const tables = () => [
   ...Object.entries(src.zones).map(([id, z]) => ({ id: 'src:' + id, slots: z.slots, hab: ZONE_HABITAT[id], z })),
   ...Object.entries(wired.zones).map(([id, z]) => ({ id: 'wired:' + id, slots: z.slots, hab: ZONE_HABITAT[id], z })),
@@ -27,17 +28,25 @@ test('lines: common base + its stage-2 form, no legendary / rare base / Jestrix'
 
 test('no evolved form appears below its evolution level', () => {
   const evoAt = {};
-  for (const [, e] of LINES) evoAt[e] = speciesById(e).evoLevel;
+  for (const [, e] of LINES) { evoAt[e] = speciesById(e).evoLevel; const x = speciesById(e).evo; if (x) evoAt[x] = speciesById(x).evoLevel; }
   for (const t of tables()) for (const s of t.slots) {
     if (s.spread !== TAG || !(s.species in evoAt)) continue;
     assert.ok(s.level[0] >= evoAt[s.species], `${t.id} ${s.species} ${s.level}`);
   }
 });
 
-test('stage 2 is rarer than its base in every table', () => {
-  for (const t of tables()) for (const s of t.slots.filter((x) => x.spread === TAG && lineOf[x.species]?.stage === 2)) {
+test('stage 2 is rarer than its base in every table (when the base is still below its evo level there)', () => {
+  for (const t of tables()) for (const s of t.slots.filter((x) => x.spread === TAG && lineOf[x.species]?.stage >= 2)) {
     const b = t.slots.find((x) => x.spread === TAG && x.species === lineOf[s.species].base);
-    assert.ok(b && s.weight < b.weight, `${t.id} ${s.species}`);
+    if (b) assert.ok(s.weight < b.weight, `${t.id} ${s.species}`);
+    else assert.ok(s.level[0] >= speciesById(s.species).evoLevel, `${t.id} ${s.species} alone but below its evo level`);
+  }
+});
+
+test('no spread base form sits wholly past its evo level (Oct 29 2026: use the evolved form)', () => {
+  for (const t of tables()) for (const s of t.slots.filter((x) => x.spread === TAG)) {
+    const nx = speciesById(s.species).evo;
+    if (nx && Number.isFinite(speciesById(nx).evoLevel)) assert.ok(s.level[0] < speciesById(nx).evoLevel, `${t.id} ${s.species} ${s.level}`);
   }
 });
 
@@ -71,7 +80,7 @@ test(`widespread share per table stays within ${SHARE.min * 100}-${SHARE.max * 1
 
 test('every line reaches at least one table; most reach several', () => {
   const zones = Object.fromEntries(LINES.map(([b]) => [b, 0]));
-  for (const t of tables()) for (const s of t.slots) if (s.spread === TAG && s.species in zones) zones[s.species]++;
+  for (const t of tables()) for (const s of t.slots) if (s.spread === TAG && lineOf[s.species]) zones[lineOf[s.species].root]++;
   for (const [b, n] of Object.entries(zones)) assert.ok(n >= 1, b);
 });
 

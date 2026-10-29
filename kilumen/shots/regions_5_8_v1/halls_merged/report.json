@@ -1,0 +1,44 @@
+[
+ {
+  "plat": "pc",
+  "path": [
+   "lanternport_lighthouse_int",
+   "lanternport_lighthouse_f2",
+   "lanternport_lighthouse_f3",
+   "lanternport_hall_int"
+  ],
+  "errors": [],
+  "shots": [
+   "pc_01_lanternport_approach.png",
+   "pc_02_lanternport_at_door.png",
+   "pc_03_lighthouse_1F_arrival.png",
+   "pc_04_lighthouse_int_stairs.png",
+   "pc_05_lighthouse_f2_arrival.png",
+   "pc_06_lighthouse_f2_stairs.png",
+   "pc_07_lighthouse_f3_arrival.png",
+   "pc_08_lighthouse_f3_stairs.png",
+   "pc_09_hall_int_arrival.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "path": [
+   "lanternport_lighthouse_int",
+   "lanternport_lighthouse_f2",
+   "lanternport_lighthouse_f3",
+   "lanternport_hall_int"
+  ],
+  "errors": [],
+  "shots": [
+   "phone_01_lanternport_approach.png",
+   "phone_02_lanternport_at_door.png",
+   "phone_03_lighthouse_1F_arrival.png",
+   "phone_04_lighthouse_int_stairs.png",
+   "phone_05_lighthouse_f2_arrival.png",
+   "phone_06_lighthouse_f2_stairs.png",
+   "phone_07_lighthouse_f3_arrival.png",
+   "phone_08_lighthouse_f3_stairs.png",
+   "phone_09_hall_int_arrival.png"
+  ]
+ }
+]

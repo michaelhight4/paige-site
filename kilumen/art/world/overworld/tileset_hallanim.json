@@ -1,0 +1,699 @@
+{
+ "note": "Hall animated tiles (Animator, Oct 29 2026, DRAFT: Gary has not approved the art). Behind the hallanim flag (dev default on, alpha default off; ?hallanim=0|1). Built by tools/hall_overhaul/anim_kit.py; sheet path is swapped per zoom.",
+ "tiles": [
+  {
+   "id": 9951,
+   "name": "ha_cindervale_lava_conveyor_right",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 0,
+   "col": 0,
+   "row": 0,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "cindervale",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "frame_ms": 140,
+    "loop": true
+   }
+  },
+  {
+   "id": 9952,
+   "name": "ha_cindervale_lava_conveyor_up",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 16,
+   "col": 0,
+   "row": 1,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "cindervale",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     16,
+     17,
+     18,
+     19
+    ],
+    "frame_ms": 140,
+    "loop": true
+   }
+  },
+  {
+   "id": 9953,
+   "name": "ha_cindervale_lava_conveyor_left",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 32,
+   "col": 0,
+   "row": 2,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "cindervale",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     32,
+     33,
+     34,
+     35
+    ],
+    "frame_ms": 140,
+    "loop": true
+   }
+  },
+  {
+   "id": 9954,
+   "name": "ha_cindervale_lava_conveyor_down",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 48,
+   "col": 0,
+   "row": 3,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "cindervale",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     48,
+     49,
+     50,
+     51
+    ],
+    "frame_ms": 140,
+    "loop": true
+   }
+  },
+  {
+   "id": 9955,
+   "name": "ha_cindervale_lava_vent",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 64,
+   "col": 0,
+   "row": 4,
+   "walkable": false,
+   "collision": "block",
+   "collision_code": 1,
+   "encounter": false,
+   "hall": "cindervale",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     64,
+     65,
+     66,
+     67,
+     68,
+     69
+    ],
+    "frame_ms": 130,
+    "loop": true
+   }
+  },
+  {
+   "id": 9956,
+   "name": "ha_tidewater_current_right",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 80,
+   "col": 0,
+   "row": 5,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "tidewater",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     80,
+     81,
+     82,
+     83
+    ],
+    "frame_ms": 160,
+    "loop": true
+   }
+  },
+  {
+   "id": 9957,
+   "name": "ha_tidewater_current_up",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 96,
+   "col": 0,
+   "row": 6,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "tidewater",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     96,
+     97,
+     98,
+     99
+    ],
+    "frame_ms": 160,
+    "loop": true
+   }
+  },
+  {
+   "id": 9958,
+   "name": "ha_tidewater_current_left",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 112,
+   "col": 0,
+   "row": 7,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "tidewater",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     112,
+     113,
+     114,
+     115
+    ],
+    "frame_ms": 160,
+    "loop": true
+   }
+  },
+  {
+   "id": 9959,
+   "name": "ha_tidewater_current_down",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 128,
+   "col": 0,
+   "row": 8,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "tidewater",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     128,
+     129,
+     130,
+     131
+    ],
+    "frame_ms": 160,
+    "loop": true
+   }
+  },
+  {
+   "id": 9960,
+   "name": "ha_tidewater_rip_tide",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 144,
+   "col": 0,
+   "row": 9,
+   "walkable": true,
+   "collision": "ice",
+   "collision_code": 10,
+   "encounter": false,
+   "hall": "tidewater",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     144,
+     145,
+     146,
+     147
+    ],
+    "frame_ms": 180,
+    "loop": true
+   }
+  },
+  {
+   "id": 9961,
+   "name": "ha_mirefen_reeds",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 160,
+   "col": 0,
+   "row": 10,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "mirefen",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     160,
+     161,
+     162,
+     163,
+     164,
+     165
+    ],
+    "frame_ms": 200,
+    "loop": true
+   },
+   "ysort": true
+  },
+  {
+   "id": 9962,
+   "name": "ha_mirefen_current_right",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 176,
+   "col": 0,
+   "row": 11,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "mirefen",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     176,
+     177,
+     178,
+     179
+    ],
+    "frame_ms": 180,
+    "loop": true
+   }
+  },
+  {
+   "id": 9963,
+   "name": "ha_mirefen_current_up",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 192,
+   "col": 0,
+   "row": 12,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "mirefen",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     192,
+     193,
+     194,
+     195
+    ],
+    "frame_ms": 180,
+    "loop": true
+   }
+  },
+  {
+   "id": 9964,
+   "name": "ha_mirefen_current_left",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 208,
+   "col": 0,
+   "row": 13,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "mirefen",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     208,
+     209,
+     210,
+     211
+    ],
+    "frame_ms": 180,
+    "loop": true
+   }
+  },
+  {
+   "id": 9965,
+   "name": "ha_mirefen_current_down",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 224,
+   "col": 0,
+   "row": 14,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "mirefen",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     224,
+     225,
+     226,
+     227
+    ],
+    "frame_ms": 180,
+    "loop": true
+   }
+  },
+  {
+   "id": 9966,
+   "name": "ha_frostspire_gust_right",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 240,
+   "col": 0,
+   "row": 15,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "frostspire",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     240,
+     241,
+     242,
+     243
+    ],
+    "frame_ms": 110,
+    "loop": true
+   }
+  },
+  {
+   "id": 9967,
+   "name": "ha_frostspire_gust_up",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 256,
+   "col": 0,
+   "row": 16,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "frostspire",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     256,
+     257,
+     258,
+     259
+    ],
+    "frame_ms": 110,
+    "loop": true
+   }
+  },
+  {
+   "id": 9968,
+   "name": "ha_frostspire_gust_left",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 272,
+   "col": 0,
+   "row": 17,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "frostspire",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     272,
+     273,
+     274,
+     275
+    ],
+    "frame_ms": 110,
+    "loop": true
+   }
+  },
+  {
+   "id": 9969,
+   "name": "ha_frostspire_gust_down",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 288,
+   "col": 0,
+   "row": 18,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "frostspire",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     288,
+     289,
+     290,
+     291
+    ],
+    "frame_ms": 110,
+    "loop": true
+   }
+  },
+  {
+   "id": 9970,
+   "name": "ha_frostspire_ice_sparkle",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 304,
+   "col": 0,
+   "row": 19,
+   "walkable": true,
+   "collision": "ice",
+   "collision_code": 10,
+   "encounter": false,
+   "hall": "frostspire",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     304,
+     305,
+     306,
+     307,
+     308,
+     309
+    ],
+    "frame_ms": 170,
+    "loop": true
+   }
+  },
+  {
+   "id": 9971,
+   "name": "ha_lanternport_warp_pad",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 320,
+   "col": 0,
+   "row": 20,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "lanternport",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     320,
+     321,
+     322,
+     323,
+     324,
+     325
+    ],
+    "frame_ms": 120,
+    "loop": true
+   }
+  },
+  {
+   "id": 9972,
+   "name": "ha_lanternport_ghost_shimmer",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 336,
+   "col": 0,
+   "row": 21,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "lanternport",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     336,
+     337,
+     338,
+     339,
+     340,
+     341
+    ],
+    "frame_ms": 150,
+    "loop": true
+   }
+  },
+  {
+   "id": 9973,
+   "name": "ha_revival_heights_prism",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 352,
+   "col": 0,
+   "row": 22,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "revival_heights",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     352,
+     353,
+     354,
+     355,
+     356,
+     357
+    ],
+    "frame_ms": 140,
+    "loop": true
+   },
+   "ysort": true
+  },
+  {
+   "id": 9974,
+   "name": "ha_revival_heights_light_gate_closed",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 368,
+   "col": 0,
+   "row": 23,
+   "walkable": false,
+   "collision": "gate",
+   "collision_code": 6,
+   "encounter": false,
+   "hall": "revival_heights",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     368,
+     369,
+     370,
+     371
+    ],
+    "frame_ms": 120,
+    "loop": true
+   }
+  },
+  {
+   "id": 9975,
+   "name": "ha_revival_heights_light_gate_open",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 384,
+   "col": 0,
+   "row": 24,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "revival_heights",
+   "layer": "overlay",
+   "animation": {
+    "frames": [
+     384,
+     385,
+     386,
+     387
+    ],
+    "frame_ms": 240,
+    "loop": true
+   }
+  },
+  {
+   "id": 9976,
+   "name": "ha_saltmere_sluice_water",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 400,
+   "col": 0,
+   "row": 25,
+   "walkable": false,
+   "collision": "gate",
+   "collision_code": 6,
+   "encounter": false,
+   "hall": "saltmere",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     400,
+     401,
+     402,
+     403
+    ],
+    "frame_ms": 130,
+    "loop": true
+   }
+  },
+  {
+   "id": 9977,
+   "name": "ha_fernwick_sinking_slab",
+   "category": "hall_anim",
+   "sheet": "tiles_1x/hall_anim.png",
+   "index": 416,
+   "col": 0,
+   "row": 26,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "hall": "fernwick",
+   "layer": "ground",
+   "animation": {
+    "frames": [
+     416,
+     417,
+     418,
+     419,
+     420,
+     421,
+     422,
+     423
+    ],
+    "frame_ms": 110,
+    "loop": false,
+    "idle_frame": 416
+   }
+  }
+ ]
+}

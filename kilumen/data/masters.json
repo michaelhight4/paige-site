@@ -82,6 +82,29 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "fernwick_hall_int_h3",
+     "gd_id": "tr_hall_fernwick_h3",
+     "name_placeholder": "Tamsin",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 450,
+     "team": [
+      {
+       "species": "cobblepup",
+       "level": 9,
+       "battle_species": "cobblepup",
+       "stand_in": false
+      },
+      {
+       "species": "lintmouse",
+       "level": 9,
+       "battle_species": "lintmouse",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -96,6 +119,11 @@
    "puzzle": {
     "name": "Fernwick plates and crystals",
     "runtime": "art/world/overworld/puzzles/fernwick_hall_int.runtime.json"
+   },
+   "hall_overhaul": {
+    "trainers": 3,
+    "need_wins": 3,
+    "cut": []
    }
   },
   {
@@ -201,6 +229,29 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "saltmere_hall_int_h4",
+     "gd_id": "tr_hall_saltmere_h4",
+     "name_placeholder": "Odile",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 600,
+     "team": [
+      {
+       "species": "sandstarlet",
+       "level": 12,
+       "battle_species": "sandstarlet",
+       "stand_in": false
+      },
+      {
+       "species": "blubbet",
+       "level": 12,
+       "battle_species": "blubbet",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -216,7 +267,12 @@
     "name": "Salt-pan sluices",
     "runtime": "data/hall_puzzles/saltmere.json"
    },
-   "levels_note": "Levels synced to src/battle/data/trainer_teams.js (coder, Oct 23 2026, region 2 play-check tools/playcheck_master2.mjs); prize = base x ace level."
+   "levels_note": "Levels synced to src/battle/data/trainer_teams.js (coder, Oct 23 2026, region 2 play-check tools/playcheck_master2.mjs); prize = base x ace level.",
+   "hall_overhaul": {
+    "trainers": 4,
+    "need_wins": 4,
+    "cut": []
+   }
   },
   {
    "zone": "revival_heights",
@@ -349,6 +405,29 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "revival_hall_int_h5",
+     "gd_id": "tr_hall_revival_heights_h5",
+     "name_placeholder": "Seren",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 950,
+     "team": [
+      {
+       "species": "halovy",
+       "level": 19,
+       "battle_species": "halovy",
+       "stand_in": false
+      },
+      {
+       "species": "gildfinch",
+       "level": 19,
+       "battle_species": "gildfinch",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -363,6 +442,11 @@
    "puzzle": {
     "name": "Prism relay",
     "runtime": "data/hall_puzzles/revival_heights.json"
+   },
+   "hall_overhaul": {
+    "trainers": 5,
+    "need_wins": 4,
+    "cut": []
    }
   },
   {
@@ -475,6 +559,81 @@
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "frostspire_hall_int_h4",
+     "gd_id": "tr_hall_frostspire_h4",
+     "name_placeholder": "Halvard",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1500,
+     "team": [
+      {
+       "species": "spraytern",
+       "level": 30,
+       "battle_species": "spraytern",
+       "stand_in": false
+      },
+      {
+       "species": "signalwren",
+       "level": 30,
+       "battle_species": "signalwren",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "frostspire_hall_int_h5",
+     "gd_id": "tr_hall_frostspire_h5",
+     "name_placeholder": "Isolde",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1550,
+     "team": [
+      {
+       "species": "sailquill",
+       "level": 31,
+       "battle_species": "sailquill",
+       "stand_in": false
+      },
+      {
+       "species": "highkite",
+       "level": 31,
+       "battle_species": "highkite",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "frostspire_hall_int_h6",
+     "gd_id": "tr_hall_frostspire_h6",
+     "name_placeholder": "Kestrel",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1600,
+     "team": [
+      {
+       "species": "pouchbill",
+       "level": 31,
+       "battle_species": "pouchbill",
+       "stand_in": false
+      },
+      {
+       "species": "snowgrouse",
+       "level": 31,
+       "battle_species": "snowgrouse",
+       "stand_in": false
+      },
+      {
+       "species": "belfrydove",
+       "level": 32,
+       "battle_species": "belfrydove",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
     }
    ],
    "reward": {
@@ -490,7 +649,12 @@
     "name": "Gust lanes",
     "runtime": "data/hall_puzzles/frostspire.json"
    },
-   "pacing_note": "Master 3 22-24 -> Master 4 29-31 (Oct 29 2026 region 4 build)"
+   "pacing_note": "Master 3 22-24 -> Master 4 29-31 (Oct 29 2026 region 4 build)",
+   "hall_overhaul": {
+    "trainers": 6,
+    "need_wins": 4,
+    "cut": []
+   }
   },
   {
    "zone": "mirefen",
@@ -506,40 +670,64 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 4800,
+    "prize_placeholder": 5040,
     "team": [
      {
-      "species": "mirewump",
-      "level": 37,
-      "battle_species": "mirewump",
-      "stand_in": false
+      "species": "mirejaw",
+      "level": 42,
+      "battle_species": "snapmoor",
+      "stand_in": true,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
+     },
+     {
+      "species": "runeskein",
+      "level": 42,
+      "battle_species": "runeskein",
+      "stand_in": false,
+      "held": "runestitch_charm"
      },
      {
       "species": "silteel",
-      "level": 37,
-      "battle_species": "mirewump",
-      "stand_in": true
+      "level": 42,
+      "battle_species": "reedmoot",
+      "stand_in": true,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
      },
      {
-      "species": "gloamtick",
-      "level": 38,
-      "battle_species": "gloamtick",
-      "stand_in": false
+      "species": "duckmoss",
+      "level": 41,
+      "battle_species": "toadcap",
+      "stand_in": true,
+      "held": "sprig_charm"
      },
      {
-      "species": "mudwhisk",
-      "level": 38,
+      "species": "fenmaw",
+      "level": 42,
       "battle_species": "mirewump",
-      "stand_in": true
-     },
-     {
-      "species": "bulrusher",
-      "level": 40,
-      "battle_species": "mirewump",
-      "stand_in": true
+      "stand_in": true,
+      "held": "bogroot_charm",
+      "skills": [
+       "bogsnap",
+       "mirelob",
+       "rippleshot",
+       "stomp"
+      ]
      }
     ],
-    "ace_level": 40
+    "ace_level": 36,
+    "r56_source": "design/regions56_gd/balance.json masters.M5_wenna_peat (GD proposal, sim in SIM_RESULTS.md)"
    },
    "trainers": [
     {
@@ -552,13 +740,13 @@
      "team": [
       {
        "species": "mirewump",
-       "level": 35,
+       "level": 40,
        "battle_species": "mirewump",
        "stand_in": false
       },
       {
        "species": "bulrusher",
-       "level": 36,
+       "level": 41,
        "battle_species": "mirewump",
        "stand_in": true
       }
@@ -574,13 +762,13 @@
      "team": [
       {
        "species": "gloamtick",
-       "level": 36,
+       "level": 41,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "mirewump",
-       "level": 36,
+       "level": 41,
        "battle_species": "mirewump",
        "stand_in": false
       }
@@ -596,22 +784,127 @@
      "team": [
       {
        "species": "cypresshade",
-       "level": 37,
+       "level": 41,
        "battle_species": "mirewump",
        "stand_in": true
       },
       {
        "species": "mirejaw",
-       "level": 37,
+       "level": 41,
        "battle_species": "mirewump",
        "stand_in": true
       }
      ]
+    },
+    {
+     "id": "mirefen_hall_int_h4",
+     "gd_id": "tr_hall_mirefen_h4",
+     "name_placeholder": "Nettle",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1700,
+     "team": [
+      {
+       "species": "mirewump",
+       "level": 40,
+       "battle_species": "mirewump",
+       "stand_in": false
+      },
+      {
+       "species": "snapmoor",
+       "level": 40,
+       "battle_species": "snapmoor",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "mirefen_hall_int_h5",
+     "gd_id": "tr_hall_mirefen_h5",
+     "name_placeholder": "Osric",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1750,
+     "team": [
+      {
+       "species": "reedmoot",
+       "level": 40,
+       "battle_species": "reedmoot",
+       "stand_in": false
+      },
+      {
+       "species": "eftwarden",
+       "level": 40,
+       "battle_species": "eftwarden",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "mirefen_hall_int_h6",
+     "gd_id": "tr_hall_mirefen_h6",
+     "name_placeholder": "Bryony",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1800,
+     "team": [
+      {
+       "species": "brimtoad",
+       "level": 40,
+       "battle_species": "brimtoad",
+       "stand_in": false
+      },
+      {
+       "species": "ditchsnap",
+       "level": 40,
+       "battle_species": "ditchsnap",
+       "stand_in": false
+      },
+      {
+       "species": "reedmoot",
+       "level": 41,
+       "battle_species": "reedmoot",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "mirefen_hall_int_h7",
+     "gd_id": "tr_hall_mirefen_h7",
+     "name_placeholder": "Rushton",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 1800,
+     "team": [
+      {
+       "species": "snapmoor",
+       "level": 40,
+       "battle_species": "snapmoor",
+       "stand_in": false
+      },
+      {
+       "species": "eftwarden",
+       "level": 40,
+       "battle_species": "eftwarden",
+       "stand_in": false
+      },
+      {
+       "species": "reedmoot",
+       "level": 41,
+       "battle_species": "reedmoot",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Halden"
     }
    ],
    "reward": {
     "coin_name_placeholder": "Reed Coin",
-    "money_placeholder": 4800,
+    "money_placeholder": 5040,
     "gift_item_placeholder": {
      "id": "vigor_seed",
      "qty": 2
@@ -621,6 +914,11 @@
    "puzzle": {
     "name": "Bog-light boardwalk",
     "runtime": "data/hall_puzzles/mirefen.json"
+   },
+   "hall_overhaul": {
+    "trainers": 7,
+    "need_wins": 4,
+    "cut": []
    }
   },
   {
@@ -637,40 +935,89 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 5520,
+    "prize_placeholder": 5880,
     "team": [
      {
-      "species": "bulwarkrab",
+      "species": "lurelamp",
+      "level": 47,
+      "battle_species": "lurelamp",
+      "stand_in": false,
+      "held": "dusk_charm",
+      "skills": [
+       "duskbite",
+       "lanternhaunt",
+       "brinelash",
+       "earflick"
+      ]
+     },
+     {
+      "species": "pearlisk",
+      "level": 47,
+      "battle_species": "pearlisk",
+      "stand_in": false,
+      "held": "runestitch_charm",
+      "skills": [
+       "threadweave",
+       "brinelash",
+       "beadspark",
+       "ferretdash"
+      ]
+     },
+     {
+      "species": "driftknot",
+      "level": 48,
+      "battle_species": "tidemarrow",
+      "stand_in": true,
+      "held": "sprig_charm",
+      "skills": [
+       "mossslam",
+       "brinelash",
+       "shellroll",
+       "hornnudge"
+      ]
+     },
+     {
+      "species": "nudiblume",
+      "level": 47,
+      "battle_species": "nudiblume",
+      "stand_in": false,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "undertow",
+       "rippleshot",
+       "pebbletoss"
+      ]
+     },
+     {
+      "species": "deluvane",
       "level": 43,
-      "battle_species": "bulwarkrab",
-      "stand_in": false
+      "battle_species": "brineseal",
+      "stand_in": true,
+      "held": "droplet_charm",
+      "skills": [
+       "rippleshot",
+       "frillsplash",
+       "undertow",
+       "pebbletoss"
+      ]
      },
      {
-      "species": "kelpstrider",
-      "level": 43,
-      "battle_species": "kelpstrider",
-      "stand_in": false
-     },
-     {
-      "species": "spraytern",
-      "level": 44,
-      "battle_species": "spraytern",
-      "stand_in": false
-     },
-     {
-      "species": "galepetrel",
-      "level": 44,
-      "battle_species": "sailquill",
-      "stand_in": true
-     },
-     {
-      "species": "hullwhale",
-      "level": 46,
-      "battle_species": "hullwhale",
-      "stand_in": false
+      "species": "atollback",
+      "level": 49,
+      "battle_species": "tuskwallow",
+      "stand_in": true,
+      "held": "tidebell_charm",
+      "skills": [
+       "brinelash",
+       "kelplash",
+       "undertow",
+       "rippleshot"
+      ]
      }
     ],
-    "ace_level": 46
+    "ace_level": 41,
+    "r56_source": "design/regions56_gd/balance.json masters.M6_jory_swell (GD proposal, sim in SIM_RESULTS.md)"
    },
    "trainers": [
     {
@@ -683,13 +1030,13 @@
      "team": [
       {
        "species": "squidge",
-       "level": 41,
+       "level": 47,
        "battle_species": "squidge",
        "stand_in": false
       },
       {
        "species": "spinyclaw",
-       "level": 42,
+       "level": 48,
        "battle_species": "spinyclaw",
        "stand_in": false
       }
@@ -705,13 +1052,13 @@
      "team": [
       {
        "species": "downpaw",
-       "level": 42,
+       "level": 48,
        "battle_species": "tidemarrow",
        "stand_in": true
       },
       {
        "species": "driftknot",
-       "level": 42,
+       "level": 48,
        "battle_species": "tidemarrow",
        "stand_in": true
       }
@@ -727,13 +1074,13 @@
      "team": [
       {
        "species": "nudiblume",
-       "level": 43,
+       "level": 48,
        "battle_species": "nudiblume",
        "stand_in": false
       },
       {
        "species": "tundrarch",
-       "level": 43,
+       "level": 48,
        "battle_species": "tundrarch",
        "stand_in": false
       }
@@ -749,22 +1096,128 @@
      "team": [
       {
        "species": "foamkin",
-       "level": 43,
+       "level": 48,
        "battle_species": "foamkin",
        "stand_in": false
       },
       {
        "species": "coilarch",
-       "level": 44,
+       "level": 48,
        "battle_species": "coilarch",
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "tidewater_hall_int_h5",
+     "gd_id": "tr_hall_tidewater_coast_h5",
+     "name_placeholder": "Coral",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2000,
+     "team": [
+      {
+       "species": "coilarch",
+       "level": 47,
+       "battle_species": "coilarch",
+       "stand_in": false
+      },
+      {
+       "species": "spraytern",
+       "level": 47,
+       "battle_species": "spraytern",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "tidewater_hall_int_h6",
+     "gd_id": "tr_hall_tidewater_coast_h6",
+     "name_placeholder": "Fitch",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2100,
+     "team": [
+      {
+       "species": "bulwarkrab",
+       "level": 47,
+       "battle_species": "bulwarkrab",
+       "stand_in": false
+      },
+      {
+       "species": "tundrarch",
+       "level": 47,
+       "battle_species": "tundrarch",
+       "stand_in": false
+      },
+      {
+       "species": "squidge",
+       "level": 48,
+       "battle_species": "squidge",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "tidewater_hall_int_h7",
+     "gd_id": "tr_hall_tidewater_coast_h7",
+     "name_placeholder": "Morwen",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2000,
+     "team": [
+      {
+       "species": "coilarch",
+       "level": 47,
+       "battle_species": "coilarch",
+       "stand_in": false
+      },
+      {
+       "species": "spraytern",
+       "level": 47,
+       "battle_species": "spraytern",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Perrin"
+    },
+    {
+     "id": "tidewater_hall_int_h8",
+     "gd_id": "tr_hall_tidewater_coast_h8",
+     "name_placeholder": "Kit",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2100,
+     "team": [
+      {
+       "species": "bulwarkrab",
+       "level": 47,
+       "battle_species": "bulwarkrab",
+       "stand_in": false
+      },
+      {
+       "species": "tundrarch",
+       "level": 47,
+       "battle_species": "tundrarch",
+       "stand_in": false
+      },
+      {
+       "species": "squidge",
+       "level": 48,
+       "battle_species": "squidge",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Senna"
     }
    ],
    "reward": {
     "coin_name_placeholder": "Undertow Coin",
-    "money_placeholder": 5520,
+    "money_placeholder": 5880,
     "gift_item_placeholder": {
      "id": "energy_tonic",
      "qty": 2
@@ -774,6 +1227,11 @@
    "puzzle": {
     "name": "Tide clock",
     "runtime": "data/hall_puzzles/tidewater_coast.json"
+   },
+   "hall_overhaul": {
+    "trainers": 8,
+    "need_wins": 4,
+    "cut": []
    }
   },
   {
@@ -791,35 +1249,35 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 6000,
+    "prize_placeholder": 6960,
     "team": [
      {
       "species": "gloamtick",
-      "level": 47,
+      "level": 55,
       "battle_species": "gloamtick",
       "stand_in": false
      },
      {
       "species": "runeskein",
-      "level": 47,
+      "level": 55,
       "battle_species": "runeskein",
       "stand_in": false
      },
      {
       "species": "mournhorn",
-      "level": 48,
+      "level": 56,
       "battle_species": "mournhorn",
       "stand_in": false
      },
      {
       "species": "bleachghast",
-      "level": 48,
+      "level": 56,
       "battle_species": "bleachghast",
       "stand_in": false
      },
      {
       "species": "foamkin",
-      "level": 50,
+      "level": 58,
       "battle_species": "foamkin",
       "stand_in": false
      }
@@ -837,13 +1295,13 @@
      "team": [
       {
        "species": "gloamtick",
-       "level": 45,
+       "level": 56,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "wreckwarden",
-       "level": 46,
+       "level": 57,
        "battle_species": "wreckwarden",
        "stand_in": false
       }
@@ -859,14 +1317,14 @@
      "team": [
       {
        "species": "runeskein",
-       "level": 46,
+       "level": 57,
        "battle_species": "runeskein",
        "stand_in": false
       },
       {
-       "species": "lanternkeep",
-       "level": 46,
-       "battle_species": "lanternkeep",
+       "species": "pharolith",
+       "level": 57,
+       "battle_species": "pharolith",
        "stand_in": false
       }
      ]
@@ -874,29 +1332,210 @@
     {
      "id": "tr_hall_lanternport_h3",
      "gd_id": "tr_hall_lanternport_h3",
-     "name_placeholder": "Iska",
+     "name_placeholder": "(cut)",
      "class": "helper",
      "base": 50,
      "prize_placeholder": 2350,
      "team": [
       {
        "species": "kelpstrider",
-       "level": 47,
+       "level": 57,
        "battle_species": "kelpstrider",
        "stand_in": false
       },
       {
        "species": "novarch",
-       "level": 47,
+       "level": 57,
        "battle_species": "novarch",
        "stand_in": false
       }
-     ]
+     ],
+     "dropped": "lighthouse redesign (Gary Oct 29 2026): not placed"
+    },
+    {
+     "id": "lanternport_hall_int_h4",
+     "gd_id": "tr_hall_lanternport_h4",
+     "name_placeholder": "Vesper",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2200,
+     "team": [
+      {
+       "species": "runeskein",
+       "level": 56,
+       "battle_species": "runeskein",
+       "stand_in": false
+      },
+      {
+       "species": "pharolith",
+       "level": 56,
+       "battle_species": "pharolith",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026",
+     "dropped": "lighthouse redesign (Gary Oct 29 2026): not placed"
+    },
+    {
+     "id": "lanternport_hall_int_h5",
+     "gd_id": "tr_hall_lanternport_h5",
+     "name_placeholder": "Morrow",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2250,
+     "team": [
+      {
+       "species": "foamkin",
+       "level": 56,
+       "battle_species": "foamkin",
+       "stand_in": false
+      },
+      {
+       "species": "wreckwarden",
+       "level": 56,
+       "battle_species": "wreckwarden",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026",
+     "dropped": "lighthouse redesign (Gary Oct 29 2026): not placed"
+    },
+    {
+     "id": "lanternport_hall_int_h6",
+     "gd_id": "tr_hall_lanternport_h6",
+     "name_placeholder": "Ysolde",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2300,
+     "team": [
+      {
+       "species": "novarch",
+       "level": 56,
+       "battle_species": "novarch",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 56,
+       "battle_species": "bleachghast",
+       "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 57,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026",
+     "dropped": "lighthouse redesign (Gary Oct 29 2026): not placed"
+    },
+    {
+     "id": "lanternport_hall_int_h7",
+     "gd_id": "tr_hall_lanternport_h7",
+     "name_placeholder": "Sable",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2200,
+     "team": [
+      {
+       "species": "runeskein",
+       "level": 56,
+       "battle_species": "runeskein",
+       "stand_in": false
+      },
+      {
+       "species": "pharolith",
+       "level": 56,
+       "battle_species": "pharolith",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Rosalind"
+    },
+    {
+     "id": "lanternport_hall_int_h8",
+     "gd_id": "tr_hall_lanternport_h8",
+     "name_placeholder": "Wick",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2200,
+     "team": [
+      {
+       "species": "foamkin",
+       "level": 56,
+       "battle_species": "foamkin",
+       "stand_in": false
+      },
+      {
+       "species": "wreckwarden",
+       "level": 56,
+       "battle_species": "wreckwarden",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Nyssa"
+    },
+    {
+     "id": "lanternport_hall_int_h9",
+     "gd_id": "tr_hall_lanternport_h9",
+     "name_placeholder": "Elowen",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2250,
+     "team": [
+      {
+       "species": "novarch",
+       "level": 56,
+       "battle_species": "novarch",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 56,
+       "battle_species": "bleachghast",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Jessamy"
+    },
+    {
+     "id": "lanternport_hall_int_h10",
+     "gd_id": "tr_hall_lanternport_h10",
+     "name_placeholder": "Thane",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2300,
+     "team": [
+      {
+       "species": "mournhorn",
+       "level": 56,
+       "battle_species": "mournhorn",
+       "stand_in": false
+      },
+      {
+       "species": "kelpstrider",
+       "level": 56,
+       "battle_species": "kelpstrider",
+       "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 57,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Delwyn"
     }
    ],
    "reward": {
     "coin_name_placeholder": "Beacon Coin",
-    "money_placeholder": 6000,
+    "money_placeholder": 6960,
     "gift_item_placeholder": {
      "id": "dominance_crystal_plus",
      "qty": 5
@@ -906,7 +1545,23 @@
    "puzzle": {
     "name": "Lens signal",
     "runtime": "data/hall_puzzles/lanternport.json"
-   }
+   },
+   "hall_overhaul": {
+    "trainers": 6,
+    "need_wins": 4,
+    "cut": [
+     "h3",
+     "h4",
+     "h5",
+     "h6"
+    ],
+    "lighthouse": "Gary Oct 29 2026: 4 floors (1F-3F 2 trainers each, 4F lamp room + Master); hall_map = the lamp room"
+   },
+   "floor_maps": [
+    "lanternport_lighthouse_int",
+    "lanternport_lighthouse_f2",
+    "lanternport_lighthouse_f3"
+   ]
   },
   {
    "zone": "cindervale",
@@ -923,41 +1578,41 @@
     ],
     "class": "master",
     "base": 120,
-    "prize_placeholder": 6600,
+    "prize_placeholder": 8040,
     "team": [
      {
       "species": "slagrook",
-      "level": 51,
+      "level": 63,
       "battle_species": "slagrook",
       "stand_in": false
      },
      {
       "species": "sparkplume",
-      "level": 51,
+      "level": 63,
       "battle_species": "sparkplume",
       "stand_in": false
      },
      {
       "species": "charlurcher",
-      "level": 52,
+      "level": 64,
       "battle_species": "charlurcher",
       "stand_in": false
      },
      {
       "species": "kilnowl",
-      "level": 53,
+      "level": 65,
       "battle_species": "kilnowl",
       "stand_in": false
      },
      {
       "species": "embermink",
-      "level": 53,
+      "level": 65,
       "battle_species": "embermink",
       "stand_in": false
      },
      {
       "species": "glyphforge",
-      "level": 55,
+      "level": 67,
       "battle_species": "glyphforge",
       "stand_in": false
      }
@@ -975,13 +1630,13 @@
      "team": [
       {
        "species": "slagrook",
-       "level": 49,
+       "level": 65,
        "battle_species": "slagrook",
        "stand_in": false
       },
       {
        "species": "foundrax",
-       "level": 50,
+       "level": 66,
        "battle_species": "foundrax",
        "stand_in": false
       }
@@ -997,13 +1652,13 @@
      "team": [
       {
        "species": "pyrogrim",
-       "level": 50,
+       "level": 66,
        "battle_species": "pyrogrim",
        "stand_in": false
       },
       {
        "species": "sunderhoof",
-       "level": 50,
+       "level": 66,
        "battle_species": "forgeharrow",
        "stand_in": true
       }
@@ -1019,13 +1674,13 @@
      "team": [
       {
        "species": "ingotitan",
-       "level": 51,
+       "level": 66,
        "battle_species": "ingotitan",
        "stand_in": false
       },
       {
        "species": "slagrook",
-       "level": 51,
+       "level": 66,
        "battle_species": "slagrook",
        "stand_in": false
       }
@@ -1041,22 +1696,224 @@
      "team": [
       {
        "species": "kilnant",
-       "level": 51,
+       "level": 66,
        "battle_species": "kilnant",
        "stand_in": false
       },
       {
        "species": "cinderwraith",
-       "level": 52,
+       "level": 66,
        "battle_species": "cinderwraith",
        "stand_in": false
       }
      ]
+    },
+    {
+     "id": "cindervale_hall_int_h5",
+     "gd_id": "tr_hall_cindervale_h5",
+     "name_placeholder": "Ashby",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2400,
+     "team": [
+      {
+       "species": "cinderwraith",
+       "level": 65,
+       "battle_species": "cinderwraith",
+       "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 65,
+       "battle_species": "slagrook",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "cindervale_hall_int_h6",
+     "gd_id": "tr_hall_cindervale_h6",
+     "name_placeholder": "Tolla",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2500,
+     "team": [
+      {
+       "species": "kilnant",
+       "level": 65,
+       "battle_species": "kilnant",
+       "stand_in": false
+      },
+      {
+       "species": "foundrax",
+       "level": 65,
+       "battle_species": "foundrax",
+       "stand_in": false
+      },
+      {
+       "species": "kilnowl",
+       "level": 66,
+       "battle_species": "kilnowl",
+       "stand_in": false
+      }
+     ],
+     "added": "hall trainers v1, Oct 29 2026"
+    },
+    {
+     "id": "cindervale_hall_int_h7",
+     "gd_id": "tr_hall_cindervale_h7",
+     "name_placeholder": "Cinda",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2400,
+     "team": [
+      {
+       "species": "cinderwraith",
+       "level": 65,
+       "battle_species": "cinderwraith",
+       "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 65,
+       "battle_species": "slagrook",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Branwen"
+    },
+    {
+     "id": "cindervale_hall_int_h8",
+     "gd_id": "tr_hall_cindervale_h8",
+     "name_placeholder": "Forge",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2400,
+     "team": [
+      {
+       "species": "kilnant",
+       "level": 65,
+       "battle_species": "kilnant",
+       "stand_in": false
+      },
+      {
+       "species": "foundrax",
+       "level": 65,
+       "battle_species": "foundrax",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Merrit"
+    },
+    {
+     "id": "cindervale_hall_int_h9",
+     "gd_id": "tr_hall_cindervale_h9",
+     "name_placeholder": "Hollis",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2400,
+     "team": [
+      {
+       "species": "sparkplume",
+       "level": 65,
+       "battle_species": "sparkplume",
+       "stand_in": false
+      },
+      {
+       "species": "pyrogrim",
+       "level": 65,
+       "battle_species": "pyrogrim",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Esme"
+    },
+    {
+     "id": "cindervale_hall_int_h10",
+     "gd_id": "tr_hall_cindervale_h10",
+     "name_placeholder": "Embry",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2450,
+     "team": [
+      {
+       "species": "kilnowl",
+       "level": 65,
+       "battle_species": "kilnowl",
+       "stand_in": false
+      },
+      {
+       "species": "embermink",
+       "level": 65,
+       "battle_species": "embermink",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Clem"
+    },
+    {
+     "id": "cindervale_hall_int_h11",
+     "gd_id": "tr_hall_cindervale_h11",
+     "name_placeholder": "Petra",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2450,
+     "team": [
+      {
+       "species": "pharolith",
+       "level": 65,
+       "battle_species": "pharolith",
+       "stand_in": false
+      },
+      {
+       "species": "forgeharrow",
+       "level": 65,
+       "battle_species": "forgeharrow",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Gideon"
+    },
+    {
+     "id": "cindervale_hall_int_h12",
+     "gd_id": "tr_hall_cindervale_h12",
+     "name_placeholder": "Slag",
+     "class": "helper",
+     "base": 50,
+     "prize_placeholder": 2500,
+     "team": [
+      {
+       "species": "calderock",
+       "level": 65,
+       "battle_species": "calderock",
+       "stand_in": false
+      },
+      {
+       "species": "forgeharrow",
+       "level": 65,
+       "battle_species": "forgeharrow",
+       "stand_in": false
+      },
+      {
+       "species": "kilnpaw",
+       "level": 66,
+       "battle_species": "kilnpaw",
+       "stand_in": false
+      }
+     ],
+     "added": "hall overhaul phase 2, Oct 29 2026",
+     "name": "Hesper"
     }
    ],
    "reward": {
     "coin_name_placeholder": "Forge Coin",
-    "money_placeholder": 6600,
+    "money_placeholder": 8040,
     "gift_item_placeholder": {
      "id": "vigor_seed",
      "qty": 3
@@ -1066,6 +1923,11 @@
    "puzzle": {
     "name": "Quench channels",
     "runtime": "data/hall_puzzles/cindervale.json"
+   },
+   "hall_overhaul": {
+    "trainers": 12,
+    "need_wins": 4,
+    "cut": []
    }
   }
  ]

@@ -3,7 +3,7 @@
 // south into a ledge = hop over it, direction changes while walking happen without the turn pause.
 import {
   TILE, DELTA, MoveMode, BASE_TICKS_PER_TILE, TURN_TICKS, BUMP_TICKS, HOP_TICKS, HOP_HEIGHT, RAMP_HEIGHT, ANIM,
-} from './constants.js?v=v0.2.88-alpha';
+} from './constants.js?v=v0.2.89-alpha';
 
 /**
  * @typedef {{dir: ('up'|'down'|'left'|'right'|null)}} MoveInput   the direction currently held (latest press wins)
@@ -161,6 +161,8 @@ export class GridMover {
    */
   frame() {
     const mode = this.moving ? this.stepMode : this.mode;
+    // Tideglide (r56 art #5, tideglide.json): set by src/overnight/field.js while riding; col 0 = idle, 1..4 = glide0..3 (16 px per frame)
+    if (this.gliding) return { anim: 'tideglide', col: this.moving ? 1 + (Math.floor(this.dist / 16) % 4) : 0 };
     if (mode === MoveMode.BIKE) {
       if (!this.moving) return { anim: 'bike', col: 0 };
       if (this.hopKind === 'ramp') return { anim: 'bike', col: 2 };

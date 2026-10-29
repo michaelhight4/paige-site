@@ -1,20 +1,23 @@
 // Kilumen bag: pockets, add / remove / use, engine export, and map pickups. systems-gd pass, Oct 22, 2026.
 // Save shape (save.js v2 `bag` block): flat { itemId: count } (pockets come from the item table, so moving an
 // item between pockets never needs a migration). The battle engine takes the same { itemId: count } shape.
-import { ITEMS, POCKETS } from './items.js?v=v0.2.88-alpha';
-import { maxHp, energyOf, maxEnergy, isFainted } from './creature.js?v=v0.2.88-alpha';
-import { fmtMoney } from './config.js?v=v0.2.88-alpha';
+import { ITEMS, POCKETS, R5_R6_ITEM_TEXT } from './items.js?v=v0.2.89-alpha';
+import { maxHp, energyOf, maxEnergy, isFainted } from './creature.js?v=v0.2.89-alpha';
+import { fmtMoney } from './config.js?v=v0.2.89-alpha';
 
 export { POCKETS };
 const natInt = (n) => Math.max(0, Math.floor(Number(n) || 0));
+
+/** Save migration (Oct 29 2026, berry -> plum): old item ids map to the new ones on load. Flags: RENAMED_FLAGS in src/overworld/overworld.js. */
+export const RENAMED_ITEMS = { pond_berry_juice: 'pond_plum_juice', mossberry_shake: 'mossplum_shake', berry_pulp: 'plum_pulp' };
 
 export class Bag {
   /** data: save.bag ({id: count}); items: item table (src/systems/items.js); cfg: SYSTEMS_CONFIG; lines: overworld_lines */
   constructor(data = {}, { items = ITEMS, cfg = {}, lines = null, recent = [] } = {}) {
     this.items = items; this.cfg = cfg; this.lines = lines;
     this.counts = {};
-    for (const [k, n] of Object.entries(data || {})) if (natInt(n) > 0) this.counts[k] = natInt(n);
-    this.recent = recent.filter((id) => this.counts[id]); // most recently added first (SP 7.4 sort)
+    for (const [k0, n] of Object.entries(data || {})) { const k = RENAMED_ITEMS[k0] || k0; if (natInt(n) > 0) this.counts[k] = (this.counts[k] || 0) + natInt(n); } // old saves: renamed item ids
+    this.recent = [...new Set(recent.map((id) => RENAMED_ITEMS[id] || id))].filter((id) => this.counts[id]); // most recently added first (SP 7.4 sort)
   }
   def(id) { return this.items[id] || null; }
   /** Pocket id: item table, else Text Bot's catalogue pocket, else 'gear'. */
@@ -23,7 +26,13 @@ export class Bag {
   }
   /** Player-facing name: Text Bot catalogue, else engine name, else a TODO label. */
   nameOf(id) {
-    return this.lines?.system_item_catalogue?.[id]?.name || this.def(id)?.name || id;
+    return this.lines?.system_item_catalogue?.[id]?.name || this._r56Text(id, 0) || this.def(id)?.name || id;
+  }
+  /** Region 5/6 item text (system_research / system_story_r56 keys, items.js R5_R6_ITEM_TEXT): i 0 = name, 1 = desc pages. */
+  _r56Text(id, i) {
+    const path = R5_R6_ITEM_TEXT[id]?.[i]; if (!path) return null;
+    const v = path.split('.').reduce((a, k) => a?.[k], this.lines); const p = Array.isArray(v) ? v : v?.pages;
+    return i === 0 ? (p?.[0] ?? null) : (p || null);
   }
   pocketLabel(p) { return this.lines?.comfort?.bag_pockets?.[p]?.label || p; }
   isKey(id) { return !!this.def(id)?.key || this.pocketOf(id) === 'key'; }
@@ -138,7 +147,7 @@ export function collectPickup(mapName, it, { flags, bag, addMoney, cfg = {}, lin
   const T = lines?.system_items || {};
   if (flags.has(flag)) return { ok: false, kind: 'empty', flag, textKey: 'system_items.empty_satchel', pages: T.empty_satchel?.pages || ['An empty supply satchel. Someone beat you to it.'], vars: {} };
   if (isTbd(it) && !cfg.giveTbdItems) return { ok: false, kind: 'tbd', flag, pages: [], vars: {} };
-  const name = bag.nameOf(it.item), count = Math.max(1, it.count || 1);
+  const name = bag.nameOf(it.item), count = Math.max(1, it.count || it.qty || 1); // WD maps write qty
   const money = bag.def(it.item)?.money;
   if (money) {
     const amount = money * count;

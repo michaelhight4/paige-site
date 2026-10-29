@@ -4,38 +4,44 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.88-alpha';
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.88-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.88-alpha';
-import { GridMover } from './movement.js?v=v0.2.88-alpha';
-import { DEV } from '../dev/runtime.js?v=v0.2.88-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.88-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.88-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.88-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit } from './tileset.js?v=v0.2.88-alpha';
-import { IxLight, ixFlags } from './ixlight.js?v=v0.2.88-alpha';
-import { Renderer } from './renderer.js?v=v0.2.88-alpha';
-import { Wind } from './wind.js?v=v0.2.88-alpha'; // world wind: tree sway, grass ripple, flower bob (draw-time only)
-import { drawDebug } from './debug.js?v=v0.2.88-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.88-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.88-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.88-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.88-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.88-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.88-alpha';
-import { LivingWorld } from './living.js?v=v0.2.88-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.88-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.88-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.88-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.88-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.88-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.88-alpha'; // creature idle/walk motion (v0.2.36)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.88-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.88-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.88-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.88-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.88-alpha';
-import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.88-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { setRonRoll, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.89-alpha';
+import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.89-alpha';
+import { syncLowTide } from '../progression/low_tide.js?v=v0.2.89-alpha'; // G6 forced low tide
+import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.89-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.89-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.89-alpha';
+import { GridMover } from './movement.js?v=v0.2.89-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.89-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.89-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.89-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.89-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit } from './tileset.js?v=v0.2.89-alpha';
+import { IxLight, ixFlags } from './ixlight.js?v=v0.2.89-alpha';
+import { Renderer } from './renderer.js?v=v0.2.89-alpha';
+import { Wind } from './wind.js?v=v0.2.89-alpha'; // world wind: tree sway, grass ripple, flower bob (draw-time only)
+import { drawDebug } from './debug.js?v=v0.2.89-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.89-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.89-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.89-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.89-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.89-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.89-alpha';
+import { LivingWorld } from './living.js?v=v0.2.89-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.89-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.89-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.89-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.89-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.89-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.89-alpha'; // creature idle/walk motion (v0.2.36)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.89-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.89-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.89-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.89-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { hallLockFor, HALL_LOCK_KEY } from '../systems/hall_order.js?v=v0.2.89-alpha'; // hall order lock (Gary 3:52 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.89-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.89-alpha';
+// Save migration (berry -> plum, dev/r56-wiring): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
+export const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -64,7 +70,7 @@ const afterUiReady = () => (typeof window === 'undefined' || window.kilumen?.uiR
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.88-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.89-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -94,7 +100,7 @@ export class Overworld {
     const sv = opts.saveData || freshSave();
     this.store = opts.store || null;          // SaveStore (null = no persistence)
     this.audio = opts.audio || null;          // src/audio/audio.js (music follows the scene; sfx hooks below), optional
-    for (const f of sv.flags) this.flags.add(f);
+    for (const f of sv.flags) this.flags.add(RENAMED_FLAGS[f] || f); // old saves: renamed quest flags (berry -> plum)
     this.counters = { ...sv.counters };
     this.seen = { ...sv.seen }; this.seenDay = { ...sv.seenDay };
     this.clock = { ...sv.clock };
@@ -105,6 +111,7 @@ export class Overworld {
     else if (opts.phase && PHASE_HOUR[opts.phase] != null) this.clock.min = PHASE_HOUR[opts.phase] * 60;
     this.timescale = opts.timescale ?? 1;     // ?timescale=0 freezes the clock (shots)
     if (sv.lastDoor) this.lastDoor = sv.lastDoor;
+    setRonRoll(ensureRonRoll(sv)); // Ron's per-save seed (src/battle/data/ron_team.js); old saves seed from saveId
     this.gameCleared = normClear(sv[ENDING.save]); // interim ending: {at, day, team} once the game is cleared (null before)
     this.devTouched = sv.devTouched === true;  // set once the dev console / master key touched this save (v0.2.26)
     this.dialog = opts.dialog || null;
@@ -154,6 +161,7 @@ export class Overworld {
     this.player.place(s.x, s.y, s.facing);
     await this._enterMap();
     this._areaSignEnter(); // shown once the opening fade (if any) is done
+    syncLowTide(this); // G6: old saves that beat the Tidewater Master get tidewater_low_tide_forced on load
     syncAllBadges(this); // interim ending: old saves that already hold 8 coins get all_badges (and the open arena gate) on load
     this._endingOnLoad = !newGame && endingDue(this.flags); // a save that beat the tower (ENDING.tower): credits once, when idle
     this.intro.begin(); // new game: black hold until the title closes, slow fade in, wake-up thought
@@ -227,10 +235,21 @@ export class Overworld {
 
   mapUrl(name) { return this.config.mapsDir + (name === 'house_1f' && ixFlags().ix2 ? 'house_1f_v2' : name) + '.json'; } // Interiors v2 starter house (same size, warps, collisions)
 
+  /** r56 map variants (World Design `variants: [{id, map, active_when}]`, e.g. route_coast storm): the variant file to load
+   *  for `name` while its flag is set, else null. The variant keeps the base map's name (warps, saves, tileset path). */
+  async activeVariant(name) {
+    this._variantDefs ||= new Map();
+    if (!this._variantDefs.has(name)) { let v = []; try { v = (await loadJson(this.mapUrl(name))).variants || []; } catch { /* base load reports it */ } this._variantDefs.set(name, v); }
+    const v = this._variantDefs.get(name).find((d) => d?.map && d.active_when && this.flags?.has?.(d.active_when));
+    return v ? { id: v.id, file: String(v.map).replace(/\.json$/, '') } : null;
+  }
+
   async loadMap(name) {
-    if (!this.mapCache.has(name)) {
-      this.mapCache.set(name, loadJson(this.mapUrl(name)).then(async (j) => {
+    const variant = await this.activeVariant(name), key = variant ? `${name}@${variant.id}` : name;
+    if (!this.mapCache.has(key)) {
+      this.mapCache.set(key, loadJson(this.mapUrl(variant ? variant.file : name)).then(async (j) => {
         const c = structuredClone(j); // gates / props mutate layers: never touch the shared JSON
+        if (variant) { c.name = name; c.variantId = variant.id; }
         // heal branches (heal_saltmere / heal_revival / heal_frostspire) have their own Text Bot lines in maps.heal_* (Oct 27 2026)
         const lm = this.lines?.maps?.[name];
         if (lm) { // lines exist for the pending NPCs / signs: place them (text_ref is a fallback key)
@@ -239,17 +258,17 @@ export class Overworld {
           // Batch 3 (Oct 22, 2026): the new interiors keep theirs in text_pending {npcs, signs}; same rule (has lines -> placed,
           // an id already in npcs/signs wins). text_pending.interact_spots are NOT wired (props/cradles: Gary's call).
           const tp = c.text_pending || {};
-          const add = (have, extra) => { const ids = new Set(have.map((d) => d.id)); return [...have, ...extra.filter((d) => !d.variant_of && !ids.has(d.id) && this._entryFor(name, d))]; }; // variant_of = line variant of a placed NPC, not a person (shop fix Oct 24: 8 region clerks stacked on (2,3) hid the real clerk, so no shop)
+          const add = (have, extra) => { const ids = new Set(have.map((d) => d.id)); return [...have, ...extra.filter((d) => (!d.variant_of || !ids.has(d.variant_of)) && !ids.has(d.id) && this._entryFor(name, d))]; }; // r78: a variant_of whose base isn't placed (unique marts' own clerk) is a real person // variant_of = line variant of a placed NPC, not a person (shop fix Oct 24: 8 region clerks stacked on (2,3) hid the real clerk, so no shop)
           c.npcs = add(c.npcs, tp.npcs || []);
           c.signs = add(c.signs, tp.signs || []);
         }
         c.npcs = (c.npcs || []).filter((d) => d.kind !== 'spawn'); // house_2f player_start is a spawn, not a person
         const m = new GameMap(c);
-        if (!this.tilesetIndex) { const u = resolveUrl(m.tilesetRef, this.mapUrl(name)); this.tilesetIndex = indexTileset(await withIx2Kit(await loadJson(u), u)); }
+        if (!this.tilesetIndex) { const u = resolveUrl(m.tilesetRef, this.mapUrl(name)); this.tilesetIndex = indexTileset(await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(u), u), u), u)); }
         return m.attachTileset(this.tilesetIndex.byId);
       }));
     }
-    try { return await this.mapCache.get(name); } catch (e) { this.mapCache.delete(name); throw e; }
+    try { return await this.mapCache.get(key); } catch (e) { this.mapCache.delete(key); throw e; }
   }
 
   /** Load the tileset set + player sheets that match the current integer zoom (+ the 1x set for graded draws). */
@@ -390,8 +409,14 @@ export class Overworld {
           const w = m.warpAt(x, y);
           const mkDoor = DEV.masterKey && w && isToCome(w) && this.knownMaps?.has(w.to); // dev master key: a TO COME door whose map is built opens
           if (w && (!isToCome(w) || mkDoor)) {
+            const hallNeed = !DEV.masterKey && hallLockFor(w.to, this.flags);
+            if (hallNeed) { // hall N locked until Master N-1 is beaten
+              const prev = hallNeed.replace('beat_master_', ''), town = prev.charAt(0).toUpperCase() + prev.slice(1);
+              { let v = this.lines; for (const k of HALL_LOCK_KEY.split('.')) v = v?.[k]; const p = Array.isArray(v) ? v : v?.pages; if (p?.length) this.toast(p.join(' ').replaceAll('{master}', town)); }
+              return 'stop';
+            }
             if (!DEV.masterKey && this.intro?.onDoor(w)) return 'stop'; // home start v1: front door turns you back until Ron's briefing
-            if (w.to !== '$return') this.lastDoor = { map: m.name, x, y };
+            if (w.to !== '$return' && !w.keep_return) this.lastDoor = { map: m.name, x, y }; // keep_return: inner door pair (stadium <-> arena) keeps the street door
             this._doorDismount = this.player.mode === MoveMode.BIKE; // MOVEMENT.md 2: doors always dismount
             const spawn = warpSpawn(w, w.to === '$return' ? this.lastDoor : null)
               || { ...this.config.start }; // $return with no stored door (debug start inside): go to the dev start
@@ -411,6 +436,7 @@ export class Overworld {
         if (!exit) return;
         const mkEdge = DEV.masterKey && !!this.knownMaps?.has(exit.to); // dev master key: a TO COME / blocked exit opens when its map is built
         if ((isToCome(exit) && !mkEdge) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
+        if (!DEV.masterKey && this.region78?.edgeBlocked?.(exit)) { this.toast(this.text('system_story_r78.lanternport_gate') ?? this.config.closedPathText); return; } // R78.lanternportGate (off = open)
         if (!DEV.masterKey && this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
         this.startWarp({ exit, fromX: x, fromY: y }, 'edge');
         return 'stop';
@@ -427,6 +453,7 @@ export class Overworld {
     if (!this.flags.has('has_bike') && this.player.mode === MoveMode.BIKE) this.player.mode = MoveMode.WALK;
     this.log.push({ tick: this.tick, type: 'flag', flag, on, opened });
     this._dirty = true;
+    if (on && flag === 'beat_master_tidewater') syncLowTide(this); // G6: same moment as the Master win
     if (on && /^beat_master_/.test(flag)) syncAllBadges(this); // interim ending: the 8th coin sets all_badges (opens gate_aurelith_arena)
     return opened;
   }
@@ -875,6 +902,9 @@ export class Overworld {
     const mapName = this.map.name, key = `maps.${mapName}.${def.id}`, e = this._entryFor(mapName, def);
     this.log.push({ tick: this.tick, type: 'talk', npc: def.id });
     if (this.intro?.onTalk(n, def)) return; // home start v1: Ron's morning briefing (sets talked_ron_morning)
+    // r56: scripted NPCs with no maps.* entry of their own (Old Gus tutor, src/region56/tutor.js): {match(mapName, def), run(ctx)}
+    const th = (this.talkHooks || []).find((h) => h.match(mapName, def));
+    if (th) { this.script(async () => { if (n) this.npcs.beginTalk(n); try { await th.run({ mapName, def, speaker: this.speakerFor(n) }); } finally { if (n) this.npcs.endTalk(n); } }); return; }
     if (!e) return;
     this.script(async () => {
       if (n) this.npcs.beginTalk(n);
@@ -882,8 +912,12 @@ export class Overworld {
         const sp = this.speakerFor(n);
         if (e.battle_lost) { // trainer: challenge -> battle hook -> lost line; later talks use `after`
           const dk = `defeated:${mapName}.${def.id}`;
-          if (this.seen[dk]) { await this.say(e.after || this.pick(e, key)?.pages, sp); return; }
-          if (def.kind === 'master' && /_hall_int$/.test(mapName)) { // v0.2.16 (Gary): beat every hall trainer before the Master
+          for (const h of this.trainerHooks || []) if (await h({ mapName, def, entry: e, speaker: sp, defeated: !!this.seen[dk] })) return; // r56: Ron 5 Battle / Not now (src/region56/ron5.js)
+          if (this.seen[dk]) { // r56: second and later repeat talks read after_2 when Text Bot wrote one (Masters 5/6, Ron 5)
+            const rk = `after_n:${mapName}.${def.id}`, n = (Number(this.seen[rk]) || 0) + 1; this.seen[rk] = n;
+            await this.say((n >= 2 && e.after_2) || e.after || this.pick(e, key)?.pages, sp); return;
+          }
+          if (def.kind === 'master' && /_hall_int$/.test(mapName) && !this.map.json?.hall_v2) { // hall_v2 maps: progression/hall_v2.js gates the Master (puzzle + any-4 wins) // v0.2.16 (Gary): beat every hall trainer before the Master
             const left = (this.map.npcs || []).filter((d) => d && d.id !== def.id && d.kind !== 'master' && /trainer/.test(d.kind || '') && this._entryFor(mapName, d)?.battle_lost && !this.seen[`defeated:${mapName}.${d.id}`]).length;
             if (left > 0 && !DEV.masterKey) { await this.say([`Beat the rest of my hall first. ${left} trainer${left === 1 ? '' : 's'} left.`], sp); return; }
           }
@@ -911,6 +945,7 @@ export class Overworld {
             if (this.systems) { this.systems.lastBattle = null; this.systems.party?.healAll?.(); } // free patch-up, no copay / warp (question for Gary)
           } else { // the trainer's line comes BEFORE the blackout warp; `defeated:` stays unset so they can be re-challenged
             await this.say(e.battle_won || [], sp);
+            if (story.optional) this.seen[dk] = true; // Ron 5 (optional): a loss closes the fight too
             const out = await this.systems?.onTrainerLoss({ map: mapName, def }); // [systems-gd hook] wiped team: copay + warp (onPartyFainted)
             if (story.blackoutOnLoss && !out && this.systems) await this.systems.onPartyFainted(); // Ron 2-6 (Gary, Oct 23 2026): every loss -> last clinic
           }
@@ -936,6 +971,14 @@ export class Overworld {
 
   /** One interact spot (props + triggers). */
   async runSpot(sp) {
+    if (sp.kind === 'lift') { // Aurelith city v1: Galleria / hotel lift - pick a floor, then a plain door warp (lastDoor untouched, so $return still exits the building)
+      const floors = (sp.floors || []).filter((f) => f.map !== this.map.name);
+      const k = await this.ask([this.text('system_field.lift_prompt') ?? 'Lift. Which floor?'], [...floors.map((f) => f.label), 'Cancel']);
+      const f = floors[k];
+      if (f) this.startWarp({ map: f.map, x: f.x, y: f.y, facing: 'down' }, 'door');
+      return;
+    }
+    if (this.region78?.runSpot && await this.region78.runSpot(sp)) return; // r78 cave story spots (SIGNAL crate)
     if (sp.counter) this.bump(sp.counter);
     if (sp.id === 'bin_ron' && this.flags.has('all_badges') && !this.flags.has('finale_done')) this.bump('bin_inspects_after_8');
     if (sp.prompt_after_line) { // camps: the look line, then the prompt only after that line; Yes sets sets_flag
@@ -1172,7 +1215,7 @@ export class Overworld {
     if (!this.last) this.last = now;
     let dt = now - this.last; this.last = now;
     if (dt > 250) dt = 250; // tab was hidden: don't fast-forward
-    // v0.2.86-alpha dev world speed: only src/dev/console.js (admin + ?dev=1) ever sets worldSpeed; everyone else stays at 1.
+    // v0.2.89-alpha dev world speed: only src/dev/console.js (admin + ?dev=1) ever sets worldSpeed; everyone else stays at 1.
     // Faster = more fixed TICK_MS steps per frame (never a bigger step), so movement / collisions stay tick-exact at 100x.
     const ws = this.worldSpeed > 1 ? this.worldSpeed : 1, maxTicks = MAX_TICKS_PER_FRAME * ws;
     this.acc += dt * ws;

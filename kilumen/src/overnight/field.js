@@ -8,7 +8,7 @@
 //    No skill needed (FIELD_SKILLS.md: Greystone boulders stay push puzzles). Plates with mode 'hold' (greystone_b1)
 //    are held by a boulder or the player standing on them; the gates follow (puzzle.gates[].channel may be a list).
 //    Boulders reset when the map reloads (puzzle.rules).
-import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.88-alpha';
+import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.89-alpha';
 
 export const BRUSH_TILES = { thick_brush: { skill: 'brushbreak', flag: 'has_brushbreak' }, cracked_rock: { skill: 'stonebreak', flag: 'has_stonebreak' } };
 export const BOULDER_TILES = new Set(['push_boulder']);
@@ -55,7 +55,7 @@ export class FieldSystem {
   pages(skill, key, extra) { const v = this.scene.lines?.field_skills?.[skill]?.[key]; return v ? this.scene.fill([].concat(v), this.vars(skill, extra)) : null; }
 
   onEnter(m) {
-    this.gliding = false; this.under = new Map(); this.mapName = m.name;
+    this.gliding = false; if (this.scene.player) this.scene.player.gliding = false; this.under = new Map(); this.mapName = m.name;
     this.refreshHold();
   }
 
@@ -66,7 +66,7 @@ export class FieldSystem {
     const brush = this.brushAt(fx, fy);
     if (brush) { s.script(() => this.useSkill(brush.skill, brush.flag, () => { s.map.layers[brush.layer][fy][fx] = 0; s.map.layers.collision[fy][fx] = Col.WALK; s._dirty = true; })); return true; }
     if (m.code(fx, fy) === Col.WATER && !this.gliding && OPEN.has(m.code(p.x, p.y)) || (m.code(fx, fy) === Col.WATER && m.code(p.x, p.y) === Col.DOOR)) {
-      s.script(() => this.useSkill('tideglide', 'has_tideglide', () => { this.gliding = true; p.mode = MoveMode.WALK; s.log.push({ tick: s.tick, type: 'tideglide', on: true }); }));
+      s.script(() => this.useSkill('tideglide', 'has_tideglide', () => { this.gliding = true; p.gliding = true; p.mode = MoveMode.WALK; s.log.push({ tick: s.tick, type: 'tideglide', on: true }); }));
       return true;
     }
     return false;
@@ -107,7 +107,7 @@ export class FieldSystem {
 
   arrive(x, y) {
     const s = this.scene;
-    if (this.gliding && s.map.code(x, y) !== Col.WATER) { this.gliding = false; s.log.push({ tick: s.tick, type: 'tideglide', on: false }); }
+    if (this.gliding && s.map.code(x, y) !== Col.WATER) { this.gliding = false; s.player.gliding = false; s.log.push({ tick: s.tick, type: 'tideglide', on: false }); }
     if (this.gliding) s.player.mode = MoveMode.WALK;
     this.refreshHold();
   }

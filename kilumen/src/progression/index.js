@@ -4,26 +4,27 @@
 //    battles, coin record in save.systems.progression.masters, gift behind masterGifts. Dev: ?pg=masters&master=<zone>.
 //  - hallPuzzles (off): hall puzzle preview overlay ?pg=hallPuzzles&hall=<zone> (hall maps 2-8 are not built yet).
 //  - quests (off): quest book + phone Tasks = quest log + HUD tracker + NPC give / turn-in + rewards.
-import { progressionFlags } from './flags.js?v=v0.2.88-alpha';
-import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.88-alpha';
-import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.88-alpha';
-import { QuestBook, QFLAG } from './quests.js?v=v0.2.88-alpha';
-import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.88-alpha'; // batch 3: Mirefen hall tint + reed lamps
-import { HallPuzzle } from './puzzles.js?v=v0.2.88-alpha';
-import { InMapHall, inmapZone, INMAP_HALLS } from './hall_inmap.js?v=v0.2.88-alpha'; // playtest fixes 3: prism relay / reed lamps in the hall map
-import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.88-alpha'; // v2 badges: in-place coin award card
-import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.88-alpha'; // v6: Frostspire Hall ice + wind overlay theme
-import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.88-alpha';
-import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.88-alpha';
-import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.88-alpha'; // batch 3: route / rival trainers fight their map team
-import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES, boardPointsFor, creditBoardPoints } from './milestones.js?v=v0.2.88-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
-import { Shop } from '../systems/shop.js?v=v0.2.88-alpha';
-import { levelForXp } from '../systems/creature.js?v=v0.2.88-alpha';
-import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.88-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.88-alpha';
-import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.88-alpha';
+import { progressionFlags } from './flags.js?v=v0.2.89-alpha';
+import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.89-alpha';
+import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.89-alpha';
+import { QuestBook, QFLAG } from './quests.js?v=v0.2.89-alpha';
+import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.89-alpha'; // batch 3: Mirefen hall tint + reed lamps
+import { HallPuzzle } from './puzzles.js?v=v0.2.89-alpha';
+import { InMapHall, inmapZone, INMAP_HALLS } from './hall_inmap.js?v=v0.2.89-alpha'; // playtest fixes 3: prism relay / reed lamps in the hall map
+import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.89-alpha'; // v2 badges: in-place coin award card
+import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.89-alpha'; // v6: Frostspire Hall ice + wind overlay theme
+import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.89-alpha';
+import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.89-alpha';
+import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.89-alpha'; // batch 3: route / rival trainers fight their map team
+import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES, boardPointsFor, creditBoardPoints } from './milestones.js?v=v0.2.89-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
+import { Shop } from '../systems/shop.js?v=v0.2.89-alpha';
+import { levelForXp } from '../systems/creature.js?v=v0.2.89-alpha';
+import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.89-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.89-alpha';
+import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.89-alpha';
+import { attachHallV2, scaleMasterTeam } from './hall_v2.js?v=v0.2.89-alpha';
 
-import { DEV } from '../dev/runtime.js?v=v0.2.88-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.89-alpha';
 const DEV_KEY = () => !!DEV.masterKey; // dev master key skips the hall puzzle gate
 const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url + ' ' + r.status))));
 const escH = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -56,6 +57,11 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     }
     const onBattle = scene.hooks.onBattle;
     if (onBattle) scene.hooks.onBattle = async (who) => {
+      if (who?.masterRematch) { // hall v2 rematch: the Master's team x1.3^wins, no coin / Master award (hall_v2 pays the flat 1200 rematch prize)
+        const t = teamFor(pg.masters, who.map, who.id, { fernwick: true }) || pg.mapTeam(who);
+        pending = t ? { ...t, foes: scaleMasterTeam(t.foes, who.masterWins) } : null;
+        try { return await onBattle(who); } finally { pending = null; }
+      }
       pending = who ? teamFor(pg.masters, who.map, who.id, { fernwick: flags.masterTeamFernwick }) || pg.mapTeam(who) : null;
       let won;
       try { won = await onBattle(who); } finally { pending = null; }
@@ -106,7 +112,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
   };
   pg.inmap = null;
   pg.refreshInMap = async () => {
-    const zone = inmapZone(scene.map?.name); if (!zone) { pg.inmap = null; return null; }
+    const zone = scene.map?.json?.hall_v2 ? null : inmapZone(scene.map?.name); if (!zone) { pg.inmap = null; return null; } // hall_v2 maps replace the in-map puzzles
     const def = pg.puzzles[zone] ||= await getJSON(`data/hall_puzzles/${zone}.json`);
     const already = scene.flags?.has(def.solved_flag) || hallBeaten(zone);
     const hp = pg.inmap = new InMapHall(def, store, already);
@@ -156,7 +162,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
         if (r.result === 'lit') scene.script(() => scene.say(pages('reed_lamp_lit') || ['The lamp catches.']));
         else if (r.result === 'wrong') scene.script(() => scene.say(pages('reed_lamp_wrong') || ['The lamps flicker out.']));
       }
-      if (r.solvedNow) { scene.setFlag?.(hp.def.solved_flag); scene.toast?.('The way to the Master is open.'); }
+      if (r.solvedNow) { scene.setFlag?.(hp.def.solved_flag); const po = r.kind === 'prism' && scene.lines?.system_halls?.prism_open; const pp = po?.pages || (Array.isArray(po) ? po : null); scene.toast?.(pp?.length ? pp.join(' ') : 'The way to the Master is open.'); } // prism solve: Text Bot key system_halls.prism_open
     };
   }
 
@@ -172,12 +178,14 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     if (pg.masters && typeof scene.talk === 'function') {
       const talk = scene.talk.bind(scene);
       scene.talk = (n, def) => {
+        if (scene.map?.json?.hall_v2) return talk(n, def); // hall_v2: hall_v2.js gates the Master
         const info = def && scene.map && hallNpc(pg.masters, scene.map.name, def.id);
         if (info && INMAP_HALLS[info.hall.zone] && info.role === 'master') { // playtest fixes 3: the in-map puzzle gates the Master
           const z = info.hall.zone, solved = scene.flags?.has(`puzzle_${z}_hall_solved`) || pg.inmap?.solved || hallBeaten(z);
           if (solved || DEV_KEY()) return talk(n, def);
           scene.log?.push({ tick: scene.tick, type: 'hall_puzzle_gate', zone: z });
-          scene.script(() => scene.say([z === 'mirefen' ? 'Light the reed lamps in the right order first. Then we talk.' : 'Open the way first. Then we talk.'], scene.speakerFor?.(n)));
+          const gl = scene.lines?.system_field?.[z === 'mirefen' ? 'hall_gate_mirefen' : 'hall_gate_default']; // Text Bot keys (r56 wiring)
+          scene.script(() => scene.say(gl?.pages || [z === 'mirefen' ? 'Light the reed lamps in the right order first. Then we talk.' : 'Open the way first. Then we talk.'], scene.speakerFor?.(n)));
           return;
         }
         if (!info || info.hall.zone === 'fernwick' || info.role === 'trainer' || INMAP_HALLS[info.hall.zone] || !puzzleZone(info.hall.zone)) return talk(n, def);
@@ -286,6 +294,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     if (ui) installQuestLog(ui, scene, sys, qb, mb, save, pg, hud);
     tick(); pg.timer = setInterval(tick, 400);
   }
+  attachHallV2(scene, ui, pg); // hall overhaul v2 (outermost talk / worldApi / enterMap wrappers)
   return pg;
 }
 
@@ -364,9 +373,11 @@ function celebrate(ui, { m, tier }, done) {
 function questHud(scene, ui, qb, platform) {
   const mobile = platform?.id === 'mobile';
   const el = document.createElement('div'); el.id = 'pg-quest-hud';
-  const pos = mobile ? 'top:calc(58px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px));max-width:38vw;font-size:12px'
-    : 'top:84px;left:16px;max-width:min(360px,30vw);font-size:clamp(13px,1.45vh,20px)';
-  el.style.cssText = `position:fixed;${pos};z-index:2;pointer-events:none;background:rgba(28,22,34,.82);color:#f4ead2;border:2px solid #f4ead2;border-radius:10px;padding:6px 10px;line-height:1.25;font-family:ui-rounded,"Nunito","Trebuchet MS",system-ui,sans-serif;box-shadow:0 2px 0 rgba(0,0,0,.35)`;
+  // Oct 29 2026 (WD r78 review): moved off the top-left (it hid signs / doors there) to a slim strip at the top centre,
+  // smaller on both platforms; phone sits under the notch and clear of the d-pad (bottom-left) and menu (top-right).
+  const pos = mobile ? 'top:calc(6px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);max-width:44vw;font-size:11px;padding:3px 8px'
+    : 'top:10px;left:50%;transform:translateX(-50%);max-width:min(340px,28vw);font-size:clamp(12px,1.25vh,17px);padding:4px 10px';
+  el.style.cssText = `position:fixed;${pos};z-index:2;pointer-events:none;background:rgba(28,22,34,.82);color:#f4ead2;border:2px solid #f4ead2;border-radius:10px;line-height:1.2;opacity:.9;text-align:center;font-family:ui-rounded,"Nunito","Trebuchet MS",system-ui,sans-serif;box-shadow:0 2px 0 rgba(0,0,0,.35)`;
   document.body.appendChild(el);
   const update = () => {
     const q = qb.tracked(scene.flags), busy = ui?.active || scene.busy;

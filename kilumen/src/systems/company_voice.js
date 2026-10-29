@@ -21,7 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { employeeIdOf } from './employee_id.js?v=v0.2.88-alpha';
+import { employeeIdOf } from './employee_id.js?v=v0.2.89-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',
@@ -245,6 +245,8 @@ export class CompanyVoice {
     // task never raises q_mq_brookhollow_promotion_done in a normal game; got_starter (its reward flag) closes it for RITA.
     const alias = this.cfg.events.quest_done?.done_on_flag?.[flag];
     if (alias) { this.questDone(alias); return; }
+    // on_flag (dev/r56-wiring): plain flag -> event, e.g. keycard_r5 on rt_keycard_r5. Lines still obey maxRegion.
+    for (const [name, ev] of Object.entries(this.cfg.events || {})) if (ev?.on_flag && [].concat(ev.on_flag).includes(flag)) this.emit(name, { key: ev.on_flag_key?.[flag] });
     for (const name of ['master_beaten', 'rival_beaten', 'quest_done']) {
       const ev = this.cfg.events[name], m = ev?.flag_re && new RegExp(ev.flag_re).exec(flag || '');
       if (!m) continue;

@@ -27,9 +27,9 @@ export function encountersWired() {
 // Trail level scaling (Coder, Oct 23 2026; Gary 11:48 AM CT: "well we need to have them be level scaling the closer to
 // town you get"): on trail maps with an axis in data/trail_axes.json the slot level follows the player's progress along
 // the trail (src/battle/level_scale.js) instead of a uniform roll. installWildEncounters opts.levelScale === false turns it off.
-import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.88-alpha';
-import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.88-alpha'; // water + cave floor at 0.3x grass (flag, off)
-import { leadEncounterMult } from '../systems/held.js?v=v0.2.88-alpha'; // Lure Lantern / Hush Cloak (Oct 29 2026)
+import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v=v0.2.89-alpha';
+import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.89-alpha'; // water + cave floor at 0.3x grass (flag, off)
+import { leadEncounterMult } from '../systems/held.js?v=v0.2.89-alpha'; // Lure Lantern / Hush Cloak (Oct 29 2026)
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
 export const MAX_RATE = 0.2;
 export const GRACE_STEPS = 3;
@@ -161,8 +161,18 @@ export class EncounterRoller {
 export const MAP_BIOMES = { greystone_entrance: 'cave', greystone_b1: 'cave', frostspire: 'snow', frostspire_pass: 'snow', revival_heights: 'mountain', route_cindervale: 'mountain', cindervale: 'mountain' };
 // Area (encounter table) id -> backdrop; checked first (Frostspire: Oct 29 2026).
 export const AREA_BIOMES = { frostspire_grass: 'snow', frostspire_pass_grass: 'snow', frostspire_cave: 'cave' };
+// Regions 5-6 maps (Animator art package #5): the map decides, water / surf / fishing there use reef_surf (sea) or bog_deep (Mirefen).
+export const R56_MAP_BIOMES = {
+  mirefen: 'bog', mirefen_bog: 'bog_deep', route_saltmere_mirefen: 'causeway', route_sunmeadow_mirefen: 'causeway',
+  sunmeadow_fields: 'meadow', route_revival_sunmeadow: 'meadow', mirefen_hall_int: 'hall_mirefen', tidewater_hall_int: 'hall_tidewater',
+  lab_mirefen_sunken: 'lab_mirefen', station_int: 'lab_mirefen', lab_tidewater_cave: 'lab_seacave', tidewater_cave_int: 'sea_cave',
+  tidewater_coast: 'coast', route_coast: 'coast',
+};
+const R56_WATER = { coast: 'reef_surf', bog: 'bog_deep', causeway: 'bog_deep' };
 export const biomeFor = (method, map, area) => {
   if (area && AREA_BIOMES[area]) return AREA_BIOMES[area];
+  const r56 = map && R56_MAP_BIOMES[map.replace(/_storm$/, '')];
+  if (r56) return /water|surf|fishing/.test(method || '') ? (R56_WATER[r56] || r56) : r56;
   if (area && /_cave\b|^terrain_cave/.test(area)) return 'cave';
   const m = method || '';
   if (/water|surf|fishing/.test(m)) return 'water';
@@ -203,7 +213,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
     if (!ro || !m) return;
     if (st.lastMap !== m.name) { st.lastMap = m.name; ro.resetGrace(); } // a few free steps after every map change
     if (scene.busy || scene.fade || !scene.party?.length || opts.blocked?.()) return;
-    const ctx = { phase: scene.phase, weather: scene.flags?.has('storm_season') ? 'storm' : 'clear', flood: /_storm$/.test(m.name) };
+    const ctx = { phase: scene.phase, weather: scene.flags?.has('storm_season') ? 'storm' : 'clear', flood: m.json?.variantId === 'storm' || /_storm$/.test(m.name) }; // r56: route_coast storm variant (overworld.js activeVariant)
     const hit = water ? ro.stepWater(m.name, x, y, ctx) : ro.step(m.name, m.json?.encounter_zones, x, y, code, ctx);
     if (!hit) return;
     scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });

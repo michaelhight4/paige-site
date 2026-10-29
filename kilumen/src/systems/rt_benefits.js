@@ -11,7 +11,7 @@
 // Saving: XP awards only mark the scene dirty (the overworld autosave already refuses mid battle / talk / cutscene); a rank
 // bought from the phone menu calls scene.saveNow(), which is refused while a save lock is held (it then saves right after).
 // Wiring: attachSystems (src/systems/index.js) -> attachRtBenefits; the phone tab is src/ui/rt_benefits_screen.js.
-import { fmtMoney } from './config.js?v=v0.2.88-alpha';
+import { fmtMoney } from './config.js?v=v0.2.89-alpha';
 
 export const COMPANY_DEFAULTS = () => ({ idLevel: 1, pointsFree: 0, board: {}, respecWeek: 0, xp: 0, xpClaims: {} });
 const KI_KEY = 'kilindex_count'; // xpClaims slot: highest Kilindex log count already paid for (baseline on first look)
@@ -58,12 +58,14 @@ export function unlockRegionOf(node) {
  * state: 'owned' (all ranks open in this region bought), 'available' (next rank can be bought now), 'locked'.
  * reason (locked): 'region' (needs a later region), 'id' (ID level too low), 'points' (not enough points).
  */
-export function nodeState(data, company, node, region = data?.region || 1) {
+export function nodeState(data, company, node, region = data?.region || 1, flags = null) {
   const rank = Math.max(0, Math.floor(num(company?.board?.[node.id]))), max = node.ranks?.length || 0, regionMax = regionMaxRank(node, region);
   const next = rank < max ? node.ranks[rank] : null, idLevel = num(company?.idLevel, 1), pts = num(company?.pointsFree);
   const out = { id: node.id, branch: node.branch, rank, max, regionMax, next, needId: next ? num(next.minIdLevel, 1) : null, cost: next ? num(next.cost, 1) : null, unlockRegion: unlockRegionOf(node) };
   if (rank >= max || (rank > 0 && rank >= regionMax)) return { ...out, state: 'owned', reason: rank >= max ? 'maxed' : 'region' };
   if (rank >= regionMax) return { ...out, state: 'locked', reason: 'region', unlockRegion: Math.max(region + 1, out.unlockRegion) };
+  // regions 5-6 (dev/r56-wiring): a promotion unlocks the station key card node (requiresFlag promoted_id14 / promoted_id16)
+  if (node.requiresFlag && !(flags?.has ? flags.has(node.requiresFlag) : Array.isArray(flags) && flags.includes(node.requiresFlag))) return { ...out, state: 'locked', reason: 'promotion', needFlag: node.requiresFlag };
   if (idLevel < out.needId) return { ...out, state: 'locked', reason: 'id' };
   if (pts < out.cost) return { ...out, state: 'locked', reason: 'points' };
   return { ...out, state: 'available', reason: null };
@@ -103,7 +105,7 @@ export class RtBenefits {
   get nodes() { return this.data?.nodes || []; }
   get branches() { return this.data?.branches || []; }
   node(id) { return this.nodes.find((n) => n.id === id) || null; }
-  state(id) { const n = this.node(id); return n ? nodeState(this.data, this.company, n, this.region) : null; }
+  state(id) { const n = this.node(id); return n ? nodeState(this.data, this.company, n, this.region, this.scene?.flags) : null; }
   cap() { return regionCap(this.data, this.region); }
   /** {idLevel, xp, xpInto, xpSpan, toNext, frac, capped, points, cap} for the header bar. */
   progress() {
@@ -200,6 +202,8 @@ export class RtBenefits {
     const co = this.company;
     co.pointsFree -= s.cost;
     co.board[id] = s.rank + 1;
+    const node = this.node(id); // key cards: the node grants a story flag (saved with the flags, opens locked_warps unlock_flag)
+    if (node?.grantFlag) { if (typeof this.scene.setFlag === 'function') this.scene.setFlag(node.grantFlag, true); else this.scene.flags?.add?.(node.grantFlag); }
     this.scene.log?.push?.({ tick: this.scene.tick, type: 'benefitRank', node: id, rank: s.rank + 1, cost: s.cost });
     this.scene._dirty = true;
     this._emit({ type: 'rank', node: id, rank: s.rank + 1 });
@@ -267,7 +271,7 @@ export function attachRtBenefits(scene, sys = scene?.systems, opts = {}) {
     let tries = 0;
     const tryUi = () => {
       const ui = sys.ui || globalThis.kilumen?.ui;
-      if (ui?.open) import('../ui/rt_benefits_screen.js?v=v0.2.88-alpha').then((m) => m.installRtBenefitsScreen(ui, rt)).catch((e) => console.error('rt_benefits ui:', e));
+      if (ui?.open) import('../ui/rt_benefits_screen.js?v=v0.2.89-alpha').then((m) => m.installRtBenefitsScreen(ui, rt)).catch((e) => console.error('rt_benefits ui:', e));
       else if (++tries < 240) setTimeout(tryUi, 250);
     };
     tryUi();

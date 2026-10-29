@@ -7,9 +7,9 @@
 // - coin: a Master's coin_handover pages follow its battle_lost pages; without them the existing placeholder toast is used.
 // - Mirefen darkness: def.darkness (data/hall_puzzles/mirefen.json, World Design spec
 //   art/world/overworld/qa/autotile_port/integ/mirefen_hall_darkness.json). Light falloff = nightfx pool().
-import { getPath, fillText, pickLine } from '../overworld/lines.js?v=v0.2.88-alpha';
-import { hallNpc } from './masters.js?v=v0.2.88-alpha';
-import { pool } from '../overworld/nightfx.js?v=v0.2.88-alpha';
+import { getPath, fillText, pickLine } from '../overworld/lines.js?v=v0.2.89-alpha';
+import { hallNpc } from './masters.js?v=v0.2.89-alpha';
+import { pool } from '../overworld/nightfx.js?v=v0.2.89-alpha';
 
 /** Draft key path Text Bot uses for a hall NPC (halls_<zone>.md). */
 export function draftPath(info) {
@@ -68,7 +68,7 @@ export function withOpener(lines, e, flags = new Set(), env = {}) {
   return { ...e, pages: [...op, ...(e.pages || [])], lines: Array.isArray(e.lines) ? e.lines.map(pre) : e.lines, _openerDone: true };
 }
 
-/** Multi-line afters: `after_2` (Text Bot v0.4.11, e.g. lanternport_ron_5) plays straight after `after`, same box sequence. */
+/** Multi-line afters: `after_2` (Text Bot v0.4.11, e.g. a rival's two-box parting) plays straight after `after`, same box sequence. */
 export function chainAfter(e) {
   if (!e || !Array.isArray(e.after_2) || !e.after_2.length || e._after2Done) return e;
   return { ...e, after: [...(e.after || []), ...e.after_2], _after2Done: true };

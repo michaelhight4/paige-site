@@ -1,0 +1,27 @@
+{
+ "biome": "hall_tidewater",
+ "size": [
+  2560,
+  1440
+ ],
+ "outdoor": false,
+ "spots_frac": {
+  "near": [
+   0.298,
+   0.738
+  ],
+  "far": [
+   0.762,
+   0.616
+  ]
+ },
+ "life_layer": {
+  "frames": 16,
+  "ms_per_frame": 120,
+  "size": [
+   1280,
+   720
+  ]
+ },
+ "source": "Animator regions 5-6 art package #5 (Gary approved Oct 29 2026)"
+}

@@ -4,9 +4,9 @@
 // `battle` rows are the battle-engine numbers: src/battle/data/rules.js buildItems() builds the engine's item
 // table from BATTLE_ITEMS, so the field and the battle can never disagree. This module imports only plain data (no cycle;
 // safe on a server). Effect amounts are PLACEHOLDER (design/MECHANICS_PARITY.md) until Gary signs them off.
-import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.88-alpha'; // crystal grades + Benefits Board node (Oct 23, 2026)
-import { FRUIT_IDS as FEED_FRUIT_IDS } from '../feeds/logic.js?v=v0.2.88-alpha'; // fruit feeds bag rows (Oct 29 2026)
-import { HELD_BATTLE_ITEMS } from '../battle/data/held_items.js?v=v0.2.88-alpha'; // held items P1 (plain data + engine handlers, no imports)
+import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.89-alpha'; // crystal grades + Benefits Board node (Oct 23, 2026)
+import { FRUIT_IDS as FEED_FRUIT_IDS } from '../feeds/logic.js?v=v0.2.89-alpha'; // fruit feeds bag rows (Oct 29 2026)
+import { HELD_BATTLE_ITEMS } from '../battle/data/held_items.js?v=v0.2.89-alpha'; // held items P1 (plain data + engine handlers, no imports)
 
 /** pocket ids: text/overworld_lines.json comfort.bag_pockets */
 export const POCKETS = ['care', 'feeds', 'gear', 'crystals', 'key', 'logs'];
@@ -17,6 +17,7 @@ export const BATTLE_ITEMS = {
   tonic_large: { num: 2, name: 'Big Remedy', kHeal: 60 },
   energy_tonic: { num: 3, name: 'Pep Remedy', kEnergy: 5 }, // in battle too: Gary Oct 22 (flag config.js pepRemedyRestoresEnergyInBattle)
   calm_tea: { num: 4, name: 'Calm Tea', kCure: true },
+  potion: { num: 9, name: 'Trail Remedy', kHeal: 20 }, // World pickup id (grotto/cave/caldera); Text Bot: Trail Remedy, care pocket. Same heal as the basic Small Remedy (PLACEHOLDER, Gary)
   dominance_crystal: { num: 5, name: 'Dominance Crystal', kCrystalGrade: 1 },
   dominance_crystal_plus: { num: 6, name: 'Prime Crystal', kCrystalGrade: 1.5 },
 };
@@ -30,6 +31,7 @@ const FIELD = {
   tonic_large: { pocket: 'care', field: 'heal' },
   energy_tonic: { pocket: 'care', field: 'energy' }, // Gary Oct 22, 2026: energy potions restore energy but are expensive (config.potionsVsRest = potions_restore)
   calm_tea: { pocket: 'care', field: 'cure' },
+  potion: { pocket: 'care', field: 'heal' },          // Trail Remedy (heal = BATTLE_ITEMS.potion.kHeal)
   trail_mix: { pocket: 'feeds', field: null },        // Trail Buddy snack: Warmth system (later pass)
   feed_bag_small: { pocket: 'feeds', field: null },
   feed_bag: { pocket: 'feeds', field: null },
@@ -63,6 +65,23 @@ const FIELD = {
   tally_purse: { pocket: 'gear', field: null, held: true, name: 'Tally Purse', draftPrice: 4000 },  // +10% trainer prize, no stacking
   lure_lantern: { pocket: 'gear', field: null, held: true, key: true, name: 'Lure Lantern' },      // lead: wild rate x1.5 (The Missing Note)
   hush_cloak: { pocket: 'gear', field: null, held: true, name: 'Hush Cloak', draftPrice: 1500 },   // lead: wild rate x0.5
+  // Regions 5-6 (dev/r56-wiring, Oct 29 2026; ship with R5/R6). Names / descs: system_research.keycard_r*_name/_desc and
+  // system_story_r56.g27_* / g16_drawing_* (Text Bot). R5_R6_ITEM_TEXT below maps each id to its keys.
+  keycard_r5: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Mirefen Key Card', flag: 'rt_keycard_r5' }, // Benefits node rt_node_station_m
+  keycard_r6: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Tidewater Key Card', flag: 'rt_keycard_r6' }, // Benefits node rt_node_station_t
+  rons_umbrella: { pocket: 'key', field: null, key: true, earnedOnly: true, name: "Ron's Umbrella", flag: 'has_rons_umbrella' }, // Ron 5 wall: win, loss or decline (also a room decoration)
+  old_river_drawing: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Old River Drawing', flag: 'sq_rested_done' }, // Where It Rested (sq_rested_done)
+  reed_lamp: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Reed Lamp' }, // Mirefen (Wenna's lamp quest)
+  field_reading_sheet: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Field Reading Sheet', flag: 'item_field_reading_sheet' }, // Lanternport page hand-off (story_beats §L); pays off at the summit camp
+};
+/** Text Bot keys for the region 5-6 items: [name path, desc path] in overworld_lines.json. */
+export const R5_R6_ITEM_TEXT = {
+  keycard_r5: ['system_research.keycard_r5_name', 'system_research.keycard_r5_desc'],
+  keycard_r6: ['system_research.keycard_r6_name', 'system_research.keycard_r6_desc'],
+  rons_umbrella: ['system_story_r56.g27_rons_umbrella_name', 'system_story_r56.g27_rons_umbrella_desc'],
+  old_river_drawing: ['system_story_r56.g16_drawing_name', 'system_story_r56.g16_drawing_desc'],
+  reed_lamp: ['system_story_r56.g27_reed_lamp_name', 'system_story_r56.g27_reed_lamp_desc'],
+  field_reading_sheet: ['system_story_r78.field_reading_sheet_name', 'system_story_r78.field_reading_sheet_desc'],
 };
 // Fruit feeds (Coder Oct 29 2026, src/feeds/logic.js FRUIT_IDS; names: Text Bot keys feeds.fruit.<id>.name). Gary: fruit goes in the bag.
 for (const id of FEED_FRUIT_IDS) { FIELD[`fruit_${id}`] = { pocket: 'feeds', field: null, feedFruit: id }; FIELD[`seedling_${id}`] = { pocket: 'feeds', field: null, feedSeedling: id }; }

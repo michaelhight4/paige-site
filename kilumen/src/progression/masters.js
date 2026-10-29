@@ -1,4 +1,4 @@
-import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.88-alpha';
+import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.89-alpha';
 // Masters 1-8 (Oct 23, 2026, overnight coder). Data: data/masters.json (built from design/overnight_gd/halls/*.json by
 // tools/build_progression_data.mjs). Pure helpers here; the scene / UI wiring is in ./index.js.
 // - results: each Master win sets its story flag (beat_master_<zone>), which IS the coin (coinCount() in src/overworld/lines.js).
@@ -34,11 +34,11 @@ export function registerHallNpcResults(data, results) {
  *  (<hall_map>_master, <hall_map>_h<N> = trainers[N-1], <hall_map>_guide). -> {hall, role, who, index} | null */
 export function hallNpc(data, map, id) {
   for (const h of data.halls) {
-    if (h.hall_map !== map) continue;
+    if (h.hall_map !== map && !(h.floor_maps || []).includes(map)) continue; // floor_maps: Lanternport lighthouse floors 1F-3F
     if (id === h.master.id || id === `${map}_master`) return { hall: h, role: 'master', who: h.master, index: -1 };
     if (id === `${map}_guide`) return { hall: h, role: 'guide', who: null, index: -1 };
     let i = h.trainers.findIndex((t) => t.id === id || t.gd_id === id);
-    const m = new RegExp(`^${map}_h(\\d+)$`).exec(id);
+    const m = new RegExp(`^${map}_h(\\d+)$`).exec(id) || new RegExp(`^${h.hall_map}_h(\\d+)$`).exec(id);
     if (i < 0 && m) i = +m[1] - 1;
     if (i >= 0 && h.trainers[i]) return { hall: h, role: 'trainer', who: h.trainers[i], index: i };
     return null;
@@ -56,7 +56,8 @@ export function findHallTrainer(data, map, id) {
 export function teamFor(data, map, id, { fernwick = false } = {}) {
   const f = findHallTrainer(data, map, id);
   if (!f || (f.hall.zone === 'fernwick' && !fernwick)) return null;
-  const foes = f.who.team.map((m) => ({ species: m.battle_species, level: m.level }));
+  // r56: an authored held item / skill list (balance.json Masters 5-6) rides along; picks only fill members without one.
+  const foes = f.who.team.map((m) => ({ species: m.battle_species, level: m.level, ...(m.held ? { held: m.held } : {}), ...(m.skills ? { skills: [...m.skills] } : {}) }));
   return { foes: f.isMaster ? applyHeldPicks(heldRoleFor({ zone: f.hall.zone }), foes) : foes, // held items (Oct 29 2026): Master picks, src/battle/data/trainer_held.js
     foeName: f.who.name_placeholder || 'Trainer', zone: f.hall.zone, isMaster: f.isMaster, masterNumber: f.isMaster ? f.hall.coin_number : 0 };
 }

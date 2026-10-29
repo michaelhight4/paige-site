@@ -1,0 +1,1400 @@
+{
+ "fernwick": {
+  "size": [
+   19,
+   21
+  ],
+  "seed": 1,
+  "trainers": [
+   {
+    "n": 1,
+    "at": [
+     14,
+     15
+    ],
+    "facing": "R",
+    "sight": 3,
+    "first_path_step": 11
+   },
+   {
+    "n": 2,
+    "at": [
+     17,
+     7
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 17
+   },
+   {
+    "n": 3,
+    "at": [
+     9,
+     5
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 33
+   }
+  ],
+  "master": [
+   9,
+   1
+  ],
+  "start": [
+   9,
+   20
+  ],
+  "states": 329,
+  "softlocks": 0,
+  "solution_moves": 40,
+  "moves": "UUURRRRRRUURRUUUUUUUDDDLLUULLUUUULLUUULL",
+  "grid": [
+   "###################",
+   "######...M...######",
+   "######...G...######",
+   "######.......######",
+   "###########b#######",
+   "#.....#.......#...#",
+   "###.#.#.#####.#.###",
+   "#...#.#.....#.#...#",
+   "#.#####.###.#.###T#",
+   "#.#.....#...#...#.#",
+   "#.#.###.#.#####.#.#",
+   "#.#...#.#.#...#...#",
+   "#.#.###.#.#.###.#.#",
+   "#...#...#.......#.#",
+   "#.###.#####.#.###.#",
+   "#...#.......#.....#",
+   "###############.###",
+   "#.................#",
+   "#.................#",
+   "#.................#",
+   "#########S#########"
+  ],
+  "markers": {
+   "slab": [
+    [
+     1,
+     5
+    ],
+    [
+     17,
+     5
+    ],
+    [
+     5,
+     7
+    ]
+   ]
+  }
+ },
+ "saltmere": {
+  "size": [
+   15,
+   17
+  ],
+  "seed": 1,
+  "trainers": [
+   {
+    "n": 1,
+    "at": [
+     10,
+     11
+    ],
+    "facing": "R",
+    "sight": 1,
+    "first_path_step": 9
+   },
+   {
+    "n": 2,
+    "at": [
+     3,
+     9
+    ],
+    "facing": "D",
+    "sight": 2,
+    "first_path_step": 21
+   },
+   {
+    "n": 3,
+    "at": [
+     10,
+     5
+    ],
+    "facing": "R",
+    "sight": 3,
+    "first_path_step": 37
+   },
+   {
+    "n": 4,
+    "at": [
+     4,
+     5
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 59
+   }
+  ],
+  "master": [
+   7,
+   1
+  ],
+  "start": [
+   7,
+   16
+  ],
+  "states": 201,
+  "softlocks": 0,
+  "solution_moves": 68,
+  "moves": "UUURRRRUUUULLLLDDLLLLUDRRRRUURRRRUUUURRDDUULLDDLLLLLLLLLLUURRUURURRR",
+  "grid": [
+   "###############",
+   "####...M...####",
+   "####...G...####",
+   "###........####",
+   "###a###########",
+   "#.......#.....#",
+   "#.#########.#.#",
+   "#...........#T#",
+   "###########b###",
+   "#...#.#.......#",
+   "#.#T#.#.#.#.#.#",
+   "#.......#...#.#",
+   "###########.###",
+   "#.............#",
+   "#.............#",
+   "#.............#",
+   "#######S#######"
+  ],
+  "markers": {
+   "sluice": [
+    [
+     3,
+     4
+    ],
+    [
+     11,
+     8
+    ]
+   ]
+  }
+ },
+ "revival_heights": {
+  "size": [
+   17,
+   29
+  ],
+  "seed": 1,
+  "trainers": [
+   {
+    "n": 1,
+    "at": [
+     14,
+     23
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 10
+   },
+   {
+    "n": 2,
+    "at": [
+     1,
+     23
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 38
+   },
+   {
+    "n": 3,
+    "at": [
+     1,
+     17
+    ],
+    "facing": "U",
+    "sight": 2,
+    "first_path_step": 54
+   },
+   {
+    "n": 4,
+    "at": [
+     10,
+     15
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 97
+   },
+   {
+    "n": 5,
+    "at": [
+     15,
+     9
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 108
+   }
+  ],
+  "master": [
+   8,
+   1
+  ],
+  "start": [
+   8,
+   28
+  ],
+  "states": 398,
+  "softlocks": 0,
+  "solution_moves": 130,
+  "moves": "UUURRRRRUUUURRUULLLLUULLLLDDRRDDLLDDLLLLUUUURRUULLUULLRRDDRRDDLLDDDDRRRRUURRUULLUURRRRDDRRRRUUUULLLLUURRUUUUUULLUULLLLLLLLUURRURRR",
+  "grid": [
+   "#################",
+   "#####...M...#####",
+   "#####...G...#####",
+   "###.........#####",
+   "###a#############",
+   "#...........#...#",
+   "#.#######.#.###.#",
+   "#...#.#...#T..#.#",
+   "###.#.#.#####.#.#",
+   "#.....#...#.....#",
+   "#.#.#####.###.#.#",
+   "#...#...#...#.#.#",
+   "#####.#.###.#.#.#",
+   "#.....#.........#",
+   "###########b#####",
+   "#T..x...........#",
+   "#.x.xxxxxxxxx.x.#",
+   "#.x...x.....x.x.#",
+   "#xxxx.x.xxx.xxx.#",
+   "#.x...x...x.....#",
+   "#.x.xxxxx.xxxxx.#",
+   "#.x.x.....x.x...#",
+   "#.x.xxx.xxx.x.xx#",
+   "#.......x.......#",
+   "#############.###",
+   "#...............#",
+   "#...............#",
+   "#...............#",
+   "########S########"
+  ]
+ },
+ "frostspire": {
+  "size": [
+   17,
+   21
+  ],
+  "seed": 6,
+  "trainers": [
+   {
+    "at": [
+     5,
+     15
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 12,
+    "n": 1
+   },
+   {
+    "at": [
+     10,
+     13
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 19,
+    "n": 2
+   },
+   {
+    "at": [
+     12,
+     15
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 23,
+    "n": 3
+   },
+   {
+    "at": [
+     9,
+     10
+    ],
+    "facing": "D",
+    "sight": 2,
+    "first_path_step": 27,
+    "n": 4
+   },
+   {
+    "at": [
+     3,
+     10
+    ],
+    "facing": "U",
+    "sight": 1,
+    "first_path_step": 36,
+    "n": 5
+   },
+   {
+    "at": [
+     1,
+     7
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 38,
+    "n": 6
+   }
+  ],
+  "master": [
+   8,
+   1
+  ],
+  "start": [
+   8,
+   20
+  ],
+  "states": 233,
+  "softlocks": 0,
+  "solution_moves": 42,
+  "moves": "UUULLLLLLLUUURRDRUULLLLUULLUUULLUURRRRURRR",
+  "grid": [
+   "#################",
+   "#####...M...#####",
+   "#####...G...#####",
+   "#...........#####",
+   "#.###############",
+   "#...#ii..iii...i#",
+   "#iiiiiiiiiiiiiii#",
+   "#...............#",
+   "###b#############",
+   "#.#.....#...#...#",
+   "#.#.#.###.#.###.#",
+   "#...#..T..#.....#",
+   "#########.#######",
+   "#ii.i.ii.i..i..i#",
+   "#iiiiiiiii#iii#i#",
+   "#..............##",
+   "#.###############",
+   "#...............#",
+   "#...............#",
+   "#...............#",
+   "########S########"
+  ],
+  "seat_v1": [
+   {
+    "n": 1,
+    "at": [
+     5,
+     15
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 12
+   },
+   {
+    "n": 2,
+    "at": [
+     10,
+     13
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 19
+   },
+   {
+    "n": 3,
+    "at": [
+     12,
+     15
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 23
+   },
+   {
+    "n": 4,
+    "at": [
+     9,
+     9
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 26
+   },
+   {
+    "n": 5,
+    "at": [
+     1,
+     7
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 38
+   },
+   {
+    "n": 6,
+    "at": [
+     7,
+     7
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 38
+   }
+  ]
+ },
+ "mirefen": {
+  "size": [
+   19,
+   23
+  ],
+  "seed": 3,
+  "trainers": [
+   {
+    "at": [
+     3,
+     16
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 9,
+    "n": 1
+   },
+   {
+    "at": [
+     8,
+     15
+    ],
+    "facing": "D",
+    "sight": 2,
+    "first_path_step": 16,
+    "n": 2
+   },
+   {
+    "at": [
+     17,
+     17
+    ],
+    "facing": "U",
+    "sight": 4,
+    "first_path_step": 27,
+    "n": 3
+   },
+   {
+    "at": [
+     17,
+     5
+    ],
+    "facing": "D",
+    "sight": 2,
+    "first_path_step": 35,
+    "n": 4
+   },
+   {
+    "at": [
+     15,
+     6
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 37,
+    "n": 5
+   },
+   {
+    "at": [
+     7,
+     8
+    ],
+    "facing": "U",
+    "sight": 3,
+    "first_path_step": 49,
+    "n": 6
+   },
+   {
+    "at": [
+     15,
+     12
+    ],
+    "facing": "U",
+    "sight": 1,
+    "first_path_step": 59,
+    "side": true,
+    "n": 7
+   }
+  ],
+  "master": [
+   9,
+   1
+  ],
+  "start": [
+   9,
+   22
+  ],
+  "states": 345,
+  "softlocks": 0,
+  "solution_moves": 77,
+  "moves": "UUULLLLLLUURRRRRRRRRRRURURUUUUUUUULLLLUULLLLDDLLUULLLLLLDDDUUURRRRRRDDRRUUUUU",
+  "grid": [
+   "###################",
+   "######...M...######",
+   "######...G...######",
+   "######.......######",
+   "#########b#########",
+   "#.......#.....#...#",
+   "#.#.###.#.#.#.#.#.#",
+   "#.#...#...#.......#",
+   "#T###.#.#####.###.#",
+   "#.#...#.#...#.....#",
+   "#.#.#.#.###.#####.#",
+   "#...#.#...#.....#.#",
+   "###.#.#########.#.#",
+   "#...#...........#.#",
+   "#################.#",
+   "#vv#...#.>##^^.#..#",
+   "#v^.v....v^.^#>..>#",
+   "#.................#",
+   "###.###############",
+   "#.................#",
+   "#.................#",
+   "#.................#",
+   "#########S#########"
+  ],
+  "seat_v1": [
+   {
+    "n": 1,
+    "at": [
+     3,
+     16
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 9
+   },
+   {
+    "n": 2,
+    "at": [
+     8,
+     15
+    ],
+    "facing": "D",
+    "sight": 2,
+    "first_path_step": 16
+   },
+   {
+    "n": 3,
+    "at": [
+     17,
+     17
+    ],
+    "facing": "U",
+    "sight": 4,
+    "first_path_step": 27
+   },
+   {
+    "n": 4,
+    "at": [
+     15,
+     6
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 37
+   },
+   {
+    "n": 5,
+    "at": [
+     7,
+     8
+    ],
+    "facing": "U",
+    "sight": 3,
+    "first_path_step": 49
+   },
+   {
+    "n": 6,
+    "at": [
+     3,
+     7
+    ],
+    "facing": "U",
+    "sight": 2,
+    "first_path_step": 55
+   },
+   {
+    "n": 7,
+    "at": [
+     1,
+     11
+    ],
+    "facing": "U",
+    "sight": 4,
+    "first_path_step": 59
+   }
+  ]
+ },
+ "tidewater": {
+  "size": [
+   21,
+   21
+  ],
+  "seed": 1,
+  "trainers": [
+   {
+    "at": [
+     14,
+     15
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 12,
+    "n": 1
+   },
+   {
+    "at": [
+     18,
+     13
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 16,
+    "n": 2
+   },
+   {
+    "at": [
+     10,
+     11
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 24,
+    "n": 3
+   },
+   {
+    "at": [
+     3,
+     13
+    ],
+    "facing": "L",
+    "sight": 2,
+    "first_path_step": 38,
+    "n": 4
+   },
+   {
+    "at": [
+     14,
+     5
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 69,
+    "n": 5
+   },
+   {
+    "at": [
+     9,
+     9
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 70,
+    "n": 6
+   },
+   {
+    "at": [
+     9,
+     5
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 77,
+    "n": 7
+   },
+   {
+    "at": [
+     2,
+     9
+    ],
+    "facing": "U",
+    "sight": 3,
+    "first_path_step": 84,
+    "n": 8
+   }
+  ],
+  "master": [
+   10,
+   1
+  ],
+  "start": [
+   10,
+   20
+  ],
+  "states": 495,
+  "softlocks": 0,
+  "solution_moves": 81,
+  "moves": "UUURRRRRRRUULLUULLLLLLUULLDDLLUULLLLDDRLUURRRRDDUDRRUURRDDRRRRUURRUULULURUURRURRR",
+  "grid": [
+   "#####################",
+   "#######...M...#######",
+   "#######...G...#######",
+   "#####.........#######",
+   "#####b###############",
+   "#iiii.....#..i.iii.i#",
+   "#iiiiiiiiiiiiiiiiii##",
+   "#iiiiiiii#iii#i#iiii#",
+   "#iiiiiiiiiiii#iiiiii#",
+   "#......#..........#.#",
+   "###############d#####",
+   "#.....#.....#...#...#",
+   "#.###.#.#.###.#####.#",
+   "#.U.#T..#...........#",
+   "###############.#####",
+   "#...................#",
+   "#################.###",
+   "#...................#",
+   "#...................#",
+   "#...................#",
+   "##########S##########"
+  ],
+  "seat_v1": [
+   {
+    "n": 1,
+    "at": [
+     14,
+     15
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 12
+   },
+   {
+    "n": 2,
+    "at": [
+     18,
+     13
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 16
+   },
+   {
+    "n": 3,
+    "at": [
+     10,
+     11
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 24
+   },
+   {
+    "n": 4,
+    "at": [
+     3,
+     13
+    ],
+    "facing": "L",
+    "sight": 2,
+    "first_path_step": 38
+   },
+   {
+    "n": 5,
+    "at": [
+     17,
+     9
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 68
+   },
+   {
+    "n": 6,
+    "at": [
+     14,
+     5
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 69
+   },
+   {
+    "n": 7,
+    "at": [
+     9,
+     5
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 77
+   },
+   {
+    "n": 8,
+    "at": [
+     6,
+     5
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 87
+   }
+  ]
+ },
+ "lanternport": {
+  "size": [
+   23,
+   27
+  ],
+  "seed": 1,
+  "trainers": [
+   {
+    "at": [
+     1,
+     19
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 13,
+    "n": 1
+   },
+   {
+    "at": [
+     5,
+     21
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 16,
+    "n": 2
+   },
+   {
+    "at": [
+     20,
+     21
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 54,
+    "n": 3
+   },
+   {
+    "at": [
+     17,
+     12
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 64,
+    "n": 4
+   },
+   {
+    "at": [
+     18,
+     15
+    ],
+    "facing": "U",
+    "sight": 3,
+    "first_path_step": 68,
+    "n": 5
+   },
+   {
+    "at": [
+     21,
+     14
+    ],
+    "facing": "L",
+    "sight": 1,
+    "first_path_step": 70,
+    "n": 6
+   },
+   {
+    "at": [
+     20,
+     12
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 71,
+    "n": 7
+   },
+   {
+    "at": [
+     6,
+     11
+    ],
+    "facing": "D",
+    "sight": 2,
+    "first_path_step": 75,
+    "n": 8
+   },
+   {
+    "at": [
+     1,
+     14
+    ],
+    "facing": "U",
+    "sight": 1,
+    "first_path_step": 88,
+    "side": true,
+    "n": 9
+   },
+   {
+    "at": [
+     3,
+     7
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 88,
+    "side": true,
+    "n": 10
+   }
+  ],
+  "master": [
+   11,
+   1
+  ],
+  "start": [
+   11,
+   26
+  ],
+  "states": 575,
+  "softlocks": 0,
+  "solution_moves": 98,
+  "moves": "UUULLLLLLLLLLUURRUURRUURRRRDDLLDDRRRRUUUURRRRDDLLDDRRRRRRUULLUUUUUURRURUUDUUULLUURRUUUULLLLLLLULLL",
+  "grid": [
+   "#######################",
+   "########...M...########",
+   "########...G...########",
+   "########..............#",
+   "#####################a#",
+   "#.....................#",
+   "#.###.#.#.###.#####.#.#",
+   "#.#.#.#.#...#...#.#..T#",
+   "#.#.#.###.#.###.#.#.###",
+   "#.#.......#.....#.....#",
+   "#####################b#",
+   "#......#......#.......#",
+   "#......#4.....#.1.4..3#",
+   "#......#......#....2.T#",
+   "#.....3#..1...#.....2.#",
+   "#......#......#.......#",
+   "#################.#####",
+   "#...x.....x.....x.x...#",
+   "#.xxx.xxx.x.xxx.x.xxx.#",
+   "#.x...x...x.x...x...x.#",
+   "#.x.xxx.xxx.x.xxxxx.x.#",
+   "#.....x.....x.........#",
+   "#.#####################",
+   "#.....................#",
+   "#.....................#",
+   "#.....................#",
+   "###########S###########"
+  ],
+  "seat_v1": [
+   {
+    "n": 1,
+    "at": [
+     1,
+     19
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 13
+   },
+   {
+    "n": 2,
+    "at": [
+     5,
+     21
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 15
+   },
+   {
+    "n": 3,
+    "at": [
+     20,
+     21
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 54
+   },
+   {
+    "n": 4,
+    "at": [
+     17,
+     12
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 64
+   },
+   {
+    "n": 5,
+    "at": [
+     20,
+     15
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 65
+   },
+   {
+    "n": 6,
+    "at": [
+     15,
+     15
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 65
+   },
+   {
+    "n": 7,
+    "at": [
+     18,
+     14
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 66
+   },
+   {
+    "n": 8,
+    "at": [
+     6,
+     12
+    ],
+    "facing": "D",
+    "sight": 3,
+    "first_path_step": 74
+   },
+   {
+    "n": 9,
+    "at": [
+     19,
+     6
+    ],
+    "facing": "D",
+    "sight": 3,
+    "first_path_step": 82
+   },
+   {
+    "n": 10,
+    "at": [
+     17,
+     5
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 88
+   }
+  ]
+ },
+ "cindervale": {
+  "size": [
+   25,
+   33
+  ],
+  "seed": 11,
+  "trainers": [
+   {
+    "at": [
+     21,
+     25
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 12,
+    "n": 1
+   },
+   {
+    "at": [
+     18,
+     26
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 17,
+    "n": 2
+   },
+   {
+    "at": [
+     14,
+     26
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 21,
+    "n": 3
+   },
+   {
+    "at": [
+     9,
+     25
+    ],
+    "facing": "D",
+    "sight": 2,
+    "first_path_step": 27,
+    "n": 4
+   },
+   {
+    "at": [
+     2,
+     26
+    ],
+    "facing": "R",
+    "sight": 1,
+    "first_path_step": 37,
+    "n": 5
+   },
+   {
+    "at": [
+     5,
+     24
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 39,
+    "n": 6
+   },
+   {
+    "at": [
+     7,
+     20
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 44,
+    "n": 7
+   },
+   {
+    "at": [
+     5,
+     19
+    ],
+    "facing": "L",
+    "sight": 1,
+    "first_path_step": 45,
+    "n": 8
+   },
+   {
+    "at": [
+     3,
+     18
+    ],
+    "facing": "R",
+    "sight": 1,
+    "first_path_step": 46,
+    "n": 9
+   },
+   {
+    "at": [
+     7,
+     17
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 47,
+    "n": 10
+   },
+   {
+    "at": [
+     9,
+     9
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 121,
+    "n": 11
+   },
+   {
+    "at": [
+     13,
+     18
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 126,
+    "side": true,
+    "n": 12
+   }
+  ],
+  "master": [
+   12,
+   1
+  ],
+  "start": [
+   12,
+   32
+  ],
+  "states": 1224,
+  "softlocks": 0,
+  "solution_moves": 124,
+  "moves": "UUURRRRRRRRRUULLLLLLLLLLLULLLULUUUUURUUUULUULLUUUURRDDRRUURRRRRRRRRRRRRRRRRRDDDDLLUULRDDRRUUUULLLLLLLLLLLLLLLLLLUURRUURRURRR",
+  "grid": [
+   "#########################",
+   "#########...M...#########",
+   "#########...G...#########",
+   "#######.........#########",
+   "#######b#################",
+   "#i...iiiii.i.iiii.#..i#.#",
+   "#iiiii#iiiiiiiiiiiiiiii##",
+   "#iiiiiii#iiiiii#iiiii#i##",
+   "#iiiiiii#iiiiiiiiiiiiiii#",
+   "#................##..#..#",
+   "#####d###################",
+   "#...#...................#",
+   "#.#.#.#################.#",
+   "#.#...#.........#.#.U.#.#",
+   "#.#####.#.#####.#.#.#.#.#",
+   "#.....T.....#...#...#...#",
+   "###.#####################",
+   "#.......#.......#.......#",
+   "#.......#.3.....#..1....#",
+   "#2......#.......#.......#",
+   "#3......#...2...#......1#",
+   "#...T...#.......#.......#",
+   "###.#####################",
+   "##..#..v#.>^....>..^.^^.#",
+   "#.v...#.#v...^.v.#.^.^.>#",
+   "#.^.<<>.^.>.vv^#>#<....^#",
+   "#v.^<v<^v.<>v#..^^.^v>..#",
+   "#.......................#",
+   "#####################.###",
+   "#.......................#",
+   "#.......................#",
+   "#.......................#",
+   "############S############"
+  ],
+  "seat_v1": [
+   {
+    "n": 1,
+    "at": [
+     21,
+     25
+    ],
+    "facing": "D",
+    "sight": 4,
+    "first_path_step": 12
+   },
+   {
+    "n": 2,
+    "at": [
+     18,
+     26
+    ],
+    "facing": "D",
+    "sight": 1,
+    "first_path_step": 17
+   },
+   {
+    "n": 3,
+    "at": [
+     9,
+     25
+    ],
+    "facing": "D",
+    "sight": 2,
+    "first_path_step": 27
+   },
+   {
+    "n": 4,
+    "at": [
+     5,
+     24
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 39
+   },
+   {
+    "n": 5,
+    "at": [
+     7,
+     17
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 47
+   },
+   {
+    "n": 6,
+    "at": [
+     3,
+     18
+    ],
+    "facing": "U",
+    "sight": 3,
+    "first_path_step": 48
+   },
+   {
+    "n": 7,
+    "at": [
+     4,
+     15
+    ],
+    "facing": "L",
+    "sight": 3,
+    "first_path_step": 50
+   },
+   {
+    "n": 8,
+    "at": [
+     19,
+     13
+    ],
+    "facing": "R",
+    "sight": 2,
+    "first_path_step": 90
+   },
+   {
+    "n": 9,
+    "at": [
+     8,
+     9
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 120
+   },
+   {
+    "n": 10,
+    "at": [
+     3,
+     9
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 120
+   },
+   {
+    "n": 11,
+    "at": [
+     4,
+     5
+    ],
+    "facing": "R",
+    "sight": 4,
+    "first_path_step": 126
+   },
+   {
+    "n": 12,
+    "at": [
+     10,
+     5
+    ],
+    "facing": "L",
+    "sight": 4,
+    "first_path_step": 126
+   }
+  ]
+ }
+}

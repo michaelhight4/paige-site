@@ -1,7 +1,7 @@
 // Kilumen overworld: map model (pure, no DOM). Loads the World Design map JSON format
 // (art/world/overworld/OVERWORLD_README.md sections 6-7) and answers collision / warp / exit queries.
-import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.88-alpha';
-import { DEV } from '../dev/runtime.js?v=v0.2.88-alpha';
+import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.89-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.89-alpha';
 
 export const LAYER_ORDER = ['ground', 'decoration', 'overlay']; // overlay is y-sorted with characters (see renderer)
 const GRID_LAYERS = ['ground', 'decoration', 'overlay', 'collision', 'encounter', 'fog']; // fog: mirefen_bog, drawn last
@@ -99,7 +99,7 @@ export class GameMap {
   applyGates(flags) {
     const done = [];
     for (const g of this.storyGates) {
-      if (this._appliedGates.has(g.id) || !flags?.has(g.flag)) continue;
+      if (this._appliedGates.has(g.id) || !flags?.has(g.flag) || (g.also || []).some((f) => !flags.has(f))) continue; // also: extra flags (all needed)
       for (const c of g.cells || []) {
         if (!this.inBounds(c.x, c.y)) continue;
         const t = c.cleared_tile ? this._byName?.get(c.cleared_tile) : null;

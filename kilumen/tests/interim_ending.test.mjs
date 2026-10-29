@@ -32,7 +32,7 @@ test('the 8th coin sets all_badges (and only then); the arena gate keys on it', 
   assert.equal(E.syncAllBadges(s), false);
   s.setFlag(MASTERS[7]);
   assert.ok(s.flags.has('all_badges'));
-  const au = JSON.parse(fs.readFileSync(path.join(root, 'art/world/overworld/maps/aurelith.json'), 'utf8'));
+  const au = JSON.parse(fs.readFileSync(path.join(root, 'art/world/overworld/maps/aurelith_stadium_int.json'), 'utf8')); // Aurelith city v1: the gate moved into the stadium lobby
   assert.equal(au.story_gates.find((g) => g.id === 'gate_aurelith_arena').flag, E.ENDING.badges);
 });
 
@@ -63,10 +63,11 @@ test('Ron 6 win does not run the ending (no credits, no flags, returns false)', 
   assert.ok(!s.flags.has('finale_done')); assert.equal(s.locks.size, 0);
 });
 
-test('nothing in the game sets the tower flags yet (ending unreachable in live play)', () => {
+test('nothing in the game sets the tower flags yet except the final Ron result (map not built: ending unreachable in live play)', () => {
+  assert.ok(!fs.existsSync(path.join(root, 'art/world/overworld/maps/aurelith_arena_int.json')), 'final Ron map now exists: revisit this test');
   const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => e.name === 'tests' || e.name === 'design' || e.name === 'shots' || e.name === 'art' || e.name === 'audio' ? [] : e.isDirectory() ? walk(path.join(d, e.name)) : /\.(js|json)$/.test(e.name) ? [path.join(d, e.name)] : []);
   for (const f of walk(root)) {
-    if (f.endsWith(path.join('progression', 'ending.js'))) continue;
+    if (f.endsWith(path.join('progression', 'ending.js')) || f.endsWith(path.join('battle', 'story.js')) || f.endsWith(path.join('text', 'overworld_lines.json'))) continue; // overworld_lines: Text Bot metadata names the flags (when/sets_flag); only code can set them // story.js: final Ron win (Oct 29 2026)
     assert.doesNotMatch(fs.readFileSync(f, 'utf8'), /tower_done|beat_n_ron_7|ron_final_beaten/, f);
   }
 });

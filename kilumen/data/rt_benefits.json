@@ -5,7 +5,11 @@
     "2": "beat_master_fernwick",
     "3": "beat_master_saltmere",
     "_note": "region 2 build (coder, Oct 23 2026): the live region = the highest N whose flag is set (else 'region'). Region 2 opens with the Fernwick coin (the East Road / Thornwood open then); no region gating otherwise.",
-    "4": "beat_master_revival"
+    "4": "beat_master_revival",
+    "5": "beat_master_frostspire",
+    "6": "beat_master_mirefen",
+    "7": "beat_master_tidewater",
+    "8": "beat_master_lanternport"
   },
   "regions": {
     "1": {
@@ -23,6 +27,22 @@
     "4": {
       "maxIdLevel": 12,
       "_note": "region 4 cap (dev region 4 build, Oct 29 2026): opens with the Revival coin (the Frostspire bridge opens then). Promotion ceremonies hold XP just under ID 10 and ID 12 (src/region4/index.js)"
+    },
+    "5": {
+      "maxIdLevel": 14,
+      "_note": "region 5 cap (dev/r56-wiring, Oct 29 2026): opens with the Frostspire coin. Promotion pq_bog_census -> ID 14 (promoted_id14). PLACEHOLDER for Game dev"
+    },
+    "6": {
+      "maxIdLevel": 16,
+      "_note": "region 6 cap (dev/r56-wiring, Oct 29 2026): opens with the Mirefen coin. Promotion pq_storm_duty -> ID 16 (promoted_id16; Ron 5 NOT required). PLACEHOLDER for Game dev"
+    },
+    "7": {
+      "maxIdLevel": 18,
+      "_note": "region 7 cap (dev/regions-5-8, Oct 29 2026): opens with the Tidewater coin. Promotion -> ID 18 (promoted_id18, after beat_master_lanternport). PLACEHOLDER for Game dev"
+    },
+    "8": {
+      "maxIdLevel": 20,
+      "_note": "region 8 cap (dev/regions-5-8, Oct 29 2026): opens with the Lanternport coin. Promotion -> ID 20 (promoted_id20, after beat_master_cindervale). PLACEHOLDER for Game dev"
     }
   },
   "curve": {
@@ -111,6 +131,10 @@
     {
       "id": "unit_performance",
       "label": "Unit Performance"
+    },
+    {
+      "id": "rnd_clearance",
+      "label": "R&D Clearance"
     }
   ],
   "nodes": [
@@ -353,6 +377,158 @@
         "4": 2
       },
       "unlockRegion": 4
+    },
+    {
+      "id": "rt_node_station_m",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r5",
+      "requiresFlag": "promoted_id14",
+      "nameKey": "system_story_r56.g13_node_name",
+      "descKey": "system_story_r56.g13_node_desc",
+      "_note": "Region 5 key card (story_beats R5 §7, G5): the ID 14 promotion unlocks it; buying grants rt_keycard_r5 (Mirefen Peat Station hatch). OVERLAP: dev/board-fish-sports has keycard_r5 (same grantFlag) - keep ONE on merge (this id is the story spec id). PLACEHOLDER cost / rank for Game dev to tune (dev/r56-wiring, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 14,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "5": 1
+      },
+      "unlockRegion": 5
+    },
+    {
+      "id": "rt_node_station_t",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r6",
+      "requiresFlag": "promoted_id16",
+      "nameKey": "system_story_r56.g24_node_name",
+      "descKey": "system_story_r56.g24_node_desc",
+      "_note": "Region 6 key card (story_beats R6 §7, G5): the ID 16 promotion unlocks it; buying grants rt_keycard_r6 (Tidewater sea-cave lab). OVERLAP: dev/board-fish-sports has keycard_r6 (same grantFlag) - keep ONE on merge. PLACEHOLDER cost / rank for Game dev to tune (dev/r56-wiring, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 16,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "6": 1
+      },
+      "unlockRegion": 6
+    },
+    {
+      "id": "storm_allowance",
+      "branch": "supply_pay",
+      "effect": "money.storm_bonus",
+      "_note": "+prize money while storm_season is set and beat_master_tidewater is not. DORMANT: no payout hook reads money.storm_bonus yet. PLACEHOLDER cost / rank for Game dev to tune (dev/r56-wiring, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 13,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 15,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "5": 1,
+        "6": 2
+      },
+      "unlockRegion": 5
+    },
+    {
+      "id": "research_clearance",
+      "branch": "rnd_clearance",
+      "effect": "research.clearance",
+      "_note": "Text (system_rt_benefits.nodes.research_clearance) describes it as the key card grant: OVERLAPS rt_node_station_m/t and board keycard_r5/r6. Grants nothing here so a card is never granted twice; Game dev to pick one model. PLACEHOLDER cost / rank for Game dev to tune (dev/r56-wiring, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 14,
+          "value": 1
+        },
+        {
+          "cost": 1,
+          "minIdLevel": 16,
+          "value": 2
+        }
+      ],
+      "maxRankByRegion": {
+        "5": 1,
+        "6": 2
+      },
+      "unlockRegion": 5
+    },
+    {
+      "id": "salvage_rights",
+      "branch": "supply_pay",
+      "effect": "money.salvage",
+      "_note": "coins per hidden item found. DORMANT: hidden-item pickup doesn't read money.salvage yet. PLACEHOLDER cost / rank for Game dev to tune (dev/r56-wiring, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 15,
+          "value": 50
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 16,
+          "value": 100
+        }
+      ],
+      "maxRankByRegion": {
+        "6": 2
+      },
+      "unlockRegion": 6
+    },
+    {
+      "id": "rt_node_station_l",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r7",
+      "requiresFlag": "promoted_id18",
+      "nameKey": "system_story_r78.r7_node_name",
+      "descKey": "system_story_r78.r7_node_desc",
+      "_note": "Region 7 key card (design/REGIONS_78_PLAN.md): the ID 18 promotion unlocks it; buying grants rt_keycard_r7 (Lanternport signal store (lighthouse lab, World Design to place)). PLACEHOLDER cost / rank for Game dev to tune (dev/regions-5-8, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 18,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "7": 1
+      },
+      "unlockRegion": 7
+    },
+    {
+      "id": "rt_node_station_c",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r8",
+      "requiresFlag": "promoted_id20",
+      "nameKey": "system_story_r78.r8_node_name",
+      "descKey": "system_story_r78.r8_node_desc",
+      "_note": "Region 8 key card (design/REGIONS_78_PLAN.md): the ID 20 promotion unlocks it; buying grants rt_keycard_r8 (Cindervale foundry lab (World Design to place)). PLACEHOLDER cost / rank for Game dev to tune (dev/regions-5-8, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 20,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "8": 1
+      },
+      "unlockRegion": 8
     }
   ],
   "respec": {

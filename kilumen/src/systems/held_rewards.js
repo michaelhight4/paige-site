@@ -33,8 +33,8 @@ export const HIDDEN_SPOTS = {
   lanternport: [{ id: 'held_hush_charm', x: 12, y: 12, item: 'hush_charm' }],
   cindervale: [{ id: 'held_scaleshard', x: 12, y: 12, item: 'scaleshard_charm' }, { id: 'held_oath_band', x: 41, y: 12, item: 'oath_band' }],
   aurelith: [
-    { id: 'held_halo_charm', x: 14, y: 9, item: 'halo_charm' },
-    { id: 'held_mythmark', x: 43, y: 9, item: 'mythmark_charm', needFlag: POSTGAME_FLAG },
+    { id: 'held_halo_charm', x: 13, y: 9, item: 'halo_charm' },
+    { id: 'held_mythmark', x: 43, y: 16, item: 'mythmark_charm', needFlag: POSTGAME_FLAG },
     { id: 'held_oath_spurs', x: 14, y: 22, item: 'oath_spurs', needFlag: POSTGAME_FLAG },
   ],
 };

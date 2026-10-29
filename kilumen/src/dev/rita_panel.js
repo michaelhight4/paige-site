@@ -7,9 +7,9 @@
 // planFor, voice bus); cv.tick then advances / hides it like any line. Status per line comes from the real planFor().
 // Save rules: no cv.show() (that writes seen cv#trainer1 / cv#last#<base> and checkpoints), no scene.log entry, no flags;
 // scene._dirty is put back after the preview hides, and the saveGuard blocks saving while the strip is up, as in the game.
-import { planFor } from '../systems/rita_voice.js?v=v0.2.88-alpha';
-import { CompanyVoice, ritaIdOf, TRAINER1_LINE } from '../systems/company_voice.js?v=v0.2.88-alpha';
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.88-alpha';
+import { planFor } from '../systems/rita_voice.js?v=v0.2.89-alpha';
+import { CompanyVoice, ritaIdOf, TRAINER1_LINE } from '../systems/company_voice.js?v=v0.2.89-alpha';
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.89-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const title = (s) => String(s).replace(/\b\w/g, (c) => c.toUpperCase());

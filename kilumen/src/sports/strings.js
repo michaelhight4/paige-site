@@ -41,7 +41,6 @@ export const S = {
   result_lose: 'Not this time. Rivals here are tough.',
   result_out: 'Out in the heats. Only the top two in each heat make the final.',
   coach_name: 'Coach Wren',
-  coach_hello: 'Welcome to the Brookhollow Dash Track! Practice is free. The tournament runs every 3 days.',
   venue_title: 'Brookhollow Dash Track',
   venue_sub: 'One straight 100m dash. Two heats of four; the top two in each heat run the final.',
   wallet: 'Gold',

@@ -10,7 +10,7 @@
 //   - Home Ron: the first talk after each win is a reaction to that Master (Text Bot key maps.house_1f.ron_home_after_<zone>,
 //     placeholder below until then); later talks use his normal lines. Town Ron (spawned): maps.<town>.ron_town or placeholder.
 // No map JSON edits: applied on map entry from StoryRon.tick (remove / spawn, like the story Ron).
-import { Npc } from './npcs.js?v=v0.2.88-alpha';
+import { Npc } from './npcs.js?v=v0.2.89-alpha';
 
 /** Punch list in order: {zone, town (map), flag (done when set)}. */
 export const RON_PUNCH_LIST = [
@@ -126,7 +126,7 @@ export function applyRonWhereabouts(story, isRon) {
 /** Free walkable cell near the hall door (or the town's first warp / the player) for the spawned town Ron. */
 export function townRonCell(s) {
   const m = s.map, warps = m.warps || m.json?.warps || [];
-  const door = warps.find((w) => /_hall_int$/.test(w.to || '')) || null;
+  const door = warps.find((w) => /_hall_int$|_lighthouse_int$/.test(w.to || '')) || null;
   const free = (x, y) => m.inBounds?.(x, y) && m.code(x, y) === 0 && !m.npcAt?.(x, y) && !m.warpAt?.(x, y)
     && !(s.player && s.player.x === x && s.player.y === y) && !warps.some((w) => w.x === x && w.y === y);
   const near = (c, offs) => { for (const [dx, dy] of offs) if (free(c.x + dx, c.y + dy)) return { x: c.x + dx, y: c.y + dy }; return null; };

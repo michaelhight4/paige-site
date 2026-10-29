@@ -7,8 +7,8 @@
 // - Cold Hands side quest (sq_cold_hands) and reactive NPC lines.
 // Saving: ride / ceremony push saveGuards; everything else runs inside scene.script (busy = save locked). Never saves itself.
 // Every player string is a PLACEHOLDER from data/region4/region4.json until Text Bot keys land (region4.* in overworld_lines).
-import { xpToReach, regionCap } from '../systems/rt_benefits.js?v=v0.2.88-alpha';
-import { attachSoul } from './soul.js?v=v0.2.88-alpha';
+import { xpToReach, regionCap } from '../systems/rt_benefits.js?v=v0.2.89-alpha';
+import { attachSoul } from './soul.js?v=v0.2.89-alpha';
 
 export const R4 = { pass: 'frostspire_pass', town: 'frostspire', openFlag: 'beat_master_revival', visited: 'visited_frostspire', bankKey: 'r4_banked', bonusKey: 'r4#daily_bonus' };
 
@@ -28,6 +28,14 @@ export function needsMet(promo, flags) {
   return true;
 }
 /** Pure: clamp company XP to the hold; -> {xp, banked} */
+/** region4.signs.<id>: Text Bot now ships {pages, lines} objects; older data (and data/region4/region4.json) are plain lists. */
+export function signPages(v) {
+  if (Array.isArray(v)) return v.length ? v : null;
+  if (v && typeof v === 'object') { const p = v.pages || v.lines?.[v.lines.length - 1]?.pages; return Array.isArray(p) && p.length ? p : null; }
+  return typeof v === 'string' && v ? [v] : null;
+}
+export const R4_SIGNS = ['frostspire_sign_skylift', 'frostspire_sign_benefits'];
+
 export function clampXp(xp, banked, hold) { return xp > hold ? { xp: hold, banked: banked + (xp - hold) } : { xp, banked }; }
 
 export function attachRegion4(scene, { systems, data } = {}) {
@@ -210,6 +218,15 @@ export function attachRegion4(scene, { systems, data } = {}) {
       set('sq_cold_done'); return true;
     }
     await say(N('climber', 'waiting'), {}, sp); return true;
+  }
+  // Frostspire signs: read .pages from the {pages, lines} object, still accept a plain list.
+  const origSign = scene.readSign?.bind(scene);
+  if (origSign && !scene._r4Sign) {
+    scene._r4Sign = true;
+    scene.readSign = (sign) => {
+      const pages = R4_SIGNS.includes(sign?.id) ? signPages(L(`signs.${sign.id}`, null)) || signPages(D?.signs?.[sign.id]) : null;
+      return pages ? scene.script(async () => { await say(pages); }) : origSign(sign);
+    };
   }
   const S = sys();
   if (S && !S._r4Hooked && S.onTalk) {

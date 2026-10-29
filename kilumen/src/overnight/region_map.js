@@ -4,7 +4,7 @@
 // visited_<town> is recorded on every on-foot entry to the town map whether or not the flag is on (FIELD_SKILLS.md 131).
 // Lumen Line (rail): railStops() + RegionMap.railTo(stopId) are ready, but NOT bound to any NPC: station_attendant talk is
 // Story/quests territory (question for Gary). Whoever owns the clerk calls scene.overnight.region.railTo(id).
-import { Col } from '../overworld/constants.js?v=v0.2.88-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.89-alpha';
 
 const INDOOR = (n) => /_int$|^house_|^home_|^heal_|^lab_|^shop|^club|^office|^station|^rt_branch|^lantern_rest/.test(n);
 const CAVE = (n) => /^greystone/.test(n);
@@ -74,9 +74,11 @@ export function railStops(layout, flags, built = new Set(layout?.maps_built || [
   });
 }
 
-/** Arrival cell for a stop: one tile below the town's door warp into station_int (the shared interior uses $return). */
+/** Arrival cell for a stop: one tile below the town's station door - a warp marked rail:true (Aurelith Grand Terminal)
+ *  wins, else the door warp into station_int (the shared interior uses $return). */
 export function railArrival(townMap, interior = 'station_int') {
-  const w = (townMap?.warps || []).find((q) => q.to === interior);
+  const ws = townMap?.warps || [];
+  const w = ws.find((q) => q.rail) || ws.find((q) => q.to === interior);
   return w ? { map: townMap.name, x: w.x, y: w.y + 1, facing: 'down' } : null;
 }
 

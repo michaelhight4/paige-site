@@ -6,7 +6,7 @@
 // Nibbin swap (Oct 23 2026, coder; Gary: Tumbloam "looks a lot like Cindrip"): Nibbin -> Gnawford is the earth STARTER now and
 // starter-only (src/battle/data/starters.js STARTER_ONLY), so the old Nibbin slots on ordinary trainers became Tumbloam (same
 // level, earth, first stage, evolves at 16). Ron's byStarter: `nibbin` added (= the old earth branch, Ron takes Cindrip), the
-// rillop branch now fields Nibbin / Gnawford; `tumbloam` kept for v0.2.86-alpha saves that picked Tumbloam.
+// rillop branch now fields Nibbin / Gnawford; `tumbloam` kept for v0.2.89-alpha saves that picked Tumbloam.
 // XP rules stay xpDivisor 7 / xpTrainerMult 1.5 (Gary 12:00: "No, keep the old XP and find another way"; 12:01: "the
 // point of the game is to grind in the grass and log more kilumen"): trainers do NOT carry the player to L12-13, grass
 // grinding does (tools/playcheck_master1.mjs models it). r1_d/e/f + fw_a are world-feel trainers (Gary 12:02: "trainers
@@ -18,9 +18,12 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.88-alpha';
-import { applyHeldPicks } from './trainer_held.js?v=v0.2.88-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.89-alpha';
+import { applyHeldPicks } from './trainer_held.js?v=v0.2.89-alpha';
+import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.89-alpha';
+import { ARENA_TEAMS } from '../../region78/arena.js?v=v0.2.89-alpha'; // Aurelith Arena fighters (8, back to back)
 
+const RON_TIDEWATER = {"nibbin": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}], "cindrip": [{species: "sailquill", level: 40}, {species: "pearlisk", level: 40, held: "runestitch_charm"}, {species: "tidemarrow", level: 40, held: "sprig_charm"}, {species: "nudiblume", level: 40, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}, {species: "brineseal", level: 39, held: "droplet_charm"}, {species: "tidemarrow", level: 41, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}], "rillop": [{species: "sailquill", level: 40}, {species: "glassvine", level: 40}, {species: "gearwarden", level: 40}, {species: "bramblehog", level: 41}, {species: "skyrender", level: 40}, {species: "gnawford", level: 41}], "tumbloam": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}]};
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end
   'route1.trainer_r1_a': [{ species: 'sailquill', level: 4 }, { species: 'burlbeetle', level: 4 }],
@@ -38,7 +41,7 @@ export const TRAINER_TEAMS = {
       nibbin: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }],
       cindrip: [{ species: 'peeplark', level: 7 }, { species: 'rillop', level: 8 }],
       rillop: [{ species: 'peeplark', level: 7 }, { species: 'nibbin', level: 8 }],
-      tumbloam: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }], // legacy: v0.2.86-alpha Tumbloam saves
+      tumbloam: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }], // legacy: v0.2.89-alpha Tumbloam saves
     },
   },
   'fernwick.trainer_fw_a': [{ species: 'thistlepup', level: 8 }, { species: 'hushowl', level: 9 }], // hall hopeful, path to the Master's Hall
@@ -46,6 +49,7 @@ export const TRAINER_TEAMS = {
   'fernwick.trainer_fw_old': [{ species: 'burlbeetle', level: 7 }, { species: 'dewmite', level: 8 }], // Old Trainer (generic), by the heal centre
   'fernwick_hall_int.helper_1': [{ species: 'tumbloam', level: 10 }, { species: 'peeplark', level: 11 }],
   'fernwick_hall_int.helper_2': [{ species: 'pebblant', level: 11 }, { species: 'dewmite', level: 11 }],
+  'fernwick_hall_int.fernwick_hall_int_h3': [{ species: 'cobblepup', level: 9 }, { species: 'lintmouse', level: 9 }], // Tamsin (hall trainers v1, Oct 29 2026)
   'fernwick_hall_int.master_fernwick': [{ species: 'pebblant', level: 12 }, { species: 'pondkin', level: 12 }, { species: 'tumbloam', level: 13 }],
   // ---- region 2: Thornwood (side forest west of Fernwick; raised to region 2, Oct 23 2026) ----
   'thornwood.trainer_tw_bug': [{ species: 'thornpod', level: 13 }, { species: 'gloamtick', level: 13 }],
@@ -77,6 +81,7 @@ export const TRAINER_TEAMS = {
   'saltmere_hall_int.saltmere_hall_int_h1': [{ species: 'sandstarlet', level: 16 }, { species: 'blubbet', level: 16 }], // Lorna hall_helper
   'saltmere_hall_int.saltmere_hall_int_h2': [{ species: 'medulet', level: 16 }, { species: 'whelkin', level: 16 }], // Ivo hall_helper
   'saltmere_hall_int.saltmere_hall_int_h3': [{ species: 'finnip', level: 16 }, { species: 'ribboneel', level: 17 }], // Sully hall_helper
+  'saltmere_hall_int.saltmere_hall_int_h4': [{ species: 'sandstarlet', level: 12 }, { species: 'blubbet', level: 12 }], // Odile (hall trainers v1, Oct 29 2026)
   'saltmere_hall_int.saltmere_hall_int_master': [{ species: 'quaymouser', level: 15 }, { species: 'polypip', level: 16 }, { species: 'spratwyrm', level: 18 }], // Nerys Bryde master
   // ---- region 3 early access (coder, Oct 24 2026; Gary: "a bit above region 2", wild L22-27, trainers L22-26, Master 3 L27-30) ----
   'route_revival_saltmere.route_revival_saltmere_trainer_1': [{ species: 'slagrook', level: 19 }, { species: 'shalekin', level: 21 }], // Garrick worker
@@ -103,6 +108,7 @@ export const TRAINER_TEAMS = {
   'revival_hall_int.revival_hall_int_h2': [{ species: 'prismwing', level: 22 }, { species: 'glimmerlamb', level: 22 }], // Dov
   'revival_hall_int.revival_hall_int_h3': [{ species: 'tollkin', level: 23 }, { species: 'dawnfin', level: 23 }], // Fen
   'revival_hall_int.revival_hall_int_h4': [{ species: 'candlewren', level: 23 }, { species: 'halovy', level: 23 }], // Corwin
+  'revival_hall_int.revival_hall_int_h5': [{ species: 'halovy', level: 19 }, { species: 'gildfinch', level: 19 }], // Seren (hall trainers v1, Oct 29 2026)
   'revival_hall_int.revival_hall_int_master': [{ species: 'halovy', level: 22 }, { species: 'gildfinch', level: 23 }, { species: 'fleecelight', level: 23 }, { species: 'lampwick', level: 24 }], // Cassia Lume, Master 3
   // ---- region 4 early access (coder, Oct 24 2026; wild L28-33, trainers L28-32, hall L31-33, Master 4 L33-35) ----
   'frostspire_pass.frostspire_pass_trainer_1': [{ species: 'ledgebex', level: 28 }, { species: 'talusmouse', level: 29 }],
@@ -125,7 +131,15 @@ export const TRAINER_TEAMS = {
   'frostspire_hall_int.frostspire_hall_int_h1': [{ species: 'sailquill', level: 31 }, { species: 'snowgrouse', level: 31 }], // Rue
   'frostspire_hall_int.frostspire_hall_int_h2': [{ species: 'highkite', level: 32 }, { species: 'signalwren', level: 32 }], // Bram
   'frostspire_hall_int.frostspire_hall_int_h3': [{ species: 'spraytern', level: 33 }, { species: 'sailquill', level: 33 }], // Tilly
+  'frostspire_hall_int.frostspire_hall_int_h4': [{ species: 'spraytern', level: 30 }, { species: 'signalwren', level: 30 }], // Halvard (hall trainers v1, Oct 29 2026)
+  'frostspire_hall_int.frostspire_hall_int_h5': [{ species: 'sailquill', level: 31 }, { species: 'highkite', level: 31 }], // Isolde (hall trainers v1, Oct 29 2026)
+  'frostspire_hall_int.frostspire_hall_int_h6': [{ species: 'pouchbill', level: 31 }, { species: 'snowgrouse', level: 31 }, { species: 'belfrydove', level: 32 }], // Kestrel (hall trainers v1, Oct 29 2026)
   'frostspire_hall_int.frostspire_hall_int_master': [{ species: 'sailquill', level: 33 }, { species: 'highkite', level: 34 }, { species: 'pouchbill', level: 34 }, { species: 'gildfinch', level: 35 }], // Hale Corrie, Master 4
+  // r56 (Oct 29 2026): Ron at Tidewater (GD 'ron_6' id rival_ron_tidewater, optional, story.js RON_RIVALS 5). design/regions56_gd/
+  // balance.json ron_6; stand-ins: stampedor -> bramblehog, seraphawk -> skyrender, driftknot -> tidemarrow, deluvane -> brineseal.
+  'tidewater_coast.tidewater_coast_ron_5': { byStarter: RON_TIDEWATER },
+  'tidewater_coast.tidewater_coast_ron_5_slip': { byStarter: RON_TIDEWATER },
+  ...ARENA_TEAMS, // aurelith_arena_room_N.arena_fighter_N (src/region78/arena.js)
 };
 
 // Held items for Masters and Ron: per-creature picks per fight in src/battle/data/trainer_held.js (Oct 29 2026, P2-P5).
@@ -146,9 +160,10 @@ const withHeld = (key, team) => applyHeldPicks(TRAINER_HELD[key], team);
  *  an evolved starter still counts, starters.js partyStarter; a legacy Tumbloam save uses the `tumbloam` branch). */
 export function authoredTeam(who, party = []) {
   if (!who?.map || !who?.id) return null;
-  const e = TRAINER_TEAMS[`${who.map}.${who.id}`];
-  if (!e) return null;
   const key = `${who.map}.${who.id}`;
+  if (RON_KEYS[key]) return withHeld(key, ronTeam(RON_KEYS[key], partyStarter(party) || STARTERS[0])); // Ron: base 3 + per-save roll (ron_team.js)
+  const e = TRAINER_TEAMS[key];
+  if (!e) return null;
   if (Array.isArray(e)) return withHeld(key, e.map((f) => ({ ...f })));
   const starter = partyStarter(party) || STARTERS[0];
   const sk = starterKeys(starter).find((k) => e.byStarter[k]) || Object.keys(e.byStarter)[0];

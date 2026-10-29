@@ -3,13 +3,13 @@
 // wins are read through a wrap of systems.applyBattleResult (as evolution.js does), practice calls api.onPractice(c).
 // Save rules: the overlay can only open in free roam (no battle, dialogue, cutscene, scene.script or other UI), and a
 // saveGuard ('feeds_menu') blocks saving while it is open; the next normal save after close keeps the feed.
-import { feedsEnabled } from './flags.js?v=v0.2.88-alpha';
-import * as L from './logic.js?v=v0.2.88-alpha';
-import { FS, ft } from './strings.js?v=v0.2.88-alpha';
-import { setAthleticBonus, speciesAthletics } from '../sports/athletics.js?v=v0.2.88-alpha';
-import { fruitSvg, CSS } from './ui_art.js?v=v0.2.88-alpha';
-import { feedTabHtml, playFeed, growBars, feedSfx, CSS2 } from './feed_view.js?v=v0.2.88-alpha';
-import { createBackdrop, BG_CSS } from './backdrop.js?v=v0.2.88-alpha';
+import { feedsEnabled } from './flags.js?v=v0.2.89-alpha';
+import * as L from './logic.js?v=v0.2.89-alpha';
+import { FS, ft } from './strings.js?v=v0.2.89-alpha';
+import { setAthleticBonus, speciesAthletics } from '../sports/athletics.js?v=v0.2.89-alpha';
+import { fruitSvg, CSS } from './ui_art.js?v=v0.2.89-alpha';
+import { feedTabHtml, playFeed, growBars, feedSfx, CSS2 } from './feed_view.js?v=v0.2.89-alpha';
+import { createBackdrop, BG_CSS } from './backdrop.js?v=v0.2.89-alpha';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const uidOf = (c) => c?.uid || c?.id || null;

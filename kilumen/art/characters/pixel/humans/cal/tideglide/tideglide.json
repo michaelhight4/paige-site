@@ -1,0 +1,78 @@
+{
+ "frame_size": [
+  64,
+  96
+ ],
+ "grid": "x = tileX*64, y = (tileY+1)*64 - 96 (same as walk/bike)",
+ "waterline_y": 84,
+ "rider_hip_point_at_bob0": {
+  "down": [
+   32,
+   66
+  ],
+  "left": [
+   34,
+   66
+  ],
+  "right": [
+   30,
+   66
+  ],
+  "up": [
+   32,
+   66
+  ]
+ },
+ "seated_upper_hip_anchor": [
+  32,
+  65
+ ],
+ "bob_px_per_frame": [
+  0,
+  1,
+  2,
+  1
+ ],
+ "anims": {
+  "glide": {
+   "frames": 4,
+   "ms": 150,
+   "loop": true,
+   "note": "walk speed (4 tiles/s): advance 16 px per frame"
+  },
+  "idle": {
+   "frames": 4,
+   "ms": 220,
+   "loop": true,
+   "note": "same art as glide without wake"
+  },
+  "mount": {
+   "frames": 6,
+   "ms": [
+    90,
+    90,
+    90,
+    80,
+    80,
+    120
+   ],
+   "note": "f0-2 skiff surfaces in front of the player (splash ring); f3 rider hop (hip 6 px up); f4-5 seated, settle bob. Play facing the water tile; tween the player 1 tile into it over f3-f4"
+  },
+  "dismount": {
+   "frames": 4,
+   "ms": [
+    90,
+    90,
+    90,
+    120
+   ],
+   "note": "rider hop onto land (tween 1 tile), skiff dives (sinks under the waterline); then walk frames"
+  }
+ },
+ "chars": [
+  "cal",
+  "mira"
+ ],
+ "status": "NOT wired - for Gary approval",
+ "offpalette_colours_from_rider_parts": 0
+}

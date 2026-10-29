@@ -1,0 +1,103 @@
+{
+ "element": "sea",
+ "effect_id": "sea_riptide",
+ "anim": "travel_p2f",
+ "description": "sea skill: twin-helix water jet; impact = whirlpool rings drag round the target with a rising spiral",
+ "generated_by": "kilumen_regions56_art/skill_fx/_tools/fx56.py",
+ "generated_at": "2026-10-29T13:52:45-05:00",
+ "scale": 2,
+ "filter": "nearest",
+ "background": "fully transparent (1-bit alpha), palette-only opaque pixels",
+ "gif": "sea_riptide_travel_p2f_battle_2x.gif",
+ "gif_disposal": 2,
+ "loop": "gif loop=0 is set; play ONCE in game (remove after total_ms)",
+ "sheet": "sea_riptide_travel_p2f_battle_2x_sheet.png",
+ "sheet_layout": "horizontal strip, frame i at x=i*frame_w",
+ "frame_w": 328,
+ "frame_h": 188,
+ "frame_count": 7,
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 328,
+   "h": 188,
+   "ms": 71
+  },
+  {
+   "i": 1,
+   "x": 328,
+   "y": 0,
+   "w": 328,
+   "h": 188,
+   "ms": 71
+  },
+  {
+   "i": 2,
+   "x": 656,
+   "y": 0,
+   "w": 328,
+   "h": 188,
+   "ms": 71
+  },
+  {
+   "i": 3,
+   "x": 984,
+   "y": 0,
+   "w": 328,
+   "h": 188,
+   "ms": 71
+  },
+  {
+   "i": 4,
+   "x": 1312,
+   "y": 0,
+   "w": 328,
+   "h": 188,
+   "ms": 71
+  },
+  {
+   "i": 5,
+   "x": 1640,
+   "y": 0,
+   "w": 328,
+   "h": 188,
+   "ms": 71
+  },
+  {
+   "i": 6,
+   "x": 1968,
+   "y": 0,
+   "w": 328,
+   "h": 188,
+   "ms": 71
+  }
+ ],
+ "total_ms": 497,
+ "native_frame_w": 164,
+ "native_frame_h": 94,
+ "rendered_with_margin": true,
+ "anchor": {
+  "type": "screen_space_path",
+  "start": [
+   46,
+   154
+  ],
+  "end": [
+   278,
+   32
+  ],
+  "start_is": "player mouth (back sprite)",
+  "end_is": "foe centre",
+  "canvas_offset_on_pilot_screen_native": [
+   91,
+   84
+  ],
+  "canvas_offset_on_pilot_screen_2x": [
+   182,
+   168
+  ],
+  "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+ }
+}

@@ -10,9 +10,10 @@
 // no system reads or writes those blocks yet. Older saves go through MIGRATIONS one step at a time (v1 -> v2 ...),
 // so an old save always loads. The storage key keeps its v1 name so existing saves are found.
 
-import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.88-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
-import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.88-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
-import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.88-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
+import { checkSave, isLoadableSave } from './save_schema.js?v=v0.2.89-alpha'; // Valibot save check (free tools pass, Oct 23, 2026)
+import { normaliseContacts } from '../systems/contacts_save.js?v=v0.2.89-alpha'; // [contacts] optional block, dev only (?contacts=1); no version bump
+import { rollRon, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.89-alpha'; // Ron's per-save roll (Gary 5:09 PM)
+import { employeeIdFor, EMPLOYEE_ID_RE } from '../systems/employee_id.js?v=v0.2.89-alpha'; // company voice: per-save employee number (Gary 12:20 PM CT)
 
 export const SAVE_VERSION = 2;
 // Padded maps (Gary, Oct 23 2026, 10:25 AM CT): positions are stored in the padded-map frame from now on. A save without
@@ -87,6 +88,7 @@ export function freshSave() {
     ...v2Defaults(),
   };
   s.company.employeeId = employeeIdFor(s.saveId); // company voice: stable per-save employee number
+  s.ron_roll = rollRon(s.saveId); // Ron's seed (from the save ID): each Ron fight re-rolls its 3 slots from it + the fight number (ron_team.js)
   return s;
 }
 
@@ -177,6 +179,7 @@ export function normalise(input) {
   for (const k of ['archive', 'kilindex', 'tasks', 'company', 'systems']) s[k] = shaped(d[k], o[k]); // [systems-gd hook] + systems
   if ('contacts' in o) s.contacts = normaliseContacts(o.contacts); // [contacts] only when present: flag-off saves are unchanged
   if (!EMPLOYEE_ID_RE.test(s.company.employeeId)) s.company.employeeId = employeeIdFor(s.saveId); // old saves get their number on load
+  s.ron_roll = ensureRonRoll({ ron_roll: o.ron_roll, saveId: s.saveId }); // old saves without one get the seed from their save ID
   return s;
 }
 
@@ -241,5 +244,5 @@ export class SaveStore {
   clear() { this.storage?.removeItem(this.key); this.storage?.removeItem(this.bakKey); this.extra = pickBlocks(freshSave()); }
 }
 
-const KEEP_BLOCKS = [...V2_BLOCKS, 'contacts', 'devTouched']; // [contacts] optional block: carried through saves only if a save already has it
+const KEEP_BLOCKS = [...V2_BLOCKS, 'contacts', 'devTouched', 'ron_roll']; // [contacts] optional block: carried through saves only if a save already has it
 function pickBlocks(s) { return Object.fromEntries(KEEP_BLOCKS.filter((k) => k in s).map((k) => [k, s[k]])); }
