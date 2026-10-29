@@ -1,80 +1,70 @@
 {
  "hushpine_front": {
-  "scale": 0.13869625520110956,
+  "scale": 0.1404494382022472,
   "org": [
-   123,
-   142
+   202,
+   144
   ],
   "size": [
-   113,
+   94,
    100
   ],
   "src": "raw/battle_front.jpg",
-  "colours": 25
+  "colours": 26
  },
  "hushpine_back": {
-  "scale": 0.13210039630118892,
+  "scale": 0.1440922190201729,
   "org": [
-   179,
-   117
+   220,
+   148
   ],
   "size": [
-   92,
+   87,
    100
   ],
   "src": "raw/battle_back.jpg",
-  "colours": 23
+  "colours": 16
  },
  "hushpine_ow_down": {
-  "scale": 0.13793103448275862,
+  "scale": 0.12903225806451613,
   "org": [
-   37,
-   189
+   35,
+   167
   ],
   "size": [
-   36,
+   37,
    44
   ],
   "src": "raw/ow_views.jpg",
-  "colours": 20
+  "colours": 17
  },
  "hushpine_ow_left": {
-  "scale": 0.13968253968253969,
+  "scale": 0.13134328358208955,
   "org": [
-   317,
-   192
+   350,
+   173
   ],
   "size": [
-   46,
+   38,
    44
   ],
   "src": "raw/ow_views.jpg",
-  "colours": 24
+  "colours": 19
  },
  "hushpine_ow_right": {
-  "scale": 0.13968253968253969,
-  "org": [
-   670,
-   193
-  ],
-  "size": [
-   44,
-   44
-  ],
-  "src": "raw/ow_views.jpg",
-  "colours": 23
+  "mirror_of": "hushpine_ow_left"
  },
  "hushpine_ow_up": {
-  "scale": 0.14102564102564102,
+  "scale": 0.1282798833819242,
   "org": [
-   1002,
-   194
+   976,
+   170
   ],
   "size": [
-   34,
+   35,
    44
   ],
   "src": "raw/ow_views.jpg",
-  "colours": 18
+  "colours": 13
  }
 }

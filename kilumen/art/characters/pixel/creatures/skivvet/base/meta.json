@@ -1,80 +1,70 @@
 {
  "skivvet_front": {
-  "scale": 0.13885778275475924,
+  "scale": 0.129366106080207,
   "org": [
-   101,
-   171
+   283,
+   122
   ],
   "size": [
-   124,
-   98
+   74,
+   100
   ],
   "src": "raw/battle_front.jpg",
-  "colours": 22
+  "colours": 20
  },
  "skivvet_back": {
-  "scale": 0.12195121951219512,
+  "scale": 0.13054830287206268,
   "org": [
-   230,
-   91
+   326,
+   115
   ],
   "size": [
-   78,
+   67,
    100
   ],
   "src": "raw/battle_back.jpg",
-  "colours": 17
+  "colours": 14
  },
  "skivvet_ow_down": {
-  "scale": 0.11989100817438691,
+  "scale": 0.09865470852017937,
   "org": [
-   38,
-   165
+   108,
+   119
   ],
   "size": [
-   22,
+   20,
    44
   ],
   "src": "raw/ow_views.jpg",
-  "colours": 19
+  "colours": 17
  },
  "skivvet_ow_left": {
-  "scale": 0.12535612535612536,
+  "scale": 0.1,
   "org": [
-   288,
-   165
+   359,
+   119
   ],
   "size": [
-   43,
+   33,
    44
   ],
   "src": "raw/ow_views.jpg",
-  "colours": 15
+  "colours": 10
  },
  "skivvet_ow_right": {
-  "scale": 0.125,
-  "org": [
-   625,
-   165
-  ],
-  "size": [
-   49,
-   44
-  ],
-  "src": "raw/ow_views.jpg",
-  "colours": 16
+  "mirror_of": "skivvet_ow_left"
  },
  "skivvet_ow_up": {
-  "scale": 0.11891891891891893,
+  "scale": 0.09341825902335456,
   "org": [
-   1086,
-   165
+   1047,
+   119
   ],
   "size": [
-   17,
+   18,
    44
   ],
   "src": "raw/ow_views.jpg",
-  "colours": 15
+  "colours": 13
  }
 }

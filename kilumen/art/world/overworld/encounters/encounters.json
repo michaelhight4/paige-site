@@ -1200,8 +1200,8 @@
     {
      "species": "hushpine",
      "level": [
-      25,
-      27
+      27,
+      29
      ],
      "weight": 10,
      "cute_r4": true
@@ -1209,8 +1209,8 @@
     {
      "species": "glintmoth",
      "level": [
-      25,
-      27
+      27,
+      29
      ],
      "weight": 8,
      "cute_r4": true,
@@ -1218,6 +1218,15 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "cairnhorn",
+     "level": [
+      28,
+      30
+     ],
+     "weight": 5,
+     "cute_r4": true
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_greystone_frostspire.json zone fp_snowfern (grass (snow-fern, forced band))",
@@ -1268,8 +1277,8 @@
     {
      "species": "skivvet",
      "level": [
-      26,
-      28
+      30,
+      32
      ],
      "weight": 15
     },
@@ -1285,8 +1294,8 @@
     {
      "species": "tbdcandle",
      "level": [
-      26,
-      28
+      29,
+      31
      ],
      "weight": 6,
      "cute_r4": true,
@@ -1298,8 +1307,8 @@
     {
      "species": "aurorel",
      "level": [
-      27,
-      28
+      31,
+      33
      ],
      "weight": 2,
      "cute_r4": true,
@@ -1329,8 +1338,8 @@
     {
      "species": "cairnhorn",
      "level": [
-      27,
-      29
+      30,
+      32
      ],
      "weight": 25
     }

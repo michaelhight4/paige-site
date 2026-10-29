@@ -2280,8 +2280,8 @@
     {
      "species": "hushpine",
      "level": [
-      25,
-      27
+      27,
+      29
      ],
      "weight": 10,
      "cute_r4": true
@@ -2289,8 +2289,8 @@
     {
      "species": "glintmoth",
      "level": [
-      25,
-      27
+      27,
+      29
      ],
      "weight": 8,
      "cute_r4": true,
@@ -2298,6 +2298,15 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "cairnhorn",
+     "level": [
+      28,
+      30
+     ],
+     "weight": 5,
+     "cute_r4": true
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -2403,8 +2412,8 @@
     {
      "species": "tbdcandle",
      "level": [
-      26,
-      28
+      29,
+      31
      ],
      "weight": 6,
      "cute_r4": true,
@@ -2416,8 +2425,8 @@
     {
      "species": "skivvet",
      "level": [
-      26,
-      28
+      30,
+      32
      ],
      "weight": 10,
      "cute_r4": true,
@@ -2429,8 +2438,8 @@
     {
      "species": "aurorel",
      "level": [
-      27,
-      28
+      31,
+      33
      ],
      "weight": 2,
      "cute_r4": true,
@@ -2468,8 +2477,8 @@
     {
      "species": "cairnhorn",
      "level": [
-      27,
-      29
+      30,
+      32
      ],
      "weight": 15,
      "cute_r4": true

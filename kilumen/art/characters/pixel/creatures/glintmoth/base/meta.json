@@ -1,80 +1,80 @@
 {
  "glintmoth_front": {
-  "scale": 0.141643059490085,
+  "scale": 0.13276231263383298,
   "org": [
-   107,
-   134
+   49,
+   157
   ],
   "size": [
-   118,
-   100
+   124,
+   91
   ],
   "src": "raw/battle_front.jpg",
-  "colours": 20
+  "colours": 23
  },
  "glintmoth_back": {
-  "scale": 0.12690355329949238,
+  "scale": 0.13333333333333333,
   "org": [
-   71,
-   102
+   49,
+   152
   ],
   "size": [
-   112,
-   100
+   124,
+   93
   ],
   "src": "raw/battle_back.jpg",
-  "colours": 17
+  "colours": 18
  },
  "glintmoth_ow_down": {
-  "scale": 0.09565217391304348,
+  "scale": 0.12716763005780346,
   "org": [
-   67,
-   101
+   36,
+   157
   ],
   "size": [
-   20,
+   36,
    44
   ],
   "src": "raw/ow_views.jpg",
-  "colours": 17
+  "colours": 16
  },
  "glintmoth_ow_left": {
-  "scale": 0.09606986899563319,
+  "scale": 0.12324929971988796,
   "org": [
-   370,
-   100
+   389,
+   156
   ],
   "size": [
-   25,
+   30,
    44
   ],
   "src": "raw/ow_views.jpg",
   "colours": 16
  },
  "glintmoth_ow_right": {
-  "scale": 0.09482758620689655,
+  "scale": 0.12359550561797752,
   "org": [
-   702,
-   96
+   667,
+   157
   ],
   "size": [
-   23,
+   29,
    44
   ],
   "src": "raw/ow_views.jpg",
   "colours": 15
  },
  "glintmoth_ow_up": {
-  "scale": 0.09302325581395349,
+  "scale": 0.12535612535612536,
   "org": [
-   1019,
-   101
+   982,
+   159
   ],
   "size": [
-   19,
+   33,
    44
   ],
   "src": "raw/ow_views.jpg",
-  "colours": 14
+  "colours": 17
  }
 }
