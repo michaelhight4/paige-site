@@ -144,8 +144,12 @@ export class EncounterRoller {
 /** Battle backdrop per area (painted biomes, Oct 29 2026; src/battle/data/platforms.js). The map decides first (caves, the
  * mountain routes, Frostspire's snow), then the table method (water / surf / fishing, caves, snow tables); else grass.
  * Indoor maps (_int) stay on grass. */
-export const MAP_BIOMES = { greystone_entrance: 'cave', greystone_b1: 'cave', frostspire: 'snow', frostspire_pass: 'mountain', revival_heights: 'mountain', route_cindervale: 'mountain', cindervale: 'mountain' };
-export const biomeFor = (method, map) => {
+export const MAP_BIOMES = { greystone_entrance: 'cave', greystone_b1: 'cave', frostspire: 'snow', frostspire_pass: 'snow', revival_heights: 'mountain', route_cindervale: 'mountain', cindervale: 'mountain' };
+// Area (encounter table) id -> backdrop; checked first (Frostspire: Oct 29 2026).
+export const AREA_BIOMES = { frostspire_grass: 'snow', frostspire_pass_grass: 'snow', frostspire_cave: 'cave' };
+export const biomeFor = (method, map, area) => {
+  if (area && AREA_BIOMES[area]) return AREA_BIOMES[area];
+  if (area && /_cave\b|^terrain_cave/.test(area)) return 'cave';
   const m = method || '';
   if (/water|surf|fishing/.test(m)) return 'water';
   if (/cave/.test(m)) return 'cave'; // incl. cave_fern; 'snow-fern' grass is snow
@@ -191,7 +195,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
     scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });
     scene.script(async () => {
       const terr = /^terrain_(water|cave)/.exec(hit.table || '')?.[1]; // terrain encounters: the existing system_wild.water / .cave lines
-      await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method || (water ? 'water' : terr || ''), m.name), ...(terr && { intro: { key: 'system_wild.' + terr, fallback: [terr === 'cave' ? '{creature} drops out of the dark!' : '{creature} surfaces right beside you!'] } }) });
+      await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method || (water ? 'water' : terr || ''), m.name, hit.table), ...(terr && { intro: { key: 'system_wild.' + terr, fallback: [terr === 'cave' ? '{creature} drops out of the dark!' : '{creature} surfaces right beside you!'] } }) });
       ro.resetGrace();
     });
   };

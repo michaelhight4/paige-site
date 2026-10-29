@@ -12,7 +12,10 @@ test('areas map to the right biome', () => {
   assert.equal(biomeFor('grass', 'frostspire'), 'snow');
   assert.equal(biomeFor('grass (deep snow)'), 'snow');
   assert.equal(biomeFor('grass (snow-fern, forced band)'), 'snow');
-  assert.equal(biomeFor('grass', 'frostspire_pass'), 'mountain');
+  assert.equal(biomeFor('grass', 'frostspire_pass'), 'snow');
+  assert.equal(biomeFor('grass', 'frostspire_pass', 'frostspire_pass_grass'), 'snow');
+  assert.equal(biomeFor('grass', 'frostspire', 'frostspire_grass'), 'snow');
+  assert.equal(biomeFor('grass', 'frostspire', 'frostspire_cave'), 'cave');
   assert.equal(biomeFor('grass', 'route_cindervale'), 'mountain');
   assert.equal(biomeFor('grass', 'route1'), 'grass');
   assert.equal(biomeFor('', 'frostspire_hall_int'), 'grass');
