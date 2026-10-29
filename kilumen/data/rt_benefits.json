@@ -111,6 +111,26 @@
     {
       "id": "unit_performance",
       "label": "Unit Performance"
+    },
+    {
+      "id": "angler_plan",
+      "label": "Angler Plan"
+    },
+    {
+      "id": "wellness_plan",
+      "label": "Wellness Plan"
+    },
+    {
+      "id": "commuter_plan",
+      "label": "Commuter Plan"
+    },
+    {
+      "id": "rnd_clearance",
+      "label": "R&D Clearance"
+    },
+    {
+      "id": "executive_perks",
+      "label": "Executive Perks"
     }
   ],
   "nodes": [
@@ -351,6 +371,478 @@
         "2": 0,
         "3": 0,
         "4": 2
+      },
+      "unlockRegion": 4
+    },
+    {
+      "id": "rod_quick_bite",
+      "branch": "angler_plan",
+      "effect": "fishing.wait_cut",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. ms cut from the longest bite wait (WAIT_MAX 3800)",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 2,
+          "value": 500
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 7,
+          "value": 1000
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2
+      },
+      "unlockRegion": 1
+    },
+    {
+      "id": "rod_steady_grip",
+      "branch": "angler_plan",
+      "effect": "fishing.window_ms",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. ms added to the reel window (900 / touch 1100)",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 3,
+          "value": 120
+        },
+        {
+          "cost": 1,
+          "minIdLevel": 6,
+          "value": 240
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 10,
+          "value": 360
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 1,
+        "2": 2,
+        "3": 2,
+        "4": 3
+      },
+      "unlockRegion": 1
+    },
+    {
+      "id": "rod_deep_water",
+      "branch": "angler_plan",
+      "effect": "fishing.rare_mult",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. rare (and half on uncommon) weight multiplier",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 5,
+          "value": 1.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 10,
+          "value": 1.3
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 2
+      },
+      "unlockRegion": 2
+    },
+    {
+      "id": "bait_allowance",
+      "branch": "angler_plan",
+      "effect": "fishing.bait_save",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. chance a landed cast does not use the bait",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 4,
+          "value": 0.2
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 8,
+          "value": 0.35
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 2
+      },
+      "unlockRegion": 2
+    },
+    {
+      "id": "bait_premium",
+      "branch": "angler_plan",
+      "effect": "fishing.bait_power",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. bait effects scaled: m -> 1 + (m-1) x (1+value); bite bonus too",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 6,
+          "value": 0.25
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 10,
+          "value": 0.5
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 2
+      },
+      "unlockRegion": 2
+    },
+    {
+      "id": "grow_stipend",
+      "branch": "wellness_plan",
+      "effect": "feeds.grow_mult",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. fruit grow timer multiplier = 1 - value",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 2,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 7,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2
+      },
+      "unlockRegion": 1
+    },
+    {
+      "id": "training_allowance",
+      "branch": "wellness_plan",
+      "effect": "feeds.gain_mult",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. fruit build gain x (1+value); stat bonus still capped at +15",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 4,
+          "value": 0.1
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 9,
+          "value": 0.2
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 2
+      },
+      "unlockRegion": 2
+    },
+    {
+      "id": "wellness_days",
+      "branch": "wellness_plan",
+      "effect": "feeds.digest_mult",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. fullness freed by practice / battle wins x (1+value): feed again sooner",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 3,
+          "value": 0.25
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 8,
+          "value": 0.5
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 2
+      },
+      "unlockRegion": 1
+    },
+    {
+      "id": "light_lunch",
+      "branch": "wellness_plan",
+      "effect": "feeds.fill_mult",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. fullness a fruit adds x (1-value)",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 6,
+          "value": 0.1
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 10,
+          "value": 0.2
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 2
+      },
+      "unlockRegion": 2
+    },
+    {
+      "id": "commuter_benefit",
+      "branch": "commuter_plan",
+      "effect": "travel.discount",
+      "comingSoon": true,
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. DORMANT: no paid fast travel exists yet (rail is free with the pass, Skylift free). travelFare() in rt_benefits.js is ready.",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 4,
+          "value": 0.15
+        },
+        {
+          "cost": 1,
+          "minIdLevel": 7,
+          "value": 0.3
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 10,
+          "value": 0.5
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3
+      },
+      "unlockRegion": 2
+    },
+    {
+      "id": "rt_node_station_m",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r5",
+      "comingSoon": true,
+      "_note": "Region 5 key card (Mirefen sunken station). Same id / flag / cost as dev/r56-wiring 996d8a57 so the merge keeps ONE node (no keycard_r5). requiresFlag promoted_id14 is enforced by r56-wiring's state(); this branch ignores it. comingSoon here until region 5 exists (board fish/sports, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 14,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 1,
+        "6": 1,
+        "7": 1,
+        "8": 1
+      },
+      "unlockRegion": 5,
+      "requiresFlag": "promoted_id14"
+    },
+    {
+      "id": "rt_node_station_t",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r6",
+      "comingSoon": true,
+      "_note": "Region 6 key card (Tidewater sea-cave lab). Same id / flag / cost as dev/r56-wiring 996d8a57 so the merge keeps ONE node (no keycard_r6). requiresFlag promoted_id16 is enforced by r56-wiring's state(); this branch ignores it. comingSoon here until region 6 exists (board fish/sports, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 16,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 1,
+        "7": 1,
+        "8": 1
+      },
+      "unlockRegion": 6,
+      "requiresFlag": "promoted_id16"
+    },
+    {
+      "id": "keycard_r7",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r7",
+      "comingSoon": true,
+      "_note": "board fish/sports (Oct 29 2026): Gary 1:37 PM CT research areas start in region 5. Region 7: TBD (proposal). Grants flag rt_keycard_r7; opens locked_warps with unlock_flag rt_keycard_r7 / story_gates flag. comingSoon until the region exists",
+      "ranks": [
+        {
+          "cost": 4,
+          "minIdLevel": 12,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 1,
+        "8": 1
+      },
+      "unlockRegion": 7
+    },
+    {
+      "id": "keycard_r8",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r8",
+      "comingSoon": true,
+      "_note": "board fish/sports (Oct 29 2026): Gary 1:37 PM CT research areas start in region 5. Region 8: TBD (proposal). Grants flag rt_keycard_r8; opens locked_warps with unlock_flag rt_keycard_r8 / story_gates flag. comingSoon until the region exists",
+      "ranks": [
+        {
+          "cost": 4,
+          "minIdLevel": 12,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 1
+      },
+      "unlockRegion": 8
+    },
+    {
+      "id": "skill_tidal_audit",
+      "branch": "executive_perks",
+      "effect": "skill",
+      "skill": "boardtidalaudit",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
+      "ranks": [
+        {
+          "cost": 3,
+          "minIdLevel": 6,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1
+      },
+      "unlockRegion": 2
+    },
+    {
+      "id": "skill_overtime_blaze",
+      "branch": "executive_perks",
+      "effect": "skill",
+      "skill": "boardovertimeblaze",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
+      "ranks": [
+        {
+          "cost": 3,
+          "minIdLevel": 8,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 1
+      },
+      "unlockRegion": 3
+    },
+    {
+      "id": "skill_hostile_restructure",
+      "branch": "executive_perks",
+      "effect": "skill",
+      "skill": "boardhostilerestructure",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
+      "ranks": [
+        {
+          "cost": 3,
+          "minIdLevel": 9,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 1
+      },
+      "unlockRegion": 3
+    },
+    {
+      "id": "skill_team_huddle",
+      "branch": "executive_perks",
+      "effect": "skill",
+      "skill": "boardteamhuddle",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
+      "ranks": [
+        {
+          "cost": 4,
+          "minIdLevel": 10,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1
+      },
+      "unlockRegion": 4
+    },
+    {
+      "id": "skill_hostile_takeover",
+      "branch": "executive_perks",
+      "effect": "skill",
+      "skill": "boardhostiletakeover",
+      "_note": "board fish/sports (Oct 29 2026): PLACEHOLDER numbers for Gary; see shots/board_fish_sports_v1/NODES.md. board-only skill (src/systems/board_skills.js); teach from the Team menu",
+      "ranks": [
+        {
+          "cost": 4,
+          "minIdLevel": 12,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1
       },
       "unlockRegion": 4
     }

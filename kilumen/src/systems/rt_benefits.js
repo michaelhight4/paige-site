@@ -62,12 +62,34 @@ export function nodeState(data, company, node, region = data?.region || 1) {
   const rank = Math.max(0, Math.floor(num(company?.board?.[node.id]))), max = node.ranks?.length || 0, regionMax = regionMaxRank(node, region);
   const next = rank < max ? node.ranks[rank] : null, idLevel = num(company?.idLevel, 1), pts = num(company?.pointsFree);
   const out = { id: node.id, branch: node.branch, rank, max, regionMax, next, needId: next ? num(next.minIdLevel, 1) : null, cost: next ? num(next.cost, 1) : null, unlockRegion: unlockRegionOf(node) };
+  if (node.comingSoon && rank < max) return { ...out, state: 'locked', reason: 'soon' }; // board fish/sports: shown, not buyable yet
   if (rank >= max || (rank > 0 && rank >= regionMax)) return { ...out, state: 'owned', reason: rank >= max ? 'maxed' : 'region' };
   if (rank >= regionMax) return { ...out, state: 'locked', reason: 'region', unlockRegion: Math.max(region + 1, out.unlockRegion) };
   if (idLevel < out.needId) return { ...out, state: 'locked', reason: 'id' };
   if (pts < out.cost) return { ...out, state: 'locked', reason: 'points' };
   return { ...out, state: 'available', reason: null };
 }
+/**
+ * Board fish/sports (Oct 29 2026): perk bundles read by fishing / feeds / travel. `eff(id)` = RtBenefits.effect (0 = not owned).
+ * Pure so tests pass a stub; every value is a PLACEHOLDER from data/rt_benefits.json.
+ */
+export function fishingPerks(eff = () => 0) {
+  return { waitCut: num(eff('rod_quick_bite')), windowMs: num(eff('rod_steady_grip')), rareMult: num(eff('rod_deep_water')) || 1,
+    baitSave: num(eff('bait_allowance')), baitPower: num(eff('bait_premium')) };
+}
+export function feedPerks(eff = () => 0) {
+  return { grow: 1 - num(eff('grow_stipend')), gain: 1 + num(eff('training_allowance')), digest: 1 + num(eff('wellness_days')), fill: 1 - num(eff('light_lunch')) };
+}
+/** Fast travel fare after the Commuter Benefit (dormant: nothing charges a fare yet). Never below 0, whole coins. */
+export function travelFare(base, eff = () => 0) {
+  const d = Math.min(0.9, Math.max(0, num(eff('commuter_benefit'))));
+  return Math.max(0, Math.round(num(base) * (1 - d)));
+}
+/** Board skills unlocked by owned Executive Perks nodes. */
+export function ownedBoardSkills(data, board = {}) {
+  return (data?.nodes || []).filter((n) => n.skill && num(board[n.id]) > 0).map((n) => n.skill);
+}
+
 /** Fill a company block in place (same object, so RITA's diff keeps watching it). `base` = the store's v2 company block. */
 export function ensureCompany(co, base = null) {
   const d = COMPANY_DEFAULTS();
@@ -200,6 +222,8 @@ export class RtBenefits {
     const co = this.company;
     co.pointsFree -= s.cost;
     co.board[id] = s.rank + 1;
+    const node = this.node(id); // key cards: the node grants a story flag (saved with the flags, opens locked_warps unlock_flag)
+    if (node?.grantFlag) { if (typeof this.scene.setFlag === 'function') this.scene.setFlag(node.grantFlag, true); else this.scene.flags?.add?.(node.grantFlag); }
     this.scene.log?.push?.({ tick: this.scene.tick, type: 'benefitRank', node: id, rank: s.rank + 1, cost: s.cost });
     this.scene._dirty = true;
     this._emit({ type: 'rank', node: id, rank: s.rank + 1 });
@@ -208,6 +232,10 @@ export class RtBenefits {
   }
   /** Effect value of a node at its current rank (ranks[rank-1].value), 0 when not owned. */
   effect(id) { const n = this.node(id), r = num(this.company.board?.[id]); return n && r > 0 ? num(n.ranks?.[r - 1]?.value) : 0; }
+  fishingPerks() { return fishingPerks((id) => this.effect(id)); }
+  feedPerks() { return feedPerks((id) => this.effect(id)); }
+  travelFare(base) { return travelFare(base, (id) => this.effect(id)); }
+  boardSkills() { return ownedBoardSkills(this.data, this.company.board); }
   respec() { return { ok: false, reason: 'unsupported' }; } // data.respec.supported is false: no terminal / fee / week clock yet
 }
 

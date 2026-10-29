@@ -390,7 +390,7 @@ export class Overworld {
           }
           if (w && isToCome(w) && !mkDoor) this.toast(this.config.closedPathText);
         }
-        const lw = DEV.masterKey && m._lockedAt?.get(x + ',' + y); // dev master key: locked staff door (collision 1, unlock_flag not set) opens
+        const lw = (DEV.masterKey && m._lockedAt?.get(x + ',' + y)) || m.keyDoorAt?.(x, y, this.flags); // dev master key: locked staff door (collision 1, unlock_flag not set) opens
         if (lw && lw.to && lw.to !== '$return') { this.lastDoor = { map: m.name, x, y }; this.startWarp({ map: lw.to, x: lw.tx, y: lw.ty, facing: lw.facing || 'up' }, 'door'); return 'stop'; }
         if (code === Col.PLATE) this.hooks.onPlate?.(x, y);
         if (m.encounter(x, y)) this.hooks.onEncounterTile?.(x, y, m.encounter(x, y)); // run/bike: same rate (MOVEMENT.md)

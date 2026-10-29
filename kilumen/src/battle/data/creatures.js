@@ -4,6 +4,7 @@
 // Stat ids hp/atk/def/spa/spd/spe are internal; player-facing names are Vitality/Might/Guard/Focus/Resolve/Agility (B2).
 import { SPECIES } from '../../ui/data.js?v=v0.2.79-alpha';
 import { cap } from './elements.js?v=v0.2.79-alpha';
+import { researchRate } from '../capture.js?v=v0.2.79-alpha';
 
 export const STAT_NAMES = { hp: 'Vitality', atk: 'Might', def: 'Guard', spa: 'Focus', spd: 'Resolve', spe: 'Agility' };
 const STAGE_BASE = [45, 60, 80]; // PLACEHOLDER
@@ -25,7 +26,7 @@ export function buildCreatures() {
       prevo: stage > 0 ? SPECIES.find((x) => x.id === line[stage - 1]).name : undefined,
       evos: line && stage < line.length - 1 ? [SPECIES.find((x) => x.id === line[stage + 1]).name] : undefined,
       evoLevel: stage > 0 ? 16 * stage : undefined, // PLACEHOLDER
-      catchRate: stage <= 0 ? 0.6 : stage === 1 ? 0.4 : 0.2, // PLACEHOLDER rarity term (B17)
+      catchRate: researchRate(stage <= 0 ? 0.6 : stage === 1 ? 0.4 : 0.2, s), // PLACEHOLDER rarity term (B17); research species x0.6
       baseXp: 50 + 40 * Math.max(0, stage), // PLACEHOLDER
     };
   });
@@ -40,6 +41,6 @@ function syncedCreature(s, n) {
     num: n + 1, name: s.name, types: s.el.map(cap), baseStats: { ...s.baseStats },
     abilities: { 0: 'No Ability' }, weightkg: 10, gender: 'N',
     prevo: s.prevo ? nameOf(s.prevo) : undefined, evos: s.evo ? [nameOf(s.evo)] : undefined,
-    evoLevel: s.prevo ? s.evoLevel : undefined, catchRate: s.catchRate, baseXp: s.baseXp, placeholder: true,
+    evoLevel: s.prevo ? s.evoLevel : undefined, catchRate: researchRate(s.catchRate, s), baseXp: s.baseXp, placeholder: true,
   };
 }

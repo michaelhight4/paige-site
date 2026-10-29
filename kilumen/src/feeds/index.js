@@ -26,6 +26,7 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
     for (const id of ['dashfig', 'rumblemelon', 'mossplum', 'saltlime', 'glidepod', 'embergourd', 'sunheart_fig']) bag().add(L.fruitItem(id), 3);
     for (const id of ['dashfig', 'mossplum']) bag().add(L.seedItem(id), 2);
   }
+  L.setFeedPerks(() => sys()?.rtBenefits?.feedPerks?.() || null); // RT board Wellness Plan perks
   setAthleticBonus((c) => { const u = uidOf(c); const b = u && fs().build[u]; return b ? L.statBonus(b) : null; });
   const bodyOf = (c) => ({ types: speciesInfo(c.species)?.el || [], shape: speciesAthletics(c.species)?.shape || 'standard' });
   const nameOf = (c) => c.nickname || speciesInfo(c.species)?.name || c.species;
@@ -50,8 +51,8 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
       return out;
     };
   }
-  function onBattleWin(fought) { for (const u of fought || []) L.drain(fs(), u, L.DRAIN.battleWin); scene._dirty = true; }
-  function onPractice(c) { const u = uidOf(c); if (u) L.drain(fs(), u, L.DRAIN.practice); L.practiceBoost(fs()); scene._dirty = true; }
+  function onBattleWin(fought) { for (const u of fought || []) L.drain(fs(), u, L.drainAmount('battleWin')); scene._dirty = true; }
+  function onPractice(c) { const u = uidOf(c); if (u) L.drain(fs(), u, L.drainAmount('practice')); L.practiceBoost(fs()); scene._dirty = true; }
 
   // v0.2.69 (Gary): no floating #feeds-btn any more; Feeds opens from its own top-row Phone menu entry (src/ui/ui.js, scr_phone).
   const blocked = () => {

@@ -5,11 +5,13 @@
 // Text: every player line below is a /* PH */ fallback; keys requested from Text Bot in data/textbot_requests_qol_b.md.
 import { learnsetFor, applyLearn } from '../overnight/learnsets.js?v=v0.2.79-alpha';
 import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.79-alpha';
-import { toID } from '../battle/data/skills.js?v=v0.2.79-alpha';
+import { toID, SKILL_POOL_ALIAS } from '../battle/data/skills.js?v=v0.2.79-alpha';
+import { BOARD_SKILLS, boardFit } from '../systems/board_skills.js?v=v0.2.79-alpha';
 import { speciesInfo, defaultSkills, displayName } from '../systems/creature.js?v=v0.2.79-alpha';
 import { qolFlags } from './flags.js?v=v0.2.79-alpha';
 
 const SK = {}; for (const [name, el] of Object.values(PLACEHOLDER_SKILLS).flat()) SK[toID(name)] ||= { name, el };
+for (const [id, b] of Object.entries(BOARD_SKILLS)) SK[id] ||= { name: b.name, el: b.el, board: true }; // RT board-only skills (PH names)
 export const skillName = (id) => SK[id]?.name || (id ? id[0].toUpperCase() + id.slice(1) : '?');
 
 /** Training Reels (B22, PLACEHOLDER ids + skills; Gary / World Design to place them in RT Supply or pickups). */
@@ -26,6 +28,12 @@ export function canTeach(c, skill) {
   if ((c.skills || []).includes(skill)) return 'known';
   const el = SK[skill]?.el, els = speciesInfo(c.species)?.el || ['normal'];
   return el === 'normal' || els.includes(el) || setOf(c).some((e) => e.skill === skill) ? 'ok' : 'unfit';
+}
+/** Board-only skill fit (RT Employee Benefits Executive Perks): owned list from rt.boardSkills(). -> 'ok' | 'known' | 'unfit' | 'locked' */
+export function canTeachBoard(c, skill, owned = []) {
+  if (!owned.includes(skill)) return 'locked';
+  if ((c.skills || []).includes(skill)) return 'known';
+  return boardFit(skill, speciesInfo(c.species)?.el || ['normal'], SKILL_POOL_ALIAS) ? 'ok' : 'unfit';
 }
 /** Pure: use a reel on c. -> {result, old?}. The reel stays unless flags.teachReuse is off. */
 export function teach(bag, id, c, slot, flags = qolFlags()) {
@@ -62,6 +70,15 @@ export function installQolSkills(ui, sys, flags = qolFlags(ui.q || undefined)) {
     if (reels.length) out.push(['Teach from Reel' /* PH */, async () => {
       const j = await ui.ask('team', ['Use which Reel?'] /* PH */, [...reels.map((id) => sys.bag.nameOf(id)), 'Back'], { pat: 'dots' });
       if (j >= 0 && j < reels.length) await teachFlow(reels[j], c);
+    }]);
+    const owned = sys.rtBenefits?.boardSkills?.() || [];
+    if (owned.length) out.push(['Board skill' /* PH system_rt_benefits.labels.teach_board */, async () => {
+      const fit = owned.map((id) => canTeachBoard(c, id, owned));
+      const j = await ui.ask('team', [`Teach ${displayName(c)} which board skill?`] /* PH */, [...owned.map((id, k) => `${skillName(id)} · ${fit[k] === 'ok' ? 'Can learn' : fit[k] === 'known' ? 'Knows it' : "Can't learn"}` /* PH */), 'Back'], { pat: 'dots' });
+      if (j < 0 || j >= owned.length) return;
+      if (fit[j] !== 'ok') return say(ui, c, owned[j], { result: fit[j] });
+      const r = await learnWithSlot(ui, c, owned[j], (slot) => applyLearn(c, owned[j], slot));
+      if (r.result !== 'kept') dirty(); say(ui, c, owned[j], r);
     }]);
     return out;
   };

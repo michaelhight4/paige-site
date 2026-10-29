@@ -106,17 +106,39 @@ export function expectedPer100(tables, mapName, rod, bait = null) {
  * One cast, decided up front (so tests and replays are deterministic). -> {bite: bool, waitMs, fish|null}
  * The player's timing is judged later by judgePress.
  */
-export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null) {
-  const tab = tableFor(tables, mapName, rod), b = baitOf(tables, bait);
-  const waitMs = Math.round(TIMING.WAIT_MIN + rng() * (TIMING.WAIT_MAX - TIMING.WAIT_MIN));
-  if (!tab) return { bite: false, waitMs, fish: null, empty: true };
+export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null, perks = null) {
+  const tab = tableFor(tables, mapName, rod), pk = perks || {}, b = boostBait(baitOf(tables, bait), pk.baitPower);
+  const winBonus = Math.max(0, Math.round(pk.windowMs || 0));
+  const waitMax = Math.max(TIMING.WAIT_MIN, TIMING.WAIT_MAX - Math.max(0, pk.waitCut || 0)); // Quick Bite: shorter longest wait
+  const waitMs = Math.round(TIMING.WAIT_MIN + rng() * (waitMax - TIMING.WAIT_MIN));
+  if (!tab) return { bite: false, waitMs, fish: null, empty: true, winBonus };
   const bite = rng() < biteChance(tables, rod, b);
-  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, b, elFrom(tables)) : null, table: tab.from, tier: tab.tier, empty: false };
+  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, rareBait(b, pk.rareMult), elFrom(tables)) : null, table: tab.from, tier: tab.tier, empty: false, winBonus };
 }
+
+/**
+ * RT Employee Benefits, Angler Plan (board fish/sports, Oct 29 2026). Pure; perks = {waitCut, windowMs, rareMult, baitSave,
+ * baitPower} from RtBenefits.fishingPerks() (all 0 / 1 = no perk). Premium Bait scales every bait bonus by (1 + power).
+ */
+export function boostBait(b, power = 0) {
+  if (!b || !(power > 0)) return b;
+  const k = 1 + power, up = (m) => (m == null ? m : Math.round((1 + (m - 1) * k) * 1e4) / 1e4);
+  return { ...b, bite: b.bite > 0 ? Math.round(b.bite * k * 1e4) / 1e4 : b.bite, rare: up(b.rare), uncommon: up(b.uncommon), elementMult: up(b.elementMult) };
+}
+/** Deep Water Plan: rare weight x mult, uncommon x half the bonus (works with or without bait). */
+export function rareBait(b, mult = 1) {
+  if (!(mult > 1)) return b;
+  const base = b || {};
+  return { ...base, rare: (base.rare ?? 1) * mult, uncommon: (base.uncommon ?? 1) * (1 + (mult - 1) / 2) };
+}
+/** Bait Allowance: true = this landed cast keeps its bait. rng is the cast's seeded rng. */
+export const baitSaved = (perks, rng = Math.random) => (perks?.baitSave || 0) > 0 && rng() < perks.baitSave;
+/** Reel window in ms for this plan (touch is wider, Steady Grip adds plan.winBonus). */
+export const windowFor = (plan, touch = false) => (touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW) + (plan?.winBonus || 0);
 
 /** Judge an A press at time t (ms since the cast landed). -> 'early' | 'hooked' | 'late' | null (no press yet). */
 export function judgePress(plan, t, pressed, touch = false) {
-  const win = touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
+  const win = windowFor(plan, touch);
   if (!plan.bite) return pressed ? 'early' : null; // reeling in on nothing: "early" (nothing was there)
   if (pressed && t < plan.waitMs) return 'early';
   if (pressed && t <= plan.waitMs + win) return 'hooked';
