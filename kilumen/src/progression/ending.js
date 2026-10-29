@@ -8,8 +8,7 @@
 //      one scene script, so the save lock holds (no saving during the credits).
 //   3. finale_done + the save field game_cleared {at, day, team} are set, then a warp home to Brookhollow (outside the
 //      house) with a postgame note. A save that already cleared never replays it.
-// Text: system_ending.* in text/overworld_lines.json when Text Bot adds it (data/textbot_requests_interim_ending.md),
-// else the code fallbacks below.
+// Text: system_ending.* in text/overworld_lines.json (Text Bot), else the code fallbacks below. {player} is filled by scene.say.
 import { coinCount } from '../overworld/lines.js?v=v0.2.86-alpha';
 
 export const ENDING = {
@@ -19,9 +18,9 @@ export const ENDING = {
 
 // Code fallbacks ONLY (existing written lines where they exist; new ones requested from Text Bot).
 export const ENDING_FALLBACK = {
-  ron_after: ['Lead the way. I\'ll try to look like I belong.'],                      // maps.aurelith.aurelith_ron_6.after
+  ron_after: ['Six losses. Eight coins. Yours, mind.\nStill. Not a bad week, was it?', "Head Office can wait a day.\nLet's go home first, {player}."], // system_ending.ron_after
   rita: ["{employee_id}: Ron beaten on the arena steps. He's coming along.", 'Two staff, one trip. The travel budget approves.'], // system_company_voice.rival_beaten_ron_6_2
-  ron_home: ['Home, then. Head Office can wait one more day.', "Somebody should take the bins out. ...Fine. Tomorrow."],
+  ron_home: ['Home, then. Head Office can wait\none more day.', 'Somebody should take the bins out.\n...Fine. Tomorrow.'],
   postgame: ['GAME CLEARED.', 'Your save keeps going: catch, battle and explore anywhere you like.', 'The Aurelith Arena opens in a future update. Head Office is still up there.'],
 };
 
@@ -73,7 +72,7 @@ export async function runInterimEnding(scene, opts = {}) {
   try {
     scene.log?.push({ tick: scene.tick, type: 'ending', step: 'start' });
     const ronSp = { name: 'Ron' }, ritaSp = { name: 'RITA' };
-    if (!opts.onLoad) await scene.say(textOr(scene, 'maps.aurelith.aurelith_ron_6.after', ENDING_FALLBACK.ron_after), ronSp); // onLoad: an old save, the fight was long ago
+    if (!opts.onLoad) await scene.say(lines(scene, 'ron_after'), ronSp); // onLoad: an old save, the fight was long ago
     if (!opts.onLoad) await scene.say(textOr(scene, 'system_company_voice.rival_beaten_ron_6_2', ENDING_FALLBACK.rita), ritaSp);
     const record = clearRecord(scene);
     const credits = opts.credits || (async (s, r) => (await import('../ui/credits.js?v=v0.2.86-alpha')).runCredits(s, r));

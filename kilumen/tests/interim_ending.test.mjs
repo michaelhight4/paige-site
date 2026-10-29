@@ -90,3 +90,19 @@ test('credits: team, eight towns, crew, skip control; no blocked player words an
   assert.doesNotMatch(html.replace(/<[^>]+>/g, ' '), BANNED);
   assert.match(fs.readFileSync(path.join(root, 'src/ui/credits.js'), 'utf8'), /Skip ›/);
 });
+
+test('credits crew: Gary Hight only, Grok Bot production note, no bot role names; system_ending live in lines', () => {
+  const lines = JSON.parse(fs.readFileSync(path.join(root, 'text/overworld_lines.json'), 'utf8'));
+  const se = lines.system_ending;
+  assert.ok(se && !se._pending_interim, 'system_ending keys sit directly under system_ending');
+  for (const k of ['ron_after', 'ron_home', 'postgame', 'credits_open', 'credits_crew', 'credits_crew_note']) assert.ok(se[k]?.pages?.length, k);
+  const scene = { textVars: () => ({ player: 'Cal' }), text: (k) => k.split('.').reduce((o, x) => o?.[x], lines) };
+  const t = C.creditText(scene);
+  assert.deepEqual(t.crew, [['Dev team', 'Gary Hight']]);
+  const txt = C.creditsHtml(t, { team: [] }).replace(/<[^>]+>/g, ' ');
+  assert.match(txt, /Grok Bot was used in the production of this game\./);
+  assert.match(txt, /You did it, Cal\./);
+  assert.doesNotMatch(txt, /Story Bot|Text Bot|World Design|art team|Coder|Paige Games/);
+  assert.doesNotMatch(JSON.stringify(se), BANNED);
+  assert.match(fs.readFileSync(path.join(root, 'src/progression/ending.js'), 'utf8'), /lines\(scene, 'ron_after'\)/);
+});

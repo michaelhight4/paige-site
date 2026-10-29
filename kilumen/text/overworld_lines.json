@@ -20819,6 +20819,140 @@
    "not_yet": "{reason}"
   }
  },
+ "system_ending": {
+  "_section": "Interim ending: Ron 6 win with 8 coins -> Ron + RITA -> credits -> home to Brookhollow -> postgame note.",
+  "ron_after": {
+   "pages": [
+    "Six losses. Eight coins. Yours, mind.\nStill. Not a bad week, was it?",
+    "Head Office can wait a day.\nLet's go home first, {player}."
+   ],
+   "note": "Suggested key: Ron 6 after-battle variant when the win rolls straight into credits (replaces maps.aurelith.aurelith_ron_6.after there; that line stays for the arena walk-in). Coder to wire.",
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "ron_home": {
+   "pages": [
+    "Home, then. Head Office can wait\none more day.",
+    "Somebody should take the bins out.\n...Fine. Tomorrow."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "postgame": {
+   "pages": [
+    "GAME CLEARED.",
+    "Your save keeps going. Catch, battle\nand explore anywhere you like.",
+    "The Aurelith Arena opens in a future\nupdate. Head Office is still up there."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_open": {
+   "pages": [
+    "You did it, {name}.",
+    "Eight coins. One Ron. A very long week."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_team_head": {
+   "pages": [
+    "The team that got you here"
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_coins_head": {
+   "pages": [
+    "Eight halls, eight coins"
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_ron": {
+   "pages": [
+    "Ron",
+    "Who lost six times",
+    "and came along anyway."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_rita": {
+   "pages": [
+    "RITA",
+    "Who logged every step.",
+    "Lunch break: still pending."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_bin": {
+   "pages": [
+    "The bin",
+    "Still waiting.",
+    "Ron says tomorrow."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_crew_head": {
+   "pages": [
+    "Made with care by"
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_crew": {
+   "pages": [
+    [
+     "Dev team",
+     "Gary Hight"
+    ]
+   ],
+   "note": "Gary, Oct 29 2026 (dictated): dev team is just Gary Hight; no bot role names; no studio line.",
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_thanks": {
+   "pages": [
+    "And you.",
+    "Thank you for playing Kilumen."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_end": {
+   "pages": [
+    "To be continued...",
+    "Head Office is still up there."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_crew_note": {
+   "pages": [
+    "Grok Bot was used in the production of this game."
+   ],
+   "note": "Gary, Oct 29 2026 (dictated).",
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  }
+ },
  "system": {
   "_section": "One-off story pop-ups. Read as system.<key>.pages; single OK choice.",
   "wip_after_master3": {

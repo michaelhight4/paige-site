@@ -17,7 +17,8 @@ export const CREDIT_FALLBACK = {
   rita: ['RITA', 'Who logged every step.', 'Lunch break: still pending.'],
   bin: ['The bin', 'Still waiting.', 'Ron says tomorrow.'],
   crew_head: 'Made with care by',
-  crew: [['Director', 'Gary'], ['Story', 'Story Bot'], ['Words', 'Text Bot'], ['World', 'World Design'], ['Art & animation', 'the art team'], ['Code', 'Coder'], ['Studio', 'Paige Games']],
+  crew: [['Dev team', 'Gary Hight']], // Gary, Oct 29 2026: dev team is just Gary Hight, no bot role names
+  crew_note: ['Grok Bot was used in the production of this game.'],
   thanks: ['And you.', 'Thank you for playing Kilumen.'],
   end: ['To be continued...', 'Head Office is still up there.'],
 };
@@ -52,7 +53,7 @@ export function creditsHtml(t, record) {
     team ? `<section class="cr-sec"><h2>${esc(t.team_head)}</h2><div class="cr-team">${team}</div></section>` : '',
     `<section class="cr-sec"><h2>${esc(t.coins_head)}</h2><ol class="cr-coins">${TOWNS.map((n, i) => `<li style="--d:${i * 0.2}s"><span class="cr-coin">${i + 1}</span>${esc(n)}</li>`).join('')}</ol></section>`,
     block(t.ron), block(t.rita), block(t.bin, 'cr-small'),
-    `<section class="cr-sec"><h2>${esc(t.crew_head)}</h2><dl class="cr-crew">${t.crew.map(([r, n]) => `<dt>${esc(r)}</dt><dd>${esc(n)}</dd>`).join('')}</dl></section>`,
+    `<section class="cr-sec"><h2>${esc(t.crew_head)}</h2><dl class="cr-crew">${t.crew.map(([r, n]) => `<dt>${esc(r)}</dt><dd>${esc(n)}</dd>`).join('')}</dl>${(t.crew_note || []).map((l) => `<p class="cr-note">${esc(l)}</p>`).join('')}</section>`,
     `<section class="cr-sec cr-thanks">${t.thanks.map((l, i) => (i ? `<p>${esc(l)}</p>` : `<h2>${esc(l)}</h2>`)).join('')}</section>`,
     `<section class="cr-sec cr-end">${t.end.map((l, i) => (i ? `<p>${esc(l)}</p>` : `<h2>${esc(l)}</h2>`)).join('')}</section>`,
   ].join('');
@@ -72,7 +73,7 @@ const CSS = `
 .cr-coins{list-style:none;padding:0;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;width:fit-content;text-align:left}
 .cr-coins li{font-size:clamp(15px,3.4vw,19px);display:flex;align-items:center;gap:10px}
 .cr-coin{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff4c2,#e2a93a 60%,#9a6a14);color:#4a2f00;font-weight:700;font-size:14px;box-shadow:0 0 10px #ffcf5a66;animation:cr-glint 3s ease-in-out infinite;animation-delay:var(--d)}
-.cr-crew{display:grid;grid-template-columns:auto auto;gap:6px 18px;justify-content:center;margin:0}.cr-crew dt{text-align:right;opacity:.7}.cr-crew dd{margin:0;text-align:left}
+.cr-crew{display:grid;grid-template-columns:auto auto;gap:6px 18px;justify-content:center;margin:0}.cr-crew dt{text-align:right;opacity:.7}.cr-crew dd{margin:0;text-align:left}.cr-note{margin-top:1.2em!important;font-size:clamp(13px,2.8vw,16px)!important;opacity:.7!important}
 .cr-end{margin-bottom:45vh}.cr-end h2{font-size:clamp(24px,5vw,36px)}
 .cr-skip{position:absolute;right:max(14px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));z-index:2;background:#ffffff1a;color:#f3ecd8;border:1px solid #ffffff40;border-radius:999px;padding:8px 16px;font:inherit;font-size:15px;cursor:pointer}
 .cr-hint.arm{opacity:.95;color:#ffe2a0}.cr-hint{position:absolute;left:max(12px,env(safe-area-inset-left));bottom:max(10px,env(safe-area-inset-bottom));font-size:12px;opacity:.45;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.35)}
