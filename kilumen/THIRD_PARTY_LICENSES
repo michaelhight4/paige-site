@@ -8,6 +8,7 @@ Sections are per owner, so other workers can add theirs without overwriting this
   - "Libs pass (Oct 22, 2026)": src/vendor/* (shipped to players) and dev-only test tools.
   - "Battle engine (Oct 22, 2026)": vendor/battle-sim, built to src/battle/engine.js (see that section below).
   - "Held items (Oct 29, 2026)": item handlers adapted from Pokemon Showdown data/items.ts (src/battle/data/held_items.js).
+  - "Swamp/sea moves (Oct 29, 2026)": Bog Snap, Mire Lob, Brine Lash, Undertow, Kelp Lash effect shapes adapted from Pokemon Showdown data/moves.ts (MIT, Copyright (c) 2011-2026 Guangcong Luo and other contributors; src/battle/data/skills.js EXTRA).
   - "UI tools pass (Oct 22, 2026)": lil-gui (dev panel, ?dev=1 only), lrud-spatial, SortableJS, Kenney CC0 placeholders.
 
 ################################################################################

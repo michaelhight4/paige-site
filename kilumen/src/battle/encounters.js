@@ -193,7 +193,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
     if (!ro || !m) return;
     if (st.lastMap !== m.name) { st.lastMap = m.name; ro.resetGrace(); } // a few free steps after every map change
     if (scene.busy || scene.fade || !scene.party?.length || opts.blocked?.()) return;
-    const ctx = { phase: scene.phase, weather: scene.flags?.has('storm_season') ? 'storm' : 'clear', flood: /_storm$/.test(m.name) };
+    const ctx = { phase: scene.phase, weather: scene.flags?.has('storm_season') ? 'storm' : 'clear', flood: m.json?.variantId === 'storm' || /_storm$/.test(m.name) }; // r56: route_coast storm variant (overworld.js activeVariant)
     const hit = water ? ro.stepWater(m.name, x, y, ctx) : ro.step(m.name, m.json?.encounter_zones, x, y, code, ctx);
     if (!hit) return;
     scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });

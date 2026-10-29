@@ -219,10 +219,21 @@ export class Overworld {
 
   mapUrl(name) { return this.config.mapsDir + (name === 'house_1f' && ixFlags().ix2 ? 'house_1f_v2' : name) + '.json'; } // Interiors v2 starter house (same size, warps, collisions)
 
+  /** r56 map variants (World Design `variants: [{id, map, active_when}]`, e.g. route_coast storm): the variant file to load
+   *  for `name` while its flag is set, else null. The variant keeps the base map's name (warps, saves, tileset path). */
+  async activeVariant(name) {
+    this._variantDefs ||= new Map();
+    if (!this._variantDefs.has(name)) { let v = []; try { v = (await loadJson(this.mapUrl(name))).variants || []; } catch { /* base load reports it */ } this._variantDefs.set(name, v); }
+    const v = this._variantDefs.get(name).find((d) => d?.map && d.active_when && this.flags?.has?.(d.active_when));
+    return v ? { id: v.id, file: String(v.map).replace(/\.json$/, '') } : null;
+  }
+
   async loadMap(name) {
-    if (!this.mapCache.has(name)) {
-      this.mapCache.set(name, loadJson(this.mapUrl(name)).then(async (j) => {
+    const variant = await this.activeVariant(name), key = variant ? `${name}@${variant.id}` : name;
+    if (!this.mapCache.has(key)) {
+      this.mapCache.set(key, loadJson(this.mapUrl(variant ? variant.file : name)).then(async (j) => {
         const c = structuredClone(j); // gates / props mutate layers: never touch the shared JSON
+        if (variant) { c.name = name; c.variantId = variant.id; }
         // heal branches (heal_saltmere / heal_revival / heal_frostspire) have their own Text Bot lines in maps.heal_* (Oct 27 2026)
         const lm = this.lines?.maps?.[name];
         if (lm) { // lines exist for the pending NPCs / signs: place them (text_ref is a fallback key)
@@ -241,7 +252,7 @@ export class Overworld {
         return m.attachTileset(this.tilesetIndex.byId);
       }));
     }
-    try { return await this.mapCache.get(name); } catch (e) { this.mapCache.delete(name); throw e; }
+    try { return await this.mapCache.get(key); } catch (e) { this.mapCache.delete(key); throw e; }
   }
 
   /** Load the tileset set + player sheets that match the current integer zoom (+ the 1x set for graded draws). */
