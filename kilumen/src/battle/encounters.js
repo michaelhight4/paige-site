@@ -141,8 +141,19 @@ export class EncounterRoller {
   }
 }
 
-/** Battle background per table method (only 'grass' art exists; ui_sd.js falls back to grass for the rest). */
-export const biomeFor = (method) => (/fern|cave/.test(method || '') ? 'cave' : 'grass');
+/** Battle backdrop per area (painted biomes, Oct 29 2026; src/battle/data/platforms.js). The map decides first (caves, the
+ * mountain routes, Frostspire's snow), then the table method (water / surf / fishing, caves, snow tables); else grass.
+ * Indoor maps (_int) stay on grass. */
+export const MAP_BIOMES = { greystone_entrance: 'cave', greystone_b1: 'cave', frostspire: 'snow', frostspire_pass: 'mountain', revival_heights: 'mountain', route_cindervale: 'mountain', cindervale: 'mountain' };
+export const biomeFor = (method, map) => {
+  const m = method || '';
+  if (/water|surf|fishing/.test(m)) return 'water';
+  if (/cave/.test(m)) return 'cave'; // incl. cave_fern; 'snow-fern' grass is snow
+  if (map && MAP_BIOMES[map]) return MAP_BIOMES[map];
+  if (/snow/.test(m)) return 'snow';
+  if (/ash/.test(m)) return 'mountain';
+  return 'grass';
+};
 
 /**
  * Hook the roller into the overworld: scene.hooks.onEncounterTile -> scene.script(openBattle(foe)).
@@ -180,7 +191,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
     scene.log?.push({ tick: scene.tick, type: 'wild', species: hit.species, level: hit.level, table: hit.table, x, y, t: hit.t });
     scene.script(async () => {
       const terr = /^terrain_(water|cave)/.exec(hit.table || '')?.[1]; // terrain encounters: the existing system_wild.water / .cave lines
-      await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method || (terr === 'cave' ? 'cave' : '')), ...(terr && { intro: { key: 'system_wild.' + terr, fallback: [terr === 'cave' ? '{creature} drops out of the dark!' : '{creature} surfaces right beside you!'] } }) });
+      await openBattle({ species: hit.species, level: hit.level, biome: biomeFor(ro.data.zones?.[hit.table]?.method || (water ? 'water' : terr || ''), m.name), ...(terr && { intro: { key: 'system_wild.' + terr, fallback: [terr === 'cave' ? '{creature} drops out of the dark!' : '{creature} surfaces right beside you!'] } }) });
       ro.resetGrace();
     });
   };

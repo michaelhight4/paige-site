@@ -15,7 +15,7 @@ import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHO
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
 import { areaName } from '../overworld/area_sign.js?v=v0.2.75-alpha';
 import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.75-alpha';
-import { installWildEncounters } from '../battle/encounters.js?v=v0.2.75-alpha';
+import { installWildEncounters, biomeFor } from '../battle/encounters.js?v=v0.2.75-alpha';
 import { fishingFlags } from '../fishing/flags.js?v=v0.2.75-alpha'; // fishing v1: terrain encounters flag (off by default) // battles default v1: wild encounters
 // UI tools pass (Oct 22, 2026; Gary: "use them and log them for later use"): lrud-spatial (Apache-2.0) picks the nearest item
 // in the pressed direction from the real layout; SortableJS (MIT, lazy) drags Team / Field Archive; ?dev=1 lazy-loads the
@@ -1182,7 +1182,7 @@ export function mountUI(opts) {
       return out?.outcome === 'win';
     };
     scene.hooks.onBattle = (who) => (rtbMode(scene, q) === 'rt' && !rtbKilled(q) && scene.party?.some((c) => c.hp == null || c.hp > 0) ? rtTrainer(who) : load.then(() => new Promise((res) => {
-      ui.open('battle', { trainer: true, who }); const scr = ui.top; let out = null;
+      ui.open('battle', { trainer: true, who, biome: biomeFor('', who?.map || scene.map?.name) }); const scr = ui.top; let out = null;
       scr.onDone = (r) => { out = r; }; ui._onClose = () => res(out ? out.outcome === 'win' : false);
     })));
     if (want === 'battle') { load.then(() => ui.open('battle', { trainer: q.get('trainer') === '1' })); return ui; }

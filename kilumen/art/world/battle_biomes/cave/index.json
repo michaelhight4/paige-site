@@ -1,0 +1,32 @@
+{
+ "biome": "cave",
+ "size": [
+  2560,
+  1440
+ ],
+ "spots_frac": {
+  "near": [
+   0.3,
+   0.79
+  ],
+  "far": [
+   0.69,
+   0.72
+  ]
+ },
+ "life_layer": {
+  "frames": 16,
+  "ms_per_frame": 120,
+  "size": [
+   1280,
+   720
+  ],
+  "blend": "normal, stretched to the backdrop box"
+ },
+ "readability": {
+  "dawn": 0.985,
+  "day": 0.998,
+  "dusk": 0.981,
+  "night": 0.999
+ }
+}

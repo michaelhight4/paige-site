@@ -14,7 +14,7 @@ import { authoredTeam } from './data/trainer_teams.js?v=v0.2.75-alpha';
 import { STAT_NAMES } from './data/creatures.js?v=v0.2.75-alpha';
 import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.75-alpha';
 import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.75-alpha';
-import { mountWaterBg, mountWaterArt, WATER_SPOTS, coverPoint } from './data/water_bg.js?v=v0.2.75-alpha'; // animated water backdrop (biome 'water')
+import { coverPoint } from './data/water_bg.js?v=v0.2.75-alpha'; // cover-fit maths for the painted biome backdrops
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
 import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.75-alpha';
 
@@ -86,7 +86,7 @@ export function makeSdBattle(ui, opts, h) {
   const Items = kb.battle.dex.data.Items;
   const itemName = (engineId) => { const it = Items[engineId]; return cat[it?.kGameId]?.name || it?.name || engineId; };
 
-  // battle biome: picks the background and the ground platform art ('grass', 'water'; opts.biome or ?biome=)
+  // battle biome: picks the background and the ground platform art ('grass', 'water', 'cave', 'mountain', 'snow'; opts.biome or ?biome=)
   const biome = PLATFORM_BIOMES[opts.biome || ui.q?.get('biome')] ? (opts.biome || ui.q.get('biome')) : 'grass', biomeArt = PLATFORM_BIOMES[biome];
   // feet line of a sprite = lowest non-transparent row / height, so the platform sits under the feet, not the image box
   const feetCache = new Map();
@@ -143,18 +143,16 @@ export function makeSdBattle(ui, opts, h) {
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
-    if (biomeArt.live === 'water' && biomeArt.art) { // painted backdrop: animated layers over the still; creatures on the painted spots
+    if (biomeArt.art) { // painted backdrop (water / cave / mountain / snow): animated life layer over the still; creatures on the painted spots
       const bgEl = root.querySelector('.bg'), field = root.querySelector('.b-field');
-      mountWaterArt(bgEl, { phase: wPhase, reduced: reducedMotion() });
+      if (biomeArt.life && !reducedMotion()) { // animated webp (16 x 120 ms, decoded by the browser frame by frame; no JS per frame)
+        const life = new Image(); life.className = 'b-life'; life.alt = ''; life.decoding = 'async'; life.src = biomeArt.life(wPhase); bgEl.appendChild(life); }
+      const sp = biomeArt.spots;
       const place = () => { if (!root.isConnected) return removeEventListener('resize', place); const b = bgEl.getBoundingClientRect(), f = field.getBoundingClientRect(); if (!b.width) return;
         const cs = getComputedStyle(bgEl), frac = (v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5), ax = frac(cs.backgroundPositionX), ay = frac(cs.backgroundPositionY);
-        for (const [sel, [fx, fy]] of [['.b-ally', WATER_SPOTS.near], ['.b-foe', WATER_SPOTS.far]]) { const [x, y] = coverPoint(fx, fy, b.width, b.height, 1280, 720, ax, ay), el = root.querySelector(sel);
+        for (const [sel, [fx, fy]] of [['.b-ally', sp.near], ['.b-foe', sp.far]]) { const [x, y] = coverPoint(fx, fy, b.width, b.height, 1280, 720, ax, ay), el = root.querySelector(sel);
           el.style.left = `${x + b.left - f.left}px`; el.style.top = `${y + b.top - f.top}px`; } };
       place(); requestAnimationFrame(place); addEventListener('resize', place);
-    } else if (biomeArt.live === 'water') { // live water layer; ripples follow the foe's platform once laid out
-      const foe = { x: 0.8, y: 0.6 }, bgEl = root.querySelector('.bg');
-      mountWaterBg(bgEl, { phase: wPhase, reduced: reducedMotion(), foe });
-      requestAnimationFrame(() => { const pl = root.querySelector('#p2-plat')?.getBoundingClientRect(), r = bgEl.getBoundingClientRect(); if (pl?.width && r.width) { foe.x = (pl.left + pl.width / 2 - r.left) / r.width; foe.y = (pl.top + pl.height * 0.6 - r.top) / r.height; } });
     }
     if (opts.rtSwitch && !owned) mountModeSwitch();
     for (const s of ['p1', 'p2']) if (mon[s]) drawPlate(s);

@@ -1,0 +1,32 @@
+{
+ "biome": "water",
+ "size": [
+  2560,
+  1440
+ ],
+ "spots_frac": {
+  "near": [
+   0.24,
+   0.66
+  ],
+  "far": [
+   0.66,
+   0.49
+  ]
+ },
+ "life_layer": {
+  "frames": 16,
+  "ms_per_frame": 120,
+  "size": [
+   1280,
+   720
+  ],
+  "blend": "normal, stretched to the backdrop box"
+ },
+ "readability": {
+  "dawn": 0.955,
+  "day": 1.0,
+  "dusk": 0.875,
+  "night": 0.931
+ }
+}

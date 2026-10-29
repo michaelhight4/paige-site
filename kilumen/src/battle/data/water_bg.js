@@ -4,14 +4,8 @@
 // foe's spot. Day / dawn / dusk / night palettes (phase from the game clock). Animated at ~15 fps; reduced motion = one frame.
 // Technique (flat 3-shade water bands, thin crests, sparse glints, long swell) is adapted from the idea of "Pixel Water"
 // by Francisco Cidade (CC0, https://fcidade.itch.io/pixel-water-godot-shader-free); no shader code was copied.
-// ART SWAP SLOT: if painted backdrops land (Animator), set WATER_ART[phase] to the PNG path; the live layer then draws only
-// the animated water overlay (crests, glints, ripples) on top of that PNG instead of the code-drawn scene.
-// Animator's painted backdrop (Oct 29 2026, /workspace/kilumen_water_battle_art/index.json): per-phase 2560x1440 stills
-// (pier + ripple painted in) plus a 16-frame strip (1280x720 frames stacked vertically: water surface, foe ripple, pier,
-// gulls/fish life; 120 ms a frame, looped) baked by tools/fishing/bake_water_anim.py. Spots are frame fractions.
-export const WATER_ART = Object.fromEntries(['day', 'dawn', 'dusk', 'night'].map((p) => [p, `art/world/battle_bg_water_${p}.png`]));
-export const WATER_ANIM = { src: (p) => `art/world/water_battle/water_anim_${p}_1x.png`, frames: 16, ms: 120, w: 1280, h: 720 };
-export const WATER_SPOTS = { near: [0.261, 0.65], far: [0.727, 0.458] };
+// Painted backdrops (Oct 29 2026): battles now use Animator's painted water set (art/world/battle_biomes/water/, wired in
+// src/battle/data/platforms.js); this code-drawn scene is kept as a fallback only. coverPoint() is shared by all painted biomes.
 export const W = 480, H = 270, HORIZON = 112;
 const PAL = {
   day:   { sky: ['#5fb4ef', '#7cc4f3', '#9dd3f5', '#c3e4f4'], sun: '#fff6c8', cloud: ['#ffffff', '#dbe9f5'], hill: ['#6f9fb8', '#5d8f6a'], tree: ['#3f7240', '#2f5a33'],
@@ -96,19 +90,6 @@ export function mountWaterBg(host, { phase = 'day', reduced = false, foe } = {})
   return () => { cancelAnimationFrame(raf); c.remove(); };
 }
 
-// Painted art: one canvas over the still in .bg plays the strip at 120 ms/frame (same cover fit as the still).
-// Reduced motion: nothing mounted, the still alone shows. Returns stop().
-export function mountWaterArt(host, { phase = 'day', reduced = false } = {}) {
-  if (reduced) return () => {};
-  const A = WATER_ANIM, c = document.createElement('canvas'); c.width = A.w; c.height = A.h; c.className = 'b-water art';
-  c.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;object-fit:cover';
-  const g = c.getContext('2d'), img = new Image(); let raf = 0, last = -1, t0 = 0;
-  const loop = (now) => { if (!c.isConnected) return; const f = Math.floor((now - t0) / A.ms) % A.frames;
-    if (f !== last) { last = f; g.clearRect(0, 0, A.w, A.h); g.drawImage(img, 0, f * A.h, A.w, A.h, 0, 0, A.w, A.h); } raf = requestAnimationFrame(loop); };
-  img.onload = () => { if (!c.isConnected) return; t0 = performance.now(); raf = requestAnimationFrame(loop); };
-  img.src = A.src(waterPhase(phase)); host.appendChild(c);
-  return () => { cancelAnimationFrame(raf); c.remove(); };
-}
 // Frame fraction -> px inside a box shown with background-size: cover (how .bg shows the still); ax / ay = background-position
 // as a 0..1 fraction (0.5 = centred, phones use ay 1 = bottom-aligned).
 export function coverPoint(fx, fy, bw, bh, iw = 1280, ih = 720, ax = 0.5, ay = 0.5) {
