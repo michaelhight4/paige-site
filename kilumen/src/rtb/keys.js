@@ -8,6 +8,8 @@ export const PARTY_KEYS = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Di
 export const NUMPAD_PARTY = ['Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5', 'Numpad6'];
 export const TEAM_KEYS = ['Tab'], CRYSTAL_KEYS = ['KeyG'], MODE_KEYS = ['KeyT'];
 export const FIRE_KEYS = ['KeyZ', 'Space', 'Enter'], NEXT_KEYS = ['KeyC', 'Backspace'], B_KEYS = ['KeyX', 'ShiftLeft', 'ShiftRight'], LEAVE_KEYS = ['Escape'];
+// v0.2.61 (Gary): Caps Lock = run from a WILD real-time fight at once (no hold); nothing in trainer fights. Hold Esc stays as backup.
+export const FLEE_KEYS = ['CapsLock'];
 // Gamepad (standard mapping): LB / RB / LT / RT = skills 1-4 (A stays selected skill, B dodge / sprint, Select next skill).
 export const PAD_SKILL_BUTTONS = [4, 5, 6, 7];
 
@@ -22,10 +24,13 @@ export function actionFor(code) {
   if (NEXT_KEYS.includes(code)) return { type: 'next' };
   if (B_KEYS.includes(code)) return { type: 'b' };
   if (LEAVE_KEYS.includes(code)) return { type: 'leave' };
+  if (FLEE_KEYS.includes(code)) return { type: 'flee' };
   return null;
 }
 /** all codes the rtb listener claims (tests: no duplicates across actions) */
-export const ALL_CODES = [...SKILL_KEYS, ...PARTY_KEYS, ...NUMPAD_PARTY, ...TEAM_KEYS, ...CRYSTAL_KEYS, ...MODE_KEYS, ...FIRE_KEYS, ...NEXT_KEYS, ...B_KEYS, ...LEAVE_KEYS];
+export const ALL_CODES = [...SKILL_KEYS, ...PARTY_KEYS, ...NUMPAD_PARTY, ...TEAM_KEYS, ...CRYSTAL_KEYS, ...MODE_KEYS, ...FIRE_KEYS, ...NEXT_KEYS, ...B_KEYS, ...LEAVE_KEYS, ...FLEE_KEYS];
+/** Caps Lock state change seen on any key / mouse event (macOS fires keydown/keyup only when the lock flips): true = flee */
+export function capsFlipped(e, prev) { const now = typeof e?.getModifierState === 'function' ? !!e.getModifierState('CapsLock') : null; return { now: now ?? prev, flip: now != null && prev != null && now !== prev }; }
 /** pad buttons now / before -> skill slots pressed this frame (edges) */
 export function padSkillEdges(now, prev) { return PAD_SKILL_BUTTONS.map((b, i) => (now[b] && !prev[b] ? i : -1)).filter((i) => i >= 0); }
 /** cooldown sweep angle (deg, 0 = ready) for a slot; cd remaining / total */

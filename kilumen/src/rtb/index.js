@@ -18,7 +18,7 @@ import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.j
 import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.61-alpha';
 import { Col } from '../overworld/constants.js?v=v0.2.61-alpha';
 import { reducedMotion } from '../sports/hype.js?v=v0.2.61-alpha';
-import { actionFor, SKILL_LABELS, padSkillEdges } from './keys.js?v=v0.2.61-alpha';
+import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped } from './keys.js?v=v0.2.61-alpha';
 import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.61-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
@@ -66,7 +66,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     if (q.get('rtbcatch') === '1') sim.forceCatch = true; if (q.get('rtbcatch') === '0') sim.forceCatch = false; // dev / clips only
     const touch = !document.getElementById('touchpad')?.hidden;
     const keyNames = touch ? { skills: ['', '', '', ''], swap: '', crystal: '', leave: 'hold', help: '' }
-      : { skills: SKILL_LABELS.slice(), party: true, swap: 'Tab', crystal: 'G', leave: 'hold Esc', help: 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team · G crystal · T turn-based · hold Esc leave' };
+      : { skills: SKILL_LABELS.slice(), party: true, swap: 'Tab', crystal: 'G', leave: 'Caps', help: 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team · G crystal · T turn-based · Caps run (wild) · hold Esc leave' };
     const view = new RtView({ scene, sim, touch, reduced: reducedMotion(q), keyNames });
     view.skillInfo = (id) => SK[id]; view.cdOf = cooldownFor; view.maxEn = (c) => maxEnergy(c); view.maxHpOf = (c) => maxHp(c);
     view.crystals = () => crystalStock(scene.systems?.bag).reduce((n, c) => n + c.n, 0);
@@ -76,22 +76,26 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const guard = () => 'rtb'; scene.saveGuards?.push(guard);
 
     // ---- input
-    const inp = { mode: false, fire: null, party: null, select: false, swap: false, crystal: false, dodge: false, retreat: false, bDown: null, bHeld: false };
+    const inp = { mode: false, fire: null, party: null, select: false, swap: false, crystal: false, dodge: false, retreat: false, flee: false, bDown: null, bHeld: false };
+    let capsPrev = null; const capsCheck = (e) => { const r = capsFlipped(e, capsPrev); capsPrev = r.now; if (r.flip) inp.flee = true; };
     const BKEY = new Set(['KeyX', 'ShiftLeft', 'ShiftRight']);
     const bPress = () => { if (inp.bDown == null) inp.bDown = performance.now(); };
     const bRelease = () => { if (inp.bDown != null && (performance.now() - inp.bDown) / 1000 < B_TAP) inp.dodge = true; inp.bDown = null; };
     const kd = (e) => {
+      capsCheck(e);
       if (e.ctrlKey || e.metaKey || e.altKey) return; // browser shortcuts (Ctrl+R reload, Ctrl+F find) stay the browser's
       const a = actionFor(e.code); if (!a) return;
       if (a.type === 'b') { if (!e.repeat) bPress(); return; } // B keys still reach the overworld input (sprint hold)
       e.preventDefault(); e.stopPropagation();
       if (a.type === 'leave') { inp.retreat = true; return; }
+      if (a.type === 'flee') { inp.flee = true; return; }
       if (e.repeat) return;
       if (a.type === 'skill') inp.fire = a.slot; else if (a.type === 'party') inp.party = a.slot; else if (a.type === 'fire') inp.fire = 'sel';
       else if (a.type === 'next') inp.select = true; else if (a.type === 'team') inp.swap = true; else if (a.type === 'crystal') inp.crystal = true; else if (a.type === 'mode') inp.mode = true;
     };
-    const ku = (e) => { if (e.code === 'Escape') { inp.retreat = false; e.stopPropagation(); } if (BKEY.has(e.code)) bRelease(); };
+    const ku = (e) => { capsCheck(e); if (e.code === 'Escape') { inp.retreat = false; e.stopPropagation(); } if (BKEY.has(e.code)) bRelease(); };
     window.addEventListener('keydown', kd, true); window.addEventListener('keyup', ku, true);
+    const mCaps = (e) => capsCheck(e); window.addEventListener('mousedown', mCaps, true); window.addEventListener('mousemove', mCaps, true); window.addEventListener('focus', mCaps);
     const offs = [];
     const on = (el, ev, fn) => { if (!el) return; el.addEventListener(ev, fn, true); offs.push(() => el.removeEventListener(ev, fn, true)); };
     const pad = document.getElementById('touchpad');
@@ -146,7 +150,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
           let crystal = null;
           if (inp.crystal) { const st = crystalStock(scene.systems?.bag)[0]; if (!st) view.num(sim.ally.x, sim.ally.y - 60, 'No crystals', '#ff8a8a'); else if (sim.canCrystal()) crystal = st; }
           if (inp.party != null) { const ok = sim.swap(inp.party); if (!ok && inp.party !== sim.active) view.partyNo?.(inp.party); inp.party = null; }
-          const used = crystal; sim.step(STEP, { ...mv, sprint, dodge: inp.dodge, fire: inp.fire, select: inp.select, swap: inp.swap, crystal, retreat: inp.retreat });
+          const used = crystal; sim.step(STEP, { ...mv, sprint, dodge: inp.dodge, fire: inp.fire, select: inp.select, swap: inp.swap, crystal, retreat: inp.retreat, flee: inp.flee }); inp.flee = false;
           if (used && sim.crystalUsed && sim.events.some((e) => e.type === 'crystalCast')) scene.systems.bag.remove(used.id, 1);
           inp.fire = null; inp.select = inp.swap = inp.crystal = inp.dodge = false;
           const r = view.onEvents(sim.drain()); if (r.stop) stop = Math.max(stop, view.reduced ? r.stop / 2 : r.stop); if (r.slow) slow = r.slow;
@@ -159,7 +163,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     };
     const finish = async (toTurn = false) => {
       if (finished) return; finished = true;
-      window.removeEventListener('keydown', kd, true); window.removeEventListener('keyup', ku, true); offs.forEach((f) => f());
+      window.removeEventListener('keydown', kd, true); window.removeEventListener('keyup', ku, true); window.removeEventListener('mousedown', mCaps, true); window.removeEventListener('mousemove', mCaps, true); window.removeEventListener('focus', mCaps); offs.forEach((f) => f());
       const res = sim.result();
       if (toTurn) { // mode switch: party state goes into the real party now (no outcome effects), the foes' HP rides in carry
         res.outcome = 'switch'; delete res.caught;

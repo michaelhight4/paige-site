@@ -103,6 +103,7 @@ export class RtBattle {
     if (input.dodge) this._dodge(a, input.mx || a.face.x, input.my || a.face.y);
     if (input.swap) this.swap();
     if (input.crystal) this.castCrystal(input.crystal);
+    if (input.flee && a.alive && !this.trainer) return this._end('retreat'); // v0.2.61: Caps Lock, wild only
     if (input.retreat && a.alive && !this.trainer) {
       this.retreatT += dt; if (this.retreatT >= RT.retreatHold) return this._end('retreat');
     } else this.retreatT = 0;

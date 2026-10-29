@@ -179,7 +179,7 @@ export async function installDevConsole(scene, access) {
     if (c) {
       const target = evoTarget(c), nm = (id) => names[id] || id;
       h += `<h4>${esc(displayName(c))}  Lv.${c.level}</h4>
-<div class="kbar"><label>Level <input type="number" min="1" max="${MAXLV}" value="${num.setLv}" data-setlv></label><button class="go" data-dolv>Set level</button><button data-heal>Full heal</button></div>
+<div class="kbar"><label>Level <input type="number" min="1" max="${MAXLV}" value="${num.setLv}" data-setlv></label><button class="go" data-dolv>Set level</button><button data-heal>Full heal (whole party)</button></div>
 <small>Setting a level sets XP to that level's start and heals. It never changes known skills.</small>
 <h4>Skills (pick the slot to fill or replace)</h4><div class="kbar">${[0, 1, 2, 3].map((i) => `<button class="${slot === i ? 'sel' : ''}" data-slot="${i}">${i + 1}: ${esc(c.skills?.[i] ? nm(c.skills[i]) : '(empty)')}</button>`).join('')}</div>
 <div class="kbar"><input type="search" placeholder="Search skills to teach into slot ${slot + 1}" value="${esc(q.skill)}" data-skq></div><div data-sklist></div>
@@ -194,7 +194,7 @@ export async function installDevConsole(scene, access) {
       if (!c) return;
       if (d.slot != null) { slot = Number(d.slot); return render(); }
       if (e.target.hasAttribute('data-dolv')) { c.level = num.setLv; c.xp = xpForLevel(c.level); healFull(c); touched(); scene.onPartyChange?.(false); say(`${displayName(c)} is now Lv.${c.level} (full heal).`); return render(); }
-      if (e.target.hasAttribute('data-heal')) { healFull(c); touched(); say(`${displayName(c)} fully healed.`); return; }
+      if (e.target.hasAttribute('data-heal')) { const P = party(); P.forEach((x) => healFull(x)); touched(); scene.onPartyChange?.(false); say(`Whole party fully healed (${P.length}).`); return; } // v0.2.61: was the selected creature only (easy to mis-target)
       if (d.teach) {
         if (c.skills?.includes(d.teach)) return say(`${displayName(c)} already knows ${names[d.teach]}.`, true);
         c.skills ||= []; const s = Math.min(slot, c.skills.length), old = c.skills[s]; c.skills[s] = d.teach;

@@ -13,6 +13,7 @@ import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.61-alpha'; /
 import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.61-alpha';
 // FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
+import { areaName } from '../overworld/area_sign.js?v=v0.2.61-alpha';
 import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.61-alpha';
 import { installWildEncounters } from '../battle/encounters.js?v=v0.2.61-alpha'; // battles default v1: wild encounters
 // UI tools pass (Oct 22, 2026; Gary: "use them and log them for later use"): lrud-spatial (Apache-2.0) picks the nearest item
@@ -409,6 +410,18 @@ export class GameUI {
       const first = this._lastMap == null; this._lastMap = s.map.name;
       if (this.cfg.locationBanner !== false && !(first && this.active)) this.showBanner(s.map.title || s.map.name);
     }
+    // v0.2.61: a warp (dev Travel, heal, fly) into a map with no sign of its own left the last town's 'TOWN Fernwick'
+    // plate in the banner (seen inside the Saltmere / Mirefen halls and the rest centre). Every map change now drops a
+    // banner that belongs to another map and re-labels it for the current one.
+    if (s.map.name !== this._bannerMap) {
+      this._bannerMap = s.map.name;
+      if (this.banner?.dataset.map && this.banner.dataset.map !== s.map.name) {
+        clearTimeout(this._bannerT); this.banner.classList.remove('show');
+        const here = s.areaSign?.map === s.map.name ? s.areaSign.title : (areaName(s.map, (k) => s.text?.(k)).title || '');
+        this.banner.innerHTML = here ? `<span class="kind">${this._bannerKind()}</span><span class="plate">${esc(here)}</span>` : '';
+        this.banner.dataset.title = here; this.banner.dataset.map = s.map.name;
+      }
+    }
     // clock
     const h = s.hour, m = Math.floor(s.clock.min % 60), ph = s.phase;
     const txt = `Day ${s.clock.day} · ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
@@ -416,9 +429,13 @@ export class GameUI {
     // A prompt over the faced thing
     if (this.cfg.interactPrompt !== false) this._promptTick();
   }
+  _bannerKind(zone = (this.scene.layout?.zones || []).find((z) => z.id === this.scene.zone?.())) {
+    const n = this.scene.map.name;
+    return /_int$|^home_|^house_|^heal_|^lab_|^rt_|^office|^shop|^station|^club/.test(n) ? 'Indoors' : /^greystone/.test(n) ? 'Cave' : zone?.type === 'town' ? 'Town' : /^route|thornwood|mirefen/.test(n) ? 'Trail' : 'Area';
+  }
   showBanner(title, holdMs) {
     const zone = (this.scene.layout?.zones || []).find((z) => z.id === this.scene.zone?.());
-    const kind = /_int$|^home_|^house_|^heal_|^lab_|^rt_|^office|^shop|^station|^club/.test(this.scene.map.name) ? 'Indoors' : /^greystone/.test(this.scene.map.name) ? 'Cave' : zone?.type === 'town' ? 'Town' : /^route|thornwood|mirefen/.test(this.scene.map.name) ? 'Trail' : 'Area';
+    const kind = this._bannerKind(zone);
     const pat = { Town: 'dots', Trail: 'leaf', Indoors: 'lattice', Area: 'crystal', Cave: 'crystal' }[kind];
     const scr = { Town: 'team', Trail: 'pack', Indoors: 'kilindex', Area: 'phone', Cave: 'phone' }[kind];
     this.banner.dataset.pat = pat; this.banner.dataset.scr = scr;
@@ -426,7 +443,7 @@ export class GameUI {
     this._fitBanner();
     this.banner.classList.remove('show'); void this.banner.offsetWidth; this.banner.classList.add('show');
     clearTimeout(this._bannerT); this._bannerT = setTimeout(() => this.banner.classList.remove('show'), holdMs ? this._bannerSlideMs() + holdMs : (this.cfg.bannerMs || 2600));
-    this.banner.dataset.title = title; this.bannerShownAt = performance.now();
+    this.banner.dataset.title = title; this.banner.dataset.map = this.scene.map.name; this.bannerShownAt = performance.now();
   }
   /** Keep the sign clear of the top-right HUD pills (clock, menu): cap its width at the gap, the plate ellipsizes. */
   _fitBanner() {

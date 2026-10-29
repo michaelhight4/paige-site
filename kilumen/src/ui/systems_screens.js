@@ -176,6 +176,8 @@ export async function installSystemsScreens(ui, sys) {
     const PK = T('comfort.bag_pockets', {}); let pi = 0;
     // v0.2.60: Masters' coins are story flags (beat_master_<zone>, src/progression/masters.js), not bag items, so the Key
     // Items pocket lists one row per earned coin from data/masters.json. Text: system_items.master_coins.<zone> (PH keys).
+    // v0.2.61: items with no catalogue text yet (Text Bot placeholder keys, fallback here)
+    const ITEM_FALLBACK_PAGES = { team_link_band: () => T('system_items.team_link_band.pages', ['Shares battle XP: the team earns 25% more. Give it to a creature to hold.']) };
     const coinRows = () => {
       const halls = sys.scene?.progression?.masters?.halls || [], fl = sys.scene?.flags, rec = sys.state?.progression?.masters || {};
       const has = (h) => (fl?.has ? fl.has(h.flag) : false) || !!rec[h.zone];
@@ -183,7 +185,7 @@ export async function installSystemsScreens(ui, sys) {
         name: T(`system_items.master_coins.${h.zone}.name`, h.reward?.coin_name_placeholder || `Coin ${h.coin_number}`),
         pages: T(`system_items.master_coins.${h.zone}.pages`, [`Master coin ${h.coin_number} of 8. Proof you beat the Master here.`]) }));
     };
-    const items = () => [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])];
+    const items = () => [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || ITEM_FALLBACK_PAGES[it.id]?.() || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])];
     const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
       : `<p class="soft">${esc((PK[POCKETS[pi]]?.help || []).join(' '))}</p>`);
     const scr = { scr: 'pack', pat: 'leaf', title: T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1, count: () => items().length,
