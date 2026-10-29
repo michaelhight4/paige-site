@@ -12,7 +12,7 @@ import { fruitSvg, fruitColor } from './ui_art.js?v=v0.2.57-alpha';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms * (globalThis.KILUMEN_FEEDS_SLOWMO || 1)));
-const reduced = () => !!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const reduced = () => !!globalThis.document?.querySelector?.('.ui-reduce') || !!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 const pick = (arr, seed) => arr[Math.abs(seed) % arr.length];
 
 // ---- Sound (ZzFX presets, PLACEHOLDER: Audio can retune) -----------------------------------------------------------
@@ -116,7 +116,7 @@ export async function playFeed(root, { fruitId, name, apply, after, seed = Date.
   // 4) reaction
   const r = res.reaction;
   say(quip(r, name, seed));
-  if (r === 'like') { feedSfx('yay'); sparkles(wrap, 10); hearts(wrap, 3); await anim(wrap, [{ transform: 'translateY(0) scale(1)' }, { transform: 'translateY(-26px) scale(.95,1.05)', offset: 0.4 }, { transform: 'translateY(0) scale(1.1,.9)', offset: 0.75 }, { transform: 'none' }], { duration: 520, easing: 'cubic-bezier(.3,1.5,.5,1)', iterations: 2 }); }
+  if (r === 'like') { feedSfx('yay'); root.__fxbg?.burst(); sparkles(wrap, 10); hearts(wrap, 3); await anim(wrap, [{ transform: 'translateY(0) scale(1)' }, { transform: 'translateY(-26px) scale(.95,1.05)', offset: 0.4 }, { transform: 'translateY(0) scale(1.1,.9)', offset: 0.75 }, { transform: 'none' }], { duration: 520, easing: 'cubic-bezier(.3,1.5,.5,1)', iterations: 2 }); }
   else if (r === 'dislike') { feedSfx('grump'); mon.classList.add('turn'); puff(wrap, '#8f9a6a', 7); await anim(wrap, [{ transform: 'none' }, { transform: 'translateX(-8px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(-4px)' }, { transform: 'none' }], { duration: 520 }); await sleep(450); mon.classList.remove('turn'); }
   else { feedSfx('meh'); await anim(wrap, [{ transform: 'none' }, { transform: 'translateY(-8px)' }, { transform: 'none' }], { duration: 360, easing: 'ease-out' }); }
   root.querySelector('.fx-wrap')?.classList.remove('busy');

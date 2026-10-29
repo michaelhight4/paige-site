@@ -9,6 +9,7 @@ import { FS, ft } from './strings.js?v=v0.2.57-alpha';
 import { setAthleticBonus, speciesAthletics } from '../sports/athletics.js?v=v0.2.57-alpha';
 import { fruitSvg, CSS } from './ui_art.js?v=v0.2.57-alpha';
 import { feedTabHtml, playFeed, growBars, feedSfx, CSS2 } from './feed_view.js?v=v0.2.57-alpha';
+import { createBackdrop, BG_CSS } from './backdrop.js?v=v0.2.57-alpha';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const uidOf = (c) => c?.uid || c?.id || null;
@@ -30,7 +31,7 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
   const nameOf = (c) => c.nickname || speciesInfo(c.species)?.name || c.species;
   const st = { open: false, tab: 'feed', sel: 0, fruit: null, msg: null, react: null, quip: null, rita: null, busy: false };
   (scene.saveGuards ||= []).push(() => (st.open ? 'feeds_menu' : null));
-  const style = document.createElement('style'); style.textContent = CSS + CSS2; document.head.appendChild(style);
+  const style = document.createElement('style'); style.textContent = CSS + CSS2 + BG_CSS; document.head.appendChild(style);
 
   // Battle wins drain Fullness, but only for the creatures that actually fought (Gary Oct 29): -5 each, bench loses none.
   // Fighters = the lead plus anyone whose HP / energy / status changed (L.fightersOf), gathered over every apply of one
@@ -62,13 +63,14 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
     return !!(scene.busy || scene.fade || scene.dialog?.active || scene.saveLocked || ui?.active || ui?.stack?.some?.((s) => s.scr === 'battle') || globalThis.kilumen?.sports?.state?.()?.open);
   };
   if (btn) setInterval(() => { btn.hidden = st.open || blocked(); }, 250); // only offered in free roam
-  let ov = null, keyH = null, savedTs = 1, timer = 0;
+  let ov = null, keyH = null, savedTs = 1, timer = 0, bg = null;
   function openFeeds(tab = 'feed') {
     if (st.open) return true;
     if (blocked()) { scene.toast?.(FS['feeds.busy']); return false; }
     st.open = true; st.tab = tab; st.msg = null; st.react = null; st.fruit = null; st.quip = null; st.rita = fs().fed ? null : FS['feeds.rita.first'];
     savedTs = scene.timescale ?? 1; scene.timescale = 0;
     ov = document.createElement('div'); ov.id = 'feeds-ov'; document.body.appendChild(ov);
+    { const own = L.FRUIT_IDS.filter((id) => L.fruitCount(bag(), id) > 0); bg = createBackdrop(own.length >= 3 ? { fruits: own } : {}); ov.__fxbg = bg; }
     keyH = (e) => { e.stopPropagation(); if (e.type === 'keydown' && e.key === 'Escape') close(); };
     for (const ty of ['keydown', 'keyup']) window.addEventListener(ty, keyH, true);
     render(); timer = setInterval(() => { if (st.tab === 'grow') render(); }, 1000);
@@ -77,7 +79,7 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
   function close() {
     if (!st.open) return;
     for (const ty of ['keydown', 'keyup']) window.removeEventListener(ty, keyH, true);
-    clearInterval(timer); ov?.remove(); ov = null; st.open = false; scene.timescale = savedTs; scene._dirty = true; // saved by the next normal save
+    clearInterval(timer); bg?.stop(); bg = null; ov?.remove(); ov = null; st.open = false; scene.timescale = savedTs; scene._dirty = true; // saved by the next normal save
   }
   const team = () => (scene.party || []).filter((c) => c && c.species);
   const imgFor = (sp) => `art/characters/pixel/creatures/${sp}/battle/${sp}_front_128.png`;
@@ -128,6 +130,7 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
       }).join('')}</div><div class="fd-msg">${esc(st.msg || '')}</div>`;
     }
     ov.innerHTML = `<div class="fd-box">${tabs}${body}</div>`;
+    { const sg = ov.querySelector('.fx-stage'); if (sg && bg) { sg.classList.add('has-bg'); bg.mount(sg); } else bg?.stop(); }
     ov.querySelectorAll('[data-tab]').forEach((b) => (b.onclick = () => { st.tab = b.dataset.tab; st.msg = null; render(); }));
     ov.querySelector('[data-a=close]').onclick = close;
     ov.querySelectorAll('[data-mon]').forEach((b) => (b.onclick = () => { if (st.busy) return; st.sel = +b.dataset.mon; st.react = null; st.msg = null; st.quip = null; feedSfx('pick'); render(); }));
@@ -166,6 +169,6 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
     }
     return res;
   }
-  const api = { open: openFeeds, close, onPractice, onBattleWin, state: () => ({ open: st.open, tab: st.tab, ...fs(), fruit: Object.fromEntries(L.FRUIT_IDS.map((id) => [id, L.fruitCount(bag(), id)]).filter(([, n]) => n)) }), feedFor: (i, fruitId) => { st.sel = i; st.fruit = fruitId; render(); return doFeed(team()[i]); }, reactionOf: (i, fruitId) => L.reactionOf(uidOf(team()[i]), fruitId), busy: () => st.busy, select: (i, fruitId) => { st.sel = i; st.fruit = fruitId; st.react = null; st.msg = null; render(); } };
+  const api = { open: openFeeds, close, backdrop: () => bg, onPractice, onBattleWin, state: () => ({ open: st.open, tab: st.tab, ...fs(), fruit: Object.fromEntries(L.FRUIT_IDS.map((id) => [id, L.fruitCount(bag(), id)]).filter(([, n]) => n)) }), feedFor: (i, fruitId) => { st.sel = i; st.fruit = fruitId; render(); return doFeed(team()[i]); }, reactionOf: (i, fruitId) => L.reactionOf(uidOf(team()[i]), fruitId), busy: () => st.busy, select: (i, fruitId) => { st.sel = i; st.fruit = fruitId; st.react = null; st.msg = null; render(); } };
   return api;
 }

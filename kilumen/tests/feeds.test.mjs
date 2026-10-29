@@ -112,3 +112,23 @@ test('only creatures that fought lose Fullness after a battle', () => {
   assert.deepEqual([...L.fightersOf(before, [])], ['a']); // the lead always counts
   assert.equal(L.DRAIN.shared, undefined);
 });
+
+// ---- v3 orchard backdrop (pure parts) -------------------------------------------------------------------------------
+test('backdrop palette follows the clock: bright noon, starry night, smooth in between', async () => {
+  const { paletteAt, hourNow } = await import('../src/feeds/backdrop.js');
+  const noon = paletteAt(12), mid = paletteAt(0), dusk = paletteAt(19.7);
+  assert.equal(noon.night, false); assert.equal(noon.star, 0); assert.ok(noon.sun > 0.9);
+  assert.equal(mid.night, true); assert.ok(mid.star > 0.9);
+  assert.ok(dusk.star > 0 && dusk.star < 1);
+  for (let h = 0; h < 24; h += 0.25) { const p = paletteAt(h); for (const k of ['top', 'bot', 'far', 'mid', 'near', 'grass', 'light', 'glow']) assert.ok(p[k].every((v) => v >= 0 && v <= 255), `${k}@${h}`); }
+  assert.deepEqual(paletteAt(24).top, paletteAt(0).top);
+  globalThis.kilumen = { scene: { clock: { min: 1440 * 3 + 7 * 60 + 30 } } }; assert.equal(hourNow(), 7.5); delete globalThis.kilumen;
+});
+test('backdrop is own code, wired in, and honours reduced motion', () => {
+  const src = readFileSync(new URL('../src/feeds/backdrop.js', import.meta.url), 'utf8');
+  assert.match(src, /reducedMotion/); assert.match(src, /ui-reduce/); assert.match(src, /prefers-reduced-motion/);
+  assert.doesNotMatch(src, /https?:\/\//); // no remote assets
+  const idx = readFileSync(new URL('../src/feeds/index.js', import.meta.url), 'utf8');
+  assert.match(idx, /bg\.mount\(/); assert.match(idx, /bg\?\.stop\(\)/);
+  assert.match(readFileSync(new URL('../src/feeds/feed_view.js', import.meta.url), 'utf8'), /__fxbg\?\.burst\(\)/);
+});
