@@ -1,13 +1,16 @@
 // Town practice events UI (Oct 29 2026). Talk to <town>_practice_coach -> pick a creature -> play -> result + reaction.
 // Practice only: no prize, no podium; best score per event saved in sports state (.town). Logic: town_events.js.
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
-import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.79-alpha';
-import { TS, tt } from './town_strings.js?v=v0.2.79-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.79-alpha';
-import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.79-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.79-alpha';
-import { runChampion, reducedMotion } from './hype.js?v=v0.2.79-alpha';
-import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.79-alpha';
+import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.87-alpha';
+import { TS, tt } from './town_strings.js?v=v0.2.87-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.87-alpha';
+import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.87-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.87-alpha';
+import { runChampion, reducedMotion } from './hype.js?v=v0.2.87-alpha';
+import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.87-alpha';
+import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.87-alpha';
+import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.87-alpha';
+export const TUG_COACH = 'saltmere_tug_coach', ANNOUNCER = 'aurelith_games_announcer';
 
 export const LIVE_REGION = 8; // all six town events are playable (dev/sports-events, Oct 29 2026); each coach also runs the town cup
 const W = 360, H = 480;
@@ -30,11 +33,17 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
   let ov = null, savedTs = 1;
   const team = () => (scene.party || []).filter((c) => c && c.species && c.hp !== 0);
-  const coachAt = (fx, fy) => {
-    const m = scene.map, ev = eventFor(m?.name); if (!ev) return null;
-    const id = coachId(ev.town), n = (m.npcs || m.json?.npcs || []).find((x) => x.id === id); if (!n) return null;
+  const npcAt = (id, fx, fy) => {
+    const m = scene.map, n = (m?.npcs || m?.json?.npcs || []).find((x) => x.id === id); if (!n) return false;
     const live = scene.npcs?.list?.find?.((x) => x.def?.id === id || x.id === id), x = live ? live.x : n.x, y = live ? live.y : n.y;
-    return x === fx && y === fy ? ev : null;
+    return x === fx && y === fy;
+  };
+  const coachAt = (fx, fy) => {
+    const m = scene.map; if (!m) return null;
+    if (npcAt(TUG_COACH, fx, fy)) return tug;
+    if (npcAt(ANNOUNCER, fx, fy)) return 'major';
+    const ev = eventFor(m.name); if (!ev) return null;
+    return npcAt(coachId(ev.town), fx, fy) ? ev : null;
   };
   const hook = (s) => {
     if (!s || s._townEvHooked) return; s._townEvHooked = true;
@@ -42,6 +51,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     s.onInteract = (fx, fy) => {
       const ev = coachAt(fx, fy); if (!ev) return prev(fx, fy);
       scene.script(async () => {
+        if (ev === 'major') { await scene.say?.([TS.major.hello], { name: TS.major.coach, portrait: null }); await openMajor(); return; }
         if (ev.region > LIVE_REGION) { await scene.say?.([TS.not_ready], { name: TS[ev.id].coach || TS.coach_name, portrait: null }); return; }
         await scene.say?.([TS[ev.id].hello], { name: TS[ev.id].coach || TS.coach_name, portrait: null }); await openEvent(ev);
       });
@@ -60,7 +70,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   }
   function close() {
     cancelAnimationFrame(st.raf); window.removeEventListener('keydown', key, true); window.removeEventListener('keyup', key, true);
-    ov?.remove(); ov = null; st.open = false; st.phase = 'closed'; st.run = null; scene.timescale = savedTs;
+    ov?.remove(); ov = null; st.open = false; st.phase = 'closed'; st.run = null; if (st.mode === 'major') { st.major = null; st.majorResult = null; st.mode = 'practice'; } scene.timescale = savedTs;
     const cb = st.onClose; st.onClose = null; cb?.();
   }
   const KEYMAP = { ArrowLeft: 'left', a: 'left', ArrowRight: 'right', d: 'right', ArrowUp: 'up', w: 'up', ArrowDown: 'down', s: 'down', ' ': 'tap', Enter: 'tap', f: 'tap', F: 'tap', z: 'tap', A: 'tap' };
@@ -68,7 +78,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
   function key(e) {
     e.stopPropagation();
     if (st.phase === 'play') { const k = keyAction(e); if (k) { e.preventDefault(); press(k, e.type === 'keydown'); } return; }
-    if (e.type === 'keydown' && e.key === 'Escape') close();
+    if (e.type === 'keydown' && e.key === 'Escape' && !(st.mode === 'major' && st.major && !st.major.over)) close();
   }
 
   function showPick() {
@@ -76,7 +86,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     st.mon = st.mon && mons.includes(st.mon) ? st.mon : mons[0];
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><div>${esc(rec?.best ? tt(TS.best, { best: rec.best, unit: ev.unit }) : TS.none_yet)}</div>
       <div>${esc(TS.pick)}</div><div>${mons.map((c, i) => `<div class="mon${c === st.mon ? ' sel' : ''}" data-i="${i}"><img src="${imgFor(c.species).src}"><span>${esc(nameOf(c))}</span></div>`).join('')}</div>
-      <div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div><div class="cupline" id="cup-status">${esc(cupStatus(ev).msg)}</div>
+      ${ev.team ? `<div class="crew">${esc(tt(TS.tug_crew, { names: tugCrew(st.mon).map(nameOf).join(', ') }))}</div>` : ''}<div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div><div class="cupline" id="cup-status">${esc(cupStatus(ev).msg)}</div>
       <button data-a="go">${esc(TS.practice)}</button><button data-a="cup"${cupStatus(ev).ok ? '' : ' disabled'}>${esc(tt(TS.cup_enter, { fee: CUP.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
     ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { st.mon = mons[+m.dataset.i]; showPick(); }));
     ov.querySelector('[data-a=go]').onclick = () => { st.mode = 'practice'; play(); }; ov.querySelector('[data-a=back]').onclick = () => close();
@@ -102,9 +112,11 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
 
   function play() {
     const ev = st.ev, c = st.mon; if (!c) return close();
-    let stats = {}; try { stats = athleticStats(c.uid || c.id ? c : { ...c, uid: `${c.species}:${c.nickname || ''}` }); } catch (e) { /* no athletics: average */ }
-    st.run = ev.create(`${ev.id}:${Date.now()}`, stats, team().length); st.run.team = [c, ...team().filter((x) => x !== c)]; st.phase = 'play';
-    st.input = { hold: {}, edge: {}, pointerX: null }; st.pad = {}; st.crowd = makeCrowd(st.mode === 'cup' ? 2 : 1, ev.id); st.prevScore = 0; st.prevBad = 0; st.quip = null;
+    const stats = statsOf(c), crew = ev.team ? tugCrew(c) : null;
+    const rival = st.mode === 'major' ? Math.max(...st.major.field.map((x) => x.rival)) : st.mode === 'cup' ? 0.6 : 0.45;
+    st.run = ev.team ? ev.create(`${ev.id}:${Date.now()}`, stats, team().length, crew.map(statsOf), rival) : ev.create(`${ev.id}:${Date.now()}`, stats, team().length);
+    st.run.team = crew || [c, ...team().filter((x) => x !== c)]; st.phase = 'play';
+    st.input = { hold: {}, edge: {}, pointerX: null }; st.pad = {}; st.crowd = makeCrowd(st.mode === 'major' ? 3 : st.mode === 'cup' ? 2 : 1, ev.id, st.mode === 'major'); st.prevScore = 0; st.prevBad = 0; st.quip = null;
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><canvas width="${W}" height="${H}"></canvas>
       <div class="pad"><button data-k="left">◀</button><button data-k="up">▲</button><button data-k="down">▼</button><button data-k="right">▶</button><button data-k="tap">A</button></div></div>`;
     const cv = ov.querySelector('canvas'), g = cv.getContext('2d');
@@ -117,7 +129,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
       st.pad = feedPad(st.pad || {}, pollPad(), press);
       const I = st.input, inp = { ...I.edge, hold: { ...I.hold }, pointerX: I.pointerX }; I.edge = {};
       ev.step(st.run, dt, inp); draw(g, ev, st.run, c, now / 1000);
-      { const sc = scoreOf(ev, st.run), bad = badOf(st.run), cr = st.crowd;
+      { const sc = ev.team ? st.run.perfects : scoreOf(ev, st.run), bad = badOf(st.run), cr = st.crowd;
         if (sc > st.prevScore) { cr.hype = Math.min(1, cr.hype + 0.22); if (sc % 5 === 0 || cr.hype > 0.9) quip('cheer'); }
         if (bad > st.prevBad) { cr.gasp = 0.8; cr.hype *= 0.5; quip('oops'); }
         st.prevScore = sc; st.prevBad = bad; if (st.run.left < 5 && st.run.left + dt >= 5) quip('final');
@@ -128,10 +140,16 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     st.raf = requestAnimationFrame(loop);
   }
 
-  function quip(kind) { const L = TS['coach_' + kind]; if (!L || (st.quip && st.quip.t > 0.6)) return; st.quip = { text: L[Math.floor(Math.random() * L.length)], t: 1.6 }; }
+  function statsOf(c) { try { return athleticStats(c.uid || c.id ? c : { ...c, uid: `${c.species}:${c.nickname || ''}` }); } catch (e) { return {}; } }
+  /** tug crew: the picked creature up front + the two strongest others (power/stamina) */
+  function tugCrew(c) { const rest = team().filter((x) => x !== c).map((x) => [x, teamStrength([statsOf(x)])]).sort((a, b) => b[1] - a[1]).map((x) => x[0]); return [c, ...rest].slice(0, 3); }
+  function quip(kind) { if (st.mode === 'major') kind = 'major_' + kind; if (st.ev?.team && kind === 'cheer' && st.run?.team?.length) { const i = Math.floor(Math.random() * st.run.team.length), m = st.run.team[i], L = TS['tug_q_' + quirkFor(m.species, i)];
+      if (L && !(st.quip && st.quip.t > 0.6)) { st.quip = { text: tt(L[Math.floor(Math.random() * L.length)], { creature: nameOf(m) }), t: 1.6 }; return; } }
+    const L = TS[kind.startsWith('major_') ? kind : 'coach_' + kind]; if (!L || (st.quip && st.quip.t > 0.6)) return; st.quip = { text: L[Math.floor(Math.random() * L.length)], t: 1.6 }; }
   function showResult() {
     if (!ov) return;
     if (st.mode === 'cup') return showCupResult();
+    if (st.mode === 'major') return majorAfterRound();
     const ev = st.ev, r = recordRun(sstate(), ev, st.run), c = st.mon, lines = TS['react_' + r.grade];
     try { globalThis.kilumen?.feeds?.onPractice?.(c); } catch (e) { /* feeds off */ } // fruit feeds: practice drains Fullness + speeds grow timers
     const react = tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) });
@@ -166,18 +184,95 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     ov.querySelector('[data-a=back]').onclick = () => close();
   }
 
-  const api = { openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, crowd: st.crowd && { hype: st.crowd.hype }, hold: st.input ? { ...st.input.hold } : null }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };
+  // ---------------- Aurelith Games (the major): 3 rounds, points table, champion screen ----------------
+  function majorStatus() {
+    const c = canEnterMajor({ day: day(), coins: wallet()?.coins ?? 0, sstate: sstate() }), m = majorState(sstate()), M = TS.major;
+    const msg = c.ok ? tt(M.today, { prize: MAJOR.prize, wins: m.wins }) : c.reason === 'locked' ? tt(M.locked, { towns: c.towns, need: MAJOR.needTowns })
+      : c.reason === 'not_today' ? tt(M.in_days, { days: c.days, wins: m.wins }) : c.reason === 'entered' ? M.entered : tt(M.no_gold, { fee: MAJOR.fee });
+    return { ...c, msg };
+  }
+  function openMajor() {
+    if (st.open || isOpen?.()) return Promise.resolve();
+    st.open = true; st.ev = null; st.mode = 'major'; st.major = null; savedTs = scene.timescale ?? 1; scene.timescale = 0;
+    ov = document.createElement('div'); ov.id = 'town-ev'; ov.className = 'major'; document.body.appendChild(ov);
+    window.addEventListener('keydown', key, true); window.addEventListener('keyup', key, true);
+    majorIntro();
+    return new Promise((res) => { st.onClose = res; });
+  }
+  function majorIntro() {
+    st.phase = 'major_intro'; const M = TS.major, mons = team(), stt = majorStatus(), rounds = roundsFor(day());
+    st.mon = st.mon && mons.includes(st.mon) ? st.mon : mons[0];
+    ov.innerHTML = `<div class="box" id="major-intro"><h2>${esc(M.title)}</h2><div class="react">${esc(M.coach)}: ${esc(M.intro)}</div>
+      <div>${esc(TS.pick)}</div><div>${mons.map((c, i) => `<div class="mon${c === st.mon ? ' sel' : ''}" data-i="${i}"><img src="${imgFor(c.species).src}"><span>${esc(nameOf(c))}</span></div>`).join('')}</div>
+      <div class="cupline">${esc(tt(M.rounds_line, { events: stt.ok ? rounds.map((id) => TS[id].title).join(' · ') : M.secret }))}</div>
+      <div class="cupline" id="major-status">${esc(stt.msg)}</div><div style="opacity:.8">${esc(tt(M.towns_line, { towns: townsWon(sstate()), need: MAJOR.needTowns }))}</div>
+      <button data-a="enter"${stt.ok ? '' : ' disabled'}>${esc(tt(M.enter, { fee: MAJOR.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
+    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { st.mon = mons[+m.dataset.i]; majorIntro(); }));
+    ov.querySelector('[data-a=back]').onclick = () => close();
+    ov.querySelector('[data-a=enter]').onclick = () => {
+      if (!payMajor({ day: day(), wallet: wallet(), sstate: sstate() })) return majorIntro();
+      const rounds = roundsFor(day()); st.coinsBefore = (wallet()?.coins ?? 0) + MAJOR.fee;
+      st.major = { rounds, field: majorField(day(), rounds), scores: [], i: 0, over: false }; majorRoundCard();
+    };
+  }
+  function majorRoundCard() {
+    const mj = st.major, M = TS.major, ev = majorEvent(mj.rounds[mj.i]); st.ev = ev; st.phase = 'major_round';
+    const L = M.round_calls, call = tt(L[mj.i % L.length], { creature: nameOf(st.mon), event: TS[ev.id].title });
+    ov.innerHTML = `<div class="box" id="major-round"><h2>${esc(tt(M.round_title, { n: mj.i + 1, of: mj.rounds.length }))}</h2><h2>${esc(TS[ev.id].title)}</h2>
+      <div class="rivals">${mj.field.map((r) => `<div class="rv"><img src="${imgFor(r.species).src}" style="width:48px;image-rendering:pixelated"><div>${esc(r.trainer)}</div><b>${r.scores[mj.i]} ${esc(ev.unit)}</b></div>`).join('')}</div>
+      <div class="react">${esc(M.coach)}: ${esc(call)}</div><div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div>
+      <button data-a="go">${esc(TS.start)}</button></div>`;
+    try { window.kilumen?.audio?.sfx?.('select'); } catch (e) { /* no audio */ }
+    ov.querySelector('[data-a=go]').onclick = () => play();
+  }
+  async function majorAfterRound() {
+    const mj = st.major, ev = st.ev, M = TS.major, c = st.mon, r = recordRun(sstate(), ev, st.run);
+    mj.scores.push(r.score); const rows = scoreRound(mj.i, r.score, mj.field), table = standings(mj.scores, mj.field), mePlace = rows.findIndex((x) => x.me) + 1;
+    const who = (x) => (x.me ? nameOf(c) : `${mj.field[x.idx].trainer}'s ${mj.field[x.idx].species}`);
+    const last = mj.i + 1 >= mj.rounds.length;
+    st.phase = 'major_table';
+    const lines = M['react_' + (mePlace === 1 ? 'first' : mePlace === 2 ? 'second' : 'back')];
+    ov.innerHTML = `<div class="box" id="major-table"><h2>${esc(tt(M.round_title, { n: mj.i + 1, of: mj.rounds.length }))} · ${esc(TS[ev.id].title)}</h2>
+      <table class="rank">${rows.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(who(x))}</td><td>${x.score} ${esc(ev.unit)}</td><td>+${x.pts}</td></tr>`).join('')}</table>
+      <div><b>${esc(M.standings)}</b></div><table class="rank">${table.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(who(x))}</td><td>${x.pts} ${esc(M.pts)}</td></tr>`).join('')}</table>
+      <div class="react">${esc(M.coach)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
+      <button data-a="next">${esc(last ? M.to_finale : M.next_round)}</button></div>`;
+    ov.querySelector('[data-a=next]').onclick = () => { if (!last) { mj.i++; majorRoundCard(); } else majorFinale(); };
+  }
+  async function majorFinale() {
+    const mj = st.major, M = TS.major, c = st.mon; let mult = 1; try { mult = diffOf(getDifficulty(sys()?.state)).money || 1; } catch (e) { mult = 1; }
+    const res = settleMajor({ myScores: mj.scores, field: mj.field, wallet: wallet(), sstate: sstate(), mult }); mj.over = true; st.majorResult = res;
+    try { globalThis.kilumen?.feeds?.onPractice?.(c); } catch (e) { /* feeds off */ }
+    if (res.place === 1) {
+      st.phase = 'champion'; const ss = sstate(); ss.pid ??= Math.floor(Math.random() * 100000);
+      const big = (sp) => { const im = new Image(); im.src = `art/characters/pixel/creatures/${sp}/battle/${sp}_front_128.png`; im.onerror = () => { im.onerror = null; im.src = `art/characters/pixel/creatures/${sp}/base/${sp}_front.png`; }; return im; };
+      const pts = res.table.find((x) => x.me).pts;
+      await runChampion({ st, ov, party: [c.species], playerSrc: 'art/characters/pixel/humans/cal/run_bike/frames_3x/cal_chibi_down_run0_3x.png', title: M.champ,
+        scoreLabel: M.pts_label, scoreText: `${pts} ${M.pts}`, name: scene.config?.playerName || 'Cal', id: ss.pid, time: 0, coinsFrom: st.coinsBefore - MAJOR.fee, prize: res.prize, reduced: rm, audio: window.kilumen?.audio, framesBig: big });
+      st.tapFn = null; if (!ov) return;
+    }
+    st.phase = 'major_final';
+    const who = (x) => (x.me ? nameOf(c) : `${mj.field[x.idx].trainer}'s ${mj.field[x.idx].species}`), lines = M['final_' + (res.place === 1 ? 'win' : 'lose')];
+    ov.innerHTML = `<div class="box" id="major-final"><h2>${esc(M.title)}</h2><table class="rank">${res.table.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(who(x))}</td><td>${x.pts} ${esc(M.pts)}</td></tr>`).join('')}</table>
+      <div>${esc(res.place === 1 ? tt(M.won, { prize: res.prize, wins: res.wins }) : tt(M.lost, { place: res.place }))}</div>
+      <div class="react">${esc(M.coach)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
+      <button data-a="back">${esc(TS.back)}</button></div>`;
+    ov.querySelector('[data-a=back]').onclick = () => close();
+  }
+
+  const api = { openMajor, openTug: () => openEvent(tug), majorStatus, openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, major: st.major && { ...st.major, result: st.majorResult || null }, crowd: st.crowd && { hype: st.crowd.hype }, hold: st.input ? { ...st.input.hold } : null }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };
   return api;
 }
 
 // ---------------- crowd (pre-rendered strip, one drawImage per frame: cheap on phones) ----------------
-const badOf = (s) => (3 - (s.lives ?? 3)) + (s.falls || 0) + (s.miss || 0) + (s.washed || 0);
+const badOf = (s) => (3 - (s.lives ?? 3)) + (s.falls || 0) + (s.miss || 0) + (s.washed || 0) + (s.slips || 0);
 const CROWD_COLS = { garden_hop: ['#f2a7c3', '#9bd18b', '#ffe08a'], tide_run: ['#7fc4e8', '#f3ead2', '#e8875a'], signal_relay: ['#9ad1ff', '#c3a6ff', '#ffe58a'],
-  ice_slide: ['#dff1ff', '#8fb8ff', '#ff9aa8'], lantern_catch: ['#ffb347', '#ffe58a', '#c38bff'], forge_push: ['#ff7a1a', '#c86b3c', '#ffd77a'] };
-function makeCrowd(rows, evId) {
-  const cv = document.createElement('canvas'); cv.width = W; cv.height = 14 * rows + 6; const g = cv.getContext('2d'), cols = CROWD_COLS[evId] || ['#ccc'];
+  ice_slide: ['#dff1ff', '#8fb8ff', '#ff9aa8'], lantern_catch: ['#ffb347', '#ffe58a', '#c38bff'], forge_push: ['#ff7a1a', '#c86b3c', '#ffd77a'], tug_of_war: ['#7fc4e8', '#e8875a', '#f3ead2'] };
+function makeCrowd(rows, evId, major = false) {
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = 14 * rows + 6 + (major ? 14 : 0); const g = cv.getContext('2d'), cols = CROWD_COLS[evId] || ['#ccc'];
   g.fillStyle = '#0b0f1a'; g.fillRect(0, 0, cv.width, cv.height);
   for (let r = 0; r < rows; r++) for (let i = 0; i < 30; i++) { const x = i * 12 + (r % 2) * 6 + 4, y = 9 + r * 14; g.fillStyle = cols[(i + r) % cols.length]; g.fillRect(x - 4, y, 8, 6); g.fillStyle = '#e8c9a0'; g.beginPath(); g.arc(x, y - 2, 3, 0, 7); g.fill(); }
+  if (major) { const y = cv.height - 13; g.fillStyle = '#6b1f2a'; g.fillRect(0, y, W, 13); g.fillStyle = '#e8c26a'; g.fillRect(0, y, W, 2); g.font = 'bold 10px monospace'; g.textAlign = 'center'; g.fillText(TS.major.banner, W / 2, y + 11); } // stadium banner (pre-rendered)
   return { cv, hype: 0.2, gasp: 0, rows };
 }
 function drawCrowd(g, cr, dt, t, rm) {
@@ -195,6 +290,13 @@ function drawQuip(g, q, y0 = 30) {
 
 // ---------------- drawing ----------------
 function pop(g, text, x, y, col = '#ffe58a') { g.fillStyle = col; g.font = 'bold 18px monospace'; g.textAlign = 'center'; g.fillText(text, x, y); }
+// Harbour Haul pop-up lanes: one row each, TUG_POP_GAP px apart, from TUG_POP_TOP down (all above the pier at y=250)
+export const TUG_POP_TOP = 186, TUG_POP_GAP = 26;
+export const tugPopLanes = (pops) => pops.slice(0, 2).map(([txt, col], i) => [txt, col, TUG_POP_TOP + i * TUG_POP_GAP]);
+function popBox(g, text, x, y, col) { // dark backing plate so a pop always reads cleanly over the water
+  g.font = 'bold 18px monospace'; const w = Math.min(W - 8, g.measureText(text).width + 14);
+  g.fillStyle = '#0b1e2ecc'; g.fillRect(Math.round(x - w / 2), y - 17, Math.round(w), 22); pop(g, text, x, y, col);
+}
 function hud(g, ev, s, extra = '') {
   g.fillStyle = '#000a'; g.fillRect(0, 0, W, 26); g.fillStyle = '#f3ead2'; g.font = '13px monospace'; g.textAlign = 'left';
   g.fillText(`${Math.max(0, Math.ceil(s.left))}s  ${scoreOf(ev, s)} ${ev.unit}  ${extra}`, 8, 18);
@@ -206,7 +308,7 @@ function mon(g, c, x, y, sz = 40, t = 0, flip = false) {
 }
 function draw(g, ev, s, c, t) {
   g.clearRect(0, 0, W, H);
-  ({ garden_hop: dHop, tide_run: dTide, signal_relay: dRelay, ice_slide: dIce, lantern_catch: dCatch, forge_push: dForge })[ev.id](g, ev, s, c, t);
+  ({ garden_hop: dHop, tide_run: dTide, signal_relay: dRelay, ice_slide: dIce, lantern_catch: dCatch, forge_push: dForge, tug_of_war: dTug })[ev.id](g, ev, s, c, t);
 }
 function dHop(g, ev, s, c, t) {
   g.fillStyle = '#1f4a3a'; g.fillRect(0, 0, W, H);
@@ -288,4 +390,29 @@ function dForge(g, ev, s, c, t) {
   if (s.last) pop(g, TS['pop_' + s.last.q], W / 2, 370, s.last.q === 'miss' ? '#ff9a9a' : '#ffe58a');
   if (s.v < -0.2) pop(g, '↙', 60, 250, '#ff9a9a');
   hud(g, ev, s);
+}
+
+// Saltmere Harbour Haul (tug of war): pier planks, the rope, your crew of three on the left, the dock crew on the right.
+function dTug(g, ev, s, c, t) {
+  g.fillStyle = '#16405f'; g.fillRect(0, 0, W, H);
+  for (let i = 0; i < 8; i++) { g.fillStyle = '#ffffff18'; g.fillRect((i * 57 + t * 12) % W, 330 + (i % 3) * 30, 34, 2); } // water glints
+  g.fillStyle = '#8a6a44'; g.fillRect(0, 250, W, 70); for (let i = 0; i < 12; i++) { g.fillStyle = '#6e5234'; g.fillRect(i * 32, 250, 2, 70); } // pier
+  const mid = W * (1 - s.p) + 0, ry = 262; // rope centre: moves left (towards you) as you win
+  g.fillStyle = '#ffffff55'; g.fillRect(W * 0.15, 248, 2, 74); g.fillRect(W * 0.85, 248, 2, 74);  // your line / their line
+  g.strokeStyle = '#d9c38a'; g.lineWidth = 4; g.beginPath(); g.moveTo(20, ry); g.lineTo(W - 20, ry); g.stroke(); g.lineWidth = 1;
+  g.fillStyle = '#e84d4d'; g.fillRect(mid - 4, ry - 10, 8, 20); // the ribbon
+  const crew = s.team?.length ? s.team : [c], lean = s.last && s.fx ? -4 : 0, sh = (s.fx?.k === 'slip') ? Math.sin(t * 40) * 3 : 0;
+  crew.forEach((m, i) => mon(g, m, mid - 46 - i * 40 + lean + sh, ry - 16 + (i % 2) * 3, i === 0 ? 40 : 36, t, false));
+  for (let i = 0; i < 3; i++) { g.fillStyle = '#3b4a66'; g.fillRect(mid + 30 + i * 38, ry - 26, 18, 26); g.fillStyle = '#e8c9a0'; g.beginPath(); g.arc(mid + 39 + i * 38, ry - 32, 7, 0, 7); g.fill(); } // dock crew
+  // heave pulse ring + grip bar
+  const ring = s.pulse > 0.8 || s.pulse < 0.1; g.strokeStyle = ring ? '#ffe58a' : '#ffffff44'; g.lineWidth = ring ? 4 : 2;
+  g.beginPath(); g.arc(W / 2, 400, 16 + 18 * s.pulse, 0, 7); g.stroke(); g.beginPath(); g.arc(W / 2, 400, 34, 0, 7); g.stroke(); g.lineWidth = 1;
+  g.fillStyle = '#ffffff33'; g.fillRect(110, 448, 140, 6); g.fillStyle = s.grip < 0.4 ? '#ff9a9a' : '#8fd'; g.fillRect(110, 448, 140 * s.grip, 6);
+  if (s.brace) { g.fillStyle = '#ffe58a'; g.font = '11px monospace'; g.textAlign = 'center'; g.fillText(TS.pop_bracing, W / 2, 470); }
+  // pop-ups never overlap: the rival's "dig in" warning owns the top lane, the heave/held/slip result stacks below it
+  const pops = [];
+  if (s.surge && s.surge.warn > 0) pops.push([TS.pop_dig_in, '#ff9a9a']);
+  if (s.fx) pops.push([TS['pop_' + (s.fx.k === 'perfect' ? 'heave' : s.fx.k === 'good' ? 'good' : s.fx.k === 'brace' ? 'held' : 'slip')], s.fx.k === 'slip' ? '#ff9a9a' : '#ffe58a']);
+  tugPopLanes(pops).forEach(([txt, col, y]) => popBox(g, txt, W / 2, y, col));
+  hud(g, ev, s, '');
 }

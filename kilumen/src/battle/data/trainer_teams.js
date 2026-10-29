@@ -6,7 +6,7 @@
 // Nibbin swap (Oct 23 2026, coder; Gary: Tumbloam "looks a lot like Cindrip"): Nibbin -> Gnawford is the earth STARTER now and
 // starter-only (src/battle/data/starters.js STARTER_ONLY), so the old Nibbin slots on ordinary trainers became Tumbloam (same
 // level, earth, first stage, evolves at 16). Ron's byStarter: `nibbin` added (= the old earth branch, Ron takes Cindrip), the
-// rillop branch now fields Nibbin / Gnawford; `tumbloam` kept for v0.2.79-alpha saves that picked Tumbloam.
+// rillop branch now fields Nibbin / Gnawford; `tumbloam` kept for v0.2.86-alpha saves that picked Tumbloam.
 // XP rules stay xpDivisor 7 / xpTrainerMult 1.5 (Gary 12:00: "No, keep the old XP and find another way"; 12:01: "the
 // point of the game is to grind in the grass and log more kilumen"): trainers do NOT carry the player to L12-13, grass
 // grinding does (tools/playcheck_master1.mjs models it). r1_d/e/f + fw_a are world-feel trainers (Gary 12:02: "trainers
@@ -18,8 +18,8 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.79-alpha';
-import { applyHeldPicks } from './trainer_held.js?v=v0.2.79-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.87-alpha';
+import { applyHeldPicks } from './trainer_held.js?v=v0.2.87-alpha';
 
 const RON_TIDEWATER = {"nibbin": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}], "cindrip": [{species: "sailquill", level: 40}, {species: "pearlisk", level: 40, held: "runestitch_charm"}, {species: "tidemarrow", level: 40, held: "sprig_charm"}, {species: "nudiblume", level: 40, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}, {species: "brineseal", level: 39, held: "droplet_charm"}, {species: "tidemarrow", level: 41, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}], "rillop": [{species: "sailquill", level: 40}, {species: "glassvine", level: 40}, {species: "gearwarden", level: 40}, {species: "bramblehog", level: 41}, {species: "skyrender", level: 40}, {species: "gnawford", level: 41}], "tumbloam": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}]};
 export const TRAINER_TEAMS = {
@@ -39,7 +39,7 @@ export const TRAINER_TEAMS = {
       nibbin: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }],
       cindrip: [{ species: 'peeplark', level: 7 }, { species: 'rillop', level: 8 }],
       rillop: [{ species: 'peeplark', level: 7 }, { species: 'nibbin', level: 8 }],
-      tumbloam: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }], // legacy: v0.2.79-alpha Tumbloam saves
+      tumbloam: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }], // legacy: v0.2.86-alpha Tumbloam saves
     },
   },
   'fernwick.trainer_fw_a': [{ species: 'thistlepup', level: 8 }, { species: 'hushowl', level: 9 }], // hall hopeful, path to the Master's Hall

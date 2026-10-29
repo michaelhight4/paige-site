@@ -76,9 +76,10 @@
    ],
    "0.4.6": [
     "The Firefly (Fernwick juice bar): rebel_bouncer, rebel_bartender (juice and snack counter keeper, id unchanged), rebel_dj, rebel_patron_1-3, rebel_paint_vendor in unplaced_npcs (map club_int, text_pending). Back-room MISSING wall + location notes in unplaced.club_props. Side story 'The Missing Note' on rebel_dj. Ron gag pending (ron_in_party, ron_mode).",
-    "Items: pond_plum_juice, mossplum_shake, fern_mint_tea, firefly_shake in system_item_catalogue (effects pending, Coder); items.firefly_lantern (Missing Note reward).",
+    "Items: pond_berry_juice, mossberry_shake, fern_mint_tea, firefly_shake in system_item_catalogue (effects pending, Coder); items.firefly_lantern (Missing Note reward).",
     "Gary's juice-bar rule: BAN_DRINK in the validator (player text and names). Existing lines changed to pass: Small/Big/Energy Tonic -> Small Remedy / Big Remedy / Pep Remedy (ids unchanged), shop clerk 'tonics' -> 'remedies', Care pocket help, blackout copay 'on the house'.",
-    "World README 17.3: TV/bookcase anchors removed from unplaced.props (World reads map geometry now). Tile check also looks in the overlay layer (World depth pass, house_2f bed)."
+    "World README 17.3: TV/bookcase anchors removed from unplaced.props (World reads map geometry now). Tile check also looks in the overlay layer (World depth pass, house_2f bed).",
+    "Items: pond_plum_juice, mossplum_shake, fern_mint_tea, firefly_shake in system_item_catalogue (effects pending, Coder); items.firefly_lantern (Missing Note reward)."
    ],
    "0.4.5": [
     "World map pass (OVERWORLD_README 16-17): text checked for every new spot (TVs, bookcases, windows, lap_nap_seat at (2,4) facing up, cradle_1-3, aide at (10,6)). Geometry copied from interact_spots/text_pending.",
@@ -116,10 +117,11 @@
     "Remapped off retired maps: heal_centre_int.healer -> heal_brookhollow.heal_brookhollow_carer + heal_fernwick.heal_fernwick_carer; sofa + company_terminal -> both heal maps; house_int_b.bookcase_left/right -> home_brookhollow_b.bookcase / home_brookhollow_b_2f.shelf; house_int_b.scholar -> home_brookhollow_b.scholar; house_int_c.tv/parent_c/kid_c -> home_fernwick_a.tv / home_fernwick_a_parent / home_fernwick_a_2f.home_fernwick_a_kid. Every entry carries text_was.",
     "World's text_pending ids written (heal x2, homes H1-H4 + uniques, lab_brookhollow, rt_branch_backroom): World's drafts adopted where they fit (Bulletin, suggestion box, 'Field team? Sit, sit.'), the rest rewritten to page size, house tone and the shared-interior rules.",
     "Shared designs get per-town lines with when.zone (carer, technician, H1 owner, H2 hobbyist, H3 parent + kid, H4 hobbyist); defaults stay town-neutral.",
-    "New top-level 'unplaced': 5 window spots from retired maps, house_int_a.cook (Mossplum Snack, proposed for home_brookhollow_b_parent) and 7 TV/bookcase texts with proposed spots (geometry validated).",
+    "New top-level 'unplaced': 5 window spots from retired maps, house_int_a.cook (Berry Snack, proposed for home_brookhollow_b_parent) and 7 TV/bookcase texts with proposed spots (geometry validated).",
     "Wording: Heal Centre -> Revival Tech (route1 trainer, sofa 'Carer:', when-key note); KID_TV lines point upstairs (kid moved to 2F).",
     "Flags: has_branch_card and got_starter accepted as World flags (not in progression_flags yet).",
-    "Validator: phases from grades.json; retired maps must carry no text; text_pending ids need text; shared interiors: no town names outside zone lines, no recolour names, no room colours; indoor phase lines (progression.INDOOR_OR_CAVE) must not talk about light; zone lines on maps not listed in world_layout zones -> warning + meta.zone_wiring_todo; unplaced proposals checked. All new checks mutation-tested."
+    "Validator: phases from grades.json; retired maps must carry no text; text_pending ids need text; shared interiors: no town names outside zone lines, no recolour names, no room colours; indoor phase lines (progression.INDOOR_OR_CAVE) must not talk about light; zone lines on maps not listed in world_layout zones -> warning + meta.zone_wiring_todo; unplaced proposals checked. All new checks mutation-tested.",
+    "New top-level 'unplaced': 5 window spots from retired maps, house_int_a.cook (Mossplum Snack, proposed for home_brookhollow_b_parent) and 7 TV/bookcase texts with proposed spots (geometry validated)."
    ],
    "0.4.1": [
     "World soul-pass art (OVERWORLD_README 14): 9 window spots written (window_1/2 on house_1f, house_2f, house_int_b, house_int_c; window_1 on house_int_a), varied by phase dawn/day/dusk/night, hour 3 and story flags; prop_templates.window removed.",
@@ -1216,12 +1218,6 @@
    "tiers": "pick the last tier whose min <= value (Kilindex caught count, Croft Warmth)",
    "placeholders": "every page is width-checked with the longest sample of each placeholder (system_lines.SAMPLES)"
   },
-  "zone_wiring_todo": {
-   "_note": "World: add these maps to world_layout zones[<zone>].maps so the when.zone lines can fire (until then they stay silent and the neutral default shows). 2F maps also need Coder: zone() should follow $return to the outdoor map.",
-   "saltmere": [
-    "home_saltmere_a"
-   ]
-  },
   "when_key_audit": {
    "_note": "Every when / trigger_when key used in this file vs Coder's picker (src/overworld/lines.js whenMatches, dev/overworld-v1). Unknown keys never match there.",
    "supported_by_picker": [
@@ -1268,7 +1264,19 @@
   },
   "spare_maps": {
    "_note": "Maps World keeps as spares until a town needs them (8:20 PM CT). Their text is parked under maps.<map> as usual (ids match the map file) and passes every check; no door leads there, which is expected, not an error.",
-   "station_int": "World 8:20 PM CT: spare until a town needs a station (no door leads here). Text parked, kept valid; rail_only paths in its text_refs resolve to the same entries."
+   "station_int": "World 8:20 PM CT: spare until a town needs a station (no door leads here). Text parked, kept valid; rail_only paths in its text_refs resolve to the same entries.",
+   "home_saltmere_a": "World 8:20 PM CT: spare until Saltmere is built (no door leads here). Text parked, kept valid; its zone lines are not a wiring todo while spare.",
+   "_zone_lines_parked": {
+    "home_saltmere_a": [
+     "saltmere"
+    ]
+   }
+  },
+  "zone_wiring_todo": {
+   "_note": "World: add these maps to world_layout zones[<zone>].maps so the when.zone lines can fire (until then they stay silent and the neutral default shows). 2F maps also need Coder: zone() should follow $return to the outdoor map.",
+   "saltmere": [
+    "home_saltmere_a"
+   ]
   }
  },
  "_proposed_names": {
@@ -1543,24 +1551,6 @@
       "pages": [
        "Survey in progress. East road's closed to unregistered trainers.",
        "Bring me the Fernwick Master's coin. Yes, even if you work here."
-      ]
-     }
-    ]
-   },
-   "dash_coach": {
-    "pages": [
-     "Dash Track's open! Practice is free, so lace up and give it a go.",
-     "Tournament every three days. Bring your fastest friend!"
-    ],
-    "kind": "coach",
-    "note": "by the Dash Track gate (50,28); talk opens the dash venue (src/sports)",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Dash Track's open! Practice is free, so lace up and give it a go.",
-       "Tournament every three days. Bring your fastest friend!"
       ]
      }
     ]
@@ -1890,7 +1880,25 @@
      }
     ]
    },
-   "area_name": "Brookhollow"
+   "area_name": "Brookhollow",
+   "dash_coach": {
+    "pages": [
+     "Dash Track's open! Practice is free, so lace up and give it a go.",
+     "Tournament every three days. Bring your fastest friend!"
+    ],
+    "kind": "coach",
+    "note": "by the Dash Track gate (50,28); talk opens the dash venue (src/sports)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Dash Track's open! Practice is free, so lace up and give it a go.",
+       "Tournament every three days. Bring your fastest friend!"
+      ]
+     }
+    ]
+   }
   },
   "house_2f": {
    "player_start": {
@@ -5781,6 +5789,14 @@
       ]
      },
      {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Cold crystals crack if you polish them too fast.",
+       "So I go slow. Management calls it a thaw cycle."
+      ]
+     },
+     {
       "id": "tech_frostwick",
       "flags": [],
       "when": {
@@ -5789,14 +5805,6 @@
       "pages": [
        "Out on the pass at dusk? Look for a blue flame.",
        "That's a Frostwick. It drips icicles, not wax."
-      ]
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Cold crystals crack if you polish them too fast.",
-       "So I go slow. Management calls it a thaw cycle."
       ]
      }
     ]
@@ -7658,12 +7666,15 @@
      "Juices, teas and shakes. I'm somebody's aunt."
     ],
     "stock": [
-     "pond_plum_juice",
-     "mossplum_shake",
+     "pond_berry_juice",
+     "mossberry_shake",
      "fern_mint_tea",
-     "firefly_shake"
+     "firefly_shake",
+     "pond_plum_juice",
+     "mossplum_shake"
     ],
     "pages": [
+     "Your {lead} looks thirsty. Pond Berry Juice should sort that out.",
      "Your {lead} looks thirsty. Pond Plum Juice should sort that out."
     ],
     "lines": [
@@ -7701,6 +7712,7 @@
       "id": "default",
       "flags": [],
       "pages": [
+       "Your {lead} looks thirsty. Pond Berry Juice should sort that out.",
        "Your {lead} looks thirsty. Pond Plum Juice should sort that out."
       ]
      }
@@ -11668,6 +11680,14 @@
     "kind": "villager",
     "lines": [
      {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Mirefen's built on stilts. Grandad built ours. It leans left.",
+       "So do we, now."
+      ]
+     },
+     {
       "id": "mf_keycard",
       "flags": [
        "rt_keycard_r5"
@@ -11699,14 +11719,6 @@
        "Grandad says it's fine. Grandad's not in it."
       ],
       "status": "DRAFT"
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Mirefen's built on stilts. Grandad built ours. It leans left.",
-       "So do we, now."
-      ]
      }
     ]
    },
@@ -11797,11 +11809,15 @@
     "coin_name": "Reed Coin",
     "name_status": "DRAFT, pending Gary (name + coin name)",
     "note": "Master Wenna Peat (master_mirefen); win sets beat_master_mirefen. Overnight hall draft (drafts/overnight/halls_mirefen.md); after_2 + soul lines DRAFT (Text Bot Oct 29 2026, regions 5-6 pass)",
-    "after_2": [
-     "My gran ran this hall on stilts and stubbornness.",
-     "I've only ever replaced the stilts."
-    ],
     "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Folk call the bog dirty. It's honest. Everything in it is busy.",
+       "Same as my team. Come on, then."
+      ]
+     },
      {
       "id": "wenna_storm",
       "flags": [
@@ -11824,15 +11840,11 @@
        "The bog's loud. So am I. Come on, then."
       ],
       "status": "DRAFT"
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Folk call the bog dirty. It's honest. Everything in it is busy.",
-       "Same as my team. Come on, then."
-      ]
      }
+    ],
+    "after_2": [
+     "My gran ran this hall on stilts and stubbornness.",
+     "I've only ever replaced the stilts."
     ]
    },
    "mirefen_hall_int_h1": {
@@ -12352,6 +12364,14 @@
     "kind": "villager",
     "lines": [
      {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The coast road's under water half the year.",
+       "We get our post by boat. When the boat feels like it."
+      ]
+     },
+     {
       "id": "tc_coin",
       "flags": [
        "beat_master_tidewater"
@@ -12372,14 +12392,6 @@
        "Lights under the water at night. Gives me the shivers."
       ],
       "status": "DRAFT"
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "The coast road's under water half the year.",
-       "We get our post by boat. When the boat feels like it."
-      ]
      }
     ]
    },
@@ -12391,6 +12403,14 @@
     "kind": "villager",
     "lines": [
      {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Swim between the flags. And not in the grotto. And not at dusk.",
+       "Honestly, just paddle."
+      ]
+     },
+     {
       "id": "tc_glide",
       "flags": [
        "has_tideglide"
@@ -12400,14 +12420,6 @@
        "And {lead} stays between them too."
       ],
       "status": "DRAFT"
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Swim between the flags. And not in the grotto. And not at dusk.",
-       "Honestly, just paddle."
-      ]
      }
     ]
    },
@@ -12506,11 +12518,15 @@
     "coin_name": "Undertow Coin",
     "name_status": "DRAFT, pending Gary (name + coin name)",
     "note": "Master Jory Swell (master_tidewater_coast); win sets beat_master_tidewater. Overnight hall draft (drafts/overnight/halls_tidewater_coast.md); after_2 + soul lines DRAFT (Text Bot Oct 29 2026, regions 5-6 pass)",
-    "after_2": [
-     "Forty years I've watched this bay. Never once the same.",
-     "That's why I stay. Go on, it's waiting for you."
-    ],
     "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Calm water lies. Down here, the pull's always going somewhere.",
+       "Let's see if your team keeps its footing."
+      ]
+     },
      {
       "id": "jory_storm",
       "flags": [
@@ -12533,15 +12549,11 @@
        "Let's see if you notice it before it's at your knees."
       ],
       "status": "DRAFT"
-     },
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Calm water lies. Down here, the pull's always going somewhere.",
-       "Let's see if your team keeps its footing."
-      ]
      }
+    ],
+    "after_2": [
+     "Forty years I've watched this bay. Never once the same.",
+     "That's why I stay. Go on, it's waiting for you."
     ]
    },
    "tidewater_hall_int_h1": {
@@ -15453,12 +15465,14 @@
     "id": "default",
     "flags": [],
     "pages": [
+     "The flies have names now.",
+     "Don't ask me their names, {nick}.",
      "Neighbour says the bags have started paying rent.",
      "Five bags. One for each of your coins. I counted."
     ],
+    "soul_item": "3,10",
     "status": "DRAFT",
-    "note": "coin-5 bin line, 5 bags, no flies (Gary G3)",
-    "soul_item": "3,10"
+    "note": "coin-5 bin line, 5 bags, no flies (Gary G3)"
    }
   ],
   "ron_rival_lanternport": [
@@ -15466,11 +15480,13 @@
     "id": "default",
     "flags": [],
     "pages": [
+     "The neighbour left a note about the bins.",
+     "I'm choosing to battle you instead, {nick}.",
      "The flies have names now.",
      "Don't ask me their names, {nick}."
     ],
-    "note": "moved from Tidewater (Gary G3); old line 'The neighbour left a note about the bins.' stays on lanternport_ron_5",
-    "soul_item": "3,10"
+    "soul_item": "3,10",
+    "note": "moved from Tidewater (Gary G3); old line 'The neighbour left a note about the bins.' stays on lanternport_ron_5"
    }
   ],
   "ron_rival_cindervale": [
@@ -15800,11 +15816,13 @@
       "id": "default",
       "flags": [],
       "pages": [
+       "I made way too much. Here, take a Berry Snack before it goes to waste.",
        "I made way too much. Here, take a Mossplum Snack before it goes to waste."
       ]
      }
     ],
     "after": [
+     "That was the last one. I'm not made of berries.",
      "That was the last one. I'm not made of mossplums."
     ]
    }
@@ -15953,11 +15971,11 @@
    "pending_gary_call": "potions_vs_rest",
    "note": "World's role says it restores energy; the description stays neutral until Gary rules on potions vs resting"
   },
-  "pond_plum_juice": {
-   "name": "Pond Plum Juice",
+  "pond_berry_juice": {
+   "name": "Pond Berry Juice",
    "pocket": "feeds",
    "pages": [
-    "Fresh-pressed pond plums. Tart, cold and picked this morning."
+    "Fresh-pressed pond berries. Tart, cold and picked this morning."
    ],
    "parity": "E4",
    "build": "partial",
@@ -15965,11 +15983,11 @@
    "effect": "pending: feed / small heal, Coder sets",
    "note": "proposed item id (no World id yet); juice-bar rule: juice, tea and shakes only"
   },
-  "mossplum_shake": {
-   "name": "Mossplum Shake",
+  "mossberry_shake": {
+   "name": "Mossberry Shake",
    "pocket": "feeds",
    "pages": [
-    "Mossplum milkshake, extra thick. Comes with a very bendy straw."
+    "Berry milkshake, extra thick. Comes with a very bendy straw."
    ],
    "parity": "E4",
    "build": "partial",
@@ -16025,8 +16043,9 @@
    "name": "Trail Mix",
    "pocket": "feeds",
    "pages": [
-    "Nuts, seeds and dried mossplums.",
-    "Trail Buddies go wild for it."
+    "Nuts, seeds and dried berries.",
+    "Trail Buddies go wild for it.",
+    "Nuts, seeds and dried mossplums."
    ],
    "parity": "E4",
    "build": "partial"
@@ -16108,6 +16127,30 @@
    "parity": "E4",
    "build": "partial",
    "note": "money: use system_items.picked_up_money. Named 'purse', not 'coin pouch': players only see 'coin' for a Master's token"
+  },
+  "pond_plum_juice": {
+   "name": "Pond Plum Juice",
+   "pocket": "feeds",
+   "pages": [
+    "Fresh-pressed pond plums. Tart, cold and picked this morning."
+   ],
+   "parity": "E4",
+   "build": "partial",
+   "sold_by": "unplaced_npcs.rebel_bartender",
+   "effect": "pending: feed / small heal, Coder sets",
+   "note": "proposed item id (no World id yet); juice-bar rule: juice, tea and shakes only"
+  },
+  "mossplum_shake": {
+   "name": "Mossplum Shake",
+   "pocket": "feeds",
+   "pages": [
+    "Mossplum milkshake, extra thick. Comes with a very bendy straw."
+   ],
+   "parity": "E4",
+   "build": "partial",
+   "sold_by": "unplaced_npcs.rebel_bartender",
+   "effect": "pending: feed / small heal, Coder sets",
+   "note": "proposed item id (no World id yet); juice-bar rule: juice, tea and shakes only"
   }
  },
  "system_heal": {
@@ -17094,6 +17137,36 @@
    },
    "gnawford": {
     "blurb": "Dams small streams with gnawed roots, then leaves a ford for anyone crossing.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "jestrix": {
+    "blurb": "Rings its ear bell before every prank. Laughs loudest when it gets caught.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "japkit": {
+    "blurb": "Juggles acorns, pebbles, anything. Drops the lot, except what it loves.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "harlequop": {
+    "blurb": "Deals cards with a wink. Somehow the little ones always win the hand.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "mummerhop": {
+    "blurb": "Twirls ribbons mid-battle. Every fight turns into a show, with encores.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "maestrix": {
+    "blurb": "One ring of its bell and the meadow goes hush. It bows to friend and foe.",
     "parity": "M1",
     "build": "different",
     "status": "DRAFT"
@@ -21912,6 +21985,152 @@
    "cap_raised": "Region {region} open. ID cap now {level}. Back to work."
   }
  },
+ "system_ending": {
+  "_section": "Interim ending: Ron 6 win with 8 coins -> Ron + RITA -> credits -> home to Brookhollow -> postgame note.",
+  "ron_after": {
+   "pages": [
+    "Six losses. Eight coins. Yours, mind.\nStill. Not a bad week, was it?",
+    "Head Office can wait a day.\nLet's go home first, {player}."
+   ],
+   "note": "Suggested key: Ron 6 after-battle variant when the win rolls straight into credits (replaces maps.aurelith.aurelith_ron_6.after there; that line stays for the arena walk-in). Coder to wire.",
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "ron_home": {
+   "pages": [
+    "Home, then. Head Office can wait\none more day.",
+    "Somebody should take the bins out.\n...Fine. Tomorrow."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "postgame": {
+   "pages": [
+    "GAME CLEARED.",
+    "Your save keeps going. Catch, battle\nand explore anywhere you like.",
+    "The Aurelith Arena opens in a future\nupdate. Head Office is still up there."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_open": {
+   "pages": [
+    "You did it, {name}.",
+    "Eight coins. One Ron. A very long week."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_team_head": {
+   "pages": [
+    "The team that got you here"
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_coins_head": {
+   "pages": [
+    "Eight halls, eight coins"
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_ron": {
+   "pages": [
+    "Ron",
+    "Who lost six times",
+    "and came along anyway."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_rita": {
+   "pages": [
+    "RITA",
+    "Who logged every step.",
+    "Lunch break: still pending."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_bin": {
+   "pages": [
+    "The bin",
+    "Still waiting.",
+    "Ron says tomorrow."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_crew_head": {
+   "pages": [
+    "Made with care by"
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_crew": {
+   "pages": [
+    [
+     "Dev team",
+     "Gary Hight"
+    ]
+   ],
+   "note": "Gary, Oct 29 2026 (dictated): dev team is just Gary Hight; no bot role names; no studio line.",
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_thanks": {
+   "pages": [
+    "And you.",
+    "Thank you for playing Kilumen."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_end": {
+   "pages": [
+    "To be continued...",
+    "Head Office is still up there."
+   ],
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  },
+  "credits_crew_note": {
+   "pages": [
+    "Grok Bot was used in the production of this game."
+   ],
+   "note": "Gary, Oct 29 2026 (dictated).",
+   "parity": "M1",
+   "build": "different",
+   "status": "LIVE"
+  }
+ },
+ "system": {
+  "_section": "One-off story pop-ups. Read as system.<key>.pages; single OK choice.",
+  "wip_after_master3": {
+   "pages": [
+    "That's as far as the story goes for now. Region 4 is still being built.",
+    "You're free to keep exploring. Just try not to break anything."
+   ],
+   "trigger": "beat_master_revival",
+   "status": "DRAFT",
+   "note": "Master 3 (Revival Heights, coin 3). Model: wip_notice.js WIP_TEXT (system.wip_after_master2 has no text yet)"
+  }
+ },
  "system_research": {
   "_section": "RT research key cards and research-only areas, regions 5-6 (REGIONS_5_6_PLAN.md section 5). Text Bot DRAFT Oct 29 2026; map spots, item ids and flags pending World Design / Coder (RT_KEYCARD_SPEC.md). Keys are proposals.",
   "keycard_r5_name": {
@@ -24664,18 +24883,6 @@
    "group": 21,
    "speaker": "Ron",
    "gate": "ron5_missed: beat_master_tidewater, never fought Ron 5; harbour slip, bag packed"
-  }
- },
- "system": {
-  "_section": "One-off story pop-ups. Read as system.<key>.pages; single OK choice.",
-  "wip_after_master3": {
-   "pages": [
-    "That's as far as the story goes for now. Region 4 is still being built.",
-    "You're free to keep exploring. Just try not to break anything."
-   ],
-   "trigger": "beat_master_revival",
-   "status": "DRAFT",
-   "note": "Master 3 (Revival Heights, coin 3). Model: wip_notice.js WIP_TEXT (system.wip_after_master2 has no text yet)"
   }
  }
 }

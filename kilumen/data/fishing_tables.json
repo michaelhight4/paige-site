@@ -51,7 +51,9 @@
   "tidemarrow",
   "tuskwallow",
   "wavelin",
-  "whelkin"
+  "whelkin",
+  "pondkin",
+  "breakerfin"
  ],
  "maps": {
   "brookhollow": {
@@ -83,6 +85,16 @@
        3,
        6
       ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       3,
+       10
+      ],
+      "weight": 18,
+      "spread": "habitat",
       "rarity": "uncommon"
      }
     ]
@@ -200,6 +212,16 @@
        5
       ],
       "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       2,
+       5
+      ],
+      "weight": 18,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -306,6 +328,26 @@
        8,
        11
       ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       8,
+       11
+      ],
+      "weight": 7,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "dartling",
+      "level": [
+       8,
+       11
+      ],
+      "weight": 7,
+      "spread": "habitat",
       "rarity": "uncommon"
      }
     ]
@@ -521,6 +563,46 @@
        27
       ],
       "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       24,
+       27
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "level": [
+       24,
+       27
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "dartling",
+      "level": [
+       24,
+       27
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "level": [
+       24,
+       27
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -637,6 +719,26 @@
        22
       ],
       "rarity": "rare"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       18,
+       22
+      ],
+      "weight": 12,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "level": [
+       18,
+       22
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -753,6 +855,26 @@
        18
       ],
       "rarity": "rare"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       14,
+       18
+      ],
+      "weight": 12,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "level": [
+       16,
+       18
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -985,6 +1107,46 @@
        34
       ],
       "rarity": "uncommon"
+     },
+     {
+      "species": "ditchsnap",
+      "level": [
+       30,
+       41
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "snapmoor",
+      "level": [
+       30,
+       41
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       30,
+       41
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "level": [
+       30,
+       41
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -1128,6 +1290,46 @@
        43
       ],
       "rarity": "uncommon"
+     },
+     {
+      "species": "pinchkin",
+      "level": [
+       36,
+       43
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "level": [
+       36,
+       43
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "wavelin",
+      "level": [
+       36,
+       43
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "breakerfin",
+      "level": [
+       36,
+       43
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -1270,6 +1472,26 @@
        15,
        18
       ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       15,
+       18
+      ],
+      "weight": 11,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "level": [
+       16,
+       18
+      ],
+      "weight": 5,
+      "spread": "habitat",
       "rarity": "uncommon"
      }
     ]
@@ -1441,6 +1663,46 @@
        18
       ],
       "rarity": "rare"
+     },
+     {
+      "species": "pinchkin",
+      "level": [
+       15,
+       18
+      ],
+      "weight": 7,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "level": [
+       16,
+       18
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "wavelin",
+      "level": [
+       15,
+       18
+      ],
+      "weight": 7,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "breakerfin",
+      "level": [
+       16,
+       18
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -1620,6 +1882,46 @@
        36
       ],
       "rarity": "common"
+     },
+     {
+      "species": "pinchkin",
+      "level": [
+       32,
+       36
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "level": [
+       32,
+       36
+      ],
+      "weight": 1,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "wavelin",
+      "level": [
+       32,
+       36
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "breakerfin",
+      "level": [
+       32,
+       36
+      ],
+      "weight": 1,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -1717,6 +2019,46 @@
        32,
        35
       ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       32,
+       35
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "level": [
+       32,
+       35
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "dartling",
+      "level": [
+       32,
+       35
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "level": [
+       32,
+       35
+      ],
+      "weight": 3,
+      "spread": "habitat",
       "rarity": "uncommon"
      }
     ]
@@ -1897,6 +2239,26 @@
        18
       ],
       "rarity": "rare"
+     },
+     {
+      "species": "wavelin",
+      "level": [
+       15,
+       18
+      ],
+      "weight": 24,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "breakerfin",
+      "level": [
+       16,
+       18
+      ],
+      "weight": 12,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -2139,6 +2501,46 @@
        35
       ],
       "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       28,
+       35
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "level": [
+       28,
+       35
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "dartling",
+      "level": [
+       28,
+       35
+      ],
+      "weight": 6,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "level": [
+       28,
+       35
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -2246,6 +2648,26 @@
        44
       ],
       "rarity": "common"
+     },
+     {
+      "species": "pinchkin",
+      "level": [
+       40,
+       45
+      ],
+      "weight": 5,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "level": [
+       40,
+       45
+      ],
+      "weight": 3,
+      "spread": "habitat",
+      "rarity": "uncommon"
      }
     ]
    },
@@ -2334,6 +2756,46 @@
        40,
        44
       ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "pondkin",
+      "level": [
+       40,
+       47
+      ],
+      "weight": 5,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "level": [
+       40,
+       47
+      ],
+      "weight": 2,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "dartling",
+      "level": [
+       40,
+       47
+      ],
+      "weight": 5,
+      "spread": "habitat",
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "level": [
+       40,
+       47
+      ],
+      "weight": 2,
+      "spread": "habitat",
       "rarity": "uncommon"
      }
     ]
@@ -2577,6 +3039,14 @@
    "sea"
   ],
   "whelkin": [
+   "water",
+   "sea"
+  ],
+  "pondkin": [
+   "water",
+   "swamp"
+  ],
+  "breakerfin": [
    "water",
    "sea"
   ]

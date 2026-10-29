@@ -15,7 +15,7 @@ export const COIN_MASTERS = [ // RON_PUNCH_LIST order (src/overworld/ron_whereab
 // town signature events (src/sports/town_events.js EVENTS + Brookhollow Dash). Local cups: src/sports/town_cup.js (every 3 days, staggered per town).
 export const TOWN_EVENTS = [
   ['brookhollow_dash', 'brookhollow'], ['garden_hop', 'fernwick'], ['tide_run', 'saltmere'], ['signal_relay', 'revival_heights'],
-  ['ice_slide', 'frostspire'], ['lantern_catch', 'lanternport'], ['forge_push', 'cindervale'],
+  ['ice_slide', 'frostspire'], ['lantern_catch', 'lanternport'], ['forge_push', 'cindervale'], ['tug_of_war', 'saltmere'],
 ];
 
 const masters = (c) => COIN_MASTERS.filter(([, f]) => c.flags?.has?.(f)).length;
@@ -27,7 +27,7 @@ export const ACH_DEFS = [
   // town cups are live (dev/sports-events): each badge counts that town's cup wins (Dash: its tournament wins), stacking
   ...TOWN_EVENTS.map(([ev, town]) => ({ id: `event_${ev}`, kind: 'event', town, art: 'medal_silver', stack: true, ph: `Local ${ev.replace(/_/g, ' ')} cup`,
     value: ev === 'brookhollow_dash' ? (c) => c.sports?.wins || 0 : (c) => c.sports?.town?.[ev]?.cups || 0 })),
-  { id: 'games_aurelith_major', kind: 'event', town: 'aurelith', art: 'master_coin', ribbon: 'gold', stack: true, comingSoon: true, major: true, ph: 'Aurelith Games champion' },
+  { id: 'games_aurelith_major', kind: 'event', town: 'aurelith', art: 'master_coin', ribbon: 'gold', stack: true, major: true, value: (c) => c.sports?.major?.wins || 0, ph: 'Aurelith Games champion' },
   { id: 'ms_masters_1', kind: 'milestone', art: 'medal_bronze', max: 1, value: masters, ph: 'First Master beaten' },
   { id: 'ms_masters_4', kind: 'milestone', art: 'medal_silver', max: 4, value: masters, ph: 'Four Masters beaten' },
   { id: 'ms_masters_8', kind: 'milestone', art: 'master_coin', max: 8, value: masters, ph: 'All eight Masters beaten' },

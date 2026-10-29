@@ -4,7 +4,7 @@
 // Profanity: obscenity 0.4.6 (MIT, src/vendor/obscenity/LICENSE), English dataset + recommended
 // transformers (catches leetspeak like "b1tch", avoids Scunthorpe-style false hits).
 // Personal info / links: our own rules, because kids may play. Blocked, not censored.
-import { RegExpMatcher, englishDataset, englishRecommendedTransformers } from '../vendor/obscenity/obscenity.mjs?v=v0.2.79-alpha';
+import { RegExpMatcher, englishDataset, englishRecommendedTransformers } from '../vendor/obscenity/obscenity.mjs?v=v0.2.87-alpha';
 
 let matcher = null;
 function getMatcher() {

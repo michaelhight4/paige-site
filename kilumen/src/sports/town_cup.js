@@ -3,9 +3,9 @@
 // one entry per window, entry fee + prize through the wallet, rivals rolled with rollRivalAthletics (above-average field).
 // Towns are staggered (offset = region % 3) so on any in-game day some town is holding its cup.
 // Rivals post a score from their stats against the event's grade bars; the player plays the real event and must beat all three.
-import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.79-alpha';
-import { STATS } from './rules.js?v=v0.2.79-alpha';
-import { rngFor } from './rng.js?v=v0.2.79-alpha';
+import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.87-alpha';
+import { STATS } from './rules.js?v=v0.2.87-alpha';
+import { rngFor } from './rng.js?v=v0.2.87-alpha';
 
 export const CUP = { fee: 100, prize: 600, everyDays: 3, rivals: 3 };
 export const RIVAL_SPECIES = ['brimtoad', 'hushowl', 'ledgedove', 'capling', 'glintmoth', 'frondlet', 'aurorel', 'frostlop'];
@@ -39,7 +39,7 @@ export function payCup({ ev, day, wallet, sstate }) {
 }
 
 /** Rival score: event-relevant stat mean (0..1) mapped between the bronze and gold bars (+ a little luck). */
-const KEYSTAT = { garden_hop: ['agility', 'focus'], tide_run: ['agility', 'speed'], signal_relay: ['focus', 'stamina'], ice_slide: ['agility', 'focus'], lantern_catch: ['agility', 'speed'], forge_push: ['power', 'stamina'] };
+const KEYSTAT = { garden_hop: ['agility', 'focus'], tide_run: ['agility', 'speed'], signal_relay: ['focus', 'stamina'], ice_slide: ['agility', 'focus'], lantern_catch: ['agility', 'speed'], forge_push: ['power', 'stamina'], tug_of_war: ['power', 'stamina'] };
 export function rivalsFor(ev, day, n = CUP.rivals) {
   const r = rngFor(`cup:${ev.id}:${cupWindow(ev, day)}`), out = [], used = new Set();
   for (let i = 0; i < n; i++) {
