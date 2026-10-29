@@ -5,7 +5,7 @@
 //   2. FIELDS (soft): known blocks with the wrong type. normalise() already repairs these to defaults, so they are
 //      only reported (SaveStore.lastWarnings) and never block a load. Being stricter here would turn a repairable
 //      save into a lost one.
-import * as v from '../vendor/valibot/valibot.min.js?v=v0.2.71-alpha';
+import * as v from '../vendor/valibot/valibot.min.js?v=v0.2.72-alpha';
 
 const MAX_FLAGS = 5000, MAX_STR = 200, MAX_JSON = 2_000_000; // edited/corrupt saves, not real play
 const num = v.pipe(v.number(), v.finite());
