@@ -1416,5 +1416,37 @@
     "stern": "npcs/tr_master_saltmere_f/portraits/tr_master_saltmere_f_stern.png"
    }
   }
+ },
+ "heal_aurelith.heal_aurelith_carer": {
+  "sprite_id": "vil_healer_f",
+  "class": "capital branch carer, company uniform",
+  "overworld_sheet": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet.png",
+  "overworld_sheet_2x": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet_2x.png",
+  "overworld_sheet_3x": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet_3x.png",
+  "overworld_frames_dir": "npcs/vil_healer_f/overworld/vil_healer_f_chibi/"
+ },
+ "heal_aurelith.heal_aurelith_technician": {
+  "sprite_id": "vil_office_m_b",
+  "class": "polishing technician, uniform",
+  "overworld_sheet": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet.png",
+  "overworld_sheet_2x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_2x.png",
+  "overworld_sheet_3x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_3x.png",
+  "overworld_frames_dir": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi/"
+ },
+ "heal_aurelith.heal_aurelith_storage_user": {
+  "sprite_id": "vil_courier_f",
+  "class": "visitor at storage PC",
+  "overworld_sheet": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet.png",
+  "overworld_sheet_2x": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet_2x.png",
+  "overworld_sheet_3x": "npcs/vil_courier_f/overworld/vil_courier_f_chibi_sheet_3x.png",
+  "overworld_frames_dir": "npcs/vil_courier_f/overworld/vil_courier_f_chibi/"
+ },
+ "heal_aurelith.heal_aurelith_visitor": {
+  "sprite_id": "vil_office_m",
+  "class": "capital visitor, waiting area",
+  "overworld_sheet": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet.png",
+  "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
+  "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
+  "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
  }
 }

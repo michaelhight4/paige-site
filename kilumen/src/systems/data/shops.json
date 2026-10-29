@@ -512,6 +512,20 @@
     "x": 15,
     "y": 25
    }
+  },
+  "heal_aurelith": {
+   "zone": "aurelith",
+   "carer": "heal_aurelith_carer",
+   "stand": {
+    "x": 7,
+    "y": 5,
+    "facing": "up"
+   },
+   "returnDoor": {
+    "map": "aurelith",
+    "x": 17,
+    "y": 18
+   }
   }
  },
  "defaultBranch": "heal_brookhollow",

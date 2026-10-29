@@ -21,9 +21,8 @@ export const FX_CFG = {
   healZoom: { scale: 1.75, ms: 300 },
   // Heal variant (Gary 2:33 PM CT Oct 29 2026: "i like the regular purple, make the fire animation only for the ones in the capital"):
   // every heal centre plays the original purple heal_restore; capital (Aurelith) heals play heal_restore_fire (v2 fire + orbit).
-  // Aurelith has no heal map of its own: its door (aurelith 17,18) leads into the shared heal_brookhollow, so the capital is
-  // recognised by the door the player came in through (scene.lastDoor.map) or a dedicated heal map listed in `maps`.
-  healFire: { maps: ['heal_aurelith'], fromDoor: ['aurelith'] },
+  // Aurelith's own branch heal_aurelith (Gary 2:40 PM CT Oct 29 2026: "Give Aurelith its own heal centre") is the only fire map.
+  healFire: { maps: ['heal_aurelith'] },
   // Character models' capture poses: bone_v2 (one arm extended; natural elbow bend, smoothed arm edges, slimmer hiker sleeve).
   // ON by default since Oct 23, 2026 (Gary approved 12:00 AM CT: "just pass them on as approved im going to sleep").
   // Rollbacks: ?poses=0 (old placeholder trainer + the single `hold` point above) or ?fxart=0 (whole art path off).
@@ -199,8 +198,8 @@ function findMachine(sc, cc) {
   return null;
 }
 /** 'heal_restore_fire' in the capital (FX_CFG.healFire), else the original purple 'heal_restore'. */
-export function healPiece(sc) { const F = FX_CFG.healFire, m = sc?.map?.name, d = sc?.lastDoor?.map;
-  return F && (F.maps?.includes(m) || F.fromDoor?.includes(d)) ? 'heal_restore_fire' : 'heal_restore'; }
+export function healPiece(sc) { const F = FX_CFG.healFire, m = sc?.map?.name;
+  return F?.maps?.includes(m) ? 'heal_restore_fire' : 'heal_restore'; }
 /** sc: the overworld scene; n: team size. Resolves { ms, machine, steps } (skipped: reduced motion / no machine / art missing). */
 export async function healFx(sc, n, { reduced = false, steps = [] } = {}) {
   n = Math.max(1, Math.min(6, n || 1));
