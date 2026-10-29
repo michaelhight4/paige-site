@@ -16,8 +16,15 @@ import { railStops } from '../overnight/region_map.js?v=v0.2.87-alpha';
 export const RAIL = {
   interior: 'station_int', clerk: 'station_clerk', passClerk: { map: 'revival_heights', id: 'revival_heights_pass_clerk' },
   relay: { x: 1, y: 3 }, arrive: { x: 9, y: 5, facing: 'down' },
+  // Per-town station interiors (Oct 29 2026): town -> { map, arrive?, relay? }. Unlisted towns use the shared station_int.
+  // No town has its own station map yet (Lanternport still uses station_int); add e.g. lanternport: { map: 'station_lanternport' }.
+  interiors: {},
   flags: { told: 'rail_line_closed_told', relay: 'rail_relay_cleared', pass: 'has_rail_pass', master3: 'beat_master_revival' },
 };
+/** Station interior (map + arrive/relay cells) for a town. */
+export const stationFor = (town, R = RAIL) => ({ map: R.interior, arrive: R.arrive, relay: R.relay, ...(R.interiors[town] || {}) });
+/** Is this map a station interior (shared or per-town)? */
+export const isStation = (name, R = RAIL) => name === R.interior || Object.values(R.interiors).some((t) => t.map === name);
 const FB = {
   closed_pre: ['The Lumen Line is closed to field staff until you hold three Master coins.', "Company policy. Don't look at me like that."],
   closed: ['The line is shut. The signal relay on the platform went dark this morning.', 'Something small and scared crawled in there to get warm. No train moves past a dark signal.', "You're field staff. Can you coax it out? Gently. It bit the last engineer."],
@@ -81,7 +88,7 @@ export function attachRail(scene, { systems } = {}) {
   const set = (f) => (scene.setFlag ? scene.setFlag(f, true) : scene.flags.add(f));
   const lead = () => ([].concat(scene.party?.length ? scene.party : scene.systems?.party?.list || [])).find((c) => c && c.hp !== 0) || null;
   const cname = (c) => c ? (c.nickname || c.species[0].toUpperCase() + c.species.slice(1)) : '';
-  const here = () => (scene.map?.name === RAIL.interior ? scene.lastDoor?.map : null);
+  const here = () => (isStation(scene.map?.name) ? scene.lastDoor?.map : null);
   const zoneName = (id) => (scene.layout?.zones || []).find((z) => z.id === id)?.name || id;
 
   async function passClerkTalk(entry, line, sp) {
@@ -178,13 +185,13 @@ export function attachRail(scene, { systems } = {}) {
 
   async function ride(to) {
     const town = await scene.loadMap(to);
-    const door = (town?.warps || town?.json?.warps || []).find((w) => w.to === RAIL.interior);
+    const st = stationFor(to), door = (town?.warps || town?.json?.warps || []).find((w) => w.to === st.map);
     if (!door) { await say([`${zoneName(to)}: the platform is closed today.`]); return false; }
     await rideFx();
     scene.lastDoor = { map: to, x: door.x, y: door.y };
     if (scene.player && scene.player.mode !== 'walk') scene.player.mode = 'walk';
     scene.log?.push({ tick: scene.tick, type: 'rail', to });
-    scene.startWarp({ map: RAIL.interior, x: RAIL.arrive.x, y: RAIL.arrive.y, facing: RAIL.arrive.facing }, 'rail');
+    scene.startWarp({ map: st.map, x: st.arrive.x, y: st.arrive.y, facing: st.arrive.facing }, 'rail');
     const city = zoneName(to);
     setTimeout(() => scene.toast?.(fill(FB.arrive, city)), 700);
     return true;
@@ -197,12 +204,12 @@ export function attachRail(scene, { systems } = {}) {
     S._railHooked = true;
     const prevTalk = S.onTalk.bind(S), prevInt = S.onInteract.bind(S);
     S.onTalk = async (o) => {
-      if (o.mapName === RAIL.interior && o.def.id === RAIL.clerk) return clerkTalk(o.entry, o.line, o.speaker);
+      if (isStation(o.mapName) && o.def.id === RAIL.clerk) return clerkTalk(o.entry, o.line, o.speaker);
       if (o.mapName === RAIL.passClerk.map && o.def.id === RAIL.passClerk.id && await passClerkTalk(o.entry, o.line, o.speaker)) return true;
       return prevTalk(o);
     };
     S.onInteract = (fx, fy) => {
-      if (scene.map?.name === RAIL.interior && fx === RAIL.relay.x && fy === RAIL.relay.y) { scene.script(relay); return true; }
+      if (isStation(scene.map?.name) && fx === stationFor(scene.lastDoor?.map).relay.x && fy === stationFor(scene.lastDoor?.map).relay.y) { scene.script(relay); return true; }
       return prevInt(fx, fy);
     };
   }

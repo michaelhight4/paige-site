@@ -248,7 +248,7 @@ export class Overworld {
           // Batch 3 (Oct 22, 2026): the new interiors keep theirs in text_pending {npcs, signs}; same rule (has lines -> placed,
           // an id already in npcs/signs wins). text_pending.interact_spots are NOT wired (props/cradles: Gary's call).
           const tp = c.text_pending || {};
-          const add = (have, extra) => { const ids = new Set(have.map((d) => d.id)); return [...have, ...extra.filter((d) => !d.variant_of && !ids.has(d.id) && this._entryFor(name, d))]; }; // variant_of = line variant of a placed NPC, not a person (shop fix Oct 24: 8 region clerks stacked on (2,3) hid the real clerk, so no shop)
+          const add = (have, extra) => { const ids = new Set(have.map((d) => d.id)); return [...have, ...extra.filter((d) => (!d.variant_of || !ids.has(d.variant_of)) && !ids.has(d.id) && this._entryFor(name, d))]; }; // r78: a variant_of whose base isn't placed (unique marts' own clerk) is a real person // variant_of = line variant of a placed NPC, not a person (shop fix Oct 24: 8 region clerks stacked on (2,3) hid the real clerk, so no shop)
           c.npcs = add(c.npcs, tp.npcs || []);
           c.signs = add(c.signs, tp.signs || []);
         }

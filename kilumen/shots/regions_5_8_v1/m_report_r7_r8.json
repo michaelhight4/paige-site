@@ -1,0 +1,252 @@
+{
+ "attached": {
+  "r56": true,
+  "r78": true
+ },
+ "route_fernwick_lanternport": {
+  "map": "route_fernwick_lanternport",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "lanternport": {
+  "map": "lanternport",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "lanternport_mouth": {
+  "map": "lanternport",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "lanternport_grotto": {
+  "map": "lanternport_grotto",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "lanternport_hall_int": {
+  "map": "lanternport_hall_int",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "heal_lanternport": {
+  "map": "heal_lanternport",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "shop_lanternport": {
+  "map": "shop_lanternport",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "home_lanternport_a": {
+  "map": "home_lanternport_a",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "home_lanternport_b": {
+  "map": "home_lanternport_b",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "home_lanternport_c": {
+  "map": "home_lanternport_c",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "home_lanternport_d": {
+  "map": "home_lanternport_d",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "home_lanternport_e": {
+  "map": "home_lanternport_e",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "route_cindervale": {
+  "map": "route_cindervale",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "cindervale": {
+  "map": "cindervale",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "cindervale_mouth": {
+  "map": "cindervale",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "cindervale_caldera": {
+  "map": "cindervale_caldera",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "cindervale_hall_int": {
+  "map": "cindervale_hall_int",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "heal_cindervale": {
+  "map": "heal_cindervale",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "shop_cindervale": {
+  "map": "shop_cindervale",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "home_cindervale_a": {
+  "map": "home_cindervale_a",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "home_cindervale_b": {
+  "map": "home_cindervale_b",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "home_cindervale_c": {
+  "map": "home_cindervale_c",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "errs": [],
+ "miss": [
+  "http://127.0.0.1:36611/playtime.js?game=kilumen&v=v0.2.87-alpha"
+ ]
+}
