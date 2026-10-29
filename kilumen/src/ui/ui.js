@@ -625,7 +625,7 @@ export class GameUI {
     const scr = { scr: 'kilindex', pat: 'lattice', title: this.T('system_phone.menu.labels.kilindex', 'Kilindex'), glyph: 'kilindex', sel: 0, cols: +(this.cfg.vars?.['dex-cols'] || 4), count: () => SPECIES.length,
       chips: () => `<span class="ui-chip">${esc(L.seen || 'Seen')} ${seen.size}</span><span class="ui-chip">${esc(L.caught || 'Registered')} ${reg.size}</span>`,
       render: () => `<div class="ui-body"><div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="kilindex" data-pat="lattice" style="flex:1.5"><div class="ui-dex">${SPECIES.map((s, i) => {
-        const k = seen.has(s.id); return `<div class="ui-tile" data-i="${i}" data-el="${s.el[0]}"${k ? tipAttr(s.name, `${elNames(s.el)}\n${s.blurbKey ? this.T(s.blurbKey, s.blurb) : s.blurb}`) : tipAttr('???', 'Not seen yet.')}><span class="no">No.${String(i + 1).padStart(3, '0')}</span>${reg.has(s.id) ? '<span class="reg"></span>' : ''}
+        const k = seen.has(s.id); return `<div class="ui-tile" data-i="${i}" data-el="${s.el[0]}"${k ? tipAttr(s.name, `${elNames(s.el)}\n${kilindexBlurb(this.T.bind(this), s)}`) : tipAttr('???', 'Not seen yet.')}><span class="no">No.${String(i + 1).padStart(3, '0')}</span>${reg.has(s.id) ? '<span class="reg"></span>' : ''}
           <img class="ui-icon ${k ? 'flip' : 'sil'}" data-sp="${s.id}" data-f="0" src="${icon(s.id)}" alt=""><span class="lbl">${k ? esc(s.name) : '???'}</span></div>`; }).join('')}</div></div>
         <div class="ui-col" style="flex:1"><div class="ui-stagebox" data-el="${SPECIES[scr.sel].el[0]}" data-pat="dots" data-scroll style="flex:1;min-height:0" id="dexart"></div><div class="plate ui-pad ui-scroll" id="dexinfo" style="max-height:45%"></div></div></div>`,
       after: () => scr.onSel(scr.sel),
@@ -634,7 +634,7 @@ export class GameUI {
         art.dataset.el = s.el[0];
         art.innerHTML = `<img class="ui-sprite ${k ? 'idle' : ''}" style="--ui-sprite-scale:calc(var(--ui-dex-sprite, 1));${k ? '' : 'filter:brightness(0) opacity(.5)'}" src="${front(s.id)}" alt="">`;
         inf.innerHTML = k ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-size:1.15em">${esc(s.name)}</b>${s.el.map(elChip).join('')}</div>
-          <p style="margin:.4em 0" class="soft">${esc(s.blurbKey ? this.T(s.blurbKey, s.blurb) : s.blurb)}</p><div class="soft" style="font-size:.85em">${esc(L.regions || 'Found in')}: ${esc(s.found)}</div>`
+          <p style="margin:.4em 0" class="soft">${esc(kilindexBlurb(this.T.bind(this), s))}</p><div class="soft" style="font-size:.85em">${esc(L.regions || 'Found in')}: ${esc(s.found)}</div>`
           : `<b>???</b><p class="soft" style="margin:.4em 0">Not seen yet.</p>`;
       },
       hint: () => this.hintText([['▲▼◀▶', 'Browse'], ['B', 'Back']]),
@@ -1194,4 +1194,10 @@ export function mountUI(opts) {
   if (!noticeSeen()) setTimeout(() => ui.ask('title', [ALPHA_NOTICE], ['Got it'], { pat: 'sparkle' }).then(markNoticeSeen), 300);
   else if (want) { if (!['battle', 'levelup'].includes(want)) ui.open('phone'); ui.open(want); }
   return ui;
+}
+
+/** Kilindex blurb (dev/r56-wiring): the species key, else Text Bot's region 5/6 holding table (system_kilindex.entries._pending_r5_r6.<id>), so R5/R6 entries sync as each species registers. */
+export function kilindexBlurb(T, s) {
+  const pend = T(`system_kilindex.entries._pending_r5_r6.${s.id}`, null), alt = (typeof pend === 'string' ? pend : pend?.blurb) || s.blurb;
+  return s.blurbKey ? T(s.blurbKey, alt) || alt : alt;
 }

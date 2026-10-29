@@ -34,6 +34,8 @@ import { questItemSpots } from './quest_markers.js?v=v0.2.72-alpha';
 import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.72-alpha'; // area name sign (Gary 10:33 AM CT)
 import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.72-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
 import { trainerOutcome } from '../battle/story.js?v=v0.2.72-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+// Save migration (berry -> plum, dev/r56-wiring): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
+export const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -87,7 +89,7 @@ export class Overworld {
     const sv = opts.saveData || freshSave();
     this.store = opts.store || null;          // SaveStore (null = no persistence)
     this.audio = opts.audio || null;          // src/audio/audio.js (music follows the scene; sfx hooks below), optional
-    for (const f of sv.flags) this.flags.add(f);
+    for (const f of sv.flags) this.flags.add(RENAMED_FLAGS[f] || f); // old saves: renamed quest flags (berry -> plum)
     this.counters = { ...sv.counters };
     this.seen = { ...sv.seen }; this.seenDay = { ...sv.seenDay };
     this.clock = { ...sv.clock };
@@ -871,7 +873,11 @@ export class Overworld {
         const sp = this.speakerFor(n);
         if (e.battle_lost) { // trainer: challenge -> battle hook -> lost line; later talks use `after`
           const dk = `defeated:${mapName}.${def.id}`;
-          if (this.seen[dk]) { await this.say(e.after || this.pick(e, key)?.pages, sp); return; }
+          for (const h of this.trainerHooks || []) if (await h({ mapName, def, entry: e, speaker: sp, defeated: !!this.seen[dk] })) return; // r56: Ron 5 Battle / Not now (src/region56/ron5.js)
+          if (this.seen[dk]) { // r56: second and later repeat talks read after_2 when Text Bot wrote one (Masters 5/6, Ron 5)
+            const rk = `after_n:${mapName}.${def.id}`, n = (Number(this.seen[rk]) || 0) + 1; this.seen[rk] = n;
+            await this.say((n >= 2 && e.after_2) || e.after || this.pick(e, key)?.pages, sp); return;
+          }
           if (def.kind === 'master' && /_hall_int$/.test(mapName)) { // v0.2.16 (Gary): beat every hall trainer before the Master
             const left = (this.map.npcs || []).filter((d) => d && d.id !== def.id && d.kind !== 'master' && /trainer/.test(d.kind || '') && this._entryFor(mapName, d)?.battle_lost && !this.seen[`defeated:${mapName}.${d.id}`]).length;
             if (left > 0 && !DEV.masterKey) { await this.say([`Beat the rest of my hall first. ${left} trainer${left === 1 ? '' : 's'} left.`], sp); return; }
@@ -900,6 +906,7 @@ export class Overworld {
             if (this.systems) { this.systems.lastBattle = null; this.systems.party?.healAll?.(); } // free patch-up, no copay / warp (question for Gary)
           } else { // the trainer's line comes BEFORE the blackout warp; `defeated:` stays unset so they can be re-challenged
             await this.say(e.battle_won || [], sp);
+            if (story.optional) this.seen[dk] = true; // Ron 5 (optional): a loss closes the fight too
             const out = await this.systems?.onTrainerLoss({ map: mapName, def }); // [systems-gd hook] wiped team: copay + warp (onPartyFainted)
             if (story.blackoutOnLoss && !out && this.systems) await this.systems.onPartyFainted(); // Ron 2-6 (Gary, Oct 23 2026): every loss -> last clinic
           }

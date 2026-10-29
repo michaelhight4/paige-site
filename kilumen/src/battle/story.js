@@ -22,14 +22,26 @@ export const RON_RIVALS = {
   'lanternport.lanternport_ron_5': 5,
   'aurelith.aurelith_ron_6': 6,
 };
-for (const [k, n] of Object.entries(RON_RIVALS)) TRAINER_RESULTS[k] = { win: [`beat_rival_ron_${n}`], blackoutOnLoss: true };
+// Ron 5 at Tidewater (G3, story_beats R6 §5, dev/r56-wiring): OPTIONAL. Exempt from the Ron 2-6 hard gate: a loss is a normal
+// blackout but blocks nothing and closes the fight (no forced rematch). Win, loss: met_ron_tidewater + ron5_fought + the umbrella.
+// Decline / rematch / missed parting: src/region56/ron5.js. The Lanternport id stays mapped in case World Design keeps it there.
+RON_RIVALS['tidewater_coast.tidewater_coast_ron_5'] = 5;
+RON_RIVALS['tidewater_coast.tidewater_coast_ron_5_slip'] = 5; // harbour slip rematch (after a decline, until beat_master_tidewater)
+export const RON_OPTIONAL = new Set([5]);
+export const RON5_EITHER = ['met_ron_tidewater', 'ron5_fought', 'has_rons_umbrella'];
+for (const [k, n] of Object.entries(RON_RIVALS)) {
+  TRAINER_RESULTS[k] = RON_OPTIONAL.has(n)
+    ? { win: [`beat_rival_ron_${n}`], either: [...RON5_EITHER], optional: true }
+    : { win: [`beat_rival_ron_${n}`], blackoutOnLoss: true };
+}
 
 /** What a trainer battle result does to the story. -> {flags[], continueOnLoss, gift|null, done[, blackoutOnLoss]} */
 export function trainerOutcome(mapName, id, won) {
   const r = TRAINER_RESULTS[`${mapName}.${id}`] || {};
   const flags = [...(won ? r.win || [] : []), ...(r.either || [])];
   const cont = !!r.continueOnLoss;
-  const out = { flags, continueOnLoss: cont, gift: r.gift || null, done: won || cont }; // done = don't re-challenge (defeated:)
+  const out = { flags, continueOnLoss: cont, gift: r.gift || null, done: won || cont || !!r.optional };
+  if (r.optional) out.optional = true; // Ron 5: never a progression gate // done = don't re-challenge (defeated:)
   if (r.blackoutOnLoss && !cont) out.blackoutOnLoss = true; // Ron 2-6: a loss always goes back to the last clinic
   return out;
 }

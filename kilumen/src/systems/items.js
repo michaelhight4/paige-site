@@ -58,6 +58,21 @@ const FIELD = {
   lantern_moth: { pocket: 'gear', field: null, bait: true, name: 'Lantern Moth' },
   hollowstar_roe: { pocket: 'gear', field: null, bait: true, name: 'Hollowstar Roe' },
   team_link_band: { pocket: 'gear', field: null, held: true, key: true, name: 'Team Link Band' }, // Oct 29 2026: holder that sat out a faint gets half XP (src/battle/battle.js linkShare); from Saltmere (src/systems/link_band.js) // PLACEHOLDER id (DESIGN gold coin: x1.5 trainer money)
+  // Regions 5-6 (dev/r56-wiring, Oct 29 2026; ship with R5/R6). Names / descs: system_research.keycard_r*_name/_desc and
+  // system_story_r56.g27_* / g16_drawing_* (Text Bot). R5_R6_ITEM_TEXT below maps each id to its keys.
+  keycard_r5: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Mirefen Key Card', flag: 'rt_keycard_r5' }, // Benefits node rt_node_station_m
+  keycard_r6: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Tidewater Key Card', flag: 'rt_keycard_r6' }, // Benefits node rt_node_station_t
+  rons_umbrella: { pocket: 'key', field: null, key: true, earnedOnly: true, name: "Ron's Umbrella", flag: 'has_rons_umbrella' }, // Ron 5 wall: win, loss or decline (also a room decoration)
+  old_river_drawing: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Old River Drawing', flag: 'sq_rested_done' }, // Where It Rested (sq_rested_done)
+  reed_lamp: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Reed Lamp' }, // Mirefen (Wenna's lamp quest)
+};
+/** Text Bot keys for the region 5-6 items: [name path, desc path] in overworld_lines.json. */
+export const R5_R6_ITEM_TEXT = {
+  keycard_r5: ['system_research.keycard_r5_name', 'system_research.keycard_r5_desc'],
+  keycard_r6: ['system_research.keycard_r6_name', 'system_research.keycard_r6_desc'],
+  rons_umbrella: ['system_story_r56.g27_rons_umbrella_name', 'system_story_r56.g27_rons_umbrella_desc'],
+  old_river_drawing: ['system_story_r56.g16_drawing_name', 'system_story_r56.g16_drawing_desc'],
+  reed_lamp: ['system_story_r56.g27_reed_lamp_name', 'system_story_r56.g27_reed_lamp_desc'],
 };
 // Fruit feeds (Coder Oct 29 2026, src/feeds/logic.js FRUIT_IDS; names: Text Bot keys feeds.fruit.<id>.name). Gary: fruit goes in the bag.
 for (const id of FEED_FRUIT_IDS) { FIELD[`fruit_${id}`] = { pocket: 'feeds', field: null, feedFruit: id }; FIELD[`seedling_${id}`] = { pocket: 'feeds', field: null, feedSeedling: id }; }

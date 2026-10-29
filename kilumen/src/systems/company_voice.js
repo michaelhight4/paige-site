@@ -245,6 +245,8 @@ export class CompanyVoice {
     // task never raises q_mq_brookhollow_promotion_done in a normal game; got_starter (its reward flag) closes it for RITA.
     const alias = this.cfg.events.quest_done?.done_on_flag?.[flag];
     if (alias) { this.questDone(alias); return; }
+    // on_flag (dev/r56-wiring): plain flag -> event, e.g. keycard_r5 on rt_keycard_r5. Lines still obey maxRegion.
+    for (const [name, ev] of Object.entries(this.cfg.events || {})) if (ev?.on_flag && [].concat(ev.on_flag).includes(flag)) this.emit(name, { key: ev.on_flag_key?.[flag] });
     for (const name of ['master_beaten', 'rival_beaten', 'quest_done']) {
       const ev = this.cfg.events[name], m = ev?.flag_re && new RegExp(ev.flag_re).exec(flag || '');
       if (!m) continue;

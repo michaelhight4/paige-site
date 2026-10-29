@@ -6,7 +6,7 @@
 import { iconRel } from './data.js?v=v0.2.72-alpha'; // creature sync
 import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.72-alpha';
 import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.72-alpha';
-import { POCKETS } from '../systems/items.js?v=v0.2.72-alpha';
+import { POCKETS, R5_R6_ITEM_TEXT } from '../systems/items.js?v=v0.2.72-alpha';
 import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.72-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
 import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.72-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
 import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.72-alpha';
@@ -198,6 +198,7 @@ export async function installSystemsScreens(ui, sys) {
     // Items pocket lists one row per earned coin from data/masters.json. Text: system_items.master_coins.<zone> (PH keys).
     // v0.2.61: items with no catalogue text yet (Text Bot placeholder keys, fallback here)
     const ITEM_FALLBACK_PAGES = { team_link_band: () => T('system_items.team_link_band.pages', ['Shares battle XP: the team earns 25% more. Give it to a creature to hold.']) };
+    for (const [id, [, desc]] of Object.entries(R5_R6_ITEM_TEXT)) ITEM_FALLBACK_PAGES[id] = () => { const v = T(desc, null); return Array.isArray(v) ? v : v?.pages || null; }; // r56: system_research key cards, Ron's Umbrella, drawing, lamp
     // playtest fixes 3: an empty catalogue entry (pages: [] / '') counted as text and showed 'No description yet.'
     const nonEmpty = (p) => { const a = (Array.isArray(p) ? p : p ? [String(p)] : []).filter((x) => String(x || '').trim()); return a.length ? a : null; };
     const coinRows = () => {

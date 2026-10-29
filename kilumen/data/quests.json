@@ -1659,7 +1659,7 @@
      "desc": "Ask the juice counter for leftover fruit pulp.",
      "map": "club_int",
      "at": null,
-     "flag": "sq_paint_job_berry",
+     "flag": "sq_paint_job_plum",
      "condition": null,
      "optional": false
     },
@@ -1721,12 +1721,12 @@
     "sq_paint_job_start",
     "sq_paint_job_fern",
     "sq_paint_job_clay",
-    "sq_paint_job_berry",
+    "sq_paint_job_plum",
     "sq_paint_job_done",
     "paint_free_coat",
     "fern_dye (key item)",
     "river_clay (key item)",
-    "berry_pulp (key item)"
+    "plum_pulp (key item)"
    ],
    "status": "DRAFT"
   },
@@ -1805,11 +1805,11 @@
    "reward": {
     "items_placeholder": [
      {
-      "id": "pond_berry_juice",
+      "id": "pond_plum_juice",
       "qty": 1
      },
      {
-      "id": "mossberry_shake",
+      "id": "mossplum_shake",
       "qty": 1
      },
      {
@@ -4425,7 +4425,7 @@
    "reward": {
     "items_placeholder": [
      {
-      "id": "mossberry_shake",
+      "id": "mossplum_shake",
       "qty": 1
      },
      {
@@ -4844,9 +4844,9 @@
      "desc": "Ron is on the sea wall. Battle him (optional, Text Bot opener).",
      "map": "tidewater_coast",
      "at": null,
-     "flag": "beat_rival_ron_tidewater",
+     "flag": "met_ron_tidewater",
      "condition": null,
-     "optional": false
+     "optional": true
     },
     {
      "id": "mq_tidewater_s3",
@@ -5402,7 +5402,7 @@
       "x": 29,
       "y": 9
      },
-     "flag": "sq_stones_berries",
+     "flag": "sq_stones_plums",
      "condition": null,
      "optional": false
     },
@@ -5450,7 +5450,7 @@
    ],
    "new_ids": [
     "sq_stones_start",
-    "sq_stones_berries",
+    "sq_stones_plums",
     "sq_stones_done",
     "cindervale_baker (npc)",
     "mossbuds (key item)"

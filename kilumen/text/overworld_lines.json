@@ -76,7 +76,7 @@
    ],
    "0.4.6": [
     "The Firefly (Fernwick juice bar): rebel_bouncer, rebel_bartender (juice and snack counter keeper, id unchanged), rebel_dj, rebel_patron_1-3, rebel_paint_vendor in unplaced_npcs (map club_int, text_pending). Back-room MISSING wall + location notes in unplaced.club_props. Side story 'The Missing Note' on rebel_dj. Ron gag pending (ron_in_party, ron_mode).",
-    "Items: pond_berry_juice, mossberry_shake, fern_mint_tea, firefly_shake in system_item_catalogue (effects pending, Coder); items.firefly_lantern (Missing Note reward).",
+    "Items: pond_plum_juice, mossplum_shake, fern_mint_tea, firefly_shake in system_item_catalogue (effects pending, Coder); items.firefly_lantern (Missing Note reward).",
     "Gary's juice-bar rule: BAN_DRINK in the validator (player text and names). Existing lines changed to pass: Small/Big/Energy Tonic -> Small Remedy / Big Remedy / Pep Remedy (ids unchanged), shop clerk 'tonics' -> 'remedies', Care pocket help, blackout copay 'on the house'.",
     "World README 17.3: TV/bookcase anchors removed from unplaced.props (World reads map geometry now). Tile check also looks in the overlay layer (World depth pass, house_2f bed)."
    ],
@@ -116,7 +116,7 @@
     "Remapped off retired maps: heal_centre_int.healer -> heal_brookhollow.heal_brookhollow_carer + heal_fernwick.heal_fernwick_carer; sofa + company_terminal -> both heal maps; house_int_b.bookcase_left/right -> home_brookhollow_b.bookcase / home_brookhollow_b_2f.shelf; house_int_b.scholar -> home_brookhollow_b.scholar; house_int_c.tv/parent_c/kid_c -> home_fernwick_a.tv / home_fernwick_a_parent / home_fernwick_a_2f.home_fernwick_a_kid. Every entry carries text_was.",
     "World's text_pending ids written (heal x2, homes H1-H4 + uniques, lab_brookhollow, rt_branch_backroom): World's drafts adopted where they fit (Bulletin, suggestion box, 'Field team? Sit, sit.'), the rest rewritten to page size, house tone and the shared-interior rules.",
     "Shared designs get per-town lines with when.zone (carer, technician, H1 owner, H2 hobbyist, H3 parent + kid, H4 hobbyist); defaults stay town-neutral.",
-    "New top-level 'unplaced': 5 window spots from retired maps, house_int_a.cook (Berry Snack, proposed for home_brookhollow_b_parent) and 7 TV/bookcase texts with proposed spots (geometry validated).",
+    "New top-level 'unplaced': 5 window spots from retired maps, house_int_a.cook (Mossplum Snack, proposed for home_brookhollow_b_parent) and 7 TV/bookcase texts with proposed spots (geometry validated).",
     "Wording: Heal Centre -> Revival Tech (route1 trainer, sofa 'Carer:', when-key note); KID_TV lines point upstairs (kid moved to 2F).",
     "Flags: has_branch_card and got_starter accepted as World flags (not in progression_flags yet).",
     "Validator: phases from grades.json; retired maps must carry no text; text_pending ids need text; shared interiors: no town names outside zone lines, no recolour names, no room colours; indoor phase lines (progression.INDOOR_OR_CAVE) must not talk about light; zone lines on maps not listed in world_layout zones -> warning + meta.zone_wiring_todo; unplaced proposals checked. All new checks mutation-tested."
@@ -981,7 +981,7 @@
     },
     {
      "id": "E6",
-     "system": "Berries / vitamins (Feed + garden)",
+     "system": "Fruit / vitamins (Feed + garden)",
      "parity_status": "Different",
      "text": "written_now",
      "where": "system_garden"
@@ -1216,6 +1216,12 @@
    "tiers": "pick the last tier whose min <= value (Kilindex caught count, Croft Warmth)",
    "placeholders": "every page is width-checked with the longest sample of each placeholder (system_lines.SAMPLES)"
   },
+  "zone_wiring_todo": {
+   "_note": "World: add these maps to world_layout zones[<zone>].maps so the when.zone lines can fire (until then they stay silent and the neutral default shows). 2F maps also need Coder: zone() should follow $return to the outdoor map.",
+   "saltmere": [
+    "home_saltmere_a"
+   ]
+  },
   "when_key_audit": {
    "_note": "Every when / trigger_when key used in this file vs Coder's picker (src/overworld/lines.js whenMatches, dev/overworld-v1). Unknown keys never match there.",
    "supported_by_picker": [
@@ -1240,12 +1246,12 @@
     "facing": 1,
     "hour": 6,
     "idle_after_heal_s": 3,
-    "lead_has_nickname": 8,
+    "lead_has_nickname": 9,
     "lead_type": 1,
     "once": 11,
     "once_per_day": 4,
     "party_nickname": 1,
-    "phase": 63,
+    "phase": 65,
     "slept": 1,
     "standing_still_s": 3,
     "weekday": 1,
@@ -1262,13 +1268,7 @@
   },
   "spare_maps": {
    "_note": "Maps World keeps as spares until a town needs them (8:20 PM CT). Their text is parked under maps.<map> as usual (ids match the map file) and passes every check; no door leads there, which is expected, not an error.",
-   "station_int": "World 8:20 PM CT: spare until a town needs a station (no door leads here). Text parked, kept valid; rail_only paths in its text_refs resolve to the same entries.",
-   "home_saltmere_a": "World 8:20 PM CT: spare until Saltmere is built (no door leads here). Text parked, kept valid; its zone lines are not a wiring todo while spare.",
-   "_zone_lines_parked": {
-    "home_saltmere_a": [
-     "saltmere"
-    ]
-   }
+   "station_int": "World 8:20 PM CT: spare until a town needs a station (no door leads here). Text parked, kept valid; rail_only paths in its text_refs resolve to the same entries."
   }
  },
  "_proposed_names": {
@@ -1543,6 +1543,24 @@
       "pages": [
        "Survey in progress. East road's closed to unregistered trainers.",
        "Bring me the Fernwick Master's coin. Yes, even if you work here."
+      ]
+     }
+    ]
+   },
+   "dash_coach": {
+    "pages": [
+     "Dash Track's open! Practice is free, so lace up and give it a go.",
+     "Tournament every three days. Bring your fastest friend!"
+    ],
+    "kind": "coach",
+    "note": "by the Dash Track gate (50,28); talk opens the dash venue (src/sports)",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Dash Track's open! Practice is free, so lace up and give it a go.",
+       "Tournament every three days. Bring your fastest friend!"
       ]
      }
     ]
@@ -5763,6 +5781,17 @@
       ]
      },
      {
+      "id": "tech_frostwick",
+      "flags": [],
+      "when": {
+       "phase": "dusk"
+      },
+      "pages": [
+       "Out on the pass at dusk? Look for a blue flame.",
+       "That's a Frostwick. It drips icicles, not wax."
+      ]
+     },
+     {
       "id": "default",
       "flags": [],
       "pages": [
@@ -7624,18 +7653,18 @@
    "rebel_bartender": {
     "role": "juice and snack counter keeper (id unchanged)",
     "display_role": "juice counter",
-    "_note": "Runs the place. Sells juices, teas and shakes only (system_item_catalogue: pond_berry_juice, mossberry_shake, fern_mint_tea, firefly_shake). Somebody's aunt.",
+    "_note": "Runs the place. Sells juices, teas and shakes only (system_item_catalogue: pond_plum_juice, mossplum_shake, fern_mint_tea, firefly_shake). Somebody's aunt.",
     "shop_greeting": [
      "Juices, teas and shakes. I'm somebody's aunt."
     ],
     "stock": [
-     "pond_berry_juice",
-     "mossberry_shake",
+     "pond_plum_juice",
+     "mossplum_shake",
      "fern_mint_tea",
      "firefly_shake"
     ],
     "pages": [
-     "Your {lead} looks thirsty. Pond Berry Juice should sort that out."
+     "Your {lead} looks thirsty. Pond Plum Juice should sort that out."
     ],
     "lines": [
      {
@@ -7672,7 +7701,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "Your {lead} looks thirsty. Pond Berry Juice should sort that out."
+       "Your {lead} looks thirsty. Pond Plum Juice should sort that out."
       ]
      }
     ]
@@ -11639,6 +11668,39 @@
     "kind": "villager",
     "lines": [
      {
+      "id": "mf_keycard",
+      "flags": [
+       "rt_keycard_r5"
+      ],
+      "pages": [
+       "One of those RT cards? Station B's under the bog.",
+       "Lights still come on down there some nights. Nobody's home."
+      ],
+      "status": "DRAFT"
+     },
+     {
+      "id": "mf_coin",
+      "flags": [
+       "beat_master_mirefen"
+      ],
+      "pages": [
+       "Wenna gave you the Reed Coin? She taught me to swim.",
+       "Tipped me off the jetty, actually. Best day of my life."
+      ],
+      "status": "DRAFT"
+     },
+     {
+      "id": "mf_storm",
+      "flags": [
+       "storm_season"
+      ],
+      "pages": [
+       "Storm's here. The house leans further left in the wind.",
+       "Grandad says it's fine. Grandad's not in it."
+      ],
+      "status": "DRAFT"
+     },
+     {
       "id": "default",
       "flags": [],
       "pages": [
@@ -11734,8 +11796,35 @@
     "name": "Wenna Peat",
     "coin_name": "Reed Coin",
     "name_status": "DRAFT, pending Gary (name + coin name)",
-    "note": "Master Wenna Peat (master_mirefen); win sets beat_master_mirefen. Overnight hall draft (drafts/overnight/halls_mirefen.md)",
+    "note": "Master Wenna Peat (master_mirefen); win sets beat_master_mirefen. Overnight hall draft (drafts/overnight/halls_mirefen.md); after_2 + soul lines DRAFT (Text Bot Oct 29 2026, regions 5-6 pass)",
+    "after_2": [
+     "My gran ran this hall on stilts and stubbornness.",
+     "I've only ever replaced the stilts."
+    ],
     "lines": [
+     {
+      "id": "wenna_storm",
+      "flags": [
+       "storm_season"
+      ],
+      "pages": [
+       "Hear the rain on the roof? The bog's soaking up every drop.",
+       "So's my team. They love a storm. Shall we?"
+      ],
+      "status": "DRAFT"
+     },
+     {
+      "id": "wenna_lead",
+      "flags": [],
+      "when": {
+       "lead_has_nickname": true
+      },
+      "pages": [
+       "{lead}, is it? Good name. Short. You'll be shouting it a lot.",
+       "The bog's loud. So am I. Come on, then."
+      ],
+      "status": "DRAFT"
+     },
      {
       "id": "default",
       "flags": [],
@@ -12263,6 +12352,28 @@
     "kind": "villager",
     "lines": [
      {
+      "id": "tc_coin",
+      "flags": [
+       "beat_master_tidewater"
+      ],
+      "pages": [
+       "You beat Jory? He'll be out on the jetty tonight, grinning.",
+       "He only grins when someone's earned it."
+      ],
+      "status": "DRAFT"
+     },
+     {
+      "id": "tc_keycard",
+      "flags": [
+       "rt_keycard_r6"
+      ],
+      "pages": [
+       "RT card, eh? There's a lab in the sea cave.",
+       "Lights under the water at night. Gives me the shivers."
+      ],
+      "status": "DRAFT"
+     },
+     {
       "id": "default",
       "flags": [],
       "pages": [
@@ -12279,6 +12390,17 @@
     ],
     "kind": "villager",
     "lines": [
+     {
+      "id": "tc_glide",
+      "flags": [
+       "has_tideglide"
+      ],
+      "pages": [
+       "Gliding on {lead}? Lovely. Still between the flags, please.",
+       "And {lead} stays between them too."
+      ],
+      "status": "DRAFT"
+     },
      {
       "id": "default",
       "flags": [],
@@ -12383,8 +12505,35 @@
     "name": "Jory Swell",
     "coin_name": "Undertow Coin",
     "name_status": "DRAFT, pending Gary (name + coin name)",
-    "note": "Master Jory Swell (master_tidewater_coast); win sets beat_master_tidewater. Overnight hall draft (drafts/overnight/halls_tidewater_coast.md)",
+    "note": "Master Jory Swell (master_tidewater_coast); win sets beat_master_tidewater. Overnight hall draft (drafts/overnight/halls_tidewater_coast.md); after_2 + soul lines DRAFT (Text Bot Oct 29 2026, regions 5-6 pass)",
+    "after_2": [
+     "Forty years I've watched this bay. Never once the same.",
+     "That's why I stay. Go on, it's waiting for you."
+    ],
     "lines": [
+     {
+      "id": "jory_storm",
+      "flags": [
+       "storm_season"
+      ],
+      "pages": [
+       "Storm's pushing the sea right up the hall steps.",
+       "Good. My team's never stronger than in a blow."
+      ],
+      "status": "DRAFT"
+     },
+     {
+      "id": "jory_dusk",
+      "flags": [],
+      "when": {
+       "phase": "dusk"
+      },
+      "pages": [
+       "Dusk tide's the sneaky one. Comes in quiet.",
+       "Let's see if you notice it before it's at your knees."
+      ],
+      "status": "DRAFT"
+     },
      {
       "id": "default",
       "flags": [],
@@ -15304,9 +15453,11 @@
     "id": "default",
     "flags": [],
     "pages": [
-     "The flies have names now.",
-     "Don't ask me their names, {nick}."
+     "Neighbour says the bags have started paying rent.",
+     "Five bags. One for each of your coins. I counted."
     ],
+    "status": "DRAFT",
+    "note": "coin-5 bin line, 5 bags, no flies (Gary G3)",
     "soul_item": "3,10"
    }
   ],
@@ -15315,9 +15466,10 @@
     "id": "default",
     "flags": [],
     "pages": [
-     "The neighbour left a note about the bins.",
-     "I'm choosing to battle you instead, {nick}."
+     "The flies have names now.",
+     "Don't ask me their names, {nick}."
     ],
+    "note": "moved from Tidewater (Gary G3); old line 'The neighbour left a note about the bins.' stays on lanternport_ron_5",
     "soul_item": "3,10"
    }
   ],
@@ -15636,9 +15788,9 @@
    },
    "house_int_a.cook": {
     "text_was": "maps.house_int_a.cook",
-    "gives": "Berry Snack",
+    "gives": "Mossplum Snack",
     "gift": "once",
-    "_note": "Gives a Berry Snack once. Proposed home: home_brookhollow_b_parent, who stands at that kitchen (unique house, so a one-time gift is unambiguous), as a first once-only line. Second choice: home_brookhollow_a_owner by the hearth (shared H1).",
+    "_note": "Gives a Mossplum Snack once. Proposed home: home_brookhollow_b_parent, who stands at that kitchen (unique house, so a one-time gift is unambiguous), as a first once-only line. Second choice: home_brookhollow_a_owner by the hearth (shared H1).",
     "proposed_spot": {
      "map": "home_brookhollow_b",
      "npc": "home_brookhollow_b_parent"
@@ -15648,12 +15800,12 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "I made way too much. Here, take a Berry Snack before it goes to waste."
+       "I made way too much. Here, take a Mossplum Snack before it goes to waste."
       ]
      }
     ],
     "after": [
-     "That was the last one. I'm not made of berries."
+     "That was the last one. I'm not made of mossplums."
     ]
    }
   },
@@ -15759,6 +15911,15 @@
    "parity": "F18",
    "build": "partial",
    "note": "visible pickup prop after it's been taken (parity F18 'supply satchel')"
+  },
+  "team_link_band": {
+   "pages": [
+    "Team Link Band. Give it to a creature to hold.",
+    "Holder earns 25% more XP, and half XP while benched."
+   ],
+   "parity": "B19",
+   "build": "partial",
+   "status": "DRAFT"
   }
  },
  "system_item_catalogue": {
@@ -15792,11 +15953,11 @@
    "pending_gary_call": "potions_vs_rest",
    "note": "World's role says it restores energy; the description stays neutral until Gary rules on potions vs resting"
   },
-  "pond_berry_juice": {
-   "name": "Pond Berry Juice",
+  "pond_plum_juice": {
+   "name": "Pond Plum Juice",
    "pocket": "feeds",
    "pages": [
-    "Fresh-pressed pond berries. Tart, cold and picked this morning."
+    "Fresh-pressed pond plums. Tart, cold and picked this morning."
    ],
    "parity": "E4",
    "build": "partial",
@@ -15804,11 +15965,11 @@
    "effect": "pending: feed / small heal, Coder sets",
    "note": "proposed item id (no World id yet); juice-bar rule: juice, tea and shakes only"
   },
-  "mossberry_shake": {
-   "name": "Mossberry Shake",
+  "mossplum_shake": {
+   "name": "Mossplum Shake",
    "pocket": "feeds",
    "pages": [
-    "Berry milkshake, extra thick. Comes with a very bendy straw."
+    "Mossplum milkshake, extra thick. Comes with a very bendy straw."
    ],
    "parity": "E4",
    "build": "partial",
@@ -15864,7 +16025,7 @@
    "name": "Trail Mix",
    "pocket": "feeds",
    "pages": [
-    "Nuts, seeds and dried berries.",
+    "Nuts, seeds and dried mossplums.",
     "Trail Buddies go wild for it."
    ],
    "parity": "E4",
@@ -16936,6 +17097,196 @@
     "parity": "M1",
     "build": "different",
     "status": "DRAFT"
+   },
+   "tbdcandle": {
+    "blurb": "Its flame burns pale blue in the cold. Drips little icicles, never wax.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "parasoleaf": {
+    "blurb": "Opens its broad leaf when rain starts. Little creatures crowd under it.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "drenchcrab": {
+    "blurb": "Comes out by the hundred when it rains. The road goes clickety for days.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "reefshell": {
+    "blurb": "Swims the reef with little fish riding its shell. It never says no.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "cliffpuff": {
+    "blurb": "Plunges off sea cliffs and comes up with a beakful of fish. Every time.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "raywing": {
+    "blurb": "Leaps out of the water and glides a little way, just to see the sky.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "lurelamp": {
+    "blurb": "Rises at night and lights whole patches of sea. Fish follow it home.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "bristlereef": {
+    "blurb": "Spreads its spines wide to guard the reef. Small fish hide behind it.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "wavelin": {
+    "blurb": "Rides the bow wave of every boat. Sailors call it good luck.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "breakerfin": {
+    "blurb": "Leaps through breaking waves in perfect arcs. It scores itself.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "spinyclaw": {
+    "blurb": "Clicks its antennae to chat with friends across the rock pools.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "nudiblume": {
+    "blurb": "Looks like a flower, sways like a flower. Bees are always confused.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "barnaclump": {
+    "blurb": "Sticks to ship hulls for free rides. It has seen every harbour.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "foamkin": {
+    "blurb": "Pops into being on the crest of a wave. Gone again by the next one.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "kelpstrider": {
+    "blurb": "Gallops across the waves on dim nights. Leaves no hoofprints.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "hullwhale": {
+    "blurb": "Its songs cross the whole sea. Somewhere, another one sings back.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "tidepony": {
+    "blurb": "Wraps its tail round the kelp and holds on through the strongest pull.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "pearlisk": {
+    "blurb": "The pearl on its brow shows a different dream every night.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "bleachghast": {
+    "blurb": "Drifts over pale reefs, hoping to bring their colours back.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "squidge": {
+    "blurb": "Squirts water at anything that startles it. Then hides, embarrassed.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "shorehound": {
+    "blurb": "Patrols the tide line every morning. Brings back whatever washed up.",
+    "parity": "M1",
+    "build": "different",
+    "status": "DRAFT"
+   },
+   "_pending_r5_r6": {
+    "helioseed": "Turns its face to follow the sun all day. Sulks a bit at night.",
+    "heliobloom": "Shares its seeds with every bird in the meadow. Birds adore it.",
+    "sunquail": "Runs through tall grass in a neat line with its family. Nobody skips.",
+    "sunspeckle": "Counts its spots every morning, just to be sure none went missing.",
+    "lopecalf": "Follows anything that walks steadily. Farmers have to walk fast.",
+    "plainhorn": "Grazes the uplands in big slow herds. Never in a hurry.",
+    "stampedor": "When a herd of them runs, the ground drums for miles around.",
+    "popgopher": "Pops up to say hello and is gone before you can answer.",
+    "thermalark": "Sings higher than any other bird. Never lands mid-song.",
+    "sicklet": "Bows politely before every battle. Then fights very hard.",
+    "reapmantis": "Trims the meadow grass in neat patterns. Farmers leave it be.",
+    "basklet": "Basks in the sun so long that its scales start to glow.",
+    "sunbasilisk": "Spreads its frill to soak up heat by day, then glows all night.",
+    "dialmoss": "Always knows the hour, even on cloudy days. Never late.",
+    "dewbell": "Rings softly at dawn. Shares a sip of dew with tired travellers.",
+    "jestrix": "Plays harmless tricks and laughs loudest when it gets caught.",
+    "aurelmare": "Gallops across the uplands at sunrise. Its mane trails light.",
+    "glisterdew": "Catches bugs on its sticky leaves, has a little chat, lets them go.",
+    "pollenub": "Sneezes clouds of pollen whenever it laughs. It laughs a lot.",
+    "fenflick": "Blinks on and off across the bog at night. Count them if you can.",
+    "bogbeacon": "Leads travellers in circles until they laugh, then shows the way.",
+    "peatfrog": "Croaks in chorus with a thousand others. It always starts.",
+    "peatbellow": "Its croak rattles windows in the next town. It's very proud.",
+    "reedcrane": "Dances in the dusk with its partner every spring.",
+    "bogsnout": "Floats like a log and giggles when someone finds it.",
+    "mirejaw": "Waits in the reed beds, patient as the bog itself.",
+    "fenmaw": "Rules the deep pools. Even a grumpy Mirewump moves aside.",
+    "skimnymph": "Skims the water in short hops. Never gets its feet wet.",
+    "bogdart": "Darts over the bog faster than the eye can follow.",
+    "turfhulk": "Sinks into the bog to sleep and rises again with the dusk.",
+    "murkgleam": "Rolls over the boardwalks and hides them, just for fun.",
+    "pitchergulp": "Slurps up rainwater and burps bubbles. No manners at all.",
+    "bulrusher": "Builds reed houses and lets anyone who needs one move in.",
+    "mirewump": "Lazy, grumpy, and very sure the whole bog belongs to it.",
+    "runeskein": "When it is hurt, it unravels, then quietly weaves itself back.",
+    "mireglim": "Hides in hollow logs and giggles at anyone walking past.",
+    "gloommire": "Brings the dark in at dusk and carries it off again at dawn.",
+    "glimmoth": "Only flies when the dusk is thick. Its wings glow faintly.",
+    "kneeroot": "Sticks up out of the water and pretends to be a stump. Badly.",
+    "cypresshade": "Shades the bog on hot days. Everything rests under it.",
+    "silteel": "Wriggles under the boardwalks and tickles bare feet.",
+    "duckmoss": "Paddles the bog, mistaken for a floating patch of green.",
+    "mudwhisk": "Knows every hidden pool in the bog. Tells nobody.",
+    "sprinkit": "Shakes the rain off all over its friends. On purpose.",
+    "downpaw": "Runs along flooded roads, splashing as hard as it can.",
+    "deluvane": "Walks ahead of the storms. Farmers cheer for it in dry years.",
+    "petrelet": "Patters across puddles as if it could walk on water.",
+    "galepetrel": "Flies into storms, never away from them.",
+    "slurrymole": "Digs tunnels that fill with rain for others to swim in.",
+    "brinehopper": "Hops along the flood line after a storm, seeing what's new.",
+    "surfskipper": "Skips over the waves like a flat stone. Never sinks.",
+    "driftknot": "Washes ashore after each storm, somewhere new every time.",
+    "reefhatch": "Races to the sea under the moon the night it hatches.",
+    "atollback": "Sailors once mistook a sleeping one for an island. It didn't mind.",
+    "puffling": "Waddles to the cliff edge and has a good long think.",
+    "mantlet": "Flaps along the sea floor, stirring up little clouds of sand.",
+    "abyssray": "Glides over the deep reef like the shadow of a cloud.",
+    "anglet": "Small, hungry, and very proud of its little lure.",
+    "spinurch": "Rolls slowly over the reef, nibbling algae as it goes.",
+    "sandpup": "Digs a hole in the beach, lies in it, and naps till high tide.",
+    "divegannet": "Drops like an arrow from great heights. Barely a splash.",
+    "shellsinger": "Sings with the tide, and the sea sings back."
    }
   }
  },
@@ -17016,7 +17367,9 @@
     "variant": "Variant",
     "met": "Met in",
     "warmth": "Crystal",
-    "status": "Condition"
+    "status": "Condition",
+    "met_starter": "Asset 1: first partner",
+    "met_gift": "Given as a gift"
    },
    "parity": "P2",
    "build": "missing",
@@ -17498,10 +17851,30 @@
      "Staff travel's free now. Hop on."
     ]
    }
+  },
+  "hall_gate_mirefen": {
+   "pages": [
+    "Not yet. Light the reed lamps in the right order.",
+    "Then we talk."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "speaker": "Wenna Peat",
+   "note": "src/progression/index.js:176 Mirefen in-map puzzle gate"
+  },
+  "hall_gate_default": {
+   "pages": [
+    "Open the way first. Then we talk."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "note": "src/progression/index.js:176 other in-map halls"
   }
  },
  "system_company_voice": {
-  "_section": "Company voice (Gary Oct 23 2026, 12:19-12:22 PM CT). Default on from v0.2.72-alpha (Gary 1:00 PM CT Oct 23), region 1 events only. Sarcastic company AI RITA (Resource Inventory and Tracking Assistant) that only cares about company asset value; always addresses the player by bare {employee_id}, never praises them as a person. Structure only from Satisfactory; no names or lines copied. Read by src/systems/company_voice.js. DRAFT Oct 23 2026 12:35 PM CT. RITA whole-game pass (Text Bot, Oct 23 2026 ~12:45 PM CT; Gary 12:33-12:34 PM CT: realistic milestones, lines for the whole game). region = first region where the line can fire (region n = after Master n-1 up to beating Master n; 9 = after Master 8: finale + postgame; Kilindex counts: first region whose cumulative obtainable species reach the count). Kilindex counts now 10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450 (Coder: add 200, 300, 400 to data/company_voice.json kilindex_milestone.counts). Optional specific sets (Coder: look up <line>_<ctx.key> first, then the generic line): master_beaten_<flag key> (beat_master_<key>: fernwick, saltmere, revival, frostspire, mirefen, tidewater, lanternport, cindervale), rival_beaten_ron_<n> (beat_rival_ron_<n>; 'ron_' so it never reads as variant _2/_3/_4), area_new_<map id>, quest_done_<quest id> (q_<id>_done). Each has variants _2.._4.",
+  "_section": "Company voice (Gary Oct 23 2026, 12:19-12:22 PM CT). Default on from v0.2.0-alpha (Gary 1:00 PM CT Oct 23), region 1 events only. Sarcastic company AI RITA (Resource Inventory and Tracking Assistant) that only cares about company asset value; always addresses the player by bare {employee_id}, never praises them as a person. Structure only from Satisfactory; no names or lines copied. Read by src/systems/company_voice.js. DRAFT Oct 23 2026 12:35 PM CT. RITA whole-game pass (Text Bot, Oct 23 2026 ~12:45 PM CT; Gary 12:33-12:34 PM CT: realistic milestones, lines for the whole game). region = first region where the line can fire (region n = after Master n-1 up to beating Master n; 9 = after Master 8: finale + postgame; Kilindex counts: first region whose cumulative obtainable species reach the count). Kilindex counts now 10, 25, 50, 100, 150, 200, 250, 300, 350, 400, 450 (Coder: add 200, 300, 400 to data/company_voice.json kilindex_milestone.counts). Optional specific sets (Coder: look up <line>_<ctx.key> first, then the generic line): master_beaten_<flag key> (beat_master_<key>: fernwick, saltmere, revival, frostspire, mirefen, tidewater, lanternport, cindervale), rival_beaten_ron_<n> (beat_rival_ron_<n>; 'ron_' so it never reads as variant _2/_3/_4), area_new_<map id>, quest_done_<quest id> (q_<id>_done). Each has variants _2.._4.",
   "speaker": {
    "labels": {
     "name": "RITA"
@@ -19928,6 +20301,730 @@
    "build": "partial",
    "region": 1,
    "status": "DRAFT"
+  },
+  "storm_season_start": {
+   "pages": [
+    "{employee_id}: storm season has begun.",
+    "Assets get wet. Wet assets still count. Keep logging."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_season_start_2": {
+   "pages": [
+    "Storm alert, {employee_id}. Field work continues.",
+    "The weather has not been approved, but it's here."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_season_start_3": {
+   "pages": [
+    "{employee_id}: flood risk high. Asset value: dry, for now.",
+    "Stay out of ditches. Ditches lower resale."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_season_start_4": {
+   "pages": [
+    "Storm season, {employee_id}. Water rising, so is output.",
+    "That second part is your job."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "skill_tideglide": {
+   "pages": [
+    "{employee_id}: field skill Tideglide registered.",
+    "Your assets now double as boats. Efficient."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "skill_tideglide_2": {
+   "pages": [
+    "Tideglide logged, {employee_id}. Water is now a road.",
+    "Roads are where assets get found. Go."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "skill_tideglide_3": {
+   "pages": [
+    "{employee_id}: you can cross water now.",
+    "Fewer excuses. More logs. That's the deal."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "skill_tideglide_4": {
+   "pages": [
+    "Tideglide on file, {employee_id}.",
+    "One asset, two uses. The board loves a two-for-one."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "id_cap_region_5": {
+   "pages": [
+    "{employee_id}: region 5 open. ID cap raised to 14.",
+    "More levels, more points. Not more pay."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "id_cap_region_5_2": {
+   "pages": [
+    "ID cap 14 approved, {employee_id}.",
+    "Your number may now be worth slightly more."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "id_cap_region_5_3": {
+   "pages": [
+    "{employee_id}: new ceiling, ID 14.",
+    "Ceilings exist so we can raise them. Later."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "id_cap_region_5_4": {
+   "pages": [
+    "Region 5 clearance, {employee_id}. Cap now 14.",
+    "Invest the points. We'll take the returns."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "id_cap_region_6": {
+   "pages": [
+    "{employee_id}: region 6 open. ID cap raised to 16.",
+    "The coast is a growth market. Grow."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "id_cap_region_6_2": {
+   "pages": [
+    "ID cap 16 approved, {employee_id}.",
+    "Your asset value is now legally allowed to rise."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "id_cap_region_6_3": {
+   "pages": [
+    "{employee_id}: new ceiling, ID 16.",
+    "Please don't hit your head on it. Hit the target."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "id_cap_region_6_4": {
+   "pages": [
+    "Region 6 clearance, {employee_id}. Cap now 16.",
+    "Same job, saltier air. Keep logging."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "keycard_r5": {
+   "pages": [
+    "{employee_id}: Mirefen Key Card issued.",
+    "Research access granted. Card is company property."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "keycard_r5_2": {
+   "pages": [
+    "Key card on file, {employee_id}. Station M is open.",
+    "Rare assets inside. Rare means valuable. Go."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "keycard_r5_3": {
+   "pages": [
+    "{employee_id}: you hold a research key card.",
+    "Lose it and the replacement fee is educational."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "keycard_r5_4": {
+   "pages": [
+    "Mirefen access approved, {employee_id}.",
+    "Bring back data. Leave the bog where it is."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "keycard_r6": {
+   "pages": [
+    "{employee_id}: Tidewater Key Card issued.",
+    "The cave lab is open at low tide. Plan around it."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "keycard_r6_2": {
+   "pages": [
+    "Key card two on file, {employee_id}.",
+    "Two cards, two labs. Strong portfolio."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "keycard_r6_3": {
+   "pages": [
+    "{employee_id}: research access, coast division.",
+    "Rare sea assets inside. Value: considerable."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "keycard_r6_4": {
+   "pages": [
+    "Tidewater access approved, {employee_id}.",
+    "Return the card dry. It says salt-proof. Test nothing."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "research_area_r5": {
+   "pages": [
+    "{employee_id}: entered Mirefen Peat Station.",
+    "Research-only assets nearby. Tag them all."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "research_area_r5_2": {
+   "pages": [
+    "Peat Station logged, {employee_id}. It's damp.",
+    "The assets don't mind. Neither do we."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "research_area_r5_3": {
+   "pages": [
+    "{employee_id}: research site entered.",
+    "Hard to catch, high value. That's what we pay for."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "research_area_r5_4": {
+   "pages": [
+    "Mirefen research zone, {employee_id}.",
+    "The old team's notes are company property too."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "research_area_r6": {
+   "pages": [
+    "{employee_id}: entered the Tidewater Signal Lab.",
+    "Research-only assets nearby. Mind the tide."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "research_area_r6_2": {
+   "pages": [
+    "Cave lab logged, {employee_id}.",
+    "High tide seals the doors. Overtime is unpaid."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "research_area_r6_3": {
+   "pages": [
+    "{employee_id}: research site entered, coast division.",
+    "Rare stock, rare value. Fill the logs."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "research_area_r6_4": {
+   "pages": [
+    "Tidewater research zone, {employee_id}.",
+    "Everything in here is worth more than the cave."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "research_catch_first": {
+   "pages": [
+    "{employee_id}: research-only asset secured.",
+    "Book value: high. Your share: an approving beep."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "research_catch_first_2": {
+   "pages": [
+    "Rare asset logged, {employee_id}.",
+    "It lives nowhere else. Now it lives in our records."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "research_catch_first_3": {
+   "pages": [
+    "{employee_id}: research stock acquired.",
+    "The portfolio just got exclusive."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "research_catch_first_4": {
+   "pages": [
+    "Research catch filed, {employee_id}.",
+    "Limited editions appreciate. So do our margins."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_mirefen": {
+   "pages": [
+    "{employee_id}: Mirefen logged. Town on stilts.",
+    "Property values: wobbly. Asset values: fine."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_mirefen_2": {
+   "pages": [
+    "Mirefen added, {employee_id}. Boardwalks, mostly.",
+    "Don't drop anything. Especially the crystals."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_mirefen_3": {
+   "pages": [
+    "{employee_id}: new area, Mirefen.",
+    "Swamp stock is underpriced. Fix that."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_mirefen_4": {
+   "pages": [
+    "Mirefen on the map, {employee_id}.",
+    "The frogs are loud. The returns should be louder."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_route_coast": {
+   "pages": [
+    "{employee_id}: Coast Road logged.",
+    "Half road, half sea. Both full of assets."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "area_new_route_coast_2": {
+   "pages": [
+    "Coast Road added, {employee_id}. It floods.",
+    "Floods move assets right to your feet. Handy."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "area_new_route_coast_3": {
+   "pages": [
+    "{employee_id}: new area, Coast Road.",
+    "Seawall, jetty, rain. Log the lot."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "area_new_route_coast_4": {
+   "pages": [
+    "Coast Road on the map, {employee_id}.",
+    "Mind the tide. Drowned staff log nothing."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "promotion_r5": {
+   "pages": [
+    "{employee_id}: promoted. Wetland Field Lead.",
+    "Same pay. Bigger title. Industry standard."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "promotion_r5_2": {
+   "pages": [
+    "Promotion approved, {employee_id}.",
+    "Your asset value just got a fancier label."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "promotion_r5_3": {
+   "pages": [
+    "{employee_id}: Field Lead now. Of wetland.",
+    "Lead by example. The example is logging."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "promotion_r5_4": {
+   "pages": [
+    "Wetland Field Lead on file, {employee_id}.",
+    "Higher rank, higher targets. You'll love it."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "promotion_r6": {
+   "pages": [
+    "{employee_id}: promoted. Coastal Operations Lead.",
+    "The view is lovely. The targets are lovelier."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "promotion_r6_2": {
+   "pages": [
+    "Promotion approved, {employee_id}. Coastal division.",
+    "Your number now outranks some other numbers."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "promotion_r6_3": {
+   "pages": [
+    "{employee_id}: Operations Lead. Two titles now.",
+    "Neither one comes with a raise. Focus."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "promotion_r6_4": {
+   "pages": [
+    "Coastal Operations Lead on file, {employee_id}.",
+    "Assets under management: growing. Keep it so."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "area_new_route1_east": {
+   "pages": [
+    "{employee_id}: Route 1 East logged. Land behind the barrier.",
+    "Now land on the asset map. Mind the ridge."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_route1_east_2": {
+   "pages": [
+    "Ridge added, {employee_id}. It glows. Glow is value.",
+    "Do not chip it. That's our job."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_route1_east_3": {
+   "pages": [
+    "{employee_id}: new area past the wall.",
+    "It was always ours. Now it's on paper."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_route1_east_4": {
+   "pages": [
+    "Crystal ridge on file, {employee_id}.",
+    "Readings are down. Your output shouldn't be."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_station_mirefen": {
+   "pages": [
+    "New asset site logged, {employee_id}.",
+    "It was always ours. You just weren't cleared."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_station_mirefen_2": {
+   "pages": [
+    "{employee_id}: research site Station M on file.",
+    "Things you saw down there are company property."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_station_mirefen_3": {
+   "pages": [
+    "Peat Station logged, {employee_id}. Sunk, not lost.",
+    "Assets don't sink. They wait."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "area_new_station_mirefen_4": {
+   "pages": [
+    "{employee_id}: welcome to research. Briefly.",
+    "Touch only what you can log."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_weather_event": {
+   "pages": [
+    "Weather event logged, {employee_id}.",
+    "Assets are not waterproof. Please keep them dry."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_weather_event_2": {
+   "pages": [
+    "{employee_id}: lightning detected. Stay low.",
+    "Assets with antennae, stay lower."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_weather_event_3": {
+   "pages": [
+    "Storm on file, {employee_id}. Field work continues.",
+    "Rain is not an absence reason. We checked."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_weather_event_4": {
+   "pages": [
+    "{employee_id}: storm conditions. Asset value: holding.",
+    "Unlike that porch."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT"
+  },
+  "storm_turn": {
+   "pages": [
+    "Storm damage below forecast, {employee_id}.",
+    "Asset losses: acceptable. You: also acceptable."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "storm_turn_2": {
+   "pages": [
+    "{employee_id}: storm peak passed. Inventory intact.",
+    "Please resume normal levels of productivity."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "storm_turn_3": {
+   "pages": [
+    "Clear skies logged, {employee_id}.",
+    "Sun dries assets. Dry assets log faster."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "storm_turn_4": {
+   "pages": [
+    "{employee_id}: storm over, mostly.",
+    "Rescues logged as asset retention. Lovely."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 6,
+   "status": "DRAFT"
+  },
+  "landmark_unregistered": {
+   "pages": [
+    "Unregistered landmark, {employee_id}. Not on the asset map.",
+    "Please stop finding things that aren't on the asset map."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT",
+   "note": "sq_gd_riverglint step 6"
+  },
+  "landmark_unregistered_2": {
+   "pages": [
+    "{employee_id}: you found a hole in a bog.",
+    "Holes have no resale value. Moving on."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT",
+   "note": "sq_gd_riverglint step 6"
+  },
+  "landmark_unregistered_3": {
+   "pages": [
+    "Landmark not on file, {employee_id}. So it isn't there.",
+    "That's how files work."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT",
+   "note": "sq_gd_riverglint step 6"
+  },
+  "landmark_unregistered_4": {
+   "pages": [
+    "{employee_id}: a stone in a bog. Logged as 'stone'.",
+    "Asset value: under review. Forever."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "region": 5,
+   "status": "DRAFT",
+   "note": "sq_gd_riverglint step 6"
   }
  },
  "system_phone": {
@@ -20773,6 +21870,30 @@
      "1": "+25% hall and Master prize money.",
      "2": "+50% hall and Master prize money."
     }
+   },
+   "storm_allowance": {
+    "name": "Storm Allowance",
+    "desc": "Extra pay for field work in storm season. Wet assets still count.",
+    "ranks": {
+     "1": "+15% prize money during storm season.",
+     "2": "+30% prize money during storm season."
+    }
+   },
+   "research_clearance": {
+    "name": "Research Access",
+    "desc": "Unlocks one RT research site per region. Rare assets inside. Sign here.",
+    "ranks": {
+     "1": "Region 5 key card: Mirefen research station.",
+     "2": "Region 6 key card: Tidewater sea cave lab."
+    }
+   },
+   "salvage_rights": {
+    "name": "Salvage Rights",
+    "desc": "Hidden items on the coast pay a finder's fee. The finder is us.",
+    "ranks": {
+     "1": "+50 coins for each hidden item found.",
+     "2": "+100 coins for each hidden item found."
+    }
    }
   },
   "locked": {
@@ -20780,13 +21901,2769 @@
    "id": "Needs ID level {level}. Keep logging assets.",
    "points": "Not enough points. Cost {cost}, balance {points}.",
    "maxed": "Fully vested. Do not ask for more.",
-   "owned_region": "Maxed for now. More ranks in Region {region}."
+   "owned_region": "Maxed for now. More ranks in Region {region}.",
+   "keycard": "Needs a research key card. Ask the board, not me."
   },
   "confirm": "Spend {cost} pt on {node} rank {rank}? No refunds. Company policy.",
   "toast": {
    "bought": "{node} rank {rank} filed. Asset value up. Slightly.",
    "level_up": "ID level {level}. +1 benefit point. Try not to waste it.",
-   "not_yet": "{reason}"
+   "not_yet": "{reason}",
+   "cap_raised": "Region {region} open. ID cap now {level}. Back to work."
+  }
+ },
+ "system_research": {
+  "_section": "RT research key cards and research-only areas, regions 5-6 (REGIONS_5_6_PLAN.md section 5). Text Bot DRAFT Oct 29 2026; map spots, item ids and flags pending World Design / Coder (RT_KEYCARD_SPEC.md). Keys are proposals.",
+  "keycard_r5_name": {
+   "pages": [
+    "Station M Key Card"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "keycard_r5_desc": {
+   "pages": [
+    "RT key card. Opens Mirefen Peat Station, under the bog.",
+    "Do not bend. Do not lose. It is billed."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "keycard_r6_name": {
+   "pages": [
+    "Station T Key Card"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "keycard_r6_desc": {
+   "pages": [
+    "RT key card. Opens the Tidewater Signal Lab in the sea cave.",
+    "Salt-proof, it says. Nobody tested that."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "keycard_get": {
+   "pages": [
+    "You got the {item}!",
+    "A little light on it blinks green. It knows who you are."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "door_locked": {
+   "pages": [
+    "A heavy RT door. The card reader blinks red.",
+    "STAFF WITH RESEARCH ACCESS ONLY."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "door_open": {
+   "pages": [
+    "The reader blinks green. The door hisses open.",
+    "Cold air. Old paper. Something moves inside."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "door_locked_ron": {
+   "pages": [
+    "Ron squints at the reader.",
+    "'They gave us IDs, not keys. Classic.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r5_entry_sign": {
+   "pages": [
+    "RT MIREFEN PEAT STATION\nLumen yield survey. Wipe your feet.",
+    "Research-only creatures inside. Logs required."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r5_log_1": {
+   "pages": [
+    "A swollen notebook. 'Day 40. Bog lights again.",
+    "They walk us in circles, then laugh. Bogbeacon.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r5_log_2": {
+   "pages": [
+    "A clipboard. 'Herd ran overhead all night.",
+    "The tanks rattled. Stampedor. Writing that down.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r5_log_3": {
+   "pages": [
+    "A note taped to a tank: 'DO NOT knock on glass.",
+    "The Fenmaw doesn't like it. Neither do I.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r5_log_4": {
+   "pages": [
+    "The last page is water-stained.",
+    "'Lights off at dusk. Gloommire likes the dark.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r6_entry_sign": {
+   "pages": [
+    "RT TIDEWATER SIGNAL LAB\nOpen at low tide only.",
+    "Research-only creatures inside. Logs required."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r6_log_1": {
+   "pages": [
+    "A pinned chart. 'A shadow on the reef again.",
+    "Not a cloud. Abyssray. It glides right under us.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r6_log_2": {
+   "pages": [
+    "A logbook. 'Lights in the pools at night.",
+    "Lurelamps, dozens. Like the sea is breathing.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r6_log_3": {
+   "pages": [
+    "A sticky note: 'Pearlisk showed me a dream.",
+    "My old house. I didn't know I missed it.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "r6_log_4": {
+   "pages": [
+    "Scrawled on the wall: 'THE ISLAND MOVED.'",
+    "Under it, smaller: 'Atollback. Sorry. Noted.'"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "research_wild_hint": {
+   "pages": [
+    "These creatures live nowhere else.",
+    "They're tougher, and harder to catch. Take your time."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  },
+  "promo_r5_offer": {
+   "pages": [
+    "Promotion review: log three research-only kinds",
+    "at Mirefen Peat Station. Then report to the outpost."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "pending_story_call": true
+  },
+  "promo_r5_done": {
+   "pages": [
+    "Promotion filed. New title: Wetland Field Lead.",
+    "Your desk is still a bog. Well done, we suppose."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "pending_story_call": true
+  },
+  "promo_r6_offer": {
+   "pages": [
+    "Promotion review: log three research-only kinds",
+    "at the Tidewater Signal Lab. Then report in."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "pending_story_call": true
+  },
+  "promo_r6_done": {
+   "pages": [
+    "Promotion filed. Title: Coastal Operations Lead.",
+    "The title comes with a towel. Not a pay rise."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "pending_story_call": true
+  },
+  "storm_season_start": {
+   "pages": [
+    "STORM SEASON\nThe sky over the coast goes dark.",
+    "Roads near the sea may flood. Some won't drain."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT"
+  }
+ },
+ "system_story_r56": {
+  "_section": "Regions 5-6 story lines from Story Bot's handoff (27 groups). Keys g<NN>_<what>. Pending map spots from World Design; flags in 'gate' are proposals unless already known. DRAFT pending Gary.",
+  "g01_ridge_sign": {
+   "pages": [
+    "RT SURVEY RIDGE\nDO NOT CHIP THE CRYSTAL.",
+    "Underneath, in pencil: 'Too late.' Then: 'Sorry.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 1,
+   "speaker": "sign"
+  },
+  "g01_ridge_graffiti": {
+   "pages": [
+    "Someone has drawn a little face on the rock.",
+    "It's smiling. The rock, less so."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 1,
+   "speaker": "inspect"
+  },
+  "g02_researcher_1": {
+   "pages": [
+    "Same readings the office already has. I take them anyway.",
+    "The numbers come out the same. Just a bit lower."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Field Researcher"
+  },
+  "g02_researcher_2": {
+   "pages": [
+    "Lower every season since the wall went up.",
+    "Ridge used to glow at night. Now it sort of... hums."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Field Researcher"
+  },
+  "g02_researcher_3": {
+   "pages": [
+    "I write it down. Somebody files it. Nobody writes back.",
+    "Still. Someone ought to notice. May as well be me."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Field Researcher"
+  },
+  "g02_researcher_4": {
+   "pages": [
+    "Your lead keeps looking at the rocks.",
+    "Mine does too. I've stopped asking it why."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Field Researcher"
+  },
+  "g02_trainer_a_intro": {
+   "pages": [
+    "Ridgeskinks won't move for anyone. I respect that.",
+    "I won't move for you either. Battle?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Ridge Climber"
+  },
+  "g02_trainer_a_lost": {
+   "pages": [
+    "Moved. Fine. You earned it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Ridge Climber"
+  },
+  "g02_trainer_a_after": {
+   "pages": [
+    "Spinemonitor up the nook walks the same loop daily.",
+    "Step in its way and it rushes you. Walk round."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Ridge Climber"
+  },
+  "g02_trainer_b_intro": {
+   "pages": [
+    "Hold that stake straight while we battle, would you?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Surveyor"
+  },
+  "g02_trainer_b_lost": {
+   "pages": [
+    "The stake's crooked now. Like my team."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Surveyor"
+  },
+  "g02_trainer_b_after": {
+   "pages": [
+    "Ten years I've measured this ridge.",
+    "First year I've measured it going down."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 2,
+   "speaker": "Surveyor"
+  },
+  "g03_pillars_hum": {
+   "pages": [
+    "The dim pillars hum, all five notes at once, very faint.",
+    "Then nothing. {lead} looks back at them for a while."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 3,
+   "speaker": "system",
+   "gate": "beat_master_frostspire + E1 solved; first pass only"
+  },
+  "g05_nan_1": {
+   "pages": [
+    "You'll be the one from the company. You've got the walk.",
+    "Gate's broken, Tumbloams are out. Sit down after."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 5,
+   "speaker": "Nan Wexley"
+  },
+  "g05_nan_2": {
+   "pages": [
+    "Flowers came back the week the wall went dim.",
+    "Took me a month to believe it. Still counting them."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 5,
+   "speaker": "Nan Wexley"
+  },
+  "g05_nan_3": {
+   "pages": [
+    "The more crystals they fit, the brighter the shine gets.",
+    "I've watched it forty seasons. That's not a guess."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 5,
+   "speaker": "Nan Wexley"
+  },
+  "g05_nan_4": {
+   "pages": [
+    "Wild one hurt my littlest Tumbloam last spring.",
+    "Wild is hard. That doesn't make the shine kind."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 5,
+   "speaker": "Nan Wexley"
+  },
+  "g05_nan_5": {
+   "pages": [
+    "Three back in the pen. You're quicker than you look.",
+    "Soup's on the stove. Take a bowl for the walk."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 5,
+   "speaker": "Nan Wexley",
+   "gate": "sq_shine herd done"
+  },
+  "g06_ron_1": {
+   "pages": [
+    "{nick}! Fancy. I'm on a break. A long one.",
+    "Nan says I can stay if I fix the gate. I can't fix gates."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 6,
+   "speaker": "Ron"
+  },
+  "g06_ron_2": {
+   "pages": [
+    "How many coins now? Five?",
+    "...Cool. Cool cool cool. That's great. Really."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 6,
+   "speaker": "Ron"
+  },
+  "g06_ron_3": {
+   "pages": [
+    "I'm heading down the coast. There's a job going.",
+    "Proper one. Boats. Probably boats. I'll find out."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 6,
+   "speaker": "Ron"
+  },
+  "g06_ron_4": {
+   "pages": [
+    "Don't look at me like that. I'm between things.",
+    "Things are just far apart right now."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 6,
+   "speaker": "Ron"
+  },
+  "g06_nan_on_ron": {
+   "pages": [
+    "Useless with a hammer, that one.",
+    "Come back when you're not busy, I told him. He will."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 6,
+   "speaker": "Nan Wexley"
+  },
+  "g07_painted_owner": {
+   "pages": [
+    "Like the crystal? My aunt in Fernwick does the paint.",
+    "Don't tell the outpost. They'd want it in grey."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 7,
+   "speaker": "villager"
+  },
+  "g07_painted_owner_2": {
+   "pages": [
+    "Underneath it's the same crystal as yours.",
+    "On top, it's a bit of Fernwick. Suits him."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 7,
+   "speaker": "villager"
+  },
+  "g07_kid_1": {
+   "pages": [
+    "Race you to the end of the boardwalk! No shoes!",
+    "...You've got shoes. That's cheating."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 7,
+   "speaker": "kid"
+  },
+  "g07_kid_2": {
+   "pages": [
+    "I know every frog on this street by its croak.",
+    "That one's Big Doug. He's a liar."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 7,
+   "speaker": "kid"
+  },
+  "g07_sandbagger_1": {
+   "pages": [
+    "Storm season soon. Bags go by the doors, low side first.",
+    "We lose a porch most years. Never a person."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 7,
+   "speaker": "villager",
+   "gate": "before storm_season"
+  },
+  "g07_sandbagger_2": {
+   "pages": [
+    "Mind the stack. Took me all morning.",
+    "My Turfhulk did the heavy ones. Then sat on them."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 7,
+   "speaker": "villager",
+   "gate": "before storm_season"
+  },
+  "g07_scholar": {
+   "pages": [
+    "Bog lights again last night. Seven, in a ring.",
+    "Folk say they're lost souls. I say they're Fenflicks. Mostly."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 7,
+   "speaker": "Scholar Dilys"
+  },
+  "g08_lunch_tin": {
+   "pages": [
+    "A dented lunch tin. Scratched on the lid: 7/10.",
+    "Somebody liked that lunch. Not loved it. Liked it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 8,
+   "speaker": "inspect"
+  },
+  "g09_wenna_stops": {
+   "pages": [
+    "Take it, then. Reed Coin. You've earned...",
+    "Hold on. Smell that? That's the sea coming in."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 9,
+   "speaker": "Wenna Peat",
+   "gate": "right after beat_master_mirefen"
+  },
+  "g09_town_nets": {
+   "pages": [
+    "Nets in! Boats tied! You, coin-holder, grab a bag!",
+    "No, we're not scared. We're busy. Different thing."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 9,
+   "speaker": "villager"
+  },
+  "g09_town_kids": {
+   "pages": [
+    "Kids, home. Now. Yes, you can watch from the window."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 9,
+   "speaker": "villager"
+  },
+  "g09_town_old": {
+   "pages": [
+    "Fifty storms I've seen from this porch.",
+    "Every one, I still tie the boat twice."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 9,
+   "speaker": "villager"
+  },
+  "g09_frogs_quiet": {
+   "pages": [
+    "The frogs have stopped croaking.",
+    "All of them. At once."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 9,
+   "speaker": "system"
+  },
+  "g09_first_lightning": {
+   "pages": [
+    "Lightning over the sea. Then the rain comes.",
+    "Storm season has begun."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 9,
+   "speaker": "system",
+   "gate": "sets storm_season"
+  },
+  "g09_wenna_jetty": {
+   "pages": [
+    "Your water one's itching to go. Let it.",
+    "I'll walk with you till the boards run out. Then it's you two."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 9,
+   "speaker": "Wenna Peat",
+   "gate": "after_storm, Tideglide lesson"
+  },
+  "g09_wenna_jetty_2": {
+   "pages": [
+    "Boards end here. Go on. It knows the water.",
+    "...That'll do. That'll more than do."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 9,
+   "speaker": "Wenna Peat"
+  },
+  "g10_storm_memo": {
+   "pages": [
+    "ALL STAFF: Storm season has begun. Field staff, report in daily.",
+    "Missed check-ins will be followed up. - Facilities"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 10,
+   "speaker": "Facilities",
+   "subject": "Storm season reminder",
+   "sender": "Facilities",
+   "note": "company_inbox email; unsigned, NOT Vane. Q12 wording check pending Gary."
+  },
+  "g11_plaque": {
+   "pages": [
+    "REVIVAL TECH MIREFEN PEAT STATION",
+    "Lumen yield survey. The year's under the moss."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect",
+   "note": "year left off per Q13"
+  },
+  "g11_closing_notice": {
+   "pages": [
+    "STATION CLOSED. STAFF REASSIGNED.",
+    "Instruction from Head Office. That's all it says."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_shoe_sign": {
+   "pages": [
+    "SHOES OFF ON THE CLEAN FLOOR.",
+    "There is mud up to the sign. Nobody's been clean in years."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_clock": {
+   "pages": [
+    "A wall clock, stopped. The hands still point at the same time.",
+    "The second hand twitches once. Then doesn't."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_jars": {
+   "pages": [
+    "Rows of jars of peat. Each one glows a little.",
+    "'Core 14. Depth 3 m. Colour: amber.' The next is violet."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_jars_bogbeacon": {
+   "pages": [
+    "A Bogbeacon is curled on the warmest jar.",
+    "It blinks at you and doesn't move. Its jar now."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_visitor_book": {
+   "pages": [
+    "The visitor book. Last page, one day, four hands.",
+    "T.B., a list. P.A., a frog. M.Q., 'Lunch: none, 2/10.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect",
+   "gate": "sets found_station_r5"
+  },
+  "g11_visitor_book_2": {
+   "pages": [
+    "The fourth, I.S., wrote no words.",
+    "Just five dots and a gap. Like a tune left open."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_whiteboard": {
+   "pages": [
+    "Half-wiped whiteboard: 'Q: does the unit need",
+    "the crystal to stay calm IF bonded?' The rest is gone."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_clipboard": {
+   "pages": [
+    "A clipboard. 'Unit test: calm response. Drift: yes / no.'",
+    "Every 'bonded - handler's own' unit says yes."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect",
+   "gate": "may set read_drift_log (Q5)"
+  },
+  "g11_clipboard_2": {
+   "pages": [
+    "Every other unit says no.",
+    "Nobody wrote what it means."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_counter": {
+   "pages": [
+    "A cracked handheld counter. It still shows a number.",
+    "On the back: 'Count by hand. The scanners don't like our four.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect",
+   "gate": "flooded room, has_tideglide"
+  },
+  "g11_locker_toy": {
+   "pages": [
+    "A toy frog, wrapped in a sock to keep it dry.",
+    "Someone wanted this back. They didn't come for it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_sampling_map": {
+   "pages": [
+    "An old sampling map. A pencil arrow runs down the coast:",
+    "'Tide readings: sea cave, Tidewater.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect",
+   "gate": "after beat_master_mirefen"
+  },
+  "g11_leave": {
+   "pages": [
+    "Daylight. {lead} shakes off the station all over you.",
+    "Then rolls in the mud, very pleased with itself."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "system"
+  },
+  "g12_reader": {
+   "pages": [
+    "Benefits card: RESEARCH ACCESS. Your lanyard: FIELD.",
+    "The reader blinks violet. It thinks about it."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 12,
+   "speaker": "system"
+  },
+  "g12_reader_2": {
+   "pages": [
+    "...Then it lets you in. Cold air comes up the ladder."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 12,
+   "speaker": "system"
+  },
+  "g12_lead_hesitates": {
+   "pages": [
+    "{lead} won't go down first.",
+    "It waits until you're on the ladder. Then follows, close."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 12,
+   "speaker": "system"
+  },
+  "g13_super_1": {
+   "pages": [
+    "Promotion? Sure. Count the reeds, fix the camp, come back.",
+    "I'd do it myself but my socks are drying."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "RT Supervisor"
+  },
+  "g13_super_2": {
+   "pages": [
+    "Done already? Show-off. Give us the form.",
+    "Stamp. Stamp. Wetland Field Lead. Lovely."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "RT Supervisor",
+   "gate": "pq_bog_census done, sets promoted_id14"
+  },
+  "g13_super_3": {
+   "pages": [
+    "New pin on the board. Field Leads can buy station access.",
+    "Head Office calls it a perk. I call it a ladder in a bog."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "RT Supervisor",
+   "gate": "unlocks rt_node_station_m"
+  },
+  "g13_super_4": {
+   "pages": [
+    "Buy it and the card comes by post. Pigeonhole by the door.",
+    "Mind the ladder. Mind the frogs. Mind yourself."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "RT Supervisor"
+  },
+  "g13_super_after": {
+   "pages": [
+    "The board's pinned under the frog paperweight.",
+    "Frog's not part of the job. He just likes it there."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "RT Supervisor"
+  },
+  "g14_wenna_lanyard": {
+   "pages": [
+    "RT lanyard. Mud on the boots, though.",
+    "I'll judge you by the boots."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat"
+  },
+  "g14_wenna_camp": {
+   "pages": [
+    "You fixed Marta's camp. I knew those four.",
+    "She rated my eel pie a four. Fair. It was a four."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat",
+   "gate": "camp_restored_mirefen"
+  },
+  "g14_wenna_warmth": {
+   "pages": [
+    "Your one's showing its own colour.",
+    "Don't let anyone at the outpost talk you into fixing that."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat",
+   "gate": "lead Warmth >= 60"
+  },
+  "g14_wenna_rematch": {
+   "pages": [
+    "Bog takes boots, not grudges.",
+    "Back again. Good. Come on."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat",
+   "gate": "lost to Wenna before"
+  },
+  "g14_wenna_ace_low": {
+   "pages": [
+    "Easy. You're fine. Breathe."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat",
+   "gate": "mid-battle, her ace low HP; said to her creature"
+  },
+  "g14_wenna_ace_faint": {
+   "pages": [
+    "That'll do. You did plenty. Rest now."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat",
+   "gate": "mid-battle, her ace faints"
+  },
+  "g14_wenna_storm_window": {
+   "pages": [
+    "Lamp stays lit in the window all storm season.",
+    "Anyone out on the bog at night, they look for it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat",
+   "gate": "storm_season, after the coin"
+  },
+  "g14_wenna_frogs": {
+   "pages": [
+    "That's Mabel, that's Fitch, that's Old Gorm.",
+    "Every frog in this hall has a name. Yours too, if you stay."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat"
+  },
+  "g14_wenna_chores": {
+   "pages": [
+    "Question? Hand me that rope first.",
+    "...There. Now what was it? Never mind. You'll work it out."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat"
+  },
+  "g15_h1_listen": {
+   "pages": [
+    "Stop moving. Stop talking. Just listen a bit.",
+    "The frogs tell you the way if you let them."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 15,
+   "speaker": "Cass"
+  },
+  "g15_h2_listen": {
+   "pages": [
+    "Wenna made me sit in the dark an hour once.",
+    "I heard everything. Couldn't unhear it. Try it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 15,
+   "speaker": "Juno"
+  },
+  "g15_h3_listen": {
+   "pages": [
+    "Shut your eyes. Count the croaks. Then open them.",
+    "Feels daft. Works every time."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 15,
+   "speaker": "Arlo"
+  },
+  "g16_ask_nicely_1": {
+   "pages": [
+    "...",
+    "I used to run the station's boat. Before it sank."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "angler",
+   "gate": "sq_ask_nicely: sat at Dusk without talking"
+  },
+  "g16_ask_nicely_2": {
+   "pages": [
+    "Then it sank, and nobody asked.",
+    "You didn't ask either. That's why I told you."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "angler"
+  },
+  "g16_count_1": {
+   "pages": [
+    "Count Day again. Same reeds, same pond.",
+    "Fewer every week. I check my sums twice. They hold."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "census clerk"
+  },
+  "g16_count_2": {
+   "pages": [
+    "I'm not meant to name them. I name them anyway.",
+    "Pip, Mossy, the one with the bent fin... Don't tell."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "census clerk"
+  },
+  "g16_count_3": {
+   "pages": [
+    "You found a counter in the station?",
+    "That number's the same as my missing ones. Exactly."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "census clerk",
+   "gate": "after g11_counter"
+  },
+  "g16_count_4": {
+   "pages": [
+    "I'm not saying who's taking them. I don't know.",
+    "I'm saying I counted. Somebody should."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "census clerk"
+  },
+  "g16_count_5": {
+   "pages": [
+    "Broke a rule today. Wrote names, not numbers.",
+    "Felt brilliant. Don't tell my supervisor."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "census clerk"
+  },
+  "g16_lamp_1": {
+   "pages": [
+    "Tam's not home. Out on the bog after dark, in this.",
+    "Follow the lamp. Your water one'll find the way."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "Wenna Peat",
+   "gate": "sq_wenna_lamp start, storm_season, Night"
+  },
+  "g16_lamp_2": {
+   "pages": [
+    "I saw the bog lights! I wanted to see them closer!",
+    "...And then I couldn't see anything."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "kid Tam"
+  },
+  "g16_lamp_3": {
+   "pages": [
+    "Is that Wenna's lamp? Okay. Okay. I'm coming."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "kid Tam"
+  },
+  "g16_lamp_4": {
+   "pages": [
+    "Wasn't worried. Lamp was on anyway.",
+    "Tam. Bucket. Frog tank. Now. All week."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "Wenna Peat"
+  },
+  "g16_lamp_5": {
+   "pages": [
+    "Take a spare reed lamp. Put it in your window.",
+    "Somebody'll be out late one night. They always are."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "Wenna Peat",
+   "gate": "gives Reed Lamp"
+  },
+  "g16_lamp_6": {
+   "pages": [
+    "Wenna was on that jetty all night.",
+    "Says she wasn't worried. Lamp says different."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "villager"
+  },
+  "g17_keeper_wick": {
+   "pages": [
+    "Wick's brighter since the bog. Like it found an old friend.",
+    "Ivo's spark always did know where to look."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 17,
+   "speaker": "Lantern Rest keeper",
+   "gate": "after sq_lumen_chain"
+  },
+  "g18_neighbour_1": {
+   "pages": [
+    "You're home! In this? Here, hold this sandbag.",
+    "Welcome back. Lift with your knees."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 18,
+   "speaker": "neighbour",
+   "gate": "storm_season"
+  },
+  "g18_neighbour_2": {
+   "pages": [
+    "Every window's lit tonight. It's what we do.",
+    "So anyone out walking knows where the doors are."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 18,
+   "speaker": "neighbour",
+   "gate": "storm_season"
+  },
+  "g18_kid": {
+   "pages": [
+    "Did you meet any sea monsters yet?",
+    "...Next time, okay? Promise."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 18,
+   "speaker": "kid",
+   "gate": "storm_season"
+  },
+  "g18_bin_down": {
+   "pages": [
+    "Ron's bin is on its side. Five bags rolled to the fence.",
+    "You stand them back up. A neighbour waves from a window."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 18,
+   "speaker": "inspect",
+   "gate": "storm_season, interact"
+  },
+  "g18_bin_up": {
+   "pages": [
+    "Ron's bin, upright, in the rain. Still full."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 18,
+   "speaker": "inspect",
+   "gate": "after g18_bin_down"
+  },
+  "g18_home_1": {
+   "pages": [
+    "Look at you, dripping. Get in. Rest your team.",
+    "Ron came by. Borrowed an umbrella."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 18,
+   "speaker": "home",
+   "gate": "storm_season"
+  },
+  "g18_home_2": {
+   "pages": [
+    "Said he's going down the coast for a job.",
+    "He looked thin. Keep an eye out for him, would you?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 18,
+   "speaker": "home"
+  },
+  "g19_postman_1": {
+   "pages": [
+    "Not coming down. The letters are dry up here.",
+    "Down there, they're soup."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Postman"
+  },
+  "g19_postman_battle": {
+   "pages": [
+    "Fine. Battle me. If I win, I stay on the roof."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Postman"
+  },
+  "g19_postman_lost": {
+   "pages": [
+    "Rules are rules. Help me down. Mind the bag."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Postman"
+  },
+  "g19_postman_after": {
+   "pages": [
+    "Tidewater's that way. Tell them post's coming. Slowly."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Postman"
+  },
+  "g19_diver_1": {
+   "pages": [
+    "Just waiting it out. Been waiting since breakfast.",
+    "I'm so bored I'd battle a seagull. You'll do."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Cliff Diver"
+  },
+  "g19_diver_lost": {
+   "pages": [
+    "Best thing that's happened all day. Still lost."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Cliff Diver"
+  },
+  "g19_diver_after": {
+   "pages": [
+    "Right. Glide me over to the ridge? I'll walk from there.",
+    "Cheers. Look up when you pass the cliffs. Lightning shows a cave."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Cliff Diver"
+  },
+  "g19_contractor_1": {
+   "pages": [
+    "My float's gone out to sea. Company float. Numbered.",
+    "They'll want it back. Of course they will."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Reef Contractor"
+  },
+  "g19_contractor_battle": {
+   "pages": [
+    "Battle me first. If I lose, I'll stop thinking about the float."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Reef Contractor"
+  },
+  "g19_contractor_after": {
+   "pages": [
+    "Float's gone. I'm not. Funny which one goes on the form.",
+    "Thanks for getting me off the wall."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "Reef Contractor"
+  },
+  "g19_fisher_1": {
+   "pages": [
+    "Storm frightens them. Frightens us too.",
+    "We don't bite, mostly. They do. Can't blame them."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "fisher",
+   "gate": "after the forced Enraged fight"
+  },
+  "g19_fisher_2": {
+   "pages": [
+    "Blew in from the deep, that one. Lost, angry, far from home.",
+    "Sound like anyone you know?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "fisher"
+  },
+  "g19_fisher_tumbloam": {
+   "pages": [
+    "You brought her back! She was on a hedge.",
+    "Can't pay you. Have a scone. It's a bit wet."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 19,
+   "speaker": "farmer",
+   "gate": "optional Tumbloam rescue"
+  },
+  "g20_boat_kid_1": {
+   "pages": [
+    "Nineteen... twenty... twenty-one.",
+    "There should be twenty-two. I counted twice."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 20,
+   "speaker": "kid"
+  },
+  "g20_boat_kid_2": {
+   "pages": [
+    "The Bright Morn's still out. That's my dad's.",
+    "He's coming back. He always says so, and he does."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 20,
+   "speaker": "kid"
+  },
+  "g20_crew_1": {
+   "pages": [
+    "Grab the rope! No, the other rope! Pull!",
+    "Good. You'll do. Everyone does, in a storm."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 20,
+   "speaker": "harbour crew"
+  },
+  "g20_crew_2": {
+   "pages": [
+    "Three hundred years we've pulled boats up this slip.",
+    "Nobody pays us for it. Nobody needs to."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 20,
+   "speaker": "harbour crew"
+  },
+  "g20_crew_3": {
+   "pages": [
+    "Soup's in the hut. Lanterns are in the box.",
+    "Everyone's got a job. Yours is not falling in."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 20,
+   "speaker": "harbour crew"
+  },
+  "g20_poster": {
+   "pages": [
+    "A poster, half washed off the harbour wall:",
+    "'NAMES, NOT NUMBERS.' A firefly drawn in the corner."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 20,
+   "speaker": "inspect"
+  },
+  "g20_rt_desk_sign": {
+   "pages": [
+    "RT TIDEWATER DESK\nClosed for storm. Mostly."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 20,
+   "speaker": "sign"
+  },
+  "g21_ron_ace_low": {
+   "pages": [
+    "Hey. Hey. I've got you. Stay under here."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "mid-battle, his ace low; umbrella shield animation"
+  },
+  "g21_ron_win": {
+   "pages": [
+    "Ha! Okay. Yeah. Okay.",
+    "That's the most fun I've had since the letter."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "player wins"
+  },
+  "g21_ron_loss": {
+   "pages": [
+    "Go dry off. Come back. I'm not going anywhere.",
+    "Literally. No boat."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "player loses"
+  },
+  "g21_ron_umbrella": {
+   "pages": [
+    "Here. Have the umbrella. It's a souvenir now.",
+    "Don't fix it. It's more honest like this."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "all paths; gives rons_umbrella, sets met_ron_tidewater"
+  },
+  "g21_ron_town": {
+   "pages": [
+    "I'm helping drag boats. They say I'm useless but cheerful.",
+    "Two out of two, {nick}. I'll take it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "later, around town; harbour crew, until beat_master_tidewater (then Ron leaves north)"
+  },
+  "g21_fisher_on_ron": {
+   "pages": [
+    "Your mate's useless with a rope. Cheerful, though.",
+    "We'll keep him. Cheerful's hard to find in a storm."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "harbour crew"
+  },
+  "g22_system": {
+   "pages": [
+    "Morning. Sun on wet slate. The gulls are back.",
+    "The storm broke in the night."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 22,
+   "speaker": "system",
+   "gate": "after beat_master_tidewater, next morning"
+  },
+  "g22_boat_in": {
+   "pages": [
+    "Twenty-two! TWENTY-TWO!",
+    "Told you. He always comes back."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 22,
+   "speaker": "kid"
+  },
+  "g22_crew": {
+   "pages": [
+    "Every boat home. Not a rope lost.",
+    "Kettle's on. Hot squash for everyone."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 22,
+   "speaker": "harbour crew"
+  },
+  "g23_reader": {
+   "pages": [
+    "The reader blinks. Station T. It lets you in quicker this time.",
+    "Violet light shivers on the water inside."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "system"
+  },
+  "g23_buoys": {
+   "pages": [
+    "Instrument buoys bob in each pool, numbered.",
+    "Lurelamps drift between them like they own the place."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_chart": {
+   "pages": [
+    "A wall chart. A violet line marked 'signal strength'.",
+    "A blue line marked 'tide'. They move together."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_sticky": {
+   "pages": [
+    "A sticky note under the chart, very neat:",
+    "'Correlation is not cause. - T.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_jacket": {
+   "pages": [
+    "A jacket on a chair. A half-finished mug of tea, cold.",
+    "Someone left in a hurry. They meant to come back."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_rota": {
+   "pages": [
+    "Staff rota. This week's column, in red:",
+    "'ALL STAFF OFF - STORM.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_birthday": {
+   "pages": [
+    "A birthday card, signed by six people.",
+    "'Happy 40th, Gwil! Don't touch the generator.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_visitor_sheet": {
+   "pages": [
+    "A second visitor sheet. Three sets of initials: T.B., P.A., I.S.",
+    "'Readings copied. Taking them north.' No M.Q."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect",
+   "gate": "found_station_r5"
+  },
+  "g23_crate": {
+   "pages": [
+    "A crate, nailed shut. Stencilled on the side:",
+    "'LANTERNPORT. INSTRUMENTS - SIGNAL.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_tide_warning": {
+   "pages": [
+    "TIDE TURNING.\nLeave by the mouth while you still can.",
+    "The water is already at your ankles."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "sign"
+  },
+  "g24_clerk_1": {
+   "pages": [
+    "Promotion? Form says someone has to be here to sign it.",
+    "You're someone. Hold on, my blanket's stuck."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 24,
+   "speaker": "night clerk"
+  },
+  "g24_clerk_2": {
+   "pages": [
+    "Three stranded, three rescued, one Master. Lovely.",
+    "Form calls it 'asset retention'. I call it people."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 24,
+   "speaker": "night clerk",
+   "gate": "pq_storm_duty done, sets promoted_id16"
+  },
+  "g24_clerk_3": {
+   "pages": [
+    "Coastal Operations Lead. New pin on the board for you.",
+    "Station access. Cave thing. It's a perk, apparently."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 24,
+   "speaker": "night clerk",
+   "gate": "unlocks rt_node_station_t"
+  },
+  "g24_clerk_4": {
+   "pages": [
+    "Don't go at high tide. Last one who did, we had a form.",
+    "Long form. Two pages. Please don't make me fill it in."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 24,
+   "speaker": "night clerk"
+  },
+  "g24_clerk_after": {
+   "pages": [
+    "Still here. Still blanket. Storm can't last forever.",
+    "That's what I tell the kettle, anyway."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 24,
+   "speaker": "night clerk"
+  },
+  "g25_jory_slip_1": {
+   "pages": [
+    "You. Grab that rope. Pull when I pull.",
+    "...Now. Steady. Steady. There."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "first meeting, slipway, storm"
+  },
+  "g25_jory_slip_2": {
+   "pages": [
+    "Thanks. How's your team? Cold?",
+    "Hall's up the hill. Come when it's calm. Nobody fights well in this."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell"
+  },
+  "g25_jory_rescues": {
+   "pages": [
+    "Heard you pulled people off roofs on the way in.",
+    "That's the job. The coin's just a coin."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "Coast Road rescues done"
+  },
+  "g25_jory_ron_won": {
+   "pages": [
+    "Your friend on the wall. He all right?",
+    "Keep an eye on him. The sea's not the only thing that pulls."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "beat Ron at Tidewater"
+  },
+  "g25_jory_ron_lost": {
+   "pages": [
+    "Bad day for everyone. Go easy on yourself."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "lost to Ron at Tidewater, not yet won"
+  },
+  "g25_jory_warmth": {
+   "pages": [
+    "That one'd swim back for you.",
+    "Don't ever give it a reason to have to."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "lead Warmth >= 60; he looks at the creature, not the crystal"
+  },
+  "g25_jory_rush": {
+   "pages": [
+    "Patience. The water's not ready, and neither are you.",
+    "Sit. Watch the clock. It'll tell you when."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "hall puzzle not solved (soft flavour)"
+  },
+  "g25_jory_tide_table": {
+   "pages": [
+    "Hang on.",
+    "...Turning in forty minutes. Right. Where were we?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "random, any talk"
+  },
+  "g25_jory_ace_talk": {
+   "pages": [
+    "Easy, old friend. Let it come to you."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "mid-battle, any turn"
+  },
+  "g25_jory_ace_faint": {
+   "pages": [
+    "...",
+    "There. You did fine. You always do."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "his ace faints; he kneels, then stands"
+  },
+  "g25_jory_morning": {
+   "pages": [
+    "Storm's turned. Smell that? That's the sea apologising.",
+    "Lanternport's north. Keeper there doesn't sleep in a storm either."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "after beat_master_tidewater, morning after"
+  },
+  "g26_glass_1": {
+   "pages": [
+    "My best sea glass is violet now. More every month.",
+    "It washes out of the river mouth. Worse every season."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "beachcomber"
+  },
+  "g26_glass_2": {
+   "pages": [
+    "Like the river's bleeding. That's how it looks to me.",
+    "Three sandbars past the point. Bring me what's there."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "beachcomber"
+  },
+  "g26_glass_3": {
+   "pages": [
+    "I make chimes from it. Listen.",
+    "...That bit. Don't know where it comes from. Pretty, isn't it?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "beachcomber"
+  },
+  "g26_glass_4": {
+   "pages": [
+    "Take a bag to The Firefly, would you? Back room.",
+    "For evidence, I said. Of what, I didn't say."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "beachcomber"
+  },
+  "g26_glass_5": {
+   "pages": [
+    "Heard that tune in the chimes once more last night.",
+    "The Firefly's DJ hums it too. Small world."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "beachcomber",
+   "gate": "sq_missing_note active"
+  },
+  "g26_glass_6": {
+   "pages": [
+    "Violet sea glass. Huh. Put it on the shelf with the rest.",
+    "We don't know what it means either. We keep it anyway."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "Firefly back room"
+  },
+  "g26_lifeguard_1": {
+   "pages": [
+    "Get out of the water. Now. Not you, Splash.",
+    "...You didn't see him. Got it?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "lifeguard",
+   "gate": "lead Warmth >= 50"
+  },
+  "g26_lifeguard_2": {
+   "pages": [
+    "No crystal. Never had one. He just stayed.",
+    "Best swimmer on this coast. Don't put that on a form."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "lifeguard"
+  },
+  "g26_lifeguard_3": {
+   "pages": [
+    "Storm rescue. He bolted first. Scared stiff.",
+    "Then he came back on his own. Pulled the kid out."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "lifeguard"
+  },
+  "g26_lifeguard_4": {
+   "pages": [
+    "Wild's not soft. Neither's tame. Both can turn round.",
+    "That's all I know about creatures. It's enough."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "lifeguard"
+  },
+  "g26_lifeguard_5": {
+   "pages": [
+    "Splash likes you. He doesn't like anyone.",
+    "Keep the secret. That's all I'm asking."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "lifeguard"
+  },
+  "g26_lights_1": {
+   "pages": [
+    "Lantern stays in the window till the Bright Morn's back.",
+    "Dad says it helps. So it helps."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "kid"
+  },
+  "g26_lights_2": {
+   "pages": [
+    "Will you sit with it? I'm not tired. I'm just resting my eyes."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "kid",
+   "gate": "Night, storm"
+  },
+  "g26_lights_3": {
+   "pages": [
+    "The kid is asleep by the lantern. Outside, a sail.",
+    "Blow out the lantern?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "system",
+   "gate": "dawn after beat_master_tidewater",
+   "choices": [
+    "Blow it out",
+    "Leave it lit"
+   ]
+  },
+  "g26_lights_4": {
+   "pages": [
+    "Saw a light in my window from the point. Steered for it.",
+    "Thank you. Here. She drew this for you. Before she fell asleep."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "skipper"
+  },
+  "g26_lights_5": {
+   "pages": [
+    "A crayon drawing: a boat, a lantern, and you.",
+    "You're very tall in it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "system"
+  },
+  "g26_umbrella_1": {
+   "pages": [
+    "A proper umbrella? Last one. Storm's had the rest.",
+    "For a friend? Then it's half price. Don't tell anyone."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "shopkeeper",
+   "gate": "met_ron_tidewater (fought or not)"
+  },
+  "g26_umbrella_2": {
+   "pages": [
+    "A new one? For me? {nick}, that's...",
+    "I'm keeping the broken one too. Obviously."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "Ron",
+   "gate": "give at Lanternport"
+  },
+  "g26_umbrella_3": {
+   "pages": [
+    "One for rain. One for remembering.",
+    "Don't make it weird."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "Ron"
+  },
+  "g26_umbrella_4": {
+   "pages": [
+    "Ron opens the new umbrella. It stays the right way out.",
+    "He looks at it like it did something clever."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "system"
+  },
+  "g27_rons_umbrella_name": {
+   "pages": [
+    "Ron's Umbrella"
+   ],
+   "parity": "F18",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 27,
+   "speaker": "item"
+  },
+  "g27_rons_umbrella_desc": {
+   "pages": [
+    "Inside out, one rib bent. A souvenir now.",
+    "Ron said not to fix it. You won't."
+   ],
+   "parity": "F18",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 27,
+   "speaker": "item"
+  },
+  "g27_reed_lamp_name": {
+   "pages": [
+    "Reed Lamp"
+   ],
+   "parity": "F18",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 27,
+   "speaker": "item"
+  },
+  "g27_reed_lamp_desc": {
+   "pages": [
+    "A lamp of woven reeds, like the one in Wenna's window.",
+    "Put it in yours. Somebody's always out late."
+   ],
+   "parity": "F18",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 27,
+   "speaker": "item"
+  },
+  "g05_nan_soup": {
+   "pages": [
+    "Had four guests once. Ate everything I had.",
+    "Rated my soup an eight. I'm still cross about it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 5,
+   "speaker": "Nan Wexley",
+   "note": "undated nod to Marta; sets no date"
+  },
+  "g06_ron_bin_5": {
+   "pages": [
+    "Neighbour sent a postcard about the bins.",
+    "It's fine. It's a nice postcard, actually. Has a duck on it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 6,
+   "speaker": "Ron"
+  },
+  "g11_strip_chart": {
+   "pages": [
+    "A paper strip: 'Carrier: source reference.' Violet trace.",
+    "It dips each time a crystal is set down. Slow to recover."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_strip_note": {
+   "pages": [
+    "Pencil, in the margin: 'Each new unit draws on the source.",
+    "Source is finite?' The question mark is dug in hard."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_is_doodle": {
+   "pages": [
+    "Below, in another hand: a big creature, curled up asleep.",
+    "There's a crack drawn on its brow. Signed I.S."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_bonded_tally": {
+   "pages": [
+    "At the bench end, the four 'handler's own' units.",
+    "Their trace runs flatter. 'Less draw.' Nobody wrote why."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "inspect"
+  },
+  "g11_warm_glint": {
+   "pages": [
+    "Out in the light, {lead}'s crystal flickers.",
+    "For a blink, it isn't violet at all. Then it is."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 11,
+   "speaker": "system",
+   "gate": "leaving the station, lead Warmth >= 70"
+  },
+  "g13_node_name": {
+   "pages": [
+    "Research Access: Station M"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "Benefits board"
+  },
+  "g13_node_desc": {
+   "pages": [
+    "Key card for Mirefen Peat Station.",
+    "A rare privilege. Wipe your feet."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "Benefits board"
+  },
+  "g13_pigeonhole_empty": {
+   "pages": [
+    "Your pigeonhole. A flyer for the staff raffle.",
+    "Nothing else. Yet."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "inspect",
+   "gate": "before rt_node_station_m bought"
+  },
+  "g13_pigeonhole_card": {
+   "pages": [
+    "An envelope with your number on it. A card inside.",
+    "Station M Key Card. It's still warm from the sorting room."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 13,
+   "speaker": "inspect",
+   "gate": "after rt_node_station_m bought; gives rt_keycard_r5"
+  },
+  "g14_wenna_camp_2": {
+   "pages": [
+    "...They were kind to the frogs.",
+    "Not many are. Go on, then. Show me."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 14,
+   "speaker": "Wenna Peat"
+  },
+  "g16_rested_1": {
+   "pages": [
+    "Station crew had a name for the islet out there.",
+    "They called it 'the bed'."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "angler",
+   "gate": "sq_nicely_done + found_station_r5, Dusk"
+  },
+  "g16_rested_2": {
+   "pages": [
+    "All this was a river bend once. Before the water dropped.",
+    "Go at dusk. Go quiet. You'll see why they called it that."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "angler"
+  },
+  "g16_rested_glint": {
+   "pages": [
+    "A Riverglint flashes gold, once, twice.",
+    "Always the same way. Upstream. Toward home."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "system",
+   "gate": "dark islet, first visit look-only"
+  },
+  "g16_rested_hollow": {
+   "pages": [
+    "A hollow in the peat, big as a house. Curled, like a body.",
+    "In the middle, a stone with an old violet stain."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "inspect"
+  },
+  "g16_rested_stone": {
+   "pages": [
+    "The stain pulses, faint and slow.",
+    "Each time it does, {lead} turns to face upstream."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "system"
+  },
+  "g16_rested_warm": {
+   "pages": [
+    "Near the stone, {lead}'s crystal shows its own colour.",
+    "Just for a beat. As if something pushed back."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "system",
+   "gate": "lead Warmth >= 50"
+  },
+  "g16_rested_posts": {
+   "pages": [
+    "Three notes come off the water. Then nothing.",
+    "Old posts. The water line on them is far above your head."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "inspect"
+  },
+  "g16_rested_3": {
+   "pages": [
+    "Here. My gran drew this. Kept it in the boat for luck.",
+    "Said it keeps the light."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "angler",
+   "gate": "Night, gives old_river_drawing"
+  },
+  "g16_rested_4": {
+   "pages": [
+    "Said it gets tired when people take too much of it.",
+    "...That's all she said. That's all I'll say."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "angler",
+   "gate": "sets sq_rested_done"
+  },
+  "g16_angler_folklore": {
+   "pages": [
+    "Old folk say there's one that keeps the light.",
+    "Old folk say a lot of things. Some of them are right."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "angler"
+  },
+  "g16_drawing_name": {
+   "pages": [
+    "Old River Drawing"
+   ],
+   "parity": "F18",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "item"
+  },
+  "g16_drawing_desc": {
+   "pages": [
+    "A huge river creature, eyes shut, a crack in its brow.",
+    "Drawn by the angler's gran. It looks tired."
+   ],
+   "parity": "F18",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 16,
+   "speaker": "item"
+  },
+  "g17a_trail_kid_default": {
+   "pages": [
+    "My name's Jory. It's the best name.",
+    "Nobody else has it. I checked. Twice."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": "17a",
+   "speaker": "Trail Kid Jory",
+   "gate": "default, before beat_master_tidewater"
+  },
+  "g17a_trail_kid_proud": {
+   "pages": [
+    "There's a Master called Jory?! Is he kind?",
+    "...He is? Good. Then I'll keep it. We can share."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": "17a",
+   "speaker": "Trail Kid Jory",
+   "gate": "after beat_master_tidewater, once"
+  },
+  "g18_home_river": {
+   "pages": [
+    "Strange thing. Rain all week, and the river's still low.",
+    "Lowest I've ever seen it. Anyway. Sit. Eat."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 18,
+   "speaker": "home",
+   "gate": "storm_season"
+  },
+  "g21_ron_wall_1": {
+   "pages": [
+    "Don't say anything about the umbrella."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "breakwater end, storm; plays for all"
+  },
+  "g21_ron_wall_2": {
+   "pages": [
+    "Job fell through. Like, structurally.",
+    "Boat didn't go out. There wasn't a boat. Or a job."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron"
+  },
+  "g21_ron_bin_line": {
+   "pages": [
+    "Neighbour says the bags have started paying rent.",
+    "Five bags. One for each of your coins. I counted."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "note": "coin-5 bin line: 5 bags, no flies (G3)"
+  },
+  "g21_ron_honest": {
+   "pages": [
+    "I don't know what I am if I'm not at work, {nick}.",
+    "You've got coins. I've got... the bins."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron"
+  },
+  "g21_ron_choice": {
+   "pages": [
+    "Come on. Make me feel like I'm good at something.",
+    "Or lose. That's fine too."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "choices": [
+    "Battle",
+    "Not now"
+   ]
+  },
+  "g21_ron_decline_1": {
+   "pages": [
+    "...Yeah. No. You're right.",
+    "I'd have lost my footing anyway. Wall's slippy."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "Not now; sets ron5_declined, met_ron_tidewater"
+  },
+  "g21_ron_decline_2": {
+   "pages": [
+    "...Thanks for coming out here, though. In this.",
+    "Means more than a battle. Don't tell anyone I said that."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron"
+  },
+  "g21_ron_rematch": {
+   "pages": [
+    "Changed your mind? Good.",
+    "I've been practising on the gulls. They're winning."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "ron5_declined, harbour slip, only before beat_master_tidewater (G6: rematch window closes there; then g21_ron_missed_parting)"
+  },
+  "g21_ron_pocket_win": {
+   "pages": [
+    "I found something, {nick}. It's...",
+    "Later. When it's not raining on it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "after win; pats pocket, does NOT show the page"
+  },
+  "g21_ron_pocket_loss": {
+   "pages": [
+    "Hey. I found something, {nick}. It's... no.",
+    "Later. You win one first. Kidding. Later."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "after loss; pats pocket only"
+  },
+  "g21_ron_pocket_decline": {
+   "pages": [
+    "Oh. I found something. It's... not for the rain.",
+    "Later, {nick}. I'll be in town. Clearly."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "after decline; pats pocket only"
+  },
+  "g23_contour_map": {
+   "pages": [
+    "A coast map. The violet signal is drawn as contours.",
+    "The tightest ring sits on the river mouth."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_contour_map_2": {
+   "pages": [
+    "The rings run inland up the river, like a vein.",
+    "Label: 'Carrier strongest at fresh-water inflow. Source upstream?'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_photo": {
+   "pages": [
+    "A photo of the river mouth at low tide.",
+    "Under the water, a long dark shape. Too blurry to read."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_sticky_tb": {
+   "pages": [
+    "Sticky note, very neat: 'Don't guess. Measure. - T.B.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g23_sticky_is": {
+   "pages": [
+    "Under it, in looser writing:",
+    "'It's sleeping. Or it's tired. - I.S.'"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 23,
+   "speaker": "inspect"
+  },
+  "g24_node_name": {
+   "pages": [
+    "Research Access: Station T"
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 24,
+   "speaker": "Benefits board"
+  },
+  "g24_node_desc": {
+   "pages": [
+    "Key card for the Tidewater Signal Lab.",
+    "Valid at low tide. Company not liable at high tide."
+   ],
+   "parity": "E10",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 24,
+   "speaker": "Benefits board"
+  },
+  "g25_jory_ron_declined": {
+   "pages": [
+    "Your friend on the wall. You didn't fight him? Good.",
+    "Some days you just sit with someone."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "ron5_declined"
+  },
+  "g25_jory_namesake": {
+   "pages": [
+    "Kid in Sunmeadow's got my name, I hear.",
+    "Tell him I'll try to live up to it."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 25,
+   "speaker": "Jory Swell",
+   "gate": "optional, after g17a_trail_kid_proud"
+  },
+  "g26_glass_hum": {
+   "pages": [
+    "The violet glass in your bag hums, very faintly."
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 26,
+   "speaker": "system",
+   "gate": "near the lab's tight contour"
+  },
+  "g21_ron_missed_parting": {
+   "pages": [
+    "Coin six. Look at you, {nick}. All grown up.",
+    "Bag's packed. Five bins' worth of socks. I'm off north.",
+    "Keep the umbrella dry. Well. Dry-ish.\nSave me a fight up there, yeah?"
+   ],
+   "parity": "F15",
+   "build": "partial",
+   "status": "DRAFT",
+   "group": 21,
+   "speaker": "Ron",
+   "gate": "ron5_missed: beat_master_tidewater, never fought Ron 5; harbour slip, bag packed"
   }
  },
  "system": {

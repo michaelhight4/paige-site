@@ -223,6 +223,147 @@
       },
       "region2_note": "region 2 build (coder, Oct 23 2026): maxRegion 2; Kilindex 25 is the region 2 milestone (50 / 100 moved to region 3: about 30 kinds exist by Master 2); Signed For closes on has_bike (parcel delivered; an alias on beat_master_saltmere would replace the master_beaten line), Ferns Over the Tent on camp_restored_thornwood. Saltmere arrival = area_new_saltmere, Master 2 = master_beaten_saltmere (existing Text Bot keys).",
       "note": "region 1 release: only the promotion task (Gary's plan, 12:45 PM CT); specific key quest_done_<quest id> first; mq_brookhollow_promotion completes as the starter is received, so it is held and queued once got_starter is set"
+    },
+    "id_cap_region_5": {
+      "line": "id_cap_region_5",
+      "tier": "full",
+      "priority": 60,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "id_cap_r5",
+      "region": 5,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "id_cap_region_6": {
+      "line": "id_cap_region_6",
+      "tier": "full",
+      "priority": 60,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "id_cap_r6",
+      "region": 6,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "keycard_r5": {
+      "line": "keycard_r5",
+      "tier": "milestone",
+      "priority": 80,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "rt_keycard_r5",
+      "region": 5,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "keycard_r6": {
+      "line": "keycard_r6",
+      "tier": "milestone",
+      "priority": 80,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "rt_keycard_r6",
+      "region": 6,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "landmark_unregistered": {
+      "line": "landmark_unregistered",
+      "tier": "full",
+      "priority": 40,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "sq_gd_riverglint_6",
+      "region": 5,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "promotion_r5": {
+      "line": "promotion_r5",
+      "tier": "milestone",
+      "priority": 95,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "promoted_id14",
+      "region": 5,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "promotion_r6": {
+      "line": "promotion_r6",
+      "tier": "milestone",
+      "priority": 95,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "promoted_id16",
+      "region": 6,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "research_area_r5": {
+      "line": "research_area_r5",
+      "tier": "full",
+      "priority": 70,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "found_station_r5",
+      "region": 5,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "research_area_r6": {
+      "line": "research_area_r6",
+      "tier": "full",
+      "priority": 70,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "found_lab_r6",
+      "region": 6,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "research_catch_first": {
+      "line": "research_catch_first",
+      "tier": "full",
+      "priority": 60,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "research_catch_first",
+      "region": 5,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "skill_tideglide": {
+      "line": "skill_tideglide",
+      "tier": "full",
+      "priority": 60,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "has_tideglide",
+      "region": 6,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "storm_season_start": {
+      "line": "storm_season_start",
+      "tier": "full",
+      "priority": 75,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "storm_season",
+      "region": 5,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "storm_turn": {
+      "line": "storm_turn",
+      "tier": "full",
+      "priority": 50,
+      "once": "key",
+      "cooldown_ms": 0,
+      "on_flag": "storm_turn",
+      "region": 6,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
+    },
+    "storm_weather_event": {
+      "line": "storm_weather_event",
+      "tier": "full",
+      "priority": 35,
+      "once": false,
+      "cooldown_ms": 600000,
+      "on_flag": "storm_weather_event",
+      "region": 6,
+      "note": "r56 wiring (Oct 29 2026): fires on the flag; lines are region 5/6 so they stay hidden until maxRegion >= 5 (regions 5+6 ship together). area_new_mirefen/route1_east/route_coast/station_mirefen ride area_new (specific key = map id)."
     }
-  }
+  },
+  "_r56_note": "dev/r56-wiring: 14 on_flag events + 4 area_new specific keys = the 18 region 5/6 RITA lines. Raise maxRegion to 6 at the R5/R6 release (region56 attach does it under ?r56=1)."
 }

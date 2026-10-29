@@ -96,7 +96,7 @@ export function attachSports(scene, { query, systems } = {}) {
     if (!s || s._sportsHooked) return; s._sportsHooked = true;
     const prev = s.onInteract.bind(s);
     s.onInteract = (fx, fy) => {
-      if (coachAt(fx, fy)) { scene.script(async () => { await scene.say?.([S.coach_hello], { name: S.coach_name, portrait: null }); await openVenue(); }); return true; }
+      const cn = coachAt(fx, fy); if (cn) { const own = scene.lines?.maps?.[VENUE.map]?.[VENUE.npcId]; const pages = [].concat(cn.pages || cn.lines || cn.dialogue || cn.text || own?.pages || own?.default?.pages || []).filter((t) => typeof t === 'string'); scene.script(async () => { if (pages.length) await scene.say?.(pages, { name: S.coach_name, portrait: null }); await openVenue(); }); return true; } // coach_hello fix: the coach's own text, no hardcoded hello
       return prev(fx, fy);
     };
   };

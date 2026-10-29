@@ -174,7 +174,8 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
           const z = info.hall.zone, solved = scene.flags?.has(`puzzle_${z}_hall_solved`) || pg.inmap?.solved || hallBeaten(z);
           if (solved || DEV_KEY()) return talk(n, def);
           scene.log?.push({ tick: scene.tick, type: 'hall_puzzle_gate', zone: z });
-          scene.script(() => scene.say([z === 'mirefen' ? 'Light the reed lamps in the right order first. Then we talk.' : 'Open the way first. Then we talk.'], scene.speakerFor?.(n)));
+          const gl = scene.lines?.system_field?.[z === 'mirefen' ? 'hall_gate_mirefen' : 'hall_gate_default']; // Text Bot keys (r56 wiring)
+          scene.script(() => scene.say(gl?.pages || [z === 'mirefen' ? 'Light the reed lamps in the right order first. Then we talk.' : 'Open the way first. Then we talk.'], scene.speakerFor?.(n)));
           return;
         }
         if (!info || info.hall.zone === 'fernwick' || info.role === 'trainer' || INMAP_HALLS[info.hall.zone] || !puzzleZone(info.hall.zone)) return talk(n, def);
