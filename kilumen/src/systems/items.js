@@ -17,6 +17,7 @@ export const BATTLE_ITEMS = {
   tonic_large: { num: 2, name: 'Big Remedy', kHeal: 60 },
   energy_tonic: { num: 3, name: 'Pep Remedy', kEnergy: 5 }, // in battle too: Gary Oct 22 (flag config.js pepRemedyRestoresEnergyInBattle)
   calm_tea: { num: 4, name: 'Calm Tea', kCure: true },
+  potion: { num: 9, name: 'Trail Remedy', kHeal: 20 }, // World pickup id (grotto/cave/caldera); Text Bot: Trail Remedy, care pocket. Same heal as the basic Small Remedy (PLACEHOLDER, Gary)
   dominance_crystal: { num: 5, name: 'Dominance Crystal', kCrystalGrade: 1 },
   dominance_crystal_plus: { num: 6, name: 'Prime Crystal', kCrystalGrade: 1.5 },
 };
@@ -30,6 +31,7 @@ const FIELD = {
   tonic_large: { pocket: 'care', field: 'heal' },
   energy_tonic: { pocket: 'care', field: 'energy' }, // Gary Oct 22, 2026: energy potions restore energy but are expensive (config.potionsVsRest = potions_restore)
   calm_tea: { pocket: 'care', field: 'cure' },
+  potion: { pocket: 'care', field: 'heal' },          // Trail Remedy (heal = BATTLE_ITEMS.potion.kHeal)
   trail_mix: { pocket: 'feeds', field: null },        // Trail Buddy snack: Warmth system (later pass)
   feed_bag_small: { pocket: 'feeds', field: null },
   feed_bag: { pocket: 'feeds', field: null },
