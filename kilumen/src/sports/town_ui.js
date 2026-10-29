@@ -1,12 +1,12 @@
 // Town practice events UI (Oct 29 2026). Talk to <town>_practice_coach -> pick a creature -> play -> result + reaction.
 // Practice only: no prize, no podium; best score per event saved in sports state (.town). Logic: town_events.js.
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
-import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.75-alpha';
-import { TS, tt } from './town_strings.js?v=v0.2.75-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.75-alpha';
-import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.75-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.75-alpha';
-import { runChampion, reducedMotion } from './hype.js?v=v0.2.75-alpha';
+import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.77-alpha';
+import { TS, tt } from './town_strings.js?v=v0.2.77-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.77-alpha';
+import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.77-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.77-alpha';
+import { runChampion, reducedMotion } from './hype.js?v=v0.2.77-alpha';
 
 export const LIVE_REGION = 8; // all six town events are playable (dev/sports-events, Oct 29 2026); each coach also runs the town cup
 const W = 360, H = 480;
