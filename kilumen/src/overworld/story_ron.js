@@ -13,13 +13,14 @@
 //     moves into Ron's previous cell, interpolated with his step). Evolved form when that Ron's authored team uses one and
 //     its ow sheet loads; else the base form.
 // No map JSON, no overworld.js edit: drawing is an instance wrap of scene.view / scene.render (like src/overnight/index.js).
-import { Npc, OPPOSITE } from './npcs.js?v=v0.2.48-alpha';
-import { TILE, SHEET_ROW, DELTA } from './constants.js?v=v0.2.48-alpha';
-import { gradeImage } from './palette.js?v=v0.2.48-alpha';
-import { automoveOn } from './automove.js?v=v0.2.48-alpha';
-import { HOME, OPEN } from './intro.js?v=v0.2.48-alpha';
-import { RON_COUNTER, STARTER_LINES, partyStarter, starterOf } from '../battle/data/starters.js?v=v0.2.48-alpha';
-import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.48-alpha';
+import { Npc, OPPOSITE } from './npcs.js?v=v0.2.49-alpha';
+import { TILE, SHEET_ROW, DELTA } from './constants.js?v=v0.2.49-alpha';
+import { gradeImage } from './palette.js?v=v0.2.49-alpha';
+import { automoveOn } from './automove.js?v=v0.2.49-alpha';
+import { HOME, OPEN } from './intro.js?v=v0.2.49-alpha';
+import { RON_COUNTER, STARTER_LINES, partyStarter, starterOf } from '../battle/data/starters.js?v=v0.2.49-alpha';
+import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.49-alpha';
+import { applyRonWhereabouts } from './ron_whereabouts.js?v=v0.2.49-alpha'; // v0.2.49: Ron home between Masters, in the next town only (Gary 8:54 AM CT Oct 29)
 
 export const STORY_RON = { id: 'ron_story', sprite: 'house_1f.ron', walkMs: 6000 };
 
@@ -80,7 +81,7 @@ const dirTo = (a, b) => { const dx = b.x - a.x, dy = b.y - a.y; if (!dx && !dy) 
 const speakerNpcId = (name) => ({ Manager: OPEN.manager, 'Lab Tech': OPEN.researcher })[name] || null; // lazy: intro.js <-> story_ron.js import cycle
 
 export class StoryRon {
-  /** @param {import('./intro.js?v=v0.2.48-alpha').HomeStart} intro */
+  /** @param {import('./intro.js?v=v0.2.49-alpha').HomeStart} intro */
   constructor(intro) {
     this.intro = intro; this.scene = intro.scene;
     this.pals = new Map();   // Ron Npc -> partner {species, x, y, fromX, fromY, facing, stepping, lead, sheet}
@@ -107,7 +108,7 @@ export class StoryRon {
     if (!s.map || !s.npcs) return;
     this.live = this._k != null && s.tick !== this._k; this._k = s.tick;
     this._wrap();
-    if (map !== this._map) { this._map = map; this.pals.clear(); this.leaving = null; this.focus = null; this._syncTaken(); }
+    if (map !== this._map) { this._map = map; this.pals.clear(); this.leaving = null; this.focus = null; this._syncTaken(); this.where = applyRonWhereabouts(this, isRonNpc); }
     if (homeRonAway(F, map)) { const h = s.npcs.byId(HOME.ron); if (h && h !== this.leaving) this.remove(h); }
     const where = storyRonWhere(F, map), cur = this.npc();
     if (where && !cur) this.spawn();
@@ -143,6 +144,8 @@ export class StoryRon {
     s.log.push({ tick: s.tick, type: 'storyRon', step: 'spawn', map: m.name, x: n.x, y: n.y });
     return n;
   }
+
+  loadImgs(n) { loadNpcImgs(this.scene, n); }
 
   remove(n) {
     const s = this.scene;

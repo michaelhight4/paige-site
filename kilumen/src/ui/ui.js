@@ -8,27 +8,27 @@
 // Open: Esc or M (keyboard), Start (pad button 9), the menu button (touch / mouse). Dev: ?ui=title|phone|team|summary|pack|
 // kilindex|shop|archive|save|options|map|battle|levelup, ?uidemo=1 (demo team/bag/gold, not saved), ?battle=shell
 // (old scripted battle shell instead of the default engine battle, src/battle/ui_sd.js; Oct 23, 2026), ?title=0|1 (title on a bare URL only by default).
-import { iconRel, battleSpriteRel } from './data.js?v=v0.2.48-alpha';
-import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.48-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
-import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.48-alpha';
+import { iconRel, battleSpriteRel } from './data.js?v=v0.2.49-alpha';
+import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.49-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
+import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.49-alpha';
 // FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
-import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.48-alpha';
-import { installWildEncounters } from '../battle/encounters.js?v=v0.2.48-alpha'; // battles default v1: wild encounters
+import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.49-alpha';
+import { installWildEncounters } from '../battle/encounters.js?v=v0.2.49-alpha'; // battles default v1: wild encounters
 // UI tools pass (Oct 22, 2026; Gary: "use them and log them for later use"): lrud-spatial (Apache-2.0) picks the nearest item
 // in the pressed direction from the real layout; SortableJS (MIT, lazy) drags Team / Field Archive; ?dev=1 lazy-loads the
 // lil-gui tuning panel (./devpanel.js); Kenney CC0 PLACEHOLDER art (art/ui/kenney_placeholder) only where there was none.
-import { getNextFocus } from '../vendor/lrud-spatial/lrud.js?v=v0.2.48-alpha';
-import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js?v=v0.2.48-alpha';
+import { getNextFocus } from '../vendor/lrud-spatial/lrud.js?v=v0.2.49-alpha';
+import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js?v=v0.2.49-alpha';
 // UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
 // auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
-import { showContinue } from '../overworld/save.js?v=v0.2.48-alpha'; // first-launch Continue fix (batch 3 wire)
-import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.48-alpha';
-import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.48-alpha';
-import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.48-alpha';
-import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.48-alpha'; // capture rules (Gary, Oct 23 2026)
-import { rtbMode, setRtbMode, rtbKilled } from '../rtb/flag.js?v=v0.2.48-alpha'; // real-time wild battles option (Oct 29 2026)
-import { DIFFICULTIES, DIFF_ORDER, PENDING_KEY, diffOf, getDifficulty, setDifficulty } from '../systems/difficulty.js?v=v0.2.48-alpha';
+import { showContinue } from '../overworld/save.js?v=v0.2.49-alpha'; // first-launch Continue fix (batch 3 wire)
+import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.49-alpha';
+import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.49-alpha';
+import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.49-alpha';
+import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.49-alpha'; // capture rules (Gary, Oct 23 2026)
+import { rtbMode, setRtbMode, rtbKilled } from '../rtb/flag.js?v=v0.2.49-alpha'; // real-time wild battles option (Oct 29 2026)
+import { DIFFICULTIES, DIFF_ORDER, PENDING_KEY, diffOf, getDifficulty, setDifficulty } from '../systems/difficulty.js?v=v0.2.49-alpha';
 const KPH = 'art/ui/kenney_placeholder/';
 const kph = (f, cls = 'ph-ico') => `<img class="${cls}" data-placeholder="kenney" src="${KPH}${f}.png" alt="" aria-hidden="true" draggable="false">`;
 const LRUD_KEY = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
@@ -316,7 +316,7 @@ export class GameUI {
         } });
       el.dataset.sortable = 'on';
     };
-    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js?v=v0.2.48-alpha').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
+    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js?v=v0.2.49-alpha').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
   }
   async _reorderTeam(order, moved) { // drag-to-reorder: same creature objects, new order (duplicates of a species are kept)
     const s = this.scene, real = !!s.party?.length, list = this.party(), name = (c) => c.nickname || speciesById(c.species).name;
@@ -847,7 +847,7 @@ export class GameUI {
     const dot = (z) => KEY[z.id === cur ? 0 : z.status === 'built' ? 1 : 2];
     const scr = { scr: 'map', pat: 'leaf', title: this.T('system_phone.menu.labels.map', 'Map'), glyph: 'map', sel, cols: 1, count: () => zones.length,
       render: () => `<div class="ui-body"><div class="ui-panel ui-grow rm-frame" data-scr="map" data-pat="leaf" style="flex:2">
-        <div class="rm-box" style="background-image:url(art/world/world_map.webp?v=v0.2.48-alpha)">
+        <div class="rm-box" style="background-image:url(art/world/world_map.webp?v=v0.2.49-alpha)">
         ${zones.map((z, i) => `<span data-i="${i}" class="rm-dot" data-dot="${dot(z)[0]}" title="${esc(z.name)}" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%;--dot:${dot(z)[1]}"></span>`).join('')}
         ${cur ? (() => { const z = zones.find((q) => q.id === cur); return z ? `<span class="hud-prompt show rm-you" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%"><span class="g">★</span><span>You</span></span>` : ''; })() : ''}</div></div>
         <div class="plate ui-pad ui-scroll" style="flex:1"><div id="mapinfo"></div>
@@ -1093,10 +1093,10 @@ function wireWild(ui, scene, q) {
     for (;;) {
       const rt = mode === 'rt' && !rtbKilled(q);
       if (rt) catchNet(scene);
-      const out = rt ? await import('../rtb/index.js?v=v0.2.48-alpha').then((m) => m.openRtBattle(ui, scene, foe, { q, carry })) : await openBattle(foe, carry);
+      const out = rt ? await import('../rtb/index.js?v=v0.2.49-alpha').then((m) => m.openRtBattle(ui, scene, foe, { q, carry })) : await openBattle(foe, carry);
       if (out?.outcome !== 'switch' || !out.carry?.foes?.length) return out;
       carry = out.carry; mode = setRtbMode(scene, rt ? 'turn' : 'rt');
-      const sw = await import('../rtb/switch.js?v=v0.2.48-alpha'); await sw.modeFlash(mode, { reduced: ui.body?.classList.contains('ui-reduce') || reducedMotionQ() });
+      const sw = await import('../rtb/switch.js?v=v0.2.49-alpha'); await sw.modeFlash(mode, { reduced: ui.body?.classList.contains('ui-reduce') || reducedMotionQ() });
     }
   };
   const reducedMotionQ = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } };
@@ -1119,7 +1119,7 @@ export function mountUI(opts) {
   if (!shell) wireWild(ui, scene, q); // wild encounters from tall grass (src/battle/encounters.js)
   if (!shell) {
     // trainers resolve won/lost from the engine result
-    const load = import('../battle/ui_sd.js?v=v0.2.48-alpha').then((m) => { ui.sdMod = m; return m; });
+    const load = import('../battle/ui_sd.js?v=v0.2.49-alpha').then((m) => { ui.sdMod = m; return m; });
     ui.sdReady = load;
     scene.hooks.onBattle = (who) => load.then(() => new Promise((res) => {
       ui.open('battle', { trainer: true, who }); const scr = ui.top; let out = null;
