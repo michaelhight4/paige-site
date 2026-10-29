@@ -97,6 +97,7 @@ export class GameMap {
    * flags only ever get set, so a cleared gate never re-blocks. Returns the ids applied this call.
    */
   applyGates(flags) {
+    this._flags = flags; // board key cards (Oct 29 2026): locked_warps with unlock_flag read the same live flag set
     const done = [];
     for (const g of this.storyGates) {
       if (this._appliedGates.has(g.id) || !flags?.has(g.flag)) continue;
@@ -110,6 +111,12 @@ export class GameMap {
       this._appliedGates.add(g.id); done.push(g.id);
     }
     return done;
+  }
+
+  /** Board key cards: a locked_warps door whose unlock_flag (e.g. rt_keycard_r1) is set opens. -> the warp or null */
+  keyDoorAt(x, y, flags = this._flags) {
+    const w = this._lockedAt.get(x + ',' + y);
+    return w && w.unlock_flag && flags?.has?.(w.unlock_flag) ? w : null;
   }
 
   inBounds(x, y) { return x >= 0 && y >= 0 && x < this.width && y < this.height; }
@@ -159,6 +166,7 @@ export class GameMap {
   passable(x, y, mode = 'walk') {
     if (!this.inBounds(x, y) || this._npcAt.has(x + ',' + y)) return false;
     if (DEV.masterKey) { const k = x + ',' + y, g = this._gateAt.get(k); if ((g && !this.gateCleared(g)) || this._lockedAt.has(k)) return true; } // dev master key: runtime override, never saved
+    if (this._lockedAt.size && this.keyDoorAt(x, y)) return true;
     const c = this.code(x, y);
     return WALKABLE.has(c) || (mode === 'bike' && c === Col.BIKE_ONLY);
   }

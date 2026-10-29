@@ -3,6 +3,7 @@
 // Every effect, category, accuracy and priority below is a PLACEHOLDER for Gary; see PLACEHOLDERS in README.md.
 import { PLACEHOLDER_SKILLS } from '../../ui/data.js?v=v0.2.66-alpha';
 import { cap } from './elements.js?v=v0.2.66-alpha';
+import { boardMoves } from '../../systems/board_skills.js?v=v0.2.66-alpha';
 
 // PLACEHOLDER (creature sync): nearest existing skill pool for elements that have none (same table as tools/sync_creatures.mjs).
 export const SKILL_POOL_ALIAS = { grass: 'earth', bug: 'earth', magma: 'fire', freshwater: 'water', sea: 'water', swamp: 'water', rain: 'water',
@@ -44,6 +45,8 @@ export function buildSkills() {
       if (out[id].target === 'self') out[id].flags = x.flags || {};
     });
   }
+  // RT board-only skills (src/systems/board_skills.js): engine rows only; never in any pool (skillIdsFor reads PLACEHOLDER_SKILLS)
+  Object.assign(out, boardMoves(Object.keys(out).length + 1));
   // Fallback skill the engine uses only if a creature has no usable skill at all
   // (cannot happen in normal play because overuse keeps every skill selectable).
   out.struggle = { num: 0, name: '[PLACEHOLDER fallback skill]', type: 'Normal', basePower: 30, category: 'Physical', accuracy: true, pp: 1,

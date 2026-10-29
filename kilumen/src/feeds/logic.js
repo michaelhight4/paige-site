@@ -15,6 +15,15 @@ export const LIKE = { mult: 1.25, full: -5 }, DISLIKE = { mult: 0.75, full: 10 }
 export const DRAIN = { practice: 10, battleWin: 5 }; // Gary Oct 29: only the creatures that fought drain after a battle; the bench loses none
 export const PRACTICE_SPEEDUP_MS = 3600e3; // each practice ticks that town's plots (and home plots) by 1 h
 export const HOME_PLOTS = 4;
+// RT Employee Benefits (board fish/sports, Oct 29 2026): Wellness Plan perks. grow = grow-time mult, gain = build-gain mult
+// (caps unchanged: PART_CAP / TOTAL_CAP / +15 per stat), digest = fullness freed per practice / battle win, fill = fullness a
+// fruit adds. Defaults = no perk; src/feeds/index.js points this at sys.rtBenefits.feedPerks().
+const NO_PERKS = { grow: 1, gain: 1, digest: 1, fill: 1 };
+let perkSrc = () => null;
+export function setFeedPerks(fn) { perkSrc = typeof fn === 'function' ? fn : () => null; }
+export function feedPerksNow() { let p = null; try { p = perkSrc(); } catch { p = null; } return { ...NO_PERKS, ...(p || {}) }; }
+/** Fullness freed by a practice ('practice') or battle win ('battleWin') after the Wellness Days perk. */
+export const drainAmount = (kind) => Math.round(DRAIN[kind] * feedPerksNow().digest * 10) / 10;
 // Fins / wings fit (design section 1): full growth only for these; others stop at stage 1 (14 build).
 export const FINS_TYPES = ['water', 'sea', 'freshwater', 'swamp', 'rain'], FINS_SHAPES = ['serpent'];
 export const WINGS_TYPES = ['wind', 'bird', 'angelic', 'light'], WINGS_SHAPES = ['avian'];
@@ -82,7 +91,8 @@ export function canUsePart(part, body) { return partCap(part, body) > 0; }
 export function previewFeed({ build, full = 0, uid, fruitId, body = {}, resetPart = null }) {
   const f = FRUITS[fruitId]; if (!f) return { ok: false, reason: 'unknown' };
   const reaction = reactionOf(uid, fruitId), mod = reaction === 'like' ? LIKE : reaction === 'dislike' ? DISLIKE : { mult: 1, full: 0 };
-  const addFull = Math.max(0, f.full + mod.full);
+  const pk = feedPerksNow();
+  const addFull = Math.max(0, Math.round((f.full + mod.full) * pk.fill));
   if (full >= FULL_MAX || full + addFull > FULL_MAX + 0.001) return { ok: false, reason: 'full', reaction };
   const delta = {};
   if (f.reset) {
@@ -96,7 +106,7 @@ export function previewFeed({ build, full = 0, uid, fruitId, body = {}, resetPar
   for (const p of parts) {
     if (!canUsePart(p, body)) continue;
     const cur = build[p] || 0, cap = partCap(p, body);
-    let g = Math.round(f.gain[p] * tierMult(cur) * mod.mult * 10) / 10;
+    let g = Math.round(f.gain[p] * tierMult(cur) * mod.mult * pk.gain * 10) / 10;
     g = Math.max(0, Math.min(g, cap - cur, room)); room -= g;
     if (g > 0) delta[p] = g;
   }
@@ -147,7 +157,7 @@ export function plant(fs, bag, i, fruitId, now) {
   bag.remove(seedItem(fruitId), 1);
   Object.assign(p, { fruit: fruitId, planted: now, boost: 0 }); return true;
 }
-export const growMs = (fruitId) => FRUITS[fruitId].growH * 3600e3;
+export const growMs = (fruitId) => FRUITS[fruitId].growH * 3600e3 * Math.max(0.1, feedPerksNow().grow);
 /** 0..1 progress. Uses wall-clock `now` (real time) plus practice boost. A clock set backwards never un-grows (min 0). */
 export function progress(p, now) { if (!p?.fruit) return 0; return Math.max(0, Math.min(1, (now - p.planted + p.boost) / growMs(p.fruit))); }
 export const plotStage = (p, now) => (p?.fruit ? PLOT_STAGES[Math.min(3, Math.floor(progress(p, now) * 4))] : null);

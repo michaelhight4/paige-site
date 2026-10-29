@@ -32,9 +32,20 @@ export function captureRoll(p, r, forced, K = CAPTURE) {
   return { caught, pulses: Math.max(1, Math.min(n - 1, 1 + Math.floor((1 - miss) * (n - 1)))) };
 }
 
+/**
+ * Board key cards (Oct 29 2026): research-area species catch harder. A species is 'research' when it carries research:true
+ * (species data) or its id is in RESEARCH_SPECIES (empty until Gary picks the roster; NODES.md lists proposals).
+ * Applied to the rarity term in rarityOf AND to creatures.js catchRate, so the engine (runCrystal) sees the same number.
+ */
+export const RESEARCH_CATCH_MULT = 0.6; // PLACEHOLDER
+export const RESEARCH_SPECIES = new Set();
+export const isResearch = (sp) => !!sp && (sp.research === true || RESEARCH_SPECIES.has(sp.id));
+export const researchRate = (rate, sp) => (isResearch(sp) ? rate * RESEARCH_CATCH_MULT : rate);
+
 /** species rarity term for screens without the engine (ui.js shell): synced catchRate, else the creatures.js stage placeholder */
-export function rarityOf(sp, species = []) {
+export function rarityOf(sp, species = [], raw = false) {
   if (!sp) return 0.5;
+  if (!raw && isResearch(sp)) return researchRate(rarityOf(sp, species, true), sp);
   if (typeof sp.catchRate === 'number') return sp.catchRate;
   const line = sp.line ? species.filter((s) => s.line === sp.line).map((s) => s.id) : null;
   const stage = line ? line.indexOf(sp.id) : -1;

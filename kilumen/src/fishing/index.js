@@ -8,7 +8,7 @@
 // Gear v1 (design/FISHING_GEAR.md): Driftline / Lanternreach rod gifts (Saltmere fisher, Lanternport keeper), earned baits
 // (Lantern Moth, Hollowstar Roe), a bait picker before each cast (only when the bag holds bait), one bait used per landed cast.
 // Art: bobber, line, splash, ripples and the leaping shadow are drawn in code from the Kilumen palette (our own art).
-import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags } from './logic.js?v=v0.2.66-alpha';
+import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags, baitSaved, windowFor } from './logic.js?v=v0.2.66-alpha';
 import { ITEMS } from '../systems/items.js?v=v0.2.66-alpha';
 import { TILE, DELTA } from '../overworld/constants.js?v=v0.2.66-alpha';
 
@@ -128,7 +128,8 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
     const choice = await openPicker();
     if (choice.cancel) return;
     const baitId = choice.bait && sys.bag.count(choice.bait) > 0 ? choice.bait : null;
-    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId);
+    const perks = sys.rtBenefits?.fishingPerks?.() || null; // RT board Angler Plan (null = none)
+    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId, perks);
     const p = scene.player, d = DELTA[p.facing];
     const fx = st.fx = { phase: 'cast', t0: now(), cell, facing: p.facing, from: { x: (p.x + 0.5 + d.x * 0.45) * TILE, y: (p.y - 0.15) * TILE }, press: null, touch: touch(), plan };
     st.casts++;
@@ -138,7 +139,8 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
     fx.press = null; // presses during the swing do not count
     fx.phase = 'wait'; fx.tLand = now(); scene.audio?.sfx?.('blip');
     let baitOut = false; // one bait is used when the line lands, bite or not (design §4)
-    if (baitId && sys.bag.remove(baitId, 1)) { st.baitUsed++; fx.bait = baitId; baitOut = sys.bag.count(baitId) === 0; scene._dirty = true; }
+    if (baitId && baitSaved(perks, st.rng || rng)) fx.baitKept = baitId; // Bait Allowance: this cast keeps its bait
+    else if (baitId && sys.bag.remove(baitId, 1)) { st.baitUsed++; fx.bait = baitId; baitOut = sys.bag.count(baitId) === 0; scene._dirty = true; }
     let result = null;
     while (!result) {
       await frame();
@@ -147,7 +149,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
       if (plan.bite && t >= plan.waitMs && fx.phase === 'wait') { fx.phase = 'bite'; fx.tBite = now(); fx.prompt = promptFor(fx); scene.audio?.sfx?.('grass'); }
       if (plan.empty && t > 900) result = 'no_table';
       else if (pressedAt != null) result = judgePress(plan, pressedAt, true, fx.touch) || 'early';
-      else if (!plan.bite && t >= plan.waitMs + TIMING.WINDOW) result = 'nothing';
+      else if (!plan.bite && t >= plan.waitMs + windowFor(plan)) result = 'nothing';
       else result = judgePress(plan, t, false, fx.touch);
     }
     st.last = result;
@@ -256,7 +258,7 @@ export function drawFishing(ctx, v, fx) {
 // Gold ink-outlined chip with a key-cap icon (white cap, ink rim, red underline) + the prompt words. Min 12px text for phones.
 function drawBiteChip(ctx, px, py, z, t, fx) {
   const pr = fx.prompt || { label: fx.touch ? TEXT['fishing.prompt_touch'][0] : TEXT['fishing.prompt_pc'][0].replace('{key}', 'Space'), icon: fx.touch ? 'A' : 'Space' };
-  const age = t - (fx.tBite || t), win = fx.touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
+  const age = t - (fx.tBite || t), win = fx.plan ? windowFor(fx.plan, fx.touch) : fx.touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
   const urgency = Math.min(1, age / win); // 0 at the bite -> 1 when the window shuts
   const pop = ease.backOut(Math.min(1, age / 260));
   const bob = Math.sin(age / 140) * 3 * z;

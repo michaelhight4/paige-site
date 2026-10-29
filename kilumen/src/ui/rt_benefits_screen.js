@@ -16,10 +16,31 @@ export const RTB_TEXT = {
     tab_title: 'RT Employee Benefits', employee_id: 'Employee ID', id_level: 'ID {level}', points: '{points} pts', points_one: '{points} pt', xp: 'XP',
     xp_to_next: '{into}/{span}', xp_capped: 'Region cap', buy: 'Buy rank {rank}', cancel: 'Not now', rank: 'Rank {rank}/{max}',
     cost: 'Cost: {cost} pt · Needs ID {level}', state_available: 'Available', state_owned: 'Owned', state_locked: 'Locked',
-    lock_region: 'Region {region}', lock_id: 'Needs ID {level}', lock_points: 'Need {cost} pt', hint_perk: 'Perk', hint_buy: 'Details / Buy', back: 'Back',
+    lock_region: 'Region {region}', lock_id: 'Needs ID {level}', lock_points: 'Need {cost} pt', lock_soon: 'Coming soon', teach_board: 'Board skill', hint_perk: 'Perk', hint_buy: 'Details / Buy', back: 'Back',
   },
-  branches: { field_logistics: 'Field Logistics', supply_pay: 'Supply & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance' },
+  branches: { field_logistics: 'Field Logistics', supply_pay: 'Supply & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance',
+    angler_plan: 'Angler Plan', wellness_plan: 'Wellness Plan', commuter_plan: 'Commuter Plan', rnd_clearance: 'R&D Clearance', executive_perks: 'Executive Perks' },
   nodes: {
+    // board fish/sports (Oct 29 2026): PLACEHOLDER text keys system_rt_benefits.nodes.<id>.*, final lines from Text Bot
+    rod_quick_bite: { name: 'Quick Bite', desc: 'Fish bite sooner. Time is billable.', ranks: { 1: 'Longest bite wait -0.5 s.', 2: 'Longest bite wait -1 s.' } },
+    rod_steady_grip: { name: 'Steady Grip', desc: 'A wider window to reel in. Ergonomic, allegedly.', ranks: { 1: 'Reel window +0.12 s.', 2: 'Reel window +0.24 s.', 3: 'Reel window +0.36 s.' } },
+    rod_deep_water: { name: 'Deep Water Plan', desc: 'Rare fish bite more often. Uncommon ones a little.', ranks: { 1: 'Rare fish x1.15.', 2: 'Rare fish x1.3.' } },
+    bait_allowance: { name: 'Bait Allowance', desc: 'Bait sometimes lasts another cast. Expensed.', ranks: { 1: '20% chance to keep the bait.', 2: '35% chance to keep the bait.' } },
+    bait_premium: { name: 'Premium Bait', desc: 'Every bait bonus works harder. Like you should.', ranks: { 1: 'Bait effects +25%.', 2: 'Bait effects +50%.' } },
+    grow_stipend: { name: 'Garden Stipend', desc: 'Fruit plots grow faster.', ranks: { 1: 'Grow time -15%.', 2: 'Grow time -30%.' } },
+    training_allowance: { name: 'Training Allowance', desc: 'Fruit builds more. The +15 stat cap still applies.', ranks: { 1: 'Fruit build gain +10%.', 2: 'Fruit build gain +20%.' } },
+    wellness_days: { name: 'Wellness Days', desc: 'Fullness clears faster after practice and battle wins.', ranks: { 1: 'Fullness clears +25% faster.', 2: 'Fullness clears +50% faster.' } },
+    light_lunch: { name: 'Light Lunch', desc: 'Fruit fills your team up less.', ranks: { 1: 'Fruit fills 10% less.', 2: 'Fruit fills 20% less.' } },
+    commuter_benefit: { name: 'Commuter Benefit', desc: 'Cheaper paid fast travel. Once someone charges for it.', ranks: { 1: 'Fares -15%.', 2: 'Fares -30%.', 3: 'Fares -50%.' } },
+    rt_node_station_m: { name: 'Lab Pass: Mirefen', desc: 'Opens the Mirefen sunken station. Waders not included.', ranks: { 1: 'Key card issued.' } },
+    rt_node_station_t: { name: 'Lab Pass: Tidewater', desc: 'Opens the Tidewater sea-cave lab.', ranks: { 1: 'Key card issued.' } },
+    keycard_r7: { name: 'Lab Pass: Region 7', desc: 'Opens the Region 7 research area.', ranks: { 1: 'Key card issued.' } },
+    keycard_r8: { name: 'Lab Pass: Region 8', desc: 'Opens the Region 8 research area.', ranks: { 1: 'Key card issued.' } },
+    skill_tidal_audit: { name: 'Skill: Tidal Audit', desc: 'Board-only water skill. Teach it from the Team menu.', ranks: { 1: 'Tidal Audit unlocked.' } },
+    skill_overtime_blaze: { name: 'Skill: Overtime Blaze', desc: 'Board-only fire skill. Teach it from the Team menu.', ranks: { 1: 'Overtime Blaze unlocked.' } },
+    skill_hostile_restructure: { name: 'Skill: Restructure', desc: 'Board-only earth skill. Teach it from the Team menu.', ranks: { 1: 'Restructure unlocked.' } },
+    skill_team_huddle: { name: 'Skill: Team Huddle', desc: 'Board-only light support skill. Teach it from the Team menu.', ranks: { 1: 'Team Huddle unlocked.' } },
+    skill_hostile_takeover: { name: 'Skill: Hostile Takeover', desc: 'Board-only dark skill. Teach it from the Team menu.', ranks: { 1: 'Hostile Takeover unlocked.' } },
     // region 4 (dev, Oct 29 2026): PLACEHOLDER text, final lines requested in data/textbot_requests_region4.md
     daily_bonus: { name: 'Daily Bonus', desc: 'Gold every in-game day. Paid on time, unlike your overtime.',
       ranks: { 1: '50 gold per day.', 2: '150 gold per day.', 3: '300 gold per day.' } },
@@ -42,6 +63,7 @@ export const RTB_TEXT = {
       ranks: { 1: '+25% hall and Master prize money.', 2: '+50% hall and Master prize money.' } },
   },
   locked: {
+    soon: 'Not open yet. Facilities is still building it.',
     region: 'Locked until Region {region}. Legal says no.', id: 'Needs ID level {level}. Keep logging assets.',
     points: 'Needs {cost} benefit point. You have {points}.', maxed: 'Fully vested. Do not ask for more.', owned_region: 'Maxed for this region. More ranks in Region {region}.',
   },
@@ -75,12 +97,13 @@ export function installRtBenefitsScreen(ui, rt) {
   ui.scr_rt_benefits = function () {
     const order = () => rt.branches.flatMap((b) => rt.nodes.filter((n) => n.branch === b.id));
     const stateLabel = (s) => (s.state === 'available' ? tx('labels.state_available') : s.state === 'owned' ? tx('labels.state_owned')
-      : s.reason === 'region' ? tx('labels.lock_region', { region: s.unlockRegion }) : s.reason === 'id' ? tx('labels.lock_id', { level: s.needId }) : tx('labels.lock_points', { cost: s.cost }));
+      : s.reason === 'soon' ? tx('labels.lock_soon') : s.reason === 'region' ? tx('labels.lock_region', { region: s.unlockRegion }) : s.reason === 'id' ? tx('labels.lock_id', { level: s.needId }) : tx('labels.lock_points', { cost: s.cost }));
     const pips = (s) => `<span class="rtb-pips" role="img" aria-label="${esc(tx('labels.rank', { rank: s.rank, max: s.max }))}">${Array.from({ length: s.max }, (_, k) =>
       `<i class="${k < s.rank ? 'on' : k >= s.regionMax ? 'later' : ''}"></i>`).join('')}</span>`;
     const why = (s) => {
       const co = rt.company;
       if (s.state === 'owned') return s.reason === 'maxed' ? tx('locked.maxed') : tx('locked.owned_region', { region: rt.region + 1 });
+      if (s.reason === 'soon') return tx('locked.soon');
       if (s.reason === 'region') return tx('locked.region', { region: s.unlockRegion });
       if (s.reason === 'id') return tx('locked.id', { level: s.needId });
       if (s.reason === 'points') return tx('locked.points', { cost: s.cost, points: co.pointsFree });
