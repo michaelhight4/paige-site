@@ -44,7 +44,7 @@ function drawStatic(phase) {
 }
 // clouds drift slowly; water bands scroll; crests and glints twinkle. t in seconds.
 export function drawWaterFrame(g, t, phase = 'day', o = {}) {
-  const P = PAL[waterPhase(phase)], art = WATER_ART[waterPhase(phase)];
+  const P = PAL[waterPhase(phase)], art = null; // painted water set lives in battle_biomes/water now
   if (!art) g.drawImage(drawStatic(waterPhase(phase)), 0, 0); else g.clearRect(0, 0, W, H);
   if (!art) { const r = rng(3); for (let i = 0; i < 6; i++) { const cw = 30 + Math.floor(r() * 40), cy = 10 + Math.floor(r() * 50), cx = Math.round(((r() * W + t * (2 + i * 0.6)) % (W + cw * 2)) - cw);
       for (let k = 0; k < 4; k++) { const ww = cw - k * 8, hh = 3; g.fillStyle = P.cloud[k === 3 ? 1 : 0]; g.fillRect(cx + k * 4 + (k & 1) * 3, cy - 3 * (k ? 1 : 0) + k * 2, Math.max(6, ww), hh); } } }
