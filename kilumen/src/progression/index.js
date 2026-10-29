@@ -365,9 +365,11 @@ function celebrate(ui, { m, tier }, done) {
 function questHud(scene, ui, qb, platform) {
   const mobile = platform?.id === 'mobile';
   const el = document.createElement('div'); el.id = 'pg-quest-hud';
-  const pos = mobile ? 'top:calc(58px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px));max-width:38vw;font-size:12px'
-    : 'top:84px;left:16px;max-width:min(360px,30vw);font-size:clamp(13px,1.45vh,20px)';
-  el.style.cssText = `position:fixed;${pos};z-index:2;pointer-events:none;background:rgba(28,22,34,.82);color:#f4ead2;border:2px solid #f4ead2;border-radius:10px;padding:6px 10px;line-height:1.25;font-family:ui-rounded,"Nunito","Trebuchet MS",system-ui,sans-serif;box-shadow:0 2px 0 rgba(0,0,0,.35)`;
+  // Oct 29 2026 (WD r78 review): moved off the top-left (it hid signs / doors there) to a slim strip at the top centre,
+  // smaller on both platforms; phone sits under the notch and clear of the d-pad (bottom-left) and menu (top-right).
+  const pos = mobile ? 'top:calc(6px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);max-width:44vw;font-size:11px;padding:3px 8px'
+    : 'top:10px;left:50%;transform:translateX(-50%);max-width:min(340px,28vw);font-size:clamp(12px,1.25vh,17px);padding:4px 10px';
+  el.style.cssText = `position:fixed;${pos};z-index:2;pointer-events:none;background:rgba(28,22,34,.82);color:#f4ead2;border:2px solid #f4ead2;border-radius:10px;line-height:1.2;opacity:.9;text-align:center;font-family:ui-rounded,"Nunito","Trebuchet MS",system-ui,sans-serif;box-shadow:0 2px 0 rgba(0,0,0,.35)`;
   document.body.appendChild(el);
   const update = () => {
     const q = qb.tracked(scene.flags), busy = ui?.active || scene.busy;

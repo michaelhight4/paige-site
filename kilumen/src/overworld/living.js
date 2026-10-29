@@ -156,6 +156,8 @@ function buildSprites() {
 }
 
 /** Chimney cap centre (native px from the building's top-left) per 5x5 building, measured from tiles_1x/building.png. */
+/** No-smoke rule (WD r78 review, Oct 29 2026): chimney puffs are off. Flip to true only with Gary's OK. */
+export const CHIMNEY_SMOKE = false;
 export const CHIMNEYS = { house_player: 240, house_a: 80, house_b: 250, house_c: 74, shop: 266 };
 const BIRD_FRAMES = ['bird_up', 'bird_mid', 'bird_down', 'bird_mid'];
 const BIRD_SHADOW = { x: 14, y: 52 };
@@ -223,7 +225,7 @@ export class LivingWorld {
         for (const layer of ['decoration', 'overlay']) {
           const name = byId.get(map.tile(layer, x, y))?.name || '';
           const m = /^(\w+?)_0_0$/.exec(name);
-          if (m && CHIMNEYS[m[1]] != null) this.chimneys.push({ x: x * TILE + CHIMNEYS[m[1]], y: y * TILE + 1, t: 0 });
+          if (CHIMNEY_SMOKE && m && CHIMNEYS[m[1]] != null) this.chimneys.push({ x: x * TILE + CHIMNEYS[m[1]], y: y * TILE + 1, t: 0 });
           if (/flower/.test(name)) this.flowerCells.push({ x, y });
           if (/reed/.test(name)) this.glowCells.push({ x, y });
         }

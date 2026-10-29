@@ -23,6 +23,17 @@ export const R78 = {
 };
 
 // §L text: Text Bot keys ron.lanternport.* + lore.lanternport.page (DRAFT, Oct 29 3:56 PM CT); placeholders removed.
+/** SIGNAL crate (lanternport_grotto, keeper's alcove 15,4; REGIONS_78_PLAN "INSTRUMENTS - SIGNAL crate"): the crate the
+ * player saw nailed shut in the Tidewater lab (system_story_r56.g23_crate) ended up here. First look sets SIGNAL_FLAG.
+ * Text keys are placeholders until Text Bot / Story Bot write the beat (data/textbot_cave_spots_r78.md). */
+export const SIGNAL_SPOT = 'lanternport_grotto_signal_crate', SIGNAL_FLAG = 'found_signal_crate_r7';
+export const SIGNAL_KEYS = { first: 'system_story_r78.signal_crate_first', again: 'system_story_r78.signal_crate_again' };
+export const SIGNAL_PLACEHOLDER = {
+  [SIGNAL_KEYS.first]: ['[PLACEHOLDER system_story_r78.signal_crate_first] A crate stencilled "LANTERNPORT. INSTRUMENTS - SIGNAL." The lid is pried open. It\'s empty.'],
+  [SIGNAL_KEYS.again]: ['[PLACEHOLDER system_story_r78.signal_crate_again] The empty SIGNAL crate.'],
+};
+/** Pure: which crate key plays for these flags. */
+export const signalKey = (flags) => (flags.has(SIGNAL_FLAG) ? SIGNAL_KEYS.again : SIGNAL_KEYS.first);
 export const COIN_FLAGS = ['fernwick', 'saltmere', 'revival', 'frostspire', 'mirefen', 'tidewater', 'lanternport', 'cindervale'].map((z) => `beat_master_${z}`);
 export const coinCount = (flags) => COIN_FLAGS.filter((f) => flags.has(f)).length;
 /** Pure: the §L bin line key for the coin count when the scene fires (6 or 7; 8+ never happens before Cindervale, clamp). */
@@ -67,6 +78,14 @@ export function attachRegion78(scene, { systems } = {}) {
     set(R78.pageItemKeyFlag); set(R78.pageReadFlag); set(R78.pageItemFlag);
   }
 
+  async function runSpot(sp) {
+    if (sp?.id !== SIGNAL_SPOT) return false;
+    const k = signalKey({ has });
+    await (scene.say?.(look(k) ? pages(k) : SIGNAL_PLACEHOLDER[k]) ?? Promise.resolve());
+    set(SIGNAL_FLAG);
+    return true;
+  }
+
   function tick() {
     // never during battle / cutscene: scene.busy covers dialog + scripts, ui battle sets scene.paused
     if (!scene.busy && !scene.paused && !scene.fade && !scene._r78Page && pageDue({ has }, scene.map?.name)) {
@@ -82,7 +101,7 @@ export function attachRegion78(scene, { systems } = {}) {
   const cv = typeof window !== 'undefined' ? window.kilumen?.companyVoice : scene.companyVoice;
   if (cv && (cv.maxRegion ?? 0) < 8) cv.maxRegion = 8;
   const iv = typeof setInterval !== 'undefined' && typeof window !== 'undefined' ? setInterval(() => { try { tick(); } catch (e) { console.error('region78 tick:', e); } }, 1000) : null;
-  const api = { tick, pageHandoff, edgeBlocked: (exit) => lanternportBlocked(exit?.to, { has }), stop: () => iv && clearInterval(iv) };
+  const api = { tick, pageHandoff, runSpot, edgeBlocked: (exit) => lanternportBlocked(exit?.to, { has }), stop: () => iv && clearInterval(iv) };
   scene.region78 = api;
   return api;
 }

@@ -1,0 +1,65 @@
+{
+ "attached": {
+  "r56": true,
+  "r78": true
+ },
+ "route_fernwick_lanternport": {
+  "map": "route_fernwick_lanternport",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "lanternport": {
+  "map": "lanternport",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "lanternport_mouth": {
+  "map": "lanternport",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "lanternport_grotto": {
+  "map": "lanternport_grotto",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "lanternport_hall_int": {
+  "map": "lanternport_hall_int",
+  "smoke": 0,
+  "chimneys": 0,
+  "hud": [
+   287,
+   6,
+   271,
+   36
+  ]
+ },
+ "errs": [],
+ "miss": [
+  "http://127.0.0.1:44951/playtime.js?game=kilumen&v=v0.2.87-alpha"
+ ]
+}

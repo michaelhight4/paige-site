@@ -13205,7 +13205,24 @@
      }
     ]
    },
-   "area_name": "Lanternport"
+   "area_name": "Lanternport",
+   "lanternport_lanternport_grotto_sign": {
+    "pages": [
+     "Lanternport Grotto",
+     "Under the lighthouse. Mind the drips."
+    ],
+    "note": "Text Bot parked _meta.pending_caves_r78.lanternport_grotto.sign_entrance (DRAFT), wired to the real WD id Oct 29 2026",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Lanternport Grotto",
+       "Under the lighthouse. Mind the drips."
+      ]
+     }
+    ]
+   }
   },
   "lanternport_hall_int": {
    "lanternport_hall_int_master": {
@@ -13909,7 +13926,24 @@
      }
     ]
    },
-   "area_name": "Cindervale"
+   "area_name": "Cindervale",
+   "cindervale_cindervale_caldera_sign": {
+    "pages": [
+     "Cindervale Caldera",
+     "Old slag tunnels. Hot floors, cool rocks."
+    ],
+    "note": "Text Bot parked _meta.pending_caves_r78.cindervale_caldera.sign_entrance (DRAFT), wired to the real WD id Oct 29 2026",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Cindervale Caldera",
+       "Old slag tunnels. Hot floors, cool rocks."
+      ]
+     }
+    ]
+   }
   },
   "cindervale_hall_int": {
    "cindervale_hall_int_master": {

@@ -967,6 +967,7 @@ export class Overworld {
       if (f) this.startWarp({ map: f.map, x: f.x, y: f.y, facing: 'down' }, 'door');
       return;
     }
+    if (this.region78?.runSpot && await this.region78.runSpot(sp)) return; // r78 cave story spots (SIGNAL crate)
     if (sp.counter) this.bump(sp.counter);
     if (sp.id === 'bin_ron' && this.flags.has('all_badges') && !this.flags.has('finale_done')) this.bump('bin_inspects_after_8');
     if (sp.prompt_after_line) { // camps: the look line, then the prompt only after that line; Yes sets sets_flag
