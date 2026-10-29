@@ -1,41 +1,121 @@
 {
- "note": "furniture v2 animated props (tools/furniture_v2/build_v3.py); frames index the *_v3.png sheet; merged only with ix2; v4: all v2 animations except KEEP_OLD pieces (tools/furniture_v2/build_v3_hybrid.py)",
+ "note": "furniture v2 animated props (tools/furniture_v2/build_v3.py); frames index the *_v3.png sheet; merged only with ix2; v4: all v2 animations except KEEP_OLD pieces (tools/furniture_v2/build_v3_hybrid.py); old_machine_v1: 7476-7479 original crystal polisher + lively lights (tools/furniture_v2/old_machine_v1.py)",
  "anim": {
   "7476": {
    "frames": [
     12,
+    12,
+    31,
+    31,
+    12,
+    27,
+    27,
+    12,
+    31,
+    12,
+    12,
+    27,
+    12,
     32,
-    33,
-    34
+    36,
+    40,
+    36,
+    32,
+    12,
+    31,
+    12,
+    27,
+    12,
+    12
    ],
-   "frame_ms": 220
+   "frame_ms": 140
   },
   "7477": {
    "frames": [
     13,
-    35,
-    36,
-    37
+    13,
+    44,
+    44,
+    13,
+    28,
+    28,
+    13,
+    44,
+    13,
+    13,
+    28,
+    13,
+    33,
+    37,
+    41,
+    37,
+    33,
+    13,
+    44,
+    13,
+    28,
+    13,
+    13
    ],
-   "frame_ms": 220
+   "frame_ms": 140
   },
   "7478": {
    "frames": [
     14,
+    14,
+    45,
+    45,
+    14,
+    29,
+    29,
+    14,
+    45,
+    14,
+    14,
+    29,
+    14,
+    34,
     38,
-    39,
-    40
+    42,
+    38,
+    34,
+    14,
+    45,
+    14,
+    29,
+    14,
+    14
    ],
-   "frame_ms": 220
+   "frame_ms": 140
   },
   "7479": {
    "frames": [
     15,
-    41,
-    42,
-    43
+    15,
+    46,
+    46,
+    15,
+    30,
+    30,
+    15,
+    46,
+    15,
+    15,
+    30,
+    15,
+    35,
+    39,
+    43,
+    39,
+    35,
+    15,
+    46,
+    15,
+    30,
+    15,
+    15
    ],
-   "frame_ms": 220
+   "frame_ms": 140
   },
   "7297": {
    "frames": [

@@ -33,7 +33,8 @@ const B4 = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
 const SRC = [ // [name test, colour, radius px, glow strength]
   [/tv_back|(^|_)tv($|_)|crt/, [70, 146, 206], 112, 0.9], [/stove|fireplace|forge|oven/, [252, 196, 96], 100, 0.45],
   [/lamp|lantern|candle|side3|radio|heal_machine|crystal_display|specimen|server/, [252, 214, 140], 110, 0.4],
-  [/heal_machine|counter_heal|terminal|(^|_)pc($|_)|desk_pc|crystal_polisher|timetable|club_dj_desk|club_stage_back|club_counter_case|cooler/, [150, 210, 236], 96, 0.35],
+  [/crystal_polisher/, [112, 202, 184], 104, 0.45], // old crystal polisher (old_machine_v1): teal core + status lamps glow at night
+  [/heal_machine|counter_heal|terminal|(^|_)pc($|_)|desk_pc|timetable|club_dj_desk|club_stage_back|club_counter_case|cooler/, [150, 210, 236], 96, 0.35],
   [/^window|_window|window_|wall_upper_win/, [168, 196, 248], 84, 0.34, true]]; // v0.2.41: windows = cool moonlight (Gary: pools read warm), floor stays dim
 export function isPublicInterior(name) { return PUBLIC_RE.test(name || ''); }
 function buildShade(v, phase, indoorFn) {
