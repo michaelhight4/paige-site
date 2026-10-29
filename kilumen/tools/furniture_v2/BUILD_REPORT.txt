@@ -1,0 +1,356 @@
+i_brand.png            i_counter_rt_l                     1x1 -> counter
+i_brand.png            i_counter_rt_m                     1x1 -> counter
+i_brand.png            i_counter_rt_r                     1x1 -> counter
+i_brand.png            i_crystal_crate                    1x1 -> crates
+i_brand.png            i_crystal_polisher                 2x2 -> lab  [animated]
+i_brand.png            i_locker                           1x2 -> cabinet
+i_furniture.png        i_barrel                           1x1 -> crates
+i_furniture.png        i_bed_aurelith                     1x2 -> bed
+i_furniture.png        i_bed_brook                        1x2 -> bed
+i_furniture.png        i_bed_cinder                       1x2 -> bed
+i_furniture.png        i_bed_fern                         1x2 -> bed
+i_furniture.png        i_bed_lantern                      1x2 -> bed
+i_furniture.png        i_bed_revival                      1x2 -> bed
+i_furniture.png        i_bed_salt                         1x2 -> bed
+i_furniture.png        i_bookcase_aurelith                1x2 -> bookcase
+i_furniture.png        i_bookcase_brook                   1x2 -> bookcase
+i_furniture.png        i_bookcase_cinder                  1x2 -> bookcase
+i_furniture.png        i_bookcase_fern                    1x2 -> bookcase
+i_furniture.png        i_bookcase_lantern                 1x2 -> bookcase
+i_furniture.png        i_bookcase_revival                 1x2 -> bookcase
+i_furniture.png        i_bookcase_salt                    1x2 -> bookcase
+i_furniture.png        i_chair_aurelith                   1x1 -> chair
+i_furniture.png        i_chair_brook                      1x1 -> chair
+i_furniture.png        i_chair_cinder                     1x1 -> chair
+i_furniture.png        i_chair_fern                       1x1 -> chair
+i_furniture.png        i_chair_lantern                    1x1 -> chair
+i_furniture.png        i_chair_revival                    1x1 -> chair
+i_furniture.png        i_chair_salt                       1x1 -> chair
+i_furniture.png        i_counter_heal_l                   1x1 -> counter
+i_furniture.png        i_counter_heal_m                   1x1 -> counter
+i_furniture.png        i_counter_heal_r                   1x1 -> counter
+i_furniture.png        i_counter_shop_l                   1x1 -> counter
+i_furniture.png        i_counter_shop_m                   1x1 -> counter
+i_furniture.png        i_counter_shop_r                   1x1 -> counter
+i_furniture.png        i_crates                           2x1 -> crates
+i_furniture.png        i_crystal_display                  1x2 -> lab
+i_furniture.png        i_cupboard_aurelith                1x2 -> cabinet
+i_furniture.png        i_cupboard_brook                   1x2 -> cabinet
+i_furniture.png        i_cupboard_cinder                  1x2 -> cabinet
+i_furniture.png        i_cupboard_fern                    1x2 -> cabinet
+i_furniture.png        i_cupboard_lantern                 1x2 -> cabinet
+i_furniture.png        i_cupboard_revival                 1x2 -> cabinet
+i_furniture.png        i_cupboard_salt                    1x2 -> cabinet
+i_furniture.png        i_dresser_aurelith                 1x1 -> cabinet
+i_furniture.png        i_dresser_brook                    1x1 -> cabinet
+i_furniture.png        i_dresser_cinder                   1x1 -> cabinet
+i_furniture.png        i_dresser_fern                     1x1 -> cabinet
+i_furniture.png        i_dresser_lantern                  1x1 -> cabinet
+i_furniture.png        i_dresser_revival                  1x1 -> cabinet
+i_furniture.png        i_dresser_salt                     1x1 -> cabinet
+i_furniture.png        i_fireplace                        2x2 -> fireplace  [animated]
+i_furniture.png        i_fishing_rods                     1x1 -> small
+i_furniture.png        i_globe                            1x1 -> small
+i_furniture.png        i_heal_machine                     2x2 -> lab  [animated]
+i_furniture.png        i_kitchen_counter                  1x2 -> kitchen
+i_furniture.png        i_kitchen_fridge                   1x2 -> kitchen
+i_furniture.png        i_kitchen_sink                     1x2 -> kitchen  [animated]
+i_furniture.png        i_kitchen_stove                    1x2 -> kitchen  [animated]
+i_furniture.png        i_lab_desk                         2x1 -> screen  [animated]
+i_furniture.png        i_lab_machine                      1x2 -> lab  [animated]
+i_furniture.png        i_log_stool                        1x1 -> chair
+i_furniture.png        i_luggage                          1x1 -> small
+i_furniture.png        i_net                              1x1 -> small
+i_furniture.png        i_pc                               1x1 -> screen  [animated]
+i_furniture.png        i_plant_coral                      1x1 -> plant
+i_furniture.png        i_plant_fern                       1x1 -> plant
+i_furniture.png        i_plant_flower                     1x1 -> plant
+i_furniture.png        i_plant_mushroom                   1x1 -> plant
+i_furniture.png        i_plant_palm                       1x2 -> plant
+i_furniture.png        i_radio                            1x1 -> screen
+i_furniture.png        i_river_stones                     1x1 -> small
+i_furniture.png        i_salt_jars                        1x1 -> small
+i_furniture.png        i_server_rack                      1x2 -> lab  [animated]
+i_furniture.png        i_shelf_aurelith                   1x1 -> bookcase
+i_furniture.png        i_shelf_brook                      1x1 -> bookcase
+i_furniture.png        i_shelf_cinder                     1x1 -> bookcase
+i_furniture.png        i_shelf_fern                       1x1 -> bookcase
+i_furniture.png        i_shelf_lantern                    1x1 -> bookcase
+i_furniture.png        i_shelf_revival                    1x1 -> bookcase
+i_furniture.png        i_shelf_salt                       1x1 -> bookcase
+i_furniture.png        i_sofa_aurelith                    2x1 -> sofa
+i_furniture.png        i_sofa_brook                       2x1 -> sofa
+i_furniture.png        i_sofa_cinder                      2x1 -> sofa
+i_furniture.png        i_sofa_fern                        2x1 -> sofa
+i_furniture.png        i_sofa_lantern                     2x1 -> sofa
+i_furniture.png        i_sofa_revival                     2x1 -> sofa
+i_furniture.png        i_sofa_salt                        2x1 -> sofa
+i_furniture.png        i_specimen_tank                    1x2 -> lab  [animated]
+i_furniture.png        i_table_aurelith                   2x1 -> table
+i_furniture.png        i_table_brook                      2x1 -> table
+i_furniture.png        i_table_cinder                     2x1 -> table
+i_furniture.png        i_table_fern                       2x1 -> table
+i_furniture.png        i_table_lantern                    2x1 -> table
+i_furniture.png        i_table_revival                    2x1 -> table
+i_furniture.png        i_table_salt                       2x1 -> table
+i_furniture.png        i_table_small_aurelith             1x1 -> table
+i_furniture.png        i_table_small_brook                1x1 -> table
+i_furniture.png        i_table_small_cinder               1x1 -> table
+i_furniture.png        i_table_small_fern                 1x1 -> table
+i_furniture.png        i_table_small_lantern              1x1 -> table
+i_furniture.png        i_table_small_revival              1x1 -> table
+i_furniture.png        i_table_small_salt                 1x1 -> table
+i_furniture.png        i_terminal                         1x1 -> screen  [animated]
+i_furniture.png        i_tv                               1x1 -> screen  [animated]
+interior.png           armchair                           1x1 -> sofa
+interior.png           barrel                             1x1 -> crates
+interior.png           bed                                1x2 -> bed
+interior.png           bookcase                           2x2 -> bookcase
+interior.png           chair                              1x1 -> chair
+interior.png           club_booth_l                       1x1 -> sofa
+interior.png           club_booth_r                       1x1 -> sofa
+interior.png           club_booth_table                   1x1 -> table
+interior.png           club_counter_blender               1x1 -> counter
+interior.png           club_counter_case                  1x1 -> counter
+interior.png           club_counter_cups                  1x1 -> counter
+interior.png           club_counter_fruit                 1x1 -> counter
+interior.png           club_counter_plain                 1x1 -> counter
+interior.png           club_dj_desk                       1x1 -> counter
+interior.png           club_paint_counter                 1x1 -> counter
+interior.png           club_stool                         1x1 -> chair
+interior.png           cooler                             1x2 -> kitchen
+interior.png           counter_heal_l                     1x1 -> counter
+interior.png           counter_heal_m                     1x1 -> counter
+interior.png           counter_heal_r                     1x1 -> counter
+interior.png           counter_shop_l                     1x1 -> counter
+interior.png           counter_shop_m                     1x1 -> counter
+interior.png           counter_shop_r                     1x1 -> counter
+interior.png           crystal_display                    1x2 -> lab
+interior.png           cupboard                           1x2 -> cabinet
+interior.png           desk_pc                            2x1 -> screen  [animated]
+interior.png           dresser                            1x1 -> cabinet
+interior.png           filing                             1x2 -> cabinet
+interior.png           fireplace                          2x2 -> fireplace  [animated]
+interior.png           goods                              1x2 -> bookcase
+interior.png           heal_machine                       1x2 -> lab  [animated]
+interior.png           home_bookcase_cinder               1x2 -> bookcase
+interior.png           home_crates                        2x1 -> crates
+interior.png           home_dresser_brook                 1x1 -> cabinet
+interior.png           home_fishing_rods                  1x1 -> small
+interior.png           home_globe                         1x1 -> small
+interior.png           home_kitchen_counter               1x2 -> kitchen
+interior.png           home_kitchen_fridge                1x2 -> kitchen
+interior.png           home_kitchen_sink                  1x2 -> kitchen  [animated]
+interior.png           home_kitchen_stove                 1x2 -> kitchen  [animated]
+interior.png           home_lab_desk                      2x1 -> screen  [animated]
+interior.png           home_luggage                       1x1 -> small
+interior.png           home_radio                         1x1 -> screen
+interior.png           home_table_toast                   2x1 -> table  [animated]
+interior.png           i_company_terminal                 1x1 -> screen  [animated]
+interior.png           kcounter                           1x1 -> counter
+interior.png           pc                                 1x1 -> screen  [animated]
+interior.png           plant                              1x1 -> plant
+interior.png           shelf                              1x2 -> bookcase
+interior.png           sofa                               2x1 -> sofa
+interior.png           stove                              1x2 -> kitchen  [animated]
+interior.png           table                              2x1 -> table
+interior.png           tv                                 1x1 -> screen  [animated]
+ix2_kit.png            kit_armchair_side_fancy_purple_l   1x1 -> sofa
+ix2_kit.png            kit_armchair_side_fancy_purple_r   1x1 -> sofa
+ix2_kit.png            kit_armchair_side_fancy_red_l      1x1 -> sofa
+ix2_kit.png            kit_armchair_side_fancy_red_r      1x1 -> sofa
+ix2_kit.png            kit_armchair_side_fancy_teal_l     1x1 -> sofa
+ix2_kit.png            kit_armchair_side_fancy_teal_r     1x1 -> sofa
+ix2_kit.png            kit_armchair_side_normal_purple_l  1x1 -> sofa
+ix2_kit.png            kit_armchair_side_normal_purple_r  1x1 -> sofa
+ix2_kit.png            kit_armchair_side_normal_red_l     1x1 -> sofa
+ix2_kit.png            kit_armchair_side_normal_red_r     1x1 -> sofa
+ix2_kit.png            kit_armchair_side_normal_teal_l    1x1 -> sofa
+ix2_kit.png            kit_armchair_side_normal_teal_r    1x1 -> sofa
+ix2_kit.png            kit_armchair_side_worn_purple_l    1x1 -> sofa
+ix2_kit.png            kit_armchair_side_worn_purple_r    1x1 -> sofa
+ix2_kit.png            kit_armchair_side_worn_red_l       1x1 -> sofa
+ix2_kit.png            kit_armchair_side_worn_red_r       1x1 -> sofa
+ix2_kit.png            kit_armchair_side_worn_teal_l      1x1 -> sofa
+ix2_kit.png            kit_armchair_side_worn_teal_r      1x1 -> sofa
+ix2_kit.png            kit_basket_fancy_green             1x1 -> small
+ix2_kit.png            kit_basket_fancy_red               1x1 -> small
+ix2_kit.png            kit_basket_normal_green            1x1 -> small
+ix2_kit.png            kit_basket_normal_red              1x1 -> small
+ix2_kit.png            kit_basket_worn_green              1x1 -> small
+ix2_kit.png            kit_basket_worn_red                1x1 -> small
+ix2_kit.png            kit_book_stack_fancy_red           1x1 -> small
+ix2_kit.png            kit_book_stack_normal_red          1x1 -> small
+ix2_kit.png            kit_book_stack_worn_red            1x1 -> small
+ix2_kit.png            kit_bookcase_fancy_teal            1x2 -> bookcase
+ix2_kit.png            kit_bookcase_normal_teal           1x2 -> bookcase
+ix2_kit.png            kit_bookcase_worn_teal             1x2 -> bookcase
+ix2_kit.png            kit_bookshelf3_fancy_brown         1x2 -> bookcase
+ix2_kit.png            kit_bookshelf3_normal_brown        1x2 -> bookcase
+ix2_kit.png            kit_bookshelf3_worn_brown          1x2 -> bookcase
+ix2_kit.png            kit_bookshelf_p2worn_fancy_brown   1x2 -> bookcase
+ix2_kit.png            kit_bookshelf_p2worn_normal_brown  1x2 -> bookcase
+ix2_kit.png            kit_bookshelf_p2worn_worn_brown    1x2 -> bookcase
+ix2_kit.png            kit_chair3_fancy_brown_l           1x1 -> chair
+ix2_kit.png            kit_chair3_fancy_brown_r           1x1 -> chair
+ix2_kit.png            kit_chair3_normal_brown_l          1x1 -> chair
+ix2_kit.png            kit_chair3_normal_brown_r          1x1 -> chair
+ix2_kit.png            kit_chair3_worn_brown_l            1x1 -> chair
+ix2_kit.png            kit_chair3_worn_brown_r            1x1 -> chair
+ix2_kit.png            kit_coat_rack3_fancy_green         1x2 -> coatrack
+ix2_kit.png            kit_coat_rack3_fancy_red           1x2 -> coatrack
+ix2_kit.png            kit_coat_rack3_normal_green        1x2 -> coatrack
+ix2_kit.png            kit_coat_rack3_normal_red          1x2 -> coatrack
+ix2_kit.png            kit_coat_rack3_worn_green          1x2 -> coatrack
+ix2_kit.png            kit_coat_rack3_worn_red            1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_fancy_green          1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_fancy_purple         1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_fancy_red            1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_normal_green         1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_normal_purple        1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_normal_red           1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_worn_green           1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_worn_purple          1x2 -> coatrack
+ix2_kit.png            kit_coat_rack_worn_red             1x2 -> coatrack
+ix2_kit.png            kit_cork3_fancy_brown              1x1 -> bookcase
+ix2_kit.png            kit_cork3_normal_brown             1x1 -> bookcase
+ix2_kit.png            kit_cork3_worn_brown               1x1 -> bookcase
+ix2_kit.png            kit_couch3_fancy_blue_l            1x2 -> sofa
+ix2_kit.png            kit_couch3_fancy_blue_r            1x2 -> sofa
+ix2_kit.png            kit_couch3_fancy_teal_l            1x2 -> sofa
+ix2_kit.png            kit_couch3_fancy_teal_r            1x2 -> sofa
+ix2_kit.png            kit_couch3_normal_blue_l           1x2 -> sofa
+ix2_kit.png            kit_couch3_normal_blue_r           1x2 -> sofa
+ix2_kit.png            kit_couch3_normal_teal_l           1x2 -> sofa
+ix2_kit.png            kit_couch3_normal_teal_r           1x2 -> sofa
+ix2_kit.png            kit_couch3_worn_blue_l             1x2 -> sofa
+ix2_kit.png            kit_couch3_worn_blue_r             1x2 -> sofa
+ix2_kit.png            kit_couch3_worn_teal_l             1x2 -> sofa
+ix2_kit.png            kit_couch3_worn_teal_r             1x2 -> sofa
+ix2_kit.png            kit_couch_front_fancy_mustard      2x2 -> sofa
+ix2_kit.png            kit_couch_front_normal_mustard     2x2 -> sofa
+ix2_kit.png            kit_couch_front_worn_mustard       2x2 -> sofa
+ix2_kit.png            kit_couch_low_fancy_navy           2x1 -> sofa
+ix2_kit.png            kit_couch_low_normal_navy          2x1 -> sofa
+ix2_kit.png            kit_couch_low_worn_navy            2x1 -> sofa
+ix2_kit.png            kit_couch_side_fancy_mustard_l     2x2 -> sofa
+ix2_kit.png            kit_couch_side_fancy_mustard_r     2x2 -> sofa
+ix2_kit.png            kit_couch_side_normal_mustard_l    2x2 -> sofa
+ix2_kit.png            kit_couch_side_normal_mustard_r    2x2 -> sofa
+ix2_kit.png            kit_couch_side_worn_mustard_l      2x2 -> sofa
+ix2_kit.png            kit_couch_side_worn_mustard_r      2x2 -> sofa
+ix2_kit.png            kit_crates3_fancy_red              2x1 -> crates
+ix2_kit.png            kit_crates3_normal_red             2x1 -> crates
+ix2_kit.png            kit_crates3_worn_red               2x1 -> crates
+ix2_kit.png            kit_crates_fancy_red               2x1 -> crates
+ix2_kit.png            kit_crates_normal_red              2x1 -> crates
+ix2_kit.png            kit_crates_worn_red                2x1 -> crates
+ix2_kit.png            kit_dining_chair_fancy_blue_l      1x1 -> chair
+ix2_kit.png            kit_dining_chair_fancy_blue_r      1x1 -> chair
+ix2_kit.png            kit_dining_chair_fancy_green_l     1x1 -> chair
+ix2_kit.png            kit_dining_chair_fancy_green_r     1x1 -> chair
+ix2_kit.png            kit_dining_chair_fancy_red_l       1x1 -> chair
+ix2_kit.png            kit_dining_chair_fancy_red_r       1x1 -> chair
+ix2_kit.png            kit_dining_chair_normal_blue_l     1x1 -> chair
+ix2_kit.png            kit_dining_chair_normal_blue_r     1x1 -> chair
+ix2_kit.png            kit_dining_chair_normal_green_l    1x1 -> chair
+ix2_kit.png            kit_dining_chair_normal_green_r    1x1 -> chair
+ix2_kit.png            kit_dining_chair_normal_red_l      1x1 -> chair
+ix2_kit.png            kit_dining_chair_normal_red_r      1x1 -> chair
+ix2_kit.png            kit_dining_chair_worn_blue_l       1x1 -> chair
+ix2_kit.png            kit_dining_chair_worn_blue_r       1x1 -> chair
+ix2_kit.png            kit_dining_chair_worn_green_l      1x1 -> chair
+ix2_kit.png            kit_dining_chair_worn_green_r      1x1 -> chair
+ix2_kit.png            kit_dining_chair_worn_red_l        1x1 -> chair
+ix2_kit.png            kit_dining_chair_worn_red_r        1x1 -> chair
+ix2_kit.png            kit_dining_table_fancy_blue        2x1 -> table
+ix2_kit.png            kit_dining_table_fancy_green       2x1 -> table
+ix2_kit.png            kit_dining_table_fancy_red         2x1 -> table
+ix2_kit.png            kit_dining_table_normal_blue       2x1 -> table
+ix2_kit.png            kit_dining_table_normal_green      2x1 -> table
+ix2_kit.png            kit_dining_table_normal_red        2x1 -> table
+ix2_kit.png            kit_dining_table_worn_blue         2x1 -> table
+ix2_kit.png            kit_dining_table_worn_green        2x1 -> table
+ix2_kit.png            kit_dining_table_worn_red          2x1 -> table
+ix2_kit.png            kit_fridge3_fancy_green            1x2 -> kitchen
+ix2_kit.png            kit_fridge3_fancy_teal             1x2 -> kitchen
+ix2_kit.png            kit_fridge3_normal_green           1x2 -> kitchen
+ix2_kit.png            kit_fridge3_normal_teal            1x2 -> kitchen
+ix2_kit.png            kit_fridge3_worn_green             1x2 -> kitchen
+ix2_kit.png            kit_fridge3_worn_teal              1x2 -> kitchen
+ix2_kit.png            kit_kitchen_counter3_fancy_teal    1x2 -> kitchen
+ix2_kit.png            kit_kitchen_counter3_normal_teal   1x2 -> kitchen
+ix2_kit.png            kit_kitchen_counter3_worn_teal     1x2 -> kitchen
+ix2_kit.png            kit_kitchen_counter_fancy_teal     1x2 -> kitchen
+ix2_kit.png            kit_kitchen_counter_normal_teal    1x2 -> kitchen
+ix2_kit.png            kit_kitchen_counter_worn_teal      1x2 -> kitchen
+ix2_kit.png            kit_kitchen_fridge_fancy_teal      1x2 -> kitchen
+ix2_kit.png            kit_kitchen_fridge_normal_teal     1x2 -> kitchen
+ix2_kit.png            kit_kitchen_fridge_worn_teal       1x2 -> kitchen
+ix2_kit.png            kit_kitchen_sink3_fancy_teal       1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_sink3_normal_teal      1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_sink3_worn_teal        1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_sink_fancy_teal        1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_sink_normal_teal       1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_sink_worn_teal         1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_stove3_fancy_teal      1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_stove3_normal_teal     1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_stove3_worn_teal       1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_stove_fancy_teal       1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_stove_normal_teal      1x2 -> kitchen  [animated]
+ix2_kit.png            kit_kitchen_stove_worn_teal        1x2 -> kitchen  [animated]
+ix2_kit.png            kit_plant_tall3_fancy_green        1x2 -> plant
+ix2_kit.png            kit_plant_tall3_normal_green       1x2 -> plant
+ix2_kit.png            kit_plant_tall3_worn_green         1x2 -> plant
+ix2_kit.png            kit_plant_tall_fancy_green         1x2 -> plant
+ix2_kit.png            kit_plant_tall_normal_green        1x2 -> plant
+ix2_kit.png            kit_plant_tall_worn_green          1x2 -> plant
+ix2_kit.png            kit_radio_fancy_red                1x1 -> screen
+ix2_kit.png            kit_radio_fancy_teal               1x1 -> screen
+ix2_kit.png            kit_radio_normal_red               1x1 -> screen
+ix2_kit.png            kit_radio_normal_teal              1x1 -> screen
+ix2_kit.png            kit_radio_worn_red                 1x1 -> screen
+ix2_kit.png            kit_radio_worn_teal                1x1 -> screen
+ix2_kit.png            kit_rods_fancy_green               1x1 -> small
+ix2_kit.png            kit_rods_normal_green              1x1 -> small
+ix2_kit.png            kit_rods_worn_green                1x1 -> small
+ix2_kit.png            kit_shoes_fancy_blue               1x1 -> small
+ix2_kit.png            kit_shoes_normal_blue              1x1 -> small
+ix2_kit.png            kit_shoes_worn_blue                1x1 -> small
+ix2_kit.png            kit_side3_fancy_brown              1x1 -> cabinet
+ix2_kit.png            kit_side3_normal_brown             1x1 -> cabinet
+ix2_kit.png            kit_side3_worn_brown               1x1 -> cabinet
+ix2_kit.png            kit_side_table_fancy_blue          1x1 -> table
+ix2_kit.png            kit_side_table_fancy_red           1x1 -> table
+ix2_kit.png            kit_side_table_normal_blue         1x1 -> table
+ix2_kit.png            kit_side_table_normal_red          1x1 -> table
+ix2_kit.png            kit_side_table_worn_blue           1x1 -> table
+ix2_kit.png            kit_side_table_worn_red            1x1 -> table
+ix2_kit.png            kit_sofa_side_fancy_purple_l       1x2 -> sofa
+ix2_kit.png            kit_sofa_side_fancy_purple_r       1x2 -> sofa
+ix2_kit.png            kit_sofa_side_fancy_red_l          1x2 -> sofa
+ix2_kit.png            kit_sofa_side_fancy_red_r          1x2 -> sofa
+ix2_kit.png            kit_sofa_side_fancy_teal_l         1x2 -> sofa
+ix2_kit.png            kit_sofa_side_fancy_teal_r         1x2 -> sofa
+ix2_kit.png            kit_sofa_side_normal_purple_l      1x2 -> sofa
+ix2_kit.png            kit_sofa_side_normal_purple_r      1x2 -> sofa
+ix2_kit.png            kit_sofa_side_normal_red_l         1x2 -> sofa
+ix2_kit.png            kit_sofa_side_normal_red_r         1x2 -> sofa
+ix2_kit.png            kit_sofa_side_normal_teal_l        1x2 -> sofa
+ix2_kit.png            kit_sofa_side_normal_teal_r        1x2 -> sofa
+ix2_kit.png            kit_sofa_side_worn_purple_l        1x2 -> sofa
+ix2_kit.png            kit_sofa_side_worn_purple_r        1x2 -> sofa
+ix2_kit.png            kit_sofa_side_worn_red_l           1x2 -> sofa
+ix2_kit.png            kit_sofa_side_worn_red_r           1x2 -> sofa
+ix2_kit.png            kit_sofa_side_worn_teal_l          1x2 -> sofa
+ix2_kit.png            kit_sofa_side_worn_teal_r          1x2 -> sofa
+ix2_kit.png            kit_table3_fancy_brown             2x2 -> table
+ix2_kit.png            kit_table3_normal_brown            2x2 -> table
+ix2_kit.png            kit_table3_worn_brown              2x2 -> table
+ix2_kit.png            kit_tv_back_fancy_brown            2x1 -> screen  [animated]
+ix2_kit.png            kit_tv_back_normal_brown           2x1 -> screen  [animated]
+ix2_kit.png            kit_tv_back_worn_brown             2x1 -> screen  [animated]
+x_furniture_fix.png    x_bench                            2x1 -> sofa
+x_furniture_fix.png    x_ticket_counter_l                 1x1 -> counter
+x_furniture_fix.png    x_ticket_counter_m                 1x1 -> counter
+x_furniture_fix.png    x_ticket_counter_r                 1x1 -> counter

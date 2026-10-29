@@ -543,7 +543,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 --------------------------------------------------------------------------------
-Sports (Brookhollow Dash Track), added v0.2.68-alpha, Oct 28 2026
+Sports (Brookhollow Dash Track), added v0.2.69-alpha, Oct 28 2026
 --------------------------------------------------------------------------------
 src/vendor/brackets/brackets.js: bundled brackets-manager (MIT, (c) 2021 Corentin Girard) + brackets-memory-db and
 brackets-model (ISC, Corentin Girard) + uuid (MIT) + rfdc (MIT). Full texts: src/vendor/brackets/LICENSES.txt.

@@ -5,8 +5,8 @@
 // a few stepped levels (pixel-art look, no gradients) and cache it as two map-sized native canvases (lower = ground +
 // decoration, upper = overlay tiles). Per frame it is 2 drawImage calls clipped to the view, like the depth pass.
 // Toggle: ?ixlight=0 falls back to the baked shading only. No per-frame lighting maths, so phones stay cheap.
-import { TILE } from './constants.js?v=v0.2.68-alpha';
-import { loadImage } from './assets.js?v=v0.2.68-alpha';
+import { TILE } from './constants.js?v=v0.2.69-alpha';
+import { loadImage } from './assets.js?v=v0.2.69-alpha';
 
 const N_URL_RE = /tiles_\dx\/interior\.png$/;
 const PHASE_LIGHT = { // window light by OUTDOOR phase: colour, strength
@@ -87,7 +87,7 @@ export class IxLight {
   constructor(flags = ixFlags(), indoorFn = null) { this.flags = flags; this.cache = new Map(); this.nimg = null; this.indoor = indoorFn; this.shade = new Map(); }
   async load(tilesetUrl) {
     if (!this.flags.light || this.nimg) return;
-    try { this.nimg = await loadImage(new URL('tiles_1x/interior_v2_n.png', tilesetUrl).href); } catch (e) { console.warn('ixlight: no normal sheet', e.message); this.flags.light = false; }
+    try { this.nimg = await loadImage(new URL('tiles_1x/interior_v3_n.png', tilesetUrl).href); } catch (e) { console.warn('ixlight: no normal sheet', e.message); this.flags.light = false; }
   }
   _build(v, phase) {
     const m = v.map, W = m.width * TILE, H = m.height * TILE, byId = v.tileset.byId;
