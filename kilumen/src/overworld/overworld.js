@@ -56,6 +56,11 @@ export function nativeRenderDiv(opts, h) {
   return Math.max(1, pickZoom(h, prof.zoom));
 }
 
+// v0.2.88 load fix: the 1x sheets (~5 MB, only for graded draws) waited only for the zoom set, so on a slow phone link they
+// downloaded in parallel with ui.js + the title art and pushed the title back. Now they wait until the UI has mounted
+// (main.js dispatches 'kilumen:ui-ready'), or 6 s at most; the renderer already draws ungraded until they land.
+const afterUiReady = () => (typeof window === 'undefined' || window.kilumen?.uiReady ? Promise.resolve()
+  : new Promise((r) => { const t = setTimeout(r, 6000); window.addEventListener('kilumen:ui-ready', () => { clearTimeout(t); r(); }, { once: true }); }));
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
@@ -265,7 +270,7 @@ export class Overworld {
         // playtest fixes 3 (5 s black reload): don't hold the first frame for ~5 MB of 1x sheets. Until they land the renderer
         // draws the zoom set ungraded (its tileset1x fallback); a stale 1x set from another tileset is dropped so ids never mismatch.
         this.tileset1x = null;
-        Promise.resolve(this._assetsLatest).catch(() => {}).then(() => loadTileset(ts1)).then((t1) => { if (this.tileset?.url === tsUrl && ts1 === resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name))) this.tileset1x = t1; }).catch((e) => console.warn('1x tileset:', e.message));
+        Promise.resolve(this._assetsLatest).catch(() => {}).then(afterUiReady).then(() => loadTileset(ts1)).then((t1) => { if (this.tileset?.url === tsUrl && ts1 === resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name))) this.tileset1x = t1; }).catch((e) => console.warn('1x tileset:', e.message));
       }
     }
     if (this.playerScale !== want) {

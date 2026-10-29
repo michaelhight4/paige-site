@@ -37,7 +37,9 @@ const ss = (fn) => { try { return fn(globalThis.sessionStorage); } catch { retur
 if (raw.get('dev') === '1') ss((s) => s.setItem(DEV_SS, '1'));
 else if (raw.get('dev') === '0') ss((s) => s.removeItem(DEV_SS));
 export const DEV_REQUESTED = raw.get('dev') === '1' || (raw.get('dev') !== '0' && ss((s) => s.getItem(DEV_SS)) === '1');
-if (typeof location !== 'undefined' && location.search) { try { history.replaceState(history.state, '', location.pathname + location.hash); } catch { /* ignore */ } }
+// v0.2.88: this replaceState is why the address bar 'dropped to /kilumen/' (playtester report). It is on purpose for every
+// other flag (a reload must never re-run ?reset=1 etc.), but ?dev=1 is only a request and harmless on reload, so it stays visible.
+if (typeof location !== 'undefined' && location.search) { try { history.replaceState(history.state, '', location.pathname + (raw.get('dev') === '1' ? '?dev=1' : '') + location.hash); } catch { /* ignore */ } }
 
 export function noticeSeen() { try { return localStorage.getItem(ALPHA_NOTICE_KEY) === '1'; } catch { return false; } }
 export function markNoticeSeen() { try { localStorage.setItem(ALPHA_NOTICE_KEY, '1'); } catch { /* private mode */ } }

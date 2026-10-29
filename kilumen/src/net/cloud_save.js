@@ -124,10 +124,16 @@ export async function bootCloudSave(o) {
   const cloud = await api.meta();
   let action = decide(metaOf(localObj), cloud, readMemo(o.ls, sess.uid));
   let cloudObj = null;
+  // v0.2.88: the boot no longer waits for this check. Once o.late() is true the game has already read this device's save,
+  // so nothing may be written here or asked any more; no uploader either (a device never overwrites a playthrough it was
+  // not compared with). A same-playthrough newer save is offered later by liveSync.
+  const lateOut = () => ({ ok: false, reason: 'late', action, cloud, api, uid: sess.uid });
+  if (o.late?.() && action !== 'upload' && action !== 'same' && action !== 'none') return lateOut();
   if (action === 'ask' || action === 'download' || action === 'take_cloud') {
     cloudObj = await api.data();
     if (!cloudObj || !o.isLoadable(JSON.stringify(cloudObj))) action = localObj ? 'upload' : 'none'; // a bad cloud save is never loaded
   }
+  if (o.late?.() && action !== 'upload' && action !== 'none') return lateOut();
   if (action === 'ask') {
     const pick = await o.ask(localObj, cloudObj);
     writeMemo(o.ls, { uid: sess.uid, local: localObj.saveId, cloud: cloudObj.saveId, pick, at: Date.now() });

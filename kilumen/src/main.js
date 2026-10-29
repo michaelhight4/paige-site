@@ -66,40 +66,63 @@ if (q.get('save') !== '0' && q.get('idb') !== '0') {
     if (saveStorage?.lastError) console.warn('save backend:', saveStorage.lastError);
   } catch (e) { console.warn('save: IndexedDB unavailable, using localStorage:', e?.message || e); }
 }
-try { await (await import('./net/account.js?v=v0.2.87-alpha')).refreshIfStale(); } catch (e) { /* offline */ } // v0.2.49: refresh a stale session (home-screen app)
-// Cloud saves (Oct 29, 2026, src/net/cloud_save.js): signed-in site accounts only, ?cloudsave=0 off. Runs before the save is read.
-let cloudSave = null, cloudInd = null; // v0.2.54: 'Cloud: synced <time>' indicator (src/net/cloud_save.js cloudIndicator)
+// v0.2.88 load fix: the cloud check (session refresh + Supabase lib from esm.sh + meta/data fetches) used to be AWAITED here,
+// so a slow or unreachable cloud held the boot on black with only 'Cloud: checking…' (10-25 s measured). Now it runs in the
+// background; boot waits at most CLOUD_BUDGET_MS for it. A late result never touches the save that is already loaded:
+// bootCloudSave({late}) refuses download / ask / keep_local once late (no uploader, so nothing can overwrite the cloud
+// playthrough), a same-playthrough newer cloud save is then offered by liveSync ("Load"), and 'upload' / 'same' attach as usual.
+const CLOUD_BUDGET_MS = Number(q.get('cloudwait')) >= 0 && q.has('cloudwait') ? Number(q.get('cloudwait')) : 1200;
+let cloudSave = null, cloudInd = null, cloudLate = false, cloudAsking = false; // v0.2.54: 'Cloud: synced <time>' indicator (src/net/cloud_save.js cloudIndicator)
+let store = null; // set below; the background cloud task wires into it whenever it finishes
+const cloudWire = async (cs) => { // attach a finished cloud check to the store (now or later)
+  if (!cloudSave) return;
+  if (cloudSave.uploader) {
+    const up = cloudSave.uploader;
+    window.addEventListener('pagehide', () => up.hidden());
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') up.hidden(); });
+    if (store) store.onSaved = (json) => up.saved(json);
+  }
+  if (cloudSave.api && store) try { cs.liveSync({ api: cloudSave.api, storage: saveStorage, key: SAVE_KEY, store, ind: cloudInd, locked: () => !!window.kilumen?.scene?.saveLocked }); } catch (e) { console.warn('cloud live sync:', e?.message || e); }
+  if (window.kilumen?.save) window.kilumen.save.cloud = { action: cloudSave.action, uploader: cloudSave.uploader || null, late: cloudLate };
+};
+let cloudTask = null;
 if (saveStorage && q.get('cloudsave') !== '0') {
-  try {
+  cloudTask = (async () => {
     const cs = await import('./net/cloud_save.js?v=v0.2.87-alpha');
     try { cloudInd = cs.cloudIndicator(); cloudInd.set(cs.hasSessionHint() ? 'checking…' : 'off'); } catch { cloudInd = null; }
-    if (cs.hasSessionHint()) {
-      const { isLoadableSave } = await import('./overworld/save_schema.js?v=v0.2.87-alpha');
-      const limit = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
-      const session = cs.supabaseSession(), sess = () => limit(session(), 3000); // v0.2.61: was 6 s + 8 s; a slow check held the boot on black ~10 s
-      const fetchFn = (u, init) => limit(fetch(u, init), 4000);
-      const reset = q.get('reset') === '1';
-      cloudSave = await cs.bootCloudSave({
-        storage: saveStorage, key: SAVE_KEY, isLoadable: isLoadableSave, device: platform.id, session: sess, fetchFn, ls: window.localStorage,
-        reset, ask: (l, c) => cs.askChoice(l, c), locked: () => !!window.kilumen?.scene?.saveLocked,
-        onResult: (r) => { if (r && r.ok === false) { console.warn('cloud save:', r.reason, r.error || ''); cloudInd?.set(r.reason === 'network' ? 'error' : r.reason === 'older' ? 'newer' : 'error'); } else if (r?.ok) cloudInd?.set('synced', Number(r.saved_at) || Date.now()); },
-      });
-      if (!cloudSave.ok) cloudInd?.set('off');
-      else if (cloudSave.action === 'download' || cloudSave.action === 'take_cloud' || cloudSave.action === 'same') cloudInd?.set('synced', cloudSave.cloud?.savedAt || Date.now());
-      else if (cloudSave.action === 'upload' || cloudSave.action === 'keep_local') cloudInd?.set('saving');
-      else cloudInd?.set('synced', cloudSave.cloud?.savedAt || 0);
-      if (cloudSave.uploader) {
-        const up = cloudSave.uploader;
-        window.addEventListener('pagehide', () => up.hidden());
-        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') up.hidden(); });
-      }
-    }
-  } catch (e) { console.warn('cloud save off this session:', e?.message || e); cloudSave = null; cloudInd?.set('error'); }
+    if (!cs.hasSessionHint() && !/[#&](access_token|error_description)=/.test(location.hash)) return { cs, res: null };
+    const limit = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
+    try { await limit(import('./net/account.js?v=v0.2.87-alpha').then((a) => a.refreshIfStale()), 5000); } catch (e) { /* offline */ } // v0.2.49 (now off the boot path)
+    if (!cs.hasSessionHint()) { cloudInd?.set('off'); return { cs, res: null }; }
+    cloudInd?.set('checking…');
+    const { isLoadableSave } = await import('./overworld/save_schema.js?v=v0.2.87-alpha');
+    const session = cs.supabaseSession(), sess = () => limit(session(), 3000);
+    const fetchFn = (u, init) => limit(fetch(u, init), 4000);
+    const reset = q.get('reset') === '1';
+    const res = await cs.bootCloudSave({
+      storage: saveStorage, key: SAVE_KEY, isLoadable: isLoadableSave, device: platform.id, session: sess, fetchFn, ls: window.localStorage,
+      reset, late: () => cloudLate, ask: (l, c) => { cloudAsking = true; return cs.askChoice(l, c); }, locked: () => !!window.kilumen?.scene?.saveLocked,
+      onResult: (r) => { if (r && r.ok === false) { console.warn('cloud save:', r.reason, r.error || ''); cloudInd?.set(r.reason === 'network' ? 'error' : r.reason === 'older' ? 'newer' : 'error'); } else if (r?.ok) cloudInd?.set('synced', Number(r.saved_at) || Date.now()); },
+    });
+    return { cs, res };
+  })().then(({ cs, res }) => {
+    if (!res) return { cs };
+    cloudSave = res;
+    if (res.reason === 'late') { cloudInd?.set(res.action === 'download' ? 'newer' : 'different save in cloud (reload to pick)', res.cloud?.savedAt || 0); }
+    else if (!res.ok) cloudInd?.set('off');
+    else if (res.action === 'download' || res.action === 'take_cloud' || res.action === 'same') cloudInd?.set('synced', res.cloud?.savedAt || Date.now());
+    else if (res.action === 'upload' || res.action === 'keep_local') cloudInd?.set('saving');
+    else cloudInd?.set('synced', res.cloud?.savedAt || 0);
+    return { cs };
+  }).catch((e) => { console.warn('cloud save off this session:', e?.message || e); cloudSave = null; cloudInd?.set('error'); return {}; });
 }
-const store = new SaveStore(saveStorage);
+// Boot waits a short moment (a fast check can still swap in a newer cloud save before it is read), then goes on without it.
+const cloudEarly = cloudTask ? await Promise.race([cloudTask, new Promise((r) => setTimeout(() => r(cloudAsking ? cloudTask : null), CLOUD_BUDGET_MS))]) : null;
+if (cloudTask && !cloudEarly) { cloudLate = true; console.info(`cloud save: check still running after ${CLOUD_BUDGET_MS} ms, booting from this device's save`); }
+store = new SaveStore(saveStorage);
 if (q.get('reset') === '1') store.clear();
-if (cloudSave?.uploader) store.onSaved = (json) => cloudSave.uploader.saved(json);
-if (cloudSave?.api) try { (await import('./net/cloud_save.js?v=v0.2.87-alpha')).liveSync({ api: cloudSave.api, storage: saveStorage, key: SAVE_KEY, store, ind: cloudInd, locked: () => !!window.kilumen?.scene?.saveLocked }); } catch (e) { console.warn('cloud live sync:', e?.message || e); }
+if (cloudEarly?.cs) await cloudWire(cloudEarly.cs);
+else if (cloudTask) cloudTask.then((r) => r?.cs && cloudWire(r.cs));
 const saveData = store.load();
 if (!saveData && !q.has('reset') && q.get('title') !== '0') store.hold = true; // ALPHA: first launch, nothing saved until Continue / New game
 if (store.lastError) console.warn('save:', store.lastError, store.loadedFrom ? `(loaded ${store.loadedFrom})` : '');
@@ -143,7 +166,7 @@ import('./systems/crystal_resupply.js?v=v0.2.87-alpha').then((m) => m.attachCrys
 try { attachEvolution(scene, { query: q }); } catch (e) { console.error('evolution:', e); } // [evolution hook] level-up evolution after battles (src/systems/evolution.js, ?evo=0 off)
 window.kilumen = { scene, mood: scene.mood, platform: { id: platform.id, profile: platform.profile }, state: () => scene.state(), ready: scene.init().then(() => { scene.run(); return true; }) };
 window.kilumen.ready.catch((e) => { console.error(e); toast('Failed to load: ' + e.message); });
-window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.(), cloud: cloudSave ? { action: cloudSave.action, uploader: cloudSave.uploader || null } : null };
+window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.(), cloud: cloudSave ? { action: cloudSave.action, uploader: cloudSave.uploader || null, late: cloudLate } : null, cloudTask };
 if (q.get('cv') !== '0') import('./systems/company_voice.js?v=v0.2.87-alpha').then((m) => m.attachCompanyVoice(scene, { query: q })).then((cv) => { window.kilumen.companyVoice = cv; if (cv && q.get('ritavoice') !== '0') return import('./systems/rita_voice.js?v=v0.2.87-alpha').then((r) => { window.kilumen.ritaVoice = r.attachRitaVoice(cv, { audio: () => window.kilumen.audio }); }); }) /* [rita voice hook] spoken clips, Options 'RITA voice' (default on), ?ritavoice=0 off */.catch((e) => console.error('company voice:', e)); // [company voice hook] DEFAULT ON for region 1 (Gary 12:45 PM CT Oct 23 2026: "Yes, ship RITA in region 1"); ?cv=0 turns off (design/company_voice.md)
 import('./fishing/flags.js?v=v0.2.87-alpha').then((f) => { if (f.fishingFlags(q).fishing) return window.kilumen.ready.then(() => import('./fishing/index.js?v=v0.2.87-alpha')).then((m) => { window.kilumen.fishing = m.installFishing(scene); }); }).catch((e) => console.error('fishing:', e)); // [fishing hook] v1 (Oct 29 2026): rod from the Brookhollow fisher, cast at any water; OFF by default, ?fishing=1 on (src/fishing/)
 window.kilumen.ready.then(() => import('./rail/index.js?v=v0.2.87-alpha')).then((m) => { window.kilumen.rail = m.attachRail(scene, { systems: scene.systems }); }).catch((e) => console.error('rail:', e)); // [rail hook] Lumen Line travel menu (src/rail/)
@@ -170,9 +193,10 @@ if (q.get('ui') !== '0') {
   // playtest fixes 3 (slow reload): start downloading the UI module graph now, in parallel with the world's tiles; it is still
   // only MOUNTED once the world is ready (these modules have no top-level side effects).
   const uiMod = import('./ui/ui.js?v=v0.2.87-alpha');
-  for (const m of ['./ui/systems_screens.js?v=v0.2.87-alpha', './qol_c/index.js?v=v0.2.87-alpha', './progression/index.js?v=v0.2.87-alpha']) import(m).catch(() => {});
+  // v0.2.88 load fix: systems_screens / qol_c / progression are no longer prefetched here; they are only needed after the title
+  // has mounted, and on a slow phone link they competed with the world tiles + ui.js that the title waits on.
   uiMod.catch(() => {});
-  window.kilumen.ready.then(() => uiMod).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready';
+  window.kilumen.ready.then(() => uiMod).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready'; window.kilumen.uiReady = true; window.dispatchEvent(new Event('kilumen:ui-ready'));
     return import('./ui/systems_screens.js?v=v0.2.87-alpha').then((m) => m.installSystemsScreens(window.kilumen.ui, scene.systems)); }) // [systems-gd hook]
     .then(() => import('./qol_c/index.js?v=v0.2.87-alpha').then((m) => { window.kilumen.qolc = m.installQolC(scene, window.kilumen.ui, { query: q }); }).catch((e) => console.error('qol_c:', e))) // [qol batch C hook] storage/quick save/stats/rename/renew/chain (?qolc=)
     .then(() => import('./progression/index.js?v=v0.2.87-alpha').then((m) => m.attachProgression(scene, window.kilumen.ui, { query: q, platform })).catch((e) => console.error('progression:', e))) // [progression hook] Masters / hall puzzles / quests (src/progression/flags.js, ?pg=)
