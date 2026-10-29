@@ -12,13 +12,12 @@ export const TIERS = [[40, 0.3], [20, 0.6], [0, 1.0]];
 export const TRADE = { grip: 'legs', wings: 'grip', lungs: 'mind', mind: 'grip', fins: 'wings', legs: 'lungs' };
 export const TASTES = ['sweet', 'sour', 'bitter', 'tangy', 'earthy'];
 export const LIKE = { mult: 1.25, full: -5 }, DISLIKE = { mult: 0.75, full: 10 };
-export const DRAIN = { practice: 10, battleWin: 5, shared: 1.25 };
+export const DRAIN = { practice: 10, battleWin: 5 }; // Gary Oct 29: only the creatures that fought drain after a battle; the bench loses none
 export const PRACTICE_SPEEDUP_MS = 3600e3; // each practice ticks that town's plots (and home plots) by 1 h
 export const HOME_PLOTS = 4;
 // Fins / wings fit (design section 1): full growth only for these; others stop at stage 1 (14 build).
 export const FINS_TYPES = ['water', 'sea', 'freshwater', 'swamp', 'rain'], FINS_SHAPES = ['serpent'];
 export const WINGS_TYPES = ['wind', 'bird', 'angelic', 'light'], WINGS_SHAPES = ['avian'];
-export const MISFIT_CAP = 14;
 // Part -> athletic stat (agility = half legs + half wings). fins/wings also feed event-only swim/glide later (phase 5).
 export const STAT_FROM = { speed: { legs: 1 }, stamina: { lungs: 1 }, power: { grip: 1 }, focus: { mind: 1 }, agility: { legs: 0.5, wings: 0.5 } };
 
@@ -45,7 +44,7 @@ export const fruitItemId = (id) => `fruit_${id}`; // bag item id (feeds pocket)
 
 export function feedsState(sysState) {
   const s = (sysState.feeds ||= {});
-  s.v ??= 1; s.build ??= {}; s.full ??= {}; s.fruit ??= {}; s.plots ??= []; s.fed ??= 0;
+  s.v ??= 1; s.build ??= {}; s.full ??= {}; s.plots ??= []; s.fed ??= 0;
   return s;
 }
 export const buildOf = (fs, uid) => (fs.build[uid] ||= Object.fromEntries(PARTS.map((p) => [p, 0])));
@@ -67,14 +66,14 @@ export function reactionOf(uid, fruitId) {
   if (f.taste === 'all' || f.taste === t.like) return 'like';
   return f.taste === t.dislike ? 'dislike' : 'neutral';
 }
-/** Per-part cap for this creature: fins/wings stop at MISFIT_CAP unless type or body shape fits. */
+/** Per-part cap for this creature: fins/wings are 0 (unusable) unless type or body shape fits (Gary Oct 29: no partial growth). */
 export function partCap(part, { types = [], shape = 'standard' } = {}) {
-  if (part === 'fins') return types.some((t) => FINS_TYPES.includes(t)) || FINS_SHAPES.includes(shape) ? PART_CAP : MISFIT_CAP;
-  if (part === 'wings') return types.some((t) => WINGS_TYPES.includes(t)) || WINGS_SHAPES.includes(shape) ? PART_CAP : MISFIT_CAP;
+  if (part === 'fins') return types.some((t) => FINS_TYPES.includes(t)) || FINS_SHAPES.includes(shape) ? PART_CAP : 0;
+  if (part === 'wings') return types.some((t) => WINGS_TYPES.includes(t)) || WINGS_SHAPES.includes(shape) ? PART_CAP : 0;
   return PART_CAP;
 }
 /** Fins / wings fruits are refused outright when the creature can't use the part at all (Gary: "only work on creatures whose type and body shape fit"). */
-export function canUsePart(part, body) { return partCap(part, body) === PART_CAP || (part !== 'fins' && part !== 'wings'); }
+export function canUsePart(part, body) { return partCap(part, body) > 0; }
 
 /**
  * Preview (pure, no mutation). body = {types, shape}. -> {ok, reason?, delta{part:+n/-n}, full, reaction}
@@ -92,7 +91,7 @@ export function previewFeed({ build, full = 0, uid, fruitId, body = {}, resetPar
     return { ok: true, delta, full: addFull, reaction, reset: p };
   }
   const parts = Object.keys(f.gain);
-  if (parts.every((p) => (p === 'fins' || p === 'wings') && !canUsePart(p, body))) return { ok: false, reason: 'misfit', reaction };
+  if (parts.some((p) => !canUsePart(p, body))) return { ok: false, reason: 'misfit', reaction }; // any misfit fins/wings part: refused outright
   let room = TOTAL_CAP - totalBuild(build);
   for (const p of parts) {
     if (!canUsePart(p, body)) continue;
@@ -108,14 +107,21 @@ export function previewFeed({ build, full = 0, uid, fruitId, body = {}, resetPar
   return { ok: true, delta, full: addFull, reaction };
 }
 
-/** Apply a feed to state (uses one fruit from fs.fruit). -> preview result. */
-export function feed(fs, { uid, fruitId, body, resetPart }) {
-  if (!((fs.fruit[fruitId] || 0) > 0)) return { ok: false, reason: 'none_left' };
+// ---- Bag item ids (Gary Oct 29: fruit lives in the bag, 'feeds' pocket; table rows in src/systems/items.js) --------
+export const fruitItem = (id) => `fruit_${id}`;
+export const seedItem = (id) => `seedling_${id}`;
+/** bag: anything with count(id) / add(id, n) / remove(id, n) (src/systems/bag.js Bag). */
+export const fruitCount = (bag, id) => bag?.count(fruitItem(id)) || 0;
+export const seedCount = (bag, id) => bag?.count(seedItem(id)) || 0;
+
+/** Apply a feed (uses one fruit from the bag). -> preview result. */
+export function feed(fs, bag, { uid, fruitId, body, resetPart }) {
+  if (!(fruitCount(bag, fruitId) > 0)) return { ok: false, reason: 'none_left' };
   const b = buildOf(fs, uid), pv = previewFeed({ build: b, full: fullOf(fs, uid), uid, fruitId, body, resetPart });
   if (!pv.ok) return pv;
   for (const [p, d] of Object.entries(pv.delta)) b[p] = Math.round(Math.max(0, (b[p] || 0) + d) * 10) / 10;
   fs.full[uid] = Math.min(FULL_MAX, fullOf(fs, uid) + pv.full);
-  fs.fruit[fruitId]--; if (!fs.fruit[fruitId]) delete fs.fruit[fruitId];
+  bag.remove(fruitItem(fruitId), 1);
   fs.fed++;
   return pv;
 }
@@ -135,10 +141,10 @@ export function statBonus(build) {
 // ---- Grow plots (real time, practice speeds up) ----------------------------------------------------------------
 export const PLOT_STAGES = ['sprout', 'leaf', 'flower', 'fruit'];
 export function ensurePlots(fs, n = HOME_PLOTS) { while (fs.plots.length < n) fs.plots.push({ fruit: null, planted: 0, boost: 0 }); return fs.plots; }
-export function plant(fs, i, fruitId, now) {
+export function plant(fs, bag, i, fruitId, now) {
   const p = ensurePlots(fs)[i]; if (!p || p.fruit || !FRUITS[fruitId]) return false;
-  const k = `seedling_${fruitId}`; if (!((fs.fruit[k] || 0) > 0)) return false;
-  fs.fruit[k]--; if (!fs.fruit[k]) delete fs.fruit[k];
+  if (!(seedCount(bag, fruitId) > 0)) return false;
+  bag.remove(seedItem(fruitId), 1);
   Object.assign(p, { fruit: fruitId, planted: now, boost: 0 }); return true;
 }
 export const growMs = (fruitId) => FRUITS[fruitId].growH * 3600e3;
@@ -149,10 +155,22 @@ export const msLeft = (p, now) => (p?.fruit ? Math.max(0, growMs(p.fruit) - (now
 /** A practice event ticks every growing plot by 1 h (design: local plots; v1 has home plots only). */
 export function practiceBoost(fs, ms = PRACTICE_SPEEDUP_MS) { for (const p of fs.plots) if (p.fruit) p.boost += ms; }
 /** Harvest a ripe plot. Yield 2-3 (placeholder), 30% a seedling back. Deterministic from the plant time. */
-export function harvest(fs, i, now) {
+export function harvest(fs, bag, i, now) {
   const p = fs.plots[i]; if (!p?.fruit || progress(p, now) < 1) return null;
   const r = rngFor(`harvest:${p.fruit}:${p.planted}:${i}`), n = 2 + Math.floor(r() * 2), seed = r() < 0.3, id = p.fruit;
-  fs.fruit[id] = (fs.fruit[id] || 0) + n; if (seed) fs.fruit[`seedling_${id}`] = (fs.fruit[`seedling_${id}`] || 0) + 1;
+  bag.add(fruitItem(id), n); if (seed) bag.add(seedItem(id), 1);
   Object.assign(p, { fruit: null, planted: 0, boost: 0 });
   return { fruit: id, n, seedling: seed };
+}
+
+/** uids of the creatures that actually fought: the lead, plus anyone whose HP, energy or status changed in the battle.
+ *  before: [{uid,hp,energy,status}] snapshot taken just before the result is applied; after: battle result team. */
+export function fightersOf(before = [], after = []) {
+  const out = new Set(), key = (c) => c?.uid || c?.id;
+  const lead = before.find((c) => (c.hp || 0) > 0); if (key(lead)) out.add(key(lead));
+  for (const a of after) {
+    const b = before.find((c) => key(c) && key(c) === key(a)); if (!b) continue;
+    if ((Number.isFinite(a.hp) && a.hp !== b.hp) || (a.status || '') !== (b.status || '') || JSON.stringify(a.energy || null) !== JSON.stringify(b.energy || null)) out.add(key(b));
+  }
+  return out;
 }

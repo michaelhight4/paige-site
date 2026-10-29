@@ -18,7 +18,13 @@ const SHAPE = {
   gourd: (a, b) => `<circle cx="16" cy="22" r="8" fill="${a}"/><circle cx="16" cy="11" r="5" fill="${a}"/><path d="M12 22v-4M16 23v-6M20 22v-4" stroke="${b}" stroke-width="1.5"/><path d="M16 6v-3" stroke="#5a3a20" stroke-width="2"/>`,
 };
 /** stage: null (a fruit) or a plot stage ('sprout'|'leaf'|'flower'|'fruit'). */
+// Animator's fruit art (assets/feeds/fruit, 32px + _2x, our own art). Set globalThis.KILUMEN_FEEDS_SVG = true for the old vector placeholders.
+const ART = new URL('../../assets/feeds/fruit/', import.meta.url).href;
 export function fruitSvg(id, stage = null) {
+  if (!globalThis.KILUMEN_FEEDS_SVG && LOOK[id]) {
+    const f = !stage ? id : `${id}_plant_${stage}`;
+    return `<img class="fd-ico fd-art" src="${ART}${f}.png" srcset="${ART}${f}.png 1x, ${ART}${f}_2x.png 2x" alt="" aria-hidden="true" draggable="false">`;
+  }
   const [sh, a, b] = LOOK[id] || ['round', '#999', '#ccc'];
   if (stage && stage !== 'fruit') {
     const leaf = '<path d="M16 28V16" stroke="#3f7a2a" stroke-width="2"/><path d="M16 20q-7-1-8-7q7 0 8 7z" fill="#5fae4a"/>';
@@ -51,7 +57,7 @@ export const CSS = `
 .fd-fruits{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}.fd-fruits h3{width:100%;margin:0;font-size:14px}
 .fd-fruit{display:grid;grid-template-columns:32px 1fr auto;grid-template-rows:auto auto;column-gap:4px;text-align:left;width:calc(50% - 3px);border:2px solid #c9b07a;border-radius:10px;background:#fff8e6;padding:3px 6px}
 .fd-fruit.on{border-color:#6b8f3a;background:#e6f2cf}.fd-fruit .fd-ico{grid-row:span 2}.fd-fruit .nm{font-weight:700;font-size:12px}.fd-fruit .ct{font-size:12px}.fd-fruit .tg{font-size:11px;color:#6b5a3a}
-.fd-ico{width:32px;height:32px}
+.fd-ico{width:32px;height:32px}.fd-art{image-rendering:pixelated;object-fit:contain}
 .fd-msg{width:100%;min-height:18px;font-style:italic;color:#5a3a20}.fd-go{width:100%;padding:10px;font:700 16px system-ui;border-radius:10px;border:2px solid #3f5a22;background:#6b8f3a;color:#fff}.fd-go:disabled{opacity:.45}
 .fd-mon.r-like{animation:fdhop .45s ease 3}.fd-mon.r-dislike{animation:fdshake .3s ease 3}.fd-mon.r-neutral{animation:fdhop .6s ease 1}
 .fd-heart{position:absolute;left:52px;top:4px;font-size:26px;animation:fdpuff 1.2s ease forwards}.fd-heart.r-like{color:#e0506a}.fd-heart.r-dislike{color:#7a8a5a}
@@ -63,3 +69,4 @@ export const CSS = `
 @media (max-width:700px),(max-height:500px){.fd-main{grid-template-columns:1fr}.fd-plots{grid-template-columns:repeat(2,1fr)}.fd-fruit{width:calc(50% - 3px)}#feeds-ov .fd-box{padding:6px}}
 @media (max-height:500px) and (min-width:600px){.fd-main{grid-template-columns:1.1fr 1fr}}
 @media (prefers-reduced-motion:reduce){#feeds-ov *{animation:none!important}}`;
+export const fruitColor = (id) => (LOOK[id] || [0, '#c98'])[1];

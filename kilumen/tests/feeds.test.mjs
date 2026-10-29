@@ -5,10 +5,12 @@ import { readFileSync } from 'node:fs';
 import * as L from '../src/feeds/logic.js';
 import { FS } from '../src/feeds/strings.js';
 import { feedsEnabled } from '../src/feeds/flags.js';
+import { Bag } from '../src/systems/bag.js';
+import { ITEMS } from '../src/systems/items.js';
 import { athleticStats, setAthleticBonus } from '../src/sports/athletics.js';
 
-const fresh = () => L.feedsState({});
-const give = (fs, id, n = 50) => { fs.fruit[id] = n; };
+const fresh = () => { const fs = L.feedsState({}); Object.defineProperty(fs, 'bag', { value: new Bag({}) }); return fs; };
+const give = (fs, id, n = 50) => { fs.bag.add(L.fruitItem(id), n); };
 const uidNeutral = (id) => { for (let i = 0; i < 500; i++) { const u = 'u' + i; if (L.reactionOf(u, id) === 'neutral') return u; } };
 
 test('flag is off by default, ?feeds=1 turns it on', () => {
@@ -26,13 +28,13 @@ test('every fruit has a placeholder name key', () => { for (const id of L.FRUIT_
 test('feed grows a part, uses a fruit, adds fullness, and applies the opposite-part trade-off', () => {
   const fs = fresh(), u = uidNeutral('dashfig'); give(fs, 'dashfig', 2);
   L.buildOf(fs, u).lungs = 5;
-  const r = L.feed(fs, { uid: u, fruitId: 'dashfig', body: {} });
+  const r = L.feed(fs, fs.bag, { uid: u, fruitId: 'dashfig', body: {} });
   assert.ok(r.ok); assert.equal(fs.build[u].legs, 3); assert.equal(fs.build[u].lungs, 4); // legs up -> lungs -1
-  assert.equal(fs.full[u], 15); assert.equal(fs.fruit.dashfig, 1);
+  assert.equal(fs.full[u], 15); assert.equal(fs.bag.count('fruit_dashfig'), 1);
 });
 test('trade-off never goes below 0', () => {
   const fs = fresh(), u = uidNeutral('dashfig'); give(fs, 'dashfig');
-  L.feed(fs, { uid: u, fruitId: 'dashfig', body: {} }); assert.equal(fs.build[u].lungs, 0);
+  L.feed(fs, fs.bag, { uid: u, fruitId: 'dashfig', body: {} }); assert.equal(fs.build[u].lungs, 0);
 });
 test('likes and dislikes: stable per uid, change gain and fullness', () => {
   assert.deepEqual(L.tastesOf('abc'), L.tastesOf('abc'));
@@ -44,7 +46,7 @@ test('likes and dislikes: stable per uid, change gain and fullness', () => {
 });
 test('Fullness blocks feeding at 100 and does NOT drain with time; practice and battles drain it', () => {
   const fs = fresh(), u = uidNeutral('rumblemelon'); give(fs, 'rumblemelon');
-  let n = 0; while (L.feed(fs, { uid: u, fruitId: 'rumblemelon', body: {} }).ok) n++;
+  let n = 0; while (L.feed(fs, fs.bag, { uid: u, fruitId: 'rumblemelon', body: {} }).ok) n++;
   assert.equal(n, 3); assert.equal(fs.full[u], 90);
   assert.equal(L.previewFeed({ build: fs.build[u], full: fs.full[u], uid: u, fruitId: 'rumblemelon' }).reason, 'full');
   assert.equal(fs.full[u], 90); // nothing in logic ticks fullness with time
@@ -55,7 +57,7 @@ test('stat bonus caps at +15 per stat; part cap 60; total cap 150', () => {
   assert.equal(L.statBonus({ legs: 60 }).speed, 15);
   assert.equal(L.statBonus({ legs: 60, wings: 60 }).agility, 15);
   const fs = fresh(), u = uidNeutral('embergourd'); give(fs, 'embergourd', 9999);
-  for (let i = 0; i < 2000; i++) { fs.full[u] = 0; L.feed(fs, { uid: u, fruitId: 'embergourd', body: {} }); }
+  for (let i = 0; i < 2000; i++) { fs.full[u] = 0; L.feed(fs, fs.bag, { uid: u, fruitId: 'embergourd', body: {} }); }
   assert.ok(fs.build[u].grip <= 60 && fs.build[u].grip >= 59.9);
   const b = { legs: 60, lungs: 60, grip: 29, mind: 0, fins: 0, wings: 0 };
   const p = L.previewFeed({ build: b, uid: uidNeutral('mossplum'), fruitId: 'mossplum' });
@@ -69,18 +71,23 @@ test('fins and wings only grow on fitting type or body shape', () => {
   assert.ok(L.previewFeed({ build: b, uid: u, fruitId: 'saltlime', body: { types: ['fire'], shape: 'serpent' } }).ok);
   const w = L.previewFeed({ build: b, uid: uidNeutral('glidepod'), fruitId: 'glidepod', body: { types: ['earth'] } });
   assert.equal(w.reason, 'misfit');
-  // a mixed fruit still feeds the other part on a misfit
+  // Gary Oct 29: a mixed fruit with a misfit fins/wings part is refused completely too (no partial growth)
   const pg = L.previewFeed({ build: b, uid: uidNeutral('padgourd'), fruitId: 'padgourd', body: { types: ['earth'] } });
-  assert.ok(pg.ok); assert.ok(!('wings' in pg.delta));
+  assert.equal(pg.reason, 'misfit'); assert.ok(!pg.delta);
+  assert.equal(L.partCap('wings', { types: ['earth'] }), 0);
+  const fs = fresh(), uu = 'm1'; give(fs, 'glidepod', 1);
+  assert.equal(L.feed(fs, fs.bag, { uid: uu, fruitId: 'glidepod', body: { types: ['earth'] } }).reason, 'misfit');
+  assert.equal(fs.bag.count('fruit_glidepod'), 1); assert.equal(L.totalBuild(L.buildOf(fs, uu)), 0); assert.equal(L.fullOf(fs, uu), 0);
+  assert.equal(FS['feeds.refuse_misfit'], 'This Kilumen refuses to eat the fruit.');
 });
 test('grow timers run on real time and practice speeds them up; harvest gives fruit', () => {
-  const fs = fresh(); fs.fruit.seedling_dashfig = 1; L.ensurePlots(fs);
-  const t0 = 1_000_000; assert.ok(L.plant(fs, 0, 'dashfig', t0));
+  const fs = fresh(); fs.bag.add('seedling_dashfig', 1); L.ensurePlots(fs);
+  const t0 = 1_000_000; assert.ok(L.plant(fs, fs.bag, 0, 'dashfig', t0));
   assert.equal(L.plotStage(fs.plots[0], t0), 'sprout');
-  assert.equal(L.harvest(fs, 0, t0 + 3600e3), null);
+  assert.equal(L.harvest(fs, fs.bag, 0, t0 + 3600e3), null);
   const left = L.msLeft(fs.plots[0], t0); L.practiceBoost(fs); assert.equal(L.msLeft(fs.plots[0], t0), left - 3600e3);
   assert.equal(L.progress(fs.plots[0], t0 - 1e9), 0); // clock set back: never negative
-  const h = L.harvest(fs, 0, t0 + 10 * 3600e3); assert.ok(h && h.n >= 2); assert.equal(fs.fruit.dashfig, h.n); assert.equal(fs.plots[0].fruit, null);
+  const h = L.harvest(fs, fs.bag, 0, t0 + 10 * 3600e3); assert.ok(h && h.n >= 2); assert.equal(fs.bag.count('fruit_dashfig'), h.n); assert.equal(fs.plots[0].fruit, null);
 });
 test('athleticStats is unchanged with feeds off, and gains the build bonus with feeds on', () => {
   const c = { uid: 'feedtest-1', species: 'tumbloam' };
@@ -90,6 +97,18 @@ test('athleticStats is unchanged with feeds off, and gains the build bonus with 
   setAthleticBonus(null); assert.deepEqual(athleticStats(c), base);
 });
 test('Hollowpith reset lowers one part by up to 10', () => {
-  const fs = fresh(), u = 'r1'; fs.fruit.hollowpith = 1; Object.assign(L.buildOf(fs, u), { grip: 25 });
-  const r = L.feed(fs, { uid: u, fruitId: 'hollowpith', body: {}, resetPart: 'grip' }); assert.ok(r.ok); assert.equal(fs.build[u].grip, 15);
+  const fs = fresh(), u = 'r1'; give(fs, 'hollowpith', 1); Object.assign(L.buildOf(fs, u), { grip: 25 });
+  const r = L.feed(fs, fs.bag, { uid: u, fruitId: 'hollowpith', body: {}, resetPart: 'grip' }); assert.ok(r.ok); assert.equal(fs.build[u].grip, 15);
+});
+
+test('fruit and seedlings are bag items in the feeds pocket', () => {
+  for (const id of L.FRUIT_IDS) { assert.equal(ITEMS[L.fruitItem(id)]?.pocket, 'feeds', id); assert.equal(ITEMS[L.seedItem(id)]?.pocket, 'feeds', id); }
+  const b = new Bag({}); b.add('fruit_dashfig', 2); assert.deepEqual(b.pocket('feeds').map((x) => x.id), ['fruit_dashfig']);
+});
+test('only creatures that fought lose Fullness after a battle', () => {
+  const before = [{ uid: 'a', hp: 30, energy: [5, 5], status: '' }, { uid: 'b', hp: 20, energy: [5], status: '' }, { uid: 'c', hp: 25, energy: [4], status: '' }];
+  const after = [{ uid: 'a', hp: 22, energy: [4, 5] }, { uid: 'b', hp: 20, energy: [5] }, { uid: 'c', hp: 25, energy: [3] }];
+  assert.deepEqual([...L.fightersOf(before, after)].sort(), ['a', 'c']);
+  assert.deepEqual([...L.fightersOf(before, [])], ['a']); // the lead always counts
+  assert.equal(L.DRAIN.shared, undefined);
 });

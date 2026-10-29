@@ -18,7 +18,7 @@ export const FS = {
   'feeds.react_neutral': '{creature} munches it down.',
   'feeds.react_dislike': '{creature} scrunches its face... but eats it.',
   'feeds.refuse_full': '{creature} is too full. Practice or battle to work up an appetite.',
-  'feeds.refuse_misfit': '{creature} can\'t use this one. Its body isn\'t built for it.',
+  'feeds.refuse_misfit': 'This Kilumen refuses to eat the fruit.', // Gary Oct 29 wording; Text Bot to finalise
   'feeds.refuse_capped': '{creature} can\'t grow that part any more.',
   'feeds.taste_like': 'Loves {taste}',
   'feeds.taste_dislike': 'Dislikes {taste}',
@@ -43,5 +43,17 @@ export const FS = {
   'feeds.fruit.glowmelon.name': 'Glowmelon', 'feeds.fruit.embergourd.name': 'Embergourd', 'feeds.fruit.cinderapricot.name': 'Cinderapricot',
   'feeds.fruit.sunheart_fig.name': 'Sunheart Fig', 'feeds.fruit.hollowpith.name': 'Hollowpith',
   'feeds.seedling_of': '{fruit} seedling',
+  // v2 picnic screen: creature quips (Text Bot: write in each creature's voice) and RITA tips. {creature}, {part}
+  'feeds.quip.idle.1': '{creature} sniffs the basket.', 'feeds.quip.idle.2': '{creature} is watching you closely.', 'feeds.quip.idle.3': '{creature} wiggles, waiting.',
+  'feeds.quip.look.1': 'Ooh? What\'s that?', 'feeds.quip.look.2': '{creature} leans in...',
+  'feeds.quip.like.1': 'Mmm! More!', 'feeds.quip.like.2': '{creature} is glowing!', 'feeds.quip.like.3': 'Yum yum yum!',
+  'feeds.quip.neutral.1': 'Munch munch.', 'feeds.quip.neutral.2': 'Not bad.',
+  'feeds.quip.dislike.1': 'Blegh...', 'feeds.quip.dislike.2': '{creature} pulls a face.',
+  'feeds.quip.refuse.1': '{creature} turns away.',
+  'feeds.quip.full.1': 'Too full... no more.',
+  'feeds.quip.maxed.1': '{part} maxed out! {creature} is so proud!',
+  'feeds.rita.first': 'Tip: tap a fruit, then Feed. Watch how it reacts to learn its tastes.',
+  'feeds.rita.dislike': 'Not a fan of that taste. Liked fruits grow parts faster.',
+  'feeds.rita.misfit': 'That part doesn\'t fit its body. Try another fruit.',
 };
 export const ft = (k, v = {}) => String(FS[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => (n in v ? v[n] : `{${n}}`));
