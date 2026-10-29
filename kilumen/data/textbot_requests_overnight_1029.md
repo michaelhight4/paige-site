@@ -36,3 +36,12 @@ signal_relay (Revival Heights), ice_slide (Frostspire), lantern_catch (Lanternpo
 Also coach_name (per town would be lovely), not_ready (unbuilt regions), pick/start/again/back/best/none_yet/result/new_best,
 grade_gold|silver|bronze|none, the react_<grade> creature reaction lines ({creature}, 2+ each), and the pop_* shouts
 (Perfect! Splash! Too slow! Washed back! Whoa! Soot! Miss Good).
+
+## rtb_trainer.* (real-time trainer fights, Coder Oct 29 2026, branch rtb-trainer) — PLACEHOLDER lines, Text Bot owns them
+Speech bubble above the overworld trainer (short, about 25 characters max). Vars: {trainer}, {creature}, {item}.
+- `rtb_trainer.start_banner`: "{trainer} wants to fight!"
+- `rtb_trainer.send_out` (array): "Go, {creature}!" / "You got this, {creature}!" / "{creature}, show them!"
+- `rtb_trainer.recall` (array): "{creature}, come back!" / "Take a breather, {creature}."
+- `rtb_trainer.item` (array, trainer heals with a Remedy): "Hang in there, {creature}!" / "Here, {creature}. A {item}."
+- `rtb_trainer.send_out_banner`: banner when the next creature comes out (PH "{trainer} sends out {creature}!")
+- `rtb_trainer.link_band_xp`: floating number line, vars {creature} {n}: "{creature} +{n} XP (Link Band)"

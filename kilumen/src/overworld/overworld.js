@@ -1228,7 +1228,7 @@ export class Overworld {
   _npcActor(n, grade) {
     if (!n.imgs) return null;
     const mv = n.mover, { px, py, lift } = mv.pixel(), f = mv.frame();
-    return { ...this._sheet(n.imgs[this.sheetScale], n.imgs[1], grade), col: Math.min(f.col, 4), row: SHEET_ROW[mv.facing], px, py, lift, feet: py + TILE, npc: n.id };
+    return { ...this._sheet(n.imgs[this.sheetScale], n.imgs[1], grade), col: Math.min(f.col, 4), row: SHEET_ROW[mv.facing], px, py, lift: lift + (n.rtbLift || 0), feet: py + TILE, npc: n.id }; // rtbLift: real-time trainer cheer / slump (src/rtb/view.js)
   }
 
   /** Lead creature, 64x64 ow sheet; Warmth tint (mask-only exact swaps, cached) then the time-of-day grade. */

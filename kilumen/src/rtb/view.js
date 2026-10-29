@@ -96,7 +96,8 @@ export class RtView {
     this.$ = (s) => this.hud.querySelector(s);
     this.parts = []; this.nums = []; this.rings = []; this.trails = new WeakMap(); this.gone = new Map(); this.shake = 0; this.shakeX = 0; this.shakeY = 0;
     this.sheets = new Map(); this.flashC = document.createElement('canvas'); this.flashC.width = this.flashC.height = 64;
-    this.bannerT = 0; this.bubbles = []; this.t = 0; this.allyKey = null;
+    this.bannerT = 0; this.bubbles = []; this.speech = []; this.t = 0; this.allyKey = null;
+    this.trainer = null; // trainer fights: {npc, name, at:{x,y} head point, text(key, fb, vars)}; the overworld NPC stands, faces the fight and reacts
     requestAnimationFrame(() => this.$('.rtb-bars').classList.add('on'));
   }
   sheet(sp) {
@@ -142,6 +143,7 @@ export class RtView {
           if (e.shape === 'dash') this.burst(f.x, f.y + 14, '#d9c9a3', 6, 90, 0.35, 3);
           break;
         case 'hit': {
+          if (e.by?.side === 'foe' && e.dmg > 0) this.react('cheer');
           const strong = e.mult > 1, weak = e.mult < 1;
           this.num(e.x, e.y - 46, String(e.dmg), strong ? '#ffb13b' : weak ? '#b8c4d6' : '#ffffff', strong || e.crit);
           if (e.mult === 0) this.num(e.x, e.y - 66, 'No effect', '#b8c4d6');
@@ -168,9 +170,13 @@ export class RtView {
         case 'overuse': this.num(f.x, f.y - 70, 'No Energy, strained!', '#ff8a8a'); break;
         case 'faint':
           this.gone.set(f, { t: 0 }); this.burst(e.x, e.y - 10, '#ffffff', 22, 220, 0.7, 4); stop = Math.max(stop, 0.12); this.kick(8);
-          if (f.side === 'foe') { this.banner(`${name(f)} fainted!`, '', 1100); if (!this.sim.living.length) slow = { scale: 0.35, time: 0.7 }; }
+          if (f.side === 'foe') { this.banner(`${name(f)} fainted!`, '', 1100); this.react('slump'); if (!this.sim.living.length && !this.sim.reserve?.some((c) => c.hp > 0)) slow = { scale: 0.35, time: 0.7 }; }
           else this.banner(`${name(f)} fainted...`, this.sim.party.some((c) => c.hp > 0) ? 'Next one up!' : '', 1400);
           break;
+        case 'sendOut': if (this.trainer) { this.say('send_out', { creature: name(f) }); this.burst(f.x, f.y - 10, '#ffffff', 16, 150, 0.5, 3); this.banner(this.trainer.text('rtb_trainer.send_out_banner', '{trainer} sends out {creature}!', { trainer: this.trainer.name, creature: name(f) }), '', 1100); } break;
+        case 'recall': if (this.trainer) { this.say('recall', { creature: name(f) }); this.gone.set(f, { t: 0 }); } break;
+        case 'foeItem': if (this.trainer) { this.say('item', { creature: name(f), item: this.trainer.itemName(e.id) }); this.react('cheer'); } break;
+        case 'xpShare': if (e.band) this.num(this.sim.ally.x, this.sim.ally.y - 96, (this.trainer?.text || ((k, fb, v) => fb.replace('{creature}', v.creature).replace('{n}', v.n)))('rtb_trainer.link_band_xp', '{creature} +{n} XP (Link Band)', { creature: displayName(e.c), n: e.n }) /* PH short line, Text Bot */, '#6cc8ff'); break;
         case 'xp': this.num(f.x, f.y - 74, `+${e.n} XP`, '#6cc8ff'); break;
         case 'levelup': this.banner(`${name(f)} grew to Lv ${e.level}!`, '', 1500); this.rings.push({ x: f.x, y: f.y, column: true, t: 0, life: 0.9, color: '#ffe27a' }); this.burst(f.x, f.y - 20, '#ffe27a', 24, 140, 0.9, 3); break;
         case 'swap': this.banner(`Go, ${name(e.to)}!`, '', 900); this.burst(e.to.x, e.to.y - 10, '#ffffff', 16, 150, 0.5, 3); this.gone.delete(e.to); break;
@@ -229,9 +235,44 @@ export class RtView {
     c.textAlign = 'center'; c.lineJoin = 'round';
     for (const b of this.bubbles) { b.t += dt; const f = b.who, pop = Math.min(1, b.t / 0.12); c.font = `900 ${Math.round(28 * pop)}px system-ui, sans-serif`; c.lineWidth = 6; c.strokeStyle = '#000'; c.strokeText(b.text, f.x, f.y - 72); c.fillStyle = b.color; c.fillText(b.text, f.x, f.y - 72); }
     this.bubbles = this.bubbles.filter((b) => b.t < b.life);
+    this.trainerFrame(c, dt, z);
     for (const n of this.nums) { n.t += dt; const p = n.t / 0.9, pop = n.t < 0.08 ? 1.6 - n.t * 7 : 1; c.globalAlpha = Math.max(0, 1 - Math.max(0, p - 0.6) / 0.4); c.font = `900 ${Math.round((n.big ? 26 : 19) * pop)}px system-ui, sans-serif`; c.lineWidth = 5; c.strokeStyle = '#000'; const y = n.y - n.t * 46; c.strokeText(n.text, n.x + n.vx * n.t, y); c.fillStyle = n.color; c.fillText(n.text, n.x + n.vx * n.t, y); }
     c.globalAlpha = 1; this.nums = this.nums.filter((n) => n.t < 0.9);
     this.hudFrame();
+  }
+  /** trainer speech bubble (PH lines, Text Bot owns them: keys rtb_trainer.send_out / recall / item) */
+  say(kind, vars = {}) {
+    const tr = this.trainer; if (!tr) return;
+    const FB = { send_out: ['Go, {creature}!', 'You got this, {creature}!', '{creature}, show them!'], recall: ['{creature}, come back!', 'Take a breather, {creature}.'],
+      item: ['Hang in there, {creature}!', 'Here, {creature}. A {item}.'] }[kind] || ['...'];
+    const lines = tr.text(`rtb_trainer.${kind}`, FB, { trainer: tr.name, ...vars }); const arr = Array.isArray(lines) ? lines : [lines];
+    if (this.speech.length > 1) this.speech.length = 1; this.speech.push({ text: arr[Math.floor(Math.random() * arr.length)], t: 0, life: 1.6 }); // queued: recall line, then the send-out line
+  }
+  /** cheer = a little hop, slump = sink + look down (both through npc.rtbLift, drawn by the overworld renderer) */
+  react(kind) { const tr = this.trainer; if (!tr) return; if (kind === 'slump' || !tr.react || tr.react.kind !== 'slump') tr.react = { kind, t: 0, life: kind === 'slump' ? 1.3 : 0.45 }; }
+  trainerFrame(c, dt, z) {
+    const tr = this.trainer; if (!tr) return;
+    const n = tr.npc, sim = this.sim;
+    if (n) {
+      const tgt = sim.living[0] || sim.ally, mid = { x: (tgt.x + sim.ally.x) / 2, y: (tgt.y + sim.ally.y) / 2 };
+      let lift = 0;
+      if (tr.react) { const r = tr.react; r.t += dt; const p = Math.min(1, r.t / r.life);
+        if (r.kind === 'cheer') lift = Math.round(Math.sin(p * Math.PI) * (this.reduced ? 4 : 10)); else lift = -3;
+        if (r.kind === 'slump' && p < 1) n.mover.facing = 'down'; if (p >= 1) tr.react = null; }
+      if (!tr.react || tr.react.kind !== 'slump') n.faceToward?.(mid.x / TILE - 0.5, mid.y / TILE - 0.5);
+      if (n.rtbLift !== lift) { n.rtbLift = lift; this.scene._dirty = true; }
+    }
+    const a = tr.at;
+    for (const b of this.speech.slice(0, 1)) {
+      b.t += dt; const pop = Math.min(1, b.t / 0.12), fade = Math.min(1, (b.life - b.t) / 0.25), tf = c.getTransform(), dpr = c.canvas?.clientHeight ? c.canvas.height / c.canvas.clientHeight : (globalThis.devicePixelRatio || 1), /* backing px per css px */ fs = Math.round(15 * dpr / (Math.abs(tf.d) || 1)); // ~15 css px whatever the zoom
+      c.save(); c.globalAlpha = Math.max(0, fade); c.font = `700 ${fs}px "Trebuchet MS", system-ui, sans-serif`; /* canvas ignores var() fonts */
+      const w = c.measureText(b.text).width + fs, h = fs * 1.7, x = a.x - w / 2, top = (54 * dpr - tf.f) / (tf.d || 1), y = Math.max(top, a.y - h - 6 - (1 - pop) * 6); // kept below the top HUD strip
+      c.fillStyle = '#fffdf5'; c.strokeStyle = '#1b2033'; c.lineWidth = 2.5;
+      c.beginPath(); c.roundRect ? c.roundRect(x, y, w, h, 8) : c.rect(x, y, w, h); c.fill(); c.stroke();
+      c.beginPath(); c.moveTo(a.x - 6, y + h - 1); c.lineTo(a.x, y + h + 9); c.lineTo(a.x + 6, y + h - 1); c.closePath(); c.fill(); c.stroke();
+      c.fillRect(a.x - 5, y + h - 3, 10, 3); c.fillStyle = '#1b2033'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(b.text, a.x, y + h / 2 + 1); c.restore();
+    }
+    this.speech = this.speech.filter((b) => b.t < b.life);
   }
   drawTele(c, f) {
     const t = f.tele, p = 1 - Math.max(0, f.act.t) / (t.total || 1), S = SHAPE_STATS[t.shape] || {}, ang = Math.atan2(t.aim.y, t.aim.x);
@@ -325,6 +366,7 @@ export class RtView {
   }
   partyNo(i) { const el = this.$(`.rtb-pi[data-i="${i}"]`); if (!el) return; el.classList.remove('no'); void el.offsetWidth; el.classList.add('no'); }
   destroy() {
+    if (this.trainer?.npc) { this.trainer.npc.rtbLift = 0; this.scene._dirty = true; }
     this.$('.rtb-bars')?.classList.remove('on');
     this.world.style.transform = ''; this.cv.remove(); this.hud.remove(); document.body.classList.remove('rtb-touch');
     document.querySelectorAll('.rtb-fx').forEach((e) => e.remove());

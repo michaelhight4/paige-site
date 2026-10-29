@@ -64,8 +64,12 @@ function fighter(c, side, x, y) {
 export class RtBattle {
   /** opts: party (creature records, cloned here), foes [{species, level, variant}], start {x,y} native px, arena {x0,y0,x1,y1},
    *  walk(x,y) -> bool (body may stand), solid(x,y) -> bool (stops shots), rng, foeSkills(sp) */
-  constructor({ party, foes, start, arena, walk = () => true, solid = () => false, rng = Math.random, trainer = false, xpShare = 0, foeDamageMult = 1 }) {
+  constructor({ party, foes, start, arena, walk = () => true, solid = () => false, rng = Math.random, trainer = false, xpShare = 0, foeDamageMult = 1, foeItems = null, foeHealAt = 0.25, foeHealsPer = 1, sendFrom = null, linkBand = 'team_link_band' }) {
     this.rng = rng; this.arena = arena; this.walk = walk; this.solid = solid; this.trainer = trainer; this.xpShare = xpShare; this.foeDamageMult = foeDamageMult;
+    // trainer healing items (same rule as the turn battle, src/battle/battle.js foeHeal): Master bag {tonicsmall, toniclarge},
+    // the field foe heals at <= foeHealAt HP, at most foeHealsPer items per creature; sendFrom {x,y} = where the trainer stands
+    this.foeBag = { ...(foeItems || {}) }; this.foeHealAt = foeHealAt; this.foeHealsPer = foeHealsPer; this.foeHealT = 0; this.sendFrom = sendFrom;
+    this.linkBand = linkBand; this.linkXp = [];
     // trainer fights (branch rtb-trainer, Gary Oct 29 2026): one foe on the field at a time, the rest wait in this.reserve;
     // the trainer sends the next one after a faint and may recall a badly hurt one (real-time trainer AI). No capture, no retreat.
     this.reserve = [];
@@ -137,15 +141,29 @@ export class RtBattle {
       this.sendT = 0; this._sendOut(this.reserve.splice(next, 1)[0]); return;
     }
     const f = this.living[0];
+    if (this._foeHeal(f, dt)) return;
     if (!f.recalled && f.c.hp / f.mhp < 0.2 && !f.act && this.reserve.some((c) => c.hp / maxHp(c) > 0.5) && this.rng() < dt * RT.trainerRecall) {
       const i = this.reserve.findIndex((c) => c.hp / maxHp(c) > 0.5), into = this.reserve.splice(i, 1)[0];
       this.foes.splice(this.foes.indexOf(f), 1); f.c._recalled = true; this.reserve.push(f.c); this.recalls++;
       this.emit('recall', { who: f, x: f.x, y: f.y }); const nf = this._sendOut(into, f); nf.recalled = true;
     }
   }
+  /** trainer item: Small Remedy 20 HP / Big Remedy 60 HP (Big when 40+ HP is missing or no Small left), short delay so it reads */
+  _foeHeal(f, dt) {
+    if (!f || f.act || f.dash || !(f.c.hp > 0) || f.c.hp / f.mhp > this.foeHealAt || (f.c._heals || 0) >= this.foeHealsPer) { this.foeHealT = 0; return false; }
+    const big = (this.foeBag.toniclarge || 0) > 0, small = (this.foeBag.tonicsmall || 0) > 0, miss = f.mhp - f.c.hp;
+    const id = big && (miss >= 40 || !small) ? 'toniclarge' : small ? 'tonicsmall' : null; if (!id) return false;
+    if ((this.foeHealT += dt) < 0.35) return false; this.foeHealT = 0;
+    this.foeBag[id]--; f.c._heals = (f.c._heals || 0) + 1;
+    const n = Math.min(miss, id === 'toniclarge' ? 60 : 20); f.c.hp += n;
+    this.emit('foeItem', { who: f, id, n }); this.emit('heal', { who: f, n }); return true;
+  }
   _sendOut(c, at = null) {
-    const a = this.ally, ang = this.rng() * Math.PI * 2;
-    const nf = fighter(c, 'foe', at ? at.x : a.x + Math.cos(ang) * 200, at ? at.y : a.y + Math.sin(ang) * 140); this._place(nf);
+    const a = this.ally, ang = this.rng() * Math.PI * 2, s = this.sendFrom;
+    // out in front of the trainer, a step toward the fight (falls back to around the ally)
+    const sx = s ? s.x + (a.x - s.x) * 0.35 : a.x + Math.cos(ang) * 200, sy = s ? s.y + (a.y - s.y) * 0.35 : a.y + Math.sin(ang) * 140;
+    const nf = fighter(c, 'foe', at ? at.x : sx, at ? at.y : sy); this._place(nf);
+    if (!at && !this._canStand(nf.x, nf.y, nf.r)) for (let k = 1; k < 16; k++) { const t = k * 0.7, x = nf.x + Math.cos(t) * 24 * k, y = nf.y + Math.sin(t) * 18 * k; if (this._canStand(x, y, nf.r)) { nf.x = x; nf.y = y; break; } }
     nf.ai.state = 'alert'; nf.ai.t = RT.alert; nf.iframes = 0.4; if (c._recalled) nf.recalled = true;
     this.foes.push(nf); this.emit('sendOut', { who: nf }); this.emit('alert', { who: nf }); return nf;
   }
@@ -290,7 +308,7 @@ export class RtBattle {
       const a = this.ally;
       const n = xpFor(o.c.species, o.c.level);
       if (a.alive) this._gainXp(a, n);
-      if (this.xpShare > 0) this._shareXp(Math.max(1, Math.floor(n * this.xpShare)));
+        this._shareXp(n);
     } else {
       if (this.party.some((c) => c.hp > 0)) this.forced = RT.forcedSwapDelay;
       else this._end('lose', RT.outro + 0.4);
@@ -306,12 +324,17 @@ export class RtBattle {
     }
   }
   /** XP share (QoL #4 rule, same rate the turn battle uses): every other conscious party member gets share of the XP */
-  _shareXp(n) {
+  // Team Link Band (held, same rules as the turn battle): with the share on, a holder gets share + 25 %; with it off, a holder that sat out gets half
+  _shareXp(base) {
     this.party.forEach((c, i) => {
       if (i === this.active || !(c.hp > 0)) return;
+      const band = !!this.linkBand && c.held === this.linkBand;
+      const n = this.xpShare > 0 ? Math.max(1, Math.floor(base * (this.xpShare + (band ? 0.25 : 0)))) : band ? Math.floor(base / 2) : 0;
+      if (!n) return;
+      if (band) this.linkXp.push({ i, uid: c.uid, xp: n });
       const before = c.level; c.xp = (c.xp || 0) + n; const L = Math.min(KILUMEN_RULES.maxLevel, levelForXp(c.xp));
       if (L > before) { c.level = L; this.emit('benchLevel', { c, level: L }); }
-      this.emit('xpShare', { c, n });
+      this.emit('xpShare', { c, n, band });
     });
   }
   _dodge(f, dx, dy) {
@@ -424,7 +447,8 @@ export class RtBattle {
     if (this.caught) { const c = this.caught.c; out.caught = { species: c.species, level: c.level, variant: c.variant || '', hp: c.hp }; }
     out.foes = this.foes.map((f) => ({ species: f.c.species, level: f.c.level, fainted: !f.alive, caught: !!f.caught }))
       .concat(this.reserve.map((c) => ({ species: c.species, level: c.level, fainted: !(c.hp > 0), caught: false })));
-    if (this.trainer) out.trainer = true;
+    if (this.trainer) { out.trainer = true; out.foeItemsLeft = { ...this.foeBag }; }
+    if (this.linkXp.length) out.linkXp = this.linkXp.slice();
     return out;
   }
 }

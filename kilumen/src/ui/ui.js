@@ -1154,13 +1154,20 @@ export function mountUI(opts) {
     // real-time trainer fights (branch rtb-trainer, NOT live; Gary Oct 29 2026): the same Options mode picks real-time for trainers,
     // Masters and the rival too. Team: injected Master / map team (progression) > authored team > the turn screen's placeholder pair.
     const rtTrainer = async (who) => {
-      const { authoredTeam } = await import('../battle/data/trainer_teams.js?v=v0.2.60-alpha');
+      const { authoredTeam } = await import('../battle/data/trainer_teams.js?v=v0.2.64-alpha');
       const party = scene.party || [], lead = party[0] || { species: 'rillop', level: 5 };
       const inj = ui.trainerTeam?.(), lv = Math.max(2, (lead.level || 5) - 1), sp = lead.species === 'cindrip' ? 'rillop' : 'cindrip';
       const foes = inj?.foes?.length ? inj.foes.map((f) => ({ species: f.species, level: f.level })) : authoredTeam(who, party)
         || [{ species: sp, level: lv }, { species: sp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: lv }];
-      const m = await import('../rtb/index.js?v=v0.2.60-alpha');
-      const out = await m.openRtBattle(ui, scene, null, { q, trainer: { foes, name: inj?.foeName || 'Trainer' } });
+      const m = await import('../rtb/index.js?v=v0.2.64-alpha'), dm = await import('../systems/difficulty.js?v=v0.2.64-alpha');
+      // the trainer NPC on this map (stays standing where they are and watches; rematch ids end in ~rematch)
+      const nid = String(who?.rematch || who?.id || '').replace(/~rematch$/, ''), npc = (!who?.map || who.map === scene.map?.name) ? scene.npcs?.byId?.(nid) || null : null;
+      let e = {}; try { e = (who?.map && nid && scene._entryFor?.(who.map, { id: nid })) || {}; } catch { e = {}; }
+      let hall = null; try { const pm = await import('../progression/masters.js?v=v0.2.64-alpha'); hall = pm.findHallTrainer(await (await fetch('data/masters.json')).json(), who?.map, nid); } catch { hall = null; } // hall Master / helper name + Master number
+      const cls = e.trainer_class || '', nm = e.name || '', spk = npc && scene.speakerFor?.(npc)?.name;
+      const name = (cls && nm && cls !== nm ? `${cls} ${nm}` : nm || cls) || hall?.who?.name_placeholder || spk || (inj?.foeName !== 'Trainer' && inj?.foeName) || 'Trainer';
+      const items = dm.masterItems(inj?.masterNumber || (hall?.isMaster ? hall.hall.coin_number : 0), dm.getDifficulty(scene.systems?.state)); // same Master healing items as the turn battle
+      const out = await m.openRtBattle(ui, scene, null, { q, trainer: { foes, name, npc, items, who } });
       return out?.outcome === 'win';
     };
     scene.hooks.onBattle = (who) => (rtbMode(scene, q) === 'rt' && !rtbKilled(q) && scene.party?.some((c) => c.hp == null || c.hp > 0) ? rtTrainer(who) : load.then(() => new Promise((res) => {

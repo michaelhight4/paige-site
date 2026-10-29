@@ -55,13 +55,25 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const vw = cv.width / z, vh = cv.height / z;
     const arena = { x0: Math.max(0, cam.x + 24, pcx - 6.5 * TILE), y0: Math.max(0, cam.y + 40, pcy - 4 * TILE),
       x1: Math.min(map.width * TILE, cam.x + vw - 24, pcx + 6.5 * TILE), y1: Math.min(map.height * TILE, cam.y + vh - 24, pcy + 4 * TILE) };
-    const walk = (x, y) => map.isWalkable(Math.floor(x / TILE), Math.floor(y / TILE));
+    // trainer fights: the trainer NPC stays standing on its tile (Gary Oct 29: "leave their trainer standing where they are just like ours")
+    const tn = trainer?.npc || null, tTile = tn ? { x: tn.x, y: tn.y } : null;
+    const walk = (x, y) => { const tx = Math.floor(x / TILE), ty = Math.floor(y / TILE); return !(tTile && tx === tTile.x && ty === tTile.y) && map.isWalkable(tx, ty); };
     const solid = (x, y) => map.code(Math.floor(x / TILE), Math.floor(y / TILE)) === Col.BLOCK;
     const foes = trainer ? scaleFoes(trainer.foes, Math.max(...scene.party.map((c) => c.level || 1)), getDifficulty(scene.systems?.state)).map((f) => ({ species: f.species, level: f.level, variant: f.variant || '' })) : carry?.foes?.length ? carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '' })) : [foe]; const mate = carry || trainer ? null : q.get('rtbpack') === '1' ? { species: foe.species, level: foe.level } : q.get('rtbpack') === '0' ? null : packMate(ui, scene, foe, rng); if (mate) foes.push(mate);
     let sx = pcx + fd[0] * TILE, sy = pcy + fd[1] * TILE + 8; if (!walk(sx, sy)) { sx = pcx; sy = pcy + 8; }
-    const sim = new RtBattle({ party: scene.party, foes, start: { x: sx, y: sy }, arena, walk, solid, rng, trainer: !!trainer, xpShare: qolFlags(q).xpShare ? XP_SHARE : 0, foeDamageMult: trainer ? diffOf(getDifficulty(scene.systems?.state)).damage || 1 : 1 });
+    const tFeet = tTile ? { x: tTile.x * TILE + TILE / 2, y: tTile.y * TILE + TILE / 2 + 8 } : null;
+    if (tFeet) { // ally steps out beside the player, on the side with room; the foe comes out in front of its trainer on the same side
+      const px = -(tFeet.y - pcy), py = tFeet.x - pcx, m = Math.hypot(px, py) || 1;
+      for (const sg of [1, -1]) { const x = pcx + (px / m) * TILE * sg * 1.1, y = pcy + 8 + (py / m) * TILE * sg * 1.1; if (walk(x, y) && walk(tFeet.x + (px / m) * TILE * sg, tFeet.y + (py / m) * TILE * sg)) { sx = x; sy = y; break; } }
+    }
+    const sim = new RtBattle({ party: scene.party, foes, start: { x: sx, y: sy }, arena, walk, solid, rng, trainer: !!trainer, xpShare: qolFlags(q).xpShare ? XP_SHARE : 0, foeDamageMult: trainer ? diffOf(getDifficulty(scene.systems?.state)).damage || 1 : 1,
+      foeItems: trainer?.items || null, foeHealAt: diffOf(getDifficulty(scene.systems?.state)).healAt ?? 0.25, foeHealsPer: diffOf(getDifficulty(scene.systems?.state)).healsPer ?? 1, sendFrom: tFeet });
     // put foes ahead of the player, on walkable ground
-    sim.foes.forEach((f, i) => {
+    if (tFeet) sim.foes.forEach((f) => { // trainer: first creature out in front of the trainer, toward the fight
+      const bx = tFeet.x + (sx - tFeet.x) * 0.45, by = tFeet.y + (sy - tFeet.y) * 0.45;
+      for (let k = 0; k < 24; k++) { const a = k * 0.9, d = k * 10; f.x = bx + Math.cos(a) * d; f.y = by + Math.sin(a) * d * 0.8; sim._place(f); if (sim._canStand(f.x, f.y, f.r)) break; }
+    });
+    else sim.foes.forEach((f, i) => {
       const base = Math.atan2(fd[1], fd[0]) + (i ? 0.7 : -0.2);
       for (let k = 0; k < 24; k++) { const a = base + (k % 2 ? 1 : -1) * Math.floor(k / 2) * 0.35, d = 190 - (k % 3) * 30; const x = sx + Math.cos(a) * d, y = sy + Math.sin(a) * d * 0.8; f.x = x; f.y = y; sim._place(f); if (sim._canStand(f.x, f.y, f.r)) break; }
     });
@@ -69,8 +81,16 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     if (q.get('rtbcatch') === '1') sim.forceCatch = true; if (q.get('rtbcatch') === '0') sim.forceCatch = false; // dev / clips only
     const touch = !document.getElementById('touchpad')?.hidden;
     const keyNames = touch ? { skills: ['', '', '', ''], swap: '', crystal: '', leave: 'hold', help: '' }
-      : { skills: SKILL_LABELS.slice(), party: true, swap: 'Tab', crystal: 'G', leave: 'Caps', help: 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team · G crystal · T turn-based · Caps run (wild) · hold Esc leave' };
+      : { skills: SKILL_LABELS.slice(), party: true, swap: 'Tab', crystal: 'G', leave: 'Caps', help: trainer ? 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team' // trainer fights: no crystal, mode switch or leave
+        : 'Move WASD · Skills Q E R F · Switch 1-6 · Z selected · C next · X dodge / hold sprint · Tab team · G crystal · T turn-based · Caps run (wild) · hold Esc leave' };
     const view = new RtView({ scene, sim, touch, reduced: reducedMotion(q), keyNames });
+    if (trainer) { // the overworld trainer reacts + talks (speech bubbles above their head; PH text keys rtb_trainer.*, Text Bot owns the lines)
+      const cat = ui.T?.('system_item_catalogue', {}) || {}, IN = { tonicsmall: 'tonic_small', toniclarge: 'tonic_large' };
+      view.trainer = { npc: tn, name: trainer.name || 'Trainer', at: tFeet ? { x: tFeet.x, y: tTile.y * TILE + TILE - 120 } : { x: sim.foes[0].x, y: sim.foes[0].y - 120 },
+        text: (k, fb, vars) => { const v = ui.T ? ui.T(k, null) : null; const arr = Array.isArray(v) ? v : v?.pages || (Array.isArray(fb) ? fb : [fb]); const out = arr.map((t) => String(t).replace(/\{(\w+)\}/g, (m, w) => vars?.[w] ?? m)); return Array.isArray(fb) ? out : out[0]; },
+        itemName: (id) => cat[IN[id]]?.name || BATTLE_ITEMS[IN[id]]?.name || 'Remedy' };
+      if (tn) { tn.talking = true; }
+    }
     view.skillInfo = (id) => SK[id]; view.cdOf = cooldownFor; view.maxEn = (c) => maxEnergy(c); view.maxHpOf = (c) => maxHp(c);
     view.crystals = () => crystalStock(scene.systems?.bag).reduce((n, c) => n + c.n, 0);
     view.xpBar = (c) => { const a = xpForLevel(c.level), b = xpForLevel(c.level + 1); return Math.max(0, Math.min(1, ((c.xp || 0) - a) / Math.max(1, b - a))); };
@@ -135,7 +155,8 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       view.banner(rl.ally, rl.foe, 1500);
       view.bubbles.push({ who: sim.ally, text: SHOUT.ally[Math.floor(rng() * 3) % 3], t: 0, life: 1.1, color: '#9fe8ff' });
       sim.foes.forEach((f) => view.bubbles.push({ who: f, text: SHOUT.foe[Math.floor(rng() * 3) % 3], t: 0, life: 1.1, color: '#ffdf4a' }));
-    } else view.banner(foes.length > 1 ? 'Two wild creatures jump out!' : `${nameOf(sim.foes[0])} jumps out!`, 'Fight it, catch it, or slip away', 1400);
+    } else if (trainer) { view.banner(view.trainer.text('rtb_trainer.start_banner', '{trainer} wants to fight!', { trainer: view.trainer.name }), '', 1300); setTimeout(() => { if (!finished) view.say('send_out', { creature: nameOf(sim.foes[0]) }); }, 250); }
+    else view.banner(foes.length > 1 ? 'Two wild creatures jump out!' : `${nameOf(sim.foes[0])} jumps out!`, 'Fight it, catch it, or slip away', 1400);
     scene.audio?.sfx('grass');
     RTB_STATE.active = { sim, view, inp }; if (window.kilumen) window.kilumen.rtb = RTB_STATE;
     const loop = (now) => {
