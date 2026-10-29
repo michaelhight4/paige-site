@@ -23,7 +23,8 @@ export async function checkDevAccess(roles = ROLES, loadLib = () => import(SB_LI
     const { createClient } = await loadLib();
     // same origin => same persisted session as the site's sign-in; read-only use (no refresh loops, no URL parsing)
     const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: false, detectSessionInUrl: false, flowType: 'implicit' } });
-    const { data: u, error: ue } = await sb.auth.getUser();
+    let { data: u, error: ue } = await sb.auth.getUser();
+    if (ue || !u?.user) { try { const r = await sb.auth.refreshSession(); if (!r.error) ({ data: u, error: ue } = await sb.auth.getUser()); } catch (e) { /* */ } } // v0.2.49: expired token on a phone
     const user = u?.user;
     if (ue || !user) return { ok: false, reason: 'not_signed_in' };
     if (user.is_anonymous) return { ok: false, reason: 'guest_account' };

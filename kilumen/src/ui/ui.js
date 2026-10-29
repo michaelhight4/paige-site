@@ -70,6 +70,7 @@ const tipAttr = (title, body) => ` data-tip-t="${esc(title)}" data-tip="${esc(bo
 const elNames = (els) => els.map((e) => ELEMENT_LABEL(e)).join(' / ');
 const elChip = (e) => `<span class="el-chip" data-el="${e}" data-pat="stripes">${esc(ELEMENT_LABEL(e))}</span>`;
 
+function hasSessionHintUI() { try { for (let i = 0; i < localStorage.length; i++) if (/^sb-[a-z0-9]+-auth-token$/.test(localStorage.key(i) || '')) return true; } catch (e) { /* */ } return false; }
 export class GameUI {
   constructor({ scene, platform, toast, params = new URLSearchParams(location.search), root = document.body }) {
     this.scene = scene; this.platform = platform; this.toastFn = toast; this.q = params; this.body = root;
@@ -755,6 +756,7 @@ export class GameUI {
       ...(rtbKilled(this.q) ? [] : [['Wild battles', rtbMode(s, this.q) === 'rt' ? 'Real-time' : 'Turn-based', () => setRtbMode(s, rtbMode(s, this.q) === 'rt' ? 'turn' : 'rt')]]), // real-time option (Oct 29 2026; also on the wild battle screen)
       ...(s.companyVoice ? [['Company voice', s.companyVoice.modeLabel(), () => s.companyVoice.cycleMode()]] : []), // [company voice hook] Full / Milestones only / Off (on by default; row absent with ?cv=0)
       ...(s.companyVoice?.ritaVoice ? [['RITA voice', s.companyVoice.ritaVoice.label(), () => s.companyVoice.ritaVoice.toggle()]] : []), // [rita voice hook] spoken lines on/off (default on)
+      [hasSessionHintUI() ? 'Account' : 'Sign in', hasSessionHintUI() ? 'Signed in' : 'Open', () => { import('../net/account.js?v=v0.2.49-alpha').then((m) => m.openAccount()); }], // v0.2.49: in-app sign-in
       ...(window.kilumen?.dev?.active && window.kilumen.dev.role === 'owner' ? [['Dev menu', 'Open', () => { this.closeAll(); setTimeout(() => window.kilumen?.dev?.open?.({ fromMenu: true }), 80); }]] : []), // v0.2.47 (Gary): owner-only, set by dev/console.js after the server owner check
     ];
     // libs pass: sound rows (src/audio/audio.js; saved per platform). A cycles volume in 20% steps, left/right nudge 10%.
@@ -884,7 +886,8 @@ export class GameUI {
     // first launch: the scene's own early autosave must not count as a save (src/overworld/save.js showContinue)
     const played = !!this._leftTitle || !this._bootTitle; // boot title: only a save from before this launch counts
     const hasSave = showContinue({ bootSave: this.scene.opts?.saveData, played, stored: played ? this.scene.store?.load?.() : null });
-    const items = [...(hasSave ? ['Continue'] : []), 'New game', 'Options'];
+    const acctLabel = hasSessionHintUI() ? 'Account' : 'Sign in'; // v0.2.49: in-app sign-in (home-screen app has its own storage)
+    const items = [...(hasSave ? ['Continue'] : []), 'New game', 'Options', acctLabel];
     // save card: the Continue row names the save's difficulty (old saves: Normal)
     const PICK_ORDER = ['normal', 'easy', 'hard']; // Normal is the highlighted first choice
     const savedDiff = diffOf(getDifficulty((this.scene.store?.load?.() || this.scene.opts?.saveData || {})?.systems || this.scene.systems?.state)).label;
@@ -917,7 +920,8 @@ export class GameUI {
           if (hasSave) { try { localStorage.setItem(PENDING_KEY, pick); } catch { /* private mode: Normal */ } location.search = '?reset=1'; return; }
           setDifficulty(this.scene.systems?.state, pick);
           this._leftTitle = true; this.closeAll();
-        } else { this.stack = []; this.active = false; this.open('options'); }
+        } else if (it === acctLabel) { import('../net/account.js?v=v0.2.49-alpha').then((m) => m.openAccount()); }
+        else { this.stack = []; this.active = false; this.open('options'); }
       },
       onBack: () => false,
       // phone menu fix (Oct 23, 2026): A is hidden under menus on phones, so a tap anywhere on 'Tap to start' starts (touch profile only)

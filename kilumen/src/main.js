@@ -66,6 +66,7 @@ if (q.get('save') !== '0' && q.get('idb') !== '0') {
     if (saveStorage?.lastError) console.warn('save backend:', saveStorage.lastError);
   } catch (e) { console.warn('save: IndexedDB unavailable, using localStorage:', e?.message || e); }
 }
+try { await (await import('./net/account.js?v=v0.2.49-alpha')).refreshIfStale(); } catch (e) { /* offline */ } // v0.2.49: refresh a stale session (home-screen app)
 // Cloud saves (Oct 29, 2026, src/net/cloud_save.js): signed-in site accounts only, ?cloudsave=0 off. Runs before the save is read.
 let cloudSave = null;
 if (saveStorage && q.get('cloudsave') !== '0') {
