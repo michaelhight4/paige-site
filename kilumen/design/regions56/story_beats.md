@@ -679,3 +679,18 @@ The teams are not villains: they're scared staff trying to regain control with *
 5. The bag count is 6 or 7 depending on whether the Lanternport coin came first (G3: one bag per coin). Text Bot needs both variants. Coder: read the coin count at scene time.
 
 - **rev 2 note (3:53 PM CT):** removed the arrive-from-Tidewater assumptions: the gate wording, the L1 boat line, the bag count and the order check. Backup: `story_beats.backup_2026-10-29_1553_preL2.md`.
+
+---
+## §S. Lanternport Grotto: the SIGNAL crate (DRAFT, rev 1, Oct 29 4:18 PM CT, awaiting Gary)
+**Spot:** `lanternport_grotto_signal_crate` (keeper's alcove, 15,4; wired in wt_r58 `src/region78/index.js`). It's the same crate as the nailed-shut one in the Tidewater lab (`system_story_r56.g23_crate`; R6 lab table row 6, "INSTRUMENTS – SIGNAL").
+**Job:** a SEED toward Signal Test 7, not the reveal. **Order-safe:** Lanternport is reachable before Tidewater, so the crate must read as merely odd to someone who hasn't done the R6 lab, and click for someone who has read the Test 7 sheet ("Load: 140%"). No origin words. Coralie and Ron aren't involved.
+
+| Key | When | Intent | Suggested content (Text Bot writes the final line) |
+|---|---|---|---|
+| `system_story_r78.signal_crate_first` (sets `found_signal_crate_r7`) | first look | The lid has been pried up and the straw is damp. Most of it is gone, and one instrument is left: a **signal load gauge**, dial marked 0–150%. Past 100 the face is painted red, and someone has scratched a small "7" into the red. The needle is stuck at the far end. A soggy packing slip: "Return to Facility 1 for recalibration. Do not exceed 100%." | "LANTERNPORT. INSTRUMENTS – SIGNAL. The lid's been pried up. Only one gauge left in the straw. Its needle is jammed past the red, where someone scratched a '7'. The slip says: do not exceed 100%." |
+| `system_story_r78.signal_crate_again` | repeats | The needle still hasn't moved. | "The SIGNAL gauge. Still jammed past the red." |
+- **Seed logic:** the 7, the red band past 100 and "Facility 1" are the only hooks. The player who has read the R6 run sheet (Test 7, Line 1, Load 140%) connects them; the player who hasn't just carries an itch. Who pried it open stays unexplained (no new mystery owner; Record 4 of The Missing Note is untouched).
+- **Banned/tone check:** no route/coin issues; no drug/drink hints; no company_voice; RITA silent.
+- **Set registry:** keeper's alcove props: the crate (open), damp straw, the gauge (fixed: needle past red, a scratched 7), the slip.
+
+**Tidewater `system_story_r56.g23_crate`: wire as an examine spot? YES (agree with Coder).** One line, no flag: "Nailed shut. Stencilled: LANTERNPORT. INSTRUMENTS – SIGNAL." That makes the Lanternport crate a recognisable callback, and both orders work: Tidewater first means "it got here"; Lanternport first means "there's another one" or "that's where it came from". Text Bot: keep the stencil text identical in both keys.

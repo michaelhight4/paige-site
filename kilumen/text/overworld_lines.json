@@ -13211,7 +13211,6 @@
      "Lanternport Grotto",
      "Under the lighthouse. Mind the drips."
     ],
-    "note": "Text Bot parked _meta.pending_caves_r78.lanternport_grotto.sign_entrance (DRAFT), wired to the real WD id Oct 29 2026",
     "lines": [
      {
       "id": "default",
@@ -13221,7 +13220,8 @@
        "Under the lighthouse. Mind the drips."
       ]
      }
-    ]
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
    }
   },
   "lanternport_hall_int": {
@@ -13932,7 +13932,6 @@
      "Cindervale Caldera",
      "Old slag tunnels. Hot floors, cool rocks."
     ],
-    "note": "Text Bot parked _meta.pending_caves_r78.cindervale_caldera.sign_entrance (DRAFT), wired to the real WD id Oct 29 2026",
     "lines": [
      {
       "id": "default",
@@ -13942,7 +13941,8 @@
        "Old slag tunnels. Hot floors, cool rocks."
       ]
      }
-    ]
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
    }
   },
   "cindervale_hall_int": {
@@ -15135,6 +15135,129 @@
     ]
    },
    "area_name": "Aurelith Terminal"
+  },
+  "lanternport_grotto": {
+   "lanternport_grotto_tidewatcher": {
+    "pages": [
+     "Forty years I've kept the keeper's lamps lit down here.",
+     "The sea likes a bit of light. So do I."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Forty years I've kept the keeper's lamps lit down here.",
+       "The sea likes a bit of light. So do I."
+      ]
+     }
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+   },
+   "lanternport_grotto_keeper_lamps": {
+    "pages": [
+     "The keeper's lanterns. Freshly trimmed and glowing.",
+     "Someone still looks after these every night."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The keeper's lanterns. Freshly trimmed and glowing.",
+       "Someone still looks after these every night."
+      ]
+     }
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+   },
+   "lanternport_grotto_nets": {
+    "pages": [
+     "Fishing nets, hung up to dry.",
+     "A tiny crab is living in one. It looks proud."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Fishing nets, hung up to dry.",
+       "A tiny crab is living in one. It looks proud."
+      ]
+     }
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+   }
+  },
+  "cindervale_caldera": {
+   "cindervale_caldera_smelter": {
+    "pages": [
+     "Thirty years at the smelter. Retired now.",
+     "The rocks still wave at me. Some of them walk."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Thirty years at the smelter. Retired now.",
+       "The rocks still wave at me. Some of them walk."
+      ]
+     }
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+   },
+   "cindervale_caldera_sign": {
+    "pages": [
+     "CALDERA NOTICE: Keep off the slag channel.",
+     "Use the bridges. Your boots will thank you."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "CALDERA NOTICE: Keep off the slag channel.",
+       "Use the bridges. Your boots will thank you."
+      ]
+     }
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+   },
+   "cindervale_caldera_old_forge": {
+    "pages": [
+     "A cold forge and a dented anvil.",
+     "Hard to believe this place used to roar."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A cold forge and a dented anvil.",
+       "Hard to believe this place used to roar."
+      ]
+     }
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+   },
+   "cindervale_caldera_ore_cart": {
+    "pages": [
+     "An old ore cart on the north rail.",
+     "It's stuck fast. Probably for the best."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "An old ore cart on the north rail.",
+       "It's stuck fast. Probably for the best."
+      ]
+     }
+    ],
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+   }
   }
  },
  "closed_exits": {
@@ -24980,14 +25103,14 @@
   },
   "g23_crate": {
    "pages": [
-    "A crate, nailed shut. Stencilled on the side:",
-    "'LANTERNPORT. INSTRUMENTS - SIGNAL.'"
+    "Nailed shut. Stencilled:\nLANTERNPORT. INSTRUMENTS – SIGNAL."
    ],
    "parity": "F15",
    "build": "partial",
    "status": "DRAFT",
    "group": 23,
-   "speaker": "inspect"
+   "speaker": "inspect",
+   "note": "story_beats §S rev 1: stencil identical to system_story_r78.signal_crate_first. DRAFT pending Gary"
   },
   "g23_tide_warning": {
    "pages": [

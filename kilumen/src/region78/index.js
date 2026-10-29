@@ -25,13 +25,11 @@ export const R78 = {
 // §L text: Text Bot keys ron.lanternport.* + lore.lanternport.page (DRAFT, Oct 29 3:56 PM CT); placeholders removed.
 /** SIGNAL crate (lanternport_grotto, keeper's alcove 15,4; REGIONS_78_PLAN "INSTRUMENTS - SIGNAL crate"): the crate the
  * player saw nailed shut in the Tidewater lab (system_story_r56.g23_crate) ended up here. First look sets SIGNAL_FLAG.
- * Text keys are placeholders until Text Bot / Story Bot write the beat (data/textbot_cave_spots_r78.md). */
+ * Beat: story_beats.md §S (Story Bot, DRAFT); text: Text Bot system_story_r78.signal_crate_first / _again. */
 export const SIGNAL_SPOT = 'lanternport_grotto_signal_crate', SIGNAL_FLAG = 'found_signal_crate_r7';
 export const SIGNAL_KEYS = { first: 'system_story_r78.signal_crate_first', again: 'system_story_r78.signal_crate_again' };
-export const SIGNAL_PLACEHOLDER = {
-  [SIGNAL_KEYS.first]: ['[PLACEHOLDER system_story_r78.signal_crate_first] A crate stencilled "LANTERNPORT. INSTRUMENTS - SIGNAL." The lid is pried open. It\'s empty.'],
-  [SIGNAL_KEYS.again]: ['[PLACEHOLDER system_story_r78.signal_crate_again] The empty SIGNAL crate.'],
-};
+/** Tidewater lab crate (same crate, still nailed shut): examine only, no flag. Missing key -> silent (never a raw key). */
+export const LAB_CRATE_SPOT = 'lab_tidewater_cave_signal_crate', LAB_CRATE_KEY = 'system_story_r56.g23_crate';
 /** Pure: which crate key plays for these flags. */
 export const signalKey = (flags) => (flags.has(SIGNAL_FLAG) ? SIGNAL_KEYS.again : SIGNAL_KEYS.first);
 export const COIN_FLAGS = ['fernwick', 'saltmere', 'revival', 'frostspire', 'mirefen', 'tidewater', 'lanternport', 'cindervale'].map((z) => `beat_master_${z}`);
@@ -79,9 +77,10 @@ export function attachRegion78(scene, { systems } = {}) {
   }
 
   async function runSpot(sp) {
+    if (sp?.id === LAB_CRATE_SPOT) { if (look(LAB_CRATE_KEY)) await scene.say?.(pages(LAB_CRATE_KEY)); return true; }
     if (sp?.id !== SIGNAL_SPOT) return false;
     const k = signalKey({ has });
-    await (scene.say?.(look(k) ? pages(k) : SIGNAL_PLACEHOLDER[k]) ?? Promise.resolve());
+    if (look(k)) await scene.say?.(pages(k));
     set(SIGNAL_FLAG);
     return true;
   }
