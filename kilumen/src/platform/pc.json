@@ -43,6 +43,7 @@
  },
  "camera": {
   "alwaysCentre": true,
+  "centreSmallMaps": true,
   "follow": "player_tile_centre",
   "deadzonePx": {
    "x": 0,

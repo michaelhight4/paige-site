@@ -3,17 +3,17 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.57-alpha';
-import * as AB from './autobattle.js?v=v0.2.57-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.57-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.57-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.57-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.57-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.57-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.57-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.57-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.57-alpha';
-import { createRitaPanel } from './rita_panel.js?v=v0.2.57-alpha'; // v0.2.32: RITA voice test tab
+import { DEV } from './runtime.js?v=v0.2.58-alpha';
+import * as AB from './autobattle.js?v=v0.2.58-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.58-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.58-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.58-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.58-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.58-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.58-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.58-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.58-alpha';
+import { createRitaPanel } from './rita_panel.js?v=v0.2.58-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
@@ -96,6 +96,15 @@ export async function installDevConsole(scene, access) {
     }
     return step(snap);
   };
+  // ---- v0.2.58-alpha world speed (1x/4x/10x/25x/100x): scales the whole simulation for this admin session only ----------------
+  // overworld: scene.worldSpeed = extra fixed ticks per frame (overworld.js frame, sub-stepped, so no collision skipping);
+  // battle: the qol pace hook divides every battle wait; CSS / Web Animations (text reveal, UI + battle fx): playbackRate.
+  // Never saved (DEV is memory-only); saving itself stays behind scene.saveLockReason (no battle / conversation / cutscene).
+  const WORLD_SPEEDS = [1, 4, 10, 25, 100];
+  const hookPace = () => { const qq = ui()?.qol; if (!qq || qq._devWorld) return; const orig = qq.pace.bind(qq); qq.pace = (ms) => { const v = orig(ms); const w = DEV.active ? DEV.world || 1 : 1; return w > 1 ? v / w : v; }; qq._devWorld = true; };
+  const pumpAnims = () => { const w = DEV.active ? DEV.world || 1 : 1; try { for (const a of document.getAnimations?.() || []) if (a.playbackRate !== w) a.playbackRate = w; } catch { /* old browser */ } };
+  const setWorld = (w) => { DEV.world = WORLD_SPEEDS.includes(w) ? w : 1; scene.worldSpeed = DEV.world; hookPace(); pumpAnims(); };
+  const animTimer = setInterval(() => { if ((DEV.world || 1) > 1 || animDirty) { animDirty = (DEV.world || 1) > 1; pumpAnims(); } }, 50); let animDirty = false; void animTimer;
   // HUD chip (phones have no keyboard)
   const chip = () => { const top = ui()?.hudTop; if (!top || top.querySelector('.kdev-chip')) return; if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
     const b = document.createElement('button'); b.className = 'kdev-chip'; b.textContent = 'DEV'; b.setAttribute('aria-label', 'Open dev console');
@@ -273,7 +282,9 @@ export async function installDevConsole(scene, access) {
 
   function tTools(body) {
     const logs = AB.logs.slice().reverse();
-    body.innerHTML = `<h4>Walk speed (only while dev mode is on)</h4><div class="kbar">${[1, 2, 4].map((n) => `<button class="${DEV.speed === n ? 'sel' : ''}" data-speed="${n}">${n}x</button>`).join('')}</div>
+    body.innerHTML = `<h4>World speed (whole game: movement, timers, text, animations, battles)</h4><div class="kbar">${WORLD_SPEEDS.map((n) => `<button class="${(DEV.world || 1) === n ? 'sel' : ''}" data-world="${n}">${n}x</button>`).join('')}</div>
+<small>Dev session only, never saved. Movement is sub-stepped, so collisions hold at 100x. Saving stays blocked in battles, conversations and cutscenes.</small>
+<h4>Walk speed (only while dev mode is on)</h4><div class="kbar">${[1, 2, 4].map((n) => `<button class="${DEV.speed === n ? 'sel' : ''}" data-speed="${n}">${n}x</button>`).join('')}</div>
 <h4>Master key</h4><div class="kbar"><button class="${DEV.masterKey ? 'sel warn' : ''}" data-mk>${DEV.masterKey ? 'ON: all progression locks bypassed' : 'OFF'}</button></div>
 <small>While ON, story gates, blocked exits / TO COME exits to built maps, locked staff doors, the hall Master requirement, the intro walls and the early-access notice are bypassed. It is a runtime override only: no badges or story flags are written, and turning it OFF restores the real locks. Saves made after using it are marked devTouched.</small>
 <h4>Auto-complete battle</h4><div class="kbar"><label><input type="checkbox" data-cr ${AB.options.useCrystals ? 'checked' : ''}> use crystals on weak wild foes</label></div>
@@ -282,14 +293,15 @@ export async function installDevConsole(scene, access) {
 <h4>Save</h4><small>Save marker: ${scene.devTouched || DEV.masterKey ? 'devTouched is set on this save' : 'not set yet (any console change sets it)'}</small>`;
     body.onclick = (e) => {
       const a = e.target.attributes;
-      if (a['data-speed']) { DEV.speed = Number(a['data-speed'].value); scene.player.speedMultiplier = DEV.speed; say(`Walk speed ${DEV.speed}x.`); render(); }
+      if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; say(`World speed ${DEV.world}x.`); render(); }
+      else if (a['data-speed']) { DEV.speed = Number(a['data-speed'].value); scene.player.speedMultiplier = DEV.speed; say(`Walk speed ${DEV.speed}x.`); render(); }
       else if (a['data-mk']) { DEV.masterKey = !DEV.masterKey; if (DEV.masterKey) touched(); say(DEV.masterKey ? 'Master key ON.' : 'Master key OFF. Real locks are back.'); render(); }
       else if (a['data-log']) { const l = logs[Number(a['data-log'].value)]; if (l) { if (!l.text) l.text = l.lines.join('\n'); AB.showLog(l); } }
     };
     const cr = body.querySelector('[data-cr]'); cr.onchange = () => { AB.options.useCrystals = cr.checked; };
   }
 
-  window.kilumen.dev = { active: true, role: access?.role, open, close, rita: () => (rita ||= createRitaPanel({ scene, say })), flags: DEV, logs: AB.logs, autobattle: AB };
+  window.kilumen.dev = { active: true, role: access?.role, open, close, rita: () => (rita ||= createRitaPanel({ scene, say })), flags: DEV, setWorldSpeed: setWorld, worldSpeeds: WORLD_SPEEDS, logs: AB.logs, autobattle: AB };
   console.info('Kilumen dev console ready: press ` or F2, or tap DEV.');
   return window.kilumen.dev;
 }
