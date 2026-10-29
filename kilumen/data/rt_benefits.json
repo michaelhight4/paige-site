@@ -7,7 +7,9 @@
     "_note": "region 2 build (coder, Oct 23 2026): the live region = the highest N whose flag is set (else 'region'). Region 2 opens with the Fernwick coin (the East Road / Thornwood open then); no region gating otherwise.",
     "4": "beat_master_revival",
     "5": "beat_master_frostspire",
-    "6": "beat_master_mirefen"
+    "6": "beat_master_mirefen",
+    "7": "beat_master_tidewater",
+    "8": "beat_master_lanternport"
   },
   "regions": {
     "1": {
@@ -33,6 +35,14 @@
     "6": {
       "maxIdLevel": 16,
       "_note": "region 6 cap (dev/r56-wiring, Oct 29 2026): opens with the Mirefen coin. Promotion pq_storm_duty -> ID 16 (promoted_id16; Ron 5 NOT required). PLACEHOLDER for Game dev"
+    },
+    "7": {
+      "maxIdLevel": 18,
+      "_note": "region 7 cap (dev/regions-5-8, Oct 29 2026): opens with the Tidewater coin. Promotion -> ID 18 (promoted_id18, after beat_master_lanternport). PLACEHOLDER for Game dev"
+    },
+    "8": {
+      "maxIdLevel": 20,
+      "_note": "region 8 cap (dev/regions-5-8, Oct 29 2026): opens with the Lanternport coin. Promotion -> ID 20 (promoted_id20, after beat_master_cindervale). PLACEHOLDER for Game dev"
     }
   },
   "curve": {
@@ -477,6 +487,48 @@
         "6": 2
       },
       "unlockRegion": 6
+    },
+    {
+      "id": "rt_node_station_l",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r7",
+      "requiresFlag": "promoted_id18",
+      "nameKey": "system_story_r78.r7_node_name",
+      "descKey": "system_story_r78.r7_node_desc",
+      "_note": "Region 7 key card (design/REGIONS_78_PLAN.md): the ID 18 promotion unlocks it; buying grants rt_keycard_r7 (Lanternport signal store (lighthouse lab, World Design to place)). PLACEHOLDER cost / rank for Game dev to tune (dev/regions-5-8, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 18,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "7": 1
+      },
+      "unlockRegion": 7
+    },
+    {
+      "id": "rt_node_station_c",
+      "branch": "rnd_clearance",
+      "effect": "flag",
+      "grantFlag": "rt_keycard_r8",
+      "requiresFlag": "promoted_id20",
+      "nameKey": "system_story_r78.r8_node_name",
+      "descKey": "system_story_r78.r8_node_desc",
+      "_note": "Region 8 key card (design/REGIONS_78_PLAN.md): the ID 20 promotion unlocks it; buying grants rt_keycard_r8 (Cindervale foundry lab (World Design to place)). PLACEHOLDER cost / rank for Game dev to tune (dev/regions-5-8, Oct 29 2026).",
+      "ranks": [
+        {
+          "cost": 2,
+          "minIdLevel": 20,
+          "value": 1
+        }
+      ],
+      "maxRankByRegion": {
+        "8": 1
+      },
+      "unlockRegion": 8
     }
   ],
   "respec": {

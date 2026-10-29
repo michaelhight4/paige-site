@@ -5194,6 +5194,70 @@
    ],
    "source": "design/overnight_gd/encounters_tidewater_coast.json",
    "inert": true
+  },
+  "lanternport_grotto_cave": {
+   "method": "cave",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "DRAFT dev/regions-5-8: region 7 cave, map not built yet (World Design request in design/REGIONS_78_PLAN.md). Species with art only.",
+   "slots": [
+    {
+     "species": "gloamtick",
+     "level": [
+      44,
+      48
+     ],
+     "weight": 30
+    },
+    {
+     "species": "bleachghast",
+     "level": [
+      44,
+      48
+     ],
+     "weight": 25
+    },
+    {
+     "species": "runeskein",
+     "level": [
+      44,
+      48
+     ],
+     "weight": 20
+    }
+   ]
+  },
+  "cindervale_caldera_cave": {
+   "method": "cave",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "DRAFT dev/regions-5-8: region 8 cave, map not built yet (World Design request in design/REGIONS_78_PLAN.md). Species with art only.",
+   "slots": [
+    {
+     "species": "slagrook",
+     "level": [
+      48,
+      52
+     ],
+     "weight": 30
+    },
+    {
+     "species": "obsidiax",
+     "level": [
+      48,
+      52
+     ],
+     "weight": 25
+    },
+    {
+     "species": "pumicepuff",
+     "level": [
+      48,
+      52
+     ],
+     "weight": 15
+    }
+   ]
   }
  }
 }

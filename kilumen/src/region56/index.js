@@ -6,7 +6,7 @@
 //   player beats the Tidewater Master without ever fighting Ron 5: ron5_missed + g21_ron_missed_parting (harbour slip).
 // - Promotions ID 14 / 16 set promoted_id14 / promoted_id16 (Benefits key-card nodes need them).
 // - ID cap flags id_cap_r5 / id_cap_r6 for RITA when company XP sits at the region cap.
-// Maps tidewater_coast / mirefen / stations are NOT built yet: everything here is dormant until those NPC ids exist.
+// Maps tidewater_coast / mirefen are built (World Design); attached by default since dev/regions-5-8.
 // Warmth gates (story_beats.md) are NOT wired: the builder has no Warmth condition yet (see WARMTH_GATES).
 import { oldGusHook } from './tutor.js?v=v0.2.79-alpha';
 
@@ -118,7 +118,7 @@ export function attachRegion56(scene, { systems } = {}) {
   (scene.trainerHooks ||= []).push(onTrainer);
   (scene.talkHooks ||= []).push(oldGusHook(scene)); // Old Gus tutor (tutor.js)
   const cv = typeof window !== 'undefined' ? window.kilumen?.companyVoice : scene.companyVoice;
-  if (cv && (cv.maxRegion ?? 0) < 6) cv.maxRegion = 6; // only when region56 is attached (?r56=1)
+  if (cv && (cv.maxRegion ?? 0) < 6) cv.maxRegion = 6; // region56 is on by default (dev/regions-5-8); ?r56=0 turns it off
   const iv = typeof setInterval !== 'undefined' && typeof window !== 'undefined' ? setInterval(() => { try { tick(); } catch (e) { console.error('region56 tick:', e); } }, 1000) : null;
   const api = { onTrainer, parting, tick, stop: () => iv && clearInterval(iv) };
   scene.region56 = api;
