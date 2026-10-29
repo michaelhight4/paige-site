@@ -19,7 +19,10 @@ export const PLATFORM_BIOMES = {
   // 'water' (fishing battles, Oct 29 2026): live backdrop drawn in code (src/battle/data/water_bg.js) over a static
   // fallback PNG; near = the wooden end of the pier, far = a foamy ripple patch on the water. Per-size palettes.
   water: {
-    bg: 'art/world/battle_bg_water.png', live: 'water',
+    // Animator's painted backdrop (Oct 29 2026): bgFor(phase) picks the still from the game clock; art: true means the pier
+    // and ripple are painted in, so drawPlatform is skipped and creatures stand on WATER_SPOTS (src/battle/data/water_bg.js).
+    bg: 'art/world/battle_bg_water_day.png', live: 'water', art: true,
+    bgFor: (phase) => `art/world/battle_bg_water_${['dawn', 'day', 'dusk', 'night'].includes(phase) ? phase : 'day'}.png`,
     near: { shadow: 'rgba(10, 30, 60, 0.40)', rim: '#3c2414', side: '#6b4224', top: '#8a5a32', light: '#a87444', fleck: ['#6b4224', '#b88352', '#5a3620'], tuft: '#2e1a0e', feet: 'rgba(30, 16, 8, 0.36)' },
     far: { shadow: 'rgba(10, 40, 80, 0.35)', rim: '#2a6fae', side: '#3a86c8', top: '#6fb8e8', light: '#a6d8f4', fleck: ['#eaf8ff', '#ffffff', '#4f9ad6'], tuft: '#eaf8ff', feet: 'rgba(16, 60, 110, 0.32)' },
   },

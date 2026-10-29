@@ -14,7 +14,7 @@ import { authoredTeam } from './data/trainer_teams.js?v=v0.2.58-alpha';
 import { STAT_NAMES } from './data/creatures.js?v=v0.2.58-alpha';
 import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.58-alpha';
 import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.58-alpha';
-import { mountWaterBg } from './data/water_bg.js?v=v0.2.58-alpha'; // animated water backdrop (biome 'water')
+import { mountWaterBg, mountWaterArt, WATER_SPOTS, coverPoint } from './data/water_bg.js?v=v0.2.58-alpha'; // animated water backdrop (biome 'water')
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
 import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.58-alpha';
 
@@ -134,17 +134,26 @@ export function makeSdBattle(ui, opts, h) {
   scr.mount = (layer) => {
     // ground platforms (per biome, src/battle/data/platforms.js) replace the old .b-pad ellipses; each creature container's
     // bottom edge is its feet line (--feet, measured from the sprite), and the platform is centred on it
-    const plat = (s, size) => `<img class="b-plat ${size}" id="${s}-plat" alt="" src="${drawPlatform(biome, size)}" style="--plat-w:${PLATFORM_SIZES[size].w}">`;
-    layer.innerHTML = `<div class="ui-battle${trainer ? ' b-intro' : ''}" data-scr="battle" data-engine="sd" data-biome="${esc(biome)}"><div class="bg" style="background-image:url(${biomeArt.bg})"></div>
-      <div class="b-field"><div class="b-foe">${plat('p2', 'far')}${trainer ? `<img class="b-trainer-fig foe" id="tr-p2" alt="" hidden><div class="b-tr-spot" id="tr-spot" hidden><img class="b-plat far b-tr-plat" alt="" src="${drawPlatform(biome, 'far')}" style="--plat-w:${PLATFORM_SIZES.far.w}"></div>` : ''}<img class="ui-sprite b-mon" id="p2-mon" alt="" style="opacity:0"></div>
+    const wPhase = ui.q?.get('phase') || ui.scene?.phase || 'day', bgUrl = biomeArt.bgFor ? biomeArt.bgFor(wPhase) : biomeArt.bg;
+    const plat = (s, size) => biomeArt.art ? '' : `<img class="b-plat ${size}" id="${s}-plat" alt="" src="${drawPlatform(biome, size)}" style="--plat-w:${PLATFORM_SIZES[size].w}">`;
+    layer.innerHTML = `<div class="ui-battle${trainer ? ' b-intro' : ''}" data-scr="battle" data-engine="sd" data-biome="${esc(biome)}"${biomeArt.art ? ' data-biome-art="1"' : ''}><div class="bg" style="background-image:url(${bgUrl})"></div>
+      <div class="b-field"><div class="b-foe">${plat('p2', 'far')}${trainer ? `<img class="b-trainer-fig foe" id="tr-p2" alt="" hidden><div class="b-tr-spot" id="tr-spot" hidden><img class="b-plat far b-tr-plat" alt="" src="${biomeArt.art ? '' : drawPlatform(biome, 'far')}" style="--plat-w:${PLATFORM_SIZES.far.w}"></div>` : ''}<img class="ui-sprite b-mon" id="p2-mon" alt="" style="opacity:0"></div>
         <div class="b-ally">${plat('p1', 'near')}${trainer ? '<img class="b-trainer-fig ally" id="tr-p1" alt="" hidden>' : ''}<img class="ui-sprite b-mon" id="p1-mon" alt="" style="opacity:0"></div>
         ${plateHtml('p2')}${plateHtml('p1')}${trainer ? '<div class="b-intro-row foe" id="intro-p2" aria-hidden="true"></div><div class="b-intro-row ally" id="intro-p1" aria-hidden="true"></div>' : ''}</div>
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
-    if (biomeArt.live === 'water') { // live water layer; ripples follow the foe's platform once laid out
+    if (biomeArt.live === 'water' && biomeArt.art) { // painted backdrop: animated layers over the still; creatures on the painted spots
+      const bgEl = root.querySelector('.bg'), field = root.querySelector('.b-field');
+      mountWaterArt(bgEl, { phase: wPhase, reduced: reducedMotion() });
+      const place = () => { if (!root.isConnected) return removeEventListener('resize', place); const b = bgEl.getBoundingClientRect(), f = field.getBoundingClientRect(); if (!b.width) return;
+        const cs = getComputedStyle(bgEl), frac = (v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5), ax = frac(cs.backgroundPositionX), ay = frac(cs.backgroundPositionY);
+        for (const [sel, [fx, fy]] of [['.b-ally', WATER_SPOTS.near], ['.b-foe', WATER_SPOTS.far]]) { const [x, y] = coverPoint(fx, fy, b.width, b.height, 1280, 720, ax, ay), el = root.querySelector(sel);
+          el.style.left = `${x + b.left - f.left}px`; el.style.top = `${y + b.top - f.top}px`; } };
+      place(); requestAnimationFrame(place); addEventListener('resize', place);
+    } else if (biomeArt.live === 'water') { // live water layer; ripples follow the foe's platform once laid out
       const foe = { x: 0.8, y: 0.6 }, bgEl = root.querySelector('.bg');
-      mountWaterBg(bgEl, { phase: ui.q?.get('phase') || ui.scene?.phase || 'day', reduced: reducedMotion(), foe });
+      mountWaterBg(bgEl, { phase: wPhase, reduced: reducedMotion(), foe });
       requestAnimationFrame(() => { const pl = root.querySelector('#p2-plat')?.getBoundingClientRect(), r = bgEl.getBoundingClientRect(); if (pl?.width && r.width) { foe.x = (pl.left + pl.width / 2 - r.left) / r.width; foe.y = (pl.top + pl.height * 0.6 - r.top) / r.height; } });
     }
     if (opts.rtSwitch && !owned) mountModeSwitch();
