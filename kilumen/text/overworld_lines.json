@@ -13206,7 +13206,7 @@
     ]
    },
    "area_name": "Lanternport",
-   "lanternport_lanternport_grotto_sign": {
+   "lanternport_grotto_sign": {
     "pages": [
      "Lanternport Grotto",
      "Under the lighthouse. Mind the drips."
@@ -13221,7 +13221,25 @@
       ]
      }
     ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026); key renamed by Text Bot to match WD sign id"
+   },
+   "lanternport_lighthouse_door": {
+    "pages": [
+     "The lighthouse door. Locked tight,\nsalt crusted on the hinges.",
+     "Somewhere above, the lamp turns\nand turns. Not today, though."
+    ],
+    "status": "DRAFT",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The lighthouse door. Locked tight,\nsalt crusted on the hinges.",
+       "Somewhere above, the lamp turns\nand turns. Not today, though."
+      ]
+     }
+    ],
+    "note": "Text Bot r78 interior line (DRAFT, Oct 29 2026); pulled from _meta.pending_r78_interiors"
    }
   },
   "lanternport_hall_int": {
@@ -13927,7 +13945,7 @@
     ]
    },
    "area_name": "Cindervale",
-   "cindervale_cindervale_caldera_sign": {
+   "cindervale_caldera_sign": {
     "pages": [
      "Cindervale Caldera",
      "Old slag tunnels. Hot floors, cool rocks."
@@ -13942,7 +13960,7 @@
       ]
      }
     ],
-    "note": "Text Bot cave line (DRAFT, Oct 29 2026, backups *_precaves78_161656); pulled from _meta.pending_caves_r78"
+    "note": "Text Bot cave line (DRAFT, Oct 29 2026); key renamed by Text Bot to match WD sign id"
    }
   },
   "cindervale_hall_int": {

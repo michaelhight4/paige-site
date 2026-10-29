@@ -41,7 +41,7 @@ test('rail: per-town station interiors, shared station_int by default', () => {
 
 test('mouth signs: renamed ids point at Text Bot keys that exist', () => {
   const L = J('text/overworld_lines.json').maps;
-  for (const [t, id, key] of [['lanternport', 'lanternport_grotto_sign', 'lanternport_lanternport_grotto_sign'], ['cindervale', 'cindervale_caldera_sign', 'cindervale_cindervale_caldera_sign']]) {
+  for (const [t, id, key] of [['lanternport', 'lanternport_grotto_sign', 'lanternport_grotto_sign'], ['cindervale', 'cindervale_caldera_sign', 'cindervale_caldera_sign']]) {
     const s = MAP(t).signs.find((x) => x.id === id);
     assert.equal(s.text_ref, `overworld_lines.json maps.${t}.${key}`); assert.ok(L[t][key].pages.length);
   }

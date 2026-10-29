@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { zoneAt, biomeFor } from '../src/battle/encounters.js';
-import { attachRegion78, signalKey, SIGNAL_FLAG, SIGNAL_SPOT, LAB_CRATE_SPOT, LAB_CRATE_KEY } from '../src/region78/index.js';
+import { attachRegion78, signalKey, SIGNAL_FLAG, SIGNAL_SPOT, SIGNAL_KEYS, LAB_CRATE_SPOT, LAB_CRATE_KEY } from '../src/region78/index.js';
 import { CHIMNEY_SMOKE } from '../src/overworld/living.js';
 const J = (p) => JSON.parse(fs.readFileSync(new URL(`../${p}`, import.meta.url)));
 const MAP = (n) => J(`art/world/overworld/maps/${n}.json`);
@@ -27,12 +27,16 @@ test('cave text: WD spot ids listed for Text Bot; town signs wired', () => {
     const m = MAP(c);
     for (const o of [...m.npcs, ...m.signs, ...m.interact_spots]) assert.ok(md.includes('`' + o.id + '`'), o.id);
   }
-  assert.ok(L.lanternport.lanternport_lanternport_grotto_sign.pages.length);
-  assert.ok(L.cindervale.cindervale_cindervale_caldera_sign.pages.length);
+  assert.ok(L.lanternport.lanternport_grotto_sign.pages.length);
+  assert.ok(L.cindervale.cindervale_caldera_sign.pages.length);
 });
 
 test('SIGNAL crate: first look sets the flag, later looks use the again key', async () => {
-  assert.ok(MAP('lanternport_grotto').interact_spots.some((s) => s.id === SIGNAL_SPOT));
+  const crate = MAP('lanternport_grotto').interact_spots.find((s) => s.id === SIGNAL_SPOT);
+  assert.ok(crate);
+  assert.equal(crate.text_ref, `overworld_lines.json ${SIGNAL_KEYS.first}`);
+  assert.equal(crate.text_ref_again, `overworld_lines.json ${SIGNAL_KEYS.again}`);
+  assert.equal(crate.sets_flag, SIGNAL_FLAG);
   const flags = new Set(), said = [];
   const lines = J('text/overworld_lines.json'), T = lines.system_story_r78;
   const scene = { flags, lines, map: { name: 'lanternport_grotto' }, setFlag: (f) => flags.add(f), say: async (p) => said.push(p.join(' ')) };

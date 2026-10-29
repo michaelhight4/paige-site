@@ -88,7 +88,7 @@ save(G, {"title": "Lanternport Grotto",
     "signs": [],
     "items": [{"id": "grotto_item", "x": 27, "y": 15, "hidden": True, "item": "potion", "flag": "item_lanternport_grotto_grotto_item"}],
     "interact_spots": [
-        {"id": "lanternport_grotto_signal_crate", "x": 15, "y": 4, "facing": "up", "what": "the INSTRUMENTS - SIGNAL crate, washed up under the lighthouse (story: Record 4 of The Missing Note)", "text_ref": tref('lanternport_grotto', 'lanternport_grotto_signal_crate')},
+        {"id": "lanternport_grotto_signal_crate", "x": 15, "y": 4, "facing": "up", "what": "the INSTRUMENTS - SIGNAL crate, washed up under the lighthouse (story: Record 4 of The Missing Note)", "text_ref": "overworld_lines.json system_story_r78.signal_crate_first", "text_ref_again": "overworld_lines.json system_story_r78.signal_crate_again", "sets_flag": "found_signal_crate_r7"},
         {"id": "lanternport_grotto_keeper_lamps", "x": 13, "y": 4, "facing": "up", "what": "old keeper's lamps, still trimmed by someone", "text_ref": tref('lanternport_grotto', 'lanternport_grotto_keeper_lamps')},
         {"id": "lanternport_grotto_nets", "x": 11, "y": 5, "facing": "up", "what": "nets hung to dry, names stitched on the floats", "text_ref": tref('lanternport_grotto', 'lanternport_grotto_nets')}],
     "encounter_zones": [{"x0": 3, "y0": 5, "x1": 28, "y1": 16, "table": "lanternport_grotto_cave"}],

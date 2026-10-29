@@ -139,4 +139,4 @@ All below sit in each map's `text_pending` until Text Bot adds `maps.<map>.<id>`
 |---|---|---|---|---|
 | npc | `route_fernwick_lanternport_trainer_5` | 16,26 | overworld_lines.json maps.route_fernwick_lanternport.route_fernwick_lanternport_trainer_5 | WD r78 P3: 5th road trainer per REGIONS_78_PLAN (route_fernwick_lanternport 5). Needs Text Bot lines + Coder/GD standin check |
 
-Renamed (Oct 29): town signs `lanternport_lanternport_grotto_sign` -> `lanternport_grotto_sign`, `cindervale_cindervale_caldera_sign` -> `cindervale_caldera_sign`.
+Renamed (Oct 29): town signs `lanternport_lanternport_grotto_sign` -> `lanternport_grotto_sign`, `cindervale_cindervale_caldera_sign` -> `cindervale_caldera_sign`. Text Bot keys now match (maps.lanternport.lanternport_grotto_sign, maps.cindervale.cindervale_caldera_sign); map text_refs repointed. SIGNAL crate text_ref -> system_story_r78.signal_crate_first (again: signal_crate_again, flag found_signal_crate_r7), no longer maps.lanternport_grotto.lanternport_grotto_signal_crate.
