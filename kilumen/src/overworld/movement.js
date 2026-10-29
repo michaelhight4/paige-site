@@ -3,7 +3,7 @@
 // south into a ledge = hop over it, direction changes while walking happen without the turn pause.
 import {
   TILE, DELTA, MoveMode, BASE_TICKS_PER_TILE, TURN_TICKS, BUMP_TICKS, HOP_TICKS, HOP_HEIGHT, RAMP_HEIGHT, ANIM,
-} from './constants.js?v=v0.2.41-alpha';
+} from './constants.js?v=v0.2.42-alpha';
 
 /**
  * @typedef {{dir: ('up'|'down'|'left'|'right'|null)}} MoveInput   the direction currently held (latest press wins)

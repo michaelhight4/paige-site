@@ -6,16 +6,16 @@
 // Save rules: the coach talk runs inside scene.script() (checkpoint before, normal save after) and a saveGuard blocks
 // saving the whole time the overlay is open, so the fee, the race and the prize land in one save after the overlay
 // closes. Closing the tab mid-race reloads the pre-talk checkpoint: fee not taken, window not used.
-import { S, t } from './strings.js?v=v0.2.41-alpha';
-import { STATS, POINTS } from './rules.js?v=v0.2.41-alpha';
-import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.41-alpha';
-import { runMeet } from './meet.js?v=v0.2.41-alpha';
-import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.41-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.41-alpha';
-import { speciesAthletics } from './athletics.js?v=v0.2.41-alpha';
-import { rngFor } from './rng.js?v=v0.2.41-alpha';
-import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.41-alpha';
-import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.41-alpha';
+import { S, t } from './strings.js?v=v0.2.42-alpha';
+import { STATS, POINTS } from './rules.js?v=v0.2.42-alpha';
+import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.42-alpha';
+import { runMeet } from './meet.js?v=v0.2.42-alpha';
+import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.42-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.42-alpha';
+import { speciesAthletics } from './athletics.js?v=v0.2.42-alpha';
+import { rngFor } from './rng.js?v=v0.2.42-alpha';
+import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.42-alpha';
+import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.42-alpha';
 
 const W = 640, H = 360, PPM = 22, LANE_Y = [176, 222, 268, 314], SPR = 64;
 const sheet = new Map();
@@ -39,7 +39,38 @@ const CSS = `
 #sports-ov table{border-collapse:collapse;width:100%;margin:4px 0 8px}#sports-ov td,#sports-ov th{padding:3px 6px;border-bottom:1px solid #3a4560;text-align:left}
 #sports-ov tr.me td{color:#ffd77a;font-weight:bold}
 #sports-ov .modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}#sports-ov .mode{background:#2d3549;border:2px solid #44506b;border-radius:4px;padding:10px}#sports-ov .mode h3{margin:0 0 4px;color:#ffd77a;font-size:16px}#sports-ov .note{color:#e8a08a;min-height:1.3em}#sports-ov .gold{color:#ffd77a}#sports-ov button:disabled{opacity:.45;cursor:default}
-#sports-btn{position:fixed;left:8px;top:8px;z-index:8000;font:13px monospace;padding:8px 10px;background:#e8c26acc;border:2px solid #1b1f2a;border-radius:4px;color:#1b1f2a;cursor:pointer}`;
+#sports-btn{position:fixed;left:8px;top:8px;z-index:8000;font:13px monospace;padding:8px 10px;background:#e8c26acc;border:2px solid #1b1f2a;border-radius:4px;color:#1b1f2a;cursor:pointer}
+/* v0.2.41 hype skin (Gary 2:11 AM CT Oct 29): stadium colours, bold animated panels, bouncy buttons, portrait cards, A/B pad */
+#sports-ov{background:radial-gradient(ellipse at 50% 0%,#3a4d8fcc 0,#141a26f2 60%),repeating-linear-gradient(90deg,#ffffff08 0 2px,transparent 2px 22px);overflow:hidden}
+#sports-ov::before{content:"";position:absolute;left:0;right:0;bottom:0;height:22vh;background:repeating-linear-gradient(180deg,#c4573f 0 calc(22vh/4 - 3px),#f3ead2 calc(22vh/4 - 3px) calc(22vh/4));opacity:.35;pointer-events:none}
+#sports-ov::after{content:"";position:absolute;left:0;right:0;top:0;height:16vh;background:radial-gradient(circle,#ffd77a 0 2px,transparent 3px) 0 0/18px 14px,radial-gradient(circle,#e8584a 0 2px,transparent 3px) 9px 7px/18px 14px;opacity:.22;animation:spcrowd 1.2s steps(2) infinite;pointer-events:none}
+@keyframes spcrowd{50%{transform:translateY(-3px)}}
+#sports-ov .box{position:relative;z-index:1;background:linear-gradient(180deg,#2b3550,#1d2334);border:4px solid #ffc928;border-radius:12px;box-shadow:0 0 0 4px #1b1f2a,0 10px 0 4px #00000066,0 0 30px #ffc92855;animation:sppop .35s cubic-bezier(.3,1.6,.5,1) both}
+#sports-ov .box::before{content:"";display:block;height:10px;margin:-12px -12px 10px;border-radius:8px 8px 0 0;background:repeating-linear-gradient(90deg,#111 0 10px,#fff 10px 20px)}
+@keyframes sppop{from{transform:scale(.7) translateY(30px);opacity:0}}
+#sports-ov h2{font-size:24px;color:#ffd77a;text-shadow:2px 2px 0 #c47a08,4px 4px 0 #1b1f2a;letter-spacing:1px;animation:spwob 2.4s ease-in-out infinite}
+@keyframes spwob{50%{transform:rotate(-1.2deg) scale(1.03)}}
+#sports-ov button{font-weight:bold;background:linear-gradient(180deg,#ffe08a,#ffc928);border:3px solid #1b1f2a;border-radius:10px;box-shadow:0 5px 0 #8a5a08;transition:transform .12s cubic-bezier(.3,1.8,.5,1),box-shadow .12s}
+#sports-ov button:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 0 #8a5a08}
+#sports-ov button:active{transform:translateY(4px) scale(.96,.92);box-shadow:0 1px 0 #8a5a08}
+#sports-ov .mode{position:relative;border:3px solid #44506b;border-radius:10px;background:linear-gradient(160deg,#2f3b5c,#232a3d);animation:sppop .4s cubic-bezier(.3,1.6,.5,1) both;transition:transform .15s}
+#sports-ov .mode:nth-child(2){animation-delay:.08s;border-color:#e8584a;background:linear-gradient(160deg,#4a2a3a,#232a3d)}
+#sports-ov .mode:first-child{border-color:#7ad25a;background:linear-gradient(160deg,#284a32,#232a3d)}
+#sports-ov .mode:hover{transform:translateY(-4px) rotate(-.5deg)}
+#sports-ov .mode button{animation:spbob 1.6s ease-in-out infinite}
+@keyframes spbob{50%{box-shadow:0 5px 0 #8a5a08,0 0 18px 4px #ffe08acc}}
+#sports-ov .mon{border:3px solid #44506b;border-radius:10px;background:linear-gradient(160deg,#323d5a,#262d40);transition:transform .15s cubic-bezier(.3,1.8,.5,1),border-color .15s;animation:sppop .35s cubic-bezier(.3,1.6,.5,1) both}
+#sports-ov .mon:nth-child(2){animation-delay:.05s}#sports-ov .mon:nth-child(3){animation-delay:.1s}#sports-ov .mon:nth-child(4){animation-delay:.15s}#sports-ov .mon:nth-child(5){animation-delay:.2s}#sports-ov .mon:nth-child(6){animation-delay:.25s}
+#sports-ov .mon:hover,#sports-ov .mon.sel{transform:translateY(-4px) scale(1.03);border-color:#ffc928;box-shadow:0 0 16px #ffc92866}
+#sports-ov .mon img{background:radial-gradient(circle at 50% 60%,#ffd77a55,#1b1f2a 70%);border:2px solid #1b1f2a;border-radius:50%;width:72px;height:72px}
+#sports-ov .mon:hover img{animation:sphop .5s ease-in-out infinite}
+@keyframes sphop{50%{transform:translateY(-5px)}}
+#sports-ov .bar{height:8px;border-radius:4px;overflow:hidden;border:1px solid #000}
+#sports-ov .bar i{background:linear-gradient(90deg,#7fd27a,#ffc928);transform-origin:left;animation:spgrow .6s .2s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes spgrow{from{transform:scaleX(0)}}
+#sports-ov tbody tr{animation:spslide .35s cubic-bezier(.3,1.5,.5,1) both}#sports-ov tbody tr:nth-child(2){animation-delay:.1s}#sports-ov tbody tr:nth-child(3){animation-delay:.2s}#sports-ov tbody tr:nth-child(4){animation-delay:.3s}
+@keyframes spslide{from{transform:translateX(-40px);opacity:0}}
+@media (prefers-reduced-motion:reduce){#sports-ov *,#sports-ov::after{animation:none!important;transition:none!important}}`;
 
 export function attachSports(scene, { query, systems } = {}) {
   const st = { open: false, phase: 'closed', race: null, meet: null, prompt: null, log: [], mode: 'practice', onClose: null };
@@ -50,6 +81,11 @@ export function attachSports(scene, { query, systems } = {}) {
   (scene.saveGuards ||= []).push(() => (st.open ? (st.phase === 'race' ? 'sports_race' : 'sports_menu') : null));
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
   let ov = null, keyH = null, savedTs = 1;
+  // snappy UI sounds (tiny WebAudio blips; silent if audio is locked or muted)
+  let ac = null;
+  const blip = (f = 660, d = 0.06, type = 'square', v = 0.05) => { try { ac ||= new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), gn = ac.createGain(); o.type = type; o.frequency.setValueAtTime(f, ac.currentTime); o.frequency.exponentialRampToValueAtTime(f * 1.5, ac.currentTime + d); gn.gain.setValueAtTime(v, ac.currentTime); gn.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + d); o.connect(gn).connect(ac.destination); o.start(); o.stop(ac.currentTime + d); } catch (e) { /* no audio */ } };
+    const wireUi = () => { if (!ov) return; ov.querySelectorAll('button').forEach((b) => { if (b._sfx) return; b._sfx = 1; b.addEventListener('pointerenter', () => blip(880, 0.03, 'triangle', 0.025)); b.addEventListener('click', () => blip(b.dataset.a === 'close' ? 440 : 700, 0.08)); });
+    ov.querySelectorAll('.mon').forEach((m) => { if (!m._sfx) { m._sfx = 1; m.addEventListener('pointerenter', () => blip(990, 0.03, 'triangle', 0.02)); } }); };
   if (query?.get?.('sports') === '1') { const btn = document.createElement('button'); btn.id = 'sports-btn'; btn.textContent = S.menu_button; document.body.appendChild(btn); btn.addEventListener('click', () => openVenue()); }
 
   // ---- the coach in Brookhollow: systems.onInteract runs before the overworld's own NPC talk ----
@@ -112,6 +148,7 @@ export function attachSports(scene, { query, systems } = {}) {
           <div class="note" id="sports-tourney-status">${esc(ts.msg)}</div><button data-a="tourney" ${ts.ok ? '' : 'disabled'}>${esc(t('tourney_go', { fee: TOURNEY.fee }))}</button></div>
       </div><button data-a="close">${esc(S.close)}</button></div>`;
     ov.querySelector('[data-a=close]').onclick = close;
+    wireUi();
     ov.querySelector('[data-a=practice]').onclick = () => { st.mode = 'practice'; showPicker(); };
     ov.querySelector('[data-a=tourney]').onclick = () => { if (!tourneyStatus().ok) return showVenue(tourneyStatus().msg); st.mode = 'tourney'; showPicker(); };
   }
@@ -123,7 +160,7 @@ export function attachSports(scene, { query, systems } = {}) {
       <div class="mons">${mons.map((c, i) => { const r = racerOf(c, i); return `<div class="mon" data-i="${i}"><img src="${framesFor(c.species)[0].src}"><div style="flex:1"><b>${esc(r.name)}</b> <span class="tr">Lv${c.level || '?'}</span>${statsBlock(r)}</div></div>`; }).join('')}</div>
       ${st.mode === 'tourney' ? `<div class="note">${esc(t('tourney_pay_hint', { fee: TOURNEY.fee }))}</div>` : ''}
       <button data-a="close">${esc(S.back)}</button></div>`;
-    ov.querySelector('[data-a=close]').onclick = () => showVenue();
+    ov.querySelector('[data-a=close]').onclick = () => showVenue(); wireUi();
     ov.querySelectorAll('.mon').forEach((el) => { el.onclick = () => {
       if (st.mode === 'tourney' && !payEntry({ day: day(), wallet: wallet(), state: sstate() })) return showVenue(tourneyStatus().msg);
       startMeet(mons[+el.dataset.i], +el.dataset.i);
@@ -212,7 +249,7 @@ export function attachSports(scene, { query, systems } = {}) {
       ${out.heats.map((h, i) => `<b>${esc(t('heat', { n: i + 1 }))}</b>${table(nameFix(h.placed, h.label), me.key)}`).join('')}
       ${tour ? '' : `<button data-a="again">${esc(S.race_again)}</button>`}<button data-a="close">${esc(S.back)}</button></div>`;
     ov.querySelector('[data-a=again]')?.addEventListener('click', () => { st.mode = 'practice'; showPicker(); });
-    ov.querySelector('[data-a=close]').onclick = () => showVenue();
+    ov.querySelector('[data-a=close]').onclick = () => showVenue(); wireUi();
   }
 
   const api = { openVenue, hookInteract, tourney: () => ({ day: day(), tourneyDay: isTourneyDay(day()), daysUntil: daysUntil(day()), coins: wallet()?.coins ?? null, state: { ...sstate() }, status: tourneyStatus() }), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, prompt: st.prompt?.kind || null, promptT0: st.prompt?.t0 ?? null, clock: st.race?.clock ?? null, log: st.log.slice(), fx: st.fx || null, champ: st.champ || null, forceWin }), open, close, tap: () => st.tapFn?.(), points: POINTS, speciesAthletics };

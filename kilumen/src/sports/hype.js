@@ -3,11 +3,11 @@
 // Everything is drawn on the race canvas (640x360 logical, pixel art, no smoothing). Pure presentation: the race sim
 // (race.js) is stepped exactly as before at fixed 1/60 s, so hitstop / slow-mo never change a result.
 // Reduced motion (prefers-reduced-motion or ?rm=1): no shake, no flashes, a fifth of the confetti, slower beams.
-import { S, t } from './strings.js?v=v0.2.41-alpha';
-import { stepRace, applyStart, applyPush, applySprint, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.41-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.41-alpha';
-import { rngFor } from './rng.js?v=v0.2.41-alpha';
-import { dashScore } from './dash.js?v=v0.2.41-alpha';
+import { S, t } from './strings.js?v=v0.2.42-alpha';
+import { stepRace, applyStart, applyPush, applySprint, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.42-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.42-alpha';
+import { rngFor } from './rng.js?v=v0.2.42-alpha';
+import { dashScore } from './dash.js?v=v0.2.42-alpha';
 
 export const W = 640, H = 360, PPM = 30, LANE_Y = [164, 222, 280, 338], SPR = 84; // v4: 58px lanes, track starts at y=112 so the 1.3x runners fit without covering the lane above
 export const TIMING = { intro: 1.6, beat: 0.55, oneMin: 0.45, oneMax: 0.8, play: 2.0, hitstop: 0.22, photoGap: 0.2, slowmo: 0.3, stretchAt: 80, afterAll: 1.1, wipe: 0.45, board: 1.6 };
@@ -199,7 +199,7 @@ export function runRaceShow(o) {
     const frame = (now) => {
       if (!st.open || resolved) return;
       const dt = Math.min(0.1, (now - last) / 1000); last = now; tReal += dt;
-      annT -= dt; bannerT -= dt; ratingT -= dt; moodT -= dt; shakeT -= dt; flashT -= dt;
+      const bannerOn = banner && bannerT > 0; if (!bannerOn) annT -= dt; /* announcer waits while the banner holds its row */ bannerT -= dt; ratingT -= dt; moodT -= dt; shakeT -= dt; flashT -= dt;
       if (moodT <= 0) mood = tReal < 0 ? 'cheer' : 'idle';
       // countdown beats
       if (tReal >= -CD && tReal < 0) { const d = tReal < -CD + TIMING.beat ? 3 : tReal < -CD + 2 * TIMING.beat ? 2 : 1; if (d !== lastDigit) { lastDigit = d; sfx.thud(); shake(2, 0.12); mood = 'idle'; moodT = 9; } }
@@ -359,7 +359,7 @@ export function runRaceShow(o) {
         g.fillStyle = '#ffd77a'; g.fillRect(bx + 300 * p - 2, 68, 4, 26); g.fillStyle = '#e86a5a'; g.fillRect(bx, 96, 300 * (1 - (race.clock - st.prompt.t0) / race.window), 3); }
       // Final Stretch banner slides across
       if (banner && bannerT > 0) { const u = 1 - bannerT / 1.6, x = u < 0.2 ? W + 200 - ease(u / 0.2) * (W / 2 + 200) : u > 0.8 ? W / 2 - ease((u - 0.8) / 0.2) * (W / 2 + 260) : W / 2;
-        // Oct 29: drawn over the top HUD strip (announcer row), never over the top lane (phone covered lane 1 at y 112-146)
+        // Oct 29: takes the announcer row (announcer pauses meanwhile), never over the top lane (phone covered lane 1 at y 112-146)
         g.fillStyle = '#e8584a'; g.beginPath(); g.moveTo(x - 170, 22); g.lineTo(x + 186, 22); g.lineTo(x + 170, 48); g.lineTo(x - 186, 48); g.fill(); g.fillStyle = '#ffc928'; g.fillRect(x - 176, 22, 352, 2); g.fillRect(x - 186, 46, 352, 2);
         bigText(g, banner, x, 36, 20, ['#ffffff', '#fff3a0', '#ffc928']); }
       if (rating && ratingT > 0) bigText(g, rating, W / 2, 96, 20, ['#ffffff', '#ffd77a', '#e8a030']); // drawn after the banner, below it
@@ -373,7 +373,7 @@ export function runRaceShow(o) {
       }
       if (recordT > -1 && tReal - recordT < 2.2) { const u = tReal - recordT, sc = u < 0.15 ? 2.5 - 1.5 * ease(u / 0.15) : 1; g.save(); g.translate(W / 2, 150); g.scale(sc, sc); bigText(g, S.new_record, 0, 0, 26, ['#ffffff', '#ff7ad2', '#7a4ae8']); g.restore(); }
       // announcer strip
-      if (ann && annT > 0) { g.fillStyle = '#141a26e6'; g.fillRect(0, 24, W, 20); g.fillStyle = '#ffc928'; g.fillRect(0, 42, W, 2); const shown = ann.slice(0, Math.ceil((ann.length * (1.8 - Math.max(0, annT - 0.0))) * 3)); g.fillStyle = '#f3ead2'; g.font = '12px monospace'; g.textAlign = 'left'; g.fillText('» ' + shown, 8, 38); g.textAlign = 'center'; }
+      if (ann && annT > 0 && !(banner && bannerT > 0)) { g.fillStyle = '#141a26e6'; g.fillRect(0, 24, W, 20); g.fillStyle = '#ffc928'; g.fillRect(0, 42, W, 2); const shown = ann.slice(0, Math.ceil((ann.length * (1.8 - Math.max(0, annT - 0.0))) * 3)); g.fillStyle = '#f3ead2'; g.font = '12px monospace'; g.textAlign = 'left'; g.fillText('» ' + shown, 8, 38); g.textAlign = 'center'; }
       g.restore();
       if (flashT > 0) { g.fillStyle = `rgba(255,255,255,${(flashT / 0.12) * 0.6})`; g.fillRect(0, 0, W, H); }
       // wipe -> scoreboard
@@ -394,8 +394,8 @@ export function runRaceShow(o) {
       g.fillStyle = '#ffc928'; g.fillRect(16, 12, W - 32, 3); g.fillRect(16, 250, W - 32, 3);
       g.textAlign = 'center'; bigText(g, S.results.toUpperCase(), W / 2, 32, 22, ['#ffffff', '#9ad1ff', '#4a6ae8']);
       let stopped = 0, ticking = false;
-      race.racers.forEach((r, i) => {
-        const y = 62 + i * 46, v = tickValue(r.finish, maxT, el), done = v >= r.finish, place = order.indexOf(r) + 1;
+      order.forEach((r, i) => { // rows in finishing order (winner on top)
+        const y = 62 + i * 46, v = tickValue(r.finish, maxT, el), done = v >= r.finish, place = i + 1;
         if (done) stopped++; else ticking = true;
         const win = revealed && place === 1;
         g.fillStyle = win ? '#ffc92833' : '#ffffff0c'; g.fillRect(24, y - 4, W - 48, 40);

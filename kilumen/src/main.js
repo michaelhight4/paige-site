@@ -17,21 +17,21 @@
 // Never on in the alpha build (ALPHA_QUERY is only defined there).
 // Mood layers (src/overworld/mood.js + mood.json, profile `mood` block): ?mood=0|1 (area tint, vignette, particles, sun rays).
 // ALPHA build (src/alpha.js): none of the dev params above are read; only ?reset=1 (New game) is kept.
-import { ALPHA_QUERY, DEV_REQUESTED } from './alpha.js?v=v0.2.41-alpha';
+import { ALPHA_QUERY, DEV_REQUESTED } from './alpha.js?v=v0.2.42-alpha';
 /** Hint only (the role is decided by the server in dev/devgate.js): skip loading supabase-js for players with no site sign-in. */
 function devSessionHint() { try { for (let i = 0; i < localStorage.length; i++) if (/^sb-[a-z0-9]+-auth-token$/.test(localStorage.key(i) || '')) return true; } catch (e) { /* storage blocked */ } return false; }
-import { CONFIG } from './config.js?v=v0.2.41-alpha';
-import { Input } from './overworld/input.js?v=v0.2.41-alpha';
-import { Overworld } from './overworld/overworld.js?v=v0.2.41-alpha';
-import { SaveStore, SAVE_KEY } from './overworld/save.js?v=v0.2.41-alpha';
-import { openSaveStorage } from './overworld/save_backend.js?v=v0.2.41-alpha';
-import { Dialog } from './overworld/dialog.js?v=v0.2.41-alpha';
-import { attachSystems } from './systems/index.js?v=v0.2.41-alpha'; // [systems-gd hook]
-import { attachOvernight } from './overnight/index.js?v=v0.2.41-alpha'; // [overnight hook] links / field / Skylift / sight / Kilindex / learnsets (src/overnight/flags.js)
-import { attachEvolution } from './systems/evolution.js?v=v0.2.41-alpha'; // [evolution hook] level-up evolution after battles
-import { startPlatform } from './platform.js?v=v0.2.41-alpha';
-import { resolveNightFx } from './overworld/nightfx.js?v=v0.2.41-alpha';
-import { Mood, resolveMood } from './overworld/mood.js?v=v0.2.41-alpha';
+import { CONFIG } from './config.js?v=v0.2.42-alpha';
+import { Input } from './overworld/input.js?v=v0.2.42-alpha';
+import { Overworld } from './overworld/overworld.js?v=v0.2.42-alpha';
+import { SaveStore, SAVE_KEY } from './overworld/save.js?v=v0.2.42-alpha';
+import { openSaveStorage } from './overworld/save_backend.js?v=v0.2.42-alpha';
+import { Dialog } from './overworld/dialog.js?v=v0.2.42-alpha';
+import { attachSystems } from './systems/index.js?v=v0.2.42-alpha'; // [systems-gd hook]
+import { attachOvernight } from './overnight/index.js?v=v0.2.42-alpha'; // [overnight hook] links / field / Skylift / sight / Kilindex / learnsets (src/overnight/flags.js)
+import { attachEvolution } from './systems/evolution.js?v=v0.2.42-alpha'; // [evolution hook] level-up evolution after battles
+import { startPlatform } from './platform.js?v=v0.2.42-alpha';
+import { resolveNightFx } from './overworld/nightfx.js?v=v0.2.42-alpha';
+import { Mood, resolveMood } from './overworld/mood.js?v=v0.2.42-alpha';
 
 const q = new URLSearchParams(ALPHA_QUERY);
 const ALPHA = typeof ALPHA_QUERY !== 'undefined'; // alpha build only (build_alpha.py imports it); dev: undeclared -> 'undefined'
@@ -61,7 +61,7 @@ try { storage = q.get('save') === '0' ? null : window.localStorage; } catch { st
 let saveStorage = storage; // libs pass: IndexedDB first (one-time copy of an existing localStorage save), localStorage fallback
 if (q.get('save') !== '0' && q.get('idb') !== '0') {
   try {
-    const idb = await import('./vendor/idb-keyval/idb-keyval.js?v=v0.2.41-alpha');
+    const idb = await import('./vendor/idb-keyval/idb-keyval.js?v=v0.2.42-alpha');
     saveStorage = (await openSaveStorage({ idb, local: storage, keys: [SAVE_KEY, SAVE_KEY + '.bak'] })) || storage;
     if (saveStorage?.lastError) console.warn('save backend:', saveStorage.lastError);
   } catch (e) { console.warn('save: IndexedDB unavailable, using localStorage:', e?.message || e); }
@@ -70,9 +70,9 @@ if (q.get('save') !== '0' && q.get('idb') !== '0') {
 let cloudSave = null;
 if (saveStorage && q.get('cloudsave') !== '0') {
   try {
-    const cs = await import('./net/cloud_save.js?v=v0.2.41-alpha');
+    const cs = await import('./net/cloud_save.js?v=v0.2.42-alpha');
     if (cs.hasSessionHint()) {
-      const { isLoadableSave } = await import('./overworld/save_schema.js?v=v0.2.41-alpha');
+      const { isLoadableSave } = await import('./overworld/save_schema.js?v=v0.2.42-alpha');
       const limit = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
       const session = cs.supabaseSession(), sess = () => limit(session(), 6000);
       const fetchFn = (u, init) => limit(fetch(u, init), 8000);
@@ -132,20 +132,20 @@ window.addEventListener('keydown', (e) => { // living-world toggles (K / L are f
 
 attachSystems(scene, { saveData: saveData || {}, config: q }); // [systems-gd hook] party/bag/heal/shop/puzzles (src/systems/HOOKS.md)
 try { attachOvernight(scene, { query: q, saveData: saveData || {} }); } catch (e) { console.error('overnight:', e); } // [overnight hook] never blocks boot
-import('./systems/crystal_resupply.js?v=v0.2.41-alpha').then((m) => m.attachCrystalResupply(scene)).catch((e) => console.error('crystal resupply:', e)); // [crystal resupply hook] RITA restock in the opening test run
+import('./systems/crystal_resupply.js?v=v0.2.42-alpha').then((m) => m.attachCrystalResupply(scene)).catch((e) => console.error('crystal resupply:', e)); // [crystal resupply hook] RITA restock in the opening test run
 try { attachEvolution(scene, { query: q }); } catch (e) { console.error('evolution:', e); } // [evolution hook] level-up evolution after battles (src/systems/evolution.js, ?evo=0 off)
 window.kilumen = { scene, mood: scene.mood, platform: { id: platform.id, profile: platform.profile }, state: () => scene.state(), ready: scene.init().then(() => { scene.run(); return true; }) };
 window.kilumen.ready.catch((e) => { console.error(e); toast('Failed to load: ' + e.message); });
 window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.(), cloud: cloudSave ? { action: cloudSave.action, uploader: cloudSave.uploader || null } : null };
-if (q.get('cv') !== '0') import('./systems/company_voice.js?v=v0.2.41-alpha').then((m) => m.attachCompanyVoice(scene, { query: q })).then((cv) => { window.kilumen.companyVoice = cv; if (cv && q.get('ritavoice') !== '0') return import('./systems/rita_voice.js?v=v0.2.41-alpha').then((r) => { window.kilumen.ritaVoice = r.attachRitaVoice(cv, { audio: () => window.kilumen.audio }); }); }) /* [rita voice hook] spoken clips, Options 'RITA voice' (default on), ?ritavoice=0 off */.catch((e) => console.error('company voice:', e)); // [company voice hook] DEFAULT ON for region 1 (Gary 12:45 PM CT Oct 23 2026: "Yes, ship RITA in region 1"); ?cv=0 turns off (design/company_voice.md)
-if (q.get('sports') !== '0') window.kilumen.ready.then(() => import('./sports/index.js?v=v0.2.41-alpha')).then((m) => { window.kilumen.sports = m.attachSports(scene, { query: q, systems: scene.systems }); }).catch((e) => console.error('sports:', e)); // [sports hook] Brookhollow Dash Track (coach npc dash_coach): free practice + 3-day tournament; ?sports=0 turns off (src/sports/)
-if (q.get('contacts') !== '0') window.kilumen.ready.then(() => Promise.all([import('./systems/contacts.js?v=v0.2.41-alpha'), import('./ui/data.js?v=v0.2.41-alpha'), import('./systems/items.js?v=v0.2.41-alpha')])).then(([m, d, it]) => m.attachContacts(scene, { query: q, ui: () => window.kilumen.ui, speciesName: (id) => d.speciesById(id).name, itemName: (id) => scene.lines?.items?.[id]?.name || it.BATTLE_ITEMS[id]?.name || id })).then((c) => { window.kilumen.contacts = c; }).catch((e) => console.error('contacts:', e)); // [contacts hook] DEFAULT ON (Gary 12:42 PM CT Oct 23 2026: ship in region 1); ?contacts=0 turns off (src/systems/contacts.js)
+if (q.get('cv') !== '0') import('./systems/company_voice.js?v=v0.2.42-alpha').then((m) => m.attachCompanyVoice(scene, { query: q })).then((cv) => { window.kilumen.companyVoice = cv; if (cv && q.get('ritavoice') !== '0') return import('./systems/rita_voice.js?v=v0.2.42-alpha').then((r) => { window.kilumen.ritaVoice = r.attachRitaVoice(cv, { audio: () => window.kilumen.audio }); }); }) /* [rita voice hook] spoken clips, Options 'RITA voice' (default on), ?ritavoice=0 off */.catch((e) => console.error('company voice:', e)); // [company voice hook] DEFAULT ON for region 1 (Gary 12:45 PM CT Oct 23 2026: "Yes, ship RITA in region 1"); ?cv=0 turns off (design/company_voice.md)
+if (q.get('sports') !== '0') window.kilumen.ready.then(() => import('./sports/index.js?v=v0.2.42-alpha')).then((m) => { window.kilumen.sports = m.attachSports(scene, { query: q, systems: scene.systems }); }).catch((e) => console.error('sports:', e)); // [sports hook] Brookhollow Dash Track (coach npc dash_coach): free practice + 3-day tournament; ?sports=0 turns off (src/sports/)
+if (q.get('contacts') !== '0') window.kilumen.ready.then(() => Promise.all([import('./systems/contacts.js?v=v0.2.42-alpha'), import('./ui/data.js?v=v0.2.42-alpha'), import('./systems/items.js?v=v0.2.42-alpha')])).then(([m, d, it]) => m.attachContacts(scene, { query: q, ui: () => window.kilumen.ui, speciesName: (id) => d.speciesById(id).name, itemName: (id) => scene.lines?.items?.[id]?.name || it.BATTLE_ITEMS[id]?.name || id })).then((c) => { window.kilumen.contacts = c; }).catch((e) => console.error('contacts:', e)); // [contacts hook] DEFAULT ON (Gary 12:42 PM CT Oct 23 2026: ship in region 1); ?contacts=0 turns off (src/systems/contacts.js)
 
 // Audio (libs pass, Oct 22, 2026): howler music + ZzFX effects, placeholder tones. Mounted beside the world (not
 // awaited); nothing is created until the first gesture. Hooks: scene.audio (grass, door), dialog.onPage (blips), UI.
 if (q.get('audio') !== '0') {
   let ls = null; try { ls = window.localStorage; } catch { ls = null; }
-  import('./audio/audio.js?v=v0.2.41-alpha').then(({ mountAudio }) => mountAudio({ profile: platform.profile, platformId: platform.id, storage: ls }))
+  import('./audio/audio.js?v=v0.2.42-alpha').then(({ mountAudio }) => mountAudio({ profile: platform.profile, platformId: platform.id, storage: ls }))
     .then((audio) => {
       scene.audio = audio; window.kilumen.audio = audio;
       dialog.onPage = (text) => audio.blip(text);
@@ -156,12 +156,12 @@ if (q.get('audio') !== '0') {
 // UI layer (src/ui/ui.js, UI pass Oct 22, 2026): phone menu (Esc / M / Start / menu button), HUD, title, screens, battle
 // shell. Loaded after the world is up and guarded, so a UI failure never stops the game. ?ui=0 skips it.
 if (q.get('ui') !== '0') {
-  window.kilumen.ready.then(() => import('./ui/ui.js?v=v0.2.41-alpha')).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready';
-    return import('./ui/systems_screens.js?v=v0.2.41-alpha').then((m) => m.installSystemsScreens(window.kilumen.ui, scene.systems)); }) // [systems-gd hook]
-    .then(() => import('./progression/index.js?v=v0.2.41-alpha').then((m) => m.attachProgression(scene, window.kilumen.ui, { query: q, platform })).catch((e) => console.error('progression:', e))) // [progression hook] Masters / hall puzzles / quests (src/progression/flags.js, ?pg=)
+  window.kilumen.ready.then(() => import('./ui/ui.js?v=v0.2.42-alpha')).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready';
+    return import('./ui/systems_screens.js?v=v0.2.42-alpha').then((m) => m.installSystemsScreens(window.kilumen.ui, scene.systems)); }) // [systems-gd hook]
+    .then(() => import('./progression/index.js?v=v0.2.42-alpha').then((m) => m.attachProgression(scene, window.kilumen.ui, { query: q, platform })).catch((e) => console.error('progression:', e))) // [progression hook] Masters / hall puzzles / quests (src/progression/flags.js, ?pg=)
     // dev console (v0.2.26, Gary): only with ?dev=1 AND a signed-in admin account (server check, src/dev/devgate.js). Nothing dev is loaded otherwise.
     // dev console: ?dev=1 (owner/admin) or, with no flag, any signed-in browser is checked server-side and only role 'owner' gets it (v0.2.39)
-    .then(() => (DEV_REQUESTED || devSessionHint()) ? import('./dev/devgate.js?v=v0.2.41-alpha').then((g) => g.checkDevAccess(DEV_REQUESTED ? ['owner', 'admin'] : ['owner'])).then((acc) => acc.ok ? import('./dev/console.js?v=v0.2.41-alpha').then((m) => m.installDevConsole(scene, acc)) : (DEV_REQUESTED ? console.info('dev console: not available (' + acc.reason + ')') : null)).catch((e) => console.error('dev:', e)) : null)
+    .then(() => (DEV_REQUESTED || devSessionHint()) ? import('./dev/devgate.js?v=v0.2.42-alpha').then((g) => g.checkDevAccess(DEV_REQUESTED ? ['owner', 'admin'] : ['owner'])).then((acc) => acc.ok ? import('./dev/console.js?v=v0.2.42-alpha').then((m) => m.installDevConsole(scene, acc)) : (DEV_REQUESTED ? console.info('dev console: not available (' + acc.reason + ')') : null)).catch((e) => console.error('dev:', e)) : null)
     .catch((e) => { console.error('ui:', e); if (uiState === 'loading') uiState = 'failed'; });
 }
 
