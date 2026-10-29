@@ -23,6 +23,7 @@ import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alph
 // UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
 // auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
 import { showContinue } from '../overworld/save.js?v=v0.2.54-alpha'; // first-launch Continue fix (batch 3 wire)
+import { installQol } from '../qol/qol.js?v=v0.2.54-alpha'; // [qol hook] Battle pace / Text speed / Run toggle (Oct 29 2026)
 import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.54-alpha';
 import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.54-alpha';
 import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.54-alpha';
@@ -757,6 +758,7 @@ export class GameUI {
       ['Depth shadows', s.depth?.state?.(s.map ? s.view() : null)?.enabled ? 'On' : 'Off', () => s.depth.toggle()],
       ['Menu motion', this.body.classList.contains('ui-reduce') ? 'Reduced' : 'Full', () => { const r = this.body.classList.toggle('ui-reduce'); try { localStorage.setItem('kilumen_alpha_ui.motion', r ? 'reduce' : 'full'); } catch { /* */ } }],
       ...audioRows(),
+      ...(this.qol?.rows() || []), // [qol hook] src/qol/qol.js (?qol=0 kill switch)
       ...(rtbKilled(this.q) ? [] : [['Wild battles', rtbMode(s, this.q) === 'rt' ? 'Real-time' : 'Turn-based', () => setRtbMode(s, rtbMode(s, this.q) === 'rt' ? 'turn' : 'rt')]]), // real-time option (Oct 29 2026; also on the wild battle screen)
       ...(s.companyVoice ? [['Company voice', s.companyVoice.modeLabel(), () => s.companyVoice.cycleMode()]] : []), // [company voice hook] Full / Milestones only / Off (on by default; row absent with ?cv=0)
       ...(s.companyVoice?.ritaVoice ? [['RITA voice', s.companyVoice.ritaVoice.label(), () => s.companyVoice.ritaVoice.toggle()]] : []), // [rita voice hook] spoken lines on/off (default on)
@@ -1116,6 +1118,7 @@ export function mountUI(opts) {
   const ui = new GameUI(opts);
   const q = opts.params || new URLSearchParams(location.search);
   const scene = opts.scene;
+  installQol(ui, scene, q); // [qol hook]
   // save lock (Gary, Oct 23 2026): an open battle screen (capture included) or the evolution player blocks every save
   scene.saveGuards?.push(() => (ui.stack.some((s) => s.scr === 'battle') ? 'battle' : ui.fx?._evolving ? 'evolution' : null));
   attachWipNotice(scene); // one-time WIP notice after the last beatable Master (src/systems/wip_notice.js)

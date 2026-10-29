@@ -3,6 +3,8 @@
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
 import { KilumenBattle } from './battle.js?v=v0.2.54-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.54-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
+import { skillTag } from '../qol/matchup.js?v=v0.2.54-alpha';
 import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.54-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
@@ -31,7 +33,8 @@ const loadInto = (img, srcs) => new Promise((res) => {
 const KEY = 'system_battle'; // PH: proposed namespace for the new battle lines
 
 export function makeSdBattle(ui, opts, h) {
-  const { esc, front, back, fx, wait, lvlOf, speciesById, ELEMENT_LABEL, statsFor } = h;
+  const { esc, front, back, fx, lvlOf, speciesById, ELEMENT_LABEL, statsFor } = h;
+  const pace = (ms) => (ui.qol ? ui.qol.pace(ms) : ms), wait = (ms) => h.wait(pace(ms)); // [qol hook] Battle pace x1/x2/x3
   const P1 = (k, fb, v) => ui.P(`${KEY}.${k}`, [fb], v)[0];
   const trainer = !!opts.trainer;
   // no capturing a trainer's creatures (Gary, Oct 23 2026): any battle with an owner (trainer flag, overworld trainer id,
@@ -74,7 +77,9 @@ export function makeSdBattle(ui, opts, h) {
   // difficulty (Oct 29 2026): the battle fights scaled foes; payout (res.foes) keeps the authored levels, the money mult is in systems
   const dMode = getDifficulty(sys?.state), foesBattle = scaleFoes(foes, Math.max(...party.map((c) => c.level || 1)), dMode);
   const foeItems = trainer ? masterItems(opts.masterNumber || 0, dMode) : {};
-  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1 }); // Unit Training perk (v0.2.28)
+  const qol = qolFlags(ui.q || undefined);
+  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1, xpShare: qol.xpShare ? XP_SHARE : 0 });
+  let sharedSaid = false; // QoL #4: one line per KO for the benched share // Unit Training perk (v0.2.28)
   ui.currentBattle = kb; // read-only handle for scripted play-checks (tools/playcheck_browser.mjs)
   const cat = ui.T('system_item_catalogue', {});
   const Items = kb.battle.dex.data.Items;
@@ -142,7 +147,7 @@ export function makeSdBattle(ui, opts, h) {
   };
   const say = (t, auto = 650) => new Promise((r) => {
     const m = $('#b-msg'); m.classList.remove('b-msg-caught'); m.innerHTML = `${esc(t)}${auto ? '' : '<span class="more">▼</span>'}`; mode = 'msg'; $('#b-cmds').hidden = true;
-    if (auto) setTimeout(r, auto); else msgResolve = r;
+    if (auto) setTimeout(r, pace(auto)); else msgResolve = r;
   });
   // layout pass (Oct 22, 2026): compact party HP readout inside the info card (your whole team, and the trainer's team in
   // trainer battles): one mini bar per creature, empty when fainted. The shown creature uses the played-back HP (mon[s]);
@@ -319,7 +324,9 @@ export function makeSdBattle(ui, opts, h) {
           await say(P1('fainted', '{creature} is out cold!', { creature: who }) /* PH (old shell line) */, 700);
           break;
         }
-        case '-kxp': await say(P1('xp', '{creature} gained {n} XP.', { creature: who, n: b }) /* PH */, 700); drawPlate('p1'); break;
+        case '-kxp': await say(P1('xp', '{creature} gained {n} XP.', { creature: who, n: b }) /* PH */, 700); drawPlate('p1'); sharedSaid = false; break;
+        case '-kxpshare': if (!sharedSaid) { sharedSaid = true; await say(P1('xp_share', 'The rest of the team gained {n} XP.', { n: b }) /* PH: QoL #4, Text Bot request */, 600); } break;
+        case '-kbenchlevel': await say(P1('bench_levelup', '{creature} grew to Lv.{level}!', { creature: who, level: b }) /* PH: QoL #4, Text Bot request */, 600); break;
         case '-klevelup': {
           mon.p1.level = +b; const st = c.split(',').map(Number);
           const box = document.createElement('div'); box.className = 'plate b-lvup ui-pad';
@@ -380,7 +387,8 @@ export function makeSdBattle(ui, opts, h) {
   const showSkills = () => {
     const r = kb.request();
     showList('skills', r.moves.map((m, i) => { const mv = kb.battle.dex.moves.get(m.id); const el = mv.type.toLowerCase();
-      return { t: m.move, s: `${ELEMENT_LABEL(el)} · En ${m.pp}/${m.maxpp}`, el, go: async () => {
+      let tag = ''; try { tag = skillTag(kb, m.id, qol); } catch { tag = ''; } // QoL #7 (flags matchup / dmgPreview)
+      return { t: m.move, s: `${ELEMENT_LABEL(el)} · En ${m.pp}/${m.maxpp}${tag ? ' · ' + tag : ''}`, el, go: async () => {
         if (m.pp <= 0) {
           const k = await ui.ask('battle', ui.P('system_skills.energy_out', ['{skill} is out of energy. Use it anyway?'], { skill: m.move, creature: whoName() }),
             ui.T('system_skills.energy_out.choices', ['Use anyway', 'Pick another']));

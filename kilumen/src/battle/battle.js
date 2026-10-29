@@ -46,7 +46,7 @@ export class KilumenBattle {
       formatid: 'kilumensingle', seed: this.seed, wild: this.wild,
       // tests only: force every chance roll (accuracy, crits, secondaries, catch) to succeed or fail
       ...(typeof opts.forceChance === 'boolean' ? { debug: true, forceRandomChance: opts.forceChance } : {}),
-      p1: { name: opts.playerName || 'You', team: this.partyIn.map((c) => toSet(c)), bag: bagIn(opts.bag), gainsXp: true, xpBoost: opts.xpBoost || 1 },
+      p1: { name: opts.playerName || 'You', team: this.partyIn.map((c) => toSet(c)), bag: bagIn(opts.bag), gainsXp: true, xpBoost: opts.xpBoost || 1, xpShare: opts.xpShare || 0 },
       p2: { name: opts.foeName || (this.wild ? 'Wild' : 'Trainer'), team: opts.foes.map((c) => toSet(c)) },
     });
     this.bagIn = { ...(opts.bag || {}) };

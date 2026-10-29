@@ -49,6 +49,7 @@ const statusChip = (c) => (isFainted(c) ? '<span class="sys-st out" data-pat="ch
   : c.status ? `<span class="sys-st" data-st="${esc(c.status)}" data-pat="${STATUS_PAT[c.status] || 'dots'}">${esc(STATUS[c.status] || c.status)}</span>` : '');
 
 export async function installSystemsScreens(ui, sys) {
+  import('../qol/skills_menu.js?v=v0.2.54-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
   if (!ui || !sys) return null;
   const cfg = sys.cfg;
   if (typeof document !== 'undefined' && !document.querySelector('link[data-sys-css]')) {
@@ -125,9 +126,10 @@ export async function installSystemsScreens(ui, sys) {
       onA: async (i) => {
         const c = party()[i]; if (!c) return;
         const usable = sys.bag.pocket('care').filter((it) => sys.bag.canUse(it.id, c).ok || sys.bag.canUse(it.id, c).reason === 'rest_only');
-        const opts = [...(i > 0 ? [['lead', L.move || 'Move']] : []), ...(usable.length ? [['item', 'Use item']] : []), ...(isDemo() ? [] : [['rename', 'Rename']]), ['back', L.back || 'Back']];
+        const opts = [...(i > 0 ? [['lead', L.move || 'Move']] : []), ...(usable.length ? [['item', 'Use item']] : []), ...(isDemo() ? [] : [['rename', 'Rename']]), ...(isDemo() ? [] : (ui.qolTeamOpts?.(c) || []).map(([t, go]) => [go, t])), ['back', L.back || 'Back']]; // QoL #5/#6 rows (src/qol/skills_menu.js)
         const k = await ui.ask('team', [displayName(c)], opts.map((o) => o[1]), { pat: 'dots' });
         const act = opts[k]?.[0];
+        if (typeof act === 'function') { await act(); ui.rerender(); return; }
         if (act === 'lead' && isDemo()) { await demoOrder([i, ...party().map((_, k) => k).filter((k) => k !== i)], i); return; }
         if (act === 'lead') {
           sys.party.setLead(i); scr.sel = 0;
@@ -178,6 +180,7 @@ export async function installSystemsScreens(ui, sys) {
           if (!was) c.held = it.id;
           sys.scene._dirty = true; ui.note(was ? `${name} hands the ${it.name} back.` : `${name} is holding the ${it.name}.`, 1800); ui.rerender(); return; // PH lines (data/textbot_requests_overnight_1029.md)
         }
+        if (it && await ui.qolTeach?.(it.id)) { ui.rerender(); return; } // QoL #6 Training Reels
         if (!it || !sys.bag.def(it.id)?.field) return;
         const k = await pickCreature('pack', `${it.name}: on who?`);
         if (k >= 0) await useOn('pack', it.id, k);

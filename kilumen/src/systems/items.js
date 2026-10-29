@@ -41,6 +41,10 @@ const FIELD = {
   old_record: { pocket: 'key', field: null, key: true, stack: 4 },
   coin_pouch_small: { pocket: null, money: 100 },     // PLACEHOLDER tuning: coins in a small purse
   gold_coin: { pocket: 'gear', field: null, held: true },
+  // QoL #6 Training Reels (B22; src/qol/skills_menu.js TEACH_ITEMS; reusable while qol flag teachReuse is on). PLACEHOLDER ids, not sold or placed yet.
+  reel_pounce: { pocket: 'gear', field: null, key: true, teach: 'pounce' },
+  reel_gustdart: { pocket: 'gear', field: null, key: true, teach: 'gustdart' },
+  reel_halflash: { pocket: 'gear', field: null, key: true, teach: 'haloflash' },
   team_link_band: { pocket: 'gear', field: null, held: true, key: true, name: 'Team Link Band' }, // Oct 29 2026: holder that sat out a faint gets half XP (src/battle/battle.js linkShare); from Saltmere (src/systems/link_band.js) // PLACEHOLDER id (DESIGN gold coin: x1.5 trainer money)
 };
 for (const g of CRYSTAL_GRADES.grades) if (!FIELD[g.item]) FIELD[g.item] = { pocket: 'crystals', field: null }; // board crystal grades

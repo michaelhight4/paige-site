@@ -461,7 +461,10 @@ export class Overworld {
     const p = this.player;
     if (p.mode === MoveMode.BIKE) return;
     const shoes = this.flags.has('has_run_shoes');
-    p.mode = snap.b && shoes && this.map.movement.run ? MoveMode.RUN : MoveMode.WALK;
+    const runOk = shoes && !!this.map.movement.run, q = this.qol; // [qol hook] Run: Hold/Toggle (src/qol/qol.js), same B button
+    if (q && (this.busy || this.dialog?.active || this.fade || q.escHeld || globalThis.window?.kilumen?.ui?.active)) q.latch.prev = true; // a B used to close a talk / menu is not a run press
+    const b = q?.flags.run ? q.latch.step(snap.b, q.settings.run, runOk) : snap.b;
+    p.mode = b && runOk ? MoveMode.RUN : MoveMode.WALK;
     if (snap.b && snap.dir && !shoes && this.map.movement.run) this._runLockedHint();
   }
 
