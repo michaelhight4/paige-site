@@ -1,7 +1,7 @@
 {
- "version": 1,
+ "version": 2,
  "owner": "Coder",
- "note": "Fishing tables (fishing v1, Oct 29 2026). Per map, per rod tier. Species come ONLY from the existing water/fishing tables in data/encounters_wired.json (key \"from\"); levels are PLACEHOLDER. Tiers good/super are structure only (no upgrade rods placed): null = use the best lower tier.",
+ "note": "Fishing tables. Per map, per rod tier (basic / good / super). Species come ONLY from the water species in data/encounters_wired.json. Slot rarity: common | uncommon | rare (untagged = common). good/super filled by tools/fishing/gen_gear_tables.mjs (design/FISHING_GEAR.md). Levels and weights PLACEHOLDER.",
  "rods": {
   "basic": {
    "tier": 1,
@@ -17,15 +17,11 @@
   }
  },
  "water_species": [
-  "ankerling",
-  "barnaclump",
   "blubbet",
-  "brinecube",
   "brineseal",
   "brookhorn",
   "bulwarkrab",
   "dartling",
-  "dawnfin",
   "ditchsnap",
   "drenchcrab",
   "eftwarden",
@@ -34,7 +30,6 @@
   "hullwhale",
   "medulet",
   "mirewump",
-  "mooncrab",
   "moorcoil",
   "musselin",
   "paleminnow",
@@ -49,11 +44,9 @@
   "ribboneel",
   "rillop",
   "sandstarlet",
-  "seaglint",
   "sluicekin",
   "snapmoor",
   "spratwyrm",
-  "spraytern",
   "streambarb",
   "tidemarrow",
   "tuskwallow",
@@ -71,7 +64,8 @@
       "level": [
        3,
        6
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "rillop",
@@ -79,7 +73,8 @@
       "level": [
        8,
        10
-      ]
+      ],
+      "rarity": "rare"
      },
      {
       "species": "dartling",
@@ -87,12 +82,93 @@
       "level": [
        3,
        6
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "bh_river_fish",
+    "slots": [
+     {
+      "species": "rillop",
+      "weight": 80,
+      "level": [
+       6,
+       9
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "rillop",
+      "weight": 19,
+      "level": [
+       11,
+       13
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "dartling",
+      "weight": 15,
+      "level": [
+       6,
+       9
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 10,
+      "level": [
+       11,
+       14
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   },
+   "super": {
+    "from": "bh_river_fish",
+    "slots": [
+     {
+      "species": "rillop",
+      "weight": 80,
+      "level": [
+       9,
+       12
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "rillop",
+      "weight": 30,
+      "level": [
+       14,
+       16
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "dartling",
+      "weight": 15,
+      "level": [
+       9,
+       12
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 14,
+      "level": [
+       14,
+       17
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   }
   },
   "route1": {
    "basic": {
@@ -104,7 +180,8 @@
       "level": [
        2,
        5
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "rillop",
@@ -112,7 +189,8 @@
       "level": [
        2,
        5
-      ]
+      ],
+      "rarity": "rare"
      },
      {
       "species": "dartling",
@@ -120,12 +198,93 @@
       "level": [
        2,
        5
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "bh_river_fish",
+    "slots": [
+     {
+      "species": "rillop",
+      "weight": 80,
+      "level": [
+       5,
+       8
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "rillop",
+      "weight": 19,
+      "level": [
+       5,
+       8
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "dartling",
+      "weight": 15,
+      "level": [
+       5,
+       8
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "brineseal",
+      "weight": 10,
+      "level": [
+       6,
+       9
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   },
+   "super": {
+    "from": "bh_river_fish",
+    "slots": [
+     {
+      "species": "rillop",
+      "weight": 80,
+      "level": [
+       8,
+       11
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "rillop",
+      "weight": 30,
+      "level": [
+       8,
+       11
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "dartling",
+      "weight": 15,
+      "level": [
+       8,
+       11
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "brineseal",
+      "weight": 14,
+      "level": [
+       9,
+       12
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   }
   },
   "fernwick": {
    "basic": {
@@ -137,7 +296,8 @@
       "level": [
        8,
        11
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "reefshell",
@@ -145,20 +305,75 @@
       "level": [
        8,
        11
-      ]
-     },
-     {
-      "species": "seaglint",
-      "weight": 20,
-      "level": [
-       8,
-       11
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "fl_canal",
+    "slots": [
+     {
+      "species": "sluicekin",
+      "weight": 50,
+      "level": [
+       11,
+       14
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "reefshell",
+      "weight": 30,
+      "level": [
+       11,
+       14
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 4,
+      "level": [
+       12,
+       15
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "fl_canal",
+    "slots": [
+     {
+      "species": "sluicekin",
+      "weight": 50,
+      "level": [
+       14,
+       17
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "reefshell",
+      "weight": 30,
+      "level": [
+       14,
+       17
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 8,
+      "level": [
+       15,
+       18
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "thornwood": {
    "basic": {
@@ -170,7 +385,8 @@
       "level": [
        9,
        13
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "streambarb",
@@ -178,7 +394,8 @@
       "level": [
        9,
        13
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "reedmoot",
@@ -186,12 +403,93 @@
       "level": [
        9,
        13
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "thornwood_pond",
+    "slots": [
+     {
+      "species": "puddlenip",
+      "weight": 15,
+      "level": [
+       12,
+       16
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "weight": 15,
+      "level": [
+       12,
+       16
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "weight": 15,
+      "level": [
+       12,
+       16
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "brineseal",
+      "weight": 4,
+      "level": [
+       14,
+       17
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "thornwood_pond",
+    "slots": [
+     {
+      "species": "puddlenip",
+      "weight": 15,
+      "level": [
+       15,
+       19
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "weight": 15,
+      "level": [
+       15,
+       19
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "reedmoot",
+      "weight": 15,
+      "level": [
+       15,
+       19
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "brineseal",
+      "weight": 8,
+      "level": [
+       17,
+       20
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "frostspire_pass": {
    "basic": {
@@ -203,7 +501,8 @@
       "level": [
        24,
        27
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "floepaddle",
@@ -211,7 +510,8 @@
       "level": [
        24,
        27
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "bulwarkrab",
@@ -219,12 +519,93 @@
       "level": [
        24,
        27
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "smf_stream",
+    "slots": [
+     {
+      "species": "brookhorn",
+      "weight": 60,
+      "level": [
+       27,
+       30
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "floepaddle",
+      "weight": 30,
+      "level": [
+       27,
+       30
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "weight": 10,
+      "level": [
+       27,
+       30
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "brineseal",
+      "weight": 4,
+      "level": [
+       28,
+       31
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "smf_stream",
+    "slots": [
+     {
+      "species": "brookhorn",
+      "weight": 60,
+      "level": [
+       30,
+       33
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "floepaddle",
+      "weight": 30,
+      "level": [
+       30,
+       33
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "weight": 10,
+      "level": [
+       30,
+       33
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "brineseal",
+      "weight": 8,
+      "level": [
+       31,
+       34
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "greystone_entrance": {
    "basic": {
@@ -236,7 +617,8 @@
       "level": [
        18,
        22
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "musselin",
@@ -244,7 +626,8 @@
       "level": [
        18,
        22
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "tidemarrow",
@@ -252,12 +635,93 @@
       "level": [
        18,
        22
-      ]
+      ],
+      "rarity": "rare"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "re_river",
+    "slots": [
+     {
+      "species": "streambarb",
+      "weight": 55,
+      "level": [
+       21,
+       25
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "musselin",
+      "weight": 40,
+      "level": [
+       21,
+       25
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "tidemarrow",
+      "weight": 19,
+      "level": [
+       21,
+       25
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "dartling",
+      "weight": 10,
+      "level": [
+       23,
+       26
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   },
+   "super": {
+    "from": "re_river",
+    "slots": [
+     {
+      "species": "streambarb",
+      "weight": 55,
+      "level": [
+       24,
+       28
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "musselin",
+      "weight": 40,
+      "level": [
+       24,
+       28
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "tidemarrow",
+      "weight": 30,
+      "level": [
+       24,
+       28
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "dartling",
+      "weight": 14,
+      "level": [
+       26,
+       29
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   }
   },
   "greystone_b1": {
    "basic": {
@@ -269,7 +733,8 @@
       "level": [
        14,
        18
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "musselin",
@@ -277,7 +742,8 @@
       "level": [
        14,
        18
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "tidemarrow",
@@ -285,40 +751,115 @@
       "level": [
        14,
        18
-      ]
+      ],
+      "rarity": "rare"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "re_river",
+    "slots": [
+     {
+      "species": "streambarb",
+      "weight": 55,
+      "level": [
+       17,
+       21
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "musselin",
+      "weight": 40,
+      "level": [
+       17,
+       21
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "tidemarrow",
+      "weight": 19,
+      "level": [
+       17,
+       21
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "dartling",
+      "weight": 10,
+      "level": [
+       19,
+       22
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   },
+   "super": {
+    "from": "re_river",
+    "slots": [
+     {
+      "species": "streambarb",
+      "weight": 55,
+      "level": [
+       20,
+       24
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "musselin",
+      "weight": 40,
+      "level": [
+       20,
+       24
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "tidemarrow",
+      "weight": 30,
+      "level": [
+       20,
+       24
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "dartling",
+      "weight": 14,
+      "level": [
+       22,
+       25
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   }
   },
   "lanternport": {
    "basic": {
     "from": "lanternport_water",
     "slots": [
      {
-      "species": "mooncrab",
+      "species": "reefshell",
       "weight": 60,
       "level": [
        42,
-       46
-      ]
+       45
+      ],
+      "rarity": "common"
      },
      {
-      "species": "seaglint",
+      "species": "brineseal",
       "weight": 25,
       "level": [
-       43,
-       46
-      ]
-     },
-     {
-      "species": "reefshell",
-      "weight": 15,
-      "level": [
        42,
-       45
-      ]
+       46
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "moorcoil",
@@ -326,12 +867,84 @@
       "level": [
        42,
        46
-      ]
+      ],
+      "rarity": "rare"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "lanternport_water",
+    "slots": [
+     {
+      "species": "reefshell",
+      "weight": 55,
+      "level": [
+       45,
+       48
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "brineseal",
+      "weight": 20,
+      "level": [
+       45,
+       48
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "moorcoil",
+      "weight": 8,
+      "level": [
+       45,
+       49
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "lanternport_water",
+    "slots": [
+     {
+      "species": "reefshell",
+      "weight": 40,
+      "level": [
+       48,
+       52
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "brineseal",
+      "weight": 20,
+      "level": [
+       49,
+       52
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "tuskwallow",
+      "weight": 15,
+      "level": [
+       48,
+       52
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "moorcoil",
+      "weight": 12,
+      "level": [
+       49,
+       53
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "mirefen_bog": {
    "basic": {
@@ -343,7 +956,8 @@
       "level": [
        34,
        39
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "brookhorn",
@@ -351,7 +965,8 @@
       "level": [
        34,
        39
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "tidemarrow",
@@ -359,7 +974,8 @@
       "level": [
        39,
        41
-      ]
+      ],
+      "rarity": "rare"
      },
      {
       "species": "rillop",
@@ -367,12 +983,111 @@
       "level": [
        30,
        34
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "mirefen_bog_surf",
+    "slots": [
+     {
+      "species": "mirewump",
+      "weight": 45,
+      "level": [
+       37,
+       42
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "brookhorn",
+      "weight": 35,
+      "level": [
+       37,
+       42
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "tidemarrow",
+      "weight": 19,
+      "level": [
+       42,
+       44
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "rillop",
+      "weight": 15,
+      "level": [
+       33,
+       37
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "moorcoil",
+      "weight": 10,
+      "level": [
+       42,
+       45
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   },
+   "super": {
+    "from": "mirefen_bog_surf",
+    "slots": [
+     {
+      "species": "mirewump",
+      "weight": 45,
+      "level": [
+       40,
+       45
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "brookhorn",
+      "weight": 35,
+      "level": [
+       40,
+       45
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "tidemarrow",
+      "weight": 30,
+      "level": [
+       45,
+       47
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "rillop",
+      "weight": 15,
+      "level": [
+       36,
+       40
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "moorcoil",
+      "weight": 14,
+      "level": [
+       45,
+       48
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   }
   },
   "route_coast": {
    "basic": {
@@ -384,7 +1099,8 @@
       "level": [
        36,
        40
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "mirewump",
@@ -392,7 +1108,8 @@
       "level": [
        38,
        42
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "drenchcrab",
@@ -400,7 +1117,8 @@
       "level": [
        38,
        42
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "tuskwallow",
@@ -408,12 +1126,111 @@
       "level": [
        41,
        43
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "route_coast_water",
+    "slots": [
+     {
+      "species": "mirewump",
+      "weight": 30,
+      "level": [
+       39,
+       43
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 35,
+      "level": [
+       41,
+       45
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "drenchcrab",
+      "weight": 25,
+      "level": [
+       41,
+       45
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "tuskwallow",
+      "weight": 10,
+      "level": [
+       44,
+       46
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "moorcoil",
+      "weight": 4,
+      "level": [
+       44,
+       47
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "route_coast_water",
+    "slots": [
+     {
+      "species": "mirewump",
+      "weight": 30,
+      "level": [
+       42,
+       46
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 35,
+      "level": [
+       44,
+       48
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "drenchcrab",
+      "weight": 25,
+      "level": [
+       44,
+       48
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "tuskwallow",
+      "weight": 10,
+      "level": [
+       47,
+       49
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "moorcoil",
+      "weight": 8,
+      "level": [
+       47,
+       50
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "route_east": {
    "basic": {
@@ -425,7 +1242,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "ditchsnap",
@@ -433,7 +1251,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "streambarb",
@@ -441,7 +1260,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "snapmoor",
@@ -449,12 +1269,111 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "route_east_water",
+    "slots": [
+     {
+      "species": "musselin",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "ditchsnap",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "weight": 15,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "snapmoor",
+      "weight": 15,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "paleminnow",
+      "weight": 4,
+      "level": [
+       19,
+       22
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "route_east_water",
+    "slots": [
+     {
+      "species": "musselin",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "ditchsnap",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "weight": 15,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "snapmoor",
+      "weight": 15,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "paleminnow",
+      "weight": 8,
+      "level": [
+       22,
+       25
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "route_aurelith_saltmere": {
    "basic": {
@@ -466,7 +1385,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "medulet",
@@ -474,15 +1394,8 @@
       "level": [
        15,
        18
-      ]
-     },
-     {
-      "species": "ankerling",
-      "weight": 30,
-      "level": [
-       15,
-       18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "plashcrown",
@@ -490,7 +1403,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "ribboneel",
@@ -498,7 +1412,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "streambarb",
@@ -506,7 +1421,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "rakefin",
@@ -514,7 +1430,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "rare"
      },
      {
       "species": "eftwarden",
@@ -522,32 +1439,178 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "rare"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "route_aurelith_saltmere_water",
+    "slots": [
+     {
+      "species": "whelkin",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "medulet",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "plashcrown",
+      "weight": 15,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "ribboneel",
+      "weight": 15,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "weight": 15,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "rakefin",
+      "weight": 10,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "eftwarden",
+      "weight": 10,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "mirewump",
+      "weight": 10,
+      "level": [
+       19,
+       22
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   },
+   "super": {
+    "from": "route_aurelith_saltmere_water",
+    "slots": [
+     {
+      "species": "whelkin",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "medulet",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "plashcrown",
+      "weight": 15,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "ribboneel",
+      "weight": 15,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "streambarb",
+      "weight": 15,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "rakefin",
+      "weight": 20,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "eftwarden",
+      "weight": 20,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "mirewump",
+      "weight": 14,
+      "level": [
+       22,
+       25
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   }
   },
   "route_saltmere_mirefen": {
    "basic": {
     "from": "route_saltmere_mirefen_water",
     "slots": [
      {
-      "species": "spraytern",
-      "weight": 50,
-      "level": [
-       32,
-       36
-      ]
-     },
-     {
       "species": "paleminnow",
       "weight": 30,
       "level": [
        32,
        35
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "brineseal",
@@ -555,12 +1618,75 @@
       "level": [
        35,
        36
-      ]
+      ],
+      "rarity": "common"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "route_saltmere_mirefen_water",
+    "slots": [
+     {
+      "species": "paleminnow",
+      "weight": 30,
+      "level": [
+       35,
+       38
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "brineseal",
+      "weight": 20,
+      "level": [
+       38,
+       39
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "streambarb",
+      "weight": 4,
+      "level": [
+       37,
+       40
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "route_saltmere_mirefen_water",
+    "slots": [
+     {
+      "species": "paleminnow",
+      "weight": 30,
+      "level": [
+       38,
+       41
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "brineseal",
+      "weight": 20,
+      "level": [
+       41,
+       42
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "streambarb",
+      "weight": 8,
+      "level": [
+       40,
+       43
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "route_sunmeadow_mirefen": {
    "basic": {
@@ -572,7 +1698,8 @@
       "level": [
        32,
        35
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "floepaddle",
@@ -580,7 +1707,8 @@
       "level": [
        32,
        35
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "bulwarkrab",
@@ -588,12 +1716,93 @@
       "level": [
        32,
        35
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "sunmeadow_fields_water",
+    "slots": [
+     {
+      "species": "brookhorn",
+      "weight": 60,
+      "level": [
+       35,
+       38
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "floepaddle",
+      "weight": 30,
+      "level": [
+       35,
+       38
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "weight": 10,
+      "level": [
+       35,
+       38
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 4,
+      "level": [
+       36,
+       39
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "sunmeadow_fields_water",
+    "slots": [
+     {
+      "species": "brookhorn",
+      "weight": 60,
+      "level": [
+       38,
+       41
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "floepaddle",
+      "weight": 30,
+      "level": [
+       38,
+       41
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "weight": 10,
+      "level": [
+       38,
+       41
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 8,
+      "level": [
+       39,
+       42
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "saltmere": {
    "basic": {
@@ -605,7 +1814,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "sandstarlet",
@@ -613,15 +1823,8 @@
       "level": [
        15,
        18
-      ]
-     },
-     {
-      "species": "brinecube",
-      "weight": 30,
-      "level": [
-       15,
-       18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "quaymouser",
@@ -629,7 +1832,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "polypip",
@@ -637,7 +1841,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "whelkin",
@@ -645,7 +1850,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "bulwarkrab",
@@ -653,15 +1859,8 @@
       "level": [
        15,
        18
-      ]
-     },
-     {
-      "species": "spraytern",
-      "weight": 15,
-      "level": [
-       15,
-       18
-      ]
+      ],
+      "rarity": "rare"
      },
      {
       "species": "blubbet",
@@ -669,7 +1868,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "rare"
      },
      {
       "species": "finnip",
@@ -677,7 +1877,8 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "rare"
      },
      {
       "species": "brineseal",
@@ -685,15 +1886,8 @@
       "level": [
        15,
        18
-      ]
-     },
-     {
-      "species": "dawnfin",
-      "weight": 5,
-      "level": [
-       15,
-       18
-      ]
+      ],
+      "rarity": "rare"
      },
      {
       "species": "spratwyrm",
@@ -701,12 +1895,219 @@
       "level": [
        15,
        18
-      ]
+      ],
+      "rarity": "rare"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "saltmere_water",
+    "slots": [
+     {
+      "species": "pinchkin",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "sandstarlet",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "quaymouser",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "polypip",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "whelkin",
+      "weight": 30,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "weight": 21,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "blubbet",
+      "weight": 21,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "finnip",
+      "weight": 21,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "brineseal",
+      "weight": 7,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "spratwyrm",
+      "weight": 7,
+      "level": [
+       18,
+       21
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "mirewump",
+      "weight": 10,
+      "level": [
+       19,
+       22
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   },
+   "super": {
+    "from": "saltmere_water",
+    "slots": [
+     {
+      "species": "pinchkin",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "sandstarlet",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "quaymouser",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "polypip",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "whelkin",
+      "weight": 30,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "weight": 27,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "blubbet",
+      "weight": 27,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "finnip",
+      "weight": 27,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "brineseal",
+      "weight": 9,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "spratwyrm",
+      "weight": 9,
+      "level": [
+       21,
+       24
+      ],
+      "rarity": "rare"
+     },
+     {
+      "species": "mirewump",
+      "weight": 14,
+      "level": [
+       22,
+       25
+      ],
+      "rarity": "uncommon"
+     }
+    ]
+   }
   },
   "sunmeadow_fields": {
    "basic": {
@@ -718,7 +2119,8 @@
       "level": [
        30,
        34
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "floepaddle",
@@ -726,7 +2128,8 @@
       "level": [
        28,
        30
-      ]
+      ],
+      "rarity": "uncommon"
      },
      {
       "species": "bulwarkrab",
@@ -734,32 +2137,106 @@
       "level": [
        34,
        35
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "sunmeadow_fields_water",
+    "slots": [
+     {
+      "species": "brookhorn",
+      "weight": 60,
+      "level": [
+       33,
+       37
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "floepaddle",
+      "weight": 30,
+      "level": [
+       31,
+       33
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "weight": 10,
+      "level": [
+       37,
+       38
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "blubbet",
+      "weight": 4,
+      "level": [
+       36,
+       39
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "sunmeadow_fields_water",
+    "slots": [
+     {
+      "species": "brookhorn",
+      "weight": 60,
+      "level": [
+       36,
+       40
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "floepaddle",
+      "weight": 30,
+      "level": [
+       34,
+       36
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "bulwarkrab",
+      "weight": 10,
+      "level": [
+       40,
+       41
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "blubbet",
+      "weight": 8,
+      "level": [
+       39,
+       42
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "tidewater_coast": {
    "basic": {
     "from": "tidewater_coast_water",
     "slots": [
      {
-      "species": "barnaclump",
-      "weight": 55,
-      "level": [
-       40,
-       45
-      ]
-     },
-     {
       "species": "hullwhale",
       "weight": 25,
       "level": [
        42,
        45
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "wavelin",
@@ -767,12 +2244,75 @@
       "level": [
        40,
        44
-      ]
+      ],
+      "rarity": "common"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "tidewater_coast_water",
+    "slots": [
+     {
+      "species": "hullwhale",
+      "weight": 25,
+      "level": [
+       45,
+       48
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "wavelin",
+      "weight": 20,
+      "level": [
+       43,
+       47
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "brineseal",
+      "weight": 4,
+      "level": [
+       46,
+       49
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "tidewater_coast_water",
+    "slots": [
+     {
+      "species": "hullwhale",
+      "weight": 25,
+      "level": [
+       48,
+       51
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "wavelin",
+      "weight": 20,
+      "level": [
+       46,
+       50
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "brineseal",
+      "weight": 8,
+      "level": [
+       49,
+       52
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   },
   "route_fernwick_lanternport": {
    "basic": {
@@ -784,7 +2324,8 @@
       "level": [
        44,
        47
-      ]
+      ],
+      "rarity": "common"
      },
      {
       "species": "reefshell",
@@ -792,20 +2333,252 @@
       "level": [
        40,
        44
-      ]
-     },
-     {
-      "species": "seaglint",
-      "weight": 20,
-      "level": [
-       46,
-       47
-      ]
+      ],
+      "rarity": "uncommon"
      }
     ]
    },
-   "good": null,
-   "super": null
+   "good": {
+    "from": "route_fernwick_lanternport_water",
+    "slots": [
+     {
+      "species": "sluicekin",
+      "weight": 50,
+      "level": [
+       47,
+       50
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "reefshell",
+      "weight": 30,
+      "level": [
+       43,
+       47
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 4,
+      "level": [
+       48,
+       51
+      ],
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "from": "route_fernwick_lanternport_water",
+    "slots": [
+     {
+      "species": "sluicekin",
+      "weight": 50,
+      "level": [
+       50,
+       53
+      ],
+      "rarity": "common"
+     },
+     {
+      "species": "reefshell",
+      "weight": 30,
+      "level": [
+       46,
+       50
+      ],
+      "rarity": "uncommon"
+     },
+     {
+      "species": "mirewump",
+      "weight": 8,
+      "level": [
+       51,
+       54
+      ],
+      "rarity": "rare"
+     }
+    ]
+   }
   }
+ },
+ "bite_clamp": [
+  0.05,
+  0.95
+ ],
+ "baits": {
+  "ripple_grub": {
+   "bite": 0.1
+  },
+  "reed_nymph": {
+   "bite": 0.05,
+   "element": "freshwater",
+   "elementMult": 2
+  },
+  "brine_fleck": {
+   "bite": 0.05,
+   "element": "sea",
+   "elementMult": 2
+  },
+  "glimmer_worm": {
+   "bite": 0.05,
+   "rare": 2
+  },
+  "deepgut_paste": {
+   "bite": -0.05,
+   "rare": 3,
+   "uncommon": 1.5
+  },
+  "lantern_moth": {
+   "bite": 0.05,
+   "uncommon": 2,
+   "earned": true
+  },
+  "hollowstar_roe": {
+   "bite": 0.05,
+   "rare": 3,
+   "earned": true
+  }
+ },
+ "water_only": true,
+ "species_el": {
+  "blubbet": [
+   "water",
+   "sea"
+  ],
+  "brineseal": [
+   "water",
+   "sea"
+  ],
+  "brookhorn": [
+   "water"
+  ],
+  "bulwarkrab": [
+   "water",
+   "sea"
+  ],
+  "dartling": [
+   "water",
+   "freshwater"
+  ],
+  "ditchsnap": [
+   "water",
+   "swamp"
+  ],
+  "drenchcrab": [
+   "water",
+   "rain"
+  ],
+  "eftwarden": [
+   "water",
+   "swamp"
+  ],
+  "finnip": [
+   "water",
+   "sea"
+  ],
+  "floepaddle": [
+   "water",
+   "sea"
+  ],
+  "hullwhale": [
+   "water",
+   "sea"
+  ],
+  "medulet": [
+   "water",
+   "ghost"
+  ],
+  "mirewump": [
+   "water",
+   "swamp"
+  ],
+  "moorcoil": [
+   "water",
+   "sea"
+  ],
+  "musselin": [
+   "water",
+   "freshwater"
+  ],
+  "paleminnow": [
+   "water",
+   "freshwater"
+  ],
+  "pinchkin": [
+   "water",
+   "sea"
+  ],
+  "plashcrown": [
+   "water",
+   "rain"
+  ],
+  "polypip": [
+   "water",
+   "sea"
+  ],
+  "puddlenip": [
+   "water",
+   "rain"
+  ],
+  "quaymouser": [
+   "water"
+  ],
+  "rakefin": [
+   "water",
+   "sea"
+  ],
+  "reedmoot": [
+   "water",
+   "swamp"
+  ],
+  "reefshell": [
+   "water",
+   "sea"
+  ],
+  "ribboneel": [
+   "water",
+   "sea"
+  ],
+  "rillop": [
+   "water"
+  ],
+  "sandstarlet": [
+   "water",
+   "sea"
+  ],
+  "sluicekin": [
+   "water"
+  ],
+  "snapmoor": [
+   "water",
+   "swamp"
+  ],
+  "spratwyrm": [
+   "water",
+   "dragos"
+  ],
+  "streambarb": [
+   "water",
+   "freshwater"
+  ],
+  "tidemarrow": [
+   "water",
+   "sea"
+  ],
+  "tuskwallow": [
+   "water",
+   "sea"
+  ],
+  "wavelin": [
+   "water",
+   "sea"
+  ],
+  "whelkin": [
+   "water",
+   "sea"
+  ]
  }
 }

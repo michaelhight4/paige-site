@@ -8,6 +8,7 @@ const T = await import('../src/battle/terrain_encounters.js');
 const E = await import('../src/battle/encounters.js');
 const { fishingFlags, FISHING_DEFAULTS } = await import('../src/fishing/flags.js');
 const { Col } = await import('../src/overworld/constants.js');
+const D = await import("../src/ui/data.js");
 const fish = J('data/fishing_tables.json'), terr = J('data/terrain_encounters.json'), enc = J('data/encounters_wired.json');
 const seq = (...a) => { let i = 0; return () => a[i++ % a.length]; };
 const BLOCKED = /\b(PP|shiny|super effective|Pok[eé]dex|Pok[eé] ?Ball|nurse|weed|route|berry|throw)\b/i;
@@ -43,7 +44,8 @@ test('tables: every fishing species is a water species and exists in the wired t
   }
   assert.ok(Object.keys(fish.maps).length >= 15);
   const good = L.ROD_TIERS[1];
-  assert.equal(L.tableFor(fish, 'brookhollow', good).tier, 'basic'); // good rod falls back to the filled basic table
+  assert.equal(L.tableFor(fish, 'brookhollow', good).tier, 'good'); // gear v1: every map has a filled good table
+  assert.equal(L.tableFor({ maps: { x: { basic: { slots: [{ species: 'rillop', weight: 1 }] } } } }, 'x', good).tier, 'basic'); // empty tier falls back
   assert.equal(L.tableFor(fish, 'nowhere', good), null);
 });
 
@@ -81,8 +83,8 @@ test('terrain: water and cave rates are 0.3x the map grass rate', () => {
   assert.ok(Math.abs(z.zone.rate - g * 0.3) < 1e-9);
   const c = T.terrainZone(terr, enc, 'greystone_b1', 'cave');
   assert.ok(c && Math.abs(c.zone.rate - T.grassRateFor(enc, 'greystone_b1', terr.grass_rate) * 0.3) < 1e-9);
-  const water = new Set(fish.water_species);
-  for (const t of Object.values(terr.water)) for (const s of t.slots) assert.ok(water.has(s.species), s.species);
+  // surf (terrain water) tables are not fishing-rod tables; the water-only rule is tested on fishing_tables.json below
+  for (const t of Object.values(terr.water)) for (const s of t.slots) assert.ok(D.SPECIES.some((x) => x.id === s.species), s.species);
 });
 
 test('terrain roller: cave floor outside rects rolls only with the flag; surf steps only with the flag', () => {
@@ -110,4 +112,97 @@ test('bite prompt: bound key on PC, A on pad, Tap A on touch', () => {
   assert.equal(L.bitePrompt({ device: 'controller' }).textKey, 'fishing.prompt_pad');
   assert.equal(L.bitePrompt({ touch: true, device: 'keyboard' }).textKey, 'fishing.prompt_touch');
   assert.match(L.TEXT['fishing.prompt_pc'][0], /\{key\}/);
+});
+
+// ---------------- Gear v1 (design/FISHING_GEAR.md) + water-only rule (Gary, Oct 29 2026) ----------------
+const TIERS = ['basic', 'good', 'super'];
+const elGame = (sp) => D.speciesById(sp).el; // game data (hand-written + synced species)
+const shops = J('src/systems/data/shops.json');
+const { ITEMS } = await import('../src/systems/items.js');
+
+test('water-only: every species in every table (basic/good/super, all maps) is water type in the game data', () => {
+  const bad = [];
+  for (const [m, t] of Object.entries(fish.maps)) for (const k of TIERS) for (const s of t[k]?.slots || []) {
+    if (!elGame(s.species).includes('water')) bad.push(`${m}.${k}:${s.species}`);
+    if (!(fish.species_el?.[s.species] || []).includes('water')) bad.push(`${m}.${k}:${s.species} (species_el)`);
+  }
+  assert.deepEqual(bad, []);
+  assert.equal(fish.water_only, true);
+});
+
+test('every fishing map has non-empty basic, good and super tables with rarity tags', () => {
+  for (const [m, t] of Object.entries(fish.maps)) for (const k of TIERS) {
+    assert.ok(t[k]?.slots?.length, `${m}.${k} empty`);
+    for (const s of t[k].slots) assert.match(s.rarity, /^(common|uncommon|rare)$/, `${m}.${k}.${s.species}`);
+  }
+});
+
+test('water-only runtime filter: pickFish never returns a non-water species', () => {
+  const el = (sp) => (sp === 'emberpup' ? ['fire'] : ['water']);
+  const table = { slots: [{ species: 'emberpup', weight: 1000, min: 5, max: 5 }, { species: 'rillop', weight: 1, min: 5, max: 5 }] };
+  for (const r of [0, 0.1, 0.5, 0.99]) assert.equal(L.pickFish(table, () => r, null, null, el).species, 'rillop');
+  assert.equal(L.pickFish({ slots: [table.slots[0]] }, () => 0.5, null, null, el), null);
+  // unknown element data fails closed
+  assert.equal(L.pickFish({ slots: [{ species: 'mystery', weight: 1, min: 1, max: 1 }] }, () => 0.5, null, null, () => undefined), null);
+  // planCast always filters by the table's species_el
+  const tabs = { ...fish, species_el: { ...fish.species_el, reefshell: ['earth'] } };
+  for (let i = 0; i < 40; i++) { const p = L.planCast(tabs, 'lanternport', L.ROD_TIERS[2], seq(0.01, i / 40, 0.5, 0.5), null, null); if (p.fish) assert.notEqual(p.fish.species, 'reefshell'); }
+});
+
+test('maths: bite clamp and multipliers; element baits only boost water species', () => {
+  assert.equal(L.biteChance(fish, L.ROD_TIERS[2], 'ripple_grub'), 0.95);
+  assert.equal(L.biteChance(fish, L.ROD_TIERS[0], 'deepgut_paste'), 0.65);
+  assert.equal(L.biteChance(fish, L.ROD_TIERS[0], null), 0.7);
+  const nymph = L.baitOf(fish, 'reed_nymph'), glim = L.baitOf(fish, 'glimmer_worm');
+  assert.equal(L.effectiveWeight({ species: 'a', weight: 10, rarity: 'common' }, nymph, () => ['water', 'freshwater']), 20);
+  assert.equal(L.effectiveWeight({ species: 'a', weight: 10, rarity: 'common' }, nymph, () => ['freshwater']), 10); // not water: no element boost
+  assert.equal(L.effectiveWeight({ species: 'a', weight: 10, rarity: 'rare' }, glim, () => ['water']), 20);
+  for (const [id, b] of Object.entries(fish.baits)) if (b.element) assert.ok(['freshwater', 'sea', 'water'].includes(b.element), id);
+  assert.equal(fish.baits.lantern_moth.element, undefined); // reworked: no light boost
+});
+
+test('sim numbers: Lanternport expected catches per 100 casts (design §6)', () => {
+  const r = (rod, bait) => { const e = L.expectedPer100(fish, 'lanternport', L.ROD_TIERS.find((x) => x.id === rod), bait); return [Math.round(e.bites), +e.common.toFixed(1), +e.uncommon.toFixed(1), +e.rare.toFixed(2)]; };
+  assert.deepEqual(r('basic', null), [70, 48.3, 20.1, 1.61]);
+  assert.deepEqual(r('good', null), [80, 53.0, 19.3, 7.71]);
+  assert.deepEqual(r('super', null), [90, 41.4, 36.2, 12.41]);
+  assert.deepEqual(r('super', 'glimmer_worm'), [95, 38.4, 33.6, 23.03]);
+  assert.deepEqual(r('super', 'hollowstar_roe'), [95, 34.2, 30.0, 30.81]);
+  assert.deepEqual(r('good', 'lantern_moth'), [85, 45.4, 33.0, 6.60]);
+  // rare rises with each rod tier, no bait
+  const rare = ['basic', 'good', 'super'].map((x) => r(x, null)[3]); assert.ok(rare[0] < rare[1] && rare[1] < rare[2]);
+});
+
+test('shops: bait prices as planned; Driftline/Lanternreach rods and earned baits never sold', () => {
+  const P = shops.basePrices;
+  assert.deepEqual([P.ripple_grub, P.reed_nymph, P.brine_fleck, P.glimmer_worm, P.deepgut_paste], [40, 80, 80, 150, 400]);
+  const stocked = JSON.stringify(shops.regions);
+  for (const id of ['fishing_rod_good', 'fishing_rod_super', 'lantern_moth', 'hollowstar_roe']) { assert.equal(P[id], undefined, id); assert.ok(!stocked.includes(`"${id}"`), id); }
+  for (const id of L.BAIT_IDS) { assert.ok(ITEMS[id]?.bait, id); assert.ok(fish.baits[id], id); }
+  assert.equal(ITEMS.fishing_rod_good.rod, 'good'); assert.equal(ITEMS.fishing_rod_super.rod, 'super');
+});
+
+test('gifts: Saltmere fisher -> Driftline, keeper -> Lanternreach + moths, then roe / moth refills', () => {
+  const bag = (o) => ({ has: (id) => (o[id] || 0) > 0, count: (id) => o[id] || 0 });
+  const G = L.ROD_GIFTS.good, S = L.ROD_GIFTS.super;
+  assert.equal(L.gearGiftFor(G.map, G.npc, new Set(), bag({})), null); // needs the Brookhollow rod first
+  assert.equal(L.gearGiftFor(G.map, G.npc, new Set(), bag({ fishing_rod: 1 }))?.kind, 'good_hint');
+  assert.equal(L.gearGiftFor(G.map, G.npc, new Set(['fish_hooked']), bag({ fishing_rod: 1 }))?.kind, 'good');
+  assert.equal(L.gearGiftFor(S.map, S.npc, new Set(), bag({})), null);
+  assert.equal(L.gearGiftFor(S.map, S.npc, new Set(['got_rod_good']), bag({}))?.kind, 'super_hint');
+  assert.equal(L.gearGiftFor(S.map, S.npc, new Set(['got_rod_good', 'moorcoil_seen_3']), bag({}))?.kind, 'super');
+  assert.equal(L.gearGiftFor(S.map, S.npc, new Set(['got_rod_good', 'hooked_moorcoil']), bag({}))?.kind, 'super');
+  assert.equal(L.gearGiftFor(S.map, S.npc, new Set(['got_rod_good', 'got_rod_super']), bag({}))?.kind, 'moth');
+  assert.equal(L.gearGiftFor(S.map, S.npc, new Set(['got_rod_good', 'got_rod_super']), bag({ lantern_moth: 1 })), null);
+  const roe = L.gearGiftFor(G.map, G.npc, new Set(['got_rod_good', 'fished_moorcoil']), bag({ fishing_rod: 1 }));
+  assert.equal(roe?.kind, 'roe'); assert.equal(roe.species, 'moorcoil');
+  assert.equal(L.gearGiftFor(G.map, G.npc, new Set(['got_rod_good', 'fished_moorcoil', 'roe_moorcoil']), bag({ fishing_rod: 1 })), null);
+  assert.equal(L.gearGiftFor('brookhollow', G.npc, new Set(), bag({ fishing_rod: 1 })), null);
+});
+
+test('gear text keys exist, placeholder only, no blocked words; no "tonic" label', () => {
+  for (const k of ['rare_bite', 'bait_title', 'bait_none', 'bait_out', 'good_giver_pages', 'good_received', 'super_giver_pages', 'super_received', 'moth_gift', 'roe_gift'])
+    assert.ok(L.TEXT['fishing.' + k]?.length, k);
+  const all = JSON.stringify(L.TEXT) + JSON.stringify(Object.fromEntries(Object.entries(ITEMS).filter(([, v]) => v.bait || v.rod)));
+  assert.ok(!BLOCKED.test(all)); assert.ok(!/tonic/i.test(all));
 });

@@ -7,7 +7,7 @@
 import { Col, DELTA } from '../overworld/constants.js?v=v0.2.58-alpha';
 
 export const FISHING_URL = 'data/fishing_tables.json';
-/** Rod tiers. Only `basic` exists as an item (fishing_rod); good / super are structure for later upgrades (ids PLACEHOLDER). */
+/** Rod tiers: Fishing Rod (Brookhollow fisher), Driftline Rod (Saltmere fisher), Lanternreach Rod (Lanternport keeper). Ids PLACEHOLDER. */
 export const ROD_TIERS = Object.freeze([
   { id: 'basic', item: 'fishing_rod', tier: 1 },
   { id: 'good', item: 'fishing_rod_good', tier: 2 },
@@ -49,30 +49,69 @@ export function tableFor(tables, mapName, rod) {
   return null;
 }
 
-/** Bite chance for the rod (tables.rods[id].bite). */
-export const biteChance = (tables, rod) => tables?.rods?.[rod?.id]?.bite ?? 0.7;
+// ---- gear v1 (design/FISHING_GEAR.md, Gary approved Oct 29 2026) ----
+// bite  p  = clamp(rods[r].bite + bait.bite, 0.05, 0.95)
+// weight w' = w x R(rarity) x E(element); R = bait.rare | bait.uncommon | 1, E = bait.elementMult if bait.element in species el
+/** Bait ids in picker order (tables.baits keys). */
+export const BAIT_IDS = Object.freeze(['ripple_grub', 'reed_nymph', 'brine_fleck', 'glimmer_worm', 'deepgut_paste', 'lantern_moth', 'hollowstar_roe']);
+/** Bait row for an id (or a row passed straight through) -> object | null. */
+export const baitOf = (tables, bait) => (bait && typeof bait === 'object' ? bait : (bait && tables?.baits?.[bait]) || null);
 
-/** Weighted species pick + uniform level. Optional hasArt drops creatures without art (same rule as grass, #62). */
-export function pickFish(table, rng = Math.random, hasArt = null) {
-  const slots = (table?.slots || []).filter((s) => (s.weight ?? 1) > 0 && (!hasArt || hasArt(s.species)));
-  const total = slots.reduce((a, s) => a + (s.weight ?? 1), 0);
+/** Bite chance for the rod (tables.rods[id].bite) plus the bait, clamped to tables.bite_clamp (default 0.05..0.95). */
+export function biteChance(tables, rod, bait = null) {
+  const base = tables?.rods?.[rod?.id]?.bite ?? 0.7, b = baitOf(tables, bait);
+  if (!b) return base;
+  const [lo, hi] = tables?.bite_clamp || [0.05, 0.95];
+  return Math.round(Math.min(hi, Math.max(lo, base + (b.bite || 0))) * 1e6) / 1e6;
+}
+
+/** Effective weight of one slot under a bait. elOf(species) -> element list (tables.species_el). */
+export function effectiveWeight(slot, bait = null, elOf = null) {
+  const w = slot.weight ?? 1;
+  if (!bait || w <= 0) return Math.max(0, w);
+  const r = slot.rarity || 'common';
+  const R = r === 'rare' ? (bait.rare ?? 1) : r === 'uncommon' ? (bait.uncommon ?? 1) : 1;
+  const E = bait.element && isWaterEl(elOf?.(slot.species)) && (elOf?.(slot.species) || []).includes(bait.element) ? (bait.elementMult ?? 1) : 1;
+  return w * R * E;
+}
+/** Gary (Oct 29 2026, hard rule): fishing catches ONLY water-type Kilumen (element list includes 'water'). */
+export const isWaterEl = (el) => Array.isArray(el) && el.includes('water');
+export const elFrom = (tables) => (sp) => tables?.species_el?.[sp] || [];
+
+/** Weighted species pick + uniform level. Optional hasArt drops creatures without art (same rule as grass, #62).
+ * Optional bait row + elOf apply the gear multipliers; with elOf, any non-water species is dropped (water-only rule).
+ * planCast always passes elOf, so fishing can never roll a non-water creature. Returns rarity too. */
+export function pickFish(table, rng = Math.random, hasArt = null, bait = null, elOf = null) {
+  const slots = (table?.slots || []).map((s) => ({ s, w: effectiveWeight(s, bait, elOf) }))
+    .filter((x) => x.w > 0 && (!hasArt || hasArt(x.s.species)) && (!elOf || isWaterEl(elOf(x.s.species))));
+  const total = slots.reduce((a, x) => a + x.w, 0);
   if (!total) return null;
-  let r = rng() * total, slot = slots[slots.length - 1];
-  for (const s of slots) { if ((r -= (s.weight ?? 1)) < 0) { slot = s; break; } }
+  let r = rng() * total, slot = slots[slots.length - 1].s;
+  for (const x of slots) { if ((r -= x.w) < 0) { slot = x.s; break; } }
   const [lo, hi] = Array.isArray(slot.level) ? slot.level : [slot.level, slot.level];
-  return { species: slot.species, level: lo + Math.floor(rng() * (hi - lo + 1)) };
+  return { species: slot.species, level: lo + Math.floor(rng() * (hi - lo + 1)), rarity: slot.rarity || 'common' };
+}
+
+/** Expected catches per 100 clean casts -> {bite, bites, common, uncommon, rare} (design §5 point 5). */
+export function expectedPer100(tables, mapName, rod, bait = null) {
+  const tab = tableFor(tables, mapName, rod), b = baitOf(tables, bait), elOf = elFrom(tables);
+  const p = biteChance(tables, rod, b), out = { bite: p, bites: 100 * p, common: 0, uncommon: 0, rare: 0 };
+  if (!tab) return { ...out, bites: 0 };
+  const ws = tab.slots.filter((s) => isWaterEl(elOf(s.species))).map((s) => [s.rarity || 'common', effectiveWeight(s, b, elOf)]), tot = ws.reduce((a, [, w]) => a + w, 0);
+  for (const [k, w] of ws) out[k] += (100 * p * w) / tot;
+  return out;
 }
 
 /**
  * One cast, decided up front (so tests and replays are deterministic). -> {bite: bool, waitMs, fish|null}
  * The player's timing is judged later by judgePress.
  */
-export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null) {
-  const tab = tableFor(tables, mapName, rod);
+export function planCast(tables, mapName, rod, rng = Math.random, hasArt = null, bait = null) {
+  const tab = tableFor(tables, mapName, rod), b = baitOf(tables, bait);
   const waitMs = Math.round(TIMING.WAIT_MIN + rng() * (TIMING.WAIT_MAX - TIMING.WAIT_MIN));
   if (!tab) return { bite: false, waitMs, fish: null, empty: true };
-  const bite = rng() < biteChance(tables, rod);
-  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt) : null, table: tab.from, empty: false };
+  const bite = rng() < biteChance(tables, rod, b);
+  return { bite, waitMs, fish: bite ? pickFish(tab, rng, hasArt, b, elFrom(tables)) : null, table: tab.from, tier: tab.tier, empty: false };
 }
 
 /** Judge an A press at time t (ms since the cast landed). -> 'early' | 'hooked' | 'late' | null (no press yet). */
@@ -82,6 +121,39 @@ export function judgePress(plan, t, pressed, touch = false) {
   if (pressed && t < plan.waitMs) return 'early';
   if (pressed && t <= plan.waitMs + win) return 'hooked';
   if (t > plan.waitMs + win) return 'late';
+  return null;
+}
+
+// ---- rod gifts + earned baits (gear v1). Pure: flags = Set, bag = {has(id), count(id)} ----
+export const ROD_GIFTS = Object.freeze({
+  good: { map: 'saltmere', npc: 'saltmere_fisher', flag: 'got_rod_good', item: 'fishing_rod_good' },
+  super: { map: 'lanternport', npc: 'lanternport_lighthouse_keeper', flag: 'got_rod_super', item: 'fishing_rod_super', moths: 3 },
+});
+export const MOORCOIL_SIGHTINGS = 3;
+/** Flags a hook / bite leaves behind: fish_hooked, fished_<species>, hooked_moorcoil (Driftline+), moorcoil_seen_N. */
+export function catchFlags(fish, rod, flags, hooked) {
+  const out = [];
+  if (!fish) return out;
+  const tier = rod?.tier || 1;
+  if (hooked) { out.push('fish_hooked', 'fished_' + fish.species); if (fish.species === 'moorcoil' && tier >= 2) out.push('hooked_moorcoil'); }
+  if (fish.species === 'moorcoil' && tier >= 2) { let n = 1; while (flags?.has?.('moorcoil_seen_' + n)) n++; if (n <= MOORCOIL_SIGHTINGS) out.push('moorcoil_seen_' + n); }
+  return out;
+}
+/** What a talk to this NPC hands out -> {kind, species?} | null. kinds: good, good_hint, super, super_hint, moth, roe. */
+export function gearGiftFor(mapName, npcId, flags, bag) {
+  const F = (f) => !!flags?.has?.(f), has = (id) => (typeof bag?.has === 'function' ? bag.has(id) : (bag?.[id] || 0) > 0);
+  const G = ROD_GIFTS.good, S = ROD_GIFTS.super;
+  if (mapName === G.map && npcId === G.npc) {
+    if (!has('fishing_rod')) return null;
+    if (!F(G.flag)) return { kind: F('fish_hooked') ? 'good' : 'good_hint' };
+    for (const f of flags) { const m = /^fished_(.+)$/.exec(f); if (m && !F('roe_' + m[1])) return { kind: 'roe', species: m[1] }; }
+    return null;
+  }
+  if (mapName === S.map && npcId === S.npc) {
+    if (!F(G.flag)) return null;
+    if (!F(S.flag)) return { kind: F('hooked_moorcoil') || F('moorcoil_seen_' + MOORCOIL_SIGHTINGS) ? 'super' : 'super_hint' };
+    return has('lantern_moth') ? null : { kind: 'moth' };
+  }
   return null;
 }
 
@@ -131,5 +203,22 @@ export const TEXT = Object.freeze({
   'fishing.prompt_pad': ['Press A!'],
   'fishing.prompt_touch': ['Tap A!'],
   'fishing.battle_intro': ['{creature} leaps out of the water!'],
+  'fishing.rare_bite': ['The line pulls hard. Something big is down there!'],
+  // gear v1: bait picker + rod gifts (placeholder keys; Text Bot owns the words)
+  'fishing.bait_title': ['Bait'],
+  'fishing.bait_none': ['No bait'],
+  'fishing.bait_out': ['That was the last of the {bait}.'],
+  'fishing.bait_used': ['{player} hooked on a {bait}.'],
+  'fishing.good_giver_pages': ['You caught one with that old stick? Not bad.', 'Take my Driftline Rod. It reaches the deeper water off the quay.'],
+  'fishing.good_received': ['{player} received the Driftline Rod!'],
+  'fishing.good_tip': ['The bobber sits deeper now. Bigger creatures bite at it.'],
+  'fishing.good_hint': ['Land something from the harbour with that rod of yours, then come and show me.'],
+  'fishing.super_hint': ['A long coil moves past the light at night. Hook one for me with a Driftline Rod.'],
+  'fishing.super_giver_pages': ['So it was real. I have watched that coil for years.', 'The lamp needs me more than this rod does. Take it.'],
+  'fishing.super_received': ['{player} received the Lanternreach Rod!'],
+  'fishing.moth_received': ['{player} received {n} Lantern Moth!'],
+  'fishing.moth_gift': ['The moths gather at the lamp every night. Take some.'],
+  'fishing.roe_gift': ['Never seen one of those up close! Here, for your trouble.'],
+  'fishing.roe_received': ['{player} received a Hollowstar Roe!'],
 });
 export const TEXT_KEYS = Object.keys(TEXT);

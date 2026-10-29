@@ -5,8 +5,11 @@
 //  - the whole cast runs inside one scene.script (busy = save lock 'script'; the battle adds its own lock): no saves
 //  - A during the wait is eaten here (keyboard Z/Space/Enter, pad A, the touch A button: all arrive as snap.a)
 //  - a hook opens the normal wild battle (ui.wild.openBattle, same path as grass) with a water intro line
+// Gear v1 (design/FISHING_GEAR.md): Driftline / Lanternreach rod gifts (Saltmere fisher, Lanternport keeper), earned baits
+// (Lantern Moth, Hollowstar Roe), a bait picker before each cast (only when the bag holds bait), one bait used per landed cast.
 // Art: bobber, line, splash, ripples and the leaping shadow are drawn in code from the Kilumen palette (our own art).
-import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt } from './logic.js?v=v0.2.58-alpha';
+import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags } from './logic.js?v=v0.2.58-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.58-alpha';
 import { TILE, DELTA } from '../overworld/constants.js?v=v0.2.58-alpha';
 
 export const ROD_GIVER = Object.freeze({ map: 'brookhollow', npc: 'fisher', flag: 'got_fishing_rod', item: 'fishing_rod' });
@@ -16,7 +19,7 @@ const frame = () => new Promise((r) => (globalThis.requestAnimationFrame ? reque
 const wait = async (ms) => { const t = now(); while (now() - t < ms) await frame(); };
 
 export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.ui, rng = Math.random, tablesUrl = FISHING_URL } = {}) {
-  const st = { tables: null, fx: null, casts: 0, last: null };
+  const st = { tables: null, fx: null, casts: 0, last: null, picker: null, lastBait: null, baitUsed: 0 };
   st.ready = fetch(tablesUrl).then((r) => (r.ok ? r.json() : null)).then((t) => { st.tables = t; }).catch(() => {});
   const sys = scene.systems;
   const lines = (key) => { const v = sys?.text?.(key, null); return (Array.isArray(v) ? v : v?.pages) || TEXT[key]; }; // placeholder keys: Text Bot fills them
@@ -47,8 +50,47 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
         scene._dirty = true;
         return true;
       }
+      const g = gearGiftFor(a.mapName, a.def?.id, scene.flags || new Set(), sys.bag);
+      if (g) { await gearGift(g, a.speaker); return true; }
       return orig(a);
     };
+  }
+
+  const setFlag = (f) => (scene.setFlag ? scene.setFlag(f, true) : scene.flags?.add(f));
+  const nameOf = (id) => ITEMS[id]?.name || id;
+  async function gearGift(g, speaker) {
+    const G = ROD_GIFTS.good, S = ROD_GIFTS.super;
+    if (g.kind === 'good_hint' || g.kind === 'super_hint') { await sys.say(lines('fishing.' + g.kind), {}, speaker); return; }
+    if (g.kind === 'good' || g.kind === 'super') {
+      const R = g.kind === 'good' ? G : S;
+      await sys.say(lines(`fishing.${g.kind}_giver_pages`), {}, speaker);
+      sys.bag?.add?.(R.item, 1); setFlag(R.flag); scene.audio?.sfx?.('catch');
+      st.gift = { kind: g.kind, t0: now() };
+      await sys.say(lines(`fishing.${g.kind}_received`));
+      if (g.kind === 'good') await sys.say(lines('fishing.good_tip'));
+      else { sys.bag?.add?.('lantern_moth', R.moths); await sys.say(T('fishing.moth_received', { n: R.moths })); }
+      st.gift = null; scene._dirty = true; return;
+    }
+    if (g.kind === 'moth') { await sys.say(lines('fishing.moth_gift'), {}, speaker); sys.bag?.add?.('lantern_moth', 1); await sys.say(T('fishing.moth_received', { n: 1 })); }
+    if (g.kind === 'roe') { await sys.say(lines('fishing.roe_gift'), {}, speaker); sys.bag?.add?.('hollowstar_roe', 1); setFlag('roe_' + g.species); await sys.say(lines('fishing.roe_received')); }
+    scene._dirty = true;
+  }
+
+  // --- bait picker: a small, lively list (No bait + each bait held, with counts). Up/Down, A picks, B backs out. ---
+  const baitsHeld = () => BAIT_IDS.filter((id) => (sys?.bag?.count?.(id) || 0) > 0);
+  function openPicker() {
+    const held = baitsHeld();
+    if (!held.length) return Promise.resolve({ bait: null });
+    const opts = [{ id: null, name: String(T('fishing.bait_none')[0]), n: null }, ...held.map((id) => ({ id, name: nameOf(id), n: sys.bag.count(id) }))];
+    const i = Math.max(0, opts.findIndex((o) => o.id === st.lastBait));
+    return new Promise((done) => { st.picker = { opts, i, t0: now(), tMove: now(), title: String(T('fishing.bait_title')[0]), touch: touch(), done, prev: { a: true, b: true, dir: null } }; });
+  }
+  function pickerInput(snap) {
+    const pk = st.picker, pv = pk.prev, a = !!snap?.a && !pv.a, b = (!!snap?.b && !pv.b) || !!snap?.bTap, dir = snap?.dir && snap.dir !== pv.dir ? snap.dir : null;
+    pk.prev = { a: !!snap?.a, b: !!snap?.b, dir: snap?.dir || null };
+    if (dir === 'up' || dir === 'down') { pk.i = (pk.i + (dir === 'up' ? -1 : 1) + pk.opts.length) % pk.opts.length; pk.tMove = now(); scene.audio?.sfx?.('blip'); }
+    else if (a) { const o = pk.opts[pk.i]; st.lastBait = o.id; st.picker = null; scene.audio?.sfx?.('select'); pk.done({ bait: o.id }); }
+    else if (b) { st.picker = null; pk.done({ cancel: true }); }
   }
 
   // --- interact: face water + rod -> cast ---
@@ -65,6 +107,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
   // --- step: A presses during the cast belong to fishing ---
   const origStep = scene.step.bind(scene);
   scene.step = (snap) => {
+    if (st.picker) { pickerInput(snap); return origStep({ ...snap, a: false, b: false, bTap: false, dir: null }); }
     if (snap?.a && /^(cast|wait|bite)$/.test(st.fx?.phase || '')) { if (st.fx.press == null) st.fx.press = now(); snap = { ...snap, a: false }; } // dialogs (hooked line) still get A
     return origStep(snap);
   };
@@ -73,24 +116,29 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
   const origView = scene.view.bind(scene);
   scene.view = () => {
     const v = origView();
-    if (!st.fx) return v;
+    if (!st.fx && !st.picker && !st.gift) return v;
     const under = v.markers;
-    v.markers = (ctx, vv) => { const r = typeof under === 'function' ? under(ctx, vv) : undefined; drawFishing(ctx, vv || v, st.fx); return r; };
+    v.markers = (ctx, vv) => { const r = typeof under === 'function' ? under(ctx, vv) : undefined; drawFishing(ctx, vv || v, st.fx); if (st.picker) drawBaitPicker(ctx, vv || v, st.picker); if (st.gift) drawRodGift(ctx, vv || v, st.gift, scene.player); return r; };
     return v;
   };
 
   async function cast(cell, rod) {
     if (!scene.party?.length) { await scene.say(T('fishing.no_team')); return; }
     const hasArt = ui()?.wild?.hasArt;
-    const plan = planCast(st.tables, scene.map.name, rod, rng, hasArt);
+    const choice = await openPicker();
+    if (choice.cancel) return;
+    const baitId = choice.bait && sys.bag.count(choice.bait) > 0 ? choice.bait : null;
+    const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId);
     const p = scene.player, d = DELTA[p.facing];
     const fx = st.fx = { phase: 'cast', t0: now(), cell, facing: p.facing, from: { x: (p.x + 0.5 + d.x * 0.45) * TILE, y: (p.y - 0.15) * TILE }, press: null, touch: touch(), plan };
     st.casts++;
     scene.audio?.sfx?.('select');
-    scene.log?.push({ tick: scene.tick, type: 'fish_cast', map: scene.map.name, x: cell.x, y: cell.y, bite: plan.bite, species: plan.fish?.species || null });
+    scene.log?.push({ tick: scene.tick, type: 'fish_cast', map: scene.map.name, x: cell.x, y: cell.y, bite: plan.bite, species: plan.fish?.species || null, rarity: plan.fish?.rarity || null, bait: baitId, rod: rod.id });
     await wait(TIMING.CAST);
     fx.press = null; // presses during the swing do not count
     fx.phase = 'wait'; fx.tLand = now(); scene.audio?.sfx?.('blip');
+    let baitOut = false; // one bait is used when the line lands, bite or not (design §4)
+    if (baitId && sys.bag.remove(baitId, 1)) { st.baitUsed++; fx.bait = baitId; baitOut = sys.bag.count(baitId) === 0; scene._dirty = true; }
     let result = null;
     while (!result) {
       await frame();
@@ -103,10 +151,14 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
       else result = judgePress(plan, t, false, fx.touch);
     }
     st.last = result;
+    if (plan.bite) for (const f of catchFlags(plan.fish, rod, scene.flags, result === 'hooked')) setFlag(f);
+    if (baitOut) { if (st.lastBait === baitId) st.lastBait = null; }
     scene.log?.push({ tick: scene.tick, type: 'fish_result', result, species: result === 'hooked' ? plan.fish?.species : null });
     if (result === 'hooked' && plan.fish) {
       fx.phase = 'hooked'; fx.tHook = now(); scene.audio?.sfx?.('catch');
-      await scene.say(T('fishing.hooked'));
+      fx.rare = plan.fish.rarity === 'rare';
+      if (fx.rare) scene.audio?.sfx?.('select');
+      await scene.say([...T(fx.rare ? 'fishing.rare_bite' : 'fishing.hooked'), ...(baitOut ? T('fishing.bait_out', { bait: nameOf(baitId) }) : [])]);
       fx.phase = 'leap'; fx.tLeap = now();
       await wait(TIMING.REEL + 300);
       st.fx = null;
@@ -122,6 +174,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
     st.fx = null;
     const key = { early: 'fishing.early', late: 'fishing.late', nothing: 'fishing.nothing', no_table: 'fishing.no_table' }[result] || 'fishing.nothing';
     await scene.say(pick(key));
+    if (baitOut) await scene.say(T('fishing.bait_out', { bait: nameOf(baitId) }));
   }
 
   return st;
@@ -194,6 +247,7 @@ export function drawFishing(ctx, v, fx) {
     ctx.fillStyle = C.shadow; ctx.beginPath(); ctx.ellipse(sx(lx), sy(ly), 14 * z, 8 * z, (k - 0.5) * 1.2, 0, Math.PI * 2); ctx.fill();
     ctx.beginPath(); ctx.moveTo(sx(lx - 12), sy(ly)); ctx.lineTo(sx(lx - 22), sy(ly - 7)); ctx.lineTo(sx(lx - 22), sy(ly + 7)); ctx.fill();
     ctx.fillStyle = C.white; ctx.fillRect(sx(lx + 7), sy(ly - 3), P, P);
+    if (fx.rare) drawSparkles(ctx, sx(lx), sy(ly), z, t, 1.4); // rare catch: gold glints around the leap
   }
   ctx.restore();
 }
@@ -248,4 +302,83 @@ function drawSplash(ctx, x, y, z, k, size) {
     ctx.fillRect(Math.round(x - dx), Math.round(y + dy), s, s); ctx.fillRect(Math.round(x + dx), Math.round(y + dy), s, s);
   }
   ctx.globalAlpha = 1;
+}
+
+// Gold four-point glints in a ring (rare catch + rod gift).
+function drawSparkles(ctx, x, y, z, t, size = 1) {
+  ctx.save();
+  for (let i = 0; i < 8; i++) {
+    const a = i * Math.PI / 4 + t / 700, r = (22 + Math.sin(t / 160 + i) * 6) * z * size, k = 0.5 + 0.5 * Math.sin(t / 110 + i * 1.7);
+    const px = Math.round(x + Math.cos(a) * r), py = Math.round(y + Math.sin(a) * r * 0.75), s = Math.max(2, Math.round((2 + k * 3) * z));
+    ctx.fillStyle = i % 2 ? C.gold : C.white; ctx.globalAlpha = 0.45 + 0.55 * k;
+    ctx.fillRect(px - s, py - 1, s * 2 + 1, Math.max(2, z)); ctx.fillRect(px - 1, py - s, Math.max(2, z), s * 2 + 1);
+  }
+  ctx.restore();
+}
+
+/** Rod gift flourish: the rod spins above the player inside a ring of glints (while the "received" line shows). */
+export function drawRodGift(ctx, v, g, player = null) {
+  const p = player || v.player; const W = ctx.canvas.width, H = ctx.canvas.height, z = v.zoom || 2, t = now(), age = t - g.t0;
+  const cx = p && v.cam ? Math.round(((p.x + 0.5) * TILE - v.cam.x) * z) : W / 2, cy = p && v.cam ? Math.round(((p.y - 0.7) * TILE - v.cam.y) * z) : H / 2;
+  const pop = ease.backOut(Math.min(1, age / 380)), bob = Math.sin(age / 180) * 3 * z;
+  ctx.save(); ctx.translate(cx, cy + bob); ctx.scale(pop, pop);
+  drawSparkles(ctx, 0, 0, z, t, 1.1);
+  ctx.rotate(Math.sin(age / 260) * 0.35 - 0.6);
+  const len = 26 * z, w = Math.max(3, Math.round(z * 2.5));
+  ctx.fillStyle = C.ink; ctx.fillRect(-w / 2 - 1, -len / 2 - 1, w + 2, len + 2);
+  ctx.fillStyle = g.kind === 'super' ? C.gold : '#8a5a3a'; ctx.fillRect(-w / 2, -len / 2, w, len);
+  ctx.fillStyle = C.red; ctx.fillRect(-w, len * 0.15, w * 2, w * 1.4); // reel
+  ctx.restore();
+}
+
+/** Bait picker: ink-outlined cream card bottom-right (PC) / full-width bottom (phone). Pops in, the cursor row sways,
+ * the selected bait's icon bobs and the count chip pulses. Text min 12px. */
+export function drawBaitPicker(ctx, v, pk) {
+  const W = ctx.canvas.width, H = ctx.canvas.height, t = now(), age = t - pk.t0, mv = t - pk.tMove;
+  const fs = Math.max(13, Math.round(Math.min(W, H) / 30)), rowH = Math.round(fs * 1.9), pad = Math.round(fs * 0.8), o = Math.max(2, Math.round(fs / 7));
+  ctx.save();
+  ctx.font = `bold ${fs}px monospace`;
+  const tw = Math.max(...pk.opts.map((x) => ctx.measureText(x.name).width)) + fs * 7;
+  const w = Math.round(Math.min(W - 2 * pad, Math.max(tw, fs * 14))), h = Math.round(rowH * pk.opts.length + fs * 2.6 + pad);
+  const x0 = pk.touch ? Math.round((W - w) / 2) : W - w - pad * 2, y0 = H - h - pad * 2 - (pk.touch ? Math.round(H * 0.02) : 0);
+  const pop = ease.backOut(Math.min(1, age / 260));
+  ctx.translate(x0 + w / 2, y0 + h); ctx.scale(1, pop); ctx.translate(-(x0 + w / 2), -(y0 + h));
+  ctx.fillStyle = 'rgba(26,18,38,0.35)'; ctx.fillRect(x0 + o * 2, y0 + o * 2, w, h);
+  ctx.fillStyle = C.ink; ctx.fillRect(x0 - o, y0 - o, w + 2 * o, h + 2 * o);
+  ctx.fillStyle = C.white; ctx.fillRect(x0, y0, w, h);
+  // title tab
+  ctx.fillStyle = C.deep; ctx.fillRect(x0, y0, w, Math.round(fs * 1.9));
+  ctx.fillStyle = C.white; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  ctx.fillText(pk.title, x0 + pad, y0 + fs * 0.95);
+  ctx.textAlign = 'right'; ctx.font = `bold ${Math.round(fs * 0.8)}px monospace`; ctx.fillStyle = C.foam;
+  ctx.fillText(pk.touch ? 'A pick  B back' : '\u2191\u2193  A pick  B back', x0 + w - pad, y0 + fs * 0.95);
+  const top = y0 + Math.round(fs * 2.4);
+  pk.opts.forEach((opt, i) => {
+    const y = top + i * rowH, sel = i === pk.i, sway = sel ? Math.sin(t / 170) * 2 + (mv < 160 ? (1 - mv / 160) * 6 : 0) : 0;
+    if (sel) { ctx.fillStyle = C.gold; ctx.fillRect(x0 + o * 2, y, w - o * 4, rowH - o); ctx.fillStyle = C.ink; ctx.fillRect(x0 + o * 2, y + rowH - o * 2, w - o * 4, o); }
+    // little bait icon (code-drawn): grub = segmented, worm = glow, moth = wings, roe = dots, none = empty hook
+    const ix = x0 + pad + fs * 0.7 + sway, iy = y + rowH / 2 + (sel ? Math.sin(t / 140) * 2 : 0);
+    drawBaitIcon(ctx, opt.id, ix, iy, fs, t);
+    ctx.font = `bold ${fs}px monospace`; ctx.textAlign = 'left'; ctx.fillStyle = C.ink;
+    ctx.fillText(opt.name, ix + fs * 1.3, y + rowH / 2);
+    if (opt.n != null) {
+      const label = 'x' + opt.n, cw = ctx.measureText(label).width + fs * 0.8, pul = sel ? 1 + 0.08 * Math.sin(t / 120) : 1;
+      ctx.save(); ctx.translate(x0 + w - pad - cw / 2, y + rowH / 2); ctx.scale(pul, pul);
+      ctx.fillStyle = C.ink; ctx.fillRect(-cw / 2 - 1, -fs * 0.65 - 1, cw + 2, fs * 1.3 + 2);
+      ctx.fillStyle = sel ? C.white : C.line; ctx.fillRect(-cw / 2, -fs * 0.65, cw, fs * 1.3);
+      ctx.fillStyle = C.ink; ctx.textAlign = 'center'; ctx.fillText(label, 0, 1); ctx.restore();
+    }
+  });
+  ctx.restore();
+}
+const BAIT_COL = { ripple_grub: '#c98a5a', reed_nymph: '#6aa84f', brine_fleck: '#e8a0a0', glimmer_worm: '#fcd668', deepgut_paste: '#6a4a5a', lantern_moth: '#f4e2a8', hollowstar_roe: '#e86a5a' };
+function drawBaitIcon(ctx, id, x, y, fs, t) {
+  const u = Math.max(2, Math.round(fs / 6)), c = BAIT_COL[id];
+  ctx.save(); ctx.fillStyle = C.ink;
+  if (!id) { ctx.strokeStyle = C.ink; ctx.lineWidth = u; ctx.beginPath(); ctx.arc(x, y, u * 2, 0, Math.PI); ctx.moveTo(x + u * 2, y); ctx.lineTo(x + u * 2, y - u * 3); ctx.stroke(); ctx.restore(); return; }
+  if (id === 'lantern_moth') { const f = Math.abs(Math.sin(t / 90)); ctx.fillRect(x - u * 3, y - u * 2, u * 6, u * 4); ctx.fillStyle = c; ctx.fillRect(x - u * 3 + 1, y - u * 2 * f + 1, u * 2.5, u * 3 * f); ctx.fillRect(x + u * 0.5, y - u * 2 * f + 1, u * 2.5, u * 3 * f); }
+  else if (id === 'hollowstar_roe') { for (const [dx, dy] of [[-1.5, 0], [1.5, 0], [0, -1.5], [0, 1.5]]) { ctx.fillStyle = C.ink; ctx.fillRect(x + dx * u - u, y + dy * u - u, u * 2 + 2, u * 2 + 2); ctx.fillStyle = c; ctx.fillRect(x + dx * u - u + 1, y + dy * u - u + 1, u * 2, u * 2); } }
+  else { for (let i = 0; i < 4; i++) { const yy = y + Math.sin(t / 150 + i) * u * 0.6; ctx.fillStyle = C.ink; ctx.fillRect(x - u * 3 + i * u * 1.5 - 1, yy - u - 1, u * 1.5 + 2, u * 2 + 2); ctx.fillStyle = c; ctx.fillRect(x - u * 3 + i * u * 1.5, yy - u, u * 1.5, u * 2); }
+    if (id === 'glimmer_worm') { ctx.fillStyle = C.white; ctx.globalAlpha = 0.5 + 0.5 * Math.sin(t / 100); ctx.fillRect(x + u * 2.5, y - u * 2, u, u); } }
+  ctx.restore();
 }
