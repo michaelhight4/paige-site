@@ -1416,5 +1416,19 @@
     "stern": "npcs/tr_master_saltmere_f/portraits/tr_master_saltmere_f_stern.png"
    }
   }
+ },
+ "saltmere.saltmere_tug_coach": {
+  "sprite_id": "coach_cindervale",
+  "overworld_sheet": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet.png",
+  "overworld_sheet_2x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_2x.png",
+  "overworld_sheet_3x": "npcs/coach/coach_cindervale/overworld/coach_cindervale_chibi_sheet_3x.png",
+  "note": "Harbour Haul tug coach (dev/sports-major, reuses a coach sprite until art lands)"
+ },
+ "aurelith.aurelith_games_announcer": {
+  "sprite_id": "coach_aurelith",
+  "overworld_sheet": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet.png",
+  "overworld_sheet_2x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_2x.png",
+  "overworld_sheet_3x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_3x.png",
+  "note": "Aurelith Games announcer (dev/sports-major)"
  }
 }

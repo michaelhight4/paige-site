@@ -27,7 +27,7 @@ test('rivals are deterministic per window, within the event bars; winning pays a
   const win = settleCup({ ev, score: 999, rivals: riv, wallet: w, sstate: ss }); assert.equal(win.place, 1); assert.equal(w.coins, CUP.prize); assert.equal(win.cups, 1);
   const holder = {}, up = sync(ACH_DEFS, holder, { sports: ss, flags: new Set() }); assert.ok(up.includes('event_' + ev.id));
 });
-test('only the Aurelith major is still coming soon; cup text has no blocked words', () => {
-  assert.deepEqual(ACH_DEFS.filter((d) => d.comingSoon).map((d) => d.id), ['games_aurelith_major']);
+test('no sports badge is coming soon any more (Aurelith major live on dev/sports-major); cup text has no blocked words', () => {
+  assert.deepEqual(ACH_DEFS.filter((d) => d.comingSoon).map((d) => d.id), []);
   const all = JSON.stringify(TS); for (const re of [/\bPP\b/, /shiny/i, /super effective/i, /pok[eé]/i, /\bnurse\b/i, /\bweed/i, /\broute\b/i, /berr(y|ies)/i, /\bthrow/i, /tonic/i, /podium/i]) assert.ok(!re.test(all), String(re));
 });
