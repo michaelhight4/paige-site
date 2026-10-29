@@ -46,6 +46,7 @@ export class Renderer {
     ctx.fillStyle = '#000'; // blank background: anything outside the map stays black (centre camera, Oct 23, 2026)
     ctx.fillRect(0, 0, W, H);
     if (!v.map || !v.tileset) return;
+    v.wind?.frame(v); // world wind (wind.js): per-frame strength / on-off, draw-time only
     const m = v.map, cam = v.cam;
     if (v.outside === 'edge') this.edgeFill(v, W, H); // mobile display.outsideMap without the centre camera: fill around short maps
     const x0 = Math.max(0, Math.floor(cam.x / TILE)), y0 = Math.max(0, Math.floor(cam.y / TILE));
@@ -136,6 +137,12 @@ export class Renderer {
     } else img = ts.images.get(t.sheet);
     if (!img) return;
     const D = TILE * v.zoom;
+    const wk = frame == null && v.wind ? v.wind.kind(id) : 0;
+    if (wk) {
+      const rs = wk === 2 ? v.rustles?.get(x + ',' + y) : null;
+      if (v.wind.draw(this.ctx, img, (idx % ts.columns) * S, Math.floor(idx / ts.columns) * S, S,
+        (x * TILE - v.cam.x) * v.zoom, (y * TILE - v.cam.y) * v.zoom, D, v.zoom, wk, x, y, rs == null ? null : v.ms - rs)) return;
+    }
     this.ctx.drawImage(img, (idx % ts.columns) * S, Math.floor(idx / ts.columns) * S, S, S,
       (x * TILE - v.cam.x) * v.zoom, (y * TILE - v.cam.y) * v.zoom, D, D);
   }

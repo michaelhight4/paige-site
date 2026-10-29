@@ -595,3 +595,7 @@ persons to whom the Software is furnished to do so, subject to the following con
 this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED
 "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 Art: art/ui/achievements/*.png are crops / palette recolours of Kilumen's own master_coin frame 00 (no third-party art).
+
+src/overworld/wind.js (world wind, Oct 29 2026): technique adapted (no code copied verbatim) from "Wind with pixel snapping"
+by Stixxy, https://godotshaders.com/shader/wind-with-pixel-snapping/ (godotshaders.com, CC0 1.0 unless stated): per-row
+pixel-snapped horizontal offset, height cutoff so the base stays fixed, world-position phase offset.
