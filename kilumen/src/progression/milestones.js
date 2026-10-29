@@ -4,9 +4,9 @@
 // Data-driven: change numbers / rewards in this file only. Thresholds: a number, or {pct} of a total (dex size, region
 // dex, areas). Text: system_tasks.milestones.<id>.{title,rule} keys (Text Bot); strings here are fallbacks.
 // Counters: 'count' = event counter in the save (store.milestones.counts[id]); 'derived' = recomputed from game state.
-import { SPECIES } from '../ui/data.js?v=v0.2.66-alpha';
-import { SKILL_POOL_ALIAS } from '../battle/data/skills.js?v=v0.2.66-alpha';
-import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.66-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.67-alpha';
+import { SKILL_POOL_ALIAS } from '../battle/data/skills.js?v=v0.2.67-alpha';
+import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.67-alpha';
 
 export const TIER_NAMES = ['Bronze', 'Silver', 'Gold', 'Platinum'];
 export const TYPES = ['fire', 'water', 'earth', 'wind', 'light', 'dark', 'mystic', 'normal']; // base type pools (src/ui/data.js)
@@ -30,6 +30,12 @@ const ladder = (charm, title, bronzeItem = { item: 'tonic_small', qty: 3 }) => [
   { items: [{ item: 'tonic_large', qty: 3 }, { item: 'energy_tonic', qty: 2 }], title },
   { items: [{ item: charm, qty: 1 }] },
 ];
+// RT Employee Benefits board points per tier (Gary, Oct 29 2026: Gold + Platinum of every milestone). ONE table to tune:
+// index = tier (0 Bronze .. 3 Platinum). Paid into the board's own currency (company.pointsFree, src/systems/rt_benefits.js
+// grantPoints), no new currency. Scale: the board earns 1 point per company ID level (~11 by ID 12) and every node rank
+// costs 37 points in total, so 1 + 1 keeps it a bonus: a normal run reaches Gold on a handful of cards (~+5), Platinum is late.
+export const BOARD_POINTS = [0, 0, 1, 1];
+export const boardPointsFor = (t) => Math.max(0, Math.floor(Number(BOARD_POINTS[t]) || 0));
 const cap = (s) => s[0].toUpperCase() + s.slice(1);
 export const MILESTONES = [
   { id: 'catch_total', core: true, kind: 'derived', title: 'Catch', rule: 'Every Kilumen you catch or are given counts, your starter and gifts too.', tiers: [10, 50, 150, 400], rewards: ladder('catch_charm', 'Field Catcher', { item: 'dominance_crystal', qty: 5 }) },
@@ -66,6 +72,17 @@ export function deriveValues({ kilindex = null, creatures = [], areas = [], evol
   return v;
 }
 
+const withBoard = (rw, t) => { const n = boardPointsFor(t); return n && rw ? { ...rw, boardPoints: n } : rw; };
+
+/** Pay board points for every claimed tier that has them (key ms:<id>:<tier>; rt.grantPoints never pays a key twice).
+ *  Covers claims made before board points existed (old saves) and is safe to call on every load. -> points added */
+export function creditBoardPoints(mb, rt) {
+  if (!mb || typeof rt?.grantPoints !== 'function') return 0;
+  let got = 0;
+  for (const m of mb.table) { const c = mb.state.claimed[m.id] || 0; for (let t = 0; t < c; t++) if (boardPointsFor(t)) got += rt.grantPoints(boardPointsFor(t), `ms:${m.id}:${t}`); }
+  return got;
+}
+
 export class MilestoneBook {
   constructor(saved = null, table = MILESTONES, totals = TOTALS) {
     this.table = table; this.totals = totals; this.byId = new Map(table.map((m) => [m.id, m]));
@@ -96,7 +113,7 @@ export class MilestoneBook {
   /** card view: tier = tiers claimed, next target / value, ready to claim, maxed, next reward, highest reached */
   row(m, d) {
     const claimed = this.state.claimed[m.id] || 0, maxed = claimed >= m.tiers.length, t = Math.min(claimed, m.tiers.length - 1);
-    return { m, tier: claimed, tierName: TIER_NAMES[t], target: this.target(m, t), value: this.value(m, d, t), ready: !maxed && this.reached(m, d, t), maxed, reward: maxed ? null : m.rewards[claimed], level: m.tiers[t]?.lv || null };
+    return { m, tier: claimed, tierName: TIER_NAMES[t], target: this.target(m, t), value: this.value(m, d, t), ready: !maxed && this.reached(m, d, t), maxed, reward: maxed ? null : withBoard(m.rewards[claimed], claimed), level: m.tiers[t]?.lv || null };
   }
   rows(d, { hideEmpty = true } = {}) { return this.table.map((m) => this.row(m, d)).filter((r) => !hideEmpty || r.m.core || r.tier > 0 || r.value > 0); }
   readyCount(d) { return this.table.filter((m) => this.row(m, d).ready).length; }
@@ -116,7 +133,7 @@ export class MilestoneBook {
     const r = this.row(m, d); if (!r.ready) return null;
     this.state.claimed[id] = r.tier + 1;
     if (r.reward?.title && !this.state.titles.includes(r.reward.title)) this.state.titles.push(r.reward.title);
-    return r.reward;
+    return r.reward ? { ...r.reward, id, tier: r.tier } : r.reward;
   }
   /** claim every ready tier (repeats while a card has more than one tier ready) -> [rewards] */
   claimAll(d) { const out = []; for (let guard = 0; guard < 200; guard++) { const m = this.table.find((x) => this.row(x, d).ready); if (!m) break; out.push(this.claim(m.id, d)); } return out; }

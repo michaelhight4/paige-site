@@ -4,35 +4,35 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.66-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.66-alpha';
-import { GridMover } from './movement.js?v=v0.2.66-alpha';
-import { DEV } from '../dev/runtime.js?v=v0.2.66-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.66-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.66-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.66-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit } from './tileset.js?v=v0.2.66-alpha';
-import { IxLight, ixFlags } from './ixlight.js?v=v0.2.66-alpha';
-import { Renderer } from './renderer.js?v=v0.2.66-alpha';
-import { drawDebug } from './debug.js?v=v0.2.66-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.66-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.66-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.66-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.66-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.66-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.66-alpha';
-import { LivingWorld } from './living.js?v=v0.2.66-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.66-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.66-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.66-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.66-alpha';
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.66-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.66-alpha'; // creature idle/walk motion (v0.2.36)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.66-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.66-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.66-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.66-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.66-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.67-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.67-alpha';
+import { GridMover } from './movement.js?v=v0.2.67-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.67-alpha';
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.67-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.67-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.67-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit } from './tileset.js?v=v0.2.67-alpha';
+import { IxLight, ixFlags } from './ixlight.js?v=v0.2.67-alpha';
+import { Renderer } from './renderer.js?v=v0.2.67-alpha';
+import { drawDebug } from './debug.js?v=v0.2.67-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.67-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.67-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.67-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.67-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.67-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.67-alpha';
+import { LivingWorld } from './living.js?v=v0.2.67-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.67-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.67-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.67-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.67-alpha';
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.67-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.67-alpha'; // creature idle/walk motion (v0.2.36)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.67-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.67-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.67-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.67-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.67-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 
 const FADE_OUT_TICKS = Math.round(FADE_OUT_MS / TICK_MS);
 const FADE_IN_TICKS = Math.round(FADE_IN_MS / TICK_MS);
@@ -56,7 +56,7 @@ export function nativeRenderDiv(opts, h) {
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.66-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.67-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -1148,7 +1148,7 @@ export class Overworld {
     if (!this.last) this.last = now;
     let dt = now - this.last; this.last = now;
     if (dt > 250) dt = 250; // tab was hidden: don't fast-forward
-    // v0.2.66-alpha dev world speed: only src/dev/console.js (admin + ?dev=1) ever sets worldSpeed; everyone else stays at 1.
+    // v0.2.67-alpha dev world speed: only src/dev/console.js (admin + ?dev=1) ever sets worldSpeed; everyone else stays at 1.
     // Faster = more fixed TICK_MS steps per frame (never a bigger step), so movement / collisions stay tick-exact at 100x.
     const ws = this.worldSpeed > 1 ? this.worldSpeed : 1, maxTicks = MAX_TICKS_PER_FRAME * ws;
     this.acc += dt * ws;

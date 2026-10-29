@@ -4,22 +4,22 @@
 //    battles, coin record in save.systems.progression.masters, gift behind masterGifts. Dev: ?pg=masters&master=<zone>.
 //  - hallPuzzles (off): hall puzzle preview overlay ?pg=hallPuzzles&hall=<zone> (hall maps 2-8 are not built yet).
 //  - quests (off): quest book + phone Tasks = quest log + HUD tracker + NPC give / turn-in + rewards.
-import { progressionFlags } from './flags.js?v=v0.2.66-alpha';
-import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.66-alpha';
-import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.66-alpha';
-import { QuestBook, QFLAG } from './quests.js?v=v0.2.66-alpha';
-import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES } from './milestones.js?v=v0.2.66-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
-import { Shop } from '../systems/shop.js?v=v0.2.66-alpha';
-import { levelForXp } from '../systems/creature.js?v=v0.2.66-alpha';
-import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.66-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.66-alpha';
-import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.66-alpha'; // batch 3: Mirefen hall tint + reed lamps
-import { HallPuzzle } from './puzzles.js?v=v0.2.66-alpha';
-import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.66-alpha'; // v2 badges: in-place coin award card
-import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.66-alpha'; // v6: Frostspire Hall ice + wind overlay theme
-import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.66-alpha';
-import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.66-alpha';
-import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.66-alpha'; // batch 3: route / rival trainers fight their map team
+import { progressionFlags } from './flags.js?v=v0.2.67-alpha';
+import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.67-alpha';
+import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.67-alpha';
+import { QuestBook, QFLAG } from './quests.js?v=v0.2.67-alpha';
+import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES, boardPointsFor, creditBoardPoints } from './milestones.js?v=v0.2.67-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
+import { Shop } from '../systems/shop.js?v=v0.2.67-alpha';
+import { levelForXp } from '../systems/creature.js?v=v0.2.67-alpha';
+import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.67-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.67-alpha';
+import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.67-alpha'; // batch 3: Mirefen hall tint + reed lamps
+import { HallPuzzle } from './puzzles.js?v=v0.2.67-alpha';
+import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.67-alpha'; // v2 badges: in-place coin award card
+import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.67-alpha'; // v6: Frostspire Hall ice + wind overlay theme
+import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.67-alpha';
+import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.67-alpha';
+import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.67-alpha'; // batch 3: route / rival trainers fight their map team
 
 const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url + ' ' + r.status))));
 const escH = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -122,6 +122,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     const data = await getJSON('data/quests.json');
     const qb = pg.quests = new QuestBook(data, store.quests);
     const mb = pg.milestones = new MilestoneBook(store.milestones);
+    let boardSynced = false;
     // State lives in systems.state.progression (save v2 `systems` block). We only mark the save dirty: the overworld's
     // saveNow() refuses to write during battles, conversations and cutscenes, so nothing is written mid-interaction.
     const save = () => { store.quests = qb.toJSON(); store.milestones = mb.toJSON(); scene._dirty = true; };
@@ -157,6 +158,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
         else if (a.type === 'complete') fin(a.q, quiet);
       }
       let ms = false;
+      if (!boardSynced && sys?.rtBenefits?.grantPoints) { boardSynced = true; if (creditBoardPoints(mb, sys.rtBenefits)) ms = true; } // old saves: claimed Gold / Platinum tiers, once
       if (AREA_IDS.has(scene.map.name) && mb.area(scene.map.name)) ms = true;
       const reached = mb.newlyReached(derived());
       if (reached.length) { ms = true; if (!quiet) pops.push(...reached); }
@@ -254,6 +256,7 @@ const rewardText = (ui, r) => !r ? '' : [
   ...(r.coins ? [tx(ui, 'system_tasks.reward_coins', '{n} coins', { n: r.coins })] : []),
   ...(r.items || []).map((it) => tx(ui, 'system_tasks.reward_item', '{item} x{n}', { item: itemName(it.item), n: it.qty || 1 })),
   ...(r.title ? [tx(ui, 'system_tasks.reward_title', 'Title: {title}', { title: r.title })] : []),
+  ...(r.boardPoints ? [tx(ui, 'system_tasks.reward_board_points', '+{n} Benefits Board pt', { n: r.boardPoints })] : []),
 ].join(', ');
 const itemName = (id) => BATTLE_ITEMS[id]?.name || String(id || '').split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
 
@@ -262,8 +265,8 @@ function celebrate(ui, { m, tier }, done) {
   if (typeof document === 'undefined') { done(); return null; }
   if (!document.getElementById('pg-ms-css')) {
     const st = document.createElement('style'); st.id = 'pg-ms-css';
-    st.textContent = `#pg-ms-pop{position:fixed;left:50%;bottom:calc(14% + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;pointer-events:none;background:#2b2236;color:#f4ead2;border:3px solid #ffc928;border-radius:14px;padding:10px 18px 10px 14px;display:flex;gap:10px;align-items:center;font:700 clamp(13px,2.2vh,18px) ui-rounded,"Nunito","Trebuchet MS",system-ui,sans-serif;box-shadow:0 4px 0 rgba(0,0,0,.4);animation:pgmsIn .5s cubic-bezier(.2,1.6,.4,1) both,pgmsOut .4s ease-in 2.4s forwards;max-width:86vw}
-#pg-ms-pop .medal{font-size:1.9em;animation:pgmsSpin 1s ease-out both}#pg-ms-pop small{display:block;font-weight:600;opacity:.8}
+    st.textContent = `#pg-ms-pop{position:fixed;left:50%;bottom:calc(14% + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;pointer-events:none;background:#2b2236;color:#f4ead2;border:3px solid #9f86ff;border-radius:14px;padding:10px 18px 10px 14px;display:flex;gap:10px;align-items:center;font:700 clamp(13px,2.2vh,18px) ui-rounded,"Nunito","Trebuchet MS",system-ui,sans-serif;box-shadow:0 4px 0 rgba(0,0,0,.4);animation:pgmsIn .5s cubic-bezier(.2,1.6,.4,1) both,pgmsOut .4s ease-in 2.4s forwards;max-width:86vw}
+#pg-ms-pop .medal{font-size:1.9em;animation:pgmsSpin 1s ease-out both}#pg-ms-pop>span:not(.medal){color:#c0a2ff}#pg-ms-pop small{display:block;font-weight:600;color:#f4ead2;opacity:.9}#pg-ms-pop .pts{color:#c0a2ff}
 #pg-ms-pop i{position:absolute;left:50%;top:40%;width:7px;height:11px;border-radius:2px;animation:pgmsBurst 1s ease-out forwards}
 @keyframes pgmsIn{from{transform:translate(-50%,40px) scale(.6);opacity:0}to{transform:translate(-50%,0) scale(1);opacity:1}}
 @keyframes pgmsOut{to{transform:translate(-50%,20px) scale(.9);opacity:0}}@keyframes pgmsSpin{from{transform:rotate(-200deg) scale(.2)}to{transform:none}}
@@ -273,7 +276,7 @@ function celebrate(ui, { m, tier }, done) {
   }
   const el = document.createElement('div'); el.id = 'pg-ms-pop'; el.setAttribute('role', 'status');
   const medal = ['🥉', '🥈', '🥇', '💠'][Math.min(3, tier)] || '🏅';
-  el.innerHTML = `<span class="medal" aria-hidden="true">${medal}</span><span>${escH(tx(ui, 'system_tasks.milestones.pop_title', 'Milestone reached!'))}<small>${escH(tx(ui, `system_tasks.milestones.${m.id}.title`, m.title))} · ${escH(tx(ui, `system_tasks.milestones.tier_${tier}`, TIER_NAMES[tier] || ''))}</small></span>` +
+  el.innerHTML = `<span class="medal" aria-hidden="true">${medal}</span><span>${escH(tx(ui, 'system_tasks.milestones.pop_title', 'Milestone reached!'))}<small>${escH(tx(ui, `system_tasks.milestones.${m.id}.title`, m.title))} · ${escH(tx(ui, `system_tasks.milestones.tier_${tier}`, TIER_NAMES[tier] || ''))}${boardPointsFor(tier) ? ` · <b class="pts">${escH(tx(ui, 'system_tasks.reward_board_points', '+{n} Benefits Board pt', { n: boardPointsFor(tier) }))}</b>` : ''}</small></span>` +
     Array.from({ length: 14 }, (_, i) => `<i style="background:${['#ffc928', '#ff7ad2', '#7ad25a', '#6ec8ff'][i % 4]};--dx:${Math.round(Math.cos(i / 14 * 6.28) * 110)}px;--dy:${Math.round(Math.sin(i / 14 * 6.28) * 70 - 30)}px"></i>`).join('');
   document.body.appendChild(el);
   ui?.scene?.audio?.sfx?.('select');
@@ -355,6 +358,7 @@ function installQuestLog(ui, scene, sys, qb, mb, save, pg, hud) {
     const give = (rw) => {
       if (!rw) return;
       if (rw.coins && sys?.wallet) sys.wallet.add(rw.coins);
+      if (rw.boardPoints && rw.id) sys?.rtBenefits?.grantPoints?.(rw.boardPoints, `ms:${rw.id}:${rw.tier}`); // RT Employee Benefits board points
       for (const it of rw.items || []) if (sys?.bag?.def?.(it.item)) sys.bag.add(it.item, it.qty || 1); else console.warn('[milestones] reward item not in items.js:', it.item);
     };
     const claim = (id) => {
@@ -393,12 +397,13 @@ function installQuestLog(ui, scene, sys, qb, mb, save, pg, hud) {
   };
   if (typeof document !== 'undefined' && !document.getElementById('pg-tasks-css')) {
     const st = document.createElement('style'); st.id = 'pg-tasks-css';
-    st.textContent = `.pg-tasks .pg-head{list-style:none;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.78em;opacity:.75;margin:10px 4px 2px}
-.pg-goal .pg-step{display:block}.pg-tasks .ui-row{align-items:center;gap:8px;min-height:44px;line-height:1.3}.pg-tasks .pg-goal{border:2px solid #ffc928;background:rgba(255,201,40,.12)}
-.pg-tasks .pg-next{font-weight:700;color:#ffc928}.pg-tasks .pg-where{font-size:.86em;opacity:.85}.pg-tasks .pg-trk{font-size:.75em;background:#ffc928;color:#2b2236;border-radius:6px;padding:0 5px;font-weight:800}
+    st.textContent = `.pg-tasks{--pg-purple:#6c4cf0}/* brand violet = theme.css [data-scr=phone] --sc-a (5.6:1 on --plate) */
+.pg-tasks .pg-head{list-style:none;color:var(--pg-purple);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.78em;opacity:.75;margin:10px 4px 2px}
+.pg-goal .pg-step{display:block}.pg-tasks .ui-row{align-items:center;gap:8px;min-height:44px;line-height:1.3}.pg-tasks .pg-goal{border:2px solid var(--pg-purple);background:rgba(108,76,240,.1)}
+.pg-tasks .pg-next{font-weight:700;color:var(--pg-purple)}.pg-tasks .pg-where{font-size:.86em;opacity:.85}.pg-tasks .pg-trk{font-size:.75em;background:var(--pg-purple);color:#fffaf0;border-radius:6px;padding:0 5px;font-weight:800}
 .pg-tasks .pg-done{opacity:.6}.pg-bar{display:inline-block;vertical-align:middle;width:min(220px,40%);height:9px;border-radius:5px;background:rgba(0,0,0,.35);overflow:hidden;border:1px solid rgba(255,255,255,.35)}
-.pg-bar>span{display:block;height:100%;background:linear-gradient(90deg,#7ad25a,#ffc928)}.pg-tier{opacity:.3;font-size:.7em}.pg-tier.on{opacity:1;color:#ffc928}.pg-rew{font-size:.8em;opacity:.8}
-.pg-claim{min-height:40px;min-width:64px;font:800 1em inherit;border-radius:10px;border:2px solid #2b2236;background:#ffc928;color:#2b2236;cursor:pointer;animation:pgClaim 1.2s ease-in-out infinite}
+.pg-bar>span{display:block;height:100%;background:linear-gradient(90deg,#7ad25a,#ffc928)}.pg-tier{opacity:.3;font-size:.7em}.pg-tier.on{opacity:1}.pg-rew{font-size:.8em;opacity:.9}
+.pg-claim{min-height:40px;min-width:64px;font:800 1em inherit;border-radius:10px;border:2px solid #2b2236;background:#6c4cf0;color:#fffaf0;cursor:pointer;animation:pgClaim 1.2s ease-in-out infinite}
 .pg-dot{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:#e8443a;color:#fff;font-size:.8em;text-align:center}.pg-rule{font-size:.85em}.pg-tier.t0.on{color:#c98a4b}.pg-tier.t1.on{color:#c9d1d9}.pg-tier.t2.on{color:#ffc928}.pg-tier.t3.on{color:#b9f2ff}.pg-ready{background:rgba(122,210,90,.14)}.pg-claimed{font-size:.8em;color:#7ad25a;font-weight:800}@keyframes pgClaim{50%{transform:scale(1.07)}}
 @media (prefers-reduced-motion:reduce){.pg-claim{animation:none}}@media (max-height:420px){.pg-tasks .ui-row{font-size:12px;padding-top:4px;padding-bottom:4px}.pg-tasks .pg-head{margin:6px 4px 0}}`;
     document.head.appendChild(st);
