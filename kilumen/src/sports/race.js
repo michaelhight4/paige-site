@@ -1,7 +1,7 @@
 // Kilumen sports: Dash Race simulation (pure, no DOM). 100 m straight, 4 lanes, ~20-26 s. Dev test, Oct 28 2026.
 // Outcome = stats + traits + light seeded noise + 3 timed inputs (start tap, mid push, final sprint). The inputs are worth
 // a few percent of race time; a stat gap between species is worth much more, so taps help but do not override stats.
-import { rngFor } from './rng.js?v=v0.2.39-alpha';
+import { rngFor } from './rng.js?v=v0.2.40-alpha';
 
 export const DIST = 100, PUSH_AT = 45, SPRINT_AT = 78, WINDOW_S = 1.5;
 export const TUNING = {
@@ -73,12 +73,12 @@ export function stepRace(race, dt) {
     if (r.x >= PUSH_AT && r.inputs.push === null) {
       if (r.ai) applyPush(race, r, r.ai.push);
       else if (r.pushOpen == null) { r.pushOpen = r.t; ev.push({ type: 'push', key: r.key }); }
-      else if (r.t - r.pushOpen > WINDOW_S) applyPush(race, r, 0);
+      else if (r.t - r.pushOpen > (race.window ?? WINDOW_S)) applyPush(race, r, 0);
     }
     if (r.x >= SPRINT_AT && r.inputs.sprint === null) {
       if (r.ai) applySprint(race, r, r.ai.sprint);
       else if (r.sprintOpen == null) { r.sprintOpen = r.t; ev.push({ type: 'sprint', key: r.key }); }
-      else if (r.t - r.sprintOpen > WINDOW_S) applySprint(race, r, 0);
+      else if (r.t - r.sprintOpen > (race.window ?? WINDOW_S)) applySprint(race, r, 0);
     }
     const fe = r.energy / r.pool;
     const tired = fe >= T.tiredBelow ? 1 : T.tiredFloor + (1 - T.tiredFloor) * (fe / T.tiredBelow);

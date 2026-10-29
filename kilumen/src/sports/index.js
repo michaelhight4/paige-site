@@ -6,16 +6,16 @@
 // Save rules: the coach talk runs inside scene.script() (checkpoint before, normal save after) and a saveGuard blocks
 // saving the whole time the overlay is open, so the fee, the race and the prize land in one save after the overlay
 // closes. Closing the tab mid-race reloads the pre-talk checkpoint: fee not taken, window not used.
-import { S, t } from './strings.js?v=v0.2.39-alpha';
-import { STATS, POINTS } from './rules.js?v=v0.2.39-alpha';
-import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.39-alpha';
-import { runMeet } from './meet.js?v=v0.2.39-alpha';
-import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.39-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.39-alpha';
-import { speciesAthletics } from './athletics.js?v=v0.2.39-alpha';
-import { rngFor } from './rng.js?v=v0.2.39-alpha';
-import { runRaceShow, runChampion, reducedMotion } from './hype.js?v=v0.2.39-alpha';
-import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.39-alpha';
+import { S, t } from './strings.js?v=v0.2.40-alpha';
+import { STATS, POINTS } from './rules.js?v=v0.2.40-alpha';
+import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.40-alpha';
+import { runMeet } from './meet.js?v=v0.2.40-alpha';
+import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.40-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.40-alpha';
+import { speciesAthletics } from './athletics.js?v=v0.2.40-alpha';
+import { rngFor } from './rng.js?v=v0.2.40-alpha';
+import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.40-alpha';
+import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.40-alpha';
 
 const W = 640, H = 360, PPM = 22, LANE_Y = [176, 222, 268, 314], SPR = 64;
 const sheet = new Map();
@@ -104,7 +104,7 @@ export function attachSports(scene, { query, systems } = {}) {
     st.phase = 'venue'; st.tapFn = null; st.mode = 'practice';
     const w = wallet(), ts = tourneyStatus(), ss = sstate();
     ov.innerHTML = `<div class="box" id="sports-venue"><h2>${esc(S.venue_title)}</h2><div class="sub">${esc(S.venue_sub)}</div>
-      <div class="sub">${esc(S.wallet)}: <span class="gold" id="sports-gold">${w ? w.coins.toLocaleString('en-US') : '-'}</span>${ss.best != null ? ' · ' + esc(S.best_time) + ' ' + ss.best.toFixed(2) + 's' : ''}${ss.wins ? ' · ' + esc(t('tourney_wins', { n: ss.wins })) : ''}</div>
+      <div class="sub">${esc(S.wallet)}: <span class="gold" id="sports-gold">${w ? w.coins.toLocaleString('en-US') : '-'}</span>${ss.best != null ? ' · ' + esc(S.best_time) + ' ' + showTime(ss.best).toFixed(2) + 's' : ''}${ss.wins ? ' · ' + esc(t('tourney_wins', { n: ss.wins })) : ''}</div>
       <div class="note">${esc(note)}</div>
       <div class="modes">
         <div class="mode"><h3>${esc(S.practice_title)}</h3><div>${esc(S.practice_desc)}</div><button data-a="practice">${esc(S.practice_go)}</button></div>
@@ -167,7 +167,7 @@ export function attachSports(scene, { query, systems } = {}) {
   }
 
   function table(rows, meKey) {
-    return `<table><tr><th>#</th><th></th><th>${esc(S.time)}</th><th></th></tr>${rows.map((r) => { const m = r.racer || {}; return `<tr class="${r.entrantId === meKey ? 'me' : ''}"><td>${esc(S['place_' + r.place] || r.place)}</td><td>${esc(m.name || r.entrantId)}${r.entrantId === meKey ? ' (' + esc(S.you) + ')' : ''}</td><td>${r.time.toFixed(2)}s</td><td>${r.points ? '+' + r.points : ''}</td></tr>`; }).join('')}</table>`;
+    return `<table><tr><th>#</th><th></th><th>${esc(S.time)}</th><th></th></tr>${rows.map((r) => { const m = r.racer || {}; return `<tr class="${r.entrantId === meKey ? 'me' : ''}"><td>${esc(S['place_' + r.place] || r.place)}</td><td>${esc(m.name || r.entrantId)}${r.entrantId === meKey ? ' (' + esc(S.you) + ')' : ''}</td><td>${showTime(r.time).toFixed(2)}s</td><td>${r.points ? '+' + r.points : ''}</td></tr>`; }).join('')}</table>`;
   }
   function finalOf() {
     const { out, me, races } = st.meet;

@@ -3,14 +3,14 @@
 // Everything is drawn on the race canvas (640x360 logical, pixel art, no smoothing). Pure presentation: the race sim
 // (race.js) is stepped exactly as before at fixed 1/60 s, so hitstop / slow-mo never change a result.
 // Reduced motion (prefers-reduced-motion or ?rm=1): no shake, no flashes, a fifth of the confetti, slower beams.
-import { S, t } from './strings.js?v=v0.2.39-alpha';
-import { stepRace, applyStart, applyPush, applySprint, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.39-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.39-alpha';
-import { rngFor } from './rng.js?v=v0.2.39-alpha';
-import { dashScore } from './dash.js?v=v0.2.39-alpha';
+import { S, t } from './strings.js?v=v0.2.40-alpha';
+import { stepRace, applyStart, applyPush, applySprint, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.40-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.40-alpha';
+import { rngFor } from './rng.js?v=v0.2.40-alpha';
+import { dashScore } from './dash.js?v=v0.2.40-alpha';
 
-export const W = 640, H = 360, PPM = 30, LANE_Y = [176, 222, 268, 314], SPR = 96; // runners drawn 1.5x (was 64)
-export const TIMING = { intro: 1.6, beat: 0.55, oneMin: 0.45, oneMax: 0.8, play: 2.0, playPrompt: 1.25, hitstop: 0.22, photoGap: 0.2, slowmo: 0.3, stretchAt: 80, afterAll: 1.1, wipe: 0.45, board: 1.6 };
+export const W = 640, H = 360, PPM = 30, LANE_Y = [164, 222, 280, 338], SPR = 84; // v4: 58px lanes, track starts at y=112 so the 1.3x runners fit without covering the lane above
+export const TIMING = { intro: 1.6, beat: 0.55, oneMin: 0.45, oneMax: 0.8, play: 2.0, hitstop: 0.22, photoGap: 0.2, slowmo: 0.3, stretchAt: 80, afterAll: 1.1, wipe: 0.45, board: 1.6 };
 const LANE_COL = ['#e8584a', '#4aa8e8', '#f3c84a', '#7ad25a'];
 const PLACE_COL = { 1: ['#fff3a0', '#ffc928', '#c47a08'], 2: ['#ffffff', '#cfd8e6', '#7c8aa3'], 3: ['#ffd2a8', '#e0904a', '#8a4a1c'], 4: ['#dddddd', '#999999', '#555555'] };
 export const reducedMotion = (q) => q?.get?.('rm') === '1' || (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -19,6 +19,9 @@ const back = (x) => { x = Math.min(1, Math.max(0, x)); const c = 1.9; return 1 +
 
 // ---------------- personality (pure, tested) ----------------
 /** Pre-start persona from traits: 'hop' (nervous), 'proud' (confident pose) or 'stretch'. */
+/** Shown seconds: official sim times scaled to the 2x playback, so the clock matches the race you watch (results still stat-driven). */
+export const showTime = (s) => s / TIMING.play;
+export const TOP = 112, LINES = [112, 170, 228, 286, 344];
 export function persona(traits = []) {
   if (traits.includes('fast_starter')) return 'hop';
   if (traits.includes('sprinter') || traits.includes('clutch_finisher')) return 'proud';
@@ -153,6 +156,7 @@ export function runRaceShow(o) {
   const sfx = makeSfx(o.audio);
   return new Promise((resolve) => {
     o.ov.innerHTML = `<canvas width="${W}" height="${H}"></canvas>`;
+    race.window = WINDOW_S * TIMING.play; // prompts stay open the same REAL time as at 1x, so 2x playback stays fair
     const cv = o.ov.querySelector('canvas'), g = cv.getContext('2d'); g.imageSmoothingEnabled = false;
     const rng = rngFor('cd:' + seed);
     const one = TIMING.oneMin + rng() * (TIMING.oneMax - TIMING.oneMin); // random "1" so GO can't be counted in
@@ -176,7 +180,7 @@ export function runRaceShow(o) {
       if (boardT >= 0) { if (boardT > TIMING.board + 0.8) finish(); return; }
       if (tReal < -CD) { tReal = -CD; return; } // skip the intro (never a false start)
       if (me.inputs.start === null) { const q = tReal < 0 ? -1 : startQuality(tReal); applyStart(race, me, q); showRating(q < 0 ? S.false_start : rate(q)); if (q < 0) crowd('gasp'); st.log.push(['start', q]); return; }
-      if (st.prompt) { const q = markerQuality(pingPong(race.clock - st.prompt.t0), 0.5, half); (st.prompt.kind === 'push' ? applyPush : applySprint)(race, me, q); showRating(rate(q)); st.log.push([st.prompt.kind, q]); st.prompt = null; }
+      if (st.prompt) { const q = markerQuality(pingPong((race.clock - st.prompt.t0) / TIMING.play), 0.5, half); (st.prompt.kind === 'push' ? applyPush : applySprint)(race, me, q); showRating(rate(q)); st.log.push([st.prompt.kind, q]); st.prompt = null; }
     });
     cv.addEventListener('pointerdown', (e) => { e.preventDefault(); st.tapFn?.(); });
     let resolved = false;
@@ -205,7 +209,7 @@ export function runRaceShow(o) {
         if (me.inputs.start === null && tReal > 1.2) { applyStart(race, me, 0); showRating(S.missed); }
         let ts = 1;
         if (firstT > -1) { const since = tReal - firstT; ts = since < TIMING.hitstop ? 0 : photo && !photoDone ? TIMING.slowmo : 1; }
-        acc += dt * ts * (st.prompt ? TIMING.playPrompt : TIMING.play); // shown faster than sim time; results stay from the fixed 1/60 sim
+        acc += dt * ts * TIMING.play; // shown faster than sim time; results stay from the fixed 1/60 sim
         while (acc >= 1 / 60 && !race.finished) {
           acc -= 1 / 60;
           for (const e of stepRace(race, 1 / 60)) {
@@ -214,7 +218,7 @@ export function runRaceShow(o) {
           }
         }
         if (st.prompt && me.inputs[st.prompt.kind] !== null) { if (me.inputs[st.prompt.kind] === 0) showRating(S.missed); st.prompt = null; }
-        if (st.prompt && race.clock - st.prompt.t0 > WINDOW_S) st.prompt = null;
+        if (st.prompt && race.clock - st.prompt.t0 > race.window) st.prompt = null;
         react(dt);
       }
       if (race.finished && !ended) { ended = true; endT = tReal; }
@@ -285,16 +289,16 @@ export function runRaceShow(o) {
       if (shakeT > 0) g.translate(Math.round((Math.random() - 0.5) * shakeA * 2), Math.round((Math.random() - 0.5) * shakeA * 2)); else shakeA = 0;
       drawStadium(g, tm, camX, mood, rm);
       // track
-      g.fillStyle = '#c4573f'; g.fillRect(0, 150, W, 196);
+      g.fillStyle = '#2a2236'; g.fillRect(0, TOP - 6, W, 6); g.fillStyle = '#c4573f'; g.fillRect(0, TOP, W, 236);
       const near = ((Math.floor(camX) % 48) + 48) % 48; g.fillStyle = '#b44c36';
-      for (let y = 160; y < 340; y += 23) for (let x = -near - 48; x < W; x += 48) g.fillRect(x + ((y / 23) % 2) * 24, y, 14, 2);
-      g.fillStyle = '#f3ead2'; for (const y of [152, 199, 245, 291, 338]) g.fillRect(0, y, W, 2);
+      for (let y = TOP + 10; y < 344; y += 29) for (let x = -near - 48; x < W; x += 48) g.fillRect(x + ((((y - TOP) / 29) | 0) % 2) * 24, y, 14, 2);
+      g.fillStyle = '#f3ead2'; for (const y of LINES) g.fillRect(0, y, W, 2);
       g.fillStyle = '#4f8a3a'; g.fillRect(0, 346, W, 14);
-      for (let m = 0; m <= DIST; m += 10) { const x = m * PPM - camX + 40; if (x < -40 || x > W + 40) continue; g.fillStyle = '#f3ead2aa'; g.fillRect(x, 152, 2, 188); g.fillStyle = '#fff'; g.font = '10px monospace'; g.textAlign = 'left'; g.fillText(m + 'm', x + 3, 162); }
-      const fx = DIST * PPM - camX + 40; for (let y = 152; y < 340; y += 6) for (let k = 0; k < 2; k++) { g.fillStyle = ((y / 6 + k) | 0) % 2 ? '#111' : '#fff'; g.fillRect(fx + k * 6, y, 6, 6); }
+      for (let m = 0; m <= DIST; m += 10) { const x = m * PPM - camX + 40; if (x < -40 || x > W + 40) continue; g.fillStyle = '#f3ead2aa'; g.fillRect(x, TOP, 2, 232); g.fillStyle = '#fff'; g.font = '10px monospace'; g.textAlign = 'left'; g.fillText(m + 'm', x + 3, TOP + 10); }
+      const fx = DIST * PPM - camX + 40; for (let y = TOP; y < 344; y += 6) for (let k = 0; k < 2; k++) { g.fillStyle = ((y / 6 + k) | 0) % 2 ? '#111' : '#fff'; g.fillRect(fx + k * 6, y, 6, 6); }
       // speed lines (scale with the player's speed)
       const sp = tReal > 0 && !me.done ? me.v / me.vTop : 0;
-      if (sp > 0.3) { g.fillStyle = '#ffffff'; for (const l of speed.slice(0, rm ? 6 : 34)) { l.x -= dt * (1100 + 1500 * sp); if (l.x < -l.l) { l.x = W + Math.random() * 120; l.y = 40 + Math.random() * 300; } g.globalAlpha = (l.y < 150 ? 0.18 : 0.3) + 0.4 * sp; g.fillRect(l.x | 0, l.y | 0, l.l * sp | 0, l.l > 140 ? 2 : 1); } g.globalAlpha = 1; }
+      if (sp > 0.3) { g.fillStyle = '#ffffff'; for (const l of speed.slice(0, rm ? 6 : 34)) { l.x -= dt * (1100 + 1500 * sp); if (l.x < -l.l) { l.x = W + Math.random() * 120; l.y = 50 + Math.random() * 290; } g.globalAlpha = (l.y < TOP ? 0.18 : 0.3) + 0.4 * sp; g.fillRect(l.x | 0, l.y | 0, l.l * sp | 0, l.l > 140 ? 2 : 1); } g.globalAlpha = 1; }
       // particles (dust, sparks)
       for (let i = parts.length - 1; i >= 0; i--) { const p = parts[i]; p.t += dt; if (p.t > p.life) { parts.splice(i, 1); continue; } const k = p.t / p.life;
         if (p.k === 'dust') { p.wx += p.vx * dt; p.y += p.vy * dt; const s = 3 + k * 6; g.globalAlpha = 0.55 * (1 - k); g.fillStyle = '#e8c9a0'; g.fillRect((p.wx - camX) | 0, p.y | 0, s | 0, s | 0); }
@@ -317,7 +321,7 @@ export function runRaceShow(o) {
       }
       // name + place tags in a second pass, in each runner's own lane just ahead of it (never on top of another sprite)
       for (const r of race.racers) {
-        const cx = r.x * PPM - camX + 48, ly = LANE_Y[r.lane] - 30;
+        const cx = r.x * PPM - camX + 48, ly = LANE_Y[r.lane] - 34;
         const pl = tReal >= 0 ? (r.done ? race.order.indexOf(r) + 1 : ord.indexOf(r) + 1) : 0;
         const label = (r.isPlayer ? '▶ ' : '') + r.name; g.font = '10px monospace'; g.textAlign = 'left';
         const w = g.measureText(label).width + (pl ? 30 : 6), x = Math.min(W - w - 4, cx + SPR / 2 + 2);
@@ -326,8 +330,8 @@ export function runRaceShow(o) {
         g.fillStyle = r.isPlayer ? '#ffd77a' : '#f3ead2'; g.fillText(label, x + (pl ? 27 : 3), ly);
       }
       // near foreground layer (moves 1.6x the camera): rail posts + grass blades sell the speed
-      { const fo = camX * 1.6; g.fillStyle = '#3d7a2e'; g.fillRect(0, 344, W, 16);
-        for (let x = -((fo % 160) + 160) % 160 - 160; x < W + 40; x += 160) { g.fillStyle = '#e8e0cc'; g.fillRect(x, 330, 8, 30); g.fillStyle = '#a89f8a'; g.fillRect(x + 6, 330, 2, 30); }
+      { const fo = camX * 1.6; g.fillStyle = '#3d7a2e'; g.fillRect(0, 346, W, 14);
+        for (let x = -((fo % 160) + 160) % 160 - 160; x < W + 40; x += 160) { g.fillStyle = '#e8e0cc'; g.fillRect(x, 340, 8, 20); g.fillStyle = '#a89f8a'; g.fillRect(x + 6, 340, 2, 20); }
         g.fillStyle = '#5fa848'; const bo = -((fo * 1.3 % 24) + 24) % 24; for (let x = bo - 24; x < W; x += 24) { g.fillRect(x, 350, 2, 10); g.fillRect(x + 9, 346, 2, 14); g.fillRect(x + 15, 352, 2, 8); } }
       // place stamps slam on at the line
       for (const s of stamps) { const k = (tReal - s.t) / 0.14, sc = k < 1 ? 3 - 2 * ease(k) : 1, x = Math.min(W - 40, fx - 40), y = LANE_Y[s.r.lane] - 26;
@@ -337,7 +341,7 @@ export function runRaceShow(o) {
       g.fillStyle = '#141a26cc'; g.fillRect(0, 0, W, 24);
       g.fillStyle = '#44506b'; g.fillRect(150, 10, 380, 4);
       for (const r of race.racers) { g.fillStyle = r.isPlayer ? '#ffd77a' : LANE_COL[r.lane]; g.fillRect(150 + (r.x / DIST) * 376, 6 + r.lane, 4, 10); }
-      g.fillStyle = '#f3ead2'; g.font = '11px monospace'; g.textAlign = 'left'; g.fillText(Math.max(0, race.clock).toFixed(1) + 's', 96, 16);
+      g.fillStyle = '#f3ead2'; g.font = '11px monospace'; g.textAlign = 'left'; g.fillText(showTime(Math.max(0, race.clock)).toFixed(1) + 's', 96, 16);
       if (tReal >= 0) { const pl = me.done ? race.order.indexOf(me) + 1 : ord.indexOf(me) + 1; bigText(g, S['place_' + pl], 30, 16, 18, PLACE_COL[pl]); g.fillStyle = '#f3ead2'; g.font = '10px monospace'; g.fillText('/' + race.racers.length, 54, 20); }
       g.fillText(S.stat_stamina, 540, 12); g.fillStyle = '#44506b'; g.fillRect(540, 16, 90, 4); g.fillStyle = me.energy / me.pool < 0.35 ? '#e8584a' : '#7fd27a'; g.fillRect(540, 16, 90 * (me.energy / me.pool), 4);
       g.textAlign = 'center';
@@ -349,15 +353,16 @@ export function runRaceShow(o) {
         if (!rm) { g.fillStyle = '#ffc92855'; for (let i = 0; i < 12; i++) { g.save(); g.rotate(i / 12 * 6.28 + u); g.fillRect(0, -6, 160, 12); g.restore(); } }
         bigText(g, S.go, 0, 0, 64, ['#ffffff', '#7ad25a', '#1f7a3a']); g.restore(); }
       // push / sprint prompt
-      if (st.prompt) { const p = pingPong(race.clock - st.prompt.t0), bx = W / 2 - 150;
-        g.fillStyle = '#141a26dd'; g.fillRect(bx - 8, 34, 316, 56); g.fillStyle = '#f3ead2'; g.font = '12px monospace'; g.fillText(st.prompt.kind === 'push' ? S.push_prompt : S.sprint_prompt, W / 2, 50);
-        g.fillStyle = '#44506b'; g.fillRect(bx, 60, 300, 18); g.fillStyle = '#7fd27a'; g.fillRect(bx + 300 * (0.5 - half), 60, 300 * half * 2, 18);
-        g.fillStyle = '#ffd77a'; g.fillRect(bx + 300 * p - 2, 56, 4, 26); g.fillStyle = '#e86a5a'; g.fillRect(bx, 84, 300 * (1 - (race.clock - st.prompt.t0) / WINDOW_S), 3); }
+      if (st.prompt) { const p = pingPong((race.clock - st.prompt.t0) / TIMING.play), bx = W / 2 - 150;
+        g.fillStyle = '#141a26dd'; g.fillRect(bx - 8, 46, 316, 56); g.fillStyle = '#f3ead2'; g.font = '12px monospace'; g.fillText(st.prompt.kind === 'push' ? S.push_prompt : S.sprint_prompt, W / 2, 62);
+        g.fillStyle = '#44506b'; g.fillRect(bx, 72, 300, 18); g.fillStyle = '#7fd27a'; g.fillRect(bx + 300 * (0.5 - half), 72, 300 * half * 2, 18);
+        g.fillStyle = '#ffd77a'; g.fillRect(bx + 300 * p - 2, 68, 4, 26); g.fillStyle = '#e86a5a'; g.fillRect(bx, 96, 300 * (1 - (race.clock - st.prompt.t0) / race.window), 3); }
       // Final Stretch banner slides across
       if (banner && bannerT > 0) { const u = 1 - bannerT / 1.6, x = u < 0.2 ? W + 200 - ease(u / 0.2) * (W / 2 + 200) : u > 0.8 ? W / 2 - ease((u - 0.8) / 0.2) * (W / 2 + 260) : W / 2;
-        g.fillStyle = '#e8584a'; g.beginPath(); g.moveTo(x - 210, 112); g.lineTo(x + 230, 112); g.lineTo(x + 210, 146); g.lineTo(x - 230, 146); g.fill(); g.fillStyle = '#ffc928'; g.fillRect(x - 220, 112, 440, 3); g.fillRect(x - 230, 143, 440, 3);
-        bigText(g, banner, x, 130, 28, ['#ffffff', '#fff3a0', '#ffc928']); }
-      if (rating && ratingT > 0) bigText(g, rating, W / 2, banner && bannerT > 0 ? 170 : 112, 20, ['#ffffff', '#ffd77a', '#e8a030']); // drawn after the banner, below it
+        // Oct 29: drawn over the top HUD strip (announcer row), never over the top lane (phone covered lane 1 at y 112-146)
+        g.fillStyle = '#e8584a'; g.beginPath(); g.moveTo(x - 170, 22); g.lineTo(x + 186, 22); g.lineTo(x + 170, 48); g.lineTo(x - 186, 48); g.fill(); g.fillStyle = '#ffc928'; g.fillRect(x - 176, 22, 352, 2); g.fillRect(x - 186, 46, 352, 2);
+        bigText(g, banner, x, 36, 20, ['#ffffff', '#fff3a0', '#ffc928']); }
+      if (rating && ratingT > 0) bigText(g, rating, W / 2, 96, 20, ['#ffffff', '#ffd77a', '#e8a030']); // drawn after the banner, below it
       // FINISH! slash
       if (firstT > -1) { const u = tReal - firstT;
         if (u < 1.5) { const a = Math.min(1, u / 0.12), out = u > 1.2 ? (u - 1.2) / 0.3 : 0;
@@ -368,7 +373,7 @@ export function runRaceShow(o) {
       }
       if (recordT > -1 && tReal - recordT < 2.2) { const u = tReal - recordT, sc = u < 0.15 ? 2.5 - 1.5 * ease(u / 0.15) : 1; g.save(); g.translate(W / 2, 150); g.scale(sc, sc); bigText(g, S.new_record, 0, 0, 26, ['#ffffff', '#ff7ad2', '#7a4ae8']); g.restore(); }
       // announcer strip
-      if (ann && annT > 0) { g.fillStyle = '#141a26e6'; g.fillRect(0, 336, W, 24); g.fillStyle = '#ffc928'; g.fillRect(0, 336, W, 2); const shown = ann.slice(0, Math.ceil((ann.length * (1.8 - Math.max(0, annT - 0.0))) * 3)); g.fillStyle = '#f3ead2'; g.font = '12px monospace'; g.textAlign = 'left'; g.fillText('» ' + shown, 8, 353); g.textAlign = 'center'; }
+      if (ann && annT > 0) { g.fillStyle = '#141a26e6'; g.fillRect(0, 24, W, 20); g.fillStyle = '#ffc928'; g.fillRect(0, 42, W, 2); const shown = ann.slice(0, Math.ceil((ann.length * (1.8 - Math.max(0, annT - 0.0))) * 3)); g.fillStyle = '#f3ead2'; g.font = '12px monospace'; g.textAlign = 'left'; g.fillText('» ' + shown, 8, 38); g.textAlign = 'center'; }
       g.restore();
       if (flashT > 0) { g.fillStyle = `rgba(255,255,255,${(flashT / 0.12) * 0.6})`; g.fillRect(0, 0, W, H); }
       // wipe -> scoreboard
@@ -398,7 +403,7 @@ export function runRaceShow(o) {
         const p = win ? { dy: -Math.round(Math.abs(Math.sin(el * 8)) * 6) } : place === order.length && revealed ? { sy: 0.92 } : {};
         sprite(g, framesFor(r.species)[0], 70, y + 36, 44, p);
         g.textAlign = 'left'; g.font = 'bold 14px monospace'; g.fillStyle = r.isPlayer ? '#ffd77a' : '#f3ead2'; g.fillText(r.name + (r.isPlayer ? ' (' + S.you + ')' : ''), 100, y + 20);
-        g.fillStyle = '#000'; g.fillRect(380, y + 2, 120, 28); g.font = 'bold 20px monospace'; g.fillStyle = done ? '#ffc928' : '#ff6a4a'; g.textAlign = 'right'; g.fillText(v.toFixed(2) + 's', 494, y + 24);
+        g.fillStyle = '#000'; g.fillRect(380, y + 2, 120, 28); g.font = 'bold 20px monospace'; g.fillStyle = done ? '#ffc928' : '#ff6a4a'; g.textAlign = 'right'; g.fillText(showTime(v).toFixed(2) + 's', 494, y + 24);
         if (done) { const k = Math.min(1, (el - (r.finish / maxT) * TIMING.board) / 0.12), sc = 2.6 - 1.6 * ease(k); g.save(); g.translate(560, y + 16); g.scale(sc, sc); bigText(g, S['place_' + place], 0, 0, 20, PLACE_COL[place]); g.restore(); }
       });
       if (ticking) sfx.tick();
@@ -430,7 +435,7 @@ export function runChampion(o) {
     pg.fillStyle = '#fff3a0'; pg.fillRect(4, 4, 2, 2); pg.fillRect(20, 20, 2, 2);
     const pattern = g.createPattern(pat, 'repeat');
     const hero = new Image(); hero.src = o.playerSrc;
-    const mons = o.party.slice(0, 6).map((sp) => o.framesBig(sp));
+    const mons = o.party.slice(0, 1).map((sp) => o.framesBig(sp)); // only the winning Kilumen (Gary Oct 29)
     const conf = confettiSys(140, rm, 'champ');
     let tm = 0, last = performance.now(), done = false, coinT = -1, shown = 0, flashed = false;
     o.st.tapFn = () => { if (shown >= o.prize && tm > 2.2) end(); };
@@ -461,7 +466,7 @@ export function runChampion(o) {
       // podium floor
       g.fillStyle = '#e8584a'; g.fillRect(0, 286, W, 6); g.fillStyle = '#b8402e'; g.fillRect(0, 292, W, 22);
       // team posed either side, big
-      const slots = [[-150, 0], [150, 0], [-250, 18], [250, 18], [-60, 26], [60, 26]];
+      const slots = [[-150, 0]];
       mons.forEach((im, i) => { const [dx, dy] = slots[i]; const hop = rm ? 0 : Math.round(Math.abs(Math.sin(tm * 4 + i * 1.3)) * 6); sprite(g, im, W / 2 + dx, 292 + dy - hop - (dy ? 0 : 6), dy ? 96 : 128, { flip: dx > 0 }); });
       // player centred
       if (hero.complete && hero.naturalWidth) { const h = 200, w = h * hero.naturalWidth / hero.naturalHeight; g.drawImage(hero, Math.round(W / 2 - w / 2), 292 - h, w, h);
@@ -473,7 +478,7 @@ export function runChampion(o) {
       // bottom bar: name, ID, time, gold count-up
       g.fillStyle = '#1b1f2aee'; g.fillRect(0, 314, W, 46); g.fillStyle = '#ffc928'; g.fillRect(0, 314, W, 3);
       g.textAlign = 'left'; g.font = 'bold 13px monospace'; g.fillStyle = '#9ad1ff'; g.fillText(S.champ_name, 14, 334); g.fillText(S.champ_id, 160, 334); g.fillText(S.champ_time, 300, 334);
-      g.fillStyle = '#f3ead2'; g.fillText(o.name, 14, 352); g.fillText(idText(o.id), 160, 352); g.fillText(o.time.toFixed(2) + 's', 300, 352);
+      g.fillStyle = '#f3ead2'; g.fillText(o.name, 14, 352); g.fillText(idText(o.id), 160, 352); g.fillText(showTime(o.time).toFixed(2) + 's', 300, 352);
       if (tm > 0.9 && coinT < 0) coinT = 0; if (coinT >= 0) { coinT += dt; const n = Math.min(o.prize, Math.round(o.prize * ease(coinT / 1.4))); if (n > shown) { shown = n; sfx.coin(); if (n >= o.prize && !flashed) { flashed = true; sfx.stamp(); } } }
       g.textAlign = 'right'; bigText(g, t('champ_gold', { n: shown.toLocaleString('en-US') }), 560, 336, 20); g.textAlign = 'right'; g.font = '11px monospace'; g.fillStyle = '#ffd77a';
       g.fillText(S.wallet + ' ' + (o.coinsFrom + shown).toLocaleString('en-US'), W - 12, 354);
