@@ -249,7 +249,7 @@ export async function installDevConsole(scene, access) {
     ['Region 2', ['saltmere', 'saltmere_hall_int', 'saltmere_office_int', 'route_revival_saltmere', 'route_saltmere_mirefen', 'mirefen', 'mirefen_hall_int', 'mirefen_bog']],
     ['Region 3', ['revival_heights', 'revival_hall_int', 'route_revival', 'route_revival_sunmeadow', 'sunmeadow_fields', 'route_sunmeadow_mirefen']],
     ['Region 4: Frostspire', ['frostspire', 'frostspire_pass', 'frostspire_hall_int', 'frostspire_lift_int', 'frostspire_office_int', 'heal_frostspire']],
-    ['Later regions', ['lanternport', 'lanternport_hall_int', 'route_fernwick_lanternport', 'cindervale', 'cindervale_hall_int', 'route_cindervale', 'aurelith', 'route_aurelith_saltmere', 'route_east', 'tidewater_coast', 'tidewater_hall_int', 'route_coast']],
+    ['Later regions', ['lanternport', 'lanternport_hall_int', 'route_fernwick_lanternport', 'cindervale', 'cindervale_hall_int', 'route_cindervale', 'aurelith', 'heal_aurelith', 'route_aurelith_saltmere', 'route_east', 'tidewater_coast', 'tidewater_hall_int', 'route_coast']],
   ];
   const pretty = (n) => String(n).replace(/_int$/, '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + (/_int$/.test(n) ? ' (inside)' : '');
   function tTravel(body) {

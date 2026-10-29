@@ -4,6 +4,7 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
+import { withHealAurelithPh } from './heal_aurelith_ph.js';
 import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.79-alpha';
 import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.79-alpha';
 import { GridMover } from './movement.js?v=v0.2.79-alpha';
@@ -128,7 +129,7 @@ export class Overworld {
     if (fit) this._watchViewport(); // mobile: watch the viewport from the first frame, not only after the multi-second load
     // playtest fixes 3 (slow reload): these loads are independent, so fetch them together instead of one round trip after another
     const layoutP = loadJson(this.config.worldLayout).then((l) => { this.layout = l; this.knownMaps = new Set(l.maps_built || []); }, () => { this.knownMaps = null; });
-    const linesP = loadJson(this.config.textLines).then((l) => { this.lines = l; }, () => { this.lines = null; });
+    const linesP = loadJson(this.config.textLines).then((l) => { this.lines = withHealAurelithPh(l); }, () => { this.lines = null; });
     await Promise.all([layoutP, linesP, this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
     const sv = this.opts.saveData;
     let s = this.opts.start || (sv?.pos && (!this.knownMaps || this.knownMaps.has(sv.pos.map)) ? sv.pos : this.config.start);
