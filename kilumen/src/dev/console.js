@@ -3,17 +3,17 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.58-alpha';
-import * as AB from './autobattle.js?v=v0.2.58-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.58-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.58-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.58-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.58-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.58-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.58-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.58-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.58-alpha';
-import { createRitaPanel } from './rita_panel.js?v=v0.2.58-alpha'; // v0.2.32: RITA voice test tab
+import { DEV } from './runtime.js?v=v0.2.59-alpha';
+import * as AB from './autobattle.js?v=v0.2.59-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.59-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.59-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.59-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.59-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.59-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.59-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.59-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.59-alpha';
+import { createRitaPanel } from './rita_panel.js?v=v0.2.59-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
@@ -85,7 +85,7 @@ export async function installDevConsole(scene, access) {
   // the game keeps ticking while the panel is open but gets no input; B closes it (and that press never reaches the game)
   const step = scene.step.bind(scene);
   scene.step = (snap) => {
-    if (DEV.active && scene.player) scene.player.speedMultiplier = DEV.speed || 1;
+    if (DEV.active && scene.player) scene.player.speedMultiplier = (DEV.speed || 1) / (DEV.world || 1); // v0.2.59: world speed never speeds the player's own walk
     if (panel) {
       if (snap?.b || snap?.bTap) close();
       else if (scene.busy || scene.dialog?.active || scene.fade || ui()?.active) close(); // something started under us
@@ -96,7 +96,7 @@ export async function installDevConsole(scene, access) {
     }
     return step(snap);
   };
-  // ---- v0.2.58-alpha world speed (1x/4x/10x/25x/100x): scales the whole simulation for this admin session only ----------------
+  // ---- v0.2.59-alpha world speed (1x/4x/10x/25x/100x): scales the whole simulation for this admin session only ----------------
   // overworld: scene.worldSpeed = extra fixed ticks per frame (overworld.js frame, sub-stepped, so no collision skipping);
   // battle: the qol pace hook divides every battle wait; CSS / Web Animations (text reveal, UI + battle fx): playbackRate.
   // Never saved (DEV is memory-only); saving itself stays behind scene.saveLockReason (no battle / conversation / cutscene).
@@ -282,7 +282,7 @@ export async function installDevConsole(scene, access) {
 
   function tTools(body) {
     const logs = AB.logs.slice().reverse();
-    body.innerHTML = `<h4>World speed (whole game: movement, timers, text, animations, battles)</h4><div class="kbar">${WORLD_SPEEDS.map((n) => `<button class="${(DEV.world || 1) === n ? 'sel' : ''}" data-world="${n}">${n}x</button>`).join('')}</div>
+    body.innerHTML = `<h4>World speed (whole game: movement, timers, text, animations, battles)</h4><div class="kbar">${WORLD_SPEEDS.map((n) => `<button class="${(DEV.world || 1) === n ? 'sel' : ''}" data-world="${n}">${n}x</button>`).join('')}</div><div class="kbar"><button class="${scene.worldClockFast ? 'sel' : ''}" data-wclock="1">Fast clock with world speed: ${scene.worldClockFast ? 'ON' : 'OFF'}</button></div>
 <small>Dev session only, never saved. Movement is sub-stepped, so collisions hold at 100x. Saving stays blocked in battles, conversations and cutscenes.</small>
 <h4>Walk speed (only while dev mode is on)</h4><div class="kbar">${[1, 2, 4].map((n) => `<button class="${DEV.speed === n ? 'sel' : ''}" data-speed="${n}">${n}x</button>`).join('')}</div>
 <h4>Master key</h4><div class="kbar"><button class="${DEV.masterKey ? 'sel warn' : ''}" data-mk>${DEV.masterKey ? 'ON: all progression locks bypassed' : 'OFF'}</button></div>
@@ -293,8 +293,9 @@ export async function installDevConsole(scene, access) {
 <h4>Save</h4><small>Save marker: ${scene.devTouched || DEV.masterKey ? 'devTouched is set on this save' : 'not set yet (any console change sets it)'}</small>`;
     body.onclick = (e) => {
       const a = e.target.attributes;
-      if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; say(`World speed ${DEV.world}x.`); render(); }
-      else if (a['data-speed']) { DEV.speed = Number(a['data-speed'].value); scene.player.speedMultiplier = DEV.speed; say(`Walk speed ${DEV.speed}x.`); render(); }
+      if (a['data-wclock']) { scene.worldClockFast = !scene.worldClockFast; say(`Fast clock ${scene.worldClockFast ? 'on' : 'off'}.`); render(); }
+      else if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; say(`World speed ${DEV.world}x.`); render(); }
+      else if (a['data-speed']) { DEV.speed = Number(a['data-speed'].value); scene.player.speedMultiplier = DEV.speed / (DEV.world || 1); say(`Walk speed ${DEV.speed}x.`); render(); }
       else if (a['data-mk']) { DEV.masterKey = !DEV.masterKey; if (DEV.masterKey) touched(); say(DEV.masterKey ? 'Master key ON.' : 'Master key OFF. Real locks are back.'); render(); }
       else if (a['data-log']) { const l = logs[Number(a['data-log'].value)]; if (l) { if (!l.text) l.text = l.lines.join('\n'); AB.showLog(l); } }
     };

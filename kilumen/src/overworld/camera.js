@@ -2,8 +2,8 @@
 // so the screen scroll offset is a multiple of the zoom and pixels never shimmer.
 // Rules and zoom come from the active platform profile (src/platform/<id>.json, see src/platform.js); the
 // defaults below are only for callers with no profile (Node tests) and match how the camera worked before profiles.
-import { TILE } from './constants.js?v=v0.2.58-alpha';
-import { zoomFromTable } from '../platform.js?v=v0.2.58-alpha';
+import { TILE } from './constants.js?v=v0.2.59-alpha';
+import { zoomFromTable } from '../platform.js?v=v0.2.59-alpha';
 
 /** Camera rules when no profile is given: hard follow, clamped to map edges, short axis centred on black. */
 export const DEFAULT_CAMERA = Object.freeze({ follow: 'player_tile_centre', deadzonePx: { x: 0, y: 0 }, clampToMapEdges: true, smallMapAxis: 'centre' });
@@ -55,10 +55,12 @@ export function cameraFor(focusX, focusY, mapW, mapH, viewW, viewH, rules = DEFA
     // its stairs cut off on the right), and an interior wider than the view is clamped to its edges on x (no black margin).
     if (r.centreSmallMaps === true) {
       const mw = mapW * TILE, mh = mapH * TILE;
-      if (mw <= viewW) return { x: Math.round((mw - viewW) / 2), y: mh <= viewH ? Math.round((mh - viewH) / 2) : indoorY(y, focusY, mh, viewH, ctx) };
+      // v0.2.59-alpha (Fernwick Hall black bottom strip): an interior taller than the view clamps y to the map (no 1.5-tile slack past the bottom).
+      const iy = (vy) => (ctx?.indoor ? Math.min(Math.floor(mh - viewH), Math.max(0, vy)) : indoorY(vy, focusY, mh, viewH, ctx));
+      if (mw <= viewW) return { x: Math.round((mw - viewW) / 2), y: mh <= viewH ? Math.round((mh - viewH) / 2) : iy(y) };
       const cx = ctx?.indoor ? Math.min(Math.floor(mw - viewW), Math.max(0, x)) : x;
       if (mh <= viewH) return { x: cx, y: Math.round((mh - viewH) / 2) };
-      return { x: cx, y: indoorY(y, focusY, mh, viewH, ctx) };
+      return { x: cx, y: iy(y) };
     }
     return { x, y: indoorY(y, focusY, mapH * TILE, viewH, ctx) };
   }

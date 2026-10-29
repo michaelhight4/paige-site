@@ -21,7 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { employeeIdOf } from './employee_id.js?v=v0.2.58-alpha';
+import { employeeIdOf } from './employee_id.js?v=v0.2.59-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',
@@ -75,7 +75,7 @@ export class CompanyVoice {
   constructor(scene, cfg, opts = {}) {
     this.scene = scene; this.cfg = cfg; this.opts = opts;
     this.storage = opts.storage ?? null;
-    this.now = opts.now || (() => (typeof scene.ms === 'number' ? scene.ms : Date.now()));
+    this.now = opts.now || (() => (typeof scene.ms === 'number' ? scene.ms / (scene.worldSpeed > 1 ? scene.worldSpeed : 1) : Date.now())); // real-time pacing under dev world speed
     this.rng = opts.rng || Math.random; // injectable for tests
     this.mode = loadMode(this.storage, cfg);
     this.burst = []; this.queue = []; this.current = null; this.shownLog = [];
@@ -405,9 +405,9 @@ export class VoiceStrip {
     this.el.querySelector('.cv-name').textContent = c.speaker;
     const more = c.page + 1 < c.pages.length ? ' <span class="cv-more">▼</span>' : '';
     this.el.querySelector('.cv-text').innerHTML = esc(c.pages[c.page]) + more;
-    requestAnimationFrame?.(() => this.el.classList.add('show'));
+    requestAnimationFrame?.(() => { if (this.cv.current === c) this.el.classList.add('show'); }); // a hide in the same frame must win (stuck-strip fix)
   }
-  hide() { this.el.classList.remove('show'); setTimeout(() => { if (!this.cv.current) this.el.hidden = true; }, 260); }
+  hide() { this.el.classList.remove('show'); if (!this.cv.current) this.el.querySelector('.cv-text').textContent = ''; setTimeout(() => { if (!this.cv.current) this.el.hidden = true; }, 260); }
 }
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
