@@ -441,6 +441,7 @@ export class GameUI {
     const pat = { Town: 'dots', Trail: 'leaf', Indoors: 'lattice', Area: 'crystal', Cave: 'crystal' }[kind];
     const scr = { Town: 'team', Trail: 'pack', Indoors: 'kilindex', Area: 'phone', Cave: 'phone' }[kind];
     this.banner.dataset.pat = pat; this.banner.dataset.scr = scr;
+    title = String(title ?? '').replace(/^\s*DRAFT\s*[-–:]\s*/i, ''); // playtest fixes 3: dev marker never shown
     this.banner.innerHTML = `<span class="kind">${kind}</span><span class="plate">${esc(title)}</span>`;
     this._fitBanner();
     this.banner.classList.remove('show'); void this.banner.offsetWidth; this.banner.classList.add('show');

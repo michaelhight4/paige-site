@@ -147,7 +147,7 @@ export function mountDevConsole({ scene, ui, role = 'admin' }) {
     const give = () => {
       const it = pk.selected; if (!it) return say('Pick a Kilumen first.', true);
       const level = int(lv.value, 1, maxLv, 5), variant = vr.value;
-      const c = createCreature({ species: it.id, level, variant });
+      const c = createCreature({ species: it.id, level, variant, origin: { map: sys.scene?.map?.name || null, how: 'gift' } });
       const r = sys.party.add(c, sys.company?.idLevel || 1);
       if (r.where === 'none') return say('Party and storage are both full. Nothing added.', true);
       touch();

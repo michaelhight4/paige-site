@@ -29,7 +29,13 @@ for (const k of ['qol', 'qolc']) if (raw.has(k) && /^[A-Za-z0-9,-]{1,80}$/.test(
 export const ALPHA_QUERY = keep.toString();
 // v0.2.26: ?dev=1 only REQUESTS the dev console. It is read here (the query is stripped just below) and does nothing alone:
 // src/dev/devgate.js still needs a signed-in admin account (server check) before any dev code is loaded.
-export const DEV_REQUESTED = raw.get('dev') === '1';
+// playtest fixes 3: the query is stripped below, so a hard refresh lost ?dev=1. Remember the request for this tab only
+// (sessionStorage; ?dev=0 forgets it). Still only a request: devgate.js keeps the server-side admin check.
+const DEV_SS = ALPHA_PREFIX + 'dev_requested';
+const ss = (fn) => { try { return fn(globalThis.sessionStorage); } catch { return null; } };
+if (raw.get('dev') === '1') ss((s) => s.setItem(DEV_SS, '1'));
+else if (raw.get('dev') === '0') ss((s) => s.removeItem(DEV_SS));
+export const DEV_REQUESTED = raw.get('dev') === '1' || (raw.get('dev') !== '0' && ss((s) => s.getItem(DEV_SS)) === '1');
 if (typeof location !== 'undefined' && location.search) { try { history.replaceState(history.state, '', location.pathname + location.hash); } catch { /* ignore */ } }
 
 export function noticeSeen() { try { return localStorage.getItem(ALPHA_NOTICE_KEY) === '1'; } catch { return false; } }

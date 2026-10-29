@@ -124,12 +124,10 @@ export class Overworld {
     this.resize();
     const fit = !!this.opts.platform?.profile?.display?.fitCanvas;
     if (fit) this._watchViewport(); // mobile: watch the viewport from the first frame, not only after the multi-second load
-    try {
-      this.layout = await loadJson(this.config.worldLayout);
-      this.knownMaps = new Set(this.layout.maps_built || []);
-    } catch { this.knownMaps = null; }
-    try { this.lines = await loadJson(this.config.textLines); } catch { this.lines = null; }
-    await Promise.all([this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
+    // playtest fixes 3 (slow reload): these loads are independent, so fetch them together instead of one round trip after another
+    const layoutP = loadJson(this.config.worldLayout).then((l) => { this.layout = l; this.knownMaps = new Set(l.maps_built || []); }, () => { this.knownMaps = null; });
+    const linesP = loadJson(this.config.textLines).then((l) => { this.lines = l; }, () => { this.lines = null; });
+    await Promise.all([layoutP, linesP, this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
     const sv = this.opts.saveData;
     let s = this.opts.start || (sv?.pos && (!this.knownMaps || this.knownMaps.has(sv.pos.map)) ? sv.pos : this.config.start);
     // home start v1: a new game (no ?map=, no saved position) wakes up in the bedroom; ?skipintro=1 starts outside the
@@ -251,10 +249,18 @@ export class Overworld {
     // portrait zoom 4 / 1x art to landscape zoom 2 / 2x art while the 1x files were still downloading) must not put the old set back.
     const ticket = (this._assetTicket = (this._assetTicket || 0) + 1);
     const tsUrl = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, want), this.mapUrl(this.map.name));
+    const ts1 = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name));
     if (!this.tileset || this.tileset.url !== tsUrl) { const ts = await loadTileset(tsUrl); if (ticket !== this._assetTicket) return this._assetsSettled(); this.tileset = ts; }
     await this.ixlight.load(tsUrl);
-    const ts1 = resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name));
-    if (this.grades && (!this.tileset1x || this.tileset1x.url !== ts1)) { const t1 = want === 1 ? this.tileset : await loadTileset(ts1); if (ticket !== this._assetTicket) return this._assetsSettled(); this.tileset1x = t1; }
+    if (this.grades && (!this.tileset1x || this.tileset1x.url !== ts1)) {
+      if (want === 1) this.tileset1x = this.tileset;
+      else {
+        // playtest fixes 3 (5 s black reload): don't hold the first frame for ~5 MB of 1x sheets. Until they land the renderer
+        // draws the zoom set ungraded (its tileset1x fallback); a stale 1x set from another tileset is dropped so ids never mismatch.
+        this.tileset1x = null;
+        Promise.resolve(this._assetsLatest).catch(() => {}).then(() => loadTileset(ts1)).then((t1) => { if (this.tileset?.url === tsUrl && ts1 === resolveUrl(tilesetFileForZoom(this.map.tilesetRef, 1), this.mapUrl(this.map.name))) this.tileset1x = t1; }).catch((e) => console.warn('1x tileset:', e.message));
+      }
+    }
     if (this.playerScale !== want) {
       const sheets = this.config.playerSheets, imgs = {}, imgs1 = {};
       await Promise.all(Object.keys(sheets).map(async (k) => {
@@ -883,7 +889,9 @@ export class Overworld {
           const gift = story.gift && this.lines?.items?.[story.gift];
           const giving = gift && !this.flags.has(gift.flag);
           if (won !== false) {
-            this.seen[dk] = true; await this.say(e.battle_lost, sp);
+            this.seen[dk] = true;
+            for (const f of story.flags) if (!this.flags.has(f)) this.setFlag(f); // playtest fixes 3: the coin flag lands with the win, not after the closing lines
+            await this.say(e.battle_lost, sp);
             await this.systems?.onTrainerWin({ map: mapName, def, speaker: sp }); // [systems-gd hook] prize money (awardBattleMoney)
           } else if (story.continueOnLoss) { // Ron 1 (CRITICAL_PATH §2): the story goes on win or lose, no blackout
             this.seen[dk] = true; await this.say(e.battle_won || [], sp);
@@ -1152,7 +1160,8 @@ export class Overworld {
     // Faster = more fixed TICK_MS steps per frame (never a bigger step), so movement / collisions stay tick-exact at 100x.
     const ws = this.worldSpeed > 1 ? this.worldSpeed : 1, maxTicks = MAX_TICKS_PER_FRAME * ws;
     this.acc += dt * ws;
-    const snap = this.input.poll();
+    let snap = this.input.poll();
+    if (!snap.dir && snap.tap) snap = { ...snap, dir: snap.tap }; // playtest fixes 3: a key pressed and released between two polls still turns / steps once
     let n = 0;
     while (this.acc >= TICK_MS && n < maxTicks) {
       this.step(n === 0 ? snap : { ...snap, a: false, bTap: false, debug: false, select: false });
@@ -1162,6 +1171,7 @@ export class Overworld {
     else if (n === 0 && (snap.a || snap.bTap || snap.debug || snap.select)) {
       this.input.aQueued ||= snap.a; this.input.bQueued ||= !!snap.bTap; this.input.debugQueued ||= snap.debug; this.input.selQueued ||= snap.select;
     }
+    if (n === 0 && snap.tap && !this.input.held?.length) this.input.tapQueued ||= snap.tap; // playtest fixes 3: a quick key tap on a frame with no tick is kept for the next one
     this._fpsN++; if (now - this._fpsT >= 500) { this.fps = Math.round((this._fpsN * 1000) / (now - this._fpsT)); this._fpsT = now; this._fpsN = 0; }
     this.render();
   }

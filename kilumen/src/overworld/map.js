@@ -17,7 +17,7 @@ export class GameMap {
     for (const k of ['name', 'width', 'height', 'layers']) if (json[k] == null) throw new Error(`map missing "${k}"`);
     this.json = json;
     this.name = json.name;
-    this.title = json.title || json.name;
+    this.title = String(json.title || '').replace(/^\s*DRAFT\s*[-–:]\s*/i, '').trim() || json.name; // playtest fixes 3: no 'DRAFT - ' in player-facing labels
     this.width = json.width;
     this.height = json.height;
     this.tileSize = json.tile_size || 64;

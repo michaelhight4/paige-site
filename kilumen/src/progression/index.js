@@ -4,23 +4,26 @@
 //    battles, coin record in save.systems.progression.masters, gift behind masterGifts. Dev: ?pg=masters&master=<zone>.
 //  - hallPuzzles (off): hall puzzle preview overlay ?pg=hallPuzzles&hall=<zone> (hall maps 2-8 are not built yet).
 //  - quests (off): quest book + phone Tasks = quest log + HUD tracker + NPC give / turn-in + rewards.
-import { progressionFlags } from './flags.js?v=v0.2.67-alpha';
-import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.67-alpha';
-import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.67-alpha';
-import { QuestBook, QFLAG } from './quests.js?v=v0.2.67-alpha';
+import { progressionFlags } from './flags.js?v=v0.2.64-alpha';
+import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.64-alpha';
+import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.64-alpha';
+import { QuestBook, QFLAG } from './quests.js?v=v0.2.64-alpha';
+import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.64-alpha'; // batch 3: Mirefen hall tint + reed lamps
+import { HallPuzzle } from './puzzles.js?v=v0.2.64-alpha';
+import { InMapHall, inmapZone, INMAP_HALLS } from './hall_inmap.js?v=v0.2.64-alpha'; // playtest fixes 3: prism relay / reed lamps in the hall map
+import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.64-alpha'; // v2 badges: in-place coin award card
+import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.64-alpha'; // v6: Frostspire Hall ice + wind overlay theme
+import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.64-alpha';
+import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.64-alpha';
+import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.64-alpha'; // batch 3: route / rival trainers fight their map team
 import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES, boardPointsFor, creditBoardPoints } from './milestones.js?v=v0.2.67-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
 import { Shop } from '../systems/shop.js?v=v0.2.67-alpha';
 import { levelForXp } from '../systems/creature.js?v=v0.2.67-alpha';
 import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.67-alpha';
 import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.67-alpha';
-import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.67-alpha'; // batch 3: Mirefen hall tint + reed lamps
-import { HallPuzzle } from './puzzles.js?v=v0.2.67-alpha';
-import { coinArtOn, showCoinAward } from '../achievements/coin_art.js?v=v0.2.67-alpha'; // v2 badges: in-place coin award card
-import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.67-alpha'; // v6: Frostspire Hall ice + wind overlay theme
-import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.67-alpha';
-import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.67-alpha';
-import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.67-alpha'; // batch 3: route / rival trainers fight their map team
 
+import { DEV } from '../dev/runtime.js?v=v0.2.64-alpha';
+const DEV_KEY = () => !!DEV.masterKey; // dev master key skips the hall puzzle gate
 const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url + ' ' + r.status))));
 const escH = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -91,6 +94,68 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
   }
   await pg.refreshLamps().catch((e) => console.error('hall lamps:', e));
 
+  // ---- playtest fixes 3: hall puzzles played in the hall map (revival_hall_int prisms, mirefen_hall_int reed lamps) --------
+  // Old overlay-only state and old saves that already beat the Master load as solved (doors open, lamps lit).
+  const hallBeaten = (zone) => {
+    const h = pg.masters ? hallByZone(pg.masters, zone) : null;
+    return !!(store.masters?.[zone] || (h?.flag && scene.flags?.has(h.flag)) || Object.keys(scene.seen || {}).some((k) => k.startsWith(`defeated:${INMAP_HALLS[zone]}.`) && /_master$/.test(k)));
+  };
+  pg.inmap = null;
+  pg.refreshInMap = async () => {
+    const zone = inmapZone(scene.map?.name); if (!zone) { pg.inmap = null; return null; }
+    const def = pg.puzzles[zone] ||= await getJSON(`data/hall_puzzles/${zone}.json`);
+    const already = scene.flags?.has(def.solved_flag) || hallBeaten(zone);
+    const hp = pg.inmap = new InMapHall(def, store, already);
+    if (already && !store.puzzles[zone]?.solved) hp.save();
+    if (hp.solved && def.solved_flag && !scene.flags?.has(def.solved_flag)) scene.setFlag?.(def.solved_flag);
+    hp.apply(scene.map, scene.player); scene._dirty = true;
+    return hp;
+  };
+  if (typeof scene._enterMap === 'function') {
+    const enter2 = scene._enterMap.bind(scene);
+    scene._enterMap = async (...a) => { const r = await enter2(...a); await pg.refreshInMap().catch((e) => console.error('hall in-map puzzle:', e)); try { pg.retroCoins?.(); } catch (e) { console.error('retro coins:', e); } return r; };
+  }
+  await pg.refreshInMap().catch((e) => console.error('hall in-map puzzle:', e));
+  // playtest fixes 3: Master coins for saves that beat a Master but lost the coin flag (the flag used to be set only after
+  // the closing lines, so a reload mid-dialogue dropped it): a `defeated:` record for the hall's Master or a coin record
+  // grants the flag (= the Key Items coin row) on load. Runs once at attach, not during battles or talks.
+  pg.retroCoins = () => {
+    const out = [];
+    for (const h of pg.masters?.halls || []) {
+      if (!h.flag || scene.flags?.has(h.flag)) continue;
+      const ids = [h.master?.id, `${h.hall_map}_master`].filter(Boolean);
+      if (store.masters?.[h.zone] || ids.some((id) => scene.seen?.[`defeated:${h.hall_map}.${id}`])) {
+        scene.setFlag?.(h.flag); store.masters ||= {}; store.masters[h.zone] ||= { coin: h.coin_number, flag: h.flag }; out.push(h.zone);
+      }
+    }
+    if (out.length) scene.log?.push({ tick: scene.tick, type: 'retroCoins', zones: out });
+    return out;
+  };
+  try { pg.retroCoins(); } catch (e) { console.error('retro coins:', e); }
+  if (typeof scene.interact === 'function') {
+    const interact = scene.interact.bind(scene);
+    scene.interact = () => {
+      const hp = pg.inmap, p = scene.player;
+      if (scene.busy || !hp || !p || scene.map?.name !== hp.def.map) return interact();
+      const d = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[p.facing] || [0, 0];
+      const r = hp.touch(p.x + d[0], p.y + d[1]);
+      if (!r) return interact();
+      const pages = (id) => { const e = scene._entryFor?.(scene.map.name, { id: `${scene.map.name}_${id}` }); return e?.pages || null; };
+      if (r.kind === 'receiver') { scene.script(() => scene.say(pages(r.lit ? 'receiver_lit' : 'receiver_dim') || [r.lit ? 'The crystal glows violet.' : 'A crystal set in the wall. Dark for now.'])); return; }
+      hp.apply(scene.map, p); scene._dirty = true;
+      if (r.kind === 'prism') {
+        scene.audio?.sfx?.('select');
+        if (r.newlyLit) scene.script(() => scene.say(pages('receiver_lit') || ['The crystal glows violet. The door beside it slides open.']));
+        else scene.toast?.(`The prism turns to face ${r.facing}.`);
+      } else if (r.kind === 'lamp') {
+        pg.refreshLamps?.();
+        if (r.result === 'lit') scene.script(() => scene.say(pages('reed_lamp_lit') || ['The lamp catches.']));
+        else if (r.result === 'wrong') scene.script(() => scene.say(pages('reed_lamp_wrong') || ['The lamps flicker out.']));
+      }
+      if (r.solvedNow) { scene.setFlag?.(hp.def.solved_flag); scene.toast?.('The way to the Master is open.'); }
+    };
+  }
+
   // ---- (b) hall puzzles ----------------------------------------------------------------------------------------------
   // v6 item 6 (dev/region4-station): the Frostspire hall's gust puzzle is live even while hallPuzzles stays off for the other halls
   const puzzleZone = (z) => flags.hallPuzzles || (z === 'frostspire' && query?.get?.('r4') !== '0');
@@ -104,7 +169,14 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
       const talk = scene.talk.bind(scene);
       scene.talk = (n, def) => {
         const info = def && scene.map && hallNpc(pg.masters, scene.map.name, def.id);
-        if (!info || info.hall.zone === 'fernwick' || info.role === 'trainer' || !puzzleZone(info.hall.zone)) return talk(n, def);
+        if (info && INMAP_HALLS[info.hall.zone] && info.role === 'master') { // playtest fixes 3: the in-map puzzle gates the Master
+          const z = info.hall.zone, solved = scene.flags?.has(`puzzle_${z}_hall_solved`) || pg.inmap?.solved || hallBeaten(z);
+          if (solved || DEV_KEY()) return talk(n, def);
+          scene.log?.push({ tick: scene.tick, type: 'hall_puzzle_gate', zone: z });
+          scene.script(() => scene.say([z === 'mirefen' ? 'Light the reed lamps in the right order first. Then we talk.' : 'Open the way first. Then we talk.'], scene.speakerFor?.(n)));
+          return;
+        }
+        if (!info || info.hall.zone === 'fernwick' || info.role === 'trainer' || INMAP_HALLS[info.hall.zone] || !puzzleZone(info.hall.zone)) return talk(n, def);
         const zone = info.hall.zone;
         const solvedFlag = `puzzle_${zone}_hall_solved`;
         if (info.role === 'master' && scene.flags?.has(solvedFlag)) return talk(n, def);
@@ -441,7 +513,7 @@ function openPuzzleOverlay(scene, ui, def, store, platform) {
     c.fillStyle = '#f4ead2'; c.strokeStyle = '#1c1622'; c.lineWidth = 3; c.beginPath(); c.arc(rt.x * ts + ts / 2, rt.y * ts + ts / 2, ts * 0.32, 0, 7); c.fill(); c.stroke();
     const d = { U: [0, -1], D: [0, 1], L: [-1, 0], R: [1, 0] }[face];
     c.fillStyle = '#1c1622'; c.beginPath(); c.arc(rt.x * ts + ts / 2 + d[0] * ts * 0.18, rt.y * ts + ts / 2 + d[1] * ts * 0.18, ts * 0.08, 0, 7); c.fill();
-    head.textContent = `${def.name_placeholder} (${def.zone}) · DRAFT preview${rt.solved ? ' · SOLVED' : ''}`;
+    head.textContent = `${def.name_placeholder}${rt.solved ? ' · SOLVED' : ''}`;
   };
   const act = (a) => {
     if (a === 'A') a = 'A' + face; else face = a;

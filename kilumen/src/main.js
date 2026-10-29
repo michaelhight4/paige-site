@@ -167,10 +167,15 @@ if (q.get('audio') !== '0') {
 // UI layer (src/ui/ui.js, UI pass Oct 22, 2026): phone menu (Esc / M / Start / menu button), HUD, title, screens, battle
 // shell. Loaded after the world is up and guarded, so a UI failure never stops the game. ?ui=0 skips it.
 if (q.get('ui') !== '0') {
-  window.kilumen.ready.then(() => import('./ui/ui.js?v=v0.2.67-alpha')).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready';
-    return import('./ui/systems_screens.js?v=v0.2.67-alpha').then((m) => m.installSystemsScreens(window.kilumen.ui, scene.systems)); }) // [systems-gd hook]
-    .then(() => import('./qol_c/index.js?v=v0.2.67-alpha').then((m) => { window.kilumen.qolc = m.installQolC(scene, window.kilumen.ui, { query: q }); }).catch((e) => console.error('qol_c:', e))) // [qol batch C hook] storage/quick save/stats/rename/renew/chain (?qolc=)
-    .then(() => import('./progression/index.js?v=v0.2.67-alpha').then((m) => m.attachProgression(scene, window.kilumen.ui, { query: q, platform })).catch((e) => console.error('progression:', e))) // [progression hook] Masters / hall puzzles / quests (src/progression/flags.js, ?pg=)
+  // playtest fixes 3 (slow reload): start downloading the UI module graph now, in parallel with the world's tiles; it is still
+  // only MOUNTED once the world is ready (these modules have no top-level side effects).
+  const uiMod = import('./ui/ui.js?v=v0.2.64-alpha');
+  for (const m of ['./ui/systems_screens.js?v=v0.2.64-alpha', './qol_c/index.js?v=v0.2.64-alpha', './progression/index.js?v=v0.2.64-alpha']) import(m).catch(() => {});
+  uiMod.catch(() => {});
+  window.kilumen.ready.then(() => uiMod).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready';
+    return import('./ui/systems_screens.js?v=v0.2.64-alpha').then((m) => m.installSystemsScreens(window.kilumen.ui, scene.systems)); }) // [systems-gd hook]
+    .then(() => import('./qol_c/index.js?v=v0.2.64-alpha').then((m) => { window.kilumen.qolc = m.installQolC(scene, window.kilumen.ui, { query: q }); }).catch((e) => console.error('qol_c:', e))) // [qol batch C hook] storage/quick save/stats/rename/renew/chain (?qolc=)
+    .then(() => import('./progression/index.js?v=v0.2.64-alpha').then((m) => m.attachProgression(scene, window.kilumen.ui, { query: q, platform })).catch((e) => console.error('progression:', e))) // [progression hook] Masters / hall puzzles / quests (src/progression/flags.js, ?pg=)
     // dev console (v0.2.26, Gary): only with ?dev=1 AND a signed-in admin account (server check, src/dev/devgate.js). Nothing dev is loaded otherwise.
     // dev console: ?dev=1 (owner/admin) or, with no flag, any signed-in browser is checked server-side and only role 'owner' gets it (v0.2.39)
     .then(() => (DEV_REQUESTED || devSessionHint()) ? import('./dev/devgate.js?v=v0.2.67-alpha').then((g) => g.checkDevAccess(DEV_REQUESTED ? ['owner', 'admin'] : ['owner'])).then((acc) => acc.ok ? import('./dev/console.js?v=v0.2.67-alpha').then((m) => m.installDevConsole(scene, acc)) : (DEV_REQUESTED ? console.info('dev console: not available (' + acc.reason + ')') : null)).catch((e) => console.error('dev:', e)) : null)

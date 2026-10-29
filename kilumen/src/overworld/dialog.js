@@ -82,9 +82,11 @@ export class Dialog {
   _speaker(sp) {
     this.name.textContent = sp?.name || ''; this.name.hidden = !sp?.name;
     this.portrait.hidden = !sp?.portrait; if (sp?.portrait) this.portrait.src = sp.portrait;
-    this.battle.hidden = !sp?.battle;
-    if (sp?.battle) {
-      this.battle.src = sp.battle;
+    // playtest fixes 3: one picture per speaker: a portrait always wins over the 64x128 figure (Mags showed twice in the Revival hall)
+    const fig = sp?.portrait ? null : sp?.battle;
+    this.battle.hidden = !fig;
+    if (fig) {
+      this.battle.src = fig;
       if (this.layout.battleImage?.fit !== 'aboveDialog') { const z = sp.zoom || 2; this.battle.style.width = 64 * z + 'px'; this.battle.style.height = 128 * z + 'px'; }
     }
     this.wrap.classList.toggle('has-portrait', !!sp?.portrait);
@@ -165,6 +167,16 @@ export class Dialog {
     const bi = this.layout.battleImage, win = this.wrap.ownerDocument?.defaultView;
     this._controlsState();
     if (win) this._layoutBox(win);
+    // playtest fixes 3: the portrait art is wider than the fixed padding on some sizes and covered the first letters of each line;
+    // pad the box past the portrait's real right edge (measured once the image has its size).
+    if (this.cur && !this.wrap.hidden && !this.portrait.hidden && this.portrait.complete && this.portrait.naturalWidth) {
+      this.box.style.paddingLeft = '';
+      // layout box (offset*), not getBoundingClientRect: the portrait's pop-in animation scales it while it plays
+      const op = this.portrait.offsetParent?.getBoundingClientRect?.() || { left: 0 }, pRight = op.left + this.portrait.offsetLeft + this.portrait.offsetWidth;
+      const bx = this.box.getBoundingClientRect(), base = parseFloat(win?.getComputedStyle(this.box).paddingLeft) || 0;
+      const need = Math.ceil(pRight - bx.left + 18);
+      if (this.portrait.offsetWidth && need > base) this.box.style.paddingLeft = `${need}px`;
+    } else if (this.box.style.paddingLeft) this.box.style.paddingLeft = '';
     if (this.cur && !this.wrap.hidden && win && bi?.fit === 'aboveDialog' && !this.battle.hidden) {
       const bx = this.box.getBoundingClientRect();
       if (bx.height) {

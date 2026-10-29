@@ -165,7 +165,7 @@ export async function installDevConsole(scene, access) {
     fill();
     body.onclick = (e) => {
       const id = e.target.dataset?.sp; if (!id) return;
-      const c = createCreature({ species: id, level: num.lvl, variant: variant || '' });
+      const c = createCreature({ species: id, level: num.lvl, variant: variant || '', origin: { map: scene.map?.name || null, how: 'gift' } });
       const r = sys.party.add(c, sys.company?.idLevel || 1); touched(); scene.onPartyChange?.(false);
       say(r.where === 'none' ? 'Party and storage are both full (250). Nothing added.' : `Gave ${displayName(c)} Lv.${c.level} to your ${r.where === 'party' ? 'party' : 'storage'}.`, r.where === 'none');
     };
