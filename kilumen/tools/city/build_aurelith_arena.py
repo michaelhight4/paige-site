@@ -10,7 +10,8 @@ night). Stairs (top right) lead to the next room behind gate_arena_room_N (flag 
 beaten in the current run: src/region78/arena.js). Mats (bottom left) go back one room.
 Final Ron stays keyed aurelith_arena_int.aurelith_arena_ron_final (the tower, not built yet): not placed here.
 Grid-fit: whole squares, every furniture square blocks, walk gaps are 2+ squares."""
-import json, os
+import json, os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 OW = os.path.join(ROOT, 'art', 'world', 'overworld'); MAPS = os.path.join(OW, 'maps')
 TS = json.load(open(os.path.join(OW, 'tileset.json'))); BY = {e['name']: e for e in TS['tiles']}
@@ -94,12 +95,15 @@ THEMES = {
                         (6, 10, 'ar_obsidian_shard'), (7, 10, 'ar_candles'), (11, 5, 'ar_candelabra'), (11, 7, 'ar_raven_statue'), (11, 8, 'ar_candles'), (11, 9, 'ar_obsidian_shard'), (11, 10, 'ar_candles')],
                  mood=dict(tint={'color': '#5a2a8a', 'alpha': 0.1, 'phases': {'dawn': 1, 'day': 1, 'dusk': 1, 'night': 1}}, vignette={'color': '#06020c', 'alpha': 0.45, 'inner': 0.4}, particles=[{'kind': 'fireflies', 'density': 5}])),
 }
+import arena_v3_art as V3
+for _t in THEMES: THEMES[_t]['what'] = V3.CENTRE_WHAT[_t]
+for _t, _x in (('water', 'fireflies'), ('fire', 'motes'), ('wind', 'motes'), ('earth', 'motes'), ('grass', 'fireflies'), ('light', 'dust'), ('mystic', 'motes'), ('dark', 'embers')): THEMES[_t]['extra'] = [{'kind': _x, 'density': 6}]
 TYPES = ['water', 'fire', 'wind', 'earth', 'grass', 'light', 'mystic', 'dark']
 SPR = ['tr_swimmer_m', 'tr_camper_f', 'tr_ranger_m', 'tr_lass_f', 'tr_hiker_m', 'tr_bugcatcher_f', 'tr_scientist_f', 'tr_scientist_m']
-RW, RH = 12, 11
+RW, RH = 17, 15
 room = lambda n: f'aurelith_arena_room_{n}'
 LOBBY_W, LOBBY_H = 18, 10
-STAIRS = (9, 10); MATS = (2, 3)   # room stairs x (row 2), room mats x (row RH-1)
+STAIRS = (1, 15); MATS = (7, 9)   # room stairs x (row 2), room mats x (row RH-1)
 out = {}
 
 # ---- lobby ----
@@ -119,13 +123,27 @@ lnpcs = [{'id': 'aurelith_arena_clerk', 'x': 13, 'y': 4, 'facing': 'down', 'kind
 out['aurelith_arena'] = {'name': 'aurelith_arena', 'title': 'Aurelith Arena', 'width': LOBBY_W, 'height': LOBBY_H, 'tile_size': 64, 'tileset': '../tileset.json',
     'layers': lo.L, 'warps': lw, 'exits': [], 'npcs': lnpcs, 'signs': [], 'items': [], 'encounter_zones': [], 'source': SRC, 'movement': MOVE}
 
-# ---- 8 rooms ----
+# ---- 8 rooms (v3 final throne rooms, Gary 6:41 PM CT pt2163u: "more majesty ... screams end of the game boss") ----
+# 17x15 symmetric hall: walls rows 0-2; 5x6 animated centrepiece a3_<t>_centre (x 6-10, rows 0-5, rows 3-5 block); 1x5
+# framing pillars x 4/12; emblem banners x 2/5/11/14; dais row 6 (x 5-11) with the fighter at 8,6 (talk from 8,7);
+# carpet processional x 7-9 rows 7-14; obelisks x 5/11 rows 8-9 + 11-12; braziers x 3/13 rows 7/10/13; stairs 1+15,2
+# behind gates 1+15,4; mats 7+9,14. Art: tools/city/arena_v3_art.py (in-house; CC0 packs checked on OpenGameArt - Blue Castle, SBS Dungeon, Destron 64px - off-style, unused, so no credits needed).
 for n, (t, spr) in enumerate(zip(TYPES, SPR), 1):
-    th = THEMES[t]; m = M(RW, RH)
+    th = THEMES[t]; m = M(RW, RH); A = f'a3_{t}_'
     w = th['walls']; w = w if isinstance(w, tuple) else (f'i_wall_top_{w}', f'i_wall_upper_{w}', f'i_wall_upper_win_{w}', f'i_wall_face_{w}')
-    walls(m, *w, th['floor'])
-    m.obj(1, 1, th['banner'], col=1); m.obj(5, 1, th['banner'], col=1)
-    for x, y, nm in th['centre'] + th.get('ground', []): m.g(x, y, nm)
+    walls(m, *w, lambda x, y: A + 'floor_' + 'ab'[(x + y) % 2])
+    for x in range(5, 12): m.g(x, 6, A + ('dais_l' if x == 5 else 'dais_r' if x == 11 else 'dais_m'))
+    for y in range(7, RH):
+        for x in (7, 8, 9): m.g(x, y, A + ('carpet_l' if x == 7 else 'carpet_r' if x == 9 else 'carpet_m_' + 'ab'[y % 2]))
+    m.obj(6, 0, A + 'centre', col=None)
+    for y in range(3): 
+        for x in range(6, 11): m.L['collision'][y][x] = 1
+    for x in (4, 12): m.obj(x, 0, A + 'pillar')
+    for x in (2, 5, 11, 14): m.obj(x, 1, A + 'banner', col=1)
+    for x in (5, 11):
+        for y in (8, 11): m.obj(x, y, A + 'obelisk')
+    for x in (3, 13):
+        for y in (7, 10, 13): m.put(x, y, A + 'brazier')
     warps, gates = [], []
     if n < 8:
         for i, x in enumerate(STAIRS):
@@ -135,22 +153,18 @@ for n, (t, spr) in enumerate(zip(TYPES, SPR), 1):
         gates.append({'id': f'gate_arena_room_{n}', 'flag': f'arena_room_{n}_won', 'earned_at': f'beat Arena fighter {n} in the current run',
                       'cells': [{'x': x, 'y': 4, 'blocked_tile': 'gate_hall_closed', 'cleared_tile': 'gate_hall_open'} for x in STAIRS], 'npc': None,
                       'lines': None, 'cleared_state': 'gate opens', 'detour': 'none: Arena run', 'blocks': {'from_entry': 'room mats', 'to_entry': room(n + 1)}})
-    for x in (8, 11):
-        if th['pillar']: m.obj(x, 3, th['pillar'])
-        else: m.put(x, 3, 'i_plant_fern'); m.put(x, 4, 'i_plant_fern')
-    for x, y, p in th['props']: m.obj(x, y, p)
-    for x, y, p in th.get('deco', []): m.put(x, y, p)
     back = 'aurelith_arena' if n == 1 else room(n - 1)
     for i, x in enumerate(MATS):
         m.put(x, RH - 1, 'i_mat_aurelith')
         tx = (8, 9)[i] if n == 1 else STAIRS[i]
         warps.append({'x': x, 'y': RH - 1, 'to': back, 'tx': tx, 'ty': 3, 'facing': 'down', 'keep_return': True, 'note': 'back down one room'})
-    npc = {'id': f'arena_fighter_{n}', 'x': 5, 'y': 5, 'facing': 'down', 'kind': 'trainer', 'sprite': spr,
+    npc = {'id': f'arena_fighter_{n}', 'x': 8, 'y': 6, 'facing': 'down', 'kind': 'trainer', 'sprite': spr,
            'note': f'Arena fighter {n} of 8, {t} type (back to back run, src/region78/arena.js; team in trainer_teams.js)', 'text_ref': TR + f'arena_fighter_{n}'}
     j = {'name': room(n), 'title': 'Aurelith Arena', 'width': RW, 'height': RH, 'tile_size': 64, 'tileset': '../tileset.json', 'layers': m.L,
          'warps': warps, 'exits': [], 'npcs': [npc], 'signs': [], 'items': [], 'encounter_zones': [], 'story_gates': gates,
-         'tint': {'grade': th['grade'], 'note': f'{t} room lighting (+ mood.json tint/particles)'}, 'arena_theme': {'type': t, 'from': th['hall']}, 'source': SRC, 'movement': MOVE}
+         'tint': {'grade': th['grade'], 'note': f'{t} throne room lighting (+ mood.json tint/particles)'}, 'arena_theme': {'type': t, 'from': th['hall'], 'centrepiece': th['what']}, 'source': SRC, 'movement': MOVE}
     out[room(n)] = j
+    th['mood']['particles'] = [dict(q, density=int(q['density'] * 1.8)) for q in th['mood']['particles']] + th.get('extra', [])
 
 mp = os.path.join(ROOT, 'src', 'overworld', 'mood.json'); md = json.load(open(mp))
 for n, t in enumerate(TYPES, 1):

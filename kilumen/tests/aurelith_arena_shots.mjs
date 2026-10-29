@@ -14,7 +14,10 @@ const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '1
 const base = `http://127.0.0.1:${PORT}/index.html`;
 for (let i = 0; i < 50; i++) { try { if ((await fetch(base)).ok) break; } catch {} await new Promise((r) => setTimeout(r, 100)); }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const PROFILES = [{ plat: 'pc', w: 1280, h: 720, dpr: 1, touch: false }, { plat: 'phone', w: 844, h: 390, dpr: 2, touch: true }];
+let PROFILES = [{ plat: 'pc', w: 1280, h: 720, dpr: 1, touch: false }, { plat: 'phone', w: 844, h: 390, dpr: 2, touch: true }];
+// v3 (pt2163u): PLATS=pc limits profiles; VIEW=WxH[xDPR] overrides the pc viewport (big-room close-up crops)
+if (process.env.PLATS) PROFILES = PROFILES.filter((p) => process.env.PLATS.split(',').includes(p.plat));
+if (process.env.VIEW) { const [w, h, d] = process.env.VIEW.split('x').map(Number); PROFILES = PROFILES.map((p) => (p.plat === 'pc' ? { ...p, w, h, dpr: d || 1 } : p)); }
 const COMMON = 'save=0&timescale=0&hour=12&audio=0&enc=0';
 const ZOOM = +process.env.ZOOM || 0, PHONE_ZOOM = +process.env.PHONE_ZOOM || ZOOM; // ZOOM=1: whole-room framing (scene.opts.zoom override, shots only)
 // the alpha build drops ?map= flags, so the hall is entered through the scene's own warp
@@ -22,7 +25,7 @@ const warp = async (page, map, x, y) => { await page.evaluate(() => {}); for (le
 
 
 // Themed rooms (Oct 29 2026 pt2156u, DRAFT visual change awaiting Gary): lobby + aurelith_arena_room_1..8, PC + phone.
-const VIEWS = [['lobby', 'aurelith_arena', 9, 8], ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => [`room_${n}`, `aurelith_arena_room_${n}`, 5, 8])];
+const VIEWS = [['lobby', 'aurelith_arena', 9, 8], ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => [`room_${n}`, `aurelith_arena_room_${n}`, 8, 10])];
 const browser = await chromium.launch(); const report = [];
 try {
   for (const p of PROFILES) {

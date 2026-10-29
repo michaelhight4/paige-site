@@ -267,7 +267,25 @@ FLOORISH = lambda n: n.startswith(('ar_floor', 'ar_wave', 'ar_wall'))
 out = [{'id': 11001 + i, 'name': n, 'category': 'arena_art', 'sheet': 'tiles_1x/arena_art.png', 'index': i, 'col': i % 16, 'row': i // 16,
         'walkable': c == 0, 'collision': CODES.get(c, 'block'), 'collision_code': c, 'encounter': False, 'interior': True,
         'layer': 'ground' if FLOORISH(n) or n.startswith('ar_pool') else 'decoration'} for i, (n, _, c) in enumerate(tiles)]
+# ---------------- v3 final throne rooms (Gary 6:41 PM CT, pt2163u): tools/city/arena_v3_art.py, one sheet per type, ids after v2 ----------------
+import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import arena_v3_art as V3
+nid = 11001 + len(out)
+for t in V3.TYPES:
+    cells = V3.build(t); sheet = f'arena_v3_{t}.png'; idx = {n: i for i, (n, _, _, _) in enumerate(cells)}
+    rows3 = (len(cells) + 15) // 16
+    for z in (1, 2, 3):
+        S = 64 * z; sh = Image.new('RGBA', (16 * S, rows3 * S), (0, 0, 0, 0))
+        for i, (n, im, c, fr) in enumerate(cells): sh.paste(im.resize((S, S), Image.NEAREST), ((i % 16) * S, (i // 16) * S))
+        sh.save(os.path.join(OW, f'tiles_{z}x', sheet), optimize=True)
+    for i, (n, im, c, fr) in enumerate(cells):
+        e = {'id': nid, 'name': n, 'category': 'arena_art', 'sheet': f'tiles_1x/{sheet}', 'index': i, 'col': i % 16, 'row': i // 16,
+             'walkable': c == 0, 'collision': CODES.get(c, 'block'), 'collision_code': c, 'encounter': False, 'interior': True,
+             'layer': 'ground' if c == 0 else 'decoration'}
+        if isinstance(fr, list): e['animation'] = {'frames': [i] + [idx[x] for x in fr], 'frame_ms': 160 if t in ('water', 'fire') else 220, 'loop': True}
+        if fr == 'frame': e['frame_only'] = True
+        out.append(e); nid += 1
 json.dump({'note': 'Aurelith Arena themed set dressing (Oct 29 2026, DRAFT art pending Gary). Always loaded (src/overworld/tileset.js withArenaArt). '
-           'Built by tools/city/arena_art_kit.py (in-house pixel art, no third-party assets).', 'tiles': out},
+           'Built by tools/city/arena_art_kit.py + arena_v3_art.py (v3 final throne rooms, a3_*; in-house pixel art, no third-party assets).', 'tiles': out},
           open(os.path.join(OW, 'tileset_arena.json'), 'w'), indent=1)
 print(len(out), 'tiles,', rows, 'rows')
