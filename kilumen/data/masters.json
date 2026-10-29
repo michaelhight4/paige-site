@@ -384,30 +384,30 @@
     "team": [
      {
       "species": "sailquill",
-      "level": 33,
+      "level": 29,
       "battle_species": "sailquill",
       "stand_in": false
      },
      {
       "species": "highkite",
-      "level": 34,
+      "level": 30,
       "battle_species": "highkite",
       "stand_in": false
      },
      {
       "species": "pouchbill",
-      "level": 34,
+      "level": 30,
       "battle_species": "pouchbill",
       "stand_in": false
      },
      {
       "species": "gildfinch",
-      "level": 35,
+      "level": 31,
       "battle_species": "gildfinch",
       "stand_in": false
      }
     ],
-    "ace_level": 35
+    "ace_level": 31
    },
    "trainers": [
     {
@@ -420,13 +420,13 @@
      "team": [
       {
        "species": "sailquill",
-       "level": 31,
+       "level": 27,
        "battle_species": "sailquill",
        "stand_in": false
       },
       {
        "species": "snowgrouse",
-       "level": 31,
+       "level": 27,
        "battle_species": "snowgrouse",
        "stand_in": false
       }
@@ -442,13 +442,13 @@
      "team": [
       {
        "species": "highkite",
-       "level": 32,
+       "level": 27,
        "battle_species": "highkite",
        "stand_in": false
       },
       {
        "species": "signalwren",
-       "level": 32,
+       "level": 28,
        "battle_species": "signalwren",
        "stand_in": false
       }
@@ -464,13 +464,13 @@
      "team": [
       {
        "species": "spraytern",
-       "level": 33,
+       "level": 28,
        "battle_species": "spraytern",
        "stand_in": false
       },
       {
        "species": "sailquill",
-       "level": 33,
+       "level": 28,
        "battle_species": "sailquill",
        "stand_in": false
       }
@@ -489,7 +489,8 @@
    "puzzle": {
     "name": "Gust lanes",
     "runtime": "data/hall_puzzles/frostspire.json"
-   }
+   },
+   "pacing_note": "Master 3 22-24 -> Master 4 29-31 (Oct 29 2026 region 4 build)"
   },
   {
    "zone": "mirefen",

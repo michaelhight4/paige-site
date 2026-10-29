@@ -29,6 +29,7 @@
  },
  "species_with_art": [
   "ankerling",
+  "aurorel",
   "barnaclump",
   "bastonox",
   "beaconfly",
@@ -49,6 +50,7 @@
   "burlbeetle",
   "burrowmane",
   "cairnant",
+  "cairnhorn",
   "calderax",
   "calderock",
   "candlewren",
@@ -122,6 +124,7 @@
   "glimmerlamb",
   "glimslug",
   "glintfly",
+  "glintmoth",
   "gloamtick",
   "glyphforge",
   "gnawford",
@@ -133,6 +136,7 @@
   "hummbel",
   "humstone",
   "hushowl",
+  "hushpine",
   "huskling",
   "ingotitan",
   "kelpstrider",
@@ -199,6 +203,7 @@
   "reverion",
   "ribboneel",
   "rillop",
+  "rimewick",
   "rooftrove",
   "rubblon",
   "runeskein",
@@ -213,6 +218,7 @@
   "shellbloom",
   "shorehound",
   "signalwren",
+  "skivvet",
   "skyrender",
   "slagrook",
   "sluicekin",
@@ -1157,32 +1163,32 @@
     {
      "species": "sailquill",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 30
     },
     {
      "species": "snowgrouse",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 30
     },
     {
      "species": "delvelet",
      "level": [
-      28,
-      30
+      25,
+      27
      ],
      "weight": 15
     },
     {
      "species": "gloamtick",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 10,
      "time": [
@@ -1193,14 +1199,36 @@
     {
      "species": "signalwren",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 15
+    },
+    {
+     "species": "hushpine",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 10,
+     "cute_r4": true
+    },
+    {
+     "species": "glintmoth",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 8,
+     "cute_r4": true,
+     "time": [
+      "dusk",
+      "night"
+     ]
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_greystone_frostspire.json zone fp_snowfern (grass (snow-fern, forced band))",
-   "band": "wild 28-31 (region 4 early access)",
+   "band": "wild 25-27 (region 4, Master 4 at 29-31; build Oct 29 2026)",
    "maps": [
     "frostspire_pass"
    ]
@@ -1212,32 +1240,32 @@
     {
      "species": "skyrender",
      "level": [
-      30,
-      33
+      26,
+      28
      ],
      "weight": 35
     },
     {
      "species": "sailquill",
      "level": [
-      30,
-      33
+      26,
+      28
      ],
      "weight": 25
     },
     {
      "species": "signalwren",
      "level": [
-      30,
-      33
+      26,
+      28
      ],
      "weight": 20
     },
     {
      "species": "halovy",
      "level": [
-      31,
-      33
+      26,
+      28
      ],
      "weight": 5,
      "time": [
@@ -1245,16 +1273,37 @@
      ]
     },
     {
-     "species": "snowroller",
+     "species": "skivvet",
      "level": [
-      30,
-      32
+      26,
+      28
      ],
      "weight": 15
+    },
+    {
+     "species": "rimewick",
+     "level": [
+      26,
+      28
+     ],
+     "weight": 10,
+     "cute_r4": true
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      27,
+      28
+     ],
+     "weight": 2,
+     "cute_r4": true,
+     "time": [
+      "night"
+     ]
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_frostspire.json zone fs_snow (grass (deep snow))",
-   "band": "wild 30-33 (region 4 early access)",
+   "band": "wild 26-28 (region 4, Master 4 at 29-31; build Oct 29 2026)",
    "maps": [
     "frostspire"
    ]
@@ -1266,30 +1315,30 @@
     {
      "species": "gloamtick",
      "level": [
-      30,
-      33
+      27,
+      29
      ],
      "weight": 40
     },
     {
-     "species": "mantleox",
+     "species": "cairnhorn",
      "level": [
-      31,
-      33
+      27,
+      29
      ],
      "weight": 25
     },
     {
      "species": "squallwhirl",
      "level": [
-      30,
-      32
+      27,
+      29
      ],
      "weight": 35
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_frostspire.json zone fs_ice_cave (cave)",
-   "band": "wild 29-33, trainers 30-33; hall see halls/frostspire.json",
+   "band": "wild 27-29 (region 4, Master 4 at 29-31; build Oct 29 2026)",
    "maps": []
   },
   "route_revival_sunmeadow_grass": {

@@ -15631,7 +15631,9 @@
    "start": 24,
    "end": 25,
    "to": "frostspire",
-   "offset": 2
+   "offset": 2,
+   "ride": "skylift",
+   "ride_note": "Skylift cable lift: the only way up (Gary Oct 29 2026, no train station)"
   }
  ],
  "npcs": [
@@ -15655,67 +15657,82 @@
     "if_player_took_tumbloam": [
      {
       "species": "sailquill",
-      "level": 29
+      "level": 27,
+      "level_gd": 29
      },
      {
       "species": "fernlume",
-      "level": 30
+      "level": 27,
+      "level_gd": 30
      },
      {
       "species": "geodling",
-      "level": 30
+      "level": 28,
+      "level_gd": 30
      },
      {
       "species": "shagmount",
-      "level": 31
+      "level": 28,
+      "level_gd": 31
      },
      {
       "species": "forgeharrow",
-      "level": 32
+      "level": 29,
+      "level_gd": 32
      }
     ],
     "if_player_took_cindrip": [
      {
       "species": "sailquill",
-      "level": 29
+      "level": 27,
+      "level_gd": 29
      },
      {
       "species": "glassvine",
-      "level": 30
+      "level": 27,
+      "level_gd": 30
      },
      {
       "species": "facetling",
-      "level": 30
+      "level": 28,
+      "level_gd": 30
      },
      {
       "species": "ledgebex",
-      "level": 31
+      "level": 28,
+      "level_gd": 31
      },
      {
       "species": "tidemarrow",
-      "level": 32
+      "level": 29,
+      "level_gd": 32
      }
     ],
     "if_player_took_rillop": [
      {
       "species": "sailquill",
-      "level": 29
+      "level": 27,
+      "level_gd": 29
      },
      {
       "species": "topiarix",
-      "level": 30
+      "level": 27,
+      "level_gd": 30
      },
      {
       "species": "mirrorkin",
-      "level": 30
+      "level": 28,
+      "level_gd": 30
      },
      {
       "species": "talusmouse",
-      "level": 31
+      "level": 28,
+      "level_gd": 31
      },
      {
       "species": "bastonox",
-      "level": 32
+      "level": 29,
+      "level_gd": 32
      }
     ]
    },
@@ -15734,11 +15751,13 @@
    "team": [
     {
      "species": "frostlop",
-     "level": 28
+     "level": 25,
+     "level_gd": 28
     },
     {
      "species": "sailquill",
-     "level": 29
+     "level": 26,
+     "level_gd": 29
     }
    ],
    "sight": 4,
@@ -15776,11 +15795,13 @@
    "team": [
     {
      "species": "snowcairn",
-     "level": 29
+     "level": 26,
+     "level_gd": 29
     },
     {
      "species": "slagrook",
-     "level": 29
+     "level": 26,
+     "level_gd": 29
     }
    ],
    "sight": 3,
@@ -15814,11 +15835,13 @@
    "team": [
     {
      "species": "sailquill",
-     "level": 29
+     "level": 26,
+     "level_gd": 29
     },
     {
      "species": "skyrender",
-     "level": 30
+     "level": 27,
+     "level_gd": 30
     }
    ],
    "sight": 5,
@@ -15860,11 +15883,13 @@
    "team": [
     {
      "species": "skyrender",
-     "level": 30
+     "level": 27,
+     "level_gd": 30
     },
     {
      "species": "rubblon",
-     "level": 30
+     "level": 27,
+     "level_gd": 30
     }
    ],
    "sight": 4,
@@ -15902,11 +15927,13 @@
    "team": [
     {
      "species": "snowgrouse",
-     "level": 31
+     "level": 27,
+     "level_gd": 31
     },
     {
      "species": "squallwhirl",
-     "level": 31
+     "level": 27,
+     "level_gd": 31
     }
    ],
    "sight": 3,
@@ -15928,6 +15955,17 @@
      27
     ]
    ]
+  },
+  {
+   "id": "frostspire_pass_skylift_operator",
+   "x": 24,
+   "y": 3,
+   "facing": "down",
+   "kind": "guard",
+   "sight_range": 0,
+   "text_ref": "overworld_lines.json region4.npcs.skylift_operator_pass",
+   "text": "TEXTBOT_PLACEHOLDER skylift_operator_pass",
+   "region4": true
   }
  ],
  "signs": [

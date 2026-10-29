@@ -698,9 +698,8 @@
    "y": 8,
    "to": "frostspire",
    "tx": 15,
-   "ty": 22,
-   "facing": "down",
-   "note": "exit to saltmere door (17,18)"
+   "ty": 26,
+   "facing": "down"
   }
  ],
  "exits": [],

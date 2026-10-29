@@ -1,0 +1,284 @@
+{
+ "_note": "Region 4 (Frostspire) runtime data, Oct 29 2026 dev/region4-station. Every player string here is a PLACEHOLDER until Text Bot lands keys (data/textbot_requests_region4.md). Runtime: src/region4/index.js.",
+ "access": {
+  "rule": "skylift_only",
+  "decision": "Gary Oct 29 2026 2:52 AM CT (pt1814u): Frostspire gets NO train station; it is reached by the Skylift only.",
+  "lift": {
+   "bottom": {
+    "map": "frostspire_pass",
+    "operator": "frostspire_pass_skylift_operator"
+   },
+   "top": {
+    "map": "frostspire",
+    "operator": "frostspire_skylift_operator"
+   },
+   "open_flag": "beat_master_revival",
+   "visited_flag": "visited_frostspire",
+   "ride_ms": 2600
+  }
+ },
+ "pacing": {
+  "master3": [
+   22,
+   24
+  ],
+  "pass_wild": [
+   25,
+   27
+  ],
+  "town_wild": [
+   26,
+   28
+  ],
+  "cave_wild": [
+   27,
+   29
+  ],
+  "pass_trainers": [
+   25,
+   27
+  ],
+  "ron_4": [
+   27,
+   29
+  ],
+  "town_trainers": [
+   27,
+   28
+  ],
+  "hall_helpers": [
+   27,
+   28
+  ],
+  "master4": [
+   29,
+   31
+  ]
+ },
+ "daily_bonus": {
+  "node": "daily_bonus",
+  "tiers": [
+   50,
+   150,
+   300
+  ],
+  "_note": "Paid once per in-game day (clock.day) by RT Payroll, amount = Benefits node daily_bonus rank value. Never paid during a battle, talk or cutscene (waits for a free moment)."
+ },
+ "promotions": [
+  {
+   "id": "promo_id10",
+   "idLevel": 10,
+   "title": "Senior Field Associate",
+   "quest": "pq_cold_site_audit",
+   "hold_flag": "r4_promo10_pending",
+   "done_flag": "promoted_id10",
+   "needs": {
+    "flags_any_n": {
+     "n": 3,
+     "of": [
+      "defeated:frostspire_pass.frostspire_pass_trainer_1",
+      "defeated:frostspire_pass.frostspire_pass_trainer_2",
+      "defeated:frostspire_pass.frostspire_pass_trainer_3",
+      "defeated:frostspire_pass.frostspire_pass_trainer_4",
+      "defeated:frostspire_pass.frostspire_pass_trainer_5"
+     ]
+    }
+   },
+   "quest_desc": "Cold-site audit: beat 3 climbers on Frostspire Pass, then report to the RT supervisor in Frostspire."
+  },
+  {
+   "id": "promo_id12",
+   "idLevel": 12,
+   "title": "Field Lead",
+   "quest": "pq_field_lead",
+   "hold_flag": "r4_promo12_pending",
+   "done_flag": "promoted_id12",
+   "needs": {
+    "flags_all": [
+     "beat_master_frostspire",
+     "sq_cold_done"
+    ]
+   },
+   "quest_desc": "Field lead review: beat the Frostspire Master and help the cold climber, then report to the RT supervisor."
+  }
+ ],
+ "rita": {
+  "speaker": "RITA",
+  "lines": {
+   "r4_daily_bonus": [
+    "{employee_id}: daily bonus, {amount} gold. Don't spend it all on snacks."
+   ],
+   "r4_daily_bonus_2": [
+    "Payroll ran. {amount} gold to {employee_id}. You're welcome."
+   ],
+   "r4_daily_bonus_3": [
+    "{amount} gold deposited. Company morale target: met. Barely."
+   ],
+   "r4_daily_bonus_4": [
+    "New day, {employee_id}. {amount} gold. Try to earn it this time."
+   ],
+   "r4_promotion_hold": [
+    "{employee_id}: your ID can't go up until you're reviewed.",
+    "Your XP is on hold. See the supervisor in Frostspire."
+   ],
+   "r4_promotion_hold_2": [
+    "Promotion review pending, {employee_id}. XP is frozen. Like everything up here."
+   ],
+   "r4_promotion_hold_3": [
+    "You hit the ceiling, {employee_id}. Go impress someone in Frostspire."
+   ],
+   "r4_promotion_hold_4": [
+    "XP paused. HR says it builds character. HR is me."
+   ],
+   "r4_promotion": [
+    "Promoted: {title}. Same number, {employee_id}. Bigger desk."
+   ],
+   "r4_promotion_2": [
+    "{title}. Congratulations, {employee_id}. The paperwork was the hard part."
+   ],
+   "r4_promotion_3": [
+    "New title on file: {title}. Asset value per employee: up."
+   ],
+   "r4_promotion_4": [
+    "{employee_id}, {title}. Don't let it go to your head. It's cold up there."
+   ],
+   "r4_skylift": [
+    "Frostspire. No trains. One cable. Rated for one, {employee_id}."
+   ],
+   "r4_skylift_2": [
+    "Hold the rail, {employee_id}. Replacing you costs paperwork."
+   ],
+   "r4_skylift_3": [
+    "Altitude logged. Your hands look cold. Not my department."
+   ],
+   "r4_skylift_4": [
+    "Cable lift ride, {employee_id}. Company pays. This time."
+   ],
+   "master_beaten_frostspire": [
+    "Master of Frostspire beaten. {employee_id}, that's four coins.",
+    "The build stops here for now. Asset value, however, never stops."
+   ],
+   "master_beaten_frostspire_2": [
+    "Four coins, {employee_id}. The wind up there lost. To you."
+   ],
+   "master_beaten_frostspire_3": [
+    "Frostspire coin acquired. Your ID file is getting heavy."
+   ],
+   "master_beaten_frostspire_4": [
+    "Coin four. I'd clap, but I'm software."
+   ]
+  }
+ },
+ "npcs": {
+  "skylift_operator_pass": {
+   "closed": [
+    "Lift's shut. Bridge first, then we talk."
+   ],
+   "open": [
+    "Skylift's the only way up. Rated for one.",
+    "Hold the rail. Don't look down. Okay, look a bit."
+   ],
+   "ask": "Ride up to Frostspire?"
+  },
+  "skylift_operator": {
+   "open": [
+    "Going down? Hold on tight."
+   ],
+   "ask": "Ride down to the pass?",
+   "night": [
+    "Night run. Cable hums louder in the cold."
+   ]
+  },
+  "climber": {
+   "start": [
+    "Hands are too cold to tie a knot.",
+    "Anything warm? Tea, maybe?"
+   ],
+   "waiting": [
+    "Still cold. Fern Mint Tea, from The Firefly."
+   ],
+   "give": [
+    "Fern mint. That's the stuff. Fingers are back.",
+    "Take this Big Remedy. Mountains eat small ones."
+   ],
+   "after": [
+    "Knots are holding. Thanks to you."
+   ],
+   "received": "Got a Big Remedy."
+  },
+  "rt_supervisor": {
+   "idle": [
+    "RT Frostspire office. Cold coffee, warm paperwork."
+   ],
+   "hold": [
+    "Your review's ready, {employee_id}. Finish the task first:",
+    "{task}"
+   ],
+   "ready": [
+    "Review done. Stand up straight."
+   ],
+   "ceremony": [
+    "By order of Revival Tech, you are now {title}.",
+    "Clap, everyone. That means you, Hale."
+   ],
+   "after": [
+    "Back to work. Promotions don't pay for themselves."
+   ],
+   "bonus": "Ceremony bonus: {amount} gold."
+  },
+  "kid_sledder": {
+   "default": [
+    "Bet my sled is faster than the Skylift!"
+   ],
+   "after_master": [
+    "You beat Hale? Can you teach me the wind thing?"
+   ]
+  },
+  "hut_keeper": {
+   "default": [
+    "Snow's early. Rimewicks come to the windows when it's this cold."
+   ],
+   "night": [
+    "Shh. Aurorels come out at night. Look up."
+   ],
+   "after_master": [
+    "Hale's in a good mood. First time in years someone made it fair."
+   ]
+  }
+ },
+ "signs": {
+  "frostspire_sign_skylift": [
+   "SKYLIFT. Frostspire to the pass. One rider at a time."
+  ],
+  "frostspire_sign_benefits": [
+   "RT FROSTSPIRE OFFICE. Promotions, reviews, payroll."
+  ]
+ },
+ "story": [
+  {
+   "id": "r4_arrive",
+   "when": "first map enter frostspire",
+   "flag": "visited_frostspire"
+  },
+  {
+   "id": "r4_bridge",
+   "when": "beat_master_revival opens the pass bridge"
+  },
+  {
+   "id": "r4_ron4",
+   "when": "Ron 4 on the pass"
+  },
+  {
+   "id": "r4_promo10",
+   "when": "ID 10 hold -> Cold-site audit -> ceremony"
+  },
+  {
+   "id": "r4_master4",
+   "when": "beat_master_frostspire -> Skylift skill + WIP notice"
+  },
+  {
+   "id": "r4_promo12",
+   "when": "ID 12 hold -> Field lead review -> ceremony"
+  }
+ ]
+}

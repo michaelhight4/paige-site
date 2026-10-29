@@ -2,10 +2,10 @@
 // screen = (world - cam) * zoom, as src/overworld/overworld.js view()), plus a small DOM HUD. All the "juice" lives here:
 // hitstop, shake, white hit flash, knockback dust, damage numbers, element sparks, telegraph wedges, "!" alerts, faint poof,
 // crystal pulses, level-up column, start/end banners. Reduced motion (?rm=1 / prefers-reduced-motion): no shake, no flashes, fewer particles.
-import { displayName } from '../systems/creature.js?v=v0.2.47-alpha';
-import { SHAPE_STATS } from './moves.js?v=v0.2.47-alpha';
-import { RT } from './sim.js?v=v0.2.47-alpha';
-import { loadFx } from '../ui/hit_fx.js?v=v0.2.47-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.48-alpha';
+import { SHAPE_STATS } from './moves.js?v=v0.2.48-alpha';
+import { RT } from './sim.js?v=v0.2.48-alpha';
+import { loadFx } from '../ui/hit_fx.js?v=v0.2.48-alpha';
 
 export const EL_COLOR = { fire: '#ff7a2f', magma: '#ff5a1f', water: '#3fa9ff', freshwater: '#5cc3ff', sea: '#2f86ff', earth: '#c9935a', grass: '#62d65a',
   bug: '#a6d93d', wind: '#c6ecff', bird: '#d6e6ff', light: '#fff1a0', angelic: '#ffe6c2', god: '#ffe08a', dark: '#9a6bff', ghost: '#b796ff', demon: '#ff4f7a',

@@ -1,19 +1,19 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.47-alpha';
-import { giftTalk } from './npc_gifts.js?v=v0.2.47-alpha';
-import { Party, Archive } from './party.js?v=v0.2.47-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.47-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.47-alpha';
-import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.47-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.47-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.47-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.47-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.47-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.47-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.47-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
-import { attachLinkBand } from './link_band.js?v=v0.2.47-alpha';
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.48-alpha';
+import { giftTalk } from './npc_gifts.js?v=v0.2.48-alpha';
+import { Party, Archive } from './party.js?v=v0.2.48-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.48-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.48-alpha';
+import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.48-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.48-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.48-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.48-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.48-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.48-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.48-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { attachLinkBand } from './link_band.js?v=v0.2.48-alpha';
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)

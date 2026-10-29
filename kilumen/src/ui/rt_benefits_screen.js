@@ -3,8 +3,8 @@
 // Employee ID (bare 6 digits), ID level, XP bar, points, then the node tree by branch: locked / available / owned + rank pips.
 // Tap a perk: details + a Buy button (tap again or press A to buy), then a confirm. Keyboard: arrows (spatial), Z/Enter, X/Esc.
 // Text: system_rt_benefits.* through ui.T (placeholders until Text Bot fills them: data/textbot_requests_rt_benefits.md).
-import { MENU_ICONS } from './ui_tools2.js?v=v0.2.47-alpha';
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.47-alpha';
+import { MENU_ICONS } from './ui_tools2.js?v=v0.2.48-alpha';
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.48-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fill = (t, v = {}) => String(t).replace(/\{(\w+)\}/g, (m, k) => (v[k] != null ? v[k] : m));
@@ -20,6 +20,11 @@ export const RTB_TEXT = {
   },
   branches: { field_logistics: 'Field Logistics', supply_pay: 'Supply & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance' },
   nodes: {
+    // region 4 (dev, Oct 29 2026): PLACEHOLDER text, final lines requested in data/textbot_requests_region4.md
+    daily_bonus: { name: 'Daily Bonus', desc: 'Gold every in-game day. Paid on time, unlike your overtime.',
+      ranks: { 1: '50 gold per day.', 2: '150 gold per day.', 3: '300 gold per day.' } },
+    ceremony_bonus: { name: 'Ceremony Bonus', desc: 'Gold at each promotion ceremony. Clap on cue.',
+      ranks: { 1: '500 gold per ceremony.', 2: '1000 gold per ceremony.' } },
     copay_coverage: { name: 'Copay Coverage', desc: 'We cover part of your blackout copay. Our generosity has a region lock.',
       ranks: { 1: 'Blackout copay -25%.', 2: 'Blackout copay -50%.' } },
     store_discount: { name: 'Store Discount', desc: 'Pay less at RT shops. Cheaper gear keeps company assets topped up.',

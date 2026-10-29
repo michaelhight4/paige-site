@@ -1,0 +1,80 @@
+{
+ "cairnhorn_front": {
+  "scale": 0.12077294685990338,
+  "org": [
+   149,
+   86
+  ],
+  "size": [
+   91,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 20
+ },
+ "cairnhorn_back": {
+  "scale": 0.11428571428571428,
+  "org": [
+   350,
+   54
+  ],
+  "size": [
+   38,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 19
+ },
+ "cairnhorn_ow_down": {
+  "scale": 0.11,
+  "org": [
+   60,
+   128
+  ],
+  "size": [
+   20,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 20
+ },
+ "cairnhorn_ow_left": {
+  "scale": 0.11702127659574468,
+  "org": [
+   287,
+   151
+  ],
+  "size": [
+   41,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "cairnhorn_ow_right": {
+  "scale": 0.11702127659574468,
+  "org": [
+   666,
+   151
+  ],
+  "size": [
+   40,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 17
+ },
+ "cairnhorn_ow_up": {
+  "scale": 0.11733333333333333,
+  "org": [
+   1054,
+   154
+  ],
+  "size": [
+   20,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 20
+ }
+}

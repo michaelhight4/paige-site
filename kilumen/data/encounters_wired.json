@@ -42,6 +42,7 @@
  "species_with_art": [
   "alpuff",
   "ankerling",
+  "aurorel",
   "barnaclump",
   "bastonox",
   "beaconfly",
@@ -64,6 +65,7 @@
   "burlbeetle",
   "burrowmane",
   "cairnant",
+  "cairnhorn",
   "calderax",
   "calderock",
   "candlewren",
@@ -142,6 +144,7 @@
   "glimmerlamb",
   "glimslug",
   "glintfly",
+  "glintmoth",
   "gloamtick",
   "glyphforge",
   "gnawford",
@@ -154,6 +157,7 @@
   "hummbel",
   "humstone",
   "hushowl",
+  "hushpine",
   "huskling",
   "ingotitan",
   "kelpstrider",
@@ -229,6 +233,7 @@
   "reverion",
   "ribboneel",
   "rillop",
+  "rimewick",
   "rooftrove",
   "rubblon",
   "runeskein",
@@ -243,6 +248,7 @@
   "shellbloom",
   "shorehound",
   "signalwren",
+  "skivvet",
   "skyrender",
   "slagrook",
   "sluicekin",
@@ -2198,32 +2204,32 @@
     {
      "species": "sailquill",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 30
     },
     {
      "species": "snowgrouse",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 30
     },
     {
      "species": "delvelet",
      "level": [
-      28,
-      30
+      25,
+      27
      ],
      "weight": 15
     },
     {
      "species": "gloamtick",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 10,
      "time": [
@@ -2234,16 +2240,16 @@
     {
      "species": "signalwren",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 15
     },
     {
      "species": "frostlop",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 4,
      "sync_added": true,
@@ -2252,8 +2258,8 @@
     {
      "species": "shagmount",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 2,
      "sync_added": true,
@@ -2262,8 +2268,8 @@
     {
      "species": "ledgebex",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 4,
      "sync_added": true,
@@ -2272,8 +2278,8 @@
     {
      "species": "talusmouse",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 4,
      "sync_added": true,
@@ -2282,8 +2288,8 @@
     {
      "species": "snowcairn",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 1,
      "sync_added": true,
@@ -2292,8 +2298,8 @@
     {
      "species": "mufflynx",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 4,
      "cute_r3": true,
@@ -2302,16 +2308,38 @@
     {
      "species": "snugworm",
      "level": [
-      28,
-      31
+      25,
+      27
      ],
      "weight": 4,
      "cute_r3": true,
      "placeholder": true
+    },
+    {
+     "species": "hushpine",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 10,
+     "cute_r4": true
+    },
+    {
+     "species": "glintmoth",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 8,
+     "cute_r4": true,
+     "time": [
+      "dusk",
+      "night"
+     ]
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
-   "band": "wild 28-31 (region 4 early access)",
+   "band": "wild 25-27 (region 4, Master 4 at 29-31; build Oct 29 2026)",
    "maps": [
     "frostspire_pass"
    ]
@@ -2323,32 +2351,32 @@
     {
      "species": "skyrender",
      "level": [
-      30,
-      33
+      26,
+      28
      ],
      "weight": 35
     },
     {
      "species": "sailquill",
      "level": [
-      30,
-      33
+      26,
+      28
      ],
      "weight": 25
     },
     {
      "species": "signalwren",
      "level": [
-      30,
-      33
+      26,
+      28
      ],
      "weight": 20
     },
     {
      "species": "halovy",
      "level": [
-      31,
-      33
+      26,
+      28
      ],
      "weight": 5,
      "time": [
@@ -2358,18 +2386,16 @@
     {
      "species": "burlbeetle",
      "level": [
-      30,
-      32
+      26,
+      28
      ],
-     "weight": 15,
-     "wants": "snowroller",
-     "stand_in": true
+     "weight": 15
     },
     {
      "species": "tundrarch",
      "level": [
-      30,
-      33
+      26,
+      28
      ],
      "weight": 1,
      "sync_added": true,
@@ -2378,8 +2404,8 @@
     {
      "species": "alpuff",
      "level": [
-      30,
-      32
+      26,
+      28
      ],
      "weight": 2,
      "time": [
@@ -2392,8 +2418,8 @@
     {
      "species": "snowdrowse",
      "level": [
-      30,
-      32
+      26,
+      28
      ],
      "weight": 2,
      "time": [
@@ -2402,10 +2428,44 @@
      ],
      "cute_r3": true,
      "placeholder": true
+    },
+    {
+     "species": "rimewick",
+     "level": [
+      26,
+      28
+     ],
+     "weight": 10,
+     "cute_r4": true
+    },
+    {
+     "species": "skivvet",
+     "level": [
+      26,
+      28
+     ],
+     "weight": 10,
+     "cute_r4": true,
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      27,
+      28
+     ],
+     "weight": 2,
+     "cute_r4": true,
+     "time": [
+      "night"
+     ]
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
-   "band": "wild 30-33 (region 4 early access)",
+   "band": "wild 26-28 (region 4, Master 4 at 29-31; build Oct 29 2026)",
    "maps": [
     "frostspire"
    ]
@@ -2417,32 +2477,39 @@
     {
      "species": "gloamtick",
      "level": [
-      30,
-      33
+      27,
+      29
      ],
      "weight": 40
     },
     {
      "species": "burrowmane",
      "level": [
-      31,
-      33
+      27,
+      29
      ],
-     "weight": 25,
-     "wants": "mantleox",
-     "stand_in": true
+     "weight": 25
     },
     {
      "species": "squallwhirl",
      "level": [
-      30,
-      32
+      27,
+      29
      ],
      "weight": 35
+    },
+    {
+     "species": "cairnhorn",
+     "level": [
+      27,
+      29
+     ],
+     "weight": 15,
+     "cute_r4": true
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
-   "band": "wild 29-33, trainers 30-33; hall see halls/frostspire.json",
+   "band": "wild 27-29 (region 4, Master 4 at 29-31; build Oct 29 2026)",
    "maps": []
   },
   "route_revival_sunmeadow_grass": {

@@ -3,17 +3,17 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.47-alpha';
-import * as AB from './autobattle.js?v=v0.2.47-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.47-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.47-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.47-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.47-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.47-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.47-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.47-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.47-alpha';
-import { createRitaPanel } from './rita_panel.js?v=v0.2.47-alpha'; // v0.2.32: RITA voice test tab
+import { DEV } from './runtime.js?v=v0.2.48-alpha';
+import * as AB from './autobattle.js?v=v0.2.48-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.48-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.48-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.48-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.48-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.48-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.48-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.48-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.48-alpha';
+import { createRitaPanel } from './rita_panel.js?v=v0.2.48-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
@@ -232,10 +232,31 @@ export async function installDevConsole(scene, access) {
     for (let r = 0; r < R; r++) for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) if (Math.max(Math.abs(dx), Math.abs(dy)) === r && at(cx + dx, cy + dy)) return { x: cx + dx, y: cy + dy, facing: 'down' };
     return null;
   };
+  // v0.2.48: region-grouped, touch-friendly teleport list (Gary Oct 29 2026). Towns + areas first per region; all other built maps under "All maps".
+  const TRAVEL_REGIONS = [
+    ['Region 1', ['brookhollow', 'lab_brookhollow', 'office_int', 'route1', 'fernwick', 'fernwick_hall_int', 'club_int', 'thornwood', 'greystone_entrance', 'greystone_b1', 'lantern_rest']],
+    ['Region 2', ['saltmere', 'saltmere_hall_int', 'saltmere_office_int', 'route_revival_saltmere', 'route_saltmere_mirefen', 'mirefen', 'mirefen_hall_int', 'mirefen_bog']],
+    ['Region 3', ['revival_heights', 'revival_hall_int', 'route_revival', 'route_revival_sunmeadow', 'sunmeadow_fields', 'route_sunmeadow_mirefen']],
+    ['Region 4: Frostspire', ['frostspire', 'frostspire_pass', 'frostspire_hall_int', 'frostspire_lift_int', 'frostspire_office_int', 'heal_frostspire']],
+    ['Later regions', ['lanternport', 'lanternport_hall_int', 'route_fernwick_lanternport', 'cindervale', 'cindervale_hall_int', 'route_cindervale', 'aurelith', 'route_aurelith_saltmere', 'route_east', 'tidewater_coast', 'tidewater_hall_int', 'route_coast']],
+  ];
+  const pretty = (n) => String(n).replace(/_int$/, '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + (/_int$/.test(n) ? ' (inside)' : '');
   function tTravel(body) {
-    const names = [...(scene.knownMaps || scene.layout?.maps_built || [])].sort();
-    searchBox(body, 'travel', `Search maps (${names.length}). The master key is not needed to travel.`);
-    fill = () => list(names.filter((n) => hit(q.travel, n)), (n) => `<div class="row"><div class="n">${esc(n)}${scene.map?.name === n ? ' <small>(here)</small>' : ''}</div><button class="go" data-go="${esc(n)}">Go</button></div>`);
+    const built = new Set([...(scene.layout?.maps_built || []), ...(scene.knownMaps || [])]);
+    const names = [...built].sort();
+    searchBox(body, 'travel', `Teleport: tap a place (${names.length} maps). The master key is not needed.`);
+    const row = (n) => `<div class="row"><div class="n">${esc(pretty(n))}${scene.map?.name === n ? ' <small>(here)</small>' : ''}<br><small>${esc(n)}</small></div><button class="go" data-go="${esc(n)}">Go</button></div>`;
+    fill = () => {
+      const qq = q.travel; const used = new Set(); let html = '';
+      for (const [title, maps] of TRAVEL_REGIONS) {
+        const m = maps.filter((n) => built.has(n) && (hit(qq, n) || hit(qq, pretty(n)) || hit(qq, title)));
+        m.forEach((n) => used.add(n));
+        if (m.length) html += `<h4>${esc(title)}</h4>` + m.map(row).join('');
+      }
+      const rest = names.filter((n) => !used.has(n) && hit(qq, n));
+      if (rest.length) html += `<h4>All other maps</h4>` + rest.map(row).join('');
+      const lst = body.querySelector('[data-list]'); if (lst) lst.innerHTML = html || '<div class="row"><small>No matches</small></div>';
+    };
     fill();
     body.onclick = async (e) => {
       const n = e.target.dataset?.go; if (!n) return;
