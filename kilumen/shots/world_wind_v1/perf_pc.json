@@ -1,0 +1,106 @@
+[
+ {
+  "dev": "pc",
+  "map": "route1",
+  "before": {
+   "frameAvg": 16.727,
+   "fps": 59.8,
+   "over20": 0.667,
+   "renderAvg": 2.983,
+   "renderP95": 6.633,
+   "windMsPerFrame": 0,
+   "windTilesPerFrame": 0,
+   "wind": false,
+   "lite": false
+  },
+  "after": {
+   "frameAvg": 16.697,
+   "fps": 59.9,
+   "over20": 0.333,
+   "renderAvg": 3.023,
+   "renderP95": 6.033,
+   "windMsPerFrame": 0.28,
+   "windTilesPerFrame": 139,
+   "wind": true,
+   "lite": false
+  }
+ },
+ {
+  "dev": "pc",
+  "map": "route_saltmere_mirefen",
+  "before": {
+   "frameAvg": 16.84,
+   "fps": 59.4,
+   "over20": 1.333,
+   "renderAvg": 3.597,
+   "renderP95": 7.533,
+   "windMsPerFrame": 0,
+   "windTilesPerFrame": 0,
+   "wind": false,
+   "lite": false
+  },
+  "after": {
+   "frameAvg": 16.81,
+   "fps": 59.5,
+   "over20": 1,
+   "renderAvg": 3.973,
+   "renderP95": 7.867,
+   "windMsPerFrame": 0.318,
+   "windTilesPerFrame": 160,
+   "wind": true,
+   "lite": false
+  }
+ },
+ {
+  "dev": "pc",
+  "map": "sunmeadow_fields",
+  "before": {
+   "frameAvg": 16.727,
+   "fps": 59.8,
+   "over20": 0.333,
+   "renderAvg": 3.197,
+   "renderP95": 6.3,
+   "windMsPerFrame": 0,
+   "windTilesPerFrame": 0,
+   "wind": false,
+   "lite": false
+  },
+  "after": {
+   "frameAvg": 16.81,
+   "fps": 59.5,
+   "over20": 1,
+   "renderAvg": 3.613,
+   "renderP95": 6.9,
+   "windMsPerFrame": 0.33,
+   "windTilesPerFrame": 144,
+   "wind": true,
+   "lite": false
+  }
+ },
+ {
+  "dev": "pc",
+  "map": "brookhollow",
+  "before": {
+   "frameAvg": 16.67,
+   "fps": 60,
+   "over20": 0,
+   "renderAvg": 2.763,
+   "renderP95": 5,
+   "windMsPerFrame": 0,
+   "windTilesPerFrame": 0,
+   "wind": false,
+   "lite": false
+  },
+  "after": {
+   "frameAvg": 16.84,
+   "fps": 59.4,
+   "over20": 1,
+   "renderAvg": 2.82,
+   "renderP95": 4.8,
+   "windMsPerFrame": 0.31,
+   "windTilesPerFrame": 133,
+   "wind": true,
+   "lite": false
+  }
+ }
+]
