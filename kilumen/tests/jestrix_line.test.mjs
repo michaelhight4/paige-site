@@ -74,3 +74,14 @@ test('Sunmeadow grass: Jestrix wild as uncommon at a modest weight; evolved form
   assert.ok(j.weight <= Math.max(...sm.slots.filter((s) => s !== j).map((s) => s.weight)) / 3, 'below common slots');
   for (const [k, z] of zones) for (const s of z.slots) assert.ok(!['japkit', 'harlequop', 'mummerhop', 'maestrix'].includes(s.species), `${k}: ${s.species}`);
 });
+
+test('encounter source table also carries Jestrix (regeneration keeps it)', () => {
+  const src = JSON.parse(fs.readFileSync(new URL('../art/world/overworld/encounters/encounters.json', import.meta.url), 'utf8'));
+  let sm = null;
+  const walk = (o) => { if (o && typeof o === 'object') for (const [k, v] of Object.entries(o)) { if (k === 'sunmeadow_grass') sm = v; else walk(v); } };
+  walk(src);
+  const j = sm.slots.filter((s) => s.species === 'jestrix');
+  assert.equal(j.length, 1);
+  assert.equal(j[0].weight, 4);
+  assert.equal(j[0].rarity, 'uncommon');
+});

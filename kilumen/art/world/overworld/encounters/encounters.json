@@ -332,6 +332,16 @@
       4
      ],
      "weight": 20
+    },
+    {
+     "species": "jestrix",
+     "level": [
+      2,
+      4
+     ],
+     "weight": 4,
+     "rarity": "uncommon",
+     "note": "Jestrix line: base form only in the wild; Japkit/Harlequop/Mummerhop/Maestrix come only from evolving (Oct 29 2026)"
     }
    ],
    "maps": [
