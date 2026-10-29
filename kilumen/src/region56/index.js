@@ -103,6 +103,7 @@ export function attachRegion56(scene, { systems } = {}) {
   }
 
   function tick() {
+    if (scene._wxBattles) for (const w of scene._wxBattles) { if (!w.el.isConnected) { w.destroy(); scene._wxBattles.delete(w); } else w.pause((typeof document !== 'undefined' && document.hidden) || !!scene.paused); } // weather lite: 1 s, never per frame
     if (ron5Missed({ has }) && scene.map?.name === R56.slipMap && !scene.busy && !scene._r56Parting) {
       scene._r56Parting = true;
       scene.script?.(async () => { try { await parting({ name: 'Ron' }); } finally { scene._r56Parting = false; } });

@@ -1,0 +1,13 @@
+{
+ "created": "2026-10-29 (CT)",
+ "status": "NOT wired - for Gary/Coder",
+ "approach": "Weather moved off the canvas into compositor-only DOM layers (CSS transform/opacity animations). No per-frame full-screen fill; the GPU only re-composites cached textures.",
+ "css": "lite.css",
+ "layer_order": "backdrop canvas -> .wx weather div -> sprite/HUD canvas (transparent, clear dirty rects only)",
+ "rain": {"tile": "rain_tile_256_f0.webp (frame 0 of the approved tile; canvas createPattern only ever showed frame 0)", "size_css_px": 256, "motion": "x -60 px/s (4.2667 s per 256), y +700 px/s (0.36571 s per 256), nested divs", "layer_box": "(W+256)x(H+256), not +512 on every side"},
+ "storm": {"tile": "storm_rain_tile_256_f0.webp", "motion": "same as rain in this harness", "tint": "div rgb(18,24,48) opacity .28 mix-blend-mode multiply (static, not repainted)",
+  "lightning": {"impl": ".wx-flash div: white fill + lightning_bolt_1.webp, opacity animation with steps(); peak 0.55", "harness_period_s": 3.4, "on_ms": 120, "game_rule": "drive via JS class toggles to follow spec sequence 60 on/50 off/70 at .35/220 fade; max 3 flashes per 10 s; never >0.55; .reduce-flashing disables"}},
+ "fog": {"tiles": ["../weather/fog_band_a_512x256.webp", "../weather/fog_band_b_512x256.webp"], "impl": "2 repeat-x strips 256 px tall, width 100%+1024, translateX loop 512 px", "a": {"top": "55% - 128px", "speed_px_s": 12}, "b": {"top": "62% - 128px", "speed_px_s": 20}, "alpha": 0.55},
+ "look_scores_vs_original": "look_scores.json (SSIM 0.997-1.0)",
+ "perf": "perf_results_lite_thr4.json (current), perf_results_lite_thr4_prev.json (previous iteration), perf_results_lite.json (unthrottled, capped at 60)"
+}

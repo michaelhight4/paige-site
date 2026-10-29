@@ -147,6 +147,7 @@ export function makeSdBattle(ui, opts, h) {
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
+    if (ui.scene?.region56 || ui.q?.get('wx')) import('../region56/weather_lite.js?v=v0.2.79-alpha').then((m) => { if (root.isConnected) scr.wx = m.attachBattleWeather(root, { scene: ui.scene, query: ui.q }); }).catch((e) => console.error('weather lite:', e)); // [r56 weather lite] .wx between .bg and .b-field
     if (biomeArt.art) { // painted backdrop (water / cave / mountain / snow): animated life layer over the still; creatures on the painted spots
       const bgEl = root.querySelector('.bg'), field = root.querySelector('.b-field');
       if (biomeArt.life && !reducedMotion()) { // animated webp (16 x 120 ms, decoded by the browser frame by frame; no JS per frame)
