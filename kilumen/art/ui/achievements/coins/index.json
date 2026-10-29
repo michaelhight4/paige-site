@@ -1,0 +1,426 @@
+{
+ "_format": {
+  "icon": "64x64, coin 55px like master_coin.png",
+  "frames": "14 frames 64x72, 70ms each, last 140ms (matches transitions/master_coin); 0-8 bob+edge spin, 9-13 shine sweep",
+  "socket": "empty-slot silhouette of that coin shape",
+  "scale": "1x and 2x nearest"
+ },
+ "masters": {
+  "master_fernwick": {
+   "town": "fernwick",
+   "flag": "beat_master_fernwick",
+   "achievement_id": "coin_fernwick",
+   "slot": 1,
+   "master_name": "Oswin Marl",
+   "coin_name": "Loam Coin",
+   "element": "earth",
+   "design": "scalloped leaf rim, moss + loam, stone sprouting two leaves",
+   "icon": {
+    "1x": "coins/fernwick/1x/coin_fernwick.png",
+    "2x": "coins/fernwick/2x/coin_fernwick.png"
+   },
+   "socket": {
+    "1x": "coins/fernwick/1x/socket_fernwick.png",
+    "2x": "coins/fernwick/2x/socket_fernwick.png"
+   },
+   "frames": {
+    "1x": "coins/fernwick/1x/frames/coin_fernwick_NN.png",
+    "2x": "coins/fernwick/2x/frames/coin_fernwick_NN.png",
+    "count": 14,
+    "ms": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     140
+    ]
+   },
+   "sheet": {
+    "1x": "coins/fernwick/1x/coin_fernwick_sheet.png",
+    "2x": "coins/fernwick/2x/coin_fernwick_sheet.png"
+   },
+   "preview_gif": "coins/fernwick/coin_fernwick_preview.gif",
+   "readability": {
+    "dawn": 0.79,
+    "day": 0.828,
+    "dusk": 0.624,
+    "night": 0.582,
+    "felt_shelf": 0.793,
+    "frames_min": 0.556
+   }
+  },
+  "master_saltmere": {
+   "town": "saltmere",
+   "flag": "beat_master_saltmere",
+   "achievement_id": "coin_saltmere",
+   "slot": 2,
+   "master_name": "Nerys Bryde",
+   "coin_name": "Brine Coin",
+   "element": "water",
+   "design": "twisted rope rim, sea-glass teal, salt crystal over a wave",
+   "icon": {
+    "1x": "coins/saltmere/1x/coin_saltmere.png",
+    "2x": "coins/saltmere/2x/coin_saltmere.png"
+   },
+   "socket": {
+    "1x": "coins/saltmere/1x/socket_saltmere.png",
+    "2x": "coins/saltmere/2x/socket_saltmere.png"
+   },
+   "frames": {
+    "1x": "coins/saltmere/1x/frames/coin_saltmere_NN.png",
+    "2x": "coins/saltmere/2x/frames/coin_saltmere_NN.png",
+    "count": 14,
+    "ms": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     140
+    ]
+   },
+   "sheet": {
+    "1x": "coins/saltmere/1x/coin_saltmere_sheet.png",
+    "2x": "coins/saltmere/2x/coin_saltmere_sheet.png"
+   },
+   "preview_gif": "coins/saltmere/coin_saltmere_preview.gif",
+   "readability": {
+    "dawn": 0.675,
+    "day": 0.767,
+    "dusk": 0.604,
+    "night": 0.571,
+    "felt_shelf": 0.837,
+    "frames_min": 0.509
+   }
+  },
+  "master_revival_heights": {
+   "town": "revival_heights",
+   "flag": "beat_master_revival",
+   "achievement_id": "coin_revival_heights",
+   "slot": 3,
+   "master_name": "Cassia Lume",
+   "coin_name": "Prism Coin",
+   "element": "light",
+   "design": "hexagon, pearl + gold, prism splitting a beam into a spectrum",
+   "icon": {
+    "1x": "coins/revival_heights/1x/coin_revival_heights.png",
+    "2x": "coins/revival_heights/2x/coin_revival_heights.png"
+   },
+   "socket": {
+    "1x": "coins/revival_heights/1x/socket_revival_heights.png",
+    "2x": "coins/revival_heights/2x/socket_revival_heights.png"
+   },
+   "frames": {
+    "1x": "coins/revival_heights/1x/frames/coin_revival_heights_NN.png",
+    "2x": "coins/revival_heights/2x/frames/coin_revival_heights_NN.png",
+    "count": 14,
+    "ms": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     140
+    ]
+   },
+   "sheet": {
+    "1x": "coins/revival_heights/1x/coin_revival_heights_sheet.png",
+    "2x": "coins/revival_heights/2x/coin_revival_heights_sheet.png"
+   },
+   "preview_gif": "coins/revival_heights/coin_revival_heights_preview.gif",
+   "readability": {
+    "dawn": 0.843,
+    "day": 0.904,
+    "dusk": 0.829,
+    "night": 0.728,
+    "felt_shelf": 0.9,
+    "frames_min": 0.658
+   }
+  },
+  "master_frostspire": {
+   "town": "frostspire",
+   "flag": "beat_master_frostspire",
+   "achievement_id": "coin_frostspire",
+   "slot": 4,
+   "master_name": "Hale Corrie",
+   "coin_name": "Aerie Coin",
+   "element": "bird/wind",
+   "design": "winged coin, ice blue + silver, feather over a snow peak",
+   "icon": {
+    "1x": "coins/frostspire/1x/coin_frostspire.png",
+    "2x": "coins/frostspire/2x/coin_frostspire.png"
+   },
+   "socket": {
+    "1x": "coins/frostspire/1x/socket_frostspire.png",
+    "2x": "coins/frostspire/2x/socket_frostspire.png"
+   },
+   "frames": {
+    "1x": "coins/frostspire/1x/frames/coin_frostspire_NN.png",
+    "2x": "coins/frostspire/2x/frames/coin_frostspire_NN.png",
+    "count": 14,
+    "ms": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     140
+    ]
+   },
+   "sheet": {
+    "1x": "coins/frostspire/1x/coin_frostspire_sheet.png",
+    "2x": "coins/frostspire/2x/coin_frostspire_sheet.png"
+   },
+   "preview_gif": "coins/frostspire/coin_frostspire_preview.gif",
+   "readability": {
+    "dawn": 0.754,
+    "day": 0.76,
+    "dusk": 0.746,
+    "night": 0.704,
+    "felt_shelf": 0.822,
+    "frames_min": 0.634
+   }
+  },
+  "master_mirefen": {
+   "town": "mirefen",
+   "flag": "beat_master_mirefen",
+   "achievement_id": "coin_mirefen",
+   "slot": 5,
+   "master_name": "Wenna Peat",
+   "coin_name": "Reed Coin",
+   "element": "swamp",
+   "design": "rounded-square bog-oak plaque with rivets, bulrushes on a lily pad",
+   "icon": {
+    "1x": "coins/mirefen/1x/coin_mirefen.png",
+    "2x": "coins/mirefen/2x/coin_mirefen.png"
+   },
+   "socket": {
+    "1x": "coins/mirefen/1x/socket_mirefen.png",
+    "2x": "coins/mirefen/2x/socket_mirefen.png"
+   },
+   "frames": {
+    "1x": "coins/mirefen/1x/frames/coin_mirefen_NN.png",
+    "2x": "coins/mirefen/2x/frames/coin_mirefen_NN.png",
+    "count": 14,
+    "ms": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     140
+    ]
+   },
+   "sheet": {
+    "1x": "coins/mirefen/1x/coin_mirefen_sheet.png",
+    "2x": "coins/mirefen/2x/coin_mirefen_sheet.png"
+   },
+   "preview_gif": "coins/mirefen/coin_mirefen_preview.gif",
+   "readability": {
+    "dawn": 0.803,
+    "day": 0.866,
+    "dusk": 0.712,
+    "night": 0.666,
+    "felt_shelf": 0.755,
+    "frames_min": 0.576
+   }
+  },
+  "master_tidewater_coast": {
+   "town": "tidewater_coast",
+   "flag": "beat_master_tidewater",
+   "achievement_id": "coin_tidewater_coast",
+   "slot": 6,
+   "master_name": "Jory Swell",
+   "coin_name": "Undertow Coin",
+   "element": "sea",
+   "design": "curling wave-crest rim, navy + foam, whirlpool spiral",
+   "icon": {
+    "1x": "coins/tidewater_coast/1x/coin_tidewater_coast.png",
+    "2x": "coins/tidewater_coast/2x/coin_tidewater_coast.png"
+   },
+   "socket": {
+    "1x": "coins/tidewater_coast/1x/socket_tidewater_coast.png",
+    "2x": "coins/tidewater_coast/2x/socket_tidewater_coast.png"
+   },
+   "frames": {
+    "1x": "coins/tidewater_coast/1x/frames/coin_tidewater_coast_NN.png",
+    "2x": "coins/tidewater_coast/2x/frames/coin_tidewater_coast_NN.png",
+    "count": 14,
+    "ms": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     140
+    ]
+   },
+   "sheet": {
+    "1x": "coins/tidewater_coast/1x/coin_tidewater_coast_sheet.png",
+    "2x": "coins/tidewater_coast/2x/coin_tidewater_coast_sheet.png"
+   },
+   "preview_gif": "coins/tidewater_coast/coin_tidewater_coast_preview.gif",
+   "readability": {
+    "dawn": 0.733,
+    "day": 0.855,
+    "dusk": 0.728,
+    "night": 0.708,
+    "felt_shelf": 0.778,
+    "frames_min": 0.651
+   }
+  },
+  "master_lanternport": {
+   "town": "lanternport",
+   "flag": "beat_master_lanternport",
+   "achievement_id": "coin_lanternport",
+   "slot": 7,
+   "master_name": "Delphine Orrin",
+   "coin_name": "Beacon Coin",
+   "element": "spirit/ghost",
+   "design": "octagon with 8 pierced lights, violet, lantern holding a blue spirit flame",
+   "icon": {
+    "1x": "coins/lanternport/1x/coin_lanternport.png",
+    "2x": "coins/lanternport/2x/coin_lanternport.png"
+   },
+   "socket": {
+    "1x": "coins/lanternport/1x/socket_lanternport.png",
+    "2x": "coins/lanternport/2x/socket_lanternport.png"
+   },
+   "frames": {
+    "1x": "coins/lanternport/1x/frames/coin_lanternport_NN.png",
+    "2x": "coins/lanternport/2x/frames/coin_lanternport_NN.png",
+    "count": 14,
+    "ms": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     140
+    ]
+   },
+   "sheet": {
+    "1x": "coins/lanternport/1x/coin_lanternport_sheet.png",
+    "2x": "coins/lanternport/2x/coin_lanternport_sheet.png"
+   },
+   "preview_gif": "coins/lanternport/coin_lanternport_preview.gif",
+   "readability": {
+    "dawn": 0.875,
+    "day": 0.883,
+    "dusk": 0.85,
+    "night": 0.66,
+    "felt_shelf": 0.541,
+    "frames_min": 0.601
+   }
+  },
+  "master_cindervale": {
+   "town": "cindervale",
+   "flag": "beat_master_cindervale",
+   "achievement_id": "coin_cindervale",
+   "slot": 8,
+   "master_name": "Brannock Fell",
+   "coin_name": "Forge Coin",
+   "element": "fire/magma",
+   "design": "cog-tooth iron rim, ember red, anvil under a flame",
+   "icon": {
+    "1x": "coins/cindervale/1x/coin_cindervale.png",
+    "2x": "coins/cindervale/2x/coin_cindervale.png"
+   },
+   "socket": {
+    "1x": "coins/cindervale/1x/socket_cindervale.png",
+    "2x": "coins/cindervale/2x/socket_cindervale.png"
+   },
+   "frames": {
+    "1x": "coins/cindervale/1x/frames/coin_cindervale_NN.png",
+    "2x": "coins/cindervale/2x/frames/coin_cindervale_NN.png",
+    "count": 14,
+    "ms": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     140
+    ]
+   },
+   "sheet": {
+    "1x": "coins/cindervale/1x/coin_cindervale_sheet.png",
+    "2x": "coins/cindervale/2x/coin_cindervale_sheet.png"
+   },
+   "preview_gif": "coins/cindervale/coin_cindervale_preview.gif",
+   "readability": {
+    "dawn": 0.852,
+    "day": 0.859,
+    "dusk": 0.85,
+    "night": 0.629,
+    "felt_shelf": 0.811,
+    "frames_min": 0.512
+   }
+  }
+ }
+}

@@ -7,6 +7,7 @@ import { iconRel } from './data.js?v=v0.2.61-alpha'; // creature sync
 import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.61-alpha';
 import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.61-alpha';
 import { POCKETS } from '../systems/items.js?v=v0.2.61-alpha';
+import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.61-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
 import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.61-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
 import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.61-alpha';
 import { fmtMoney } from '../systems/config.js?v=v0.2.61-alpha';
@@ -184,12 +185,12 @@ export async function installSystemsScreens(ui, sys) {
     const coinRows = () => {
       const halls = sys.scene?.progression?.masters?.halls || [], fl = sys.scene?.flags, rec = sys.state?.progression?.masters || {};
       const has = (h) => (fl?.has ? fl.has(h.flag) : false) || !!rec[h.zone];
-      return halls.filter(has).sort((a, b) => a.coin_number - b.coin_number).map((h) => ({ id: `master_coin_${h.zone}`, n: 1, coin: true,
+      return halls.filter(has).sort((a, b) => a.coin_number - b.coin_number).map((h) => ({ id: `master_coin_${h.zone}`, n: 1, coin: true, zone: h.zone,
         name: T(`system_items.master_coins.${h.zone}.name`, h.reward?.coin_name_placeholder || `Coin ${h.coin_number}`),
         pages: T(`system_items.master_coins.${h.zone}.pages`, [`Master coin ${h.coin_number} of 8. Proof you beat the Master here.`]) }));
     };
     const items = () => (isB() ? [] : [...sys.bag.pocket(POCKETS[pi]).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || ITEM_FALLBACK_PAGES[it.id]?.() || [] })), ...(POCKETS[pi] === 'key' ? coinRows() : [])]);
-    const info = (it) => (it ? `<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
+    const info = (it) => (it ? `${it.coin && coinArtOn() ? `<div class="sys-coin-big">${coinAnim(it.zone)}</div>` : ''}<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' ') || 'No description yet.')}</p>${sys.bag.def(it.id)?.field ? `<p class="sys-small">A: use on a team member</p>` : sys.bag.def(it.id)?.held ? `<p class="sys-small">A: give it to a team member to hold${(() => { const h = party().find((c) => c.held === it.id); return h ? ` (now: ${esc(displayName(h))})` : ''; })()}</p>` : ''}`
       : `<p class="soft">${esc((PK[POCKETS[pi]]?.help || []).join(' '))}</p>`);
     const scr = { scr: 'pack', pat: 'leaf', title: T('system_phone.menu.labels.pack', 'Pack'), glyph: 'pack', sel: 0, cols: 1, count: () => items().length,
       chips: () => money(sys.wallet.coins),
@@ -198,7 +199,7 @@ export async function installSystemsScreens(ui, sys) {
         if (isB()) { const b = renderBadges(sys.scene, T); b.settle(); return `${tabsHtml}<div class="ui-body">${b.html}</div>`; }
         return `${tabsHtml}
         <div class="ui-body sys-split"><div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="pack" data-pat="leaf" data-scroll>
-          ${l.length ? `<ul class="ui-list" data-aa="sys-pack-${pi}">${l.map((it, i) => `<li class="ui-row" data-i="${i}" data-k="${esc(it.id)}"><span class="grow">${esc(it.name)}</span><span class="price">×${it.n}</span></li>`).join('')}</ul>`
+          ${l.length ? `<ul class="ui-list" data-aa="sys-pack-${pi}">${l.map((it, i) => `<li class="ui-row" data-i="${i}" data-k="${esc(it.id)}"><span class="grow">${it.coin && coinArtOn() ? coinAnim(it.zone, 'sm sys-coin-ico', i * 0.2) : ''}${esc(it.name)}</span><span class="price">×${it.n}</span></li>`).join('')}</ul>`
             : `<div class="plate ui-empty">${pxi(EMPTY_ICONS.pack, 'pxi pxi-empty')}Nothing in this pocket yet.</div>`}</div>
           <div class="plate ui-pad sys-side" id="sysinfo">${info(l[scr.sel])}</div></div>`;
       },

@@ -57,3 +57,27 @@ body.ui-reduce .bdg-wrap *, body.ui-reduce .bdg-wrap *::after { animation: none 
 .bdg-row.soon .bdg-socket { background: transparent; box-shadow: none; border: 3px dashed #54444e; }
 .bdg-row:not(.on):not(.soon) .bdg-socket { background: #a8a0a4; box-shadow: inset 0 3px 0 #54444e; }
 .bdg-count { right: -16px; bottom: -8px; font-size: .8em; z-index: 2; }
+/* v2: Animator's coins (in-place spin + shine loop from the 14-frame sheet) + shaped sockets + sport medals / silhouettes */
+.cna { --w: 64px; position: relative; display: block; width: var(--w); height: calc(var(--w) * 1.125); background: var(--cs) 0 0 / calc(var(--w) * 14) 100% no-repeat;
+  image-rendering: pixelated; filter: drop-shadow(0 3px 0 #2c1a12); animation: cna-spin 1.12s steps(14) infinite; }
+.cna > img { position: absolute; left: 0; top: 0; width: var(--w); height: var(--w); opacity: 0; image-rendering: pixelated; }
+.bdg-medal .cna > img, .bdg-slot.on .bdg-medal .cna > img { animation: none; filter: none; }
+@keyframes cna-spin { to { background-position-x: calc(var(--w) * -14); } }
+.cna.sm { --w: 26px; filter: none; } .cna.big { --w: 112px; }
+.cns { width: 64px; height: 64px; image-rendering: pixelated; display: block; filter: brightness(1.9) drop-shadow(0 2px 0 #000); }
+.bdg-slot .bdg-medal { width: auto; }
+.bdg-lock { width: 44px; height: 44px; image-rendering: pixelated; display: block; opacity: .85; }
+.bdg-row.soon .bdg-lock { opacity: .55; }
+.bdg-medal.sport img { width: 44px; }
+.sys-coin-ico { display: inline-block; vertical-align: middle; margin-right: 6px; }
+.sys-coin-big { display: grid; place-items: center; margin: 4px 0 8px; }
+.cna-award { position: fixed; left: 50%; top: 14%; transform: translateX(-50%); z-index: 9999; display: grid; justify-items: center; gap: 6px; padding: 14px 22px 12px;
+  background: #2c1a12; border: 3px solid #ccaa6e; border-radius: 10px; box-shadow: 0 6px 0 #000a; color: #fcf6e8; pointer-events: none;
+  animation: bdg-pop .6s cubic-bezier(.3, 1.6, .5, 1) both; transition: opacity .45s; }
+.cna-award.out { opacity: 0; }
+.cna-award .bdg-spark { z-index: 2; }
+@media (max-width: 700px) { .cna { --w: 46px; } .cns { width: 46px; height: 46px; } .cna.sm { --w: 24px; } .cna.big { --w: 88px; } }
+body.ui-reduce .cna, body.ui-reduce .cna-award { animation: none; background: none; } body.ui-reduce .cna > img { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .cna, .cna-award { animation: none; background: none; } .cna > img { opacity: 1; } }
+@media (max-height: 500px) { .cna { --w: 40px; } .cns { width: 40px; height: 40px; } .cna.sm { --w: 22px; } .cna.big { --w: 80px; } }
+.cna-award b { font-family: system-ui, sans-serif; font-size: 14px; }

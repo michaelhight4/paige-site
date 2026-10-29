@@ -19,6 +19,7 @@ if (raw.get('ix2') === '0') globalThis.KILUMEN_IX2_OFF = true; // Interiors v2 k
 if (raw.get('ixlight') === '0') globalThis.KILUMEN_IXLIGHT_OFF = true; // no ix2 plane lighting / indoor night shade
 if (raw.get('rtb') === '0') globalThis.KILUMEN_RTB_OFF = true; // real-time wild battles kill switch (Oct 29 2026): turn-based only, no switch button
 if (raw.get('badges') === '1') globalThis.KILUMEN_BADGES_TAB = true; // Badges tab in the Pack (dev/badges-tab, default off)
+if (raw.get('coinart') === '1') globalThis.KILUMEN_COIN_ART = true; // Animator's coin art in Key Items + award card without the Badges tab
 if (raw.get('cidle') === '0') globalThis.KILUMEN_CIDLE_OFF = true; // creature idle off switch (creature_idle.js)
 // QoL kill switches (Oct 29 2026): ?qol= (batch A/B, src/qol) and ?qolc= (batch C, src/qol_c) are kept, letters / , / - only.
 for (const k of ['qol', 'qolc']) if (raw.has(k) && /^[A-Za-z0-9,-]{1,80}$/.test(raw.get(k))) keep.set(k, raw.get(k));

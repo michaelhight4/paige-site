@@ -1,0 +1,182 @@
+{
+ "_format": "64x64 static badges (ribbon medal), 1x and 2x nearest; locked = grey silhouette with ?",
+ "sports": {
+  "brookhollow_dash": {
+   "town": "brookhollow",
+   "achievement_ids": [
+    "event_brookhollow_dash",
+    "title_brookhollow_dash"
+   ],
+   "design": "red/gold ribbon, winged-speed running shoe",
+   "icon": {
+    "1x": "1x/sport_brookhollow_dash.png",
+    "2x": "2x/sport_brookhollow_dash.png"
+   },
+   "locked": {
+    "1x": "1x/sport_brookhollow_dash_locked.png",
+    "2x": "2x/sport_brookhollow_dash_locked.png"
+   },
+   "readability": {
+    "dawn": 0.84,
+    "day": 0.845,
+    "dusk": 0.788,
+    "night": 0.729,
+    "felt_shelf": 0.818
+   }
+  },
+  "garden_hop": {
+   "town": "fernwick",
+   "achievement_ids": [
+    "event_garden_hop"
+   ],
+   "design": "green ribbon, frog hopping an arc onto a lily pad",
+   "icon": {
+    "1x": "1x/sport_garden_hop.png",
+    "2x": "2x/sport_garden_hop.png"
+   },
+   "locked": {
+    "1x": "1x/sport_garden_hop_locked.png",
+    "2x": "2x/sport_garden_hop_locked.png"
+   },
+   "readability": {
+    "dawn": 0.8,
+    "day": 0.837,
+    "dusk": 0.729,
+    "night": 0.672,
+    "felt_shelf": 0.801
+   }
+  },
+  "tide_run": {
+   "town": "saltmere",
+   "achievement_ids": [
+    "event_tide_run"
+   ],
+   "design": "teal ribbon, footprints racing a wave on sand",
+   "icon": {
+    "1x": "1x/sport_tide_run.png",
+    "2x": "2x/sport_tide_run.png"
+   },
+   "locked": {
+    "1x": "1x/sport_tide_run_locked.png",
+    "2x": "2x/sport_tide_run_locked.png"
+   },
+   "readability": {
+    "dawn": 0.808,
+    "day": 0.823,
+    "dusk": 0.771,
+    "night": 0.715,
+    "felt_shelf": 0.832
+   }
+  },
+  "signal_relay": {
+   "town": "revival_heights",
+   "achievement_ids": [
+    "event_signal_relay"
+   ],
+   "design": "pearl/violet ribbon, relay baton giving off signal arcs",
+   "icon": {
+    "1x": "1x/sport_signal_relay.png",
+    "2x": "2x/sport_signal_relay.png"
+   },
+   "locked": {
+    "1x": "1x/sport_signal_relay_locked.png",
+    "2x": "2x/sport_signal_relay_locked.png"
+   },
+   "readability": {
+    "dawn": 0.827,
+    "day": 0.849,
+    "dusk": 0.815,
+    "night": 0.75,
+    "felt_shelf": 0.846
+   }
+  },
+  "ice_slide": {
+   "town": "frostspire",
+   "achievement_ids": [
+    "event_ice_slide"
+   ],
+   "design": "ice-blue ribbon, sled on ice with a finish flag",
+   "icon": {
+    "1x": "1x/sport_ice_slide.png",
+    "2x": "2x/sport_ice_slide.png"
+   },
+   "locked": {
+    "1x": "1x/sport_ice_slide_locked.png",
+    "2x": "2x/sport_ice_slide_locked.png"
+   },
+   "readability": {
+    "dawn": 0.824,
+    "day": 0.835,
+    "dusk": 0.811,
+    "night": 0.78,
+    "felt_shelf": 0.806
+   }
+  },
+  "lantern_catch": {
+   "town": "lanternport",
+   "achievement_ids": [
+    "event_lantern_catch"
+   ],
+   "design": "violet ribbon, lantern dropping into a catch net",
+   "icon": {
+    "1x": "1x/sport_lantern_catch.png",
+    "2x": "2x/sport_lantern_catch.png"
+   },
+   "locked": {
+    "1x": "1x/sport_lantern_catch_locked.png",
+    "2x": "2x/sport_lantern_catch_locked.png"
+   },
+   "readability": {
+    "dawn": 0.803,
+    "day": 0.821,
+    "dusk": 0.788,
+    "night": 0.66,
+    "felt_shelf": 0.815
+   }
+  },
+  "forge_push": {
+   "town": "cindervale",
+   "achievement_ids": [
+    "event_forge_push"
+   ],
+   "design": "ember ribbon, ore cart being pushed (speed lines)",
+   "icon": {
+    "1x": "1x/sport_forge_push.png",
+    "2x": "2x/sport_forge_push.png"
+   },
+   "locked": {
+    "1x": "1x/sport_forge_push_locked.png",
+    "2x": "2x/sport_forge_push_locked.png"
+   },
+   "readability": {
+    "dawn": 0.733,
+    "day": 0.737,
+    "dusk": 0.722,
+    "night": 0.635,
+    "felt_shelf": 0.775
+   }
+  },
+  "aurelith_major": {
+   "town": "aurelith",
+   "achievement_ids": [
+    "games_aurelith_major"
+   ],
+   "design": "grand badge: wreath of laurel, crown + star on violet medal, double violet/gold ribbon (major; comingSoon in defs)",
+   "icon": {
+    "1x": "1x/sport_aurelith_major.png",
+    "2x": "2x/sport_aurelith_major.png"
+   },
+   "locked": {
+    "1x": "1x/sport_aurelith_major_locked.png",
+    "2x": "2x/sport_aurelith_major_locked.png"
+   },
+   "readability": {
+    "dawn": 0.664,
+    "day": 0.819,
+    "dusk": 0.606,
+    "night": 0.536,
+    "felt_shelf": 0.745
+   }
+  }
+ }
+}
