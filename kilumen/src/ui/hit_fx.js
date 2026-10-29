@@ -13,7 +13,7 @@
 // Gates: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js (both true since Oct 22, 2026).
 // Dev only: ?fxpreview=staging reads _transparent_staging/ instead (impacts + travel on, even with the flags off);
 // ?fxel=<element> forces the effect element of every hit while effects are on (stills / clips); ?fxtravel=0 turns travel off.
-import { ELEMENT_FX, HIT_EFFECTS_ENABLED, HIT_TRAVEL_FX_ENABLED } from './data.js?v=v0.2.65-alpha';
+import { ELEMENT_FX, HIT_EFFECTS_ENABLED, HIT_TRAVEL_FX_ENABLED } from './data.js?v=v0.2.66-alpha';
 
 const FX_DIR = 'art/characters/pixel/effects/';
 const STAGING = '_transparent_staging/';

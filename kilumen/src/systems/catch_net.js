@@ -2,7 +2,7 @@
 // During the lab test run (test_run_started, not test_run_done) a wild battle never opens with an empty Crystal pocket:
 // if the player has 0 Dominance Crystals (and 0 Prime Crystals) they get NET_COUNT spare ones first. Failed catches or
 // running away are always allowed, so every next grass encounter is a guaranteed retry. Outside the test run: no effect.
-import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.65-alpha';
+import { CRYSTAL_GRADES } from './data/crystal_grades.js?v=v0.2.66-alpha';
 export const NET_ITEM = 'dominance_crystal';
 export const NET_COUNT = 3;
 export const NET_TEXT = ['You find a few spare Dominance Crystals at the bottom of your Pack.'];
