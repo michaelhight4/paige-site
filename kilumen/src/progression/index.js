@@ -40,6 +40,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     };
     if (ui) {
       const open = ui.open.bind(ui);
+      ui.trainerTeam = () => pending; // real-time trainer fights (branch rtb-trainer) read the injected Master / map team here
       ui.open = (id, arg) => open(id, id === 'battle' && pending ? { ...(arg || {}), foes: pending.foes, foeName: pending.foeName, masterNumber: pending.masterNumber || 0 } : arg);
     }
     const onBattle = scene.hooks.onBattle;
