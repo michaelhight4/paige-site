@@ -424,7 +424,7 @@ export function runRaceShow(o) {
 }
 
 // ---------------- tournament champion screen ----------------
-/** o: { ov, party:[species], playerSrc, name, id, time, coinsFrom, prize, reduced, audio, framesBig(sp) -> Image, st }. Resolves on tap after the count-up. */
+/** o: { title?, scoreLabel?, scoreText? (town cups), ov, party:[species], playerSrc, name, id, time, coinsFrom, prize, reduced, audio, framesBig(sp) -> Image, st }. Resolves on tap after the count-up. */
 export function runChampion(o) {
   const rm = o.reduced, sfx = makeSfx(o.audio);
   return new Promise((resolve) => {
@@ -472,13 +472,13 @@ export function runChampion(o) {
       if (hero.complete && hero.naturalWidth) { const h = 200, w = h * hero.naturalWidth / hero.naturalHeight; g.drawImage(hero, Math.round(W / 2 - w / 2), 292 - h, w, h);
       }
       // banner
-      const u = Math.min(1, tm / 0.35); g.save(); g.translate(W / 2, 40); g.scale(2 - ease(u), 2 - ease(u)); bigText(g, S.champ_title, 0, 0, 36); g.restore();
+      const u = Math.min(1, tm / 0.35); g.save(); g.translate(W / 2, 40); g.scale(2 - ease(u), 2 - ease(u)); bigText(g, o.title || S.champ_title, 0, 0, o.title && o.title.length > 16 ? 28 : 36); g.restore();
       if (tm > 0.3) bigText(g, S.champ_congrats, W / 2, 76, 22, ['#ffffff', '#ffe3f0', '#ff7ab0']);
       conf.draw(g, dt, tm);
       // bottom bar: name, ID, time, gold count-up
       g.fillStyle = '#1b1f2aee'; g.fillRect(0, 314, W, 46); g.fillStyle = '#ffc928'; g.fillRect(0, 314, W, 3);
-      g.textAlign = 'left'; g.font = 'bold 13px monospace'; g.fillStyle = '#9ad1ff'; g.fillText(S.champ_name, 14, 334); g.fillText(S.champ_id, 160, 334); g.fillText(S.champ_time, 300, 334);
-      g.fillStyle = '#f3ead2'; g.fillText(o.name, 14, 352); g.fillText(idText(o.id), 160, 352); g.fillText(showTime(o.time).toFixed(2) + 's', 300, 352);
+      g.textAlign = 'left'; g.font = 'bold 13px monospace'; g.fillStyle = '#9ad1ff'; g.fillText(S.champ_name, 14, 334); g.fillText(S.champ_id, 160, 334); g.fillText(o.scoreLabel || S.champ_time, 300, 334);
+      g.fillStyle = '#f3ead2'; g.fillText(o.name, 14, 352); g.fillText(idText(o.id), 160, 352); g.fillText(o.scoreText ?? (showTime(o.time).toFixed(2) + 's'), 300, 352);
       if (tm > 0.9 && coinT < 0) coinT = 0; if (coinT >= 0) { coinT += dt; const n = Math.min(o.prize, Math.round(o.prize * ease(coinT / 1.4))); if (n > shown) { shown = n; sfx.coin(); if (n >= o.prize && !flashed) { flashed = true; sfx.stamp(); } } }
       g.textAlign = 'right'; bigText(g, t('champ_gold', { n: shown.toLocaleString('en-US') }), 560, 336, 20); g.textAlign = 'right'; g.font = '11px monospace'; g.fillStyle = '#ffd77a';
       g.fillText(S.wallet + ' ' + (o.coinsFrom + shown).toLocaleString('en-US'), W - 12, 354);
