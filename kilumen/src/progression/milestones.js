@@ -4,9 +4,9 @@
 // Data-driven: change numbers / rewards in this file only. Thresholds: a number, or {pct} of a total (dex size, region
 // dex, areas). Text: system_tasks.milestones.<id>.{title,rule} keys (Text Bot); strings here are fallbacks.
 // Counters: 'count' = event counter in the save (store.milestones.counts[id]); 'derived' = recomputed from game state.
-import { SPECIES } from '../ui/data.js?v=v0.2.80-alpha';
-import { SKILL_POOL_ALIAS } from '../battle/data/skills.js?v=v0.2.80-alpha';
-import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.80-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.81-alpha';
+import { SKILL_POOL_ALIAS } from '../battle/data/skills.js?v=v0.2.81-alpha';
+import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.81-alpha';
 
 export const TIER_NAMES = ['Bronze', 'Silver', 'Gold', 'Platinum'];
 export const TYPES = ['fire', 'water', 'earth', 'wind', 'light', 'dark', 'mystic', 'normal']; // base type pools (src/ui/data.js)

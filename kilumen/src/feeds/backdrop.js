@@ -8,7 +8,7 @@
 // particlefield). All draw smooth/emoji particles at screen res, not our chunky pixel look, and would add 5-20 KB, so
 // this is our own ~250 lines modelled on src/overworld/living.js (motes, fireflies, birds). No third-party code here.
 // Reduced motion (prefers-reduced-motion or Options body.ui-reduce): one still frame, redrawn only when the hour changes.
-import { fruitColor } from './ui_art.js?v=v0.2.80-alpha';
+import { fruitColor } from './ui_art.js?v=v0.2.81-alpha';
 
 const PX = 2; // CSS px per art pixel
 export const reducedMotion = () => { try { return !!document.querySelector('.ui-reduce') || !!matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } };
