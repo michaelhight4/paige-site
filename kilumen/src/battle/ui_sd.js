@@ -8,12 +8,13 @@ import { skillTag } from '../qol/matchup.js?v=v0.2.64-alpha';
 import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.64-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
-import { DEV } from '../dev/runtime.js?v=v0.2.64-alpha';
-import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.64-alpha'; // battle mode switch (wild only, Oct 29 2026)
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.64-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.64-alpha';
-import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.64-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.64-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.58-alpha';
+import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.58-alpha'; // battle mode switch (wild only, Oct 29 2026)
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.58-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.58-alpha';
+import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.58-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.58-alpha';
+import { mountWaterBg, mountWaterArt, WATER_SPOTS, coverPoint } from './data/water_bg.js?v=v0.2.58-alpha'; // animated water backdrop (biome 'water')
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
 import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.64-alpha';
 
@@ -85,7 +86,7 @@ export function makeSdBattle(ui, opts, h) {
   const Items = kb.battle.dex.data.Items;
   const itemName = (engineId) => { const it = Items[engineId]; return cat[it?.kGameId]?.name || it?.name || engineId; };
 
-  // battle biome: picks the background and the ground platform art (only 'grass' so far; opts.biome or ?biome=)
+  // battle biome: picks the background and the ground platform art ('grass', 'water'; opts.biome or ?biome=)
   const biome = PLATFORM_BIOMES[opts.biome || ui.q?.get('biome')] ? (opts.biome || ui.q.get('biome')) : 'grass', biomeArt = PLATFORM_BIOMES[biome];
   // feet line of a sprite = lowest non-transparent row / height, so the platform sits under the feet, not the image box
   const feetCache = new Map();
@@ -133,14 +134,28 @@ export function makeSdBattle(ui, opts, h) {
   scr.mount = (layer) => {
     // ground platforms (per biome, src/battle/data/platforms.js) replace the old .b-pad ellipses; each creature container's
     // bottom edge is its feet line (--feet, measured from the sprite), and the platform is centred on it
-    const plat = (s, size) => `<img class="b-plat ${size}" id="${s}-plat" alt="" src="${drawPlatform(biome, size)}" style="--plat-w:${PLATFORM_SIZES[size].w}">`;
-    layer.innerHTML = `<div class="ui-battle${trainer ? ' b-intro' : ''}" data-scr="battle" data-engine="sd" data-biome="${esc(biome)}"><div class="bg" style="background-image:url(${biomeArt.bg})"></div>
-      <div class="b-field"><div class="b-foe">${plat('p2', 'far')}${trainer ? `<img class="b-trainer-fig foe" id="tr-p2" alt="" hidden><div class="b-tr-spot" id="tr-spot" hidden><img class="b-plat far b-tr-plat" alt="" src="${drawPlatform(biome, 'far')}" style="--plat-w:${PLATFORM_SIZES.far.w}"></div>` : ''}<img class="ui-sprite b-mon" id="p2-mon" alt="" style="opacity:0"></div>
+    const wPhase = ui.q?.get('phase') || ui.scene?.phase || 'day', bgUrl = biomeArt.bgFor ? biomeArt.bgFor(wPhase) : biomeArt.bg;
+    const plat = (s, size) => biomeArt.art ? '' : `<img class="b-plat ${size}" id="${s}-plat" alt="" src="${drawPlatform(biome, size)}" style="--plat-w:${PLATFORM_SIZES[size].w}">`;
+    layer.innerHTML = `<div class="ui-battle${trainer ? ' b-intro' : ''}" data-scr="battle" data-engine="sd" data-biome="${esc(biome)}"${biomeArt.art ? ' data-biome-art="1"' : ''}><div class="bg" style="background-image:url(${bgUrl})"></div>
+      <div class="b-field"><div class="b-foe">${plat('p2', 'far')}${trainer ? `<img class="b-trainer-fig foe" id="tr-p2" alt="" hidden><div class="b-tr-spot" id="tr-spot" hidden><img class="b-plat far b-tr-plat" alt="" src="${biomeArt.art ? '' : drawPlatform(biome, 'far')}" style="--plat-w:${PLATFORM_SIZES.far.w}"></div>` : ''}<img class="ui-sprite b-mon" id="p2-mon" alt="" style="opacity:0"></div>
         <div class="b-ally">${plat('p1', 'near')}${trainer ? '<img class="b-trainer-fig ally" id="tr-p1" alt="" hidden>' : ''}<img class="ui-sprite b-mon" id="p1-mon" alt="" style="opacity:0"></div>
         ${plateHtml('p2')}${plateHtml('p1')}${trainer ? '<div class="b-intro-row foe" id="intro-p2" aria-hidden="true"></div><div class="b-intro-row ally" id="intro-p1" aria-hidden="true"></div>' : ''}</div>
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
+    if (biomeArt.live === 'water' && biomeArt.art) { // painted backdrop: animated layers over the still; creatures on the painted spots
+      const bgEl = root.querySelector('.bg'), field = root.querySelector('.b-field');
+      mountWaterArt(bgEl, { phase: wPhase, reduced: reducedMotion() });
+      const place = () => { if (!root.isConnected) return removeEventListener('resize', place); const b = bgEl.getBoundingClientRect(), f = field.getBoundingClientRect(); if (!b.width) return;
+        const cs = getComputedStyle(bgEl), frac = (v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5), ax = frac(cs.backgroundPositionX), ay = frac(cs.backgroundPositionY);
+        for (const [sel, [fx, fy]] of [['.b-ally', WATER_SPOTS.near], ['.b-foe', WATER_SPOTS.far]]) { const [x, y] = coverPoint(fx, fy, b.width, b.height, 1280, 720, ax, ay), el = root.querySelector(sel);
+          el.style.left = `${x + b.left - f.left}px`; el.style.top = `${y + b.top - f.top}px`; } };
+      place(); requestAnimationFrame(place); addEventListener('resize', place);
+    } else if (biomeArt.live === 'water') { // live water layer; ripples follow the foe's platform once laid out
+      const foe = { x: 0.8, y: 0.6 }, bgEl = root.querySelector('.bg');
+      mountWaterBg(bgEl, { phase: wPhase, reduced: reducedMotion(), foe });
+      requestAnimationFrame(() => { const pl = root.querySelector('#p2-plat')?.getBoundingClientRect(), r = bgEl.getBoundingClientRect(); if (pl?.width && r.width) { foe.x = (pl.left + pl.width / 2 - r.left) / r.width; foe.y = (pl.top + pl.height * 0.6 - r.top) / r.height; } });
+    }
     if (opts.rtSwitch && !owned) mountModeSwitch();
     for (const s of ['p1', 'p2']) if (mon[s]) drawPlate(s);
     if (!scr.started) { scr.started = true; run(); }
@@ -274,7 +289,7 @@ export function makeSdBattle(ui, opts, h) {
           const img = $(`#${s}-mon`); img.src = cidleSrc(s === 'p2' ? front(sp) : back(sp)) || (s === 'p2' ? front(sp) : back(sp)); img.classList.toggle('b-flip', s === 'p1' && BACK_FACES_LEFT.has(sp)); img.style.opacity = '1'; setFeet(img);
           if (s === 'p2' && first && carryFoes) { const rl = reactionLines('turn', kb.p1.active[0]?.name, who); await say(rl.foe); }
           else if (s === 'p2' && !first && !trainer && !owned) await say(`Another wild ${who} jumps in!` /* PH */);
-          else if (s === 'p2') await say(first && !trainer ? ui.P('system_wild.grass', ['{creature} bursts out of the grass!'], { creature: who })[0]
+          else if (s === 'p2') await say(first && !trainer ? ui.P(opts.intro?.key || 'system_wild.grass', opts.intro?.fallback || ['{creature} bursts out of the grass!'], { creature: who })[0]
             : P1('foe_sends', 'Trainer sends out {creature}!', { creature: who }) /* PH */);
           else if (first && carryFoes) await say(reactionLines('turn', who, '').ally);
           else await say(P1('go', 'Go, {creature}!', { creature: who }) /* PH */);

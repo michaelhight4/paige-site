@@ -13,7 +13,12 @@
   "dominance_crystal_plus": 600,
   "crystal_dust": 80,
   "fine_crystal": 350,
-  "apex_crystal": 1500
+  "apex_crystal": 1500,
+  "ripple_grub": 40,
+  "reed_nymph": 80,
+  "brine_fleck": 80,
+  "glimmer_worm": 150,
+  "deepgut_paste": 400
  },
  "_crystalNote": "basePrices fine_crystal / apex_crystal: Benefits Board crystal grades (Gary 12:17 PM CT Oct 23, 2026). Stocked only when company.board.crystal_grade rank is owned (src/systems/data/crystal_grades.js); never in region 1 shops. PLACEHOLDER prices.",
  "sellRate": 0.5,
@@ -44,7 +49,9 @@
       "tonic_small",
       "calm_tea",
       "trail_mix",
-      "feed_bag_small"
+      "feed_bag_small",
+      "ripple_grub",
+      "reed_nymph"
      ]
     },
     {
@@ -82,14 +89,17 @@
       "calm_tea",
       "trail_mix",
       "feed_bag_small",
-      "feed_bag"
+      "feed_bag",
+      "ripple_grub",
+      "reed_nymph"
      ]
     },
     {
      "coins": 1,
      "items": [
       "dominance_crystal_plus",
-      "energy_tonic"
+      "energy_tonic",
+      "glimmer_worm"
      ]
     },
     {
@@ -112,7 +122,8 @@
       "tonic_small",
       "calm_tea",
       "trail_mix",
-      "feed_bag_small"
+      "feed_bag_small",
+      "ripple_grub"
      ]
     }
    ]
@@ -138,7 +149,8 @@
      "coins": 1,
      "items": [
       "dominance_crystal_plus",
-      "energy_tonic"
+      "energy_tonic",
+      "glimmer_worm"
      ]
     },
     {
@@ -171,7 +183,8 @@
      "coins": 1,
      "items": [
       "dominance_crystal_plus",
-      "energy_tonic"
+      "energy_tonic",
+      "deepgut_paste"
      ]
     },
     {
@@ -196,7 +209,8 @@
       "tonic_small",
       "tonic_large",
       "calm_tea",
-      "trail_mix"
+      "trail_mix",
+      "brine_fleck"
      ]
     },
     {
@@ -227,7 +241,9 @@
       "tonic_large",
       "trail_mix",
       "feed_bag_small",
-      "feed_bag"
+      "feed_bag",
+      "ripple_grub",
+      "brine_fleck"
      ]
     },
     {
@@ -236,7 +252,9 @@
       "calm_tea",
       "dominance_crystal_plus",
       "energy_tonic",
-      "vigor_seed"
+      "vigor_seed",
+      "glimmer_worm",
+      "deepgut_paste"
      ]
     }
    ]
@@ -327,5 +345,6 @@
    "master": 120,
    "ron": 60
   }
- }
+ },
+ "_baitNote": "Fishing gear v1 bait (design/FISHING_GEAR.md, Gary approved Oct 29 2026). lantern_moth / hollowstar_roe are earned only (no price, cannot be sold)."
 }

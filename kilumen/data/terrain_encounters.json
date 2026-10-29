@@ -1,0 +1,759 @@
+{
+ "version": 1,
+ "owner": "Coder",
+ "note": "Terrain encounters (Gary Oct 29 2026): riding on water and walking on cave floor (encounter code 2 outside any rect) count as encounter grass at 0.3x the grass rate. Species only from existing tables (\"from\"). Levels PLACEHOLDER.",
+ "rate_mult": 0.3,
+ "grass_rate": 0.0833,
+ "water": {
+  "brookhollow": {
+   "from": "bh_river_fish",
+   "slots": [
+    {
+     "species": "rillop",
+     "weight": 80,
+     "level": [
+      3,
+      6
+     ]
+    },
+    {
+     "species": "rillop",
+     "weight": 5,
+     "level": [
+      8,
+      10
+     ]
+    },
+    {
+     "species": "dartling",
+     "weight": 15,
+     "level": [
+      3,
+      6
+     ]
+    }
+   ]
+  },
+  "route1": {
+   "from": "bh_river_fish",
+   "slots": [
+    {
+     "species": "rillop",
+     "weight": 80,
+     "level": [
+      2,
+      5
+     ]
+    },
+    {
+     "species": "rillop",
+     "weight": 5,
+     "level": [
+      2,
+      5
+     ]
+    },
+    {
+     "species": "dartling",
+     "weight": 15,
+     "level": [
+      2,
+      5
+     ]
+    }
+   ]
+  },
+  "fernwick": {
+   "from": "fl_canal",
+   "slots": [
+    {
+     "species": "sluicekin",
+     "weight": 50,
+     "level": [
+      8,
+      11
+     ]
+    },
+    {
+     "species": "reefshell",
+     "weight": 30,
+     "level": [
+      8,
+      11
+     ]
+    },
+    {
+     "species": "seaglint",
+     "weight": 20,
+     "level": [
+      8,
+      11
+     ]
+    }
+   ]
+  },
+  "thornwood": {
+   "from": "thornwood_pond",
+   "slots": [
+    {
+     "species": "puddlenip",
+     "weight": 15,
+     "level": [
+      9,
+      13
+     ]
+    },
+    {
+     "species": "streambarb",
+     "weight": 15,
+     "level": [
+      9,
+      13
+     ]
+    },
+    {
+     "species": "reedmoot",
+     "weight": 15,
+     "level": [
+      9,
+      13
+     ]
+    }
+   ]
+  },
+  "frostspire_pass": {
+   "from": "smf_stream",
+   "slots": [
+    {
+     "species": "brookhorn",
+     "weight": 60,
+     "level": [
+      24,
+      27
+     ]
+    },
+    {
+     "species": "floepaddle",
+     "weight": 30,
+     "level": [
+      24,
+      27
+     ]
+    },
+    {
+     "species": "bulwarkrab",
+     "weight": 10,
+     "level": [
+      24,
+      27
+     ]
+    }
+   ]
+  },
+  "greystone_entrance": {
+   "from": "re_river",
+   "slots": [
+    {
+     "species": "streambarb",
+     "weight": 55,
+     "level": [
+      18,
+      22
+     ]
+    },
+    {
+     "species": "musselin",
+     "weight": 40,
+     "level": [
+      18,
+      22
+     ]
+    },
+    {
+     "species": "tidemarrow",
+     "weight": 5,
+     "level": [
+      18,
+      22
+     ]
+    }
+   ]
+  },
+  "greystone_b1": {
+   "from": "re_river",
+   "slots": [
+    {
+     "species": "streambarb",
+     "weight": 55,
+     "level": [
+      14,
+      18
+     ]
+    },
+    {
+     "species": "musselin",
+     "weight": 40,
+     "level": [
+      14,
+      18
+     ]
+    },
+    {
+     "species": "tidemarrow",
+     "weight": 5,
+     "level": [
+      14,
+      18
+     ]
+    }
+   ]
+  },
+  "lanternport": {
+   "from": "lanternport_water",
+   "slots": [
+    {
+     "species": "mooncrab",
+     "weight": 60,
+     "level": [
+      42,
+      46
+     ]
+    },
+    {
+     "species": "seaglint",
+     "weight": 25,
+     "level": [
+      43,
+      46
+     ]
+    },
+    {
+     "species": "reefshell",
+     "weight": 15,
+     "level": [
+      42,
+      45
+     ]
+    },
+    {
+     "species": "moorcoil",
+     "weight": 2,
+     "level": [
+      42,
+      46
+     ]
+    }
+   ]
+  },
+  "mirefen_bog": {
+   "from": "mirefen_bog_surf",
+   "slots": [
+    {
+     "species": "mirewump",
+     "weight": 45,
+     "level": [
+      34,
+      39
+     ]
+    },
+    {
+     "species": "brookhorn",
+     "weight": 35,
+     "level": [
+      34,
+      39
+     ]
+    },
+    {
+     "species": "tidemarrow",
+     "weight": 5,
+     "level": [
+      39,
+      41
+     ]
+    },
+    {
+     "species": "rillop",
+     "weight": 15,
+     "level": [
+      30,
+      34
+     ]
+    }
+   ]
+  },
+  "route_coast": {
+   "from": "route_coast_water",
+   "slots": [
+    {
+     "species": "mirewump",
+     "weight": 30,
+     "level": [
+      36,
+      40
+     ]
+    },
+    {
+     "species": "mirewump",
+     "weight": 35,
+     "level": [
+      38,
+      42
+     ]
+    },
+    {
+     "species": "drenchcrab",
+     "weight": 25,
+     "level": [
+      38,
+      42
+     ]
+    },
+    {
+     "species": "tuskwallow",
+     "weight": 10,
+     "level": [
+      41,
+      43
+     ]
+    }
+   ]
+  },
+  "route_east": {
+   "from": "route_east_water",
+   "slots": [
+    {
+     "species": "musselin",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "ditchsnap",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "streambarb",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "snapmoor",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    }
+   ]
+  },
+  "route_aurelith_saltmere": {
+   "from": "route_aurelith_saltmere_water",
+   "slots": [
+    {
+     "species": "whelkin",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "medulet",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "ankerling",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "plashcrown",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "ribboneel",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "streambarb",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "rakefin",
+     "weight": 5,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "eftwarden",
+     "weight": 5,
+     "level": [
+      15,
+      18
+     ]
+    }
+   ]
+  },
+  "route_saltmere_mirefen": {
+   "from": "route_saltmere_mirefen_water",
+   "slots": [
+    {
+     "species": "spraytern",
+     "weight": 50,
+     "level": [
+      32,
+      36
+     ]
+    },
+    {
+     "species": "paleminnow",
+     "weight": 30,
+     "level": [
+      32,
+      35
+     ]
+    },
+    {
+     "species": "brineseal",
+     "weight": 20,
+     "level": [
+      35,
+      36
+     ]
+    }
+   ]
+  },
+  "route_sunmeadow_mirefen": {
+   "from": "sunmeadow_fields_water",
+   "slots": [
+    {
+     "species": "brookhorn",
+     "weight": 60,
+     "level": [
+      32,
+      35
+     ]
+    },
+    {
+     "species": "floepaddle",
+     "weight": 30,
+     "level": [
+      32,
+      35
+     ]
+    },
+    {
+     "species": "bulwarkrab",
+     "weight": 10,
+     "level": [
+      32,
+      35
+     ]
+    }
+   ]
+  },
+  "saltmere": {
+   "from": "saltmere_water",
+   "slots": [
+    {
+     "species": "pinchkin",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "sandstarlet",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "brinecube",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "quaymouser",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "polypip",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "whelkin",
+     "weight": 30,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "bulwarkrab",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "spraytern",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "blubbet",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "finnip",
+     "weight": 15,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "brineseal",
+     "weight": 5,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "dawnfin",
+     "weight": 5,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "spratwyrm",
+     "weight": 5,
+     "level": [
+      15,
+      18
+     ]
+    }
+   ]
+  },
+  "sunmeadow_fields": {
+   "from": "sunmeadow_fields_water",
+   "slots": [
+    {
+     "species": "brookhorn",
+     "weight": 60,
+     "level": [
+      30,
+      34
+     ]
+    },
+    {
+     "species": "floepaddle",
+     "weight": 30,
+     "level": [
+      28,
+      30
+     ]
+    },
+    {
+     "species": "bulwarkrab",
+     "weight": 10,
+     "level": [
+      34,
+      35
+     ]
+    }
+   ]
+  },
+  "tidewater_coast": {
+   "from": "tidewater_coast_water",
+   "slots": [
+    {
+     "species": "barnaclump",
+     "weight": 55,
+     "level": [
+      40,
+      45
+     ]
+    },
+    {
+     "species": "hullwhale",
+     "weight": 25,
+     "level": [
+      42,
+      45
+     ]
+    },
+    {
+     "species": "wavelin",
+     "weight": 20,
+     "level": [
+      40,
+      44
+     ]
+    }
+   ]
+  },
+  "route_fernwick_lanternport": {
+   "from": "route_fernwick_lanternport_water",
+   "slots": [
+    {
+     "species": "sluicekin",
+     "weight": 50,
+     "level": [
+      44,
+      47
+     ]
+    },
+    {
+     "species": "reefshell",
+     "weight": 30,
+     "level": [
+      40,
+      44
+     ]
+    },
+    {
+     "species": "seaglint",
+     "weight": 20,
+     "level": [
+      46,
+      47
+     ]
+    }
+   ]
+  }
+ },
+ "cave": {
+  "greystone_b1": {
+   "from": "greystone_b1_floor",
+   "slots": [
+    {
+     "species": "gloamtick",
+     "weight": 40,
+     "level": [
+      14,
+      18
+     ]
+    },
+    {
+     "species": "moatling",
+     "weight": 35,
+     "level": [
+      14,
+      18
+     ]
+    },
+    {
+     "species": "slagrook",
+     "weight": 20,
+     "level": [
+      15,
+      18
+     ]
+    },
+    {
+     "species": "ankerling",
+     "weight": 5,
+     "level": [
+      18,
+      18
+     ]
+    }
+   ]
+  },
+  "greystone_entrance": {
+   "from": "greystone_b1_floor",
+   "slots": [
+    {
+     "species": "gloamtick",
+     "weight": 40,
+     "level": [
+      16,
+      20
+     ]
+    },
+    {
+     "species": "moatling",
+     "weight": 35,
+     "level": [
+      16,
+      20
+     ]
+    },
+    {
+     "species": "slagrook",
+     "weight": 20,
+     "level": [
+      16,
+      20
+     ]
+    },
+    {
+     "species": "ankerling",
+     "weight": 5,
+     "level": [
+      16,
+      20
+     ]
+    }
+   ]
+  }
+ }
+}

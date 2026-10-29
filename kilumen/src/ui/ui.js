@@ -14,8 +14,9 @@ import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHO
 // FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
 import { areaName } from '../overworld/area_sign.js?v=v0.2.64-alpha';
-import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.64-alpha';
-import { installWildEncounters } from '../battle/encounters.js?v=v0.2.64-alpha'; // battles default v1: wild encounters
+import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.58-alpha';
+import { installWildEncounters } from '../battle/encounters.js?v=v0.2.58-alpha';
+import { fishingFlags } from '../fishing/flags.js?v=v0.2.58-alpha'; // fishing v1: terrain encounters flag (off by default) // battles default v1: wild encounters
 // UI tools pass (Oct 22, 2026; Gary: "use them and log them for later use"): lrud-spatial (Apache-2.0) picks the nearest item
 // in the pressed direction from the real layout; SortableJS (MIT, lazy) drags Team / Field Archive; ?dev=1 lazy-loads the
 // lil-gui tuning panel (./devpanel.js); Kenney CC0 PLACEHOLDER art (art/ui/kenney_placeholder) only where there was none.
@@ -1108,7 +1109,7 @@ function wireWild(ui, scene, q) {
   const rate = q.has('encrate') ? Number(q.get('encrate')) : undefined;
   const openBattle = (foe, carry = null) => (ui.sdReady || Promise.resolve()).then(() => new Promise((res) => {
     if (!carry && catchNet(scene)) ui.toastFn?.(ui.P('system.catch_net_topup', NET_TEXT)[0]); // first catch never soft-locks (src/systems/catch_net.js)
-    ui.closeAll(); ui.open('battle', { foe: foe.species, foeLevel: foe.level, biome: foe.biome, carry, rtSwitch: !rtbKilled(q) && !!ui.sdMod });
+    ui.closeAll(); ui.open('battle', { foe: foe.species, foeLevel: foe.level, biome: foe.biome, intro: foe.intro, carry, rtSwitch: !rtbKilled(q) && !!ui.sdMod });
     const scr = ui.top; let out = null;
     if (scr && ui.sdMod) scr.onDone = (r) => { out = r; };
     ui._onClose = async () => { if (out?.systems === 'blackout') await scene.systems?.onPartyFainted(); res(out); };
@@ -1130,7 +1131,7 @@ function wireWild(ui, scene, q) {
   };
   const reducedMotionQ = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } };
   ui.wild = installWildEncounters(scene, runWild, { rate: Number.isFinite(rate) ? rate : undefined, blocked: () => !!ui.top,
-    hasArt: (id) => artIds.has(id), elOf: (id) => speciesById(id).el, foundOf: (id) => speciesById(id).found, artFilter: q.get('encart') !== '0', dev: q.get('dev') === '1' || q.get('debug') === '1' });
+    hasArt: (id) => artIds.has(id), elOf: (id) => speciesById(id).el, foundOf: (id) => speciesById(id).found, terrain: fishingFlags(q).terrain, artFilter: q.get('encart') !== '0', dev: q.get('dev') === '1' || q.get('debug') === '1' });
 }
 
 export function mountUI(opts) {
