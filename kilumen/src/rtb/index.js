@@ -17,19 +17,19 @@
 // capture logic). Not in trainer fights (button hidden). Fairness for a hard game: the fight does NOT pause. It runs at 40 %
 // (CAP_TAB.slow) so foes keep moving and telegraphing, skills are locked while the tab is open (dodge still works), a hit on
 // your creature snaps the tab shut, and it closes on its own after 4 s real time. You get time to read the odds, not a free pause.
-import { RtBattle } from './sim.js?v=v0.2.78-alpha';
-import { RtView } from './view.js?v=v0.2.78-alpha';
-import { cooldownFor } from './moves.js?v=v0.2.78-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.78-alpha';
-import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.78-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.78-alpha';
-import { Col } from '../overworld/constants.js?v=v0.2.78-alpha';
-import { reducedMotion } from '../sports/hype.js?v=v0.2.78-alpha';
-import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padFaceEdges, faceSlots, assignFace, faceIndex, FACES, PAD_DODGE, XY_STORE } from './keys.js?v=v0.2.78-alpha';
-import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.78-alpha';
-import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.78-alpha';
-import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.78-alpha';
-import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.78-alpha';
+import { RtBattle } from './sim.js?v=v0.2.79-alpha';
+import { RtView } from './view.js?v=v0.2.79-alpha';
+import { cooldownFor } from './moves.js?v=v0.2.79-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.79-alpha';
+import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.79-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.79-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.79-alpha';
+import { reducedMotion } from '../sports/hype.js?v=v0.2.79-alpha';
+import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padFaceEdges, faceSlots, assignFace, faceIndex, FACES, PAD_DODGE, XY_STORE } from './keys.js?v=v0.2.79-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.79-alpha';
+import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.79-alpha';
+import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.79-alpha';
+import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.79-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
 let SK = null;
@@ -162,6 +162,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     on(hud, 'pointerdown', (e) => {
       const s = e.target.closest?.('.rtb-s'), b = e.target.closest?.('[data-rtb]');
       const cr = e.target.closest?.('.rtb-cr'); if (cr) { inp.capPick = +cr.dataset.cap; e.preventDefault(); return; }
+      if (e.target.closest?.('.held-ic')) return; // held-item icon: hover / long-press tip, not a switch (Oct 29 2026)
       const pi = e.target.closest?.('.rtb-pi'); if (pi) { inp.party = +pi.dataset.i; e.preventDefault(); return; }
       const fb = e.target.closest?.('.rtb-face'); if (fb) { e.preventDefault(); faceHit(fb.dataset.face); return; }
       if (s && view.assigning) { e.preventDefault(); const k = view.assigning; setXY(sim.ally.c, assignFace(xyOf(sim.ally.c, sim.ally.skills.length), k, +s.dataset.slot)); view.facePress(k, true); setTimeout(() => view.facePress(k, false), 120); view.setAssign(FACES[(faceIndex(k) + 1) % 4]); scene.audio?.sfx('cursor'); return; }

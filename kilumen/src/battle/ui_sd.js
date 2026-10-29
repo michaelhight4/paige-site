@@ -2,21 +2,24 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.78-alpha';
-import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.78-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
-import { skillTag } from '../qol/matchup.js?v=v0.2.78-alpha';
-import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.78-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
+import { KilumenBattle } from './battle.js?v=v0.2.79-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.79-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
+import { skillTag } from '../qol/matchup.js?v=v0.2.79-alpha';
+import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.79-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
-import { DEV } from '../dev/runtime.js?v=v0.2.78-alpha';
-import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.78-alpha'; // battle mode switch (wild only, Oct 29 2026)
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.78-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.78-alpha';
-import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.78-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.78-alpha';
-import { coverPoint } from './data/water_bg.js?v=v0.2.78-alpha'; // cover-fit maths for the painted biome backdrops
+import { DEV } from '../dev/runtime.js?v=v0.2.79-alpha';
+import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.79-alpha'; // battle mode switch (wild only, Oct 29 2026)
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.79-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.79-alpha';
+import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.79-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.79-alpha';
+import { coverPoint } from './data/water_bg.js?v=v0.2.79-alpha'; // cover-fit maths for the painted biome backdrops
+import { heldIconHtml, heldIconSrc, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.79-alpha'; // held-item icon per slot (Oct 29 2026)
+import { heldFromEngine, heldToEngine } from './data/held_items.js?v=v0.2.79-alpha';
+import { pxi } from '../ui/ui_tools2.js?v=v0.2.79-alpha'; // held-item chip icon (pixelarticons handbag, MIT)
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.78-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.79-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -61,7 +64,7 @@ export function makeSdBattle(ui, opts, h) {
   const authored = trainer ? authoredTeam(opts.who, partySrc) : null;
   // carry (mode switch, Oct 29 2026): a wild fight switched over from real-time keeps its foes' HP (wild only; never owned)
   const carryFoes = !owned && opts.carry?.foes?.length ? opts.carry.foes.map((f) => ({ species: f.species, level: f.level, variant: f.variant || '', hp: Math.max(1, Math.round(f.hp)) })) : null;
-  const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
+  const foes = authored || carryFoes || (opts.foes?.length ? opts.foes.map((f) => ({ species: f.species, level: f.level, ...(f.held ? { held: f.held } : {}) })) // [progression hook] Master / hall teams (src/progression/masters.js, data/masters.json)
     : trainer ? [{ species: foeSp, level: foeLv }, { species: foeSp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: foeLv }] : [{ species: foeSp, level: foeLv }]);
   const sys = ui.demo ? null : ui.scene?.systems; // [systems-gd hook] the real bag (src/systems); ?uidemo=1 keeps the demo team + demo bag (never saved)
   const bag = sys ? sys.bagForBattle() : Object.fromEntries(Object.entries(ui.bag || {}).filter(([, n]) => n > 0));
@@ -127,7 +130,7 @@ export function makeSdBattle(ui, opts, h) {
   scr.isClosed = closed;
   const mon = { p1: null, p2: null }; // shown creature per side: { name, species, level, hp, maxhp }
   const plateHtml = (side) => `<div class="b-plate ${side === 'p2' ? 'foe' : 'ally'}" id="plate-${side}" data-pat="${side === 'p2' ? 'chevron' : 'dots'}"><div class="plate">
-      <div class="top"><span class="grow" id="${side}-name"></span><span class="lv" id="${side}-lv"></span></div>
+      <div class="top"><span class="grow" id="${side}-name"></span><span class="b-held" id="${side}-held" hidden>${pxi('handbag')}</span><span class="lv" id="${side}-lv"></span></div>
       <div class="bar-row"><b>HP</b><div class="bar" id="${side}-hp" data-lvl="good"><i style="width:100%"></i></div></div>
       ${side === 'p1' ? '<div class="hpnum" id="p1-hpnum"></div><div class="bar-row"><b>XP</b><div class="bar xp" id="p1-xp" style="height:8px"><i style="width:0%"></i></div></div>' : ''}
       ${side === 'p1' ? '<div class="b-party" id="p1-party" role="img"></div>' : trainer ? '<div class="b-trbar"><span class="b-trname" id="p2-trname"></span><div class="b-party" id="p2-party" role="img"></div></div>' : ''}</div></div>`;
@@ -175,11 +178,29 @@ export function makeSdBattle(ui, opts, h) {
     }).join('');
     el.setAttribute('aria-label', P1('party_hp', 'Team: {n} of {total} can battle', { n: able, total: side.creature.length }) /* PH */);
   };
+  // held items P2-P5 (Oct 29 2026): small bag chip on the plate while the shown creature holds something; it pops when the
+  // item triggers and fades out when the item is used up. Foes show the item name too (it is shown when it triggers anyway).
+  const drawHeld = (s) => {
+    const el = $(`#${s}-held`); if (!el) return;
+    const it = kb[s]?.active?.[0]?.getItem?.(), name = it?.exists !== false && it?.name ? it.name : '';
+    if (el.dataset.used && el.dataset.used !== mon[s]?.name) delete el.dataset.used;
+    const gid = name ? heldFromEngine(it.id) || '' : ''; // the item's own sprite (Oct 29 2026), bag glyph as fallback
+    if (gid && el.dataset.spr !== gid) { el.dataset.spr = gid; el.innerHTML = `<img class="held-spr" src="${heldIconSrc(gid)}" srcset="${heldIconSrc(gid).replace('.png', '_2x.png')} 2x" width="13" height="13" alt="" style="image-rendering:pixelated;display:block">`; }
+    el.hidden = !name || el.dataset.used === mon[s]?.name; el.title = name ? `Holding: ${name}` : ''; el.setAttribute('aria-label', el.title);
+  };
+  const popHeld = (s, gone) => {
+    const el = $(`#${s}-held`); if (!el) return;
+    if (el.dataset.used && el.dataset.used === mon[s]?.name) return; // used up already (Remedy Pouch heals after -enditem)
+    if (gone) el.dataset.used = mon[s]?.name || '1';
+    el.hidden = false; el.classList.remove('pop', 'gone'); void el.offsetWidth; el.classList.add(gone ? 'gone' : 'pop');
+    if (gone) setTimeout(() => { if (el.isConnected) { el.hidden = true; el.classList.remove('gone'); } }, 700);
+  };
   const drawPlate = (s) => {
     const m = mon[s]; if (!m) return;
     $(`#plate-${s}`).dataset.el = speciesById(m.species).el[0];
     { const el = $(`#${s}-name`), v = / ✦$/.test(m.name || ''); el.textContent = ''; const t = document.createElement('span'); t.className = 'nmt'; t.textContent = v ? m.name.slice(0, -2) : m.name; el.append(t); if (v) { const k = document.createElement('span'); k.className = 'vmark'; k.textContent = '✦'; el.append(k); } if (s === 'p2' && ownedBadge(m.species)) { const o = document.createElement('span'); o.className = 'b-owned'; o.innerHTML = '<svg viewBox="0 0 10 14" aria-hidden="true"><path d="M5 0 10 5 5 14 0 5Z" fill="#8fd8ff" stroke="#2a5d86" stroke-width="1"/><path d="M5 1.5 7.5 5 5 11 2.5 5Z" fill="#e6f8ff" opacity=".7"/></svg>Owned'; el.append(o); } el.classList.add('nmw'); } $(`#${s}-lv`).textContent = `Lv.${m.level}`;
     drawParty(s);
+    drawHeld(s);
     const f = Math.max(0, m.hp / m.maxhp), b = $(`#${s}-hp`); b.dataset.lvl = lvlOf(f); b.firstElementChild.style.width = `${f * 100}%`;
     if (s === 'p1') {
       $('#p1-hpnum').textContent = `${m.hp}/${m.maxhp}`;
@@ -315,7 +336,12 @@ export function makeSdBattle(ui, opts, h) {
           drawPlate(s); await wait(250);
           break;
         }
-        case '-heal': { mon[s].hp = hpOf(b).hp; drawPlate(s); await say(P1('healed', '{creature} feels better.', { creature: who }) /* PH */, 550); break; }
+        case '-heal': {
+          mon[s].hp = hpOf(b).hp; drawPlate(s);
+          const fromItem = /^\[from\] item: (.+)$/.exec(c); // held items (Moss Wrap, Sap Vial): chip pops, line names the item
+          if (fromItem) { popHeld(s, false); await say(P1('held_heal', "{creature}'s {item} patched it up a little.", { creature: who, item: fromItem[1] }) /* PH: Text Bot */, 600); break; }
+          await say(P1('healed', '{creature} feels better.', { creature: who }) /* PH */, 550); break;
+        }
         case '-weakspot': await say(P1('strong', 'That hit its weak spot!') /* PH */, 550); break;
         case '-resisted': await say(P1('weak', 'It shrugged most of that off.') /* PH */, 550); break;
         case '-immune': await say(P1('immune', "It didn't touch {creature}.", { creature: who }) /* PH */, 550); break;
@@ -331,7 +357,12 @@ export function makeSdBattle(ui, opts, h) {
           break;
         }
         case '-overuse': await say(ui.P('system_skills.energy_low', ['{skill} is nearly out of energy.'], { skill: lastMove?.move || '' })[0].replace('nearly out', 'out'), 500); break;
-        case '-activate': if (b === 'warmth') await say(P1('warmth_endure', '{creature} held on for you!', { creature: who }) /* PH */, 800); break;
+        case '-activate':
+          if (b === 'warmth') await say(P1('warmth_endure', '{creature} held on for you!', { creature: who }) /* PH */, 800);
+          else if (/^item: /.test(b)) popHeld(s, false), await say(P1('held_activate', "{creature}'s {item} kicked in!", { creature: who, item: b.slice(6) }) /* PH: Text Bot */, 650);
+          break;
+        // held items (design/HELD_ITEMS.md P1, Oct 29 2026): a held item used up in battle (Remedy Pouch, Mint Sprig, Last Stand Ribbon)
+        case '-enditem': popHeld(s, true); await say(P1('held_used', '{creature} used its {item}.', { creature: who, item: itemName(String(b).toLowerCase().replace(/[^a-z0-9]+/g, '')) }) /* PH: Text Bot */, 650); break;
         case 'faint': {
           await anim($(`#${s}-mon`), 'faint', 700); $(`#${s}-mon`).style.opacity = '0';
           await say(P1('fainted', '{creature} is out cold!', { creature: who }) /* PH (old shell line) */, 700);
@@ -373,11 +404,14 @@ export function makeSdBattle(ui, opts, h) {
   };
 
   // ---- commands ---------------------------------------------------------------------------------------------
+  // held icon per slot: engine item if it still has one; shell-only holders (Gold Coin, Link Band, Lure...) from the set; used up = empty
+  const heldOfMon = (c) => (c.item ? heldFromEngine(c.item) || c.set?.kHeld || '' : (heldToEngine(c.set?.kHeld) ? '' : c.set?.kHeld || ''));
   const showList = (m, items, label) => {
+    wireHeldIcons();
     mode = m; list = items; scr.sel = 0; const box = $('#b-cmds'); box.hidden = false;
     box.classList.toggle('skills', m !== 'cmd');
     Object.assign(box.style, items.length > 4 ? { gridTemplateRows: 'none', gridAutoRows: 'minmax(48px, auto)', overflowY: 'auto' } : { gridTemplateRows: '', gridAutoRows: '', overflowY: '' });
-    box.innerHTML = items.map((it, i) => `<div class="b-cmd" data-i="${i}" data-el="${it.el || 'light'}" data-pat="${['stripes', 'dots', 'chevron', 'lattice'][i % 4]}"${it.off ? ' style="opacity:.55"' : ''}><span class="t">${esc(it.t)}</span>${it.s ? `<span class="s">${esc(it.s)}</span>` : ''}</div>`).join('');
+    box.innerHTML = items.map((it, i) => `<div class="b-cmd" data-i="${i}" data-el="${it.el || 'light'}" data-pat="${['stripes', 'dots', 'chevron', 'lattice'][i % 4]}"${it.off ? ' style="opacity:.55"' : ''}><span class="t">${it.hi != null ? heldIconHtml(it.hi, { size: 'sm' }) + ' ' : ''}${esc(it.t)}</span>${it.s ? `<span class="s">${esc(it.s)}</span>` : ''}</div>`).join('');
     if (label) $('#b-msg').textContent = label;
     ui._markSel();
   };
@@ -391,7 +425,7 @@ export function makeSdBattle(ui, opts, h) {
   const autoRun = async () => {
     if (!DEV.active || kb.ended || busy) return;
     busy = true; $('#b-cmds').hidden = true; $('#b-msg').textContent = 'Auto-completing…';
-    const AB = await import('../dev/autobattle.js?v=v0.2.78-alpha');
+    const AB = await import('../dev/autobattle.js?v=v0.2.79-alpha');
     const entry = AB.runAuto(kb, { trainer, owned });
     if (!kb.ended) { busy = false; $('#b-msg').textContent = 'Auto-complete stopped early (see the dev battle logs).'; AB.afterFinish(entry); return; }
     await finish();
@@ -428,9 +462,9 @@ export function makeSdBattle(ui, opts, h) {
     // still fight, no Back; a press already held from the faint text can't pick (input opens 350 ms later)
     if (forced) { pickAt = performance.now() + 350;
       return showList('forced', team.map((c, i) => ({ c, i })).filter(({ c, i }) => i > 0 && !c.fainted).map(({ c, i }) => ({ t: `${c.name} Lv.${c.level}`, s: `HP ${c.hp}/${c.maxhp}`,
-        el: speciesById(c.species.id).el[0], go: () => act(`switch ${i + 1}`) })).concat(autoItem()), P1('send_next', 'Who goes in next?') /* PH */); }
+        el: speciesById(c.species.id).el[0], hi: heldOfMon(c), go: () => act(`switch ${i + 1}`) })).concat(autoItem()), P1('send_next', 'Who goes in next?') /* PH */); }
     showList(forced ? 'forced' : 'team', team.map((c, i) => ({ t: `${c.name} Lv.${c.level}`, s: c.fainted ? P1('out_cold_tag', 'Out cold') /* PH */ : `HP ${c.hp}/${c.maxhp}`,
-      el: speciesById(c.species.id).el[0], off: c.fainted || i === 0, go: () => { if (!c.fainted && i > 0) act(`switch ${i + 1}`); } })),
+      el: speciesById(c.species.id).el[0], hi: heldOfMon(c), off: c.fainted || i === 0, go: () => { if (!c.fainted && i > 0) act(`switch ${i + 1}`); } })),
     forced ? P1('send_next', 'Who goes in next?') /* PH */ : P1('team_prompt', 'Swap in who?') /* PH */);
   };
   const act = (choice) => guard(actInner(choice));

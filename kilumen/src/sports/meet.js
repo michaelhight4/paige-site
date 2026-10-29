@@ -4,8 +4,8 @@
 //   racer   = { key, name, species, stats, traits, isPlayer }
 // Events are pluggable: EVENTS[id] = { name, run(entrants, ctx) -> Promise<[{ entrantId, time }]>, better: 'low'|'high' }.
 // A relay later = an event whose run() races each member's leg and sums the times per entrant; nothing else changes.
-import { BracketsManager, InMemoryDatabase } from '../vendor/brackets/brackets.js?v=v0.2.78-alpha';
-import { POINTS, MEET } from './rules.js?v=v0.2.78-alpha';
+import { BracketsManager, InMemoryDatabase } from '../vendor/brackets/brackets.js?v=v0.2.79-alpha';
+import { POINTS, MEET } from './rules.js?v=v0.2.79-alpha';
 
 export const EVENTS = {};
 export function registerEvent(id, def) { EVENTS[id] = { better: 'low', ...def, id }; return EVENTS[id]; }

@@ -6,19 +6,19 @@
 // Save rules: the coach talk runs inside scene.script() (checkpoint before, normal save after) and a saveGuard blocks
 // saving the whole time the overlay is open, so the fee, the race and the prize land in one save after the overlay
 // closes. Closing the tab mid-race reloads the pre-talk checkpoint: fee not taken, window not used.
-import { attachTownEvents } from './town_ui.js?v=v0.2.78-alpha';
-import { S, t } from './strings.js?v=v0.2.78-alpha';
-import { STATS, POINTS } from './rules.js?v=v0.2.78-alpha';
-import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.78-alpha';
-import { runMeet } from './meet.js?v=v0.2.78-alpha';
-import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.78-alpha';
-import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.78-alpha';
-import { speciesAthletics } from './athletics.js?v=v0.2.78-alpha';
-import { rngFor } from './rng.js?v=v0.2.78-alpha';
-import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.78-alpha';
-import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.78-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.78-alpha';
-import { keyAction, pollPad } from './pad_input.js?v=v0.2.78-alpha';
+import { attachTownEvents } from './town_ui.js?v=v0.2.79-alpha';
+import { S, t } from './strings.js?v=v0.2.79-alpha';
+import { STATS, POINTS } from './rules.js?v=v0.2.79-alpha';
+import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.79-alpha';
+import { runMeet } from './meet.js?v=v0.2.79-alpha';
+import { createRace, stepRace, applyStart, applyPush, applySprint, playerOf, markerQuality, startQuality, DIST, WINDOW_S } from './race.js?v=v0.2.79-alpha';
+import { pingPong, walkFrame, parallax } from './ported.js?v=v0.2.79-alpha';
+import { speciesAthletics } from './athletics.js?v=v0.2.79-alpha';
+import { rngFor } from './rng.js?v=v0.2.79-alpha';
+import { runRaceShow, runChampion, reducedMotion, showTime } from './hype.js?v=v0.2.79-alpha';
+import { TOURNEY, VENUE, sportsState, canEnter, payEntry, settle, daysUntil, isTourneyDay } from './tournament.js?v=v0.2.79-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.79-alpha';
+import { keyAction, pollPad } from './pad_input.js?v=v0.2.79-alpha';
 
 const W = 640, H = 360, PPM = 22, LANE_Y = [176, 222, 268, 314], SPR = 64;
 const sheet = new Map();

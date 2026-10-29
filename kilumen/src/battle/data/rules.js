@@ -1,6 +1,7 @@
 // Kilumen battle rules (constants + conditions + items + format). Numbers are PLACEHOLDERS taken
 // from the proposals in design/MECHANICS_PARITY.md (row in brackets) until Gary signs them off.
-import { BATTLE_ITEMS } from '../../systems/items.js?v=v0.2.78-alpha';
+import { BATTLE_ITEMS } from '../../systems/items.js?v=v0.2.79-alpha';
+import { HELD_BATTLE_ITEMS, CHOICE_LOCK } from './held_items.js?v=v0.2.79-alpha';
 export const KILUMEN_RULES = {
   critStages: [0, 20, 8, 2, 1], // Clean Strike 1/20 base [B8]
   critMult: 1.4,                // [B8]
@@ -42,6 +43,8 @@ export function buildConditions() {
         return false;
       },
     },
+    // Oath items' move lock (held items P1, Oct 29 2026; src/battle/data/held_items.js)
+    choicelock: CHOICE_LOCK,
   };
 }
 
@@ -50,7 +53,10 @@ export function buildConditions() {
 export function buildItems() {
   // engine ids are the game ids without underscores (engine toID); kGameId maps back
   return Object.fromEntries(Object.entries(BATTLE_ITEMS).map(([id, it]) => [id.replace(/_/g, ''),
-    { gen: 9, desc: '', shortDesc: '', ...it, kGameId: id, kKey: id.replace(/_/g, '') }]));
+    { gen: 9, desc: '', shortDesc: '', ...it, kGameId: id, kKey: id.replace(/_/g, '') }]).concat(
+    // held items (design/HELD_ITEMS.md P1, Oct 29 2026): engine-side effects; nums after the bag items
+    Object.entries(HELD_BATTLE_ITEMS).map(([id, it], n) => [id.replace(/_/g, ''),
+      { gen: 9, desc: '', shortDesc: '', num: 1000 + n, ...it, kGameId: id, kKey: id.replace(/_/g, ''), kHeld: true }])));
 }
 
 export function buildFormats() {

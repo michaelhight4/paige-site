@@ -1,3 +1,4 @@
+import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.79-alpha';
 // Masters 1-8 (Oct 23, 2026, overnight coder). Data: data/masters.json (built from design/overnight_gd/halls/*.json by
 // tools/build_progression_data.mjs). Pure helpers here; the scene / UI wiring is in ./index.js.
 // - results: each Master win sets its story flag (beat_master_<zone>), which IS the coin (coinCount() in src/overworld/lines.js).
@@ -55,7 +56,9 @@ export function findHallTrainer(data, map, id) {
 export function teamFor(data, map, id, { fernwick = false } = {}) {
   const f = findHallTrainer(data, map, id);
   if (!f || (f.hall.zone === 'fernwick' && !fernwick)) return null;
-  return { foes: f.who.team.map((m) => ({ species: m.battle_species, level: m.level })), foeName: f.who.name_placeholder || 'Trainer', zone: f.hall.zone, isMaster: f.isMaster, masterNumber: f.isMaster ? f.hall.coin_number : 0 };
+  const foes = f.who.team.map((m) => ({ species: m.battle_species, level: m.level }));
+  return { foes: f.isMaster ? applyHeldPicks(heldRoleFor({ zone: f.hall.zone }), foes) : foes, // held items (Oct 29 2026): Master picks, src/battle/data/trainer_held.js
+    foeName: f.who.name_placeholder || 'Trainer', zone: f.hall.zone, isMaster: f.isMaster, masterNumber: f.isMaster ? f.hall.coin_number : 0 };
 }
 
 export const hallByZone = (data, zone) => data.halls.find((h) => h.zone === zone) || null;

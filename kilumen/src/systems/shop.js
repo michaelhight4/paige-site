@@ -1,8 +1,8 @@
 // Kilumen shop + money: regional prices, stock by Master coins, staff/board discount, buy/sell, trainer money.
 // systems-gd pass, Oct 22, 2026. Money lives in save.coins (save.js v2). NOTE: the text var {coins} is the
 // Masters' coin count (lines.js coinCount); money text uses {total}/{fee}/{amount}/{price}.
-import { fmtMoney } from './config.js?v=v0.2.78-alpha';
-import { CRYSTAL_GRADES, crystalRank } from './data/crystal_grades.js?v=v0.2.78-alpha'; // board-gated crystal grades (Oct 23, 2026)
+import { fmtMoney } from './config.js?v=v0.2.79-alpha';
+import { CRYSTAL_GRADES, crystalRank } from './data/crystal_grades.js?v=v0.2.79-alpha'; // board-gated crystal grades (Oct 23, 2026)
 
 // src/systems/data/shops.json is loaded once (fetch in the browser, fs in node) before the shop is used;
 // no JSON import attributes so older Safari/Firefox still run the zero-build game.
@@ -16,7 +16,7 @@ export async function loadShopsData(url = new URL('./data/shops.json', import.me
   if (!r.ok) throw new Error(`shops.json: HTTP ${r.status}`);
   return setShopsData(await r.json());
 }
-export const regionOf = (zone, shops = getShops()) => shops.regions[zone] || shops.regions._default;
+export const regionOf = (zone, shops = getShops()) => shops.regions[zone] || shops.regions[shops.zoneAlias?.[zone]] || shops.regions._default; // zoneAlias: Sunmeadow -> Tidewater Coast row (Oct 29 2026)
 
 export class Wallet {
   constructor(n = 0) { this.n = Math.max(0, Math.floor(Number(n) || 0)); }
@@ -124,8 +124,11 @@ export function awardPrize({ trainerId = null, baseAmount, level } = {}, { walle
   let amount = base * L;
   const coin = amount > 0 && holdsGoldCoin(party, cfg);
   if (coin) amount = Math.floor(amount * (cfg.goldCoinMult || 1.5));
+  // Tally Purse (held items P2, Oct 29 2026): +10%, stacks with nothing (a gold coin on the team wins)
+  const purse = amount > 0 && !coin && party.some((c) => c?.held === 'tally_purse');
+  if (purse) amount = Math.floor(amount * (cfg.tallyPurseMult || 1.1));
   wallet?.add(amount);
-  awardPrize.last = { trainerId, amount, coin };
+  awardPrize.last = { trainerId, amount, coin, purse };
   return amount;
 }
 

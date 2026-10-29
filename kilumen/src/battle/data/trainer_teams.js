@@ -6,7 +6,7 @@
 // Nibbin swap (Oct 23 2026, coder; Gary: Tumbloam "looks a lot like Cindrip"): Nibbin -> Gnawford is the earth STARTER now and
 // starter-only (src/battle/data/starters.js STARTER_ONLY), so the old Nibbin slots on ordinary trainers became Tumbloam (same
 // level, earth, first stage, evolves at 16). Ron's byStarter: `nibbin` added (= the old earth branch, Ron takes Cindrip), the
-// rillop branch now fields Nibbin / Gnawford; `tumbloam` kept for v0.2.78-alpha saves that picked Tumbloam.
+// rillop branch now fields Nibbin / Gnawford; `tumbloam` kept for v0.2.79-alpha saves that picked Tumbloam.
 // XP rules stay xpDivisor 7 / xpTrainerMult 1.5 (Gary 12:00: "No, keep the old XP and find another way"; 12:01: "the
 // point of the game is to grind in the grass and log more kilumen"): trainers do NOT carry the player to L12-13, grass
 // grinding does (tools/playcheck_master1.mjs models it). r1_d/e/f + fw_a are world-feel trainers (Gary 12:02: "trainers
@@ -18,7 +18,8 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.78-alpha';
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.79-alpha';
+import { applyHeldPicks } from './trainer_held.js?v=v0.2.79-alpha';
 
 export const TRAINER_TEAMS = {
   'route1.trainer_r1_d': [{ species: 'glintfly', level: 3 }, { species: 'thistlepup', level: 4 }], // Lumen Lab intern, Brookhollow end
@@ -37,7 +38,7 @@ export const TRAINER_TEAMS = {
       nibbin: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }],
       cindrip: [{ species: 'peeplark', level: 7 }, { species: 'rillop', level: 8 }],
       rillop: [{ species: 'peeplark', level: 7 }, { species: 'nibbin', level: 8 }],
-      tumbloam: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }], // legacy: v0.2.78-alpha Tumbloam saves
+      tumbloam: [{ species: 'peeplark', level: 7 }, { species: 'cindrip', level: 8 }], // legacy: v0.2.79-alpha Tumbloam saves
     },
   },
   'fernwick.trainer_fw_a': [{ species: 'thistlepup', level: 8 }, { species: 'hushowl', level: 9 }], // hall hopeful, path to the Master's Hall
@@ -127,14 +128,29 @@ export const TRAINER_TEAMS = {
   'frostspire_hall_int.frostspire_hall_int_master': [{ species: 'sailquill', level: 33 }, { species: 'highkite', level: 34 }, { species: 'pouchbill', level: 34 }, { species: 'gildfinch', level: 35 }], // Hale Corrie, Master 4
 };
 
+// Held items for Masters and Ron: per-creature picks per fight in src/battle/data/trainer_held.js (Oct 29 2026, P2-P5).
+// TRAINER_HELD: authored fight key -> pick key. Other trainers hold nothing. battle.js toSet passes `held` in.
+export const TRAINER_HELD = {
+  'fernwick.ron_rival_1': 'ron_1',
+  'fernwick_hall_int.master_fernwick': 'master_fernwick',
+  'saltmere.saltmere_ron_2': 'ron_2',
+  'saltmere_hall_int.saltmere_hall_int_master': 'master_saltmere',
+  'revival_heights.revival_heights_ron_3': 'ron_3',
+  'revival_hall_int.revival_hall_int_master': 'master_revival_heights',
+  'frostspire_pass.frostspire_pass_ron_4': 'ron_4',
+  'frostspire_hall_int.frostspire_hall_int_master': 'master_frostspire',
+};
+const withHeld = (key, team) => applyHeldPicks(TRAINER_HELD[key], team);
+
 /** The authored team for `who` ({map, id}) or null. `party` picks Ron's counter team from the player's starter (any stage:
  *  an evolved starter still counts, starters.js partyStarter; a legacy Tumbloam save uses the `tumbloam` branch). */
 export function authoredTeam(who, party = []) {
   if (!who?.map || !who?.id) return null;
   const e = TRAINER_TEAMS[`${who.map}.${who.id}`];
   if (!e) return null;
-  if (Array.isArray(e)) return e.map((f) => ({ ...f }));
+  const key = `${who.map}.${who.id}`;
+  if (Array.isArray(e)) return withHeld(key, e.map((f) => ({ ...f })));
   const starter = partyStarter(party) || STARTERS[0];
-  const key = starterKeys(starter).find((k) => e.byStarter[k]) || Object.keys(e.byStarter)[0];
-  return e.byStarter[key].map((f) => ({ ...f }));
+  const sk = starterKeys(starter).find((k) => e.byStarter[k]) || Object.keys(e.byStarter)[0];
+  return withHeld(key, e.byStarter[sk].map((f) => ({ ...f })));
 }

@@ -2,13 +2,14 @@
 // screen = (world - cam) * zoom, as src/overworld/overworld.js view()), plus a small DOM HUD. All the "juice" lives here:
 // hitstop, shake, white hit flash, knockback dust, damage numbers, element sparks, telegraph wedges, "!" alerts, faint poof,
 // crystal pulses, level-up column, start/end banners. Reduced motion (?rm=1 / prefers-reduced-motion): no shake, no flashes, fewer particles.
-import { displayName } from '../systems/creature.js?v=v0.2.78-alpha';
-import { SHAPE_STATS } from './moves.js?v=v0.2.78-alpha';
-import { RT } from './sim.js?v=v0.2.78-alpha';
-import { loadFx } from '../ui/hit_fx.js?v=v0.2.78-alpha';
-import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.78-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.79-alpha';
+import { SHAPE_STATS } from './moves.js?v=v0.2.79-alpha';
+import { RT } from './sim.js?v=v0.2.79-alpha';
+import { loadFx } from '../ui/hit_fx.js?v=v0.2.79-alpha';
+import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.79-alpha';
 // crystal icon (inline, no asset): a faceted gem
 export const GEM_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 9 12 22 4 9Z" fill="#bff6ff"/><path d="M12 2 16 9 12 22 8 9Z" fill="#7fe3ff"/><path d="M4 9h16L12 22Z" fill="#4fc7ef" opacity=".55"/><path d="M12 2 8 9h8Z" fill="#fff" opacity=".8"/></svg>';
+import { heldIconHtml, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.79-alpha'; // held-item icon per slot (Oct 29 2026)
 
 export const EL_COLOR = { fire: '#ff7a2f', magma: '#ff5a1f', water: '#3fa9ff', freshwater: '#5cc3ff', sea: '#2f86ff', earth: '#c9935a', grass: '#62d65a',
   bug: '#a6d93d', wind: '#c6ecff', bird: '#d6e6ff', light: '#fff1a0', angelic: '#ffe6c2', god: '#ffe08a', dark: '#9a6bff', ghost: '#b796ff', demon: '#ff4f7a',
@@ -48,6 +49,7 @@ const CSS = `
 .rtb-pi.on{border-color:#7dd3ff}.rtb-pi.ko{opacity:.35;filter:grayscale(1)}.rtb-pi.cd:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45)}
 .rtb-pi.no{animation:rtbNo .3s}@keyframes rtbNo{25%,75%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
 .rtb-pi .pk{position:absolute;right:1px;bottom:0;font:700 11px/1 system-ui,sans-serif;text-shadow:0 1px 0 #000,0 0 3px #000;z-index:2}
+.rtb-pi .held-ic{position:absolute;left:1px;top:1px;z-index:3;width:16px;height:16px;border-width:0}.rtb-pi .held-ic.empty{opacity:.35;border-color:rgba(255,255,255,.7)}
 .rtb-pi .ph{position:absolute;left:2px;right:2px;bottom:2px;height:3px;background:#5be37a;border-radius:2px}
 body.rtb-touch .rtb-pi{width:34px;height:34px}body.rtb-touch .rtb-pi .pk{display:none}
 .rtb-s.sel{border-color:#ffd25a;background:rgba(255,210,90,.16)}
@@ -486,10 +488,10 @@ export class RtView {
   }
   partyFrame() {
     const sim = this.sim, box = this.$('[data-rtb="party"]'); if (!box) return;
-    const key = sim.party.map((c) => c.uid).join();
+    const key = sim.party.map((c) => `${c.uid}:${c.held || ''}`).join();
     if (box.dataset.k !== key) {
       box.dataset.k = key;
-      box.innerHTML = sim.party.map((c, i) => `<div class="rtb-pi" data-i="${i}" role="button" aria-label="Switch to ${displayName(c)} (${i + 1})" title="${displayName(c)}"><canvas width="64" height="64"></canvas><span class="pk">${this.keyNames.party ? i + 1 : ''}</span><span class="ph"></span></div>`).join('');
+      box.innerHTML = sim.party.map((c, i) => `<div class="rtb-pi" data-i="${i}" role="button" aria-label="Switch to ${displayName(c)} (${i + 1})" title="${displayName(c)}"><canvas width="64" height="64"></canvas><span class="pk">${this.keyNames.party ? i + 1 : ''}</span><span class="ph"></span>${heldIconHtml(c.held, { size: 'sm' })}</div>`).join(''); wireHeldIcons();
       box._drawn = new Set();
     }
     sim.party.forEach((c, i) => {

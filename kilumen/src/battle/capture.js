@@ -17,9 +17,9 @@
 export const CAPTURE = { hpWeight: 29 / 30, hpCurve: 0.85, min: 0.005, max: 0.95, pulses: 4 };
 
 /** capture chance 0..1 */
-export function captureChance({ rarity = 0.5, hp = 1, maxHp = 1, status = 1, grade = 1 } = {}, K = CAPTURE) {
+export function captureChance({ rarity = 0.5, hp = 1, maxHp = 1, status = 1, grade = 1, heldMult = 1 } = {}, K = CAPTURE) { // heldMult: Tamer's Thread x1.2 (held items, Oct 29 2026; engine twin: kCatchMult)
   const frac = Math.max(0, Math.min(1, maxHp > 0 ? hp / maxHp : 1));
-  const p = rarity * (1 - (K.hpWeight ?? CAPTURE.hpWeight) * Math.pow(frac, K.hpCurve ?? CAPTURE.hpCurve)) * status * grade;
+  const p = rarity * (1 - (K.hpWeight ?? CAPTURE.hpWeight) * Math.pow(frac, K.hpCurve ?? CAPTURE.hpCurve)) * status * grade * heldMult;
   return Math.max(K.min ?? CAPTURE.min, Math.min(K.max ?? CAPTURE.max, p));
 }
 
