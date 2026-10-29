@@ -1,0 +1,98 @@
+[
+ {
+  "plat": "pc",
+  "floor": 1,
+  "map": "lanternport_lighthouse_int",
+  "errors": [],
+  "shots": [
+   "pc_1F_arrival.png",
+   "pc_1F_h1.png",
+   "pc_1F_h2.png",
+   "pc_1F_guide.png",
+   "pc_1F_stairs.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "floor": 2,
+  "map": "lanternport_lighthouse_f2",
+  "errors": [],
+  "shots": [
+   "pc_2F_arrival.png",
+   "pc_2F_h7.png",
+   "pc_2F_h8.png",
+   "pc_2F_stairs.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "floor": 3,
+  "map": "lanternport_lighthouse_f3",
+  "errors": [],
+  "shots": [
+   "pc_3F_arrival.png",
+   "pc_3F_h9.png",
+   "pc_3F_h10.png",
+   "pc_3F_stairs.png"
+  ]
+ },
+ {
+  "plat": "pc",
+  "floor": 4,
+  "map": "lanternport_hall_int",
+  "errors": [],
+  "shots": [
+   "pc_4F_arrival.png",
+   "pc_4F_master.png",
+   "pc_4F_stairs.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "floor": 1,
+  "map": "lanternport_lighthouse_int",
+  "errors": [],
+  "shots": [
+   "phone_1F_arrival.png",
+   "phone_1F_h1.png",
+   "phone_1F_h2.png",
+   "phone_1F_guide.png",
+   "phone_1F_stairs.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "floor": 2,
+  "map": "lanternport_lighthouse_f2",
+  "errors": [],
+  "shots": [
+   "phone_2F_arrival.png",
+   "phone_2F_h7.png",
+   "phone_2F_h8.png",
+   "phone_2F_stairs.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "floor": 3,
+  "map": "lanternport_lighthouse_f3",
+  "errors": [],
+  "shots": [
+   "phone_3F_arrival.png",
+   "phone_3F_h9.png",
+   "phone_3F_h10.png",
+   "phone_3F_stairs.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "floor": 4,
+  "map": "lanternport_hall_int",
+  "errors": [],
+  "shots": [
+   "phone_4F_arrival.png",
+   "phone_4F_master.png",
+   "phone_4F_stairs.png"
+  ]
+ }
+]

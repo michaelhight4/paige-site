@@ -2063,6 +2063,98 @@
    },
    "portraits_stand_in": true,
    "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_lighthouse_int.lanternport_hall_int_h1": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   }
+  },
+  "lanternport_lighthouse_int.lanternport_hall_int_h2": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   }
+  },
+  "lanternport_lighthouse_f2.lanternport_hall_int_h7": {
+   "sprite_id": "tr_lanternport_hall_int_h7",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h7/overworld/tr_lanternport_hall_int_h7_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h7/trainer/tr_lanternport_hall_int_h7_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_lighthouse_f2.lanternport_hall_int_h8": {
+   "sprite_id": "tr_lanternport_hall_int_h8",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h8/overworld/tr_lanternport_hall_int_h8_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h8/trainer/tr_lanternport_hall_int_h8_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_lighthouse_f3.lanternport_hall_int_h9": {
+   "sprite_id": "tr_lanternport_hall_int_h9",
+   "class": "Hall Helper (young man), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h9/overworld/tr_lanternport_hall_int_h9_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h9/trainer/tr_lanternport_hall_int_h9_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
+  },
+  "lanternport_lighthouse_f3.lanternport_hall_int_h10": {
+   "sprite_id": "tr_lanternport_hall_int_h10",
+   "class": "Hall Helper (young woman), hall overhaul",
+   "overworld_sheet": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_lanternport_hall_int_h10/overworld/tr_lanternport_hall_int_h10_chibi/",
+   "trainer_64x128": "npcs/tr_lanternport_hall_int_h10/trainer/tr_lanternport_hall_int_h10_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "portraits_stand_in": true,
+   "note": "hall art (Character models, Oct 29 2026, DRAFT pending Gary); portraits still the Fernwick stand-in"
   }
  },
  "unassigned_ready": {

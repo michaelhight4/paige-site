@@ -16,7 +16,8 @@ const { GameMap } = await import(path.join(root, 'src/overworld/map.js'));
 const { findSpotter } = await import(path.join(root, 'src/overnight/sight.js'));
 const { KILUMEN_RULES } = await import(path.join(root, 'src/battle/data/rules.js'));
 
-const HALLS = ['fernwick', 'mirefen', 'saltmere', 'tidewater', 'frostspire', 'lanternport', 'revival', 'cindervale'];
+const HALLS = ['fernwick', 'mirefen', 'saltmere', 'tidewater', 'frostspire', 'revival', 'cindervale']; // lanternport: the lighthouse block below
+const ALL_HALLS = [...HALLS, 'lanternport'];
 const COUNT = { fernwick: 3, saltmere: 4, revival: 5, mirefen: 7, tidewater: 8, lanternport: 10, cindervale: 12, frostspire: 6 };
 const byId = new Map();
 for (const f of ['tileset.json', 'tileset_ix2.json', 'tileset_hallanim.json', 'tileset_hallart.json']) for (const t of J(`art/world/overworld/${f}`).tiles) byId.set(t.id, t);
@@ -176,7 +177,7 @@ test('hall anim flag: dev on, public off, overrides win; applyHallAnim sets cell
 test('system_halls keys exist and hall text has no banned words', () => {
   for (const k of ['progress', 'progress_open', 'master_locked', 'master_puzzle', 'rematch_prompt', 'rematch_no_gold', 'rematch_won']) assert.ok(lines.system_halls?.[k], k);
   const BANNED = /\b(PP|shiny|super effective|Pok[eé]dex|Pok[eé] Ball|nurse|weed|routes?|berr(y|ies)|gym)\b/i;
-  for (const h of HALLS) { const t = JSON.stringify(lines.maps[`${h}_hall_int`] || {}); assert.ok(!BANNED.test(t), `${h}: ${t.match(BANNED)?.[0]}`); }
+  for (const h of ALL_HALLS) { const t = JSON.stringify(lines.maps[`${h}_hall_int`] || {}); assert.ok(!BANNED.test(t), `${h}: ${t.match(BANNED)?.[0]}`); }
   assert.ok(!BANNED.test(JSON.stringify(lines.system_halls)));
 });
 
@@ -220,15 +221,15 @@ test('hall art (Character models): 13 trainers off the stand-ins, push/warp cell
   const smap = J('art/characters/pixel/npcs/npc_sprite_map.json').map;
   const art = J('art/world/overworld/tileset_hallart.json').tiles;
   assert.equal(art.length, 32); assert.ok(art.every((t) => t.collision_code === 0 && t.id >= 9981));
-  const T = J('text/overworld_lines.json').maps; let n = 0;
+  const T = J('text/overworld_lines.json').maps; let n = 0; const ids = [];
   for (const [k, e] of Object.entries(smap)) {
     if (!/_hall_int_h\d+$/.test(k) || !e.sprite_id?.startsWith('tr_') || !e.sprite_id.includes('_hall_int_h')) continue;
-    n++; assert.ok(fs.existsSync(`art/characters/pixel/${e.overworld_sheet}`), k); assert.ok(fs.existsSync(`art/characters/pixel/${e.trainer_64x128}`), k);
+    n++; ids.push(e.sprite_id); assert.ok(fs.existsSync(`art/characters/pixel/${e.overworld_sheet}`), k); assert.ok(fs.existsSync(`art/characters/pixel/${e.trainer_64x128}`), k);
     const [hm, id] = k.split('.'); assert.ok(T[hm][id].name && !T[hm][id].placeholder, k);
   }
-  assert.equal(n, 13);
+  assert.equal(new Set(ids).size, 13);
   const PUSH = { '^': 'up', v: 'down', '<': 'left', '>': 'right' };
-  for (const hm of ['cindervale_hall_int', 'mirefen_hall_int', 'lanternport_hall_int']) {
+  for (const hm of ['cindervale_hall_int', 'mirefen_hall_int', 'lanternport_lighthouse_f2']) {
     const m = J(`art/world/overworld/maps/${hm}.json`), g = m.hall_v2.grid;
     g.forEach((row, y) => [...row].forEach((c, x) => {
       const t = byId.get(m.layers.ground[y][x]);
@@ -237,4 +238,95 @@ test('hall art (Character models): 13 trainers off the stand-ins, push/warp cell
       if (PUSH[c] || m.hall_v2.warps?.[c]) assert.equal(m.layers.collision[y][x], 0);
     }));
   }
+});
+
+// ---- Lanternport lighthouse (Gary Oct 29 2026): hall 7 = 4 floor maps joined by stairs; 1F-3F 1-2 trainers each (6), 4F lamp room
+const LH = ['lanternport_lighthouse_int', 'lanternport_lighthouse_f2', 'lanternport_lighthouse_f3', 'lanternport_hall_int'];
+const lhMap = (n) => J(`art/world/overworld/maps/${n}.json`);
+function fakeSceneFor(json, { flags = [], seen = {}, counters = {} } = {}) {
+  const map = new GameMap(json); map.attachTileset(byId);
+  const out = { said: [], battles: [] };
+  const sc = {
+    map, flags: new Set(flags), seen, counters, lines, out, ms: 0, rustles: new Map(), busy: false,
+    player: { x: json.hall_v2.arrival[0], y: json.hall_v2.arrival[1], facing: 'up', locked: false },
+    systems: { wallet: { coins: 1000, spend() { return true; }, add(n) { return n; } }, onTrainerLoss: async () => true },
+    npcs: { byId: () => null, beginTalk() {}, endTalk() {}, walkTo() {} }, setFlag(f) { this.flags.add(f); },
+    script: async (fn) => fn(), say: async (p) => { out.said.push(p.join(' ')); }, ask: async () => 0, speakerFor: () => null,
+    _entryFor: (mn, d) => lines.maps?.[mn]?.[d.id] || {}, lockSave: () => () => {},
+    hooks: { onBattle: async (who) => { out.battles.push(who); seen[`defeated:${who.map}.${who.id}`] = true; return true; } },
+    worldApi: () => ({ onArrive: () => undefined, onStepStart: () => undefined }),
+  };
+  sc.talk = async (nn, def) => { if (seen[`defeated:${map.name}.${def.id}`]) { out.said.push('after'); return; } await sc.hooks.onBattle({ map: map.name, id: def.id }); };
+  const store = { masters: {}, puzzles: {} }, hv = HV.attachHallV2(sc, null, { store });
+  return { sc, hv, out, m: json, store };
+}
+test('lighthouse: 4 floors, stairs warps pair up, 1-2 trainers on 1F-3F (6 total), Master only on 4F, members list = the placed trainers', () => {
+  const ms = LH.map(lhMap), all = [];
+  ms.forEach((m, i) => {
+    assert.equal(m.hall_v2.floor, i + 1); assert.deepEqual(m.hall_v2.floors, LH); assert.equal(m.hall_v2.need_wins, 4);
+    const tr = trainers(m); if (i < 3) assert.ok(tr.length >= 1 && tr.length <= 2, m.name); else assert.equal(tr.length, 0);
+    assert.equal(m.npcs.filter((n) => n.kind === 'master').length, i === 3 ? 1 : 0);
+    all.push(...tr.map((t) => `${m.name}.${t.id}`));
+    for (const w of m.warps) {
+      const to = LH.includes(w.to) ? lhMap(w.to) : null; if (!to) { assert.equal(w.to, 'lanternport'); continue; }
+      assert.equal(to.layers.collision[w.ty][w.tx], 0, `${m.name} -> ${w.to} lands on a walkable cell`);
+      assert.ok(to.warps.some((b) => b.to === m.name && Math.abs(b.x - w.tx) + Math.abs(b.y - w.ty) <= 2), `${w.to} has stairs back by the landing`);
+      assert.equal(m.layers.collision[w.y][w.x], 4, 'stairs are door cells');
+    }
+  });
+  assert.equal(all.length, 6);
+  for (const m of ms) assert.deepEqual(m.hall_v2.members, all);
+  const town = lhMap('lanternport').warps.find((w) => w.to === 'lanternport_lighthouse_int');
+  assert.ok(town); assert.deepEqual([town.tx, town.ty], ms[0].hall_v2.arrival);
+  assert.ok(!lhMap('lanternport').warps.some((w) => w.to === 'lanternport_hall_int'), 'town no longer opens the lamp room directly');
+  const M = J('data/masters.json').halls.find((h) => h.zone === 'lanternport');
+  assert.deepEqual(M.floor_maps, LH.slice(0, 3)); assert.equal(M.hall_map, 'lanternport_hall_int');
+  assert.deepEqual(M.trainers.map((t, i) => (t.dropped ? i + 1 : 0)).filter(Boolean), [3, 4, 5, 6]);
+});
+for (const n of LH) {
+  test(`lighthouse ${n}: solver - no softlocks, stored solution, walk that battles every trainer on the floor; grid-fit`, () => {
+    const m = lhMap(n), r = hallV2FromMap(m), c = r.hall.check();
+    assert.equal(c.softlocks, 0); assert.equal(c.moves, m.hall_v2.solution_moves);
+    if (r.trainers.length) assert.ok(r.hall.battles(r.rays, r.trainers.length, r.trainers.length, 200000));
+    const g = m.hall_v2.grid; assert.equal(g.length, m.height); assert.ok(g.every((row) => row.length === m.width));
+    for (const k of Object.keys(m.layers)) { assert.equal(m.layers[k].length, m.height, k); assert.ok(m.layers[k].every((row) => row.length === m.width), k); }
+    g.forEach((row, y) => [...row].forEach((ch, x) => { if (ch === '#') assert.notEqual(m.layers.collision[y][x], 0, `${n} wall ${x},${y} walkable`); }));
+    for (const nn of m.npcs) assert.ok(!/[abcdTU1-6\^v<>i#SG]/.test(g[nn.y][nn.x]), `${nn.id} on ${g[nn.y][nn.x]}`);
+    if (m.hall_v2.floor === 2 || m.hall_v2.floor === 3) { // a stair gate: not reachable without the plate
+      const gt = new HallV2(g, trainers(m).map((t) => [t.x, t.y])), [sx, sy] = m.hall_v2.arrival, [ux, uy] = m.hall_v2.stairs_up, seen = new Set([`${sx},${sy}`]), q = [[sx, sy]];
+      while (q.length) { const [x, y] = q.shift(); for (const [ax, ay] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = x + ax, ny = y + ay; if (seen.has(`${nx},${ny}`) || /[TU1-6\^v<>i]/.test(gt.at(nx, ny)) || !gt.open(nx, ny, 0)) continue; seen.add(`${nx},${ny}`); q.push([nx, ny]); } }
+      assert.ok(!seen.has(`${ux},${uy}`), 'stairs up reachable without the floor puzzle');
+    }
+  });
+}
+test('lighthouse: wins count across floors; Master opens after any 4 (puzzle flag from the lamp-room dais), not 3', async () => {
+  const ms = LH.map(lhMap), all = ms[0].hall_v2.members, top = ms[3], mid = top.npcs.find((n) => n.kind === 'master');
+  const seen3 = Object.fromEntries(all.slice(0, 3).map((k) => [`defeated:${k}`, true]));
+  let f = fakeSceneFor(top, { seen: { ...seen3 }, flags: [HV.puzzleFlag(top)] }); await f.sc.talk(null, mid); assert.equal(f.out.battles.length, 0);
+  const seen4 = Object.fromEntries([all[0], all[2], all[4], all[5]].map((k) => [`defeated:${k}`, true])); // any 4: 1F, 2F, 3F x2
+  f = fakeSceneFor(top, { seen: { ...seen4 } }); await f.sc.talk(null, mid); assert.equal(f.out.battles.length, 0, 'no puzzle flag yet');
+  const [dx, dy] = top.hall_v2.dais_front; f.hv.arrive(dx, dy, { facing: 'up', _attempt() {}, place() {} }, f.sc.worldApi()); assert.ok(f.sc.flags.has(HV.puzzleFlag(top)));
+  await f.sc.talk(null, mid); assert.equal(f.out.battles.length, 1); assert.equal(f.sc.counters.hall_lanternport_wins, 4);
+  const g = fakeSceneFor(ms[1], { seen: { ...seen4 } }); assert.equal(HV.hallWins(g.sc.seen, ms[1]), 4); // counted on another floor too
+  assert.equal(HV.bitsKey(ms[1]), 'v2_lanternport_lighthouse_f2'); assert.notEqual(HV.bitsKey(ms[1]), HV.bitsKey(ms[2]));
+});
+test('lighthouse: after the Master (4F record) trainers on every floor go quiet: no sight battles, after line only', async () => {
+  for (const n of LH.slice(0, 3)) {
+    const m = lhMap(n), f = fakeSceneFor(m, { seen: { [`defeated:${m.hall_v2.master_ref}`]: true } });
+    for (const t of trainers(m)) { assert.equal(f.sc.hallQuiet({ def: t }), true); await f.sc.talk(null, t); }
+    assert.equal(f.out.battles.length, 0);
+    const g = fakeSceneFor(m); assert.equal(g.sc.hallQuiet({ def: trainers(m)[0] }), false);
+    let hit = 0; const map = new GameMap(m); map.attachTileset(byId);
+    for (const t of trainers(m)) { const cell = (t.sight_cells || []).find(([x, y]) => !map.npcAt(x, y)); /* h9 cell = 3F plate */ if (cell && findSpotter(map, [{ def: t, x: t.x, y: t.y }], cell[0], cell[1], () => false)) hit++; }
+    assert.equal(hit, trainers(m).length, `${n}: every trainer spots its sight cells`);
+  }
+});
+test('lighthouse: every placed trainer has its Text Bot lines, sprite and GD team on its floor map', async () => {
+  const { teamFor } = await import(path.join(root, 'src/progression/masters.js'));
+  const M = J('data/masters.json'), smap = J('art/characters/pixel/npcs/npc_sprite_map.json').map;
+  for (const n of LH.slice(0, 3)) for (const t of trainers(lhMap(n))) {
+    assert.ok(lines.maps[n]?.[t.id]?.name, `${n}.${t.id} text`); assert.ok(smap[`${n}.${t.id}`]?.sprite_id, `${n}.${t.id} sprite`);
+    assert.ok(teamFor(M, n, t.id)?.foes?.length, `${n}.${t.id} team`);
+  }
+  assert.ok(teamFor(M, 'lanternport_hall_int', 'lanternport_hall_int_master')?.foes?.length);
 });

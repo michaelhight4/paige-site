@@ -41,12 +41,17 @@ export function masterOpen(ctx, mj) {
   return { ok: puzzle && wins >= need, puzzle, wins, need, left: Math.max(0, need - wins) };
 }
 /** Beaten trainers of a v2 hall map (defeated: records). */
-export const hallWins = (seen, mj) => hallTrainers(mj).filter((n) => seen?.[`defeated:${mj.name}.${n.id}`]).length;
-export const needWins = (mj) => mj?.hall_v2?.need_wins ?? Math.min(4, hallTrainers(mj).length);
+/** Multi-floor halls (Lanternport lighthouse, Gary Oct 29 2026): hall_v2.members = every floor's trainers as '<map>.<id>', so
+ *  wins count across the floors; hall_v2.master_ref = '<map>.<id>' of the Master on the lamp-room floor. */
+export const hallMembers = (mj) => mj?.hall_v2?.members || hallTrainers(mj).map((n) => `${mj.name}.${n.id}`);
+export const hallWins = (seen, mj) => hallMembers(mj).filter((k) => seen?.[`defeated:${k}`]).length;
+export const needWins = (mj) => mj?.hall_v2?.need_wins ?? Math.min(4, hallMembers(mj).length);
+/** Gate-bit store key: per floor map for multi-floor halls (each floor has its own gates), per zone otherwise. */
+export const bitsKey = (mj) => (mj.hall_v2.floor ? `v2_${mj.name}` : `v2_${mj.hall_v2.zone}`);
 /** Has this hall's Master been beaten (flag, defeated record or coin record: old saves too)? */
 export function masterBeaten({ flags, seen, store }, mj) {
-  const z = mj?.hall_v2?.zone, master = (mj?.npcs || []).find((n) => n.kind === 'master');
-  return !!(z && (flags?.has?.(`beat_master_${z}`) || store?.masters?.[z] || (master && seen?.[`defeated:${mj.name}.${master.id}`])));
+  const z = mj?.hall_v2?.zone, master = (mj?.npcs || []).find((n) => n.kind === 'master'), ref = mj?.hall_v2?.master_ref || (master && `${mj.name}.${master.id}`);
+  return !!(z && (flags?.has?.(`beat_master_${z}`) || store?.masters?.[z] || (ref && seen?.[`defeated:${ref}`])));
 }
 /** Master wins so far (counter master_<zone>_wins; a beaten Master counts at least 1 for old saves). */
 export const masterWins = (ctx, mj) => Math.max(ctx.counters?.[`master_${mj.hall_v2.zone}_wins`] | 0, masterBeaten(ctx, mj) ? 1 : 0);
@@ -97,7 +102,7 @@ export function attachHallV2(scene, ui, pg) {
   };
   const setBits = (b) => {
     const c = hv.cur; if (!c || b === c.bits) return;
-    c.bits = b; (store.puzzles ||= {})[`v2_${c.json.hall_v2.zone}`] = { bits: b }; hv.apply();
+    c.bits = b; (store.puzzles ||= {})[bitsKey(c.json)] = { bits: b }; hv.apply();
     scene.audio?.sfx?.('select'); scene.log?.push({ tick: scene.tick, type: 'hall_bits', bits: b });
   };
   const startChain = () => { const c = hv.cur; if (c && !c.release) { c.release = scene.lockSave ? scene.lockSave('hall_slide') : () => {}; scene.player.locked = true; } };
@@ -149,7 +154,7 @@ export function attachHallV2(scene, ui, pg) {
   hv.turnPrism = (x, y) => {
     const c = hv.cur; if (!c?.model.prism || !c.model.pi.has(`${x},${y}`)) return null;
     const was = c.model.beamOpen(c.bits), nb = c.model.turn(x, y, c.bits);
-    c.bits = nb; (store.puzzles ||= {})[`v2_${c.json.hall_v2.zone}`] = { bits: nb }; hv.apply();
+    c.bits = nb; (store.puzzles ||= {})[bitsKey(c.json)] = { bits: nb }; hv.apply();
     const i = c.model.pi.get(`${x},${y}`), now = c.model.beamOpen(nb);
     scene.audio?.sfx?.('select'); scene.log?.push({ tick: scene.tick, type: 'hall_prism', at: [x, y], facing: 'URDL'[c.model.facing(i, nb)], open: now });
     if (now && !was) { scene.audio?.sfx?.('warp'); scene.toast?.('The crystal door hums open.' /* PH: Text Bot key system_halls.prism_open */); }
@@ -203,9 +208,9 @@ export function attachHallV2(scene, ui, pg) {
     const m = mj(); if (!m) { hv.cur = null; return null; }
     const h = m.hall_v2, z = h.zone, p = scene.player;
     const atDoor = p && ((p.x === h.arrival[0] && p.y === h.arrival[1]) || (p.x === h.door[0] && p.y === h.door[1]));
-    const saved = store.puzzles?.[`v2_${z}`]?.bits | 0;
+    const saved = store.puzzles?.[bitsKey(m)]?.bits | 0;
     hv.cur = { json: m, model: new HallV2(h.grid, hallTrainers(m).map((n) => [n.x, n.y]), h.prism), bits: atDoor ? 0 : saved, release: null, sunk: new Set(), timers: [] };
-    (store.puzzles ||= {})[`v2_${z}`] = { bits: hv.cur.bits };
+    (store.puzzles ||= {})[bitsKey(m)] = { bits: hv.cur.bits };
     if (hallAnimOn()) applyHallAnim(scene.map);
     hv.apply(); syncWins();
     return hv.cur;

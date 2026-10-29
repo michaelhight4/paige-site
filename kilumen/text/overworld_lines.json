@@ -14518,6 +14518,133 @@
     ]
    },
    "area_name": "Lantern Rest"
+  },
+  "lanternport_lighthouse_int": {
+   "lanternport_hall_int_h1": {
+    "pages": [
+     "Lit every lamp in this town for thirty years. Never this one."
+    ],
+    "battle_lost": [
+     "Still never lit it."
+    ],
+    "after": [
+     "Long beam, short beam. Write it down if you need to. I did."
+    ],
+    "name": "Gil",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer tr_hall_lanternport_h1 (masters.json order h1); overnight hall draft, DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Lit every lamp in this town for thirty years. Never this one."
+      ]
+     }
+    ]
+   },
+   "lanternport_hall_int_h2": {
+    "pages": [
+     "People say this place is haunted. It is. They're friendly."
+    ],
+    "battle_lost": [
+     "Friendly, not strong. Noted."
+    ],
+    "after": [
+     "Each floor uses the same four colours. The order changes."
+    ],
+    "name": "Hana",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer tr_hall_lanternport_h2 (masters.json order h2); overnight hall draft, DRAFT pending Gary",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "People say this place is haunted. It is. They're friendly."
+      ]
+     }
+    ]
+   },
+   "lanternport_hall_int_guide": {
+    "pages": [
+     "The lens flashes long and short beams through four coloured panes.",
+     "Each floor has four lamps in those colours. Light them in that order.",
+     "Get it wrong and they go out. No harm done. The ghosts find it funny."
+    ],
+    "note": "stationary hall guide; overnight hall draft",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The lens flashes long and short beams through four coloured panes.",
+       "Each floor has four lamps in those colours. Light them in that order.",
+       "Get it wrong and they go out. No harm done. The ghosts find it funny."
+      ]
+     }
+    ]
+   }
+  },
+  "lanternport_lighthouse_f2": {
+   "lanternport_hall_int_h7": {
+    "pages": [
+     "I knit scarves for the ghosts.\nThey never say thank you."
+    ],
+    "battle_lost": [
+     "Unravelled. Like my last scarf."
+    ],
+    "after": [
+     "Cold spots mean company.\nFriendly company, mostly."
+    ],
+    "name": "Rosalind",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h7 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h8": {
+    "pages": [
+     "The lighthouse beam passes every\nten seconds. So do my wins."
+    ],
+    "battle_lost": [
+     "Missed a beat. Or ten."
+    ],
+    "after": [
+     "Count the beam's turns.\nThe dark gaps are your chance."
+    ],
+    "name": "Nyssa",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h8 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   }
+  },
+  "lanternport_lighthouse_f3": {
+   "lanternport_hall_int_h9": {
+    "pages": [
+     "Shh. The lanterns are listening.\nThey love a good battle."
+    ],
+    "battle_lost": [
+     "The lanterns clapped. For you."
+    ],
+    "after": [
+     "Delphine talks to every lantern.\nThey always answer kindly."
+    ],
+    "name": "Jessamy",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h9 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   },
+   "lanternport_hall_int_h10": {
+    "pages": [
+     "Delphine's just up those steps.\nI've been practising my spooky face."
+    ],
+    "battle_lost": [
+     "Not spooky enough, apparently."
+    ],
+    "after": [
+     "Delphine's spirits fight gently,\nthen all at once. Be ready."
+    ],
+    "name": "Delwyn",
+    "trainer_class": "Hall Helper",
+    "note": "hall trainer h10 (textbot_requests_hall_trainers.md); names unique-checked Oct 29 2026, DRAFT pending Gary | merged by hall_art_kit (Oct 29 2026)"
+   }
   }
  },
  "closed_exits": {
