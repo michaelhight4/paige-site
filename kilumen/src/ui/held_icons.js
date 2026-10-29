@@ -3,9 +3,9 @@
 // (battle/ui_sd.js) and the real-time party strip (rtb/view.js). Sprites: art/items/held/<id>.png, one per held
 // item, drawn for Kilumen (tools/held_icons/). Charms share one pendant base tinted with the element colour.
 // Hover (mouse) or long-press (touch, 450 ms) shows a tooltip: item name + one-line effect. Empty slot = faint empty socket.
-import { HELD_BATTLE_ITEMS } from '../battle/data/held_items.js?v=v0.2.83-alpha';
-import { HELD_DESC, charmDesc } from '../systems/data/held_text.js?v=v0.2.83-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.83-alpha';
+import { HELD_BATTLE_ITEMS } from '../battle/data/held_items.js?v=v0.2.84-alpha';
+import { HELD_DESC, charmDesc } from '../systems/data/held_text.js?v=v0.2.84-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.84-alpha';
 
 /** item id -> sprite path (16x16 pixel art + _2x/_3x; one file per held item, charms share a base tinted by element).
  *  Drawn for Kilumen (tools/held_icons/, palette + outline from art/characters/pixel/icons), no third-party art. */

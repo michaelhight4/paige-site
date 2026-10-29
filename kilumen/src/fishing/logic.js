@@ -4,7 +4,7 @@
 // map's fishing table (data/fishing_tables.json, built only from the existing water tables).
 // Easing: Quadratic.Out / Back.Out / Sinusoidal.InOut adapted from tween.js (MIT, Robert Penner's equations, BSD) -
 // see THIRD_PARTY_LICENSES "Fishing v1".
-import { Col, DELTA } from '../overworld/constants.js?v=v0.2.83-alpha';
+import { Col, DELTA } from '../overworld/constants.js?v=v0.2.84-alpha';
 
 export const FISHING_URL = 'data/fishing_tables.json';
 /** Rod tiers: Fishing Rod (Brookhollow fisher), Driftline Rod (Saltmere fisher), Lanternreach Rod (Lanternport keeper). Ids PLACEHOLDER. */
