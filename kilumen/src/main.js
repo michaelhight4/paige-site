@@ -52,7 +52,7 @@ function toast(text) {
 
 // Platform profile (pc or mobile), picked once. Touch controls, zoom, camera and the dialogue/HUD layout all come from it.
 let platform;
-try { platform = await startPlatform(); } catch (e) { console.error(e); toast('Failed to load platform profile: ' + e.message); throw e; }
+try { platform = await startPlatform(); } catch (e) { console.error(e); toast('Failed to load platform profile: ' + e.message); window.__kboot?.fail(e?.message); throw e; }
 const touchPad = document.getElementById('touchpad');
 touchPad.hidden = !platform.profile.controls.touch;
 
@@ -165,7 +165,7 @@ try { attachOvernight(scene, { query: q, saveData: saveData || {} }); } catch (e
 import('./systems/crystal_resupply.js?v=v0.2.93-alpha').then((m) => m.attachCrystalResupply(scene)).catch((e) => console.error('crystal resupply:', e)); // [crystal resupply hook] RITA restock in the opening test run
 try { attachEvolution(scene, { query: q }); } catch (e) { console.error('evolution:', e); } // [evolution hook] level-up evolution after battles (src/systems/evolution.js, ?evo=0 off)
 window.kilumen = { scene, mood: scene.mood, platform: { id: platform.id, profile: platform.profile }, state: () => scene.state(), ready: scene.init().then(() => { scene.run(); return true; }) };
-window.kilumen.ready.catch((e) => { console.error(e); toast('Failed to load: ' + e.message); });
+window.kilumen.ready.catch((e) => { console.error(e); toast('Failed to load: ' + e.message); window.__kboot?.fail(e?.message); });
 window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.(), cloud: cloudSave ? { action: cloudSave.action, uploader: cloudSave.uploader || null, late: cloudLate } : null, cloudTask };
 if (q.get('cv') !== '0') import('./systems/company_voice.js?v=v0.2.93-alpha').then((m) => m.attachCompanyVoice(scene, { query: q })).then((cv) => { window.kilumen.companyVoice = cv; if (cv && q.get('ritavoice') !== '0') return import('./systems/rita_voice.js?v=v0.2.93-alpha').then((r) => { window.kilumen.ritaVoice = r.attachRitaVoice(cv, { audio: () => window.kilumen.audio }); }); }) /* [rita voice hook] spoken clips, Options 'RITA voice' (default on), ?ritavoice=0 off */.catch((e) => console.error('company voice:', e)); // [company voice hook] DEFAULT ON for region 1 (Gary 12:45 PM CT Oct 23 2026: "Yes, ship RITA in region 1"); ?cv=0 turns off (design/company_voice.md)
 import('./fishing/flags.js?v=v0.2.93-alpha').then((f) => { if (f.fishingFlags(q).fishing) return window.kilumen.ready.then(() => import('./fishing/index.js?v=v0.2.93-alpha')).then((m) => { window.kilumen.fishing = m.installFishing(scene); }); }).catch((e) => console.error('fishing:', e)); // [fishing hook] v1 (Oct 29 2026): rod from the Brookhollow fisher, cast at any water; OFF by default, ?fishing=1 on (src/fishing/)
@@ -192,6 +192,7 @@ if (q.get('audio') !== '0') {
 
 // UI layer (src/ui/ui.js, UI pass Oct 22, 2026): phone menu (Esc / M / Start / menu button), HUD, title, screens, battle
 // shell. Loaded after the world is up and guarded, so a UI failure never stops the game. ?ui=0 skips it.
+if (q.get('ui') === '0') window.kilumen.ready.then(() => window.__kboot?.done(), () => {}); // no title: drop the boot screen once the world draws
 if (q.get('ui') !== '0') {
   // playtest fixes 3 (slow reload): start downloading the UI module graph now, in parallel with the world's tiles; it is still
   // only MOUNTED once the world is ready (these modules have no top-level side effects).
@@ -199,13 +200,13 @@ if (q.get('ui') !== '0') {
   // v0.2.88 load fix: systems_screens / qol_c / progression are no longer prefetched here; they are only needed after the title
   // has mounted, and on a slow phone link they competed with the world tiles + ui.js that the title waits on.
   uiMod.catch(() => {});
-  window.kilumen.ready.then(() => uiMod).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready'; window.kilumen.uiReady = true; window.dispatchEvent(new Event('kilumen:ui-ready'));
+  window.kilumen.ready.then(() => uiMod).then(({ mountUI }) => { window.kilumen.ui = mountUI({ scene, platform, toast, params: q }); uiState = 'ready'; window.kilumen.uiReady = true; window.__kboot?.done(); window.dispatchEvent(new Event('kilumen:ui-ready'));
     return import('./ui/systems_screens.js?v=v0.2.93-alpha').then((m) => m.installSystemsScreens(window.kilumen.ui, scene.systems)); }) // [systems-gd hook]
     .then(() => import('./qol_c/index.js?v=v0.2.93-alpha').then((m) => { window.kilumen.qolc = m.installQolC(scene, window.kilumen.ui, { query: q }); }).catch((e) => console.error('qol_c:', e))) // [qol batch C hook] storage/quick save/stats/rename/renew/chain (?qolc=)
     .then(() => import('./progression/index.js?v=v0.2.93-alpha').then((m) => m.attachProgression(scene, window.kilumen.ui, { query: q, platform })).catch((e) => console.error('progression:', e))) // [progression hook] Masters / hall puzzles / quests (src/progression/flags.js, ?pg=)
     // dev console (v0.2.26, Gary): only with ?dev=1 AND a signed-in admin account (server check, src/dev/devgate.js). Nothing dev is loaded otherwise.
     // dev console: ?dev=1 (owner/admin) or, with no flag, any signed-in browser is checked server-side and only role 'owner' gets it (v0.2.39)
     .then(() => (DEV_REQUESTED || devSessionHint()) ? import('./dev/devgate.js?v=v0.2.93-alpha').then((g) => g.localDevOverride(location, DEV_REQUESTED === true) ? { ok: true, role: 'admin', tag: 'local', email: '' } : g.checkDevAccess(DEV_REQUESTED ? ['owner', 'admin'] : ['owner'])).then((acc) => acc.ok ? import('./dev/console.js?v=v0.2.93-alpha').then((m) => m.installDevConsole(scene, acc)) : (DEV_REQUESTED ? console.info('dev console: not available (' + acc.reason + ')') : null)).catch((e) => console.error('dev:', e)) : null)
-    .catch((e) => { console.error('ui:', e); if (uiState === 'loading') uiState = 'failed'; });
+    .catch((e) => { console.error('ui:', e); if (uiState === 'loading') uiState = 'failed'; window.__kboot?.done(); });
 }
 
