@@ -2,7 +2,7 @@
 // admin account (server-checked admin_me). Speeds up playtesting: items, Kilumen, coins, ID level, level / skills / evolve, walk
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
-// devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
+// devTouched; only the Flags tab (Oct 30 2026, src/dev/flags.js) writes progress flags, on purpose (the master key is a runtime override read by the gating code, see runtime.js).
 import { DEV } from './runtime.js?v=v0.2.93-alpha';
 import * as AB from './autobattle.js?v=v0.2.93-alpha';
 import { SPECIES } from '../ui/data.js?v=v0.2.93-alpha';
@@ -13,13 +13,15 @@ import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.93-a
 import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.93-alpha';
 import { evoTable } from '../systems/evolution.js?v=v0.2.93-alpha';
 import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.93-alpha';
+import { FLAG_PRESETS, setBadges, setFlagByName, applyPreset } from './flags.js?v=v0.2.93-alpha';
+import { coinCount } from '../overworld/lines.js?v=v0.2.93-alpha';
 import { createRitaPanel } from './rita_panel.js?v=v0.2.93-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
 const VARIANTS = Object.keys(VARIANT_MODS || {});
 const MAX_ROWS = 60;
-const TABS = [['item', 'Items'], ['mon', 'Kilumen'], ['party', 'Party'], ['money', 'Coins/ID'], ['travel', 'Travel'], ['tools', 'Tools'], ['rita', 'RITA voice']];
+const TABS = [['item', 'Items'], ['mon', 'Kilumen'], ['party', 'Party'], ['money', 'Coins/ID'], ['travel', 'Travel'], ['tools', 'Tools'], ['flags', 'Flags'], ['rita', 'RITA voice']];
 const CSS = `.kdev{position:fixed;inset:0;z-index:100000;background:rgba(8,10,16,.9);display:flex;align-items:stretch;justify-content:center;font:14px/1.35 system-ui,sans-serif;color:#e8ecf4;padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom))}
 .kdev *{box-sizing:border-box}
 .kdev .box{background:#141a26;border:1px solid #3a4560;border-radius:12px;width:min(760px,100%);display:flex;flex-direction:column;overflow:hidden}
@@ -98,11 +100,11 @@ export async function installDevConsole(scene, access) {
     }
     return step(snap);
   };
-  // ---- v0.2.86-alpha world speed (1x/4x/10x/25x/100x): scales the whole simulation for this admin session only ----------------
+  // ---- v0.2.86-alpha world speed (1x/4x/10x/25x/100x/200x): scales the whole simulation for this admin session only ----------------
   // overworld: scene.worldSpeed = extra fixed ticks per frame (overworld.js frame, sub-stepped, so no collision skipping);
   // battle: the qol pace hook divides every battle wait; CSS / Web Animations (text reveal, UI + battle fx): playbackRate.
   // Never saved (DEV is memory-only); saving itself stays behind scene.saveLockReason (no battle / conversation / cutscene).
-  const WORLD_SPEEDS = [1, 4, 10, 25, 100];
+  const WORLD_SPEEDS = [1, 4, 10, 25, 100, 200];
   const hookPace = () => { const qq = ui()?.qol; if (!qq || qq._devWorld) return; const orig = qq.pace.bind(qq); qq.pace = (ms) => { const v = orig(ms); const w = DEV.active ? DEV.world || 1 : 1; return w > 1 ? v / w : v; }; qq._devWorld = true; };
   const pumpAnims = () => { const w = DEV.active ? DEV.world || 1 : 1; try { for (const a of document.getAnimations?.() || []) if (a.playbackRate !== w) a.playbackRate = w; } catch { /* old browser */ } };
   const setWorld = (w) => { DEV.world = WORLD_SPEEDS.includes(w) ? w : 1; scene.worldSpeed = DEV.world; hookPace(); pumpAnims(); };
@@ -137,7 +139,7 @@ export async function installDevConsole(scene, access) {
     const tabs = panel.querySelector('.tabs'); tabs.innerHTML = TABS.map(([id, n]) => `<button data-tab="${id}" class="${id === tab ? 'on' : ''}">${n}</button>`).join('');
     tabs.querySelectorAll('button').forEach((b) => { b.onclick = () => { tab = b.dataset.tab; render(); }; });
     const body = panel.querySelector('.body'); body.scrollTop = 0; body.className = 'body';
-    ({ item: tItem, mon: tMon, party: tParty, money: tMoney, travel: tTravel, tools: tTools, rita: (b) => (rita ||= createRitaPanel({ scene, say })).render(b) })[tab](body);
+    ({ item: tItem, mon: tMon, party: tParty, money: tMoney, travel: tTravel, tools: tTools, flags: tFlags, rita: (b) => (rita ||= createRitaPanel({ scene, say })).render(b) })[tab](body);
   };
   const searchBox = (body, key, ph, extra = '') => {
     body.innerHTML = `<div class="kbar"><input type="search" placeholder="${esc(ph)}" value="${esc(q[key])}">${extra}</div><div data-list></div>`;
@@ -255,7 +257,7 @@ export async function installDevConsole(scene, access) {
   function tTravel(body) {
     const built = new Set([...(scene.layout?.maps_built || []), ...(scene.knownMaps || [])]);
     const names = [...built].sort();
-    searchBox(body, 'travel', `Teleport: tap a place (${names.length} maps). The master key is not needed.`);
+    searchBox(body, 'travel', `Teleport: tap a place (${names.length} maps). The master key is not needed. Save spot: ${esc(pretty((scene._devPosHold || { map: scene.map?.name || '?' }).map))}${scene._devPosHold ? ' (kept: Travel does not move it)' : ''}.`);
     const row = (n) => `<div class="row"><div class="n">${esc(pretty(n))}${scene.map?.name === n ? ' <small>(here)</small>' : ''}<br><small>${esc(n)}</small></div><button class="go" data-go="${esc(n)}">Go</button></div>`;
     fill = () => {
       const qq = q.travel; const used = new Set(); let html = '';
@@ -274,11 +276,35 @@ export async function installDevConsole(scene, access) {
       say(`Finding a spot in ${n}…`);
       try {
         const spot = await landing(n); if (!spot) return say(`No walkable spot found in ${n}.`, true);
+        if (!scene._devPosHold && scene.map && !scene.fade) scene._devPosHold = { map: scene.map.name, x: scene.player.x, y: scene.player.y, facing: scene.player.facing }; // bug 7: keep the real save spot
         travelling = true; touched();
         close();
         scene.startWarp({ map: n, x: spot.x, y: spot.y, facing: spot.facing }, 'dev');
         const t0 = performance.now(); const iv = setInterval(() => { if ((!scene.fade && scene.map?.name === n) || performance.now() - t0 > 8000) { clearInterval(iv); travelling = false; } }, 100);
       } catch (err) { travelling = false; say('Travel failed: ' + (err?.message || err), true); }
+    };
+  }
+
+  // ---- Flags (Oct 30 2026): Master coins 0-8, any story flag by name, presets. Admin dev session only (devgate). ----
+  function tFlags(body) {
+    const fl = (num.flag ??= '');
+    body.innerHTML = `<h4>Master coins / badges: <span data-cc>${coinCount(scene.flags)}</span> / 8</h4>
+<div class="kbar">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => `<button class="go" data-badges="${n}">${n}</button>`).join('')}</div>
+<small>Sets beat_master_&lt;hall&gt; for the first N halls in hall order and clears the rest.</small>
+<h4>Story flag</h4><div class="kbar"><input type="text" placeholder="flag_name" spellcheck="false" autocomplete="off" value="${esc(fl)}" data-flag><button class="go" data-fset>Set</button><button data-fclear>Clear</button></div>
+<small data-fstate></small>
+<h4>Presets</h4><div class="kbar">${Object.entries(FLAG_PRESETS).map(([id, p]) => `<button class="go" data-preset="${id}">${esc(p.label)}</button>`).join('')}</div>
+<small>Flags are real progress: the save is marked devTouched.</small>`;
+    const inp = body.querySelector('[data-flag]'), st = body.querySelector('[data-fstate]');
+    const look = () => { const f = inp.value.trim(); st.textContent = f ? `${f}: ${scene.flags.has(f) ? 'SET' : 'not set'}` : ''; };
+    inp.oninput = () => { num.flag = inp.value; look(); }; look();
+    const done = (r, what) => { if (!r.ok) return say(r.why, true); touched(); body.querySelector('[data-cc]').textContent = coinCount(scene.flags); look(); say(what); };
+    body.onclick = (e) => {
+      const a = e.target.attributes;
+      if (a['data-badges']) { const n = Number(a['data-badges'].value); setBadges(scene, n); done({ ok: true }, `Master coins: ${n}.`); }
+      else if (a['data-fset']) done(setFlagByName(scene, inp.value, true), `Set ${inp.value.trim()}.`);
+      else if (a['data-fclear']) done(setFlagByName(scene, inp.value, false), `Cleared ${inp.value.trim()}.`);
+      else if (a['data-preset']) { const id = a['data-preset'].value; done(applyPreset(scene, id), `${FLAG_PRESETS[id].label}: done.`); }
     };
   }
 

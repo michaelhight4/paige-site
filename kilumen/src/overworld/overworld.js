@@ -1128,7 +1128,7 @@ export class Overworld {
     const p = this.player;
     return {
       flags: [...this.flags], counters: this.counters, seen: this.seen, seenDay: this.seenDay, clock: this.clock, party: this.party,
-      pos: this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null, lastDoor: this.lastDoor, frame: POS_FRAME,
+      pos: this._devPosHold || (this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null), lastDoor: this.lastDoor, frame: POS_FRAME, // live v0.2.93 bug 7: a dev Travel never moves the saved spot
       ...this.systems?.saveBlocks(), // [systems-gd hook] coins, bag, archive, systems
       ...(this.gameCleared ? { [ENDING.save]: this.gameCleared } : {}), // interim ending save field
       ...(this.devTouched || DEV.masterKey ? { devTouched: true } : {}), // v0.2.26: a dev console change / master key was used: sticky, never cleared
@@ -1191,7 +1191,8 @@ export class Overworld {
     const talking = this.dialog?.active || picking;
     if (picking) this.intro.picker.handle({ a: !!snap.a, bEdge, dirEdge });
     else if (talking) this.dialog.handle({ a: !!snap.a, bEdge, dirEdge });
-    else if (snap.a && !this.fade && !this.player.moving && !this.busy) this.interact();
+    else if (snap.a && !this.fade && !this.player.moving && !this.busy && !(this.ms < (this._talkQuietUntil || 0))) this.interact();
+    if (talking || this.busy) this._talkQuietUntil = this.ms + 250; // live v0.2.93 bug 4: the F press that closes a dialogue must not reopen it next tick
     const input = talking || this.busy ? { ...snap, dir: null, b: false } : snap;
     if (snap.select && !talking && !this.busy) this.toggleBike();
     if (!input.dir) this._lastBumpMsg = null;

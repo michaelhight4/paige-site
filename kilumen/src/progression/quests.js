@@ -24,8 +24,15 @@ export class QuestBook {
 
   status(q, flags) {
     if (flags.has(QFLAG.done(q.id))) return 'done';
+    if (this.superseded(q, flags)) return 'done';
     if (flags.has(QFLAG.on(q.id))) return this.required(q).slice(0, -1).every((s) => this.stepDone(q, s, flags)) && q.turn_in === 'npc' ? 'ready' : 'active';
     return (q.prerequisites || []).every((f) => flags.has(f)) ? 'available' : 'locked';
+  }
+  /** Main quests behind the story: a later main quest is done or one of its step flags is set (e.g. a Travel jump or an
+   *  imported save that skipped early flags). Fixes the HUD showing 'The Benchmark 0/4' on a Master 2 save (Oct 29 2026). */
+  superseded(q, flags) {
+    if (q.type !== 'main') return false;
+    return this.quests.some((o) => o.type === 'main' && o.order > q.order && (flags.has(QFLAG.done(o.id)) || o.steps.some((s) => s.flag && !this.owns(o, s.flag) && flags.has(s.flag))));
   }
   required(q) { return q.steps.filter((s) => !s.optional); }
   stepDone(q, s, flags) {
