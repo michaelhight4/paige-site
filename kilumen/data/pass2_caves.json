@@ -767,6 +767,566 @@
      "hidden": false
     }
    ]
+  },
+  {
+   "id": "rb_pocket_spring",
+   "map": "r9_old_riverbed",
+   "cave": "r9_old_riverbed_cave",
+   "cave_title": "Dry Spring",
+   "floor": [
+    [
+     42,
+     9,
+     48,
+     12
+    ]
+   ],
+   "ledge": [
+    43,
+    47,
+    13
+   ],
+   "walk": [
+    [
+     43,
+     14
+    ],
+    [
+     43,
+     15
+    ],
+    [
+     44,
+     14
+    ],
+    [
+     44,
+     15
+    ],
+    [
+     45,
+     14
+    ],
+    [
+     45,
+     15
+    ],
+    [
+     46,
+     14
+    ],
+    [
+     46,
+     15
+    ],
+    [
+     47,
+     14
+    ],
+    [
+     47,
+     15
+    ]
+   ],
+   "mouth": [
+    21,
+    9
+   ],
+   "pocket_door": [
+    45,
+    9
+   ],
+   "main_start": [
+    1,
+    19
+   ],
+   "floor_tile_at": [
+    25,
+    12
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave r9_old_riverbed_cave",
+    "out": "one-way ledge at y13 x43-47",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rbp_dowser",
+    "x": 43,
+    "y": 9,
+    "level": 63,
+    "class": "Dowser",
+    "name": "Wren",
+    "species": [
+     "torrentpike",
+     "cascadorn",
+     "moorcoil"
+    ],
+    "intro": [
+     "DRAFT: The river left. The spring stayed. So did I."
+    ],
+    "lost": [
+     "DRAFT: You found the water and the fight. Lucky day."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you by the nook."
+    ]
+   },
+   "egg": {
+    "id": "r9_rbp_egg_cup",
+    "x": 48,
+    "y": 9,
+    "what": "a tin cup on a nail",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tin cup on a nail. Scratched on it: BACK SOON. The dust says otherwise."
+    ]
+   },
+   "item": {
+    "id": "r9_rbp_crystal",
+    "x": 48,
+    "y": 12,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A dowser who found the spring the river left behind; a Prime Crystal sits in the damp corner.",
+   "map_cells": [
+    {
+     "x": 14,
+     "y": 18,
+     "g": null,
+     "d": 887,
+     "c": 5
+    },
+    {
+     "x": 22,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 23,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 24,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 25,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 26,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 27,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 28,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 29,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 30,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 31,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 32,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 33,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 34,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 35,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 36,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    }
+   ],
+   "map_warps": [
+    {
+     "x": 50,
+     "y": 18,
+     "to": "r9_cairnfold",
+     "tx": 11,
+     "ty": 33,
+     "facing": "down"
+    }
+   ],
+   "map_items": [
+    {
+     "id": "r9_rbp_bank_mix",
+     "x": 14,
+     "y": 16,
+     "item": "trail_mix"
+    },
+    {
+     "id": "r9_rbp_channel_tea",
+     "x": 36,
+     "y": 26,
+     "item": "calm_tea"
+    },
+    {
+     "id": "r9_rbp_seed_visible",
+     "x": 42,
+     "y": 12,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "cf_pocket_hayloft",
+   "map": "r9_cairnfold",
+   "cave": "r9_cairnfold_cave_w",
+   "cave_title": "Hayloft Cave",
+   "floor": [
+    [
+     12,
+     10,
+     20,
+     10
+    ]
+   ],
+   "ledge": [
+    12,
+    20,
+    11
+   ],
+   "walk": [],
+   "mouth": [
+    17,
+    25
+   ],
+   "pocket_door": [
+    16,
+    9
+   ],
+   "main_start": [
+    26,
+    26
+   ],
+   "floor_tile_at": [
+    20,
+    26
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_cairnfold_cave_w",
+    "out": "one-way ledge at y11 x12-20",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_cfp_herder",
+    "x": 12,
+    "y": 10,
+    "level": 63,
+    "class": "Herder",
+    "name": "Bram",
+    "species": [
+     "cairnhorn",
+     "cragmont",
+     "ingotitan"
+    ],
+    "intro": [
+     "DRAFT: The herd naps up here. Keep it down. Or fight me loudly."
+    ],
+    "lost": [
+     "DRAFT: Loud and good. The herd did not even wake."
+    ],
+    "after": [
+     "DRAFT: Hop off the ledge into the yard."
+    ]
+   },
+   "egg": {
+    "id": "r9_cfp_egg_bell",
+    "x": 19,
+    "y": 9,
+    "what": "a cowbell with no clapper",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A cowbell with no clapper. Someone wanted the herd to be quiet. It worked."
+    ]
+   },
+   "item": {
+    "id": "r9_cfp_crystal",
+    "x": 14,
+    "y": 10,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A herder who rests the herd on a hidden ledge; a Prime Crystal is in the straw.",
+   "map_warps": [
+    {
+     "x": 11,
+     "y": 32,
+     "to": "r9_old_riverbed",
+     "tx": 50,
+     "ty": 19,
+     "facing": "up"
+    }
+   ],
+   "map_cells": [
+    {
+     "x": 17,
+     "y": 30,
+     "g": null,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "r9_cfp_seed_visible",
+     "x": 20,
+     "y": 10,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "cf_pocket_bell",
+   "map": "r9_cairnfold",
+   "cave": "r9_cairnfold_cave_e",
+   "cave_title": "Bell Cave",
+   "floor": [
+    [
+     35,
+     10,
+     43,
+     10
+    ]
+   ],
+   "ledge": [
+    42,
+    43,
+    11
+   ],
+   "walk": [],
+   "mouth": [
+    32,
+    25
+   ],
+   "pocket_door": [
+    39,
+    9
+   ],
+   "main_start": [
+    26,
+    26
+   ],
+   "floor_tile_at": [
+    20,
+    26
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_cairnfold_cave_e",
+    "out": "one-way ledge at y11 x42-43",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_cfp_ringer",
+    "x": 35,
+    "y": 10,
+    "level": 63,
+    "class": "Bell Ringer",
+    "name": "Ottla",
+    "species": [
+     "seraphawk",
+     "galespar",
+     "stratodrake"
+    ],
+    "intro": [
+     "DRAFT: You hear that? No? Good. I tuned it out."
+    ],
+    "lost": [
+     "DRAFT: All right, that rang true."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you in the grass."
+    ]
+   },
+   "egg": {
+    "id": "r9_cfp_egg_rope",
+    "x": 41,
+    "y": 9,
+    "what": "a frayed rope going up into the dark",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A frayed rope goes up into the dark. You tug it. Far away, something goes bong."
+    ]
+   },
+   "item": {
+    "id": "r9_cfp_seed",
+    "x": 43,
+    "y": 10,
+    "item": "vigor_seed"
+   },
+   "premise": "A bell ringer who keeps a silent bell on a hidden ledge; a Vigor Seed is under the bell frame."
+  },
+  {
+   "id": "cf_pocket_gully",
+   "map": "r9_cairnfold",
+   "cave": "r9_old_riverbed",
+   "cave_title": "Gully Crack",
+   "floor": [
+    [
+     24,
+     10,
+     32,
+     10
+    ]
+   ],
+   "ledge": [
+    30,
+    32,
+    11
+   ],
+   "walk": [],
+   "mouth": null,
+   "pocket_door": [
+    28,
+    9
+   ],
+   "main_start": [
+    26,
+    26
+   ],
+   "floor_tile_at": [
+    20,
+    26
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_old_riverbed",
+    "out": "one-way ledge at y11 x30-32",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_cfp_digger",
+    "x": 24,
+    "y": 10,
+    "level": 63,
+    "class": "Digger",
+    "name": "Pell",
+    "species": [
+     "geodurchin",
+     "cragmont",
+     "cairnhorn"
+    ],
+    "intro": [
+     "DRAFT: This crack runs all the way down to the old river. I dug it. Mostly."
+    ],
+    "lost": [
+     "DRAFT: Fair. You dig a good fight."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge to the lane."
+    ]
+   },
+   "egg": {
+    "id": "r9_cfp_egg_spoons",
+    "x": 31,
+    "y": 9,
+    "what": "a pile of bent spoons",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A pile of bent spoons. Every one of them tried. Every one of them lost to the rock."
+    ]
+   },
+   "item": {
+    "id": "r9_cfp_prime",
+    "x": 32,
+    "y": 10,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A digger who tunnelled up from the riverbed; a Prime Crystal is at the dig face.",
+   "existing_cave": {
+    "crack": [
+     22,
+     25
+    ],
+    "land": [
+     22,
+     26
+    ]
+   }
   }
  ]
 }

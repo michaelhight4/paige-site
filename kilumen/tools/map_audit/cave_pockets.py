@@ -77,6 +77,8 @@ def apply(name, pockets, fb, teams):
         for (x, y) in p.get('map_rocks', []): put(j, x, y, None, p.get('rock_tile', 509), 0, 1)  # R1: break up big empty squares
         for e in p.get('map_cells', []):  # small extra edits, e.g. a push boulder (887, code 5) as a field-skill shortcut
             put(j, e['x'], e['y'], e.get('g'), e.get('d', 0), 0, e.get('c', 0))
+        for w in p.get('map_warps', []):  # plain door to another outdoor map (R3 needs 2+ exits to non-cave maps)
+            put(j, w['x'], w['y'], None, w.get('tile', 544), 0, 4); j['warps'].append({k: v for k, v in w.items() if k != 'tile'})
         for it in p.get('map_items', []):  # rewards for dead ends on the main map
             j['items'].append({'id': it['id'], 'x': it['x'], 'y': it['y'], 'hidden': it.get('hidden', True), 'item': it['item'], 'flag': f'item_{name}_{it["id"]}'})
         t = p['trainer']; tid = t['id']; sight = []

@@ -194,6 +194,114 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "r9_old_riverbed": {
+   "r9_rbp_dowser": {
+    "pages": [
+     "DRAFT: The river left. The spring stayed. So did I."
+    ],
+    "battle_lost": [
+     "DRAFT: You found the water and the fight. Lucky day."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you by the nook."
+    ],
+    "trainer_class": "Dowser",
+    "name": "Wren",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rbp_egg_cup": {
+    "pages": [
+     "DRAFT: A tin cup on a nail. Scratched on it: BACK SOON. The dust says otherwise."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "r9_old_riverbed_cave": {
+   "area_name": {
+    "pages": [
+     "Dry Spring"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_cairnfold": {
+   "r9_cfp_herder": {
+    "pages": [
+     "DRAFT: The herd naps up here. Keep it down. Or fight me loudly."
+    ],
+    "battle_lost": [
+     "DRAFT: Loud and good. The herd did not even wake."
+    ],
+    "after": [
+     "DRAFT: Hop off the ledge into the yard."
+    ],
+    "trainer_class": "Herder",
+    "name": "Bram",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_egg_bell": {
+    "pages": [
+     "DRAFT: A cowbell with no clapper. Someone wanted the herd to be quiet. It worked."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_ringer": {
+    "pages": [
+     "DRAFT: You hear that? No? Good. I tuned it out."
+    ],
+    "battle_lost": [
+     "DRAFT: All right, that rang true."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you in the grass."
+    ],
+    "trainer_class": "Bell Ringer",
+    "name": "Ottla",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_egg_rope": {
+    "pages": [
+     "DRAFT: A frayed rope goes up into the dark. You tug it. Far away, something goes bong."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_digger": {
+    "pages": [
+     "DRAFT: This crack runs all the way down to the old river. I dug it. Mostly."
+    ],
+    "battle_lost": [
+     "DRAFT: Fair. You dig a good fight."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge to the lane."
+    ],
+    "trainer_class": "Digger",
+    "name": "Pell",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_egg_spoons": {
+    "pages": [
+     "DRAFT: A pile of bent spoons. Every one of them tried. Every one of them lost to the rock."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "r9_cairnfold_cave_w": {
+   "area_name": {
+    "pages": [
+     "Hayloft Cave"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_cairnfold_cave_e": {
+   "area_name": {
+    "pages": [
+     "Bell Cave"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }

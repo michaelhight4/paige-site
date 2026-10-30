@@ -97,5 +97,61 @@ export const CAVE_POCKET_TEAMS = {
    "species": "cairnhorn",
    "level": 63
   }
+ ],
+ "r9_old_riverbed.r9_rbp_dowser": [
+  {
+   "species": "torrentpike",
+   "level": 63
+  },
+  {
+   "species": "cascadorn",
+   "level": 63
+  },
+  {
+   "species": "moorcoil",
+   "level": 63
+  }
+ ],
+ "r9_cairnfold.r9_cfp_herder": [
+  {
+   "species": "cairnhorn",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "ingotitan",
+   "level": 63
+  }
+ ],
+ "r9_cairnfold.r9_cfp_ringer": [
+  {
+   "species": "seraphawk",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
+   "level": 63
+  }
+ ],
+ "r9_cairnfold.r9_cfp_digger": [
+  {
+   "species": "geodurchin",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "cairnhorn",
+   "level": 63
+  }
  ]
 };
