@@ -4077,7 +4077,7 @@
   "y": 7,
   "w": 4,
   "h": 4,
-  "sheet": "art/characters/pixel/creatures/ondravel/overworld/ondravel_big_sheet.png",
+  "sheet": "art/characters/pixel/creatures/ondravel/overworld/ondravel_ow256_sheet.png",
   "tank": true
  },
  "lab": {
