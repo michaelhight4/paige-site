@@ -635,7 +635,7 @@ export class GameUI {
         art.dataset.el = s.el[0];
         art.innerHTML = `<img class="ui-sprite ${k ? 'idle' : ''}" style="--ui-sprite-scale:calc(var(--ui-dex-sprite, 1));${k ? '' : 'filter:brightness(0) opacity(.5)'}" src="${front(s.id)}" alt="">`;
         inf.innerHTML = k ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-size:1.15em">${esc(s.name)}</b>${s.el.map(elChip).join('')}</div>
-          <p style="margin:.4em 0" class="soft">${esc(kilindexBlurb(this.T.bind(this), s))}</p><div class="soft" style="font-size:.85em">${esc(L.regions || 'Found in')}: ${esc(s.found)}</div>`
+          <p style="margin:.4em 0" class="soft">${esc(kilindexBlurb(this.T.bind(this), s))}</p><div class="soft" style="font-size:.85em">${esc(L.regions || 'Found in')}: ${esc(s.found)}</div>${(() => { const tw = globalThis.__kilSpeciesTimes?.[s.id]; return tw && tw !== 'any' ? `<div class="soft" style="font-size:.85em" data-tod="${tw}">${tw === 'night' ? '☾' : '☀'} ${esc(L['tod_' + tw] || { night: 'Seen at night only', day: 'Seen by day only', morning: 'Seen in the morning only' }[tw])}</div>` : ''; })()}`
           : `<b>???</b><p class="soft" style="margin:.4em 0">Not seen yet.</p>`;
       },
       hint: () => this.hintText([['▲▼◀▶', 'Browse'], ['B', 'Back']]),

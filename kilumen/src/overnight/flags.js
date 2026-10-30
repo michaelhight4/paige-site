@@ -6,7 +6,7 @@ export const OVERNIGHT_DEFAULTS = Object.freeze({
   sight: true,       // F17 trainer line of sight + G11 'spotted' intro (route1 sight data)
   kilindex: true,    // C15/M1 seen/registered logging (save kilindex block) + Kilindex screen counts
   starterLines: true,// G12: read system_party.starter_* lines when Text Bot adds them (marked placeholder until then)
-  field: false,      // F1/F2/F3 field obstacles (Brushbreak unlock flag TBD by Gary; Tideglide has no ride art yet)
+  field: true, // Oct 30 2026: on by default (each skill still needs its own has_* unlock flag);      // F1/F2/F3 field obstacles (Brushbreak unlock flag TBD by Gary; Tideglide has no ride art yet)
   regionmap: false,  // F6 region map + Skylift fast travel (has_skylift unobtainable until Frostspire exists)
   learnsets: false,  // B21 learnsets + learn prompt (PLACEHOLDER generator: no Story Bot learnset data yet)
 });

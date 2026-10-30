@@ -62,7 +62,7 @@ test('habitat matches: spread slots only in tables of their habitat, and pass th
 
 test('levels follow the zone: spread levels sit inside the table\'s own range', () => {
   for (const t of tables()) {
-    const own = t.slots.filter((x) => x.spread !== TAG); if (!own.length) continue;
+    const own = t.slots.filter((x) => x.spread !== TAG && x.spread !== 'tod'); if (!own.length) continue;
     const lo = Math.min(...own.map((s) => s.level[0])), hi = Math.max(...own.map((s) => s.level[1]));
     for (const s of t.slots.filter((x) => x.spread === TAG)) assert.ok(s.level[0] >= lo && s.level[1] <= hi, `${t.id} ${s.species}`);
   }
@@ -72,7 +72,7 @@ test(`widespread share per table stays within ${SHARE.min * 100}-${SHARE.max * 1
   let n = 0;
   for (const t of tables()) {
     const sp = t.slots.filter((x) => x.spread === TAG); if (!sp.length) continue; n++;
-    const share = sp.reduce((a, s) => a + s.weight, 0) / t.slots.reduce((a, s) => a + s.weight, 0);
+    const share = sp.reduce((a, s) => a + s.weight, 0) / t.slots.filter((x) => x.spread !== 'tod').reduce((a, s) => a + s.weight, 0); // day/night slots (tod_spread) sit outside the share
     assert.ok(share >= SHARE.min && share <= SHARE.max, `${t.id} ${(share * 100).toFixed(1)}%`);
   }
   assert.ok(n >= 40, `only ${n} tables got spread`);

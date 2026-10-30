@@ -391,6 +391,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "mufflynx",
+     "level": [
+      36,
+      36
+     ],
+     "weight": 10,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "cavernwing",
+     "level": [
+      36,
+      36
+     ],
+     "weight": 10,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "prismwing",
+     "level": [
+      36,
+      36
+     ],
+     "weight": 10,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "lavalurk",
+     "level": [
+      36,
+      36
+     ],
+     "weight": 10,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "brimtoad",
+     "level": [
+      36,
+      36
+     ],
+     "weight": 10,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "maps": [
@@ -476,6 +545,75 @@
      ],
      "weight": 6,
      "spread": "habitat"
+    },
+    {
+     "species": "chiselbug",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 9,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "humstone",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 9,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "glintfly",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 9,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "sparkplume",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 9,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "parasoleaf",
+     "level": [
+      9,
+      13
+     ],
+     "weight": 9,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "maps": [
@@ -552,6 +690,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "moatling",
+     "level": [
+      20,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "mournlily",
+     "level": [
+      20,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "mossmote",
+     "level": [
+      20,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "rimewick",
+     "level": [
+      20,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "crowkin",
+     "level": [
+      20,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "maps": [
@@ -651,6 +858,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "charlurcher",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kilnant",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "velvetabby",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "bramblehog",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "prismite",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "maps": [
@@ -750,6 +1026,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "mittling",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "mumblet",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "squidge",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "embermink",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "flickermole",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "maps": [
@@ -849,6 +1194,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "netspinner",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "frostweevil",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "snowroller",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "glarekit",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "cliffpuff",
+     "level": [
+      40,
+      41
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "maps": [
@@ -912,6 +1326,60 @@
      ],
      "weight": 6,
      "spread": "habitat"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      39,
+      42
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      39,
+      42
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kelpstrider",
+     "level": [
+      39,
+      42
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      39,
+      42
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "maps": [
@@ -1048,6 +1516,75 @@
      ],
      "weight": 1,
      "spread": "habitat"
+    },
+    {
+     "species": "stonepede",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 16,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "lampwick",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 16,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "snugworm",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 16,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "capling",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 16,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "hushpine",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 16,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_brookhollow_aurelith.json zone re_grass (grass)",
@@ -1084,6 +1621,60 @@
      ],
      "weight": 11,
      "spread": "habitat"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "frostweevil",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_brookhollow_aurelith.json zone re_river (water (Tideglide, revisit))",
@@ -1202,6 +1793,75 @@
      ],
      "weight": 2,
      "spread": "habitat"
+    },
+    {
+     "species": "wickerling",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 22,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "minewisp",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 22,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "bleachghast",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 22,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kindlepup",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 22,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "briarlet",
+     "level": [
+      15,
+      18
+     ],
+     "weight": 22,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_saltmere_aurelith.json zone sa_dune_grass (grass)",
@@ -1255,6 +1915,60 @@
      ],
      "weight": 6,
      "spread": "habitat"
+    },
+    {
+     "species": "kelpstrider",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "frostweevil",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_saltmere_aurelith.json zone sa_creek (water (Tideglide, revisit))",
@@ -1289,6 +2003,60 @@
      ],
      "weight": 10,
      "spread": "habitat"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 12,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kelpstrider",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 12,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "frostweevil",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 12,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      20,
+      20
+     ],
+     "weight": 12,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_saltmere.json zone sm_harbour (water (Tideglide, revisit))",
@@ -1428,6 +2196,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "rooftrove",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 8,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "fernlume",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 8,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "dustbonnet",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 8,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "belfrydove",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 8,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "northling",
+     "level": [
+      22,
+      24
+     ],
+     "weight": 8,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_thornwood_revival.json zone tr_grass (grass)",
@@ -1474,6 +2311,75 @@
       25
      ],
      "weight": 25
+    },
+    {
+     "species": "huskling",
+     "level": [
+      23,
+      25
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "mournhorn",
+     "level": [
+      23,
+      25
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "thornpod",
+     "level": [
+      23,
+      25
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "mooncrab",
+     "level": [
+      23,
+      25
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "kilnowl",
+     "level": [
+      23,
+      25
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_thornwood_revival.json zone tr_crystal_grass (grass (crystal-lit))",
@@ -1569,6 +2475,75 @@
      ],
      "weight": 7,
      "spread": "habitat"
+    },
+    {
+     "species": "glintmoth",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "railmite",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "glimslug",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "signalwren",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "obsidiax",
+     "level": [
+      25,
+      27
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_revival_saltmere.json zone rs_grass (grass)",
@@ -1691,6 +2666,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "dripweaver",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 8,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "columnpede",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 8,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "faultgrin",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 8,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "seaglint",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 8,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "tinderwren",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 8,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_greystone_frostspire.json zone fp_snowfern (grass (snow-fern, forced band))",
@@ -1797,6 +2841,75 @@
      ],
      "weight": 7,
      "spread": "habitat"
+    },
+    {
+     "species": "cairnant",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "eavesgrim",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "beaconfly",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "foldwing",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "pouchbill",
+     "level": [
+      26,
+      33
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_frostspire.json zone fs_snow (grass (deep snow))",
@@ -1851,6 +2964,75 @@
      ],
      "weight": 3,
      "spread": "habitat"
+    },
+    {
+     "species": "lurelamp",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 4,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "shaftwraith",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 4,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "glyphmage",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 4,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "marmallow",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 4,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "pandember",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 4,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_frostspire.json zone fs_ice_cave (cave)",
@@ -1944,6 +3126,75 @@
      ],
      "weight": 3,
      "spread": "habitat"
+    },
+    {
+     "species": "combwarden",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "novarch",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "pharolith",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "haysquee",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "topiarix",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_revival_sunmeadow.json zone rsf_crystal (grass (crystal-lit))",
@@ -2046,6 +3297,75 @@
      ],
      "weight": 3,
      "spread": "habitat"
+    },
+    {
+     "species": "snowdrowse",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "vaultpede",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "gladlet",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "glassvine",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "snowgrouse",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_sunmeadow_fields.json zone smf_meadow (grass)",
@@ -2091,6 +3411,60 @@
      ],
      "weight": 3,
      "spread": "habitat"
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kelpstrider",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_sunmeadow_fields.json zone smf_stream (water (Tideglide))",
@@ -2178,6 +3552,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "kinkalume",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "lancebeetle",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "vesperowl",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kilnpaw",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "reedcrane",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_sunmeadow_mirefen.json zone smm_reeds (grass (reeds))",
@@ -2256,6 +3699,75 @@
      ],
      "weight": 6,
      "spread": "habitat"
+    },
+    {
+     "species": "pyrogrim",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "cinderwraith",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "somnarch",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "highkite",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "grainling",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_saltmere_mirefen.json zone sme_marsh (grass (salt marsh))",
@@ -2301,6 +3813,60 @@
      ],
      "weight": 3,
      "spread": "habitat"
+    },
+    {
+     "species": "frostweevil",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 3,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 3,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 3,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 3,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_saltmere_mirefen.json zone sme_channel (water (Tideglide))",
@@ -2377,6 +3943,75 @@
      ],
      "weight": 6,
      "spread": "habitat"
+    },
+    {
+     "species": "reapmantis",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "wreckwarden",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "railmite",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "gildfinch",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "thistlehound",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_brookhollow_tidewater.json zone ct_dune (grass (dune))",
@@ -2422,6 +4057,60 @@
      ],
      "weight": 2,
      "spread": "habitat"
+    },
+    {
+     "species": "kelpstrider",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "frostweevil",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_brookhollow_tidewater.json zone ct_flood (water (Tideglide, floodwater))",
@@ -2507,6 +4196,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "mournhorn",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "mossmote",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kilnant",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "shellbloom",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "cloverkin",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_tidewater_coast.json zone tc_dune (grass (dune))",
@@ -2543,6 +4301,60 @@
      ],
      "weight": 5,
      "spread": "habitat"
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 3,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kelpstrider",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 3,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "frostweevil",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 3,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 3,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_tidewater_coast.json zone tc_sea (water (Tideglide, sea lane))",
@@ -2608,6 +4420,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "cavernwing",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "rooftrove",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "glimslug",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "calderock",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "foundrax",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 6,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_tidewater_coast.json zone tc_grotto (cave)",
@@ -2659,6 +4540,60 @@
      ],
      "weight": 2,
      "spread": "habitat"
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 2,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 2,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "kelpstrider",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 2,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      58,
+      61
+     ],
+     "weight": 2,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_lanternport.json zone lp_harbour (water (Tideglide))",
@@ -2802,6 +4737,75 @@
      ],
      "weight": 14,
      "spread": "habitat"
+    },
+    {
+     "species": "fernlume",
+     "level": [
+      63,
+      64
+     ],
+     "weight": 9,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "cairnant",
+     "level": [
+      63,
+      64
+     ],
+     "weight": 9,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "snowroller",
+     "level": [
+      63,
+      64
+     ],
+     "weight": 9,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "dawnfin",
+     "level": [
+      63,
+      64
+     ],
+     "weight": 9,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "scorchkite",
+     "level": [
+      63,
+      64
+     ],
+     "weight": 9,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_fernwick_lanternport.json zone fl_grass (grass)",
@@ -2863,6 +4867,60 @@
      ],
      "weight": 5,
      "spread": "habitat"
+    },
+    {
+     "species": "foamkin",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "medulet",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "frostweevil",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "aurorel",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_fernwick_lanternport.json zone fl_canal (water (Tideglide))",
@@ -2948,6 +5006,75 @@
       68
      ],
      "weight": 2
+    },
+    {
+     "species": "glintmoth",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "dripweaver",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "netspinner",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "toadcap",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "candlewren",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 7,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_aurelith_cindervale.json zone ac_ash (grass (ash grass))",
@@ -3018,6 +5145,75 @@
      ],
      "weight": 4,
      "spread": "habitat"
+    },
+    {
+     "species": "mournlily",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "velvetabby",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "wickerling",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "flickermole",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "obsidiax",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_aurelith_cindervale.json zone ac_tube (cave (lava tube))",
@@ -3145,6 +5341,75 @@
      ],
      "weight": 2,
      "spread": "habitat"
+    },
+    {
+     "species": "hummbel",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 11,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "pebblant",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 11,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "hushowl",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 11,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "brinepipit",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 11,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "glimmerlamb",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 11,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_brookhollow_aurelith.json zone re_grass (grass) (copied for this strip)",
