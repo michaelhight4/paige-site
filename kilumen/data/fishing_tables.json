@@ -158,7 +158,7 @@
       "weight": 30,
       "level": [
        14,
-       16
+       14
       ],
       "rarity": "rare"
      },
@@ -176,7 +176,7 @@
       "weight": 14,
       "level": [
        14,
-       17
+       14
       ],
       "rarity": "uncommon"
      }
@@ -379,7 +379,7 @@
       "weight": 4,
       "level": [
        12,
-       15
+       14
       ],
       "rarity": "rare"
      }
@@ -393,7 +393,7 @@
       "weight": 50,
       "level": [
        14,
-       17
+       14
       ],
       "rarity": "common"
      },
@@ -402,7 +402,7 @@
       "weight": 30,
       "level": [
        14,
-       17
+       14
       ],
       "rarity": "uncommon"
      },
@@ -410,8 +410,8 @@
       "species": "mirewump",
       "weight": 8,
       "level": [
-       15,
-       18
+       14,
+       14
       ],
       "rarity": "rare"
      }
@@ -898,7 +898,7 @@
       "weight": 55,
       "level": [
        20,
-       24
+       22
       ],
       "rarity": "common"
      },
@@ -907,7 +907,7 @@
       "weight": 40,
       "level": [
        20,
-       24
+       22
       ],
       "rarity": "common"
      },
@@ -916,7 +916,7 @@
       "weight": 30,
       "level": [
        20,
-       24
+       22
       ],
       "rarity": "rare"
      },
@@ -925,7 +925,7 @@
       "weight": 14,
       "level": [
        22,
-       25
+       22
       ],
       "rarity": "uncommon"
      }
@@ -1145,7 +1145,7 @@
       "weight": 10,
       "level": [
        42,
-       45
+       44
       ],
       "rarity": "uncommon"
      }
@@ -1159,7 +1159,7 @@
       "weight": 45,
       "level": [
        40,
-       45
+       44
       ],
       "rarity": "common"
      },
@@ -1168,7 +1168,7 @@
       "weight": 35,
       "level": [
        40,
-       45
+       44
       ],
       "rarity": "uncommon"
      },
@@ -1176,8 +1176,8 @@
       "species": "tidemarrow",
       "weight": 30,
       "level": [
-       45,
-       47
+       44,
+       44
       ],
       "rarity": "rare"
      },
@@ -1194,8 +1194,8 @@
       "species": "moorcoil",
       "weight": 14,
       "level": [
-       45,
-       48
+       44,
+       44
       ],
       "rarity": "uncommon"
      }
@@ -1485,7 +1485,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1494,7 +1494,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1503,7 +1503,7 @@
       "weight": 15,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1512,7 +1512,7 @@
       "weight": 15,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1521,7 +1521,7 @@
       "weight": 8,
       "level": [
        22,
-       25
+       22
       ],
       "rarity": "rare"
      }
@@ -1722,7 +1722,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1731,7 +1731,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1740,7 +1740,7 @@
       "weight": 15,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1749,7 +1749,7 @@
       "weight": 15,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1758,7 +1758,7 @@
       "weight": 15,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -1767,7 +1767,7 @@
       "weight": 20,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "rare"
      },
@@ -1776,7 +1776,7 @@
       "weight": 20,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "rare"
      },
@@ -1785,7 +1785,7 @@
       "weight": 14,
       "level": [
        22,
-       25
+       22
       ],
       "rarity": "uncommon"
      }
@@ -2265,7 +2265,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -2274,7 +2274,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -2283,7 +2283,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -2292,7 +2292,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -2301,7 +2301,7 @@
       "weight": 30,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "uncommon"
      },
@@ -2310,7 +2310,7 @@
       "weight": 27,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "rare"
      },
@@ -2319,7 +2319,7 @@
       "weight": 27,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "rare"
      },
@@ -2328,7 +2328,7 @@
       "weight": 27,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "rare"
      },
@@ -2337,7 +2337,7 @@
       "weight": 9,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "rare"
      },
@@ -2346,7 +2346,7 @@
       "weight": 9,
       "level": [
        21,
-       24
+       22
       ],
       "rarity": "rare"
      },
@@ -2355,7 +2355,7 @@
       "weight": 14,
       "level": [
        22,
-       25
+       22
       ],
       "rarity": "uncommon"
      }
