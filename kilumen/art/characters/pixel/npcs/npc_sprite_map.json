@@ -2478,6 +2478,21 @@
    "overworld_sheet_3x": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi/"
   },
+  "aurelith_arena.aurelith_arena_ron_final": {
+   "sprite_id": "ron",
+   "class": "main cast (final Ron, tower bottom)",
+   "overworld_sheet": "humans/ron/overworld/ron_chibi_sheet.png",
+   "overworld_sheet_2x": "humans/ron/overworld/ron_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "humans/ron/overworld/ron_chibi_sheet_3x.png",
+   "overworld_frames_dir": "humans/ron/overworld/ron_chibi/",
+   "trainer_64x128": "humans/ron/trainer/ron_trainer_64x128.png",
+   "portraits": {
+    "angry": "humans/ron/portraits/ron_angry.png",
+    "happy": "humans/ron/portraits/ron_happy.png",
+    "neutral": "humans/ron/portraits/ron_neutral.png"
+   },
+   "note": "existing main-cast sheet (Ron)"
+  },
   "aurelith_arena_room_1.arena_fighter_1": {
    "sprite_id": "tr_swimmer_m",
    "class": "Arena fighter 1 of 8, water type",

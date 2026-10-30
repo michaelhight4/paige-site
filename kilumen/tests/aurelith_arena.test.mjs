@@ -49,7 +49,7 @@ test('lobby: stadium doors land on walkable squares, mats return, stairs go up t
     assert.ok(['aurelith_stadium_int', ARENA.room(1)].includes(w.to), w.to); assert.equal(map.layers.collision[w.y][w.x], 4);
     assert.equal(load(w.to).layers.collision[w.ty][w.tx], 0, `lands walkable on ${w.to}`);
   }
-  assert.deepEqual(map.npcs.map((n) => n.id), [ARENA.clerk]);
+  assert.deepEqual(map.npcs.map((n) => n.id), [ARENA.clerk, 'aurelith_arena_ron_final']); // r78: final Ron by the exit (active_when tower_healed)
   const all = ['aurelith_arena', ...rooms.map((r) => r.name)].map((m) => fs.readFileSync(MAPS + m + '.json', 'utf8')).join('') + fs.readFileSync('src/region78/arena.js', 'utf8');
   assert.ok(!/elite|\bgym\b|\bnurse\b|\broute\b|\bberry\b|shiny|super effective|pokedex|poke ball/i.test(all));
   assert.ok(!fs.existsSync(MAPS + 'aurelith_arena_int.json'), 'final Ron (tower) map not built here');

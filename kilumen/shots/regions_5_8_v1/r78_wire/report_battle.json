@@ -1,0 +1,76 @@
+[
+ {
+  "foe": "chimelet",
+  "fn": "battle_chimelet.png"
+ },
+ {
+  "foe": "glyphmage",
+  "fn": "battle_glyphmage.png"
+ },
+ {
+  "foe": "mantleox",
+  "fn": "battle_mantleox.png"
+ },
+ {
+  "foe": "mirejaw",
+  "fn": "battle_mirejaw.png"
+ },
+ {
+  "foe": "peakbrute",
+  "fn": "battle_peakbrute.png"
+ },
+ {
+  "foe": "reapmantis",
+  "fn": "battle_reapmantis.png"
+ },
+ {
+  "foe": "reedcrane",
+  "fn": "battle_reedcrane.png"
+ },
+ {
+  "foe": "rimewyrm",
+  "fn": "battle_rimewyrm.png"
+ },
+ {
+  "foe": "seraphawk",
+  "fn": "battle_seraphawk.png"
+ },
+ {
+  "foe": "shardhart",
+  "fn": "battle_shardhart.png"
+ },
+ {
+  "foe": "snowroller",
+  "fn": "battle_snowroller.png"
+ },
+ {
+  "foe": "spirewing",
+  "fn": "battle_spirewing.png"
+ },
+ {
+  "foe": "sunbasilisk",
+  "fn": "battle_sunbasilisk.png"
+ },
+ {
+  "foe": "sunderhoof",
+  "fn": "battle_sunderhoof.png"
+ },
+ {
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ]
+ }
+]

@@ -1,0 +1,70 @@
+{
+ "shardhart_front": {
+  "scale": 0.13516609392898052,
+  "org": [
+   259,
+   63
+  ],
+  "size": [
+   77,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 16
+ },
+ "shardhart_back": {
+  "scale": 0.13393870601589103,
+  "org": [
+   278,
+   55
+  ],
+  "size": [
+   69,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 16
+ },
+ "shardhart_ow_down": {
+  "scale": 0.1062992125984252,
+  "org": [
+   42,
+   80
+  ],
+  "size": [
+   27,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "shardhart_ow_left": {
+  "scale": 0.10714285714285714,
+  "org": [
+   334,
+   83
+  ],
+  "size": [
+   34,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "shardhart_ow_right": {
+  "mirror_of": "shardhart_ow_left"
+ },
+ "shardhart_ow_up": {
+  "scale": 0.1067193675889328,
+  "org": [
+   1005,
+   83
+  ],
+  "size": [
+   25,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ }
+}

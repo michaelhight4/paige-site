@@ -16,8 +16,8 @@ export const ENDING = {
   ron: 'aurelith.aurelith_ron_6', save: 'game_cleared',
   // v0.2.87 (Gary, Oct 29 2026: "you only get that ending after beating the tower"): the ending is gated on the
   // Aurelith Stadium tower (8 floors, one run, Ron 7 on the roof). Story Bot flags: tower_done / beat_n_ron_7
-  // (alias ron_final_beaten). The tower is NOT built yet and nothing sets these flags, so the ending is unreachable
-  // in live play; beating Ron 6 just continues normally (his battle_won lines still play).
+  // (alias ron_final_beaten). r78 wiring (Oct 29 2026): the tower = aurelith_arena_room_1..8 (src/region78/arena.js sets
+  // tower_done after floor 8); beating final Ron in the lobby sets beat_n_ron_7 + ron_final_beaten, and only those end the game.
   tower: ['tower_done', 'beat_n_ron_7', 'ron_final_beaten'],
 };
 
@@ -41,7 +41,8 @@ export function syncAllBadges(scene) {
 
 /** The ending is due: the Aurelith Stadium tower is beaten (tower_done / beat_n_ron_7 / ron_final_beaten), not cleared yet.
  *  (Before v0.2.87 it was Ron 6 + all_badges; that no longer triggers anything.) */
-export const endingDue = (flags) => ENDING.tower.some((f) => flags.has(f)) && !flags.has(ENDING.done);
+// r78 (Coder, Oct 29 2026): tower_done (floor 8) alone no longer ends the game; final Ron waits at the tower bottom first.
+export const endingDue = (flags) => ENDING.tower.slice(1).some((f) => flags.has(f)) && !flags.has(ENDING.done);
 
 /** Save field game_cleared: when, the in-game day and the team that did it. */
 export function clearRecord(scene, now = Date.now()) {

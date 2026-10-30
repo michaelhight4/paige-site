@@ -112,22 +112,38 @@ export const RON_POOLS = {
  "ron_6": [
   "bleachghast",
   "breakerfin",
+  "chimelet",
   "gloamtick",
+  "glyphmage",
+  "mirejaw",
   "pinchkin",
   "reefshell",
+  "rimewyrm",
   "runeskein"
  ],
  "ron_final": [
   "brimtoad",
+  "chimelet",
   "delvelet",
   "gloamtick",
+  "glyphmage",
   "halovy",
+  "mantleox",
   "obsidiax",
   "pebbit",
   "pumicepuff",
+  "reapmantis",
+  "reedcrane",
+  "seraphawk",
+  "shardhart",
   "shorehound",
   "slagrook",
-  "stonepede"
+  "snowmuff",
+  "snowroller",
+  "spirewing",
+  "stonepede",
+  "sunbasilisk",
+  "sunderhoof"
  ]
 };
-export const RON_FORMS_OK = ["ankerling","aurorel","bastonox","belfrydove","bleachghast","bleatling","blubbet","bramblehog","breakerfin","briarlet","brimtoad","brinepipit","brineseal","brookhorn","bulwarkrab","burlbeetle","burrowmane","cairnant","cairnhorn","capling","chiselbug","cindrip","cogwhisk","coilarch","columnpede","cragmont","crowkin","delvelet","delvemaw","dewmite","eavesgrim","emberlunx","fernstag","finnip","fleecelight","flockpup","foalgust","forgeharrow","frondhart","frondlet","galespar","gargolet","gauzewing","gearwarden","geodurchin","gildfinch","glarekit","glassvine","glimmerlamb","glintmoth","gloamtick","gnawford","grainling","halovy","hullwhale","humstone","hushpine","huskling","lampwick","lancebeetle","larkspar","ledgedove","medulet","millwhirl","mirrorkin","moatling","nibbin","nudiblume","obsidiax","parasoleaf","pearlisk","pebbadillo","pebbit","pebblant","peeplark","pennantail","pinchkin","polypip","pouchbill","pricklon","prismite","pumicepuff","quaymouser","railmite","rakefin","reefshell","rillop","rimewick","rubblon","runeskein","sailquill","sandstarlet","scutadillo","shalekin","shorehound","signalwren","skivvet","skyrender","slagrook","snowgrouse","spinelet","spiralith","spratwyrm","spraytern","sproutwyrm","stonepede","thornpod","tidemarrow","toadcap","tollkin","tumbloam","tuskwallow","vaultpede","wavelin","whelkin"];
+export const RON_FORMS_OK = ["ankerling","aurorel","bastonox","belfrydove","bleachghast","bleatling","blubbet","bramblehog","breakerfin","briarlet","brimtoad","brinepipit","brineseal","brookhorn","bulwarkrab","burlbeetle","burrowmane","cairnant","cairnhorn","capling","chimelet","chiselbug","cindrip","cogwhisk","coilarch","columnpede","cragmont","crowkin","delvelet","delvemaw","dewmite","eavesgrim","emberlunx","fernstag","finnip","fleecelight","flockpup","foalgust","forgeharrow","frondhart","frondlet","galespar","gargolet","gauzewing","gearwarden","geodurchin","gildfinch","glarekit","glassvine","glimmerlamb","glintmoth","gloamtick","glyphmage","gnawford","grainling","halovy","hullwhale","humstone","hushpine","huskling","lampwick","lancebeetle","larkspar","ledgedove","mantleox","medulet","millwhirl","mirejaw","mirrorkin","moatling","nibbin","nudiblume","obsidiax","parasoleaf","peakbrute","pearlisk","pebbadillo","pebbit","pebblant","peeplark","pennantail","pinchkin","polypip","pouchbill","pricklon","prismite","pumicepuff","quaymouser","railmite","rakefin","reapmantis","reedcrane","reefshell","rillop","rimewick","rimewyrm","rubblon","runeskein","sailquill","sandstarlet","scutadillo","seraphawk","shalekin","shardhart","shorehound","signalwren","skivvet","skyrender","slagrook","snowgrouse","snowmuff","snowroller","spinelet","spiralith","spirewing","spratwyrm","spraytern","sproutwyrm","stonepede","sunbasilisk","sunderhoof","thornpod","tidemarrow","toadcap","tollkin","tumbloam","tuskwallow","vaultpede","wavelin","whelkin"];

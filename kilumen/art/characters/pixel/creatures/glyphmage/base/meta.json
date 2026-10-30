@@ -1,0 +1,80 @@
+{
+ "glyphmage_front": {
+  "scale": 0.14322916666666666,
+  "org": [
+   200,
+   108
+  ],
+  "size": [
+   91,
+   110
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 24
+ },
+ "glyphmage_back": {
+  "scale": 0.14102564102564102,
+  "org": [
+   294,
+   88
+  ],
+  "size": [
+   64,
+   110
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 15
+ },
+ "glyphmage_ow_down": {
+  "scale": 0.12345679012345678,
+  "org": [
+   41,
+   140
+  ],
+  "size": [
+   32,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 23
+ },
+ "glyphmage_ow_left": {
+  "scale": 0.12165450121654502,
+  "org": [
+   371,
+   143
+  ],
+  "size": [
+   32,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 21
+ },
+ "glyphmage_ow_right": {
+  "scale": 0.12195121951219512,
+  "org": [
+   676,
+   144
+  ],
+  "size": [
+   32,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 23
+ },
+ "glyphmage_ow_up": {
+  "scale": 0.1201923076923077,
+  "org": [
+   992,
+   143
+  ],
+  "size": [
+   31,
+   50
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 14
+ }
+}

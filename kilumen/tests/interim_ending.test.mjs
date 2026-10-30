@@ -49,7 +49,7 @@ test('ending is due only after the Aurelith tower (tower_done / beat_n_ron_7), n
   assert.equal(E.endingDue(new Set(['beat_rival_ron_6'])), false);
   assert.equal(E.endingDue(new Set(['all_badges'])), false);
   assert.equal(E.endingDue(new Set([...MASTERS, 'all_badges', 'beat_rival_ron_6'])), false);
-  assert.equal(E.endingDue(new Set(['tower_done'])), true);
+  assert.equal(E.endingDue(new Set(['tower_done'])), false); // r78: floor 8 alone waits for final Ron
   assert.equal(E.endingDue(new Set(['beat_n_ron_7'])), true);
   assert.equal(E.endingDue(new Set(['ron_final_beaten'])), true);
   assert.equal(E.endingDue(new Set(['tower_done', 'finale_done'])), false);
@@ -73,7 +73,7 @@ test('nothing in the game sets the tower flags yet except the final Ron result (
 });
 
 test('full ending: Ron + RITA, credits under the save lock, finale_done + game_cleared, home with a postgame note', async () => {
-  const s = fakeScene([...MASTERS, 'all_badges', 'beat_rival_ron_6', 'tower_done']);
+  const s = fakeScene([...MASTERS, 'all_badges', 'beat_rival_ron_6', 'tower_done', 'beat_n_ron_7']);
   let lockedInCredits = null;
   const ok = await E.runInterimEnding(s, {
     credits: async (sc, rec) => { lockedInCredits = sc.saveLocked; assert.equal(rec.team[0].nickname, 'Pip'); assert.ok(!sc.flags.has('finale_done')); },

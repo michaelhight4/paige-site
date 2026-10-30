@@ -1,0 +1,80 @@
+{
+ "rimewyrm_front": {
+  "scale": 0.13516609392898052,
+  "org": [
+   194,
+   65
+  ],
+  "size": [
+   94,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 15
+ },
+ "rimewyrm_back": {
+  "scale": 0.13833528722157093,
+  "org": [
+   237,
+   61
+  ],
+  "size": [
+   89,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 12
+ },
+ "rimewyrm_ow_down": {
+  "scale": 0.11226611226611227,
+  "org": [
+   51,
+   100
+  ],
+  "size": [
+   29,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 15
+ },
+ "rimewyrm_ow_left": {
+  "scale": 0.11440677966101695,
+  "org": [
+   350,
+   107
+  ],
+  "size": [
+   33,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ },
+ "rimewyrm_ow_right": {
+  "scale": 0.1134453781512605,
+  "org": [
+   669,
+   106
+  ],
+  "size": [
+   33,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 13
+ },
+ "rimewyrm_ow_up": {
+  "scale": 0.11180124223602485,
+  "org": [
+   1009,
+   104
+  ],
+  "size": [
+   26,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 12
+ }
+}

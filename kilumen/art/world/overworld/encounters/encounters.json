@@ -60,6 +60,7 @@
   "cavernwing",
   "charlurcher",
   "chartmouse",
+  "chimelet",
   "chiselbug",
   "cinderwraith",
   "cinderwyrm",
@@ -127,6 +128,7 @@
   "glintmoth",
   "gloamtick",
   "glyphforge",
+  "glyphmage",
   "gnawford",
   "grainling",
   "halovy",
@@ -154,9 +156,11 @@
   "lintmouse",
   "loamworm",
   "lurelamp",
+  "mantleox",
   "medulet",
   "millwhirl",
   "minewisp",
+  "mirejaw",
   "mirewump",
   "mirrorkin",
   "moatling",
@@ -176,6 +180,7 @@
   "ondravel",
   "paleminnow",
   "parasoleaf",
+  "peakbrute",
   "pearlisk",
   "pebbadillo",
   "pebbit",
@@ -198,12 +203,15 @@
   "railmite",
   "rakefin",
   "raywing",
+  "reapmantis",
+  "reedcrane",
   "reedmoot",
   "reefshell",
   "reverion",
   "ribboneel",
   "rillop",
   "rimewick",
+  "rimewyrm",
   "rooftrove",
   "rubblon",
   "runeskein",
@@ -212,9 +220,11 @@
   "scorchkite",
   "scutadillo",
   "seaglint",
+  "seraphawk",
   "shaftwraith",
   "shagmount",
   "shalekin",
+  "shardhart",
   "shellbloom",
   "shorehound",
   "signalwren",
@@ -226,11 +236,13 @@
   "snowcairn",
   "snowgrouse",
   "snowmuff",
+  "snowroller",
   "somnarch",
   "sparkplume",
   "spinelet",
   "spinyclaw",
   "spiralith",
+  "spirewing",
   "spratwyrm",
   "spraytern",
   "sproutwyrm",
@@ -239,6 +251,7 @@
   "stonepede",
   "stratodrake",
   "streambarb",
+  "sunbasilisk",
   "sunderhoof",
   "talusmouse",
   "tbdcandle",
@@ -2614,7 +2627,32 @@
      "weight": 15
     },
     {
+     "species": "rimewyrm",
+     "level": [
+      52,
+      57
+     ],
+     "weight": 3
+    },
+    {
+     "species": "mirejaw",
+     "level": [
+      50,
+      57
+     ],
+     "weight": 4
+    },
+    {
      "species": "bulwarkrab",
+     "level": [
+      50,
+      57
+     ],
+     "weight": 2,
+     "spread": "habitat"
+    },
+    {
+     "species": "breakerfin",
      "level": [
       50,
       57
@@ -2686,12 +2724,83 @@
      ]
     },
     {
+     "species": "seraphawk",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 3,
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "shardhart",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 3
+    },
+    {
+     "species": "spirewing",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 3,
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "chimelet",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 4,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "reapmantis",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 3
+    },
+    {
+     "species": "glyphmage",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 2,
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "reedcrane",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 4
+    },
+    {
      "species": "belfrydove",
      "level": [
       62,
       64
      ],
-     "weight": 12,
+     "weight": 14,
      "spread": "habitat"
     }
    ],
@@ -2720,6 +2829,22 @@
       62
      ],
      "weight": 30
+    },
+    {
+     "species": "mirejaw",
+     "level": [
+      60,
+      64
+     ],
+     "weight": 5
+    },
+    {
+     "species": "rimewyrm",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 2
     },
     {
      "species": "reedmoot",
@@ -2791,6 +2916,38 @@
       "dusk",
       "night"
      ]
+    },
+    {
+     "species": "sunbasilisk",
+     "level": [
+      63,
+      66
+     ],
+     "weight": 3
+    },
+    {
+     "species": "sunderhoof",
+     "level": [
+      64,
+      66
+     ],
+     "weight": 1
+    },
+    {
+     "species": "peakbrute",
+     "level": [
+      63,
+      66
+     ],
+     "weight": 3
+    },
+    {
+     "species": "reapmantis",
+     "level": [
+      63,
+      66
+     ],
+     "weight": 2
     }
    ],
    "source": "Game dev design/overnight_gd/encounters_route_aurelith_cindervale.json zone ac_ash (grass (ash grass))",
@@ -2820,12 +2977,28 @@
      "weight": 40
     },
     {
+     "species": "mantleox",
+     "level": [
+      64,
+      66
+     ],
+     "weight": 5
+    },
+    {
+     "species": "snowroller",
+     "level": [
+      64,
+      66
+     ],
+     "weight": 5
+    },
+    {
      "species": "cragmont",
      "level": [
       64,
       66
      ],
-     "weight": 3,
+     "weight": 4,
      "spread": "habitat"
     },
     {
@@ -2834,7 +3007,7 @@
       64,
       66
      ],
-     "weight": 3,
+     "weight": 4,
      "spread": "habitat"
     },
     {
@@ -2843,7 +3016,7 @@
       64,
       66
      ],
-     "weight": 3,
+     "weight": 4,
      "spread": "habitat"
     }
    ],
@@ -2985,11 +3158,6 @@
   "dewbell",
   "driftknot",
   "glisterdew",
-  "glyphmage",
-  "mantleox",
-  "mirejaw",
-  "peatbellow",
-  "snowroller",
-  "sunbasilisk"
+  "peatbellow"
  ]
 }

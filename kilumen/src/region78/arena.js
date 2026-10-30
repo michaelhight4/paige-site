@@ -7,8 +7,19 @@
 // Win all 8 -> ARENA.clearFlag, then back to the lobby. Each fighter is one type (every Kilu carries that type),
 // 6 final-stage Kilu, L59-69, ace 67-69. Teams: TRAINER_TEAMS 'aurelith_arena_room_N.arena_fighter_N' (ARENA_TEAMS below).
 // Names come from text (maps.aurelith_arena.arena_fighter_N.name, Text Bot); `name` below is only the DRAFT fallback.
-// Final Ron is NOT here: his key stays aurelith_arena_int.aurelith_arena_ron_final (the tower, not built yet).
+// Final Ron (r78 wiring, Coder Oct 29 2026; story_beats F-0 rev 2 + Q-F11): rooms 1-8 ARE the stadium tower. First full clear:
+// Ron at the top says ron.tower_top_wait and heads down, ENDING.tower[0] (floor 8 done) is set, then the stadium full heal
+// (system heal, NOT Ron's: Gary dropped Ron's free heal) sets tower_healed via heal.js markTowerHeal. Ron then waits by the
+// lobby exit (map NPC aurelith_arena_ron_final, active_when tower_healed): ron.bottom_congrats + ron.ron7_intro, then the
+// battle under his key aurelith_arena_int.aurelith_arena_ron_final (ron_team.js RON_FINAL, story.js TRAINER_RESULTS: a win sets
+// both Ron 7 win flags, ENDING.tower[1..2]), then ron.ron7_lose / ron.ron7_after and the ending (ending.js endingDue). Loss = blackout.
 // Text: DRAFT keys maps.aurelith_arena.* + system_arena.* (Text Bot; data/textbot_requests_arena.md). Fallbacks below.
+import { RON_FINAL } from '../battle/data/ron_team.js?v=v0.2.91-alpha';
+import { trainerOutcome } from '../battle/story.js?v=v0.2.91-alpha';
+import { ENDING, endingDue, runInterimEnding } from '../progression/ending.js?v=v0.2.91-alpha';
+import { markTowerHeal } from '../systems/heal.js?v=v0.2.91-alpha';
+import { Npc } from '../overworld/npcs.js?v=v0.2.91-alpha';
+import { townRonCell } from '../overworld/ron_whereabouts.js?v=v0.2.91-alpha';
 export const ARENA = {
   map: 'aurelith_arena', room: (n) => `aurelith_arena_room_${n}`, runFlag: 'arena_run', wonFlag: (n) => `arena_room_${n}_won`, clerk: 'aurelith_arena_clerk', clearFlag: 'arena_cleared', winsCounter: 'arena_wins',
   fighters: [
@@ -48,6 +59,29 @@ export const ARENA_FALLBACK = {
   lostLine: (f, name = f.name) => [`${name}: Good fight. Keep going.`],
 };
 const getPath = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
+
+/** Final Ron (Ron 7) at the tower bottom. Fallbacks are DRAFT code text only. */
+export const RON7 = {
+  id: 'aurelith_arena_ron_final', battleMap: 'aurelith_arena_int', // RON_FINAL.key = `${battleMap}.${id}`
+  // Approved text (Gary 5:55 PM CT, text/overworld_lines.json ron.final_tower; story_beats names: ron.tower_top_wait /
+  // ron.bottom_congrats / ron.ron7_intro / ron7_lose / ron7_after). Only the heal line is new (data/textbot_requests_r78_ron.md).
+  keys: { top: 'ron.final_tower.top_wait', congrats: 'ron.final_tower.intro', intro: 'ron.final_tower.challenge', lose: 'ron.final_tower.battle_lost',
+    won: 'ron.final_tower.battle_won', after: 'ron.final_tower.after', heal: 'system_arena.tower_heal' },
+  fallback: {
+    top: ['Already did this one. See you downstairs.'],
+    congrats: ['Congrats. Three hours. I counted.'],
+    intro: ['One more, then. You and me.', 'No heal from me this time. You sorted that yourself.'],
+    lose: ['...Yeah. That one is yours.'],
+    won: ['Ha! Got you. Go heal up. I will still be here.'],
+    after: ['Go on. Head Office is waiting, apparently.'],
+    heal: ['The stadium staff patch your team up. All Kilu are fully healed.'],
+  },
+};
+/** Pure: what the tower-bottom Ron does now -> 'fight' | 'after' | 'absent'. */
+export function ron7State(flags) {
+  if (flags.has(RON_FINAL.winFlag)) return 'after';
+  return RON_FINAL.requires.every((f) => flags.has(f)) ? 'fight' : 'absent';
+}
 
 /** Pure: the run order from fighter 1 (always the full 8; a loss restarts from 1). */
 export const runOrder = () => ARENA.fighters.map((f) => f.id);
@@ -94,9 +128,10 @@ export function arenaHook(scene) {
   const npcOf = (id) => scene.npcs?.list?.find?.((n) => n.id === id);
   const sp = (f) => (f ? scene.speakerFor?.(npcOf(f.id), true) || { name: nameOf(f) } : null);
   return {
-    match: (mapName, def) => (mapName === ARENA.map && def?.id === ARENA.clerk)
+    match: (mapName, def) => (mapName === ARENA.map && (def?.id === ARENA.clerk || def?.id === RON7.id))
       || ARENA.fighters.some((f, i) => mapName === ARENA.room(i + 1) && def?.id === f.id),
     run: async ({ def, speaker }) => {
+      if (def.id === RON7.id) return ron7Talk(scene, speaker);
       if (def.id === ARENA.clerk) return scene.say(flags.has(ARENA.clearFlag) ? text('clerkCleared') : text('clerk'), speaker);
       const f = ARENA.fighters.find((x) => x.id === def.id), n = roomOf(f), st = fighterState(flags, n);
       if (st === 'waiting') return scene.say(text('waiting'), speaker);
@@ -113,9 +148,59 @@ export function arenaHook(scene) {
         done: async () => {
           if (!flags.has(ARENA.clearFlag)) set(ARENA.clearFlag);
           if (scene.bump) scene.bump(ARENA.winsCounter); else if (scene.counters) scene.counters[ARENA.winsCounter] = (scene.counters[ARENA.winsCounter] || 0) + 1;
+          if (!flags.has(ENDING.tower[0]) && !flags.has(RON_FINAL.winFlag)) await towerTop(scene, set);
           scene.startWarp?.({ map: ARENA.map, x: 8, y: 3, facing: 'down' }, 'door');
         },
       }, f);
     },
   };
+}
+
+const ronLines = (scene, k) => { const v = getPath(scene.lines, RON7.keys[k]); const p = Array.isArray(v) ? v : v?.pages; return p?.length ? p : RON7.fallback[k]; };
+const ronSpeaker = (scene, n) => scene.speakerFor?.(n || { id: RON7.id, def: { id: RON7.id } }) || { name: 'Ron' };
+
+/** Floor 8 cleared for the first time: Ron's top-of-tower line, the floor 8 flag, then the stadium full heal (-> tower_healed). */
+export async function towerTop(scene, set) {
+  let ron = null;
+  try {
+    const m = scene.map, c = m && scene.player && townRonCell(scene);
+    if (c && scene.npcs?.list) {
+      ron = new Npc({ id: `${RON7.id}_top`, kind: 'object', x: c.x, y: c.y, facing: 'down', story: true }, m.name, scene.spriteMap?.['house_1f.ron'] || null, false);
+      ron.behaviour = 'static'; ron.faceToward?.(scene.player.x, scene.player.y);
+      scene.npcs.list.push(ron); m.occupy?.(ron.x, ron.y, ron); scene.story?.loadImgs?.(ron);
+    }
+  } catch { ron = null; }
+  await scene.say(ronLines(scene, 'top'), ronSpeaker(scene, ron));
+  if (ron) { const i = scene.npcs.list.indexOf(ron); if (i >= 0) scene.npcs.list.splice(i, 1); scene.map?.vacate?.(ron.x, ron.y, ron); }
+  set(ENDING.tower[0]);
+  scene.systems?.party?.healAll?.();
+  markTowerHeal(scene); // sets tower_healed (RON_FINAL.requires[1]): Ron now waits at the bottom
+  scene.healedAt = scene.ms; scene.log?.push?.({ tick: scene.tick, type: 'heal', branch: 'aurelith_tower' });
+  await scene.say(ronLines(scene, 'heal'), { name: null, portrait: null });
+}
+
+/** Tower-bottom Ron: congrats + intro, the Ron 7 battle, then his lines and the ending. */
+export async function ron7Talk(scene, speaker) {
+  const st = ron7State(scene.flags);
+  if (st === 'after') return scene.say(ronLines(scene, 'after'), speaker);
+  if (st === 'absent') return undefined;
+  if (!(scene.systems?.party?.list || scene.party || []).length) return scene.say(['I need a Kilu to fight with.']);
+  await scene.say([...ronLines(scene, 'congrats'), ...ronLines(scene, 'intro')], speaker);
+  const map = RON7.battleMap, id = RON7.id, def = { id, kind: 'trainer' };
+  const won = scene.hooks?.onBattle ? await scene.hooks.onBattle({ map, id }) : true;
+  scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: id, won });
+  const story = trainerOutcome(map, id, won !== false);
+  if (won !== false) {
+    scene.seen[`defeated:${map}.${id}`] = true;
+    for (const f of story.flags) if (!scene.flags.has(f)) scene.setFlag(f);
+    await scene.say(ronLines(scene, 'lose'), speaker);
+    await scene.systems?.onTrainerWin?.({ map, def, speaker });
+    await scene.say(ronLines(scene, 'after'), speaker);
+    if (endingDue(scene.flags)) await runInterimEnding(scene);
+    return 'won';
+  }
+  await scene.say(ronLines(scene, 'won'), speaker);
+  const out = await scene.systems?.onTrainerLoss?.({ map, def });
+  if (story.blackoutOnLoss && !out) await scene.systems?.onPartyFainted?.();
+  return 'lost';
 }

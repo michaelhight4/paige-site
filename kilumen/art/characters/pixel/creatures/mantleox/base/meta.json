@@ -1,0 +1,80 @@
+{
+ "mantleox_front": {
+  "scale": 0.14131736526946106,
+  "org": [
+   143,
+   70
+  ],
+  "size": [
+   105,
+   118
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 9
+ },
+ "mantleox_back": {
+  "scale": 0.14165666266506602,
+  "org": [
+   232,
+   69
+  ],
+  "size": [
+   84,
+   118
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 7
+ },
+ "mantleox_ow_down": {
+  "scale": 0.13636363636363635,
+  "org": [
+   35,
+   144
+  ],
+  "size": [
+   37,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 9
+ },
+ "mantleox_ow_left": {
+  "scale": 0.1377551020408163,
+  "org": [
+   335,
+   148
+  ],
+  "size": [
+   43,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 8
+ },
+ "mantleox_ow_right": {
+  "scale": 0.13705583756345177,
+  "org": [
+   669,
+   146
+  ],
+  "size": [
+   41,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 8
+ },
+ "mantleox_ow_up": {
+  "scale": 0.13740458015267176,
+  "org": [
+   1000,
+   147
+  ],
+  "size": [
+   34,
+   54
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 6
+ }
+}

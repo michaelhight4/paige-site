@@ -31,12 +31,7 @@
   "dewbell",
   "driftknot",
   "glisterdew",
-  "glyphmage",
-  "mantleox",
-  "mirejaw",
-  "peatbellow",
-  "snowroller",
-  "sunbasilisk"
+  "peatbellow"
  ],
  "generated": "tools/sync_creatures.mjs 10/23/2026, 14:38:26 CT",
  "species_with_art": [
@@ -75,6 +70,7 @@
   "cavernwing",
   "charlurcher",
   "chartmouse",
+  "chimelet",
   "chiselbug",
   "cinderwraith",
   "cinderwyrm",
@@ -147,6 +143,7 @@
   "glintmoth",
   "gloamtick",
   "glyphforge",
+  "glyphmage",
   "gnawford",
   "grainling",
   "halovy",
@@ -177,10 +174,12 @@
   "loamworm",
   "lumoris",
   "lurelamp",
+  "mantleox",
   "marmallow",
   "medulet",
   "millwhirl",
   "minewisp",
+  "mirejaw",
   "mirewump",
   "mirrorkin",
   "mittling",
@@ -205,6 +204,7 @@
   "paleminnow",
   "pandember",
   "parasoleaf",
+  "peakbrute",
   "pearlisk",
   "pebbadillo",
   "pebbit",
@@ -228,12 +228,15 @@
   "railmite",
   "rakefin",
   "raywing",
+  "reapmantis",
+  "reedcrane",
   "reedmoot",
   "reefshell",
   "reverion",
   "ribboneel",
   "rillop",
   "rimewick",
+  "rimewyrm",
   "rooftrove",
   "rubblon",
   "runeskein",
@@ -242,9 +245,11 @@
   "scorchkite",
   "scutadillo",
   "seaglint",
+  "seraphawk",
   "shaftwraith",
   "shagmount",
   "shalekin",
+  "shardhart",
   "shellbloom",
   "shorehound",
   "signalwren",
@@ -257,12 +262,14 @@
   "snowdrowse",
   "snowgrouse",
   "snowmuff",
+  "snowroller",
   "snugworm",
   "somnarch",
   "sparkplume",
   "spinelet",
   "spinyclaw",
   "spiralith",
+  "spirewing",
   "spratwyrm",
   "spraytern",
   "sproutwyrm",
@@ -271,6 +278,8 @@
   "stonepede",
   "stratodrake",
   "streambarb",
+  "sunbasilisk",
+  "sunderhoof",
   "talusmouse",
   "tbdcandle",
   "thistlehound",
@@ -2959,7 +2968,7 @@
      "weight": 20
     },
     {
-     "species": "runeskein",
+     "species": "glyphmage",
      "level": [
       37,
       37
@@ -2967,9 +2976,7 @@
      "weight": 5,
      "time": [
       "night"
-     ],
-     "wants": "glyphmage",
-     "stand_in": true
+     ]
     },
     {
      "species": "sailquill",
@@ -3487,14 +3494,12 @@
      "stand_in": true
     },
     {
-     "species": "mirewump",
+     "species": "mirejaw",
      "level": [
       41,
       45
      ],
-     "weight": 35,
-     "wants": "mirejaw",
-     "stand_in": true
+     "weight": 35
     },
     {
      "species": "drenchcrab",
@@ -3854,6 +3859,22 @@
      "placeholder": true
     },
     {
+     "species": "rimewyrm",
+     "level": [
+      52,
+      57
+     ],
+     "weight": 3
+    },
+    {
+     "species": "mirejaw",
+     "level": [
+      50,
+      57
+     ],
+     "weight": 4
+    },
+    {
      "species": "bulwarkrab",
      "level": [
       50,
@@ -4185,6 +4206,77 @@
      "weight": 2,
      "sync_added": true,
      "placeholder": true
+    },
+    {
+     "species": "seraphawk",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 3,
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "shardhart",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 3
+    },
+    {
+     "species": "spirewing",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 3,
+     "time": [
+      "dawn",
+      "day"
+     ]
+    },
+    {
+     "species": "chimelet",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 4,
+     "time": [
+      "dusk",
+      "night"
+     ]
+    },
+    {
+     "species": "reapmantis",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 3
+    },
+    {
+     "species": "glyphmage",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 2,
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "reedcrane",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 4
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -4212,6 +4304,22 @@
       62
      ],
      "weight": 30
+    },
+    {
+     "species": "mirejaw",
+     "level": [
+      60,
+      64
+     ],
+     "weight": 5
+    },
+    {
+     "species": "rimewyrm",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 2
     },
     {
      "species": "reedmoot",
@@ -4403,6 +4511,38 @@
      "weight": 4,
      "sync_added": true,
      "placeholder": true
+    },
+    {
+     "species": "sunbasilisk",
+     "level": [
+      63,
+      66
+     ],
+     "weight": 3
+    },
+    {
+     "species": "sunderhoof",
+     "level": [
+      64,
+      66
+     ],
+     "weight": 1
+    },
+    {
+     "species": "peakbrute",
+     "level": [
+      63,
+      66
+     ],
+     "weight": 3
+    },
+    {
+     "species": "reapmantis",
+     "level": [
+      63,
+      66
+     ],
+     "weight": 2
     }
    ],
    "source": "art/world/overworld/encounters/encounters.json",
@@ -4432,12 +4572,28 @@
      "weight": 40
     },
     {
+     "species": "mantleox",
+     "level": [
+      64,
+      66
+     ],
+     "weight": 5
+    },
+    {
+     "species": "snowroller",
+     "level": [
+      64,
+      66
+     ],
+     "weight": 5
+    },
+    {
      "species": "cragmont",
      "level": [
       64,
       66
      ],
-     "weight": 3,
+     "weight": 4,
      "spread": "habitat"
     },
     {
@@ -4446,7 +4602,7 @@
       64,
       66
      ],
-     "weight": 3,
+     "weight": 4,
      "spread": "habitat"
     },
     {
@@ -4455,7 +4611,7 @@
       64,
       66
      ],
-     "weight": 3,
+     "weight": 4,
      "spread": "habitat"
     }
    ],
@@ -4680,14 +4836,12 @@
      ]
     },
     {
-     "species": "burrowmane",
+     "species": "snowroller",
      "level": [
       29,
       32
      ],
-     "weight": 15,
-     "wants": "snowroller",
-     "stand_in": true
+     "weight": 15
     }
    ],
    "source": "design/overnight_gd/encounters_frostspire.json",
@@ -4706,14 +4860,12 @@
      "weight": 40
     },
     {
-     "species": "bastonox",
+     "species": "mantleox",
      "level": [
       31,
       33
      ],
-     "weight": 25,
-     "wants": "mantleox",
-     "stand_in": true
+     "weight": 25
     }
    ],
    "source": "design/overnight_gd/encounters_frostspire.json",
@@ -5067,14 +5219,12 @@
      "stand_in": true
     },
     {
-     "species": "brookhorn",
+     "species": "mirejaw",
      "level": [
       38,
       42
      ],
-     "weight": 35,
-     "wants": "mirejaw",
-     "stand_in": true
+     "weight": 35
     },
     {
      "species": "drenchcrab",
@@ -5322,7 +5472,7 @@
      "replaced": "burrowmane"
     },
     {
-     "species": "runeskein",
+     "species": "glyphmage",
      "level": [
       33,
       34
@@ -5330,9 +5480,7 @@
      "weight": 5,
      "time": [
       "night"
-     ],
-     "wants": "glyphmage",
-     "stand_in": true
+     ]
     },
     {
      "species": "sailquill",
@@ -6017,6 +6165,22 @@
       57
      ],
      "weight": 20
+    },
+    {
+     "species": "glyphmage",
+     "level": [
+      55,
+      57
+     ],
+     "weight": 5
+    },
+    {
+     "species": "chimelet",
+     "level": [
+      55,
+      57
+     ],
+     "weight": 8
     }
    ]
   },
@@ -6049,6 +6213,14 @@
       66
      ],
      "weight": 15
+    },
+    {
+     "species": "mantleox",
+     "level": [
+      65,
+      66
+     ],
+     "weight": 5
     }
    ]
   }

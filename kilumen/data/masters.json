@@ -675,8 +675,8 @@
      {
       "species": "mirejaw",
       "level": 42,
-      "battle_species": "snapmoor",
-      "stand_in": true,
+      "battle_species": "mirejaw",
+      "stand_in": false,
       "held": "bogroot_charm",
       "skills": [
        "bogsnap",
@@ -791,8 +791,8 @@
       {
        "species": "mirejaw",
        "level": 41,
-       "battle_species": "mirewump",
-       "stand_in": true
+       "battle_species": "mirejaw",
+       "stand_in": false
       }
      ]
     },
@@ -1659,8 +1659,8 @@
       {
        "species": "sunderhoof",
        "level": 66,
-       "battle_species": "forgeharrow",
-       "stand_in": true
+       "battle_species": "sunderhoof",
+       "stand_in": false
       }
      ]
     },

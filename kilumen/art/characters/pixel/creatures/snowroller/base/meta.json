@@ -1,0 +1,80 @@
+{
+ "snowroller_front": {
+  "scale": 0.1400560224089636,
+  "org": [
+   262,
+   100
+  ],
+  "size": [
+   75,
+   100
+  ],
+  "src": "raw/battle_front.jpg",
+  "colours": 20
+ },
+ "snowroller_back": {
+  "scale": 0.1358695652173913,
+  "org": [
+   229,
+   89
+  ],
+  "size": [
+   81,
+   100
+  ],
+  "src": "raw/battle_back.jpg",
+  "colours": 18
+ },
+ "snowroller_ow_down": {
+  "scale": 0.12941176470588237,
+  "org": [
+   42,
+   168
+  ],
+  "size": [
+   32,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 18
+ },
+ "snowroller_ow_left": {
+  "scale": 0.13333333333333333,
+  "org": [
+   320,
+   173
+  ],
+  "size": [
+   41,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 19
+ },
+ "snowroller_ow_right": {
+  "scale": 0.13253012048192772,
+  "org": [
+   673,
+   172
+  ],
+  "size": [
+   39,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ },
+ "snowroller_ow_up": {
+  "scale": 0.12903225806451613,
+  "org": [
+   1004,
+   170
+  ],
+  "size": [
+   32,
+   44
+  ],
+  "src": "raw/ow_views.jpg",
+  "colours": 16
+ }
+}
