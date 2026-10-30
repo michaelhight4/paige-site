@@ -1,0 +1,35 @@
+{
+  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Mirrors data/pass2_caves_fallback.json maps.r9_switchbacks.<id>. Cave titles kept as written: Switchback Crevice, Frost Seam, Echo Hollow, Low Draught.",
+  "maps": {
+    "r9_switchbacks": {
+      "r9_swp_hermit": {
+        "pages": ["Nobody finds this ledge by walking.\nYou came through the crack, then?"],
+        "battle_lost": ["Fine, fine. The rock keeps secrets\nbetter than I do."],
+        "battle_won": ["Back through the crack with you.\nMind your elbows."],
+        "after": ["Drop off the south ledge to leave.\nIt only goes one way."]
+      },
+      "r9_swp_icecutter": {
+        "pages": ["This seam is mine. I cut ice\nblocks for the camp."],
+        "battle_lost": ["You hit harder than the frost."],
+        "battle_won": ["Ice doesn't argue. You do.\nThat's your mistake."],
+        "after": ["There's a slide by the far wall.\nMind the drop at the end."]
+      },
+      "r9_swp_echo": {
+        "pages": ["Shout in here and the mountain\nshouts back. Want to hear it?"],
+        "battle_lost": ["Even the echo went quiet."],
+        "battle_won": ["The mountain says you lost.\nTwice, actually. Echo."],
+        "after": ["The west ledge drops you down\nby the lower trail."]
+      },
+      "r9_swp_warden": {
+        "pages": ["You found the warden hut.\nMost climbers walk right past it."],
+        "battle_lost": ["You climb the way you fight.\nFast, and not very carefully."],
+        "battle_won": ["Slow down out there. The trail\nwill still be here tomorrow."],
+        "after": ["The ledge drops you onto the\nsouth trail. Sign the log first."]
+      },
+      "r9_swp_egg_cairn": {"pages": ["A tiny cairn of three pebbles.", "Someone carved a smiling face\non the top one."]},
+      "r9_swp_egg_snowman": {"pages": ["A snow figure in a climbing helmet.", "Its sign says:\nSTILL WAITING FOR A ROPE."]},
+      "r9_swp_egg_names": {"pages": ["Old names cut in the rock.\nA whole rope team.", "The newest one only says:\nWAS HERE FIRST."]},
+      "r9_swp_egg_log": {"pages": ["The trail log. Last entry, Day 40:", "\"The view is still great.\nThe snacks are not.\""]}
+    }
+  }
+}

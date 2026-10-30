@@ -1,0 +1,307 @@
+{
+ "_note": "Pass 2 cave pockets: DRAFT placeholder lines (Coder). Text Bot / Story Bot own the final text; filled in only where overworld_lines.json has no entry.",
+ "maps": {
+  "r9_switchbacks": {
+   "r9_swp_hermit": {
+    "pages": [
+     "DRAFT: Nobody finds this ledge by walking. You came through the crack, huh?"
+    ],
+    "battle_lost": [
+     "DRAFT: Fine, fine. The rock keeps my secrets better than I do."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge to the south. It only goes one way."
+    ],
+    "trainer_class": "Hermit",
+    "name": "Odda",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_egg_cairn": {
+    "pages": [
+     "DRAFT: A tiny cairn. Someone stacked 3 pebbles and carved a smiling face on the top one."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_icecutter": {
+    "pages": [
+     "DRAFT: This seam is mine. I cut ice blocks for the camp."
+    ],
+    "battle_lost": [
+     "DRAFT: You hit harder than the frost does."
+    ],
+    "after": [
+     "DRAFT: There is a slide down by the far wall. Mind the drop."
+    ],
+    "trainer_class": "Ice Cutter",
+    "name": "Bran",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_egg_snowman": {
+    "pages": [
+     "DRAFT: A snow figure in a climbing helmet. Its sign says: STILL WAITING FOR A ROPE."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_echo": {
+    "pages": [
+     "DRAFT: Shout in here and the mountain shouts back. Want to hear it?"
+    ],
+    "battle_lost": [
+     "DRAFT: Even the echo went quiet."
+    ],
+    "after": [
+     "DRAFT: The ledge west drops you by the lower trail."
+    ],
+    "trainer_class": "Mountaineer",
+    "name": "Sefa",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_egg_names": {
+    "pages": [
+     "DRAFT: Old names cut in the rock, a whole rope team. The newest one only says: WAS HERE FIRST."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_warden": {
+    "pages": [
+     "DRAFT: You found the warden hut. Most climbers walk right past it."
+    ],
+    "battle_lost": [
+     "DRAFT: You climb like you fight. Fast."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you onto the south trail."
+    ],
+    "trainer_class": "Trail Warden",
+    "name": "Ilse",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_egg_log": {
+    "pages": [
+     "DRAFT: The trail log. Last entry: Day 40. The view is still great. Snacks are not."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "r9_switchbacks_cave_w": {
+   "area_name": {
+    "pages": [
+     "Switchback Crevice"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_switchbacks_cave_ne": {
+   "area_name": {
+    "pages": [
+     "Frost Seam"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_switchbacks_cave_e": {
+   "area_name": {
+    "pages": [
+     "Echo Hollow"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_switchbacks_cave_sw": {
+   "area_name": {
+    "pages": [
+     "Low Draught"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_icefall": {
+   "r9_ifp_rimer": {
+    "pages": [
+     "DRAFT: The falls freeze from the top down. Up here is where it starts."
+    ],
+    "battle_lost": [
+     "DRAFT: The ice cracked first. Then me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge. The shelf below takes you back."
+    ],
+    "trainer_class": "Ice Cutter",
+    "name": "Maren",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_ifp_egg_sculpture": {
+    "pages": [
+     "DRAFT: A tiny Kilu carved in ice. Someone gave it a scarf made of real wool."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "r9_icefall_cave_n": {
+   "area_name": {
+    "pages": [
+     "Rime Gallery"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_summit_camp": {
+   "r9_fscp_lookout": {
+    "pages": [
+     "DRAFT: You came up through the falls? Then you earned the view."
+    ],
+    "battle_lost": [
+     "DRAFT: Fair. The view is yours too now."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you right into camp."
+    ],
+    "trainer_class": "Mountaineer",
+    "name": "Tove",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_fscp_egg_flag": {
+    "pages": [
+     "DRAFT: A tiny flag in the ice. It says: FIRST UP. Under it, smaller: SECOND UP."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_fscp_keeper": {
+    "pages": [
+     "DRAFT: The spire has a cellar. Nobody asks what is in it. You did."
+    ],
+    "battle_lost": [
+     "DRAFT: All right. It is mostly rocks. And me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge. The camp is right there."
+    ],
+    "trainer_class": "Hermit",
+    "name": "Aldo",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_fscp_egg_boots": {
+    "pages": [
+     "DRAFT: A row of tiny boots, smallest to biggest. The last pair is missing. Someone is still out there climbing."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "fin_summit_camp_cave": {
+   "area_name": {
+    "pages": [
+     "Spire Cellar"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_old_riverbed": {
+   "r9_rbp_dowser": {
+    "pages": [
+     "DRAFT: The river left. The spring stayed. So did I."
+    ],
+    "battle_lost": [
+     "DRAFT: You found the water and the fight. Lucky day."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you by the nook."
+    ],
+    "trainer_class": "Dowser",
+    "name": "Wren",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rbp_egg_cup": {
+    "pages": [
+     "DRAFT: A tin cup on a nail. Scratched on it: BACK SOON. The dust says otherwise."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "r9_old_riverbed_cave": {
+   "area_name": {
+    "pages": [
+     "Dry Spring"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_cairnfold": {
+   "r9_cfp_herder": {
+    "pages": [
+     "DRAFT: The herd naps up here. Keep it down. Or fight me loudly."
+    ],
+    "battle_lost": [
+     "DRAFT: Loud and good. The herd did not even wake."
+    ],
+    "after": [
+     "DRAFT: Hop off the ledge into the yard."
+    ],
+    "trainer_class": "Herder",
+    "name": "Bram",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_egg_bell": {
+    "pages": [
+     "DRAFT: A cowbell with no clapper. Someone wanted the herd to be quiet. It worked."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_ringer": {
+    "pages": [
+     "DRAFT: You hear that? No? Good. I tuned it out."
+    ],
+    "battle_lost": [
+     "DRAFT: All right, that rang true."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you in the grass."
+    ],
+    "trainer_class": "Bell Ringer",
+    "name": "Ottla",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_egg_rope": {
+    "pages": [
+     "DRAFT: A frayed rope goes up into the dark. You tug it. Far away, something goes bong."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_digger": {
+    "pages": [
+     "DRAFT: This crack runs all the way down to the old river. I dug it. Mostly."
+    ],
+    "battle_lost": [
+     "DRAFT: Fair. You dig a good fight."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge to the lane."
+    ],
+    "trainer_class": "Digger",
+    "name": "Pell",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cfp_egg_spoons": {
+    "pages": [
+     "DRAFT: A pile of bent spoons. Every one of them tried. Every one of them lost to the rock."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "r9_cairnfold_cave_w": {
+   "area_name": {
+    "pages": [
+     "Hayloft Cave"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_cairnfold_cave_e": {
+   "area_name": {
+    "pages": [
+     "Bell Cave"
+    ],
+    "status": "DRAFT"
+   }
+  }
+ }
+}

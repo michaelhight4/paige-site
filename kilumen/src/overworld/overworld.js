@@ -7,7 +7,7 @@
 import { setRonRoll, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.95-alpha';
 import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.95-alpha';
 import { DRAFT_URLS, withDrafts } from '../systems/textbot_drafts.js?v=v0.2.95-alpha';
-import { textbotReady, withTextbotItemNames } from '../region9/textbot.js?v=v0.2.95-alpha'; // Text Bot item display names over the lines
+import { textbotReady, withTextbotItemNames, withPass2Fallback } from '../region9/textbot.js?v=v0.2.95-alpha'; // Text Bot item display names over the lines
 import { syncLowTide } from '../progression/low_tide.js?v=v0.2.95-alpha'; // G6 forced low tide
 import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.95-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
 import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.95-alpha';
@@ -45,6 +45,8 @@ import { trainerOutcome } from '../battle/story.js?v=v0.2.95-alpha'; // battles 
 import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.95-alpha';
 const isWaterCode = (c) => c === 3 || c === 11; // swim sprites (collision water / deep water)
 
+import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.95-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit, withArenaArt } from './tileset.js?v=v0.2.95-alpha';
 // Save migration (berry -> plum, dev/r56-wiring): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
 export const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
 
@@ -151,7 +153,7 @@ export class Overworld {
     // playtest fixes 3 (slow reload): these loads are independent, so fetch them together instead of one round trip after another
     const layoutP = loadJson(this.config.worldLayout).then((l) => { this.layout = l; this.knownMaps = new Set(l.maps_built || []); }, () => { this.knownMaps = null; });
     const linesP = Promise.all([loadJson(this.config.textLines).catch(() => null), ...DRAFT_URLS.map((u) => loadJson(u).catch(() => null)), textbotReady.catch(() => null)])
-      .then(([l, ...d]) => { d.pop(); this.lines = l || d.some(Boolean) ? withTextbotItemNames(withHealAurelithPh(withDrafts(l || {}, ...d))) : null; }); // + Text Bot drafts + r9 item renames
+      .then(([l, ...d]) => { d.pop(); this.lines = l || d.some(Boolean) ? withPass2Fallback(withTextbotItemNames(withHealAurelithPh(withDrafts(l || {}, ...d)))) : null; }); // + Text Bot drafts + r9 item renames
     await Promise.all([layoutP, linesP, this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
     const sv = this.opts.saveData;
     let s = this.opts.start || (sv?.pos && (!this.knownMaps || this.knownMaps.has(sv.pos.map)) ? sv.pos : this.config.start);

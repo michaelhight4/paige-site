@@ -39,7 +39,30 @@ export function withTextbotItemNames(lines) {
 }
 export function loadTextbot(fetchFn = globalThis.fetch) {
   if (!fetchFn) return Promise.resolve(TB);
-  return Promise.all(TEXTBOT_FILES.map((u) => fetchFn(u).then((r) => (r.ok ? r.json() : null)).then(addTextbot).catch(() => null))).then(() => TB);
+  const p2 = fetchFn(PASS2_FILE).then((r) => (r.ok ? r.json() : null)).then((o) => { if (o?.maps) PASS2.maps = o.maps; }).catch(() => null);
+  const p2t = PASS2_TEXT_FILES.map((u) => fetchFn(u).then((r) => (r.ok ? r.json() : null)).then(addPass2Text).catch(() => null));
+  return Promise.all([p2, ...p2t, ...TEXTBOT_FILES.map((u) => fetchFn(u).then((r) => (r.ok ? r.json() : null)).then(addTextbot).catch(() => null))]).then(() => TB);
+}
+// Pass 2 cave pockets (Oct 30 2026): DRAFT lines for the new pocket trainers / Easter eggs, used only where
+// text/overworld_lines.json has no maps.<map>.<id> entry yet (Text Bot / Story Bot own the final text).
+export const PASS2_FILE = 'data/pass2_caves_fallback.json';
+export const PASS2 = { maps: {} };
+// Text Bot's pass 2 lines (one file per map, mirrors maps.<map>.<id>, adds battle_won): override the DRAFT fallback.
+export const PASS2_TEXT_FILES = ['data/textbot_pass2_switchbacks.json'];
+export const PASS2_TEXT = { maps: {} };
+export function addPass2Text(o, into = PASS2_TEXT) {
+  for (const [m, ids] of Object.entries(o?.maps || {})) Object.assign((into.maps[m] = into.maps[m] || {}), ids);
+  return into;
+}
+export function withPass2Fallback(lines, fb = PASS2, final = PASS2_TEXT) {
+  if (!lines || typeof lines !== 'object') return lines;
+  lines.maps = lines.maps || {};
+  for (const src of [final, fb]) // Text Bot's file first, then the DRAFT fallback; overworld_lines.json always wins
+    for (const [m, ids] of Object.entries(src?.maps || {})) {
+      const dst = (lines.maps[m] = lines.maps[m] || {});
+      for (const [id, e] of Object.entries(ids || {})) if (!dst[id] && e && typeof e === 'object') { const { status, _status, ...rest } = e; dst[id] = rest; }
+    }
+  return lines;
 }
 export const fallbackText = (k) => TB[k] || FB[k] || [];
 export const textbotReady = typeof window !== 'undefined' ? loadTextbot() : Promise.resolve(TB);
