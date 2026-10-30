@@ -1,7 +1,7 @@
 """Sunmeadow Fields, bring the farm town to life (GD, Oct 30 2026; cozy_map_lessons.md guides: grass 55-70%, a landmark
 per screen, a pond and a flower field, decor in clusters, no long blank runs). The Hay Loft pocket (old cave_e) now lives on
 route_sunmeadow_mirefen; its old floor stays open meadow. Doors, warps, NPCs, items and signs are unchanged.
-Order: python3 tools/map_audit/cave_pockets.py sunmeadow_fields, then this script (in place)."""
+Order: python3 tools/map_audit/cave_pockets.py sunmeadow_fields, then this script (in place), then tools/map_audit/fix_live_flags.py sunmeadow_fields."""
 import json, os
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 P = os.path.join(ROOT, 'art/world/overworld/maps/sunmeadow_fields.json')

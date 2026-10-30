@@ -90,3 +90,12 @@ test('Sunmeadow strollers text is wired (GD Oct 30 2026)', () => {
     assert.ok(n && !n.text_pending && n.text_ref.startsWith('data/textbot_sunmeadow_strollers.json'), id);
   }
 });
+test('Aurelith strollers text is wired (GD Oct 30 2026)', () => {
+  assert.ok(PASS2_TEXT_FILES.includes('data/textbot_aurelith_strollers.json'));
+  const au = R('data/textbot_aurelith_strollers.json').maps.aurelith;
+  const map = R('art/world/overworld/maps/aurelith.json');
+  for (const id of ['lawn_w', 'flats', 'canal', 'ring', 'market', 'tower'].map((s) => `aurelith_stroller_${s}`)) {
+    assert.ok(au[id]?.pages?.length, id); const n = map.npcs.find((x) => x.id === id);
+    assert.ok(n && !n.text_pending && n.text_ref.startsWith('data/textbot_aurelith_strollers.json'), id);
+  }
+});

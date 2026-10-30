@@ -7,7 +7,7 @@ from pass2_spec import P as _P, T, E
 M = 'sunmeadow_fields'
 def P(*a, **k): return _P(M, *a, main_start=[10, 14], floor_tile_at=[30, 25], floor_tiles=None, **k)
 POCKETS = [
- P('smf_pocket_dell', 'sunmeadow_fields_cave_nw', 'Clover Dell', [[14, 25, 22, 30]], [20, 22, 31], [[20, 32], [21, 32], [22, 32], [23, 32]], [13, 11], [18, 24],
+ P('smf_pocket_dell', 'sunmeadow_fields_cave_nw', 'Clover Dell', [[14, 25, 22, 30]], [20, 22, 31], [[20, 32], [21, 32], [22, 32], [23, 32]], [12, 11], [18, 24],
    T('r9_smfp_cloverpicker', 14, 25, 'Camper', 'Elin', ['gauzewing', 'galespar', 'torrentpike'],
      'Four-leaf clovers grow only here. I counted. Battle?', 'Lucky you.', 'Ledge down and follow the strip east.'),
    E('r9_smfp_egg_clover', 22, 25, 'a giant clover', 'A clover as big as a plate. It has five leaves. Someone glued one on.'),

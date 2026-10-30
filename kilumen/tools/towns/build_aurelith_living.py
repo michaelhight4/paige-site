@@ -2,7 +2,7 @@
 a pond and a flower field, decor in clusters, no long blank runs). The paved sidewalk lots (x_city_pave) become lawns; roads,
 crossings, the fountain plaza and the stadium forecourt stay paved; every building door keeps a stone
 approach. Old Platform (old aurelith_cave_e, mouth 62,6) now lives on route_cindervale. Doors and warps are unchanged.
-Order: python3 tools/map_audit/cave_pockets.py aurelith, then this script (in place)."""
+Order: python3 tools/map_audit/cave_pockets.py aurelith, then this script (in place), then tools/map_audit/fix_live_flags.py aurelith."""
 import json, os, re, sys
 from collections import deque
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -35,6 +35,9 @@ for y in range(31, 40):                                # the market square becom
     for x in range(47, 59):
         if NM.get(G[y][x], '').startswith('x_city_plaza') and (C[y][x] in (0, 4) or not D[y][x] or NM.get(D[y][x], '').startswith(PROPS)) and (x, y) not in APPROACH:
             G[y][x] = ID[f'grass_{vh(x, y)}']
+for y in range(H):                                     # the side pocket floors were crossing stripes: lay stone flags instead
+    for x in list(range(0, 12)) + list(range(77, W)):
+        if NM.get(G[y][x], '').startswith('x_city_zebra'): G[y][x] = ID[f'path_{vh(x, y)}'] if C[y][x] in (0, 4) else G[y][x]
 grassy = lambda x, y: NM.get(G[y][x], '').startswith('grass')
 def ok(x, y): return 0 <= x < W and 0 <= y < H and C[y][x] == 0 and (x, y) not in WARPS and (x, y) not in FEAT and (x, y) not in APPROACH
 def free(x, y): return ok(x, y) and not D[y][x] and grassy(x, y)
@@ -84,7 +87,7 @@ for dx, dy in ((1, 0), (0, 1)):
             while free(x + n * dx, y + n * dy): n += 1
             if n > 6 and not free(x - dx, y - dy):
                 for k in range(3, n - 1, 5): flowers(x + k * dx, y + k * dy)
-# 6. strollers (text pending from Text Bot)
+# 6. strollers (lines: data/textbot_aurelith_strollers.json, Text Bot Oct 30 2026)
 SPOTS = [('aurelith_stroller_lawn_w', 'strolls the west lawn by the flower field'), ('aurelith_stroller_flats', 'walks home past the flats'),
          ('aurelith_stroller_canal', 'watches the canal from the park'), ('aurelith_stroller_ring', 'jogs Ring Street'),
          ('aurelith_stroller_market', 'browses the market lawn'), ('aurelith_stroller_tower', 'sits under the clock tower')]
@@ -93,7 +96,7 @@ for (i, note), (x, y) in zip(SPOTS, CELLS):
     if not (C[y][x] == 0 and (x, y) not in WARPS | FEAT):
         x, y = next((a, b) for r in range(1, 4) for a in range(x - r, x + r + 1) for b in range(y - r, y + r + 1) if 0 <= a < W and 0 <= b < H and C[b][a] == 0 and (a, b) not in WARPS | FEAT)
     m['npcs'].append({'id': i, 'x': x, 'y': y, 'facing': 'down', 'kind': 'villager', 'note': note,
-                      'text_ref': f'overworld_lines.json maps.aurelith.{i}', 'text_pending': True}); FEAT.add((x, y))
+                      'text_ref': f'data/textbot_aurelith_strollers.json maps.aurelith.{i}'}); FEAT.add((x, y))
 after = LR.reach(m, LR.starts(m))
 lost = {p for p in before if C[p[1]][p[0]] in (0, 4) and p not in after}
 assert not lost, sorted(lost)[:10]
