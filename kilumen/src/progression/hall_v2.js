@@ -313,16 +313,32 @@ export function attachHallV2(scene, ui, pg) {
     n.script = []; n.goal = null; n.home = { x: def.x, y: def.y, facing: def.facing || 'down' };
     scene.log?.push({ tick: scene.tick, type: 'hall_seat_snap', npc: def.id }); scene._dirty = true; return true;
   };
+  // Seats owed after a battle: settled on the FIRST game tick the hall is not busy, before that tick reads your keys, so the
+  // same key presses always meet the same hall (Oct 30 2026 playtest: a 50-150 ms timer race let a key land first).
+  const owed = new Map();
+  if (typeof scene.step === 'function') {
+    const step0 = scene.step.bind(scene);
+    scene.step = (...a) => {
+      if (owed.size && !scene.busy) for (const [id, def] of owed) { const n = scene.npcs?.byId?.(id); if (!n || n.talking || n.mover?.moving || hv.snapSeat(def)) owed.delete(id); }
+      return step0(...a);
+    };
+  }
   const seatBack = (def) => {
+    owed.set(def.id, def);
     let blocked = 0;
     const iv = setInterval(() => {
       const n = scene.npcs?.byId?.(def.id);
       if (!n || scene.map?.json !== hv.cur?.json) { clearInterval(iv); return; }
       if (n.x === def.x && n.y === def.y && !n.mover.moving) { n.mover.facing = def.facing || n.mover.facing; n.faceDir = def.facing; clearInterval(iv); return; }
-      if (scene.busy || n.talking || n.mover.moving || n.script?.length) return;
+      if (scene.busy || n.talking || n.mover.moving) return;
+      // Oct 30 2026 playtest (Cindervale/Tidewater walkthroughs desynced): the walk home took the trainer across your next
+      // steps, so the same keys led somewhere else depending on timing. A beaten trainer is now back on their seat the moment
+      // the battle closes (the battle transition hides the hop); the walk is only the fallback when the seat is taken.
+      if (hv.snapSeat(def)) { n.mover.facing = def.facing || n.mover.facing; n.faceDir = def.facing; clearInterval(iv); return; }
+      if (n.script?.length) return;
       if (scene.npcs.walkTo(def.id, def.x, def.y, { stay: true })) { blocked = 0; return; }
       if (++blocked >= 8 && hv.snapSeat(def)) clearInterval(iv);
-    }, 150);
+    }, 50);
     setTimeout(() => clearInterval(iv), 120000);
   };
   hv.seatBack = seatBack;
