@@ -410,7 +410,7 @@ export class LivingWorld {
       const lv = cloudLevels(this._noise, this.coverage);
       const c = document.createElement('canvas'); c.width = N; c.height = N;
       const g = c.getContext('2d'), d = g.createImageData(N, N), a = d.data;
-      for (let y = 0, i = 0; y < N; y++) for (let x = 0; x < N; x++, i++) if (ditherOn(lv[i], x, y)) a[i * 4 + 3] = 255;
+      for (let y = 0, i = 0; y < N; y++) for (let x = 0; x < N; x++, i++) if (lv[i] >= 2) a[i * 4 + 3] = 255; // binary shapes: no see-through checker rims (QA wd_integ_fix)
       g.putImageData(d, 0, 0);
       // non-empty 32x32-cell chunks: per frame we only blit chunks that hold shadow (cheap at low coverage)
       const C = CLOUD_CHUNK, NC = N / C, full = new Uint8Array(NC * NC);

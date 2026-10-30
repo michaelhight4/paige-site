@@ -13,15 +13,23 @@ const CROP_COL = { carrot: '#e8822a', turnip: '#efe3f2', radish: '#d8394f', toma
 /** Pixel sprite for a plot (exported for tests / shots). px(x,y,w,h,col) in a 16x16 grid. */
 export function plotPixels(stage, crop, wet) {
   const out = [], px = (x, y, w, h, c) => out.push([x, y, w, h, c]);
-  px(1, 3, 14, 12, wet ? '#4a2f1d' : '#6e4a2c'); // soil bed
-  px(1, 3, 14, 1, wet ? '#5c3b24' : '#8a5e38');
-  for (const y of [6, 9, 12]) px(2, y, 12, 1, wet ? '#3a2416' : '#5a3b22'); // furrows
+  // Raised planter, furniture rules: 35deg tilt (top face 9 rows, front face 5), light from the top-left,
+  // top face ~25% lighter than the front in greyscale (dry 87 vs 69, wet 74 vs 55). Opaque colours only.
+  px(1, 2, 14, 9, '#a07446');                        // wooden rim (top face)
+  px(1, 2, 14, 1, '#bc8e58'); px(1, 2, 1, 9, '#bc8e58'); // lit top + left edges
+  px(14, 3, 1, 8, '#8a6238');                        // shaded right rim
+  px(2, 3, 12, 7, wet ? '#664328' : '#74502f');      // soil top
+  for (const y of [5, 8]) px(3, y, 10, 1, wet ? '#563823' : '#5e3e24'); // furrows
+  px(1, 11, 14, 4, wet ? '#4c3120' : '#5e3e26');     // front face
+  px(1, 12, 14, 1, wet ? '#3e2818' : '#4c3220');     // plank seam
+  px(14, 11, 1, 4, wet ? '#3e2818' : '#4c3220');     // front right corner shade
+  px(1, 15, 14, 1, '#2e1e14');                       // ground contact line
   if (stage === 'seed') for (const [x, y] of [[4, 8], [8, 8], [12, 8], [6, 11], [10, 11]]) px(x, y, 1, 1, '#d9c08a');
   if (stage === 'sprout') for (const x of [4, 8, 12]) { px(x, 8, 1, 3, '#4f9a3a'); px(x - 1, 7, 1, 1, '#6cc24a'); px(x + 1, 7, 1, 1, '#6cc24a'); }
   if (stage === 'growing') for (const x of [4, 8, 12]) { px(x, 5, 1, 6, '#3f8a30'); px(x - 2, 6, 2, 2, '#5fb043'); px(x + 1, 4, 2, 2, '#5fb043'); px(x - 1, 9, 1, 1, '#6cc24a'); }
   if (stage === 'ready') {
     const c = CROP_COL[crop] || '#e0b030';
-    for (const x of [4, 8, 12]) { px(x, 3, 1, 4, '#3f8a30'); px(x - 1, 2, 3, 1, '#5fb043'); px(x - 2, 7, 4, 4, c); px(x - 2, 7, 1, 1, '#ffffff55'); }
+    for (const x of [4, 8, 12]) { px(x, 3, 1, 4, '#3f8a30'); px(x - 1, 2, 3, 1, '#5fb043'); px(x - 2, 7, 4, 4, c); px(x - 2, 7, 1, 1, '#fff3d0'); }
   }
   return out;
 }
