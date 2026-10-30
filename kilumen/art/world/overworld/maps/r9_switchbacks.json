@@ -4501,7 +4501,7 @@
     1824,
     0,
     0,
-    0,
+    513,
     0,
     5330,
     5292,
@@ -5450,7 +5450,7 @@
     0,
     0,
     0,
-    0,
+    513,
     0,
     0,
     1824,
@@ -10745,7 +10745,7 @@
     1,
     0,
     0,
-    0,
+    1,
     0,
     0,
     0,
@@ -11694,7 +11694,7 @@
     0,
     0,
     0,
-    0,
+    1,
     0,
     0,
     1,
@@ -15775,6 +15775,32 @@
    ],
    "face": "up",
    "region9": true
+  },
+  {
+   "id": "r9_switchbacks_sign",
+   "kind": "sign",
+   "x": 32,
+   "y": 44,
+   "stand": [
+    32,
+    45
+   ],
+   "face": "up",
+   "tile": "sign",
+   "text": "maps.r9_switchbacks.r9_switchbacks_sign"
+  },
+  {
+   "id": "r9_switchbacks_marker",
+   "kind": "sign",
+   "x": 19,
+   "y": 26,
+   "stand": [
+    19,
+    27
+   ],
+   "face": "up",
+   "tile": "sign",
+   "text": "maps.r9_switchbacks.r9_switchbacks_marker"
   }
  ],
  "source": "tools/wellspire/build_wellspire.py (clone of frostspire_pass; art + collision unchanged)",

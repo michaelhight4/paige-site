@@ -18444,6 +18444,164 @@
     "status": "DRAFT",
     "note": "read by A on the puzzle cell, src/progression/puzzle_tells.js FIELD_SIGNS"
    }
+  },
+  "r9_old_riverbed": {
+   "r9_riverbed_bridge_sign": {
+    "pages": [
+     "OLD FORD. Flat stones to cross by,\nfor when the water comes back."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "OLD FORD. Flat stones to cross by,\nfor when the water comes back."
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   }
+  },
+  "r9_cairnfold": {
+   "r9_cairnfold_goat_sign": {
+    "pages": [
+     "GOAT PEN. Please shut the gate.\nThe goats can open it. Just check."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "GOAT PEN. Please shut the gate.\nThe goats can open it. Just check."
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   },
+   "r9_cairnfold_lodge_sign": {
+    "pages": [
+     "RT HERITAGE LODGE & SKYLIFT\nGifts, tea, and the top lift line."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RT HERITAGE LODGE & SKYLIFT\nGifts, tea, and the top lift line."
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   }
+  },
+  "r9_switchbacks": {
+   "r9_switchbacks_sign": {
+    "pages": [
+     "WELLSPIRE SWITCHBACKS\nCairnfold below. Icefall above.",
+     "Snow all year. Turn back if the\nlight in the sky starts to pulse."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "WELLSPIRE SWITCHBACKS\nCairnfold below. Icefall above.",
+       "Snow all year. Turn back if the\nlight in the sky starts to pulse."
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   },
+   "r9_switchbacks_marker": {
+    "pages": [
+     "A cairn of flat stones.\nEach one has a name scratched in.",
+     "Climbers who made it this far.\nSome are fifty years old."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A cairn of flat stones.\nEach one has a name scratched in.",
+       "Climbers who made it this far.\nSome are fifty years old."
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   }
+  },
+  "fin_past_riverbend": {
+   "fin_riverbend_post": {
+    "pages": [
+     "A wooden post, half under water:\n\"RIVER BEND - NO BOATS IN FLOOD\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A wooden post, half under water:\n\"RIVER BEND - NO BOATS IN FLOOD\""
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   },
+   "fin_riverbend_marker": {
+    "pages": [
+     "A depth pole. The water is past\nthe top mark, and still rising."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A depth pole. The water is past\nthe top mark, and still rising."
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   }
+  },
+  "fin_summit_camp": {
+   "fin_camp_sign": {
+    "pages": [
+     "FIELD CAMP. Teo's handwriting:\n\"Please do not eat the map.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "FIELD CAMP. Teo's handwriting:\n\"Please do not eat the map.\""
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   },
+   "fin_camp_bench": {
+    "pages": [
+     "A log, with a note pinned to it:\n\"BENCH. 2/10. - M.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A log, with a note pinned to it:\n\"BENCH. 2/10. - M.\""
+      ]
+     }
+    ],
+    "kind": "sign",
+    "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   }
   }
  },
  "closed_exits": {
@@ -30988,6 +31146,346 @@
      "Ione: It worked on three in the echo cave. Four is the same song."
     ]
    }
+  },
+  "name_sign": {
+   "pages": [
+    "OLD RIVERBED\nTo Cairnfold and Wellspire.",
+    "Scratched under it, small:\n\"where did it go?\""
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "riverbed_marks": {
+   "pages": [
+    "Old water marks line the bank,\nhigh above your head.",
+    "The river used to run this deep.\nYou grew up on what was left."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "riverbed_up": {
+   "pages": [
+    "The dry bed climbs into the hills.\nCairnfold is up ahead."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "riverbed_hiker_intro": {
+   "pages": [
+    "Walking the whole riverbed, end to\nend. Nobody's done it in fifty years.",
+    "Blisters say I'm halfway. Battle?"
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "riverbed_hiker_after": {
+   "pages": [
+    "Find a fish bone up here, you know\nthe water was real. I've found six."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "riverbed_dowser_intro": {
+   "pages": [
+    "My stick twitches. There's water\nunder us. A lot. Waiting."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "riverbed_dowser_after": {
+   "pages": [
+    "It's not gone, the river.\nIt's holding its breath."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "riverbed_guide_intro": {
+   "pages": [
+    "I guide folk up to Cairnfold.\nI test them first. Ready?"
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "riverbed_guide_after": {
+   "pages": [
+    "Keep to the old banks. The middle\nis soft where the deep pools were."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_sign": {
+   "pages": [
+    "CAIRNFOLD\nHighest village on the old river.",
+    "Mind the goats.\nThe goats will not mind you."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_down": {
+   "pages": [
+    "The dry riverbed runs all the way\ndown to Brookhollow. Home."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "kid_drawing": {
+   "pages": [
+    "A drawing pinned to the wall:\na big sad fish in a violet sky.",
+    "Someone has drawn it a smile.\nThen rubbed the smile out."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_herder_1": {
+   "pages": [
+    "Violet nights for a month now.\nThe goats won't sleep.",
+    "Neither will I. We sit up together,\nall of us, staring at the peak."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_herder_2": {
+   "pages": [
+    "The light comes off the top of the\npeak. Slow. Like a heartbeat.",
+    "Count along with it once.\nYou'll feel it in your teeth."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_elder": {
+   "pages": [
+    "My gran said the river came out\nof the mountain, singing.",
+    "Then one spring it didn't come.\nNobody up here ever said why."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_kid": {
+   "pages": [
+    "I drew the thing in the sky!\nIt's a fish. A sad big fish.",
+    "Mum says it's only lights.\nLights don't look at you, though."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_weaver": {
+   "pages": [
+    "Head Office? They've never come up.\nThey only ever send letters.",
+    "Lovely letters. Thick paper.\nI weave the envelopes into rugs."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_walker": {
+   "pages": [
+    "The switchbacks start at the south\nend of the village. Snow all the way.",
+    "Wrap up, {player}.\nThe wind up there has elbows."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_lodge_fan": {
+   "pages": [
+    "Been to the Lodge yet? They sell\nthe Legend of Ondravel. On towels!",
+    "A kind spirit in the peak.\nIt's ever so cosy, the story."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_watcher": {
+   "pages": [
+    "Some nights the light pulses.\nSome nights it just... waits.",
+    "Tonight it's waiting.\nFor you, maybe. Don't keep it."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "cairnfold_baker": {
+   "pages": [
+    "Bread's fresh. The water's melted\nsnow. Has been for fifty years.",
+    "River water'd make a better crust.\nOne day. You'll see."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "lodge_clerk": {
+   "pages": [
+    "Welcome to the RT Heritage Lodge!\nBooklets, tea towels, crystal fish.",
+    "All proceeds go to Revival Tech.\nWhich is lovely. For them."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "lodge_legend": {
+   "pages": [
+    "THE LEGEND OF ONDRAVEL: a kind spirit\nsleeps in the peak and blesses all.",
+    "\"Crystal light for the valley.\"\nYou know better now."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "skylift_notice": {
+   "pages": [
+    "A typed note: \"This line has been\npaid for. Please run it.\"",
+    "\"Thank you so much.\"\nNo name. Of course no name."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "skylift_down": {
+   "pages": [
+    "Ride back down to Frostspire?"
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "skylift_operator": {
+   "pages": [
+    "No letter for me. Just a note\nsaying the line was paid for.",
+    "Paid by who? Doesn't say. Only\nsays thank you. Twice, underlined."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "skylift_rider_intro": {
+   "pages": [
+    "First car up in fifty years and\nI'm on it! Battle while we climb?"
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "skylift_rider_after": {
+   "pages": [
+    "Look out the window. The peak\nglows violet even in daylight."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "switchbacks_up": {
+   "pages": [
+    "A frozen waterfall. The very top\nof the old river.",
+    "A cave runs in behind the ice."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "survey_crew_1": {
+   "pages": [
+    "RT survey crew. We all got kind\nletters. \"Please go and look.\""
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "survey_crew_2": {
+   "pages": [
+    "I say we don't go up. Nobody's\never that nice in a letter."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "survey_crew_3": {
+   "pages": [
+    "We'll argue about it later.\nYou go, if you're going."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "mountaineer_1_intro": {
+   "pages": [
+    "Thirty winters on this pass.\nThis is the first violet one."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "mountaineer_1_after": {
+   "pages": [
+    "Lean into the slope, not away.\nThe mountain likes manners."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "climber_1_intro": {
+   "pages": [
+    "Rope check! Boots check!\nBattle check?"
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "climber_1_after": {
+   "pages": [
+    "My hands went numb on the last turn.\nWorth it. Look at that view."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "climber_2_intro": {
+   "pages": [
+    "Last bend before the icefall.\nYou only pass if you're warm enough."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "climber_2_after": {
+   "pages": [
+    "Hear it humming in the ice?\nI keep thinking it's a song."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "trainer_after": {
+   "pages": [
+    "Go on up. It's waiting for you,\nI think."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_signal": {
+   "pages": [
+    "The signal is strongest here.\nThe ice hums under your hand.",
+    "In it, your team's crystals show\ntheir own colours, not violet."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_climber_1_intro": {
+   "pages": [
+    "Inside a frozen waterfall! Shh.\nYou can hear the water, still."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_climber_1_after": {
+   "pages": [
+    "It's still moving, deep in there.\nVery, very slowly."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_climber_2_intro": {
+   "pages": [
+    "My crystals keep flickering.\nBattle me before they make up minds."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_climber_2_after": {
+   "pages": [
+    "Mine went blue for a second there.\nBlue! Did you see?"
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_diver_intro": {
+   "pages": [
+    "Ice diving. Cold? Yes.\nSensible? No. Fun? Very."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_diver_after": {
+   "pages": [
+    "There's a pool under the ice,\nwarm as a bath. Strange, eh?"
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_keeper_intro": {
+   "pages": [
+    "I keep this cave. Nobody passes\nwho can't hold their own up there."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "icefall_keeper_after": {
+   "pages": [
+    "You'll do. Mind the spire.\nIt remembers things."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "spire_f1_nursery": {
+   "pages": [
+    "A Line 1 cot room.\nLittle beds, fifty years cold.",
+    "Each bed has a number.\nNot one has a name."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "spire_f2_chair": {
+   "pages": [
+    "The Test 7 room. An empty control\nchair, turned to face the wall."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "spire_f3_growth": {
+   "pages": [
+    "Violet crystal has grown over\neverything here. It hums, slowly."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "spire_keeper_after": {
+   "pages": [
+    "Facility Keeper. We only ever\ngot letters, too.",
+    "Kind ones. \"Keep it safe.\"\nWe never asked keep what."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "floor_locked": {
+   "pages": [
+    "The stairs are sealed with crystal.\nThis floor's keeper holds the light."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
   }
  },
  "field": {
@@ -30995,6 +31493,334 @@
    "inspect": [
     "A big boulder. Walk into it and\nit might just shift."
    ]
+  }
+ },
+ "summit": {
+  "camp": {
+   "teo": {
+    "pages": [
+     "Teo: You found us! Snowed in.\nAll alive. All grumpy.",
+     "Teo: We followed the ore north.\nItem one: find the source. Not done."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "marta": {
+    "pages": [
+     "Marta: The bench here? A 2.\nIt's a log.",
+     "Marta: Go up if you must.\nWe'll keep the fire going."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "pell": {
+    "pages": [
+     "Pell: I've drawn the spire forty\ntimes. It looks different each time.",
+     "Pell: Today it looks tired.\nIs that silly? It looks tired."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "imke": {
+    "pages": [
+     "Imke hums a tune. You know it\nfrom somewhere. A dream.",
+     "Imke: We stay here. You go.\nThen come back down. Promise."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   }
+  },
+  "camp_fire": {
+   "pages": [
+    "The camp fire. Warm to the bones.\nYour team curls up beside it.",
+    "Your Kilu are fully healed."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "spire_door_wait": {
+   "pages": [
+    "A crystal door. It hums.\nIt isn't ready for you yet.",
+    "Find the field team first.\nThey're at the camp."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "spire_door": {
+   "pages": [
+    "The door hums open for a creature\nshowing its own colour."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  }
+ },
+ "fin": {
+  "guardian_plea_1": {
+   "pages": [
+    "A dome, grown solid with violet\ncrystal. Something huge is inside.",
+    "Its forehead crystal is cracked\nand dim."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "guardian_plea_2": {
+   "pages": [
+    "The river tune from your dream\nstarts to play.",
+    "{lead}'s crystal shows its own\ncolour. The creature watches it."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "guardian_plea_3": {
+   "pages": [
+    "It is not ordering.\nIt is asking."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "guardian_plea_ask": {
+   "pages": [
+    "Put your hand on the dome?"
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "reader_reject": {
+   "pages": [
+    "The door reader reads your lanyard.\nEMPLOYEE NOT FOUND.",
+    "...Your phone is quiet.\nRITA isn't here. Not yet."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "m": {
+   "sluice": {
+    "pages": [
+     "The sluice gate to the river.\nThe wheel is open now."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "sluice_shut": {
+    "pages": [
+     "The sluice gate to the river.\nGreave's staff won't let you near."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "handler_1": {
+    "pages": [
+     "Annexe handler. Stay back!\nThe batch is loose!"
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "handler_2": {
+    "pages": [
+     "These bands were meant to calm\nthem. They don't! They don't!"
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "handler_3": {
+    "pages": [
+     "Who are you?\nYou're not on the night list!"
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "handler_after": {
+    "pages": [
+     "Just get out.\nGet everyone out."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "boss_greave_intro": {
+    "pages": [
+     "Dr. Ansel Greave, Annexe Lead.\nI am holding this batch.",
+     "If it goes, so do my staff's jobs.\nI won't let it."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "boss_greave_lose": {
+    "pages": [
+     "...You're right. The jobs don't\nmatter if the people drown."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "boss_greave_after": {
+    "pages": [
+     "Greave hauls the sluice wheel round.\nThe Line 14 batch pours out.",
+     "Into the river bend they go.\nHis staff run for the door.",
+     "Greave: Write it down as a field\ntrial. Nobody will ask."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   }
+  },
+  "t": {
+   "tech_1": {
+    "pages": [
+     "Signal tech. Test 7 broke\nsomething. We're trying to fix it!"
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "tech_2": {
+    "pages": [
+     "Every pulse is louder.\nCan you hear it? Can you?"
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "tech_3": {
+    "pages": [
+     "Holt says Test 8 gets control back.\nI hope she's right. I hope."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "tech_after": {
+    "pages": [
+     "Go. Talk to Holt. Please."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "coralie_door": {
+    "pages": [
+     "A young tech by the tea trolley.\nHer name tag says FINCH, C.",
+     "Coralie: You're not staff. ...Come\non. I'll open the tide door."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "coralie_name": {
+    "pages": [
+     "Coralie: What's your name?"
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "coralie_name_cut": {
+    "pages": [
+     "No. Don't tell me.\nI'd only have to forget it."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "coralie_wait": {
+    "pages": [
+     "Coralie: I made the tea.\nThat's all I'm meant to do tonight."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "tide_door": {
+    "pages": [
+     "The tide door.\nCoralie has left it unlocked."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "tide_door_shut": {
+    "pages": [
+     "The tide door is locked."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "boss_holt_wait": {
+    "pages": [
+     "Holt: Techs only past the console.\nWho let you in?"
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "boss_holt_intro": {
+    "pages": [
+     "Dr. Maren Holt, Signal Lead.\nTest 8 runs now.",
+     "More power, more control.\nMove."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "boss_holt_lose": {
+    "pages": [
+     "...It would have finished it.\nWouldn't it."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "boss_holt_after": {
+    "pages": [
+     "Holt sits down hard. She does not\nreach for the console again."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "coralie_plug": {
+    "pages": [
+     "Coralie pulls the Test 8 plug\nherself. Her hand shakes.",
+     "She writes the last row of the run\nsheet. You don't read it to her."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "plug_done": {
+    "pages": [
+     "The Test 8 plug hangs loose.\nThe run sheet is full."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "plug_wait": {
+    "pages": [
+     "The Test 8 console.\nHolt is standing in front of it."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   }
+  },
+  "lab1": {
+   "staff_1": {
+    "pages": [
+     "Containment staff.\nNobody goes up!"
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "staff_2": {
+    "pages": [
+     "Line 1 is the danger.\nThe Chief said so. The Chief knows."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "staff_3": {
+    "pages": [
+     "The walls are humming.\nPlease. Please turn back."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "staff_4": {
+    "pages": [
+     "The Chief holds the top landing.\nYou go through me first."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "staff_after": {
+    "pages": [
+     "Go on, then. Up.\n...Be gentle with it."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "chief_wait": {
+    "pages": [
+     "The Chief: Nobody reaches the\nlanding while my staff still stand."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "chief_intro": {
+    "pages": [
+     "The Chief: That thing is the source\nof all this. It stays shut in.",
+     "It's hurting. I know.\nIt stays shut in."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "chief_lose": {
+    "pages": [
+     "The Chief: ...Then you go.\nI won't watch."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "chief_after": {
+    "pages": [
+     "The Chief stands aside from\nthe landing, eyes on the floor."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "window_lights": {
+    "pages": [
+     "Through the window: three labs.\nTheir lights go out one by one."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   },
+   "window_storm": {
+    "pages": [
+     "Rain lashes the glass. Far below,\nthree labs blaze with light."
+    ],
+    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+   }
+  },
+  "past_dome_after": {
+   "pages": [
+    "The dome lies open. Cold now.\nNothing inside is hurting."
+   ],
+   "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
   }
  }
 }
