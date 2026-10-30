@@ -234,6 +234,7 @@ def build():
     sc = M('fin_summit_camp', 'cindervale_caldera', 'Wellspire Summit Camp')
     sc.warp(0, 'r9_icefall', 20, 5, 'down'); sc.warp(1, 'r9_icefall', 20, 5, 'down')
     sc._anchor = (16, 22)
+    map_fill.apply('fin_summit_camp', sc.j)
     sc.j.pop('ambient', None)
     tables(sc, {'*': 'r9_icefall_cave'}); sc.j['encounter_zones'] = []  # safe camp
     sc.spot('fin_spire_door', (17, 3))

@@ -87,6 +87,16 @@ def r9_switchbacks(j):
     item(j, 'r9_sw_hollow_mix', 18, 20, 'trail_mix', False, 'back of the hollow off the upper zig')
     item(j, 'r9_sw_foot_pouch', 30, 59, 'coin_pouch_small', True, 'very bottom of the south cut')
 
+@recipe
+def fin_summit_camp(j):
+    # P1 ledge shortcut: the east cut between the spire terrace and the camp (x24-25) becomes a one-way drop, so the
+    # terrace is climbed at the west cut and left fast by the east one. Dead ends pay: the west chimney (x3) hides a
+    # Prime Crystal, the north-west nook has a satchel, the east nook a hidden pouch.
+    ledge(j, 11, 24, 25, cave=True)
+    item(j, 'fin_sc_chimney_crystal', 3, 4, 'dominance_crystal_plus', True, 'top of the west chimney above the camp')
+    item(j, 'fin_sc_nook_mix', 6, 4, 'trail_mix', False, 'north-west nook of the spire terrace')
+    item(j, 'fin_sc_east_pouch', 30, 18, 'coin_pouch_small', True, 'east nook behind the camp')
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
