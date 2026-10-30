@@ -45,11 +45,16 @@ for (const p of SPEC.pockets) {
     const outs = cave.warps.filter((w) => w.to === p.map);
     assert.ok(cave.warps.length >= 2, 'cave has 2+ exits');
     const toMain = outs.filter((w) => main.has(`${w.tx},${w.ty}`)); const toPocket = outs.filter((w) => pc.includes(`${w.tx},${w.ty}`));
-    assert.ok(toMain.length >= 1, 'cave exit onto the main path'); assert.ok(toPocket.length >= 1, 'cave side exit into the pocket');
+    // an existing_cave crack sits on a neighbouring outdoor map (e.g. r9_icefall): that map's own doors are its main path, so its
+    // crack only has to be walkable from them; a real cave also needs an exit back onto this map's main path
+    if (!p.existing_cave) assert.ok(toMain.length >= 1, 'cave exit onto the main path');
+    assert.ok(toPocket.length >= 1, 'cave side exit into the pocket');
     assert.ok(!mainSkills.has(`${toPocket[0].tx},${toPocket[0].ty}`) || p.gate.skill, 'only a named skill gate may open the pocket');
     // inside the cave the two exits are connected
     // the main path reaches the cave mouth, and the pocket door leads back into the cave
-    const mouth = m.warps.find((w) => w.to === p.cave && !w.reached_via); assert.ok(mouth && main.has(`${mouth.x},${mouth.y}`), 'cave mouth on the main path');
+    const ec = p.existing_cave; const doors = cave.warps.filter((w) => !w.pocket && !w.reached_via);
+    const mouth = ec ? { tx: doors[0]?.x, ty: doors[0]?.y } : m.warps.find((w) => w.to === p.cave && !w.reached_via);
+    if (ec) assert.ok(doors.length >= 1, 'crack map has its own doors'); else assert.ok(mouth && main.has(`${mouth.x},${mouth.y}`), 'cave mouth on the main path');
     // inside the cave the mouth landing reaches the pocket exit (puzzle gates such as gate_cave_closed 894 count as opened later)
     const cv = { ...cave, layers: { ...cave.layers, collision: cave.layers.collision.map((r, y) => r.map((v, x) => (cave.layers.decoration?.[y]?.[x] === 894 ? 0 : v))) } };
     const cw = reach(cv, [[mouth.tx, mouth.ty]]);

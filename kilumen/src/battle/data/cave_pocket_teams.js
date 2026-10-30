@@ -153,5 +153,103 @@ export const CAVE_POCKET_TEAMS = {
    "species": "lancebeetle",
    "level": 63
   }
+ ],
+ "cindervale.r9_cvp_watcher": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "pyrogrim",
+   "level": 63
+  }
+ ],
+ "cindervale_caldera.r9_ccp_stoker": [
+  {
+   "species": "calderax",
+   "level": 63
+  },
+  {
+   "species": "pyrogrim",
+   "level": 63
+  },
+  {
+   "species": "calderock",
+   "level": 63
+  }
+ ],
+ "lanternport.r9_lpp_signaller": [
+  {
+   "species": "cascadorn",
+   "level": 63
+  },
+  {
+   "species": "tuskwallow",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  }
+ ],
+ "lanternport_grotto.r9_lgp_lampwright": [
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "novarch",
+   "level": 63
+  },
+  {
+   "species": "torrentpike",
+   "level": 63
+  }
+ ],
+ "route_aurelith_saltmere.r9_rasp_saltpan": [
+  {
+   "species": "tuskwallow",
+   "level": 63
+  },
+  {
+   "species": "cascadorn",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  }
+ ],
+ "route_aurelith_saltmere.r9_rasp_gullkeeper": [
+  {
+   "species": "gauzewing",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  }
+ ],
+ "route_aurelith_saltmere.r9_rasp_tidecaller": [
+  {
+   "species": "torrentpike",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "cascadorn",
+   "level": 63
+  }
  ]
 };

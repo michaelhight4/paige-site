@@ -12,7 +12,7 @@ const CAVES = { lanternport_grotto: ['lanternport', 'lanternport_grotto_cave', [
 for (const [cave, [town, table, [dx, dy]]] of Object.entries(CAVES)) test(`${cave}: linked to ${town}, table ${table} resolves`, () => {
   const m = MAP(cave), t = MAP(town), enc = J('data/encounters_wired.json'), art = new Set(enc.species_with_art);
   assert.ok(t.warps.some((w) => w.to === cave && w.x === dx && w.y === dy), 'town door');
-  assert.ok(m.warps.every((w) => w.to === town));
+  assert.ok(m.warps.every((w) => w.to === town || w.pocket)); /* pass 2 pocket links: pass2_caves.test */
   const r = m.encounter_zones.find((z) => z.table === table);
   const hit = zoneAt(enc, cave, m.encounter_zones, r.x0, r.y0, 0);
   assert.equal(hit?.id, table);
@@ -25,7 +25,7 @@ test('cave text: WD spot ids listed for Text Bot; town signs wired', () => {
   const L = J('text/overworld_lines.json').maps;
   for (const c of Object.keys(CAVES)) {
     const m = MAP(c);
-    for (const o of [...m.npcs, ...m.signs, ...m.interact_spots]) assert.ok(md.includes('`' + o.id + '`'), o.id);
+    for (const o of [...m.npcs, ...m.signs, ...m.interact_spots].filter((o) => !o.pocket)) assert.ok(md.includes('`' + o.id + '`'), o.id);
   }
   assert.ok(L.lanternport.lanternport_grotto_sign.pages.length);
   assert.ok(L.cindervale.cindervale_caldera_sign.pages.length);
@@ -73,7 +73,7 @@ test('Tidewater lab crate: examine spot on a crate prop, reads g23_crate, no fla
 test('cave lines: every WD cave spot id has Text Bot text', () => {
   const L = J('text/overworld_lines.json').maps;
   for (const c of Object.keys(CAVES)) for (const o of [...MAP(c).npcs, ...MAP(c).signs, ...MAP(c).interact_spots])
-    if (o.id !== SIGNAL_SPOT) assert.ok(L[c]?.[o.id]?.pages?.length, o.id);
+    if (o.id !== SIGNAL_SPOT && !o.pocket) /* pass 2 pocket text lives in the pass 2 files */ assert.ok(L[c]?.[o.id]?.pages?.length, o.id);
 });
 
 test('no-smoke rule: chimney puffs off', () => { assert.equal(CHIMNEY_SMOKE, false); });
