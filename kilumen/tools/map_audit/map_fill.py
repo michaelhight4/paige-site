@@ -133,6 +133,19 @@ def seal_unreached(j, start):
         for x in range(W):
             if c[y][x] == 0 and (x, y) not in seen and (x, y) not in solid: c[y][x] = 1
 
+@recipe
+def frostspire_pass(j):
+    # P1 loop: a ledge across the upper climb (row 24) is the fast way down; the way back up is a new west bypass
+    # (x19-20, rows 20-24) that also opens the old sealed satchel nook at x18-19. P3-style cliff side-shelf by the
+    # Greystone cave approach: step off the corridor at row 49 onto a shelf (x32-34) whose only way off is a ledge down.
+    ledge(j, 24, 21, 28)
+    carve(j, [(20, 20), (20, 21)] + rect(19, 22, 20, 24))
+    item(j, 'fsp_bypass_seed', 19, 23, 'vigor_seed', True, 'west bypass beside the ledge')
+    carve(j, [(32, 49)] + rect(33, 49, 35, 53) + rect(32, 55, 35, 55), ground=5699)  # grass, like the forest floor around it
+    ledge(j, 54, 33, 35)
+    item(j, 'fsp_shelf_tea', 35, 50, 'calm_tea', False, 'cliff shelf above the cave approach')
+    item(j, 'fsp_shelf_pouch', 35, 53, 'coin_pouch_small', True, 'lip of the cliff shelf, by the drop')
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
