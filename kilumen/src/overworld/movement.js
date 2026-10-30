@@ -77,7 +77,7 @@ export class GridMover {
         this.t++;
         if (!dir) { this.state = 'idle'; this.t = 0; return ev; }      // tap: turned in place only
         if (dir !== this.facing) { this.facing = dir; this.t = 0; ev.push({ type: 'turn', dir }); return ev; }
-        if (this.t >= TURN_TICKS) { this.state = 'idle'; this.t = 0; this._attempt(dir, world, ev); }
+        if (this.t >= TURN_TICKS / Math.min(1, this.speedMultiplier || 1)) { this.state = 'idle'; this.t = 0; this._attempt(dir, world, ev); } // Oct 30 2026: dev world speed (multiplier < 1) keeps the turn pause real-time (200x tap = turn)
         return ev;
       }
       case 'bump': {

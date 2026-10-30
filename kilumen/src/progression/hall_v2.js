@@ -60,7 +60,7 @@ export const puzzleFlag = (mj) => `hall_${mj.hall_v2.zone}_puzzle_done`;
 /** Can the Master be challenged? Needs the puzzle AND the wins (or an old save that already beat the Master). */
 export function masterOpen(ctx, mj) {
   if (masterBeaten(ctx, mj)) return { ok: true };
-  const wins = hallWins(ctx.seen, mj), need = needWins(mj), puzzle = !!ctx.flags?.has?.(puzzleFlag(mj));
+  const wins = hallWins(ctx.seen, mj), need = needWins(mj, ctx.beatable?.[mj.hall_v2.zone]), puzzle = !!ctx.flags?.has?.(puzzleFlag(mj));
   return { ok: puzzle && wins >= need, puzzle, wins, need, left: Math.max(0, need - wins) };
 }
 /** Beaten trainers of a v2 hall map (defeated: records). */
@@ -68,7 +68,18 @@ export function masterOpen(ctx, mj) {
  *  wins count across the floors; hall_v2.master_ref = '<map>.<id>' of the Master on the lamp-room floor. */
 export const hallMembers = (mj) => mj?.hall_v2?.members || hallTrainers(mj).map((n) => `${mj.name}.${n.id}`);
 export const hallWins = (seen, mj) => hallMembers(mj).filter((k) => seen?.[`defeated:${k}`]).length;
-export const needWins = (mj) => mj?.hall_v2?.need_wins ?? Math.min(4, hallMembers(mj).length);
+/** Wins the Master asks for: hall_v2.need_wins (or min(4, members)), never more than the members that are really placed and
+ *  beatable (`beatable` = that count once known, see beatableMembers; Oct 30 2026 lamp-room report: the gate must always be meetable). */
+export const needWins = (mj, beatable = null) => { const n = mj?.hall_v2?.need_wins ?? Math.min(4, hallMembers(mj).length); return beatable == null ? n : Math.min(n, beatable); };
+/** Members that resolve to a placed, beatable trainer: an NPC with that id on that map, kind trainer_hooded, not hint_only, and
+ *  (when `entry` is given) a lines entry with battle_lost. getMap(name) -> map json | null (null = missing map: not beatable). */
+export function beatableMembers(mj, getMap, entry = null) {
+  return hallMembers(mj).filter((k) => {
+    const i = k.lastIndexOf('.'), mn = k.slice(0, i), id = k.slice(i + 1), m = mn === mj.name ? mj : getMap(mn);
+    const d = (m?.npcs || []).find((n) => n.id === id);
+    return !!(d && d.kind === 'trainer_hooded' && !d.hint_only && (!entry || entry(mn, d)?.battle_lost));
+  });
+}
 /** Gate-bit store key: per floor map for multi-floor halls (each floor has its own gates), per zone otherwise. */
 export const bitsKey = (mj) => (mj.hall_v2.floor ? `v2_${mj.name}` : `v2_${mj.hall_v2.zone}`);
 /** Has this hall's Master been beaten (flag, defeated record or coin record: old saves too)? */
@@ -82,7 +93,19 @@ export const masterWins = (ctx, mj) => Math.max(ctx.counters?.[`master_${mj.hall
 export function attachHallV2(scene, ui, pg) {
   const store = pg.store, hv = { cur: null };
   pg.hallV2 = hv;
-  const ctx = () => ({ flags: scene.flags, seen: scene.seen, store, counters: scene.counters });
+  hv.beatable = {}; // zone -> beatable member count (resolved on entry; until then the declared need applies)
+  const ctx = () => ({ flags: scene.flags, seen: scene.seen, store, counters: scene.counters, beatable: hv.beatable });
+  /** Resolve this hall's beatable members (other floors' maps load through scene.loadMap; a map that fails to load counts 0). */
+  const resolveBeatable = (m) => {
+    const z = m.hall_v2.zone, names = [...new Set(hallMembers(m).map((k) => k.slice(0, k.lastIndexOf('.'))))].filter((n) => n !== m.name);
+    const entry = typeof scene._entryFor === 'function' ? (mn, d) => scene._entryFor(mn, d) : null;
+    if (!names.length) { hv.beatable[z] = beatableMembers(m, () => null, entry).length; return Promise.resolve(hv.beatable[z]); }
+    if (typeof scene.loadMap !== 'function') return Promise.resolve(null);
+    return Promise.all(names.map((n) => scene.loadMap(n).then((g) => [n, g?.json || null], () => [n, null]))).then((got) => {
+      const by = Object.fromEntries(got); hv.beatable[z] = beatableMembers(m, (n) => by[n] || null, entry).length; return hv.beatable[z];
+    });
+  };
+  hv.resolveBeatable = resolveBeatable;
   const mj = () => scene.map?.json?.hall_v2 ? scene.map.json : null;
   const text = (k, fb) => { const v = scene.lines?.system_halls?.[k]; return v?.pages || (Array.isArray(v) ? v : null) || fb; };
   const fillv = (pages, vars) => pages.map((p) => p.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m)));
@@ -249,6 +272,7 @@ export function attachHallV2(scene, ui, pg) {
     (store.puzzles ||= {})[bitsKey(m)] = { bits: hv.cur.bits };
     if (hallAnimOn()) applyHallAnim(scene.map);
     hv.apply(); syncWins();
+    try { resolveBeatable(m)?.catch?.(() => {}); } catch (e) { console.error('hall v2 beatable:', e); }
     const tip = atDoor && !masterBeaten(ctx(), m) ? text(`enter_${z}`, HALL_ENTRY[z] ? [HALL_ENTRY[z]] : []) : [];
     if (tip.length) scene.toast?.(tip.join(' '));
     return hv.cur;
@@ -326,7 +350,7 @@ export function attachHallV2(scene, ui, pg) {
     const talk = scene.talk.bind(scene);
     scene.talk = (n, def) => {
       const m = mj(); if (!m || !def) return talk(n, def);
-      const z = m.hall_v2.zone, wins = syncWins(), need = needWins(m), beaten = masterBeaten(ctx(), m);
+      const z = m.hall_v2.zone, wins = syncWins(), need = needWins(m, hv.beatable[m.hall_v2.zone]), beaten = masterBeaten(ctx(), m);
       if (def.kind === 'villager_scholar') { // the hall attendant: progress line
         const left = Math.max(0, need - wins), k = beaten || left === 0 ? 'progress_open' : 'progress';
         const hint = !beaten ? text(`hint_${z}`, HALL_HINTS[z] || []) : []; // live v0.2.93: hall hints while the Master is unbeaten
@@ -339,7 +363,9 @@ export function attachHallV2(scene, ui, pg) {
         const g = masterOpen(ctx(), m);
         if (!g.ok) {
           scene.log?.push({ tick: scene.tick, type: 'hall_wins_gate', zone: z, wins, need, puzzle: g.puzzle });
-          const pages = !g.puzzle ? text('master_puzzle', ['Find your way up here properly first.']) : fillv(text('master_locked', ['Win {left} more in my hall first. Then we battle.']), { wins, need, left: Math.max(0, need - wins) });
+          let pages = !g.puzzle ? text('master_puzzle', ['Find your way up here properly first.']) : fillv(text('master_locked', ['Win {left} more in my hall first. Then we battle.']), { wins, need, left: Math.max(0, need - wins) });
+          // multi-floor hall (Lanternport lamp room): no trainer left on this floor -> add the hall's first hint page (where they wait)
+          if (g.puzzle && !hallMembers(m).some((k) => k.startsWith(`${m.name}.`) && !scene.seen?.[`defeated:${k}`])) pages = [...pages, ...text(`hint_${z}`, HALL_HINTS[z] || []).slice(0, 1)];
           return scene.script(async () => { n && scene.npcs.beginTalk(n); try { await scene.say(pages, scene.speakerFor?.(n)); } finally { n && scene.npcs.endTalk(n); } });
         }
         const r = talk(n, def); const iv = setInterval(() => { if (!scene.busy) { clearInterval(iv); if (scene.seen?.[`defeated:${m.name}.${def.id}`]) { const k = `master_${z}_wins`; if (!(scene.counters[k] > 0)) { scene.counters[k] = 1; scene._dirty = true; } } } }, 150);

@@ -331,3 +331,25 @@ test('lighthouse: every placed trainer has its Text Bot lines, sprite and GD tea
   }
   assert.ok(teamFor(M, 'lanternport_hall_int', 'lanternport_hall_int_master')?.foes?.length);
 });
+
+// Oct 30 2026 (lamp-room report "Win 4 more" with no trainers in the room): every hall's need must be meetable by trainers
+// that are really placed and beatable (on the hall map or its floor maps): NPC present, trainer_hooded, not hint-only, a
+// battle_lost line and a hall team in masters.json.
+test('every hall: need_wins <= beatable placed members (any floor), and needWins clamps to the beatable count', async () => {
+  const { teamFor } = await import(path.join(root, 'src/progression/masters.js'));
+  const MD = J('data/masters.json');
+  const dir = path.join(root, 'art/world/overworld/maps');
+  const maps = Object.fromEntries(fs.readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => [f.slice(0, -5), J(`art/world/overworld/maps/${f}`)]));
+  const halls = Object.values(maps).filter((m) => m.hall_v2 && m.npcs?.some((n) => n.kind === 'master'));
+  assert.ok(halls.length >= 8, 'all 8 halls found');
+  const entry = (mn, d) => lines.maps?.[mn]?.[d.id];
+  for (const m of halls) {
+    const ok = HV.beatableMembers(m, (n) => maps[n] || null, entry).filter((k) => { const i = k.lastIndexOf('.'); return !!teamFor(MD, k.slice(0, i), k.slice(i + 1), { fernwick: true }); });
+    assert.ok(HV.needWins(m) <= ok.length, `${m.name}: need ${HV.needWins(m)} > beatable ${ok.length}`);
+    assert.equal(HV.needWins(m, ok.length), HV.needWins(m));
+  }
+  const top = maps.lanternport_hall_int, gone = (n) => (n === 'lanternport_lighthouse_f3' ? null : maps[n] || null); // a floor that fails to load
+  const n = HV.beatableMembers(top, gone, entry).length; assert.equal(n, 4);
+  assert.equal(HV.needWins(top, 2), 2, 'need clamps when fewer beatable trainers exist');
+  assert.equal(HV.masterOpen({ seen: {}, flags: new Set([HV.puzzleFlag(top)]), store: {}, beatable: { lanternport: 0 } }, top).ok, true);
+});
