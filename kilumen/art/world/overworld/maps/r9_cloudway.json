@@ -2425,7 +2425,38 @@
   }
  ],
  "signs": [],
- "items": [],
+ "items": [
+  {
+   "id": "r9_cw_pocket_tea",
+   "x": 1,
+   "y": 13,
+   "item": "calm_tea",
+   "qty": 1,
+   "hidden": false,
+   "note": "pocket reward: far west dead end (Wellspire fixes Oct 30 2026)",
+   "flag": "item_r9_cloudway_r9_cw_pocket_tea"
+  },
+  {
+   "id": "r9_cw_east_seed",
+   "x": 22,
+   "y": 12,
+   "item": "vigor_seed",
+   "qty": 1,
+   "hidden": true,
+   "note": "east notch off the climb (Wellspire fixes Oct 30 2026)",
+   "flag": "item_r9_cloudway_r9_cw_east_seed"
+  },
+  {
+   "id": "r9_cw_mid_pouch",
+   "x": 10,
+   "y": 5,
+   "item": "coin_pouch_small",
+   "qty": 1,
+   "hidden": true,
+   "note": "side notch beside the middle climb (Wellspire fixes Oct 30 2026)",
+   "flag": "item_r9_cloudway_r9_cw_mid_pouch"
+  }
+ ],
  "interact_spots": [
   {
    "id": "r9_cloudway_note",

@@ -2935,7 +2935,38 @@
   }
  ],
  "signs": [],
- "items": [],
+ "items": [
+  {
+   "id": "r9_cl_west_seed",
+   "x": 3,
+   "y": 4,
+   "item": "vigor_seed",
+   "qty": 1,
+   "hidden": true,
+   "note": "west notch below the cloud shelf (Wellspire fixes Oct 30 2026)",
+   "flag": "item_r9_cloudline_r9_cl_west_seed"
+  },
+  {
+   "id": "r9_cl_ledge_pouch",
+   "x": 21,
+   "y": 2,
+   "item": "coin_pouch_small",
+   "qty": 1,
+   "hidden": true,
+   "note": "tucked in the north ledge corner (Wellspire fixes Oct 30 2026)",
+   "flag": "item_r9_cloudline_r9_cl_ledge_pouch"
+  },
+  {
+   "id": "r9_cl_pocket_crystal",
+   "x": 24,
+   "y": 4,
+   "item": "dominance_crystal_plus",
+   "qty": 1,
+   "hidden": false,
+   "note": "pocket reward: dead-end east notch (Wellspire fixes Oct 30 2026)",
+   "flag": "item_r9_cloudline_r9_cl_pocket_crystal"
+  }
+ ],
  "interact_spots": [
   {
    "id": "r9_cloudline_note",

@@ -26,7 +26,7 @@ try {
     const page = await ctx.newPage(); await page.addInitScript(() => { try { localStorage.setItem('kilumen_alpha_notice_seen.v1', '1'); } catch {} });
     const errors = [], shots = []; page.on('pageerror', (e) => errors.push(String(e)));
     try {
-      await page.goto(`${base}?save=0&timescale=0&hour=12&audio=0&enc=0&lead=nibbin&dev=1`);
+      await page.goto(`${base}?save=0&timescale=0&hour=12&audio=0&enc=0&lead=${process.env.LEAD || "nibbin"}&dev=1`);
       await page.waitForFunction(() => window.kilumen?.ready || window.kilumen?.ui, null, { timeout: 20000 });
       await page.evaluate(() => Promise.race([window.kilumen.ready, new Promise((r) => setTimeout(r, 15000))]));
       await sleep(1200); await page.evaluate(() => { try { kilumen.ui?.closeAll?.(); } catch {} });

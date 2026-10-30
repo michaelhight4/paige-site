@@ -44,7 +44,10 @@ export function discountFor(company = {}, shops = getShops()) {
 }
 
 export function basePrice(id, zone, shops = getShops()) {
-  return regionOf(zone, shops).prices?.[id] ?? shops.basePrices[id] ?? null;
+  const r = regionOf(zone, shops), own = r.prices?.[id];
+  if (own != null) return own;
+  const b = shops.basePrices[id];
+  return b == null ? null : r.priceScale ? Math.round((b * r.priceScale) / 10) * 10 : b; // regional scaling (Oct 30 2026)
 }
 /** Buy price after discount (whole money, never below 1). */
 export function priceOf(id, zone, discount = 0, shops = getShops()) {

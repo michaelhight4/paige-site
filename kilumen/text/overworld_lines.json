@@ -23699,6 +23699,13 @@
    ],
    "parity": "E2",
    "build": "different"
+  },
+  "first_visit": {
+   "pages": [
+    "Welcome to RT Supply. First time in this branch? Have a look."
+   ],
+   "status": "PLACEHOLDER",
+   "note": "Text Bot: clerk greeting on the first visit to each shop (per map + town); later visits use the clerk lines (clerk_regular etc.)"
   }
  },
  "system_trainers": {

@@ -198,7 +198,8 @@
       "clodstone_charm"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.1
   },
   "frostspire": {
    "city": "Frostspire",
@@ -209,12 +210,11 @@
      "coins": 0,
      "items": [
       "dominance_crystal",
-      "tonic_small",
       "tonic_large",
       "calm_tea",
       "trail_mix",
-      "feed_bag_small",
-      "feed_bag"
+      "feed_bag",
+      "remedy_pouch"
      ]
     },
     {
@@ -242,7 +242,8 @@
       "drizzle_charm"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.25
   },
   "aurelith": {
    "city": "Aurelith",
@@ -280,7 +281,8 @@
       "brimtooth_charm"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.15
   },
   "saltmere": {
    "city": "Saltmere",
@@ -315,7 +317,8 @@
       "tidebell_charm"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.05
   },
   "mirefen": {
    "city": "Mirefen",
@@ -331,7 +334,9 @@
       "tonic_large",
       "calm_tea",
       "trail_mix",
-      "feed_bag"
+      "feed_bag",
+      "fine_crystal",
+      "remedy_pouch"
      ]
     },
     {
@@ -348,7 +353,8 @@
       "bogroot_charm"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.15
   },
   "lanternport": {
    "city": "Lanternport",
@@ -360,11 +366,12 @@
      "items": [
       "dominance_crystal",
       "dominance_crystal_plus",
-      "tonic_small",
       "tonic_large",
       "calm_tea",
       "trail_mix",
-      "feed_bag"
+      "feed_bag",
+      "fine_crystal",
+      "remedy_pouch"
      ]
     },
     {
@@ -382,7 +389,8 @@
       "dusk_charm"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.2
   },
   "cindervale": {
    "city": "Cindervale",
@@ -394,11 +402,13 @@
      "items": [
       "dominance_crystal",
       "dominance_crystal_plus",
-      "tonic_small",
       "tonic_large",
       "calm_tea",
       "trail_mix",
-      "feed_bag"
+      "feed_bag",
+      "fine_crystal",
+      "remedy_pouch",
+      "deepgut_paste"
      ]
     },
     {
@@ -415,7 +425,8 @@
       "slag_charm"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.25
   },
   "tidewater_coast": {
    "city": "Tidewater Coast",
@@ -431,7 +442,9 @@
       "tonic_large",
       "calm_tea",
       "trail_mix",
-      "feed_bag"
+      "feed_bag",
+      "fine_crystal",
+      "remedy_pouch"
      ]
     },
     {
@@ -447,7 +460,8 @@
       "steady_sight"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.15
   },
   "wellspire": {
    "city": "Cairnfold",
@@ -485,7 +499,8 @@
       "quick_tassel"
      ]
     }
-   ]
+   ],
+   "priceScale": 1.3
   }
  },
  "branches": {
@@ -648,5 +663,6 @@
  "_heldNote": "Held items (design/HELD_ITEMS.md section 4, Oct 29 2026): Charms x1.15 priced 2,000-3,000; earned-only items (survive-a-hit, Oath, life drain, x1.5 XP and the quest / hall / post-game rewards) are never stocked. Each town's held rows unlock at the coin count you'd have on arrival. PLACEHOLDER prices. Sunmeadow has no shop row of its own: zoneAlias maps sunmeadow_fields to the Tidewater Coast row (Steady Sight).",
  "zoneAlias": {
   "sunmeadow_fields": "tidewater_coast"
- }
+ },
+ "_priceScaleNote": "Wellspire fixes (Oct 30 2026): regions.<id>.priceScale multiplies basePrices (not a region's own fixed prices); later towns cost more and drop starter-only stock. PLACEHOLDER tuning."
 }

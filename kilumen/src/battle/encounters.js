@@ -200,15 +200,28 @@ export const R56_MAP_BIOMES = {
   tidewater_coast: 'coast', route_coast: 'coast',
 };
 const R56_WATER = { coast: 'reef_surf', bog: 'bog_deep', causeway: 'bog_deep' };
+// Regions 7-9 by map name (Wellspire fixes, Oct 30 2026): no ice art exists, so ice / glacier maps use the snow backdrop and ice
+// caves the cave one. Gullhaven (sea) maps use coast, its caves the sea cave. Indoor maps (_int, heal_, shop_, fin_lab) stay default.
+export const mapPatternBiome = (map) => {
+  if (/_int$|^(heal|shop|home|house)_|^fin_lab/.test(map)) return null;
+  if (/^gullhaven/.test(map)) return /cave/.test(map) ? 'sea_cave' : 'coast';
+  if (map === 'lanternport_grotto') return 'sea_cave';
+  if (map === 'cindervale_caldera') return 'mountain';
+  if (/cave|grotto|cavern|mine|tunnel/.test(map)) return 'cave';
+  if (/^r9_|^fin_summit|^frostspire|ice|glacier|snow|frost/.test(map)) return 'snow';
+  return null;
+};
 export const biomeFor = (method, map, area) => {
   if (area && AREA_BIOMES[area]) return AREA_BIOMES[area];
   const r56 = map && R56_MAP_BIOMES[map.replace(/_storm$/, '')];
   if (r56) return /water|surf|fishing/.test(method || '') ? (R56_WATER[r56] || r56) : r56;
   if (area && /_cave\b|^terrain_cave/.test(area)) return 'cave';
   const m = method || '';
-  if (/water|surf|fishing/.test(m)) return 'water';
+  if (/water|surf|fishing/.test(m)) return map && /^gullhaven/.test(map) ? 'reef_surf' : 'water';
   if (/cave/.test(m)) return 'cave'; // incl. cave_fern; 'snow-fern' grass is snow
   if (map && MAP_BIOMES[map]) return MAP_BIOMES[map];
+  const pat = map && mapPatternBiome(map);
+  if (pat) return pat;
   if (/snow/.test(m)) return 'snow';
   if (/ash/.test(m)) return 'mountain';
   return 'grass';
