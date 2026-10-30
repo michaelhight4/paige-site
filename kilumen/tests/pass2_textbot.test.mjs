@@ -37,9 +37,12 @@ test('PASS2_TEXT_FILES lists switchbacks and batch 2', () => {
   // batch 5: revival_heights pockets; Ottilie -> Ebba (Ottilie is the Saltmere tide caller)
   assert.ok(PASS2_TEXT_FILES.includes('data/textbot_pass2_batch5.json'));
   const b5 = R('data/textbot_pass2_batch5.json');
-  assert.equal(Object.keys(b5.maps.revival_heights).length, 6);
+  // GD Oct 30 2026: Archive Room -> route_revival_sunmeadow, Break Garden -> route_revival_saltmere (max 1 cave per town)
+  assert.equal(Object.keys(b5.maps.revival_heights).length, 2);
+  assert.equal(Object.keys(b5.maps.route_revival_sunmeadow).length, 2);
+  assert.equal(Object.keys(b5.maps.route_revival_saltmere).length, 2);
   for (const [c, n] of Object.entries(b5.area_names)) assert.equal(SPEC.pockets.find((p) => p.cave === c)?.cave_title, n, c + ' cave title');
-  for (const [id, n] of [['r9_rhp_archivist', 'Ebba'], ['r9_rhp_technician', 'Sixten'], ['r9_rhp_gardener', 'Brita']]) { assert.equal(b5.maps.revival_heights[id].name, n, id); assert.equal(SPEC.pockets.find((p) => p.trainer.id === id).trainer.name, n, id); assert.equal(FB.maps.revival_heights[id].name, n, id + ' fallback'); }
+  for (const [id, n, mp] of [['r9_rhp_archivist', 'Ebba', 'route_revival_sunmeadow'], ['r9_rhp_technician', 'Sixten', 'revival_heights'], ['r9_rhp_gardener', 'Brita', 'route_revival_saltmere']]) { assert.equal(b5.maps[mp][id].name, n, id); assert.equal(SPEC.pockets.find((p) => p.trainer.id === id).trainer.name, n, id); assert.equal(FB.maps[mp][id].name, n, id + ' fallback'); }
 });
 for (const f of PASS2_TEXT_FILES) {
   test(`${f}: keys resolve, trainers have all four lines, no blocked words`, () => {

@@ -3804,123 +3804,6 @@
    ]
   },
   {
-   "id": "rhp_pocket_archive",
-   "map": "revival_heights",
-   "cave": "revival_heights_cave_nw",
-   "cave_title": "Archive Room",
-   "floor": [
-    [
-     3,
-     11,
-     10,
-     16
-    ]
-   ],
-   "ledge": [
-    6,
-    8,
-    17
-   ],
-   "walk": [
-    [
-     6,
-     18
-    ],
-    [
-     7,
-     18
-    ],
-    [
-     8,
-     18
-    ]
-   ],
-   "mouth": [
-    14,
-    8
-   ],
-   "pocket_door": [
-    5,
-    10
-   ],
-   "main_start": [
-    29,
-    20
-   ],
-   "floor_tile_at": [
-    30,
-    28
-   ],
-   "floor_tiles": null,
-   "gate": {
-    "in": "cave revival_heights_cave_nw",
-    "out": "one-way ledge at y17 x6-8",
-    "skill": null
-   },
-   "trainer": {
-    "id": "r9_rhp_archivist",
-    "x": 3,
-    "y": 11,
-    "level": 63,
-    "class": "Clerk",
-    "name": "Ebba",
-    "species": [
-     "foundrax",
-     "pharolith",
-     "cragmont"
-    ],
-    "intro": [
-     "DRAFT: Every memo since the company began is filed here. Battle?"
-    ],
-    "lost": [
-     "DRAFT: Filed under: lost."
-    ],
-    "after": [
-     "DRAFT: Hop down the ledge to the boulevard."
-    ]
-   },
-   "egg": {
-    "id": "r9_rhp_egg_memo",
-    "x": 10,
-    "y": 11,
-    "what": "a tower of memos",
-    "tile": 509,
-    "lines": [
-     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
-    ]
-   },
-   "item": {
-    "id": "r9_rhp_crystal",
-    "x": 3,
-    "y": 16,
-    "item": "dominance_crystal_plus"
-   },
-   "premise": "An old clerk in the company archive in the west rock; a Prime Crystal is in the last drawer.",
-   "map_cells": [
-    {
-     "x": 42,
-     "y": 13,
-     "g": 10882,
-     "d": 887,
-     "c": 5
-    }
-   ],
-   "map_items": [
-    {
-     "id": "rhp_plaza_tea",
-     "x": 22,
-     "y": 13,
-     "item": "calm_tea"
-    },
-    {
-     "id": "rhp_archive_strip_mix",
-     "x": 7,
-     "y": 18,
-     "item": "trail_mix"
-    }
-   ]
-  },
-  {
    "id": "rhp_pocket_servers",
    "map": "revival_heights",
    "cave": "revival_heights_cave_ne",
@@ -4033,7 +3916,28 @@
     "item": "vigor_seed"
    },
    "premise": "A technician in a server nook in the east rock; a Vigor Seed is behind the rack.",
+   "map_cells": [
+    {
+     "x": 42,
+     "y": 13,
+     "g": 10882,
+     "d": 887,
+     "c": 5
+    }
+   ],
    "map_items": [
+    {
+     "id": "rhp_plaza_tea",
+     "x": 22,
+     "y": 13,
+     "item": "calm_tea"
+    },
+    {
+     "id": "rhp_south_corner_tea",
+     "x": 43,
+     "y": 29,
+     "item": "calm_tea"
+    },
     {
      "id": "rhp_servers_seed_visible",
      "x": 52,
@@ -4050,87 +3954,216 @@
    ]
   },
   {
+   "id": "rhp_pocket_archive",
+   "map": "route_revival_sunmeadow",
+   "cave": "route_revival_sunmeadow_cave_archive",
+   "cave_title": "Archive Room",
+   "floor": [
+    [
+     35,
+     22,
+     42,
+     27
+    ]
+   ],
+   "ledge": [
+    37,
+    39,
+    28
+   ],
+   "walk": [
+    [
+     33,
+     29
+    ],
+    [
+     34,
+     29
+    ],
+    [
+     35,
+     29
+    ],
+    [
+     36,
+     29
+    ],
+    [
+     37,
+     29
+    ],
+    [
+     38,
+     29
+    ],
+    [
+     39,
+     29
+    ],
+    [
+     40,
+     29
+    ],
+    [
+     41,
+     29
+    ]
+   ],
+   "mouth": [
+    30,
+    20
+   ],
+   "pocket_door": [
+    38,
+    21
+   ],
+   "main_start": [
+    20,
+    0
+   ],
+   "floor_tile_at": [
+    20,
+    25
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_revival_sunmeadow_cave_archive",
+    "out": "one-way ledge at y28 x37-39",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rhp_archivist",
+    "x": 42,
+    "y": 22,
+    "level": 63,
+    "class": "Clerk",
+    "name": "Ebba",
+    "species": [
+     "foundrax",
+     "pharolith",
+     "cragmont"
+    ],
+    "intro": [
+     "DRAFT: Every memo since the company began is filed here. Battle?"
+    ],
+    "lost": [
+     "DRAFT: Filed under: lost."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the path."
+    ]
+   },
+   "egg": {
+    "id": "r9_rhp_egg_memo",
+    "x": 35,
+    "y": 22,
+    "what": "a tower of memos",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
+    ]
+   },
+   "item": {
+    "id": "r9_rhp_crystal",
+    "x": 35,
+    "y": 27,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "An old clerk in the old company off-site archive, cut into the rock above the path north of town; a Prime Crystal is in the last drawer.",
+   "map_items": [
+    {
+     "id": "rhp_archive_seed_visible",
+     "x": 40,
+     "y": 25,
+     "item": "vigor_seed",
+     "hidden": false
+    },
+    {
+     "id": "rhp_archive_strip_mix",
+     "x": 41,
+     "y": 29,
+     "item": "trail_mix"
+    }
+   ]
+  },
+  {
    "id": "rhp_pocket_garden",
-   "map": "revival_heights",
-   "cave": "revival_heights_cave_sw",
+   "map": "route_revival_saltmere",
+   "cave": "route_revival_saltmere_cave_garden",
    "cave_title": "Break Garden",
    "floor": [
     [
      3,
-     23,
+     17,
      10,
-     28
+     22
     ]
    ],
    "ledge": [
     5,
     7,
-    29
+    23
    ],
    "walk": [
     [
      5,
-     30
+     24
     ],
     [
      6,
-     30
+     24
     ],
     [
      7,
-     30
+     24
     ],
     [
      8,
-     30
+     24
     ],
     [
      9,
-     30
+     24
     ],
     [
      10,
-     30
+     24
     ],
     [
      11,
-     30
+     24
     ],
     [
      12,
-     30
-    ],
-    [
-     13,
-     30
+     24
     ]
    ],
    "mouth": [
-    14,
-    27
+    15,
+    16
    ],
    "pocket_door": [
     6,
-    22
+    16
    ],
    "main_start": [
-    29,
-    20
+    22,
+    0
    ],
    "floor_tile_at": [
-    30,
-    28
+    15,
+    20
    ],
    "floor_tiles": null,
    "gate": {
-    "in": "cave revival_heights_cave_sw",
-    "out": "one-way ledge at y29 x5-7",
+    "in": "cave route_revival_saltmere_cave_garden",
+    "out": "one-way ledge at y23 x5-7",
     "skill": null
    },
    "trainer": {
     "id": "r9_rhp_gardener",
     "x": 10,
-    "y": 23,
+    "y": 17,
     "level": 63,
     "class": "Gardener",
     "name": "Brita",
@@ -4146,13 +4179,13 @@
      "DRAFT: You grew on me."
     ],
     "after": [
-     "DRAFT: Ledge down and walk east."
+     "DRAFT: Ledge down and walk east to the path."
     ]
    },
    "egg": {
     "id": "r9_rhp_egg_mug",
     "x": 3,
-    "y": 23,
+    "y": 17,
     "what": "a mug on a bench",
     "tile": 509,
     "lines": [
@@ -4162,22 +4195,23 @@
    "item": {
     "id": "r9_rhp_crystal_s",
     "x": 10,
-    "y": 28,
+    "y": 22,
     "item": "dominance_crystal_plus"
    },
-   "premise": "A gardener in the closed staff garden in the west rock; a Prime Crystal is under the bench.",
+   "premise": "A gardener in the staff garden the company closed, hidden in the rock west of the path south of town; a Prime Crystal is under the bench.",
    "map_items": [
     {
-     "id": "rhp_garden_strip_mix",
-     "x": 6,
-     "y": 30,
-     "item": "trail_mix"
+     "id": "rhp_garden_seed_visible",
+     "x": 7,
+     "y": 20,
+     "item": "vigor_seed",
+     "hidden": false
     },
     {
-     "id": "rhp_south_corner_tea",
-     "x": 43,
-     "y": 29,
-     "item": "calm_tea"
+     "id": "rhp_garden_strip_mix",
+     "x": 5,
+     "y": 24,
+     "item": "trail_mix"
     }
    ]
   }

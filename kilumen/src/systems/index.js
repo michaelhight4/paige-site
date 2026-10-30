@@ -179,7 +179,7 @@ export class Systems {
   async onTalk({ mapName, def, entry, line, speaker }) {
     if (await giftTalk(this, { mapName, def, entry, line, speaker })) return true; // region 2: parcel -> Courier Bike + office gift (npc_gifts.js)
     if (entry?.after_heal || /_carer$/.test(def.id)) return this.heal.carerTalk({ mapName, def, entry, line, speaker });
-    if ((mapName === 'shop_int' || this.scene.map?.json?.interior_kind === 'mart') && (def.id === 'clerk' || def.variant_of === 'clerk')) { // r78 WD: unique marts (shop_lanternport / shop_cindervale) set interior_kind 'mart'
+    if (((mapName === 'shop_int' || this.scene.map?.json?.interior_kind === 'mart') && (def.id === 'clerk' || def.variant_of === 'clerk')) || def.stall_shop) { // GD Oct 30 2026: town market stall keepers (stall_shop) reuse the shop // r78 WD: unique marts (shop_lanternport / shop_cindervale) set interior_kind 'mart'
       // Wellspire fixes (Oct 30 2026): visits are tracked per shop (map + town), so 'Back again' never greets a first-time visitor
       const vk = `${mapName}#${this.zone || ''}`, visits = this.state ? (this.state.shopVisits ||= {}) : (this._shopVisits ||= {}), first = !visits[vk];
       visits[vk] = (visits[vk] || 0) + 1;

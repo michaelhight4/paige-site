@@ -420,20 +420,6 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   }
  ],
- "revival_heights.r9_rhp_archivist": [
-  {
-   "species": "foundrax",
-   "level": 63
-  },
-  {
-   "species": "pharolith",
-   "level": 63
-  },
-  {
-   "species": "cragmont",
-   "level": 63
-  }
- ],
  "revival_heights.r9_rhp_technician": [
   {
    "species": "lancebeetle",
@@ -448,7 +434,21 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   }
  ],
- "revival_heights.r9_rhp_gardener": [
+ "route_revival_sunmeadow.r9_rhp_archivist": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  }
+ ],
+ "route_revival_saltmere.r9_rhp_gardener": [
   {
    "species": "fernstag",
    "level": 63

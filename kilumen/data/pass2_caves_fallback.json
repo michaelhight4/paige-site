@@ -838,26 +838,6 @@
    }
   },
   "revival_heights": {
-   "r9_rhp_archivist": {
-    "pages": [
-     "DRAFT: Every memo since the company began is filed here. Battle?"
-    ],
-    "battle_lost": [
-     "DRAFT: Filed under: lost."
-    ],
-    "after": [
-     "DRAFT: Hop down the ledge to the boulevard."
-    ],
-    "trainer_class": "Clerk",
-    "name": "Ebba",
-    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   },
-   "r9_rhp_egg_memo": {
-    "pages": [
-     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
-    ],
-    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   },
    "r9_rhp_technician": {
     "pages": [
      "DRAFT: Have you tried turning the battle off and on again? Battle!"
@@ -877,7 +857,47 @@
      "DRAFT: A big humming fan. It hums the company jingle, a little off-key."
     ],
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "revival_heights_cave_ne": {
+   "area_name": {
+    "pages": [
+     "Server Nook"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_revival_sunmeadow": {
+   "r9_rhp_archivist": {
+    "pages": [
+     "DRAFT: Every memo since the company began is filed here. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Filed under: lost."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the path."
+    ],
+    "trainer_class": "Clerk",
+    "name": "Ebba",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    },
+   "r9_rhp_egg_memo": {
+    "pages": [
+     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "route_revival_sunmeadow_cave_archive": {
+   "area_name": {
+    "pages": [
+     "Archive Room"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_revival_saltmere": {
    "r9_rhp_gardener": {
     "pages": [
      "DRAFT: The staff garden was closed for efficiency. I still water it. Battle?"
@@ -886,7 +906,7 @@
      "DRAFT: You grew on me."
     ],
     "after": [
-     "DRAFT: Ledge down and walk east."
+     "DRAFT: Ledge down and walk east to the path."
     ],
     "trainer_class": "Gardener",
     "name": "Brita",
@@ -899,23 +919,7 @@
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    }
   },
-  "revival_heights_cave_nw": {
-   "area_name": {
-    "pages": [
-     "Archive Room"
-    ],
-    "status": "DRAFT"
-   }
-  },
-  "revival_heights_cave_ne": {
-   "area_name": {
-    "pages": [
-     "Server Nook"
-    ],
-    "status": "DRAFT"
-   }
-  },
-  "revival_heights_cave_sw": {
+  "route_revival_saltmere_cave_garden": {
    "area_name": {
     "pages": [
      "Break Garden"

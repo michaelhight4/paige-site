@@ -1,12 +1,35 @@
 {
  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary.",
  "area_names": {
-  "revival_heights_cave_nw": "Archive Room",
+  "route_revival_sunmeadow_cave_archive": "Archive Room",
   "revival_heights_cave_ne": "Server Nook",
-  "revival_heights_cave_sw": "Break Garden"
+  "route_revival_saltmere_cave_garden": "Break Garden"
  },
  "maps": {
   "revival_heights": {
+   "r9_rhp_technician": {
+    "name": "Sixten",
+    "pages": [
+     "Tried turning the battle off\nand on again? No? Battle!"
+    ],
+    "battle_lost": [
+     "Rebooting..."
+    ],
+    "battle_won": [
+     "Fixed it. You were the bug.\nRest your team."
+    ],
+    "after": [
+     "Ledge down, then west\nalong the lane."
+    ]
+   },
+   "r9_rhp_egg_fan": {
+    "pages": [
+     "A big humming fan.",
+     "It hums the company jingle,\na little off-key."
+    ]
+   }
+  },
+  "route_revival_sunmeadow": {
    "r9_rhp_archivist": {
     "name": "Ebba",
     "pages": [
@@ -28,28 +51,9 @@
      "A tower of memos.",
      "The top one says: please reply\nto the memo below."
     ]
-   },
-   "r9_rhp_technician": {
-    "name": "Sixten",
-    "pages": [
-     "Tried turning the battle off\nand on again? No? Battle!"
-    ],
-    "battle_lost": [
-     "Rebooting..."
-    ],
-    "battle_won": [
-     "Fixed it. You were the bug.\nRest your team."
-    ],
-    "after": [
-     "Ledge down, then west\nalong the lane."
-    ]
-   },
-   "r9_rhp_egg_fan": {
-    "pages": [
-     "A big humming fan.",
-     "It hums the company jingle,\na little off-key."
-    ]
-   },
+   }
+  },
+  "route_revival_saltmere": {
    "r9_rhp_gardener": {
     "name": "Brita",
     "pages": [
@@ -72,5 +76,6 @@
     ]
    }
   }
- }
+ },
+ "_relocated": "GD Oct 30 2026: Archive Room moved to route_revival_sunmeadow, Break Garden to route_revival_saltmere (Gary: max 1 cave per town). Lines unchanged; Text Bot to review the archivist after-line (no boulevard on the route)."
 }
