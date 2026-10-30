@@ -30,7 +30,7 @@ export function attachSide(scene) {
       return true;
     }
     const done = scene.flags.has(doneFlag(id));
-    if ((await scene.ask(T(`side.${id}.intro`), ['Yes', 'No'])) !== 0) { await scene.say(T(`side.${id}.declined`)); return true; }
+    if ((await scene.ask(T(`side.${id}.intro`), [one('side.choice_yes'), one('side.choice_no')])) !== 0) { await scene.say(T(`side.${id}.declined`)); return true; }
     let pass;
     if (a.kind === 'quiz') {
       const ans = [];

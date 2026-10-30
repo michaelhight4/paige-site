@@ -15,7 +15,8 @@ const TS = new Map(J('art/world/overworld/tileset.json').tiles.map((t) => [t.id,
 const NAME = new Map([...TS.values()].map((t) => [t.name, t]));
 const { ACTIVITIES, collectStep, scoreQuiz, oreWeight, doneFlag } = await import('../src/side/activities.js');
 const { attachSide, sideText } = await import('../src/side/index.js');
-const { addMeritPoints, MERIT_STUB } = await import('../src/side/merit.js');
+const { addMeritPoints, MERIT_STUB, realMerit, _setRealMerit, meritOf } = await import('../src/side/merit.js');
+await realMerit;
 const { FB } = await import('../src/side/text_fallback.js');
 const map = (m) => J(`${MAPS}/${m}.json`);
 // Blocked words (house rules): PP, shiny, super effective, Pokédex, Poké Ball, Gotcha!, nurse, weed, route(s), berry,
@@ -113,24 +114,59 @@ test('quiz scoring and ore weights are deterministic', () => {
   for (let s = 0; s < 20; s++) for (let r = 0; r < 3; r++) { assert.equal(oreWeight(s, r), oreWeight(s, r)); assert.ok(ACTIVITIES.cinder_ore_weigh.weights.includes(oreWeight(s, r))); }
 });
 
-test('attachSide pays through addMeritPoints (stub) once per activity; non-side spots pass through', async () => {
-  assert.equal(MERIT_STUB, true);
+test('attachSide pays through addMeritPoints into sports.merit once per activity; non-side spots pass through', async () => {
+  assert.equal(MERIT_STUB, false);
   const mk = (answers) => ({ flags: new Set(), counters: {}, log: [], lines: LINES, clock: { day: 2 }, said: [],
     setFlag(x) { this.flags.add(x); }, bump(c) { return (this.counters[c] = (this.counters[c] || 0) + 1); },
     say: async function (p) { this.said.push(...p); }, ask: async () => answers.shift() ?? 0 });
   const sc = mk([0, 1, 0, 2, 0, 1, 0, 2]); const side = attachSide(sc);
   assert.equal(await side.runSpot({ kind: 'prop', id: 'x' }), false);
   const sp = { kind: 'side', side: 'salt_tide_quiz', id: 'side_tide_quiz' };
-  await side.runSpot(sp); assert.equal(sc.counters.merit_points, 4);
-  await side.runSpot(sp); assert.equal(sc.counters.merit_points, 4, 'no second reward');
+  await side.runSpot(sp); assert.equal(sc._sportsState.sports.merit.points, 4); assert.ok(!('merit_points' in sc.counters));
+  await side.runSpot(sp); assert.equal(sc._sportsState.sports.merit.points, 4, 'no second reward');
   const o = mk([]); const so = attachSide(o); const seed = 2 * 31;
   const W = ACTIVITIES.cinder_ore_weigh.weights; const ans = [0, ...[0, 1, 2].map((r) => W.indexOf(oreWeight(seed, r)))];
   o.ask = async () => ans.shift();
-  await so.runSpot({ kind: 'side', side: 'cinder_ore_weigh', id: 'side_ore_weigh' }); assert.equal(o.counters.merit_points, 4);
+  await so.runSpot({ kind: 'side', side: 'cinder_ore_weigh', id: 'side_ore_weigh' }); assert.equal(o._sportsState.sports.merit.points, 4);
   // a real merit system wins over the stub
   let got = 0; const s2 = { systems: { merit: { addMeritPoints: (n) => (got += n) } } };
   addMeritPoints(s2, 5, 't'); assert.equal(got, 5);
   for (const k of Object.keys(FB)) assert.ok(sideText({}, k).length, k);
+});
+
+test('merit: old stub counter migrates into sports.merit; systems state is used when present; real module wins', () => {
+  const sc = { counters: { merit_points: 7 }, systems: { state: { sports: { merit: { points: 10, earned: 10, spent: 0, log: [] } } } } };
+  assert.equal(addMeritPoints(sc, 3, 'side:x'), 20);
+  assert.ok(!('merit_points' in sc.counters)); assert.equal(sc.systems.state.sports.merit.earned, 20);
+  assert.equal(addMeritPoints(sc, 1), 21, 'migrates only once');
+  const calls = []; _setRealMerit({ meritState: (s) => (s.merit ||= { points: 0, earned: 0, spent: 0, log: [] }), addMeritPoints: (s, n, r) => { calls.push([n, r]); s.merit.points += n; } });
+  try { const s2 = { counters: {} }; assert.equal(addMeritPoints(s2, 4, 'side:y'), 4); assert.deepEqual(calls, [[4, 'side:y']]); } finally { _setRealMerit(null); }
+});
+
+test('Text Bot draft (data/textbot_side_activities.json) is wired word for word, with no placeholders left', () => {
+  const D = J('data/textbot_side_activities.json');
+  assert.equal(Object.keys(D.side).length + Object.values(D.maps).reduce((a, m) => a + Object.keys(m).length, 0), 61);
+  for (const [k, e] of Object.entries(D.side)) { assert.deepEqual(sideText(LINES, k), e.pages, k); assert.deepEqual(FB[k], e.pages, `FB ${k}`); }
+  for (const [m, v] of Object.entries(D.maps)) for (const [id, e] of Object.entries(v)) { assert.deepEqual(LINES.maps[m][id].pages, e.pages, id); assert.deepEqual(LINES.maps[m][id].lines, e.lines, id); }
+  assert.ok(!/PLACEHOLDER|\[PH\]/.test(JSON.stringify(FB)));
+  assert.ok(!/side_activities\.md/.test(JSON.stringify(LINES.maps)), 'no placeholder status left');
+  // quiz: answer slots 1/0/2 = Mornings / Nerys Bryde / Tuesday, and the facts are on the Saltmere signs
+  const q = ACTIVITIES.salt_tide_quiz.questions, pick = (i) => sideText(LINES, `side.salt_tide_quiz.${q[i].choices[q[i].answer]}`)[0];
+  assert.deepEqual([0, 1, 2].map(pick), ['Mornings', 'Nerys Bryde', 'Tuesday']);
+  const signs = JSON.stringify(LINES.maps.saltmere) + JSON.stringify(LINES.maps.saltmere_hall_int || {});
+  assert.match(signs, /Fish market mornings/); assert.match(signs, /Master: Nerys Bryde/); assert.match(signs, /closed Tuesdays/);
+  // Fernwick letters intro is what the post box says before any letter is found
+  assert.equal(map('fernwick').interact_spots.find((s) => s.id === 'side_letters_box').side, 'fern_letters');
+  assert.deepEqual(collectStep('fern_letters', ACTIVITIES.fern_letters.turnIn, new Set()).say, ['side.fern_letters.intro']);
+  assert.match(sideText(LINES, 'side.fern_letters.intro').join(' '), /bring them\nto this box/);
+});
+
+test('side Yes/No choices are text keys with the game\'s existing Yes/No wording', async () => {
+  assert.ok(!/\['Yes', 'No'\]/.test(fs.readFileSync('src/side/index.js', 'utf8')));
+  assert.deepEqual([sideText(LINES, 'side.choice_yes'), sideText(LINES, 'side.choice_no')], [['Yes'], ['No']]);
+  assert.deepEqual(LINES.field_skills.skylift.choices, ['Yes', 'No']);
+  let seen; const sc = { flags: new Set(), counters: {}, lines: LINES, say: async () => {}, ask: async (p, c) => { seen = c; return 1; }, setFlag() {} };
+  await attachSide(sc).runSpot({ kind: 'side', side: 'salt_tide_quiz', id: 'side_tide_quiz' }); assert.deepEqual(seen, ['Yes', 'No']);
 });
 
 test('src/side is hooked into Overworld.runSpot and main.js', () => {
