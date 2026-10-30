@@ -714,3 +714,22 @@ RiverKing (Apache-2.0) - github.com/anry88/RiverKing @ c0a540b94a421e9ecad560709
   Used by: src/seaport/derby.js (scoreRun). The tournament leaderboard shape (largest catch / total weight / count) is adapted.
   The code was written fresh in JS; no RiverKing source is copied. Licensed under the Apache License, Version 2.0
   (http://www.apache.org/licenses/LICENSE-2.0).
+
+################################################################################
+# RTX look (Oct 29, 2026): src/overworld/rtx.js (branch dev/rtx-look, Options 'RTX look', default Off)
+################################################################################
+
+--------------------------------------------------------------------------------
+Khronos PBR Neutral tone mapping (GLSL function PBRNeutralToneMapping)
+Where: src/overworld/rtx.js (composite shader, verbatim function body)
+Licence: Apache License 2.0
+Source: https://github.com/KhronosGroup/ToneMapping (PBR_Neutral/pbrNeutral.glsl)
+--------------------------------------------------------------------------------
+Copyright The Khronos Group Inc. Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+file except in compliance with the License. You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0. Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+either express or implied. See the License for the specific language governing permissions and limitations.
+Techniques only (no code copied): 9-tap gaussian in 5 linear fetches (Rakos, "Efficient Gaussian blur with linear
+sampling", 2010), screen-space radial god rays (Mitchell, GPU Gems 3 ch. 13), height-to-normal Sobel, 2D ray-marched
+soft shadows. Everything else in rtx.js is Kilumen's own code.

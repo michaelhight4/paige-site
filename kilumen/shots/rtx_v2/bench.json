@@ -1,0 +1,499 @@
+{
+ "gpuNote": "headless Chromium, SwiftShader (CPU) WebGL: absolute ms are a worst case, not a real phone/PC GPU",
+ "runs": [
+  {
+   "plat": "pc",
+   "errors": [
+    "rtx look: slow frames, auto tier off"
+   ],
+   "shots": [
+    "pc_day_off.png",
+    "pc_day_lite.png",
+    "pc_day_full.png",
+    "pc_dusk_off.png",
+    "pc_dusk_lite.png",
+    "pc_dusk_full.png",
+    "pc_night_off.png",
+    "pc_night_lite.png",
+    "pc_night_full.png",
+    "pc_rain_off.png",
+    "pc_rain_lite.png",
+    "pc_rain_full.png"
+   ],
+   "bench": {
+    "day_off": {
+     "medianMs": 0.6,
+     "p90Ms": 0.9,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "off",
+      "tier": "off",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 2.657,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "day_lite": {
+     "medianMs": 0.7,
+     "p90Ms": 1.3,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "lite",
+      "tier": "lite",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.33,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "day_full": {
+     "medianMs": 0.6,
+     "p90Ms": 1.1,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "full",
+      "tier": "full",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.147,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "dusk_off": {
+     "medianMs": 0.6,
+     "p90Ms": 1,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "off",
+      "tier": "off",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 16,
+      "emaMs": 0.184,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "dusk_lite": {
+     "medianMs": 0.8,
+     "p90Ms": 1.2,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "lite",
+      "tier": "lite",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 6,
+      "emaMs": 0.147,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "dusk_full": {
+     "medianMs": 0.8,
+     "p90Ms": 1.4,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "full",
+      "tier": "full",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 16,
+      "emaMs": 0.158,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "night_off": {
+     "medianMs": 0.6,
+     "p90Ms": 0.9,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "off",
+      "tier": "off",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 16,
+      "emaMs": 0.142,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "night_lite": {
+     "medianMs": 0.7,
+     "p90Ms": 1.6,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "lite",
+      "tier": "lite",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 6,
+      "emaMs": 0.111,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "night_full": {
+     "medianMs": 0.7,
+     "p90Ms": 1.1,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "full",
+      "tier": "full",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 16,
+      "emaMs": 0.125,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "rain_off": {
+     "medianMs": 0.5,
+     "p90Ms": 1,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "off",
+      "tier": "off",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.371,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "rain_lite": {
+     "medianMs": 0.7,
+     "p90Ms": 1.9,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "lite",
+      "tier": "lite",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.216,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "rain_full": {
+     "medianMs": 0.7,
+     "p90Ms": 1.4,
+     "canvas": [
+      1280,
+      720
+     ],
+     "rtx": {
+      "mode": "full",
+      "tier": "full",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.225,
+      "steps": [
+       "lite->off"
+      ]
+     }
+    },
+    "auto": {
+     "mode": "auto",
+     "tier": "lite",
+     "failed": false,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+     "lights": 0,
+     "emaMs": 0.229,
+     "steps": [
+      "lite->off"
+     ]
+    }
+   }
+  },
+  {
+   "plat": "phone",
+   "errors": [],
+   "shots": [
+    "phone_day_off.png",
+    "phone_day_lite.png",
+    "phone_day_full.png",
+    "phone_dusk_off.png",
+    "phone_dusk_lite.png",
+    "phone_dusk_full.png",
+    "phone_night_off.png",
+    "phone_night_lite.png",
+    "phone_night_full.png",
+    "phone_rain_off.png",
+    "phone_rain_lite.png",
+    "phone_rain_full.png"
+   ],
+   "bench": {
+    "day_off": {
+     "medianMs": 0.7,
+     "p90Ms": 1.1,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "off",
+      "tier": "off",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.299,
+      "steps": []
+     }
+    },
+    "day_lite": {
+     "medianMs": 0.8,
+     "p90Ms": 1.3,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "lite",
+      "tier": "lite",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.17,
+      "steps": []
+     }
+    },
+    "day_full": {
+     "medianMs": 0.9,
+     "p90Ms": 1.4,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "full",
+      "tier": "full",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.195,
+      "steps": []
+     }
+    },
+    "dusk_off": {
+     "medianMs": 0.8,
+     "p90Ms": 1.7,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "off",
+      "tier": "off",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 16,
+      "emaMs": 0.326,
+      "steps": []
+     }
+    },
+    "dusk_lite": {
+     "medianMs": 0.9,
+     "p90Ms": 1.1,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "lite",
+      "tier": "lite",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 6,
+      "emaMs": 0.144,
+      "steps": []
+     }
+    },
+    "dusk_full": {
+     "medianMs": 1.1,
+     "p90Ms": 1.7,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "full",
+      "tier": "full",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 16,
+      "emaMs": 0.245,
+      "steps": []
+     }
+    },
+    "night_off": {
+     "medianMs": 0.8,
+     "p90Ms": 1.2,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "off",
+      "tier": "off",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 16,
+      "emaMs": 0.24,
+      "steps": []
+     }
+    },
+    "night_lite": {
+     "medianMs": 0.9,
+     "p90Ms": 1.4,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "lite",
+      "tier": "lite",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 6,
+      "emaMs": 0.234,
+      "steps": []
+     }
+    },
+    "night_full": {
+     "medianMs": 0.9,
+     "p90Ms": 1.3,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "full",
+      "tier": "full",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 16,
+      "emaMs": 0.202,
+      "steps": []
+     }
+    },
+    "rain_off": {
+     "medianMs": 0.7,
+     "p90Ms": 0.9,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "off",
+      "tier": "off",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.956,
+      "steps": []
+     }
+    },
+    "rain_lite": {
+     "medianMs": 0.9,
+     "p90Ms": 1.1,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "lite",
+      "tier": "lite",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.245,
+      "steps": []
+     }
+    },
+    "rain_full": {
+     "medianMs": 0.8,
+     "p90Ms": 1.1,
+     "canvas": [
+      844,
+      390
+     ],
+     "rtx": {
+      "mode": "full",
+      "tier": "full",
+      "failed": false,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "lights": 0,
+      "emaMs": 0.186,
+      "steps": []
+     }
+    },
+    "auto": {
+     "mode": "auto",
+     "tier": "lite",
+     "failed": false,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+     "lights": 0,
+     "emaMs": 0.187,
+     "steps": []
+    }
+   }
+  }
+ ]
+}

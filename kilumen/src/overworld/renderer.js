@@ -40,7 +40,7 @@ export class Renderer {
   /**
    * @param {object} v view: {map, tileset, zoom, cam:{x,y}, ms, rustles:Map, actors:[...], fade, debug, drawDebug}
    */
-  draw(v) {
+  draw(v, { ui = true } = {}) {
     const { ctx } = this, z = v.zoom, W = this.canvas.width, H = this.canvas.height;
     ctx.globalAlpha = 1;
     ctx.fillStyle = '#000'; // blank background: anything outside the map stays black (centre camera, Oct 23, 2026)
@@ -86,6 +86,16 @@ export class Renderer {
     if (m.layers.fog) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile('fog', x, y), x, y);
     v.mood?.draw(ctx, v); v.r9fx?.draw(ctx, v); // r9fx: Wellspire's towering Ondravel + summit clouds / light / flash (src/region9/summit_fx.js). cinematic mood (mood.js): area tint, sun rays, vignette, ambient particles; under birds/firefly glow/markers
     v.life?.top(ctx, v); // living world: birds in the sky, firefly glow (emissive)
+    if (ui) this.drawUi(v, { x0, y0, x1, y1 });
+  }
+
+  /** On-canvas UI above the world: quest markers, debug overlay, fade. Kept apart so the RTX look grades the world only. */
+  drawUi(v, rng) {
+    const { ctx } = this, W = this.canvas.width, H = this.canvas.height;
+    if (!v.map || !v.tileset) return;
+    if (!rng) { const z = v.zoom, m = v.map, cam = v.cam; rng = { x0: Math.max(0, Math.floor(cam.x / TILE)), y0: Math.max(0, Math.floor(cam.y / TILE)),
+      x1: Math.min(m.width - 1, Math.floor((cam.x + W / z - 1) / TILE)), y1: Math.min(m.height - 1, Math.floor((cam.y + H / z - 1) / TILE)) }; }
+    const { x0, y0, x1, y1 } = rng;
     v.markers?.(ctx, v); // golden spinning arrows: starter cases, quest items (marker.js; above the world, under the fade)
 
     if (v.debug && v.drawDebug) v.drawDebug(ctx, v, { x0, y0, x1, y1 });
