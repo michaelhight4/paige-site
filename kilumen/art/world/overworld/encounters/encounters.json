@@ -284,16 +284,16 @@
     {
      "species": "tumbloam",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 30
     },
     {
      "species": "sailquill",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 30,
      "time": [
@@ -305,8 +305,8 @@
     {
      "species": "gloamtick",
      "level": [
-      36,
-      36
+      3,
+      4
      ],
      "weight": 15,
      "time": [
@@ -317,8 +317,8 @@
     {
      "species": "halovy",
      "level": [
-      36,
-      36
+      3,
+      4
      ],
      "weight": 2,
      "time": [
@@ -328,8 +328,8 @@
     {
      "species": "rillop",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 18,
      "weather": [
@@ -341,62 +341,62 @@
     {
      "species": "burlbeetle",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 20
     },
     {
      "species": "jestrix",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "rarity": "uncommon",
      "note": "Jestrix line: base form only in the wild; Japkit/Harlequop/Mummerhop/Maestrix come only from evolving (Oct 29 2026)"
     },
     {
-     "species": "galespar",
+     "species": "peeplark",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
-     "species": "gauzewing",
+     "species": "dewmite",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
-     "species": "cairnant",
+     "species": "pebblant",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
-     "species": "bramblehog",
+     "species": "briarlet",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
      "species": "mufflynx",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -408,8 +408,8 @@
     {
      "species": "cavernwing",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -421,8 +421,8 @@
     {
      "species": "prismwing",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -432,10 +432,10 @@
      "spread": "tod"
     },
     {
-     "species": "lavalurk",
+     "species": "capling",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -447,10 +447,10 @@
      "spread": "tod"
     },
     {
-     "species": "brimtoad",
+     "species": "lavalurk",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -1557,7 +1557,7 @@
      "spread": "tod"
     },
     {
-     "species": "capling",
+     "species": "hushpine",
      "level": [
       12,
       16
@@ -1572,7 +1572,7 @@
      "spread": "tod"
     },
     {
-     "species": "hushpine",
+     "species": "reedcrane",
      "level": [
       12,
       16
@@ -2237,7 +2237,7 @@
      "spread": "tod"
     },
     {
-     "species": "belfrydove",
+     "species": "brimtoad",
      "level": [
       22,
       24
@@ -2252,7 +2252,7 @@
      "spread": "tod"
     },
     {
-     "species": "northling",
+     "species": "belfrydove",
      "level": [
       22,
       24
@@ -3593,7 +3593,7 @@
      "spread": "tod"
     },
     {
-     "species": "kilnpaw",
+     "species": "northling",
      "level": [
       39,
       40
@@ -3608,7 +3608,7 @@
      "spread": "tod"
     },
     {
-     "species": "reedcrane",
+     "species": "kilnpaw",
      "level": [
       39,
       40

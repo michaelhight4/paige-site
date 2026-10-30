@@ -312,16 +312,16 @@
     {
      "species": "tumbloam",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 30
     },
     {
      "species": "sailquill",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 30,
      "time": [
@@ -333,8 +333,8 @@
     {
      "species": "gloamtick",
      "level": [
-      36,
-      36
+      3,
+      4
      ],
      "weight": 15,
      "time": [
@@ -345,8 +345,8 @@
     {
      "species": "halovy",
      "level": [
-      36,
-      36
+      3,
+      4
      ],
      "weight": 2,
      "time": [
@@ -356,8 +356,8 @@
     {
      "species": "rillop",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 18,
      "weather": [
@@ -369,16 +369,16 @@
     {
      "species": "burlbeetle",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 20
     },
     {
      "species": "peeplark",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "sync_added": true,
@@ -387,8 +387,8 @@
     {
      "species": "pebbadillo",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "sync_added": true,
@@ -398,8 +398,8 @@
     {
      "species": "dewmite",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "sync_added": true,
@@ -408,8 +408,8 @@
     {
      "species": "cloverkin",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "sync_added": true,
@@ -418,8 +418,8 @@
     {
      "species": "hushowl",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 2,
      "sync_added": true,
@@ -428,8 +428,8 @@
     {
      "species": "mumblet",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 2,
      "sync_added": true,
@@ -438,8 +438,8 @@
     {
      "species": "thistlepup",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "sync_added": true,
@@ -448,8 +448,8 @@
     {
      "species": "puffwhirl",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "sync_added": true,
@@ -458,8 +458,8 @@
     {
      "species": "pebblant",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "sync_added": true,
@@ -468,8 +468,8 @@
     {
      "species": "glintfly",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 2,
      "sync_added": true,
@@ -478,8 +478,8 @@
     {
      "species": "flickermole",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 2,
      "sync_added": true,
@@ -488,8 +488,8 @@
     {
      "species": "mossmote",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "cute_r1": true,
@@ -498,8 +498,8 @@
     {
      "species": "drizzlebill",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "cute_r1": true,
@@ -508,8 +508,8 @@
     {
      "species": "buoyling",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "cute_r1": true,
@@ -518,8 +518,8 @@
     {
      "species": "pandember",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "cute_r1": true,
@@ -528,8 +528,8 @@
     {
      "species": "gladlet",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 2,
      "time": [
@@ -542,8 +542,8 @@
     {
      "species": "lumoris",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 2,
      "time": [
@@ -556,27 +556,27 @@
     {
      "species": "jestrix",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 4,
      "rarity": "uncommon",
      "note": "Jestrix line: base form only in the wild; Japkit/Harlequop/Mummerhop/Maestrix come only from evolving (Oct 29 2026)"
     },
     {
-     "species": "bramblehog",
+     "species": "briarlet",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
-     "weight": 21,
+     "weight": 31,
      "spread": "habitat"
     },
     {
      "species": "mufflynx",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -588,8 +588,8 @@
     {
      "species": "cavernwing",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -601,8 +601,8 @@
     {
      "species": "prismwing",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -612,10 +612,10 @@
      "spread": "tod"
     },
     {
-     "species": "lavalurk",
+     "species": "capling",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -627,10 +627,10 @@
      "spread": "tod"
     },
     {
-     "species": "brimtoad",
+     "species": "lavalurk",
      "level": [
-      36,
-      36
+      2,
+      4
      ],
      "weight": 10,
      "time": [
@@ -649,8 +649,8 @@
    "source": "art/world/overworld/encounters/encounters.json",
    "cap": {
     "level": [
-     36,
-     36
+     2,
+     4
     ],
     "first_stage_only": true,
     "why": "Route 1 cap L2-4, first-stage only (Gary 11:42 AM CT Oct 23 2026)",
@@ -2049,7 +2049,7 @@
      "spread": "tod"
     },
     {
-     "species": "capling",
+     "species": "hushpine",
      "level": [
       12,
       16
@@ -2064,7 +2064,7 @@
      "spread": "tod"
     },
     {
-     "species": "hushpine",
+     "species": "reedcrane",
      "level": [
       12,
       16
@@ -3179,7 +3179,7 @@
      "spread": "tod"
     },
     {
-     "species": "belfrydove",
+     "species": "brimtoad",
      "level": [
       22,
       24
@@ -3194,7 +3194,7 @@
      "spread": "tod"
     },
     {
-     "species": "northling",
+     "species": "belfrydove",
      "level": [
       22,
       24
@@ -4687,7 +4687,7 @@
      "spread": "tod"
     },
     {
-     "species": "kilnpaw",
+     "species": "northling",
      "level": [
       39,
       40
@@ -4702,7 +4702,7 @@
      "spread": "tod"
     },
     {
-     "species": "reedcrane",
+     "species": "kilnpaw",
      "level": [
       39,
       40

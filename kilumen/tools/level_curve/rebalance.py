@@ -79,7 +79,7 @@ def wild(o, ri, kind='wild'):
     for v in o: wild(v, ri, kind)
 for p, path in [('art/world/overworld/encounters/encounters.json', 'zones'), ('data/encounters_wired.json', 'zones'), ('data/terrain_encounters.json', 'water'), ('data/terrain_encounters.json', 'cave')]:
   d = json.load(open(p))
-  for z, v in d[path].items(): wild(v, region(z))  # spread slots are regenerated after: node tools/encounters/habitat_spread.mjs
+  for z, v in d[path].items(): wild(v, region(((v.get('maps') or [z]) if isinstance(v, dict) else [z])[0]))  # classify by the map served, not the legacy zone id (sunmeadow_grass serves route1)  # spread slots are regenerated after: node tools/encounters/habitat_spread.mjs
   open(p, 'w').write(json.dumps(d, indent=1, ensure_ascii=False) + '\n')
 p = 'data/fishing_tables.json'; d = json.load(open(p))
 for z, v in d['maps'].items(): wild(v.get('basic'), region(z)); wild({k: v[k] for k in v if k != 'basic'}, None, 'wild_rod')  # good/super rods: late items, cap only
