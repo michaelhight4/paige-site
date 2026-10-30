@@ -95,13 +95,15 @@ def main():
                     near2 = any(0 <= i + a < S and 0 <= j + b < S and not mk[j + b][i + a] for a, b in ((2, 0), (-2, 0), (0, 2), (0, -2)))
                     P[i, j] = LIP1 if near else (LIP2 if near2 else N[i, j])     # clean two-pixel snow lip, then plain snow
             masks[(x, y)] = mk; L['ground'][y][x] = (im, g)
-    FACE = [(214, 226, 238), (92, 98, 120), (70, 74, 96), (62, 64, 86), (56, 58, 80), (52, 52, 74), (48, 48, 70), (44, 44, 64), (40, 40, 58), (38, 38, 56), (38, 38, 56), (36, 36, 54), (36, 36, 54), (40, 42, 62), (52, 56, 78), (84, 92, 116)]
+    FACE = [(214, 226, 238), (92, 98, 120), (70, 74, 96), (62, 64, 86), (56, 58, 80), (52, 52, 74), (48, 48, 70), (44, 44, 64), (40, 40, 58), (38, 38, 56), (38, 38, 56), (36, 36, 54), (36, 36, 54), (34, 34, 52), (34, 34, 52), (34, 34, 52), (36, 36, 54), (36, 36, 54), (38, 38, 56), (38, 40, 58), (40, 42, 62), (52, 56, 78), (84, 92, 116)]
     def face(im, top_rows):  # top_rows[i] = y where snow starts under cobble in column i (or None)
         P = im.load()
         for i, y0 in enumerate(top_rows):
             if y0 is None: continue
-            for k, c in enumerate(FACE):
+            y0, k0 = y0 if isinstance(y0, tuple) else (y0, 0)
+            for k, c in enumerate(FACE[k0:]):
                 if y0 + k < S: P[i, y0 + k] = c + (255,)
+    over = {}
     for (x, y), mk in masks.items():
         im, g = L['ground'][y][x]
         tops = []
@@ -110,10 +112,19 @@ def main():
             for j in range(1, S):
                 if mk[j][i] and not mk[j - 1][i] and all(mk[jj][i] for jj in range(j, min(S, j + 6))): t = j; break
             tops.append(t)
+        for i in range(S):  # one-column snow-lip slits in a run of face: close them from the neighbour
+            if tops[i] is None and 0 < i < S - 1 and tops[i - 1] is not None and tops[i + 1] is not None: tops[i] = tops[i - 1]
+        for i in range(1, S - 1):
+            if tops[i] is None and tops[i - 1] is not None and any(tops[k] is not None for k in range(i + 1, min(S, i + 12))): tops[i] = tops[i - 1]
         face(im, tops)
         L['ground'][y][x] = add(im, g, 'ws_path_snow')
+        spill = [((0, S - t) if t is not None and S - t < len(FACE) else None) for t in tops]  # face cut by the tile bottom: finish it below
+        if y + 1 < H and (x, y + 1) not in masks and not cob0(x, y + 1) and any(spill):
+            over[(x, y + 1)] = spill
+    for (x, y), sp in over.items():
+        g = L['ground'][y][x]; im = crop(T[g]); face(im, sp); L['ground'][y][x] = add(im, g, 'ws_ledge_face')
     for (x, y), mk in masks.items():  # cobble reaching the tile bottom over plain snow: start the face in the cell below
-        if y + 1 < H and (x, y + 1) not in masks and not cob0(x, y + 1) and any(not mk[S - 1][i] for i in range(S)):
+        if y + 1 < H and (x, y + 1) not in masks and (x, y + 1) not in over and not cob0(x, y + 1) and any(not mk[S - 1][i] for i in range(S)):
             g = L['ground'][y + 1][x]; im = crop(T[g]); face(im, [0 if not mk[S - 1][i] else None for i in range(S)])
             L['ground'][y + 1][x] = add(im, g, 'ws_ledge_face')
     sheet = Image.new('RGBA', (COLS * S, ((len(new) + COLS - 1) // COLS) * S), (0, 0, 0, 0))

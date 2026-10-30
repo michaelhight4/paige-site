@@ -26560,7 +26560,7 @@
    "collision": "walk",
    "collision_code": 0,
    "encounter": false,
-   "polish_of": 901
+   "polish_of": 899
   },
   {
    "id": 12672,
@@ -26574,7 +26574,7 @@
    "collision": "walk",
    "collision_code": 0,
    "encounter": false,
-   "polish_of": 901
+   "polish_of": 900
   },
   {
    "id": 12673,
@@ -26584,21 +26584,11 @@
    "index": 253,
    "col": 13,
    "row": 15,
-   "walkable": false,
-   "collision": "water",
-   "collision_code": 3,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
    "encounter": false,
-   "animation": {
-    "frames": [
-     1022,
-     1023,
-     1024,
-     1025
-    ],
-    "frame_ms": 220,
-    "loop": true
-   },
-   "polish_of": 1511
+   "polish_of": 901
   },
   {
    "id": 12674,
@@ -26607,6 +26597,20 @@
    "sheet": "tiles_1x/wellspire_polish.png",
    "index": 254,
    "col": 14,
+   "row": 15,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "polish_of": 901
+  },
+  {
+   "id": 12675,
+   "name": "ws_ledge_face_255",
+   "category": "wellspire_polish",
+   "sheet": "tiles_1x/wellspire_polish.png",
+   "index": 255,
+   "col": 15,
    "row": 15,
    "walkable": false,
    "collision": "water",
@@ -26623,20 +26627,6 @@
     "loop": true
    },
    "polish_of": 1408
-  },
-  {
-   "id": 12675,
-   "name": "ws_ledge_face_255",
-   "category": "wellspire_polish",
-   "sheet": "tiles_1x/wellspire_polish.png",
-   "index": 255,
-   "col": 15,
-   "row": 15,
-   "walkable": true,
-   "collision": "walk",
-   "collision_code": 0,
-   "encounter": false,
-   "polish_of": 899
   },
   {
    "id": 12676,
@@ -26664,7 +26654,7 @@
    "collision": "walk",
    "collision_code": 0,
    "encounter": false,
-   "polish_of": 900
+   "polish_of": 899
   },
   {
    "id": 12678,
@@ -26678,7 +26668,7 @@
    "collision": "walk",
    "collision_code": 0,
    "encounter": false,
-   "polish_of": 898
+   "polish_of": 900
   },
   {
    "id": 12679,
@@ -26695,20 +26685,114 @@
    "polish_of": 898
   },
   {
+   "id": 12680,
+   "name": "ws_ledge_face_260",
+   "category": "wellspire_polish",
+   "sheet": "tiles_1x/wellspire_polish.png",
+   "index": 260,
+   "col": 4,
+   "row": 16,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "polish_of": 900
+  },
+  {
+   "id": 12681,
+   "name": "ws_ledge_face_261",
+   "category": "wellspire_polish",
+   "sheet": "tiles_1x/wellspire_polish.png",
+   "index": 261,
+   "col": 5,
+   "row": 16,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "polish_of": 900
+  },
+  {
+   "id": 12682,
+   "name": "ws_ledge_face_262",
+   "category": "wellspire_polish",
+   "sheet": "tiles_1x/wellspire_polish.png",
+   "index": 262,
+   "col": 6,
+   "row": 16,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "polish_of": 898
+  },
+  {
+   "id": 12683,
+   "name": "ws_ledge_face_263",
+   "category": "wellspire_polish",
+   "sheet": "tiles_1x/wellspire_polish.png",
+   "index": 263,
+   "col": 7,
+   "row": 16,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "polish_of": 898
+  },
+  {
+   "id": 12684,
+   "name": "ws_ledge_face_264",
+   "category": "wellspire_polish",
+   "sheet": "tiles_1x/wellspire_polish.png",
+   "index": 264,
+   "col": 8,
+   "row": 16,
+   "walkable": true,
+   "collision": "walk",
+   "collision_code": 0,
+   "encounter": false,
+   "polish_of": 901
+  },
+  {
    "category": "wellspire_polish",
    "walkable": true,
    "collision": "walk",
    "collision_code": 0,
    "encounter": false,
-   "id": 12680,
-   "name": "ws_ledge_face_260",
+   "id": 12685,
+   "name": "ws_ledge_face_265",
    "sheet": "tiles_1x/wellspire_polish.png",
-   "index": 260,
-   "col": 4,
+   "index": 265,
+   "col": 9,
    "row": 16,
    "src": "r4v6",
    "notes": "v6 Frostspire Pass snowline (snow N, thawed grass S)",
    "polish_of": 5697
+  },
+  {
+   "id": 12686,
+   "name": "ws_ledge_face_266",
+   "category": "wellspire_polish",
+   "sheet": "tiles_1x/wellspire_polish.png",
+   "index": 266,
+   "col": 10,
+   "row": 16,
+   "walkable": false,
+   "collision": "water",
+   "collision_code": 3,
+   "encounter": false,
+   "animation": {
+    "frames": [
+     1022,
+     1023,
+     1024,
+     1025
+    ],
+    "frame_ms": 220,
+    "loop": true
+   },
+   "polish_of": 1511
   }
  ]
 }

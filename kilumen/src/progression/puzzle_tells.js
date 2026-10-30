@@ -199,13 +199,10 @@ export function drawTells(ctx, v, ops, fx = [], t = 0) {
       const n = Math.min(6, o.lamps || 1), r = Math.max(1.5, z * 1.5), gap = S / (n + 1);
       for (let i = 0; i < n; i++) { ctx.beginPath(); ctx.arc(X + gap * (i + 1), Y + r + z, r, 0, Math.PI * 2); ctx.fillStyle = i < (o.lit || 0) ? '#ffe36b' : '#3a3440'; ctx.fill(); ctx.strokeStyle = '#000'; ctx.stroke(); }
     } else if (o.k === 'pillar') { // stop-pillar tell: frost corner brackets in the art's own palette (Director art QA Oct 30: the full red frame read as a debug outline)
-      const L = S * 0.28, i = z * 2, w = Math.max(1, z * 1.5);
-      const corners = (inset) => { ctx.beginPath();
-        for (const [ax, ay, dx, dy] of [[X + inset, Y + inset, 1, 1], [X + S - inset, Y + inset, -1, 1], [X + inset, Y + S - inset, 1, -1], [X + S - inset, Y + S - inset, -1, -1]]) {
-          ctx.moveTo(ax + dx * L, ay); ctx.lineTo(ax, ay); ctx.lineTo(ax, ay + dy * L); }
-        ctx.stroke(); };
-      ctx.globalAlpha = 0.85; ctx.strokeStyle = '#1d3446'; ctx.lineWidth = w + z * 1.5; corners(i);
-      ctx.globalAlpha = 0.95; ctx.strokeStyle = '#cfeeff'; ctx.lineWidth = w; corners(i); ctx.lineWidth = Math.max(1, z);
+      // v2 (Director #17/#18 follow-up): no outline at all (corner brackets still read as tile seams on wall rows): a small frost glint
+      const r = Math.max(1, Math.round(z * 1.5)), cx = Math.round(X + S / 2), cy = Math.round(Y + S * 0.22);
+      ctx.globalAlpha = 0.9; ctx.fillStyle = '#cfeeff'; ctx.fillRect(cx - r * 2, cy - Math.floor(r / 2), r * 4, r); ctx.fillRect(cx - Math.floor(r / 2), cy - r * 2, r, r * 4);
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(cx - Math.floor(r / 2), cy - Math.floor(r / 2), r, r);
     } else if (o.k === 'brush') {
       ctx.globalAlpha = 0.8; ctx.strokeStyle = '#d6ff7a';
       for (let i = 1; i < 4; i++) { ctx.beginPath(); ctx.moveTo(X + (S * i) / 4, Y + S * 0.15); ctx.lineTo(X + (S * i) / 4 - S * 0.12, Y + S * 0.5); ctx.lineTo(X + (S * i) / 4, Y + S * 0.85); ctx.stroke(); }

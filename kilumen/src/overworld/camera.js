@@ -26,7 +26,10 @@ export function pinSlackPx(rules, ctx) {
  * edge is simply left blank (the renderer's black clear): no edge tiles, no padding. Without alwaysCentre:
  * display.outsideMap as before (mobile 'edge' around short maps, pc undefined = black).
  */
+/** Gym master halls (merged hall_overhaul maps): the edge tiles run on past the map instead of black. */
+export const MASTER_HALL = /^(cindervale|lanternport|mirefen|tidewater)_hall_int$/;
 export function outsideFillFor(rules, display, mapName, indoor) {
+  if (MASTER_HALL.test(mapName || '')) return 'edge'; // Director art QA #18 (Oct 30, 2026): no black bands round the merged master halls
   if (rules?.alwaysCentre === true) return undefined;
   return display?.outsideMap;
 }

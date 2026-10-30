@@ -27,7 +27,7 @@ def render(m, released=False):
             for x, i in enumerate(r):
                 if i and (ti := tile(i)) is not None: im.alpha_composite(ti, (x * T, y * T))
     d = ImageDraw.Draw(im)
-    for n in m.get('npcs', []): d.rectangle((n['x'] * T + 6, n['y'] * T + 6, n['x'] * T + T - 7, n['y'] * T + T - 7), outline=(255, 80, 80), width=2)
+    for n in m.get('npcs', []): d.ellipse((n['x'] * T + T // 2 - 5, n['y'] * T + T - 14, n['x'] * T + T // 2 + 5, n['y'] * T + T - 4), fill=(24, 28, 44, 200), outline=(207, 238, 255), width=1)  # NPC foot pin (Director #17: no red debug frames)
     return im
 maps = sorted(f[:-5] for f in os.listdir(os.path.join(OW, 'maps')) if f.startswith('fin_past_wlab_'))
 imgs = [(n, render(json.load(open(os.path.join(OW, 'maps', n + '.json'))))) for n in maps]

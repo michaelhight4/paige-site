@@ -30,7 +30,7 @@ const QUIET = "const {LAB_IDS}=await import('/src/region9/index.js?v=v0.2.93-alp
 const STAGE = process.env.STAGE || 'after';
 const VIEWS = [
   ['lab01_entry', 'fin_past_wlab_01_entry', 5, 7], ['lab04_tanks', 'fin_past_wlab_04_tanks', 8, 7], ['lab06_growth', 'fin_past_wlab_06_growth', 7, 7],
-  ['lab07_vats', 'fin_past_wlab_07_vats', 8, 9], ['lab10_ondravel', 'fin_past_wlab_10_ondravel', 7, 9], ['ondravel_lab1_now', 'fin_lab1_now', 12, 10],
+  ['lab07_vats', 'fin_past_wlab_07_vats', 8, 9], ['lab10_ondravel', 'fin_past_wlab_10_ondravel', 7, 9],  ['lab10_desk', 'fin_past_wlab_10_ondravel', 4, 10], ['ondravel_lab1_now', 'fin_lab1_now', 12, 10],
   ['master_cindervale', 'cindervale_hall_int', 12, 4], ['master_lanternport', 'lanternport_hall_int', 11, 3], ['master_mirefen', 'mirefen_hall_int', 9, 4], ['master_tidewater', 'tidewater_hall_int', 10, 4],
   ['switchbacks_ledge', 'r9_switchbacks', 24, 29], ['switchbacks_upper', 'r9_switchbacks', 24, 16], ['cloudway', 'r9_cloudway', 11, 8],
 ].map(([t, m, x, y]) => [`${t}_${STAGE}`, m, x, y, [], 'js:900:0:' + QUIET]);
@@ -39,7 +39,7 @@ const browser = await chromium.launch(); const report = [];
 try {
   for (const p of PROFILES) {
     const ctx = await browser.newContext({ viewport: { width: p.w, height: p.h }, deviceScaleFactor: p.dpr, hasTouch: p.touch, isMobile: p.touch });
-    const page = await ctx.newPage(); await page.addInitScript(() => { try { localStorage.setItem('kilumen_alpha_notice_seen.v1', '1'); } catch {} });
+    const page = await ctx.newPage(); await page.route('**/playtime.js*', (r) => r.fulfill({ path: path.join(path.dirname(ROOT), 'playtime.js'), contentType: 'text/javascript' })); /* lives at the site root in production */ await page.addInitScript(() => { try { localStorage.setItem('kilumen_alpha_notice_seen.v1', '1'); } catch {} });
     const errors = [], shots = []; page.on('response', (r) => { if (r.status() === 404) errors.push('404 ' + r.url().replace(/^.*?:\d+/, '')); }); page.on('pageerror', (e) => errors.push(String(e)));
     page.on('console', (m) => { if (m.type() === 'error' && !/playtime\.js|icon_f0|icon_f1/.test((m.location()?.url || '') + m.text())) errors.push(m.text()); });
     try {
