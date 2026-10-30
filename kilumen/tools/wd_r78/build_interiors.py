@@ -92,7 +92,7 @@ def room(*a, **k):
 # ---------------- LANTERNPORT (harbour / lighthouse) ----------------
 L = 'lanternport'
 r = room('heal_lanternport', 'Revival Tech Lanternport branch', 13, 9, 'rtbranch', 'rtbranch', {1, 11}, (6, 0, 'rtbranch'), L, (15, 21), 'heal', 71)
-r.put('i_rt_poster_care', 3, 1).put('i_crystal_polisher', 5, 1).put('i_net', 8, 1).put('i_staffdoor_locked', 10, 1).put('i_rt_poster_safety', 12, 1)
+r.put('i_poster_care', 3, 1).put('i_crystal_polisher', 5, 1).put('i_net', 8, 1).put('i_staffdoor_locked', 10, 1).put('i_poster_safety', 12, 1)
 r.put('i_counter_rt_l', 4, 4).put('i_counter_rt_m', 5, 4).put('i_counter_rt_m', 6, 4).put('i_counter_rt_m', 7, 4).put('i_counter_rt_r', 8, 4)
 r.put('i_anchor', 0, 3).put('i_suggestion_box', 2, 3).put('i_newsletter_rack', 8, 3).put('i_company_terminal', 12, 4)
 r.put('i_lantern_stand', 0, 5).put('i_sofa_lantern', 1, 7).put('i_table_small_lantern', 3, 7).put('i_plant_coral', 12, 8).put('i_ship_wheel', 12, 6)
@@ -166,7 +166,7 @@ r.spot('trophy_case', 9, 3, (9, 5), 'up', 'i_trophy_case', 'regatta cups and a f
 # ---------------- CINDERVALE (forge / ore) ----------------
 C = 'cindervale'
 r = room('heal_cindervale', 'Revival Tech Cindervale branch', 13, 9, 'rtbranch', 'rtbranch', {4, 11}, (6, 0, 'rtbranch'), C, (15, 21), 'heal', 81)
-r.put('i_staffdoor_locked', 2, 1).put('i_rt_poster_safety', 4, 1).put('i_crystal_polisher', 7, 1).put('i_rt_poster_care', 10, 1).put('i_locker', 12, 1)
+r.put('i_staffdoor_locked', 2, 1).put('i_poster_safety', 4, 1).put('i_crystal_polisher', 7, 1).put('i_poster_care', 10, 1).put('i_locker', 12, 1)
 r.put('i_counter_rt_l', 4, 4).put('i_counter_rt_m', 5, 4).put('i_counter_rt_m', 6, 4).put('i_counter_rt_m', 7, 4).put('i_counter_rt_r', 8, 4)
 r.put('i_suggestion_box', 0, 3).put('i_newsletter_rack', 10, 3).put('i_company_terminal', 0, 5).put('i_crystal_crate', 12, 3)
 r.put('i_pillar_basalt', 12, 5).put('i_sofa_cinder', 9, 7).put('i_table_small_cinder', 8, 7).put('i_plant_succulent', 0, 8).put('i_plant_succulent', 12, 8)
