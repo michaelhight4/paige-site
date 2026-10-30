@@ -55,5 +55,47 @@ export const CAVE_POCKET_TEAMS = {
    "species": "peakbrute",
    "level": 63
   }
+ ],
+ "r9_icefall.r9_ifp_rimer": [
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "seraphawk",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  }
+ ],
+ "fin_summit_camp.r9_fscp_lookout": [
+  {
+   "species": "stratodrake",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "geodurchin",
+   "level": 63
+  }
+ ],
+ "fin_summit_camp.r9_fscp_keeper": [
+  {
+   "species": "ingotitan",
+   "level": 63
+  },
+  {
+   "species": "shagmount",
+   "level": 63
+  },
+  {
+   "species": "cairnhorn",
+   "level": 63
+  }
  ]
 };

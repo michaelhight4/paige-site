@@ -18,5 +18,6 @@ POCKETS = [
  P(M,'sw_pocket_southwest','r9_switchbacks_cave_sw','Low Draught',[[12,46,25,47]],[14,24,48],[[x,49] for x in range(14,30)],[23,39],[13,45],
    T('r9_swp_warden',20,46,'Trail Warden','Ilse',['stratodrake','cragmont','peakbrute'],'You found the warden hut. Most climbers walk right past it.','You climb like you fight. Fast.','The ledge drops you onto the south trail.'),
    E('r9_swp_egg_log',25,46,'a frozen trail log book','The trail log. Last entry: Day 40. The view is still great. Snacks are not.'),
-   dict(id='r9_swp_crystal_sw',x=14,y=47,item='dominance_crystal_plus'),'A trail warden with a hidden hut below the switchbacks; story spot for the old trail log.'),
+   dict(id='r9_swp_crystal_sw',x=14,y=47,item='dominance_crystal_plus'),'A trail warden with a hidden hut below the switchbacks; story spot for the old trail log.',
+   map_items=[{'id': 'r9_swp_seed_visible', 'x': 18, 'y': 47, 'item': 'vigor_seed', 'hidden': False}]),  # R6: seen from the trail above
 ]

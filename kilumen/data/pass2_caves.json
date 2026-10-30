@@ -438,7 +438,335 @@
     "y": 47,
     "item": "dominance_crystal_plus"
    },
-   "premise": "A trail warden with a hidden hut below the switchbacks; story spot for the old trail log."
+   "premise": "A trail warden with a hidden hut below the switchbacks; story spot for the old trail log.",
+   "map_items": [
+    {
+     "id": "r9_swp_seed_visible",
+     "x": 18,
+     "y": 47,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "if_pocket_gallery",
+   "map": "r9_icefall",
+   "cave": "r9_icefall_cave_n",
+   "cave_title": "Rime Gallery",
+   "floor": [
+    [
+     10,
+     1,
+     17,
+     3
+    ]
+   ],
+   "ledge": [
+    11,
+    16,
+    4
+   ],
+   "walk": [],
+   "mouth": [
+    13,
+    10
+   ],
+   "pocket_door": [
+    14,
+    1
+   ],
+   "main_start": [
+    15,
+    18
+   ],
+   "floor_tile_at": null,
+   "floor_tiles": [
+    29,
+    30,
+    31,
+    32
+   ],
+   "gate": {
+    "in": "cave r9_icefall_cave_n",
+    "out": "one-way ledge at y4 x11-16",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_ifp_rimer",
+    "x": 11,
+    "y": 2,
+    "level": 63,
+    "class": "Ice Cutter",
+    "name": "Maren",
+    "species": [
+     "cragmont",
+     "seraphawk",
+     "galespar"
+    ],
+    "intro": [
+     "DRAFT: The falls freeze from the top down. Up here is where it starts."
+    ],
+    "lost": [
+     "DRAFT: The ice cracked first. Then me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge. The shelf below takes you back."
+    ]
+   },
+   "egg": {
+    "id": "r9_ifp_egg_sculpture",
+    "x": 17,
+    "y": 1,
+    "what": "an ice sculpture of a tiny Kilu",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tiny Kilu carved in ice. Someone gave it a scarf made of real wool."
+    ]
+   },
+   "item": {
+    "id": "r9_ifp_crystal",
+    "x": 10,
+    "y": 3,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "An ice cutter who works the frozen top of the falls; a Prime Crystal is frozen in the gallery floor.",
+   "map_items": [
+    {
+     "id": "r9_ifp_seed_visible",
+     "x": 16,
+     "y": 3,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "fsc_pocket_crack",
+   "map": "fin_summit_camp",
+   "cave": "r9_icefall",
+   "cave_title": "Icefall Crack",
+   "floor": [
+    [
+     20,
+     1,
+     29,
+     2
+    ]
+   ],
+   "ledge": [
+    21,
+    28,
+    3
+   ],
+   "walk": [],
+   "mouth": null,
+   "pocket_door": [
+    25,
+    1
+   ],
+   "main_start": [
+    16,
+    22
+   ],
+   "floor_tile_at": null,
+   "floor_tiles": [
+    29,
+    30,
+    31,
+    32
+   ],
+   "gate": {
+    "in": "cave r9_icefall",
+    "out": "one-way ledge at y3 x21-28",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_fscp_lookout",
+    "x": 21,
+    "y": 1,
+    "level": 63,
+    "class": "Mountaineer",
+    "name": "Tove",
+    "species": [
+     "stratodrake",
+     "cragmont",
+     "geodurchin"
+    ],
+    "intro": [
+     "DRAFT: You came up through the falls? Then you earned the view."
+    ],
+    "lost": [
+     "DRAFT: Fair. The view is yours too now."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you right into camp."
+    ]
+   },
+   "egg": {
+    "id": "r9_fscp_egg_flag",
+    "x": 29,
+    "y": 1,
+    "what": "a tiny flag stuck in the ice",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tiny flag in the ice. It says: FIRST UP. Under it, smaller: SECOND UP."
+    ]
+   },
+   "item": {
+    "id": "r9_fscp_seed",
+    "x": 20,
+    "y": 2,
+    "item": "vigor_seed"
+   },
+   "premise": "A lookout who climbs the frozen falls for the view over camp; a Vigor Seed is tucked in the ice.",
+   "existing_cave": {
+    "crack": [
+     19,
+     8
+    ],
+    "land": [
+     20,
+     8
+    ]
+   },
+   "map_rocks": [
+    [
+     14,
+     8
+    ],
+    [
+     26,
+     8
+    ],
+    [
+     7,
+     15
+    ],
+    [
+     17,
+     13
+    ],
+    [
+     25,
+     16
+    ]
+   ],
+   "map_cells": [
+    {
+     "x": 8,
+     "y": 4,
+     "g": 29,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "fin_sc_ne_mix",
+     "x": 30,
+     "y": 4,
+     "item": "trail_mix"
+    },
+    {
+     "id": "fin_sc_sw_tea",
+     "x": 3,
+     "y": 18,
+     "item": "calm_tea"
+    }
+   ]
+  },
+  {
+   "id": "fsc_pocket_cellar",
+   "map": "fin_summit_camp",
+   "cave": "fin_summit_camp_cave",
+   "cave_title": "Spire Cellar",
+   "floor": [
+    [
+     4,
+     1,
+     14,
+     2
+    ]
+   ],
+   "ledge": [
+    9,
+    12,
+    3
+   ],
+   "walk": [],
+   "mouth": [
+    16,
+    11
+   ],
+   "pocket_door": [
+    6,
+    1
+   ],
+   "main_start": [
+    16,
+    22
+   ],
+   "floor_tile_at": null,
+   "floor_tiles": [
+    29,
+    30,
+    31,
+    32
+   ],
+   "gate": {
+    "in": "cave fin_summit_camp_cave",
+    "out": "one-way ledge at y3 x9-12",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_fscp_keeper",
+    "x": 13,
+    "y": 1,
+    "level": 63,
+    "class": "Hermit",
+    "name": "Aldo",
+    "species": [
+     "ingotitan",
+     "shagmount",
+     "cairnhorn"
+    ],
+    "intro": [
+     "DRAFT: The spire has a cellar. Nobody asks what is in it. You did."
+    ],
+    "lost": [
+     "DRAFT: All right. It is mostly rocks. And me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge. The camp is right there."
+    ]
+   },
+   "egg": {
+    "id": "r9_fscp_egg_boots",
+    "x": 4,
+    "y": 1,
+    "what": "a row of tiny boots",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A row of tiny boots, smallest to biggest. The last pair is missing. Someone is still out there climbing."
+    ]
+   },
+   "item": {
+    "id": "r9_fscp_crystal",
+    "x": 14,
+    "y": 2,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A hermit who keeps the cellar under the spire; a Prime Crystal sits at the back.",
+   "map_items": [
+    {
+     "id": "fin_sc_cellar_seed",
+     "x": 10,
+     "y": 2,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
   }
  ]
 }

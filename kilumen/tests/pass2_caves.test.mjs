@@ -36,7 +36,7 @@ for (const p of SPEC.pockets) {
     const pc = cells(p).filter((k) => { const [x, y] = k.split(',').map(Number); return PASS.has(col[y][x]); });
     assert.ok(pc.length >= 6, 'pocket has floor');
     // main path = on foot from the map start, plus older one-way shelves entered from another map's door (e.g. icefall's)
-    const caves = new Set(SPEC.pockets.map((q) => q.cave));
+    const caves = new Set(SPEC.pockets.filter((q) => q.map === p.map).map((q) => q.cave));
     const seeds = [p.main_start, ...m.warps.filter((w) => w.reached_via && !caves.has(w.reached_via)).flatMap((w) => N4.map(([dx, dy]) => [w.x + dx, w.y + dy]).filter(([x, y]) => PASS.has(col[y]?.[x])).slice(0, 1))];
     const main = reach(m, seeds); const mainSkills = reach(m, seeds, true);
     assert.ok(main.has(p.main_start.join(',')));
@@ -48,10 +48,12 @@ for (const p of SPEC.pockets) {
     assert.ok(toMain.length >= 1, 'cave exit onto the main path'); assert.ok(toPocket.length >= 1, 'cave side exit into the pocket');
     assert.ok(!mainSkills.has(`${toPocket[0].tx},${toPocket[0].ty}`) || p.gate.skill, 'only a named skill gate may open the pocket');
     // inside the cave the two exits are connected
-    const cw = reach(cave, [[toMain[0].x, toMain[0].y - 1]]);
-    assert.ok(cw.has(`${toPocket[0].x},${toPocket[0].y}`), 'cave links main mouth to pocket exit');
     // the main path reaches the cave mouth, and the pocket door leads back into the cave
     const mouth = m.warps.find((w) => w.to === p.cave && !w.reached_via); assert.ok(mouth && main.has(`${mouth.x},${mouth.y}`), 'cave mouth on the main path');
+    // inside the cave the mouth landing reaches the pocket exit (puzzle gates such as gate_cave_closed 894 count as opened later)
+    const cv = { ...cave, layers: { ...cave.layers, collision: cave.layers.collision.map((r, y) => r.map((v, x) => (cave.layers.decoration?.[y]?.[x] === 894 ? 0 : v))) } };
+    const cw = reach(cv, [[mouth.tx, mouth.ty]]);
+    assert.ok(cw.has(`${toPocket[0].x},${toPocket[0].y}`), 'cave links main mouth to pocket exit');
     const door = m.warps.find((w) => w.to === p.cave && w.reached_via === p.cave); assert.ok(door, 'pocket door back into the cave');
     // with the cave: whole pocket reachable, and you can leave it on foot (ledge) back to the main path
     const inside = reach(m, [[toPocket[0].tx, toPocket[0].ty]]);
@@ -65,5 +67,15 @@ for (const p of SPEC.pockets) {
     const it = (m.items || []).find((i) => i.pocket === p.id); assert.ok(it?.hidden && /vigor_seed|dominance_crystal_plus/.test(it.item) && pc.includes(`${it.x},${it.y}`), 'hidden strong item');
     const lines = JSON.parse(fs.readFileSync(new URL('../data/pass2_caves_fallback.json', import.meta.url))).maps[p.map];
     assert.ok(lines[tr.id]?.battle_lost && lines[egg.id]?.pages?.length, 'placeholder lines for trainer and egg');
+  });
+}
+
+// R6 (layering_rules): every pass 2 map shows one strong item in plain sight that the main path can't reach (a pocket)
+for (const mapName of [...new Set(SPEC.pockets.map((p) => p.map))]) {
+  test(`${mapName}: a visible strong item sits in a sealed pocket (R6)`, () => {
+    const m = load(mapName); const ps = SPEC.pockets.filter((p) => p.map === mapName);
+    const pc = new Set(ps.flatMap(cells));
+    const vis = (m.items || []).filter((i) => !i.hidden && /vigor_seed|dominance_crystal_plus/.test(i.item) && pc.has(`${i.x},${i.y}`));
+    assert.ok(vis.length >= 1, 'visible-but-unreachable strong item');
   });
 }

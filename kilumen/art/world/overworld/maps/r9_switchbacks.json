@@ -16059,6 +16059,14 @@
    "pocket": "sw_pocket_east"
   },
   {
+   "id": "r9_swp_seed_visible",
+   "x": 18,
+   "y": 47,
+   "hidden": false,
+   "item": "vigor_seed",
+   "flag": "item_r9_switchbacks_r9_swp_seed_visible"
+  },
+  {
    "id": "r9_swp_crystal_sw",
    "x": 14,
    "y": 47,

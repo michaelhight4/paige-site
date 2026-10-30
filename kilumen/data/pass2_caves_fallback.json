@@ -114,6 +114,86 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "r9_icefall": {
+   "r9_ifp_rimer": {
+    "pages": [
+     "DRAFT: The falls freeze from the top down. Up here is where it starts."
+    ],
+    "battle_lost": [
+     "DRAFT: The ice cracked first. Then me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge. The shelf below takes you back."
+    ],
+    "trainer_class": "Ice Cutter",
+    "name": "Maren",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_ifp_egg_sculpture": {
+    "pages": [
+     "DRAFT: A tiny Kilu carved in ice. Someone gave it a scarf made of real wool."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "r9_icefall_cave_n": {
+   "area_name": {
+    "pages": [
+     "Rime Gallery"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_summit_camp": {
+   "r9_fscp_lookout": {
+    "pages": [
+     "DRAFT: You came up through the falls? Then you earned the view."
+    ],
+    "battle_lost": [
+     "DRAFT: Fair. The view is yours too now."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you right into camp."
+    ],
+    "trainer_class": "Mountaineer",
+    "name": "Tove",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_fscp_egg_flag": {
+    "pages": [
+     "DRAFT: A tiny flag in the ice. It says: FIRST UP. Under it, smaller: SECOND UP."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_fscp_keeper": {
+    "pages": [
+     "DRAFT: The spire has a cellar. Nobody asks what is in it. You did."
+    ],
+    "battle_lost": [
+     "DRAFT: All right. It is mostly rocks. And me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge. The camp is right there."
+    ],
+    "trainer_class": "Hermit",
+    "name": "Aldo",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_fscp_egg_boots": {
+    "pages": [
+     "DRAFT: A row of tiny boots, smallest to biggest. The last pair is missing. Someone is still out there climbing."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "fin_summit_camp_cave": {
+   "area_name": {
+    "pages": [
+     "Spire Cellar"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }
