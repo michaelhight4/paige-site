@@ -1,6 +1,10 @@
 {
-  "name": "Kilumen: Start of a Journey (Alpha)",
+  "name": "Kilumen",
   "short_name": "Kilumen",
+  "description": "Kilumen: Start of a Journey - a story adventure game.",
+  "id": "/kilumen/",
+  "start_url": "/kilumen/",
+  "scope": "/kilumen/",
   "display": "fullscreen",
   "display_override": [
     "fullscreen",
@@ -9,7 +13,6 @@
   "orientation": "landscape",
   "background_color": "#0b0d1a",
   "theme_color": "#0b0d1a",
-  "start_url": "./",
   "icons": [
     {
       "src": "icons/icon-192.png",

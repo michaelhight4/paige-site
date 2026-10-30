@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "net.paigegames.kilumen",
+      "sha256_cert_fingerprints": ["D3:F8:70:C7:55:E0:48:C8:8B:1C:99:BF:77:84:26:CA:FE:C8:F7:83:2D:51:20:B3:AB:89:4E:E1:AE:16:8E:79"]
+    }
+  }
+]
