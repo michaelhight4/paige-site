@@ -80,7 +80,9 @@ export async function installDevConsole(scene, access) {
     panel.addEventListener('pointerdown', (e) => e.stopPropagation());
     document.body.appendChild(panel); render();
   };
-  const close = () => { if (!panel) return; panel.remove(); panel = null; msgEl = null; closeBlockB = true; };
+  // Arena playtest Oct 30 2026: focus went to <body> with the removed panel, so keys did nothing until the canvas was clicked.
+  const refocus = () => { try { const cv = scene.canvas || document.querySelector('canvas'); if (!cv) return; if (!cv.hasAttribute('tabindex')) cv.setAttribute('tabindex', '0'); document.activeElement?.blur?.(); cv.focus({ preventScroll: true }); } catch { /* headless */ } };
+  const close = () => { if (!panel) return; panel.remove(); panel = null; msgEl = null; closeBlockB = true; refocus(); };
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape' && document.querySelector('.kdev-log')) return; // the log viewer closes itself (Oct 30 2026: even over the panel)
     if (panel) { if (e.code === 'Escape') { e.preventDefault(); close(); } e.stopPropagation(); return; }
@@ -240,7 +242,11 @@ export async function installDevConsole(scene, access) {
     const m = await scene.loadMap(name), at = (x, y) => m.inBounds(x, y) && m.isWalkable(x, y) && !m.npcAt?.(x, y);
     const fp = m.json?.fly_point || scene.layout?.fly?.destinations?.[name]?.fly_point;
     if (fp && at(fp.x, fp.y)) return { x: fp.x, y: fp.y, facing: fp.facing || 'down' };
-    for (const w of m.json?.warps || []) for (const [dx, dy, f] of [[0, 1, 'down'], [0, -1, 'up'], [-1, 0, 'left'], [1, 0, 'right']]) if (at(w.x + dx, w.y + dy)) return { x: w.x + dx, y: w.y + dy, facing: f };
+    // Oct 30 2026 tester (r9_cairnfold -> the heal interior): landing right on a door's step, facing it, meant the next Up tap
+    // walked you inside. Land two tiles out from the first warp with both tiles clear, facing away; never on a warp's neighbour.
+    const ws = m.json?.warps || [], nearWarp = (x, y) => ws.some((w) => Math.abs(w.x - x) + Math.abs(w.y - y) <= 1);
+    for (const w of ws) for (const [dx, dy, f] of [[0, 1, 'down'], [0, -1, 'up'], [-1, 0, 'left'], [1, 0, 'right']]) if (at(w.x + dx, w.y + dy) && at(w.x + 2 * dx, w.y + 2 * dy) && !nearWarp(w.x + 2 * dx, w.y + 2 * dy)) return { x: w.x + 2 * dx, y: w.y + 2 * dy, facing: f };
+    for (const w of ws) for (const [dx, dy, f] of [[0, 1, 'down'], [0, -1, 'up'], [-1, 0, 'left'], [1, 0, 'right']]) if (at(w.x + dx, w.y + dy)) return { x: w.x + dx, y: w.y + dy, facing: f };
     const cx = Math.floor(m.width / 2), cy = Math.floor(m.height / 2), R = Math.max(m.width, m.height);
     for (let r = 0; r < R; r++) for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) if (Math.max(Math.abs(dx), Math.abs(dy)) === r && at(cx + dx, cy + dy)) return { x: cx + dx, y: cy + dy, facing: 'down' };
     return null;
@@ -278,6 +284,9 @@ export async function installDevConsole(scene, access) {
         const spot = await landing(n); if (!spot) return say(`No walkable spot found in ${n}.`, true);
         if (!scene._devPosHold && scene.map && !scene.fade) scene._devPosHold = { map: scene.map.name, x: scene.player.x, y: scene.player.y, facing: scene.player.facing }; // bug 7: keep the real save spot
         travelling = true; touched();
+        const ar = /^aurelith_arena_room_(\d+)$/.exec(n); // Arena playtest Oct 30 2026: a room you warp into is playable (rooms before it won this run)
+        if (ar) { const A = await import('../region78/arena.js?v=v0.2.93-alpha'), want = new Set(A.runFlagsAt(+ar[1]));
+          for (const fl of A.runFlags()) if (want.has(fl) !== scene.flags.has(fl)) scene.setFlag ? scene.setFlag(fl, want.has(fl)) : want.has(fl) ? scene.flags.add(fl) : scene.flags.delete(fl); }
         close();
         scene.startWarp({ map: n, x: spot.x, y: spot.y, facing: spot.facing }, 'dev');
         const t0 = performance.now(); const iv = setInterval(() => { if ((!scene.fade && scene.map?.name === n) || performance.now() - t0 > 8000) { clearInterval(iv); travelling = false; } }, 100);

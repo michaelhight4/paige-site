@@ -67,6 +67,7 @@ export function nativeRenderDiv(opts, h) {
 // (main.js dispatches 'kilumen:ui-ready'), or 6 s at most; the renderer already draws ungraded until they land.
 const afterUiReady = () => (typeof window === 'undefined' || window.kilumen?.uiReady ? Promise.resolve()
   : new Promise((r) => { const t = setTimeout(r, 6000); window.addEventListener('kilumen:ui-ready', () => { clearTimeout(t); r(); }, { once: true }); }));
+const realNow = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
@@ -863,6 +864,9 @@ export class Overworld {
     finally { this.busy = false; this.player.locked = !!this.fade; this.saveNow(); } // after: a normal save (refused if a lockSave is still held)
   }
 
+  /** Talk-reopen guard: 250 scene ms, and under dev world speed also 250 real ms (scene ms runs up to 200x there). */
+  _talkQuiet() { return this.ms < (this._talkQuietUntil || 0) || (this.worldSpeed > 1 && realNow() < (this._talkQuietReal || 0)); }
+
   interact() {
     if (this.busy) return;
     const p = this.player, d = DELTA[p.facing];
@@ -1191,9 +1195,19 @@ export class Overworld {
     const talking = this.dialog?.active || picking;
     if (picking) this.intro.picker.handle({ a: !!snap.a, bEdge, dirEdge });
     else if (talking) this.dialog.handle({ a: !!snap.a, bEdge, dirEdge });
-    else if (snap.a && !this.fade && !this.player.moving && !this.busy && !(this.ms < (this._talkQuietUntil || 0))) this.interact();
-    if (talking || this.busy) this._talkQuietUntil = this.ms + 250; // live v0.2.93 bug 4: the F press that closes a dialogue must not reopen it next tick
-    const input = talking || this.busy ? { ...snap, dir: null, b: false } : snap;
+    else if (snap.a && !this.fade && !this.player.moving && !this.busy && !this._talkQuiet()) this.interact();
+    if (talking || this.busy) { this._talkQuietUntil = this.ms + 250; this._talkQuietReal = realNow() + 250; } // Oct 30 2026: real ms, not scene ms (dev 200x ran 250 game-ms in one frame: Arena clerk talk loop) // live v0.2.93 bug 4: the F press that closes a dialogue must not reopen it next tick
+    let input = talking || this.busy ? { ...snap, dir: null, b: false } : snap;
+    // Oct 30 2026 tester ("40 ms taps often dropped"): a quick tap that lands while you are mid-step / bumping used to be read
+    // by that one busy tick and lost (released before the step ended). Keep it ~300 real ms and play it when you are idle.
+    { const pl = this.player, free = !talking && !this.busy;
+      const ex = pl.tx ?? pl.x, ey = pl.ty ?? pl.y; // where the step in progress ends
+      // one input snapshot can feed several fixed ticks in a frame: read its tap on the first tick only (else the tick after
+      // the step began re-buffers the same tap and you walk two tiles)
+      const tap = snap.tap && !snap._tapRead ? snap.tap : null; if (snap.tap) snap._tapRead = true;
+      if (tap && free && pl.state !== 'idle') this._tapBuf = { dir: tap, until: realNow() + 300, ex, ey };
+      // replay only if the tap made no step of its own (a key still held past the step end already walked on: no double step)
+      if (this._tapBuf && pl.state === 'idle') { const tb = this._tapBuf; this._tapBuf = null; if (free && !input.dir && realNow() <= tb.until && pl.x === tb.ex && pl.y === tb.ey) input = { ...input, dir: tb.dir }; } }
     if (snap.select && !talking && !this.busy) this.toggleBike();
     if (!input.dir) this._lastBumpMsg = null;
     this._updateMode(input);
@@ -1229,7 +1243,7 @@ export class Overworld {
     if (!snap.dir && snap.tap) snap = { ...snap, dir: snap.tap }; // playtest fixes 3: a key pressed and released between two polls still turns / steps once
     let n = 0;
     while (this.acc >= TICK_MS && n < maxTicks) {
-      this.step(n === 0 ? snap : { ...snap, a: false, bTap: false, debug: false, select: false });
+      this.step(n === 0 ? snap : { ...snap, a: false, bTap: false, tap: null, debug: false, select: false });
       this.acc -= TICK_MS; n++;
     }
     if (n >= maxTicks) this.acc = 0;
