@@ -750,6 +750,92 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "aurelith": {
+   "r9_aurp_vaultkeeper": {
+    "pages": [
+     "DRAFT: This vault held the city gate keys. Now it holds me. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Fine. The keys are gone anyway."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to Ring Street."
+    ],
+    "trainer_class": "Guard",
+    "name": "Hedda",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_egg_keyring": {
+    "pages": [
+     "DRAFT: A key ring as big as a wheel. Not one key fits anything."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_signaller": {
+    "pages": [
+     "DRAFT: I wave the lamp when a train comes. None has come in years. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Green light. You may pass."
+    ],
+    "after": [
+     "DRAFT: Ledge down and head west."
+    ],
+    "trainer_class": "Engineer",
+    "name": "Pell",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_egg_lamp": {
+    "pages": [
+     "DRAFT: A signal lamp stuck on green. It has been green for nine years."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_porter": {
+    "pages": [
+     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: All change, then."
+    ],
+    "after": [
+     "DRAFT: Drop off the platform edge and go west."
+    ],
+    "trainer_class": "Porter",
+    "name": "Ansel",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_egg_clock": {
+    "pages": [
+     "DRAFT: A platform clock. Both hands point at the snack stand."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "aurelith_cave_nw": {
+   "area_name": {
+    "pages": [
+     "Gate Vault"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "aurelith_cave_ne": {
+   "area_name": {
+    "pages": [
+     "Signal Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "aurelith_cave_e": {
+   "area_name": {
+    "pages": [
+     "Old Platform"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }

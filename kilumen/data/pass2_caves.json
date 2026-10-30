@@ -3414,6 +3414,394 @@
     "item": "vigor_seed"
    },
    "premise": "A beekeeper in a hollow in the south-east rock; a Vigor Seed sits by the hive."
+  },
+  {
+   "id": "aur_pocket_vault",
+   "map": "aurelith",
+   "cave": "aurelith_cave_nw",
+   "cave_title": "Gate Vault",
+   "floor": [
+    [
+     3,
+     10,
+     10,
+     15
+    ]
+   ],
+   "ledge": [
+    7,
+    9,
+    16
+   ],
+   "walk": [
+    [
+     7,
+     17
+    ],
+    [
+     8,
+     17
+    ],
+    [
+     9,
+     17
+    ],
+    [
+     10,
+     17
+    ],
+    [
+     11,
+     17
+    ]
+   ],
+   "mouth": [
+    13,
+    6
+   ],
+   "pocket_door": [
+    5,
+    9
+   ],
+   "main_start": [
+    44,
+    28
+   ],
+   "floor_tile_at": [
+    40,
+    28
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave aurelith_cave_nw",
+    "out": "one-way ledge at y16 x7-9",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_aurp_vaultkeeper",
+    "x": 3,
+    "y": 10,
+    "level": 63,
+    "class": "Guard",
+    "name": "Hedda",
+    "species": [
+     "foundrax",
+     "cragmont",
+     "stratodrake"
+    ],
+    "intro": [
+     "DRAFT: This vault held the city gate keys. Now it holds me. Battle?"
+    ],
+    "lost": [
+     "DRAFT: Fine. The keys are gone anyway."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to Ring Street."
+    ]
+   },
+   "egg": {
+    "id": "r9_aurp_egg_keyring",
+    "x": 10,
+    "y": 10,
+    "what": "a giant key ring",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A key ring as big as a wheel. Not one key fits anything."
+    ]
+   },
+   "item": {
+    "id": "r9_aurp_crystal",
+    "x": 3,
+    "y": 15,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "An old guard in the city gate vault; a Prime Crystal is under the key shelf.",
+   "map_cells": [
+    {
+     "x": 12,
+     "y": 30,
+     "g": 10893,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "aur_vault_strip_tea",
+     "x": 8,
+     "y": 17,
+     "item": "calm_tea"
+    }
+   ]
+  },
+  {
+   "id": "aur_pocket_loft",
+   "map": "aurelith",
+   "cave": "aurelith_cave_ne",
+   "cave_title": "Signal Loft",
+   "floor": [
+    [
+     77,
+     10,
+     84,
+     15
+    ]
+   ],
+   "ledge": [
+    78,
+    80,
+    16
+   ],
+   "walk": [
+    [
+     76,
+     17
+    ],
+    [
+     77,
+     17
+    ],
+    [
+     78,
+     17
+    ],
+    [
+     79,
+     17
+    ],
+    [
+     80,
+     17
+    ]
+   ],
+   "mouth": [
+    74,
+    6
+   ],
+   "pocket_door": [
+    81,
+    9
+   ],
+   "main_start": [
+    44,
+    28
+   ],
+   "floor_tile_at": [
+    40,
+    28
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave aurelith_cave_ne",
+    "out": "one-way ledge at y16 x78-80",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_aurp_signaller",
+    "x": 84,
+    "y": 10,
+    "level": 63,
+    "class": "Engineer",
+    "name": "Pell",
+    "species": [
+     "pharolith",
+     "galespar",
+     "lancebeetle"
+    ],
+    "intro": [
+     "DRAFT: I wave the lamp when a train comes. None has come in years. Battle?"
+    ],
+    "lost": [
+     "DRAFT: Green light. You may pass."
+    ],
+    "after": [
+     "DRAFT: Ledge down and head west."
+    ]
+   },
+   "egg": {
+    "id": "r9_aurp_egg_lamp",
+    "x": 77,
+    "y": 10,
+    "what": "a signal lamp",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A signal lamp stuck on green. It has been green for nine years."
+    ]
+   },
+   "item": {
+    "id": "r9_aurp_seed",
+    "x": 84,
+    "y": 15,
+    "item": "vigor_seed"
+   },
+   "premise": "An old signaller in a loft in the east rock; a Vigor Seed is by the lamp.",
+   "map_items": [
+    {
+     "id": "aur_loft_seed_visible",
+     "x": 81,
+     "y": 12,
+     "item": "vigor_seed",
+     "hidden": false
+    },
+    {
+     "id": "aur_loft_strip_mix",
+     "x": 79,
+     "y": 17,
+     "item": "trail_mix"
+    }
+   ],
+   "map_rocks": [
+    [
+     57,
+     12
+    ],
+    [
+     28,
+     11
+    ],
+    [
+     52,
+     38
+    ],
+    [
+     29,
+     15
+    ],
+    [
+     71,
+     39
+    ],
+    [
+     58,
+     42
+    ],
+    [
+     55,
+     16
+    ],
+    [
+     59,
+     16
+    ],
+    [
+     34,
+     30
+    ]
+   ]
+  },
+  {
+   "id": "aur_pocket_platform",
+   "map": "aurelith",
+   "cave": "aurelith_cave_e",
+   "cave_title": "Old Platform",
+   "floor": [
+    [
+     78,
+     43,
+     85,
+     48
+    ]
+   ],
+   "ledge": [
+    79,
+    81,
+    49
+   ],
+   "walk": [
+    [
+     76,
+     50
+    ],
+    [
+     77,
+     50
+    ],
+    [
+     78,
+     50
+    ],
+    [
+     79,
+     50
+    ],
+    [
+     80,
+     50
+    ],
+    [
+     81,
+     50
+    ]
+   ],
+   "mouth": [
+    84,
+    26
+   ],
+   "pocket_door": [
+    82,
+    42
+   ],
+   "main_start": [
+    44,
+    28
+   ],
+   "floor_tile_at": [
+    40,
+    28
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave aurelith_cave_e",
+    "out": "one-way ledge at y49 x79-81",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_aurp_porter",
+    "x": 85,
+    "y": 43,
+    "level": 63,
+    "class": "Porter",
+    "name": "Ansel",
+    "species": [
+     "cascadorn",
+     "torrentpike",
+     "tuskwallow"
+    ],
+    "intro": [
+     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
+    ],
+    "lost": [
+     "DRAFT: All change, then."
+    ],
+    "after": [
+     "DRAFT: Drop off the platform edge and go west."
+    ]
+   },
+   "egg": {
+    "id": "r9_aurp_egg_clock",
+    "x": 78,
+    "y": 43,
+    "what": "a platform clock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A platform clock. Both hands point at the snack stand."
+    ]
+   },
+   "item": {
+    "id": "r9_aurp_crystal_e",
+    "x": 85,
+    "y": 48,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A porter on a closed platform in the east rock; a Prime Crystal is under the bench.",
+   "map_items": [
+    {
+     "id": "aur_platform_strip_tea",
+     "x": 79,
+     "y": 50,
+     "item": "calm_tea"
+    }
+   ]
   }
  ]
 }

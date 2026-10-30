@@ -377,5 +377,47 @@ export const CAVE_POCKET_TEAMS = {
    "species": "stratodrake",
    "level": 63
   }
+ ],
+ "aurelith.r9_aurp_vaultkeeper": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
+   "level": 63
+  }
+ ],
+ "aurelith.r9_aurp_signaller": [
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  },
+  {
+   "species": "lancebeetle",
+   "level": 63
+  }
+ ],
+ "aurelith.r9_aurp_porter": [
+  {
+   "species": "cascadorn",
+   "level": 63
+  },
+  {
+   "species": "torrentpike",
+   "level": 63
+  },
+  {
+   "species": "tuskwallow",
+   "level": 63
+  }
  ]
 };
