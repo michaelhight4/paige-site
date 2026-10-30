@@ -48,7 +48,7 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   },
   {
-   "species": "sunderhoof",
+   "species": "cragmont",
    "level": 63
   },
   {
