@@ -419,5 +419,47 @@ export const CAVE_POCKET_TEAMS = {
    "species": "tuskwallow",
    "level": 63
   }
+ ],
+ "revival_heights.r9_rhp_archivist": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  }
+ ],
+ "revival_heights.r9_rhp_technician": [
+  {
+   "species": "lancebeetle",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
+   "level": 63
+  }
+ ],
+ "revival_heights.r9_rhp_gardener": [
+  {
+   "species": "fernstag",
+   "level": 63
+  },
+  {
+   "species": "gauzewing",
+   "level": 63
+  },
+  {
+   "species": "cascadorn",
+   "level": 63
+  }
  ]
 };

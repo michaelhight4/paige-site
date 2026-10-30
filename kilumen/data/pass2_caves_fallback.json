@@ -836,6 +836,92 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "revival_heights": {
+   "r9_rhp_archivist": {
+    "pages": [
+     "DRAFT: Every memo since the company began is filed here. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Filed under: lost."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the boulevard."
+    ],
+    "trainer_class": "Clerk",
+    "name": "Ottilie",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_egg_memo": {
+    "pages": [
+     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_technician": {
+    "pages": [
+     "DRAFT: Have you tried turning the battle off and on again? Battle!"
+    ],
+    "battle_lost": [
+     "DRAFT: Rebooting..."
+    ],
+    "after": [
+     "DRAFT: Ledge down, then west along the lane."
+    ],
+    "trainer_class": "Engineer",
+    "name": "Sixten",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_egg_fan": {
+    "pages": [
+     "DRAFT: A big humming fan. It hums the company jingle, a little off-key."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_gardener": {
+    "pages": [
+     "DRAFT: The staff garden was closed for efficiency. I still water it. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You grew on me."
+    ],
+    "after": [
+     "DRAFT: Ledge down and walk east."
+    ],
+    "trainer_class": "Gardener",
+    "name": "Brita",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_egg_mug": {
+    "pages": [
+     "DRAFT: A mug on a bench. It says OKAYEST MANAGER IN THE WORLD."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "revival_heights_cave_nw": {
+   "area_name": {
+    "pages": [
+     "Archive Room"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "revival_heights_cave_ne": {
+   "area_name": {
+    "pages": [
+     "Server Nook"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "revival_heights_cave_sw": {
+   "area_name": {
+    "pages": [
+     "Break Garden"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }

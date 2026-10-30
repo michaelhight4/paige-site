@@ -3802,6 +3802,384 @@
      "item": "calm_tea"
     }
    ]
+  },
+  {
+   "id": "rhp_pocket_archive",
+   "map": "revival_heights",
+   "cave": "revival_heights_cave_nw",
+   "cave_title": "Archive Room",
+   "floor": [
+    [
+     3,
+     11,
+     10,
+     16
+    ]
+   ],
+   "ledge": [
+    6,
+    8,
+    17
+   ],
+   "walk": [
+    [
+     6,
+     18
+    ],
+    [
+     7,
+     18
+    ],
+    [
+     8,
+     18
+    ]
+   ],
+   "mouth": [
+    14,
+    8
+   ],
+   "pocket_door": [
+    5,
+    10
+   ],
+   "main_start": [
+    29,
+    20
+   ],
+   "floor_tile_at": [
+    30,
+    28
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave revival_heights_cave_nw",
+    "out": "one-way ledge at y17 x6-8",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rhp_archivist",
+    "x": 3,
+    "y": 11,
+    "level": 63,
+    "class": "Clerk",
+    "name": "Ottilie",
+    "species": [
+     "foundrax",
+     "pharolith",
+     "cragmont"
+    ],
+    "intro": [
+     "DRAFT: Every memo since the company began is filed here. Battle?"
+    ],
+    "lost": [
+     "DRAFT: Filed under: lost."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the boulevard."
+    ]
+   },
+   "egg": {
+    "id": "r9_rhp_egg_memo",
+    "x": 10,
+    "y": 11,
+    "what": "a tower of memos",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
+    ]
+   },
+   "item": {
+    "id": "r9_rhp_crystal",
+    "x": 3,
+    "y": 16,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "An old clerk in the company archive in the west rock; a Prime Crystal is in the last drawer.",
+   "map_cells": [
+    {
+     "x": 42,
+     "y": 13,
+     "g": 10882,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "rhp_plaza_tea",
+     "x": 22,
+     "y": 13,
+     "item": "calm_tea"
+    },
+    {
+     "id": "rhp_archive_strip_mix",
+     "x": 7,
+     "y": 18,
+     "item": "trail_mix"
+    }
+   ]
+  },
+  {
+   "id": "rhp_pocket_servers",
+   "map": "revival_heights",
+   "cave": "revival_heights_cave_ne",
+   "cave_title": "Server Nook",
+   "floor": [
+    [
+     48,
+     11,
+     55,
+     16
+    ]
+   ],
+   "ledge": [
+    49,
+    51,
+    17
+   ],
+   "walk": [
+    [
+     44,
+     18
+    ],
+    [
+     45,
+     18
+    ],
+    [
+     46,
+     18
+    ],
+    [
+     47,
+     18
+    ],
+    [
+     48,
+     18
+    ],
+    [
+     49,
+     18
+    ],
+    [
+     50,
+     18
+    ],
+    [
+     51,
+     18
+    ]
+   ],
+   "mouth": [
+    43,
+    8
+   ],
+   "pocket_door": [
+    52,
+    10
+   ],
+   "main_start": [
+    29,
+    20
+   ],
+   "floor_tile_at": [
+    30,
+    28
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave revival_heights_cave_ne",
+    "out": "one-way ledge at y17 x49-51",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rhp_technician",
+    "x": 55,
+    "y": 11,
+    "level": 63,
+    "class": "Engineer",
+    "name": "Sixten",
+    "species": [
+     "lancebeetle",
+     "galespar",
+     "stratodrake"
+    ],
+    "intro": [
+     "DRAFT: Have you tried turning the battle off and on again? Battle!"
+    ],
+    "lost": [
+     "DRAFT: Rebooting..."
+    ],
+    "after": [
+     "DRAFT: Ledge down, then west along the lane."
+    ]
+   },
+   "egg": {
+    "id": "r9_rhp_egg_fan",
+    "x": 48,
+    "y": 11,
+    "what": "a humming fan",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A big humming fan. It hums the company jingle, a little off-key."
+    ]
+   },
+   "item": {
+    "id": "r9_rhp_seed",
+    "x": 55,
+    "y": 16,
+    "item": "vigor_seed"
+   },
+   "premise": "A technician in a server nook in the east rock; a Vigor Seed is behind the rack.",
+   "map_items": [
+    {
+     "id": "rhp_servers_seed_visible",
+     "x": 52,
+     "y": 14,
+     "item": "vigor_seed",
+     "hidden": false
+    },
+    {
+     "id": "rhp_servers_strip_tea",
+     "x": 50,
+     "y": 18,
+     "item": "calm_tea"
+    }
+   ]
+  },
+  {
+   "id": "rhp_pocket_garden",
+   "map": "revival_heights",
+   "cave": "revival_heights_cave_sw",
+   "cave_title": "Break Garden",
+   "floor": [
+    [
+     3,
+     23,
+     10,
+     28
+    ]
+   ],
+   "ledge": [
+    5,
+    7,
+    29
+   ],
+   "walk": [
+    [
+     5,
+     30
+    ],
+    [
+     6,
+     30
+    ],
+    [
+     7,
+     30
+    ],
+    [
+     8,
+     30
+    ],
+    [
+     9,
+     30
+    ],
+    [
+     10,
+     30
+    ],
+    [
+     11,
+     30
+    ],
+    [
+     12,
+     30
+    ],
+    [
+     13,
+     30
+    ]
+   ],
+   "mouth": [
+    14,
+    27
+   ],
+   "pocket_door": [
+    6,
+    22
+   ],
+   "main_start": [
+    29,
+    20
+   ],
+   "floor_tile_at": [
+    30,
+    28
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave revival_heights_cave_sw",
+    "out": "one-way ledge at y29 x5-7",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rhp_gardener",
+    "x": 10,
+    "y": 23,
+    "level": 63,
+    "class": "Gardener",
+    "name": "Brita",
+    "species": [
+     "fernstag",
+     "gauzewing",
+     "cascadorn"
+    ],
+    "intro": [
+     "DRAFT: The staff garden was closed for efficiency. I still water it. Battle?"
+    ],
+    "lost": [
+     "DRAFT: You grew on me."
+    ],
+    "after": [
+     "DRAFT: Ledge down and walk east."
+    ]
+   },
+   "egg": {
+    "id": "r9_rhp_egg_mug",
+    "x": 3,
+    "y": 23,
+    "what": "a mug on a bench",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A mug on a bench. It says OKAYEST MANAGER IN THE WORLD."
+    ]
+   },
+   "item": {
+    "id": "r9_rhp_crystal_s",
+    "x": 10,
+    "y": 28,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A gardener in the closed staff garden in the west rock; a Prime Crystal is under the bench.",
+   "map_items": [
+    {
+     "id": "rhp_garden_strip_mix",
+     "x": 6,
+     "y": 30,
+     "item": "trail_mix"
+    },
+    {
+     "id": "rhp_south_corner_tea",
+     "x": 43,
+     "y": 29,
+     "item": "calm_tea"
+    }
+   ]
   }
  ]
 }
