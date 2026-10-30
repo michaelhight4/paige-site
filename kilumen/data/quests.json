@@ -4937,100 +4937,6 @@
    "status": "DRAFT"
   },
   {
-   "id": "sq_sea_glass",
-   "title": "[PLACEHOLDER] Sea Glass",
-   "type": "side",
-   "zone": "tidewater_coast",
-   "order": 111,
-   "map_status": "map pending",
-   "giver": {
-    "npc": "tidewater_beachcomber",
-    "map": "tidewater_coast"
-   },
-   "start": "npc",
-   "turn_in": "npc",
-   "prerequisites": [
-    "has_tideglide"
-   ],
-   "steps": [
-    {
-     "id": "sq_sea_glass_s1",
-     "desc": "A beachcomber collects sea glass, but the best bits are offshore.",
-     "map": "tidewater_coast",
-     "at": null,
-     "flag": "sq_glass_start",
-     "condition": null,
-     "optional": false
-    },
-    {
-     "id": "sq_sea_glass_s2",
-     "desc": "Glide out and pick up three pieces of sea glass on the sandbars.",
-     "map": "tidewater_coast",
-     "at": null,
-     "flag": "sq_glass_3",
-     "condition": null,
-     "optional": false
-    },
-    {
-     "id": "sq_sea_glass_s3",
-     "desc": "Bring them back.",
-     "map": "tidewater_coast",
-     "at": null,
-     "flag": "sq_glass_done",
-     "condition": null,
-     "optional": false
-    }
-   ],
-   "reward": {
-    "items_placeholder": [
-     {
-      "id": "feed_bag",
-      "qty": 1
-     }
-    ],
-    "money_placeholder": 400,
-    "flags": [
-     "sq_glass_done"
-    ]
-   },
-   "lines": [
-    {
-     "npc": "tidewater_beachcomber",
-     "context": "start",
-     "step": null,
-     "text": [
-      "The good sea glass washes up on the sandbars. Can't swim.",
-      "Three pieces? Green's my favourite. Any colour, really."
-     ]
-    },
-    {
-     "npc": "system",
-     "context": "step",
-     "step": "sq_sea_glass_s2",
-     "text": [
-      "A piece of sea glass, worn smooth as a pebble."
-     ]
-    },
-    {
-     "npc": "tidewater_beachcomber",
-     "context": "turn_in",
-     "step": null,
-     "text": [
-      "Look at that green. Worn smooth as a mint.",
-      "Here. For the trip back."
-     ]
-    }
-   ],
-   "new_ids": [
-    "sq_glass_start",
-    "sq_glass_3",
-    "sq_glass_done",
-    "tidewater_beachcomber (npc)",
-    "sea_glass (key item)"
-   ],
-   "status": "DRAFT"
-  },
-  {
    "id": "mq_lanternport",
    "title": "The Page Ron Kept",
    "type": "main",
@@ -6065,6 +5971,1537 @@
     "promoted_id12"
    ],
    "status": "DRAFT"
+  },
+  {
+   "id": "sq_ug_greenhouse",
+   "title": "Two Pots",
+   "type": "side",
+   "zone": "fernwick",
+   "order": 162,
+   "map_status": "built",
+   "giver": {
+    "npc": "rebel_patron_2",
+    "map": "club_int"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_fernwick"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_greenhouse_s1",
+     "desc": "Check the two pots by the booth (day 1).",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_greenhouse_d1",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_greenhouse_s2",
+     "desc": "Check the pots again on another day (day 2).",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_greenhouse_d2",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_greenhouse_s3",
+     "desc": "Check the pots one last day (day 3).",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_greenhouse_d3",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_greenhouse_s4",
+     "desc": "Tell the greenhouse guy what you saw.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_greenhouse_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "mossplum_shake",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_cutting_for_room"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "rebel_patron_2",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_greenhouse.start",
+     "text": [
+      "I'm growing the same seedling twice. One by a crystal shard, one by a firefly jar.",
+      "Look at them once a day for three days? Tell me what you see. Not what you think."
+     ]
+    },
+    {
+     "npc": "rebel_patron_2",
+     "context": "in_progress",
+     "step": null,
+     "key": "underground_quests.sq_ug_greenhouse.in_progress",
+     "text": [
+      "Once a day. Plants don't care how keen you are."
+     ]
+    },
+    {
+     "npc": "rebel_patron_2",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_greenhouse.turn_in",
+     "text": [
+      "The jar one thrived. Huh.",
+      "One pot's not science, mind. I won't say more than that.",
+      "Take the healthy cutting. Put it by your window."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_greenhouse_d1",
+    "sq_ug_greenhouse_d2",
+    "sq_ug_greenhouse_d3",
+    "sq_ug_greenhouse_back",
+    "ug_cutting_for_room"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 1,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R1.1"
+  },
+  {
+   "id": "sq_ug_poster_names",
+   "title": "Names, Not Numbers",
+   "type": "side",
+   "zone": "fernwick",
+   "order": 163,
+   "map_status": "built",
+   "giver": {
+    "npc": "rebel_patron_1",
+    "map": "club_int"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_fernwick"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_poster_names_s1",
+     "desc": "Give the poster artist your creatures' names at the poster wall.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_poster_names_named",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_poster_names_s2",
+     "desc": "Talk to the poster artist.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_poster_names_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_poster_names_up"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "rebel_patron_1",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_poster_names.start",
+     "text": [
+      "Company flyers give every creature a number. I give them back their names.",
+      "Will you lend me yours for the wall? The poster by the door."
+     ]
+    },
+    {
+     "npc": "rebel_patron_1",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_poster_names.turn_in",
+     "text": [
+      "There. Names, not numbers.",
+      "I left the last space blank. For the big one from the river, whatever its name is."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_poster_names_named",
+    "ug_poster_true_colour",
+    "sq_ug_poster_names_back",
+    "ug_poster_names_up"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 1,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R1.2"
+  },
+  {
+   "id": "sq_gd_dj_phrase",
+   "title": "The Fifth Note",
+   "type": "side",
+   "zone": "fernwick",
+   "order": 164,
+   "map_status": "built",
+   "giver": {
+    "npc": "rebel_dj",
+    "map": "club_int"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "flg_missing_note_done"
+   ],
+   "steps": [
+    {
+     "id": "sq_gd_dj_phrase_s1",
+     "desc": "Listen at the DJ desk at Night while he plays the phrase.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_gd_dj_phrase_played",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_dj_phrase_s2",
+     "desc": "Talk to the DJ.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_gd_dj_phrase_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "old_record",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": []
+   },
+   "lines": [
+    {
+     "npc": "rebel_dj",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_gd_dj_phrase.start",
+     "text": [
+      "Got my records back. Still can't finish the phrase. Five notes, and I only ever get four.",
+      "Come by the desk tonight. Tell me what your partner does."
+     ]
+    },
+    {
+     "npc": "rebel_dj",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_gd_dj_phrase.turn_in",
+     "text": [
+      "It turned to the river? Every time?",
+      "I heard it once under the water. Like something calling for help.",
+      "I reckon the company signal jams the last note. Embarrassing, but I dream about a river."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_gd_dj_phrase_played",
+    "sq_gd_dj_phrase_back"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "The Guardian",
+   "region": 1,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R1.3"
+  },
+  {
+   "id": "sq_ug_dock_shards",
+   "title": "Off the Books",
+   "type": "side",
+   "zone": "saltmere",
+   "order": 165,
+   "map_status": "built",
+   "giver": {
+    "npc": "saltmere_dockhand",
+    "map": "saltmere"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_fernwick"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_dock_shards_s1",
+     "desc": "Count the Greystone crates on the dock.",
+     "map": "saltmere",
+     "at": null,
+     "flag": "sq_ug_dock_shards_counted",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_dock_shards_s2",
+     "desc": "Check the crate set apart from the rest.",
+     "map": "saltmere",
+     "at": null,
+     "flag": "sq_ug_dock_shards_silt",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_dock_shards_s3",
+     "desc": "Tell the dockhand your count.",
+     "map": "saltmere",
+     "at": null,
+     "flag": "sq_ug_dock_shards_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "trail_mix",
+      "qty": 2
+     }
+    ],
+    "money_placeholder": 200,
+    "flags": []
+   },
+   "lines": [
+    {
+     "npc": "saltmere_dockhand",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_dock_shards.start",
+     "text": [
+      "Can you count crates? Quietly?",
+      "The Greystone ones. The log never matches. I just need someone who isn't me to count."
+     ]
+    },
+    {
+     "npc": "saltmere_dockhand",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_dock_shards.turn_in",
+     "text": [
+      "More than they declare. I knew it.",
+      "Don't say I asked. I like my job.",
+      "Salt-toffee. The only thing on this dock nobody counts."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_dock_shards_counted",
+    "sq_ug_dock_shards_silt",
+    "sq_ug_dock_shards_back"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 2,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R2.1"
+  },
+  {
+   "id": "sq_gd_miner_lamp",
+   "title": "What Ivo Heard",
+   "type": "side",
+   "zone": "greystone_caverns",
+   "order": 166,
+   "map_status": "built",
+   "giver": {
+    "npc": "ivo_miner",
+    "map": "lantern_rest"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_fernwick"
+   ],
+   "steps": [
+    {
+     "id": "sq_gd_miner_lamp_s1",
+     "desc": "Find the breathing seam below Greystone B1 and look at the crack at Night.",
+     "map": "greystone_seam",
+     "at": null,
+     "flag": "sq_gd_miner_lamp_crack",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_miner_lamp_s2",
+     "desc": "Lay a stone at Lantern Rest for the creature that warned Ivo.",
+     "map": "lantern_rest",
+     "at": null,
+     "flag": "sq_gd_miner_lamp_stone",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_miner_lamp_s3",
+     "desc": "Tell Ivo.",
+     "map": "lantern_rest",
+     "at": null,
+     "flag": "sq_gd_miner_lamp_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "lantern_moth",
+      "qty": 3
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_ivo_stone_laid"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "ivo_miner",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_gd_miner_lamp.start",
+     "text": [
+      "I quit Greystone. The deepest seam breathed. You could hear it.",
+      "There's a way down from B1, past the bottom pool. Go at night. Look at the crack."
+     ]
+    },
+    {
+     "npc": "ivo_miner",
+     "context": "in_progress",
+     "step": null,
+     "key": "underground_quests.sq_gd_miner_lamp.in_progress",
+     "text": [
+      "Night. The seam only breathes at night."
+     ]
+    },
+    {
+     "npc": "ivo_miner",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_gd_miner_lamp.turn_in",
+     "text": [
+      "Water. Behind the crystal. So I wasn't mad.",
+      "The creatures digging beside me were fitted. They couldn't flinch when the rock moved.",
+      "One did anyway. Thank you for the stone."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_gd_miner_lamp_crack",
+    "sq_gd_miner_lamp_stone",
+    "sq_gd_miner_lamp_back",
+    "ug_ivo_stone_laid"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "The Guardian",
+   "region": 2,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R2.2"
+  },
+  {
+   "id": "sq_ug_honest_glass",
+   "title": "Glass Is Honest",
+   "type": "side",
+   "zone": "saltmere",
+   "order": 167,
+   "map_status": "built",
+   "giver": {
+    "npc": "lucky_crystal_seller",
+    "map": "saltmere"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_fernwick"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_honest_glass_s1",
+     "desc": "Watch who buys the glass crystals at the stall.",
+     "map": "saltmere",
+     "at": null,
+     "flag": "sq_ug_honest_glass_watched",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_honest_glass_s2",
+     "desc": "Talk to the seller.",
+     "map": "saltmere",
+     "at": null,
+     "flag": "sq_ug_honest_glass_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "glass_crystal",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": []
+   },
+   "lines": [
+    {
+     "npc": "lucky_crystal_seller",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_honest_glass.start",
+     "text": [
+      "Want to know a secret? My glass crystals sell best to people who hate the real ones.",
+      "Watch the stall for a bit. You'll see."
+     ]
+    },
+    {
+     "npc": "lucky_crystal_seller",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_honest_glass.turn_in",
+     "text": [
+      "See? It looks fitted for the inspectors. That's all.",
+      "Don't tell anyone I'm brave. I'm not. I just sell glass."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_honest_glass_watched",
+    "sq_ug_honest_glass_back"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 2,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R2.3"
+  },
+  {
+   "id": "sq_ug_intern_memo",
+   "title": "Recalibration Queue",
+   "type": "side",
+   "zone": "revival_heights",
+   "order": 168,
+   "map_status": "built",
+   "giver": {
+    "npc": "rh_intern",
+    "map": "revival_heights"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_saltmere"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_intern_memo_s1",
+     "desc": "Take the box of \"drift units\" to the recalibration door in the RT annex.",
+     "map": "revival_rt_annex",
+     "at": null,
+     "flag": "sq_ug_intern_memo_delivered",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_intern_memo_s2",
+     "desc": "Look out of the annex window.",
+     "map": "revival_rt_annex",
+     "at": null,
+     "flag": "sq_ug_intern_memo_window",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_intern_memo_s3",
+     "desc": "Tell the intern it's done.",
+     "map": "revival_heights",
+     "at": null,
+     "flag": "sq_ug_intern_memo_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "tonic_large",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 300,
+    "flags": []
+   },
+   "lines": [
+    {
+     "npc": "rh_intern",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_intern_memo.start",
+     "text": [
+      "Could you take this box to the annex? Recalibration door. They're drift units.",
+      "I'm not sure what drift is, exactly. I'm new."
+     ]
+    },
+    {
+     "npc": "rh_intern",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_intern_memo.turn_in",
+     "text": [
+      "Thanks. Did they say what recalibration is?",
+      "No? Okay.",
+      "You can see the river from up there, right? It used to be higher. My gran says."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_intern_memo_delivered",
+    "sq_ug_intern_memo_window",
+    "sq_ug_intern_memo_back"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 3,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R3.1"
+  },
+  {
+   "id": "sq_gd_lobby_art",
+   "title": "The Founder's Picture",
+   "type": "side",
+   "zone": "revival_heights",
+   "order": 169,
+   "map_status": "built",
+   "giver": {
+    "npc": "rh_annex_guard",
+    "map": "revival_rt_annex"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_saltmere"
+   ],
+   "steps": [
+    {
+     "id": "sq_gd_lobby_art_s1",
+     "desc": "Talk to the old cleaner in the annex.",
+     "map": "revival_rt_annex",
+     "at": null,
+     "flag": "sq_gd_lobby_art_cleaner",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_lobby_art_s2",
+     "desc": "Lift the banner corner on the founder's picture at Night.",
+     "map": "revival_rt_annex",
+     "at": null,
+     "flag": "sq_gd_lobby_art_lifted",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_lobby_art_s3",
+     "desc": "Let the guard know you looked.",
+     "map": "revival_rt_annex",
+     "at": null,
+     "flag": "sq_gd_lobby_art_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_saw_founder_picture"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "rh_annex_guard",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_gd_lobby_art.start",
+     "text": [
+      "Report anyone staring at the founder's picture too long. Company rule.",
+      "You can look. For one second. I'm bored, not cruel."
+     ]
+    },
+    {
+     "npc": "rh_annex_guard",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_gd_lobby_art.turn_in",
+     "text": [
+      "One second, I said. Fine. It's a good picture.",
+      "The plaque says \"Where it all began\". Nobody asks where that is."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_gd_lobby_art_cleaner",
+    "sq_gd_lobby_art_lifted",
+    "sq_gd_lobby_art_back",
+    "ug_saw_founder_picture"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "The Guardian",
+   "region": 3,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R3.2"
+  },
+  {
+   "id": "sq_ug_frozen_camp",
+   "title": "Notes in the Snow",
+   "type": "side",
+   "zone": "frostspire",
+   "order": 170,
+   "map_status": "built",
+   "giver": {
+    "npc": "frostspire_climber",
+    "map": "frostspire"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_revival"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_frozen_camp_s1",
+     "desc": "Take the frozen field page to the evidence board at The Firefly.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_frozen_camp_pinned",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_frozen_camp_s2",
+     "desc": "Tell the climber it's up.",
+     "map": "frostspire",
+     "at": null,
+     "flag": "sq_ug_frozen_camp_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "calm_tea",
+      "qty": 2
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_board_drift_chart"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "frostspire_climber",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_frozen_camp.start",
+     "text": [
+      "Found this frozen by the pass. A page from that field team, I think.",
+      "The Firefly lot keep a board for these. Would you take it?"
+     ]
+    },
+    {
+     "npc": "frostspire_climber",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_frozen_camp.turn_in",
+     "text": [
+      "Pinned up? Good. Somebody should read it who isn't a glacier."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_frozen_camp_pinned",
+    "sq_ug_frozen_camp_back",
+    "ug_board_drift_chart"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 4,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R4.1"
+  },
+  {
+   "id": "sq_gd_shine",
+   "title": "What the Shine Is",
+   "type": "side",
+   "zone": "sunmeadow_fields",
+   "order": 171,
+   "map_status": "built",
+   "giver": {
+    "npc": "sunmeadow_nan",
+    "map": "sunmeadow_fields"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_revival"
+   ],
+   "steps": [
+    {
+     "id": "sq_gd_shine_s1",
+     "desc": "Watch the barrier shine with Nan's field at Dawn.",
+     "map": "sunmeadow_fields",
+     "at": null,
+     "flag": "sq_gd_shine_dawn",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_shine_s2",
+     "desc": "Talk to Nan.",
+     "map": "sunmeadow_fields",
+     "at": null,
+     "flag": "sq_gd_shine_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "sunroot_seeds",
+      "qty": 3
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": []
+   },
+   "lines": [
+    {
+     "npc": "sunmeadow_nan",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_gd_shine.start",
+     "text": [
+      "The shine on that barrier gets brighter every season. Brighter as more creatures get fitted.",
+      "River gets lower too. I count seasons, that's all. Come and look at dawn."
+     ]
+    },
+    {
+     "npc": "sunmeadow_nan",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_gd_shine.turn_in",
+     "text": [
+      "My Tumbloams slipped out once. One got hurt by a wild Enraged one.",
+      "Wild is hard. That doesn't make the shine kind."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_gd_shine_dawn",
+    "sq_gd_shine_back"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "The Guardian",
+   "region": 4,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R4.2"
+  },
+  {
+   "id": "sq_ug_count_numbers",
+   "title": "Count Day, Again",
+   "type": "side",
+   "zone": "mirefen",
+   "order": 172,
+   "map_status": "built",
+   "giver": {
+    "npc": "mirefen_census_clerk",
+    "map": "mirefen_bog"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_frostspire"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_count_numbers_s1",
+     "desc": "Look over the reeds where the count keeps dropping.",
+     "map": "mirefen_bog",
+     "at": null,
+     "flag": "sq_ug_count_numbers_reeds",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_count_numbers_s2",
+     "desc": "Tell the census clerk.",
+     "map": "mirefen_bog",
+     "at": null,
+     "flag": "sq_ug_count_numbers_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "field_reading_sheet",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_census_names"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "mirefen_census_clerk",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_count_numbers.start",
+     "text": [
+      "The count goes down every week. Same reeds. Same week day.",
+      "Would you look at those reeds for me? I follow rules. I want to know which rule this is."
+     ]
+    },
+    {
+     "npc": "mirefen_census_clerk",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_count_numbers.turn_in",
+     "text": [
+      "Taken for \"catalogue\". Of course.",
+      "This week my report lists names, not numbers. One rule broken. Once.",
+      "I'm rather proud of it."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_count_numbers_reeds",
+    "sq_ug_count_numbers_back",
+    "ug_census_names"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 5,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R5.1"
+  },
+  {
+   "id": "sq_gd_riverglint",
+   "title": "Where It Rested",
+   "type": "side",
+   "zone": "mirefen",
+   "order": 173,
+   "map_status": "built",
+   "giver": {
+    "npc": "mirefen_angler",
+    "map": "mirefen_bog"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_frostspire"
+   ],
+   "steps": [
+    {
+     "id": "sq_gd_riverglint_s1",
+     "desc": "Sit by the dark islet at Dusk and wait for a Riverglint.",
+     "map": "mirefen_bog",
+     "at": null,
+     "flag": "sq_gd_riverglint_sat",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_riverglint_s2",
+     "desc": "Sit with the angler again.",
+     "map": "mirefen_bog",
+     "at": null,
+     "flag": "sq_gd_riverglint_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "old_river_drawing",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": []
+   },
+   "lines": [
+    {
+     "npc": "mirefen_angler",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_gd_riverglint.start",
+     "text": [
+      "There's a fish that only shows where the river beast once rested.",
+      "By the dark islet. At dusk. Sit still and you might see."
+     ]
+    },
+    {
+     "npc": "mirefen_angler",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_gd_riverglint.turn_in",
+     "text": [
+      "Upstream. It always points upstream.",
+      "The old people called the river beast \"the one who keeps the light\".",
+      "Here. My gran's drawing. Don't say anything. Just nod."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_gd_riverglint_sat",
+    "sq_gd_riverglint_back"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "The Guardian",
+   "region": 5,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R5.2"
+  },
+  {
+   "id": "sq_gd_sea_glass",
+   "title": "Violet Glass",
+   "type": "side",
+   "zone": "tidewater_coast",
+   "order": 174,
+   "map_status": "built",
+   "giver": {
+    "npc": "tidewater_beachcomber",
+    "map": "tidewater_coast"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_mirefen"
+   ],
+   "steps": [
+    {
+     "id": "sq_gd_sea_glass_s1",
+     "desc": "Listen to the beachcomber's wind chime.",
+     "map": "tidewater_coast",
+     "at": null,
+     "flag": "sq_gd_sea_glass_chime",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_sea_glass_s2",
+     "desc": "Take the bag of violet sea glass to the evidence board at The Firefly.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_gd_sea_glass_bag",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_sea_glass_s3",
+     "desc": "Tell the beachcomber.",
+     "map": "tidewater_coast",
+     "at": null,
+     "flag": "sq_gd_sea_glass_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "tidebell_charm",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_board_sea_glass"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "tidewater_beachcomber",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_gd_sea_glass.start",
+     "text": [
+      "My best sea glass is violet now. More every month.",
+      "It's washing out of the river mouth. The river's bleeding.",
+      "The Firefly lot asked for some. For evidence."
+     ]
+    },
+    {
+     "npc": "tidewater_beachcomber",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_gd_sea_glass.turn_in",
+     "text": [
+      "Thank you. The river's been trying to tell someone."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_gd_sea_glass_chime",
+    "sq_gd_sea_glass_bag",
+    "sq_gd_sea_glass_back",
+    "ug_board_sea_glass"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "The Guardian",
+   "region": 6,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R6.1 (rewrite of placeholder sq_sea_glass)"
+  },
+  {
+   "id": "sq_ug_lifeguard",
+   "title": "Unbound in the Water",
+   "type": "side",
+   "zone": "tidewater_coast",
+   "order": 175,
+   "map_status": "built",
+   "giver": {
+    "npc": "tidewater_coast_lifeguard",
+    "map": "tidewater_coast"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_mirefen"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_lifeguard_s1",
+     "desc": "Earn the lifeguard's trust (a lead with high Warmth) at his tower.",
+     "map": "tidewater_coast",
+     "at": null,
+     "flag": "sq_ug_lifeguard_trusted",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_lifeguard_s2",
+     "desc": "Talk to the lifeguard.",
+     "map": "tidewater_coast",
+     "at": null,
+     "flag": "sq_ug_lifeguard_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "droplet_charm",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": []
+   },
+   "lines": [
+    {
+     "npc": "tidewater_coast_lifeguard",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_lifeguard.start",
+     "text": [
+      "Watching the water. Nothing to see.",
+      "Come back to the buoy with a partner who trusts you. Then maybe."
+     ]
+    },
+    {
+     "npc": "tidewater_coast_lifeguard",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_lifeguard.turn_in",
+     "text": [
+      "No crystal. Not ever. It came back on its own.",
+      "You didn't see that. Go on."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_lifeguard_trusted",
+    "sq_ug_lifeguard_back"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 6,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R6.2"
+  },
+  {
+   "id": "sq_ug_keeper_logbook",
+   "title": "The Keeper's Other Log",
+   "type": "side",
+   "zone": "lanternport",
+   "order": 176,
+   "map_status": "built",
+   "giver": {
+    "npc": "lanternport_lighthouse_keeper",
+    "map": "lanternport"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_tidewater"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_keeper_logbook_s1",
+     "desc": "Take the keeper's log page to the evidence board at The Firefly.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_keeper_logbook_page",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_keeper_logbook_s2",
+     "desc": "Tell the keeper.",
+     "map": "lanternport",
+     "at": null,
+     "flag": "sq_ug_keeper_logbook_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "lure_lantern",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_board_keeper_page"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "lanternport_lighthouse_keeper",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_keeper_logbook.start",
+     "text": [
+      "I keep two logs. Weather, and violet lights at sea.",
+      "Company boats with crates, I'd guess. Take a page to The Firefly?"
+     ]
+    },
+    {
+     "npc": "lanternport_lighthouse_keeper",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_keeper_logbook.turn_in",
+     "text": [
+      "I can forecast a storm three days out. People, never."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_keeper_logbook_page",
+    "sq_ug_keeper_logbook_back",
+    "ug_board_keeper_page"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 7,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R7.1"
+  },
+  {
+   "id": "sq_gd_ron_dream",
+   "title": "Same Dream",
+   "type": "side",
+   "zone": "lanternport",
+   "order": 177,
+   "map_status": "built",
+   "giver": {
+    "npc": "ron",
+    "map": "house_1f"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "ron_page_shared"
+   ],
+   "steps": [
+    {
+     "id": "sq_gd_ron_dream_s1",
+     "desc": "Hear Ron out at the kitchen table.",
+     "map": "house_1f",
+     "at": null,
+     "flag": "sq_gd_ron_dream_heard",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_ron_dream_s2",
+     "desc": "Talk to Ron again.",
+     "map": "house_1f",
+     "at": null,
+     "flag": "sq_gd_ron_dream_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_ron_same_dream"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "ron",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_gd_ron_dream.start",
+     "text": [
+      "Don't laugh. I've been having the river dream too."
+     ]
+    },
+    {
+     "npc": "ron",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_gd_ron_dream.turn_in",
+     "text": [
+      "Right. That's enough feelings for one bin day."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_gd_ron_dream_heard",
+    "sq_gd_ron_dream_back",
+    "ug_ron_same_dream"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "The Guardian",
+   "region": 7,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R7.2"
+  },
+  {
+   "id": "sq_gd_caldrith",
+   "title": "Why the Forges Stay Warm",
+   "type": "side",
+   "zone": "cindervale",
+   "order": 178,
+   "map_status": "built",
+   "giver": {
+    "npc": "cindervale_smith",
+    "map": "cindervale"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_lanternport"
+   ],
+   "steps": [
+    {
+     "id": "sq_gd_caldrith_s1",
+     "desc": "Ask the baker about her warm stones.",
+     "map": "cindervale",
+     "at": null,
+     "flag": "sq_gd_caldrith_baker",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_caldrith_s2",
+     "desc": "Feel the old forge at Night.",
+     "map": "cindervale",
+     "at": null,
+     "flag": "sq_gd_caldrith_forge",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_gd_caldrith_s3",
+     "desc": "Tell the smith.",
+     "map": "cindervale",
+     "at": null,
+     "flag": "sq_gd_caldrith_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "ember_charm",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": []
+   },
+   "lines": [
+    {
+     "npc": "cindervale_smith",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_gd_caldrith.start",
+     "text": [
+      "The forges are cooling since Revival Tech opened a crystal kiln next door.",
+      "I don't fit crystals to my forge creatures. Never have. Go feel the old forge at night."
+     ]
+    },
+    {
+     "npc": "cindervale_smith",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_gd_caldrith.turn_in",
+     "text": [
+      "The old one under the mountain dreams. My grandad said so.",
+      "If it's dreaming of that river creature's pain, the signal reaches everywhere.",
+      "Tell the Firefly lot they've a friend at the anvil."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_gd_caldrith_baker",
+    "sq_gd_caldrith_forge",
+    "sq_gd_caldrith_back"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "The Guardian",
+   "region": 8,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R8.1"
+  },
+  {
+   "id": "sq_ug_last_flyer",
+   "title": "Everyone Signs",
+   "type": "side",
+   "zone": "cindervale",
+   "order": 179,
+   "map_status": "built",
+   "giver": {
+    "npc": "rebel_bouncer",
+    "map": "club_int"
+   },
+   "start": "npc",
+   "turn_in": "npc",
+   "prerequisites": [
+    "beat_master_lanternport"
+   ],
+   "steps": [
+    {
+     "id": "sq_ug_last_flyer_s1",
+     "desc": "Collect signatures from the people you helped, then check the petition overnight.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_last_flyer_signed",
+     "condition": null,
+     "optional": false
+    },
+    {
+     "id": "sq_ug_last_flyer_s2",
+     "desc": "Hand the petition to the bouncer.",
+     "map": "club_int",
+     "at": null,
+     "flag": "sq_ug_last_flyer_back",
+     "condition": null,
+     "optional": false
+    }
+   ],
+   "reward": {
+    "items_placeholder": [
+     {
+      "id": "clear_bell",
+      "qty": 1
+     }
+    ],
+    "money_placeholder": 0,
+    "flags": [
+     "ug_poster_we_go"
+    ]
+   },
+   "lines": [
+    {
+     "npc": "rebel_bouncer",
+     "context": "start",
+     "step": null,
+     "key": "underground_quests.sq_ug_last_flyer.start",
+     "text": [
+      "Last thing. A petition. Everyone you've helped, in every town.",
+      "It's not one rebel. It's ordinary people. Show them that."
+     ]
+    },
+    {
+     "npc": "rebel_bouncer",
+     "context": "in_progress",
+     "step": null,
+     "key": "underground_quests.sq_ug_last_flyer.in_progress",
+     "text": [
+      "Every town. The people you helped. Then bring it here."
+     ]
+    },
+    {
+     "npc": "rebel_bouncer",
+     "context": "turn_in",
+     "step": null,
+     "key": "underground_quests.sq_ug_last_flyer.turn_in",
+     "text": [
+      "Everyone signed. Even... whoever left that print.",
+      "New poster for the wall. WE ASKED. NOW WE GO."
+     ]
+    }
+   ],
+   "new_ids": [
+    "sq_ug_last_flyer_signed",
+    "sq_ug_last_flyer_back",
+    "ug_poster_we_go"
+   ],
+   "status": "DRAFT",
+   "ug": true,
+   "arc": "Kilumen Underground",
+   "region": 8,
+   "outline": "UNDERGROUND_GUARDIAN_SIDESTORIES.md 6 R8.2"
   }
  ]
 }

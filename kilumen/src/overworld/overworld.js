@@ -833,6 +833,7 @@ export class Overworld {
       phase: this.phase, hour: this.hour, counters: this.counters, zone: this.zone(), facing: this.player.facing,
       isSeen: (k) => !!this.seen[k], seenToday: (k) => this.seenDay[k] === this.clock.day,
       lead: lead ? { species: lead.species, nickname: lead.nickname, type: element || lead.type || null } : null,
+      leadWarmth: lead ? (lead.warmth ?? 0) : null, // requires_state lead_warmth_gte (Underground)
       party: this.party, stillS: (ms - this.stillSince) / 1000,
       idleAfterHealS: this.healedAt == null ? -1 : (ms - Math.max(this.healedAt, this.stillSince)) / 1000,
       binStage: this.binShown ?? null,
@@ -1005,6 +1006,7 @@ export class Overworld {
       if (f) this.startWarp({ map: f.map, x: f.x, y: f.y, facing: 'down' }, 'door');
       return;
     }
+    if (this.underground?.runSpot && await this.underground.runSpot(sp)) return; // Kilumen Underground daily-look spots (src/underground)
     if (this.region78?.runSpot && await this.region78.runSpot(sp)) return; // r78 cave story spots (SIGNAL crate)
     if (this.region9?.runSpot && await this.region9.runSpot(sp)) return; // Wellspire + finale spots (src/region9)
     if (this.side?.runSpot && await this.side.runSpot(sp)) return; // side activities (src/side): kind 'side' spots

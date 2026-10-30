@@ -1957,6 +1957,10 @@
      ]
     }
    }
+  },
+  "underground": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "note": "Every line tagged draft:\"underground\" was written by Coder from the Story Bot outline; Text Bot owns final wording. List: data/textbot_requests_underground.md"
   }
  },
  "_proposed_names": {
@@ -3141,6 +3145,19 @@
        "That's either really good or really bad. My money's on bad.",
        "Field office, same as always. Go on, I'll be right behind you.",
        "And don't be late. I'm not covering for you again."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_ron_dream_heard",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_ron_dream_on"
+      ],
+      "sets": "sq_gd_ron_dream_heard",
+      "pages": [
+       "In my version its crystal is cracking. And it's angry. Not sad.",
+       "It didn't want help. It wanted out."
       ]
      }
     ]
@@ -10532,6 +10549,38 @@
        "NAMES, NOT NUMBERS.",
        "Underneath, smaller: \"(Seriously. Ask them their names.)\""
       ]
+     },
+     {
+      "id": "ug_sq_ug_poster_names_named",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_poster_names_on"
+      ],
+      "sets": "sq_ug_poster_names_named",
+      "pages": [
+       "She paints over the catalogue numbers cut from company flyers.",
+       "Your team's names go up, one by one. {lead} watches its own name dry."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_poster_names_named_warm",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_poster_names_on"
+      ],
+      "sets": [
+       "sq_ug_poster_names_named",
+       "ug_poster_true_colour"
+      ],
+      "requires_state": {
+       "lead_warmth_gte": 50
+      },
+      "pages": [
+       "She paints over the catalogue numbers cut from company flyers.",
+       "Behind {lead}'s name she adds a faint colour. Not violet. Its own."
+      ]
      }
     ]
    },
@@ -10734,7 +10783,226 @@
      }
     ]
    },
-   "area_name": "The Firefly"
+   "area_name": "The Firefly",
+   "ug_two_pots": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "Two little pots on the booth table. Somebody's watering them."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_greenhouse_d1_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_greenhouse_on"
+      ],
+      "requires_not": [
+       "sq_ug_greenhouse_d1"
+      ],
+      "pages": [
+       "Nothing new today. Plants take their time."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d1",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_greenhouse_on"
+      ],
+      "sets": "sq_ug_greenhouse_d1",
+      "pages": [
+       "Two pots. Same seedling. One sits by a violet shard, one by a firefly jar.",
+       "They look the same. For now."
+      ],
+      "requires_state": {
+       "counter": "ug_pots_days",
+       "gte": 1
+      }
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d2_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_greenhouse_on",
+       "sq_ug_greenhouse_d1"
+      ],
+      "requires_not": [
+       "sq_ug_greenhouse_d2"
+      ],
+      "pages": [
+       "Nothing new today. Plants take their time."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d2",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_greenhouse_on",
+       "sq_ug_greenhouse_d1"
+      ],
+      "sets": "sq_ug_greenhouse_d2",
+      "pages": [
+       "The shard pot leans a little. The jar pot has a new leaf."
+      ],
+      "requires_state": {
+       "counter": "ug_pots_days",
+       "gte": 2
+      }
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d3_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_greenhouse_on",
+       "sq_ug_greenhouse_d2"
+      ],
+      "requires_not": [
+       "sq_ug_greenhouse_d3"
+      ],
+      "pages": [
+       "Nothing new today. Plants take their time."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d3",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_greenhouse_on",
+       "sq_ug_greenhouse_d2"
+      ],
+      "sets": "sq_ug_greenhouse_d3",
+      "pages": [
+       "The jar pot is thriving. A bead of water sits on one leaf.",
+       "Lean close. It hums. Two notes, low, like a river far away."
+      ],
+      "requires_state": {
+       "counter": "ug_pots_days",
+       "gte": 3
+      }
+     }
+    ]
+   },
+   "ug_dj_desk": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "Decks, a crate of records, a sticky note: \"5 notes, not 4\"."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_dj_phrase_played_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_dj_phrase_on"
+      ],
+      "requires_not": [
+       "sq_gd_dj_phrase_played"
+      ],
+      "pages": [
+       "Not now. It only shows at Night."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_dj_phrase_played",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_dj_phrase_on"
+      ],
+      "sets": "sq_gd_dj_phrase_played",
+      "pages": [
+       "Four notes. Then nothing.",
+       "{lead} turns toward the river every time the tune stops on the fourth note."
+      ],
+      "time": [
+       "night",
+       "dusk"
+      ]
+     }
+    ]
+   },
+   "ug_evidence_board": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A cork board crowded with notes. Pins, string, a lot of question marks."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_frozen_camp_pinned",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_frozen_camp_on"
+      ],
+      "sets": "sq_ug_frozen_camp_pinned",
+      "pages": [
+       "The bouncer pins the page up. A drift chart.",
+       "Bonded creatures marked warm. Unbonded marked cold. On the back, in pencil: \"signal strongest downstream?\"",
+       "Someone rated the snow at the bottom. Four out of ten. Crunchy."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_sea_glass_bag",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_sea_glass_on",
+       "sq_gd_sea_glass_chime"
+      ],
+      "sets": "sq_gd_sea_glass_bag",
+      "pages": [
+       "The bouncer weighs the bag in one hand and pins the label up.",
+       "\"Tidewater. River mouth. More every month.\""
+      ]
+     },
+     {
+      "id": "ug_sq_ug_keeper_logbook_page",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_keeper_logbook_on"
+      ],
+      "sets": "sq_ug_keeper_logbook_page",
+      "pages": [
+       "The bouncer pins up the page. Rows of times and violet lights at sea.",
+       "Every light, the same note: \"sailed upstream at the river mouth\"."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_last_flyer_signed",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_last_flyer_on",
+       "q_sq_ug_greenhouse_done",
+       "q_sq_ug_dock_shards_done",
+       "q_sq_ug_intern_memo_done",
+       "q_sq_gd_shine_done",
+       "q_sq_ug_count_numbers_done",
+       "q_sq_gd_sea_glass_done",
+       "q_sq_ug_keeper_logbook_done",
+       "q_sq_gd_caldrith_done"
+      ],
+      "sets": "sq_ug_last_flyer_signed",
+      "pages": [
+       "The petition is full. Greenhouse, dock, annex, field, bog, beach, lighthouse, forge.",
+       "At the bottom, a print you didn't see anyone leave. Round, smooth. Like a river stone."
+      ]
+     }
+    ]
+   }
   },
   "route_east": {
    "route_east_trainer_1": {
@@ -11822,6 +12090,94 @@
     ],
     "kind": "prop",
     "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "ug_dock_crates": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "Crates stamped GREYSTONE. Stacked high."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_dock_shards_counted",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_dock_shards_on"
+      ],
+      "sets": "sq_ug_dock_shards_counted",
+      "pages": [
+       "You count the crates. Then again.",
+       "There are more here than the shipping log says."
+      ]
+     }
+    ]
+   },
+   "ug_wet_crate": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A crate set apart from the others."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_dock_shards_silt",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_dock_shards_on",
+       "sq_ug_dock_shards_counted"
+      ],
+      "sets": "sq_ug_dock_shards_silt",
+      "pages": [
+       "This one is wet. River silt in the corners.",
+       "Greystone is dry rock all the way down."
+      ]
+     }
+    ]
+   },
+   "saltmere_dockhand": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "Crates in, crates out. Nobody asks what's in them. Nobody asks me anything."
+    ],
+    "lines": []
+   },
+   "ug_glass_stall": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A crate of glass crystals. Shiny. Not violet. Not quite."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_honest_glass_watched",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_honest_glass_on"
+      ],
+      "sets": "sq_ug_honest_glass_watched",
+      "pages": [
+       "A woman buys a glass crystal and clips it on her creature's collar.",
+       "It looks fitted. It isn't. She pays and walks off fast, smiling."
+      ]
+     }
+    ]
+   },
+   "lucky_crystal_seller": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "Lucky crystals! Glass ones. Very lucky. Very glass."
+    ],
+    "lines": []
    }
   },
   "saltmere_office_int": {
@@ -12525,7 +12881,25 @@
      }
     ]
    },
-   "area_name": "Revival Heights"
+   "area_name": "Revival Heights",
+   "rh_intern": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "First week at the annex. Everyone walks very fast."
+    ],
+    "lines": []
+   },
+   "rh_annex_sign": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground NPC / look spot",
+    "pages": [
+     "REVIVAL TECH - HEIGHTS ANNEX. Deliveries round the front."
+    ],
+    "lines": []
+   }
   },
   "revival_hall_int": {
    "revival_hall_int_master": {
@@ -13336,6 +13710,15 @@
     ],
     "kind": "prop",
     "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "frostspire_climber": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "Found this frozen by the pass. A page from that field team, I think."
+    ],
+    "lines": []
    }
   },
   "frostspire_hall_int": {
@@ -13739,7 +14122,56 @@
      }
     ]
    },
-   "area_name": "Sunmeadow Fields"
+   "area_name": "Sunmeadow Fields",
+   "ug_nan_fence": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "The field edge. The barrier shine glows on the horizon."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_shine_dawn_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_shine_on"
+      ],
+      "requires_not": [
+       "sq_gd_shine_dawn"
+      ],
+      "pages": [
+       "Not now. Come back at Dawn."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_shine_dawn",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_shine_on"
+      ],
+      "sets": "sq_gd_shine_dawn",
+      "pages": [
+       "The shine on the barrier glows over the grass.",
+       "A Halovy lands on the fence post. It turns its back to the shine and faces the river."
+      ],
+      "time": [
+       "dawn"
+      ]
+     }
+    ]
+   },
+   "sunmeadow_nan": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "Lovely morning. The barrier shine's up early again."
+    ],
+    "lines": []
+   }
   },
   "route_revival_sunmeadow": {
    "route_revival_sunmeadow_trainer_1": {
@@ -15310,7 +15742,79 @@
      }
     ]
    },
-   "area_name": "Tidewater Coast"
+   "area_name": "Tidewater Coast",
+   "ug_wind_chime": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A wind chime of sea glass hangs from the lamp."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_sea_glass_chime",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_sea_glass_on"
+      ],
+      "sets": "sq_gd_sea_glass_chime",
+      "pages": [
+       "Violet glass, tied on string. The breeze knocks it about.",
+       "For a second it plays four notes you know. Then just noise again."
+      ]
+     }
+    ]
+   },
+   "tidewater_beachcomber": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "Low tide's the best time. The sea gives things back."
+    ],
+    "lines": []
+   },
+   "ug_lifeguard_buoy": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A buoy bobbing past the breakers."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_lifeguard_trusted_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_lifeguard_on"
+      ],
+      "requires_not": [
+       "sq_ug_lifeguard_trusted"
+      ],
+      "pages": [
+       "Your partner hangs back. Maybe when it trusts you more."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_lifeguard_trusted",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_lifeguard_on"
+      ],
+      "sets": "sq_ug_lifeguard_trusted",
+      "pages": [
+       "A swimming creature surfaces by the buoy. No crystal at all.",
+       "It panics at a big wave, ducks under, then comes back to the lifeguard on its own."
+      ],
+      "requires_state": {
+       "lead_warmth_gte": 50
+      }
+     }
+    ]
+   }
   },
   "tidewater_hall_int": {
    "tidewater_hall_int_master": {
@@ -16755,6 +17259,71 @@
     ],
     "kind": "prop",
     "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "cindervale_baker": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "Fresh bread, warm stones. Well. Warm-ish stones."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_caldrith_baker",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_caldrith_on"
+      ],
+      "sets": "sq_gd_caldrith_baker",
+      "pages": [
+       "My baking stones used to stay warm till lunch. Now they're cold by nine.",
+       "Since that kiln opened. I'm not saying anything. I'm saying nine."
+      ]
+     }
+    ]
+   },
+   "ug_forge_vent": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "The old forge. Warm, even now."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_caldrith_forge_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_caldrith_on",
+       "sq_gd_caldrith_baker"
+      ],
+      "requires_not": [
+       "sq_gd_caldrith_forge"
+      ],
+      "pages": [
+       "Not now. It only shows at Night."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_caldrith_forge",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_caldrith_on",
+       "sq_gd_caldrith_baker"
+      ],
+      "sets": "sq_gd_caldrith_forge",
+      "pages": [
+       "Heat breathes up from deep under the town, slow, like sleep.",
+       "In it, faint, the same four river notes. Even down here."
+      ],
+      "time": [
+       "night"
+      ]
+     }
+    ]
    }
   },
   "cindervale_hall_int": {
@@ -18165,7 +18734,79 @@
      }
     ]
    },
-   "area_name": "Mirefen Bog"
+   "area_name": "Mirefen Bog",
+   "ug_count_reeds": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "Tall reeds. The water looks low here."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_count_numbers_reeds",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_count_numbers_on"
+      ],
+      "sets": "sq_ug_count_numbers_reeds",
+      "pages": [
+       "Crate tracks in the mud. Company boot prints.",
+       "The bog water here is lower than anywhere else."
+      ]
+     }
+    ]
+   },
+   "mirefen_census_clerk": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "Census. Every creature counted, every week. It's soothing. Usually."
+    ],
+    "lines": []
+   },
+   "ug_dark_islet": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "Dark water round a little islet. Very still."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_riverglint_sat_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_riverglint_on"
+      ],
+      "requires_not": [
+       "sq_gd_riverglint_sat"
+      ],
+      "pages": [
+       "Not now. Come back at Dusk."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_riverglint_sat",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_riverglint_on"
+      ],
+      "sets": "sq_gd_riverglint_sat",
+      "pages": [
+       "You sit. Nobody talks. The water goes gold for a breath.",
+       "A Riverglint flashes once, pointing upstream, then it's gone."
+      ],
+      "time": [
+       "dusk"
+      ]
+     }
+    ]
+   }
   },
   "lantern_rest": {
    "keeper": {
@@ -18359,7 +19000,40 @@
      }
     ]
    },
-   "area_name": "Lantern Rest"
+   "area_name": "Lantern Rest",
+   "ug_ivo_stone": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A blank stone. No name yet."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_miner_lamp_stone",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_miner_lamp_on",
+       "sq_gd_miner_lamp_crack"
+      ],
+      "sets": "sq_gd_miner_lamp_stone",
+      "pages": [
+       "You set a small stone with the others.",
+       "For the one that warned him anyway."
+      ]
+     }
+    ]
+   },
+   "ivo_miner": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "I dug Greystone twenty years. I come here now. It's quieter."
+    ],
+    "lines": []
+   }
   },
   "heal_lanternport": {
    "staff_door_locked": {
@@ -21885,6 +22559,189 @@
     "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026",
     "kind": "clerk",
     "variant_of": "clerk"
+   }
+  },
+  "greystone_seam": {
+   "ug_seam_crack": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A crack in the rock with violet behind it. It's quiet now."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_miner_lamp_crack_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_miner_lamp_on"
+      ],
+      "requires_not": [
+       "sq_gd_miner_lamp_crack"
+      ],
+      "pages": [
+       "Not now. It only shows at Night."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_miner_lamp_crack",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_miner_lamp_on"
+      ],
+      "sets": "sq_gd_miner_lamp_crack",
+      "pages": [
+       "A crack in the rock. Behind it, violet crystal.",
+       "And behind the crystal, water. Moving. Your lantern light dims, then holds."
+      ],
+      "time": [
+       "night"
+      ]
+     }
+    ]
+   },
+   "ug_seam_cart": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground NPC / look spot",
+    "pages": [
+     "An old ore cart. Somebody left in a hurry, and left it full."
+    ],
+    "lines": []
+   }
+  },
+  "revival_rt_annex": {
+   "ug_recal_door": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A shutter between the racks. RECALIBRATION. STAFF ONLY."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_intern_memo_delivered",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_intern_memo_on"
+      ],
+      "sets": "sq_ug_intern_memo_delivered",
+      "pages": [
+       "The box is carry-cases. Each tag reads: TINT DRIFT. RECALIBRATE.",
+       "You set them by the door. A hand takes them in. The door shuts."
+      ]
+     }
+    ]
+   },
+   "ug_river_window": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "The window looks down on the river."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_intern_memo_window",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_ug_intern_memo_on",
+       "sq_ug_intern_memo_delivered"
+      ],
+      "sets": "sq_ug_intern_memo_window",
+      "pages": [
+       "The window looks down on the river.",
+       "There is a dark line on the bank, high above the water."
+      ]
+     }
+    ]
+   },
+   "rh_cleaner": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "I've dusted this place since before it had a name on the door."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_lobby_art_cleaner",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_lobby_art_on"
+      ],
+      "sets": "sq_gd_lobby_art_cleaner",
+      "pages": [
+       "That picture? The Unbound would give their eyeteeth for the bit under the banner.",
+       "Not that I'd know. I just dust it."
+      ]
+     }
+    ]
+   },
+   "ug_founder_picture": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground look spot",
+    "pages": [
+     "A big company banner hangs over a painting. The plaque says: \"Where it all began\"."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_lobby_art_lifted_wait",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_lobby_art_on",
+       "sq_gd_lobby_art_cleaner"
+      ],
+      "requires_not": [
+       "sq_gd_lobby_art_lifted"
+      ],
+      "pages": [
+       "Not now. It only shows at Night."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_lobby_art_lifted",
+      "draft": "underground",
+      "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+      "requires": [
+       "q_sq_gd_lobby_art_on",
+       "sq_gd_lobby_art_cleaner"
+      ],
+      "sets": "sq_gd_lobby_art_lifted",
+      "pages": [
+       "You lift the corner. A huge river creature, the founder kneeling by it.",
+       "Its forehead crystal is cracked. Its eyes are shut. Not asleep. In pain."
+      ],
+      "time": [
+       "night"
+      ]
+     }
+    ]
+   },
+   "rh_annex_guard": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground quest giver",
+    "pages": [
+     "Annex. Staff and visitors. You're... a visitor. Fine."
+    ],
+    "lines": []
+   },
+   "ug_annex_tanks": {
+    "draft": "underground",
+    "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+    "role": "Underground NPC / look spot",
+    "pages": [
+     "Tanks of clear water. Empty. Labelled for \"drift units\"."
+    ],
+    "lines": []
    }
   }
  },
@@ -34994,5 +35851,236 @@
  "map_titles": {
   "gullhaven_cave_west": "Kelpwind Cave",
   "gullhaven_cave_east": "Gullbone Cave"
+ },
+ "underground_quests": {
+  "sq_ug_greenhouse": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R1.1",
+   "start": [
+    "I'm growing the same seedling twice. One by a crystal shard, one by a firefly jar.",
+    "Look at them once a day for three days? Tell me what you see. Not what you think."
+   ],
+   "in_progress": [
+    "Once a day. Plants don't care how keen you are."
+   ],
+   "turn_in": [
+    "The jar one thrived. Huh.",
+    "One pot's not science, mind. I won't say more than that.",
+    "Take the healthy cutting. Put it by your window."
+   ]
+  },
+  "sq_ug_poster_names": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R1.2",
+   "start": [
+    "Company flyers give every creature a number. I give them back their names.",
+    "Will you lend me yours for the wall? The poster by the door."
+   ],
+   "turn_in": [
+    "There. Names, not numbers.",
+    "I left the last space blank. For the big one from the river, whatever its name is."
+   ]
+  },
+  "sq_gd_dj_phrase": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R1.3",
+   "start": [
+    "Got my records back. Still can't finish the phrase. Five notes, and I only ever get four.",
+    "Come by the desk tonight. Tell me what your partner does."
+   ],
+   "turn_in": [
+    "It turned to the river? Every time?",
+    "I heard it once under the water. Like something calling for help.",
+    "I reckon the company signal jams the last note. Embarrassing, but I dream about a river."
+   ]
+  },
+  "sq_ug_dock_shards": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R2.1",
+   "start": [
+    "Can you count crates? Quietly?",
+    "The Greystone ones. The log never matches. I just need someone who isn't me to count."
+   ],
+   "turn_in": [
+    "More than they declare. I knew it.",
+    "Don't say I asked. I like my job.",
+    "Salt-toffee. The only thing on this dock nobody counts."
+   ]
+  },
+  "sq_gd_miner_lamp": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R2.2",
+   "start": [
+    "I quit Greystone. The deepest seam breathed. You could hear it.",
+    "There's a way down from B1, past the bottom pool. Go at night. Look at the crack."
+   ],
+   "in_progress": [
+    "Night. The seam only breathes at night."
+   ],
+   "turn_in": [
+    "Water. Behind the crystal. So I wasn't mad.",
+    "The creatures digging beside me were fitted. They couldn't flinch when the rock moved.",
+    "One did anyway. Thank you for the stone."
+   ]
+  },
+  "sq_ug_honest_glass": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R2.3",
+   "start": [
+    "Want to know a secret? My glass crystals sell best to people who hate the real ones.",
+    "Watch the stall for a bit. You'll see."
+   ],
+   "turn_in": [
+    "See? It looks fitted for the inspectors. That's all.",
+    "Don't tell anyone I'm brave. I'm not. I just sell glass."
+   ]
+  },
+  "sq_ug_intern_memo": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R3.1",
+   "start": [
+    "Could you take this box to the annex? Recalibration door. They're drift units.",
+    "I'm not sure what drift is, exactly. I'm new."
+   ],
+   "turn_in": [
+    "Thanks. Did they say what recalibration is?",
+    "No? Okay.",
+    "You can see the river from up there, right? It used to be higher. My gran says."
+   ]
+  },
+  "sq_gd_lobby_art": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R3.2",
+   "start": [
+    "Report anyone staring at the founder's picture too long. Company rule.",
+    "You can look. For one second. I'm bored, not cruel."
+   ],
+   "turn_in": [
+    "One second, I said. Fine. It's a good picture.",
+    "The plaque says \"Where it all began\". Nobody asks where that is."
+   ]
+  },
+  "sq_ug_frozen_camp": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R4.1",
+   "start": [
+    "Found this frozen by the pass. A page from that field team, I think.",
+    "The Firefly lot keep a board for these. Would you take it?"
+   ],
+   "turn_in": [
+    "Pinned up? Good. Somebody should read it who isn't a glacier."
+   ]
+  },
+  "sq_gd_shine": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R4.2",
+   "start": [
+    "The shine on that barrier gets brighter every season. Brighter as more creatures get fitted.",
+    "River gets lower too. I count seasons, that's all. Come and look at dawn."
+   ],
+   "turn_in": [
+    "My Tumbloams slipped out once. One got hurt by a wild Enraged one.",
+    "Wild is hard. That doesn't make the shine kind."
+   ]
+  },
+  "sq_ug_count_numbers": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R5.1",
+   "start": [
+    "The count goes down every week. Same reeds. Same week day.",
+    "Would you look at those reeds for me? I follow rules. I want to know which rule this is."
+   ],
+   "turn_in": [
+    "Taken for \"catalogue\". Of course.",
+    "This week my report lists names, not numbers. One rule broken. Once.",
+    "I'm rather proud of it."
+   ]
+  },
+  "sq_gd_riverglint": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R5.2",
+   "start": [
+    "There's a fish that only shows where the river beast once rested.",
+    "By the dark islet. At dusk. Sit still and you might see."
+   ],
+   "turn_in": [
+    "Upstream. It always points upstream.",
+    "The old people called the river beast \"the one who keeps the light\".",
+    "Here. My gran's drawing. Don't say anything. Just nod."
+   ]
+  },
+  "sq_gd_sea_glass": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R6.1 (rewrite of placeholder sq_sea_glass)",
+   "start": [
+    "My best sea glass is violet now. More every month.",
+    "It's washing out of the river mouth. The river's bleeding.",
+    "The Firefly lot asked for some. For evidence."
+   ],
+   "turn_in": [
+    "Thank you. The river's been trying to tell someone."
+   ]
+  },
+  "sq_ug_lifeguard": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R6.2",
+   "start": [
+    "Watching the water. Nothing to see.",
+    "Come back to the buoy with a partner who trusts you. Then maybe."
+   ],
+   "turn_in": [
+    "No crystal. Not ever. It came back on its own.",
+    "You didn't see that. Go on."
+   ]
+  },
+  "sq_ug_keeper_logbook": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R7.1",
+   "start": [
+    "I keep two logs. Weather, and violet lights at sea.",
+    "Company boats with crates, I'd guess. Take a page to The Firefly?"
+   ],
+   "turn_in": [
+    "I can forecast a storm three days out. People, never."
+   ]
+  },
+  "sq_gd_ron_dream": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R7.2",
+   "start": [
+    "Don't laugh. I've been having the river dream too."
+   ],
+   "turn_in": [
+    "Right. That's enough feelings for one bin day."
+   ]
+  },
+  "sq_gd_caldrith": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R8.1",
+   "start": [
+    "The forges are cooling since Revival Tech opened a crystal kiln next door.",
+    "I don't fit crystals to my forge creatures. Never have. Go feel the old forge at night."
+   ],
+   "turn_in": [
+    "The old one under the mountain dreams. My grandad said so.",
+    "If it's dreaming of that river creature's pain, the signal reaches everywhere.",
+    "Tell the Firefly lot they've a friend at the anvil."
+   ]
+  },
+  "sq_ug_last_flyer": {
+   "status": "DRAFT for Text Bot (from Story Bot outline design/UNDERGROUND_GUARDIAN_SIDESTORIES.md s6)",
+   "outline": "6 R8.2",
+   "start": [
+    "Last thing. A petition. Everyone you've helped, in every town.",
+    "It's not one rebel. It's ordinary people. Show them that."
+   ],
+   "in_progress": [
+    "Every town. The people you helped. Then bring it here."
+   ],
+   "turn_in": [
+    "Everyone signed. Even... whoever left that print.",
+    "New poster for the wall. WE ASKED. NOW WE GO."
+   ]
+  }
  }
 }

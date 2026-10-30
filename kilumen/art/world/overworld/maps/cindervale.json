@@ -13079,6 +13079,15 @@
    "sight_range": 0,
    "sight_cells": [],
    "pocket": "cv_pocket_crack"
+  },
+  {
+   "id": "cindervale_baker",
+   "x": 20,
+   "y": 24,
+   "facing": "down",
+   "kind": "villager",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.cindervale.cindervale_baker"
   }
  ],
  "signs": [
@@ -13332,6 +13341,19 @@
    "easter_egg": true,
    "pocket": "cv_pocket_crack",
    "text_ref": "overworld_lines.json maps.cindervale.r9_cvp_egg_bell"
+  },
+  {
+   "id": "ug_forge_vent",
+   "kind": "prop",
+   "x": 28,
+   "y": 21,
+   "stand": [
+    28,
+    22
+   ],
+   "face": "up",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.cindervale.ug_forge_vent"
   }
  ]
 }

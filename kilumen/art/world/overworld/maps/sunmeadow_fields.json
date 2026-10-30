@@ -15978,6 +15978,15 @@
     ]
    ],
    "pocket": "smf_pocket_hollow"
+  },
+  {
+   "id": "sunmeadow_nan",
+   "x": 16,
+   "y": 18,
+   "facing": "down",
+   "kind": "villager",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.sunmeadow_fields.sunmeadow_nan"
   }
  ],
  "signs": [
@@ -16236,6 +16245,19 @@
    "easter_egg": true,
    "pocket": "smf_pocket_hollow",
    "text_ref": "overworld_lines.json maps.sunmeadow_fields.r9_smfp_egg_hive"
+  },
+  {
+   "id": "ug_nan_fence",
+   "kind": "prop",
+   "x": 16,
+   "y": 21,
+   "stand": [
+    15,
+    21
+   ],
+   "face": "right",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.sunmeadow_fields.ug_nan_fence"
   }
  ]
 }

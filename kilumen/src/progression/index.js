@@ -225,7 +225,8 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
       if (!quiet) scene.toast?.(tx(ui, 'system_tasks.toast_complete', 'Task complete: {task}', { task: q.title }));
       save();
     };
-    const sayLines = async (ls, n) => { for (const l of ls) await scene.say(l.text, l.npc === 'system' || l.npc === 'player_start' ? null : scene.speakerFor?.(n)); };
+    const keyPages = (k) => { let v = scene.lines; for (const p of String(k).split('.')) v = v?.[p]; return Array.isArray(v) && v.length ? v : null; }; // Underground (Oct 30 2026): Text Bot key first, quests.json text as fallback
+    const sayLines = async (ls, n) => { for (const l of ls) await scene.say((l.key && keyPages(l.key)) || l.text, l.npc === 'system' || l.npc === 'player_start' ? null : scene.speakerFor?.(n)); };
     const inBattle = () => ui?.top?.scr === 'battle' || ui?.active === 'battle' || !!scene.inBattle;
     const derived = () => milestoneData(scene, sys, mb);
     mb.floor('trainers', retroTrainerWins(scene.flags)); // old saves: retro credit from beaten-trainer flags
