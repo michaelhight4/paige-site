@@ -3549,6 +3549,34 @@
       "overworld_sheet": "npcs/kilu_topiarix/overworld/kilu_topiarix_chibi_sheet.png",
       "overworld_sheet_2x": "npcs/kilu_topiarix/overworld/kilu_topiarix_chibi_sheet_2x.png",
       "overworld_sheet_3x": "npcs/kilu_topiarix/overworld/kilu_topiarix_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stall_crystal": {
+      "sprite_id": "vil_clerk_f",
+      "class": "crystal stall keeper (east park)",
+      "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stall_toys": {
+      "sprite_id": "vil_parent_m",
+      "class": "toy stall keeper (east park)",
+      "overworld_sheet": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stroller_park": {
+      "sprite_id": "vil_elder_f",
+      "class": "strolls the east park",
+      "overworld_sheet": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stroller_walk": {
+      "sprite_id": "vil_tourist_f",
+      "class": "strolls the south walk",
+      "overworld_sheet": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_3x.png"
     }
   },
   "unassigned_ready": {

@@ -43,6 +43,11 @@ test('PASS2_TEXT_FILES lists switchbacks and batch 2', () => {
   assert.equal(Object.keys(b5.maps.route_revival_sunmeadow).length, 2);
   assert.equal(Object.keys(b5.maps.route_revival_saltmere).length, 2);
   for (const [c, n] of Object.entries(b5.area_names)) assert.equal(SPEC.pockets.find((p) => p.cave === c)?.cave_title, n, c + ' cave title');
+  // logger scene (Gary 11:10 AM CT): every new Revival Heights NPC has Text Bot pages and is no longer text_pending
+  assert.ok(PASS2_TEXT_FILES.includes('data/textbot_logger_scene.json'));
+  const ls = R('data/textbot_logger_scene.json').maps.revival_heights, RH = R('art/world/overworld/maps/revival_heights.json');
+  for (const k of ['revival_heights_logger', 'revival_heights_tree_kilu', 'revival_heights_kid_hopscotch', 'revival_heights_kid_dog']) {
+    assert.ok(ls[k]?.pages?.length, k); const n = RH.npcs.find((d) => d.id === k); assert.ok(n, k + ' placed'); assert.ok(!n.text_pending, k + ' text_pending'); }
   for (const [id, n, mp] of [['r9_rhp_archivist', 'Ebba', 'route_revival_sunmeadow'], ['r9_rhp_technician', 'Sixten', 'revival_heights'], ['r9_rhp_gardener', 'Brita', 'route_revival_saltmere']]) { assert.equal(b5.maps[mp][id].name, n, id); assert.equal(SPEC.pockets.find((p) => p.trainer.id === id).trainer.name, n, id); assert.equal(FB.maps[mp][id].name, n, id + ' fallback'); }
 });
 for (const f of PASS2_TEXT_FILES) {
@@ -53,19 +58,21 @@ for (const f of PASS2_TEXT_FILES) {
       for (const [id, e] of Object.entries(ids)) {
         const npc = map.npcs.find((n) => n.id === id), spot = (map.interact_spots || []).find((s) => s.id === id);
         assert.ok(npc || spot || id === 'area_name', `${m}.${id} resolves on the map`);
-        if (!npc?.stall_shop) assert.ok(FB.maps[m]?.[id], `${m}.${id} mirrors a pass 2 key`); // stall keepers are town NPCs, not pocket keys
-        if (npc && !npc.stall_shop) for (const k of ['pages', 'battle_lost', 'battle_won', 'after']) assert.ok(e[k]?.length && e[k].every((s) => typeof s === 'string' && s.trim()), `${m}.${id}.${k}`);
+        const town = npc && !npc.team && !npc.pocket; // stall keepers / logger scene: town NPCs, not pocket keys
+        if (!town) assert.ok(FB.maps[m]?.[id], `${m}.${id} mirrors a pass 2 key`);
+        if (npc && !town) for (const k of ['pages', 'battle_lost', 'battle_won', 'after']) assert.ok(e[k]?.length && e[k].every((s) => typeof s === 'string' && s.trim()), `${m}.${id}.${k}`);
         else assert.ok(e.pages?.length, `${m}.${id}.pages`);
         for (const s of strings(e)) assert.ok(!BLOCKED.test(s), `${m}.${id}: blocked word in "${s}"`);
       }
     }
     // every pocket trainer / egg on a covered map has a Text Bot line
-    for (const p of SPEC.pockets.filter((q) => o.maps[q.map])) for (const id of [p.trainer.id, p.egg.id]) assert.ok(o.maps[p.map][id], `${p.map}.${id} missing`);
+    const all = PASS2_TEXT_FILES.reduce((a, g) => addPass2Text(R(g), a), { maps: {} }); // a map may be split over files (logger scene)
+    for (const p of SPEC.pockets.filter((q) => o.maps[q.map])) for (const id of [p.trainer.id, p.egg.id]) assert.ok(all.maps[p.map][id], `${p.map}.${id} missing`);
     // loader: Text Bot text beats the DRAFT fallback, overworld_lines still beats both
     const fin = addPass2Text(o, { maps: {} });
-    const [m, ids] = Object.entries(o.maps)[0]; const id = Object.keys(ids).find((k) => ids[k].battle_won);
+    const [m, ids] = Object.entries(o.maps)[0]; const id = Object.keys(ids).find((k) => ids[k].battle_won) || Object.keys(ids)[0];
     const out = withPass2Fallback({ maps: {} }, FB, fin);
-    assert.deepEqual(out.maps[m][id].battle_won, ids[id].battle_won);
+    assert.deepEqual(out.maps[m][id].battle_won ?? out.maps[m][id].pages, ids[id].battle_won ?? ids[id].pages);
     assert.ok(!strings(out.maps[m][id]).some((s) => s.startsWith('DRAFT: ')));
     const keep = withPass2Fallback({ maps: { [m]: { [id]: { pages: ['x'] } } } }, FB, fin);
     assert.deepEqual(keep.maps[m][id].pages, ['x']);

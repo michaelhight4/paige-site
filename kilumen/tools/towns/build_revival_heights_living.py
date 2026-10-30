@@ -96,7 +96,55 @@ NEW = [('revival_heights_logger', 22, 33, 'right', 'villager', 'logger by his ca
 for i, x, y, f, k, note in NEW:
     assert C[y][x] == 0, (i, x, y)
     m['npcs'].append({'id': i, 'x': x, 'y': y, 'facing': f, 'kind': k, 'static': True, 'note': note,
+                      'text_ref': f'data/textbot_logger_scene.json maps.revival_heights.{i}'})
+# 6. (Coder review of 0e9b8e6a, 11:21 AM CT) ONE cave mouth: Server Nook is a plain town cave with its mouth at 45,17 (rock
+#    face above the y18 walk). The old mouth over the glass building (43,8) and the pocket door in the east lot (52,10) go back
+#    to forest; the old nook floor 48-55,11-16 becomes the open east park and market (Sixten and the fan stay there as town
+#    content), the ledge at y17 becomes the park path, and both Vigor Seeds move into the cave interior.
+import subprocess
+BASE = json.loads(subprocess.check_output(['git', 'show', '3a39a391:kilumen/art/world/overworld/maps/revival_heights.json'], cwd=ROOT))
+def restore(x, y):
+    for k in ('ground', 'decoration', 'overlay', 'collision'): L[k][y][x] = BASE['layers'][k][y][x]
+for x0, y0 in ((42, 7), (51, 9)): rect(x0, y0, x0 + 2, y0 + 1, restore)
+m['warps'] = [w for w in m['warps'] if not (w.get('to') == 'revival_heights_cave_ne' and (w['x'], w['y']) != (45, 17))]
+assert [(w['x'], w['y']) for w in m['warps'] if w.get('to') == 'revival_heights_cave_ne'] == [(45, 17)], m['warps']
+WARPS = {(w['x'], w['y']) for w in m['warps']}
+def lawn(x, y):
+    L['ground'][y][x] = ID[f'grass_{vh(x, y)}']; L['decoration'][y][x] = 0; L['overlay'][y][x] = 0; C[y][x] = 0
+rect(48, 11, 55, 16, lawn); rect(49, 17, 51, 17, lawn)
+rect(50, 11, 50, 18, path); rect(48, 14, 55, 14, path); rect(44, 18, 51, 18, path)
+L['decoration'][11][48] = 509; C[11][48] = 1                     # the humming fan (Easter egg) on its server box
+prop(52, 11, 'x_city_stall_crystal_0_0'); prop(53, 11, 'x_city_stall_crystal_1_0')
+prop(48, 15, 'x_city_stall_toys_0_0'); prop(49, 15, 'x_city_stall_toys_1_0')
+prop(49, 13, 'x_city_bench_h'); prop(53, 16, 'x_city_bench_h')
+for x, y in ((48, 16), (55, 16)): prop(x, y, 'x_city_tree_base'); L['overlay'][y - 1][x] = ID['x_city_tree_top']
+for x, y in ((51, 12), (54, 12), (51, 16), (52, 16), (54, 15), (51, 13)): flowers(x, y)
+# narrower side roads: the lanes between the houses and the east lane keep one stone strip, the other half is lawn / hedge
+for x in (20, 36, 42): rect(x, 23, x, 27, grass)
+for y in (9, 10, 11, 15, 16, 17):
+    if C[y][42] == 0: prop(42, y, 'x_city_hedge')
+for x, y in ((43, 9), (43, 10)): flowers(x, y)
+MORE = [('revival_heights_stall_crystal', 53, 12, 'up', 'crystal stall in the east park'),
+        ('revival_heights_stall_toys', 49, 16, 'up', 'toy stall in the east park')]
+for i, x, y, f, note in MORE:
+    assert C[y][x] == 0, (i, x, y)
+    m['npcs'].append({'id': i, 'x': x, 'y': y, 'facing': f, 'kind': 'townsfolk', 'stall_shop': True,
+                      'note': note + ' (talk opens the RT Supply shop list, src/systems/index.js stall_shop)',
                       'text_ref': f'overworld_lines.json maps.revival_heights.{i}', 'text_pending': True})
-m['living_town'] = 'tools/towns/build_revival_heights_living.py (Oct 30 2026): lawns, pond, flower beds, cafe, statue, 3 market stalls, logging cabin scene, gardens, laundry, dog house, mailboxes, notice board, kids'
+for i, x, y, note in (('revival_heights_stroller_park', 52, 14, 'strolls round the east park'),
+                      ('revival_heights_stroller_walk', 34, 29, 'strolls the south walk past the stalls')):
+    assert C[y][x] == 0, (i, x, y)
+    m['npcs'].append({'id': i, 'x': x, 'y': y, 'facing': 'down', 'kind': 'villager', 'note': note,
+                      'text_ref': f'overworld_lines.json maps.revival_heights.{i}', 'text_pending': True})
+seeds = [i for i in m['items'] if i['id'] in ('r9_rhp_seed', 'rhp_servers_seed_visible')]
+m['items'] = [i for i in m['items'] if i not in seeds]
+CP = os.path.join(ROOT, 'art/world/overworld/maps/revival_heights_cave_ne.json'); cv = json.load(open(CP))
+cv['warps'] = [dict(w, tx=45, ty=18) for w in cv['warps'] if not w.get('pocket')]
+for k in ('ground', 'decoration', 'collision'): cv['layers'][k][2][7] = cv['layers'][k][2][6]
+cv.pop('pocket', None); cv['town_cave'] = 'Server Nook: one mouth (revival_heights 45,17); the old pocket exit 7,2 is walled'
+for it, (x, y) in zip(seeds, ((10, 7), (4, 3))):
+    assert cv['layers']['collision'][y][x] == 0; cv['items'].append(dict(it, x=x, y=y))
+json.dump(cv, open(CP, 'w'), indent=1)
+m['living_town'] = 'tools/towns/build_revival_heights_living.py (Oct 30 2026): lawns, pond, flower beds, cafe, statue, 3 market stalls, logging cabin scene, gardens, laundry, dog house, mailboxes, notice board, kids, east park market (one cave mouth 45,17)'
 json.dump(m, open(P, 'w'), indent=1, ensure_ascii=False); open(P, 'a').write('\n')
 print('ok')

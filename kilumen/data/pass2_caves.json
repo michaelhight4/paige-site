@@ -3856,8 +3856,8 @@
     ]
    ],
    "mouth": [
-    43,
-    8
+    45,
+    17
    ],
    "pocket_door": [
     52,
@@ -3916,6 +3916,7 @@
     "item": "vigor_seed"
    },
    "premise": "A technician in a server nook in the east rock; a Vigor Seed is behind the rack.",
+   "town_cave": "Coder review 0e9b8e6a (11:21 AM CT): one cave mouth only (45,17, above the y18 walk); the nook floor 48-55,11-16 is the open east park, pocket door 52,10 removed by build_revival_heights_living.py, both seeds moved into the cave",
    "map_cells": [
     {
      "x": 42,

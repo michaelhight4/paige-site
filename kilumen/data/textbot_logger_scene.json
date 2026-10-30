@@ -1,0 +1,46 @@
+{
+ "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Suggested ids; flag replant_promised optional.",
+ "maps": {
+  "revival_heights": {
+   "revival_heights_logger": {
+    "name": "Bjarke",
+    "trainer_class": "Logger",
+    "pages": [
+     "Look, I need logs. Logs come from\ntrees. That's just how logs work.",
+     "(The Topiarix plants itself in front\nof the last tree. Leaves everywhere.)",
+     "It's ONE tree. You're a shrub.\nWhy do you even care?",
+     "(It drops a twig on his boot.\nOn purpose. Probably.)",
+     "Fine! FINE. One cut, one sapling.\nI'll plant a new one for each."
+    ],
+    "after": [
+     "Two saplings in today. The Kilu\nstill won't talk to me. Rude."
+    ],
+    "status": "DRAFT"
+   },
+   "revival_heights_tree_kilu": {
+    "pages": [
+     "(A Topiarix stands guard in front\nof the last tree. It rustles at you.)",
+     "(It points a branch at the logger.\nIt seems to want a witness.)"
+    ],
+    "after": [
+     "(The Topiarix guards a neat row of\nsaplings. It rustles proudly.)"
+    ],
+    "status": "DRAFT"
+   },
+   "revival_heights_kid_hopscotch": {
+    "pages": [
+     "Hop, hop, skip! You can't step on\nthe garden patch. That's the rule.",
+     "I made the rule. It's a good rule."
+    ],
+    "status": "DRAFT"
+   },
+   "revival_heights_kid_dog": {
+    "pages": [
+     "Biscuit! Come out! It's sunny!",
+     "He only comes out for snacks.\nI don't have snacks. Do you?"
+    ],
+    "status": "DRAFT"
+   }
+  }
+ }
+}
