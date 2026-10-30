@@ -181,5 +181,33 @@ export const CAVE_POCKET_TEAMS = {
    "species": "calderock",
    "level": 63
   }
+ ],
+ "lanternport.r9_lpp_signaller": [
+  {
+   "species": "cascadorn",
+   "level": 63
+  },
+  {
+   "species": "tuskwallow",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  }
+ ],
+ "lanternport_grotto.r9_lgp_lampwright": [
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "novarch",
+   "level": 63
+  },
+  {
+   "species": "torrentpike",
+   "level": 63
+  }
  ]
 };

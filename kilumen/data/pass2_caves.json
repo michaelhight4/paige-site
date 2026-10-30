@@ -1523,6 +1523,212 @@
      "hidden": false
     }
    ]
+  },
+  {
+   "id": "lp_pocket_ledge",
+   "map": "lanternport",
+   "cave": "lanternport_grotto",
+   "cave_title": "Signal Ledge",
+   "floor": [
+    [
+     13,
+     10,
+     24,
+     10
+    ]
+   ],
+   "ledge": [
+    16,
+    18,
+    11
+   ],
+   "walk": [],
+   "mouth": null,
+   "pocket_door": [
+    20,
+    9
+   ],
+   "main_start": [
+    25,
+    22
+   ],
+   "floor_tile_at": [
+    20,
+    12
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave lanternport_grotto",
+    "out": "one-way ledge at y11 x16-18",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_lpp_signaller",
+    "x": 14,
+    "y": 10,
+    "level": 63,
+    "class": "Signaller",
+    "name": "Marit",
+    "species": [
+     "cascadorn",
+     "tuskwallow",
+     "galespar"
+    ],
+    "intro": [
+     "DRAFT: I flash the boats home from up here. You came the long way."
+    ],
+    "lost": [
+     "DRAFT: Signal received. You win."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge into town."
+    ]
+   },
+   "egg": {
+    "id": "r9_lpp_egg_mirror",
+    "x": 22,
+    "y": 9,
+    "what": "a cracked signal mirror",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A cracked signal mirror. It still flashes: HI. It only knows one word."
+    ]
+   },
+   "item": {
+    "id": "r9_lpp_crystal",
+    "x": 13,
+    "y": 10,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A signaller who flashes boats home from the north ledge; a Prime Crystal hides in the corner.",
+   "existing_cave": {
+    "crack": [
+     6,
+     14
+    ],
+    "land": [
+     6,
+     15
+    ]
+   },
+   "map_items": [
+    {
+     "id": "lp_ledge_seed_visible",
+     "x": 24,
+     "y": 10,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "lg_pocket_loft",
+   "map": "lanternport_grotto",
+   "cave": "lanternport_grotto_cave",
+   "cave_title": "Lamp Loft",
+   "floor": [
+    [
+     3,
+     1,
+     26,
+     2
+    ]
+   ],
+   "ledge": [
+    6,
+    8,
+    3
+   ],
+   "walk": [],
+   "mouth": [
+    9,
+    15
+   ],
+   "pocket_door": [
+    11,
+    1
+   ],
+   "main_start": [
+    15,
+    20
+   ],
+   "floor_tile_at": [
+    7,
+    4
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave lanternport_grotto_cave",
+    "out": "one-way ledge at y3 x6-8",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_lgp_lampwright",
+    "x": 8,
+    "y": 1,
+    "level": 63,
+    "class": "Lampwright",
+    "name": "Oona",
+    "species": [
+     "pharolith",
+     "novarch",
+     "torrentpike"
+    ],
+    "intro": [
+     "DRAFT: Every lamp in the harbour was lit from this loft. Want to see how bright?"
+    ],
+    "lost": [
+     "DRAFT: Bright enough. You win."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the pools."
+    ]
+   },
+   "egg": {
+    "id": "r9_lgp_egg_wicks",
+    "x": 3,
+    "y": 1,
+    "what": "a jar of spare wicks",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A jar of spare wicks, all labelled by year. One label just says: OOPS."
+    ]
+   },
+   "item": {
+    "id": "r9_lgp_crystal",
+    "x": 26,
+    "y": 2,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A lampwright who trims the harbour lamps in a hidden loft; a Prime Crystal sits by the oil.",
+   "map_cells": [
+    {
+     "x": 15,
+     "y": 8,
+     "g": null,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_rocks": [
+    [
+     14,
+     3
+    ],
+    [
+     17,
+     3
+    ]
+   ],
+   "map_items": [
+    {
+     "id": "lg_loft_seed_visible",
+     "x": 3,
+     "y": 2,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
   }
  ]
 }

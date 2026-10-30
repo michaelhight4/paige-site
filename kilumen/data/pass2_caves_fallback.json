@@ -354,6 +354,58 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "lanternport": {
+   "r9_lpp_signaller": {
+    "pages": [
+     "DRAFT: I flash the boats home from up here. You came the long way."
+    ],
+    "battle_lost": [
+     "DRAFT: Signal received. You win."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge into town."
+    ],
+    "trainer_class": "Signaller",
+    "name": "Marit",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_lpp_egg_mirror": {
+    "pages": [
+     "DRAFT: A cracked signal mirror. It still flashes: HI. It only knows one word."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "lanternport_grotto": {
+   "r9_lgp_lampwright": {
+    "pages": [
+     "DRAFT: Every lamp in the harbour was lit from this loft. Want to see how bright?"
+    ],
+    "battle_lost": [
+     "DRAFT: Bright enough. You win."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the pools."
+    ],
+    "trainer_class": "Lampwright",
+    "name": "Oona",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_lgp_egg_wicks": {
+    "pages": [
+     "DRAFT: A jar of spare wicks, all labelled by year. One label just says: OOPS."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "lanternport_grotto_cave": {
+   "area_name": {
+    "pages": [
+     "Lamp Loft"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }
