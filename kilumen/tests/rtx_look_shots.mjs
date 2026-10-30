@@ -1,5 +1,5 @@
 // RTX look shots + frame-time bench (Coder, Oct 29 2026, dev/rtx-look; NOT published). Brookhollow prototype.
-// Usage: node tests/rtx_look_shots.mjs -> shots/rtx_v1/<plat>_<cond>_<mode>.png + bench.json (+ contact sheet: tools/rtx/contact.py)
+// Usage: node tests/rtx_look_shots.mjs -> shots/rtx_v2/<plat> (OUT=)_<cond>_<mode>.png + bench.json (+ contact sheet: tools/rtx/contact.py)
 import { chromium } from 'playwright';
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
@@ -26,7 +26,7 @@ try {
     const errors = [], shots = [], bench = {}; page.on('pageerror', (e) => errors.push(String(e)));
     page.on('console', (m) => { if (m.type() === 'error' && !/playtime\.js|icon_f0|icon_f1/.test((m.location()?.url || '') + m.text())) errors.push(m.text()); if (/rtx look/.test(m.text())) errors.push(m.text()); });
     try {
-      await page.goto(`${base}?save=0&timescale=0&hour=12&audio=0&enc=0&lead=nibbin&rtxbench=1`);
+      await page.goto(`${base}?save=0&timescale=0&hour=12&audio=0&enc=0&lead=nibbin&rtxbench=1&rtx=off`);
       await page.waitForFunction(() => window.kilumen?.ready || window.kilumen?.ui, null, { timeout: 20000 });
       await page.evaluate(() => Promise.race([window.kilumen.ready, new Promise((r) => setTimeout(r, 15000))]));
       await sleep(1200); await page.evaluate(() => { try { kilumen.ui?.closeAll?.(); } catch {} });
@@ -34,7 +34,7 @@ try {
       for (const [cond, hour, wx, x, y] of CONDS) {
         for (let i = 0; i < 20 && await page.evaluate(() => kilumen.scene.busy); i++) { await page.keyboard.press('f'); await sleep(250); }
         await page.evaluate(([hour, wx, x, y]) => { const s = kilumen.scene; s.setHour(hour); s.life?.setWeather?.(wx); s.fade = null; s.busy = false; s.player.locked = false; s.startWarp({ map: 'brookhollow', x, y, facing: 'down' }, 'door'); }, [hour, wx, x, y]);
-        await sleep(2300);
+        await sleep(2300); for (let i = 0; i < 40 && await page.evaluate(() => (kilumen.scene.fadeAlpha?.() || 0) > 0.01 || kilumen.scene.busy); i++) await sleep(150); // v2: never shoot mid-warp fade
         for (const mode of MODES) {
           await page.evaluate((m) => kilumen.scene.rtx.setMode(m, false), mode); await sleep(500);
           const fn = `${p.plat}_${cond}_${mode}.png`; await page.screenshot({ path: path.join(OUT, fn) }); shots.push(fn);

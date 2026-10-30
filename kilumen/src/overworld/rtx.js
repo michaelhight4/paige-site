@@ -80,8 +80,8 @@ export function phaseLook(phase, outdoor, wet = false) {
   o.exposure = 1.06; o.bloom = 1;
   if (!outdoor) { o.sun = 0; o.amb = [1, 0.98, 0.95]; }
   else if (wet) { // rain reads overcast: no sun/god rays, dimmer + cooler + flatter, bloom mostly off (lamps still glow at night)
-    o.sun = 0; o.exposure = 0.86; o.bloom = 0.3; o.sat = Math.min(o.sat, 0.92);
-    o.amb = o.amb.map((c, i) => c * [0.9, 0.93, 0.98][i]); o.gain = [0.97, 0.99, 1.02]; o.lift = [0.01, 0.015, 0.03];
+    o.sun = 0; o.exposure = 0.76; o.bloom = 0.25; o.sat = Math.min(o.sat, 0.82);
+    o.amb = o.amb.map((c, i) => c * [0.9, 0.93, 0.98][i]); o.gain = [0.94, 0.96, 1.0]; o.lift = [0.01, 0.015, 0.03];
   }
   return o;
 }

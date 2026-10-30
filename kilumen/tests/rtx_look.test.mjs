@@ -47,7 +47,7 @@ test('phase looks: lamps at night, no sun indoors', () => {
 });
 test('rain reads overcast: lower exposure, little bloom, no sun; indoors unaffected', () => {
   const dry = R.phaseLook('day', true), wet = R.phaseLook('day', true, true);
-  assert.ok(wet.exposure < dry.exposure && wet.exposure <= 0.9); assert.ok(wet.bloom <= 0.35 && dry.bloom === 1);
+  assert.ok(wet.exposure < dry.exposure && wet.exposure <= 0.8); assert.ok(wet.bloom <= 0.3 && dry.bloom === 1);
   assert.equal(wet.sun, 0); assert.ok(wet.sat < dry.sat); assert.ok(Math.max(...wet.amb) < 1);
   assert.deepEqual(R.phaseLook('day', false, true), R.phaseLook('day', false));
   assert.match(R.FS_COMP_SRC, /uExposure/); assert.match(R.FS_COMP_SRC, /\*uBloom/);
