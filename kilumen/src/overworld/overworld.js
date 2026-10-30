@@ -405,7 +405,7 @@ export class Overworld {
     const m = this.map;
     return {
       query: (x, y, dir, mode) => m.query(x, y, dir, mode),
-      onBump: (x, y, dir, who, q) => this._onBump(q),
+      onBump: (x, y, dir, who, q) => { if ((!who || who === this.player) && this._beatenSwap(dir)) return; this._onBump(q); },
       onStepStart: (x, y) => {
         this._onPlayerStep(x, y);
         // grass rustle: the entered cell plus the tips tile above it (README: tips sync with the cell)
@@ -509,6 +509,18 @@ export class Overworld {
 
   gateText(gate, cleared) {
     return this.text(`blockers.${gate.id}.${cleared ? 'after' : 'before'}`) || gate.lines?.[cleared ? 'cleared' : 'blocked'] || this.config.closedPathText;
+  }
+
+  /** Playtest fix Oct 30 2026 (route1 46,16, frostspire_pass 23,40): a beaten overworld trainer never hard-blocks a route.
+   *  Bumping one trades places with them (the same rule hall_v2 stepAside uses for hall trainers). Returns true when swapped. */
+  _beatenSwap(dir) {
+    const p = this.player, d = DELTA[dir], m = this.map; if (!p || !d || !m || this.busy) return false;
+    const x = p.x + d.x, y = p.y + d.y, n = m.npcAt?.(x, y), def = n?.def;
+    if (!def || !n.mover || !/trainer/.test(def.kind || '') || def.kind === 'master' || def.story) return false;
+    if (!this.seen?.[`defeated:${m.name}.${def.id}`]) return false;
+    m.vacate(x, y, n); n.mover.place(p.x, p.y, OPPOSITE[dir]); m.occupy(p.x, p.y, n); p.place(x, y, dir);
+    this.log?.push({ tick: this.tick, type: 'beaten_trade_places', npc: def.id }); this._dirty = true;
+    return true;
   }
 
   _onBump(q) {

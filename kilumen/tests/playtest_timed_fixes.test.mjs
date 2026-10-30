@@ -134,3 +134,24 @@ test('bug 7: the spawned town Ron never stands on the hall door row (tidewater_c
   assert.notEqual(c.y, door.y + 1, 'not on the door step row');
   assert.notEqual(c.x, door.x, 'not in front of the door');
 });
+
+// ---- bug 6: beaten trainers never hard-block a route; the Saltmere practice coach is off the road --------------------------
+test('bug 6: bumping a beaten overworld trainer trades places (route1 trainer_r1_c at 46,16)', () => {
+  const map = new GameMap(structuredClone(mapJson('route1'))); map.attachTileset(byId);
+  const def = map.json.npcs.find((n) => n.id === 'trainer_r1_c');
+  const placed = [];
+  const n = { def, mover: { place: (x, y, f) => placed.push(['npc', x, y, f]) } };
+  map.occupy(def.x, def.y, n);
+  const player = { x: def.x - 1, y: def.y, place(x, y, f) { this.x = x; this.y = y; placed.push(['p', x, y, f]); } };
+  const self = { player, map, busy: false, seen: {}, log: [], tick: 0 };
+  assert.equal(Overworld.prototype._beatenSwap.call(self, 'right'), false, 'unbeaten: still blocks');
+  self.seen[`defeated:route1.${def.id}`] = true;
+  assert.equal(Overworld.prototype._beatenSwap.call(self, 'right'), true);
+  assert.deepEqual([player.x, player.y], [def.x, def.y]);
+  assert.equal(map.npcAt(def.x - 1, def.y), n);
+});
+test('bug 6: saltmere practice coach no longer stands on the north-south road (29,21)', () => {
+  const m = mapJson('saltmere'), c = m.npcs.find((n) => n.id === 'saltmere_practice_coach');
+  assert.notDeepEqual([c.x, c.y], [29, 21]);
+  assert.equal(m.layers.collision[c.y][c.x], 0);
+});
