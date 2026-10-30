@@ -6455,6 +6455,165 @@
      "weight": 10
     }
    ]
+  },
+  "gullhaven_sea_water": {
+   "method": "surf",
+   "rate": 0.08,
+   "band": [
+    52,
+    56
+   ],
+   "maps": [
+    "gullhaven_sea"
+   ],
+   "slots": [
+    {
+     "species": "wavelin",
+     "level": [
+      52,
+      55
+     ],
+     "weight": 30
+    },
+    {
+     "species": "reefshell",
+     "level": [
+      52,
+      55
+     ],
+     "weight": 25
+    },
+    {
+     "species": "ribboneel",
+     "level": [
+      53,
+      55
+     ],
+     "weight": 18
+    },
+    {
+     "species": "breakerfin",
+     "level": [
+      54,
+      56
+     ],
+     "weight": 12
+    },
+    {
+     "species": "hullwhale",
+     "level": [
+      54,
+      56
+     ],
+     "weight": 10
+    },
+    {
+     "species": "tidemarrow",
+     "level": [
+      56,
+      56
+     ],
+     "weight": 5
+    }
+   ]
+  },
+  "gullhaven_cave_west_cave": {
+   "method": "cave",
+   "rate": 0.06,
+   "band": [
+    52,
+    56
+   ],
+   "maps": [
+    "gullhaven_cave_west"
+   ],
+   "slots": [
+    {
+     "species": "kelpstrider",
+     "level": [
+      52,
+      55
+     ],
+     "weight": 35
+    },
+    {
+     "species": "barnaclump",
+     "level": [
+      53,
+      55
+     ],
+     "weight": 30
+    },
+    {
+     "species": "echoshell",
+     "level": [
+      52,
+      54
+     ],
+     "weight": 25
+    },
+    {
+     "species": "olmling",
+     "level": [
+      55,
+      56
+     ],
+     "weight": 10
+    }
+   ]
+  },
+  "gullhaven_cave_east_cave": {
+   "method": "cave",
+   "rate": 0.06,
+   "band": [
+    52,
+    56
+   ],
+   "maps": [
+    "gullhaven_cave_east"
+   ],
+   "slots": [
+    {
+     "species": "pearlisk",
+     "level": [
+      52,
+      55
+     ],
+     "weight": 30
+    },
+    {
+     "species": "brinecube",
+     "level": [
+      52,
+      55
+     ],
+     "weight": 30
+    },
+    {
+     "species": "wreckwarden",
+     "level": [
+      53,
+      55
+     ],
+     "weight": 25
+    },
+    {
+     "species": "squidge",
+     "level": [
+      54,
+      56
+     ],
+     "weight": 10
+    },
+    {
+     "species": "medulet",
+     "level": [
+      56,
+      56
+     ],
+     "weight": 5
+    }
+   ]
   }
  }
 }

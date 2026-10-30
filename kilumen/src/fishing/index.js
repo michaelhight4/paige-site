@@ -127,6 +127,8 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
     const hasArt = ui()?.wild?.hasArt;
     const choice = await openPicker();
     if (choice.cancel) return;
+    const derby = st.derby?.active?.() ? st.derby : null; // Gullhaven Fishing Derby (src/seaport/index.js): one Tidelumen per cast
+    if (derby && !(await derby.useCrystal())) return;
     const baitId = choice.bait && sys.bag.count(choice.bait) > 0 ? choice.bait : null;
     const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId);
     const p = scene.player, d = DELTA[p.facing];
@@ -162,6 +164,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
       fx.phase = 'leap'; fx.tLeap = now();
       await wait(TIMING.REEL + 300);
       st.fx = null;
+      if (derby) { await derby.onCatch(plan.fish); return; } // derby: weigh-in instead of a battle (haul scored at turn-in)
       const w = ui()?.wild;
       if (w?.openBattle) {
         await w.openBattle({ species: plan.fish.species, level: plan.fish.level, biome: 'water', intro: { key: 'fishing.battle_intro', fallback: TEXT['fishing.battle_intro'] } });
@@ -175,6 +178,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
     const key = { early: 'fishing.early', late: 'fishing.late', nothing: 'fishing.nothing', no_table: 'fishing.no_table' }[result] || 'fishing.nothing';
     await scene.say(pick(key));
     if (baitOut) await scene.say(T('fishing.bait_out', { bait: nameOf(baitId) }));
+    if (derby) await derby.afterCast();
   }
 
   return st;

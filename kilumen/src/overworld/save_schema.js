@@ -23,12 +23,18 @@ export const SaveFields = v.looseObject({
   seen: v.optional(v.record(v.string(), v.unknown())),
   seenDay: v.optional(v.record(v.string(), v.unknown())),
   clock: v.optional(v.object({ day: num, min: num })),
-  party: v.optional(v.array(v.looseObject({ species: str, warmth: v.optional(v.nullable(num)), level: v.nullish(int), xp: v.optional(num) }))),
+  party: v.optional(v.array(v.looseObject({ species: str, warmth: v.optional(v.nullable(num)), level: v.nullish(int), xp: v.optional(num), weight_kg: v.optional(v.pipe(num, v.minValue(0), v.maxValue(10000))) }))),
   pos: v.nullish(v.looseObject({ map: str, x: int, y: int })),
   lastDoor: v.nullish(v.looseObject({ map: str })),
   savedAt: v.optional(num),
   coins: v.optional(num),
   bag: v.optional(v.record(v.string(), num)),
+  // Gullhaven Fishing Derby record (src/seaport/derby.js): best score, run count, species size records, last result.
+  systems: v.optional(v.looseObject({ derby: v.optional(v.looseObject({
+    best: v.optional(num), runs: v.optional(int), records: v.optional(v.record(v.string(), num)),
+    last: v.nullish(v.looseObject({ score: num, featured: v.nullish(str), tier: v.nullish(str) })),
+    active: v.nullish(v.looseObject({ crystals: int, featured: str })),
+  })) })),
 });
 
 const fmt = (issues) => issues.map((i) => `${v.getDotPath(i) || '(root)'}: ${i.message}`);

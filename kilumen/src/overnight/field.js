@@ -87,6 +87,8 @@ export class FieldSystem {
   /** Wraps worldApi().query: gliding treats plain water as floor. */
   query(q, x, y, dir) {
     const s = this.scene, m = s.map;
+    // seaport (Oct 30 2026): an edge exit can land the player on open water (sea maze); keep gliding there instead of stranding them
+    if (!this.gliding && s.player && m?.code(s.player.x, s.player.y) === Col.WATER) { this.gliding = true; s.player.gliding = true; }
     if (this.gliding && q.type === 'block' && q.code === Col.WATER && !q.npc) { const d = DELTA[dir]; return { type: 'walk', x: x + d.x, y: y + d.y }; }
     return q;
   }

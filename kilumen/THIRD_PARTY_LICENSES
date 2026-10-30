@@ -695,3 +695,11 @@ tinybench 6.2.2 (MIT, Copyright (c) 2022 Tinylibs) - github.com/tinylibs/tinyben
 ngraph.graph 20.1.2 (BSD-3-Clause, Copyright (c) Andrei Kashcha) - github.com/anvaka/ngraph.graph
 ngraph.path 1.6.1 (MIT, Copyright (c) 2017-2025 Andrei Kashcha) - github.com/anvaka/ngraph.path
   Used by: tools/world_graph/world_graph.mjs (map connectivity / dangling warp report)
+
+################################################################################
+# Gullhaven Fishing Derby (dev/seaport, Oct 30 2026)
+################################################################################
+RiverKing (Apache-2.0) - github.com/anry88/RiverKing @ c0a540b94a421e9ecad5607095ab4cbd0b62a748
+  Used by: src/seaport/derby.js (scoreRun). The tournament leaderboard shape (largest catch / total weight / count) is adapted.
+  The code was written fresh in JS; no RiverKing source is copied. Licensed under the Apache License, Version 2.0
+  (http://www.apache.org/licenses/LICENSE-2.0).

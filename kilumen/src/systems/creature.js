@@ -99,6 +99,7 @@ export function serialise(c) {
     held: c.held || null, locked: !!c.locked, origin: c.origin || null,
   };
   if (c.ath && typeof c.ath === 'object' && c.ath.q) o.ath = JSON.parse(JSON.stringify(c.ath)); // sports athletics roll (src/sports/athletics.js; re-rolls from uid if absent)
+  if (Number.isFinite(c.weight_kg) && c.weight_kg > 0) o.weight_kg = Math.round(c.weight_kg * 10) / 10; // fishing / derby weigh-in (src/seaport/derby.js)
   return o;
 }
 
@@ -118,6 +119,7 @@ export function deserialise(o, { fallbackLevel = 5 } = {}) {
     held: typeof o.held === 'string' ? o.held : null, locked: o.locked === true, origin: o.origin ?? (o.caughtAt ? { at: o.caughtAt } : null),
   };
   if (o.ath && typeof o.ath === 'object' && o.ath.q && typeof o.ath.q === 'object') c.ath = JSON.parse(JSON.stringify(o.ath)); // sports roll (optional)
+  if (Number.isFinite(o.weight_kg) && o.weight_kg > 0) c.weight_kg = Math.round(o.weight_kg * 10) / 10; // optional weigh-in weight
   const mx = maxHp(c);
   c.hp = Number.isFinite(o.hp) ? Math.max(0, Math.min(mx, Math.floor(o.hp))) : mx;
   c.energy = Array.isArray(o.energy) ? energyOf({ ...c, energy: o.energy }) : maxEnergy(c).slice();
