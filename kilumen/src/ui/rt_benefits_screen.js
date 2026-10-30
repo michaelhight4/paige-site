@@ -13,10 +13,10 @@ const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V'];
 /** Placeholder text (RITA's tone). Keys mirror data/textbot_requests_rt_benefits.md. */
 export const RTB_TEXT = {
   labels: {
-    tab_title: 'RT Employee Benefits', employee_id: 'Employee ID', id_level: 'ID {level}', points: '{points} pts', points_one: '{points} pt', xp: 'XP',
+    tab_title: 'RT Employee Benefits', employee_id: 'Employee ID', id_level: 'ID {level}', points: '{points} merit', points_one: '{points} merit', xp: 'XP',
     xp_to_next: '{into}/{span}', xp_capped: 'Region cap', buy: 'Buy rank {rank}', cancel: 'Not now', rank: 'Rank {rank}/{max}',
-    cost: 'Cost: {cost} pt · Needs ID {level}', state_available: 'Available', state_owned: 'Owned', state_locked: 'Locked',
-    lock_region: 'Region {region}', lock_id: 'Needs ID {level}', lock_points: 'Need {cost} pt', hint_perk: 'Perk', hint_buy: 'Details / Buy', back: 'Back',
+    cost: 'Cost: {cost} merit · Needs ID {level}', state_available: 'Available', state_owned: 'Owned', state_locked: 'Locked',
+    lock_region: 'Region {region}', lock_id: 'Needs ID {level}', lock_points: 'Need {cost} merit', hint_perk: 'Perk', hint_buy: 'Details / Buy', back: 'Back',
   },
   branches: { field_logistics: 'Field Logistics', supply_pay: 'Stores & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance' },
   nodes: {
@@ -36,17 +36,17 @@ export const RTB_TEXT = {
     unit_training: { name: 'Unit Training', desc: 'Your team learns faster. Assets that learn are worth more. To us.',
       ranks: { 1: 'Team training boost I.', 2: 'Team training boost II.' } },
     // region 2 perks (coder, Oct 23 2026): fallbacks only, Text Bot request data/textbot_requests_region2.md
-    asset_logging_bonus: { name: 'Logging Bonus', desc: 'Coins for every new kind you log. We pay for assets. Not for you.',
-      ranks: { 1: '+60 coins per new Kilindex log.', 2: '+120 coins per new Kilindex log.' } },
+    asset_logging_bonus: { name: 'Logging Bonus', desc: 'Gold for every new kind you log. We\'re paying for the data, not the walk.',
+      ranks: { 1: '+60 gold per new Kilindex log.', 2: '+120 gold per new Kilindex log.' } },
     hall_hazard_pay: { name: 'Hall Hazard Pay', desc: 'Extra prize money from hall trainers and Masters. Risk is billable.',
       ranks: { 1: '+25% hall and Master prize money.', 2: '+50% hall and Master prize money.' } },
   },
   locked: {
     region: 'Locked until Region {region}. Legal says no.', id: 'Needs ID level {level}. Keep logging assets.',
-    points: 'Needs {cost} benefit point. You have {points}.', maxed: 'Fully vested. Do not ask for more.', owned_region: 'Maxed for this region. More ranks in Region {region}.',
+    points: 'Not enough merit. Cost {cost}, balance {points}.', maxed: 'Fully vested. Do not ask for more.', owned_region: 'Maxed for this region. More ranks in Region {region}.',
   },
-  confirm: 'Spend {cost} benefit point on {node} rank {rank}? No refunds. Company policy.',
-  toast: { bought: '{node} rank {rank} filed. Asset value up. Slightly.', level_up: 'ID level {level}. +1 benefit point. Try not to waste it.',
+  confirm: 'Spend {cost} merit on {node} rank {rank}? No refunds. Company policy.',
+  toast: { bought: '{node} rank {rank} filed. Asset value up. Slightly.', level_up: 'ID level {level}. +1 merit. Try not to waste it.',
     not_yet: '{reason}' },
 };
 

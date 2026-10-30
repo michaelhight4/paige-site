@@ -29602,21 +29602,21 @@
    "tab_title": "RT Employee Benefits",
    "employee_id": "Employee ID",
    "id_level": "ID {level}",
-   "points": "{points} pts",
-   "points_one": "{points} pt",
+   "points": "{points} merit",
+   "points_one": "{points} merit",
    "xp": "XP",
    "xp_to_next": "{into}/{span}",
    "xp_capped": "Region cap",
    "buy": "Buy rank {rank}",
    "cancel": "Not now",
    "rank": "Rank {rank}/{max}",
-   "cost": "Cost: {cost} pt · Needs ID {level}",
+   "cost": "Cost: {cost} merit · Needs ID {level}",
    "state_available": "Available",
    "state_owned": "Owned",
    "state_locked": "Locked",
    "lock_region": "Region {region}",
    "lock_id": "Needs ID {level}",
-   "lock_points": "Need {cost} pt",
+   "lock_points": "Need {cost} merit",
    "hint_perk": "Perk",
    "hint_buy": "Details / Buy",
    "back": "Back"
@@ -29673,11 +29673,12 @@
    },
    "asset_logging_bonus": {
     "name": "Logging Bonus",
-    "desc": "Coins for every new kind you log. We're paying for the data, not the walk.",
+    "desc": "Gold for every new kind you log. We're paying for the data, not the walk.",
     "ranks": {
-     "1": "+60 coins per new Kilindex log.",
-     "2": "+120 coins per new Kilindex log."
-    }
+     "1": "+60 gold per new Kilindex log.",
+     "2": "+120 gold per new Kilindex log."
+    },
+    "textbot_review": "Oct 30 2026: Text Bot reviewed, gold/merit wording (data/textbot_rt_benefits_gold_merit.json)."
    },
    "hall_hazard_pay": {
     "name": "Hall Hazard Pay",
@@ -29708,9 +29709,10 @@
     "name": "Salvage Rights",
     "desc": "Hidden items on the coast pay a finder's fee. The finder is us.",
     "ranks": {
-     "1": "+50 coins for each hidden item found.",
-     "2": "+100 coins for each hidden item found."
-    }
+     "1": "+50 gold for each hidden item found.",
+     "2": "+100 gold for each hidden item found."
+    },
+    "textbot_review": "Oct 30 2026: Text Bot reviewed, gold/merit wording (data/textbot_rt_benefits_gold_merit.json)."
    },
    "field_allowance_r1": {
     "name": "Region 1 Field Allowance",
@@ -29796,15 +29798,15 @@
   "locked": {
    "region": "Locked until Region {region}. Legal says no.",
    "id": "Needs ID level {level}. Keep logging assets.",
-   "points": "Not enough points. Cost {cost}, balance {points}.",
+   "points": "Not enough merit. Cost {cost}, balance {points}.",
    "maxed": "Fully vested. Do not ask for more.",
    "owned_region": "Maxed for now. More ranks in Region {region}.",
    "keycard": "Needs a research key card. Ask the board, not me."
   },
-  "confirm": "Spend {cost} pt on {node} rank {rank}? No refunds. Company policy.",
+  "confirm": "Spend {cost} merit on {node} rank {rank}? No refunds. Company policy.",
   "toast": {
    "bought": "{node} rank {rank} filed. Asset value up. Slightly.",
-   "level_up": "ID level {level}. +1 benefit point. Try not to waste it.",
+   "level_up": "ID level {level}. +1 merit. Try not to waste it.",
    "not_yet": "{reason}",
    "cap_raised": "Region {region} open. ID cap now {level}. Back to work."
   }

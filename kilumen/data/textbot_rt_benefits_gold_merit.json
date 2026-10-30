@@ -1,0 +1,36 @@
+{
+ "_note": "Text Bot review Oct 30 2026: coins -> gold, pts/points -> merit. Mirrors system_rt_benefits in text/overworld_lines.json. {placeholders} unchanged.",
+ "system_rt_benefits": {
+  "labels": {
+   "points": "{points} merit",
+   "points_one": "{points} merit",
+   "cost": "Cost: {cost} merit · Needs ID {level}",
+   "lock_points": "Need {cost} merit"
+  },
+  "toast": {
+   "level_up": "ID level {level}. +1 merit. Try not to waste it."
+  },
+  "locked": {
+   "points": "Not enough merit. Cost {cost}, balance {points}."
+  },
+  "confirm": "Spend {cost} merit on {node} rank {rank}? No refunds. Company policy.",
+  "nodes": {
+   "asset_logging_bonus": {
+    "name": "Logging Bonus",
+    "desc": "Gold for every new kind you log. We're paying for the data, not the walk.",
+    "ranks": {
+     "1": "+60 gold per new Kilindex log.",
+     "2": "+120 gold per new Kilindex log."
+    }
+   },
+   "salvage_rights": {
+    "name": "Salvage Rights",
+    "desc": "Hidden items on the coast pay a finder's fee. The finder is us.",
+    "ranks": {
+     "1": "+50 gold for each hidden item found.",
+     "2": "+100 gold for each hidden item found."
+    }
+   }
+  }
+ }
+}
