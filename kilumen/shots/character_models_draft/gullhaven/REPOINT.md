@@ -129,3 +129,12 @@ Example entries:
  }
 }
 ```
+
+## Swim animations (DRAFT, added Oct 30 2026)
+
+Files: `npcs/tr_swimmer_gullhaven_{a..e}/swim/` and `humans/cal/swim/`. Each folder has `<id>_swim_sheet{,_2x,_3x}.png` (256x384 at 1x: 4 cols = stroke frames, 4 rows = down/left/right/up, 64x96 cells like the walk sheet), `<id>_swim.json` and per-direction 2x gifs. The body is already cut at the waterline (y=66 in the cell, the same height as `SWIM.LINE` 30 in renderer.js), with bob [0,1,2,1] and a solid-pixel ripple ring baked in. Swimmers: head, shoulders and spread breaststroke arms. Player: sits low, no arms, two white rings.
+
+Existing mechanism: `dev/seaport` has only the `cal_tideglide` sheet (riding a creature). The swim drawing is in **uncommitted** edits in `/workspace/wt_seaport/kilumen/src/overworld/renderer.js` (`_swim = onWater(...)` and `swimmer()`). Those edits crop the walk sheet at runtime and draw a translucent body band and rgba foam, which breaks the binary-alpha / no-haze rules. I didn't touch them. Suggested wiring:
+1. In the sprite-map entries for `gullhaven_sea.gullhaven_sea_swimmer_*`, add `"swim_sheet": "npcs/<id>/swim/<id>_swim_sheet.png"` (+ `_2x`/`_3x`). Add `playerSheets.swim` in `src/config.js` pointing at `humans/cal/swim/cal_swim_sheet*.png`.
+2. In `renderer.swimmer()`: if the actor has a swim image, draw it like the normal walk frame (`col = floor(ms/180)%4`, row = facing) and skip the crop, the 0.35 alpha band and the foam ring. Otherwise fall back to the current code.
+3. Load the swim image next to the walk image in the npc/player sheet loader (same zoom selection).
