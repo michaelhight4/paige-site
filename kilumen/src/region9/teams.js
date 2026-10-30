@@ -19,6 +19,18 @@ export const WELLSPIRE_TEAMS = {
   'fin_lab1_now_f1.r9_spire_keeper_1': T(65, 'prismwing', 'seaglint', 'mirrorkin'),
   'fin_lab1_now_f2.r9_spire_keeper_2': T(66, 'runeskein', 'pearlisk', 'glassvine'),
   'fin_lab1_now_f3.r9_spire_keeper_3': T(66, 'bleachghast', 'crowkin', 'velvetabby', 'prismwing'),
+  // Wellspire v2 climb (Gary 10:17 PM CT): other RT field research teams, late game
+  'r9_cloudway.r9_cw_field_1': T(64, 'snowgrouse', 'highkite', 'seraphawk'),
+  'r9_cloudway.r9_cw_field_2': T(64, 'geodurchin', 'cairnhorn', 'ingotitan'),
+  'r9_cloudway.r9_cw_field_3': T(65, 'stratodrake', 'shagmount', 'sunderhoof'),
+  'r9_echo_cave.r9_ec_field_1': T(65, 'mirrorkin', 'runeskein', 'pearlisk'),
+  'r9_echo_cave.r9_ec_field_2': T(65, 'delvemaw', 'obsidiax', 'crowkin', 'bleachghast'),
+  'r9_cloudline.r9_cl_field_1': T(66, 'brineseal', 'hullwhale', 'cascadorn'),
+  'r9_cloudline.r9_cl_field_2': T(66, 'prismwing', 'glassvine', 'seaglint'),
+  'r9_cloudline.r9_cl_field_3': T(66, 'peakbrute', 'stratodrake', 'seraphawk', 'cairnhorn'),
+  'r9_heart_cave.r9_hc_field_1': T(67, 'velvetabby', 'bleachghast', 'runeskein'),
+  'r9_heart_cave.r9_hc_field_2': T(67, 'ingotitan', 'obsidiax', 'geodurchin', 'delvemaw'),
+  'r9_heart_cave.r9_hc_field_3': T(67, 'mirrorkin', 'prismwing', 'pearlisk', 'seaglint', 'glassvine'),
   // the past (rebellion night): scared staff with prototype bands
   'fin_past_station_m.fin_m_handler_1': T(65, 'moorcoil', 'torrentpike'),
   'fin_past_station_m.fin_m_handler_2': T(65, 'bulwarkrab', 'cascadorn'),

@@ -73,7 +73,7 @@ test('wellspire: courier waits for Ending 1, unlocks Wellspire once; field team 
 test('wellspire: summit team NPCs go once home; Lantern Rest team appears only with field_team_home', () => {
   const lr = J(`${MAPS}/lantern_rest.json`).npcs.filter((n) => /^fin_ep_/.test(n.id));
   assert.equal(lr.length, 4);
-  for (const n of lr) { assert.ok(!isActive(n, new Set(['fin_present_release']))); assert.ok(isActive(n, new Set(['field_team_home']))); }
+  for (const n of lr) { assert.ok(!isActive(n, new Set(['fin_woke_home']))); assert.ok(isActive(n, new Set(['field_team_home']))); }
   assert.ok(!isActive({ inactive_when: 'field_team_home' }, new Set(['field_team_home'])));
 });
 
@@ -86,10 +86,15 @@ test('wellspire: Ondravel loss heals and returns to the top landing; win runs En
   const order = []; const add = s.setFlag.bind(s); s.setFlag = (f, on) => { order.push(f); add(f, on); };
   assert.equal(await api.guardian(), true);
   const i = (f) => order.indexOf(f);
-  assert.ok(i('fin_guardian_beaten') < i('fin_present_release') && i('fin_present_release') < i('field_team_home') && i('field_team_home') < i('ending2_done'));
   assert.ok(s.flags.has('spring_running'));
-  assert.deepEqual(s.warps.slice(-3).map((w) => w.map), ['fin_past_riverbend', 'fin_lab1_now', 'lantern_rest']);
-  assert.ok(s.said.includes("Keeper: Didn't need it. Best kind of stone to lose."));
+  // Gary Q-W14 (11:09 PM CT): flashback, home, then the RT report (no Lantern Rest arrival)
+  // story_beats.md F5 (Q-W14): riverbend, flashback, home at dawn; the release is never shown
+  assert.deepEqual(s.warps.slice(-3).map((w) => w.map), ['fin_past_riverbend', 'fin_past_lab1_f1', 'house_2f']);
+  assert.ok(s.flags.has('fin_woke_home') && !s.flags.has('field_team_home') && !s.flags.has('ending2_done'));
+  await api.walkToWork(); await api.reportAtWork();
+  const seq = ['fin_guardian_beaten', 'fin_woke_home', 'fin_reported_rt', 'field_team_home', 'fin_memory_lost', 'wellspire_gone', 'ending2_done'];
+  for (let k = 1; k < seq.length; k++) assert.ok(i(seq[k - 1]) < i(seq[k]), `${seq[k - 1]} before ${seq[k]}`);
+  assert.ok(!s.flags.has('fin_present_release'));
 });
 
 test('wellspire: one-way passages carry a via target; Station M via stays shut until Greave', () => {

@@ -15700,7 +15700,10 @@
    "y": 12,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Bram",
+   "trainer_class": "RT Path Surveyor",
+   "field_team": "Harrow"
   },
   {
    "id": "r9_sw_climber_1",
@@ -15708,7 +15711,10 @@
    "y": 18,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Ilse",
+   "trainer_class": "RT Field Researcher",
+   "field_team": "Harrow"
   },
   {
    "id": "r9_sw_survey_1",
@@ -15716,7 +15722,10 @@
    "y": 28,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Odo",
+   "trainer_class": "RT Geologist",
+   "field_team": "Gannet"
   },
   {
    "id": "r9_sw_survey_2",
@@ -15724,7 +15733,10 @@
    "y": 30,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Maren",
+   "trainer_class": "RT Geologist",
+   "field_team": "Gannet"
   },
   {
    "id": "r9_sw_survey_3",
@@ -15732,7 +15744,10 @@
    "y": 30,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Tobin",
+   "trainer_class": "RT Field Lead",
+   "field_team": "Gannet"
   },
   {
    "id": "r9_sw_climber_2",
@@ -15740,7 +15755,10 @@
    "y": 46,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Sela",
+   "trainer_class": "RT Field Researcher",
+   "field_team": "Harrow"
   }
  ],
  "signs": [],

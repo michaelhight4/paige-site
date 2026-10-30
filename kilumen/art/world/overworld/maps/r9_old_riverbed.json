@@ -13306,7 +13306,10 @@
    "y": 22,
    "facing": "left",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Wren",
+   "trainer_class": "RT Hydrologist",
+   "field_team": "Cobalt"
   },
   {
    "id": "r9_rb_dowser",
@@ -13314,7 +13317,10 @@
    "y": 21,
    "facing": "left",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Ansel",
+   "trainer_class": "RT Field Researcher",
+   "field_team": "Cobalt"
   },
   {
    "id": "r9_rb_guide",
@@ -13322,7 +13328,10 @@
    "y": 20,
    "facing": "left",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Petra",
+   "trainer_class": "RT Field Lead",
+   "field_team": "Cobalt"
   }
  ],
  "signs": [],

@@ -897,7 +897,7 @@
    "x": 21,
    "y": 0,
    "to": "fin_lab1_now",
-   "tx": 7,
+   "tx": 12,
    "ty": 13,
    "facing": "up",
    "kind": "stairs_up"

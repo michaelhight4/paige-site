@@ -1487,7 +1487,10 @@
    "y": 7,
    "facing": "left",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Joss",
+   "trainer_class": "RT Survey Pilot",
+   "field_team": "Harrow"
   }
  ],
  "signs": [],

@@ -1258,7 +1258,7 @@ export class Overworld {
       zoom: z, cam, ms: this.ms, rustles: this.rustles, actors,
       fade: this.fadeAlpha(), debug: this.debug, drawDebug, player: p, fps: this.fps, lastDoor: this.lastDoor, flags: [...this.flags],
       ixlight: this.ixlight, phase: this.phase,
-      wind: this.wind, life: this.life, depth: this.depth, nightfx: this.nightfx, mood: this.mood, markers: this._markerDraw(), // mood: cinematic layers (mood.js, set in main.js)
+      wind: this.wind, life: this.life, depth: this.depth, nightfx: this.nightfx, mood: this.mood, r9fx: this.r9fx, markers: this._markerDraw(), // mood: cinematic layers (mood.js, set in main.js)
       outside: outsideFillFor(this.opts.platform?.profile?.camera, this.opts.platform?.profile?.display, this.map.name, isIndoor(this.map.name)), edgeShade: this.opts.platform?.profile?.display?.edgeShade, // mobile/centre camera: fill off the map (pc without alwaysCentre: black)
     };
   }

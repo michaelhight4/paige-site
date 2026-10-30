@@ -81,7 +81,7 @@ export class Renderer {
     v.ixlight?.draw(ctx, v, 'night'); // Interiors v2: indoor night shade + lamp/TV/stove pools (interiors used to stay on the day grade)
     v.nightfx?.drawLights(ctx, v); // Night FX: warm lamp/window pools, additive on a cached low-res buffer (+ flame flicker)
     if (m.layers.fog) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile('fog', x, y), x, y);
-    v.mood?.draw(ctx, v); // cinematic mood (mood.js): area tint, sun rays, vignette, ambient particles; under birds/firefly glow/markers
+    v.mood?.draw(ctx, v); v.r9fx?.draw(ctx, v); // r9fx: Wellspire's towering Ondravel + summit clouds / light / flash (src/region9/summit_fx.js). cinematic mood (mood.js): area tint, sun rays, vignette, ambient particles; under birds/firefly glow/markers
     v.life?.top(ctx, v); // living world: birds in the sky, firefly glow (emissive)
     v.markers?.(ctx, v); // golden spinning arrows: starter cases, quest items (marker.js; above the world, under the fade)
 

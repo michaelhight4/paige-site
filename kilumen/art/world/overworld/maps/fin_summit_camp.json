@@ -4341,17 +4341,17 @@
   {
    "x": 16,
    "y": 23,
-   "to": "r9_icefall",
-   "tx": 20,
-   "ty": 5,
+   "to": "r9_heart_cave",
+   "tx": 10,
+   "ty": 2,
    "facing": "down"
   },
   {
    "x": 17,
    "y": 23,
-   "to": "r9_icefall",
-   "tx": 20,
-   "ty": 5,
+   "to": "r9_heart_cave",
+   "tx": 10,
+   "ty": 2,
    "facing": "down"
   }
  ],

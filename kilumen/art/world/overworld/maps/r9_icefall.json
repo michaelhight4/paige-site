@@ -3249,9 +3249,9 @@
   {
    "x": 20,
    "y": 4,
-   "to": "fin_summit_camp",
-   "tx": 16,
-   "ty": 22,
+   "to": "r9_cloudway",
+   "tx": 11,
+   "ty": 15,
    "facing": "up"
   }
  ],
@@ -3300,7 +3300,10 @@
    "y": 14,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Nils",
+   "trainer_class": "RT Glaciologist",
+   "field_team": "Sedge"
   },
   {
    "id": "r9_ic_climber_2",
@@ -3308,7 +3311,10 @@
    "y": 14,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Hedda",
+   "trainer_class": "RT Glaciologist",
+   "field_team": "Sedge"
   },
   {
    "id": "r9_ic_diver",
@@ -3316,7 +3322,10 @@
    "y": 6,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Cass",
+   "trainer_class": "RT Cave Diver",
+   "field_team": "Sedge"
   },
   {
    "id": "r9_ic_keeper",
@@ -3324,7 +3333,10 @@
    "y": 7,
    "facing": "down",
    "kind": "trainer",
-   "region9": true
+   "region9": true,
+   "name": "Rook",
+   "trainer_class": "RT Field Lead",
+   "field_team": "Sedge"
   }
  ],
  "signs": [],

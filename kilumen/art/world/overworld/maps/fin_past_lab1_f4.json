@@ -897,8 +897,8 @@
    "x": 21,
    "y": 0,
    "to": "fin_past_enclosure",
-   "tx": 7,
-   "ty": 13,
+   "tx": 10,
+   "ty": 12,
    "facing": "up",
    "kind": "stairs_up"
   },
