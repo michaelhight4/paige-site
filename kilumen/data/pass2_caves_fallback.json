@@ -439,7 +439,7 @@
      "DRAFT: Ledge down, and mind the feathers."
     ],
     "trainer_class": "Bird Keeper",
-    "name": "Pell",
+    "name": "Tarn",
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    },
    "r9_rasp_egg_feathers": {
@@ -611,7 +611,7 @@
      "DRAFT: Ledge down to the field."
     ],
     "trainer_class": "Gardener",
-    "name": "Wren",
+    "name": "Maja",
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    },
    "r9_rrp_egg_moss": {
@@ -783,7 +783,7 @@
      "DRAFT: Ledge down and head west."
     ],
     "trainer_class": "Engineer",
-    "name": "Pell",
+    "name": "Jory",
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    },
    "r9_aurp_egg_lamp": {

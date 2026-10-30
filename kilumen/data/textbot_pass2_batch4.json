@@ -1,0 +1,281 @@
+{
+ "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Same shape as batch 2/3.",
+ "area_names": {
+  "sunmeadow_fields_cave_e": "Hay Loft",
+  "sunmeadow_fields_cave_nw": "Clover Dell",
+  "sunmeadow_fields_cave_n": "Bee Hollow",
+  "aurelith_cave_nw": "Gate Vault",
+  "aurelith_cave_ne": "Signal Loft",
+  "aurelith_cave_e": "Old Platform",
+  "route_east_cave_n": "Ridge Hollow",
+  "route_east_cave_e": "East Den",
+  "route_east_cave_w": "West Nook",
+  "route_revival_cave_n": "Bell Loft",
+  "route_revival_cave_w": "West Hollow",
+  "route_revival_cave_e": "Lark Ledge"
+ },
+ "maps": {
+  "sunmeadow_fields": {
+   "r9_smfp_haymaker": {
+    "name": "Bodil",
+    "pages": [
+     "I stack hay up here where the\ngoats can't reach. Battle?"
+    ],
+    "battle_lost": [
+     "You out-stacked me."
+    ],
+    "battle_won": [
+     "Your team's in a haze.\nGo rest in the shade."
+    ],
+    "after": [
+     "Hop down the ledge\nto the field."
+    ]
+   },
+   "r9_smfp_egg_scarecrow": {
+    "pages": [
+     "A tiny scarecrow.",
+     "It's scaring one very small crow,\nwho doesn't care."
+    ]
+   },
+   "r9_smfp_cloverpicker": {
+    "name": "Elin",
+    "pages": [
+     "Four-leaf clovers only grow here.\nI counted. Battle?"
+    ],
+    "battle_lost": [
+     "Lucky you."
+    ],
+    "battle_won": [
+     "Luck's on my side today.\nTry again tomorrow."
+    ],
+    "after": [
+     "Ledge down, then follow\nthe strip east."
+    ]
+   },
+   "r9_smfp_egg_clover": {
+    "pages": [
+     "A clover as big as a plate.",
+     "It has five leaves.\nSomeone glued one on."
+    ]
+   },
+   "r9_smfp_beekeeper": {
+    "name": "Torvald",
+    "pages": [
+     "Shh. The bees are asleep.\nBattle quietly."
+    ],
+    "battle_lost": [
+     "The bees slept through it."
+    ],
+    "battle_won": [
+     "Quiet win for me.\nThe bees didn't even stir."
+    ],
+    "after": [
+     "Ledge down and go west."
+    ]
+   },
+   "r9_smfp_egg_hive": {
+    "pages": [
+     "A hive in the rock wall. It hums.",
+     "It's humming the Sunmeadow song."
+    ]
+   }
+  },
+  "aurelith": {
+   "r9_aurp_vaultkeeper": {
+    "name": "Hedda",
+    "pages": [
+     "This vault held the city gate keys.\nNow it holds me. Battle?"
+    ],
+    "battle_lost": [
+     "Fine. The keys are gone anyway."
+    ],
+    "battle_won": [
+     "Locked out. Rest your team\nand try the door again."
+    ],
+    "after": [
+     "Hop down the ledge\nto Ring Street."
+    ]
+   },
+   "r9_aurp_egg_keyring": {
+    "pages": [
+     "A key ring as big as a wheel.",
+     "Not one key fits anything."
+    ]
+   },
+   "r9_aurp_signaller": {
+    "name": "Jory",
+    "pages": [
+     "I wave the lamp when a train comes.\nNone has in years. Battle?"
+    ],
+    "battle_lost": [
+     "Green light. You may pass."
+    ],
+    "battle_won": [
+     "Red light. Stop and rest\nbefore you go on."
+    ],
+    "after": [
+     "Ledge down and head west."
+    ],
+    "_name_note": "Renamed from Pell: Pell is the Cairnfold digger."
+   },
+   "r9_aurp_egg_lamp": {
+    "pages": [
+     "A signal lamp stuck on green.",
+     "It's been green for nine years."
+    ]
+   },
+   "r9_aurp_porter": {
+    "name": "Ansel",
+    "pages": [
+     "Last stop! Well, the stop\nafter the last stop. Battle?"
+    ],
+    "battle_lost": [
+     "All change, then."
+    ],
+    "battle_won": [
+     "End of the line for your team.\nMind the gap on the way out."
+    ],
+    "after": [
+     "Drop off the platform edge\nand go west."
+    ]
+   },
+   "r9_aurp_egg_clock": {
+    "pages": [
+     "A platform clock.",
+     "Both hands point at\nthe snack stand."
+    ]
+   }
+  },
+  "route_east": {
+   "r9_rep_ridgewalker": {
+    "name": "Edvin",
+    "pages": [
+     "Nobody walks the ridge but me.\nUntil now. Battle?"
+    ],
+    "battle_lost": [
+     "You walk it better than me."
+    ],
+    "battle_won": [
+     "The ridge is still mine.\nCome back steadier."
+    ],
+    "after": [
+     "Hop down the ledge\nto the field."
+    ]
+   },
+   "r9_rep_egg_cairn": {
+    "pages": [
+     "A cairn of flat stones.",
+     "The top one has a face drawn on.\nIt looks worried."
+    ]
+   },
+   "r9_rep_denkeeper": {
+    "name": "Saga",
+    "pages": [
+     "This den is mine.\nThe rent is one battle."
+    ],
+    "battle_lost": [
+     "Rent paid in full."
+    ],
+    "battle_won": [
+     "Rent's overdue. Rest up\nand come pay again."
+    ],
+    "after": [
+     "The ledge drops you\nby the path."
+    ]
+   },
+   "r9_rep_egg_chair": {
+    "pages": [
+     "A chair carved out of the rock.",
+     "Very comfy. For a rock."
+    ]
+   },
+   "r9_rep_nookie": {
+    "name": "Liv",
+    "pages": [
+     "You found my nook!\nNobody finds my nook."
+    ],
+    "battle_lost": [
+     "Fine, it's our nook now."
+    ],
+    "battle_won": [
+     "Still my nook. Out you go!"
+    ],
+    "after": [
+     "Ledge down to the west field."
+    ]
+   },
+   "r9_rep_egg_kite": {
+    "pages": [
+     "A kite wedged in the rock.",
+     "The string goes up and up\nand never comes down."
+    ]
+   }
+  },
+  "route_revival": {
+   "r9_rrp_bellkeeper": {
+    "name": "Halvard",
+    "pages": [
+     "The old bell hung up here once.\nNow I do. Battle?"
+    ],
+    "battle_lost": [
+     "You rang my bell."
+    ],
+    "battle_won": [
+     "Saved by the bell. Mine.\nRest your team."
+    ],
+    "after": [
+     "Hop down the ledge\nto the field."
+    ]
+   },
+   "r9_rrp_egg_bell": {
+    "pages": [
+     "A bell-shaped dent in the rock.",
+     "Someone drew a little ringer\ninside it. Ding."
+    ]
+   },
+   "r9_rrp_herbalist": {
+    "name": "Maja",
+    "pages": [
+     "I grow moss up here. Very slowly.\nBattle while we wait?"
+    ],
+    "battle_lost": [
+     "The moss grew a bit. You won."
+    ],
+    "battle_won": [
+     "Slow and steady. I win.\nGrow a little and come back."
+    ],
+    "after": [
+     "Ledge down to the field."
+    ],
+    "_name_note": "Renamed from Wren: Wren is the Old Riverbed dowser."
+   },
+   "r9_rrp_egg_moss": {
+    "pages": [
+     "Moss in the shape of a heart.",
+     "A tiny sign: TEN YEARS. WORTH IT."
+    ]
+   },
+   "r9_rrp_larkwatcher": {
+    "name": "Ingrid",
+    "pages": [
+     "The larks nest on this ledge.\nQuiet, please. Then battle."
+    ],
+    "battle_lost": [
+     "The larks cheered. Quietly."
+    ],
+    "battle_won": [
+     "Even the larks won't sing\nfor that. Rest up."
+    ],
+    "after": [
+     "Drop down to the corridor."
+    ]
+   },
+   "r9_rrp_egg_nest": {
+    "pages": [
+     "A nest full of bright pebbles.",
+     "One is a button, one is a coin,\nand one is a pebble."
+    ]
+   }
+  }
+ }
+}

@@ -1867,7 +1867,7 @@
     "y": 16,
     "level": 63,
     "class": "Bird Keeper",
-    "name": "Pell",
+    "name": "Tarn",
     "species": [
      "gauzewing",
      "stratodrake",
@@ -2655,7 +2655,7 @@
     "y": 17,
     "level": 63,
     "class": "Gardener",
-    "name": "Wren",
+    "name": "Maja",
     "species": [
      "fernstag",
      "gauzewing",
@@ -3602,7 +3602,7 @@
     "y": 10,
     "level": 63,
     "class": "Engineer",
-    "name": "Pell",
+    "name": "Jory",
     "species": [
      "pharolith",
      "galespar",

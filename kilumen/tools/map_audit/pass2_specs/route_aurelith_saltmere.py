@@ -15,7 +15,7 @@ POCKETS = [
    'A salt raker on a hidden shelf; a Prime Crystal sits by the heap.',
    map_cells=[{'x': 15, 'y': 18, 'g': None, 'd': 887, 'c': 5}]),
  P('ras_pocket_notch', 'route_aurelith_saltmere_cave_m', 'Gull Notch', [[26, 16, 29, 20]], [27, 28, 21], [], [47, 11], [28, 15],
-   T('r9_rasp_gullkeeper', 26, 16, 'Bird Keeper', 'Pell', ['gauzewing', 'stratodrake', 'galespar'],
+   T('r9_rasp_gullkeeper', 26, 16, 'Bird Keeper', 'Tarn', ['gauzewing', 'stratodrake', 'galespar'],
      'The gulls nest in this notch. They let me stay. Will you?', 'The gulls approve of you.', 'Ledge down, and mind the feathers.'),
    E('r9_rasp_egg_feathers', 29, 16, 'a nest full of odd feathers', 'A nest of odd feathers. One is blue, one is gold, one is a pencil.'),
    dict(id='r9_rasp_seed', x=29, y=20, item='vigor_seed'),
