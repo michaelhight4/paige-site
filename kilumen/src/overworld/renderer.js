@@ -78,6 +78,7 @@ export class Renderer {
     }
     v.ixlight?.draw(ctx, v, 'upper'); // Interiors v2: same lighting on overlay-row furniture tops
     for (const o of v.overlays || []) this.tile(v, o.id, o.x, o.y); // engine overlays on occupied cells (bin flies)
+    v.tells?.(ctx, v); // puzzle tells (progression/puzzle_tells.js): static arrows / pairs / channel colours / pillars, shimmer, ripple
     v.life?.over(ctx, v); // living world: smoke, butterflies, motes, bird shadows, then cloud shadows (shade sprites too)
     v.ixlight?.draw(ctx, v, 'night'); // Interiors v2: indoor night shade + lamp/TV/stove pools (interiors used to stay on the day grade)
     v.nightfx?.drawLights(ctx, v); // Night FX: warm lamp/window pools, additive on a cached low-res buffer (+ flame flicker)
