@@ -3,29 +3,29 @@
 //   ui.scr_sys_party / scr_sys_bag / scr_sys_shop / scr_sys_heal, and (cfg.replaceUiScreens) scr_team / scr_pack / scr_shop
 // point at them so the phone menu opens the real screens. Same screen-object contract as ui.js (render/onA/onTab/...).
 // Text: overworld_lines.json system_party / system_shop / system_heal / comfort.bag_pockets / system_item_catalogue.
-import { iconRel } from './data.js?v=v0.2.92-alpha'; // creature sync
-import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.92-alpha';
-import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.92-alpha';
-import { POCKETS, R5_R6_ITEM_TEXT } from '../systems/items.js?v=v0.2.92-alpha';
-import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.92-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
-import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.92-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
-import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.92-alpha';
-import { fmtMoney } from '../systems/config.js?v=v0.2.92-alpha';
-import { partyMax } from '../systems/party.js?v=v0.2.92-alpha';
-import { getShops, regionOf } from '../systems/shop.js?v=v0.2.92-alpha';
-import { branchByZone } from '../systems/heal.js?v=v0.2.92-alpha';
-import { baseName as _baseName } from '../systems/creature.js?v=v0.2.92-alpha';
-import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.92-alpha';
-import { buildSkills, toID } from '../battle/data/skills.js?v=v0.2.92-alpha';
-import { areaName } from '../overworld/area_sign.js?v=v0.2.92-alpha';
+import { iconRel } from './data.js?v=v0.2.93-alpha'; // creature sync
+import { ELEMENT_LABEL, statsFor } from './data.js?v=v0.2.93-alpha';
+import { pxi, POCKET_ICONS, EMPTY_ICONS } from './ui_tools2.js?v=v0.2.93-alpha';
+import { POCKETS, R5_R6_ITEM_TEXT } from '../systems/items.js?v=v0.2.93-alpha';
+import { coinArtOn, coinAnim } from '../achievements/coin_art.js?v=v0.2.93-alpha'; // Animator's coin art (KILUMEN_COIN_ART / ?badges=1)
+import { badgesOn, renderBadges, BADGE_TAB_ICON } from '../achievements/screen.js?v=v0.2.93-alpha'; // Badges tab (globalThis.KILUMEN_BADGES_TAB)
+import { maxHp, maxEnergy, energyOf, xpForLevel, displayName, battleStats, speciesInfo, isFainted, needsHeal, deserialise } from '../systems/creature.js?v=v0.2.93-alpha';
+import { fmtMoney } from '../systems/config.js?v=v0.2.93-alpha';
+import { partyMax } from '../systems/party.js?v=v0.2.93-alpha';
+import { getShops, regionOf } from '../systems/shop.js?v=v0.2.93-alpha';
+import { branchByZone } from '../systems/heal.js?v=v0.2.93-alpha';
+import { baseName as _baseName } from '../systems/creature.js?v=v0.2.93-alpha';
+import { STAT_NAMES } from '../battle/data/creatures.js?v=v0.2.93-alpha';
+import { buildSkills, toID } from '../battle/data/skills.js?v=v0.2.93-alpha';
+import { areaName } from '../overworld/area_sign.js?v=v0.2.93-alpha';
 // playtest fixes 3: older saves can hold skill ids in another case/spacing ('Sparksneeze', 'spark_sneeze'); look up by toID so
 // the row shows the display name ('Spark Sneeze') and its description instead of the raw id.
 let _SKILLS = null; const skillDef = (id) => { const S = (_SKILLS ||= buildSkills()); return S[id] || S[toID(String(id || ''))] || null; };
 const prettyId = (id) => String(id || '').replace(/_int$/, '').split('_').filter(Boolean).map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
-import { giveHeld, takeHeld, swapHeld } from '../systems/held.js?v=v0.2.92-alpha'; // held items P2-P5 (Oct 29 2026)
-import { HELD_DESC, HELD_LINES, charmDesc } from '../systems/data/held_text.js?v=v0.2.92-alpha';
-import { HELD_BATTLE_ITEMS } from '../battle/data/held_items.js?v=v0.2.92-alpha';
-import { heldIconHtml, heldIconSrc, wireHeldIcons } from './held_icons.js?v=v0.2.92-alpha'; // held-item icon on every slot (Gary, Oct 29 2026)
+import { giveHeld, takeHeld, swapHeld } from '../systems/held.js?v=v0.2.93-alpha'; // held items P2-P5 (Oct 29 2026)
+import { HELD_DESC, HELD_LINES, charmDesc } from '../systems/data/held_text.js?v=v0.2.93-alpha';
+import { HELD_BATTLE_ITEMS } from '../battle/data/held_items.js?v=v0.2.93-alpha';
+import { heldIconHtml, heldIconSrc, wireHeldIcons } from './held_icons.js?v=v0.2.93-alpha'; // held-item icon on every slot (Gary, Oct 29 2026)
 const statGrid = (c) => { const st = battleStats(c); return `<div class="sys-stats"><span><b>${esc(STAT_NAMES.hp)}</b> ${c.hp}/${maxHp(c)}</span>${['atk', 'def', 'spa', 'spd', 'spe'].map((k) => `<span><b>${esc(STAT_NAMES[k])}</b> ${st[k]}</span>`).join('')}</div>`; };
 // v0.2.10: name + variant mark kept together; only the name part is cut with an ellipsis, the mark and level never overlap
 const nameHtml = (c) => `<span class="nmw"><span class="nmt">${esc(_baseName(c))}</span>${c?.variant ? '<span class="vmark">✦</span>' : ''}</span>`;
@@ -61,7 +61,7 @@ const statusChip = (c) => (isFainted(c) ? '<span class="sys-st out" data-pat="ch
   : c.status ? `<span class="sys-st" data-st="${esc(c.status)}" data-pat="${STATUS_PAT[c.status] || 'dots'}">${esc(STATUS[c.status] || c.status)}</span>` : '');
 
 export async function installSystemsScreens(ui, sys) {
-  import('../qol/skills_menu.js?v=v0.2.92-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
+  import('../qol/skills_menu.js?v=v0.2.93-alpha').then((m) => m.installQolSkills(ui, sys)).catch((e) => console.error('qol skills:', e)); // QoL batch B #5/#6
   if (!ui || !sys) return null;
   const cfg = sys.cfg;
   if (typeof document !== 'undefined' && !document.querySelector('link[data-sys-css]')) {

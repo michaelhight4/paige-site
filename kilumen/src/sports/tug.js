@@ -3,7 +3,7 @@
 // Team event: three creatures on the rope. Team strength = mean of (0.6 power + 0.4 stamina) over the three.
 // Tap A to heave (tap ON the pulse for a big heave). Mashing tires the grip. The rival crew "digs in" with telegraphed
 // surges: hold ▼ (brace) through a surge to halve it. Each member has a personality (role + quirk) for reactions.
-import { rngFor } from './rng.js?v=v0.2.92-alpha';
+import { rngFor } from './rng.js?v=v0.2.93-alpha';
 
 const cl = (v, a, b) => (v < a ? a : v > b ? b : v);
 export const ROLES = ['front', 'middle', 'anchor'];

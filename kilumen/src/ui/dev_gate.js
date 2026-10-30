@@ -31,7 +31,7 @@ export async function startDevGate(k) {
   if (!verdict.ok) { console.info('Kilumen dev console: off (' + verdict.why + ')'); return null; }
   for (let i = 0; i < 160 && !(k.ui && k.scene?.systems?.party); i++) await new Promise((r) => setTimeout(r, 250)); // up to 40 s
   if (!(k.ui && k.scene?.systems?.party)) { console.info('Kilumen dev console: off (game not ready)'); return null; }
-  const m = await import('./dev_console.js?v=v0.2.92-alpha');
+  const m = await import('./dev_console.js?v=v0.2.93-alpha');
   k.devConsole = m.mountDevConsole({ scene: k.scene, ui: k.ui, role: verdict.role });
   console.info('Kilumen dev console: on (' + verdict.role + '). DEV button, or F2.');
   return k.devConsole;

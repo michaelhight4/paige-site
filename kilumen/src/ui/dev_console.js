@@ -3,14 +3,14 @@
 // owner / admin. All text is in this file (Text Bot owns text/*.py and overworld_lines.json).
 // Rules kept: never opens during a battle, conversation, cutscene or any save lock; holds the save lock while open (no save mid-edit),
 // then releases it so the normal save runs; any change sets scene.devTouched -> save.devTouched = true (see save.js).
-import { SPECIES } from './data.js?v=v0.2.92-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.92-alpha';
-import { createCreature, defaultSkills, displayName, speciesName, xpForLevel, healFull, maxHp } from '../systems/creature.js?v=v0.2.92-alpha';
-import { applyLearn } from '../overnight/learnsets.js?v=v0.2.92-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.92-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.92-alpha';
-import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.92-alpha';
-import { xpToReach, regionCap } from '../systems/rt_benefits.js?v=v0.2.92-alpha';
+import { SPECIES } from './data.js?v=v0.2.93-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.93-alpha';
+import { createCreature, defaultSkills, displayName, speciesName, xpForLevel, healFull, maxHp } from '../systems/creature.js?v=v0.2.93-alpha';
+import { applyLearn } from '../overnight/learnsets.js?v=v0.2.93-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.93-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.93-alpha';
+import { KILUMEN_RULES, VARIANT_MODS } from '../battle/data/rules.js?v=v0.2.93-alpha';
+import { xpToReach, regionCap } from '../systems/rt_benefits.js?v=v0.2.93-alpha';
 
 const CSS = `
 #dv-btn { position: fixed; z-index: 40; top: calc(var(--safe-top, 0px) + 6px); left: calc(var(--safe-left, 0px) + 6px); min-width: 44px; min-height: 44px; padding: 0 12px;
