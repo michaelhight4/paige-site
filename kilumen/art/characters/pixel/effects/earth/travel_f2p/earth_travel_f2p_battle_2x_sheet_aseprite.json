@@ -1,0 +1,84 @@
+{ "frames": [
+   {
+    "filename": "earth_travel_f2p_0",
+    "frame": { "x": 0, "y": 0, "w": 328, "h": 236 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 328, "h": 236 },
+    "sourceSize": { "w": 328, "h": 236 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_travel_f2p_1",
+    "frame": { "x": 328, "y": 0, "w": 328, "h": 236 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 328, "h": 236 },
+    "sourceSize": { "w": 328, "h": 236 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_travel_f2p_2",
+    "frame": { "x": 656, "y": 0, "w": 328, "h": 236 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 328, "h": 236 },
+    "sourceSize": { "w": 328, "h": 236 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_travel_f2p_3",
+    "frame": { "x": 984, "y": 0, "w": 328, "h": 236 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 328, "h": 236 },
+    "sourceSize": { "w": 328, "h": 236 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_travel_f2p_4",
+    "frame": { "x": 1312, "y": 0, "w": 328, "h": 236 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 328, "h": 236 },
+    "sourceSize": { "w": 328, "h": 236 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_travel_f2p_5",
+    "frame": { "x": 1640, "y": 0, "w": 328, "h": 236 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 328, "h": 236 },
+    "sourceSize": { "w": 328, "h": 236 },
+    "duration": 100
+   },
+   {
+    "filename": "earth_travel_f2p_6",
+    "frame": { "x": 1968, "y": 0, "w": 328, "h": 236 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 328, "h": 236 },
+    "sourceSize": { "w": 328, "h": 236 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.18.6-x64",
+  "image": "earth_travel_f2p_battle_2x_sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 2296, "h": 236 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "travel_f2p", "from": 0, "to": 6, "direction": "forward", "color": "#000000ff" }
+  ],
+  "layers": [
+   { "name": "fx", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+   { "name": "path_start", "keys": [{ "frame": 0, "bounds": {"x": 274, "y": 54, "w": 2, "h": 2 } }] },
+   { "name": "path_end", "keys": [{ "frame": 0, "bounds": {"x": 30, "y": 194, "w": 2, "h": 2 } }] }
+  ]
+ }
+}

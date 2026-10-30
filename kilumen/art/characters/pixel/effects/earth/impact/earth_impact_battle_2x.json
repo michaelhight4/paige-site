@@ -1,1 +1,115 @@
-{"element":"earth","anim":"impact","description":"main type: heavy tumbling boulder on high arc + grit; impact = rock spikes erupt, debris, grit spray","generated_by":"art/characters/pixel/effects/_tools/build_transparent_staging.py","generated_at":"2026-10-22T22:57:42-05:00","scale":2,"filter":"nearest","background":"fully transparent (1-bit alpha), palette-only opaque pixels","gif":"earth_impact_battle_2x.gif","gif_disposal":2,"loop":"gif loop=0 is set; play ONCE in game (remove after total_ms)","sheet":"earth_impact_battle_2x_sheet.png","sheet_layout":"horizontal strip, frame i at x=i*frame_w","frame_w":236,"frame_h":112,"frame_count":8,"frames":[{"i":0,"x":0,"y":0,"w":236,"h":112,"ms":100},{"i":1,"x":236,"y":0,"w":236,"h":112,"ms":100},{"i":2,"x":472,"y":0,"w":236,"h":112,"ms":100},{"i":3,"x":708,"y":0,"w":236,"h":112,"ms":100},{"i":4,"x":944,"y":0,"w":236,"h":112,"ms":100},{"i":5,"x":1180,"y":0,"w":236,"h":112,"ms":100},{"i":6,"x":1416,"y":0,"w":236,"h":112,"ms":100},{"i":7,"x":1652,"y":0,"w":236,"h":112,"ms":100}],"total_ms":800,"native_frame_w":118,"native_frame_h":56,"crop_in_source_canvas_native":{"x":-10,"y":44,"w":118,"h":56,"source_canvas":[96,112]},"effect_bbox_native":[3,3,114,53],"rendered_with_margin":true,"anchor":{"type":"impact_centre","x":116,"y":40,"native":[58,20],"usage":"draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"},"sheet_aseprite_json":"earth_impact_battle_2x_sheet_aseprite.json","aseprite":{"source":"earth_impact.aseprite","version":"1.3.18.6","built_by":"Gary's Aseprite 1.3.18.6 (batch) via _tools/aseprite/kil_fx_build.lua","layers":["fx"],"tags":["impact"],"gif_note":"pixels/durations from Aseprite's GIF export, re-wrapped with disposal=2 on every frame","source_is_1x":true,"export_scale":2,"run":"run2"}}
+{
+ "element": "earth",
+ "anim": "impact",
+ "description": "main type: heavy tumbling boulder on high arc + dust; impact = rock spikes erupt, debris, dust",
+ "generated_by": "art/characters/pixel/effects/_tools/build_transparent_staging.py",
+ "generated_at": "2026-10-30T00:32:04-05:00",
+ "scale": 2,
+ "filter": "nearest",
+ "background": "fully transparent (1-bit alpha), palette-only opaque pixels",
+ "gif": "earth_impact_battle_2x.gif",
+ "gif_disposal": 2,
+ "loop": "gif loop=0 is set; play ONCE in game (remove after total_ms)",
+ "sheet": "earth_impact_battle_2x_sheet.png",
+ "sheet_layout": "horizontal strip, frame i at x=i*frame_w",
+ "frame_w": 236,
+ "frame_h": 112,
+ "frame_count": 8,
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 236,
+   "h": 112,
+   "ms": 100
+  },
+  {
+   "i": 1,
+   "x": 236,
+   "y": 0,
+   "w": 236,
+   "h": 112,
+   "ms": 100
+  },
+  {
+   "i": 2,
+   "x": 472,
+   "y": 0,
+   "w": 236,
+   "h": 112,
+   "ms": 100
+  },
+  {
+   "i": 3,
+   "x": 708,
+   "y": 0,
+   "w": 236,
+   "h": 112,
+   "ms": 100
+  },
+  {
+   "i": 4,
+   "x": 944,
+   "y": 0,
+   "w": 236,
+   "h": 112,
+   "ms": 100
+  },
+  {
+   "i": 5,
+   "x": 1180,
+   "y": 0,
+   "w": 236,
+   "h": 112,
+   "ms": 100
+  },
+  {
+   "i": 6,
+   "x": 1416,
+   "y": 0,
+   "w": 236,
+   "h": 112,
+   "ms": 100
+  },
+  {
+   "i": 7,
+   "x": 1652,
+   "y": 0,
+   "w": 236,
+   "h": 112,
+   "ms": 100
+  }
+ ],
+ "total_ms": 800,
+ "native_frame_w": 118,
+ "native_frame_h": 56,
+ "crop_in_source_canvas_native": {
+  "x": -10,
+  "y": 44,
+  "w": 118,
+  "h": 56,
+  "source_canvas": [
+   96,
+   112
+  ],
+  "note": "x/y relative to the old canvas; negative = art that the old canvas cut off"
+ },
+ "effect_bbox_native": [
+  3,
+  3,
+  114,
+  53
+ ],
+ "rendered_with_margin": true,
+ "anchor": {
+  "type": "impact_centre",
+  "x": 116,
+  "y": 40,
+  "native": [
+   58,
+   20
+  ],
+  "usage": "draw the frame at (target_centre_x - anchor.x*k, target_centre_y - anchor.y*k) at its natural aspect, k = display px per 2x px; flip_x for the player side mirrors around anchor: x' = frame_w - anchor.x"
+ }
+}

@@ -1,1 +1,127 @@
-{"element":"ghost","anim":"travel_f2p","description":"sub type: phasing phantom with after-images; impact = looming face screams, warped rings","generated_by":"art/characters/pixel/effects/_tools/build_transparent_staging.py","generated_at":"2026-10-22T22:57:44-05:00","scale":2,"filter":"nearest","background":"fully transparent (1-bit alpha), palette-only opaque pixels","gif":"ghost_travel_f2p_battle_2x.gif","gif_disposal":2,"loop":"gif loop=0 is set; play ONCE in game (remove after total_ms)","sheet":"ghost_travel_f2p_battle_2x_sheet.png","sheet_layout":"horizontal strip, frame i at x=i*frame_w","frame_w":296,"frame_h":184,"frame_count":8,"frames":[{"i":0,"x":0,"y":0,"w":296,"h":184,"ms":100},{"i":1,"x":296,"y":0,"w":296,"h":184,"ms":100},{"i":2,"x":592,"y":0,"w":296,"h":184,"ms":100},{"i":3,"x":888,"y":0,"w":296,"h":184,"ms":100},{"i":4,"x":1184,"y":0,"w":296,"h":184,"ms":100},{"i":5,"x":1480,"y":0,"w":296,"h":184,"ms":100},{"i":6,"x":1776,"y":0,"w":296,"h":184,"ms":100},{"i":7,"x":2072,"y":0,"w":296,"h":184,"ms":100}],"total_ms":800,"native_frame_w":148,"native_frame_h":92,"crop_in_source_canvas_native":{"x":13,"y":57,"w":148,"h":92,"source_canvas":[240,176]},"effect_bbox_native":[3,3,145,89],"rendered_with_margin":true,"anchor":{"type":"screen_space_path","start":[270,18],"end":[26,158],"start_is":"foe mouth (front sprite)","end_is":"player centre","canvas_offset_on_pilot_screen_native":[53,97],"canvas_offset_on_pilot_screen_2x":[106,194],"usage":"pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"},"sheet_aseprite_json":"ghost_travel_f2p_battle_2x_sheet_aseprite.json","aseprite":{"source":"ghost_travel_f2p.aseprite","version":"1.3.18.6","built_by":"Gary's Aseprite 1.3.18.6 (batch) via _tools/aseprite/kil_fx_build.lua","layers":["fx"],"tags":["travel_f2p"],"gif_note":"pixels/durations from Aseprite's GIF export, re-wrapped with disposal=2 on every frame","source_is_1x":true,"export_scale":2,"run":"run2"}}
+{
+ "element": "ghost",
+ "anim": "travel_f2p",
+ "description": "sub type: phasing phantom with after-images; impact = looming face screams, warped rings",
+ "generated_by": "art/characters/pixel/effects/_tools/build_transparent_staging.py",
+ "generated_at": "2026-10-30T00:32:05-05:00",
+ "scale": 2,
+ "filter": "nearest",
+ "background": "fully transparent (1-bit alpha), palette-only opaque pixels",
+ "gif": "ghost_travel_f2p_battle_2x.gif",
+ "gif_disposal": 2,
+ "loop": "gif loop=0 is set; play ONCE in game (remove after total_ms)",
+ "sheet": "ghost_travel_f2p_battle_2x_sheet.png",
+ "sheet_layout": "horizontal strip, frame i at x=i*frame_w",
+ "frame_w": 300,
+ "frame_h": 184,
+ "frame_count": 8,
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 300,
+   "h": 184,
+   "ms": 100
+  },
+  {
+   "i": 1,
+   "x": 300,
+   "y": 0,
+   "w": 300,
+   "h": 184,
+   "ms": 100
+  },
+  {
+   "i": 2,
+   "x": 600,
+   "y": 0,
+   "w": 300,
+   "h": 184,
+   "ms": 100
+  },
+  {
+   "i": 3,
+   "x": 900,
+   "y": 0,
+   "w": 300,
+   "h": 184,
+   "ms": 100
+  },
+  {
+   "i": 4,
+   "x": 1200,
+   "y": 0,
+   "w": 300,
+   "h": 184,
+   "ms": 100
+  },
+  {
+   "i": 5,
+   "x": 1500,
+   "y": 0,
+   "w": 300,
+   "h": 184,
+   "ms": 100
+  },
+  {
+   "i": 6,
+   "x": 1800,
+   "y": 0,
+   "w": 300,
+   "h": 184,
+   "ms": 100
+  },
+  {
+   "i": 7,
+   "x": 2100,
+   "y": 0,
+   "w": 300,
+   "h": 184,
+   "ms": 100
+  }
+ ],
+ "total_ms": 800,
+ "native_frame_w": 150,
+ "native_frame_h": 92,
+ "crop_in_source_canvas_native": {
+  "x": 13,
+  "y": 57,
+  "w": 150,
+  "h": 92,
+  "source_canvas": [
+   240,
+   176
+  ],
+  "note": "x/y relative to the old canvas; negative = art that the old canvas cut off"
+ },
+ "effect_bbox_native": [
+  3,
+  3,
+  147,
+  89
+ ],
+ "rendered_with_margin": true,
+ "anchor": {
+  "type": "screen_space_path",
+  "start": [
+   270,
+   18
+  ],
+  "end": [
+   26,
+   158
+  ],
+  "start_is": "foe mouth (front sprite)",
+  "end_is": "player centre",
+  "canvas_offset_on_pilot_screen_native": [
+   53,
+   97
+  ],
+  "canvas_offset_on_pilot_screen_2x": [
+   106,
+   194
+  ],
+  "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+ }
+}
