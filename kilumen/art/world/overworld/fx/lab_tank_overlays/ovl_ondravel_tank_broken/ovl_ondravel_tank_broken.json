@@ -1,0 +1,130 @@
+{
+ "name": "ovl_ondravel_tank_broken",
+ "kind": "tile-overlay",
+ "sheet": "ovl_ondravel_tank_broken.png",
+ "frame_w": 384,
+ "frame_h": 320,
+ "frames": 16,
+ "cols": 10,
+ "rows": 2,
+ "slices": 1,
+ "layout": "row-major frames",
+ "row_labels": [
+  "broken"
+ ],
+ "ms": [
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120
+ ],
+ "total_ms": 1920,
+ "loop": true,
+ "mode": "loop",
+ "footprint_tiles": [
+  6,
+  5
+ ],
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "tile_ids": [
+  12362,
+  12363,
+  12364,
+  12365,
+  12366,
+  12367,
+  12368,
+  12369,
+  12370,
+  12371,
+  12372,
+  12373,
+  12374,
+  12375,
+  12376,
+  12377,
+  12378,
+  12379,
+  12380,
+  12381,
+  12382,
+  12383,
+  12384,
+  12385,
+  12386,
+  12387,
+  12388,
+  12389,
+  12390,
+  12391
+ ],
+ "room": "fin_past_wlab_10_ondravel (after flag fin_released, via flag_swaps)",
+ "tint": "blue water + grey mist",
+ "layer": "decoration_fx (draw right after the tile, before y-sorted sprites)",
+ "anchor": {
+  "x": 0,
+  "y": 0,
+  "meaning": "top-left of frame = top-left px of the tank's _0_0 tile (map cell of that tile id)"
+ },
+ "anchor_bottom_centre": {
+  "x": 192,
+  "y": 320
+ },
+ "phase_offsets_frames": [
+  0,
+  10,
+  4,
+  14,
+  8,
+  6
+ ],
+ "phase_rule": "frame = (floor(t_ms / ms) + phase_offsets_frames[(7*x0 + 3*y0) % 6]) % frames; x0,y0 = map cell of the anchor tile",
+ "emissive": "px in the 8 night-glow colours use the lit LUT, rest the sprite LUT",
+ "tex_bytes_rgba": 9830400,
+ "art_sheet": "ovl_ondravel_tank_broken_art1x.png",
+ "art_tex_bytes_rgba": 2457600,
+ "glass_mask": "ovl_ondravel_tank_broken_glassmask_art1x.png",
+ "png_bytes": 14586,
+ "art_png_bytes": 4901,
+ "avg_opaque_px_per_frame": 691,
+ "mask_coverage_mean": 0.008,
+ "notes": "Broken tank: 14 drips from the jagged top glass falling (accelerating) into the puddle with a 2-step splash, puddle glints, low cold-mist stipple band (solid px). Masked to the empty frame interior.",
+ "readability": {
+  "broken": {
+   "dawn": {
+    "mean": 0.975,
+    "worst_frame": 0.954
+   },
+   "day": {
+    "mean": 0.975,
+    "worst_frame": 0.954
+   },
+   "dusk": {
+    "mean": 0.971,
+    "worst_frame": 0.954
+   },
+   "night": {
+    "mean": 0.879,
+    "worst_frame": 0.86
+   }
+  }
+ },
+ "readability_rule": "overlay px with |dLuma|>=28 vs the ToD-graded tank tile under them (tile snapped to palette); pass >= 0.5 per phase",
+ "readability_min": 0.879,
+ "readability_worst_frame": 0.86,
+ "readability_night_min": 0.879,
+ "seam_ratio": 1.0
+}

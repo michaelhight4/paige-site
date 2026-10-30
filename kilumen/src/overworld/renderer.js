@@ -55,6 +55,7 @@ export class Renderer {
 
     for (const layer of ['ground', 'decoration'])
       for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile(layer, x, y), x, y);
+    v.r9fx?.decorationFx?.(ctx, v); // decoration_fx: Wellspire lab tank particle overlays (src/region9/tank_overlays.js), before characters; Ondravel (r9fx.draw) above
     v.ixlight?.draw(ctx, v, 'lower'); // Interiors v2: cached plane lighting on redrawn furniture + floor light spill
     v.depth?.drawStatic(ctx, v); // depth pass: contact shadows under furniture/decoration + wall-base shading (cached per map)
     v.nightfx?.drawWindows(ctx, v); // Night FX: lit window glass (dusk on, some dark late; under characters)

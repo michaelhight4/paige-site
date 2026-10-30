@@ -4,6 +4,7 @@
 // {x, y}: x = the centre tile, y = the tile under his feet.
 import { makeLabFx } from './lab_fx.js?v=v0.2.93-alpha';
 import { anim, frameAt, drawFrame } from './anims.js?v=v0.2.93-alpha';
+import { makeTankOverlays } from './tank_overlays.js?v=v0.2.93-alpha';
 const T = 64, FW = 256, FH = 256;
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 export function makeSummitFx(scene) {
@@ -11,6 +12,7 @@ export function makeSummitFx(scene) {
   const fx = { cloud: 0, light: 0, flash: 0, flashCol: '255,255,255', row: null, hidden: false, active: false };
   const meta = () => scene.map?.json?.ondravel || null;
   const lab = fx.lab = makeLabFx(scene); let breaking = false;
+  const tanks = fx.tanks = makeTankOverlays(); fx.decorationFx = (ctx, v) => tanks.draw(ctx, v); // lab tank particle overlays (tank_overlays.js)
   // Wellspire v3: in the lab Ondravel floats in the big tank (lab_fx.js); released = glass broken, water drained
   fx.under = (ctx, v) => {
     if (!scene.map?.json?.lab) return;
