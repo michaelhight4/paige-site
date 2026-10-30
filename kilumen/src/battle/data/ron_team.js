@@ -9,10 +9,10 @@
 // - Team sizes keep the authored region 1-3 sizes (2 / 3 / 4); from Ron 4 on he carries a full 6. Smaller teams fill base
 //   first (peeplark, counter, sailquill), then rolled slots in order.
 // Pure data + helpers (node tools and the browser).
-import { evoTable } from '../../systems/evolution.js?v=v0.2.98-alpha';
-import { RON_COUNTER, STARTERS } from './starters.js?v=v0.2.98-alpha';
-import { ENDING } from '../../progression/ending.js?v=v0.2.98-alpha';
-import { RON_POOLS, RON_FORMS_OK } from './ron_pools.gen.js?v=v0.2.98-alpha';
+import { evoTable } from '../../systems/evolution.js?v=v0.2.99-alpha';
+import { RON_COUNTER, STARTERS } from './starters.js?v=v0.2.99-alpha';
+import { ENDING } from '../../progression/ending.js?v=v0.2.99-alpha';
+import { RON_POOLS, RON_FORMS_OK } from './ron_pools.gen.js?v=v0.2.99-alpha';
 
 export const RON_BASE = ['peeplark', 'counter', 'sailquill'];
 /** Fights where Ron fields ONLY final-evolution Kilu (Gary 5:42 PM CT): base 3 forced to final stage, rolled pools filtered

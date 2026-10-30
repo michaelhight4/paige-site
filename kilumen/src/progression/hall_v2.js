@@ -17,10 +17,10 @@
 //    prisms (A turns one U->R->D->L), 'r' receiver, 'L' crystal door. The live beam is drawn over the floor every frame
 //    (HallV2.beam = the same trace the solver uses); the door opens while the receiver is lit. Turns live in the state bits.
 //  - Trainers walk back to their seat after a talk / battle so the walk the solver proved stays open.
-import { HallV2, V2_PUSH } from './puzzles.js?v=v0.2.98-alpha';
-import { TILE } from '../overworld/constants.js?v=v0.2.98-alpha';
-import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.98-alpha';
-import { applyHallAnim, hallAnimOn } from './hall_anim.js?v=v0.2.98-alpha';
+import { HallV2, V2_PUSH } from './puzzles.js?v=v0.2.99-alpha';
+import { TILE } from '../overworld/constants.js?v=v0.2.99-alpha';
+import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.99-alpha';
+import { applyHallAnim, hallAnimOn } from './hall_anim.js?v=v0.2.99-alpha';
 
 export const REMATCH_FEE = 300, REMATCH_PRIZE = 1200, WIN_SCALE = 1.3;
 const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };

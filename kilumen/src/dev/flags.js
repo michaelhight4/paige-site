@@ -1,6 +1,6 @@
 // Dev console Flags tab logic (Oct 30, 2026). Pure helpers: no DOM, so tests can drive them. Only src/dev/console.js imports this,
 // and it only loads behind dev/devgate.js (?dev=1 + site owner/admin). Normal players never reach it.
-import { HALL_ORDER } from '../systems/hall_order.js?v=v0.2.98-alpha';
+import { HALL_ORDER } from '../systems/hall_order.js?v=v0.2.99-alpha';
 
 export const FLAG_RE = /^[a-z0-9_:.-]{1,80}$/i;
 
