@@ -1205,12 +1205,14 @@ export function mountUI(opts) {
       const cls = e.trainer_class || '', nm = e.name || '', spk = npc && scene.speakerFor?.(npc)?.name;
       const name = (cls && nm && cls !== nm ? `${cls} ${nm}` : nm || cls) || hall?.who?.name_placeholder || spk || (inj?.foeName !== 'Trainer' && inj?.foeName) || 'Trainer';
       const items = dm.masterItems(inj?.masterNumber || (hall?.isMaster ? hall.hall.coin_number : 0), dm.getDifficulty(scene.systems?.state)); // same Master healing items as the turn battle
-      const out = await m.openRtBattle(ui, scene, null, { q, trainer: { foes, name, npc, items, who } });
+      const out = await m.openRtBattle(ui, scene, null, { q, trainer: { foes, name, npc, items, who, catchable: !!who?.catchable } });
+      if (who?.catchable && out?.caught?.species) return 'caught'; // Ondravel's release fight (region9 guardian(): caught joins the party via applyBattleResult)
       return out?.outcome === 'win';
     };
-    scene.hooks.onBattle = (who) => (rtbMode(scene, q) === 'rt' && !rtbKilled(q) && scene.party?.some((c) => c.hp == null || c.hp > 0) ? rtTrainer(who) : load.then(() => new Promise((res) => {
+    // Gary (Oct 30 2026): both Ondravel fights (who.turnOnly) always use the regular turn battle, even with real-time on
+    scene.hooks.onBattle = (who) => (!who?.turnOnly && rtbMode(scene, q) === 'rt' && !rtbKilled(q) && scene.party?.some((c) => c.hp == null || c.hp > 0) ? rtTrainer(who) : load.then(() => new Promise((res) => {
       ui.open('battle', { trainer: true, who, biome: biomeFor('', who?.map || scene.map?.name) }); const scr = ui.top; let out = null;
-      scr.onDone = (r) => { out = r; }; ui._onClose = () => res(out ? out.outcome === 'win' : false);
+      scr.onDone = (r) => { out = r; }; ui._onClose = () => res(who?.catchable && out?.caught?.species ? 'caught' : out ? out.outcome === 'win' : false);
     })));
     if (want === 'battle') { load.then(() => ui.open('battle', { trainer: q.get('trainer') === '1' })); return ui; }
   }

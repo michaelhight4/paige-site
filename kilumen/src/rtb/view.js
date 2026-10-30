@@ -482,7 +482,7 @@ export class RtView {
       });
     }
     this.partyFrame();
-    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.hidden = !!sim.trainer || globalThis.KILUMEN_RTB_CAPTURE_OFF === true; cb.disabled = !cr || !!sim.caught || !!sim.trainer || !!sim.capture; cb.querySelector('.cn').textContent = ct(CT.count, { n: cr }); cb.querySelector('.cl').textContent = cr ? CT.button : CT.button_none; cb.classList.toggle('open', !!this.capOpen);
+    const cr = this.crystals?.() || 0, cb = this.$('[data-rtb="crystal"]'); cb.hidden = (!!sim.trainer && !sim.guardianCatch) || globalThis.KILUMEN_RTB_CAPTURE_OFF === true; cb.disabled = !cr || !!sim.caught || (!!sim.trainer && !sim.guardianCatch) || !!sim.capture; cb.querySelector('.cn').textContent = ct(CT.count, { n: cr }); cb.querySelector('.cl').textContent = cr ? CT.button : CT.button_none; cb.classList.toggle('open', !!this.capOpen);
     this.$('[data-rtb="swap"]').disabled = sim.party.filter((c) => c.hp > 0).length < 2 || sim.swapCd > 0;
     this.$('[data-rtb="leave"]').classList.toggle('hold', sim.retreatT > 0);
   }

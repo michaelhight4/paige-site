@@ -9,7 +9,7 @@ import { buildSkills } from '../battle/data/skills.js?v=v0.2.100-alpha';
 import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.100-alpha';
 import { DRAFT_CHART } from '../battle/data/elements.js?v=v0.2.100-alpha';
 import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.100-alpha';
-import { captureChance, captureRoll } from '../battle/capture.js?v=v0.2.100-alpha';
+import { captureChance, captureRoll, guardianCatchChance } from '../battle/capture.js?v=v0.2.100-alpha';
 import { SHAPE_STATS, shapeOf, cooldownFor, reachOf } from './moves.js?v=v0.2.100-alpha';
 
 let _sk = null, _cr = null;
@@ -400,7 +400,7 @@ export class RtBattle {
   _forcedSwap() { this.swapCd = 0; this.swap(); }
 
   // ---- capture: a Crystal flies at the locked foe; it can be dodged. On contact: hold + 1-4 pulses (captureRoll)
-  canCrystal() { return this.state === 'fight' && !this.trainer && !this.caught && !this.capture && this.ally.alive && !!this.target && !this.shots.some((s) => s.crystal); }
+  canCrystal() { return this.state === 'fight' && (!this.trainer || !!this.guardianCatch) && !this.caught && !this.capture && this.ally.alive && !!this.target && !this.shots.some((s) => s.crystal); }
   castCrystal({ id, grade = 1 } = {}) {
     if (!this.canCrystal()) return false;
     const a = this.ally, t = this.target, d = Math.hypot(t.x - a.x, t.y - a.y) || 1;
@@ -414,6 +414,7 @@ export class RtBattle {
     if (!o) return { p: 0, rarity: 0.5 };
     const sp = CREATURES()[o.c.species] || {}, st = o.drowsy > 0 ? KILUMEN_RULES.catchStatus.drowsy : o.scorch > 0 ? KILUMEN_RULES.catchStatus.scorched : 1;
     const rarity = sp.catchRate ?? 0.5;
+    if (this.guardianCatch) return { p: guardianCatchChance({ hp: o.c.hp, maxHp: o.mhp, grade, heldMult: this.guardianCatch.heldMult?.(this.ally) || 1, bonus: this.guardianCatch.bonus || 0 }), rarity }; // Ondravel's release fight (capture.js GUARDIAN_CATCH)
     return { p: captureChance({ rarity, hp: o.c.hp, maxHp: o.mhp, status: st, grade }), rarity };
   }
   _crystalStep(s) {

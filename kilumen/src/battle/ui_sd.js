@@ -3,6 +3,7 @@
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
 import { KilumenBattle } from './battle.js?v=v0.2.100-alpha';
+import { guardianCatchChance } from './capture.js?v=v0.2.100-alpha';
 import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.100-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
 import { skillTag } from '../qol/matchup.js?v=v0.2.100-alpha';
 import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.100-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
@@ -46,6 +47,7 @@ export function makeSdBattle(ui, opts, h) {
   // no capturing a trainer's creatures (Gary, Oct 23 2026): any battle with an owner (trainer flag, overworld trainer id,
   // injected Master / hall team, explicit owner) is not wild, so the engine refuses the crystal and keeps it in the bag
   const owned = trainer || !!opts.who || !!opts.owner || !!opts.foes?.length;
+  const catchable = !!opts.who?.catchable; // Ondravel's release fight: owned (no retreat) but crystals work (capture.js guardianCatchChance)
   // v0.2.21 (Gary, Oct 24 2026): wild only, a species already in the Kilindex caught record gets a silver 'Owned' badge with a crystal on its left
   const kxCaught = ui.demo ? null : ui.scene?.systems?.kilindex?.data?.caught;
   const ownedBadge = (sp) => !owned && !!kxCaught && !!kxCaught[sp];
@@ -85,7 +87,7 @@ export function makeSdBattle(ui, opts, h) {
   const dMode = getDifficulty(sys?.state), foesBattle = scaleFoes(foes, Math.max(...party.map((c) => c.level || 1)), dMode);
   const foeItems = trainer ? masterItems(opts.masterNumber || 0, dMode) : {};
   const qol = qolFlags(ui.q || undefined);
-  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1, xpShare: qol.xpShare ? XP_SHARE : 0 });
+  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, catchFn: catchable ? (c) => guardianCatchChance({ ...c, bonus: Number(sys?.rtBenefits?.catchBonus?.() || 0) }) : undefined, unwinnable: opts.who?.scripted === 'lose', bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1, xpShare: qol.xpShare ? XP_SHARE : 0 });
   let sharedSaid = false; // QoL #4: one line per KO for the benched share // Unit Training perk (v0.2.28)
   ui.currentBattle = kb; // read-only handle for scripted play-checks (tools/playcheck_browser.mjs)
   const cat = ui.T('system_item_catalogue', {});
@@ -478,8 +480,8 @@ export function makeSdBattle(ui, opts, h) {
     const r = kb.request();
     const items = Object.entries(r.bag).filter(([id, n]) => n > 0 && Items[id.replace(/_/g, '')]).map(([id, n]) => {
       const it = Items[id.replace(/_/g, '')], crystal = !!it.kCrystalGrade;
-      return { t: `${cat[id]?.name || it.name} ×${n}`, el: crystal ? 'mystic' : 'grass', off: crystal && owned,
-        go: async () => { if (crystal && owned) { await say(noCapture(), 0); showCmds(); return; } act(crystal ? `crystal ${id}` : `item ${id}`); } }; // owned: refusal (tap-through so phones see it too), no item / turn used
+      return { t: `${cat[id]?.name || it.name} ×${n}`, el: crystal ? 'mystic' : 'grass', off: crystal && owned && !catchable,
+        go: async () => { if (crystal && owned && !catchable) { await say(noCapture(), 0); showCmds(); return; } act(crystal ? `crystal ${id}` : `item ${id}`); } }; // owned: refusal (tap-through so phones see it too), no item / turn used
     });
     if (!items.length) { $('#b-msg').textContent = P1('pack_empty', 'Nothing in the Pack you can use here.') /* PH */; return; }
     showList('pack', items, P1('pack_prompt', 'Use which item?') /* PH */);
@@ -502,7 +504,7 @@ export function makeSdBattle(ui, opts, h) {
     if (r !== true) {
       busy = false;
       const err = String(r?.error || '');
-      if (choice.startsWith('crystal') && (owned || /wild/i.test(err))) $('#b-msg').textContent = noCapture();
+      if (choice.startsWith('crystal') && ((owned && !catchable) || /wild/i.test(err))) $('#b-msg').textContent = noCapture();
       else if (/trainer|wild/i.test(err) || (choice === 'retreat' && owned)) $('#b-msg').textContent = ui.P('system_trainers.no_retreat', ['No walking away from a trainer battle.'])[0];
       else $('#b-msg').textContent = err;
       return;

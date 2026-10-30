@@ -40,3 +40,13 @@ export function rarityOf(sp, species = []) {
   const stage = line ? line.indexOf(sp.id) : -1;
   return stage <= 0 ? 0.6 : stage === 1 ? 0.4 : 0.2; // same PLACEHOLDER as src/battle/data/creatures.js
 }
+
+/** Ondravel's release fight (Gary, Oct 30 2026): a legendary catch rule instead of the HP curve. Above 30 % HP he is
+ *  nearly uncatchable (1.5 %); at or below 30 % HP the base is 10 %. Crystal grade (Fine 1.25 / Prime 1.5 / Apex 2),
+ *  held catch items (Tamer's Thread x1.2) and any board catch bonus (`bonus`, +fraction; none exists yet) multiply it.
+ *  Cap 30 %. Reachable today: above 30 % HP max 3.6 % (Apex + Thread), below 30 % HP max 24 % (Apex + Thread). */
+export const GUARDIAN_CATCH = { hpGate: 0.3, high: 0.015, low: 0.10, max: 0.30 };
+export function guardianCatchChance({ hp = 1, maxHp = 1, grade = 1, heldMult = 1, bonus = 0 } = {}, K = GUARDIAN_CATCH) {
+  const frac = maxHp > 0 ? Math.max(0, Math.min(1, hp / maxHp)) : 1;
+  return Math.min(K.max, (frac <= K.hpGate ? K.low : K.high) * grade * heldMult * (1 + Math.max(0, bonus)));
+}

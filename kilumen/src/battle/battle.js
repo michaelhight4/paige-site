@@ -54,12 +54,23 @@ export class KilumenBattle {
       p2: { name: opts.foeName || (this.wild ? 'Wild' : 'Trainer'), team: opts.foes.map((c) => toSet(c)) },
     });
     this.bagIn = { ...(opts.bag || {}) };
+    // Ondravel's release fight (Oct 30 2026): a story fight that still takes a crystal; opts.catchFn(ctx) -> chance replaces the
+    // engine's catch curve (engine.js runCrystal kCatchFn hook; retreat stays blocked: kWild is still false)
+    if (typeof opts.catchFn === 'function') this.battle.kCatchFn = opts.catchFn;
     this.cursor = 0;
     // difficulty (src/systems/difficulty.js): foe damage x foeDamageMult (Easy 0.5 / Hard 1.5); the player's damage is untouched
     const dm = opts.foeDamageMult ?? 1;
     if (dm !== 1 && typeof this.battle.actions?.getDamage === 'function') {
       const act = this.battle.actions, orig = act.getDamage.bind(act), p2 = this.p2;
       act.getDamage = (src, tgt, move, ...rest) => { const d = orig(src, tgt, move, ...rest); return typeof d === 'number' && d > 0 && src?.side === p2 ? Math.max(1, Math.round(d * dm)) : d; };
+    }
+    // scripted story loss (Gary, Oct 30 2026: Ondravel on the summit): opts.unwinnable -> hits on the foe always leave it >= 1 HP
+    // and its own hits land x2.5, so the fight can only end in a loss (region9 summitFight counts it, no blackout / money loss)
+    if (opts.unwinnable && typeof this.battle.actions?.getDamage === 'function') {
+      const act = this.battle.actions, orig = act.getDamage.bind(act), p2 = this.p2;
+      act.getDamage = (src, tgt, move, ...rest) => { const d = orig(src, tgt, move, ...rest); if (typeof d !== 'number' || d <= 0) return d;
+        if (tgt?.side === p2) return Math.max(0, Math.min(d, (tgt.hp || 1) - 1)); return src?.side === p2 ? Math.round(d * 2.5) : d; };
+      this.unwinnable = true;
     }
     // Masters' healing items (task E, Oct 29 2026): engine bag for p2; foeChoice heals at <= foeHealAt HP (25-35%, by difficulty), one item per turn
     this.p2.kBag = { ...(opts.foeItems || {}) };

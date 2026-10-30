@@ -18,6 +18,7 @@
 // (CAP_TAB.slow) so foes keep moving and telegraphing, skills are locked while the tab is open (dodge still works), a hit on
 // your creature snaps the tab shut, and it closes on its own after 4 s real time. You get time to read the odds, not a free pause.
 import { RtBattle } from './sim.js?v=v0.2.100-alpha';
+import { HELD_BATTLE_ITEMS, heldToEngine, heldFromEngine } from '../battle/data/held_items.js?v=v0.2.100-alpha';
 import { RtView } from './view.js?v=v0.2.100-alpha';
 import { cooldownFor } from './moves.js?v=v0.2.100-alpha';
 import { buildSkills } from '../battle/data/skills.js?v=v0.2.100-alpha';
@@ -82,6 +83,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     }
     const sim = new RtBattle({ party: scene.party, foes, start: { x: sx, y: sy }, arena, walk, solid, rng, trainer: !!trainer, xpShare: qolFlags(q).xpShare ? XP_SHARE : 0, foeDamageMult: trainer ? diffOf(getDifficulty(scene.systems?.state)).damage || 1 : 1,
       foeItems: trainer?.items || null, foeHealAt: diffOf(getDifficulty(scene.systems?.state)).healAt ?? 0.25, foeHealsPer: diffOf(getDifficulty(scene.systems?.state)).healsPer ?? 1, sendFrom: tFeet });
+    if (trainer?.catchable) sim.guardianCatch = { bonus: Number(scene.systems?.rtBenefits?.catchBonus?.() || 0), heldMult: (a) => HELD_BATTLE_ITEMS[heldFromEngine(heldToEngine(a?.c?.held))]?.kCatchMult || 1 }; // Ondravel's release fight: crystals allowed (capture.js guardianCatchChance)
     // put foes ahead of the player, on walkable ground
     if (tFeet) sim.foes.forEach((f) => { // trainer: first creature out in front of the trainer, toward the fight
       const bx = tFeet.x + (sx - tFeet.x) * 0.45, by = tFeet.y + (sy - tFeet.y) * 0.45;
@@ -156,7 +158,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const db = view.$('[data-rtb="dodge"]'); on(db, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); bPress(); db.classList.add('down'); }); // touch-ok: real-time battle controls: a press must register instantly
     for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) on(db, ev, () => { bRelease(); db?.classList.remove('down'); }); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     const hud = view.hud;
-    const modeBtn = modeButton('turn', { touch, key: 'T' }); modeBtn.classList.add('in-rtb'); if (!trainer) hud.appendChild(modeBtn); else hud.querySelectorAll('[data-rtb="crystal"],[data-rtb="leave"]').forEach((b) => { b.hidden = true; b.style.display = 'none'; });
+    const modeBtn = modeButton('turn', { touch, key: 'T' }); modeBtn.classList.add('in-rtb'); if (!trainer) hud.appendChild(modeBtn); else hud.querySelectorAll(trainer.catchable ? '[data-rtb="leave"]' : '[data-rtb="crystal"],[data-rtb="leave"]').forEach((b) => { b.hidden = true; b.style.display = 'none'; });
     on(modeBtn, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); inp.mode = true; }); // touch-ok: real-time battle controls: a press must register instantly
     on(modeBtn, 'click', (e) => { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) inp.mode = true; }); // keyboard Enter / Space on the focused button // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     on(hud, 'pointerdown', (e) => { // touch-ok: real-time battle controls: a press must register instantly
@@ -209,7 +211,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
         // capture tab: open / close / launch (real-time seconds, outside the fixed steps)
         if (inp.crystal) { inp.crystal = false;
           if (cap.open) cap.open = false;
-          else if (!sim.trainer) { if (!crystalStock(bag()).length) view.num(sim.ally.x, sim.ally.y - 60, CT.button_none, '#ff8a8a'); else if (sim.canCrystal()) { cap.open = true; cap.t = 0; cap.hl = 0; scene.audio?.sfx('select'); } } }
+          else if (!sim.trainer || sim.guardianCatch) { if (!crystalStock(bag()).length) view.num(sim.ally.x, sim.ally.y - 60, CT.button_none, '#ff8a8a'); else if (sim.canCrystal()) { cap.open = true; cap.t = 0; cap.hl = 0; scene.audio?.sfx('select'); } } }
         if (cap.open) {
           cap.t += dt; const items = capItems();
           if (inp.capNext && items.length) cap.hl = (cap.hl + 1) % items.length;
@@ -241,7 +243,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       if (finished) return; finished = true;
       window.removeEventListener('keydown', kd, true); window.removeEventListener('keyup', ku, true); window.removeEventListener('mousedown', mCaps, true); window.removeEventListener('mousemove', mCaps, true); window.removeEventListener('focus', mCaps); offs.forEach((f) => f());
       const res = sim.result();
-      if (trainer) { res.foes = trainer.foes; res.trainer = true; delete res.caught; } // payout level from the authored team (Systems.onTrainerWin)
+      if (trainer) { res.foes = trainer.foes; res.trainer = true; if (!trainer.catchable) delete res.caught; } // payout level from the authored team (Systems.onTrainerWin)
       if (toTurn) { // mode switch: party state goes into the real party now (no outcome effects), the foes' HP rides in carry
         res.outcome = 'switch'; delete res.caught;
         res.carry = { foes: sim.foes.filter((f) => f.alive && !f.caught).map((f) => ({ species: f.c.species, level: f.c.level, variant: f.c.variant || '', hp: f.c.hp })) };
@@ -251,7 +253,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       const i = scene.saveGuards?.indexOf(guard); if (i >= 0) scene.saveGuards.splice(i, 1);
       const out = scene.systems?.applyBattleResult(res);
       if (!toTurn) ui.lastBattle = { ...res, turns: null, rt: true };
-      if (out === 'blackout') await scene.systems?.onPartyFainted();
+      if (out === 'blackout' && !trainer?.who?.scripted) await scene.systems?.onPartyFainted(); // scripted story losses (Ondravel on the summit): no blackout
       scene._dirty = true;
       resolve(res);
     };
