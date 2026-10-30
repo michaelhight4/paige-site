@@ -1,7 +1,7 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { CHEST_PAL, CHEST_PAL_IRON, CHEST_CLOSED, CHEST_OPEN } from './chest_art.js?v=v0.2.93-alpha';
+import { CHEST_PAL, CHEST_PAL_IRON, CHEST_CLOSED, CHEST_OPEN } from './chest_art.js?v=v0.2.93-alpha-chest2';
 import { systemsConfig, fmtMoney } from './config.js?v=v0.2.93-alpha';
 import { giftTalk } from './npc_gifts.js?v=v0.2.93-alpha';
 import { Party, Archive } from './party.js?v=v0.2.93-alpha';
