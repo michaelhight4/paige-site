@@ -1,7 +1,7 @@
 // Hall overhaul v2 runtime (Phase 2, Oct 29 2026): the 8 rebuilt Master's halls (maps with a `hall_v2` block).
 //  - Puzzle: push tiles, slide floor, warp pads, invisible walls and two-switch gates (model: puzzles.js HallV2; the same
-//    rules the solver proves). Gate bits live in save.systems.progression.puzzles.v2_<zone>.bits; they reset to 0 when you
-//    come in through the door. A forced chain (push / slide) holds lockSave('hall_slide') and freezes input, so no save is
+//    rules the solver proves). Gate bits live in save.systems.progression.puzzles.v2_<zone>.bits; they persist (also through
+//    the door) unless the door could no longer reach the dais front with them, then they reset to 0. A forced chain (push / slide) holds lockSave('hall_slide') and freezes input, so no save is
 //    ever written mid-slide ("no saves mid-puzzle cutscenes").
 //  - Wins gate (Gary): halls with more than 4 trainers open the Master after ANY 4 wins; 4 or fewer need everyone.
 //    Counter `hall_<zone>_wins` (scene.counters, saved) = this hall's beaten trainers. The attendant says
@@ -287,7 +287,13 @@ export function attachHallV2(scene, ui, pg) {
     const h = m.hall_v2, z = h.zone, p = scene.player;
     const atDoor = p && ((p.x === h.arrival[0] && p.y === h.arrival[1]) || (p.x === h.door[0] && p.y === h.door[1]));
     const saved = store.puzzles?.[bitsKey(m)]?.bits | 0;
-    hv.cur = { json: m, model: new HallV2(h.grid, hallTrainers(m).map((n) => [n.x, n.y]), h.prism), bits: atDoor ? 0 : saved, release: null, sunk: new Set(), timers: [] };
+    const model = new HallV2(h.grid, hallTrainers(m).map((n) => [n.x, n.y]), h.prism);
+    // Playtest fix Oct 30 2026: coming back in through the door (blackout, reload, leaving) kept resetting the gates / prisms
+    // (Revival prism door 11,14 reclosed). Keep the saved bits whenever the dais front is still reachable from the door with
+    // them (the solver's own move rules); only a state that could strand you resets to 0.
+    let bits = saved;
+    if (atDoor && saved) { let ok = false; try { ok = model.finishableFrom(saved); } catch { ok = false; } if (!ok) bits = 0; }
+    hv.cur = { json: m, model, bits, release: null, sunk: new Set(), timers: [] };
     (store.puzzles ||= {})[bitsKey(m)] = { bits: hv.cur.bits };
     if (hallAnimOn()) applyHallAnim(scene.map);
     hv.apply(); syncWins();

@@ -365,6 +365,16 @@ export class HallV2 {
     for (const d of 'UDLR') { const nx = x + DIRS[d][0], ny = y + DIRS[d][1]; if (this.open(nx, ny, b)) { const r = this.enter(nx, ny, b, d); yield [d, [r.x, r.y, r.b], r.trail]; } }
     if (this.prism) for (const d of 'UDLR') { const nx = x + DIRS[d][0], ny = y + DIRS[d][1]; if (this.pi.has(k2(nx, ny))) yield ['A' + d, [x, y, this.turn(nx, ny, b)], [[x, y]]]; }
   }
+  /** Can a walk that starts on the door with bits b still reach the dais front? (keeps solved gates / prisms on re-entry) */
+  finishableFrom(b) {
+    const [S] = this.g.find('S'), [G] = this.g.find('G'); if (!S || !G) return false;
+    const s0 = [S[0], S[1], b | 0], seen = new Set([s0.join(',')]), q = [s0];
+    for (let i = 0; i < q.length && i < 200000; i++) {
+      if (q[i][0] === G[0] && q[i][1] === G[1]) return true;
+      for (const [, v] of this.moves(q[i])) { const k = v.join(','); if (!seen.has(k)) { seen.add(k); q.push(v); } }
+    }
+    return false;
+  }
   /** BFS door -> dais front. -> {moves, states, softlocks} | null. Softlock = a reachable state that can not reach both the
    *  dais front and the door again. */
   check() {
