@@ -2655,7 +2655,8 @@
     ],
     "money_placeholder": 0,
     "flags": [
-     "sq_burlbeetle_done"
+     "sq_burlbeetle_done",
+     "has_brushbreak"
     ]
    },
    "lines": [
@@ -2692,6 +2693,19 @@
       "Five! I'd counted two of those as actual stumps.",
       "Here, a Vigor Seed. For keeping your eyes open."
      ]
+    },
+    {
+     "npc": "trainer_tw_bug",
+     "context": "turn_in",
+     "step": null,
+     "teach": "brushbreak",
+     "text": [
+      "Know why Burlbeetles hide as\nstumps? They chew brush for fun.",
+      "Watch one go at a thicket. Snap,\nsnap, and there's a gap.",
+      "Your team can learn the trick.\nIt's called Brushbreak.",
+      "Thick brush won't stop you now,\n{player}. Mind your sleeves."
+     ],
+     "status": "DRAFT (Text Bot pick, data/textbot_puzzle_hints.json)"
     }
    ],
    "new_ids": [
@@ -2699,7 +2713,8 @@
     "sq_burlbeetle_found_5",
     "sq_burlbeetle_done",
     "burlbeetle_stump_1..5 (props)",
-    "burlbeetle_stump_decoy (prop)"
+    "burlbeetle_stump_decoy (prop)",
+    "has_brushbreak"
    ],
    "status": "DRAFT"
   },
@@ -3096,7 +3111,8 @@
     ],
     "money_placeholder": 500,
     "flags": [
-     "sq_sketch_done"
+     "sq_sketch_done",
+     "has_stonebreak"
     ]
    },
    "lines": [
@@ -3125,6 +3141,20 @@
       "Four dead ends. My map's finally honest.",
       "Here, some crystal dust I dug up. Can't sketch with it."
      ]
+    },
+    {
+     "npc": "hiker",
+     "context": "turn_in",
+     "step": null,
+     "teach": "stonebreak",
+     "text": [
+      "Funny thing about dead ends.\nHalf of them are just tired rock.",
+      "See a crack running right through?\nOne good hit and it gives.",
+      "The miners call it Stonebreak.\nYour team can learn it too.",
+      "Boulders still want a shove,\nmind. Only cracked rock breaks.",
+      "Go on. Make my map wrong again."
+     ],
+     "status": "DRAFT (Text Bot pick, data/textbot_puzzle_hints.json)"
     }
    ],
    "new_ids": [
@@ -3133,7 +3163,8 @@
     "sq_sketch_2",
     "sq_sketch_3",
     "sq_sketch_4",
-    "sq_sketch_done"
+    "sq_sketch_done",
+    "has_stonebreak"
    ],
    "status": "DRAFT"
   },

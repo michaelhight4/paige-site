@@ -63,17 +63,17 @@ export class NpcSystem {
   byId(id) { return this.list.find((n) => n.id === id) || null; }
 
   /** Cells NPCs must never wander onto: doors/plates, every interact stand cell, the player and its target. */
-  _forbidden(x, y) {
+  _forbidden(x, y, petOk = false) {
     const s = this.scene, p = s.player, m = s.map;
     if ((p.x === x && p.y === y) || (p.tx === x && p.ty === y)) return true;
-    if (s.follower && s.follower.x === x && s.follower.y === y) return true;
+    if (!petOk && s.follower && s.follower.x === x && s.follower.y === y) return true; // petOk: scripted / goal walks swap with the pet (bug 5)
     if (m.warpAt(x, y)) return true;
     return (s.standCells || new Set()).has(x + ',' + y);
   }
 
   _canStep(n, dir, scripted) {
     const d = DELTA[dir], nx = n.x + d.x, ny = n.y + d.y, m = this.scene.map;
-    if (!m.inBounds(nx, ny) || m.npcAt(nx, ny) || this._forbidden(nx, ny)) return false;
+    if (!m.inBounds(nx, ny) || m.npcAt(nx, ny) || this._forbidden(nx, ny, scripted)) return false;
     if (scripted) return m.code(nx, ny) === Col.WALK || m.code(nx, ny) === Col.PLATE;
     if (m.code(nx, ny) !== Col.WALK) return false;
     return Math.abs(nx - n.home.x) <= 1 && Math.abs(ny - n.home.y) <= 1;
@@ -86,7 +86,7 @@ export class NpcSystem {
         const d = DELTA[dir];
         return this._canStep(n, dir, true) ? { type: 'walk', x: x + d.x, y: y + d.y } : { type: 'block', code: m.code(x + d.x, y + d.y) };
       },
-      onStepStart: (x, y) => { m.occupy(x, y, n); this.scene.onNpcStep?.(n, x, y); },
+      onStepStart: (x, y) => { m.occupy(x, y, n); this._swapPet(n, x, y); this.scene.onNpcStep?.(n, x, y); },
       onArrive: () => { n.hold = null; return 'stop'; }, // one step per decision
     };
   }
@@ -146,10 +146,19 @@ export class NpcSystem {
     return dirs;
   }
 
+  /** Bug 5 (live v0.2.93): the pet no longer walls a 1-tile corridor. An NPC walking a script / goal into the pet's cell trades
+   *  places with it (the pet hops to the cell the NPC is leaving), the same swap the player already gets by walking back. */
+  _swapPet(n, x, y) {
+    const f = this.scene.follower; if (!f || f.x !== x || f.y !== y) return;
+    f.fromX = f.x; f.fromY = f.y; f.x = n.x; f.y = n.y; f.stepping = true;
+    f.facing = f.x > f.fromX ? 'right' : f.x < f.fromX ? 'left' : f.y > f.fromY ? 'down' : 'up';
+    this.scene._dirty = true;
+  }
+
   /** (Re)plan n.script toward n.goal. avoidActors: treat other NPCs, player and follower as walls. */
   _plan(n, avoidActors) {
     const m = this.scene.map, g = n.goal;
-    const blocked = (x, y) => (avoidActors && ((m.npcAt(x, y) && m.npcAt(x, y) !== n) || this._forbidden(x, y)))
+    const blocked = (x, y) => (avoidActors && ((m.npcAt(x, y) && m.npcAt(x, y) !== n) || this._forbidden(x, y, true)))
       || m.warpAt(x, y) || (this.scene.standCells || new Set()).has(x + ',' + y);
     const path = findPath(walkGrid(m, blocked, [{ x: n.x, y: n.y }]), { x: n.x, y: n.y }, g);
     if (!path) return null;
