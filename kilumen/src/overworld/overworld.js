@@ -1008,6 +1008,7 @@ export class Overworld {
     }
     const line = this.pick(sp, sp.key);
     if (sp.id === 'company_terminal') { if (line) await this.say(line.pages); await this.openTerminal(); return; }
+    if (/_visitor_pc$/.test(sp.id || '')) { await this.openVisitorPC(line); return; } // heal lobby visitor PC: public menu (reuses the terminal / inbox)
     if (sp.opens === 'company_terminal') { await this.openTerminal(); if (line) await this.say(line.pages); return; } // heal lobby terminal: real menu first, flavour after
     if (!line) return;
     await this.say(line.pages);
@@ -1019,6 +1020,17 @@ export class Overworld {
 
   /** Company terminal menu: Inbox, Store (team -> company storage), Retrieve (storage -> team). Runs inside the talk/spot
    *  script, so the save lock holds; changes only mark the save dirty and are written after. */
+  /** Heal lobby visitor PC: the same ask() menu loop as the company terminal. Read = the spot's flavour line,
+   *  Inbox / Storage reuse openInbox / openTerminal. */
+  async openVisitorPC(line) {
+    for (;;) {
+      const k = await this.ask(['Visitor PC. Anyone can log on.'], ['Read page', 'Inbox', 'Storage', 'Log off']);
+      if (k === 0) await this.say(line?.pages || ['The page is still loading.']);
+      else if (k === 1) await this.openInbox();
+      else if (k === 2) await this.openTerminal();
+      else return;
+    }
+  }
   async openTerminal() {
     const sys = this.systems;
     if (!sys?.party || !sys.archive) return this.openInbox();
