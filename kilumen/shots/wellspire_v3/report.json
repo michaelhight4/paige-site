@@ -2,8 +2,7 @@
  {
   "plat": "pc",
   "errors": [
-   "404 /playtime.js?game=kilumen&v=v0.2.93-alpha",
-   "runner: page.screenshot: Timeout 30000ms exceeded.\nCall log:\n  - taking page screenshot\n"
+   "404 /playtime.js?game=kilumen&v=v0.2.93-alpha"
   ],
   "shots": [
    "pc_40_lab_entry_corridor.png",
@@ -12,8 +11,10 @@
    "pc_44_lab_control_room.png",
    "pc_45_lab_tank_sealed.png",
    "pc_46_lab_tank_breaking.png",
-   "pc_47_lab_tank_drained.png"
-  ]
+   "pc_47_lab_tank_drained.png",
+   "pc_41_lab_tech_intro.png"
+  ],
+  "retake": "41,46,47 retaken Oct 29 2026 (46 at 1300 ms into release)"
  },
  {
   "plat": "phone",
@@ -32,6 +33,7 @@
    "phone_32_coralie_cove.png",
    "phone_36_rt_four_at_desks.png",
    "phone_41_lab_tech_intro.png"
-  ]
+  ],
+  "retake": "41,46,47 retaken Oct 29 2026 (46 at 1300 ms into release)"
  }
 ]

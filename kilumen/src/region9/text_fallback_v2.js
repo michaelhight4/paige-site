@@ -119,4 +119,11 @@ export const FB2 = {
   'fin.enc.fin_enc_tech_5.after': ["Tech: Look at him. He's looking at you like he knows you."],
   'fin.enc.tank_locked': ['The tank glass hums under your hand. A panel blinks: RELEASE CODE REQUIRED.', 'The control room is east.'],
   'fin.summit.faceoff': ['The Guardian lowers its head until its eyes are level with yours.', 'Neither of you moves.'],
+  // ---- summit camp life (Oct 30, DRAFT): other field teams who made it up ----
+  'summit.camp.ft_bryn': ['Bryn, Team Lark: The wind dropped the second we got here. Nobody trusts it.'],
+  'summit.camp.ft_otto': ['Otto, Team Harrow: Three teams, one fire. First time we have all agreed on anything.'],
+  'summit.camp.ft_sunniva': ['Sunniva, Team Quill: I keep recording the spire. The tape comes back with a hum on it.'],
+  'summit.camp.ft_lorcan': ['Lorcan, Team Moraine: My map ends at this camp. Past here, the lines will not stay put.'],
+  'summit.camp_supplies': ['Crates stamped RT FIELD SUPPLY. Rope, cocoa, spare batteries. Someone packed for a long stay.'],
+  'summit.camp_mast': ['A small weather mast. The needle points at the spire, whichever way the wind blows.'],
 };

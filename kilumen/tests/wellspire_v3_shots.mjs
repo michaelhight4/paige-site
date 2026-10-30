@@ -33,13 +33,14 @@ const VIEWS = [
   ['43_lab_vat_hall', LAB, 12, 12, [], 'js:900:0:' + QUIET],
   ['44_lab_control_room', LAB, 30, 9, [], 'js:900:0:' + QUIET],
   ['45_lab_tank_sealed', LAB, 21, 9, [], 'js:1500:0:' + QUIET],
-  ['46_lab_tank_breaking', LAB, 21, 9, [], 'js:1700:0:' + QUIET + ' s.r9fx.breakTank?.();'],
+  ['46_lab_tank_breaking', LAB, 21, 9, [], 'js:1300:0:' + QUIET + ' s.r9fx.breakTank?.();'],
   ['47_lab_tank_drained', LAB, 21, 9, [], 'js:4300:0:' + QUIET + ' s.r9fx.breakTank?.();'],
   ['48_summit_faceoff', 'fin_lab1_now', P('_arrive_dome').x, P('_arrive_dome').y, [], 'fx:{"light":1,"row":1,"say":"fin.summit.faceoff"}'],
   ['32_coralie_cove', 'tidewater_coast', 43, 32, ['ending2_done'], "js:1600:0:s.flags.delete?.('fin_coralie_epilogue'); s.script(()=>s.region9.coralieCove());"],
   ['36_rt_four_at_desks', 'heal_brookhollow', 6, 5, ['fin_woke_home', 'fin_walked_to_work'], "js:1500:1:s.script(()=>s.region9.reportAtWork());"],
   ['41_lab_tech_intro', LAB, 6, 15, [], "js:1300:0:delete s.seen['defeated:fin_past_enclosure.fin_enc_entry_2']; s.player.facing='up'; s.talk(s.npcs.list.find(n=>n.id==='fin_enc_entry_2'), {id:'fin_enc_entry_2', kind:'trainer', region9:true});"],
 ];
+const ONLY = process.env.ONLY ? process.env.ONLY.split(',') : null; const VIEWS_RUN = ONLY ? VIEWS.filter((v) => ONLY.some((o) => v[0].startsWith(o))) : VIEWS;
 const browser = await chromium.launch(); const report = [];
 try {
   for (const p of PROFILES) {
@@ -58,7 +59,7 @@ try {
         for (const sp of ['sunderhoof', 'seraphawk', 'peakbrute']) s.systems.party.add(C.createCreature({ species: sp, level: 70 })); });
       await page.evaluate(async () => { const s = kilumen.scene; const { FIELD_IDS } = await import('/src/region9/index.js?v=v0.2.93-alpha'); // other trainers stay quiet (no line-of-sight battles mid-tour); only the Lark lead's battle is shot
         for (const m of ['r9_cloudway', 'r9_echo_cave', 'r9_cloudline', 'r9_heart_cave', 'r9_switchbacks', 'r9_icefall']) for (const id of FIELD_IDS) if (id !== 'r9_cw_field_1') s.seen[`defeated:${m}.${id}`] = true; });
-      for (const [tag, map, x, y, fl, act] of VIEWS) {
+      for (const [tag, map, x, y, fl, act] of VIEWS_RUN) {
         for (let i = 0; i < 30 && await page.evaluate(() => kilumen.scene.busy); i++) { await page.keyboard.press('f'); await sleep(250); }
         await page.evaluate(() => { document.querySelectorAll('.credits, #credits, .kl-credits').forEach((e) => e.remove()); });
         await page.evaluate(([map, x, y, fl]) => { const s = kilumen.scene; for (const f of fl) s.setFlag(f); s.fade = null; s.busy = false; if (s.r9fx) { s.r9fx.row = null; s.r9fx.flash = 0; s.r9fx.light = 0; s.r9fx.cloud = 0; } s.camFocus = null; s.player.locked = false; s.startWarp({ map, x, y, facing: 'up' }, 'door'); }, [map, x, y, fl]);
@@ -87,4 +88,4 @@ try {
     console.log(p.plat, shots.length, errors.length ? 'ERRORS ' + errors.join(' | ').slice(0, 500) : 'ok');
   }
 } finally { await browser.close(); server.kill(); }
-fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 1));
+fs.writeFileSync(path.join(OUT, ONLY ? 'report_partial.json' : 'report.json'), JSON.stringify(report, null, 1));

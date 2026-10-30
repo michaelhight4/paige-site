@@ -68,6 +68,8 @@ export const TALK = {
   r9_sw_survey_3: { intro: 'r9.survey_crew_3', after: 'r9.trainer_after' },
   fin_teo: { say: 'summit.camp.teo', flag: 'found_team_summit' }, fin_marta: { say: 'summit.camp.marta', flag: 'found_team_summit' },
   fin_pell: { say: 'summit.camp.pell', flag: 'found_team_summit' }, fin_imke: { say: 'summit.camp.imke', flag: 'found_team_summit' },
+  // camp life (Oct 30): other RT field teams resting at the summit camp, always there (DRAFT text summit.camp.ft_*)
+  fin_camp_bryn: { say: 'summit.camp.ft_bryn' }, fin_camp_otto: { say: 'summit.camp.ft_otto' }, fin_camp_sunniva: { say: 'summit.camp.ft_sunniva' }, fin_camp_lorcan: { say: 'summit.camp.ft_lorcan' },
   fin_ep_teo: { say: 'fin.epilogue.teo_readings' }, fin_ep_marta: { say: 'fin.epilogue.marta_bench' }, fin_ep_pell: { say: 'fin.epilogue.pell' }, fin_ep_imke: { say: 'fin.epilogue.imke' },
   r9_spire_keeper_1: { intro: 'r9.spire_keeper_after', after: 'r9.spire_keeper_after' }, r9_spire_keeper_2: { intro: 'r9.spire_keeper_after', after: 'r9.spire_keeper_after' },
   r9_spire_keeper_3: { intro: 'r9.spire_keeper_after', after: 'r9.spire_keeper_after' },
@@ -261,6 +263,7 @@ export function attachRegion9(scene, { systems } = {}) {
     r9_skylift_down: async () => { if (await ask('r9.skylift_down')) await warp(to('frostspire_lift_int', 'r9_skylift_entry')); },
     r9_switchbacks_up: async () => { await say('r9.switchbacks_up', narr); await warp(to('r9_icefall', '_arrive_icefall')); },
     r9_icefall_signal: () => say('r9.icefall_signal', narr),
+    fin_camp_supplies: () => say('summit.camp_supplies', narr), fin_camp_mast: () => say('summit.camp_mast', narr),
     fin_camp_fire: async () => { heal(); await say('summit.camp_fire', narr); },
     fin_spire_door: async () => {
       if (!has('found_team_summit')) return say('summit.spire_door_wait', narr);

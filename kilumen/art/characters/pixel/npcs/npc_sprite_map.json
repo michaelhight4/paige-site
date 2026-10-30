@@ -3162,6 +3162,54 @@
    "overworld_sheet_2x": "npcs/coralie_present/overworld/coralie_present_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/coralie_present/overworld/coralie_present_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/coralie_present/overworld/coralie_present_chibi/"
+  },
+  "fin_summit_camp.fin_camp_bryn": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire summit camp, RT field team member (camp life)",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "fin_summit_camp.fin_camp_otto": {
+   "sprite_id": "tr_ranger_m",
+   "class": "Wellspire summit camp, RT field team member (camp life)",
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/"
+  },
+  "fin_summit_camp.fin_camp_sunniva": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire summit camp, RT field team member (camp life)",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "fin_summit_camp.fin_camp_lorcan": {
+   "sprite_id": "tr_camper_f",
+   "class": "Wellspire summit camp, RT field team member (camp life)",
+   "overworld_sheet": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_camper_f/overworld/tr_camper_f_chibi/"
+  },
+  "aurelith_arena_room_8.arena_steward_8": {
+   "sprite_id": "vil_guard_m",
+   "class": "Arena room 8 steward, greets you on arrival",
+   "overworld_sheet": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m/overworld/vil_guard_m_chibi/"
+  },
+  "aurelith_arena_room_8.arena_fan_8": {
+   "sprite_id": "vil_fan_m",
+   "class": "Arena room 8 fan in the stands",
+   "overworld_sheet": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_fan_m/overworld/vil_fan_m_chibi/"
   }
  },
  "unassigned_ready": {

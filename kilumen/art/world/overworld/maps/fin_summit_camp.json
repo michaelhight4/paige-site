@@ -4397,6 +4397,42 @@
    "kind": "clerk",
    "region9": true,
    "inactive_when": "field_team_home"
+  },
+  {
+   "id": "fin_camp_bryn",
+   "x": 14,
+   "y": 18,
+   "facing": "right",
+   "kind": "clerk",
+   "region9": true,
+   "sprite": "tr_hiker_f"
+  },
+  {
+   "id": "fin_camp_otto",
+   "x": 19,
+   "y": 18,
+   "facing": "left",
+   "kind": "clerk",
+   "region9": true,
+   "sprite": "tr_ranger_m"
+  },
+  {
+   "id": "fin_camp_sunniva",
+   "x": 7,
+   "y": 15,
+   "facing": "down",
+   "kind": "clerk",
+   "region9": true,
+   "sprite": "tr_scientist_f"
+  },
+  {
+   "id": "fin_camp_lorcan",
+   "x": 25,
+   "y": 15,
+   "facing": "down",
+   "kind": "clerk",
+   "region9": true,
+   "sprite": "tr_camper_f"
   }
  ],
  "signs": [],
@@ -4422,6 +4458,30 @@
    "stand": [
     12,
     15
+   ],
+   "face": "up",
+   "region9": true
+  },
+  {
+   "id": "fin_camp_supplies",
+   "kind": "prop",
+   "x": 14,
+   "y": 11,
+   "stand": [
+    14,
+    12
+   ],
+   "face": "up",
+   "region9": true
+  },
+  {
+   "id": "fin_camp_mast",
+   "kind": "prop",
+   "x": 21,
+   "y": 11,
+   "stand": [
+    21,
+    12
    ],
    "face": "up",
    "region9": true
