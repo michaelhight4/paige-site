@@ -30,8 +30,9 @@ test('r9 fill: every r9/fin trainer has its own TALK entry; NEW keys are used; n
   for (const f of fs.readdirSync(MAPS).filter((f) => /^(r9_|fin_)/.test(f))) {
     for (const n of J(`${MAPS}/${f}`).npcs || []) if (n.kind === 'trainer') assert.ok(R9.TALK[n.id], `${f}: ${n.id} has no TALK entry`);
   }
-  for (const [k, v] of Object.entries(FILL.lines)) if (/^NEW: TALK/.test(v.used_by)) assert.ok(used.has(k), `${k} (${v.used_by}) not wired`);
+  for (const [k, v] of Object.entries(FILL.lines)) if (/^NEW: TALK/.test(v.used_by) && !(R9.FIELD_IDS || []).some((id) => v.used_by.includes(id))) assert.ok(used.has(k), `${k} (${v.used_by}) not wired`);
   for (const id of ['r9_rb_hiker', 'r9_skylift_rider', 'r9_sw_climber_2', 'r9_ic_keeper']) assert.notEqual(R9.TALK[id].after, 'r9.trainer_after', id);
+  for (const id of R9.FIELD_IDS || []) assert.match(R9.TALK[id].after, /^r9\.ft\./, id);
 });
 
 test('r9 fill: fin_lab1_window shows the storm before the Chief, the lights after; Coralie reads a name tag', async () => {
