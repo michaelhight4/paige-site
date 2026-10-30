@@ -8,6 +8,14 @@ const R = (p) => JSON.parse(fs.readFileSync(new URL('../' + p, import.meta.url))
 const SPEC = R('data/pass2_caves.json'), FB = R('data/pass2_caves_fallback.json');
 const BLOCKED = /\bPP\b|shiny|super effective|pok[eé]dex|pok[eé] ?ball|gotcha!|\bnurse|\bweed|tonic|\broute\b|\belite\b|\bbeer|\bwine|whisk|vodka|\brum\b|liquor|\bale\b|drunk|cigar|smok|tobacco|\bdrug|\bpills?\b/i;
 const strings = (o) => typeof o === 'string' ? [o] : Array.isArray(o) ? o.flatMap(strings) : o && typeof o === 'object' ? Object.values(o).flatMap(strings) : [];
+test('PASS2_TEXT_FILES lists switchbacks and batch 2', () => {
+  for (const f of ['data/textbot_pass2_switchbacks.json', 'data/textbot_pass2_batch2.json']) assert.ok(PASS2_TEXT_FILES.includes(f), f);
+  const b2 = R('data/textbot_pass2_batch2.json');
+  for (const m of ['r9_icefall', 'fin_summit_camp', 'r9_old_riverbed', 'r9_cairnfold']) assert.ok(b2.maps[m], m);
+  assert.equal(b2.maps.fin_summit_camp.r9_fscp_lookout.name, 'Kesia');
+  assert.equal(SPEC.pockets.flatMap((p) => [p.trainer]).find((t) => t.id === 'r9_fscp_lookout').name, 'Kesia');
+  for (const c of ['r9_cairnfold_cave_w', 'r9_cairnfold_cave_e']) assert.ok(FB.maps[c]?.area_name, c + ' area_name');
+});
 for (const f of PASS2_TEXT_FILES) {
   test(`${f}: keys resolve, trainers have all four lines, no blocked words`, () => {
     const o = R(f);

@@ -15863,15 +15863,15 @@
    "gd_class": "hermit",
    "team": [
     {
-     "species": "cairnhorn",
+     "species": "lancebeetle",
      "level": 63
     },
     {
-     "species": "shagmount",
+     "species": "fernstag",
      "level": 63
     },
     {
-     "species": "peakbrute",
+     "species": "tundrarch",
      "level": 63
     }
    ],
@@ -15904,15 +15904,15 @@
    "gd_class": "ice cutter",
    "team": [
     {
-     "species": "seraphawk",
+     "species": "gauzewing",
      "level": 63
     },
     {
-     "species": "snowgrouse",
+     "species": "galespar",
      "level": 63
     },
     {
-     "species": "highkite",
+     "species": "stratodrake",
      "level": 63
     }
    ],
@@ -15945,15 +15945,15 @@
    "gd_class": "mountaineer",
    "team": [
     {
-     "species": "geodurchin",
+     "species": "calderock",
      "level": 63
     },
     {
-     "species": "ingotitan",
+     "species": "foundrax",
      "level": 63
     },
     {
-     "species": "runeskein",
+     "species": "novarch",
      "level": 63
     }
    ],
@@ -15990,7 +15990,7 @@
      "level": 63
     },
     {
-     "species": "peakbrute",
+     "species": "tundrarch",
      "level": 63
     }
    ],
