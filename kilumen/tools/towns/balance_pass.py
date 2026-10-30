@@ -29,7 +29,8 @@ for p in json.load(open(os.path.join(ROOT, 'data/pass2_caves.json')))['pockets']
     for (x, y) in p['walk']: POCK.add((x, y))
 PROT |= POCK
 KEEP = ('stall', 'kiosk', 'push_boulder', 'garden_patch', 'mailbox', 'notice', 'street_sign', 'flag', 'cafe_table', 'bike_rack', 'crates')
-CITY = NAME == 'aurelith'
+CITY = NAME in ('aurelith', 'revival_heights')   # both use the x_city kit
+CLEAR = NAME != 'aurelith'
 SCENES = ([  # (reason, [(dx, dy, tile)]) - city kit
     ('lamp-lit bench', [(0, 0, 'x_city_lamp'), (1, 0, 'x_city_bench_h'), (2, 0, 'x_city_bin'), (0, 1, 'flowers_warm'), (1, 1, 'flowers_violet'), (2, 1, 'flowers_warm')]),
     ('planter corner', [(0, 0, 'x_city_planter'), (1, 0, 'flowers_violet'), (2, 0, 'flowers_warm'), (0, 1, 'flowers_warm'), (1, 1, 'bush')]),
@@ -104,8 +105,35 @@ def put(x, y, reason, sc):
         if t == TB: O[Y - 1][X] = o
     return False
 def roomy(x, y, r=5): return sum(k[b][a] == 'open' for b in range(max(0, y - r), min(H, y + r + 1)) for a in range(max(0, x - r), min(W, x + r + 1)))
+
+# 2a'. making room (user 12:35: at least 2 pocket parks + 2 flower beds per town). Where no lawn is big enough, whole trees
+#      along a forest edge are cleared (trunk + canopy), never within 3 tiles of the map border, a pocket or a protected cell;
+#      the opening may join at most 24 more cells of plain ground, never a pocket, warp, NPC/item cell or the map rim. fix_live_flags staggers the new edge.
+import re as _re
+TRK = _re.compile(r'^(x_city_|gh_)?(tree|treed)_base(_inner)?$')
+WANT = {'pocket park': 2, 'flower bed': 2}
+def tree_cell(x, y): return 0 <= x < W and 0 <= y < H and TRK.match(DN.NM.get(D[y][x], '')) and (x, y) not in PROT
+def clear_for(x, y, sc):
+    f = foot(sc); xs = [x + a for a, b in f]; ys = [y + b for a, b in f]
+    x0, x1, y0, y1 = min(xs) - 1, max(xs) + 1, min(ys) - 1, max(ys) + 1
+    if x0 < 3 or y0 < 3 or x1 > W - 4 or y1 > H - 4: return None
+    cells = [(a, b) for b in range(y0, y1 + 1) for a in range(x0, x1 + 1)]
+    if not all(lawn(a, b) or loose(a, b) or tree_cell(a, b) or (k[b][a] == 'open' and O[b][a] and tree_cell(a, b + 1)) for a, b in cells): return None
+    trees = {(a, b) for a, b in cells if tree_cell(a, b)} | {(a, y1 + 1) for a in range(x0, x1 + 1) if tree_cell(a, y1 + 1) and O[y1][a]}
+    if not trees: return None
+    if not any(walk(a, b) and (a, b) in before for a, b in cells): return None
+    r0 = LR.reach(m, LR.starts(m))
+    undo = [(a, b, G[b][a], D[b][a], C[b][a], O[b - 1][a]) for a, b in trees]
+    for a, b in trees:
+        D[b][a] = 0; C[b][a] = 0; O[b - 1][a] = 0; G[b][a] = ID['grass_%d' % ((a * 7 + b * 3) % 4)]
+    r2 = LR.reach(m, LR.starts(m)); new = {q for q in r2 if q not in r0}
+    extra = new - set(cells) - {(a, b - 1) for a, b in trees}
+    WARPS = {(w['x'], w['y']) for w in m.get('warps') or []}
+    if len(extra) > 24 or extra & (POCK | WARPS | FEAT) or any(q[0] < 2 or q[1] < 2 or q[0] > W - 3 or q[1] > H - 3 for q in extra):
+        for a, b, g, d, c, o in undo: G[b][a], D[b][a], C[b][a], O[b - 1][a] = g, d, c, o
+    return undo
 placed = []
-for reason, sc, need, gap in (('pocket park', PARK, 50 if CITY else 40, 12), ('flower bed', BED, 34 if CITY else 26, 7)):
+for reason, sc, need, gap in (('pocket park', PARK, 50 if not CLEAR else 40, 12 if not CLEAR else 8), ('flower bed', BED, 34 if not CLEAR else 26, 7 if not CLEAR else 5)):
     for _ in range(12):
         k = K()
         cand = sorted(((roomy(x + 3, y + 2), x, y) for y in range(1, H - 5) for x in range(1, W - 7)
@@ -114,15 +142,30 @@ for reason, sc, need, gap in (('pocket park', PARK, 50 if CITY else 40, 12), ('f
         for sc_room, x, y in cand[:30]:
             if sc_room < need: break
             if put(x, y, reason, sc): placed.append((x, y)); ok = True; break
+        if not ok and CLEAR and sum(e[0] == 'scene' and e[1] == reason for e in log) < WANT[reason]:
+            k = K()
+            for y in range(3, H - 6):
+                for x in range(3, W - 8):
+                    if ok or not all(max(abs(x - a), abs(y - b)) >= gap for a, b in placed): continue
+                    u = clear_for(x, y, sc)
+                    if u is None: continue
+                    before |= {q for q in LR.reach(m, LR.starts(m))}
+                    k = K()
+                    if fits2(x, y, sc) and put(x, y, reason, sc): placed.append((x, y)); ok = True; log.append(('cleared', len(u), x, y))
+                    else:
+                        for a, b, g, d, c, o in u: G[b][a], D[b][a], C[b][a], O[b - 1][a] = g, d, c, o
+                        k = K()
+            if ok: continue
         if not ok: break
 # plazas in front of key buildings stay open; their outer corners get planters (beds on the edge, not in the middle)
-if CITY:
+if NAME == 'aurelith':
     k = K()
     for y in range(1, H - 1):
         for x in range(1, W - 1):
             if DN.NM.get(G[y][x], '').startswith('x_city_plaza') and (x, y) not in PROT and not D[y][x]:
                 n = [DN.NM.get(G[y + b][x + a], '').startswith('x_city_plaza') for a, b in ((1, 0), (-1, 0), (0, 1), (0, -1))]
-                if sum(n) == 2 and n[0] != n[1]:   # an outer corner
+                wet = any('water' in DN.NM.get(G[y + b][x + a], '') or 'canal' in DN.NM.get(G[y + b][x + a], '') for a in (-2, -1, 0, 1, 2) for b in (-2, -1, 0, 1, 2) if 0 <= x + a < W and 0 <= y + b < H)
+                if sum(n) == 2 and n[0] != n[1] and not wet:   # an outer corner, never on a bridge deck or its landing
                     D[y][x] = ID['x_city_planter']; C[y][x] = 1
                     r2 = LR.reach(m, LR.starts(m))
                     if all(not walk(*q) or q in r2 for q in before) and not DN.audit(m)['B4']: log.append(('scene', 'plaza planter', x, y))
