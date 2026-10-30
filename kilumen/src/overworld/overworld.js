@@ -984,6 +984,7 @@ export class Overworld {
     }
     if (this.region78?.runSpot && await this.region78.runSpot(sp)) return; // r78 cave story spots (SIGNAL crate)
     if (this.region9?.runSpot && await this.region9.runSpot(sp)) return; // Wellspire + finale spots (src/region9)
+    if (this.side?.runSpot && await this.side.runSpot(sp)) return; // side activities (src/side): kind 'side' spots
     if (sp.counter) this.bump(sp.counter);
     if (sp.id === 'bin_ron' && this.flags.has('all_badges') && !this.flags.has('finale_done')) this.bump('bin_inspects_after_8');
     if (sp.prompt_after_line) { // camps: the look line, then the prompt only after that line; Yes sets sets_flag
