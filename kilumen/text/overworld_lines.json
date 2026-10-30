@@ -29701,7 +29701,8 @@
     "ranks": {
      "1": "Region 5 key card: Mirefen research station.",
      "2": "Region 6 key card: Tidewater sea cave lab."
-    }
+    },
+    "_retired": "finish-a Oct 30 2026: node removed from data/rt_benefits.json (granted nothing; overlapped the key card nodes). Text kept for old saves only."
    },
    "salvage_rights": {
     "name": "Salvage Rights",
@@ -29710,6 +29711,86 @@
      "1": "+50 coins for each hidden item found.",
      "2": "+100 coins for each hidden item found."
     }
+   },
+   "field_allowance_r1": {
+    "name": "Region 1 Field Allowance",
+    "desc": "Trainer prize money in Route 1, Brookhollow and Fernwick comes with a little extra. Keep the receipts.",
+    "ranks": {
+     "1": "+15% prize money from trainers in this region.",
+     "2": "+30% prize money from trainers in this region."
+    },
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT (region-tied benefits node). Text Bot to review name / desc / ranks."
+   },
+   "field_allowance_r2": {
+    "name": "Region 2 Field Allowance",
+    "desc": "Trainer prize money in Thornwood, the East Road and Saltmere comes with a little extra. Keep the receipts.",
+    "ranks": {
+     "1": "+15% prize money from trainers in this region.",
+     "2": "+30% prize money from trainers in this region."
+    },
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT (region-tied benefits node). Text Bot to review name / desc / ranks."
+   },
+   "field_allowance_r3": {
+    "name": "Region 3 Field Allowance",
+    "desc": "Trainer prize money in Revival and the Greystone roads comes with a little extra. Keep the receipts.",
+    "ranks": {
+     "1": "+15% prize money from trainers in this region.",
+     "2": "+30% prize money from trainers in this region."
+    },
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT (region-tied benefits node). Text Bot to review name / desc / ranks."
+   },
+   "field_allowance_r4": {
+    "name": "Region 4 Field Allowance",
+    "desc": "Trainer prize money in Frostspire comes with a little extra. Keep the receipts.",
+    "ranks": {
+     "1": "+15% prize money from trainers in this region.",
+     "2": "+30% prize money from trainers in this region."
+    },
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT (region-tied benefits node). Text Bot to review name / desc / ranks."
+   },
+   "field_allowance_r5": {
+    "name": "Region 5 Field Allowance",
+    "desc": "Trainer prize money in Sunmeadow and Mirefen comes with a little extra. Keep the receipts.",
+    "ranks": {
+     "1": "+15% prize money from trainers in this region.",
+     "2": "+30% prize money from trainers in this region."
+    },
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT (region-tied benefits node). Text Bot to review name / desc / ranks."
+   },
+   "field_allowance_r6": {
+    "name": "Region 6 Field Allowance",
+    "desc": "Trainer prize money in Tidewater and the coast road comes with a little extra. Keep the receipts.",
+    "ranks": {
+     "1": "+15% prize money from trainers in this region.",
+     "2": "+30% prize money from trainers in this region."
+    },
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT (region-tied benefits node). Text Bot to review name / desc / ranks."
+   },
+   "field_allowance_r7": {
+    "name": "Region 7 Field Allowance",
+    "desc": "Trainer prize money in Lanternport comes with a little extra. Keep the receipts.",
+    "ranks": {
+     "1": "+15% prize money from trainers in this region.",
+     "2": "+30% prize money from trainers in this region."
+    },
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT (region-tied benefits node). Text Bot to review name / desc / ranks."
+   },
+   "field_allowance_r8": {
+    "name": "Region 8 Field Allowance",
+    "desc": "Trainer prize money in Cindervale comes with a little extra. Keep the receipts.",
+    "ranks": {
+     "1": "+15% prize money from trainers in this region.",
+     "2": "+30% prize money from trainers in this region."
+    },
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT (region-tied benefits node). Text Bot to review name / desc / ranks."
    }
   },
   "locked": {

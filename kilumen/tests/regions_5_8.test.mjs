@@ -52,7 +52,7 @@ test('Masters 5-8 exist in coin order with built halls', () => {
 });
 test('Benefits: region 7 / 8 caps, region flags, key card nodes', () => {
   const b = J('data/rt_benefits.json');
-  assert.equal(b.regions['7'].maxIdLevel, 18); assert.equal(b.regions['8'].maxIdLevel, 20);
+  assert.equal(b.regions['7'].maxIdLevel, 60); assert.equal(b.regions['8'].maxIdLevel, 60);
   assert.equal(b.regionFlags['7'], 'beat_master_tidewater'); assert.equal(b.regionFlags['8'], 'beat_master_lanternport');
   for (const [id, f, p] of [['rt_node_station_l', 'rt_keycard_r7', 'promoted_id18'], ['rt_node_station_c', 'rt_keycard_r8', 'promoted_id20']]) {
     const n = b.nodes.find((x) => x.id === id); assert.ok(n, id); assert.equal(n.grantFlag, f); assert.equal(n.requiresFlag, p);

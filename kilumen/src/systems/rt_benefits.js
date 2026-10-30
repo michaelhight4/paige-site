@@ -24,6 +24,24 @@ export function xpToReach(data, L) {
   const t = data?.curve?.xpTo || [0], step = num(data?.curve?.step, 1000), l = Math.max(1, Math.floor(L));
   return l <= t.length ? t[l - 1] : t[t.length - 1] + (l - t.length) * step;
 }
+/** Story region (1-8) of a map name, for region-tied nodes (finish-a Oct 30 2026). Same prefixes as
+ *  tools/encounter_levels/check.py PREFIX (longest prefix wins); null = not a region 1-8 map. */
+const MAP_PREFIX = [
+  ['route1', 'brookhollow', 'bh_', 'fernwick'],
+  ['thornwood', 'route_east', 'route_aurelith_saltmere', 'saltmere', 'greystone_b1'],
+  ['route_revival', 'revival', 'greystone', 'tr_', 'sa_', 're_'],
+  ['frostspire', 'route_revival_saltmere', 'fs_', 'fp_', 'rs_', 'rsf_'],
+  ['sunmeadow', 'route_revival_sunmeadow', 'route_saltmere_mirefen', 'route_sunmeadow_mirefen', 'mirefen', 'smf_', 'sme_', 'smm_', 'sm_harbour'],
+  ['route_coast', 'tidewater', 'tc_', 'ct_'],
+  ['route_fernwick_lanternport', 'lanternport', 'lighthouse', 'lp_', 'fl_'],
+  ['route_cindervale', 'cindervale', 'ac_'],
+  ['aurelith'], ['r9_', 'fin_'], ['gullhaven'],
+];
+export function mapRegion(name) {
+  const k = String(name || '').toLowerCase(); let best = null;
+  MAP_PREFIX.forEach((ps, i) => { for (const p of ps) if (k.startsWith(p) && (!best || p.length > best[1])) best = [i, p.length]; });
+  return best && best[0] < 8 ? best[0] + 1 : null;
+}
 /** Region cap (max ID level) for a region; null = no cap. */
 export function regionCap(data, region = data?.region || 1) { const c = data?.regions?.[String(region)]?.maxIdLevel; return c ? Math.floor(c) : null; }
 /**
@@ -90,6 +108,11 @@ export class RtBenefits {
   }
   setData(data) {
     this.data = data;
+    // finish-a: retired nodes (data.retiredNodes {id: [rank costs]}) refund their spent points once, then leave the board
+    for (const [id, costs] of Object.entries(data?.retiredNodes || {})) {
+      const r = Math.floor(num(this.company.board?.[id])); if (!Array.isArray(costs) || r <= 0) continue;
+      this.company.pointsFree += costs.slice(0, r).reduce((a, c) => a + num(c), 0); delete this.company.board[id];
+    }
     this.region = num(this.opts.region, 0) || regionForFlags(data, this.scene?.flags);
     this.syncLevel();
     const q = this.pending; this.pending = []; for (const f of q) f();
@@ -212,6 +235,8 @@ export class RtBenefits {
   }
   /** Effect value of a node at its current rank (ranks[rank-1].value), 0 when not owned. */
   effect(id) { const n = this.node(id), r = num(this.company.board?.[id]); return n && r > 0 ? num(n.ranks?.[r - 1]?.value) : 0; }
+  /** Region-tied perks (effect money.region_payout, node.region): the bonus share for a region's trainers. */
+  regionPayout(region) { return region ? this.nodes.filter((n) => n.effect === 'money.region_payout' && n.region === region).reduce((a, n) => a + this.effect(n.id), 0) : 0; }
   respec() { return { ok: false, reason: 'unsupported' }; } // data.respec.supported is false: no terminal / fee / week clock yet
 }
 
@@ -258,7 +283,7 @@ export function attachRtBenefits(scene, sys = scene?.systems, opts = {}) {
   if (typeof sys.awardBattleMoney === 'function') {
     const award = sys.awardBattleMoney.bind(sys);
     sys.awardBattleMoney = (trainer, ...a) => {
-      const hall = isHallTrainer(trainer), pct = rt.effect('rt_payout') + (hall ? rt.effect('hall_hazard_pay') : 0);
+      const hall = isHallTrainer(trainer), pct = rt.effect('rt_payout') + (hall ? rt.effect('hall_hazard_pay') : 0) + rt.regionPayout(mapRegion(scene.map?.name));
       const r = award(trainer, ...a), bonus = r && r.amount > 0 && pct > 0 ? Math.floor(r.amount * pct) : 0;
       if (!bonus) return r;
       sys.wallet?.add?.(bonus);

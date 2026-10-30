@@ -13,36 +13,36 @@
   },
   "regions": {
     "1": {
-      "maxIdLevel": 4,
-      "_note": "region 1 cap: XP stops at the ID 4 threshold; a normal run lands on ID 3"
+      "maxIdLevel": 12,
+      "_note": "region 1 cap: XP stops at the ID 4 threshold; a normal run lands on ID 3 | finish-a Oct 30 2026: Gary-approved cap 12 (was 4); matches the wild level band top for the region (tools/encounter_levels/check.py)."
     },
     "2": {
-      "maxIdLevel": 6,
-      "_note": "region 2 cap: a normal run through Master 2 lands on ID 5 (about 1,000 XP); a full region 2 (Thornwood camp, Ron 2, Kilindex 25, every new log) reaches ID 6"
+      "maxIdLevel": 20,
+      "_note": "region 2 cap: a normal run through Master 2 lands on ID 5 (about 1,000 XP); a full region 2 (Thornwood camp, Ron 2, Kilindex 25, every new log) reaches ID 6 | finish-a Oct 30 2026: Gary-approved cap 20 (was 6); matches the wild level band top for the region (tools/encounter_levels/check.py)."
     },
     "3": {
-      "maxIdLevel": 9,
-      "_note": "region 3 cap (v0.2.30, Oct 27 2026): opens with the Saltmere coin; a normal run through Master 3 lands on ID 8, a full region 3 reaches ID 9"
+      "maxIdLevel": 28,
+      "_note": "region 3 cap (v0.2.30, Oct 27 2026): opens with the Saltmere coin; a normal run through Master 3 lands on ID 8, a full region 3 reaches ID 9 | finish-a Oct 30 2026: Gary-approved cap 28 (was 9); matches the wild level band top for the region (tools/encounter_levels/check.py)."
     },
     "4": {
-      "maxIdLevel": 12,
-      "_note": "region 4 cap (dev region 4 build, Oct 29 2026): opens with the Revival coin (the Frostspire bridge opens then). Promotion ceremonies hold XP just under ID 10 and ID 12 (src/region4/index.js)"
+      "maxIdLevel": 36,
+      "_note": "region 4 cap (dev region 4 build, Oct 29 2026): opens with the Revival coin (the Frostspire bridge opens then). Promotion ceremonies hold XP just under ID 10 and ID 12 (src/region4/index.js) | finish-a Oct 30 2026: Gary-approved cap 36 (was 12); matches the wild level band top for the region (tools/encounter_levels/check.py)."
     },
     "5": {
-      "maxIdLevel": 14,
-      "_note": "region 5 cap (dev/r56-wiring, Oct 29 2026): opens with the Frostspire coin. Promotion pq_bog_census -> ID 14 (promoted_id14). PLACEHOLDER for Game dev"
+      "maxIdLevel": 42,
+      "_note": "region 5 cap (dev/r56-wiring, Oct 29 2026): opens with the Frostspire coin. Promotion pq_bog_census -> ID 14 (promoted_id14). | finish-a Oct 30 2026: Gary-approved cap 42 (was 14); matches the wild level band top for the region (tools/encounter_levels/check.py)."
     },
     "6": {
-      "maxIdLevel": 16,
-      "_note": "region 6 cap (dev/r56-wiring, Oct 29 2026): opens with the Mirefen coin. Promotion pq_storm_duty -> ID 16 (promoted_id16; Ron 5 NOT required). PLACEHOLDER for Game dev"
+      "maxIdLevel": 50,
+      "_note": "region 6 cap (dev/r56-wiring, Oct 29 2026): opens with the Mirefen coin. Promotion pq_storm_duty -> ID 16 (promoted_id16; Ron 5 NOT required). | finish-a Oct 30 2026: Gary-approved cap 50 (was 16); matches the wild level band top for the region (tools/encounter_levels/check.py)."
     },
     "7": {
-      "maxIdLevel": 18,
-      "_note": "region 7 cap (dev/regions-5-8, Oct 29 2026): opens with the Tidewater coin. Promotion -> ID 18 (promoted_id18, after beat_master_lanternport). PLACEHOLDER for Game dev"
+      "maxIdLevel": 60,
+      "_note": "region 7 cap (dev/regions-5-8, Oct 29 2026): opens with the Tidewater coin. Promotion -> ID 18 (promoted_id18, after beat_master_lanternport). | finish-a Oct 30 2026: Gary-approved cap 60 (was 18); matches the wild level band top for the region (tools/encounter_levels/check.py)."
     },
     "8": {
-      "maxIdLevel": 20,
-      "_note": "region 8 cap (dev/regions-5-8, Oct 29 2026): opens with the Lanternport coin. Promotion -> ID 20 (promoted_id20, after beat_master_cindervale). PLACEHOLDER for Game dev"
+      "maxIdLevel": 60,
+      "_note": "region 8 cap (dev/regions-5-8, Oct 29 2026): opens with the Lanternport coin. Promotion -> ID 20 (promoted_id20, after beat_master_cindervale). | finish-a Oct 30 2026: Gary-approved cap 60 (was 20); matches the wild level band top for the region (tools/encounter_levels/check.py)."
     }
   },
   "curve": {
@@ -444,29 +444,6 @@
       "unlockRegion": 5
     },
     {
-      "id": "research_clearance",
-      "branch": "rnd_clearance",
-      "effect": "research.clearance",
-      "_note": "Text (system_rt_benefits.nodes.research_clearance) describes it as the key card grant: OVERLAPS rt_node_station_m/t and board keycard_r5/r6. Grants nothing here so a card is never granted twice; Game dev to pick one model. PLACEHOLDER cost / rank for Game dev to tune (dev/r56-wiring, Oct 29 2026).",
-      "ranks": [
-        {
-          "cost": 1,
-          "minIdLevel": 14,
-          "value": 1
-        },
-        {
-          "cost": 1,
-          "minIdLevel": 16,
-          "value": 2
-        }
-      ],
-      "maxRankByRegion": {
-        "5": 1,
-        "6": 2
-      },
-      "unlockRegion": 5
-    },
-    {
       "id": "salvage_rights",
       "branch": "supply_pay",
       "effect": "money.salvage",
@@ -529,10 +506,229 @@
         "8": 1
       },
       "unlockRegion": 8
+    },
+    {
+      "id": "field_allowance_r1",
+      "branch": "unit_performance",
+      "effect": "money.region_payout",
+      "region": 1,
+      "_note": "finish-a Oct 30 2026: region 1 perk. Extra % prize money from trainers on region 1 maps (mapRegion() in rt_benefits.js, same map prefixes as tools/encounter_levels/check.py). Rank 2 opens one region later (in R8 both ranks).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 2,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 4,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "1": 1,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 2,
+        "6": 2,
+        "7": 2,
+        "8": 2
+      },
+      "unlockRegion": 1
+    },
+    {
+      "id": "field_allowance_r2",
+      "branch": "unit_performance",
+      "effect": "money.region_payout",
+      "region": 2,
+      "_note": "finish-a Oct 30 2026: region 2 perk. Extra % prize money from trainers on region 2 maps (mapRegion() in rt_benefits.js, same map prefixes as tools/encounter_levels/check.py). Rank 2 opens one region later (in R8 both ranks).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 5,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 8,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "2": 1,
+        "3": 2,
+        "4": 2,
+        "5": 2,
+        "6": 2,
+        "7": 2,
+        "8": 2
+      },
+      "unlockRegion": 2
+    },
+    {
+      "id": "field_allowance_r3",
+      "branch": "unit_performance",
+      "effect": "money.region_payout",
+      "region": 3,
+      "_note": "finish-a Oct 30 2026: region 3 perk. Extra % prize money from trainers on region 3 maps (mapRegion() in rt_benefits.js, same map prefixes as tools/encounter_levels/check.py). Rank 2 opens one region later (in R8 both ranks).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 9,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 12,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "3": 1,
+        "4": 2,
+        "5": 2,
+        "6": 2,
+        "7": 2,
+        "8": 2
+      },
+      "unlockRegion": 3
+    },
+    {
+      "id": "field_allowance_r4",
+      "branch": "unit_performance",
+      "effect": "money.region_payout",
+      "region": 4,
+      "_note": "finish-a Oct 30 2026: region 4 perk. Extra % prize money from trainers on region 4 maps (mapRegion() in rt_benefits.js, same map prefixes as tools/encounter_levels/check.py). Rank 2 opens one region later (in R8 both ranks).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 13,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 18,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "4": 1,
+        "5": 2,
+        "6": 2,
+        "7": 2,
+        "8": 2
+      },
+      "unlockRegion": 4
+    },
+    {
+      "id": "field_allowance_r5",
+      "branch": "unit_performance",
+      "effect": "money.region_payout",
+      "region": 5,
+      "_note": "finish-a Oct 30 2026: region 5 perk. Extra % prize money from trainers on region 5 maps (mapRegion() in rt_benefits.js, same map prefixes as tools/encounter_levels/check.py). Rank 2 opens one region later (in R8 both ranks).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 21,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 28,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "5": 1,
+        "6": 2,
+        "7": 2,
+        "8": 2
+      },
+      "unlockRegion": 5
+    },
+    {
+      "id": "field_allowance_r6",
+      "branch": "unit_performance",
+      "effect": "money.region_payout",
+      "region": 6,
+      "_note": "finish-a Oct 30 2026: region 6 perk. Extra % prize money from trainers on region 6 maps (mapRegion() in rt_benefits.js, same map prefixes as tools/encounter_levels/check.py). Rank 2 opens one region later (in R8 both ranks).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 29,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 36,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "6": 1,
+        "7": 2,
+        "8": 2
+      },
+      "unlockRegion": 6
+    },
+    {
+      "id": "field_allowance_r7",
+      "branch": "unit_performance",
+      "effect": "money.region_payout",
+      "region": 7,
+      "_note": "finish-a Oct 30 2026: region 7 perk. Extra % prize money from trainers on region 7 maps (mapRegion() in rt_benefits.js, same map prefixes as tools/encounter_levels/check.py). Rank 2 opens one region later (in R8 both ranks).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 37,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 45,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "7": 1,
+        "8": 2
+      },
+      "unlockRegion": 7
+    },
+    {
+      "id": "field_allowance_r8",
+      "branch": "unit_performance",
+      "effect": "money.region_payout",
+      "region": 8,
+      "_note": "finish-a Oct 30 2026: region 8 perk. Extra % prize money from trainers on region 8 maps (mapRegion() in rt_benefits.js, same map prefixes as tools/encounter_levels/check.py). Rank 2 opens one region later (in R8 both ranks).",
+      "ranks": [
+        {
+          "cost": 1,
+          "minIdLevel": 46,
+          "value": 0.15
+        },
+        {
+          "cost": 2,
+          "minIdLevel": 55,
+          "value": 0.3
+        }
+      ],
+      "maxRankByRegion": {
+        "8": 2
+      },
+      "unlockRegion": 8
     }
   ],
   "respec": {
     "supported": false,
     "_note": "company.respecWeek exists in the save but there is no terminal / fee / week clock yet: no respec in region 1"
+  },
+  "retiredNodes": {
+    "_note": "finish-a Oct 30 2026: removed from the board; any ranks bought are refunded as points on load (rt_benefits.js setData). research_clearance granted nothing and overlapped the key card nodes (rt_node_station_m/t).",
+    "research_clearance": [
+      1,
+      1
+    ]
   }
 }
