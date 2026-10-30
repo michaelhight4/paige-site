@@ -25,9 +25,9 @@ export function scaleLevel(level, lead, mode) {
 export const scaleFoes = (foes, lead, mode) => foes.map((f) => ({ ...f, level: scaleLevel(f.level, lead, mode) }));
 
 // Task E (Gary 2:58 AM CT Oct 29): Masters after the first carry healing items, never more than 5.
-// Engine ids: tonicsmall = Small Remedy (20 HP), tonicLarge = Big Remedy (60 HP). Player text never says the id.
+// Engine ids: tonicsmall = Small Salve (20 HP), tonicLarge = Large Salve (60 HP). Player text never says the id.
 export const MAX_FOE_ITEMS = 5;
-/** -> engine bag {tonicsmall, toniclarge} for Master n under the mode (Easy: about half, minors kept; Hard: +1 Big Remedy) */
+/** -> engine bag {tonicsmall, toniclarge} for Master n under the mode (Easy: about half, minors kept; Hard: +1 Large Salve) */
 export function masterItems(n, mode = 'normal') {
   if (!n || n <= 1) return {};
   let small, large;

@@ -4,14 +4,14 @@
 
 export const SYSTEMS_CONFIG = {
   // Gary ruled Oct 22, 2026 ("energy potions restore energy but are expensive"): potions_restore. Was pending: potions_vs_rest. 'rest_only' (default) = remedies close wounds (HP) only and energy
-  // comes back only by resting at a carer; 'potions_restore' = Pep Remedy restores energy in the field;
-  // 'partial_top_up' = Pep Remedy restores half of each skill's energy. Text: system_party.item_heal.<mode>.
+  // comes back only by resting at a carer; 'potions_restore' = Energy Balm restores energy in the field;
+  // 'partial_top_up' = Energy Balm restores half of each skill's energy. Text: system_party.item_heal.<mode>.
   potionsVsRest: 'potions_restore',
-  // Shops only stock Pep Remedy when the potions_vs_rest call allows it (Gary's ruling: stays behind a flag).
+  // Shops only stock Energy Balm when the potions_vs_rest call allows it (Gary's ruling: stays behind a flag).
   stockEnergyTonic: true,
-  // Gary's pick, Oct 22, 2026 (via Game dev): energy potions, Pep Remedy included, work both in battle and outside.
-  // true = Pep Remedy restores energy in battle (items.js BATTLE_ITEMS energy_tonic kEnergy, takes the turn, uses one
-  // up). Kept as a flag so it can be flipped: false = Systems.bagForBattle leaves Pep Remedy out of the battle bag.
+  // Gary's pick, Oct 22, 2026 (via Game dev): energy potions, Energy Balm included, work both in battle and outside.
+  // true = Energy Balm restores energy in battle (items.js BATTLE_ITEMS energy_tonic kEnergy, takes the turn, uses one
+  // up). Kept as a flag so it can be flipped: false = Systems.bagForBattle leaves Energy Balm out of the battle bag.
   // URL: ?sys.pepRemedyRestoresEnergyInBattle=0
   pepRemedyRestoresEnergyInBattle: true,
   // Field Archive (PC boxes). DESIGN_DECISIONS proposal: 8 boxes x 30; the Company ID-L3 perk adds boxes.

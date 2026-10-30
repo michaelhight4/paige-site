@@ -214,6 +214,21 @@ export const POINTS = {
   }
  },
  "r9_icefall": {
+  "r9_icefall_carving": {
+   "facing": "up",
+   "x": 18,
+   "y": 9
+  },
+  "r9_icefall_pegs": {
+   "facing": "up",
+   "x": 25,
+   "y": 5
+  },
+  "r9_icefall_pool": {
+   "facing": "up",
+   "x": 9,
+   "y": 13
+  },
   "r9_icefall_signal": {
    "facing": "up",
    "x": 8,
@@ -233,10 +248,15 @@ export const POINTS = {
    "x": 6,
    "y": 19
   },
+  "r9_riverbed_gully": {
+   "facing": "up",
+   "x": 30,
+   "y": 8
+  },
   "r9_riverbed_marks": {
    "facing": "up",
-   "x": 18,
-   "y": 16
+   "x": 24,
+   "y": 10
   },
   "r9_riverbed_up": {
    "facing": "up",
@@ -257,6 +277,11 @@ export const POINTS = {
   }
  },
  "r9_switchbacks": {
+  "r9_switchbacks_cairn": {
+   "facing": "up",
+   "x": 36,
+   "y": 21
+  },
   "r9_switchbacks_up": {
    "facing": "up",
    "x": 32,

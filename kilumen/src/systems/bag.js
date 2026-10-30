@@ -87,7 +87,7 @@ export class Bag {
   /**
    * Field use on one creature. -> {ok, reason?, hp?, energy?, cured?, textKey, mode}
    * Remedies: HP by the engine's kHeal (never on a fainted creature: that needs a carer, text system_party.out_cold).
-   * Pep Remedy follows cfg.potionsVsRest (Gary pending): 'rest_only' refuses ('rest_only'), 'potions_restore'
+   * Energy Balm follows cfg.potionsVsRest (Gary pending): 'rest_only' refuses ('rest_only'), 'potions_restore'
    * refills every skill, 'partial_top_up' refills half of each skill (rounded up).
    */
   canUse(id, c) { return this.use(id, c, { dry: true }); }

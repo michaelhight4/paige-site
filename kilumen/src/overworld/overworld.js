@@ -7,6 +7,7 @@
 import { setRonRoll, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.95-alpha';
 import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.95-alpha';
 import { DRAFT_URLS, withDrafts } from '../systems/textbot_drafts.js?v=v0.2.95-alpha';
+import { textbotReady, withTextbotItemNames } from '../region9/textbot.js?v=v0.2.95-alpha'; // Text Bot item display names over the lines
 import { syncLowTide } from '../progression/low_tide.js?v=v0.2.95-alpha'; // G6 forced low tide
 import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.95-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
 import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.95-alpha';
@@ -147,8 +148,8 @@ export class Overworld {
     if (fit) this._watchViewport(); // mobile: watch the viewport from the first frame, not only after the multi-second load
     // playtest fixes 3 (slow reload): these loads are independent, so fetch them together instead of one round trip after another
     const layoutP = loadJson(this.config.worldLayout).then((l) => { this.layout = l; this.knownMaps = new Set(l.maps_built || []); }, () => { this.knownMaps = null; });
-    const linesP = Promise.all([loadJson(this.config.textLines).catch(() => null), ...DRAFT_URLS.map((u) => loadJson(u).catch(() => null))])
-      .then(([l, ...d]) => { this.lines = l || d.some(Boolean) ? withHealAurelithPh(withDrafts(l || {}, ...d)) : null; }); // + Text Bot drafts
+    const linesP = Promise.all([loadJson(this.config.textLines).catch(() => null), ...DRAFT_URLS.map((u) => loadJson(u).catch(() => null)), textbotReady.catch(() => null)])
+      .then(([l, ...d]) => { d.pop(); this.lines = l || d.some(Boolean) ? withTextbotItemNames(withHealAurelithPh(withDrafts(l || {}, ...d))) : null; }); // + Text Bot drafts + r9 item renames
     await Promise.all([layoutP, linesP, this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
     const sv = this.opts.saveData;
     let s = this.opts.start || (sv?.pos && (!this.knownMaps || this.knownMaps.has(sv.pos.map)) ? sv.pos : this.config.start);

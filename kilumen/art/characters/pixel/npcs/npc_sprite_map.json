@@ -3423,6 +3423,38 @@
         "neutral": "humans/ron/portraits/ron_neutral.png"
       },
       "note": "Ron cameo (existing Ron sprite)"
+    },
+    "r9_icefall.r9_ic_carver": {
+      "sprite_id": "tr_hiker_m",
+      "class": "Wellspire (region 9 / finale), story_beats.md §F",
+      "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+    },
+    "r9_icefall.r9_ic_sledder": {
+      "sprite_id": "tr_hiker_m",
+      "class": "Wellspire (region 9 / finale), story_beats.md §F",
+      "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+    },
+    "r9_old_riverbed.r9_rb_spotter": {
+      "sprite_id": "tr_hiker_m",
+      "class": "Wellspire (region 9 / finale), story_beats.md §F",
+      "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+    },
+    "r9_switchbacks.r9_sw_shelf_skier": {
+      "sprite_id": "tr_hiker_m",
+      "class": "Wellspire (region 9 / finale), story_beats.md §F",
+      "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
     }
   },
   "unassigned_ready": {

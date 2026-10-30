@@ -14,6 +14,8 @@ import { makeSummitFx } from './summit_fx.js?v=v0.2.95-alpha';
 const FB = { ...FB1, ...FB2, ...LAB_TEXT }; // Text Bot DRAFT lab lines win over Coder placeholders
 import { POINTS } from './points.gen.js?v=v0.2.95-alpha';
 import { Npc } from '../overworld/npcs.js?v=v0.2.95-alpha';
+import { TB } from './textbot.js?v=v0.2.95-alpha';
+const fallbackText = (k) => TB[k] || FB[k] || []; // Text Bot lines win over FB (FB = v1 + v2 + lab)
 
 const getPath = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
 // Wellspire v2 open questions (Story Bot §W Q-W10/11/13, pending Gary). Flip to true to turn each one on.
@@ -109,13 +111,28 @@ export const FIELD_IDS = ['r9_rb_hiker', 'r9_rb_dowser', 'r9_rb_guide', 'r9_skyl
   'r9_cw_field_1', 'r9_cw_field_2', 'r9_cw_field_3', 'r9_ec_field_1', 'r9_ec_field_2', 'r9_cl_field_1', 'r9_cl_field_2', 'r9_cl_field_3',
   'r9_hc_field_1', 'r9_hc_field_2', 'r9_hc_field_3'];
 for (const id of FIELD_IDS) TALK[id] = { intro: `r9.ft.${id}.intro`, after: `r9.ft.${id}.after` };
+// Icefall (map fill, Coder Oct 30 2026): names + intros for the cave's six trainers; lines are DRAFT in ./text_fallback.js.
+for (const [k, v] of Object.entries({
+  r9_ic_climber_1: { intro: 'r9.ic.climber_1', after: 'r9.ic.climber_1_after', name: 'Climber Brenna' },
+  r9_ic_climber_2: { intro: 'r9.ic.climber_2', after: 'r9.ic.climber_2_after', name: 'Climber Odd' },
+  r9_ic_diver: { intro: 'r9.ic.diver', after: 'r9.ic.diver_after', name: 'Ice Diver Sela' },
+  r9_ic_keeper: { intro: 'r9.ic.keeper', after: 'r9.ic.keeper_after', name: 'Cave Keeper Moss' },
+  r9_ic_carver: { intro: 'r9.ic.carver', after: 'r9.ic.carver_after', name: 'Ice Carver Pim' },
+  r9_ic_sledder: { intro: 'r9.ic.sledder', after: 'r9.ic.sledder_after', name: 'Sled Racer Juno' },
+})) TALK[k] ??= v; // field-team entries above win
+for (const [k, v] of Object.entries({ // r9_old_riverbed (map fill, Oct 30 2026); DRAFT lines in ./text_fallback.js
+  r9_rb_spotter: { intro: 'r9.fill.r9_rb_spotter', after: 'r9.fill.r9_rb_spotter_after', name: "Birdwatcher Ash" },
+})) TALK[k] ??= v; // field-team entries above win
+for (const [k, v] of Object.entries({ // r9_switchbacks (map fill, Oct 30 2026); DRAFT lines in ./text_fallback.js
+  r9_sw_shelf_skier: { intro: 'r9.fill.r9_sw_shelf_skier', after: 'r9.fill.r9_sw_shelf_skier_after', name: "Skier Tove" },
+})) TALK[k] ??= v; // field-team entries above win
 const TRAINER_DEFAULT = { intro: null, after: 'r9.trainer_after' };
 
 export function attachRegion9(scene, { systems } = {}) {
   const sys = () => systems || scene.systems;
   const flags = scene.flags, has = (f) => flags.has(f);
   const set = (f) => { if (!flags.has(f)) (scene.setFlag ? scene.setFlag(f, true) : flags.add(f)); };
-  const text = (k) => { const v = getPath(scene.lines, k); const p = Array.isArray(v) ? v : v?.pages; return p?.length ? p : (FB[k] || []); };
+  const text = (k) => { const v = getPath(scene.lines, k); const p = Array.isArray(v) ? v : v?.pages; return p?.length ? p : fallbackText(k); };
   const say = (k, sp) => { const p = text(k); return p.length && scene.say ? scene.say(p, sp) : Promise.resolve(); };
   const ask = async (k, q) => (await scene.ask?.([...text(k), ...(q ? text(q) : [])], ['Yes', 'No'])) === 0;
   const narr = { name: null, portrait: null, battle: null };
@@ -291,6 +308,10 @@ export function attachRegion9(scene, { systems } = {}) {
     r9_switchbacks_up: async () => { await say('r9.switchbacks_up', narr); await warp(to('r9_icefall', '_arrive_icefall')); },
     r9_icefall_signal: () => say('r9.icefall_signal', narr),
     fin_camp_supplies: () => say('summit.camp_supplies', narr), fin_camp_mast: () => say('summit.camp_mast', narr),
+    r9_riverbed_gully: () => say('r9.fill.r9_riverbed_gully', narr),
+    r9_switchbacks_cairn: () => say('r9.fill.r9_switchbacks_cairn', narr),
+    r9_icefall_pool: () => say('r9.icefall_pool', narr), r9_icefall_pegs: () => say('r9.icefall_pegs', narr),
+    r9_icefall_carving: () => say('r9.icefall_carving', narr),
     fin_camp_fire: async () => { heal(); await say('summit.camp_fire', narr); },
     fin_spire_door: async () => {
       if (!has('found_team_summit')) return say('summit.spire_door_wait', narr);

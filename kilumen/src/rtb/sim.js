@@ -148,7 +148,7 @@ export class RtBattle {
       this.emit('recall', { who: f, x: f.x, y: f.y }); const nf = this._sendOut(into, f); nf.recalled = true;
     }
   }
-  /** trainer item: Small Remedy 20 HP / Big Remedy 60 HP (Big when 40+ HP is missing or no Small left), short delay so it reads */
+  /** trainer item: Small Salve 20 HP / Large Salve 60 HP (Big when 40+ HP is missing or no Small left), short delay so it reads */
   _foeHeal(f, dt) {
     if (!f || f.act || f.dash || !(f.c.hp > 0) || f.c.hp / f.mhp > this.foeHealAt || (f.c._heals || 0) >= this.foeHealsPer) { this.foeHealT = 0; return false; }
     const big = (this.foeBag.toniclarge || 0) > 0, small = (this.foeBag.tonicsmall || 0) > 0, miss = f.mhp - f.c.hp;

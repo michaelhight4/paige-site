@@ -1294,8 +1294,8 @@
     7435,
     7435,
     7435,
-    0,
-    0,
+    518,
+    522,
     7435,
     7435,
     7435,
@@ -3026,8 +3026,8 @@
     1,
     1,
     1,
-    0,
-    0,
+    2,
+    2,
     1,
     1,
     1,
@@ -4436,7 +4436,38 @@
   }
  ],
  "signs": [],
- "items": [],
+ "items": [
+  {
+   "id": "fin_sc_chimney_crystal",
+   "x": 3,
+   "y": 4,
+   "item": "dominance_crystal_plus",
+   "qty": 1,
+   "hidden": true,
+   "note": "top of the west chimney above the camp",
+   "flag": "item_fin_summit_camp_fin_sc_chimney_crystal"
+  },
+  {
+   "id": "fin_sc_nook_mix",
+   "x": 6,
+   "y": 4,
+   "item": "trail_mix",
+   "qty": 1,
+   "hidden": false,
+   "note": "north-west nook of the spire terrace",
+   "flag": "item_fin_summit_camp_fin_sc_nook_mix"
+  },
+  {
+   "id": "fin_sc_east_pouch",
+   "x": 30,
+   "y": 18,
+   "item": "coin_pouch_small",
+   "qty": 1,
+   "hidden": true,
+   "note": "east nook behind the camp",
+   "flag": "item_fin_summit_camp_fin_sc_east_pouch"
+  }
+ ],
  "interact_spots": [
   {
    "id": "fin_spire_door",
@@ -4514,5 +4545,6 @@
   }
  ],
  "source": "tools/wellspire/build_wellspire.py (clone of cindervale_caldera; art + collision unchanged)",
- "region": "wellspire"
+ "region": "wellspire",
+ "map_fill": "tools/map_audit/map_fill.py (Oct 30 2026)"
 }

@@ -6,6 +6,8 @@ Writes art/world/overworld/maps/<name>.json and src/region9/points.gen.js (spot/
 Re-run safe: output is deterministic. Usage: python3 tools/wellspire/build_wellspire.py"""
 import copy, json, os
 from collections import deque
+import sys; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'map_audit'))
+import map_fill  # map fill / layering recipes (Oct 30 2026)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 MAPS = os.path.join(ROOT, 'art', 'world', 'overworld', 'maps')
@@ -20,8 +22,10 @@ SELF = {
 STRIP = ['npcs', 'signs', 'items', 'interact_spots', 'story_gates', 'hall_v2', 'puzzle', 'flag_swaps', 'fly_point', 'text_pending',
          'npcs_pending_text', 'signs_pending_text', 'pending_text_note', 'entered_from', 'interior_role', 'arena_theme', 'source']
 
-def load(n):
-    with open(os.path.join(MAPS, n + '.json')) as f: return json.load(f)
+TPL = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+def load(n):  # templates later reworked in place (map fill, Oct 30 2026) are cloned from their frozen pre-fill copy in ./templates
+    f = os.path.join(TPL, n + '.json')
+    with open(f if os.path.exists(f) else os.path.join(MAPS, n + '.json')) as f: return json.load(f)
 
 class M:
     def __init__(self, name, tpl, title, region='wellspire'):
@@ -91,11 +95,17 @@ class M:
         self.pts[sid] = {'x': x, 'y': y, 'facing': 'up'}
         self.check()
         return d
+    def prop(self, x, y, tile, code=1):
+        """A one-square prop on open floor (decoration layer): blocks (code 1) or a south-only ledge (code 2)."""
+        assert self.c(x, y) == 0 and (x, y) not in self.used, f'{self.name}: prop on {(x, y)}'
+        self.j['layers']['decoration'][y][x] = tile; self.col[y][x] = code
     def ok_spot(self, x, y): return not any(abs(x - a) + abs(y - b) <= 1 for (a, b) in self.used if self.c(a, b) == 4)
     def check(self):
         """Every warp cell, exit cell and spot stand stays reachable from the anchor with the NPCs placed."""
         R = self.reach(self._anchor)
-        need = [(w['x'], w['y']) for w in self.j['warps']] + [tuple(s['stand']) for s in self.j['interact_spots']]
+        for w in self.j['warps']:  # one-way pockets entered through another map's door (map fill, Oct 30 2026)
+            if w.get('reached_via'): R |= self.reach(next((w['x'] + dx, w['y'] + dy) for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0)) if self.c(w['x'] + dx, w['y'] + dy) == 0))
+        need = [(w['x'], w['y']) for w in self.j['warps'] if not w.get('reached_via')] + [tuple(s['stand']) for s in self.j['interact_spots']]
         for p in need: assert p in R or not self.walk(*p), f'{self.name}: {p} cut off'
     def selfdoor(self, via=None):
         # One-way passages (Oct 29 door-warp rule: every door landing sits 1 tile from a door back): the warp lands on its
@@ -126,6 +136,7 @@ def build():
     rb = M('r9_old_riverbed', 'route_east', 'Old Riverbed')
     rb.j['exits'] = [e for e in rb.j['exits'] if e['edge'] == 'west']  # west 19-20 -> brookhollow (offset 0, aligned)
     rb._anchor = (1, 19)
+    map_fill.apply('r9_old_riverbed', rb.j)
     tables(rb, {'route_east_reeds': 'r9_riverbed_reeds', '*': 'r9_riverbed_grass'})
     rb.spot('r9_riverbed_up', (60, 19))          # the path climbs on toward Cairnfold
     rb.spot('r9_name_sign', (6, 18))
@@ -133,11 +144,14 @@ def build():
     rb.npc('r9_rb_hiker', (18, 22), 'trainer', 'left')
     rb.npc('r9_rb_dowser', (36, 21), 'trainer', 'left')
     rb.npc('r9_rb_guide', (50, 20), 'trainer', 'left')
+    rb.npc('r9_rb_spotter', (28, 12), 'trainer', 'down')   # up on the old bank
+    rb.spot('r9_riverbed_gully', (30, 8))                 # the hidden gully's old flood mark
     P['_arrive_riverbed'] = {'x': 1, 'y': 19, 'facing': 'right'}
     done(rb)
     # ---------- Cairnfold (Frostspire art) ----------
     cf = M('r9_cairnfold', 'frostspire', 'Cairnfold')
     cf._anchor = (26, 26)
+    map_fill.apply('r9_cairnfold', cf.j)
     ws = cf.j['warps']
     for i, w in enumerate(ws):
         k = (w['x'], w['y'])
@@ -155,6 +169,9 @@ def build():
     for i, (nid, want) in enumerate([('r9_cf_herder_1', (12, 20)), ('r9_cf_herder_2', (30, 21)), ('r9_cf_elder', (20, 28)), ('r9_cf_kid', (37, 31)),
                                      ('r9_cf_weaver', (42, 28)), ('r9_cf_walker', (10, 36)), ('r9_cf_lodge_fan', (24, 19)), ('r9_cf_watcher', (32, 36)), ('r9_cf_baker', (18, 36))]):
         cf.npc(nid, want, 'clerk', 'down')
+    for n in cf.j['npcs']:  # these two stood in a one-wide lane mouth and sealed the lane behind them; move them to its end
+        if n['id'] == 'r9_cf_herder_1': n['x'], n['y'] = 8, 20
+        if n['id'] == 'r9_cf_weaver': n['x'], n['y'], n['facing'] = 53, 28, 'left'
     done(cf)
     lodge = M('r9_lodge_int', 'frostspire_office_int', 'RT Heritage Lodge')
     lodge.warp(0, 'r9_cairnfold', 26, 18, 'down'); lodge._anchor = (7, 7)
@@ -175,11 +192,14 @@ def build():
     sw.j['exits'] = [e for e in sw.j['exits'] if e['edge'] == 'north']
     for e in sw.j['exits']: e['to'] = 'r9_cairnfold'
     sw._anchor = (24, 1)
+    map_fill.apply('r9_switchbacks', sw.j)
     tables(sw, {'*': 'r9_switchbacks_snow'})
     sw.spot('r9_switchbacks_up', (30, 57))
     for nid, want in [('r9_sw_mountaineer_1', (22, 10)), ('r9_sw_climber_1', (28, 18)), ('r9_sw_survey_1', (20, 28)), ('r9_sw_survey_2', (24, 30)),
                       ('r9_sw_survey_3', (28, 32)), ('r9_sw_climber_2', (30, 46))]:
         sw.npc(nid, want, 'trainer', 'down')
+    sw.npc('r9_sw_shelf_skier', (34, 24), 'trainer', 'down', base=(34, 21))   # on the cliff shelf (via the Icefall tunnel)
+    sw.spot('r9_switchbacks_cairn', (36, 22), base=(34, 21))
     done(sw)
     # ---------- Icefall (Tidewater sea-cave art) ----------
     ic = M('r9_icefall', 'tidewater_cave_int', 'Wellspire Icefall')
@@ -191,10 +211,26 @@ def build():
     up = sw.pts['r9_switchbacks_up']
     ic.warp(0, 'r9_switchbacks', up['x'], up['y'], 'down'); ic.warp(1, 'r9_switchbacks', up['x'], up['y'], 'down')
     ic.warp(2, 'fin_summit_camp', 16, 22, 'up')
+    map_fill.door(ic.j, 27, 8, 'r9_switchbacks', 34, 21, 'down', ground=544)   # east tunnel out onto the switchbacks cliff shelf
     ic._anchor = (14, 18)
     tables(ic, {'*': 'r9_icefall_cave'})
+    # Map fill (Coder, Oct 30 2026, Gary: sparse maps, layered like the classic games). Row 6 west of the climb becomes a
+    # south-only ice ledge: the north shelf (row 5, x3-13) is a cliff walk over the pool, reached up the x14 climb; at its
+    # west end a Prime Crystal sits hidden, and the ledge drops you back down (one-way) beside the pool.
+    for x in range(3, 14): ic.prop(x, 6, 518 if x == 3 else 522 if x == 13 else 520, code=2)
+    for (x, y, t) in [(26, 5, 5443), (3, 12, 5443), (3, 15, 5442), (26, 15, 5442), (26, 10, 5442), (10, 15, 5442), (20, 15, 5443),
+                      (18, 8, 510), (19, 8, 510), (13, 9, 510), (24, 12, 510)]:
+        ic.prop(x, y, t)
+    ic.j['items'] = [{'id': 'r9_ic_shelf_crystal', 'x': 3, 'y': 5, 'item': 'dominance_crystal_plus', 'qty': 1, 'hidden': True,
+                      'note': 'end of the ice shelf over the pool (one-way ledge back down)', 'flag': 'item_r9_icefall_r9_ic_shelf_crystal'},
+                     {'id': 'r9_ic_nook_tea', 'x': 3, 'y': 14, 'item': 'calm_tea', 'qty': 1, 'hidden': False,
+                      'note': 'visible satchel in the west nook by the pool', 'flag': 'item_r9_icefall_r9_ic_nook_tea'}]
     ic.spot('r9_icefall_signal', (8, 8))
-    for nid, want in [('r9_ic_climber_1', (8, 14)), ('r9_ic_climber_2', (22, 14)), ('r9_ic_diver', (6, 6)), ('r9_ic_keeper', (24, 7))]:
+    ic.spot('r9_icefall_pool', (9, 13))
+    ic.spot('r9_icefall_pegs', (25, 5))
+    ic.spot('r9_icefall_carving', (18, 9))
+    for nid, want in [('r9_ic_climber_1', (8, 14)), ('r9_ic_climber_2', (22, 14)), ('r9_ic_diver', (4, 9)), ('r9_ic_keeper', (24, 7)),
+                      ('r9_ic_carver', (17, 11)), ('r9_ic_sledder', (11, 14))]:
         ic.npc(nid, want, 'trainer', 'down')
     P['_arrive_icefall'] = {'x': 14, 'y': 18, 'facing': 'up'}
     done(ic)
@@ -202,6 +238,7 @@ def build():
     sc = M('fin_summit_camp', 'cindervale_caldera', 'Wellspire Summit Camp')
     sc.warp(0, 'r9_icefall', 20, 5, 'down'); sc.warp(1, 'r9_icefall', 20, 5, 'down')
     sc._anchor = (16, 22)
+    map_fill.apply('fin_summit_camp', sc.j)
     sc.j.pop('ambient', None)
     tables(sc, {'*': 'r9_icefall_cave'}); sc.j['encounter_zones'] = []  # safe camp
     sc.spot('fin_spire_door', (17, 3))

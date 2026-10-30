@@ -1300,7 +1300,7 @@
      "step": null,
      "text": [
       "A flower. From the other side. It smells like... a flower.",
-      "Perfect. Have this Pep Remedy. Pricey stuff, so don't waste it."
+      "Perfect. Have this Energy Balm. Pricey stuff, so don't waste it."
      ]
     }
    ],
@@ -2805,7 +2805,7 @@
      "step": null,
      "text": [
       "Sandwich! You're a hero. A small, sandwich-shaped hero.",
-      "Take this Pep Remedy. Bought it for the trip. Trip's off."
+      "Take this Energy Balm. Bought it for the trip. Trip's off."
      ]
     }
    ],
@@ -4174,7 +4174,7 @@
     "items_placeholder": [
      {
       "id": "tonic_large",
-      "label": "Big Remedy",
+      "label": "Large Salve",
       "qty": 1
      }
     ],
@@ -4199,7 +4199,7 @@
      "step": null,
      "text": [
       "Fern mint. That's the stuff. Fingers are back.",
-      "Take this Big Remedy. Mountains eat Small ones."
+      "Take this Large Salve. Mountains eat Small ones."
      ]
     }
    ],

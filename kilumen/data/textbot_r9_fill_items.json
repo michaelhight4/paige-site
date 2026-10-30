@@ -1,0 +1,15 @@
+{
+  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Flat keys match src/region9/text_fallback.js.",
+  "r9.fill.r9_sw_shelf_skier": ["Tove. I came out of the ice tunnel\nand found this shelf.", "Nobody else knows it's here.\nNow you do. Battle?"],
+  "r9.fill.r9_sw_shelf_skier_after": ["Jump off the edge to get down.\nYou can't get back up that way."],
+  "r9.fill.r9_switchbacks_cairn": ["A little cairn of flat stones\non the shelf.", "The top stone has a fish\nscratched on it."],
+  "r9.fill.r9_rb_spotter": ["Ash. Shh. There's a kite nesting\non the old bank.", "Fine, we can battle. Quietly."],
+  "r9.fill.r9_rb_spotter_after": ["Off you go. Mind the drop back\ndown to the bed."],
+  "r9.fill.r9_riverbed_gully": ["A flood mark cut into the rock,\nhigher than the bank.", "Under it, in tiny letters:\n\"we told them.\""],
+  "item_display_names": {
+    "_note": "Display names only; item ids (tonic_small, tonic_large, energy_tonic) stay as code keys. All three renamed so the set matches.",
+    "tonic_small": "Small Salve",
+    "tonic_large": "Large Salve",
+    "energy_tonic": "Energy Balm"
+  }
+}
