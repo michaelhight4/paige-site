@@ -22,9 +22,8 @@ import { TILE } from '../overworld/constants.js?v=v0.2.93-alpha';
 import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.93-alpha';
 import { applyHallAnim, hallAnimOn } from './hall_anim.js?v=v0.2.93-alpha';
 
-/** DRAFT hint pages (Coder, Oct 29 2026; Text Bot to rewrite as system_halls.hint_<zone>). */
-export const HALL_HINTS = { frostspire: ['Two hall helpers wait on the ledge above the ice. Slide up the middle lane, by the pillar, to reach them.'] };
 export const REMATCH_FEE = 300, REMATCH_PRIZE = 1200, WIN_SCALE = 1.3;
+const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };
 const NAME = { U: 'up', D: 'down', L: 'left', R: 'right' }, LETTER = { up: 'U', down: 'D', left: 'L', right: 'R' };
 
 /** Rematch team: every level x 1.3^wins, rounded, capped at maxLevel (never below 1). Pure; keeps the other fields. */
@@ -32,6 +31,28 @@ export function scaleMasterTeam(foes, wins, max = KILUMEN_RULES.maxLevel || 100)
   const k = Math.pow(WIN_SCALE, Math.max(0, wins | 0));
   return (foes || []).map((f) => ({ ...f, level: Math.max(1, Math.min(max, Math.round((f.level || 1) * k))) }));
 }
+/** DRAFT hint pages (Coder, Oct 30 2026; Text Bot to rewrite as system_halls.hint_<zone>). The attendant adds them until the Master is beaten. */
+export const HALL_HINTS = {
+  fernwick: ['The round plate on the floor opens the gate. Step on it, then walk through.'],
+  saltmere: ['Each floor plate swaps which gate is open. One plate, one swap. Watch the gates when you step.'],
+  revival_heights: ['Press A on a crystal to turn it. Line the light up with the door and it opens.'],
+  mirefen: ['Arrow plates in the bog carry you the way they point. Try the short one by the door first.'],
+  frostspire: ['Two hall helpers wait on the ledge above the ice. Slide up the middle lane, by the pillar, to reach them.'],
+  tidewater_coast: ['The two shell plates on the floor turn the tide. Step on one and the water gates swap.', 'If a gate blocks you, go back and step on the other plate. Beaten trainers step aside if you walk into them.'],
+  cindervale: ['Arrow plates are conveyors. Step on one and it carries you the way it points.', 'Start through the gap on the far right. The belts loop, so if you get carried back, just try a different plate.'],
+  lanternport: ['The hall trainers wait on the floors below. The lamp room at the top is where the Master stands.', 'Walk left along the carpet to reach the Master. The stairs by the door lead back down.'],
+};
+/** DRAFT entry toasts (Text Bot key system_halls.enter_<zone>). */
+export const HALL_ENTRY = {
+  fernwick: 'Floor plates open gates.',
+  saltmere: 'Each plate swaps the gates.',
+  revival_heights: 'Turn the crystals to light the door.',
+  mirefen: 'Arrow plates carry you.',
+  frostspire: 'Ice slides you until you hit something.',
+  tidewater_coast: 'Shell plates on the floor turn the tide.',
+  cindervale: 'Arrow plates move you. Ask the attendant for tips.',
+  lanternport: 'The Master waits at the far end of the carpet.',
+};
 /** Real hall trainers only: hooded trainers that battle (an NPC marked hint_only, like a hint-giver, never counts). */
 export const hallTrainers = (mj) => (mj?.npcs || []).filter((n) => n.kind === 'trainer_hooded' && !n.hint_only);
 /** Puzzle done = the player has stood on the dais front (only reachable through the puzzle; tests prove it per hall). */
@@ -104,13 +125,25 @@ export function attachHallV2(scene, ui, pg) {
   };
   const setBits = (b) => {
     const c = hv.cur; if (!c || b === c.bits) return;
-    c.bits = b; (store.puzzles ||= {})[bitsKey(c.json)] = { bits: b }; hv.apply();
+    const was = c.bits; c.bits = b; (store.puzzles ||= {})[bitsKey(c.json)] = { bits: b }; hv.apply();
+    gateNews(c, was, b);
     scene.audio?.sfx?.('select'); scene.log?.push({ tick: scene.tick, type: 'hall_bits', bits: b });
+  };
+  // visible cause and effect: say which way a gate opened (it may be off-screen) and how the tide stands
+  const gateNews = (c, was, b) => {
+    const p = scene.player, z = c.json.hall_v2.zone, rows = c.json.hall_v2.grid; let opened = null, closed = 0;
+    rows.forEach((r, y) => [...r].forEach((ch, x) => { if (!'abcd'.includes(ch)) return; const o = c.model.openGate(ch, b), w = c.model.openGate(ch, was);
+      if (o && !w && (!opened || Math.abs(x - p.x) + Math.abs(y - p.y) < Math.abs(opened[0] - p.x) + Math.abs(opened[1] - p.y))) opened = [x, y]; if (!o && w) closed++; }));
+    const dir = opened ? (Math.abs(opened[1] - p.y) >= Math.abs(opened[0] - p.x) ? (opened[1] < p.y ? 'north' : 'south') : (opened[0] < p.x ? 'west' : 'east')) : '';
+    const tide = z === 'tidewater_coast' ? ((b & 1) ? 'The tide rises. ' : 'The tide falls. ') : '';
+    const msg = opened ? text('gate_open', ['{tide}A gate opened to the {dir}.']) : closed ? text('gate_shut', ['{tide}A gate closed.']) : [];
+    if (msg.length) { scene.toast?.(fillv(msg, { tide, dir }).join(' ').trim()); if (opened) scene.audio?.sfx?.('warp'); scene.log?.push({ tick: scene.tick, type: 'hall_gate_news', opened, closed }); }
   };
   const startChain = () => { const c = hv.cur; if (c && !c.release) { c.release = scene.lockSave ? scene.lockSave('hall_slide') : () => {}; scene.player.locked = true; } };
   const endChain = () => { const c = hv.cur; if (c?.release) { const r = c.release; c.release = null; scene.player.locked = !!(scene.busy || scene.fade); r(); } };
   hv.chaining = () => !!hv.cur?.release;
   scene.hallQuiet = (n) => !!hv.cur && (hv.chaining() || hv.quiet(n?.def || n));
+  scene.hallBits = () => hv.cur?.bits ?? 0; // probes/debug: live gate bits
 
   hv.arrive = (x, y, mover, world) => {
     const c = hv.cur; if (!c) return undefined;
@@ -145,7 +178,8 @@ export function attachHallV2(scene, ui, pg) {
     const wa = scene.worldApi.bind(scene);
     scene.worldApi = () => {
       const w = wa(); if (!hv.cur) return w;
-      const oa = w.onArrive, os = w.onStepStart;
+      const oa = w.onArrive, os = w.onStepStart, ob = w.onBump;
+      w.onBump = (x, y, dir, mover, q) => { if ((!mover || mover === scene.player) && stepAside(dir)) return; return ob?.(x, y, dir, mover, q); };
       w.onArrive = (x, y, mover, how) => { const r = oa?.(x, y, mover, how); if (r === 'stop') { endChain(); return r; } if (mover && mover !== scene.player) return r; return hv.arrive(x, y, mover || scene.player, w) ?? r; };
       w.onStepStart = (x, y, mover) => { const p = scene.player; if (!mover || mover === p) hv.leave(p.x, p.y); return os?.(x, y, mover); };
       return w;
@@ -215,6 +249,8 @@ export function attachHallV2(scene, ui, pg) {
     (store.puzzles ||= {})[bitsKey(m)] = { bits: hv.cur.bits };
     if (hallAnimOn()) applyHallAnim(scene.map);
     hv.apply(); syncWins();
+    const tip = atDoor && !masterBeaten(ctx(), m) ? text(`enter_${z}`, HALL_ENTRY[z] ? [HALL_ENTRY[z]] : []) : [];
+    if (tip.length) scene.toast?.(tip.join(' '));
     return hv.cur;
   };
   if (typeof scene._enterMap === 'function') {
@@ -224,11 +260,45 @@ export function attachHallV2(scene, ui, pg) {
   try { hv.enter(); } catch (e) { console.error('hall v2:', e); }
 
   // ---- talk: attendant, wins gate, quiet after the Master, rematch, walk back to the seat ------------------------------
-  const seatBack = (def) => {
-    const n = scene.npcs?.byId?.(def.id); if (!n || (n.x === def.x && n.y === def.y)) return;
-    const go = () => { if (scene.busy || scene.map?.json !== hv.cur?.json) return false; scene.npcs.walkTo(def.id, def.x, def.y, { stay: true }); n.faceDir = def.facing; return true; };
-    const iv = setInterval(() => { if (go()) clearInterval(iv); }, 120); setTimeout(() => clearInterval(iv), 20000);
+  // Live v0.2.93 Tidewater soft-lock: a trainer who walked up to you (sight) could not path home past you / the pet in a 1-tile
+  // corridor (walkTo -> null), and the old seatBack gave up after one try, so the beaten trainer stood in the only way through.
+  // Now: retry the walk while it is blocked; after ~1.2 s blocked, step them straight back onto their seat (snapSeat).
+  const DEL = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  hv.snapSeat = (def) => {
+    const n = scene.npcs?.byId?.(def.id), m = scene.map, p = scene.player, f = scene.follower; if (!n || !m) return false;
+    if (n.x === def.x && n.y === def.y) return true;
+    const o = m.npcAt?.(def.x, def.y);
+    if ((o && o !== n) || (p && p.x === def.x && p.y === def.y) || (f && f.x === def.x && f.y === def.y)) return false;
+    m.vacate(n.x, n.y, n); n.mover.place(def.x, def.y, def.facing || n.mover.facing); m.occupy(def.x, def.y, n);
+    n.script = []; n.goal = null; n.home = { x: def.x, y: def.y, facing: def.facing || 'down' };
+    scene.log?.push({ tick: scene.tick, type: 'hall_seat_snap', npc: def.id }); scene._dirty = true; return true;
   };
+  const seatBack = (def) => {
+    let blocked = 0;
+    const iv = setInterval(() => {
+      const n = scene.npcs?.byId?.(def.id);
+      if (!n || scene.map?.json !== hv.cur?.json) { clearInterval(iv); return; }
+      if (n.x === def.x && n.y === def.y && !n.mover.moving) { n.mover.facing = def.facing || n.mover.facing; n.faceDir = def.facing; clearInterval(iv); return; }
+      if (scene.busy || n.talking || n.mover.moving || n.script?.length) return;
+      if (scene.npcs.walkTo(def.id, def.x, def.y, { stay: true })) { blocked = 0; return; }
+      if (++blocked >= 8 && hv.snapSeat(def)) clearInterval(iv);
+    }, 150);
+    setTimeout(() => clearInterval(iv), 120000);
+  };
+  hv.seatBack = seatBack;
+  // A beaten (or quiet, after the Master) hall trainer never blocks you: bumping one sends them to their seat, or, if the seat
+  // is taken, you trade places with them (Gary's "defeated trainers step aside or are passable", live v0.2.93 report).
+  const stepAside = (dir) => {
+    const c = hv.cur, p = scene.player, d = DEL[dir]; if (!c || !p || !d || scene.busy) return false;
+    const n = scene.map?.npcAt?.(p.x + d[0], p.y + d[1]); const def = n?.def;
+    if (!def || def.kind !== 'trainer_hooded' || !(scene.seen?.[`defeated:${c.json.name}.${def.id}`] || hv.quiet(def))) return false;
+    if (n.x !== def.x || n.y !== def.y) { if (hv.snapSeat(def)) return true; }
+    const nx = n.x, ny = n.y, m = scene.map;
+    m.vacate(nx, ny, n); n.mover.place(p.x, p.y, OPP[dir]); m.occupy(p.x, p.y, n); p.place(nx, ny, dir);
+    if (n.x !== def.x || n.y !== def.y) seatBack(def);
+    scene.log?.push({ tick: scene.tick, type: 'hall_trade_places', npc: def.id }); scene._dirty = true; return true;
+  };
+  hv.stepAside = stepAside;
   hv.rematch = async (n, def, m) => {
     const sp = scene.speakerFor?.(n), z = m.hall_v2.zone, e = scene._entryFor?.(m.name, def) || {};
     const wins = masterWins(ctx(), m), w = scene.systems?.wallet;
@@ -259,7 +329,7 @@ export function attachHallV2(scene, ui, pg) {
       const z = m.hall_v2.zone, wins = syncWins(), need = needWins(m), beaten = masterBeaten(ctx(), m);
       if (def.kind === 'villager_scholar') { // the hall attendant: progress line
         const left = Math.max(0, need - wins), k = beaten || left === 0 ? 'progress_open' : 'progress';
-        const hint = !beaten && left > 0 ? text(`hint_${z}`, HALL_HINTS[z] || []) : []; // live v0.2.93 bug 2: route hint while wins are short
+        const hint = !beaten ? text(`hint_${z}`, HALL_HINTS[z] || []) : []; // live v0.2.93: hall hints while the Master is unbeaten
         return scene.script(async () => { n && scene.npcs.beginTalk(n); try { await scene.say([...fillv(text(k, ['Hall wins: {wins} of {need}.']), { wins, need, left }), ...hint], scene.speakerFor?.(n)); } finally { n && scene.npcs.endTalk(n); } });
       }
       if (def.kind === 'master') {

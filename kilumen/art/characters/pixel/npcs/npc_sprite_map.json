@@ -3210,6 +3210,66 @@
    "overworld_sheet_2x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/vil_fan_m/overworld/vil_fan_m_chibi/"
+  },
+  "mirefen_hall_int.mirefen_hall_int_master": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Master (stand-in sprite)",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+  },
+  "tidewater_hall_int.tidewater_hall_int_master": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Master (stand-in sprite)",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+  },
+  "lanternport_hall_int.lanternport_hall_int_master": {
+   "sprite_id": "tr_gymtrainer_f",
+   "class": "Hall Master (stand-in sprite)",
+   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
+    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
+    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+   },
+   "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+  },
+  "cindervale_hall_int.cindervale_hall_int_master": {
+   "sprite_id": "tr_gymtrainer_m",
+   "class": "Hall Master (stand-in sprite)",
+   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "portraits": {
+    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
+    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
+    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+   },
+   "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
   }
  },
  "unassigned_ready": {
