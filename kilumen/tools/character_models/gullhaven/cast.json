@@ -1,0 +1,82 @@
+{
+ "cast": [
+  {
+   "id": "tr_swimmer_gullhaven_a",
+   "kind": "trainer",
+   "class": "swimmer (young woman, teal rash guard)",
+   "th": 90,
+   "tth": 124
+  },
+  {
+   "id": "tr_swimmer_gullhaven_b",
+   "kind": "trainer",
+   "class": "swimmer (man, navy shorty wetsuit, fins)",
+   "th": 90,
+   "tth": 124
+  },
+  {
+   "id": "tr_swimmer_gullhaven_c",
+   "kind": "trainer",
+   "class": "swimmer (older woman, striped swim dress, swim ring)",
+   "th": 90,
+   "tth": 124
+  },
+  {
+   "id": "tr_swimmer_gullhaven_d",
+   "kind": "trainer",
+   "class": "swimmer (teen boy, yellow rash guard, kickboard)",
+   "th": 90,
+   "tth": 124
+  },
+  {
+   "id": "tr_swimmer_gullhaven_e",
+   "kind": "trainer",
+   "class": "swimmer (veteran woman, full wetsuit, buoy)",
+   "th": 90,
+   "tth": 124
+  },
+  {
+   "id": "npc_gull_derby_host_m",
+   "kind": "trainer",
+   "class": "fishing derby host (man, striped blazer, boater)",
+   "th": 90,
+   "tth": 124
+  },
+  {
+   "id": "vil_gull_harbour_master_f",
+   "kind": "villager",
+   "class": "harbour master (woman)",
+   "th": 90
+  },
+  {
+   "id": "vil_gull_derby_crier_m",
+   "kind": "villager",
+   "class": "derby crier (young man, bell)",
+   "th": 90
+  },
+  {
+   "id": "vil_gull_angler_f",
+   "kind": "villager",
+   "class": "angler (woman, waders, rod)",
+   "th": 90
+  },
+  {
+   "id": "vil_gull_hermit_m",
+   "kind": "villager",
+   "class": "sea-cave hermit (old man)",
+   "th": 90
+  },
+  {
+   "id": "vil_gull_hermit_f",
+   "kind": "villager",
+   "class": "sea-cave hermit (old woman, shell lamp)",
+   "th": 90
+  },
+  {
+   "id": "vil_gull_birdwatcher_f",
+   "kind": "villager",
+   "class": "cliff birdwatcher (woman)",
+   "th": 90
+  }
+ ]
+}
