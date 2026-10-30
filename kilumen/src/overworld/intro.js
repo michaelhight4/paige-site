@@ -305,7 +305,7 @@ export class HomeStart {
       if (this._gateSince == null) this._gateSince = s.tick;
       // safety: a UI that never mounts can't keep the screen black (10 s), but an open title holds as long as it's open
       if (blocked && !(blocked === 'loading' && s.tick - this._gateSince > 600)) return;
-      this.holding = false; s.fade.phase = 'in'; s.fade.t = 0;
+      this.holding = false; if (s.fade) { s.fade.phase = 'in'; s.fade.t = 0; }
       s.log.push({ tick: s.tick, type: 'intro', step: 'fadeIn' });
       return;
     }

@@ -128,7 +128,8 @@ export async function installDevConsole(scene, access) {
   // Auto-complete (battle/ui_sd.js registers dev.battleAuto while a turn battle runs) and world speed. Dev session only.
   let bmenu = null;
   const bchip = () => {
-    const live = !!window.kilumen?.dev?.battleAuto || battleOn(ui()); // gd bug 5: also any battle (console opens with battle-safe tabs) let b = document.querySelector('.kdev-bchip');
+    const live = !!window.kilumen?.dev?.battleAuto || battleOn(ui()); // gd bug 5: also any battle (console opens with battle-safe tabs)
+    let b = document.querySelector('.kdev-bchip');
     if (!live) { b?.remove(); bmenu?.remove(); bmenu = null; return; }
     if (b) return;
     if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
