@@ -371,6 +371,35 @@
     "company_inbox",
     "unplaced.windows"
    ],
+   "3": [
+    "maps.brookhollow.bin_ron",
+    "maps.house_1f.ron",
+    "maps.office_int.coworker",
+    "maps.office_int.dana_desk",
+    "maps.fernwick.ron_rival_1",
+    "ron_battle_openers",
+    "unplaced_npcs.lucky_crystal_seller"
+   ],
+   "8": [
+    "maps.brookhollow.villager_garden",
+    "maps.brookhollow.fisher",
+    "maps.brookhollow.kid",
+    "maps.brookhollow.rt_guard_east",
+    "maps.office_int.receptionist",
+    "maps.office_int.manager",
+    "maps.shop_int.clerk",
+    "maps.fernwick.villager_f1",
+    "maps.fernwick.elder",
+    "maps.heal_brookhollow.heal_brookhollow_carer",
+    "maps.heal_fernwick.heal_fernwick_carer",
+    "maps.heal_saltmere.heal_saltmere_carer",
+    "maps.heal_revival.heal_revival_carer",
+    "maps.heal_frostspire.heal_frostspire_carer",
+    "maps.heal_aurelith.heal_aurelith_carer",
+    "maps.home_fernwick_a.home_fernwick_a_parent",
+    "maps.home_fernwick_a_2f.home_fernwick_a_kid",
+    "maps.mirefen_bog.mirefen_angler"
+   ],
    "10": [
     "maps.house_1f.ron",
     "maps.fernwick.ron_rival_1",
@@ -417,35 +446,6 @@
    ],
    "15:E9": [
     "maps.office_int.crystal_display"
-   ],
-   "3": [
-    "maps.brookhollow.bin_ron",
-    "maps.house_1f.ron",
-    "maps.office_int.coworker",
-    "maps.office_int.dana_desk",
-    "maps.fernwick.ron_rival_1",
-    "ron_battle_openers",
-    "unplaced_npcs.lucky_crystal_seller"
-   ],
-   "8": [
-    "maps.brookhollow.villager_garden",
-    "maps.brookhollow.fisher",
-    "maps.brookhollow.kid",
-    "maps.brookhollow.rt_guard_east",
-    "maps.office_int.receptionist",
-    "maps.office_int.manager",
-    "maps.shop_int.clerk",
-    "maps.fernwick.villager_f1",
-    "maps.fernwick.elder",
-    "maps.heal_brookhollow.heal_brookhollow_carer",
-    "maps.heal_fernwick.heal_fernwick_carer",
-    "maps.heal_saltmere.heal_saltmere_carer",
-    "maps.heal_revival.heal_revival_carer",
-    "maps.heal_frostspire.heal_frostspire_carer",
-    "maps.heal_aurelith.heal_aurelith_carer",
-    "maps.home_fernwick_a.home_fernwick_a_parent",
-    "maps.home_fernwick_a_2f.home_fernwick_a_kid",
-    "maps.mirefen_bog.mirefen_angler"
    ],
    "8.2e": [
     "maps.heal_brookhollow.suggestion_box",
@@ -14183,10 +14183,10 @@
    },
    "mirefen_trainer_4": {
     "pages": [
-     "This reed line's the only dry path. I'm on it. Battle me or swim."
+     "This reed line's the only dry path. I'm\non it. Battle me or wade the bog."
     ],
     "battle_lost": [
-     "You'd not have liked swimming anyway."
+     "You'd not have liked the bog anyway."
     ],
     "after": [
      "Burlbeetles float. Did you know that? Neither did they."
@@ -14199,7 +14199,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "This reed line's the only dry path. I'm on it. Battle me or swim."
+       "This reed line's the only dry path. I'm\non it. Battle me or wade the bog."
       ]
      }
     ]
@@ -14944,10 +14944,10 @@
    },
    "route_coast_trainer_6": {
     "pages": [
-     "You swam all the way out here? Then you can battle."
+     "You rode all the way out here? Then you\ncan battle."
     ],
     "battle_lost": [
-     "And swim back. Good luck."
+     "And ride back. Good luck."
     ],
     "after": [
      "There's a hut roof past the reeds. Someone left something on it."
@@ -14961,7 +14961,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "You swam all the way out here? Then you can battle."
+       "You rode all the way out here? Then you\ncan battle."
       ]
      }
     ]
@@ -15063,7 +15063,7 @@
    },
    "tidewater_coast_trainer_3": {
     "pages": [
-     "Fish swim under the arch. So do challengers."
+     "Fish swim under the arch. Challengers\nride over it."
     ],
     "battle_lost": [
      "And the challengers win, it seems."
@@ -15079,7 +15079,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "Fish swim under the arch. So do challengers."
+       "Fish swim under the arch. Challengers\nride over it."
       ]
      }
     ]
@@ -15156,7 +15156,7 @@
    "tidewater_coast_sign": {
     "pages": [
      "TIDEWATER COAST\nWest: Lanternport. North: Coast Road.",
-     "Check the tide board before you swim."
+     "Check the tide board before you ride\nout."
     ],
     "lines": [
      {
@@ -15164,7 +15164,7 @@
       "flags": [],
       "pages": [
        "TIDEWATER COAST\nWest: Lanternport. North: Coast Road.",
-       "Check the tide board before you swim."
+       "Check the tide board before you ride\nout."
       ]
      }
     ]
@@ -15210,8 +15210,8 @@
    },
    "tidewater_coast_lifeguard": {
     "pages": [
-     "Swim between the flags. And not in the grotto. And not at dusk.",
-     "Honestly, just paddle."
+     "Riders keep between the flags. Not in\nthe grotto. Not at dusk.",
+     "No ride yet? Stay in the shallows."
     ],
     "kind": "villager",
     "lines": [
@@ -15230,8 +15230,8 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "Swim between the flags. And not in the grotto. And not at dusk.",
-       "Honestly, just paddle."
+       "Riders keep between the flags. Not in\nthe grotto. Not at dusk.",
+       "No ride yet? Stay in the shallows."
       ]
      }
     ]
@@ -15320,7 +15320,7 @@
      "Feels heavier than it is. That's the point."
     ],
     "gift": [
-     "Two Pep Remedies. The swim out is longer than the swim in."
+     "Two Pep Remedies. The ride out is longer\nthan the ride in."
     ],
     "after": [
      "Lanternport's north up the coast. Take the sea lane. The road's long gone.",
@@ -20781,7 +20781,7 @@
    "gullhaven_sea_sign": {
     "pages": [
      "GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.",
-     "Swim with care. The gulls are watching."
+     "Ride with care. The gulls are watching."
     ],
     "lines": [
      {
@@ -20789,7 +20789,7 @@
       "flags": [],
       "pages": [
        "GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.",
-       "Swim with care. The gulls are watching."
+       "Ride with care. The gulls are watching."
       ]
      }
     ],
@@ -21055,7 +21055,7 @@
    },
    "gullhaven_harbour_master": {
     "pages": [
-     "No roads come here, and no boats.\nOnly swimmers. Welcome to Gullhaven.",
+     "No roads come here, and no boats.\nOnly Kilu riders. Welcome to Gullhaven.",
      "Fees are paid in gold, gossip or fish.\nThe gulls take the fish anyway."
     ],
     "lines": [
@@ -21063,7 +21063,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "No roads come here, and no boats.\nOnly swimmers. Welcome to Gullhaven.",
+       "No roads come here, and no boats.\nOnly Kilu riders. Welcome to Gullhaven.",
        "Fees are paid in gold, gossip or fish.\nThe gulls take the fish anyway."
       ]
      },
@@ -22026,10 +22026,10 @@
     "Hold on. It's faster than it looks."
    ],
    "cant_use_yet": [
-    "A strong swimmer could carry you across, but you need {skill} first."
+    "A strong Kilu could carry you across,\nbut you need {skill} first."
    ],
    "no_creature": [
-    "The water's too deep to wade. None of your creatures knows {skill}."
+    "The water's deep here. None of your Kilu\nknows {skill} to carry you."
    ],
    "after": [
     "You reach the far side. Mostly dry."
@@ -22354,7 +22354,7 @@
    "what": "water creature carries the player across water / floodwater",
    "requires_flag": "has_tideglide",
    "inspect": [
-    "The water's deep here. Too deep to wade."
+    "The water's deep here. Only a Kilu can\ncarry you across."
    ],
    "prompt": [
     "The water's calm. Use {skill} to cross?"
@@ -22367,7 +22367,7 @@
     "{creature} puts {skill} to work. Climb on."
    ],
    "cant_use_yet": [
-    "A strong swimmer could carry you,\nbut you need {skill}. Try Mirefen."
+    "A strong Kilu could carry you,\nbut you need {skill}. Try Mirefen."
    ],
    "no_creature": [
     "None of your creatures knows {skill}."
@@ -22569,18 +22569,18 @@
  "company_inbox": {
   "_note": "Shared by maps.house_2f.pc, maps.heal_brookhollow.company_terminal and maps.heal_fernwick.company_terminal. Show every email whose flags are all set, newest (highest index) first. pending_story_call emails stay neutral.",
   "emails": {
+   "4": {
+    "pages": [
+     "Welcome to your new role, Field\nResearcher! A fine step up.",
+     "Your pay will be reviewed at a later date."
+    ]
+   },
    "28": {
     "pages": [
      "The Director's office notes your eight\ncoins. With pride, it says.",
      "Please send your team's catalogue numbers by Friday."
     ],
     "subject": "From the Director's office"
-   },
-   "4": {
-    "pages": [
-     "Welcome to your new role, Field\nResearcher! A fine step up.",
-     "Your pay will be reviewed at a later date."
-    ]
    }
   }
  },

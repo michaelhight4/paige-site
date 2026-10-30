@@ -26,11 +26,15 @@ test('recolour: exact palette remap + edge band, binary alpha kept', () => {
   const S = 64, a = new Uint8ClampedArray(S * S * 4);
   for (let i = 0; i < a.length; i += 4) { a[i] = 0x46; a[i + 1] = 0x92; a[i + 2] = 0xce; a[i + 3] = 255; }
   W.recolour(a, S, 'sea', W.DEEP, 1);
-  assert.deepEqual([...a.slice(0, 4)], [0x1a, 0x12, 0x26, 255]); // drop line on the N side
+  assert.deepEqual([...a.slice(0, 4)], [0x60, 0xaa, 0xde, 255]); // fade step 1 (light blue) on the N side
+  assert.deepEqual([...a.slice(4, 8)], [0x46, 0x92, 0xce, 255]);
+  const px = (y) => [...a.slice(y * S * 4, y * S * 4 + 3)].map((v) => v.toString(16).padStart(2, '0')).join('');
+  assert.deepEqual([5, 6, 7, 12, 13, 18, 19, 24].map(px), ['4692ce', '4692ce', '3a7bbc', '3a7bbc', '2c64a8', '2c64a8', '30488c', '2c64a8']); // 4-step light -> dark ramp, 6 px each
+  const sh = new Uint8ClampedArray([0x46, 0x92, 0xce, 255]); W.recolour(sh, 1, 'sea', W.SHALLOW, 0); assert.deepEqual([...sh], [0x7a, 0xc2, 0xe8, 255]); // shallow = light blue
   const mid = (32 * S + 32) * 4; assert.deepEqual([...a.slice(mid, mid + 4)], [0x2c, 0x64, 0xa8, 255]);
   const pal = new Set(); for (const fam of Object.values(W.REMAP)) for (const cls of Object.values(fam)) for (const v of cls.values()) pal.add(v);
   const png = readFileSync(new URL('../art/world/overworld/palette.png', import.meta.url)); assert.ok(png.length > 0);
-  const hex = '#000000 #191210 #1a1226 #1e4078 #30488c #2c64a8 #4a70ba #4692ce #7ac2e8 #c6ecfa #246e6c #3e9c92 #70cab8 #18382c #244e34'.split(' ').map((h) => parseInt(h.slice(1), 16));
+  const hex = '#000000 #191210 #1a1226 #1e4078 #30488c #2c64a8 #4a70ba #4692ce #7ac2e8 #c6ecfa #246e6c #3e9c92 #70cab8 #18382c #244e34 #60aade #a4daf2 #3a7bbc #2e5e50'.split(' ').map((h) => parseInt(h.slice(1), 16));
   for (const v of pal) assert.ok(hex.includes(v), v.toString(16));
 });
 
