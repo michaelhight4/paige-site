@@ -325,7 +325,7 @@ def build():
     p = os.path.join(OW, 'tileset_arena.json'); ts = json.load(open(p))
     ts['tiles'] = [t for t in ts['tiles'] if t.get('category') != CAT] + entries
     ts['note'] = ts.get('note', '').split(' | wellspire_lab')[0] + ' | wellspire_lab: ids 12201+ (tools/wellspire_lab/lab_art_kit.py, flashback lab maps, DRAFT)'
-    assert max(t['id'] for t in ts['tiles'] if t.get('category') != CAT) < BASE_ID
+    assert not any(BASE_ID <= t['id'] < BASE_ID + len(entries) for t in ts['tiles'] if t.get('category') != CAT)  # wellspire_polish lives at 12420+
     json.dump(ts, open(p, 'w'), indent=1)
     print(len(entries), 'tiles ->', SHEET)
 

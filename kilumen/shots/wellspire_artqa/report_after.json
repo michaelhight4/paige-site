@@ -1,0 +1,48 @@
+[
+ {
+  "plat": "pc",
+  "errors": [
+   "404 /playtime.js?game=kilumen&v=v0.2.93-alpha",
+   "404 /src/sports/merit.js?v=v0.2.93-alpha",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "shots": [
+   "lab01_entry_after_pc.png",
+   "lab04_tanks_after_pc.png",
+   "lab06_growth_after_pc.png",
+   "lab07_vats_after_pc.png",
+   "lab10_ondravel_after_pc.png",
+   "ondravel_lab1_now_after_pc.png",
+   "master_cindervale_after_pc.png",
+   "master_lanternport_after_pc.png",
+   "master_mirefen_after_pc.png",
+   "master_tidewater_after_pc.png",
+   "switchbacks_ledge_after_pc.png",
+   "switchbacks_upper_after_pc.png",
+   "cloudway_after_pc.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "errors": [
+   "404 /playtime.js?game=kilumen&v=v0.2.93-alpha",
+   "404 /src/sports/merit.js?v=v0.2.93-alpha",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "shots": [
+   "lab01_entry_after_phone.png",
+   "lab04_tanks_after_phone.png",
+   "lab06_growth_after_phone.png",
+   "lab07_vats_after_phone.png",
+   "lab10_ondravel_after_phone.png",
+   "ondravel_lab1_now_after_phone.png",
+   "master_cindervale_after_phone.png",
+   "master_lanternport_after_phone.png",
+   "master_mirefen_after_phone.png",
+   "master_tidewater_after_phone.png",
+   "switchbacks_ledge_after_phone.png",
+   "switchbacks_upper_after_phone.png",
+   "cloudway_after_phone.png"
+  ]
+ }
+]
