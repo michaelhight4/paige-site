@@ -811,7 +811,9 @@ export class Overworld {
   _spotsFor(m) {
     const ls = this.lines?.maps?.[m.name] || {};
     const have = new Set((m.json.interact_spots || []).map((sp) => sp.id));
-    const term = (m.json.text_pending?.interact_spots || []).filter((sp) => sp.id === 'company_terminal' && !have.has(sp.id)); // heal centre terminals (v0.2.10)
+    // heal centre terminals (v0.2.10) + the heal lobby props (furnish_heal.py, Text Bot lines Oct 30 2026): a heal_* pending spot with lines is placed
+    const term = (m.json.text_pending?.interact_spots || []).filter((sp) => !have.has(sp.id) && sp.kind !== 'trigger'
+      && (sp.id === 'company_terminal' || (/^heal_/.test(m.name) && ls[sp.id])));
     return [...(m.json.interact_spots || []), ...term].filter((sp) => isActive(sp, this.flags)) // active_when: no spot (no text, no stand cell) until the flag
       .map((sp) => ({ ...(ls[sp.id] || {}), ...sp, key: `maps.${m.name}.${sp.id}` }));
   }
@@ -880,7 +882,9 @@ export class Overworld {
     if (this.systems?.onInteract(fx, fy)) return; // [systems-gd hook] pickups, crystal switches, starter cradles
     // 1) interact spots on the faced cell (props; triggers fire by standing, see _checkTriggers)
     const spot = this.spots.find((sp) => sp.kind !== 'trigger' && sp.x === fx && sp.y === fy);
-    if (spot) { this.script(() => this.runSpot(spot)); return; }
+    // reach_over (heal counters): staff standing behind the counter answer first (heal / talk), the prop line only when nobody is there
+    const staffBehind = spot?.reach_over && [2, 3].some((k) => m.inBounds(p.x + d.x * k, p.y + d.y * k) && m.npcAt(p.x + d.x * k, p.y + d.y * k));
+    if (spot && !staffBehind) { this.script(() => this.runSpot(spot)); return; }
     // 2) signs / NPCs / gates; reach over a counter or desk (up to 3 cells) like the healer and station clerk
     for (let k = 1; k <= 3; k++) {
       const x = p.x + d.x * k, y = p.y + d.y * k;
@@ -1014,6 +1018,7 @@ export class Overworld {
     }
     const line = this.pick(sp, sp.key);
     if (sp.id === 'company_terminal') { if (line) await this.say(line.pages); await this.openTerminal(); return; }
+    if (sp.opens === 'company_terminal') { await this.openTerminal(); if (line) await this.say(line.pages); return; } // heal lobby terminal: real menu first, flavour after
     if (!line) return;
     await this.say(line.pages);
     const w = /lead \+(\d+) Warmth/.exec(line.effect || '');

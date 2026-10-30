@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+"""Supply chest art (closed + open/empty) for world pickups, replacing the procedural satchel placeholder.
+
+Kilumen has no chest tiles in any tileset: every pickup in the overworld, interiors, caves, Wellspire and
+the flashback lab is drawn by src/systems/index.js satchelSprite(taken). This script draws a 32x32 native
+(64x64 in game, 2x nearest) chest on the shared furniture projection:
+  ~35 deg lean: lid top face 6 rows of 17 (35%), front 11 rows; lid top >=25% lighter than the front in greyscale;
+  light from the top-left (highlight top-left, right third of each face darker); 1 px dark outline;
+  drop shadow 2 px down-right at ~31% alpha; domed lid, two iron bands, gold hasp with keyhole.
+Outputs: src/systems/chest_art.js (palette + rows, drawn at runtime) and
+         art/world/overworld/props/supply_chest_{closed,open}{,_2x,_3x}.png (+ .webp) for review / future use.
+"""
+import os
+from PIL import Image
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+PAL = {'o': '#2a1a12', 'h': '#f0c890', 'T': '#d9a066', 't': '#c08850', 'r': '#a87040',
+       'F': '#8a5530', 'f': '#74462a', 'g': '#4e2c18', 'M': '#d4d4dc', 'm': '#8a8a96', 'n': '#5c5c68',
+       'L': '#f2cc5a', 'l': '#a8822a', 'k': '#2a1a12', 'd': '#2e1c12', 'D': '#4a2e1c', 'i': '#6e4426', 'I': '#87552f',
+       's': 'rgba(20,20,20,0.31)'}
+# Iron / dark-metal variant (used automatically on wood floors so the chest never melts into the boards):
+# same rows, gunmetal body (lid top still >=25% lighter than the front), brass bands, steel hasp.
+PAL_IRON = {**PAL, 'o': '#15171c', 'h': '#c4cad4', 'T': '#959dab', 't': '#7c8492', 'r': '#6a7280',
+            'F': '#4e5562', 'f': '#414754', 'g': '#262a32', 'M': '#d8b45a', 'm': '#a5822e', 'n': '#6e5520',
+            'L': '#e6e9ee', 'l': '#9aa2ae', 'k': '#15171c', 'd': '#1a1d23', 'D': '#30343c', 'i': '#555c68', 'I': '#6a7280'}
+N = 32
+
+def blank(): return [['.'] * N for _ in range(N)]
+
+def body(g, lid_closed=True):
+    X0, X1 = 6, 25
+    fill = {}
+    if lid_closed:
+        spans = {11: (8, 23), 12: (7, 24)}
+        for y in range(11, 17):
+            a, b = spans.get(y, (X0, X1))
+            for x in range(a, b + 1):
+                c = 'T' if x <= 18 else 't'
+                if y == 16: c = 'r'                       # lid lip, still lighter than the front
+                fill[(x, y)] = c
+        for x in range(9, 15): fill[(x, 12)] = 'h'     # top-left highlight
+        for y in (13,): 
+            for x in range(8, 12): fill[(x, y)] = 'h'
+    else:
+        for y in range(6, 12):                          # lid swung up: inner face, seen upright behind the box
+            a, b = {6: (8, 23), 7: (7, 24)}.get(y, (X0, X1))
+            for x in range(a, b + 1): fill[(x, y)] = 'I' if x <= 18 else 'i'
+        for y in range(12, 17):                         # open top: rim + dark interior
+            for x in range(X0, X1 + 1):
+                fill[(x, y)] = 'r' if y in (12, 16) or x in (X0, X1) else ('D' if y == 13 else 'd')
+    for y in range(17, 28):
+        for x in range(X0, X1 + 1):
+            fill[(x, y)] = 'F' if x <= 18 else 'f'
+    for x in range(X0, X1 + 1): fill[(x, 17)] = 'g'; fill[(x, 22)] = 'g'   # lid seam + plank seam
+    for bx in (9, 22):                                   # iron bands
+        for y in range(6 if not lid_closed else 11, 28):
+            if (bx, y) in fill and not (not lid_closed and 13 <= y <= 16 and X0 < bx < X1):
+                top = y <= 16
+                fill[(bx, y)] = ('M' if top else 'm'); fill[(bx + 1, y)] = ('m' if top else 'n')
+    if lid_closed:                                       # hasp + lock plate with keyhole
+        for y in range(16, 21):
+            for x in range(14, 18): fill[(x, y)] = 'L' if (x < 17 and y < 20) else 'l'
+        fill[(15, 18)] = 'k'; fill[(15, 19)] = 'k'
+    else:                                                # open: hasp hangs from the lid, lock plate on the front
+        for y in range(9, 12):
+            for x in range(15, 17): fill[(x, y)] = 'L' if y < 11 else 'l'
+        for y in range(18, 21):
+            for x in range(14, 18): fill[(x, y)] = 'L' if x < 17 else 'l'
+        fill[(15, 19)] = 'k'
+    mask = set(fill)
+    for (x, y) in mask:                                  # shadow 2 px down-right
+        sx, sy = x + 2, y + 2
+        if (sx, sy) not in mask and sx < N and sy < N: g[sy][sx] = 's'
+    for (x, y), c in fill.items(): g[y][x] = c
+    for (x, y) in mask:                                  # 1 px outline on the silhouette edge
+        if any((x + dx, y + dy) not in mask for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))): g[y][x] = 'o'
+    return g
+
+def rgba(c):
+    if c.startswith('rgba'):
+        r, g_, b, a = c[5:-1].split(','); return (int(r), int(g_), int(b), round(float(a) * 255))
+    return tuple(int(c[i:i + 2], 16) for i in (1, 3, 5)) + (255,)
+
+def png(rows, scale, pal=None):
+    pal = pal or PAL
+    im = Image.new('RGBA', (N, N), (0, 0, 0, 0))
+    for y, r in enumerate(rows):
+        for x, c in enumerate(r):
+            if c != '.': im.putpixel((x, y), rgba(pal[c]))
+    return im.resize((N * scale, N * scale), Image.NEAREST)
+
+if __name__ == '__main__':
+    art = {'closed': [''.join(r) for r in body(blank(), True)], 'open': [''.join(r) for r in body(blank(), False)]}
+    js = ['// GENERATED by tools/chests/make_chest.py - do not hand-edit. 32x32 native supply chest, drawn 2x (64 px).',
+          'export const CHEST_PAL = ' + repr(PAL).replace("'", '"') + ';',
+          '// iron / dark-metal variant: wood floors (src/systems/index.js chestVariantAt)',
+          'export const CHEST_PAL_IRON = ' + repr(PAL_IRON).replace("'", '"') + ';']
+    for k, rows in art.items():
+        js.append(f'export const CHEST_{k.upper()} = [\n' + ',\n'.join(f'  "{r}"' for r in rows) + '\n];')
+    open(os.path.join(ROOT, 'src/systems/chest_art.js'), 'w').write('\n'.join(js) + '\n')
+    out = os.path.join(ROOT, 'art/world/overworld/props'); os.makedirs(out, exist_ok=True)
+    for k, rows in art.items():
+        for s, suf in ((2, ''), (4, '_2x'), (6, '_3x')):
+            for v, pal in (('', PAL), ('iron_', PAL_IRON)):
+                im = png(rows, s, pal); im.save(f'{out}/supply_chest_{v}{k}{suf}.png'); im.save(f'{out}/supply_chest_{v}{k}{suf}.webp', lossless=True)
+    print('wrote chest_art.js + props/supply_chest_{,iron_}{closed,open}')

@@ -1,6 +1,7 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
+import { CHEST_PAL, CHEST_PAL_IRON, CHEST_CLOSED, CHEST_OPEN } from './chest_art.js?v=v0.2.93-alpha';
 import { systemsConfig, fmtMoney } from './config.js?v=v0.2.93-alpha';
 import { giftTalk } from './npc_gifts.js?v=v0.2.93-alpha';
 import { Party, Archive } from './party.js?v=v0.2.93-alpha';
@@ -210,7 +211,7 @@ export class Systems {
     if (!m) return [];
     const out = [];
     for (const it of visiblePickups(m, this.scene.flags, this.cfg)) {
-      let img = satchelSprite(it.taken);
+      let img = satchelSprite(it.taken, chestVariantAt(m, it.x, it.y, this.scene.tilesetIndex));
       if (img && grade && !grade.identity) img = gradeImage(img, grade, 'lut'); // time-of-day grade like every sprite
       if (img) out.push({ img, sheetScale: 1, w: 64, h: 64, col: 0, row: 0, px: it.x * 64, py: it.y * 64, lift: 0, feet: it.y * 64 + 64, order: -2, prop: 'satchel' });
     }
@@ -273,21 +274,29 @@ export class Systems {
   money() { return fmtMoney(this.wallet.coins); }
 }
 
+/** Wood floors (boards, parquet, driftwood, decks, piers): the wooden chest would share their browns, so it is iron there. */
+export const WOOD_FLOOR_RE = /^(i_)?floor_(wood|oak|pine|parquet|drift)|(^|_)(wood|plank|planks|boardwalk|dock|pier|deck)(_|$)/;
+/** 'iron' when the ground tile under (x,y) is a wood floor, else 'wood'. index = scene.tilesetIndex ({byId}). */
+export function chestVariantAt(map, x, y, index) {
+  const id = map?.tile?.('ground', x, y) ?? map?.layers?.ground?.[y]?.[x];
+  const name = id ? index?.byId?.get(id)?.name : null;
+  return name && WOOD_FLOOR_RE.test(name) ? 'iron' : 'wood';
+}
+
 let satchels = null;
-/** 64x64 placeholder satchel (World Design: please supply a real 'supply_satchel' prop + empty variant). */
-export function satchelSprite(empty = false) {
+/** 64x64 supply chest for world pickups: closed, or open once taken (tools/chests/make_chest.py -> chest_art.js;
+ * 32 px native art drawn 2x, shared furniture projection: lit lid top, top-left light, outline, drop shadow).
+ * variant 'iron' = dark-metal palette (wood floors), 'wood' = the default oak chest. */
+export function satchelSprite(empty = false, variant = 'wood') {
   if (typeof document === 'undefined' && typeof OffscreenCanvas === 'undefined') return null;
   satchels ||= {};
-  if (satchels[empty]) return satchels[empty];
+  const key = (empty ? 'open' : 'closed') + '|' + variant;
+  if (satchels[key]) return satchels[key];
   const c = typeof document !== 'undefined' ? document.createElement('canvas') : new OffscreenCanvas(64, 64);
   c.width = 64; c.height = 64;
-  const g = c.getContext('2d'), px = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
-  px(18, 56, 28, 4, 'rgba(0,0,0,.28)');                     // contact shadow
-  px(20, empty ? 44 : 34, 24, empty ? 14 : 24, '#7a4a2a');   // body
-  px(22, empty ? 46 : 36, 20, empty ? 10 : 20, '#a8693a');
-  if (!empty) { px(20, 30, 24, 6, '#5c3620'); px(28, 26, 8, 4, '#5c3620'); px(30, 40, 4, 4, '#ffd34a'); } // flap + strap + buckle
-  else px(20, 42, 24, 3, '#5c3620');
-  return (satchels[empty] = c);
+  const g = c.getContext('2d'), rows = empty ? CHEST_OPEN : CHEST_CLOSED, pal = variant === 'iron' ? CHEST_PAL_IRON : CHEST_PAL;
+  rows.forEach((r, y) => { for (let x = 0; x < r.length; x++) if (r[x] !== '.') { g.fillStyle = pal[r[x]]; g.fillRect(x * 2, y * 2, 2, 2); } });
+  return (satchels[key] = c);
 }
 
 /** main.js hook: create + attach. Returns the Systems instance (also scene.systems). */

@@ -317,7 +317,7 @@ def interiors():
     m.save(); out.append(m.name)
     # ---- RT HQ lobby (lore only)
     m = room('aurelith_rthq_int', 16, 11, 'Revival Tech HQ - lobby', kit='rt', floor=['i_floor_rtbranch_a', 'i_floor_rtbranch_b'], mats=[7, 8], mat='i_mat_rtbranch')
-    m.obj(7, 1, 'i_rt_logo_panel'); m.put(5, 1, 'i_rt_poster_care', layer='decoration', col=1)
+    m.obj(7, 1, 'i_heal_info_panel'); m.put(5, 1, 'i_rt_poster_care', layer='decoration', col=1)
     for x, n in ((5, 'i_counter_rt_l'), (6, 'i_counter_rt_m'), (7, 'i_counter_rt_m'), (8, 'i_counter_rt_m'), (9, 'i_counter_rt_m'), (10, 'i_counter_rt_r')): m.put(x, 4, n)
     m.obj(6, 6, 'i_rug_violet'); m.obj(1, 7, 'i_sofa_aurelith'); m.obj(13, 7, 'i_sofa_aurelith'); m.obj(0, 3, 'i_plant_palm'); m.obj(15, 3, 'i_plant_palm')
     for x in (2, 13): m.obj(x, 3, 'i_crystal_display')

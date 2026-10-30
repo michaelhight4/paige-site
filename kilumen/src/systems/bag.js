@@ -145,7 +145,7 @@ export function collectPickup(mapName, it, { flags, bag, addMoney, cfg = {}, lin
   const flag = pickupFlag(mapName, it);
   const mark = (f) => (setFlag ? setFlag(f) : flags.add(f));
   const T = lines?.system_items || {};
-  if (flags.has(flag)) return { ok: false, kind: 'empty', flag, textKey: 'system_items.empty_satchel', pages: T.empty_satchel?.pages || ['An empty supply satchel. Someone beat you to it.'], vars: {} };
+  if (flags.has(flag)) return { ok: false, kind: 'empty', flag, textKey: 'system_items.empty_satchel', pages: T.empty_satchel?.pages || ['The chest lid is open. Empty.\nSomeone got here before you.'], vars: {} };
   if (isTbd(it) && !cfg.giveTbdItems) return { ok: false, kind: 'tbd', flag, pages: [], vars: {} };
   const name = bag.nameOf(it.item), count = Math.max(1, it.count || it.qty || 1); // WD maps write qty
   const money = bag.def(it.item)?.money;
