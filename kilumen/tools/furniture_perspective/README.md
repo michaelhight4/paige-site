@@ -377,9 +377,35 @@ Also: src/systems/chest_art.js (new), src/systems/index.js satchelSprite, art/wo
   shots/furniture_perspective_wd/tod_v2/ (mean luma town 113.7 / 109.5 / 97.1 / 89.5 for dawn/day/dusk/night; hues differ).
   SHOW_TBD=1 makes TBD pickups visible for the shot (all wood-floor pickups are TBD today).
 
+## Tasks 1-4 + director QA pass (Oct 30, 2026, wd)
+- **Wood-floor pickups**: home_brookhollow_b_2f -> calm_tea, home_fernwick_a_2f -> trail_mix, home_lanternport_c_2f ->
+  feed_bag_small, so the iron chest shows in normal play. chest_art import is `?v=v0.2.93-alpha-chest2` (6282f7b6).
+- **Visitor PC**: spots `*_visitor_pc` open `openVisitorPC()` (overworld.js): Read page / Inbox / Storage (openTerminal) /
+  Log off, same ask() loop as the company terminal. tests/visitor_pc.test.mjs.
+- **De-brand**: debrand_posters.py redraws the last i_rt_* props: notice board (7471/7472 -> i_notice_board_0_{0,1}),
+  i_poster_care / i_poster_safety / i_poster_join (7480-7482). Builders + furnish_heal regex follow the new names.
+  Lesson: renaming a tile can move it out of a check's SKIP regex (the panel got nudged by colour --fix); grep every
+  regex that keys on names before renaming.
+- **Colour check**: now runs both MODE ix2 and fallback (base sheets for ix2=0); exit 1 if either shares a code.
+  --fix nudged 253 fallback pieces; both 0. --fix is slow (~5 min): run it in the background.
+- **Window-light rings (QA b)**: IxLight lit the ground layer too; its banded alpha thresholds drew pale circles on
+  floors (bedroom, house_c, living room). Lower pass lights decoration only now.
+- **Redraws (QA a/c/f/g, qa_redraw.py)**: bed (headboard cap + front, sheet/pillow/blanket top, blanket drop + footboard
+  front; the old v3 headboard had ~alpha-80 ghost pixels), heal counter l/m/r (top face + front panels, l/r end inside
+  their squares, ink only on outer ends so no seams), specimen vats (lit cap/base tops, solid bands instead of noisy
+  dither), shop shelf goods_0_0 (12 px top face, back inset = 35 deg read). Every top face is asserted >= 25% lighter in
+  greyscale than its front. The v3 sheets are exact nearest upscales of 1x: draw at 1x, upscale, and always rewrite the
+  lossless .webp twin (the game loads .webp first; a stale twin hides a PNG edit). interior_v3 redraws also write the
+  normal cell (interior_v3_n) so IxLight shades top/front planes correctly.
+- **Station dots (QA e)**: green corner pixels baked into x_station_floor (base + v3, all scales) replaced with the
+  neighbouring floor pixel. The hall "orange rects" are not in this branch's art: the orange frame on the hall gate is
+  the approved puzzle tell (puzzle_tells.js), not debug.
+- **Club door (QA d)**: club_door_frame_t is a non-ysort overlay, so it already draws over actors here; shots at rows 6/7/8
+  show the lintel in front of the player. No change needed on this branch.
+- **Item 1 (131 walkable solids)**: every change in the /workspace/kilumen gridcheck list already matches this branch's
+  tilesets, and every placed block tile has collision 1 in its map; grid_fit_and_swap --check reports 0 changes.
+- Shots: shots/furniture_perspective_wd/qa_fix/<room>_h{6,12,18,22}_pc.png (20 rooms x dawn/day/dusk/night).
+
 ## Open issues
-- chest_art.js import still uses `?v=v0.2.93-alpha`: bump the version on release so cached clients get CHEST_PAL_IRON.
-- All three wood-floor pickups are item TBD, so the iron chest is not seen in normal play until they get items.
-- Visitor PC has no menu; flavour only.
-- Other i_rt_* posters are still company-branded; internal "satchel" identifiers (satchelSprite, empty_satchel key) remain.
-- Colour check covers the ix2 sheets; the ix2=0 fallback sheets were not nudged.
+- Internal "satchel" identifiers (satchelSprite, empty_satchel key) remain.
+- tiles_*x/building.webp twins differ from building.png (pre-existing, not touched here).
