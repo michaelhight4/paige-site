@@ -879,7 +879,7 @@ export class GameUI {
     // Region map cleanup (Oct 23, 2026, Gary: "can we clean this up some"): the box keeps the art's 4:3 (no cover crop, so
     // world_layout map_pos lines up on PC and phone); each dot's bottom tip sits on map_pos, just above the painted name plate
     // (map_label), so a dot never covers a name. Dot colours: red = you are here, yellow = status 'built', white = not built yet.
-    const zones = (this.scene.layout?.zones || []).filter((z) => z.map_pos), cur = this.scene.zone?.();
+    const zones = (this.scene.layout?.zones || []).filter((z) => z.map_pos && !(z.gone_flag && this.scene.flags?.has?.(z.gone_flag))), cur = this.scene.zone?.();
     let sel = Math.max(0, zones.findIndex((z) => z.id === cur));
     const KEY = [['here', 'var(--bad)', 'You are here'], ['built', 'var(--sun)', 'Open now'], ['later', '#fff', 'Coming later']];
     const dot = (z) => KEY[z.id === cur ? 0 : z.status === 'built' ? 1 : 2];

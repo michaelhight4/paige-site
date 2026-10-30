@@ -65,6 +65,8 @@ export const ARENA_FALLBACK = {
   restUsed: ["I've already patched your team up\nthis run. You're on your own now."],
   second: ["Not so fast. You get through my\nsecond before you get to me."],
   challenge: (f, name = f.name) => [`${name}, Arena fighter. ${f.type[0].toUpperCase() + f.type.slice(1)} type, all the way.`],
+  steward8: ['The last room. Corvin has been waiting all day.', 'Take your time. Nobody rushes the last fight.'],
+  fan8: ['I climbed all eight floors just to watch this one.', 'No pressure. Well. Some pressure.'],
   lostLine: (f, name = f.name) => [`${name}: Good fight. Keep going.`],
 };
 const getPath = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
@@ -120,6 +122,7 @@ export async function fightRoom(ctx, f) {
   await ctx.say(ctx.text('won'), null); ctx.reset(); await ctx.done?.(); return 'won';
 }
 
+const ROOM8_LIFE = { arena_steward_8: 'steward8', arena_fan_8: 'fan8' }; // room 8 arrival life (Oct 30)
 /** overworld.js talkHooks entry: the clerk (lobby) and fighter N in aurelith_arena_room_N. */
 export function arenaHook(scene) {
   const look = (k) => { const v = getPath(scene.lines, k); const p = Array.isArray(v) ? v : v?.pages; return p?.length ? p : null; };
@@ -141,10 +144,11 @@ export function arenaHook(scene) {
   const npcOf = (id) => scene.npcs?.list?.find?.((n) => n.id === id);
   const sp = (f) => (f ? scene.speakerFor?.(npcOf(f.id), true) || { name: nameOf(f) } : null);
   return {
-    match: (mapName, def) => (mapName === ARENA.map && (def?.id === ARENA.clerk || def?.id === RON7.id))
+    match: (mapName, def) => (mapName === ARENA.map && (def?.id === ARENA.clerk || def?.id === RON7.id)) || (mapName === ARENA.room(8) && ROOM8_LIFE[def?.id])
       || (mapName === ARENA.room(ARENA.rest.room) && def?.id === ARENA.rest.id)
       || ARENA.fighters.some((f, i) => mapName === ARENA.room(i + 1) && def?.id === f.id),
     run: async ({ def, speaker }) => {
+      if (ROOM8_LIFE[def.id] && scene.map?.name === ARENA.room(8)) return scene.say(look(`maps.${ARENA.room(8)}.${def.id}`) || ARENA_FALLBACK[ROOM8_LIFE[def.id]], speaker);
       if (def.id === RON7.id) return ron7Talk(scene, speaker);
       if (def.id === ARENA.clerk) return scene.say(flags.has(ARENA.clearFlag) ? text('clerkCleared') : text('clerk'), speaker);
       if (def.id === ARENA.rest.id) {

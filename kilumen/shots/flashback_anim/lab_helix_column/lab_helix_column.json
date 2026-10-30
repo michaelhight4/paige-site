@@ -1,0 +1,79 @@
+{
+ "name": "lab_helix_column",
+ "kind": "prop",
+ "sheet": "lab_helix_column.png",
+ "frame_w": 64,
+ "frame_h": 192,
+ "frames": 12,
+ "cols": 12,
+ "rows": 1,
+ "ms": [
+  90,
+  90,
+  90,
+  90,
+  90,
+  90,
+  90,
+  90,
+  90,
+  90,
+  90,
+  90
+ ],
+ "total_ms": 1080,
+ "loop": true,
+ "mode": "loop",
+ "footprint_tiles": [
+  1,
+  3
+ ],
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "anchor": {
+  "x": 32,
+  "y": 192,
+  "meaning": "bottom-centre of footprint (feet / base line)"
+ },
+ "emissive": "px whose colour is one of the 8 night-glow colours: draw with lit LUT, rest with sprite LUT",
+ "tex_bytes_rgba": 589824,
+ "art_sheet": "lab_helix_column_art1x.png",
+ "art_tex_bytes_rgba": 147456,
+ "png_bytes": 6523,
+ "notes": "Helix energy column, 1x3 tiles. Double strand turns once per loop (24 art px period), rungs, emitter caps pulse.",
+ "readability": {
+  "dawn": {
+   "mean": 0.934,
+   "worst_frame": 0.933
+  },
+  "day": {
+   "mean": 0.934,
+   "worst_frame": 0.933
+  },
+  "dusk": {
+   "mean": 0.817,
+   "worst_frame": 0.816
+  },
+  "night": {
+   "mean": 0.817,
+   "worst_frame": 0.816
+  }
+ },
+ "readability_rule": "sprite px with |dLuma|>=28 vs graded background under them; pass >= 0.5 per phase",
+ "readability_min": 0.817,
+ "readability_worst_frame": 0.816,
+ "seam_ratio": 0.91,
+ "gridfit": {
+  "per_tile_fill": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "min_tile_fill": 1.0,
+  "touches": {
+   "left": true,
+   "right": true,
+   "bottom": true
+  }
+ }
+}

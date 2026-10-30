@@ -1,0 +1,59 @@
+{
+ "name": "wellspire_sky_open_loop",
+ "kind": "screen-layer",
+ "sheet": "wellspire_sky_open_loop.png",
+ "frame_w": 384,
+ "frame_h": 192,
+ "frames": 8,
+ "cols": 8,
+ "rows": 1,
+ "ms": [
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150
+ ],
+ "total_ms": 1200,
+ "loop": true,
+ "mode": "loop",
+ "footprint_tiles": null,
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "anchor": {
+  "x": 192,
+  "y": 192,
+  "meaning": "bottom-centre of footprint (feet / base line)"
+ },
+ "emissive": "px whose colour is one of the 8 night-glow colours: draw with lit LUT, rest with sprite LUT",
+ "tex_bytes_rgba": 2359296,
+ "art_sheet": "wellspire_sky_open_loop_art1x.png",
+ "art_tex_bytes_rgba": 589824,
+ "png_bytes": 13765,
+ "notes": "Loop after the split: billowing cloud edges, beam ripple, star twinkle.",
+ "readability": {
+  "dawn": {
+   "mean": 0.677,
+   "worst_frame": 0.673
+  },
+  "day": {
+   "mean": 0.677,
+   "worst_frame": 0.673
+  },
+  "dusk": {
+   "mean": 0.829,
+   "worst_frame": 0.826
+  },
+  "night": {
+   "mean": 0.829,
+   "worst_frame": 0.826
+  }
+ },
+ "readability_rule": "colour-change neighbour pairs with |dLuma|>=28 after grade; pass >= 0.5 per phase",
+ "readability_min": 0.677,
+ "readability_worst_frame": 0.673,
+ "seam_ratio": 1.03
+}

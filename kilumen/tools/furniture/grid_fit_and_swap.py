@@ -34,7 +34,7 @@ except ImportError:
 
 MANAGED_CATS = {'furniture', 'deco', 'decoration', 'interior', 'prop', 'kit'}
 EXEMPT = re.compile(r'rug|mat(_|$)|dance|stage|note_slot|platform|edge|mark|panel|timetable|rack_wall|grass|flower|fern|bridge|barrier|mushroom_glow|carpet|floor|wall|window|poster|flyer|banner|sign|painting|frame|clock|curtain|stairs|door|dais|ring|arena|puzzle|light|lamp_wall|shadow|trim|skirting|vent|board')
-INTERIOR = re.compile(r'_int$|^(house_|greystone|home_|heal_|lab_|rt_|mart_|station_|hall_|office|shop|club|lantern_rest)')
+INTERIOR = re.compile(r'_int$|^(fin_past_wlab_|house_|greystone|home_|heal_|lab_|rt_|mart_|station_|hall_|office|shop|club|lantern_rest)')
 ROOM_SETS = [('lab', re.compile(r'^(lab_|rt_|office|frostspire_office|saltmere_office|frostspire_lift)')),
              ('shop', re.compile(r'^(shop|mart_|club|station|heal_)')),
              ('home', re.compile(r'^(house_|home_)'))]
@@ -83,11 +83,14 @@ class Repo:
         im = s._img[f]; x, y = t['index'] % s.cols * s.T, t['index'] // s.cols * s.T
         return im.crop((x, y, x + s.T, y + s.T)) if y + s.T <= im.height else None
 
+LAB_LOCAL = re.compile(r'^wlk_')
 FURNITURE_SHEETS = re.compile(r'(interior|i_furniture|i_brand|x_furniture_fix|ix2_kit)\.png$')
 def managed(t):
     """Furniture-like assets. Decals the designer left walkable on general deco sheets (grass, flowers, bridges, wall marks)
     are not furniture and are left alone; on furniture sheets everything non-exempt is managed."""
-    if t.get('collision', 'walk') not in ('walk', 'block') or EXEMPT.search(t['name']): return False
+    if t.get('collision', 'walk') not in ('walk', 'block'): return False
+    if LAB_LOCAL.match(t['name']): return True  # Wellspire lab-only lean props (ids 12392+, category wellspire_lab); before EXEMPT (wlk_i_plant_fern)
+    if EXEMPT.search(t['name']): return False
     if FURNITURE_SHEETS.search(str(t.get('sheet', ''))): return t.get('category') in MANAGED_CATS | {'furniture'} or True
     return t.get('category') in MANAGED_CATS and t.get('collision') == 'block'
 

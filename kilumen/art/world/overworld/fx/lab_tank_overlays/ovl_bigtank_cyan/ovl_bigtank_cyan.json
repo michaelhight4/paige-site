@@ -1,0 +1,106 @@
+{
+ "name": "ovl_bigtank_cyan",
+ "kind": "tile-overlay",
+ "sheet": "ovl_bigtank_cyan.png",
+ "frame_w": 128,
+ "frame_h": 192,
+ "frames": 16,
+ "cols": 16,
+ "rows": 1,
+ "slices": 1,
+ "layout": "row-major frames",
+ "row_labels": [
+  "bigtank"
+ ],
+ "ms": [
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120,
+  120
+ ],
+ "total_ms": 1920,
+ "loop": true,
+ "mode": "loop",
+ "footprint_tiles": [
+  2,
+  3
+ ],
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "tile_ids": [
+  12256,
+  12257,
+  12258,
+  12259,
+  12260,
+  12261
+ ],
+ "room": "fin_past_wlab_04_tanks",
+ "tint": "blue",
+ "layer": "decoration_fx (draw right after the tile, before y-sorted sprites)",
+ "anchor": {
+  "x": 0,
+  "y": 0,
+  "meaning": "top-left of frame = top-left px of the tank's _0_0 tile (map cell of that tile id)"
+ },
+ "anchor_bottom_centre": {
+  "x": 64,
+  "y": 192
+ },
+ "phase_offsets_frames": [
+  0,
+  10,
+  4,
+  14,
+  8,
+  6
+ ],
+ "phase_rule": "frame = (floor(t_ms / ms) + phase_offsets_frames[(7*x0 + 3*y0) % 6]) % frames; x0,y0 = map cell of the anchor tile",
+ "emissive": "px in the 8 night-glow colours use the lit LUT, rest the sprite LUT",
+ "tex_bytes_rgba": 1572864,
+ "art_sheet": "ovl_bigtank_cyan_art1x.png",
+ "art_tex_bytes_rgba": 393216,
+ "glass_mask": "ovl_bigtank_cyan_glassmask_art1x.png",
+ "png_bytes": 3850,
+ "art_png_bytes": 1732,
+ "avg_opaque_px_per_frame": 203,
+ "mask_coverage_mean": 0.021,
+ "notes": "2x3 big tank (cyan). 14 bubbles (1-3 art px), 10 specks; masked to the glass cylinder.",
+ "readability": {
+  "bigtank": {
+   "dawn": {
+    "mean": 0.908,
+    "worst_frame": 0.88
+   },
+   "day": {
+    "mean": 0.908,
+    "worst_frame": 0.88
+   },
+   "dusk": {
+    "mean": 0.888,
+    "worst_frame": 0.86
+   },
+   "night": {
+    "mean": 0.672,
+    "worst_frame": 0.612
+   }
+  }
+ },
+ "readability_rule": "overlay px with |dLuma|>=28 vs the ToD-graded tank tile under them (tile snapped to palette); pass >= 0.5 per phase",
+ "readability_min": 0.672,
+ "readability_worst_frame": 0.612,
+ "readability_night_min": 0.672,
+ "seam_ratio": 0.93
+}

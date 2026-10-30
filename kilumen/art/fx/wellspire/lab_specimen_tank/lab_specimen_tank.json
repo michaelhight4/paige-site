@@ -1,0 +1,74 @@
+{
+ "name": "lab_specimen_tank",
+ "kind": "prop",
+ "sheet": "lab_specimen_tank.png",
+ "frame_w": 64,
+ "frame_h": 128,
+ "frames": 8,
+ "cols": 8,
+ "rows": 1,
+ "ms": [
+  140,
+  140,
+  140,
+  140,
+  140,
+  140,
+  140,
+  140
+ ],
+ "total_ms": 1120,
+ "loop": true,
+ "mode": "loop",
+ "footprint_tiles": [
+  1,
+  2
+ ],
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "anchor": {
+  "x": 32,
+  "y": 128,
+  "meaning": "bottom-centre of footprint (feet / base line)"
+ },
+ "emissive": "px whose colour is one of the 8 night-glow colours: draw with lit LUT, rest with sprite LUT",
+ "tex_bytes_rgba": 262144,
+ "art_sheet": "lab_specimen_tank_art1x.png",
+ "art_tex_bytes_rgba": 65536,
+ "png_bytes": 2383,
+ "notes": "Glowing specimen tank (original curled seed-creature), 1x2 tiles. Bubbles, liquid bands, core pulse.",
+ "readability": {
+  "dawn": {
+   "mean": 0.966,
+   "worst_frame": 0.957
+  },
+  "day": {
+   "mean": 0.966,
+   "worst_frame": 0.957
+  },
+  "dusk": {
+   "mean": 0.856,
+   "worst_frame": 0.847
+  },
+  "night": {
+   "mean": 0.855,
+   "worst_frame": 0.847
+  }
+ },
+ "readability_rule": "sprite px with |dLuma|>=28 vs graded background under them; pass >= 0.5 per phase",
+ "readability_min": 0.855,
+ "readability_worst_frame": 0.847,
+ "seam_ratio": 1.02,
+ "gridfit": {
+  "per_tile_fill": [
+   0.914,
+   0.922
+  ],
+  "min_tile_fill": 0.914,
+  "touches": {
+   "left": true,
+   "right": true,
+   "bottom": true
+  }
+ }
+}

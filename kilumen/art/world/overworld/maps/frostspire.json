@@ -4119,6 +4119,7 @@
     0,
     0,
     0,
+    10936,
     0,
     0,
     0,
@@ -4130,8 +4131,7 @@
     0,
     0,
     0,
-    0,
-    0,
+    10940,
     0,
     0,
     0,
@@ -9275,6 +9275,7 @@
     0,
     0,
     0,
+    1,
     0,
     0,
     0,
@@ -9286,8 +9287,7 @@
     0,
     0,
     0,
-    0,
-    0,
+    1,
     0,
     0,
     0,
@@ -13394,5 +13394,112 @@
  "movement": {
   "run": true,
   "bike": true
- }
+ },
+ "interact_spots": [
+  {
+   "id": "frostspire_notice",
+   "kind": "prop",
+   "x": 33,
+   "y": 27,
+   "stand": [
+    33,
+    28
+   ],
+   "face": "up",
+   "tile": "x_city_notice",
+   "text": "maps.frostspire.frostspire_notice",
+   "group": "town_inspect",
+   "town": "frostspire"
+  },
+  {
+   "id": "frostspire_bin",
+   "kind": "prop",
+   "x": 21,
+   "y": 27,
+   "stand": [
+    21,
+    28
+   ],
+   "face": "up",
+   "tile": "x_city_bin",
+   "text": "maps.frostspire.frostspire_bin",
+   "group": "town_inspect",
+   "town": "frostspire"
+  },
+  {
+   "id": "frostspire_barrel",
+   "kind": "prop",
+   "x": 37,
+   "y": 30,
+   "stand": [
+    37,
+    31
+   ],
+   "face": "up",
+   "tile": "barrel",
+   "text": "maps.frostspire.frostspire_barrel",
+   "group": "town_inspect",
+   "town": "frostspire"
+  },
+  {
+   "id": "side_frost_lamp_1",
+   "kind": "side",
+   "x": 11,
+   "y": 25,
+   "stand": [
+    11,
+    26
+   ],
+   "face": "up",
+   "tile": "lamp",
+   "text": "side.frost_lamps",
+   "side": "frost_lamps",
+   "step": "lamp"
+  },
+  {
+   "id": "side_frost_lamp_2",
+   "kind": "side",
+   "x": 19,
+   "y": 25,
+   "stand": [
+    19,
+    26
+   ],
+   "face": "up",
+   "tile": "lamp",
+   "text": "side.frost_lamps",
+   "side": "frost_lamps",
+   "step": "lamp"
+  },
+  {
+   "id": "side_frost_lamp_3",
+   "kind": "side",
+   "x": 11,
+   "y": 28,
+   "stand": [
+    11,
+    29
+   ],
+   "face": "up",
+   "tile": "lamp",
+   "text": "side.frost_lamps",
+   "side": "frost_lamps",
+   "step": "lamp"
+  },
+  {
+   "id": "side_frost_lamp_4",
+   "kind": "side",
+   "x": 38,
+   "y": 28,
+   "stand": [
+    38,
+    29
+   ],
+   "face": "up",
+   "tile": "lamp",
+   "text": "side.frost_lamps",
+   "side": "frost_lamps",
+   "step": "lamp"
+  }
+ ]
 }

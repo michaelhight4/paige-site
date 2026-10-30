@@ -41,7 +41,7 @@ const VIEWS = [
   ['19_past_lab1_f4', 'fin_past_lab1_f4', 21, 1, ['fin_spire_floor_1', 'fin_spire_floor_2', 'fin_spire_floor_3'], null],
   ['20_past_enclosure', 'fin_past_enclosure', P('_arrive_enclosure').x, P('_arrive_enclosure').y, ['fin_spire_floor_4'], 'spot:fin_past_dome'],
   ['21_riverbend_dawn', 'fin_past_riverbend', P('_arrive_riverbend').x, P('_arrive_riverbend').y, ['fin_guardian_beaten'], null],
-  ['22_credits2', 'fin_lab1_now', P('_arrive_dome').x, P('_arrive_dome').y, ['fin_present_release', 'spring_running'], 'credits2'],
+  ['22_credits2', 'fin_lab1_now', P('_arrive_dome').x, P('_arrive_dome').y, ['fin_woke_home', 'spring_running'], 'credits2'],
   ['23_lantern_rest_epilogue', 'lantern_rest', 20, 10, ['field_team_home', 'ending2_done'], 'spot:fin_bench_swap'],
 ];
 const browser = await chromium.launch(); const report = [];

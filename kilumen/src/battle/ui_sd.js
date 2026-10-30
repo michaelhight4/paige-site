@@ -438,8 +438,14 @@ export function makeSdBattle(ui, opts, h) {
   // dev console (v0.2.26): "Auto-complete" only while DEV.active (admin account + ?dev=1). Plays the rest of the battle through the normal
   // engine with a computer-picked player side (no animations), then the ordinary finish() below runs unchanged (XP split, evolutions, save after).
   const autoItem = () => (DEV.active ? [{ t: 'Auto-complete', el: 'light', go: () => guard(autoRun()) }] : []);
+  let autoQueued = false;
   const autoRun = async () => {
-    if (!DEV.active || kb.ended || busy) return;
+    if (!DEV.active || kb.ended || closed()) return;
+    if (busy) { // live v0.2.93 bug 3: a DEV-chip press mid-animation waits for the next menu instead of being dropped
+      if (autoQueued) return; autoQueued = true;
+      while (busy && !kb.ended && !closed()) { if (mode === 'msg' && msgResolve) { const r = msgResolve; msgResolve = null; r(); } await new Promise((r) => setTimeout(r, 120)); } // skips through waiting lines
+      autoQueued = false; if (kb.ended || closed()) return;
+    }
     busy = true; $('#b-cmds').hidden = true; $('#b-msg').textContent = 'Auto-completing…';
     const AB = await import('../dev/autobattle.js?v=v0.2.93-alpha');
     const entry = AB.runAuto(kb, { trainer, owned });
@@ -447,6 +453,10 @@ export function makeSdBattle(ui, opts, h) {
     await finish();
     AB.afterFinish(entry);
   };
+  if (DEV.active && window.kilumen?.dev) { // live v0.2.93 bug 3: the DEV chip reaches Auto-complete during a battle (src/dev/console.js)
+    const dv = window.kilumen.dev; dv.battleAuto = () => guard(autoRun());
+    const off = setInterval(() => { if (closed() || kb.ended) { clearInterval(off); if (dv.battleAuto) dv.battleAuto = null; } }, 500);
+  }
   const showSkills = () => {
     const r = kb.request();
     showList('skills', r.moves.map((m, i) => { const mv = kb.battle.dex.moves.get(m.id); const el = mv.type.toLowerCase();

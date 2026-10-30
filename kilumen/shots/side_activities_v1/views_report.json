@@ -1,0 +1,48 @@
+[
+ {
+  "plat": "pc",
+  "errors": [],
+  "shots": [
+   "pc_fern_letter_1.png",
+   "pc_fern_box_short.png",
+   "pc_fern_box_done.png",
+   "pc_frost_lamp_1.png",
+   "pc_frost_lamp_last.png",
+   "pc_salt_quiz.png",
+   "pc_cinder_ore_weigh.png",
+   "pc_lanternport_notice.png",
+   "pc_mirefen_frog.png",
+   "pc_cindervale_anvil.png",
+   "pc_brookhollow_radio.png",
+   "pc_saltmere_wheel.png",
+   "pc_frostspire_bin.png",
+   "pc_fernwick_shelf.png",
+   "pc_lanternport_npcs.png",
+   "pc_mirefen_npcs.png",
+   "pc_cindervale_npcs.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "errors": [],
+  "shots": [
+   "phone_fern_letter_1.png",
+   "phone_fern_box_short.png",
+   "phone_fern_box_done.png",
+   "phone_frost_lamp_1.png",
+   "phone_frost_lamp_last.png",
+   "phone_salt_quiz.png",
+   "phone_cinder_ore_weigh.png",
+   "phone_lanternport_notice.png",
+   "phone_mirefen_frog.png",
+   "phone_cindervale_anvil.png",
+   "phone_brookhollow_radio.png",
+   "phone_saltmere_wheel.png",
+   "phone_frostspire_bin.png",
+   "phone_fernwick_shelf.png",
+   "phone_lanternport_npcs.png",
+   "phone_mirefen_npcs.png",
+   "phone_cindervale_npcs.png"
+  ]
+ }
+]

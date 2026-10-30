@@ -2836,14 +2836,6 @@
    "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/"
   },
   "r9_icefall.r9_ic_climber_1": {
-   "sprite_id": "tr_hiker_f",
-   "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
-  },
-  "r9_icefall.r9_ic_climber_2": {
    "sprite_id": "tr_hiker_m",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
    "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
@@ -2851,21 +2843,29 @@
    "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
   },
-  "r9_icefall.r9_ic_diver": {
-   "sprite_id": "tr_hiker_f",
+  "r9_icefall.r9_ic_climber_2": {
+   "sprite_id": "tr_camper_f",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+   "overworld_sheet": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_camper_f/overworld/tr_camper_f_chibi/"
+  },
+  "r9_icefall.r9_ic_diver": {
+   "sprite_id": "tr_swimmer_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_swimmer_f/overworld/tr_swimmer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_swimmer_f/overworld/tr_swimmer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_swimmer_f/overworld/tr_swimmer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_swimmer_f/overworld/tr_swimmer_f_chibi/"
   },
   "r9_icefall.r9_ic_keeper": {
-   "sprite_id": "tr_hiker_f",
+   "sprite_id": "tr_scientist_m",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
   },
   "r9_lodge_int.r9_lodge_clerk": {
    "sprite_id": "vil_clerk_f",
@@ -2876,28 +2876,28 @@
    "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/"
   },
   "r9_old_riverbed.r9_rb_hiker": {
-   "sprite_id": "tr_hiker_m",
+   "sprite_id": "tr_hiker_f",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
   },
   "r9_old_riverbed.r9_rb_dowser": {
-   "sprite_id": "tr_hiker_f",
+   "sprite_id": "tr_scientist_m",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
   },
   "r9_old_riverbed.r9_rb_guide": {
-   "sprite_id": "tr_hiker_f",
+   "sprite_id": "tr_scientist_f",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
   },
   "r9_skylift_upper.r9_skylift_operator": {
    "sprite_id": "vil_stationguard_m",
@@ -2908,12 +2908,12 @@
    "overworld_frames_dir": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi/"
   },
   "r9_skylift_upper.r9_skylift_rider": {
-   "sprite_id": "tr_hiker_f",
+   "sprite_id": "tr_ranger_m",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/"
   },
   "r9_switchbacks.r9_sw_mountaineer_1": {
    "sprite_id": "tr_hiker_m",
@@ -2924,12 +2924,12 @@
    "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
   },
   "r9_switchbacks.r9_sw_climber_1": {
-   "sprite_id": "tr_hiker_f",
+   "sprite_id": "tr_camper_f",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+   "overworld_sheet": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_camper_f/overworld/tr_camper_f_chibi/"
   },
   "r9_switchbacks.r9_sw_survey_1": {
    "sprite_id": "tr_scientist_m",
@@ -2948,80 +2948,88 @@
    "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
   },
   "r9_switchbacks.r9_sw_survey_3": {
-   "sprite_id": "tr_scientist_m",
+   "sprite_id": "tr_ranger_m",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/"
   },
   "r9_switchbacks.r9_sw_climber_2": {
-   "sprite_id": "tr_hiker_m",
+   "sprite_id": "tr_hiker_f",
    "class": "Wellspire (region 9 / finale), story_beats.md §F",
-   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
-   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
   },
   "mirefen_hall_int.mirefen_hall_int_master": {
-   "sprite_id": "tr_gymtrainer_f",
-   "class": "Hall Master (stand-in sprite)",
-   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "sprite_id": "tr_master_mirefen_f",
+   "class": "Hall Master",
+   "overworld_sheet": "npcs/tr_master_mirefen_f/overworld/tr_master_mirefen_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_master_mirefen_f/overworld/tr_master_mirefen_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_master_mirefen_f/overworld/tr_master_mirefen_f_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
-   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "trainer_64x128": "npcs/tr_master_mirefen_f/trainer/tr_master_mirefen_f_trainer_64x128.png",
    "portraits": {
-    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
-    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
-    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+    "angry": "npcs/tr_master_mirefen_f/portraits/tr_master_mirefen_f_stern.png",
+    "happy": "npcs/tr_master_mirefen_f/portraits/tr_master_mirefen_f_pleased.png",
+    "neutral": "npcs/tr_master_mirefen_f/portraits/tr_master_mirefen_f_neutral.png",
+    "pleased": "npcs/tr_master_mirefen_f/portraits/tr_master_mirefen_f_pleased.png",
+    "stern": "npcs/tr_master_mirefen_f/portraits/tr_master_mirefen_f_stern.png"
    },
-   "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+   "note": "Character models master-overworlds (2b98420b); angry->stern, happy->pleased"
   },
   "tidewater_hall_int.tidewater_hall_int_master": {
-   "sprite_id": "tr_gymtrainer_m",
-   "class": "Hall Master (stand-in sprite)",
-   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "sprite_id": "tr_master_tidewater_m",
+   "class": "Hall Master",
+   "overworld_sheet": "npcs/tr_master_tidewater_m/overworld/tr_master_tidewater_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_master_tidewater_m/overworld/tr_master_tidewater_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_master_tidewater_m/overworld/tr_master_tidewater_m_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
-   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "trainer_64x128": "npcs/tr_master_tidewater_m/trainer/tr_master_tidewater_m_trainer_64x128.png",
    "portraits": {
-    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
-    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
-    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+    "angry": "npcs/tr_master_tidewater_m/portraits/tr_master_tidewater_m_stern.png",
+    "happy": "npcs/tr_master_tidewater_m/portraits/tr_master_tidewater_m_grin.png",
+    "neutral": "npcs/tr_master_tidewater_m/portraits/tr_master_tidewater_m_neutral.png",
+    "grin": "npcs/tr_master_tidewater_m/portraits/tr_master_tidewater_m_grin.png",
+    "stern": "npcs/tr_master_tidewater_m/portraits/tr_master_tidewater_m_stern.png"
    },
-   "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+   "note": "Character models master-overworlds (2b98420b); angry->stern, happy->grin"
   },
   "lanternport_hall_int.lanternport_hall_int_master": {
-   "sprite_id": "tr_gymtrainer_f",
-   "class": "Hall Master (stand-in sprite)",
-   "overworld_sheet": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi_sheet_3x.png",
+   "sprite_id": "tr_master_lanternport_f",
+   "class": "Hall Master",
+   "overworld_sheet": "npcs/tr_master_lanternport_f/overworld/tr_master_lanternport_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_master_lanternport_f/overworld/tr_master_lanternport_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_master_lanternport_f/overworld/tr_master_lanternport_f_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_gymtrainer_f/overworld/tr_gymtrainer_f_chibi/",
-   "trainer_64x128": "npcs/tr_gymtrainer_f/trainer/tr_gymtrainer_f_trainer_64x128.png",
+   "trainer_64x128": "npcs/tr_master_lanternport_f/trainer/tr_master_lanternport_f_trainer_64x128.png",
    "portraits": {
-    "angry": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_angry.png",
-    "happy": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_happy.png",
-    "neutral": "npcs/tr_gymtrainer_f/portraits/tr_gymtrainer_f_neutral.png"
+    "angry": "npcs/tr_master_lanternport_f/portraits/tr_master_lanternport_f_stern.png",
+    "happy": "npcs/tr_master_lanternport_f/portraits/tr_master_lanternport_f_grin.png",
+    "neutral": "npcs/tr_master_lanternport_f/portraits/tr_master_lanternport_f_neutral.png",
+    "grin": "npcs/tr_master_lanternport_f/portraits/tr_master_lanternport_f_grin.png",
+    "stern": "npcs/tr_master_lanternport_f/portraits/tr_master_lanternport_f_stern.png"
    },
-   "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+   "note": "Character models master-overworlds (2b98420b); angry->stern, happy->grin"
   },
   "cindervale_hall_int.cindervale_hall_int_master": {
-   "sprite_id": "tr_gymtrainer_m",
-   "class": "Hall Master (stand-in sprite)",
-   "overworld_sheet": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet.png",
-   "overworld_sheet_2x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_2x.png",
-   "overworld_sheet_3x": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi_sheet_3x.png",
+   "sprite_id": "tr_master_cindervale_m",
+   "class": "Hall Master",
+   "overworld_sheet": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
-   "trainer_64x128": "npcs/tr_gymtrainer_m/trainer/tr_gymtrainer_m_trainer_64x128.png",
+   "trainer_64x128": "npcs/tr_master_cindervale_m/trainer/tr_master_cindervale_m_trainer_64x128.png",
    "portraits": {
-    "angry": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_angry.png",
-    "happy": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_happy.png",
-    "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
+    "angry": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_stern.png",
+    "happy": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_grin.png",
+    "neutral": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_neutral.png",
+    "grin": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_grin.png",
+    "stern": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_stern.png"
    },
-   "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+   "note": "Character models master-overworlds (2b98420b); angry->stern, happy->grin"
   },
   "aurelith_arena_room_5.arena_rest_5": {
    "sprite_id": "vil_receptionist_f",
@@ -3038,6 +3046,254 @@
    "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "r9_cloudline.r9_cl_field_1": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+  },
+  "r9_cloudline.r9_cl_field_2": {
+   "sprite_id": "tr_camper_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_camper_f/overworld/tr_camper_f_chibi/"
+  },
+  "r9_cloudline.r9_cl_field_3": {
+   "sprite_id": "tr_ranger_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/"
+  },
+  "r9_cloudway.r9_cw_field_1": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "r9_cloudway.r9_cw_field_2": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+  },
+  "r9_cloudway.r9_cw_field_3": {
+   "sprite_id": "tr_ranger_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/"
+  },
+  "r9_echo_cave.r9_ec_field_1": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "r9_echo_cave.r9_ec_field_2": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "r9_heart_cave.r9_hc_field_1": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "r9_heart_cave.r9_hc_field_2": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "r9_heart_cave.r9_hc_field_3": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_1": {
+   "sprite_id": "lab_tech_scrubs",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_2": {
+   "sprite_id": "lab_tech_coat_m",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_3": {
+   "sprite_id": "lab_tech_coat_f",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_4": {
+   "sprite_id": "lab_tech_coat_m",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_5": {
+   "sprite_id": "lab_tech_coat_f",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_hazmat_1": {
+   "sprite_id": "lab_hazmat",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_hazmat_2": {
+   "sprite_id": "lab_hazmat",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_hazmat_3": {
+   "sprite_id": "lab_hazmat",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_ctrl_1": {
+   "sprite_id": "lab_tech_scrubs",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_ctrl_2": {
+   "sprite_id": "lab_tech_coat_f",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_lead": {
+   "sprite_id": "lab_researcher_m",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_entry_1": {
+   "sprite_id": "lab_tech_coat_f",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_entry_2": {
+   "sprite_id": "lab_tech_coat_m",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+  },
+  "tidewater_coast.r9_coralie_cove": {
+   "sprite_id": "coralie_present",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/coralie_present/overworld/coralie_present_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/coralie_present/overworld/coralie_present_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/coralie_present/overworld/coralie_present_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/coralie_present/overworld/coralie_present_chibi/"
+  },
+  "fin_summit_camp.fin_camp_bryn": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire summit camp, RT field team member (camp life)",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "fin_summit_camp.fin_camp_otto": {
+   "sprite_id": "tr_ranger_m",
+   "class": "Wellspire summit camp, RT field team member (camp life)",
+   "overworld_sheet": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_ranger_m/overworld/tr_ranger_m_chibi/"
+  },
+  "fin_summit_camp.fin_camp_sunniva": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire summit camp, RT field team member (camp life)",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "fin_summit_camp.fin_camp_lorcan": {
+   "sprite_id": "tr_camper_f",
+   "class": "Wellspire summit camp, RT field team member (camp life)",
+   "overworld_sheet": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_camper_f/overworld/tr_camper_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_camper_f/overworld/tr_camper_f_chibi/"
+  },
+  "aurelith_arena_room_8.arena_steward_8": {
+   "sprite_id": "vil_guard_m",
+   "class": "Arena room 8 steward, greets you on arrival",
+   "overworld_sheet": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m/overworld/vil_guard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m/overworld/vil_guard_m_chibi/"
+  },
+  "aurelith_arena_room_8.arena_fan_8": {
+   "sprite_id": "vil_fan_m",
+   "class": "Arena room 8 fan in the stands",
+   "overworld_sheet": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_fan_m/overworld/vil_fan_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_fan_m/overworld/vil_fan_m_chibi/"
   }
  },
  "unassigned_ready": {

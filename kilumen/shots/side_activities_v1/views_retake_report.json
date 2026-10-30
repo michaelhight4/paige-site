@@ -1,0 +1,34 @@
+[
+ {
+  "plat": "pc",
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "shots": [
+   "pc_fern_letter_1.png",
+   "pc_fern_box_short.png",
+   "pc_fern_box_done.png",
+   "pc_frost_lamp_last.png",
+   "pc_salt_quiz.png",
+   "pc_cinder_ore_weigh.png",
+   "pc_brookhollow_radio.png",
+   "pc_frostspire_bin.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "shots": [
+   "phone_fern_letter_1.png",
+   "phone_fern_box_short.png",
+   "phone_fern_box_done.png",
+   "phone_frost_lamp_last.png",
+   "phone_salt_quiz.png",
+   "phone_cinder_ore_weigh.png",
+   "phone_brookhollow_radio.png",
+   "phone_frostspire_bin.png"
+  ]
+ }
+]

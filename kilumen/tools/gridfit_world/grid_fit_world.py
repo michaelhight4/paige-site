@@ -86,6 +86,9 @@ def protected(m):
     for y, row in enumerate(hv.get('grid') or []):  # 'r' receiver, 'L' beam door, 'P' prism, 'E' emitter cells in the hall grid
         for x, ch in enumerate(row):
             if ch in 'rLPE': P.add((x, y))
+    for pr in (m.get('lab') or {}).get('props') or []:  # Wellspire v3 lab props: runtime-drawn by src/region9/lab_fx.js, never re-fit
+        for yy in range(pr['y'], pr['y'] + pr.get('h', 1)):
+            for xx in range(pr['x'], pr['x'] + pr.get('w', 1)): P.add((xx, yy))
     pad = m.get('padding') or {}; dx, dy = pad.get('dx', 0), pad.get('dy', 0)
     if pad.get('old_size'): ow, oh = pad['old_size']
     else: ow, oh = Wd - 2 * dx, H - 2 * dy

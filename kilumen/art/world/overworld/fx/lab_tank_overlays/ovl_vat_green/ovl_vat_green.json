@@ -1,0 +1,268 @@
+{
+ "name": "ovl_vat_green",
+ "kind": "tile-overlay",
+ "sheet": "ovl_vat_green.png",
+ "frame_w": 64,
+ "frame_h": 64,
+ "frames": 12,
+ "cols": 12,
+ "rows": 9,
+ "slices": 9,
+ "layout": "one row per slice, frames along x",
+ "row_labels": [
+  "nw",
+  "n",
+  "ne",
+  "w",
+  "c",
+  "e",
+  "sw",
+  "s",
+  "se"
+ ],
+ "ms": [
+  130,
+  130,
+  130,
+  130,
+  130,
+  130,
+  130,
+  130,
+  130,
+  130,
+  130,
+  130
+ ],
+ "total_ms": 1560,
+ "loop": true,
+ "mode": "loop",
+ "footprint_tiles": [
+  1,
+  1
+ ],
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "tile_ids": [
+  12268,
+  12269,
+  12270,
+  12271,
+  12272,
+  12273,
+  12274,
+  12275,
+  12276
+ ],
+ "room": "fin_past_wlab_07_vats",
+ "tint": "green",
+ "layer": "decoration_fx (draw right after the tile, before y-sorted sprites)",
+ "anchor": {
+  "x": 0,
+  "y": 0,
+  "meaning": "top-left of frame = top-left px of the tank's _0_0 tile (map cell of that tile id)"
+ },
+ "anchor_bottom_centre": {
+  "x": 32,
+  "y": 64
+ },
+ "phase_offsets_frames": [
+  0,
+  7,
+  3,
+  10,
+  6,
+  4
+ ],
+ "phase_rule": "frame = (floor(t_ms / ms) + phase_offsets_frames[(7*x0 + 3*y0) % 6]) % frames; x0,y0 = map cell of the anchor tile",
+ "emissive": "px in the 8 night-glow colours use the lit LUT, rest the sprite LUT",
+ "tex_bytes_rgba": 1769472,
+ "art_sheet": "ovl_vat_green_art1x.png",
+ "art_tex_bytes_rgba": 442368,
+ "glass_mask": "ovl_vat_green_glassmask_art1x.png",
+ "png_bytes": 6333,
+ "art_png_bytes": 2498,
+ "avg_opaque_px_per_frame": 44,
+ "mask_coverage_mean": 0.015,
+ "notes": "Sunken vat 9-slice (green): one sheet row per slice (row_labels order = tile_ids order). Bubbles break at the liquid surface inside each slice; top-down vat so bubbles drift up the screen 1 tile-height per loop.",
+ "readability": {
+  "nw": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.734,
+    "worst_frame": 0.667
+   }
+  },
+  "n": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.769,
+    "worst_frame": 0.727
+   }
+  },
+  "ne": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.78,
+    "worst_frame": 0.7
+   }
+  },
+  "w": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.736,
+    "worst_frame": 0.7
+   }
+  },
+  "c": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.8,
+    "worst_frame": 0.75
+   }
+  },
+  "e": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.772,
+    "worst_frame": 0.727
+   }
+  },
+  "sw": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.687,
+    "worst_frame": 0.625
+   }
+  },
+  "s": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.763,
+    "worst_frame": 0.727
+   }
+  },
+  "se": {
+   "dawn": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "day": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "dusk": {
+    "mean": 1.0,
+    "worst_frame": 1
+   },
+   "night": {
+    "mean": 0.768,
+    "worst_frame": 0.667
+   }
+  }
+ },
+ "readability_rule": "overlay px with |dLuma|>=28 vs the ToD-graded tank tile under them (tile snapped to palette); pass >= 0.5 per phase",
+ "readability_min": 0.687,
+ "readability_worst_frame": 0.625,
+ "readability_night_min": 0.687,
+ "seam_ratio": 1.0,
+ "slice_rows": {
+  "nw": 0,
+  "n": 1,
+  "ne": 2,
+  "w": 3,
+  "c": 4,
+  "e": 5,
+  "sw": 6,
+  "s": 7,
+  "se": 8
+ }
+}

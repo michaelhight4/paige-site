@@ -1,0 +1,9 @@
+KILUMEN - CREDITS (dev log of who built what; the in-game credits are src/ui/credits.js)
+
+Side activities + town world fill (Oct 30, 2026; branch dev/side-activities)
+  Code, map placement, tests: Coder <coder@paigegames.net>
+  Town NPC / prop / guide / hall lines: Text Bot (data/textbot_world_fill.json sections 2-5)
+  Side activity and inspectable lines: PLACEHOLDER by Coder, requested from Text Bot in
+    data/textbot_requests_side_activities.md
+  Structural reference: Pokemon Gen 1-5 towns (inspectable bookshelves, TVs, signs, bins, notes); structure only.
+  Third-party code: none new (see THIRD_PARTY_LICENSES; Playwright is dev-only for shots).

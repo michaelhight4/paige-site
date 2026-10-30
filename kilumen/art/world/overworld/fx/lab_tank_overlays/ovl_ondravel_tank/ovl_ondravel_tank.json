@@ -1,0 +1,146 @@
+{
+ "name": "ovl_ondravel_tank",
+ "kind": "tile-overlay",
+ "sheet": "ovl_ondravel_tank.png",
+ "frame_w": 384,
+ "frame_h": 320,
+ "frames": 32,
+ "cols": 10,
+ "rows": 4,
+ "slices": 1,
+ "layout": "row-major frames",
+ "row_labels": [
+  "ondravel"
+ ],
+ "ms": [
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150,
+  150
+ ],
+ "total_ms": 4800,
+ "loop": true,
+ "mode": "loop",
+ "footprint_tiles": [
+  6,
+  5
+ ],
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "tile_ids": [
+  12306,
+  12307,
+  12308,
+  12309,
+  12310,
+  12311,
+  12312,
+  12313,
+  12314,
+  12315,
+  12316,
+  12317,
+  12318,
+  12319,
+  12320,
+  12321,
+  12322,
+  12323,
+  12324,
+  12325,
+  12326,
+  12327,
+  12328,
+  12329,
+  12330,
+  12331,
+  12332,
+  12333,
+  12334,
+  12335
+ ],
+ "room": "fin_past_wlab_10_ondravel",
+ "tint": "blue+violet",
+ "layer": "decoration_fx (draw right after the tile, before y-sorted sprites)",
+ "anchor": {
+  "x": 0,
+  "y": 0,
+  "meaning": "top-left of frame = top-left px of the tank's _0_0 tile (map cell of that tile id)"
+ },
+ "anchor_bottom_centre": {
+  "x": 192,
+  "y": 320
+ },
+ "phase_offsets_frames": [
+  0,
+  20,
+  8,
+  28,
+  16,
+  12
+ ],
+ "phase_rule": "frame = (floor(t_ms / ms) + phase_offsets_frames[(7*x0 + 3*y0) % 6]) % frames; x0,y0 = map cell of the anchor tile",
+ "emissive": "px in the 8 night-glow colours use the lit LUT, rest the sprite LUT",
+ "tex_bytes_rgba": 19660800,
+ "art_sheet": "ovl_ondravel_tank_art1x.png",
+ "art_tex_bytes_rgba": 4915200,
+ "glass_mask": "ovl_ondravel_tank_glassmask_art1x.png",
+ "png_bytes": 66523,
+ "art_png_bytes": 40822,
+ "avg_opaque_px_per_frame": 4737,
+ "mask_coverage_mean": 0.055,
+ "notes": "Ondravel 6x5 crystal tank: 6-arm mote swirl turning 1/6 rev per 4.8 s loop, 9 slow big bubbles, caustic ripple lines under the surface and on the floor band. Ondravel sprite draws ABOVE this overlay.",
+ "readability": {
+  "ondravel": {
+   "dawn": {
+    "mean": 0.948,
+    "worst_frame": 0.924
+   },
+   "day": {
+    "mean": 0.951,
+    "worst_frame": 0.929
+   },
+   "dusk": {
+    "mean": 0.92,
+    "worst_frame": 0.888
+   },
+   "night": {
+    "mean": 0.909,
+    "worst_frame": 0.888
+   }
+  }
+ },
+ "readability_rule": "overlay px with |dLuma|>=28 vs the ToD-graded tank tile under them (tile snapped to palette); pass >= 0.5 per phase",
+ "readability_min": 0.909,
+ "readability_worst_frame": 0.888,
+ "readability_night_min": 0.909,
+ "seam_ratio": 0.94
+}

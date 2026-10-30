@@ -35,6 +35,8 @@ const CSS = `.kdev{position:fixed;inset:0;z-index:100000;background:rgba(8,10,16
 .kdev button.go{background:#2e6b43;border-color:#55b575}.kdev button.warn{background:#7a3a2e;border-color:#c97a66}.kdev button.sel{background:#3d5fb0;border-color:#7da0ff}
 .kdev .row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #222b3d}.kdev .row .n{flex:1;min-width:0;word-break:break-word}.kdev .row small{color:#8d9ab8}
 .kdev .kbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0}.kdev h4{margin:12px 0 4px;font-size:13px;color:#9db3e8}
+.kdev-chip.kdev-bchip{position:fixed;top:max(8px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));z-index:99990}
+.kdev-bmenu{position:fixed;top:56px;right:8px;z-index:99991;background:#141a26;border:1px solid #3a4560;border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:6px;font:14px system-ui,sans-serif}.kdev-bmenu button{background:#24304a;color:#e8ecf4;border:1px solid #3a4560;border-radius:8px;padding:6px 10px;margin:0 2px;cursor:pointer}.kdev-bmenu button.sel{background:#3d5fb0}
 .kdev-chip{position:relative;z-index:5;pointer-events:auto;touch-action:manipulation;background:#7a3a2e;color:#fff;border:1px solid #c97a66;border-radius:8px;padding:4px 10px;font:600 13px system-ui,sans-serif;min-height:44px;min-width:44px}
 .kdev .box{max-height:100%}.kdev .hd [data-x]{min-width:88px;min-height:44px;font-weight:700;background:#7a3a2e;border-color:#c97a66}
 .kdev button,.kdev select,.kdev input{min-height:44px;touch-action:manipulation}.kdev .tabs button{min-width:64px}
@@ -115,7 +117,25 @@ export async function installDevConsole(scene, access) {
   const chip = () => { const top = ui()?.hudTop; if (!top || top.querySelector('.kdev-chip')) return; if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
     const b = document.createElement('button'); b.className = 'kdev-chip'; b.textContent = 'DEV'; b.setAttribute('aria-label', 'Open dev console');
     b.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); open(); }); top.appendChild(b); };
-  chip(); const chipTimer = setInterval(chip, 1500); void chipTimer;
+  // live v0.2.93 bug 3: the HUD (and its chip) is hidden under a battle, so a battle gets its own fixed chip with a small menu:
+  // Auto-complete (battle/ui_sd.js registers dev.battleAuto while a turn battle runs) and world speed. Dev session only.
+  let bmenu = null;
+  const bchip = () => {
+    const live = !!window.kilumen?.dev?.battleAuto; let b = document.querySelector('.kdev-bchip');
+    if (!live) { b?.remove(); bmenu?.remove(); bmenu = null; return; }
+    if (b) return;
+    if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
+    b = document.createElement('button'); b.className = 'kdev-chip kdev-bchip'; b.textContent = 'DEV'; b.setAttribute('aria-label', 'Dev battle tools');
+    b.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); if (bmenu) { bmenu.remove(); bmenu = null; return; }
+      bmenu = document.createElement('div'); bmenu.className = 'kdev-bmenu';
+      bmenu.innerHTML = `<button data-auto>Auto-complete battle</button><div>${WORLD_SPEEDS.map((n) => `<button class="${(DEV.world || 1) === n ? 'sel' : ''}" data-world="${n}">${n}x</button>`).join('')}</div>`;
+      bmenu.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); const a = ev.target.attributes; if (!a) return;
+        if (a['data-auto']) { touched(); window.kilumen?.dev?.battleAuto?.(); bmenu.remove(); bmenu = null; }
+        else if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; bmenu.querySelectorAll('[data-world]').forEach((x) => x.classList.toggle('sel', Number(x.dataset.world) === DEV.world)); } });
+      document.body.appendChild(bmenu); });
+    document.body.appendChild(b);
+  };
+  chip(); bchip(); const chipTimer = setInterval(() => { chip(); bchip(); }, 400); void chipTimer;
 
   // ---- master key: water cells (Tideglide gate) are handled by map.js story gates; a block-cell WATER wrap is not needed ----
   // ---- fast-travel visited-flag cleanup: a dev warp must not leave progress ----------------------------------------

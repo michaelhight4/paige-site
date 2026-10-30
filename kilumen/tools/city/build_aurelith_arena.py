@@ -126,6 +126,8 @@ lnpcs = [{'id': 'aurelith_arena_clerk', 'x': 13, 'y': 4, 'facing': 'down', 'kind
 out['aurelith_arena'] = {'name': 'aurelith_arena', 'title': 'Aurelith Arena', 'width': LOBBY_W, 'height': LOBBY_H, 'tile_size': 64, 'tileset': '../tileset.json',
     'layers': lo.L, 'warps': lw, 'exits': [], 'npcs': lnpcs, 'signs': [], 'items': [], 'encounter_zones': [], 'source': SRC, 'movement': MOVE}
 
+# Room 8 life (Coder Oct 30, Gary playtest 6/10 "empty on arrival"): a steward + a fan by the entrance mats, in view on arrival
+ROOM8_LIFE = [{"id": "arena_steward_8", "x": 4, "y": 12, "facing": "right", "kind": "npc", "sprite": "vil_guard_m", "note": "Arena room 8 steward, greets you on arrival (DRAFT, src/region78/arena.js ARENA_FALLBACK.steward8)"}, {"id": "arena_fan_8", "x": 12, "y": 12, "facing": "left", "kind": "npc", "sprite": "vil_fan_m", "note": "Arena room 8 fan in the stands (DRAFT, ARENA_FALLBACK.fan8)"}]
 # ---- 8 rooms (v3 final throne rooms, Gary 6:41 PM CT pt2163u: "more majesty ... screams end of the game boss") ----
 # 17x15 symmetric hall: walls rows 0-2; 5x6 animated centrepiece a3_<t>_centre (x 6-10, rows 0-5, rows 3-5 block); 1x5
 # framing pillars x 4/12; emblem banners x 2/5/11/14; dais row 6 (x 5-11) with the fighter at 8,6 (talk from 8,7);
@@ -164,7 +166,7 @@ for n, (t, spr) in enumerate(zip(TYPES, SPR), 1):
     npc = {'id': f'arena_fighter_{n}', 'x': 8, 'y': 6, 'facing': 'down', 'kind': 'trainer', 'sprite': spr,
            'note': f'Arena fighter {n} of 8, {t} type (back to back run, src/region78/arena.js; team in trainer_teams.js)', 'text_ref': TR + f'arena_fighter_{n}'}
     j = {'name': room(n), 'title': f'Aurelith Arena · Room {n}', 'width': RW, 'height': RH, 'tile_size': 64, 'tileset': '../tileset.json', 'layers': m.L,
-         'warps': warps, 'exits': [], 'npcs': [npc], 'signs': [], 'items': [], 'encounter_zones': [], 'story_gates': gates,
+         'warps': warps, 'exits': [], 'npcs': [npc] + (ROOM8_LIFE if n == 8 else []), 'signs': [], 'items': [], 'encounter_zones': [], 'story_gates': gates,
          'tint': {'grade': th['grade'], 'note': f'{t} throne room lighting (+ mood.json tint/particles)'}, 'arena_theme': {'type': t, 'from': th['hall'], 'centrepiece': th['what']}, 'source': SRC, 'movement': MOVE}
     out[room(n)] = j
     th['mood']['particles'] = [dict(q, density=int(q['density'] * 1.8)) for q in th['mood']['particles']] + th.get('extra', [])

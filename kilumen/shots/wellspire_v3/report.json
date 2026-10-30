@@ -1,0 +1,39 @@
+[
+ {
+  "plat": "pc",
+  "errors": [
+   "404 /playtime.js?game=kilumen&v=v0.2.93-alpha"
+  ],
+  "shots": [
+   "pc_40_lab_entry_corridor.png",
+   "pc_42_lab_exam_wing.png",
+   "pc_43_lab_vat_hall.png",
+   "pc_44_lab_control_room.png",
+   "pc_45_lab_tank_sealed.png",
+   "pc_46_lab_tank_breaking.png",
+   "pc_47_lab_tank_drained.png",
+   "pc_41_lab_tech_intro.png"
+  ],
+  "retake": "41,46,47 retaken Oct 29 2026 (46 at 1300 ms into release)"
+ },
+ {
+  "plat": "phone",
+  "errors": [
+   "404 /playtime.js?game=kilumen&v=v0.2.93-alpha"
+  ],
+  "shots": [
+   "phone_40_lab_entry_corridor.png",
+   "phone_42_lab_exam_wing.png",
+   "phone_43_lab_vat_hall.png",
+   "phone_44_lab_control_room.png",
+   "phone_45_lab_tank_sealed.png",
+   "phone_46_lab_tank_breaking.png",
+   "phone_47_lab_tank_drained.png",
+   "phone_48_summit_faceoff.png",
+   "phone_32_coralie_cove.png",
+   "phone_36_rt_four_at_desks.png",
+   "phone_41_lab_tech_intro.png"
+  ],
+  "retake": "41,46,47 retaken Oct 29 2026 (46 at 1300 ms into release)"
+ }
+]

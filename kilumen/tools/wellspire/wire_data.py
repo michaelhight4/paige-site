@@ -41,6 +41,8 @@ for n in ['fin_past_station_m', 'fin_past_signal_lab', 'fin_past_lab1_f1', 'fin_
 def mood(j):
     for k, v in MOOD.items(): j['maps'][k] = {'_why': 'Wellspire (story_beats.md §F), Coder Oct 29 2026, DRAFT', **v}
 
+import sys as _s; _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from field_teams import FIELD
 SPRITE = {
     'fin_teo': 'tr_scientist_m', 'fin_marta': 'tr_hiker_f', 'fin_pell': 'vil_office_m_b', 'fin_imke': 'tr_scientist_f',
     'fin_ep_teo': 'tr_scientist_m', 'fin_ep_marta': 'tr_hiker_f', 'fin_ep_pell': 'vil_office_m_b', 'fin_ep_imke': 'tr_scientist_f',
@@ -52,6 +54,7 @@ SPRITE = {
 }
 def sprite_for(nid, kind):
     if nid in SPRITE: return SPRITE[nid]
+    if nid in FIELD: return FIELD[nid][2]
     if 'survey' in nid: return 'tr_scientist_f' if nid.endswith('2') else 'tr_scientist_m'
     if kind == 'trainer': return 'tr_hiker_f' if sum(map(ord, nid)) % 2 else 'tr_hiker_m'
     return ['vil_office_m', 'vil_officer_f', 'vil_guard_m_b', 'vil_clerk_f'][sum(map(ord, nid)) % 4]

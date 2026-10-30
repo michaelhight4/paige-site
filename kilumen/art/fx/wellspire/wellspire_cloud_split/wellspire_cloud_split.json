@@ -1,0 +1,64 @@
+{
+ "name": "wellspire_cloud_split",
+ "kind": "screen-layer",
+ "sheet": "wellspire_cloud_split.png",
+ "frame_w": 384,
+ "frame_h": 192,
+ "frames": 14,
+ "cols": 10,
+ "rows": 2,
+ "ms": [
+  260,
+  120,
+  90,
+  80,
+  80,
+  80,
+  80,
+  80,
+  80,
+  80,
+  80,
+  80,
+  160,
+  160
+ ],
+ "total_ms": 1510,
+ "loop": false,
+ "mode": "one-shot",
+ "footprint_tiles": null,
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "anchor": {
+  "x": 192,
+  "y": 192,
+  "meaning": "bottom-centre of footprint (feet / base line)"
+ },
+ "emissive": "px whose colour is one of the 8 night-glow colours: draw with lit LUT, rest with sprite LUT",
+ "tex_bytes_rgba": 5898240,
+ "art_sheet": "wellspire_cloud_split_art1x.png",
+ "art_tex_bytes_rgba": 1474560,
+ "png_bytes": 20640,
+ "notes": "One-shot: clouds part from a thin crack of light, beam widens (ease-out cubic). Ends exactly on frame 0 of wellspire_sky_open_loop.",
+ "readability": {
+  "dawn": {
+   "mean": 0.644,
+   "worst_frame": 0.603
+  },
+  "day": {
+   "mean": 0.644,
+   "worst_frame": 0.603
+  },
+  "dusk": {
+   "mean": 0.876,
+   "worst_frame": 0.826
+  },
+  "night": {
+   "mean": 0.876,
+   "worst_frame": 0.826
+  }
+ },
+ "readability_rule": "colour-change neighbour pairs with |dLuma|>=28 after grade; pass >= 0.5 per phase",
+ "readability_min": 0.644,
+ "readability_worst_frame": 0.603
+}

@@ -55,12 +55,14 @@ export class Renderer {
 
     for (const layer of ['ground', 'decoration'])
       for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile(layer, x, y), x, y);
+    v.r9fx?.decorationFx?.(ctx, v); // decoration_fx: Wellspire lab tank particle overlays (src/region9/tank_overlays.js), before characters; Ondravel (r9fx.draw) above
     v.ixlight?.draw(ctx, v, 'lower'); // Interiors v2: cached plane lighting on redrawn furniture + floor light spill
     v.depth?.drawStatic(ctx, v); // depth pass: contact shadows under furniture/decoration + wall-base shading (cached per map)
     v.nightfx?.drawWindows(ctx, v); // Night FX: lit window glass (dusk on, some dark late; under characters)
     // decals "under characters" (footprints: tileset animation type 'fade', frame picked by age)
     for (const d of v.decals || []) if (d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1) this.tile(v, d.id, d.x, d.y, d.frame);
     v.life?.under(ctx, v); // living world: fish shadows + ripples on water, under characters
+    v.r9fx?.under?.(ctx, v); // Wellspire v3 lab (src/region9/lab_fx.js): floors, props, Ondravel's tank, under characters
     v.depth?.drawActors(ctx, v, v.actors); // depth pass: contact shadows under every character (before any character)
 
     const actors = [...v.actors].sort((a, b) => a.feet - b.feet || (a.order || 0) - (b.order || 0));
@@ -82,7 +84,7 @@ export class Renderer {
     v.ixlight?.draw(ctx, v, 'night'); // Interiors v2: indoor night shade + lamp/TV/stove pools (interiors used to stay on the day grade)
     v.nightfx?.drawLights(ctx, v); // Night FX: warm lamp/window pools, additive on a cached low-res buffer (+ flame flicker)
     if (m.layers.fog) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile('fog', x, y), x, y);
-    v.mood?.draw(ctx, v); // cinematic mood (mood.js): area tint, sun rays, vignette, ambient particles; under birds/firefly glow/markers
+    v.mood?.draw(ctx, v); v.r9fx?.draw(ctx, v); // r9fx: Wellspire's towering Ondravel + summit clouds / light / flash (src/region9/summit_fx.js). cinematic mood (mood.js): area tint, sun rays, vignette, ambient particles; under birds/firefly glow/markers
     v.life?.top(ctx, v); // living world: birds in the sky, firefly glow (emissive)
     v.markers?.(ctx, v); // golden spinning arrows: starter cases, quest items (marker.js; above the world, under the fade)
 
