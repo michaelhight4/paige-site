@@ -1,6 +1,6 @@
 import sys; sys.path.insert(0,'.'); from swim import *
 N='/workspace/wt_cm_masters/kilumen/art/characters/pixel/npcs/'
-S={'cal':('/workspace/wt_seaport/kilumen/art/characters/pixel/humans/cal/overworld/cal_chibi_sheet.png',0.36)}
+S={'cal':('/workspace/wt_seaport/kilumen/art/characters/pixel/humans/cal/overworld/cal_chibi_sheet.png',0.58)}
 for x in 'abcde': S['tr_swimmer_gullhaven_'+x]=(N+f'tr_swimmer_gullhaven_{x}/overworld/tr_swimmer_gullhaven_{x}_chibi_sheet.png',0.34)
 os.makedirs('out',exist_ok=True)
 for k,(p,kp) in S.items(): build(p,kp).save(f'out/{k}_swim_sheet.png')

@@ -47,7 +47,7 @@ def build(sheet,keep,player=False):
             xs=np.nonzero(f[:cut,:,3].any(0))[0]; sl,sr=xs.min(),xs.max()
             if PLAYER:
                 for rr in [(14+2*c)%10+16, (14+2*c)%10+24]: ring(d,cx,wl,rr,3 if rr<22 else 5,FOAM,'front')
-            else:
+            if True:
                 sp=[12,15,8,11][c]; ey=shy-[3,2,4,3][c]
                 if dn in('down','up'):
                     for sgn,sx in ((-1,sl+3),(1,sr-3)):
