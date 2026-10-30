@@ -14258,6 +14258,16 @@
        "Storm's coming in. The causeway won't hold.",
        "Your water creatures can carry you across. Call it Tideglide."
       ]
+     },
+     {
+      "id": "teach_tideglide",
+      "sets": [
+       "has_tideglide"
+      ],
+      "pages": [
+       "Storm's coming in. The causeway won't hold.",
+       "Your water creatures can carry you across. Call it Tideglide."
+      ]
      }
     ]
    },

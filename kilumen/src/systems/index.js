@@ -8,7 +8,7 @@ import { Party, Archive } from './party.js?v=v0.2.96-alpha';
 import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.96-alpha';
 import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.96-alpha';
 import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.96-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, newStockAt } from './shop.js?v=v0.2.96-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, getShops, newStockAt } from './shop.js?v=v0.2.96-alpha';
 import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.96-alpha';
 import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.96-alpha';
 import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.96-alpha';
@@ -70,7 +70,10 @@ export class Systems {
   get zone() {
     const sc = this.scene, from = sc.lastDoor?.map;
     if (sc.map?.name === 'shop_int' && ['aurelith', 'saltmere', 'revival_heights', 'frostspire', 'mirefen', 'tidewater_coast', 'lanternport', 'cindervale'].includes(from)) return from; // + held items P2 shop rows
-    return sc.zone?.() || null;
+    // integ8: a unique interior missing from world_layout zones (shop_cairnfold) uses its map's own region when shops.json has that row
+    const own = sc.map?.json?.region || sc.map?.def?.region;
+    let known = false; try { known = !!(own && getShops().regions?.[own]); } catch { known = false; } // shops.json not loaded yet: no fallback
+    return sc.zone?.() || (known ? own : null);
   }
   get badgeCoins() { return coinCount(this.scene.flags); }
 

@@ -125,9 +125,13 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
   // Testers (playtest Oct 30 2026): the bite cue is canvas-only. ?dev logs every bite to the console and to
   // window.kilumenBites (with the window in ms); ?autocatch=1 presses for you 150 ms after the bite (headless runs).
   const qs = (() => { try { return new URLSearchParams(globalThis.location?.search || ''); } catch { return new URLSearchParams(); } })();
-  const DEV = qs.has('dev'), AUTO = qs.get('autocatch') === '1';
+  const DEV = qs.has('dev') || !!globalThis.kilumenDev;
+  // integ8: src/alpha.js reads ?autocatch=1 before it rewrites the URL (KILUMEN_AUTOCATCH); with ?dev the console toggle
+  // window.kilumenDev.autocatch wins (read at each bite, so it can be flipped mid-session)
+  const autoOn = () => { const kd = globalThis.kilumenDev; if (kd && typeof kd.autocatch === 'boolean') return kd.autocatch; return !!globalThis.KILUMEN_AUTOCATCH || qs.get('autocatch') === '1'; };
   function onBite(fx, plan) {
     const win = fx.touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
+    const AUTO = autoOn();
     if (DEV || AUTO) { const e = { t: Date.now(), species: plan.fish?.species || null, windowMs: win }; (globalThis.kilumenBites ||= []).push(e); console.info('[fishing] bite!', e); }
     if (AUTO) setTimeout(() => { if (st.fx === fx && fx.phase === 'bite' && fx.press == null) fx.press = now(); }, 150);
   }

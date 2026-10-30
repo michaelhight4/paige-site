@@ -17,7 +17,7 @@ test('unique marts: clerk talk opens the shop only in maps marked mart', async (
   }
   for (const n of ['shop_lanternport', 'shop_cindervale']) {
     const m = MAP(n); assert.equal(m.interior_kind, 'mart');
-    assert.ok(m.text_pending.npcs.some((d) => d.id === `${n}_clerk` && d.variant_of === 'clerk'));
+    assert.ok([...(m.npcs || []), ...(m.text_pending?.npcs || [])].some((d) => d.id === `${n}_clerk` && d.variant_of === 'clerk'));
   }
   const src = fs.readFileSync(new URL('../src/overworld/overworld.js', import.meta.url), 'utf8');
   assert.ok(src.includes('(!d.variant_of || !ids.has(d.variant_of))'), 'own-mart clerks are placed once they have lines');

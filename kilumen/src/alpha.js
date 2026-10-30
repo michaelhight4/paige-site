@@ -41,7 +41,16 @@ else if (raw.get('dev') === '0') ss((s) => s.removeItem(DEV_SS));
 export const DEV_REQUESTED = raw.get('dev') === '1' || (raw.get('dev') !== '0' && ss((s) => s.getItem(DEV_SS)) === '1');
 // v0.2.88: this replaceState is why the address bar 'dropped to /kilumen/' (playtester report). It is on purpose for every
 // other flag (a reload must never re-run ?reset=1 etc.), but ?dev=1 is only a request and harmless on reload, so it stays visible.
-if (typeof location !== 'undefined' && location.search) { try { history.replaceState(history.state, '', location.pathname + (raw.get('dev') === '1' ? '?dev=1' : '') + location.hash); } catch { /* ignore */ } }
+// integ8 (Derby playtest): ?autocatch=1 (fishing auto-press, src/fishing/index.js) is read here before the strip, and kept in
+// the address bar like ?dev=1 (harmless on reload). With ?dev: window.kilumenDev.autocatch = true / false toggles it live.
+export const AUTOCATCH = raw.get('autocatch') === '1';
+if (AUTOCATCH) globalThis.KILUMEN_AUTOCATCH = true;
+if (DEV_REQUESTED) { const kd = (globalThis.kilumenDev ||= {}); if (!('autocatch' in kd)) kd.autocatch = AUTOCATCH; }
+if (typeof location !== 'undefined' && location.search) {
+  const kept = new URLSearchParams(); if (raw.get('dev') === '1') kept.set('dev', '1'); if (AUTOCATCH) kept.set('autocatch', '1');
+  const q = kept.toString();
+  try { history.replaceState(history.state, '', location.pathname + (q ? '?' + q : '') + location.hash); } catch { /* ignore */ }
+}
 
 export function noticeSeen() { try { return localStorage.getItem(ALPHA_NOTICE_KEY) === '1'; } catch { return false; } }
 export function markNoticeSeen() { try { localStorage.setItem(ALPHA_NOTICE_KEY, '1'); } catch { /* private mode */ } }

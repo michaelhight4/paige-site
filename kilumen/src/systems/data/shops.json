@@ -471,28 +471,30 @@
     {
      "coins": 0,
      "items": [
-      "fine_crystal",
+      "dominance_crystal",
       "dominance_crystal_plus",
+      "fine_crystal",
       "tonic_large",
       "energy_tonic",
       "remedy_pouch",
       "calm_tea",
       "trail_mix",
-      "feed_bag"
+      "feed_bag",
+      "deepgut_paste",
+      "glimmer_worm"
      ]
     },
     {
-     "coins": 8,
+     "coins": 1,
      "items": [
-      "apex_crystal",
       "vigor_seed",
-      "deepgut_paste",
       "mint_sprig"
      ]
     },
     {
      "coins": 8,
      "items": [
+      "apex_crystal",
       "iron_brace",
       "focus_lens",
       "steady_sight",

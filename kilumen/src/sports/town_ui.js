@@ -13,7 +13,7 @@ import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.96-alpha';
 import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.96-alpha';
 import { pickRows } from './pick_rows.js?v=v0.2.96-alpha';
 import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.96-alpha';
-export const TUG_COACH = 'saltmere_tug_coach', ANNOUNCER = 'aurelith_games_announcer';
+export const TUG_COACH = 'saltmere_tug_coach', ANNOUNCER = 'aurelith_games_announcer', MERIT_CLERK = 'aurelith_merit_clerk'; // integ8: a separate Merit Counter clerk (stadium 16,10)
 
 export const LIVE_REGION = 8; // all six town events are playable (dev/sports-events, Oct 29 2026); each coach also runs the town cup
 const W = 360, H = 480;
@@ -45,6 +45,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     const m = scene.map; if (!m) return null;
     if (npcAt(TUG_COACH, fx, fy)) return tug;
     if (npcAt(ANNOUNCER, fx, fy)) return 'major';
+    if (openMerit && npcAt(MERIT_CLERK, fx, fy)) return 'merit';
     const ev = eventFor(m.name); if (!ev) return null;
     return npcAt(coachId(ev.town), fx, fy) ? ev : null;
   };
@@ -54,6 +55,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     s.onInteract = (fx, fy) => {
       const ev = coachAt(fx, fy); if (!ev) return prev(fx, fy);
       scene.script(async () => {
+        if (ev === 'merit') { await openMerit(); return; } // Merit Counter clerk: straight to the shop (its own screen greets)
         if (ev === 'major') { // Aurelith announcer: the Games or the merit counter (src/garden/index.js)
           const k = openMerit && scene.ask ? await scene.ask([gt('merit.announcer.ask')], [gt('merit.announcer.games'), gt('merit.announcer.shop'), gt('merit.announcer.leave')]) : 0;
           if (k === 1) { await openMerit(); return; } if (k !== 0) return;
