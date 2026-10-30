@@ -2,26 +2,26 @@
 // existing battle shell markup/CSS (src/ui/ui.js scr_battle). Imported by mountUI unless ?battle=shell.
 // Every fallback string marked PH below is a PLACEHOLDER for Text Bot (keys listed in src/battle/data/README.md);
 // the P() lookup uses the real line as soon as the key exists in text/overworld_lines.json.
-import { KilumenBattle } from './battle.js?v=v0.2.95-alpha';
-import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.95-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
-import { skillTag } from '../qol/matchup.js?v=v0.2.95-alpha';
-import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.95-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
-import { scaleMasterTeam } from '../progression/hall_v2.js?v=v0.2.95-alpha';
+import { KilumenBattle } from './battle.js?v=v0.2.96-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.96-alpha'; // QoL batch B: #4 xpShare, #7 matchup / dmgPreview
+import { skillTag } from '../qol/matchup.js?v=v0.2.96-alpha';
+import { cidleOn, reducedMotion } from '../overworld/creature_idle.js?v=v0.2.96-alpha'; // existing 4-frame idle GIF instead of the still (128px forms)
+import { scaleMasterTeam } from '../progression/hall_v2.js?v=v0.2.96-alpha';
 const CIDLE_RE = /\/battle\/([a-z0-9_]+)_(front|back)_128_2x\.png(\?.*)?$/;
 const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ? url.replace(CIDLE_RE, '/anim/$1_$2_idle_2x.gif$3') : null);
-import { DEV } from '../dev/runtime.js?v=v0.2.95-alpha';
-import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.95-alpha'; // battle mode switch (wild only, Oct 29 2026)
-import { authoredTeam } from './data/trainer_teams.js?v=v0.2.95-alpha';
-import { STAT_NAMES } from './data/creatures.js?v=v0.2.95-alpha';
-import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.95-alpha';
-import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.95-alpha';
-import { coverPoint } from './data/water_bg.js?v=v0.2.95-alpha'; // cover-fit maths for the painted biome backdrops
-import { heldIconHtml, heldIconSrc, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.95-alpha'; // held-item icon per slot (Oct 29 2026)
-import { heldFromEngine, heldToEngine } from './data/held_items.js?v=v0.2.95-alpha';
-import { pxi } from '../ui/ui_tools2.js?v=v0.2.95-alpha'; // held-item chip icon (pixelarticons handbag, MIT)
+import { DEV } from '../dev/runtime.js?v=v0.2.96-alpha';
+import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.96-alpha'; // battle mode switch (wild only, Oct 29 2026)
+import { authoredTeam } from './data/trainer_teams.js?v=v0.2.96-alpha';
+import { STAT_NAMES } from './data/creatures.js?v=v0.2.96-alpha';
+import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.96-alpha';
+import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.96-alpha';
+import { coverPoint } from './data/water_bg.js?v=v0.2.96-alpha'; // cover-fit maths for the painted biome backdrops
+import { heldIconHtml, heldIconSrc, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.96-alpha'; // held-item icon per slot (Oct 29 2026)
+import { heldFromEngine, heldToEngine } from './data/held_items.js?v=v0.2.96-alpha';
+import { pxi } from '../ui/ui_tools2.js?v=v0.2.96-alpha'; // held-item chip icon (pixelarticons handbag, MIT)
 // hit effects: HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ../ui/data.js (both on since Oct 22, 2026, see the note there); dev ?fxpreview=staging
-import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.95-alpha';
-import { SKILL_FX } from '../ui/data.js?v=v0.2.95-alpha';
+import { fxSettings, loadFx, prepFx, showImpact, showTravel, isRanged } from '../ui/hit_fx.js?v=v0.2.96-alpha';
+import { SKILL_FX } from '../ui/data.js?v=v0.2.96-alpha';
 
 // player-side facing (Gary, Oct 23 2026): these back sprites were drawn facing LEFT (away from the foe), so the player side
 // mirrors them (.b-flip) to face right. Visual review of all back sprites; the art can be redrawn later and the id dropped here.
@@ -40,7 +40,7 @@ const KEY = 'system_battle'; // PH: proposed namespace for the new battle lines
 
 export function makeSdBattle(ui, opts, h) {
   const { esc, front, back, fx, lvlOf, speciesById, ELEMENT_LABEL, statsFor } = h;
-  const pace = (ms) => (ui.qol ? ui.qol.pace(ms) : ms), wait = (ms) => h.wait(pace(ms)); // [qol hook] Battle pace x1/x2/x3
+  const pace = (ms) => (ui.qol ? ui.qol.pace(ms) : ms), wait = (ms) => (autoQueued ? Promise.resolve() : h.wait(pace(ms))); // dev Auto-complete pressed: intro/anim waits end at once // [qol hook] Battle pace x1/x2/x3
   const P1 = (k, fb, v) => ui.P(`${KEY}.${k}`, [fb], v)[0];
   const trainer = !!opts.trainer;
   // no capturing a trainer's creatures (Gary, Oct 23 2026): any battle with an owner (trainer flag, overworld trainer id,
@@ -118,7 +118,7 @@ export function makeSdBattle(ui, opts, h) {
     const line = FOE_HEAL_PH[foeHealN++ % FOE_HEAL_PH.length];
     await say(P1('foe_item_used', line, { trainer: opts.foeName || 'The trainer', item: itemName(id), creature: who }), 900);
   };
-  let mode = 'msg', msgResolve = null, busy = true, list = [];
+  let mode = 'msg', msgResolve = null, busy = true, list = [], autoQueued = false; // autoQueued: dev Auto-complete waiting for the intro (skips waits)
   const scr = { scr: 'battle', full: true, sel: 0, cols: 2, count: () => (mode === 'msg' ? 0 : list.length), kb };
   ui._sd = scr;
   // force-close fix (batch 3 wire, Oct 23 2026): ui.closeAll() during a battle empties ui.layer while playback / a say()
@@ -149,7 +149,7 @@ export function makeSdBattle(ui, opts, h) {
       <div class="b-bottom"><div class="plate b-msg" id="b-msg" data-act="msg"></div><div class="ui-panel b-cmds" id="b-cmds" data-scr="battle" data-pat="waves" data-scroll hidden></div></div>
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
-    if (ui.scene?.region56 || ui.q?.get('wx')) import('../region56/weather_lite.js?v=v0.2.95-alpha').then((m) => { if (root.isConnected) scr.wx = m.attachBattleWeather(root, { scene: ui.scene, query: ui.q }); }).catch((e) => console.error('weather lite:', e)); // [r56 weather lite] .wx between .bg and .b-field
+    if (ui.scene?.region56 || ui.q?.get('wx')) import('../region56/weather_lite.js?v=v0.2.96-alpha').then((m) => { if (root.isConnected) scr.wx = m.attachBattleWeather(root, { scene: ui.scene, query: ui.q }); }).catch((e) => console.error('weather lite:', e)); // [r56 weather lite] .wx between .bg and .b-field
     if (biomeArt.art) { // painted backdrop (water / cave / mountain / snow): animated life layer over the still; creatures on the painted spots
       const bgEl = root.querySelector('.bg'), field = root.querySelector('.b-field');
       if (biomeArt.life && !reducedMotion()) { // animated webp (16 x 120 ms, decoded by the browser frame by frame; no JS per frame)
@@ -243,7 +243,7 @@ export function makeSdBattle(ui, opts, h) {
   });
   const showCaughtMon = (m, info) => {
     if (!m || !info) return; const d = document.createElement('i'); d.className = 'b-caught-mon'; d.setAttribute('aria-hidden', 'true');
-    d.style.backgroundImage = `url(${info.url})`; d.style.backgroundSize = `${info.w}px ${info.h}px`;
+    d.style.backgroundImage = `url(${info.url})`; const k = 64 / (info.w / 5); d.style.backgroundSize = `${info.w * k}px ${info.h * k}px`; // big sheets have 96 px cells: scale to one 64 px frame
     m.classList.add('b-msg-caught'); const more = m.querySelector('.more'); m.insertBefore(d, more);
     if (!ui.fx?.reduced?.()) d.animate?.([{ transform: 'translateY(6px) scale(.4)', opacity: 0 }, { transform: 'translateY(-2px) scale(1.12)', opacity: 1, offset: 0.65 }, { transform: 'none', opacity: 1 }], { duration: 320, easing: 'ease-out' });
   };
@@ -438,7 +438,6 @@ export function makeSdBattle(ui, opts, h) {
   // dev console (v0.2.26): "Auto-complete" only while DEV.active (admin account + ?dev=1). Plays the rest of the battle through the normal
   // engine with a computer-picked player side (no animations), then the ordinary finish() below runs unchanged (XP split, evolutions, save after).
   const autoItem = () => (DEV.active ? [{ t: 'Auto-complete', el: 'light', go: () => guard(autoRun()) }] : []);
-  let autoQueued = false;
   const autoRun = async () => {
     if (!DEV.active || kb.ended || closed()) return;
     if (busy) { // live v0.2.93 bug 3: a DEV-chip press mid-animation waits for the next menu instead of being dropped
@@ -447,12 +446,16 @@ export function makeSdBattle(ui, opts, h) {
       autoQueued = false; if (kb.ended || closed()) return;
     }
     busy = true; $('#b-cmds').hidden = true; $('#b-msg').textContent = 'Auto-completing…';
-    const AB = await import('../dev/autobattle.js?v=v0.2.95-alpha');
+    const AB = await import('../dev/autobattle.js?v=v0.2.96-alpha');
     const entry = AB.runAuto(kb, { trainer, owned });
     if (!kb.ended) { busy = false; $('#b-msg').textContent = 'Auto-complete stopped early (see the dev battle logs).'; AB.afterFinish(entry); return; }
     await finish();
     AB.afterFinish(entry);
   };
+  if (DEV.active) { // dev (Oct 30 2026): Shift+A = Auto-complete from the first frame (the intro used to block it ~6 s)
+    const onKey = (e) => { if (closed() || kb.ended) { removeEventListener('keydown', onKey, true); return; } if (e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); guard(autoRun()); } };
+    addEventListener('keydown', onKey, true);
+  }
   if (DEV.active && window.kilumen?.dev) { // live v0.2.93 bug 3: the DEV chip reaches Auto-complete during a battle (src/dev/console.js)
     const dv = window.kilumen.dev; dv.battleAuto = () => guard(autoRun());
     const off = setInterval(() => { if (closed() || kb.ended) { clearInterval(off); if (dv.battleAuto) dv.battleAuto = null; } }, 500);

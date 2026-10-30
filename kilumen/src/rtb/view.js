@@ -2,14 +2,14 @@
 // screen = (world - cam) * zoom, as src/overworld/overworld.js view()), plus a small DOM HUD. All the "juice" lives here:
 // hitstop, shake, white hit flash, knockback dust, damage numbers, element sparks, telegraph wedges, "!" alerts, faint poof,
 // crystal pulses, level-up column, start/end banners. Reduced motion (?rm=1 / prefers-reduced-motion): no shake, no flashes, fewer particles.
-import { displayName } from '../systems/creature.js?v=v0.2.95-alpha';
-import { SHAPE_STATS } from './moves.js?v=v0.2.95-alpha';
-import { RT } from './sim.js?v=v0.2.95-alpha';
-import { loadFx } from '../ui/hit_fx.js?v=v0.2.95-alpha';
-import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.95-alpha';
+import { displayName } from '../systems/creature.js?v=v0.2.96-alpha';
+import { SHAPE_STATS } from './moves.js?v=v0.2.96-alpha';
+import { RT } from './sim.js?v=v0.2.96-alpha';
+import { loadFx } from '../ui/hit_fx.js?v=v0.2.96-alpha';
+import { CT, ct, BAND_COLOR } from './capture.js?v=v0.2.96-alpha';
 // crystal icon (inline, no asset): a faceted gem
 export const GEM_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 9 12 22 4 9Z" fill="#bff6ff"/><path d="M12 2 16 9 12 22 8 9Z" fill="#7fe3ff"/><path d="M4 9h16L12 22Z" fill="#4fc7ef" opacity=".55"/><path d="M12 2 8 9h8Z" fill="#fff" opacity=".8"/></svg>';
-import { heldIconHtml, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.95-alpha'; // held-item icon per slot (Oct 29 2026)
+import { heldIconHtml, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.96-alpha'; // held-item icon per slot (Oct 29 2026)
 
 export const EL_COLOR = { fire: '#ff7a2f', magma: '#ff5a1f', water: '#3fa9ff', freshwater: '#5cc3ff', sea: '#2f86ff', earth: '#c9935a', grass: '#62d65a',
   bug: '#a6d93d', wind: '#c6ecff', bird: '#d6e6ff', light: '#fff1a0', angelic: '#ffe6c2', god: '#ffe08a', dark: '#9a6bff', ghost: '#b796ff', demon: '#ff4f7a',
@@ -382,13 +382,13 @@ export class RtView {
     if (f.ai?.state === 'alert') scale *= Math.min(1, 0.3 + (this.sim.t) / 0.25);
     if (f.held && !g) { const k = this.cap; const p = k ? Math.min(1, k.t / 0.25) : 1; scale *= 1 - 0.75 * p; alpha *= 1 - 0.7 * p; }
     if (f.popT > 0) { f.popT -= dt; scale *= 1 + f.popT * 1.4; }
-    const im = this.sheet(f.c.species);
+    const im = this.sheet(f.c.species), cs = im ? im.naturalWidth / 5 : 64; // 64 px cells, 96 for the big sheets (bastonox, forgeharrow, tidemarrow)
     const fx = f.face?.x || 0, fy = f.face?.y || 0, row = Math.abs(fx) > Math.abs(fy) ? (fx < 0 ? 1 : 2) : (fy < 0 ? 3 : 0);
     const moving = Math.hypot(f.vx, f.vy) > 20 || f.dash, colN = moving ? 1 + (Math.floor(this.t * (f.dash ? 16 : 9)) % 4) : 0;
     // shadow
     c.globalAlpha = 0.28 * alpha; c.fillStyle = '#000'; c.beginPath(); c.ellipse(f.x, f.y + 16, 20 * scale, 7 * scale, 0, 0, Math.PI * 2); c.fill();
     // afterimages on dodge / dash
-    if (f.dash && !this.reduced) { c.globalAlpha = 0.25 * alpha; if (im) c.drawImage(im, colN * 64, row * 64, 64, 64, f.x - 32 - f.dash.vx * 0.03, f.y - 44 - f.dash.vy * 0.03, 64, 64); }
+    if (f.dash && !this.reduced) { c.globalAlpha = 0.25 * alpha; if (im) c.drawImage(im, colN * cs, row * cs, cs, cs, f.x - 32 - f.dash.vx * 0.03, f.y - 44 - f.dash.vy * 0.03, 64, 64); }
     c.globalAlpha = alpha;
     const telePulse = f.act && f.side === 'foe' ? Math.sin(this.t * 40) * 1.5 : 0;
     // squash on hit / stretch on cast
@@ -396,9 +396,9 @@ export class RtView {
     c.save(); c.translate(f.x + telePulse, f.y + 18); c.rotate(spin); c.scale(scale * sq, scale / sq);
     if (f.held) { c.globalAlpha = alpha * 0.85; }
     if (im) {
-      c.drawImage(im, colN * 64, row * 64, 64, 64, -32, -62, 64, 64);
-      if (f.flash > 0 && !this.reduced) { const fc = this.flashC.getContext('2d'); fc.clearRect(0, 0, 64, 64); fc.globalCompositeOperation = 'source-over'; fc.drawImage(im, colN * 64, row * 64, 64, 64, 0, 0, 64, 64); fc.globalCompositeOperation = 'source-atop'; fc.fillStyle = '#fff'; fc.fillRect(0, 0, 64, 64); c.drawImage(this.flashC, -32, -62); }
-      if (f.act && f.side === 'foe' && !this.reduced) { const fc = this.flashC.getContext('2d'); fc.clearRect(0, 0, 64, 64); fc.globalCompositeOperation = 'source-over'; fc.drawImage(im, colN * 64, row * 64, 64, 64, 0, 0, 64, 64); fc.globalCompositeOperation = 'source-atop'; fc.fillStyle = 'rgba(255,60,60,0.45)'; fc.fillRect(0, 0, 64, 64); c.drawImage(this.flashC, -32, -62); }
+      c.drawImage(im, colN * cs, row * cs, cs, cs, -32, -62, 64, 64);
+      if (f.flash > 0 && !this.reduced) { const fc = this.flashC.getContext('2d'); fc.clearRect(0, 0, 64, 64); fc.globalCompositeOperation = 'source-over'; fc.drawImage(im, colN * cs, row * cs, cs, cs, 0, 0, 64, 64); fc.globalCompositeOperation = 'source-atop'; fc.fillStyle = '#fff'; fc.fillRect(0, 0, 64, 64); c.drawImage(this.flashC, -32, -62); }
+      if (f.act && f.side === 'foe' && !this.reduced) { const fc = this.flashC.getContext('2d'); fc.clearRect(0, 0, 64, 64); fc.globalCompositeOperation = 'source-over'; fc.drawImage(im, colN * cs, row * cs, cs, cs, 0, 0, 64, 64); fc.globalCompositeOperation = 'source-atop'; fc.fillStyle = 'rgba(255,60,60,0.45)'; fc.fillRect(0, 0, 64, 64); c.drawImage(this.flashC, -32, -62); }
     } else { c.fillStyle = f.side === 'ally' ? '#7dd3ff' : '#ff9a7a'; c.beginPath(); c.arc(0, -22, 20, 0, Math.PI * 2); c.fill(); }
     c.restore();
     if (f.held && !this.cap) { c.strokeStyle = '#bff6ff'; c.lineWidth = 3; c.globalAlpha = 0.6 + 0.4 * Math.sin(this.t * 10); c.beginPath(); c.arc(f.x, f.y - 10, 34, 0, Math.PI * 2); c.stroke(); for (let i = 0; i < 4; i++) { const a = this.t * 3 + i * Math.PI / 2; c.fillStyle = '#bff6ff'; c.fillRect(f.x + Math.cos(a) * 36 - 3, f.y - 10 + Math.sin(a) * 36 - 3, 6, 6); } }
@@ -496,7 +496,7 @@ export class RtView {
     }
     sim.party.forEach((c, i) => {
       const el = box.children[i]; if (!el) return;
-      if (!box._drawn.has(i)) { const im = this.sheet(c.species); if (im) { el.querySelector('canvas').getContext('2d').drawImage(im, 0, 0, 64, 64, 0, 0, 64, 64); box._drawn.add(i); } }
+      if (!box._drawn.has(i)) { const im = this.sheet(c.species); if (im) { el.querySelector('canvas').getContext('2d').drawImage(im, 0, 0, im.naturalWidth / 5, im.naturalWidth / 5, 0, 0, 64, 64); box._drawn.add(i); } }
       el.classList.toggle('on', i === sim.active); el.classList.toggle('ko', !(c.hp > 0)); el.classList.toggle('cd', i !== sim.active && sim.swapCd > 0);
       sty(el.querySelector('.ph'), 'width', `calc(${Math.max(0, c.hp / (this.maxHpOf?.(c) || c.maxHp || c.hp || 1)) * 100}% - 4px)`);
     });
