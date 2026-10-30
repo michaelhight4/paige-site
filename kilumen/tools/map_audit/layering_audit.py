@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """24-point layering audit (design/map_layering_guide.md §5, scored 0-2 per item) for every overworld map.
-Heuristic, data-only (collision + npcs/items/spots/warps/gates); Coder Oct 30 2026. 20-24 dense, 14-19 tighten, <14 redesign.
+Minus 1 per empty/unreachable block over BLOCK_N squares (max 4, Pass 2). Heuristic, data-only (collision + npcs/items/spots/warps/gates); Coder Oct 30 2026. 20-24 dense, 14-19 tighten, <14 redesign.
 Usage: python3 tools/map_audit/layering_audit.py [--map NAME] [--json] [--detail]"""
 import argparse, glob, json, os, re
 from collections import deque
+import sys as _sys; _sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from layering_rules import check  # Pass 2 gate (Pokemon layering study R1-R5), reported next to the score
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 MAPS = os.path.join(ROOT, 'art', 'world', 'overworld', 'maps')
 PASS = {0, 4, 7, 10}; STRONG = re.compile(r'crystal_plus|vigor_seed|charm|reel_|_fine|prime')
+BLOCK_N = 80  # squares; see the empty-block penalty at the end of audit()
 N4 = ((1, 0), (-1, 0), (0, 1), (0, -1))
 
 def audit(j):
@@ -15,6 +18,11 @@ def audit(j):
     if not walk: return None
     xs = [p[0] for p in walk]; ys = [p[1] for p in walk]; x0, x1, y0, y1 = max(min(xs) - 1, 0), min(max(xs) + 1, W - 1), max(min(ys) - 1, 0), min(max(ys) + 1, H - 1)
     box = [(x, y) for y in range(y0, y1 + 1) for x in range(x0, x1 + 1)]
+    pad = j.get('padding') or {}
+    if pad.get('old_size'):  # padded maps: the border is decorative (centre camera), so empty blocks count only inside the old map
+        px0, py0 = pad.get('dx', 0), pad.get('dy', 0); pw, ph = pad['old_size']
+        inner = [(x, y) for (x, y) in box if px0 <= x < px0 + pw and py0 <= y < py0 + ph]
+    else: inner = box
     items = j.get('items') or []; npcs = j.get('npcs') or []; spots = j.get('interact_spots') or []; warps = j.get('warps') or []
     gates = {(cl['x'], cl['y']) for g in j.get('story_gates') or [] for cl in g.get('cells', [])}
     codes = {c(x, y) for (x, y) in box}
@@ -29,8 +37,8 @@ def audit(j):
                 if ok(nx, ny) and (nx, ny) not in seen: seen.add((nx, ny)); q.append((nx, ny))
         return seen
     s = {}
-    share = len(walk) / len(box); s['1_walk_share'] = 2 if .45 <= share <= .6 else 1 if .35 <= share <= .7 else 0
-    filler = sum(1 for (x, y) in box if (x, y) not in walk and not any((x + dx, y + dy) in walk for dx, dy in N4)) / len(box)
+    share = len([p for p in inner if p in walk]) / len(inner); s['1_walk_share'] = 2 if .45 <= share <= .6 else 1 if .35 <= share <= .7 else 0
+    filler = sum(1 for (x, y) in inner if (x, y) not in walk and not any((x + dx, y + dy) in walk for dx, dy in N4)) / len(inner)
     s['2_dead_filler'] = 2 if filler < .1 else 1 if filler < .2 else 0
     # loop: a blocker island fully surrounded by walk inside the box (a ring path) or any ledge shortcut
     blk = {p for p in box if p not in walk}; seen = set(); island = False
@@ -72,7 +80,23 @@ def audit(j):
     back_ok = all(start in reach(p) for p in list(R)[:: max(1, len(R) // 40)])
     s['11_no_gaps_softlocks'] = 2 if pw <= R and back_ok else 1 if back_ok else 0
     s['12_text_route_free'] = 0 if re.search(r'\broute\b', j.get('title', '') or '', re.I) else 2
-    return {'map': j.get('name'), 'score': sum(s.values()), 'walk_share': round(share, 2), 'filler': round(filler, 2), 'parts': s}
+    # Pass 2 (Gary, Oct 30 2026): a big empty or unreachable block costs points. "Deep" = a box square with no reachable
+    # walk square (or water/ice band) within 2 squares; each 4-connected deep block over BLOCK_N squares costs 1 (max 4).
+    near = R | {p for p in walk if c(*p) not in PASS}
+    deep = {(x, y) for (x, y) in inner if not any((x + dx, y + dy) in near for dx in range(-2, 3) for dy in range(-2, 3))}
+    blocks, seen = [], set()
+    for p in deep:
+        if p in seen: continue
+        comp = [p]; seen.add(p); i = 0
+        while i < len(comp):
+            x, y = comp[i]; i += 1
+            for dx, dy in N4:
+                n = (x + dx, y + dy)
+                if n in deep and n not in seen: seen.add(n); comp.append(n)
+        if len(comp) > BLOCK_N: blocks.append(len(comp))
+    pen = min(4, len(blocks))
+    rules = check(dict(j, name=j.get('name') or ''), {}) or {}
+    return {'rules_pass': bool(rules.get('pass')), 'rules': rules, 'map': j.get('name'), 'score': max(0, sum(s.values()) - pen), 'empty_blocks': sorted(blocks, reverse=True), 'penalty': pen, 'walk_share': round(share, 2), 'filler': round(filler, 2), 'parts': s}
 
 def run():
     out = []
@@ -89,4 +113,4 @@ if __name__ == '__main__':
     r = [a for a in run() if not o.map or a['map'] == o.map]
     if o.json: print(json.dumps(r, indent=1)); raise SystemExit
     for i, a in enumerate(r, 1):
-        print(f"{i:>3} {a['map']:34} {a['score']:>2}/24  walk {a['walk_share']:.2f} filler {a['filler']:.2f}" + ('  ' + ' '.join(f"{k.split('_')[0]}:{v}" for k, v in a['parts'].items()) if o.detail else ''))
+        print(f"{i:>3} {a['map']:34} {a['score']:>2}/24  walk {a['walk_share']:.2f} filler {a['filler']:.2f} pen -{a['penalty']} rules {'PASS' if a['rules_pass'] else 'FAIL'}" + ('  ' + ' '.join(f"{k.split('_')[0]}:{v}" for k, v in a['parts'].items()) if o.detail else ''))

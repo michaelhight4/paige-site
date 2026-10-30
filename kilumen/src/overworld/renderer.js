@@ -79,6 +79,15 @@ export class Renderer {
       const id = m.tile('overlay', x, y);
       if (id && !v.tileset.byId.get(id)?.ysort) this.tile(v, id, x, y);
     }
+    // pet depth (Wellspire fixes, Oct 30 2026): the follower sorts by its feet like the player, so a flat overlay tile in a
+    // row above its feet (shelf goods, counter tops, lamp heads) must not cover its head; redraw it over those tiles only
+    for (const a of actors) {
+      if (!a.follower || a._swim) continue;
+      const fy = Math.round(a.py / TILE), c0 = Math.floor(a.px / TILE), c1 = Math.ceil(a.px / TILE), up = Math.ceil((a.h || TILE) / TILE);
+      let hit = false;
+      for (let y = fy - up; y < fy && !hit; y++) for (let x = c0; x <= c1; x++) { const id = m.tile('overlay', x, y); if (id && !v.tileset.byId.get(id)?.ysort) { hit = true; break; } }
+      if (hit) this.actor(v, a);
+    }
     v.ixlight?.draw(ctx, v, 'upper'); // Interiors v2: same lighting on overlay-row furniture tops
     for (const o of v.overlays || []) this.tile(v, o.id, o.x, o.y); // engine overlays on occupied cells (bin flies)
     v.tells?.(ctx, v); // puzzle tells (progression/puzzle_tells.js): static arrows / pairs / channel colours / pillars, shimmer, ripple

@@ -171,11 +171,14 @@ export class GameUI {
       if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
       if (!keys.has(e.code)) return;
       e.preventDefault();
+      if (!this.active && (this.scene.dialog?.active || this.scene.busy)) return;
       // v0.2.61: Escape mashed during the phone menu's open/close animation toggled it back and forth; one toggle per 250 ms
       const now = performance.now(); if (now - (this._menuKeyT || 0) < 250) return; this._menuKeyT = now;
       // v0.2.54: Escape is also a B key in overworld/input.js, so the same press used to reach _input as a B edge and
       // instantly back()/close the menu it just opened (Gary 11:03 Oct 29). Eat the B from this press until it is released.
       this._eatB = true;
+      // Wellspire fixes (Oct 30 2026): Escape during a dialogue / script (heal counter) only closes the dialogue; it no longer
+      // queues the menu to open afterwards (the queued menu then took the next presses: Menu > Team > 'Hold which item?')
       if (this.active) { if (this.modal) this._modalBack(); else this.back(); } else this.requestOpen('phone');
     });
   }

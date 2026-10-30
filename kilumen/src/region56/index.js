@@ -40,7 +40,11 @@ export function ron5State(flags, defeated = false) {
   return 'first';
 }
 /** Pure: should the missed parting fire now? */
-export const ron5Missed = (flags) => flags.has(R56.master) && !flags.has('ron5_fought') && !flags.has('ron5_missed');
+// Wellspire fixes (Oct 30 2026): gated like the Lanternport page (region78 pageDue): only between the Tidewater coin (coin six)
+// and the next one, so a cold warp / dev Flags preset past that point never plays 'Coin six' later in the game.
+export const ron5Missed = (flags) => flags.has(R56.master) && !flags.has('ron5_fought') && !flags.has('ron5_missed')
+  && !flags.has('all_badges') && !LATER_COINS.some((f) => flags.has(f));
+const LATER_COINS = ['beat_master_lanternport', 'beat_master_cindervale'];
 /** Pure: ID cap flag for a region when the company level sits at its cap and the next region is still locked. */
 export function idCapFlag(idLevel, caps = { 5: 14, 6: 16 }) {
   for (const [r, cap] of Object.entries(caps)) if (idLevel === cap) return `id_cap_r${r}`;

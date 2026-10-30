@@ -152,11 +152,11 @@ let styled = false;
 function css() {
   if (styled) return; styled = true;
   const s = document.createElement('style');
-  s.textContent = `.kdev-log{position:fixed;inset:0;z-index:100001;background:rgba(8,10,16,.88);display:flex;align-items:center;justify-content:center;padding:10px;font:13px/1.35 system-ui,sans-serif;color:#e8ecf4}
-.kdev-log .box{background:#141a26;border:1px solid #3a4560;border-radius:12px;width:min(720px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden}
+  s.textContent = `.kdev-log{position:fixed;inset:0;z-index:100001;background:transparent;pointer-events:none;display:flex;align-items:flex-end;justify-content:flex-end;padding:10px;font:13px/1.35 system-ui,sans-serif;color:#e8ecf4}
+.kdev-log .box{pointer-events:auto;max-height:55vh;box-shadow:0 6px 24px rgba(0,0,0,.5);background:#141a26;border:1px solid #3a4560;border-radius:12px;width:min(720px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden}
 .kdev-log .hd{display:flex;gap:8px;align-items:center;padding:10px 12px;border-bottom:1px solid #2a3348}.kdev-log .hd b{flex:1}
 .kdev-log pre{margin:0;padding:10px 12px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;flex:1;-webkit-overflow-scrolling:touch;touch-action:pan-y}
-.kdev-log button{background:#27324a;color:#fff;border:1px solid #4a5a80;border-radius:8px;padding:9px 14px;font:inherit;min-height:40px}`;
+.kdev-log button{cursor:pointer;pointer-events:auto;background:#27324a;color:#fff;border:1px solid #4a5a80;border-radius:8px;padding:9px 14px;font:inherit;min-height:40px}.kdev-log button:focus-visible{outline:2px solid #ffd76a;outline-offset:2px}`;
   document.head.appendChild(s);
 }
 export async function copyText(t) {
@@ -170,7 +170,8 @@ export function showLog(entry) {
   // Arena playtest Oct 30 2026: the full-screen log covered the DEV chip; start the overlay below it (chip stays tappable).
   const chipEl = document.querySelector('.kdev-chip'), cb = chipEl?.getBoundingClientRect?.();
   if (cb && cb.bottom > 0 && cb.bottom < innerHeight / 2) w.style.top = `${Math.ceil(cb.bottom + 4)}px`;
-  w.innerHTML = '<div class="box"><div class="hd"><b></b><button data-c>Copy</button><button data-x>Close</button></div><pre></pre></div>';
+  // Wellspire fixes (Oct 30 2026): non-blocking corner panel (game stays playable behind it), real buttons with focus, Esc closes
+  w.innerHTML = '<div class="box" role="dialog" aria-label="Auto-battle log"><div class="hd"><b></b><button type="button" data-c>Copy</button><button type="button" data-x>Close</button></div><pre tabindex="0"></pre></div>';
   w.querySelector('b').textContent = `${entry.title}: ${String(entry.outcome).toUpperCase()}, ${entry.turns} turn(s)`;
   w.querySelector('pre').textContent = text;
   const close = () => { w.remove(); DEV.logOpen = false; document.removeEventListener('keydown', key, true); };
@@ -179,4 +180,5 @@ export function showLog(entry) {
   w.querySelector('[data-x]').onclick = close;
   w.querySelector('[data-c]').onclick = async (e) => { const ok = await copyText(text); e.target.textContent = ok ? 'Copied' : 'Copy failed'; setTimeout(() => { e.target.textContent = 'Copy'; }, 1500); };
   document.body.appendChild(w);
+  w.querySelector('[data-x]').focus({ preventScroll: true });
 }

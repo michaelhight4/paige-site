@@ -75,7 +75,7 @@ export const TALK = {
   r9_cf_herder_1: { say: 'r9.cairnfold_herder_1' }, r9_cf_herder_2: { say: 'r9.cairnfold_herder_2' }, r9_cf_elder: { say: 'r9.cairnfold_elder' },
   r9_cf_kid: { say: 'r9.cairnfold_kid' }, r9_cf_weaver: { say: 'r9.cairnfold_weaver' }, r9_cf_walker: { say: 'r9.cairnfold_walker' },
   r9_cf_lodge_fan: { say: 'r9.cairnfold_lodge_fan' }, r9_cf_watcher: { say: 'r9.cairnfold_watcher' }, r9_cf_baker: { say: 'r9.cairnfold_baker' },
-  r9_lodge_clerk: { say: 'r9.lodge_clerk' },
+  r9_lodge_clerk: { say: 'r9.lodge_clerk', shop: true }, // playtest Oct 30 2026: the lodge receptionist sells (Wellspire stock)
   // r9 trainers: own intro/after come from FIELD_IDS below (r9.ft.<id>.*); the Oct 30 Text Bot r9.*_intro/_after lines stay in overworld_lines as spares.
   r9_sw_survey_1: { intro: 'r9.survey_crew_1', after: 'r9.trainer_after' }, r9_sw_survey_2: { intro: 'r9.survey_crew_2', after: 'r9.trainer_after' },
   r9_sw_survey_3: { intro: 'r9.survey_crew_3', after: 'r9.trainer_after' },
@@ -173,6 +173,7 @@ export function attachRegion9(scene, { systems } = {}) {
       if (t.flag) set(t.flag);
       return;
     }
+    if (t.say && t.shop) { await say(t.say, sp); return scene.systems?.openShop?.(); }
     if (t.say) { await say(t.say, sp); if (t.flag) { const first = !has(t.flag); set(t.flag); if (first && /^fin_(teo|marta|pell|imke)$/.test(d.id)) heal(); } return; }
     if (scene.seen[def(`${mapName}.${d.id}`)]) return say(t.after, sp);
     if (t.needs && !has(t.needs) && !scene.devMasterKey) return say(t.wait, sp);

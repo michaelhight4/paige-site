@@ -1,0 +1,1332 @@
+{
+ "_note": "Pass 2 cave pockets (Coder, Oct 30 2026). Read by tools/map_audit/cave_pockets.py and tests/pass2_caves.test.mjs. gate = how the pocket is entered and left. Built by tools/map_audit/pass2_spec.py from tools/map_audit/pass2_specs/.",
+ "pockets": [
+  {
+   "id": "sw_pocket_west",
+   "map": "r9_switchbacks",
+   "cave": "r9_switchbacks_cave_w",
+   "cave_title": "Switchback Crevice",
+   "floor": [
+    [
+     11,
+     13,
+     15,
+     24
+    ]
+   ],
+   "ledge": [
+    12,
+    14,
+    25
+   ],
+   "walk": [
+    [
+     12,
+     26
+    ],
+    [
+     13,
+     26
+    ],
+    [
+     14,
+     26
+    ],
+    [
+     15,
+     26
+    ],
+    [
+     16,
+     26
+    ]
+   ],
+   "mouth": [
+    19,
+    24
+   ],
+   "pocket_door": [
+    13,
+    13
+   ],
+   "main_start": [
+    24,
+    1
+   ],
+   "floor_tile_at": [
+    22,
+    28
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_switchbacks_cave_w",
+    "out": "one-way ledge at y25 x12-14",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_swp_hermit",
+    "x": 11,
+    "y": 16,
+    "level": 63,
+    "class": "Hermit",
+    "name": "Odda",
+    "species": [
+     "lancebeetle",
+     "fernstag",
+     "tundrarch"
+    ],
+    "intro": [
+     "DRAFT: Nobody finds this ledge by walking. You came through the crack, huh?"
+    ],
+    "lost": [
+     "DRAFT: Fine, fine. The rock keeps my secrets better than I do."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge to the south. It only goes one way."
+    ]
+   },
+   "egg": {
+    "id": "r9_swp_egg_cairn",
+    "x": 15,
+    "y": 17,
+    "what": "a tiny cairn of 3 pebbles",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tiny cairn. Someone stacked 3 pebbles and carved a smiling face on the top one."
+    ]
+   },
+   "item": {
+    "id": "r9_swp_seed",
+    "x": 12,
+    "y": 24,
+    "item": "vigor_seed"
+   },
+   "premise": "A hermit who left the climb years ago and guards a hidden Vigor Seed."
+  },
+  {
+   "id": "sw_pocket_northeast",
+   "map": "r9_switchbacks",
+   "cave": "r9_switchbacks_cave_ne",
+   "cave_title": "Frost Seam",
+   "floor": [
+    [
+     31,
+     12,
+     37,
+     17
+    ]
+   ],
+   "ledge": [
+    37,
+    37,
+    18
+   ],
+   "walk": [
+    [
+     37,
+     19
+    ],
+    [
+     37,
+     20
+    ]
+   ],
+   "mouth": [
+    31,
+    20
+   ],
+   "pocket_door": [
+    34,
+    12
+   ],
+   "main_start": [
+    24,
+    1
+   ],
+   "floor_tile_at": [
+    22,
+    28
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_switchbacks_cave_ne",
+    "out": "one-way ledge at y18 x37-37",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_swp_icecutter",
+    "x": 31,
+    "y": 14,
+    "level": 63,
+    "class": "Ice Cutter",
+    "name": "Bran",
+    "species": [
+     "gauzewing",
+     "galespar",
+     "stratodrake"
+    ],
+    "intro": [
+     "DRAFT: This seam is mine. I cut ice blocks for the camp."
+    ],
+    "lost": [
+     "DRAFT: You hit harder than the frost does."
+    ],
+    "after": [
+     "DRAFT: There is a slide down by the far wall. Mind the drop."
+    ]
+   },
+   "egg": {
+    "id": "r9_swp_egg_snowman",
+    "x": 36,
+    "y": 14,
+    "what": "a snow figure wearing a climbing helmet",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A snow figure in a climbing helmet. Its sign says: STILL WAITING FOR A ROPE."
+    ]
+   },
+   "item": {
+    "id": "r9_swp_crystal",
+    "x": 32,
+    "y": 17,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "An ice cutter who works a hidden seam above the shelf; a Prime Crystal sits under the snow."
+  },
+  {
+   "id": "sw_pocket_east",
+   "map": "r9_switchbacks",
+   "cave": "r9_switchbacks_cave_e",
+   "cave_title": "Echo Hollow",
+   "floor": [
+    [
+     31,
+     32,
+     37,
+     35
+    ]
+   ],
+   "ledge": [
+    31,
+    33,
+    36
+   ],
+   "walk": [],
+   "mouth": [
+    27,
+    39
+   ],
+   "pocket_door": [
+    35,
+    32
+   ],
+   "main_start": [
+    24,
+    1
+   ],
+   "floor_tile_at": [
+    22,
+    28
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_switchbacks_cave_e",
+    "out": "one-way ledge at y36 x31-33",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_swp_echo",
+    "x": 33,
+    "y": 33,
+    "level": 63,
+    "class": "Mountaineer",
+    "name": "Sefa",
+    "species": [
+     "calderock",
+     "foundrax",
+     "novarch"
+    ],
+    "intro": [
+     "DRAFT: Shout in here and the mountain shouts back. Want to hear it?"
+    ],
+    "lost": [
+     "DRAFT: Even the echo went quiet."
+    ],
+    "after": [
+     "DRAFT: The ledge west drops you by the lower trail."
+    ]
+   },
+   "egg": {
+    "id": "r9_swp_egg_names",
+    "x": 37,
+    "y": 32,
+    "what": "names scratched in the rock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: Old names cut in the rock, a whole rope team. The newest one only says: WAS HERE FIRST."
+    ]
+   },
+   "item": {
+    "id": "r9_swp_seed_e",
+    "x": 36,
+    "y": 35,
+    "item": "vigor_seed"
+   },
+   "premise": "A climber who listens to the mountain echo; lore wall of the first rope team."
+  },
+  {
+   "id": "sw_pocket_southwest",
+   "map": "r9_switchbacks",
+   "cave": "r9_switchbacks_cave_sw",
+   "cave_title": "Low Draught",
+   "floor": [
+    [
+     12,
+     46,
+     25,
+     47
+    ]
+   ],
+   "ledge": [
+    14,
+    24,
+    48
+   ],
+   "walk": [
+    [
+     14,
+     49
+    ],
+    [
+     15,
+     49
+    ],
+    [
+     16,
+     49
+    ],
+    [
+     17,
+     49
+    ],
+    [
+     18,
+     49
+    ],
+    [
+     19,
+     49
+    ],
+    [
+     20,
+     49
+    ],
+    [
+     21,
+     49
+    ],
+    [
+     22,
+     49
+    ],
+    [
+     23,
+     49
+    ],
+    [
+     24,
+     49
+    ],
+    [
+     25,
+     49
+    ],
+    [
+     26,
+     49
+    ],
+    [
+     27,
+     49
+    ],
+    [
+     28,
+     49
+    ],
+    [
+     29,
+     49
+    ]
+   ],
+   "mouth": [
+    23,
+    39
+   ],
+   "pocket_door": [
+    13,
+    45
+   ],
+   "main_start": [
+    24,
+    1
+   ],
+   "floor_tile_at": [
+    22,
+    28
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_switchbacks_cave_sw",
+    "out": "one-way ledge at y48 x14-24",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_swp_warden",
+    "x": 20,
+    "y": 46,
+    "level": 63,
+    "class": "Trail Warden",
+    "name": "Ilse",
+    "species": [
+     "stratodrake",
+     "cragmont",
+     "tundrarch"
+    ],
+    "intro": [
+     "DRAFT: You found the warden hut. Most climbers walk right past it."
+    ],
+    "lost": [
+     "DRAFT: You climb like you fight. Fast."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you onto the south trail."
+    ]
+   },
+   "egg": {
+    "id": "r9_swp_egg_log",
+    "x": 25,
+    "y": 46,
+    "what": "a frozen trail log book",
+    "tile": 509,
+    "lines": [
+     "DRAFT: The trail log. Last entry: Day 40. The view is still great. Snacks are not."
+    ]
+   },
+   "item": {
+    "id": "r9_swp_crystal_sw",
+    "x": 14,
+    "y": 47,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A trail warden with a hidden hut below the switchbacks; story spot for the old trail log.",
+   "map_items": [
+    {
+     "id": "r9_swp_seed_visible",
+     "x": 18,
+     "y": 47,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "if_pocket_gallery",
+   "map": "r9_icefall",
+   "cave": "r9_icefall_cave_n",
+   "cave_title": "Rime Gallery",
+   "floor": [
+    [
+     10,
+     1,
+     17,
+     3
+    ]
+   ],
+   "ledge": [
+    11,
+    16,
+    4
+   ],
+   "walk": [],
+   "mouth": [
+    13,
+    10
+   ],
+   "pocket_door": [
+    14,
+    1
+   ],
+   "main_start": [
+    15,
+    18
+   ],
+   "floor_tile_at": null,
+   "floor_tiles": [
+    29,
+    30,
+    31,
+    32
+   ],
+   "gate": {
+    "in": "cave r9_icefall_cave_n",
+    "out": "one-way ledge at y4 x11-16",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_ifp_rimer",
+    "x": 11,
+    "y": 2,
+    "level": 63,
+    "class": "Ice Cutter",
+    "name": "Maren",
+    "species": [
+     "cragmont",
+     "gauzewing",
+     "galespar"
+    ],
+    "intro": [
+     "DRAFT: The falls freeze from the top down. Up here is where it starts."
+    ],
+    "lost": [
+     "DRAFT: The ice cracked first. Then me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge. The shelf below takes you back."
+    ]
+   },
+   "egg": {
+    "id": "r9_ifp_egg_sculpture",
+    "x": 17,
+    "y": 1,
+    "what": "an ice sculpture of a tiny Kilu",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tiny Kilu carved in ice. Someone gave it a scarf made of real wool."
+    ]
+   },
+   "item": {
+    "id": "r9_ifp_crystal",
+    "x": 10,
+    "y": 3,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "An ice cutter who works the frozen top of the falls; a Prime Crystal is frozen in the gallery floor.",
+   "map_items": [
+    {
+     "id": "r9_ifp_seed_visible",
+     "x": 16,
+     "y": 3,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "fsc_pocket_crack",
+   "map": "fin_summit_camp",
+   "cave": "r9_icefall",
+   "cave_title": "Icefall Crack",
+   "floor": [
+    [
+     20,
+     1,
+     29,
+     2
+    ]
+   ],
+   "ledge": [
+    21,
+    28,
+    3
+   ],
+   "walk": [],
+   "mouth": null,
+   "pocket_door": [
+    25,
+    1
+   ],
+   "main_start": [
+    16,
+    22
+   ],
+   "floor_tile_at": null,
+   "floor_tiles": [
+    29,
+    30,
+    31,
+    32
+   ],
+   "gate": {
+    "in": "cave r9_icefall",
+    "out": "one-way ledge at y3 x21-28",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_fscp_lookout",
+    "x": 21,
+    "y": 1,
+    "level": 63,
+    "class": "Mountaineer",
+    "name": "Kesia",
+    "species": [
+     "stratodrake",
+     "cragmont",
+     "calderock"
+    ],
+    "intro": [
+     "DRAFT: You came up through the falls? Then you earned the view."
+    ],
+    "lost": [
+     "DRAFT: Fair. The view is yours too now."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you right into camp."
+    ]
+   },
+   "egg": {
+    "id": "r9_fscp_egg_flag",
+    "x": 29,
+    "y": 1,
+    "what": "a tiny flag stuck in the ice",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tiny flag in the ice. It says: FIRST UP. Under it, smaller: SECOND UP."
+    ]
+   },
+   "item": {
+    "id": "r9_fscp_seed",
+    "x": 20,
+    "y": 2,
+    "item": "vigor_seed"
+   },
+   "premise": "A lookout who climbs the frozen falls for the view over camp; a Vigor Seed is tucked in the ice.",
+   "existing_cave": {
+    "crack": [
+     19,
+     8
+    ],
+    "land": [
+     20,
+     8
+    ]
+   },
+   "map_rocks": [
+    [
+     14,
+     8
+    ],
+    [
+     26,
+     8
+    ],
+    [
+     7,
+     15
+    ],
+    [
+     17,
+     13
+    ],
+    [
+     25,
+     16
+    ]
+   ],
+   "map_cells": [
+    {
+     "x": 8,
+     "y": 4,
+     "g": 29,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "fin_sc_ne_mix",
+     "x": 30,
+     "y": 4,
+     "item": "trail_mix"
+    },
+    {
+     "id": "fin_sc_sw_tea",
+     "x": 3,
+     "y": 18,
+     "item": "calm_tea"
+    }
+   ]
+  },
+  {
+   "id": "fsc_pocket_cellar",
+   "map": "fin_summit_camp",
+   "cave": "fin_summit_camp_cave",
+   "cave_title": "Spire Cellar",
+   "floor": [
+    [
+     4,
+     1,
+     14,
+     2
+    ]
+   ],
+   "ledge": [
+    9,
+    12,
+    3
+   ],
+   "walk": [],
+   "mouth": [
+    16,
+    11
+   ],
+   "pocket_door": [
+    6,
+    1
+   ],
+   "main_start": [
+    16,
+    22
+   ],
+   "floor_tile_at": null,
+   "floor_tiles": [
+    29,
+    30,
+    31,
+    32
+   ],
+   "gate": {
+    "in": "cave fin_summit_camp_cave",
+    "out": "one-way ledge at y3 x9-12",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_fscp_keeper",
+    "x": 13,
+    "y": 1,
+    "level": 63,
+    "class": "Hermit",
+    "name": "Aldo",
+    "species": [
+     "foundrax",
+     "fernstag",
+     "lancebeetle"
+    ],
+    "intro": [
+     "DRAFT: The spire has a cellar. Nobody asks what is in it. You did."
+    ],
+    "lost": [
+     "DRAFT: All right. It is mostly rocks. And me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge. The camp is right there."
+    ]
+   },
+   "egg": {
+    "id": "r9_fscp_egg_boots",
+    "x": 4,
+    "y": 1,
+    "what": "a row of tiny boots",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A row of tiny boots, smallest to biggest. The last pair is missing. Someone is still out there climbing."
+    ]
+   },
+   "item": {
+    "id": "r9_fscp_crystal",
+    "x": 14,
+    "y": 2,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A hermit who keeps the cellar under the spire; a Prime Crystal sits at the back.",
+   "map_items": [
+    {
+     "id": "fin_sc_cellar_seed",
+     "x": 10,
+     "y": 2,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "rb_pocket_spring",
+   "map": "r9_old_riverbed",
+   "cave": "r9_old_riverbed_cave",
+   "cave_title": "Dry Spring",
+   "floor": [
+    [
+     42,
+     9,
+     48,
+     12
+    ]
+   ],
+   "ledge": [
+    43,
+    47,
+    13
+   ],
+   "walk": [
+    [
+     43,
+     14
+    ],
+    [
+     43,
+     15
+    ],
+    [
+     44,
+     14
+    ],
+    [
+     44,
+     15
+    ],
+    [
+     45,
+     14
+    ],
+    [
+     45,
+     15
+    ],
+    [
+     46,
+     14
+    ],
+    [
+     46,
+     15
+    ],
+    [
+     47,
+     14
+    ],
+    [
+     47,
+     15
+    ]
+   ],
+   "mouth": [
+    21,
+    9
+   ],
+   "pocket_door": [
+    45,
+    9
+   ],
+   "main_start": [
+    1,
+    19
+   ],
+   "floor_tile_at": [
+    25,
+    12
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave r9_old_riverbed_cave",
+    "out": "one-way ledge at y13 x43-47",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rbp_dowser",
+    "x": 43,
+    "y": 9,
+    "level": 63,
+    "class": "Dowser",
+    "name": "Wren",
+    "species": [
+     "torrentpike",
+     "cascadorn",
+     "tuskwallow"
+    ],
+    "intro": [
+     "DRAFT: The river left. The spring stayed. So did I."
+    ],
+    "lost": [
+     "DRAFT: You found the water and the fight. Lucky day."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you by the nook."
+    ]
+   },
+   "egg": {
+    "id": "r9_rbp_egg_cup",
+    "x": 48,
+    "y": 9,
+    "what": "a tin cup on a nail",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tin cup on a nail. Scratched on it: BACK SOON. The dust says otherwise."
+    ]
+   },
+   "item": {
+    "id": "r9_rbp_crystal",
+    "x": 48,
+    "y": 12,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A dowser who found the spring the river left behind; a Prime Crystal sits in the damp corner.",
+   "map_cells": [
+    {
+     "x": 14,
+     "y": 18,
+     "g": null,
+     "d": 887,
+     "c": 5
+    },
+    {
+     "x": 22,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 23,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 24,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 25,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 26,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 27,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 28,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 29,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 30,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 31,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 32,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 33,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 34,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 35,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 36,
+     "y": 26,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    }
+   ],
+   "map_warps": [
+    {
+     "x": 50,
+     "y": 18,
+     "to": "r9_cairnfold",
+     "tx": 11,
+     "ty": 33,
+     "facing": "down"
+    }
+   ],
+   "map_items": [
+    {
+     "id": "r9_rbp_bank_mix",
+     "x": 14,
+     "y": 16,
+     "item": "trail_mix"
+    },
+    {
+     "id": "r9_rbp_channel_tea",
+     "x": 36,
+     "y": 26,
+     "item": "calm_tea"
+    },
+    {
+     "id": "r9_rbp_seed_visible",
+     "x": 42,
+     "y": 12,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "cf_pocket_hayloft",
+   "map": "r9_cairnfold",
+   "cave": "r9_cairnfold_cave_w",
+   "cave_title": "Hayloft Cave",
+   "floor": [
+    [
+     12,
+     10,
+     20,
+     10
+    ]
+   ],
+   "ledge": [
+    12,
+    20,
+    11
+   ],
+   "walk": [],
+   "mouth": [
+    17,
+    25
+   ],
+   "pocket_door": [
+    16,
+    9
+   ],
+   "main_start": [
+    26,
+    26
+   ],
+   "floor_tile_at": [
+    20,
+    26
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_cairnfold_cave_w",
+    "out": "one-way ledge at y11 x12-20",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_cfp_herder",
+    "x": 12,
+    "y": 10,
+    "level": 63,
+    "class": "Herder",
+    "name": "Bram",
+    "species": [
+     "lancebeetle",
+     "cragmont",
+     "foundrax"
+    ],
+    "intro": [
+     "DRAFT: The herd naps up here. Keep it down. Or fight me loudly."
+    ],
+    "lost": [
+     "DRAFT: Loud and good. The herd did not even wake."
+    ],
+    "after": [
+     "DRAFT: Hop off the ledge into the yard."
+    ]
+   },
+   "egg": {
+    "id": "r9_cfp_egg_bell",
+    "x": 19,
+    "y": 9,
+    "what": "a cowbell with no clapper",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A cowbell with no clapper. Someone wanted the herd to be quiet. It worked."
+    ]
+   },
+   "item": {
+    "id": "r9_cfp_crystal",
+    "x": 14,
+    "y": 10,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A herder who rests the herd on a hidden ledge; a Prime Crystal is in the straw.",
+   "map_warps": [
+    {
+     "x": 11,
+     "y": 32,
+     "to": "r9_old_riverbed",
+     "tx": 50,
+     "ty": 19,
+     "facing": "up"
+    }
+   ],
+   "map_cells": [
+    {
+     "x": 17,
+     "y": 30,
+     "g": null,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "r9_cfp_seed_visible",
+     "x": 20,
+     "y": 10,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "cf_pocket_bell",
+   "map": "r9_cairnfold",
+   "cave": "r9_cairnfold_cave_e",
+   "cave_title": "Bell Cave",
+   "floor": [
+    [
+     35,
+     10,
+     43,
+     10
+    ]
+   ],
+   "ledge": [
+    42,
+    43,
+    11
+   ],
+   "walk": [],
+   "mouth": [
+    32,
+    25
+   ],
+   "pocket_door": [
+    39,
+    9
+   ],
+   "main_start": [
+    26,
+    26
+   ],
+   "floor_tile_at": [
+    20,
+    26
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_cairnfold_cave_e",
+    "out": "one-way ledge at y11 x42-43",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_cfp_ringer",
+    "x": 35,
+    "y": 10,
+    "level": 63,
+    "class": "Bell Ringer",
+    "name": "Ottla",
+    "species": [
+     "gauzewing",
+     "galespar",
+     "stratodrake"
+    ],
+    "intro": [
+     "DRAFT: You hear that? No? Good. I tuned it out."
+    ],
+    "lost": [
+     "DRAFT: All right, that rang true."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you in the grass."
+    ]
+   },
+   "egg": {
+    "id": "r9_cfp_egg_rope",
+    "x": 41,
+    "y": 9,
+    "what": "a frayed rope going up into the dark",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A frayed rope goes up into the dark. You tug it. Far away, something goes bong."
+    ]
+   },
+   "item": {
+    "id": "r9_cfp_seed",
+    "x": 43,
+    "y": 10,
+    "item": "vigor_seed"
+   },
+   "premise": "A bell ringer who keeps a silent bell on a hidden ledge; a Vigor Seed is under the bell frame."
+  },
+  {
+   "id": "cf_pocket_gully",
+   "map": "r9_cairnfold",
+   "cave": "r9_old_riverbed",
+   "cave_title": "Gully Crack",
+   "floor": [
+    [
+     24,
+     10,
+     32,
+     10
+    ]
+   ],
+   "ledge": [
+    30,
+    32,
+    11
+   ],
+   "walk": [],
+   "mouth": null,
+   "pocket_door": [
+    28,
+    9
+   ],
+   "main_start": [
+    26,
+    26
+   ],
+   "floor_tile_at": [
+    20,
+    26
+   ],
+   "floor_tiles": [
+    898,
+    899,
+    900,
+    901
+   ],
+   "gate": {
+    "in": "cave r9_old_riverbed",
+    "out": "one-way ledge at y11 x30-32",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_cfp_digger",
+    "x": 24,
+    "y": 10,
+    "level": 63,
+    "class": "Digger",
+    "name": "Pell",
+    "species": [
+     "calderock",
+     "cragmont",
+     "lancebeetle"
+    ],
+    "intro": [
+     "DRAFT: This crack runs all the way down to the old river. I dug it. Mostly."
+    ],
+    "lost": [
+     "DRAFT: Fair. You dig a good fight."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge to the lane."
+    ]
+   },
+   "egg": {
+    "id": "r9_cfp_egg_spoons",
+    "x": 31,
+    "y": 9,
+    "what": "a pile of bent spoons",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A pile of bent spoons. Every one of them tried. Every one of them lost to the rock."
+    ]
+   },
+   "item": {
+    "id": "r9_cfp_prime",
+    "x": 32,
+    "y": 10,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A digger who tunnelled up from the riverbed; a Prime Crystal is at the dig face.",
+   "existing_cave": {
+    "crack": [
+     22,
+     25
+    ],
+    "land": [
+     22,
+     26
+    ]
+   }
+  }
+ ]
+}

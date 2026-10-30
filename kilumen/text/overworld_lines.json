@@ -20651,6 +20651,24 @@
     ],
     "kind": "sign",
     "_src": "data/textbot_world_fill.json new_signs (Text Bot)"
+   },
+   "r9_cairnfold_sign": {
+    "pages": [
+     "CAIRNFOLD\nHerders, hay and bells.",
+     "Please close every gate behind you.\nThe herd reads signs better than you."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "CAIRNFOLD\nHerders, hay and bells.",
+       "Please close every gate behind you.\nThe herd reads signs better than you."
+      ]
+     }
+    ],
+    "status": "DRAFT",
+    "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026"
    }
   },
   "r9_switchbacks": {
@@ -21422,6 +21440,432 @@
     "tile": "i_anchor"
    },
    "area_name": "Lanternport Revival Tech"
+  },
+  "heal_cairnfold": {
+   "heal_cairnfold_carer": {
+    "pages": [
+     "Welcome to Revival Tech, Cairnfold.\nMind the bells, they're everywhere.",
+     "Your team looks wind-bitten.\nWant me to rest them?"
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Welcome to Revival Tech, Cairnfold.\nMind the bells, they're everywhere.",
+       "Your team looks wind-bitten.\nWant me to rest them?"
+      ]
+     }
+    ],
+    "status": "DRAFT",
+    "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026",
+    "after_heal": [
+     "All rested. Warm as a hayloft.",
+     "Come back before the next climb.\nYou will need to."
+    ],
+    "declined": [
+     "Suit yourself. The mountain\nwon't go easy on tired legs."
+    ]
+   },
+   "heal_cairnfold_technician": {
+    "pages": [
+     "Cold makes the crystals sluggish.\nI keep them by the stove.",
+     "Head office calls it a fire risk.\nI call it Tuesday."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Cold makes the crystals sluggish.\nI keep them by the stove.",
+       "Head office calls it a fire risk.\nI call it Tuesday."
+      ]
+     }
+    ],
+    "status": "DRAFT",
+    "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026"
+   },
+   "heal_cairnfold_storage_user": {
+    "pages": [
+     "Box four is all fire types. It's the warm box.",
+     "I visit it on my lunch break."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Box four is all fire types. It's the warm box.",
+       "I visit it on my lunch break."
+      ]
+     }
+    ]
+   },
+   "staff_door_locked": {
+    "pages": [
+     "STAFF ONLY\nBranch Access Card required.",
+     "Under it, in biro: 'Knock. We won't answer.'"
+    ],
+    "lines": [
+     {
+      "id": "door_card",
+      "flags": [
+       "has_branch_card"
+      ],
+      "pages": [
+       "STAFF ONLY",
+       "Your Branch Access Card blinks green.\nClunk."
+      ],
+      "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "STAFF ONLY\nBranch Access Card required.",
+       "Under it, in biro: 'Knock. We won't answer.'"
+      ]
+     }
+    ]
+   },
+   "suggestion_box": {
+    "pages": [
+     "SUGGESTION BOX\n'Tell us how we did!'",
+     "Pinned beside it: 'More chairs.' Reply: 'Noted!'"
+    ],
+    "lines": [
+     {
+      "id": "box_crystal",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "soul_item": "8.2e",
+      "pages": [
+       "A suggestion's been pinned up: 'Why are the crystals violet?'",
+       "Reply, in neat pen: 'Great question!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX\n'Tell us how we did!'",
+       "Pinned beside it: 'More chairs.' Reply: 'Noted!'"
+      ]
+     }
+    ]
+   },
+   "newsletter": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN:",
+     "'Welcome, new lab techs!' Page two is a soup recipe."
+    ],
+    "lines": [
+     {
+      "id": "bulletin_final",
+      "flags": [
+       "finale_done"
+      ],
+      "pending_story_call": true,
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, final issue:",
+       "'Under New Management: Us.'"
+      ]
+     },
+     {
+      "id": "bulletin_eight",
+      "flags": [
+       "all_badges"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Field staff earns all eight coins. HR asks: how?'"
+      ]
+     },
+     {
+      "id": "bulletin_hq",
+      "flags": [
+       "beat_master_revival"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'HQ thanks field staff for record catalogue numbers.'"
+      ]
+     },
+     {
+      "id": "bulletin_coin",
+      "flags": [
+       "beat_master_fernwick"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'One of our own wins a coin! Parking space pending.'"
+      ]
+     },
+     {
+      "id": "bulletin_field",
+      "flags": [
+       "flg_promoted"
+      ],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Two of our own head into the field. Wish them luck!'"
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN:",
+       "'Welcome, new lab techs!' Page two is a soup recipe."
+      ]
+     }
+    ]
+   },
+   "sofa": {
+    "kind": "prop",
+    "x": 2,
+    "y": 6,
+    "stand": [
+     2,
+     7
+    ],
+    "face": "up",
+    "tile": "i_sofa_brook",
+    "soul_item": "15:E10",
+    "pages": [
+     "A soft sofa. Somebody's left a feeds magazine open on it."
+    ],
+    "text_was": "maps.heal_centre_int.sofa",
+    "lines": [
+     {
+      "id": "e10_lap_nap",
+      "flags": [],
+      "when": {
+       "idle_after_heal_s": 30,
+       "once_per_day": true
+      },
+      "soul_item": "15:E10",
+      "pages": [
+       "You sit for a moment. {lead} climbs into your lap and falls asleep.",
+       "Carer: Don't move. Those are the rules."
+      ],
+      "effect": "lead +2 Warmth, once per day"
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A soft sofa. Somebody's left a feeds magazine open on it."
+      ]
+     }
+    ]
+   },
+   "company_terminal": {
+    "kind": "prop",
+    "x": 11,
+    "y": 4,
+    "stand": [
+     10,
+     4
+    ],
+    "face": "right",
+    "tile": "i_company_terminal",
+    "soul_item": "1",
+    "pages": [
+     "Revival Tech terminal. Logging in with your employee ID...",
+     "Storage, company tasks and sell orders. Your Kilindex syncs here too."
+    ],
+    "text_was": "maps.heal_centre_int.company_terminal",
+    "note": "opens storage / company tasks; the company inbox is shared with maps.house_2f.pc",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Revival Tech terminal. Logging in with your employee ID...",
+       "Storage, company tasks and sell orders. Your Kilindex syncs here too."
+      ]
+     }
+    ]
+   },
+   "area_name": "Revival Tech, Cairnfold",
+   "heal_cairnfold_poster_safety": {
+    "pages": [
+     "RITA POSTER: \"Wrap up warm!\nYour team feels the cold too!\"",
+     "Someone has knitted RITA a\ntiny scarf. It's pinned on."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Wrap up warm!\nYour team feels the cold too!\"",
+       "Someone has knitted RITA a\ntiny scarf. It's pinned on."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_suggestions": {
+    "pages": [
+     "SUGGESTION BOX. Top card:\n\"Heating. More heating.\"",
+     "Reply: \"Heating is at 100%.\nHave you tried a second jumper?\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX. Top card:\n\"Heating. More heating.\"",
+       "Reply: \"Heating is at 100%.\nHave you tried a second jumper?\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, peaks:\n\"Skylift runs on time! Mostly!\"",
+     "\"Staff thank everyone for knocking\nthe snow off their boots.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, peaks:\n\"Skylift runs on time! Mostly!\"",
+       "\"Staff thank everyone for knocking\nthe snow off their boots.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_visitor_pc": {
+    "pages": [
+     "A visitor PC. The screen shows\nthe snow report. More snow."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A visitor PC. The screen shows\nthe snow report. More snow."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_counter": {
+    "pages": [
+     "The care counter, with a basket\nof spare mittens on top."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter, with a basket\nof spare mittens on top."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_plant_coral": {
+    "pages": [
+     "A pot of frost coral. It grows\nslow, like it's wearing a coat."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A pot of frost coral. It grows\nslow, like it's wearing a coat."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_sofa": {
+    "pages": [
+     "A sofa piled with blankets.\nSomeone's asleep under one. Shh."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A sofa piled with blankets.\nSomeone's asleep under one. Shh."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_bench": {
+    "pages": [
+     "A waiting bench by the counter.\nThe cushion has a hot water bottle."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench by the counter.\nThe cushion has a hot water bottle."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cairnfold_side_table": {
+    "pages": [
+     "A side table with a flask of tea\nand three mugs. All empty."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A side table with a flask of tea\nand three mugs. All empty."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "shop_cairnfold": {
+   "shop_cairnfold_clerk": {
+    "pages": [
+     "Rope, wool and anything warm.\nIf it's not warm, we don't stock it."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Rope, wool and anything warm.\nIf it's not warm, we don't stock it."
+      ]
+     }
+    ],
+    "status": "DRAFT",
+    "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026",
+    "kind": "clerk",
+    "variant_of": "clerk"
+   }
   }
  },
  "closed_exits": {
@@ -23239,6 +23683,13 @@
    ],
    "parity": "E2",
    "build": "different"
+  },
+  "first_visit": {
+   "pages": [
+    "New face! Have a look around.\nPrices are on the shelf tags."
+   ],
+   "status": "DRAFT",
+   "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026"
   }
  },
  "system_trainers": {

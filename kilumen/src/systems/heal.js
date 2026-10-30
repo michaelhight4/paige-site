@@ -71,8 +71,14 @@ export class Heal {
   get state() { return this.sys.state; }
   /** Last heal centre visited / rested at; none yet -> the nearest branch; nothing known -> Brookhollow. */
   lastHeal() {
-    if (this.state.lastHeal) return this.state.lastHeal;
     const sc = this.sys.scene;
+    const lh = this.state.lastHeal;
+    if (lh) {
+      // Old saves: a town that borrowed another branch's interior (Cairnfold -> heal_brookhollow before Oct 30 2026) and has its
+      // own branch now: respawn in that town's branch, not the borrowed one.
+      const own = lh.returnDoor?.map && Object.entries(getShops().branches).find(([id, b]) => b.returnDoor?.map === lh.returnDoor.map && id !== lh.map);
+      return own ? healPoint({ id: own[0], ...own[1] }) : lh;
+    }
     let zone = null; try { zone = sc?.zone?.() || null; } catch { zone = null; }
     return healPoint(nearestBranch(zone, sc?.layout));
   }

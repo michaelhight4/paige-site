@@ -4,8 +4,8 @@
 // is DEEP: open water you can only cross with Tideglide, no casting. Cells off the map count as water, so a sea that runs
 // off the edge stays deep. Pure + cached per map (water cells never change at runtime).
 // Look: the ground tile of every water cell is palette-swapped per cell (exact colour remap, palette.png colours only,
-// binary alpha, no haze) - shallow = teal / lighter, deep = darker navy - and deep cells next to the shallows get a soft stepped,
-// dithered mid-tone band (no hard line). The swap runs on the native tile before the
+// binary alpha, no haze) - shallow = clear light blue, deep = darker navy - and deep cells next to the shallows fade light -> dark
+// over a 4-step dithered ramp (no hard line). The swap runs on the native tile before the
 // time-of-day grade, so night/dusk grade it like any tile. Works for every tileset scale (1x/2x/3x) and all maps.
 import { Col } from './constants.js?v=v0.2.96-alpha';
 
@@ -37,27 +37,27 @@ export const isFishable = (map, x, y) => waterClass(map, x, y) === SHALLOW;
 // colour remaps by water family (exact RGB, palette.png colours)
 const P = (o) => new Map(Object.entries(o).map(([k, v]) => [parseInt(k.slice(1), 16), parseInt(v.slice(1), 16)]));
 export const REMAP = {
-  sea: { // water / water_1 / water_2 / water>* transitions
-    [SHALLOW]: P({ '#4692ce': '#3e9c92', '#4a70ba': '#246e6c', '#2c64a8': '#246e6c', '#7ac2e8': '#70cab8' }),
+  sea: { // water / water_1 / water_2 / water>* transitions; shallow = clear light blue (Gary, Oct 30 2026: not teal)
+    [SHALLOW]: P({ '#4692ce': '#7ac2e8', '#4a70ba': '#60aade', '#2c64a8': '#60aade', '#7ac2e8': '#a4daf2' }),
     [DEEP]: P({ '#4692ce': '#2c64a8', '#4a70ba': '#30488c', '#2c64a8': '#1e4078', '#7ac2e8': '#4a70ba', '#c6ecfa': '#7ac2e8' }),
   },
-  cave: { // cave_water*
-    [SHALLOW]: P({ '#30488c': '#246e6c', '#2c64a8': '#3e9c92', '#4a70ba': '#3e9c92', '#7ac2e8': '#70cab8', '#4692ce': '#3e9c92' }),
+  cave: { // cave_water*: same idea, one step dimmer
+    [SHALLOW]: P({ '#30488c': '#2c64a8', '#2c64a8': '#4692ce', '#4a70ba': '#4692ce', '#7ac2e8': '#a4daf2', '#4692ce': '#60aade' }),
     [DEEP]: P({ '#30488c': '#1e4078', '#2c64a8': '#30488c', '#1e4078': '#1a1226', '#7ac2e8': '#4a70ba', '#4692ce': '#2c64a8' }),
   },
-  bog: { // x_bog* (Mirefen)
+  bog: { // x_bog* (Mirefen): murky lighter -> darker
     [SHALLOW]: P({ '#18382c': '#246e6c', '#244e34': '#3e9c92' }),
     [DEEP]: P({ '#244e34': '#18382c', '#18382c': '#1a1226' }),
   },
 };
-// Soft shallow->deep transition (Gary, Oct 30 2026: no hard line): deep cells bordering shallow water get a stepped,
-// checker-dithered band of palette mid-tones on their base water colours: step 1 (next to the shallows) teal/light blue,
-// step 2 light blue/deep base. Ripples and foam stay. No line on the shallow side.
+// Shallow->deep fade (Gary, Oct 30 2026: "a light blue that fades into the dark"): deep cells bordering shallow water get
+// a 4-step ramp (6 native px each, 24 px) of checker-dithered palette pairs running light blue -> mid blues -> deep navy,
+// applied only on base water colours, so it reads as one gradient. Ripples/foam stay; no line anywhere.
 const P2 = (...h) => h.map((x) => parseInt(x.slice(1), 16));
 const BAND = {
-  sea: { base: new Set(P2('#2c64a8', '#30488c', '#1e4078')), steps: [P2('#3e9c92', '#4692ce'), P2('#4692ce', '#2c64a8')] },
-  cave: { base: new Set(P2('#1e4078', '#30488c', '#1a1226')), steps: [P2('#246e6c', '#2c64a8'), P2('#2c64a8', '#1e4078')] },
-  bog: { base: new Set(P2('#18382c', '#1a1226')), steps: [P2('#3e9c92', '#246e6c'), P2('#246e6c', '#18382c')] },
+  sea: { base: new Set(P2('#2c64a8', '#30488c', '#1e4078')), steps: [P2('#60aade', '#4692ce'), P2('#4692ce', '#3a7bbc'), P2('#3a7bbc', '#2c64a8'), P2('#2c64a8', '#30488c')] },
+  cave: { base: new Set(P2('#1e4078', '#30488c', '#1a1226')), steps: [P2('#4692ce', '#3a7bbc'), P2('#3a7bbc', '#2c64a8'), P2('#2c64a8', '#30488c'), P2('#30488c', '#1e4078')] },
+  bog: { base: new Set(P2('#18382c', '#1a1226')), steps: [P2('#246e6c', '#2e5e50'), P2('#2e5e50', '#244e34'), P2('#244e34', '#18382c'), P2('#18382c', '#1a1226')] },
 };
 export function familyOf(name = '') { return /^cave_water/.test(name) ? 'cave' : /^x_bog/.test(name) ? 'bog' : /^(water|x_water|x_sea)/.test(name) ? 'sea' : 'sea'; }
 
@@ -78,10 +78,10 @@ export function recolour(a, S, fam, cls, mask) {
     if (o !== undefined) { a[i] = o >> 16; a[i + 1] = (o >> 8) & 255; a[i + 2] = o & 255; }
   }
   if (mask && cls === DEEP) {
-    const sc = Math.max(1, Math.round(S / 64)), B = BAND[fam] || BAND.sea, step = 4 * sc; // two 4 px steps (native)
+    const sc = Math.max(1, Math.round(S / 64)), B = BAND[fam] || BAND.sea, step = 6 * sc, N = B.steps.length; // 4 x 6 px steps (native)
     for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
       let d = S; if (mask & 1) d = Math.min(d, y); if (mask & 4) d = Math.min(d, S - 1 - y); if (mask & 8) d = Math.min(d, x); if (mask & 2) d = Math.min(d, S - 1 - x);
-      const k = Math.floor(d / step); if (k > 1) continue;
+      const k = Math.floor(d / step); if (k >= N) continue;
       const i = (y * S + x) * 4; if (!a[i + 3]) continue;
       if (!B.base.has((a[i] << 16) | (a[i + 1] << 8) | a[i + 2])) continue;
       const col = B.steps[k][(Math.floor(x / sc) + Math.floor(y / sc)) & 1];
