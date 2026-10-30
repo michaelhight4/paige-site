@@ -23,6 +23,7 @@ import { CONN_NODES } from '../ui/connections.gen.js?v=v0.2.93-alpha';
 import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.93-alpha';
 import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.93-alpha';
 import { attachHallV2, scaleMasterTeam } from './hall_v2.js?v=v0.2.93-alpha';
+import { attachPuzzleTells } from './puzzle_tells.js?v=v0.2.93-alpha';
 
 import { DEV } from '../dev/runtime.js?v=v0.2.93-alpha';
 const DEV_KEY = () => !!DEV.masterKey; // dev master key skips the hall puzzle gate
@@ -295,6 +296,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     tick(); pg.timer = setInterval(tick, 400);
   }
   attachHallV2(scene, ui, pg); // hall overhaul v2 (outermost talk / worldApi / enterMap wrappers)
+  attachPuzzleTells(scene); // puzzle tells + rule-first hall hints (puzzle_hints_audit.md); wraps hall_v2's talk / worldApi
   return pg;
 }
 

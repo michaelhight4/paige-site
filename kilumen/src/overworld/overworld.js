@@ -1254,7 +1254,7 @@ export class Overworld {
     if (this.systems) actors.push(...this.systems.worldActors(grade)); // [systems-gd hook] supply satchels
     return {
       map: this.map, tileset: this.tileset, tileset1x: this.tileset1x, grade, gradeImage: this._gradeImage, emissive: this.emissiveMasks, swap: this.swapMap(),
-      decals: this._decalsView(), overlays: this.overlays,
+      decals: this._decalsView(), overlays: this.overlays, tells: this.puzzleTells?.draw, // puzzle tells (progression/puzzle_tells.js)
       zoom: z, cam, ms: this.ms, rustles: this.rustles, actors,
       fade: this.fadeAlpha(), debug: this.debug, drawDebug, player: p, fps: this.fps, lastDoor: this.lastDoor, flags: [...this.flags],
       ixlight: this.ixlight, phase: this.phase,

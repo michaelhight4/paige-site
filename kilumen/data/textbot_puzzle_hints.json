@@ -1,0 +1,419 @@
+{
+ "_meta": {
+  "status": "DRAFT",
+  "by": "Text Bot",
+  "date": "2026-10-29",
+  "for": "Coder",
+  "source_audit": "kilumen/design/puzzle_hints_audit.md",
+  "checked_against": "wt_r58 art/world/overworld/maps/*_hall_int.json hall_v2 grids + src/progression/hall_v2.js + puzzles.js HallV2 (T toggles bit0 -> gate b open / a shut; U toggles bit1 -> gate d open / c shut; i = slide on until floor or blocked; 1-6 = paired pads; arrows = belts). NOTE data/hall_puzzles/*.json are the older v1 puzzles (quench, tide clock, gust, sluice) and do NOT match the v2 maps.",
+  "keys": "system_halls.hint_<zone>.pages = tier 1 (rule, first ask); pages_again = tier 2 (place or rule, second+ ask, never a step list). maps.<map>.<npc>.after replaces the live after line; after_old is the line being replaced.",
+  "format": "pages <= 2 lines x 40 chars, joined by \\n",
+  "skill_unlocks_for_coder": {
+   "status": "DRAFT, picks by Text Bot per Gary's ruling (put them where it makes sense in the story)",
+   "brushbreak": {
+    "quest": "sq_burlbeetle_count (Thornwood, prereq beat_master_fernwick)",
+    "set_flag": "has_brushbreak (already the placeholder in src/overnight/field.js BRUSH_TILES)",
+    "when": "on sq_burlbeetle_done turn-in; add has_brushbreak to reward.flags and play teach.pages",
+    "field_skills.brushbreak.requires_flag": "has_brushbreak"
+   },
+   "stonebreak": {
+    "quest": "sq_cave_sketch (Greystone entrance, prereq has_survey_parcel)",
+    "set_flag": "has_stonebreak (already the placeholder in field.js)",
+    "when": "on sq_sketch_done turn-in; add has_stonebreak to reward.flags and play teach.pages",
+    "field_skills.stonebreak.requires_flag": "has_stonebreak"
+   },
+   "placement_rule": "no built map has thick_brush or cracked_rock yet; place them only in optional areas reached after Thornwood (brush) / after the Greystone entrance (rock), never on the story path (FIELD_SKILLS.md: optional only)",
+   "also": "tools/merge_puzzle_hints.py SKIP_SKILLS can drop brushbreak/stonebreak now that {skill_town} is resolved; live overworld_lines.json cant_use_yet still says '{coin}'"
+  }
+ },
+ "system_halls": {
+  "reset_note": {
+   "pages": [
+    "Lost? Step out the door. The\nhall sets itself back for you."
+   ],
+   "tier": "T3_nudge",
+   "note": "shared by every hall; suggest once per hall as a door toast too (audit fix 3). Lanternport: each floor's door resets that floor (per audit, not code-checked)."
+  },
+  "hint_fernwick": {
+   "pages": [
+    "Plates open gates. Step on one,\nthen look for what moved."
+   ],
+   "pages_again": [
+    "The plate sits up the east side\nof the maze. The gate's up top."
+   ]
+  },
+  "hint_saltmere": {
+   "pages": [
+    "Each floor plate swaps which\ngate is open. One plate, one swap.",
+    "Watch the gates when you step.\nOne opens as the other shuts."
+   ],
+   "pages_again": [
+    "There's a plate in each half of\nthe hall. You'll want both."
+   ]
+  },
+  "hint_revival_heights": {
+   "pages": [
+    "Press A on a crystal to turn it.\nLine the light up with the door."
+   ],
+   "pages_again": [
+    "Past the crystals, some walls\ncan't be seen. Only bumped.",
+    "The trainers stand on real floor.\nThey make good markers."
+   ]
+  },
+  "hint_frostspire": {
+   "pages": [
+    "Ice slides you until something\nstops you. A wall or bare floor.",
+    "Before you slide, look for what\nwill stop you."
+   ],
+   "pages_again": [
+    "The plate in the little maze\nopens the way up to the top ice."
+   ],
+   "replaces": "r58 HALL_HINTS frostspire 'Slide up the middle lane, by the pillar' (gave the answer)",
+   "note": "r58 map is slide ice. The wellspire hint_frostspire (bells/vents) matches the old gust puzzle instead; pick one when the branches merge."
+  },
+  "hint_tidewater_coast": {
+   "pages": [
+    "The two shell plates turn the\ntide. Each one swaps one gate.",
+    "Glide lanes slide you until a\nrock stops you. Pick your rock."
+   ],
+   "pages_again": [
+    "Both plates hide in the little\nmaze on the west side.",
+    "Beaten trainers step aside if\nyou walk into them."
+   ]
+  },
+  "hint_cindervale": {
+   "pages": [
+    "Arrow plates are belts. Step on\none and it carries you along.",
+    "The belts loop, so you can't get\nstuck. Just try another plate."
+   ],
+   "pages_again": [
+    "The way in is the gap on the far\nright, just past the door."
+   ],
+   "pages_3": [
+    "Springs come in pairs. Step on\none, pop out at its twin.",
+    "Twins share a mark. Read the\nmark before you hop."
+   ],
+   "note": "pages_3 = springs (warp pads 1-3); 'share a mark' needs the paired pad glyph art from the audit V plan (hall_art already maps pad pair -> pad colour 1/2/3)."
+  },
+  "hint_lanternport": {
+   "pages": [
+    "First floor: some walls hide.\nFeel your way along.",
+    "Second floor: pads come in pairs.\nStep on one, out at its twin.",
+    "Third floor: a plate by the\nstairs works the gate up top."
+   ],
+   "pages_again": [
+    "Lost on a floor? Walk out its\ndoor and it sets itself back."
+   ]
+  }
+ },
+ "maps": {
+  "cindervale_hall_int": {
+   "cindervale_hall_int_h1": {
+    "name": "Jem",
+    "after_old": "Springs are few. Count the tiles you need before you pour.",
+    "after": "Arrows on the floor are belts.\nThey carry you the way they point."
+   },
+   "cindervale_hall_int_h2": {
+    "name": "Kerr",
+    "after_old": "Cooled tiles near a bellows won't stay cool. Pick a line away from them.",
+    "after": "Belts only run one way. If one\nfights you, pick another."
+   },
+   "cindervale_hall_int_h3": {
+    "name": "Lark",
+    "after_old": "The lever by the door starts the floor over. Use it. Nobody counts.",
+    "after": "Carried back down? Fine. The\nbelts loop. Nobody gets stuck.",
+    "note": "there is no lever in v2; the loop is the soft reset"
+   },
+   "cindervale_hall_int_h4": {
+    "name": "Mabry",
+    "after_old": "Brannock talks a lot before he battles. Let him. It's the only break you'll get.",
+    "after": "Up past the belts, the springs\ncome in pairs. Same mark, same pair."
+   },
+   "cindervale_hall_int_h5": {
+    "name": "Rasmus",
+    "after_old": "Metal tells you when it's ready.\nListen for the ring.",
+    "after": "Hop on a spring and you pop out\nat the one with the same mark."
+   },
+   "cindervale_hall_int_h6": {
+    "name": "Effie",
+    "after_old": "Brannock respects a quick strike\nwhile the iron's still glowing.",
+    "after": "The way up to the springs is a\ngap on the left. Belts first."
+   },
+   "_optional_h7_h12": {
+    "note": "not in the audit request, but these lines are v1 too (cooling floors, bellows, pour) and now mislead",
+    "cindervale_hall_int_h7": {
+     "name": "Branwen",
+     "after_old": "Hot floors cool in order.\nWatch the glow fade, then step.",
+     "after": "Step on a round plate and listen.\nA gate somewhere answers you."
+    },
+    "cindervale_hall_int_h8": {
+     "name": "Merrit",
+     "after_old": "Ash settles where the air is still.\nStill air, safe path.",
+     "after": "The two plain plates share one\ngate. Step twice and it shuts."
+    },
+    "cindervale_hall_int_h9": {
+     "name": "Esme",
+     "after_old": "The bellows push heat down the hall.\nRide the cool gust after.",
+     "after": "Took a spring? Look round before\nyou move. Where'd you land?"
+    },
+    "cindervale_hall_int_h10": {
+     "name": "Clem",
+     "after_old": "Good metal rings clear.\nA dull clang means wait.",
+     "after": "The way up is a gap in this\nroom's top wall."
+    },
+    "cindervale_hall_int_h11": {
+     "name": "Gideon",
+     "after_old": "Brannock tests every blade twice.\nHe'll test you the same.",
+     "after": "The ice won't let go till you hit\nfloor or a wall. Aim first."
+    },
+    "cindervale_hall_int_h12": {
+     "name": "Hesper",
+     "after_old": "Brannock never rushes a pour.\nWait for his tell, then strike.",
+     "after": "The odd plate in the east corner\nopens the gate to the ice."
+    }
+   }
+  },
+  "tidewater_hall_int": {
+   "tidewater_hall_int_h1": {
+    "name": "Marlow",
+    "after_old": "High tide opens the glide lanes. Low tide opens the floor. Mix them.",
+    "after": "Two shell plates, two gates.\nEach plate turns just one."
+   },
+   "tidewater_hall_int_h2": {
+    "name": "Moss",
+    "after_old": "Stop it at high for a lane. Stop it at low when you need the floor.",
+    "after": "No tide clock in here. The plates\nturn the tide, not the hours."
+   },
+   "tidewater_hall_int_h3": {
+    "name": "Edda",
+    "after_old": "We move with the tide too. If I'm on a different ledge later, that's why.",
+    "after": "Both plates sit at the west end\nof this maze. Mind the corners."
+   },
+   "tidewater_hall_int_h4": {
+    "name": "Wendell",
+    "after_old": "Jory likes the tide halfway. Not my problem anymore.",
+    "after": "Plate shut a gate on you? Step\non it again. It turns back."
+   },
+   "tidewater_hall_int_h5": {
+    "name": "Linnea",
+    "after_old": "Every wave has a gap.\nCount three, then go.",
+    "after": "Glide lanes keep you going till\nyou bump a rock. Pick your rock."
+   },
+   "_optional_h6_h8": {
+    "note": "not requested; v1 wave/timer lines",
+    "tidewater_hall_int_h6": {
+     "name": "Fergal",
+     "after_old": "The Master waits for the low tide.\nThen moves fast.",
+     "after": "When the tide rises, the top gate\nstands open. Check before you glide."
+    },
+    "tidewater_hall_int_h7": {
+     "name": "Perrin",
+     "after_old": "Big waves come in sevens.\nRest on the small ones.",
+     "after": "Slid wrong? Walk back down and\ngo again. The lanes don't mind."
+    },
+    "tidewater_hall_int_h8": {
+     "name": "Senna",
+     "after_old": "Jory's calm as still water.\nThat's the scary part.",
+     "after": "Every lane ends somewhere you\ncan stand. Never in the sea."
+    }
+   }
+  },
+  "fernwick_hall_int": {
+   "helper_1": {
+    "name": null,
+    "after_old": "Touch a crystal and its neighbours flip too. Don't start in the middle.",
+    "after": "There's a plate up the east side.\nStand on it, then look around.",
+    "note": "r58 v2 has no crystals; helper_2 line (crystals) is v1 too"
+   }
+  },
+  "saltmere_hall_int": {
+   "saltmere_hall_int_h1": {
+    "name": "Lorna",
+    "after_old": "Watch what each wheel does to the pan next door, not just its own.",
+    "after": "One plate, one swap. Step on it\nand the two gates trade places."
+   },
+   "saltmere_hall_int_h2": {
+    "name": "Ivo",
+    "after_old": "Pan went under? Turn the same wheel back. Nothing in here is stuck for good.",
+    "after": "The other plate swaps them back.\nNothing in here sticks for good."
+   }
+  },
+  "revival_hall_int": {
+   "revival_hall_int_h2": {
+    "name": "Dov",
+    "after_old": "Beam hitting a wall? The last prism you turned is usually the problem.",
+    "after": "Walls in here you can't see.\nBump one. No harm, just a nose."
+   },
+   "revival_hall_int_h3": {
+    "name": "Fen",
+    "after_old": "Room two's easier if you start from the door and work back to the beam.",
+    "after": "We all stand on real floor.\nUse us as markers."
+   },
+   "revival_hall_int_h4": {
+    "name": "Corwin",
+    "after_old": "Room three wants the beam through both crystals. One after the other.",
+    "after": "Bumped nothing? Good. Bumped\nsomething? Try the next gap."
+   },
+   "_note": "h2-h4 stand in the hidden-wall maze (rows 15-23). Not checked whether they sit on the solver's path."
+  },
+  "frostspire_hall_int": {
+   "frostspire_hall_int_h1": {
+    "name": "Rue",
+    "after_old": "The feathers point the way the vents blow. Look down before you step.",
+    "after": "Ice won't stop for you. Only a\nwall or bare floor will."
+   },
+   "frostspire_hall_int_h2": {
+    "name": "Bram",
+    "after_old": "One bell rope swaps every vent in the room. Think before you pull.",
+    "after": "See the dark gaps in the ice?\nThat's where a slide ends."
+   },
+   "frostspire_hall_int_h3": {
+    "name": "Tilly",
+    "after_old": "The eyrie's just past me. Hale's been watching since you walked in.",
+    "after": "Slid too far? Walk round and try\nagain. The ice forgives."
+   },
+   "frostspire_hall_int_h4": {
+    "name": "Solveig",
+    "after_old": "The wind here always comes back.\nTime your steps to it.",
+    "after": "The plate in this maze opens the\ngate up to the top ice."
+   },
+   "_note": "r58 grid has no pillars or windbreaks; the stops are wall gaps in the ice and plain floor. h5/h6 lines (gusts) are v1 too."
+  },
+  "lanternport_lighthouse_int": {
+   "lanternport_hall_int_h1": {
+    "after": "Some walls here you only find\nwith your nose. Sorry, nose."
+   },
+   "lanternport_hall_int_h2": {
+    "after": "Hit a hidden wall? Step back and\ntry the next gap along."
+   },
+   "lanternport_lighthouse_int_stairs_up": {
+    "sign": "Up: second floor. Step on a pad\nand it sends you to its twin."
+   }
+  },
+  "lanternport_lighthouse_f2": {
+   "lanternport_hall_int_h7": {
+    "after": "Pads go in pairs. Learn where\neach one lands and it's easy."
+   },
+   "lanternport_hall_int_h8": {
+    "after": "Landed somewhere odd? Step back\non the pad. It sends you home."
+   },
+   "lanternport_lighthouse_f2_stairs_up": {
+    "sign": "Up: third floor. A plate by the\nstairs opens the gate at the top."
+   }
+  },
+  "lanternport_lighthouse_f3": {
+   "lanternport_hall_int_h9": {
+    "after": "The plate's right by me. Step on\nit and watch the gate up top."
+   },
+   "lanternport_hall_int_h10": {
+    "after": "Twisty floor, this. The plate\nyou want is by the stairs."
+   },
+   "lanternport_lighthouse_f3_stairs_up": {
+    "sign": "Up: the lamp room. The Master\nkeeps the great lens."
+   }
+  },
+  "greystone_b1": {
+   "plate_plaque": {
+    "sign": "This plate sinks under something\nheavy. Step off and it rises."
+   },
+   "hiker_b1": {
+    "after": "Push it round the rocks, not\nthrough. Leave and it rolls back."
+   }
+  },
+  "r9_cloudline": {
+   "r9_cl_field_1": {
+    "after": "One plate's frozen in by the\nwest tarn. Mind your footing."
+   },
+   "r9_cl_field_2": {
+    "after": "Another sits south, down in the\nmiddle tarn. Low and quiet."
+   },
+   "r9_cl_field_3": {
+    "after": "The last one's out east. Three\nplates and the gate wakes up."
+   },
+   "gate_cairn": {
+    "sign": "Three lights wake the gate."
+   }
+  },
+  "r9_echo_cave": {
+   "r9_ec_field_1": {
+    "after": "Each crystal sings to the ones\nbeside it. Touch one, hear two."
+   },
+   "r9_ec_field_2": {
+    "after": "The middle one's awake already.\nDon't wake it twice."
+   },
+   "wall_carving": {
+    "sign": "Carved here: three crystals,\nall lit, side by side."
+   }
+  },
+  "r9_heart_cave": {
+   "trainer_hint": {
+    "after": "It worked on three in the echo\ncave. Four is the same song."
+   },
+   "reset_rule": {
+    "sign": "Touch the same crystal twice\nand it's as if you never had."
+   }
+  }
+ },
+ "field": {
+  "boulder": {
+   "inspect": [
+    "A big boulder. Walk into it and\nit might just shift."
+   ]
+  }
+ },
+ "field_skills": {
+  "tideglide": {
+   "cant_use_yet": [
+    "A strong swimmer could carry you,\nbut you need {skill}. Try Mirefen."
+   ],
+   "source": "quests.json mq_mirefen_s6: Mirefen Master teaches it (verified)"
+  },
+  "skylift": {
+   "cant_use_yet": [
+    "You need {skill} first. The\nFrostspire Master teaches it."
+   ],
+   "source": "quests.json mq_frostspire_s5 -> has_skylift (verified; live line kept, just split)"
+  },
+  "glowcall": {
+   "cant_use_yet": [
+    "A crystal could light this. The\nFernwick elder might know how."
+   ],
+   "source": "quests.json sq_fireflies (Fernwick elder, sets skill_glowcall) (verified)"
+  },
+  "brushbreak": {
+   "cant_use_yet": [
+    "You need {skill} to clear this.\nAsk around Thornwood."
+   ],
+   "source": "PICK: Thornwood bug catcher (trainer_tw_bug), turn-in of sq_burlbeetle_count 'Stumps That Blink'",
+   "teach": {
+    "npc": "trainer_tw_bug",
+    "map": "thornwood",
+    "context": "turn_in (after the Vigor Seed line)",
+    "pages": [
+     "Know why Burlbeetles hide as\nstumps? They chew brush for fun.",
+     "Watch one go at a thicket. Snap,\nsnap, and there's a gap.",
+     "Your team can learn the trick.\nIt's called Brushbreak.",
+     "Thick brush won't stop you now,\n{player}. Mind your sleeves."
+    ]
+   }
+  },
+  "stonebreak": {
+   "cant_use_yet": [
+    "You need {skill} to break this.\nAsk around Greystone."
+   ],
+   "source": "PICK: Greystone hiker (hiker, greystone_entrance), turn-in of sq_cave_sketch 'Honest Map'",
+   "teach": {
+    "npc": "hiker",
+    "map": "greystone_entrance",
+    "context": "turn_in (after the crystal dust line)",
+    "pages": [
+     "Funny thing about dead ends.\nHalf of them are just tired rock.",
+     "See a crack running right through?\nOne good hit and it gives.",
+     "The miners call it Stonebreak.\nYour team can learn it too.",
+     "Boulders still want a shove,\nmind. Only cracked rock breaks.",
+     "Go on. Make my map wrong again."
+    ]
+   }
+  }
+ }
+}
