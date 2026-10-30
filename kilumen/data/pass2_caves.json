@@ -1372,7 +1372,7 @@
     "y": 10,
     "level": 63,
     "class": "Ash Watcher",
-    "name": "Ilse",
+    "name": "Runa",
     "species": [
      "foundrax",
      "cragmont",
@@ -1988,6 +1988,907 @@
      "y": 10,
      "item": "vigor_seed",
      "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "re_pocket_ridge",
+   "map": "route_east",
+   "cave": "route_east_cave_n",
+   "cave_title": "Ridge Hollow",
+   "floor": [
+    [
+     20,
+     8,
+     30,
+     8
+    ]
+   ],
+   "ledge": [
+    22,
+    24,
+    9
+   ],
+   "walk": [],
+   "mouth": [
+    36,
+    9
+   ],
+   "pocket_door": [
+    25,
+    7
+   ],
+   "main_start": [
+    0,
+    19
+   ],
+   "floor_tile_at": [
+    20,
+    20
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_east_cave_n",
+    "out": "one-way ledge at y9 x22-24",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rep_ridgewalker",
+    "x": 20,
+    "y": 8,
+    "level": 63,
+    "class": "Ridge Walker",
+    "name": "Edvin",
+    "species": [
+     "stratodrake",
+     "cragmont",
+     "galespar"
+    ],
+    "intro": [
+     "DRAFT: Nobody walks the ridge but me. Until now. Battle?"
+    ],
+    "lost": [
+     "DRAFT: You walk it better than me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ]
+   },
+   "egg": {
+    "id": "r9_rep_egg_cairn",
+    "x": 30,
+    "y": 7,
+    "what": "a cairn of flat stones",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A cairn of flat stones. The top one has a face drawn on it. It looks worried."
+    ]
+   },
+   "item": {
+    "id": "r9_rep_seed",
+    "x": 30,
+    "y": 8,
+    "item": "vigor_seed"
+   },
+   "premise": "A ridge walker on the shelf over the field; a Vigor Seed sits at the far end."
+  },
+  {
+   "id": "re_pocket_den",
+   "map": "route_east",
+   "cave": "route_east_cave_e",
+   "cave_title": "East Den",
+   "floor": [
+    [
+     43,
+     11,
+     50,
+     14
+    ]
+   ],
+   "ledge": [
+    44,
+    46,
+    15
+   ],
+   "walk": [],
+   "mouth": [
+    50,
+    18
+   ],
+   "pocket_door": [
+    47,
+    10
+   ],
+   "main_start": [
+    0,
+    19
+   ],
+   "floor_tile_at": [
+    20,
+    20
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_east_cave_e",
+    "out": "one-way ledge at y15 x44-46",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rep_denkeeper",
+    "x": 49,
+    "y": 11,
+    "level": 63,
+    "class": "Hermit",
+    "name": "Saga",
+    "species": [
+     "foundrax",
+     "pharolith",
+     "cascadorn"
+    ],
+    "intro": [
+     "DRAFT: This den is mine. The rent is one battle."
+    ],
+    "lost": [
+     "DRAFT: Rent paid in full."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you by the path."
+    ]
+   },
+   "egg": {
+    "id": "r9_rep_egg_chair",
+    "x": 50,
+    "y": 14,
+    "what": "a chair carved from rock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A chair carved out of the rock. Very comfy. For a rock."
+    ]
+   },
+   "item": {
+    "id": "r9_rep_crystal",
+    "x": 43,
+    "y": 11,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A hermit in a den in the east rock; a Prime Crystal is in the corner.",
+   "map_items": [
+    {
+     "id": "re_den_seed_visible",
+     "x": 46,
+     "y": 13,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "re_pocket_nook",
+   "map": "route_east",
+   "cave": "route_east_cave_w",
+   "cave_title": "West Nook",
+   "floor": [
+    [
+     13,
+     11,
+     17,
+     14
+    ]
+   ],
+   "ledge": [
+    14,
+    16,
+    15
+   ],
+   "walk": [],
+   "mouth": [
+    46,
+    18
+   ],
+   "pocket_door": [
+    15,
+    10
+   ],
+   "main_start": [
+    0,
+    19
+   ],
+   "floor_tile_at": [
+    20,
+    20
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_east_cave_w",
+    "out": "one-way ledge at y15 x14-16",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rep_nookie",
+    "x": 13,
+    "y": 11,
+    "level": 63,
+    "class": "Camper",
+    "name": "Liv",
+    "species": [
+     "torrentpike",
+     "gauzewing",
+     "tuskwallow"
+    ],
+    "intro": [
+     "DRAFT: You found my nook! Nobody finds my nook."
+    ],
+    "lost": [
+     "DRAFT: Fine, it is our nook now."
+    ],
+    "after": [
+     "DRAFT: Ledge down to the west field."
+    ]
+   },
+   "egg": {
+    "id": "r9_rep_egg_kite",
+    "x": 17,
+    "y": 11,
+    "what": "a kite stuck in the rock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A kite wedged in the rock. The string goes up and up and does not come down."
+    ]
+   },
+   "item": {
+    "id": "r9_rep_seed_w",
+    "x": 17,
+    "y": 14,
+    "item": "vigor_seed"
+   },
+   "premise": "A camper in a hidden nook in the west rock; a Vigor Seed is by the wall.",
+   "map_cells": [
+    {
+     "x": 21,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 22,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 23,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 24,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 25,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 26,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 27,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 28,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 29,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 30,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 31,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 32,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 33,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 34,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 35,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 36,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 37,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 38,
+     "y": 27,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 21,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 22,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 23,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 24,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 25,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 26,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 27,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 28,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 29,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 30,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 31,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 32,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 33,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 34,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 35,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 36,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 37,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 38,
+     "y": 28,
+     "g": 4,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 21,
+     "y": 27,
+     "g": 4,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "re_cut_tea",
+     "x": 28,
+     "y": 28,
+     "item": "calm_tea"
+    }
+   ]
+  },
+  {
+   "id": "rr_pocket_loft",
+   "map": "route_revival",
+   "cave": "route_revival_cave_n",
+   "cave_title": "Bell Loft",
+   "floor": [
+    [
+     27,
+     9,
+     37,
+     12
+    ]
+   ],
+   "ledge": [
+    29,
+    31,
+    13
+   ],
+   "walk": [],
+   "mouth": [
+    24,
+    13
+   ],
+   "pocket_door": [
+    32,
+    8
+   ],
+   "main_start": [
+    0,
+    28
+   ],
+   "floor_tile_at": [
+    30,
+    30
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_revival_cave_n",
+    "out": "one-way ledge at y13 x29-31",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rrp_bellkeeper",
+    "x": 37,
+    "y": 9,
+    "level": 63,
+    "class": "Bell Keeper",
+    "name": "Halvard",
+    "species": [
+     "pharolith",
+     "cragmont",
+     "galespar"
+    ],
+    "intro": [
+     "DRAFT: The old bell hung up here once. Now I do. Battle?"
+    ],
+    "lost": [
+     "DRAFT: You rang my bell."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ]
+   },
+   "egg": {
+    "id": "r9_rrp_egg_bell",
+    "x": 27,
+    "y": 8,
+    "what": "a dent shaped like a bell",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A bell-shaped dent in the rock. Someone drew a clapper in it. Ding."
+    ]
+   },
+   "item": {
+    "id": "r9_rrp_crystal",
+    "x": 27,
+    "y": 12,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A bell keeper on a loft in the north rock; a Prime Crystal sits in the corner.",
+   "map_items": [
+    {
+     "id": "rr_loft_seed_visible",
+     "x": 33,
+     "y": 11,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "rr_pocket_hollow",
+   "map": "route_revival",
+   "cave": "route_revival_cave_w",
+   "cave_title": "West Hollow",
+   "floor": [
+    [
+     13,
+     17,
+     21,
+     22
+    ],
+    [
+     19,
+     23,
+     21,
+     23
+    ]
+   ],
+   "ledge": [
+    19,
+    21,
+    24
+   ],
+   "walk": [],
+   "mouth": [
+    16,
+    24
+   ],
+   "pocket_door": [
+    17,
+    16
+   ],
+   "main_start": [
+    0,
+    28
+   ],
+   "floor_tile_at": [
+    30,
+    30
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_revival_cave_w",
+    "out": "one-way ledge at y24 x19-21",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rrp_herbalist",
+    "x": 13,
+    "y": 17,
+    "level": 63,
+    "class": "Gardener",
+    "name": "Wren",
+    "species": [
+     "fernstag",
+     "gauzewing",
+     "tuskwallow"
+    ],
+    "intro": [
+     "DRAFT: I grow moss up here. Very slowly. Battle while we wait?"
+    ],
+    "lost": [
+     "DRAFT: The moss grew a bit. You won."
+    ],
+    "after": [
+     "DRAFT: Ledge down to the field."
+    ]
+   },
+   "egg": {
+    "id": "r9_rrp_egg_moss",
+    "x": 21,
+    "y": 16,
+    "what": "moss shaped like a heart",
+    "tile": 509,
+    "lines": [
+     "DRAFT: Moss in the shape of a heart. A tiny sign: TEN YEARS. WORTH IT."
+    ]
+   },
+   "item": {
+    "id": "r9_rrp_seed",
+    "x": 13,
+    "y": 22,
+    "item": "vigor_seed"
+   },
+   "premise": "A gardener in a hollow in the west rock; a Vigor Seed sits in the moss."
+  },
+  {
+   "id": "rr_pocket_lark",
+   "map": "route_revival",
+   "cave": "route_revival_cave_e",
+   "cave_title": "Lark Ledge",
+   "floor": [
+    [
+     42,
+     9,
+     50,
+     12
+    ]
+   ],
+   "ledge": [
+    43,
+    45,
+    13
+   ],
+   "walk": [],
+   "mouth": [
+    48,
+    15
+   ],
+   "pocket_door": [
+    46,
+    8
+   ],
+   "main_start": [
+    0,
+    28
+   ],
+   "floor_tile_at": [
+    30,
+    30
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_revival_cave_e",
+    "out": "one-way ledge at y13 x43-45",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rrp_larkwatcher",
+    "x": 50,
+    "y": 9,
+    "level": 63,
+    "class": "Bird Keeper",
+    "name": "Ingrid",
+    "species": [
+     "stratodrake",
+     "torrentpike",
+     "cascadorn"
+    ],
+    "intro": [
+     "DRAFT: The larks nest on this ledge. Quiet, please. Then battle."
+    ],
+    "lost": [
+     "DRAFT: The larks cheered. Quietly."
+    ],
+    "after": [
+     "DRAFT: Drop down to the corridor."
+    ]
+   },
+   "egg": {
+    "id": "r9_rrp_egg_nest",
+    "x": 42,
+    "y": 8,
+    "what": "a nest of bright pebbles",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A nest full of bright pebbles. One is a button. One is a coin. One is a pebble."
+    ]
+   },
+   "item": {
+    "id": "r9_rrp_seed_e",
+    "x": 50,
+    "y": 12,
+    "item": "vigor_seed"
+   },
+   "premise": "A bird keeper on a lark ledge; a Vigor Seed is in the nest.",
+   "map_cells": [
+    {
+     "x": 42,
+     "y": 27,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 42,
+     "y": 28,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 42,
+     "y": 29,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 42,
+     "y": 30,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 31,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 32,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 33,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 34,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 35,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 36,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 37,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 38,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 39,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 40,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 41,
+     "y": 30,
+     "g": 1,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 42,
+     "y": 27,
+     "g": 3,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "rr_cut_tea",
+     "x": 42,
+     "y": 29,
+     "item": "calm_tea"
     }
    ]
   }

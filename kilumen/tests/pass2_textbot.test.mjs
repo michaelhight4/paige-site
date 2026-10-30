@@ -15,6 +15,15 @@ test('PASS2_TEXT_FILES lists switchbacks and batch 2', () => {
   assert.equal(b2.maps.fin_summit_camp.r9_fscp_lookout.name, 'Kesia');
   assert.equal(SPEC.pockets.flatMap((p) => [p.trainer]).find((t) => t.id === 'r9_fscp_lookout').name, 'Kesia');
   for (const c of ['r9_cairnfold_cave_w', 'r9_cairnfold_cave_e']) assert.ok(FB.maps[c]?.area_name, c + ' area_name');
+  // batch 3: caldera, cindervale, grotto, lanternport, saltmere; area names keyed by the real cave ids; watcher Ilse -> Runa
+  assert.ok(PASS2_TEXT_FILES.includes('data/textbot_pass2_batch3.json'));
+  const b3 = R('data/textbot_pass2_batch3.json');
+  for (const m of ['cindervale_caldera', 'cindervale', 'lanternport_grotto', 'lanternport', 'route_aurelith_saltmere']) assert.ok(b3.maps[m], m);
+  const names = { cindervale_caldera_cave: 'Ash Vent', lanternport_grotto_cave: 'Lamp Loft', route_aurelith_saltmere_cave_w: 'Salt Cellar', route_aurelith_saltmere_cave_m: 'Gull Notch', route_aurelith_saltmere_cave_e: 'Tide Loft' };
+  for (const [c, n] of Object.entries(names)) { assert.equal(b3.area_names[c], n, c); assert.equal(SPEC.pockets.find((p) => p.cave === c)?.cave_title, n, c + ' cave title'); }
+  assert.equal(b3.maps.cindervale.r9_cvp_watcher.name, 'Runa');
+  assert.equal(SPEC.pockets.find((p) => p.trainer.id === 'r9_cvp_watcher').trainer.name, 'Runa');
+  assert.equal(FB.maps.cindervale.r9_cvp_watcher.name, 'Runa');
 });
 for (const f of PASS2_TEXT_FILES) {
   test(`${f}: keys resolve, trainers have all four lines, no blocked words`, () => {

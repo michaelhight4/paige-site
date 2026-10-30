@@ -315,7 +315,7 @@
      "DRAFT: The ledge drops right into town."
     ],
     "trainer_class": "Ash Watcher",
-    "name": "Ilse",
+    "name": "Runa",
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    },
    "r9_cvp_egg_bell": {
@@ -489,6 +489,178 @@
    "area_name": {
     "pages": [
      "Tide Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_east": {
+   "r9_rep_ridgewalker": {
+    "pages": [
+     "DRAFT: Nobody walks the ridge but me. Until now. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You walk it better than me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ],
+    "trainer_class": "Ridge Walker",
+    "name": "Edvin",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_egg_cairn": {
+    "pages": [
+     "DRAFT: A cairn of flat stones. The top one has a face drawn on it. It looks worried."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_denkeeper": {
+    "pages": [
+     "DRAFT: This den is mine. The rent is one battle."
+    ],
+    "battle_lost": [
+     "DRAFT: Rent paid in full."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you by the path."
+    ],
+    "trainer_class": "Hermit",
+    "name": "Saga",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_egg_chair": {
+    "pages": [
+     "DRAFT: A chair carved out of the rock. Very comfy. For a rock."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_nookie": {
+    "pages": [
+     "DRAFT: You found my nook! Nobody finds my nook."
+    ],
+    "battle_lost": [
+     "DRAFT: Fine, it is our nook now."
+    ],
+    "after": [
+     "DRAFT: Ledge down to the west field."
+    ],
+    "trainer_class": "Camper",
+    "name": "Liv",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_egg_kite": {
+    "pages": [
+     "DRAFT: A kite wedged in the rock. The string goes up and up and does not come down."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "route_east_cave_n": {
+   "area_name": {
+    "pages": [
+     "Ridge Hollow"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_east_cave_e": {
+   "area_name": {
+    "pages": [
+     "East Den"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_east_cave_w": {
+   "area_name": {
+    "pages": [
+     "West Nook"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_revival": {
+   "r9_rrp_bellkeeper": {
+    "pages": [
+     "DRAFT: The old bell hung up here once. Now I do. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You rang my bell."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ],
+    "trainer_class": "Bell Keeper",
+    "name": "Halvard",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_egg_bell": {
+    "pages": [
+     "DRAFT: A bell-shaped dent in the rock. Someone drew a clapper in it. Ding."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_herbalist": {
+    "pages": [
+     "DRAFT: I grow moss up here. Very slowly. Battle while we wait?"
+    ],
+    "battle_lost": [
+     "DRAFT: The moss grew a bit. You won."
+    ],
+    "after": [
+     "DRAFT: Ledge down to the field."
+    ],
+    "trainer_class": "Gardener",
+    "name": "Wren",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_egg_moss": {
+    "pages": [
+     "DRAFT: Moss in the shape of a heart. A tiny sign: TEN YEARS. WORTH IT."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_larkwatcher": {
+    "pages": [
+     "DRAFT: The larks nest on this ledge. Quiet, please. Then battle."
+    ],
+    "battle_lost": [
+     "DRAFT: The larks cheered. Quietly."
+    ],
+    "after": [
+     "DRAFT: Drop down to the corridor."
+    ],
+    "trainer_class": "Bird Keeper",
+    "name": "Ingrid",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_egg_nest": {
+    "pages": [
+     "DRAFT: A nest full of bright pebbles. One is a button. One is a coin. One is a pebble."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "route_revival_cave_n": {
+   "area_name": {
+    "pages": [
+     "Bell Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_revival_cave_w": {
+   "area_name": {
+    "pages": [
+     "West Hollow"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_revival_cave_e": {
+   "area_name": {
+    "pages": [
+     "Lark Ledge"
     ],
     "status": "DRAFT"
    }
