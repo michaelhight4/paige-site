@@ -64,6 +64,6 @@ test('lab gates match key cards', () => {
   assert.ok(ronArena(J(maps + 'tidewater_coast.json')).ron);
 });
 
-test('tonic_large shows Big Remedy, map qty honoured', () => {
-  assert.equal(new Bag({}).nameOf('tonic_large'), 'Big Remedy');
+test('tonic_large shows Large Salve, map qty honoured', () => {
+  assert.equal(new Bag({}).nameOf('tonic_large'), 'Large Salve');
 });

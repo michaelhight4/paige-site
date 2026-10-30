@@ -6,6 +6,7 @@
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
 import { setRonRoll, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.93-alpha';
 import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.93-alpha';
+import { textbotReady, withTextbotItemNames } from '../region9/textbot.js?v=v0.2.93-alpha'; // Text Bot item display names over the lines
 import { syncLowTide } from '../progression/low_tide.js?v=v0.2.93-alpha'; // G6 forced low tide
 import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.93-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
 import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.93-alpha';
@@ -143,7 +144,7 @@ export class Overworld {
     if (fit) this._watchViewport(); // mobile: watch the viewport from the first frame, not only after the multi-second load
     // playtest fixes 3 (slow reload): these loads are independent, so fetch them together instead of one round trip after another
     const layoutP = loadJson(this.config.worldLayout).then((l) => { this.layout = l; this.knownMaps = new Set(l.maps_built || []); }, () => { this.knownMaps = null; });
-    const linesP = loadJson(this.config.textLines).then((l) => { this.lines = withHealAurelithPh(l); }, () => { this.lines = null; });
+    const linesP = loadJson(this.config.textLines).then((l) => textbotReady.then(() => { this.lines = withTextbotItemNames(withHealAurelithPh(l)); }), () => { this.lines = null; });
     await Promise.all([layoutP, linesP, this._loadGrades(), this._loadSpriteMap(), this._loadWarmth(), this._loadDepth(), this.nightfx.load(this.config)]);
     const sv = this.opts.saveData;
     let s = this.opts.start || (sv?.pos && (!this.knownMaps || this.knownMaps.has(sv.pos.map)) ? sv.pos : this.config.start);

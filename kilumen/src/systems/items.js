@@ -13,11 +13,11 @@ export const POCKETS = ['care', 'feeds', 'gear', 'crystals', 'key', 'logs'];
 
 /** Battle-usable items: engine num, engine name and the Kilumen effect fields read by the battle (k*). */
 export const BATTLE_ITEMS = {
-  tonic_small: { num: 1, name: 'Small Remedy', kHeal: 20 },
-  tonic_large: { num: 2, name: 'Big Remedy', kHeal: 60 },
-  energy_tonic: { num: 3, name: 'Pep Remedy', kEnergy: 5 }, // in battle too: Gary Oct 22 (flag config.js pepRemedyRestoresEnergyInBattle)
+  tonic_small: { num: 1, name: 'Small Salve', kHeal: 20 },
+  tonic_large: { num: 2, name: 'Large Salve', kHeal: 60 },
+  energy_tonic: { num: 3, name: 'Energy Balm', kEnergy: 5 }, // in battle too: Gary Oct 22 (flag config.js pepRemedyRestoresEnergyInBattle)
   calm_tea: { num: 4, name: 'Calm Tea', kCure: true },
-  potion: { num: 9, name: 'Trail Remedy', kHeal: 20 }, // World pickup id (grotto/cave/caldera); Text Bot: Trail Remedy, care pocket. Same heal as the basic Small Remedy (PLACEHOLDER, Gary)
+  potion: { num: 9, name: 'Trail Remedy', kHeal: 20 }, // World pickup id (grotto/cave/caldera); Text Bot: Trail Remedy, care pocket. Same heal as the basic Small Salve (PLACEHOLDER, Gary)
   dominance_crystal: { num: 5, name: 'Dominance Crystal', kCrystalGrade: 1 },
   dominance_crystal_plus: { num: 6, name: 'Prime Crystal', kCrystalGrade: 1.5 },
 };
