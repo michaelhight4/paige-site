@@ -182,7 +182,9 @@ def sunmeadow_fields(j):
     # P1: the west meadow drops into the south field over a ledge (row 19, x24-29); the way back up is x30-33.
     # P10: the sealed satchel pocket east of the field (x45-46) opens through a gap at (46,19).
     ledge(j, 19, 24, 29)
-    carve(j, [(46, 19)])
+    carve(j, [(46, 19), (15, 20), (15, 21)])  # + a dry path beside the pond into the west satchel nook
+    for it in j['items']:  # tuck the nook satchel into its corner so it doesn't seal the square behind it
+        if it['id'] == 'sunmeadow_fields_pocket_2': it['x'] = 14
 
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
