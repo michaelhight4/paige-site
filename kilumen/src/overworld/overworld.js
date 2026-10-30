@@ -93,7 +93,7 @@ export class Overworld {
     this.flags = new Set([...(config.startFlags || []), ...(opts.flags || [])]);
     this.lines = null;          // text/overworld_lines.json (optional; map placeholders are the fallback)
     this._lastBumpMsg = null;   // say a blocked line once per push, not every bump
-    this.tilesetIndex = null;   // 1x tileset index for name lookups (ramps, gate tiles); ids match every scale
+    this.tilesetIndex = null;   // tileset index (built from the zoom set's JSON) for name lookups (ramps, gate tiles); ids match every scale
     this.knownMaps = null;
     this.mapCache = new Map();
     // ---- soul pass: save state, clock, dialogue, NPCs, props, time of day, Warmth follower
@@ -264,7 +264,11 @@ export class Overworld {
         }
         c.npcs = (c.npcs || []).filter((d) => d.kind !== 'spawn'); // house_2f player_start is a spawn, not a person
         const m = new GameMap(c);
-        if (!this.tilesetIndex) { const u = resolveUrl(m.tilesetRef, this.mapUrl(name)); this.tilesetIndex = indexTileset(await withArenaArt(await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(u), u), u), u), u)); }
+        // boot load fix (Oct 30 2026): the index reads only ids, names, collision, animation and meta (codes, ambient), which
+        // are identical in every scale's JSON (only tile_size / scale / sheet paths differ), so build it from the zoom set the
+        // renderer fetches anyway (same loadJson cache) instead of downloading the 1.26 MB 1x tileset.json at boot as well.
+        // Tiles are copied so later per-set mutations (furniture anim) never leak into the index (same as the old separate 1x copy).
+        if (!this.tilesetIndex) { const u = resolveUrl(tilesetFileForZoom(m.tilesetRef, this.sheetScale), this.mapUrl(name)); const ts = await withArenaArt(await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(u), u), u), u), u); this.tilesetIndex = indexTileset({ ...ts, tiles: ts.tiles.map((t) => ({ ...t })) }); }
         return m.attachTileset(this.tilesetIndex.byId);
       }));
     }
