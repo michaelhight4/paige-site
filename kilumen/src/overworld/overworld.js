@@ -409,6 +409,9 @@ export class Overworld {
           const w = m.warpAt(x, y);
           const mkDoor = DEV.masterKey && w && isToCome(w) && this.knownMaps?.has(w.to); // dev master key: a TO COME door whose map is built opens
           if (w && (!isToCome(w) || mkDoor)) {
+            const r9Lock = !DEV.masterKey && this.region9?.warpBlocked?.(m.name, w); // Wellspire: spire floors / past doors (src/region9)
+            if (r9Lock) { this.toast(this.fill(r9Lock).join(' ') || this.config.closedPathText); return 'stop'; }
+            if (w.via) { this.startWarp({ map: w.via.map, x: w.via.x, y: w.via.y, facing: w.via.facing || 'down' }, 'door'); return 'stop'; } // one-way passage (tools/wellspire SELF): the door data lands on its own map
             const hallNeed = !DEV.masterKey && hallLockFor(w.to, this.flags);
             if (hallNeed) { // hall N locked until Master N-1 is beaten
               const prev = hallNeed.replace('beat_master_', ''), town = prev.charAt(0).toUpperCase() + prev.slice(1);
@@ -437,6 +440,7 @@ export class Overworld {
         const mkEdge = DEV.masterKey && !!this.knownMaps?.has(exit.to); // dev master key: a TO COME / blocked exit opens when its map is built
         if ((isToCome(exit) && !mkEdge) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
         if (!DEV.masterKey && this.region78?.edgeBlocked?.(exit)) { this.toast(this.text('system_story_r78.lanternport_gate') ?? this.config.closedPathText); return; } // R78.lanternportGate (off = open)
+        if (!DEV.masterKey && this.region9?.edgeBlocked?.(m.name, exit)) { this.toast(this.config.closedPathText); return 'stop'; } // Wellspire: no road home from the past
         if (!DEV.masterKey && this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
         this.startWarp({ exit, fromX: x, fromY: y }, 'edge');
         return 'stop';
@@ -979,6 +983,7 @@ export class Overworld {
       return;
     }
     if (this.region78?.runSpot && await this.region78.runSpot(sp)) return; // r78 cave story spots (SIGNAL crate)
+    if (this.region9?.runSpot && await this.region9.runSpot(sp)) return; // Wellspire + finale spots (src/region9)
     if (sp.counter) this.bump(sp.counter);
     if (sp.id === 'bin_ron' && this.flags.has('all_badges') && !this.flags.has('finale_done')) this.bump('bin_inspects_after_8');
     if (sp.prompt_after_line) { // camps: the look line, then the prompt only after that line; Yes sets sets_flag

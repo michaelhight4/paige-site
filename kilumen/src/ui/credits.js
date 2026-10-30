@@ -23,14 +23,26 @@ export const CREDIT_FALLBACK = {
   end: ['To be continued...', 'Head Office is still up there.'],
 };
 
+// Ending 2 (Wellspire, story_beats.md §F7): same roll, own words. Keys system_ending2.credits_*; anything missing falls back
+// to CREDIT_FALLBACK2, then to the base CREDIT_FALLBACK (crew + Grok Bot note stay identical: Gary Hight is the dev team).
+export const CREDIT_FALLBACK2 = {
+  open: ['You did it, {name}.', 'The spring runs again. The field team came home.'],
+  coins_head: 'Eight halls, eight coins, one well',
+  ron: ['Ron', 'Who kept the thermos warm', 'and asked no questions.'],
+  rita: ['RITA', 'Who logged every step.', 'Employee found.'],
+  bin: ['Ondravel', 'Who waited a very long time', 'and is not waiting any more.'],
+  end: ['The End.', 'The river takes its time. So can you.'],
+};
+
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : '');
 
 /** Credit text: Text Bot keys first, else fallbacks; {name} etc. filled by the scene. */
-export function creditText(scene) {
-  const out = {};
-  for (const [k, fb] of Object.entries(CREDIT_FALLBACK)) {
-    const t = scene?.text?.(`system_ending.credits_${k}`);
+export function creditText(scene, variant = null) {
+  const out = {}, two = variant === 'ending2';
+  for (const [k, fb0] of Object.entries(CREDIT_FALLBACK)) {
+    const fb = two && CREDIT_FALLBACK2[k] ? CREDIT_FALLBACK2[k] : fb0;
+    const t = two && k !== 'crew' && k !== 'crew_note' ? scene?.text?.(`system_ending2.credits_${k}`) : scene?.text?.(`system_ending.credits_${k}`);
     const v = t == null ? fb : (Array.isArray(t) ? t : t.pages || fb);
     out[k] = typeof v === 'string' ? fill(scene, v) : v.map((x) => (Array.isArray(x) ? x.map((y) => fill(scene, y)) : fill(scene, x)));
   }
@@ -101,7 +113,7 @@ export function runCredits(scene, record, opts = {}) {
     f.style.cssText = `left:${(Math.random() * 100).toFixed(1)}%;top:${(20 + Math.random() * 78).toFixed(1)}%;--t:${(5 + Math.random() * 6).toFixed(1)}s;--d:${(-Math.random() * 8).toFixed(1)}s;--x:${Math.round(Math.random() * 60 - 30)}px`;
     wrap.appendChild(f);
   }
-  const roll = doc.createElement('div'); roll.className = 'cr-roll'; roll.innerHTML = creditsHtml(creditText(scene), record); wrap.appendChild(roll);
+  const roll = doc.createElement('div'); roll.className = 'cr-roll'; roll.innerHTML = creditsHtml(creditText(scene, opts.variant || null), record); wrap.appendChild(roll);
   const skip = doc.createElement('button'); skip.className = 'cr-skip'; skip.textContent = 'Skip ›'; wrap.appendChild(skip);
   const hintTxt = globalThis.matchMedia?.('(pointer: coarse)').matches ? 'Touch and hold to speed up' : HINT;
   const hint = doc.createElement('div'); hint.className = 'cr-hint'; hint.textContent = hintTxt; wrap.appendChild(hint);

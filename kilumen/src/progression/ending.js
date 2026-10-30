@@ -13,7 +13,7 @@ import { coinCount } from '../overworld/lines.js?v=v0.2.92-alpha';
 
 export const ENDING = {
   badges: 'all_badges', finalWin: 'beat_rival_ron_6', done: 'finale_done', coins: 8,
-  ron: 'aurelith.aurelith_ron_6', save: 'game_cleared',
+  ron: 'aurelith.aurelith_ron_6', save: 'game_cleared', ending1: 'ending1_done',
   // v0.2.87 (Gary, Oct 29 2026: "you only get that ending after beating the tower"): the ending is gated on the
   // Aurelith Stadium tower (8 floors, one run, Ron 7 on the roof). Story Bot flags: tower_done / beat_n_ron_7
   // (alias ron_final_beaten). r78 wiring (Oct 29 2026): the tower = aurelith_arena_room_1..8 (src/region78/arena.js sets
@@ -86,6 +86,7 @@ export async function runInterimEnding(scene, opts = {}) {
     try { await credits(scene, record); } catch (e) { console.error('credits:', e); }
     scene.gameCleared = record;
     scene.setFlag(ENDING.done);
+    if (!scene.flags.has(ENDING.ending1)) scene.setFlag(ENDING.ending1); // Wellspire (src/region9): the courier waits on this
     scene.log?.push({ tick: scene.tick, type: 'ending', step: 'cleared' });
     const spawn = await scene._homeStart?.(true);
     if (spawn && scene.startWarp) {

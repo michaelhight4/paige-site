@@ -1,0 +1,60 @@
+[
+ {
+  "plat": "pc",
+  "errors": [],
+  "shots": [
+   "pc_01_courier.png",
+   "pc_02_brookhollow_entry.png",
+   "pc_03_old_riverbed.png",
+   "pc_04_riverbed_sign.png",
+   "pc_05_cairnfold.png",
+   "pc_06_cairnfold_lodge.png",
+   "pc_07_skylift_upper.png",
+   "pc_08_switchbacks.png",
+   "pc_09_icefall.png",
+   "pc_10_summit_camp.png",
+   "pc_11_spire_f1.png",
+   "pc_12_spire_f2.png",
+   "pc_13_spire_f3.png",
+   "pc_14_dome_plea.png",
+   "pc_15_past_station_m.png",
+   "pc_16_reader_reject.png",
+   "pc_17_past_signal_lab.png",
+   "pc_18_past_lab1_f1.png",
+   "pc_19_past_lab1_f4.png",
+   "pc_20_past_enclosure.png",
+   "pc_21_riverbend_dawn.png",
+   "pc_22_credits2.png",
+   "pc_23_lantern_rest_epilogue.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "errors": [],
+  "shots": [
+   "phone_01_courier.png",
+   "phone_02_brookhollow_entry.png",
+   "phone_03_old_riverbed.png",
+   "phone_04_riverbed_sign.png",
+   "phone_05_cairnfold.png",
+   "phone_06_cairnfold_lodge.png",
+   "phone_07_skylift_upper.png",
+   "phone_08_switchbacks.png",
+   "phone_09_icefall.png",
+   "phone_10_summit_camp.png",
+   "phone_11_spire_f1.png",
+   "phone_12_spire_f2.png",
+   "phone_13_spire_f3.png",
+   "phone_14_dome_plea.png",
+   "phone_15_past_station_m.png",
+   "phone_16_reader_reject.png",
+   "phone_17_past_signal_lab.png",
+   "phone_18_past_lab1_f1.png",
+   "phone_19_past_lab1_f4.png",
+   "phone_20_past_enclosure.png",
+   "phone_21_riverbend_dawn.png",
+   "phone_22_credits2.png",
+   "phone_23_lantern_rest_epilogue.png"
+  ]
+ }
+]

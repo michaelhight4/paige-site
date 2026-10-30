@@ -5,11 +5,14 @@
 //    post-game banner ("before": "any", listed last) wins over every other swap. The start tile is the map's own tile
 //    (cells are always resolved from it, so clearing a dev flag rolls the cell back too).
 //  - active_when (spots, npcs): a flag name or a list of flag names; the thing exists only when all are set.
+//  - inactive_when (spots, npcs): a flag name or list; the thing is gone once ANY of them is set.
 //  - by_phase (npcs): {dawn|day|dusk|night: {x, y, facing}} overrides the def's position for that outdoor phase.
 const asList = (v) => (v == null ? [] : Array.isArray(v) ? v : [v]);
 
 /** True when every active_when flag is set (no active_when = always active). */
-export function isActive(def, flags) { return asList(def?.active_when).every((f) => flags?.has(f)); }
+export function isActive(def, flags) {
+  return asList(def?.active_when).every((f) => flags?.has(f)) && !asList(def?.inactive_when).some((f) => flags?.has(f)); // inactive_when: any set = gone (Wellspire summit camp after Ending 2)
+}
 
 const cellKey = (fs) => `${fs.layer || 'decoration'}|${fs.x}|${fs.y}`;
 

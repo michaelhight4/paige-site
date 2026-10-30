@@ -2562,6 +2562,406 @@
    "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "fin_lab1_now_f1.r9_spire_keeper_1": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+  },
+  "fin_lab1_now_f2.r9_spire_keeper_2": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "fin_lab1_now_f3.r9_spire_keeper_3": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+  },
+  "fin_past_lab1_f1.fin_lab1_staff_1": {
+   "sprite_id": "vil_guard_m_b",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi/"
+  },
+  "fin_past_lab1_f2.fin_lab1_staff_2": {
+   "sprite_id": "vil_officer_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_officer_f/overworld/vil_officer_f_chibi/"
+  },
+  "fin_past_lab1_f3.fin_lab1_staff_3": {
+   "sprite_id": "vil_guard_m_b",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi/"
+  },
+  "fin_past_lab1_f4.fin_lab1_staff_4": {
+   "sprite_id": "vil_officer_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_officer_f/overworld/vil_officer_f_chibi/"
+  },
+  "fin_past_lab1_f4.fin_lab1_chief": {
+   "sprite_id": "vil_stationguard_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi/"
+  },
+  "fin_past_signal_lab.fin_t_tech_1": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "fin_past_signal_lab.fin_t_tech_2": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "fin_past_signal_lab.fin_t_tech_3": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "fin_past_signal_lab.fin_t_coralie": {
+   "sprite_id": "vil_clerk_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/"
+  },
+  "fin_past_signal_lab.fin_t_holt": {
+   "sprite_id": "vil_receptionist_f_b",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_receptionist_f_b/overworld/vil_receptionist_f_b_chibi/"
+  },
+  "fin_past_station_m.fin_m_handler_1": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "fin_past_station_m.fin_m_handler_2": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "fin_past_station_m.fin_m_handler_3": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "fin_past_station_m.fin_m_greave": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "fin_summit_camp.fin_teo": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "fin_summit_camp.fin_marta": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "fin_summit_camp.fin_pell": {
+   "sprite_id": "vil_office_m_b",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi/"
+  },
+  "fin_summit_camp.fin_imke": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "lantern_rest.fin_ep_teo": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "lantern_rest.fin_ep_marta": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "lantern_rest.fin_ep_pell": {
+   "sprite_id": "vil_office_m_b",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m_b/overworld/vil_office_m_b_chibi/"
+  },
+  "lantern_rest.fin_ep_imke": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "r9_cairnfold.r9_cf_herder_1": {
+   "sprite_id": "vil_office_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
+  },
+  "r9_cairnfold.r9_cf_herder_2": {
+   "sprite_id": "vil_officer_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_officer_f/overworld/vil_officer_f_chibi/"
+  },
+  "r9_cairnfold.r9_cf_elder": {
+   "sprite_id": "vil_guard_m_b",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_guard_m_b/overworld/vil_guard_m_b_chibi/"
+  },
+  "r9_cairnfold.r9_cf_kid": {
+   "sprite_id": "vil_kid_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_kid_f/overworld/vil_kid_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_kid_f/overworld/vil_kid_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_kid_f/overworld/vil_kid_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_kid_f/overworld/vil_kid_f_chibi/"
+  },
+  "r9_cairnfold.r9_cf_weaver": {
+   "sprite_id": "vil_office_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
+  },
+  "r9_cairnfold.r9_cf_walker": {
+   "sprite_id": "vil_office_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
+  },
+  "r9_cairnfold.r9_cf_lodge_fan": {
+   "sprite_id": "vil_officer_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_officer_f/overworld/vil_officer_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_officer_f/overworld/vil_officer_f_chibi/"
+  },
+  "r9_cairnfold.r9_cf_watcher": {
+   "sprite_id": "vil_office_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
+  },
+  "r9_cairnfold.r9_cf_baker": {
+   "sprite_id": "vil_clerk_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/"
+  },
+  "r9_icefall.r9_ic_climber_1": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "r9_icefall.r9_ic_climber_2": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+  },
+  "r9_icefall.r9_ic_diver": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "r9_icefall.r9_ic_keeper": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "r9_lodge_int.r9_lodge_clerk": {
+   "sprite_id": "vil_clerk_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi/"
+  },
+  "r9_old_riverbed.r9_rb_hiker": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+  },
+  "r9_old_riverbed.r9_rb_dowser": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "r9_old_riverbed.r9_rb_guide": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "r9_skylift_upper.r9_skylift_operator": {
+   "sprite_id": "vil_stationguard_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_stationguard_m/overworld/vil_stationguard_m_chibi/"
+  },
+  "r9_skylift_upper.r9_skylift_rider": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "r9_switchbacks.r9_sw_mountaineer_1": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+  },
+  "r9_switchbacks.r9_sw_climber_1": {
+   "sprite_id": "tr_hiker_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_f/overworld/tr_hiker_f_chibi/"
+  },
+  "r9_switchbacks.r9_sw_survey_1": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "r9_switchbacks.r9_sw_survey_2": {
+   "sprite_id": "tr_scientist_f",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "r9_switchbacks.r9_sw_survey_3": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
+  },
+  "r9_switchbacks.r9_sw_climber_2": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
   }
  },
  "unassigned_ready": {

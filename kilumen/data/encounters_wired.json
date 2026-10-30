@@ -6223,6 +6223,238 @@
      "weight": 5
     }
    ]
+  },
+  "r9_riverbed_reeds": {
+   "method": "grass",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "Wellspire (region 9), story_beats.md §F: post-game, L60-66, art-ready species only (Coder Oct 29 2026, DRAFT).",
+   "slots": [
+    {
+     "species": "reedmoot",
+     "level": [
+      60,
+      62
+     ],
+     "weight": 30
+    },
+    {
+     "species": "moorcoil",
+     "level": [
+      60,
+      62
+     ],
+     "weight": 25
+    },
+    {
+     "species": "cascadorn",
+     "level": [
+      61,
+      63
+     ],
+     "weight": 20
+    },
+    {
+     "species": "toadcap",
+     "level": [
+      60,
+      62
+     ],
+     "weight": 15
+    },
+    {
+     "species": "torrentpike",
+     "level": [
+      62,
+      63
+     ],
+     "weight": 10
+    }
+   ]
+  },
+  "r9_riverbed_grass": {
+   "method": "grass",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "Wellspire (region 9), story_beats.md §F: post-game, L60-66, art-ready species only (Coder Oct 29 2026, DRAFT).",
+   "slots": [
+    {
+     "species": "bramblehog",
+     "level": [
+      60,
+      62
+     ],
+     "weight": 30
+    },
+    {
+     "species": "fernstag",
+     "level": [
+      60,
+      62
+     ],
+     "weight": 25
+    },
+    {
+     "species": "thistlehound",
+     "level": [
+      60,
+      62
+     ],
+     "weight": 20
+    },
+    {
+     "species": "glassvine",
+     "level": [
+      61,
+      63
+     ],
+     "weight": 15
+    },
+    {
+     "species": "sproutwyrm",
+     "level": [
+      62,
+      63
+     ],
+     "weight": 10
+    }
+   ]
+  },
+  "r9_cairnfold_grass": {
+   "method": "grass",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "Wellspire (region 9), story_beats.md §F: post-game, L60-66, art-ready species only (Coder Oct 29 2026, DRAFT).",
+   "slots": [
+    {
+     "species": "shagmount",
+     "level": [
+      61,
+      63
+     ],
+     "weight": 30
+    },
+    {
+     "species": "snowgrouse",
+     "level": [
+      61,
+      63
+     ],
+     "weight": 25
+    },
+    {
+     "species": "cairnhorn",
+     "level": [
+      61,
+      63
+     ],
+     "weight": 20
+    },
+    {
+     "species": "highkite",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 15
+    },
+    {
+     "species": "seraphawk",
+     "level": [
+      63,
+      64
+     ],
+     "weight": 10
+    }
+   ]
+  },
+  "r9_switchbacks_snow": {
+   "method": "grass",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "Wellspire (region 9), story_beats.md §F: post-game, L60-66, art-ready species only (Coder Oct 29 2026, DRAFT).",
+   "slots": [
+    {
+     "species": "peakbrute",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 25
+    },
+    {
+     "species": "shagmount",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 25
+    },
+    {
+     "species": "stratodrake",
+     "level": [
+      63,
+      65
+     ],
+     "weight": 15
+    },
+    {
+     "species": "sunderhoof",
+     "level": [
+      63,
+      65
+     ],
+     "weight": 15
+    },
+    {
+     "species": "snowgrouse",
+     "level": [
+      62,
+      64
+     ],
+     "weight": 20
+    }
+   ]
+  },
+  "r9_icefall_cave": {
+   "method": "cave",
+   "rate": 0.0833,
+   "draft": true,
+   "_note": "Wellspire (region 9), story_beats.md §F: post-game, L60-66, art-ready species only (Coder Oct 29 2026, DRAFT).",
+   "slots": [
+    {
+     "species": "geodurchin",
+     "level": [
+      63,
+      65
+     ],
+     "weight": 30
+    },
+    {
+     "species": "delvemaw",
+     "level": [
+      63,
+      65
+     ],
+     "weight": 25
+    },
+    {
+     "species": "ingotitan",
+     "level": [
+      64,
+      66
+     ],
+     "weight": 15
+    },
+    {
+     "species": "obsidiax",
+     "level": [
+      64,
+      66
+     ],
+     "weight": 10
+    }
+   ]
   }
  }
 }
