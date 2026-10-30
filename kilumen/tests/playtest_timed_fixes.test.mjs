@@ -121,3 +121,16 @@ test('bug 9: dev Travel landing never picks a sealed pocket (mirefen_bog 32,18)'
   assert.notDeepEqual([at.x, at.y], [32, 18]);
   assert.ok(map.isWalkable(at.x, at.y));
 });
+
+// ---- bug 7: town Ron spawned at tidewater_coast 24,31, on the hall door's step row ------------------------------------------
+const { townRonCell } = await import(path.join(root, 'src/overworld/ron_whereabouts.js'));
+test('bug 7: the spawned town Ron never stands on the hall door row (tidewater_coast)', () => {
+  const map = new GameMap(structuredClone(mapJson('tidewater_coast'))); map.attachTileset(byId);
+  map.npcAt = () => null;
+  const door = map.json.warps.find((w) => w.to === 'tidewater_hall_int');
+  const c = townRonCell({ map, player: { x: 5, y: 5 } });
+  assert.ok(c);
+  assert.notDeepEqual([c.x, c.y], [24, 31]);
+  assert.notEqual(c.y, door.y + 1, 'not on the door step row');
+  assert.notEqual(c.x, door.x, 'not in front of the door');
+});

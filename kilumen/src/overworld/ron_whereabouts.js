@@ -131,7 +131,10 @@ export function townRonCell(s) {
     && !(s.player && s.player.x === x && s.player.y === y) && !warps.some((w) => w.x === x && w.y === y);
   const near = (c, offs) => { for (const [dx, dy] of offs) if (free(c.x + dx, c.y + dy)) return { x: c.x + dx, y: c.y + dy }; return null; };
   const ring = []; for (let r = 1; r <= 4; r++) for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) if (Math.max(Math.abs(dx), Math.abs(dy)) === r) ring.push([dx, dy]);
-  if (door) { const c = near(door, [[2, 1], [-2, 1], [1, 2], [-1, 2], [2, 2], [-2, 2], [0, 3], ...ring.filter(([, dy]) => dy > 0), ...ring]); if (c) return c; }
+  // playtest fix Oct 30 2026: he stood at tidewater_coast 24,31, on the row right under the hall door, and blocked the walk
+  // along the front of the hall. Never on the door's step row or straight in front of the door; beside / below it instead.
+  const clear = (dx, dy) => dy !== 1 && dx !== 0;
+  if (door) { const c = near(door, [[2, 2], [-2, 2], [1, 2], [-1, 2], [2, 3], [-2, 3], ...ring.filter(([dx, dy]) => dy > 1 && clear(dx, dy)), ...ring.filter(([dx, dy]) => clear(dx, dy))]); if (c) return c; }
   if (s.player) return near(s.player, ring);
   return null;
 }
