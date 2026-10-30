@@ -78,3 +78,16 @@ test('bug 3: a Mirefen Master win opens storm_season + has_tideglide, so the tra
   assert.equal(qb.tracked(flags)?.id, 'mq_tidewater');
   assert.deepEqual(storyOpens(new Set(['beat_master_frostspire'])), [], 'nothing before the Mirefen win');
 });
+
+// ---- bug 5: Head Office 5/7 never advanced (gate_revival_checkpoint_open is set by nothing) ----------------------------
+test('bug 5: Head Office s6 completes on Revival Heights after the coin; every main-quest step flag is settable or flagless', () => {
+  const data = J('data/quests.json'), qb = new QuestBook(data), q = qb.byId.get('mq_revival_heights');
+  const flags = new Set(['beat_master_saltmere', 'gate_thornwood_east_cleared', 'beat_rival_ron_3', 'ron_layoff_letter', 'beat_master_revival', QFLAG.on(q.id)]);
+  qb.state.steps[q.id] = ['mq_revival_heights_s2'];
+  assert.equal(qb.current(q, flags).id, 'mq_revival_heights_s6');
+  qb.update({ flags, map: 'revival_heights', x: 10, y: 10 });
+  assert.equal(qb.current(q, flags).id, 'mq_revival_heights_s7', 'moves on to the rail pass');
+  assert.equal(qb.progress(q, flags).done, 6);
+  flags.add('beat_master_frostspire'); assert.equal(qb.status(q, flags), 'done', 'coin 4 never leaves it on the HUD');
+  assert.ok(!JSON.stringify(data).includes('"flag": "gate_revival_checkpoint_open"') && !JSON.stringify(data).includes('"flag":"gate_revival_checkpoint_open"'));
+});

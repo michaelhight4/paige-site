@@ -3781,7 +3781,8 @@
      "desc": "The south gate guard opens the shortcut to Saltmere.",
      "map": "revival_heights",
      "at": null,
-     "flag": "gate_revival_checkpoint_open",
+     "flag": null,
+     "_fix": "Coder Oct 30 2026 (playtest): no gate / guard ever set gate_revival_checkpoint_open (the south exit is open), so Head Office sat at 5/7; now done on reaching Revival Heights after the coin (condition).",
      "condition": "beat_master_revival",
      "optional": false
     },
