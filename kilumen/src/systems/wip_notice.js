@@ -12,9 +12,14 @@ export const WIP_TEXT = [
   "You're free to keep exploring. Just try not to break anything.",
 ];
 
+export const aurelithBuilt = (scene) => !!(scene?.layout?.maps_built || []).includes('aurelith') || /^aurelith/.test(scene?.map?.name || '');
+
 export function wipDue(scene) {
   const f = scene?.flags;
   if (DEV.masterKey) return false; // dev master key (runtime only): no early-access notice while quality-checking past Master 2
+  // Oct 30 2026 Arena playtest: with Aurelith built (region 9 + Arena in maps_built) the notice ("the road to Aurelith is still
+  // being built") is false, and it fired inside the Arena lobby. Builds without Aurelith keep it.
+  if (aurelithBuilt(scene)) return false;
   return !!(f && f.has(TRIGGER) && !f.has(WIP_FLAG));
 }
 

@@ -15,7 +15,7 @@ const MAPS = Object.fromEntries(Object.entries(JS).map(([n, j]) => [n, new GameM
 const STAND = new Set([Col.WALK, Col.PLATE, Col.ICE]); // a landing must be walkable and not itself a trigger
 const outdoor = (j) => !!j.padding || (j.exits || []).length > 0;
 // Explicit 2-tile landings: tunnel mouths where the landing sits one tile further in (straight walkable corridor).
-const TWO_TILE = new Set(['greystone_entrance>lantern_rest', 'aurelith_arena>aurelith_stadium_int']); // arena: the cell between is gate_aurelith_arena (open once you are inside)
+const TWO_TILE = new Set(['greystone_entrance>lantern_rest', 'aurelith_arena>aurelith_stadium_int', 'aurelith_arena_room_1>aurelith_arena']); // room 1 -> lobby: you land below the lobby coin check (8,3), not inside it // arena: the cell between is gate_aurelith_arena (open once you are inside)
 
 function* doorWarps() {
   for (const [name, j] of Object.entries(JS)) for (const w of j.warps || []) {

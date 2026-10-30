@@ -60,7 +60,7 @@ test('8 rooms in a chain: one fighter each, themed to its type (distinct floor/w
   const sig = new Set();
   rooms.forEach((r, i) => {
     const n = i + 1, f = ARENA.fighters[i], C = r.layers.collision;
-    assert.deepEqual(r.npcs.map((x) => x.id).filter((id) => !/^arena_(steward|fan)_/.test(id)), [f.id]); assert.equal(C[r.npcs[0].y][r.npcs[0].x], 0); // room 8 also has a steward + fan (Oct 30)
+    assert.deepEqual(r.npcs.map((x) => x.id).filter((id) => id.startsWith('arena_fighter_')), [f.id]); assert.equal(C[r.npcs[0].y][r.npcs[0].x], 0); // + room 5 rest point / room 7 second (Oct 30 2026)
     assert.equal(r.arena_theme.type, f.type, `room ${n} theme matches fighter type`);
     assert.ok(['dawn', 'day', 'dusk', 'night'].includes(r.tint.grade));
     sig.add(`${r.layers.ground[5][1]}|${r.layers.ground[0][0]}|${r.tint.grade}|${r.layers.decoration.flat().filter(Boolean).sort().join(',')}`);
