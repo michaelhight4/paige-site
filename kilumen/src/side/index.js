@@ -1,8 +1,8 @@
 // Side activities (Coder, Oct 30 2026; DRAFT for Gary). attachSide(scene) -> {runSpot(sp), close()}.
 // Hooked from Overworld.runSpot (spots with kind 'side'); see ./activities.js for the four activities.
-import { ACTIVITIES, collectStep, scoreQuiz, oreWeight, doneFlag } from './activities.js?v=v0.2.100-alpha';
-import { addMeritPoints } from './merit.js?v=v0.2.100-alpha';
-import { FB } from './text_fallback.js?v=v0.2.100-alpha';
+import { ACTIVITIES, collectStep, scoreQuiz, oreWeight, doneFlag } from './activities.js?v=v0.2.101-alpha';
+import { addMeritPoints } from './merit.js?v=v0.2.101-alpha';
+import { FB } from './text_fallback.js?v=v0.2.101-alpha';
 
 const getPath = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
 export function sideText(lines, key) {

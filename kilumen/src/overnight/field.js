@@ -7,8 +7,11 @@
 //  - Boulders (F1): walk into a `push_boulder` (code 5) and it slides one cell if the next cell is open floor / plate.
 //    No skill needed (FIELD_SKILLS.md: Greystone boulders stay push puzzles). Plates with mode 'hold' (greystone_b1)
 //    are held by a boulder or the player standing on them; the gates follow (puzzle.gates[].channel may be a list).
-//    Boulders reset when the map reloads (puzzle.rules).
-import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.100-alpha';
+//    Boulders reset when the map reloads (puzzle.rules): every map entry puts each pushed boulder back on its home cell and
+//    restores the floor (plate / decoration) it was covering. Boulder reset bug (v0.2.101-alpha): maps are cached by
+//    OverworldScene.loadMap, so a pushed boulder stayed where it was on re-entry (a boulder shoved into a corner blocked the
+//    shortcut for good) and onEnter dropped the remembered floor, so pushing it again erased the plate under it.
+import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.101-alpha';
 const WET = new Set([Col.WATER, Col.DEEP_WATER]); // ride-only water codes
 
 export const BRUSH_TILES = { thick_brush: { skill: 'brushbreak', flag: 'has_brushbreak' }, cracked_rock: { skill: 'stonebreak', flag: 'has_stonebreak' } };
@@ -44,8 +47,31 @@ export function holdGates(puzzle, weighted, isOn = () => false) {
   return out;
 }
 
+/** Pure: undo every push on map m. st = {under: Map(cell -> floor), home: Map(cell -> home cell)}; player = {x,y} or null.
+ *  A boulder whose home cell holds the player stays put (and keeps its record). Returns the number of boulders moved home. */
+export function resetBoulders(m, st, player = null) {
+  if (!st || !st.home.size) return 0;
+  const moves = [];
+  for (const [cur, home] of st.home) {
+    if (cur === home) continue;
+    const [hx, hy] = home.split(',').map(Number);
+    if (player && player.x === hx && player.y === hy) continue;
+    const [cx, cy] = cur.split(',').map(Number);
+    moves.push({ cur, home, cx, cy, hx, hy, tile: m.tile('decoration', cx, cy) });
+  }
+  for (const v of moves) { // lift every moved boulder first (restore its floor), then drop them all home
+    const f = st.under.get(v.cur) || { code: Col.WALK, deco: 0 };
+    m.layers.decoration[v.cy][v.cx] = f.deco; m.layers.collision[v.cy][v.cx] = f.code;
+    st.under.delete(v.cur); st.home.delete(v.cur);
+  }
+  for (const v of moves) {
+    m.layers.decoration[v.hy][v.hx] = v.tile; m.layers.collision[v.hy][v.hx] = Col.BOULDER;
+  }
+  return moves.length;
+}
+
 export class FieldSystem {
-  constructor(scene) { this.scene = scene; this.gliding = false; this.under = new Map(); this.toggled = new Set(); this.mapName = null; }
+  constructor(scene) { this.scene = scene; this.gliding = false; this.under = new Map(); this.home = new Map(); this.byMap = new Map(); this.toggled = new Set(); this.mapName = null; }
 
   tileName(layer, x, y) { const s = this.scene, id = s.map?.tile(layer, x, y); return id ? s.tilesetIndex?.byId?.get(id)?.name || null : null; }
   brushAt(x, y) { for (const L of ['decoration', 'overlay', 'ground']) { const n = this.tileName(L, x, y); if (BRUSH_TILES[n]) return { layer: L, ...BRUSH_TILES[n] }; } return null; }
@@ -56,7 +82,13 @@ export class FieldSystem {
   pages(skill, key, extra) { const v = this.scene.lines?.field_skills?.[skill]?.[key]; return v ? this.scene.fill([].concat(v), this.vars(skill, extra)) : null; }
 
   onEnter(m) {
-    this.gliding = false; if (this.scene.player) this.scene.player.gliding = false; this.under = new Map(); this.mapName = m.name;
+    this.gliding = false; if (this.scene.player) this.scene.player.gliding = false; this.mapName = m.name;
+    // per-map push memory survives leaving (the GameMap object is cached), so the reset can put boulders + floors back
+    if (!this.byMap.has(m.name)) this.byMap.set(m.name, { under: new Map(), home: new Map() });
+    const st = this.byMap.get(m.name);
+    const p = this.scene.player;
+    if (resetBoulders(m, st, p ? { x: p.x, y: p.y } : null)) this.scene._dirty = true;
+    this.under = st.under; this.home = st.home;
     this.refreshHold();
   }
 
@@ -103,7 +135,9 @@ export class FieldSystem {
     if (q?.type !== 'block' || q.code !== Col.BOULDER || !this.isPushBoulder(bx, by)) return false;
     const t = boulderTarget(m, bx, by, dir);
     if (!t) return false;
+    const k0 = bx + ',' + by, home = this.home.get(k0) || k0;
     moveBoulder(m, bx, by, t.x, t.y, this.under);
+    this.home.delete(k0); this.home.set(t.x + ',' + t.y, home);
     s.audio?.sfx?.('bump');
     s.log.push({ tick: s.tick, type: 'boulder', from: [bx, by], to: [t.x, t.y] });
     if (m.code(t.x, t.y) === Col.BOULDER && this.under.get(t.x + ',' + t.y)?.code === Col.PLATE) s.hooks.onPlate?.(t.x, t.y);
