@@ -2,7 +2,7 @@
 
 One tree = two 64px cells: gh_tree_top (overlay, the lit canopy TOP plane seen from 35 deg) above gh_tree_base (deco, the
 darker canopy FRONT face, trunk and root shadow). Existing overworld tree palette only; the top is always lighter than the
-front. Writes tiles_{1,2,3}x/gh_trees.png (2 cells wide: col 0 = top, col 1 = base; 2x/3x are nearest-neighbour)."""
+front. Writes tiles_{1,2,3}x/gh_trees.png (3 cells wide: col 0 = top, col 1 = base, col 2 = base_inner; 2x/3x are nearest-neighbour)."""
 import math, os, random
 from PIL import Image
 OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'art', 'world', 'overworld')
@@ -60,9 +60,13 @@ def draw():
 def main():
     im = draw()
     for k in (1, 2, 3):
-        sheet = Image.new('RGBA', (128 * k, 64 * k), (0, 0, 0, 0))
+        sheet = Image.new('RGBA', (192 * k, 64 * k), (0, 0, 0, 0))
         sheet.alpha_composite(im.crop((0, 0, 64, 64)).resize((64 * k, 64 * k), Image.NEAREST), (0, 0))
         sheet.alpha_composite(im.crop((0, 64, 64, 128)).resize((64 * k, 64 * k), Image.NEAREST), (64 * k, 0))
+        # col 2 = gh_tree_base_inner (10969): the base on a dark canopy floor, for stand rows with another tree below,
+        # so a tree wall reads as solid interlocking trees (Gary, Oct 30 2026), not stacked half-domes on sand
+        inner = Image.new('RGBA', (64, 64), (24, 56, 44, 255)); inner.alpha_composite(im.crop((0, 64, 64, 128)))
+        sheet.alpha_composite(inner.resize((64 * k, 64 * k), Image.NEAREST), (128 * k, 0))
         sheet.save(os.path.join(OUT, f'tiles_{k}x', 'gh_trees.png'))
     prev = Image.new('RGBA', (64, 128), (232, 214, 160, 255)); prev.alpha_composite(im)
     prev.resize((256, 512), Image.NEAREST).save('/tmp/gh_tree_preview.png')
