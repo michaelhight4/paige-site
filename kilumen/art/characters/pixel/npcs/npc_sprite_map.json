@@ -3022,6 +3022,22 @@
     "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
    },
    "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+  },
+  "r9_icefall.r9_ic_carver": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+  },
+  "r9_icefall.r9_ic_sledder": {
+   "sprite_id": "tr_hiker_m",
+   "class": "Wellspire (region 9 / finale), story_beats.md §F",
+   "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
   }
  },
  "unassigned_ready": {

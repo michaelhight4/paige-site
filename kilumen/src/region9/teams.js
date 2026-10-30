@@ -16,6 +16,8 @@ export const WELLSPIRE_TEAMS = {
   'r9_icefall.r9_ic_climber_2': T(64, 'seraphawk', 'peakbrute', 'cairnhorn'),
   'r9_icefall.r9_ic_diver': T(64, 'torrentpike', 'bulwarkrab', 'brineseal'),
   'r9_icefall.r9_ic_keeper': T(64, 'delvemaw', 'obsidiax', 'geodurchin', 'ingotitan'),
+  'r9_icefall.r9_ic_carver': T(64, 'mirrorkin', 'glassvine', 'prismwing'), // map fill Oct 30: ice sculptor
+  'r9_icefall.r9_ic_sledder': T(64, 'snowgrouse', 'shagmount', 'highkite'), // map fill Oct 30: sled racer
   'fin_lab1_now_f1.r9_spire_keeper_1': T(64, 'prismwing', 'seaglint', 'mirrorkin'),
   'fin_lab1_now_f2.r9_spire_keeper_2': T(65, 'runeskein', 'pearlisk', 'glassvine'),
   'fin_lab1_now_f3.r9_spire_keeper_3': T(65, 'bleachghast', 'crowkin', 'velvetabby', 'prismwing'),

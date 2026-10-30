@@ -91,6 +91,10 @@ class M:
         self.pts[sid] = {'x': x, 'y': y, 'facing': 'up'}
         self.check()
         return d
+    def prop(self, x, y, tile, code=1):
+        """A one-square prop on open floor (decoration layer): blocks (code 1) or a south-only ledge (code 2)."""
+        assert self.c(x, y) == 0 and (x, y) not in self.used, f'{self.name}: prop on {(x, y)}'
+        self.j['layers']['decoration'][y][x] = tile; self.col[y][x] = code
     def ok_spot(self, x, y): return not any(abs(x - a) + abs(y - b) <= 1 for (a, b) in self.used if self.c(a, b) == 4)
     def check(self):
         """Every warp cell, exit cell and spot stand stays reachable from the anchor with the NPCs placed."""
@@ -193,8 +197,21 @@ def build():
     ic.warp(2, 'fin_summit_camp', 16, 22, 'up')
     ic._anchor = (14, 18)
     tables(ic, {'*': 'r9_icefall_cave'})
+    # Map fill (Coder, Oct 30 2026, Gary: sparse maps, layered like the classic games). Row 6 west of the climb becomes a
+    # south-only ice ledge: the north shelf (row 5, x3-13) is a cliff walk over the pool, reached up the x14 climb; at its
+    # west end a Prime Crystal sits hidden, and the ledge drops you back down (one-way) beside the pool.
+    for x in range(3, 14): ic.prop(x, 6, 518 if x == 3 else 522 if x == 13 else 520, code=2)
+    for (x, y, t) in [(26, 5, 5443), (3, 12, 5443), (3, 15, 5442), (26, 15, 5442), (26, 10, 5442), (10, 15, 5442), (20, 15, 5443),
+                      (18, 8, 510), (19, 8, 510), (13, 9, 510), (24, 12, 510)]:
+        ic.prop(x, y, t)
+    ic.j['items'] = [{'id': 'r9_ic_shelf_crystal', 'x': 3, 'y': 5, 'item': 'dominance_crystal_plus', 'qty': 1, 'hidden': True,
+                      'note': 'end of the ice shelf over the pool (one-way ledge back down)', 'flag': 'item_r9_icefall_r9_ic_shelf_crystal'}]
     ic.spot('r9_icefall_signal', (8, 8))
-    for nid, want in [('r9_ic_climber_1', (8, 14)), ('r9_ic_climber_2', (22, 14)), ('r9_ic_diver', (6, 6)), ('r9_ic_keeper', (24, 7))]:
+    ic.spot('r9_icefall_pool', (9, 13))
+    ic.spot('r9_icefall_pegs', (25, 5))
+    ic.spot('r9_icefall_carving', (18, 9))
+    for nid, want in [('r9_ic_climber_1', (8, 14)), ('r9_ic_climber_2', (22, 14)), ('r9_ic_diver', (4, 9)), ('r9_ic_keeper', (24, 7)),
+                      ('r9_ic_carver', (17, 11)), ('r9_ic_sledder', (11, 14))]:
         ic.npc(nid, want, 'trainer', 'down')
     P['_arrive_icefall'] = {'x': 14, 'y': 18, 'facing': 'up'}
     done(ic)

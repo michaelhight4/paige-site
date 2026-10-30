@@ -156,6 +156,21 @@ export const POINTS = {
   }
  },
  "r9_icefall": {
+  "r9_icefall_carving": {
+   "facing": "up",
+   "x": 18,
+   "y": 9
+  },
+  "r9_icefall_pegs": {
+   "facing": "up",
+   "x": 25,
+   "y": 5
+  },
+  "r9_icefall_pool": {
+   "facing": "up",
+   "x": 9,
+   "y": 13
+  },
   "r9_icefall_signal": {
    "facing": "up",
    "x": 8,

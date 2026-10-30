@@ -61,6 +61,15 @@ export const TALK = {
   fin_lab1_staff_4: { intro: 'fin.lab1.staff_4', after: 'fin.lab1.staff_after', flag: 'fin_lab1_staff4_beaten' },
   fin_lab1_chief: { intro: 'fin.lab1.chief_intro', lose: 'fin.lab1.chief_lose', after: 'fin.lab1.chief_after', flag: 'fin_spire_floor_4', needs: 'fin_lab1_staff4_beaten', wait: 'fin.lab1.chief_wait', name: 'The Chief' },
 };
+// Icefall (map fill, Coder Oct 30 2026): names + intros for the cave's six trainers; lines are DRAFT in ./text_fallback.js.
+Object.assign(TALK, {
+  r9_ic_climber_1: { intro: 'r9.ic.climber_1', after: 'r9.ic.climber_1_after', name: 'Climber Brenna' },
+  r9_ic_climber_2: { intro: 'r9.ic.climber_2', after: 'r9.ic.climber_2_after', name: 'Climber Odd' },
+  r9_ic_diver: { intro: 'r9.ic.diver', after: 'r9.ic.diver_after', name: 'Ice Diver Sela' },
+  r9_ic_keeper: { intro: 'r9.ic.keeper', after: 'r9.ic.keeper_after', name: 'Cave Keeper Moss' },
+  r9_ic_carver: { intro: 'r9.ic.carver', after: 'r9.ic.carver_after', name: 'Ice Carver Pim' },
+  r9_ic_sledder: { intro: 'r9.ic.sledder', after: 'r9.ic.sledder_after', name: 'Sled Racer Juno' },
+});
 const TRAINER_DEFAULT = { intro: null, after: 'r9.trainer_after' };
 
 export function attachRegion9(scene, { systems } = {}) {
@@ -204,6 +213,8 @@ export function attachRegion9(scene, { systems } = {}) {
     r9_skylift_down: async () => { if (await ask('r9.skylift_down')) await warp(to('frostspire_lift_int', 'r9_skylift_entry')); },
     r9_switchbacks_up: async () => { await say('r9.switchbacks_up', narr); await warp(to('r9_icefall', '_arrive_icefall')); },
     r9_icefall_signal: () => say('r9.icefall_signal', narr),
+    r9_icefall_pool: () => say('r9.icefall_pool', narr), r9_icefall_pegs: () => say('r9.icefall_pegs', narr),
+    r9_icefall_carving: () => say('r9.icefall_carving', narr),
     fin_camp_fire: async () => { heal(); await say('summit.camp_fire', narr); },
     fin_spire_door: async () => {
       if (!has('found_team_summit')) return say('summit.spire_door_wait', narr);
