@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const MAPS = new URL('../art/world/overworld/maps/', import.meta.url);
 const load = (n) => JSON.parse(fs.readFileSync(new URL(n + '.json', MAPS)));
-const REWORKED = { r9_icefall: [14, 18], r9_old_riverbed: [1, 19], r9_switchbacks: [24, 1], fin_summit_camp: [16, 22] };
+const REWORKED = { r9_icefall: [14, 18], r9_old_riverbed: [1, 19], r9_switchbacks: [24, 1], fin_summit_camp: [16, 22], cindervale_caldera: [16, 22] };
 const PASS = new Set([0, 4, 7, 10]);
 function reach(m, start, gates = new Set()) {
   const col = m.layers.collision, H = col.length, W = col[0].length;
@@ -28,7 +28,7 @@ for (const [name, start] of Object.entries(REWORKED)) {
   test(`${name}: warps valid, everything reachable, ledges one-way`, () => {
     const m = load(name); const col = m.layers.collision;
     const gates = new Set((m.story_gates || []).flatMap((g) => g.cells.map((c) => `${c.x},${c.y}`)));
-    const R = reach(m, start, gates);
+    const R = reach(m, start, gates); const N4b = [[1, 0], [-1, 0], [0, 1], [0, -1]];
     for (const w of m.warps.filter((w) => w.reached_via)) { // one-way pocket: entered through a door on reached_via that lands here
       const o = load(w.reached_via); const ow = o.warps.find((v) => v.to === name && Math.abs(v.tx - w.x) + Math.abs(v.ty - w.y) === 1);
       assert.ok(ow, `${w.reached_via} has a door onto ${name} ${w.x},${w.y}`);
@@ -39,7 +39,7 @@ for (const [name, start] of Object.entries(REWORKED)) {
       const t = load(w.via?.map || w.to); const tx = w.via ? w.via.x : w.tx, ty = w.via ? w.via.y : w.ty;
       assert.ok(PASS.has(t.layers.collision[ty][tx]) || w.via, `warp target ${w.to} ${tx},${ty} passable`);
     }
-    for (const s of m.interact_spots || []) assert.ok(R.has(s.stand.join(',')), `spot ${s.id} stand reachable`);
+    for (const s of m.interact_spots || []) { const k = s.stand ? s.stand.join(',') : null; assert.ok(k ? R.has(k) : N4b.some(([dx, dy]) => R.has(`${s.x + dx},${s.y + dy}`)) || R.has(`${s.x},${s.y}`), `spot ${s.id} reachable`); }
     const N4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
     for (const it of m.items || []) assert.ok(it.hidden ? R.has(`${it.x},${it.y}`) : N4.some(([dx, dy]) => R.has(`${it.x + dx},${it.y + dy}`)), `item ${it.id} reachable`);
     assert.ok((m.items || []).some((i) => !i.hidden) && (m.items || []).some((i) => i.hidden), 'a visible and a hidden reward');

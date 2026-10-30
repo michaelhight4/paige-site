@@ -97,6 +97,16 @@ def fin_summit_camp(j):
     item(j, 'fin_sc_nook_mix', 6, 4, 'trail_mix', False, 'north-west nook of the spire terrace')
     item(j, 'fin_sc_east_pouch', 30, 18, 'coin_pouch_small', True, 'east nook behind the camp')
 
+@recipe
+def cindervale_caldera(j):
+    # Same bowl as the summit camp: east cut (x24-25) becomes a one-way drop off the upper rim, west cut stays the climb.
+    ledge(j, 11, 24, 25, cave=True)
+    item(j, 'caldera_chimney_crystal', 3, 4, 'dominance_crystal', True, 'top of the west vent chimney')
+    item(j, 'caldera_nook_dust', 6, 4, 'crystal_dust', False, 'north-west nook of the upper rim')
+    for it in j['items']:  # the old satchel at 29,4 sealed the corner square behind it; tuck it into that corner instead
+        if it['id'] == 'caldera_item': it['x'] = 30
+    item(j, 'caldera_east_pouch', 30, 18, 'coin_pouch_small', True, 'east nook behind the smelter floor')
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
