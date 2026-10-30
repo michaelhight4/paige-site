@@ -1,0 +1,26 @@
+{
+  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary.",
+  "system_halls": {
+    "gate_hint_plate": {"pages": ["This gate is shut tight. A floor\nplate somewhere in this hall swaps it.", "Hall wins: {wins} of {need}."]},
+    "gate_hint_crystal": {"pages": ["This crystal is dark. A crystal\nplate somewhere in this hall wakes it.", "Hall wins: {wins} of {need}."]},
+    "master_locked": {"pages": ["Not yet. Beat {left} more in my\nhall, then come and find me.", "Hall wins so far: {wins} of {need}."]}
+  },
+  "system": {
+    "wip_after_master8": {"pages": ["That's as far as the story goes\nfor now. Aurelith isn't ready yet.", "You're free to keep exploring.\nTry not to break anything."]}
+  },
+  "system_arena": {
+    "rest_point": {"pages": ["Halfway there. Let me fix your\nteam up. No charge, this once.", "All rested. The next room won't\ngo easy on you."]},
+    "rest_point_used": {"pages": ["I've already patched your team up\nthis run. You're on your own now."]},
+    "fighter_second_first": {"pages": ["Not so fast. You get through my\nsecond before you get to me."]}
+  },
+  "maps": {
+    "aurelith_arena": {
+      "arena_second_7": {
+        "pages": ["The stars say you lose here.\nI'd rather check that myself."],
+        "battle_lost": ["So much for the stars.\nGo on, the fighter is waiting."],
+        "battle_won": ["Just as the charts said.\nBetter luck on your next run."],
+        "after": ["I'm redoing my star charts.\nThey were wrong about you."]
+      }
+    }
+  }
+}
