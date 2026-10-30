@@ -69,7 +69,7 @@
    "gullhaven_sea_sign": {
     "pages": [
      "GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.",
-     "Swim with care. The gulls are watching."
+     "Ride with care. The gulls are watching."
     ],
     "lines": [
      {
@@ -77,7 +77,7 @@
       "flags": [],
       "pages": [
        "GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.",
-       "Swim with care. The gulls are watching."
+       "Ride with care. The gulls are watching."
       ]
      }
     ],
@@ -340,7 +340,7 @@
    },
    "gullhaven_harbour_master": {
     "pages": [
-     "No roads come here, only boats and\nswimmers. Welcome to Gullhaven.",
+     "No roads come here, and no boats.\nOnly Kilu riders. Welcome to Gullhaven.",
      "Fees are paid in gold, gossip or fish.\nThe gulls take the fish anyway."
     ],
     "lines": [
@@ -348,7 +348,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "No roads come here, and no boats.\nOnly swimmers. Welcome to Gullhaven.",
+       "No roads come here, and no boats.\nOnly Kilu riders. Welcome to Gullhaven.",
        "Fees are paid in gold, gossip or fish.\nThe gulls take the fish anyway."
       ]
      },

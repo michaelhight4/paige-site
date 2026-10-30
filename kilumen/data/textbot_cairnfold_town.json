@@ -1,0 +1,29 @@
+{
+  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Paths mirror text/overworld_lines.json.",
+  "maps": {
+    "heal_cairnfold": {
+      "area_name": "Revival Tech, Cairnfold",
+      "heal_cairnfold_carer": {
+        "pages": ["Welcome to Revival Tech, Cairnfold.\nMind the bells, they're everywhere.", "Your team looks wind-bitten.\nWant me to rest them?"],
+        "after_heal": ["All rested. Warm as a hayloft.", "Come back before the next climb.\nYou will need to."],
+        "declined": ["Suit yourself. The mountain\nwon't go easy on tired legs."]
+      },
+      "heal_cairnfold_technician": {
+        "pages": ["Cold makes the crystals sluggish.\nI keep them by the stove.", "Head office calls it a fire risk.\nI call it Tuesday."]
+      }
+    },
+    "shop_cairnfold": {
+      "shop_cairnfold_clerk": {
+        "pages": ["Rope, wool and anything warm.\nIf it's not warm, we don't stock it."]
+      }
+    },
+    "r9_cairnfold": {
+      "r9_cairnfold_sign": {
+        "pages": ["CAIRNFOLD\nHerders, hay and bells.", "Please close every gate behind you.\nThe herd reads signs better than you."]
+      }
+    }
+  },
+  "system_shop": {
+    "first_visit": {"pages": ["New face! Have a look around.\nPrices are on the shelf tags."]}
+  }
+}

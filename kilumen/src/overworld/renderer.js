@@ -8,6 +8,7 @@
 // right after ground/decoration, before the decals; the character contact shadows run after living `under`, just
 // before the first character. Both are under every character and over the floor.
 import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.96-alpha';
+import { waterClass, familyOf, edgeMask, variantTile } from './water_depth.js?v=v0.2.96-alpha'; // shallow (fishable) vs deep water look
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
 
@@ -54,7 +55,7 @@ export class Renderer {
     const y1 = Math.min(m.height - 1, Math.floor((cam.y + H / z - 1) / TILE));
 
     for (const layer of ['ground', 'decoration'])
-      for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile(layer, x, y), x, y);
+      for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) this.tile(v, m.tile(layer, x, y), x, y, undefined, layer === 'ground');
     v.r9fx?.decorationFx?.(ctx, v); // decoration_fx: Wellspire lab tank particle overlays (src/region9/tank_overlays.js), before characters; Ondravel (r9fx.draw) above
     v.ixlight?.draw(ctx, v, 'lower'); // Interiors v2: cached plane lighting on redrawn furniture + floor light spill
     v.depth?.drawStatic(ctx, v); // depth pass: contact shadows under furniture/decoration + wall-base shading (cached per map)
@@ -138,19 +139,27 @@ export class Renderer {
    * the native (1x) sheet is palette-graded once (cached) and scaled by the integer zoom; at day the pre-scaled
    * sheet for this zoom is blitted 1:1. Both paths are nearest-neighbour on whole-pixel cells: no seams.
    */
-  tile(v, id, x, y, frame) {
+  tile(v, id, x, y, frame, ground = false) {
     if (!id) return;
     id = v.swap?.get(id) ?? id;
     let ts = v.tileset, t = ts.byId.get(id);
     if (!t) return;
     const idx = frame ?? tileFrame(t, v.ms, v.rustles?.get(x + ',' + y));
     let img, S = ts.size;
-    if (v.grade && !v.grade.identity && v.tileset1x && v.gradeImage) {
+    const graded = v.grade && !v.grade.identity && v.tileset1x && v.gradeImage;
+    const wc = ground && this.waterDepth !== false && v.waterDepth !== false ? waterClass(v.map, x, y) : 0; // water_depth.js: 1 shallow (fishable) / 2 deep
+    if (graded) {
       ts = v.tileset1x; t = ts.byId.get(id) || t;
-      img = v.gradeImage(ts.images.get(t.sheet), v.grade, 'map', v.emissive?.get(t.sheet)); S = ts.size; // lit only inside the emissive mask
+      img = wc ? ts.images.get(t.sheet) : v.gradeImage(ts.images.get(t.sheet), v.grade, 'map', v.emissive?.get(t.sheet)); S = ts.size; // lit only inside the emissive mask
     } else img = ts.images.get(t.sheet);
     if (!img) return;
     const D = TILE * v.zoom;
+    if (wc) { // recolour the native cell first, then grade it like any tile (binary alpha, palette colours)
+      let c = variantTile(img, (idx % ts.columns) * S, Math.floor(idx / ts.columns) * S, S, familyOf(t.name), wc, edgeMask(v.map, x, y, wc));
+      if (c && graded) c = v.gradeImage(c, v.grade, 'map');
+      if (c) { this.ctx.drawImage(c, 0, 0, S, S, (x * TILE - v.cam.x) * v.zoom, (y * TILE - v.cam.y) * v.zoom, D, D); return; }
+      if (graded) img = v.gradeImage(img, v.grade, 'map', v.emissive?.get(t.sheet));
+    }
     const wk = frame == null && v.wind ? v.wind.kind(id) : 0;
     if (wk) {
       const rs = wk === 2 ? v.rustles?.get(x + ',' + y) : null;

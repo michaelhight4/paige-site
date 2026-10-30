@@ -5,6 +5,7 @@
 // Easing: Quadratic.Out / Back.Out / Sinusoidal.InOut adapted from tween.js (MIT, Robert Penner's equations, BSD) -
 // see THIRD_PARTY_LICENSES "Fishing v1".
 import { Col, DELTA } from '../overworld/constants.js?v=v0.2.96-alpha';
+import { isFishable } from '../overworld/water_depth.js?v=v0.2.96-alpha';
 
 export const FISHING_URL = 'data/fishing_tables.json';
 /** Rod tiers: Fishing Rod (Brookhollow fisher), Driftline Rod (Saltmere fisher), Lanternreach Rod (Lanternport keeper). Ids PLACEHOLDER. */
@@ -26,13 +27,14 @@ export function bestRod(bag) {
 }
 
 /** The faced cell, if it is water the player can cast into. Generic rule: any walkable cell (grass edge, sand, a pier's
- * boards) facing a water / deep-water cell. No per-map pier data is needed. -> {x, y} | null */
+ * boards) facing a SHALLOW water cell (Oct 30 2026: water touching any non-water cell; open deep water cannot be fished). No per-map pier data is needed. -> {x, y} | null */
 export function facedWater(map, px, py, facing) {
   const d = DELTA[facing];
   if (!d || !map) return null;
   const x = px + d.x, y = py + d.y;
   if (!map.inBounds?.(x, y)) return null;
   if (!WATER_CODES.has(map.code(x, y))) return null;
+  if (map.width && !isFishable(map, x, y)) return null; // only shallow water (touches shore/pier/rock, water_depth.js); open deep water is Tideglide-only
   if (map.npcAt?.(x, y)) return null;
   if ((map.signs || []).some((s) => s.x === x && s.y === y)) return null;
   return { x, y };
@@ -170,7 +172,7 @@ export function biteKeyName(label) {
   return (m && m[1]) || 'Space';
 }
 
-/** Bite prompt {key, text key} for a device: touch -> Tap A, controller -> Press A, keyboard -> Press <bound key>. */
+/** Bite prompt {key, text key} for a device: touch -> Press A, controller -> Press A, keyboard -> Press <bound key>. */
 export function bitePrompt({ touch = false, device = null, confirmLabel = null } = {}) {
   if (touch || device === 'touch') return { textKey: 'fishing.prompt_touch', key: 'A', icon: 'A' };
   if (device === 'controller') return { textKey: 'fishing.prompt_pad', key: 'A', icon: 'A' };
@@ -197,11 +199,11 @@ export const TEXT = Object.freeze({
   'fishing.early': ['Too soon! The ripples fade.'],
   'fishing.late': ['It stole the bait and slipped away...'],
   'fishing.no_table': ['Nothing seems to live here.'],
-  'fishing.no_rod': ['The water looks deep and calm.'],
+  'fishing.no_rod': ['The shallows look calm. Something moves under the surface.'],
   'fishing.no_team': ['Better bring a creature along first.'],
   'fishing.prompt_pc': ['Press {key}!'],
   'fishing.prompt_pad': ['Press A!'],
-  'fishing.prompt_touch': ['Tap A!'],
+  'fishing.prompt_touch': ['Press A!'],
   'fishing.battle_intro': ['{creature} leaps out of the water!'],
   'fishing.rare_bite': ['The line pulls hard. Something big is down there!'],
   // gear v1: bait picker + rod gifts (placeholder keys; Text Bot owns the words)
@@ -209,9 +211,9 @@ export const TEXT = Object.freeze({
   'fishing.bait_none': ['No bait'],
   'fishing.bait_out': ['That was the last of the {bait}.'],
   'fishing.bait_used': ['{player} hooked on a {bait}.'],
-  'fishing.good_giver_pages': ['You caught one with that old stick? Not bad.', 'Take my Driftline Rod. It reaches the deeper water off the quay.'],
+  'fishing.good_giver_pages': ['You caught one with that old stick? Not bad.', 'Take my Driftline Rod. It casts long and true across the shallows.'],
   'fishing.good_received': ['{player} received the Driftline Rod!'],
-  'fishing.good_tip': ['The bobber sits deeper now. Bigger creatures bite at it.'],
+  'fishing.good_tip': ['The line flies further now. Bigger creatures bite out at the edge.'],
   'fishing.good_hint': ['Land something from the harbour with that rod of yours, then come and show me.'],
   'fishing.super_hint': ['A long coil moves past the light at night. Hook one for me with a Driftline Rod.'],
   'fishing.super_giver_pages': ['So it was real. I have watched that coil for years.', 'The lamp needs me more than this rod does. Take it.'],

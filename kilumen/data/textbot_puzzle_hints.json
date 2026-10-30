@@ -364,7 +364,7 @@
  "field_skills": {
   "tideglide": {
    "cant_use_yet": [
-    "A strong swimmer could carry you,\nbut you need {skill}. Try Mirefen."
+    "A strong Kilu could carry you,\nbut you need {skill}. Try Mirefen."
    ],
    "source": "quests.json mq_mirefen_s6: Mirefen Master teaches it (verified)"
   },

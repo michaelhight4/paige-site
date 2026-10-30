@@ -168,12 +168,20 @@ void main(){
 
 export const FS_COMP_SRC = FS_COMP;
 
+/** Default mode with no saved choice (Gary, Oct 30 2026): 'off' on phones (platform 'mobile', or no platform and a coarse
+ * pointer), 'auto' on PC, including the Steam/Electron build (?platform=pc). */
+export function defaultMode(scene) {
+  const id = scene?.opts?.platform?.id;
+  if (id) return id === 'mobile' ? 'off' : 'auto';
+  return globalThis.matchMedia?.('(pointer: coarse)')?.matches ? 'off' : 'auto';
+}
+
 export class RtxLook {
   /** @param {object} scene Overworld */
   constructor(scene, opts = {}) {
     this.scene = scene; this.opts = opts; this.gl = null; this.failed = false; this.tier = 'off';
-    let saved = 'off'; try { saved = JSON.parse(globalThis.localStorage?.getItem(RTX_KEY) || '{}').mode || 'off'; } catch { /* private mode */ } // integration-r58: default Off (Gary: Options toggle, default off)
-    this.mode = RTX_MODES.includes(saved) ? saved : 'off';
+    let saved = null; try { saved = JSON.parse(globalThis.localStorage?.getItem(RTX_KEY) || '{}').mode || null; } catch { /* private mode */ }
+    this.mode = RTX_MODES.includes(saved) ? saved : defaultMode(scene); // a saved user choice always wins; else Gary (Oct 30 2026): Auto on PC/Steam, Off on phones
     const url = rtxFromUrl(opts.query); if (url) { this.mode = url; this.urlForced = true; }
     this.stats = { frames: 0, emaMs: 0, lastMs: 0, slow: 0, steps: [] }; this._maskFor = null; this._lastT = 0;
   }

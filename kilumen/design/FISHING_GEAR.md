@@ -17,7 +17,7 @@ Builds on: `src/fishing/logic.js` (ROD_TIERS, `tableFor`, `biteChance`, `pickFis
 |---|---|---|---|---|---|
 | 1 | `fishing_rod` | Fishing Rod (existing) | 0.70 | `basic`: today's tables | **Gift**: Brookhollow `fisher` (already built) |
 | 2 | `fishing_rod_good` | Driftline Rod | 0.80 | `good`: levels about +3 over basic, rare weights about ×3–4, extra uncommon slots | **Gift**: Saltmere `saltmere_fisher` (harbour NPC at 34,29). Available after the player shows them any creature caught with the Fishing Rod (flag `got_rod_good`). |
-| 3 | `fishing_rod_super` | Lanternreach Rod | 0.90 | `super`: levels about +6, new deep-water species, rare weights about ×6 | **Gift**: Lanternport `lanternport_lighthouse_keeper`. Comes after a short request to land three Moorcoil sightings or one Moorcoil catch with the Driftline Rod (flag `got_rod_super`). |
+| 3 | `fishing_rod_super` | Lanternreach Rod | 0.90 | `super`: levels about +6, new rarer shallows species, rare weights about ×6 | **Gift**: Lanternport `lanternport_lighthouse_keeper`. Comes after a short request to land three Moorcoil sightings or one Moorcoil catch with the Driftline Rod (flag `got_rod_super`). |
 
 Notes
 - I proposed both upgrades as gifts, not shop stock, because they are key items like the bike and the regional shops only sell consumables. **Decision: gift-only.** The Driftline Rod is not sold anywhere.

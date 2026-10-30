@@ -8,8 +8,19 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const R = await import(path.join(root, 'src/overworld/rtx.js'));
 const { Col } = await import(path.join(root, 'src/overworld/constants.js'));
 
-test('default is Off and modes cycle Off -> Auto -> Full -> Lite -> Off', () => {
-  const r = new R.RtxLook({ opts: {} });
+test('default with no saved choice: Auto on PC (Steam ?platform=pc too), Off on phones; a saved choice wins', () => {
+  const pc = { opts: { platform: { id: 'pc' } } }, phone = { opts: { platform: { id: 'mobile' } } };
+  assert.equal(R.defaultMode(pc), 'auto'); assert.equal(R.defaultMode(phone), 'off');
+  assert.equal(new R.RtxLook(pc).mode, 'auto'); assert.equal(new R.RtxLook(phone).mode, 'off');
+  const prev = globalThis.localStorage, store = {};
+  globalThis.localStorage = { getItem: (k) => store[k] ?? null, setItem: (k, v) => { store[k] = String(v); } };
+  try {
+    store['kilumen_rtx.v1'] = JSON.stringify({ mode: 'off' }); assert.equal(new R.RtxLook(pc).mode, 'off');
+    store['kilumen_rtx.v1'] = JSON.stringify({ mode: 'full' }); assert.equal(new R.RtxLook(phone).mode, 'full');
+  } finally { globalThis.localStorage = prev; }
+});
+test('phone default is Off and modes cycle Off -> Auto -> Full -> Lite -> Off', () => {
+  const r = new R.RtxLook({ opts: { platform: { id: 'mobile' } } });
   assert.equal(r.mode, 'off'); assert.equal(r.on, false); assert.equal(r.label(), 'Off');
   const seen = []; for (let i = 0; i < 4; i++) seen.push(r.cycle());
   assert.deepEqual(seen, ['auto', 'full', 'lite', 'off']);
