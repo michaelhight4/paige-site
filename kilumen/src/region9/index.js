@@ -8,6 +8,7 @@
 //    credits 2 ('ending2'), then the Lantern Rest epilogue. field_team_home is set ONLY here, after fin_present_release.
 // Text: root keys of text/overworld_lines.json (Text Bot, data/textbot_requests_wellspire.md), else DRAFT ./text_fallback.js.
 import { FB } from './text_fallback.js?v=v0.2.93-alpha';
+import { fallbackText } from './textbot.js?v=v0.2.93-alpha'; // Text Bot lines win over FB
 import { POINTS } from './points.gen.js?v=v0.2.93-alpha';
 import { Npc } from '../overworld/npcs.js?v=v0.2.93-alpha';
 
@@ -76,7 +77,7 @@ export function attachRegion9(scene, { systems } = {}) {
   const sys = () => systems || scene.systems;
   const flags = scene.flags, has = (f) => flags.has(f);
   const set = (f) => { if (!flags.has(f)) (scene.setFlag ? scene.setFlag(f, true) : flags.add(f)); };
-  const text = (k) => { const v = getPath(scene.lines, k); const p = Array.isArray(v) ? v : v?.pages; return p?.length ? p : (FB[k] || []); };
+  const text = (k) => { const v = getPath(scene.lines, k); const p = Array.isArray(v) ? v : v?.pages; return p?.length ? p : fallbackText(k); };
   const say = (k, sp) => { const p = text(k); return p.length && scene.say ? scene.say(p, sp) : Promise.resolve(); };
   const ask = async (k, q) => (await scene.ask?.([...text(k), ...(q ? text(q) : [])], ['Yes', 'No'])) === 0;
   const narr = { name: null, portrait: null, battle: null };

@@ -1,0 +1,19 @@
+{
+  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Flat keys match src/region9/text_fallback.js.",
+  "r9.icefall_signal": ["The signal is strongest here.", "In the ice, your team's crystals\nshow their own colours."],
+  "r9.icefall_pool": ["The pool under the icefall. Frozen\nat the edges, black in the middle.", "Something big turns over, far down.\nThen nothing."],
+  "r9.icefall_pegs": ["Old climbing pegs in the ice wall.\nEach tag says: \"RT SURVEY, 1974\".", "The newest tag just says:\n\"please go and look.\""],
+  "r9.icefall_carving": ["A crystal cluster, half carved\ninto the shape of a fish. A big one.", "Someone scratched a smile on it.\nIt does not suit it."],
+  "r9.ic.climber_1": ["Brenna. I count holds. Four hundred\nand twelve on this wall.", "You look like four hundred\nand thirteen."],
+  "r9.ic.climber_1_after": ["Four hundred and thirteen.\nFair enough."],
+  "r9.ic.climber_2": ["Odd. Yes, that's my name.\nNo, I won't explain it.", "Battle me and I'll tell you why.\nI won't, actually."],
+  "r9.ic.climber_2_after": ["My mum just liked the word.\nThere. Satisfied?"],
+  "r9.ic.diver": ["Sela. I swim under the ice every\nmorning. It wakes you right up.", "Bit cold for small talk.\nLet's battle."],
+  "r9.ic.diver_after": ["Fine. I'm getting back in.\nYou're not invited."],
+  "r9.ic.keeper": ["Moss. Somebody has to sweep\nthe icicles.", "Nobody pays me.\nI just like it tidy."],
+  "r9.ic.keeper_after": ["Mind the ledge by the pool.\nIt only goes one way."],
+  "r9.ic.carver": ["Pim. I carve what the ice\nwants to be.", "Today it wants to be a fish.\nIt always wants to be a fish."],
+  "r9.ic.carver_after": ["I'll try a goat tomorrow.\nIt will be a fish."],
+  "r9.ic.sledder": ["Juno! Fastest sled on the mountain!\nProbably! Nobody else races!", "Ready? Go!"],
+  "r9.ic.sledder_after": ["Rematch on the way down.\nI'll win that one."]
+}
