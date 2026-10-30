@@ -1,5 +1,5 @@
 {
- "_note": "Pass 2 cave pockets (Coder, Oct 30 2026). Read by tools/map_audit/cave_pockets.py and tests/pass2_caves.test.mjs. gate = how the pocket is entered and left.",
+ "_note": "Pass 2 cave pockets (Coder, Oct 30 2026). Read by tools/map_audit/cave_pockets.py and tests/pass2_caves.test.mjs. gate = how the pocket is entered and left. Built by tools/map_audit/pass2_spec.py from tools/map_audit/pass2_specs/.",
  "pockets": [
   {
    "id": "sw_pocket_west",
