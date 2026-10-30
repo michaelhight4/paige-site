@@ -105,7 +105,7 @@ def put(x, y, reason, sc):
     return False
 def roomy(x, y, r=5): return sum(k[b][a] == 'open' for b in range(max(0, y - r), min(H, y + r + 1)) for a in range(max(0, x - r), min(W, x + r + 1)))
 placed = []
-for reason, sc, need, gap in (('pocket park', PARK, 50, 12), ('flower bed', BED, 34, 7)):
+for reason, sc, need, gap in (('pocket park', PARK, 50 if CITY else 40, 12), ('flower bed', BED, 34 if CITY else 26, 7)):
     for _ in range(12):
         k = K()
         cand = sorted(((roomy(x + 3, y + 2), x, y) for y in range(1, H - 5) for x in range(1, W - 7)

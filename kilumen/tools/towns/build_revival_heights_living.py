@@ -2,7 +2,7 @@
 statues, other buildings, small shop stalls; "a little more grass a little less hard concrete").
 Overrides kilumen_town_identity.md §1 "no grass / no water" per Gary. Company Boulevard is a 2-wide road (rows 19-20) with
 grass verges and tree lines, Tower Avenue (x28-29) stays paved (Coder, Oct 30 2026: ~55% grass, one landmark per screen); the empty paved lots become grass, flower beds, stone paths and a pond.
-Order: CAVE_POCKETS_BASE=3a39a391 python3 tools/map_audit/cave_pockets.py revival_heights, then this script (in place), then tools/map_audit/fix_live_flags.py revival_heights.
+Order: CAVE_POCKETS_BASE=3a39a391 python3 tools/map_audit/cave_pockets.py revival_heights, then this script (in place), then tools/towns/balance_pass.py revival_heights, then tools/map_audit/fix_live_flags.py revival_heights.
 Doors, warps and the RT guard checkpoint (29,29) are unchanged."""
 import json, os
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

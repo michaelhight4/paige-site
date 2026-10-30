@@ -15,15 +15,17 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 TS = json.load(open(os.path.join(ROOT, 'art/world/overworld/tileset.json')))['tiles']
 NM = {t['id']: t['name'] for t in TS}; CAT = {t['id']: t.get('category', '') for t in TS}
 LO, HI, MAX3, BLANK, SCENE_MAX, FIELD, MINOPEN, SCATTER = 0.04, 0.30, 5, 5, 7, 9, 24, 0.15
-MAPS = ['aurelith']   # balanced so far; revival_heights and sunmeadow_fields join once their pass lands
+MAPS = ['aurelith', 'revival_heights', 'sunmeadow_fields']
 TREE = re.compile(r'^(x_city_|gh_)?(tree|treed|snowpine)_(top|base)|^lm_big_tree')
 LINE = re.compile(r'(fence|hedge|rail|wall|ledge|cave_|stairs|bridge|arena_ring|water|sea_wall|cliff)')
 FLOWER = re.compile(r'^(flowers_|x_reeds|grass_tuft|clover|petal)')
 # roads: paved ground and dirt trails; 'tall' = encounter grass (neither lawn nor detail)
 PAVED = re.compile(r'^(path|x_city_(asphalt|zebra|road|pave|plaza)|road|zebra|sand>path|path>)')
+FURN = re.compile(r'(lamp|sign|mailbox|notice)')   # street furniture: lamps light a way, signs/mailboxes mark a door
 STALL = re.compile(r'(stall_|kiosk|tram_stop)')
 LANDMARK = re.compile(r'(statue|fountain|lm_|clock|windmill|well|monument|obelisk|tower)')
-def load(n): return json.load(open(os.path.join(ROOT, f'art/world/overworld/maps/{n}.json')))
+def load(n):
+    m = json.load(open(os.path.join(ROOT, f'art/world/overworld/maps/{n}.json'))); m.setdefault('name', n); return m
 def kinds(m):
     L = m['layers']; G, D, C = L['ground'], L['decoration'], L['collision']; H, W = len(C), len(C[0])
     nm = lambda v: NM.get(v, '')
@@ -39,6 +41,11 @@ def kinds(m):
             return 'tall' if nm(L['overlay'][y][x]).startswith('tall_grass') else 'open'   # encounter grass is its own feature
         return 'solid'
     K = [[k(x, y) for x in range(W)] for y in range(H)]
+    for p in json.load(open(os.path.join(ROOT, 'data/pass2_caves.json')))['pockets']:   # cave pocket floors are dressed by cave_pockets.py
+        if p['map'] != m.get('name'): continue
+        for (x0, y0, x1, y1) in p['floor']:
+            for y in range(max(0, y0), min(H, y1 + 1)):
+                for x in range(max(0, x0), min(W, x1 + 1)): K[y][x] = 'pocket'
     seen = set()                                       # a flower field (>= FIELD connected flower cells) is a feature, not scatter
     for y in range(H):
         for x in range(W):
@@ -51,6 +58,9 @@ def kinds(m):
                     if 0 <= q[0] < W and 0 <= q[1] < H and q not in seen and K[q[1]][q[0]] == 'flower': seen.add(q); st.append(q)
             if len(g) >= FIELD:
                 for (a, b) in g: K[b][a] = 'field'
+    for g in groups(K, H, W, ('prop',)):                # a straight row of 4+ props (bush hedge, bollards) is a boundary line
+        if len(g) >= 4 and (len({y for _, y in g}) == 1 or len({x for x, _ in g}) == 1):
+            for (x, y) in g: K[y][x] = 'line'
     return K, H, W
 def groups(K, H, W, cls=('prop', 'flower', 'lm', 'field')):
     seen = set(); out = []
@@ -111,11 +121,11 @@ def audit(m):
             if K[y][x] == 'lm':
                 for (a, b) in ((0, 1), (0, -1), (1, 0), (-1, 0)):
                     X, Y = x + a, y + b
-                    if 0 <= X < W and 0 <= Y < H and K[Y][X] == 'prop': r['B5'].append(('lm', x, y, X, Y))
+                    if 0 <= X < W and 0 <= Y < H and K[Y][X] == 'prop' and not FURN.search(NM.get(m['layers']['decoration'][Y][X], '')): r['B5'].append(('lm', x, y, X, Y))
     road = lambda x, y: any(0 <= x + a < W and 0 <= y + b < H and K[y + b][x + a] == 'road' for a in (-1, 0, 1) for b in (-1, 0, 1))
     alone = tot = 0
     for g in groups(K, H, W):
-        if all(road(x, y) for x, y in g): continue
+        if all(road(x, y) for x, y in g) or all(FURN.search(NM.get(m['layers']['decoration'][y][x], '')) for x, y in g): continue
         tot += len(g)
         if len(g) < 3: alone += len(g)
     r['B6'] = [('alone', alone, tot)] if tot and alone / tot > SCATTER else []
