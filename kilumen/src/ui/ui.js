@@ -595,7 +595,7 @@ export class GameUI {
         const c = party[scr.idx]; if (!c) return '<div class="plate ui-empty">No creature.</div>';
         const sp = speciesById(c.species), st = statsFor(c, scr.idx), f = st.hp / st.hpMax;
         const info = `<dl class="ui-kv"><dt>${esc(K.catalogue_id || 'Catalogue ID')}</dt><dd>${esc(c.rt || 'RT-????')}</dd><dt>${esc(K.called || 'Called')}</dt><dd>${esc(c.nickname || '—')}</dd>
-          <dt>${esc(L.element || 'Element')}</dt><dd>${sp.el.map(elChip).join(' ')}</dd><dt>${esc(L.warmth || 'Crystal')}</dt><dd><i class="ui-gem" style="--gem:${gemFor(c)}"></i></dd>
+          <dt>${esc(L.element || 'Element')}</dt><dd>${sp.el.map(elChip).join(' ')}</dd><dt>${esc(L.warmth || 'Crystal')}</dt><dd><i class="ui-gem" style="--gem:${gemFor(c)}"></i></dd>${Number.isFinite(c.weight_kg) ? `<dt>${esc(L.weight || 'Weight')}</dt><dd>${c.weight_kg} kg</dd>` : ''}
           <dt>${esc(L.met || 'Met in')}</dt><dd>${esc(sp.found.split(',')[0] || '—')}</dd></dl>
           <div class="bar-row" style="margin-top:10px"><b>HP</b><div class="bar" data-lvl="${lvlOf(f)}"><i style="width:${f * 100}%"></i></div><span>${st.hp}/${st.hpMax}</span></div>
           <div class="bar-row" style="margin-top:6px"><b>XP</b><div class="bar xp"><i style="width:${st.xp}%"></i></div><span>${st.xp}%</span></div>`;

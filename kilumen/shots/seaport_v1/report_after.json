@@ -1,0 +1,18 @@
+{
+ "errors": [],
+ "shots": [
+  "tidewater_channel_after.png",
+  "sea_north.png",
+  "sea_swimmers.png",
+  "cave_west.png",
+  "cave_east.png",
+  "cliffs.png",
+  "town.png",
+  "lagoon.png",
+  "derby_desk_featured.png",
+  "derby_hud.png",
+  "derby_scale_catch.png",
+  "derby_scale_turn_in.png",
+  "derby_quit_prompt.png"
+ ]
+}

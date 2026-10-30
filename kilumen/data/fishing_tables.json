@@ -2705,6 +2705,399 @@
      }
     ]
    }
+  },
+  "gullhaven_lagoon": {
+   "basic": {
+    "slots": [
+     {
+      "species": "wavelin",
+      "level": [
+       50,
+       53
+      ],
+      "weight": 45,
+      "rarity": "common"
+     },
+     {
+      "species": "reefshell",
+      "level": [
+       50,
+       53
+      ],
+      "weight": 35,
+      "rarity": "common"
+     },
+     {
+      "species": "ribboneel",
+      "level": [
+       51,
+       54
+      ],
+      "weight": 15,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "spratwyrm",
+      "level": [
+       53,
+       54
+      ],
+      "weight": 5,
+      "rarity": "rare"
+     }
+    ]
+   },
+   "good": {
+    "slots": [
+     {
+      "species": "wavelin",
+      "level": [
+       52,
+       54
+      ],
+      "weight": 30,
+      "rarity": "common"
+     },
+     {
+      "species": "hullwhale",
+      "level": [
+       52,
+       55
+      ],
+      "weight": 25,
+      "rarity": "common"
+     },
+     {
+      "species": "ribboneel",
+      "level": [
+       52,
+       55
+      ],
+      "weight": 20,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "breakerfin",
+      "level": [
+       53,
+       55
+      ],
+      "weight": 15,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "spratwyrm",
+      "level": [
+       54,
+       55
+      ],
+      "weight": 7,
+      "rarity": "rare"
+     },
+     {
+      "species": "tidemarrow",
+      "level": [
+       55,
+       55
+      ],
+      "weight": 3,
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "slots": [
+     {
+      "species": "hullwhale",
+      "level": [
+       53,
+       56
+      ],
+      "weight": 25,
+      "rarity": "common"
+     },
+     {
+      "species": "breakerfin",
+      "level": [
+       54,
+       56
+      ],
+      "weight": 25,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "ribboneel",
+      "level": [
+       54,
+       56
+      ],
+      "weight": 20,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "spratwyrm",
+      "level": [
+       55,
+       56
+      ],
+      "weight": 14,
+      "rarity": "rare"
+     },
+     {
+      "species": "tidemarrow",
+      "level": [
+       55,
+       56
+      ],
+      "weight": 10,
+      "rarity": "rare"
+     },
+     {
+      "species": "plashcrown",
+      "level": [
+       56,
+       56
+      ],
+      "weight": 6,
+      "rarity": "rare"
+     }
+    ]
+   }
+  },
+  "gullhaven_sea": {
+   "basic": {
+    "slots": [
+     {
+      "species": "wavelin",
+      "level": [
+       50,
+       53
+      ],
+      "weight": 45,
+      "rarity": "common"
+     },
+     {
+      "species": "reefshell",
+      "level": [
+       50,
+       53
+      ],
+      "weight": 35,
+      "rarity": "common"
+     },
+     {
+      "species": "ribboneel",
+      "level": [
+       51,
+       54
+      ],
+      "weight": 15,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "spratwyrm",
+      "level": [
+       53,
+       54
+      ],
+      "weight": 5,
+      "rarity": "rare"
+     }
+    ]
+   },
+   "good": {
+    "slots": [
+     {
+      "species": "wavelin",
+      "level": [
+       52,
+       54
+      ],
+      "weight": 30,
+      "rarity": "common"
+     },
+     {
+      "species": "hullwhale",
+      "level": [
+       52,
+       55
+      ],
+      "weight": 25,
+      "rarity": "common"
+     },
+     {
+      "species": "ribboneel",
+      "level": [
+       52,
+       55
+      ],
+      "weight": 20,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "breakerfin",
+      "level": [
+       53,
+       55
+      ],
+      "weight": 15,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "spratwyrm",
+      "level": [
+       54,
+       55
+      ],
+      "weight": 7,
+      "rarity": "rare"
+     },
+     {
+      "species": "tidemarrow",
+      "level": [
+       55,
+       55
+      ],
+      "weight": 3,
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "slots": [
+     {
+      "species": "hullwhale",
+      "level": [
+       53,
+       56
+      ],
+      "weight": 25,
+      "rarity": "common"
+     },
+     {
+      "species": "breakerfin",
+      "level": [
+       54,
+       56
+      ],
+      "weight": 25,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "ribboneel",
+      "level": [
+       54,
+       56
+      ],
+      "weight": 20,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "spratwyrm",
+      "level": [
+       55,
+       56
+      ],
+      "weight": 14,
+      "rarity": "rare"
+     },
+     {
+      "species": "tidemarrow",
+      "level": [
+       55,
+       56
+      ],
+      "weight": 10,
+      "rarity": "rare"
+     },
+     {
+      "species": "plashcrown",
+      "level": [
+       56,
+       56
+      ],
+      "weight": 6,
+      "rarity": "rare"
+     }
+    ]
+   }
+  },
+  "gullhaven_cliffs": {
+   "basic": {
+    "slots": [
+     {
+      "species": "paleminnow",
+      "level": [
+       50,
+       52
+      ],
+      "weight": 70,
+      "rarity": "common"
+     },
+     {
+      "species": "finnip",
+      "level": [
+       50,
+       52
+      ],
+      "weight": 30,
+      "rarity": "uncommon"
+     }
+    ]
+   },
+   "good": {
+    "slots": [
+     {
+      "species": "paleminnow",
+      "level": [
+       51,
+       53
+      ],
+      "weight": 50,
+      "rarity": "common"
+     },
+     {
+      "species": "finnip",
+      "level": [
+       51,
+       53
+      ],
+      "weight": 35,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "whelkin",
+      "level": [
+       53,
+       53
+      ],
+      "weight": 15,
+      "rarity": "rare"
+     }
+    ]
+   },
+   "super": {
+    "slots": [
+     {
+      "species": "finnip",
+      "level": [
+       52,
+       54
+      ],
+      "weight": 50,
+      "rarity": "uncommon"
+     },
+     {
+      "species": "whelkin",
+      "level": [
+       53,
+       55
+      ],
+      "weight": 50,
+      "rarity": "rare"
+     }
+    ]
+   }
   }
  },
  "bite_clamp": [

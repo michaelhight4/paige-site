@@ -74,7 +74,7 @@ export class NpcSystem {
   _canStep(n, dir, scripted) {
     const d = DELTA[dir], nx = n.x + d.x, ny = n.y + d.y, m = this.scene.map;
     if (!m.inBounds(nx, ny) || m.npcAt(nx, ny) || this._forbidden(nx, ny, scripted)) return false;
-    if (scripted) return m.code(nx, ny) === Col.WALK || m.code(nx, ny) === Col.PLATE;
+    if (scripted) return m.code(nx, ny) === Col.WALK || m.code(nx, ny) === Col.PLATE || (!!n.def.swimmer && m.code(nx, ny) === Col.WATER); // seaport: swimmers swim
     if (m.code(nx, ny) !== Col.WALK) return false;
     return Math.abs(nx - n.home.x) <= 1 && Math.abs(ny - n.home.y) <= 1;
   }
@@ -160,7 +160,9 @@ export class NpcSystem {
     const m = this.scene.map, g = n.goal;
     const blocked = (x, y) => (avoidActors && ((m.npcAt(x, y) && m.npcAt(x, y) !== n) || this._forbidden(x, y, true)))
       || m.warpAt(x, y) || (this.scene.standCells || new Set()).has(x + ',' + y);
-    const path = findPath(walkGrid(m, blocked, [{ x: n.x, y: n.y }]), { x: n.x, y: n.y }, g);
+    const open = [{ x: n.x, y: n.y }]; // seaport (Oct 30 2026): swimmer trainers path over open water
+    if (n.def.swimmer) for (let y = 0; y < m.height; y++) for (let x = 0; x < m.width; x++) if (m.code(x, y) === Col.WATER && !blocked(x, y)) open.push({ x, y });
+    const path = findPath(walkGrid(m, blocked, open), { x: n.x, y: n.y }, g);
     if (!path) return null;
     n.script = pathToDirs(path); n.blockedTicks = 0;
     return [...n.script];

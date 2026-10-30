@@ -17,11 +17,14 @@ export function sightCells(def, facing = def.facing) {
 }
 
 /** Is the straight line from (ax,ay) to (bx,by) (exclusive of both ends) open? Grass / plates / floor are see-through. */
-export function lineClear(m, ax, ay, bx, by) {
+// seaport (Oct 30 2026): swimmer trainers (def.swimmer) stand in water and also see across open water
+const SEE_WATER = new Set([...SEE_THROUGH, Col.WATER]);
+export function lineClear(m, ax, ay, bx, by, swimmer = false) {
+  const see = swimmer ? SEE_WATER : SEE_THROUGH;
   const sx = Math.sign(bx - ax), sy = Math.sign(by - ay);
   if (sx && sy) return false; // sight is straight lines only
   for (let x = ax + sx, y = ay + sy; x !== bx || y !== by; x += sx, y += sy) {
-    if (!SEE_THROUGH.has(m.code(x, y)) || m.npcAt(x, y)) return false;
+    if (!see.has(m.code(x, y)) || m.npcAt(x, y)) return false;
   }
   return true;
 }
@@ -35,7 +38,7 @@ export function findSpotter(m, npcs, px, py, isDone) {
     const nx = n.x, ny = n.y;
     const cells = sightCells({ ...def, x: nx, y: ny }, def.sight_cells ? def.facing : (n.mover?.facing || def.facing));
     if (!cells.some((c) => c.x === px && c.y === py)) continue;
-    if (!lineClear(m, nx, ny, px, py)) continue;
+    if (!lineClear(m, nx, ny, px, py, !!def.swimmer)) continue;
     return n;
   }
   return null;

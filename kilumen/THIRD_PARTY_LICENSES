@@ -706,3 +706,11 @@ text, data or art were copied.
 Playwright (Apache-2.0, Copyright (c) Microsoft Corporation) - github.com/microsoft/playwright
   Dev only, already used by earlier shot runners; tests/side_activities_shots.mjs uses it for PC/phone screenshots.
   Not vendored, not shipped.
+
+################################################################################
+# Gullhaven Fishing Derby (dev/seaport, Oct 30 2026)
+################################################################################
+RiverKing (Apache-2.0) - github.com/anry88/RiverKing @ c0a540b94a421e9ecad5607095ab4cbd0b62a748
+  Used by: src/seaport/derby.js (scoreRun). The tournament leaderboard shape (largest catch / total weight / count) is adapted.
+  The code was written fresh in JS; no RiverKing source is copied. Licensed under the Apache License, Version 2.0
+  (http://www.apache.org/licenses/LICENSE-2.0).
