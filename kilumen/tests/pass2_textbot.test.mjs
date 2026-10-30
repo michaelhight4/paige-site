@@ -48,6 +48,9 @@ test('PASS2_TEXT_FILES lists switchbacks and batch 2', () => {
   const ls = R('data/textbot_logger_scene.json').maps.revival_heights, RH = R('art/world/overworld/maps/revival_heights.json');
   for (const k of ['revival_heights_logger', 'revival_heights_tree_kilu', 'revival_heights_kid_hopscotch', 'revival_heights_kid_dog']) {
     assert.ok(ls[k]?.pages?.length, k); const n = RH.npcs.find((d) => d.id === k); assert.ok(n, k + ' placed'); assert.ok(!n.text_pending, k + ' text_pending'); }
+  assert.ok(PASS2_TEXT_FILES.includes('data/textbot_revival_heights_park.json')); const pk = R('data/textbot_revival_heights_park.json').maps.revival_heights;
+  for (const k of ['revival_heights_stall_crystal', 'revival_heights_stall_toys', 'revival_heights_stroller_park', 'revival_heights_stroller_walk']) {
+    assert.ok(pk[k]?.pages?.length, k); const n = RH.npcs.find((d) => d.id === k); assert.ok(n, k + ' placed'); assert.ok(!n.text_pending, k + ' text_pending'); }
   for (const [id, n, mp] of [['r9_rhp_archivist', 'Ebba', 'route_revival_sunmeadow'], ['r9_rhp_technician', 'Sixten', 'revival_heights'], ['r9_rhp_gardener', 'Brita', 'route_revival_saltmere']]) { assert.equal(b5.maps[mp][id].name, n, id); assert.equal(SPEC.pockets.find((p) => p.trainer.id === id).trainer.name, n, id); assert.equal(FB.maps[mp][id].name, n, id + ' fallback'); }
 });
 for (const f of PASS2_TEXT_FILES) {
