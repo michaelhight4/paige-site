@@ -3396,7 +3396,7 @@
     547,
     547,
     0,
-    0,
+    513,
     0,
     389,
     351,
@@ -8680,7 +8680,7 @@
     1,
     1,
     0,
-    0,
+    1,
     0,
     0,
     0,
@@ -13363,6 +13363,19 @@
    ],
    "face": "up",
    "region9": true
+  },
+  {
+   "id": "r9_riverbed_bridge_sign",
+   "kind": "sign",
+   "x": 20,
+   "y": 11,
+   "stand": [
+    20,
+    12
+   ],
+   "face": "up",
+   "tile": "sign",
+   "text": "maps.r9_old_riverbed.r9_riverbed_bridge_sign"
   }
  ],
  "source": "tools/wellspire/build_wellspire.py (clone of route_east; art + collision unchanged)",

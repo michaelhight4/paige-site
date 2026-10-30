@@ -1,0 +1,1439 @@
+{
+ "_meta": {
+  "status": "DRAFT",
+  "by": "Text Bot",
+  "date": "2026-10-30",
+  "for": "Coder",
+  "note": "World fill batch (design/worldbuilding_audit.md). Section 1 keys are the dotted ROOT keys src/region9 reads (TALK/spot handlers); \"NEW:\" keys need a TALK/spot entry. Suggested coords picked by script against each map collision layer (prop = solid tile with free stand below). *_old keeps replaced text."
+ },
+ "section1_postgame_finale": {
+  "lines": {
+   "r9.name_sign": {
+    "map": "r9_old_riverbed",
+    "used_by": "spot r9_name_sign",
+    "pages": [
+     "OLD RIVERBED\nTo Cairnfold and Wellspire.",
+     "Scratched under it, small:\n\"where did it go?\""
+    ]
+   },
+   "r9.riverbed_marks": {
+    "map": "r9_old_riverbed",
+    "used_by": "spot r9_riverbed_marks",
+    "pages": [
+     "Old water marks line the bank,\nhigh above your head.",
+     "The river used to run this deep.\nYou grew up on what was left."
+    ]
+   },
+   "r9.riverbed_up": {
+    "map": "r9_old_riverbed",
+    "used_by": "spot r9_riverbed_up",
+    "pages": [
+     "The dry bed climbs into the hills.\nCairnfold is up ahead."
+    ]
+   },
+   "r9.riverbed_hiker_intro": {
+    "map": "r9_old_riverbed",
+    "used_by": "NEW: TALK r9_rb_hiker intro",
+    "pages": [
+     "Walking the whole riverbed, end to\nend. Nobody's done it in fifty years.",
+     "Blisters say I'm halfway. Battle?"
+    ]
+   },
+   "r9.riverbed_hiker_after": {
+    "map": "r9_old_riverbed",
+    "used_by": "NEW: TALK r9_rb_hiker after",
+    "pages": [
+     "Find a fish bone up here, you know\nthe water was real. I've found six."
+    ]
+   },
+   "r9.riverbed_dowser_intro": {
+    "map": "r9_old_riverbed",
+    "used_by": "NEW: TALK r9_rb_dowser intro",
+    "pages": [
+     "My stick twitches. There's water\nunder us. A lot. Waiting."
+    ]
+   },
+   "r9.riverbed_dowser_after": {
+    "map": "r9_old_riverbed",
+    "used_by": "NEW: TALK r9_rb_dowser after",
+    "pages": [
+     "It's not gone, the river.\nIt's holding its breath."
+    ]
+   },
+   "r9.riverbed_guide_intro": {
+    "map": "r9_old_riverbed",
+    "used_by": "NEW: TALK r9_rb_guide intro",
+    "pages": [
+     "I guide folk up to Cairnfold.\nI test them first. Ready?"
+    ]
+   },
+   "r9.riverbed_guide_after": {
+    "map": "r9_old_riverbed",
+    "used_by": "NEW: TALK r9_rb_guide after",
+    "pages": [
+     "Keep to the old banks. The middle\nis soft where the deep pools were."
+    ]
+   },
+   "r9.cairnfold_sign": {
+    "map": "r9_cairnfold",
+    "used_by": "spot r9_cairnfold_sign",
+    "pages": [
+     "CAIRNFOLD\nHighest village on the old river.",
+     "Mind the goats.\nThe goats will not mind you."
+    ]
+   },
+   "r9.cairnfold_down": {
+    "map": "r9_cairnfold",
+    "used_by": "spot r9_cairnfold_down",
+    "pages": [
+     "The dry riverbed runs all the way\ndown to Brookhollow. Home."
+    ]
+   },
+   "r9.kid_drawing": {
+    "map": "r9_cairnfold",
+    "used_by": "spot r9_kid_drawing",
+    "pages": [
+     "A drawing pinned to the wall:\na big sad fish in a violet sky.",
+     "Someone has drawn it a smile.\nThen rubbed the smile out."
+    ]
+   },
+   "r9.cairnfold_herder_1": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_herder_1",
+    "pages": [
+     "Violet nights for a month now.\nThe goats won't sleep.",
+     "Neither will I. We sit up together,\nall of us, staring at the peak."
+    ]
+   },
+   "r9.cairnfold_herder_2": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_herder_2",
+    "pages": [
+     "The light comes off the top of the\npeak. Slow. Like a heartbeat.",
+     "Count along with it once.\nYou'll feel it in your teeth."
+    ]
+   },
+   "r9.cairnfold_elder": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_elder",
+    "pages": [
+     "My gran said the river came out\nof the mountain, singing.",
+     "Then one spring it didn't come.\nNobody up here ever said why."
+    ]
+   },
+   "r9.cairnfold_kid": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_kid",
+    "pages": [
+     "I drew the thing in the sky!\nIt's a fish. A sad big fish.",
+     "Mum says it's only lights.\nLights don't look at you, though."
+    ]
+   },
+   "r9.cairnfold_weaver": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_weaver",
+    "pages": [
+     "Head Office? They've never come up.\nThey only ever send letters.",
+     "Lovely letters. Thick paper.\nI weave the envelopes into rugs."
+    ]
+   },
+   "r9.cairnfold_walker": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_walker",
+    "pages": [
+     "The switchbacks start at the south\nend of the village. Snow all the way.",
+     "Wrap up, {player}.\nThe wind up there has elbows."
+    ]
+   },
+   "r9.cairnfold_lodge_fan": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_lodge_fan",
+    "pages": [
+     "Been to the Lodge yet? They sell\nthe Legend of Ondravel. On towels!",
+     "A kind spirit in the peak.\nIt's ever so cosy, the story."
+    ]
+   },
+   "r9.cairnfold_watcher": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_watcher",
+    "pages": [
+     "Some nights the light pulses.\nSome nights it just... waits.",
+     "Tonight it's waiting.\nFor you, maybe. Don't keep it."
+    ]
+   },
+   "r9.cairnfold_baker": {
+    "map": "r9_cairnfold",
+    "used_by": "TALK r9_cf_baker",
+    "pages": [
+     "Bread's fresh. The water's melted\nsnow. Has been for fifty years.",
+     "River water'd make a better crust.\nOne day. You'll see."
+    ]
+   },
+   "r9.lodge_clerk": {
+    "map": "r9_lodge_int",
+    "used_by": "TALK r9_lodge_clerk",
+    "pages": [
+     "Welcome to the RT Heritage Lodge!\nBooklets, tea towels, crystal fish.",
+     "All proceeds go to Revival Tech.\nWhich is lovely. For them."
+    ]
+   },
+   "r9.lodge_legend": {
+    "map": "r9_lodge_int",
+    "used_by": "spot r9_lodge_legend",
+    "pages": [
+     "THE LEGEND OF ONDRAVEL: a kind spirit\nsleeps in the peak and blesses all.",
+     "\"Crystal light for the valley.\"\nYou know better now."
+    ]
+   },
+   "r9.skylift_notice": {
+    "map": "r9_skylift_upper",
+    "used_by": "spot r9_skylift_notice",
+    "pages": [
+     "A typed note: \"This line has been\npaid for. Please run it.\"",
+     "\"Thank you so much.\"\nNo name. Of course no name."
+    ]
+   },
+   "r9.skylift_down": {
+    "map": "r9_skylift_upper",
+    "used_by": "spot r9_skylift_down (ask)",
+    "pages": [
+     "Ride back down to Frostspire?"
+    ]
+   },
+   "r9.skylift_operator": {
+    "map": "r9_skylift_upper",
+    "used_by": "TALK r9_skylift_operator",
+    "pages": [
+     "No letter for me. Just a note\nsaying the line was paid for.",
+     "Paid by who? Doesn't say. Only\nsays thank you. Twice, underlined."
+    ]
+   },
+   "r9.skylift_rider_intro": {
+    "map": "r9_skylift_upper",
+    "used_by": "NEW: TALK r9_skylift_rider intro",
+    "pages": [
+     "First car up in fifty years and\nI'm on it! Battle while we climb?"
+    ]
+   },
+   "r9.skylift_rider_after": {
+    "map": "r9_skylift_upper",
+    "used_by": "NEW: TALK r9_skylift_rider after",
+    "pages": [
+     "Look out the window. The peak\nglows violet even in daylight."
+    ]
+   },
+   "r9.switchbacks_up": {
+    "map": "r9_switchbacks",
+    "used_by": "spot r9_switchbacks_up",
+    "pages": [
+     "A frozen waterfall. The very top\nof the old river.",
+     "A cave runs in behind the ice."
+    ]
+   },
+   "r9.survey_crew_1": {
+    "map": "r9_switchbacks",
+    "used_by": "TALK r9_sw_survey_1 intro",
+    "pages": [
+     "RT survey crew. We all got kind\nletters. \"Please go and look.\""
+    ]
+   },
+   "r9.survey_crew_2": {
+    "map": "r9_switchbacks",
+    "used_by": "TALK r9_sw_survey_2 intro",
+    "pages": [
+     "I say we don't go up. Nobody's\never that nice in a letter."
+    ]
+   },
+   "r9.survey_crew_3": {
+    "map": "r9_switchbacks",
+    "used_by": "TALK r9_sw_survey_3 intro",
+    "pages": [
+     "We'll argue about it later.\nYou go, if you're going."
+    ]
+   },
+   "r9.mountaineer_1_intro": {
+    "map": "r9_switchbacks",
+    "used_by": "NEW: TALK r9_sw_mountaineer_1 intro",
+    "pages": [
+     "Thirty winters on this pass.\nThis is the first violet one."
+    ]
+   },
+   "r9.mountaineer_1_after": {
+    "map": "r9_switchbacks",
+    "used_by": "NEW: TALK r9_sw_mountaineer_1 after",
+    "pages": [
+     "Lean into the slope, not away.\nThe mountain likes manners."
+    ]
+   },
+   "r9.climber_1_intro": {
+    "map": "r9_switchbacks",
+    "used_by": "NEW: TALK r9_sw_climber_1 intro",
+    "pages": [
+     "Rope check! Boots check!\nBattle check?"
+    ]
+   },
+   "r9.climber_1_after": {
+    "map": "r9_switchbacks",
+    "used_by": "NEW: TALK r9_sw_climber_1 after",
+    "pages": [
+     "My hands went numb on the last turn.\nWorth it. Look at that view."
+    ]
+   },
+   "r9.climber_2_intro": {
+    "map": "r9_switchbacks",
+    "used_by": "NEW: TALK r9_sw_climber_2 intro",
+    "pages": [
+     "Last bend before the icefall.\nYou only pass if you're warm enough."
+    ]
+   },
+   "r9.climber_2_after": {
+    "map": "r9_switchbacks",
+    "used_by": "NEW: TALK r9_sw_climber_2 after",
+    "pages": [
+     "Hear it humming in the ice?\nI keep thinking it's a song."
+    ]
+   },
+   "r9.trainer_after": {
+    "map": "(shared)",
+    "used_by": "TRAINER_DEFAULT after",
+    "pages": [
+     "Go on up. It's waiting for you,\nI think."
+    ]
+   },
+   "r9.icefall_signal": {
+    "map": "r9_icefall",
+    "used_by": "spot r9_icefall_signal",
+    "pages": [
+     "The signal is strongest here.\nThe ice hums under your hand.",
+     "In it, your team's crystals show\ntheir own colours, not violet."
+    ]
+   },
+   "r9.icefall_climber_1_intro": {
+    "map": "r9_icefall",
+    "used_by": "NEW: TALK r9_ic_climber_1 intro",
+    "pages": [
+     "Inside a frozen waterfall! Shh.\nYou can hear the water, still."
+    ]
+   },
+   "r9.icefall_climber_1_after": {
+    "map": "r9_icefall",
+    "used_by": "NEW: TALK r9_ic_climber_1 after",
+    "pages": [
+     "It's still moving, deep in there.\nVery, very slowly."
+    ]
+   },
+   "r9.icefall_climber_2_intro": {
+    "map": "r9_icefall",
+    "used_by": "NEW: TALK r9_ic_climber_2 intro",
+    "pages": [
+     "My crystals keep flickering.\nBattle me before they make up minds."
+    ]
+   },
+   "r9.icefall_climber_2_after": {
+    "map": "r9_icefall",
+    "used_by": "NEW: TALK r9_ic_climber_2 after",
+    "pages": [
+     "Mine went blue for a second there.\nBlue! Did you see?"
+    ]
+   },
+   "r9.icefall_diver_intro": {
+    "map": "r9_icefall",
+    "used_by": "NEW: TALK r9_ic_diver intro",
+    "pages": [
+     "Ice diving. Cold? Yes.\nSensible? No. Fun? Very."
+    ]
+   },
+   "r9.icefall_diver_after": {
+    "map": "r9_icefall",
+    "used_by": "NEW: TALK r9_ic_diver after",
+    "pages": [
+     "There's a pool under the ice,\nwarm as a bath. Strange, eh?"
+    ]
+   },
+   "r9.icefall_keeper_intro": {
+    "map": "r9_icefall",
+    "used_by": "NEW: TALK r9_ic_keeper intro",
+    "pages": [
+     "I keep this cave. Nobody passes\nwho can't hold their own up there."
+    ]
+   },
+   "r9.icefall_keeper_after": {
+    "map": "r9_icefall",
+    "used_by": "NEW: TALK r9_ic_keeper after",
+    "pages": [
+     "You'll do. Mind the spire.\nIt remembers things."
+    ]
+   },
+   "summit.camp.teo": {
+    "map": "fin_summit_camp",
+    "used_by": "TALK fin_teo",
+    "pages": [
+     "Teo: You found us! Snowed in.\nAll alive. All grumpy.",
+     "Teo: We followed the ore north.\nItem one: find the source. Not done."
+    ]
+   },
+   "summit.camp.marta": {
+    "map": "fin_summit_camp",
+    "used_by": "TALK fin_marta",
+    "pages": [
+     "Marta: The bench here? A 2.\nIt's a log.",
+     "Marta: Go up if you must.\nWe'll keep the fire going."
+    ]
+   },
+   "summit.camp.pell": {
+    "map": "fin_summit_camp",
+    "used_by": "TALK fin_pell",
+    "pages": [
+     "Pell: I've drawn the spire forty\ntimes. It looks different each time.",
+     "Pell: Today it looks tired.\nIs that silly? It looks tired."
+    ]
+   },
+   "summit.camp.imke": {
+    "map": "fin_summit_camp",
+    "used_by": "TALK fin_imke",
+    "pages": [
+     "Imke hums a tune. You know it\nfrom somewhere. A dream.",
+     "Imke: We stay here. You go.\nThen come back down. Promise."
+    ]
+   },
+   "summit.camp_fire": {
+    "map": "fin_summit_camp",
+    "used_by": "spot fin_camp_fire",
+    "pages": [
+     "The camp fire. Warm to the bones.\nYour team curls up beside it.",
+     "Your Kilu are fully healed."
+    ]
+   },
+   "summit.spire_door_wait": {
+    "map": "fin_summit_camp",
+    "used_by": "spot fin_spire_door (before found_team_summit)",
+    "pages": [
+     "A crystal door. It hums.\nIt isn't ready for you yet.",
+     "Find the field team first.\nThey're at the camp."
+    ]
+   },
+   "summit.spire_door": {
+    "map": "fin_summit_camp",
+    "used_by": "spot fin_spire_door",
+    "pages": [
+     "The door hums open for a creature\nshowing its own colour."
+    ]
+   },
+   "r9.spire_f1_nursery": {
+    "map": "fin_lab1_now_f1",
+    "used_by": "spot r9_spire_f1_nursery",
+    "pages": [
+     "A Line 1 cot room.\nLittle beds, fifty years cold.",
+     "Each bed has a number.\nNot one has a name."
+    ]
+   },
+   "r9.spire_f2_chair": {
+    "map": "fin_lab1_now_f2",
+    "used_by": "spot r9_spire_f2_chair",
+    "pages": [
+     "The Test 7 room. An empty control\nchair, turned to face the wall."
+    ]
+   },
+   "r9.spire_f3_growth": {
+    "map": "fin_lab1_now_f3",
+    "used_by": "spot r9_spire_f3_growth",
+    "pages": [
+     "Violet crystal has grown over\neverything here. It hums, slowly."
+    ]
+   },
+   "r9.spire_keeper_after": {
+    "map": "fin_lab1_now_f1..f3",
+    "used_by": "TALK r9_spire_keeper_1..3 intro+after",
+    "pages": [
+     "Facility Keeper. We only ever\ngot letters, too.",
+     "Kind ones. \"Keep it safe.\"\nWe never asked keep what."
+    ]
+   },
+   "r9.floor_locked": {
+    "map": "fin_lab1_now_f1..f3",
+    "used_by": "up-warp blocked",
+    "pages": [
+     "The stairs are sealed with crystal.\nThis floor's keeper holds the light."
+    ]
+   },
+   "fin.guardian_plea_1": {
+    "map": "fin_lab1_now",
+    "used_by": "spot fin_dome",
+    "pages": [
+     "A dome, grown solid with violet\ncrystal. Something huge is inside.",
+     "Its forehead crystal is cracked\nand dim."
+    ]
+   },
+   "fin.guardian_plea_2": {
+    "map": "fin_lab1_now",
+    "used_by": "spot fin_dome",
+    "pages": [
+     "The river tune from your dream\nstarts to play.",
+     "{lead}'s crystal shows its own\ncolour. The creature watches it."
+    ]
+   },
+   "fin.guardian_plea_3": {
+    "map": "fin_lab1_now",
+    "used_by": "spot fin_dome",
+    "pages": [
+     "It is not ordering.\nIt is asking."
+    ]
+   },
+   "fin.guardian_plea_ask": {
+    "map": "fin_lab1_now",
+    "used_by": "spot fin_dome (ask)",
+    "pages": [
+     "Put your hand on the dome?"
+    ]
+   },
+   "fin.reader_reject": {
+    "map": "fin_past_station_m",
+    "used_by": "spot fin_reader",
+    "pages": [
+     "The door reader reads your lanyard.\nEMPLOYEE NOT FOUND.",
+     "...Your phone is quiet.\nRITA isn't here. Not yet."
+    ]
+   },
+   "fin.m.sluice": {
+    "map": "fin_past_station_m",
+    "used_by": "spot fin_sluice (after)",
+    "pages": [
+     "The sluice gate to the river.\nThe wheel is open now."
+    ]
+   },
+   "fin.m.sluice_shut": {
+    "map": "fin_past_station_m",
+    "used_by": "spot fin_sluice (before)",
+    "pages": [
+     "The sluice gate to the river.\nGreave's staff won't let you near."
+    ]
+   },
+   "fin.m.handler_1": {
+    "map": "fin_past_station_m",
+    "used_by": "TALK fin_m_handler_1",
+    "pages": [
+     "Annexe handler. Stay back!\nThe batch is loose!"
+    ]
+   },
+   "fin.m.handler_2": {
+    "map": "fin_past_station_m",
+    "used_by": "TALK fin_m_handler_2",
+    "pages": [
+     "These bands were meant to calm\nthem. They don't! They don't!"
+    ]
+   },
+   "fin.m.handler_3": {
+    "map": "fin_past_station_m",
+    "used_by": "TALK fin_m_handler_3",
+    "pages": [
+     "Who are you?\nYou're not on the night list!"
+    ]
+   },
+   "fin.m.handler_after": {
+    "map": "fin_past_station_m",
+    "used_by": "TALK handlers after",
+    "pages": [
+     "Just get out.\nGet everyone out."
+    ]
+   },
+   "fin.m.boss_greave_intro": {
+    "map": "fin_past_station_m",
+    "used_by": "TALK fin_m_greave",
+    "pages": [
+     "Dr. Ansel Greave, Annexe Lead.\nI am holding this batch.",
+     "If it goes, so do my staff's jobs.\nI won't let it."
+    ]
+   },
+   "fin.m.boss_greave_lose": {
+    "map": "fin_past_station_m",
+    "used_by": "TALK fin_m_greave lose",
+    "pages": [
+     "...You're right. The jobs don't\nmatter if the people drown."
+    ]
+   },
+   "fin.m.boss_greave_after": {
+    "map": "fin_past_station_m",
+    "used_by": "after Greave",
+    "pages": [
+     "Greave hauls the sluice wheel round.\nThe Line 14 batch pours out.",
+     "Into the river bend they go.\nHis staff run for the door.",
+     "Greave: Write it down as a field\ntrial. Nobody will ask."
+    ]
+   },
+   "fin.t.tech_1": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_tech_1",
+    "pages": [
+     "Signal tech. Test 7 broke\nsomething. We're trying to fix it!"
+    ]
+   },
+   "fin.t.tech_2": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_tech_2",
+    "pages": [
+     "Every pulse is louder.\nCan you hear it? Can you?"
+    ]
+   },
+   "fin.t.tech_3": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_tech_3",
+    "pages": [
+     "Holt says Test 8 gets control back.\nI hope she's right. I hope."
+    ]
+   },
+   "fin.t.tech_after": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK techs after",
+    "pages": [
+     "Go. Talk to Holt. Please."
+    ]
+   },
+   "fin.t.coralie_door": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_coralie",
+    "pages": [
+     "A young tech by the tea trolley.\nHer name tag says FINCH, C.",
+     "Coralie: You're not staff. ...Come\non. I'll open the tide door."
+    ],
+    "note": "fallback said \"badge\" (blocked word); now \"name tag\""
+   },
+   "fin.t.coralie_name": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_coralie",
+    "pages": [
+     "Coralie: What's your name?"
+    ]
+   },
+   "fin.t.coralie_name_cut": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_coralie",
+    "pages": [
+     "No. Don't tell me.\nI'd only have to forget it."
+    ],
+    "note": "[SAMPLE] line kept word for word, split for length"
+   },
+   "fin.t.coralie_wait": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_coralie (door open)",
+    "pages": [
+     "Coralie: I made the tea.\nThat's all I'm meant to do tonight."
+    ]
+   },
+   "fin.t.tide_door": {
+    "map": "fin_past_signal_lab",
+    "used_by": "spot fin_t_tide_door (open)",
+    "pages": [
+     "The tide door.\nCoralie has left it unlocked."
+    ]
+   },
+   "fin.t.tide_door_shut": {
+    "map": "fin_past_signal_lab",
+    "used_by": "spot fin_t_tide_door (shut)",
+    "pages": [
+     "The tide door is locked."
+    ]
+   },
+   "fin.t.boss_holt_wait": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_holt (wait)",
+    "pages": [
+     "Holt: Techs only past the console.\nWho let you in?"
+    ]
+   },
+   "fin.t.boss_holt_intro": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_holt",
+    "pages": [
+     "Dr. Maren Holt, Signal Lead.\nTest 8 runs now.",
+     "More power, more control.\nMove."
+    ]
+   },
+   "fin.t.boss_holt_lose": {
+    "map": "fin_past_signal_lab",
+    "used_by": "TALK fin_t_holt lose",
+    "pages": [
+     "...It would have finished it.\nWouldn't it."
+    ]
+   },
+   "fin.t.boss_holt_after": {
+    "map": "fin_past_signal_lab",
+    "used_by": "after Holt",
+    "pages": [
+     "Holt sits down hard. She does not\nreach for the console again."
+    ]
+   },
+   "fin.t.coralie_plug": {
+    "map": "fin_past_signal_lab",
+    "used_by": "plug",
+    "pages": [
+     "Coralie pulls the Test 8 plug\nherself. Her hand shakes.",
+     "She writes the last row of the run\nsheet. You don't read it to her."
+    ]
+   },
+   "fin.t.plug_done": {
+    "map": "fin_past_signal_lab",
+    "used_by": "spot fin_test8_plug (done)",
+    "pages": [
+     "The Test 8 plug hangs loose.\nThe run sheet is full."
+    ]
+   },
+   "fin.t.plug_wait": {
+    "map": "fin_past_signal_lab",
+    "used_by": "spot fin_test8_plug (wait)",
+    "pages": [
+     "The Test 8 console.\nHolt is standing in front of it."
+    ]
+   },
+   "fin.lab1.staff_1": {
+    "map": "fin_past_lab1_f1",
+    "used_by": "TALK fin_lab1_staff_1",
+    "pages": [
+     "Containment staff.\nNobody goes up!"
+    ]
+   },
+   "fin.lab1.staff_2": {
+    "map": "fin_past_lab1_f2",
+    "used_by": "TALK fin_lab1_staff_2",
+    "pages": [
+     "Line 1 is the danger.\nThe Chief said so. The Chief knows."
+    ]
+   },
+   "fin.lab1.staff_3": {
+    "map": "fin_past_lab1_f3",
+    "used_by": "TALK fin_lab1_staff_3",
+    "pages": [
+     "The walls are humming.\nPlease. Please turn back."
+    ]
+   },
+   "fin.lab1.staff_4": {
+    "map": "fin_past_lab1_f4",
+    "used_by": "TALK fin_lab1_staff_4",
+    "pages": [
+     "The Chief holds the top landing.\nYou go through me first."
+    ]
+   },
+   "fin.lab1.staff_after": {
+    "map": "fin_past_lab1_f1..f4",
+    "used_by": "TALK staff after",
+    "pages": [
+     "Go on, then. Up.\n...Be gentle with it."
+    ]
+   },
+   "fin.lab1.chief_wait": {
+    "map": "fin_past_lab1_f4",
+    "used_by": "TALK fin_lab1_chief (wait)",
+    "pages": [
+     "The Chief: Nobody reaches the\nlanding while my staff still stand."
+    ]
+   },
+   "fin.lab1.chief_intro": {
+    "map": "fin_past_lab1_f4",
+    "used_by": "TALK fin_lab1_chief",
+    "pages": [
+     "The Chief: That thing is the source\nof all this. It stays shut in.",
+     "It's hurting. I know.\nIt stays shut in."
+    ]
+   },
+   "fin.lab1.chief_lose": {
+    "map": "fin_past_lab1_f4",
+    "used_by": "TALK fin_lab1_chief lose",
+    "pages": [
+     "The Chief: ...Then you go.\nI won't watch."
+    ]
+   },
+   "fin.lab1.chief_after": {
+    "map": "fin_past_lab1_f4",
+    "used_by": "TALK fin_lab1_chief after",
+    "pages": [
+     "The Chief stands aside from\nthe landing, eyes on the floor."
+    ]
+   },
+   "fin.lab1.window_lights": {
+    "map": "fin_past_lab1_f4",
+    "used_by": "spot fin_lab1_window (after Chief)",
+    "pages": [
+     "Through the window: three labs.\nTheir lights go out one by one."
+    ]
+   },
+   "fin.lab1.window_storm": {
+    "map": "fin_past_lab1_f4",
+    "used_by": "NEW: spot fin_lab1_window (before Chief)",
+    "pages": [
+     "Rain lashes the glass. Far below,\nthree labs blaze with light."
+    ],
+    "note": "NEW key: index.js now shows r9.spire_f3_growth (a present-day line) here before the Chief; suggest this instead"
+   },
+   "fin.past_dome_after": {
+    "map": "fin_past_enclosure",
+    "used_by": "NEW optional: spot fin_past_dome after win",
+    "pages": [
+     "The dome lies open. Cold now.\nNothing inside is hurting."
+    ]
+   }
+  },
+  "new_signs": [
+   {
+    "map": "r9_old_riverbed",
+    "id": "r9_riverbed_bridge_sign",
+    "suggested": {
+     "x": 21,
+     "y": 9,
+     "stand": [
+      21,
+      10
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "OLD FORD. Flat stones to cross by,\nfor when the water comes back."
+    ]
+   },
+   {
+    "map": "r9_cairnfold",
+    "id": "r9_cairnfold_goat_sign",
+    "suggested": {
+     "x": 14,
+     "y": 19,
+     "stand": [
+      14,
+      20
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "GOAT PEN. Please shut the gate.\nThe goats can open it. Just check."
+    ]
+   },
+   {
+    "map": "r9_cairnfold",
+    "id": "r9_cairnfold_lodge_sign",
+    "suggested": {
+     "x": 24,
+     "y": 32,
+     "stand": [
+      24,
+      33
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "RT HERITAGE LODGE & SKYLIFT\nGifts, tea, and the top lift line."
+    ]
+   },
+   {
+    "map": "r9_switchbacks",
+    "id": "r9_switchbacks_sign",
+    "suggested": {
+     "x": 32,
+     "y": 46,
+     "stand": [
+      32,
+      47
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "WELLSPIRE SWITCHBACKS\nCairnfold below. Icefall above.",
+     "Snow all year. Turn back if the\nlight in the sky starts to pulse."
+    ]
+   },
+   {
+    "map": "r9_switchbacks",
+    "id": "r9_switchbacks_marker",
+    "suggested": {
+     "x": 20,
+     "y": 24,
+     "stand": [
+      20,
+      25
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "A cairn of flat stones.\nEach one has a name scratched in.",
+     "Climbers who made it this far.\nSome are fifty years old."
+    ]
+   },
+   {
+    "map": "fin_past_riverbend",
+    "id": "fin_riverbend_post",
+    "suggested": {
+     "x": 19,
+     "y": 17,
+     "stand": [
+      19,
+      18
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "A wooden post, half under water:\n\"RIVER BEND - NO BOATS IN FLOOD\""
+    ]
+   },
+   {
+    "map": "fin_past_riverbend",
+    "id": "fin_riverbend_marker",
+    "suggested": {
+     "x": 10,
+     "y": 13,
+     "stand": [
+      10,
+      14
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "A depth pole. The water is past\nthe top mark, and still rising."
+    ]
+   },
+   {
+    "map": "fin_summit_camp",
+    "id": "fin_camp_sign",
+    "suggested": {
+     "x": 11,
+     "y": 18,
+     "stand": [
+      11,
+      19
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "FIELD CAMP. Teo's handwriting:\n\"Please do not eat the map.\""
+    ]
+   },
+   {
+    "map": "fin_summit_camp",
+    "id": "fin_camp_bench",
+    "suggested": {
+     "x": 22,
+     "y": 13,
+     "stand": [
+      22,
+      14
+     ],
+     "face": "up"
+    },
+    "pages": [
+     "A log, with a note pinned to it:\n\"BENCH. 2/10. - M.\""
+    ]
+   }
+  ]
+ },
+ "section2_town_npcs": [
+  {
+   "map": "lanternport",
+   "id": "lanternport_net_mender",
+   "name": "Hester",
+   "kind": "townsfolk",
+   "suggested": [
+    24,
+    31
+   ],
+   "note": "mends nets on the quay",
+   "pages": [
+    "Every hole in a net has a story.\nThis one's a Mirejaw. Rude fish.",
+    "Pass me that twine, {player}?\nThank you. Hands aren't what they were."
+   ],
+   "after": [
+    "Thirty years mending the same\nnets. They're more knot than net now."
+   ]
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_shell_kid",
+   "name": "Pip",
+   "kind": "townsfolk",
+   "suggested": [
+    14,
+    32
+   ],
+   "note": "shell-collecting child on the beach corner",
+   "pages": [
+    "I've got ninety-nine shells!\nOne more and I'm the shell queen.",
+    "This one hums if you hold it\nto your ear. It's the sea, I think."
+   ],
+   "after": [
+    "Still ninety-nine. The sea keeps\nthe good ones for itself."
+   ]
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_ore_trader",
+   "name": "Dunmore",
+   "kind": "townsfolk",
+   "suggested": [
+    34,
+    32
+   ],
+   "note": "ore trader with a full cart (ore-trade NPC)",
+   "pages": [
+    "Ore from the caldera, sold by\nweight. Honest scales, mine.",
+    "Revival Tech buys all the violet\nbits. Pays well. Asks nothing."
+   ],
+   "after": [
+    "Fair price is when both of us\nwalk off grumbling. Good day!"
+   ]
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_kiln_keeper",
+   "name": "Maud",
+   "kind": "townsfolk",
+   "suggested": [
+    13,
+    23
+   ],
+   "note": "keeps the town kilns lit",
+   "pages": [
+    "Kilns don't sleep, so I don't.\nWell. I nap. Standing up.",
+    "Pots in at dawn, out at dusk.\nCrack one, and the kiln laughs."
+   ],
+   "after": [
+    "Hear the kiln ticking? It's\ncooling. Best sound in town."
+   ]
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_stilt_builder",
+   "name": "Corrie",
+   "kind": "townsfolk",
+   "suggested": [
+    12,
+    31
+   ],
+   "note": "stilt carpenter, saw and mallet",
+   "pages": [
+    "New stilts every spring.\nThe bog eats the old ones.",
+    "I drive them in, it swallows them.\nWe're old friends, me and the bog."
+   ],
+   "after": [
+    "Lean on a house here and it leans\nback. Polite, really."
+   ]
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_punt_ferrier",
+   "name": "Old Saul",
+   "kind": "townsfolk",
+   "suggested": [
+    36,
+    31
+   ],
+   "note": "poles a flat boat between stilt houses",
+   "pages": [
+    "Need a lift across the channel?\nNot today. My pole's in for repair.",
+    "Storm's coming. You can smell it.\nThe reeds go quiet first."
+   ],
+   "after": [
+    "Thirty years punting. Fell in\nonce. Don't tell the ducks."
+   ]
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_lamp_lighter",
+   "name": "Elsie",
+   "kind": "townsfolk",
+   "suggested": [
+    40,
+    16
+   ],
+   "note": "lights the boardwalk lanterns at dusk",
+   "pages": [
+    "I light the boardwalk lamps so\nnobody steps off into the bog.",
+    "Those little bog lights don't\nneed me. They light themselves."
+   ],
+   "after": [
+    "Count the lamps on your way home.\nIf one's out, tell me. Please."
+   ]
+  }
+ ],
+ "section3_town_props": [
+  {
+   "map": "lanternport",
+   "id": "lanternport_notice_board",
+   "kind": "prop",
+   "suggested": {
+    "x": 22,
+    "y": 21,
+    "stand": [
+     22,
+     22
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "HARBOUR NOTICES: \"Fishing Derby,\nend of the month. Bring a bucket.\"",
+    "\"Lost: one awning. Last seen\nflying past the lighthouse.\""
+   ]
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_keeper_log_case",
+   "kind": "prop",
+   "suggested": {
+    "x": 31,
+    "y": 15,
+    "stand": [
+     31,
+     16
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "A glass case: the old keeper's log.\n\"Night 1. Storm. Lamp held.\"",
+    "\"Night 2. Storm. Kettle held.\nLamp less sure.\""
+   ]
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_signal_crate_1",
+   "kind": "prop",
+   "suggested": {
+    "x": 38,
+    "y": 24,
+    "stand": [
+     38,
+     25
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "A damp crate, lid stencilled\nSIGNAL. Empty, apart from straw."
+   ]
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_signal_crate_2",
+   "kind": "prop",
+   "suggested": {
+    "x": 39,
+    "y": 30,
+    "stand": [
+     39,
+     31
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "Another SIGNAL crate.\nWet tracks lead off up the quay."
+   ]
+  },
+  {
+   "map": "lanternport",
+   "id": "lanternport_net_rack",
+   "kind": "prop",
+   "suggested": {
+    "x": 16,
+    "y": 30,
+    "stand": [
+     16,
+     31
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "Nets drying on a rack.\nThey smell of salt and old rope."
+   ]
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_anvil_statue",
+   "kind": "prop",
+   "suggested": {
+    "x": 20,
+    "y": 21,
+    "stand": [
+     20,
+     22
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "A bronze anvil on a plinth:\n\"FIRST FORGE. Lit 300 years ago.\"",
+    "Someone has polished the plaque.\nEvery single day, by the shine."
+   ]
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_foundry_board",
+   "kind": "prop",
+   "suggested": {
+    "x": 28,
+    "y": 21,
+    "stand": [
+     28,
+     22
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "FOUNDRY ROTA: \"Shift 1 - Bea.\nShift 2 - Bea. Shift 3 - Bea?\"",
+    "Under it: \"Bea, go home. - B.F.\""
+   ]
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_ore_cart",
+   "kind": "prop",
+   "suggested": {
+    "x": 39,
+    "y": 27,
+    "stand": [
+     39,
+     28
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "An ore cart, still warm.\nThe rocks inside glow faintly."
+   ]
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_tool_shelf",
+   "kind": "prop",
+   "suggested": {
+    "x": 12,
+    "y": 21,
+    "stand": [
+     12,
+     22
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "Tongs, hammers, a bent file.\nEach one worn to its owner's hand."
+   ]
+  },
+  {
+   "map": "cindervale",
+   "id": "cindervale_kiln",
+   "kind": "prop",
+   "suggested": {
+    "x": 13,
+    "y": 29,
+    "stand": [
+     13,
+     30
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "A brick kiln, ticking as it cools.\nA row of pots waits inside."
+   ]
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_tide_board",
+   "kind": "prop",
+   "suggested": {
+    "x": 24,
+    "y": 21,
+    "stand": [
+     24,
+     22
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "TIDE BOARD, in chalk:\n\"High at dusk. Storm by Thursday.\"",
+    "Thursday is crossed out.\nIt says \"sooner\" now."
+   ]
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_stilt_marks",
+   "kind": "prop",
+   "suggested": {
+    "x": 15,
+    "y": 24,
+    "stand": [
+     15,
+     25
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "A stilt with notches cut in it.\nEach one a flood, with a year."
+   ]
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_frog_statue",
+   "kind": "prop",
+   "suggested": {
+    "x": 31,
+    "y": 15,
+    "stand": [
+     31,
+     16
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "A mossy stone frog. Someone has\nput a tiny hat on it. A good hat."
+   ]
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_boot_rack",
+   "kind": "prop",
+   "suggested": {
+    "x": 20,
+    "y": 30,
+    "stand": [
+     20,
+     31
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "Muddy boots by the door. Dozens.\nThe bog stays outside. Mostly."
+   ]
+  },
+  {
+   "map": "mirefen",
+   "id": "mirefen_net_shelf",
+   "kind": "prop",
+   "suggested": {
+    "x": 38,
+    "y": 24,
+    "stand": [
+     38,
+     25
+    ],
+    "face": "up"
+   },
+   "inspect": [
+    "Eel traps and reed baskets\nstacked on a shelf to dry."
+   ]
+  }
+ ],
+ "section4_lanternport_guide": {
+  "map": "lanternport_lighthouse_int",
+  "id": "lanternport_hall_int_guide",
+  "pages": [
+   "Each floor of the lighthouse has\nits own trick. Up you go, one by one.",
+   "Here, some walls can't be seen.\nWalk slow and feel for the gaps.",
+   "Up on 2F, pads come in pairs.\nStep on one, pop out of its twin.",
+   "A pressure plate opens the gate to\nthe stairs. On 3F, too. Then the lamp."
+  ],
+  "pages_again": [
+   "2F: the plate is in the far left\nroom. A pad will take you there.",
+   "3F: the plate's by the stairs.\nThe walls make you walk round to it.",
+   "The Master waits by the lamp, on\nthe carpet. Say hello for me."
+  ],
+  "pages_old": [
+   "The lens flashes long and short beams through four coloured panes.",
+   "Each floor has four lamps in those colours. Light them in that order.",
+   "Get it wrong and they go out. No harm done. The ghosts find it funny."
+  ]
+ },
+ "section5_hall_fixes": [
+  {
+   "map": "mirefen_hall_int",
+   "id": "mirefen_hall_int_h2",
+   "at": [
+    8,
+    15
+   ],
+   "after": [
+    "Arrow boards push you the way they\npoint. Read the next one first."
+   ],
+   "after_2": [
+    "Past the arrows it's all walls.\nA plate far left opens the gate."
+   ],
+   "after_old": [
+    "The frogs croak in an order. Light the lamps the same way."
+   ]
+  },
+  {
+   "map": "mirefen_hall_int",
+   "id": "mirefen_hall_int_h3",
+   "at": [
+    17,
+    17
+   ],
+   "after": [
+    "Stuck going round in circles?\nAn arrow sent you. Try another board."
+   ],
+   "after_2": [
+    "The gate up top stays shut till\nyou step on the plate. West side."
+   ],
+   "after_old": [
+    "Can't hear the frogs? Watch for ripples. Each one starts by a lamp."
+   ]
+  },
+  {
+   "map": "fernwick_hall_int",
+   "id": "helper_2",
+   "at": [
+    17,
+    7
+   ],
+   "after": [
+    "A plate opens the Master's gate.\nThis one's right under my feet."
+   ],
+   "after_2": [
+    "Go round below me to reach it.\nI'll mind my toes."
+   ],
+   "after_old": [
+    "All three crystals have to glow at once. Count before you touch."
+   ]
+  },
+  {
+   "map": "frostspire_hall_int",
+   "id": "frostspire_hall_int_h5",
+   "at": [
+    3,
+    10
+   ],
+   "after": [
+    "On ice you slide till something\nstops you. Pick your wall first."
+   ],
+   "after_2": [
+    "This maze has a plate in its\nmiddle. It opens the gate up north."
+   ],
+   "after_old": [
+    "Stand where the gusts cross\nand you'll go nowhere fast."
+   ]
+  },
+  {
+   "map": "frostspire_hall_int",
+   "id": "frostspire_hall_int_h6",
+   "at": [
+    1,
+    7
+   ],
+   "after": [
+    "Through the gate? Good. Ice again.\nSlide to a wall, then turn."
+   ],
+   "after_2": [
+    "Up the left side, then along the\ntop. The Master's waiting."
+   ],
+   "after_old": [
+    "The Master reads the wind first,\nthe challenger second."
+   ]
+  },
+  {
+   "map": "mirefen_hall_int",
+   "id": "mirefen_hall_int_guide",
+   "at": [
+    7,
+    20
+   ],
+   "optional": true,
+   "pages": [
+    "Arrow boards push you the way they\npoint. Look before you step.",
+    "Past them, a maze. A plate in it\nopens the gate to Wenna."
+   ],
+   "pages_old": [
+    "It's dark on the water. Light a reed lamp and you'll see the planks near it.",
+    "The frogs croak in an order. Light the lamps in that same order.",
+    "Can't hear them? Watch the water. Every croak leaves a ripple by its lamp."
+   ],
+   "note": "not asked, but the guide has the same old frog/lamp puzzle text"
+  }
+ ]
+}

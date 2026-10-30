@@ -3671,7 +3671,7 @@
     515,
     515,
     0,
-    0,
+    513,
     0,
     0,
     0,
@@ -4514,7 +4514,7 @@
     0,
     0,
     0,
-    0,
+    513,
     0,
     0,
     0,
@@ -8827,7 +8827,7 @@
     1,
     1,
     0,
-    0,
+    1,
     0,
     0,
     0,
@@ -9670,7 +9670,7 @@
     0,
     0,
     0,
-    0,
+    1,
     0,
     0,
     0,
@@ -13122,6 +13122,32 @@
    ],
    "face": "up",
    "region9": true
+  },
+  {
+   "id": "r9_cairnfold_goat_sign",
+   "kind": "sign",
+   "x": 21,
+   "y": 19,
+   "stand": [
+    21,
+    20
+   ],
+   "face": "up",
+   "tile": "sign",
+   "text": "maps.r9_cairnfold.r9_cairnfold_goat_sign"
+  },
+  {
+   "id": "r9_cairnfold_lodge_sign",
+   "kind": "sign",
+   "x": 24,
+   "y": 34,
+   "stand": [
+    24,
+    35
+   ],
+   "face": "up",
+   "tile": "sign",
+   "text": "maps.r9_cairnfold.r9_cairnfold_lodge_sign"
   }
  ],
  "source": "tools/wellspire/build_wellspire.py (clone of frostspire; art + collision unchanged)",
