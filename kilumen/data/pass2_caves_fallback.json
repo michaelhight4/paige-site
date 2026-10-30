@@ -406,6 +406,92 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "route_aurelith_saltmere": {
+   "r9_rasp_saltpan": {
+    "pages": [
+     "DRAFT: I rake salt up here where the wind cannot steal it. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You raked me clean."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you back on the road."
+    ],
+    "trainer_class": "Salt Raker",
+    "name": "Dagny",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rasp_egg_heap": {
+    "pages": [
+     "DRAFT: A salt castle. Tiny salt flags. A sign: DO NOT LICK."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rasp_gullkeeper": {
+    "pages": [
+     "DRAFT: The gulls nest in this notch. They let me stay. Will you?"
+    ],
+    "battle_lost": [
+     "DRAFT: The gulls approve of you."
+    ],
+    "after": [
+     "DRAFT: Ledge down, and mind the feathers."
+    ],
+    "trainer_class": "Bird Keeper",
+    "name": "Pell",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rasp_egg_feathers": {
+    "pages": [
+     "DRAFT: A nest of odd feathers. One is blue, one is gold, one is a pencil."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rasp_tidecaller": {
+    "pages": [
+     "DRAFT: From up here I call the tides in. You just walked in."
+    ],
+    "battle_lost": [
+     "DRAFT: The tide turns your way."
+    ],
+    "after": [
+     "DRAFT: Drop down to the north field."
+    ],
+    "trainer_class": "Tide Caller",
+    "name": "Ottilie",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rasp_egg_shell": {
+    "pages": [
+     "DRAFT: A huge spiral shell. Hold it to your ear: it hums the Saltmere song, off-key."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "route_aurelith_saltmere_cave_w": {
+   "area_name": {
+    "pages": [
+     "Salt Cellar"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_aurelith_saltmere_cave_m": {
+   "area_name": {
+    "pages": [
+     "Gull Notch"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_aurelith_saltmere_cave_e": {
+   "area_name": {
+    "pages": [
+     "Tide Loft"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }

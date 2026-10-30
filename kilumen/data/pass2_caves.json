@@ -1729,6 +1729,267 @@
      "hidden": false
     }
    ]
+  },
+  {
+   "id": "ras_pocket_cellar",
+   "map": "route_aurelith_saltmere",
+   "cave": "route_aurelith_saltmere_cave_w",
+   "cave_title": "Salt Cellar",
+   "floor": [
+    [
+     15,
+     13,
+     25,
+     14
+    ]
+   ],
+   "ledge": [
+    17,
+    19,
+    15
+   ],
+   "walk": [],
+   "mouth": [
+    13,
+    18
+   ],
+   "pocket_door": [
+    22,
+    12
+   ],
+   "main_start": [
+    1,
+    19
+   ],
+   "floor_tile_at": [
+    20,
+    20
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_aurelith_saltmere_cave_w",
+    "out": "one-way ledge at y15 x17-19",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rasp_saltpan",
+    "x": 16,
+    "y": 13,
+    "level": 63,
+    "class": "Salt Raker",
+    "name": "Dagny",
+    "species": [
+     "tuskwallow",
+     "cascadorn",
+     "galespar"
+    ],
+    "intro": [
+     "DRAFT: I rake salt up here where the wind cannot steal it. Battle?"
+    ],
+    "lost": [
+     "DRAFT: You raked me clean."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you back on the road."
+    ]
+   },
+   "egg": {
+    "id": "r9_rasp_egg_heap",
+    "x": 25,
+    "y": 13,
+    "what": "a salt heap shaped like a castle",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A salt castle. Tiny salt flags. A sign: DO NOT LICK."
+    ]
+   },
+   "item": {
+    "id": "r9_rasp_crystal",
+    "x": 25,
+    "y": 14,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A salt raker on a hidden shelf; a Prime Crystal sits by the heap.",
+   "map_cells": [
+    {
+     "x": 15,
+     "y": 18,
+     "g": null,
+     "d": 887,
+     "c": 5
+    }
+   ]
+  },
+  {
+   "id": "ras_pocket_notch",
+   "map": "route_aurelith_saltmere",
+   "cave": "route_aurelith_saltmere_cave_m",
+   "cave_title": "Gull Notch",
+   "floor": [
+    [
+     26,
+     16,
+     29,
+     20
+    ]
+   ],
+   "ledge": [
+    27,
+    28,
+    21
+   ],
+   "walk": [],
+   "mouth": [
+    47,
+    11
+   ],
+   "pocket_door": [
+    28,
+    15
+   ],
+   "main_start": [
+    1,
+    19
+   ],
+   "floor_tile_at": [
+    20,
+    20
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_aurelith_saltmere_cave_m",
+    "out": "one-way ledge at y21 x27-28",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rasp_gullkeeper",
+    "x": 26,
+    "y": 16,
+    "level": 63,
+    "class": "Bird Keeper",
+    "name": "Pell",
+    "species": [
+     "gauzewing",
+     "stratodrake",
+     "galespar"
+    ],
+    "intro": [
+     "DRAFT: The gulls nest in this notch. They let me stay. Will you?"
+    ],
+    "lost": [
+     "DRAFT: The gulls approve of you."
+    ],
+    "after": [
+     "DRAFT: Ledge down, and mind the feathers."
+    ]
+   },
+   "egg": {
+    "id": "r9_rasp_egg_feathers",
+    "x": 29,
+    "y": 16,
+    "what": "a nest full of odd feathers",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A nest of odd feathers. One is blue, one is gold, one is a pencil."
+    ]
+   },
+   "item": {
+    "id": "r9_rasp_seed",
+    "x": 29,
+    "y": 20,
+    "item": "vigor_seed"
+   },
+   "premise": "A bird keeper in a sealed rock notch; a Vigor Seed is tucked in the nest."
+  },
+  {
+   "id": "ras_pocket_loft",
+   "map": "route_aurelith_saltmere",
+   "cave": "route_aurelith_saltmere_cave_e",
+   "cave_title": "Tide Loft",
+   "floor": [
+    [
+     32,
+     9,
+     44,
+     10
+    ]
+   ],
+   "ledge": [
+    33,
+    35,
+    11
+   ],
+   "walk": [],
+   "mouth": [
+    49,
+    15
+   ],
+   "pocket_door": [
+    40,
+    8
+   ],
+   "main_start": [
+    1,
+    19
+   ],
+   "floor_tile_at": [
+    20,
+    20
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_aurelith_saltmere_cave_e",
+    "out": "one-way ledge at y11 x33-35",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rasp_tidecaller",
+    "x": 34,
+    "y": 9,
+    "level": 63,
+    "class": "Tide Caller",
+    "name": "Ottilie",
+    "species": [
+     "torrentpike",
+     "pharolith",
+     "cascadorn"
+    ],
+    "intro": [
+     "DRAFT: From up here I call the tides in. You just walked in."
+    ],
+    "lost": [
+     "DRAFT: The tide turns your way."
+    ],
+    "after": [
+     "DRAFT: Drop down to the north field."
+    ]
+   },
+   "egg": {
+    "id": "r9_rasp_egg_shell",
+    "x": 44,
+    "y": 9,
+    "what": "a huge spiral shell",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A huge spiral shell. Hold it to your ear: it hums the Saltmere song, off-key."
+    ]
+   },
+   "item": {
+    "id": "r9_rasp_charm",
+    "x": 32,
+    "y": 10,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A tide caller on the north loft; a Prime Crystal sits at the far end.",
+   "map_items": [
+    {
+     "id": "ras_loft_seed_visible",
+     "x": 44,
+     "y": 10,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
   }
  ]
 }
