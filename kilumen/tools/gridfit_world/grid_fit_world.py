@@ -116,7 +116,12 @@ def want_layer(W, m):
                 why = 'blocked gap (no solid art)' if w == WALK else 'walk-through (solid art marked walkable)'
                 if w == WALK and o and not W.tiles.get(o, {}).get('ysort'): why += ', under roof/canopy overlay'
                 ch.append((x, y, c, w, why))
-    return out, ch, review
+    # a freed square nobody can reach is just a dead pocket (map_layers_reach fails on those): keep it blocked
+    r = reach(m, out)
+    keep = [c for c in ch if c[3] != WALK or (c[0], c[1]) in r]
+    for x, y, a, b, _ in ch:
+        if b == WALK and (x, y) not in r: out[y][x] = a
+    return out, keep, review
 
 def reach(m, col):
     """Flood from every warp arrival square / exit / start; return set of reachable squares."""
@@ -127,13 +132,14 @@ def reach(m, col):
         for i in range(e.get('start', 0), e.get('end', -1) + 1):
             seeds.append({'north': (i, 0), 'south': (i, H - 1), 'west': (0, i), 'east': (Wd - 1, i)}.get(e.get('edge'), (0, 0)))
     if m.get('player_start'): ps = m['player_start']; seeds.append((ps.get('x', 0), ps.get('y', 0)))
+    solid = {(n['x'], n['y']) for n in (m.get('npcs') or []) + [i for i in (m.get('items') or []) if not i.get('hidden')] if isinstance(n, dict) and isinstance(n.get('x'), int)}  # NPCs and visible satchels stand in the way
     seen = set(); st = [s for s in seeds if 0 <= s[0] < Wd and 0 <= s[1] < H]
     while st:
         x, y = st.pop()
         if (x, y) in seen: continue
         seen.add((x, y))
         for nx, ny in ((x+1, y), (x-1, y), (x, y+1), (x, y-1)):
-            if 0 <= nx < Wd and 0 <= ny < H and (nx, ny) not in seen and col[ny][nx] in PASS: st.append((nx, ny))
+            if 0 <= nx < Wd and 0 <= ny < H and (nx, ny) not in seen and (nx, ny) not in solid and col[ny][nx] in PASS: st.append((nx, ny))
     return seen
 
 def render(W, m, col, changes, path, scale=16):
