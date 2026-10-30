@@ -41,6 +41,8 @@ export function makeSummitFx(scene) {
     if (n === 'fin_past_enclosure' || n === 'fin_past_wlab_10_ondravel') return f.has('fin_guardian_beaten') ? -1 : f.has('fin_released') || lab.broken ? 2 : 0;
     return -1;
   };
+  /** the summit dome before the reveal / face-off: idle sprite instead of the sealed 4x4 sheet */
+  fx.idleNow = () => scene.map?.name === 'fin_lab1_now' && fx.row == null && !fx.active && fx.rowFor() === 0;
   fx.centre = () => { const o = meta(); return o && { x: o.x * T + T / 2, y: (o.y + 1) * T - FH / 2 }; };
   fx.draw = (ctx, v) => {
     const o = meta(), z = v.zoom, W = ctx.canvas.width, H = ctx.canvas.height;
@@ -48,8 +50,12 @@ export function makeSummitFx(scene) {
       if (src !== o.sheet) { src = o.sheet; img.src = o.sheet; }
       const row = fx.rowFor();
       const tower = row >= 1 && scene.map?.name === 'fin_lab1_now' ? anim('ondravel_summit_tower') : null;
-      if (tower) drawFrame(ctx, tower, frameAt(tower, v.ms || 0), (o.x * T + T / 2 - v.cam.x) * z, ((o.y + 1) * T - v.cam.y) * z, z); // Animator's towering Ondravel (9x9 tiles)
-      else if (row >= 0 && img.complete && img.naturalWidth) {
+      // finish-a: before the face-off he waits on the dome as his own 1-tile overworld sprite (Animator's idle DRAFT,
+      // art/fx/wellspire/ondravel_ow_idle_down), centre-bottom on the cell under his feet; the reveal swaps in the tower.
+      const idle = fx.idleNow() ? anim('ondravel_ow_idle_down') : null;
+      if (idle) drawFrame(ctx, idle, frameAt(idle, v.ms || 0), (o.x * T + T / 2 - v.cam.x) * z, ((o.y + 1) * T - v.cam.y) * z, z);
+      else if (tower) drawFrame(ctx, tower, frameAt(tower, v.ms || 0), (o.x * T + T / 2 - v.cam.x) * z, ((o.y + 1) * T - v.cam.y) * z, z); // Animator's towering Ondravel (9x9 tiles)
+      else if (row >= 0 && !fx.idleNow() && img.complete && img.naturalWidth) {
         const col = Math.floor((v.ms || 0) / 160) % 6, sx = (o.x * T + T / 2 - FW / 2 - v.cam.x) * z, sy = ((o.y + 1) * T - FH - v.cam.y) * z;
         ctx.save(); ctx.imageSmoothingEnabled = false;
         ctx.drawImage(img, col * FW, row * FH, FW, FH, Math.round(sx), Math.round(sy), FW * z, FH * z); ctx.restore();
