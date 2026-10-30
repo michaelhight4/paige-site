@@ -82,7 +82,7 @@ export async function installDevConsole(scene, access) {
   };
   const close = () => { if (!panel) return; panel.remove(); panel = null; msgEl = null; closeBlockB = true; };
   window.addEventListener('keydown', (e) => {
-    if (e.code === 'Escape' && !panel && document.querySelector('.kdev-log')) return; // the log viewer closes itself
+    if (e.code === 'Escape' && document.querySelector('.kdev-log')) return; // the log viewer closes itself (Oct 30 2026: even over the panel)
     if (panel) { if (e.code === 'Escape') { e.preventDefault(); close(); } e.stopPropagation(); return; }
     if ((e.code === 'Backquote' || e.code === 'F2') && !e.repeat && !/INPUT|TEXTAREA|SELECT/.test(e.target?.tagName || '')) { e.preventDefault(); e.stopPropagation(); open(); }
   }, true);
@@ -251,7 +251,7 @@ export async function installDevConsole(scene, access) {
     ['Region 2', ['saltmere', 'saltmere_hall_int', 'saltmere_office_int', 'route_revival_saltmere', 'route_saltmere_mirefen', 'mirefen', 'mirefen_hall_int', 'mirefen_bog']],
     ['Region 3', ['revival_heights', 'revival_hall_int', 'route_revival', 'route_revival_sunmeadow', 'sunmeadow_fields', 'route_sunmeadow_mirefen']],
     ['Region 4: Frostspire', ['frostspire', 'frostspire_pass', 'frostspire_hall_int', 'frostspire_lift_int', 'frostspire_office_int', 'heal_frostspire']],
-    ['Later regions', ['lanternport', 'lanternport_lighthouse_int', 'lanternport_lighthouse_f2', 'lanternport_lighthouse_f3', 'lanternport_hall_int', 'route_fernwick_lanternport', 'cindervale', 'cindervale_hall_int', 'route_cindervale', 'aurelith', 'heal_aurelith', 'route_aurelith_saltmere', 'route_east', 'tidewater_coast', 'tidewater_hall_int', 'route_coast']],
+    ['Later regions', ['lanternport', 'lanternport_lighthouse_int', 'lanternport_lighthouse_f2', 'lanternport_lighthouse_f3', 'lanternport_hall_int', 'route_fernwick_lanternport', 'cindervale', 'cindervale_hall_int', 'route_cindervale', 'aurelith', 'heal_aurelith', 'aurelith_stadium_int', 'aurelith_arena', 'route_aurelith_saltmere', 'route_east', 'tidewater_coast', 'tidewater_hall_int', 'route_coast']],
   ];
   const pretty = (n) => String(n).replace(/_int$/, '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + (/_int$/.test(n) ? ' (inside)' : '');
   function tTravel(body) {
@@ -325,7 +325,7 @@ export async function installDevConsole(scene, access) {
       else if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; say(`World speed ${DEV.world}x.`); render(); }
       else if (a['data-speed']) { DEV.speed = Number(a['data-speed'].value); scene.player.speedMultiplier = DEV.speed / (DEV.world || 1); say(`Walk speed ${DEV.speed}x.`); render(); }
       else if (a['data-mk']) { DEV.masterKey = !DEV.masterKey; if (DEV.masterKey) touched(); say(DEV.masterKey ? 'Master key ON.' : 'Master key OFF. Real locks are back.'); render(); }
-      else if (a['data-log']) { const l = logs[Number(a['data-log'].value)]; if (l) { if (!l.text) l.text = l.lines.join('\n'); AB.showLog(l); } }
+      else if (a['data-log']) { const l = logs[Number(a['data-log'].value)]; if (l) { if (!l.text) l.text = l.lines.join('\n'); close(); AB.showLog(l); } } // Oct 30 2026: close the panel first, it ate every key while the log sat on top
     };
     const cr = body.querySelector('[data-cr]'); cr.onchange = () => { AB.options.useCrystals = cr.checked; };
   }

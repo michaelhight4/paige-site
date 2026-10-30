@@ -298,6 +298,18 @@ export function makeSdBattle(ui, opts, h) {
     host().appendChild(e); setTimeout(() => e.remove(), 600);
   };
   let lastMove = null;
+  // Broken battle sprite fix (Oct 30 2026): vaultpede / pricklon / geodurchin ship no battle/ art yet, so the <img> showed a broken
+  // icon. Try idle GIF -> still PNG for the species, then the same for each prevo (up to 4 back); the first file that loads wins.
+  const monCandidates = (sp, side) => {
+    const out = []; let id = sp;
+    for (let i = 0; id && i < 5; i++) { const u = side(id), g = cidleSrc(u); if (g) out.push(g); out.push(u); id = speciesById(id)?.prevo || null; }
+    return [...new Set(out)];
+  };
+  const setMonSrc = (img, sp, side) => {
+    const list = monCandidates(sp, side); let i = 0;
+    img.onerror = () => { if (img.getAttribute('src') !== list[i] || i + 1 >= list.length) return; img.src = list[++i]; };
+    img.src = list[0];
+  };
 
   // ---- protocol playback ------------------------------------------------------------------------------------
   const play = async (lines) => {
@@ -309,7 +321,7 @@ export function makeSdBattle(ui, opts, h) {
           const { hp, max } = hpOf(c); const first = !mon[s];
           mon[s] = { name: who, species: sp, level: +lv || 1, hp, maxhp: max }; drawPlate(s);
           if (trainer && first) endIntro(s);
-          const img = $(`#${s}-mon`); img.src = cidleSrc(s === 'p2' ? front(sp) : back(sp)) || (s === 'p2' ? front(sp) : back(sp)); img.classList.toggle('b-flip', s === 'p1' && BACK_FACES_LEFT.has(sp)); img.style.opacity = '1'; setFeet(img);
+          const img = $(`#${s}-mon`); setMonSrc(img, sp, s === 'p2' ? front : back); img.classList.toggle('b-flip', s === 'p1' && BACK_FACES_LEFT.has(sp)); img.style.opacity = '1'; setFeet(img);
           if (s === 'p2' && first && carryFoes) { const rl = reactionLines('turn', kb.p1.active[0]?.name, who); await say(rl.foe); }
           else if (s === 'p2' && !first && !trainer && !owned) await say(`Another wild ${who} jumps in!` /* PH */);
           else if (s === 'p2') await say(first && !trainer ? ui.P(opts.intro?.key || 'system_wild.grass', opts.intro?.fallback || ['{creature} bursts out of the grass!'], { creature: who })[0]
