@@ -18,10 +18,10 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.91-alpha';
-import { applyHeldPicks } from './trainer_held.js?v=v0.2.91-alpha';
-import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.91-alpha';
-import { ARENA_TEAMS } from '../../region78/arena.js?v=v0.2.91-alpha'; // Aurelith Arena fighters (8, back to back)
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.92-alpha';
+import { applyHeldPicks } from './trainer_held.js?v=v0.2.92-alpha';
+import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.92-alpha';
+import { ARENA_TEAMS } from '../../region78/arena.js?v=v0.2.92-alpha'; // Aurelith Arena fighters (8, back to back)
 
 const RON_TIDEWATER = {"nibbin": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}], "cindrip": [{species: "sailquill", level: 40}, {species: "pearlisk", level: 40, held: "runestitch_charm"}, {species: "tidemarrow", level: 40, held: "sprig_charm"}, {species: "nudiblume", level: 40, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}, {species: "brineseal", level: 39, held: "droplet_charm"}, {species: "tidemarrow", level: 41, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}], "rillop": [{species: "sailquill", level: 40}, {species: "glassvine", level: 40}, {species: "gearwarden", level: 40}, {species: "bramblehog", level: 41}, {species: "seraphawk", level: 40}, {species: "gnawford", level: 41}], "tumbloam": [{species: "sailquill", level: 39}, {species: "glassvine", level: 39}, {species: "mirrorkin", level: 39}, {species: "runeskein", level: 39, held: "runestitch_charm"}, {species: "bramblehog", level: 39}, {species: "forgeharrow", level: 41}]};
 export const TRAINER_TEAMS = {

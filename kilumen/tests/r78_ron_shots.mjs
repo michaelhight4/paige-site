@@ -31,10 +31,10 @@ try {
   // room 8 just won (first clear): the top-of-tower beat, exactly as arena.js done() runs it
   await page.evaluate(async () => {
     const s = kilumen.scene; for (const f of ['arena_run', 'arena_room_8_won']) s.setFlag(f);
-    const C = await import('/src/systems/creature.js?v=v0.2.91-alpha'); // a late-game team of r78 Kilu (fresh save has none), half HP so the heal shows
+    const C = await import('/src/systems/creature.js?v=v0.2.92-alpha'); // a late-game team of r78 Kilu (fresh save has none), half HP so the heal shows
     for (const sp of ['sunderhoof', 'seraphawk', 'rimewyrm', 'peakbrute', 'glyphmage', 'sunbasilisk']) { const c = C.createCreature({ species: sp, level: 68 }); s.systems.party.add(c); }
     for (const c of s.systems.party.list) if (c.hp != null) c.hp = Math.max(1, Math.floor(c.hp / 3));
-    const A = await import('/src/region78/arena.js?v=v0.2.91-alpha');
+    const A = await import('/src/region78/arena.js?v=v0.2.92-alpha');
     window.__top = s.script(() => A.towerTop(s, (f) => s.setFlag(f)));
   });
   await sleep(900); await shot(page, 'top_line_1');
@@ -45,8 +45,8 @@ try {
   await sleep(2800); await shot(page, 'lobby_ron_waiting');
   // talk -> real battle UI for the intro shot, then a stubbed win for the after lines
   await page.evaluate(async () => {
-    const s = kilumen.scene; const A = await import('/src/region78/arena.js?v=v0.2.91-alpha'); const real = s.hooks.onBattle;
-    s.hooks.onBattle = async (who) => { window.__team = (await import('/src/battle/data/trainer_teams.js?v=v0.2.91-alpha')).authoredTeam(who, s.systems.party.list); kilumen.ui.open('battle', { trainer: true, who }); await new Promise((r) => setTimeout(r, 4000)); kilumen.ui.closeAll(); return true; };
+    const s = kilumen.scene; const A = await import('/src/region78/arena.js?v=v0.2.92-alpha'); const real = s.hooks.onBattle;
+    s.hooks.onBattle = async (who) => { window.__team = (await import('/src/battle/data/trainer_teams.js?v=v0.2.92-alpha')).authoredTeam(who, s.systems.party.list); kilumen.ui.open('battle', { trainer: true, who }); await new Promise((r) => setTimeout(r, 4000)); kilumen.ui.closeAll(); return true; };
     window.__talk = s.script(() => A.ron7Talk(s, { name: 'Ron' })); window.__real = real;
   });
   await sleep(900); await shot(page, 'talk_1');
