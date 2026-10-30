@@ -50,7 +50,8 @@
   ],
   "derby.turn_in": [
    "The clerk adds it all up.\nFinal score: {score}!",
-   "That's a {tier}-tier haul!\nHere's your prize."
+   "That's a {tier}-tier haul!\nHere's your prize.",
+   "Lantern festival's on in Lanternport.\nYour prize would look good in it."
   ],
   "derby.no_tier": [
    "The clerk adds it all up.\nFinal score: {score}.",
@@ -227,6 +228,26 @@
        "Kelp grows on the walls in here. The\nwind sings through it on a high tide.",
        "I came for a week. That was nine\nyears ago. Lovely acoustics."
       ]
+     },
+     {
+      "id": "dream",
+      "flags": [],
+      "pages": [
+       "Had a dream the sea was asking me\nsomething. Couldn't hear the end.",
+       "Sat up the rest of the night. Felt\nlike I owed somebody an answer."
+      ],
+      "requires": "visited_gullhaven",
+      "status": "DRAFT v2"
+     },
+     {
+      "id": "print",
+      "flags": [],
+      "pages": [
+       "Found a wet print on the slip one\nmorning. Big. Pointing inland.",
+       "Tide took it by noon. Probably\nnothing. I didn't go looking."
+      ],
+      "requires": "ending2_done",
+      "status": "DRAFT v2"
      }
     ],
     "status": "DRAFT"
@@ -244,7 +265,8 @@
       "flags": [],
       "pages": [
        "Gull bones, all down the walls. Old\nnests. Very old. Nothing to fear.",
-       "Mostly. Mind the drip on the left.\nIt's been aiming at me for years."
+       "Mostly. Mind the drip on the left.\nIt's been aiming at me for years.",
+       "This cave's the only stair up from\nthe water. Kelpwind's the other."
       ]
      }
     ],
@@ -280,8 +302,19 @@
       "flags": [],
       "pages": [
        "Three hundred gulls on this ledge, and\nI've named every one of them.",
-       "That one's Margaret. She took my\nsandwich. I forgive her. Barely."
+       "That one's Margaret. She took my\nsandwich. I forgive her. Barely.",
+       "Nobody lands a flier on the roofs.\nThe gulls don't share. Not ever."
       ]
+     },
+     {
+      "id": "skylift",
+      "flags": [],
+      "pages": [
+       "Came in by Skylift? The gulls know\nyou now. They let you land, see.",
+       "They remember faces. And sandwiches.\nMostly sandwiches."
+      ],
+      "requires": "visited_gullhaven",
+      "status": "DRAFT v2"
      }
     ],
     "status": "DRAFT"
@@ -315,9 +348,19 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "No roads come here, only boats and\nswimmers. Welcome to Gullhaven.",
+       "No roads come here, and no boats.\nOnly swimmers. Welcome to Gullhaven.",
        "Fees are paid in gold, gossip or fish.\nThe gulls take the fish anyway."
       ]
+     },
+     {
+      "id": "causeway",
+      "flags": [],
+      "pages": [
+       "See the rocks out in the maze? There\nwas a causeway once, to Tidewater.",
+       "Taken down the bad year, before my\ngran's time. Storm damage, they said."
+      ],
+      "sets": "seen_gh_causeway",
+      "status": "DRAFT v2"
      }
     ],
     "status": "DRAFT"
@@ -333,7 +376,8 @@
       "flags": [],
       "pages": [
        "Hear ye! The Fishing Derby is open\ndown on the lagoon! Ten casts each!",
-       "Biggest haul wins a prize! Featured\nfish score double! Hear ye! Ahem."
+       "Biggest haul wins a prize! Featured\nfish score double! Hear ye! Ahem.",
+       "Will today be the day someone lands\nBryn's fish? Doubt it! Try anyway!"
       ]
      }
     ],
@@ -352,6 +396,16 @@
        "A Tidelumen is a lumen shard cut by\nthe tide. Good for one derby cast.",
        "Cast it, and the lagoon gives back\nwhat it likes. Heavy ones are rare."
       ]
+     },
+     {
+      "id": "violet_night",
+      "flags": [],
+      "pages": [
+       "On still nights the water goes\nviolet. Brighter toward the river.",
+       "My gran called it the sea thinking.\nI just call it pretty. Mostly."
+      ],
+      "time": "night",
+      "status": "DRAFT v2"
      }
     ],
     "status": "DRAFT"
@@ -385,9 +439,27 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "The derby desk's shut for now.\nThe lagoon needs a rest, poor thing.",
+       "Marlo Hollis, derby clerk. Desk's\nshut. The lagoon needs a rest.",
        "Come back soon. The fish are\ngetting bigger. Or so they say."
       ]
+     },
+     {
+      "id": "legend",
+      "flags": [],
+      "pages": [
+       "My great-gran Bryn came in empty one\nspring tide. Said she let it go.",
+       "Longer than the harbour, she said,\nwith a light on its brow.",
+       "Like a lantern somebody forgot\nto put out. It looked at her.",
+       "The way a dog looks at a door. Then\nit swam for the old river mouth.",
+       "Nobody believed her. Next year the\nriver ran lower. Then lower again.",
+       "So we fish for Bryn's fish and never\nexpect it. Big enough to let go."
+      ],
+      "requires_state": {
+       "derby_turn_ins_gte": 1
+      },
+      "sets": "gh_legend_heard",
+      "status": "DRAFT v2",
+      "requires_state_note": "after the first derby turn-in (save: derby.turnIns)"
      }
     ],
     "status": "DRAFT"
