@@ -1,0 +1,98 @@
+{
+ "name": "bobber_idle",
+ "group": "bobber",
+ "sheet": "bobber_idle_sheet.png",
+ "preview": "bobber_idle_preview.gif",
+ "frame_w": 64,
+ "frame_h": 64,
+ "squares": [
+  1,
+  1
+ ],
+ "square_px": 64,
+ "art_scale": 4,
+ "frame_count": 6,
+ "ms_per_frame": [
+  140,
+  140,
+  140,
+  140,
+  140,
+  140
+ ],
+ "total_ms": 840,
+ "playback": "loop",
+ "anchor": {
+  "x": 32,
+  "y": 48,
+  "art_x": 8,
+  "art_y": 12,
+  "note": "waterline centre"
+ },
+ "sheet_layout": "grid 6 cols x 1 rows, row-major",
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 140
+  },
+  {
+   "i": 1,
+   "x": 64,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 140
+  },
+  {
+   "i": 2,
+   "x": 128,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 140
+  },
+  {
+   "i": 3,
+   "x": 192,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 140
+  },
+  {
+   "i": 4,
+   "x": 256,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 140
+  },
+  {
+   "i": 5,
+   "x": 320,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 140
+  }
+ ],
+ "glyphs": null,
+ "emissive_hint": true,
+ "qa_background": "water",
+ "readability": {
+  "dawn": 0.844,
+  "day": 0.844,
+  "dusk": 0.87,
+  "night": 0.591
+ },
+ "night_readability": 0.591,
+ "pass_night": true,
+ "notes": "loop while waiting",
+ "filter": "nearest",
+ "alpha": "1-bit",
+ "palette": "art/palette/kilumen.hex"
+}

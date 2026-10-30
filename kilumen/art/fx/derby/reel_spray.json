@@ -1,0 +1,98 @@
+{
+ "name": "reel_spray",
+ "group": "reel",
+ "sheet": "reel_spray_sheet.png",
+ "preview": "reel_spray_preview.gif",
+ "frame_w": 64,
+ "frame_h": 64,
+ "squares": [
+  1,
+  1
+ ],
+ "square_px": 64,
+ "art_scale": 4,
+ "frame_count": 6,
+ "ms_per_frame": [
+  60,
+  60,
+  60,
+  60,
+  60,
+  60
+ ],
+ "total_ms": 360,
+ "playback": "loop",
+ "anchor": {
+  "x": 32,
+  "y": 52,
+  "art_x": 8,
+  "art_y": 13,
+  "note": ""
+ },
+ "sheet_layout": "grid 6 cols x 1 rows, row-major",
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 60
+  },
+  {
+   "i": 1,
+   "x": 64,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 60
+  },
+  {
+   "i": 2,
+   "x": 128,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 60
+  },
+  {
+   "i": 3,
+   "x": 192,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 60
+  },
+  {
+   "i": 4,
+   "x": 256,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 60
+  },
+  {
+   "i": 5,
+   "x": 320,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 60
+  }
+ ],
+ "glyphs": null,
+ "emissive_hint": true,
+ "qa_background": "water",
+ "readability": {
+  "dawn": 0.995,
+  "day": 0.995,
+  "dusk": 0.995,
+  "night": 0.93
+ },
+ "night_readability": 0.93,
+ "pass_night": true,
+ "notes": "loop at the line entry point while reeling",
+ "filter": "nearest",
+ "alpha": "1-bit",
+ "palette": "art/palette/kilumen.hex"
+}

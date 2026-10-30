@@ -1,7 +1,7 @@
 # Gullhaven — seaport region + Fishing Derby (dev/seaport, Oct 30 2026)
 
 ## Name and lore
-**Gullhaven**: a harbour town on a cliff shelf, reached only by water. Gulls nest in the cliffs, and the town runs a yearly fishing derby on its lagoon.
+**Gullhaven**: a harbour town on a cliff shelf, reached only by water. Gulls nest in the cliffs, and the town runs a fishing derby any day on its lagoon.
 The derby crystal is the **Tidelumen**: a lumen shard cut by the tide. It is only good for one derby cast.
 
 ## Layout (maps reuse the existing kit; no new art)

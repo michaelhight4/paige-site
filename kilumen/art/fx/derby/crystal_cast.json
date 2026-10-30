@@ -1,0 +1,152 @@
+{
+ "name": "crystal_cast",
+ "group": "cast",
+ "sheet": "crystal_cast_sheet.png",
+ "preview": "crystal_cast_preview.gif",
+ "frame_w": 256,
+ "frame_h": 128,
+ "squares": [
+  4,
+  2
+ ],
+ "square_px": 64,
+ "art_scale": 4,
+ "frame_count": 12,
+ "ms_per_frame": [
+  60,
+  60,
+  60,
+  60,
+  60,
+  60,
+  60,
+  60,
+  80,
+  80,
+  80,
+  80
+ ],
+ "total_ms": 800,
+ "playback": "one-shot",
+ "anchor": {
+  "x": 12,
+  "y": 40,
+  "art_x": 3,
+  "art_y": 10,
+  "note": "rod tip, art px in frame (x4 for native)"
+ },
+ "sheet_layout": "grid 8 cols x 2 rows, row-major",
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 256,
+   "h": 128,
+   "ms": 60
+  },
+  {
+   "i": 1,
+   "x": 256,
+   "y": 0,
+   "w": 256,
+   "h": 128,
+   "ms": 60
+  },
+  {
+   "i": 2,
+   "x": 512,
+   "y": 0,
+   "w": 256,
+   "h": 128,
+   "ms": 60
+  },
+  {
+   "i": 3,
+   "x": 768,
+   "y": 0,
+   "w": 256,
+   "h": 128,
+   "ms": 60
+  },
+  {
+   "i": 4,
+   "x": 1024,
+   "y": 0,
+   "w": 256,
+   "h": 128,
+   "ms": 60
+  },
+  {
+   "i": 5,
+   "x": 1280,
+   "y": 0,
+   "w": 256,
+   "h": 128,
+   "ms": 60
+  },
+  {
+   "i": 6,
+   "x": 1536,
+   "y": 0,
+   "w": 256,
+   "h": 128,
+   "ms": 60
+  },
+  {
+   "i": 7,
+   "x": 1792,
+   "y": 0,
+   "w": 256,
+   "h": 128,
+   "ms": 60
+  },
+  {
+   "i": 8,
+   "x": 0,
+   "y": 128,
+   "w": 256,
+   "h": 128,
+   "ms": 80
+  },
+  {
+   "i": 9,
+   "x": 256,
+   "y": 128,
+   "w": 256,
+   "h": 128,
+   "ms": 80
+  },
+  {
+   "i": 10,
+   "x": 512,
+   "y": 128,
+   "w": 256,
+   "h": 128,
+   "ms": 80
+  },
+  {
+   "i": 11,
+   "x": 768,
+   "y": 128,
+   "w": 256,
+   "h": 128,
+   "ms": 80
+  }
+ ],
+ "glyphs": null,
+ "emissive_hint": true,
+ "qa_background": "water",
+ "readability": {
+  "dawn": 0.924,
+  "day": 0.926,
+  "dusk": 0.924,
+  "night": 0.892
+ },
+ "night_readability": 0.892,
+ "pass_night": true,
+ "notes": "one-shot; lure ends at art (54,22) = square (3,1); hand off to bobber_idle there",
+ "filter": "nearest",
+ "alpha": "1-bit",
+ "palette": "art/palette/kilumen.hex"
+}

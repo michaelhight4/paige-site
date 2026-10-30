@@ -54,10 +54,42 @@ export function whenMatches(when, env) {
  * First matching line of a spot (or any {lines:[...]} block). `spotKey` prefixes once/once_per_day keys.
  * Returns the line object or null. A line that uses {lead} needs a lead creature.
  */
+/** Text Bot v2 line keys (Gullhaven, Oct 30 2026): {id, pages, requires, requires_not, requires_state, sets, time}. */
+const V2_KEYS = ['requires', 'requires_not', 'requires_state', 'sets', 'time'];
+export const isV2Line = (l) => !!l && V2_KEYS.some((k) => l[k] != null);
+const list = (v) => (v == null ? [] : Array.isArray(v) ? v : [v]);
+/** requires_state: {derby_turn_ins_gte: n} | {counter, gte}. Unknown keys never match. */
+export function stateMatches(rs, env = {}) {
+  if (!rs) return true;
+  if (typeof rs !== 'object') return false;
+  for (const [k, v] of Object.entries(rs)) {
+    if (k === 'derby_turn_ins_gte') { if (!((env.derbyTurnIns || 0) >= v)) return false; }
+    else if (k === 'counter') { if (!((env.counters?.[v] || 0) >= (rs.gte ?? 1))) return false; }
+    else if (k !== 'gte') return false;
+  }
+  return true;
+}
+/** v2 line check. A line with `sets` shows until its flag is set (then the next match / default takes over). */
+export function v2Matches(line, flags, env = {}) {
+  if (!list(line.requires).every((f) => flags.has(f))) return false;
+  if (list(line.requires_not).some((f) => flags.has(f))) return false;
+  if (line.time && !list(line.time).includes(env.phase)) return false;
+  if (!stateMatches(line.requires_state, env)) return false;
+  if (list(line.sets).length && list(line.sets).every((f) => flags.has(f))) return false;
+  return true;
+}
 export function pickLine(spot, flags, env = {}, spotKey = '') {
   const lines = spot?.lines;
   if (!Array.isArray(lines)) return spot?.pages ? { id: 'default', flags: [], pages: spot.pages } : null;
+  // v2 lines first, last-listed wins (more specific lines come later in Text Bot's lists)
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const line = lines[i];
+    if (!isV2Line(line) || line.pending_story_call) continue;
+    if (!(line.flags || []).every((f) => flags.has(f))) continue;
+    if (v2Matches(line, flags, env) && whenMatches(line.when, { ...env, lineKey: spotKey + '#' + line.id })) return line;
+  }
   for (const line of lines) {
+    if (isV2Line(line)) continue;
     if (line.pending_story_call) continue;
     if (!(line.flags || []).every((f) => flags.has(f))) continue;
     if (usesLead(line) && !env.lead) continue;

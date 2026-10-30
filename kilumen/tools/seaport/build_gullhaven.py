@@ -44,7 +44,14 @@ class Out:
     def ground(s, x, y):
         v = s.k(x, y); vh = (x * 7 + y * 13 + (x * y) % 5) % 4
         if v == 'S': return ID[f'sand_{vh}']
-        if v == 'P': return ID[f'path_{vh}']
+        if v == 'P':  # Director art QA #13: soft path>sand edges where the cobbles meet sand (no hard seam)
+            lowp = lambda a, b: (s.k(a, b) or 'P') == 'S'
+            sides = ''.join('1' if lowp(x+dx, y+dy) else '0' for dx, dy in ((0,-1),(1,0),(0,1),(-1,0)))
+            diags = ''.join('1' if lowp(x+dx, y+dy) else '0' for dx, dy in ((1,-1),(1,1),(-1,1),(-1,-1)))
+            if sides != '0000' or diags != '0000':
+                for nm in (f'path>sand_{sides}_{diags}', f'path>sand_{sides}_{diags}_w1', f'path>sand_{sides}_{diags}_w2'):
+                    if nm in NAMES: return ID[nm]
+            return ID[f'path_{vh}']
         # water: edges facing lower-priority (sand/path) neighbours
         low = lambda a, b: (s.k(a, b) or 'W') != 'W'
         sides = ''.join('1' if low(x+dx, y+dy) else '0' for dx, dy in ((0,-1),(1,0),(0,1),(-1,0)))
@@ -65,7 +72,10 @@ class Out:
             for x in range(W):
                 v = s.t[y][x]
                 if v == 'T' and not s.dec[y][x]:
-                    s.dec[y][x] = ID['tree_base']; s.ov[y][x] = ID['tree_top']
+                    # Gary (Oct 30 2026): the bottom row of a stand keeps its trunk (tree_base only, no canopy overlay), so
+                    # stands end in trunks + shadow and the canopy never sits over the player standing below (brookhollow rule)
+                    s.dec[y][x] = ID['tree_base']
+                    if y + 1 < H and s.t[y+1][x] == 'T': s.ov[y][x] = ID['tree_top']
                 if v == 'W': col[y][x] = 3
                 elif s.dec[y][x]: col[y][x] = CODE[s.dec[y][x]]
                 if (x, y) in s.col_over: col[y][x] = s.col_over[(x, y)]
@@ -82,7 +92,7 @@ class Out:
         m = {"name": s.name, "title": title, "width": W, "height": H, "tile_size": 64, "tileset": "../tileset.json",
              "layers": {"ground": g, "decoration": s.dec, "overlay": s.ov, "collision": col, "encounter": enc},
              "warps": [], "exits": [], "npcs": [], "signs": [], "items": [], "interact_spots": [], "encounter_zones": [],
-             "source": SRC, "movement": {"run": True, "bike": False}}
+             "source": SRC, "movement": {"run": True, "bike": False}, "outside_fill": "edge"}
         m.update(extra); save(m); return m
 
 # ---------------------------------------------------------------- caves (World Design kit)
@@ -147,16 +157,21 @@ def cave_map(c, title, warps, extra):
                 if 0 <= y < H and 0 <= x < W: enc[y][x] = 0
     m = {"name": c.name, "title": title, "width": W, "height": H, "tile_size": 64, "tileset": "../tileset.json",
          "layers": {"ground": g, "decoration": c.dec, "overlay": blank(W, H), "collision": col, "encounter": enc},
-         "warps": warps, "exits": [], "npcs": [], "signs": [], "items": [], "interact_spots": [], "source": SRC,
+         "warps": warps, "exits": [], "npcs": [], "signs": [], "items": [], "interact_spots": [], "source": SRC, "outside_fill": "edge",
          "movement": {"run": True, "bike": False}}
     m.update(extra); save(m); return m
 
 # ================================================================ 1. Gullhaven Sea (water maze)
 SEA = 'gullhaven_sea'
 S = Out(SEA, 40, 44, 30)
-for r in [(26, 0, 27, 8), (8, 7, 34, 8), (8, 7, 9, 20), (33, 7, 34, 14), (8, 19, 30, 20), (29, 19, 30, 32), (6, 31, 34, 32),
-          (6, 31, 7, 36), (33, 31, 34, 36), (16, 9, 17, 13), (20, 21, 21, 27), (13, 24, 21, 25)]:  # last three: dead-end coves
-    S.rect(*r, 'W')
+# Gary (Oct 30 2026): open sea, not a forest with canals. Mainland shore (trees + beach) on the north rows, the north channel
+# out of Tidewater, then open water to the islands; sand-bar reefs make the maze (the old channels stay water, so every
+# swimmer's spot and sight line is unchanged).
+S.rect(0, 0, 39, 4, 'T'); S.rect(0, 5, 39, 6, 'S'); S.rect(26, 0, 27, 6, 'W')
+S.rect(0, 7, 1, 36, 'T'); S.rect(38, 7, 39, 36, 'T')
+S.rect(2, 7, 37, 36, 'W')
+for r in [(11, 10, 14, 16), (19, 10, 31, 13), (11, 22, 18, 22), (23, 23, 27, 28), (3, 25, 6, 28), (32, 17, 36, 25)]:
+    S.rect(*r, 'S')  # sand-bar reefs
 S.rect(2, 37, 11, 41, 'S'); S.rect(28, 37, 38, 41, 'S')   # two islands with the cave mouths
 S.mouth(6, 39); S.mouth(33, 39)
 S.put(10, 37, 'rock'); S.put(29, 41, 'i_net'); S.put(37, 37, 'i_barrel'); S.put(3, 41, 'i_crates_0_0'); S.put(4, 41, 'i_crates_0_1')
@@ -194,7 +209,9 @@ for name, title, seed, top_to, (tx, ty), props in [
     c = Cave(name, 30, 24, seed); c.maze(9, 6, x0=2, y0=2, extra_links=5)
     # mouth (bottom-left cell 0,5 -> y 17..18) down to the south door at (4,23); top exit from cell (8,0) up to (26,0)
     c.carve(3, 19, 4, 23); c.carve(26, 0, 27, 2)
-    c.pool(*( (8, 9, 9, 10) if seed == 31 else (20, 12, 21, 13) ))
+    if seed == 31: c.pool(8, 9, 9, 10)
+    else:  # Gullbone Cave (Director QA: must not read as Kelpwind's copy): a big central bone-white cavern with an underground lake
+        c.carve(10, 5, 20, 15); c.pool(13, 8, 17, 12)
     rng = random.Random(seed + 100); placed = 0
     spots = [(x, y) for y in range(3, 18) for x in range(2, 28) if c.walk[y][x] and not c.water[y][x]]
     rng.shuffle(spots)
@@ -262,7 +279,7 @@ G.put(13, 20, 'i_net'); G.put(25, 21, 'i_crates_0_0'); G.put(26, 21, 'i_crates_0
 town = G.finish("Gullhaven",
     exits=[{"edge": "west", "start": 11, "end": 12, "to": CL, "offset": 0},
            {"edge": "south", "start": 19, "end": 20, "to": "gullhaven_lagoon", "offset": -4}],
-    warps=[{"x": 7, "y": 9, "to": "heal_brookhollow", "tx": 6, "ty": 8, "facing": "up"},
+    warps=[{"x": 7, "y": 9, "to": "heal_gullhaven", "tx": 6, "ty": 7, "facing": "up"},
            {"x": 28, "y": 9, "to": "shop_int", "tx": 5, "ty": 7, "facing": "up"}],
     npcs=[{"id": f"{TOWN}_harbour_master", "x": 15, "y": 14, "facing": "down", "kind": "villager", "text_ref": tref(TOWN, f"{TOWN}_harbour_master"), "text_pending": True},
           {"id": f"{TOWN}_derby_crier", "x": 21, "y": 21, "facing": "left", "kind": "villager", "text_ref": tref(TOWN, f"{TOWN}_derby_crier"), "text_pending": True},

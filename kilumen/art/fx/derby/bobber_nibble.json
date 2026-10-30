@@ -1,0 +1,98 @@
+{
+ "name": "bobber_nibble",
+ "group": "bobber",
+ "sheet": "bobber_nibble_sheet.png",
+ "preview": "bobber_nibble_preview.gif",
+ "frame_w": 64,
+ "frame_h": 64,
+ "squares": [
+  1,
+  1
+ ],
+ "square_px": 64,
+ "art_scale": 4,
+ "frame_count": 6,
+ "ms_per_frame": [
+  70,
+  70,
+  70,
+  70,
+  70,
+  70
+ ],
+ "total_ms": 420,
+ "playback": "one-shot",
+ "anchor": {
+  "x": 32,
+  "y": 48,
+  "art_x": 8,
+  "art_y": 12,
+  "note": ""
+ },
+ "sheet_layout": "grid 6 cols x 1 rows, row-major",
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 1,
+   "x": 64,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 2,
+   "x": 128,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 3,
+   "x": 192,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 4,
+   "x": 256,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 5,
+   "x": 320,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 70
+  }
+ ],
+ "glyphs": null,
+ "emissive_hint": true,
+ "qa_background": "water",
+ "readability": {
+  "dawn": 0.852,
+  "day": 0.852,
+  "dusk": 0.879,
+  "night": 0.735
+ },
+ "night_readability": 0.735,
+ "pass_night": true,
+ "notes": "one-shot, then back to idle",
+ "filter": "nearest",
+ "alpha": "1-bit",
+ "palette": "art/palette/kilumen.hex"
+}

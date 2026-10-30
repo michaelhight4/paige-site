@@ -3022,6 +3022,135 @@
     "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
    },
    "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+  },
+  "gullhaven_sea.gullhaven_sea_swimmer_a": {
+   "sprite_id": "tr_swimmer_gullhaven_a",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/tr_swimmer_gullhaven_a/overworld/tr_swimmer_gullhaven_a_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_swimmer_gullhaven_a/overworld/tr_swimmer_gullhaven_a_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_a/overworld/tr_swimmer_gullhaven_a_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_a/overworld/tr_swimmer_gullhaven_a_chibi/",
+   "trainer_64x128": "npcs/tr_swimmer_gullhaven_a/trainer/tr_swimmer_gullhaven_a_trainer_64x128.png",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_sea.gullhaven_sea_swimmer_b": {
+   "sprite_id": "tr_swimmer_gullhaven_b",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/tr_swimmer_gullhaven_b/overworld/tr_swimmer_gullhaven_b_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_swimmer_gullhaven_b/overworld/tr_swimmer_gullhaven_b_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_b/overworld/tr_swimmer_gullhaven_b_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_b/overworld/tr_swimmer_gullhaven_b_chibi/",
+   "trainer_64x128": "npcs/tr_swimmer_gullhaven_b/trainer/tr_swimmer_gullhaven_b_trainer_64x128.png",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_sea.gullhaven_sea_swimmer_c": {
+   "sprite_id": "tr_swimmer_gullhaven_c",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/tr_swimmer_gullhaven_c/overworld/tr_swimmer_gullhaven_c_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_swimmer_gullhaven_c/overworld/tr_swimmer_gullhaven_c_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_c/overworld/tr_swimmer_gullhaven_c_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_c/overworld/tr_swimmer_gullhaven_c_chibi/",
+   "trainer_64x128": "npcs/tr_swimmer_gullhaven_c/trainer/tr_swimmer_gullhaven_c_trainer_64x128.png",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_sea.gullhaven_sea_swimmer_d": {
+   "sprite_id": "tr_swimmer_gullhaven_d",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/tr_swimmer_gullhaven_d/overworld/tr_swimmer_gullhaven_d_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_swimmer_gullhaven_d/overworld/tr_swimmer_gullhaven_d_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_d/overworld/tr_swimmer_gullhaven_d_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_d/overworld/tr_swimmer_gullhaven_d_chibi/",
+   "trainer_64x128": "npcs/tr_swimmer_gullhaven_d/trainer/tr_swimmer_gullhaven_d_trainer_64x128.png",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_sea.gullhaven_sea_swimmer_e": {
+   "sprite_id": "tr_swimmer_gullhaven_e",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/tr_swimmer_gullhaven_e/overworld/tr_swimmer_gullhaven_e_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_swimmer_gullhaven_e/overworld/tr_swimmer_gullhaven_e_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_e/overworld/tr_swimmer_gullhaven_e_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_e/overworld/tr_swimmer_gullhaven_e_chibi/",
+   "trainer_64x128": "npcs/tr_swimmer_gullhaven_e/trainer/tr_swimmer_gullhaven_e_trainer_64x128.png",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_lagoon.gullhaven_lagoon_derby_clerk": {
+   "sprite_id": "npc_gull_derby_host_m",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/npc_gull_derby_host_m/overworld/npc_gull_derby_host_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/npc_gull_derby_host_m/overworld/npc_gull_derby_host_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/npc_gull_derby_host_m/overworld/npc_gull_derby_host_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/npc_gull_derby_host_m/overworld/npc_gull_derby_host_m_chibi/",
+   "trainer_64x128": "npcs/npc_gull_derby_host_m/trainer/npc_gull_derby_host_m_trainer_64x128.png",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven.gullhaven_harbour_master": {
+   "sprite_id": "vil_gull_harbour_master_f",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/vil_gull_harbour_master_f/overworld/vil_gull_harbour_master_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_gull_harbour_master_f/overworld/vil_gull_harbour_master_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_gull_harbour_master_f/overworld/vil_gull_harbour_master_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_gull_harbour_master_f/overworld/vil_gull_harbour_master_f_chibi/",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven.gullhaven_derby_crier": {
+   "sprite_id": "vil_gull_derby_crier_m",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/vil_gull_derby_crier_m/overworld/vil_gull_derby_crier_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_gull_derby_crier_m/overworld/vil_gull_derby_crier_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_gull_derby_crier_m/overworld/vil_gull_derby_crier_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_gull_derby_crier_m/overworld/vil_gull_derby_crier_m_chibi/",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven.gullhaven_angler": {
+   "sprite_id": "vil_gull_angler_f",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/vil_gull_angler_f/overworld/vil_gull_angler_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_gull_angler_f/overworld/vil_gull_angler_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_gull_angler_f/overworld/vil_gull_angler_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_gull_angler_f/overworld/vil_gull_angler_f_chibi/",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_cave_east.gullhaven_cave_east_hermit": {
+   "sprite_id": "vil_gull_hermit_m",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/vil_gull_hermit_m/overworld/vil_gull_hermit_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_gull_hermit_m/overworld/vil_gull_hermit_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_gull_hermit_m/overworld/vil_gull_hermit_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_gull_hermit_m/overworld/vil_gull_hermit_m_chibi/",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_cave_west.gullhaven_cave_west_hermit": {
+   "sprite_id": "vil_gull_hermit_f",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/vil_gull_hermit_f/overworld/vil_gull_hermit_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_gull_hermit_f/overworld/vil_gull_hermit_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_gull_hermit_f/overworld/vil_gull_hermit_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_gull_hermit_f/overworld/vil_gull_hermit_f_chibi/",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_cliffs.gullhaven_cliffs_birdwatcher": {
+   "sprite_id": "vil_gull_birdwatcher_f",
+   "class": "DRAFT",
+   "overworld_sheet": "npcs/vil_gull_birdwatcher_f/overworld/vil_gull_birdwatcher_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_gull_birdwatcher_f/overworld/vil_gull_birdwatcher_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_gull_birdwatcher_f/overworld/vil_gull_birdwatcher_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_gull_birdwatcher_f/overworld/vil_gull_birdwatcher_f_chibi/",
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+  },
+  "gullhaven_lagoon.gullhaven_lagoon_ron": {
+   "sprite_id": "ron",
+   "class": "main cast",
+   "overworld_sheet": "humans/ron/overworld/ron_chibi_sheet.png",
+   "overworld_sheet_2x": "humans/ron/overworld/ron_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "humans/ron/overworld/ron_chibi_sheet_3x.png",
+   "overworld_frames_dir": "humans/ron/overworld/ron_chibi/",
+   "trainer_64x128": "humans/ron/trainer/ron_trainer_64x128.png",
+   "portraits": {
+    "angry": "humans/ron/portraits/ron_angry.png",
+    "happy": "humans/ron/portraits/ron_happy.png",
+    "neutral": "humans/ron/portraits/ron_neutral.png"
+   },
+   "note": "Ron cameo (existing Ron sprite)"
   }
  },
  "unassigned_ready": {

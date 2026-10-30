@@ -554,6 +554,20 @@
     "x": 15,
     "y": 21
    }
+  },
+  "heal_gullhaven": {
+   "zone": "gullhaven",
+   "carer": "heal_gullhaven_carer",
+   "stand": {
+    "x": 6,
+    "y": 5,
+    "facing": "up"
+   },
+   "returnDoor": {
+    "map": "gullhaven",
+    "x": 7,
+    "y": 9
+   }
   }
  },
  "defaultBranch": "heal_brookhollow",

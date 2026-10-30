@@ -31,7 +31,7 @@ export const SaveFields = v.looseObject({
   bag: v.optional(v.record(v.string(), num)),
   // Gullhaven Fishing Derby record (src/seaport/derby.js): best score, run count, species size records, last result.
   systems: v.optional(v.looseObject({ derby: v.optional(v.looseObject({
-    best: v.optional(num), runs: v.optional(int), records: v.optional(v.record(v.string(), num)),
+    best: v.optional(num), runs: v.optional(int), turnIns: v.optional(int), records: v.optional(v.record(v.string(), num)),
     last: v.nullish(v.looseObject({ score: num, featured: v.nullish(str), tier: v.nullish(str) })),
     active: v.nullish(v.looseObject({ crystals: int, featured: str })),
   })) })),

@@ -1,0 +1,89 @@
+{
+ "name": "readout_pop",
+ "group": "scale",
+ "sheet": "readout_pop_sheet.png",
+ "preview": "readout_pop_preview.gif",
+ "frame_w": 256,
+ "frame_h": 64,
+ "squares": [
+  4,
+  1
+ ],
+ "square_px": 64,
+ "art_scale": 4,
+ "frame_count": 5,
+ "ms_per_frame": [
+  40,
+  50,
+  60,
+  70,
+  999
+ ],
+ "total_ms": 1219,
+ "playback": "one-shot",
+ "anchor": {
+  "x": 128,
+  "y": 32,
+  "art_x": 32,
+  "art_y": 8,
+  "note": "plate centre; draw glyphs centred on it from frame 3"
+ },
+ "sheet_layout": "grid 5 cols x 1 rows, row-major",
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 40
+  },
+  {
+   "i": 1,
+   "x": 256,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 50
+  },
+  {
+   "i": 2,
+   "x": 512,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 60
+  },
+  {
+   "i": 3,
+   "x": 768,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 4,
+   "x": 1024,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 999
+  }
+ ],
+ "glyphs": null,
+ "emissive_hint": true,
+ "qa_background": "floor_wood",
+ "readability": {
+  "dawn": 0.888,
+  "day": 0.888,
+  "dusk": 0.888,
+  "night": 0.547
+ },
+ "night_readability": 0.547,
+ "pass_night": true,
+ "notes": "one-shot, hold last frame; plate fits up to 5 glyphs at 12 art px advance",
+ "filter": "nearest",
+ "alpha": "1-bit",
+ "palette": "art/palette/kilumen.hex"
+}

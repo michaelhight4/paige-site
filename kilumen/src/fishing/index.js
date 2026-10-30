@@ -132,11 +132,11 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
     const baitId = choice.bait && sys.bag.count(choice.bait) > 0 ? choice.bait : null;
     const plan = planCast(st.tables, scene.map.name, rod, st.rng || rng, hasArt, baitId);
     const p = scene.player, d = DELTA[p.facing];
-    const fx = st.fx = { phase: 'cast', t0: now(), cell, facing: p.facing, from: { x: (p.x + 0.5 + d.x * 0.45) * TILE, y: (p.y - 0.15) * TILE }, press: null, touch: touch(), plan };
+    const fx = st.fx = { phase: 'cast', t0: now(), cell, facing: p.facing, from: { x: (p.x + 0.5 + d.x * 0.45) * TILE, y: (p.y - 0.15) * TILE }, press: null, touch: touch(), plan, derby: !!derby, dfx: derby?.fx?.has?.('bobber_idle') ? derby.fx : null };
     st.casts++;
     scene.audio?.sfx?.('select');
     scene.log?.push({ tick: scene.tick, type: 'fish_cast', map: scene.map.name, x: cell.x, y: cell.y, bite: plan.bite, species: plan.fish?.species || null, rarity: plan.fish?.rarity || null, bait: baitId, rod: rod.id });
-    await wait(TIMING.CAST);
+    await wait(fx.dfx ? DERBY_CAST_MS : TIMING.CAST);
     fx.press = null; // presses during the swing do not count
     fx.phase = 'wait'; fx.tLand = now(); scene.audio?.sfx?.('blip');
     let baitOut = false; // one bait is used when the line lands, bite or not (design §4)
@@ -162,7 +162,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
       if (fx.rare) scene.audio?.sfx?.('select');
       await scene.say([...T(fx.rare ? 'fishing.rare_bite' : 'fishing.hooked'), ...(baitOut ? T('fishing.bait_out', { bait: nameOf(baitId) }) : [])]);
       fx.phase = 'leap'; fx.tLeap = now();
-      await wait(TIMING.REEL + 300);
+      await wait(fx.dfx ? DERBY_LEAP_MS : TIMING.REEL + 300);
       st.fx = null;
       if (derby) { await derby.onCatch(plan.fish); return; } // derby: weigh-in instead of a battle (haul scored at turn-in)
       const w = ui()?.wild;
@@ -187,6 +187,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
 /** Draw rod, line, bobber, ripples, splash, bite "!" and the leaping shadow. World->screen = (w - cam) * zoom. */
 export function drawFishing(ctx, v, fx) {
   if (!fx || !v?.cam) return;
+  if (fx.dfx) return drawDerbyFishing(ctx, v, fx);
   const z = v.zoom, sx = (x) => Math.round((x - v.cam.x) * z), sy = (y) => Math.round((y - v.cam.y) * z), P = Math.max(1, Math.round(z * 3));
   const t = now();
   const water = { x: (fx.cell.x + 0.5) * TILE, y: (fx.cell.y + 0.55) * TILE };
@@ -386,3 +387,48 @@ function drawBaitIcon(ctx, id, x, y, fs, t) {
     if (id === 'glimmer_worm') { ctx.fillStyle = C.white; ctx.globalAlpha = 0.5 + 0.5 * Math.sin(t / 100); ctx.fillRect(x + u * 2.5, y - u * 2, u, u); } }
   ctx.restore();
 }
+
+// --- Gullhaven derby: Art Bot's sheets (art/fx/derby, src/seaport/derby_fx.js) replace the code-drawn bobber / leap ---
+const DERBY_CAST_MS = 800;          // crystal_cast total_ms
+const DERBY_LEAP_MS = 690 + 490;    // fish_breach + catch_flash
+const CAST_LURE = { x: 216 - 12, y: 88 - 40 }; // crystal_cast: lure landing art (54,22) x4, relative to the rod-tip anchor
+function drawDerbyFishing(ctx, v, fx) {
+  const D = fx.dfx, z = v.zoom, t = now();
+  const sx = (x) => Math.round((x - v.cam.x) * z), sy = (y) => Math.round((y - v.cam.y) * z);
+  const water = { x: (fx.cell.x + 0.5) * TILE, y: (fx.cell.y + 0.75) * TILE }, tip = fx.from;
+  const flip = water.x < tip.x - 1 || fx.facing === 'left';
+  ctx.save(); ctx.imageSmoothingEnabled = false;
+  ctx.strokeStyle = C.rod; ctx.lineWidth = Math.max(2, Math.round(z * 2.5));
+  ctx.beginPath(); ctx.moveTo(sx(tip.x - (DELTA[fx.facing]?.x || 0) * 22), sy(tip.y + 26)); ctx.lineTo(sx(tip.x), sy(tip.y)); ctx.stroke();
+  const line = () => { ctx.strokeStyle = C.line; ctx.lineWidth = Math.max(1, Math.round(z)); ctx.beginPath(); ctx.moveTo(sx(tip.x), sy(tip.y));
+    ctx.quadraticCurveTo(sx((tip.x + water.x) / 2), sy(Math.max(tip.y, water.y) + 6), sx(water.x), sy(water.y - 12)); ctx.stroke(); };
+  if (fx.phase === 'cast') {
+    const ax = water.x + (flip ? CAST_LURE.x : -CAST_LURE.x), ay = water.y - CAST_LURE.y;
+    D.draw(ctx, 'crystal_cast', D.frameAt('crystal_cast', t - fx.t0), sx(ax), sy(ay), z, flip);
+  } else if (fx.phase === 'wait') {
+    line();
+    const nib = fx.plan?.bite ? (fx.plan.waitMs || 0) * 0.55 : Infinity, e = t - fx.tLand - nib;
+    if (e >= 0 && !D.done('bobber_nibble', e)) D.draw(ctx, 'bobber_nibble', D.frameAt('bobber_nibble', e), sx(water.x), sy(water.y), z);
+    else D.draw(ctx, 'bobber_idle', D.frameAt('bobber_idle', t - fx.tLand), sx(water.x), sy(water.y), z);
+  } else if (fx.phase === 'bite') {
+    line();
+    D.draw(ctx, 'bobber_bite', D.frameAt('bobber_bite', t - fx.tBite), sx(water.x), sy(water.y), z);
+    D.draw(ctx, 'bite_exclaim', D.frameAt('bite_exclaim', t - fx.tBite), sx(water.x), sy(water.y - 48), z); // one square above the bobber square
+    const px = sx((v.player.x + 0.5) * TILE), py = sy((v.player.y - 1.6) * TILE);
+    drawBiteChip(ctx, px, py, z, t, fx);
+  } else if (fx.phase === 'hooked') {
+    D.draw(ctx, 'line_tension', D.frameAt('line_tension', t - fx.tHook), sx(tip.x), sy(tip.y), z * Math.min(1, Math.max(0.3, Math.abs(water.x - tip.x) / 256)), flip);
+    D.draw(ctx, 'reel_spray', D.frameAt('reel_spray', t - fx.tHook), sx(water.x), sy(water.y), z);
+    D.draw(ctx, 'bite_exclaim', 5, sx(water.x), sy(water.y - 48), z);
+  } else if (fx.phase === 'leap') {
+    const e = t - fx.tLeap, sp = fx.plan?.fish?.species, kilu = D.creature?.(sp);
+    const bi = D.frameAt('fish_breach', e);
+    if (!D.done('fish_breach', e)) D.draw(ctx, 'fish_breach', bi, sx(water.x), sy(water.y), z);
+    if (bi >= BREACH_SWAP && kilu) { // README: the caught Kilu replaces the generic fish from frame 6, centred on the breach arc
+      const s = 64 * z; ctx.drawImage(kilu, 0, 0, 64, 64, Math.round(sx(water.x) - s / 2), Math.round(sy(water.y - 56) - s / 2), Math.round(s), Math.round(s));
+    }
+    if (D.done('fish_breach', e)) D.draw(ctx, 'catch_flash', D.frameAt('catch_flash', e - 690), sx(water.x), sy(water.y - 56), z);
+  }
+  ctx.restore();
+}
+const BREACH_SWAP = 6;

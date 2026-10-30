@@ -6,13 +6,14 @@
 // - leaving gullhaven_lagoon (door / edge / fly) while a run is live asks to quit (forfeit) via scene.ask(['Yes','No'])
 // - save: scene.systems.state.derby {best, runs, records, last, active}; the heaviest fish joins the team with weight_kg
 import * as D from './derby.js?v=v0.2.93-alpha';
+import { createDerbyFx, weightGlyphs, needleAngle, NEEDLE_PIVOT, READOUT_GLYPH_FRAME } from './derby_fx.js?v=v0.2.93-alpha';
 import { createCreature, speciesName } from '../systems/creature.js?v=v0.2.93-alpha';
 
 const C = { ink: '#1a1226', white: '#fcf6e8', gold: '#fcd668', sea: '#1e4078', foam: '#c6ecfa', red: '#a23432', grey: '#8a8590' };
 
 export function attachSeaport(scene, { systems = scene.systems, rng = Math.random, fishing = () => globalThis.window?.kilumen?.fishing, installFishing = null, tables = null } = {}) {
   const sys = systems;
-  const st = { run: null, scale: null, tables, savedTimescale: null, pool: [] };
+  const st = { run: null, scale: null, tables, savedTimescale: null, pool: [], fx: typeof Image !== 'undefined' ? createDerbyFx() : null };
   const rec = () => (sys.state.derby ||= D.blankRecord());
   const lines = (k) => { const v = sys?.text?.(k, null); return (Array.isArray(v) ? v : v?.pages) || D.TEXT[k]; };
   const T = (k, vars) => (scene.fill ? scene.fill(lines(k), { ...(scene.textVars?.() || {}), ...vars }) : lines(k).map((s) => s.replace(/\{(\w+)\}/g, (_, n) => vars?.[n] ?? '')));
@@ -74,6 +75,7 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
   // --- fishing hook api (src/fishing/index.js) ---
   const api = {
     active: () => !!st.run && scene.map?.name === D.DERBY_MAP,
+    get fx() { return st.fx; },
     async useCrystal() { if (!D.useCrystal(st.run)) { await say('derby.no_crystal'); return false; } rec().active.crystals = st.run.crystals; dirty(); return true; },
     async onCatch(fish) {
       const c = D.addCatch(st.run, fish, rng(), rec().records);
@@ -94,6 +96,12 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
         await say('derby.desk_busy', { n: st.run.crystals, score: st.run.score }, speaker);
         if (st.run.crystals > 0 && (await scene.ask(T('derby.turn_in_early', { n: st.run.crystals }), ['Yes', 'No'], speaker)) !== 0) return;
         await endRun({ speaker }); return;
+      }
+      // Marlo Hollis's legend (Text Bot v2 lines[legend]): after the first turn-in, once; sets gh_legend_heard via the line's `sets`
+      const ent = scene.lines?.maps?.[D.DERBY_MAP]?.gullhaven_lagoon_derby_clerk;
+      const legend = ent?.lines?.find((l) => l.id === 'legend');
+      if (legend && (rec().turnIns || 0) >= 1 && !scene.flags?.has?.('gh_legend_heard')) {
+        scene.setFlag?.('gh_legend_heard'); await scene.say(scene.fill ? scene.fill(legend.pages) : legend.pages, speaker);
       }
       const featured = await featuredToday(); st.deskShown = featured; dirty();
       const yes = (await scene.ask(T('derby.desk_intro', { n: D.CRYSTAL.perRun, featured: name(featured), mult: D.FEATURED_MULT }), ['Yes', 'No'], speaker)) === 0;
@@ -134,7 +142,12 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
   const origView = scene.view.bind(scene);
   scene.view = () => {
     const v = origView();
-    if (scene.map?.name !== D.DERBY_MAP) return v;
+    // Director QA I8 (#14 repeat): the quest strip covered the derby stall; hide it on the derby map only
+    const qh = globalThis.document?.getElementById?.('pg-quest-hud'), onDerby = scene.map?.name === D.DERBY_MAP;
+    if (qh && qh.style.visibility !== (onDerby ? 'hidden' : '')) qh.style.visibility = onDerby ? 'hidden' : '';
+    if (!onDerby) return v;
+    if (!st.run && !st.deskShown && !st.nextFeatured && !st.fPending) st.fPending = featuredToday().then(dirty, () => {}); // QA I9: never a blank featured line
+
     const under = v.markers;
     v.markers = (ctx, vv) => { const r = typeof under === 'function' ? under(ctx, vv) : undefined; try { drawHud(ctx, vv || v); } catch {} return r; };
     return v;
@@ -142,11 +155,11 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
   function drawHud(ctx, v) {
     const W = ctx.canvas?.width || 640; ctx.save(); ctx.setTransform?.(1, 0, 0, 1, 0, 0);
     const featured = st.run?.featured || st.deskShown || st.nextFeatured || rec().active?.featured;
-    const x = 8, y = 8, w = 210, h = st.run ? 62 : 44;
+    const x = 8, y = 72, w = 230, h = st.run ? 62 : 44;
     ctx.fillStyle = 'rgba(26,18,38,0.82)'; ctx.fillRect(x, y, w, h); ctx.strokeStyle = C.gold; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
     ctx.font = 'bold 13px monospace'; ctx.fillStyle = C.gold; ctx.fillText('FISHING DERBY', x + 10, y + 18);
     ctx.font = '12px monospace'; ctx.fillStyle = C.white;
-    ctx.fillText(`Featured: ${featured ? name(featured) : '-'} x${D.FEATURED_MULT}`, x + 10, y + 35);
+    if (featured) ctx.fillText(fit(ctx, `Featured: ${name(featured)} x${D.FEATURED_MULT}`, w - 20), x + 10, y + 35);
     if (st.run) {
       for (let i = 0; i < D.CRYSTAL.perRun; i++) { const cx = x + 14 + i * 13, cy = y + 50; ctx.fillStyle = i < st.run.crystals ? C.foam : C.grey; ctx.beginPath(); ctx.moveTo(cx, cy - 6); ctx.lineTo(cx + 4, cy); ctx.lineTo(cx, cy + 6); ctx.lineTo(cx - 4, cy); ctx.closePath(); ctx.fill(); }
       ctx.fillStyle = C.white; ctx.fillText(`${st.run.score} pts`, x + 150, y + 54);
@@ -154,21 +167,57 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
     if (st.scale) drawScale(ctx, W);
     ctx.restore();
   }
+  // Scale card (Director art QA #14): Art Bot's scale_needle (held last frame + needle drawn in code from the weight),
+  // readout_pop plate with weight_glyphs kg digits, new_record_burst on a record. Text is measured and wrapped to the box.
+  const fit = (ctx, t, w) => { let s = String(t); if (ctx.measureText(s).width <= w) return s; while (s.length > 1 && ctx.measureText(s + '…').width > w) s = s.slice(0, -1); return s + '…'; };
+  const wrap = (ctx, t, w) => { const out = []; let cur = ''; for (const word of String(t).split(' ')) { const n = cur ? cur + ' ' + word : word; if (ctx.measureText(n).width > w && cur) { out.push(cur); cur = word; } else cur = n; } if (cur) out.push(cur); return out; };
   function drawScale(ctx, W) {
-    const s = st.scale, w = 260, x = W - w - 8, y = 8;
+    const s = st.scale, FX = st.fx, t = Date.now() - s.t0;
+    const w = Math.min(W - 16, 440), x = W - w - 8, y = 96, pad = 10; // under Day / Menu (QA: banner overlap)
+    const big = s.mode === 'catch' ? s.c : D.scoreRun(s.run).largest;
     const rows = s.mode === 'catch' ? [s.c] : s.run.haul.slice(-6);
-    const h = 70 + rows.length * 16 + (s.mode === 'board' ? 34 : 0);
-    ctx.fillStyle = 'rgba(30,64,120,0.9)'; ctx.fillRect(x, y, w, h); ctx.strokeStyle = C.white; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
-    // dial: needle by weight fraction (catch) or by score vs. top tier (board)
-    const frac = s.mode === 'catch' ? s.c.frac : Math.min(1, (s.result?.score ?? s.run.score) / D.TIERS[0].min);
-    const cx = x + 34, cy = y + 44, R = 22; ctx.fillStyle = C.white; ctx.beginPath(); ctx.arc(cx, cy, R, Math.PI, 0); ctx.fill();
-    ctx.strokeStyle = C.red; ctx.beginPath(); ctx.moveTo(cx, cy); const a = Math.PI + Math.PI * frac; ctx.lineTo(cx + Math.cos(a) * (R - 3), cy + Math.sin(a) * (R - 3)); ctx.stroke();
-    ctx.font = 'bold 12px monospace'; ctx.fillStyle = C.gold; ctx.fillText(s.mode === 'catch' ? 'WEIGH-IN' : 'DERBY BOARD', x + 64, y + 20);
-    ctx.font = '11px monospace'; ctx.fillStyle = C.white;
-    let yy = y + 38;
-    for (const c of rows) { ctx.fillText(`${name(c.species).slice(0, 10).padEnd(10)} ${String(c.kg).padStart(6)}kg ${String(c.points.total).padStart(4)}${c.points.featured ? '*' : ''}`, x + 64, yy); yy += 16; }
-    if (s.mode === 'catch') { const p = s.c.points; ctx.fillText(`rarity ${p.base} + size ${p.weight}${p.record ? ` + rec ${p.record}` : ''}${p.pb ? ` + pb ${p.pb}` : ''}${p.featured ? ` x${D.FEATURED_MULT}` : ''}`, x + 10, y + h - 10); }
-    else { const sc = D.scoreRun(s.run); ctx.fillText(`count +${sc.count}  heaviest +${sc.heaviest}`, x + 10, y + h - 26); ctx.fillStyle = C.gold; ctx.fillText(`TOTAL ${s.result?.score ?? sc.total}${s.result?.tier ? ' ' + D.tierName(s.result.tier).toUpperCase() : ''}`, x + 10, y + h - 10); }
+    ctx.font = '12px monospace';
+    const foot = s.mode === 'catch'
+      ? (() => { const p = s.c.points; return `rarity ${p.base} + size ${p.weight}${p.record ? ` + record ${p.record}` : ''}${p.pb ? ` + best ${p.pb}` : ''}${p.featured ? ` x${D.FEATURED_MULT}` : ''} = ${p.total}`; })()
+      : (() => { const sc = D.scoreRun(s.run); return `count +${sc.count}  heaviest +${sc.heaviest}`; })();
+    const footLines = wrap(ctx, foot, w - 2 * pad);
+    const colX = x + pad + 128 + pad, colW = w - (colX - x) - pad;
+    const plateS = Math.min(1, (w - 2 * pad) / 256), plateY = y + 28 + 128 + 6;
+    const h = (plateY - y) + 64 * plateS + 8 + footLines.length * 16 + (s.mode === 'board' ? 18 : 0) + 6;
+    ctx.fillStyle = 'rgba(30,64,120,0.94)'; ctx.fillRect(x, y, w, h); ctx.strokeStyle = C.white; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
+    ctx.font = 'bold 13px monospace'; ctx.fillStyle = C.gold; ctx.fillText(s.mode === 'catch' ? 'WEIGH-IN' : 'DERBY BOARD', x + pad, y + 19);
+    // scale + needle
+    const sx = x + pad + 64, sy = y + 28 + 116;
+    if (FX?.has('scale_needle')) {
+      FX.draw(ctx, 'scale_needle', FX.frameAt('scale_needle', t), sx, sy, 1);
+      if (FX.done('scale_needle', t) && big) {
+        const px = sx - 64 + NEEDLE_PIVOT.x, py = sy - 116 + NEEDLE_PIVOT.y, a = needleAngle(big.frac);
+        ctx.strokeStyle = C.red; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(Math.round(px + Math.sin(a) * 34), Math.round(py - Math.cos(a) * 34)); ctx.stroke();
+        ctx.fillStyle = C.ink; ctx.fillRect(px - 3, py - 3, 6, 6);
+      }
+    }
+    // rows (name fitted to the column)
+    ctx.font = '12px monospace'; let yy = y + 42;
+    for (const c of rows) {
+      const right = `${c.kg}kg ${c.points.total}${c.points.featured ? '*' : ''}`;
+      ctx.fillStyle = C.white; ctx.fillText(fit(ctx, name(c.species), colW - ctx.measureText(right).width - 8), colX, yy);
+      ctx.fillText(right, colX + colW - ctx.measureText(right).width, yy); yy += 18;
+    }
+    // readout plate + kg glyphs (+ record burst)
+    const pcx = x + w / 2, pcy = plateY + 32 * plateS;
+    if (FX?.has('readout_pop') && big) {
+      FX.draw(ctx, 'readout_pop', FX.frameAt('readout_pop', t), pcx, pcy, plateS);
+      const g0 = (FX.meta.readout_pop.ms_per_frame || []).slice(0, READOUT_GLYPH_FRAME).reduce((a, b) => a + b, 0);
+      if (t >= g0 && FX.has('weight_glyphs')) {
+        const ids = weightGlyphs(big.kg), gs = Math.min(0.75, (200 * plateS) / FX.glyphsWidth(ids, 1));
+        FX.glyphs(ctx, ids, Math.round(pcx - FX.glyphsWidth(ids, gs) / 2), Math.round(pcy - 32 * gs), gs);
+      }
+      const rec2 = s.mode === 'catch' ? s.c.points.record : s.result?.newBest;
+      if (rec2 && t >= g0 && FX.has('new_record_burst') && !FX.done('new_record_burst', t - g0)) FX.draw(ctx, 'new_record_burst', FX.frameAt('new_record_burst', t - g0), pcx, pcy, plateS);
+    }
+    ctx.font = '12px monospace'; ctx.fillStyle = C.white; let fy = plateY + 64 * plateS + 20;
+    for (const l of footLines) { ctx.fillText(l, x + pad, fy); fy += 16; }
+    if (s.mode === 'board') { ctx.fillStyle = C.gold; ctx.font = 'bold 12px monospace'; ctx.fillText(fit(ctx, `TOTAL ${s.result?.score ?? D.scoreRun(s.run).total}${s.result?.tier ? '  ' + D.tierName(s.result.tier).toUpperCase() : ''}`, w - 2 * pad), x + pad, fy); }
   }
 
   return { api, st, stop: () => iv && clearInterval(iv), startRun, endRun, featuredToday };

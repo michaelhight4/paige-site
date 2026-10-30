@@ -26,7 +26,10 @@ export function pinSlackPx(rules, ctx) {
  * edge is simply left blank (the renderer's black clear): no edge tiles, no padding. Without alwaysCentre:
  * display.outsideMap as before (mobile 'edge' around short maps, pc undefined = black).
  */
-export function outsideFillFor(rules, display, mapName, indoor) {
+export function outsideFillFor(rules, display, mapName, indoor, mapFill) {
+  // per-map opt-in (dev/seaport, Director art QA #13, Oct 30 2026): a map json "outside_fill": "edge" repeats its edge ground
+  // past the map under any camera rule, so its edges never show black. Maps without the field keep Gary's blank rule.
+  if (mapFill === 'edge') return 'edge';
   if (rules?.alwaysCentre === true) return undefined;
   return display?.outsideMap;
 }
