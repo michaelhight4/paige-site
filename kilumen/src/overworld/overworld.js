@@ -523,6 +523,26 @@ export class Overworld {
     return true;
   }
 
+  /** Step-time tap buffer (Oct 30 2026 tester, "40 ms taps often dropped"): a quick tap that lands mid-step / bump is kept
+   *  ~300 real ms and played when you are idle. Playtest fix Oct 30 2026 (duel mid-move swallowed the key): when a script
+   *  (trainer sight, a trigger) takes over as that step ends, the tap waits through it and plays right after, if you are still
+   *  on the same tile (a blackout warp or a cutscene move drops it). Returns the input for this tick. */
+  _tapReplay(snap, input, talking) {
+    const pl = this.player, free = !talking && !this.busy;
+    const ex = pl.tx ?? pl.x, ey = pl.ty ?? pl.y; // where the step in progress ends
+    // one input snapshot can feed several fixed ticks in a frame: read its tap on the first tick only (else the tick after
+    // the step began re-buffers the same tap and you walk two tiles)
+    const tap = snap.tap && !snap._tapRead ? snap.tap : null; if (snap.tap) snap._tapRead = true;
+    if (tap && free && pl.state !== 'idle') this._tapBuf = { dir: tap, until: realNow() + 300, ex, ey };
+    if (!this._tapBuf || pl.state !== 'idle') return input;
+    const tb = this._tapBuf;
+    if (!free) { tb.until = realNow() + 300; return input; } // a duel / script started: hold the tap until it ends
+    this._tapBuf = null;
+    // replay only if the tap made no step of its own (a key still held past the step end already walked on: no double step)
+    if (!input.dir && realNow() <= tb.until && pl.x === tb.ex && pl.y === tb.ey) return { ...input, dir: tb.dir };
+    return input;
+  }
+
   _onBump(q) {
     let msg = null;
     if (q?.gate) msg = this.gateText(q.gate, false);
@@ -1249,14 +1269,7 @@ export class Overworld {
     let input = talking || this.busy ? { ...snap, dir: null, b: false } : snap;
     // Oct 30 2026 tester ("40 ms taps often dropped"): a quick tap that lands while you are mid-step / bumping used to be read
     // by that one busy tick and lost (released before the step ended). Keep it ~300 real ms and play it when you are idle.
-    { const pl = this.player, free = !talking && !this.busy;
-      const ex = pl.tx ?? pl.x, ey = pl.ty ?? pl.y; // where the step in progress ends
-      // one input snapshot can feed several fixed ticks in a frame: read its tap on the first tick only (else the tick after
-      // the step began re-buffers the same tap and you walk two tiles)
-      const tap = snap.tap && !snap._tapRead ? snap.tap : null; if (snap.tap) snap._tapRead = true;
-      if (tap && free && pl.state !== 'idle') this._tapBuf = { dir: tap, until: realNow() + 300, ex, ey };
-      // replay only if the tap made no step of its own (a key still held past the step end already walked on: no double step)
-      if (this._tapBuf && pl.state === 'idle') { const tb = this._tapBuf; this._tapBuf = null; if (free && !input.dir && realNow() <= tb.until && pl.x === tb.ex && pl.y === tb.ey) input = { ...input, dir: tb.dir }; } }
+    input = this._tapReplay(snap, input, talking);
     if (snap.select && !talking && !this.busy) this.toggleBike();
     if (!input.dir) this._lastBumpMsg = null;
     this._updateMode(input);

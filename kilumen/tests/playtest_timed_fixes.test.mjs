@@ -155,3 +155,20 @@ test('bug 6: saltmere practice coach no longer stands on the north-south road (2
   assert.notDeepEqual([c.x, c.y], [29, 21]);
   assert.equal(m.layers.collision[c.y][c.x], 0);
 });
+
+// ---- bug 10: a duel that starts as a step ends swallowed the key tapped during that step -----------------------------------
+test('bug 10: a tap made mid-step survives a duel that starts at the step end and plays right after', () => {
+  const self = { player: { x: 5, y: 5, tx: 6, ty: 5, state: 'step' }, busy: false, _tapBuf: null };
+  const tr = (snap, talking = false) => Overworld.prototype._tapReplay.call(self, snap, { dir: null }, talking);
+  tr({ tap: 'up' });                                         // tapped mid-step
+  Object.assign(self.player, { x: 6, y: 5, state: 'idle' }); self.busy = true; // step ends, trainer sight starts the duel
+  assert.equal(tr({}).dir, null, 'nothing moves during the duel');
+  assert.ok(self._tapBuf, 'tap kept');
+  self.busy = false;                                         // duel over, same tile
+  assert.equal(tr({}).dir, 'up', 'the tap plays');
+  assert.equal(self._tapBuf, null);
+  // a blackout warp moved you: dropped
+  Object.assign(self.player, { x: 5, y: 5, tx: 6, ty: 5, state: 'step' }); tr({ tap: 'left' });
+  Object.assign(self.player, { x: 1, y: 1, state: 'idle' });
+  assert.equal(tr({}).dir, null);
+});
