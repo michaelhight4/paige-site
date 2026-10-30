@@ -11,6 +11,7 @@
 //    lastDoor = the destination's station door and a warp to that station's platform; the arrival saves after landing.
 // Words: text/overworld_lines.json (Text Bot) where they exist; the FB strings below are fallbacks with requested keys in
 // data/textbot_requests_region4.md.
+import { onTap } from '../shared/tap_guard.js?v=v0.2.99-alpha';
 import { railStops } from '../overnight/region_map.js?v=v0.2.99-alpha';
 
 export const RAIL = {
@@ -137,9 +138,9 @@ export function attachRail(scene, { systems } = {}) {
       const done = (v) => { window.removeEventListener('keydown', key, true); ov.remove(); st.open = false; resolve(v); };
       const draw = () => {
         ov.innerHTML = `<div class="box"><h2>${esc(FB.menu_title)}</h2><div class="sub">Every 20 minutes, give or take. Pass holders ride free.</div><ol>${rows.map((r, i) => `<li data-i="${i}" class="${r.here ? 'here' : r.ok ? '' : 'off'} ${i === sel && r.ok ? 'sel' : ''}"><span>${esc(r.name)}</span><span class="tag">${esc(r.here ? FB.here : r.ok ? '' : FB.why[r.why] || '')}</span></li>`).join('')}</ol><div class="row"><button class="alt" data-a="x">${esc(FB.cancel)}</button><button data-a="go" ${rows[sel]?.ok ? '' : 'disabled'}>${esc(FB.go)}</button></div></div>`;
-        ov.querySelectorAll('li').forEach((li) => li.addEventListener('click', () => { const i = +li.dataset.i; if (!rows[i].ok) return; if (i === sel) done(rows[i].id); else { sel = i; draw(); } }));
-        ov.querySelector('[data-a=x]').addEventListener('click', () => done(null));
-        ov.querySelector('[data-a=go]').addEventListener('click', () => rows[sel]?.ok && done(rows[sel].id));
+        ov.querySelectorAll('li').forEach((li) => onTap(li, null, () => { const i = +li.dataset.i; if (!rows[i].ok) return; if (i === sel) done(rows[i].id); else { sel = i; draw(); } })); // touch standard: a drag / hold over the stop list never picks
+        onTap(ov.querySelector('[data-a=x]'), null, () => done(null));
+        onTap(ov.querySelector('[data-a=go]'), null, () => rows[sel]?.ok && done(rows[sel].id));
       };
       const move = (d) => { for (let k = 1; k <= rows.length; k++) { const i = (sel + d * k + rows.length * 9) % rows.length; if (rows[i].ok) { sel = i; break; } } draw(); };
       const key = (e) => { e.stopPropagation(); e.preventDefault();

@@ -136,11 +136,11 @@ export class Input {
       if (d && d !== this.sources.get('p:' + e.pointerId)) { this._press('p:' + e.pointerId, d); this.dirQueued = d; }
     });
     const up = (e) => { this._release('p:' + e.pointerId); if (this.bPtrs.delete(e.pointerId)) this._syncTouchB(); };
-    root.addEventListener('pointerup', up);
+    root.addEventListener('pointerup', up); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     root.addEventListener('pointercancel', up);
     root.addEventListener('lostpointercapture', up); // touchpad re-rendered / capture lost: no pointerup will come to root
     const win = globalThis.window; // a lift that lands outside the pad (capture already lost) still releases
-    win?.addEventListener?.('pointerup', up, { capture: true });
+    win?.addEventListener?.('pointerup', up, { capture: true }); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     win?.addEventListener?.('pointercancel', up, { capture: true });
     this._touchRoot = root;
     root.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -165,7 +165,7 @@ export class Input {
     const opt = { passive: false }; // touch-ok: game pad (#touchpad) / canvas input: a press must register instantly
     root.addEventListener('touchstart', (e) => { if (e.cancelable) e.preventDefault(); this.lastDevice = 'touch'; scan(e, false); }, opt); // touch-ok: game pad (#touchpad) / canvas input: a press must register instantly
     root.addEventListener('touchmove', (e) => { if (e.cancelable) e.preventDefault(); scan(e, false); }, opt);
-    root.addEventListener('touchend', (e) => scan(e, true));
+    root.addEventListener('touchend', (e) => scan(e, true)); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     root.addEventListener('touchcancel', (e) => scan(e, true));
   }
 

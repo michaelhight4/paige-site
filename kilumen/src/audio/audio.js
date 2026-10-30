@@ -140,7 +140,7 @@ const clamp01 = (x) => Math.max(0, Math.min(1, Number(x)));
 // (about -26 LUFS), effects 0.44. pc.json / mobile.json "audio" mirror these (mobile: music 0.3, sfx 0.5, master 0.9).
 // AUDIO_LEVEL_NOTE below is the single place the numbers are written down for tests and tools/audio/make_demos.sh.
 export const AUDIO_LEVEL_NOTE = { musicLufs: -16, maxTruePeakDb: -1, date: '2026-10-22', before: { pc: { master: 0.8, music: 0.5, sfx: 0.8 }, mobile: { master: 0.9, music: 0.4, sfx: 0.7 } } };
-export const AUDIO_DEFAULTS = { master: 0.8, music: 0.4, sfx: 0.55, muted: false, crossfadeMs: 1200, blip: true, blipEveryChars: 3, unlockOn: ['touchend', 'pointerup', 'mousedown', 'keydown'], pauseWhenHidden: true };
+export const AUDIO_DEFAULTS = { master: 0.8, music: 0.4, sfx: 0.55, muted: false, crossfadeMs: 1200, blip: true, blipEveryChars: 3, unlockOn: ['touchend', 'pointerup', 'mousedown', 'keydown'], pauseWhenHidden: true }; // touch-ok: audio unlock gesture list, no activation
 
 /** Profile audio section + saved player settings -> settings (player values win, clamped). */
 export function audioSettings(profileAudio, saved) {

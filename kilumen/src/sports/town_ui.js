@@ -96,9 +96,9 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div>${esc(TS.pick)}</div><div>${pickRows(scene.party, { sel: st.mon, crew: ev.team && st.mon ? tugCrew(st.mon) : [st.mon] }).map((r) => `<div class="mon${r.sel ? ' sel' : ''}${r.out ? ' out' : ''}${r.crew ? ' crew' : ''}" data-p="${r.i}"${r.out ? ' aria-disabled="true"' : ''}><img src="${imgFor(r.c.species).src}"><span>${esc(nameOf(r.c))}</span><span class="tag">${r.out ? 'Out cold' : r.crew ? '\u2713' : ''}</span></div>`).join('')}</div>
       ${ev.team ? `<div class="crew">${esc(tt(TS.tug_crew, { names: tugCrew(st.mon).map(nameOf).join(', ') }))}</div>` : ''}<div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div><div class="cupline" id="cup-status">${esc(cupStatus(ev).msg)}</div>
       <button data-a="go">${esc(TS.practice)}</button><button data-a="cup"${cupStatus(ev).ok ? '' : ' disabled'}>${esc(tt(TS.cup_enter, { fee: CUP.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
-    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { const c = scene.party[+m.dataset.p]; if (!mons.includes(c)) return; st.mon = c; showPick(); }));
-    ov.querySelector('[data-a=go]').onclick = () => { st.mode = 'practice'; play(); }; ov.querySelector('[data-a=back]').onclick = () => close();
-    ov.querySelector('[data-a=cup]').onclick = () => cupIntro();
+    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { const c = scene.party[+m.dataset.p]; if (!mons.includes(c)) return; st.mon = c; showPick(); })); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelector('[data-a=go]').onclick = () => { st.mode = 'practice'; play(); }; ov.querySelector('[data-a=back]').onclick = () => close(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelector('[data-a=cup]').onclick = () => cupIntro(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
   function cupStatus(ev) {
     const r = cupState(sstate(), ev), c = canEnterCup({ ev, day: day(), coins: wallet()?.coins ?? 0, sstate: sstate() });
@@ -115,7 +115,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div class="react">${esc(TS[ev.id].coach || TS.coach_name)}: ${esc(tt(TS.cup_target, { score: top + 1, unit: ev.unit, creature: nameOf(st.mon) }))}</div>
       <button data-a="go">${esc(TS.start)}</button></div>`;
     try { window.kilumen?.audio?.sfx?.('select'); } catch (e) { /* no audio */ }
-    ov.querySelector('[data-a=go]').onclick = () => play();
+    ov.querySelector('[data-a=go]').onclick = () => play(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
 
   function play() {
@@ -165,7 +165,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div><b>${esc(tt(TS.result, { creature: nameOf(c), score: r.score, unit: ev.unit }))}</b>${r.isBest ? ` · ${esc(TS.new_best)}` : ''}</div>
       <div>${esc(TS['grade_' + r.grade])} · ${esc(tt(TS.best, { best: r.best, unit: ev.unit }))}</div><div class="react">${esc(react)}</div>
       <button data-a="again">${esc(TS.again)}</button><button data-a="back">${esc(TS.back)}</button></div><style>@keyframes tevj{50%{transform:translateY(${r.grade === 'none' ? 4 : -14}px)}}</style>`;
-    ov.querySelector('[data-a=again]').onclick = () => showPick(); ov.querySelector('[data-a=back]').onclick = () => close();
+    ov.querySelector('[data-a=again]').onclick = () => showPick(); ov.querySelector('[data-a=back]').onclick = () => close(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     st.phase = 'result';
   }
 
@@ -189,7 +189,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div>${esc(res.place === 1 ? tt(TS.cup_won, { prize: res.prize, cups: res.cups }) : TS.cup_lost)}</div>${res.merit ? `<div class="merit-earned">${esc(gt('merit.earned', { pts: res.merit, points: meritState(sstate()).points }))}</div>` : ''}
       <div class="react">${esc(TS[ev.id].coach || TS.coach_name)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
       <button data-a="back">${esc(TS.back)}</button></div>`;
-    ov.querySelector('[data-a=back]').onclick = () => close();
+    ov.querySelector('[data-a=back]').onclick = () => close(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
 
   // ---------------- Aurelith Games (the major): 3 rounds, points table, champion screen ----------------
@@ -215,9 +215,9 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div class="cupline">${esc(tt(M.rounds_line, { events: stt.ok ? rounds.map((id) => TS[id].title).join(' · ') : M.secret }))}</div>
       <div class="cupline" id="major-status">${esc(stt.msg)}</div><div style="opacity:.8">${esc(tt(M.towns_line, { towns: townsWon(sstate()), need: MAJOR.needTowns }))}</div>
       <button data-a="enter"${stt.ok ? '' : ' disabled'}>${esc(tt(M.enter, { fee: MAJOR.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
-    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { const c = scene.party[+m.dataset.p]; if (!mons.includes(c)) return; st.mon = c; majorIntro(); }));
-    ov.querySelector('[data-a=back]').onclick = () => close();
-    ov.querySelector('[data-a=enter]').onclick = () => {
+    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { const c = scene.party[+m.dataset.p]; if (!mons.includes(c)) return; st.mon = c; majorIntro(); })); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelector('[data-a=back]').onclick = () => close(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelector('[data-a=enter]').onclick = () => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       if (!payMajor({ day: day(), wallet: wallet(), sstate: sstate() })) return majorIntro();
       const rounds = roundsFor(day()); st.coinsBefore = (wallet()?.coins ?? 0) + MAJOR.fee;
       st.major = { rounds, field: majorField(day(), rounds), scores: [], i: 0, over: false }; majorRoundCard();
@@ -231,7 +231,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div class="react">${esc(M.coach)}: ${esc(call)}</div><div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div>
       <button data-a="go">${esc(TS.start)}</button></div>`;
     try { window.kilumen?.audio?.sfx?.('select'); } catch (e) { /* no audio */ }
-    ov.querySelector('[data-a=go]').onclick = () => play();
+    ov.querySelector('[data-a=go]').onclick = () => play(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
   async function majorAfterRound() {
     const mj = st.major, ev = st.ev, M = TS.major, c = st.mon, r = recordRun(sstate(), ev, st.run);
@@ -245,7 +245,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div><b>${esc(M.standings)}</b></div><table class="rank">${table.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(who(x))}</td><td>${x.pts} ${esc(M.pts)}</td></tr>`).join('')}</table>
       <div class="react">${esc(M.coach)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
       <button data-a="next">${esc(last ? M.to_finale : M.next_round)}</button></div>`;
-    ov.querySelector('[data-a=next]').onclick = () => { if (!last) { mj.i++; majorRoundCard(); } else majorFinale(); };
+    ov.querySelector('[data-a=next]').onclick = () => { if (!last) { mj.i++; majorRoundCard(); } else majorFinale(); }; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
   async function majorFinale() {
     const mj = st.major, M = TS.major, c = st.mon; let mult = 1; try { mult = diffOf(getDifficulty(sys()?.state)).money || 1; } catch (e) { mult = 1; }
@@ -265,7 +265,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div>${esc(res.place === 1 ? tt(M.won, { prize: res.prize, wins: res.wins }) : tt(M.lost, { place: res.place }))}</div>${res.merit ? `<div class="merit-earned">${esc(gt('merit.earned', { pts: res.merit, points: meritState(sstate()).points }))}</div>` : ''}
       <div class="react">${esc(M.coach)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
       <button data-a="back">${esc(TS.back)}</button></div>`;
-    ov.querySelector('[data-a=back]').onclick = () => close();
+    ov.querySelector('[data-a=back]').onclick = () => close(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
 
   const api = { openMajor, openTug: () => openEvent(tug), majorStatus, openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, major: st.major && { ...st.major, result: st.majorResult || null }, crowd: st.crowd && { hype: st.crowd.hype }, hold: st.input ? { ...st.input.hold } : null }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };

@@ -560,7 +560,7 @@ export function makeSdBattle(ui, opts, h) {
   const mountModeSwitch = () => {
     const touch = !document.getElementById('touchpad')?.hidden;
     const btn = modeButton('rt', { touch }); btn.id = 'b-mode'; root.appendChild(btn);
-    btn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); doSwitch(); });
+    btn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); doSwitch(); }); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     btn.addEventListener('pointerdown', (e) => e.stopPropagation()); // never also advances the message box underneath // touch-ok: stopPropagation guard only
     const kd = (e) => {
       if (closed()) { window.removeEventListener('keydown', kd, true); return; }

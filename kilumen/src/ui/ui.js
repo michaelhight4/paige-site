@@ -11,7 +11,7 @@
 import { iconRel, battleSpriteRel } from './data.js?v=v0.2.99-alpha';
 import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.99-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
 import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.99-alpha';
-import { onTap } from '../shared/tap_guard.js?v=v0.2.99-alpha';
+import { onTap, installDragGuard } from '../shared/tap_guard.js?v=v0.2.99-alpha';
 // FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
 import { areaName } from '../overworld/area_sign.js?v=v0.2.99-alpha';
@@ -144,6 +144,7 @@ export class GameUI {
     this.backdrop = el('div', 'ui-backdrop', this.root);
     this.stage = el('div', 'ui-stage', this.root);
     this.layer = el('div', '', this.root); // full-screen screens (title, battle)
+    installDragGuard(this.root.ownerDocument); // drag / hold never clicks anything; mouse drag scrolls lists (tap_guard.js)
     onTap(this.root, null, (e, _r, d) => this._pointer(e, d.target)); // touch standard: menus act on a tap release, never on pointerdown
     this.root.addEventListener('mousemove', (e) => { const t = e.target.closest?.('[data-i]'); if (t && this.top && !this.modal && !this._dragging && e.movementX + e.movementY !== 0) this._select(+t.dataset.i, true); });
     this.root.addEventListener('focusin', (e) => { const it = e.target.closest?.('[data-i]'); if (it && this.top && !this.modal && this.stage.contains(it)) this._select(+it.dataset.i, true); });
@@ -523,7 +524,7 @@ export class GameUI {
       const b = document.elementFromPoint(e.clientX, e.clientY)?.closest?.('#touchpad [data-dir]');
       if (b && b !== cur) { cur.classList.remove('ui-down'); press(b, e); }
     }, { passive: true });
-    for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) tp.addEventListener(t, release, { passive: true });
+    for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) tp.addEventListener(t, release, { passive: true }); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     addEventListener('blur', () => { for (const b of down.values()) b.classList.remove('ui-down'); down.clear(); });
   }
 

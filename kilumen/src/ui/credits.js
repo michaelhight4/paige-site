@@ -145,9 +145,9 @@ export function runCredits(scene, record, opts = {}) {
     };
     const onKeyUp = (e) => { if (['Space', 'KeyZ', 'ArrowDown'].includes(e.code)) fast = false; };
     addEventListener('keydown', onKey, true); addEventListener('keyup', onKeyUp, true);
-    skip.addEventListener('click', (e) => { e.stopPropagation(); finish(true); });
+    skip.addEventListener('click', (e) => { e.stopPropagation(); finish(true); }); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     wrap.addEventListener('pointerdown', (e) => { if (e.target !== skip) fast = true; }); // touch-ok: hold to fast-forward the credits; no activation
-    for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) wrap.addEventListener(ev, () => { fast = false; });
+    for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) wrap.addEventListener(ev, () => { fast = false; }); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     raf(() => wrap.classList.add('on'));
     const tick = (now) => {
       if (done) return;

@@ -177,8 +177,8 @@ export function showLog(entry) {
   const close = () => { w.remove(); DEV.logOpen = false; document.removeEventListener('keydown', key, true); };
   const key = (e) => { if (e.key === 'Escape') { e.stopPropagation(); e.preventDefault(); close(); } };
   document.addEventListener('keydown', key, true); DEV.logOpen = true;
-  w.querySelector('[data-x]').onclick = close;
-  w.querySelector('[data-c]').onclick = async (e) => { const ok = await copyText(text); e.target.textContent = ok ? 'Copied' : 'Copy failed'; setTimeout(() => { e.target.textContent = 'Copy'; }, 1500); };
+  w.querySelector('[data-x]').onclick = close; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+  w.querySelector('[data-c]').onclick = async (e) => { const ok = await copyText(text); e.target.textContent = ok ? 'Copied' : 'Copy failed'; setTimeout(() => { e.target.textContent = 'Copy'; }, 1500); }; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   document.body.appendChild(w);
   w.querySelector('[data-x]').focus({ preventScroll: true });
 }

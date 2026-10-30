@@ -83,7 +83,7 @@ export async function installDevConsole(scene, access) {
     panel = document.createElement('div'); panel.className = 'kdev';
     panel.innerHTML = `<div class="box"><div class="hd"><b>Dev console <small style="font-weight:400;color:#8d9ab8">${esc(access?.role || '')}</small></b><button data-x aria-label="Close dev console">✕ Close</button></div><div class="tabs"></div><div class="body"></div><div class="msg"></div></div>`;
     msgEl = panel.querySelector('.msg');
-    panel.querySelector('[data-x]').onclick = close;
+    panel.querySelector('[data-x]').onclick = close; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     panel.addEventListener('keydown', (e) => e.stopPropagation()); panel.addEventListener('keyup', (e) => e.stopPropagation());
     panel.addEventListener('pointerdown', (e) => e.stopPropagation()); // touch-ok: stopPropagation guard only
     document.body.appendChild(panel); render();
@@ -168,7 +168,7 @@ export async function installDevConsole(scene, access) {
   const render = () => {
     if (!panel) return;
     const tabs = panel.querySelector('.tabs'); tabs.innerHTML = TABS.filter(([id]) => !inBattle || BATTLE_TABS.includes(id)).map(([id, n]) => `<button data-tab="${id}" class="${id === tab ? 'on' : ''}">${n}</button>`).join('');
-    tabs.querySelectorAll('button').forEach((b) => { b.onclick = () => { tab = b.dataset.tab; render(); }; });
+    tabs.querySelectorAll('button').forEach((b) => { b.onclick = () => { tab = b.dataset.tab; render(); }; }); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     const body = panel.querySelector('.body'); body.scrollTop = 0; body.className = 'body';
     ({ item: tItem, mon: tMon, party: tParty, money: tMoney, travel: tTravel, tools: tTools, flags: tFlags, rita: (b) => (rita ||= createRitaPanel({ scene, say })).render(b) })[tab](body);
   };
@@ -185,7 +185,7 @@ export async function installDevConsole(scene, access) {
     const rows = itemRows();
     fill = () => { list(rows.filter((r) => hit(q.item, r.name, r.id, r.pocket)), (r) => `<div class="row"><div class="n">${esc(r.name)} <small>${esc(r.id)} · ${esc(r.pocket)} · have ${sys.bag.count(r.id)}</small></div><button class="go" data-give="${esc(r.id)}">Give</button></div>`); };
     fill();
-    body.onclick = (e) => { const id = e.target.dataset?.give; if (!id) return; const r = sys.bag.add(id, num.qty); touched(); say(r.added ? `Gave ${r.added} x ${sys.bag.nameOf(id)}${r.ok ? '' : ' (stack limit reached)'}` : `Could not add ${sys.bag.nameOf(id)} (${r.reason || 'limit'})`, !r.added); fill(); };
+    body.onclick = (e) => { const id = e.target.dataset?.give; if (!id) return; const r = sys.bag.add(id, num.qty); touched(); say(r.added ? `Gave ${r.added} x ${sys.bag.nameOf(id)}${r.ok ? '' : ' (stack limit reached)'}` : `Could not add ${sys.bag.nameOf(id)} (${r.reason || 'limit'})`, !r.added); fill(); }; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
 
   function tMon(body) {
@@ -196,7 +196,7 @@ export async function installDevConsole(scene, access) {
     const rows = SPECIES.map((s) => ({ id: s.id, name: s.name, el: (s.el || []).join('/') }));
     fill = () => list(rows.filter((r) => hit(q.mon, r.name, r.id, r.el)), (r) => `<div class="row"><div class="n">${esc(r.name)} <small>${esc(r.id)} · ${esc(r.el)}</small></div><button class="go" data-sp="${esc(r.id)}">Give</button></div>`);
     fill();
-    body.onclick = (e) => {
+    body.onclick = (e) => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       const id = e.target.dataset?.sp; if (!id) return;
       const c = createCreature({ species: id, level: num.lvl, variant: variant || '', origin: { map: scene.map?.name || null, how: 'gift' } });
       const r = sys.party.add(c, sys.company?.idLevel || 1); touched(); scene.onPartyChange?.(false);
@@ -221,7 +221,7 @@ export async function installDevConsole(scene, access) {
     body.innerHTML = h;
     const skFill = () => { const box = body.querySelector('[data-sklist]'); if (!box) return; const rows = sk.filter((r) => hit(q.skill, r.name, r.id, r.type)).slice(0, MAX_ROWS); box.innerHTML = rows.map((r) => `<div class="row"><div class="n">${esc(r.name)} <small>${esc(r.type)}${r.bp ? ' · power ' + r.bp : ''}</small></div><button class="go" data-teach="${esc(r.id)}">Teach</button></div>`).join('') || '<div class="row"><small>No matches</small></div>'; };
     if (c) { skFill(); const si = body.querySelector('[data-skq]'); si.oninput = () => { q.skill = si.value; skFill(); }; const li = body.querySelector('[data-setlv]'); li.oninput = () => { num.setLv = Math.max(1, Math.min(MAXLV, Math.floor(Number(li.value) || 1))); }; }
-    body.onclick = (e) => {
+    body.onclick = (e) => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       const d = e.target.dataset || {};
       if (d.pick) { selUid = d.pick; num.setLv = byUid(selUid)?.level || num.setLv; return render(); }
       if (!c) return;
@@ -254,7 +254,7 @@ export async function installDevConsole(scene, access) {
     const amt = body.querySelector('[data-amt]'); amt.oninput = () => { num.coins = Math.max(0, Math.floor(Number(amt.value) || 0)); };
     const idin = body.querySelector('[data-idin]'); idin.oninput = () => { num.idl = Math.max(1, Math.floor(Number(idin.value) || 1)); };
     const upd = () => { body.querySelector('[data-coins]').textContent = sys.wallet.coins; };
-    body.onclick = (e) => {
+    body.onclick = (e) => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       const a = e.target.attributes;
       if (a['data-set']) { sys.wallet.n = Math.max(0, num.coins); touched(); upd(); say(`Coins set to ${sys.wallet.n}.`); }
       else if (a['data-add']) { sys.wallet.add(num.coins); touched(); upd(); say(`Added ${num.coins}. Coins: ${sys.wallet.n}.`); }
@@ -306,7 +306,7 @@ export async function installDevConsole(scene, access) {
       const lst = body.querySelector('[data-list]'); if (lst) lst.innerHTML = html || '<div class="row"><small>No matches</small></div>';
     };
     fill();
-    body.onclick = async (e) => {
+    body.onclick = async (e) => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       const n = e.target.dataset?.go; if (!n) return;
       say(`Finding a spot in ${n}…`);
       try {
@@ -337,7 +337,7 @@ export async function installDevConsole(scene, access) {
     const look = () => { const f = inp.value.trim(); st.textContent = f ? `${f}: ${scene.flags.has(f) ? 'SET' : 'not set'}` : ''; };
     inp.oninput = () => { num.flag = inp.value; look(); }; look();
     const done = (r, what) => { if (!r.ok) return say(r.why, true); touched(); body.querySelector('[data-cc]').textContent = coinCount(scene.flags); look(); say(what); };
-    body.onclick = (e) => {
+    body.onclick = (e) => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       const a = e.target.attributes;
       if (a['data-badges']) { const n = Number(a['data-badges'].value); setBadges(scene, n); done({ ok: true }, `Master coins: ${n}.`); }
       else if (a['data-fset']) done(setFlagByName(scene, inp.value, true), `Set ${inp.value.trim()}.`);
@@ -357,7 +357,7 @@ export async function installDevConsole(scene, access) {
 <small>In a battle the "Auto-complete" command plays it out with the normal rules and rolls, then the usual end-of-battle flow runs.</small>
 <h4>Last battle logs (${logs.length}/20)</h4>${logs.map((l, i) => `<div class="row"><div class="n">${esc(l.title)} · ${esc(String(l.outcome).toUpperCase())} · ${l.turns} turns<br><small>${esc(l.at)}</small></div><button data-log="${i}">View</button></div>`).join('') || '<div class="row"><small>No logs yet</small></div>'}
 <h4>Save</h4><small>Save marker: ${scene.devTouched || DEV.masterKey ? 'devTouched is set on this save' : 'not set yet (any console change sets it)'}</small>`;
-    body.onclick = (e) => {
+    body.onclick = (e) => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       const a = e.target.attributes;
       if (a['data-wclock']) { scene.worldClockFast = !scene.worldClockFast; say(`Fast clock ${scene.worldClockFast ? 'on' : 'off'}.`); render(); }
       else if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; say(`World speed ${DEV.world}x.`); render(); }
