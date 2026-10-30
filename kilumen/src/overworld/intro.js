@@ -11,12 +11,12 @@
 // text/drafts/HOME_START_v2.md, used only while the file has no merged lines): see design/HOME_START_TEXT_NEEDS.md.
 // Nothing here hard-codes an outdoor tile: the outside spawn is looked up from the warps by `to` name (World Design pads
 // the outdoor maps), interiors (house_2f / house_1f) are read from their own map JSON.
-import { OPPOSITE, Npc } from './npcs.js?v=v0.2.93-alpha';
-import { StarterPicker } from './starter_pick.js?v=v0.2.93-alpha';
-import { approach, automoveOn } from './automove.js?v=v0.2.93-alpha';
-import { conga, throughDoor, spawnAhead, doorTo, ghostBystanders, ESCORT } from './escort.js?v=v0.2.93-alpha'; // office -> lab on foot, 3rd in line (Gary 2:35-2:36 PM CT) // story auto-walk (Gary, Oct 23 2026): walk up to the speaker first
-import { StoryRon, STORY_RON, loadNpcImgs } from './story_ron.js?v=v0.2.93-alpha'; // Ron at work + in the lab, his partner behind him (Gary 2:21 / 2:22 PM CT)
-import { ronWhereTalk } from './ron_whereabouts.js?v=v0.2.93-alpha'; // v0.2.49: town Ron + home reaction after each Master
+import { OPPOSITE, Npc } from './npcs.js?v=v0.2.94-alpha';
+import { StarterPicker } from './starter_pick.js?v=v0.2.94-alpha';
+import { approach, automoveOn } from './automove.js?v=v0.2.94-alpha';
+import { conga, throughDoor, spawnAhead, doorTo, ghostBystanders, ESCORT } from './escort.js?v=v0.2.94-alpha'; // office -> lab on foot, 3rd in line (Gary 2:35-2:36 PM CT) // story auto-walk (Gary, Oct 23 2026): walk up to the speaker first
+import { StoryRon, STORY_RON, loadNpcImgs } from './story_ron.js?v=v0.2.94-alpha'; // Ron at work + in the lab, his partner behind him (Gary 2:21 / 2:22 PM CT)
+import { ronWhereTalk } from './ron_whereabouts.js?v=v0.2.94-alpha'; // v0.2.49: town Ron + home reaction after each Master
 
 export const HOME = {
   bedroom: 'house_2f', downstairs: 'house_1f', outside: 'brookhollow', ron: 'ron',
@@ -273,7 +273,7 @@ export function objectiveFor(flags, counters = {}) {
 }
 
 export class HomeStart {
-  /** @param {import('./overworld.js?v=v0.2.93-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
+  /** @param {import('./overworld.js?v=v0.2.94-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
   constructor(scene, opts = {}) {
     this.scene = scene; this.newGame = !!opts.newGame; this.gate = opts.gate || null;
     this.holding = false; this.wakePending = false; this._gateSince = null;
@@ -655,7 +655,7 @@ export class HomeStart {
   async chooseStarter(species) {
     const s = this.scene, sys = s.systems;
     if (!s.seen[OPEN.introSeen]) await this.starterIntro();
-    const { speciesName } = await import('../systems/creature.js?v=v0.2.93-alpha').catch(() => ({}));
+    const { speciesName } = await import('../systems/creature.js?v=v0.2.94-alpha').catch(() => ({}));
     const lead = speciesName ? speciesName(species) : speciesLabel(species), vars = { ...s.textVars(), lead, creature: lead };
     const k = await s.ask(s.fill(this._pages(OPEN.lab, 'starter_confirm', FALLBACK_OFFICE.starter_confirm), vars), ['Yes', 'No']);
     if (k !== 0) return false;

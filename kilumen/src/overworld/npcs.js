@@ -3,10 +3,10 @@
 // same layout as Cal's: rows down/left/right/up, cols stand + walk0-3). NPCs move on the same 60 Hz GridMover as
 // the player, so they share pixel-exact stepping. Occupancy: an NPC holds its cell AND the cell it is stepping
 // into (GameMap.occupy), so the player can never walk into one mid-step.
-import { DELTA, DIRS, Col } from './constants.js?v=v0.2.93-alpha';
-import { GridMover } from './movement.js?v=v0.2.93-alpha';
-import { npcForPhase, isActive } from './props.js?v=v0.2.93-alpha';
-import { walkGrid, findPath, pathToDirs } from './pathing.js?v=v0.2.93-alpha';
+import { DELTA, DIRS, Col } from './constants.js?v=v0.2.94-alpha';
+import { GridMover } from './movement.js?v=v0.2.94-alpha';
+import { npcForPhase, isActive } from './props.js?v=v0.2.94-alpha';
+import { walkGrid, findPath, pathToDirs } from './pathing.js?v=v0.2.94-alpha';
 
 const WANDER = new Set(['villager', 'villager_hooded', 'villager_elder', 'kid']);
 const LOOK = new Set(['trainer', 'trainer_hooded']);
