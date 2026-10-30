@@ -350,20 +350,6 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   }
  ],
- "sunmeadow_fields.r9_smfp_beekeeper": [
-  {
-   "species": "lancebeetle",
-   "level": 63
-  },
-  {
-   "species": "pharolith",
-   "level": 63
-  },
-  {
-   "species": "stratodrake",
-   "level": 63
-  }
- ],
  "aurelith.r9_aurp_vaultkeeper": [
   {
    "species": "foundrax",
@@ -445,6 +431,20 @@ export const CAVE_POCKET_TEAMS = {
   },
   {
    "species": "cragmont",
+   "level": 63
+  }
+ ],
+ "route_sunmeadow_mirefen.r9_smfp_beekeeper": [
+  {
+   "species": "lancebeetle",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
    "level": 63
   }
  ],

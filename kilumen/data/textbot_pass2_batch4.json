@@ -3,7 +3,7 @@
  "area_names": {
   "route_sunmeadow_mirefen_cave_loft": "Hay Loft",
   "sunmeadow_fields_cave_nw": "Clover Dell",
-  "sunmeadow_fields_cave_n": "Bee Hollow",
+  "route_sunmeadow_mirefen_cave_hive": "Bee Hollow",
   "aurelith_cave_nw": "Gate Vault",
   "aurelith_cave_ne": "Signal Loft",
   "route_cindervale_cave_platform": "Old Platform",
@@ -35,27 +35,6 @@
     "pages": [
      "A clover as big as a plate.",
      "It has five leaves.\nSomeone glued one on."
-    ]
-   },
-   "r9_smfp_beekeeper": {
-    "name": "Torvald",
-    "pages": [
-     "Shh. The bees are asleep.\nBattle quietly."
-    ],
-    "battle_lost": [
-     "The bees slept through it."
-    ],
-    "battle_won": [
-     "Quiet win for me.\nThe bees didn't even stir."
-    ],
-    "after": [
-     "Ledge down and go west."
-    ]
-   },
-   "r9_smfp_egg_hive": {
-    "pages": [
-     "A hive in the rock wall. It hums.",
-     "It's humming the Sunmeadow song."
     ]
    }
   },
@@ -256,6 +235,27 @@
      "A tiny scarecrow.",
      "It's scaring one very small crow,\nwho doesn't care."
     ]
+   },
+   "r9_smfp_beekeeper": {
+    "name": "Torvald",
+    "pages": [
+     "Shh. The bees are asleep.\nBattle quietly."
+    ],
+    "battle_lost": [
+     "The bees slept through it."
+    ],
+    "battle_won": [
+     "Quiet win for me.\nThe bees didn't even stir."
+    ],
+    "after": [
+     "Ledge down and go west."
+    ]
+   },
+   "r9_smfp_egg_hive": {
+    "pages": [
+     "A hive in the rock wall. It hums.",
+     "It's humming the Sunmeadow song."
+    ]
    }
   },
   "route_cindervale": {
@@ -283,5 +283,6 @@
   }
  },
  "_relocated_hay_loft": "GD Oct 30 2026: Hay Loft moved from sunmeadow_fields (cave_e) to route_sunmeadow_mirefen (max 2 caves per map). Lines unchanged except Bodil's after-line (field -> path); Text Bot to review.",
+ "_relocated_bee_hollow": "GD Oct 30 2026 (Gary 12:48 PM CT): Bee Hollow moved from sunmeadow_fields (cave_n, doors 25,11 / 40,30, now a barn and a beekeeper cottage) to route_sunmeadow_mirefen (cave_hive). Lines unchanged; Text Bot to review.",
  "_relocated_old_platform": "GD Oct 30 2026: Old Platform moved from aurelith (cave_e) to route_cindervale (max 2 caves per town). Lines unchanged; area name kept 'Old Platform'."
 }

@@ -3210,6 +3210,13 @@
    ],
    "map_items": [
     {
+     "id": "smf_dell_seed_visible",
+     "x": 18,
+     "y": 28,
+     "item": "vigor_seed",
+     "hidden": false
+    },
+    {
      "id": "smf_dell_strip_tea",
      "x": 20,
      "y": 32,
@@ -3220,117 +3227,6 @@
      "x": 38,
      "y": 37,
      "item": "trail_mix"
-    }
-   ]
-  },
-  {
-   "id": "smf_pocket_hollow",
-   "map": "sunmeadow_fields",
-   "cave": "sunmeadow_fields_cave_n",
-   "cave_title": "Bee Hollow",
-   "floor": [
-    [
-     35,
-     31,
-     44,
-     35
-    ]
-   ],
-   "ledge": [
-    36,
-    38,
-    36
-   ],
-   "walk": [
-    [
-     34,
-     37
-    ],
-    [
-     35,
-     37
-    ],
-    [
-     36,
-     37
-    ],
-    [
-     37,
-     37
-    ],
-    [
-     38,
-     37
-    ]
-   ],
-   "mouth": [
-    25,
-    11
-   ],
-   "pocket_door": [
-    40,
-    30
-   ],
-   "main_start": [
-    10,
-    14
-   ],
-   "floor_tile_at": [
-    30,
-    25
-   ],
-   "floor_tiles": null,
-   "gate": {
-    "in": "cave sunmeadow_fields_cave_n",
-    "out": "one-way ledge at y36 x36-38",
-    "skill": null
-   },
-   "trainer": {
-    "id": "r9_smfp_beekeeper",
-    "x": 44,
-    "y": 31,
-    "level": 63,
-    "class": "Beekeeper",
-    "name": "Torvald",
-    "species": [
-     "lancebeetle",
-     "pharolith",
-     "stratodrake"
-    ],
-    "intro": [
-     "DRAFT: Shh. The bees are asleep. Battle quietly."
-    ],
-    "lost": [
-     "DRAFT: The bees slept through it."
-    ],
-    "after": [
-     "DRAFT: Ledge down and go west."
-    ]
-   },
-   "egg": {
-    "id": "r9_smfp_egg_hive",
-    "x": 35,
-    "y": 30,
-    "what": "a hive in the rock",
-    "tile": 509,
-    "lines": [
-     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
-    ]
-   },
-   "item": {
-    "id": "r9_smfp_seed_e",
-    "x": 44,
-    "y": 35,
-    "item": "vigor_seed"
-   },
-   "premise": "A beekeeper in a hollow in the south-east rock; a Vigor Seed sits by the hive.",
-   "map_items": [
-    {
-     "id": "smf_hollow_seed_visible",
-     "x": 41,
-     "y": 33,
-     "item": "vigor_seed",
-     "hidden": false
     }
    ]
   },
@@ -4119,6 +4015,109 @@
      "id": "smf_loft_seed_visible",
      "x": 49,
      "y": 14,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "smf_pocket_hollow",
+   "map": "route_sunmeadow_mirefen",
+   "cave": "route_sunmeadow_mirefen_cave_hive",
+   "cave_title": "Bee Hollow",
+   "floor": [
+    [
+     22,
+     11,
+     31,
+     15
+    ]
+   ],
+   "ledge": [
+    24,
+    26,
+    16
+   ],
+   "walk": [
+    [
+     24,
+     17
+    ],
+    [
+     25,
+     17
+    ],
+    [
+     26,
+     17
+    ]
+   ],
+   "mouth": [
+    30,
+    22
+   ],
+   "pocket_door": [
+    27,
+    10
+   ],
+   "main_start": [
+    0,
+    20
+   ],
+   "floor_tile_at": [
+    14,
+    18
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_sunmeadow_mirefen_cave_hive",
+    "out": "one-way ledge at y16 x24-26",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_smfp_beekeeper",
+    "x": 31,
+    "y": 11,
+    "level": 63,
+    "class": "Beekeeper",
+    "name": "Torvald",
+    "species": [
+     "lancebeetle",
+     "pharolith",
+     "stratodrake"
+    ],
+    "intro": [
+     "DRAFT: Shh. The bees are asleep. Battle quietly."
+    ],
+    "lost": [
+     "DRAFT: The bees slept through it."
+    ],
+    "after": [
+     "DRAFT: Ledge down and go west."
+    ]
+   },
+   "egg": {
+    "id": "r9_smfp_egg_hive",
+    "x": 22,
+    "y": 11,
+    "what": "a hive in the rock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
+    ]
+   },
+   "item": {
+    "id": "r9_smfp_seed_e",
+    "x": 31,
+    "y": 15,
+    "item": "vigor_seed"
+   },
+   "premise": "A beekeeper in a hollow in the north woods above the Mirefen path; a Vigor Seed sits by the hive.",
+   "map_items": [
+    {
+     "id": "smf_hollow_seed_visible",
+     "x": 27,
+     "y": 13,
      "item": "vigor_seed",
      "hidden": false
     }

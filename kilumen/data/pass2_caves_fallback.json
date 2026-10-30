@@ -685,40 +685,12 @@
      "DRAFT: A clover as big as a plate. It has five leaves. Someone glued one on."
     ],
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   },
-   "r9_smfp_beekeeper": {
-    "pages": [
-     "DRAFT: Shh. The bees are asleep. Battle quietly."
-    ],
-    "battle_lost": [
-     "DRAFT: The bees slept through it."
-    ],
-    "after": [
-     "DRAFT: Ledge down and go west."
-    ],
-    "trainer_class": "Beekeeper",
-    "name": "Torvald",
-    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   },
-   "r9_smfp_egg_hive": {
-    "pages": [
-     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
-    ],
-    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    }
   },
   "sunmeadow_fields_cave_nw": {
    "area_name": {
     "pages": [
      "Clover Dell"
-    ],
-    "status": "DRAFT"
-   }
-  },
-  "sunmeadow_fields_cave_n": {
-   "area_name": {
-    "pages": [
-     "Bee Hollow"
     ],
     "status": "DRAFT"
    }
@@ -891,12 +863,40 @@
      "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
     ],
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_beekeeper": {
+    "pages": [
+     "DRAFT: Shh. The bees are asleep. Battle quietly."
+    ],
+    "battle_lost": [
+     "DRAFT: The bees slept through it."
+    ],
+    "after": [
+     "DRAFT: Ledge down and go west."
+    ],
+    "trainer_class": "Beekeeper",
+    "name": "Torvald",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_egg_hive": {
+    "pages": [
+     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    }
   },
   "route_sunmeadow_mirefen_cave_loft": {
    "area_name": {
     "pages": [
      "Hay Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_sunmeadow_mirefen_cave_hive": {
+   "area_name": {
+    "pages": [
+     "Bee Hollow"
     ],
     "status": "DRAFT"
    }
