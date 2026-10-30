@@ -3354,6 +3354,16 @@
    "hidden": true,
    "note": "end of the ice shelf over the pool (one-way ledge back down)",
    "flag": "item_r9_icefall_r9_ic_shelf_crystal"
+  },
+  {
+   "id": "r9_ic_nook_tea",
+   "x": 3,
+   "y": 14,
+   "item": "calm_tea",
+   "qty": 1,
+   "hidden": false,
+   "note": "visible satchel in the west nook by the pool",
+   "flag": "item_r9_icefall_r9_ic_nook_tea"
   }
  ],
  "interact_spots": [

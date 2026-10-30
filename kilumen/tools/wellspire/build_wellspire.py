@@ -6,6 +6,8 @@ Writes art/world/overworld/maps/<name>.json and src/region9/points.gen.js (spot/
 Re-run safe: output is deterministic. Usage: python3 tools/wellspire/build_wellspire.py"""
 import copy, json, os
 from collections import deque
+import sys; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'map_audit'))
+import map_fill  # map fill / layering recipes (Oct 30 2026)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 MAPS = os.path.join(ROOT, 'art', 'world', 'overworld', 'maps')
@@ -20,8 +22,10 @@ SELF = {
 STRIP = ['npcs', 'signs', 'items', 'interact_spots', 'story_gates', 'hall_v2', 'puzzle', 'flag_swaps', 'fly_point', 'text_pending',
          'npcs_pending_text', 'signs_pending_text', 'pending_text_note', 'entered_from', 'interior_role', 'arena_theme', 'source']
 
-def load(n):
-    with open(os.path.join(MAPS, n + '.json')) as f: return json.load(f)
+TPL = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+def load(n):  # templates later reworked in place (map fill, Oct 30 2026) are cloned from their frozen pre-fill copy in ./templates
+    f = os.path.join(TPL, n + '.json')
+    with open(f if os.path.exists(f) else os.path.join(MAPS, n + '.json')) as f: return json.load(f)
 
 class M:
     def __init__(self, name, tpl, title, region='wellspire'):
@@ -130,6 +134,7 @@ def build():
     rb = M('r9_old_riverbed', 'route_east', 'Old Riverbed')
     rb.j['exits'] = [e for e in rb.j['exits'] if e['edge'] == 'west']  # west 19-20 -> brookhollow (offset 0, aligned)
     rb._anchor = (1, 19)
+    map_fill.apply('r9_old_riverbed', rb.j)
     tables(rb, {'route_east_reeds': 'r9_riverbed_reeds', '*': 'r9_riverbed_grass'})
     rb.spot('r9_riverbed_up', (60, 19))          # the path climbs on toward Cairnfold
     rb.spot('r9_name_sign', (6, 18))
@@ -137,6 +142,8 @@ def build():
     rb.npc('r9_rb_hiker', (18, 22), 'trainer', 'left')
     rb.npc('r9_rb_dowser', (36, 21), 'trainer', 'left')
     rb.npc('r9_rb_guide', (50, 20), 'trainer', 'left')
+    rb.npc('r9_rb_spotter', (28, 12), 'trainer', 'down')   # up on the old bank
+    rb.spot('r9_riverbed_gully', (30, 8))                 # the hidden gully's old flood mark
     P['_arrive_riverbed'] = {'x': 1, 'y': 19, 'facing': 'right'}
     done(rb)
     # ---------- Cairnfold (Frostspire art) ----------
@@ -205,7 +212,9 @@ def build():
                       (18, 8, 510), (19, 8, 510), (13, 9, 510), (24, 12, 510)]:
         ic.prop(x, y, t)
     ic.j['items'] = [{'id': 'r9_ic_shelf_crystal', 'x': 3, 'y': 5, 'item': 'dominance_crystal_plus', 'qty': 1, 'hidden': True,
-                      'note': 'end of the ice shelf over the pool (one-way ledge back down)', 'flag': 'item_r9_icefall_r9_ic_shelf_crystal'}]
+                      'note': 'end of the ice shelf over the pool (one-way ledge back down)', 'flag': 'item_r9_icefall_r9_ic_shelf_crystal'},
+                     {'id': 'r9_ic_nook_tea', 'x': 3, 'y': 14, 'item': 'calm_tea', 'qty': 1, 'hidden': False,
+                      'note': 'visible satchel in the west nook by the pool', 'flag': 'item_r9_icefall_r9_ic_nook_tea'}]
     ic.spot('r9_icefall_signal', (8, 8))
     ic.spot('r9_icefall_pool', (9, 13))
     ic.spot('r9_icefall_pegs', (25, 5))

@@ -5,12 +5,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const MAPS = new URL('../art/world/overworld/maps/', import.meta.url);
 const load = (n) => JSON.parse(fs.readFileSync(new URL(n + '.json', MAPS)));
-const REWORKED = { r9_icefall: [14, 18] };
+const REWORKED = { r9_icefall: [14, 18], r9_old_riverbed: [1, 19] };
 const PASS = new Set([0, 4, 7, 10]);
 function reach(m, start, gates = new Set()) {
   const col = m.layers.collision, H = col.length, W = col[0].length;
   const ok = (x, y) => x >= 0 && y >= 0 && x < W && y < H && (PASS.has(col[y][x]) || gates.has(`${x},${y}`));
-  const npc = new Set((m.npcs || []).map((n) => `${n.x},${n.y}`));
+  const npc = new Set([...(m.npcs || []), ...(m.items || []).filter((i) => !i.hidden)].map((n) => `${n.x},${n.y}`)); // visible satchels are solid
   const seen = new Set([start.join(',')]); const q = [start];
   while (q.length) {
     const [x, y] = q.shift();
@@ -35,9 +35,14 @@ for (const [name, start] of Object.entries(REWORKED)) {
       assert.ok(PASS.has(t.layers.collision[ty][tx]) || w.via, `warp target ${w.to} ${tx},${ty} passable`);
     }
     for (const s of m.interact_spots || []) assert.ok(R.has(s.stand.join(',')), `spot ${s.id} stand reachable`);
-    for (const it of m.items || []) assert.ok(R.has(`${it.x},${it.y}`), `item ${it.id} reachable`);
+    const N4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    for (const it of m.items || []) assert.ok(it.hidden ? R.has(`${it.x},${it.y}`) : N4.some(([dx, dy]) => R.has(`${it.x + dx},${it.y + dy}`)), `item ${it.id} reachable`);
+    assert.ok((m.items || []).some((i) => !i.hidden) && (m.items || []).some((i) => i.hidden), 'a visible and a hidden reward');
+    // no ledge strands you: from every reachable square you can walk back to the start
+    const back = [...R].filter((_, i) => i % 7 === 0);
+    for (const k of back) assert.ok(reach(m, k.split(',').map(Number), gates).has(start.join(',')), `stranded at ${k}`);
     for (const n of m.npcs || []) assert.ok([[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => R.has(`${n.x + dx},${n.y + dy}`)), `npc ${n.id} can be talked to`);
-    col.forEach((row, y) => row.forEach((c, x) => { if (c === 0 && !(m.npcs || []).some((n) => n.x === x && n.y === y)) assert.ok(R.has(`${x},${y}`), `dead pocket ${x},${y}`); }));
+    col.forEach((row, y) => row.forEach((c, x) => { if (c === 0 && ![...(m.npcs || []), ...(m.items || []).filter((i) => !i.hidden)].some((n) => n.x === x && n.y === y)) assert.ok(R.has(`${x},${y}`), `dead pocket ${x},${y}`); }));
     // a ledge never lets you climb back up: from the square below, the shelf is not one step away through it
     col.forEach((row, y) => row.forEach((c, x) => { if (c === 2) assert.ok(PASS.has(col[y - 1][x]) || col[y - 1][x] === 1, `ledge ${x},${y} has a top`); }));
   });

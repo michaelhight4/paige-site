@@ -190,10 +190,15 @@ export const POINTS = {
    "x": 6,
    "y": 19
   },
+  "r9_riverbed_gully": {
+   "facing": "up",
+   "x": 30,
+   "y": 8
+  },
   "r9_riverbed_marks": {
    "facing": "up",
-   "x": 18,
-   "y": 16
+   "x": 24,
+   "y": 10
   },
   "r9_riverbed_up": {
    "facing": "up",
