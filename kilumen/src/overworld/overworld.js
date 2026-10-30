@@ -514,6 +514,7 @@ export class Overworld {
   _updateMode(snap) {
     const p = this.player;
     if (p.mode === MoveMode.BIKE) return;
+    if (p.gliding) { p.mode = MoveMode.RUN; return; } // Tideglide rides at running speed (overnight/field.js)
     const shoes = this.flags.has('has_run_shoes');
     const runOk = shoes && !!this.map.movement.run, q = this.qol; // [qol hook] Run: Hold/Toggle (src/qol/qol.js), same B button
     if (q && (this.busy || this.dialog?.active || this.fade || q.escHeld || globalThis.window?.kilumen?.ui?.active)) q.latch.prev = true; // a B used to close a talk / menu is not a run press

@@ -3,6 +3,8 @@
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
 import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.93-alpha';
 import { TS, tt } from './town_strings.js?v=v0.2.93-alpha';
+import { gt } from '../garden/strings.js?v=v0.2.93-alpha';
+import { meritState } from './merit.js?v=v0.2.93-alpha';
 import { athleticStats } from './athletics.js?v=v0.2.93-alpha';
 import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.93-alpha';
 import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.93-alpha';
@@ -26,7 +28,7 @@ const sheet = new Map();
 const imgFor = (sp) => { if (!sheet.has(sp)) { const im = new Image(); im.src = `art/characters/pixel/creatures/${sp}/overworld/${sp}_ow/${sp}_ow_right_walk0_2x.png`; sheet.set(sp, im); } return sheet.get(sp); };
 const nameOf = (c) => c.nickname || c.name || c.species;
 
-export function attachTownEvents(scene, { sys, sstate, isOpen }) {
+export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
   const day = () => scene.clock?.day || 0, wallet = () => sys()?.wallet, rm = reducedMotion(new URLSearchParams(location.search));
   const st = { mode: 'practice', rivals: null, crowd: null, open: false, phase: 'closed', ev: null, run: null, mon: null, raf: 0, input: null, last: null };
   (scene.saveGuards ||= []).push(() => (st.open ? (st.phase === 'play' ? 'town_event' : 'town_event_menu') : null));
@@ -51,7 +53,10 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     s.onInteract = (fx, fy) => {
       const ev = coachAt(fx, fy); if (!ev) return prev(fx, fy);
       scene.script(async () => {
-        if (ev === 'major') { await scene.say?.([TS.major.hello], { name: TS.major.coach, portrait: null }); await openMajor(); return; }
+        if (ev === 'major') { // Aurelith announcer: the Games or the merit counter (src/garden/index.js)
+          const k = openMerit && scene.ask ? await scene.ask([gt('merit.announcer.ask')], [gt('merit.announcer.games'), gt('merit.announcer.shop'), gt('merit.announcer.leave')]) : 0;
+          if (k === 1) { await openMerit(); return; } if (k !== 0) return;
+          await scene.say?.([TS.major.hello], { name: TS.major.coach, portrait: null }); await openMajor(); return; }
         if (ev.region > LIVE_REGION) { await scene.say?.([TS.not_ready], { name: TS[ev.id].coach || TS.coach_name, portrait: null }); return; }
         await scene.say?.([TS[ev.id].hello], { name: TS[ev.id].coach || TS.coach_name, portrait: null }); await openEvent(ev);
       });
@@ -178,7 +183,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     const lines = TS['cup_react_' + (res.place === 1 ? 'win' : res.place === 2 ? 'close' : 'lose')];
     ov.innerHTML = `<div class="box" id="cup-result"><h2>${esc(tt(TS.cup_title, { event: TS[ev.id].title }))}</h2>
       <table class="rank">${res.field.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(x.me ? nameOf(c) : `${x.trainer}'s ${x.species}`)}</td><td>${x.score} ${esc(ev.unit)}</td></tr>`).join('')}</table>
-      <div>${esc(res.place === 1 ? tt(TS.cup_won, { prize: res.prize, cups: res.cups }) : TS.cup_lost)}</div>
+      <div>${esc(res.place === 1 ? tt(TS.cup_won, { prize: res.prize, cups: res.cups }) : TS.cup_lost)}</div>${res.merit ? `<div class="merit-earned">${esc(gt('merit.earned', { pts: res.merit, points: meritState(sstate()).points }))}</div>` : ''}
       <div class="react">${esc(TS[ev.id].coach || TS.coach_name)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
       <button data-a="back">${esc(TS.back)}</button></div>`;
     ov.querySelector('[data-a=back]').onclick = () => close();
@@ -254,7 +259,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen }) {
     st.phase = 'major_final';
     const who = (x) => (x.me ? nameOf(c) : `${mj.field[x.idx].trainer}'s ${mj.field[x.idx].species}`), lines = M['final_' + (res.place === 1 ? 'win' : 'lose')];
     ov.innerHTML = `<div class="box" id="major-final"><h2>${esc(M.title)}</h2><table class="rank">${res.table.map((x, i) => `<tr class="${x.me ? 'me' : ''}"><td>${i + 1}.</td><td>${esc(who(x))}</td><td>${x.pts} ${esc(M.pts)}</td></tr>`).join('')}</table>
-      <div>${esc(res.place === 1 ? tt(M.won, { prize: res.prize, wins: res.wins }) : tt(M.lost, { place: res.place }))}</div>
+      <div>${esc(res.place === 1 ? tt(M.won, { prize: res.prize, wins: res.wins }) : tt(M.lost, { place: res.place }))}</div>${res.merit ? `<div class="merit-earned">${esc(gt('merit.earned', { pts: res.merit, points: meritState(sstate()).points }))}</div>` : ''}
       <div class="react">${esc(M.coach)}: ${esc(tt(lines[Math.floor(Math.random() * lines.length)], { creature: nameOf(c) }))}</div>
       <button data-a="back">${esc(TS.back)}</button></div>`;
     ov.querySelector('[data-a=back]').onclick = () => close();

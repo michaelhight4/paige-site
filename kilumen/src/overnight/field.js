@@ -1,6 +1,6 @@
-// Overnight systems (Oct 23, 2026): field obstacles from FIELD_SKILLS.md, behind OVERNIGHT flag `field` (default OFF).
-//  - Tideglide (F3): face water (code 3) + A -> prompt -> ride across at walk speed (no run / bike); stepping on land
-//    gets off. Needs has_tideglide (FIELD_SKILLS.md 13). Deep water (11) stays a wall. Encounters on water: not wired.
+// Overnight systems (Oct 23, 2026): field obstacles from FIELD_SKILLS.md, OVERNIGHT flag `field` (default ON since Oct 30 2026).
+//  - Tideglide (F3): face water (code 3) + A -> prompt -> ride across at running speed (worldbuilding audit) with a
+//    short hop (HOP_TICKS, ledge arc) on mount and on dismount; stepping on land gets off. Needs has_tideglide (FIELD_SKILLS.md 13). Deep water (11) stays a wall. Water encounters roll the map's surf table (onSurfStep).
 //  - Brushbreak (F2): face a tile named `thick_brush` + A -> prompt -> cleared until the map reloads. Unlock flag is TBD
 //    in the docs, so this uses the PLACEHOLDER flag `has_brushbreak` (question for Gary). No built map has the tile yet.
 //  - Stonebreak: same for tiles named `cracked_rock` with PLACEHOLDER flag `has_stonebreak` (none placed yet either).
@@ -66,7 +66,7 @@ export class FieldSystem {
     const brush = this.brushAt(fx, fy);
     if (brush) { s.script(() => this.useSkill(brush.skill, brush.flag, () => { s.map.layers[brush.layer][fy][fx] = 0; s.map.layers.collision[fy][fx] = Col.WALK; s._dirty = true; })); return true; }
     if (m.code(fx, fy) === Col.WATER && !this.gliding && OPEN.has(m.code(p.x, p.y)) || (m.code(fx, fy) === Col.WATER && m.code(p.x, p.y) === Col.DOOR)) {
-      s.script(() => this.useSkill('tideglide', 'has_tideglide', () => { this.gliding = true; p.gliding = true; p.mode = MoveMode.WALK; s.log.push({ tick: s.tick, type: 'tideglide', on: true }); }));
+      s.script(() => this.useSkill('tideglide', 'has_tideglide', () => { this.gliding = true; p.gliding = true; p.mode = MoveMode.RUN; this.hopNext = true; s.log.push({ tick: s.tick, type: 'tideglide', on: true }); p._attempt?.(p.facing, s.worldApi(), []); }));
       return true;
     }
     return false;
@@ -87,7 +87,10 @@ export class FieldSystem {
   /** Wraps worldApi().query: gliding treats plain water as floor. */
   query(q, x, y, dir) {
     const s = this.scene, m = s.map;
-    if (this.gliding && q.type === 'block' && q.code === Col.WATER && !q.npc) { const d = DELTA[dir]; return { type: 'walk', x: x + d.x, y: y + d.y }; }
+    const d = DELTA[dir], tx = x + d.x, ty = y + d.y;
+    if (this.gliding && this.hopNext && q.type === 'block' && q.code === Col.WATER && !q.npc) { this.hopNext = false; return { type: 'ledge', x: tx, y: ty }; } // mount hop
+    if (this.gliding && q.type === 'block' && q.code === Col.WATER && !q.npc) return { type: 'walk', x: tx, y: ty };
+    if (this.gliding && q.type === 'walk' && m.code(x, y) === Col.WATER && m.code(tx, ty) !== Col.WATER) return { type: 'ledge', x: tx, y: ty }; // dismount hop
     return q;
   }
 
@@ -108,7 +111,7 @@ export class FieldSystem {
   arrive(x, y) {
     const s = this.scene;
     if (this.gliding && s.map.code(x, y) !== Col.WATER) { this.gliding = false; s.player.gliding = false; s.log.push({ tick: s.tick, type: 'tideglide', on: false }); }
-    if (this.gliding) s.player.mode = MoveMode.WALK;
+    if (this.gliding) s.player.mode = MoveMode.RUN;
     this.refreshHold();
   }
 

@@ -105,10 +105,10 @@ export async function apply() {
     const rel = FILES[key], txt = fs.readFileSync(path.join(root, rel), 'utf8'), d = JSON.parse(txt);
     const ind = (txt.match(/\n( +)"/) || [, ' '])[1].length;
     for (const [zid, z] of Object.entries(d.zones || {})) {
-      const own = (z.slots || []).filter((s) => s.spread !== TAG);
+      const own = (z.slots || []).filter((s) => s.spread !== TAG && s.spread !== 'tod'), tod = (z.slots || []).filter((s) => s.spread === 'tod'); // tod: day/night slots (tod_spread.mjs), kept last
       const hab = !z.inert && ZONE_HABITAT[zid];
       const ok = (sp) => habitatOk(z.method, sp, (id) => speciesById(id).el, (id) => speciesById(id).found);
-      z.slots = hab ? [...own, ...spreadSlots(own, hab, speciesById, { ok })] : own;
+      z.slots = [...(hab ? [...own, ...spreadSlots(own, hab, speciesById, { ok })] : own), ...tod];
     }
     out[rel] = JSON.stringify(d, null, ind) + (txt.endsWith('\n') ? '\n' : '');
   }

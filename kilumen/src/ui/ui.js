@@ -635,7 +635,7 @@ export class GameUI {
         art.dataset.el = s.el[0];
         art.innerHTML = `<img class="ui-sprite ${k ? 'idle' : ''}" style="--ui-sprite-scale:calc(var(--ui-dex-sprite, 1));${k ? '' : 'filter:brightness(0) opacity(.5)'}" src="${front(s.id)}" alt="">`;
         inf.innerHTML = k ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-size:1.15em">${esc(s.name)}</b>${s.el.map(elChip).join('')}</div>
-          <p style="margin:.4em 0" class="soft">${esc(kilindexBlurb(this.T.bind(this), s))}</p><div class="soft" style="font-size:.85em">${esc(L.regions || 'Found in')}: ${esc(s.found)}</div>`
+          <p style="margin:.4em 0" class="soft">${esc(kilindexBlurb(this.T.bind(this), s))}</p><div class="soft" style="font-size:.85em">${esc(L.regions || 'Found in')}: ${esc(s.found)}</div>${(() => { const tw = globalThis.__kilSpeciesTimes?.[s.id]; return tw && tw !== 'any' ? `<div class="soft" style="font-size:.85em" data-tod="${tw}">${tw === 'night' ? '☾' : '☀'} ${esc(L['tod_' + tw] || { night: 'Seen at night only', day: 'Seen by day only', morning: 'Seen in the morning only' }[tw])}</div>` : ''; })()}`
           : `<b>???</b><p class="soft" style="margin:.4em 0">Not seen yet.</p>`;
       },
       hint: () => this.hintText([['▲▼◀▶', 'Browse'], ['B', 'Back']]),
@@ -715,7 +715,7 @@ export class GameUI {
       let n = 1; const wrap = document.createElement('div'); wrap.className = 'ui-modal'; this.fx?.tipHide();
       const draw = () => { wrap.innerHTML = `<div class="ui-panel ui-pad" data-scr="shop" data-pat="awning"><div class="plate ui-pad" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
         <b class="grow" style="flex:1">${esc(it.name)}</b><span class="qty"><button data-m="-1" aria-label="Fewer">−</button><b style="min-width:2.5em;text-align:center">×${n}</b><button data-m="-2" aria-label="More">+</button></span>
-        <span class="price"><i class="coin"></i> ${it.price * n}</span></div><ul class="ui-list" style="margin-top:10px"><li class="ui-row sel" data-m="0">OK</li></ul></div>`; };
+        <span class="price">${it.unit ? `<span class="merit-star">${esc(it.unit)}</span>` : '<i class="coin"></i>'} ${it.price * n}</span></div><ul class="ui-list" style="margin-top:10px"><li class="ui-row sel" data-m="0">OK</li></ul></div>`; };
       draw(); this.root.appendChild(wrap);
       const done = (v) => { wrap.remove(); this.modal = null; resolve(v); };
       const step = (d) => { n = Math.max(1, Math.min(Math.max(1, max), n + d)); draw(); };

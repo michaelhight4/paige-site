@@ -73,6 +73,25 @@ const FIELD = {
   old_river_drawing: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Old River Drawing', flag: 'sq_rested_done' }, // Where It Rested (sq_rested_done)
   reed_lamp: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Reed Lamp' }, // Mirefen (Wenna's lamp quest)
   field_reading_sheet: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Field Reading Sheet', flag: 'item_field_reading_sheet' }, // Lanternport page hand-off (story_beats §L); pays off at the summit camp
+  // Garden + merit shop (Oct 30 2026; src/garden/, src/sports/merit.js). Names/descs by Text Bot (data/textbot_merit_shop.json).
+  watering_can: { pocket: 'key', field: null, key: true, name: 'Watering Can', desc: 'A sturdy tin can. Waters one plot a day.' },
+  watering_can_merit: { pocket: 'key', field: null, key: true, name: "Champion's Can", desc: 'Gold-trimmed prize can. Crops it waters ripen overnight.' },
+  carrot_seeds: { pocket: 'gear', field: null, seed: 'carrot', name: 'Carrot Seeds', desc: 'Ready in 3 watered days.' },
+  turnip_seeds: { pocket: 'gear', field: null, seed: 'turnip', name: 'Turnip Seeds', desc: 'Ready in 2 watered days.' },
+  radish_seeds: { pocket: 'gear', field: null, seed: 'radish', name: 'Radish Seeds', desc: 'Ready in 2 watered days.' },
+  tomato_seeds: { pocket: 'gear', field: null, seed: 'tomato', name: 'Tomato Seeds', desc: 'Ready in 4 watered days.' },
+  pumpkin_seeds: { pocket: 'gear', field: null, seed: 'pumpkin', name: 'Pumpkin Seeds', desc: 'Ready in 5 watered days.' },
+  sunroot_seeds: { pocket: 'gear', field: null, seed: 'sunroot', name: 'Sunroot Seeds', desc: 'Ready in 4 watered days.' },
+  glowbean_seeds: { pocket: 'gear', field: null, seed: 'glowbean', name: 'Glowbean Seeds', desc: 'Ready in 3 watered days.' },
+  drumleek_seeds: { pocket: 'gear', field: null, seed: 'drumleek', name: 'Drumleek Seeds', desc: 'Ready in 5 watered days.' },
+  carrot: { pocket: 'feeds', field: null, crop: true, name: 'Carrot', desc: 'Crunchy and sweet, fresh from the soil.' },
+  turnip: { pocket: 'feeds', field: null, crop: true, name: 'Turnip', desc: 'A round white turnip. Good in stew.' },
+  radish: { pocket: 'feeds', field: null, crop: true, name: 'Radish', desc: 'Small, red, with a spicy bite.' },
+  tomato: { pocket: 'feeds', field: null, crop: true, name: 'Tomato', desc: 'Plump and red. Warm from the sun.' },
+  pumpkin: { pocket: 'feeds', field: null, crop: true, name: 'Pumpkin', desc: 'A big orange pumpkin. Heavy!' },
+  sunroot: { pocket: 'feeds', field: null, crop: true, name: 'Sunroot', desc: 'A golden root that stays warm, like it held on to the sun.' },
+  glowbean: { pocket: 'feeds', field: null, crop: true, name: 'Glowbean', desc: 'A pod of beans that glow faintly at night.' },
+  drumleek: { pocket: 'feeds', field: null, crop: true, name: 'Drumleek', desc: 'A tall, thick leek. It goes "thunk" when you knock it.' },
 };
 /** Text Bot keys for the region 5-6 items: [name path, desc path] in overworld_lines.json. */
 export const R5_R6_ITEM_TEXT = {

@@ -2,6 +2,7 @@
 // Tournament windows come from the existing in-game clock (scene.clock.day): window w = floor(day / EVERY_DAYS). The
 // tournament is held on the first day of each window (day % EVERY_DAYS === 0); one entry per window. Fee and prize go
 // through the existing Wallet (systems/shop.js: spend / add). State lives in systems.state.sports (saved with systems).
+import { awardMerit } from './merit.js?v=v0.2.93-alpha';
 export const TOURNEY = { fee: 150, prize: 1000, everyDays: 3 };
 export const VENUE = { map: 'brookhollow', npcId: 'dash_coach' };
 
@@ -37,6 +38,7 @@ export function payEntry({ day, wallet, state }) {
 /** After the final: pays the prize to a winner. -> prize paid (0 if not first). */
 export function settle({ place, time, wallet, state, mult = 1 }) {
   if (Number.isFinite(time) && (state.best == null || time < state.best)) state.best = +time.toFixed(2);
+  state.lastMerit = awardMerit(state, 'tourney', place); // merit points by place (src/sports/merit.js)
   if (place !== 1) return 0;
   state.wins++;
   return wallet.add(Math.round(TOURNEY.prize * mult)); // mult: difficulty pay (Easy 0.6 / Hard 1.15)

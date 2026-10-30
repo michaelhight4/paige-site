@@ -6,6 +6,7 @@
 import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.93-alpha';
 import { STATS } from './rules.js?v=v0.2.93-alpha';
 import { rngFor } from './rng.js?v=v0.2.93-alpha';
+import { awardMerit } from './merit.js?v=v0.2.93-alpha';
 
 export const CUP = { fee: 100, prize: 600, everyDays: 3, rivals: 3 };
 export const RIVAL_SPECIES = ['brimtoad', 'hushowl', 'ledgedove', 'capling', 'glintmoth', 'frondlet', 'aurorel', 'frostlop'];
@@ -58,5 +59,6 @@ export function settleCup({ ev, score, rivals, wallet, sstate, mult = 1 }) {
   const place = field.findIndex((x) => x.me) + 1, r = cupState(sstate, ev);
   let prize = 0;
   if (place === 1) { r.cups++; prize = wallet ? wallet.add(Math.round(CUP.prize * mult)) : 0; }
-  return { place, field, prize, cups: r.cups };
+  const merit = awardMerit(sstate, 'cup', place); // merit points by place (src/sports/merit.js)
+  return { place, field, prize, cups: r.cups, merit };
 }

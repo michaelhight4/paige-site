@@ -6,7 +6,7 @@
 // wild battle or map change the next GRACE_STEPS encounter steps can't roll, so the player always gets a few free
 // steps. No rolls while a script / fade / menu is up, or with an empty team.
 // Not wired yet (no data or runtime): cave floor (layer code 2) outside a table rect ("low rate", no number in
-// the docs), water tables (Tideglide), encounters.variant_roll (always null = normal).
+// the docs), encounters.variant_roll (always null = normal).
 export const ENCOUNTERS_URL = 'art/world/overworld/encounters/encounters.json';
 // Creature sync (Oct 23, 2026): tools/sync_creatures.mjs writes the merged table (live + GD swaps + staged zones, wired species only,
 // stand-ins flagged). Tried first; falls back to ENCOUNTERS_URL if missing or invalid.
@@ -31,6 +31,28 @@ import { TRAIL_AXES_URL, axisFor, trailT, scaledLevel } from './level_scale.js?v
 import { TERRAIN_URL, terrainZone, filterTerrain } from './terrain_encounters.js?v=v0.2.93-alpha'; // water + cave floor at 0.3x grass (flag, off)
 import { leadEncounterMult } from '../systems/held.js?v=v0.2.93-alpha'; // Lure Lantern / Hush Cloak (Oct 29 2026)
 export const PHASES = ['dawn', 'day', 'dusk', 'night'];
+// Day / night bands (Oct 30 2026, Gary): three-band tables (morning / day / night) over the outdoor phases. Slots tagged by
+// tools/encounters/tod_spread.mjs carry tod: 'night' (time ['night']) or tod: 'day' (time ['dawn','day','dusk']).
+export const TOD_OF = Object.freeze({ dawn: 'morning', day: 'day', dusk: 'day', night: 'night' });
+export const todOf = (phase) => TOD_OF[phase] || 'day';
+// Night wilds (Gary, Oct 30 2026): +2 or +3 levels (random per encounter) in the night phase, clamped to the global enemy cap.
+export const NIGHT_BONUS = Object.freeze([2, 3]);
+export const ENEMY_CAP = 68;
+export function nightLevel(level, phase, rng = Math.random) {
+  if (phase !== 'night') return level;
+  return Math.min(ENEMY_CAP, Math.max(level, level + NIGHT_BONUS[rng() < 0.5 ? 0 : 1]));
+}
+/** species -> 'night' | 'day' | 'morning' | 'any' across the live (non-inert) tables: the bands a species can roll in. */
+export function speciesTimes(data) {
+  const bands = {};
+  for (const z of Object.values(data?.zones || {})) {
+    if (z.inert) continue;
+    for (const s of z.slots || []) { if (!(s.weight > 0)) continue; const b = (bands[s.species] ||= new Set()); for (const ph of s.time || PHASES) b.add(todOf(ph)); }
+  }
+  const out = {};
+  for (const [id, b] of Object.entries(bands)) out[id] = b.size === 1 ? [...b][0] : (b.has('night') ? 'any' : 'day');
+  return out;
+}
 export const MAX_RATE = 0.2;
 export const GRACE_STEPS = 3;
 
@@ -44,6 +66,13 @@ export function zoneAt(data, mapName, rects, x, y, code = 1) {
   }
   if (code !== 1) return null;
   const id = Object.keys(zones).find((k) => usable(k) && (zones[k].maps || []).includes(mapName));
+  return id ? { id, zone: zones[id], forced: false } : null;
+}
+
+/** The live surf table for a map (method "water (Tideglide...)", listed in its maps, not inert). -> {id, zone, forced} | null */
+export function surfZoneFor(data, mapName) {
+  const zones = data?.zones || {};
+  const id = Object.keys(zones).find((k) => !zones[k].inert && isSurf(zones[k].method) && (zones[k].maps || []).includes(mapName) && (zones[k].slots || []).length);
   return id ? { id, zone: zones[id], forced: false } : null;
 }
 
@@ -64,8 +93,8 @@ export function pickSlot(zone, ctx = {}, rng = Math.random) {
   let r = rng() * total, slot = slots[slots.length - 1];
   for (const s of slots) { if ((r -= s.weight) < 0) { slot = s; break; } }
   const [lo, hi] = Array.isArray(slot.level) ? slot.level : [slot.level, slot.level];
-  if (typeof ctx.t === 'number') return { species: slot.species, level: scaledLevel(lo, hi, ctx.t, rng, zone.cap?.level || null), slot };
-  return { species: slot.species, level: lo + Math.floor(rng() * (hi - lo + 1)), slot };
+  const lv = typeof ctx.t === 'number' ? scaledLevel(lo, hi, ctx.t, rng, zone.cap?.level || null) : lo + Math.floor(rng() * (hi - lo + 1));
+  return { species: slot.species, level: nightLevel(lv, ctx.phase, rng), slot };
 }
 
 /** Habitat rules (Gary, Oct 29 2026). Surf ("water (Tideglide)" tables): water-type species ONLY. Caves (any table whose
@@ -140,9 +169,11 @@ export class EncounterRoller {
     return this._roll(z, mapName, x, y, ctx);
   }
   /** One step onto water while riding on it (terrain flag): the map's water table at 0.3x the grass rate. */
+  // Oct 30 2026: Tideglide is live (field skills on), so the map's own "water (Tideglide)" table rolls first (its own rate);
+  // the terrain flag's 0.3x table stays the fallback for maps with no surf table.
   stepWater(mapName, x, y, ctx = {}) {
     if (this.grace > 0) { this.grace--; return null; }
-    return this._roll(this.terrain ? terrainZone(this.terrain, this.data, mapName, 'water') : null, mapName, x, y, ctx);
+    return this._roll(surfZoneFor(this.data, mapName) || (this.terrain ? terrainZone(this.terrain, this.data, mapName, 'water') : null), mapName, x, y, ctx);
   }
   _roll(z, mapName, x, y, ctx) {
     if (!z) return null;
@@ -195,6 +226,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
   const axesP = opts.levelScale === false ? Promise.resolve(null) : getJson(opts.axesUrl || TRAIL_AXES_URL);
   st.ready = (opts.url ? getJson(opts.url) : encountersWired().then((d) => (d?.zones ? structuredClone(d) : getJson(ENCOUNTERS_URL)))).then((data) => {
     if (!data) return;
+    globalThis.__kilSpeciesTimes = speciesTimes(data); // Kilindex time-of-day line (ui.js)
     if (opts.elOf) { // habitat rule: surf = water types only, caves = cave dwellers only (in memory, always on)
       const h = filterHabitat(data, opts.elOf, opts.foundOf); st.habitat = h; data = h.data;
       if (opts.dev && Object.keys(h.removed).length) console.info('[encounters] habitat filter removed', h.removed);
