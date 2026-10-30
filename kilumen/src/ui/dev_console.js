@@ -80,6 +80,9 @@ function picker({ items, placeholder, limit = 40, onPick }) {
   return { el: h('div', {}, input, list, hint), get selected() { return all.find((i) => i.id === sel) || null; }, set(items2) { all = items2; paint(); } };
 }
 
+import { FLAG_PRESETS, setBadges, setFlagByName, applyPreset } from './dev_flags.js?v=v0.2.93-alpha';
+import { coinCount } from '../overworld/lines.js?v=v0.2.93-alpha';
+
 export function mountDevConsole({ scene, ui, role = 'admin' }) {
   if (scene.__devConsole) return scene.__devConsole;
   const sys = scene.systems;
@@ -114,11 +117,11 @@ export function mountDevConsole({ scene, ui, role = 'admin' }) {
   // ---- tabs ---------------------------------------------------------------------------------------------------------
   const body = h('div', { class: 'dv-body' });
   const tabs = h('div', { class: 'dv-tabs', role: 'tablist' });
-  const TABS = [['items', 'Items'], ['kilumen', 'Kilumen'], ['money', 'Coins & ID'], ['party', 'Party']];
+  const TABS = [['items', 'Items'], ['kilumen', 'Kilumen'], ['money', 'Coins & ID'], ['party', 'Party'], ['flags', 'Flags']];
   const showTab = (t) => {
     S.tab = t; body.textContent = ''; body.scrollTop = 0;
     for (const b of tabs.children) b.setAttribute('aria-pressed', b.dataset.tab === t ? 'true' : 'false');
-    ({ items: tabItems, kilumen: tabKilumen, money: tabMoney, party: tabParty })[t]();
+    ({ items: tabItems, kilumen: tabKilumen, money: tabMoney, party: tabParty, flags: tabFlags })[t]();
   };
 
   // ---- Items --------------------------------------------------------------------------------------------------------
@@ -197,6 +200,28 @@ export function mountDevConsole({ scene, ui, role = 'admin' }) {
     body.append(h('div', { class: 'dv-sec' }, h('h3', {}, 'Player (Company ID) level'), h('div', {}, 'Now: ', idCur, co.pointsFree != null ? ` · ${co.pointsFree} benefit points free` : ''),
       h('div', { class: 'dv-row2' }, h('label', { class: 'grow' }, 'New ID level (1-50)', idIn), h('button', { type: 'button', class: 'go', on: { click: setId } }, 'Set ID level')),
       h('div', { class: 'dv-note' }, `Company XP is set to match the level. Raising it gives the usual benefit points per level. The story cap for this stage is ${cap ? 'ID ' + cap : 'not set'}, but this console can go past it.`)));
+  }
+
+  // ---- Flags (dev/admin only: this file loads behind dev_gate.js) -----------------------------------------------------
+  function tabFlags() {
+    const cur = h('b', {}), paint = () => { cur.textContent = `${coinCount(scene.flags)} / 8`; };
+    paint();
+    const done = (r, what) => { if (!r.ok) return say(r.why, true); touch(); paint(); say(what); };
+    const badges = h('div', { class: 'dv-row2' });
+    for (let n = 0; n <= 8; n++) badges.append(h('button', { type: 'button', class: n === 8 ? 'go' : '', on: { click: () => { setBadges(scene, n); done({ ok: true }, `Master coins: ${n}.`); } } }, String(n)));
+    body.append(h('div', { class: 'dv-sec' }, h('h3', {}, 'Master coins / badges'), h('div', {}, 'Now: ', cur), badges,
+      h('div', { class: 'dv-note' }, 'Sets beat_master_<hall> for the first N halls in hall order and clears the rest.')));
+    const nm = h('input', { type: 'text', placeholder: 'flag_name', autocomplete: 'off', spellcheck: 'false' });
+    const state = h('div', { class: 'dv-note' }, '');
+    const look = () => { const f = nm.value.trim(); state.textContent = f ? `${f}: ${scene.flags.has(f) ? 'SET' : 'not set'}` : ''; };
+    nm.addEventListener('input', look);
+    body.append(h('div', { class: 'dv-sec' }, h('h3', {}, 'Story flag'), h('div', { class: 'dv-row2' }, h('label', { class: 'grow' }, 'Flag name', nm)), state,
+      h('div', { class: 'dv-row2' },
+        h('button', { type: 'button', class: 'go', on: { click: () => { done(setFlagByName(scene, nm.value, true), `Set ${nm.value.trim()}.`); look(); } } }, 'Set'),
+        h('button', { type: 'button', class: 'x', on: { click: () => { done(setFlagByName(scene, nm.value, false), `Cleared ${nm.value.trim()}.`); look(); } } }, 'Clear'))));
+    const pre = h('div', { class: 'dv-row2' });
+    for (const [id, p] of Object.entries(FLAG_PRESETS)) pre.append(h('button', { type: 'button', on: { click: () => { done(applyPreset(scene, id), `${p.label}: done.`); look(); } } }, p.label));
+    body.append(h('div', { class: 'dv-sec' }, h('h3', {}, 'Presets'), pre));
   }
 
   // ---- Party creature -----------------------------------------------------------------------------------------------
