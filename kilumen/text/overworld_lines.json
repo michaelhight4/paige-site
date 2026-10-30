@@ -18576,6 +18576,115 @@
      }
     ],
     "status": "DRAFT"
+   },
+   "newsletter": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, harbour:\n'Harbour branch stays open in storm!'",
+     "'Staff thank the mop. The mop\nhas asked for a raise.'"
+    ],
+    "status": "DRAFT",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, harbour:\n'Harbour branch stays open in storm!'",
+       "'Staff thank the mop. The mop\nhas asked for a raise.'"
+      ]
+     }
+    ]
+   },
+   "suggestion_box": {
+    "pages": [
+     "SUGGESTION BOX (WATERPROOF)\n'Revival Tech hears every wave!'",
+     "Top card: 'Fewer gulls in here.'\nReply: 'The gulls are customers.'"
+    ],
+    "status": "DRAFT",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX (WATERPROOF)\n'Revival Tech hears every wave!'",
+       "Top card: 'Fewer gulls in here.'\nReply: 'The gulls are customers.'"
+      ]
+     }
+    ]
+   },
+   "company_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT",
+    "note": "pending Gary",
+    "kind": "prop",
+    "x": 12,
+    "y": 4,
+    "stand": [
+     11,
+     4
+    ],
+    "face": "right",
+    "tile": "i_company_terminal"
+   },
+   "sofa": {
+    "pages": [
+     "A squashy sofa. Perfect for\na Lap Nap."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A squashy sofa. Perfect for\na Lap Nap."
+      ]
+     }
+    ],
+    "status": "DRAFT",
+    "note": "pending Gary",
+    "kind": "prop",
+    "x": 2,
+    "y": 7,
+    "stand": [
+     2,
+     6
+    ],
+    "face": "down",
+    "tile": "i_sofa_lantern"
+   },
+   "anchor": {
+    "pages": [
+     "An old anchor from the town's\nfirst lifeboat. Kept for luck."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "An old anchor from the town's\nfirst lifeboat. Kept for luck."
+      ]
+     }
+    ],
+    "status": "DRAFT",
+    "note": "pending Gary",
+    "kind": "prop",
+    "x": 0,
+    "y": 3,
+    "stand": [
+     0,
+     4
+    ],
+    "face": "up",
+    "tile": "i_anchor"
    }
   },
   "heal_cindervale": {
