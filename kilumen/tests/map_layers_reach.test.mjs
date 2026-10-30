@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const MAPS = new URL('../art/world/overworld/maps/', import.meta.url);
 const load = (n) => JSON.parse(fs.readFileSync(new URL(n + '.json', MAPS)));
-const REWORKED = { r9_icefall: [14, 18], r9_old_riverbed: [1, 19], r9_switchbacks: [24, 1], fin_summit_camp: [16, 22], cindervale_caldera: [16, 22] };
+const REWORKED = { r9_icefall: [14, 18], r9_old_riverbed: [1, 19], r9_switchbacks: [24, 1], fin_summit_camp: [16, 22], cindervale_caldera: [16, 22], r9_cairnfold: [26, 26] };
 const PASS = new Set([0, 4, 7, 10]);
 function reach(m, start, gates = new Set()) {
   const col = m.layers.collision, H = col.length, W = col[0].length;

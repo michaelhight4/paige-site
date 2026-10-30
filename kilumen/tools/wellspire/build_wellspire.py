@@ -151,6 +151,7 @@ def build():
     # ---------- Cairnfold (Frostspire art) ----------
     cf = M('r9_cairnfold', 'frostspire', 'Cairnfold')
     cf._anchor = (26, 26)
+    map_fill.apply('r9_cairnfold', cf.j)
     ws = cf.j['warps']
     for i, w in enumerate(ws):
         k = (w['x'], w['y'])
@@ -168,6 +169,9 @@ def build():
     for i, (nid, want) in enumerate([('r9_cf_herder_1', (12, 20)), ('r9_cf_herder_2', (30, 21)), ('r9_cf_elder', (20, 28)), ('r9_cf_kid', (37, 31)),
                                      ('r9_cf_weaver', (42, 28)), ('r9_cf_walker', (10, 36)), ('r9_cf_lodge_fan', (24, 19)), ('r9_cf_watcher', (32, 36)), ('r9_cf_baker', (18, 36))]):
         cf.npc(nid, want, 'clerk', 'down')
+    for n in cf.j['npcs']:  # these two stood in a one-wide lane mouth and sealed the lane behind them; move them to its end
+        if n['id'] == 'r9_cf_herder_1': n['x'], n['y'] = 8, 20
+        if n['id'] == 'r9_cf_weaver': n['x'], n['y'], n['facing'] = 53, 28, 'left'
     done(cf)
     lodge = M('r9_lodge_int', 'frostspire_office_int', 'RT Heritage Lodge')
     lodge.warp(0, 'r9_cairnfold', 26, 18, 'down'); lodge._anchor = (7, 7)

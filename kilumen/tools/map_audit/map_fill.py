@@ -107,6 +107,32 @@ def cindervale_caldera(j):
         if it['id'] == 'caldera_item': it['x'] = 30
     item(j, 'caldera_east_pouch', 30, 18, 'coin_pouch_small', True, 'east nook behind the smelter floor')
 
+@recipe
+def r9_cairnfold(j):
+    # The west yard behind the lodge drops over a low snow bank onto the high street (one-way, x10-15), so the
+    # yard is a quick way down and the street gap at x20-29 is the way back up. Dead ends pay out.
+    ledge(j, 19, 10, 15)
+    item(j, 'r9_cf_stall_dust', 41, 18, 'crystal_dust', False, 'end of the alley past the frozen pond')
+    item(j, 'r9_cf_yard_seed', 4, 16, 'vigor_seed', True, 'far end of the west yard lane')
+    item(j, 'r9_cf_east_pouch', 39, 28, 'coin_pouch_small', True, 'corner by the weaver, under the eaves')
+    item(j, 'r9_cf_west_mix', 2, 36, 'trail_mix', False, 'west end of the bakery lane')
+    seal_unreached(j, (26, 26))  # the cloned town's tree bands had walkable squares no one can get to
+
+def seal_unreached(j, start):
+    c = j['layers']['collision']; H, W = len(c), len(c[0])
+    solid = {(n['x'], n['y']) for n in j.get('npcs', [])} | {(i['x'], i['y']) for i in j.get('items', []) if not i.get('hidden')}
+    seen, q = {tuple(start)}, [tuple(start)]
+    while q:
+        x, y = q.pop()
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            n = (x + dx, y + dy)
+            if 0 <= n[0] < W and 0 <= n[1] < H and n not in seen and n not in solid and c[n[1]][n[0]] in (0, 2, 10):
+                if c[n[1]][n[0]] == 2 and dy != 1: continue
+                seen.add(n); q.append(n)
+    for y in range(H):
+        for x in range(W):
+            if c[y][x] == 0 and (x, y) not in seen and (x, y) not in solid: c[y][x] = 1
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
