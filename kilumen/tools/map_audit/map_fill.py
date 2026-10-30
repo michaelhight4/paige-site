@@ -154,6 +154,22 @@ def lanternport_grotto(j):
     item(j, 'grotto_west_dust', 3, 4, 'crystal_dust', False, 'top of the west chimney')
     item(j, 'grotto_east_pouch', 28, 4, 'coin_pouch_small', True, 'top of the east chimney')
 
+@recipe
+def route_aurelith_saltmere(j):
+    # P1: the raised east clearing (rows 12-15) ends in a ledge (row 15, x31-45) down to the coast path; the climb back
+    # is the east bank (x46-48). P10: the sealed satchel pocket south of the bank (x43-44) opens through a gap at (44,24).
+    ledge(j, 15, 31, 45)
+    carve(j, [(44, 24)])
+    item(j, 'route_aurelith_saltmere_nub_seed', 14, 16, 'vigor_seed', True, 'north-west corner of the west meadow')
+
+@recipe
+def route_east(j):
+    # P1: the north meadow (rows 10-14) drops over a ledge (row 15, x19-33) into the middle field; climb back at x34-40.
+    # P10: both sealed satchel pockets (x46-47 east, x20-21 south) now open through one-square gaps.
+    ledge(j, 15, 19, 33)
+    carve(j, [(45, 16), (21, 24)])
+    item(j, 'route_east_hollow_pouch', 21, 26, 'coin_pouch_small', True, 'back of the south hollow')
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
