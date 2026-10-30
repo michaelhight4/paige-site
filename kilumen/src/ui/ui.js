@@ -8,31 +8,31 @@
 // Open: Esc or M (keyboard), Start (pad button 9), the menu button (touch / mouse). Dev: ?ui=title|phone|team|summary|pack|
 // kilindex|shop|archive|save|options|map|battle|levelup, ?uidemo=1 (demo team/bag/gold, not saved), ?battle=shell
 // (old scripted battle shell instead of the default engine battle, src/battle/ui_sd.js; Oct 23, 2026), ?title=0|1 (title on a bare URL only by default).
-import { iconRel, battleSpriteRel } from './data.js?v=v0.2.90-alpha';
-import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.90-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
-import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.90-alpha';
+import { iconRel, battleSpriteRel } from './data.js?v=v0.2.91-alpha';
+import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.91-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
+import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.91-alpha';
 // FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
-import { areaName } from '../overworld/area_sign.js?v=v0.2.90-alpha';
-import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.90-alpha';
-import { installWildEncounters, biomeFor } from '../battle/encounters.js?v=v0.2.90-alpha';
-import { fishingFlags } from '../fishing/flags.js?v=v0.2.90-alpha'; // fishing v1: terrain encounters flag (off by default) // battles default v1: wild encounters
+import { areaName } from '../overworld/area_sign.js?v=v0.2.91-alpha';
+import { fxSettings, fxStem, loadFx, prepFx, showImpact, showTravel, isRanged } from './hit_fx.js?v=v0.2.91-alpha';
+import { installWildEncounters, biomeFor } from '../battle/encounters.js?v=v0.2.91-alpha';
+import { fishingFlags } from '../fishing/flags.js?v=v0.2.91-alpha'; // fishing v1: terrain encounters flag (off by default) // battles default v1: wild encounters
 // UI tools pass (Oct 22, 2026; Gary: "use them and log them for later use"): lrud-spatial (Apache-2.0) picks the nearest item
 // in the pressed direction from the real layout; SortableJS (MIT, lazy) drags Team / Field Archive; ?dev=1 lazy-loads the
 // lil-gui tuning panel (./devpanel.js); Kenney CC0 PLACEHOLDER art (art/ui/kenney_placeholder) only where there was none.
-import { getNextFocus } from '../vendor/lrud-spatial/lrud.js?v=v0.2.90-alpha';
-import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js?v=v0.2.90-alpha';
+import { getNextFocus } from '../vendor/lrud-spatial/lrud.js?v=v0.2.91-alpha';
+import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alpha.js?v=v0.2.91-alpha';
 // UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
 // auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
-import { showContinue } from '../overworld/save.js?v=v0.2.90-alpha'; // first-launch Continue fix (batch 3 wire)
-import { installQol } from '../qol/qol.js?v=v0.2.90-alpha'; // [qol hook] Battle pace / Text speed / Run toggle (Oct 29 2026)
-import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.90-alpha';
-import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.90-alpha';
-import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.90-alpha';
-import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.90-alpha'; // capture rules (Gary, Oct 23 2026)
-import { rtbMode, setRtbMode, rtbKilled } from '../rtb/flag.js?v=v0.2.90-alpha'; // real-time wild battles option (Oct 29 2026)
-import { DIFFICULTIES, DIFF_ORDER, PENDING_KEY, diffOf, getDifficulty, setDifficulty } from '../systems/difficulty.js?v=v0.2.90-alpha';
-import { windEnabled, killedByUrl as windKilledByUrl } from '../overworld/wind.js?v=v0.2.90-alpha'; // Options 'Wind' toggle (Oct 29 2026)
+import { showContinue } from '../overworld/save.js?v=v0.2.91-alpha'; // first-launch Continue fix (batch 3 wire)
+import { installQol } from '../qol/qol.js?v=v0.2.91-alpha'; // [qol hook] Battle pace / Text speed / Run toggle (Oct 29 2026)
+import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.91-alpha';
+import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.91-alpha';
+import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.91-alpha';
+import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.91-alpha'; // capture rules (Gary, Oct 23 2026)
+import { rtbMode, setRtbMode, rtbKilled } from '../rtb/flag.js?v=v0.2.91-alpha'; // real-time wild battles option (Oct 29 2026)
+import { DIFFICULTIES, DIFF_ORDER, PENDING_KEY, diffOf, getDifficulty, setDifficulty } from '../systems/difficulty.js?v=v0.2.91-alpha';
+import { windEnabled, killedByUrl as windKilledByUrl } from '../overworld/wind.js?v=v0.2.91-alpha'; // Options 'Wind' toggle (Oct 29 2026)
 const KPH = 'art/ui/kenney_placeholder/';
 const kph = (f, cls = 'ph-ico') => `<img class="${cls}" data-placeholder="kenney" src="${KPH}${f}.png" alt="" aria-hidden="true" draggable="false">`;
 const LRUD_KEY = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
@@ -329,7 +329,7 @@ export class GameUI {
         } });
       el.dataset.sortable = 'on';
     };
-    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js?v=v0.2.90-alpha').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
+    (GameUI._sortableP ||= import('../vendor/sortablejs/sortable.esm.min.js?v=v0.2.91-alpha').then((m) => m.default)).then(make).catch((e) => console.warn('sortable:', e.message));
   }
   async _reorderTeam(order, moved) { // drag-to-reorder: same creature objects, new order (duplicates of a species are kept)
     const s = this.scene, real = !!s.party?.length, list = this.party(), name = (c) => c.nickname || speciesById(c.species).name;
@@ -792,7 +792,7 @@ export class GameUI {
       ...(rtbKilled(this.q) ? [] : [['Battles', rtbMode(s, this.q) === 'rt' ? 'Real-time' : 'Turn-based', () => setRtbMode(s, rtbMode(s, this.q) === 'rt' ? 'turn' : 'rt')]]), // real-time option (Oct 29 2026; also on the wild battle screen)
       ...(s.companyVoice ? [['Company voice', s.companyVoice.modeLabel(), () => s.companyVoice.cycleMode()]] : []), // [company voice hook] Full / Milestones only / Off (on by default; row absent with ?cv=0)
       ...(s.companyVoice?.ritaVoice ? [['RITA voice', s.companyVoice.ritaVoice.label(), () => s.companyVoice.ritaVoice.toggle()]] : []), // [rita voice hook] spoken lines on/off (default on)
-      [hasSessionHintUI() ? 'Account' : 'Sign in', hasSessionHintUI() ? 'Signed in' : 'Open', () => { import('../net/account.js?v=v0.2.90-alpha').then((m) => m.openAccount()); }], // v0.2.49: in-app sign-in
+      [hasSessionHintUI() ? 'Account' : 'Sign in', hasSessionHintUI() ? 'Signed in' : 'Open', () => { import('../net/account.js?v=v0.2.91-alpha').then((m) => m.openAccount()); }], // v0.2.49: in-app sign-in
       ...(window.kilumen?.dev?.active && window.kilumen.dev.role === 'owner' ? [['Dev menu', 'Open', () => { this.closeAll(); setTimeout(() => window.kilumen?.dev?.open?.({ fromMenu: true }), 80); }]] : []), // v0.2.47 (Gary): owner-only, set by dev/console.js after the server owner check
     ];
     // libs pass: sound rows (src/audio/audio.js; saved per platform). A cycles volume in 20% steps, left/right nudge 10%.
@@ -885,7 +885,7 @@ export class GameUI {
     const dot = (z) => KEY[z.id === cur ? 0 : z.status === 'built' ? 1 : 2];
     const scr = { scr: 'map', pat: 'leaf', title: this.T('system_phone.menu.labels.map', 'Map'), glyph: 'map', sel, cols: 1, count: () => zones.length,
       render: () => `<div class="ui-body"><div class="ui-panel ui-grow rm-frame" data-scr="map" data-pat="leaf" style="flex:2">
-        <div class="rm-box" style="background-image:url(art/world/world_map.webp?v=v0.2.90-alpha)">
+        <div class="rm-box" style="background-image:url(art/world/world_map.webp?v=v0.2.91-alpha)">
         ${zones.map((z, i) => `<span data-i="${i}" class="rm-dot" data-dot="${dot(z)[0]}" title="${esc(z.name)}" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%;--dot:${dot(z)[1]}"></span>`).join('')}
         ${cur ? (() => { const z = zones.find((q) => q.id === cur); return z ? `<span class="hud-prompt show rm-you" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%"><span class="g">★</span><span>You</span></span>` : ''; })() : ''}</div></div>
         <div class="plate ui-pad ui-scroll" style="flex:1"><div id="mapinfo"></div>
@@ -956,7 +956,7 @@ export class GameUI {
           if (hasSave) { try { localStorage.setItem(PENDING_KEY, pick); } catch { /* private mode: Normal */ } location.search = '?reset=1'; return; }
           setDifficulty(this.scene.systems?.state, pick);
           this._leftTitle = true; this.closeAll();
-        } else if (it === acctLabel) { import('../net/account.js?v=v0.2.90-alpha').then((m) => m.openAccount()); }
+        } else if (it === acctLabel) { import('../net/account.js?v=v0.2.91-alpha').then((m) => m.openAccount()); }
         else { this.stack = []; this.active = false; this.open('options'); }
       },
       onBack: () => false,
@@ -1133,10 +1133,10 @@ function wireWild(ui, scene, q) {
     for (;;) {
       const rt = mode === 'rt' && !rtbKilled(q);
       if (rt) catchNet(scene);
-      const out = rt ? await import('../rtb/index.js?v=v0.2.90-alpha').then((m) => m.openRtBattle(ui, scene, foe, { q, carry })) : await openBattle(foe, carry);
+      const out = rt ? await import('../rtb/index.js?v=v0.2.91-alpha').then((m) => m.openRtBattle(ui, scene, foe, { q, carry })) : await openBattle(foe, carry);
       if (out?.outcome !== 'switch' || !out.carry?.foes?.length) return out;
       carry = out.carry; mode = setRtbMode(scene, rt ? 'turn' : 'rt');
-      const sw = await import('../rtb/switch.js?v=v0.2.90-alpha'); await sw.modeFlash(mode, { reduced: ui.body?.classList.contains('ui-reduce') || reducedMotionQ() });
+      const sw = await import('../rtb/switch.js?v=v0.2.91-alpha'); await sw.modeFlash(mode, { reduced: ui.body?.classList.contains('ui-reduce') || reducedMotionQ() });
     }
   };
   const reducedMotionQ = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } };
@@ -1160,21 +1160,21 @@ export function mountUI(opts) {
   if (!shell) wireWild(ui, scene, q); // wild encounters from tall grass (src/battle/encounters.js)
   if (!shell) {
     // trainers resolve won/lost from the engine result
-    const load = import('../battle/ui_sd.js?v=v0.2.90-alpha').then((m) => { ui.sdMod = m; return m; });
+    const load = import('../battle/ui_sd.js?v=v0.2.91-alpha').then((m) => { ui.sdMod = m; return m; });
     ui.sdReady = load;
     // real-time trainer fights (branch rtb-trainer, NOT live; Gary Oct 29 2026): the same Options mode picks real-time for trainers,
     // Masters and the rival too. Team: injected Master / map team (progression) > authored team > the turn screen's placeholder pair.
     const rtTrainer = async (who) => {
-      const { authoredTeam } = await import('../battle/data/trainer_teams.js?v=v0.2.90-alpha');
+      const { authoredTeam } = await import('../battle/data/trainer_teams.js?v=v0.2.91-alpha');
       const party = scene.party || [], lead = party[0] || { species: 'rillop', level: 5 };
       const inj = ui.trainerTeam?.(), lv = Math.max(2, (lead.level || 5) - 1), sp = lead.species === 'cindrip' ? 'rillop' : 'cindrip';
       const foes = inj?.foes?.length ? inj.foes.map((f) => ({ species: f.species, level: f.level })) : authoredTeam(who, party)
         || [{ species: sp, level: lv }, { species: sp === 'tumbloam' ? 'burlbeetle' : 'tumbloam', level: lv }];
-      const m = await import('../rtb/index.js?v=v0.2.90-alpha'), dm = await import('../systems/difficulty.js?v=v0.2.90-alpha');
+      const m = await import('../rtb/index.js?v=v0.2.91-alpha'), dm = await import('../systems/difficulty.js?v=v0.2.91-alpha');
       // the trainer NPC on this map (stays standing where they are and watches; rematch ids end in ~rematch)
       const nid = String(who?.rematch || who?.id || '').replace(/~rematch$/, ''), npc = (!who?.map || who.map === scene.map?.name) ? scene.npcs?.byId?.(nid) || null : null;
       let e = {}; try { e = (who?.map && nid && scene._entryFor?.(who.map, { id: nid })) || {}; } catch { e = {}; }
-      let hall = null; try { const pm = await import('../progression/masters.js?v=v0.2.90-alpha'); hall = pm.findHallTrainer(await (await fetch('data/masters.json')).json(), who?.map, nid); } catch { hall = null; } // hall Master / helper name + Master number
+      let hall = null; try { const pm = await import('../progression/masters.js?v=v0.2.91-alpha'); hall = pm.findHallTrainer(await (await fetch('data/masters.json')).json(), who?.map, nid); } catch { hall = null; } // hall Master / helper name + Master number
       const cls = e.trainer_class || '', nm = e.name || '', spk = npc && scene.speakerFor?.(npc)?.name;
       const name = (cls && nm && cls !== nm ? `${cls} ${nm}` : nm || cls) || hall?.who?.name_placeholder || spk || (inj?.foeName !== 'Trainer' && inj?.foeName) || 'Trainer';
       const items = dm.masterItems(inj?.masterNumber || (hall?.isMaster ? hall.hall.coin_number : 0), dm.getDifficulty(scene.systems?.state)); // same Master healing items as the turn battle
