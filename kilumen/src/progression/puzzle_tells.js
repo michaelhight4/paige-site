@@ -198,9 +198,11 @@ export function drawTells(ctx, v, ops, fx = [], t = 0) {
       ctx.globalAlpha = 0.9; ctx.strokeStyle = o.color; ctx.lineWidth = Math.max(1, z * 1.5); ctx.strokeRect(X + z, Y + z, S - z * 2, S - z * 2); ctx.lineWidth = Math.max(1, z);
       const n = Math.min(6, o.lamps || 1), r = Math.max(1.5, z * 1.5), gap = S / (n + 1);
       for (let i = 0; i < n; i++) { ctx.beginPath(); ctx.arc(X + gap * (i + 1), Y + r + z, r, 0, Math.PI * 2); ctx.fillStyle = i < (o.lit || 0) ? '#ffe36b' : '#3a3440'; ctx.fill(); ctx.strokeStyle = '#000'; ctx.stroke(); }
-    } else if (o.k === 'pillar') {
-      ctx.globalAlpha = 0.95; ctx.strokeStyle = '#ff3b3b'; ctx.lineWidth = Math.max(1, z * 2); ctx.strokeRect(X + z, Y + z, S - z * 2, S - z * 2);
-      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = Math.max(1, z * 0.75); ctx.strokeRect(X + z * 2.5, Y + z * 2.5, S - z * 5, S - z * 5); ctx.lineWidth = Math.max(1, z);
+    } else if (o.k === 'pillar') { // stop-pillar tell: frost corner brackets in the art's own palette (Director art QA Oct 30: the full red frame read as a debug outline)
+      // v2 (Director #17/#18 follow-up): no outline at all (corner brackets still read as tile seams on wall rows): a small frost glint
+      const r = Math.max(1, Math.round(z * 1.5)), cx = Math.round(X + S / 2), cy = Math.round(Y + S * 0.22);
+      ctx.globalAlpha = 0.9; ctx.fillStyle = '#cfeeff'; ctx.fillRect(cx - r * 2, cy - Math.floor(r / 2), r * 4, r); ctx.fillRect(cx - Math.floor(r / 2), cy - r * 2, r, r * 4);
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(cx - Math.floor(r / 2), cy - Math.floor(r / 2), r, r);
     } else if (o.k === 'brush') {
       ctx.globalAlpha = 0.8; ctx.strokeStyle = '#d6ff7a';
       for (let i = 1; i < 4; i++) { ctx.beginPath(); ctx.moveTo(X + (S * i) / 4, Y + S * 0.15); ctx.lineTo(X + (S * i) / 4 - S * 0.12, Y + S * 0.5); ctx.lineTo(X + (S * i) / 4, Y + S * 0.85); ctx.stroke(); }

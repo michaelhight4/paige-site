@@ -13,7 +13,7 @@ import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode
 import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.95-alpha';
 import { GridMover } from './movement.js?v=v0.2.95-alpha';
 import { DEV } from '../dev/runtime.js?v=v0.2.95-alpha';
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.95-alpha';
+import { cameraFor, pickZoom, outsideFillFor, MASTER_HALL } from './camera.js?v=v0.2.95-alpha';
 import { promptScheme, promptVars } from '../platform.js?v=v0.2.95-alpha';
 import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.95-alpha';
 import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit, withArenaArt, prefetchTilesetJson } from './tileset.js?v=v0.2.95-alpha';
@@ -1299,7 +1299,7 @@ export class Overworld {
       fade: this.fadeAlpha(), debug: this.debug, drawDebug, player: p, fps: this.fps, lastDoor: this.lastDoor, flags: [...this.flags],
       ixlight: this.ixlight, phase: this.phase,
       wind: this.wind, life: this.life, depth: this.depth, nightfx: this.nightfx, mood: this.mood, r9fx: this.r9fx, markers: this._markerDraw(), // mood: cinematic layers (mood.js, set in main.js)
-      outside: outsideFillFor(this.opts.platform?.profile?.camera, this.opts.platform?.profile?.display, this.map.name, isIndoor(this.map.name), this.map.json?.outside_fill), edgeShade: this.map.json?.edge_shade ?? this.opts.platform?.profile?.display?.edgeShade, // mobile/centre camera: fill off the map (pc without alwaysCentre: black)
+      outside: outsideFillFor(this.opts.platform?.profile?.camera, this.opts.platform?.profile?.display, this.map.name, isIndoor(this.map.name), this.map.json?.outside_fill), edgeShade: this.map.json?.edge_shade ?? (MASTER_HALL.test(this.map.name) ? 'rgba(26,18,38,0.22)' : undefined) ?? this.opts.platform?.profile?.display?.edgeShade, // mobile/centre camera: fill off the map (pc without alwaysCentre: black)
     };
   }
 

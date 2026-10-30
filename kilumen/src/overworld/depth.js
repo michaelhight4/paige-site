@@ -335,11 +335,10 @@ export class DepthPass {
     const boxes = [];
     for (const o of objects) {
       const p = tweakFor(o.name, prof), foot = objectFoot(o.cells, bottomOf, p.band);
-      if (foot) boxes.push(shadowBox(foot, p));
+      if (foot) boxes.push({ ...shadowBox(foot, p), dither: p.dither, rim: p.rim }); // per-tweak dither / rim (solid rock shadows)
     }
     if (boxes.length) layer(prof.alpha, (x) => {
-      const rimC = Math.max(0, Math.round(prof.rim / 2));
-      for (const b of boxes) paintShape(x, b.x, b.y, b.w / 2, b.h / 2, rimC, b.shape, prof.dither);
+      for (const b of boxes) paintShape(x, b.x, b.y, b.w / 2, b.h / 2, Math.max(0, Math.round(b.rim / 2)), b.shape, b.dither);
     });
     // cut the casters' own pixels out: the shadow shows only on the floor around them
     const ts = this._src(v), S = ts.size;

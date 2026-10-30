@@ -5,4 +5,5 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 python3 tools/furniture/grid_fit_and_swap.py . --check --overworld --report /tmp/grid_fit_report.md
 python3 tools/gridfit_world/grid_fit_world.py . --check --report /tmp/grid_fit_world_report.md
+python3 tools/gridfit_world/wellspire_solid_check.py .
 node --test tests/grid_fit_world_reach.test.mjs

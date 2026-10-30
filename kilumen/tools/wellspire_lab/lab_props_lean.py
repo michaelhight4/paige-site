@@ -74,7 +74,8 @@ class Lit:
             u = (x - cx) / rx; f = min(1, abs(u + 0.25) * 0.85)                       # brightest a little left of centre
             col = tuple(int(g0[i] * (1 - f * 0.7) + g1[i] * f * 0.7) for i in range(3))
             yb = y1 + int(ry * math.sqrt(max(0, 1 - u * u)))
-            s.line([(x, y0), (x, yb)], col, NEU if u < 0.55 else 140, True)
+            s.line([(x, y0), (x, yb)], col, FRONT if u < 0.55 else SIDE, False)            # glass front: FRONT shade, right edge SIDE
+        s.ell((cx - rx + 1, y0 - ry + 2, cx + rx - 1, y0 + ry), tuple(min(255, int(v * 1.1) + 18) for v in g0), TOP)  # liquid surface = TOP face
         s.line([(cx - rx + 3, y0 + 3), (cx - rx + 3, y1 - 2)], GLASS_HI + (150,), NEU, True)
         s.line([(cx - rx + 5, y0 + 3), (cx - rx + 5, y0 + (y1 - y0) // 3)], GLASS_HI + (110,), NEU, True)
 
@@ -222,15 +223,20 @@ def crystal_tank(broken=False):  # 6x5 Ondravel tank: box, lid TOP+FRONT, glass 
 
 
 def vat(k, nm):
-    """Sunken vat 9-slice: rim TOP faces at floor level, far inner wall below the north rim is a FRONT face (darker)."""
-    g0, g1 = GLOW[k]; c = Lit(1, 1); c.rect((0, 0, 31, 31), g1, NEU, True)
-    for (x, y) in ((6, 12), (21, 8), (14, 22), (26, 26), (9, 28)): c.rect((x, y, x + 1, y + 1), g0, NEU, True)
-    rim = (120, 134, 142)
+    """Raised vat 9-slice on the shared 35-deg lean: liquid surface + rims are TOP faces (light), the far inner wall under the
+    north rim and the outer tub wall under the south rim are FRONT faces (darker), east rim SIDE."""
+    g0, g1 = GLOW[k]; c = Lit(1, 1)
+    liq = tuple(int((g0[i] + g1[i]) * 0.32) for i in range(3)); c.rect((0, 0, 31, 31), liq, TOP)
+    for (x, y) in ((6, 12), (21, 8), (14, 22), (26, 16), (9, 18)): c.rect((x, y, x + 1, y + 1), g0, NEU, True)
+    rim, wall = (150, 162, 172), (96, 108, 118)
     n, s_, w, e = 'n' in nm, 's' in nm, 'w' in nm, 'e' in nm
-    if n: c.rect((0, 0, 31, 3), rim, TOP); c.rect((0, 4, 31, 9), (78, 92, 100), FRONT); c.line([(0, 3), (31, 3)], shade(rim + (255,), 1.3), NEU)
-    if s_: c.rect((0, 28, 31, 31), rim, TOP)
-    if w: c.rect((0, 0, 3, 31), rim, TOP); c.rect((4, 4 if n else 0, 5, 27 if s_ else 31), (60, 72, 80), SIDE)
-    if e: c.rect((28, 0, 31, 31), rim, TOP)
+    if n: c.rect((0, 0, 31, 3), rim, TOP); c.rect((0, 4, 31, 9), (78, 92, 100), FRONT); c.line([(0, 3), (31, 3)], shade(rim + (255,), 1.2), NEU)
+    if s_:
+        c.rect((0, 14, 31, 17), rim, TOP); c.line([(0, 17), (31, 17)], shade(rim + (255,), 1.2), NEU)   # near rim (TOP), lit front edge
+        c.rect((0, 18, 31, 29), wall, FRONT); c.line([(0, 23), (31, 23)], shade(wall + (255,), 0.8), FRONT)  # outer tub wall (FRONT)
+        c.rect((0, 30, 31, 31), (40, 46, 54), SIDE)                                                       # contact shadow on the floor
+    if w: c.rect((0, 0, 3, 29 if s_ else 31), rim, TOP); c.rect((4, 4 if n else 0, 5, 13 if s_ else 31), (60, 72, 80), SIDE)
+    if e: c.rect((28, 0, 31, 29 if s_ else 31), rim, SIDE)
     return c
 
 
@@ -269,7 +275,7 @@ def _box(c, x0, x1, y, depth, height, col, side=True, strip=None):
 
 
 def k_counter(part):
-    c = Lit(1, 1); x0 = 3 if part == 'l' else 0; x1 = 28 if part == 'r' else 31
+    c = Lit(1, 1); x0 = 7 if part == 'l' else 0; x1 = 24 if part == 'r' else 31   # end pieces stand clear of the side wall
     c.shadow((x0, 22, min(31, x1 + 2), 31)); _box(c, x0, x1, 6, 26, 12, STEEL, side=part == 'r', strip=GLOW['cyan'][0])
     if part == 'm': c.rect((10, 9, 19, 12), (70, 90, 120), TOP); c.rect((11, 10, 18, 11), GLOW['cyan'][0], NEU, True)   # tablet on top
     return c
@@ -373,10 +379,11 @@ def k_crates():
 
 
 def k_console():  # navy console, angled screen (top face) + keys on the front
-    c = Lit(1, 1); c.shadow((3, 16, 31, 31)); _box(c, 3, 28, 6, 20, 14, (60, 80, 120))
-    c.rect((6, 7, 25, 15), (20, 60, 90), NEU, True)
-    for y in (9, 12): c.line([(8, y), (8 + (y * 3) % 14, y)], GLOW['cyan'][0], NEU, True)
-    for x in (7, 12, 17, 22): c.rect((x, 22, x + 2, 23), (255, 120, 220), NEU, True)
+    c = Lit(1, 1); c.shadow((3, 16, 31, 31)); yt, yf = _box(c, 3, 28, 6, 20, 14, (104, 124, 160))   # TOP rows 6..16 lit, FRONT 17..27
+    for x in (7, 12, 17, 22): c.rect((x, 9, x + 2, 11), (255, 120, 220), TOP)                            # keys sit on the lit top
+    c.rect((7, 13, 24, 14), (70, 90, 124), TOP)                                                          # key-bed edge
+    c.rect((6, yt + 2, 25, yf - 3), (20, 60, 90), FRONT, True)                                            # screen on the front face
+    for y in (yt + 4, yt + 6): c.line([(8, y), (8 + (y * 3) % 14, y)], GLOW['cyan'][0], NEU, True)
     return c
 
 
