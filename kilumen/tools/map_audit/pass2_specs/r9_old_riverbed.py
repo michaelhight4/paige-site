@@ -8,7 +8,7 @@ def P(*a, **k): return _P(M, *a, main_start=[1, 19], floor_tile_at=[25, 12], flo
 POCKETS = [
  P('rb_pocket_spring', 'r9_old_riverbed_cave', 'Dry Spring', [[42, 9, 48, 12]], [43, 47, 13],
    [[x, y] for x in range(43, 48) for y in (14, 15)], [21, 9], [45, 9],
-   T('r9_rbp_dowser', 43, 9, 'Dowser', 'Wren', ['torrentpike', 'cascadorn', 'moorcoil'],
+   T('r9_rbp_dowser', 43, 9, 'Dowser', 'Wren', ['torrentpike', 'cascadorn', 'tuskwallow'],
      'The river left. The spring stayed. So did I.', 'You found the water and the fight. Lucky day.', 'The ledge drops you by the nook.'),
    E('r9_rbp_egg_cup', 48, 9, 'a tin cup on a nail', 'A tin cup on a nail. Scratched on it: BACK SOON. The dust says otherwise.'),
    dict(id='r9_rbp_crystal', x=48, y=12, item='dominance_crystal_plus'),

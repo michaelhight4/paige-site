@@ -76,9 +76,9 @@
     "class": "Hermit",
     "name": "Odda",
     "species": [
-     "cairnhorn",
-     "shagmount",
-     "peakbrute"
+     "lancebeetle",
+     "fernstag",
+     "tundrarch"
     ],
     "intro": [
      "DRAFT: Nobody finds this ledge by walking. You came through the crack, huh?"
@@ -171,9 +171,9 @@
     "class": "Ice Cutter",
     "name": "Bran",
     "species": [
-     "seraphawk",
-     "snowgrouse",
-     "highkite"
+     "gauzewing",
+     "galespar",
+     "stratodrake"
     ],
     "intro": [
      "DRAFT: This seam is mine. I cut ice blocks for the camp."
@@ -257,9 +257,9 @@
     "class": "Mountaineer",
     "name": "Sefa",
     "species": [
-     "geodurchin",
-     "ingotitan",
-     "runeskein"
+     "calderock",
+     "foundrax",
+     "novarch"
     ],
     "intro": [
      "DRAFT: Shout in here and the mountain shouts back. Want to hear it?"
@@ -410,7 +410,7 @@
     "species": [
      "stratodrake",
      "cragmont",
-     "peakbrute"
+     "tundrarch"
     ],
     "intro": [
      "DRAFT: You found the warden hut. Most climbers walk right past it."
@@ -501,7 +501,7 @@
     "name": "Maren",
     "species": [
      "cragmont",
-     "seraphawk",
+     "gauzewing",
      "galespar"
     ],
     "intro": [
@@ -591,7 +591,7 @@
     "species": [
      "stratodrake",
      "cragmont",
-     "geodurchin"
+     "calderock"
     ],
     "intro": [
      "DRAFT: You came up through the falls? Then you earned the view."
@@ -727,9 +727,9 @@
     "class": "Hermit",
     "name": "Aldo",
     "species": [
-     "ingotitan",
-     "shagmount",
-     "cairnhorn"
+     "foundrax",
+     "fernstag",
+     "lancebeetle"
     ],
     "intro": [
      "DRAFT: The spire has a cellar. Nobody asks what is in it. You did."
@@ -860,7 +860,7 @@
     "species": [
      "torrentpike",
      "cascadorn",
-     "moorcoil"
+     "tuskwallow"
     ],
     "intro": [
      "DRAFT: The river left. The spring stayed. So did I."
@@ -1089,9 +1089,9 @@
     "class": "Herder",
     "name": "Bram",
     "species": [
-     "cairnhorn",
+     "lancebeetle",
      "cragmont",
-     "ingotitan"
+     "foundrax"
     ],
     "intro": [
      "DRAFT: The herd naps up here. Keep it down. Or fight me loudly."
@@ -1203,7 +1203,7 @@
     "class": "Bell Ringer",
     "name": "Ottla",
     "species": [
-     "seraphawk",
+     "gauzewing",
      "galespar",
      "stratodrake"
     ],
@@ -1286,9 +1286,9 @@
     "class": "Digger",
     "name": "Pell",
     "species": [
-     "geodurchin",
+     "calderock",
      "cragmont",
-     "cairnhorn"
+     "lancebeetle"
     ],
     "intro": [
      "DRAFT: This crack runs all the way down to the old river. I dug it. Mostly."

@@ -2,43 +2,43 @@
 export const CAVE_POCKET_TEAMS = {
  "r9_switchbacks.r9_swp_hermit": [
   {
-   "species": "cairnhorn",
+   "species": "lancebeetle",
    "level": 63
   },
   {
-   "species": "shagmount",
+   "species": "fernstag",
    "level": 63
   },
   {
-   "species": "peakbrute",
+   "species": "tundrarch",
    "level": 63
   }
  ],
  "r9_switchbacks.r9_swp_icecutter": [
   {
-   "species": "seraphawk",
+   "species": "gauzewing",
    "level": 63
   },
   {
-   "species": "snowgrouse",
+   "species": "galespar",
    "level": 63
   },
   {
-   "species": "highkite",
+   "species": "stratodrake",
    "level": 63
   }
  ],
  "r9_switchbacks.r9_swp_echo": [
   {
-   "species": "geodurchin",
+   "species": "calderock",
    "level": 63
   },
   {
-   "species": "ingotitan",
+   "species": "foundrax",
    "level": 63
   },
   {
-   "species": "runeskein",
+   "species": "novarch",
    "level": 63
   }
  ],
@@ -52,7 +52,7 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   },
   {
-   "species": "peakbrute",
+   "species": "tundrarch",
    "level": 63
   }
  ],
@@ -62,7 +62,7 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   },
   {
-   "species": "seraphawk",
+   "species": "gauzewing",
    "level": 63
   },
   {
@@ -80,21 +80,21 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   },
   {
-   "species": "geodurchin",
+   "species": "calderock",
    "level": 63
   }
  ],
  "fin_summit_camp.r9_fscp_keeper": [
   {
-   "species": "ingotitan",
+   "species": "foundrax",
    "level": 63
   },
   {
-   "species": "shagmount",
+   "species": "fernstag",
    "level": 63
   },
   {
-   "species": "cairnhorn",
+   "species": "lancebeetle",
    "level": 63
   }
  ],
@@ -108,13 +108,13 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   },
   {
-   "species": "moorcoil",
+   "species": "tuskwallow",
    "level": 63
   }
  ],
  "r9_cairnfold.r9_cfp_herder": [
   {
-   "species": "cairnhorn",
+   "species": "lancebeetle",
    "level": 63
   },
   {
@@ -122,13 +122,13 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   },
   {
-   "species": "ingotitan",
+   "species": "foundrax",
    "level": 63
   }
  ],
  "r9_cairnfold.r9_cfp_ringer": [
   {
-   "species": "seraphawk",
+   "species": "gauzewing",
    "level": 63
   },
   {
@@ -142,7 +142,7 @@ export const CAVE_POCKET_TEAMS = {
  ],
  "r9_cairnfold.r9_cfp_digger": [
   {
-   "species": "geodurchin",
+   "species": "calderock",
    "level": 63
   },
   {
@@ -150,7 +150,7 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   },
   {
-   "species": "cairnhorn",
+   "species": "lancebeetle",
    "level": 63
   }
  ]
