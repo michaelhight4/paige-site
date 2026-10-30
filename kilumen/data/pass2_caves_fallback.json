@@ -439,7 +439,7 @@
      "DRAFT: Ledge down, and mind the feathers."
     ],
     "trainer_class": "Bird Keeper",
-    "name": "Pell",
+    "name": "Tarn",
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    },
    "r9_rasp_egg_feathers": {
@@ -611,7 +611,7 @@
      "DRAFT: Ledge down to the field."
     ],
     "trainer_class": "Gardener",
-    "name": "Wren",
+    "name": "Maja",
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    },
    "r9_rrp_egg_moss": {
@@ -661,6 +661,264 @@
    "area_name": {
     "pages": [
      "Lark Ledge"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "sunmeadow_fields": {
+   "r9_smfp_haymaker": {
+    "pages": [
+     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You out-stacked me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ],
+    "trainer_class": "Farmer",
+    "name": "Bodil",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_egg_scarecrow": {
+    "pages": [
+     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_cloverpicker": {
+    "pages": [
+     "DRAFT: Four-leaf clovers grow only here. I counted. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Lucky you."
+    ],
+    "after": [
+     "DRAFT: Ledge down and follow the strip east."
+    ],
+    "trainer_class": "Camper",
+    "name": "Elin",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_egg_clover": {
+    "pages": [
+     "DRAFT: A clover as big as a plate. It has five leaves. Someone glued one on."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_beekeeper": {
+    "pages": [
+     "DRAFT: Shh. The bees are asleep. Battle quietly."
+    ],
+    "battle_lost": [
+     "DRAFT: The bees slept through it."
+    ],
+    "after": [
+     "DRAFT: Ledge down and go west."
+    ],
+    "trainer_class": "Beekeeper",
+    "name": "Torvald",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_egg_hive": {
+    "pages": [
+     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "sunmeadow_fields_cave_e": {
+   "area_name": {
+    "pages": [
+     "Hay Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "sunmeadow_fields_cave_nw": {
+   "area_name": {
+    "pages": [
+     "Clover Dell"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "sunmeadow_fields_cave_n": {
+   "area_name": {
+    "pages": [
+     "Bee Hollow"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "aurelith": {
+   "r9_aurp_vaultkeeper": {
+    "pages": [
+     "DRAFT: This vault held the city gate keys. Now it holds me. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Fine. The keys are gone anyway."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to Ring Street."
+    ],
+    "trainer_class": "Guard",
+    "name": "Hedda",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_egg_keyring": {
+    "pages": [
+     "DRAFT: A key ring as big as a wheel. Not one key fits anything."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_signaller": {
+    "pages": [
+     "DRAFT: I wave the lamp when a train comes. None has come in years. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Green light. You may pass."
+    ],
+    "after": [
+     "DRAFT: Ledge down and head west."
+    ],
+    "trainer_class": "Engineer",
+    "name": "Jory",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_egg_lamp": {
+    "pages": [
+     "DRAFT: A signal lamp stuck on green. It has been green for nine years."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_porter": {
+    "pages": [
+     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: All change, then."
+    ],
+    "after": [
+     "DRAFT: Drop off the platform edge and go west."
+    ],
+    "trainer_class": "Porter",
+    "name": "Ansel",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_egg_clock": {
+    "pages": [
+     "DRAFT: A platform clock. Both hands point at the snack stand."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "aurelith_cave_nw": {
+   "area_name": {
+    "pages": [
+     "Gate Vault"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "aurelith_cave_ne": {
+   "area_name": {
+    "pages": [
+     "Signal Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "aurelith_cave_e": {
+   "area_name": {
+    "pages": [
+     "Old Platform"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "revival_heights": {
+   "r9_rhp_archivist": {
+    "pages": [
+     "DRAFT: Every memo since the company began is filed here. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Filed under: lost."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the boulevard."
+    ],
+    "trainer_class": "Clerk",
+    "name": "Ottilie",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_egg_memo": {
+    "pages": [
+     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_technician": {
+    "pages": [
+     "DRAFT: Have you tried turning the battle off and on again? Battle!"
+    ],
+    "battle_lost": [
+     "DRAFT: Rebooting..."
+    ],
+    "after": [
+     "DRAFT: Ledge down, then west along the lane."
+    ],
+    "trainer_class": "Engineer",
+    "name": "Sixten",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_egg_fan": {
+    "pages": [
+     "DRAFT: A big humming fan. It hums the company jingle, a little off-key."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_gardener": {
+    "pages": [
+     "DRAFT: The staff garden was closed for efficiency. I still water it. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You grew on me."
+    ],
+    "after": [
+     "DRAFT: Ledge down and walk east."
+    ],
+    "trainer_class": "Gardener",
+    "name": "Brita",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rhp_egg_mug": {
+    "pages": [
+     "DRAFT: A mug on a bench. It says OKAYEST MANAGER IN THE WORLD."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "revival_heights_cave_nw": {
+   "area_name": {
+    "pages": [
+     "Archive Room"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "revival_heights_cave_ne": {
+   "area_name": {
+    "pages": [
+     "Server Nook"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "revival_heights_cave_sw": {
+   "area_name": {
+    "pages": [
+     "Break Garden"
     ],
     "status": "DRAFT"
    }

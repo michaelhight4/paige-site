@@ -15,7 +15,7 @@ POCKETS = [
    'A bell keeper on a loft in the north rock; a Prime Crystal sits in the corner.',
    map_items=[{'id': 'rr_loft_seed_visible', 'x': 33, 'y': 11, 'item': 'vigor_seed', 'hidden': False}]),  # R6
  P('rr_pocket_hollow', 'route_revival_cave_w', 'West Hollow', [[13, 17, 21, 22], [19, 23, 21, 23]], [19, 21, 24], [], [16, 24], [17, 16],
-   T('r9_rrp_herbalist', 13, 17, 'Gardener', 'Wren', ['fernstag', 'gauzewing', 'tuskwallow'],
+   T('r9_rrp_herbalist', 13, 17, 'Gardener', 'Maja', ['fernstag', 'gauzewing', 'tuskwallow'],
      'I grow moss up here. Very slowly. Battle while we wait?', 'The moss grew a bit. You won.', 'Ledge down to the field.'),
    E('r9_rrp_egg_moss', 21, 16, 'moss shaped like a heart', 'Moss in the shape of a heart. A tiny sign: TEN YEARS. WORTH IT.'),
    dict(id='r9_rrp_seed', x=13, y=22, item='vigor_seed'),

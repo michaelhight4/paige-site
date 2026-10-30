@@ -335,5 +335,131 @@ export const CAVE_POCKET_TEAMS = {
    "species": "cascadorn",
    "level": 63
   }
+ ],
+ "sunmeadow_fields.r9_smfp_haymaker": [
+  {
+   "species": "tuskwallow",
+   "level": 63
+  },
+  {
+   "species": "fernstag",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  }
+ ],
+ "sunmeadow_fields.r9_smfp_cloverpicker": [
+  {
+   "species": "gauzewing",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  },
+  {
+   "species": "torrentpike",
+   "level": 63
+  }
+ ],
+ "sunmeadow_fields.r9_smfp_beekeeper": [
+  {
+   "species": "lancebeetle",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
+   "level": 63
+  }
+ ],
+ "aurelith.r9_aurp_vaultkeeper": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
+   "level": 63
+  }
+ ],
+ "aurelith.r9_aurp_signaller": [
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  },
+  {
+   "species": "lancebeetle",
+   "level": 63
+  }
+ ],
+ "aurelith.r9_aurp_porter": [
+  {
+   "species": "cascadorn",
+   "level": 63
+  },
+  {
+   "species": "torrentpike",
+   "level": 63
+  },
+  {
+   "species": "tuskwallow",
+   "level": 63
+  }
+ ],
+ "revival_heights.r9_rhp_archivist": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  }
+ ],
+ "revival_heights.r9_rhp_technician": [
+  {
+   "species": "lancebeetle",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
+   "level": 63
+  }
+ ],
+ "revival_heights.r9_rhp_gardener": [
+  {
+   "species": "fernstag",
+   "level": 63
+  },
+  {
+   "species": "gauzewing",
+   "level": 63
+  },
+  {
+   "species": "cascadorn",
+   "level": 63
+  }
  ]
 };

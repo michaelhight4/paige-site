@@ -47,7 +47,7 @@
     "battle_won": ["Salt in the wound, sorry.\nRest your team and come back."],
     "after": ["The ledge drops you back\non the trail."]},
    "r9_rasp_egg_heap": {"pages": ["A salt castle with tiny salt flags.", "A sign on it says: DO NOT LICK."]},
-   "r9_rasp_gullkeeper": {"name": "Pell",
+   "r9_rasp_gullkeeper": {"name": "Tarn", "_name_note": "Renamed from Pell: Pell is the Cairnfold digger.",
     "pages": ["The gulls nest in this notch.\nThey let me stay. Will you?"],
     "battle_lost": ["The gulls like you. So do I."],
     "battle_won": ["The gulls are laughing.\nDon't take it personally."],
