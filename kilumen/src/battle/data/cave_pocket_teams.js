@@ -251,5 +251,47 @@ export const CAVE_POCKET_TEAMS = {
    "species": "cascadorn",
    "level": 63
   }
+ ],
+ "route_east.r9_rep_ridgewalker": [
+  {
+   "species": "stratodrake",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  }
+ ],
+ "route_east.r9_rep_denkeeper": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "cascadorn",
+   "level": 63
+  }
+ ],
+ "route_east.r9_rep_nookie": [
+  {
+   "species": "torrentpike",
+   "level": 63
+  },
+  {
+   "species": "gauzewing",
+   "level": 63
+  },
+  {
+   "species": "tuskwallow",
+   "level": 63
+  }
  ]
 };

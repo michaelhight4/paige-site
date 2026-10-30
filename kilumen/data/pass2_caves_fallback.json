@@ -492,6 +492,92 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "route_east": {
+   "r9_rep_ridgewalker": {
+    "pages": [
+     "DRAFT: Nobody walks the ridge but me. Until now. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You walk it better than me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ],
+    "trainer_class": "Ridge Walker",
+    "name": "Edvin",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_egg_cairn": {
+    "pages": [
+     "DRAFT: A cairn of flat stones. The top one has a face drawn on it. It looks worried."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_denkeeper": {
+    "pages": [
+     "DRAFT: This den is mine. The rent is one battle."
+    ],
+    "battle_lost": [
+     "DRAFT: Rent paid in full."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you by the path."
+    ],
+    "trainer_class": "Hermit",
+    "name": "Saga",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_egg_chair": {
+    "pages": [
+     "DRAFT: A chair carved out of the rock. Very comfy. For a rock."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_nookie": {
+    "pages": [
+     "DRAFT: You found my nook! Nobody finds my nook."
+    ],
+    "battle_lost": [
+     "DRAFT: Fine, it is our nook now."
+    ],
+    "after": [
+     "DRAFT: Ledge down to the west field."
+    ],
+    "trainer_class": "Camper",
+    "name": "Liv",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rep_egg_kite": {
+    "pages": [
+     "DRAFT: A kite wedged in the rock. The string goes up and up and does not come down."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "route_east_cave_n": {
+   "area_name": {
+    "pages": [
+     "Ridge Hollow"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_east_cave_e": {
+   "area_name": {
+    "pages": [
+     "East Den"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_east_cave_w": {
+   "area_name": {
+    "pages": [
+     "West Nook"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }
