@@ -2,7 +2,7 @@
 // draws map json `lab` (tools/wellspire/build_lab_v3.py) as chunky pixel art on a 16 px/tile buffer scaled up with no
 // smoothing, so it reads like the tile art. under(): floors, walls, props, Ondravel's tank (water, bubbles, pulsing tubes,
 // Ondravel floating inside); over(): mist, strip-light glow. State: fx.lab.drain 0..1 (water gone), fx.lab.broken.
-import { anim, frameAt, drawFrame } from './anims.js?v=v0.2.97-alpha';
+import { anim, frameAt, drawFrame } from './anims.js?v=v0.2.98-alpha';
 const T = 64, S = 16, K = T / S;
 const PAL = { white: ['#dfe8ef', '#c9d6e0'], green: ['#1b2a24', '#22342c'], teal: ['#10222a', '#152b34'], steel: ['#b9c6d0', '#a7b6c2'] };
 const WALL = { white: '#eef3f7', green: '#1e2b27', teal: '#16262e', steel: '#d4dde4' };

@@ -26,7 +26,7 @@ const sw = (m, i) => { const q = J(m).puzzle.switches[i]; return [q.x, q.y + 1];
 const SAY = (k) => `say:${k}`;
 // [tag, map, x, y, flags, action: spot:<id> | talk:<npc> | say:<key> | summit | slip | credits2 | null, extra]
 const LAB = 'fin_past_enclosure';
-const QUIET = "const {LAB_IDS}=await import('/src/region9/index.js?v=v0.2.97-alpha'); for (const id of LAB_IDS) s.seen['defeated:fin_past_enclosure.'+id]=true; s.setFlag('fin_enc_lead_beaten');";
+const QUIET = "const {LAB_IDS}=await import('/src/region9/index.js?v=v0.2.98-alpha'); for (const id of LAB_IDS) s.seen['defeated:fin_past_enclosure.'+id]=true; s.setFlag('fin_enc_lead_beaten');";
 const VIEWS = [
   ['40_lab_entry_corridor', LAB, 4, 17, [], 'js:900:0:' + QUIET],
   ['42_lab_exam_wing', LAB, 4, 6, [], 'js:900:0:' + QUIET],
@@ -55,9 +55,9 @@ try {
       await sleep(1200); await page.evaluate(() => { try { kilumen.ui?.closeAll?.(); } catch {} });
       for (let i = 0; i < 8; i++) { await page.keyboard.press('f'); await sleep(300); }
       for (let i = 0; i < 40 && !(await page.evaluate(() => !!kilumen.region9)); i++) await sleep(250);
-      await page.evaluate(async () => { const s = kilumen.scene; const C = await import('/src/systems/creature.js?v=v0.2.97-alpha');
+      await page.evaluate(async () => { const s = kilumen.scene; const C = await import('/src/systems/creature.js?v=v0.2.98-alpha');
         for (const sp of ['sunderhoof', 'seraphawk', 'peakbrute']) s.systems.party.add(C.createCreature({ species: sp, level: 70 })); });
-      await page.evaluate(async () => { const s = kilumen.scene; const { FIELD_IDS } = await import('/src/region9/index.js?v=v0.2.97-alpha'); // other trainers stay quiet (no line-of-sight battles mid-tour); only the Lark lead's battle is shot
+      await page.evaluate(async () => { const s = kilumen.scene; const { FIELD_IDS } = await import('/src/region9/index.js?v=v0.2.98-alpha'); // other trainers stay quiet (no line-of-sight battles mid-tour); only the Lark lead's battle is shot
         for (const m of ['r9_cloudway', 'r9_echo_cave', 'r9_cloudline', 'r9_heart_cave', 'r9_switchbacks', 'r9_icefall']) for (const id of FIELD_IDS) if (id !== 'r9_cw_field_1') s.seen[`defeated:${m}.${id}`] = true; });
       for (const [tag, map, x, y, fl, act] of VIEWS_RUN) {
         for (let i = 0; i < 30 && await page.evaluate(() => kilumen.scene.busy); i++) { await page.keyboard.press('f'); await sleep(250); }
@@ -66,7 +66,7 @@ try {
         await sleep(2300);
         const on = await page.evaluate(() => kilumen.scene.map.name); if (on !== map) errors.push(`${tag} on ${on}`);
         if (act === 'courier') { await page.evaluate(() => kilumen.region9.tick()); await sleep(900); for (let i = 0; i < 4; i++) { await page.keyboard.press('f'); await sleep(350); } }
-        else if (act === 'credits2') { await page.evaluate(() => import('./src/ui/credits.js?v=v0.2.97-alpha').then((m) => { m.runCredits(kilumen.scene, {}, { variant: 'ending2' }); })); await sleep(3500); }
+        else if (act === 'credits2') { await page.evaluate(() => import('./src/ui/credits.js?v=v0.2.98-alpha').then((m) => { m.runCredits(kilumen.scene, {}, { variant: 'ending2' }); })); await sleep(3500); }
         else if (act?.startsWith('talk:')) { await page.evaluate(() => { kilumen.scene.player.facing = 'up'; }); await page.keyboard.press('f'); await sleep(1200); }
         else if (act === 'battle') { await page.evaluate(() => { kilumen.scene.player.facing = 'up'; }); await page.keyboard.press('f'); await sleep(700); for (let i = 0; i < 6; i++) { await page.keyboard.press('f'); await sleep(450); } await sleep(1500); }
         else if (act?.startsWith('summit:')) { const t = +act.slice(7); await page.evaluate(() => { const s = kilumen.scene; s.flags.delete?.('fin_summit_seen'); s.script(() => s.region9.SPOTS.fin_dome()); }); const t0 = Date.now(); while (Date.now() - t0 < t) { await sleep(400); if (Date.now() - t0 > 1500) await page.keyboard.press('f'); } }
