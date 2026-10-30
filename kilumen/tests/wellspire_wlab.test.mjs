@@ -38,3 +38,17 @@ test('wlab: tank swaps to broken glass on fin_released (all 30 cells, tiles exis
   assert.equal(m.flag_swaps.length, 30);
   for (const f of m.flag_swaps) { assert.equal(f.flag, 'fin_released'); assert.ok(names.has(f.before) && names.has(f.after), f.after); }
 });
+
+test('wlab: Text Bot v2 lines merged (pages / battle_lost / battle_won / after) for all 16 lab trainers', async () => {
+  const fs = await import('node:fs');
+  const L = JSON.parse(fs.readFileSync(new URL('../text/overworld_lines.json', import.meta.url), 'utf8'));
+  const src = JSON.parse(fs.readFileSync(new URL('../data/textbot_flashback_lab_v2.json', import.meta.url), 'utf8'));
+  let n = 0;
+  for (const [m, ids] of Object.entries(src.maps)) for (const [id, e] of Object.entries(ids)) {
+    const o = L.maps[m][id]; n++;
+    assert.deepEqual(o.pages, e.intro); assert.deepEqual(o.battle_lost, e.battle_lost); assert.deepEqual(o.battle_won, e.battle_won); assert.deepEqual(o.after, e.after);
+  }
+  assert.equal(n, 16);
+  assert.equal(L.system_halls.hint_frostspire.pages.length, 2);
+  assert.equal(L.region4.npcs.climber.start[0], src.frostspire_climber_fix.new);
+});

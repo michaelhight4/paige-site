@@ -18123,6 +18123,284 @@
     ]
    },
    "area_name": "Aurelith Arena"
+  },
+  "fin_past_wlab_01_entry": {
+   "fin_wlab_tech_1": {
+    "name": "Intake Clerk Mavis",
+    "pages": [
+     "Lanyard, please. No pass, no entry.\nThe stock logs must stay clean."
+    ],
+    "battle_lost": [
+     "Fine. Sign in. Batch 9 is\nthrough the left door. Don't look."
+    ],
+    "battle_won": [
+     "Back to the lobby with you.\nThe white line is there for a reason."
+    ],
+    "after": [
+     "I'm signing the log 'all quiet.'\nThat's the last lie I'll write."
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_past_wlab_02_medical": {
+   "fin_wlab_tech_2": {
+    "name": "Medic Tech Ilsa",
+    "pages": [
+     "Retention fell to 40 percent.\nI can't lose more of the batch."
+    ],
+    "battle_lost": [
+     "Every scar here has a file number.\nI wrote most of them myself."
+    ],
+    "battle_won": [
+     "Lie down. I'll log your bruises\nas 'handling incident.' Again."
+    ],
+    "after": [
+     "The hum's gone quiet in my head.\nFirst time in months."
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_past_wlab_03_control": {
+   "fin_wlab_tech_3": {
+    "name": "Control Tech Wenna",
+    "pages": [
+     "Panel says yield is up three\npoints. So why are they crying?"
+    ],
+    "battle_lost": [
+     "Shut it all down, then. I'll\nsay the lights failed. Go."
+    ],
+    "battle_won": [
+     "Output's steady. Good. Good.\nNothing to report upstairs."
+    ],
+    "after": [
+     "Test 8 is off the board.\nFinch was right all along."
+    ],
+    "status": "DRAFT"
+   },
+   "fin_wlab_tech_4": {
+    "name": "Override Tech Stellan",
+    "pages": [
+     "The Guardian feeds the lines.\nNo spark, no lab. No lab, no us."
+    ],
+    "battle_lost": [
+     "Ondravel never asked to be\na battery. I know. I know."
+    ],
+    "battle_won": [
+     "The lines stay lit. You see?\nThe research needs him whole."
+    ],
+    "after": [
+     "If he goes dark, so do we.\nMaybe that's fair."
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_past_wlab_04_tanks": {
+   "fin_wlab_tech_5": {
+    "name": "Tank Tech Dorrit",
+    "pages": [
+     "Tank 12 is near term. If you\nbreak the seal, we lose the run."
+    ],
+    "battle_lost": [
+     "Go on. Let them see the sky.\nThey were never ours to keep."
+    ],
+    "battle_won": [
+     "Seal's intact. The run lives.\nI'll breathe again tomorrow."
+    ],
+    "after": [
+     "Tank 12's lid is up.\nIt looked at me. Then left."
+    ],
+    "status": "DRAFT"
+   },
+   "fin_wlab_tech_6": {
+    "name": "Doorman Tech Orrin",
+    "pages": [
+     "Nobody walks out with lab stock.\nNot tonight. Not ever."
+    ],
+    "battle_lost": [
+     "They sang at the glass last week.\nI told myself it was the pumps."
+    ],
+    "battle_won": [
+     "Nobody leaves. Not stock,\nnot strangers. Not tonight."
+    ],
+    "after": [
+     "I left the door open.\nThe stock knows the way out."
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_past_wlab_05_amber": {
+   "fin_wlab_tech_7": {
+    "name": "Tagging Tech Pell",
+    "pages": [
+     "Specimen 4-B. Specimen 4-C.\nNames make it harder. So: none."
+    ],
+    "battle_lost": [
+     "One of them licked my glove.\nI logged it as 'contact event.'"
+    ],
+    "battle_won": [
+     "Contact event, resolved.\nI'll file you under 'visitor.'"
+    ],
+    "after": [
+     "4-C has a name now. Moss.\nDon't tell my supervisor."
+    ],
+    "status": "DRAFT"
+   },
+   "fin_wlab_tech_8": {
+    "name": "Archive Tech Quill",
+    "pages": [
+     "The early stock didn't hold\nshape. We keep them for study."
+    ],
+    "battle_lost": [
+     "Don't open the back shelf.\nPlease. Not for my sake. Theirs."
+    ],
+    "battle_won": [
+     "The shelf stays shut. Good.\nSome study is best left asleep."
+    ],
+    "after": [
+     "Three of them faced the door.\nNow I know what they wanted."
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_past_wlab_06_growth": {
+   "fin_wlab_tech_9": {
+    "name": "Growth Tech Sabine",
+    "pages": [
+     "Growth rate is the good news.\nThe research is the good news."
+    ],
+    "battle_lost": [
+     "They grow fast because we\nmake them. I said it. Satisfied?"
+    ],
+    "battle_won": [
+     "See? Growth wins out.\nIt always does in here."
+    ],
+    "after": [
+     "I tore the schedule down.\nNo more feeding to a clock."
+    ],
+    "status": "DRAFT"
+   },
+   "fin_wlab_tech_10": {
+    "name": "Dosing Tech Brannick",
+    "pages": [
+     "Hold still. This is routine.\nWell. A procedure. Hold still."
+    ],
+    "battle_lost": [
+     "They flinch when I enter now.\nIs that in the data? It should be."
+    ],
+    "battle_won": [
+     "Steady hands, steady dose.\nGo home. Forget this floor."
+    ],
+    "after": [
+     "My hands won't stop shaking.\nGood. They should."
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_past_wlab_07_vats": {
+   "fin_wlab_tech_11": {
+    "name": "Vat Tech Hollis",
+    "pages": [
+     "Vat 7 is my best yield yet.\nYou won't spoil my best batch."
+    ],
+    "battle_lost": [
+     "The vat light went gold just now.\nLike it knew. That's not possible."
+    ],
+    "battle_won": [
+     "My batch held. Of course it\nheld. Vat 7 never lets me down."
+    ],
+    "after": [
+     "Vat 7's empty. It's the\nbest thing it's ever yielded."
+    ],
+    "status": "DRAFT"
+   },
+   "fin_wlab_tech_12": {
+    "name": "Mixing Tech Aldo",
+    "pages": [
+     "Formula's mine. Ondravel's\nspark, river water, and time."
+    ],
+    "battle_lost": [
+     "Without the river they'd be\nnothing. We took that too."
+    ],
+    "battle_won": [
+     "Spark, water, time. Today\nthe formula wins. Go."
+    ],
+    "after": [
+     "Follow the drains, {player}.\nThey all run to the river."
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_past_wlab_08_core": {
+   "fin_wlab_tech_13": {
+    "name": "Core Tech Renske",
+    "pages": [
+     "The crystal draws, we harvest.\nIt's science. It's just science."
+    ],
+    "battle_lost": [
+     "He's awake in there, {player}.\nHe's been awake the whole time."
+    ],
+    "battle_won": [
+     "The core keeps its draw.\nHe keeps his silence. For now."
+    ],
+    "after": [
+     "The helix is louder. He's\ncalling. Go and answer."
+    ],
+    "status": "DRAFT"
+   },
+   "fin_wlab_tech_14": {
+    "name": "Core Tech Marlo",
+    "pages": [
+     "Helix at 140 percent and climbing.\nDon't touch a single dial."
+    ],
+    "battle_lost": [
+     "Overdriven. Like me. Fine.\nThe dials are yours."
+    ],
+    "battle_won": [
+     "Load holds. Yield holds.\nWe all hold. That's the job."
+    ],
+    "after": [
+     "Hear that note? Same as his crest.\nThe lab only ever sang his song."
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "fin_past_wlab_09_observation": {
+   "fin_wlab_tech_15": {
+    "name": "Observer Tamsin",
+    "pages": [
+     "Every window shows the river.\nThey made sure we'd see it."
+    ],
+    "battle_lost": [
+     "Leave the doors open behind you.\nThat's all I ever wanted to say."
+    ],
+    "battle_won": [
+     "Back down you go. The glass\nstays clean. The notes stay neat."
+    ],
+    "after": [
+     "Tonight they'll reach the river.\nI'll watch. I owe them that."
+    ],
+    "status": "DRAFT"
+   },
+   "fin_wlab_chief": {
+    "name": "Head of Research Corwen",
+    "pages": [
+     "Twelve years of research,\n{player}. Every line, my yield.",
+     "Line 1 gave us all of it.\nI won't let you undo that."
+    ],
+    "battle_lost": [
+     "So the stock outlives the study.\nWrite that down. I can't.",
+     "Go to him. Tell Ondravel...\nNo. He already knows."
+    ],
+    "battle_won": [
+     "Retention restored. The research\ngoes on. It always goes on.",
+     "Leave quietly. The lines are\nsleeping, and so is the past."
+    ],
+    "after": [
+     "We called it creation. He called\nit something else, I'm sure.",
+     "Open the dome. I'll stand here\nand watch the numbers fall."
+    ],
+    "status": "DRAFT"
+   }
   }
  },
  "closed_exits": {
@@ -30151,6 +30429,13 @@
    "status": "DRAFT",
    "placeholder": true,
    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
+  },
+  "hint_frostspire": {
+   "pages": [
+    "Short on wins? Two helpers wait\non the high ledge above the ice.",
+    "Ride the middle lane, by the\npillar. The wind takes you up."
+   ],
+   "status": "DRAFT"
   }
  },
  "system_arena": {
@@ -30414,7 +30699,7 @@
    },
    "climber": {
     "start": [
-     "My hands are too cold to tie\na single knot. Not one.",
+     "My fingers are frozen stiff.\nI can't even tie a knot.",
      "Anything warm? Tea, maybe?\nI'd trade you my best rope."
     ],
     "waiting": [
@@ -30433,7 +30718,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "My hands are too cold to tie\na single knot. Not one.",
+       "My fingers are frozen stiff.\nI can't even tie a knot.",
        "Anything warm? Tea, maybe?\nI'd trade you my best rope."
       ]
      }

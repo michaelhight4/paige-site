@@ -127,11 +127,12 @@ export function attachRegion9(scene, { systems } = {}) {
   const partyEmpty = () => !(sys()?.party?.list || scene.party || []).length;
 
   /** One battle: true win, false loss. The past never blacks out: a loss heals and you try again. */
-  async function fight(map, id, sp) {
+  async function fight(map, id, sp, onLoss) {
     if (partyEmpty()) { await scene.say?.(["I don't have a creature to battle with."], narr); return false; }
     const won = scene.hooks?.onBattle ? (await scene.hooks.onBattle({ map, id })) !== false : true;
     scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: id, won });
     if (won) { scene.seen[def(`${map}.${id}`)] = true; await sys()?.onTrainerWin?.({ map, def: { id, kind: 'trainer' }, speaker: sp }); return true; }
+    if (onLoss) await onLoss(); // the trainer's battle_won line comes before the patch-up / blackout
     if (isPast(map)) { heal(); await say('fin.retry_heal', narr); return false; }
     const out = await sys()?.onTrainerLoss?.({ map, def: { id } }); if (!out) await sys()?.onPartyFainted?.();
     return false;
@@ -141,6 +142,19 @@ export function attachRegion9(scene, { systems } = {}) {
     const t = TALK[d.id] || (d.kind === 'trainer' ? TRAINER_DEFAULT : { say: 'r9.trainer_after' });
     const sp = t.name ? { ...speaker, name: t.name } : speaker;
     if (d.id === 'fin_t_coralie') return coralieTalk(sp);
+    // Text Bot lines (data/textbot_flashback_lab_v2.json -> overworld_lines maps.<map>.<id>, Oct 30 2026): pages = challenge,
+    // battle_lost = the trainer lost (player won), battle_won = the trainer won (player lost), after = later talks.
+    const L = scene.lines?.maps?.[mapName]?.[d.id];
+    if (L?.battle_lost && !t.say) {
+      const lsp = L.name ? { ...speaker, name: L.name } : sp, says = (pages) => (pages?.length && scene.say ? scene.say(pages, lsp) : Promise.resolve());
+      if (scene.seen[def(`${mapName}.${d.id}`)]) return says(L.after || L.battle_lost);
+      if (t.needs && !has(t.needs) && !scene.devMasterKey) return say(t.wait, lsp);
+      await says(L.pages);
+      if (!(await fight(mapName, d.id, lsp, () => says(L.battle_won)))) return;
+      await says(L.battle_lost);
+      if (t.flag) set(t.flag);
+      return;
+    }
     if (t.say) { await say(t.say, sp); if (t.flag) { const first = !has(t.flag); set(t.flag); if (first && /^fin_(teo|marta|pell|imke)$/.test(d.id)) heal(); } return; }
     if (scene.seen[def(`${mapName}.${d.id}`)]) return say(t.after, sp);
     if (t.needs && !has(t.needs) && !scene.devMasterKey) return say(t.wait, sp);
