@@ -111,3 +111,13 @@ test('bug 8: after the Fernwick coin, interacting with rt_guard_east talks (parc
   assert.deepEqual(run(new Set(['beat_master_fernwick'])), ['talk', 'rt_guard_east'], 'after: a real talk');
   assert.equal(giftFor('brookhollow', 'rt_guard_east', new Set(['beat_master_fernwick'])), 'parcel');
 });
+
+// ---- bug 9: dev Travel to mirefen_bog landed in the sealed hatch pocket (32,18) ----------------------------------------------
+const { devLandingSpot } = await import(path.join(root, 'src/dev/landing.js'));
+test('bug 9: dev Travel landing never picks a sealed pocket (mirefen_bog 32,18)', () => {
+  const map = new GameMap(structuredClone(mapJson('mirefen_bog'))); map.attachTileset(byId);
+  const at = devLandingSpot(map, null, 'mirefen_bog');
+  assert.ok(at, 'a landing');
+  assert.notDeepEqual([at.x, at.y], [32, 18]);
+  assert.ok(map.isWalkable(at.x, at.y));
+});

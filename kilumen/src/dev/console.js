@@ -15,6 +15,7 @@ import { evoTable } from '../systems/evolution.js?v=v0.2.100-alpha';
 import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.100-alpha';
 import { FLAG_PRESETS, setBadges, setFlagByName, applyPreset } from './flags.js?v=v0.2.100-alpha';
 import { coinCount } from '../overworld/lines.js?v=v0.2.100-alpha';
+import { devLandingSpot } from './landing.js?v=v0.2.100-alpha';
 import { createRitaPanel } from './rita_panel.js?v=v0.2.100-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -267,19 +268,8 @@ export async function installDevConsole(scene, access) {
     };
   }
 
-  const landing = async (name) => {
-    const m = await scene.loadMap(name), at = (x, y) => m.inBounds(x, y) && m.isWalkable(x, y) && !m.npcAt?.(x, y);
-    const fp = m.json?.fly_point || scene.layout?.fly?.destinations?.[name]?.fly_point;
-    if (fp && at(fp.x, fp.y)) return { x: fp.x, y: fp.y, facing: fp.facing || 'down' };
-    // Oct 30 2026 tester (r9_cairnfold -> the heal interior): landing right on a door's step, facing it, meant the next Up tap
-    // walked you inside. Land two tiles out from the first warp with both tiles clear, facing away; never on a warp's neighbour.
-    const ws = m.json?.warps || [], nearWarp = (x, y) => ws.some((w) => Math.abs(w.x - x) + Math.abs(w.y - y) <= 1);
-    for (const w of ws) for (const [dx, dy, f] of [[0, 1, 'down'], [0, -1, 'up'], [-1, 0, 'left'], [1, 0, 'right']]) if (at(w.x + dx, w.y + dy) && at(w.x + 2 * dx, w.y + 2 * dy) && !nearWarp(w.x + 2 * dx, w.y + 2 * dy)) return { x: w.x + 2 * dx, y: w.y + 2 * dy, facing: f };
-    for (const w of ws) for (const [dx, dy, f] of [[0, 1, 'down'], [0, -1, 'up'], [-1, 0, 'left'], [1, 0, 'right']]) if (at(w.x + dx, w.y + dy)) return { x: w.x + dx, y: w.y + dy, facing: f };
-    const cx = Math.floor(m.width / 2), cy = Math.floor(m.height / 2), R = Math.max(m.width, m.height);
-    for (let r = 0; r < R; r++) for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) if (Math.max(Math.abs(dx), Math.abs(dy)) === r && at(cx + dx, cy + dy)) return { x: cx + dx, y: cy + dy, facing: 'down' };
-    return null;
-  };
+  // landing spot logic lives in dev/landing.js (playtest fix Oct 30 2026: never land in a sealed pocket)
+  const landing = async (name) => devLandingSpot(await scene.loadMap(name), scene.layout, name);
   // v0.2.48: region-grouped, touch-friendly teleport list (Gary Oct 29 2026). Towns + areas first per region; all other built maps under "All maps".
   const TRAVEL_REGIONS = [
     ['Region 1', ['brookhollow', 'lab_brookhollow', 'office_int', 'route1', 'fernwick', 'fernwick_hall_int', 'club_int', 'thornwood', 'greystone_entrance', 'greystone_b1', 'lantern_rest']],
