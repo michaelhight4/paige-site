@@ -38,7 +38,8 @@ test('PASS2_TEXT_FILES lists switchbacks and batch 2', () => {
   assert.ok(PASS2_TEXT_FILES.includes('data/textbot_pass2_batch5.json'));
   const b5 = R('data/textbot_pass2_batch5.json');
   // GD Oct 30 2026: Archive Room -> route_revival_sunmeadow, Break Garden -> route_revival_saltmere (max 1 cave per town)
-  assert.equal(Object.keys(b5.maps.revival_heights).length, 2);
+  assert.equal(Object.keys(b5.maps.revival_heights).length, 5); // 2 Server Nook keys + 3 stall keepers (stall_shop)
+  for (const k of ['revival_heights_stall_baker', 'revival_heights_stall_florist', 'revival_heights_stall_grocer']) assert.ok(b5.maps.revival_heights[k]?.pages?.length, k);
   assert.equal(Object.keys(b5.maps.route_revival_sunmeadow).length, 2);
   assert.equal(Object.keys(b5.maps.route_revival_saltmere).length, 2);
   for (const [c, n] of Object.entries(b5.area_names)) assert.equal(SPEC.pockets.find((p) => p.cave === c)?.cave_title, n, c + ' cave title');
@@ -52,8 +53,8 @@ for (const f of PASS2_TEXT_FILES) {
       for (const [id, e] of Object.entries(ids)) {
         const npc = map.npcs.find((n) => n.id === id), spot = (map.interact_spots || []).find((s) => s.id === id);
         assert.ok(npc || spot || id === 'area_name', `${m}.${id} resolves on the map`);
-        assert.ok(FB.maps[m]?.[id], `${m}.${id} mirrors a pass 2 key`);
-        if (npc) for (const k of ['pages', 'battle_lost', 'battle_won', 'after']) assert.ok(e[k]?.length && e[k].every((s) => typeof s === 'string' && s.trim()), `${m}.${id}.${k}`);
+        if (!npc?.stall_shop) assert.ok(FB.maps[m]?.[id], `${m}.${id} mirrors a pass 2 key`); // stall keepers are town NPCs, not pocket keys
+        if (npc && !npc.stall_shop) for (const k of ['pages', 'battle_lost', 'battle_won', 'after']) assert.ok(e[k]?.length && e[k].every((s) => typeof s === 'string' && s.trim()), `${m}.${id}.${k}`);
         else assert.ok(e.pages?.length, `${m}.${id}.pages`);
         for (const s of strings(e)) assert.ok(!BLOCKED.test(s), `${m}.${id}: blocked word in "${s}"`);
       }

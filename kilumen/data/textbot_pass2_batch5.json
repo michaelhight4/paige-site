@@ -27,6 +27,21 @@
      "A big humming fan.",
      "It hums the company jingle,\na little off-key."
     ]
+   },
+   "revival_heights_stall_baker": {
+    "pages": [
+     "Fresh bread, still warm.\nBaked before the first shift."
+    ]
+   },
+   "revival_heights_stall_florist": {
+    "pages": [
+     "Flowers for the desk, or for a\nfriend. Both brighten a day."
+    ]
+   },
+   "revival_heights_stall_grocer": {
+    "pages": [
+     "Fruit, greens and grain.\nEat well, work well. Have a look."
+    ]
    }
   },
   "route_revival_sunmeadow": {
@@ -42,7 +57,7 @@
      "Filed under: won. Next!\nRest up and resubmit."
     ],
     "after": [
-     "Hop down the ledge\nto the boulevard."
+     "Hop down the ledge.\nThe trail runs right below."
     ],
     "_name_note": "Renamed from Ottilie: Ottilie is the Saltmere trail tide caller."
    },
@@ -57,7 +72,7 @@
    "r9_rhp_gardener": {
     "name": "Brita",
     "pages": [
-     "The staff garden was closed for\nefficiency. I still water it."
+     "The company closed this garden for\nefficiency. I still water it."
     ],
     "battle_lost": [
      "You grew on me."
