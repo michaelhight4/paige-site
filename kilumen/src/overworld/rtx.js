@@ -172,8 +172,8 @@ export class RtxLook {
   /** @param {object} scene Overworld */
   constructor(scene, opts = {}) {
     this.scene = scene; this.opts = opts; this.gl = null; this.failed = false; this.tier = 'off';
-    let saved = 'auto'; try { saved = JSON.parse(globalThis.localStorage?.getItem(RTX_KEY) || '{}').mode || 'auto'; } catch { /* private mode */ }
-    this.mode = RTX_MODES.includes(saved) ? saved : 'auto';
+    let saved = 'off'; try { saved = JSON.parse(globalThis.localStorage?.getItem(RTX_KEY) || '{}').mode || 'off'; } catch { /* private mode */ } // integration-r58: default Off (Gary: Options toggle, default off)
+    this.mode = RTX_MODES.includes(saved) ? saved : 'off';
     const url = rtxFromUrl(opts.query); if (url) { this.mode = url; this.urlForced = true; }
     this.stats = { frames: 0, emaMs: 0, lastMs: 0, slow: 0, steps: [] }; this._maskFor = null; this._lastT = 0;
   }

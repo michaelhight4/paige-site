@@ -1,6 +1,7 @@
 // Text Bot DRAFT lines (Oct 30 2026, not yet approved by Gary) kept in data/textbot_hall_arena.json until they move into
 // text/overworld_lines.json. Loaded next to the lines file; each key in the draft replaces the same key in the lines, word for word.
-export const DRAFT_URLS = ['data/textbot_hall_arena.json'];
+// integration-r58: + Text Bot integration sweep (laid over after hall_arena; lines here win over the region9/side text_fallback*.js placeholders)
+export const DRAFT_URLS = ['data/textbot_hall_arena.json', 'data/textbot_integration_sweep.json'];
 
 /** Pure: lines with every draft key laid over it (keys starting with '_' are notes). */
 export function withDrafts(lines, ...drafts) {

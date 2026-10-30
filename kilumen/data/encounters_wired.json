@@ -9316,6 +9316,75 @@
       56
      ],
      "weight": 5
+    },
+    {
+     "species": "pyrogrim",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "lancebeetle",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "faultgrin",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "crownlet",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "fernstag",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ]
   },
@@ -9361,6 +9430,75 @@
       56
      ],
      "weight": 10
+    },
+    {
+     "species": "lurelamp",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "vaultpede",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "shaftwraith",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "beaconfly",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "combwarden",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ]
   },
@@ -9414,6 +9552,75 @@
       56
      ],
      "weight": 5
+    },
+    {
+     "species": "vesperowl",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "novarch",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "eavesgrim",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "calderock",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
+    },
+    {
+     "species": "foundrax",
+     "level": [
+      52,
+      56
+     ],
+     "weight": 5,
+     "time": [
+      "dawn",
+      "day",
+      "dusk"
+     ],
+     "tod": "day",
+     "spread": "tod"
     }
    ]
   }

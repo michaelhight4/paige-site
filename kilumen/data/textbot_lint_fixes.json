@@ -1,0 +1,1786 @@
+{
+  "_status": "DRAFT by Text Bot, not approved by Gary",
+  "_meta": {
+    "author": "Text Bot",
+    "date": "2026-10-30",
+    "about": "Lint fixes for text/overworld_lines.json (out-of-scope part of the integration sweep). Paths mirror overworld_lines.json. Where a failing page sat inside a lines[] array, the full lines[] array is given with only the failing pages changed."
+  },
+  "blockers": {
+    "gate_frostspire_bridge": {
+      "before": [
+        "The rope bridge has broken. Both halves\nare hanging off the cliffs.",
+        "Engineer: Repairs get signed off when\nsomeone with three coins asks."
+      ]
+    },
+    "gate_mirefen_sunken_hatch": {
+      "after": [
+        "Your RT key card slots in.\nThe light turns green. Down you go."
+      ]
+    }
+  },
+  "company_inbox": {
+    "emails": {
+      "28": {
+        "pages": [
+          "The Director's office notes your eight\ncoins. With pride, it says.",
+          "Please send your team's catalogue numbers by Friday."
+        ],
+        "subject": "From the Director's office"
+      },
+      "4": {
+        "pages": [
+          "Welcome to your new role, Field\nResearcher! A fine step up.",
+          "Your pay will be reviewed at a later date."
+        ]
+      }
+    }
+  },
+  "maps": {
+    "aurelith": {
+      "aurelith_business": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "See that tower? Revival Tech.\nHalf the city clocks in there.",
+              "The other half sells them coffee.\nGuess which half smiles more."
+            ]
+          }
+        ],
+        "pages": [
+          "See that tower? Revival Tech.\nHalf the city clocks in there.",
+          "The other half sells them coffee.\nGuess which half smiles more."
+        ]
+      },
+      "aurelith_fan_2": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Got this scarf in the Galleria.\nOfficial Games colours, they say.",
+              "It's August. I'm melting.\nWorth it."
+            ]
+          }
+        ],
+        "pages": [
+          "Got this scarf in the Galleria.\nOfficial Games colours, they say.",
+          "It's August. I'm melting.\nWorth it."
+        ]
+      }
+    },
+    "aurelith_galleria_2f_int": {
+      "aurelith_galleria_shopper_2": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "I'm training for the Arena.\nOne day. Not soon. One day.",
+              "Today I'm training my grocery list.\nIt's very strong."
+            ]
+          }
+        ],
+        "pages": [
+          "I'm training for the Arena.\nOne day. Not soon. One day.",
+          "Today I'm training my grocery list.\nIt's very strong."
+        ]
+      }
+    },
+    "brookhollow": {
+      "bin_ron": {
+        "lines": [
+          {
+            "id": "bin_empty",
+            "flags": [
+              "finale_done"
+            ],
+            "soul_item": "3",
+            "pages": [
+              "Empty. Scrubbed clean. Not a single fly.",
+              "Ron took the bags out. Bin day finally came."
+            ],
+            "story_ruling": "STORY_RULINGS_SOUL #3",
+            "bin_stage": "empty",
+            "note": "tile bin_ron_empty, no flies overlay; E5 is missable on purpose"
+          },
+          {
+            "id": "bin_creature",
+            "flags": [],
+            "when": {
+              "count_gte": {
+                "counter": "bin_inspects_after_8",
+                "n": 8
+              },
+              "once": true
+            },
+            "soul_item": "3",
+            "pages": [
+              "Something in the bags moves.",
+              "A Mirewump climbs out. It looks like it's been living here a while."
+            ],
+            "bin_stage": "8",
+            "note": "E5 Bin Monument pop-out: only at stage 8 before finale_done (bin_stages.e5_bin_monument); starts an encounter. Coder bumps bin_inspects_after_8 only while all_badges and not finale_done"
+          },
+          {
+            "id": "bin_8",
+            "flags": [],
+            "soul_item": "3",
+            "pages": [
+              "Eight bags and a cloud of flies.",
+              "This is no longer a bin. It's a monument."
+            ],
+            "bin_stage": "8"
+          },
+          {
+            "id": "bin_7",
+            "flags": [],
+            "soul_item": "3",
+            "pages": [
+              "Seven bags. The flies have invited friends.",
+              "A neighbour left a polite note. It's in the bin."
+            ],
+            "bin_stage": "7"
+          },
+          {
+            "id": "bin_6",
+            "flags": [],
+            "soul_item": "3",
+            "pages": [
+              "Six bags, plus a small cloud of flies.",
+              "The flies seem pleased, at least."
+            ],
+            "bin_stage": "6",
+            "note": "bin_flies overlay starts here"
+          },
+          {
+            "id": "bin_5",
+            "flags": [],
+            "soul_item": "3",
+            "pages": [
+              "Five bags. The lid gave up a while ago."
+            ],
+            "bin_stage": "5"
+          },
+          {
+            "id": "bin_4",
+            "flags": [],
+            "soul_item": "3",
+            "pages": [
+              "Four bags. One of them is leaking something blue."
+            ],
+            "bin_stage": "4"
+          },
+          {
+            "id": "bin_3",
+            "flags": [],
+            "soul_item": "3",
+            "pages": [
+              "Three bags. Ron's labelled one 'NOT MINE'.",
+              "It's his."
+            ],
+            "bin_stage": "3"
+          },
+          {
+            "id": "bin_2",
+            "flags": [],
+            "soul_item": "3",
+            "pages": [
+              "Two bags now. The lid doesn't quite shut."
+            ],
+            "bin_stage": "2"
+          },
+          {
+            "id": "bin_1",
+            "flags": [],
+            "soul_item": "3",
+            "pages": [
+              "One bag beside the bin.",
+              "Ron says it's going out tomorrow."
+            ],
+            "bin_stage": "1"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Your bin. Ron says bin day is tomorrow.",
+              "It's been tomorrow since spring."
+            ]
+          }
+        ]
+      },
+      "rt_guard_east": {
+        "lines": [
+          {
+            "id": "guard_8",
+            "flags": [
+              "all_badges"
+            ],
+            "soul_item": "8",
+            "pages": [
+              "Eight coins. I'm meant to salute you\nnow.",
+              "I'm not going to. But I'm meant to."
+            ]
+          },
+          {
+            "id": "v_has_survey_parcel",
+            "flags": [
+              "has_survey_parcel"
+            ],
+            "pages": [
+              "Saltmere's past Aurelith. The parcel's not getting any lighter."
+            ]
+          },
+          {
+            "id": "v_beat_master_fernwick",
+            "flags": [
+              "beat_master_fernwick"
+            ],
+            "pages": [
+              "You're registered now. Road east is open. Mind the bridge, it creaks.",
+              "Heading east? Drop this parcel at the Saltmere office. They'll pay you back."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Survey in progress. East road's closed to unregistered trainers.",
+              "Bring me the Fernwick Master's coin. Yes, even if you work here."
+            ]
+          }
+        ]
+      }
+    },
+    "fernwick": {
+      "elder": {
+        "lines": [
+          {
+            "id": "elder_ending_night",
+            "flags": [
+              "finale_done"
+            ],
+            "when": {
+              "phase": "night"
+            },
+            "soul_item": "8",
+            "pending_story_call": true,
+            "pages": [
+              "I've lost count. There's too many tonight.",
+              "Isn't that something?"
+            ]
+          },
+          {
+            "id": "elder_night_31",
+            "flags": [
+              "beat_master_lanternport"
+            ],
+            "when": {
+              "phase": "night"
+            },
+            "soul_item": "8",
+            "pages": [
+              "Shh. Counting fireflies.",
+              "Thirty-one tonight. Used to be over a hundred."
+            ]
+          },
+          {
+            "id": "elder_night_58",
+            "flags": [
+              "beat_master_revival"
+            ],
+            "when": {
+              "phase": "night"
+            },
+            "soul_item": "8",
+            "pages": [
+              "Shh. Counting fireflies.",
+              "Fifty-eight tonight. Fewer than last time."
+            ]
+          },
+          {
+            "id": "elder_night",
+            "flags": [],
+            "when": {
+              "phase": "night"
+            },
+            "soul_item": "8",
+            "pages": [
+              "Shh. I'm counting. Seventy-four... seventy-five..."
+            ]
+          },
+          {
+            "id": "elder_lead",
+            "flags": [
+              "beat_master_fernwick"
+            ],
+            "soul_item": "8",
+            "pages": [
+              "You've got {lead} with you. Good. Creatures notice things.",
+              "If it ever won't go near a hillside, listen to it."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "The fireflies have been dim this year.",
+              "Old folks say that's what comes of\ndigging crystals out of the hills.",
+              "Thornwood's east. Stay on the trail. Folks who don't end up sleeping in it."
+            ]
+          }
+        ],
+        "pages": [
+          "The fireflies have been dim this year.",
+          "Old folks say that's what comes of\ndigging crystals out of the hills.",
+          "Thornwood's east. Stay on the trail. Folks who don't end up sleeping in it."
+        ]
+      },
+      "fernwick_practice_coach": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Garden Hop! Pads pop up, you hop\non. Miss one and you're in the mint.",
+              "Practice is free. Light feet,\ntidy beds. The snails keep score."
+            ]
+          }
+        ],
+        "pages": [
+          "Garden Hop! Pads pop up, you hop\non. Miss one and you're in the mint.",
+          "Practice is free. Light feet,\ntidy beds. The snails keep score."
+        ]
+      }
+    },
+    "frostspire_hall_int": {
+      "frostspire_hall_int_master": {
+        "battle_won": [
+          "Grounded. Comes to all of us.",
+          "Catch your breath and try again."
+        ]
+      }
+    },
+    "frostspire_pass": {
+      "frostspire_pass_rt_engineer": {
+        "lines": [
+          {
+            "id": "v_beat_master_revival",
+            "flags": [
+              "beat_master_revival"
+            ],
+            "pages": [
+              "Rated for one person at a time. So, one person at a time."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Repairs get signed off when someone with\nthree coins asks."
+            ]
+          }
+        ],
+        "pages": [
+          "Repairs get signed off when someone with\nthree coins asks."
+        ]
+      }
+    },
+    "greystone_b1": {
+      "hiker_b1": {
+        "after_gate": [
+          "Someone left a crystal case in the far\nroom. Revival Tech label on it."
+        ]
+      }
+    },
+    "heal_brookhollow": {
+      "heal_brookhollow_storage_user": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Box three is all Tumbloams. I don't know\nhow it came to that.",
+              "I do know. I just don't like to talk about it."
+            ]
+          }
+        ],
+        "pages": [
+          "Box three is all Tumbloams. I don't know\nhow it came to that.",
+          "I do know. I just don't like to talk about it."
+        ]
+      },
+      "staff_door_locked": {
+        "lines": [
+          {
+            "id": "door_card",
+            "flags": [
+              "has_branch_card"
+            ],
+            "pages": [
+              "STAFF ONLY",
+              "Your Branch Access Card blinks green.\nClunk."
+            ],
+            "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "STAFF ONLY\nBranch Access Card required.",
+              "Under it, in biro: 'Knock. We won't answer.'"
+            ]
+          }
+        ]
+      }
+    },
+    "heal_cindervale": {
+      "staff_door_locked": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "STAFF ONLY. Branch Access Card\nrequired. The handle is warm.",
+              "Locked. Behind it, something\nhisses, then a kettle switches off."
+            ]
+          }
+        ],
+        "pages": [
+          "STAFF ONLY. Branch Access Card\nrequired. The handle is warm.",
+          "Locked. Behind it, something\nhisses, then a kettle switches off."
+        ]
+      }
+    },
+    "heal_fernwick": {
+      "staff_door_locked": {
+        "lines": [
+          {
+            "id": "door_card",
+            "flags": [
+              "has_branch_card"
+            ],
+            "pages": [
+              "STAFF ONLY",
+              "Your Branch Access Card blinks green.\nClunk."
+            ],
+            "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "STAFF ONLY\nBranch Access Card required.",
+              "Under it, in biro: 'Knock. We won't answer.'"
+            ]
+          }
+        ]
+      }
+    },
+    "heal_frostspire": {
+      "staff_door_locked": {
+        "lines": [
+          {
+            "id": "door_card",
+            "flags": [
+              "has_branch_card"
+            ],
+            "pages": [
+              "STAFF ONLY",
+              "Your Branch Access Card blinks green.\nClunk."
+            ],
+            "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "STAFF ONLY\nBranch Access Card required.",
+              "Under it, in biro: 'Knock. We won't answer.'"
+            ]
+          }
+        ]
+      }
+    },
+    "heal_lanternport": {
+      "heal_lanternport_carer": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Welcome in, out of the spray.\nI'll look after your team.",
+              "Warm towels for everyone.\nEven the ones made of kelp."
+            ]
+          }
+        ],
+        "pages": [
+          "Welcome in, out of the spray.\nI'll look after your team.",
+          "Warm towels for everyone.\nEven the ones made of kelp."
+        ]
+      }
+    },
+    "heal_revival": {
+      "heal_revival_storage_user": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "My boxes are sorted by asset value. The\ncompany phone does it.",
+              "My favourite's in box nine. It's worth\nless, the phone says."
+            ]
+          }
+        ],
+        "pages": [
+          "My boxes are sorted by asset value. The\ncompany phone does it.",
+          "My favourite's in box nine. It's worth\nless, the phone says."
+        ]
+      },
+      "staff_door_locked": {
+        "lines": [
+          {
+            "id": "door_card",
+            "flags": [
+              "has_branch_card"
+            ],
+            "pages": [
+              "STAFF ONLY",
+              "Your Branch Access Card blinks green.\nClunk."
+            ],
+            "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "STAFF ONLY\nBranch Access Card required.",
+              "Under it, in biro: 'Knock. We won't answer.'"
+            ]
+          }
+        ]
+      }
+    },
+    "heal_saltmere": {
+      "staff_door_locked": {
+        "lines": [
+          {
+            "id": "door_card",
+            "flags": [
+              "has_branch_card"
+            ],
+            "pages": [
+              "STAFF ONLY",
+              "Your Branch Access Card blinks green.\nClunk."
+            ],
+            "note": "door is a normal warp once has_branch_card is set (locked_warps); this line only shows if the sign is still read"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "STAFF ONLY\nBranch Access Card required.",
+              "Under it, in biro: 'Knock. We won't answer.'"
+            ]
+          }
+        ]
+      }
+    },
+    "home_brookhollow_b_2f": {
+      "shelf": {
+        "lines": [
+          {
+            "id": "book_bog",
+            "flags": [
+              "beat_master_mirefen"
+            ],
+            "soul_item": "1",
+            "pages": [
+              "'Bog Lights and Other Nonsense.' The lights are 'just gas'.",
+              "The author underlined 'just' three times."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "'Feeds and Feeding, Volume 2.'",
+              "Volume 1 was, by all reports, a\ndisaster."
+            ]
+          }
+        ],
+        "pages": [
+          "'Feeds and Feeding, Volume 2.'",
+          "Volume 1 was, by all reports, a\ndisaster."
+        ]
+      }
+    },
+    "home_fernwick_a": {
+      "home_fernwick_a_parent": {
+        "lines": [
+          {
+            "id": "parent_coin",
+            "flags": [
+              "beat_master_fernwick"
+            ],
+            "soul_item": "8",
+            "pages": [
+              "He saw your coin and hasn't shut up\nabout it.",
+              "Thanks for that. Really."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "He can't beat his sister at cards, but sure.",
+              "Each town Master gives out a coin. Get all eight and Aurelith lets you in."
+            ]
+          }
+        ]
+      },
+      "window_2": {
+        "lines": [
+          {
+            "id": "win_storm",
+            "flags": [
+              "storm_season"
+            ],
+            "pages": [
+              "Rain. The kid has drawn a sad face on the wet glass.",
+              "The weather agrees."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "win_night",
+            "flags": [],
+            "when": {
+              "phase": "night"
+            },
+            "pages": [
+              "Across the street, a TV flickers.",
+              "Same cartoon. Different sandwich."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "win_dusk",
+            "flags": [],
+            "when": {
+              "phase": "dusk"
+            },
+            "pages": [
+              "Dusk. Someone outside is calling a kid in for dinner.",
+              "Not this one. Yet."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "win_dawn",
+            "flags": [],
+            "when": {
+              "phase": "dawn"
+            },
+            "pages": [
+              "Dawn. A small creature squeezes out the pet door.",
+              "Off to work, it seems."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "A tidy garden. Well, half of it.",
+              "The other half clearly lost a fight with a ball."
+            ]
+          }
+        ]
+      }
+    },
+    "home_lanternport_a": {
+      "logbook": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Shelves of weather logbooks.\n\"Windy\" comes up a great deal."
+            ]
+          }
+        ],
+        "pages": [
+          "Shelves of weather logbooks.\n\"Windy\" comes up a great deal."
+        ]
+      }
+    },
+    "house_1f": {
+      "window_2": {
+        "lines": [
+          {
+            "id": "win_bin_gone",
+            "flags": [
+              "finale_done"
+            ],
+            "pages": [
+              "You can't see a bin pile from here any more.",
+              "Huh. You'd got used to it."
+            ],
+            "story_ruling": "STORY_RULINGS_SOUL #3",
+            "soul_item": "1"
+          },
+          {
+            "id": "win_bin_moon",
+            "flags": [
+              "all_badges"
+            ],
+            "when": {
+              "phase": "night"
+            },
+            "pages": [
+              "Moonlight on the bin pile.",
+              "From here it almost looks like a monument. Almost."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "win_bin_flies",
+            "flags": [
+              "beat_master_tidewater"
+            ],
+            "pages": [
+              "You can see the bin from here. And the flies.",
+              "The flies can probably see you too."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "win_bin_bag",
+            "flags": [
+              "beat_master_fernwick"
+            ],
+            "pages": [
+              "You can see the bin from here, and the bag beside it.",
+              "Going out tomorrow. In theory."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "win_night",
+            "flags": [],
+            "when": {
+              "phase": "night"
+            },
+            "pages": [
+              "Dark out. The street lamp buzzes like it's trying to remember a song."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "win_dusk",
+            "flags": [],
+            "when": {
+              "phase": "dusk"
+            },
+            "pages": [
+              "Dusk. Ron's bin catches the last of the light.",
+              "It's having a nicer evening than you."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "win_dawn",
+            "flags": [],
+            "when": {
+              "phase": "dawn"
+            },
+            "pages": [
+              "Dawn. A bird lands on the bin lid, thinks better of it, and leaves."
+            ],
+            "soul_item": "1"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "The bin, the lane, a bit of river.",
+              "Prime Brookhollow view."
+            ]
+          }
+        ]
+      }
+    },
+    "lab_brookhollow": {
+      "lab_brookhollow_researcher": {
+        "lines": [
+          {
+            "id": "res_field",
+            "flags": [
+              "flg_promoted",
+              "got_starter"
+            ],
+            "pages": [
+              "Field researcher now? Bring {lead} by sometimes.",
+              "The lab's too quiet without the noise."
+            ],
+            "note": "needs both: the line names {lead}. World lists got_starter as a side flag, so starter-vs-promotion order is Story's; either order reads right"
+          },
+          {
+            "id": "res_starter",
+            "flags": [
+              "got_starter"
+            ],
+            "pages": [
+              "How's {lead} settling in? Eating well?",
+              "Keep it fed and it'll keep you out of trouble. Mostly."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Morning. The three cradles are ready when you are.",
+              "Take your time. You'll be together a long while."
+            ]
+          }
+        ]
+      },
+      "scene_job_briefing": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "MANAGER: Raise your creatures.",
+              "MANAGER: Find as many kinds as you can.\nLog every one.",
+              "MANAGER: And keep an ear out for the\nfield team.",
+              "MANAGER: Greystone's where they went\nquiet.",
+              "MANAGER: Now, pay. You're not on the\nclock anymore.",
+              "MANAGER: You're paid on progress.",
+              "MANAGER: Coins won, creatures logged,\nreports filed.",
+              "MANAGER: No progress, no pay.",
+              "RON: So no more paid lunch breaks.",
+              "MANAGER: Correct. So get to work."
+            ]
+          }
+        ],
+        "pages": [
+          "MANAGER: Raise your creatures.",
+          "MANAGER: Find as many kinds as you can.\nLog every one.",
+          "MANAGER: And keep an ear out for the\nfield team.",
+          "MANAGER: Greystone's where they went\nquiet.",
+          "MANAGER: Now, pay. You're not on the\nclock anymore.",
+          "MANAGER: You're paid on progress.",
+          "MANAGER: Coins won, creatures logged,\nreports filed.",
+          "MANAGER: No progress, no pay.",
+          "RON: So no more paid lunch breaks.",
+          "MANAGER: Correct. So get to work."
+        ]
+      },
+      "scene_starter_intro": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "LAB TECH: Three cradles. Three\ncreatures.",
+              "LAB TECH: Each one's been raised here\nsince it hatched.",
+              "MANAGER: They're in the cases with the\nlights spinning over them.",
+              "MANAGER: Go and look.",
+              "MANAGER: Pick one. You'll be together a\nlong while.",
+              "MANAGER: So don't just go by looks.",
+              "RON: I'm going by looks."
+            ]
+          }
+        ],
+        "pages": [
+          "LAB TECH: Three cradles. Three\ncreatures.",
+          "LAB TECH: Each one's been raised here\nsince it hatched.",
+          "MANAGER: They're in the cases with the\nlights spinning over them.",
+          "MANAGER: Go and look.",
+          "MANAGER: Pick one. You'll be together a\nlong while.",
+          "MANAGER: So don't just go by looks.",
+          "RON: I'm going by looks."
+        ]
+      },
+      "scene_test_run": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "MANAGER: Before anyone signs anything, a test run.",
+              "MANAGER: Go out to the tall grass.",
+              "MANAGER: Catch two wild creatures and\nlog them in the Kilindex.",
+              "MANAGER: These crystals are on the\ncompany.",
+              "MANAGER: Hold one up when a creature's\nworn down.",
+              "MANAGER: Two creatures, logged. Then\ncome back here.",
+              "MANAGER: Don't wander off to Fernwick.",
+              "RON: Race you.",
+              "MANAGER: It's not a race. ...Fine. It's a race."
+            ]
+          }
+        ],
+        "pages": [
+          "MANAGER: Before anyone signs anything, a test run.",
+          "MANAGER: Go out to the tall grass.",
+          "MANAGER: Catch two wild creatures and\nlog them in the Kilindex.",
+          "MANAGER: These crystals are on the\ncompany.",
+          "MANAGER: Hold one up when a creature's\nworn down.",
+          "MANAGER: Two creatures, logged. Then\ncome back here.",
+          "MANAGER: Don't wander off to Fernwick.",
+          "RON: Race you.",
+          "MANAGER: It's not a race. ...Fine. It's a race."
+        ]
+      }
+    },
+    "lanternport_lighthouse_f3": {
+      "lanternport_hall_int_h10": {
+        "battle_lost": [
+          "Not spooky enough, it seems."
+        ]
+      },
+      "lanternport_hall_int_h9": {
+        "battle_lost": [
+          "The lanterns cheered. For you."
+        ]
+      }
+    },
+    "mirefen": {
+      "mirefen_villager_1": {
+        "lines": [
+          {
+            "id": "mf_keycard",
+            "flags": [
+              "rt_keycard_r5"
+            ],
+            "pages": [
+              "One of those RT cards? Station B's under the bog.",
+              "Lights still come on down there some nights. Nobody's home."
+            ],
+            "status": "DRAFT"
+          },
+          {
+            "id": "mf_coin",
+            "flags": [
+              "beat_master_mirefen"
+            ],
+            "pages": [
+              "Wenna gave you the Reed Coin? She taught me to swim.",
+              "Shoved me off the jetty, actually. Best\nday of my life."
+            ],
+            "status": "DRAFT"
+          },
+          {
+            "id": "mf_storm",
+            "flags": [
+              "storm_season"
+            ],
+            "pages": [
+              "Storm's here. The house leans further left in the wind.",
+              "Grandad says it's fine. Grandad's not in it."
+            ],
+            "status": "DRAFT"
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Mirefen's built on stilts. Grandad built ours. It leans left.",
+              "So do we, now."
+            ]
+          }
+        ]
+      }
+    },
+    "mirefen_hall_int": {
+      "mirefen_hall_int_h3": {
+        "after_old": [
+          "Can't hear the frogs? Watch the water.\nEach ring starts by a lamp."
+        ]
+      }
+    },
+    "office_int": {
+      "crystal_display": {
+        "lines": [
+          {
+            "id": "e9_whose",
+            "flags": [
+              "truth_revealed"
+            ],
+            "when": {
+              "count_gte": {
+                "counter": "office_display_taps",
+                "n": 25
+              }
+            },
+            "soul_item": "15:E9",
+            "pending_story_call": true,
+            "pages": [
+              "The label's been changed by hand.",
+              "It just says: '...whose was this?'"
+            ]
+          },
+          {
+            "id": "e9_stop",
+            "flags": [],
+            "when": {
+              "count_gte": {
+                "counter": "office_display_taps",
+                "n": 25
+              }
+            },
+            "soul_item": "15:E9",
+            "pages": [
+              "A new label: 'Please quit knocking on\nthe glass.'"
+            ]
+          },
+          {
+            "id": "e9_smudge",
+            "flags": [],
+            "when": {
+              "count_gte": {
+                "counter": "office_display_taps",
+                "n": 10
+              }
+            },
+            "soul_item": "15:E9",
+            "pages": [
+              "'Bonded Specimen Crystal - Property of RT.'",
+              "There's a smudge where you keep\nknocking."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "'Bonded Specimen Crystal - Property of RT.'",
+              "It's violet and very, very still."
+            ]
+          }
+        ]
+      },
+      "dana_desk": {
+        "lines": [
+          {
+            "id": "dana_gone_climbing",
+            "flags": [
+              "beat_aurelith_arena"
+            ],
+            "soul_item": "3",
+            "pages": [
+              "The 'Back in 5' sign has a new note under it.",
+              "'Gone climbing. Frostspire. - D.'"
+            ],
+            "note": "post-game: Dana is a top trainer on Frostspire (SOUL_PLAYBOOK 2.3)"
+          },
+          {
+            "id": "dana_photo",
+            "flags": [
+              "beat_master_lanternport"
+            ],
+            "soul_item": "3",
+            "pages": [
+              "Plants, a mug, a 'Back in 5' sign.",
+              "And now a framed photo of a mountain."
+            ]
+          },
+          {
+            "id": "dana_watered",
+            "flags": [
+              "beat_master_mirefen"
+            ],
+            "soul_item": "3",
+            "pages": [
+              "Somebody's watering Dana's plants.",
+              "Nobody will admit to it."
+            ]
+          },
+          {
+            "id": "dana_sign",
+            "flags": [
+              "beat_master_revival"
+            ],
+            "soul_item": "3",
+            "pages": [
+              "A 'Back in 5' sign has turned up on\nDana's desk.",
+              "It's dusty."
+            ]
+          },
+          {
+            "id": "dana_plant",
+            "flags": [
+              "beat_master_fernwick"
+            ],
+            "soul_item": "3",
+            "pages": [
+              "A plant on Dana's desk now. And a mug that says 'NOT YOURS'."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Dana's desk. Cleared out.",
+              "Just a pen and a sticky note that says 'soon'."
+            ]
+          }
+        ]
+      },
+      "manager": {
+        "lines": [
+          {
+            "id": "manager_coin",
+            "flags": [
+              "beat_master_fernwick"
+            ],
+            "soul_item": "8",
+            "pages": [
+              "A coin already. Good. Keep the reports coming.",
+              "And keep looking for the field team. Greystone first."
+            ]
+          },
+          {
+            "id": "v_flg_promoted",
+            "flags": [
+              "flg_promoted"
+            ],
+            "pages": [
+              "Our own checkpoints only pass registered trainers. Win a Master's coin.",
+              "Fernwick's Master is the closest. Straight up Trail 1."
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Sit down. Relax, this isn't that conversation.",
+              "Our field team has gone quiet.",
+              "As of today, you two are field\nresearchers.",
+              "Their last check-in was from Greystone\nCaverns.",
+              "Start in Fernwick."
+            ]
+          }
+        ],
+        "pages": [
+          "Sit down. Relax, this isn't that conversation.",
+          "Our field team has gone quiet.",
+          "As of today, you two are field\nresearchers.",
+          "Their last check-in was from Greystone\nCaverns.",
+          "Start in Fernwick."
+        ]
+      },
+      "scene_promotion": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "MANAGER: Sit down. Relax, this isn't that conversation.",
+              "MANAGER: Our field team has gone quiet.",
+              "MANAGER: All of them. Two weeks now.",
+              "MANAGER: Their last check-in came from\nGreystone Caverns.",
+              "MANAGER: Since then, nothing.",
+              "RON: So the desks on Friday... that wasn't layoffs?",
+              "MANAGER: No. That was us boxing up their\nthings.",
+              "MANAGER: Which I'd like to undo.",
+              "MANAGER: As of today, you two are field\nresearchers.",
+              "MANAGER: Well done. Try to look pleased.",
+              "RON: Is there a raise in this?",
+              "MANAGER: There's a creature in this.",
+              "MANAGER: Lab's next door. Come on."
+            ]
+          }
+        ],
+        "pages": [
+          "MANAGER: Sit down. Relax, this isn't that conversation.",
+          "MANAGER: Our field team has gone quiet.",
+          "MANAGER: All of them. Two weeks now.",
+          "MANAGER: Their last check-in came from\nGreystone Caverns.",
+          "MANAGER: Since then, nothing.",
+          "RON: So the desks on Friday... that wasn't layoffs?",
+          "MANAGER: No. That was us boxing up their\nthings.",
+          "MANAGER: Which I'd like to undo.",
+          "MANAGER: As of today, you two are field\nresearchers.",
+          "MANAGER: Well done. Try to look pleased.",
+          "RON: Is there a raise in this?",
+          "MANAGER: There's a creature in this.",
+          "MANAGER: Lab's next door. Come on."
+        ]
+      }
+    },
+    "revival_hall_int": {
+      "revival_hall_int_master": {
+        "battle_won": [
+          "Too much light at once. It's normal.",
+          "Rest your eyes and come back."
+        ]
+      }
+    },
+    "revival_heights": {
+      "revival_heights_practice_coach": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Signal Relay! Pass the beacon down\nthe line before the light fades.",
+              "Practice is free. Hand off clean.\nNobody likes a lost signal."
+            ]
+          }
+        ],
+        "pages": [
+          "Signal Relay! Pass the beacon down\nthe line before the light fades.",
+          "Practice is free. Hand off clean.\nNobody likes a lost signal."
+        ]
+      },
+      "revival_heights_ron_3": {
+        "after": [
+          "Reception's got post for me, they say.\nNobody sends me post."
+        ]
+      }
+    },
+    "route1": {
+      "trainer_r1_e": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Mind your step. My beetles are dozing\nunder these ledges."
+            ]
+          }
+        ],
+        "pages": [
+          "Mind your step. My beetles are dozing\nunder these ledges."
+        ]
+      }
+    },
+    "route_aurelith_saltmere": {
+      "route_aurelith_saltmere_sign": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "SALT ROAD\nWest: Aurelith. East: Saltmere.",
+              "Mind the salt pans. They're slick."
+            ]
+          }
+        ],
+        "pages": [
+          "SALT ROAD\nWest: Aurelith. East: Saltmere.",
+          "Mind the salt pans. They're slick."
+        ]
+      },
+      "route_aurelith_saltmere_trainer_6": {
+        "battle_lost": [
+          "You'll leave smiling, then. Fair enough."
+        ],
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Not many find this cove. Fewer leave it\nsmiling."
+            ]
+          }
+        ],
+        "pages": [
+          "Not many find this cove. Fewer leave it\nsmiling."
+        ]
+      }
+    },
+    "route_cindervale": {
+      "route_cindervale_trainer_4": {
+        "battle_lost": [
+          "Very uneven, it turns out."
+        ]
+      }
+    },
+    "saltmere_hall_int": {
+      "saltmere_hall_int_h1": {
+        "battle_lost": [
+          "I slid. Not on the floor. In the battle."
+        ]
+      },
+      "saltmere_hall_int_h4": {
+        "battle_lost": [
+          "Washed out. Comes to the best of us."
+        ]
+      }
+    },
+    "shop_cindervale": {
+      "area_name": "Forge Stores"
+    },
+    "shop_int": {
+      "area_name": "RT Stores",
+      "clerk": {
+        "lines": [
+          {
+            "id": "clerk_regular",
+            "flags": [
+              "beat_master_frostspire"
+            ],
+            "soul_item": "8",
+            "pages": [
+              "Back again. Same prices. I like that about us.",
+              "Feeds, remedies, dominance crystals. What do you need?"
+            ]
+          },
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Welcome to RT Stores. Same prices as\nlast year. Same as next year.",
+              "Feeds, remedies, dominance crystals. What do you need?"
+            ]
+          }
+        ],
+        "pages": [
+          "Welcome to RT Stores. Same prices as\nlast year. Same as next year.",
+          "Feeds, remedies, dominance crystals. What do you need?"
+        ]
+      },
+      "shop_int_clerk_aurelith": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "RT Stores, Aurelith. We're the only shop\nthe train halts for.",
+              "Feeds, remedies, crystals. What do you need?"
+            ]
+          }
+        ],
+        "pages": [
+          "RT Stores, Aurelith. We're the only shop\nthe train halts for.",
+          "Feeds, remedies, crystals. What do you need?"
+        ]
+      },
+      "shop_int_clerk_lanternport": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "RT Stores, Lanternport. Biggest shelf on\nthe coast.",
+              "Feeds, remedies, crystals. What do you need?"
+            ]
+          }
+        ],
+        "pages": [
+          "RT Stores, Lanternport. Biggest shelf on\nthe coast.",
+          "Feeds, remedies, crystals. What do you need?"
+        ]
+      },
+      "shop_int_clerk_revival_heights": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "RT Stores, head office branch. Staff\nprices on a staff ID.",
+              "Feeds, remedies, crystals. What do you need?"
+            ]
+          }
+        ],
+        "pages": [
+          "RT Stores, head office branch. Staff\nprices on a staff ID.",
+          "Feeds, remedies, crystals. What do you need?"
+        ]
+      },
+      "shop_int_clerk_saltmere": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "RT Stores, Saltmere branch. Everything\nsmells of fish. Not the stock.",
+              "Feeds, remedies, crystals. What do you need?"
+            ]
+          }
+        ],
+        "pages": [
+          "RT Stores, Saltmere branch. Everything\nsmells of fish. Not the stock.",
+          "Feeds, remedies, crystals. What do you need?"
+        ]
+      }
+    },
+    "shop_lanternport": {
+      "area_name": "Harbour Tackle & Stores"
+    },
+    "sunmeadow_fields": {
+      "sunmeadow_fields_trainer_5": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "I'm counting flowers. You've just\ntrodden on forty."
+            ]
+          }
+        ],
+        "pages": [
+          "I'm counting flowers. You've just\ntrodden on forty."
+        ]
+      }
+    },
+    "thornwood": {
+      "dissident_hint": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "Revival Tech ID on your belt. Of course.",
+              "Ask your bosses what becomes of the\ncreatures they 'catalogue'.",
+              "Then ask why nobody comes back. The caves are right there."
+            ]
+          }
+        ],
+        "pages": [
+          "Revival Tech ID on your belt. Of course.",
+          "Ask your bosses what becomes of the\ncreatures they 'catalogue'.",
+          "Then ask why nobody comes back. The caves are right there."
+        ]
+      },
+      "trainer_tw_b": {
+        "after": [
+          "Your company says it'll move that trunk once someone important asks.",
+          "Two coins makes you important, it seems."
+        ]
+      }
+    },
+    "tidewater_cave_int": {
+      "tidewater_cave_int_lab_sign": {
+        "lines": [
+          {
+            "id": "default",
+            "flags": [],
+            "pages": [
+              "REVIVAL TECH CAVE LAB\nKey card holders only.",
+              "Smaller sign: 'Tide tables inside.\nVisitors by booking only.'"
+            ]
+          }
+        ],
+        "pages": [
+          "REVIVAL TECH CAVE LAB\nKey card holders only.",
+          "Smaller sign: 'Tide tables inside.\nVisitors by booking only.'"
+        ]
+      }
+    },
+    "tidewater_coast": {
+      "tidewater_coast_trainer_3": {
+        "battle_lost": [
+          "And the challengers win, it seems."
+        ]
+      }
+    }
+  },
+  "system_company_voice": {
+    "area_new_frostspire_3": {
+      "pages": [
+        "{employee_id}: Frostspire added. Windy\nland, we're told.",
+        "Hold on to the paperwork. And the assets."
+      ]
+    },
+    "area_new_sunmeadow_fields_2": {
+      "pages": [
+        "Sunmeadow Fields is on the asset map, {employee_id}.",
+        "Wide open grass. Wide open prospects.\nFor us."
+      ]
+    },
+    "crystal_resupply": {
+      "pages": [
+        "{employee_id}: out of crystals already. Company stock, gone.",
+        "Stores is sending {count} more. It's\ngoing to reflect on your check."
+      ]
+    },
+    "id_cap_r7": {
+      "pages": [
+        "{employee_id}: ID level maxed out for\nthis region.",
+        "Win coin 7 to unlock further growth."
+      ]
+    },
+    "id_cap_r8": {
+      "pages": [
+        "{employee_id}: ID level maxed out for\nthis region.",
+        "Win coin 8 to unlock further growth."
+      ]
+    },
+    "id_cap_region_5_2": {
+      "pages": [
+        "ID cap 14 signed off, {employee_id}.",
+        "Your number may now be worth slightly more."
+      ]
+    },
+    "id_cap_region_6_2": {
+      "pages": [
+        "ID cap 16 signed off, {employee_id}.",
+        "Your asset value is now legally allowed to rise."
+      ]
+    },
+    "id_level_up": {
+      "pages": [
+        "{employee_id}: Employee ID level\n{level}. Cheering withheld.",
+        "You're a slightly costlier number now."
+      ]
+    },
+    "keycard_r5_4": {
+      "pages": [
+        "Mirefen access granted, {employee_id}.",
+        "Bring back data. Leave the bog where it is."
+      ]
+    },
+    "keycard_r6_4": {
+      "pages": [
+        "Tidewater access granted, {employee_id}.",
+        "Return the card dry. It says salt-proof. Test nothing."
+      ]
+    },
+    "kilindex_milestone_300": {
+      "pages": [
+        "{employee_id}: 300 kinds on file. Asset value is up. Again.",
+        "We're running out of ways to say up.\nHigher."
+      ]
+    },
+    "kilindex_milestone_450_3": {
+      "pages": [
+        "450 kinds on file, {employee_id}. The\nboard stood up and cheered.",
+        "Then they sat down. The cheering was for\nthe assets."
+      ]
+    },
+    "master_beaten_fernwick_3": {
+      "pages": [
+        "Fernwick hall cleared, {employee_id}. Asset value: grounded.",
+        "That's an earth joke. Accounting signed\noff on it."
+      ]
+    },
+    "master_beaten_revival": {
+      "pages": [
+        "{employee_id}: Revival Heights Master beaten. Coin three.",
+        "Head Office has quit pretending not to\nwatch."
+      ]
+    },
+    "master_beaten_saltmere_4": {
+      "pages": [
+        "{employee_id}: Saltmere coin logged. Salt water, fresh value.",
+        "Please rinse the assets before they're\nvalued."
+      ]
+    },
+    "promoted_id18": {
+      "pages": [
+        "Promotion! {employee_id} is now ID 18.",
+        "Lighthouse signal store access granted."
+      ]
+    },
+    "promoted_id20": {
+      "pages": [
+        "Promotion! {employee_id} is now ID 20.",
+        "Foundry lab access granted."
+      ]
+    },
+    "promotion_r5_2": {
+      "pages": [
+        "Promotion signed off, {employee_id}.",
+        "Your asset value just got a fancier label."
+      ]
+    },
+    "promotion_r6_2": {
+      "pages": [
+        "Promotion signed off, {employee_id}.\nCoastal division.",
+        "Your number now outranks some other numbers."
+      ]
+    },
+    "quest_done_mq_greystone_camp_4": {
+      "pages": [
+        "{employee_id}: the cold camp is warm again.",
+        "Cave assets are pleased. We assume. They\nhiss a lot."
+      ]
+    },
+    "quest_done_mq_welcome_back_3": {
+      "pages": [
+        "Welcome-back task logged, {employee_id}.",
+        "Cake Friday is back. Your slice is\npending sign-off."
+      ]
+    },
+    "research_catch_first": {
+      "pages": [
+        "{employee_id}: research-only asset secured.",
+        "Book value: high. Your share: a pleased\nbeep."
+      ]
+    },
+    "research_catch_first_4": {
+      "pages": [
+        "Research catch filed, {employee_id}.",
+        "Limited editions gain value. So do our\nmargins."
+      ]
+    },
+    "rival_beaten_ron_2_3": {
+      "pages": [
+        "Saltmere match logged, {employee_id}. Ron's assets: resting.",
+        "Yours: rising. In the financial sense."
+      ]
+    },
+    "rival_beaten_ron_6_2": {
+      "pages": [
+        "{employee_id}: Ron beaten on the arena steps. He's coming along.",
+        "Two staff, one trip. The travel budget\nis pleased."
+      ]
+    },
+    "storm_season_start_2": {
+      "pages": [
+        "Storm alert, {employee_id}. Field work continues.",
+        "The weather has not been signed off, but\nit's here."
+      ]
+    }
+  },
+  "system_contacts": {
+    "trainers": {
+      "fernwick": {
+        "ron_rival_1": {
+          "swap_offer": {
+            "pages": [
+              "We never traded numbers? Here, put mine\nin."
+            ]
+          }
+        }
+      },
+      "route1": {
+        "trainer_r1_e": {
+          "rematch_beaten": {
+            "pages": [
+              "Back to dozing, then."
+            ]
+          }
+        }
+      }
+    }
+  },
+  "system_heal": {
+    "machine": {
+      "pages": [
+        "Whirr... clunk... ding."
+      ]
+    },
+    "storage_open": {
+      "variants": {
+        "phone": [
+          "Field Archive. Syncing with the\nbranch..."
+        ]
+      }
+    }
+  },
+  "system_item_catalogue": {
+    "coin_pouch_small": {
+      "pages": [
+        "A little purse someone lost. There's\ngold inside."
+      ]
+    }
+  },
+  "system_items": {
+    "empty_satchel": {
+      "pages": [
+        "An empty kit satchel. Someone beat you\nto it."
+      ]
+    }
+  },
+  "system_kilindex": {
+    "entries": {
+      "drenchcrab": {
+        "blurb": "Comes out by the hundred when it rains. The road goes clackety for days."
+      },
+      "spinyclaw": {
+        "blurb": "Ticks its antennae to chat with friends across the rock pools."
+      }
+    }
+  },
+  "system_research": {
+    "promo_r5_done": {
+      "pages": [
+        "Promotion filed. New title: Wetland Field Lead.",
+        "Your desk is still a bog. Well done, we\nthink."
+      ]
+    }
+  },
+  "system_rt_benefits": {
+    "branches": {
+      "supply_pay": "Stores & Pay"
+    }
+  },
+  "system_story_r56": {
+    "g02_researcher_4": {
+      "pages": [
+        "Your lead keeps looking at the rocks.",
+        "Mine does too. I've quit asking it why."
+      ]
+    },
+    "g09_frogs_quiet": {
+      "pages": [
+        "The frogs have gone quiet.",
+        "All of them. At once."
+      ]
+    },
+    "g11_clock": {
+      "pages": [
+        "A wall clock, dead still. The hands\npoint at the same time.",
+        "The second hand twitches once. Then doesn't."
+      ]
+    },
+    "g11_locker_toy": {
+      "pages": [
+        "A toy frog, tucked in a sock to keep it\ndry.",
+        "Someone wanted this back. They never\ncame for it."
+      ]
+    },
+    "g16_rested_2": {
+      "pages": [
+        "All this was a river bend once. Before\nthe water fell.",
+        "Go at dusk. Go quiet. You'll see why they called it that."
+      ]
+    },
+    "g18_home_1": {
+      "pages": [
+        "Look at you, soaked. Get in. Rest your\nteam.",
+        "Ron came by. Borrowed a brolly."
+      ]
+    },
+    "g19_diver_lost": {
+      "pages": [
+        "Best thing all day. Still lost."
+      ]
+    },
+    "g21_ron_decline_1": {
+      "pages": [
+        "...Yeah. No. You're right.",
+        "I'd have lost my footing anyway. Wall's\nslick."
+      ]
+    },
+    "g23_birthday": {
+      "pages": [
+        "A birthday card, signed by six people.",
+        "'Forty today, Gwil! Don't touch the\ngenerator.'"
+      ]
+    },
+    "g24_clerk_3": {
+      "pages": [
+        "Coastal Operations Lead. New pin on the board for you.",
+        "Station access. Cave thing. It's a perk,\nwe're told."
+      ]
+    },
+    "g26_lights_4": {
+      "speaker": "boat captain"
+    }
+  },
+  "system_wild": {
+    "retreated": {
+      "pages": [
+        "You slid away."
+      ]
+    }
+  }
+}

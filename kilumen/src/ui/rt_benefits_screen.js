@@ -18,7 +18,7 @@ export const RTB_TEXT = {
     cost: 'Cost: {cost} pt · Needs ID {level}', state_available: 'Available', state_owned: 'Owned', state_locked: 'Locked',
     lock_region: 'Region {region}', lock_id: 'Needs ID {level}', lock_points: 'Need {cost} pt', hint_perk: 'Perk', hint_buy: 'Details / Buy', back: 'Back',
   },
-  branches: { field_logistics: 'Field Logistics', supply_pay: 'Supply & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance' },
+  branches: { field_logistics: 'Field Logistics', supply_pay: 'Stores & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance' },
   nodes: {
     // region 4 (dev, Oct 29 2026): PLACEHOLDER text, final lines requested in data/textbot_requests_region4.md
     daily_bonus: { name: 'Daily Bonus', desc: 'Gold every in-game day. Paid on time, unlike your overtime.',

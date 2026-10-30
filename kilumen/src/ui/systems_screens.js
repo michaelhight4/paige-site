@@ -306,7 +306,7 @@ export async function installSystemsScreens(ui, sys) {
 
   // ---------------- Badges (own top-row menu entry, v0.2.65; ?badges=0 removes it) ----------------
   if (badgesOn()) ui.scr_badges = function () {
-    return { scr: 'badges', pat: 'sparkle', title: T('system_badges.labels.tab', 'Badges'), glyph: 'badges', sel: 0, cols: 1, count: () => 0,
+    return { scr: 'badges', pat: 'sparkle', title: T('system_badges.labels.tab', 'Coins'), glyph: 'badges', sel: 0, cols: 1, count: () => 0,
       render: () => { const b = renderBadges(sys.scene, T); b.settle(); return `<div class="ui-body">${b.html}</div>`; },
       hint: () => ui.hintText([['▲▼', 'Scroll'], ['B', 'Back']]),
     };
@@ -319,7 +319,7 @@ export async function installSystemsScreens(ui, sys) {
     const shop = sys.makeShop(), region = regionOf(sys.zone);
     const list = () => (mode === 0 ? shop.stock() : shop.sellable().filter((it) => it.price != null)).map((it) => ({ ...it, name: itemName(it.id), pages: cat()[it.id]?.pages || (heldDesc(it.id) ? [heldDesc(it.id)] : []) }));
     const info = (it) => (it ? `${sys.bag.def(it.id)?.held ? `<img class="sys-held-big" src="${heldIconSrc(it.id).replace('.png', '_3x.png')}" width="48" height="48" alt="">` : ''}<b>${esc(it.name)}</b><p class="soft">${esc(it.pages.join(' '))}</p><p class="soft">In your pack: ${sys.bag.count(it.id)}</p>` : '');
-    const scr = { scr: 'shop', pat: 'awning', title: `RT Supply · ${region.city || sys.zone || ''}`, glyph: 'shop', sel: 0, cols: 1, count: () => list().length,
+    const scr = { scr: 'shop', pat: 'awning', title: `RT Stores · ${region.city || sys.zone || ''}`, glyph: 'shop', sel: 0, cols: 1, count: () => list().length,
       chips: () => `${shop.discount ? `<span class="ui-chip sys-disc" data-pat="stripes">−${Math.round(shop.discount * 100)}%</span>` : ''}${money(sys.wallet.coins)}`,
       render: () => {
         const l = list();

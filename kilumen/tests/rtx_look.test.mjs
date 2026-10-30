@@ -1,4 +1,4 @@
-// RTX look (src/overworld/rtx.js): default Auto, URL override, tier picking for weak GPUs, watchdog, tile mask, shader text.
+// RTX look (src/overworld/rtx.js): default Off (integration-r58), URL override, tier picking for weak GPUs, watchdog, tile mask, shader text.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
@@ -8,11 +8,11 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const R = await import(path.join(root, 'src/overworld/rtx.js'));
 const { Col } = await import(path.join(root, 'src/overworld/constants.js'));
 
-test('default is Auto and modes cycle Auto -> Full -> Lite -> Off -> Auto', () => {
+test('default is Off and modes cycle Off -> Auto -> Full -> Lite -> Off', () => {
   const r = new R.RtxLook({ opts: {} });
-  assert.equal(r.mode, 'auto'); assert.equal(r.on, true); assert.equal(r.label(), 'Auto');
+  assert.equal(r.mode, 'off'); assert.equal(r.on, false); assert.equal(r.label(), 'Off');
   const seen = []; for (let i = 0; i < 4; i++) seen.push(r.cycle());
-  assert.deepEqual(seen, ['full', 'lite', 'off', 'auto']);
+  assert.deepEqual(seen, ['auto', 'full', 'lite', 'off']);
 });
 test('?rtx= overrides', () => {
   const q = (v) => new URLSearchParams('rtx=' + v);

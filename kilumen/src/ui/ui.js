@@ -541,7 +541,7 @@ export class GameUI {
       .filter(([k]) => k !== 'save' || !this.scene.saveLocked) // save lock: no manual save mid battle / talk / cutscene (overworld.js saveLockReason)
       .filter(([k]) => k !== 'rt_benefits' || typeof this.scr_rt_benefits === 'function'); // only once src/ui/rt_benefits_screen.js installed it
     const hasBdg = typeof this.scr_badges === 'function'; // Badges (v0.2.65): own top-row entry after Tasks; only installed when badgesOn() (?badges=0 kill switch)
-    if (hasBdg) apps.splice(4, 0, ['badges', this.T('system_badges.labels.tab', 'Badges'), 'badges']);
+    if (hasBdg) apps.splice(4, 0, ['badges', this.T('system_badges.labels.tab', 'Coins'), 'badges']);
     const feeds = globalThis.window?.kilumen?.feeds, hasFeeds = typeof feeds?.open === 'function'; // Feeds (v0.2.69, Gary): top-row entry after Badges; only when src/feeds attached (flag on)
     if (hasFeeds) apps.splice(hasBdg ? 5 : 4, 0, ['feeds', this.T('feeds.title', 'Feeds'), 'feeds']);
     const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00', badges: '#c8962a', feeds: '#3b9a3e' };
@@ -675,7 +675,7 @@ export class GameUI {
     if (this.gold == null) this.gold = DEMO.gold; // PLACEHOLDER: gold is not in the save yet
     const list = () => (mode === 0 ? SHOP_STOCK.map((id) => ({ id, ...cat[id], price: PLACEHOLDER_PRICES[id] || 100 }))
       : Object.entries(this.bag).filter(([id, n]) => n > 0 && cat[id]).map(([id, n]) => ({ id, n, ...cat[id], price: Math.floor((PLACEHOLDER_PRICES[id] || 100) / 2) })));
-    const scr = { scr: 'shop', pat: 'awning', title: 'RT Supply', glyph: 'shop', sel: 0, cols: 1, count: () => list().length,
+    const scr = { scr: 'shop', pat: 'awning', title: 'RT Stores', glyph: 'shop', sel: 0, cols: 1, count: () => list().length,
       chips: () => `<span class="ui-chip"><i class="coin"></i>${this.gold.toLocaleString()}</span>`,
       render: () => {
         const l = list(), cur = l[scr.sel];
@@ -785,7 +785,7 @@ export class GameUI {
       ...(s.systems?.state ? [['Difficulty', diffOf(getDifficulty(s.systems.state)).label, () => { const st = s.systems.state; setDifficulty(st, DIFF_ORDER[(DIFF_ORDER.indexOf(getDifficulty(st)) + 1) % 3]); s._dirty = true; },
         (d) => { const st = s.systems.state; setDifficulty(st, DIFF_ORDER[Math.max(0, Math.min(2, DIFF_ORDER.indexOf(getDifficulty(st)) + d))]); s._dirty = true; }]] : []), // Oct 29 2026: Easy / Normal / Hard (src/systems/difficulty.js)
       [this.T('system_phone.options.labels.wind', 'Wind'), s.life?.settings && windEnabled(s.life) ? 'On' : 'Off', () => { if (s.life && !windKilledByUrl()) s.life.toggle('wind'); }], // Oct 29 2026 (Gary): world wind on/off, live; ?wind=0 forces Off
-      ...(s.rtx ? [['RTX look', s.rtx.label(), () => s.rtx.cycle(), (d) => s.rtx.setMode(['off', 'auto', 'full', 'lite'][Math.max(0, Math.min(3, ['off', 'auto', 'full', 'lite'].indexOf(s.rtx.mode) + d))])]] : []), // RTX look (src/overworld/rtx.js): Off / Auto (default) / Full / Lite; ?rtx= overrides
+      ...(s.rtx ? [['RTX look', s.rtx.label(), () => s.rtx.cycle(), (d) => s.rtx.setMode(['off', 'auto', 'full', 'lite'][Math.max(0, Math.min(3, ['off', 'auto', 'full', 'lite'].indexOf(s.rtx.mode) + d))])]] : []), // RTX look (src/overworld/rtx.js): Off (default) / Auto / Full / Lite; ?rtx= overrides
       ['Depth shadows', s.depth?.state?.(s.map ? s.view() : null)?.enabled ? 'On' : 'Off', () => s.depth.toggle()],
       ['Menu motion', this.body.classList.contains('ui-reduce') ? 'Reduced' : 'Full', () => { const r = this.body.classList.toggle('ui-reduce'); try { localStorage.setItem('kilumen_alpha_ui.motion', r ? 'reduce' : 'full'); } catch { /* */ } }],
       ...audioRows(),
@@ -892,7 +892,7 @@ export class GameUI {
         <div class="plate ui-pad ui-scroll" style="flex:1"><div id="mapinfo"></div>
         <ul class="rm-legend" aria-label="${esc(this.T('system_phone.map.legend.title', 'Map key'))}">${KEY.map(([k, c, t]) => `<li><i style="--dot:${c}"></i>${esc(this.T(`system_phone.map.legend.${k}`, t))}</li>`).join('')}</ul></div></div>`,
       after: () => { scr.onSel(scr.sel); this._mapPlaceYou(zones); },
-      onSel: (i) => { const z = zones[i], el = this.stage.querySelector('#mapinfo'); if (el && z) el.innerHTML = `<b style="font-size:1.15em">${esc(z.name)}</b><p class="soft">${esc(z.type === 'town' ? 'Town' : z.type === 'route' ? 'Route' : z.type || '')}${z.id === cur ? ' · You are here' : ''}</p>`; },
+      onSel: (i) => { const z = zones[i], el = this.stage.querySelector('#mapinfo'); if (el && z) el.innerHTML = `<b style="font-size:1.15em">${esc(z.name)}</b><p class="soft">${esc(z.type === 'town' ? 'Town' : z.type === 'route' ? 'Trail' : z.type || '')}${z.id === cur ? ' · You are here' : ''}</p>`; },
       // [overnight hook] Skylift fast travel from the map (src/overnight/region_map.js, ?ov=regionmap; off by default)
       hint: () => this.hintText([['▲▼', 'Place'], ...(this.scene.overnight?.region?.enabled ? [['A', 'Skylift']] : []), ['B', 'Back']]),
       onA: (i) => { const r = this.scene.overnight?.region; if (r?.enabled && zones[i]) { this.closeAll(); r.travelTo(zones[i].id); } },

@@ -1,0 +1,680 @@
+{
+  "_status": "DRAFT by Text Bot, not approved by Gary",
+  "_meta": {
+    "author": "Text Bot",
+    "date": "2026-10-30",
+    "branch": "dev/integration-r58 (caacbe85, mid-merge with dev/seaport 284c59a5)",
+    "about": "Integration text sweep. Not loaded at runtime (not in DRAFT_URLS). Paths mirror overworld_lines.json / say() keys. maps.fin_past_wlab_*, system_arena.fighter_beaten/tower_heal, maps.aurelith_arena_room_8.* are NEW keys for missing text_refs. The rest replace lint failures (blocked 'pp', badge, throw, click, Congrats, >2x40 pages) in Coder fallbacks (src/region9/text_fallback*.js) and overworld_lines arena fighters.",
+    "wellspire_fb_note": "r9.*, fin.*, summit.*, dream.*, letter.* keys here are currently missing from overworld_lines.json, so players see the Coder fallback; merging these into lines fixes both the gap and the lint."
+  },
+  "maps": {
+    "fin_past_wlab_01_entry": {
+      "fin_wlab_note_visitor": {
+        "pages": [
+          "VISITOR LOG, Signal Test 7 week. Passes\nstay at the desk.",
+          "Nobody goes past the white line alone."
+        ]
+      },
+      "fin_wlab_note_cast": {
+        "pages": [
+          "A cast of the Line 1 forehead crystal,\nmade for the funding visit.",
+          "The real one is still in him."
+        ]
+      }
+    },
+    "fin_past_wlab_02_medical": {
+      "fin_wlab_note_beds": {
+        "pages": [
+          "Bed 3 is for staff. Line 1 handlers keep\nreporting the same headache.",
+          "Logged as \"the hum\"."
+        ]
+      },
+      "fin_wlab_note_heal": {
+        "pages": [
+          "Restorer unit, set to gentle.",
+          "Someone has glued a cover over the\noverdrive switch."
+        ]
+      }
+    },
+    "fin_past_wlab_03_control": {
+      "fin_wlab_note_test7": {
+        "pages": [
+          "SIGNAL TEST 7. Output: 140 percent.\nCrest crystal stress: red. HOLD."
+        ]
+      },
+      "fin_wlab_note_finch": {
+        "pages": [
+          "Handwriting on the screen frame:",
+          "\"Do not run Test 8. Not on him.\"\n- C. Finch"
+        ]
+      }
+    },
+    "fin_past_wlab_04_tanks": {
+      "fin_wlab_note_lines": {
+        "pages": [
+          "Lines 2 to 9: asleep. Lights low after\neight.",
+          "They dream when the core runs loud."
+        ]
+      }
+    },
+    "fin_past_wlab_05_amber": {
+      "fin_wlab_note_amber": {
+        "pages": [
+          "AMBER LINE. Kept for study, never woken.",
+          "This week, three of them turned to face\nthe door."
+        ]
+      }
+    },
+    "fin_past_wlab_06_growth": {
+      "fin_wlab_note_growth": {
+        "pages": [
+          "The feeding schedule has been torn down.",
+          "Under it, in marker: WE ARE LETTING THEM\nOUT."
+        ]
+      }
+    },
+    "fin_past_wlab_07_vats": {
+      "fin_wlab_note_vat": {
+        "pages": [
+          "Vat 3 drained Tuesday. Whoever was in it\nwent down to the river.",
+          "Nobody signed for it."
+        ]
+      }
+    },
+    "fin_past_wlab_08_core": {
+      "fin_wlab_note_core": {
+        "pages": [
+          "Core load: OVERDRIVEN. The helix hums\nthe same note as the Line 1 crest.",
+          "It is getting louder."
+        ]
+      }
+    },
+    "fin_past_wlab_09_observation": {
+      "fin_wlab_note_window": {
+        "pages": [
+          "From here you can see the river.",
+          "The Breakout is tonight. Leave every\ndoor open behind you."
+        ]
+      }
+    },
+    "aurelith_arena_room_8": {
+      "arena_steward_8": {
+        "pages": [
+          "The last room. Corvin has been waiting\nall day.",
+          "Take your time. Nobody rushes the last\nfight."
+        ]
+      },
+      "arena_fan_8": {
+        "pages": [
+          "I climbed all eight floors just to watch\nthis one.",
+          "No pressure. Well. Some pressure."
+        ]
+      }
+    },
+    "aurelith_arena": {
+      "arena_fighter_1": {
+        "battle_won": [
+          "Washed out at the first wave.\nIt's fine. The sea doesn't gloat."
+        ]
+      },
+      "arena_fighter_6": {
+        "battle_won": [
+          "Lights out, superstar.\nThe crowd still cheered for you."
+        ]
+      }
+    }
+  },
+  "system_arena": {
+    "fighter_beaten": {
+      "pages": [
+        "The stairs to the next room are open.\nKeep climbing."
+      ]
+    },
+    "tower_heal": {
+      "pages": [
+        "The Arena staff patch your team up. Full\nhealth, all of them.",
+        "Courtesy of the house. Ron is waiting\ndown in the lobby."
+      ]
+    }
+  },
+  "letter": {
+    "ho_assignment": {
+      "pages": [
+        "A cream envelope. Heavy paper. Your name\nwritten by hand.",
+        "\"Dear {player}, and dear {lead}. We hope\nthe soup was warm.\"",
+        "\"And that the bins went out. We are so\nproud of you both.\"",
+        "\"Thank you for everything you have done\nfor them.\"",
+        "\"There is a disturbance on Wellspire, at\nthe top of the old river.\"",
+        "\"We think it would like to see you.\nNothing bad will come of it.\"",
+        "\"Take a coat. With love, Head Office.\"",
+        "No signature. No employee number. Just\nthat."
+      ]
+    },
+    "team_postcard": {
+      "pages": [
+        "A postcard, too. A snowy peak on the\nfront.",
+        "\"Snowed in up north. All fine. Teo says\nhello.\"",
+        "\"Marta says the benches here are a 3.\"\n- the field team"
+      ]
+    }
+  },
+  "r9": {
+    "unlocked": {
+      "pages": [
+        "The Skylift High Line at Frostspire is\nrunning again.",
+        "And the old riverbed north of\nBrookhollow is dry enough to walk."
+      ]
+    },
+    "skylift_entry": {
+      "pages": [
+        "SKYLIFT HIGH LINE. Service resumed at\nHead Office's request.",
+        "Have a lovely trip."
+      ]
+    },
+    "gone_skylift": {
+      "pages": [
+        "\"HIGH LINE: SERVICE SUSPENDED.\"\nThe sign is thick with dust.",
+        "A field team clipboard hangs on the\ngate.",
+        "Eight team names signed in. None signed\nout.",
+        "Every one of them is home."
+      ]
+    },
+    "cloudway_note": {
+      "pages": [
+        "A survey peg, RT blue. The tag reads:",
+        "\"Cloudway. Surveyed by RT, year of the\nfounding.\"",
+        "Under it, newer pencil: \"This path was\nnot here this morning.\""
+      ]
+    },
+    "cloudway_note_2": {
+      "pages": [
+        "Stones are stacked into a little cairn.",
+        "One for each person who has climbed\npast.",
+        "You count them. You quit counting at\nyour own age."
+      ]
+    },
+    "echo_note": {
+      "pages": [
+        "Writing scratched into the cave wall,\nold and careful:",
+        "\"EVERY ONE OF THEM CAME OUT OF A LAB.\"",
+        "\"WE REMEMBER. WE WERE NOT MAD.\"",
+        "Under it, smaller: \"don't let it in your\nhead\""
+      ]
+    },
+    "echo_note_2": {
+      "pages": [
+        "A field notebook left on a ledge.",
+        "Every page has the same entry, in\nslightly different handwriting:",
+        "\"Subject arrived. Subject climbed.\nSubject went up.\"",
+        "\"Subject came back down. Subject does\nnot remember.\""
+      ]
+    },
+    "cloudline_note": {
+      "pages": [
+        "A weather board, frozen. The forecast\nfor tomorrow is chalked in already:",
+        "\"Same as today.\""
+      ]
+    },
+    "heart_note": {
+      "pages": [
+        "An RT staff locker. Inside: a field team\njacket your size.",
+        "The name patch has been unpicked."
+      ]
+    },
+    "ft": {
+      "r9_rb_hiker": {
+        "intro": {
+          "pages": [
+            "Wren: RT Hydrology, Team Cobalt. You\ntoo?",
+            "Wren: This river has been dry for three\nhundred years.",
+            "Wren: Our maps say there is no river.\nOur maps say there is no mountain.",
+            "Wren: Show me what you've got."
+          ]
+        },
+        "after": {
+          "pages": [
+            "Wren: I keep measuring the riverbed.",
+            "Wren: It keeps being a little deeper\nthan yesterday."
+          ]
+        }
+      },
+      "r9_rb_dowser": {
+        "intro": {
+          "pages": [
+            "Ansel: Field Researcher, Cobalt. Head\nOffice sent us a letter.",
+            "Ansel: Handwritten. No signature. Did\nyours smell of snow too?"
+          ]
+        }
+      },
+      "r9_rb_guide": {
+        "intro": {
+          "pages": [
+            "Petra: Field Lead, Cobalt. Eleven years\non the northern survey.",
+            "Petra: Never once seen this valley. I\ndon't trust places that show up.",
+            "Petra: Let's see if you're real, at\nleast."
+          ]
+        },
+        "after": {
+          "pages": [
+            "Petra: Keep going up. Everyone does, it\nseems."
+          ]
+        }
+      },
+      "r9_skylift_rider": {
+        "intro": {
+          "pages": [
+            "Joss: RT Survey Pilot. I flew over this\nrange on Tuesday.",
+            "Joss: Clouds the whole way. Flat ground\nunder them.",
+            "Joss: Then I took the lift, and here we\nare."
+          ]
+        }
+      },
+      "r9_sw_climber_1": {
+        "intro": {
+          "pages": [
+            "Ilse: Harrow. Do you get the feeling\nyou've climbed this before?",
+            "Ilse: Every step, half a second early?"
+          ]
+        },
+        "after": {
+          "pages": [
+            "Ilse: There. You did the thing with your\nfoot before the loose rock.",
+            "Ilse: Like you knew."
+          ]
+        }
+      },
+      "r9_sw_survey_1": {
+        "intro": {
+          "pages": [
+            "Odo: Team Gannet, geology. This rock is\nold. Very old.",
+            "Odo: And it isn't on a single core\nsample we own."
+          ]
+        },
+        "after": {
+          "pages": [
+            "Odo: Maybe the samples are wrong. Maybe\nthe rock is.",
+            "Odo: I keep both in the same bag."
+          ]
+        }
+      },
+      "r9_sw_survey_2": {
+        "intro": {
+          "pages": [
+            "Maren: Gannet. Someone at Head Office\nsaid \"it would like to see you.\"",
+            "Maren: It. Not they. I've been thinking\nabout that word all day."
+          ]
+        },
+        "after": {
+          "pages": [
+            "Maren: Sorry. Nerves. The mountain hums\nwhen you stand still.",
+            "Maren: Some of the hum sounds like my\nown thoughts."
+          ]
+        }
+      },
+      "r9_sw_survey_3": {
+        "intro": {
+          "pages": [
+            "Tobin: Field Lead, Gannet. We filed a\nreport that this region doesn't exist.",
+            "Tobin: Head Office stamped it \"noted\".",
+            "Tobin: Just \"noted\". Then they sent you."
+          ]
+        }
+      },
+      "r9_sw_climber_2": {
+        "intro": {
+          "pages": [
+            "Sela: Harrow. Last one before the ice.",
+            "Sela: I'm meant to halt anyone who isn't\nready.",
+            "Sela: Nobody told me who decides that."
+          ]
+        }
+      },
+      "r9_ic_climber_1": {
+        "intro": {
+          "pages": [
+            "Nils: Team Sedge, ice cores. The ice\nhere has a layer for every winter.",
+            "Nils: Thousands of them. And they're all\nthe same winter."
+          ]
+        }
+      },
+      "r9_ic_climber_2": {
+        "intro": {
+          "pages": [
+            "Hedda: Sedge. You're the one from\nBrookhollow?",
+            "Hedda: You came through here in spring.",
+            "Hedda: ...Didn't you? I have a photo.\nIt's blurry."
+          ]
+        }
+      },
+      "r9_ic_keeper": {
+        "intro": {
+          "pages": [
+            "Rook: Field Lead, Sedge. Our radio picks\nup a signal up here.",
+            "Rook: It's RT's old call sign. The one\nfrom before the rebellion.",
+            "Rook: Nobody's used it in a lifetime."
+          ]
+        }
+      },
+      "r9_cw_field_1": {
+        "intro": {
+          "pages": [
+            "Fenna: Weather Watcher, Team Lark.",
+            "Fenna: The clouds up here don't move\nwith the wind. They move with you.",
+            "Fenna: Walk left. See?"
+          ]
+        },
+        "after": {
+          "pages": [
+            "Fenna: My barometer reads \"fine\", with a\nlittle picture of a sun.",
+            "Fenna: It never had a picture.",
+            "Fenna: Up here you keep your thoughts\ntidy.",
+            "Fenna: Head Office says don't let it in\nyour head.",
+            "Fenna: Never said what \"it\" was."
+          ]
+        }
+      },
+      "r9_cw_field_2": {
+        "after": {
+          "pages": [
+            "Dov: Either way, the plates know your\nweight.",
+            "Dov: They shifted before your foot came\ndown."
+          ]
+        }
+      },
+      "r9_cw_field_3": {
+        "intro": {
+          "pages": [
+            "Linnea: Field Lead, Lark. We're here to\nobserve the disturbance.",
+            "Linnea: Funny thing. The disturbance\narrived when you did."
+          ]
+        }
+      },
+      "r9_ec_field_1": {
+        "intro": {
+          "pages": [
+            "Ezra: Sound Recordist, Team Quill. Clap\nonce.",
+            "Ezra: ...The cave answers twice. The\nsecond one is a little bit late.",
+            "Ezra: Like a memory."
+          ]
+        }
+      },
+      "r9_cl_field_1": {
+        "intro": {
+          "pages": [
+            "Gus: Cartographer, Team Moraine. I've\ndrawn this ridge four times today.",
+            "Gus: Every map comes out different.",
+            "Gus: Except the bit where you're\nstanding. That's always the same."
+          ]
+        }
+      },
+      "r9_cl_field_3": {
+        "intro": {
+          "pages": [
+            "Hal: Field Lead, Moraine. They warned us\nabout the top.",
+            "Hal: Not what's there. Just \"don't look\nstraight at it.\"",
+            "Hal: Who's \"they\"? Good question. The\nmemo was signed by us."
+          ]
+        }
+      },
+      "r9_hc_field_1": {
+        "intro": {
+          "pages": [
+            "Ione: Senior Researcher, Team Vesper.\nWe've been waiting.",
+            "Ione: Longer than you'd think.",
+            "Ione: You always come up the cave on the\nleft. Today you came up the left.",
+            "Ione: Good."
+          ]
+        }
+      },
+      "r9_hc_field_2": {
+        "intro": {
+          "pages": [
+            "Corwin: Vesper. I keep a list of things\nI remember that never took place.",
+            "Corwin: You're on it. Twice."
+          ]
+        }
+      },
+      "r9_hc_field_3": {
+        "intro": {
+          "pages": [
+            "Agathe: Field Director, Vesper. Head\nOffice asked me for one thing.",
+            "Agathe: Watch the field researcher\nclosely.",
+            "Agathe: I asked which researcher. They\nsaid \"the one who is watching.\"",
+            "Agathe: Let's begin."
+          ]
+        },
+        "after": {
+          "pages": [
+            "Agathe: The summit is just above.",
+            "Agathe: Whatever you see there, write it\ndown before you blink."
+          ]
+        }
+      }
+    }
+  },
+  "fin": {
+    "battle": {
+      "lost": {
+        "pages": [
+          "The light flings you back to the top\nlanding.",
+          "Your team is healed. Try again."
+        ]
+      },
+      "phase_3": {
+        "pages": [
+          "Phase 3: Own colour. Its crystal\nflickers river blue.",
+          "The dream's tune comes back."
+        ]
+      }
+    },
+    "released": {
+      "pages": [
+        "Free. Still screaming the cracked\nsignal.",
+        "It turns on you. Not hate. The pain,\nlooking for somewhere to go."
+      ]
+    },
+    "riverbend_dawn": {
+      "pages": [
+        "Dawn. Ondravel carries you down the\nriver to a wide bend.",
+        "Boats are coming. It lies down in the\nbend and stays.",
+        "It already knows this is how it goes.",
+        "It nudges you back toward the light."
+      ]
+    },
+    "present_release": {
+      "pages": [
+        "River blue fades. The present.",
+        "The same dome, the same Ondravel. It has\nwaited fifty years for you.",
+        "The old crystal crumbles from the\ninside. It steps out.",
+        "Every crystal stays on and keeps\nworking.",
+        "But the throb in the violet is gone.",
+        "Up at the summit, the dry spring\ntrickles.",
+        "Ondravel bows to {lead}, not to you,",
+        "and goes down the old riverbed toward\nhome."
+      ]
+    },
+    "past_arrive": {
+      "pages": [
+        "A river bank in a storm. The river is\nfull,",
+        "higher than any mark you have seen.",
+        "Violet light throbs like a heartbeat.\nYour team flinches, then steadies."
+      ]
+    },
+    "epilogue": {
+      "team_arrive": {
+        "pages": [
+          "Lantern Rest. The field team walks in\nwith you from the mountain road.",
+          "All of them. Ron is already there with\nthe keeper."
+        ]
+      },
+      "coralie": {
+        "pages": [
+          "Coralie: I knew your face the minute you\nwalked in.",
+          "Coralie: I couldn't say. You hadn't done\nit yet."
+        ]
+      }
+    },
+    "past_logbook": {
+      "pages": [
+        "Night shift log, Lab 1. \"Enclosure\nstable. Subject calm. All doors sealed.\"",
+        "\"Visitor: one. Signed in by: nobody.\"",
+        "\"Field jacket, about your height. Looked\nlike they'd been here before.\""
+      ]
+    },
+    "summit": {
+      "reveal": {
+        "pages": [
+          "The clouds tear open from the middle.",
+          "Light comes down like a staircase.",
+          "At the bottom, taller than the spire, is\nOndravel.",
+          "You have the strangest feeling that he\nis surprised you are on time."
+        ]
+      }
+    },
+    "never": {
+      "keeper": {
+        "pages": [
+          "Keeper: The old rebellion stories have a\nkid in them. Field jacket.",
+          "Keeper: Walked into Lab 1 and let the\nlight out.",
+          "Keeper: My gran told it to me when I was\nsmall.",
+          "Keeper: Funny. The kid looked a lot like\nyou."
+        ]
+      },
+      "teo": {
+        "pages": [
+          "Teo: The readings from the summit came\nback. Flat.",
+          "Teo: Nothing has been up there for\ncenturies.",
+          "Teo: ...Then why does everyone in\nCairnfold remember the light?"
+        ]
+      },
+      "teams_home": {
+        "pages": [
+          "Down in the lowland towns, the RT field\nteams wake up at home, one by one.",
+          "There is mountain dust and ice-melt on\ntheir boots by the door.",
+          "Each of them has a blank letter in a\ncoat pocket.",
+          "Every clock in their houses quit at the\nsame minute.",
+          "Nobody can say where the last few weeks\nwent.",
+          "\"Must have been a long shift,\" somebody\nsays. Somebody always says that."
+        ]
+      },
+      "collapse": {
+        "pages": [
+          "Far to the north, past the old riverbed,\nsomething folds quietly away.",
+          "Nobody looks up."
+        ]
+      }
+    },
+    "home": {
+      "wake": {
+        "pages": [
+          "Dawn. You wake up in your own bed.",
+          "The crystal on the shelf glows the way\nit always does.",
+          "The violet throb is gone from it.",
+          "Your boots by the bed are dusty with\nsomething pale,",
+          "like ice-melt dried in the sun."
+        ]
+      }
+    },
+    "walk": {
+      "spring": {
+        "pages": [
+          "By the bridge, a thin trickle runs in\nthe dry riverbed.",
+          "Nobody seems to notice.",
+          "In the mud, one big wet print, heading\ndownstream."
+        ]
+      }
+    },
+    "report": {
+      "form": {
+        "pages": [
+          "RITA's report form is already open on\nthe front desk.",
+          "Title: your ID number. The body of it is\nblank."
+        ]
+      },
+      "arrive": {
+        "pages": [
+          "Through to the field team room.",
+          "Teo, Marta, Pell and Imke are at their\ndesks as if they never left.",
+          "The kettle is on. There is mountain dust\non their boots.",
+          "You open your mouth to tell them where\nyou've been..."
+        ]
+      },
+      "teo_list": {
+        "pages": [
+          "On Teo's desk is a list. \"Find source\"\nis crossed off,",
+          "in a hand he doesn't seem to recognise.",
+          "You can't remember what you came in to\nsay. It doesn't seem important."
+        ]
+      }
+    },
+    "enc": {
+      "fin_enc_tech_1": {
+        "intro": {
+          "pages": [
+            "Tech: Visitors aren't on tonight's\nsheet.",
+            "Tech: Pass? No pass. Right."
+          ]
+        }
+      },
+      "fin_enc_tech_2": {
+        "after": {
+          "pages": [
+            "Tech: The ring on the floor was humming\nall night.",
+            "Tech: It went quiet when you came in."
+          ]
+        }
+      }
+    }
+  },
+  "dream": {
+    "post_e2": {
+      "pages": [
+        "The lab, long ago. Rows of tanks glow in\nthe dark.",
+        "Small shapes turn over inside them.",
+        "Staff in white coats write on\nclipboards.",
+        "A light flashes over each tank, and the\nshape inside it flinches.",
+        "Many small lights press against a glass\ndome. You are not in it."
+      ]
+    }
+  },
+  "summit": {
+    "camp": {
+      "ft_bryn": {
+        "pages": [
+          "Bryn, Team Lark: The wind died the\nsecond we got here.",
+          "Bryn: Nobody trusts it."
+        ]
+      },
+      "ft_otto": {
+        "pages": [
+          "Otto, Team Harrow: Three teams, one\nfire.",
+          "Otto: First time we have all agreed on\nanything."
+        ]
+      },
+      "ft_sunniva": {
+        "pages": [
+          "Sunniva, Team Quill: I keep recording\nthe spire.",
+          "Sunniva: The tape comes back with a hum\non it."
+        ]
+      },
+      "ft_lorcan": {
+        "pages": [
+          "Lorcan, Team Moraine: My map ends at\nthis camp.",
+          "Lorcan: Past here, the lines will not\nstay put."
+        ]
+      }
+    },
+    "camp_supplies": {
+      "pages": [
+        "Crates stamped RT FIELD STORES.",
+        "Rope, cocoa, spare batteries. Someone\npacked for a long stay."
+      ]
+    },
+    "camp_mast": {
+      "pages": [
+        "A small weather mast. The needle points\nat the spire,",
+        "whichever way the wind blows."
+      ]
+    }
+  }
+}
