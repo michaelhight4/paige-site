@@ -39,23 +39,25 @@ export function bbBuyButton(sku, refresh, cls = 'alt sm') {
 }
 async function shortfallSheet(sku, o, refresh) {
   const x = N.redeemable(sku); N.trackPack('bb_shortfall_offer', o.pack.sku, sku);
-  const live = N.canBuyPacks();
+  const live = N.canBuyPacks(), real = N.packCheckoutLive();
   const body = h('div', { 'data-el': 'bb-shortfall' }, h('p', { text: N.shortfallText(o) }),
-    h('p', { class: 'hint', text: `${x.title}: ${N.formatBB(x.bb)}. ${o.pack.title} costs ${N.formatUSD(o.pack.priceCents)}.` + (live ? ' TEST BUILD: pretend money.' : ' Buying Blue Bucks is coming soon.') }));
-  const id = await sheet({ title: 'Not enough Blue Bucks', body, center: true, buttons: [{ id: 'buy', label: live ? o.label + ' (TEST)' : 'Coming soon', cls: live ? 'go' : 'alt' }, { id: 'no', label: 'Not now', cls: 'alt' }] });
+    h('p', { class: 'hint', text: `${x.title}: ${N.formatBB(x.bb)}. ${o.pack.title} costs ${N.formatUSD(o.pack.priceCents)}.` + (real ? ' Secure checkout by Stripe; come back here to use them.' : live ? ' TEST BUILD: pretend money.' : ' Buying Blue Bucks is coming soon.') }));
+  const id = await sheet({ title: 'Not enough Blue Bucks', body, center: true, buttons: [{ id: 'buy', label: real ? o.label : live ? o.label + ' (TEST)' : 'Coming soon', cls: live ? 'go' : 'alt' }, { id: 'no', label: 'Not now', cls: 'alt' }] });
   if (id !== 'buy' || !live) return;
+  if (real && !N.canBuy()) { await needAccount({ needsAccount: true }); return; }
   const r = await N.buyPackAndRedeem(sku); if (await needAccount(r)) return;
+  if (r.redirecting) { toast('Opening checkout…'); return; }
   toast(r.ok ? `TEST: bought ${o.pack.title} and got ${x.title}` : r.bought ? `TEST: bought ${o.pack.title}; you still need more` : r.comingSoon ? 'Buying Blue Bucks is coming soon' : 'Could not buy: ' + r.reason);
   if (r.ok) sfx('good'); refreshAds(); await refresh();
 }
 /** Fixed Blue Bucks pack ladder (shared BB_PACKS, flat $1 = 1,000 Blue Bucks) with the bright "Save 10% on every pass" line. */
 function packLadder(refresh) {
-  const live = N.canBuyPacks();
+  const live = N.canBuyPacks(), real = N.packCheckoutLive();
   return h('div', { 'data-el': 'bb-packs' },
     h('div', { class: 'hint', style: { margin: '6px 0' } }, h('span', { 'data-el': 'bb-pack-banner', text: '🔷 ' + N.BB_PACK_BANNER, style: { ...TAG_STYLE, marginLeft: 0, whiteSpace: 'normal', padding: '3px 8px' } })),
     N.BB_PACKS.map((p) => h('div', { class: 'row', 'data-el': 'bb-pack', 'data-sku': p.sku },
       h('span', { class: 'ic', text: '🔷' }), h('span', { class: 'tx' }, h('span', { class: 't', text: p.title }), h('span', { class: 's', text: N.formatUSD(p.priceCents) })),
-      h('span', { class: 'rt' }, live ? btn(`${N.formatUSD(p.priceCents)} (TEST)`, async () => { const r = await N.buyPack(p.sku); if (await needAccount(r)) return; toast(r.ok ? `TEST: +${p.title}` : r.reason); await refresh(); }, 'go sm', { 'data-el': 'bb-pack-buy', 'data-sku': p.sku })
+      h('span', { class: 'rt' }, live ? btn(real ? N.formatUSD(p.priceCents) : `${N.formatUSD(p.priceCents)} (TEST)`, async () => { if (real && !N.canBuy()) { await needAccount({ needsAccount: true }); return; } const r = await N.buyPack(p.sku); if (await needAccount(r)) return; if (r.redirecting) { toast('Opening checkout…'); return; } toast(r.ok ? `TEST: +${p.title}` : r.reason); await refresh(); }, 'go sm', { 'data-el': 'bb-pack-buy', 'data-sku': p.sku })
         : btn('Coming soon', () => { N.trackPack('bb_pack_attempt', p.sku); toast('Buying Blue Bucks is coming soon'); }, 'alt sm', { 'data-el': 'bb-pack-buy', 'data-sku': p.sku, disabled: true })))));
 }
 /** Store: Blue Bucks balance + redeem, and the Ad-Free for Life $35 card. */

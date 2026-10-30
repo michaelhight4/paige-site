@@ -148,15 +148,20 @@ export function trackPack(name, packSku, forSku) {
   return ev;
 }
 export const packEvents = () => { try { return JSON.parse(localStorage.getItem(EV_KEY) || '[]'); } catch (e) { return []; } };
-/** Real-money pack checkout is NOT live on the web yet (Stripe / Play Billing not wired): only the TEST wallet can "buy" a pack. */
-export const packCheckoutLive = () => false;
-export const canBuyPacks = () => wallet.kind === 'test';
+/** Real-money pack checkout: website build with the server wallet -> Stripe Checkout (productKey network:<pack sku>).
+ *  The webhook credits the Blue Bucks; the client never does. Local dev without a backend keeps the TEST wallet. */
+export const packCheckoutLive = () => wallet.kind === 'server' && !isNative();
+export const canBuyPacks = () => wallet.kind === 'test' || packCheckoutLive();
 /** Buy one fixed pack. TEST wallet: credits the pack's Blue Bucks locally (labelled TEST). Otherwise: { comingSoon }. */
 export async function buyPack(packSku, forSku) {
   if (!isBBPackSku(packSku)) return { ok: false, reason: 'unknown pack' };
   const pack = BB_PACKS.find((p) => p.sku === packSku);
   if (!canBuy()) return { ok: false, needsAccount: true, reason: SIGN_IN_TO_BUY };
   trackPack('bb_pack_attempt', packSku, forSku);
+  if (packCheckoutLive()) {
+    const P = await import('./payments.js'); const r = await P.purchasePack(packSku);
+    return r.ok ? { ok: false, redirecting: true, pack } : { ok: false, needsAccount: !!r.needsAccount, reason: r.reason };
+  }
   if (wallet.kind !== 'test') return { ok: false, comingSoon: true, reason: 'Buying Blue Bucks is coming soon' };
   wallet.addTest(pack.grantsBB); trackPack('bb_pack_purchase', packSku, forSku); return { ok: true, test: true, pack };
 }

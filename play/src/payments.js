@@ -25,6 +25,7 @@ export const payments = {
   name: 'stripe',
   get available() { return N.netConfigured() && !isNative(); },
   purchasePass: (passId, o = {}) => checkout(productKey(passId), o.redirect),
+  purchasePack: (packSku, o = {}) => checkout(`network:${packSku}`, o.redirect),
   subscribe: (plan, o = {}) => checkout(subKey(plan), o.redirect),
   // Cancelling happens in Stripe (customer portal / receipt email); the webhook ends the entitlement.
   async cancelSubscription() { return { ok: false, reason: 'Manage your subscription from your Stripe receipt email' }; },
@@ -47,3 +48,4 @@ export async function handleCheckoutReturn(onDone, tries = 8, waitMs = 1500) {
   return 'success';
 }
 export default payments;
+export const purchasePack = (packSku, o) => payments.purchasePack(packSku, o);
