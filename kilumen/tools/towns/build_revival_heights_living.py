@@ -1,7 +1,7 @@
 """Revival Heights, bring the town to life (Coder, Oct 30 2026; Gary 10:52-10:53 AM CT: decor, ponds, flower fields,
 statues, other buildings, small shop stalls; "a little more grass a little less hard concrete").
-Overrides kilumen_town_identity.md §1 "no grass / no water" per Gary. Company Boulevard (rows 19-20) and Tower Avenue
-(x28-29) stay paved; the empty paved lots become grass, flower beds, stone paths and a pond.
+Overrides kilumen_town_identity.md §1 "no grass / no water" per Gary. Company Boulevard is a 2-wide road (rows 19-20) with
+grass verges and tree lines, Tower Avenue (x28-29) stays paved (Coder, Oct 30 2026: ~55% grass, one landmark per screen); the empty paved lots become grass, flower beds, stone paths and a pond.
 Order: CAVE_POCKETS_BASE=3a39a391 python3 tools/map_audit/cave_pockets.py revival_heights, then this script (in place).
 Doors, warps and the RT guard checkpoint (29,29) are unchanged."""
 import json, os
@@ -160,6 +160,36 @@ L['decoration'][35][38] = ID['bush']; C[35][38] = 1                     # a bush
 prop(54, 13, 'x_city_statue')                                             # east park landmark
 prop(24, 34, 'x_city_statue')                                             # south clearing landmark beside the cabin
 for x, y in ((18, 29), (23, 29), (31, 29), (42, 34), (16, 34), (20, 34)): flowers(x, y)
+# 8. (Coder, Oct 30 2026) narrow Company Boulevard to its 2-wide road (rows 19-20): the asphalt aprons (rows 21-22) and the
+#    extra Tower Avenue lanes (x26-27, rows 14-18) become grass verges with a tree line; one landmark per screen
+#    (tools/towns/town_landmarks_art.py): a clock tower on the north verge, a gazebo on a new east green, a big old tree at the
+#    west gate. Lanes between the houses (x19-20, 35-36, 42-43) stay open through the tree line.
+for y in range(13, 23):
+    for x in range(14, 44):
+        if (y >= 21 or (y <= 18 and x in (26, 27))) and 'asphalt' in TS_NAME.get(L['ground'][y][x], ''): grass(x, y)
+GAPS = {19, 20, 35, 36, 42, 43}
+FEAT = {(o['x'], o['y']) for k in ('npcs', 'items', 'signs', 'interact_spots') for o in m.get(k) or [] if 'x' in o}
+def free(x, y): return C[y][x] == 0 and (x, y) not in WARPS and (x, y) not in FEAT and not L['decoration'][y][x]
+for x in (15, 18, 31, 34, 38, 41):                               # tree line on the south verge (row 22)
+    if x not in GAPS and free(x, 22) and L['overlay'][21][x] == 0:
+        prop(x, 22, 'x_city_tree_base'); L['overlay'][21][x] = ID['x_city_tree_top']
+def block(x0, y0, name, w, h):
+    for r in range(h):
+        for c in range(w):
+            x, y = x0 + c, y0 + r; assert C[y][x] == 0 and (x, y) not in WARPS and (x, y) not in FEAT, (x, y, name)
+            L['decoration'][y][x] = ID[f'{name}_{r}_{c}']; C[y][x] = 1
+block(26, 15, 'lm_clock_tower', 2, 3)                            # centre screen: clock tower where the extra lanes were
+rect(44, 19, 51, 22, clear)                                      # east green felled out of the forest by the boulevard end
+block(46, 20, 'lm_gazebo', 3, 2)
+for x, y in ((45, 22), (49, 22), (50, 19), (44, 20)): flowers(x, y)
+def verge(x, y):
+    if L['decoration'][y][x] == ID['bush']: L['decoration'][y][x] = 0; C[y][x] = 0
+    clear(x, y)
+rect(4, 21, 13, 22, verge)                                       # west approach: the hedge and first tree row become a verge
+for x, y in ((5, 21), (9, 22), (12, 21)): flowers(x, y)
+rect(8, 17, 13, 18, clear)                                       # west gate: the big old tree in a small clearing
+block(10, 17, 'lm_big_tree', 2, 2)
+for x, y in ((9, 18), (12, 18)): flowers(x, y)
 m['living_town'] = 'tools/towns/build_revival_heights_living.py (Oct 30 2026): lawns, pond, flower beds, cafe, statue, 3 market stalls, logging cabin scene, gardens, laundry, dog house, mailboxes, notice board, kids, east park market (one cave mouth 45,17)'
 json.dump(m, open(P, 'w'), indent=1, ensure_ascii=False); open(P, 'a').write('\n')
 print('ok')

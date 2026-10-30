@@ -138,7 +138,7 @@ def check(j, cache):
     r['pass'] = r['R1_pen'] == 0 and r['R2_ok'] and r['R4_ok'] and r['R5_ok'] and r.get('R3_ok', True) and r.get('R7_ok', True)
     return r
 
-LANDMARK = re.compile(r'statue|fountain|obelisk|windmill|ruin|waterfall|big_tree|cafe|well|tower|monument|lighthouse|dock')
+LANDMARK = re.compile(r'statue|gazebo|clock|fountain|obelisk|windmill|ruin|waterfall|big_tree|cafe|well|tower|monument|lighthouse|dock')
 def comps(cells, diag=False):
     cells = set(cells); out = []
     nb = N4 + (((1, 1), (1, -1), (-1, 1), (-1, -1)) if diag else ())
