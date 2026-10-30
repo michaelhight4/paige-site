@@ -329,7 +329,8 @@ export class StoryRon {
     }
     let img = pal.sheet;
     if (grade && !grade.identity) { try { img = gradeImage(img, grade, 'lut'); } catch { /* ungraded */ } }
-    return { img, sheetScale: 1, w: 64, h: 64, col: Math.min(col, 4), row: SHEET_ROW[pal.facing] ?? 0, px: Math.round(px), py: Math.round(py), lift: 0, feet: py + TILE, order: -1, follower: pal.species, ronPal: n.id };
+    const cell = Math.round((img.naturalWidth || img.width) / 5) || 64; // 96 px cells for the big ow sheets (else half-cut)
+    return { img, sheetScale: 1, w: cell, h: cell, col: Math.min(col, 4), row: SHEET_ROW[pal.facing] ?? 0, px: Math.round(px), py: Math.round(py), lift: 0, feet: py + TILE, order: -1, follower: pal.species, ronPal: n.id };
   }
 
   /** Instance wraps (overworld.js untouched): partners into view().actors, taken cases darkened after render(). */

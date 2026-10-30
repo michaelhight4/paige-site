@@ -1370,7 +1370,10 @@ export class Overworld {
     let img = tintImage(f.sheet, f.mask, tints?.stages?.[String(stage)], stage, `${f.species}|${f.rel}|${stage}`);
     if (grade && !grade.identity) img = gradeImage(img, grade, 'lut');
     const col = f.stepping && p.moving ? p.frame().col : 0;
-    return { img, sheetScale: 1, w: 64, h: 64, col: Math.min(col, 4), row: SHEET_ROW[f.facing], px: Math.round(px), py: Math.round(py), lift: 0, ...(cidleOn() ? this._cidle(f, p) : null), feet: py + TILE, order: -1, follower: f.species };
+    // cell size from the sheet (5 cols x 4 rows): most ow sheets are 64 px cells, big ones (bastonox, forgeharrow, tidemarrow)
+    // are 96 px; a fixed 64 grid sampled across two rows and drew them half-cut, worst facing left (playtest Oct 30 2026)
+    const cell = Math.round((f.sheet.naturalWidth || f.sheet.width) / 5) || 64;
+    return { img, sheetScale: 1, w: cell, h: cell, col: Math.min(col, 4), row: SHEET_ROW[f.facing], px: Math.round(px), py: Math.round(py), lift: 0, ...(cidleOn() ? this._cidle(f, p) : null), feet: py + TILE, order: -1, follower: f.species };
   }
 
   /** Creature motion: breathe while standing, bob + squash while walking (art px; the renderer scales from the feet). */

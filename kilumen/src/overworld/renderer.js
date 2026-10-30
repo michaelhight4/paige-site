@@ -175,7 +175,7 @@ export class Renderer {
     }
     if (!a.img) return;
     const k = a.sheetScale;
-    if (a._swim && !a.sq) return this.swimmer(v, a, sx, groundY, w, h, k);
+    if (a._swim) return this.swimmer(v, a, sx, groundY, w, h, k); // the pet swims too (Gary, Oct 30 2026)
     if (a.sq) { // creature motion (creature_idle.js): scale about the feet centre, whole art px only
       const q = a.sq, dw = Math.round(w * q.sx) * z, dh = Math.round(h * q.sy) * z;
       ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k, sx + (TILE * z - dw) / 2, groundY - dh - Math.round(q.lift) * z, dw, dh);
@@ -198,8 +198,9 @@ export class Renderer {
     }
     // fallback until a sheet exists: walk sheet cut at the waterline (head, shoulders, arms), solid-pixel rings, no alpha
     const ph = (v.ms || 0) / 520 + cx * 1.7 + cy * 0.9, bob = Math.round(Math.sin(ph) * 1.5);
-    const water = groundY - SWIM.LINE * z + bob * z;          // waterline (screen px), y=66 in the cell at rest
-    const vis = h - SWIM.CROP, top = water - vis * z;
+    const creature = h < HUMAN_H || !!a.follower, line = creature ? SWIM.CLINE : SWIM.LINE, crop = creature ? SWIM.CLINE : SWIM.CROP;
+    const water = groundY - line * z + bob * z;               // waterline (screen px), y=66 in a human cell / y=44 in a creature cell
+    const vis = h - crop, top = water - vis * z;
     ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, vis * k, dx, top, w * z, vis * z);
     // Gary's swim reference (Oct 30 2026): thin white ripple rings spreading out from the waist, plus a few water glints
     const mx = sx + (TILE / 2) * z, t = (v.ms || 0) / 1000 + cx * 0.37 + cy * 0.21;
@@ -224,7 +225,7 @@ export class Renderer {
   }
 }
 
-const SWIM = Object.freeze({ LINE: 30, CROP: 44, RX: 20, RY: 5, RINGS: 2, PERIOD: 1.8, SPREAD: 10, FOAM: '#ffffff' }); // LINE 30 = cell y 66
+const SWIM = Object.freeze({ LINE: 30, CROP: 44, CLINE: 20, RX: 20, RY: 5, RINGS: 2, PERIOD: 1.8, SPREAD: 10, FOAM: '#ffffff' }); // LINE 30 = cell y 66
 /** Water collision codes (3 water, 11 deep / sea water). */
 export function onWater(v, a) {
   const m = v.map; if (!m?.code || a.px == null) return false;
