@@ -21,7 +21,7 @@ export const GAME = 'lifeline';
 // Same Supabase project + publishable key as paigegames.net/auth.js (public by design; RLS protects data).
 // Backend + Stripe web checkout are OFF until Gary flips WEB_STORE_LIVE. A dev/test override turns them on per browser:
 //   open /play/?stripe=dev once (stored in localStorage 'lifeline.stripe.dev'), or ?stripe=off to clear it.
-export const WEB_STORE_LIVE = false;
+export const WEB_STORE_LIVE = true;
 const PUBLIC_NET = { url: 'https://kjdubkeowcyuoazvpoyt.supabase.co', anonKey: 'sb_publishable_NZC6vzmXDYRLnRh2vDHWAg_VCDi3FQc' };
 const devStore = () => { try { const q = new URLSearchParams(location.search).get('stripe'); if (q === 'dev') localStorage.setItem('lifeline.stripe.dev', '1'); if (q === 'off') localStorage.removeItem('lifeline.stripe.dev'); return localStorage.getItem('lifeline.stripe.dev') === '1'; } catch (e) { return false; } };
 export const NET_CONFIG = (WEB_STORE_LIVE || devStore()) ? PUBLIC_NET : null;
