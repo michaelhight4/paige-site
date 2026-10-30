@@ -1,5 +1,5 @@
 // Kilumen overworld: browser asset loading (images + JSON) with a small cache.
-import { WEBP_SHEETS } from './webp_sheets.js?v=v0.2.96-alpha';
+import { WEBP_SHEETS } from './webp_sheets.js?v=v0.2.97-alpha';
 const images = new Map();
 const json = new Map();
 

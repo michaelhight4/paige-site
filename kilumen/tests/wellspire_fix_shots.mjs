@@ -31,7 +31,7 @@ try {
       await page.evaluate(() => Promise.race([window.kilumen.ready, new Promise((r) => setTimeout(r, 15000))]));
       await sleep(1200); await page.evaluate(() => { try { kilumen.ui?.closeAll?.(); } catch {} });
       for (let i = 0; i < 8; i++) { await page.keyboard.press('f'); await sleep(300); }
-      await page.evaluate(async () => { const s = kilumen.scene; const C = await import('/src/systems/creature.js?v=v0.2.96-alpha');
+      await page.evaluate(async () => { const s = kilumen.scene; const C = await import('/src/systems/creature.js?v=v0.2.97-alpha');
         for (const sp of ['sunderhoof', 'seraphawk']) s.systems.party.add(C.createCreature({ species: sp, level: 66 })); });
       for (const [tag, map, x, y, facing, js, ms, presses] of RUN) {
         for (let i = 0; i < 30 && await page.evaluate(() => kilumen.scene.busy); i++) { await page.keyboard.press('Escape'); await page.keyboard.press('f'); await sleep(250); }

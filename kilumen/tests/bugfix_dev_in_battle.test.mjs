@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 globalThis.window ||= {};
-const { battleOn, BATTLE_TABS } = await import('../src/dev/console.js?v=v0.2.96-alpha');
+const { battleOn, BATTLE_TABS } = await import('../src/dev/console.js?v=v0.2.97-alpha');
 const src = readFileSync(new URL('../src/dev/console.js', import.meta.url), 'utf8');
 
 test('battleOn sees the turn-based battle screen and a real-time session', () => {

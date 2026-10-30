@@ -18,12 +18,12 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.96-alpha';
-import { applyHeldPicks } from './trainer_held.js?v=v0.2.96-alpha';
-import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.96-alpha';
-import { ARENA_TEAMS } from '../../region78/arena.js?v=v0.2.96-alpha'; // Aurelith Arena fighters (8, back to back)
-import { WELLSPIRE_TEAMS } from '../../region9/teams.js?v=v0.2.96-alpha'; // Wellspire + finale (src/region9)
-import { CAVE_POCKET_TEAMS } from './cave_pocket_teams.js?v=v0.2.96-alpha'; // Pass 2 cave-pocket trainers (generated) // Wellspire + finale (src/region9)
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.97-alpha';
+import { applyHeldPicks } from './trainer_held.js?v=v0.2.97-alpha';
+import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.97-alpha';
+import { ARENA_TEAMS } from '../../region78/arena.js?v=v0.2.97-alpha'; // Aurelith Arena fighters (8, back to back)
+import { WELLSPIRE_TEAMS } from '../../region9/teams.js?v=v0.2.97-alpha'; // Wellspire + finale (src/region9)
+import { CAVE_POCKET_TEAMS } from './cave_pocket_teams.js?v=v0.2.97-alpha'; // Pass 2 cave-pocket trainers (generated) // Wellspire + finale (src/region9)
 
 const RON_TIDEWATER = {"nibbin": [{species: "sailquill", level: 45}, {species: "glassvine", level: 45}, {species: "mirrorkin", level: 45}, {species: "runeskein", level: 45, held: "runestitch_charm"}, {species: "bramblehog", level: 45}, {species: "forgeharrow", level: 46}], "cindrip": [{species: "sailquill", level: 45}, {species: "pearlisk", level: 45, held: "runestitch_charm"}, {species: "tidemarrow", level: 45, held: "sprig_charm"}, {species: "nudiblume", level: 45, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}, {species: "brineseal", level: 45, held: "droplet_charm"}, {species: "tidemarrow", level: 46, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}], "rillop": [{species: "sailquill", level: 45}, {species: "glassvine", level: 45}, {species: "gearwarden", level: 45}, {species: "bramblehog", level: 46}, {species: "seraphawk", level: 45}, {species: "gnawford", level: 46}], "tumbloam": [{species: "sailquill", level: 45}, {species: "glassvine", level: 45}, {species: "mirrorkin", level: 45}, {species: "runeskein", level: 45, held: "runestitch_charm"}, {species: "bramblehog", level: 45}, {species: "forgeharrow", level: 46}]};
 export const TRAINER_TEAMS = {
