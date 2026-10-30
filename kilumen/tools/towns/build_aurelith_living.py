@@ -2,7 +2,8 @@
 a pond and a flower field, decor in clusters, no long blank runs). The paved sidewalk lots (x_city_pave) become lawns; roads,
 crossings, the fountain plaza and the stadium forecourt stay paved; every building door keeps a stone
 approach. Old Platform (old aurelith_cave_e, mouth 62,6) now lives on route_cindervale. Doors and warps are unchanged.
-Order: python3 tools/map_audit/cave_pockets.py aurelith, then this script (in place), then tools/map_audit/fix_live_flags.py aurelith."""
+Order: python3 tools/map_audit/cave_pockets.py aurelith, then this script (in place), then tools/towns/balance_pass.py aurelith (parks, beds, scenes,
+ density band), then tools/map_audit/fix_live_flags.py aurelith."""
 import json, os, re, sys
 from collections import deque
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

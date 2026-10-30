@@ -106,7 +106,9 @@ def fix(name):
             r2 = LR.reach(m, LR.starts(m))
             if all(not walk(*q) or q in r2 for q in before): done = True; log.append(('prop>', nm(d), x, y, X, Y)); break
             D[y][x] = d; C[y][x] = C[Y][X]; D[Y][X] = 0; C[Y][X] = 0
-        if not done: G[y][x] = ID[f'grass_{(x * 7 + y * 13) % 4}']; log.append(('regrass', nm(d), x, y))
+        if not done:
+            sandy = sum(nm(G[b][a]).startswith('sand') for a, b in ((x-1,y),(x+1,y),(x,y-1),(x,y+1)) if 0 <= a < W and 0 <= b < H) >= 2
+            G[y][x] = ID[f"{'sand' if sandy else 'grass'}_{(x * 7 + y * 13) % 4}"]; log.append(('regrass', nm(d), x, y))
     for (x, y) in F.audit(m)['F3_nocol']: C[y][x] = 1; log.append(('collide', x, y))
     after = LR.reach(m, LR.starts(m)); lost = [q for q in before if walk(*q) and q not in after]
     assert not lost, (name, lost[:8])

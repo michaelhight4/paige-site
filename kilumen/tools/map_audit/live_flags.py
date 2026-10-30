@@ -9,7 +9,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 TS = json.load(open(os.path.join(ROOT, 'art/world/overworld/tileset.json')))['tiles']
 NM = {t['id']: t['name'] for t in TS}; CAT = {t['id']: t.get('category', '') for t in TS}
 TOP = re.compile(r'^(x_city_|gh_)?(tree|treed|snowpine)_top$'); BASE = re.compile(r'^(x_city_|gh_)?(tree|treed|snowpine)_base(_inner)?$')
-WALKDECO = re.compile(r'^(flowers?_|tall_grass|grass_tuft|path_|clover|petal|leaf_litter|shadow)')
+WALKDECO = re.compile(r'^(stairs|cave_stairs|bridge_|arena_ring_|flowers?_|tall_grass|grass_tuft|path_|clover|petal|leaf_litter|shadow)')
 PAVED = re.compile(r'^(path_|x_city_(asphalt|zebra|road)|road|x_city_pave|x_city_plaza|zebra)')
 EDGE_RUN, CORRIDOR = 8, 12
 MAPS = ['aurelith', 'revival_heights', 'sunmeadow_fields', 'route_cindervale', 'route_sunmeadow_mirefen', 'route_revival_sunmeadow', 'route_revival_saltmere']
@@ -19,6 +19,7 @@ def audit(m):
     nm = lambda v: NM.get(v, '')
     trunk = lambda x, y: 0 <= x < W and 0 <= y < H and bool(BASE.match(nm(D[y][x])))
     walk = lambda x, y: 0 <= x < W and 0 <= y < H and C[y][x] in (0, 4)
+    SPOT = {(o['x'], o['y']) for o in m.get('interact_spots') or [] if 'x' in o}   # pocket eggs / inspectables stand where they are
     f = {k: [] for k in ('F1_half', 'F1_edge', 'F2', 'F3_walk', 'F3_nocol', 'F4', 'F5')}
     for y in range(H):
         for x in range(W):
@@ -28,7 +29,7 @@ def audit(m):
             if d and not BASE.match(nm(d)) and not WALKDECO.match(nm(d)) and CAT.get(d) not in ('building', 'door') and not nm(d).startswith('cave_'):
                 if C[y][x] in (0, 4): f['F3_nocol'].append((x, y))
                 elif PAVED.match(nm(G[y][x])) and any(walk(x + a, y) for a in (-1, 1)) and any(walk(x, y + b) for b in (-1, 1)): pass
-            if d and C[y][x] not in (0, 4) and nm(G[y][x]).startswith('path_') and not BASE.match(nm(d)) and not WALKDECO.match(nm(d)) and CAT.get(d) not in ('building', 'door'):
+            if d and C[y][x] not in (0, 2, 4) and (x, y) not in SPOT and not nm(d).startswith('ledge') and nm(G[y][x]).startswith('path_') and not BASE.match(nm(d)) and not WALKDECO.match(nm(d)) and CAT.get(d) not in ('building', 'door'):
                 f['F3_walk'].append((x, y))
     # edges: a run of trunks in one row with walkable ground directly below (south edge) / above canopy, or one column (E/W edges)
     for y in range(H):
