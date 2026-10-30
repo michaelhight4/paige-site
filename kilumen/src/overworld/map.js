@@ -2,6 +2,7 @@
 // (art/world/overworld/OVERWORLD_README.md sections 6-7) and answers collision / warp / exit queries.
 import { Col, WALKABLE, DELTA, EDGE_FOR_DIR } from './constants.js?v=v0.2.97-alpha';
 import { DEV } from '../dev/runtime.js?v=v0.2.97-alpha';
+import { plotsOn } from '../garden/garden.js?v=v0.2.97-alpha'; // garden planters are solid props (bugfix Oct 30 2026)
 
 export const LAYER_ORDER = ['ground', 'decoration', 'overlay']; // overlay is y-sorted with characters (see renderer)
 const GRID_LAYERS = ['ground', 'decoration', 'overlay', 'collision', 'encounter', 'fog']; // fog: mirefen_bog, drawn last
@@ -49,6 +50,8 @@ export class GameMap {
     this._appliedGates = new Set();
     this._npcAt = new Map(this.npcs.filter((n) => Number.isInteger(n.x)).map((n) => [n.x + ',' + n.y, n]));
     this._rampDir = new Map();
+    // Garden planters (runtime props, src/garden): solid, grid-fit (only their own cell).
+    for (const p of plotsOn(this.name)) if (this.inBounds(p.x, p.y) && WALKABLE.has(this.code(p.x, p.y))) this.layers.collision[p.y][p.x] = Col.BLOCK;
   }
 
   /**

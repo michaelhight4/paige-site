@@ -15,15 +15,17 @@ export const CROPS = Object.freeze({
 });
 export const SEED_TO_CROP = Object.freeze(Object.fromEntries(Object.entries(CROPS).map(([c, d]) => [d.seed, c])));
 export const CANS = Object.freeze({ watering_can: { tier: 1 }, watering_can_merit: { tier: 2, instant: true } });
-// Plots: walkable soil cells (no collision change, so no path can be blocked). home = beside the player's house.
+// Plots: raised planter boxes, solid (grid-fit: each blocks only its own cell; GameMap marks them BLOCK on load). Placed on
+// clean grass only, never on or across a path (bugfix Oct 30 2026: home_3 sat on the Brookhollow path, saltmere_* on the
+// Saltmere road, fernwick_1 on a path edge, all walk-through). home = beside the player's house.
 export const PLOTS = Object.freeze([
-  { id: 'home_1', map: 'brookhollow', x: 20, y: 15, home: true },
-  { id: 'home_2', map: 'brookhollow', x: 21, y: 15, home: true },
-  { id: 'home_3', map: 'brookhollow', x: 22, y: 15, home: true },
-  { id: 'fernwick_1', map: 'fernwick', x: 17, y: 15 },
-  { id: 'fernwick_2', map: 'fernwick', x: 18, y: 15 },
-  { id: 'saltmere_1', map: 'saltmere', x: 18, y: 20 },
-  { id: 'saltmere_2', map: 'saltmere', x: 19, y: 20 },
+  { id: 'home_1', map: 'brookhollow', x: 24, y: 15, home: true },
+  { id: 'home_2', map: 'brookhollow', x: 25, y: 15, home: true },
+  { id: 'home_3', map: 'brookhollow', x: 26, y: 15, home: true },
+  { id: 'fernwick_1', map: 'fernwick', x: 18, y: 15 },
+  { id: 'fernwick_2', map: 'fernwick', x: 19, y: 15 },
+  { id: 'saltmere_1', map: 'saltmere', x: 18, y: 21 },
+  { id: 'saltmere_2', map: 'saltmere', x: 19, y: 21 },
 ]);
 export const plotAt = (map, x, y) => PLOTS.find((p) => p.map === map && p.x === x && p.y === y) || null;
 export const plotsOn = (map) => PLOTS.filter((p) => p.map === map);

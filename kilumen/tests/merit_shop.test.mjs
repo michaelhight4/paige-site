@@ -69,17 +69,48 @@ test('merit can: crop is ready the next day', () => {
   assert.equal(water(g, 'fernwick_2', 4, b2).reason, 'no_can');
 });
 
-test('every plot sits on a walkable, warp-free, NPC-free cell; sprites exist for all stages', () => {
+test('every plot sits on clean grass (never a path), is solid only on its own cell, keeps the map connected; sprites exist', () => {
   const DIR = new URL('../art/world/overworld/maps/', import.meta.url);
+  const TS = JSON.parse(readFileSync(new URL('../art/world/overworld/tileset.json', import.meta.url)));
+  const NAME = new Map(TS.tiles.map((t) => [t.id, t.name]));
   const J = Object.fromEntries(readdirSync(DIR).filter((f) => f.endsWith('.json')).map((f) => { const j = JSON.parse(readFileSync(new URL(f, DIR))); return [j.name, j]; }));
-  for (const p of PLOTS) {
-    const j = J[p.map]; assert.ok(j, p.map); const m = new GameMap(structuredClone(j));
-    assert.ok(m.isWalkable(p.x, p.y), `${p.id} walkable`);
-    assert.ok(!(j.warps || []).some((w) => w.x === p.x && w.y === p.y), `${p.id} not a warp`);
-    assert.ok(!(j.npcs || []).some((n) => n.x === p.x && n.y === p.y), `${p.id} not an NPC`);
+  const reach = (m, sx, sy) => { const seen = new Set([sx + ',' + sy]), st = [[sx, sy]]; while (st.length) { const [x, y] = st.pop(); for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const k = (x + dx) + ',' + (y + dy); if (!seen.has(k) && m.isWalkable(x + dx, y + dy)) { seen.add(k); st.push([x + dx, y + dy]); } } } return seen; };
+  for (const name of new Set(PLOTS.map((p) => p.map))) {
+    const j = J[name]; assert.ok(j, name);
+    const raw = new GameMap(structuredClone({ ...j, name: '__no_plots__' })), m = new GameMap(structuredClone(j));
+    const mine = PLOTS.filter((p) => p.map === name), cells = new Set(mine.map((p) => p.x + ',' + p.y));
+    for (const p of mine) {
+      const g = NAME.get(j.layers.ground[p.y][p.x]) || '';
+      assert.ok(raw.isWalkable(p.x, p.y) && /^grass_/.test(g), `${p.id} on plain grass, not a path (${g})`);
+      assert.ok(!j.layers.decoration[p.y][p.x], `${p.id} no decor under it`);
+      assert.ok(!m.isWalkable(p.x, p.y), `${p.id} has collision`);
+      assert.ok(!(j.warps || []).some((w) => w.x === p.x && w.y === p.y) && !(j.npcs || []).some((n) => n.x === p.x && n.y === p.y), `${p.id} free cell`);
+    }
+    // grid-fit: only the plot cells changed; every other cell's walkability is unchanged
+    for (let y = 0; y < j.height; y++) for (let x = 0; x < j.width; x++) if (!cells.has(x + ',' + y)) assert.equal(m.isWalkable(x, y), raw.isWalkable(x, y), `${name} ${x},${y}`);
+    // no walkway cut: everything reachable before (minus the plots) is still reachable, and each plot has a standable neighbour
+    const p0 = mine[0], start = [[0, -1], [0, 1], [-1, 0], [1, 0]].map(([dx, dy]) => [p0.x + dx, p0.y + dy]).find(([x, y]) => m.isWalkable(x, y));
+    assert.ok(start, `${p0.id} reachable to interact`);
+    const before = reach(raw, ...start), after = reach(m, ...start);
+    for (const k of before) if (!cells.has(k)) assert.ok(after.has(k), `${name}: plots cut off ${k}`);
+    for (const p of mine) assert.ok([[0, -1], [0, 1], [-1, 0], [1, 0]].some(([dx, dy]) => after.has((p.x + dx) + ',' + (p.y + dy))), `${p.id} can be faced`);
   }
   assert.ok(PLOTS.some((p) => p.home));
   for (const s of ['empty', 'seed', 'sprout', 'growing', 'ready']) assert.ok(plotPixels(s, 'carrot', false).length > 0);
+});
+
+test('decor props: no outdoor crate/bench/barrel/planter-style tile sits on a walk cell, none on a path tile', () => {
+  const DIR = new URL('../art/world/overworld/maps/', import.meta.url);
+  const TS = JSON.parse(readFileSync(new URL('../art/world/overworld/tileset.json', import.meta.url)));
+  const T = new Map(TS.tiles.map((t) => [t.id, t]));
+  const PROP = /crate|box|bench|barrel|planter|table|chair|stool|stump|statue|lamp|well/i;
+  const bad = [];
+  for (const f of readdirSync(DIR).filter((f) => f.endsWith('.json'))) {
+    const j = JSON.parse(readFileSync(new URL(f, DIR))), L = j.layers;
+    (L.decoration || []).forEach((row, y) => row.forEach((v, x) => { const t = T.get(v); if (t && t.category !== 'overlay' && PROP.test(t.name) && L.collision[y][x] === 0) bad.push(`${j.name} ${x},${y} ${t.name}`); }));
+  }
+  for (const p of PLOTS) { const j = JSON.parse(readFileSync(new URL(`${p.map}.json`, DIR))); const g = T.get(j.layers.ground[p.y][p.x])?.name || ''; if (/path|road|brick|stone/.test(g)) bad.push(`${p.id} on ${g}`); }
+  assert.deepEqual(bad, []);
 });
 
 test('blocked words: none in merit shop / garden text, item names or the Text Bot request file', () => {
