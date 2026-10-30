@@ -2,7 +2,7 @@
 // Feel targets (mechanics only): tap = turn in place, hold = walk, walking into a wall = bump in place,
 // south into a ledge = hop over it, direction changes while walking happen without the turn pause.
 import {
-  TILE, DELTA, MoveMode, BASE_TICKS_PER_TILE, TURN_TICKS, BUMP_TICKS, HOP_TICKS, HOP_HEIGHT, RAMP_HEIGHT, ANIM,
+  TILE, DELTA, MoveMode, BASE_TICKS_PER_TILE, TURN_TICKS, REPEAT_TICKS, BUMP_TICKS, HOP_TICKS, HOP_HEIGHT, RAMP_HEIGHT, ANIM,
 } from './constants.js?v=v0.2.95-alpha';
 
 /**
@@ -57,7 +57,12 @@ export class GridMover {
   /** Advance one 60 Hz tick. Returns the list of events that happened (for tests, audio and debug). */
   tick(input, world) {
     const ev = [];
-    const dir = this.locked ? null : input?.dir || null;
+    const raw = this.locked ? null : input?.dir || null;
+    if (!raw) { this.holdDir = null; this.holdT = 0; this.holdSteps = 0; }
+    else if (raw !== this.holdDir) { this.holdDir = raw; this.holdT = 0; this.holdSteps = 0; }
+    else this.holdT++;
+    // step repeat gate (REPEAT_TICKS): after this hold's first step, the next one waits until the key has been held ~250 ms
+    const dir = raw && this.holdSteps > 0 && this.holdT < REPEAT_TICKS / Math.min(1, this.speedMultiplier || 1) ? null : raw;
     switch (this.state) {
       case 'step':
       case 'hop': {
@@ -117,7 +122,7 @@ export class GridMover {
     const q = world.query(this.x, this.y, dir, this.mode);
     this.stepMode = this.mode;
     if (q.type === 'walk') {
-      this.state = 'step'; this.t = 0; this.dur = this._nextDur(1); this.tx = q.x; this.ty = q.y;
+      this.state = 'step'; this.t = 0; this.dur = this._nextDur(1); this.tx = q.x; this.ty = q.y; this.holdSteps = (this.holdSteps || 0) + 1;
       ev.push({ type: 'stepStart', x: q.x, y: q.y, dir });
       world.onStepStart?.(q.x, q.y, this);
       return;

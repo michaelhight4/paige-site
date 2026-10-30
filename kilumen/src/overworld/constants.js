@@ -56,6 +56,9 @@ export const BASE_TICKS_PER_TILE = Object.freeze({ walk: 15, run: 7.5, bike: 5 }
 
 /** Turn-in-place: a tap shorter than this only turns the player; holding longer starts walking. */
 export const TURN_TICKS = 6;
+/** Step repeat (Oct 30 2026, Pokemon feel): a press steps once at once; holding the same direction only takes the next
+ *  step after this long (~250 ms), so a short hold (150-240 ms) is always exactly one tile in every mode (walk/run/bike). */
+export const REPEAT_TICKS = 15;
 /** One bump (walking into a wall) lasts this long; it repeats while the direction is held. */
 export const BUMP_TICKS = 24;
 /** Ledge hop: 2 tiles over this many ticks, with an arc this many native px high. */
