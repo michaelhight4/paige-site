@@ -1,0 +1,32 @@
+{
+ "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary.",
+ "maps": {
+  "revival_heights": {
+   "revival_heights_stall_crystal": {
+    "pages": [
+     "Revival crystals, polished by hand.\nEach one glows a little different."
+    ],
+    "status": "DRAFT"
+   },
+   "revival_heights_stall_toys": {
+    "pages": [
+     "Wind-up Kilu, kites and spinning tops.\nFun for kids. And for grown-ups."
+    ],
+    "status": "DRAFT"
+   },
+   "revival_heights_stroller_park": {
+    "pages": [
+     "I walk this park every lunch break.",
+     "Ten minutes of trees. Then\nback to the spreadsheets."
+    ],
+    "status": "DRAFT"
+   },
+   "revival_heights_stroller_walk": {
+    "pages": [
+     "The south walk is the quiet way home.\nNo meetings out here."
+    ],
+    "status": "DRAFT"
+   }
+  }
+ }
+}

@@ -1,0 +1,46 @@
+{
+ "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary.",
+ "maps": {
+  "aurelith": {
+   "aurelith_stroller_lawn_w": {
+    "pages": [
+     "The west lawns are the best lawns.\nI've checked all of them."
+    ],
+    "status": "DRAFT"
+   },
+   "aurelith_stroller_flats": {
+    "pages": [
+     "My flat is on the fifth floor.",
+     "The lift is out again.\nThis walk is my rest stop."
+    ],
+    "status": "DRAFT"
+   },
+   "aurelith_stroller_canal": {
+    "pages": [
+     "The canal boats used to carry grain.\nNow they carry tourists."
+    ],
+    "status": "DRAFT"
+   },
+   "aurelith_stroller_ring": {
+    "pages": [
+     "The ring road goes all the way round.",
+     "I've walked it twice today.\nI'm not lost. I'm exercising."
+    ],
+    "status": "DRAFT"
+   },
+   "aurelith_stroller_market": {
+    "pages": [
+     "Market lawn's the best spot for lunch.\nMind the pigeons. They're bold."
+    ],
+    "status": "DRAFT"
+   },
+   "aurelith_stroller_tower": {
+    "pages": [
+     "Head office is up in that tower.",
+     "They say you can see Saltmere\nfrom the top floor. On payday."
+    ],
+    "status": "DRAFT"
+   }
+  }
+ }
+}

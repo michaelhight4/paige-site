@@ -1,0 +1,96 @@
+{
+ "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary.",
+ "area_names": {
+  "route_revival_sunmeadow_cave_archive": "Archive Room",
+  "revival_heights_cave_ne": "Server Nook",
+  "route_revival_saltmere_cave_garden": "Break Garden"
+ },
+ "maps": {
+  "revival_heights": {
+   "r9_rhp_technician": {
+    "name": "Sixten",
+    "pages": [
+     "Tried turning the battle off\nand on again? No? Battle!"
+    ],
+    "battle_lost": [
+     "Rebooting..."
+    ],
+    "battle_won": [
+     "Fixed it. You were the bug.\nRest your team."
+    ],
+    "after": [
+     "Ledge down, then west\nalong the lane."
+    ]
+   },
+   "r9_rhp_egg_fan": {
+    "pages": [
+     "A big humming fan.",
+     "It hums the company jingle,\na little off-key."
+    ]
+   },
+   "revival_heights_stall_baker": {
+    "pages": [
+     "Fresh bread, still warm.\nBaked before the first shift."
+    ]
+   },
+   "revival_heights_stall_florist": {
+    "pages": [
+     "Flowers for the desk, or for a\nfriend. Both brighten a day."
+    ]
+   },
+   "revival_heights_stall_grocer": {
+    "pages": [
+     "Fruit, greens and grain.\nEat well, work well. Have a look."
+    ]
+   }
+  },
+  "route_revival_sunmeadow": {
+   "r9_rhp_archivist": {
+    "name": "Ebba",
+    "pages": [
+     "Every memo since the company began\nis filed in here. Battle?"
+    ],
+    "battle_lost": [
+     "Filed under: lost."
+    ],
+    "battle_won": [
+     "Filed under: won. Next!\nRest up and resubmit."
+    ],
+    "after": [
+     "Hop down the ledge.\nThe trail runs right below."
+    ],
+    "_name_note": "Renamed from Ottilie: Ottilie is the Saltmere trail tide caller."
+   },
+   "r9_rhp_egg_memo": {
+    "pages": [
+     "A tower of memos.",
+     "The top one says: please reply\nto the memo below."
+    ]
+   }
+  },
+  "route_revival_saltmere": {
+   "r9_rhp_gardener": {
+    "name": "Brita",
+    "pages": [
+     "The company closed this garden for\nefficiency. I still water it."
+    ],
+    "battle_lost": [
+     "You grew on me."
+    ],
+    "battle_won": [
+     "Wilted, huh? Some water\nand rest will fix that."
+    ],
+    "after": [
+     "Ledge down and walk east."
+    ]
+   },
+   "r9_rhp_egg_mug": {
+    "pages": [
+     "A mug on a bench.",
+     "It says: OKAYEST MANAGER\nIN THE WORLD."
+    ]
+   }
+  }
+ },
+ "_relocated": "GD Oct 30 2026: Archive Room moved to route_revival_sunmeadow, Break Garden to route_revival_saltmere (Gary: max 1 cave per town). Lines unchanged; Text Bot to review the archivist after-line (no boulevard on the route)."
+}

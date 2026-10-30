@@ -48,7 +48,7 @@ export function loadTextbot(fetchFn = globalThis.fetch) {
 export const PASS2_FILE = 'data/pass2_caves_fallback.json';
 export const PASS2 = { maps: {} };
 // Text Bot's pass 2 lines (one file per map, mirrors maps.<map>.<id>, adds battle_won): override the DRAFT fallback.
-export const PASS2_TEXT_FILES = ['data/textbot_pass2_switchbacks.json', 'data/textbot_pass2_batch2.json', 'data/textbot_pass2_batch3.json', 'data/textbot_pass2_batch4.json'];
+export const PASS2_TEXT_FILES = ['data/textbot_pass2_switchbacks.json', 'data/textbot_pass2_batch2.json', 'data/textbot_pass2_batch3.json', 'data/textbot_pass2_batch4.json', 'data/textbot_pass2_batch5.json', 'data/textbot_logger_scene.json', 'data/textbot_revival_heights_park.json', 'data/textbot_sunmeadow_strollers.json', 'data/textbot_aurelith_strollers.json'];
 export const PASS2_TEXT = { maps: {} };
 export function addPass2Text(o, into = PASS2_TEXT) {
   for (const [m, ids] of Object.entries(o?.maps || {})) Object.assign((into.maps[m] = into.maps[m] || {}), ids);

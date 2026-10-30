@@ -336,20 +336,6 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   }
  ],
- "sunmeadow_fields.r9_smfp_haymaker": [
-  {
-   "species": "tuskwallow",
-   "level": 63
-  },
-  {
-   "species": "fernstag",
-   "level": 63
-  },
-  {
-   "species": "cragmont",
-   "level": 63
-  }
- ],
  "sunmeadow_fields.r9_smfp_cloverpicker": [
   {
    "species": "gauzewing",
@@ -361,20 +347,6 @@ export const CAVE_POCKET_TEAMS = {
   },
   {
    "species": "torrentpike",
-   "level": 63
-  }
- ],
- "sunmeadow_fields.r9_smfp_beekeeper": [
-  {
-   "species": "lancebeetle",
-   "level": 63
-  },
-  {
-   "species": "pharolith",
-   "level": 63
-  },
-  {
-   "species": "stratodrake",
    "level": 63
   }
  ],
@@ -406,34 +378,6 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   }
  ],
- "aurelith.r9_aurp_porter": [
-  {
-   "species": "cascadorn",
-   "level": 63
-  },
-  {
-   "species": "torrentpike",
-   "level": 63
-  },
-  {
-   "species": "tuskwallow",
-   "level": 63
-  }
- ],
- "revival_heights.r9_rhp_archivist": [
-  {
-   "species": "foundrax",
-   "level": 63
-  },
-  {
-   "species": "pharolith",
-   "level": 63
-  },
-  {
-   "species": "cragmont",
-   "level": 63
-  }
- ],
  "revival_heights.r9_rhp_technician": [
   {
    "species": "lancebeetle",
@@ -448,7 +392,21 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   }
  ],
- "revival_heights.r9_rhp_gardener": [
+ "route_revival_sunmeadow.r9_rhp_archivist": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  }
+ ],
+ "route_revival_saltmere.r9_rhp_gardener": [
   {
    "species": "fernstag",
    "level": 63
@@ -459,6 +417,48 @@ export const CAVE_POCKET_TEAMS = {
   },
   {
    "species": "cascadorn",
+   "level": 63
+  }
+ ],
+ "route_sunmeadow_mirefen.r9_smfp_haymaker": [
+  {
+   "species": "tuskwallow",
+   "level": 63
+  },
+  {
+   "species": "fernstag",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  }
+ ],
+ "route_sunmeadow_mirefen.r9_smfp_beekeeper": [
+  {
+   "species": "lancebeetle",
+   "level": 63
+  },
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "stratodrake",
+   "level": 63
+  }
+ ],
+ "route_cindervale.r9_aurp_porter": [
+  {
+   "species": "cascadorn",
+   "level": 63
+  },
+  {
+   "species": "torrentpike",
+   "level": 63
+  },
+  {
+   "species": "tuskwallow",
    "level": 63
   }
  ]

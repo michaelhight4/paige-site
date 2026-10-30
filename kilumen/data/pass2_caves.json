@@ -2893,110 +2893,6 @@
    ]
   },
   {
-   "id": "smf_pocket_loft",
-   "map": "sunmeadow_fields",
-   "cave": "sunmeadow_fields_cave_e",
-   "cave_title": "Hay Loft",
-   "floor": [
-    [
-     36,
-     13,
-     43,
-     18
-    ]
-   ],
-   "ledge": [
-    40,
-    42,
-    19
-   ],
-   "walk": [],
-   "mouth": [
-    46,
-    16
-   ],
-   "pocket_door": [
-    39,
-    12
-   ],
-   "main_start": [
-    10,
-    14
-   ],
-   "floor_tile_at": [
-    30,
-    25
-   ],
-   "floor_tiles": null,
-   "gate": {
-    "in": "cave sunmeadow_fields_cave_e",
-    "out": "one-way ledge at y19 x40-42",
-    "skill": null
-   },
-   "trainer": {
-    "id": "r9_smfp_haymaker",
-    "x": 36,
-    "y": 13,
-    "level": 63,
-    "class": "Farmer",
-    "name": "Bodil",
-    "species": [
-     "tuskwallow",
-     "fernstag",
-     "cragmont"
-    ],
-    "intro": [
-     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
-    ],
-    "lost": [
-     "DRAFT: You out-stacked me."
-    ],
-    "after": [
-     "DRAFT: Hop down the ledge to the field."
-    ]
-   },
-   "egg": {
-    "id": "r9_smfp_egg_scarecrow",
-    "x": 43,
-    "y": 12,
-    "what": "a tiny scarecrow",
-    "tile": 509,
-    "lines": [
-     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
-    ]
-   },
-   "item": {
-    "id": "r9_smfp_crystal",
-    "x": 43,
-    "y": 18,
-    "item": "dominance_crystal_plus"
-   },
-   "premise": "A farmer on a hay meadow in the east rock; a Prime Crystal is under the hay.",
-   "map_items": [
-    {
-     "id": "smf_loft_seed_visible",
-     "x": 41,
-     "y": 16,
-     "item": "vigor_seed",
-     "hidden": false
-    }
-   ],
-   "map_rocks": [
-    [
-     28,
-     23
-    ],
-    [
-     36,
-     24
-    ],
-    [
-     42,
-     27
-    ]
-   ]
-  },
-  {
    "id": "smf_pocket_dell",
    "map": "sunmeadow_fields",
    "cave": "sunmeadow_fields_cave_nw",
@@ -3033,7 +2929,7 @@
     ]
    ],
    "mouth": [
-    14,
+    12,
     11
    ],
    "pocket_door": [
@@ -3093,6 +2989,20 @@
     "item": "vigor_seed"
    },
    "premise": "A camper in a clover dell in the west rock; a Vigor Seed is in the clover.",
+   "map_rocks": [
+    [
+     28,
+     23
+    ],
+    [
+     36,
+     24
+    ],
+    [
+     42,
+     27
+    ]
+   ],
    "map_cells": [
     {
      "x": 13,
@@ -3300,6 +3210,13 @@
    ],
    "map_items": [
     {
+     "id": "smf_dell_seed_visible",
+     "x": 18,
+     "y": 28,
+     "item": "vigor_seed",
+     "hidden": false
+    },
+    {
      "id": "smf_dell_strip_tea",
      "x": 20,
      "y": 32,
@@ -3312,108 +3229,6 @@
      "item": "trail_mix"
     }
    ]
-  },
-  {
-   "id": "smf_pocket_hollow",
-   "map": "sunmeadow_fields",
-   "cave": "sunmeadow_fields_cave_n",
-   "cave_title": "Bee Hollow",
-   "floor": [
-    [
-     35,
-     31,
-     44,
-     35
-    ]
-   ],
-   "ledge": [
-    36,
-    38,
-    36
-   ],
-   "walk": [
-    [
-     34,
-     37
-    ],
-    [
-     35,
-     37
-    ],
-    [
-     36,
-     37
-    ],
-    [
-     37,
-     37
-    ],
-    [
-     38,
-     37
-    ]
-   ],
-   "mouth": [
-    25,
-    11
-   ],
-   "pocket_door": [
-    40,
-    30
-   ],
-   "main_start": [
-    10,
-    14
-   ],
-   "floor_tile_at": [
-    30,
-    25
-   ],
-   "floor_tiles": null,
-   "gate": {
-    "in": "cave sunmeadow_fields_cave_n",
-    "out": "one-way ledge at y36 x36-38",
-    "skill": null
-   },
-   "trainer": {
-    "id": "r9_smfp_beekeeper",
-    "x": 44,
-    "y": 31,
-    "level": 63,
-    "class": "Beekeeper",
-    "name": "Torvald",
-    "species": [
-     "lancebeetle",
-     "pharolith",
-     "stratodrake"
-    ],
-    "intro": [
-     "DRAFT: Shh. The bees are asleep. Battle quietly."
-    ],
-    "lost": [
-     "DRAFT: The bees slept through it."
-    ],
-    "after": [
-     "DRAFT: Ledge down and go west."
-    ]
-   },
-   "egg": {
-    "id": "r9_smfp_egg_hive",
-    "x": 35,
-    "y": 30,
-    "what": "a hive in the rock",
-    "tile": 509,
-    "lines": [
-     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
-    ]
-   },
-   "item": {
-    "id": "r9_smfp_seed_e",
-    "x": 44,
-    "y": 35,
-    "item": "vigor_seed"
-   },
-   "premise": "A beekeeper in a hollow in the south-east rock; a Vigor Seed sits by the hive."
   },
   {
    "id": "aur_pocket_vault",
@@ -3602,7 +3417,7 @@
     "y": 10,
     "level": 63,
     "class": "Engineer",
-    "name": "Jory",
+    "name": "Algot",
     "species": [
      "pharolith",
      "galespar",
@@ -3690,237 +3505,6 @@
    ]
   },
   {
-   "id": "aur_pocket_platform",
-   "map": "aurelith",
-   "cave": "aurelith_cave_e",
-   "cave_title": "Old Platform",
-   "floor": [
-    [
-     78,
-     43,
-     85,
-     48
-    ]
-   ],
-   "ledge": [
-    79,
-    81,
-    49
-   ],
-   "walk": [
-    [
-     76,
-     50
-    ],
-    [
-     77,
-     50
-    ],
-    [
-     78,
-     50
-    ],
-    [
-     79,
-     50
-    ],
-    [
-     80,
-     50
-    ],
-    [
-     81,
-     50
-    ]
-   ],
-   "mouth": [
-    62,
-    6
-   ],
-   "pocket_door": [
-    82,
-    42
-   ],
-   "main_start": [
-    44,
-    28
-   ],
-   "floor_tile_at": [
-    40,
-    28
-   ],
-   "floor_tiles": null,
-   "gate": {
-    "in": "cave aurelith_cave_e",
-    "out": "one-way ledge at y49 x79-81",
-    "skill": null
-   },
-   "trainer": {
-    "id": "r9_aurp_porter",
-    "x": 85,
-    "y": 43,
-    "level": 63,
-    "class": "Porter",
-    "name": "Ansel",
-    "species": [
-     "cascadorn",
-     "torrentpike",
-     "tuskwallow"
-    ],
-    "intro": [
-     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
-    ],
-    "lost": [
-     "DRAFT: All change, then."
-    ],
-    "after": [
-     "DRAFT: Drop off the platform edge and go west."
-    ]
-   },
-   "egg": {
-    "id": "r9_aurp_egg_clock",
-    "x": 78,
-    "y": 43,
-    "what": "a platform clock",
-    "tile": 509,
-    "lines": [
-     "DRAFT: A platform clock. Both hands point at the snack stand."
-    ]
-   },
-   "item": {
-    "id": "r9_aurp_crystal_e",
-    "x": 85,
-    "y": 48,
-    "item": "dominance_crystal_plus"
-   },
-   "premise": "A porter on a closed platform in the east rock; a Prime Crystal is under the bench.",
-   "map_items": [
-    {
-     "id": "aur_platform_strip_tea",
-     "x": 79,
-     "y": 50,
-     "item": "calm_tea"
-    }
-   ]
-  },
-  {
-   "id": "rhp_pocket_archive",
-   "map": "revival_heights",
-   "cave": "revival_heights_cave_nw",
-   "cave_title": "Archive Room",
-   "floor": [
-    [
-     3,
-     11,
-     10,
-     16
-    ]
-   ],
-   "ledge": [
-    6,
-    8,
-    17
-   ],
-   "walk": [
-    [
-     6,
-     18
-    ],
-    [
-     7,
-     18
-    ],
-    [
-     8,
-     18
-    ]
-   ],
-   "mouth": [
-    14,
-    8
-   ],
-   "pocket_door": [
-    5,
-    10
-   ],
-   "main_start": [
-    29,
-    20
-   ],
-   "floor_tile_at": [
-    30,
-    28
-   ],
-   "floor_tiles": null,
-   "gate": {
-    "in": "cave revival_heights_cave_nw",
-    "out": "one-way ledge at y17 x6-8",
-    "skill": null
-   },
-   "trainer": {
-    "id": "r9_rhp_archivist",
-    "x": 3,
-    "y": 11,
-    "level": 63,
-    "class": "Clerk",
-    "name": "Ottilie",
-    "species": [
-     "foundrax",
-     "pharolith",
-     "cragmont"
-    ],
-    "intro": [
-     "DRAFT: Every memo since the company began is filed here. Battle?"
-    ],
-    "lost": [
-     "DRAFT: Filed under: lost."
-    ],
-    "after": [
-     "DRAFT: Hop down the ledge to the boulevard."
-    ]
-   },
-   "egg": {
-    "id": "r9_rhp_egg_memo",
-    "x": 10,
-    "y": 11,
-    "what": "a tower of memos",
-    "tile": 509,
-    "lines": [
-     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
-    ]
-   },
-   "item": {
-    "id": "r9_rhp_crystal",
-    "x": 3,
-    "y": 16,
-    "item": "dominance_crystal_plus"
-   },
-   "premise": "An old clerk in the company archive in the west rock; a Prime Crystal is in the last drawer.",
-   "map_cells": [
-    {
-     "x": 42,
-     "y": 13,
-     "g": 10882,
-     "d": 887,
-     "c": 5
-    }
-   ],
-   "map_items": [
-    {
-     "id": "rhp_plaza_tea",
-     "x": 22,
-     "y": 13,
-     "item": "calm_tea"
-    },
-    {
-     "id": "rhp_archive_strip_mix",
-     "x": 7,
-     "y": 18,
-     "item": "trail_mix"
-    }
-   ]
-  },
-  {
    "id": "rhp_pocket_servers",
    "map": "revival_heights",
    "cave": "revival_heights_cave_ne",
@@ -3973,8 +3557,8 @@
     ]
    ],
    "mouth": [
-    43,
-    8
+    45,
+    17
    ],
    "pocket_door": [
     52,
@@ -4033,7 +3617,29 @@
     "item": "vigor_seed"
    },
    "premise": "A technician in a server nook in the east rock; a Vigor Seed is behind the rack.",
+   "town_cave": "Coder review 0e9b8e6a (11:21 AM CT): one cave mouth only (45,17, above the y18 walk); the nook floor 48-55,11-16 is the open east park, pocket door 52,10 removed by build_revival_heights_living.py, both seeds moved into the cave",
+   "map_cells": [
+    {
+     "x": 42,
+     "y": 13,
+     "g": 10882,
+     "d": 887,
+     "c": 5
+    }
+   ],
    "map_items": [
+    {
+     "id": "rhp_plaza_tea",
+     "x": 22,
+     "y": 13,
+     "item": "calm_tea"
+    },
+    {
+     "id": "rhp_south_corner_tea",
+     "x": 43,
+     "y": 29,
+     "item": "calm_tea"
+    },
     {
      "id": "rhp_servers_seed_visible",
      "x": 52,
@@ -4050,87 +3656,216 @@
    ]
   },
   {
+   "id": "rhp_pocket_archive",
+   "map": "route_revival_sunmeadow",
+   "cave": "route_revival_sunmeadow_cave_archive",
+   "cave_title": "Archive Room",
+   "floor": [
+    [
+     35,
+     22,
+     42,
+     27
+    ]
+   ],
+   "ledge": [
+    37,
+    39,
+    28
+   ],
+   "walk": [
+    [
+     33,
+     29
+    ],
+    [
+     34,
+     29
+    ],
+    [
+     35,
+     29
+    ],
+    [
+     36,
+     29
+    ],
+    [
+     37,
+     29
+    ],
+    [
+     38,
+     29
+    ],
+    [
+     39,
+     29
+    ],
+    [
+     40,
+     29
+    ],
+    [
+     41,
+     29
+    ]
+   ],
+   "mouth": [
+    30,
+    20
+   ],
+   "pocket_door": [
+    38,
+    21
+   ],
+   "main_start": [
+    20,
+    0
+   ],
+   "floor_tile_at": [
+    20,
+    25
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_revival_sunmeadow_cave_archive",
+    "out": "one-way ledge at y28 x37-39",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_rhp_archivist",
+    "x": 42,
+    "y": 22,
+    "level": 63,
+    "class": "Clerk",
+    "name": "Ebba",
+    "species": [
+     "foundrax",
+     "pharolith",
+     "cragmont"
+    ],
+    "intro": [
+     "DRAFT: Every memo since the company began is filed here. Battle?"
+    ],
+    "lost": [
+     "DRAFT: Filed under: lost."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the path."
+    ]
+   },
+   "egg": {
+    "id": "r9_rhp_egg_memo",
+    "x": 35,
+    "y": 22,
+    "what": "a tower of memos",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tower of memos. The top one says: please reply to the memo below."
+    ]
+   },
+   "item": {
+    "id": "r9_rhp_crystal",
+    "x": 35,
+    "y": 27,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "An old clerk in the old company off-site archive, cut into the rock above the path north of town; a Prime Crystal is in the last drawer.",
+   "map_items": [
+    {
+     "id": "rhp_archive_seed_visible",
+     "x": 40,
+     "y": 25,
+     "item": "vigor_seed",
+     "hidden": false
+    },
+    {
+     "id": "rhp_archive_strip_mix",
+     "x": 41,
+     "y": 29,
+     "item": "trail_mix"
+    }
+   ]
+  },
+  {
    "id": "rhp_pocket_garden",
-   "map": "revival_heights",
-   "cave": "revival_heights_cave_sw",
+   "map": "route_revival_saltmere",
+   "cave": "route_revival_saltmere_cave_garden",
    "cave_title": "Break Garden",
    "floor": [
     [
      3,
-     23,
+     17,
      10,
-     28
+     22
     ]
    ],
    "ledge": [
     5,
     7,
-    29
+    23
    ],
    "walk": [
     [
      5,
-     30
+     24
     ],
     [
      6,
-     30
+     24
     ],
     [
      7,
-     30
+     24
     ],
     [
      8,
-     30
+     24
     ],
     [
      9,
-     30
+     24
     ],
     [
      10,
-     30
+     24
     ],
     [
      11,
-     30
+     24
     ],
     [
      12,
-     30
-    ],
-    [
-     13,
-     30
+     24
     ]
    ],
    "mouth": [
-    14,
-    27
+    15,
+    16
    ],
    "pocket_door": [
     6,
-    22
+    16
    ],
    "main_start": [
-    29,
-    20
+    22,
+    0
    ],
    "floor_tile_at": [
-    30,
-    28
+    15,
+    20
    ],
    "floor_tiles": null,
    "gate": {
-    "in": "cave revival_heights_cave_sw",
-    "out": "one-way ledge at y29 x5-7",
+    "in": "cave route_revival_saltmere_cave_garden",
+    "out": "one-way ledge at y23 x5-7",
     "skill": null
    },
    "trainer": {
     "id": "r9_rhp_gardener",
     "x": 10,
-    "y": 23,
+    "y": 17,
     "level": 63,
     "class": "Gardener",
     "name": "Brita",
@@ -4146,13 +3881,13 @@
      "DRAFT: You grew on me."
     ],
     "after": [
-     "DRAFT: Ledge down and walk east."
+     "DRAFT: Ledge down and walk east to the path."
     ]
    },
    "egg": {
     "id": "r9_rhp_egg_mug",
     "x": 3,
-    "y": 23,
+    "y": 17,
     "what": "a mug on a bench",
     "tile": 509,
     "lines": [
@@ -4162,22 +3897,338 @@
    "item": {
     "id": "r9_rhp_crystal_s",
     "x": 10,
-    "y": 28,
+    "y": 22,
     "item": "dominance_crystal_plus"
    },
-   "premise": "A gardener in the closed staff garden in the west rock; a Prime Crystal is under the bench.",
+   "premise": "A gardener in the staff garden the company closed, hidden in the rock west of the path south of town; a Prime Crystal is under the bench.",
    "map_items": [
     {
-     "id": "rhp_garden_strip_mix",
-     "x": 6,
-     "y": 30,
-     "item": "trail_mix"
+     "id": "rhp_garden_seed_visible",
+     "x": 7,
+     "y": 20,
+     "item": "vigor_seed",
+     "hidden": false
     },
     {
-     "id": "rhp_south_corner_tea",
-     "x": 43,
-     "y": 29,
+     "id": "rhp_garden_strip_mix",
+     "x": 5,
+     "y": 24,
+     "item": "trail_mix"
+    }
+   ]
+  },
+  {
+   "id": "smf_pocket_loft",
+   "map": "route_sunmeadow_mirefen",
+   "cave": "route_sunmeadow_mirefen_cave_loft",
+   "cave_title": "Hay Loft",
+   "floor": [
+    [
+     44,
+     11,
+     51,
+     16
+    ]
+   ],
+   "ledge": [
+    46,
+    48,
+    17
+   ],
+   "walk": [
+    [
+     46,
+     18
+    ],
+    [
+     47,
+     18
+    ],
+    [
+     48,
+     18
+    ]
+   ],
+   "mouth": [
+    37,
+    18
+   ],
+   "pocket_door": [
+    47,
+    10
+   ],
+   "main_start": [
+    0,
+    20
+   ],
+   "floor_tile_at": [
+    14,
+    18
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_sunmeadow_mirefen_cave_loft",
+    "out": "one-way ledge at y17 x46-48",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_smfp_haymaker",
+    "x": 44,
+    "y": 11,
+    "level": 63,
+    "class": "Farmer",
+    "name": "Bodil",
+    "species": [
+     "tuskwallow",
+     "fernstag",
+     "cragmont"
+    ],
+    "intro": [
+     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
+    ],
+    "lost": [
+     "DRAFT: You out-stacked me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the path."
+    ]
+   },
+   "egg": {
+    "id": "r9_smfp_egg_scarecrow",
+    "x": 51,
+    "y": 11,
+    "what": "a tiny scarecrow",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
+    ]
+   },
+   "item": {
+    "id": "r9_smfp_crystal",
+    "x": 51,
+    "y": 16,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A farmer on a hay meadow in the woods above the Mirefen path; a Prime Crystal is under the hay.",
+   "map_items": [
+    {
+     "id": "smf_loft_seed_visible",
+     "x": 49,
+     "y": 14,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "smf_pocket_hollow",
+   "map": "route_sunmeadow_mirefen",
+   "cave": "route_sunmeadow_mirefen_cave_hive",
+   "cave_title": "Bee Hollow",
+   "floor": [
+    [
+     22,
+     11,
+     31,
+     15
+    ]
+   ],
+   "ledge": [
+    24,
+    26,
+    16
+   ],
+   "walk": [
+    [
+     24,
+     17
+    ],
+    [
+     25,
+     17
+    ],
+    [
+     26,
+     17
+    ]
+   ],
+   "mouth": [
+    30,
+    22
+   ],
+   "pocket_door": [
+    27,
+    10
+   ],
+   "main_start": [
+    0,
+    20
+   ],
+   "floor_tile_at": [
+    14,
+    18
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_sunmeadow_mirefen_cave_hive",
+    "out": "one-way ledge at y16 x24-26",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_smfp_beekeeper",
+    "x": 31,
+    "y": 11,
+    "level": 63,
+    "class": "Beekeeper",
+    "name": "Torvald",
+    "species": [
+     "lancebeetle",
+     "pharolith",
+     "stratodrake"
+    ],
+    "intro": [
+     "DRAFT: Shh. The bees are asleep. Battle quietly."
+    ],
+    "lost": [
+     "DRAFT: The bees slept through it."
+    ],
+    "after": [
+     "DRAFT: Ledge down and go west."
+    ]
+   },
+   "egg": {
+    "id": "r9_smfp_egg_hive",
+    "x": 22,
+    "y": 11,
+    "what": "a hive in the rock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
+    ]
+   },
+   "item": {
+    "id": "r9_smfp_seed_e",
+    "x": 31,
+    "y": 15,
+    "item": "vigor_seed"
+   },
+   "premise": "A beekeeper in a hollow in the north woods above the Mirefen path; a Vigor Seed sits by the hive.",
+   "map_items": [
+    {
+     "id": "smf_hollow_seed_visible",
+     "x": 27,
+     "y": 13,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "aur_pocket_platform",
+   "map": "route_cindervale",
+   "cave": "route_cindervale_cave_platform",
+   "cave_title": "Old Platform",
+   "floor": [
+    [
+     22,
+     28,
+     29,
+     31
+    ]
+   ],
+   "ledge": [
+    24,
+    26,
+    32
+   ],
+   "walk": [
+    [
+     24,
+     33
+    ],
+    [
+     25,
+     33
+    ],
+    [
+     26,
+     33
+    ]
+   ],
+   "mouth": [
+    25,
+    17
+   ],
+   "pocket_door": [
+    26,
+    27
+   ],
+   "main_start": [
+    24,
+    22
+   ],
+   "floor_tile_at": [
+    15,
+    30
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_cindervale_cave_platform",
+    "out": "one-way ledge at y32 x24-26",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_aurp_porter",
+    "x": 22,
+    "y": 28,
+    "level": 63,
+    "class": "Porter",
+    "name": "Ansel",
+    "species": [
+     "cascadorn",
+     "torrentpike",
+     "tuskwallow"
+    ],
+    "intro": [
+     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
+    ],
+    "lost": [
+     "DRAFT: All change, then."
+    ],
+    "after": [
+     "DRAFT: Drop off the platform edge and go west."
+    ]
+   },
+   "egg": {
+    "id": "r9_aurp_egg_clock",
+    "x": 29,
+    "y": 28,
+    "what": "a platform clock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A platform clock. Both hands point at the snack stand."
+    ]
+   },
+   "item": {
+    "id": "r9_aurp_crystal_e",
+    "x": 29,
+    "y": 31,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A porter on a closed platform in the ash woods south of Aurelith; a Prime Crystal is under the bench.",
+   "map_items": [
+    {
+     "id": "aur_platform_strip_tea",
+     "x": 25,
+     "y": 33,
      "item": "calm_tea"
+    },
+    {
+     "id": "aur_platform_seed_visible",
+     "x": 27,
+     "y": 30,
+     "item": "vigor_seed",
+     "hidden": false
     }
    ]
   }

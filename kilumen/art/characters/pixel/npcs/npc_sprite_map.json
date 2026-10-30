@@ -3494,6 +3494,89 @@
       "overworld_sheet_2x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_2x.png",
       "overworld_sheet_3x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_3x.png",
       "note": "Aurelith Games announcer (dev/sports-major)"
+    },
+    "revival_heights.revival_heights_stall_baker": {
+      "sprite_id": "vil_cook_f",
+      "class": "Wellspire (region 9 / finale), story_beats.md §F",
+      "overworld_sheet": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_cook_f/overworld/vil_cook_f_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stall_florist": {
+      "sprite_id": "vil_gardener_f_b",
+      "class": "hobbyist",
+      "overworld_sheet": "npcs/vil_gardener_f_b/overworld/vil_gardener_f_b_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_gardener_f_b/overworld/vil_gardener_f_b_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_gardener_f_b/overworld/vil_gardener_f_b_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/vil_gardener_f_b/overworld/vil_gardener_f_b_chibi/",
+      "note": "club_int (The Firefly) cast: reused existing sheet, Oct 29 2026 invisible bar NPC fix; swap when bespoke art lands"
+    },
+    "revival_heights.revival_heights_stall_grocer": {
+      "sprite_id": "vil_shopkeeper_m",
+      "class": "shop clerk (man)",
+      "overworld_sheet": "npcs/vil_shopkeeper_m/overworld/vil_shopkeeper_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_shopkeeper_m/overworld/vil_shopkeeper_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_shopkeeper_m/overworld/vil_shopkeeper_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/vil_shopkeeper_m/overworld/vil_shopkeeper_m_chibi/"
+    },
+    "revival_heights.revival_heights_logger": {
+      "sprite_id": "tr_hiker_m",
+      "class": "Wellspire (region 9 / finale), story_beats.md §F",
+      "overworld_sheet": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+    },
+    "revival_heights.revival_heights_kid_hopscotch": {
+      "sprite_id": "vil_kid_f_b",
+      "class": "village girl (kid) - pink overalls / ginger swap",
+      "overworld_sheet": "npcs/vil_kid_f_b/overworld/vil_kid_f_b_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_kid_f_b/overworld/vil_kid_f_b_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_kid_f_b/overworld/vil_kid_f_b_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/vil_kid_f_b/overworld/vil_kid_f_b_chibi/"
+    },
+    "revival_heights.revival_heights_kid_dog": {
+      "sprite_id": "vil_kid_m",
+      "class": "village boy (kid)",
+      "overworld_sheet": "npcs/vil_kid_m/overworld/vil_kid_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_kid_m/overworld/vil_kid_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_kid_m/overworld/vil_kid_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/vil_kid_m/overworld/vil_kid_m_chibi/"
+    },
+    "revival_heights.revival_heights_tree_kilu": {
+      "sprite_id": "kilu_topiarix",
+      "class": "Topiarix (wild Kilu, grass; creature ow sheet padded to the 64x96 NPC grid)",
+      "overworld_sheet": "npcs/kilu_topiarix/overworld/kilu_topiarix_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/kilu_topiarix/overworld/kilu_topiarix_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/kilu_topiarix/overworld/kilu_topiarix_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stall_crystal": {
+      "sprite_id": "vil_clerk_f",
+      "class": "crystal stall keeper (east park)",
+      "overworld_sheet": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_clerk_f/overworld/vil_clerk_f_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stall_toys": {
+      "sprite_id": "vil_parent_m",
+      "class": "toy stall keeper (east park)",
+      "overworld_sheet": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_parent_m/overworld/vil_parent_m_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stroller_park": {
+      "sprite_id": "vil_elder_f",
+      "class": "strolls the east park",
+      "overworld_sheet": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_elder_f/overworld/vil_elder_f_chibi_sheet_3x.png"
+    },
+    "revival_heights.revival_heights_stroller_walk": {
+      "sprite_id": "vil_tourist_f",
+      "class": "strolls the south walk",
+      "overworld_sheet": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_tourist_f/overworld/vil_tourist_f_chibi_sheet_3x.png"
     }
   },
   "unassigned_ready": {
