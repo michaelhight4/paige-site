@@ -2891,6 +2891,529 @@
      "item": "calm_tea"
     }
    ]
+  },
+  {
+   "id": "smf_pocket_loft",
+   "map": "sunmeadow_fields",
+   "cave": "sunmeadow_fields_cave_e",
+   "cave_title": "Hay Loft",
+   "floor": [
+    [
+     36,
+     13,
+     43,
+     18
+    ]
+   ],
+   "ledge": [
+    40,
+    42,
+    19
+   ],
+   "walk": [],
+   "mouth": [
+    46,
+    16
+   ],
+   "pocket_door": [
+    39,
+    12
+   ],
+   "main_start": [
+    10,
+    14
+   ],
+   "floor_tile_at": [
+    30,
+    25
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave sunmeadow_fields_cave_e",
+    "out": "one-way ledge at y19 x40-42",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_smfp_haymaker",
+    "x": 36,
+    "y": 13,
+    "level": 63,
+    "class": "Farmer",
+    "name": "Bodil",
+    "species": [
+     "tuskwallow",
+     "fernstag",
+     "cragmont"
+    ],
+    "intro": [
+     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
+    ],
+    "lost": [
+     "DRAFT: You out-stacked me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ]
+   },
+   "egg": {
+    "id": "r9_smfp_egg_scarecrow",
+    "x": 43,
+    "y": 12,
+    "what": "a tiny scarecrow",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
+    ]
+   },
+   "item": {
+    "id": "r9_smfp_crystal",
+    "x": 43,
+    "y": 18,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A farmer on a hay meadow in the east rock; a Prime Crystal is under the hay.",
+   "map_items": [
+    {
+     "id": "smf_loft_seed_visible",
+     "x": 41,
+     "y": 16,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ],
+   "map_rocks": [
+    [
+     28,
+     23
+    ],
+    [
+     36,
+     24
+    ],
+    [
+     42,
+     27
+    ]
+   ]
+  },
+  {
+   "id": "smf_pocket_dell",
+   "map": "sunmeadow_fields",
+   "cave": "sunmeadow_fields_cave_nw",
+   "cave_title": "Clover Dell",
+   "floor": [
+    [
+     14,
+     25,
+     22,
+     30
+    ]
+   ],
+   "ledge": [
+    20,
+    22,
+    31
+   ],
+   "walk": [
+    [
+     20,
+     32
+    ],
+    [
+     21,
+     32
+    ],
+    [
+     22,
+     32
+    ],
+    [
+     23,
+     32
+    ]
+   ],
+   "mouth": [
+    14,
+    11
+   ],
+   "pocket_door": [
+    18,
+    24
+   ],
+   "main_start": [
+    10,
+    14
+   ],
+   "floor_tile_at": [
+    30,
+    25
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave sunmeadow_fields_cave_nw",
+    "out": "one-way ledge at y31 x20-22",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_smfp_cloverpicker",
+    "x": 14,
+    "y": 25,
+    "level": 63,
+    "class": "Camper",
+    "name": "Elin",
+    "species": [
+     "gauzewing",
+     "galespar",
+     "torrentpike"
+    ],
+    "intro": [
+     "DRAFT: Four-leaf clovers grow only here. I counted. Battle?"
+    ],
+    "lost": [
+     "DRAFT: Lucky you."
+    ],
+    "after": [
+     "DRAFT: Ledge down and follow the strip east."
+    ]
+   },
+   "egg": {
+    "id": "r9_smfp_egg_clover",
+    "x": 22,
+    "y": 25,
+    "what": "a giant clover",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A clover as big as a plate. It has five leaves. Someone glued one on."
+    ]
+   },
+   "item": {
+    "id": "r9_smfp_seed",
+    "x": 14,
+    "y": 30,
+    "item": "vigor_seed"
+   },
+   "premise": "A camper in a clover dell in the west rock; a Vigor Seed is in the clover.",
+   "map_cells": [
+    {
+     "x": 13,
+     "y": 22,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 22,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 23,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 24,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 25,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 26,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 27,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 28,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 29,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 30,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 31,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 32,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 33,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 34,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 35,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 36,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 12,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 13,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 14,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 15,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 16,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 17,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 18,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 19,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 20,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 21,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 22,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 23,
+     "y": 37,
+     "g": 3,
+     "d": 0,
+     "c": 0
+    },
+    {
+     "x": 13,
+     "y": 22,
+     "g": 3,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "smf_dell_strip_tea",
+     "x": 20,
+     "y": 32,
+     "item": "calm_tea"
+    },
+    {
+     "id": "smf_hollow_strip_mix",
+     "x": 38,
+     "y": 37,
+     "item": "trail_mix"
+    }
+   ]
+  },
+  {
+   "id": "smf_pocket_hollow",
+   "map": "sunmeadow_fields",
+   "cave": "sunmeadow_fields_cave_n",
+   "cave_title": "Bee Hollow",
+   "floor": [
+    [
+     35,
+     31,
+     44,
+     35
+    ]
+   ],
+   "ledge": [
+    36,
+    38,
+    36
+   ],
+   "walk": [
+    [
+     34,
+     37
+    ],
+    [
+     35,
+     37
+    ],
+    [
+     36,
+     37
+    ],
+    [
+     37,
+     37
+    ],
+    [
+     38,
+     37
+    ]
+   ],
+   "mouth": [
+    25,
+    11
+   ],
+   "pocket_door": [
+    40,
+    30
+   ],
+   "main_start": [
+    10,
+    14
+   ],
+   "floor_tile_at": [
+    30,
+    25
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave sunmeadow_fields_cave_n",
+    "out": "one-way ledge at y36 x36-38",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_smfp_beekeeper",
+    "x": 44,
+    "y": 31,
+    "level": 63,
+    "class": "Beekeeper",
+    "name": "Torvald",
+    "species": [
+     "lancebeetle",
+     "pharolith",
+     "stratodrake"
+    ],
+    "intro": [
+     "DRAFT: Shh. The bees are asleep. Battle quietly."
+    ],
+    "lost": [
+     "DRAFT: The bees slept through it."
+    ],
+    "after": [
+     "DRAFT: Ledge down and go west."
+    ]
+   },
+   "egg": {
+    "id": "r9_smfp_egg_hive",
+    "x": 35,
+    "y": 30,
+    "what": "a hive in the rock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
+    ]
+   },
+   "item": {
+    "id": "r9_smfp_seed_e",
+    "x": 44,
+    "y": 35,
+    "item": "vigor_seed"
+   },
+   "premise": "A beekeeper in a hollow in the south-east rock; a Vigor Seed sits by the hive."
   }
  ]
 }

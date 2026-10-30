@@ -664,6 +664,92 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "sunmeadow_fields": {
+   "r9_smfp_haymaker": {
+    "pages": [
+     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You out-stacked me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ],
+    "trainer_class": "Farmer",
+    "name": "Bodil",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_egg_scarecrow": {
+    "pages": [
+     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_cloverpicker": {
+    "pages": [
+     "DRAFT: Four-leaf clovers grow only here. I counted. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: Lucky you."
+    ],
+    "after": [
+     "DRAFT: Ledge down and follow the strip east."
+    ],
+    "trainer_class": "Camper",
+    "name": "Elin",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_egg_clover": {
+    "pages": [
+     "DRAFT: A clover as big as a plate. It has five leaves. Someone glued one on."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_beekeeper": {
+    "pages": [
+     "DRAFT: Shh. The bees are asleep. Battle quietly."
+    ],
+    "battle_lost": [
+     "DRAFT: The bees slept through it."
+    ],
+    "after": [
+     "DRAFT: Ledge down and go west."
+    ],
+    "trainer_class": "Beekeeper",
+    "name": "Torvald",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_egg_hive": {
+    "pages": [
+     "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "sunmeadow_fields_cave_e": {
+   "area_name": {
+    "pages": [
+     "Hay Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "sunmeadow_fields_cave_nw": {
+   "area_name": {
+    "pages": [
+     "Clover Dell"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "sunmeadow_fields_cave_n": {
+   "area_name": {
+    "pages": [
+     "Bee Hollow"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }
