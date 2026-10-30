@@ -47,7 +47,7 @@
     536,
     536,
     536,
-    544,
+    536,
     536,
     536,
     536,
@@ -581,7 +581,7 @@
     1,
     1,
     1,
-    4,
+    1,
     1,
     1,
     1,
@@ -902,32 +902,41 @@
    "x": 6,
    "y": 10,
    "to": "revival_heights",
-   "tx": 43,
-   "ty": 9,
+   "tx": 45,
+   "ty": 18,
    "facing": "down"
   },
   {
    "x": 7,
    "y": 10,
    "to": "revival_heights",
-   "tx": 43,
-   "ty": 9,
+   "tx": 45,
+   "ty": 18,
    "facing": "down"
-  },
-  {
-   "x": 7,
-   "y": 2,
-   "to": "revival_heights",
-   "tx": 52,
-   "ty": 11,
-   "facing": "down",
-   "pocket": "rhp_pocket_servers"
   }
  ],
  "exits": [],
  "npcs": [],
  "signs": [],
- "items": [],
+ "items": [
+  {
+   "id": "rhp_servers_seed_visible",
+   "x": 10,
+   "y": 7,
+   "hidden": false,
+   "item": "vigor_seed",
+   "flag": "item_revival_heights_rhp_servers_seed_visible"
+  },
+  {
+   "id": "r9_rhp_seed",
+   "x": 4,
+   "y": 3,
+   "hidden": true,
+   "item": "vigor_seed",
+   "flag": "item_revival_heights_r9_rhp_seed",
+   "pocket": "rhp_pocket_servers"
+  }
+ ],
  "encounter_zones": [],
  "interact_spots": [],
  "source": "tools/map_audit/cave_pockets.py (Coder, Pass 2, Oct 30 2026; layout after tidewater_cave_int)",
@@ -938,18 +947,8 @@
  "interior_role": "pocket_cave",
  "entered_from": {
   "map": "revival_heights",
-  "x": 43,
-  "y": 8
+  "x": 45,
+  "y": 17
  },
- "pocket": {
-  "id": "rhp_pocket_servers",
-  "main_exit": [
-   6,
-   10
-  ],
-  "pocket_exit": [
-   7,
-   2
-  ]
- }
+ "town_cave": "Server Nook: one mouth (revival_heights 45,17); the old pocket exit 7,2 is walled"
 }
