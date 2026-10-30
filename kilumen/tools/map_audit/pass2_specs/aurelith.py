@@ -1,7 +1,7 @@
 """aurelith pass 2 (Coder, Oct 30 2026). Three sealed pockets in the city's rock border, each entered by a small cave, left by a one-way ledge.
 1. Gate Vault (north-west cave 13,6) -> old vault in the west rock, ledge y16, strip east to Ring Street.
 2. Signal Loft (north-east cave 74,6) -> signal loft in the east rock, ledge y16, strip west to Ring Street.
-3. Old Platform (east gate cave 84,26) -> a closed rail platform in the east rock, ledge y49, strip west to the canal lane.
+3. Old Platform (north plaza cave 62,6) -> a closed rail platform in the east rock, ledge y49, strip west to the canal lane.
 Plus a push boulder shortcut and plaza rocks (R1: no huge empty square)."""
 from pass2_spec import P as _P, T, E
 M = 'aurelith'
@@ -24,7 +24,7 @@ POCKETS = [
    'An old signaller in a loft in the east rock; a Vigor Seed is by the lamp.',
    map_items=[{'id': 'aur_loft_seed_visible', 'x': 81, 'y': 12, 'item': 'vigor_seed', 'hidden': False}, {'id': 'aur_loft_strip_mix', 'x': 79, 'y': 17, 'item': 'trail_mix'}],  # R6
    map_rocks=[[57, 12], [28, 11], [52, 38], [29, 15], [71, 39], [58, 42], [55, 16], [59, 16], [34, 30]]),
- P('aur_pocket_platform', 'aurelith_cave_e', 'Old Platform', [[78, 43, 85, 48]], [79, 81, 49], [[76, 50], [77, 50], [78, 50], [79, 50], [80, 50], [81, 50]], [84, 26], [82, 42],
+ P('aur_pocket_platform', 'aurelith_cave_e', 'Old Platform', [[78, 43, 85, 48]], [79, 81, 49], [[76, 50], [77, 50], [78, 50], [79, 50], [80, 50], [81, 50]], [62, 6], [82, 42],
    T('r9_aurp_porter', 85, 43, 'Porter', 'Ansel', ['cascadorn', 'torrentpike', 'tuskwallow'],
      'Last stop! Well, the stop after the last stop. Battle?', 'All change, then.', 'Drop off the platform edge and go west.'),
    E('r9_aurp_egg_clock', 78, 43, 'a platform clock', 'A platform clock. Both hands point at the snack stand.'),

@@ -13,6 +13,10 @@ const MAPDIR = new URL('../art/world/overworld/maps/', import.meta.url);
 const JS = Object.fromEntries(readdirSync(MAPDIR).filter((f) => f.endsWith('.json')).map((f) => { const j = JSON.parse(readFileSync(new URL(f, MAPDIR))); return [j.name, j]; }));
 const MAPS = Object.fromEntries(Object.entries(JS).map(([n, j]) => [n, new GameMap(structuredClone(j))]));
 const STAND = new Set([Col.WALK, Col.PLATE, Col.ICE]); // a landing must be walkable and not itself a trigger
+// Pass 2 pockets on city maps (aurelith) sit sealed in the rock border: their pocket-door landings are inside a
+// pocket floor from data/pass2_caves.json, on purpose, so the padding-frame check skips exactly those cells.
+const POCKET_FLOOR = new Set(JSON.parse(readFileSync(new URL('../data/pass2_caves.json', import.meta.url))).pockets.flatMap((p) =>
+  (Array.isArray(p.floor[0]) ? p.floor : [p.floor]).flatMap(([x0, y0, x1, y1]) => Array.from({ length: (x1 - x0 + 1) * (y1 - y0 + 1) }, (_, i) => `${p.map}@${x0 + (i % (x1 - x0 + 1))},${y0 + Math.floor(i / (x1 - x0 + 1))}`))));
 const outdoor = (j) => !!j.padding || (j.exits || []).length > 0;
 // Explicit 2-tile landings: tunnel mouths where the landing sits one tile further in (straight walkable corridor).
 const TWO_TILE = new Set(['greystone_entrance>lantern_rest', 'aurelith_arena>aurelith_stadium_int', 'aurelith_arena_room_1>aurelith_arena']); // room 1 -> lobby: you land below the lobby coin check (8,3), not inside it // arena: the cell between is gate_aurelith_arena (open once you are inside)
@@ -32,7 +36,7 @@ test('door warps: every landing tile is walkable, not a warp, not an NPC, inside
     assert.ok(STAND.has(T.code(w.tx, w.ty)), `${id} lands on collision ${T.code(w.tx, w.ty)}`);
     assert.equal(T.warpAt(w.tx, w.ty), null, id + ' lands on a warp');
     assert.ok(!(TJ.npcs || []).some((d) => d.x === w.tx && d.y === w.ty), id + ' lands on an NPC');
-    if (TJ.padding) { // pre-padding coordinates would land in the decorative border
+    if (TJ.padding && !POCKET_FLOOR.has(`${w.to}@${w.tx},${w.ty}`)) { // pre-padding coordinates would land in the decorative border
       const { dx, dy, old_size: [ow, oh] } = TJ.padding;
       assert.ok(w.tx >= dx && w.ty >= dy && w.tx < dx + ow && w.ty < dy + oh, id + ' lands in the padding border (unpadded coords?)');
     }
