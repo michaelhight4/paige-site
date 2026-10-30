@@ -18,6 +18,15 @@ export function hasSessionHint(store = globalThis.localStorage) {
   return false;
 }
 
+/** v0.2.93 local playtest override (Oct 30 2026): a local server (hostname exactly 'localhost' or '127.0.0.1') with ?dev=1
+ *  gets the full dev console (warp, speeds up to 200x, flags) with no sign-in. Never on paigegames.net or any other host:
+ *  exact hostname match only (no suffix / substring), and it still needs the ?dev=1 request. */
+export const LOCAL_DEV_HOSTS = ['localhost', '127.0.0.1'];
+export function localDevOverride(loc = globalThis.location, devRequested = false) {
+  const host = String(loc?.hostname || '').toLowerCase();
+  return devRequested === true && LOCAL_DEV_HOSTS.includes(host);
+}
+
 export async function checkDevAccess(roles = ROLES, loadLib = () => import(SB_LIB)) {
   try {
     const { createClient } = await loadLib();
