@@ -3247,14 +3247,6 @@
    }
   },
   {
-   "x": 20,
-   "y": 4,
-   "to": "fin_summit_camp",
-   "tx": 16,
-   "ty": 22,
-   "facing": "up"
-  },
-  {
    "x": 27,
    "y": 8,
    "to": "r9_switchbacks",
