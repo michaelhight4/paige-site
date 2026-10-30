@@ -1128,7 +1128,7 @@ export class Overworld {
     const p = this.player;
     return {
       flags: [...this.flags], counters: this.counters, seen: this.seen, seenDay: this.seenDay, clock: this.clock, party: this.party,
-      pos: this._devPosHold || (this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null), // live v0.2.93 bug 7: a dev Travel never moves the saved spot lastDoor: this.lastDoor, frame: POS_FRAME,
+      pos: this._devPosHold || (this.map && !this.fade ? { map: this.map.name, x: p.x, y: p.y, facing: p.facing } : this._lastPos || null), lastDoor: this.lastDoor, frame: POS_FRAME, // live v0.2.93 bug 7: a dev Travel never moves the saved spot
       ...this.systems?.saveBlocks(), // [systems-gd hook] coins, bag, archive, systems
       ...(this.gameCleared ? { [ENDING.save]: this.gameCleared } : {}), // interim ending save field
       ...(this.devTouched || DEV.masterKey ? { devTouched: true } : {}), // v0.2.26: a dev console change / master key was used: sticky, never cleared

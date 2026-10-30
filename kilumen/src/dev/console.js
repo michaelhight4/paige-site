@@ -2,7 +2,7 @@
 // admin account (server-checked admin_me). Speeds up playtesting: items, Kilumen, coins, ID level, level / skills / evolve, walk
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
-// devTouched; nothing here writes progress flags (the master key is a runtime override read by the gating code, see runtime.js).
+// devTouched; only the Flags tab (Oct 30 2026, src/dev/flags.js) writes progress flags, on purpose (the master key is a runtime override read by the gating code, see runtime.js).
 import { DEV } from './runtime.js?v=v0.2.93-alpha';
 import * as AB from './autobattle.js?v=v0.2.93-alpha';
 import { SPECIES } from '../ui/data.js?v=v0.2.93-alpha';
@@ -13,13 +13,15 @@ import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.93-a
 import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.93-alpha';
 import { evoTable } from '../systems/evolution.js?v=v0.2.93-alpha';
 import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.93-alpha';
+import { FLAG_PRESETS, setBadges, setFlagByName, applyPreset } from './flags.js?v=v0.2.93-alpha';
+import { coinCount } from '../overworld/lines.js?v=v0.2.93-alpha';
 import { createRitaPanel } from './rita_panel.js?v=v0.2.93-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
 const VARIANTS = Object.keys(VARIANT_MODS || {});
 const MAX_ROWS = 60;
-const TABS = [['item', 'Items'], ['mon', 'Kilumen'], ['party', 'Party'], ['money', 'Coins/ID'], ['travel', 'Travel'], ['tools', 'Tools'], ['rita', 'RITA voice']];
+const TABS = [['item', 'Items'], ['mon', 'Kilumen'], ['party', 'Party'], ['money', 'Coins/ID'], ['travel', 'Travel'], ['tools', 'Tools'], ['flags', 'Flags'], ['rita', 'RITA voice']];
 const CSS = `.kdev{position:fixed;inset:0;z-index:100000;background:rgba(8,10,16,.9);display:flex;align-items:stretch;justify-content:center;font:14px/1.35 system-ui,sans-serif;color:#e8ecf4;padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom))}
 .kdev *{box-sizing:border-box}
 .kdev .box{background:#141a26;border:1px solid #3a4560;border-radius:12px;width:min(760px,100%);display:flex;flex-direction:column;overflow:hidden}
@@ -137,7 +139,7 @@ export async function installDevConsole(scene, access) {
     const tabs = panel.querySelector('.tabs'); tabs.innerHTML = TABS.map(([id, n]) => `<button data-tab="${id}" class="${id === tab ? 'on' : ''}">${n}</button>`).join('');
     tabs.querySelectorAll('button').forEach((b) => { b.onclick = () => { tab = b.dataset.tab; render(); }; });
     const body = panel.querySelector('.body'); body.scrollTop = 0; body.className = 'body';
-    ({ item: tItem, mon: tMon, party: tParty, money: tMoney, travel: tTravel, tools: tTools, rita: (b) => (rita ||= createRitaPanel({ scene, say })).render(b) })[tab](body);
+    ({ item: tItem, mon: tMon, party: tParty, money: tMoney, travel: tTravel, tools: tTools, flags: tFlags, rita: (b) => (rita ||= createRitaPanel({ scene, say })).render(b) })[tab](body);
   };
   const searchBox = (body, key, ph, extra = '') => {
     body.innerHTML = `<div class="kbar"><input type="search" placeholder="${esc(ph)}" value="${esc(q[key])}">${extra}</div><div data-list></div>`;
@@ -280,6 +282,29 @@ export async function installDevConsole(scene, access) {
         scene.startWarp({ map: n, x: spot.x, y: spot.y, facing: spot.facing }, 'dev');
         const t0 = performance.now(); const iv = setInterval(() => { if ((!scene.fade && scene.map?.name === n) || performance.now() - t0 > 8000) { clearInterval(iv); travelling = false; } }, 100);
       } catch (err) { travelling = false; say('Travel failed: ' + (err?.message || err), true); }
+    };
+  }
+
+  // ---- Flags (Oct 30 2026): Master coins 0-8, any story flag by name, presets. Admin dev session only (devgate). ----
+  function tFlags(body) {
+    const fl = (num.flag ??= '');
+    body.innerHTML = `<h4>Master coins / badges: <span data-cc>${coinCount(scene.flags)}</span> / 8</h4>
+<div class="kbar">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => `<button class="go" data-badges="${n}">${n}</button>`).join('')}</div>
+<small>Sets beat_master_&lt;hall&gt; for the first N halls in hall order and clears the rest.</small>
+<h4>Story flag</h4><div class="kbar"><input type="text" placeholder="flag_name" spellcheck="false" autocomplete="off" value="${esc(fl)}" data-flag><button class="go" data-fset>Set</button><button data-fclear>Clear</button></div>
+<small data-fstate></small>
+<h4>Presets</h4><div class="kbar">${Object.entries(FLAG_PRESETS).map(([id, p]) => `<button class="go" data-preset="${id}">${esc(p.label)}</button>`).join('')}</div>
+<small>Flags are real progress: the save is marked devTouched.</small>`;
+    const inp = body.querySelector('[data-flag]'), st = body.querySelector('[data-fstate]');
+    const look = () => { const f = inp.value.trim(); st.textContent = f ? `${f}: ${scene.flags.has(f) ? 'SET' : 'not set'}` : ''; };
+    inp.oninput = () => { num.flag = inp.value; look(); }; look();
+    const done = (r, what) => { if (!r.ok) return say(r.why, true); touched(); body.querySelector('[data-cc]').textContent = coinCount(scene.flags); look(); say(what); };
+    body.onclick = (e) => {
+      const a = e.target.attributes;
+      if (a['data-badges']) { const n = Number(a['data-badges'].value); setBadges(scene, n); done({ ok: true }, `Master coins: ${n}.`); }
+      else if (a['data-fset']) done(setFlagByName(scene, inp.value, true), `Set ${inp.value.trim()}.`);
+      else if (a['data-fclear']) done(setFlagByName(scene, inp.value, false), `Cleared ${inp.value.trim()}.`);
+      else if (a['data-preset']) { const id = a['data-preset'].value; done(applyPreset(scene, id), `${FLAG_PRESETS[id].label}: done.`); }
     };
   }
 

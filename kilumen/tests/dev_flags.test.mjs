@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { FLAG_PRESETS, setBadges, setFlagByName, applyPreset } from '../src/ui/dev_flags.js';
+import { FLAG_PRESETS, setBadges, setFlagByName, applyPreset } from '../src/dev/flags.js';
 import { coinCount } from '../src/overworld/lines.js';
 const scene = () => { const s = { flags: new Set(), calls: [] }; s.setFlag = (f, on = true) => { s.calls.push(f); on ? s.flags.add(f) : s.flags.delete(f); }; return s; };
 
@@ -25,8 +25,8 @@ test('dev flags: presets all_badges, tower_healed', () => {
   assert.equal(applyPreset(s, 'nope').ok, false); assert.ok(FLAG_PRESETS.all_badges && FLAG_PRESETS.tower_healed);
 });
 test('dev flags: tab lives only in the gated console (no player import)', () => {
-  const src = fs.readFileSync(new URL('../src/ui/dev_console.js', import.meta.url), 'utf8');
+  const src = fs.readFileSync(new URL('../src/dev/console.js', import.meta.url), 'utf8');
   assert.match(src, /\['flags', 'Flags'\]/);
-  for (const f of ['src/main.js', 'src/ui/ui.js', 'src/alpha.js']) assert.doesNotMatch(fs.readFileSync(new URL('../' + f, import.meta.url), 'utf8'), /dev_flags/, f);
-  assert.match(fs.readFileSync(new URL('../src/ui/dev_gate.js', import.meta.url), 'utf8'), /ADMIN_ROLES/);
+  for (const f of ['src/ui/ui.js', 'src/alpha.js', 'src/overworld/overworld.js']) assert.doesNotMatch(fs.readFileSync(new URL('../' + f, import.meta.url), 'utf8'), /dev\/flags/, f);
+  assert.match(fs.readFileSync(new URL('../src/dev/devgate.js', import.meta.url), 'utf8'), /admin/);
 });
