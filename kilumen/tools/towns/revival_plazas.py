@@ -40,3 +40,42 @@ def main():
                     G[y][x] = PLAZA[(x * 7 + y * 3) % 4]; paved += 1
     json.dump(m, open(MP, 'w'), indent=1); print('paved', paved, 'beds', beds)
 if __name__ == '__main__': main()
+
+# ---- Business park pass (Gary 4:28 PM CT: "make the plazas bigger like a business park styled") ----
+# HQ courtyard north of the glass HQ: the forest edge x38-43 y3-8 is cleared (balance_pass style: tree base, its top one row
+# up and the collision go), the whole court x30-43 y3-8 is plaza except the flower field, the sand strip and the beds; a
+# 2-wide grey paved walkway x37-38 runs from the forest edge straight down to the HQ; symmetric lamps / planters / benches.
+# Top-left court: widened one row south (y10) with an even planter row.
+PAVE = [ID[f'x_city_pave_{i}'] for i in range(1) if f'x_city_pave_{i}' in ID]
+PARK_CLEAR = (38, 43, 3, 8)
+PARK_COURTS = [(30, 43, 3, 8), (7, 15, 9, 10)]
+WALK = (37, 38, 3, 8)
+PARK_PROPS = {(39, 3): 'x_city_lamp', (43, 3): 'x_city_lamp', (41, 3): 'x_city_planter',
+              (39, 5): 'x_city_planter', (41, 5): 'x_city_bench_h', (43, 5): 'x_city_planter',
+              (39, 7): 'x_city_lamp', (43, 7): 'x_city_lamp', (41, 7): 'x_city_planter',
+              (30, 3): 'x_city_lamp', (36, 3): 'x_city_lamp',
+              (9, 10): 'x_city_planter', (11, 10): 'x_city_planter', (13, 10): 'x_city_planter'}
+def park():
+    m = json.load(open(MP)); L = m['layers']; G, D, O, C = L['ground'], L['decoration'], L['overlay'], L['collision']
+    warps = {(w['x'], w['y']) for w in m['warps']}
+    x0, x1, y0, y1 = PARK_CLEAR
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1):
+            if 'tree' in NM.get(D[y][x], ''):
+                D[y][x] = 0; C[y][x] = 0
+                if 'tree' in NM.get(O[y - 1][x], ''): O[y - 1][x] = 0
+    for x0, x1, y0, y1 in PARK_COURTS:
+        for y in range(y0, y1 + 1):
+            for x in range(x0, x1 + 1):
+                d = NM.get(D[y][x], '') if D[y][x] else ''
+                if (x, y) in warps or not NM.get(G[y][x], '').startswith('grass') or KEEP.search(d) or C[y][x] not in (0, 1): continue
+                G[y][x] = PLAZA[(x * 7 + y * 3) % 4]
+    x0, x1, y0, y1 = WALK
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1):
+            if not D[y][x] and C[y][x] == 0: G[y][x] = PAVE[0]
+    for (x, y), n in PARK_PROPS.items():
+        if not D[y][x] and C[y][x] == 0 and (x, y) not in warps:
+            D[y][x] = ID[n]; C[y][x] = 1
+    json.dump(m, open(MP, 'w'), indent=1)
+if __name__ == '__main__': park()
