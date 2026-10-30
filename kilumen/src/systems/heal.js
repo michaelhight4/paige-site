@@ -35,8 +35,10 @@ export function visitPoint(b, sc) {
 
 /** No heal point yet: the branch in the current zone, else the closest one on the world map (world_layout map_pos),
  *  else the default branch (Brookhollow). */
-export function nearestBranch(zone, layout, shops = getShops()) {
-  const all = Object.entries(shops.branches).map(([id, b]) => ({ id, ...b }));
+export function nearestBranch(zone, layout, shops = getShops(), reached = null) {
+  // Playtest fix Oct 30 2026: only branches the player has reached (`reached(b)`), so an early route1 loss no longer
+  // picks the endgame Cairnfold branch just because Wellspire is closest on the world map.
+  const all = Object.entries(shops.branches).map(([id, b]) => ({ id, ...b })).filter((b) => !reached || b.id === shops.defaultBranch || reached(b));
   const here = zone && all.find((b) => b.zone === zone);
   if (here) return here;
   const zs = layout?.zones || [], pos = (id) => zs.find((z) => z.id === id)?.map_pos;
@@ -70,9 +72,24 @@ export class Heal {
   constructor(sys) { this.sys = sys; }
   get state() { return this.sys.state; }
   /** Last heal centre visited / rested at; none yet -> the nearest branch; nothing known -> Brookhollow. */
+  /** Has the player reached this branch's town (walked into the town / its heal centre)? */
+  reached(b) {
+    const sc = this.sys.scene, town = b.returnDoor?.map;
+    let zone = null; try { zone = sc?.zone?.() || null; } catch { zone = null; }
+    return (this.state.reachedBranches || []).includes(b.id) || (!!zone && b.zone === zone) || !!(town && sc?.flags?.has?.(`visited_${town}`));
+  }
+  /** Entering a town map (or its branch) marks the branch reached. */
+  markReached(mapName) {
+    if (!mapName) return;
+    let shops; try { shops = getShops(); } catch { return; }
+    const list = (this.state.reachedBranches ||= []);
+    for (const [id, b] of Object.entries(shops.branches)) if ((id === mapName || b.returnDoor?.map === mapName) && !list.includes(id)) list.push(id);
+  }
   lastHeal() {
     const sc = this.sys.scene;
-    const lh = this.state.lastHeal;
+    let lh = this.state.lastHeal;
+    // Old saves: a blackout before this fix could have stored an unreached branch (heal_cairnfold): drop it.
+    if (lh && lh.branch) { let b = null; try { b = branchByMap(lh.branch); } catch { b = null; } if (b && b.id !== getShops().defaultBranch && !this.reached(b)) lh = null; }
     if (lh) {
       // Old saves: a town that borrowed another branch's interior (Cairnfold -> heal_brookhollow before Oct 30 2026) and has its
       // own branch now: respawn in that town's branch, not the borrowed one.
@@ -80,11 +97,11 @@ export class Heal {
       return own ? healPoint({ id: own[0], ...own[1] }) : lh;
     }
     let zone = null; try { zone = sc?.zone?.() || null; } catch { zone = null; }
-    return healPoint(nearestBranch(zone, sc?.layout));
+    return healPoint(nearestBranch(zone, sc?.layout, undefined, (b) => this.reached(b)));
   }
   setLastHeal(b) { this.state.lastHeal = visitPoint(b, this.sys.scene); }
   /** Walking into a heal centre counts as using it (the blackout comes back here). */
-  onEnterMap(m) { const b = m?.name && branchByMap(m.name); if (b) { this.setLastHeal(b); return true; } return false; }
+  onEnterMap(m) { this.markReached(m?.name); const b = m?.name && branchByMap(m.name); if (b) { this.setLastHeal(b); return true; } return false; }
 
   /** Full rest: party + last heal point. */
   restAt(b) {

@@ -27,3 +27,22 @@ test('blackout: entering a heal centre records it; the shared interior keeps the
   const own = visitPoint(branchByMap('heal_fernwick'), { map: { name: 'heal_fernwick' }, lastDoor: { map: 'fernwick', x: 17, y: 13 } });
   assert.equal(own.zone, 'fernwick'); assert.equal(own.returnDoor.map, 'fernwick');
 });
+
+// Playtest fix Oct 30 2026 (timed log bug 1): early losses respawned at heal_cairnfold (Wellspire is nearest on the map).
+test('blackout: never respawns at an unreached branch (route1 loss with no heal yet -> Brookhollow, not Cairnfold)', async () => {
+  await loadShopsData();
+  const s = mk('route1'); s.scene.flags = new Set();
+  assert.equal(new Heal(s).lastHeal().map, 'heal_brookhollow');
+  // an old save that stored Cairnfold from that bug falls back too
+  s.state.lastHeal = { branch: 'heal_cairnfold', map: 'heal_cairnfold', x: 6, y: 5, zone: 'wellspire', returnDoor: { map: 'r9_cairnfold', x: 15, y: 25 } };
+  assert.equal(new Heal(s).lastHeal().map, 'heal_brookhollow');
+  // walking into Revival Heights marks its branch reached: a hall loss there comes back to Revival
+  const h = new Heal(s); s.state.lastHeal = null; h.onEnterMap({ name: 'revival_heights' });
+  s.scene.map = { name: 'route_revival_saltmere' };
+  assert.equal(new Heal(s).lastHeal().map, 'heal_brookhollow'); // no zone, no map pos: default
+  s.scene.map = { name: 'revival_hall_int' };
+  assert.equal(new Heal(s).lastHeal().map, 'heal_revival');
+  // a real visit to Cairnfold's branch is kept
+  s.state.reachedBranches.push('heal_cairnfold'); s.state.lastHeal = { branch: 'heal_cairnfold', map: 'heal_cairnfold', x: 6, y: 5, zone: 'wellspire', returnDoor: { map: 'r9_cairnfold', x: 15, y: 25 } };
+  assert.equal(new Heal(s).lastHeal().map, 'heal_cairnfold');
+});
