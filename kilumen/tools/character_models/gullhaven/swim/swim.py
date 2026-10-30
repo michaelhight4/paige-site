@@ -47,20 +47,6 @@ def build(sheet,keep,player=False):
             xs=np.nonzero(f[:cut,:,3].any(0))[0]; sl,sr=xs.min(),xs.max()
             if PLAYER:
                 for rr in [(14+2*c)%10+16, (14+2*c)%10+24]: ring(d,cx,wl,rr,3 if rr<22 else 5,FOAM,'front')
-            if True:
-                sp=[12,15,8,11][c]; ey=shy-[3,2,4,3][c]
-                if dn in('down','up'):
-                    for sgn,sx in ((-1,sl+3),(1,sr-3)):
-                        el=(sx+sgn*sp//2,ey); hd=(sx+sgn*sp,wl-1)
-                        d.line([(sx,shy),el,hd],fill=OUTL,width=6,joint='curve'); d.line([(sx,shy),el,hd],fill=sleeve,width=3)
-                        d.rectangle([hd[0]-2,hd[1]-2,hd[0]+2,hd[1]],fill=OUTL); d.rectangle([hd[0]-1,hd[1]-1,hd[0]+1,hd[1]],fill=skin)
-                        if c in(1,2): splash(d,hd[0],wl)
-                else:
-                    sgn=-1 if dn=='left' else 1; mid=(sl+sr)//2
-                    hd=(mid+sgn*[14,18,8,12][c],wl-1); el=(mid+sgn*[8,10,5,7][c],ey)
-                    d.line([(mid,shy),el,hd],fill=OUTL,width=6,joint='curve'); d.line([(mid,shy),el,hd],fill=sleeve,width=3)
-                    d.rectangle([hd[0]-2,hd[1]-2,hd[0]+2,hd[1]],fill=OUTL); d.rectangle([hd[0]-1,hd[1]-1,hd[0]+1,hd[1]],fill=skin)
-                    if c in(1,2): splash(d,hd[0],wl)
             ring(d,cx,wl,rx,4,FOAM,'front')
             out.alpha_composite(fr,(c*W,r*H))
     a=np.array(out); a[...,3]=np.where(a[...,3]>=128,255,0); a[a[...,3]==0]=0

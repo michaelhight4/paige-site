@@ -138,3 +138,5 @@ Existing mechanism: `dev/seaport` has only the `cal_tideglide` sheet (riding a c
 1. In the sprite-map entries for `gullhaven_sea.gullhaven_sea_swimmer_*`, add `"swim_sheet": "npcs/<id>/swim/<id>_swim_sheet.png"` (+ `_2x`/`_3x`). Add `playerSheets.swim` in `src/config.js` pointing at `humans/cal/swim/cal_swim_sheet*.png`.
 2. In `renderer.swimmer()`: if the actor has a swim image, draw it like the normal walk frame (`col = floor(ms/180)%4`, row = facing) and skip the crop, the 0.35 alpha band and the foam ring. Otherwise fall back to the current code.
 3. Load the swim image next to the walk image in the npc/player sheet loader (same zoom selection).
+
+- v3 (Oct 30, 10:17): arms removed from all 6 swim sheets (Gary). Head, shoulders and upper torso stay above the water, with bob [0,1,2,1] and solid rings. Waterline still y=66.
