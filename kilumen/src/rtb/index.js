@@ -154,11 +154,11 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     on(pad?.querySelector('[data-btn="select"]'), 'pointerdown', (e) => { e.stopPropagation(); inp.select = true; }); // touch-ok: real-time battle controls: a press must register instantly
     on(pad?.querySelector('[data-btn="b"]'), 'pointerdown', (e) => { e.stopPropagation(); faceHit('b'); }); // touch-ok: real-time battle controls: a press must register instantly
     const db = view.$('[data-rtb="dodge"]'); on(db, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); bPress(); db.classList.add('down'); }); // touch-ok: real-time battle controls: a press must register instantly
-    for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) on(db, ev, () => { bRelease(); db?.classList.remove('down'); });
+    for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) on(db, ev, () => { bRelease(); db?.classList.remove('down'); }); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     const hud = view.hud;
     const modeBtn = modeButton('turn', { touch, key: 'T' }); modeBtn.classList.add('in-rtb'); if (!trainer) hud.appendChild(modeBtn); else hud.querySelectorAll('[data-rtb="crystal"],[data-rtb="leave"]').forEach((b) => { b.hidden = true; b.style.display = 'none'; });
     on(modeBtn, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); inp.mode = true; }); // touch-ok: real-time battle controls: a press must register instantly
-    on(modeBtn, 'click', (e) => { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) inp.mode = true; }); // keyboard Enter / Space on the focused button
+    on(modeBtn, 'click', (e) => { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) inp.mode = true; }); // keyboard Enter / Space on the focused button // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     on(hud, 'pointerdown', (e) => { // touch-ok: real-time battle controls: a press must register instantly
       const s = e.target.closest?.('.rtb-s'), b = e.target.closest?.('[data-rtb]');
       const cr = e.target.closest?.('.rtb-cr'); if (cr) { inp.capPick = +cr.dataset.cap; e.preventDefault(); return; }
@@ -172,7 +172,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       if (b.dataset.rtb === 'swap') inp.swap = true; else if (b.dataset.rtb === 'crystal') inp.crystal = globalThis.KILUMEN_RTB_CAPTURE_OFF !== true; else if (b.dataset.rtb === 'leave') inp.retreat = true;
     });
 
-    const leaveUp = () => { inp.retreat = false; if (faceDown) { view.facePress(faceDown, false); faceDown = null; } }; on(window, 'pointerup', leaveUp); on(window, 'pointercancel', leaveUp);
+    const leaveUp = () => { inp.retreat = false; if (faceDown) { view.facePress(faceDown, false); faceDown = null; } }; on(window, 'pointerup', leaveUp); on(window, 'pointercancel', leaveUp); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     const padPrev = new Map();
     const pollPads = () => { // standard-mapping pads: A / B / X / Y = face skills, LB / RB / LT / RT = skills 1-4, R3 dodge (edges)
       const pads = navigator.getGamepads?.() || [];

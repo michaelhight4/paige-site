@@ -126,13 +126,13 @@ export function attachFeeds(scene, { query, systems, speciesInfo = () => null, n
     }
     ov.innerHTML = `<div class="fd-box">${tabs}${body}</div>`;
     { const sg = ov.querySelector('.fx-stage'); if (sg && bg) { sg.classList.add('has-bg'); bg.mount(sg); } else bg?.stop(); }
-    ov.querySelectorAll('[data-tab]').forEach((b) => (b.onclick = () => { st.tab = b.dataset.tab; st.msg = null; render(); }));
-    ov.querySelector('[data-a=close]').onclick = close;
-    ov.querySelectorAll('[data-mon]').forEach((b) => (b.onclick = () => { if (st.busy) return; st.sel = +b.dataset.mon; st.react = null; st.msg = null; st.quip = null; feedSfx('pick'); render(); }));
-    ov.querySelectorAll('[data-fruit]').forEach((b) => { b.onclick = () => { if (st.busy) return; st.fruit = b.dataset.fruit; st.react = null; st.msg = null; feedSfx('pick'); render(); }; b.onpointerenter = () => feedSfx('hover'); });
-    ov.querySelector('[data-a=feed]')?.addEventListener('click', () => doFeed(c));
-    ov.querySelectorAll('[data-plant]').forEach((b) => (b.onclick = () => { const [i, id] = b.dataset.plant.split(':'); L.plant(fs(), bag(), +i, id, now()); st.msg = null; render(); }));
-    ov.querySelectorAll('[data-harvest]').forEach((b) => (b.onclick = () => { const r = L.harvest(fs(), bag(), +b.dataset.harvest, now()); if (r) st.msg = ft('feeds.plot_harvested', { n: r.n, fruit: FS[`feeds.fruit.${r.fruit}.name`] }) + (r.seedling ? ' ' + FS['feeds.plot_seedling'] : ''); render(); }));
+    ov.querySelectorAll('[data-tab]').forEach((b) => (b.onclick = () => { st.tab = b.dataset.tab; st.msg = null; render(); })); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelector('[data-a=close]').onclick = close; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelectorAll('[data-mon]').forEach((b) => (b.onclick = () => { if (st.busy) return; st.sel = +b.dataset.mon; st.react = null; st.msg = null; st.quip = null; feedSfx('pick'); render(); })); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelectorAll('[data-fruit]').forEach((b) => { b.onclick = () => { if (st.busy) return; st.fruit = b.dataset.fruit; st.react = null; st.msg = null; feedSfx('pick'); render(); }; b.onpointerenter = () => feedSfx('hover'); }); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelector('[data-a=feed]')?.addEventListener('click', () => doFeed(c)); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelectorAll('[data-plant]').forEach((b) => (b.onclick = () => { const [i, id] = b.dataset.plant.split(':'); L.plant(fs(), bag(), +i, id, now()); st.msg = null; render(); })); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelectorAll('[data-harvest]').forEach((b) => (b.onclick = () => { const r = L.harvest(fs(), bag(), +b.dataset.harvest, now()); if (r) st.msg = ft('feeds.plot_harvested', { n: r.n, fruit: FS[`feeds.fruit.${r.fruit}.name`] }) + (r.seedling ? ' ' + FS['feeds.plot_seedling'] : ''); render(); })); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
   const fmt = (ms) => { const m = Math.ceil(ms / 60000), h = Math.floor(m / 60); return h ? `${h}h ${m % 60}m` : `${m}m`; };
   /** One feed with the full picnic moment (look, arc, chew + crumbs, reaction, bars pop, cap fanfare). -> Promise<result> */

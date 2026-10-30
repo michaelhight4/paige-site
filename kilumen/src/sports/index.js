@@ -91,9 +91,9 @@ export function attachSports(scene, { query, systems } = {}) {
   // snappy UI sounds (tiny WebAudio blips; silent if audio is locked or muted)
   let ac = null;
   const blip = (f = 660, d = 0.06, type = 'square', v = 0.05) => { try { ac ||= new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), gn = ac.createGain(); o.type = type; o.frequency.setValueAtTime(f, ac.currentTime); o.frequency.exponentialRampToValueAtTime(f * 1.5, ac.currentTime + d); gn.gain.setValueAtTime(v, ac.currentTime); gn.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + d); o.connect(gn).connect(ac.destination); o.start(); o.stop(ac.currentTime + d); } catch (e) { /* no audio */ } };
-    const wireUi = () => { if (!ov) return; ov.querySelectorAll('button').forEach((b) => { if (b._sfx) return; b._sfx = 1; b.addEventListener('pointerenter', () => blip(880, 0.03, 'triangle', 0.025)); b.addEventListener('click', () => blip(b.dataset.a === 'close' ? 440 : 700, 0.08)); });
+    const wireUi = () => { if (!ov) return; ov.querySelectorAll('button').forEach((b) => { if (b._sfx) return; b._sfx = 1; b.addEventListener('pointerenter', () => blip(880, 0.03, 'triangle', 0.025)); b.addEventListener('click', () => blip(b.dataset.a === 'close' ? 440 : 700, 0.08)); }); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     ov.querySelectorAll('.mon').forEach((m) => { if (!m._sfx) { m._sfx = 1; m.addEventListener('pointerenter', () => blip(990, 0.03, 'triangle', 0.02)); } }); };
-  if (query?.get?.('sports') === '1') { const btn = document.createElement('button'); btn.id = 'sports-btn'; btn.textContent = S.menu_button; document.body.appendChild(btn); btn.addEventListener('click', () => openVenue()); }
+  if (query?.get?.('sports') === '1') { const btn = document.createElement('button'); btn.id = 'sports-btn'; btn.textContent = S.menu_button; document.body.appendChild(btn); btn.addEventListener('click', () => openVenue()); } // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
 
   // ---- the coach in Brookhollow: systems.onInteract runs before the overworld's own NPC talk ----
   const coachAt = (fx, fy) => { const m = scene.map; if (m?.name !== VENUE.map) return null; const n = (m.npcs || m.json?.npcs || []).find((x) => x.id === VENUE.npcId); if (!n) return null; const live = scene.npcs?.list?.find?.((x) => x.def?.id === VENUE.npcId || x.id === VENUE.npcId); const x = live ? live.x : n.x, y = live ? live.y : n.y; return x === fx && y === fy ? n : null; };
@@ -159,10 +159,10 @@ export function attachSports(scene, { query, systems } = {}) {
         <div class="mode" id="sports-tourney"><h3>${esc(S.tourney_title)}</h3><div>${esc(t('tourney_desc', { fee: TOURNEY.fee, prize: TOURNEY.prize, n: TOURNEY.everyDays }))}</div>
           <div class="note" id="sports-tourney-status">${esc(ts.msg)}</div><button data-a="tourney" ${ts.ok ? '' : 'disabled'}>${esc(t('tourney_go', { fee: TOURNEY.fee }))}</button></div>
       </div><button data-a="close">${esc(S.close)}</button></div>`;
-    ov.querySelector('[data-a=close]').onclick = close;
+    ov.querySelector('[data-a=close]').onclick = close; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     wireUi();
-    ov.querySelector('[data-a=practice]').onclick = () => { st.mode = 'practice'; showPicker(); };
-    ov.querySelector('[data-a=tourney]').onclick = () => { if (!tourneyStatus().ok) return showVenue(tourneyStatus().msg); st.mode = 'tourney'; showPicker(); };
+    ov.querySelector('[data-a=practice]').onclick = () => { st.mode = 'practice'; showPicker(); }; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelector('[data-a=tourney]').onclick = () => { if (!tourneyStatus().ok) return showVenue(tourneyStatus().msg); st.mode = 'tourney'; showPicker(); }; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
 
   function showPicker() {
@@ -172,8 +172,8 @@ export function attachSports(scene, { query, systems } = {}) {
       <div class="mons">${pickRows(scene.party).map(({ c, i, out }) => { const r = racerOf(c, i); return `<div class="mon${out ? ' out' : ''}" data-p="${i}"${out ? ' aria-disabled="true" style="opacity:.45;cursor:not-allowed"' : ''}><img src="${framesFor(c.species)[0].src}"><div style="flex:1"><b>${esc(r.name)}</b> <span class="tr">Lv${c.level || '?'}${out ? ' · Out cold' : ''}</span>${statsBlock(r)}</div></div>`; }).join('')}</div>
       ${st.mode === 'tourney' ? `<div class="note">${esc(t('tourney_pay_hint', { fee: TOURNEY.fee }))}</div>` : ''}
       <button data-a="close">${esc(S.back)}</button></div>`;
-    ov.querySelector('[data-a=close]').onclick = () => showVenue(); wireUi();
-    ov.querySelectorAll('.mon').forEach((el) => { el.onclick = () => {
+    ov.querySelector('[data-a=close]').onclick = () => showVenue(); wireUi(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelectorAll('.mon').forEach((el) => { el.onclick = () => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       if (st.mode === 'tourney' && !payEntry({ day: day(), wallet: wallet(), state: sstate() })) return showVenue(tourneyStatus().msg);
       const c = scene.party[+el.dataset.p]; if (!mons.includes(c)) return; // out cold: listed, not pickable (gd bug 4)
       startMeet(c, +el.dataset.p);
@@ -262,8 +262,8 @@ export function attachSports(scene, { query, systems } = {}) {
       <b>${esc(S.final)}</b>${table(fin, me.key)}
       ${out.heats.map((h, i) => `<b>${esc(t('heat', { n: i + 1 }))}</b>${table(nameFix(h.placed, h.label), me.key)}`).join('')}
       ${tour ? '' : `<button data-a="again">${esc(S.race_again)}</button>`}<button data-a="close">${esc(S.back)}</button></div>`;
-    ov.querySelector('[data-a=again]')?.addEventListener('click', () => { st.mode = 'practice'; showPicker(); });
-    ov.querySelector('[data-a=close]').onclick = () => showVenue(); wireUi();
+    ov.querySelector('[data-a=again]')?.addEventListener('click', () => { st.mode = 'practice'; showPicker(); }); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    ov.querySelector('[data-a=close]').onclick = () => showVenue(); wireUi(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
 
   const api = { openVenue, hookInteract, town, tourney: () => ({ day: day(), tourneyDay: isTourneyDay(day()), daysUntil: daysUntil(day()), coins: wallet()?.coins ?? null, state: { ...sstate() }, status: tourneyStatus() }), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, prompt: st.prompt?.kind || null, promptT0: st.prompt?.t0 ?? null, clock: st.race?.clock ?? null, log: st.log.slice(), fx: st.fx || null, champ: st.champ || null, forceWin }), open, close, tap: () => st.tapFn?.(), points: POINTS, speciesAthletics };

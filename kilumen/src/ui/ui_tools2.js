@@ -108,8 +108,8 @@ export class UiTools2 {
       const t = this.ui.top; if (!t?.sortable) return; // drag screens: long-press shows the tip (a tap still opens / picks)
       const x = e.clientX, y = e.clientY; clearTimeout(this._holdT);
       const cancel = (ev) => { if (ev.type !== 'pointermove' || Math.hypot(ev.clientX - x, ev.clientY - y) > 8) { clearTimeout(this._holdT); off(); } };
-      const off = () => { for (const k of ['pointermove', 'pointerup', 'pointercancel']) root.removeEventListener(k, cancel); };
-      for (const k of ['pointermove', 'pointerup', 'pointercancel']) root.addEventListener(k, cancel);
+      const off = () => { for (const k of ['pointermove', 'pointerup', 'pointercancel']) root.removeEventListener(k, cancel); }; // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
+      for (const k of ['pointermove', 'pointerup', 'pointercancel']) root.addEventListener(k, cancel); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
       this._holdT = setTimeout(() => { off(); if (this.ui._dragging || this.ui.modal || !r.isConnected) return; this.ui._tipHold = true; this.tipShow(r, 4000); }, 520);
     });
     addEventListener('keydown', (e) => { if (e.key === 'Escape') this.tipHide(); });

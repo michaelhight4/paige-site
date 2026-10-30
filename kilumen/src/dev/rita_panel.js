@@ -176,7 +176,7 @@ export function createRitaPanel({ scene, say }) {
       const f = vis.filter((r) => st.results.get(r.key) && !st.results.get(r.key).ok).length;
       say(`${st.stop ? 'Stopped' : 'Done'}: ${i} lines checked, ${f} failed.`, f > 0);
     };
-    body.onclick = async (e) => {
+    body.onclick = async (e) => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
       const d = e.target.dataset || {};
       if (d.play) { const row = rows().find((r) => r.key === d.play); if (!row) return; st.stop = false; await loadManifest(); say('Playing ' + row.key + '…'); const p = await play(row); const s = lineStatus(row, st.manifest, scene, maxPages()); const why = s.text !== 'ok' ? s.why : p.spoke ? '' : 'voice did not play: ' + p.why; st.results.set(row.key, { ok: !why, why }); say(why ? `${row.key}: ${why}` : `${row.key}: played OK (${p.pages} page${p.pages === 1 ? '' : 's'}).`, !!why); if (body.isConnected) draw(); }
       else if (e.target.hasAttribute('data-all')) runAll(true);

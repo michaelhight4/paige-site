@@ -189,10 +189,10 @@ export function attachRitaVoice(cv, opts = {}) {
   let warmed = false;
   const warm = () => {
     const r = !warmed && rv.ready(); if (!r) return;
-    warmed = true; win?.removeEventListener?.('pointerup', kick, true); win?.removeEventListener?.('keydown', kick, true);
+    warmed = true; win?.removeEventListener?.('pointerup', kick, true); win?.removeEventListener?.('keydown', kick, true); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
     rv.loadManifest().then((m) => { if (m?.digits) for (const s of Object.values(m.digits)) rv.buffer(r.ctx, s).catch(() => {}); });
   };
   const kick = () => setTimeout(warm, 50); // after audio.js's own unlock handler ran
-  win?.addEventListener?.('pointerup', kick, true); win?.addEventListener?.('keydown', kick, true);
+  win?.addEventListener?.('pointerup', kick, true); win?.addEventListener?.('keydown', kick, true); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
   return rv;
 }

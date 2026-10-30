@@ -40,17 +40,17 @@ export async function openAccount() {
   const bx = ov.querySelector('.bx');
   if (user && !user.is_anonymous) {
     bx.innerHTML = `<h3>Account</h3><div>Signed in as <b>${esc(user.email || 'your account')}</b></div><div class="m"></div><button data-out>Sign out</button><button data-x>Close</button><small>Cloud saves use this account. The owner dev menu shows in Options when this account is the owner.</small>`;
-    bx.querySelector('[data-x]').onclick = close;
-    bx.querySelector('[data-out]').onclick = async () => { try { await (await client()).auth.signOut({ scope: 'local' }); } catch (e) { /* */ } location.reload(); };
+    bx.querySelector('[data-x]').onclick = close; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
+    bx.querySelector('[data-out]').onclick = async () => { try { await (await client()).auth.signOut({ scope: 'local' }); } catch (e) { /* */ } location.reload(); }; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     return;
   }
   bx.innerHTML = `<h3>Sign in</h3><form><input type="email" name="e" autocomplete="username" placeholder="Email" required><input type="password" name="p" autocomplete="current-password" placeholder="Password" required>
 <div class="m"></div><button class="pri" type="submit">Sign in</button><button type="button" data-x>Cancel</button></form>
 <button type="button" data-g style="width:100%;margin-top:10px;background:#fff;color:#222;border-color:#ccc">Sign in with Google</button>
 <small>Use your paigegames.net account. No account or forgot your password? Set it up at <a href="https://paigegames.net/" target="_blank" rel="noopener">paigegames.net</a> in your browser, then sign in here.</small>`;
-  bx.querySelector('[data-x]').onclick = close;
+  bx.querySelector('[data-x]').onclick = close; // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   const f = bx.querySelector('form'), m = bx.querySelector('.m');
-  bx.querySelector('[data-g]').onclick = async () => { // same-window redirect (no popup), so it also works in a home-screen app; comes back to this page
+  bx.querySelector('[data-g]').onclick = async () => { // same-window redirect (no popup), so it also works in a home-screen app; comes back to this page // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     m.textContent = 'Opening Google…';
     try { const { error } = await (await client()).auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } }); if (error) m.textContent = error.message; }
     catch (err) { m.textContent = 'Could not reach the sign-in server. Check your connection.'; }

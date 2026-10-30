@@ -70,8 +70,8 @@ export function wireHeldIcons(doc = typeof document !== 'undefined' ? document :
     timer = setTimeout(() => { longShown = true; show(ic); setTimeout(() => { longShown = false; hide(); }, 2200); }, 450);
   }, true);
   const cancel = () => clearTimeout(timer);
-  doc.addEventListener('pointerup', cancel, true); doc.addEventListener('pointercancel', cancel, true);
+  doc.addEventListener('pointerup', cancel, true); doc.addEventListener('pointercancel', cancel, true); // touch-ok: release / cancel bookkeeping or game control, never opens a menu item
   // a long-press that showed the tip must not also pick the slot (switch / open menu)
-  doc.addEventListener('click', (e) => { if (longShown && icOf(e)) { e.stopPropagation(); e.preventDefault(); } }, true);
+  doc.addEventListener('click', (e) => { if (longShown && icOf(e)) { e.stopPropagation(); e.preventDefault(); } }, true); // touch-ok: capture guard that only swallows a click after a long-press
   doc.addEventListener('contextmenu', (e) => { if (icOf(e)) e.preventDefault(); }, true);
 }

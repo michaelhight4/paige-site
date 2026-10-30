@@ -4,6 +4,7 @@
 // element full screen, so the tap shows display.iosHint (Add to Home Screen; the manifest's display fullscreen/standalone and
 // the apple-mobile-web-app-capable meta then give a bar-free launch). The chip hides while in full screen.
 import { startPlatform } from './platform.js?v=v0.2.99-alpha';
+import { onTap } from './shared/tap_guard.js?v=v0.2.99-alpha';
 
 const doc = document, root = doc.documentElement;
 const fsElement = () => doc.fullscreenElement || doc.webkitFullscreenElement || null;
@@ -37,7 +38,7 @@ function iosHintOnce(text) {
   const msg = doc.createElement('span'); msg.textContent = text;
   const x = doc.createElement('button'); x.type = 'button'; x.textContent = '\u2715'; x.setAttribute('aria-label', 'Dismiss');
   const close = () => box.remove();
-  x.addEventListener('pointerup', (e) => { e.preventDefault(); e.stopPropagation(); close(); });
+  onTap(x, null, (e) => { e.preventDefault(); e.stopPropagation(); close(); }); // touch standard: tap release only
   x.addEventListener('pointerdown', (e) => e.stopPropagation()); // touch-ok: stopPropagation guard only
   box.append(msg, x); doc.body.appendChild(box);
   setTimeout(close, 12000);
@@ -50,7 +51,7 @@ startPlatform().then((p) => {
   const b = doc.createElement('button');
   b.id = 'fs-btn'; b.type = 'button'; b.textContent = '\u26F6'; b.setAttribute('aria-label', 'Full screen');
   const sync = () => { b.hidden = !!fsElement(); };
-  b.addEventListener('pointerup', (e) => {
+  onTap(b, null, (e) => { // touch standard: tap release only (a drag / hold never toggles full screen)
     e.preventDefault(); e.stopPropagation();
     if (canFullscreen()) enterFullscreen(); else hint(d.iosHint);
   });

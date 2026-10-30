@@ -61,7 +61,7 @@ export class Dialog {
     // v0.2.12 back arrow (Gary: stuck in the company inbox): top-right of the box on inbox / choice lists; same as B.
     this.back = el('button', 'dlg-back', this.box); this.back.type = 'button'; this.back.hidden = true; this.back.textContent = '\u2190'; this.back.setAttribute('aria-label', 'Back');
     const goBack = (e) => { e.preventDefault(); e.stopPropagation(); if (this.cur) this._tap = { b: true }; };
-    onTap(this.back, null, goBack, { stop: true }); this.back.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); });
+    onTap(this.back, null, goBack, { stop: true }); this.back.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); }); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     this.cur = null;
     this.shown = []; // every page shown (tests)
     root.ownerDocument?.defaultView?.addEventListener?.('resize', () => this._place());
