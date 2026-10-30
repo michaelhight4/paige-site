@@ -1,0 +1,12 @@
+{
+ "_note": "DRAFT by Text Bot. Overrides underground_quests.sq_ug_intern_memo.turn_in (300 gold + 1 tonic_large). Item name left to the reward pop-up: 'tonic' is on Gary's text blocklist.",
+ "underground_quests": {
+  "sq_ug_intern_memo": {
+   "turn_in": [
+    "Thanks. Did they say what\nrecalibration actually is?",
+    "No? Okay. Gold for the legwork,\nand a big restore flask for the team.",
+    "You can see the river from up there,\nright? Gran says it used to be higher."
+   ]
+  }
+ }
+}
