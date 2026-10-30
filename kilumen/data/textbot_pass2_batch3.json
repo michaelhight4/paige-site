@@ -1,0 +1,64 @@
+{
+ "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Same shape as textbot_pass2_batch2.json.",
+ "area_names": {
+  "cindervale_caldera_cave": "Ash Vent",
+  "lanternport_grotto_cave": "Lamp Loft",
+  "route_aurelith_saltmere_cave_w": "Salt Cellar",
+  "route_aurelith_saltmere_cave_m": "Gull Notch",
+  "route_aurelith_saltmere_cave_e": "Tide Loft"
+ },
+ "maps": {
+  "cindervale_caldera": {
+   "r9_ccp_stoker": {"name": "Brann",
+    "pages": ["The vent keeps my forge warm.\nYou keep me busy. Fair trade?"],
+    "battle_lost": ["Hot work. You out-heated me."],
+    "battle_won": ["Too much heat for your team.\nCool off and come back."],
+    "after": ["Drop off the ledge.\nMind the ash on the way down."]},
+   "r9_ccp_egg_kettle": {"pages": ["A kettle sits on a hot rock.\nIt's been boiling for years.", "Nobody knows who left it.\nNobody's brave enough to ask."]}
+  },
+  "cindervale": {
+   "r9_cvp_watcher": {"name": "Runa", "_name_note": "Renamed from Ilse: Ilse is already the Switchbacks warden.",
+    "pages": ["From up here I see the whole town.\nAnd now I see you."],
+    "battle_lost": ["You climbed through ash for that?\nRespect."],
+    "battle_won": ["The ash got in your eyes.\nTry again when it settles."],
+    "after": ["The ledge drops you right\ninto town."]},
+   "r9_cvp_egg_bell": {"pages": ["A soot-black bell in the wall.", "Ring it and the whole town\nlooks up. Better not."]}
+  },
+  "lanternport_grotto": {
+   "r9_lgp_lampwright": {"name": "Oona",
+    "pages": ["Every lamp in the harbor was lit\nfrom this loft. Want to see?"],
+    "battle_lost": ["Bright enough. You win."],
+    "battle_won": ["Lights out for your team.\nRest up and come back."],
+    "after": ["Hop down the ledge\nto the pools."]},
+   "r9_lgp_egg_wicks": {"pages": ["A jar of spare wicks,\nall labeled by year.", "One label just says: OOPS."]}
+  },
+  "lanternport": {
+   "r9_lpp_signaller": {"name": "Marit",
+    "pages": ["I flash the boats home from here.\nYou came the long way."],
+    "battle_lost": ["Signal received. You win."],
+    "battle_won": ["Message lost at sea.\nCome back when you're ready."],
+    "after": ["Drop off the ledge into town."]},
+   "r9_lpp_egg_mirror": {"pages": ["A cracked signal mirror.\nIt still flashes: HI.", "It only knows one word."]}
+  },
+  "route_aurelith_saltmere": {
+   "r9_rasp_saltpan": {"name": "Dagny",
+    "pages": ["I rake salt up here where the\nwind can't steal it. Battle?"],
+    "battle_lost": ["You raked me clean."],
+    "battle_won": ["Salt in the wound, sorry.\nRest your team and come back."],
+    "after": ["The ledge drops you back\non the trail."]},
+   "r9_rasp_egg_heap": {"pages": ["A salt castle with tiny salt flags.", "A sign on it says: DO NOT LICK."]},
+   "r9_rasp_gullkeeper": {"name": "Pell",
+    "pages": ["The gulls nest in this notch.\nThey let me stay. Will you?"],
+    "battle_lost": ["The gulls like you. So do I."],
+    "battle_won": ["The gulls are laughing.\nDon't take it personally."],
+    "after": ["Ledge down, and mind\nthe feathers."]},
+   "r9_rasp_egg_feathers": {"pages": ["A nest of odd feathers.", "One is blue, one is gold,\nand one is a pencil."]},
+   "r9_rasp_tidecaller": {"name": "Ottilie",
+    "pages": ["From up here I call the tides in.\nYou just walked in."],
+    "battle_lost": ["The tide turns your way."],
+    "battle_won": ["The tide went out on you.\nIt always comes back."],
+    "after": ["Drop down to the north field."]},
+   "r9_rasp_egg_shell": {"pages": ["A huge spiral shell.\nHold it to your ear.", "It hums the Saltmere song,\noff-key."]}
+  }
+ }
+}
