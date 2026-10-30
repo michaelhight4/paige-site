@@ -219,6 +219,21 @@ export function attachHallV2(scene, ui, pg) {
     if (now && !was) { scene.audio?.sfx?.('warp'); scene.toast?.(text('prism_open', ['The crystal door hums open.']).join(' ')); /* Text Bot key system_halls.prism_open */ }
     return { facing: 'URDL'[c.model.facing(i, nb)], open: now };
   };
+  /** F on a shut gate / crystal (tester Oct 30 2026, Tidewater: "F does nothing, no hint"): say which plate swaps it, and the
+   *  Master's wins so far. Text Bot keys system_halls.gate_hint_plate / gate_hint_crystal (DRAFT fallbacks). -> true if handled. */
+  hv.gateHint = (px, py, facing) => {
+    const c = hv.cur, m = mj(); if (!c || !m || scene.map?.json !== c.json) return false;
+    const d = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[facing]; if (!d) return false;
+    const x = px + d[0], y = py + d[1], ch = c.json.hall_v2.grid[y]?.[x];
+    if (!ch || !'abcd'.includes(ch) || c.model.open(x, y, c.bits) || scene.map?.npcAt?.(x, y)) return false;
+    const wins = syncWins(), need = needWins(m, hv.beatable[m.hall_v2.zone]);
+    const k = 'ab'.includes(ch) ? 'gate_hint_plate' : 'gate_hint_crystal';
+    const fb = 'ab'.includes(ch) ? ['This gate is shut. Step on a floor plate in this hall and it swaps. Hall wins: {wins} of {need}.']
+      : ['This crystal is shut. Step on a crystal plate in this hall and it swaps. Hall wins: {wins} of {need}.'];
+    const pages = fillv(text(k, fb), { wins, need, left: Math.max(0, need - wins) });
+    scene.log?.push({ tick: scene.tick, type: 'hall_gate_hint', at: [x, y], gate: ch, wins, need });
+    scene.script?.(async () => { await scene.say(pages, null); }); return true;
+  };
   if (typeof scene.interact === 'function') {
     const interact = scene.interact.bind(scene);
     scene.interact = (...a) => {
@@ -227,6 +242,7 @@ export function attachHallV2(scene, ui, pg) {
         const d = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[p.facing] || [0, 0];
         if (hv.turnPrism(p.x + d[0], p.y + d[1])) return;
       }
+      if (!scene.busy && c && p && hv.gateHint(p.x, p.y, p.facing)) return;
       return interact(...a);
     };
   }
