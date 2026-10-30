@@ -146,6 +146,14 @@ def frostspire_pass(j):
     item(j, 'fsp_shelf_tea', 35, 50, 'calm_tea', False, 'cliff shelf above the cave approach')
     item(j, 'fsp_shelf_pouch', 35, 53, 'coin_pouch_small', True, 'lip of the cliff shelf, by the drop')
 
+@recipe
+def lanternport_grotto(j):
+    # P1: a rock step (row 13, x4-10) under the west pool drops you to the mouth floor; the way back up is east of the
+    # middle pool (x14-20). The two chimneys pay: a satchel in the west one, a hidden pouch at the top of the east one.
+    ledge(j, 13, 4, 10, cave=True)
+    item(j, 'grotto_west_dust', 3, 4, 'crystal_dust', False, 'top of the west chimney')
+    item(j, 'grotto_east_pouch', 28, 4, 'coin_pouch_small', True, 'top of the east chimney')
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
