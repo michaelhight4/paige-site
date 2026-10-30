@@ -7,7 +7,7 @@
 // Depth pass (depth.js, Oct 22 2026): its cached static layer (object contact shadows + indoor wall-base shading) runs
 // right after ground/decoration, before the decals; the character contact shadows run after living `under`, just
 // before the first character. Both are under every character and over the floor.
-import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.95-alpha';
+import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.96-alpha';
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
 
@@ -175,6 +175,7 @@ export class Renderer {
     }
     if (!a.img) return;
     const k = a.sheetScale;
+    if (a.ride) return this.rider(v, a, sx, groundY, w, h, k); // Tideglide: Cal rides the lead Kilu, never swims
     if (a._swim) return this.swimmer(v, a, sx, groundY, w, h, k); // the pet swims too (Gary, Oct 30 2026)
     if (a.sq) { // creature motion (creature_idle.js): scale about the feet centre, whole art px only
       const q = a.sq, dw = Math.round(w * q.sx) * z, dh = Math.round(h * q.sy) * z;
@@ -183,6 +184,25 @@ export class Renderer {
     }
     ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k,
       sx + ((TILE - w) / 2) * z, groundY - (h + (a.lift || 0)) * z, w * z, h * z);
+  }
+
+  /** Riding on water (Tideglide, Gary Oct 30 2026): the mount (lead Kilu, 64 or 96 px cells) is drawn swimming - cut at its
+   *  waterline with the ripple ring - and Cal is drawn whole on its back, bobbing with it. No mount: Cal on the ring alone. */
+  rider(v, a, sx, groundY, w, h, k) {
+    const ctx = this.ctx, z = v.zoom, cx = Math.round(a.px / TILE), cy = Math.round(a.py / TILE);
+    const bob = Math.round(Math.sin((v.ms || 0) / 520 + cx * 1.7 + cy * 0.9) * 1.5);
+    let seat = groundY - (SWIM.CLINE - 6) * z + bob * z; // no mount: feet just above the ring
+    const m = a.mount;
+    if (m?.img) {
+      const mw = m.w, msx = (m.px - v.cam.x) * z;
+      this.swimmer(v, m, msx, groundY, mw, m.h, m.sheetScale || 1);
+      const vis = Math.max(8, m.h - SWIM.CLINE - artTop(m.img, m.col, m.row, mw, m.sheetScale || 1)); // the mount's art above the water
+      seat = groundY - SWIM.CLINE * z + bob * z - Math.round(Math.min(vis * (a.row === 0 || a.row === 3 ? 0.45 : 0.55), a.row === 0 || a.row === 3 ? 18 : 22)) * z; // on its back (tall heads/horns don't lift the seat)
+      ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k, sx + ((TILE - w) / 2) * z, seat - h * z, w * z, h * z);
+      return;
+    }
+    this.swimmer(v, { ...a, img: null }, sx, groundY, w, h, k);
+    ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k, sx + ((TILE - w) / 2) * z, seat - h * z, w * z, h * z);
   }
 
   /** Swimming character: the body is cropped at the waterline (legs and hips under water), a gentle bob, a foam ring
@@ -201,7 +221,7 @@ export class Renderer {
     const creature = h < HUMAN_H || !!a.follower, line = creature ? SWIM.CLINE : SWIM.LINE, crop = creature ? SWIM.CLINE : SWIM.CROP;
     const water = groundY - line * z + bob * z;               // waterline (screen px), y=66 in a human cell / y=44 in a creature cell
     const vis = h - crop, top = water - vis * z;
-    ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, vis * k, dx, top, w * z, vis * z);
+    if (a.img) ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, vis * k, dx, top, w * z, vis * z);
     // Gary's swim reference (Oct 30 2026): thin white ripple rings spreading out from the waist, plus a few water glints
     const mx = sx + (TILE / 2) * z, t = (v.ms || 0) / 1000 + cx * 0.37 + cy * 0.21;
     const ring = (rx, ry) => {
@@ -227,6 +247,21 @@ export class Renderer {
 
 const SWIM = Object.freeze({ LINE: 30, CROP: 44, CLINE: 20, RX: 20, RY: 5, RINGS: 2, PERIOD: 1.8, SPREAD: 10, FOAM: '#ffffff' }); // LINE 30 = cell y 66
 /** Water collision codes (3 water, 11 deep / sea water). */
+const _tops = new WeakMap();
+/** First opaque art row (native px) in one sheet cell; cached. Lets the rider sit on any Kilu, 64 or 96 px cells. */
+export function artTop(img, col, row, cell, k = 1) {
+  let per = _tops.get(img); if (!per) _tops.set(img, (per = new Map()));
+  const key = col + ',' + row; if (per.has(key)) return per.get(key);
+  let top = Math.round(cell * 0.3);
+  try {
+    const c = document.createElement('canvas'), n = Math.round(cell * k); c.width = c.height = n;
+    const g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(img, col * n, row * n, n, n, 0, 0, n, n);
+    const d = g.getImageData(0, 0, n, n).data;
+    outer: for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (d[(y * n + x) * 4 + 3] > 40) { top = Math.floor(y / k); break outer; }
+  } catch { /* tainted or no DOM: keep the estimate */ }
+  per.set(key, top); return top;
+}
+
 export function onWater(v, a) {
   const m = v.map; if (!m?.code || a.px == null) return false;
   const c = m.code(Math.round(a.px / TILE), Math.round(a.py / TILE)); return c === 3 || c === 11;
