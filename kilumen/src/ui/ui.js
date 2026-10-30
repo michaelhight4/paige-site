@@ -485,6 +485,11 @@ export class GameUI {
     this.prompt.classList.toggle('key', !pad);
     this.prompt.querySelector('.g').textContent = glyphA; this.prompt.querySelector('.t').textContent = verb;
     this.prompt.style.left = `${Math.round(x)}px`; this.prompt.style.top = `${Math.round(y)}px`; show(true);
+    // QA Oct 30 2026: never sit on the quest banner (#pg-quest-hud, top centre); flip the prompt under the target tile instead.
+    const qh = document.getElementById('pg-quest-hud'), qr = qh && qh.offsetParent !== null ? qh.getBoundingClientRect() : null, pr = this.prompt.getBoundingClientRect();
+    if (qr && qr.width && pr.left < qr.right && pr.right > qr.left && pr.top < qr.bottom + 4 && pr.bottom > qr.top - 4) {
+      const yb = cr.top + ((hit[1] + 1) * ts - s._cam.y) * z * k + 4 + pr.height; this.prompt.style.top = `${Math.round(Math.max(yb, qr.bottom + 6 + pr.height))}px`;
+    }
   }
 
   // ---------- touch control press feedback (visual only; input.js still owns the input) ----------

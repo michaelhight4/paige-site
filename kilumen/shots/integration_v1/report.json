@@ -34,7 +34,7 @@
     "overworld_sheet": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet.png",
     "overworld_sheet_2x": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet_2x.png",
     "overworld_sheet_3x": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet_3x.png",
-    "overworld_frames_dir": "npcs/tr_gymtrainer_m/overworld/tr_gymtrainer_m_chibi/",
+    "overworld_frames_dir": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi/",
     "trainer_64x128": "npcs/tr_master_cindervale_m/trainer/tr_master_cindervale_m_trainer_64x128.png",
     "portraits": {
      "angry": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_stern.png",
@@ -61,6 +61,70 @@
    "pc_12_side_salt_quiz.png",
    "pc_13_hall_cindervale_entry.png",
    "pc_14_hall_cindervale_master.png"
+  ]
+ },
+ {
+  "plat": "phone",
+  "errors": [],
+  "checks": {
+   "modules": {
+    "region9": true,
+    "side": true,
+    "seaport": true,
+    "rtxMode": "off"
+   },
+   "warp:r9_switchbacks": true,
+   "warp:r9_cloudway": true,
+   "warp:gullhaven_sea": true,
+   "warp:gullhaven_cave_west": true,
+   "warp:gullhaven_cave_east": true,
+   "warp:gullhaven": true,
+   "warp:gullhaven_lagoon": true,
+   "derbyBefore": {
+    "run": true,
+    "catches": null
+   },
+   "derbyAfter": {
+    "runOpen": false
+   },
+   "warp:brookhollow": true,
+   "meritOpen": true,
+   "warp:fernwick": true,
+   "warp:saltmere": true,
+   "warp:cindervale_hall_int": true,
+   "masterSprite": {
+    "sprite_id": "tr_master_cindervale_m",
+    "class": "Hall Master",
+    "overworld_sheet": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet.png",
+    "overworld_sheet_2x": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet_2x.png",
+    "overworld_sheet_3x": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi_sheet_3x.png",
+    "overworld_frames_dir": "npcs/tr_master_cindervale_m/overworld/tr_master_cindervale_m_chibi/",
+    "trainer_64x128": "npcs/tr_master_cindervale_m/trainer/tr_master_cindervale_m_trainer_64x128.png",
+    "portraits": {
+     "angry": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_stern.png",
+     "happy": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_grin.png",
+     "neutral": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_neutral.png",
+     "grin": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_grin.png",
+     "stern": "npcs/tr_master_cindervale_m/portraits/tr_master_cindervale_m_stern.png"
+    },
+    "note": "Character models master-overworlds (2b98420b); angry->stern, happy->grin"
+   }
+  },
+  "shots": [
+   "phone_01_wellspire_switchbacks.png",
+   "phone_02_wellspire_cloudway.png",
+   "phone_03_gullhaven_sea_maze_north.png",
+   "phone_04_gullhaven_sea_swimmers.png",
+   "phone_05_gullhaven_cave_west.png",
+   "phone_06_gullhaven_cave_east.png",
+   "phone_07_gullhaven_town.png",
+   "phone_08_derby_hud.png",
+   "phone_09_derby_scoring.png",
+   "phone_10_merit_shop_today.png",
+   "phone_11_side_fern_box_intro.png",
+   "phone_12_side_salt_quiz.png",
+   "phone_13_hall_cindervale_entry.png",
+   "phone_14_hall_cindervale_master.png"
   ]
  }
 ]

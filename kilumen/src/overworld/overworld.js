@@ -16,7 +16,7 @@ import { DEV } from '../dev/runtime.js?v=v0.2.95-alpha';
 import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.95-alpha';
 import { promptScheme, promptVars } from '../platform.js?v=v0.2.95-alpha';
 import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.95-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit, withArenaArt } from './tileset.js?v=v0.2.95-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit, withArenaArt, prefetchTilesetJson } from './tileset.js?v=v0.2.95-alpha';
 import { IxLight, ixFlags } from './ixlight.js?v=v0.2.95-alpha';
 import { Renderer } from './renderer.js?v=v0.2.95-alpha';
 import { Wind } from './wind.js?v=v0.2.95-alpha'; // world wind: tree sway, grass ripple, flower bob (draw-time only)
@@ -269,7 +269,7 @@ export class Overworld {
         }
         c.npcs = (c.npcs || []).filter((d) => d.kind !== 'spawn'); // house_2f player_start is a spawn, not a person
         const m = new GameMap(c);
-        if (!this.tilesetIndex) { const u = resolveUrl(m.tilesetRef, this.mapUrl(name)); this.tilesetIndex = indexTileset(await withArenaArt(await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(u), u), u), u), u)); }
+        if (!this.tilesetIndex) { const u = resolveUrl(m.tilesetRef, this.mapUrl(name)); prefetchTilesetJson(u); { const zw = this.zoom === 2 || this.zoom === 3 ? this.zoom : 1; if (zw !== 1) prefetchTilesetJson(resolveUrl(tilesetFileForZoom(m.tilesetRef, zw), this.mapUrl(name))); } this.tilesetIndex = indexTileset(await withArenaArt(await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(u), u), u), u), u)); }
         return m.attachTileset(this.tilesetIndex.byId);
       }));
     }

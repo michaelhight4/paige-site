@@ -12,6 +12,14 @@ export function tilesetFileForZoom(baseRef, zoom) {
   return baseRef.replace(/tileset(_\dx)?\.json$/, 'tileset.json');
 }
 
+/** Boot stall fix (Oct 30 2026): the base JSON and its kits were fetched one after another (base -> ix2 -> hallanim -> hallart
+ *  -> arena, ~3 s each on a slow link, twice: the 1x index then the zoom set), so the bar sat near 70% for 15 s+. loadJson
+ *  caches promises, so firing every fetch up front makes the chained awaits below resolve from the cache. */
+export function prefetchTilesetJson(url) {
+  const kits = ['tileset_arena.json', 'tileset_hallart.json', 'tileset_hallanim.json', ...(ixFlags().ix2 ? ['tileset_ix2.json'] : [])];
+  for (const u of [url, ...kits.map((k) => resolveUrl(k, url))]) loadJson(u).catch(() => {});
+}
+
 /** Index tileset JSON (pure; also used by Node tests). */
 export function indexTileset(ts) {
   const byId = new Map();
@@ -54,6 +62,7 @@ export async function withArenaArt(ts, url) {
 }
 
 export async function loadTileset(url) {
+  prefetchTilesetJson(url);
   const ts = await withArenaArt(await withHallArt(await withHallAnim(await withIx2Kit(await loadJson(url), url), url), url), url); // arena art, hall animated tiles (flag hallanim, dev default on)
   await withFurnitureAnim(ts, url);
   const idx = indexTileset(ts);

@@ -47,8 +47,8 @@ try {
       });
       // Gullhaven
       await step('gullhaven', async () => {
-        await warp('gullhaven_sea', 26, 6); await shot('gullhaven_sea_maze_north');
-        await warp('gullhaven_sea', 20, 30); await shot('gullhaven_sea_swimmers');
+        await warp('gullhaven_sea', 26, 8); await shot('gullhaven_sea_maze_north');
+        await warp('gullhaven_sea', 22, 32); await shot('gullhaven_sea_swimmers');
         await warp('gullhaven_cave_west', 4, 22, 'up'); await shot('gullhaven_cave_west');
         await warp('gullhaven_cave_east', 4, 22, 'up'); await shot('gullhaven_cave_east');
         await warp('gullhaven', 19, 12); await shot('gullhaven_town');

@@ -91,6 +91,8 @@ export function attachGarden(scene, { sys, sstate }) {
   const installScreen = (U) => {
     if (!U || U.scr_merit_shop) return;
     U.scr_merit_shop = function (arg = {}) {
+      // QA Oct 30 2026 (Director): labels read too small; bigger tabs, rows, price chips and side notes on this screen only.
+      if (typeof document !== 'undefined' && !document.getElementById('merit-shop-css')) { const st = document.createElement('style'); st.id = 'merit-shop-css'; st.textContent = '.merit-shop .ui-tab{font-size:1.25em;font-weight:800}.merit-shop .ui-row{font-size:1.15em}.merit-shop .price{font-size:1.1em}.merit-shop #meritinfo{font-size:1.1em}.merit-shop #meritinfo .sys-small{font-size:.95em}'; document.head.appendChild(st); }
       let mode = 0;
       const list = () => (mode === 0 ? dailyStock(day()) : MERIT_FIXED).map((x) => ({ ...x, name: nm(x.id), owned: bag().isKey?.(x.id) && bag().count(x.id) > 0 }));
       const desc = (id) => (CANS[id] ? gt(`merit.shop.desc.${id}`) : SEED_TO_CROP[id] ? gt('merit.shop.desc.seeds', { days: CROPS[SEED_TO_CROP[id]].days }) : '');
@@ -100,10 +102,10 @@ export function attachGarden(scene, { sys, sstate }) {
         chips: () => `<span class="ui-chip merit-pts" data-aa="merit-pts">★ ${esc(gt('merit.shop.points', { points: pts() }))}</span>`,
         render: () => {
           const l = list();
-          return `<div class="ui-tabs"><div class="ui-tab ${mode === 0 ? 'on' : ''}" data-tab="0">${esc(gt('merit.shop.tab_today'))}</div><div class="ui-tab ${mode === 1 ? 'on' : ''}" data-tab="1">${esc(gt('merit.shop.tab_always'))}</div></div>
+          return `<div class="merit-shop" style="display:contents"><div class="ui-tabs"><div class="ui-tab ${mode === 0 ? 'on' : ''}" data-tab="0">${esc(gt('merit.shop.tab_today'))}</div><div class="ui-tab ${mode === 1 ? 'on' : ''}" data-tab="1">${esc(gt('merit.shop.tab_always'))}</div></div>
           <div class="ui-body sys-split"><div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="shop" data-pat="awning" data-scroll>
             <ul class="ui-list" data-aa="merit-shop-${mode}">${l.map((it, i) => `<li class="ui-row" data-i="${i}" data-k="${esc(it.id)}"><span class="grow">${esc(it.name)}</span>${it.owned ? `<span class="soft">${esc(gt('merit.shop.owned'))}</span>` : `<span class="price">★ ${it.price}</span>`}</li>`).join('')}</ul></div>
-            <div class="plate ui-pad sys-side" id="meritinfo">${info(l[scr.sel])}</div></div>`;
+            <div class="plate ui-pad sys-side" id="meritinfo">${info(l[scr.sel])}</div></div></div>`;
         },
         onTab: (t) => { mode = +t; scr.sel = 0; U.rerender(); },
         onLR: () => scr.onTab((mode + 1) % 2),
