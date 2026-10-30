@@ -1,0 +1,19 @@
+[
+ {
+  "plat": "pc",
+  "errors": [],
+  "shots": [
+   "pc_r9_01_r9_riverbed_bridge_sign.png",
+   "pc_r9_02_r9_cairnfold_goat_sign.png",
+   "pc_r9_03_r9_cairnfold_lodge_sign.png",
+   "pc_r9_04_r9_switchbacks_sign.png",
+   "pc_r9_05_r9_switchbacks_marker.png",
+   "pc_r9_06_fin_riverbend_post.png",
+   "pc_r9_07_fin_riverbend_marker.png",
+   "pc_r9_08_fin_camp_sign.png",
+   "pc_r9_09_fin_camp_bench.png",
+   "pc_r9_10_lab1_window_storm.png",
+   "pc_r9_11_rb_hiker_talk.png"
+  ]
+ }
+]
