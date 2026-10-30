@@ -20654,21 +20654,21 @@
    },
    "r9_cairnfold_sign": {
     "pages": [
-     "CAIRNFOLD",
-     "Revival Tech branch · RT Stores"
+     "CAIRNFOLD\nHerders, hay and bells.",
+     "Please close every gate behind you.\nThe herd reads signs better than you."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "CAIRNFOLD",
-       "Revival Tech branch · RT Stores"
+       "CAIRNFOLD\nHerders, hay and bells.",
+       "Please close every gate behind you.\nThe herd reads signs better than you."
       ]
      }
     ],
-    "status": "PLACEHOLDER",
-    "note": "PLACEHOLDER (Text Bot): maps.r9_cairnfold.r9_cairnfold_sign"
+    "status": "DRAFT",
+    "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026"
    }
   },
   "r9_switchbacks": {
@@ -21444,45 +21444,46 @@
   "heal_cairnfold": {
    "heal_cairnfold_carer": {
     "pages": [
-     "Welcome to Revival Tech, Cairnfold branch.",
-     "Want me to rest your team?"
+     "Welcome to Revival Tech, Cairnfold.\nMind the bells, they're everywhere.",
+     "Your team looks wind-bitten.\nWant me to rest them?"
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Welcome to Revival Tech, Cairnfold branch.",
-       "Want me to rest your team?"
+       "Welcome to Revival Tech, Cairnfold.\nMind the bells, they're everywhere.",
+       "Your team looks wind-bitten.\nWant me to rest them?"
       ]
      }
     ],
-    "status": "PLACEHOLDER",
-    "note": "PLACEHOLDER (Text Bot): maps.heal_cairnfold.heal_cairnfold_carer",
+    "status": "DRAFT",
+    "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026",
     "after_heal": [
-     "All rested. Mind the ice on the way out."
+     "All rested. Warm as a hayloft.",
+     "Come back before the next climb.\nYou will need to."
     ],
     "declined": [
-     "Okay. The bench by the heater is free."
+     "Suit yourself. The mountain\nwon't go easy on tired legs."
     ]
    },
    "heal_cairnfold_technician": {
     "pages": [
-     "Cold crystals crack if you polish them too fast.",
-     "So I go slow."
+     "Cold makes the crystals sluggish.\nI keep them by the stove.",
+     "Head office calls it a fire risk.\nI call it Tuesday."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Cold crystals crack if you polish them too fast.",
-       "So I go slow."
+       "Cold makes the crystals sluggish.\nI keep them by the stove.",
+       "Head office calls it a fire risk.\nI call it Tuesday."
       ]
      }
     ],
-    "status": "PLACEHOLDER",
-    "note": "PLACEHOLDER (Text Bot): maps.heal_cairnfold.heal_cairnfold_technician"
+    "status": "DRAFT",
+    "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026"
    },
    "heal_cairnfold_storage_user": {
     "pages": [
@@ -21688,22 +21689,7 @@
      }
     ]
    },
-   "area_name": {
-    "pages": [
-     "Revival Tech, Cairnfold branch."
-    ],
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "Revival Tech, Cairnfold branch."
-      ]
-     }
-    ],
-    "status": "PLACEHOLDER",
-    "note": "PLACEHOLDER (Text Bot): maps.heal_cairnfold.area_name"
-   },
+   "area_name": "Revival Tech, Cairnfold",
    "heal_cairnfold_poster_safety": {
     "pages": [
      "RITA POSTER: \"Wrap up warm!\nYour team feels the cold too!\"",
@@ -21864,21 +21850,19 @@
   "shop_cairnfold": {
    "shop_cairnfold_clerk": {
     "pages": [
-     "RT Stores, Cairnfold. Last shop before the summit.",
-     "What do you need?"
+     "Rope, wool and anything warm.\nIf it's not warm, we don't stock it."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "RT Stores, Cairnfold. Last shop before the summit.",
-       "What do you need?"
+       "Rope, wool and anything warm.\nIf it's not warm, we don't stock it."
       ]
      }
     ],
-    "status": "PLACEHOLDER",
-    "note": "PLACEHOLDER (Text Bot): maps.shop_cairnfold.shop_cairnfold_clerk",
+    "status": "DRAFT",
+    "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026",
     "kind": "clerk",
     "variant_of": "clerk"
    }
@@ -23702,10 +23686,10 @@
   },
   "first_visit": {
    "pages": [
-    "Welcome to RT Supply. First time in this branch? Have a look."
+    "New face! Have a look around.\nPrices are on the shelf tags."
    ],
-   "status": "PLACEHOLDER",
-   "note": "Text Bot: clerk greeting on the first visit to each shop (per map + town); later visits use the clerk lines (clerk_regular etc.)"
+   "status": "DRAFT",
+   "note": "Text Bot textbot_cairnfold_town.json Oct 30 2026"
   }
  },
  "system_trainers": {
