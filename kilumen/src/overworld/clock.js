@@ -18,7 +18,7 @@ export function phaseForHour(h) {
 export const PHASE_HOUR = { dawn: 6, day: 12, dusk: 18, night: 22 };
 
 /** Interiors + caves: the single source of truth for "no outdoor time of day" (maps carry no indoor flag). */
-export const INDOOR_OR_CAVE = /_int$|^(house_|greystone|home_|heal_|lab_|rt_|mart_|station_|hall_)/;
+export const INDOOR_OR_CAVE = /_int$|^(house_|greystone|home_|heal_|lab_|rt_|mart_|station_|hall_|fin_past_wlab_)/; // fin_past_wlab_: WD flashback lab rooms are interiors (Oct 30: were graded by the outdoor clock)
 export function isIndoor(mapName) { return INDOOR_OR_CAVE.test(mapName || ''); }
 
 /**

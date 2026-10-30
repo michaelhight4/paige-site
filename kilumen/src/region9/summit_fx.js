@@ -24,14 +24,19 @@ export function makeSummitFx(scene) {
       c.drawImage(img, col * FW, row * FH, FW, FH, Math.round(sx), Math.round(sy), FW * z, FH * z);
     });
   };
-  fx.breakTank = async () => { if (!scene.map?.json?.lab) return; breaking = true; lab.broken = false; lab.drain = 0;
+  fx.breakTank = async () => {
+    if (!scene.map?.json?.lab) { // WD lab room 10: tile tank; the glass swaps to wl_bigcrystal_broken_* (flag_swaps on fin_released) at the flash
+      if (!meta()) return; breaking = true;
+      try { await fx.shake(500, 4); scene.setFlag?.('fin_released'); await fx.flashOut('190,250,255', 120, 500); await fx.shake(1200, 6); } finally { breaking = false; }
+      return;
+    } breaking = true; lab.broken = false; lab.drain = 0;
     try { await fx.shake(500, 4); lab.releaseT = typeof performance !== 'undefined' ? performance.now() : Date.now(); lab.broken = true; await fx.flashOut('190,250,255', 120, 500); const sh = fx.shake(1200, 6);
       await tween(1800, (e) => { lab.drain = e; }); await sh; } finally { breaking = false; } };
   fx.rowFor = () => {
     if (fx.row != null) return fx.row;
     const f = scene.flags, n = scene.map?.name;
     if (n === 'fin_lab1_now') return f.has('fin_woke_home') ? -1 : f.has('fin_timeslip') ? 1 : 0;
-    if (n === 'fin_past_enclosure') return f.has('fin_guardian_beaten') ? -1 : f.has('fin_released') || lab.broken ? 2 : 0;
+    if (n === 'fin_past_enclosure' || n === 'fin_past_wlab_10_ondravel') return f.has('fin_guardian_beaten') ? -1 : f.has('fin_released') || lab.broken ? 2 : 0;
     return -1;
   };
   fx.centre = () => { const o = meta(); return o && { x: o.x * T + T / 2, y: (o.y + 1) * T - FH / 2 }; };

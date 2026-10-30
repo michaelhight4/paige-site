@@ -126,4 +126,9 @@ export const FB2 = {
   'summit.camp.ft_lorcan': ['Lorcan, Team Moraine: My map ends at this camp. Past here, the lines will not stay put.'],
   'summit.camp_supplies': ['Crates stamped RT FIELD SUPPLY. Rope, cocoa, spare batteries. Someone packed for a long stay.'],
   'summit.camp_mast': ['A small weather mast. The needle points at the spire, whichever way the wind blows.'],
+  // WD lab (Oct 30): no Text Bot line yet for these two (flagged). Coder DRAFT placeholders.
+  'fin.wlab.fin_wlab_tech_14.intro': ['Core Tech: The catwalk is shut while the helix runs hot. Step back.'],
+  'fin.wlab.fin_wlab_tech_14.after': ['Core Tech: Listen to it. That note is coming from the tank, not the core.'],
+  'fin.wlab.fin_wlab_tech_15.intro': ['Observer: Nobody comes up here during Test 7. Who signed you in?'],
+  'fin.wlab.fin_wlab_tech_15.after': ['Observer: The river looks close from this window. Closer than it used to.'],
 };

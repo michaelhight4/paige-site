@@ -23,7 +23,7 @@ const getPath = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
 export const WELLSPIRE_OPTS = { collapseShown: false, dreamVariant: true, coraliePresent: true };
 export const FLASHBACK = {
   flag: 'wellspire_flashback_due', done: 'wellspire_flashback_done',
-  to: { map: 'fin_past_lab1_f1', x: 11, y: 9, facing: 'up' },
+  to: { map: 'fin_past_wlab_01_entry', x: 5, y: 11, facing: 'up' }, // WD lab (Oct 30): was fin_past_lab1_f1 (11,9)
   home: { map: 'house_2f', x: 8, y: 4, facing: 'down' }, // the player's bed upstairs
   after: null, // Q-W14: e.g. async (ctx) => ctx.say('fin.flashback.after', ctx.narr)
 };
@@ -36,11 +36,20 @@ export const CORALIE_COVE = { map: 'tidewater_coast', x: 44, y: 33, r: 4, flag: 
 export const R9 = {
   ending1: ['ending1_done', 'finale_done'], courierMaps: ['brookhollow', 'house_1f'],
   courierFlags: ['courier_delivered', 'got_team_postcard', 'read_ho_letter', 'got_nan_thermos', 'r9_unlocked', 'skylift_upper_open'],
-  topLanding: { map: 'fin_past_lab1_f4', x: 21, y: 1, facing: 'down' },
+  topLanding: { map: 'fin_past_wlab_09_observation', x: 11, y: 3, facing: 'down' }, // WD lab: in front of room 10's door (was fin_past_lab1_f4 21,1)
+  guardianMap: 'fin_past_wlab_10_ondravel', // Ondravel's phase teams key here (was fin_past_enclosure)
   phases: ['fin_ondravel_p1', 'fin_ondravel_p2', 'fin_ondravel_p3'],
   liftDoor: { map: 'r9_cairnfold', x: 26, y: 32 },
 };
 const def = (k) => `defeated:${k}`;
+/** WD flashback lab (fin_past_wlab_01..10): each forward door opens once that room's trainers are beaten (sight lines don't fire
+ *  without a Text Bot battle_lost entry, so the gate is the real lock). */
+export const WLAB_MAPS = ['fin_past_wlab_01_entry', 'fin_past_wlab_02_medical', 'fin_past_wlab_03_control', 'fin_past_wlab_04_tanks', 'fin_past_wlab_05_amber',
+  'fin_past_wlab_06_growth', 'fin_past_wlab_07_vats', 'fin_past_wlab_08_core', 'fin_past_wlab_09_observation', 'fin_past_wlab_10_ondravel'];
+export const WLAB_TRAINERS = [['fin_wlab_tech_1'], ['fin_wlab_tech_2'], ['fin_wlab_tech_3', 'fin_wlab_tech_4'], ['fin_wlab_tech_5', 'fin_wlab_tech_6'],
+  ['fin_wlab_tech_7', 'fin_wlab_tech_8'], ['fin_wlab_tech_9', 'fin_wlab_tech_10'], ['fin_wlab_tech_11', 'fin_wlab_tech_12'], ['fin_wlab_tech_13', 'fin_wlab_tech_14'],
+  ['fin_wlab_tech_15', 'fin_wlab_chief'], []];
+const WLAB_GATES = Object.fromEntries(WLAB_MAPS.slice(0, -1).map((m, i) => [`${m}>${WLAB_MAPS[i + 1]}`, (f, s) => WLAB_TRAINERS[i].every((id) => !!s[def(`${m}.${id}`)])]));
 /** Up-warps that stay shut: "from>to" -> test(flags, seen). Down / back warps are never gated. */
 export const WARP_GATES = {
   'fin_lab1_now_f1>fin_lab1_now_f2': (f, s) => !!s[def('fin_lab1_now_f1.r9_spire_keeper_1')],
@@ -52,6 +61,7 @@ export const WARP_GATES = {
   'fin_past_lab1_f2>fin_past_lab1_f3': (f) => f.has('fin_spire_floor_2'),
   'fin_past_lab1_f3>fin_past_lab1_f4': (f) => f.has('fin_spire_floor_3'),
   'fin_past_lab1_f4>fin_past_enclosure': (f) => f.has('fin_spire_floor_4'),
+  ...WLAB_GATES,
 };
 export const warpBlockedFor = (from, to, flags, seen = {}) => { const g = WARP_GATES[`${from}>${to}`]; return !!g && !g(flags, seen); };
 export const courierDue = (flags, mapName) => R9.courierMaps.includes(mapName) && R9.ending1.some((f) => flags.has(f)) && !flags.has('courier_delivered');
@@ -88,6 +98,8 @@ export const TALK = {
 export const LAB_IDS = ['fin_enc_tech_1', 'fin_enc_tech_2', 'fin_enc_hazmat_1', 'fin_enc_hazmat_2', 'fin_enc_hazmat_3', 'fin_enc_tech_3', 'fin_enc_tech_4',
   'fin_enc_ctrl_1', 'fin_enc_ctrl_2', 'fin_enc_lead', 'fin_enc_tech_5', 'fin_enc_entry_1', 'fin_enc_entry_2'];
 for (const id of LAB_IDS) TALK[id] = { intro: `fin.enc.${id}.intro`, after: `fin.enc.${id}.after`, name: LAB_NAMES[id] };
+for (const id of WLAB_TRAINERS.flat()) TALK[id] = { intro: `fin.wlab.${id}.intro`, after: `fin.wlab.${id}.after`, name: LAB_NAMES[id] || 'Lab Tech' };
+TALK.fin_wlab_chief.flag = 'fin_enc_lead_beaten'; // the observer chief unlocks Ondravel's tank, as fin_enc_lead did
 Object.assign(TALK.fin_enc_lead, { flag: 'fin_enc_lead_beaten', name: LAB_NAMES.fin_enc_lead || 'Lead Tech' });
 /** Wellspire v2: every present-day trainer is another RT field research team (names / classes on the map npcs,
  *  tools/wellspire/field_teams.py). Lines: r9.ft.<id>.intro / .after. */
@@ -191,7 +203,7 @@ export function attachRegion9(scene, { systems } = {}) {
     await say('fin.released', narr);
     for (let i = 0; i < R9.phases.length; i++) {
       await say(`fin.battle.phase_${i + 1}`, narr);
-      const won = scene.hooks?.onBattle ? (await scene.hooks.onBattle({ map: 'fin_past_enclosure', id: R9.phases[i] })) !== false : true;
+      const won = scene.hooks?.onBattle ? (await scene.hooks.onBattle({ map: R9.guardianMap, id: R9.phases[i] })) !== false : true;
       scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: R9.phases[i], won });
       if (!won) { heal(); await say('fin.battle.lost', narr); await warp(R9.topLanding); return false; }
       heal(); // between phases: the light keeps you standing

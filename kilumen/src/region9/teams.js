@@ -63,6 +63,9 @@ export const WELLSPIRE_TEAMS = {
   'fin_past_enclosure.fin_ondravel_p1': [{ species: 'ondravel', level: 70 }],
   'fin_past_enclosure.fin_ondravel_p2': [{ species: 'ondravel', level: 72 }],
   'fin_past_enclosure.fin_ondravel_p3': [{ species: 'ondravel', level: 75 }],
+  'fin_past_wlab_10_ondravel.fin_ondravel_p1': [{ species: 'ondravel', level: 70 }], // WD lab room 10 (R9.guardianMap)
+  'fin_past_wlab_10_ondravel.fin_ondravel_p2': [{ species: 'ondravel', level: 72 }],
+  'fin_past_wlab_10_ondravel.fin_ondravel_p3': [{ species: 'ondravel', level: 75 }],
   // Wellspire rebellion flashback lab (wd/wellspire-lab, tools/wellspire_lab/build_lab_maps.py)
   'fin_past_wlab_01_entry.fin_wlab_tech_1': T(67, 'ingotitan', 'geodurchin'),
   'fin_past_wlab_02_medical.fin_wlab_tech_2': T(67, 'glassvine', 'mirrorkin'),

@@ -396,6 +396,9 @@ def main(check_only=False):
             ox = next(x for x in range(B['W']) if R['rows'][3][x] == 'O'); oy = 3
             j['r9_enclosure'] = True; j['tint'] = {'color': '#8a50ff', 'alpha': 0.14}
             j['ondravel'] = {'x': ox + 2, 'y': oy + 3, 'w': 4, 'h': 4, 'sheet': 'art/characters/pixel/creatures/ondravel/overworld/ondravel_big_sheet.png'}
+            # broken-glass tank once Ondravel is out (Coder, Oct 30 2026): every 6x5 cell swaps to wl_bigcrystal_broken_*
+            j['flag_swaps'] = [{'x': ox + cx, 'y': oy + cy, 'layer': 'decoration', 'before': f'wl_bigcrystal_{cx}_{cy}', 'after': f'wl_bigcrystal_broken_{cx}_{cy}',
+                                'flag': 'fin_released'} for cy in range(5) for cx in range(6)]
             j['interact_spots'] = [{'id': 'fin_past_dome', 'kind': 'prop', 'x': ox + 2, 'y': oy + 4, 'stand': [ox + 2, oy + 5], 'face': 'up', 'region9': True},
                                    {'id': 'fin_past_logbook', 'kind': 'prop', 'x': 3, 'y': 9, 'stand': [3, 10], 'face': 'up', 'region9': True}]
             for s in j['interact_spots']:

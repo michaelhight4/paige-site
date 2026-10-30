@@ -81,7 +81,7 @@ test('wellspire: Ondravel loss heals and returns to the top landing; win runs En
   const s = mock(['fin_timeslip', 'fin_spire_floor_4']); const api = R9.attachRegion9(s);
   let n = 0; s.hooks.onBattle = async () => (++n !== 2); // lose phase 2 once
   assert.equal(await api.guardian(), false);
-  assert.deepEqual([s.warps.at(-1).map, s.warps.at(-1).x, s.warps.at(-1).y], ['fin_past_lab1_f4', 21, 1]);
+  assert.deepEqual([s.warps.at(-1).map, s.warps.at(-1).x, s.warps.at(-1).y], ['fin_past_wlab_09_observation', 11, 3]);
   assert.ok(s.healed >= 1 && s.flags.has('fin_released') && !s.flags.has('fin_guardian_beaten'));
   const order = []; const add = s.setFlag.bind(s); s.setFlag = (f, on) => { order.push(f); add(f, on); };
   assert.equal(await api.guardian(), true);
@@ -89,7 +89,7 @@ test('wellspire: Ondravel loss heals and returns to the top landing; win runs En
   assert.ok(s.flags.has('spring_running'));
   // Gary Q-W14 (11:09 PM CT): flashback, home, then the RT report (no Lantern Rest arrival)
   // story_beats.md F5 (Q-W14): riverbend, flashback, home at dawn; the release is never shown
-  assert.deepEqual(s.warps.slice(-3).map((w) => w.map), ['fin_past_riverbend', 'fin_past_lab1_f1', 'house_2f']);
+  assert.deepEqual(s.warps.slice(-3).map((w) => w.map), ['fin_past_riverbend', 'fin_past_wlab_01_entry', 'house_2f']);
   assert.ok(s.flags.has('fin_woke_home') && !s.flags.has('field_team_home') && !s.flags.has('ending2_done'));
   await api.walkToWork(); await api.reportAtWork();
   const seq = ['fin_guardian_beaten', 'fin_woke_home', 'fin_reported_rt', 'field_team_home', 'fin_memory_lost', 'wellspire_gone', 'ending2_done'];

@@ -120,8 +120,12 @@ for k, g in (('steel', 'cyan'), ('green', 'green')):
     for i in range(0, 32, 4): c.l([(i, 0), (i, 31)], PAL[k][0] + (255,)); c.l([(0, i), (31, i)], PAL[k][0] + (255,))
     c.r(0, 0, 31, 1, PAL[k][3] + (255,)); c.r(0, 30, 31, 31, PAL[k][0] + (255,))
     add(f'wl_grate_{k}', c.tiles()[(0, 0)], 'ground', 0)
-    c = Can(1, 1, (6, 10, 16, 255))
-    for (x, y) in ((5, 7), (20, 3), (26, 22), (11, 25), (16, 14)): c.p(x, y, GLOW[g][1] + (255,))
+    # Oct 30 (Coder): the pit read as a starfield (scattered glow dots on black). Now a shaft: wall ribs + conduits fading
+    # down into a dim glow, tiling seamlessly, no isolated points.
+    c = Can(1, 1, (10, 16, 26, 255))
+    for y in range(0, 32, 8): c.r(0, y, 31, y + 1, (20, 30, 46, 255)); c.r(0, y + 2, 31, y + 2, (6, 10, 16, 255))
+    for x in (6, 24): c.r(x, 0, x + 1, 31, (28, 40, 58, 255)); c.r(x + 2, 0, x + 2, 31, (4, 6, 10, 255))
+    gl = GLOW[g][1]; c.r(15, 0, 16, 31, (gl[0] // 4, gl[1] // 4, gl[2] // 4, 255))
     add(f'wl_pit_{k}', c.tiles()[(0, 0)], 'ground', 1)
     c = Can(1, 1, (6, 10, 16, 255)); c.r(0, 0, 31, 5, PAL[k][2] + (255,)); c.r(0, 6, 31, 7, PAL[k][0] + (255,))
     add(f'wl_pit_lip_{k}', c.tiles()[(0, 0)], 'ground', 1)
@@ -271,6 +275,31 @@ for k in ('lab', 'steel', 'amber', 'green', 'navy'):
     c = Can(1, 1, pal[1] + (255,)); c.r(2, 0, 29, 31, pal[0] + (255,))
     for i in range(4, 30, 6): c.d.polygon([(8, i + 4), (16, i), (24, i + 4), (24, i + 6), (16, i + 2), (8, i + 6)], fill=(90, 236, 255, 255))
     add(f'wl_exit_{k}', c.tiles()[(0, 0)], 'ground', 4)
+
+
+# Ondravel's tank AFTER the release (Coder, Oct 30 2026; flag_swaps on fin_released in fin_past_wlab_10_ondravel):
+# same frame + crystals, front glass blown out (jagged edges), drained to a puddle, shards on the plinth. Appended last
+# so every earlier tile id stays put.
+c = Can(6, 5); shadow(c, 4, 6, 188, 156)
+c.r(2, 0, 189, 14, (60, 70, 90, 255), O)
+for x in (20, 52, 96, 140, 172): c.r(x - 3, 0, x + 3, 14, (120, 130, 150, 255), O); c.r(x - 1, 4, x + 1, 10, (90, 70, 110, 255))
+c.d.polygon([(4, 15), (187, 15), (187, 146), (4, 146)], fill=(16, 26, 40, 255), outline=O)
+for y in range(16, 146):
+    f = (y - 16) / 130; c.l([(5, y), (186, y)], (int(18 + 10 * f), int(30 + 14 * f), int(46 + 16 * f), 255))
+for y in range(128, 146): c.l([(5, y), (186, y)], (30, 90, 130, 255))  # what is left of the water
+c.l([(5, 128), (186, 128)], (120, 200, 240, 255))
+for x in (4, 187):  # jagged glass still in the frame
+    for i, y in enumerate(range(16, 146, 10)):
+        d = (6 + (i * 7) % 11) * (1 if x == 4 else -1); c.d.polygon([(x, y), (x + d, y + 5), (x, y + 10)], fill=(170, 230, 255, 200), outline=(90, 150, 190, 255))
+for i, x in enumerate(range(8, 186, 14)):
+    d = 6 + (i * 5) % 13; c.d.polygon([(x, 16), (x + 7, 16 + d), (x + 14, 16)], fill=(170, 230, 255, 200), outline=(90, 150, 190, 255))
+for (a, b) in (((40, 20), (70, 60)), ((70, 60), (60, 90)), ((150, 24), (128, 70)), ((128, 70), (140, 110))): c.l([a, b], (200, 240, 255, 255))
+for (x, y, h) in ((14, 146, 22), (30, 146, 34), (44, 146, 18), (150, 146, 26), (164, 146, 38), (178, 146, 20), (90, 146, 14), (104, 146, 12)):
+    c.d.polygon([(x - 6, y), (x, y - h), (x + 6, y)], fill=(110, 70, 170, 255), outline=(60, 25, 110, 255))
+c.r(2, 146, 189, 159, (70, 80, 100, 255), O); c.r(8, 150, 183, 153, (120, 90, 150, 255))
+for (x, y) in ((20, 155), (60, 157), (100, 154), (140, 156), (176, 155), (36, 150), (120, 151)):
+    c.d.polygon([(x, y), (x + 4, y - 3), (x + 7, y + 1)], fill=(200, 240, 255, 255), outline=(90, 150, 190, 255))
+add_multi('wl_bigcrystal_broken', c)
 
 
 def build():

@@ -78,6 +78,90 @@ export const LAB_TEXT = {
  "fin.enc.fin_enc_entry_2.after": [
   "They sang at the glass last week.\nI told myself it was the pumps."
  ],
+ "fin.wlab.fin_wlab_tech_1.intro": [
+  "Lanyard, please. No pass, no entry.\nThe stock logs must stay clean."
+ ],
+ "fin.wlab.fin_wlab_tech_1.after": [
+  "Fine. Sign in. Batch 9 is\nthrough the left door. Don't look."
+ ],
+ "fin.wlab.fin_wlab_tech_2.intro": [
+  "Retention fell to 40 percent.\nI can't lose more of the batch."
+ ],
+ "fin.wlab.fin_wlab_tech_2.after": [
+  "Every scar here has a file number.\nI wrote most of them myself."
+ ],
+ "fin.wlab.fin_wlab_tech_3.intro": [
+  "Panel says yield is up three\npoints. So why are they crying?"
+ ],
+ "fin.wlab.fin_wlab_tech_3.after": [
+  "Shut it all down, then. I'll\nsay the lights failed. Go."
+ ],
+ "fin.wlab.fin_wlab_tech_4.intro": [
+  "The Guardian feeds the lines.\nNo spark, no lab. No lab, no us."
+ ],
+ "fin.wlab.fin_wlab_tech_4.after": [
+  "Ondravel never asked to be\na battery. I know. I know."
+ ],
+ "fin.wlab.fin_wlab_tech_5.intro": [
+  "Tank 12 is near term. If you\nbreak the seal, we lose the run."
+ ],
+ "fin.wlab.fin_wlab_tech_5.after": [
+  "Go on. Let them see the sky.\nThey were never ours to keep."
+ ],
+ "fin.wlab.fin_wlab_tech_6.intro": [
+  "Nobody walks out with lab stock.\nNot tonight. Not ever."
+ ],
+ "fin.wlab.fin_wlab_tech_6.after": [
+  "They sang at the glass last week.\nI told myself it was the pumps."
+ ],
+ "fin.wlab.fin_wlab_tech_7.intro": [
+  "Specimen 4-B. Specimen 4-C.\nNames make it harder. So: none."
+ ],
+ "fin.wlab.fin_wlab_tech_7.after": [
+  "One of them licked my glove.\nI logged it as 'contact event.'"
+ ],
+ "fin.wlab.fin_wlab_tech_8.intro": [
+  "The early stock didn't hold\nshape. We keep them for study."
+ ],
+ "fin.wlab.fin_wlab_tech_8.after": [
+  "Don't open the back shelf.\nPlease. Not for my sake. Theirs."
+ ],
+ "fin.wlab.fin_wlab_tech_9.intro": [
+  "Growth rate is the good news.\nThe research is the good news."
+ ],
+ "fin.wlab.fin_wlab_tech_9.after": [
+  "They grow fast because we\nmake them. I said it. Satisfied?"
+ ],
+ "fin.wlab.fin_wlab_tech_10.intro": [
+  "Hold still. This is routine.\nWell. A procedure. Hold still."
+ ],
+ "fin.wlab.fin_wlab_tech_10.after": [
+  "They flinch when I enter now.\nIs that in the data? It should be."
+ ],
+ "fin.wlab.fin_wlab_tech_11.intro": [
+  "Vat 7 is my best yield yet.\nYou won't spoil my best batch."
+ ],
+ "fin.wlab.fin_wlab_tech_11.after": [
+  "The vat light went gold just now.\nLike it knew. That's not possible."
+ ],
+ "fin.wlab.fin_wlab_tech_12.intro": [
+  "Formula's mine. Ondravel's\nspark, river water, and time."
+ ],
+ "fin.wlab.fin_wlab_tech_12.after": [
+  "Without the river they'd be\nnothing. We took that too."
+ ],
+ "fin.wlab.fin_wlab_tech_13.intro": [
+  "The crystal draws, we harvest.\nIt's science. It's just science."
+ ],
+ "fin.wlab.fin_wlab_tech_13.after": [
+  "He's awake in there, {player}.\nHe's been awake the whole time."
+ ],
+ "fin.wlab.fin_wlab_chief.intro": [
+  "From up here they're just\nnumbers. That's why I stay up here."
+ ],
+ "fin.wlab.fin_wlab_chief.after": [
+  "Take the key. Free him.\nI'll put it down as a loss."
+ ],
  "fin.e2.ron": [
   "{player}! Sit, sit. Let me look\nat those scrapes. Hold still.",
   "There. Good as new. You and the\nteam held the line out there.",
@@ -112,6 +196,20 @@ export const LAB_NAMES = {
  "fin_enc_lead": "Core Tech Renske",
  "fin_enc_tech_5": "Tank Tech Dorrit",
  "fin_enc_entry_1": "Intake Clerk Mavis",
- "fin_enc_entry_2": "Doorman Tech Orrin"
+ "fin_enc_entry_2": "Doorman Tech Orrin",
+ "fin_wlab_tech_1": "Intake Clerk Mavis",
+ "fin_wlab_tech_2": "Medic Tech Ilsa",
+ "fin_wlab_tech_3": "Control Tech Wenna",
+ "fin_wlab_tech_4": "Override Tech Stellan",
+ "fin_wlab_tech_5": "Tank Tech Dorrit",
+ "fin_wlab_tech_6": "Doorman Tech Orrin",
+ "fin_wlab_tech_7": "Tagging Tech Pell",
+ "fin_wlab_tech_8": "Archive Tech Quill",
+ "fin_wlab_tech_9": "Growth Tech Sabine",
+ "fin_wlab_tech_10": "Dosing Tech Brannick",
+ "fin_wlab_tech_11": "Vat Tech Hollis",
+ "fin_wlab_tech_12": "Mixing Tech Aldo",
+ "fin_wlab_tech_13": "Core Tech Renske",
+ "fin_wlab_chief": "Head Observer Calder"
 };
-export const LAB_UNUSED = ["tech_watch"];
+export const LAB_UNUSED = [];
