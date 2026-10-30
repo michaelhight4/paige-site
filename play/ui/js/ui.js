@@ -59,12 +59,30 @@ export function band(v) {
   for (const b of store.cfg.statBands) if (v >= b.min && v <= b.max) return b;
   return store.cfg.statBands[0];
 }
+// dev/ui-modern stats redesign: clean SVG icon badge per core stat, value chip, change animation (reduced-motion aware)
+const STAT_ICON = {
+  happy: '<path d="M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18Zm-3.5-10.5a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Zm7 0a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4ZM7.8 13.5a4.6 4.6 0 0 0 8.4 0Z" fill="currentColor" fill-rule="evenodd"/>',
+  health: '<path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2Z" fill="currentColor"/><path d="M8 12h2.4l1-2 1.6 4 1-2H16" stroke="#0005" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+  smarts: '<path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V17h5.2v-1.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z" fill="currentColor"/><rect x="9.4" y="18.2" width="5.2" height="2.6" rx="1.2" fill="currentColor"/>',
+  looks: '<path d="M12 2.5l2.2 6.3 6.3 2.2-6.3 2.2L12 19.5l-2.2-6.3L3.5 11l6.3-2.2Z" fill="currentColor"/><circle cx="19" cy="19" r="1.8" fill="currentColor"/>',
+  fame: '<path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9Z" fill="currentColor"/>',
+};
+const lastVal = new Map();
+const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 export function bar(label, value, o = {}) {
   const A = Art(), cls = o.neutral ? 'is-mid' : (A ? A.levelClass(value) : '');
-  return h('div', { class: `bar ${band(value).cls} ${o.thin ? 'thin' : ''}`, 'data-bar': o.key || label, 'data-value': value, role: 'progressbar', 'aria-valuenow': value, 'aria-label': label },
-    h('div', { class: 'lbl' }, o.icon ? h('span', { text: o.icon }) : null, label),
-    h('div', { class: 'track' }, h('div', { class: 'fill', style: { width: Math.max(2, value) + '%' } })),
-    h('div', { class: 'val', text: String(value) }));
+  const k = o.key || label, svg = STAT_ICON[k], prev = svg ? lastVal.get(k) : undefined; if (svg) lastVal.set(k, value);
+  const d = prev === undefined ? 0 : value - prev;
+  const startW = d && !calm() ? Math.max(2, prev) : Math.max(2, value);
+  const fill = h('div', { class: 'fill', style: { width: startW + '%' } });
+  if (startW !== Math.max(2, value)) requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = Math.max(2, value) + '%'; }));
+  const icon = svg ? h('span', { class: 'sbadge', 'aria-hidden': 'true' }) : (o.icon ? h('span', { text: o.icon }) : null);
+  if (svg) icon.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18">${svg}</svg>`;
+  const el = h('div', { class: `bar ${band(value).cls} ${o.thin ? 'thin' : ''} ${svg ? 'sbar' : ''} ${d > 0 ? 'chg up' : d < 0 ? 'chg down' : ''}`, 'data-bar': k, 'data-value': value, role: 'progressbar', 'aria-valuenow': value, 'aria-label': label },
+    h('div', { class: 'lbl' }, icon, h('span', { class: 'ltx', text: label })),
+    h('div', { class: 'track' }, fill),
+    h('div', { class: 'val' }, h('b', { text: String(value) }), d ? h('em', { class: 'delta', text: (d > 0 ? '+' : '') + d }) : null));
+  return el;
 }
 
 export function avatarFor(gender, age, spec) {

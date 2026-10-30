@@ -1,10 +1,10 @@
 // Lifeline offline cache. VERSION is bumped per snapshot (old caches are deleted on activate).
 // No stale builds after a publish: HTML, JS, CSS and JSON are NETWORK-FIRST (cache is only the offline fallback);
 // images / audio / fonts are cache-first (their content rarely changes and they are the bulk of the bytes).
-const VERSION = 'lifeline-7c6s-stripe2';
+const VERSION = 'lifeline-7c6s-ui1';
 const CORE = ['./', './index.html', './manifest.webmanifest', './terms.html', './privacy.html',
-  './ui/css/app.css', './ui/css/merge.css', './ui/css/style.css', './ui/css/start.css', './ui/css/vivid.css',
-  './art/theme.css', './art/fantasy.css', './ui/js/app.js',
+  './ui/css/app.css', './ui/css/merge.css', './ui/css/style.css', './ui/css/start.css', './ui/css/vivid.css', './ui/css/ambient.css', './ui/css/stats.css',
+  './art/theme.css', './art/fantasy.css', './ui/js/app.js', './ui/js/ambient.js',
   './assets/brand/icon-192.png', './assets/brand/icon-512.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => Promise.all(CORE.map((u) => c.add(new Request(u, { cache: 'reload' })).catch(() => {})))).then(() => self.skipWaiting()));
