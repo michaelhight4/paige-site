@@ -15,9 +15,12 @@ CAT = {t['id']: t.get('category') for t in TS}
 PLAZA = [ID[f'x_city_plaza_{i}'] for i in range(4)]
 REGIONS = {'A_north': [(23, 27, 10, 13), (26, 27, 14, 14), (27, 27, 18, 18), (40, 41, 9, 13)],
            'B_market': [(15, 26, 29, 33), (31, 42, 29, 31)],
-           'C_crossroads': [(49, 54, 12, 16)]}
+           'C_crossroads': [(49, 54, 12, 16)],
+           # Gary 4:24 PM CT: the two sand strips with posts beside the top flower fields widen into small plazas
+           'D_top_left': [(13, 13, 6, 6), (8, 13, 8, 9)], 'D_top_mid': [(31, 36, 7, 8)]}
 BEDS = [(23, 11), (23, 12), (26, 10), (27, 10),                      # A: beside the cafe tables
-        (52, 12), (53, 12),                                          # C: under the stalls / beside the statue
+        (52, 12), (53, 12),
+        (8, 9), (9, 9), (31, 8), (32, 8),                            # D: below the lamp/bench pairs of the top plazas                                          # C: under the stalls / beside the statue
         (20, 32), (21, 32), (20, 33), (21, 33), (24, 32), (24, 33)]  # B: between the log stools (a bed by the east stall tipped density B1_high, so none there)
 KEEP = re.compile(r'(tree|cave|flowers_|gazebo|door|stairs|ledge|fp_pool|water)')
 def main():
