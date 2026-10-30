@@ -95,7 +95,7 @@ export class IxLight {
     const tmp = new OffscreenCanvas(W, H), tc = tmp.getContext('2d', { willReadFrequently: true });
     const lights = [], P = PHASE_LIGHT[phase] || PHASE_LIGHT.day, night = phase === 'night' || phase === 'dusk';
     const out = {};
-    for (const [key, layers] of [['lower', ['ground', 'decoration']], ['upper', ['overlay']]]) {
+    for (const [key, layers] of [['lower', ['decoration']], ['upper', ['overlay']]]) {
       tc.clearRect(0, 0, W, H); let any = false;
       for (const L of layers) for (let y = 0; y < m.height; y++) for (let x = 0; x < m.width; x++) {
         const id = m.tile(L, x, y); const t = id && byId.get(id); if (!t) continue;
