@@ -1,0 +1,65 @@
+{
+  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Same shape as textbot_pass2_switchbacks.json. Belongs in wt_gdmaps/kilumen/data/ (box disk was out of inodes).",
+  "area_names": {"r9_icefall_cave_n": "Rime Gallery", "fin_summit_camp_cave": "Spire Cellar", "r9_old_riverbed_cave": "Dry Spring", "r9_cairnfold_hayloft": "Hayloft Cave", "r9_cairnfold_bell": "Bell Cave", "_note": "Kept as Game dev wrote them; cairnfold ids are guesses, use your real cave ids."},
+  "maps": {
+    "r9_icefall": {
+      "r9_ifp_rimer": {
+        "pages": ["The falls freeze from the top down.\nUp here is where it starts."],
+        "battle_lost": ["The ice cracked first. Then me."],
+        "battle_won": ["Cold hands, slow team.\nWarm up and come back."],
+        "after": ["Hop down the ledge. The shelf\nbelow takes you back."]
+      },
+      "r9_ifp_egg_sculpture": {"pages": ["A tiny Kilu carved in ice.", "Someone gave it a scarf\nmade of real wool."]}
+    },
+    "fin_summit_camp": {
+      "r9_fscp_lookout": {
+        "name": "Kesia",
+        "_name_note": "Renamed from Tove: Tove is already the Switchbacks shelf skier.",
+        "pages": ["You came up through the falls?\nThen you earned the view."],
+        "battle_lost": ["Fair. The view is yours too now."],
+        "battle_won": ["Catch your breath. The air's thin,\nand so was your team."],
+        "after": ["The ledge drops you right\ninto camp."]
+      },
+      "r9_fscp_egg_flag": {"pages": ["A tiny flag in the ice.\nIt says: FIRST UP.", "Under it, smaller:\nSECOND UP."]},
+      "r9_fscp_keeper": {
+        "pages": ["The spire has a cellar. Nobody\nasks what's in it. You did."],
+        "battle_lost": ["All right. It's mostly rocks.\nAnd me."],
+        "battle_won": ["Curiosity's a long climb down.\nMind the steps."],
+        "after": ["Hop down the ledge.\nThe camp is right there."]
+      },
+      "r9_fscp_egg_boots": {"pages": ["A row of tiny boots, smallest\nto biggest. The last pair is gone.", "Someone is still out there,\nclimbing."]}
+    },
+    "r9_old_riverbed": {
+      "r9_rbp_dowser": {
+        "pages": ["The river left. The spring stayed.\nSo did I."],
+        "battle_lost": ["You found the water and a fight.\nLucky day."],
+        "battle_won": ["The stick pointed at you.\nIt was right, too."],
+        "after": ["The ledge drops you by the nook."]
+      },
+      "r9_rbp_egg_cup": {"pages": ["A tin cup on a nail.\nScratched on it: BACK SOON.", "The dust says otherwise."]}
+    },
+    "r9_cairnfold": {
+      "r9_cfp_herder": {
+        "pages": ["The herd naps up here. Keep it\ndown. Or battle me loudly."],
+        "battle_lost": ["Loud and good.\nThe herd didn't even wake."],
+        "battle_won": ["Shh. You lost, and they slept\nthrough it. Best kind of loss."],
+        "after": ["Hop off the ledge into the yard."]
+      },
+      "r9_cfp_egg_bell": {"pages": ["A cowbell with nothing inside to ring.", "Someone wanted the herd quiet.\nIt worked."]},
+      "r9_cfp_ringer": {
+        "pages": ["You hear that? No? Good.\nI tuned it out."],
+        "battle_lost": ["All right. That rang true."],
+        "battle_won": ["Bit flat, that one.\nTune up and try again."],
+        "after": ["The ledge drops you in the grass."]
+      },
+      "r9_cfp_egg_rope": {"pages": ["A frayed rope goes up into the\ndark. You give it a tug.", "Far away, something goes bong."]},
+      "r9_cfp_digger": {
+        "pages": ["This crack runs all the way down\nto the old river. I dug it. Mostly."],
+        "battle_lost": ["Fair. You dig a good fight."],
+        "battle_won": ["Dug yourself a hole there.\nI'd know."],
+        "after": ["Drop off the ledge to the lane."]
+      },
+      "r9_cfp_egg_spoons": {"pages": ["A pile of bent spoons.", "Every one of them tried. Every\none lost to the rock."]}
+    }
+  }
+}

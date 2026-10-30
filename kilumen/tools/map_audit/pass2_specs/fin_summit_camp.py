@@ -7,7 +7,7 @@ M = 'fin_summit_camp'
 def P(*a, **k): return _P(M, *a, main_start=[16, 22], floor_tiles=[29, 30, 31, 32], **k)
 POCKETS = [
  P('fsc_pocket_crack', 'r9_icefall', 'Icefall Crack', [[20, 1, 29, 2]], [21, 28, 3], [], None, [25, 1],
-   T('r9_fscp_lookout', 21, 1, 'Mountaineer', 'Tove', ['stratodrake', 'cragmont', 'calderock'],
+   T('r9_fscp_lookout', 21, 1, 'Mountaineer', 'Kesia', ['stratodrake', 'cragmont', 'calderock'],
      'You came up through the falls? Then you earned the view.', 'Fair. The view is yours too now.', 'The ledge drops you right into camp.'),
    E('r9_fscp_egg_flag', 29, 1, 'a tiny flag stuck in the ice', 'A tiny flag in the ice. It says: FIRST UP. Under it, smaller: SECOND UP.'),
    dict(id='r9_fscp_seed', x=20, y=2, item='vigor_seed'),
