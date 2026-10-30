@@ -6,8 +6,8 @@ export const FLAG_RE = /^[a-z0-9_:.-]{1,80}$/i;
 
 /** Presets: name -> {label, set[], clear[]}. */
 export const FLAG_PRESETS = {
-  all_badges: { label: 'All 8 Master coins', set: HALL_ORDER.map((h) => `beat_master_${h}`), clear: [] },
-  no_badges: { label: 'Clear all Master coins', set: [], clear: HALL_ORDER.map((h) => `beat_master_${h}`) },
+  all_badges: { label: 'All 8 Master coins', set: [...HALL_ORDER.map((h) => `beat_master_${h}`), 'all_badges'], clear: [] },
+  no_badges: { label: 'Clear all Master coins', set: [], clear: [...HALL_ORDER.map((h) => `beat_master_${h}`), 'all_badges'] },
   tower_healed: { label: 'Arena: tower healed (Ron waits in the lobby)', set: ['tower_healed'], clear: [] },
   r9_open: { label: 'Wellspire open (courier done, skylift)', set: ['courier_delivered', 'got_team_postcard', 'read_ho_letter', 'got_nan_thermos', 'r9_unlocked', 'skylift_upper_open'], clear: [] },
   has_bike: { label: 'Bike', set: ['has_bike'], clear: [] },
@@ -19,6 +19,7 @@ const setF = (scene, f, on) => (scene.setFlag ? scene.setFlag(f, on) : on ? scen
 export function setBadges(scene, n) {
   n = Math.max(0, Math.min(8, Math.floor(Number(n) || 0)));
   HALL_ORDER.forEach((h, i) => setF(scene, `beat_master_${h}`, i < n));
+  if (n < 8 && scene.flags?.has('all_badges')) setF(scene, 'all_badges', false); // the quest HUD coin count follows
   return HALL_ORDER.slice(0, n).map((h) => `beat_master_${h}`);
 }
 

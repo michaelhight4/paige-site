@@ -392,8 +392,10 @@ function questHud(scene, ui, qb, platform) {
       el.hidden = false; return;
     }
     const p = qb.progress(q, scene.flags);
+    // Oct 30 2026 playtest: 'In Person 0/8' read as 0 of 8 coins. Quests gated on all_badges show the coins too.
+    const coins = (q.prerequisites || []).includes('all_badges') ? (scene.flags.has('all_badges') ? 8 : Math.min(8, [...scene.flags].filter((f) => /^beat_master_/.test(f)).length)) : null;
     const step = st === 'ready' ? tx(ui, 'system_tasks.report_back', 'Report back.') : stepText(ui, q, cur);
-    el.innerHTML = `<div style="font-weight:800;opacity:.85">${q.type === 'main' ? '★ ' : '◆ '}${escH(q.title)} <span style="opacity:.7">${p.done}/${p.total}</span></div><div>${escH(step)}</div>`;
+    el.innerHTML = `<div style="font-weight:800;opacity:.85">${q.type === 'main' ? '★ ' : '◆ '}${escH(q.title)} <span style="opacity:.7">${coins != null ? `coins ${coins}/8 · step ` : ''}${p.done}/${p.total}</span></div><div>${escH(step)}</div>`;
     el.hidden = false;
   };
   return { el, update };

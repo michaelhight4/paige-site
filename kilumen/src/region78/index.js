@@ -46,7 +46,10 @@ export const pageScript = (coins) => ['ron.lanternport.greet', binsKey(coins), '
 export const lanternportBlocked = (to, flags, gate = R78.lanternportGate) => to === R78.pageMap && !!gate && !flags.has(gate);
 
 /** Pure: should the Lanternport page hand-off fire? flags: Set-like {has}. */
-export const pageDue = (flags, mapName) => mapName === R78.pageMap && flags.has(R78.opens[7]) && !flags.has(R78.pageFlag);
+// Oct 30 2026 playtest: the page scene belongs after the Tidewater coin but before all 8 coins (the finale). A save
+// (or a dev Flags preset) past that point never gets Ron's 'Oh. Hi, Cal.' on arrival.
+export const pageDue = (flags, mapName) => mapName === R78.pageMap && flags.has(R78.opens[7])
+  && !flags.has('all_badges') && coinCount(flags) < 8 && !flags.has(R78.pageFlag);
 /** Pure: ID cap flag for regions 7 / 8. */
 export function idCapFlag78(idLevel, caps = R78.caps) {
   for (const [r, cap] of Object.entries(caps)) if (idLevel === cap) return `id_cap_r${r}`;

@@ -23,6 +23,9 @@ test('§L: gated on the Tidewater coin, once, before or after the Lanternport ha
   assert.equal(pageDue(F(...coins(6)), 'lanternport'), true);
   assert.equal(pageDue(F(...coins(7)), 'lanternport'), true);
   assert.equal(pageDue(F(...coins(7), 'ron_page_shared'), 'lanternport'), false);
+  assert.equal(pageDue(F(...coins(7), 'beat_master_cindervale'), 'lanternport'), false, 'All 8 coins (dev preset / finale): no page scene');
+  assert.equal(pageDue(F(...coins(7), 'all_badges'), 'lanternport'), false);
+  assert.equal(pageDue(F(), 'lanternport'), false, 'new game warp');
 });
 
 test('§L: bin line follows the coin count (6 -> bins6_flies, 7 -> bins7_flies)', () => {
