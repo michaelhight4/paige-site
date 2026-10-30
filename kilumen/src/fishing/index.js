@@ -8,9 +8,9 @@
 // Gear v1 (design/FISHING_GEAR.md): Driftline / Lanternreach rod gifts (Saltmere fisher, Lanternport keeper), earned baits
 // (Lantern Moth, Hollowstar Roe), a bait picker before each cast (only when the bag holds bait), one bait used per landed cast.
 // Art: bobber, line, splash, ripples and the leaping shadow are drawn in code from the Kilumen palette (our own art).
-import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags } from './logic.js?v=v0.2.95-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.95-alpha';
-import { TILE, DELTA } from '../overworld/constants.js?v=v0.2.95-alpha';
+import { FISHING_URL, TIMING, TEXT, bestRod, facedWater, planCast, judgePress, castArc, ease, bitePrompt, BAIT_IDS, ROD_GIFTS, gearGiftFor, catchFlags } from './logic.js?v=v0.2.96-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.96-alpha';
+import { TILE, DELTA } from '../overworld/constants.js?v=v0.2.96-alpha';
 
 export const ROD_GIVER = Object.freeze({ map: 'brookhollow', npc: 'fisher', flag: 'got_fishing_rod', item: 'fishing_rod' });
 const C = { ink: '#1a1226', red: '#a23432', white: '#fcf6e8', line: '#ecdec4', rod: '#6a442e', foam: '#c6ecfa', drop: '#7ac2e8', deep: '#1e4078', shadow: '#29252b', gold: '#fcd668' };
@@ -122,6 +122,15 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
     return v;
   };
 
+  // Testers (playtest Oct 30 2026): the bite cue is canvas-only. ?dev logs every bite to the console and to
+  // window.kilumenBites (with the window in ms); ?autocatch=1 presses for you 150 ms after the bite (headless runs).
+  const qs = (() => { try { return new URLSearchParams(globalThis.location?.search || ''); } catch { return new URLSearchParams(); } })();
+  const DEV = qs.has('dev'), AUTO = qs.get('autocatch') === '1';
+  function onBite(fx, plan) {
+    const win = fx.touch ? TIMING.WINDOW_TOUCH : TIMING.WINDOW;
+    if (DEV || AUTO) { const e = { t: Date.now(), species: plan.fish?.species || null, windowMs: win }; (globalThis.kilumenBites ||= []).push(e); console.info('[fishing] bite!', e); }
+    if (AUTO) setTimeout(() => { if (st.fx === fx && fx.phase === 'bite' && fx.press == null) fx.press = now(); }, 150);
+  }
   async function cast(cell, rod) {
     if (!scene.party?.length) { await scene.say(T('fishing.no_team')); return; }
     const hasArt = ui()?.wild?.hasArt;
@@ -146,7 +155,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
       await frame();
       const t = now() - fx.tLand;
       const pressedAt = fx.press == null ? null : fx.press - fx.tLand;
-      if (plan.bite && t >= plan.waitMs && fx.phase === 'wait') { fx.phase = 'bite'; fx.tBite = now(); fx.prompt = promptFor(fx); scene.audio?.sfx?.('grass'); }
+      if (plan.bite && t >= plan.waitMs && fx.phase === 'wait') { fx.phase = 'bite'; fx.tBite = now(); fx.prompt = promptFor(fx); scene.audio?.sfx?.('grass'); onBite(fx, plan); }
       if (plan.empty && t > 900) result = 'no_table';
       else if (pressedAt != null) result = judgePress(plan, pressedAt, true, fx.touch) || 'early';
       else if (!plan.bite && t >= plan.waitMs + TIMING.WINDOW) result = 'nothing';

@@ -5,9 +5,9 @@
 // - the weigh-in scale (interact spot def.derby === 'scale') shows each catch's points, and at turn-in the full board
 // - leaving gullhaven_lagoon (door / edge / fly) while a run is live asks to quit (forfeit) via scene.ask(['Yes','No'])
 // - save: scene.systems.state.derby {best, runs, records, last, active}; the heaviest fish joins the team with weight_kg
-import * as D from './derby.js?v=v0.2.95-alpha';
-import { createDerbyFx, weightGlyphs, needleAngle, NEEDLE_PIVOT, READOUT_GLYPH_FRAME } from './derby_fx.js?v=v0.2.95-alpha';
-import { createCreature, speciesName } from '../systems/creature.js?v=v0.2.95-alpha';
+import * as D from './derby.js?v=v0.2.96-alpha';
+import { createDerbyFx, weightGlyphs, needleAngle, NEEDLE_PIVOT, READOUT_GLYPH_FRAME } from './derby_fx.js?v=v0.2.96-alpha';
+import { createCreature, speciesName } from '../systems/creature.js?v=v0.2.96-alpha';
 
 const C = { ink: '#1a1226', white: '#fcf6e8', gold: '#fcd668', sea: '#1e4078', foam: '#c6ecfa', red: '#a23432', grey: '#8a8590' };
 
@@ -16,7 +16,8 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
   const st = { run: null, scale: null, tables, savedTimescale: null, pool: [], fx: typeof Image !== 'undefined' ? createDerbyFx() : null };
   const rec = () => (sys.state.derby ||= D.blankRecord());
   const lines = (k) => { const v = sys?.text?.(k, null); return (Array.isArray(v) ? v : v?.pages) || D.TEXT[k]; };
-  const T = (k, vars) => (scene.fill ? scene.fill(lines(k), { ...(scene.textVars?.() || {}), ...vars }) : lines(k).map((s) => s.replace(/\{(\w+)\}/g, (_, n) => vars?.[n] ?? '')));
+  const T0 = (k, vars) => (scene.fill ? scene.fill(lines(k), { ...(scene.textVars?.() || {}), ...vars }) : lines(k).map((s) => s.replace(/\{(\w+)\}/g, (_, n) => vars?.[n] ?? '')));
+  const T = (k, vars) => [].concat(T0(k, vars)).map((s) => (typeof s === 'string' ? s.replace(/(^|\D)1 Tidelumens\b/g, '$11 Tidelumen') : s)); // playtest: '1 Tidelumens' -> singular
   // say() remembers which scale state it was spoken over; setScale() dismisses that line when the scale moves on
   // (QA: the catch / idle line stayed open under the turn-in board).
   const say = (k, vars, sp) => { const p = scene.say(T(k, vars), sp); st.sayScale = st.scale; st.sayDlg = scene.dialog?.cur || null; return p; };
@@ -46,7 +47,7 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
 
   async function ensureFishing() {
     if (fishing()) return fishing();
-    if (!installFishing) { const m = await import('../fishing/index.js?v=v0.2.95-alpha'); installFishing = m.installFishing; }
+    if (!installFishing) { const m = await import('../fishing/index.js?v=v0.2.96-alpha'); installFishing = m.installFishing; }
     const f = installFishing(scene); if (globalThis.window?.kilumen) window.kilumen.fishing = f; return f;
   }
   function bindFishing(f) { if (f) f.derby = api; }
@@ -163,14 +164,14 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
   function drawHud(ctx, v) {
     const W = ctx.canvas?.width || 640; ctx.save(); ctx.setTransform?.(1, 0, 0, 1, 0, 0);
     const featured = st.run?.featured || st.deskShown || st.nextFeatured || rec().active?.featured;
-    const x = 8, y = 72, w = 230, h = st.run ? 62 : 44;
+    const x = 8, y = 72, w = 230, h = st.run ? 78 : 44;
     ctx.fillStyle = 'rgba(26,18,38,0.82)'; ctx.fillRect(x, y, w, h); ctx.strokeStyle = C.gold; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
     ctx.font = 'bold 13px monospace'; ctx.fillStyle = C.gold; ctx.fillText('FISHING DERBY', x + 10, y + 18);
     ctx.font = '12px monospace'; ctx.fillStyle = C.white;
     if (featured) ctx.fillText(fit(ctx, `Featured: ${name(featured)} x${D.FEATURED_MULT}`, w - 20), x + 10, y + 35);
     if (st.run) {
       for (let i = 0; i < D.CRYSTAL.perRun; i++) { const cx = x + 14 + i * 13, cy = y + 50; ctx.fillStyle = i < st.run.crystals ? C.foam : C.grey; ctx.beginPath(); ctx.moveTo(cx, cy - 6); ctx.lineTo(cx + 4, cy); ctx.lineTo(cx, cy + 6); ctx.lineTo(cx - 4, cy); ctx.closePath(); ctx.fill(); }
-      ctx.fillStyle = C.white; ctx.fillText(`${st.run.score} pts`, x + 150, y + 54);
+      ctx.fillStyle = C.white; ctx.fillText(`${st.run.score} pts`, x + 150, y + 54); ctx.fillText(`${st.run.crystals} cast${st.run.crystals === 1 ? '' : 's'} left`, x + 10, y + 71); // count in text too (the grey/foam diamonds read as 0 at a glance)
     }
     if (st.scale) drawScale(ctx, W);
     ctx.restore();

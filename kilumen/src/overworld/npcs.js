@@ -3,10 +3,10 @@
 // same layout as Cal's: rows down/left/right/up, cols stand + walk0-3). NPCs move on the same 60 Hz GridMover as
 // the player, so they share pixel-exact stepping. Occupancy: an NPC holds its cell AND the cell it is stepping
 // into (GameMap.occupy), so the player can never walk into one mid-step.
-import { DELTA, DIRS, Col } from './constants.js?v=v0.2.95-alpha';
-import { GridMover } from './movement.js?v=v0.2.95-alpha';
-import { npcForPhase, isActive } from './props.js?v=v0.2.95-alpha';
-import { walkGrid, findPath, pathToDirs } from './pathing.js?v=v0.2.95-alpha';
+import { DELTA, DIRS, Col } from './constants.js?v=v0.2.96-alpha';
+import { GridMover } from './movement.js?v=v0.2.96-alpha';
+import { npcForPhase, isActive } from './props.js?v=v0.2.96-alpha';
+import { walkGrid, findPath, pathToDirs } from './pathing.js?v=v0.2.96-alpha';
 
 const WANDER = new Set(['villager', 'villager_hooded', 'villager_elder', 'kid']);
 const LOOK = new Set(['trainer', 'trainer_hooded']);
@@ -26,7 +26,7 @@ export class Npc {
     this.sprite = sprite || null; // npc_sprite_map entry or null (objects, unmapped)
     this.mover = new GridMover({ x: def.x, y: def.y, facing: def.facing || 'down' });
     this.home = { x: def.x, y: def.y, facing: def.facing || 'down' };
-    this.behaviour = gateNpc || this.kind === 'object' ? 'static' : WANDER.has(this.kind) ? 'wander' : LOOK.has(this.kind) ? 'look' : 'static';
+    this.behaviour = gateNpc || this.kind === 'object' || def.static || def.derby ? 'static' : WANDER.has(this.kind) ? 'wander' : LOOK.has(this.kind) ? 'look' : 'static';
     this.rand = rng(hash(mapName + '.' + this.id));
     this.wait = 60 + Math.floor(this.rand() * 120);
     this.hold = null;     // direction held for the current step
