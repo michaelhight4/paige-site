@@ -228,8 +228,8 @@ export function attachHallV2(scene, ui, pg) {
     if (!ch || !'abcd'.includes(ch) || c.model.open(x, y, c.bits) || scene.map?.npcAt?.(x, y)) return false;
     const wins = syncWins(), need = needWins(m, hv.beatable[m.hall_v2.zone]);
     const k = 'ab'.includes(ch) ? 'gate_hint_plate' : 'gate_hint_crystal';
-    const fb = 'ab'.includes(ch) ? ['This gate is shut. Step on a floor plate in this hall and it swaps. Hall wins: {wins} of {need}.']
-      : ['This crystal is shut. Step on a crystal plate in this hall and it swaps. Hall wins: {wins} of {need}.'];
+    const fb = 'ab'.includes(ch) ? ["This gate is shut tight. A floor\nplate somewhere in this hall swaps it.", "Hall wins: {wins} of {need}."]
+      : ["This crystal is dark. A crystal\nplate somewhere in this hall wakes it.", "Hall wins: {wins} of {need}."]; // Text Bot DRAFT (data/textbot_hall_arena.json)
     const pages = fillv(text(k, fb), { wins, need, left: Math.max(0, need - wins) });
     scene.log?.push({ tick: scene.tick, type: 'hall_gate_hint', at: [x, y], gate: ch, wins, need });
     scene.script?.(async () => { await scene.say(pages, null); }); return true;
@@ -379,7 +379,7 @@ export function attachHallV2(scene, ui, pg) {
         const g = masterOpen(ctx(), m);
         if (!g.ok) {
           scene.log?.push({ tick: scene.tick, type: 'hall_wins_gate', zone: z, wins, need, puzzle: g.puzzle });
-          let pages = !g.puzzle ? text('master_puzzle', ['Find your way up here properly first.']) : fillv(text('master_locked', ['Win {left} more in my hall first. Then we battle.']), { wins, need, left: Math.max(0, need - wins) });
+          let pages = !g.puzzle ? text('master_puzzle', ['Find your way up here properly first.']) : fillv(text('master_locked', ["Not yet. Beat {left} more in my\nhall, then come and find me.", "Hall wins so far: {wins} of {need}."]), { wins, need, left: Math.max(0, need - wins) });
           // multi-floor hall (Lanternport lamp room): no trainer left on this floor -> add the hall's first hint page (where they wait)
           if (g.puzzle && !hallMembers(m).some((k) => k.startsWith(`${m.name}.`) && !scene.seen?.[`defeated:${k}`])) pages = [...pages, ...text(`hint_${z}`, HALL_HINTS[z] || []).slice(0, 1)];
           return scene.script(async () => { n && scene.npcs.beginTalk(n); try { await scene.say(pages, scene.speakerFor?.(n)); } finally { n && scene.npcs.endTalk(n); } });

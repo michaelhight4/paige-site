@@ -7,10 +7,7 @@ import { DEV } from '../dev/runtime.js?v=v0.2.93-alpha';
 export const WIP_KEY = 'system.wip_after_master8'; // dev/regions-5-8: Text Bot key requested (data/textbot_requests_r78.md); was // Text Bot key (pages wired Oct 27 2026); the old wip_after_master2 text spoke of region 3 as unbuilt
 export const WIP_FLAG = 'seen_wip_notice_r8'; // dev/regions-5-8 (regions 5-8 playable); was seen_wip_notice_r4. // v0.2.30: new flag so saves that saw the Master 2 notice still get this one
 export const TRIGGER = 'beat_master_cindervale'; // dev/regions-5-8: Master 8 = last playable. Was beat_master_frostspire. // Master 3, Revival Heights (v0.2.30; was beat_master_saltmere = Master 2)
-export const WIP_TEXT = [
-  "That's as far as the story goes for now. The road to Aurelith is still being built.", // PLACEHOLDER until Text Bot adds system.wip_after_master8
-  "You're free to keep exploring. Just try not to break anything.",
-];
+export const WIP_TEXT = ["That's as far as the story goes\nfor now. Aurelith isn't ready yet.", "You're free to keep exploring.\nTry not to break anything."]; // Text Bot DRAFT (data/textbot_hall_arena.json), word for word
 
 export const aurelithBuilt = (scene) => !!(scene?.layout?.maps_built || []).includes('aurelith') || /^aurelith/.test(scene?.map?.name || '');
 

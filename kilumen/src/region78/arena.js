@@ -61,9 +61,9 @@ export const ARENA_FALLBACK = {
   won: ['That is all eight! You cleared the Aurelith Arena.'],
   waiting: ['Start with the first fighter, in the first room. We go in order.'],
   beaten: ['The stairs are open. Keep going!'],
-  rest: ['Halfway. Rest here: your team is fully healed.'],
-  restUsed: ['You have had your rest this run. Keep going!'],
-  second: ['Beat my second first. Then we talk.'],
+  rest: ["Halfway there. Let me fix your\nteam up. No charge, this once.", "All rested. The next room won't\ngo easy on you."],
+  restUsed: ["I've already patched your team up\nthis run. You're on your own now."],
+  second: ["Not so fast. You get through my\nsecond before you get to me."],
   challenge: (f, name = f.name) => [`${name}, Arena fighter. ${f.type[0].toUpperCase() + f.type.slice(1)} type, all the way.`],
   lostLine: (f, name = f.name) => [`${name}: Good fight. Keep going.`],
 };
