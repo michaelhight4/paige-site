@@ -8,6 +8,7 @@ Pixels are read from the sheets the game draws with ix2 on (tileset.js file(): *
 i_wall/i_floor), 1x. The 1 px outline / near-black codes (max channel < 40) are ignored: they are the shared ink.
 The procedural supply chest palettes (src/systems/chest_art.js) are checked against the floors under each pickup.
 
+  Both sheet sets are checked: ix2 (*_v3/*_v2) and the ix2=0 fallback base sheets.
   python3 tools/furniture_perspective/colour_check.py            report, exit 1 if anything is shared
   python3 tools/furniture_perspective/colour_check.py --fix      nudge every shared furniture code (same cell, all
         scales, exact-code swap) to the nearest free code (+-1..6 per channel, luma kept) and re-check
@@ -19,8 +20,10 @@ HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.pat
 OW = os.path.join(ROOT, 'art/world/overworld')
 V3 = re.compile(r'tiles_\dx/(interior|i_furniture|i_brand|x_furniture_fix|ix2_kit)\.png$')
 V2 = re.compile(r'tiles_\dx/(interior|i_wall|i_floor|i_furniture|i_brand|x_furniture_fix|ix2_kit)\.png$')
+MODE = 'ix2'   # 'ix2' = *_v3/*_v2 sheets (ix2 on); 'fallback' = the base sheets tileset.js draws with ix2=0
 def file(p, s='1x'):
     p = p.replace('tiles_1x', f'tiles_{s}').replace('tiles_2x', f'tiles_{s}').replace('tiles_3x', f'tiles_{s}')
+    if MODE == 'fallback': return p
     return p.replace('.png', '_v3.png' if V3.search(p) else '_v2.png') if V2.search(p) else p
 FURN = {'furniture', 'interior', 'prop'}
 NOTFURN = re.compile(r'(^|_)(i?wall|floor|window|door|walldoor|stairs|rug|mat|carpet|void|shadow|light)(_|$)|^iwall|^cliff|^x_iwall')
@@ -131,7 +134,10 @@ def fix(hits):
         print(f'  {t["name"]}: ' + ', '.join(f'#{a[0]:02x}{a[1]:02x}{a[2]:02x}->#{b[0]:02x}{b[1]:02x}{b[2]:02x}' for a, b in mp.items()))
     print(f'fixed {len(todo)} pieces, {n} px at 1x')
 if __name__ == '__main__':
-    h = scan(); report(h)
-    if '--fix' in sys.argv and h:
-        fix(h); _cc.clear(); _img.clear(); h = scan(); print('after fix:'); report(h)
-    sys.exit(1 if h else 0)
+    bad = 0
+    for MODE in ('ix2', 'fallback'):                 # both sheet sets the game can draw (ix2 on, and the ix2=0 fallback)
+        _cc.clear(); _img.clear(); print(f'== {MODE} sheets'); h = scan(); report(h)
+        if '--fix' in sys.argv and h:
+            fix(h); _cc.clear(); _img.clear(); h = scan(); print('after fix:'); report(h)
+        bad += len(h)
+    sys.exit(1 if bad else 0)

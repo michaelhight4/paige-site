@@ -25,7 +25,7 @@ INSPECT = [  # base name regex -> (spot id, kind)
     (r'i_counter_rt', 'counter', 'counter'), (r'i_crystal_polisher', 'polisher', 'machine'),
     (r'i_company_terminal', 'terminal', 'pc'), (r'i_pc$', 'visitor_pc', 'pc'),
     (r'i_newsletter_rack', 'newsletters', 'rack'), (r'i_suggestion_box', 'suggestions', 'box'),
-    (r'i_rt_poster_(care|safety|join)', None, 'poster'), (r'i_sofa_', 'sofa', 'seat'), (r'i_bench', 'bench', 'seat'),
+    (r'i_(?:rt_)?poster_(care|safety|join)', None, 'poster'), (r'i_sofa_', 'sofa', 'seat'), (r'i_bench', 'bench', 'seat'),
     (r'i_table_small_', 'side_table', 'table'), (r'i_plant_', None, 'plant'), (r'i_(radio|anchor|ship_wheel|net|fishing_rods|lantern_stand|crystal_crate|locker|pillar_basalt)', None, 'deco'),
 ]
 
