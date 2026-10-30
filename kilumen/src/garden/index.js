@@ -3,7 +3,7 @@
 // merit shop screen ui.scr_merit_shop (same layout as RT Supply: tabs, list, side panel, qty + confirm). No map edits.
 import { TILE } from '../overworld/constants.js?v=v0.2.96-alpha';
 import { CROPS, SEED_TO_CROP, CANS, plotAt, plotsOn, gardenState, plotState, stageOf, plant, water, harvest } from './garden.js?v=v0.2.96-alpha';
-import { MERIT_FIXED, dailyStock, meritState, buyMerit } from '../sports/merit.js?v=v0.2.96-alpha';
+import { MERIT_FIXED, dailyStock, meritState, buyMerit, grantMerit } from '../sports/merit.js?v=v0.2.96-alpha';
 import { gt } from './strings.js?v=v0.2.96-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -143,5 +143,7 @@ export function attachGarden(scene, { sys, sstate }) {
     await new Promise((resolve) => U.open('merit_shop', { onClose: resolve }));
   }
   scene.openMeritShop = openMeritShop;
+  // integ9 (Oct 30 2026): dev-only merit grant so testers can buy at the Merit Counter (kilumenDev exists only with ?dev, src/alpha.js)
+  if (globalThis.kilumenDev) globalThis.kilumenDev.grantMerit = (n = 100) => grantMerit(sstate(), n);
   return { openMeritShop, usePlot, drawPlots };
 }

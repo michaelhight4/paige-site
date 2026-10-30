@@ -45,6 +45,16 @@ export class Npc {
   }
 }
 
+/** Sprite entry for an NPC (integ9, Oct 30 2026): "<map>.<id>" first; else an entry with the def's sprite id; else a
+ *  clerk falls back to the shared mart clerk (shop_cairnfold / shop_lanternport / Aurelith merit clerk had no entry, so no sprite). */
+export function spriteFor(spriteMap, mapName, d) {
+  const sm = spriteMap || {}, hit = sm[mapName + '.' + d.id];
+  if (hit) return hit;
+  if (d.sprite) { const e = Object.values(sm).find((v) => v?.sprite_id === d.sprite); if (e) return e; }
+  if (d.kind === 'clerk' || d.variant_of === 'clerk' || /(^|_)clerk$/.test(d.id || '')) return sm['shop_int.clerk'] || null;
+  return null;
+}
+
 export class NpcSystem {
   /**
    * @param {object} scene  Overworld (map, player, spot stand cells)
@@ -55,7 +65,7 @@ export class NpcSystem {
   build(map, spriteMap, phase) {
     const gateIds = new Set(map.storyGates.filter((g) => g.npc).map((g) => g.npc.id));
     this.list = map.npcs.map((d) => npcForPhase(d, phase)).filter((d) => Number.isInteger(d.x) && d.kind !== 'spawn' && isActive(d, this.scene?.flags)) // by_phase / active_when: props.js
-      .map((d) => new Npc(d, map.name, spriteMap?.[map.name + '.' + d.id], gateIds.has(d.id)));
+      .map((d) => new Npc(d, map.name, spriteFor(spriteMap, map.name, d), gateIds.has(d.id)));
     map.resetOccupancy(this.list.map((n) => ({ x: n.x, y: n.y, ref: n })));
     return this.list;
   }

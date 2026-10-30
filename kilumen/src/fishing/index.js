@@ -97,7 +97,7 @@ export function installFishing(scene, { ui = () => globalThis.window?.kilumen?.u
   const origInteract = scene.interact.bind(scene);
   scene.interact = () => {
     if (scene.busy || !st.tables) return origInteract();
-    const p = scene.player, cell = facedWater(scene.map, p.x, p.y, p.facing);
+    const p = scene.player, cell = facedWater(scene.map, p.x, p.y, p.facing, { riding: !!(p.gliding || scene.overnight?.field?.gliding) });
     const spot = cell && scene.spots?.find((s) => s.kind !== 'trigger' && s.x === cell.x && s.y === cell.y);
     const rod = bestRod(sys?.bag);
     if (!cell || spot || !rod) return origInteract();

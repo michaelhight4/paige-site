@@ -26,6 +26,12 @@ export function meritState(sstate) {
   m.points = Math.max(0, Math.floor(Number(m.points) || 0)); m.earned ??= 0; m.spent ??= 0; m.log ||= [];
   return m;
 }
+/** Dev grant (integ9: window.kilumenDev.grantMerit(n), ?dev only): add n points (capped at MERIT_MAX); returns the new total. */
+export function grantMerit(sstate, n) {
+  const m = meritState(sstate), add = Math.max(0, Math.min(Math.floor(Number(n) || 0), MERIT_MAX - m.points));
+  m.points += add; m.earned += add; m.log = [...m.log, { kind: 'dev', place: 0, pts: add }].slice(-20);
+  return m.points;
+}
 /** Points for a result: kind 'tourney' | 'cup' | 'major', place 1..n (past 4th = 0). */
 export const meritFor = (kind, place) => (MERIT_PTS[kind] || [])[(place | 0) - 1] || 0;
 /** Award points for a result; returns the points added. */

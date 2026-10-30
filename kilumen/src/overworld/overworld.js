@@ -478,6 +478,7 @@ export class Overworld {
   text(path) {
     let v = this.lines;
     for (const k of path.split('.')) v = v?.[k];
+    if (v && typeof v === 'object' && !Array.isArray(v)) v = Array.isArray(v.pages) ? v.pages : null; // v2 {pages} entries (pass 2 cave area_name) read as '[object Object]' (integ9)
     if (v == null) return null;
     const pages = Array.isArray(v) ? v : [String(v)];
     return this.fill(pages).join('\n');
@@ -595,7 +596,7 @@ export class Overworld {
         target = await this.loadMap(f.spawn.map);
         ({ x, y } = f.spawn); facing = f.spawn.facing;
       }
-      if (!target.isWalkable(x, y)) ({ target, x, y } = await this._staleLanding(target, x, y)); // exit warp fix (Gary 2:14 PM CT)
+      if (!target.isWalkable(x, y) && !(f.spawn.water && isWaterCode(target.code(x, y)))) ({ target, x, y } = await this._staleLanding(target, x, y)); // exit warp fix (Gary 2:14 PM CT)
       this.map = target;
       await this.ensureAssets();
       const wasBike = this.player.mode === MoveMode.BIKE;

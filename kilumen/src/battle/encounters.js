@@ -76,6 +76,15 @@ export function surfZoneFor(data, mapName) {
   return id ? { id, zone: zones[id], forced: false } : null;
 }
 
+/** Riding fallback (Gary, Oct 30 2026): a map with no water table rolls its fishing table (data/fishing_tables.json
+ * maps[map].basic) per riding step, at FISH_RIDE_RATE. hasArt(species) filters like the art filter. -> {id, zone, forced} | null */
+export const FISH_RIDE_RATE = 0.0667;
+export function fishZoneFor(fishing, mapName, hasArt) {
+  const t = fishing?.maps?.[mapName]?.basic; if (!t?.slots?.length) return null;
+  const slots = t.slots.filter((s) => (s.weight || 0) > 0 && (!hasArt || hasArt(s.species)));
+  return slots.length ? { id: 'fish_' + mapName, zone: { method: 'water (fishing table)', rate: FISH_RIDE_RATE, slots }, forced: false } : null;
+}
+
 /** Slot conditions (encounters.json "conditions"): time phase list, weather list, flood-only. */
 export function slotOk(slot, ctx = {}) {
   if (slot.time && !slot.time.includes(ctx.phase || 'day')) return false;
@@ -173,7 +182,7 @@ export class EncounterRoller {
   // the terrain flag's 0.3x table stays the fallback for maps with no surf table.
   stepWater(mapName, x, y, ctx = {}) {
     if (this.grace > 0) { this.grace--; return null; }
-    return this._roll(surfZoneFor(this.data, mapName) || (this.terrain ? terrainZone(this.terrain, this.data, mapName, 'water') : null), mapName, x, y, ctx);
+    return this._roll(surfZoneFor(this.data, mapName) || (this.terrain ? terrainZone(this.terrain, this.data, mapName, 'water') : null) || fishZoneFor(this.fishing, mapName, this.hasArt), mapName, x, y, ctx);
   }
   _roll(z, mapName, x, y, ctx) {
     if (!z) return null;
@@ -248,6 +257,7 @@ export function installWildEncounters(scene, openBattle, opts = {}) {
       const f = filterEncounters(data, opts.hasArt); st.artFilter = f; data = f.data;
       if (opts.dev) console.info('[encounters] art filter dropped', Object.values(f.dropped).reduce((a, n) => a + n, 0), 'slots', f.dropped, 'empty zones', f.empty, 'empty phases', f.emptyPhases);
     }
+    getJson(opts.fishingUrl || 'data/fishing_tables.json').then((f) => { if (f && st.roller) { st.roller.fishing = f; st.roller.hasArt = opts.artFilter !== false ? opts.hasArt : null; } }); // riding fallback table
     if (opts.terrain) getJson(opts.terrainUrl || TERRAIN_URL).then((t) => { if (t && st.roller) st.roller.terrain = opts.hasArt && opts.artFilter !== false ? filterTerrain(t, opts.hasArt) : t; });
     st.roller = new EncounterRoller(data, { rate: opts.rate, rateMult: () => leadEncounterMult(scene.party || []) });
     return axesP.then((axes) => { if (axes?.maps) st.roller.axes = axes; });

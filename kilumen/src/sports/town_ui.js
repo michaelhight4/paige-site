@@ -55,7 +55,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     s.onInteract = (fx, fy) => {
       const ev = coachAt(fx, fy); if (!ev) return prev(fx, fy);
       scene.script(async () => {
-        if (ev === 'merit') { await openMerit(); return; } // Merit Counter clerk: straight to the shop (its own screen greets)
+        if (ev === 'merit') { const hi = scene.lines?.maps?.[scene.map?.name]?.[MERIT_CLERK]?.pages; if (hi?.length) await scene.say?.(scene.fill ? scene.fill(hi) : hi); await openMerit(); return; } // Merit Counter clerk: Text Bot greeting (text/overworld_lines.json), then the shop
         if (ev === 'major') { // Aurelith announcer: the Games or the merit counter (src/garden/index.js)
           const k = openMerit && scene.ask ? await scene.ask([gt('merit.announcer.ask')], [gt('merit.announcer.games'), gt('merit.announcer.shop'), gt('merit.announcer.leave')]) : 0;
           if (k === 1) { await openMerit(); return; } if (k !== 0) return;

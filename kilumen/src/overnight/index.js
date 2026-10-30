@@ -73,6 +73,9 @@ export function attachOvernight(scene, { query = null, saveData = {} } = {}) {
         const wp = m.warpAt(x, y);
         if (wp && isToCome(wp) && registered(wp.to)) { scene.lastDoor = { map: m.name, x, y }; scene._doorDismount = scene.player.mode === 'bike'; scene.startWarp(warpSpawn(wp, null), 'door'); return 'stop'; }
       }
+      // integ9 (Oct 30 2026): a water warp ({water: true} on a WATER cell) carries a Tideglide rider to another sea map
+      // (Gullhaven channel -> gullhaven_sea); the field keeps gliding on landing because the spawn cell is water
+      if (ov.field?.gliding && (m.code(x, y) === Col.WATER || m.code(x, y) === Col.DEEP_WATER)) { const wp = m.warpAt(x, y); if (wp?.water) { scene.startWarp({ ...warpSpawn(wp, null), water: true }, 'door'); return 'stop'; } } // water: land on the water cell
       const r = w.onArrive?.(x, y, mover, how);
       if (r !== 'stop') ov.field?.arrive(x, y);
       return r;

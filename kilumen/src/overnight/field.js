@@ -1,6 +1,6 @@
 // Overnight systems (Oct 23, 2026): field obstacles from FIELD_SKILLS.md, OVERNIGHT flag `field` (default ON since Oct 30 2026).
 //  - Tideglide (F3): face water (code 3) + A -> prompt -> ride across at running speed (worldbuilding audit) with a
-//    short hop (HOP_TICKS, ledge arc) on mount and on dismount; stepping on land gets off. Needs has_tideglide (FIELD_SKILLS.md 13). Deep water (11) stays a wall. Water encounters roll the map's surf table (onSurfStep).
+//    short hop (HOP_TICKS, ledge arc) on mount and on dismount; stepping on land gets off. Needs has_tideglide (FIELD_SKILLS.md 13). Every water cell (3 and 11) is ride-only (Gary, Oct 30 2026: no shallow water). Water encounters roll the map's surf table (onSurfStep).
 //  - Brushbreak (F2): face a tile named `thick_brush` + A -> prompt -> cleared until the map reloads. Unlock flag is TBD
 //    in the docs, so this uses the PLACEHOLDER flag `has_brushbreak` (question for Gary). No built map has the tile yet.
 //  - Stonebreak: same for tiles named `cracked_rock` with PLACEHOLDER flag `has_stonebreak` (none placed yet either).
@@ -9,6 +9,7 @@
 //    are held by a boulder or the player standing on them; the gates follow (puzzle.gates[].channel may be a list).
 //    Boulders reset when the map reloads (puzzle.rules).
 import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.96-alpha';
+const WET = new Set([Col.WATER, Col.DEEP_WATER]); // ride-only water codes
 
 export const BRUSH_TILES = { thick_brush: { skill: 'brushbreak', flag: 'has_brushbreak' }, cracked_rock: { skill: 'stonebreak', flag: 'has_stonebreak' } };
 export const BOULDER_TILES = new Set(['push_boulder']);
@@ -65,7 +66,7 @@ export class FieldSystem {
     if (!m.inBounds(fx, fy) || m.npcAt(fx, fy)) return false;
     const brush = this.brushAt(fx, fy);
     if (brush) { s.script(() => this.useSkill(brush.skill, brush.flag, () => { s.map.layers[brush.layer][fy][fx] = 0; s.map.layers.collision[fy][fx] = Col.WALK; s._dirty = true; })); return true; }
-    if (m.code(fx, fy) === Col.WATER && !this.gliding && OPEN.has(m.code(p.x, p.y)) || (m.code(fx, fy) === Col.WATER && m.code(p.x, p.y) === Col.DOOR)) {
+    if (WET.has(m.code(fx, fy)) && !this.gliding && OPEN.has(m.code(p.x, p.y)) || (WET.has(m.code(fx, fy)) && m.code(p.x, p.y) === Col.DOOR)) {
       s.script(() => this.useSkill('tideglide', 'has_tideglide', () => { this.gliding = true; p.gliding = true; p.mode = MoveMode.RUN; this.hopNext = true; s.log.push({ tick: s.tick, type: 'tideglide', on: true }); p._attempt?.(p.facing, s.worldApi(), []); }));
       return true;
     }
@@ -88,11 +89,11 @@ export class FieldSystem {
   query(q, x, y, dir) {
     const s = this.scene, m = s.map;
     // seaport (Oct 30 2026): an edge exit can land the player on open water (sea maze); keep gliding there instead of stranding them
-    if (!this.gliding && s.player && m?.code(s.player.x, s.player.y) === Col.WATER) { this.gliding = true; s.player.gliding = true; }
+    if (!this.gliding && s.player && WET.has(m?.code(s.player.x, s.player.y))) { this.gliding = true; s.player.gliding = true; }
     const d = DELTA[dir], tx = x + d.x, ty = y + d.y;
-    if (this.gliding && this.hopNext && q.type === 'block' && q.code === Col.WATER && !q.npc) { this.hopNext = false; return { type: 'ledge', x: tx, y: ty }; } // mount hop
-    if (this.gliding && q.type === 'block' && q.code === Col.WATER && !q.npc) return { type: 'walk', x: tx, y: ty };
-    if (this.gliding && q.type === 'walk' && m.code(x, y) === Col.WATER && m.code(tx, ty) !== Col.WATER) return { type: 'ledge', x: tx, y: ty }; // dismount hop
+    if (this.gliding && this.hopNext && q.type === 'block' && WET.has(q.code) && !q.npc) { this.hopNext = false; return { type: 'ledge', x: tx, y: ty }; } // mount hop
+    if (this.gliding && q.type === 'block' && WET.has(q.code) && !q.npc) return { type: 'walk', x: tx, y: ty };
+    if (this.gliding && q.type === 'walk' && WET.has(m.code(x, y)) && !WET.has(m.code(tx, ty))) return { type: 'ledge', x: tx, y: ty }; // dismount hop
     return q;
   }
 
@@ -112,7 +113,7 @@ export class FieldSystem {
 
   arrive(x, y) {
     const s = this.scene;
-    if (this.gliding && s.map.code(x, y) !== Col.WATER) { this.gliding = false; s.player.gliding = false; s.log.push({ tick: s.tick, type: 'tideglide', on: false }); }
+    if (this.gliding && !WET.has(s.map.code(x, y))) { this.gliding = false; s.player.gliding = false; s.log.push({ tick: s.tick, type: 'tideglide', on: false }); }
     if (this.gliding) s.player.mode = MoveMode.RUN;
     this.refreshHold();
   }

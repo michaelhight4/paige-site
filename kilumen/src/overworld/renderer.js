@@ -8,7 +8,7 @@
 // right after ground/decoration, before the decals; the character contact shadows run after living `under`, just
 // before the first character. Both are under every character and over the floor.
 import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.96-alpha';
-import { waterClass, familyOf, edgeMask, variantTile } from './water_depth.js?v=v0.2.96-alpha'; // shallow (fishable) vs deep water look
+import { waterClass, familyOf, edgeMask, variantTile } from './water_depth.js?v=v0.2.96-alpha'; // one consistent deep water look
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
 
@@ -156,7 +156,7 @@ export class Renderer {
     const idx = frame ?? tileFrame(t, v.ms, v.rustles?.get(x + ',' + y));
     let img, S = ts.size;
     const graded = v.grade && !v.grade.identity && v.tileset1x && v.gradeImage;
-    const wc = ground && this.waterDepth !== false && v.waterDepth !== false ? waterClass(v.map, x, y) : 0; // water_depth.js: 1 shallow (fishable) / 2 deep
+    const wc = ground && this.waterDepth !== false && v.waterDepth !== false ? waterClass(v.map, x, y) : 0; // water_depth.js: 2 = water (one deep look)
     if (graded) {
       ts = v.tileset1x; t = ts.byId.get(id) || t;
       img = wc ? ts.images.get(t.sheet) : v.gradeImage(ts.images.get(t.sheet), v.grade, 'map', v.emissive?.get(t.sheet)); S = ts.size; // lit only inside the emissive mask

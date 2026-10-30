@@ -1,49 +1,51 @@
-// Shallow (fishable) vs deep water: src/overworld/water_depth.js + fishing facedWater (Oct 30 2026, Gary).
+// Water rules (Gary, Oct 30 2026 11:10 AM CT: shallow water removed): every water cell is deep / ride-only, fishable
+// from land only, drawn in one deep colour; riding rolls water encounters per step (map water table, else fishing table).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import * as W from '../src/overworld/water_depth.js';
 import * as L from '../src/fishing/logic.js';
+import { EncounterRoller, fishZoneFor } from '../src/battle/encounters.js';
 
-const mk = (rows) => { const g = rows.map((r) => [...r].map((c) => (c === '~' ? 3 : 0))); return { width: g[0].length, height: g.length, code: (x, y) => g[y][x], inBounds: (x, y) => x >= 0 && y >= 0 && x < g[0].length && y < g.length }; };
+const mk = (rows) => { const g = rows.map((r) => [...r].map((c) => (c === '~' ? 3 : c === '=' ? 11 : 0))); return { width: g[0].length, height: g.length, code: (x, y) => g[y][x], inBounds: (x, y) => x >= 0 && y >= 0 && x < g[0].length && y < g.length }; };
 
-test('classes: water touching any non-water (8-neighbour) is shallow, open water deep, off-map counts as water', () => {
-  const m = mk(['.~~~~~', '~~~~~~', '~~~~~~', '~~~~~~']);
+test('classes: every water cell (3 and 11) is deep; land is 0; no edge band', () => {
+  const m = mk(['.~~=~~', '~~~~~~']);
   assert.equal(W.waterClass(m, 0, 0), 0);
-  assert.equal(W.waterClass(m, 1, 1), W.SHALLOW); // diagonal to land
-  assert.equal(W.waterClass(m, 1, 0), W.SHALLOW);
-  assert.equal(W.waterClass(m, 3, 2), W.DEEP);
-  assert.equal(W.waterClass(m, 5, 3), W.DEEP); // map edge = open sea
+  for (const [x, y] of [[1, 0], [1, 1], [3, 0], [5, 1]]) { assert.equal(W.waterClass(m, x, y), W.DEEP); assert.ok(W.isFishable(m, x, y)); }
+  assert.equal(W.SHALLOW, undefined);
+  assert.equal(W.edgeMask(m, 1, 1, W.DEEP), 0);
 });
 
-test('fishing: only shallow cells can be cast into; a shore player always faces shallow water', () => {
-  const m = mk(['~~~~~', '~~~~~', '~~.~~', '~~~~~', '~~~~~']);
+test('fishing: any faced water cell from land; never while riding or standing on water', () => {
+  const m = mk(['~~~~~', '~~~~~', '~~.~~', '~~=~~', '~~~~~']);
   assert.deepEqual(L.facedWater(m, 2, 2, 'up'), { x: 2, y: 1 });
-  assert.equal(L.facedWater(m, 2, 1, 'up'), null); // gliding at (2,1) facing open (2,0): deep, no cast
+  assert.deepEqual(L.facedWater(m, 2, 2, 'down'), { x: 2, y: 3 }); // code 11 too
+  assert.equal(L.facedWater(m, 2, 2, 'up', { riding: true }), null);
+  assert.equal(L.facedWater(m, 2, 1, 'up'), null); // on water = riding
 });
 
-test('recolour: exact palette remap + edge band, binary alpha kept', () => {
+test('recolour: one deep colour, binary alpha kept, palette colours only (no shallow row)', () => {
   const S = 64, a = new Uint8ClampedArray(S * S * 4);
   for (let i = 0; i < a.length; i += 4) { a[i] = 0x46; a[i + 1] = 0x92; a[i + 2] = 0xce; a[i + 3] = 255; }
-  W.recolour(a, S, 'sea', W.DEEP, 1);
-  assert.deepEqual([...a.slice(0, 4)], [0x60, 0xaa, 0xde, 255]); // fade step 1 (light blue) on the N side
-  assert.deepEqual([...a.slice(4, 8)], [0x46, 0x92, 0xce, 255]);
-  const px = (y) => [...a.slice(y * S * 4, y * S * 4 + 3)].map((v) => v.toString(16).padStart(2, '0')).join('');
-  assert.deepEqual([5, 6, 7, 12, 13, 18, 19, 24].map(px), ['4692ce', '4692ce', '3a7bbc', '3a7bbc', '2c64a8', '2c64a8', '30488c', '2c64a8']); // 4-step light -> dark ramp, 6 px each
-  const sh = new Uint8ClampedArray([0x46, 0x92, 0xce, 255]); W.recolour(sh, 1, 'sea', W.SHALLOW, 0); assert.deepEqual([...sh], [0x7a, 0xc2, 0xe8, 255]); // shallow = light blue
-  const mid = (32 * S + 32) * 4; assert.deepEqual([...a.slice(mid, mid + 4)], [0x2c, 0x64, 0xa8, 255]);
-  const pal = new Set(); for (const fam of Object.values(W.REMAP)) for (const cls of Object.values(fam)) for (const v of cls.values()) pal.add(v);
-  const png = readFileSync(new URL('../art/world/overworld/palette.png', import.meta.url)); assert.ok(png.length > 0);
-  const hex = '#000000 #191210 #1a1226 #1e4078 #30488c #2c64a8 #4a70ba #4692ce #7ac2e8 #c6ecfa #246e6c #3e9c92 #70cab8 #18382c #244e34 #60aade #a4daf2 #3a7bbc #2e5e50'.split(' ').map((h) => parseInt(h.slice(1), 16));
-  for (const v of pal) assert.ok(hex.includes(v), v.toString(16));
+  W.recolour(a, S, 'sea', W.DEEP, 15);
+  for (const i of [0, 4, 5 * S * 4, (32 * S + 32) * 4]) assert.deepEqual([...a.slice(i, i + 4)], [0x2c, 0x64, 0xa8, 255]); // uniform, no fade at edges
+  const hex = '#000000 #191210 #1a1226 #1e4078 #30488c #2c64a8 #4a70ba #4692ce #7ac2e8 #c6ecfa #18382c #244e34'.split(' ').map((h) => parseInt(h.slice(1), 16));
+  for (const fam of Object.values(W.REMAP)) { assert.deepEqual(Object.keys(fam), [String(W.DEEP)]); for (const v of fam[W.DEEP].values()) assert.ok(hex.includes(v), v.toString(16)); }
 });
 
-test('every outdoor water map has fishable shallow cells', () => {
-  const dir = new URL('../art/world/overworld/maps/', import.meta.url);
-  for (const f of readdirSync(dir).filter((n) => n.endsWith('.json'))) {
-    const d = JSON.parse(readFileSync(new URL(f, dir), 'utf8')), C = d.layers?.collision;
-    if (!Array.isArray(C) || !C.some((r) => Array.isArray(r) && r.includes(3))) continue;
-    const m = { width: d.width, height: d.height, code: (x, y) => C[y]?.[x] ?? 1 };
-    const g = W.waterClasses(m); assert.ok(g.includes(W.SHALLOW), f);
-  }
+test('riding encounters: per step on water; map water table first, else the fishing table', () => {
+  const surf = { zones: { sea_surf: { method: 'water (Tideglide)', rate: 0.5, maps: ['seamap'], slots: [{ species: 'tidemarrow', level: [10, 10], weight: 1 }] } } };
+  const fishing = JSON.parse(readFileSync(new URL('../data/fishing_tables.json', import.meta.url), 'utf8'));
+  const fmap = Object.keys(fishing.maps).find((k) => fishing.maps[k].basic?.slots?.length);
+  let r = 0; const rng = () => (r++ % 2 ? 0.0 : 0.01); // always under the rate
+  const ro = new EncounterRoller(surf, { rng, graceSteps: 0 }); ro.fishing = fishing;
+  const a = ro.stepWater('seamap', 1, 1); assert.equal(a.species, 'tidemarrow');
+  const b = ro.stepWater(fmap, 1, 1); assert.ok(b, 'fishing-table fallback rolls');
+  assert.ok(fishing.maps[fmap].basic.slots.some((s) => s.species === b.species));
+  assert.equal(ro.stepWater('no_such_map', 1, 1), null);
+  assert.equal(fishZoneFor(fishing, fmap, () => false), null); // art filter applies
+  let n = 0; const ro2 = new EncounterRoller(surf, { rng: () => 0.99, graceSteps: 0 }); ro2.fishing = fishing; // never under the rate: no hit, still a roll per step
+  for (let i = 0; i < 20; i++) if (ro2.stepWater('seamap', i, 1)) n++;
+  assert.equal(n, 0);
 });

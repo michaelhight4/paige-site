@@ -1,29 +1,19 @@
-// Shallow vs deep water (Gary, Oct 30 2026: "rework shallower water to look different than deeper water so players know
-// which one can be fished in"). Gameplay rule (fishing/logic.js facedWater): a water cell (Col.WATER 3 / DEEP_WATER 11)
-// is SHALLOW, and fishable, when any of its 8 neighbours is not water (shore, pier, rock, cliff); every other water cell
-// is DEEP: open water you can only cross with Tideglide, no casting. Cells off the map count as water, so a sea that runs
-// off the edge stays deep. Pure + cached per map (water cells never change at runtime).
-// Look: the ground tile of every water cell is palette-swapped per cell (exact colour remap, palette.png colours only,
-// binary alpha, no haze) - shallow = clear light blue, deep = darker navy - and deep cells next to the shallows fade light -> dark
-// over a 4-step dithered ramp (no hard line). The swap runs on the native tile before the
-// time-of-day grade, so night/dusk grade it like any tile. Works for every tileset scale (1x/2x/3x) and all maps.
+// Water look + class (Gary, Oct 30 2026 11:10 AM CT: "remove shallow water"). Every water cell (Col.WATER 3 / DEEP_WATER 11)
+// is DEEP: ride-only (Tideglide), and fishable from land when faced (fishing/logic.js facedWater). The earlier shallow
+// band / fade / light palette row are gone; all water draws in one consistent deep colour via an exact palette remap
+// (palette.png colours only, binary alpha) on the native tile before the time-of-day grade. The tiles' own soft shore
+// edges are kept; no hard lines. Pure + cached per map (water cells never change at runtime).
 import { Col } from './constants.js?v=v0.2.96-alpha';
 
-export const SHALLOW = 1, DEEP = 2;
+export const DEEP = 2; // (SHALLOW = 1 retired Oct 30 2026)
 const isW = (c) => c === Col.WATER || c === Col.DEEP_WATER;
 
-/** Per-map class grid: Uint8Array w*h, 0 land, 1 shallow, 2 deep. Cached on the map object. */
+/** Per-map class grid: Uint8Array w*h, 0 land, 2 water (all deep). Cached on the map object. */
 export function waterClasses(map) {
   if (!map?.code || !map.width) return null;
   if (map._waterCls) return map._waterCls;
   const w = map.width, h = map.height, g = new Uint8Array(w * h);
-  const wet = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? true : isW(map.code(x, y));
-  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    if (!isW(map.code(x, y))) continue;
-    let deep = true;
-    for (let dy = -1; dy <= 1 && deep; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && !wet(x + dx, y + dy)) { deep = false; break; }
-    g[y * w + x] = deep ? DEEP : SHALLOW;
-  }
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (isW(map.code(x, y))) g[y * w + x] = DEEP;
   try { Object.defineProperty(map, '_waterCls', { value: g, enumerable: false, configurable: true }); } catch { /* frozen map */ }
   return g;
 }
@@ -31,62 +21,34 @@ export function waterClass(map, x, y) {
   const g = waterClasses(map); if (!g || x < 0 || y < 0 || x >= map.width || y >= map.height) return 0;
   return g[y * map.width + x];
 }
-/** Fishable = shallow water (the faced cell). */
-export const isFishable = (map, x, y) => waterClass(map, x, y) === SHALLOW;
+/** Fishable = any water cell (faced from land). */
+export const isFishable = (map, x, y) => waterClass(map, x, y) === DEEP;
 
 // colour remaps by water family (exact RGB, palette.png colours)
 const P = (o) => new Map(Object.entries(o).map(([k, v]) => [parseInt(k.slice(1), 16), parseInt(v.slice(1), 16)]));
 export const REMAP = {
-  sea: { // water / water_1 / water_2 / water>* transitions; shallow = clear light blue (Gary, Oct 30 2026: not teal)
-    [SHALLOW]: P({ '#4692ce': '#7ac2e8', '#4a70ba': '#60aade', '#2c64a8': '#60aade', '#7ac2e8': '#a4daf2' }),
+  sea: { // water / water_1 / water_2 / water>* transitions; one deep colour
     [DEEP]: P({ '#4692ce': '#2c64a8', '#4a70ba': '#30488c', '#2c64a8': '#1e4078', '#7ac2e8': '#4a70ba', '#c6ecfa': '#7ac2e8' }),
   },
   cave: { // cave_water*: same idea, one step dimmer
-    [SHALLOW]: P({ '#30488c': '#2c64a8', '#2c64a8': '#4692ce', '#4a70ba': '#4692ce', '#7ac2e8': '#a4daf2', '#4692ce': '#60aade' }),
     [DEEP]: P({ '#30488c': '#1e4078', '#2c64a8': '#30488c', '#1e4078': '#1a1226', '#7ac2e8': '#4a70ba', '#4692ce': '#2c64a8' }),
   },
   bog: { // x_bog* (Mirefen): murky lighter -> darker
-    [SHALLOW]: P({ '#18382c': '#246e6c', '#244e34': '#3e9c92' }),
     [DEEP]: P({ '#244e34': '#18382c', '#18382c': '#1a1226' }),
   },
 };
-// Shallow->deep fade (Gary, Oct 30 2026: "a light blue that fades into the dark"): deep cells bordering shallow water get
-// a 4-step ramp (6 native px each, 24 px) of checker-dithered palette pairs running light blue -> mid blues -> deep navy,
-// applied only on base water colours, so it reads as one gradient. Ripples/foam stay; no line anywhere.
-const P2 = (...h) => h.map((x) => parseInt(x.slice(1), 16));
-const BAND = {
-  sea: { base: new Set(P2('#2c64a8', '#30488c', '#1e4078')), steps: [P2('#60aade', '#4692ce'), P2('#4692ce', '#3a7bbc'), P2('#3a7bbc', '#2c64a8'), P2('#2c64a8', '#30488c')] },
-  cave: { base: new Set(P2('#1e4078', '#30488c', '#1a1226')), steps: [P2('#4692ce', '#3a7bbc'), P2('#3a7bbc', '#2c64a8'), P2('#2c64a8', '#30488c'), P2('#30488c', '#1e4078')] },
-  bog: { base: new Set(P2('#18382c', '#1a1226')), steps: [P2('#246e6c', '#2e5e50'), P2('#2e5e50', '#244e34'), P2('#244e34', '#18382c'), P2('#18382c', '#1a1226')] },
-};
 export function familyOf(name = '') { return /^cave_water/.test(name) ? 'cave' : /^x_bog/.test(name) ? 'bog' : /^(water|x_water|x_sea)/.test(name) ? 'sea' : 'sea'; }
 
-/** Edge mask: bit 1 N, 2 E, 4 S, 8 W set where the 4-neighbour is water of the OTHER class. */
-export function edgeMask(map, x, y, cls) {
-  let m = 0; const o = cls === SHALLOW ? DEEP : SHALLOW;
-  if (waterClass(map, x, y - 1) === o) m |= 1; if (waterClass(map, x + 1, y) === o) m |= 2;
-  if (waterClass(map, x, y + 1) === o) m |= 4; if (waterClass(map, x - 1, y) === o) m |= 8;
-  return m;
-}
+/** Edge mask: retired with the shallow band (always 0); kept so callers stay simple. */
+export function edgeMask() { return 0; }
 
-/** Pure pixel pass on RGBA data (S x S): remap + edge band. scale = native px size (S / 64). */
-export function recolour(a, S, fam, cls, mask) {
+/** Pure pixel pass on RGBA data (S x S): exact deep-colour remap. */
+export function recolour(a, S, fam, cls) {
   const R = REMAP[fam]?.[cls]; if (!R) return a;
   for (let i = 0; i < a.length; i += 4) {
     if (!a[i + 3]) continue;
     const k = (a[i] << 16) | (a[i + 1] << 8) | a[i + 2], o = R.get(k);
     if (o !== undefined) { a[i] = o >> 16; a[i + 1] = (o >> 8) & 255; a[i + 2] = o & 255; }
-  }
-  if (mask && cls === DEEP) {
-    const sc = Math.max(1, Math.round(S / 64)), B = BAND[fam] || BAND.sea, step = 6 * sc, N = B.steps.length; // 4 x 6 px steps (native)
-    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-      let d = S; if (mask & 1) d = Math.min(d, y); if (mask & 4) d = Math.min(d, S - 1 - y); if (mask & 8) d = Math.min(d, x); if (mask & 2) d = Math.min(d, S - 1 - x);
-      const k = Math.floor(d / step); if (k >= N) continue;
-      const i = (y * S + x) * 4; if (!a[i + 3]) continue;
-      if (!B.base.has((a[i] << 16) | (a[i + 1] << 8) | a[i + 2])) continue;
-      const col = B.steps[k][(Math.floor(x / sc) + Math.floor(y / sc)) & 1];
-      a[i] = col >> 16; a[i + 1] = (col >> 8) & 255; a[i + 2] = col & 255;
-    }
   }
   return a;
 }

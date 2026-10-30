@@ -23,6 +23,7 @@ const TWO_TILE = new Set(['greystone_entrance>lantern_rest', 'aurelith_arena>aur
 
 function* doorWarps() {
   for (const [name, j] of Object.entries(JS)) for (const w of j.warps || []) {
+    if (w.water) continue; // integ9: Tideglide water warps (gullhaven <-> gullhaven_sea) sit on and land on water; tests/integ9_fixes.test.mjs
     if (w.to === '$return' || !MAPS[w.to] || !Number.isFinite(w.tx)) continue;
     yield { name, w, T: MAPS[w.to], TJ: JS[w.to] };
   }
@@ -75,7 +76,7 @@ test('door warps: shared interiors ($return) put you on a walkable tile in front
 });
 
 test('every warp cell is a door tile (art/collision and warp list agree)', () => {
-  for (const [name, j] of Object.entries(JS)) for (const w of j.warps || [])
+  for (const [name, j] of Object.entries(JS)) for (const w of j.warps || []) if (!w.water) // water warps: water cells (integ9)
     assert.equal(MAPS[name].code(w.x, w.y), Col.DOOR, `${name} warp ${w.x},${w.y} -> ${w.to}`);
 });
 

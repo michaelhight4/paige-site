@@ -48,7 +48,7 @@ test('Merit Counter clerk stands in the stadium on walkable floor, reachable, an
   assert.equal(j.layers.collision[c.y][c.x - 1], 0, 'talk spot left of the clerk');
   assert.ok(j.npcs.some((n) => n.id === 'aurelith_games_announcer'), 'announcer (Games entry) kept');
   const src = readFileSync(R('src/sports/town_ui.js'), 'utf8');
-  assert.match(src, /MERIT_CLERK = 'aurelith_merit_clerk'/); assert.match(src, /ev === 'merit'\) \{ await openMerit\(\)/);
+  assert.match(src, /MERIT_CLERK = 'aurelith_merit_clerk'/); assert.match(src, /ev === 'merit'\) \{[^\n]*await openMerit\(\)/ /* integ9: greeting first */);
   assert.match(src, /merit\.announcer\.games/, 'announcer menu (Games / Merit Counter) kept');
   void m;
 });

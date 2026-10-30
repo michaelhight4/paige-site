@@ -17809,7 +17809,14 @@
      }
     ]
    },
-   "area_name": "Aurelith Stadium"
+   "area_name": "Aurelith Stadium",
+   "aurelith_merit_clerk": {
+    "pages": [
+     "Welcome to the Merit Counter.\nYour merit, our prizes.",
+     "Win in the stadium, earn merit.\nSpend it here. Simple."
+    ],
+    "note": "Merit Counter clerk greeting, shown before the Merit Counter opens (data/textbot_merit_clerk.json, Text Bot DRAFT Oct 30 2026)"
+   }
   },
   "aurelith_terminal_int": {
    "aurelith_terminal_clerk": {
