@@ -1,6 +1,7 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
+import { CHEST_PAL, CHEST_CLOSED, CHEST_OPEN } from './chest_art.js?v=v0.2.93-alpha';
 import { systemsConfig, fmtMoney } from './config.js?v=v0.2.93-alpha';
 import { giftTalk } from './npc_gifts.js?v=v0.2.93-alpha';
 import { Party, Archive } from './party.js?v=v0.2.93-alpha';
@@ -273,19 +274,16 @@ export class Systems {
 }
 
 let satchels = null;
-/** 64x64 placeholder satchel (World Design: please supply a real 'supply_satchel' prop + empty variant). */
+/** 64x64 supply chest for world pickups: closed, or open once taken (tools/chests/make_chest.py -> chest_art.js;
+ * 32 px native art drawn 2x, shared furniture projection: lit lid top, top-left light, outline, drop shadow). */
 export function satchelSprite(empty = false) {
   if (typeof document === 'undefined' && typeof OffscreenCanvas === 'undefined') return null;
   satchels ||= {};
   if (satchels[empty]) return satchels[empty];
   const c = typeof document !== 'undefined' ? document.createElement('canvas') : new OffscreenCanvas(64, 64);
   c.width = 64; c.height = 64;
-  const g = c.getContext('2d'), px = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(x, y, w, h); };
-  px(18, 56, 28, 4, 'rgba(0,0,0,.28)');                     // contact shadow
-  px(20, empty ? 44 : 34, 24, empty ? 14 : 24, '#7a4a2a');   // body
-  px(22, empty ? 46 : 36, 20, empty ? 10 : 20, '#a8693a');
-  if (!empty) { px(20, 30, 24, 6, '#5c3620'); px(28, 26, 8, 4, '#5c3620'); px(30, 40, 4, 4, '#ffd34a'); } // flap + strap + buckle
-  else px(20, 42, 24, 3, '#5c3620');
+  const g = c.getContext('2d'), rows = empty ? CHEST_OPEN : CHEST_CLOSED;
+  rows.forEach((r, y) => { for (let x = 0; x < r.length; x++) if (r[x] !== '.') { g.fillStyle = CHEST_PAL[r[x]]; g.fillRect(x * 2, y * 2, 2, 2); } });
   return (satchels[empty] = c);
 }
 
