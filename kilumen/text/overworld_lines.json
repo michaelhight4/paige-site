@@ -4770,7 +4770,7 @@
      "The Master's tougher than me. Just saying."
     ],
     "after": [
-     "Touch a crystal and its neighbours flip too. Don't start in the middle."
+     "There's a plate up the east side.\nStand on it, then look around."
     ],
     "lines": [
      {
@@ -5192,6 +5192,9 @@
        "Line the boulder up before you push. It resets if you leave the floor."
       ]
      }
+    ],
+    "after": [
+     "Push it round the rocks, not\nthrough. Leave and it rolls back."
     ]
    },
    "camp_greystone": {
@@ -5288,7 +5291,14 @@
      }
     ]
    },
-   "area_name": "Greystone Caverns"
+   "area_name": "Greystone Caverns",
+   "plate_plaque": {
+    "pages": [
+     "This plate sinks under something\nheavy. Step off and it rises."
+    ],
+    "status": "DRAFT",
+    "note": "read by A on the puzzle cell, src/progression/puzzle_tells.js FIELD_SIGNS"
+   }
   },
   "heal_brookhollow": {
    "heal_brookhollow_carer": {
@@ -10729,7 +10739,7 @@
      "I slipped. Not on the floor. In the battle."
     ],
     "after": [
-     "Watch what each wheel does to the pan next door, not just its own."
+     "One plate, one swap. Step on it\nand the two gates trade places."
     ],
     "name": "Lorna",
     "trainer_class": "Hall Helper",
@@ -10754,7 +10764,7 @@
      "Okay. My arms are still huge, though."
     ],
     "after": [
-     "Pan went under? Turn the same wheel back. Nothing in here is stuck for good."
+     "The other plate swaps them back.\nNothing in here sticks for good."
     ],
     "name": "Ivo",
     "trainer_class": "Hall Helper",
@@ -11371,7 +11381,7 @@
      "Okay, that was fun. Just not for me."
     ],
     "after": [
-     "Beam hitting a wall? The last prism you turned is usually the problem."
+     "Walls in here you can't see.\nBump one. No harm, just a nose."
     ],
     "name": "Dov",
     "trainer_class": "Hall Helper",
@@ -11394,7 +11404,7 @@
      "Back to the weekdays, then."
     ],
     "after": [
-     "Room two's easier if you start from the door and work back to the beam."
+     "We all stand on real floor.\nUse us as markers."
     ],
     "name": "Fen",
     "trainer_class": "Hall Helper",
@@ -11417,7 +11427,7 @@
      "Go on. She's been watching the whole time."
     ],
     "after": [
-     "Room three wants the beam through both crystals. One after the other."
+     "Bumped nothing? Good. Bumped\nsomething? Try the next gap."
     ],
     "name": "Corwin",
     "trainer_class": "Hall Helper",
@@ -12114,7 +12124,7 @@
      "Wind took that one too."
     ],
     "after": [
-     "The feathers point the way the vents blow. Look down before you step."
+     "Ice won't stop for you. Only a\nwall or bare floor will."
     ],
     "name": "Rue",
     "trainer_class": "Hall Helper",
@@ -12137,7 +12147,7 @@
      "I leaned the wrong way."
     ],
     "after": [
-     "One bell rope swaps every vent in the room. Think before you pull."
+     "See the dark gaps in the ice?\nThat's where a slide ends."
     ],
     "name": "Bram",
     "trainer_class": "Hall Helper",
@@ -12160,7 +12170,7 @@
      "Well, you're not on the floor. I nearly am."
     ],
     "after": [
-     "The eyrie's just past me. Hale's been watching since you walked in."
+     "Slid too far? Walk round and try\nagain. The ice forgives."
     ],
     "name": "Tilly",
     "trainer_class": "Hall Helper",
@@ -12202,7 +12212,7 @@
      "Blown away. Literally, almost."
     ],
     "after": [
-     "The wind here always comes back.\nTime your steps to it."
+     "The plate in this maze opens the\ngate up to the top ice."
     ],
     "name": "Solveig",
     "trainer_class": "Hall Helper",
@@ -13886,7 +13896,7 @@
      "Right. Back under I go."
     ],
     "after": [
-     "High tide opens the glide lanes. Low tide opens the floor. Mix them."
+     "Two shell plates, two gates.\nEach plate turns just one."
     ],
     "name": "Marlow",
     "trainer_class": "Hall Helper",
@@ -13911,7 +13921,7 @@
      "And now the tide's coming in on me."
     ],
     "after": [
-     "Stop it at high for a lane. Stop it at low when you need the floor."
+     "No tide clock in here. The plates\nturn the tide, not the hours."
     ],
     "name": "Moss",
     "trainer_class": "Hall Helper",
@@ -13934,7 +13944,7 @@
      "I'll go count something else."
     ],
     "after": [
-     "We move with the tide too. If I'm on a different ledge later, that's why."
+     "Both plates sit at the west end\nof this maze. Mind the corners."
     ],
     "name": "Edda",
     "trainer_class": "Hall Helper",
@@ -13957,7 +13967,7 @@
      "Go on, before the water changes its mind."
     ],
     "after": [
-     "Jory likes the tide halfway. Not my problem anymore."
+     "Plate shut a gate on you? Step\non it again. It turns back."
     ],
     "name": "Wendell",
     "trainer_class": "Hall Helper",
@@ -13999,7 +14009,7 @@
      "Wiped out. Gnarly, though."
     ],
     "after": [
-     "Every wave has a gap.\nCount three, then go."
+     "Glide lanes keep you going till\nyou bump a rock. Pick your rock."
     ],
     "name": "Linnea",
     "trainer_class": "Hall Helper",
@@ -14022,7 +14032,7 @@
      "Shell's cracked. Spirit's not."
     ],
     "after": [
-     "The Master waits for the low tide.\nThen moves fast."
+     "When the tide rises, the top gate\nstands open. Check before you glide."
     ],
     "name": "Fergal",
     "trainer_class": "Hall Helper",
@@ -14045,7 +14055,7 @@
      "Wave one hundred broke me."
     ],
     "after": [
-     "Big waves come in sevens.\nRest on the small ones."
+     "Slid wrong? Walk back down and\ngo again. The lanes don't mind."
     ],
     "name": "Perrin",
     "trainer_class": "Hall Helper",
@@ -14068,7 +14078,7 @@
      "Lunch survives. My pride doesn't."
     ],
     "after": [
-     "Jory's calm as still water.\nThat's the scary part."
+     "Every lane ends somewhere you\ncan stand. Never in the sea."
     ],
     "name": "Senna",
     "trainer_class": "Hall Helper",
@@ -15018,7 +15028,7 @@
      "Still a good apron."
     ],
     "after": [
-     "Springs are few. Count the tiles you need before you pour."
+     "Arrows on the floor are belts.\nThey carry you the way they point."
     ],
     "name": "Jem",
     "trainer_class": "Hall Helper",
@@ -15041,7 +15051,7 @@
      "Now I'm warm and I've lost."
     ],
     "after": [
-     "Cooled tiles near a bellows won't stay cool. Pick a line away from them."
+     "Belts only run one way. If one\nfights you, pick another."
     ],
     "name": "Kerr",
     "trainer_class": "Hall Helper",
@@ -15064,7 +15074,7 @@
      "It respected you back. Annoying."
     ],
     "after": [
-     "The lever by the door starts the floor over. Use it. Nobody counts."
+     "Carried back down? Fine. The\nbelts loop. Nobody gets stuck."
     ],
     "name": "Lark",
     "trainer_class": "Hall Helper",
@@ -15087,7 +15097,7 @@
      "Mine don't. Go on, the anvil's yours."
     ],
     "after": [
-     "Brannock talks a lot before he battles. Let him. It's the only break you'll get."
+     "Up past the belts, the springs\ncome in pairs. Same mark, same pair."
     ],
     "name": "Mabry",
     "trainer_class": "Hall Helper",
@@ -15129,7 +15139,7 @@
      "Cooled off. Briefly. Tragic."
     ],
     "after": [
-     "Metal tells you when it's ready.\nListen for the ring."
+     "Hop on a spring and you pop out\nat the one with the same mark."
     ],
     "name": "Rasmus",
     "trainer_class": "Hall Helper",
@@ -15152,7 +15162,7 @@
      "Toasted. Lightly. Fair enough."
     ],
     "after": [
-     "Brannock respects a quick strike\nwhile the iron's still glowing."
+     "The way up to the springs is a\ngap on the left. Belts first."
     ],
     "name": "Effie",
     "trainer_class": "Hall Helper",
@@ -15175,7 +15185,7 @@
      "Singed. Mostly my eyebrows."
     ],
     "after": [
-     "Hot floors cool in order.\nWatch the glow fade, then step."
+     "Step on a round plate and listen.\nA gate somewhere answers you."
     ],
     "name": "Branwen",
     "trainer_class": "Hall Helper",
@@ -15198,7 +15208,7 @@
      "Swept away. Ironic."
     ],
     "after": [
-     "Ash settles where the air is still.\nStill air, safe path."
+     "The two plain plates share one\ngate. Step twice and it shuts."
     ],
     "name": "Merrit",
     "trainer_class": "Hall Helper",
@@ -15221,7 +15231,7 @@
      "Out of puff. Me and the bellows."
     ],
     "after": [
-     "The bellows push heat down the hall.\nRide the cool gust after."
+     "Took a spring? Look round before\nyou move. Where'd you land?"
     ],
     "name": "Esme",
     "trainer_class": "Hall Helper",
@@ -15244,7 +15254,7 @@
      "Dented. The kettle's fine, though."
     ],
     "after": [
-     "Good metal rings clear.\nA dull clang means wait."
+     "The way up is a gap in this\nroom's top wall."
     ],
     "name": "Clem",
     "trainer_class": "Hall Helper",
@@ -15267,7 +15277,7 @@
      "Hammered. By you. Respect."
     ],
     "after": [
-     "Brannock tests every blade twice.\nHe'll test you the same."
+     "The ice won't let go till you hit\nfloor or a wall. Aim first."
     ],
     "name": "Gideon",
     "trainer_class": "Hall Helper",
@@ -15290,7 +15300,7 @@
      "Cooled off. You're the hot one now."
     ],
     "after": [
-     "Brannock never rushes a pour.\nWait for his tell, then strike."
+     "The odd plate in the east corner\nopens the gate to the ice."
     ],
     "name": "Hesper",
     "trainer_class": "Hall Helper",
@@ -15310,6 +15320,7 @@
   "lanternport_lighthouse_int": {
    "lanternport_lighthouse_int_stairs_up": {
     "pages": [
+     "Up: second floor. Step on a pad\nand it sends you to its twin.",
      "Spiral stairs, worn smooth in the\nmiddle. Up and up they go.",
      "Somewhere above, a lamp is turning.\nCan you hear it hum?"
     ],
@@ -15319,6 +15330,7 @@
       "id": "default",
       "flags": [],
       "pages": [
+       "Up: second floor. Step on a pad\nand it sends you to its twin.",
        "Spiral stairs, worn smooth in the\nmiddle. Up and up they go.",
        "Somewhere above, a lamp is turning.\nCan you hear it hum?"
       ]
@@ -15348,7 +15360,7 @@
      "Still never lit it."
     ],
     "after": [
-     "Long beam, short beam. Write it down if you need to. I did."
+     "Some walls here you only find\nwith your nose. Sorry, nose."
     ],
     "name": "Gil",
     "trainer_class": "Hall Helper",
@@ -15371,7 +15383,7 @@
      "Friendly, not strong. Noted."
     ],
     "after": [
-     "Each floor uses the same four colours. The order changes."
+     "Hit a hidden wall? Step back and\ntry the next gap along."
     ],
     "name": "Hana",
     "trainer_class": "Hall Helper",
@@ -15427,6 +15439,7 @@
    },
    "lanternport_lighthouse_f2_stairs_up": {
     "pages": [
+     "Up: third floor. A plate by the\nstairs opens the gate at the top.",
      "More stairs. The wind whistles\nthrough the gaps. Keep climbing."
     ],
     "note": "lighthouse climb flavour, PROPOSED id: floor maps have no signs/spots yet; Coder to add spot. DRAFT pending Gary",
@@ -15435,6 +15448,7 @@
       "id": "default",
       "flags": [],
       "pages": [
+       "Up: third floor. A plate by the\nstairs opens the gate at the top.",
        "More stairs. The wind whistles\nthrough the gaps. Keep climbing."
       ]
      }
@@ -15448,7 +15462,7 @@
      "Unravelled. Like my last scarf."
     ],
     "after": [
-     "Cold spots mean company.\nFriendly company, mostly."
+     "Pads go in pairs. Learn where\neach one lands and it's easy."
     ],
     "name": "Rosalind",
     "trainer_class": "Hall Helper",
@@ -15471,7 +15485,7 @@
      "Missed a beat. Or ten."
     ],
     "after": [
-     "Count the beam's turns.\nThe dark gaps are your chance."
+     "Landed somewhere odd? Step back\non the pad. It sends you home."
     ],
     "name": "Nyssa",
     "trainer_class": "Hall Helper",
@@ -15508,6 +15522,7 @@
    },
    "lanternport_lighthouse_f3_stairs_up": {
     "pages": [
+     "Up: the lamp room. The Master\nkeeps the great lens.",
      "Last flight. Warm light spills\ndown from the lamp room above."
     ],
     "note": "lighthouse climb flavour, PROPOSED id: floor maps have no signs/spots yet; Coder to add spot. DRAFT pending Gary",
@@ -15516,6 +15531,7 @@
       "id": "default",
       "flags": [],
       "pages": [
+       "Up: the lamp room. The Master\nkeeps the great lens.",
        "Last flight. Warm light spills\ndown from the lamp room above."
       ]
      }
@@ -15529,7 +15545,7 @@
      "The lanterns clapped. For you."
     ],
     "after": [
-     "Delphine talks to every lantern.\nThey always answer kindly."
+     "The plate's right by me. Step on\nit and watch the gate up top."
     ],
     "name": "Jessamy",
     "trainer_class": "Hall Helper",
@@ -15552,7 +15568,7 @@
      "Not spooky enough, apparently."
     ],
     "after": [
-     "Delphine's spirits fight gently,\nthen all at once. Be ready."
+     "Twisty floor, this. The plate\nyou want is by the stairs."
     ],
     "name": "Delwyn",
     "trainer_class": "Hall Helper",
@@ -18401,6 +18417,33 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "r9_cloudline": {
+   "gate_cairn": {
+    "pages": [
+     "Three lights wake the gate."
+    ],
+    "status": "DRAFT",
+    "note": "read by A on the puzzle cell, src/progression/puzzle_tells.js FIELD_SIGNS"
+   }
+  },
+  "r9_echo_cave": {
+   "wall_carving": {
+    "pages": [
+     "Carved here: three crystals,\nall lit, side by side."
+    ],
+    "status": "DRAFT",
+    "note": "read by A on the puzzle cell, src/progression/puzzle_tells.js FIELD_SIGNS"
+   }
+  },
+  "r9_heart_cave": {
+   "reset_rule": {
+    "pages": [
+     "Touch the same crystal twice\nand it's as if you never had."
+    ],
+    "status": "DRAFT",
+    "note": "read by A on the puzzle cell, src/progression/puzzle_tells.js FIELD_SIGNS"
+   }
   }
  },
  "closed_exits": {
@@ -18886,7 +18929,7 @@
     "{creature} puts {skill} to work. Climb on."
    ],
    "cant_use_yet": [
-    "A strong swimmer could carry you, but you need {skill} first. Try Mirefen."
+    "A strong swimmer could carry you,\nbut you need {skill}. Try Mirefen."
    ],
    "no_creature": [
     "None of your creatures knows {skill}."
@@ -18895,7 +18938,7 @@
   "brushbreak": {
    "status": "proposed",
    "what": "clear thick_brush tiles in optional areas (never story gates)",
-   "requires_flag": "TBD",
+   "requires_flag": "has_brushbreak",
    "inspect": [
     "Thick brush. You could get through, if you didn't mind losing a sleeve."
    ],
@@ -18911,7 +18954,7 @@
     "The brush snaps apart."
    ],
    "cant_use_yet": [
-    "A creature could clear this, but you need the {coin} for field work."
+    "You need {skill} to clear this.\nAsk around Thornwood."
    ],
    "no_creature": [
     "None of your creatures knows {skill}."
@@ -18920,7 +18963,7 @@
   "stonebreak": {
    "status": "proposed",
    "what": "break cracked_rock tiles in optional areas (pushable boulders need no skill)",
-   "requires_flag": "TBD",
+   "requires_flag": "has_stonebreak",
    "inspect": [
     "A cracked rock. One good hit would do it."
    ],
@@ -18936,7 +18979,7 @@
     "The rock crumbles into gravel."
    ],
    "cant_use_yet": [
-    "A creature could break this, but you need the {coin} for field work."
+    "You need {skill} to break this.\nAsk around Greystone."
    ],
    "no_creature": [
     "None of your creatures knows {skill}."
@@ -18961,7 +19004,7 @@
     "Its crystal glows and lights up the cave."
    ],
    "cant_use_yet": [
-    "A creature's crystal could light this place, but you need the {coin} first."
+    "A crystal could light this. The\nFernwick elder might know how."
    ],
    "no_creature": [
     "None of your creatures knows {skill}."
@@ -18985,7 +19028,7 @@
     "{creature} puts {skill} to work!"
    ],
    "cant_use_yet": [
-    "You need {skill} first. The Frostspire Master teaches it."
+    "You need {skill} first. The\nFrostspire Master teaches it."
    ],
    "no_creature": [
     "None of your creatures knows {skill}."
@@ -30431,11 +30474,93 @@
    "note": "PLACEHOLDER (hall overhaul, Coder Oct 29 2026): Text Bot to replace, see data/textbot_requests_hall_overhaul.md"
   },
   "hint_frostspire": {
+   "status": "DRAFT",
    "pages": [
-    "Short on wins? Two helpers wait\non the high ledge above the ice.",
-    "Ride the middle lane, by the\npillar. The wind takes you up."
+    "Ice slides you until something\nstops you. A wall or bare floor.",
+    "Before you slide, look for what\nwill stop you."
    ],
-   "status": "DRAFT"
+   "pages_again": [
+    "The plate in the little maze\nopens the way up to the top ice."
+   ],
+   "source": "data/textbot_puzzle_hints.json"
+  },
+  "reset_note": {
+   "pages": [
+    "Lost? Step out the door. The\nhall sets itself back for you."
+   ],
+   "status": "DRAFT",
+   "source": "data/textbot_puzzle_hints.json"
+  },
+  "hint_fernwick": {
+   "pages": [
+    "Plates open gates. Step on one,\nthen look for what moved."
+   ],
+   "pages_again": [
+    "The plate sits up the east side\nof the maze. The gate's up top."
+   ],
+   "status": "DRAFT",
+   "source": "data/textbot_puzzle_hints.json"
+  },
+  "hint_saltmere": {
+   "pages": [
+    "Each floor plate swaps which\ngate is open. One plate, one swap.",
+    "Watch the gates when you step.\nOne opens as the other shuts."
+   ],
+   "pages_again": [
+    "There's a plate in each half of\nthe hall. You'll want both."
+   ],
+   "status": "DRAFT",
+   "source": "data/textbot_puzzle_hints.json"
+  },
+  "hint_revival_heights": {
+   "pages": [
+    "Press A on a crystal to turn it.\nLine the light up with the door."
+   ],
+   "pages_again": [
+    "Past the crystals, some walls\ncan't be seen. Only bumped.",
+    "The trainers stand on real floor.\nThey make good markers."
+   ],
+   "status": "DRAFT",
+   "source": "data/textbot_puzzle_hints.json"
+  },
+  "hint_tidewater_coast": {
+   "pages": [
+    "The two shell plates turn the\ntide. Each one swaps one gate.",
+    "Glide lanes slide you until a\nrock stops you. Pick your rock."
+   ],
+   "pages_again": [
+    "Both plates hide in the little\nmaze on the west side.",
+    "Beaten trainers step aside if\nyou walk into them."
+   ],
+   "status": "DRAFT",
+   "source": "data/textbot_puzzle_hints.json"
+  },
+  "hint_cindervale": {
+   "pages": [
+    "Arrow plates are belts. Step on\none and it carries you along.",
+    "The belts loop, so you can't get\nstuck. Just try another plate."
+   ],
+   "pages_again": [
+    "The way in is the gap on the far\nright, just past the door."
+   ],
+   "pages_3": [
+    "Springs come in pairs. Step on\none, pop out at its twin.",
+    "Twins share a mark. Read the\nmark before you hop."
+   ],
+   "status": "DRAFT",
+   "source": "data/textbot_puzzle_hints.json"
+  },
+  "hint_lanternport": {
+   "pages": [
+    "First floor: some walls hide.\nFeel your way along.",
+    "Second floor: pads come in pairs.\nStep on one, out at its twin.",
+    "Third floor: a plate by the\nstairs works the gate up top."
+   ],
+   "pages_again": [
+    "Lost on a floor? Walk out its\ndoor and it sets itself back."
+   ],
+   "status": "DRAFT",
+   "source": "data/textbot_puzzle_hints.json"
   }
  },
  "system_arena": {
@@ -30829,6 +30954,47 @@
      }
     ]
    }
+  }
+ },
+ "r9": {
+  "ft": {
+   "r9_cl_field_1": {
+    "after": [
+     "Gus: One plate's frozen in by the west tarn. Mind your footing."
+    ]
+   },
+   "r9_cl_field_2": {
+    "after": [
+     "Yara: Another sits south, down in the middle tarn. Low and quiet."
+    ]
+   },
+   "r9_cl_field_3": {
+    "after": [
+     "Hal: The last one's out east. Three plates and the gate wakes up."
+    ]
+   },
+   "r9_ec_field_1": {
+    "after": [
+     "Ezra: Each crystal sings to the ones beside it. Touch one, hear two."
+    ]
+   },
+   "r9_ec_field_2": {
+    "after": [
+     "Nadia: The middle one's awake already. Don't wake it twice."
+    ]
+   },
+   "r9_hc_field_1": {
+    "after": [
+     "Ione: It worked on three in the echo cave. Four is the same song."
+    ]
+   }
+  }
+ },
+ "field": {
+  "boulder": {
+   "inspect": [
+    "A big boulder. Walk into it and\nit might just shift."
+   ]
   }
  }
 }
