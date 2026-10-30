@@ -74,10 +74,29 @@ export class Dialog {
         const li = e.target.closest?.('li[data-i]');
         this._tap = li ? { pick: +li.dataset.i } : { a: true };
       });
+    } else {
+      // gd bug 3 (Heal Centre menu had no mouse): on pc the choice / inbox rows take a click (= pick) and hover (= select),
+      // like the ui.js menus (mousemove [data-i] -> select, pointerdown -> activate). The box itself still needs F / A.
+      this.list.addEventListener?.('pointerdown', (e) => {
+        const li = e.target.closest?.('li[data-i]'); if (!li || !this.cur) return;
+        e.preventDefault(); e.stopPropagation(); this._tap = { pick: +li.dataset.i };
+      });
+      this.list.addEventListener?.('mousemove', (e) => {
+        const li = e.target.closest?.('li[data-i]'); if (li) this._hover(+li.dataset.i);
+      });
     }
   }
 
   get active() { return !!this.cur; }
+
+  /** Mouse hover over a list row: move the selection there without rebuilding the list (gd bug 3). */
+  _hover(i) {
+    const c = this.cur; if (!c || this.list.hidden || !(i >= 0)) return;
+    if (c.type === 'ask') { if (c.i < c.pages.length - 1 || i >= c.choices.length || c.sel === i) return; c.sel = i; }
+    else if (c.type === 'inbox' && c.open == null) { if (i >= c.items.length || c.sel === i) return; c.sel = i; }
+    else return;
+    for (const li of this.list.querySelectorAll?.('li[data-i]') || []) li.classList.toggle('sel', +li.dataset.i === i);
+  }
 
   _speaker(sp) {
     this.name.textContent = sp?.name || ''; this.name.hidden = !sp?.name;
