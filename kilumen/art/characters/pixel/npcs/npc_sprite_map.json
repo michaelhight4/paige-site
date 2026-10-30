@@ -3470,6 +3470,30 @@
       "overworld_sheet_2x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_2x.png",
       "overworld_sheet_3x": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi_sheet_3x.png",
       "overworld_frames_dir": "npcs/tr_hiker_m/overworld/tr_hiker_m_chibi/"
+    },
+    "heal_cairnfold.heal_cairnfold_carer": {
+      "sprite_id": "vil_healer_f",
+      "class": "heal-centre healer (woman)",
+      "overworld_sheet": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_healer_f/overworld/vil_healer_f_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/vil_healer_f/overworld/vil_healer_f_chibi/"
+    },
+    "heal_cairnfold.heal_cairnfold_technician": {
+      "sprite_id": "vil_worker_f",
+      "class": "visitor at storage PC",
+      "overworld_sheet": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_worker_f/overworld/vil_worker_f_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/vil_worker_f/overworld/vil_worker_f_chibi/"
+    },
+    "heal_cairnfold.heal_cairnfold_storage_user": {
+      "sprite_id": "vil_office_m",
+      "class": "office worker (young man)",
+      "overworld_sheet": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/vil_office_m/overworld/vil_office_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/vil_office_m/overworld/vil_office_m_chibi/"
     }
   },
   "unassigned_ready": {

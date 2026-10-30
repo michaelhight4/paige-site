@@ -1,4 +1,4 @@
+const pet = (fx, fy, face) => `const f = s.follower; if (f) { f.x = ${fx}; f.y = ${fy}; f.facing = '${face}'; f.stepping = false; } s._dirty = true; return f && { sp: f.species, x: f.x, y: f.y, cell: f.sheet && f.sheet.naturalWidth / 5 };`;
 export const VIEWS = [
-  ['00_heal_frostspire', 'heal_frostspire', 6, 6, 'up', null, 800, 0],
-  ['00_frostspire_hall', 'frostspire_office_int', 7, 6, 'up', null, 800, 0],
+  ['p_shop_pet', 'shop_int', 7, 5, 'up', pet(6, 5, 'left'), 800, 0],
 ];

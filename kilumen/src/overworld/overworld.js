@@ -45,8 +45,6 @@ import { trainerOutcome } from '../battle/story.js?v=v0.2.95-alpha'; // battles 
 import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.95-alpha';
 const isWaterCode = (c) => c === 3 || c === 11; // swim sprites (collision water / deep water)
 
-import { cameraFor, pickZoom, outsideFillFor } from './camera.js?v=v0.2.95-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit, withArenaArt } from './tileset.js?v=v0.2.95-alpha';
 // Save migration (berry -> plum, dev/r56-wiring): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
 export const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
 

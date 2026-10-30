@@ -9320,7 +9320,7 @@
     1,
     1,
     1,
-    1,
+    0,
     1,
     0,
     1,
@@ -9376,8 +9376,8 @@
     1,
     1,
     1,
-    1,
-    1,
+    0,
+    0,
     1,
     1,
     1,
@@ -9433,7 +9433,7 @@
     1,
     1,
     1,
-    1,
+    0,
     1,
     1,
     1,
@@ -9488,8 +9488,8 @@
     1,
     1,
     1,
-    1,
-    1,
+    0,
+    0,
     1,
     1,
     1,
@@ -12901,15 +12901,15 @@
   {
    "x": 15,
    "y": 25,
-   "to": "heal_brookhollow",
+   "to": "heal_cairnfold",
    "tx": 6,
-   "ty": 8,
+   "ty": 7,
    "facing": "up"
   },
   {
    "x": 22,
    "y": 25,
-   "to": "shop_int",
+   "to": "shop_cairnfold",
    "tx": 5,
    "ty": 7,
    "facing": "up"
@@ -13317,7 +13317,7 @@
   },
   {
    "id": "r9_cairnfold_sign",
-   "kind": "prop",
+   "kind": "sign",
    "x": 24,
    "y": 25,
    "stand": [
@@ -13325,7 +13325,9 @@
     26
    ],
    "face": "up",
-   "region9": true
+   "region9": true,
+   "tile": "sign",
+   "text": "maps.r9_cairnfold.r9_cairnfold_sign"
   },
   {
    "id": "r9_kid_drawing",

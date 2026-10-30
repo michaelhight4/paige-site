@@ -448,6 +448,44 @@
      ]
     }
    ]
+  },
+  "wellspire": {
+   "city": "Cairnfold",
+   "copay": 400,
+   "prices": {},
+   "stock": [
+    {
+     "coins": 0,
+     "items": [
+      "fine_crystal",
+      "dominance_crystal_plus",
+      "tonic_large",
+      "energy_tonic",
+      "remedy_pouch",
+      "calm_tea",
+      "trail_mix",
+      "feed_bag"
+     ]
+    },
+    {
+     "coins": 8,
+     "items": [
+      "apex_crystal",
+      "vigor_seed",
+      "deepgut_paste",
+      "mint_sprig"
+     ]
+    },
+    {
+     "coins": 8,
+     "items": [
+      "iron_brace",
+      "focus_lens",
+      "steady_sight",
+      "quick_tassel"
+     ]
+    }
+   ]
   }
  },
  "branches": {
@@ -575,6 +613,20 @@
     "map": "gullhaven",
     "x": 7,
     "y": 9
+   }
+  },
+  "heal_cairnfold": {
+   "zone": "wellspire",
+   "carer": "heal_cairnfold_carer",
+   "stand": {
+    "x": 6,
+    "y": 5,
+    "facing": "up"
+   },
+   "returnDoor": {
+    "map": "r9_cairnfold",
+    "x": 15,
+    "y": 25
    }
   }
  },
