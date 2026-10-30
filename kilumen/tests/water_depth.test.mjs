@@ -26,7 +26,9 @@ test('recolour: exact palette remap + edge band, binary alpha kept', () => {
   const S = 64, a = new Uint8ClampedArray(S * S * 4);
   for (let i = 0; i < a.length; i += 4) { a[i] = 0x46; a[i + 1] = 0x92; a[i + 2] = 0xce; a[i + 3] = 255; }
   W.recolour(a, S, 'sea', W.DEEP, 1);
-  assert.deepEqual([...a.slice(0, 4)], [0x1a, 0x12, 0x26, 255]); // drop line on the N side
+  assert.deepEqual([...a.slice(0, 4)], [0x3e, 0x9c, 0x92, 255]); // soft band step 1 (dithered teal) on the N side
+  assert.deepEqual([...a.slice(4, 8)], [0x46, 0x92, 0xce, 255]);
+  const r5 = (5 * S) * 4; assert.deepEqual([...a.slice(r5, r5 + 4)], [0x2c, 0x64, 0xa8, 255]); // step 2 checker
   const mid = (32 * S + 32) * 4; assert.deepEqual([...a.slice(mid, mid + 4)], [0x2c, 0x64, 0xa8, 255]);
   const pal = new Set(); for (const fam of Object.values(W.REMAP)) for (const cls of Object.values(fam)) for (const v of cls.values()) pal.add(v);
   const png = readFileSync(new URL('../art/world/overworld/palette.png', import.meta.url)); assert.ok(png.length > 0);
