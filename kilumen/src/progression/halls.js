@@ -22,6 +22,11 @@ export function draftPath(info) {
 /** Master text keys Text Bot merged (overworld_lines v0.4.11): played in this order after a win. */
 export const MASTER_WIN_KEYS = ['coin_handover', 'gift', 'skill_learned', 'horn'];
 export const STORM_FLAG = 'storm_season';
+/** Story flags a Master win opens (data/masters.json mirefen reward.opens + mq_mirefen_s6 'Learn Tideglide. The storm
+ *  season starts.'). Nothing ever set them (playtest Oct 30 2026): mq_tidewater stayed locked behind storm_season, the HUD
+ *  fell back to a side quest and the Coast Road flood gate (has_tideglide) hard-blocked the main path. Pure: -> flags to set. */
+export const MASTER_OPENS = { beat_master_mirefen: [STORM_FLAG, 'has_tideglide'] };
+export const storyOpens = (flags) => Object.entries(MASTER_OPENS).flatMap(([f, opens]) => (flags.has(f) ? opens.filter((o) => !flags.has(o)) : []));
 
 /** A Master entry with all six keys wired: battle_lost + coin_handover + gift + skill_learned + horn on a win
  *  (skill_learned waits for after_storm when the Master teaches after the storm, i.e. Mirefen/Tideglide);

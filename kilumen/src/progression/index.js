@@ -7,7 +7,7 @@
 import { progressionFlags } from './flags.js?v=v0.2.100-alpha';
 import { arenaProgress } from '../region78/arena_progress.js?v=v0.2.100-alpha';
 import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.100-alpha';
-import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.100-alpha';
+import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell, storyOpens } from './halls.js?v=v0.2.100-alpha';
 import { QuestBook, QFLAG } from './quests.js?v=v0.2.100-alpha';
 import { applyLamps, activeTint } from './hall_lamps.js?v=v0.2.100-alpha'; // batch 3: Mirefen hall tint + reed lamps
 import { HallPuzzle } from './puzzles.js?v=v0.2.100-alpha';
@@ -144,6 +144,8 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
     return out;
   };
   try { pg.retroCoins(); } catch (e) { console.error('retro coins:', e); }
+  pg.storyOpens = () => { const fs = storyOpens(scene.flags || new Set()); for (const f of fs) scene.setFlag?.(f); return fs; }; // Mirefen win -> storm + Tideglide (old saves on load too)
+  try { pg.storyOpens(); } catch (e) { console.error('story opens:', e); }
   if (typeof scene.interact === 'function') {
     const interact = scene.interact.bind(scene);
     scene.interact = () => {
@@ -235,6 +237,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
       if (!scene.map) return;
       const quiet = Date.now() < quietUntil; // catch-up on load (old saves): no toasts / no step text
       if (scene.busy || inBattle()) { hud?.update(); return; } // never advance tasks mid battle / talk / cutscene
+      pg.storyOpens();
       const acts = qb.update({ flags: scene.flags, map: scene.map.name, x: scene.player.x, y: scene.player.y });
       const show = [];
       for (const a of acts) {

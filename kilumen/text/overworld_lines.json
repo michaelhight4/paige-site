@@ -18110,6 +18110,20 @@
        "Fish? In this bog? No. I just like the quiet.",
        "Stay on the boards. The mud takes boots and doesn't give them back."
       ]
+     },
+     {
+      "id": "notebook",
+      "requires": [
+       "q_mq_mirefen_on"
+      ],
+      "sets": [
+       "has_field_notebook"
+      ],
+      "pages": [
+       "The notebook? Didn't catch a fish. Caught that.",
+       "Someone drew a map in the back. Badly. Take it."
+      ],
+      "_note": "Coder Oct 30 2026: step line from data/quests.json mq_mirefen_s1"
      }
     ]
    },
@@ -18165,7 +18179,62 @@
      }
     ]
    },
-   "area_name": "Mirefen Bog"
+   "area_name": "Mirefen Bog",
+   "camp_mirefen": {
+    "pages": [
+     "A tent half sunk in the reeds. A stove wrapped in oilcloth."
+    ],
+    "lines": [
+     {
+      "id": "log",
+      "requires": [
+       "camp_restored_mirefen"
+      ],
+      "sets": [
+       "read_log_mirefen"
+      ],
+      "pages": [
+       "Neat handwriting, signed 'M.Q.' The last page is dated.",
+       "'Bog census done by hand. The scanners don't like our four.'",
+       "'Off to Head Office with Teo's list. Back by Friday.'"
+      ]
+     },
+     {
+      "id": "camp_restored",
+      "flags": [
+       "camp_restored_mirefen"
+      ],
+      "pages": [
+       "The stove's dry inside. Someone wrapped it up properly."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A tent half sunk in the reeds. A stove wrapped in oilcloth."
+      ]
+     }
+    ],
+    "prompt": [
+     "Clear the camp and light the stove?"
+    ],
+    "choices": [
+     "Yes",
+     "No"
+    ],
+    "prompt_after_line": "default",
+    "use": [
+     "You haul the tent out of the reeds and wring it out.",
+     "The stove's dry inside. Someone wrapped it up properly."
+    ],
+    "declined": [
+     "You leave the camp as it is. For now."
+    ],
+    "sets_flag": "camp_restored_mirefen",
+    "active_when": "beat_master_frostspire",
+    "_note": "Coder Oct 30 2026 (playtest fix): use / log / restored pages copied from data/quests.json mq_mirefen lines; the default look line is NEW (Text Bot to replace)."
+   }
   },
   "lantern_rest": {
    "keeper": {

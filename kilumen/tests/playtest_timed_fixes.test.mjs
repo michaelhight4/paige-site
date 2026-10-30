@@ -50,3 +50,31 @@ test('bug 2: Mirefen / Tidewater gate bits survive the door when the dais is sti
     }
   }
 });
+
+// ---- bug 3: Mirefen quest completable, Tideglide + storm granted, tracker points at the main path ------------------------
+const { storyOpens } = await import(path.join(root, 'src/progression/halls.js'));
+const { QuestBook, QFLAG } = await import(path.join(root, 'src/progression/quests.js'));
+const { pickLine } = await import(path.join(root, 'src/overworld/lines.js'));
+test('bug 3: mirefen_bog has the angler + camp; their lines set the mq_mirefen step flags', () => {
+  const m = mapJson('mirefen_bog'), L = lines.maps.mirefen_bog;
+  const a = m.npcs.find((n) => n.id === 'mirefen_angler'); assert.ok(a, 'angler placed');
+  assert.equal(m.layers.collision[a.y][a.x], 0);
+  const camp = m.interact_spots.find((s) => s.id === 'camp_mirefen'); assert.ok(camp);
+  assert.equal(m.layers.collision[camp.stand[1]][camp.stand[0]], 0, 'camp stand walkable');
+  const flags = new Set(['beat_master_frostspire', QFLAG.on('mq_mirefen')]);
+  const l1 = pickLine(L.mirefen_angler, flags, {}, 'k'); assert.deepEqual(l1.sets, ['has_field_notebook']);
+  flags.add('has_field_notebook'); assert.notDeepEqual(pickLine(L.mirefen_angler, flags, {}, 'k').sets, ['has_field_notebook']);
+  assert.equal(pickLine(L.camp_mirefen, flags, {}, 'k').id, 'default', 'cold camp -> prompt');
+  flags.add('camp_restored_mirefen'); assert.deepEqual(pickLine(L.camp_mirefen, flags, {}, 'k').sets, ['read_log_mirefen']);
+  flags.add('read_log_mirefen'); assert.equal(pickLine(L.camp_mirefen, flags, {}, 'k').id, 'camp_restored', 'no re-prompt after');
+});
+test('bug 3: a Mirefen Master win opens storm_season + has_tideglide, so the tracker moves to The Tidewater main quest (not Bin Day)', () => {
+  const data = J('data/quests.json'), qb = new QuestBook(data);
+  const flags = new Set(['flg_promoted', 'got_starter', 'has_run_shoes', 'has_bike', ...['fernwick', 'saltmere', 'revival', 'frostspire', 'mirefen'].map((z) => `beat_master_${z}`)]);
+  for (const f of storyOpens(flags)) flags.add(f);
+  assert.ok(flags.has('storm_season') && flags.has('has_tideglide'));
+  assert.deepEqual(storyOpens(flags), [], 'idempotent');
+  for (let i = 0; i < 4; i++) for (const a of qb.update({ flags, map: 'mirefen', x: 0, y: 0 })) { if (a.type === 'start') flags.add(QFLAG.on(a.q.id)); if (a.type === 'complete') flags.add(QFLAG.done(a.q.id)); }
+  assert.equal(qb.tracked(flags)?.id, 'mq_tidewater');
+  assert.deepEqual(storyOpens(new Set(['beat_master_frostspire'])), [], 'nothing before the Mirefen win');
+});
