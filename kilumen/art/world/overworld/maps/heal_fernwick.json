@@ -193,8 +193,8 @@
     0,
     7476,
     7477,
-    7471,
-    7472,
+    7491,
+    7492,
     7482,
     7485,
     0,
@@ -897,7 +897,7 @@
     ],
     "face": "up",
     "tile": "i_rt_poster_safety",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_poster_safety",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -911,7 +911,7 @@
     ],
     "face": "up",
     "tile": "i_plant_mushroom",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_plant_mushroom",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -925,7 +925,7 @@
     ],
     "face": "up",
     "tile": "i_sofa_fern_0_1",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_sofa",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -939,7 +939,7 @@
     ],
     "face": "up",
     "tile": "i_suggestion_box",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_suggestions",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -953,7 +953,7 @@
     ],
     "face": "up",
     "tile": "i_newsletter_rack",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_newsletters",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -967,7 +967,7 @@
     ],
     "face": "right",
     "tile": "i_pc",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_visitor_pc",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -981,7 +981,7 @@
     ],
     "face": "up",
     "tile": "i_table_small_fern",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_side_table",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -995,8 +995,9 @@
     ],
     "face": "up",
     "tile": "i_counter_rt_l",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_counter",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "reach_over": true
    },
    {
     "id": "heal_fernwick_terminal",
@@ -1009,8 +1010,9 @@
     ],
     "face": "up",
     "tile": "i_company_terminal",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_terminal",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "opens": "company_terminal"
    },
    {
     "id": "heal_fernwick_bench",
@@ -1023,8 +1025,31 @@
     ],
     "face": "up",
     "tile": "i_bench_0_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_fernwick.heal_fernwick_bench",
     "note": "inspectable lobby prop, furnish_heal.py"
+   },
+   {
+    "id": "lap_nap_seat",
+    "kind": "trigger",
+    "x": 2,
+    "y": 4,
+    "stand": [
+     2,
+     4
+    ],
+    "face": "up",
+    "tile": "",
+    "trigger_when": {
+     "standing_still_s": 30
+    },
+    "big_creature_slot": [
+     1,
+     4
+    ],
+    "follow_slot": [
+     2,
+     5
+    ]
    }
   ],
   "people_spots": [

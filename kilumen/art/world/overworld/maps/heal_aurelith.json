@@ -222,8 +222,8 @@
     0,
     7476,
     7477,
-    7471,
-    7472,
+    7491,
+    7492,
     7482,
     0,
     7481,
@@ -1036,7 +1036,7 @@
     ],
     "face": "up",
     "tile": "i_rt_poster_care",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_poster_care",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -1050,7 +1050,7 @@
     ],
     "face": "up",
     "tile": "i_plant_palm_1_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_plant_palm",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -1064,7 +1064,7 @@
     ],
     "face": "up",
     "tile": "i_suggestion_box",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_suggestions",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -1078,7 +1078,7 @@
     ],
     "face": "up",
     "tile": "i_newsletter_rack",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_newsletters",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -1092,7 +1092,7 @@
     ],
     "face": "right",
     "tile": "i_pc",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_visitor_pc",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -1106,8 +1106,9 @@
     ],
     "face": "up",
     "tile": "i_counter_rt_l",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_counter",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "reach_over": true
    },
    {
     "id": "heal_aurelith_terminal",
@@ -1120,8 +1121,9 @@
     ],
     "face": "up",
     "tile": "i_company_terminal",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_terminal",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "opens": "company_terminal"
    },
    {
     "id": "heal_aurelith_plant_fern",
@@ -1134,7 +1136,7 @@
     ],
     "face": "up",
     "tile": "i_plant_fern",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_plant_fern",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -1148,7 +1150,7 @@
     ],
     "face": "up",
     "tile": "i_sofa_aurelith_0_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_sofa",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -1162,7 +1164,7 @@
     ],
     "face": "up",
     "tile": "i_bench_0_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_aurelith.heal_aurelith_bench",
     "note": "inspectable lobby prop, furnish_heal.py"
    }
   ],

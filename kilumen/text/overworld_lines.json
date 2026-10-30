@@ -5633,7 +5633,163 @@
      }
     ]
    },
-   "area_name": "Revival Tech"
+   "area_name": "Revival Tech",
+   "heal_brookhollow_poster_safety": {
+    "pages": [
+     "RITA POSTER: \"Rest your team\nbefore every walk!\"",
+     "Someone drew a frog in the corner.\nThe frog is also resting."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Rest your team\nbefore every walk!\"",
+       "Someone drew a frog in the corner.\nThe frog is also resting."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_plant_flower": {
+    "pages": [
+     "River daisies in a jam jar.\nPicked this morning, by the look."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "River daisies in a jam jar.\nPicked this morning, by the look."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_sofa": {
+    "pages": [
+     "A saggy old sofa. It's held half\nthe village at one time or another."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A saggy old sofa. It's held half\nthe village at one time or another."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_suggestions": {
+    "pages": [
+     "SUGGESTION BOX. Top card:\n\"Biscuits please.\" Signed: Ron.",
+     "Reply: \"We will look into it.\"\nUnder it, in pencil: \"Please.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX. Top card:\n\"Biscuits please.\" Signed: Ron.",
+       "Reply: \"We will look into it.\"\nUnder it, in pencil: \"Please.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, valley:\n\"River levels stay low and calm.\"",
+     "\"Staff wish everyone a lovely\nweek, and dry boots.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, valley:\n\"River levels stay low and calm.\"",
+       "\"Staff wish everyone a lovely\nweek, and dry boots.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_visitor_pc": {
+    "pages": [
+     "A visitor PC, a bit slow. The\nhome page is a photo of the river."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A visitor PC, a bit slow. The\nhome page is a photo of the river."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_side_table": {
+    "pages": [
+     "A small side table. Someone has\nleft a half-done crossword."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A small side table. Someone has\nleft a half-done crossword."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_counter": {
+    "pages": [
+     "The care counter. Somebody has\nstuck a crayon drawing on it."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter. Somebody has\nstuck a crayon drawing on it."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_brookhollow_bench": {
+    "pages": [
+     "A waiting bench. You've sat here\nbefore, swinging your legs."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench. You've sat here\nbefore, swinging your legs."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   },
   "heal_fernwick": {
    "heal_fernwick_carer": {
@@ -5934,7 +6090,163 @@
      }
     ]
    },
-   "area_name": "Revival Tech, Fernwick"
+   "area_name": "Revival Tech, Fernwick",
+   "heal_fernwick_poster_safety": {
+    "pages": [
+     "RITA POSTER: \"Stay on the path!\nYour team will thank you!\"",
+     "Moss has started growing on it.\nRITA doesn't seem to mind."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Stay on the path!\nYour team will thank you!\"",
+       "Moss has started growing on it.\nRITA doesn't seem to mind."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_plant_mushroom": {
+    "pages": [
+     "A pot of glowing mushrooms.\nThey dim when you get too close."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A pot of glowing mushrooms.\nThey dim when you get too close."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_sofa": {
+    "pages": [
+     "A soft green sofa. It smells\nfaintly of pine and wet leaves."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A soft green sofa. It smells\nfaintly of pine and wet leaves."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_suggestions": {
+    "pages": [
+     "SUGGESTION BOX. Top card:\n\"Fewer spiders in the waiting room.\"",
+     "Reply: \"The spiders are waiting\ntoo. Please be patient with them.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX. Top card:\n\"Fewer spiders in the waiting room.\"",
+       "Reply: \"The spiders are waiting\ntoo. Please be patient with them.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, woods:\n\"Fernwick trees doing fine!\"",
+     "\"Staff ask visitors not to\nlick the mushrooms.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, woods:\n\"Fernwick trees doing fine!\"",
+       "\"Staff ask visitors not to\nlick the mushrooms.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_visitor_pc": {
+    "pages": [
+     "A visitor PC with a leaf stuck in\nthe keyboard. Forest maps, mostly."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A visitor PC with a leaf stuck in\nthe keyboard. Forest maps, mostly."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_side_table": {
+    "pages": [
+     "A side table cut from one slice\nof tree. Count the rings? Later."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A side table cut from one slice\nof tree. Count the rings? Later."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_counter": {
+    "pages": [
+     "The care counter. Somebody has\nleft a pine cone on it, for luck."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter. Somebody has\nleft a pine cone on it, for luck."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_fernwick_bench": {
+    "pages": [
+     "A waiting bench, carved with\nleaves. A few real ones on it too."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench, carved with\nleaves. A few real ones on it too."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   },
   "heal_saltmere": {
    "heal_saltmere_carer": {
@@ -6216,7 +6528,163 @@
      }
     ]
    },
-   "area_name": "Revival Tech, Saltmere"
+   "area_name": "Revival Tech, Saltmere",
+   "heal_saltmere_poster_safety": {
+    "pages": [
+     "RITA POSTER: \"Mind the salt flats\nat high tide!\"",
+     "The bottom half has tide marks.\nThe poster minded too late."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Mind the salt flats\nat high tide!\"",
+       "The bottom half has tide marks.\nThe poster minded too late."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_suggestions": {
+    "pages": [
+     "SUGGESTION BOX. Top card:\n\"Could the floor be less sandy?\"",
+     "Reply: \"The floor is sand-resistant.\nThe sand is floor-resistant.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX. Top card:\n\"Could the floor be less sandy?\"",
+       "Reply: \"The floor is sand-resistant.\nThe sand is floor-resistant.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, marsh:\n\"Salt harvest best in years!\"",
+     "\"Staff ask that salt is not\nsprinkled on the waiting teams.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, marsh:\n\"Salt harvest best in years!\"",
+       "\"Staff ask that salt is not\nsprinkled on the waiting teams.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_visitor_pc": {
+    "pages": [
+     "A visitor PC. It's set to a tide\ntable. High water at noon."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A visitor PC. It's set to a tide\ntable. High water at noon."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_counter": {
+    "pages": [
+     "The care counter. A dish of salt\ntaffy sits by the bell. Help yourself."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter. A dish of salt\ntaffy sits by the bell. Help yourself."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_plant_coral": {
+    "pages": [
+     "A pot of marsh coral. It's\ndrying out. Someone, water it."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A pot of marsh coral. It's\ndrying out. Someone, water it."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_sofa": {
+    "pages": [
+     "A sofa with a towel on every\ncushion. Wise, in Saltmere."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A sofa with a towel on every\ncushion. Wise, in Saltmere."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_bench": {
+    "pages": [
+     "A waiting bench. There's a little\npile of sand under one end."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench. There's a little\npile of sand under one end."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_saltmere_side_table": {
+    "pages": [
+     "A side table with a jar of\npretty shells and one crab. Hi."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A side table with a jar of\npretty shells and one crab. Hi."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   },
   "heal_revival": {
    "heal_revival_carer": {
@@ -6498,7 +6966,163 @@
      }
     ]
    },
-   "area_name": "Revival Tech, Heights"
+   "area_name": "Revival Tech, Heights",
+   "heal_revival_poster_safety": {
+    "pages": [
+     "RITA POSTER: \"Revival Tech: we\nlook after what you love!\"",
+     "This one is brand new. RITA\nlooks extra pleased with herself."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Revival Tech: we\nlook after what you love!\"",
+       "This one is brand new. RITA\nlooks extra pleased with herself."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_suggestions": {
+    "pages": [
+     "SUGGESTION BOX. It's locked and\nhas a little camera on top.",
+     "Top card: \"Why does the box have\na camera?\" Reply: \"For you!\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX. It's locked and\nhas a little camera on top.",
+       "Top card: \"Why does the box have\na camera?\" Reply: \"For you!\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, HQ:\n\"Head Office says: thank you!\"",
+     "\"That's the whole issue.\nThank you again, from all of us.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, HQ:\n\"Head Office says: thank you!\"",
+       "\"That's the whole issue.\nThank you again, from all of us.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_visitor_pc": {
+    "pages": [
+     "A visitor PC. Only one page loads:\nthe Revival Tech home page."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A visitor PC. Only one page loads:\nthe Revival Tech home page."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_counter": {
+    "pages": [
+     "The care counter. Gleaming.\nThe staff name tag reads \"Welcome\"."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter. Gleaming.\nThe staff name tag reads \"Welcome\"."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_plant_coral": {
+    "pages": [
+     "A pot of coral. A label on it says\n\"Grown in-house. Please admire.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A pot of coral. A label on it says\n\"Grown in-house. Please admire.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_sofa": {
+    "pages": [
+     "A sofa in company blue.\nIt's very comfy. Suspiciously."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A sofa in company blue.\nIt's very comfy. Suspiciously."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_bench": {
+    "pages": [
+     "A waiting bench with a brass plate:\n\"Donated by Head Office. With love.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench with a brass plate:\n\"Donated by Head Office. With love.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_revival_side_table": {
+    "pages": [
+     "A side table stacked with brochures.\n\"Your Future, With Revival Tech.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A side table stacked with brochures.\n\"Your Future, With Revival Tech.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   },
   "heal_frostspire": {
    "heal_frostspire_carer": {
@@ -6791,7 +7415,163 @@
      }
     ]
    },
-   "area_name": "Revival Tech, Frostspire"
+   "area_name": "Revival Tech, Frostspire",
+   "heal_frostspire_poster_safety": {
+    "pages": [
+     "RITA POSTER: \"Wrap up warm!\nYour team feels the cold too!\"",
+     "Someone has knitted RITA a\ntiny scarf. It's pinned on."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Wrap up warm!\nYour team feels the cold too!\"",
+       "Someone has knitted RITA a\ntiny scarf. It's pinned on."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_suggestions": {
+    "pages": [
+     "SUGGESTION BOX. Top card:\n\"Heating. More heating.\"",
+     "Reply: \"Heating is at 100%.\nHave you tried a second jumper?\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX. Top card:\n\"Heating. More heating.\"",
+       "Reply: \"Heating is at 100%.\nHave you tried a second jumper?\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, peaks:\n\"Skylift runs on time! Mostly!\"",
+     "\"Staff thank everyone for knocking\nthe snow off their boots.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, peaks:\n\"Skylift runs on time! Mostly!\"",
+       "\"Staff thank everyone for knocking\nthe snow off their boots.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_visitor_pc": {
+    "pages": [
+     "A visitor PC. The screen shows\nthe snow report. More snow."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A visitor PC. The screen shows\nthe snow report. More snow."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_counter": {
+    "pages": [
+     "The care counter, with a basket\nof spare mittens on top."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter, with a basket\nof spare mittens on top."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_plant_coral": {
+    "pages": [
+     "A pot of frost coral. It grows\nslow, like it's wearing a coat."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A pot of frost coral. It grows\nslow, like it's wearing a coat."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_sofa": {
+    "pages": [
+     "A sofa piled with blankets.\nSomeone's asleep under one. Shh."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A sofa piled with blankets.\nSomeone's asleep under one. Shh."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_bench": {
+    "pages": [
+     "A waiting bench by the counter.\nThe cushion has a hot water bottle."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench by the counter.\nThe cushion has a hot water bottle."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_frostspire_side_table": {
+    "pages": [
+     "A side table with a flask of tea\nand three mugs. All empty."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A side table with a flask of tea\nand three mugs. All empty."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   },
   "heal_aurelith": {
    "heal_aurelith_carer": {
@@ -7030,7 +7810,163 @@
      }
     ]
    },
-   "area_name": "Revival Tech, Aurelith"
+   "area_name": "Revival Tech, Aurelith",
+   "heal_aurelith_poster_care": {
+    "pages": [
+     "RITA POSTER: \"Your team's care\nis our care!\" RITA is smiling.",
+     "Small print: \"Care runs late\non arena nights.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Your team's care\nis our care!\" RITA is smiling.",
+       "Small print: \"Care runs late\non arena nights.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_plant_palm": {
+    "pages": [
+     "A potted palm, dusted daily.\nIt has the best view of the arena."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A potted palm, dusted daily.\nIt has the best view of the arena."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_suggestions": {
+    "pages": [
+     "SUGGESTION BOX. Top card:\n\"More benches on arena days.\"",
+     "Reply, typed: \"Thank you! Your\nidea has joined a queue.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX. Top card:\n\"More benches on arena days.\"",
+       "Reply, typed: \"Thank you! Your\nidea has joined a queue.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, city:\n\"Arena record crowd! All cared for!\"",
+     "\"Staff remind you that cheering\nis not a medical condition.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, city:\n\"Arena record crowd! All cared for!\"",
+       "\"Staff remind you that cheering\nis not a medical condition.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_visitor_pc": {
+    "pages": [
+     "A visitor PC. Arena times, ticket\nprices, and a game of cards."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A visitor PC. Arena times, ticket\nprices, and a game of cards."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_counter": {
+    "pages": [
+     "The care counter, buffed to a shine.\nEven the city's counter is fancy."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter, buffed to a shine.\nEven the city's counter is fancy."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks for staff, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks for staff, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_plant_fern": {
+    "pages": [
+     "A fern in a gold pot.\nThe pot costs more than the fern."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A fern in a gold pot.\nThe pot costs more than the fern."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_sofa": {
+    "pages": [
+     "A velvet city sofa. Nobody dares\nsit down. It looks too clean."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A velvet city sofa. Nobody dares\nsit down. It looks too clean."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_aurelith_bench": {
+    "pages": [
+     "A waiting bench facing the counter.\nWarm from the last fan to sit here."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench facing the counter.\nWarm from the last fan to sit here."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   },
   "home_brookhollow_a": {
    "home_brookhollow_a_owner": {
@@ -16559,40 +17495,6 @@
    "area_name": "Lantern Rest"
   },
   "heal_lanternport": {
-   "newsletter": {
-    "pages": [
-     "THE REVIVAL TECH BULLETIN, harbour:\n'Harbour branch stays open in storm!'",
-     "'Staff thank the mop. The mop\nhas asked for a raise.'"
-    ],
-    "status": "DRAFT",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "THE REVIVAL TECH BULLETIN, harbour:\n'Harbour branch stays open in storm!'",
-       "'Staff thank the mop. The mop\nhas asked for a raise.'"
-      ]
-     }
-    ]
-   },
-   "suggestion_box": {
-    "pages": [
-     "SUGGESTION BOX (WATERPROOF)\n'Revival Tech hears every wave!'",
-     "Top card: 'Fewer gulls in here.'\nReply: 'The gulls are customers.'"
-    ],
-    "status": "DRAFT",
-    "lines": [
-     {
-      "id": "default",
-      "flags": [],
-      "pages": [
-       "SUGGESTION BOX (WATERPROOF)\n'Revival Tech hears every wave!'",
-       "Top card: 'Fewer gulls in here.'\nReply: 'The gulls are customers.'"
-      ]
-     }
-    ]
-   },
    "staff_door_locked": {
     "pages": [
      "STAFF ONLY. Branch Access Card\nrequired. Salt on the brass plate.",
@@ -16664,57 +17566,57 @@
     "status": "DRAFT",
     "note": "pending Gary"
    },
-   "company_terminal": {
+   "area_name": "Lanternport Revival Tech",
+   "heal_lanternport_poster_care": {
     "pages": [
-     "A company terminal. Storage and\ntasks, all in one place."
+     "RITA POSTER: \"Rinse the salt off\nyour team! We'll do the rest.\""
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "A company terminal. Storage and\ntasks, all in one place."
+       "RITA POSTER: \"Rinse the salt off\nyour team! We'll do the rest.\""
       ]
      }
     ],
-    "status": "DRAFT",
-    "note": "pending Gary",
-    "kind": "prop",
-    "x": 12,
-    "y": 4,
-    "stand": [
-     11,
-     4
-    ],
-    "face": "right",
-    "tile": "i_company_terminal"
+    "status": "DRAFT"
    },
-   "sofa": {
+   "heal_lanternport_polisher": {
     "pages": [
-     "A squashy sofa. Perfect for\na Lap Nap."
+     "A crystal polisher. Salt gets\nin the crystals here.",
+     "It whirrs, then sneezes out\na little puff of sea salt."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "A squashy sofa. Perfect for\na Lap Nap."
+       "A crystal polisher. Salt gets\nin the crystals here.",
+       "It whirrs, then sneezes out\na little puff of sea salt."
       ]
      }
     ],
-    "status": "DRAFT",
-    "note": "pending Gary",
-    "kind": "prop",
-    "x": 2,
-    "y": 7,
-    "stand": [
-     2,
-     6
-    ],
-    "face": "down",
-    "tile": "i_sofa_lantern"
+    "status": "DRAFT"
    },
-   "anchor": {
+   "heal_lanternport_poster_safety": {
+    "pages": [
+     "RITA POSTER: \"Stay off the quay\nin a storm!\"",
+     "Under it, in pen: \"Tell the fish.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Stay off the quay\nin a storm!\"",
+       "Under it, in pen: \"Tell the fish.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_lanternport_anchor": {
     "pages": [
      "An old anchor from the town's\nfirst lifeboat. Kept for luck."
     ],
@@ -16727,19 +17629,104 @@
       ]
      }
     ],
-    "status": "DRAFT",
-    "note": "pending Gary",
-    "kind": "prop",
-    "x": 0,
-    "y": 3,
-    "stand": [
-     0,
-     4
-    ],
-    "face": "up",
-    "tile": "i_anchor"
+    "status": "DRAFT"
    },
-   "area_name": "Lanternport Revival Tech"
+   "heal_lanternport_suggestions": {
+    "pages": [
+     "SUGGESTION BOX (WATERPROOF)\n\"Revival Tech hears every wave!\"",
+     "Top card: \"Fewer gulls in here.\"\nReply: \"The gulls are customers.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX (WATERPROOF)\n\"Revival Tech hears every wave!\"",
+       "Top card: \"Fewer gulls in here.\"\nReply: \"The gulls are customers.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_lanternport_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, harbour:\n\"Harbour branch stays open in storm!\"",
+     "\"Staff thank the mop. The mop\nhas asked for a raise.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, harbour:\n\"Harbour branch stays open in storm!\"",
+       "\"Staff thank the mop. The mop\nhas asked for a raise.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_lanternport_counter": {
+    "pages": [
+     "The care counter, with a jar\nof sea glass by the bell."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter, with a jar\nof sea glass by the bell."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_lanternport_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_lanternport_lantern_stand": {
+    "pages": [
+     "A brass lantern on a stand.\nLit every night, storm or not.",
+     "\"For anyone still out on the\nwater.\" says the little tag."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A brass lantern on a stand.\nLit every night, storm or not.",
+       "\"For anyone still out on the\nwater.\" says the little tag."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_lanternport_bench": {
+    "pages": [
+     "A waiting bench. It's damp.\nEverything here is a bit damp."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench. It's damp.\nEverything here is a bit damp."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   },
   "heal_cindervale": {
    "newsletter": {
@@ -16897,7 +17884,169 @@
     "face": "down",
     "tile": "i_sofa_cinder"
    },
-   "area_name": "Revival Tech, Cindervale"
+   "area_name": "Revival Tech, Cindervale",
+   "heal_cindervale_poster_safety": {
+    "pages": [
+     "RITA POSTER: \"Hot floor, cool head!\nRest before you face the forge.\"",
+     "It's curled at the edges.\nEverything here does, in the heat."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "RITA POSTER: \"Hot floor, cool head!\nRest before you face the forge.\"",
+       "It's curled at the edges.\nEverything here does, in the heat."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_polisher": {
+    "pages": [
+     "A crystal polisher, whirring.\nAsh gets in the crystals here.",
+     "It hums a little higher when\nyou lean in. Busy, busy."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A crystal polisher, whirring.\nAsh gets in the crystals here.",
+       "It hums a little higher when\nyou lean in. Busy, busy."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_suggestions": {
+    "pages": [
+     "SUGGESTION BOX. Top card:\n\"A fan. Any fan. Please.\"",
+     "Reply: \"Fans are on order.\nPlease stay warm in the meantime.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SUGGESTION BOX. Top card:\n\"A fan. Any fan. Please.\"",
+       "Reply: \"Fans are on order.\nPlease stay warm in the meantime.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_newsletters": {
+    "pages": [
+     "THE REVIVAL TECH BULLETIN, forge:\n\"Ore output up! Smiles also up!\"",
+     "Someone has written in the margin:\n\"Smiles not measured.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "THE REVIVAL TECH BULLETIN, forge:\n\"Ore output up! Smiles also up!\"",
+       "Someone has written in the margin:\n\"Smiles not measured.\""
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_crystal_crate": {
+    "pages": [
+     "A crate of fresh crystals, still\nwarm from the caldera.",
+     "Stamped RT. PROPERTY OF HEAD OFFICE.\nIt glows a soft violet."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A crate of fresh crystals, still\nwarm from the caldera.",
+       "Stamped RT. PROPERTY OF HEAD OFFICE.\nIt glows a soft violet."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_counter": {
+    "pages": [
+     "The care counter. A little scorch\nmark where a fire friend said hello."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The care counter. A little scorch\nmark where a fire friend said hello."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_terminal": {
+    "pages": [
+     "A company terminal. Storage and\ntasks, all in one place."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A company terminal. Storage and\ntasks, all in one place."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_bench": {
+    "pages": [
+     "A waiting bench. The metal is warm\nall the way through. Cosy, really."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A waiting bench. The metal is warm\nall the way through. Cosy, really."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_pillar_basalt": {
+    "pages": [
+     "A pillar of black basalt from\nthe caldera. Holds the roof up.",
+     "Older than the building around it.\nThey built the centre to fit."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A pillar of black basalt from\nthe caldera. Holds the roof up.",
+       "Older than the building around it.\nThey built the centre to fit."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "heal_cindervale_side_table": {
+    "pages": [
+     "A side table made from an old\nanvil stand. Heavy. Very heavy."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A side table made from an old\nanvil stand. Heavy. Very heavy."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   },
   "shop_lanternport": {
    "shop_lanternport_clerk": {
@@ -19810,11 +20959,14 @@
   },
   "empty_satchel": {
    "pages": [
-    "An empty supply satchel. Someone beat you to it."
+    "The chest lid is open. Empty.\nSomeone got here before you."
    ],
    "parity": "F18",
    "build": "partial",
-   "note": "visible pickup prop after it's been taken (parity F18 'supply satchel')"
+   "note": "visible pickup prop after it's been taken: the open, empty supply chest (parity F18; was the 'supply satchel')",
+   "pages_old": [
+    "An empty supply satchel. Someone beat you to it."
+   ]
   },
   "team_link_band": {
    "pages": [

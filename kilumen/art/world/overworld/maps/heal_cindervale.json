@@ -801,7 +801,7 @@
     ],
     "face": "up",
     "tile": "i_rt_poster_safety",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_poster_safety",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -815,7 +815,7 @@
     ],
     "face": "up",
     "tile": "i_crystal_polisher_1_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_polisher",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -829,7 +829,7 @@
     ],
     "face": "up",
     "tile": "i_suggestion_box",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_suggestions",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -843,7 +843,7 @@
     ],
     "face": "up",
     "tile": "i_newsletter_rack",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_newsletters",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -857,7 +857,7 @@
     ],
     "face": "up",
     "tile": "i_crystal_crate",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_crystal_crate",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -871,8 +871,9 @@
     ],
     "face": "up",
     "tile": "i_counter_rt_l",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_counter",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "reach_over": true
    },
    {
     "id": "heal_cindervale_terminal",
@@ -885,8 +886,9 @@
     ],
     "face": "up",
     "tile": "i_company_terminal",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_terminal",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "opens": "company_terminal"
    },
    {
     "id": "heal_cindervale_bench",
@@ -899,7 +901,7 @@
     ],
     "face": "up",
     "tile": "i_bench_0_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_bench",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -913,7 +915,7 @@
     ],
     "face": "up",
     "tile": "i_pillar_basalt_1_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_pillar_basalt",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -927,7 +929,7 @@
     ],
     "face": "up",
     "tile": "i_table_small_cinder",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_cindervale.heal_cindervale_side_table",
     "note": "inspectable lobby prop, furnish_heal.py"
    }
   ],

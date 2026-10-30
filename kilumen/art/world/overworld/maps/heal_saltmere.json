@@ -167,8 +167,8 @@
     0,
     7476,
     7477,
-    7471,
-    7472,
+    7491,
+    7492,
     7482,
     7485,
     0,
@@ -782,7 +782,7 @@
     ],
     "face": "up",
     "tile": "i_rt_poster_safety",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_poster_safety",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -796,7 +796,7 @@
     ],
     "face": "up",
     "tile": "i_suggestion_box",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_suggestions",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -810,7 +810,7 @@
     ],
     "face": "up",
     "tile": "i_newsletter_rack",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_newsletters",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -824,7 +824,7 @@
     ],
     "face": "right",
     "tile": "i_pc",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_visitor_pc",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -838,8 +838,9 @@
     ],
     "face": "up",
     "tile": "i_counter_rt_l",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_counter",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "reach_over": true
    },
    {
     "id": "heal_saltmere_terminal",
@@ -852,8 +853,9 @@
     ],
     "face": "up",
     "tile": "i_company_terminal",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_terminal",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "opens": "company_terminal"
    },
    {
     "id": "heal_saltmere_plant_coral",
@@ -866,7 +868,7 @@
     ],
     "face": "up",
     "tile": "i_plant_coral",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_plant_coral",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -880,7 +882,7 @@
     ],
     "face": "up",
     "tile": "i_sofa_brook_0_1",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_sofa",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -894,7 +896,7 @@
     ],
     "face": "up",
     "tile": "i_bench_0_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_bench",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -908,7 +910,7 @@
     ],
     "face": "up",
     "tile": "i_table_small_salt",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_saltmere.heal_saltmere_side_table",
     "note": "inspectable lobby prop, furnish_heal.py"
    }
   ],

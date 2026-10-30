@@ -107,7 +107,7 @@ def furnish(m):
     plants = sum(1 for h in have if h.startswith('i_plant_'))
     if plants < 2:
         pl = 'i_plant_' + {'cinder': 'succulent', 'fern': 'mushroom', 'lantern': 'coral'}.get(suf, 'flower')
-        r = place(d, [(pl, (0, 0))], prot, arr, [(1, top), (W-2, top), (1, H-2), (W-2, H-2)])
+        r = pl not in have and place(d, [(pl, (0, 0))], prot, arr, [(1, top), (W-2, top), (1, H-2), (W-2, H-2)])   # idempotent
         r and added.append((pl, r))
     # interact spots
     pieces = {}
@@ -133,7 +133,9 @@ def furnish(m):
         if not best: continue
         x, y, n, stand, face = best; used_ids.add(sid)
         spots.append({'id': f'{m}_{sid}', 'kind': rule[2], 'x': x, 'y': y, 'stand': stand, 'face': face, 'tile': n,
-                      'text_ref': 'pending (Text Bot)', 'note': 'inspectable lobby prop, furnish_heal.py'})
+                      'text_ref': f'overworld_lines.json maps.{m}.{m}_{sid}', 'note': 'inspectable lobby prop, furnish_heal.py'})
+        if sid == 'terminal': spots[-1]['opens'] = 'company_terminal'   # real menu first, then the flavour line
+        if sid == 'counter': spots[-1]['reach_over'] = True               # staff behind the counter answer first (heal / talk)
     spots = spots[:10]
     # people spots: walkable, not protected, not a stand tile, not next to the door; spread across the room
     stands = {tuple(s['stand']) for s in spots}; cc = counter_cells(d)
@@ -144,7 +146,8 @@ def furnish(m):
         if all(abs(c[0]-q[0]) + abs(c[1]-q[1]) >= 3 for q in ppl): ppl.append(c)
         if len(ppl) == 6: break
     tp = d.setdefault('text_pending', {})
-    tp['interact_spots'] = spots
+    keep = [s for s in tp.get('interact_spots', []) if s.get('kind') == 'trigger']   # e.g. lap_nap_seat: not ours, keep
+    tp['interact_spots'] = spots + keep
     tp['people_spots'] = [{'x': x, 'y': y, 'note': 'walkable, keeps aisles clear; for Coder NPC placement'} for x, y in ppl]
     return d, p, added, spots, ppl
 

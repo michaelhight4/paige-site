@@ -801,7 +801,7 @@
     ],
     "face": "up",
     "tile": "i_rt_poster_care",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_poster_care",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -815,7 +815,7 @@
     ],
     "face": "up",
     "tile": "i_crystal_polisher_1_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_polisher",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -829,7 +829,7 @@
     ],
     "face": "up",
     "tile": "i_rt_poster_safety",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_poster_safety",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -843,7 +843,7 @@
     ],
     "face": "up",
     "tile": "i_anchor",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_anchor",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -857,7 +857,7 @@
     ],
     "face": "up",
     "tile": "i_suggestion_box",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_suggestions",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -871,7 +871,7 @@
     ],
     "face": "right",
     "tile": "i_newsletter_rack",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_newsletters",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -885,8 +885,9 @@
     ],
     "face": "up",
     "tile": "i_counter_rt_l",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_counter",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "reach_over": true
    },
    {
     "id": "heal_lanternport_terminal",
@@ -899,8 +900,9 @@
     ],
     "face": "up",
     "tile": "i_company_terminal",
-    "text_ref": "pending (Text Bot)",
-    "note": "inspectable lobby prop, furnish_heal.py"
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_terminal",
+    "note": "inspectable lobby prop, furnish_heal.py",
+    "opens": "company_terminal"
    },
    {
     "id": "heal_lanternport_lantern_stand",
@@ -913,7 +915,7 @@
     ],
     "face": "up",
     "tile": "i_lantern_stand_1_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_lantern_stand",
     "note": "inspectable lobby prop, furnish_heal.py"
    },
    {
@@ -927,7 +929,7 @@
     ],
     "face": "up",
     "tile": "i_bench_0_0",
-    "text_ref": "pending (Text Bot)",
+    "text_ref": "overworld_lines.json maps.heal_lanternport.heal_lanternport_bench",
     "note": "inspectable lobby prop, furnish_heal.py"
    }
   ],

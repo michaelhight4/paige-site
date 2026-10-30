@@ -348,9 +348,38 @@ Kilumen has no chest tiles: every visible pickup (overworld, interiors, caves, W
 
 Also: src/systems/chest_art.js (new), src/systems/index.js satchelSprite, art/world/overworld/props/supply_chest_{closed,open}{,_2x,_3x}.{png,webp} (new).
 
-## Open issues
-- Logo/blocked-word content in scope maps: i_rt_logo_panel (company logo panel) is placed in heal rooms; i_poster_route contains the blocked word "route". Not changed here.
-- Text still calls the pickup an "empty supply satchel" (system_items.empty_satchel): Text Bot should rename to chest.
-- Wooden chest on wood floors is close in hue; outline + shadow separate it, but a darker/iron variant for wood rooms would be cleaner.
-- In-game shots: the `hour=` URL param did not visibly change the grade in these runs, and intro dialogue boxes cover part of some frames.
+## Follow-up pass (Oct 30, 2026)
+- **Iron chest**: tools/chests/make_chest.py PAL_IRON -> props/supply_chest_iron_{closed,open}{,_2x,_3x}.{png,webp}, chest_art.js
+  CHEST_PAL_IRON. src/systems/index.js `chestVariantAt()` picks iron automatically when the ground tile under a pickup
+  matches WOOD_FLOOR_RE (oak/pine/parquet/drift floors, planks, docks, piers, decks). Value check: 0 flagged.
+- **Blocked word / logos**: i_poster_route renamed i_poster_trail (same id 7426) in all tilesets + README. i_rt_logo_panel in
+  heal rooms (aurelith, brookhollow, fernwick, frostspire, revival, saltmere; build_aurelith_city.py) replaced by the new
+  neutral i_heal_info_panel (ids 7491/7492, i_brand col 11-12 row 1; teal heart + blank lines, no text, no logo;
+  tools/furniture_perspective/heal_panel.py).
+- **Colour check**: tools/furniture_perspective/colour_check.py compares exact opaque RGB codes of every placed furniture
+  piece against the floor/wall/window tiles of each room (incl. tiles a flag_swap can show) on the sheets the game
+  draws (ix2: *_v3 / *_v2), outline ink (<40) ignored, plus both chest palettes against the floor under each pickup.
+  First run: 335 shared codes in 24 rooms; `--fix` nudged 32 pieces (exact-code swap, +-1..6 per channel, all scales
+  + webp). Rerun: 0.
+- **Heal text (Text Bot, data/textbot_heal_props.json)**: 80 lines merged into text/overworld_lines.json maps.<map>.<spot id>
+  and wired through `_spotsFor` (heal_* spots with a lines entry). Terminal spots `opens: company_terminal` = real menu
+  first, then the flavour line. Counter spots `reach_over`: when staff stand behind, talking/healing wins. Visitor PC has
+  no menu in the game, so it shows flavour only. heal_lanternport's old keys (newsletter, suggestion_box,
+  company_terminal, sofa, anchor) retired. system_items.empty_satchel now says chest (pages_old kept); bag.js fallback too.
+- **Regression fixed**: 3f9a6fd7 furnish_heal overwrote text_pending.interact_spots, dropping the base company_terminal
+  spot and lap_nap_seat triggers; triggers restored (brookhollow, fernwick), terminal reachable again; furnish_heal is
+  idempotent (`--check` 0).
+- **Frost coral**: i_plant_frost_coral (id 7501, frost_coral.py) on heal_frostspire. Revival/Saltmere keep the pink coral
+  (their Text Bot lines say "coral" / "marsh coral").
+- **Time of day**: the `hour=` URL param is not applied to the clock at load. shots_fp.mjs now uses `?skipintro=1`, calls
+  `scene.setHour(h)` after each warp (clock.js: dawn 5-7, day 8-16, dusk 17-19, night 20-4) and dismisses dialogue.
+  Indoor maps keep the day grade (IxLight adds the night shade; off in heal/rt rooms). Shots:
+  shots/furniture_perspective_wd/tod_v2/ (mean luma town 113.7 / 109.5 / 97.1 / 89.5 for dawn/day/dusk/night; hues differ).
+  SHOW_TBD=1 makes TBD pickups visible for the shot (all wood-floor pickups are TBD today).
 
+## Open issues
+- chest_art.js import still uses `?v=v0.2.93-alpha`: bump the version on release so cached clients get CHEST_PAL_IRON.
+- All three wood-floor pickups are item TBD, so the iron chest is not seen in normal play until they get items.
+- Visitor PC has no menu; flavour only.
+- Other i_rt_* posters are still company-branded; internal "satchel" identifiers (satchelSprite, empty_satchel key) remain.
+- Colour check covers the ix2 sheets; the ix2=0 fallback sheets were not nudged.
