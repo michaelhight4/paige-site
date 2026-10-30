@@ -25,6 +25,7 @@ globalThis.KILUMEN_COIN_ART = raw.get('badges') !== '0' && raw.get('coinart') !=
 if (raw.get('tasks') === '0') globalThis.KILUMEN_TASKS_OFF = true; // Tasks (quests + milestones) kill switch (Oct 29 2026): old placeholder screen
 if (raw.get('hallanim') === '0') globalThis.KILUMEN_HALLANIM = false; // hall animated tiles kill switch (hall overhaul, dev default on; public default off)
 if (raw.get('wind') === '0') globalThis.KILUMEN_WIND_OFF = true; // world wind kill switch (Oct 29 2026, wind.js): no tree sway / grass ripple / flower bob
+if (raw.get('devxy') === '1') globalThis.KILUMEN_DEVXY = true; // ?devxy=1: HUD pill with map + tile x,y + facing (read-only tester aid, Oct 30 2026 hall playtest)
 if (raw.get('cidle') === '0') globalThis.KILUMEN_CIDLE_OFF = true; // creature idle off switch (creature_idle.js)
 // QoL kill switches (Oct 29 2026): ?qol= (batch A/B, src/qol) and ?qolc= (batch C, src/qol_c) are kept, letters / , / - only.
 for (const k of ['qol', 'qolc']) if (raw.has(k) && /^[A-Za-z0-9,-]{1,80}$/.test(raw.get(k))) keep.set(k, raw.get(k));

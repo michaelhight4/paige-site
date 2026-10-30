@@ -122,6 +122,9 @@ export class GameUI {
     this.banner = el('div', 'hud-banner', this.hud); this.banner.dataset.pat = 'crystal'; this.banner.dataset.scr = 'phone';
     this.hudTop = el('div', 'hud-top', this.hud);
     this.clock = el('div', 'hud-clock', this.hudTop);
+    // ?devxy=1 (dev toggle, Oct 30 2026 hall playtest): a pill with the map name and your tile x,y + facing, so a tester can
+    // say exactly where a walkthrough went off. Off unless asked for.
+    if (globalThis.KILUMEN_DEVXY || this.q?.get?.('devxy') === '1') { /* flag read in alpha.js (the query is stripped there) */ this.devxy = el('div', 'hud-clock hud-devxy', this.hudTop); this.devxy.dataset.scr = 'devxy'; }
     const touch = !!this.platform?.profile?.controls?.touch;
     const mb = this.cfg.menuButton ?? (touch ? 'round' : 'chip');
     if (mb) {
@@ -400,6 +403,7 @@ export class GameUI {
   }
   _hud() {
     const s = this.scene; if (!s.map) return;
+    if (this.devxy && s.player) { const t = `${s.map.name} ${s.player.x},${s.player.y} ${s.player.facing || ''}`; if (this.devxy.textContent !== t) this.devxy.textContent = t; }
     this.body.classList.toggle('ui-dlg-open', !!s.dialog?.active);
     // location banner on map change
     // Area name sign (Gary 10:33 AM CT): the scene decides (outdoor/cave maps only, no edge bounce re-show) and calls
