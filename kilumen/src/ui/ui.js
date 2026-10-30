@@ -414,9 +414,14 @@ export class GameUI {
     if (typeof s._areaSignEnter === 'function') {
       if (!this._areaHooked) {
         this._areaHooked = true;
-        s.onAreaSign = (a) => { if (this.cfg.locationBanner !== false) this.showBanner(a.title, a.holdMs); };
+        // Bug fix (Gary Oct 30 2026, v0.2.97 "no area banner"): a sign that fired while a menu covered the HUD (body.ui-open
+        // hides .ui-hud: Continue / title screen on resume, fly / dev Travel menus) slid in and out unseen. Hold it until the
+        // HUD is visible again, then show it if the player is still on that map.
+        s.onAreaSign = (a) => { if (this.cfg.locationBanner !== false) { if (this._hudHidden()) this._areaSignHeld = a; else { this._areaSignHeld = null; this.showBanner(a.title, a.holdMs); } } };
         if (s.areaSign && s.tick - s.areaSign.tick < 30) s.onAreaSign(s.areaSign); // fired just before the UI mounted
       }
+      const held = this._areaSignHeld;
+      if (held && !this._hudHidden()) { this._areaSignHeld = null; if (held.map === s.map.name && !s.fade) this.showBanner(held.title, held.holdMs); }
     } else if (s.map.name !== this._lastMap && !s.fade) {
       const first = this._lastMap == null; this._lastMap = s.map.name;
       if (this.cfg.locationBanner !== false && !(first && this.active)) this.showBanner(s.map.title || s.map.name);
@@ -444,6 +449,8 @@ export class GameUI {
     const n = this.scene.map.name;
     return /_int$|^home_|^house_|^heal_|^lab_|^rt_|^office|^shop|^station|^club/.test(n) ? 'Indoors' : /^greystone/.test(n) ? 'Cave' : zone?.type === 'town' ? 'Town' : /^route|thornwood|mirefen/.test(n) ? 'Trail' : 'Area';
   }
+  /** The HUD (and its banner) is hidden while a full-screen menu is open (ui.css body.ui-open .ui-hud). */
+  _hudHidden() { return !!this.active || this.body.classList.contains('ui-open'); }
   showBanner(title, holdMs) {
     const zone = (this.scene.layout?.zones || []).find((z) => z.id === this.scene.zone?.());
     const kind = this._bannerKind(zone);
