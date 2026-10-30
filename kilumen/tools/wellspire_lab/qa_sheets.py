@@ -10,7 +10,7 @@ import json, os, sys
 from collections import deque
 from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.dirname(__file__))
-from lab_props_lean import lean_props, SHADE_MAPS, TOP, FRONT
+from lab_props_lean import lean_props, kit_props, SHADE_MAPS, TOP, FRONT
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')); OW = os.path.join(ROOT, 'art/world/overworld')
 OUT = sys.argv[1] if len(sys.argv) > 1 else '/workspace/kilumen/qa/wlab_contact_sheets'; os.makedirs(OUT, exist_ok=True)
 T = 64
@@ -26,7 +26,12 @@ def tile(i):
     if p not in sheets: sheets[p] = Image.open(os.path.join(OW, p)).convert('RGBA')
     sh = sheets[p]; n = sh.width // 16 if 'wellspire_lab' in p else 64
     return sh.crop((t['col'] * n, t['row'] * n, (t['col'] + 1) * n, (t['row'] + 1) * n)).resize((T, T), Image.NEAREST)
-LP = lean_props()
+LP = lean_props(); LP.update({n: im for n, im, _ in kit_props()[0]})
+def parts(p):
+    sm, (w, h), kn = SHADE_MAPS[p]
+    if w == h == 1 and p in LP: return {(0, 0): p}
+    return {(cx, cy): ('wlk_' + kn(cx, cy)) if kn else f'{p}_{cx}_{cy}' for cy in range(h) for cx in range(w)}
+PARTS = {p: parts(p) for p in SHADE_MAPS}
 def lum(c): return 0.3 * c[0] + 0.59 * c[1] + 0.11 * c[2]
 
 def qa_room(name, m, released):
@@ -84,13 +89,12 @@ def qa_room(name, m, released):
         for r in L.get(k, []):
             for i in r:
                 n = tiles.get(i, {}).get('name', '')
-                for p in SHADE_MAPS:
-                    if n.startswith(p + '_') and n[len(p) + 1:].replace('_', '').isdigit(): used.add(p)
+                for p, ps in PARTS.items():
+                    if n in ps.values(): used.add(p)
     lean = []
     for p in sorted(used):
-        sm, (w, h) = SHADE_MAPS[p]; art = Image.new('RGBA', (w * 64, h * 64))
-        for cy in range(h):
-            for cx in range(w): art.paste(LP[f'{p}_{cx}_{cy}'], (cx * 64, cy * 64))
+        sm, (w, h), _k = SHADE_MAPS[p]; art = Image.new('RGBA', (w * 64, h * 64))
+        for (cx, cy), tn in PARTS[p].items(): art.paste(LP[tn], (cx * 64, cy * 64))
         A, S = art.load(), sm.load(); tl, fl = [], []
         for yy in range(art.height):
             for xx in range(art.width):
@@ -110,18 +114,25 @@ def qa_room(name, m, released):
             d.rectangle((x * T, y * T, x * T + T - 1, y * T + T - 1), outline=(255, 255, 255, 70))
     d.rectangle((ar[0] * T + 20, ar[1] * T + 20, ar[0] * T + 43, ar[1] * T + 43), outline=(255, 255, 0, 255), width=3)
     ov = Image.alpha_composite(room, ovl)
-    stripH = max([a.height for _, a, *_ in lean] + [0]) + 40 if lean else 0
+    rows = []; rx = 16
+    for it in lean:
+        if not rows or rx + it[1].width * 2 + 40 > room.width * 2 + 48: rows.append([]); rx = 16
+        rows[-1].append(it); rx += it[1].width * 2 + 40
+    stripH = sum(max(a.height for _, a, *_ in r) + 44 for r in rows)
     SW = room.width * 2 + 48; SH = 56 + room.height + (stripH + 30 if lean else 0) + 22 * (len(issues) + 2)
-    sheet = Image.new('RGBA', (max(SW, sum(a.width * 2 + 40 for _, a, *_ in lean) + 24), SH), (22, 22, 30, 255)); sd = ImageDraw.Draw(sheet)
+    sheet = Image.new('RGBA', (SW, SH), (22, 22, 30, 255)); sd = ImageDraw.Draw(sheet)
     sd.text((16, 10), f'{name}{"  (after release, flag_swaps applied)" if released else ""}   {W}x{H} squares @ 64 px (real scale)', fill=(240, 240, 250))
     sd.text((16, 30), 'left: room as rendered   right: grid + collision (red block, blue door, green reached from arrival [yellow])', fill=(170, 170, 190))
     sheet.alpha_composite(room, (16, 50)); sheet.alpha_composite(ov, (32 + room.width, 50)); y0 = 60 + room.height
     if lean:
-        sd.text((16, y0), 'lean props (35 deg, light top-left): art | greyscale shading layer (TOP 224 / FRONT 150 / SIDE 112 / glow 184)', fill=(170, 170, 190)); x = 16
-        for p, art, sm, mt, mf, ok in lean:
-            sheet.alpha_composite(art, (x, y0 + 20)); sheet.paste(sm.convert('RGBA'), (x + art.width + 4, y0 + 20))
-            sd.text((x, y0 + 24 + art.height), f'{p} top {mt:.0f} > front {mf:.0f} {"OK" if ok else "FAIL"}', fill=(140, 240, 150) if ok else (255, 90, 90))
-            x += art.width * 2 + 40
+        sd.text((16, y0), 'lean props (35 deg, light top-left): art | greyscale shading layer (TOP 224 / FRONT 150 / SIDE 112 / glow 184)', fill=(170, 170, 190)); yy = y0
+        for r in rows:
+            x = 16
+            for p, art, sm, mt, mf, ok in r:
+                sheet.alpha_composite(art, (x, yy + 20)); sheet.paste(sm.convert('RGBA'), (x + art.width + 4, yy + 20))
+                sd.text((x, yy + 24 + art.height), f'{p} {mt:.0f}>{mf:.0f} {"OK" if ok else "FAIL"}', fill=(140, 240, 150) if ok else (255, 90, 90))
+                x += art.width * 2 + 40
+            yy += max(a.height for _, a, *_ in r) + 44
         y0 += stripH + 30
     sd.text((16, y0), f'QA: {"PASS" if not issues else str(len(issues)) + " issue(s)"}', fill=(140, 240, 150) if not issues else (255, 90, 90))
     for k, s in enumerate(issues): sd.text((16, y0 + 22 * (k + 1)), s, fill=(255, 150, 150))

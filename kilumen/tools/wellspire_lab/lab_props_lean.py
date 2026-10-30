@@ -123,15 +123,15 @@ SHADE_MAPS = {}
 
 
 def _reg(out, name, c):
-    out.update(c.tiles(name)); SHADE_MAPS[name] = (c.shade_map(), (c.w, c.h))
+    out.update(c.tiles(name)); SHADE_MAPS[name] = (c.shade_map(), (c.w, c.h), None)
 
 
 def tank(k):  # 1x2 specimen cylinder
-    c = Lit(1, 2); c.shadow((5, 46, 31, 63))
-    yb = c.drum(16, 13, 46, 9, DARKSTEEL, GLOW[k][0])               # base plinth
-    c.glass_cyl(16, 11, 12, 50, k); c.sleeper(15, 32, 6, k)
+    c = Lit(1, 2); c.shadow((2, 46, 31, 63))
+    yb = c.drum(16, 15, 44, 10, DARKSTEEL, GLOW[k][0])               # base plinth (widened: fills the square)
+    c.glass_cyl(16, 14, 12, 50, k); c.sleeper(15, 32, 7, k)
     for (x, y) in ((21, 20), (12, 16), (20, 42)): c.px(x, y, (255, 255, 255))
-    c.drum(16, 12, 2, 7, STEEL)                                      # lid
+    c.drum(16, 15, 1, 7, STEEL)                                      # lid
     c.rect((10, 0, 11, 2), DARKSTEEL, FRONT); c.rect((20, 0, 21, 2), DARKSTEEL, FRONT)   # feed pipes into the ceiling
     return c
 
@@ -243,8 +243,172 @@ def lean_props():
     for k in ('green', 'cyan'):
         for nm in ('nw', 'n', 'ne', 'w', 'c', 'e', 'sw', 's', 'se'):
             c = vat(k, nm); im = c.tiles('x')['x_0_0']; out[f'wl_vat_{k}_{nm}'] = im
+    out.update(kit_props()[1])
     return out
 
 
 if __name__ == '__main__':
     o = lean_props(); print(len(o), 'lean tiles')
+
+
+# ======================= lab-local kit lean pass (Director, Oct 30 2026, follow-up) =======================
+# Lab-only redraws of the shared-kit props the fin_past_wlab_* rooms use. They are NEW tiles named 'wlk_<kit name>'
+# (appended after every existing wellspire_lab tile, same layer + collision code as the kit tile they stand in for);
+# build_lab_maps.py's ID() prefers 'wlk_<name>' so ONLY the lab maps point at them. Shared kit art is untouched.
+# wl_growth_0 / wl_console / wl_jars_amber are already lab-local, so they are redrawn in place.
+WHITE = (226, 232, 238); VIOLET = (130, 80, 200); POT = (120, 132, 150); LEAF = (60, 150, 90)
+
+
+def _box(c, x0, x1, y, depth, height, col, side=True, strip=None):
+    t = max(2, round(depth * KTOP)); f = max(2, round(height * KFRONT))
+    c.rect((x0, y, x1, y + t - 1), col, TOP); c.rect((x0, y + t, x1, y + t + f - 1), col, FRONT)
+    c.line([(x0, y + t - 1), (x1, y + t - 1)], shade(col + (255,), 1.3), NEU)
+    if side: c.rect((x1 - 1, y + t, x1, y + t + f - 1), col, SIDE)
+    if strip: c.rect((x0 + (3 if side else 0), y + t + f // 2, x1 - (4 if side else 0), y + t + f // 2), strip, NEU, True)
+    return y + t, y + t + f
+
+
+def k_counter(part):
+    c = Lit(1, 1); x0 = 3 if part == 'l' else 0; x1 = 28 if part == 'r' else 31
+    c.shadow((x0, 22, min(31, x1 + 2), 31)); _box(c, x0, x1, 6, 26, 12, STEEL, side=part == 'r', strip=GLOW['cyan'][0])
+    if part == 'm': c.rect((10, 9, 19, 12), (70, 90, 120), TOP); c.rect((11, 10, 18, 11), GLOW['cyan'][0], NEU, True)   # tablet on top
+    return c
+
+
+def k_terminal():
+    c = Lit(1, 1); c.shadow((4, 20, 31, 31)); _box(c, 4, 27, 16, 14, 10, DARKSTEEL)
+    _box(c, 7, 24, 4, 4, 11, (70, 84, 104))                        # monitor: thin top, tall front
+    c.rect((9, 8, 22, 15), (20, 60, 90), NEU, True); c.line([(10, 10), (18, 10)], GLOW['cyan'][0], NEU, True); c.line([(10, 13), (15, 13)], GLOW['cyan'][0], NEU, True)
+    c.rect((10, 19, 21, 21), (40, 50, 64), TOP); return c
+
+
+def k_bed():  # 1x2, head at the top
+    c = Lit(1, 2); c.shadow((2, 20, 31, 63)); _, yb = _box(c, 2, 29, 4, 76, 12, DARKSTEEL)
+    c.rect((4, 6, 27, 43), WHITE, TOP); c.rect((6, 7, 25, 15), (250, 252, 255), TOP)       # mattress + pillow
+    c.rect((4, 24, 27, 43), (110, 70, 190), TOP); c.line([(4, 24), (27, 24)], (170, 130, 240), NEU)  # blanket
+    c.rect((4, 44, 27, 47), (90, 56, 160), FRONT); c.rect((8, 52, 23, 52), GLOW['cyan'][0], NEU, True); return c
+
+
+def k_heal():  # 2x2 restorer: plinth + glass dome
+    c = Lit(2, 2); c.shadow((4, 30, 63, 63)); _box(c, 4, 59, 30, 26, 20, STEEL, strip=GLOW['cyan'][0])
+    c.rect((10, 33, 20, 40), (60, 80, 110), TOP); c.rect((12, 35, 18, 38), (255, 120, 160), NEU, True)
+    c.drum(40, 13, 26, 4, DARKSTEEL)
+    c.ell((27, 4, 53, 36), (110, 220, 250, 200), NEU, True); c.ell((30, 7, 50, 33), (60, 170, 220, 210), NEU, True)
+    c.line([(33, 10), (31, 22)], GLASS_HI + (200,), NEU, True); c.px(40, 20, (255, 255, 255)); return c
+
+
+def k_pillar():  # 1x2 steel column
+    c = Lit(1, 2); c.shadow((4, 50, 31, 63)); c.drum(16, 13, 50, 6, DARKSTEEL)
+    for x in range(5, 28):
+        u = (x - 16) / 11; f = min(1, abs(u + 0.3)); col = tuple(int(v * (1.05 - 0.45 * f)) for v in STEEL)
+        c.line([(x, 8), (x, 52 + int(6 * math.sqrt(max(0, 1 - u * u))))], col, FRONT)
+    c.rect((9, 10, 9, 50), (200, 210, 225), NEU); c.rect((5, 28, 27, 29), (210, 150, 255), NEU, True)
+    c.drum(16, 12, 1, 5, STEEL); return c
+
+
+def k_cooler():  # 1x2 tall fridge
+    c = Lit(1, 2); c.shadow((3, 40, 31, 63)); _box(c, 3, 28, 6, 20, 56, (210, 220, 230))
+    c.rect((6, 20, 25, 54), (190, 200, 214), FRONT); c.rect((8, 22, 23, 40), (120, 200, 230), NEU, True)
+    for y in (26, 32, 38): c.line([(9, y), (22, y)], (220, 245, 255), NEU, True)
+    c.rect((22, 44, 23, 50), (90, 100, 120), FRONT); c.rect((8, 48, 12, 50), (255, 120, 160), NEU, True); return c
+
+
+def k_display():  # 1x2 crest crystal on a plinth under a glass case
+    c = Lit(1, 2); c.shadow((3, 40, 31, 63)); _box(c, 4, 27, 38, 18, 14, STEEL, strip=(210, 150, 255))
+    c.rect((6, 8, 25, 42), (150, 210, 240, 110), NEU, True); c.rect((6, 4, 25, 8), (190, 230, 250, 150), TOP)
+    c.poly([(16, 14), (22, 26), (16, 38), (10, 26)], (170, 110, 240), NEU, True); c.poly([(16, 14), (22, 26), (16, 38)], (110, 60, 190), NEU, True)
+    c.line([(14, 20), (12, 26)], (240, 220, 255), NEU, True); c.line([(7, 10), (7, 36)], GLASS_HI + (160,), NEU, True); return c
+
+
+def k_crystal_on():
+    c = Lit(1, 1); c.shadow((6, 20, 31, 31)); c.drum(16, 9, 18, 6, DARKSTEEL, (210, 150, 255))
+    c.poly([(16, 2), (22, 11), (16, 21), (10, 11)], (190, 130, 250), NEU, True); c.poly([(16, 2), (22, 11), (16, 21)], (120, 70, 200), NEU, True)
+    c.px(14, 8, (250, 240, 255)); return c
+
+
+def k_plant(leaf=LEAF, glow=False, vine=False):
+    c = Lit(1, 1); c.shadow((7, 20, 31, 31)); c.drum(16, 9, 18, 7, POT)
+    c.ell((10, 19, 22, 24), (60, 46, 34), TOP)
+    hi, lo = shade(leaf + (255,), 1.35)[:3], shade(leaf + (255,), 0.7)[:3]
+    for (x, y, rx, ry) in ((10, 12, 6, 4), (22, 12, 6, 4), (16, 7, 6, 5), (12, 4, 4, 3), (21, 4, 4, 3)):
+        c.ell((x - rx, y - ry, x + rx, y + ry), lo, FRONT, glow); c.ell((x - rx, y - ry, x + rx - 2, y + ry - 2), leaf, TOP, glow)
+        c.ell((x - rx + 1, y - ry + 1, x - 1, y), hi, TOP, glow)
+    if vine:
+        for (x, y) in ((6, 16), (26, 15), (25, 22), (5, 23)): c.ell((x - 2, y - 2, x + 2, y + 2), leaf, TOP, True)
+        for (x, y) in ((9, 6), (23, 9), (15, 3)): c.px(x, y, (220, 255, 200))
+    return c
+
+
+def k_telescope():
+    c = Lit(1, 1); c.shadow((6, 22, 31, 31))
+    for (a, b) in (((16, 16), (8, 28)), ((16, 16), (24, 28)), ((16, 16), (16, 29))): c.line([a, b], DARKSTEEL, FRONT, w=2)
+    c.line([(6, 18), (26, 4)], (180, 150, 70), FRONT, w=5); c.line([(6, 16), (26, 2)], (230, 200, 110), TOP, w=2)
+    c.ell((23, 0, 29, 6), (150, 120, 60), TOP); c.ell((24, 1, 28, 5), (120, 200, 240), NEU, True); return c
+
+
+def k_chair():
+    c = Lit(1, 1); c.shadow((6, 14, 31, 31)); _box(c, 7, 24, 3, 6, 12, (90, 60, 160))    # backrest
+    _box(c, 6, 25, 15, 14, 6, (120, 80, 200)); c.rect((9, 26, 10, 30), DARKSTEEL, FRONT); c.rect((21, 26, 22, 30), DARKSTEEL, FRONT); return c
+
+
+def k_desk():  # 2x1 lab desk with flasks
+    c = Lit(2, 1); c.shadow((2, 12, 63, 31)); _box(c, 2, 61, 8, 22, 12, (220, 196, 176), strip=None)
+    c.rect((6, 24, 28, 28), (190, 166, 146), FRONT); c.rect((34, 24, 58, 28), (190, 166, 146), FRONT)
+    for (x, col) in ((12, (90, 236, 255)), (18, (140, 255, 150)), (24, (255, 120, 220))):
+        c.rect((x - 1, 4, x + 1, 11), col, FRONT, True); c.rect((x - 1, 3, x + 1, 3), shade(col + (255,), 1.3), TOP, True)
+    c.rect((40, 6, 52, 13), (40, 50, 64), FRONT); c.rect((41, 7, 51, 11), (20, 60, 90), NEU, True); c.rect((40, 4, 52, 5), (90, 104, 122), TOP)
+    return c
+
+
+def k_railing():
+    c = Lit(1, 1); c.shadow((0, 22, 31, 29))
+    for x in (4, 20): c.rect((x, 12, x + 3, 26), DARKSTEEL, FRONT); c.rect((x, 11, x + 3, 12), STEEL, TOP)
+    c.rect((0, 8, 31, 10), STEEL, TOP); c.rect((0, 11, 31, 12), DARKSTEEL, FRONT); c.rect((0, 18, 31, 18), DARKSTEEL, FRONT); return c
+
+
+def k_crates():
+    c = Lit(1, 1); c.shadow((3, 14, 31, 31)); _box(c, 3, 28, 8, 18, 14, (180, 140, 80))
+    c.rect((6, 22, 25, 22), (130, 96, 50), FRONT); c.rect((14, 8, 17, 17), (200, 160, 100), TOP); c.rect((8, 4, 18, 8), (150, 160, 175), TOP)
+    c.rect((8, 9, 18, 10), (110, 120, 136), FRONT); return c
+
+
+def k_console():  # navy console, angled screen (top face) + keys on the front
+    c = Lit(1, 1); c.shadow((3, 16, 31, 31)); _box(c, 3, 28, 6, 20, 14, (60, 80, 120))
+    c.rect((6, 7, 25, 15), (20, 60, 90), NEU, True)
+    for y in (9, 12): c.line([(8, y), (8 + (y * 3) % 14, y)], GLOW['cyan'][0], NEU, True)
+    for x in (7, 12, 17, 22): c.rect((x, 22, x + 2, 23), (255, 120, 220), NEU, True)
+    return c
+
+
+def k_jars():  # amber specimen shelf
+    c = Lit(1, 1); c.shadow((2, 20, 31, 31)); _box(c, 2, 29, 18, 10, 12, (110, 74, 40))
+    for x, h in ((7, 12), (16, 15), (25, 10)):
+        y0 = 22 - h; c.rect((x - 4, y0, x + 4, 22), (230, 150, 60), FRONT, True); c.ell((x - 4, y0 - 2, x + 4, y0 + 2), (150, 160, 175), TOP)
+        c.ell((x - 2, y0 + 4, x + 2, y0 + 8), (120, 60, 20), NEU, True); c.line([(x - 3, y0 + 2), (x - 3, 20)], (255, 230, 170), NEU, True)
+    return c
+
+
+KIT_MAP = {  # wlk name -> (Lit, kit name for layer/code)
+    'cooler': (k_cooler, 1, 2, lambda cx, cy: f'cooler_{cy}_0'), 'i_bed_revival': (k_bed, 1, 2, lambda cx, cy: f'i_bed_revival_{cy}_0'),
+    'i_heal_machine': (k_heal, 2, 2, lambda cx, cy: f'i_heal_machine_{cy}_{cx}'), 'i_pillar_steel': (k_pillar, 1, 2, lambda cx, cy: f'i_pillar_steel_{cy}_0'),
+    'i_crystal_display': (k_display, 1, 2, lambda cx, cy: f'i_crystal_display_{cy}_0'), 'i_lab_desk': (k_desk, 2, 1, lambda cx, cy: f'i_lab_desk_0_{cx}'),
+}
+KIT_SINGLE = {'i_counter_steel_l': lambda: k_counter('l'), 'i_counter_steel_m': lambda: k_counter('m'), 'i_counter_steel_r': lambda: k_counter('r'),
+              'i_terminal': k_terminal, 'i_crystal_on': k_crystal_on, 'i_plant_fern': k_plant, 'i_telescope': k_telescope, 'i_chair_revival': k_chair,
+              'i_railing': k_railing, 'i_crates_0_0': k_crates}
+INPLACE = {'wl_growth_0': lambda: k_plant((70, 200, 110), glow=True, vine=True), 'wl_console': k_console, 'wl_jars_amber': k_jars}
+
+
+def kit_props():
+    """-> (new [(wlk_name, img, kit_name)], inplace {wl_name: img}); also registers shade maps for QA."""
+    new = []
+    for base, (fn, w, h, kn) in KIT_MAP.items():
+        c = fn(); big = c.render().resize((64 * w, 64 * h), Image.NEAREST); SHADE_MAPS['wlk_' + base] = (c.shade_map(), (w, h), kn)
+        for cy in range(h):
+            for cx in range(w): new.append(('wlk_' + kn(cx, cy), big.crop((cx * 64, cy * 64, cx * 64 + 64, cy * 64 + 64)), kn(cx, cy)))
+    for n, fn in KIT_SINGLE.items():
+        c = fn(); new.append(('wlk_' + n, c.render().resize((64, 64), Image.NEAREST), n)); SHADE_MAPS['wlk_' + n] = (c.shade_map(), (1, 1), None)
+    inplace = {}
+    for n, fn in INPLACE.items():
+        c = fn(); inplace[n] = c.render().resize((64, 64), Image.NEAREST); SHADE_MAPS[n] = (c.shade_map(), (1, 1), None)
+    return new, inplace

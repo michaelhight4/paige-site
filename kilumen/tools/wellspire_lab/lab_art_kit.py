@@ -308,6 +308,10 @@ def build():
     ov = lean_props(); missing = set(ov) - {t[0] for t in TILES}
     assert not missing, missing
     tiles = [(n, ov.get(n, im), *r) for (n, im, *r) in TILES if im is not None]
+    # lab-local lean variants of shared-kit props (appended last: earlier ids never move; kit art untouched)
+    from lab_props_lean import kit_props
+    for (n, im, kn) in kit_props()[0]:
+        k = SRC[kn]; tiles.append((n, im, k.get('layer') or 'decoration', k.get('collision_code', 0 if k.get('walkable') else 1)))
     cols = 16; rows = math.ceil(len(tiles) / cols)
     for z in (1, 2, 3):
         sh = Image.new('RGBA', (cols * 64 * z, rows * 64 * z))
