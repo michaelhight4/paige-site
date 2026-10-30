@@ -20,6 +20,7 @@ try:
 except ImportError:
     sys.exit('needs Pillow:  python -m pip install pillow')
 WALK, BLOCK = 0, 1
+RIDE = {3, 11}  # ride-only water (Tideglide); never standable on foot
 PASS = {0, 2, 4, 7, 8, 9, 10}  # codes a walker can stand on (walk, ledge, door, plate, bike, ramp, ice)
 
 class World:
@@ -207,7 +208,13 @@ def main():
             t = all_maps.get(w.get('to'))
             if t and 'tx' in w:
                 c = t['layers']['collision']
-                if not (0 <= w['ty'] < len(c) and 0 <= w['tx'] < len(c[0])) or c[w['ty']][w['tx']] not in PASS:
+                inside = 0 <= w['ty'] < len(c) and 0 <= w['tx'] < len(c[0])
+                if w.get('water'):
+                    # Tideglide water warp (src/overnight/index.js, fires only while gliding): the rider lands still gliding, so the
+                    # landing must be ride-only water (3 WATER / 11 DEEP_WATER) and not itself a warp square (no bounce-back).
+                    if not inside or c[w['ty']][w['tx']] not in RIDE or any((v['x'], v['y']) == (w['tx'], w['ty']) for v in t.get('warps', [])):
+                        fails.append(f'{m["name"]} water warp -> {w["to"]} ({w["tx"]},{w["ty"]}) must land on open ride water (not a warp)')
+                elif not inside or c[w['ty']][w['tx']] not in PASS:
                     fails.append(f'{m["name"]} warp -> {w["to"]} ({w["tx"]},{w["ty"]}) lands on a non-walkable square')
     rep += ['', f'**Total: {total["freed"]} squares freed, {total["blocked"]} newly blocked.**', '', '## Problems'] + [f'- {x}' for x in fails] + ['', '## Squares changed'] + detail
     out = A.report or os.path.join(W.root, 'tools', 'gridfit_world', 'grid_fit_world_report.md')
