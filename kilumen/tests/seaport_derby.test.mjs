@@ -68,9 +68,20 @@ test('save round-trip: weight_kg on the creature and derby record pass the schem
   assert.ok(checkSave({ ...save, systems: { derby: { best: 'x' } } }).warnings.length > 0, 'bad derby record is flagged');
   assert.deepEqual(JSON.parse(JSON.stringify(save)).systems.derby, rec);
 });
-test('placeholder text: keys only, no blocked words', () => {
+test('Text Bot draft wired: derby TEXT, map lines, cave titles, tier names', async () => {
+  const fs = await import('node:fs');
+  const draft = JSON.parse(fs.readFileSync(new URL('../design/seaport/textbot_seaport.json', import.meta.url)));
+  assert.deepEqual(Object.keys(D.TEXT).sort(), Object.keys(draft.derby).sort()); assert.equal(Object.keys(D.TEXT).length, 16);
+  for (const [k, v] of Object.entries(draft.derby)) assert.deepEqual(D.TEXT[k], v, k);
+  const L = JSON.parse(fs.readFileSync(new URL('../text/overworld_lines.json', import.meta.url)));
+  let n = 0; for (const [m, ents] of Object.entries(draft.maps)) for (const [id, e] of Object.entries(ents)) { assert.deepEqual(L.maps[m][id], e, `${m}.${id}`); n++; }
+  assert.equal(n, 16);
+  for (const [m, t] of Object.entries(draft.map_titles)) assert.equal(JSON.parse(fs.readFileSync(new URL(`../art/world/overworld/maps/${m}.json`, import.meta.url))).title, t);
+  assert.deepEqual(D.TIERS.map((t) => D.tierName(t.id)), ['Crest', 'Gold', 'Silver', 'Bronze']);
+});
+test('derby text: no placeholders, no blocked words', () => {
   const bad = /\b(PP|shiny|super effective|Pok[eé]dex|Pok[eé] Ball|Gotcha|nurse|weed|routes?|berry|elites?|gym|throw)\b/i;
-  for (const [k, v] of Object.entries(D.TEXT)) for (const l of v) { assert.ok(l.includes('[PLACEHOLDER'), k); assert.ok(!bad.test(l), `${k}: ${l}`); }
+  for (const [k, v] of Object.entries(D.TEXT)) for (const l of v) { assert.ok(!l.includes('PLACEHOLDER'), k); assert.ok(!bad.test(l), `${k}: ${l}`); }
 });
 
 // --- runtime with a fake scene: area lock, clock lock, catch weigh-in, turn-in ---
@@ -98,7 +109,7 @@ test('runtime: desk starts a run, clock held, cast uses crystals, catch scored o
   assert.equal(sp.api.active(), true);
   for (let i = 0; i < 3; i++) assert.equal(await sp.api.useCrystal(), true);
   await sp.api.onCatch({ species: 'wavelin', level: 53, rarity: 'common' });
-  assert.equal(sp.st.run.haul.length, 1); assert.ok(f.said.some((l) => l.includes('derby.catch')));
+  assert.equal(sp.st.run.haul.length, 1); assert.ok(f.said.some((l) => l.includes('Onto the scale:') || l.includes('Featured fish!')));
   sp.st.run.crystals = 0; f.said.length = 0;
   assert.equal(await sp.api.useCrystal(), false);
   await f.scene.runSpot({ derby: 'scale' });
@@ -112,7 +123,7 @@ test('area lock: leaving mid-run asks; No stays, Yes forfeits then warps', async
   const sp = attachSeaport(f.scene, { rng: seq(0.1), fishing: () => ({ ready: Promise.resolve(), tables: fish }), tables: fish });
   await f.scene.talkHooks[0].run({});
   f.scene.startWarp({ exit: { to: 'gullhaven' } }, 'edge'); await flush();
-  assert.equal(f.warps.length, 0); assert.ok(sp.st.run, 'No keeps the run'); assert.ok(f.asked.some((l) => l.includes('derby.leave_ask')));
+  assert.equal(f.warps.length, 0); assert.ok(sp.st.run, 'No keeps the run'); assert.ok(f.asked.some((l) => l.includes('Quit the derby?')));
   f.scene.startWarp({ map: 'gullhaven', x: 1, y: 1 }, 'door'); await flush();
   assert.equal(f.warps.length, 1); assert.equal(sp.st.run, null); assert.equal(f.scene.systems.state.derby.last.forfeit, true);
   assert.equal(f.scene.timescale, 1);

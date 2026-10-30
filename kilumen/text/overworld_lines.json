@@ -18139,6 +18139,335 @@
     ]
    },
    "area_name": "Aurelith Arena"
+  },
+  "gullhaven_sea": {
+   "gullhaven_sea_sign": {
+    "pages": [
+     "GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.",
+     "Swim with care. The gulls are watching."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.",
+       "Swim with care. The gulls are watching."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_sea_swimmer_a": {
+    "pages": [
+     "Spotted you from three waves away!\nNo boat? Good. Neither have I."
+    ],
+    "battle_lost": [
+     "Swept clean off my feet. In water."
+    ],
+    "battle_won": [
+     "The sea wins every time. Today, you\nwin a bit too."
+    ],
+    "after": [
+     "Keep going south. Gullhaven's past\nthe big rocks. Can't miss the gulls."
+    ],
+    "trainer_class": "Swimmer",
+    "name": "Marla",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Spotted you from three waves away!\nNo boat? Good. Neither have I."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_sea_swimmer_b": {
+    "pages": [
+     "I swim this channel every morning.\nYou're in my lane!"
+    ],
+    "battle_lost": [
+     "Fine. Fine! Share the lane."
+    ],
+    "battle_won": [
+     "Lane's still mine. Back you go!"
+    ],
+    "after": [
+     "The water warms up near the islands.\nSo do the battles."
+    ],
+    "trainer_class": "Swimmer",
+    "name": "Tobin",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "I swim this channel every morning.\nYou're in my lane!"
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_sea_swimmer_c": {
+    "pages": [
+     "My team was born in this sea.\nYours looks a bit seasick."
+    ],
+    "battle_lost": [
+     "Okay, not seasick. Just tough."
+    ],
+    "battle_won": [
+     "Ha! Told you. Sea legs matter."
+    ],
+    "after": [
+     "Two caves on the islands. One sings,\none rattles. Both worth a look."
+    ],
+    "trainer_class": "Swimmer",
+    "name": "Nell",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "My team was born in this sea.\nYours looks a bit seasick."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_sea_swimmer_d": {
+    "pages": [
+     "Floating's harder than it looks.\nBattling while floating? Easy."
+    ],
+    "battle_lost": [
+     "I'm sinking. In spirit, and for real."
+    ],
+    "battle_won": [
+     "Easy, like I said. Float on!"
+    ],
+    "after": [
+     "If you find a blue swim fin,\nit's mine. Tell it I miss it."
+    ],
+    "trainer_class": "Swimmer",
+    "name": "Fenn",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Floating's harder than it looks.\nBattling while floating? Easy."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_sea_swimmer_e": {
+    "pages": [
+     "Last swimmer before the harbour.\nNobody gets past me dry."
+    ],
+    "battle_lost": [
+     "You're past me. Still wet, though."
+    ],
+    "battle_won": [
+     "Dry? Not today. Back to the waves!"
+    ],
+    "after": [
+     "Gullhaven's derby is the best fun\nin the sea. Bring a good rod."
+    ],
+    "trainer_class": "Swimmer",
+    "name": "Rowan",
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Last swimmer before the harbour.\nNobody gets past me dry."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "gullhaven_cave_west": {
+   "gullhaven_cave_west_hermit": {
+    "pages": [
+     "Kelp grows on the walls in here. The\nwind sings through it on a high tide.",
+     "I came for a week. That was nine\nyears ago. Lovely acoustics."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Kelp grows on the walls in here. The\nwind sings through it on a high tide.",
+       "I came for a week. That was nine\nyears ago. Lovely acoustics."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "gullhaven_cave_east": {
+   "gullhaven_cave_east_hermit": {
+    "pages": [
+     "Gull bones, all down the walls. Old\nnests. Very old. Nothing to fear.",
+     "Mostly. Mind the drip on the left.\nIt's been aiming at me for years."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Gull bones, all down the walls. Old\nnests. Very old. Nothing to fear.",
+       "Mostly. Mind the drip on the left.\nIt's been aiming at me for years."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "gullhaven_cliffs": {
+   "gullhaven_cliffs_sign": {
+    "pages": [
+     "GULLHAVEN CLIFFS\nEast: Gullhaven. Below: two caves.",
+     "Nesting season all year. Walk quietly."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "GULLHAVEN CLIFFS\nEast: Gullhaven. Below: two caves.",
+       "Nesting season all year. Walk quietly."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_cliffs_birdwatcher": {
+    "pages": [
+     "Three hundred gulls on this ledge, and\nI've named every one of them.",
+     "That one's Margaret. She took my\nsandwich. I forgive her. Barely."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Three hundred gulls on this ledge, and\nI've named every one of them.",
+       "That one's Margaret. She took my\nsandwich. I forgive her. Barely."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "gullhaven": {
+   "gullhaven_sign": {
+    "pages": [
+     "GULLHAVEN\nThe town you can only reach by sea.",
+     "Fishing Derby on the lagoon, south.\nMind your hats. The gulls won't."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "GULLHAVEN\nThe town you can only reach by sea.",
+       "Fishing Derby on the lagoon, south.\nMind your hats. The gulls won't."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_harbour_master": {
+    "pages": [
+     "No roads come here, only boats and\nswimmers. Welcome to Gullhaven.",
+     "Fees are paid in gold, gossip or fish.\nThe gulls take the fish anyway."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "No roads come here, only boats and\nswimmers. Welcome to Gullhaven.",
+       "Fees are paid in gold, gossip or fish.\nThe gulls take the fish anyway."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_derby_crier": {
+    "pages": [
+     "Hear ye! The Fishing Derby is open\ndown on the lagoon! Ten casts each!",
+     "Biggest haul wins a prize! Featured\nfish score double! Hear ye! Ahem."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Hear ye! The Fishing Derby is open\ndown on the lagoon! Ten casts each!",
+       "Biggest haul wins a prize! Featured\nfish score double! Hear ye! Ahem."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_angler": {
+    "pages": [
+     "A Tidelumen is a lumen shard cut by\nthe tide. Good for one derby cast.",
+     "Cast it, and the lagoon gives back\nwhat it likes. Heavy ones are rare."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A Tidelumen is a lumen shard cut by\nthe tide. Good for one derby cast.",
+       "Cast it, and the lagoon gives back\nwhat it likes. Heavy ones are rare."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "gullhaven_lagoon": {
+   "gullhaven_lagoon_sign": {
+    "pages": [
+     "GULLHAVEN LAGOON\nFishing Derby. Desk and scale, north.",
+     "One Tidelumen per cast. Weigh your\nhaul at the scale when you're out."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "GULLHAVEN LAGOON\nFishing Derby. Desk and scale, north.",
+       "One Tidelumen per cast. Weigh your\nhaul at the scale when you're out."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   },
+   "gullhaven_lagoon_derby_clerk": {
+    "pages": [
+     "The derby desk's shut for now.\nThe lagoon needs a rest, poor thing.",
+     "Come back soon. The fish are\ngetting bigger. Or so they say."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The derby desk's shut for now.\nThe lagoon needs a rest, poor thing.",
+       "Come back soon. The fish are\ngetting bigger. Or so they say."
+      ]
+     }
+    ],
+    "status": "DRAFT"
+   }
   }
  },
  "closed_exits": {

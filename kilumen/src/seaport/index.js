@@ -56,7 +56,7 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
     sys.state.derby = record; st.run = null; st.nextFeatured = null; releaseClock();
     if (forfeit) { st.scale = null; await say('derby.forfeit', {}, speaker); dirty(); return result; }
     st.scale = { mode: 'board', run, result, t0: Date.now() }; dirty();
-    await say(result.tier ? 'derby.turn_in' : 'derby.no_tier', { score: result.score, tier: result.tier || '' }, speaker);
+    await say(result.tier ? 'derby.turn_in' : 'derby.no_tier', { score: result.score, tier: D.tierName(result.tier) }, speaker);
     if (result.newBest) await say('derby.new_best');
     if (result.prize) sys.bag?.add?.(result.prize.item, result.prize.n);
     const big = D.scoreRun(run).largest;
@@ -168,7 +168,7 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
     let yy = y + 38;
     for (const c of rows) { ctx.fillText(`${name(c.species).slice(0, 10).padEnd(10)} ${String(c.kg).padStart(6)}kg ${String(c.points.total).padStart(4)}${c.points.featured ? '*' : ''}`, x + 64, yy); yy += 16; }
     if (s.mode === 'catch') { const p = s.c.points; ctx.fillText(`rarity ${p.base} + size ${p.weight}${p.record ? ` + rec ${p.record}` : ''}${p.pb ? ` + pb ${p.pb}` : ''}${p.featured ? ` x${D.FEATURED_MULT}` : ''}`, x + 10, y + h - 10); }
-    else { const sc = D.scoreRun(s.run); ctx.fillText(`count +${sc.count}  heaviest +${sc.heaviest}`, x + 10, y + h - 26); ctx.fillStyle = C.gold; ctx.fillText(`TOTAL ${s.result?.score ?? sc.total}${s.result?.tier ? ' ' + s.result.tier.toUpperCase() : ''}`, x + 10, y + h - 10); }
+    else { const sc = D.scoreRun(s.run); ctx.fillText(`count +${sc.count}  heaviest +${sc.heaviest}`, x + 10, y + h - 26); ctx.fillStyle = C.gold; ctx.fillText(`TOTAL ${s.result?.score ?? sc.total}${s.result?.tier ? ' ' + D.tierName(s.result.tier).toUpperCase() : ''}`, x + 10, y + h - 10); }
   }
 
   return { api, st, stop: () => iv && clearInterval(iv), startRun, endRun, featuredToday };

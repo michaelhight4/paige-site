@@ -25,24 +25,26 @@ export const WEIGHT_RANGES = Object.freeze({
   whelkin: [1.0, 6.0], bulwarkrab: [10.0, 40.0], drenchcrab: [3.0, 12.0], musselin: [0.5, 2.5], pinchkin: [0.4, 2.0], polypip: [0.3, 1.8],
 });
 export const DEFAULT_RANGE = Object.freeze([1.0, 10.0]);
-export const TEXT = Object.freeze({ // placeholder keys; Text Bot fills them (design/seaport/TEXT_NEEDED.md)
-  'derby.desk_intro': ['[PLACEHOLDER derby.desk_intro] Gullhaven Fishing Derby. {n} Tidelumens, one per cast. Featured Kilu today: {featured} (x{mult}). Enter?'],
-  'derby.desk_busy': ['[PLACEHOLDER derby.desk_busy] Tidelumens left: {n}. Score so far: {score}.'],
-  'derby.start': ['[PLACEHOLDER derby.start] The derby is on. The clock stops until you turn in.'],
-  'derby.no_crystal': ['[PLACEHOLDER derby.no_crystal] No Tidelumens left. Bring your haul to the scale.'],
-  'derby.catch': ['[PLACEHOLDER derby.catch] {species}: {kg} kg. {points} points.'],
-  'derby.catch_featured': ['[PLACEHOLDER derby.catch_featured] The featured Kilu! {species}: {kg} kg. {points} points.'],
-  'derby.record': ['[PLACEHOLDER derby.record] A record size!'],
-  'derby.out': ['[PLACEHOLDER derby.out] That was your last Tidelumen. Time for the weigh-in.'],
-  'derby.leave_ask': ['[PLACEHOLDER derby.leave_ask] Leave now and the run is forfeit. Quit the derby?'],
-  'derby.forfeit': ['[PLACEHOLDER derby.forfeit] Run forfeit. The haul goes back in the water.'],
-  'derby.scale_idle': ['[PLACEHOLDER derby.scale_idle] The weigh-in scale. Best score: {best}.'],
-  'derby.turn_in': ['[PLACEHOLDER derby.turn_in] Final score: {score}. Prize tier: {tier}.'],
-  'derby.no_tier': ['[PLACEHOLDER derby.no_tier] Final score: {score}. No prize this time.'],
-  'derby.new_best': ['[PLACEHOLDER derby.new_best] A new best score!'],
-  'derby.keeper': ['[PLACEHOLDER derby.keeper] Your heaviest catch, {species} ({kg} kg), comes home with you.'],
-  'derby.turn_in_early': ['[PLACEHOLDER derby.turn_in_early] Turn in now with {n} Tidelumens unused?'],
+export const TEXT = Object.freeze({ // Text Bot, design/seaport/textbot_seaport.json (Oct 30 2026)
+  "derby.desk_intro": ["Welcome to the Gullhaven Fishing Derby!\nYou get {n} Tidelumens, one per cast.", "Today's featured fish: {featured}.\nCatch one for x{mult} points. Enter?"],
+  "derby.desk_busy": ["Still {n} Tidelumens in your pouch,\nand {score} points so far. Keep casting!"],
+  "derby.turn_in_early": ["You've still got {n} Tidelumens.\nTurn in your haul now anyway?"],
+  "derby.start": ["The derby's on! The town clock stops\nuntil you turn in. No rush at all."],
+  "derby.no_crystal": ["No Tidelumens left to cast.\nTake your haul to the weigh-in scale."],
+  "derby.catch": ["Onto the scale: {species}, {kg} kg.\nThat's {points} points!"],
+  "derby.catch_featured": ["Featured fish! {species}, {kg} kg.\nDouble points: {points}!"],
+  "derby.record": ["The needle bangs the end of the scale.\nThat's a record-size catch!"],
+  "derby.out": ["That was your last Tidelumen.\nTime for the weigh-in!"],
+  "derby.leave_ask": ["Leave the lagoon now and the run is\nforfeit. Quit the derby?"],
+  "derby.forfeit": ["Run forfeit. The haul slips back\ninto the lagoon with a splash."],
+  "derby.scale_idle": ["The weigh-in scale, wet with spray.\nYour best derby score: {best}."],
+  "derby.turn_in": ["The clerk adds it all up.\nFinal score: {score}!", "That's a {tier}-tier haul!\nHere's your prize."],
+  "derby.no_tier": ["The clerk adds it all up.\nFinal score: {score}.", "Not enough for a prize this time.\nThe lagoon will be here tomorrow."],
+  "derby.new_best": ["A new best score! The clerk chalks\nit up on the board by the desk."],
+  "derby.keeper": ["Your heaviest catch, {species}\n({kg} kg), is coming home with you!"],
 });
+export const TIER_NAMES = Object.freeze({ crest: 'Crest', gold: 'Gold', silver: 'Silver', bronze: 'Bronze' });
+export const tierName = (id) => TIER_NAMES[id] || id || '';
 
 export const rangeOf = (species) => WEIGHT_RANGES[species] || DEFAULT_RANGE;
 /** Weight roll: r in [0,1) -> { kg (1 dp), frac in [0,1] }. Heavy rolls are rare (r^HEAVY_EXP). */
