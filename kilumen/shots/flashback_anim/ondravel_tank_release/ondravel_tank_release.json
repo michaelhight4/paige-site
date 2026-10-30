@@ -1,0 +1,74 @@
+{
+ "name": "ondravel_tank_release",
+ "kind": "cutscene-prop",
+ "sheet": "ondravel_tank_release.png",
+ "frame_w": 320,
+ "frame_h": 384,
+ "frames": 21,
+ "cols": 12,
+ "rows": 2,
+ "ms": [
+  300,
+  140,
+  140,
+  140,
+  70,
+  80,
+  80,
+  80,
+  80,
+  80,
+  80,
+  80,
+  100,
+  100,
+  100,
+  120,
+  120,
+  120,
+  120,
+  120,
+  900
+ ],
+ "total_ms": 3150,
+ "loop": false,
+ "mode": "one-shot",
+ "footprint_tiles": [
+  5,
+  6
+ ],
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "anchor": {
+  "x": 160,
+  "y": 384,
+  "meaning": "bottom-centre of footprint (feet / base line)"
+ },
+ "emissive": "px whose colour is one of the 8 night-glow colours: draw with lit LUT, rest with sprite LUT",
+ "tex_bytes_rgba": 11796480,
+ "art_sheet": "ondravel_tank_release_art1x.png",
+ "art_tex_bytes_rgba": 2949120,
+ "png_bytes": 146291,
+ "notes": "One-shot: crack spread 4f, flash 1f, shatter/drain/drop 10f, freed 6f (last frame held 900 ms = end pose; then swap to OW ondravel_big_sheet row 1).",
+ "readability": {
+  "dawn": {
+   "mean": 0.781,
+   "worst_frame": 0.715
+  },
+  "day": {
+   "mean": 0.836,
+   "worst_frame": 0.79
+  },
+  "dusk": {
+   "mean": 0.703,
+   "worst_frame": 0.633
+  },
+  "night": {
+   "mean": 0.628,
+   "worst_frame": 0.557
+  }
+ },
+ "readability_rule": "sprite px with |dLuma|>=28 vs graded background under them; pass >= 0.5 per phase",
+ "readability_min": 0.628,
+ "readability_worst_frame": 0.557
+}

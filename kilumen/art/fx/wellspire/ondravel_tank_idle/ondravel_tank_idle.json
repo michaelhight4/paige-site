@@ -1,0 +1,66 @@
+{
+ "name": "ondravel_tank_idle",
+ "kind": "cutscene-prop",
+ "sheet": "ondravel_tank_idle.png",
+ "frame_w": 320,
+ "frame_h": 384,
+ "frames": 12,
+ "cols": 12,
+ "rows": 1,
+ "ms": [
+  110,
+  110,
+  110,
+  110,
+  110,
+  110,
+  110,
+  110,
+  110,
+  110,
+  110,
+  110
+ ],
+ "total_ms": 1320,
+ "loop": true,
+ "mode": "loop",
+ "footprint_tiles": [
+  5,
+  6
+ ],
+ "tile_px": 64,
+ "art_px_scale": 2,
+ "anchor": {
+  "x": 160,
+  "y": 384,
+  "meaning": "bottom-centre of footprint (feet / base line)"
+ },
+ "emissive": "px whose colour is one of the 8 night-glow colours: draw with lit LUT, rest with sprite LUT",
+ "tex_bytes_rgba": 5898240,
+ "art_sheet": "ondravel_tank_idle_art1x.png",
+ "art_tex_bytes_rgba": 1474560,
+ "png_bytes": 61185,
+ "notes": "Sealed Guardian: slight float (+-1.5 art px), breath, forehead crystal pulse, bubbles (48 px lanes), shimmer glint, tube pulses.",
+ "readability": {
+  "dawn": {
+   "mean": 0.806,
+   "worst_frame": 0.801
+  },
+  "day": {
+   "mean": 0.841,
+   "worst_frame": 0.838
+  },
+  "dusk": {
+   "mean": 0.729,
+   "worst_frame": 0.725
+  },
+  "night": {
+   "mean": 0.644,
+   "worst_frame": 0.64
+  }
+ },
+ "readability_rule": "sprite px with |dLuma|>=28 vs graded background under them; pass >= 0.5 per phase",
+ "readability_min": 0.644,
+ "readability_worst_frame": 0.64,
+ "seam_ratio": 1.12
+}

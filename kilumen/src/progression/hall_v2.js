@@ -22,6 +22,8 @@ import { TILE } from '../overworld/constants.js?v=v0.2.93-alpha';
 import { KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.93-alpha';
 import { applyHallAnim, hallAnimOn } from './hall_anim.js?v=v0.2.93-alpha';
 
+/** DRAFT hint pages (Coder, Oct 29 2026; Text Bot to rewrite as system_halls.hint_<zone>). */
+export const HALL_HINTS = { frostspire: ['Two hall helpers wait on the ledge above the ice. Slide up the middle lane, by the pillar, to reach them.'] };
 export const REMATCH_FEE = 300, REMATCH_PRIZE = 1200, WIN_SCALE = 1.3;
 const NAME = { U: 'up', D: 'down', L: 'left', R: 'right' }, LETTER = { up: 'U', down: 'D', left: 'L', right: 'R' };
 
@@ -257,7 +259,8 @@ export function attachHallV2(scene, ui, pg) {
       const z = m.hall_v2.zone, wins = syncWins(), need = needWins(m), beaten = masterBeaten(ctx(), m);
       if (def.kind === 'villager_scholar') { // the hall attendant: progress line
         const left = Math.max(0, need - wins), k = beaten || left === 0 ? 'progress_open' : 'progress';
-        return scene.script(async () => { n && scene.npcs.beginTalk(n); try { await scene.say(fillv(text(k, ['Hall wins: {wins} of {need}.']), { wins, need, left }), scene.speakerFor?.(n)); } finally { n && scene.npcs.endTalk(n); } });
+        const hint = !beaten && left > 0 ? text(`hint_${z}`, HALL_HINTS[z] || []) : []; // live v0.2.93 bug 2: route hint while wins are short
+        return scene.script(async () => { n && scene.npcs.beginTalk(n); try { await scene.say([...fillv(text(k, ['Hall wins: {wins} of {need}.']), { wins, need, left }), ...hint], scene.speakerFor?.(n)); } finally { n && scene.npcs.endTalk(n); } });
       }
       if (def.kind === 'master') {
         if (beaten) {

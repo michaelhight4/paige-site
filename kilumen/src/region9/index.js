@@ -9,8 +9,9 @@
 // Text: root keys of text/overworld_lines.json (Text Bot, data/textbot_requests_wellspire.md), else DRAFT ./text_fallback.js.
 import { FB as FB1 } from './text_fallback.js?v=v0.2.93-alpha';
 import { FB2 } from './text_fallback_v2.js?v=v0.2.93-alpha';
+import { LAB_TEXT, LAB_NAMES } from './text_flashback_lab.gen.js?v=v0.2.93-alpha';
 import { makeSummitFx } from './summit_fx.js?v=v0.2.93-alpha';
-const FB = { ...FB1, ...FB2 };
+const FB = { ...FB1, ...FB2, ...LAB_TEXT }; // Text Bot DRAFT lab lines win over Coder placeholders
 import { POINTS } from './points.gen.js?v=v0.2.93-alpha';
 import { Npc } from '../overworld/npcs.js?v=v0.2.93-alpha';
 
@@ -28,7 +29,7 @@ export const FLASHBACK = {
 };
 export const REPORT = { // story_beats.md F5-2b..6
   walked: 'fin_walked_to_work', walk: 'brookhollow',
-  work: { map: 'heal_brookhollow' }, // Revival Tech Brookhollow branch (the RT office)
+  work: { map: 'heal_brookhollow', desks: [[4, 3], [5, 3], [7, 3], [8, 3]] }, // the four at their RT office desks (behind the counter) // Revival Tech Brookhollow branch (the RT office)
   four: [['fin_ep_teo', 'Teo'], ['fin_ep_marta', 'Marta'], ['fin_ep_pell', 'Pell'], ['fin_ep_imke', 'Imke']],
 };
 export const CORALIE_COVE = { map: 'tidewater_coast', x: 44, y: 33, r: 4, flag: 'ending2_done', done: 'fin_coralie_epilogue' };
@@ -81,6 +82,11 @@ export const TALK = {
   fin_lab1_staff_4: { intro: 'fin.lab1.staff_4', after: 'fin.lab1.staff_after', flag: 'fin_lab1_staff4_beaten' },
   fin_lab1_chief: { intro: 'fin.lab1.chief_intro', lose: 'fin.lab1.chief_lose', after: 'fin.lab1.chief_after', flag: 'fin_spire_floor_4', needs: 'fin_lab1_staff4_beaten', wait: 'fin.lab1.chief_wait', name: 'The Chief' },
 };
+/** Wellspire v3 lab gauntlet (build_lab_v3.py): techs, vat-hall hazmat crews, the control room and its lead. Lines: fin.enc.<id>.intro / .after. */
+export const LAB_IDS = ['fin_enc_tech_1', 'fin_enc_tech_2', 'fin_enc_hazmat_1', 'fin_enc_hazmat_2', 'fin_enc_hazmat_3', 'fin_enc_tech_3', 'fin_enc_tech_4',
+  'fin_enc_ctrl_1', 'fin_enc_ctrl_2', 'fin_enc_lead', 'fin_enc_tech_5', 'fin_enc_entry_1', 'fin_enc_entry_2'];
+for (const id of LAB_IDS) TALK[id] = { intro: `fin.enc.${id}.intro`, after: `fin.enc.${id}.after`, name: LAB_NAMES[id] };
+Object.assign(TALK.fin_enc_lead, { flag: 'fin_enc_lead_beaten', name: LAB_NAMES.fin_enc_lead || 'Lead Tech' });
 /** Wellspire v2: every present-day trainer is another RT field research team (names / classes on the map npcs,
  *  tools/wellspire/field_teams.py). Lines: r9.ft.<id>.intro / .after. */
 export const FIELD_IDS = ['r9_rb_hiker', 'r9_rb_dowser', 'r9_rb_guide', 'r9_skylift_rider', 'r9_sw_mountaineer_1', 'r9_sw_climber_1',
@@ -179,7 +185,7 @@ export function attachRegion9(scene, { systems } = {}) {
 
   /** Ondravel: release, then 3 phases. Any loss: heal, back to the top landing (fin_released stays: the dome is open). */
   async function guardian() {
-    if (!has('fin_released')) { await say('fin.dome_touch', narr); set('fin_released'); }
+    if (!has('fin_released')) { await say('fin.dome_touch', narr); await fx.breakTank?.(); set('fin_released'); }
     await say('fin.released', narr);
     for (let i = 0; i < R9.phases.length; i++) {
       await say(`fin.battle.phase_${i + 1}`, narr);
@@ -226,6 +232,9 @@ export function attachRegion9(scene, { systems } = {}) {
       fx.row = 1; if (first) await say('fin.summit.reveal', narr);
       await fx.flashOut('200,160,255', 140, 700); fx.row = 2; await fx.shake(500, 6);
       if (first) await say('fin.summit.flare', narr);
+      if (first) { // short face-off: the player, then the Guardian, eye to eye, before the light takes you back
+        const p = scene.player?.pixel?.(); if (p) await fx.pan({ x: p.px + 32, y: p.py + 32 }, 900);
+        fx.row = 1; await say('fin.summit.faceoff', narr); await fx.pan(c, 700); await fx.shake(400, 4); }
       set('fin_summit_seen');
     } finally { fx.cloud = 0; fx.active = false; await fx.release(700); }
   }
@@ -276,7 +285,7 @@ export function attachRegion9(scene, { systems } = {}) {
     fin_t_tide_door: () => say(has('fin_coralie_door') ? 'fin.t.tide_door' : 'fin.t.tide_door_shut', narr),
     fin_test8_plug: () => plug(null),
     fin_lab1_window: () => say(has('fin_spire_floor_4') ? 'fin.lab1.window_lights' : 'r9.spire_f3_growth', narr),
-    fin_past_dome: () => (has('fin_guardian_beaten') ? say('fin.battle.won', narr) : guardian()),
+    fin_past_dome: () => (has('fin_guardian_beaten') ? say('fin.battle.won', narr) : !has('fin_enc_lead_beaten') && !scene.devMasterKey ? say('fin.enc.tank_locked', narr) : guardian()),
     fin_bench_swap: () => say(has('ending2_done') ? 'fin.epilogue.bench' : 'r9.trainer_after', narr),
   };
 
@@ -314,7 +323,7 @@ export function attachRegion9(scene, { systems } = {}) {
       set('fin_reported_rt');
       const m = scene.map, p = scene.player, spots = [[-2, -2], [-1, -2], [1, -2], [2, -2]];
       REPORT.four.forEach(([id], i) => { try {
-        const q = { x: p.x + spots[i][0], y: p.y + spots[i][1] };
+        const d = m?.name === REPORT.work.map && REPORT.work.desks?.[i], q = d ? { x: d[0], y: d[1] } : { x: p.x + spots[i][0], y: p.y + spots[i][1] };
         if (!m?.isWalkable?.(q.x, q.y) || m?.npcAt?.(q.x, q.y) || !scene.npcs?.list) return;
         const n = new Npc({ id: `r9_report_${id}`, kind: 'object', x: q.x, y: q.y, facing: 'down', story: true }, m.name, scene.spriteMap?.[`lantern_rest.${id}`] || null, false);
         n.behaviour = 'static'; n.faceToward?.(p.x, p.y); scene.npcs.list.push(n); m.occupy?.(n.x, n.y, n); scene.story?.loadImgs?.(n);
@@ -342,7 +351,7 @@ export function attachRegion9(scene, { systems } = {}) {
       const p = scene.player, m = scene.map;
       const c = [[0, 1], [1, 0], [-1, 0], [0, -1]].map(([dx, dy]) => ({ x: p.x + dx, y: p.y + dy })).find((q) => m?.isWalkable?.(q.x, q.y) && !m?.npcAt?.(q.x, q.y));
       if (c && scene.npcs?.list) {
-        const n = new Npc({ id: 'r9_coralie_cove', kind: 'object', x: c.x, y: c.y, facing: 'down', story: true }, m.name, scene.spriteMap?.['fin_past_signal_lab.fin_t_coralie'] || null, false);
+        const n = new Npc({ id: 'r9_coralie_cove', kind: 'object', x: c.x, y: c.y, facing: 'down', story: true }, m.name, scene.spriteMap?.['tidewater_coast.r9_coralie_cove'] || scene.spriteMap?.['fin_past_signal_lab.fin_t_coralie'] || null, false);
         n.behaviour = 'static'; n.faceToward?.(p.x, p.y); scene.npcs.list.push(n); m.occupy?.(n.x, n.y, n); scene.story?.loadImgs?.(n);
       }
     } catch { /* the line still plays without her sprite */ }
@@ -360,6 +369,8 @@ export function attachRegion9(scene, { systems } = {}) {
 
   scene.talkHooks = scene.talkHooks || [];
   scene.talkHooks.push({ match: (m, d) => !!d?.region9, run: (ctx) => talk(ctx) });
+  // Ending 2 (Text Bot DRAFT, data/textbot_flashback_lab.json): Ron at home after the river comes back
+  scene.talkHooks.push({ match: (m, d) => /^house_1f(_v2)?$/.test(m) && d?.id === 'ron' && has('ending2_done'), run: ({ speaker }) => say('fin.e2.ron', speaker || { name: 'Ron' }) });
   const iv = typeof setInterval !== 'undefined' && typeof window !== 'undefined' ? setInterval(() => { try { tick(); } catch (e) { console.error('region9 tick:', e); } }, 1000) : null;
   const api = { walkToWork, reportAtWork, flashback, coralieCove, runSpot, warpBlocked, edgeBlocked, tick, courier, guardian, finale, text, SPOTS, stop: () => iv && clearInterval(iv) };
   scene.region9 = api;

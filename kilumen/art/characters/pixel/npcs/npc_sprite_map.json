@@ -3050,6 +3050,118 @@
    "overworld_sheet_2x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_2x.png",
    "overworld_sheet_3x": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_scientist_f/overworld/tr_scientist_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_1": {
+   "sprite_id": "lab_tech_scrubs",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_2": {
+   "sprite_id": "lab_tech_coat_m",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_3": {
+   "sprite_id": "lab_tech_coat_f",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_4": {
+   "sprite_id": "lab_tech_coat_m",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_tech_5": {
+   "sprite_id": "lab_tech_coat_f",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_hazmat_1": {
+   "sprite_id": "lab_hazmat",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_hazmat_2": {
+   "sprite_id": "lab_hazmat",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_hazmat_3": {
+   "sprite_id": "lab_hazmat",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_ctrl_1": {
+   "sprite_id": "lab_tech_scrubs",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_ctrl_2": {
+   "sprite_id": "lab_tech_coat_f",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_lead": {
+   "sprite_id": "lab_researcher_m",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_entry_1": {
+   "sprite_id": "lab_tech_coat_f",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+  },
+  "fin_past_enclosure.fin_enc_entry_2": {
+   "sprite_id": "lab_tech_coat_m",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+  },
+  "tidewater_coast.r9_coralie_cove": {
+   "sprite_id": "coralie_present",
+   "class": "Wellspire v3 lab gauntlet (DRAFT)",
+   "overworld_sheet": "npcs/coralie_present/overworld/coralie_present_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/coralie_present/overworld/coralie_present_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/coralie_present/overworld/coralie_present_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/coralie_present/overworld/coralie_present_chibi/"
   }
  },
  "unassigned_ready": {

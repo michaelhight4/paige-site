@@ -1,0 +1,201 @@
+{
+ "_meta": {
+  "status": "DRAFT",
+  "by": "Text Bot",
+  "for": "Coder",
+  "note": "Rebellion flashback lab techs + Ending 2 RT office lines. Lines hint, never state, that the lab made the Kilumen. No young Vane."
+ },
+ "lab_techs": [
+  {
+   "id": "tech_ledger",
+   "name": "Intake Clerk Mavis",
+   "room": "entry",
+   "intro": [
+    "Lanyard, please. No pass, no entry.\nThe stock logs must stay clean."
+   ],
+   "defeat": [
+    "Fine. Sign in. Batch 9 is\nthrough the left door. Don't look."
+   ]
+  },
+  {
+   "id": "tech_door",
+   "name": "Doorman Tech Orrin",
+   "room": "entry",
+   "intro": [
+    "Nobody walks out with lab stock.\nNot tonight. Not ever."
+   ],
+   "defeat": [
+    "They sang at the glass last week.\nI told myself it was the pumps."
+   ]
+  },
+  {
+   "id": "tech_suture",
+   "name": "Medic Tech Ilsa",
+   "room": "medical",
+   "intro": [
+    "Retention fell to 40 percent.\nI can't lose more of the batch."
+   ],
+   "defeat": [
+    "Every scar here has a file number.\nI wrote most of them myself."
+   ]
+  },
+  {
+   "id": "tech_dosing",
+   "name": "Dosing Tech Brannick",
+   "room": "medical",
+   "intro": [
+    "Hold still. This is routine.\nWell. A procedure. Hold still."
+   ],
+   "defeat": [
+    "They flinch when I enter now.\nIs that in the data? It should be."
+   ]
+  },
+  {
+   "id": "tech_panel",
+   "name": "Control Tech Wenna",
+   "room": "control",
+   "intro": [
+    "Panel says yield is up three\npoints. So why are they crying?"
+   ],
+   "defeat": [
+    "Shut it all down, then. I'll\nsay the lights failed. Go."
+   ]
+  },
+  {
+   "id": "tech_override",
+   "name": "Override Tech Stellan",
+   "room": "control",
+   "intro": [
+    "The Guardian feeds the lines.\nNo spark, no lab. No lab, no us."
+   ],
+   "defeat": [
+    "Ondravel never asked to be\na battery. I know. I know."
+   ]
+  },
+  {
+   "id": "tech_valve",
+   "name": "Tank Tech Dorrit",
+   "room": "tank_floor",
+   "intro": [
+    "Tank 12 is near term. If you\nbreak the seal, we lose the run."
+   ],
+   "defeat": [
+    "Go on. Let them see the sky.\nThey were never ours to keep."
+   ]
+  },
+  {
+   "id": "tech_tags",
+   "name": "Tagging Tech Pell",
+   "room": "specimen",
+   "intro": [
+    "Specimen 4-B. Specimen 4-C.\nNames make it harder. So: none."
+   ],
+   "defeat": [
+    "One of them licked my glove.\nI logged it as 'contact event.'"
+   ]
+  },
+  {
+   "id": "tech_jar",
+   "name": "Archive Tech Quill",
+   "room": "specimen",
+   "intro": [
+    "The early stock didn't hold\nshape. We keep them for study."
+   ],
+   "defeat": [
+    "Don't open the back shelf.\nPlease. Not for my sake. Theirs."
+   ]
+  },
+  {
+   "id": "tech_lamp",
+   "name": "Growth Tech Sabine",
+   "room": "growth",
+   "intro": [
+    "Growth rate is the good news.\nThe research is the good news."
+   ],
+   "defeat": [
+    "They grow fast because we\nmake them. I said it. Satisfied?"
+   ]
+  },
+  {
+   "id": "tech_stir",
+   "name": "Vat Tech Hollis",
+   "room": "vat_hall",
+   "intro": [
+    "Vat 7 is my best yield yet.\nYou won't spoil my best batch."
+   ],
+   "defeat": [
+    "The vat light went gold just now.\nLike it knew. That's not possible."
+   ]
+  },
+  {
+   "id": "tech_mix",
+   "name": "Mixing Tech Aldo",
+   "room": "vat_hall",
+   "intro": [
+    "Formula's mine. Ondravel's\nspark, river water, and time."
+   ],
+   "defeat": [
+    "Without the river they'd be\nnothing. We took that too."
+   ]
+  },
+  {
+   "id": "tech_core",
+   "name": "Core Tech Renske",
+   "room": "energy_core",
+   "intro": [
+    "The crystal draws, we harvest.\nIt's science. It's just science."
+   ],
+   "defeat": [
+    "He's awake in there, {player}.\nHe's been awake the whole time."
+   ]
+  },
+  {
+   "id": "tech_watch",
+   "name": "Head Observer Calder",
+   "room": "observation",
+   "intro": [
+    "From up here they're just\nnumbers. That's why I stay up here."
+   ],
+   "defeat": [
+    "Take the key. Free him.\nI'll put it down as a loss."
+   ]
+  }
+ ],
+ "ending2_rt_office": {
+  "ron": {
+   "flags": [
+    "ending_2"
+   ],
+   "pages": [
+    "{player}! Sit, sit. Let me look\nat those scrapes. Hold still.",
+    "There. Good as new. You and the\nteam held the line out there.",
+    "The field team's back, all of\nthem. Mud to the knees. Laughing.",
+    "River's coming back slow. A\ntrickle a day. Slow is still back.",
+    "Go rest. That's an order from\nyour mentor. A kind one."
+   ]
+  },
+  "keeper": {
+   "flags": [
+    "ending_2"
+   ],
+   "pages": [
+    "The lantern burned brighter\nlast night. I think he knew.",
+    "The field team came home.\nI walked out to meet them.",
+    "That blank stone? Didn't need\nit. Best kind of stone to lose.",
+    "Sit a while, {player}. The\nriver's finding its way. No rush."
+   ]
+  },
+  "rita": {
+   "flags": [
+    "ending_2"
+   ],
+   "pages": [
+    "RITA here. Ondravel released.\nOperations adjusted. Noted.",
+    "Fitted crystals still work.\nThe asset base retains value.",
+    "Field team returned. Staff\nretention: an expected return.",
+    "Head Office sent a letter. It\nsaid 'thank you.' It meant it.",
+    "Not a debt, {player}. An\ninvestment. Returns look strong."
+   ]
+  }
+ }
+}

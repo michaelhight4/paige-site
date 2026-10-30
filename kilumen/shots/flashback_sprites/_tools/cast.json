@@ -1,0 +1,40 @@
+{
+ "cast": [
+  {
+   "id": "lab_tech_coat_m",
+   "kind": "villager",
+   "class": "Lab tech, white coat (M)",
+   "th": 90
+  },
+  {
+   "id": "lab_tech_coat_f",
+   "kind": "villager",
+   "class": "Lab tech, white coat (F)",
+   "th": 90
+  },
+  {
+   "id": "lab_tech_scrubs",
+   "kind": "villager",
+   "class": "Lab tech, scrubs+cap",
+   "th": 90
+  },
+  {
+   "id": "lab_hazmat",
+   "kind": "villager",
+   "class": "Hazmat suit",
+   "th": 90
+  },
+  {
+   "id": "lab_researcher_m",
+   "kind": "villager",
+   "class": "Senior researcher (M)",
+   "th": 90
+  },
+  {
+   "id": "coralie_present",
+   "kind": "villager",
+   "class": "Coralie Finch, present day (Tidewater cove)",
+   "th": 90
+  }
+ ]
+}

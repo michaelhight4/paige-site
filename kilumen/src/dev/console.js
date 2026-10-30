@@ -98,11 +98,11 @@ export async function installDevConsole(scene, access) {
     }
     return step(snap);
   };
-  // ---- v0.2.86-alpha world speed (1x/4x/10x/25x/100x): scales the whole simulation for this admin session only ----------------
+  // ---- v0.2.86-alpha world speed (1x/4x/10x/25x/100x/200x): scales the whole simulation for this admin session only ----------------
   // overworld: scene.worldSpeed = extra fixed ticks per frame (overworld.js frame, sub-stepped, so no collision skipping);
   // battle: the qol pace hook divides every battle wait; CSS / Web Animations (text reveal, UI + battle fx): playbackRate.
   // Never saved (DEV is memory-only); saving itself stays behind scene.saveLockReason (no battle / conversation / cutscene).
-  const WORLD_SPEEDS = [1, 4, 10, 25, 100];
+  const WORLD_SPEEDS = [1, 4, 10, 25, 100, 200];
   const hookPace = () => { const qq = ui()?.qol; if (!qq || qq._devWorld) return; const orig = qq.pace.bind(qq); qq.pace = (ms) => { const v = orig(ms); const w = DEV.active ? DEV.world || 1 : 1; return w > 1 ? v / w : v; }; qq._devWorld = true; };
   const pumpAnims = () => { const w = DEV.active ? DEV.world || 1 : 1; try { for (const a of document.getAnimations?.() || []) if (a.playbackRate !== w) a.playbackRate = w; } catch { /* old browser */ } };
   const setWorld = (w) => { DEV.world = WORLD_SPEEDS.includes(w) ? w : 1; scene.worldSpeed = DEV.world; hookPace(); pumpAnims(); };
@@ -255,7 +255,7 @@ export async function installDevConsole(scene, access) {
   function tTravel(body) {
     const built = new Set([...(scene.layout?.maps_built || []), ...(scene.knownMaps || [])]);
     const names = [...built].sort();
-    searchBox(body, 'travel', `Teleport: tap a place (${names.length} maps). The master key is not needed.`);
+    searchBox(body, 'travel', `Teleport: tap a place (${names.length} maps). The master key is not needed. Save spot: ${esc(pretty((scene._devPosHold || { map: scene.map?.name || '?' }).map))}${scene._devPosHold ? ' (kept: Travel does not move it)' : ''}.`);
     const row = (n) => `<div class="row"><div class="n">${esc(pretty(n))}${scene.map?.name === n ? ' <small>(here)</small>' : ''}<br><small>${esc(n)}</small></div><button class="go" data-go="${esc(n)}">Go</button></div>`;
     fill = () => {
       const qq = q.travel; const used = new Set(); let html = '';
@@ -274,6 +274,7 @@ export async function installDevConsole(scene, access) {
       say(`Finding a spot in ${n}…`);
       try {
         const spot = await landing(n); if (!spot) return say(`No walkable spot found in ${n}.`, true);
+        if (!scene._devPosHold && scene.map && !scene.fade) scene._devPosHold = { map: scene.map.name, x: scene.player.x, y: scene.player.y, facing: scene.player.facing }; // bug 7: keep the real save spot
         travelling = true; touched();
         close();
         scene.startWarp({ map: n, x: spot.x, y: spot.y, facing: spot.facing }, 'dev');

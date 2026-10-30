@@ -7,8 +7,8 @@ export const POINTS = {
  },
  "_arrive_enclosure": {
   "facing": "up",
-  "x": 10,
-  "y": 12
+  "x": 4,
+  "y": 18
  },
  "_arrive_icefall": {
   "facing": "up",
@@ -78,13 +78,13 @@ export const POINTS = {
  "fin_past_enclosure": {
   "fin_past_dome": {
    "facing": "up",
-   "x": 10,
+   "x": 21,
    "y": 9
   },
   "fin_past_logbook": {
-   "facing": "up",
-   "x": 10,
-   "y": 11
+   "facing": "left",
+   "x": 18,
+   "y": 10
   }
  },
  "fin_past_lab1_f1": {},

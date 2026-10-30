@@ -1,0 +1,1 @@
+DRAFT - flashback lab staff + present-day Coralie overworld sprites (64x96, npcs_r56 layout). Built with _tools/npc_build_flashback.py (copy of hall pipeline), contact via _tools/contact.py. Not wired into game.

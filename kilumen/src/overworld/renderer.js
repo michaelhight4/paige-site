@@ -61,6 +61,7 @@ export class Renderer {
     // decals "under characters" (footprints: tileset animation type 'fade', frame picked by age)
     for (const d of v.decals || []) if (d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1) this.tile(v, d.id, d.x, d.y, d.frame);
     v.life?.under(ctx, v); // living world: fish shadows + ripples on water, under characters
+    v.r9fx?.under?.(ctx, v); // Wellspire v3 lab (src/region9/lab_fx.js): floors, props, Ondravel's tank, under characters
     v.depth?.drawActors(ctx, v, v.actors); // depth pass: contact shadows under every character (before any character)
 
     const actors = [...v.actors].sort((a, b) => a.feet - b.feet || (a.order || 0) - (b.order || 0));
