@@ -1,1 +1,119 @@
-{"element":"demon","anim":"travel_f2p","description":"sub type: spiked crimson orb with ember trail; impact = fanged jaws snap shut + crimson burst","generated_by":"art/characters/pixel/effects/_tools/build_transparent_staging.py","generated_at":"2026-10-22T22:57:44-05:00","scale":2,"filter":"nearest","background":"fully transparent (1-bit alpha), palette-only opaque pixels","gif":"demon_travel_f2p_battle_2x.gif","gif_disposal":2,"loop":"gif loop=0 is set; play ONCE in game (remove after total_ms)","sheet":"demon_travel_f2p_battle_2x_sheet.png","sheet_layout":"horizontal strip, frame i at x=i*frame_w","frame_w":324,"frame_h":208,"frame_count":7,"frames":[{"i":0,"x":0,"y":0,"w":324,"h":208,"ms":70},{"i":1,"x":324,"y":0,"w":324,"h":208,"ms":70},{"i":2,"x":648,"y":0,"w":324,"h":208,"ms":70},{"i":3,"x":972,"y":0,"w":324,"h":208,"ms":70},{"i":4,"x":1296,"y":0,"w":324,"h":208,"ms":70},{"i":5,"x":1620,"y":0,"w":324,"h":208,"ms":70},{"i":6,"x":1944,"y":0,"w":324,"h":208,"ms":70}],"total_ms":490,"native_frame_w":162,"native_frame_h":104,"crop_in_source_canvas_native":{"x":7,"y":50,"w":162,"h":104,"source_canvas":[240,176]},"effect_bbox_native":[3,3,159,101],"rendered_with_margin":true,"anchor":{"type":"screen_space_path","start":[282,32],"end":[38,172],"start_is":"foe mouth (front sprite)","end_is":"player centre","canvas_offset_on_pilot_screen_native":[47,90],"canvas_offset_on_pilot_screen_2x":[94,180],"usage":"pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"},"sheet_aseprite_json":"demon_travel_f2p_battle_2x_sheet_aseprite.json","aseprite":{"source":"demon_travel_f2p.aseprite","version":"1.3.18.6","built_by":"Gary's Aseprite 1.3.18.6 (batch) via _tools/aseprite/kil_fx_build.lua","layers":["fx"],"tags":["travel_f2p"],"gif_note":"pixels/durations from Aseprite's GIF export, re-wrapped with disposal=2 on every frame","source_is_1x":true,"export_scale":2,"run":"run2"}}
+{
+ "element": "demon",
+ "anim": "travel_f2p",
+ "description": "sub type: spiked crimson orb with soot trail; impact = fanged jaws snap shut + crimson burst",
+ "generated_by": "art/characters/pixel/effects/_tools/build_transparent_staging.py",
+ "generated_at": "2026-10-30T00:32:04-05:00",
+ "scale": 2,
+ "filter": "nearest",
+ "background": "fully transparent (1-bit alpha), palette-only opaque pixels",
+ "gif": "demon_travel_f2p_battle_2x.gif",
+ "gif_disposal": 2,
+ "loop": "gif loop=0 is set; play ONCE in game (remove after total_ms)",
+ "sheet": "demon_travel_f2p_battle_2x_sheet.png",
+ "sheet_layout": "horizontal strip, frame i at x=i*frame_w",
+ "frame_w": 324,
+ "frame_h": 208,
+ "frame_count": 7,
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 324,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 1,
+   "x": 324,
+   "y": 0,
+   "w": 324,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 2,
+   "x": 648,
+   "y": 0,
+   "w": 324,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 3,
+   "x": 972,
+   "y": 0,
+   "w": 324,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 4,
+   "x": 1296,
+   "y": 0,
+   "w": 324,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 5,
+   "x": 1620,
+   "y": 0,
+   "w": 324,
+   "h": 208,
+   "ms": 70
+  },
+  {
+   "i": 6,
+   "x": 1944,
+   "y": 0,
+   "w": 324,
+   "h": 208,
+   "ms": 70
+  }
+ ],
+ "total_ms": 490,
+ "native_frame_w": 162,
+ "native_frame_h": 104,
+ "crop_in_source_canvas_native": {
+  "x": 7,
+  "y": 50,
+  "w": 162,
+  "h": 104,
+  "source_canvas": [
+   240,
+   176
+  ],
+  "note": "x/y relative to the old canvas; negative = art that the old canvas cut off"
+ },
+ "effect_bbox_native": [
+  3,
+  3,
+  158,
+  101
+ ],
+ "rendered_with_margin": true,
+ "anchor": {
+  "type": "screen_space_path",
+  "start": [
+   282,
+   32
+  ],
+  "end": [
+   38,
+   172
+  ],
+  "start_is": "foe mouth (front sprite)",
+  "end_is": "player centre",
+  "canvas_offset_on_pilot_screen_native": [
+   47,
+   90
+  ],
+  "canvas_offset_on_pilot_screen_2x": [
+   94,
+   180
+  ],
+  "usage": "pilot layout: draw at canvas_offset; other layouts: map start->attacker mouth, end->target centre"
+ }
+}
