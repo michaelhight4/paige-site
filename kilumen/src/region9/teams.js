@@ -13,6 +13,7 @@ export const WELLSPIRE_TEAMS = {
   'r9_switchbacks.r9_sw_survey_3': T(63, 'runeskein', 'pearlisk', 'prismwing'),
   'r9_switchbacks.r9_sw_climber_2': T(63, 'stratodrake', 'sunderhoof', 'peakbrute'),
   'r9_old_riverbed.r9_rb_spotter': T(62, 'seraphawk', 'highkite', 'stratodrake'),
+  'r9_switchbacks.r9_sw_shelf_skier': T(63, 'snowgrouse', 'shagmount', 'seraphawk'),
   'r9_icefall.r9_ic_climber_1': T(64, 'brineseal', 'hullwhale', 'snowgrouse'),
   'r9_icefall.r9_ic_climber_2': T(64, 'seraphawk', 'peakbrute', 'cairnhorn'),
   'r9_icefall.r9_ic_diver': T(64, 'torrentpike', 'bulwarkrab', 'brineseal'),

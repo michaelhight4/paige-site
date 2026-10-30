@@ -103,7 +103,9 @@ class M:
     def check(self):
         """Every warp cell, exit cell and spot stand stays reachable from the anchor with the NPCs placed."""
         R = self.reach(self._anchor)
-        need = [(w['x'], w['y']) for w in self.j['warps']] + [tuple(s['stand']) for s in self.j['interact_spots']]
+        for w in self.j['warps']:  # one-way pockets entered through another map's door (map fill, Oct 30 2026)
+            if w.get('reached_via'): R |= self.reach(next((w['x'] + dx, w['y'] + dy) for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0)) if self.c(w['x'] + dx, w['y'] + dy) == 0))
+        need = [(w['x'], w['y']) for w in self.j['warps'] if not w.get('reached_via')] + [tuple(s['stand']) for s in self.j['interact_spots']]
         for p in need: assert p in R or not self.walk(*p), f'{self.name}: {p} cut off'
     def selfdoor(self, via=None):
         # One-way passages (Oct 29 door-warp rule: every door landing sits 1 tile from a door back): the warp lands on its
@@ -186,11 +188,14 @@ def build():
     sw.j['exits'] = [e for e in sw.j['exits'] if e['edge'] == 'north']
     for e in sw.j['exits']: e['to'] = 'r9_cairnfold'
     sw._anchor = (24, 1)
+    map_fill.apply('r9_switchbacks', sw.j)
     tables(sw, {'*': 'r9_switchbacks_snow'})
     sw.spot('r9_switchbacks_up', (30, 57))
     for nid, want in [('r9_sw_mountaineer_1', (22, 10)), ('r9_sw_climber_1', (28, 18)), ('r9_sw_survey_1', (20, 28)), ('r9_sw_survey_2', (24, 30)),
                       ('r9_sw_survey_3', (28, 32)), ('r9_sw_climber_2', (30, 46))]:
         sw.npc(nid, want, 'trainer', 'down')
+    sw.npc('r9_sw_shelf_skier', (34, 24), 'trainer', 'down', base=(34, 21))   # on the cliff shelf (via the Icefall tunnel)
+    sw.spot('r9_switchbacks_cairn', (36, 22), base=(34, 21))
     done(sw)
     # ---------- Icefall (Tidewater sea-cave art) ----------
     ic = M('r9_icefall', 'tidewater_cave_int', 'Wellspire Icefall')
@@ -202,6 +207,7 @@ def build():
     up = sw.pts['r9_switchbacks_up']
     ic.warp(0, 'r9_switchbacks', up['x'], up['y'], 'down'); ic.warp(1, 'r9_switchbacks', up['x'], up['y'], 'down')
     ic.warp(2, 'fin_summit_camp', 16, 22, 'up')
+    map_fill.door(ic.j, 27, 8, 'r9_switchbacks', 34, 21, 'down', ground=544)   # east tunnel out onto the switchbacks cliff shelf
     ic._anchor = (14, 18)
     tables(ic, {'*': 'r9_icefall_cave'})
     # Map fill (Coder, Oct 30 2026, Gary: sparse maps, layered like the classic games). Row 6 west of the climb becomes a

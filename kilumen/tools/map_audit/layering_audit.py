@@ -51,11 +51,15 @@ def audit(j):
     ok = [d for d in dead if any(abs(d[0] - a) + abs(d[1] - b) <= 2 for (a, b) in reward)]
     s['5_dead_ends_rewarded'] = 2 if not dead or len(ok) == len(dead) else 1 if len(ok) * 2 >= len(dead) else 0
     start = (warps[0]['tx'], warps[0]['ty']) if warps and warps[0].get('to') == j.get('name') else next(iter(sorted(walk)))
-    for w in warps:  # arrive next to a door if possible
+    for w in [w for w in warps if not w.get('reached_via')]:  # arrive next to a door if possible
         for dx, dy in N4:
             if c(w['x'] + dx, w['y'] + dy) == 0: start = (w['x'] + dx, w['y'] + dy); break
         break
     R = reach(start); Rflat = reach(start, ledges=False)
+    for w in warps:  # one-way pockets entered through another map's door count as reached
+        if w.get('reached_via'):
+            for dx, dy in N4:
+                if c(w['x'] + dx, w['y'] + dy) == 0: R |= reach((w['x'] + dx, w['y'] + dy)); Rflat |= reach((w['x'] + dx, w['y'] + dy), False); break
     hidden = [i for i in items if i.get('hidden')]
     ledge_only = [i for i in items if (i['x'], i['y']) in R and (i['x'], i['y']) not in Rflat] + [i for i in items if (i['x'], i['y']) in gates]
     s['6_hidden_walkway'] = 2 if hidden and (ledge_only or 2 in codes) else 1 if hidden else 0

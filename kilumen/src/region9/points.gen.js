@@ -219,6 +219,11 @@ export const POINTS = {
   }
  },
  "r9_switchbacks": {
+  "r9_switchbacks_cairn": {
+   "facing": "up",
+   "x": 36,
+   "y": 21
+  },
   "r9_switchbacks_up": {
    "facing": "up",
    "x": 32,

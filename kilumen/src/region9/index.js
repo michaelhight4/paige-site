@@ -74,6 +74,9 @@ Object.assign(TALK, {
 Object.assign(TALK, { // r9_old_riverbed (map fill, Oct 30 2026); DRAFT lines in ./text_fallback.js
   r9_rb_spotter: { intro: 'r9.fill.r9_rb_spotter', after: 'r9.fill.r9_rb_spotter_after', name: "Birdwatcher Ash" },
 });
+Object.assign(TALK, { // r9_switchbacks (map fill, Oct 30 2026); DRAFT lines in ./text_fallback.js
+  r9_sw_shelf_skier: { intro: 'r9.fill.r9_sw_shelf_skier', after: 'r9.fill.r9_sw_shelf_skier_after', name: "Skier Tove" },
+});
 const TRAINER_DEFAULT = { intro: null, after: 'r9.trainer_after' };
 
 export function attachRegion9(scene, { systems } = {}) {
@@ -218,6 +221,7 @@ export function attachRegion9(scene, { systems } = {}) {
     r9_switchbacks_up: async () => { await say('r9.switchbacks_up', narr); await warp(to('r9_icefall', '_arrive_icefall')); },
     r9_icefall_signal: () => say('r9.icefall_signal', narr),
     r9_riverbed_gully: () => say('r9.fill.r9_riverbed_gully', narr),
+    r9_switchbacks_cairn: () => say('r9.fill.r9_switchbacks_cairn', narr),
     r9_icefall_pool: () => say('r9.icefall_pool', narr), r9_icefall_pegs: () => say('r9.icefall_pegs', narr),
     r9_icefall_carving: () => say('r9.icefall_carving', narr),
     fin_camp_fire: async () => { heal(); await say('summit.camp_fire', narr); },

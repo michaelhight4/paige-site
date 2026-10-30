@@ -56,6 +56,37 @@ def r9_old_riverbed(j):
     item(j, 'r9_rb_nook_pouch', 47, 16, 'coin_pouch_small', True, 'back of the nook east of the bank climb')
     item(j, 'r9_rb_end_dust', 42, 39, 'crystal_dust', False, 'end of the south gully')
 
+def door(j, x, y, to, tx, ty, facing, ground=None, art=None, reached_via=None):
+    """A door / cave-mouth warp square. reached_via: the map whose door leads onto this (one-way pocket, not walkable to)."""
+    L = j['layers']
+    if ground: L['ground'][y][x] = ground
+    if art:  # 3x2 cave mouth centred on the door: (x-1..x+1, y-1..y)
+        for i, t in enumerate(art):
+            ax, ay = x - 1 + i % 3, y - 1 + i // 3; L['decoration'][ay][ax] = t
+            if 'overlay' in L: L['overlay'][ay][ax] = 0
+            L['collision'][ay][ax] = 1
+    L['collision'][y][x] = 4
+    w = {'x': x, 'y': y, 'to': to, 'tx': tx, 'ty': ty, 'facing': facing}
+    if reached_via: w['reached_via'] = reached_via
+    j['warps'].append(w); return w
+
+CAVE_MOUTH = (794, 795, 796, 797, 798, 799)
+
+@recipe
+def r9_switchbacks(j):
+    # P3 cave exit on the cliff top: the Icefall's new east tunnel (r9_icefall 27,8) comes out on a snow shelf above the
+    # middle zig (x30-38, rows 21-26). A ledge (row 27) drops you onto a landing (rows 28-29) that joins the main climb,
+    # so the shelf is only ever reached through the cave. Shelf: a seen-from-below satchel + a hidden seed + a trainer.
+    carve(j, rect(30, 21, 38, 26))
+    ledge(j, 27, 30, 38)
+    carve(j, rect(29, 28, 38, 29))
+    door(j, 34, 20, 'r9_icefall', 26, 8, 'left', art=CAVE_MOUTH, reached_via='r9_icefall')
+    item(j, 'r9_sw_shelf_tea', 38, 21, 'calm_tea', False, 'east end of the cliff shelf, seen from the zig below')
+    item(j, 'r9_sw_shelf_seed', 30, 21, 'vigor_seed', True, 'west corner of the cliff shelf')
+    carve(j, [(20, 21)])   # the sealed hollow west of the upper zig opens (was unreachable)
+    item(j, 'r9_sw_hollow_mix', 18, 20, 'trail_mix', False, 'back of the hollow off the upper zig')
+    item(j, 'r9_sw_foot_pouch', 30, 59, 'coin_pouch_small', True, 'very bottom of the south cut')
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
