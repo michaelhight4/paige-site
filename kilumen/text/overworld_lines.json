@@ -2578,7 +2578,39 @@
      }
     ]
    },
-   "area_name": "Brookhollow"
+   "area_name": "Brookhollow",
+   "brookhollow_notice": {
+    "pages": [
+     "NOTICE: \"Lost: one red scarf.\nAsk at the office.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "NOTICE: \"Lost: one red scarf.\nAsk at the office.\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   },
+   "brookhollow_bin_2": {
+    "pages": [
+     "A bin. Somebody's old shopping list:\n\"Bread. Milk. Courage.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A bin. Somebody's old shopping list:\n\"Bread. Milk. Courage.\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "house_2f": {
    "player_start": {
@@ -4759,7 +4791,39 @@
      }
     ]
    },
-   "area_name": "Fernwick"
+   "area_name": "Fernwick",
+   "fernwick_notice": {
+    "pages": [
+     "FERNWICK NOTICES: \"Hall open\ndaily. Please wipe your boots.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "FERNWICK NOTICES: \"Hall open\ndaily. Please wipe your boots.\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   },
+   "fernwick_bin": {
+    "pages": [
+     "A bin full of fern clippings.\nIt smells like rain."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A bin full of fern clippings.\nIt smells like rain."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "fernwick_hall_int": {
    "helper_1": {
@@ -4790,7 +4854,7 @@
      "I'm going to hear about that later."
     ],
     "after": [
-     "All three crystals have to glow at once. Count before you touch."
+     "A plate opens the Master's gate.\nThis one's right under my feet."
     ],
     "lines": [
      {
@@ -4800,7 +4864,14 @@
        "The Master watches every fight from up there. Make it look good."
       ]
      }
-    ]
+    ],
+    "after_2": [
+     "Go round below me to reach it.\nI'll mind my toes."
+    ],
+    "after_old": [
+     "All three crystals have to glow at once. Count before you touch."
+    ],
+    "_src": "data/textbot_world_fill.json section5 (Text Bot)"
    },
    "master_fernwick": {
     "pages": [
@@ -7110,7 +7181,39 @@
      }
     ]
    },
-   "area_name": "House"
+   "area_name": "House",
+   "brookhollow_a_bookcase": {
+    "pages": [
+     "Picture books, a road atlas and\n\"Creatures of the Valley\"."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Picture books, a road atlas and\n\"Creatures of the Valley\"."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   },
+   "brookhollow_a_radio": {
+    "pages": [
+     "The radio crackles: \"...and a\nsunny week across the valley...\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "The radio crackles: \"...and a\nsunny week across the valley...\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "home_brookhollow_b": {
    "scholar": {
@@ -7473,7 +7576,23 @@
      }
     ]
    },
-   "area_name": "Brookhollow House"
+   "area_name": "Brookhollow House",
+   "brookhollow_b_bookcase": {
+    "pages": [
+     "Cookbooks. One is just called\n\"Soup, and Why\"."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Cookbooks. One is just called\n\"Soup, and Why\"."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "home_brookhollow_b_2f": {
    "home_brookhollow_b_kid": {
@@ -7822,7 +7941,23 @@
      }
     ]
    },
-   "area_name": "Fernwick House"
+   "area_name": "Fernwick House",
+   "fernwick_a_bookcase": {
+    "pages": [
+     "Field guides to mosses.\nAll of them well thumbed."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Field guides to mosses.\nAll of them well thumbed."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "home_fernwick_a_2f": {
    "home_fernwick_a_kid": {
@@ -7918,7 +8053,39 @@
      }
     ]
    },
-   "area_name": "House"
+   "area_name": "House",
+   "fernwick_c_bookcase": {
+    "pages": [
+     "Fishing diaries, one per year.\nThe fish get bigger every year."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Fishing diaries, one per year.\nThe fish get bigger every year."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   },
+   "fernwick_c_shelf": {
+    "pages": [
+     "A shelf of jars: fishing hooks,\nbuttons, and one very old biscuit."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A shelf of jars: fishing hooks,\nbuttons, and one very old biscuit."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "home_lanternport_c": {
    "home_lanternport_c_parent": {
@@ -8131,7 +8298,39 @@
      }
     ]
    },
-   "area_name": "House"
+   "area_name": "House",
+   "saltmere_a_wheel": {
+    "pages": [
+     "An old ship's wheel.\nIt still turns, a little stiffly."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "An old ship's wheel.\nIt still turns, a little stiffly."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   },
+   "saltmere_a_jars": {
+    "pages": [
+     "Jars of salt, each labelled\nwith the year it was raked."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Jars of salt, each labelled\nwith the year it was raked."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "lab_brookhollow": {
    "lab_brookhollow_researcher": {
@@ -10621,7 +10820,39 @@
      }
     ]
    },
-   "area_name": "Saltmere"
+   "area_name": "Saltmere",
+   "saltmere_notice": {
+    "pages": [
+     "SALTMERE NOTICES: \"Salt pans\nclosed Tuesdays for raking.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "SALTMERE NOTICES: \"Salt pans\nclosed Tuesdays for raking.\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   },
+   "saltmere_bin": {
+    "pages": [
+     "A bin. Salt crusts the lid.\nEverything here is a bit salty."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A bin. Salt crusts the lid.\nEverything here is a bit salty."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "saltmere_office_int": {
    "saltmere_office_int_clerk": {
@@ -10688,7 +10919,23 @@
      }
     ]
    },
-   "area_name": "Saltmere Office"
+   "area_name": "Saltmere Office",
+   "saltmere_office_bookcase": {
+    "pages": [
+     "Binders: \"Staff Rota\",\n\"More Staff Rota\", \"Rota (OLD)\"."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Binders: \"Staff Rota\",\n\"More Staff Rota\", \"Rota (OLD)\"."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "saltmere_hall_int": {
    "saltmere_hall_int_master": {
@@ -12071,7 +12318,55 @@
      }
     ]
    },
-   "area_name": "Frostspire"
+   "area_name": "Frostspire",
+   "frostspire_notice": {
+    "pages": [
+     "FROSTSPIRE NOTICES: \"Skylift runs\nin all weather. Mostly.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "FROSTSPIRE NOTICES: \"Skylift runs\nin all weather. Mostly.\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   },
+   "frostspire_bin": {
+    "pages": [
+     "A bin, frozen shut.\nIt will open in spring."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A bin, frozen shut.\nIt will open in spring."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   },
+   "frostspire_barrel": {
+    "pages": [
+     "A barrel of grit for the paths.\nSomeone has drawn a face on it."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A barrel of grit for the paths.\nSomeone has drawn a face on it."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "frostspire_hall_int": {
    "frostspire_hall_int_master": {
@@ -12235,7 +12530,7 @@
      "The birds are laughing again."
     ],
     "after": [
-     "Stand where the gusts cross\nand you'll go nowhere fast."
+     "On ice you slide till something\nstops you. Pick your wall first."
     ],
     "name": "Torvald",
     "trainer_class": "Hall Helper",
@@ -12248,7 +12543,14 @@
        "I climbed up here on foot.\nThe birds laughed. Let's battle."
       ]
      }
-    ]
+    ],
+    "after_2": [
+     "This maze has a plate in its\nmiddle. It opens the gate up north."
+    ],
+    "after_old": [
+     "Stand where the gusts cross\nand you'll go nowhere fast."
+    ],
+    "_src": "data/textbot_world_fill.json section5 (Text Bot)"
    },
    "frostspire_hall_int_h6": {
     "pages": [
@@ -12258,7 +12560,7 @@
      "Brr. That one stung."
     ],
     "after": [
-     "The Master reads the wind first,\nthe challenger second."
+     "Through the gate? Good. Ice again.\nSlide to a wall, then turn."
     ],
     "name": "Ingrid",
     "trainer_class": "Hall Helper",
@@ -12271,7 +12573,14 @@
        "High up, cold, very windy.\nI love it. Can you tell?"
       ]
      }
-    ]
+    ],
+    "after_2": [
+     "Up the left side, then along the\ntop. The Master's waiting."
+    ],
+    "after_old": [
+     "The Master reads the wind first,\nthe challenger second."
+    ],
+    "_src": "data/textbot_world_fill.json section5 (Text Bot)"
    },
    "area_name": "Frostspire Master's Hall"
   },
@@ -13081,7 +13390,192 @@
      }
     ]
    },
-   "area_name": "Mirefen"
+   "area_name": "Mirefen",
+   "mirefen_stilt_builder": {
+    "pages": [
+     "New stilts every spring.\nThe bog eats the old ones.",
+     "I drive them in, it swallows them.\nWe're old friends, me and the bog."
+    ],
+    "lines": [
+     {
+      "id": "first",
+      "flags": [],
+      "when": {
+       "once": true
+      },
+      "pages": [
+       "New stilts every spring.\nThe bog eats the old ones.",
+       "I drive them in, it swallows them.\nWe're old friends, me and the bog."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Lean on a house here and it leans\nback. Polite, really."
+      ]
+     }
+    ],
+    "name": "Corrie",
+    "kind": "townsfolk",
+    "_src": "data/textbot_world_fill.json section2 (Text Bot)"
+   },
+   "mirefen_punt_ferrier": {
+    "pages": [
+     "Need a lift across the channel?\nNot today. My pole's in for repair.",
+     "Storm's coming. You can smell it.\nThe reeds go quiet first."
+    ],
+    "lines": [
+     {
+      "id": "first",
+      "flags": [],
+      "when": {
+       "once": true
+      },
+      "pages": [
+       "Need a lift across the channel?\nNot today. My pole's in for repair.",
+       "Storm's coming. You can smell it.\nThe reeds go quiet first."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Thirty years punting. Fell in\nonce. Don't tell the ducks."
+      ]
+     }
+    ],
+    "name": "Old Saul",
+    "kind": "townsfolk",
+    "_src": "data/textbot_world_fill.json section2 (Text Bot)"
+   },
+   "mirefen_lamp_lighter": {
+    "pages": [
+     "I light the boardwalk lamps so\nnobody steps off into the bog.",
+     "Those little bog lights don't\nneed me. They light themselves."
+    ],
+    "lines": [
+     {
+      "id": "first",
+      "flags": [],
+      "when": {
+       "once": true
+      },
+      "pages": [
+       "I light the boardwalk lamps so\nnobody steps off into the bog.",
+       "Those little bog lights don't\nneed me. They light themselves."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Count the lamps on your way home.\nIf one's out, tell me. Please."
+      ]
+     }
+    ],
+    "name": "Elsie",
+    "kind": "townsfolk",
+    "_src": "data/textbot_world_fill.json section2 (Text Bot)"
+   },
+   "mirefen_tide_board": {
+    "pages": [
+     "TIDE BOARD, in chalk:\n\"High at dusk. Storm by Thursday.\"",
+     "Thursday is crossed out.\nIt says \"sooner\" now."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "TIDE BOARD, in chalk:\n\"High at dusk. Storm by Thursday.\"",
+       "Thursday is crossed out.\nIt says \"sooner\" now."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "mirefen_stilt_marks": {
+    "pages": [
+     "A stilt with notches cut in it.\nEach one a flood, with a year."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A stilt with notches cut in it.\nEach one a flood, with a year."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "mirefen_frog_statue": {
+    "pages": [
+     "A mossy stone frog. Someone has\nput a tiny hat on it. A good hat."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A mossy stone frog. Someone has\nput a tiny hat on it. A good hat."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "mirefen_boot_rack": {
+    "pages": [
+     "Muddy boots by the door. Dozens.\nThe bog stays outside. Mostly."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Muddy boots by the door. Dozens.\nThe bog stays outside. Mostly."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "mirefen_net_shelf": {
+    "pages": [
+     "Eel traps and reed baskets\nstacked on a shelf to dry."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Eel traps and reed baskets\nstacked on a shelf to dry."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "mirefen_bin": {
+    "pages": [
+     "A bin with a heavy stone on the\nlid. The ducks know why."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A bin with a heavy stone on the\nlid. The ducks know why."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "mirefen_hall_int": {
    "mirefen_hall_int_master": {
@@ -13188,7 +13682,7 @@
      "My character's fine. My team, less so."
     ],
     "after": [
-     "The frogs croak in an order. Light the lamps the same way."
+     "Arrow boards push you the way they\npoint. Read the next one first."
     ],
     "name": "Juno",
     "trainer_class": "Hall Helper",
@@ -13201,7 +13695,14 @@
        "It's dark in here on purpose. Wenna says it builds character."
       ]
      }
-    ]
+    ],
+    "after_2": [
+     "Past the arrows it's all walls.\nA plate far left opens the gate."
+    ],
+    "after_old": [
+     "The frogs croak in an order. Light the lamps the same way."
+    ],
+    "_src": "data/textbot_world_fill.json section5 (Text Bot)"
    },
    "mirefen_hall_int_h3": {
     "pages": [
@@ -13211,7 +13712,7 @@
      "Now he's awake. Thanks for that."
     ],
     "after": [
-     "Can't hear the frogs? Watch for ripples. Each one starts by a lamp."
+     "Stuck going round in circles?\nAn arrow sent you. Try another board."
     ],
     "name": "Arlo",
     "trainer_class": "Hall Helper",
@@ -13224,13 +13725,19 @@
        "Last stretch of boards. My Mirejaw sleeps under this one."
       ]
      }
-    ]
+    ],
+    "after_2": [
+     "The gate up top stays shut till\nyou step on the plate. West side."
+    ],
+    "after_old": [
+     "Can't hear the frogs? Watch for ripples. Each one starts by a lamp."
+    ],
+    "_src": "data/textbot_world_fill.json section5 (Text Bot)"
    },
    "mirefen_hall_int_guide": {
     "pages": [
-     "It's dark on the water. Light a reed lamp and you'll see the planks near it.",
-     "The frogs croak in an order. Light the lamps in that same order.",
-     "Can't hear them? Watch the water. Every croak leaves a ripple by its lamp."
+     "Arrow boards push you the way they\npoint. Look before you step.",
+     "Past them, a maze. A plate in it\nopens the gate to Wenna."
     ],
     "note": "stationary hall guide; overnight hall draft",
     "lines": [
@@ -13238,12 +13745,17 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "It's dark on the water. Light a reed lamp and you'll see the planks near it.",
-       "The frogs croak in an order. Light the lamps in that same order.",
-       "Can't hear them? Watch the water. Every croak leaves a ripple by its lamp."
+       "Arrow boards push you the way they\npoint. Look before you step.",
+       "Past them, a maze. A plate in it\nopens the gate to Wenna."
       ]
      }
-    ]
+    ],
+    "pages_old": [
+     "It's dark on the water. Light a reed lamp and you'll see the planks near it.",
+     "The frogs croak in an order. Light the lamps in that same order.",
+     "Can't hear them? Watch the water. Every croak leaves a ripple by its lamp."
+    ],
+    "_src": "data/textbot_world_fill.json section5 (Text Bot)"
    },
    "mirefen_hall_int_h4": {
     "pages": [
@@ -14292,7 +14804,149 @@
     ],
     "status": "DRAFT"
    },
-   "area_name": "Lanternport"
+   "area_name": "Lanternport",
+   "lanternport_net_mender": {
+    "pages": [
+     "Every hole in a net has a story.\nThis one's a Mirejaw. Rude fish.",
+     "Pass me that twine, {player}?\nThank you. Hands aren't what they were."
+    ],
+    "lines": [
+     {
+      "id": "first",
+      "flags": [],
+      "when": {
+       "once": true
+      },
+      "pages": [
+       "Every hole in a net has a story.\nThis one's a Mirejaw. Rude fish.",
+       "Pass me that twine, {player}?\nThank you. Hands aren't what they were."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Thirty years mending the same\nnets. They're more knot than net now."
+      ]
+     }
+    ],
+    "name": "Hester",
+    "kind": "townsfolk",
+    "_src": "data/textbot_world_fill.json section2 (Text Bot)"
+   },
+   "lanternport_shell_kid": {
+    "pages": [
+     "I've got ninety-nine shells!\nOne more and I'm the shell queen.",
+     "This one hums if you hold it\nto your ear. It's the sea, I think."
+    ],
+    "lines": [
+     {
+      "id": "first",
+      "flags": [],
+      "when": {
+       "once": true
+      },
+      "pages": [
+       "I've got ninety-nine shells!\nOne more and I'm the shell queen.",
+       "This one hums if you hold it\nto your ear. It's the sea, I think."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Still ninety-nine. The sea keeps\nthe good ones for itself."
+      ]
+     }
+    ],
+    "name": "Pip",
+    "kind": "townsfolk",
+    "_src": "data/textbot_world_fill.json section2 (Text Bot)"
+   },
+   "lanternport_notice_board": {
+    "pages": [
+     "HARBOUR NOTICES: \"Fishing Derby,\nend of the month. Bring a bucket.\"",
+     "\"Lost: one awning. Last seen\nflying past the lighthouse.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "HARBOUR NOTICES: \"Fishing Derby,\nend of the month. Bring a bucket.\"",
+       "\"Lost: one awning. Last seen\nflying past the lighthouse.\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "lanternport_keeper_log_case": {
+    "pages": [
+     "A glass case: the old keeper's log.\n\"Night 1. Storm. Lamp held.\"",
+     "\"Night 2. Storm. Kettle held.\nLamp less sure.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A glass case: the old keeper's log.\n\"Night 1. Storm. Lamp held.\"",
+       "\"Night 2. Storm. Kettle held.\nLamp less sure.\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "lanternport_signal_crate_1": {
+    "pages": [
+     "A damp crate, lid stencilled\nSIGNAL. Empty, apart from straw."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A damp crate, lid stencilled\nSIGNAL. Empty, apart from straw."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "lanternport_signal_crate_2": {
+    "pages": [
+     "Another SIGNAL crate.\nWet tracks lead off up the quay."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Another SIGNAL crate.\nWet tracks lead off up the quay."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "lanternport_net_rack": {
+    "pages": [
+     "Nets drying on a rack.\nThey smell of salt and old rope."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Nets drying on a rack.\nThey smell of salt and old rope."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   }
   },
   "lanternport_hall_int": {
    "lanternport_hall_int_master": {
@@ -14979,7 +15633,149 @@
     ],
     "status": "DRAFT"
    },
-   "area_name": "Cindervale"
+   "area_name": "Cindervale",
+   "cindervale_ore_trader": {
+    "pages": [
+     "Ore from the caldera, sold by\nweight. Honest scales, mine.",
+     "Revival Tech buys all the violet\nbits. Pays well. Asks nothing."
+    ],
+    "lines": [
+     {
+      "id": "first",
+      "flags": [],
+      "when": {
+       "once": true
+      },
+      "pages": [
+       "Ore from the caldera, sold by\nweight. Honest scales, mine.",
+       "Revival Tech buys all the violet\nbits. Pays well. Asks nothing."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Fair price is when both of us\nwalk off grumbling. Good day!"
+      ]
+     }
+    ],
+    "name": "Dunmore",
+    "kind": "townsfolk",
+    "_src": "data/textbot_world_fill.json section2 (Text Bot)"
+   },
+   "cindervale_kiln_keeper": {
+    "pages": [
+     "Kilns don't sleep, so I don't.\nWell. I nap. Standing up.",
+     "Pots in at dawn, out at dusk.\nCrack one, and the kiln laughs."
+    ],
+    "lines": [
+     {
+      "id": "first",
+      "flags": [],
+      "when": {
+       "once": true
+      },
+      "pages": [
+       "Kilns don't sleep, so I don't.\nWell. I nap. Standing up.",
+       "Pots in at dawn, out at dusk.\nCrack one, and the kiln laughs."
+      ]
+     },
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Hear the kiln ticking? It's\ncooling. Best sound in town."
+      ]
+     }
+    ],
+    "name": "Maud",
+    "kind": "townsfolk",
+    "_src": "data/textbot_world_fill.json section2 (Text Bot)"
+   },
+   "cindervale_anvil_statue": {
+    "pages": [
+     "A bronze anvil on a plinth:\n\"FIRST FORGE. Lit 300 years ago.\"",
+     "Someone has polished the plaque.\nEvery single day, by the shine."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A bronze anvil on a plinth:\n\"FIRST FORGE. Lit 300 years ago.\"",
+       "Someone has polished the plaque.\nEvery single day, by the shine."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "cindervale_foundry_board": {
+    "pages": [
+     "FOUNDRY ROTA: \"Shift 1 - Bea.\nShift 2 - Bea. Shift 3 - Bea?\"",
+     "Under it: \"Bea, go home. - B.F.\""
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "FOUNDRY ROTA: \"Shift 1 - Bea.\nShift 2 - Bea. Shift 3 - Bea?\"",
+       "Under it: \"Bea, go home. - B.F.\""
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "cindervale_ore_cart": {
+    "pages": [
+     "An ore cart, still warm.\nThe rocks inside glow faintly."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "An ore cart, still warm.\nThe rocks inside glow faintly."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "cindervale_tool_shelf": {
+    "pages": [
+     "Tongs, hammers, a bent file.\nEach one worn to its owner's hand."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Tongs, hammers, a bent file.\nEach one worn to its owner's hand."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   },
+   "cindervale_kiln": {
+    "pages": [
+     "A brick kiln, ticking as it cools.\nA row of pots waits inside."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "A brick kiln, ticking as it cools.\nA row of pots waits inside."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "_src": "data/textbot_world_fill.json section3 (Text Bot)"
+   }
   },
   "cindervale_hall_int": {
    "cindervale_hall_int_master": {
@@ -15400,22 +16196,42 @@
    },
    "lanternport_hall_int_guide": {
     "pages": [
-     "The lens flashes long and short beams through four coloured panes.",
-     "Each floor has four lamps in those colours. Light them in that order.",
-     "Get it wrong and they go out. No harm done. The ghosts find it funny."
+     "Each floor of the lighthouse has\nits own trick. Up you go, one by one.",
+     "Here, some walls can't be seen.\nWalk slow and feel for the gaps.",
+     "Up on 2F, pads come in pairs.\nStep on one, pop out of its twin.",
+     "A pressure plate opens the gate to\nthe stairs. On 3F, too. Then the lamp."
     ],
     "note": "stationary hall guide; overnight hall draft",
     "lines": [
      {
+      "id": "first",
+      "flags": [],
+      "when": {
+       "once": true
+      },
+      "pages": [
+       "Each floor of the lighthouse has\nits own trick. Up you go, one by one.",
+       "Here, some walls can't be seen.\nWalk slow and feel for the gaps.",
+       "Up on 2F, pads come in pairs.\nStep on one, pop out of its twin.",
+       "A pressure plate opens the gate to\nthe stairs. On 3F, too. Then the lamp."
+      ]
+     },
+     {
       "id": "default",
       "flags": [],
       "pages": [
-       "The lens flashes long and short beams through four coloured panes.",
-       "Each floor has four lamps in those colours. Light them in that order.",
-       "Get it wrong and they go out. No harm done. The ghosts find it funny."
+       "2F: the plate is in the far left\nroom. A pad will take you there.",
+       "3F: the plate's by the stairs.\nThe walls make you walk round to it.",
+       "The Master waits by the lamp, on\nthe carpet. Say hello for me."
       ]
      }
-    ]
+    ],
+    "pages_old": [
+     "The lens flashes long and short beams through four coloured panes.",
+     "Each floor has four lamps in those colours. Light them in that order.",
+     "Get it wrong and they go out. No harm done. The ghosts find it funny."
+    ],
+    "_src": "data/textbot_world_fill.json section4 (Text Bot)"
    },
    "area_name": "Lighthouse Floor 1"
   },
@@ -17092,7 +17908,23 @@
     "face": "up",
     "tile": "i_bookcase_lantern"
    },
-   "area_name": "Stargazer's Loft"
+   "area_name": "Stargazer's Loft",
+   "lanternport_a_bookcase": {
+    "pages": [
+     "Sea charts and a book of knots.\nThe page for \"bowline\" is torn."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Sea charts and a book of knots.\nThe page for \"bowline\" is torn."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "home_lanternport_b": {
    "home_lanternport_b_mender": {
@@ -17337,7 +18169,23 @@
     "face": "left",
     "tile": "i_tool_rack"
    },
-   "area_name": "Smith's Cottage"
+   "area_name": "Smith's Cottage",
+   "cindervale_a_tool_rack": {
+    "pages": [
+     "Pokers and tongs for the fire.\nAll polished. All warm."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Pokers and tongs for the fire.\nAll polished. All warm."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "home_cindervale_b": {
    "home_cindervale_b_miner": {
@@ -17883,7 +18731,23 @@
      }
     ]
    },
-   "area_name": "RT Frostspire Office"
+   "area_name": "RT Frostspire Office",
+   "frostspire_office_bookcase": {
+    "pages": [
+     "Snow reports, filed by year.\nEvery one says \"a lot\"."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "Snow reports, filed by year.\nEvery one says \"a lot\"."
+      ]
+     }
+    ],
+    "kind": "prop",
+    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+   }
   },
   "tidewater_cave_int": {
    "tidewater_cave_int_diver": {

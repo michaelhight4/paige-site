@@ -695,3 +695,14 @@ tinybench 6.2.2 (MIT, Copyright (c) 2022 Tinylibs) - github.com/tinylibs/tinyben
 ngraph.graph 20.1.2 (BSD-3-Clause, Copyright (c) Andrei Kashcha) - github.com/anvaka/ngraph.graph
 ngraph.path 1.6.1 (MIT, Copyright (c) 2017-2025 Andrei Kashcha) - github.com/anvaka/ngraph.path
   Used by: tools/world_graph/world_graph.mjs (map connectivity / dangling warp report)
+
+################################################################################
+# Side activities + town world fill (Oct 30, 2026, dev/side-activities)
+################################################################################
+Not third-party: src/side/*, tools/side_activities/* and the new map props/spots were written for Kilumen and use only
+existing Kilumen tiles. No outside code, art or text was added. The town inspectables and the "collect then turn in" /
+quiz-board loops take only their *structure* from Pokemon Gen 1-5 towns (bookshelves, TVs, signs, bins, notes); no names,
+text, data or art were copied.
+Playwright (Apache-2.0, Copyright (c) Microsoft Corporation) - github.com/microsoft/playwright
+  Dev only, already used by earlier shot runners; tests/side_activities_shots.mjs uses it for PC/phone screenshots.
+  Not vendored, not shipped.
