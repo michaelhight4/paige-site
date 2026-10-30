@@ -263,8 +263,14 @@ export class Dialog {
 
   say(pages, speaker) {
     if (!pages?.length) return Promise.resolve();
-    return new Promise((resolve) => { this._speaker(speaker); this.cur = { type: 'say', pages, i: 0, resolve }; this._show(); this._render(); });
+    // a say() opened over another open say() used to orphan the first promise, so the script awaiting it never ended
+    // (scene.busy stuck, player locked; seen after the derby turn-in). Resolve the replaced line first.
+    const prev = this.cur?.type === 'say' ? this.cur.resolve : null;
+    return new Promise((resolve) => { this._speaker(speaker); this.cur = { type: 'say', pages, i: 0, resolve }; if (prev) queueMicrotask(prev); this._show(); this._render(); });
   }
+
+  /** Close an open say() box early and resolve it (the caller's state moved on; e.g. the derby scale changed). Lists stay. */
+  dismiss() { const c = this.cur; if (!c || c.type !== 'say') return false; const r = c.resolve; this._close(); r(); return true; }
 
   ask(pages, choices, speaker) {
     return new Promise((resolve) => { this._speaker(speaker); this.cur = { type: 'ask', pages, i: 0, choices, sel: 0, resolve }; this._show(); this._render(); });

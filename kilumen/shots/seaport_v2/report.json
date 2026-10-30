@@ -1,8 +1,48 @@
 {
  "errors": [],
+ "checks": {
+  "swimSheet": true,
+  "npcSwimSheets": 5,
+  "dialogAfterTurnIn": null,
+  "busyAfterTurnIn": {
+   "busy": false,
+   "fade": false,
+   "ui": false
+  },
+  "busyAfterDrain": false,
+  "turnIns": 1,
+  "legendF": {
+   "dialog": "say",
+   "locked": true,
+   "busy": true,
+   "talks": [
+    {
+     "tick": 4151,
+     "type": "talk",
+     "npc": "gullhaven_lagoon_derby_clerk"
+    }
+   ],
+   "facing": "up",
+   "at": [
+    12,
+    7
+   ]
+  },
+  "legendVia": "F key",
+  "legend": {
+   "clerk": [
+    12,
+    6
+   ],
+   "flag": true,
+   "text": "[\"My great-gran Bryn came in empty one\\nspring tide. Said she let it go.\",\"Longer than the harbour, she said,\\nwith a light on its brow.\",\"Like a lantern somebo"
+  }
+ },
  "shots": [
   "pc04_sea_swimmers_before.png",
   "pc04_sea_swimmers_after.png",
+  "player_swimming.png",
+  "player_swimming_fallback.png",
   "sea_north_treeline.png",
   "sea_swimmers_east.png",
   "town.png",
@@ -25,6 +65,7 @@
   "derby_seq_8_weigh.png",
   "derby_seq_9_turn_in.png",
   "derby_after_turn_in.png",
+  "legend_after_turn_in.png",
   "ron.png"
  ]
 }

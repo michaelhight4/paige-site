@@ -1,0 +1,24 @@
+{
+ "frame_size": [
+  64,
+  96
+ ],
+ "cols": 4,
+ "rows": [
+  "down",
+  "left",
+  "right",
+  "up"
+ ],
+ "frames": 4,
+ "ms": 180,
+ "loop": true,
+ "waterline_y": 66,
+ "bob_px": [
+  0,
+  1,
+  2,
+  1
+ ],
+ "note": "DRAFT. Body already cropped at the waterline; ripple ring baked in (solid pixels). Draw at the walk-sheet anchor with no extra crop/bob/foam. Frames 0-3 = stroke cycle (idle may hold col 0 or loop)."
+}

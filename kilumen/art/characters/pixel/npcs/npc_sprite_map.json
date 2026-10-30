@@ -3031,7 +3031,10 @@
    "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_a/overworld/tr_swimmer_gullhaven_a_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_a/overworld/tr_swimmer_gullhaven_a_chibi/",
    "trainer_64x128": "npcs/tr_swimmer_gullhaven_a/trainer/tr_swimmer_gullhaven_a_trainer_64x128.png",
-   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)",
+   "swim_sheet": "npcs/tr_swimmer_gullhaven_a/swim/tr_swimmer_gullhaven_a_swim_sheet.png",
+   "swim_sheet_2x": "npcs/tr_swimmer_gullhaven_a/swim/tr_swimmer_gullhaven_a_swim_sheet_2x.png",
+   "swim_sheet_3x": "npcs/tr_swimmer_gullhaven_a/swim/tr_swimmer_gullhaven_a_swim_sheet_3x.png"
   },
   "gullhaven_sea.gullhaven_sea_swimmer_b": {
    "sprite_id": "tr_swimmer_gullhaven_b",
@@ -3041,7 +3044,10 @@
    "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_b/overworld/tr_swimmer_gullhaven_b_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_b/overworld/tr_swimmer_gullhaven_b_chibi/",
    "trainer_64x128": "npcs/tr_swimmer_gullhaven_b/trainer/tr_swimmer_gullhaven_b_trainer_64x128.png",
-   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)",
+   "swim_sheet": "npcs/tr_swimmer_gullhaven_b/swim/tr_swimmer_gullhaven_b_swim_sheet.png",
+   "swim_sheet_2x": "npcs/tr_swimmer_gullhaven_b/swim/tr_swimmer_gullhaven_b_swim_sheet_2x.png",
+   "swim_sheet_3x": "npcs/tr_swimmer_gullhaven_b/swim/tr_swimmer_gullhaven_b_swim_sheet_3x.png"
   },
   "gullhaven_sea.gullhaven_sea_swimmer_c": {
    "sprite_id": "tr_swimmer_gullhaven_c",
@@ -3051,7 +3057,10 @@
    "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_c/overworld/tr_swimmer_gullhaven_c_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_c/overworld/tr_swimmer_gullhaven_c_chibi/",
    "trainer_64x128": "npcs/tr_swimmer_gullhaven_c/trainer/tr_swimmer_gullhaven_c_trainer_64x128.png",
-   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)",
+   "swim_sheet": "npcs/tr_swimmer_gullhaven_c/swim/tr_swimmer_gullhaven_c_swim_sheet.png",
+   "swim_sheet_2x": "npcs/tr_swimmer_gullhaven_c/swim/tr_swimmer_gullhaven_c_swim_sheet_2x.png",
+   "swim_sheet_3x": "npcs/tr_swimmer_gullhaven_c/swim/tr_swimmer_gullhaven_c_swim_sheet_3x.png"
   },
   "gullhaven_sea.gullhaven_sea_swimmer_d": {
    "sprite_id": "tr_swimmer_gullhaven_d",
@@ -3061,7 +3070,10 @@
    "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_d/overworld/tr_swimmer_gullhaven_d_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_d/overworld/tr_swimmer_gullhaven_d_chibi/",
    "trainer_64x128": "npcs/tr_swimmer_gullhaven_d/trainer/tr_swimmer_gullhaven_d_trainer_64x128.png",
-   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)",
+   "swim_sheet": "npcs/tr_swimmer_gullhaven_d/swim/tr_swimmer_gullhaven_d_swim_sheet.png",
+   "swim_sheet_2x": "npcs/tr_swimmer_gullhaven_d/swim/tr_swimmer_gullhaven_d_swim_sheet_2x.png",
+   "swim_sheet_3x": "npcs/tr_swimmer_gullhaven_d/swim/tr_swimmer_gullhaven_d_swim_sheet_3x.png"
   },
   "gullhaven_sea.gullhaven_sea_swimmer_e": {
    "sprite_id": "tr_swimmer_gullhaven_e",
@@ -3071,7 +3083,10 @@
    "overworld_sheet_3x": "npcs/tr_swimmer_gullhaven_e/overworld/tr_swimmer_gullhaven_e_chibi_sheet_3x.png",
    "overworld_frames_dir": "npcs/tr_swimmer_gullhaven_e/overworld/tr_swimmer_gullhaven_e_chibi/",
    "trainer_64x128": "npcs/tr_swimmer_gullhaven_e/trainer/tr_swimmer_gullhaven_e_trainer_64x128.png",
-   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)"
+   "note": "character-models/gullhaven 56a5ead1 (REPOINT.md)",
+   "swim_sheet": "npcs/tr_swimmer_gullhaven_e/swim/tr_swimmer_gullhaven_e_swim_sheet.png",
+   "swim_sheet_2x": "npcs/tr_swimmer_gullhaven_e/swim/tr_swimmer_gullhaven_e_swim_sheet_2x.png",
+   "swim_sheet_3x": "npcs/tr_swimmer_gullhaven_e/swim/tr_swimmer_gullhaven_e_swim_sheet_3x.png"
   },
   "gullhaven_lagoon.gullhaven_lagoon_derby_clerk": {
    "sprite_id": "npc_gull_derby_host_m",

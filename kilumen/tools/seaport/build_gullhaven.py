@@ -74,8 +74,11 @@ class Out:
                 if v == 'T' and not s.dec[y][x]:
                     # Gary (Oct 30 2026): the bottom row of a stand keeps its trunk (tree_base only, no canopy overlay), so
                     # stands end in trunks + shadow and the canopy never sits over the player standing below (brookhollow rule)
-                    s.dec[y][x] = ID['tree_base']
-                    if y + 1 < H and s.t[y+1][x] == 'T': s.ov[y][x] = ID['tree_top']
+                    # user 8:00 AM Oct 30: gh_trees (tools/seaport/gh_trees_art.py), real 35-deg front face + lighter lit top
+                    s.dec[y][x] = ID['gh_tree_base']
+                    if y + 1 < H and s.t[y+1][x] == 'T': s.ov[y][x] = ID['gh_tree_top']
+                    # the top row of a stand gets its lit top in the walkable cell above (canopy over the player behind it)
+                    if y > 0 and s.t[y-1][x] != 'T' and not s.ov[y-1][x] and s.t[y-1][x] != 'W': s.ov[y-1][x] = ID['gh_tree_top']
                 if v == 'W': col[y][x] = 3
                 elif s.dec[y][x]: col[y][x] = CODE[s.dec[y][x]]
                 if (x, y) in s.col_over: col[y][x] = s.col_over[(x, y)]
