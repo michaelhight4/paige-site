@@ -170,6 +170,20 @@ def route_east(j):
     carve(j, [(45, 16), (21, 24)])
     item(j, 'route_east_hollow_pouch', 21, 26, 'coin_pouch_small', True, 'back of the south hollow')
 
+@recipe
+def route_revival(j):
+    # P1: the top terrace (rows 14-16, x23-35) ends in a ledge (row 17) into the main field; climb back at x36+.
+    # P10: the two sealed satchel pockets (north x39-40, south x42-43) open through one-square gaps.
+    ledge(j, 17, 23, 35)
+    carve(j, [(40, 13), (43, 24)])
+
+@recipe
+def sunmeadow_fields(j):
+    # P1: the west meadow drops into the south field over a ledge (row 19, x24-29); the way back up is x30-33.
+    # P10: the sealed satchel pocket east of the field (x45-46) opens through a gap at (46,19).
+    ledge(j, 19, 24, 29)
+    carve(j, [(46, 19)])
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
