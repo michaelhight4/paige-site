@@ -24,9 +24,9 @@ export const RON_FIGHTS = {
   ron_2: { levels: [15, 15, 16] },
   ron_3: { levels: [21, 22, 22, 23] },
   ron_4: { levels: [30, 30, 30, 31, 31, 32] },
-  ron_5: { levels: [47, 47, 48, 48, 48, 49] },
-  ron_6: { levels: [58, 59, 59, 60, 61, 62] },
-  ron_final: { levels: [67, 67, 68, 68, 68, 69] },
+  ron_5: { levels: [46, 47, 47, 48, 49, 50] },
+  ron_6: { levels: [62, 62, 63, 63, 64, 64] },
+  ron_final: { levels: [66, 67, 67, 68, 68, 68] },
 };
 export const RON_ORDER = Object.keys(RON_FIGHTS);
 /** TRAINER_TEAMS keys ({map}.{id}) -> fight. The final fight's map (tower bottom, aurelith_arena_int) is not built yet. */

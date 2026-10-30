@@ -940,8 +940,8 @@
       "species": "reefshell",
       "weight": 60,
       "level": [
-       42,
-       45
+       55,
+       56
       ],
       "rarity": "common"
      },
@@ -949,8 +949,8 @@
       "species": "brineseal",
       "weight": 25,
       "level": [
-       42,
-       46
+       55,
+       56
       ],
       "rarity": "uncommon"
      },
@@ -958,8 +958,8 @@
       "species": "moorcoil",
       "weight": 2,
       "level": [
-       42,
-       46
+       55,
+       56
       ],
       "rarity": "rare"
      }
@@ -1047,8 +1047,8 @@
       "species": "mirewump",
       "weight": 45,
       "level": [
-       34,
-       39
+       39,
+       41
       ],
       "rarity": "common"
      },
@@ -1056,8 +1056,8 @@
       "species": "brookhorn",
       "weight": 35,
       "level": [
-       34,
-       39
+       39,
+       41
       ],
       "rarity": "uncommon"
      },
@@ -1065,8 +1065,8 @@
       "species": "tidemarrow",
       "weight": 5,
       "level": [
-       39,
-       41
+       41,
+       42
       ],
       "rarity": "rare"
      },
@@ -1074,16 +1074,16 @@
       "species": "rillop",
       "weight": 15,
       "level": [
-       30,
-       34
+       37,
+       39
       ],
       "rarity": "uncommon"
      },
      {
       "species": "snapmoor",
       "level": [
-       30,
-       41
+       37,
+       42
       ],
       "weight": 6,
       "spread": "habitat",
@@ -1092,8 +1092,8 @@
      {
       "species": "reedmoot",
       "level": [
-       30,
-       41
+       37,
+       42
       ],
       "weight": 6,
       "spread": "habitat",
@@ -1210,8 +1210,8 @@
       "species": "mirewump",
       "weight": 30,
       "level": [
-       36,
-       40
+       43,
+       45
       ],
       "rarity": "uncommon"
      },
@@ -1219,8 +1219,8 @@
       "species": "mirewump",
       "weight": 35,
       "level": [
-       38,
-       42
+       44,
+       46
       ],
       "rarity": "uncommon"
      },
@@ -1228,8 +1228,8 @@
       "species": "drenchcrab",
       "weight": 25,
       "level": [
-       38,
-       42
+       44,
+       46
       ],
       "rarity": "uncommon"
      },
@@ -1237,16 +1237,16 @@
       "species": "tuskwallow",
       "weight": 10,
       "level": [
-       41,
-       43
+       46,
+       47
       ],
       "rarity": "uncommon"
      },
      {
       "species": "bulwarkrab",
       "level": [
-       36,
-       43
+       43,
+       47
       ],
       "weight": 6,
       "spread": "habitat",
@@ -1255,8 +1255,8 @@
      {
       "species": "breakerfin",
       "level": [
-       36,
-       43
+       43,
+       47
       ],
       "weight": 6,
       "spread": "habitat",
@@ -1800,8 +1800,8 @@
       "species": "paleminnow",
       "weight": 30,
       "level": [
-       32,
-       35
+       38,
+       39
       ],
       "rarity": "common"
      },
@@ -1809,16 +1809,16 @@
       "species": "brineseal",
       "weight": 20,
       "level": [
-       35,
-       36
+       39,
+       39
       ],
       "rarity": "common"
      },
      {
       "species": "bulwarkrab",
       "level": [
-       32,
-       36
+       38,
+       39
       ],
       "weight": 3,
       "spread": "habitat",
@@ -1827,8 +1827,8 @@
      {
       "species": "breakerfin",
       "level": [
-       32,
-       36
+       38,
+       39
       ],
       "weight": 3,
       "spread": "habitat",
@@ -1909,8 +1909,8 @@
       "species": "brookhorn",
       "weight": 60,
       "level": [
-       32,
-       35
+       38,
+       39
       ],
       "rarity": "common"
      },
@@ -1918,8 +1918,8 @@
       "species": "floepaddle",
       "weight": 30,
       "level": [
-       32,
-       35
+       38,
+       39
       ],
       "rarity": "uncommon"
      },
@@ -1927,16 +1927,16 @@
       "species": "bulwarkrab",
       "weight": 10,
       "level": [
-       32,
-       35
+       38,
+       39
       ],
       "rarity": "uncommon"
      },
      {
       "species": "reedmoot",
       "level": [
-       32,
-       35
+       38,
+       39
       ],
       "weight": 6,
       "spread": "habitat",
@@ -1945,8 +1945,8 @@
      {
       "species": "torrentpike",
       "level": [
-       32,
-       35
+       38,
+       39
       ],
       "weight": 6,
       "spread": "habitat",
@@ -2370,8 +2370,8 @@
       "species": "brookhorn",
       "weight": 60,
       "level": [
-       30,
-       34
+       37,
+       39
       ],
       "rarity": "common"
      },
@@ -2379,8 +2379,8 @@
       "species": "floepaddle",
       "weight": 30,
       "level": [
-       28,
-       30
+       36,
+       37
       ],
       "rarity": "uncommon"
      },
@@ -2388,26 +2388,26 @@
       "species": "bulwarkrab",
       "weight": 10,
       "level": [
-       34,
-       35
+       39,
+       39
       ],
       "rarity": "uncommon"
      },
      {
       "species": "reedmoot",
       "level": [
-       28,
-       35
+       36,
+       39
       ],
       "weight": 6,
       "spread": "habitat",
       "rarity": "uncommon"
      },
      {
-      "species": "streambarb",
+      "species": "torrentpike",
       "level": [
-       28,
-       35
+       36,
+       39
       ],
       "weight": 6,
       "spread": "habitat",
@@ -2506,8 +2506,8 @@
       "species": "hullwhale",
       "weight": 25,
       "level": [
-       42,
-       45
+       46,
+       48
       ],
       "rarity": "common"
      },
@@ -2515,16 +2515,16 @@
       "species": "wavelin",
       "weight": 20,
       "level": [
-       40,
-       44
+       45,
+       47
       ],
       "rarity": "common"
      },
      {
       "species": "bulwarkrab",
       "level": [
-       40,
-       45
+       45,
+       48
       ],
       "weight": 5,
       "spread": "habitat",
@@ -2605,8 +2605,8 @@
       "species": "sluicekin",
       "weight": 50,
       "level": [
-       44,
-       47
+       56,
+       57
       ],
       "rarity": "common"
      },
@@ -2614,16 +2614,16 @@
       "species": "reefshell",
       "weight": 30,
       "level": [
-       40,
-       44
+       54,
+       56
       ],
       "rarity": "uncommon"
      },
      {
       "species": "reedmoot",
       "level": [
-       40,
-       47
+       54,
+       57
       ],
       "weight": 5,
       "spread": "habitat",
@@ -2632,8 +2632,8 @@
      {
       "species": "torrentpike",
       "level": [
-       40,
-       47
+       54,
+       57
       ],
       "weight": 5,
       "spread": "habitat",

@@ -15,11 +15,12 @@ export const getDifficulty = (state) => (state && DIFFICULTIES[state.difficulty]
 export function setDifficulty(state, id) { if (state && DIFFICULTIES[id]) state.difficulty = id; return getDifficulty(state); }
 
 /** foe level after the mode: lead = your lead's level */
+export const ENEMY_MAX_LEVEL = 68; // Gary Oct 30 2026: no enemy above 68 (player max 70); mirrors KILUMEN_RULES.enemyMaxLevel
 export function scaleLevel(level, lead, mode) {
-  if (mode === 'normal' || !DIFFICULTIES[mode]) return level;
+  if (mode === 'normal' || !DIFFICULTIES[mode]) return Math.min(ENEMY_MAX_LEVEL, level);
   const gap = Math.max(0, level - (lead || level));
-  if (mode === 'easy') return Math.max(2, level - Math.round(gap * 0.5));
-  return Math.min(100, level + Math.min(5, Math.max(1, Math.ceil(gap * 0.5))));
+  if (mode === 'easy') return Math.min(ENEMY_MAX_LEVEL, Math.max(2, level - Math.round(gap * 0.5)));
+  return Math.min(ENEMY_MAX_LEVEL, level + Math.min(5, Math.max(1, Math.ceil(gap * 0.5))));
 }
 export const scaleFoes = (foes, lead, mode) => foes.map((f) => ({ ...f, level: scaleLevel(f.level, lead, mode) }));
 

@@ -215,32 +215,32 @@
      "species": "mooncrab",
      "weight": 60,
      "level": [
-      42,
-      46
+      55,
+      56
      ]
     },
     {
      "species": "seaglint",
      "weight": 25,
      "level": [
-      43,
-      46
+      55,
+      56
      ]
     },
     {
      "species": "reefshell",
      "weight": 15,
      "level": [
-      42,
-      45
+      55,
+      56
      ]
     },
     {
      "species": "moorcoil",
      "weight": 2,
      "level": [
-      42,
-      46
+      55,
+      56
      ]
     }
    ]
@@ -252,32 +252,32 @@
      "species": "mirewump",
      "weight": 45,
      "level": [
-      34,
-      39
+      39,
+      41
      ]
     },
     {
      "species": "brookhorn",
      "weight": 35,
      "level": [
-      34,
-      39
+      39,
+      41
      ]
     },
     {
      "species": "tidemarrow",
      "weight": 5,
      "level": [
-      39,
-      41
+      41,
+      42
      ]
     },
     {
      "species": "rillop",
      "weight": 15,
      "level": [
-      30,
-      34
+      37,
+      39
      ]
     }
    ]
@@ -289,32 +289,32 @@
      "species": "mirewump",
      "weight": 30,
      "level": [
-      36,
-      40
+      43,
+      45
      ]
     },
     {
      "species": "mirewump",
      "weight": 35,
      "level": [
-      38,
-      42
+      44,
+      46
      ]
     },
     {
      "species": "drenchcrab",
      "weight": 25,
      "level": [
-      38,
-      42
+      44,
+      46
      ]
     },
     {
      "species": "tuskwallow",
      "weight": 10,
      "level": [
-      41,
-      43
+      46,
+      47
      ]
     }
    ]
@@ -432,24 +432,24 @@
      "species": "spraytern",
      "weight": 50,
      "level": [
-      32,
-      36
+      38,
+      39
      ]
     },
     {
      "species": "paleminnow",
      "weight": 30,
      "level": [
-      32,
-      35
+      38,
+      39
      ]
     },
     {
      "species": "brineseal",
      "weight": 20,
      "level": [
-      35,
-      36
+      39,
+      39
      ]
     }
    ]
@@ -461,24 +461,24 @@
      "species": "brookhorn",
      "weight": 60,
      "level": [
-      32,
-      35
+      38,
+      39
      ]
     },
     {
      "species": "floepaddle",
      "weight": 30,
      "level": [
-      32,
-      35
+      38,
+      39
      ]
     },
     {
      "species": "bulwarkrab",
      "weight": 10,
      "level": [
-      32,
-      35
+      38,
+      39
      ]
     }
    ]
@@ -599,24 +599,24 @@
      "species": "brookhorn",
      "weight": 60,
      "level": [
-      30,
-      34
+      37,
+      39
      ]
     },
     {
      "species": "floepaddle",
      "weight": 30,
      "level": [
-      28,
-      30
+      36,
+      37
      ]
     },
     {
      "species": "bulwarkrab",
      "weight": 10,
      "level": [
-      34,
-      35
+      39,
+      39
      ]
     }
    ]
@@ -628,24 +628,24 @@
      "species": "barnaclump",
      "weight": 55,
      "level": [
-      40,
-      45
+      45,
+      48
      ]
     },
     {
      "species": "hullwhale",
      "weight": 25,
      "level": [
-      42,
-      45
+      46,
+      48
      ]
     },
     {
      "species": "wavelin",
      "weight": 20,
      "level": [
-      40,
-      44
+      45,
+      47
      ]
     }
    ]
@@ -657,24 +657,24 @@
      "species": "sluicekin",
      "weight": 50,
      "level": [
-      44,
-      47
+      56,
+      57
      ]
     },
     {
      "species": "reefshell",
      "weight": 30,
      "level": [
-      40,
-      44
+      54,
+      56
      ]
     },
     {
      "species": "seaglint",
      "weight": 20,
      "level": [
-      46,
-      47
+      56,
+      57
      ]
     }
    ]
