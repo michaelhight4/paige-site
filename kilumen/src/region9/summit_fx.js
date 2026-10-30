@@ -5,6 +5,7 @@
 import { makeLabFx } from './lab_fx.js?v=v0.2.100-alpha';
 import { anim, frameAt, drawFrame } from './anims.js?v=v0.2.100-alpha';
 import { makeTankOverlays } from './tank_overlays.js?v=v0.2.100-alpha';
+import { makeSummitPeak } from './summit_peak.js?v=v0.2.100-alpha';
 const T = 64, FW = 256, FH = 256;
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 export function makeSummitFx(scene) {
@@ -14,7 +15,11 @@ export function makeSummitFx(scene) {
   const lab = fx.lab = makeLabFx(scene); let breaking = false;
   const tanks = fx.tanks = makeTankOverlays(); fx.decorationFx = (ctx, v) => tanks.draw(ctx, v); // lab tank particle overlays (tank_overlays.js)
   // Wellspire v3: in the lab Ondravel floats in the big tank (lab_fx.js); released = glass broken, water drained
+  const peak = fx.peak = makeSummitPeak(scene); fx.giant = () => !!meta()?.giant;
   fx.under = (ctx, v) => {
+    if (fx.giant()) { // summit v2: open peak edge, cloud sea, sunset; Ondravel rises out of the clouds beyond the edge (summit_peak.js)
+      const up = fx.active ? 1 - fx.cloud : scene.flags.has('fin_summit_seen') ? 1 : 0;
+      peak.rise = 0.35 + 0.65 * up; peak.part = up; peak.under(ctx, v); return; }
     if (!scene.map?.json?.lab) return;
     if (!breaking) { lab.broken = scene.flags.has('fin_released'); lab.drain = lab.broken ? 1 : 0; }
     lab.under(ctx, v, (c, v2, tk) => {
@@ -42,11 +47,11 @@ export function makeSummitFx(scene) {
     return -1;
   };
   /** the summit dome before the reveal / face-off: idle sprite instead of the sealed 4x4 sheet */
-  fx.idleNow = () => scene.map?.name === 'fin_lab1_now' && fx.row == null && !fx.active && fx.rowFor() === 0;
-  fx.centre = () => { const o = meta(); return o && { x: o.x * T + T / 2, y: (o.y + 1) * T - FH / 2 }; };
+  fx.idleNow = () => scene.map?.name === 'fin_lab1_now' && !fx.giant() && fx.row == null && !fx.active && fx.rowFor() === 0;
+  fx.centre = () => { const o = meta(); if (o?.giant) return { x: o.x * T + T / 2, y: (o.y + 1) * T - 3 * T }; return o && { x: o.x * T + T / 2, y: (o.y + 1) * T - FH / 2 }; };
   fx.draw = (ctx, v) => {
     const o = meta(), z = v.zoom, W = ctx.canvas.width, H = ctx.canvas.height;
-    if (o && img && !o.tank) {
+    if (o && img && !o.tank && !o.giant) {
       if (src !== o.sheet) { src = o.sheet; img.src = o.sheet; }
       const row = fx.rowFor();
       const tower = row >= 1 && scene.map?.name === 'fin_lab1_now' ? anim('ondravel_summit_tower') : null;
@@ -61,7 +66,7 @@ export function makeSummitFx(scene) {
         ctx.drawImage(img, col * FW, row * FH, FW, FH, Math.round(sx), Math.round(sy), FW * z, FH * z); ctx.restore();
       }
     }
-    if (fx.light > 0 && o) { // light shafts down onto him through the gap
+    if (fx.light > 0 && o && !o.giant) { // light shafts down onto him through the gap
       const cx = (o.x * T + T / 2 - v.cam.x) * z; ctx.save(); ctx.globalCompositeOperation = 'lighter';
       for (const [dx, w, a] of [[-0.9, 0.5, 0.18], [0, 0.8, 0.28], [0.8, 0.45, 0.16]]) {
         const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, `rgba(255,244,210,${a * fx.light})`); g.addColorStop(1, 'rgba(255,244,210,0)');
@@ -70,11 +75,11 @@ export function makeSummitFx(scene) {
       }
       ctx.restore();
     }
-    const split = fx.cloud > 0 ? anim('wellspire_cloud_split') : null;
+    const split = fx.cloud > 0 && !o?.giant ? anim('wellspire_cloud_split') : null;
     if (split) { // Animator's cloud split: the frame follows how far the banks have parted
       ctx.save(); ctx.globalAlpha = Math.min(1, fx.cloud * 1.6); const f = Math.min(split.meta.frames - 1, Math.floor((1 - fx.cloud) * split.meta.frames));
       drawFrame(ctx, split, f, W / 2, H, 1, W, H); ctx.restore();
-    } else if (fx.cloud > 0) { // placeholder: two banks that slide apart from the middle
+    } else if (fx.cloud > 0 && !o?.giant) { // placeholder: two banks that slide apart from the middle
       const open = 1 - fx.cloud, t = (v.ms || 0) / 1000; ctx.save();
       for (const side of [-1, 1]) for (let i = 0; i < 14; i++) {
         const r = (0.16 + ((i * 37) % 11) / 60) * Math.max(W, H), bx = W / 2 + side * (r * 0.35 + open * W * 0.75 + ((i * 53) % 17) / 17 * W * 0.25) + Math.sin(t * 0.4 + i) * 6 * z;

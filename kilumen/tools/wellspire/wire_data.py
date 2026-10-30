@@ -32,7 +32,7 @@ MOOD = {
     'r9_switchbacks': {'extends': 'outdoor', 'tint': {'color': '#c6ecfa', 'alpha': 0.08}, 'particles': [{'kind': 'snow', 'density': 18}]},
     'r9_icefall': {'extends': 'cave', 'tint': {'color': '#9fd8f0', 'alpha': 0.08}},
     'fin_summit_camp': {'extends': 'outdoor', 'tint': {'color': '#c6ecfa', 'alpha': 0.07}, 'particles': [{'kind': 'snow', 'density': 10}]},
-    'fin_lab1_now': {'extends': 'indoor', 'tint': {'color': '#a070f0', 'alpha': 0.1}, 'vignette': {'color': '#120626', 'alpha': 0.36, 'inner': 0.48}, 'particles': [{'kind': 'motes', 'density': 8}]},
+    'fin_lab1_now': {'extends': 'outdoor', 'tint': {'color': '#ff7a30', 'alpha': 0.08}, 'vignette': {'color': '#2a0a06', 'alpha': 0.3, 'inner': 0.55}, 'particles': [{'kind': 'motes', 'density': 5}]},
     'fin_past_enclosure': {'extends': 'indoor', 'tint': {'color': '#70b8f0', 'alpha': 0.1}, 'vignette': {'color': '#06122a', 'alpha': 0.3, 'inner': 0.5}, 'particles': [{'kind': 'motes', 'density': 8}]},
     'fin_past_riverbend': {'extends': 'outdoor', 'tint': {'color': '#ffd9a0', 'alpha': 0.08}, 'particles': [{'kind': 'fireflies', 'density': 10}]},
 }
