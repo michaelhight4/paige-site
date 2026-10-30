@@ -31,6 +31,7 @@ import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.93-alpha';
 import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.93-alpha';
 import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.93-alpha';
 import { NightFx } from './nightfx.js?v=v0.2.93-alpha';
+import { RtxLook } from './rtx.js?v=v0.2.93-alpha'; // Options 'RTX look' post-processing (default Off; dev/rtx-look)
 import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.93-alpha'; // home start v1: new game in the bedroom (intro.js)
 import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.93-alpha'; // creature idle/walk motion (v0.2.36)
 import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.93-alpha'; // golden spinning arrows (starter cases, quest items)
@@ -130,6 +131,7 @@ export class Overworld {
     this.life = new LivingWorld(this, opts.life || {}); // cloud shadows + ambient life (living.js)
     this.depth = new DepthPass(null, { enabled: opts.depth }); // contact shadows + wall-base shading (depth.js); config loaded in init()
     this.ixlight = new IxLight(undefined, (n) => isIndoor(n) && !followsOutdoorClock(n) && !/^(rt_|greystone)/.test(n)); // Interiors v2 plane lighting + indoor night shade (?ix2=0 / ?ixlight=0 = off)
+    this.rtx = new RtxLook(this, { query: globalThis.location ? new URLSearchParams(globalThis.location.search) : null, bench: globalThis.location ? new URLSearchParams(globalThis.location.search).get('rtxbench') === '1' : false }); // RTX look (rtx.js): GL made only when switched on
     this.nightfx = new NightFx(this, opts.nightFx); // Night FX v1: moonlight grade, lit windows, lamp pools, night clouds (nightfx.js); all off unless switched on
     this.life.nightClouds = !!opts.nightFx?.clouds; // thin moonlit clouds at night + cloud drift paused under reduced motion (living.js)
     this._gradeImage = this.nightfx.wrapGradeImage(gradeImage);
@@ -1329,7 +1331,7 @@ export class Overworld {
     return { sq: creatureMotion(this.ms, walking, 1 - t) };
   }
 
-  render() { if (this.map && this.tileset) this.renderer.draw(this.view()); }
+  render() { if (this.map && this.tileset) { const v = this.view(); this.renderer.draw(v); if (this.rtx?.on) this.rtx.post(v); } } // RTX look: post-process the finished frame in place (rtx.js)
 
   run() {
     const loop = (t) => { this.frame(t); this._raf = requestAnimationFrame(loop); };
