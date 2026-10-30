@@ -146,7 +146,7 @@ export function runCredits(scene, record, opts = {}) {
     const onKeyUp = (e) => { if (['Space', 'KeyZ', 'ArrowDown'].includes(e.code)) fast = false; };
     addEventListener('keydown', onKey, true); addEventListener('keyup', onKeyUp, true);
     skip.addEventListener('click', (e) => { e.stopPropagation(); finish(true); });
-    wrap.addEventListener('pointerdown', (e) => { if (e.target !== skip) fast = true; });
+    wrap.addEventListener('pointerdown', (e) => { if (e.target !== skip) fast = true; }); // touch-ok: hold to fast-forward the credits; no activation
     for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) wrap.addEventListener(ev, () => { fast = false; });
     raf(() => wrap.classList.add('on'));
     const tick = (now) => {

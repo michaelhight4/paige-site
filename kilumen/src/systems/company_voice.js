@@ -21,6 +21,7 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
+import { onTap } from '../shared/tap_guard.js?v=v0.2.98-alpha'; // touch input standard
 import { employeeIdOf } from './employee_id.js?v=v0.2.98-alpha';
 
 export const FALLBACK = {
@@ -399,7 +400,7 @@ export class VoiceStrip {
     el.className = 'cv-strip'; el.hidden = true; el.setAttribute('role', 'status'); el.setAttribute('aria-live', 'polite'); el.dataset.cv = '1';
     el.innerHTML = '<img alt=""><div><div class="cv-name"></div><div class="cv-text"></div></div>';
     el.querySelector('img').src = cv.cfg.speaker.portrait;
-    el.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); cv.advance('tap'); });
+    onTap(el, null, (e) => { e.stopPropagation(); cv.advance('tap'); }, { stop: true }); // touch standard: advance on a tap release
     doc.body.appendChild(el);
   }
   show(c) {

@@ -182,7 +182,7 @@ export function runRaceShow(o) {
       if (me.inputs.start === null) { const q = tReal < 0 ? -1 : startQuality(tReal); applyStart(race, me, q); showRating(q < 0 ? S.false_start : rate(q)); if (q < 0) crowd('gasp'); st.log.push(['start', q]); return; }
       if (st.prompt) { const q = markerQuality(pingPong((race.clock - st.prompt.t0) / TIMING.play), 0.5, half); (st.prompt.kind === 'push' ? applyPush : applySprint)(race, me, q); showRating(rate(q)); st.log.push([st.prompt.kind, q]); st.prompt = null; }
     });
-    cv.addEventListener('pointerdown', (e) => { e.preventDefault(); st.tapFn?.(); });
+    cv.addEventListener('pointerdown', (e) => { e.preventDefault(); st.tapFn?.(); }); // touch-ok: mini-game canvas: tap timing is the gameplay
     let resolved = false;
     const finish = () => { if (resolved) return; resolved = true; sfx.music(1); st.fx = null; resolve(race.racers.map((r) => ({ time: r.finish, racer: r }))); };
     const result = () => {
@@ -439,7 +439,7 @@ export function runChampion(o) {
     const conf = confettiSys(140, rm, 'champ');
     let tm = 0, last = performance.now(), done = false, coinT = -1, shown = 0, flashed = false;
     o.st.tapFn = () => { if (shown >= o.prize && tm > 2.2) end(); };
-    cv.addEventListener('pointerdown', (e) => { e.preventDefault(); o.st.tapFn?.(); });
+    cv.addEventListener('pointerdown', (e) => { e.preventDefault(); o.st.tapFn?.(); }); // touch-ok: mini-game canvas: tap timing is the gameplay
     const end = () => { if (done) return; done = true; resolve(); };
     sfx.fanfare(); sfx.roar(); o.st.fx = 'champion';
     const frame = (now) => {

@@ -85,7 +85,7 @@ export async function installDevConsole(scene, access) {
     msgEl = panel.querySelector('.msg');
     panel.querySelector('[data-x]').onclick = close;
     panel.addEventListener('keydown', (e) => e.stopPropagation()); panel.addEventListener('keyup', (e) => e.stopPropagation());
-    panel.addEventListener('pointerdown', (e) => e.stopPropagation());
+    panel.addEventListener('pointerdown', (e) => e.stopPropagation()); // touch-ok: stopPropagation guard only
     document.body.appendChild(panel); render();
   };
   // Arena playtest Oct 30 2026: focus went to <body> with the removed panel, so keys did nothing until the canvas was clicked.
@@ -123,7 +123,7 @@ export async function installDevConsole(scene, access) {
   // HUD chip (phones have no keyboard)
   const chip = () => { const top = ui()?.hudTop; if (!top || top.querySelector('.kdev-chip')) return; if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
     const b = document.createElement('button'); b.className = 'kdev-chip'; b.textContent = 'DEV'; b.setAttribute('aria-label', 'Open dev console');
-    b.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); open(); }); top.appendChild(b); };
+    b.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); open(); }); top.appendChild(b); }; // touch-ok: dev-only (?dev=1) floating button, not in a scroll container
   // live v0.2.93 bug 3: the HUD (and its chip) is hidden under a battle, so a battle gets its own fixed chip with a small menu:
   // Auto-complete (battle/ui_sd.js registers dev.battleAuto while a turn battle runs) and world speed. Dev session only.
   let bmenu = null;
@@ -134,10 +134,10 @@ export async function installDevConsole(scene, access) {
     if (b) return;
     if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
     b = document.createElement('button'); b.className = 'kdev-chip kdev-bchip'; b.textContent = 'DEV'; b.setAttribute('aria-label', 'Dev battle tools');
-    b.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); if (bmenu) { bmenu.remove(); bmenu = null; return; }
+    b.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); if (bmenu) { bmenu.remove(); bmenu = null; return; } // touch-ok: dev-only (?dev=1) floating button, not in a scroll container
       bmenu = document.createElement('div'); bmenu.className = 'kdev-bmenu';
       bmenu.innerHTML = `<button data-open>Dev console</button><button data-auto>Auto-complete battle</button><div>${WORLD_SPEEDS.map((n) => `<button class="${(DEV.world || 1) === n ? 'sel' : ''}" data-world="${n}">${n}x</button>`).join('')}</div>`;
-      bmenu.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); const a = ev.target.attributes; if (!a) return;
+      bmenu.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); const a = ev.target.attributes; if (!a) return; // touch-ok: dev-only (?dev=1) popup menu, not scrollable
         if (a['data-open']) { bmenu.remove(); bmenu = null; open(); }
         else if (a['data-auto']) { touched(); window.kilumen?.dev?.battleAuto?.(); bmenu.remove(); bmenu = null; }
         else if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; bmenu.querySelectorAll('[data-world]').forEach((x) => x.classList.toggle('sel', Number(x.dataset.world) === DEV.world)); } });

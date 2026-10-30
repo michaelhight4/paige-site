@@ -34,5 +34,5 @@ async function tryLock() {
 startPlatform().then((p) => {
   landscapeOnly = p.profile.controls?.orientation === 'landscape';
   sync();
-  if (landscapeOnly) window.addEventListener('pointerdown', tryLock, { once: true, capture: true });
+  if (landscapeOnly) window.addEventListener('pointerdown', tryLock, { once: true, capture: true }); // touch-ok: orientation lock on the first gesture; no activation
 }).catch(() => { /* main.js reports a profile failure */ });

@@ -38,7 +38,7 @@ function iosHintOnce(text) {
   const x = doc.createElement('button'); x.type = 'button'; x.textContent = '\u2715'; x.setAttribute('aria-label', 'Dismiss');
   const close = () => box.remove();
   x.addEventListener('pointerup', (e) => { e.preventDefault(); e.stopPropagation(); close(); });
-  x.addEventListener('pointerdown', (e) => e.stopPropagation());
+  x.addEventListener('pointerdown', (e) => e.stopPropagation()); // touch-ok: stopPropagation guard only
   box.append(msg, x); doc.body.appendChild(box);
   setTimeout(close, 12000);
 }

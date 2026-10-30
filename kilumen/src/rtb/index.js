@@ -150,16 +150,16 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
     const offs = []; let faceDown = null;
     const on = (el, ev, fn) => { if (!el) return; el.addEventListener(ev, fn, true); offs.push(() => el.removeEventListener(ev, fn, true)); };
     const pad = document.getElementById('touchpad');
-    on(pad?.querySelector('[data-btn="a"]'), 'pointerdown', (e) => { e.stopPropagation(); faceHit('a'); });
-    on(pad?.querySelector('[data-btn="select"]'), 'pointerdown', (e) => { e.stopPropagation(); inp.select = true; });
-    on(pad?.querySelector('[data-btn="b"]'), 'pointerdown', (e) => { e.stopPropagation(); faceHit('b'); });
-    const db = view.$('[data-rtb="dodge"]'); on(db, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); bPress(); db.classList.add('down'); });
+    on(pad?.querySelector('[data-btn="a"]'), 'pointerdown', (e) => { e.stopPropagation(); faceHit('a'); }); // touch-ok: real-time battle controls: a press must register instantly
+    on(pad?.querySelector('[data-btn="select"]'), 'pointerdown', (e) => { e.stopPropagation(); inp.select = true; }); // touch-ok: real-time battle controls: a press must register instantly
+    on(pad?.querySelector('[data-btn="b"]'), 'pointerdown', (e) => { e.stopPropagation(); faceHit('b'); }); // touch-ok: real-time battle controls: a press must register instantly
+    const db = view.$('[data-rtb="dodge"]'); on(db, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); bPress(); db.classList.add('down'); }); // touch-ok: real-time battle controls: a press must register instantly
     for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) on(db, ev, () => { bRelease(); db?.classList.remove('down'); });
     const hud = view.hud;
     const modeBtn = modeButton('turn', { touch, key: 'T' }); modeBtn.classList.add('in-rtb'); if (!trainer) hud.appendChild(modeBtn); else hud.querySelectorAll('[data-rtb="crystal"],[data-rtb="leave"]').forEach((b) => { b.hidden = true; b.style.display = 'none'; });
-    on(modeBtn, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); inp.mode = true; });
+    on(modeBtn, 'pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); inp.mode = true; }); // touch-ok: real-time battle controls: a press must register instantly
     on(modeBtn, 'click', (e) => { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) inp.mode = true; }); // keyboard Enter / Space on the focused button
-    on(hud, 'pointerdown', (e) => {
+    on(hud, 'pointerdown', (e) => { // touch-ok: real-time battle controls: a press must register instantly
       const s = e.target.closest?.('.rtb-s'), b = e.target.closest?.('[data-rtb]');
       const cr = e.target.closest?.('.rtb-cr'); if (cr) { inp.capPick = +cr.dataset.cap; e.preventDefault(); return; }
       if (e.target.closest?.('.held-ic')) return; // held-item icon: hover / long-press tip, not a switch (Oct 29 2026)

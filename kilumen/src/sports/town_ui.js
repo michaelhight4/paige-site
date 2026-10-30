@@ -128,8 +128,8 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><canvas width="${W}" height="${H}"></canvas>
       <div class="pad"><button data-k="left">◀</button><button data-k="up">▲</button><button data-k="down">▼</button><button data-k="right">▶</button><button data-k="tap">A</button></div></div>`;
     const cv = ov.querySelector('canvas'), g = cv.getContext('2d');
-    ov.querySelectorAll('.pad button').forEach((b) => { const k = b.dataset.k; b.onpointerdown = (e) => { e.preventDefault(); press(k, true); }; b.onpointerup = b.onpointerleave = b.onpointercancel = () => press(k, false); });
-    if (ev.id === 'lantern_catch') { const mv = (e) => { const r = cv.getBoundingClientRect(); st.input.pointerX = (e.clientX - r.left) / r.width; }; cv.onpointerdown = mv; cv.onpointermove = (e) => { if (e.buttons) mv(e); }; cv.onpointerup = () => (st.input.pointerX = null); }
+    ov.querySelectorAll('.pad button').forEach((b) => { const k = b.dataset.k; b.onpointerdown = (e) => { e.preventDefault(); press(k, true); }; b.onpointerup = b.onpointerleave = b.onpointercancel = () => press(k, false); }); // touch-ok: mini-game pad / canvas: a press must register instantly
+    if (ev.id === 'lantern_catch') { const mv = (e) => { const r = cv.getBoundingClientRect(); st.input.pointerX = (e.clientX - r.left) / r.width; }; cv.onpointerdown = mv; cv.onpointermove = (e) => { if (e.buttons) mv(e); }; cv.onpointerup = () => (st.input.pointerX = null); } // touch-ok: mini-game pad / canvas: a press must register instantly
     st.last = performance.now();
     const loop = (now) => {
       if (st.phase !== 'play') return;

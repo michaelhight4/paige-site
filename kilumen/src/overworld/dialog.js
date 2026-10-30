@@ -9,6 +9,7 @@
  * Which touch controls are hidden for a dialogue state (profile controls.hideDuringDialog / showDpadForLists).
  * @returns {{hide: string[], listDpad: boolean}} hide = control names ('dpad' | 'sel' | 'dbg' | ...); listDpad = show d-pad up/down again
  */
+import { onTap } from '../shared/tap_guard.js?v=v0.2.98-alpha'; // touch input standard
 export function touchControlsFor(controls, { open = false, list = false } = {}) {
   const names = (open && controls?.hideDuringDialog) || [];
   const extra = (open && list && controls?.hideDuringLists) || []; // phone menu fix (Oct 23, 2026): rows are tapped, so A/B fade too
@@ -60,7 +61,7 @@ export class Dialog {
     // v0.2.12 back arrow (Gary: stuck in the company inbox): top-right of the box on inbox / choice lists; same as B.
     this.back = el('button', 'dlg-back', this.box); this.back.type = 'button'; this.back.hidden = true; this.back.textContent = '\u2190'; this.back.setAttribute('aria-label', 'Back');
     const goBack = (e) => { e.preventDefault(); e.stopPropagation(); if (this.cur) this._tap = { b: true }; };
-    this.back.addEventListener('pointerdown', goBack); this.back.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); });
+    onTap(this.back, null, goBack, { stop: true }); this.back.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); });
     this.cur = null;
     this.shown = []; // every page shown (tests)
     root.ownerDocument?.defaultView?.addEventListener?.('resize', () => this._place());
@@ -68,18 +69,17 @@ export class Dialog {
     if (this.controls.tapDialog) {
       root.ownerDocument?.body?.classList.add('dlg-tap');
       // tap the box = A; tap a list row = pick that row. Queued here, applied on the next handle() tick like a button press.
-      this.box.addEventListener('pointerdown', (e) => {
-        if (!this.cur) return;
-        e.preventDefault();
-        const li = e.target.closest?.('li[data-i]');
+      // touch standard: on a tap RELEASE (src/shared/tap_guard.js), so a drag that scrolls an inbox list never picks / advances.
+      onTap(this.box, null, (e, _b, d) => {
+        if (!this.cur || this.back.contains?.(d.target)) return;
+        const li = d.target.closest?.('li[data-i]');
         this._tap = li ? { pick: +li.dataset.i } : { a: true };
       });
     } else {
       // gd bug 3 (Heal Centre menu had no mouse): on pc the choice / inbox rows take a click (= pick) and hover (= select),
       // like the ui.js menus (mousemove [data-i] -> select, pointerdown -> activate). The box itself still needs F / A.
-      this.list.addEventListener?.('pointerdown', (e) => {
-        const li = e.target.closest?.('li[data-i]'); if (!li || !this.cur) return;
-        e.preventDefault(); e.stopPropagation(); this._tap = { pick: +li.dataset.i };
+      onTap(this.list, 'li[data-i]', (e, li) => { // click (release) = pick, never pointerdown (touch standard)
+        if (!this.cur) return; e.stopPropagation(); this._tap = { pick: +li.dataset.i };
       });
       this.list.addEventListener?.('mousemove', (e) => {
         const li = e.target.closest?.('li[data-i]'); if (li) this._hover(+li.dataset.i);

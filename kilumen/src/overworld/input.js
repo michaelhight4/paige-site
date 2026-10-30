@@ -113,7 +113,7 @@ export class Input {
   /** Attach a touch D-pad: elements with data-dir="up|down|left|right" and data-btn="a|debug". */
   attachTouch(root) {
     const dirAt = (x, y) => document.elementFromPoint(x, y)?.closest?.('[data-dir]')?.dataset.dir || null;
-    root.addEventListener('pointerdown', (e) => {
+    root.addEventListener('pointerdown', (e) => { // touch-ok: game pad (#touchpad) / canvas input: a press must register instantly
       this.lastDevice = 'touch';
       const btn = e.target.closest('[data-btn]');
       if (btn) {
@@ -155,15 +155,15 @@ export class Input {
         const id = t.identifier, src = 't:' + id;
         if (ended.has(id)) { this._release(src); this.bTouches.delete(id); continue; }
         const el = document.elementFromPoint(t.clientX, t.clientY);
-        if (e.type === 'touchstart' && el?.closest?.('[data-btn=b]')) { this.bTouches.add(id); continue; }
+        if (e.type === 'touchstart' && el?.closest?.('[data-btn=b]')) { this.bTouches.add(id); continue; } // touch-ok: game pad (#touchpad) / canvas input: a press must register instantly
         if (this.bTouches.has(id)) continue; // a thumb that started on B stays B while it rests / wobbles
         const d = el?.closest?.('[data-dir]')?.dataset.dir || null;
         if (d && d !== this.sources.get(src)) this._press(src, d);
       }
       this._syncTouchB();
     };
-    const opt = { passive: false };
-    root.addEventListener('touchstart', (e) => { if (e.cancelable) e.preventDefault(); this.lastDevice = 'touch'; scan(e, false); }, opt);
+    const opt = { passive: false }; // touch-ok: game pad (#touchpad) / canvas input: a press must register instantly
+    root.addEventListener('touchstart', (e) => { if (e.cancelable) e.preventDefault(); this.lastDevice = 'touch'; scan(e, false); }, opt); // touch-ok: game pad (#touchpad) / canvas input: a press must register instantly
     root.addEventListener('touchmove', (e) => { if (e.cancelable) e.preventDefault(); scan(e, false); }, opt);
     root.addEventListener('touchend', (e) => scan(e, true));
     root.addEventListener('touchcancel', (e) => scan(e, true));
@@ -200,8 +200,8 @@ export class Input {
     win.addEventListener('orientationchange', clear);
     win.screen?.orientation?.addEventListener?.('change', clear);
     const stop = (e) => { if (e.cancelable) e.preventDefault(); };
-    for (const t of ['contextmenu', 'selectstart', 'dblclick', 'gesturestart', 'gesturechange', 'gestureend']) doc.addEventListener(t, stop, { passive: false });
-    doc.addEventListener('touchmove', (e) => { if (e.touches.length > 1 && !e.target.closest?.('#touchpad')) stop(e); }, { passive: false }); // two-finger pinch on the game
+    for (const t of ['contextmenu', 'selectstart', 'dblclick', 'gesturestart', 'gesturechange', 'gestureend']) doc.addEventListener(t, stop, { passive: false }); // touch-ok: game pad (#touchpad) / canvas input: a press must register instantly
+    doc.addEventListener('touchmove', (e) => { if (e.touches.length > 1 && !e.target.closest?.('#touchpad')) stop(e); }, { passive: false }); // two-finger pinch on the game // touch-ok: game pad (#touchpad) / canvas input: a press must register instantly
   }
 
   /** A pad went away (or reconnected): release its direction and forget its state, so a stale 'down' can't persist. */

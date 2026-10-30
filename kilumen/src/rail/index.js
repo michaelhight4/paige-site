@@ -161,7 +161,7 @@ export function attachRail(scene, { systems } = {}) {
     return new Promise((resolve) => {
       const t0 = performance.now(); let end = false;
       const stop = () => { if (end) return; end = true; wrap.remove(); st.riding = false; resolve(); };
-      wrap.addEventListener('pointerdown', stop); const kh = (e) => { if (['Enter', ' ', 'Escape', 'z', 'x'].includes(e.key)) { e.stopPropagation(); stop(); } };
+      wrap.addEventListener('pointerdown', stop); const kh = (e) => { if (['Enter', ' ', 'Escape', 'z', 'x'].includes(e.key)) { e.stopPropagation(); stop(); } }; // touch-ok: skip the rail ride animation (full-screen, not scrollable)
       window.addEventListener('keydown', kh, true);
       const frame = (now) => {
         if (end) { window.removeEventListener('keydown', kh, true); return; }
