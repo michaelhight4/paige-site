@@ -785,7 +785,7 @@ export class GameUI {
       ...(s.systems?.state ? [['Difficulty', diffOf(getDifficulty(s.systems.state)).label, () => { const st = s.systems.state; setDifficulty(st, DIFF_ORDER[(DIFF_ORDER.indexOf(getDifficulty(st)) + 1) % 3]); s._dirty = true; },
         (d) => { const st = s.systems.state; setDifficulty(st, DIFF_ORDER[Math.max(0, Math.min(2, DIFF_ORDER.indexOf(getDifficulty(st)) + d))]); s._dirty = true; }]] : []), // Oct 29 2026: Easy / Normal / Hard (src/systems/difficulty.js)
       [this.T('system_phone.options.labels.wind', 'Wind'), s.life?.settings && windEnabled(s.life) ? 'On' : 'Off', () => { if (s.life && !windKilledByUrl()) s.life.toggle('wind'); }], // Oct 29 2026 (Gary): world wind on/off, live; ?wind=0 forces Off
-      ...(s.rtx ? [['RTX look', s.rtx.label(), () => s.rtx.cycle(), (d) => s.rtx.setMode(['off', 'auto', 'full', 'lite'][Math.max(0, Math.min(3, ['off', 'auto', 'full', 'lite'].indexOf(s.rtx.mode) + d))])]] : []), // RTX look (src/overworld/rtx.js): Off (default) / Auto / Full / Lite; ?rtx= overrides
+      ...(s.rtx ? [['RTX look', s.rtx.label(), () => s.rtx.cycle(), (d) => s.rtx.setMode(['off', 'auto', 'full', 'lite'][Math.max(0, Math.min(3, ['off', 'auto', 'full', 'lite'].indexOf(s.rtx.mode) + d))])]] : []), // RTX look (src/overworld/rtx.js): Off / Auto (default) / Full / Lite; ?rtx= overrides
       ['Depth shadows', s.depth?.state?.(s.map ? s.view() : null)?.enabled ? 'On' : 'Off', () => s.depth.toggle()],
       ['Menu motion', this.body.classList.contains('ui-reduce') ? 'Reduced' : 'Full', () => { const r = this.body.classList.toggle('ui-reduce'); try { localStorage.setItem('kilumen_alpha_ui.motion', r ? 'reduce' : 'full'); } catch { /* */ } }],
       ...audioRows(),

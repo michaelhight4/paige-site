@@ -31,7 +31,7 @@ import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.93-alpha';
 import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.93-alpha';
 import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.93-alpha';
 import { NightFx } from './nightfx.js?v=v0.2.93-alpha';
-import { RtxLook } from './rtx.js?v=v0.2.93-alpha'; // Options 'RTX look' post-processing (default Off; dev/rtx-look)
+import { RtxLook } from './rtx.js?v=v0.2.93-alpha'; // Options 'RTX look' post-processing (default Auto; dev/rtx-look)
 import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.93-alpha'; // home start v1: new game in the bedroom (intro.js)
 import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.93-alpha'; // creature idle/walk motion (v0.2.36)
 import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.93-alpha'; // golden spinning arrows (starter cases, quest items)
@@ -1331,7 +1331,7 @@ export class Overworld {
     return { sq: creatureMotion(this.ms, walking, 1 - t) };
   }
 
-  render() { if (this.map && this.tileset) { const v = this.view(); this.renderer.draw(v); if (this.rtx?.on) this.rtx.post(v); } } // RTX look: post-process the finished frame in place (rtx.js)
+  render() { if (this.map && this.tileset) { const v = this.view(); if (this.rtx?.on) { this.renderer.draw(v, { ui: false }); this.rtx.post(v); this.renderer.drawUi(v); } else this.renderer.draw(v); } } // RTX look: grade the world layer only, then on-canvas UI ungraded (rtx.js)
 
   run() {
     const loop = (t) => { this.frame(t); this._raf = requestAnimationFrame(loop); };

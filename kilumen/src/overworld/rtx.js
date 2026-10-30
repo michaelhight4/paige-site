@@ -1,5 +1,7 @@
 // Kilumen overworld: "RTX look" whole-map post-processing (Coder, Oct 29 2026, branch dev/rtx-look; NOT live).
-// Options row 'RTX look': Off (default) -> Auto -> Full -> Lite. Saved per device (localStorage kilumen_rtx.v1).
+// Options row 'RTX look': Off -> Auto (default) -> Full -> Lite. Saved per device (localStorage kilumen_rtx.v1).
+// World layer only (v2): Renderer.draw(v, {ui:false}) draws the world, post() grades it, then Renderer.drawUi(v) adds
+// on-canvas UI (quest markers, debug, fade) ungraded; DOM HUD / menus are never touched.
 // URL: ?rtx=0|off|auto|full|lite (session only). Never touches the 2D renderer's draw order: after Renderer.draw() the
 // finished frame is uploaded to a WebGL2 canvas, post-processed and drawn back onto the same 2D canvas (so UI, shots,
 // touch input and the pixel grid stay exactly as they were). WebGL2 missing or a context error -> quietly stays off.
@@ -42,8 +44,10 @@ export function rtxFromUrl(q) {
   return v === '0' ? 'off' : v === '1' ? 'auto' : RTX_MODES.includes(v) ? v : null;
 }
 /** Auto tier from device facts (pure). */
-export function pickTier({ webgl2 = true, renderer = '', mobile = false } = {}) {
+export function pickTier({ webgl2 = true, renderer = '', mobile = false, memGB = 0, cores = 0 } = {}) {
   if (!webgl2) return 'off';
+  const lowEnd = (memGB > 0 && memGB <= 2) || (cores > 0 && cores <= 4);
+  if (mobile && lowEnd) return WEAK_GPU.test(renderer || '') || (memGB > 0 && memGB <= 1) ? 'off' : 'lite'; // low-end phones
   if (WEAK_GPU.test(renderer || '') || mobile) return 'lite';
   return 'full';
 }
@@ -64,7 +68,7 @@ export function buildMask(map, outdoor) {
 }
 
 /** Grade + light setup for a phase (pure). */
-export function phaseLook(phase, outdoor) {
+export function phaseLook(phase, outdoor, wet = false) {
   const P = {
     morning: { amb: [1.0, 0.98, 0.95], lift: [0.0, 0.01, 0.03], gain: [1.04, 1.0, 0.94], sun: 0.8, sat: 1.1, lamps: 0 },
     day:     { amb: [1.0, 1.0, 1.0],   lift: [0.0, 0.01, 0.025], gain: [1.03, 1.01, 0.97], sun: 1.0, sat: 1.12, lamps: 0 },
@@ -73,7 +77,12 @@ export function phaseLook(phase, outdoor) {
   };
   const k = phase === 'dusk' ? 'evening' : phase === 'dawn' ? 'morning' : P[phase] ? phase : 'day';
   const o = { ...P[k] };
+  o.exposure = 1.06; o.bloom = 1;
   if (!outdoor) { o.sun = 0; o.amb = [1, 0.98, 0.95]; }
+  else if (wet) { // rain reads overcast: no sun/god rays, dimmer + cooler + flatter, bloom mostly off (lamps still glow at night)
+    o.sun = 0; o.exposure = 0.86; o.bloom = 0.3; o.sat = Math.min(o.sat, 0.92);
+    o.amb = o.amb.map((c, i) => c * [0.9, 0.93, 0.98][i]); o.gain = [0.97, 0.99, 1.02]; o.lift = [0.01, 0.015, 0.03];
+  }
   return o;
 }
 
@@ -93,7 +102,7 @@ void main(){ // 9-tap gaussian folded into 5 linear fetches
   c += (texture(uS, vUv+uDir*3.2307692308)+texture(uS, vUv-uDir*3.2307692308))*0.0702702703; o = c; }`;
 const FS_COMP = `#version 300 es
 precision highp float; in vec2 vUv; out vec4 o;
-uniform sampler2D uS, uB, uM; uniform vec2 uRes, uCam, uMapSize; uniform float uZoom, uTime, uWet, uSun, uSat, uOutdoor, uShadows, uGod, uNight;
+uniform sampler2D uS, uB, uM; uniform vec2 uRes, uCam, uMapSize; uniform float uZoom, uTime, uWet, uSun, uSat, uOutdoor, uShadows, uGod, uNight, uExposure, uBloom;
 uniform vec3 uAmb, uLift, uGain; uniform int uN; uniform vec3 uLP[${MAX_LIGHTS}]; uniform vec3 uLC[${MAX_LIGHTS}];
 const float T = ${TILE}.0;
 // Khronos PBR Neutral tone mapping (Apache-2.0, https://github.com/KhronosGroup/ToneMapping)
@@ -145,24 +154,26 @@ void main(){
     acc += uLC[i]*a*sh*(.45+.55*max(dot(N,ld),0.)); }
   col = col*lit + col*acc*2.4 + acc*.05;
   // bloom + god rays
-  vec3 bl = texture(uB, vUv).rgb; col += pow(bl, vec3(2.2))*(.55+.5*uNight);
+  vec3 bl = texture(uB, vUv).rgb; col += pow(bl, vec3(2.2))*(.55+.5*uNight)*uBloom;
   if (uGod > .5 && uSun > 0.) { vec2 sp = vec2(-.25, 1.35); vec2 dlt = (sp - vUv)/24.; vec2 uv = vUv; float dec = 1.; vec3 gr = vec3(0.);
     for (int i=0;i<24;i++){ uv += dlt; gr += texture(uB, uv).rgb*dec; dec *= .93; }
     col += pow(gr/10., vec3(2.2))*vec3(1.,.9,.7)*uSun*.55; }
   // colour grade
-  col = PBRNeutralToneMapping(col*1.06);
+  col = PBRNeutralToneMapping(col*uExposure);
   col = pow(max(col, 0.), vec3(1./2.2));
   col = col*uGain + uLift*(1.-col);
   float l = lum(col); col = mix(vec3(l), col, uSat); col = (col-.5)*1.05+.5;
   vec2 vc = vUv-.5; col *= 1.-dot(vc,vc)*.32;
   o = vec4(clamp(col,0.,1.),1.); }`;
 
+export const FS_COMP_SRC = FS_COMP;
+
 export class RtxLook {
   /** @param {object} scene Overworld */
   constructor(scene, opts = {}) {
     this.scene = scene; this.opts = opts; this.gl = null; this.failed = false; this.tier = 'off';
-    let saved = 'off'; try { saved = JSON.parse(globalThis.localStorage?.getItem(RTX_KEY) || '{}').mode || 'off'; } catch { /* private mode */ }
-    this.mode = RTX_MODES.includes(saved) ? saved : 'off';
+    let saved = 'auto'; try { saved = JSON.parse(globalThis.localStorage?.getItem(RTX_KEY) || '{}').mode || 'auto'; } catch { /* private mode */ }
+    this.mode = RTX_MODES.includes(saved) ? saved : 'auto';
     const url = rtxFromUrl(opts.query); if (url) { this.mode = url; this.urlForced = true; }
     this.stats = { frames: 0, emaMs: 0, lastMs: 0, slow: 0, steps: [] }; this._maskFor = null; this._lastT = 0;
   }
@@ -202,7 +213,8 @@ export class RtxLook {
 
   _autoTier() {
     const mobile = this.scene.opts?.platform?.id === 'mobile' || !!globalThis.matchMedia?.('(pointer: coarse)')?.matches;
-    return pickTier({ webgl2: !!this.gl, renderer: this.renderer, mobile });
+    const nav = globalThis.navigator || {};
+    return pickTier({ webgl2: !!this.gl, renderer: this.renderer, mobile, memGB: +nav.deviceMemory || 0, cores: +nav.hardwareConcurrency || 0 });
   }
 
   _size(W, H, div) {
@@ -251,7 +263,7 @@ export class RtxLook {
     if (this.tier === 'off') return;
     const T = TIER[this.tier], gl = this.gl, src = this.scene.canvas, W = src.width, H = src.height;
     this._size(W, H, T.bloomDiv); this._mask(v.map);
-    const outdoor = !isIndoor(v.map.name), look = phaseLook(v.phase || this.scene.phase, outdoor);
+    const outdoor = !isIndoor(v.map.name), wet = outdoor && !!this.scene.life?.wet, look = phaseLook(v.phase || this.scene.phase, outdoor, wet);
     // upload the finished frame (bottom-left origin)
     gl.bindTexture(gl.TEXTURE_2D, this.tScene); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
@@ -271,7 +283,7 @@ export class RtxLook {
     gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, this.tMask); gl.uniform1i(u.uM, 2);
     gl.uniform2f(u.uRes, W, H); gl.uniform2f(u.uCam, v.cam.x, v.cam.y); gl.uniform2f(u.uMapSize, v.map.width, v.map.height);
     gl.uniform1f(u.uZoom, v.zoom); gl.uniform1f(u.uTime, this.scene.life?.reducedMotion ? 0 : (v.ms || 0) / 1000);
-    gl.uniform1f(u.uWet, outdoor && this.scene.life?.wet ? 1 : 0); gl.uniform1f(u.uSun, look.sun); gl.uniform1f(u.uSat, look.sat);
+    gl.uniform1f(u.uWet, wet ? 1 : 0); gl.uniform1f(u.uExposure, look.exposure); gl.uniform1f(u.uBloom, look.bloom); gl.uniform1f(u.uSun, look.sun); gl.uniform1f(u.uSat, look.sat);
     gl.uniform1f(u.uOutdoor, outdoor ? 1 : 0); gl.uniform1f(u.uShadows, T.shadows); gl.uniform1f(u.uGod, T.godRays && outdoor ? 1 : 0); gl.uniform1f(u.uNight, look.lamps);
     gl.uniform3fv(u.uAmb, look.amb); gl.uniform3fv(u.uLift, look.lift); gl.uniform3fv(u.uGain, look.gain);
     const L = this.lights(v, T.lights, look), lp = new Float32Array(MAX_LIGHTS * 3), lc = new Float32Array(MAX_LIGHTS * 3);
