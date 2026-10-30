@@ -1,10 +1,10 @@
 // Garden + merit shop wiring (Coder, Oct 30 2026). Draws the soil plots under characters (wraps scene.view -> life.under),
 // handles plot interaction (wraps systems.onInteract: plant / water / harvest on the faced cell) and adds the
 // merit shop screen ui.scr_merit_shop (same layout as RT Supply: tabs, list, side panel, qty + confirm). No map edits.
-import { TILE } from '../overworld/constants.js?v=v0.2.93-alpha';
-import { CROPS, SEED_TO_CROP, CANS, plotAt, plotsOn, gardenState, plotState, stageOf, plant, water, harvest } from './garden.js?v=v0.2.93-alpha';
-import { MERIT_FIXED, dailyStock, meritState, buyMerit } from '../sports/merit.js?v=v0.2.93-alpha';
-import { gt } from './strings.js?v=v0.2.93-alpha';
+import { TILE } from '../overworld/constants.js?v=v0.2.95-alpha';
+import { CROPS, SEED_TO_CROP, CANS, plotAt, plotsOn, gardenState, plotState, stageOf, plant, water, harvest } from './garden.js?v=v0.2.95-alpha';
+import { MERIT_FIXED, dailyStock, meritState, buyMerit } from '../sports/merit.js?v=v0.2.95-alpha';
+import { gt } from './strings.js?v=v0.2.95-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 // crop colours for the ready sprite (pixel art drawn with rects; 16x16 grid scaled to the tile)

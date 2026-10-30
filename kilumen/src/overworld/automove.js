@@ -8,8 +8,8 @@
 //   step and animation) -> else the NPC walks to the player (npcs.walkTo) -> else a short fade and the player is set
 //   down next to the NPC -> both face each other -> the caller starts the conversation.
 // Switch: ?automove=0 (or scene.opts.automove === false) turns every auto-walk off: beats then wait for a normal talk.
-import { Col, DELTA } from './constants.js?v=v0.2.93-alpha';
-import { walkGrid, findPath, pathToDirs } from './pathing.js?v=v0.2.93-alpha';
+import { Col, DELTA } from './constants.js?v=v0.2.95-alpha';
+import { walkGrid, findPath, pathToDirs } from './pathing.js?v=v0.2.95-alpha';
 
 export const AUTOMOVE = {
   sparkTicks: 36,     // same length as the trainer-sight spark

@@ -14,7 +14,7 @@ test('dialog choice rows take mouse click and hover on pc', () => {
 });
 
 test('_hover moves the selection only on the choice page', async () => {
-  const { Dialog } = await import('../src/overworld/dialog.js?v=v0.2.93-alpha').catch(() => ({}));
+  const { Dialog } = await import('../src/overworld/dialog.js?v=v0.2.95-alpha').catch(() => ({}));
   if (!Dialog) return; // DOM-only module in some builds
   const lis = [0, 1].map((i) => ({ dataset: { i: String(i) }, classList: { on: i === 0, toggle(_, v) { this.on = v; } } }));
   const fake = { cur: { type: 'ask', pages: ['Rest?'], i: 0, choices: ['Rest', 'Not now'], sel: 0 }, list: { hidden: false, querySelectorAll: () => lis } };

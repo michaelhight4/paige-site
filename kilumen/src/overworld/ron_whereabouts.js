@@ -10,7 +10,7 @@
 //   - Home Ron: the first talk after each win is a reaction to that Master (Text Bot key maps.house_1f.ron_home_after_<zone>,
 //     placeholder below until then); later talks use his normal lines. Town Ron (spawned): maps.<town>.ron_town or placeholder.
 // No map JSON edits: applied on map entry from StoryRon.tick (remove / spawn, like the story Ron).
-import { Npc } from './npcs.js?v=v0.2.93-alpha';
+import { Npc } from './npcs.js?v=v0.2.95-alpha';
 
 /** Punch list in order: {zone, town (map), flag (done when set)}. */
 export const RON_PUNCH_LIST = [
