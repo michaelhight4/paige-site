@@ -1,0 +1,69 @@
+{
+ "name": "ondravel_ow256",
+ "draft": true,
+ "sheet": "ondravel_ow256_sheet.png",
+ "frame_w": 256,
+ "frame_h": 256,
+ "cols": 6,
+ "rows": 3,
+ "row_meaning": [
+  "sealed (dim crystal, slow breath)",
+  "awake (crystal pulse, breath)",
+  "flare (solid violet rim, 1-2px pulse)"
+ ],
+ "native_px": true,
+ "upscaled": false,
+ "anchor": {
+  "x": 128,
+  "y": 256,
+  "meaning": "bottom-centre = (map ondravel.x centre tile, ondravel.y feet tile) as summit_fx.js draws it"
+ },
+ "footprint_tiles": [
+  4,
+  4
+ ],
+ "art_bbox": [
+  7,
+  8,
+  241,
+  244
+ ],
+ "collision_suggestion": {
+  "tiles_relative_to_footprint_topleft": [
+   [
+    0,
+    3
+   ],
+   [
+    1,
+    3
+   ],
+   [
+    2,
+    3
+   ],
+   [
+    3,
+    3
+   ],
+   [
+    0,
+    2
+   ],
+   [
+    1,
+    2
+   ],
+   [
+    2,
+    2
+   ],
+   [
+    3,
+    2
+   ]
+  ],
+  "note": "block the bottom 2 tile rows across the columns the body/legs touch; top 2 rows are antlers/head (draw over, walk-behind OK)"
+ },
+ "palette": "official 64-colour (sh_pxlib PAL), outline #191210, binary alpha"
+}
