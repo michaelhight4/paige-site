@@ -65,6 +65,9 @@ def check(j, cache):
     main = reach(j, starts(j) or {min(walk)}); r = {'map': j['name'], 'cells': W * H}
     # R1 empty / filler squares (filler only counted inside the walkable bounding box: padding outside is camera margin)
     xs = [p[0] for p in walk]; ys = [p[1] for p in walk]; bx0, bx1, by0, by1 = min(xs), max(xs), min(ys), max(ys)
+    pad = j.get('padding') or {}
+    if pad.get('old_size'):  # padded maps: exit corridors run through the camera margin, so clip the box to the old map
+        bx0, by0 = max(bx0, pad.get('dx', 0)), max(by0, pad.get('dy', 0)); bx1, by1 = min(bx1, pad.get('dx', 0) + pad['old_size'][0] - 1), min(by1, pad.get('dy', 0) + pad['old_size'][1] - 1)
     r['empty_sq'] = biggest_square(H, W, lambda x, y: col[y][x] in PASS and (x, y) not in feat and not deco[y][x])
     r['filler_sq'] = biggest_square(H, W, lambda x, y: bx0 <= x <= bx1 and by0 <= y <= by1 and col[y][x] == 1)
     r['R1_pen'] = max(0, r['empty_sq'] - EMPTY_N) + max(0, r['filler_sq'] - FILL_N)

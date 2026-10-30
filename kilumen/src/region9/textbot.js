@@ -39,7 +39,21 @@ export function withTextbotItemNames(lines) {
 }
 export function loadTextbot(fetchFn = globalThis.fetch) {
   if (!fetchFn) return Promise.resolve(TB);
-  return Promise.all(TEXTBOT_FILES.map((u) => fetchFn(u).then((r) => (r.ok ? r.json() : null)).then(addTextbot).catch(() => null))).then(() => TB);
+  const p2 = fetchFn(PASS2_FILE).then((r) => (r.ok ? r.json() : null)).then((o) => { if (o?.maps) PASS2.maps = o.maps; }).catch(() => null);
+  return Promise.all([p2, ...TEXTBOT_FILES.map((u) => fetchFn(u).then((r) => (r.ok ? r.json() : null)).then(addTextbot).catch(() => null))]).then(() => TB);
+}
+// Pass 2 cave pockets (Oct 30 2026): DRAFT lines for the new pocket trainers / Easter eggs, used only where
+// text/overworld_lines.json has no maps.<map>.<id> entry yet (Text Bot / Story Bot own the final text).
+export const PASS2_FILE = 'data/pass2_caves_fallback.json';
+export const PASS2 = { maps: {} };
+export function withPass2Fallback(lines, fb = PASS2) {
+  if (!lines || typeof lines !== 'object') return lines;
+  lines.maps = lines.maps || {};
+  for (const [m, ids] of Object.entries(fb?.maps || {})) {
+    const dst = (lines.maps[m] = lines.maps[m] || {});
+    for (const [id, e] of Object.entries(ids || {})) if (!dst[id] && e && typeof e === 'object') { const { status, ...rest } = e; dst[id] = rest; }
+  }
+  return lines;
 }
 export const fallbackText = (k) => TB[k] || FB[k] || [];
 export const textbotReady = typeof window !== 'undefined' ? loadTextbot() : Promise.resolve(TB);

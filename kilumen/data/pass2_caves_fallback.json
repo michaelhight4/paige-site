@@ -1,0 +1,119 @@
+{
+ "_note": "Pass 2 cave pockets: DRAFT placeholder lines (Coder). Text Bot / Story Bot own the final text; filled in only where overworld_lines.json has no entry.",
+ "maps": {
+  "r9_switchbacks": {
+   "r9_swp_hermit": {
+    "pages": [
+     "DRAFT: Nobody finds this ledge by walking. You came through the crack, huh?"
+    ],
+    "battle_lost": [
+     "DRAFT: Fine, fine. The rock keeps my secrets better than I do."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge to the south. It only goes one way."
+    ],
+    "trainer_class": "Hermit",
+    "name": "Odda",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_egg_cairn": {
+    "pages": [
+     "DRAFT: A tiny cairn. Someone stacked 3 pebbles and carved a smiling face on the top one."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_icecutter": {
+    "pages": [
+     "DRAFT: This seam is mine. I cut ice blocks for the camp."
+    ],
+    "battle_lost": [
+     "DRAFT: You hit harder than the frost does."
+    ],
+    "after": [
+     "DRAFT: There is a slide down by the far wall. Mind the drop."
+    ],
+    "trainer_class": "Ice Cutter",
+    "name": "Bran",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_egg_snowman": {
+    "pages": [
+     "DRAFT: A snow figure in a climbing helmet. Its sign says: STILL WAITING FOR A ROPE."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_echo": {
+    "pages": [
+     "DRAFT: Shout in here and the mountain shouts back. Want to hear it?"
+    ],
+    "battle_lost": [
+     "DRAFT: Even the echo went quiet."
+    ],
+    "after": [
+     "DRAFT: The ledge west drops you by the lower trail."
+    ],
+    "trainer_class": "Mountaineer",
+    "name": "Sefa",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_egg_names": {
+    "pages": [
+     "DRAFT: Old names cut in the rock, a whole rope team. The newest one only says: WAS HERE FIRST."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_warden": {
+    "pages": [
+     "DRAFT: You found the warden hut. Most climbers walk right past it."
+    ],
+    "battle_lost": [
+     "DRAFT: You climb like you fight. Fast."
+    ],
+    "after": [
+     "DRAFT: The ledge drops you onto the south trail."
+    ],
+    "trainer_class": "Trail Warden",
+    "name": "Ilse",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_swp_egg_log": {
+    "pages": [
+     "DRAFT: The trail log. Last entry: Day 40. The view is still great. Snacks are not."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "r9_switchbacks_cave_w": {
+   "area_name": {
+    "pages": [
+     "Switchback Crevice"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_switchbacks_cave_ne": {
+   "area_name": {
+    "pages": [
+     "Frost Seam"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_switchbacks_cave_e": {
+   "area_name": {
+    "pages": [
+     "Echo Hollow"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "r9_switchbacks_cave_sw": {
+   "area_name": {
+    "pages": [
+     "Low Draught"
+    ],
+    "status": "DRAFT"
+   }
+  }
+ }
+}
