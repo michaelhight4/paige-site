@@ -74,6 +74,7 @@ export const TALK = {
   r9_cf_kid: { say: 'r9.cairnfold_kid' }, r9_cf_weaver: { say: 'r9.cairnfold_weaver' }, r9_cf_walker: { say: 'r9.cairnfold_walker' },
   r9_cf_lodge_fan: { say: 'r9.cairnfold_lodge_fan' }, r9_cf_watcher: { say: 'r9.cairnfold_watcher' }, r9_cf_baker: { say: 'r9.cairnfold_baker' },
   r9_lodge_clerk: { say: 'r9.lodge_clerk' },
+  // r9 trainers: own intro/after come from FIELD_IDS below (r9.ft.<id>.*); the Oct 30 Text Bot r9.*_intro/_after lines stay in overworld_lines as spares.
   r9_sw_survey_1: { intro: 'r9.survey_crew_1', after: 'r9.trainer_after' }, r9_sw_survey_2: { intro: 'r9.survey_crew_2', after: 'r9.trainer_after' },
   r9_sw_survey_3: { intro: 'r9.survey_crew_3', after: 'r9.trainer_after' },
   fin_teo: { say: 'summit.camp.teo', flag: 'found_team_summit' }, fin_marta: { say: 'summit.camp.marta', flag: 'found_team_summit' },
@@ -313,8 +314,8 @@ export function attachRegion9(scene, { systems } = {}) {
     fin_sluice: () => say(has('fin_past_m_done') ? 'fin.m.sluice' : 'fin.m.sluice_shut', narr),
     fin_t_tide_door: () => say(has('fin_coralie_door') ? 'fin.t.tide_door' : 'fin.t.tide_door_shut', narr),
     fin_test8_plug: () => plug(null),
-    fin_lab1_window: () => say(has('fin_spire_floor_4') ? 'fin.lab1.window_lights' : 'r9.spire_f3_growth', narr),
-    fin_past_dome: () => (has('fin_guardian_beaten') ? say('fin.battle.won', narr) : !has('fin_enc_lead_beaten') && !scene.devMasterKey ? say('fin.enc.tank_locked', narr) : guardian()),
+    fin_lab1_window: () => say(has('fin_spire_floor_4') ? 'fin.lab1.window_lights' : 'fin.lab1.window_storm', narr),
+    fin_past_dome: () => (has('fin_guardian_beaten') ? say('fin.past_dome_after', narr) : !has('fin_enc_lead_beaten') && !scene.devMasterKey ? say('fin.enc.tank_locked', narr) : guardian()),
     fin_bench_swap: () => say(has('ending2_done') ? 'fin.epilogue.bench' : 'r9.trainer_after', narr),
   };
 

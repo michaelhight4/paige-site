@@ -165,7 +165,7 @@ for n, (t, spr) in enumerate(zip(TYPES, SPR), 1):
         warps.append({'x': x, 'y': RH - 1, 'to': back, 'tx': tx, 'ty': 3, 'facing': 'down', 'keep_return': True, 'note': 'back down one room'})
     npc = {'id': f'arena_fighter_{n}', 'x': 8, 'y': 6, 'facing': 'down', 'kind': 'trainer', 'sprite': spr,
            'note': f'Arena fighter {n} of 8, {t} type (back to back run, src/region78/arena.js; team in trainer_teams.js)', 'text_ref': TR + f'arena_fighter_{n}'}
-    j = {'name': room(n), 'title': 'Aurelith Arena', 'width': RW, 'height': RH, 'tile_size': 64, 'tileset': '../tileset.json', 'layers': m.L,
+    j = {'name': room(n), 'title': f'Aurelith Arena · Room {n}', 'width': RW, 'height': RH, 'tile_size': 64, 'tileset': '../tileset.json', 'layers': m.L,
          'warps': warps, 'exits': [], 'npcs': [npc] + (ROOM8_LIFE if n == 8 else []), 'signs': [], 'items': [], 'encounter_zones': [], 'story_gates': gates,
          'tint': {'grade': th['grade'], 'note': f'{t} throne room lighting (+ mood.json tint/particles)'}, 'arena_theme': {'type': t, 'from': th['hall'], 'centrepiece': th['what']}, 'source': SRC, 'movement': MOVE}
     out[room(n)] = j

@@ -2420,7 +2420,7 @@
     0,
     0,
     0,
-    0,
+    513,
     0,
     0,
     0,
@@ -2597,7 +2597,7 @@
     0,
     0,
     0,
-    0,
+    513,
     0,
     0,
     0,
@@ -5920,7 +5920,7 @@
     0,
     0,
     0,
-    0,
+    1,
     0,
     3,
     3,
@@ -6097,7 +6097,7 @@
     0,
     0,
     0,
-    0,
+    1,
     0,
     0,
     0,
@@ -10635,7 +10635,34 @@
  "npcs": [],
  "signs": [],
  "items": [],
- "interact_spots": [],
+ "interact_spots": [
+  {
+   "id": "fin_riverbend_post",
+   "kind": "sign",
+   "x": 18,
+   "y": 14,
+   "stand": [
+    18,
+    15
+   ],
+   "face": "up",
+   "tile": "sign",
+   "text": "maps.fin_past_riverbend.fin_riverbend_post"
+  },
+  {
+   "id": "fin_riverbend_marker",
+   "kind": "sign",
+   "x": 11,
+   "y": 18,
+   "stand": [
+    11,
+    19
+   ],
+   "face": "up",
+   "tile": "sign",
+   "text": "maps.fin_past_riverbend.fin_riverbend_marker"
+  }
+ ],
  "source": "tools/wellspire/build_wellspire.py (clone of mirefen_bog; art + collision unchanged)",
  "region": "past",
  "tint": {
