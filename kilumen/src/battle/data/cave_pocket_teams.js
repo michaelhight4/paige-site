@@ -336,20 +336,6 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   }
  ],
- "sunmeadow_fields.r9_smfp_haymaker": [
-  {
-   "species": "tuskwallow",
-   "level": 63
-  },
-  {
-   "species": "fernstag",
-   "level": 63
-  },
-  {
-   "species": "cragmont",
-   "level": 63
-  }
- ],
  "sunmeadow_fields.r9_smfp_cloverpicker": [
   {
    "species": "gauzewing",
@@ -459,6 +445,20 @@ export const CAVE_POCKET_TEAMS = {
   },
   {
    "species": "cascadorn",
+   "level": 63
+  }
+ ],
+ "route_sunmeadow_mirefen.r9_smfp_haymaker": [
+  {
+   "species": "tuskwallow",
+   "level": 63
+  },
+  {
+   "species": "fernstag",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
    "level": 63
   }
  ]

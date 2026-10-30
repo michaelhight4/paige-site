@@ -2893,110 +2893,6 @@
    ]
   },
   {
-   "id": "smf_pocket_loft",
-   "map": "sunmeadow_fields",
-   "cave": "sunmeadow_fields_cave_e",
-   "cave_title": "Hay Loft",
-   "floor": [
-    [
-     36,
-     13,
-     43,
-     18
-    ]
-   ],
-   "ledge": [
-    40,
-    42,
-    19
-   ],
-   "walk": [],
-   "mouth": [
-    46,
-    16
-   ],
-   "pocket_door": [
-    39,
-    12
-   ],
-   "main_start": [
-    10,
-    14
-   ],
-   "floor_tile_at": [
-    30,
-    25
-   ],
-   "floor_tiles": null,
-   "gate": {
-    "in": "cave sunmeadow_fields_cave_e",
-    "out": "one-way ledge at y19 x40-42",
-    "skill": null
-   },
-   "trainer": {
-    "id": "r9_smfp_haymaker",
-    "x": 36,
-    "y": 13,
-    "level": 63,
-    "class": "Farmer",
-    "name": "Bodil",
-    "species": [
-     "tuskwallow",
-     "fernstag",
-     "cragmont"
-    ],
-    "intro": [
-     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
-    ],
-    "lost": [
-     "DRAFT: You out-stacked me."
-    ],
-    "after": [
-     "DRAFT: Hop down the ledge to the field."
-    ]
-   },
-   "egg": {
-    "id": "r9_smfp_egg_scarecrow",
-    "x": 43,
-    "y": 12,
-    "what": "a tiny scarecrow",
-    "tile": 509,
-    "lines": [
-     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
-    ]
-   },
-   "item": {
-    "id": "r9_smfp_crystal",
-    "x": 43,
-    "y": 18,
-    "item": "dominance_crystal_plus"
-   },
-   "premise": "A farmer on a hay meadow in the east rock; a Prime Crystal is under the hay.",
-   "map_items": [
-    {
-     "id": "smf_loft_seed_visible",
-     "x": 41,
-     "y": 16,
-     "item": "vigor_seed",
-     "hidden": false
-    }
-   ],
-   "map_rocks": [
-    [
-     28,
-     23
-    ],
-    [
-     36,
-     24
-    ],
-    [
-     42,
-     27
-    ]
-   ]
-  },
-  {
    "id": "smf_pocket_dell",
    "map": "sunmeadow_fields",
    "cave": "sunmeadow_fields_cave_nw",
@@ -3033,7 +2929,7 @@
     ]
    ],
    "mouth": [
-    14,
+    13,
     11
    ],
    "pocket_door": [
@@ -3093,6 +2989,20 @@
     "item": "vigor_seed"
    },
    "premise": "A camper in a clover dell in the west rock; a Vigor Seed is in the clover.",
+   "map_rocks": [
+    [
+     28,
+     23
+    ],
+    [
+     36,
+     24
+    ],
+    [
+     42,
+     27
+    ]
+   ],
    "map_cells": [
     {
      "x": 13,
@@ -3413,7 +3323,16 @@
     "y": 35,
     "item": "vigor_seed"
    },
-   "premise": "A beekeeper in a hollow in the south-east rock; a Vigor Seed sits by the hive."
+   "premise": "A beekeeper in a hollow in the south-east rock; a Vigor Seed sits by the hive.",
+   "map_items": [
+    {
+     "id": "smf_hollow_seed_visible",
+     "x": 41,
+     "y": 33,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
   },
   {
    "id": "aur_pocket_vault",
@@ -4213,6 +4132,109 @@
      "x": 5,
      "y": 24,
      "item": "trail_mix"
+    }
+   ]
+  },
+  {
+   "id": "smf_pocket_loft",
+   "map": "route_sunmeadow_mirefen",
+   "cave": "route_sunmeadow_mirefen_cave_loft",
+   "cave_title": "Hay Loft",
+   "floor": [
+    [
+     44,
+     11,
+     51,
+     16
+    ]
+   ],
+   "ledge": [
+    46,
+    48,
+    17
+   ],
+   "walk": [
+    [
+     46,
+     18
+    ],
+    [
+     47,
+     18
+    ],
+    [
+     48,
+     18
+    ]
+   ],
+   "mouth": [
+    37,
+    18
+   ],
+   "pocket_door": [
+    47,
+    10
+   ],
+   "main_start": [
+    0,
+    20
+   ],
+   "floor_tile_at": [
+    14,
+    18
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_sunmeadow_mirefen_cave_loft",
+    "out": "one-way ledge at y17 x46-48",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_smfp_haymaker",
+    "x": 44,
+    "y": 11,
+    "level": 63,
+    "class": "Farmer",
+    "name": "Bodil",
+    "species": [
+     "tuskwallow",
+     "fernstag",
+     "cragmont"
+    ],
+    "intro": [
+     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
+    ],
+    "lost": [
+     "DRAFT: You out-stacked me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the path."
+    ]
+   },
+   "egg": {
+    "id": "r9_smfp_egg_scarecrow",
+    "x": 51,
+    "y": 11,
+    "what": "a tiny scarecrow",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
+    ]
+   },
+   "item": {
+    "id": "r9_smfp_crystal",
+    "x": 51,
+    "y": 16,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A farmer on a hay meadow in the woods above the Mirefen path; a Prime Crystal is under the hay.",
+   "map_items": [
+    {
+     "id": "smf_loft_seed_visible",
+     "x": 49,
+     "y": 14,
+     "item": "vigor_seed",
+     "hidden": false
     }
    ]
   }

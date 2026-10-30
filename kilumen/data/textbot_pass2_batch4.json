@@ -1,7 +1,7 @@
 {
  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Same shape as batch 2/3.",
  "area_names": {
-  "sunmeadow_fields_cave_e": "Hay Loft",
+  "route_sunmeadow_mirefen_cave_loft": "Hay Loft",
   "sunmeadow_fields_cave_nw": "Clover Dell",
   "sunmeadow_fields_cave_n": "Bee Hollow",
   "aurelith_cave_nw": "Gate Vault",
@@ -16,27 +16,6 @@
  },
  "maps": {
   "sunmeadow_fields": {
-   "r9_smfp_haymaker": {
-    "name": "Bodil",
-    "pages": [
-     "I stack hay up here where the\ngoats can't reach. Battle?"
-    ],
-    "battle_lost": [
-     "You out-stacked me."
-    ],
-    "battle_won": [
-     "Your team's in a haze.\nGo rest in the shade."
-    ],
-    "after": [
-     "Hop down the ledge\nto the field."
-    ]
-   },
-   "r9_smfp_egg_scarecrow": {
-    "pages": [
-     "A tiny scarecrow.",
-     "It's scaring one very small crow,\nwho doesn't care."
-    ]
-   },
    "r9_smfp_cloverpicker": {
     "name": "Elin",
     "pages": [
@@ -276,6 +255,30 @@
      "One is a button, one is a coin,\nand one is a pebble."
     ]
    }
+  },
+  "route_sunmeadow_mirefen": {
+   "r9_smfp_haymaker": {
+    "name": "Bodil",
+    "pages": [
+     "I stack hay up here where the\ngoats can't reach. Battle?"
+    ],
+    "battle_lost": [
+     "You out-stacked me."
+    ],
+    "battle_won": [
+     "Your team's in a haze.\nGo rest in the shade."
+    ],
+    "after": [
+     "Hop down the ledge\nto the path."
+    ]
+   },
+   "r9_smfp_egg_scarecrow": {
+    "pages": [
+     "A tiny scarecrow.",
+     "It's scaring one very small crow,\nwho doesn't care."
+    ]
+   }
   }
- }
+ },
+ "_relocated_hay_loft": "GD Oct 30 2026: Hay Loft moved from sunmeadow_fields (cave_e) to route_sunmeadow_mirefen (max 2 caves per map). Lines unchanged except Bodil's after-line (field -> path); Text Bot to review."
 }

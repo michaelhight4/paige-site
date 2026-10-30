@@ -666,26 +666,6 @@
    }
   },
   "sunmeadow_fields": {
-   "r9_smfp_haymaker": {
-    "pages": [
-     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
-    ],
-    "battle_lost": [
-     "DRAFT: You out-stacked me."
-    ],
-    "after": [
-     "DRAFT: Hop down the ledge to the field."
-    ],
-    "trainer_class": "Farmer",
-    "name": "Bodil",
-    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   },
-   "r9_smfp_egg_scarecrow": {
-    "pages": [
-     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
-    ],
-    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   },
    "r9_smfp_cloverpicker": {
     "pages": [
      "DRAFT: Four-leaf clovers grow only here. I counted. Battle?"
@@ -725,14 +705,6 @@
      "DRAFT: A hive in the rock wall. It hums. It is humming the Sunmeadow song."
     ],
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   }
-  },
-  "sunmeadow_fields_cave_e": {
-   "area_name": {
-    "pages": [
-     "Hay Loft"
-    ],
-    "status": "DRAFT"
    }
   },
   "sunmeadow_fields_cave_nw": {
@@ -923,6 +895,36 @@
    "area_name": {
     "pages": [
      "Break Garden"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_sunmeadow_mirefen": {
+   "r9_smfp_haymaker": {
+    "pages": [
+     "DRAFT: I stack hay up here where the goats cannot reach. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You out-stacked me."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the path."
+    ],
+    "trainer_class": "Farmer",
+    "name": "Bodil",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_smfp_egg_scarecrow": {
+    "pages": [
+     "DRAFT: A tiny scarecrow. It is scaring one very small crow, who does not care."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "route_sunmeadow_mirefen_cave_loft": {
+   "area_name": {
+    "pages": [
+     "Hay Loft"
     ],
     "status": "DRAFT"
    }

@@ -29,7 +29,7 @@ export function mouthClash(map, mx, my) {
 
 // Known bad mouths still to move (GD Oct 30 2026, fixed in the Sunmeadow / Cairnfold passes). A listed mouth that is
 // already clear fails too, so the list can only shrink.
-const PENDING = new Set(['r9_cairnfold@17,25', 'r9_cairnfold@32,25', 'sunmeadow_fields@14,11']);
+const PENDING = new Set(['r9_cairnfold@17,25', 'r9_cairnfold@32,25']);
 for (const p of POCKETS) {
   test(`${p.map}: cave mouth ${p.mouth} (${p.cave}) is clear of buildings, plaza and roads`, () => {
     const map = R(`art/world/overworld/maps/${p.map}.json`);
