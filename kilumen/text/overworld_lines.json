@@ -2593,23 +2593,23 @@
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    },
    "brookhollow_bin_2": {
     "pages": [
-     "A bin. Somebody's old shopping list:\n\"Bread. Milk. Courage.\""
+     "A bin. A crumpled old list:\n\"Bread. Milk. Courage.\""
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "A bin. Somebody's old shopping list:\n\"Bread. Milk. Courage.\""
+       "A bin. A crumpled old list:\n\"Bread. Milk. Courage.\""
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "house_2f": {
@@ -4806,23 +4806,23 @@
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    },
    "fernwick_bin": {
     "pages": [
-     "A bin full of fern clippings.\nIt smells like rain."
+     "A bin full of fern cuttings.\nIt smells like rain."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "A bin full of fern clippings.\nIt smells like rain."
+       "A bin full of fern cuttings.\nIt smells like rain."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "fernwick_hall_int": {
@@ -7184,35 +7184,35 @@
    "area_name": "House",
    "brookhollow_a_bookcase": {
     "pages": [
-     "Picture books, a road atlas and\n\"Creatures of the Valley\"."
+     "Picture books, a road atlas\nand \"Creatures of the Valley\"."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Picture books, a road atlas and\n\"Creatures of the Valley\"."
+       "Picture books, a road atlas\nand \"Creatures of the Valley\"."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    },
    "brookhollow_a_radio": {
     "pages": [
-     "The radio crackles: \"...and a\nsunny week across the valley...\""
+     "The radio crackles: \"...and\na sunny week across the valley.\""
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "The radio crackles: \"...and a\nsunny week across the valley...\""
+       "The radio crackles: \"...and\na sunny week across the valley.\""
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "home_brookhollow_b": {
@@ -7579,19 +7579,19 @@
    "area_name": "Brookhollow House",
    "brookhollow_b_bookcase": {
     "pages": [
-     "Cookbooks. One is just called\n\"Soup, and Why\"."
+     "Cookbooks. One of them is just\ncalled \"Soup, and Why\"."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Cookbooks. One is just called\n\"Soup, and Why\"."
+       "Cookbooks. One of them is just\ncalled \"Soup, and Why\"."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "home_brookhollow_b_2f": {
@@ -7944,19 +7944,19 @@
    "area_name": "Fernwick House",
    "fernwick_a_bookcase": {
     "pages": [
-     "Field guides to mosses.\nAll of them well thumbed."
+     "Field guides to mosses.\nEvery one of them well thumbed."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Field guides to mosses.\nAll of them well thumbed."
+       "Field guides to mosses.\nEvery one of them well thumbed."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "home_fernwick_a_2f": {
@@ -8056,35 +8056,35 @@
    "area_name": "House",
    "fernwick_c_bookcase": {
     "pages": [
-     "Fishing diaries, one per year.\nThe fish get bigger every year."
+     "Fishing diaries, one a year.\nThe fish get bigger every year."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Fishing diaries, one per year.\nThe fish get bigger every year."
+       "Fishing diaries, one a year.\nThe fish get bigger every year."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    },
    "fernwick_c_shelf": {
     "pages": [
-     "A shelf of jars: fishing hooks,\nbuttons, and one very old biscuit."
+     "Jars of fish hooks, buttons\nand one very old biscuit."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "A shelf of jars: fishing hooks,\nbuttons, and one very old biscuit."
+       "Jars of fish hooks, buttons\nand one very old biscuit."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "home_lanternport_c": {
@@ -8301,19 +8301,19 @@
    "area_name": "House",
    "saltmere_a_wheel": {
     "pages": [
-     "An old ship's wheel.\nIt still turns, a little stiffly."
+     "An old ship's wheel. It still\nturns, a little stiffly."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "An old ship's wheel.\nIt still turns, a little stiffly."
+       "An old ship's wheel. It still\nturns, a little stiffly."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    },
    "saltmere_a_jars": {
     "pages": [
@@ -8329,7 +8329,7 @@
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "lab_brookhollow": {
@@ -10835,7 +10835,7 @@
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    },
    "saltmere_bin": {
     "pages": [
@@ -10851,7 +10851,7 @@
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "saltmere_office_int": {
@@ -10922,19 +10922,19 @@
    "area_name": "Saltmere Office",
    "saltmere_office_bookcase": {
     "pages": [
-     "Binders: \"Staff Rota\",\n\"More Staff Rota\", \"Rota (OLD)\"."
+     "Binders: \"Staff Rota\", \"More\nStaff Rota\" and \"Rota (OLD)\"."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Binders: \"Staff Rota\",\n\"More Staff Rota\", \"Rota (OLD)\"."
+       "Binders: \"Staff Rota\", \"More\nStaff Rota\" and \"Rota (OLD)\"."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "saltmere_hall_int": {
@@ -12321,19 +12321,19 @@
    "area_name": "Frostspire",
    "frostspire_notice": {
     "pages": [
-     "FROSTSPIRE NOTICES: \"Skylift runs\nin all weather. Mostly.\""
+     "FROSTSPIRE NOTICES: \"Skylift\nruns in all weather. Mostly.\""
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "FROSTSPIRE NOTICES: \"Skylift runs\nin all weather. Mostly.\""
+       "FROSTSPIRE NOTICES: \"Skylift\nruns in all weather. Mostly.\""
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    },
    "frostspire_bin": {
     "pages": [
@@ -12349,23 +12349,23 @@
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    },
    "frostspire_barrel": {
     "pages": [
-     "A barrel of grit for the paths.\nSomeone has drawn a face on it."
+     "A barrel of grit for the paths.\nSomeone drew a face on it."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "A barrel of grit for the paths.\nSomeone has drawn a face on it."
+       "A barrel of grit for the paths.\nSomeone drew a face on it."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "frostspire_hall_int": {
@@ -13562,19 +13562,19 @@
    },
    "mirefen_bin": {
     "pages": [
-     "A bin with a heavy stone on the\nlid. The ducks know why."
+     "A bin with a heavy stone on\nthe lid. The ducks know why."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "A bin with a heavy stone on the\nlid. The ducks know why."
+       "A bin with a heavy stone on\nthe lid. The ducks know why."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "mirefen_hall_int": {
@@ -17911,19 +17911,19 @@
    "area_name": "Stargazer's Loft",
    "lanternport_a_bookcase": {
     "pages": [
-     "Sea charts and a book of knots.\nThe page for \"bowline\" is torn."
+     "Sea charts and a book of knots.\nThe \"bowline\" page is torn out."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Sea charts and a book of knots.\nThe page for \"bowline\" is torn."
+       "Sea charts and a book of knots.\nThe \"bowline\" page is torn out."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "home_lanternport_b": {
@@ -18172,19 +18172,19 @@
    "area_name": "Smith's Cottage",
    "cindervale_a_tool_rack": {
     "pages": [
-     "Pokers and tongs for the fire.\nAll polished. All warm."
+     "Fire irons and tongs on a rack.\nAll polished. All still warm."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Pokers and tongs for the fire.\nAll polished. All warm."
+       "Fire irons and tongs on a rack.\nAll polished. All still warm."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "home_cindervale_b": {
@@ -18734,19 +18734,19 @@
    "area_name": "RT Frostspire Office",
    "frostspire_office_bookcase": {
     "pages": [
-     "Snow reports, filed by year.\nEvery one says \"a lot\"."
+     "Snow reports, filed by year.\nEvery one just says \"a lot\"."
     ],
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
-       "Snow reports, filed by year.\nEvery one says \"a lot\"."
+       "Snow reports, filed by year.\nEvery one just says \"a lot\"."
       ]
      }
     ],
     "kind": "prop",
-    "status": "PLACEHOLDER (Coder, Oct 30 2026): Text Bot replaces, see data/textbot_requests_side_activities.md"
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
    }
   },
   "tidewater_cave_int": {
@@ -32348,6 +32348,265 @@
     "The dome lies open. Cold now.\nNothing inside is hurting."
    ],
    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  }
+ },
+ "side": {
+  "fern_letters": {
+   "intro": {
+    "pages": [
+     "FERNWICK POST: \"Three letters\nblew off in the storm.\"",
+     "\"If found, please bring them\nto this box. Thank you!\""
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "first": {
+    "pages": [
+     "A soggy letter is stuck behind\nthe lamp. \"To: Fernwick Post.\""
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "found": {
+    "pages": [
+     "Another letter! A bit damp,\nbut the stamp held on."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "already": {
+    "pages": [
+     "Just a lamp now. A moth\nis keeping it company."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "all_found": {
+    "pages": [
+     "That's all three letters!\nThe post box is in the square."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "turn_in_short": {
+    "pages": [
+     "Not all the letters yet.\nTry the lamps around town."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "complete": {
+    "pages": [
+     "The letters drop into the box.\nA little flag pops up: THANKS!"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "done_again": {
+    "pages": [
+     "FERNWICK POST: \"All letters\nsafe and sound. Thank you!\""
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   }
+  },
+  "frost_lamps": {
+   "first": {
+    "pages": [
+     "Frost on the lamp glass.\nYou rub it clear. It shines!"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "found": {
+    "pages": [
+     "Another lamp, wiped clean.\nIts glow spills on the snow."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "already": {
+    "pages": [
+     "This lamp is already clear.\nIt hums, nice and warm."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "complete": {
+    "pages": [
+     "All four lamps in the square\nare clear. Frostspire glows!"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "done_again": {
+    "pages": [
+     "The lamp glows bright.\nNo frost on it yet."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   }
+  },
+  "salt_tide_quiz": {
+   "intro": {
+    "pages": [
+     "TIDE BOARD QUIZ: three\nquestions about Saltmere.",
+     "Answer them all for a star.\nHave a go?"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "q1": {
+    "pages": [
+     "When is the Saltmere fish\nmarket held?"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c1a": {
+    "pages": [
+     "Evenings"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c1b": {
+    "pages": [
+     "Mornings"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c1c": {
+    "pages": [
+     "Midnight"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "q2": {
+    "pages": [
+     "Who is the Master of the\nSaltmere hall?"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c2a": {
+    "pages": [
+     "Nerys Bryde"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c2b": {
+    "pages": [
+     "Harbour Chief"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c2c": {
+    "pages": [
+     "Nobody"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "q3": {
+    "pages": [
+     "Which day are the salt pans\nclosed for raking?"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c3a": {
+    "pages": [
+     "Monday"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c3b": {
+    "pages": [
+     "Friday"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "c3c": {
+    "pages": [
+     "Tuesday"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "pass": {
+    "pages": [
+     "Full marks! A little gold\nstar slides up on the board."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "fail": {
+    "pages": [
+     "Not quite. The answers are\non signs all around town."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "done_again": {
+    "pages": [
+     "Full marks again! Your star\nstays right where it is."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "declined": {
+    "pages": [
+     "Maybe later. The tide\nwill wait. It always does."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   }
+  },
+  "cinder_ore_weigh": {
+   "intro": {
+    "pages": [
+     "ORE WEIGH: guess the cart's\nload, 3 carts in a row.",
+     "Two right out of three wins.\nGive it a go?"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "ask": {
+    "pages": [
+     "A cart of glowing ore rolls\nonto the scale. How heavy?"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "right": {
+    "pages": [
+     "The needle stops dead on it.\nSpot on!"
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "wrong": {
+    "pages": [
+     "The needle swings the other\nway. Not that one."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "pass": {
+    "pages": [
+     "The foreman grins. \"Good eye\nfor ore. Proper forge stock!\""
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "fail": {
+    "pages": [
+     "The scales win this time.\nThe ore just sits there, smug."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "done_again": {
+    "pages": [
+     "Good guessing again.\nThe foreman just nods."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   },
+   "declined": {
+    "pages": [
+     "Maybe later. The carts\naren't going anywhere."
+    ],
+    "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+   }
+  },
+  "merit": {
+   "pages": [
+    "Merit +{n}!"
+   ],
+   "status": "Text Bot DRAFT (data/textbot_side_activities.json, Oct 30 2026)"
+  },
+  "choice_yes": {
+   "pages": [
+    "Yes"
+   ],
+   "status": "Coder (Oct 30 2026): same wording as the game's existing Yes/No choices (e.g. field_skills.*.choices); Text Bot to confirm"
+  },
+  "choice_no": {
+   "pages": [
+    "No"
+   ],
+   "status": "Coder (Oct 30 2026): same wording as the game's existing Yes/No choices (e.g. field_skills.*.choices); Text Bot to confirm"
   }
  }
 }
