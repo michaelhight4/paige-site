@@ -904,15 +904,19 @@ export class GameUI {
     // (map_label), so a dot never covers a name. Dot colours: red = you are here, yellow = status 'built', white = not built yet.
     const zones = (this.scene.layout?.zones || []).filter((z) => z.map_pos && !(z.gone_flag && this.scene.flags?.has?.(z.gone_flag))), cur = this.scene.zone?.();
     let sel = Math.max(0, zones.findIndex((z) => z.id === cur));
-    const KEY = [['here', 'var(--bad)', 'You are here'], ['built', 'var(--sun)', 'Open now'], ['later', '#fff', 'Coming later']];
-    const dot = (z) => KEY[z.id === cur ? 0 : z.status === 'built' ? 1 : 2];
+    const KEY = [['here', 'var(--bad)', 'You are here'], ['built', 'var(--sun)', 'Open now'], ['later', '#fff', 'Not open yet']];
+    // finish-a (Oct 30 2026): a zone counts as open when its layout status says built OR any of its maps ships (maps_built),
+    // so stale 'to_come' statuses don't paint finished regions white; the third legend row only shows when a dot uses it.
+    const known = this.scene.knownMaps, isOpen = (z) => z.status === 'built' || !!(known && (z.maps || []).some((m) => known.has(m)));
+    const dot = (z) => KEY[z.id === cur ? 0 : isOpen(z) ? 1 : 2];
+    const keys = () => KEY.filter((k, i) => i < 2 || zones.some((z) => dot(z) === k));
     const scr = { scr: 'map', pat: 'leaf', title: this.T('system_phone.menu.labels.map', 'Map'), glyph: 'map', sel, cols: 1, count: () => zones.length,
       render: () => `<div class="ui-body"><div class="ui-panel ui-grow rm-frame" data-scr="map" data-pat="leaf" style="flex:2">
         <div class="rm-box" style="background-image:url(art/world/world_map.webp?v=v0.2.100-alpha)">
         ${zones.map((z, i) => `<span data-i="${i}" class="rm-dot" data-dot="${dot(z)[0]}" title="${esc(z.name)}" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%;--dot:${dot(z)[1]}"></span>`).join('')}
         ${cur ? (() => { const z = zones.find((q) => q.id === cur); return z ? `<span class="hud-prompt show rm-you" style="left:${z.map_pos.x * 100}%;top:${z.map_pos.y * 100}%"><span class="g">★</span><span>You</span></span>` : ''; })() : ''}</div></div>
         <div class="plate ui-pad ui-scroll" style="flex:1"><div id="mapinfo"></div>
-        <ul class="rm-legend" aria-label="${esc(this.T('system_phone.map.legend.title', 'Map key'))}">${KEY.map(([k, c, t]) => `<li><i style="--dot:${c}"></i>${esc(this.T(`system_phone.map.legend.${k}`, t))}</li>`).join('')}</ul></div></div>`,
+        <ul class="rm-legend" aria-label="${esc(this.T('system_phone.map.legend.title', 'Map key'))}">${keys().map(([k, c, t]) => `<li data-k="${k}"><i style="--dot:${c}"></i>${esc(this.T(`system_phone.map.legend.${k}`, t))}</li>`).join('')}</ul></div></div>`,
       after: () => { scr.onSel(scr.sel); this._mapPlaceYou(zones); },
       onSel: (i) => { const z = zones[i], el = this.stage.querySelector('#mapinfo'); if (el && z) el.innerHTML = `<b style="font-size:1.15em">${esc(z.name)}</b><p class="soft">${esc(z.type === 'town' ? 'Town' : z.type === 'route' ? 'Trail' : z.type || '')}${z.id === cur ? ' · You are here' : ''}</p>`; },
       // [overnight hook] Skylift fast travel from the map (src/overnight/region_map.js, ?ov=regionmap; off by default)

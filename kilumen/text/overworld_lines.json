@@ -15219,9 +15219,10 @@
     ]
    },
    "tidewater_coast_lifeguard": {
+    "textbot_review": "finish-a Oct 30 2026: page 2 redrafted (shallows removed Oct 30; all water is ride-only). Text Bot to confirm.",
     "pages": [
      "Riders keep between the flags. Not in\nthe grotto. Not at dusk.",
-     "No ride yet? Stay in the shallows."
+     "No ride yet? Stay on the sand.\nThe water here is deep."
     ],
     "kind": "villager",
     "lines": [
@@ -15241,7 +15242,7 @@
       "flags": [],
       "pages": [
        "Riders keep between the flags. Not in\nthe grotto. Not at dusk.",
-       "No ride yet? Stay in the shallows."
+       "No ride yet? Stay on the sand.\nThe water here is deep."
       ]
      }
     ]
@@ -17822,16 +17823,17 @@
    "aurelith_terminal_clerk": {
     "pages": [
      "Aurelith Terminal, ticket desk.\nAll lines run on the hour.",
-     "Rail tickets are coming soon.\nFor now: arrivals welcome!"
+     "Welcome to the capital!\nMind your step on the platform."
     ],
     "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
+    "textbot_review": "finish-a Oct 30 2026: page 2 redrafted (was 'Rail tickets are coming soon'; no rail ticket feature yet). Text Bot to supply final wording.",
     "lines": [
      {
       "id": "default",
       "flags": [],
       "pages": [
        "Aurelith Terminal, ticket desk.\nAll lines run on the hour.",
-       "Rail tickets are coming soon.\nFor now: arrivals welcome!"
+       "Welcome to the capital!\nMind your step on the platform."
       ]
      }
     ]
@@ -28907,8 +28909,9 @@
     "title": "Map key",
     "here": "You are here",
     "built": "Open now",
-    "later": "Coming soon",
-    "status": "DRAFT"
+    "later": "Not open yet",
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: 'later' redrafted (was 'Coming soon'); row now only shows when a map dot is not open. Text Bot to confirm wording."
    }
   }
  },
