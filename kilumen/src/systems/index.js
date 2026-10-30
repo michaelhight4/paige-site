@@ -1,22 +1,22 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { CHEST_PAL, CHEST_PAL_IRON, CHEST_CLOSED, CHEST_OPEN } from './chest_art.js?v=v0.2.99-alpha';
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.99-alpha';
-import { giftTalk } from './npc_gifts.js?v=v0.2.99-alpha';
-import { Party, Archive } from './party.js?v=v0.2.99-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.99-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.99-alpha';
-import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.99-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, getShops, newStockAt } from './shop.js?v=v0.2.99-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.99-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.99-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.99-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.99-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.99-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
-import { attachLinkBand } from './link_band.js?v=v0.2.99-alpha';
-import { migrateHeld, allOwned } from './held.js?v=v0.2.99-alpha'; // held items P2-P5 (Oct 29 2026)
-import { injectHiddenSpots, grantFlagRewards, FLAG_REWARDS } from './held_rewards.js?v=v0.2.99-alpha';
+import { CHEST_PAL, CHEST_PAL_IRON, CHEST_CLOSED, CHEST_OPEN } from './chest_art.js?v=v0.2.100-alpha';
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.100-alpha';
+import { giftTalk } from './npc_gifts.js?v=v0.2.100-alpha';
+import { Party, Archive } from './party.js?v=v0.2.100-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.100-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.100-alpha';
+import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.100-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, getShops, newStockAt } from './shop.js?v=v0.2.100-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.100-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.100-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.100-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.100-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.100-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { attachLinkBand } from './link_band.js?v=v0.2.100-alpha';
+import { migrateHeld, allOwned } from './held.js?v=v0.2.100-alpha'; // held items P2-P5 (Oct 29 2026)
+import { injectHiddenSpots, grantFlagRewards, FLAG_REWARDS } from './held_rewards.js?v=v0.2.100-alpha';
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)

@@ -3,11 +3,11 @@
 // until real data lands). Only runs from the phone Team / Pack menus (overworld, menu open), never in a battle, talk or
 // cutscene; it only marks the save dirty (the normal autosave rules decide when to write).
 // Text: every player line below is a /* PH */ fallback; keys requested from Text Bot in data/textbot_requests_qol_b.md.
-import { learnsetFor, applyLearn } from '../overnight/learnsets.js?v=v0.2.99-alpha';
-import { PLACEHOLDER_SKILLS, EXTRA_SKILL_ROWS } from '../ui/data.js?v=v0.2.99-alpha';
-import { toID } from '../battle/data/skills.js?v=v0.2.99-alpha';
-import { speciesInfo, defaultSkills, displayName } from '../systems/creature.js?v=v0.2.99-alpha';
-import { qolFlags } from './flags.js?v=v0.2.99-alpha';
+import { learnsetFor, applyLearn } from '../overnight/learnsets.js?v=v0.2.100-alpha';
+import { PLACEHOLDER_SKILLS, EXTRA_SKILL_ROWS } from '../ui/data.js?v=v0.2.100-alpha';
+import { toID } from '../battle/data/skills.js?v=v0.2.100-alpha';
+import { speciesInfo, defaultSkills, displayName } from '../systems/creature.js?v=v0.2.100-alpha';
+import { qolFlags } from './flags.js?v=v0.2.100-alpha';
 
 const SK = {}; for (const [name, el] of [...Object.values(PLACEHOLDER_SKILLS).flat(), ...EXTRA_SKILL_ROWS]) SK[toID(name)] ||= { name, el };
 export const skillName = (id) => SK[id]?.name || (id ? id[0].toUpperCase() + id.slice(1) : '?');

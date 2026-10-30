@@ -2,9 +2,9 @@
 // 6 frames of 256 px) and the summit cinematic layers: a cloud bank that parts, light shafts, a violet / white flash and
 // camera shake (scene.camFocus jitter). Drawn by renderer.js after the mood layer (v.r9fx). Placement: map json `ondravel`
 // {x, y}: x = the centre tile, y = the tile under his feet.
-import { makeLabFx } from './lab_fx.js?v=v0.2.99-alpha';
-import { anim, frameAt, drawFrame } from './anims.js?v=v0.2.99-alpha';
-import { makeTankOverlays } from './tank_overlays.js?v=v0.2.99-alpha';
+import { makeLabFx } from './lab_fx.js?v=v0.2.100-alpha';
+import { anim, frameAt, drawFrame } from './anims.js?v=v0.2.100-alpha';
+import { makeTankOverlays } from './tank_overlays.js?v=v0.2.100-alpha';
 const T = 64, FW = 256, FH = 256;
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 export function makeSummitFx(scene) {

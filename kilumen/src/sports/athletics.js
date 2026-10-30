@@ -3,9 +3,9 @@
 // species range, so the stat value is lo + q*(hi-lo) of the CURRENT species: an evolved creature keeps its individuality
 // and moves up to the new range. The roll is seeded from the creature's uid, so a lazy roll for an old save gives the same
 // numbers every time (and on every device) and needs no save at all to stay stable.
-import { ATHLETICS } from './data/athletics.gen.js?v=v0.2.99-alpha';
-import { STATS, TRAITS, SECOND_TRAIT_CHANCE } from './rules.js?v=v0.2.99-alpha';
-import { rngFor } from './rng.js?v=v0.2.99-alpha';
+import { ATHLETICS } from './data/athletics.gen.js?v=v0.2.100-alpha';
+import { STATS, TRAITS, SECOND_TRAIT_CHANCE } from './rules.js?v=v0.2.100-alpha';
+import { rngFor } from './rng.js?v=v0.2.100-alpha';
 
 export const ATH_VERSION = 1;
 const FALLBACK = { shape: 'standard', ranges: Object.fromEntries(STATS.map((s) => [s, [36, 64]])), traitWeights: Object.fromEntries(TRAITS.map((t) => [t, 5])) };
