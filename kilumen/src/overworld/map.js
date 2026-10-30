@@ -99,6 +99,16 @@ export class GameMap {
   applyGates(flags) {
     const done = [];
     for (const g of this.storyGates) {
+      // resettable gates (Aurelith Arena rooms, Oct 30 2026): their flag is cleared when a run ends, so the gate closes again
+      if (g.resettable && this._appliedGates.has(g.id) && !(flags?.has(g.flag) && (g.also || []).every((f) => flags.has(f)))) {
+        for (const c of g.cells || []) {
+          if (!this.inBounds(c.x, c.y)) continue;
+          const t = c.blocked_tile ? this._byName?.get(c.blocked_tile) : null;
+          if (this.layers.decoration && t) this.layers.decoration[c.y][c.x] = t.id;
+          this.layers.collision[c.y][c.x] = t ? (t.collision_code ?? 1) : 1;
+        }
+        this._appliedGates.delete(g.id); continue;
+      }
       if (this._appliedGates.has(g.id) || !flags?.has(g.flag) || (g.also || []).some((f) => !flags.has(f))) continue; // also: extra flags (all needed)
       for (const c of g.cells || []) {
         if (!this.inBounds(c.x, c.y)) continue;

@@ -167,6 +167,9 @@ export function showLog(entry) {
   css(); document.querySelector('.kdev-log')?.remove();
   const text = entry.text || entry.lines.join('\n');
   const w = document.createElement('div'); w.className = 'kdev-log';
+  // Arena playtest Oct 30 2026: the full-screen log covered the DEV chip; start the overlay below it (chip stays tappable).
+  const chipEl = document.querySelector('.kdev-chip'), cb = chipEl?.getBoundingClientRect?.();
+  if (cb && cb.bottom > 0 && cb.bottom < innerHeight / 2) w.style.top = `${Math.ceil(cb.bottom + 4)}px`;
   w.innerHTML = '<div class="box"><div class="hd"><b></b><button data-c>Copy</button><button data-x>Close</button></div><pre></pre></div>';
   w.querySelector('b').textContent = `${entry.title}: ${String(entry.outcome).toUpperCase()}, ${entry.turns} turn(s)`;
   w.querySelector('pre').textContent = text;

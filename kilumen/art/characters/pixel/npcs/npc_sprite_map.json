@@ -3022,6 +3022,22 @@
     "neutral": "npcs/tr_gymtrainer_m/portraits/tr_gymtrainer_m_neutral.png"
    },
    "note": "live v0.2.93 fix: Master had no sprite entry so it never drew; stand-in until Character models art"
+  },
+  "aurelith_arena_room_5.arena_rest_5": {
+   "sprite_id": "vil_receptionist_f",
+   "class": "Arena rest point",
+   "overworld_sheet": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/vil_receptionist_f/overworld/vil_receptionist_f_chibi/"
+  },
+  "aurelith_arena_room_7.arena_second_7": {
+   "sprite_id": "tr_scientist_m",
+   "class": "Arena mini-trainer",
+   "overworld_sheet": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet.png",
+   "overworld_sheet_2x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_2x.png",
+   "overworld_sheet_3x": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi_sheet_3x.png",
+   "overworld_frames_dir": "npcs/tr_scientist_m/overworld/tr_scientist_m_chibi/"
   }
  },
  "unassigned_ready": {

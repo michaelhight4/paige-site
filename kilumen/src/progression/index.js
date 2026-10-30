@@ -5,6 +5,7 @@
 //  - hallPuzzles (off): hall puzzle preview overlay ?pg=hallPuzzles&hall=<zone> (hall maps 2-8 are not built yet).
 //  - quests (off): quest book + phone Tasks = quest log + HUD tracker + NPC give / turn-in + rewards.
 import { progressionFlags } from './flags.js?v=v0.2.93-alpha';
+import { arenaProgress } from '../region78/arena_progress.js?v=v0.2.93-alpha';
 import { registerMasterResults, registerHallNpcResults, teamFor, findHallTrainer, hallByZone, awardMaster, hallNpc } from './masters.js?v=v0.2.93-alpha';
 import { hallEntry, withOpener, chainAfter, lightAt, litLamps, lampCell } from './halls.js?v=v0.2.93-alpha';
 import { QuestBook, QFLAG } from './quests.js?v=v0.2.93-alpha';
@@ -384,7 +385,13 @@ function questHud(scene, ui, qb, platform) {
   const update = () => {
     const q = qb.tracked(scene.flags), busy = ui?.active || scene.busy;
     if (!q || busy) { el.hidden = true; return; }
-    const st = qb.status(q, scene.flags), cur = qb.current(q, scene.flags), p = qb.progress(q, scene.flags);
+    const st = qb.status(q, scene.flags), cur = qb.current(q, scene.flags), ar = arenaProgress(scene.flags, scene.map?.name);
+    if (ar) { // Aurelith Arena: rooms won this run, not the finale quest's steps (Oct 30 2026)
+      const lobby = scene.mapCache?.get?.('aurelith_arena')?.json?.title || 'Aurelith Arena', here = scene.map?.json?.title || '';
+      el.innerHTML = `<div style="font-weight:800;opacity:.85">★ ${escH(lobby)} <span style="opacity:.7">${ar.done}/${ar.total}</span></div><div>${escH(ar.room ? here : lobby)}</div>`;
+      el.hidden = false; return;
+    }
+    const p = qb.progress(q, scene.flags);
     const step = st === 'ready' ? tx(ui, 'system_tasks.report_back', 'Report back.') : stepText(ui, q, cur);
     el.innerHTML = `<div style="font-weight:800;opacity:.85">${q.type === 'main' ? '★ ' : '◆ '}${escH(q.title)} <span style="opacity:.7">${p.done}/${p.total}</span></div><div>${escH(step)}</div>`;
     el.hidden = false;

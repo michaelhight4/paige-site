@@ -33,16 +33,22 @@ export const ARENA = {
     { id: 'arena_fighter_8', type: 'dark', name: 'Corvin', team: ['velvetabby', 'crowkin', 'vesperowl', 'bleachghast', 'wreckwarden', 'maestrix'], ace: 68 },
   ],
   levels: [62, 63, 64, 65, 66], // slots 1-5 (level curve Oct 30: aces 67-68, enemy cap 68); slot 6 = the fighter's ace level
+  // Playtest pass (Oct 30 2026, Gary delegated): a free full heal between rooms 4 and 5 (once per run) and room 7's
+  // mini-trainer (Oriel waits until they are beaten). Map side: tools/city/arena_playtest_patch.py.
+  rest: { room: 5, id: 'arena_rest_5', usedFlag: 'arena_rest_used' },
+  second: { room: 7, id: 'arena_second_7', team: [['mirrorkin', 61], ['runeskein', 62], ['pearlisk', 63]] },
 };
 export const arenaTeam = (f) => [...ARENA.levels.map((level, i) => ({ species: f.team[i], level })), { species: f.team[5], level: f.ace }];
 /** 1-based room of a fighter. */
 export const roomOf = (f) => ARENA.fighters.indexOf(f) + 1;
 /** TRAINER_TEAMS entries: 'aurelith_arena_room_N.arena_fighter_N' -> team. */
-export const ARENA_TEAMS = Object.fromEntries(ARENA.fighters.map((f, i) => [`${ARENA.room(i + 1)}.${f.id}`, arenaTeam(f)]));
+export const ARENA_TEAMS = Object.fromEntries([...ARENA.fighters.map((f, i) => [`${ARENA.room(i + 1)}.${f.id}`, arenaTeam(f)]),
+  [`${ARENA.room(ARENA.second.room)}.${ARENA.second.id}`, ARENA.second.team.map(([species, level]) => ({ species, level }))]]);
 
 export const ARENA_KEYS = {
   clerk: 'maps.aurelith_arena.aurelith_arena_clerk', clerkCleared: 'system_arena.clerk_cleared',
   start: 'system_arena.run_start', next: 'system_arena.next_fighter', lost: 'system_arena.run_lost', won: 'system_arena.run_won', waiting: 'system_arena.fighter_waiting', beaten: 'system_arena.fighter_beaten',
+  rest: 'system_arena.rest_point', restUsed: 'system_arena.rest_point_used', second: 'system_arena.fighter_second_first',
   fighter: (id) => `maps.aurelith_arena.${id}`, // .pages = challenge, .battle_lost = after the player wins, .battle_won = player lost
 };
 // DRAFT code fallbacks (Text Bot replaces); no banned words.
@@ -55,6 +61,9 @@ export const ARENA_FALLBACK = {
   won: ['That is all eight! You cleared the Aurelith Arena.'],
   waiting: ['Start with the first fighter, in the first room. We go in order.'],
   beaten: ['The stairs are open. Keep going!'],
+  rest: ['Halfway. Rest here: your team is fully healed.'],
+  restUsed: ['You have had your rest this run. Keep going!'],
+  second: ['Beat my second first. Then we talk.'],
   challenge: (f, name = f.name) => [`${name}, Arena fighter. ${f.type[0].toUpperCase() + f.type.slice(1)} type, all the way.`],
   lostLine: (f, name = f.name) => [`${name}: Good fight. Keep going.`],
 };
@@ -86,7 +95,11 @@ export function ron7State(flags) {
 /** Pure: the run order from fighter 1 (always the full 8; a loss restarts from 1). */
 export const runOrder = () => ARENA.fighters.map((f) => f.id);
 /** Pure: every flag the run uses (cleared on a loss, on leaving to the lobby and after a full clear). */
-export const runFlags = () => [ARENA.runFlag, ...ARENA.fighters.map((f, i) => ARENA.wonFlag(i + 1))];
+export const runFlags = () => [ARENA.runFlag, ARENA.rest.usedFlag, ...ARENA.fighters.map((f, i) => ARENA.wonFlag(i + 1))];
+/** Pure: the flags a run standing in room n has (rooms 1..n-1 won). Dev Travel into a room uses it so the room is playable. */
+export const runFlagsAt = (n) => (n > 1 ? [ARENA.runFlag, ...ARENA.fighters.slice(0, n - 1).map((f, i) => ARENA.wonFlag(i + 1))] : []);
+/** Pure: has the room's mini-trainer been beaten (seen = scene.seen)? true where there is none. */
+export const secondBeaten = (n, seen) => n !== ARENA.second.room || !!seen?.[`defeated:${ARENA.room(n)}.${ARENA.second.id}`];
 
 /** Pure: what talking to fighter n (1-based) does now. flags: Set-like {has}.
  *  -> 'start' (ask, room 1) | 'fight' | 'beaten' (already won this run) | 'waiting' (run not here yet) */
@@ -129,12 +142,20 @@ export function arenaHook(scene) {
   const sp = (f) => (f ? scene.speakerFor?.(npcOf(f.id), true) || { name: nameOf(f) } : null);
   return {
     match: (mapName, def) => (mapName === ARENA.map && (def?.id === ARENA.clerk || def?.id === RON7.id))
+      || (mapName === ARENA.room(ARENA.rest.room) && def?.id === ARENA.rest.id)
       || ARENA.fighters.some((f, i) => mapName === ARENA.room(i + 1) && def?.id === f.id),
     run: async ({ def, speaker }) => {
       if (def.id === RON7.id) return ron7Talk(scene, speaker);
       if (def.id === ARENA.clerk) return scene.say(flags.has(ARENA.clearFlag) ? text('clerkCleared') : text('clerk'), speaker);
+      if (def.id === ARENA.rest.id) {
+        if (flags.has(ARENA.rest.usedFlag)) return scene.say(text('restUsed'), speaker);
+        scene.systems?.party?.healAll?.(); if (flags.has(ARENA.runFlag)) set(ARENA.rest.usedFlag);
+        scene.log?.push?.({ tick: scene.tick, type: 'heal', branch: 'arena_rest' });
+        return scene.say(text('rest'), speaker);
+      }
       const f = ARENA.fighters.find((x) => x.id === def.id), n = roomOf(f), st = fighterState(flags, n);
       if (st === 'waiting') return scene.say(text('waiting'), speaker);
+      if (st !== 'beaten' && !secondBeaten(n, scene.seen)) return scene.say(text('second'), speaker);
       if (st === 'beaten') return scene.say(text('beaten'), speaker);
       if (!(scene.systems?.party?.list || scene.party || []).length) return scene.say(['I need a Kilu to fight with.']);
       if (st === 'start') { if ((await scene.ask?.(text('start'), ['Yes', 'No'], speaker)) === 1) return; set(ARENA.runFlag); }
@@ -149,7 +170,7 @@ export function arenaHook(scene) {
           if (!flags.has(ARENA.clearFlag)) set(ARENA.clearFlag);
           if (scene.bump) scene.bump(ARENA.winsCounter); else if (scene.counters) scene.counters[ARENA.winsCounter] = (scene.counters[ARENA.winsCounter] || 0) + 1;
           if (!flags.has(ENDING.tower[0]) && !flags.has(RON_FINAL.winFlag)) await towerTop(scene, set);
-          scene.startWarp?.({ map: ARENA.map, x: 8, y: 3, facing: 'down' }, 'door');
+          scene.startWarp?.({ map: ARENA.map, x: 8, y: 4, facing: 'down' }, 'door'); // y 4: below the lobby coin check (Oct 30 2026)
         },
       }, f);
     },
