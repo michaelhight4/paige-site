@@ -1,0 +1,4 @@
+<!doctype html><meta charset="utf-8"><title>FAKE Stripe Checkout (test harness)</title>
+<body style="font:16px system-ui;padding:24px;background:#f6f9fc"><h2>Stripe Checkout — TEST HARNESS (not Stripe)</h2>
+<p>Product: <b id="pk"></b></p><p>Card 4242 4242 4242 4242 (test)</p><a id="pay" style="background:#635bff;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">Pay (test)</a>
+<script>const q=new URLSearchParams(location.search);pk.textContent=q.get('pk');const b=q.get('back')||'/play/';pay.href=b+(b.includes('?')?'&':'?')+'checkout=success&session_id=cs_test_fake';</script>

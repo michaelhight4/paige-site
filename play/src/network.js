@@ -18,7 +18,13 @@ import * as Premium from './premium.js';
 
 export const GAME = 'lifeline';
 // Public Supabase config (URL + anon key ONLY; never a service-role key). null until Gary turns the backend on for Lifeline.
-export const NET_CONFIG = null;
+// Same Supabase project + publishable key as paigegames.net/auth.js (public by design; RLS protects data).
+// Backend + Stripe web checkout are OFF until Gary flips WEB_STORE_LIVE. A dev/test override turns them on per browser:
+//   open /play/?stripe=dev once (stored in localStorage 'lifeline.stripe.dev'), or ?stripe=off to clear it.
+export const WEB_STORE_LIVE = false;
+const PUBLIC_NET = { url: 'https://kjdubkeowcyuoazvpoyt.supabase.co', anonKey: 'sb_publishable_NZC6vzmXDYRLnRh2vDHWAg_VCDi3FQc' };
+const devStore = () => { try { const q = new URLSearchParams(location.search).get('stripe'); if (q === 'dev') localStorage.setItem('lifeline.stripe.dev', '1'); if (q === 'off') localStorage.removeItem('lifeline.stripe.dev'); return localStorage.getItem('lifeline.stripe.dev') === '1'; } catch (e) { return false; } };
+export const NET_CONFIG = (WEB_STORE_LIVE || devStore()) ? PUBLIC_NET : null;
 export { AD_FREE_LIFE, BB_PER_USD, BB_DISCOUNT_TAG, BB_TAG_COLORS, bbPayChoice, formatBB, formatUSD, BB_PACKS, BB_PACK_BANNER, smallestCoveringPack, shortfallText };
 
 const net = new PaigeNet(NET_CONFIG);
@@ -37,7 +43,20 @@ const testLinked = () => { if (!localDevHost()) return false; try { return local
 export const setTestLinked = (on) => { try { if (on) localStorage.setItem(TEST_LINK_KEY, '1'); else localStorage.removeItem(TEST_LINK_KEY); } catch (e) { /* */ } };
 export const canBuy = () => (net.configured ? auth.canBuy() : testLinked());
 export const accountState = () => (net.configured ? auth.state() : { configured: false, signedIn: testLinked(), guest: !testLinked(), userId: null, email: testLinked() ? 'test account (local)' : null });
-export async function bootAccount() { if (!net.configured) return; auth.handleRedirect(); await auth.ensureGuest(); await refreshEntitlements(); }
+export async function bootAccount() { if (!net.configured) return; auth.handleRedirect(); adoptSiteSession(); await auth.ensureGuest(); await refreshEntitlements(); }
+/** Reuse the paigegames.net website sign-in (supabase-js stores it in sb-<ref>-auth-token on the same origin) so a player
+ *  signed in on the site is signed in in the game with the SAME account (same auth.users id). Never touches a guest that is already signed in. */
+export function adoptSiteSession() {
+  try {
+    const cur = net.session(); if (cur && cur.user && !cur.user.is_anonymous) return false;
+    const raw = JSON.parse(localStorage.getItem('sb-kjdubkeowcyuoazvpoyt-auth-token') || 'null');
+    const s = raw && (raw.currentSession || raw);
+    if (!s || !s.access_token || !s.user || s.user.is_anonymous || (s.expires_at && s.expires_at * 1000 < Date.now())) return false;
+    net.setSession({ access_token: s.access_token, refresh_token: s.refresh_token, expires_at: s.expires_at, user: { id: s.user.id, email: s.user.email, is_anonymous: false } });
+    return true;
+  } catch (e) { return false; }
+}
+export const netFn = (name, body) => net.fn(name, body);
 export const SIGN_IN_TO_BUY = 'Sign in to buy. Create a free account in Settings > Account; your guest progress comes with you.';
 const isNative = () => { try { const c = globalThis.window && window.Capacitor; return !!(c && c.isNativePlatform && c.isNativePlatform()); } catch (e) { return false; } };
 
@@ -57,9 +76,10 @@ export function applyServerEntitlements(rows) {
 /** Pull entitlements from the server when signed in; offline/unconfigured -> keep the cache as is. */
 export async function refreshEntitlements() {
   if (!net.configured || !net.signedIn()) return { ok: false, reason: net.configured ? 'signed out' : 'offline cache' };
-  const r = await net.select('entitlements', 'select=product_id,game_id,scope,source,expires_at');
+  const r = await net.select('entitlements', 'select=product_id,game_id,scope,source,expires_at&revoked_at=is.null');
   if (!r.ok) return { ok: false, reason: r.error };
-  applyServerEntitlements(r.value); return { ok: true };
+  // DB product ids are '<game>.<sku>' (public.network_products.id, e.g. 'lifeline.einstein'); the cache keys on the bare sku.
+  applyServerEntitlements(r.value.map((x) => ({ ...x, product_id: String(x.product_id).split(/[.:]/).pop() }))); return { ok: true };
 }
 /** After a native Play purchase (passes / All Access / ad_free_life): verify server-side when signed in, then re-sync. */
 export async function verifyPlayPurchase(productId, purchaseToken) {
