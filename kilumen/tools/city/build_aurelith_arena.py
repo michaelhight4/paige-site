@@ -123,7 +123,7 @@ lnpcs = [{'id': 'aurelith_arena_clerk', 'x': 13, 'y': 4, 'facing': 'down', 'kind
          # Final Ron (Coder, Oct 29 2026, story_beats F-0 rev 2): by the exit once the tower is done + healed (src/region78/arena.js)
          {'id': 'aurelith_arena_ron_final', 'x': 10, 'y': 8, 'facing': 'left', 'kind': 'npc', 'sprite': 'ron', 'active_when': ['tower_healed'],
           'note': 'Final Ron (Ron 7): waits by the exit after the tower (floor 8 + heal); battle key aurelith_arena_int.aurelith_arena_ron_final (src/region78/arena.js, story_beats F-0 rev 2)'}]
-out['aurelith_arena'] = {'name': 'aurelith_arena', 'title': 'Aurelith Arena', 'width': LOBBY_W, 'height': LOBBY_H, 'tile_size': 64, 'tileset': '../tileset.json',
+out['aurelith_arena'] = {'name': 'aurelith_arena', 'title': f'Aurelith Arena · Room {n}', 'width': LOBBY_W, 'height': LOBBY_H, 'tile_size': 64, 'tileset': '../tileset.json',
     'layers': lo.L, 'warps': lw, 'exits': [], 'npcs': lnpcs, 'signs': [], 'items': [], 'encounter_zones': [], 'source': SRC, 'movement': MOVE}
 
 # Room 8 life (Coder Oct 30, Gary playtest 6/10 "empty on arrival"): a steward + a fan by the entrance mats, in view on arrival
@@ -165,7 +165,7 @@ for n, (t, spr) in enumerate(zip(TYPES, SPR), 1):
         warps.append({'x': x, 'y': RH - 1, 'to': back, 'tx': tx, 'ty': 3, 'facing': 'down', 'keep_return': True, 'note': 'back down one room'})
     npc = {'id': f'arena_fighter_{n}', 'x': 8, 'y': 6, 'facing': 'down', 'kind': 'trainer', 'sprite': spr,
            'note': f'Arena fighter {n} of 8, {t} type (back to back run, src/region78/arena.js; team in trainer_teams.js)', 'text_ref': TR + f'arena_fighter_{n}'}
-    j = {'name': room(n), 'title': 'Aurelith Arena', 'width': RW, 'height': RH, 'tile_size': 64, 'tileset': '../tileset.json', 'layers': m.L,
+    j = {'name': room(n), 'title': f'Aurelith Arena · Room {n}', 'width': RW, 'height': RH, 'tile_size': 64, 'tileset': '../tileset.json', 'layers': m.L,
          'warps': warps, 'exits': [], 'npcs': [npc] + (ROOM8_LIFE if n == 8 else []), 'signs': [], 'items': [], 'encounter_zones': [], 'story_gates': gates,
          'tint': {'grade': th['grade'], 'note': f'{t} throne room lighting (+ mood.json tint/particles)'}, 'arena_theme': {'type': t, 'from': th['hall'], 'centrepiece': th['what']}, 'source': SRC, 'movement': MOVE}
     out[room(n)] = j
