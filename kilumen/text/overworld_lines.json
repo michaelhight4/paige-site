@@ -20781,7 +20781,8 @@
    "gullhaven_sea_sign": {
     "pages": [
      "GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.",
-     "Ride with care. The gulls are watching."
+     "Deep water. Cross only on a Kilu\nthat knows Tideglide.",
+     "Tideglide is taught in Mirefen.\nAsk the scholar by the causeway."
     ],
     "lines": [
      {
@@ -20789,11 +20790,13 @@
       "flags": [],
       "pages": [
        "GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.",
-       "Ride with care. The gulls are watching."
+       "Deep water. Cross only on a Kilu\nthat knows Tideglide.",
+       "Tideglide is taught in Mirefen.\nAsk the scholar by the causeway."
       ]
      }
     ],
-    "status": "DRAFT"
+    "status": "DRAFT",
+    "kind": "sign"
    },
    "gullhaven_sea_swimmer_a": {
     "pages": [

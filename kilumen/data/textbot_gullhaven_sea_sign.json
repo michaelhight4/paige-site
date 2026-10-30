@@ -1,0 +1,13 @@
+{
+ "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Replaces 'Swim with care' on the gullhaven_sea sign (6,41); Cal never swims.",
+ "maps": {
+  "gullhaven_sea": {
+   "gullhaven_sea_sign": {
+    "kind": "sign",
+    "pages": ["GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.", "Deep water. Cross only on a Kilu\nthat knows Tideglide.", "Tideglide is taught in Mirefen.\nAsk the scholar by the causeway."],
+    "lines": [{"id": "default", "flags": [], "pages": ["GULLHAVEN SEA\nNorth: Tidewater. South: Gullhaven.", "Deep water. Cross only on a Kilu\nthat knows Tideglide.", "Tideglide is taught in Mirefen.\nAsk the scholar by the causeway."]}],
+    "status": "DRAFT"
+   }
+  }
+ }
+}
