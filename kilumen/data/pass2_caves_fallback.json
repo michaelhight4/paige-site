@@ -302,6 +302,58 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "cindervale": {
+   "r9_cvp_watcher": {
+    "pages": [
+     "DRAFT: From up here I see the whole town. And now you."
+    ],
+    "battle_lost": [
+     "DRAFT: You climbed through ash for that? Respect."
+    ],
+    "after": [
+     "DRAFT: The ledge drops right into town."
+    ],
+    "trainer_class": "Ash Watcher",
+    "name": "Ilse",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_cvp_egg_bell": {
+    "pages": [
+     "DRAFT: A soot-black bell in the wall. Ring it and the whole town looks up. Better not."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "cindervale_caldera": {
+   "r9_ccp_stoker": {
+    "pages": [
+     "DRAFT: The vent keeps my forge warm. You keep me busy. Fair trade?"
+    ],
+    "battle_lost": [
+     "DRAFT: Hot work. You out-heated me."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge. Mind the ash."
+    ],
+    "trainer_class": "Smelter",
+    "name": "Brann",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_ccp_egg_kettle": {
+    "pages": [
+     "DRAFT: A kettle sits on a hot rock. It has been boiling for years. Nobody knows who left it."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "cindervale_caldera_cave": {
+   "area_name": {
+    "pages": [
+     "Ash Vent"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }

@@ -1327,6 +1327,202 @@
      26
     ]
    }
+  },
+  {
+   "id": "cv_pocket_crack",
+   "map": "cindervale",
+   "cave": "cindervale_caldera",
+   "cave_title": "Cinder Crack",
+   "floor": [
+    [
+     13,
+     10,
+     22,
+     10
+    ]
+   ],
+   "ledge": [
+    15,
+    17,
+    11
+   ],
+   "walk": [],
+   "mouth": null,
+   "pocket_door": [
+    18,
+    9
+   ],
+   "main_start": [
+    20,
+    22
+   ],
+   "floor_tile_at": [
+    20,
+    12
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave cindervale_caldera",
+    "out": "one-way ledge at y11 x15-17",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_cvp_watcher",
+    "x": 14,
+    "y": 10,
+    "level": 63,
+    "class": "Ash Watcher",
+    "name": "Ilse",
+    "species": [
+     "foundrax",
+     "cragmont",
+     "pyrogrim"
+    ],
+    "intro": [
+     "DRAFT: From up here I see the whole town. And now you."
+    ],
+    "lost": [
+     "DRAFT: You climbed through ash for that? Respect."
+    ],
+    "after": [
+     "DRAFT: The ledge drops right into town."
+    ]
+   },
+   "egg": {
+    "id": "r9_cvp_egg_bell",
+    "x": 20,
+    "y": 9,
+    "what": "a soot-black bell",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A soot-black bell in the wall. Ring it and the whole town looks up. Better not."
+    ]
+   },
+   "item": {
+    "id": "r9_cvp_charm",
+    "x": 13,
+    "y": 10,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A watcher on the ash ledge over town; a Prime Crystal hides in the corner.",
+   "existing_cave": {
+    "crack": [
+     12,
+     14
+    ],
+    "land": [
+     12,
+     15
+    ]
+   },
+   "map_items": [
+    {
+     "id": "cv_ledge_seed_visible",
+     "x": 22,
+     "y": 10,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "cc_pocket_vent",
+   "map": "cindervale_caldera",
+   "cave": "cindervale_caldera_cave",
+   "cave_title": "Ash Vent",
+   "floor": [
+    [
+     5,
+     1,
+     28,
+     2
+    ]
+   ],
+   "ledge": [
+    21,
+    23,
+    3
+   ],
+   "walk": [],
+   "mouth": [
+    14,
+    11
+   ],
+   "pocket_door": [
+    25,
+    1
+   ],
+   "main_start": [
+    16,
+    22
+   ],
+   "floor_tile_at": [
+    20,
+    8
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave cindervale_caldera_cave",
+    "out": "one-way ledge at y3 x21-23",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_ccp_stoker",
+    "x": 19,
+    "y": 1,
+    "level": 63,
+    "class": "Smelter",
+    "name": "Brann",
+    "species": [
+     "calderax",
+     "pyrogrim",
+     "calderock"
+    ],
+    "intro": [
+     "DRAFT: The vent keeps my forge warm. You keep me busy. Fair trade?"
+    ],
+    "lost": [
+     "DRAFT: Hot work. You out-heated me."
+    ],
+    "after": [
+     "DRAFT: Drop off the ledge. Mind the ash."
+    ]
+   },
+   "egg": {
+    "id": "r9_ccp_egg_kettle",
+    "x": 28,
+    "y": 1,
+    "what": "a kettle on a hot rock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A kettle sits on a hot rock. It has been boiling for years. Nobody knows who left it."
+    ]
+   },
+   "item": {
+    "id": "r9_ccp_crystal",
+    "x": 28,
+    "y": 2,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A smelter who warms a hidden forge on the ash vent; a Prime Crystal sits on the hot rocks.",
+   "map_cells": [
+    {
+     "x": 9,
+     "y": 10,
+     "g": null,
+     "d": 887,
+     "c": 5
+    }
+   ],
+   "map_items": [
+    {
+     "id": "cc_vent_seed_visible",
+     "x": 5,
+     "y": 1,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
   }
  ]
 }

@@ -153,5 +153,33 @@ export const CAVE_POCKET_TEAMS = {
    "species": "lancebeetle",
    "level": 63
   }
+ ],
+ "cindervale.r9_cvp_watcher": [
+  {
+   "species": "foundrax",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "pyrogrim",
+   "level": 63
+  }
+ ],
+ "cindervale_caldera.r9_ccp_stoker": [
+  {
+   "species": "calderax",
+   "level": 63
+  },
+  {
+   "species": "pyrogrim",
+   "level": 63
+  },
+  {
+   "species": "calderock",
+   "level": 63
+  }
  ]
 };
