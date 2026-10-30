@@ -22,6 +22,33 @@ export function branchByZone(zone, shops = getShops()) {
 /** Last-heal warp point for a branch (stored in save.systems.lastHeal). */
 export const healPoint = (b) => ({ branch: b.id, map: b.id, x: b.stand.x, y: b.stand.y, facing: b.stand.facing || 'up', zone: b.zone, returnDoor: b.returnDoor || null });
 
+/** The heal point as the player actually used it. Mirefen / Tidewater (and old Aurelith saves) reuse the heal_brookhollow
+ *  interior, so the branch's own returnDoor would walk a blacked-out player out into Brookhollow: take the town door
+ *  they came in through (scene.lastDoor) and that town's zone instead (bug fix Oct 30 2026). */
+export function visitPoint(b, sc) {
+  const p = healPoint(b), from = sc?.lastDoor;
+  if (sc?.map?.name === b.id && from?.map && from.map !== p.returnDoor?.map && from.map !== b.id) {
+    return { ...p, zone: sc.zone?.() || from.map, returnDoor: { map: from.map, x: from.x, y: from.y } };
+  }
+  return p;
+}
+
+/** No heal point yet: the branch in the current zone, else the closest one on the world map (world_layout map_pos),
+ *  else the default branch (Brookhollow). */
+export function nearestBranch(zone, layout, shops = getShops()) {
+  const all = Object.entries(shops.branches).map(([id, b]) => ({ id, ...b }));
+  const here = zone && all.find((b) => b.zone === zone);
+  if (here) return here;
+  const zs = layout?.zones || [], pos = (id) => zs.find((z) => z.id === id)?.map_pos;
+  const at = pos(zone);
+  if (at) {
+    let best = null, bd = Infinity;
+    for (const b of all) { const q = pos(b.zone); if (!q) continue; const d = (q.x - at.x) ** 2 + (q.y - at.y) ** 2; if (d < bd) { bd = d; best = b; } }
+    if (best) return best;
+  }
+  return { id: shops.defaultBranch, ...shops.branches[shops.defaultBranch] };
+}
+
 /** Copay for a blackout at this heal point: flat regional fee, capped at what you have. `cover` = RT Employee Benefits
  * Copay Coverage share (0..1, region 2 build Oct 23 2026: sys.rtBenefits.effect('copay_coverage')). */
 export function copayFor(point, coins, shops = getShops(), cover = 0) {
@@ -42,8 +69,16 @@ export class Heal {
   /** sys: Systems (index.js) {scene, party, wallet, state, cfg, lines} */
   constructor(sys) { this.sys = sys; }
   get state() { return this.sys.state; }
-  lastHeal() { return this.state.lastHeal || healPoint(branchByZone(null)); }
-  setLastHeal(b) { this.state.lastHeal = healPoint(b); }
+  /** Last heal centre visited / rested at; none yet -> the nearest branch; nothing known -> Brookhollow. */
+  lastHeal() {
+    if (this.state.lastHeal) return this.state.lastHeal;
+    const sc = this.sys.scene;
+    let zone = null; try { zone = sc?.zone?.() || null; } catch { zone = null; }
+    return healPoint(nearestBranch(zone, sc?.layout));
+  }
+  setLastHeal(b) { this.state.lastHeal = visitPoint(b, this.sys.scene); }
+  /** Walking into a heal centre counts as using it (the blackout comes back here). */
+  onEnterMap(m) { const b = m?.name && branchByMap(m.name); if (b) { this.setLastHeal(b); return true; } return false; }
 
   /** Full rest: party + last heal point. */
   restAt(b) {
