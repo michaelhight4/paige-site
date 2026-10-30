@@ -20,7 +20,7 @@ async function main() {
     if (st0.mode !== 'play') { window.__start = st0.mode; window.__startReady = true; await runStart(st0.mode, { slot: st0.slot || 1 }); window.__start = null; }
     await refreshState();
     document.title = store.cfg.app.title;
-    mountHub(store.root);
+    mountHub(store.root); import("./ambient.js").then((A) => { A.mountAmbient(store.root); const l = document.querySelector(".amb-layer"); if (l) new MutationObserver(() => { if (l.parentNode !== store.root) store.root.prepend(l); }).observe(store.root, { childList: true }); }).catch(() => {});
     window.__ready = true;
     try { const n = adapter.impl && adapter.impl.loadNote; if (n) setTimeout(() => toast(n, 'warn'), 600); } catch (e) { /* cosmetic */ }
   } catch (e) {

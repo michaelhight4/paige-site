@@ -1,0 +1,50 @@
+/* dev/ui-modern relight: depth, illustrated backdrops, framed panels. Only active with html.amb (ambient.js). */
+html.amb body{background:radial-gradient(120% 90% at 50% 0%,#2a3f6e 0%,#141c36 60%,#0b1022 100%) fixed}
+html.amb #app{isolation:isolate;background:transparent;box-shadow:0 0 0 1px #ffffff14,0 30px 80px #000a,0 0 120px #6fa8ff22}
+.amb-layer{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.amb-art{position:absolute;inset:0;opacity:0;transition:opacity .7s ease}.amb-art.on{opacity:1}
+.amb-art svg{width:100%;height:100%;display:block}
+.amb-layer::after{content:"";position:absolute;inset:0;background:radial-gradient(130% 80% at 50% 35%,transparent 55%,#0004 100%)}
+.amb-fx{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+/* paper texture (inline SVG noise) */
+html.amb{--paper:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .35 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* journal = framed parchment card floating over the scene */
+html.amb .journal{margin:10px 12px;border-radius:18px;background:var(--paper),linear-gradient(180deg,#fffdf6f0,#fff7e6eb);border:2px solid #e9d6a8;box-shadow:0 0 0 4px #ffffff55,0 10px 24px #0003,inset 0 1px 0 #fff;backdrop-filter:blur(2px)}
+html.amb[data-tod=night] .journal,html.amb[data-tod=dusk] .journal{box-shadow:0 0 0 4px #ffffff22,0 10px 30px #0006,0 0 40px #ffd36b22}
+html.amb .agebar{background:#fff4d6e6!important;margin:8px 12px 0;border-radius:12px;border:1px solid #f2cf7a!important;box-shadow:0 3px 10px #0002}
+html.amb .bar .track{border-radius:99px}
+html.amb .topbar{box-shadow:0 4px 14px #0003;position:relative}
+html.amb .topbar::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:6px;background:linear-gradient(#0002,transparent)}
+html.amb .agebtn{box-shadow:0 0 0 4px #fff,0 0 0 7px #e8573d55,0 8px 22px #e8573d88!important;animation:amb-breathe 3.2s ease-in-out infinite}
+@keyframes amb-breathe{50%{box-shadow:0 0 0 4px #fff,0 0 0 11px #e8573d22,0 8px 30px #e8573daa}}
+/* panels: the scene shows through; content sits in framed cards */
+html.amb .panel{background:transparent}
+html.amb .panel .body{background:linear-gradient(180deg,#ffffff00,#ffffff18)!important;padding:4px 0 30px}
+html.amb .panel .pbar{border-bottom:3px solid #0003;box-shadow:inset 0 1px 0 #fff5,inset 0 -10px 18px #0002,0 6px 16px #0004!important}
+html.amb .panel .pbar h2{text-shadow:0 2px 0 #0004;letter-spacing:2px}
+html.amb .panel .sec{margin:12px 12px 0;border-radius:12px 12px 0 0;box-shadow:0 -2px 8px #0002}
+html.amb .panel .row{margin:0 12px;width:calc(100% - 24px);background:var(--paper),#fffffff2!important;border-bottom:1px solid #0000000f;transition:transform .15s,box-shadow .15s}
+html.amb .panel .sec + .row{border-radius:0}
+html.amb .panel .row:last-child,html.amb .panel .row:has(+ .sec){border-radius:0 0 14px 14px;box-shadow:0 8px 16px #0002;margin-bottom:6px}
+html.amb .panel .row:hover{transform:translateX(3px);box-shadow:0 4px 14px #0002}
+html.amb .panel .row .ic,html.amb .panel .row img,html.amb .panel .row svg{filter:drop-shadow(0 2px 2px #0003)}
+html.amb .panel .card{background:var(--paper),#fffffff2!important;border-radius:16px;box-shadow:0 0 0 3px #ffffff66,0 8px 20px #0002!important}
+html.amb .panel .mini{margin:8px 12px 0;border-radius:10px;background:#ffffffd9!important}
+html.amb .tabs-inline button{box-shadow:0 2px 6px #0002}
+/* dialogs: framed card with ribbon + glow */
+html.amb .overlay{background:radial-gradient(circle at 50% 40%,#1a2a5566,#0b1022cc);backdrop-filter:blur(3px)}
+html.amb .sheet{background:var(--paper),linear-gradient(180deg,#fffdf6,#fff4dc)!important;border:3px solid #e8c879;box-shadow:0 0 0 5px #ffffff44,0 -10px 40px #0006;position:relative}
+html.amb .sheet h3{text-align:center;padding-bottom:8px;border-bottom:2px dashed #e8c87988}
+html.amb .sheet .opt{border-radius:14px;box-shadow:0 3px 0 #0001,0 2px 8px #0001;transition:transform .12s}
+html.amb .sheet .opt:hover{transform:translateY(-2px)}
+html.amb .nav{box-shadow:0 -8px 24px #0004}
+@media (prefers-reduced-motion:reduce){html.amb .agebtn{animation:none}.amb-art{transition:none}}
+/* let the illustrated scene breathe: a window of scenery above the journal and each panel list */
+html.amb .journal{margin-top:clamp(84px,16vh,150px)!important;background:var(--paper),linear-gradient(180deg,#fffdf6e6,#fff7e6f2)}
+html.amb .panel .body{padding-top:clamp(48px,9vh,90px)}
+html.amb .panel .body > :first-child{border-radius:14px 14px 0 0}
+/* while a panel is open, hide hub content so the panel sits straight on the scene (no blur cost on phones) */
+html.amb #app:has(.panel) :is(.journal,.stats,.agebar,.hint){visibility:hidden}
+html.amb .journal{background:var(--paper),linear-gradient(180deg,#fffdf6d6,#fff7e6c4)!important}
+html.amb .panel .mini{box-shadow:0 4px 12px #0002}
+html.amb:is([data-tod=night],[data-tod=dusk]) .journal{background:var(--paper),linear-gradient(180deg,#fffdf6f5,#fff7e6f0)!important}
