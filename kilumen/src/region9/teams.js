@@ -67,6 +67,7 @@ export const WELLSPIRE_TEAMS = {
   'fin_past_enclosure.fin_ondravel_p1': [{ species: 'ondravel', level: 66 }],
   'fin_past_enclosure.fin_ondravel_p2': [{ species: 'ondravel', level: 67 }],
   'fin_past_enclosure.fin_ondravel_p3': [{ species: 'ondravel', level: 68 }],
+  'fin_lab1_now.fin_ondravel_summit': [{ species: 'ondravel', level: 68 }], // enemy cap 68; scripted loss (region9 summitFight): the story counts a loss whatever happens
   'fin_past_wlab_10_ondravel.fin_ondravel_p1': [{ species: 'ondravel', level: 66 }], // WD lab room 10 (R9.guardianMap)
   'fin_past_wlab_10_ondravel.fin_ondravel_p2': [{ species: 'ondravel', level: 67 }],
   'fin_past_wlab_10_ondravel.fin_ondravel_p3': [{ species: 'ondravel', level: 68 }],

@@ -162,3 +162,24 @@ async function fadeTo(s, target, ms) {
   }
 }
 
+
+/** Story staging (Ondravel summit, Oct 30 2026): walk the PLAYER to a cell, tile by tile (real steps, A*); no route or
+ *  blocked -> short fade and set down there. MUST run inside scene.script(). Returns { how: 'walk'|'fade'|'here', steps }. */
+export async function walkPlayerTo(scene, cell, { facing = null, stepMs = AUTOMOVE.stepMs, fadeMs = AUTOMOVE.fadeMs } = {}) {
+  const s = scene, p = s.player; if (!p || !s.map) return { how: 'none', steps: 0 };
+  let steps = 0, how = 'here';
+  if (p.x !== cell.x || p.y !== cell.y) {
+    const grid = walkGrid(s.map, (x, y) => !playerFree(s.map, x, y), [p, cell]), path = findPath(grid, p, cell);
+    for (const dir of path ? pathToDirs(path) : []) {
+      await until(() => !p.moving, stepMs); const before = p.x + ',' + p.y;
+      p.facing = dir; p._attempt?.(dir, s.worldApi?.(), []);
+      await until(() => !p.moving && p.state !== 'bump', stepMs);
+      if (p.x + ',' + p.y === before) break; steps++;
+    }
+    how = 'walk';
+    if (p.x !== cell.x || p.y !== cell.y) { await fadeTo(s, 1, fadeMs); p.place?.(cell.x, cell.y, facing || p.facing); await fadeTo(s, 0, fadeMs); how = 'fade'; }
+  }
+  if (facing) p.facing = facing;
+  s.log?.push?.({ tick: s.tick, type: 'automove', how, steps, to: [cell.x, cell.y] });
+  return { how, steps };
+}

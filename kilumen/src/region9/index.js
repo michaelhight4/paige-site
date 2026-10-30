@@ -14,6 +14,7 @@ import { makeSummitFx } from './summit_fx.js?v=v0.2.100-alpha';
 const FB = { ...FB1, ...FB2, ...LAB_TEXT }; // Text Bot DRAFT lab lines win over Coder placeholders
 import { POINTS } from './points.gen.js?v=v0.2.100-alpha';
 import { Npc } from '../overworld/npcs.js?v=v0.2.100-alpha';
+import { walkPlayerTo } from '../overworld/automove.js?v=v0.2.100-alpha';
 import { TB } from './textbot.js?v=v0.2.100-alpha';
 const fallbackText = (k) => TB[k] || FB[k] || []; // Text Bot lines win over FB (FB = v1 + v2 + lab)
 
@@ -41,6 +42,7 @@ export const R9 = {
   topLanding: { map: 'fin_past_wlab_09_observation', x: 11, y: 3, facing: 'down' }, // WD lab: in front of room 10's door (was fin_past_lab1_f4 21,1)
   guardianMap: 'fin_past_wlab_10_ondravel', // Ondravel's phase teams key here (was fin_past_enclosure)
   phases: ['fin_ondravel_p1', 'fin_ondravel_p2', 'fin_ondravel_p3'],
+  summitFight: 'fin_ondravel_summit', // scripted loss on the summit (teams.js: fin_lab1_now.fin_ondravel_summit)
   liftDoor: { map: 'r9_cairnfold', x: 26, y: 32 },
 };
 const def = (k) => `defeated:${k}`;
@@ -239,13 +241,16 @@ export function attachRegion9(scene, { systems } = {}) {
     await say('fin.released', narr);
     for (let i = 0; i < R9.phases.length; i++) {
       await say(`fin.battle.phase_${i + 1}`, narr);
-      const won = scene.hooks?.onBattle ? (await scene.hooks.onBattle({ map: R9.guardianMap, id: R9.phases[i] })) !== false : true;
-      scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: R9.phases[i], won });
+      const last = i === R9.phases.length - 1; // the release fight's last phase: catchable (capture.js guardianCatchChance)
+      const r = scene.hooks?.onBattle ? await scene.hooks.onBattle({ map: R9.guardianMap, id: R9.phases[i], catchable: last, turnOnly: true }) : true;
+      const won = r !== false;
+      scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: R9.phases[i], won, caught: r === 'caught' });
+      if (r === 'caught') { set('fin_ondravel_caught'); break; } // caught: he joins the team; the story goes on the same
       if (!won) { heal(); await say('fin.battle.lost', narr); await warp(R9.topLanding); return false; }
       heal(); // between phases: the light keeps you standing
     }
     set('fin_guardian_beaten');
-    await say('fin.battle.won', narr);
+    await say(has('fin_ondravel_caught') ? 'fin.battle.caught' : 'fin.battle.won', narr);
     await finale();
     return true;
   }
@@ -289,6 +294,27 @@ export function attachRegion9(scene, { systems } = {}) {
     } finally { fx.cloud = 0; fx.active = false; await fx.release(700); }
   }
 
+  /** Gary (Oct 30 2026): on the summit you fight Ondravel and LOSE. Scripted: whatever the battle screen says, the story
+   *  counts a loss; no blackout, no money loss, no game over (team healed), then the light takes you into the flashback. */
+  /** Gary's staging (Oct 30 2026, via Animator): the player walks out of the cave onto the platform, Ondravel towers at its
+   *  end; the game walks the player forward, he rises through the clouds, tells them they are "the one", then makes them
+   *  fight (no yes/no). Cells: map json `staging` {cave, stop, face} (Animator's storyboard tile positions go there). */
+  async function summitStaging() {
+    const st = scene.map?.json?.staging || { stop: [12, 5], face: 'up' };
+    if (scene.player) { await say('fin.summit.platform', narr); await walkPlayerTo(scene, { x: st.stop[0], y: st.stop[1] }, { facing: st.face || 'up' }); }
+    await summitReveal();
+    await say('fin.summit.the_one', { name: 'Ondravel' });
+    await summitFight();
+  }
+  const stagingDue = () => scene.map?.name === 'fin_lab1_now' && !has('fin_timeslip') && !has('fin_guardian_beaten') && !!scene.map?.json?.staging;
+
+  async function summitFight() {
+    await say('fin.summit.fight_intro', narr);
+    if (!partyEmpty() && scene.hooks?.onBattle) await scene.hooks.onBattle({ map: 'fin_lab1_now', id: R9.summitFight, scripted: 'lose', turnOnly: true });
+    scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: R9.summitFight, won: false, scripted: true });
+    heal(); set('fin_summit_lost'); await say('fin.summit.fight_lost', narr);
+  }
+
   const SPOTS = {
     r9_cloudway_note: () => say('r9.cloudway_note', narr), r9_cloudway_note_2: () => say('r9.cloudway_note_2', narr),
     r9_echo_note: () => say('r9.echo_note', narr), r9_echo_note_2: () => say('r9.echo_note_2', narr),
@@ -325,9 +351,7 @@ export function attachRegion9(scene, { systems } = {}) {
     r9_spire_f3_growth: () => say('r9.spire_f3_growth', narr),
     fin_dome: async () => {
       if (has('fin_guardian_beaten')) return say('fin.epilogue.bench', narr);
-      await summitReveal();
-      await say('fin.guardian_plea_1', narr); await say('fin.guardian_plea_2', narr); await say('fin.guardian_plea_3', narr);
-      if (!(await ask('fin.guardian_plea_ask'))) return;
+      await summitStaging();
       set('fin_timeslip');
       fx.row = 2; await fx.flashOut('190,140,255', 400, 300);
       await say('fin.timeslip', narr);
@@ -426,6 +450,7 @@ export function attachRegion9(scene, { systems } = {}) {
   }
   function tick() {
     if (scene.busy || scene.paused || scene.fade || scene._r9Courier) return;
+    if (stagingDue()) { scene._r9Courier = true; scene.script(() => SPOTS.fin_dome()).finally(() => { scene._r9Courier = false; }); return; } // summit staging, on arrival
     if (has(FLASHBACK.flag) && !has(FLASHBACK.done)) { scene._r9Courier = true; scene.script(flashback).finally(() => { scene._r9Courier = false; }); return; }
     if (has('fin_woke_home') && !has(REPORT.walked) && scene.map?.name === REPORT.walk) { scene._r9Courier = true; scene.script(walkToWork).finally(() => { scene._r9Courier = false; }); return; }
     if (has('fin_woke_home') && !has('fin_reported_rt') && scene.map?.name === REPORT.work.map) { scene._r9Courier = true; scene.script(reportAtWork).finally(() => { scene._r9Courier = false; }); return; }

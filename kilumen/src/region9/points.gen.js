@@ -44,9 +44,9 @@ export const POINTS = {
  },
  "fin_lab1_now": {
   "fin_dome": {
-   "facing": "up",
    "x": 12,
-   "y": 9
+   "y": 5,
+   "facing": "up"
   },
   "fin_summit_cairn": {
    "facing": "up",

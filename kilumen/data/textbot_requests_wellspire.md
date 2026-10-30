@@ -804,6 +804,30 @@ DRAFT:
 - Night shift log, Lab 1. "Enclosure stable. Subject calm. All doors sealed."
 - "Visitor: one. Signed in by: nobody. Description: field jacket, about your height, looked like they'd been here before."
 
+## fin.summit.platform
+PLACEHOLDER (Coder, Oct 30 2026, summit v2: the player walks out of the cave onto the open rock platform):
+- Cold wind. The cave opens onto a ledge of black rock above the clouds.
+
+## fin.summit.the_one
+PLACEHOLDER for Text Bot (Coder, Oct 30 2026): Ondravel speaks as the forced walk stops; he tells the player they are the one, then fight 1 starts (no yes/no).
+- You. You are the one.
+- Show me.
+
+## fin.summit.fight_intro
+PLACEHOLDER (Coder, Oct 30 2026):
+- The clouds close around you. Ondravel lowers his antlers.
+
+## fin.summit.fight_lost
+PLACEHOLDER (Coder, Oct 30 2026): after the scripted loss (no blackout); leads into the flashback lab.
+- It is like fighting the mountain itself.
+- Your team is knocked flat, then lifted, healed, by a cold blue light.
+- The light pulls you somewhere else.
+
+## fin.battle.caught
+PLACEHOLDER (Coder, Oct 30 2026): fight 2, Ondravel caught (he joins the team; story continues the same).
+- The crystal holds. Ondravel goes quiet inside it.
+- He chose to come with you.
+
 ## fin.summit.clouds
 DRAFT:
 - The cloud is so thick you cannot see your own hands.
