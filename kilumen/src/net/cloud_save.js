@@ -219,7 +219,7 @@ export function liveSync({ api, storage, key, store, locked = () => false, ind, 
     const b = doc.createElement('div'); b.id = 'cloud-newer';
     b.style.cssText = 'position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:9999;background:#141a2b;border:1px solid #4a5a9a;border-radius:12px;padding:10px 12px;color:#eef;font:15px system-ui,sans-serif;display:flex;gap:10px;align-items:center;max-width:94vw';
     b.innerHTML = `<span>Newer cloud save from ${cloud.device === 'mobile' ? 'your phone' : cloud.device === 'pc' ? 'your PC' : 'another device'} (${hhmm(cloud.savedAt)})</span><button data-l style="min-height:40px;padding:6px 12px;border-radius:8px;background:#2f7a45;color:#fff;border:1px solid #4fae6a">Load</button><button data-x style="min-height:40px;padding:6px 10px;border-radius:8px;background:#2a3560;color:#fff;border:1px solid #5a6aa0">Later</button>`;
-    ['keydown', 'keyup', 'pointerdown', 'touchstart'].forEach((t) => b.addEventListener(t, (e) => e.stopPropagation()));
+    ['keydown', 'keyup', 'pointerdown', 'touchstart'].forEach((t) => b.addEventListener(t, (e) => e.stopPropagation())); // touch-ok: stopPropagation guard only
     b.querySelector('[data-x]').onclick = () => b.remove();
     b.querySelector('[data-l]').onclick = async () => {
       b.querySelector('span').textContent = 'Loading cloud save…';

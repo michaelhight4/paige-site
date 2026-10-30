@@ -290,7 +290,7 @@ export function mountDevConsole({ scene, ui, role = 'admin' }) {
     S.release = scene.lockSave('dev_console'); // no save while the console is open
     document.body.classList.add('dv-open');
     root.classList.add('on'); btn.style.display = 'none';
-    document.querySelector('#touchpad [data-btn=b]')?.addEventListener('pointerdown', bTap);
+    document.querySelector('#touchpad [data-btn=b]')?.addEventListener('pointerdown', bTap); // touch-ok: dev-only: watches the game pad B button (game control)
     S.pad = true; raf = requestAnimationFrame(padLoop);
     showTab(S.tab);
   }
@@ -298,7 +298,7 @@ export function mountDevConsole({ scene, ui, role = 'admin' }) {
     if (!S.open) return;
     S.open = false; cancelAnimationFrame(raf);
     root.classList.remove('on'); document.body.classList.remove('dv-open'); msgEl.classList.remove('on');
-    document.querySelector('#touchpad [data-btn=b]')?.removeEventListener('pointerdown', bTap);
+    document.querySelector('#touchpad [data-btn=b]')?.removeEventListener('pointerdown', bTap); // touch-ok: dev-only: watches the game pad B button (game control)
     if (S.touched) { scene.devTouched = true; scene.onPartyChange?.(false); }
     S.release?.(); S.release = null; // the step loop writes a normal save once nothing else is locked (devTouched rides in it)
     sync();

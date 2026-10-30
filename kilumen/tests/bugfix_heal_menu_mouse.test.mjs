@@ -7,7 +7,7 @@ const dlg = readFileSync(new URL('../src/overworld/dialog.js', import.meta.url),
 const css = readFileSync(new URL('../style.css', import.meta.url), 'utf8');
 
 test('dialog choice rows take mouse click and hover on pc', () => {
-  assert.match(dlg, /this\.list\.addEventListener\?\.\('pointerdown'/);
+  assert.match(dlg, /onTap\(this\.list, 'li\[data-i\]'/); // touch standard: pick on release (tap_guard)
   assert.match(dlg, /this\.list\.addEventListener\?\.\('mousemove'/);
   assert.match(dlg, /_hover\(i\)/);
   assert.match(css, /\.dlg-list li\[data-i\][^}]*pointer-events:\s*auto/);

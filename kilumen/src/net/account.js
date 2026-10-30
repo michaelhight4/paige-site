@@ -31,7 +31,7 @@ export async function openAccount() {
   if (document.querySelector('.kacct')) return;
   if (!document.getElementById('kacct-css')) document.head.appendChild(Object.assign(document.createElement('style'), { id: 'kacct-css', textContent: CSS }));
   const ov = document.createElement('div'); ov.className = 'kacct';
-  ['keydown', 'keyup', 'keypress', 'pointerdown', 'touchstart'].forEach((t) => ov.addEventListener(t, (e) => e.stopPropagation()));
+  ['keydown', 'keyup', 'keypress', 'pointerdown', 'touchstart'].forEach((t) => ov.addEventListener(t, (e) => e.stopPropagation())); // touch-ok: stopPropagation guard only (keeps game keys/taps out of the form)
   document.body.appendChild(ov);
   const close = () => ov.remove();
   ov.innerHTML = '<div class="bx"><h3>Account</h3><div class="m">Checking…</div></div>';

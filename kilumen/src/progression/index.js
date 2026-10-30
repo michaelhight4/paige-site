@@ -557,7 +557,7 @@ function openPuzzleOverlay(scene, ui, def, store, platform) {
   for (const [t, a] of [['◀', 'L'], ['▲', 'U'], ['▼', 'D'], ['▶', 'R'], ['A', 'A'], ['Close', 'X']]) {
     const b = document.createElement('button'); b.textContent = t;
     b.style.cssText = 'min-width:48px;min-height:44px;font:800 18px system-ui;border-radius:10px;border:2px solid #f4ead2;background:#3a2f48;color:#f4ead2';
-    b.addEventListener('pointerdown', (e) => { e.preventDefault(); if (a === 'X') close(); else act(a); });
+    b.addEventListener('pointerdown', (e) => { e.preventDefault(); if (a === 'X') close(); else act(a); }); // touch-ok: puzzle d-pad: a press must register instantly
     pad.appendChild(b);
   }
   draw();

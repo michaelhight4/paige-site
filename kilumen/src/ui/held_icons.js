@@ -64,7 +64,7 @@ export function wireHeldIcons(doc = typeof document !== 'undefined' ? document :
   const icOf = (e) => e.target?.closest?.('.held-ic');
   doc.addEventListener('mouseover', (e) => { const ic = icOf(e); if (ic && e.pointerType !== 'touch') { show(ic); } });
   doc.addEventListener('mouseout', (e) => { if (icOf(e) && !longShown) hide(); });
-  doc.addEventListener('pointerdown', (e) => {
+  doc.addEventListener('pointerdown', (e) => { // touch-ok: starts a long-press timer only; never activates
     const ic = icOf(e); if (!ic || e.pointerType === 'mouse') return;
     clearTimeout(timer); longShown = false;
     timer = setTimeout(() => { longShown = true; show(ic); setTimeout(() => { longShown = false; hide(); }, 2200); }, 450);

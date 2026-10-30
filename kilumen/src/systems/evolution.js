@@ -102,8 +102,8 @@ export function attachEvolution(scene, opts = {}) {
     if (!ev.wait) { res(); return; }
     st.classList.add('evo-wait'); ev.a = false;
     const tap = () => { ev.a = true; };
-    st.addEventListener('pointerdown', tap);
-    const t = setInterval(() => { if (ev.a) { clearInterval(t); st.removeEventListener('pointerdown', tap); res(); } }, 50);
+    st.addEventListener('pointerdown', tap); // touch-ok: full-screen evolution cutscene tap-to-continue (not scrollable)
+    const t = setInterval(() => { if (ev.a) { clearInterval(t); st.removeEventListener('pointerdown', tap); res(); } }, 50); // touch-ok: full-screen evolution cutscene tap-to-continue (not scrollable)
   });
 
   async function one(job) {

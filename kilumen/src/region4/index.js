@@ -130,7 +130,7 @@ export function attachRegion4(scene, { systems, data } = {}) {
     return new Promise((res) => {
       const t0 = performance.now(); let end = false;
       const stop = () => { if (end) return; end = true; wrap.remove(); res(); };
-      wrap.addEventListener('pointerdown', stop);
+      wrap.addEventListener('pointerdown', stop); // touch-ok: skip a cutscene overlay (full-screen, not scrollable)
       const frame = (now) => {
         if (end) return; const t = Math.min(1, (now - t0) / ms), k = up ? t : 1 - t;
         // far peaks: slow pan + sink as we climb

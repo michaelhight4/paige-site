@@ -11,6 +11,7 @@
 import { iconRel, battleSpriteRel } from './data.js?v=v0.2.98-alpha';
 import { CONN_NODES, CONN_EDGES } from './connections.gen.js?v=v0.2.98-alpha'; // v0.2.23 Paths map view // creature sync (Oct 23, 2026)
 import { SPECIES, speciesById, ELEMENT_LABEL, skillsFor, PLACEHOLDER_PRICES, SHOP_STOCK, POCKETS, POCKET_PAT, DEMO, statsFor } from './data.js?v=v0.2.98-alpha';
+import { onTap } from '../shared/tap_guard.js?v=v0.2.98-alpha';
 // FX prep (Oct 22, 2026): hit effects drawn from the transparent redraws' sidecar JSON (natural size, anchor, total_ms); gated by
 // HIT_EFFECTS_ENABLED / HIT_TRAVEL_FX_ENABLED in ./data.js; dev preview ?fxpreview=staging. See ./hit_fx.js.
 import { areaName } from '../overworld/area_sign.js?v=v0.2.98-alpha';
@@ -130,11 +131,11 @@ export class GameUI {
     if (mb) {
       this.menuBtn = el('button', 'hud-menu', this.hudTop, touch ? `${glyph('menu')}<span>Menu</span>` : `${glyph('menu')}<span>Menu</span><span class="k">Esc</span>`);
       this.menuBtn.dataset.pat = 'dots'; this.menuBtn.dataset.scr = 'title'; this.menuBtn.setAttribute('aria-label', 'Open menu');
-      this.menuBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); this.requestOpen('phone'); });
+      onTap(this.menuBtn, null, (e) => { e.stopPropagation(); this.requestOpen('phone'); }); // touch standard: opens on release
       // "I'm stuck" (Gary Oct 24): teleport to the front of the spawn house
       this.stuckBtn = el('button', 'hud-stuck', this.hudTop, "I'm stuck");
       this.stuckBtn.setAttribute('aria-label', "I'm stuck: return to your house");
-      this.stuckBtn.addEventListener('pointerdown', async (e) => { e.preventDefault(); e.stopPropagation();
+      onTap(this.stuckBtn, null, async (e) => { e.stopPropagation();
         const sc = this.scene; if (sc.saveLocked || sc.fade || sc.busy) return;
         const sp = await sc._homeStart(true); if (sp) sc.startWarp(sp, 'stuck'); });
     }
@@ -143,9 +144,8 @@ export class GameUI {
     this.backdrop = el('div', 'ui-backdrop', this.root);
     this.stage = el('div', 'ui-stage', this.root);
     this.layer = el('div', '', this.root); // full-screen screens (title, battle)
-    this.root.addEventListener('pointerdown', (e) => this._pointer(e));
+    onTap(this.root, null, (e, _r, d) => this._pointer(e, d.target)); // touch standard: menus act on a tap release, never on pointerdown
     this.root.addEventListener('mousemove', (e) => { const t = e.target.closest?.('[data-i]'); if (t && this.top && !this.modal && !this._dragging && e.movementX + e.movementY !== 0) this._select(+t.dataset.i, true); });
-    this.root.addEventListener('pointerup', (e) => this._tapUp(e)); // UI tools pass: drag screens activate on release
     this.root.addEventListener('focusin', (e) => { const it = e.target.closest?.('[data-i]'); if (it && this.top && !this.modal && this.stage.contains(it)) this._select(+it.dataset.i, true); });
   }
 
@@ -234,17 +234,19 @@ export class GameUI {
     this.root.querySelector(`[data-i="${t.sel}"]`)?.scrollIntoView?.({ block: 'nearest' });
   }
   _activate() { const t = this.top; if (t?.onA) { this.scene.audio?.sfx('select'); t.onA(t.sel); } }
-  _pointer(e) {
-    const act = e.target.closest?.('[data-act]');
+  _pointer(e, tg = e.target) { // called by onTap on release (src/shared/tap_guard.js), tg = the pressed element
+    if (this._tipHold) { this._tipHold = false; return; } // UI tools 2: a long-press showed a tooltip, so do not open / pick
+    if (this._dragging) return;
+    const act = tg.closest?.('[data-act]');
     if (act) { e.preventDefault(); this._act(act.dataset.act, act); return; }
-    if (this.modal) { const r = e.target.closest?.('[data-m]'); if (r) { e.preventDefault(); this.modal.pick(+r.dataset.m); } return; }
+    if (this.modal) { const r = tg.closest?.('[data-m]'); if (r) { e.preventDefault(); this.modal.pick(+r.dataset.m); } return; }
     const t = this.top; if (!t) return;
-    if (t.sortable) { const it = e.target.closest?.('[data-i]'); if (it) { this._tap = { id: e.pointerId, x: e.clientX, y: e.clientY, i: +it.dataset.i }; return; } }
+    if (t.sortable) { const it = tg.closest?.('[data-i]'); if (it) { this._select(+it.dataset.i, true); this._activate(); return; } }
     if (t.handlePointer && t.handlePointer(e)) return;
-    const tab = e.target.closest?.('[data-tab]');
+    const tab = tg.closest?.('[data-tab]');
     if (tab) { e.preventDefault(); t.onTab?.(+tab.dataset.tab); return; }
-    const it = e.target.closest?.('[data-i]');
-    if (it) { e.preventDefault(); const i = +it.dataset.i; const same = i === t.sel; this._select(i, true); if (same || e.pointerType !== 'mouse' || true) this._activate(); }
+    const it = tg.closest?.('[data-i]');
+    if (it) { e.preventDefault(); this._select(+it.dataset.i, true); this._activate(); }
   }
   _tapUp(e) {
     const p = this._tap, t = this.top; this._tap = null;
@@ -515,7 +517,7 @@ export class GameUI {
       down.set(e.pointerId, b); navigator.vibrate?.(this.cfg.haptics ? 8 : 0);
     };
     const release = (e) => { const b = down.get(e.pointerId); if (b) { b.classList.remove('ui-down'); down.delete(e.pointerId); } };
-    tp.addEventListener('pointerdown', (e) => press(e.target.closest('button'), e), { passive: true });
+    tp.addEventListener('pointerdown', (e) => press(e.target.closest('button'), e), { passive: true }); // touch-ok: on-screen game pad: a press must register instantly
     tp.addEventListener('pointermove', (e) => {
       const cur = down.get(e.pointerId); if (!cur || !cur.dataset.dir) return;
       const b = document.elementFromPoint(e.clientX, e.clientY)?.closest?.('#touchpad [data-dir]');

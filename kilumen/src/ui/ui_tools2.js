@@ -101,7 +101,7 @@ export class UiTools2 {
     const root = this.ui.root;
     root.addEventListener('pointerover', (e) => { if (e.pointerType !== 'mouse') return; const r = e.target.closest?.('[data-tip]:not([data-i])'); if (r) this.tipShow(r); });
     root.addEventListener('pointerout', (e) => { if (e.pointerType !== 'mouse') return; const r = e.target.closest?.('[data-tip]:not([data-i])'); if (r && r === this._tipRef && !r.contains(e.relatedTarget)) this.tipHide(); });
-    root.addEventListener('pointerdown', (e) => {
+    root.addEventListener('pointerdown', (e) => { // touch-ok: starts a long-press tooltip timer / toggles an info tip; never opens or picks
       if (e.pointerType === 'mouse') return;
       const r = e.target.closest?.('[data-tip]'); if (!r || this.ui.modal) { this.tipHide(); return; }
       if (!r.dataset.i) { if (this._tipRef === r) this.tipHide(); else this.tipShow(r, 3500); return; } // info rows: tap toggles

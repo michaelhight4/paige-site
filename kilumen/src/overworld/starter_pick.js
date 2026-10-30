@@ -7,6 +7,7 @@
 // whole-pixel sized so it stays crisp; its name; its element(s) as a coloured chip WITH the element name; its one-line blurb.
 // Data: src/ui/data.js SPECIES (real names, elements, blurbs). No stats shown (none invented).
 // Placed in the free band between the visible touch controls (phone), centred on PC, so nothing covers it.
+import { onTap } from '../shared/tap_guard.js?v=v0.2.98-alpha'; // touch input standard
 import { speciesById, battleSpriteRel, ELEMENT_LABEL } from '../ui/data.js?v=v0.2.98-alpha';
 
 const PIX = 'art/characters/pixel/';
@@ -76,12 +77,10 @@ export class StarterPicker {
     this.hint = el('p', 'sp-hint', foot);
     this.ok = el('button', 'sp-ok', foot, { type: 'button' }); this.ok.textContent = 'Confirm';
     this.img.addEventListener('error', () => { if (this.cur && this.img.src.endsWith('.gif')) this.img.src = this.cur.cards[this.cur.sel].still; });
-    this.tabs.addEventListener('pointerdown', (e) => {
-      const b = e.target.closest?.('[data-i]'); if (!b || !this.cur) return;
-      e.preventDefault(); this._tap = { pick: +b.dataset.i };
-    });
-    this.ok.addEventListener('pointerdown', (e) => { if (!this.cur) return; e.preventDefault(); this._tap = { a: true }; });
-    this.stage.addEventListener('pointerdown', (e) => { if (!this.cur) return; e.preventDefault(); this._tap = { a: true }; }); // tapping the shown creature = confirm it
+    // touch standard (src/shared/tap_guard.js): act on a tap release, never on pointerdown, so swiping the tab row scrolls it
+    onTap(this.tabs, '[data-i]', (e, b) => { if (this.cur) this._tap = { pick: +b.dataset.i }; });
+    onTap(this.ok, null, () => { if (this.cur) this._tap = { a: true }; });
+    onTap(this.stage, null, () => { if (this.cur) this._tap = { a: true }; }); // tapping the shown creature = confirm it
     doc.defaultView?.addEventListener?.('resize', () => this._place());
   }
 

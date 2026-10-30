@@ -561,7 +561,7 @@ export function makeSdBattle(ui, opts, h) {
     const touch = !document.getElementById('touchpad')?.hidden;
     const btn = modeButton('rt', { touch }); btn.id = 'b-mode'; root.appendChild(btn);
     btn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); doSwitch(); });
-    btn.addEventListener('pointerdown', (e) => e.stopPropagation()); // never also advances the message box underneath
+    btn.addEventListener('pointerdown', (e) => e.stopPropagation()); // never also advances the message box underneath // touch-ok: stopPropagation guard only
     const kd = (e) => {
       if (closed()) { window.removeEventListener('keydown', kd, true); return; }
       if (e.code !== 'KeyR' || e.repeat || ui.top !== scr) return;
