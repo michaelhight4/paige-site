@@ -13,7 +13,7 @@
 // - Aurelith Arena (aurelith_arena lobby + aurelith_arena_room_1..8 themed rooms): clerk + 8 Arena fighters back to back (arena.js, talkHooks).
 // Text: system_story_r78.* (Text Bot owns text/*.py; keys listed in data/textbot_requests_r78.md). Placeholders below.
 
-import { arenaHook } from './arena.js?v=v0.2.95-alpha';
+import { arenaHook } from './arena.js?v=v0.2.96-alpha';
 
 export const R78 = {
   pageMap: 'lanternport', pageFlag: 'ron_page_shared', pageItemFlag: 'has_log_page', pageReadFlag: 'read_log_lanternport',

@@ -7,14 +7,14 @@
 //  - the time slip, release, Ondravel's 3 phases (loss: heal, back to the top landing), riverbend dawn, present release,
 //    credits 2 ('ending2'), the flashback, home, then the RT report that fades (REPORT). field_team_home is set ONLY in reportAtWork, after fin_reported_rt.
 // Text: root keys of text/overworld_lines.json (Text Bot, data/textbot_requests_wellspire.md), else DRAFT ./text_fallback.js.
-import { FB as FB1 } from './text_fallback.js?v=v0.2.95-alpha';
-import { FB2 } from './text_fallback_v2.js?v=v0.2.95-alpha';
-import { LAB_TEXT, LAB_NAMES } from './text_flashback_lab.gen.js?v=v0.2.95-alpha';
-import { makeSummitFx } from './summit_fx.js?v=v0.2.95-alpha';
+import { FB as FB1 } from './text_fallback.js?v=v0.2.96-alpha';
+import { FB2 } from './text_fallback_v2.js?v=v0.2.96-alpha';
+import { LAB_TEXT, LAB_NAMES } from './text_flashback_lab.gen.js?v=v0.2.96-alpha';
+import { makeSummitFx } from './summit_fx.js?v=v0.2.96-alpha';
 const FB = { ...FB1, ...FB2, ...LAB_TEXT }; // Text Bot DRAFT lab lines win over Coder placeholders
-import { POINTS } from './points.gen.js?v=v0.2.95-alpha';
-import { Npc } from '../overworld/npcs.js?v=v0.2.95-alpha';
-import { TB } from './textbot.js?v=v0.2.95-alpha';
+import { POINTS } from './points.gen.js?v=v0.2.96-alpha';
+import { Npc } from '../overworld/npcs.js?v=v0.2.96-alpha';
+import { TB } from './textbot.js?v=v0.2.96-alpha';
 const fallbackText = (k) => TB[k] || FB[k] || []; // Text Bot lines win over FB (FB = v1 + v2 + lab)
 
 const getPath = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
@@ -387,7 +387,7 @@ export function attachRegion9(scene, { systems } = {}) {
       await say('fin.report.teo_list', narr);
       set('wellspire_gone'); set('ending2_done');
       const record = { ...(scene.gameCleared || {}) };
-      try { await (await import('../ui/credits.js?v=v0.2.95-alpha')).runCredits(scene, record, { variant: 'ending2' }); } catch (e) { console.error('credits 2:', e); }
+      try { await (await import('../ui/credits.js?v=v0.2.96-alpha')).runCredits(scene, record, { variant: 'ending2' }); } catch (e) { console.error('credits 2:', e); }
       await say('fin.epilogue.postgame', narr);
       scene.log?.push?.({ tick: scene.tick, type: 'ending', step: 'ending2' });
     } finally { release(); }
