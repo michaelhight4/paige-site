@@ -293,5 +293,47 @@ export const CAVE_POCKET_TEAMS = {
    "species": "tuskwallow",
    "level": 63
   }
+ ],
+ "route_revival.r9_rrp_bellkeeper": [
+  {
+   "species": "pharolith",
+   "level": 63
+  },
+  {
+   "species": "cragmont",
+   "level": 63
+  },
+  {
+   "species": "galespar",
+   "level": 63
+  }
+ ],
+ "route_revival.r9_rrp_herbalist": [
+  {
+   "species": "fernstag",
+   "level": 63
+  },
+  {
+   "species": "gauzewing",
+   "level": 63
+  },
+  {
+   "species": "tuskwallow",
+   "level": 63
+  }
+ ],
+ "route_revival.r9_rrp_larkwatcher": [
+  {
+   "species": "stratodrake",
+   "level": 63
+  },
+  {
+   "species": "torrentpike",
+   "level": 63
+  },
+  {
+   "species": "cascadorn",
+   "level": 63
+  }
  ]
 };

@@ -578,6 +578,92 @@
     ],
     "status": "DRAFT"
    }
+  },
+  "route_revival": {
+   "r9_rrp_bellkeeper": {
+    "pages": [
+     "DRAFT: The old bell hung up here once. Now I do. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: You rang my bell."
+    ],
+    "after": [
+     "DRAFT: Hop down the ledge to the field."
+    ],
+    "trainer_class": "Bell Keeper",
+    "name": "Halvard",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_egg_bell": {
+    "pages": [
+     "DRAFT: A bell-shaped dent in the rock. Someone drew a clapper in it. Ding."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_herbalist": {
+    "pages": [
+     "DRAFT: I grow moss up here. Very slowly. Battle while we wait?"
+    ],
+    "battle_lost": [
+     "DRAFT: The moss grew a bit. You won."
+    ],
+    "after": [
+     "DRAFT: Ledge down to the field."
+    ],
+    "trainer_class": "Gardener",
+    "name": "Wren",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_egg_moss": {
+    "pages": [
+     "DRAFT: Moss in the shape of a heart. A tiny sign: TEN YEARS. WORTH IT."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_larkwatcher": {
+    "pages": [
+     "DRAFT: The larks nest on this ledge. Quiet, please. Then battle."
+    ],
+    "battle_lost": [
+     "DRAFT: The larks cheered. Quietly."
+    ],
+    "after": [
+     "DRAFT: Drop down to the corridor."
+    ],
+    "trainer_class": "Bird Keeper",
+    "name": "Ingrid",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_rrp_egg_nest": {
+    "pages": [
+     "DRAFT: A nest full of bright pebbles. One is a button. One is a coin. One is a pebble."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "route_revival_cave_n": {
+   "area_name": {
+    "pages": [
+     "Bell Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_revival_cave_w": {
+   "area_name": {
+    "pages": [
+     "West Hollow"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_revival_cave_e": {
+   "area_name": {
+    "pages": [
+     "Lark Ledge"
+    ],
+    "status": "DRAFT"
+   }
   }
  }
 }
