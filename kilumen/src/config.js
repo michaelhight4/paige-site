@@ -7,6 +7,10 @@ export const CONFIG = Object.freeze({
   // Player sheets, 64x96 native cells, rows down/left/right/up (MOVEMENT.md 3; animator_manifest.json "run_bike").
   //  walk: Character models, 5 cols (stand, walk0-3)   run: Animator, 6 cols (run0-5)   bike: Animator, 5 cols (bike_stand, bike0-3)
   playerSheets: {
+    // Character models (a3c6218e, Oct 30 2026): swimming on water tiles; body cut at the waterline (y=66 in the cell), 4 stroke frames
+    swim: { 1: 'art/characters/pixel/humans/cal/swim/cal_swim_sheet.png',
+            2: 'art/characters/pixel/humans/cal/swim/cal_swim_sheet_2x.png',
+            3: 'art/characters/pixel/humans/cal/swim/cal_swim_sheet_3x.png' },
     walk: { 1: 'art/characters/pixel/humans/cal/overworld/cal_chibi_sheet.png',
             2: 'art/characters/pixel/humans/cal/overworld/cal_chibi_sheet_2x.png',
             3: 'art/characters/pixel/humans/cal/overworld/cal_chibi_sheet_3x.png' },

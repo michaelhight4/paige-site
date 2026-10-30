@@ -43,6 +43,8 @@ import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.95-alpha'; // {em
 import { hallLockFor, HALL_LOCK_KEY } from '../systems/hall_order.js?v=v0.2.95-alpha'; // hall order lock (Gary 3:52 PM CT)
 import { trainerOutcome } from '../battle/story.js?v=v0.2.95-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
 import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.95-alpha';
+const isWaterCode = (c) => c === 3 || c === 11; // swim sprites (collision water / deep water)
+
 // Save migration (berry -> plum, dev/r56-wiring): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
 export const RENAMED_FLAGS = { sq_paint_job_berry: 'sq_paint_job_plum', sq_stones_berries: 'sq_stones_plums' };
 
@@ -326,6 +328,10 @@ export class Overworld {
       if (!sp?.overworld_sheet) continue;
       const scaled = k === 1 ? sp.overworld_sheet : sp[`overworld_sheet_${k}x`];
       jobs.push(Promise.all([this.img(base + sp.overworld_sheet), this.img(scaled && base + scaled)]).then(([a, b]) => { n.imgs = { 1: a, [k]: b || null }; }));
+      // swim set (Character models, Oct 30 2026): npc_sprite_map swim_sheet / swim_sheet_<k>x, same 64x96 grid and row order as the
+      // chibi sheet; used whenever the NPC stands on water. Until it exists the renderer crops the walk sheet at the waterline.
+      if (sp.swim_sheet) { const sw = k === 1 ? sp.swim_sheet : sp[`swim_sheet_${k}x`];
+        jobs.push(Promise.all([this.img(base + sp.swim_sheet), this.img(sw && base + sw)]).then(([a, b]) => { n.swimImgs = a ? { 1: a, [k]: b || null } : null; })); }
     }
     const lead = this.party[0];
     if (lead && this.follower) {
@@ -1314,9 +1320,12 @@ export class Overworld {
 
   _playerActor(px, py, lift, grade) {
     const p = this.player, f = p.frame(), imgs = this.playerImgs || {}, imgs1 = this.playerImgs1 || {};
-    const anim = imgs[f.anim] ? f.anim : 'walk'; // a missing run/bike sheet falls back to the walk sheet
-    const col = imgs[f.anim] ? f.col : Math.min(f.col, 4);
-    return { ...this._sheet(imgs[anim], imgs1[anim], grade), col, row: SHEET_ROW[p.facing], px, py, lift, feet: py + TILE, anim: f.anim };
+    // on water (Tideglide / swimming): config.playerSheets.swim when Character models ships it; else the walk sheet, which the
+    // renderer crops at the waterline (renderer.js swimmer()). Same 64x96 grid and row order.
+    const wet = !!imgs.swim && isWaterCode(this.map?.code?.(p.x, p.y));
+    const anim = wet ? 'swim' : imgs[f.anim] ? f.anim : 'walk'; // a missing run/bike sheet falls back to the walk sheet
+    const col = wet ? Math.min(f.col, 4) : imgs[f.anim] ? f.col : Math.min(f.col, 4);
+    return { ...this._sheet(imgs[anim], imgs1[anim], grade), col, row: SHEET_ROW[p.facing], px, py, lift, feet: py + TILE, anim: wet ? 'swim' : f.anim, swimSheet: !!wet };
   }
 
   /** Golden spinning arrows (marker.js): the intro's starter cases + active-quest items not yet picked up. Givers: never. */
@@ -1344,7 +1353,8 @@ export class Overworld {
   _npcActor(n, grade) {
     if (!n.imgs) return null;
     const mv = n.mover, { px, py, lift } = mv.pixel(), f = mv.frame();
-    return { ...this._sheet(n.imgs[this.sheetScale], n.imgs[1], grade), col: Math.min(f.col, 4), row: SHEET_ROW[mv.facing], px, py, lift: lift + (n.rtbLift || 0), feet: py + TILE, npc: n.id }; // rtbLift: real-time trainer cheer / slump (src/rtb/view.js)
+    const wet = !!n.swimImgs && isWaterCode(this.map?.code?.(Math.round(px / TILE), Math.round(py / TILE))), I = wet ? n.swimImgs : n.imgs;
+    return { ...this._sheet(I[this.sheetScale], I[1], grade), col: Math.min(f.col, 4), row: SHEET_ROW[mv.facing], px, py, lift: lift + (n.rtbLift || 0), feet: py + TILE, npc: n.id, swimSheet: wet }; // rtbLift: real-time trainer cheer / slump (src/rtb/view.js)
   }
 
   /** Lead creature, 64x64 ow sheet; Warmth tint (mask-only exact swaps, cached) then the time-of-day grade. */

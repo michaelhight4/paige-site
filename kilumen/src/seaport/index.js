@@ -17,7 +17,15 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
   const rec = () => (sys.state.derby ||= D.blankRecord());
   const lines = (k) => { const v = sys?.text?.(k, null); return (Array.isArray(v) ? v : v?.pages) || D.TEXT[k]; };
   const T = (k, vars) => (scene.fill ? scene.fill(lines(k), { ...(scene.textVars?.() || {}), ...vars }) : lines(k).map((s) => s.replace(/\{(\w+)\}/g, (_, n) => vars?.[n] ?? '')));
-  const say = (k, vars, sp) => scene.say(T(k, vars), sp);
+  // say() remembers which scale state it was spoken over; setScale() dismisses that line when the scale moves on
+  // (QA: the catch / idle line stayed open under the turn-in board).
+  const say = (k, vars, sp) => { const p = scene.say(T(k, vars), sp); st.sayScale = st.scale; st.sayDlg = scene.dialog?.cur || null; return p; };
+  const setScale = (next) => {
+    const prev = st.scale; st.scale = next;
+    const d = scene.dialog;
+    if (prev !== next && d?.cur && d.cur === st.sayDlg && st.sayScale === prev && d.cur.type === 'say') d.dismiss?.();
+    dirty();
+  };
   const name = (sp) => { try { return speciesName(sp); } catch { return sp; } };
   const dirty = () => { scene._dirty = true; };
 
@@ -55,8 +63,8 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
     const run = st.run; if (!run) return null;
     const { result, record } = D.finishRun(rec(), run, { forfeit });
     sys.state.derby = record; st.run = null; st.nextFeatured = null; releaseClock();
-    if (forfeit) { st.scale = null; await say('derby.forfeit', {}, speaker); dirty(); return result; }
-    st.scale = { mode: 'board', run, result, t0: Date.now() }; dirty();
+    if (forfeit) { setScale(null); await say('derby.forfeit', {}, speaker); dirty(); return result; }
+    setScale({ mode: 'board', run, result, t0: Date.now() }); dirty();
     await say(result.tier ? 'derby.turn_in' : 'derby.no_tier', { score: result.score, tier: D.tierName(result.tier) }, speaker);
     if (result.newBest) await say('derby.new_best');
     if (result.prize) sys.bag?.add?.(result.prize.item, result.prize.n);
@@ -68,7 +76,7 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
         await say('derby.keeper', { species: name(big.species), kg: big.kg });
       } catch (e) { console.error('derby keeper:', e); }
     }
-    st.scale = null; dirty();
+    setScale(null); dirty();
     return result;
   }
 
@@ -79,10 +87,10 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
     async useCrystal() { if (!D.useCrystal(st.run)) { await say('derby.no_crystal'); return false; } rec().active.crystals = st.run.crystals; dirty(); return true; },
     async onCatch(fish) {
       const c = D.addCatch(st.run, fish, rng(), rec().records);
-      st.scale = { mode: 'catch', c, t0: Date.now() }; dirty();
+      setScale({ mode: 'catch', c, t0: Date.now() }); dirty();
       await say(c.points.featured ? 'derby.catch_featured' : 'derby.catch', { species: name(c.species), kg: c.kg, points: c.points.total });
       if (c.points.record) await say('derby.record');
-      st.scale = null; dirty();
+      setScale(null); dirty();
     },
     async afterCast() { if (st.run && st.run.crystals <= 0) await say('derby.out'); },
     get run() { return st.run; },
@@ -111,7 +119,7 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
   const origSpot = scene.runSpot?.bind(scene);
   if (origSpot) scene.runSpot = async (sp) => {
     if (sp?.derby !== 'scale') return origSpot(sp);
-    if (st.run) { st.scale = { mode: 'board', run: st.run, result: null, t0: Date.now() }; dirty(); if (st.run.crystals <= 0) await endRun(); else await say('derby.desk_busy', { n: st.run.crystals, score: st.run.score }); st.scale = null; dirty(); return; }
+    if (st.run) { setScale({ mode: 'board', run: st.run, result: null, t0: Date.now() }); dirty(); if (st.run.crystals <= 0) await endRun(); else await say('derby.desk_busy', { n: st.run.crystals, score: st.run.score }); setScale(null); dirty(); return; }
     await say('derby.scale_idle', { best: rec().best || 0 });
   };
 

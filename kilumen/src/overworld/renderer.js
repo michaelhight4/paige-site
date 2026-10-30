@@ -63,7 +63,8 @@ export class Renderer {
     for (const d of v.decals || []) if (d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1) this.tile(v, d.id, d.x, d.y, d.frame);
     v.life?.under(ctx, v); // living world: fish shadows + ripples on water, under characters
     v.r9fx?.under?.(ctx, v); // Wellspire v3 lab (src/region9/lab_fx.js): floors, props, Ondravel's tank, under characters
-    v.depth?.drawActors(ctx, v, v.actors); // depth pass: contact shadows under every character (before any character)
+    for (const a of v.actors) a._swim = onWater(v, a); // Gary (Oct 30 2026): anyone on a water cell (swimmers, the player) is drawn swimming
+    v.depth?.drawActors(ctx, v, v.actors.filter((a) => !a._swim)); // depth pass: contact shadows under every character (before any character); none on water
 
     const actors = [...v.actors].sort((a, b) => a.feet - b.feet || (a.order || 0) - (b.order || 0));
     let ai = 0;
@@ -174,6 +175,7 @@ export class Renderer {
     }
     if (!a.img) return;
     const k = a.sheetScale;
+    if (a._swim && !a.sq) return this.swimmer(v, a, sx, groundY, w, h, k);
     if (a.sq) { // creature motion (creature_idle.js): scale about the feet centre, whole art px only
       const q = a.sq, dw = Math.round(w * q.sx) * z, dh = Math.round(h * q.sy) * z;
       ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k, sx + (TILE * z - dw) / 2, groundY - dh - Math.round(q.lift) * z, dw, dh);
@@ -182,4 +184,49 @@ export class Renderer {
     ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, h * k,
       sx + ((TILE - w) / 2) * z, groundY - (h + (a.lift || 0)) * z, w * z, h * z);
   }
+
+  /** Swimming character: the body is cropped at the waterline (legs and hips under water), a gentle bob, a foam ring
+   *  around the waterline and a darker translucent body band just under the surface. Whole art px only. */
+  swimmer(v, a, sx, groundY, w, h, k) {
+    const ctx = this.ctx, z = v.zoom, cx = Math.round(a.px / TILE), cy = Math.round(a.py / TILE), dx = sx + ((TILE - w) / 2) * z;
+    if (a.swimSheet) {
+      // Character models' swim sheet (4 stroke cols x down/left/right/up): body already cut at the waterline (cell y=66 =
+      // SWIM.LINE above the feet), bob and ripple ring baked in, so it draws whole like a walk frame
+      const col = Math.floor((v.ms || 0) / 180 + cx + cy) % 4;
+      ctx.drawImage(a.img, col * w * k, a.row * h * k, w * k, h * k, dx, groundY - h * z, w * z, h * z);
+      return;
+    }
+    // fallback until a sheet exists: walk sheet cut at the waterline (head, shoulders, arms), solid-pixel rings, no alpha
+    const ph = (v.ms || 0) / 520 + cx * 1.7 + cy * 0.9, bob = Math.round(Math.sin(ph) * 1.5);
+    const water = groundY - SWIM.LINE * z + bob * z;          // waterline (screen px), y=66 in the cell at rest
+    const vis = h - SWIM.CROP, top = water - vis * z;
+    ctx.drawImage(a.img, a.col * w * k, a.row * h * k, w * k, vis * k, dx, top, w * z, vis * z);
+    // Gary's swim reference (Oct 30 2026): thin white ripple rings spreading out from the waist, plus a few water glints
+    const mx = sx + (TILE / 2) * z, t = (v.ms || 0) / 1000 + cx * 0.37 + cy * 0.21;
+    const ring = (rx, ry) => {
+      ctx.fillStyle = SWIM.FOAM;
+      let px0 = null;
+      for (let ax = -rx; ax <= rx; ax++) {                     // 1-art-px ellipse outline, no gaps
+        const ay = Math.round(ry * Math.sqrt(Math.max(0, 1 - (ax * ax) / (rx * rx))));
+        const from = px0 == null ? ay : Math.min(ay, px0), to = px0 == null ? ay : Math.max(ay, px0);
+        for (let yy = from; yy <= to; yy++) { ctx.fillRect(mx + ax * z, water + yy * z, z, z); ctx.fillRect(mx + ax * z, water - yy * z, z, z); }
+        px0 = ay;
+      }
+    };
+    ring(SWIM.RX - 4, SWIM.RY - 1);                      // hugging ring at the waist
+    for (let n = 0; n < SWIM.RINGS; n++) {                     // spreading rings, fading as they grow
+      const f = ((t / SWIM.PERIOD) + n / SWIM.RINGS) % 1;
+      if (f < 0.75) ring(Math.round(SWIM.RX - 2 + f * SWIM.SPREAD), Math.round(SWIM.RY + f * SWIM.SPREAD * 0.3)); // fades by vanishing, not alpha
+    }
+    ctx.fillStyle = SWIM.FOAM;                                  // glints
+    for (let g = 0; g < 3; g++) { const a2 = g * 2.1 + Math.floor(t * 2) * 0.7; if ((Math.floor(t * 3) + g) % 3) continue;
+      ctx.fillRect(mx + Math.round(Math.cos(a2) * (SWIM.RX + 6)) * z, water + Math.round(Math.sin(a2) * (SWIM.RY + 3)) * z, z, z); }
+  }
+}
+
+const SWIM = Object.freeze({ LINE: 30, CROP: 44, RX: 20, RY: 5, RINGS: 2, PERIOD: 1.8, SPREAD: 10, FOAM: '#ffffff' }); // LINE 30 = cell y 66
+/** Water collision codes (3 water, 11 deep / sea water). */
+export function onWater(v, a) {
+  const m = v.map; if (!m?.code || a.px == null) return false;
+  const c = m.code(Math.round(a.px / TILE), Math.round(a.py / TILE)); return c === 3 || c === 11;
 }
