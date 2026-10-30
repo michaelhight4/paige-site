@@ -128,6 +128,9 @@ for (const [k, v] of Object.entries({ // r9_switchbacks (map fill, Oct 30 2026);
 })) TALK[k] ??= v; // field-team entries above win
 const TRAINER_DEFAULT = { intro: null, after: 'r9.trainer_after' };
 
+/** Lantern Rest bench (fin_bench_swap stand): where the post-credits bench scene seats the player. */
+export const BENCH = { map: 'lantern_rest', x: 20, y: 9, facing: 'up' };
+
 export function attachRegion9(scene, { systems } = {}) {
   const sys = () => systems || scene.systems;
   const flags = scene.flags, has = (f) => flags.has(f);
@@ -389,9 +392,21 @@ export function attachRegion9(scene, { systems } = {}) {
       set('wellspire_gone'); set('ending2_done');
       const record = { ...(scene.gameCleared || {}) };
       try { await (await import('../ui/credits.js?v=v0.2.100-alpha')).runCredits(scene, record, { variant: 'ending2' }); } catch (e) { console.error('credits 2:', e); }
+      await benchScene(); // finish-a: optional stop at the Lantern Rest bench, after credits 2 and before THE END
       await say('fin.epilogue.postgame', narr);
       scene.log?.push?.({ tick: scene.tick, type: 'ending', step: 'ending2' });
     } finally { release(); }
+  }
+  /** After credits 2: the player may sit at the Lantern Rest bench (optional). The memory loss wiped Wellspire, the summit
+   *  and the flashback, not Lantern Rest, so the bench is still there. Lines: fin.epilogue.bench (canon) + DRAFT bench_ask / bench_sit. */
+  async function benchScene() {
+    if (!(await ask('fin.epilogue.bench_ask'))) return false;
+    await warp({ ...BENCH }, 'ending');
+    if (scene.player) scene.player.facing = 'up';
+    await say('fin.epilogue.bench', narr);
+    await say('fin.epilogue.bench_sit', narr);
+    set('fin_bench_sat');
+    return true;
   }
   function coralieDue() {
     const c = CORALIE_COVE, p = scene.player;
@@ -424,7 +439,7 @@ export function attachRegion9(scene, { systems } = {}) {
   // Ending 2 (Text Bot DRAFT, data/textbot_flashback_lab.json): Ron at home after the river comes back
   scene.talkHooks.push({ match: (m, d) => /^house_1f(_v2)?$/.test(m) && d?.id === 'ron' && has('ending2_done'), run: ({ speaker }) => say('fin.e2.ron', speaker || { name: 'Ron' }) });
   const iv = typeof setInterval !== 'undefined' && typeof window !== 'undefined' ? setInterval(() => { try { tick(); } catch (e) { console.error('region9 tick:', e); } }, 1000) : null;
-  const api = { walkToWork, reportAtWork, flashback, coralieCove, runSpot, warpBlocked, edgeBlocked, tick, courier, guardian, finale, text, SPOTS, stop: () => iv && clearInterval(iv) };
+  const api = { walkToWork, reportAtWork, benchScene, flashback, coralieCove, runSpot, warpBlocked, edgeBlocked, tick, courier, guardian, finale, text, SPOTS, stop: () => iv && clearInterval(iv) };
   scene.region9 = api;
   return api;
 }

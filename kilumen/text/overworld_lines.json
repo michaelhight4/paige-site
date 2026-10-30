@@ -34733,6 +34733,22 @@
     "The dome lies open. Cold now.\nNothing inside is hurting."
    ],
    "_src": "data/textbot_world_fill.json section1 (Text Bot, Oct 30 2026)"
+  },
+  "epilogue": {
+   "bench_ask": {
+    "pages": [
+     "On the way home, the road passes Lantern Rest.\nSit on the bench for a while?"
+    ],
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT for the post-credits Lantern Rest bench scene (Ending 2). Text Bot to review."
+   },
+   "bench_sit": {
+    "pages": [
+     "You sit. The river runs below, slow and new.\nFor a moment, it feels like you've been here before."
+    ],
+    "status": "DRAFT",
+    "textbot_review": "finish-a Oct 30 2026: NEW DRAFT for the post-credits Lantern Rest bench scene (Ending 2). Text Bot to review."
+   }
   }
  },
  "side": {
