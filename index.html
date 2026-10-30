@@ -142,17 +142,18 @@
 
 <!-- WALLET -->
 <section class="panel" id="p-wallet" data-panel="wallet" aria-label="Wallet" hidden><div class="wrap">
-<div class="intro"><p class="eyebrow">Paige Games network</p><h1>Wallet</h1><p class="lead">One wallet for every Paige Games game. Dollar Bucks are earned free. Blue Bucks and Ad-Free for Life are coming soon; nothing can be bought yet.</p></div>
+<div class="intro"><p class="eyebrow">Paige Games network</p><h1>Wallet</h1><p class="lead">One wallet for every Paige Games game. Dollar Bucks are earned free. Blue Bucks and Ad-Free for Life are sold through secure Stripe checkout and land on your account in every game.</p></div>
 <p class="wal-bal" id="wal-bal" hidden><span class="cur db"><i class="cico db" aria-hidden="true">$</i><b id="bal-db">0</b> Dollar Bucks</span><span class="cur bb"><i class="cico bb" aria-hidden="true">B</i><b id="bal-bb">0</b> Blue Bucks</span></p>
 <div class="wallet">
 <article class="wcard dbk"><div class="coin dollar" aria-hidden="true">$</div><p class="tag earn">◆ Earned free</p><h2 class="h-db">Dollar Bucks</h2>
 <p class="big">1 = 1 <span>Blue Buck</span></p><p>Earn them from daily gifts and inviting friends. Never sold. Spend them together with Blue Bucks on anything (Dollar Bucks go first), except Ad-Free for Life.</p></article>
-<article class="wcard bb"><div class="coin" aria-hidden="true">B</div><p class="tag soon">◆ Coming soon</p><h2 class="h-bb">Blue Bucks</h2>
-<p class="big">$1 = 1,000 <span>Blue Bucks</span></p><p>Spend them in every Paige Games game: Lifeline, Riftward and Kilumen.</p>
-<span class="btn ghost" aria-disabled="true">Coming soon</span></article>
-<article class="wcard af"><div class="coin gold" aria-hidden="true">∞</div><p class="tag soon">◆ Coming soon</p><h2>Ad-Free for Life</h2>
-<p class="big">$35 <span>one time</span></p><p>Removes ads in all Paige Games games and on this website, forever.</p><p class="inv-note">Dollar Bucks can't be used for Ad-Free for Life.</p>
-<span class="btn ghost" aria-disabled="true">Coming soon</span></article></div></div></section>
+<article class="wcard bb"><div class="coin" aria-hidden="true">B</div><h2 class="h-bb">Blue Bucks</h2>
+<p class="big">$1 = 1,000 <span>Blue Bucks</span></p><p>Spend them in every Paige Games game: Lifeline, Riftward and Kilumen. One balance, shared by all games on your account.</p>
+<div class="packs" role="group" aria-label="Blue Bucks packs"><button class="btn buy" type="button" data-buy="network:bb_5000">5,000 Blue Bucks · $5</button><button class="btn buy" type="button" data-buy="network:bb_10000">10,000 Blue Bucks · $10</button><button class="btn buy" type="button" data-buy="network:bb_20000">20,000 Blue Bucks · $20</button><button class="btn buy" type="button" data-buy="network:bb_50000">50,000 Blue Bucks · $50</button></div></article>
+<article class="wcard af"><div class="coin gold" aria-hidden="true">∞</div><p class="tag sale" id="af-tag">◆ Launch sale</p><h2>Ad-Free for Life</h2>
+<p class="big" id="af-price">$15 <span>one time · <s>$35</s> launch sale until Jan 1</span></p><p>Removes ads in all Paige Games games and on this website, forever.</p><p class="inv-note">Dollar Bucks can't be used for Ad-Free for Life.</p>
+<button class="btn buy" type="button" data-buy="network:ad_free_life" id="af-buy">Get Ad-Free for Life · $15</button></article></div>
+<p class="buy-msg" id="buy-msg" role="status" aria-live="polite"></p></div></section>
 
 <!-- SOCIAL -->
 <section class="panel" id="p-social" data-panel="social" aria-label="Social" hidden><div class="wrap">
@@ -170,7 +171,7 @@
 </main>
 
 <footer class="foot"><div class="wrap">
-<div class="soon-row"><span><b>Ad-Free for Life</b> pass · coming soon</span><span><b>Blue Bucks</b> · coming soon</span></div>
+<div class="soon-row"><span><a href="#wallet" data-go="wallet"><b>Ad-Free for Life</b></a> pass · on sale now</span><span><a href="#wallet" data-go="wallet"><b>Blue Bucks</b></a> · available now</span></div>
 <p class="social"><a href="https://tiktok.com/@gary.tsg" rel="noopener">TikTok</a><a href="https://instagram.com/gary.tsg" rel="noopener">Instagram</a><a href="https://linktr.ee/gary.tsg" rel="noopener">Linktree</a><a href="#social" data-go="social">All socials</a><a href="privacy.html">Privacy Policy</a><a href="contact.html">Contact</a></p>
 <p class="fine">© 2026 Paige Industries · Gary</p></div></footer>
 <dialog id="gift" class="gift" aria-labelledby="gift-title" aria-describedby="gift-sub">
@@ -240,5 +241,6 @@
 <script src="site-ads.js" defer></script>
 <script src="analytics.js" defer></script>
 <script src="visitor-banner.js" defer></script>
-<script src="auth.js" type="module"></script>
+<script src="auth.js?v=store1" type="module"></script>
+<script src="store.js?v=store1" defer></script>
 </body></html>

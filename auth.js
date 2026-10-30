@@ -178,5 +178,14 @@ if (location.hash.includes('access_token') || location.hash.includes('error_desc
   else if (!recovering && user && !user.is_anonymous) { open('account'); say('Email confirmed — welcome to Paige Industries!'); }
 }
 // gift.js (daily gift + invites) calls the server through these; it never sees a key beyond the publishable one.
-window.__paigeAuth = { open, go, rpc: (n, a) => sb.rpc(n, a), user: () => user };
+// store.js (wallet tab) starts Stripe Checkout through the create-checkout edge function with this session's JWT.
+async function checkout(productKey) {
+  if (!user || user.is_anonymous) return { needsAccount: true };
+  const returnUrl = 'https://' + (location.hostname === 'www.paigegames.net' ? 'www.paigegames.net' : 'paigegames.net') + '/';
+  const { data, error } = await sb.functions.invoke('create-checkout', { body: { productKey, returnUrl } });
+  if (error) { let m = ''; try { m = (await error.context.json()).error; } catch (_) {} return { error: m || 'Could not start checkout' }; }
+  return data && data.url ? { url: data.url, mode: data.mode } : { error: (data && data.error) || 'Could not start checkout' };
+}
+window.__paigeAuth = { open, go, rpc: (n, a) => sb.rpc(n, a), user: () => user, checkout };
+addEventListener('paige:ads-refresh', () => checkAds());
 window.dispatchEvent(new CustomEvent('paige:auth-ready'));

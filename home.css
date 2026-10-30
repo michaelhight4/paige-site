@@ -498,3 +498,7 @@ html,body{overflow-x:clip;max-width:100%}
 .bar:has(.burger) .acct .btn.signin.me:not(:has(.creator)) .nm::first-letter{font-size:15px;font-weight:900;color:#0a0b1a}
 .burger{flex:0 0 48px}
 }
+.wcard .packs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.wcard .packs .btn{width:100%;justify-content:center;font-size:.9rem;padding:10px 8px}
+.wcard .btn.buy[disabled]{opacity:.6;cursor:wait}.wcard .tag.sale{color:#ffd36b}.wcard s{opacity:.7}
+.buy-msg{min-height:1.4em;margin-top:12px;color:var(--mut)}.buy-msg.err{color:#ff8a8a}
+@media (max-width:420px){.wcard .packs{grid-template-columns:1fr}}
