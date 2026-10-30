@@ -91,3 +91,23 @@ test('bug 5: Head Office s6 completes on Revival Heights after the coin; every m
   flags.add('beat_master_frostspire'); assert.equal(qb.status(q, flags), 'done', 'coin 4 never leaves it on the HUD');
   assert.ok(!JSON.stringify(data).includes('"flag": "gate_revival_checkpoint_open"') && !JSON.stringify(data).includes('"flag":"gate_revival_checkpoint_open"'));
 });
+
+// ---- bug 8: the Brookhollow gate guard never ran talk(), so the Survey Parcel was never handed over ---------------------
+const { Overworld } = await import(path.join(root, 'src/overworld/overworld.js'));
+const { giftFor } = await import(path.join(root, 'src/systems/npc_gifts.js'));
+test('bug 8: after the Fernwick coin, interacting with rt_guard_east talks (parcel gift) instead of the gate toast', () => {
+  const json = structuredClone(mapJson('brookhollow')), map = new GameMap(json); map.attachTileset(byId);
+  const def = json.npcs.find((n) => n.id === 'rt_guard_east');
+  const run = (flags) => {
+    const calls = [];
+    const self = { busy: false, map, spots: [], player: { x: def.x, y: def.y + 1, facing: 'up' }, flags,
+      toast: (t) => calls.push(['toast', t]), talk: (o, d) => calls.push(['talk', d.id]), gateText: () => 'gate', _entryFor: () => ({ pages: ['x'] }) };
+    map.npcAt = (x, y) => (x === def.x && y === def.y ? { def } : null);
+    map.gateCleared = (g) => flags.has(g.flag);
+    Overworld.prototype.interact.call(self);
+    return calls[0];
+  };
+  assert.deepEqual(run(new Set()), ['toast', 'gate'], 'before the coin: the gate line');
+  assert.deepEqual(run(new Set(['beat_master_fernwick'])), ['talk', 'rt_guard_east'], 'after: a real talk');
+  assert.equal(giftFor('brookhollow', 'rt_guard_east', new Set(['beat_master_fernwick'])), 'parcel');
+});

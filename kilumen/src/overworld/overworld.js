@@ -903,6 +903,10 @@ export class Overworld {
       if (sign) { this.readSign(sign); return; }
       const occ = m.npcAt(x, y), npcDef = occ?.def || occ;
       const gate = m.storyGates.find((g) => g.npc && npcDef && g.npc.id === npcDef.id) || (k === 1 && m.gateAt(x, y) && !m.gateCleared(m.gateAt(x, y)) ? m.gateAt(x, y) : null);
+      // playtest fix Oct 30 2026: a gate's own guard (story_gates[].npc) answered with the gate toast forever, so talk() and
+      // its systems hooks never ran (brookhollow rt_guard_east never handed over the Survey Parcel). Once the gate is
+      // cleared, a guard with a lines entry talks normally (v_* lines + npc_gifts); before that the gate text stands.
+      if (gate && occ && gate.npc && npcDef && gate.npc.id === npcDef.id && m.gateCleared(gate) && this._entryFor(m.name, npcDef)) { this.talk(occ.def ? occ : null, npcDef); return; }
       if (gate) { this.toast(this.gateText(gate, m.gateCleared(gate))); return; }
       if (occ) { this.talk(occ.def ? occ : null, npcDef); return; }
       const c = m.code(x, y);
