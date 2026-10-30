@@ -5,6 +5,7 @@
 // Easing: Quadratic.Out / Back.Out / Sinusoidal.InOut adapted from tween.js (MIT, Robert Penner's equations, BSD) -
 // see THIRD_PARTY_LICENSES "Fishing v1".
 import { Col, DELTA } from '../overworld/constants.js?v=v0.2.95-alpha';
+import { isFishable } from '../overworld/water_depth.js?v=v0.2.95-alpha';
 
 export const FISHING_URL = 'data/fishing_tables.json';
 /** Rod tiers: Fishing Rod (Brookhollow fisher), Driftline Rod (Saltmere fisher), Lanternreach Rod (Lanternport keeper). Ids PLACEHOLDER. */
@@ -26,13 +27,14 @@ export function bestRod(bag) {
 }
 
 /** The faced cell, if it is water the player can cast into. Generic rule: any walkable cell (grass edge, sand, a pier's
- * boards) facing a water / deep-water cell. No per-map pier data is needed. -> {x, y} | null */
+ * boards) facing a SHALLOW water cell (Oct 30 2026: water touching any non-water cell; open deep water cannot be fished). No per-map pier data is needed. -> {x, y} | null */
 export function facedWater(map, px, py, facing) {
   const d = DELTA[facing];
   if (!d || !map) return null;
   const x = px + d.x, y = py + d.y;
   if (!map.inBounds?.(x, y)) return null;
   if (!WATER_CODES.has(map.code(x, y))) return null;
+  if (map.width && !isFishable(map, x, y)) return null; // only shallow water (touches shore/pier/rock, water_depth.js); open deep water is Tideglide-only
   if (map.npcAt?.(x, y)) return null;
   if ((map.signs || []).some((s) => s.x === x && s.y === y)) return null;
   return { x, y };
