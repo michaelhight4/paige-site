@@ -132,11 +132,11 @@ test('rematch: 300 gold up front (kept on a loss), win pays flat 1200, x1.3^wins
   await f.sc.talk(null, mid); assert.equal(f.sc.systems.wallet.coins, 999);
 });
 
-test('scaleMasterTeam: 1.3^wins, rounded, capped at maxLevel 100, never below 1', () => {
-  assert.equal(KILUMEN_RULES.maxLevel, 100);
+test('scaleMasterTeam: 1.3^wins, rounded, capped at enemyMaxLevel 68 (player max 70), never below 1', () => {
+  assert.equal(KILUMEN_RULES.maxLevel, 70); assert.equal(KILUMEN_RULES.enemyMaxLevel, 68);
   assert.deepEqual(HV.scaleMasterTeam([{ species: 'a', level: 20 }], 1).map((f) => f.level), [26]);
   assert.deepEqual(HV.scaleMasterTeam([{ species: 'a', level: 20 }], 2).map((f) => f.level), [34]);
-  assert.deepEqual(HV.scaleMasterTeam([{ species: 'a', level: 60 }], 9).map((f) => f.level), [100]);
+  assert.deepEqual(HV.scaleMasterTeam([{ species: 'a', level: 60 }], 9).map((f) => f.level), [68]);
   assert.deepEqual(HV.scaleMasterTeam([{ species: 'a', level: 20 }], 0).map((f) => f.level), [20]);
 });
 

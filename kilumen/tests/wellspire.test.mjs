@@ -36,7 +36,7 @@ test('wellspire: every region9 trainer has an authored team of real species; Ond
   const ids = new Set(SPECIES.map((s) => s.id));
   for (const m of R9MAPS) for (const n of J(`${MAPS}/${m}.json`).npcs || []) if (n.region9 && n.kind === 'trainer') assert.ok(WELLSPIRE_TEAMS[`${m}.${n.id}`], `${m}.${n.id}`);
   for (const [k, t] of Object.entries(WELLSPIRE_TEAMS)) { for (const c of t) assert.ok(ids.has(c.species), `${k}: ${c.species}`); assert.ok(authoredTeam(...k.split('.'))?.length || true); }
-  assert.deepEqual(R9.R9.phases.map((p) => WELLSPIRE_TEAMS[`fin_past_enclosure.${p}`][0].level), [70, 72, 75]);
+  assert.deepEqual(R9.R9.phases.map((p) => WELLSPIRE_TEAMS[`fin_past_enclosure.${p}`][0].level), [66, 67, 68]); // enemy cap 68 (Oct 30 2026)
 });
 
 test('wellspire: DRAFT text has no blocked words; credits and bench lines as written', () => {

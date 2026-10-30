@@ -10,7 +10,7 @@
 //    never battle again, even ones you never fought; talking gives their `after` line.
 //  - Master rematch: after the first win, talking to the Master asks system_halls.rematch_prompt; 300 gold is paid up front
 //    and kept win or lose (the first challenge is free). Under 300 gold: system_halls.rematch_no_gold. The team scales by
-//    1.3^wins (wins = counter master_<zone>_wins, at least 1 once beaten), levels capped at KILUMEN_RULES.maxLevel (100).
+//    1.3^wins (wins = counter master_<zone>_wins, at least 1 once beaten), levels capped at KILUMEN_RULES.enemyMaxLevel (68).
 //    A rematch win bumps the counter and pays a flat REMATCH_PRIZE (1200 gold, Gary Oct 29 2026; no difficulty / perk
 //    multipliers, no coin), said in system_halls.rematch_won ({prize}, bare number). The first Master win keeps its normal prize + coin.
 //  - Prism relay (Revival Heights, Gary Oct 29 2026; replaces its light gates): hall_v2.prism + grid 'E' emitter, 'P'
@@ -26,8 +26,8 @@ export const REMATCH_FEE = 300, REMATCH_PRIZE = 1200, WIN_SCALE = 1.3;
 const OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };
 const NAME = { U: 'up', D: 'down', L: 'left', R: 'right' }, LETTER = { up: 'U', down: 'D', left: 'L', right: 'R' };
 
-/** Rematch team: every level x 1.3^wins, rounded, capped at maxLevel (never below 1). Pure; keeps the other fields. */
-export function scaleMasterTeam(foes, wins, max = KILUMEN_RULES.maxLevel || 100) {
+/** Rematch team: every level x 1.3^wins, rounded, capped at enemyMaxLevel 68 (never below 1). Pure; keeps the other fields. */
+export function scaleMasterTeam(foes, wins, max = KILUMEN_RULES.enemyMaxLevel || 68) {
   const k = Math.pow(WIN_SCALE, Math.max(0, wins | 0));
   return (foes || []).map((f) => ({ ...f, level: Math.max(1, Math.min(max, Math.round((f.level || 1) * k))) }));
 }

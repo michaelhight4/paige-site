@@ -28,11 +28,11 @@ export const ARENA = {
     { id: 'arena_fighter_3', type: 'wind', name: 'Zephra', team: ['millwhirl', 'foalgust', 'highkite', 'squallwhirl', 'skyrender', 'stratodrake'], ace: 68 },
     { id: 'arena_fighter_4', type: 'earth', name: 'Ottoline', team: ['cragmont', 'delvemaw', 'geodurchin', 'cairnhorn', 'ingotitan', 'geodrake'], ace: 68 },
     { id: 'arena_fighter_5', type: 'grass', name: 'Fennick', team: ['thistlehound', 'fernstag', 'toadcap', 'glassvine', 'bramblehog', 'sproutwyrm'], ace: 68 },
-    { id: 'arena_fighter_6', type: 'light', name: 'Iona', team: ['prismite', 'glarekit', 'prismwing', 'seaglint', 'halovy', 'northling'], ace: 69 },
-    { id: 'arena_fighter_7', type: 'mystic', name: 'Oriel', team: ['gearwarden', 'mirrorkin', 'facetarch', 'runeskein', 'pearlisk', 'novarch'], ace: 69 },
-    { id: 'arena_fighter_8', type: 'dark', name: 'Corvin', team: ['velvetabby', 'crowkin', 'vesperowl', 'bleachghast', 'wreckwarden', 'maestrix'], ace: 69 },
+    { id: 'arena_fighter_6', type: 'light', name: 'Iona', team: ['prismite', 'glarekit', 'prismwing', 'seaglint', 'halovy', 'northling'], ace: 68 },
+    { id: 'arena_fighter_7', type: 'mystic', name: 'Oriel', team: ['gearwarden', 'mirrorkin', 'facetarch', 'runeskein', 'pearlisk', 'novarch'], ace: 68 },
+    { id: 'arena_fighter_8', type: 'dark', name: 'Corvin', team: ['velvetabby', 'crowkin', 'vesperowl', 'bleachghast', 'wreckwarden', 'maestrix'], ace: 68 },
   ],
-  levels: [59, 61, 62, 64, 65], // slots 1-5; slot 6 = the fighter's ace level
+  levels: [62, 63, 64, 65, 66], // slots 1-5 (level curve Oct 30: aces 67-68, enemy cap 68); slot 6 = the fighter's ace level
 };
 export const arenaTeam = (f) => [...ARENA.levels.map((level, i) => ({ species: f.team[i], level })), { species: f.team[5], level: f.ace }];
 /** 1-based room of a fighter. */

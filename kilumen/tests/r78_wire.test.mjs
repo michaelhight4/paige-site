@@ -54,10 +54,10 @@ test('r78: learnsets reach L64-70; snowmuff evolves into peakbrute at L32', () =
   assert.deepEqual({ to: evoTable().snowmuff?.to, level: evoTable().snowmuff?.level }, { to: 'peakbrute', level: 32 });
 });
 
-test('final Ron: key resolves to 6 final-stage Kilu, L67-69 (base 3 + 3 rolled)', () => {
+test('final Ron: key resolves to 6 final-stage Kilu, L66-68 (base 3 + 3 rolled; enemy cap 68)', () => {
   const t = authoredTeam({ map: A.RON7.battleMap, id: A.RON7.id }, [{ species: 'tumbloam' }]);
   assert.equal(t.length, 6);
-  for (const c of t) { assert.ok(c.level >= 67 && c.level <= 69); assert.equal(finalStage(c.species) || c.species, c.species, `${c.species} final`); }
+  for (const c of t) { assert.ok(c.level >= 66 && c.level <= 68); assert.equal(finalStage(c.species) || c.species, c.species, `${c.species} final`); }
   assert.equal(RON_FINAL.key, `${A.RON7.battleMap}.${A.RON7.id}`);
 });
 

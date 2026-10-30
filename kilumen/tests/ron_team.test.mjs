@@ -42,7 +42,7 @@ test('sizes 2/3/4 (regions 1-3 as authored), then 6; ace = counter-starter line,
       if (t[m.species] && m.level >= t[m.species].level) assert.ok(!hasArt(t[m.species].to) || !reg.has(t[m.species].to), `${m.species}@${m.level} should have evolved`);
     }
   }
-  assert.equal(ronTeam('ron_final', 'nibbin', rollRon(1)).at(-1).level, 69);
+  assert.equal(ronTeam('ron_final', 'nibbin', rollRon(1)).at(-1).level, 68); // enemy cap 68 (Oct 30 2026)
 });
 
 test('rolled slots re-roll per fight from that fight\'s own region pool; never base / starter lines', () => {

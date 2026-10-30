@@ -1,0 +1,310 @@
+{
+ "Aurelith / Arena (post R8)|trainer": {
+  "before": [
+   58,
+   62
+  ],
+  "after": [
+   62,
+   64
+  ],
+  "n": 18
+ },
+ "R8 Cindervale|trainer": {
+  "before": [
+   62,
+   67
+  ],
+  "after": [
+   66,
+   68
+  ],
+  "n": 40
+ },
+ "R4 Frostspire|trainer": {
+  "before": [
+   19,
+   35
+  ],
+  "after": [
+   19,
+   35
+  ],
+  "n": 98
+ },
+ "R7 Lanternport|trainer": {
+  "before": [
+   51,
+   62
+  ],
+  "after": [
+   60,
+   63
+  ],
+  "n": 32
+ },
+ "R5 Sunmeadow / Mirefen|trainer": {
+  "before": [
+   35,
+   42
+  ],
+  "after": [
+   39,
+   42
+  ],
+  "n": 62
+ },
+ "R3 Revival Heights|trainer": {
+  "before": [
+   18,
+   27
+  ],
+  "after": [
+   18,
+   27
+  ],
+  "n": 70
+ },
+ "R2 Thornwood / East trail / Saltmere|trainer": {
+  "before": [
+   12,
+   20
+  ],
+  "after": [
+   12,
+   20
+  ],
+  "n": 94
+ },
+ "R6 Tidewater|trainer": {
+  "before": [
+   42,
+   49
+  ],
+  "after": [
+   46,
+   50
+  ],
+  "n": 44
+ },
+ "R1 Brookhollow / Trail 1 / Fernwick|trainer": {
+  "before": [
+   3,
+   11
+  ],
+  "after": [
+   3,
+   11
+  ],
+  "n": 37
+ },
+ "R1 Brookhollow / Trail 1 / Fernwick|master": {
+  "before": [
+   10,
+   13
+  ],
+  "after": [
+   10,
+   12
+  ],
+  "n": 5
+ },
+ "R2 Thornwood / East trail / Saltmere|master": {
+  "before": [
+   15,
+   18
+  ],
+  "after": [
+   15,
+   18
+  ],
+  "n": 3
+ },
+ "R3 Revival Heights|master": {
+  "before": [
+   22,
+   24
+  ],
+  "after": [
+   22,
+   24
+  ],
+  "n": 4
+ },
+ "R4 Frostspire|master": {
+  "before": [
+   29,
+   31
+  ],
+  "after": [
+   29,
+   31
+  ],
+  "n": 4
+ },
+ "R5 Sunmeadow / Mirefen|master": {
+  "before": [
+   41,
+   42
+  ],
+  "after": [
+   42,
+   42
+  ],
+  "n": 5
+ },
+ "R6 Tidewater|master": {
+  "before": [
+   43,
+   49
+  ],
+  "after": [
+   47,
+   50
+  ],
+  "n": 6
+ },
+ "R7 Lanternport|master": {
+  "before": [
+   55,
+   58
+  ],
+  "after": [
+   60,
+   62
+  ],
+  "n": 5
+ },
+ "R8 Cindervale|master": {
+  "before": [
+   63,
+   67
+  ],
+  "after": [
+   66,
+   68
+  ],
+  "n": 6
+ },
+ "R5 Sunmeadow / Mirefen|wild": {
+  "before": [
+   2,
+   41
+  ],
+  "after": [
+   36,
+   42
+  ],
+  "n": 488
+ },
+ "R2 Thornwood / East trail / Saltmere|wild": {
+  "before": [
+   9,
+   34
+  ],
+  "after": [
+   9,
+   20
+  ],
+  "n": 474
+ },
+ "R3 Revival Heights|wild": {
+  "before": [
+   12,
+   34
+  ],
+  "after": [
+   12,
+   28
+  ],
+  "n": 234
+ },
+ "R4 Frostspire|wild": {
+  "before": [
+   23,
+   34
+  ],
+  "after": [
+   23,
+   34
+  ],
+  "n": 234
+ },
+ "R6 Tidewater|wild": {
+  "before": [
+   36,
+   48
+  ],
+  "after": [
+   43,
+   49
+  ],
+  "n": 208
+ },
+ "R7 Lanternport|wild": {
+  "before": [
+   40,
+   64
+  ],
+  "after": [
+   54,
+   64
+  ],
+  "n": 200
+ },
+ "R8 Cindervale|wild": {
+  "before": [
+   46,
+   66
+  ],
+  "after": [
+   58,
+   68
+  ],
+  "n": 110
+ },
+ "R1 Brookhollow / Trail 1 / Fernwick|wild": {
+  "before": [
+   2,
+   11
+  ],
+  "after": [
+   2,
+   11
+  ],
+  "n": 48
+ },
+ "Wellspire r9 + flashback lab|wild": {
+  "before": [
+   60,
+   66
+  ],
+  "after": [
+   62,
+   64
+  ],
+  "n": 48
+ },
+ "unmapped|wild_rod": {
+  "before": [
+   5,
+   54
+  ],
+  "after": [
+   5,
+   54
+  ],
+  "n": 326
+ },
+ "R6 Tidewater|ron": {
+  "before": [
+   39,
+   41
+  ],
+  "after": [
+   45,
+   46
+  ],
+  "n": 24
+ }
+}
