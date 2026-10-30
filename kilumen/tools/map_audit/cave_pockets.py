@@ -9,7 +9,7 @@ Usage: python3 tools/map_audit/cave_pockets.py [map ...]"""
 import json, os, subprocess, sys, random
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 MAPS = os.path.join(ROOT, 'art', 'world', 'overworld', 'maps')
-BASE = '38dd5c7f'
+BASE = os.environ.get('CAVE_POCKETS_BASE', '38dd5c7f')  # set to a later commit for maps edited upstream after pass 2 began
 SPEC = json.load(open(os.path.join(ROOT, 'data', 'pass2_caves.json')))
 MOUTH = [[794, 795, 796], [797, 798, 799]]  # cave_entrance 3x2; 798 = door (collision 4)
 LEDGE = (517, 519, 521)                      # ledge_l / ledge_m / ledge_r (collision 2, south drop)
@@ -132,6 +132,6 @@ def main():
         if p['cave'] not in lay['maps_built']: lay['maps_built'].append(p['cave'])
         for z in lay['zones']:
             if p['map'] in z.get('maps', []) and p['cave'] not in z['maps']: z['maps'].append(p['cave'])
-    json.dump(lay, open(lay_p, 'w'), ensure_ascii=False)
+    json.dump(lay, open(lay_p, 'w'), ensure_ascii=False, separators=(',', ':'))
 
 if __name__ == '__main__': main()
