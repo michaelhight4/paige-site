@@ -85,5 +85,12 @@
   <script type="module" src="src/fullscreen.js?v=v0.2.95-alpha"></script>
   <script type="module" src="src/main.js?v=v0.2.95-alpha"></script>
 <script type="module" src="/playtime.js?game=kilumen&v=v0.2.95-alpha"></script>
+  <script>/* offline play (Oct 30 2026): Workbox service worker, scope /kilumen/ (tools/sw/build_sw.mjs); ?sw=0 skips it */
+    if ('serviceWorker' in navigator && !/[?&]sw=0\b/.test(location.search)) addEventListener('load', () => navigator.serviceWorker.register('sw.js', { scope: './' }).then(() => navigator.serviceWorker.ready).then(() => {
+      // art/audio fetched before the worker took control on the first visit: copy them into this build's runtime cache too
+      const v = (document.querySelector('link[rel=icon]')?.href.match(/[?&]v=([\w.-]+)/) || [])[1] || 'dev';
+      const urls = performance.getEntriesByType('resource').map((e) => e.name).filter((u) => u.startsWith(location.origin) && /\/(art|audio|assets)\//.test(new URL(u).pathname));
+      return caches.open('kilumen-rt-' + v).then((c) => Promise.all(urls.map((u) => c.match(u, { ignoreSearch: true }).then((hit) => hit || c.add(u).catch(() => {})))));
+    }).catch(() => {}));</script>
 </body>
 </html>
