@@ -392,20 +392,6 @@ export const CAVE_POCKET_TEAMS = {
    "level": 63
   }
  ],
- "aurelith.r9_aurp_porter": [
-  {
-   "species": "cascadorn",
-   "level": 63
-  },
-  {
-   "species": "torrentpike",
-   "level": 63
-  },
-  {
-   "species": "tuskwallow",
-   "level": 63
-  }
- ],
  "revival_heights.r9_rhp_technician": [
   {
    "species": "lancebeetle",
@@ -459,6 +445,20 @@ export const CAVE_POCKET_TEAMS = {
   },
   {
    "species": "cragmont",
+   "level": 63
+  }
+ ],
+ "route_cindervale.r9_aurp_porter": [
+  {
+   "species": "cascadorn",
+   "level": 63
+  },
+  {
+   "species": "torrentpike",
+   "level": 63
+  },
+  {
+   "species": "tuskwallow",
    "level": 63
   }
  ]

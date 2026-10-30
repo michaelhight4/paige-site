@@ -65,12 +65,12 @@ for x, y in ((34, 22), (35, 22), (36, 23), (20, 15), (21, 15), (21, 16), (40, 25
     if free(x, y): flowers(x, y)
 for x, y in ((22, 17), (36, 20), (40, 27), (44, 34)):
     if free(x, y) and free(x + 1, y): prop(x, y, 'x_bench_0_0'); prop(x + 1, y, 'x_bench_0_1')
-# 4. two strollers (text pending from Text Bot: overworld_lines.json is Text Bot's file)
+# 4. two strollers (text: data/textbot_sunmeadow_strollers.json, Text Bot Oct 30 2026)
 for i, x, y, note in (('sunmeadow_fields_stroller_pond', 25, 30, 'strolls round the pond and the statue'),
                       ('sunmeadow_fields_stroller_green', 46, 23, 'strolls the east green past the flower field and the oak')):
     assert ok(x, y), (i, x, y)
     m['npcs'].append({'id': i, 'x': x, 'y': y, 'facing': 'down', 'kind': 'villager', 'note': note,
-                      'text_ref': f'overworld_lines.json maps.sunmeadow_fields.{i}', 'text_pending': True})
+                      'text_ref': f'data/textbot_sunmeadow_strollers.json maps.sunmeadow_fields.{i}'})
 m['living_town'] = 'tools/towns/build_sunmeadow_fields_living.py (Oct 30 2026): oaks, gazebo, statues, pond, flower field, benches, flower clusters (Hay Loft moved to route_sunmeadow_mirefen)'
 json.dump(m, open(P, 'w'), indent=1, ensure_ascii=False); open(P, 'a').write('\n')
 print('ok')

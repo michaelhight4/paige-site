@@ -15926,8 +15926,7 @@
    "facing": "down",
    "kind": "villager",
    "note": "strolls round the pond and the statue",
-   "text_ref": "overworld_lines.json maps.sunmeadow_fields.sunmeadow_fields_stroller_pond",
-   "text_pending": true
+   "text_ref": "data/textbot_sunmeadow_strollers.json maps.sunmeadow_fields.sunmeadow_fields_stroller_pond"
   },
   {
    "id": "sunmeadow_fields_stroller_green",
@@ -15936,8 +15935,7 @@
    "facing": "down",
    "kind": "villager",
    "note": "strolls the east green past the flower field and the oak",
-   "text_ref": "overworld_lines.json maps.sunmeadow_fields.sunmeadow_fields_stroller_green",
-   "text_pending": true
+   "text_ref": "data/textbot_sunmeadow_strollers.json maps.sunmeadow_fields.sunmeadow_fields_stroller_green"
   }
  ],
  "signs": [

@@ -3609,120 +3609,6 @@
    ]
   },
   {
-   "id": "aur_pocket_platform",
-   "map": "aurelith",
-   "cave": "aurelith_cave_e",
-   "cave_title": "Old Platform",
-   "floor": [
-    [
-     78,
-     43,
-     85,
-     48
-    ]
-   ],
-   "ledge": [
-    79,
-    81,
-    49
-   ],
-   "walk": [
-    [
-     76,
-     50
-    ],
-    [
-     77,
-     50
-    ],
-    [
-     78,
-     50
-    ],
-    [
-     79,
-     50
-    ],
-    [
-     80,
-     50
-    ],
-    [
-     81,
-     50
-    ]
-   ],
-   "mouth": [
-    62,
-    6
-   ],
-   "pocket_door": [
-    82,
-    42
-   ],
-   "main_start": [
-    44,
-    28
-   ],
-   "floor_tile_at": [
-    40,
-    28
-   ],
-   "floor_tiles": null,
-   "gate": {
-    "in": "cave aurelith_cave_e",
-    "out": "one-way ledge at y49 x79-81",
-    "skill": null
-   },
-   "trainer": {
-    "id": "r9_aurp_porter",
-    "x": 85,
-    "y": 43,
-    "level": 63,
-    "class": "Porter",
-    "name": "Ansel",
-    "species": [
-     "cascadorn",
-     "torrentpike",
-     "tuskwallow"
-    ],
-    "intro": [
-     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
-    ],
-    "lost": [
-     "DRAFT: All change, then."
-    ],
-    "after": [
-     "DRAFT: Drop off the platform edge and go west."
-    ]
-   },
-   "egg": {
-    "id": "r9_aurp_egg_clock",
-    "x": 78,
-    "y": 43,
-    "what": "a platform clock",
-    "tile": 509,
-    "lines": [
-     "DRAFT: A platform clock. Both hands point at the snack stand."
-    ]
-   },
-   "item": {
-    "id": "r9_aurp_crystal_e",
-    "x": 85,
-    "y": 48,
-    "item": "dominance_crystal_plus"
-   },
-   "premise": "A porter on a closed platform in the east rock; a Prime Crystal is under the bench.",
-   "map_items": [
-    {
-     "id": "aur_platform_strip_tea",
-     "x": 79,
-     "y": 50,
-     "item": "calm_tea"
-    }
-   ]
-  },
-  {
    "id": "rhp_pocket_servers",
    "map": "revival_heights",
    "cave": "revival_heights_cave_ne",
@@ -4233,6 +4119,115 @@
      "id": "smf_loft_seed_visible",
      "x": 49,
      "y": 14,
+     "item": "vigor_seed",
+     "hidden": false
+    }
+   ]
+  },
+  {
+   "id": "aur_pocket_platform",
+   "map": "route_cindervale",
+   "cave": "route_cindervale_cave_platform",
+   "cave_title": "Old Platform",
+   "floor": [
+    [
+     22,
+     28,
+     29,
+     31
+    ]
+   ],
+   "ledge": [
+    24,
+    26,
+    32
+   ],
+   "walk": [
+    [
+     24,
+     33
+    ],
+    [
+     25,
+     33
+    ],
+    [
+     26,
+     33
+    ]
+   ],
+   "mouth": [
+    25,
+    17
+   ],
+   "pocket_door": [
+    26,
+    27
+   ],
+   "main_start": [
+    24,
+    22
+   ],
+   "floor_tile_at": [
+    15,
+    30
+   ],
+   "floor_tiles": null,
+   "gate": {
+    "in": "cave route_cindervale_cave_platform",
+    "out": "one-way ledge at y32 x24-26",
+    "skill": null
+   },
+   "trainer": {
+    "id": "r9_aurp_porter",
+    "x": 22,
+    "y": 28,
+    "level": 63,
+    "class": "Porter",
+    "name": "Ansel",
+    "species": [
+     "cascadorn",
+     "torrentpike",
+     "tuskwallow"
+    ],
+    "intro": [
+     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
+    ],
+    "lost": [
+     "DRAFT: All change, then."
+    ],
+    "after": [
+     "DRAFT: Drop off the platform edge and go west."
+    ]
+   },
+   "egg": {
+    "id": "r9_aurp_egg_clock",
+    "x": 29,
+    "y": 28,
+    "what": "a platform clock",
+    "tile": 509,
+    "lines": [
+     "DRAFT: A platform clock. Both hands point at the snack stand."
+    ]
+   },
+   "item": {
+    "id": "r9_aurp_crystal_e",
+    "x": 29,
+    "y": 31,
+    "item": "dominance_crystal_plus"
+   },
+   "premise": "A porter on a closed platform in the ash woods south of Aurelith; a Prime Crystal is under the bench.",
+   "map_items": [
+    {
+     "id": "aur_platform_strip_tea",
+     "x": 25,
+     "y": 33,
+     "item": "calm_tea"
+    },
+    {
+     "id": "aur_platform_seed_visible",
+     "x": 27,
+     "y": 30,
      "item": "vigor_seed",
      "hidden": false
     }

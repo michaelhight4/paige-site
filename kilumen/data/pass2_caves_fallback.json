@@ -763,26 +763,6 @@
      "DRAFT: A signal lamp stuck on green. It has been green for nine years."
     ],
     "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   },
-   "r9_aurp_porter": {
-    "pages": [
-     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
-    ],
-    "battle_lost": [
-     "DRAFT: All change, then."
-    ],
-    "after": [
-     "DRAFT: Drop off the platform edge and go west."
-    ],
-    "trainer_class": "Porter",
-    "name": "Ansel",
-    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
-   },
-   "r9_aurp_egg_clock": {
-    "pages": [
-     "DRAFT: A platform clock. Both hands point at the snack stand."
-    ],
-    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
    }
   },
   "aurelith_cave_nw": {
@@ -797,14 +777,6 @@
    "area_name": {
     "pages": [
      "Signal Loft"
-    ],
-    "status": "DRAFT"
-   }
-  },
-  "aurelith_cave_e": {
-   "area_name": {
-    "pages": [
-     "Old Platform"
     ],
     "status": "DRAFT"
    }
@@ -925,6 +897,36 @@
    "area_name": {
     "pages": [
      "Hay Loft"
+    ],
+    "status": "DRAFT"
+   }
+  },
+  "route_cindervale": {
+   "r9_aurp_porter": {
+    "pages": [
+     "DRAFT: Last stop! Well, the stop after the last stop. Battle?"
+    ],
+    "battle_lost": [
+     "DRAFT: All change, then."
+    ],
+    "after": [
+     "DRAFT: Drop off the platform edge and go west."
+    ],
+    "trainer_class": "Porter",
+    "name": "Ansel",
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   },
+   "r9_aurp_egg_clock": {
+    "pages": [
+     "DRAFT: A platform clock. Both hands point at the snack stand."
+    ],
+    "status": "DRAFT (Coder placeholder, Text Bot to finish)"
+   }
+  },
+  "route_cindervale_cave_platform": {
+   "area_name": {
+    "pages": [
+     "Old Platform"
     ],
     "status": "DRAFT"
    }

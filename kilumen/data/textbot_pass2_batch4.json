@@ -6,7 +6,7 @@
   "sunmeadow_fields_cave_n": "Bee Hollow",
   "aurelith_cave_nw": "Gate Vault",
   "aurelith_cave_ne": "Signal Loft",
-  "aurelith_cave_e": "Old Platform",
+  "route_cindervale_cave_platform": "Old Platform",
   "route_east_cave_n": "Ridge Hollow",
   "route_east_cave_e": "East Den",
   "route_east_cave_w": "West Nook",
@@ -101,27 +101,6 @@
     "pages": [
      "A signal lamp stuck on green.",
      "It's been green for nine years."
-    ]
-   },
-   "r9_aurp_porter": {
-    "name": "Ansel",
-    "pages": [
-     "Last stop! Well, the stop\nafter the last stop. Battle?"
-    ],
-    "battle_lost": [
-     "All change, then."
-    ],
-    "battle_won": [
-     "End of the line for your team.\nMind the gap on the way out."
-    ],
-    "after": [
-     "Drop off the platform edge\nand go west."
-    ]
-   },
-   "r9_aurp_egg_clock": {
-    "pages": [
-     "A platform clock.",
-     "Both hands point at\nthe snack stand."
     ]
    }
   },
@@ -278,7 +257,31 @@
      "It's scaring one very small crow,\nwho doesn't care."
     ]
    }
+  },
+  "route_cindervale": {
+   "r9_aurp_porter": {
+    "name": "Ansel",
+    "pages": [
+     "Last stop! Well, the stop\nafter the last stop. Battle?"
+    ],
+    "battle_lost": [
+     "All change, then."
+    ],
+    "battle_won": [
+     "End of the line for your team.\nMind the gap on the way out."
+    ],
+    "after": [
+     "Drop off the platform edge\nand go west."
+    ]
+   },
+   "r9_aurp_egg_clock": {
+    "pages": [
+     "A platform clock.",
+     "Both hands point at\nthe snack stand."
+    ]
+   }
   }
  },
- "_relocated_hay_loft": "GD Oct 30 2026: Hay Loft moved from sunmeadow_fields (cave_e) to route_sunmeadow_mirefen (max 2 caves per map). Lines unchanged except Bodil's after-line (field -> path); Text Bot to review."
+ "_relocated_hay_loft": "GD Oct 30 2026: Hay Loft moved from sunmeadow_fields (cave_e) to route_sunmeadow_mirefen (max 2 caves per map). Lines unchanged except Bodil's after-line (field -> path); Text Bot to review.",
+ "_relocated_old_platform": "GD Oct 30 2026: Old Platform moved from aurelith (cave_e) to route_cindervale (max 2 caves per town). Lines unchanged; area name kept 'Old Platform'."
 }

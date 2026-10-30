@@ -81,3 +81,12 @@ for (const f of PASS2_TEXT_FILES) {
     assert.deepEqual(keep.maps[m][id].pages, ['x']);
   });
 }
+test('Sunmeadow strollers text is wired (GD Oct 30 2026)', () => {
+  assert.ok(PASS2_TEXT_FILES.includes('data/textbot_sunmeadow_strollers.json'));
+  const sm = R('data/textbot_sunmeadow_strollers.json').maps.sunmeadow_fields;
+  const map = R('art/world/overworld/maps/sunmeadow_fields.json');
+  for (const id of ['sunmeadow_fields_stroller_pond', 'sunmeadow_fields_stroller_green']) {
+    assert.ok(sm[id]?.pages?.length, id); const n = map.npcs.find((x) => x.id === id);
+    assert.ok(n && !n.text_pending && n.text_ref.startsWith('data/textbot_sunmeadow_strollers.json'), id);
+  }
+});
