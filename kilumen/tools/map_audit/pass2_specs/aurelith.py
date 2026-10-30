@@ -17,7 +17,7 @@ POCKETS = [
    map_cells=[{'x': 12, 'y': 30, 'g': 10893, 'd': 887, 'c': 5}],
    map_items=[{'id': 'aur_vault_strip_tea', 'x': 8, 'y': 17, 'item': 'calm_tea'}]),
  P('aur_pocket_loft', 'aurelith_cave_ne', 'Signal Loft', [[77, 10, 84, 15]], [78, 80, 16], [[76, 17], [77, 17], [78, 17], [79, 17], [80, 17]], [74, 6], [81, 9],
-   T('r9_aurp_signaller', 84, 10, 'Engineer', 'Jory', ['pharolith', 'galespar', 'lancebeetle'],
+   T('r9_aurp_signaller', 84, 10, 'Engineer', 'Algot', ['pharolith', 'galespar', 'lancebeetle'],
      'I wave the lamp when a train comes. None has come in years. Battle?', 'Green light. You may pass.', 'Ledge down and head west.'),
    E('r9_aurp_egg_lamp', 77, 10, 'a signal lamp', 'A signal lamp stuck on green. It has been green for nine years.'),
    dict(id='r9_aurp_seed', x=84, y=15, item='vigor_seed'),

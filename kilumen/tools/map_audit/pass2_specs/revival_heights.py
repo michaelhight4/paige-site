@@ -9,7 +9,7 @@ M = 'revival_heights'
 def P(*a, **k): return _P(M, *a, main_start=[29, 20], floor_tile_at=[30, 28], floor_tiles=None, **k)
 POCKETS = [
  P('rhp_pocket_archive', 'revival_heights_cave_nw', 'Archive Room', [[3, 11, 10, 16]], [6, 8, 17], [[6, 18], [7, 18], [8, 18]], [14, 8], [5, 10],
-   T('r9_rhp_archivist', 3, 11, 'Clerk', 'Ottilie', ['foundrax', 'pharolith', 'cragmont'],
+   T('r9_rhp_archivist', 3, 11, 'Clerk', 'Ebba', ['foundrax', 'pharolith', 'cragmont'],
      'Every memo since the company began is filed here. Battle?', 'Filed under: lost.', 'Hop down the ledge to the boulevard.'),
    E('r9_rhp_egg_memo', 10, 11, 'a tower of memos', 'A tower of memos. The top one says: please reply to the memo below.'),
    dict(id='r9_rhp_crystal', x=3, y=16, item='dominance_crystal_plus'),

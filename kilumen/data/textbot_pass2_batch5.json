@@ -1,0 +1,76 @@
+{
+ "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary.",
+ "area_names": {
+  "revival_heights_cave_nw": "Archive Room",
+  "revival_heights_cave_ne": "Server Nook",
+  "revival_heights_cave_sw": "Break Garden"
+ },
+ "maps": {
+  "revival_heights": {
+   "r9_rhp_archivist": {
+    "name": "Ebba",
+    "pages": [
+     "Every memo since the company began\nis filed in here. Battle?"
+    ],
+    "battle_lost": [
+     "Filed under: lost."
+    ],
+    "battle_won": [
+     "Filed under: won. Next!\nRest up and resubmit."
+    ],
+    "after": [
+     "Hop down the ledge\nto the boulevard."
+    ],
+    "_name_note": "Renamed from Ottilie: Ottilie is the Saltmere trail tide caller."
+   },
+   "r9_rhp_egg_memo": {
+    "pages": [
+     "A tower of memos.",
+     "The top one says: please reply\nto the memo below."
+    ]
+   },
+   "r9_rhp_technician": {
+    "name": "Sixten",
+    "pages": [
+     "Tried turning the battle off\nand on again? No? Battle!"
+    ],
+    "battle_lost": [
+     "Rebooting..."
+    ],
+    "battle_won": [
+     "Fixed it. You were the bug.\nRest your team."
+    ],
+    "after": [
+     "Ledge down, then west\nalong the lane."
+    ]
+   },
+   "r9_rhp_egg_fan": {
+    "pages": [
+     "A big humming fan.",
+     "It hums the company jingle,\na little off-key."
+    ]
+   },
+   "r9_rhp_gardener": {
+    "name": "Brita",
+    "pages": [
+     "The staff garden was closed for\nefficiency. I still water it."
+    ],
+    "battle_lost": [
+     "You grew on me."
+    ],
+    "battle_won": [
+     "Wilted, huh? Some water\nand rest will fix that."
+    ],
+    "after": [
+     "Ledge down and walk east."
+    ]
+   },
+   "r9_rhp_egg_mug": {
+    "pages": [
+     "A mug on a bench.",
+     "It says: OKAYEST MANAGER\nIN THE WORLD."
+    ]
+   }
+  }
+ }
+}

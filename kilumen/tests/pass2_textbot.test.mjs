@@ -26,13 +26,20 @@ test('PASS2_TEXT_FILES lists switchbacks and batch 2', () => {
   assert.equal(FB.maps.cindervale.r9_cvp_watcher.name, 'Runa');
   assert.equal(b3.maps.route_aurelith_saltmere.r9_rasp_gullkeeper.name, 'Tarn'); // Pell is the Cairnfold digger
   assert.equal(SPEC.pockets.find((p) => p.trainer.id === 'r9_rasp_gullkeeper').trainer.name, 'Tarn');
-  // batch 4: sunmeadow, aurelith, route_east, route_revival; 12 area names = cave titles; renames Pell -> Jory, Wren -> Maja
+  // batch 4: sunmeadow, aurelith, route_east, route_revival; 12 area names = cave titles; renames Pell -> Jory -> Algot, Wren -> Maja
   assert.ok(PASS2_TEXT_FILES.includes('data/textbot_pass2_batch4.json'));
   const b4 = R('data/textbot_pass2_batch4.json');
   for (const m of ['sunmeadow_fields', 'aurelith', 'route_east', 'route_revival']) assert.ok(b4.maps[m], m);
   assert.equal(Object.keys(b4.area_names).length, 12);
   for (const [c, n] of Object.entries(b4.area_names)) assert.equal(SPEC.pockets.find((p) => p.cave === c)?.cave_title, n, c + ' cave title');
-  for (const [id, n] of [['r9_aurp_signaller', 'Jory'], ['r9_rrp_herbalist', 'Maja']]) assert.equal(SPEC.pockets.find((p) => p.trainer.id === id).trainer.name, n, id);
+  for (const [id, n] of [['r9_aurp_signaller', 'Algot'], ['r9_rrp_herbalist', 'Maja']]) assert.equal(SPEC.pockets.find((p) => p.trainer.id === id).trainer.name, n, id);
+  assert.equal(b4.maps.aurelith.r9_aurp_signaller.name, 'Algot'); // Jory is Master Jory Swell
+  // batch 5: revival_heights pockets; Ottilie -> Ebba (Ottilie is the Saltmere tide caller)
+  assert.ok(PASS2_TEXT_FILES.includes('data/textbot_pass2_batch5.json'));
+  const b5 = R('data/textbot_pass2_batch5.json');
+  assert.equal(Object.keys(b5.maps.revival_heights).length, 6);
+  for (const [c, n] of Object.entries(b5.area_names)) assert.equal(SPEC.pockets.find((p) => p.cave === c)?.cave_title, n, c + ' cave title');
+  for (const [id, n] of [['r9_rhp_archivist', 'Ebba'], ['r9_rhp_technician', 'Sixten'], ['r9_rhp_gardener', 'Brita']]) { assert.equal(b5.maps.revival_heights[id].name, n, id); assert.equal(SPEC.pockets.find((p) => p.trainer.id === id).trainer.name, n, id); assert.equal(FB.maps.revival_heights[id].name, n, id + ' fallback'); }
 });
 for (const f of PASS2_TEXT_FILES) {
   test(`${f}: keys resolve, trainers have all four lines, no blocked words`, () => {
