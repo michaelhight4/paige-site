@@ -17,19 +17,19 @@
 // capture logic). Not in trainer fights (button hidden). Fairness for a hard game: the fight does NOT pause. It runs at 40 %
 // (CAP_TAB.slow) so foes keep moving and telegraphing, skills are locked while the tab is open (dodge still works), a hit on
 // your creature snaps the tab shut, and it closes on its own after 4 s real time. You get time to read the odds, not a free pause.
-import { RtBattle } from './sim.js?v=v0.2.94-alpha';
-import { RtView } from './view.js?v=v0.2.94-alpha';
-import { cooldownFor } from './moves.js?v=v0.2.94-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.94-alpha';
-import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.94-alpha';
-import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.94-alpha';
-import { Col } from '../overworld/constants.js?v=v0.2.94-alpha';
-import { reducedMotion } from '../sports/hype.js?v=v0.2.94-alpha';
-import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padFaceEdges, faceSlots, assignFace, faceIndex, FACES, PAD_DODGE, XY_STORE } from './keys.js?v=v0.2.94-alpha';
-import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.94-alpha';
-import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.94-alpha';
-import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.94-alpha';
-import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.94-alpha';
+import { RtBattle } from './sim.js?v=v0.2.95-alpha';
+import { RtView } from './view.js?v=v0.2.95-alpha';
+import { cooldownFor } from './moves.js?v=v0.2.95-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.95-alpha';
+import { maxEnergy, maxHp, xpForLevel, displayName } from '../systems/creature.js?v=v0.2.95-alpha';
+import { BATTLE_ITEMS } from '../systems/items.js?v=v0.2.95-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.95-alpha';
+import { reducedMotion } from '../sports/hype.js?v=v0.2.95-alpha';
+import { actionFor, SKILL_LABELS, padSkillEdges, capsFlipped, padFaceEdges, faceSlots, assignFace, faceIndex, FACES, PAD_DODGE, XY_STORE } from './keys.js?v=v0.2.95-alpha';
+import { qolFlags, XP_SHARE } from '../qol/flags.js?v=v0.2.95-alpha';
+import { diffOf, getDifficulty, scaleFoes } from '../systems/difficulty.js?v=v0.2.95-alpha';
+import { modeButton, reactionLines, SHOUT } from './switch.js?v=v0.2.95-alpha';
+import { CT, factorsOf, oddsBand, CAP_TAB } from './capture.js?v=v0.2.95-alpha';
 
 const TILE = 64, STEP = 1 / 60, B_TAP = 0.18;
 let SK = null;

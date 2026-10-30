@@ -2,8 +2,8 @@
 // PLACEHOLDER stats: no stat sheets exist yet (design/MECHANICS_PARITY.md B2/B3). Each stat uses one
 // flat base by evolution stage so the engine has numbers; catchRate/baseXp are PLACEHOLDER too.
 // Stat ids hp/atk/def/spa/spd/spe are internal; player-facing names are Vitality/Might/Guard/Focus/Resolve/Agility (B2).
-import { SPECIES } from '../../ui/data.js?v=v0.2.94-alpha';
-import { cap } from './elements.js?v=v0.2.94-alpha';
+import { SPECIES } from '../../ui/data.js?v=v0.2.95-alpha';
+import { cap } from './elements.js?v=v0.2.95-alpha';
 
 export const STAT_NAMES = { hp: 'Vitality', atk: 'Might', def: 'Guard', spa: 'Focus', spd: 'Resolve', spe: 'Agility' };
 const STAGE_BASE = [45, 60, 80]; // PLACEHOLDER

@@ -14,12 +14,12 @@
 // battle under his key aurelith_arena_int.aurelith_arena_ron_final (ron_team.js RON_FINAL, story.js TRAINER_RESULTS: a win sets
 // both Ron 7 win flags, ENDING.tower[1..2]), then ron.ron7_lose / ron.ron7_after and the ending (ending.js endingDue). Loss = blackout.
 // Text: DRAFT keys maps.aurelith_arena.* + system_arena.* (Text Bot; data/textbot_requests_arena.md). Fallbacks below.
-import { RON_FINAL } from '../battle/data/ron_team.js?v=v0.2.94-alpha';
-import { trainerOutcome } from '../battle/story.js?v=v0.2.94-alpha';
-import { ENDING, endingDue, runInterimEnding } from '../progression/ending.js?v=v0.2.94-alpha';
-import { markTowerHeal } from '../systems/heal.js?v=v0.2.94-alpha';
-import { Npc } from '../overworld/npcs.js?v=v0.2.94-alpha';
-import { townRonCell } from '../overworld/ron_whereabouts.js?v=v0.2.94-alpha';
+import { RON_FINAL } from '../battle/data/ron_team.js?v=v0.2.95-alpha';
+import { trainerOutcome } from '../battle/story.js?v=v0.2.95-alpha';
+import { ENDING, endingDue, runInterimEnding } from '../progression/ending.js?v=v0.2.95-alpha';
+import { markTowerHeal } from '../systems/heal.js?v=v0.2.95-alpha';
+import { Npc } from '../overworld/npcs.js?v=v0.2.95-alpha';
+import { townRonCell } from '../overworld/ron_whereabouts.js?v=v0.2.95-alpha';
 export const ARENA = {
   map: 'aurelith_arena', room: (n) => `aurelith_arena_room_${n}`, runFlag: 'arena_run', wonFlag: (n) => `arena_room_${n}_won`, clerk: 'aurelith_arena_clerk', clearFlag: 'arena_cleared', winsCounter: 'arena_wins',
   fighters: [

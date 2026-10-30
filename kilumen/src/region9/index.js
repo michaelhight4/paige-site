@@ -7,9 +7,9 @@
 //  - the time slip, release, Ondravel's 3 phases (loss: heal, back to the top landing), riverbend dawn, present release,
 //    credits 2 ('ending2'), then the Lantern Rest epilogue. field_team_home is set ONLY here, after fin_present_release.
 // Text: root keys of text/overworld_lines.json (Text Bot, data/textbot_requests_wellspire.md), else DRAFT ./text_fallback.js.
-import { FB } from './text_fallback.js?v=v0.2.94-alpha';
-import { POINTS } from './points.gen.js?v=v0.2.94-alpha';
-import { Npc } from '../overworld/npcs.js?v=v0.2.94-alpha';
+import { FB } from './text_fallback.js?v=v0.2.95-alpha';
+import { POINTS } from './points.gen.js?v=v0.2.95-alpha';
+import { Npc } from '../overworld/npcs.js?v=v0.2.95-alpha';
 
 const getPath = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
 export const R9 = {
@@ -176,7 +176,7 @@ export function attachRegion9(scene, { systems } = {}) {
       set('fin_present_release'); set('spring_running');
       await say('summit.team_morning', narr);
       const record = { ...(scene.gameCleared || {}) };
-      try { await (await import('../ui/credits.js?v=v0.2.94-alpha')).runCredits(scene, record, { variant: 'ending2' }); } catch (e) { console.error('credits 2:', e); }
+      try { await (await import('../ui/credits.js?v=v0.2.95-alpha')).runCredits(scene, record, { variant: 'ending2' }); } catch (e) { console.error('credits 2:', e); }
       set('field_team_home'); // Ending 2 only: never earlier
       await warp({ map: 'lantern_rest', ...(POINTS.lantern_rest?.fin_bench_swap ? { x: POINTS.lantern_rest.fin_bench_swap.x, y: POINTS.lantern_rest.fin_bench_swap.y + 1 } : { x: 20, y: 10 }), facing: 'up' }, 'ending');
       await say('fin.epilogue.team_arrive', narr);
