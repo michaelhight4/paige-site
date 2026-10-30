@@ -129,7 +129,10 @@ export function attachHallV2(scene, ui, pg) {
         const open = c.model.open(x, y, b) || !!m.npcAt(x, y);
         const pair = 'ab'.includes(ch) ? T.gate0 : T.gate1;
         m.layers.collision[y][x] = open ? 0 : 6;
-        m.setTile('ground', x, y, pair[open ? 1 : 0]);
+        // gate art has transparent pixels: on the ground layer they showed as a black block (QA Oct 30 2026, Cindervale
+        // Master doorway). Put a floor tile under it and the gate on decoration (same tiles, same collision).
+        if (!(anim?.gate0 && 'ab'.includes(ch)) && tileOk('floor_tile')) { m.setTile('ground', x, y, 'floor_tile'); m.setTile('decoration', x, y, pair[open ? 1 : 0]); }
+        else m.setTile('ground', x, y, pair[open ? 1 : 0]);
         if (anim?.gate0 && 'ab'.includes(ch)) {
           const g = anim.gate0, L = g.layer;
           if (L === 'ground') { if (!open && g.closed) m.setTile('ground', x, y, g.closed); }
