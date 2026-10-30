@@ -89,6 +89,7 @@ export class Systems {
   /** _enterMap: puzzle state onto the map, satchels solid. */
   async onMapEnter(m) {
     this.bag.lines = this.lines;
+    this.heal.onEnterMap(m); // last-visited heal centre = blackout respawn (bug fix Oct 30 2026)
     migrateHeld(this.bag, allOwned(this.scene.party || [], this.archive), this.state); // v1 saves: holder shared the bag copy
     injectHiddenSpots(m, this.scene.flags); // hidden held-item spots (before visiblePickups)
     this.grantHeldRewards();

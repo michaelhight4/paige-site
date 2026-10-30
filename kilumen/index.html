@@ -41,6 +41,26 @@
 </head>
 <body>
   <main><canvas id="world" aria-label="Kilumen overworld"></canvas></main>
+  <!-- Cold-load fix (Oct 30, 2026): the world + title only paint once every tile sheet of the zoom set (~12 MB cold) is in,
+       so a first visit on a slow link was a black page for 30 s+. This plain-HTML screen paints at once, and main.js removes it
+       (window.__kboot.done) when the title mounts, or shows the error with a Reload button (window.__kboot.fail). -->
+  <div id="kboot" role="status" aria-live="polite" style="position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#0b0d1a;color:#e9e6ff;font:600 18px/1.3 system-ui,sans-serif;transition:opacity .3s">
+    <div style="font-size:30px;letter-spacing:.08em">KILUMEN</div>
+    <div id="kboot-msg">Loading the world…</div>
+    <div style="width:min(260px,60vw);height:6px;border-radius:3px;background:#262a44;overflow:hidden"><div id="kboot-bar" style="height:100%;width:4%;background:#8f7cff;transition:width .4s"></div></div>
+    <button id="kboot-reload" type="button" hidden style="font:inherit;padding:8px 18px;border-radius:8px;border:0;background:#8f7cff;color:#0b0d1a;cursor:pointer">Reload</button>
+  </div>
+  <script>
+  (function () { // tiny boot screen; progress = resources fetched so far (a cold boot fetches ~220 before the title)
+    var el = document.getElementById('kboot'), bar = document.getElementById('kboot-bar'), n = 0, over = false, po = null;
+    try { po = new PerformanceObserver(function (l) { n += l.getEntries().length; if (!over) bar.style.width = Math.min(92, 4 + n * 0.4) + '%'; }); po.observe({ type: 'resource', buffered: true }); } catch (e) { /* old browser: bar stays put */ }
+    function end() { over = true; if (po) po.disconnect(); }
+    window.__kboot = {
+      done: function () { if (over && !el.isConnected) return; end(); bar.style.width = '100%'; el.style.opacity = '0'; el.style.pointerEvents = 'none'; setTimeout(function () { el.remove(); }, 350); },
+      fail: function (msg) { if (!el.isConnected) return; end(); document.getElementById('kboot-msg').textContent = 'Kilumen could not load' + (msg ? ': ' + msg : '') + '.'; var b = document.getElementById('kboot-reload'); b.hidden = false; b.onclick = function () { location.reload(); }; }
+    };
+  })();
+  </script>
   <div id="toast" role="status" aria-live="polite" hidden></div>
   <div id="touchpad" hidden>
     <div class="dpad">

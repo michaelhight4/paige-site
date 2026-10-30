@@ -6,6 +6,7 @@
 // Save rules: the coach talk runs inside scene.script() (checkpoint before, normal save after) and a saveGuard blocks
 // saving the whole time the overlay is open, so the fee, the race and the prize land in one save after the overlay
 // closes. Closing the tab mid-race reloads the pre-talk checkpoint: fee not taken, window not used.
+import { pickRows } from './pick_rows.js?v=v0.2.93-alpha';
 import { attachTownEvents } from './town_ui.js?v=v0.2.93-alpha';
 import { attachGarden } from '../garden/index.js?v=v0.2.93-alpha'; // garden plots + merit shop (Oct 30 2026)
 import { meritState } from './merit.js?v=v0.2.93-alpha';
@@ -168,13 +169,14 @@ export function attachSports(scene, { query, systems } = {}) {
     st.phase = 'pick'; st.tapFn = null;
     const mons = team();
     ov.innerHTML = `<div class="box"><h2>${esc(S.title)}</h2><div class="sub">${esc(S.subtitle)}<br>${esc(mons.length ? S.pick_hint : S.no_team)}</div>
-      <div class="mons">${mons.map((c, i) => { const r = racerOf(c, i); return `<div class="mon" data-i="${i}"><img src="${framesFor(c.species)[0].src}"><div style="flex:1"><b>${esc(r.name)}</b> <span class="tr">Lv${c.level || '?'}</span>${statsBlock(r)}</div></div>`; }).join('')}</div>
+      <div class="mons">${pickRows(scene.party).map(({ c, i, out }) => { const r = racerOf(c, i); return `<div class="mon${out ? ' out' : ''}" data-p="${i}"${out ? ' aria-disabled="true" style="opacity:.45;cursor:not-allowed"' : ''}><img src="${framesFor(c.species)[0].src}"><div style="flex:1"><b>${esc(r.name)}</b> <span class="tr">Lv${c.level || '?'}${out ? ' · Out cold' : ''}</span>${statsBlock(r)}</div></div>`; }).join('')}</div>
       ${st.mode === 'tourney' ? `<div class="note">${esc(t('tourney_pay_hint', { fee: TOURNEY.fee }))}</div>` : ''}
       <button data-a="close">${esc(S.back)}</button></div>`;
     ov.querySelector('[data-a=close]').onclick = () => showVenue(); wireUi();
     ov.querySelectorAll('.mon').forEach((el) => { el.onclick = () => {
       if (st.mode === 'tourney' && !payEntry({ day: day(), wallet: wallet(), state: sstate() })) return showVenue(tourneyStatus().msg);
-      startMeet(mons[+el.dataset.i], +el.dataset.i);
+      const c = scene.party[+el.dataset.p]; if (!mons.includes(c)) return; // out cold: listed, not pickable (gd bug 4)
+      startMeet(c, +el.dataset.p);
     }; });
   }
 

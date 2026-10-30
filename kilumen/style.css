@@ -74,6 +74,7 @@ body.ui-reduce .dlg-hint { animation: none !important; }
 .dlg-battle.over-box { z-index: 2; } /* mobile hud.battleImage fallback when the strip above the box is too short (dialog.js) */
 .dlg-list { list-style: none; margin: 4px 0 0; padding: 0; }
 .dlg-list li { padding: 2px 8px 2px 30px; border-radius: 4px; position: relative; }
+.dlg-list li[data-i] { cursor: pointer; pointer-events: auto; } /* gd bug 3: pc mouse click / hover on choice rows */
 .dlg-list li.sel { background: #f4ecd8; color: #1a1226; }
 .dlg-list li.sel::before { content: '\25B6'; position: absolute; left: 8px; font-size: .75em; top: .35em; }
 .dlg-list .sub { margin-left: .8em; font-size: .78em; color: #cbbfe0; }

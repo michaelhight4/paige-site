@@ -11,6 +11,7 @@ import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.93-alpha'
 import { runChampion, reducedMotion } from './hype.js?v=v0.2.93-alpha';
 import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.93-alpha';
 import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.93-alpha';
+import { pickRows } from './pick_rows.js?v=v0.2.93-alpha';
 import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.93-alpha';
 export const TUG_COACH = 'saltmere_tug_coach', ANNOUNCER = 'aurelith_games_announcer';
 
@@ -22,7 +23,7 @@ const CSS = `#town-ev{position:fixed;inset:0;z-index:9000;background:#141a26ee;c
 #town-ev h2{margin:2px 0 6px;color:#e8c26a;font-size:17px}#town-ev canvas{width:min(92vw,360px,calc((96vh - 150px)*.75));aspect-ratio:3/4;background:#0d1320;border-radius:4px;display:block;margin:0 auto;image-rendering:pixelated}
 #town-ev button{font:inherit;background:#384260;color:#f3ead2;border:2px solid #e8c26a;border-radius:4px;padding:6px 12px;margin:3px;cursor:pointer}
 #town-ev .pad{display:flex;justify-content:center;gap:4px;margin-top:6px}#town-ev .pad button{min-width:52px;min-height:44px;font-size:18px}
-#town-ev .mon{display:inline-flex;flex-direction:column;align-items:center;margin:4px;padding:4px;border:2px solid #384260;border-radius:4px;cursor:pointer}#town-ev .mon.sel{border-color:#e8c26a}
+#town-ev .mon{display:inline-flex;flex-direction:column;align-items:center;margin:4px;padding:4px;border:2px solid #384260;border-radius:4px;cursor:pointer}#town-ev .mon.sel{border-color:#e8c26a}#town-ev .mon.out{opacity:.45;cursor:not-allowed}#town-ev .mon .tag{font-size:11px;color:#e8c26a}
 #town-ev canvas#sports-champ{width:min(96vw,calc(96vh*16/9));aspect-ratio:16/9}#town-ev .rivals{display:flex;justify-content:center;gap:6px;margin:6px 0}#town-ev .rv{border:2px solid #384260;border-radius:4px;padding:4px;min-width:84px}#town-ev .rv b{color:#e8c26a}#town-ev .rank{margin:6px auto;border-collapse:collapse}#town-ev .rank td{padding:2px 8px}#town-ev .rank tr.me{color:#e8c26a;font-weight:bold}#town-ev button:disabled{opacity:.45}#town-ev .mon img{width:48px;height:48px;image-rendering:pixelated}#town-ev .react{margin:8px 0;font-style:italic}`;
 const sheet = new Map();
 const imgFor = (sp) => { if (!sheet.has(sp)) { const im = new Image(); im.src = `art/characters/pixel/creatures/${sp}/overworld/${sp}_ow/${sp}_ow_right_walk0_2x.png`; sheet.set(sp, im); } return sheet.get(sp); };
@@ -90,10 +91,10 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     st.phase = 'pick'; const ev = st.ev, rec = sstate().town?.[ev.id], mons = team();
     st.mon = st.mon && mons.includes(st.mon) ? st.mon : mons[0];
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><div>${esc(rec?.best ? tt(TS.best, { best: rec.best, unit: ev.unit }) : TS.none_yet)}</div>
-      <div>${esc(TS.pick)}</div><div>${mons.map((c, i) => `<div class="mon${c === st.mon ? ' sel' : ''}" data-i="${i}"><img src="${imgFor(c.species).src}"><span>${esc(nameOf(c))}</span></div>`).join('')}</div>
+      <div>${esc(TS.pick)}</div><div>${pickRows(scene.party, { sel: st.mon, crew: ev.team && st.mon ? tugCrew(st.mon) : [st.mon] }).map((r) => `<div class="mon${r.sel ? ' sel' : ''}${r.out ? ' out' : ''}${r.crew ? ' crew' : ''}" data-p="${r.i}"${r.out ? ' aria-disabled="true"' : ''}><img src="${imgFor(r.c.species).src}"><span>${esc(nameOf(r.c))}</span><span class="tag">${r.out ? 'Out cold' : r.crew ? '\u2713' : ''}</span></div>`).join('')}</div>
       ${ev.team ? `<div class="crew">${esc(tt(TS.tug_crew, { names: tugCrew(st.mon).map(nameOf).join(', ') }))}</div>` : ''}<div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div><div class="cupline" id="cup-status">${esc(cupStatus(ev).msg)}</div>
       <button data-a="go">${esc(TS.practice)}</button><button data-a="cup"${cupStatus(ev).ok ? '' : ' disabled'}>${esc(tt(TS.cup_enter, { fee: CUP.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
-    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { st.mon = mons[+m.dataset.i]; showPick(); }));
+    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { const c = scene.party[+m.dataset.p]; if (!mons.includes(c)) return; st.mon = c; showPick(); }));
     ov.querySelector('[data-a=go]').onclick = () => { st.mode = 'practice'; play(); }; ov.querySelector('[data-a=back]').onclick = () => close();
     ov.querySelector('[data-a=cup]').onclick = () => cupIntro();
   }
@@ -208,11 +209,11 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     st.phase = 'major_intro'; const M = TS.major, mons = team(), stt = majorStatus(), rounds = roundsFor(day());
     st.mon = st.mon && mons.includes(st.mon) ? st.mon : mons[0];
     ov.innerHTML = `<div class="box" id="major-intro"><h2>${esc(M.title)}</h2><div class="react">${esc(M.coach)}: ${esc(M.intro)}</div>
-      <div>${esc(TS.pick)}</div><div>${mons.map((c, i) => `<div class="mon${c === st.mon ? ' sel' : ''}" data-i="${i}"><img src="${imgFor(c.species).src}"><span>${esc(nameOf(c))}</span></div>`).join('')}</div>
+      <div>${esc(TS.pick)}</div><div>${pickRows(scene.party, { sel: st.mon, crew: [st.mon] }).map((r) => `<div class="mon${r.sel ? ' sel' : ''}${r.out ? ' out' : ''}" data-p="${r.i}"${r.out ? ' aria-disabled="true"' : ''}><img src="${imgFor(r.c.species).src}"><span>${esc(nameOf(r.c))}</span><span class="tag">${r.out ? 'Out cold' : r.sel ? '\u2713' : ''}</span></div>`).join('')}</div>
       <div class="cupline">${esc(tt(M.rounds_line, { events: stt.ok ? rounds.map((id) => TS[id].title).join(' · ') : M.secret }))}</div>
       <div class="cupline" id="major-status">${esc(stt.msg)}</div><div style="opacity:.8">${esc(tt(M.towns_line, { towns: townsWon(sstate()), need: MAJOR.needTowns }))}</div>
       <button data-a="enter"${stt.ok ? '' : ' disabled'}>${esc(tt(M.enter, { fee: MAJOR.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
-    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { st.mon = mons[+m.dataset.i]; majorIntro(); }));
+    ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { const c = scene.party[+m.dataset.p]; if (!mons.includes(c)) return; st.mon = c; majorIntro(); }));
     ov.querySelector('[data-a=back]').onclick = () => close();
     ov.querySelector('[data-a=enter]').onclick = () => {
       if (!payMajor({ day: day(), wallet: wallet(), sstate: sstate() })) return majorIntro();

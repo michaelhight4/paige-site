@@ -21,6 +21,10 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
 const VARIANTS = Object.keys(VARIANT_MODS || {});
 const MAX_ROWS = 60;
+// gd bug 5: in a battle (turn-based screen or real-time) only the tabs that can't desync the fight: world speed / auto-complete / logs
+export const BATTLE_TABS = ['tools'];
+/** A battle is on: the ui battle screen is on the stack, or a real-time session runs (rtb/index.js RTB_STATE). */
+export const battleOn = (u, k = globalThis.window?.kilumen) => !!((u?.stack || []).some((x) => x?.scr === 'battle') || k?.rtb?.active);
 const TABS = [['item', 'Items'], ['mon', 'Kilumen'], ['party', 'Party'], ['money', 'Coins/ID'], ['travel', 'Travel'], ['tools', 'Tools'], ['flags', 'Flags'], ['rita', 'RITA voice']];
 const CSS = `.kdev{position:fixed;inset:0;z-index:100000;background:rgba(8,10,16,.9);display:flex;align-items:stretch;justify-content:center;font:14px/1.35 system-ui,sans-serif;color:#e8ecf4;padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom))}
 .kdev *{box-sizing:border-box}
@@ -48,7 +52,7 @@ export async function installDevConsole(scene, access) {
   if (!scene || window.kilumen?.dev) return null;
   const sys = scene.systems;
   const ui = () => window.kilumen?.ui;
-  let panel = null, tab = 'item', msgEl = null, closeBlockB = false, travelling = false, selUid = null, slot = 0;
+  let panel = null, inBattle = false, tab = 'item', msgEl = null, closeBlockB = false, travelling = false, selUid = null, slot = 0;
   const q = { item: '', mon: '', skill: '', travel: '' }, num = { qty: 1, lvl: 20, setLv: 20, coins: 1000, idl: 1 };
   let variant = '';
   let rita = null; // RITA voice test panel (rita_panel.js), made on first open of its tab
@@ -72,7 +76,9 @@ export async function installDevConsole(scene, access) {
     if (panel) return;
     // v0.2.61: F2 / ` over the plain phone menu (e.g. left open by mashing Escape) closes it and opens the console instead of refusing
     { const u = ui(); if (u?.active && !u.modal && (u.stack || []).length === 1 && u.stack[0]?.scr === 'phone') { u.closeAll(); o = { ...(o || {}), fromMenu: true }; } }
-    if (!canOpen() && !(o?.fromMenu && !ui()?.active && canOpenSoon())) { scene.toast?.('Dev console: not during a battle, conversation, cutscene or menu.'); return; }
+    inBattle = battleOn(ui());
+    if (inBattle) { if (!BATTLE_TABS.includes(tab)) tab = BATTLE_TABS[0]; } // gd bug 5: dev tools reachable mid-battle (battle-safe tabs only)
+    else if (!canOpen() && !(o?.fromMenu && !ui()?.active && canOpenSoon())) { scene.toast?.('Dev console: not during a battle, conversation, cutscene or menu.'); return; }
     if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
     panel = document.createElement('div'); panel.className = 'kdev';
     panel.innerHTML = `<div class="box"><div class="hd"><b>Dev console <small style="font-weight:400;color:#8d9ab8">${esc(access?.role || '')}</small></b><button data-x aria-label="Close dev console">✕ Close</button></div><div class="tabs"></div><div class="body"></div><div class="msg"></div></div>`;
@@ -84,7 +90,7 @@ export async function installDevConsole(scene, access) {
   };
   // Arena playtest Oct 30 2026: focus went to <body> with the removed panel, so keys did nothing until the canvas was clicked.
   const refocus = () => { try { const cv = scene.canvas || document.querySelector('canvas'); if (!cv) return; if (!cv.hasAttribute('tabindex')) cv.setAttribute('tabindex', '0'); document.activeElement?.blur?.(); cv.focus({ preventScroll: true }); } catch { /* headless */ } };
-  const close = () => { if (!panel) return; panel.remove(); panel = null; msgEl = null; closeBlockB = true; refocus(); };
+  const close = () => { if (!panel) return; panel.remove(); panel = null; msgEl = null; closeBlockB = true; inBattle = false; refocus(); };
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape' && document.querySelector('.kdev-log')) return; // the log viewer closes itself (Oct 30 2026: even over the panel)
     if (panel) { if (e.code === 'Escape') { e.preventDefault(); close(); } e.stopPropagation(); return; }
@@ -96,6 +102,7 @@ export async function installDevConsole(scene, access) {
     if (DEV.active && scene.player) scene.player.speedMultiplier = (DEV.speed || 1) / (DEV.world || 1); // v0.2.59: world speed never speeds the player's own walk
     if (panel) {
       if (snap?.b || snap?.bTap) close();
+      else if (inBattle) { if (!battleOn(ui())) close(); } // battle panel: stays open over the fight, closes when it ends
       else if (scene.busy || scene.dialog?.active || scene.fade || ui()?.active) close(); // something started under us
     }
     if (panel || closeBlockB) {
@@ -121,16 +128,17 @@ export async function installDevConsole(scene, access) {
   // Auto-complete (battle/ui_sd.js registers dev.battleAuto while a turn battle runs) and world speed. Dev session only.
   let bmenu = null;
   const bchip = () => {
-    const live = !!window.kilumen?.dev?.battleAuto; let b = document.querySelector('.kdev-bchip');
+    const live = !!window.kilumen?.dev?.battleAuto || battleOn(ui()); // gd bug 5: also any battle (console opens with battle-safe tabs) let b = document.querySelector('.kdev-bchip');
     if (!live) { b?.remove(); bmenu?.remove(); bmenu = null; return; }
     if (b) return;
     if (!document.getElementById('kdev-style')) { const s = document.createElement('style'); s.id = 'kdev-style'; s.textContent = CSS; document.head.appendChild(s); }
     b = document.createElement('button'); b.className = 'kdev-chip kdev-bchip'; b.textContent = 'DEV'; b.setAttribute('aria-label', 'Dev battle tools');
     b.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); if (bmenu) { bmenu.remove(); bmenu = null; return; }
       bmenu = document.createElement('div'); bmenu.className = 'kdev-bmenu';
-      bmenu.innerHTML = `<button data-auto>Auto-complete battle</button><div>${WORLD_SPEEDS.map((n) => `<button class="${(DEV.world || 1) === n ? 'sel' : ''}" data-world="${n}">${n}x</button>`).join('')}</div>`;
+      bmenu.innerHTML = `<button data-open>Dev console</button><button data-auto>Auto-complete battle</button><div>${WORLD_SPEEDS.map((n) => `<button class="${(DEV.world || 1) === n ? 'sel' : ''}" data-world="${n}">${n}x</button>`).join('')}</div>`;
       bmenu.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); const a = ev.target.attributes; if (!a) return;
-        if (a['data-auto']) { touched(); window.kilumen?.dev?.battleAuto?.(); bmenu.remove(); bmenu = null; }
+        if (a['data-open']) { bmenu.remove(); bmenu = null; open(); }
+        else if (a['data-auto']) { touched(); window.kilumen?.dev?.battleAuto?.(); bmenu.remove(); bmenu = null; }
         else if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; bmenu.querySelectorAll('[data-world]').forEach((x) => x.classList.toggle('sel', Number(x.dataset.world) === DEV.world)); } });
       document.body.appendChild(bmenu); });
     document.body.appendChild(b);
@@ -158,7 +166,7 @@ export async function installDevConsole(scene, access) {
   // ---- rendering --------------------------------------------------------------------------------------------------
   const render = () => {
     if (!panel) return;
-    const tabs = panel.querySelector('.tabs'); tabs.innerHTML = TABS.map(([id, n]) => `<button data-tab="${id}" class="${id === tab ? 'on' : ''}">${n}</button>`).join('');
+    const tabs = panel.querySelector('.tabs'); tabs.innerHTML = TABS.filter(([id]) => !inBattle || BATTLE_TABS.includes(id)).map(([id, n]) => `<button data-tab="${id}" class="${id === tab ? 'on' : ''}">${n}</button>`).join('');
     tabs.querySelectorAll('button').forEach((b) => { b.onclick = () => { tab = b.dataset.tab; render(); }; });
     const body = panel.querySelector('.body'); body.scrollTop = 0; body.className = 'body';
     ({ item: tItem, mon: tMon, party: tParty, money: tMoney, travel: tTravel, tools: tTools, flags: tFlags, rita: (b) => (rita ||= createRitaPanel({ scene, say })).render(b) })[tab](body);
