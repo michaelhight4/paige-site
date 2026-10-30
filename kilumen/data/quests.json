@@ -6330,7 +6330,7 @@
   },
   {
    "id": "sq_gd_miner_lamp",
-   "title": "What Ivo Heard",
+   "title": "What Odric Heard",
    "type": "side",
    "zone": "greystone_caverns",
    "order": 166,
@@ -6356,7 +6356,7 @@
     },
     {
      "id": "sq_gd_miner_lamp_s2",
-     "desc": "Lay a stone at Lantern Rest for the creature that warned Ivo.",
+     "desc": "Lay a stone at Lantern Rest for the creature that warned Odric.",
      "map": "lantern_rest",
      "at": null,
      "flag": "sq_gd_miner_lamp_stone",
@@ -6365,7 +6365,7 @@
     },
     {
      "id": "sq_gd_miner_lamp_s3",
-     "desc": "Tell Ivo.",
+     "desc": "Tell Odric.",
      "map": "lantern_rest",
      "at": null,
      "flag": "sq_gd_miner_lamp_back",

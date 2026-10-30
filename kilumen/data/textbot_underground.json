@@ -1,0 +1,686 @@
+{
+ "_meta": {
+  "source": "Text Bot pass for dev/underground @ eee31bfa",
+  "note": "Replaces draft:'underground' pages in text/overworld_lines.json and underground_quests.*. Lines lists mirror Coder's {id,pages}. ivo_miner display name renamed Ivo->Odric (clash with Saltmere hall helper Ivo)."
+ },
+ "maps": {
+  "club_int": {
+   "ug_two_pots": {
+    "pages": [
+     "Two little pots on the booth table.\nSomebody keeps them watered."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_greenhouse_d1",
+      "pages": [
+       "Same seedling, two pots. One sits by\na violet shard, one by a firefly jar.",
+       "Side by side, they look identical.\nFor now."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d1_wait",
+      "pages": [
+       "Nothing's changed since this morning.\nPlants keep their own hours."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d2",
+      "pages": [
+       "The shard pot leans, like it's tired.\nThe jar pot has put out a new leaf."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d2_wait",
+      "pages": [
+       "Nothing's changed since this morning.\nPlants keep their own hours."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d3",
+      "pages": [
+       "The jar pot is thriving. A bead of\nwater rests on one leaf.",
+       "Lean in and it hums. Two low notes,\nlike a river a long way off."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_greenhouse_d3_wait",
+      "pages": [
+       "Nothing's changed since this morning.\nPlants keep their own hours."
+      ]
+     }
+    ]
+   },
+   "poster_names": {
+    "lines": [
+     {
+      "id": "ug_sq_ug_poster_names_named",
+      "pages": [
+       "She paints over the catalogue numbers\ncut from company flyers.",
+       "Your team's names go up one by one.\n{lead} watches its name dry."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_poster_names_named_warm",
+      "pages": [
+       "She paints over the catalogue numbers\ncut from company flyers.",
+       "Behind {lead}'s name she adds a\nfaint colour. Not violet. Its own."
+      ]
+     }
+    ]
+   },
+   "ug_dj_desk": {
+    "pages": [
+     "Decks, a crate of records, and a\nsticky note: \"FIVE notes, not four.\""
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_dj_phrase_played",
+      "pages": [
+       "Four notes. Then nothing.",
+       "Each time the tune stops short,\n{lead} turns toward the river."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_dj_phrase_played_wait",
+      "pages": [
+       "The decks are quiet. He only plays\nthat tune from dusk onward."
+      ]
+     }
+    ]
+   },
+   "ug_evidence_board": {
+    "pages": [
+     "A cork board buried in notes. Pins,\nstring, and a lot of question marks."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_frozen_camp_pinned",
+      "pages": [
+       "The bouncer pins up the page.\nIt's a drift chart.",
+       "Bonded creatures marked warm. Unbound\nones, cold. Pencil on the back:",
+       "\"Signal strongest downstream?\"",
+       "Someone also rated the snow.\nFour out of ten. Crunchy."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_sea_glass_bag",
+      "pages": [
+       "The bouncer weighs the bag in one\nhand, then pins the label up.",
+       "\"Tidewater. River mouth.\nMore every month.\""
+      ]
+     },
+     {
+      "id": "ug_sq_ug_keeper_logbook_page",
+      "pages": [
+       "The bouncer pins up the page. Rows\nof times, and violet lights at sea.",
+       "Every entry ends the same way:\n\"Sailed upstream at the river mouth.\""
+      ]
+     },
+     {
+      "id": "ug_sq_ug_last_flyer_signed",
+      "pages": [
+       "The petition's full. Greenhouse, dock,\nannex, field, bog, beach...",
+       "...lighthouse, forge. And one more.",
+       "At the bottom, a print nobody saw\nanyone leave. Round. Smooth.",
+       "Like a river stone."
+      ]
+     }
+    ]
+   }
+  },
+  "saltmere": {
+   "ug_dock_crates": {
+    "pages": [
+     "Crates stamped GREYSTONE,\nstacked higher than a house."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_dock_shards_counted",
+      "pages": [
+       "You count the crates. Then you\ncount them again.",
+       "There are more here than the\ncargo log admits to."
+      ]
+     }
+    ]
+   },
+   "ug_wet_crate": {
+    "pages": [
+     "One crate, set apart from the rest."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_dock_shards_silt",
+      "pages": [
+       "This one's damp. River silt is\npacked into the corners.",
+       "Funny. Greystone is dry rock\nall the way down."
+      ]
+     }
+    ]
+   },
+   "saltmere_dockhand": {
+    "pages": [
+     "Crates in, crates out. Nobody asks\nwhat's in them. Or asks me anything."
+    ]
+   },
+   "ug_glass_stall": {
+    "pages": [
+     "A crate of glass crystals. Pretty,\nnearly violet. Not quite."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_honest_glass_watched",
+      "pages": [
+       "A woman buys one and clips it to\nher creature's collar.",
+       "It looks fitted. It isn't. She pays\nand walks off fast, smiling."
+      ]
+     }
+    ]
+   },
+   "lucky_crystal_seller": {
+    "pages": [
+     "Lucky crystals! Made of glass.\nVery lucky. Extremely glass."
+    ]
+   }
+  },
+  "greystone_seam": {
+   "ug_seam_crack": {
+    "pages": [
+     "A crack in the rock, violet behind it.\nQuiet, for now."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_miner_lamp_crack",
+      "pages": [
+       "A crack in the rock. Behind it,\nviolet crystal.",
+       "Behind the crystal: water, moving.\nYour lantern dims, then holds."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_miner_lamp_crack_wait",
+      "pages": [
+       "The rock is still. Odric said it only\nbreathes at night."
+      ]
+     }
+    ]
+   },
+   "ug_seam_cart": {
+    "pages": [
+     "An old ore cart. Somebody left in a\nhurry, and didn't take the ore."
+    ]
+   }
+  },
+  "lantern_rest": {
+   "ug_ivo_stone": {
+    "pages": [
+     "A plain stone. No name on it yet."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_miner_lamp_stone",
+      "pages": [
+       "You set a small stone among\nthe others.",
+       "For the one that warned him\nanyway."
+      ]
+     }
+    ]
+   },
+   "ivo_miner": {
+    "name": "Odric",
+    "pages": [
+     "Twenty years I dug Greystone.\nNow I come here. It's quieter."
+    ]
+   }
+  },
+  "revival_rt_annex": {
+   "ug_recal_door": {
+    "pages": [
+     "A shutter between the racks.\nRECALIBRATION. STAFF ONLY."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_intern_memo_delivered",
+      "pages": [
+       "The box holds carry-cases. Each tag:\nTINT DRIFT. RECALIBRATE.",
+       "You leave them by the door. A hand\ntakes them in. The shutter drops."
+      ]
+     }
+    ]
+   },
+   "ug_river_window": {
+    "pages": [
+     "The window looks down on the river."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_intern_memo_window",
+      "pages": [
+       "The window looks down on the river.",
+       "A dark tide line marks the bank,\nwell above the water."
+      ]
+     }
+    ]
+   },
+   "rh_cleaner": {
+    "pages": [
+     "I've dusted this place since before\nit had a name on the door."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_lobby_art_cleaner",
+      "pages": [
+       "That picture? The Unbound would give\ntheir eyeteeth for what's underneath.",
+       "Not that I'd know. I just dust it."
+      ]
+     }
+    ]
+   },
+   "ug_founder_picture": {
+    "pages": [
+     "A banner hangs over a painting.\nPlaque: \"Where it all began.\""
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_lobby_art_lifted",
+      "pages": [
+       "You lift a corner. A vast river\ncreature, the founder kneeling by it.",
+       "Its brow crystal is cracked. Eyes\nshut. Not sleeping. Hurting."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_lobby_art_lifted_wait",
+      "pages": [
+       "The guard's watching. Better to come\nback after dark."
+      ]
+     }
+    ]
+   },
+   "rh_annex_guard": {
+    "pages": [
+     "Annex. Staff and visitors only.\nYou're... a visitor. Fine."
+    ]
+   },
+   "ug_annex_tanks": {
+    "pages": [
+     "Tanks of clear water, all empty.\nLabelled: \"DRIFT UNITS\"."
+    ]
+   }
+  },
+  "revival_heights": {
+   "rh_intern": {
+    "pages": [
+     "First week at the annex.\nEveryone here walks very fast."
+    ]
+   },
+   "rh_annex_sign": {
+    "pages": [
+     "REVIVAL TECH - HEIGHTS ANNEX\nDeliveries round the front."
+    ]
+   }
+  },
+  "frostspire": {
+   "frostspire_climber": {
+    "pages": [
+     "Found this frozen near the pass.\nA page from that field team, I think."
+    ]
+   }
+  },
+  "sunmeadow_fields": {
+   "ug_nan_fence": {
+    "pages": [
+     "The edge of the field. The barrier\nshine glows on the horizon."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_shine_dawn",
+      "pages": [
+       "The barrier shine spills gold over\nthe grass.",
+       "A Halovy lands on the fence. It turns\nits back to the shine, toward the river."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_shine_dawn_wait",
+      "pages": [
+       "Nan said dawn. The shine's best\nfirst thing."
+      ]
+     }
+    ]
+   },
+   "sunmeadow_nan": {
+    "pages": [
+     "Lovely morning. The barrier shine's\nup early again."
+    ]
+   }
+  },
+  "mirefen_bog": {
+   "ug_count_reeds": {
+    "pages": [
+     "Tall reeds. The water sits low here."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_count_numbers_reeds",
+      "pages": [
+       "Crate tracks in the mud. Company\nboot prints.",
+       "The bog water here is lower than\nanywhere else."
+      ]
+     }
+    ]
+   },
+   "mirefen_census_clerk": {
+    "pages": [
+     "Census. Every creature counted,\nevery week. It's soothing. Usually."
+    ]
+   },
+   "ug_dark_islet": {
+    "pages": [
+     "Dark water round a little islet.\nVery still."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_riverglint_sat",
+      "pages": [
+       "You sit. Nobody speaks. The water\nturns gold for one breath.",
+       "A Riverglint flashes once, nose\nupstream. Then it's gone."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_riverglint_sat_wait",
+      "pages": [
+       "The angler said dusk. Nothing stirs\nhere till the light goes gold."
+      ]
+     }
+    ]
+   }
+  },
+  "tidewater_coast": {
+   "ug_wind_chime": {
+    "pages": [
+     "A wind chime of sea glass hangs\nfrom the lamp post."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_sea_glass_chime",
+      "pages": [
+       "Violet glass on string. The breeze\nknocks it about.",
+       "For a moment it rings four notes\nyou know. Then it's noise again."
+      ]
+     }
+    ]
+   },
+   "tidewater_beachcomber": {
+    "pages": [
+     "Low tide's the best time.\nThe sea gives things back."
+    ]
+   },
+   "ug_lifeguard_buoy": {
+    "pages": [
+     "A buoy bobbing past the breakers."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_ug_lifeguard_trusted",
+      "pages": [
+       "A creature surfaces by the buoy.\nNo crystal. None at all.",
+       "A big wave spooks it under. Then it\ncomes back to the lifeguard. Alone."
+      ]
+     },
+     {
+      "id": "ug_sq_ug_lifeguard_trusted_wait",
+      "pages": [
+       "Your partner hangs back from the\nwater. Maybe once it trusts you more."
+      ]
+     }
+    ]
+   }
+  },
+  "house_1f": {
+   "ron": {
+    "lines": [
+     {
+      "id": "ug_sq_gd_ron_dream_heard",
+      "pages": [
+       "In mine, its crystal's cracking.\nAnd it's angry. Not sad.",
+       "It didn't want help, Cal.\nIt wanted out."
+      ]
+     }
+    ]
+   }
+  },
+  "cindervale": {
+   "cindervale_baker": {
+    "pages": [
+     "Fresh bread, warm stones.\nWell. Warm-ish stones."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_caldrith_baker",
+      "pages": [
+       "My baking stones used to stay warm\ntill lunch. Now they're cold by nine.",
+       "Ever since that kiln opened. Not\nsaying anything. I'm saying nine."
+      ]
+     }
+    ]
+   },
+   "ug_forge_vent": {
+    "pages": [
+     "The old forge. Still warm, somehow."
+    ],
+    "lines": [
+     {
+      "id": "ug_sq_gd_caldrith_forge",
+      "pages": [
+       "Heat rises from deep under the town,\nslow, like something asleep.",
+       "In it, faint, the same four river\nnotes. Even down here."
+      ]
+     },
+     {
+      "id": "ug_sq_gd_caldrith_forge_wait",
+      "pages": [
+       "Just warm brick for now. The smith\nsaid to come back at night."
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "underground_quests": {
+  "sq_ug_greenhouse": {
+   "start": [
+    "Same seedling, grown twice. One by a\nshard, one by a firefly jar.",
+    "Look in on them once a day for three\ndays? Tell me what you see, not think."
+   ],
+   "in_progress": [
+    "Once a day. Plants don't care how\nkeen you are."
+   ],
+   "turn_in": [
+    "The jar one thrived. Huh.",
+    "One pair of pots isn't science.\nI won't claim more than that.",
+    "Here, a mossplum shake. Seemed right\nto pay you in something green."
+   ]
+  },
+  "sq_ug_poster_names": {
+   "start": [
+    "Company flyers give every creature a\nnumber. I give them their names back.",
+    "Lend me your team's for the wall?\nThe poster by the door."
+   ],
+   "turn_in": [
+    "There. Names, not numbers.",
+    "I left the last space blank. For the\nbig one in the river. Whoever it is."
+   ]
+  },
+  "sq_gd_dj_phrase": {
+   "start": [
+    "Got my records back. Still can't\nfinish the phrase. It needs five.",
+    "I only ever get four. Come by after\ndark and watch what your partner does."
+   ],
+   "turn_in": [
+    "It turned to the river? Every time?",
+    "I heard it once, under the water.\nLike something calling for help.",
+    "My guess? The company signal jams\nthe fifth note. Have this record."
+   ]
+  },
+  "sq_ug_dock_shards": {
+   "start": [
+    "Can you count crates? Quietly?",
+    "The Greystone ones. The log never\nmatches. I need a second pair of eyes."
+   ],
+   "turn_in": [
+    "More than they declare. Knew it.",
+    "Don't say I asked. I like my job.",
+    "Here. Trail mix and a bit of gold.\nNobody counts those either."
+   ]
+  },
+  "sq_gd_miner_lamp": {
+   "start": [
+    "Name's Odric. I quit Greystone. The\ndeep seam breathed. You could hear it.",
+    "There's a way down from B1, past the\nbottom pool. Go by night. See the crack."
+   ],
+   "in_progress": [
+    "Night. The seam only breathes\nat night."
+   ],
+   "turn_in": [
+    "Water. Behind the crystal.\nSo I wasn't losing my mind.",
+    "The creatures digging with me were\nfitted. They couldn't flinch.",
+    "One did anyway. Thanks for the stone.\nTake these lantern moths."
+   ]
+  },
+  "sq_ug_honest_glass": {
+   "start": [
+    "Want a secret? My glass sells best to\nfolk who can't stand the real thing.",
+    "Watch the stall a while. You'll see."
+   ],
+   "turn_in": [
+    "See? It passes for fitted when the\ninspectors look. That's all it does.",
+    "Don't call me brave. I'm not.\nI sell glass. Here, have one."
+   ]
+  },
+  "sq_ug_intern_memo": {
+   "start": [
+    "Could you run this box to the annex?\nRecalibration door. \"Drift units.\"",
+    "Don't ask me what drift is.\nI started on Monday."
+   ],
+   "turn_in": [
+    "Thanks. Did they say what\nrecalibration actually is?",
+    "No? Okay. Here's some gold for\nthe legwork.",
+    "You can see the river from up there,\nright? Gran says it used to be higher."
+   ]
+  },
+  "sq_gd_lobby_art": {
+   "start": [
+    "Company rule: report anyone staring\nat the founder's picture too long.",
+    "You can look. One second.\nI'm bored, not cruel."
+   ],
+   "turn_in": [
+    "One second, I said. Fine.\nIt's a good picture.",
+    "Plaque says \"Where it all began.\"\nNobody ever asks where that was."
+   ]
+  },
+  "sq_ug_frozen_camp": {
+   "start": [
+    "Found this frozen near the pass.\nA page from that field team, I think.",
+    "The Firefly lot keep a board for\nthings like this. Would you take it?"
+   ],
+   "turn_in": [
+    "Pinned up? Good. Someone should read\nit who isn't a glacier.",
+    "Calm tea, for the walk down. Warms\nyou better than my company does."
+   ]
+  },
+  "sq_gd_shine": {
+   "start": [
+    "That barrier shine gets brighter\nevery season. As more get fitted.",
+    "And the river gets lower. I just\ncount seasons. Come look at dawn."
+   ],
+   "turn_in": [
+    "My Tumbloams got out once. A wild\nEnraged one hurt the smallest.",
+    "Wild is hard, I know. That doesn't\nmake the shine kind. Seeds, for you."
+   ]
+  },
+  "sq_ug_count_numbers": {
+   "start": [
+    "The count drops every week. Same\nreeds. Same weekday.",
+    "Would you look over those reeds? I\nfollow rules. I want to know which."
+   ],
+   "turn_in": [
+    "Taken for \"catalogue\". Of course.",
+    "This week my report lists names, not\nnumbers. One rule broken. Once.",
+    "I'm rather proud of it. Take a\nreading sheet. Count for yourself."
+   ]
+  },
+  "sq_gd_riverglint": {
+   "start": [
+    "There's a fish that only shows where\nthe river beast once rested.",
+    "By the dark islet, at dusk. Sit still\nand you might catch sight of it."
+   ],
+   "turn_in": [
+    "Upstream. It always points upstream.",
+    "The old folk called the river beast\n\"the one who keeps the light\".",
+    "My gran's drawing. Don't say a word.\nJust nod."
+   ]
+  },
+  "sq_gd_sea_glass": {
+   "start": [
+    "My best sea glass comes up violet\nnow. More of it every month.",
+    "It's washing out of the river mouth.\nThe river's bleeding, if you ask me.",
+    "The Firefly lot wanted some, for\nevidence. Take them this bag?"
+   ],
+   "turn_in": [
+    "Thank you. The river's been trying to\ntell someone for a while.",
+    "Keep this charm. It rings like the\ntide coming in."
+   ]
+  },
+  "sq_ug_lifeguard": {
+   "start": [
+    "Watching the water. Nothing to see.",
+    "Come back to the buoy with a partner\nthat trusts you. Then maybe."
+   ],
+   "turn_in": [
+    "No crystal. Never had one.\nIt came back because it wanted to.",
+    "You didn't see that. Here,\na droplet charm. Go on now."
+   ]
+  },
+  "sq_ug_keeper_logbook": {
+   "start": [
+    "I keep two logs. One's the weather.\nOne's violet lights out at sea.",
+    "Company boats with crates, I'd say.\nTake a page to The Firefly?"
+   ],
+   "turn_in": [
+    "I can call a storm three days out.\nPeople, never.",
+    "Have my spare lure lantern. Fish\nlike it more than they like me."
+   ]
+  },
+  "sq_gd_ron_dream": {
+   "start": [
+    "Don't laugh. I've been having the\nriver dream too.",
+    "Sit down. Kettle's on. I'll tell it\nonce and then we're done."
+   ],
+   "turn_in": [
+    "Right. That's enough feelings for\none bin day."
+   ]
+  },
+  "sq_gd_caldrith": {
+   "start": [
+    "Forges are cooling since Revival Tech\nput a crystal kiln next door.",
+    "I never fit crystals to my forge\ncreatures. Feel the old forge at night."
+   ],
+   "turn_in": [
+    "Grandad said the old one under the\nmountain dreams.",
+    "If it dreams of that river creature's\npain, the signal reaches everywhere.",
+    "Tell the Firefly lot they've a friend\nat the anvil. Take this ember charm."
+   ]
+  },
+  "sq_ug_last_flyer": {
+   "start": [
+    "Last thing. A petition. Everyone\nyou've helped, every town.",
+    "It's not one rebel. It's ordinary\nfolk. Let's show that."
+   ],
+   "in_progress": [
+    "Every town. Everyone you helped.\nThen leave it on the board overnight."
+   ],
+   "turn_in": [
+    "Everyone signed. Even... whoever\nleft that print.",
+    "New poster for the wall:\nWE ASKED. NOW WE GO.",
+    "Keep the bell. Ring it when\nit's time."
+   ]
+  }
+ }
+}
