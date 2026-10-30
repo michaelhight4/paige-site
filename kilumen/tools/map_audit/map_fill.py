@@ -186,6 +186,17 @@ def sunmeadow_fields(j):
     for it in j['items']:  # tuck the nook satchel into its corner so it doesn't seal the square behind it
         if it['id'] == 'sunmeadow_fields_pocket_2': it['x'] = 14
 
+@recipe
+def aurelith(j):
+    # P1: the terminal plaza (rows 38-39, west) steps down over a low ledge (row 40, x13-30) onto the lower avenue;
+    # the way back up is the east half of the avenue (x31+). New dead-end rewards: south-east corner, west row-48 lane.
+    ledge(j, 40, 13, 30)
+    for it in j['items']:  # the alley satchel sat in the alley mouth and sealed the alley; move it to the far end
+        if it['id'] == 'aurelith_item_2': it['y'] = 31
+    for (x, y) in ((40, 44), (53, 44)): j['layers']['collision'][y][x] = 1  # two walled-in single squares no one can reach
+    item(j, 'aurelith_se_corner_dust', 75, 54, 'crystal_dust', False, 'south-east corner past the canal')
+    item(j, 'aurelith_flats_lane_seed', 13, 48, 'vigor_seed', True, 'west end of the lane behind the flats')
+
 def apply(name, j):
     if name in R: R[name](j); j['map_fill'] = 'tools/map_audit/map_fill.py (Oct 30 2026)'
     return j
