@@ -10,7 +10,8 @@ Writes tiles_{1,2,3}x/wellspire_lab.png and APPENDS the tiles (ids 12201+, categ
 which src/overworld/tileset.js withArenaArt already loads on every map and the grid-fit tools already read.
 Re-running replaces the earlier wl_* entries. No logos, no fog / haze / smoke.
 """
-import json, os, re, math, colorsys
+import json, os, re, math, colorsys, sys
+sys.path.insert(0, os.path.dirname(__file__))
 from PIL import Image, ImageDraw
 
 OW = os.path.join(os.path.dirname(__file__), '..', '..', 'art', 'world', 'overworld')
@@ -303,7 +304,10 @@ add_multi('wl_bigcrystal_broken', c)
 
 
 def build():
-    tiles = [t for t in TILES if t[1] is not None]
+    from lab_props_lean import lean_props  # Director lean pass: same names/ids/codes, redrawn props
+    ov = lean_props(); missing = set(ov) - {t[0] for t in TILES}
+    assert not missing, missing
+    tiles = [(n, ov.get(n, im), *r) for (n, im, *r) in TILES if im is not None]
     cols = 16; rows = math.ceil(len(tiles) / cols)
     for z in (1, 2, 3):
         sh = Image.new('RGBA', (cols * 64 * z, rows * 64 * z))
