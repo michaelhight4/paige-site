@@ -123,7 +123,7 @@ lnpcs = [{'id': 'aurelith_arena_clerk', 'x': 13, 'y': 4, 'facing': 'down', 'kind
          # Final Ron (Coder, Oct 29 2026, story_beats F-0 rev 2): by the exit once the tower is done + healed (src/region78/arena.js)
          {'id': 'aurelith_arena_ron_final', 'x': 10, 'y': 8, 'facing': 'left', 'kind': 'npc', 'sprite': 'ron', 'active_when': ['tower_healed'],
           'note': 'Final Ron (Ron 7): waits by the exit after the tower (floor 8 + heal); battle key aurelith_arena_int.aurelith_arena_ron_final (src/region78/arena.js, story_beats F-0 rev 2)'}]
-out['aurelith_arena'] = {'name': 'aurelith_arena', 'title': f'Aurelith Arena · Room {n}', 'width': LOBBY_W, 'height': LOBBY_H, 'tile_size': 64, 'tileset': '../tileset.json',
+out['aurelith_arena'] = {'name': 'aurelith_arena', 'title': 'Aurelith Arena', 'width': LOBBY_W, 'height': LOBBY_H, 'tile_size': 64, 'tileset': '../tileset.json',
     'layers': lo.L, 'warps': lw, 'exits': [], 'npcs': lnpcs, 'signs': [], 'items': [], 'encounter_zones': [], 'source': SRC, 'movement': MOVE}
 
 # Room 8 life (Coder Oct 30, Gary playtest 6/10 "empty on arrival"): a steward + a fan by the entrance mats, in view on arrival
