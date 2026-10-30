@@ -715,7 +715,7 @@ export class GameUI {
       let n = 1; const wrap = document.createElement('div'); wrap.className = 'ui-modal'; this.fx?.tipHide();
       const draw = () => { wrap.innerHTML = `<div class="ui-panel ui-pad" data-scr="shop" data-pat="awning"><div class="plate ui-pad" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
         <b class="grow" style="flex:1">${esc(it.name)}</b><span class="qty"><button data-m="-1" aria-label="Fewer">−</button><b style="min-width:2.5em;text-align:center">×${n}</b><button data-m="-2" aria-label="More">+</button></span>
-        <span class="price"><i class="coin"></i> ${it.price * n}</span></div><ul class="ui-list" style="margin-top:10px"><li class="ui-row sel" data-m="0">OK</li></ul></div>`; };
+        <span class="price">${it.unit ? `<span class="merit-star">${esc(it.unit)}</span>` : '<i class="coin"></i>'} ${it.price * n}</span></div><ul class="ui-list" style="margin-top:10px"><li class="ui-row sel" data-m="0">OK</li></ul></div>`; };
       draw(); this.root.appendChild(wrap);
       const done = (v) => { wrap.remove(); this.modal = null; resolve(v); };
       const step = (d) => { n = Math.max(1, Math.min(Math.max(1, max), n + d)); draw(); };

@@ -7,6 +7,9 @@
 // saving the whole time the overlay is open, so the fee, the race and the prize land in one save after the overlay
 // closes. Closing the tab mid-race reloads the pre-talk checkpoint: fee not taken, window not used.
 import { attachTownEvents } from './town_ui.js?v=v0.2.93-alpha';
+import { attachGarden } from '../garden/index.js?v=v0.2.93-alpha'; // garden plots + merit shop (Oct 30 2026)
+import { meritState } from './merit.js?v=v0.2.93-alpha';
+import { gt } from '../garden/strings.js?v=v0.2.93-alpha';
 import { S, t } from './strings.js?v=v0.2.93-alpha';
 import { STATS, POINTS } from './rules.js?v=v0.2.93-alpha';
 import { racerFromCreature, singleEntrant, pickRivals, DASH } from './dash.js?v=v0.2.93-alpha';
@@ -102,7 +105,8 @@ export function attachSports(scene, { query, systems } = {}) {
     };
   };
   hookInteract(sys());
-  const town = attachTownEvents(scene, { sys, sstate, isOpen: () => st.open });
+  const garden = attachGarden(scene, { sys, sstate });
+  const town = attachTownEvents(scene, { sys, sstate, isOpen: () => st.open, openMerit: garden.openMeritShop });
 
   /** Opens the venue screen; resolves when the overlay closes. */
   function openVenue() {
@@ -250,7 +254,8 @@ export function attachSports(scene, { query, systems } = {}) {
     const verdict = mine ? (mine.place === 1 ? S.result_win : mine.place <= 3 ? S.result_podium : S.result_lose) : S.result_out;
     const tour = st.meet.mode === 'tourney';
     settleMeet();
-    const extra = tour ? (st.meet.prize ? t('tourney_prize', { prize: st.meet.prize }) : S.tourney_no_prize) : S.practice_note;
+    const mpts = tour ? sstate().lastMerit || 0 : 0;
+    const extra = (tour ? (st.meet.prize ? t('tourney_prize', { prize: st.meet.prize }) : S.tourney_no_prize) : S.practice_note) + (mpts ? ' · ' + gt('merit.earned', { pts: mpts, points: meritState(sstate()).points }) : '');
     ov.innerHTML = `<div class="box" id="sports-results"><h2>${esc(S.results)}: ${esc(tour ? S.tourney_title : S.practice_title)}</h2><div class="sub">${esc(verdict)}</div><div class="sub gold" id="sports-prize">${esc(extra)}${wallet() ? ' · ' + esc(S.wallet) + ': ' + wallet().coins.toLocaleString('en-US') : ''}</div>
       <b>${esc(S.final)}</b>${table(fin, me.key)}
       ${out.heats.map((h, i) => `<b>${esc(t('heat', { n: i + 1 }))}</b>${table(nameFix(h.placed, h.label), me.key)}`).join('')}

@@ -8,6 +8,7 @@ import { tug } from './tug.js?v=v0.2.93-alpha';
 import { cupState, RIVAL_SPECIES, RIVAL_TRAINERS } from './town_cup.js?v=v0.2.93-alpha';
 import { rollRivalAthletics } from './athletics.js?v=v0.2.93-alpha';
 import { rngFor } from './rng.js?v=v0.2.93-alpha';
+import { awardMerit } from './merit.js?v=v0.2.93-alpha';
 
 export const MAJOR = { fee: 500, prize: 3000, everyDays: 9, offset: 4, rounds: 3, needTowns: 4, rivals: 3, points: [10, 6, 4, 2] };
 export const MAJOR_POOL = [...EVENTS, tug];
@@ -67,6 +68,7 @@ export function standings(myScores, field) {
 export function settleMajor({ myScores, field, wallet, sstate, mult = 1 }) {
   const table = standings(myScores, field), place = table.findIndex((x) => x.me) + 1, m = majorState(sstate);
   let prize = 0; if (place === 1) { m.wins++; prize = wallet ? wallet.add(Math.round(MAJOR.prize * mult)) : 0; }
-  return { place, table, prize, wins: m.wins };
+  const merit = awardMerit(sstate, 'major', place); // merit points by place (src/sports/merit.js)
+  return { place, table, prize, wins: m.wins, merit };
 }
 export { evOf as majorEvent, cupState };

@@ -73,6 +73,25 @@ const FIELD = {
   old_river_drawing: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Old River Drawing', flag: 'sq_rested_done' }, // Where It Rested (sq_rested_done)
   reed_lamp: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Reed Lamp' }, // Mirefen (Wenna's lamp quest)
   field_reading_sheet: { pocket: 'key', field: null, key: true, earnedOnly: true, name: 'Field Reading Sheet', flag: 'item_field_reading_sheet' }, // Lanternport page hand-off (story_beats §L); pays off at the summit camp
+  // Garden + merit shop (Oct 30 2026; src/garden/, src/sports/merit.js). PLACEHOLDER names (Text Bot: data/textbot_requests_merit_shop.md).
+  watering_can: { pocket: 'key', field: null, key: true, name: 'Watering Can' },
+  watering_can_merit: { pocket: 'key', field: null, key: true, name: 'Merit Watering Can' },
+  carrot_seeds: { pocket: 'gear', field: null, seed: 'carrot', name: 'Carrot Seeds' },
+  turnip_seeds: { pocket: 'gear', field: null, seed: 'turnip', name: 'Turnip Seeds' },
+  radish_seeds: { pocket: 'gear', field: null, seed: 'radish', name: 'Radish Seeds' },
+  tomato_seeds: { pocket: 'gear', field: null, seed: 'tomato', name: 'Tomato Seeds' },
+  pumpkin_seeds: { pocket: 'gear', field: null, seed: 'pumpkin', name: 'Pumpkin Seeds' },
+  sunroot_seeds: { pocket: 'gear', field: null, seed: 'sunroot', name: 'Sunroot Seeds' },
+  glowbean_seeds: { pocket: 'gear', field: null, seed: 'glowbean', name: 'Glowbean Seeds' },
+  drumleek_seeds: { pocket: 'gear', field: null, seed: 'drumleek', name: 'Drumleek Seeds' },
+  carrot: { pocket: 'feeds', field: null, crop: true, name: 'Carrot' },
+  turnip: { pocket: 'feeds', field: null, crop: true, name: 'Turnip' },
+  radish: { pocket: 'feeds', field: null, crop: true, name: 'Radish' },
+  tomato: { pocket: 'feeds', field: null, crop: true, name: 'Tomato' },
+  pumpkin: { pocket: 'feeds', field: null, crop: true, name: 'Pumpkin' },
+  sunroot: { pocket: 'feeds', field: null, crop: true, name: 'Sunroot' },
+  glowbean: { pocket: 'feeds', field: null, crop: true, name: 'Glowbean' },
+  drumleek: { pocket: 'feeds', field: null, crop: true, name: 'Drumleek' },
 };
 /** Text Bot keys for the region 5-6 items: [name path, desc path] in overworld_lines.json. */
 export const R5_R6_ITEM_TEXT = {

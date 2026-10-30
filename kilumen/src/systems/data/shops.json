@@ -1,6 +1,14 @@
 {
  "_TUNING": "PLACEHOLDER TUNING VALUES (systems-gd pass, Oct 22, 2026). Every price, rate, fee and payout below is a guess for playtesting, not signed off by Gary. Prices are fixed per region (system_shop: 'Prices fixed per region').",
  "basePrices": {
+  "carrot": 60,
+  "turnip": 50,
+  "radish": 50,
+  "tomato": 80,
+  "pumpkin": 200,
+  "sunroot": 120,
+  "glowbean": 70,
+  "drumleek": 160,
   "tonic_small": 200,
   "tonic_large": 600,
   "energy_tonic": 1500,
