@@ -1,0 +1,98 @@
+{
+ "name": "bite_exclaim",
+ "group": "bobber",
+ "sheet": "bite_exclaim_sheet.png",
+ "preview": "bite_exclaim_preview.gif",
+ "frame_w": 64,
+ "frame_h": 64,
+ "squares": [
+  1,
+  1
+ ],
+ "square_px": 64,
+ "art_scale": 4,
+ "frame_count": 6,
+ "ms_per_frame": [
+  50,
+  60,
+  80,
+  200,
+  200,
+  200
+ ],
+ "total_ms": 790,
+ "playback": "one-shot",
+ "anchor": {
+  "x": 32,
+  "y": 60,
+  "art_x": 8,
+  "art_y": 15,
+  "note": "bottom centre; place one square above bobber square"
+ },
+ "sheet_layout": "grid 6 cols x 1 rows, row-major",
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 50
+  },
+  {
+   "i": 1,
+   "x": 64,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 60
+  },
+  {
+   "i": 2,
+   "x": 128,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 80
+  },
+  {
+   "i": 3,
+   "x": 192,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 200
+  },
+  {
+   "i": 4,
+   "x": 256,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 200
+  },
+  {
+   "i": 5,
+   "x": 320,
+   "y": 0,
+   "w": 64,
+   "h": 64,
+   "ms": 200
+  }
+ ],
+ "glyphs": null,
+ "emissive_hint": true,
+ "qa_background": "water",
+ "readability": {
+  "dawn": 0.984,
+  "day": 0.984,
+  "dusk": 0.98,
+  "night": 0.966
+ },
+ "night_readability": 0.966,
+ "pass_night": true,
+ "notes": "one-shot pop; hold last frame until input",
+ "filter": "nearest",
+ "alpha": "1-bit",
+ "palette": "art/palette/kilumen.hex"
+}

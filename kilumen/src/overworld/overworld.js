@@ -828,6 +828,7 @@ export class Overworld {
       party: this.party, stillS: (ms - this.stillSince) / 1000,
       idleAfterHealS: this.healedAt == null ? -1 : (ms - Math.max(this.healedAt, this.stillSince)) / 1000,
       binStage: this.binShown ?? null,
+      derbyTurnIns: this.systems?.state?.derby?.turnIns || 0, // Gullhaven derby (src/seaport): requires_state derby_turn_ins_gte
       ...extra,
     };
   }
@@ -840,6 +841,7 @@ export class Overworld {
       if (line.when?.once || line.when?.dream_unseen) this.seen[lk] = true;
       if (line.when?.once_per_day) this.seenDay[lk] = this.clock.day;
       this.log.push({ tick: this.tick, type: 'line', key, id: line.id });
+      for (const f of [].concat(line.sets || [])) if (f && !this.flags.has(f)) this.setFlag(f); // v2 lines: sets
       this._dirty = true;
     }
     return line;
@@ -1297,7 +1299,7 @@ export class Overworld {
       fade: this.fadeAlpha(), debug: this.debug, drawDebug, player: p, fps: this.fps, lastDoor: this.lastDoor, flags: [...this.flags],
       ixlight: this.ixlight, phase: this.phase,
       wind: this.wind, life: this.life, depth: this.depth, nightfx: this.nightfx, mood: this.mood, r9fx: this.r9fx, markers: this._markerDraw(), // mood: cinematic layers (mood.js, set in main.js)
-      outside: outsideFillFor(this.opts.platform?.profile?.camera, this.opts.platform?.profile?.display, this.map.name, isIndoor(this.map.name)), edgeShade: this.opts.platform?.profile?.display?.edgeShade, // mobile/centre camera: fill off the map (pc without alwaysCentre: black)
+      outside: outsideFillFor(this.opts.platform?.profile?.camera, this.opts.platform?.profile?.display, this.map.name, isIndoor(this.map.name), this.map.json?.outside_fill), edgeShade: this.map.json?.edge_shade ?? this.opts.platform?.profile?.display?.edgeShade, // mobile/centre camera: fill off the map (pc without alwaysCentre: black)
     };
   }
 

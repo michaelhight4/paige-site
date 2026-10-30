@@ -38,7 +38,7 @@ export const TEXT = Object.freeze({ // Text Bot, design/seaport/textbot_seaport.
   "derby.leave_ask": ["Leave the lagoon now and the run is\nforfeit. Quit the derby?"],
   "derby.forfeit": ["Run forfeit. The haul slips back\ninto the lagoon with a splash."],
   "derby.scale_idle": ["The weigh-in scale, wet with spray.\nYour best derby score: {best}."],
-  "derby.turn_in": ["The clerk adds it all up.\nFinal score: {score}!", "That's a {tier}-tier haul!\nHere's your prize."],
+  "derby.turn_in": ["The clerk adds it all up.\nFinal score: {score}!", "That's a {tier}-tier haul!\nHere's your prize.", "Lantern festival's on in Lanternport.\nYour prize would look good in it."], // page 3 (lantern): prize tiers only (derby.no_tier has none)
   "derby.no_tier": ["The clerk adds it all up.\nFinal score: {score}.", "Not enough for a prize this time.\nThe lagoon will be here tomorrow."],
   "derby.new_best": ["A new best score! The clerk chalks\nit up on the board by the desk."],
   "derby.keeper": ["Your heaviest catch, {species}\n({kg} kg), is coming home with you!"],
@@ -88,7 +88,7 @@ export function scoreRun(run) {
     largest: run.haul.reduce((m, c) => (!m || c.kg > m.kg ? c : m), null), totalKg: Math.round(run.haul.reduce((a, c) => a + c.kg, 0) * 10) / 10 };
 }
 export const tierFor = (score) => TIERS.find((t) => score >= t.min) || null;
-export function blankRecord() { return { best: 0, runs: 0, records: {}, last: null, active: null }; }
+export function blankRecord() { return { best: 0, runs: 0, turnIns: 0, records: {}, last: null, active: null }; }
 /** Close a run into the save record. Returns {result, record}. Forfeit -> score 0, no prize, no records. */
 export function finishRun(rec, run, { forfeit = false } = {}) {
   const R = { ...blankRecord(), ...(rec || {}) }; R.records = { ...(R.records || {}) };
@@ -97,7 +97,7 @@ export function finishRun(rec, run, { forfeit = false } = {}) {
   if (!forfeit) for (const c of run.haul) if (!(R.records[c.species] >= c.kg)) R.records[c.species] = c.kg;
   const newBest = !forfeit && score > (R.best || 0);
   if (newBest) R.best = score;
-  R.runs = (R.runs || 0) + 1; R.last = result; R.active = null;
+  R.runs = (R.runs || 0) + 1; if (!forfeit) R.turnIns = (R.turnIns || 0) + 1; R.last = result; R.active = null; // turnIns gates the clerk legend line
   return { result: { ...result, newBest, prize: tier?.prize || null }, record: R };
 }
 /** Is a move from the derby map to `toMap` leaving the derby area? */

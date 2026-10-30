@@ -1,0 +1,98 @@
+{
+ "name": "line_tension",
+ "group": "reel",
+ "sheet": "line_tension_sheet.png",
+ "preview": "line_tension_preview.gif",
+ "frame_w": 256,
+ "frame_h": 64,
+ "squares": [
+  4,
+  1
+ ],
+ "square_px": 64,
+ "art_scale": 4,
+ "frame_count": 6,
+ "ms_per_frame": [
+  70,
+  70,
+  70,
+  70,
+  70,
+  70
+ ],
+ "total_ms": 420,
+ "playback": "loop",
+ "anchor": {
+  "x": 0,
+  "y": 8,
+  "art_x": 0,
+  "art_y": 2,
+  "note": "rod tip at left; flip x for facing left"
+ },
+ "sheet_layout": "grid 6 cols x 1 rows, row-major",
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 1,
+   "x": 256,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 2,
+   "x": 512,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 3,
+   "x": 768,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 4,
+   "x": 1024,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 70
+  },
+  {
+   "i": 5,
+   "x": 1280,
+   "y": 0,
+   "w": 256,
+   "h": 64,
+   "ms": 70
+  }
+ ],
+ "glyphs": null,
+ "emissive_hint": true,
+ "qa_background": "water",
+ "readability": {
+  "dawn": 0.984,
+  "day": 0.984,
+  "dusk": 0.984,
+  "night": 0.967
+ },
+ "night_readability": 0.967,
+ "pass_night": true,
+ "notes": "loop while reeling; mirror/rotate in code to match rod->bobber vector, or stretch across squares by repeating",
+ "filter": "nearest",
+ "alpha": "1-bit",
+ "palette": "art/palette/kilumen.hex"
+}

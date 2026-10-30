@@ -1,0 +1,30 @@
+{
+ "errors": [],
+ "shots": [
+  "pc04_sea_swimmers_before.png",
+  "pc04_sea_swimmers_after.png",
+  "sea_north_treeline.png",
+  "sea_swimmers_east.png",
+  "town.png",
+  "town_west_edge.png",
+  "cliffs.png",
+  "cave_west.png",
+  "cave_east_entry.png",
+  "cave_east_lake.png",
+  "pc08_derby_lagoon.png",
+  "lagoon_path_ends.png",
+  "derby_desk_featured.png",
+  "pc09_derby_hud.png",
+  "derby_seq_1_cast.png",
+  "derby_seq_2_bobber_idle.png",
+  "derby_seq_3_nibble.png",
+  "derby_seq_4_bite.png",
+  "derby_seq_5_reel.png",
+  "derby_seq_6_breach.png",
+  "derby_seq_7_catch_flash.png",
+  "derby_seq_8_weigh.png",
+  "derby_seq_9_turn_in.png",
+  "derby_after_turn_in.png",
+  "ron.png"
+ ]
+}

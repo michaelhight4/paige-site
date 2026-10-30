@@ -1,0 +1,134 @@
+{
+ "name": "new_record_burst",
+ "group": "scale",
+ "sheet": "new_record_burst_sheet.png",
+ "preview": "new_record_burst_preview.gif",
+ "frame_w": 192,
+ "frame_h": 192,
+ "squares": [
+  3,
+  3
+ ],
+ "square_px": 64,
+ "art_scale": 4,
+ "frame_count": 10,
+ "ms_per_frame": [
+  40,
+  50,
+  60,
+  70,
+  80,
+  90,
+  100,
+  110,
+  120,
+  140
+ ],
+ "total_ms": 860,
+ "playback": "one-shot",
+ "anchor": {
+  "x": 96,
+  "y": 96,
+  "art_x": 24,
+  "art_y": 24,
+  "note": "centre; centre on the readout plate"
+ },
+ "sheet_layout": "grid 10 cols x 1 rows, row-major",
+ "frames": [
+  {
+   "i": 0,
+   "x": 0,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 40
+  },
+  {
+   "i": 1,
+   "x": 192,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 50
+  },
+  {
+   "i": 2,
+   "x": 384,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 60
+  },
+  {
+   "i": 3,
+   "x": 576,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 70
+  },
+  {
+   "i": 4,
+   "x": 768,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 80
+  },
+  {
+   "i": 5,
+   "x": 960,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 90
+  },
+  {
+   "i": 6,
+   "x": 1152,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 100
+  },
+  {
+   "i": 7,
+   "x": 1344,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 110
+  },
+  {
+   "i": 8,
+   "x": 1536,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 120
+  },
+  {
+   "i": 9,
+   "x": 1728,
+   "y": 0,
+   "w": 192,
+   "h": 192,
+   "ms": 140
+  }
+ ],
+ "glyphs": null,
+ "emissive_hint": true,
+ "qa_background": "floor_wood",
+ "readability": {
+  "dawn": 0.915,
+  "day": 0.921,
+  "dusk": 0.915,
+  "night": 0.807
+ },
+ "night_readability": 0.807,
+ "pass_night": true,
+ "notes": "one-shot",
+ "filter": "nearest",
+ "alpha": "1-bit",
+ "palette": "art/palette/kilumen.hex"
+}
