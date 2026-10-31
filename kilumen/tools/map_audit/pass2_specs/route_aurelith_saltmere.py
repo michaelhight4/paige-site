@@ -5,7 +5,7 @@
 Plus a push boulder (15,18) as a field-skill gate."""
 from pass2_spec import P as _P, T, E
 M = 'route_aurelith_saltmere'
-def P(*a, **k): return _P(M, *a, main_start=[1, 19], floor_tile_at=[20, 20], floor_tiles=None, **k)
+def P(*a, **k): return _P(M, *a, main_start=[1, 19], floor_tile_at=[20, 20], floor_tiles=(1, 2, 3, 4), **k)
 POCKETS = [
  P('ras_pocket_cellar', 'route_aurelith_saltmere_cave_w', 'Salt Cellar', [[15, 13, 25, 14]], [17, 19, 15], [], [13, 18], [22, 12],
    T('r9_rasp_saltpan', 16, 13, 'Salt Raker', 'Dagny', ['tuskwallow', 'cascadorn', 'galespar'],

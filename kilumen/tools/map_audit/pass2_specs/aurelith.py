@@ -5,7 +5,7 @@
 Plus a push boulder shortcut and plaza rocks (R1: no huge empty square)."""
 from pass2_spec import P as _P, T, E
 M = 'aurelith'
-def P(*a, **k): return _P(M, *a, main_start=[44, 28], floor_tile_at=[40, 28], floor_tiles=None, **k)
+def P(*a, **k): return _P(M, *a, main_start=[44, 28], floor_tile_at=[40, 28], floor_tiles=(10893,), **k)
 POCKETS = [
  P('aur_pocket_vault', 'aurelith_cave_nw', 'Gate Vault', [[3, 10, 10, 15]], [7, 9, 16], [[7, 17], [8, 17], [9, 17], [10, 17], [11, 17]], [13, 6], [5, 9],
    T('r9_aurp_vaultkeeper', 3, 10, 'Guard', 'Hedda', ['foundrax', 'cragmont', 'stratodrake'],

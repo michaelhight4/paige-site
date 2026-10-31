@@ -12,6 +12,10 @@ MAPS = os.path.join(ROOT, 'art', 'world', 'overworld', 'maps')
 BASE = os.environ.get('CAVE_POCKETS_BASE', '38dd5c7f')  # set to a later commit for maps edited upstream after pass 2 began
 SPEC = json.load(open(os.path.join(ROOT, 'data', 'pass2_caves.json')))
 MOUTH = [[794, 795, 796], [797, 798, 799]]  # cave_entrance 3x2; 798 = door (collision 4)
+import re
+_TS = json.load(open(os.path.join(ROOT, 'art', 'world', 'overworld', 'tileset.json')))
+TILE_NAMES = {t['id']: t['name'] for t in _TS['tiles']}
+BAD_FLOOR = re.compile(r'>|zebra|road_|crosswalk|fence|rail_|_edge')
 LEDGE = (517, 519, 521)                      # ledge_l / ledge_m / ledge_r (collision 2, south drop)
 
 def base_map(name):
@@ -25,7 +29,12 @@ def put(j, x, y, g=None, d=0, o=0, c=0):
     if 'encounter' in L: L['encounter'][y][x] = 0
 
 def floor_tile(j, at):
-    return j['layers']['ground'][at[1]][at[0]]
+    # Hotfix v0.2.102 (Oct 30 2026): a sampled cell can be a crosswalk, road marking or autotile edge (aurelith sampled
+    # x_city_zebra_h and tiled it over whole pockets). Only plain fill ground may be sampled; else set floor_tiles in the spec.
+    t = j['layers']['ground'][at[1]][at[0]]
+    name = TILE_NAMES.get(t, '')
+    assert not BAD_FLOOR.search(name), f'floor_tile_at {at} samples {t} {name}: not plain ground, set floor_tiles'
+    return t
 
 def mouth(j, x, y):  # door cell (x, y) = bottom middle of the 3x2 entrance
     for r in range(2):

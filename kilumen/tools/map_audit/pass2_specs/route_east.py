@@ -5,7 +5,7 @@
 Plus a push boulder (21,27) into a side cut through the south-west rock."""
 from pass2_spec import P as _P, T, E
 M = 'route_east'
-def P(*a, **k): return _P(M, *a, main_start=[0, 19], floor_tile_at=[20, 20], floor_tiles=None, **k)
+def P(*a, **k): return _P(M, *a, main_start=[0, 19], floor_tile_at=[20, 20], floor_tiles=(1, 2, 3, 4), **k)
 POCKETS = [
  P('re_pocket_ridge', 'route_east_cave_n', 'Ridge Hollow', [[20, 8, 30, 8]], [22, 24, 9], [], [36, 9], [25, 7],
    T('r9_rep_ridgewalker', 20, 8, 'Ridge Walker', 'Edvin', ['stratodrake', 'cragmont', 'galespar'],

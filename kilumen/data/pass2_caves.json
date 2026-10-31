@@ -1765,7 +1765,12 @@
     20,
     20
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave route_aurelith_saltmere_cave_w",
     "out": "one-way ledge at y15 x17-19",
@@ -1855,7 +1860,12 @@
     20,
     20
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave route_aurelith_saltmere_cave_m",
     "out": "one-way ledge at y21 x27-28",
@@ -1936,7 +1946,12 @@
     20,
     20
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave route_aurelith_saltmere_cave_e",
     "out": "one-way ledge at y11 x33-35",
@@ -2026,7 +2041,12 @@
     20,
     20
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave route_east_cave_n",
     "out": "one-way ledge at y9 x22-24",
@@ -2107,7 +2127,12 @@
     20,
     20
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave route_east_cave_e",
     "out": "one-way ledge at y15 x44-46",
@@ -2197,7 +2222,12 @@
     20,
     20
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave route_east_cave_w",
     "out": "one-way ledge at y15 x14-16",
@@ -2927,7 +2957,12 @@
     30,
     25
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave sunmeadow_fields_cave_e",
     "out": "one-way ledge at y19 x40-42",
@@ -3048,7 +3083,12 @@
     30,
     25
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave sunmeadow_fields_cave_nw",
     "out": "one-way ledge at y31 x20-22",
@@ -3369,7 +3409,12 @@
     30,
     25
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    1,
+    2,
+    3,
+    4
+   ],
    "gate": {
     "in": "cave sunmeadow_fields_cave_n",
     "out": "one-way ledge at y36 x36-38",
@@ -3471,7 +3516,9 @@
     40,
     28
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    10893
+   ],
    "gate": {
     "in": "cave aurelith_cave_nw",
     "out": "one-way ledge at y16 x7-9",
@@ -3590,7 +3637,9 @@
     40,
     28
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    10893
+   ],
    "gate": {
     "in": "cave aurelith_cave_ne",
     "out": "one-way ledge at y16 x78-80",
@@ -3749,7 +3798,9 @@
     40,
     28
    ],
-   "floor_tiles": null,
+   "floor_tiles": [
+    10893
+   ],
    "gate": {
     "in": "cave aurelith_cave_e",
     "out": "one-way ledge at y49 x79-81",

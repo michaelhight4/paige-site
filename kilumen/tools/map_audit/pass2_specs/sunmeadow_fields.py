@@ -5,7 +5,7 @@
 Plus a push boulder (13,22) into a shortcut down the west rock, and three rocks in the big field (R1: no huge empty square)."""
 from pass2_spec import P as _P, T, E
 M = 'sunmeadow_fields'
-def P(*a, **k): return _P(M, *a, main_start=[10, 14], floor_tile_at=[30, 25], floor_tiles=None, **k)
+def P(*a, **k): return _P(M, *a, main_start=[10, 14], floor_tile_at=[30, 25], floor_tiles=(1, 2, 3, 4), **k)
 POCKETS = [
  P('smf_pocket_loft', 'sunmeadow_fields_cave_e', 'Hay Loft', [[36, 13, 43, 18]], [40, 42, 19], [], [46, 16], [39, 12],
    T('r9_smfp_haymaker', 36, 13, 'Farmer', 'Bodil', ['tuskwallow', 'fernstag', 'cragmont'],
