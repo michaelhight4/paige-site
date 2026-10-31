@@ -1,22 +1,22 @@
 // Kilumen systems entry: attachSystems(scene) wires party / bag / heal / shop / puzzles into the overworld through
 // the `// [systems-gd hook]` lines in overworld.js (see src/systems/HOOKS.md). systems-gd pass, Oct 22, 2026.
 // Everything here also runs against a stub scene (tests, systems_preview.html).
-import { CHEST_PAL, CHEST_PAL_IRON, CHEST_CLOSED, CHEST_OPEN } from './chest_art.js?v=v0.2.104-alpha';
-import { systemsConfig, fmtMoney } from './config.js?v=v0.2.104-alpha';
-import { giftTalk } from './npc_gifts.js?v=v0.2.104-alpha';
-import { Party, Archive } from './party.js?v=v0.2.104-alpha';
-import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.104-alpha';
-import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.104-alpha';
-import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.104-alpha';
-import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, getShops, newStockAt } from './shop.js?v=v0.2.104-alpha';
-import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.104-alpha';
-import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.104-alpha';
-import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.104-alpha';
-import { gradeImage } from '../overworld/palette.js?v=v0.2.104-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.104-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
-import { attachLinkBand } from './link_band.js?v=v0.2.104-alpha';
-import { migrateHeld, allOwned } from './held.js?v=v0.2.104-alpha'; // held items P2-P5 (Oct 29 2026)
-import { injectHiddenSpots, grantFlagRewards, FLAG_REWARDS } from './held_rewards.js?v=v0.2.104-alpha';
+import { CHEST_PAL, CHEST_PAL_IRON, CHEST_CLOSED, CHEST_OPEN } from './chest_art.js?v=v0.2.XXX-alpha';
+import { systemsConfig, fmtMoney } from './config.js?v=v0.2.XXX-alpha';
+import { giftTalk } from './npc_gifts.js?v=v0.2.XXX-alpha';
+import { Party, Archive } from './party.js?v=v0.2.XXX-alpha';
+import { Bag, pickupAt, visiblePickups, collectPickup, isTbd } from './bag.js?v=v0.2.XXX-alpha';
+import { Heal, setActiveSystems, onPartyFainted } from './heal.js?v=v0.2.XXX-alpha';
+import { diffOf, getDifficulty, PENDING_KEY } from './difficulty.js?v=v0.2.XXX-alpha';
+import { Shop, Wallet, awardPrize as awardPrizeFn, awardBattleMoney as awardBattleMoneyFn, loadShopsData, getShops, newStockAt } from './shop.js?v=v0.2.XXX-alpha';
+import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.XXX-alpha';
+import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.XXX-alpha';
+import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.XXX-alpha';
+import { gradeImage } from '../overworld/palette.js?v=v0.2.XXX-alpha';
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.XXX-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { attachLinkBand } from './link_band.js?v=v0.2.XXX-alpha';
+import { migrateHeld, allOwned } from './held.js?v=v0.2.XXX-alpha'; // held items P2-P5 (Oct 29 2026)
+import { injectHiddenSpots, grantFlagRewards, FLAG_REWARDS } from './held_rewards.js?v=v0.2.XXX-alpha';
 
 export { onPartyFainted };
 const BLOCK = 1; // constants.js Col.BLOCK (solid supply satchel)
@@ -179,7 +179,7 @@ export class Systems {
   async onTalk({ mapName, def, entry, line, speaker }) {
     if (await giftTalk(this, { mapName, def, entry, line, speaker })) return true; // region 2: parcel -> Courier Bike + office gift (npc_gifts.js)
     if (entry?.after_heal || /_carer$/.test(def.id)) return this.heal.carerTalk({ mapName, def, entry, line, speaker });
-    if ((mapName === 'shop_int' || this.scene.map?.json?.interior_kind === 'mart') && (def.id === 'clerk' || def.variant_of === 'clerk')) { // r78 WD: unique marts (shop_lanternport / shop_cindervale) set interior_kind 'mart'
+    if (((mapName === 'shop_int' || this.scene.map?.json?.interior_kind === 'mart') && (def.id === 'clerk' || def.variant_of === 'clerk')) || def.stall_shop) { // GD Oct 30 2026: town market stall keepers (stall_shop) reuse the shop // r78 WD: unique marts (shop_lanternport / shop_cindervale) set interior_kind 'mart'
       // Wellspire fixes (Oct 30 2026): visits are tracked per shop (map + town), so 'Back again' never greets a first-time visitor
       const vk = `${mapName}#${this.zone || ''}`, visits = this.state ? (this.state.shopVisits ||= {}) : (this._shopVisits ||= {}), first = !visits[vk];
       visits[vk] = (visits[vk] || 0) + 1;

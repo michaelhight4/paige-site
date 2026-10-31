@@ -1,4 +1,4 @@
-import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.104-alpha';
+import { applyHeldPicks, heldRoleFor } from '../battle/data/trainer_held.js?v=v0.2.XXX-alpha';
 // Masters 1-8 (Oct 23, 2026, overnight coder). Data: data/masters.json (built from design/overnight_gd/halls/*.json by
 // tools/build_progression_data.mjs). Pure helpers here; the scene / UI wiring is in ./index.js.
 // - results: each Master win sets its story flag (beat_master_<zone>), which IS the coin (coinCount() in src/overworld/lines.js).

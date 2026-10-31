@@ -15310,7 +15310,331 @@
      }
     ]
    },
-   "area_name": "Tidewater Coast"
+   "area_name": "Tidewater Coast",
+   "tidewater_coast_dock_fisher_1": {
+    "pages": [
+     "DRAFT placeholder: Casting off the quay by the buoys."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Casting off the quay by the buoys."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_fisher_2": {
+    "pages": [
+     "DRAFT placeholder: Fishing off the end of the east dock."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Fishing off the end of the east dock."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_fisher_3": {
+    "pages": [
+     "DRAFT placeholder: Line in off the end of the west small dock."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Line in off the end of the west small dock."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_fishmonger": {
+    "pages": [
+     "DRAFT placeholder: Fishmonger at the wharf stall: today's catch."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Fishmonger at the wharf stall: today's catch."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_trader": {
+    "pages": [
+     "DRAFT placeholder: Trader at the wharf stall: goods off the cargo ships."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Trader at the wharf stall: goods off the cargo ships."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_shipwright": {
+    "pages": [
+     "DRAFT placeholder: Shipwright on the small docks, mending rowboats."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Shipwright on the small docks, mending rowboats."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_1": {
+    "pages": [
+     "DRAFT placeholder: Dock worker hauling crates to the stalls."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Dock worker hauling crates to the stalls."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_2": {
+    "pages": [
+     "DRAFT placeholder: Dock worker waiting under the crane for the merchant ship."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Dock worker waiting under the crane for the merchant ship."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_3": {
+    "pages": [
+     "DRAFT placeholder: Dock worker walking the boardwalk."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Dock worker walking the boardwalk."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_fisher_4": {
+    "pages": [
+     "DRAFT placeholder: Fishing off the quay corner by the buoys."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Fishing off the quay corner by the buoys."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_fisher_5": {
+    "pages": [
+     "DRAFT placeholder: Fishing off the west end of the quay."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Fishing off the west end of the quay."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_baker": {
+    "pages": [
+     "DRAFT placeholder: Baker selling bread to the sailors."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Baker selling bread to the sailors."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_harbourmaster": {
+    "pages": [
+     "DRAFT placeholder: Harbourmaster: the big merchant ship comes in at seven and leaves at five."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Harbourmaster: the big merchant ship comes in at seven and leaves at five."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_warehouse_clerk_1": {
+    "pages": [
+     "DRAFT placeholder: Warehouse clerk tallying crates at the west store."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Warehouse clerk tallying crates at the west store."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_warehouse_clerk_2": {
+    "pages": [
+     "DRAFT placeholder: Cargo clerk tallying the quay stacks."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Cargo clerk tallying the quay stacks."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_4": {
+    "pages": [
+     "DRAFT placeholder: Porter unloading the west cargo ship."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Porter unloading the west cargo ship."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_5": {
+    "pages": [
+     "DRAFT placeholder: Porter unloading the middle cargo ship."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Porter unloading the middle cargo ship."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_6": {
+    "pages": [
+     "DRAFT placeholder: Dock worker tying up boats on the east dock."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Dock worker tying up boats on the east dock."
+      ]
+     }
+    ]
+   }
   },
   "tidewater_hall_int": {
    "tidewater_hall_int_master": {

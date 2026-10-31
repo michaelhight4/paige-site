@@ -1,8 +1,8 @@
 // Kilumen overworld: tileset loading (README section 6). The 1x/2x/3x JSON files share ids and indices;
 // we load the set that matches the integer zoom so tiles blit 1:1 at 1080p (2x) and 1440p (3x).
-import { loadImage, loadJson, resolveUrl } from './assets.js?v=v0.2.104-alpha';
-import { ixFlags } from './ixlight.js?v=v0.2.104-alpha';
-import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.104-alpha';
+import { loadImage, loadJson, resolveUrl } from './assets.js?v=v0.2.XXX-alpha';
+import { ixFlags } from './ixlight.js?v=v0.2.XXX-alpha';
+import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.XXX-alpha';
 
 export const COLUMNS = 16;
 

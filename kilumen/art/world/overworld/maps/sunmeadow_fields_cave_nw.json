@@ -902,7 +902,7 @@
    "x": 6,
    "y": 10,
    "to": "sunmeadow_fields",
-   "tx": 14,
+   "tx": 12,
    "ty": 12,
    "facing": "down"
   },
@@ -910,7 +910,7 @@
    "x": 7,
    "y": 10,
    "to": "sunmeadow_fields",
-   "tx": 14,
+   "tx": 12,
    "ty": 12,
    "facing": "down"
   },
@@ -938,7 +938,7 @@
  "interior_role": "pocket_cave",
  "entered_from": {
   "map": "sunmeadow_fields",
-  "x": 14,
+  "x": 12,
   "y": 11
  },
  "pocket": {

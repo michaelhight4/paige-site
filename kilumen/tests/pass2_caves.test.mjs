@@ -30,7 +30,24 @@ test('pass 2 pocket list is not empty and names a gate for each pocket', () => {
   assert.ok(SPEC.pockets.length >= 1);
   for (const p of SPEC.pockets) assert.ok(p.gate?.in && p.gate?.out, `${p.id} gate`);
 });
-for (const p of SPEC.pockets) {
+// town_cave (Coder review 11:21 AM CT, revival_heights): the nook is a plain town cave, ONE mouth on the main path, no pocket
+// door, the old floor is an open park; its trainer and egg stay in town and the strong items sit inside the cave
+for (const p of SPEC.pockets.filter((q) => q.town_cave)) {
+  test(`${p.map} / ${p.id}: town cave, one mouth, open park, seeds in the cave`, () => {
+    const m = load(p.map), cave = load(p.cave);
+    const mouths = m.warps.filter((w) => w.to === p.cave);
+    assert.deepEqual(mouths.map((w) => [w.x, w.y]), [p.mouth], 'exactly one mouth');
+    const main = reach(m, [p.main_start]);
+    assert.ok(main.has(`${p.mouth[0]},${p.mouth[1]}`), 'mouth on the main path');
+    for (const k of cells(p)) { const [x, y] = k.split(',').map(Number); if (PASS.has(m.layers.collision[y][x])) assert.ok(main.has(k), `park ${k} open`); }
+    assert.ok(cave.warps.length >= 1 && cave.warps.every((w) => w.to === p.map && main.has(`${w.tx},${w.ty}`) && !w.pocket), 'cave exits land on the main path');
+    assert.ok((m.npcs || []).find((n) => n.id === p.trainer.id), 'trainer in town'); assert.ok((m.interact_spots || []).find((s) => s.id === p.egg.id), 'egg in town');
+    assert.ok((cave.items || []).some((i) => i.hidden && /vigor_seed/.test(i.item)) && (cave.items || []).some((i) => !i.hidden), 'seeds in the cave');
+    const cw = reach(cave, [[cave.warps[0].x, cave.warps[0].y - 1]]);
+    for (const i of cave.items) assert.ok(cw.has(`${i.x},${i.y}`), `cave item ${i.id} reachable`);
+  });
+}
+for (const p of SPEC.pockets.filter((q) => !q.town_cave)) {
   test(`${p.map} / ${p.id}: sealed, entered by ${p.cave}, left by its ledge, egg + trainer + strong item`, () => {
     const m = load(p.map), cave = load(p.cave); const col = m.layers.collision;
     const pc = cells(p).filter((k) => { const [x, y] = k.split(',').map(Number); return PASS.has(col[y][x]); });
@@ -76,7 +93,7 @@ for (const p of SPEC.pockets) {
 }
 
 // R6 (layering_rules): every pass 2 map shows one strong item in plain sight that the main path can't reach (a pocket)
-for (const mapName of [...new Set(SPEC.pockets.map((p) => p.map))]) {
+for (const mapName of [...new Set(SPEC.pockets.filter((p) => !p.town_cave).map((p) => p.map))]) {
   test(`${mapName}: a visible strong item sits in a sealed pocket (R6)`, () => {
     const m = load(mapName); const ps = SPEC.pockets.filter((p) => p.map === mapName);
     const pc = new Set(ps.flatMap(cells));

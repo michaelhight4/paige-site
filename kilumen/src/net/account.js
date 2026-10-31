@@ -2,7 +2,7 @@
 // so the browser's paigegames.net sign-in does not carry over. This is an in-app email + password form (no popup,
 // no redirect, so it works in standalone mode). Same Supabase project and key as the site's auth.js; the session is
 // stored in THIS app's localStorage (sb-*-auth-token), then the page reloads so cloud saves + the owner dev check run.
-import { SB_URL, SB_KEY, SB_LIB, hasSessionHint } from './cloud_save.js?v=v0.2.104-alpha';
+import { SB_URL, SB_KEY, SB_LIB, hasSessionHint } from './cloud_save.js?v=v0.2.XXX-alpha';
 let sbP = null;
 const client = () => (sbP ||= import(SB_LIB).then(({ createClient }) => createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: false, detectSessionInUrl: false, flowType: 'implicit' } })));
 export const signedInHint = () => hasSessionHint();

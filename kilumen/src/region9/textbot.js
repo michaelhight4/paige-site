@@ -1,6 +1,6 @@
 // Text Bot's final Wellspire lines (data/textbot_*.json) layered over the DRAFT fallbacks in ./text_fallback.js:
 // a Text Bot key wins, any key it lacks falls back to FB. Loaded once at startup (fetch, like data/masters.json). Coder Oct 30 2026.
-import { FB } from './text_fallback.js?v=v0.2.104-alpha';
+import { FB } from './text_fallback.js?v=v0.2.XXX-alpha';
 export const TEXTBOT_FILES = ['data/textbot_icefall.json', 'data/textbot_r9_fill_items.json'];
 export const TB = {};
 /** item id -> player display name from Text Bot (item_display_names); ids stay the code keys. */
@@ -48,7 +48,7 @@ export function loadTextbot(fetchFn = globalThis.fetch) {
 export const PASS2_FILE = 'data/pass2_caves_fallback.json';
 export const PASS2 = { maps: {} };
 // Text Bot's pass 2 lines (one file per map, mirrors maps.<map>.<id>, adds battle_won): override the DRAFT fallback.
-export const PASS2_TEXT_FILES = ['data/textbot_pass2_switchbacks.json', 'data/textbot_pass2_batch2.json', 'data/textbot_pass2_batch3.json', 'data/textbot_pass2_batch4.json'];
+export const PASS2_TEXT_FILES = ['data/textbot_pass2_switchbacks.json', 'data/textbot_pass2_batch2.json', 'data/textbot_pass2_batch3.json', 'data/textbot_pass2_batch4.json', 'data/textbot_pass2_batch5.json', 'data/textbot_logger_scene.json', 'data/textbot_revival_heights_park.json', 'data/textbot_sunmeadow_strollers.json', 'data/textbot_aurelith_strollers.json'];
 export const PASS2_TEXT = { maps: {} };
 export function addPass2Text(o, into = PASS2_TEXT) {
   for (const [m, ids] of Object.entries(o?.maps || {})) Object.assign((into.maps[m] = into.maps[m] || {}), ids);

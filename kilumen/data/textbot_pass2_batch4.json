@@ -1,12 +1,12 @@
 {
  "_status": "DRAFT by Text Bot, Oct 30 2026. Not approved by Gary. Same shape as batch 2/3.",
  "area_names": {
-  "sunmeadow_fields_cave_e": "Hay Loft",
+  "route_sunmeadow_mirefen_cave_loft": "Hay Loft",
   "sunmeadow_fields_cave_nw": "Clover Dell",
-  "sunmeadow_fields_cave_n": "Bee Hollow",
+  "route_sunmeadow_mirefen_cave_hive": "Bee Hollow",
   "aurelith_cave_nw": "Gate Vault",
   "aurelith_cave_ne": "Signal Loft",
-  "aurelith_cave_e": "Old Platform",
+  "route_cindervale_cave_platform": "Old Platform",
   "route_east_cave_n": "Ridge Hollow",
   "route_east_cave_e": "East Den",
   "route_east_cave_w": "West Nook",
@@ -16,27 +16,6 @@
  },
  "maps": {
   "sunmeadow_fields": {
-   "r9_smfp_haymaker": {
-    "name": "Bodil",
-    "pages": [
-     "I stack hay up here where the\ngoats can't reach. Battle?"
-    ],
-    "battle_lost": [
-     "You out-stacked me."
-    ],
-    "battle_won": [
-     "Your team's in a haze.\nGo rest in the shade."
-    ],
-    "after": [
-     "Hop down the ledge\nto the field."
-    ]
-   },
-   "r9_smfp_egg_scarecrow": {
-    "pages": [
-     "A tiny scarecrow.",
-     "It's scaring one very small crow,\nwho doesn't care."
-    ]
-   },
    "r9_smfp_cloverpicker": {
     "name": "Elin",
     "pages": [
@@ -56,27 +35,6 @@
     "pages": [
      "A clover as big as a plate.",
      "It has five leaves.\nSomeone glued one on."
-    ]
-   },
-   "r9_smfp_beekeeper": {
-    "name": "Torvald",
-    "pages": [
-     "Shh. The bees are asleep.\nBattle quietly."
-    ],
-    "battle_lost": [
-     "The bees slept through it."
-    ],
-    "battle_won": [
-     "Quiet win for me.\nThe bees didn't even stir."
-    ],
-    "after": [
-     "Ledge down and go west."
-    ]
-   },
-   "r9_smfp_egg_hive": {
-    "pages": [
-     "A hive in the rock wall. It hums.",
-     "It's humming the Sunmeadow song."
     ]
    }
   },
@@ -103,7 +61,7 @@
     ]
    },
    "r9_aurp_signaller": {
-    "name": "Jory",
+    "name": "Algot",
     "pages": [
      "I wave the lamp when a train comes.\nNone has in years. Battle?"
     ],
@@ -116,33 +74,12 @@
     "after": [
      "Ledge down and head west."
     ],
-    "_name_note": "Renamed from Pell: Pell is the Cairnfold digger."
+    "_name_note": "Renamed from Pell, then Jory (Master Jory Swell)."
    },
    "r9_aurp_egg_lamp": {
     "pages": [
      "A signal lamp stuck on green.",
      "It's been green for nine years."
-    ]
-   },
-   "r9_aurp_porter": {
-    "name": "Ansel",
-    "pages": [
-     "Last stop! Well, the stop\nafter the last stop. Battle?"
-    ],
-    "battle_lost": [
-     "All change, then."
-    ],
-    "battle_won": [
-     "End of the line for your team.\nMind the gap on the way out."
-    ],
-    "after": [
-     "Drop off the platform edge\nand go west."
-    ]
-   },
-   "r9_aurp_egg_clock": {
-    "pages": [
-     "A platform clock.",
-     "Both hands point at\nthe snack stand."
     ]
    }
   },
@@ -276,6 +213,76 @@
      "One is a button, one is a coin,\nand one is a pebble."
     ]
    }
+  },
+  "route_sunmeadow_mirefen": {
+   "r9_smfp_haymaker": {
+    "name": "Bodil",
+    "pages": [
+     "I stack hay up here where the\ngoats can't reach. Battle?"
+    ],
+    "battle_lost": [
+     "You out-stacked me."
+    ],
+    "battle_won": [
+     "Your team's in a haze.\nGo rest in the shade."
+    ],
+    "after": [
+     "Hop down the ledge\nto the path."
+    ]
+   },
+   "r9_smfp_egg_scarecrow": {
+    "pages": [
+     "A tiny scarecrow.",
+     "It's scaring one very small crow,\nwho doesn't care."
+    ]
+   },
+   "r9_smfp_beekeeper": {
+    "name": "Torvald",
+    "pages": [
+     "Shh. The bees are asleep.\nBattle quietly."
+    ],
+    "battle_lost": [
+     "The bees slept through it."
+    ],
+    "battle_won": [
+     "Quiet win for me.\nThe bees didn't even stir."
+    ],
+    "after": [
+     "Ledge down and go west."
+    ]
+   },
+   "r9_smfp_egg_hive": {
+    "pages": [
+     "A hive in the rock wall. It hums.",
+     "It's humming the Sunmeadow song."
+    ]
+   }
+  },
+  "route_cindervale": {
+   "r9_aurp_porter": {
+    "name": "Ansel",
+    "pages": [
+     "Last stop! Well, the stop\nafter the last stop. Battle?"
+    ],
+    "battle_lost": [
+     "All change, then."
+    ],
+    "battle_won": [
+     "End of the line for your team.\nMind the gap on the way out."
+    ],
+    "after": [
+     "Drop off the platform edge\nand head south to the meadow."
+    ]
+   },
+   "r9_aurp_egg_clock": {
+    "pages": [
+     "A platform clock.",
+     "Both hands point at\nthe snack stand."
+    ]
+   }
   }
- }
+ },
+ "_relocated_hay_loft": "GD Oct 30 2026: Hay Loft moved from sunmeadow_fields (cave_e) to route_sunmeadow_mirefen (max 2 caves per map). Lines unchanged except Bodil's after-line (field -> path); Text Bot to review.",
+ "_relocated_bee_hollow": "GD Oct 30 2026 (Gary 12:48 PM CT): Bee Hollow moved from sunmeadow_fields (cave_n, doors 25,11 / 40,30, now a barn and a beekeeper cottage) to route_sunmeadow_mirefen (cave_hive). Lines unchanged; Text Bot to review.",
+ "_relocated_old_platform": "GD Oct 30 2026: Old Platform moved from aurelith (cave_e) to route_cindervale (max 2 caves per town). Lines unchanged; area name kept 'Old Platform'."
 }
