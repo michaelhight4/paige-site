@@ -88,7 +88,10 @@
    "pebblant": "w_9ffb92e60c45",
    "glintfly": "w_41875eb87e0e",
    "larkspar": "w_ddcdc6269db8",
-   "huskling": "w_58e4ef558d45"
+   "huskling": "w_58e4ef558d45",
+   "brookhorn": "w_b74e342387d1",
+   "burrowmane": "w_e041c77260e4",
+   "emberlunx": "w_9996a026f54a"
   },
   "new": {
    "burrowmane": "w_e041c77260e4",
@@ -608,10 +611,10 @@
      ]
     },
     {
-     "src": "Supply is sending {count} more. It's going to reflect on your check.",
+     "src": "Stores is sending {count} more. It's\ngoing to reflect on your check.",
      "segs": [
       {
-       "c": "f_ceb008596a6a"
+       "c": "f_29a86b80281b"
       },
       {
        "p": 70
@@ -620,7 +623,7 @@
        "s": "count"
       },
       {
-       "c": "f_b8c4dc0ea98d"
+       "c": "f_049fda8d799e"
       }
      ]
     }
@@ -1017,7 +1020,7 @@
    "region": "region_1",
    "pages": [
     {
-     "src": "{employee_id}: Employee ID level {level}. Applause withheld.",
+     "src": "{employee_id}: Employee ID level\n{level}. Cheering withheld.",
      "segs": [
       {
        "s": "employee_id"
@@ -1038,15 +1041,15 @@
        "p": 300
       },
       {
-       "c": "f_bbdc734dab49"
+       "c": "f_234827d14abd"
       }
      ]
     },
     {
-     "src": "You're a slightly pricier number now.",
+     "src": "You're a slightly costlier number now.",
      "segs": [
       {
-       "c": "f_4696f9e36b81"
+       "c": "f_603bde5542d7"
       }
      ]
     }
@@ -1953,10 +1956,10 @@
      ]
     },
     {
-     "src": "That's an earth joke. Accounting approved it.",
+     "src": "That's an earth joke. Accounting signed\noff on it.",
      "segs": [
       {
-       "c": "f_5873248e696c"
+       "c": "f_4b2031cd65ec"
       }
      ]
     }
@@ -3048,13 +3051,13 @@
    "ms": 2563,
    "say": "out of crystals already. Company stock, gone."
   },
-  "f_ceb008596a6a": {
-   "ms": 1083,
-   "say": "Supply is sending"
+  "f_29a86b80281b": {
+   "ms": 1048,
+   "say": "Stores is sending"
   },
-  "f_b8c4dc0ea98d": {
-   "ms": 2005,
-   "say": "more. It's going to reflect on your check."
+  "f_049fda8d799e": {
+   "ms": 1986,
+   "say": "more. It's\ngoing to reflect on your check."
   },
   "f_b8c009894473": {
    "ms": 1137,
@@ -3168,13 +3171,13 @@
    "ms": 1333,
    "say": "Employee ID level"
   },
-  "f_bbdc734dab49": {
-   "ms": 1041,
-   "say": "Applause withheld."
+  "f_234827d14abd": {
+   "ms": 994,
+   "say": "Cheering withheld."
   },
-  "f_4696f9e36b81": {
-   "ms": 1763,
-   "say": "You're a slightly pricier number now."
+  "f_603bde5542d7": {
+   "ms": 1713,
+   "say": "You're a slightly costlier number now."
   },
   "f_a32a0a422e3b": {
    "ms": 746,
@@ -3444,9 +3447,9 @@
    "ms": 1547,
    "say": "Asset value: grounded."
   },
-  "f_5873248e696c": {
-   "ms": 2362,
-   "say": "That's an earth joke. Accounting approved it."
+  "f_4b2031cd65ec": {
+   "ms": 2757,
+   "say": "That's an earth joke. Accounting signed\noff on it."
   },
   "f_3e399d2b0ebd": {
    "ms": 3129,
@@ -3927,6 +3930,12 @@
  },
  "parts": {
   "region_2": "manifest_region_2.json",
-  "region_3": "manifest_region_3.json"
+  "region_3": "manifest_region_3.json",
+  "region_4": "manifest_region_4.json",
+  "region_5": "manifest_region_5.json",
+  "region_6": "manifest_region_6.json",
+  "region_7": "manifest_region_7.json",
+  "region_8": "manifest_region_8.json",
+  "region_9": "manifest_region_9.json"
  }
 }

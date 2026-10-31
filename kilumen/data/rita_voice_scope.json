@@ -1,0 +1,532 @@
+{
+ "_note": "RITA voice scope (coder, Oct 23 2026). Gary 12:33 PM CT: \"focus on voice lines that will actually be used in each section, realistic milestones\". Read by tools/build_rita_voice.py. Only regions listed in build_regions get audio. A line key in text/overworld_lines.json system_company_voice that carries its own region tag (\"region\": \"region_1\" | 1, or \"regions\": [...]) is voiced iff that tag is in build_regions; an untagged key falls back to the bases listed under regions.<r>.keys (a base also covers its variants <base>_2.._<base>_9). Each new region adds its own block (keys + names + numbers). Text Bot owns the lines; this file only says which ones get a voice.",
+ "line_section": "system_company_voice",
+ "build_regions": [
+  "region_1",
+  "region_2",
+  "region_3",
+  "region_4",
+  "region_5",
+  "region_6",
+  "region_7",
+  "region_8",
+  "region_9"
+ ],
+ "region_tag_fields": [
+  "region",
+  "regions"
+ ],
+ "regions": {
+  "region_1": {
+   "label": "Region 1: Brookhollow, Trail 1 (route1), Fernwick, through Master 1 (beat_master_fernwick)",
+   "keys": [
+    "first_catch",
+    "kilindex_new",
+    "kilindex_milestone_5",
+    "kilindex_milestone_10",
+    "kilindex_milestone_15",
+    "area_new",
+    "trainer_first_win",
+    "rival_beaten",
+    "master_beaten",
+    "quest_done",
+    "first_evolution",
+    "crystal_resupply",
+    "board_node",
+    "id_level_up"
+   ],
+   "names": {
+    "area": [
+     "Brookhollow",
+     "Trail 1",
+     "Fernwick"
+    ],
+    "master": [
+     "Fernwick"
+    ],
+    "trainer": [
+     "Ron"
+    ],
+    "quest": [
+     "Promoted (Apparently)",
+     "The Bean Thief",
+     "Meet Five",
+     "A Fly for the Fisher",
+     "Bin Day Is Tomorrow",
+     "The Benchmark",
+     "Fork Road Regulars",
+     "Stand Your Ground",
+     "Mixing Colours",
+     "Ticks on the Flyer",
+     "Dance of the Firefly",
+     "Answers to Biscuit",
+     "Where the Fireflies Went",
+     "The Last Parcel",
+     "KEEP OUT (please)"
+    ],
+    "creature": [
+     "Tumbloam",
+     "Cindrip",
+     "Rillop",
+     "Peeplark",
+     "Nibbin",
+     "Dewmite",
+     "Hushowl",
+     "Thistlepup",
+     "Pebblant",
+     "Glintfly"
+    ],
+    "new": [
+     "Burrowmane",
+     "Emberlunx",
+     "Brookhorn",
+     "Larkspar",
+     "Gnawford",
+     "Huskling",
+     "Vesperowl",
+     "Thistlehound",
+     "Cairnant",
+     "Beaconfly"
+    ],
+    "node": [
+     "Copay Coverage",
+     "Store Discount",
+     "Rt Payout",
+     "Crystal Grade",
+     "Unit Training",
+     "Asset Logging Bonus",
+     "Hall Hazard Pay"
+    ]
+   },
+   "numbers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    10,
+    15
+   ],
+   "why": {
+    "first_catch": "first wild catch on Trail 1 (sunmeadow_grass)",
+    "kilindex_new": "Kilindex counts 2-4 (company_voice.json min/max_count); Gary's model line",
+    "kilindex_milestone_10": "only reachable milestone: region 1 can log at most 18 kinds (17 Trail 1 wild species incl. tumbloam/rillop + cindrip if picked as starter; no creature gifts before Master 1). 25+ unreachable.",
+    "area_new": "area-sign titles of brookhollow ('Brookhollow'), route1 ('Trail 1', system lines area_name), fernwick ('Fernwick'). Brookhollow fires on the first return after got_starter.",
+    "trainer_first_win": "first trainer win (Trail 1 / Fernwick trainers); no slot",
+    "rival_beaten": "beat_rival_ron_1 only (fernwick.ron_rival_1); {trainer} is always 'Ron' in company_voice.js",
+    "master_beaten": "beat_master_fernwick only; {master} = cap('fernwick') = 'Fernwick'",
+    "quest_done": "the 15 built region 1 quests (zones brookhollow / route1 / fernwick, map_status built, not finale-gated); {quest} = quest title. Map-pending quests (sq_dana, sq_ron_job, sq_kid_joke, sq_over_the_wall, sq_missing_note) and mq_welcome_back (finale_done) left out.",
+    "first_evolution": "GRIND-ONLY in region 1: every region 1 line evolves at L16 (placeholder), wild L2-4, Master 1 team L10/L12. Kept because it costs little and a grinding player would otherwise get a silent line; names = region 1 species that evolve by level + their next forms.",
+    "numbers": "{level} (id_level_up, live since RT Employee Benefits raises company.idLevel): region 1 caps at ID 4, so 2/3/4 (Gary 5:22 PM CT Oct 23 2026: 'Trainer 1, your badge is worth more now' played silent, no clip for level 2). 5/10/15 kept for count thresholds.",
+    "names.node": "board_node_4 {node} = cap(node id) from data/rt_benefits.json nodes (company_voice.js board emit); one clip per node, stitched by rita_voice.js like any name slot. {rank} 1-3 (max rank 3) -> numbers 1/2/3. Oct 27 2026 coder.",
+    "crystal_resupply": "opening test run restock (src/systems/crystal_resupply.js), {count} = OPEN.crystals = 5",
+    "extra_lines": "rita_trainer1 = TRAINER1_INTRO in src/systems/company_voice.js (code text, no overworld_lines key); it was in the shipped manifest, kept so rebuilds don't drop it. Must match the code text exactly."
+   },
+   "skipped": {
+    "kilindex_milestone": "generic base: never picked while kilindex_milestone_<count> keys exist",
+    "kilindex_milestone_25+": "unreachable in region 1 (max 18 kinds)"
+   },
+   "say": {
+    "Promoted (Apparently)": "Promoted. Apparently.",
+    "KEEP OUT (please)": "Keep out. Please.",
+    "Trail 1": "Trail one",
+    "Mixing Colours": "Mixing colors",
+    "Rt Payout": "R T Payout"
+   },
+   "_unreachable_before_master_1_but_ungated": "Fernwick's east exit (Thornwood) and west stub (Tide-Lock Road) have no story gate, so a player can log those area signs before Master 1. They are region 2 content here: their area_new plays text-only (no name clip) until region 2's block lists them.",
+   "extra_lines": {
+    "rita_trainer1": [
+     "{employee_id}...",
+     "Yeah, no. That uses too much company time. You're now Trainer 1."
+    ]
+   }
+  },
+  "region_2": {
+   "label": "Region 2: Thornwood, Aurelith, Saltmere and the roads between, through Master 2 (beat_master_saltmere)",
+   "keys": [
+    "kilindex_milestone_25"
+   ],
+   "names": {
+    "area": [
+     "East Road",
+     "Salt Road",
+     "Tide-Lock Road",
+     "Coast Road",
+     "Ember Road",
+     "Checkpoint Road",
+     "Causeway",
+     "Thornwood",
+     "Aurelith",
+     "Saltmere"
+    ],
+    "master": [
+     "Saltmere"
+    ],
+    "quest": [
+     "Signed For",
+     "Ferns Over the Tent"
+    ],
+    "creature": [
+     "Frondhart",
+     "Larkspar",
+     "Huskling",
+     "Glimmerlamb",
+     "Spinelet",
+     "Briarlet"
+    ],
+    "new": [
+     "Fernstag",
+     "Galespar",
+     "Gauzewing",
+     "Fleecelight",
+     "Pricklon",
+     "Bramblehog"
+    ]
+   },
+   "numbers": [
+    6,
+    25
+   ],
+   "why": {
+    "keys": "region-2-tagged lines in system_company_voice are voiced by their tag; kilindex_milestone_25 listed for clarity (company_voice.json counts_by_region 2: [25])",
+    "names.area": "area_name of the region 2 maps a player can enter before Master 2 (generic area_new); Thornwood/Aurelith/Saltmere also have their own lines",
+    "names.creature/new": "(inferred) region 2 grass species that evolve by level + their next forms; evolution levels for glimmerlamb/spinelet/briarlet unconfirmed",
+    "numbers": "{count} 25 for any generic milestone line"
+   },
+   "say": {
+    "Tide-Lock Road": "Tide Lock Road"
+   }
+  },
+  "region_3": {
+   "label": "Region 3: Greystone, Revival Heights, through Master 3 (beat_master_revival)",
+   "keys": [
+    "kilindex_milestone_50",
+    "kilindex_milestone_100",
+    "kilindex_milestone_150"
+   ],
+   "names": {
+    "area": [
+     "Greystone Caverns",
+     "Heights Road",
+     "Revival Heights",
+     "North Road"
+    ],
+    "master": [
+     "Revival"
+    ],
+    "quest": [
+     "Greystone First",
+     "Honest Map",
+     "Ferns for Old Hal",
+     "Head Office",
+     "No Lanyard, No Lift"
+    ],
+    "creature": [
+     "Columnpede",
+     "Facetling",
+     "Gargolet",
+     "Geodling",
+     "Minewisp",
+     "Pebbadillo",
+     "Pebbit",
+     "Rubblon",
+     "Spiralith",
+     "Stonepede"
+    ],
+    "new": [
+     "Vaultpede",
+     "Facetarch",
+     "Eavesgrim",
+     "Geodrake",
+     "Shaftwraith",
+     "Scutadillo",
+     "Rubblon",
+     "Cragmont",
+     "Coilarch",
+     "Columnpede"
+    ]
+   },
+   "numbers": [
+    50,
+    100,
+    150
+   ],
+   "why": {
+    "keys": "region-3-tagged system_company_voice lines are voiced by their tag (milestones 50/100/150, Greystone/Revival Heights area lines, Ron 3, Master 3, mq_greystone_camp / mq_revival_heights quest lines); all use only {employee_id}. Added Oct 27 2026 (Gary: 'fix anything in region 1-3 that is live now').",
+    "names": "Oct 27 2026: area = area-sign titles (overworld_lines maps.*.area_name) of greystone_entrance/greystone_b1, route_revival, revival_heights and the ungated route_revival_sunmeadow; master = cap('revival'); quest = data/quests.json titles in greystone_caverns/revival_heights (mq_finale left out); creature/new = region 3 zone species (greystone_*, route_revival*) that evolve by level per evolution.js evoTable + next forms."
+   },
+   "say": {}
+  },
+  "region_4": {
+   "label": "Regions 4-8 + end-game (region 9 tag) slot names (Oct 31 2026, Gary 1:47 AM CT: \"rita's voice needs to be finished and tested\"). Region-tagged lines are voiced by their tag; every slot value the game can show from region 4 on (area signs, evolutions, ID levels 7-20, RT Benefits nodes) is listed here once (tools/rita_voice_audit.mjs --names). All parts load together at runtime, so one part holds them.",
+   "keys": [],
+   "names": {
+    "area": [
+     "Archive Room",
+     "Ash Vent",
+     "Aurelith Arena",
+     "Aurelith Arena · Room 1",
+     "Aurelith Arena · Room 2",
+     "Aurelith Arena · Room 3",
+     "Aurelith Arena · Room 4",
+     "Aurelith Arena · Room 5",
+     "Aurelith Arena · Room 6",
+     "Aurelith Arena · Room 7",
+     "Aurelith Arena · Room 8",
+     "Bee Hollow",
+     "Bell Cave",
+     "Bell Loft",
+     "Break Garden",
+     "Cairnfold",
+     "Cindervale Caldera",
+     "Clover Dell",
+     "Dry Spring",
+     "East Den",
+     "Echo Cave",
+     "Echo Hollow",
+     "First Lab 1F",
+     "First Lab 2F",
+     "First Lab 3F",
+     "First Lab 4F",
+     "First Lab Spire 1F",
+     "First Lab Spire 2F",
+     "First Lab Spire 3F",
+     "Frost Seam",
+     "Galleria Roof Garden",
+     "Gate Vault",
+     "Gull Notch",
+     "Gullbone Cave",
+     "Gullhaven",
+     "Gullhaven Cliffs",
+     "Gullhaven Lagoon",
+     "Gullhaven Sea",
+     "Hay Loft",
+     "Hayloft Cave",
+     "Heart of Wellspire",
+     "Kelpwind Cave",
+     "Lamp Loft",
+     "Lantern Rest",
+     "Lanternport Grotto",
+     "Lark Ledge",
+     "Lighthouse Floor 2",
+     "Lighthouse Floor 3",
+     "Low Draught",
+     "Old Platform",
+     "Old Riverbed",
+     "Reed Road",
+     "Ridge Hollow",
+     "Rime Gallery",
+     "Salt Cellar",
+     "Server Nook",
+     "Signal Lab",
+     "Signal Loft",
+     "Skylift Upper Line",
+     "Spire Cellar",
+     "Station M",
+     "Switchback Crevice",
+     "The Lab",
+     "The River Bend",
+     "Tide Loft",
+     "Wellspire Cloudline",
+     "Wellspire Cloudway",
+     "Wellspire Icefall",
+     "Wellspire Summit",
+     "Wellspire Summit Camp",
+     "Wellspire Switchbacks",
+     "West Hollow",
+     "West Nook"
+    ],
+    "creature": [
+     "Bastonox",
+     "Belfrydove",
+     "Blubbet",
+     "Brinepipit",
+     "Brineseal",
+     "Brookhorn",
+     "Bulwarkrab",
+     "Burrowmane",
+     "Calderax",
+     "Calderock",
+     "Capling",
+     "Cinderwyrm",
+     "Clinkerback",
+     "Cogwhisk",
+     "Combwarden",
+     "Dartling",
+     "Delvelet",
+     "Delvemaw",
+     "Ditchsnap",
+     "Eftling",
+     "Eftwarden",
+     "Emberlunx",
+     "Finnip",
+     "Floepaddle",
+     "Forgeharrow",
+     "Frondhart",
+     "Frondlet",
+     "Gearwarden",
+     "Geodurchin",
+     "Harlequop",
+     "Hearthkit",
+     "Hummbel",
+     "Japkit",
+     "Jestrix",
+     "Kilnpaw",
+     "Lancebeetle",
+     "Lanternkeep",
+     "Ledgedove",
+     "Maestrix",
+     "Mummerhop",
+     "Peakbrute",
+     "Pharolith",
+     "Pinchkin",
+     "Pondkin",
+     "Pricklon",
+     "Rakefin",
+     "Reedmoot",
+     "Snapmoor",
+     "Snowmuff",
+     "Spraytern",
+     "Streambarb",
+     "Thornpod",
+     "Tidemarrow",
+     "Toadcap",
+     "Torrentpike",
+     "Tundrarch",
+     "Tuskwallow"
+    ],
+    "node": [
+     "Ceremony Bonus",
+     "Daily Bonus",
+     "Research Clearance",
+     "Rt Node Station C",
+     "Rt Node Station L",
+     "Rt Node Station M",
+     "Rt Node Station T",
+     "Salvage Rights",
+     "Storm Allowance"
+    ],
+    "new": [
+     "Bastonox",
+     "Belfrydove",
+     "Blubbet",
+     "Brinepipit",
+     "Brineseal",
+     "Brookhorn",
+     "Bulwarkrab",
+     "Burrowmane",
+     "Calderax",
+     "Calderock",
+     "Capling",
+     "Cinderwyrm",
+     "Clinkerback",
+     "Cogwhisk",
+     "Combwarden",
+     "Dartling",
+     "Delvelet",
+     "Delvemaw",
+     "Ditchsnap",
+     "Eftling",
+     "Eftwarden",
+     "Emberlunx",
+     "Finnip",
+     "Floepaddle",
+     "Forgeharrow",
+     "Frondhart",
+     "Frondlet",
+     "Gearwarden",
+     "Geodurchin",
+     "Harlequop",
+     "Hearthkit",
+     "Hummbel",
+     "Japkit",
+     "Jestrix",
+     "Kilnpaw",
+     "Lancebeetle",
+     "Lanternkeep",
+     "Ledgedove",
+     "Maestrix",
+     "Mummerhop",
+     "Peakbrute",
+     "Pharolith",
+     "Pinchkin",
+     "Pondkin",
+     "Pricklon",
+     "Rakefin",
+     "Reedmoot",
+     "Snapmoor",
+     "Snowmuff",
+     "Spraytern",
+     "Streambarb",
+     "Thornpod",
+     "Tidemarrow",
+     "Toadcap",
+     "Torrentpike",
+     "Tundrarch",
+     "Tuskwallow"
+    ]
+   },
+   "numbers": [
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17,
+    18,
+    19,
+    20,
+    200,
+    250,
+    300,
+    350,
+    400,
+    450
+   ],
+   "say": {
+    "Aurelith Arena · Room 1": "Aurelith Arena, Room 1",
+    "Aurelith Arena · Room 2": "Aurelith Arena, Room 2",
+    "Aurelith Arena · Room 3": "Aurelith Arena, Room 3",
+    "Aurelith Arena · Room 4": "Aurelith Arena, Room 4",
+    "Aurelith Arena · Room 5": "Aurelith Arena, Room 5",
+    "Aurelith Arena · Room 6": "Aurelith Arena, Room 6",
+    "Aurelith Arena · Room 7": "Aurelith Arena, Room 7",
+    "Aurelith Arena · Room 8": "Aurelith Arena, Room 8",
+    "First Lab 1F": "First Lab, first floor",
+    "First Lab 2F": "First Lab, second floor",
+    "First Lab 3F": "First Lab, third floor",
+    "First Lab 4F": "First Lab, fourth floor",
+    "First Lab Spire 1F": "First Lab Spire, first floor",
+    "First Lab Spire 2F": "First Lab Spire, second floor",
+    "First Lab Spire 3F": "First Lab Spire, third floor",
+    "Rt Node Station C": "R T Node Station C",
+    "Rt Node Station L": "R T Node Station L",
+    "Rt Node Station M": "R T Node Station M",
+    "Rt Node Station T": "R T Node Station T"
+   }
+  },
+  "region_5": {
+   "label": "Region 5: lines voiced by their region tag; slot names in region_4.",
+   "keys": []
+  },
+  "region_6": {
+   "label": "Region 6: lines voiced by their region tag; slot names in region_4.",
+   "keys": []
+  },
+  "region_7": {
+   "label": "Region 7: lines voiced by their region tag; slot names in region_4.",
+   "keys": []
+  },
+  "region_8": {
+   "label": "Region 8: lines voiced by their region tag; slot names in region_4.",
+   "keys": []
+  },
+  "region_9": {
+   "label": "Region 9 (end-game: Welcome Back, Aurelith Arena, Ron 6, Kilindex 400/450): lines voiced by their region tag; slot names in region_4.",
+   "keys": []
+  }
+ }
+}
