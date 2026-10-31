@@ -11,8 +11,8 @@
 //    lastDoor = the destination's station door and a warp to that station's platform; the arrival saves after landing.
 // Words: text/overworld_lines.json (Text Bot) where they exist; the FB strings below are fallbacks with requested keys in
 // data/textbot_requests_region4.md.
-import { onTap } from '../shared/tap_guard.js?v=v0.2.102-alpha';
-import { railStops } from '../overnight/region_map.js?v=v0.2.102-alpha';
+import { onTap } from '../shared/tap_guard.js?v=v0.2.103-alpha';
+import { railStops } from '../overnight/region_map.js?v=v0.2.103-alpha';
 
 export const RAIL = {
   interior: 'station_int', clerk: 'station_clerk', passClerk: { map: 'revival_heights', id: 'revival_heights_pass_clerk' },

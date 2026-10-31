@@ -9,12 +9,12 @@
 //   the 8-coin gate is only the Aurelith Arena (elite fighters). One entry per venue per in-game day, free entry.
 // REWARDS (small): 1st = gold (town 300, Aurelith 1500, x difficulty money) + merit by place (MERIT_PTS.oly / oly_major)
 //   + a first-win story flag oly_won_<venue> (set by the UI through scene.setFlag).
-import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.101-alpha';
-import { STATS } from './rules.js?v=v0.2.101-alpha';
-import { rngFor } from './rng.js?v=v0.2.101-alpha';
-import { awardMerit } from './merit.js?v=v0.2.101-alpha';
-import { CUP_HALL, cupHallFlag } from './town_cup.js?v=v0.2.101-alpha';
-import { RIVAL_SPECIES, RIVAL_TRAINERS } from './town_cup.js?v=v0.2.101-alpha';
+import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.103-alpha';
+import { STATS } from './rules.js?v=v0.2.103-alpha';
+import { rngFor } from './rng.js?v=v0.2.103-alpha';
+import { awardMerit } from './merit.js?v=v0.2.103-alpha';
+import { CUP_HALL, cupHallFlag } from './town_cup.js?v=v0.2.103-alpha';
+import { RIVAL_SPECIES, RIVAL_TRAINERS } from './town_cup.js?v=v0.2.103-alpha';
 
 export const OLY = { points: [3, 2, 1, 0], rivals: 3, rivalTeam: 4, prize: { town: 300, aurelith: 1500 }, lvW: 0.3, luck: 6 };
 /** event id -> stat weights (sum 1). Signature events first in each town mix. */

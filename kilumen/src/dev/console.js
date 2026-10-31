@@ -3,20 +3,20 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; only the Flags tab (Oct 30 2026, src/dev/flags.js) writes progress flags, on purpose (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV, devWalkPace } from './runtime.js?v=v0.2.102-alpha';
-import * as AB from './autobattle.js?v=v0.2.102-alpha';
-import { SPECIES } from '../ui/data.js?v=v0.2.102-alpha';
-import { ITEMS } from '../systems/items.js?v=v0.2.102-alpha';
-import { buildSkills } from '../battle/data/skills.js?v=v0.2.102-alpha';
-import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.102-alpha';
-import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.102-alpha';
-import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.102-alpha';
-import { evoTable } from '../systems/evolution.js?v=v0.2.102-alpha';
-import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.102-alpha';
-import { FLAG_PRESETS, setBadges, setFlagByName, applyPreset } from './flags.js?v=v0.2.102-alpha';
-import { coinCount } from '../overworld/lines.js?v=v0.2.102-alpha';
-import { devLandingSpot } from './landing.js?v=v0.2.102-alpha';
-import { createRitaPanel } from './rita_panel.js?v=v0.2.102-alpha'; // v0.2.32: RITA voice test tab
+import { DEV, devWalkPace } from './runtime.js?v=v0.2.103-alpha';
+import * as AB from './autobattle.js?v=v0.2.103-alpha';
+import { SPECIES } from '../ui/data.js?v=v0.2.103-alpha';
+import { ITEMS } from '../systems/items.js?v=v0.2.103-alpha';
+import { buildSkills } from '../battle/data/skills.js?v=v0.2.103-alpha';
+import { buildCreatures } from '../battle/data/creatures.js?v=v0.2.103-alpha';
+import { VARIANT_MODS, KILUMEN_RULES } from '../battle/data/rules.js?v=v0.2.103-alpha';
+import { createCreature, xpForLevel, healFull, speciesName, displayName, idOf, maxEnergy } from '../systems/creature.js?v=v0.2.103-alpha';
+import { evoTable } from '../systems/evolution.js?v=v0.2.103-alpha';
+import { xpToReach } from '../systems/rt_benefits.js?v=v0.2.103-alpha';
+import { FLAG_PRESETS, setBadges, setFlagByName, applyPreset } from './flags.js?v=v0.2.103-alpha';
+import { coinCount } from '../overworld/lines.js?v=v0.2.103-alpha';
+import { devLandingSpot } from './landing.js?v=v0.2.103-alpha';
+import { createRitaPanel } from './rita_panel.js?v=v0.2.103-alpha'; // v0.2.32: RITA voice test tab
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const MAXLV = KILUMEN_RULES?.maxLevel || 100;
@@ -307,7 +307,7 @@ export async function installDevConsole(scene, access) {
         if (!scene._devPosHold && scene.map && !scene.fade) scene._devPosHold = { map: scene.map.name, x: scene.player.x, y: scene.player.y, facing: scene.player.facing }; // bug 7: keep the real save spot
         travelling = true; touched();
         const ar = /^aurelith_arena_room_(\d+)$/.exec(n); // Arena playtest Oct 30 2026: a room you warp into is playable (rooms before it won this run)
-        if (ar) { const A = await import('../region78/arena.js?v=v0.2.102-alpha'), want = new Set(A.runFlagsAt(+ar[1]));
+        if (ar) { const A = await import('../region78/arena.js?v=v0.2.103-alpha'), want = new Set(A.runFlagsAt(+ar[1]));
           for (const fl of A.runFlags()) if (want.has(fl) !== scene.flags.has(fl)) scene.setFlag ? scene.setFlag(fl, want.has(fl)) : want.has(fl) ? scene.flags.add(fl) : scene.flags.delete(fl); }
         close();
         scene.startWarp({ map: n, x: spot.x, y: spot.y, facing: spot.facing }, 'dev');

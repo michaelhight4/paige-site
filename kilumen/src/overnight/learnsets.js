@@ -3,10 +3,10 @@
 // placeholder skill pools (src/ui/data.js PLACEHOLDER_SKILLS): the species' own 4 default skills at level 1, then skills
 // from its second element, the normal pool and one hashed 'cousin' element at levels 8, 14, 20, 27, 34. Every entry is
 // tagged placeholder:true. Replace with real data by passing {data: {species: [{level, skill}]}} (data wins).
-import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.102-alpha';
-import { toID } from '../battle/data/skills.js?v=v0.2.102-alpha';
-import { R56_LEARNSETS } from '../battle/data/learnsets_r56.js?v=v0.2.102-alpha';
-import { maxEnergy } from '../systems/creature.js?v=v0.2.102-alpha';
+import { PLACEHOLDER_SKILLS } from '../ui/data.js?v=v0.2.103-alpha';
+import { toID } from '../battle/data/skills.js?v=v0.2.103-alpha';
+import { R56_LEARNSETS } from '../battle/data/learnsets_r56.js?v=v0.2.103-alpha';
+import { maxEnergy } from '../systems/creature.js?v=v0.2.103-alpha';
 
 export const PLACEHOLDER_LEVELS = [8, 14, 20, 27, 34];
 // Oct 29 2026: generated sets stopped at L34, so regions 5-8 (levels 40-70) learned nothing. Extra slots through L70, drawn from

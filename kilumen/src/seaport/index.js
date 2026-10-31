@@ -5,9 +5,9 @@
 // - the weigh-in scale (interact spot def.derby === 'scale') shows each catch's points, and at turn-in the full board
 // - leaving gullhaven_lagoon (door / edge / fly) while a run is live asks to quit (forfeit) via scene.ask(['Yes','No'])
 // - save: scene.systems.state.derby {best, runs, records, last, active}; the heaviest fish joins the team with weight_kg
-import * as D from './derby.js?v=v0.2.102-alpha';
-import { createDerbyFx, weightGlyphs, needleAngle, NEEDLE_PIVOT, READOUT_GLYPH_FRAME } from './derby_fx.js?v=v0.2.102-alpha';
-import { createCreature, speciesName } from '../systems/creature.js?v=v0.2.102-alpha';
+import * as D from './derby.js?v=v0.2.103-alpha';
+import { createDerbyFx, weightGlyphs, needleAngle, NEEDLE_PIVOT, READOUT_GLYPH_FRAME } from './derby_fx.js?v=v0.2.103-alpha';
+import { createCreature, speciesName } from '../systems/creature.js?v=v0.2.103-alpha';
 
 const C = { ink: '#1a1226', white: '#fcf6e8', gold: '#fcd668', sea: '#1e4078', foam: '#c6ecfa', red: '#a23432', grey: '#8a8590' };
 
@@ -47,7 +47,7 @@ export function attachSeaport(scene, { systems = scene.systems, rng = Math.rando
 
   async function ensureFishing() {
     if (fishing()) return fishing();
-    if (!installFishing) { const m = await import('../fishing/index.js?v=v0.2.102-alpha'); installFishing = m.installFishing; }
+    if (!installFishing) { const m = await import('../fishing/index.js?v=v0.2.103-alpha'); installFishing = m.installFishing; }
     const f = installFishing(scene); if (globalThis.window?.kilumen) window.kilumen.fishing = f; return f;
   }
   function bindFishing(f) { if (f) f.derby = api; }
