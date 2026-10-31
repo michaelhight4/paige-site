@@ -19,6 +19,7 @@ export const TS = {
   // town cups (dev/sports-events, Oct 29 2026) PLACEHOLDERS for Text Bot. {fee} {prize} {days} {cups} {event} {town} {score} {unit} {creature}
   practice: 'Practice', cup_enter: 'Enter the cup ({fee} gold)', cup_title: '{event} Cup', cup_field: 'Today\'s field has posted their scores.',
   cup_today: 'The town cup is on today! Win it for {prize} gold. Cups won: {cups}', cup_in_days: 'Next town cup in {days} day(s). Cups won: {cups}',
+  cup_hall_locked: 'The {town} Cup is for trainers who have won the {town} Battle Hall. Practice is open to everyone.', // hotfix v0.2.102 DRAFT (Text Bot)
   cup_entered: 'You already ran this cup. The next one is in a few days.', cup_no_gold: 'The cup costs {fee} gold to enter.',
   cup_target: 'Beat {score} {unit} and the cup is ours. You can do it, {creature}!', cup_score: 'SCORE', cup_champ: '{town} Cup Champion!',
   cup_won: 'Cup won! +{prize} gold. Cups won: {cups}', cup_lost: 'Not this time. The next cup is in a few days.',

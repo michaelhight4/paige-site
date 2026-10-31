@@ -24,16 +24,25 @@ export function cupState(sstate, ev) {
   return r;
 }
 
-/** -> {ok:true} | {ok:false, reason:'not_today'|'entered'|'gold', days} */
-export function canEnterCup({ ev, day, coins, sstate }) {
+// Hotfix v0.2.102 (Gary pt2571u): a town's competition opens once that town's tournament (its Battle Hall / Master)
+// has been won once. The 8-coin gate belongs ONLY to the Aurelith Arena (the elite fighters), never to the Games.
+// town (town_events.js) -> hall id (systems/hall_order.js) whose beat_master_<hall> flag opens the town cup.
+export const CUP_HALL = { fernwick: 'fernwick', saltmere: 'saltmere', revival_heights: 'revival', frostspire: 'frostspire', lanternport: 'lanternport', cindervale: 'cindervale' };
+export const cupHallFlag = (ev) => `beat_master_${CUP_HALL[ev.town] || ev.town}`;
+/** flags: Set of story flags (scene.flags). Omitted = no hall check (pure-logic callers / old tests). */
+export const cupHallWon = (ev, flags) => !flags || (typeof flags.has === 'function' ? flags.has(cupHallFlag(ev)) : !!flags[cupHallFlag(ev)]);
+
+/** -> {ok:true} | {ok:false, reason:'hall'|'not_today'|'entered'|'gold', days} */
+export function canEnterCup({ ev, day, coins, sstate, flags }) {
   const r = cupState(sstate, ev);
+  if (!cupHallWon(ev, flags)) return { ok: false, reason: 'hall', days: cupDaysUntil(ev, day) };
   if (!isCupDay(ev, day)) return { ok: false, reason: 'not_today', days: cupDaysUntil(ev, day) };
   if (r.cupWindow === cupWindow(ev, day)) return { ok: false, reason: 'entered', days: CUP.everyDays };
   if ((coins ?? 0) < CUP.fee) return { ok: false, reason: 'gold', days: 0 };
   return { ok: true };
 }
-export function payCup({ ev, day, wallet, sstate }) {
-  if (!canEnterCup({ ev, day, coins: wallet?.coins, sstate }).ok) return false;
+export function payCup({ ev, day, wallet, sstate, flags }) {
+  if (!canEnterCup({ ev, day, coins: wallet?.coins, sstate, flags }).ok) return false;
   if (!wallet.spend(CUP.fee)) return false;
   const r = cupState(sstate, ev); r.cupWindow = cupWindow(ev, day); r.cupEntries++;
   return true;
