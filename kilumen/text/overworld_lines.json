@@ -15313,7 +15313,7 @@
    "area_name": "Tidewater Coast",
    "tidewater_coast_dock_fisher_1": {
     "pages": [
-     "DRAFT placeholder: dock fisher 1 (casting off the dock end)."
+     "DRAFT placeholder: Casting off the end of the main pier."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15324,14 +15324,14 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: dock fisher 1 (casting off the dock end)."
+       "DRAFT placeholder: Casting off the end of the main pier."
       ]
      }
     ]
    },
    "tidewater_coast_dock_fisher_2": {
     "pages": [
-     "DRAFT placeholder: dock fisher 2 (fishing off the end)."
+     "DRAFT placeholder: Fishing off the end of the main pier."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15342,14 +15342,14 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: dock fisher 2 (fishing off the end)."
+       "DRAFT placeholder: Fishing off the end of the main pier."
       ]
      }
     ]
    },
    "tidewater_coast_dock_fisher_3": {
     "pages": [
-     "DRAFT placeholder: dock fisher 3 (line in by the boats)."
+     "DRAFT placeholder: Line in off the end of pier B."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15360,7 +15360,115 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: dock fisher 3 (line in by the boats)."
+       "DRAFT placeholder: Line in off the end of pier B."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_fishmonger": {
+    "pages": [
+     "DRAFT placeholder: Fishmonger at the wharf stall: today's catch."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Fishmonger at the wharf stall: today's catch."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_trader": {
+    "pages": [
+     "DRAFT placeholder: Trader at the wharf stall: goods off the cargo ship."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Trader at the wharf stall: goods off the cargo ship."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_shipwright": {
+    "pages": [
+     "DRAFT placeholder: Shipwright on the east finger, mending gear."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Shipwright on the east finger, mending gear."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_1": {
+    "pages": [
+     "DRAFT placeholder: Dock worker hauling crates to the stalls."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Dock worker hauling crates to the stalls."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_2": {
+    "pages": [
+     "DRAFT placeholder: Dock worker unloading the cargo ship under the crane."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Dock worker unloading the cargo ship under the crane."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_worker_3": {
+    "pages": [
+     "DRAFT placeholder: Dock worker stacking barrels on pier B."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: Dock worker stacking barrels on pier B."
       ]
      }
     ]

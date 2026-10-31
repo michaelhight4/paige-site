@@ -6,7 +6,7 @@ import os, json
 from PIL import Image
 OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'art', 'world', 'overworld')
 INK, WD_D, WD, WD_L = (44, 35, 32), (92, 60, 40), (128, 86, 54), (168, 120, 76)
-W, H = 64 * 8, 64 * 2
+W, H = 64 * 16, 64 * 4
 im = Image.new('RGBA', (W, H), (0, 0, 0, 0)); px = im.load()
 def put(x, y, c):
     if 0 <= x < W and 0 <= y < H: px[x, y] = tuple(c[:3]) + (255,)
@@ -51,12 +51,65 @@ for i, prop in enumerate((None, 'i_barrel', 'barrel', 'i_net')):   # col 3 deck,
     deck(64 * (3 + i), 0)
     if prop:
         a = kit(prop); a.putalpha(a.getchannel('A').point(lambda v: 255 if v >= 128 else 0)); im.alpha_composite(a, (64 * (3 + i), 0))
+# --- trade hub additions (Gary, Oct 31 2026) ---
+SAIL, ROPE, IRON, IRON_L = (226, 218, 196), (186, 156, 104), (70, 74, 84), (120, 126, 138)
+def box(x0, y0, x1, y1, c, edge=INK):
+    for y in range(y0, y1 + 1):
+        for x in range(x0, x1 + 1): put(x, y, edge if x in (x0, x1) or y in (y0, y1) else c)
+# cargo ship 3x4 cells at cols 8-10 rows 0-3 (bow up), hull stays 6 px inside the box so nothing touches the cell edges
+OX = 64 * 8
+for y in range(8, 250):
+    half = min(88, 20 + (y - 8) * 2) if y < 42 else 88
+    x0, x1 = 96 - half, 95 + half
+    for x in range(x0, x1 + 1):
+        if x in (x0, x1) or y in (8, 249): c = INK
+        elif x - x0 < 8 or x1 - x < 8: c = (40, 70, 110) if y < 236 else (28, 50, 80)
+        elif y >= 236: c = WD_D
+        else: c = WD_L if (x // 12) % 2 else WD
+        put(OX + x, y, c)
+box(OX + 56, 70, OX + 135, 140, WD_D)                     # open cargo hatch
+box(OX + 62, 76, OX + 129, 134, (40, 30, 26), (40, 30, 26))
+for cx, cy in ((64, 96), (96, 104), (100, 80)):           # crates down in the hold
+    box(OX + cx, cy, OX + cx + 22, cy + 20, (196, 150, 90))
+for y in range(150, 214):                                 # mast + furled sail
+    for x in range(92, 100): put(OX + x, y, INK if x in (92, 99) else WD_D)
+box(OX + 50, 172, OX + 141, 182, SAIL)
+box(OX + 70, 222, OX + 121, 232, (150, 70, 50))           # stern cabin roof
+for i in range(3):                                        # deck crates waiting to be lifted
+    box(OX + 34 + i * 6, 44 + i * 9, OX + 58 + i * 6, 66 + i * 9, (204, 160, 96))
+# crane / pulley 1x2 at col 11 rows 0-1: timber post on an iron base, jib arm + hook kept inside the cell
+CX = 64 * 11
+for y in range(10, 122):
+    for x in range(26, 36): put(CX + x, y, INK if x in (26, 35) else (WD if x < 31 else WD_D))
+box(CX + 8, 10, CX + 58, 18, WD)                          # jib arm
+box(CX + 14, 104, CX + 50, 124, IRON_L, INK)              # base
+for y in range(19, 48): put(CX + 52, y, ROPE)             # rope + hook
+box(CX + 48, 48, CX + 56, 56, IRON)
+box(CX + 44, 58, CX + 60, 72, (204, 160, 96))             # crate on the hook
+# grain sacks 1x1 at col 12 row 0
+SX = 64 * 12
+for bx, by in ((8, 26), (32, 26), (20, 8)):
+    for y in range(by, by + 28):
+        for x in range(bx, bx + 24):
+            d = ((x - bx - 12) / 12) ** 2 + ((y - by - 14) / 14) ** 2
+            if d <= 1: put(SX + x, y, INK if d > 0.78 else ((214, 190, 140) if y < by + 14 else (184, 160, 112)))
+# flag buoy 1x1 at col 13 row 0: red/white float with a little pennant (transparent around it so the water shows)
+BX = 64 * 13
+for y in range(36, 58):
+    for x in range(18, 46):
+        d = ((x - 32) / 14) ** 2 + ((y - 47) / 11) ** 2
+        if d <= 1: put(BX + x, y, INK if d > 0.8 else ((210, 50, 44) if y < 44 or y > 51 else (240, 236, 228)))
+for y in range(10, 38): put(BX + 31, y, INK); put(BX + 32, y, INK)
+for y in range(10, 24):
+    for x in range(33, 33 + (24 - y) + 6 if y > 17 else 33 + 14):
+        put(BX + x, y, INK if y in (10, 23) or x == 32 + 14 else (240, 196, 60))
 assert set(im.getchannel('A').histogram()[1:255]) == {0}
 for k in (1, 2, 3):
     im.resize((W * k, H * k), Image.NEAREST).save(os.path.join(OUT, f'tiles_{k}x', 'harbour_dock.png'))
 BASE = 12701  # above every runtime kit (tileset_arena.json tops out at 12686; 11001+ is taken at runtime)
 NAMES = [('hd_rowboat_red', 0, 0), ('hd_rowboat_teal', 1, 0), ('hd_fishboat_0', 2, 0), ('hd_fishboat_1', 2, 1),
          ('bridge_dock', 3, 0), ('hd_deck_barrel', 4, 0), ('hd_deck_crate', 5, 0), ('hd_deck_net', 6, 0)]
+NAMES += [(f'hd_cargoship_{c}_{r}', 8 + c, r) for r in range(4) for c in range(3)] + [('hd_crane_top', 11, 0), ('hd_crane_base', 11, 1), ('hd_sacks', 12, 0), ('hd_buoy_flag', 13, 0)]
 KIT = set()
 for kf in ('tileset_arena.json', 'tileset_hallart.json', 'tileset_hallanim.json', 'tileset_ix2.json'):
     KIT |= {t['id'] for t in json.load(open(os.path.join(OUT, kf)))['tiles']}
