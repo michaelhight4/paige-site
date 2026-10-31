@@ -3,7 +3,7 @@
 // pad B. Holding A / Space / a touch speeds it up. Reduced motion: no fireflies, no bobbing, same text.
 // Text: system_ending.credits_* in text/overworld_lines.json when Text Bot adds it; else CREDIT_FALLBACK (requests in
 // data/textbot_requests_interim_ending.md). Player words only: no blocked words (see tests/interim_ending.test.mjs).
-import { speciesById, battleSpriteRel } from './data.js?v=v0.2.106-alpha';
+import { speciesById, battleSpriteRel } from './data.js?v=v0.2.107-alpha';
 
 const PIX = 'art/characters/pixel/';
 const HINT = 'Hold to speed up · Esc twice to skip';

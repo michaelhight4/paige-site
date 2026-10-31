@@ -24,9 +24,9 @@
 // (session only, Auto only) when frames stay slower than ~38 fps for 3 s while the look is on.
 // Credits: tone map = Khronos PBR Neutral (Apache-2.0, THIRD_PARTY_LICENSES "RTX look"); techniques (dual-pass gaussian
 // bloom, screen-space radial god rays, height-to-normal Sobel, 2D ray-marched soft shadows) are textbook; code is ours.
-import { TILE, Col, WALKABLE } from './constants.js?v=v0.2.106-alpha';
-import { isIndoor } from './clock.js?v=v0.2.106-alpha';
-import { lampLevel } from './nightfx.js?v=v0.2.106-alpha';
+import { TILE, Col, WALKABLE } from './constants.js?v=v0.2.107-alpha';
+import { isIndoor } from './clock.js?v=v0.2.107-alpha';
+import { lampLevel } from './nightfx.js?v=v0.2.107-alpha';
 
 export const RTX_KEY = 'kilumen_rtx.v1';
 export const RTX_MODES = Object.freeze(['off', 'auto', 'full', 'lite']);

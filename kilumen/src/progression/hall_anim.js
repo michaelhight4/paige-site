@@ -6,7 +6,7 @@
 // grass rustle uses. Cells come from the map's hall_v2.anim block (tools/hall_overhaul/build.py anim_block):
 //   ground: conveyors / currents / rip tide / ice sparkle / warp pads / sluice water / slab; decoration: gusts, ghost shimmer,
 //   light gates; overlay + ysort (depth-sorted with the player, renderer row pass): reeds, prism.
-import { loadJson, resolveUrl } from '../overworld/assets.js?v=v0.2.106-alpha';
+import { loadJson, resolveUrl } from '../overworld/assets.js?v=v0.2.107-alpha';
 
 /** Pure flag read (tests pass the pieces). */
 export function hallAnimOn({ override = globalThis.KILUMEN_HALLANIM, host = globalThis.location?.hostname ?? '', devRequested = !!globalThis.KILUMEN_DEV_REQUESTED } = {}) {

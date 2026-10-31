@@ -20,7 +20,7 @@ try {
     await page.waitForTimeout(1500);
     const tap = async (sel) => { if (d.touch) await page.tap(sel); else await page.click(sel); };
     const shot = async (n) => { const f = path.join(OUT, `${d.plat}_${n}.png`); await page.screenshot({ path: f }); report.push(f); };
-    await page.evaluate(async () => { const s = window.kilumen.scene; const A = await import('/src/sports/athletics.js?v=v0.2.106-alpha'); s.dialog?.close?.();
+    await page.evaluate(async () => { const s = window.kilumen.scene; const A = await import('/src/sports/athletics.js?v=v0.2.107-alpha'); s.dialog?.close?.();
       const sp = ['capling', 'brimtoad', 'frondlet', 'glintmoth']; s.party = sp.map((x, i) => ({ species: x, nickname: ['Pip', 'Moss', 'Fern', 'Glim'][i], level: 60, hp: 50, uid: 'shot' + i }));
       for (const c of s.party) { const a = A.ensureAthletics(c); for (const k in a.q) a.q[k] = 0.97; } // staged strong team so the champion screen shows
       s.flags.add('beat_master_fernwick'); window.kilumen.sports.town.openOlympics('fernwick'); });
