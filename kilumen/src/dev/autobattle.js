@@ -35,6 +35,18 @@ function moveScore(kb, m, me, foe, meHpFrac) {
   return s;
 }
 
+/** Healthy bench creature clearly stronger than the active one (HP fraction x level, at least double) -> "switch N" | null. */
+export function benchPick(team, me, tried = new Set()) {
+  const val = (c) => (c.maxhp ? c.hp / c.maxhp : 0) * (c.level || 1);
+  const mine = val(me); let best = null, bv = -1;
+  (team || []).forEach((c, i) => {
+    if (i === 0 || !c || c.fainted || !c.hp || tried.has('switch ' + (i + 1))) return;
+    if (c.maxhp && c.hp / c.maxhp < 0.5) return;
+    const v = val(c); if (v > bv) { bv = v; best = i; }
+  });
+  return best != null && bv >= Math.max(1, mine * 2) ? `switch ${best + 1}` : null;
+}
+
 /** The choice string for the player's side right now: "move N" | "switch N" | "crystal ID". null = nothing legal found. */
 export function pickChoice(kb, tried = new Set()) {
   const r = kb.request();
@@ -51,6 +63,14 @@ export function pickChoice(kb, tried = new Set()) {
   const hpFrac = me && me.maxhp ? me.hp / me.maxhp : 1;
   let best = -1, bi = -1;
   r.moves.forEach((m, i) => { if (m.disabled || tried.has('move ' + (i + 1))) return; const s = moveScore(kb, m, me, foe, hpFrac); if (s > best) { best = s; bi = i; } });
+  // Playtest fix Oct 30 2026 (Lv70 teams lost Shift+A runs to low-level hall trainers): the picker never switched on its own,
+  // so a nearly-fainted or out-of-energy lead (overuse self-damage) fought on while healthy Lv70s sat on the bench. Switch
+  // to the strongest healthy bench creature when the lead is under 25 % HP or its best skill is out of energy.
+  const outOfEnergy = bi >= 0 && r.moves[bi]?.pp != null && r.moves[bi].pp <= 0;
+  if (me && (hpFrac < 0.25 || outOfEnergy || bi < 0)) {
+    const sw = benchPick(r.team, me, tried);
+    if (sw) return sw;
+  }
   return bi >= 0 ? `move ${bi + 1}` : null;
 }
 

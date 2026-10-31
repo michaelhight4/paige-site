@@ -172,3 +172,23 @@ test('bug 10: a tap made mid-step survives a duel that starts at the step end an
   Object.assign(self.player, { x: 1, y: 1, state: 'idle' });
   assert.equal(tr({}).dir, null);
 });
+
+// ---- bug 4: Shift+A auto-battle never switched away from a nearly-fainted / out-of-energy lead ------------------------------
+const AB = await import(path.join(root, 'src/dev/autobattle.js'));
+test('bug 4: auto-battle switches a 7 HP lead out for a healthy Lv70, and keeps fighting with a healthy lead', () => {
+  const lead = { hp: 7, maxhp: 220, level: 70 }, bench = { hp: 230, maxhp: 230, level: 70 }, weak = { hp: 40, maxhp: 40, level: 12 };
+  const moves = [{ id: 'tackle', pp: 10 }];
+  const kb = (team, mv = moves) => ({ request: () => ({ state: 'move', moves: mv, team }), p1: { active: [team[0]] }, p2: { active: [{}] }, battle: { dex: { moves: { get: () => ({ basePower: 40, type: 'Normal', accuracy: 100 }) } } } });
+  assert.equal(AB.pickChoice(kb([lead, weak, bench])), 'switch 3');
+  assert.equal(AB.pickChoice(kb([bench, lead, weak])), 'move 1');
+  assert.equal(AB.pickChoice(kb([{ ...bench }, bench], [{ id: 'tackle', pp: 0 }])), 'move 1', 'no clearly stronger bench: no ping-pong');
+  assert.equal(AB.pickChoice(kb([{ hp: 200, maxhp: 230, level: 30 }, bench], [{ id: 'tackle', pp: 0 }])), 'switch 2', 'out of energy: switch');
+});
+
+test('bug 4: dev Party tab keys rows positionally when a creature has no uid (slot 4 Select / Set level)', async () => {
+  const fs = await import('node:fs');
+  const src = fs.readFileSync(path.join(root, 'src/dev/console.js'), 'utf8');
+  assert.match(src, /const keyOf = \(c, i\) => idOf\(c\) \|\| `#\$\{i/);
+  assert.match(src, /data-pick="\$\{esc\(k\)\}"/);
+  assert.doesNotMatch(src, /data-pick="\$\{esc\(idOf\(c\)\)\}"/);
+});

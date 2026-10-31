@@ -64,7 +64,10 @@ export async function installDevConsole(scene, access) {
   const touched = () => { scene.devTouched = true; scene._dirty = true; };
   const say = (t, bad) => { if (msgEl) { msgEl.textContent = t; msgEl.style.color = bad ? '#ffb0a0' : '#9fe3a8'; } };
   const party = () => sys?.party?.list || scene.party || [];
-  const byUid = (u) => party().find((c) => idOf(c) === u) || null;
+  // Playtest fix Oct 30 2026 (slot 4 level could not be set): a creature without uid rendered data-pick="" (Select did nothing)
+  // and byUid(null) matched the first uid-less member. Fall back to a positional key.
+  const keyOf = (c, i) => idOf(c) || `#${i ?? party().indexOf(c)}`;
+  const byUid = (u) => { if (u == null) return null; const P = party(); return P.find((c, i) => keyOf(c, i) === u) || null; };
 
   // ---- open / close ----------------------------------------------------------------------------------------------
   const canOpen = () => {
@@ -205,9 +208,9 @@ export async function installDevConsole(scene, access) {
     };
   }
 
-  function partyRow(c, i) { return `<div class="row"><div class="n">${i + 1}. ${esc(displayName(c))} <small>${esc(speciesName(c.species))} · Lv.${c.level}</small></div><button class="${idOf(c) === selUid ? 'sel' : ''}" data-pick="${esc(idOf(c))}">${idOf(c) === selUid ? 'Selected' : 'Select'}</button></div>`; }
+  function partyRow(c, i) { const k = keyOf(c, i); return `<div class="row"><div class="n">${i + 1}. ${esc(displayName(c))} <small>${esc(speciesName(c.species))} · Lv.${c.level}</small></div><button class="${k === selUid ? 'sel' : ''}" data-pick="${esc(k)}">${k === selUid ? 'Selected' : 'Select'}</button></div>`; }
   function tParty(body) {
-    const P = party(); if (!byUid(selUid)) selUid = P[0] ? idOf(P[0]) : null;
+    const P = party(); if (!byUid(selUid)) selUid = P[0] ? keyOf(P[0], 0) : null;
     const c = byUid(selUid), sk = skillRows(), names = Object.fromEntries(sk.map((s) => [s.id, s.name]));
     let h = `<h4>Party (${P.length})</h4>${P.map(partyRow).join('') || '<div class="row"><small>Party is empty</small></div>'}`;
     if (c) {
