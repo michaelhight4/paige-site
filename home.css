@@ -502,3 +502,15 @@ html,body{overflow-x:clip;max-width:100%}
 .wcard .btn.buy[disabled]{opacity:.6;cursor:wait}.wcard .tag.sale{color:#ffd36b}.wcard s{opacity:.7}
 .buy-msg{min-height:1.4em;margin-top:12px;color:var(--mut)}.buy-msg.err{color:#ff8a8a}
 @media (max-width:420px){.wcard .packs{grid-template-columns:1fr}}
+
+/* game info pages: clickable cards + maintenance (Oct 31 2026) */
+.game[data-page]{cursor:pointer}.game h2 .glink{color:inherit;text-decoration:none}.game h2 .glink:hover{text-decoration:underline}
+.tag.maint{color:#ffb648}.btn.play.off{background:rgba(255,255,255,.08);color:#ffd9a0;border:1px dashed rgba(255,182,72,.6);cursor:not-allowed}
+.btn.play.off:hover{transform:none;box-shadow:none;color:#ffd9a0}
+.game.maint .shot img{filter:grayscale(.55) brightness(.75)}
+.ostory{margin:8px 0 26px;padding:22px;border-radius:var(--r);background:var(--glass);border:1px solid var(--line)}
+.ostory h2{margin:0 0 8px;font:800 26px var(--disp)}.ostory p{color:var(--mut);margin:0 0 12px}
+.follow{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:10px 0}.follow b{color:var(--lime)}
+.soonrow{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:10px 0 26px}
+.soonrow a{display:block;padding:18px;border-radius:var(--r);background:var(--glass);border:1px solid var(--line);color:var(--ink);text-decoration:none}
+.soonrow a:hover{box-shadow:0 0 0 1px var(--sky)}.soonrow h3{margin:4px 0 6px}.soonrow p{margin:0;color:var(--mut)}

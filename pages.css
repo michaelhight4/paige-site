@@ -1,0 +1,17 @@
+/* static content pages (Our Story, game pages, Coming Soon) */
+.pbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px}
+.pbar nav{display:flex;flex-wrap:wrap;gap:4px 14px}.pbar nav a{color:var(--mut);text-decoration:none;font:700 14px var(--body)}.pbar nav a:hover{color:#fff}
+.art{max-width:860px;padding-top:26px;padding-bottom:30px}
+.art h1{font:800 clamp(30px,5vw,46px)/1.1 var(--disp);margin:6px 0 14px}
+.art h2{font:800 24px var(--disp);margin:30px 0 8px;color:var(--acc,var(--lime))}.art h3{margin:22px 0 6px}
+.art p,.art li{color:#d6dbf5}.art li{margin:6px 0}.art em{color:var(--mut)}
+.art article{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:22px clamp(16px,4vw,32px)}
+.cpage.kil{--acc:var(--kil)}.cpage.life{--acc:var(--life)}.cpage.rift{--acc:var(--rift)}
+.ghero{display:grid;gap:18px;margin-bottom:22px}.ghero img{width:100%;height:auto;border-radius:var(--r);border:1px solid var(--line);aspect-ratio:16/9;object-fit:cover}
+.ghero h1{margin-top:0}
+@media(min-width:760px){.ghero{grid-template-columns:1.3fr 1fr;align-items:center}.ghero.noimg{grid-template-columns:1fr}}
+.prow{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 0}.prow .btn.play{background:var(--acc,var(--sky))}
+.btn.play.off{background:rgba(255,255,255,.08);color:#ffd9a0;border:1px dashed rgba(255,182,72,.6);cursor:not-allowed}
+.maintnote{margin:0 0 18px;padding:14px 18px;border-radius:14px;background:rgba(255,182,72,.12);border:1px solid rgba(255,182,72,.55);color:#ffe2b5}
+.follow a{font-weight:700}
+.pfoot{max-width:860px;padding-bottom:40px;color:var(--mut)}
