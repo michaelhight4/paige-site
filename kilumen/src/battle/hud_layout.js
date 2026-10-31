@@ -39,13 +39,18 @@ export function solveBattleLayout(o) {
   const done = (feet, below, bg, zoom) => { const rects = { near: spriteRect(sprites.near, ...feet.near, below.near), far: spriteRect(sprites.far, ...feet.far, below.far) };
     return { feet, rects, bg, zoom, ok: fits(view, obstacles, [rects.near, rects.far], gap, edge) }; };
   if (o.art) {
-    const { iw = 1280, ih = 720, ax = 0.5, ay = 0.5, spots, padBelow = { near: 0.03, far: 0.025 } } = o.art, s0 = Math.max(view.w / iw, view.h / ih);
+    const { iw = 1280, ih = 720, ax = 0.5, ay = 0.5, spots, keep = null, padBelow = { near: 0.03, far: 0.025 } } = o.art, s0 = Math.max(view.w / iw, view.h / ih);
     const at = (s, ox, oy) => { const W = iw * s, H = ih * s, below = { near: padBelow.near * H, far: padBelow.far * H };
       return { feet: { near: [ox + spots.near[0] * W, oy + spots.near[1] * H], far: [ox + spots.far[0] * W, oy + spots.far[1] * H] }, below, bg: { x: ox, y: oy, w: W, h: H } }; };
+    // keep: [t, b] frame-height fractions that must stay on screen (e.g. the lab's animated monitors; Oct 30 2026, Gary: the zoom
+    // cropped the animated backdrop away). Zoom / shift never pushes that band out of view; past that the creatures are nudged.
+    const kept = (oy, H) => !keep || (oy + keep[0] * H >= -0.5 && oy + keep[1] * H <= view.h + 0.5);
+    const keepY = (oy, H) => (keep ? Math.max(-keep[0] * H, Math.min(view.h - keep[1] * H, oy)) : oy);
     for (let z = 1; z <= maxZoom + 1e-9; z += 0.02) {
       const s = s0 * z, W = iw * s, H = ih * s;
       // y and x decouple except for the creature-vs-creature check; try y first with the default x, then x, then both
       for (const oy of order(view.h - H, 0, (view.h - H) * ay, 3)) {
+        if (!kept(oy, H)) continue;
         const c0 = at(s, (view.w - W) * ax, oy), rn = spriteRect(sprites.near, ...c0.feet.near, c0.below.near), rf = spriteRect(sprites.far, ...c0.feet.far, c0.below.far);
         if (rn.t < 0 || rf.t < 0 || rn.b > view.h || rf.b > view.h) continue;
         for (const ox of order(view.w - W, 0, (view.w - W) * ax, 4)) { const c = at(s, ox, oy); const r = done(c.feet, c.below, c.bg, z); if (r.ok) return r; }
@@ -54,13 +59,13 @@ export function solveBattleLayout(o) {
     // no zoom puts both pads in the clear: take the zoom (centred like the cover-fit) needing the least creature nudge
     let best = null;
     for (let z = 1; z <= maxZoom + 1e-9; z += 0.1) {
-      const s = s0 * z, c = at(s, (view.w - iw * s) * ax, (view.h - ih * s) * ay), feet = { near: [...c.feet.near], far: [...c.feet.far] };
+      const s = s0 * z, c = at(s, (view.w - iw * s) * ax, keepY((view.h - ih * s) * ay, ih * s)), feet = { near: [...c.feet.near], far: [...c.feet.far] };
       const df = nudge(view, obstacles, sprites.far, ...feet.far, c.below.far, null, gap, edge); if (!df) continue; feet.far[0] += df[0]; feet.far[1] += df[1];
       const dn = nudge(view, obstacles, sprites.near, ...feet.near, c.below.near, spriteRect(sprites.far, ...feet.far, c.below.far), gap, edge); if (!dn) continue; feet.near[0] += dn[0]; feet.near[1] += dn[1];
       const cost = Math.hypot(...df) + Math.hypot(...dn) + (z - 1) * 100; if (!best || cost < best.cost) best = { cost, feet, c, z };
     }
     if (best) return done(best.feet, best.c.below, best.c.bg, best.z);
-    const c = at(s0, (view.w - iw * s0) * ax, (view.h - ih * s0) * ay);
+    const c = at(s0, (view.w - iw * s0) * ax, keepY((view.h - ih * s0) * ay, ih * s0));
     return done(c.feet, c.below, c.bg, 1);
   }
   const below = o.below || { near: 0, far: 0 }, feet = { near: [...o.feet.near], far: [...o.feet.far] };

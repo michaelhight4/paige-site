@@ -18,3 +18,14 @@ test('lab biome art is on disk in the painted-biome format', () => {
   const idx = JSON.parse(fs.readFileSync(new URL('art/world/battle_biomes/lab/index.json', root)));
   assert.deepEqual(idx.spots_frac, e.spots);
 });
+
+test('HUD zoom keeps the lab monitors band on screen', async () => {
+  const { solveBattleLayout } = await import('../src/battle/hud_layout.js');
+  const { PLATFORM_BIOMES } = await import('../src/battle/data/platforms.js');
+  const lab = PLATFORM_BIOMES.lab, sp = { w: 256, h: 256, feet: 0.94, box: [0.1, 0.1, 0.9, 0.94] };
+  for (const view of [{ w: 1280, h: 800 }, { w: 844, h: 390 }]) {
+    const obstacles = [{ l: 0, t: view.h * 0.58, r: view.w, b: view.h }];
+    const sol = solveBattleLayout({ view, obstacles, sprites: { near: sp, far: sp }, art: { spots: lab.spots, keep: lab.keep } });
+    assert.ok(sol.bg.y + lab.keep[0] * sol.bg.h >= -1 && sol.bg.y + lab.keep[1] * sol.bg.h <= view.h + 1, JSON.stringify(sol.bg));
+  }
+});

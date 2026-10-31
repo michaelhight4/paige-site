@@ -172,7 +172,7 @@ export function makeSdBattle(ui, opts, h) {
           feet[k] = [r.left + r.width / 2 - b.left, r.bottom - b.top]; below[k] = pr ? Math.max(0, pr.bottom - r.bottom) : 0; } }
       if (biomeArt.art) {
         const cs = getComputedStyle(bgEl), frac = (v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5); bgEl.style.backgroundSize = ''; bgEl.style.backgroundPosition = '';
-        const sol = solveBattleLayout({ view: { w: b.width, h: b.height }, obstacles, sprites, art: { ax: frac(cs.backgroundPositionX), ay: frac(cs.backgroundPositionY), spots: biomeArt.spots } });
+        const sol = solveBattleLayout({ view: { w: b.width, h: b.height }, obstacles, sprites, art: { ax: frac(cs.backgroundPositionX), ay: frac(cs.backgroundPositionY), spots: biomeArt.spots, keep: biomeArt.keep } });
         bgEl.style.backgroundSize = `${sol.bg.w}px ${sol.bg.h}px`; bgEl.style.backgroundPosition = `${sol.bg.x}px ${sol.bg.y}px`;
         if (life) Object.assign(life.style, { inset: 'auto', left: `${sol.bg.x}px`, top: `${sol.bg.y}px`, width: `${sol.bg.w}px`, height: `${sol.bg.h}px`, objectFit: 'fill' });
         for (const [k, el] of Object.entries(box)) { el.style.left = `${sol.feet[k][0] + b.left - f.left}px`; el.style.top = `${sol.feet[k][1] + b.top - f.top}px`; }
