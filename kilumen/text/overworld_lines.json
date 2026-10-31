@@ -10921,7 +10921,24 @@
      }
     ]
    },
-   "area_name": "East Road"
+   "area_name": "East Road",
+   "route_east_junction_sign": {
+    "pages": [
+     "EAST ROAD JUNCTION\nSouth: the Coast Road.",
+     "East: Aurelith. West: Brookhollow."
+    ],
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "EAST ROAD JUNCTION\nSouth: the Coast Road.",
+       "East: Aurelith. West: Brookhollow."
+      ]
+     }
+    ],
+    "note": "DRAFT pending Gary (route_east redo)"
+   }
   },
   "aurelith": {
    "aurelith_ron_6": {
