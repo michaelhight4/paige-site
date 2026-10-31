@@ -17,6 +17,8 @@ import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.107-alpha'; // v6:
 import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.107-alpha';
 import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.107-alpha';
 import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.107-alpha'; // batch 3: route / rival trainers fight their map team
+import { syncBoardTasks } from '../systems/board_tasks.js?v=v0.2.107-alpha'; // board point tasks: events / Olympics + tree bonuses (dev/rt-respec)
+import { sportsState } from '../sports/tournament.js?v=v0.2.107-alpha';
 import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES, boardPointsFor, creditBoardPoints } from './milestones.js?v=v0.2.107-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
 import { Shop } from '../systems/shop.js?v=v0.2.107-alpha';
 import { levelForXp } from '../systems/creature.js?v=v0.2.107-alpha';
@@ -248,6 +250,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
       }
       let ms = false;
       if (!boardSynced && sys?.rtBenefits?.grantPoints) { boardSynced = true; if (creditBoardPoints(mb, sys.rtBenefits)) ms = true; } // old saves: claimed Gold / Platinum tiers, once
+      if (sys?.rtBenefits?.grantPoints && sys.state) { try { if (syncBoardTasks(sys.rtBenefits, { flags: scene.flags, sstate: sportsState(sys.state), mb })) ms = true; } catch (e) { console.error('board tasks:', e); } } // once per key; old saves on load
       if (AREA_IDS.has(scene.map.name) && mb.area(scene.map.name)) ms = true;
       const reached = mb.newlyReached(derived());
       if (reached.length) { ms = true; if (!quiet) pops.push(...reached); }

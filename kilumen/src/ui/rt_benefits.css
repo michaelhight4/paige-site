@@ -54,3 +54,6 @@
 }
 @media (prefers-reduced-motion: reduce) { .rtb-node { transition: none; } }
 body.ui-reduce .rtb-node { transition: none; }
+/* reset (respec) button in the ID plate, dev/rt-respec Oct 31 2026 */
+.rtb-reset{font:inherit;font-size:.8em;padding:2px 8px;border-radius:6px;border:2px solid currentColor;background:transparent;color:inherit;cursor:pointer;white-space:nowrap}
+.rtb-reset:disabled{opacity:.45;cursor:default}

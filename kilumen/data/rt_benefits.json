@@ -532,7 +532,8 @@
     }
   ],
   "respec": {
-    "supported": false,
-    "_note": "company.respecWeek exists in the save but there is no terminal / fee / week clock yet: no respec in region 1"
+    "supported": true,
+    "cost": 0,
+    "_note": "Reset on the board (Oct 31 2026, dev/rt-respec): free, any time, refunds every rank's exact cost; key-card nodes (grantFlag) stay owned. company.respecWeek unused."
   }
 }

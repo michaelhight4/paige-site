@@ -123,7 +123,7 @@ export function attachOlympics(scene, { sys, sstate, isOpen }) {
   }
   function showFinal() {
     let mult = 1; try { mult = diffOf(getDifficulty(sys()?.state)).money || 1; } catch (e) { mult = 1; }
-    const res = settleOlympics({ venue: st.venue, day: day(), table: st.run.table, wallet: sys()?.wallet, sstate: sstate(), mult }); st.result = res;
+    const res = settleOlympics({ venue: st.venue, day: day(), table: st.run.table, wallet: sys()?.wallet, sstate: sstate(), mult, events: st.run.events }); st.result = res;
     if (res.flag && !scene.flags?.has?.(res.flag)) { try { scene.setFlag ? scene.setFlag(res.flag) : scene.flags?.add?.(res.flag); } catch (e) { /* flag */ } }
     st.phase = res.place === 1 ? 'champ' : 'final'; const V = OS.venue[st.venue];
     const plan = podiumPlan({ kind: 'final', venue: st.venue, venueName: V, table: st.run.table, events: st.run.events, result: res });

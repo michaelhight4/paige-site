@@ -212,7 +212,42 @@ export class RtBenefits {
   }
   /** Effect value of a node at its current rank (ranks[rank-1].value), 0 when not owned. */
   effect(id) { const n = this.node(id), r = num(this.company.board?.[id]); return n && r > 0 ? num(n.ranks?.[r - 1]?.value) : 0; }
-  respec() { return { ok: false, reason: 'unsupported' }; } // data.respec.supported is false: no terminal / fee / week clock yet
+  /** Points ledger (audit): earned = ID levels x pointsPerLevel + every task / quest / milestone / event / tree grant
+   *  (xpClaims `pts:<key>`); spent = the cost of every owned rank; kept = key-card ranks a reset leaves in place.
+   *  Invariant on a clean save: pointsFree + spent === earned. */
+  ledger() {
+    const co = this.company, ppl = Math.max(0, Math.floor(num(this.data?.pointsPerLevel, 1)));
+    const fromLevels = Math.max(0, co.idLevel - 1) * ppl;
+    const grants = {}; let fromTasks = 0;
+    for (const [k, v] of Object.entries(co.xpClaims || {})) if (k.startsWith('pts:')) { const n = Math.max(0, Math.floor(num(v))); grants[k.slice(4)] = n; fromTasks += n; }
+    let spent = 0, kept = 0;
+    for (const n of this.nodes) {
+      const r = Math.max(0, Math.floor(num(co.board?.[n.id]))); let c = 0;
+      for (let i = 0; i < r && i < (n.ranks?.length || 0); i++) c += num(n.ranks[i].cost, 1);
+      spent += c; if (n.grantFlag) kept += c;
+    }
+    return { fromLevels, fromTasks, grants, earned: fromLevels + fromTasks, spent, kept, free: co.pointsFree, refundable: spent - kept };
+  }
+  /** Reset (respec, dev/rt-respec Oct 31 2026, Gary: "just add resets"): FREE. Every rank goes back and its exact cost is
+   *  refunded into pointsFree (points from ID levels and from tasks alike: the refund is what was spent, so nothing is lost
+   *  or minted). Key-card nodes (grantFlag) stay: they opened story doors. Saves through scene.saveNow(). -> {ok, refunded} */
+  respec() {
+    if (!this.data || this.data.respec?.supported === false) return { ok: false, reason: 'unsupported' };
+    const co = this.company; let refunded = 0, ranks = 0;
+    for (const n of this.nodes) {
+      if (n.grantFlag) continue;
+      const r = Math.max(0, Math.floor(num(co.board?.[n.id]))); if (!r) continue;
+      for (let i = 0; i < r && i < (n.ranks?.length || 0); i++) refunded += num(n.ranks[i].cost, 1);
+      ranks += r; delete co.board[n.id];
+    }
+    if (!ranks) return { ok: false, reason: 'nothing' };
+    co.pointsFree += refunded; co.respecs = num(co.respecs) + 1;
+    this.scene.log?.push?.({ tick: this.scene.tick, type: 'benefitRespec', refunded, ranks });
+    this.scene._dirty = true;
+    this._emit({ type: 'respec', refunded, points: co.pointsFree });
+    const saved = typeof this.scene.saveNow === 'function' ? !!this.scene.saveNow() : false;
+    return { ok: true, refunded, ranks, saved };
+  }
 }
 
 /** Hall Hazard Pay targets: hall interiors ('<town>_hall_int.<id>') and the helper / master classes. */

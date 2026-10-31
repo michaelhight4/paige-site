@@ -92,10 +92,20 @@ export function runOlympics({ venue, day, entrants }) {
 export const standingsOf = (list) => list.map((x) => ({ ...x, sum: Math.round(x.sum * 10) / 10 }))
   .sort((a, b) => b.pts - a.pts || b.firsts - a.firsts || b.sum - a.sum || (a.who === 'me') - (b.who === 'me'));
 /** settle: place, gold (1st only), merit by place, first-win info. Marks today's entry. */
-export function settleOlympics({ venue, day, table, wallet, sstate, mult = 1 }) {
+export function settleOlympics({ venue, day, table, wallet, sstate, mult = 1, events = null }) {
   const o = olyState(sstate, venue), place = table.findIndex((x) => x.who === 'me') + 1, first = place === 1 && o.wins === 0;
+  if (Array.isArray(events)) noteGolds(o, events); // board tasks (src/systems/board_tasks.js): per-event golds + sweeps
   o.entries++; o.day = day | 0; let prize = 0;
   if (place === 1) { o.wins++; prize = wallet ? wallet.add(Math.round((venue === 'aurelith' ? OLY.prize.aurelith : OLY.prize.town) * mult)) : 0; }
   const merit = awardMerit(sstate, venue === 'aurelith' ? 'oly_major' : 'oly', place);
   return { place, prize, merit, firstWin: first, flag: place === 1 ? wonFlag(venue) : null, wins: o.wins };
+}
+
+/** Board tasks (dev/rt-respec, Oct 31 2026): count the player's event wins (place 1) per event id in o.golds, and o.sweeps
+ *  when the player won every event of one Olympics. Old saves have neither (0). */
+export function noteGolds(o, events) {
+  const g = (o.golds ||= {}); let n = 0;
+  for (const e of events) { const me = e?.rows?.find((x) => x.who === 'me'); if (me && me.place === 1) { g[e.id] = (g[e.id] || 0) + 1; n++; } }
+  if (events.length && n === events.length) o.sweeps = (o.sweeps || 0) + 1;
+  return n;
 }

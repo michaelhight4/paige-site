@@ -17,6 +17,7 @@ export const RTB_TEXT = {
     xp_to_next: '{into}/{span}', xp_capped: 'Region cap', buy: 'Buy rank {rank}', cancel: 'Not now', rank: 'Rank {rank}/{max}',
     cost: 'Cost: {cost} pt · Needs ID {level}', state_available: 'Available', state_owned: 'Owned', state_locked: 'Locked',
     lock_region: 'Region {region}', lock_id: 'Needs ID {level}', lock_points: 'Need {cost} pt', hint_perk: 'Perk', hint_buy: 'Details / Buy', back: 'Back',
+    reset: 'Reset board', reset_go: 'Reset', // dev/rt-respec Oct 31 2026: PLACEHOLDER, Text Bot request data/textbot_requests_rt_respec.md
   },
   branches: { field_logistics: 'Field Logistics', supply_pay: 'Stores & Pay', crystal_lab: 'Crystal Lab', unit_performance: 'Unit Performance' },
   nodes: {
@@ -46,7 +47,8 @@ export const RTB_TEXT = {
     points: 'Needs {cost} benefit point. You have {points}.', maxed: 'Fully vested. Do not ask for more.', owned_region: 'Maxed for this region. More ranks in Region {region}.',
   },
   confirm: 'Spend {cost} benefit point on {node} rank {rank}? No refunds. Company policy.',
-  toast: { bought: '{node} rank {rank} filed. Asset value up. Slightly.', level_up: 'ID level {level}. +1 benefit point. Try not to waste it.',
+  confirm_reset: 'Reset the board? Every rank goes back and you get all {points} spent points back. Key cards stay. Free. HR is shocked too.',
+  toast: { reset: 'Board reset. {points} points back in your pocket.', reset_none: 'Nothing to reset. You have not spent anything.', bought: '{node} rank {rank} filed. Asset value up. Slightly.', level_up: 'ID level {level}. +1 benefit point. Try not to waste it.',
     not_yet: '{reason}' },
 };
 
@@ -103,7 +105,8 @@ export function installRtBenefitsScreen(ui, rt) {
         <span class="rtb-eid"><small>${esc(tx('labels.employee_id'))}</small><b data-rtb="eid">${esc(employeeIdOf(ui.scene))}</b></span>
         <div class="bar-row"><b>${esc(tx('labels.xp'))}</b><div class="bar xp" role="img" aria-label="${esc(`${tx('labels.xp')} ${p.xp}`)}"><i style="width:${(p.frac * 100).toFixed(1)}%"></i></div>
           <span>${esc(p.capped ? tx('labels.xp_capped') : tx('labels.xp_to_next', { into: p.xpInto, span: p.xpSpan }))}</span></div>
-        <span style="display:flex;gap:6px"><span class="rtb-lv" data-rtb="lv">${esc(tx('labels.id_level', { level: p.idLevel }))}</span><span class="rtb-pts" data-rtb="pts">${esc(tx(p.points === 1 ? 'labels.points_one' : 'labels.points', { points: p.points }))}</span></span>
+        <span style="display:flex;gap:6px"><span class="rtb-lv" data-rtb="lv">${esc(tx('labels.id_level', { level: p.idLevel }))}</span><span class="rtb-pts" data-rtb="pts">${esc(tx(p.points === 1 ? 'labels.points_one' : 'labels.points', { points: p.points }))}</span>
+          <button type="button" class="rtb-reset" data-act="reset" ${rt.ledger().refundable > 0 ? '' : 'disabled'}>${esc(tx('labels.reset'))}</button></span>
       </div>`;
     };
     let justSel = false;
@@ -122,7 +125,17 @@ export function installRtBenefitsScreen(ui, rt) {
       onSel: (i) => { ui._rtbSel = i; justSel = true; queueMicrotask(() => { justSel = false; }); const el = ui.stage?.querySelector('#rtbinfo'); if (el) el.innerHTML = info(order()[i]); },
       hint: () => ui.hintText([['▲▼◀▶', tx('labels.hint_perk')], ['A', tx('labels.hint_buy')], ['B', tx('labels.back')]]),
       onA: (i) => { if (justSel) return; buyFlow(order()[i]); }, // a tap that just moved the cursor only shows the details
-      onAct: (a) => { if (a === 'buy') buyFlow(order()[scr.sel]); },
+      onAct: (a) => { if (a === 'buy') buyFlow(order()[scr.sel]); if (a === 'reset') resetFlow(); },
+    };
+    const resetFlow = async () => { // reset (respec): free, confirm first
+      if (ui.modal) return;
+      const back = rt.ledger().refundable;
+      if (back <= 0) { ui.note(tx('toast.reset_none'), 2200); return; }
+      const k = await ui.ask('rt_benefits', [tx('confirm_reset', { points: back })], [tx('labels.reset_go'), tx('labels.cancel')], { pat: 'chevron' });
+      if (k !== 0) { ui.rerender(); return; }
+      const r = rt.respec();
+      if (r.ok) { ui.note(tx('toast.reset', { points: r.refunded }), 2400); ui.scene.audio?.sfx?.('select'); }
+      ui.rerender();
     };
     const buyFlow = async (n) => {
       if (!n || ui.modal) return;
