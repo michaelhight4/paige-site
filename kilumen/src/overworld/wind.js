@@ -12,7 +12,7 @@
 // Weather: strength follows life.weather (stronger in rain/storm), 0 indoors / caves. Off with reduced motion, the Options 'Wind' toggle, or ?wind=0.
 // Adapted idea (per-row pixel-snapped offset, height cutoff, world-position phase): "Wind with pixel snapping" by Stixxy,
 // godotshaders.com (CC0 per godotshaders.com default licence) - see THIRD_PARTY_LICENSES.
-import { WIND } from './living.js?v=v0.2.103-alpha';
+import { WIND } from './living.js?v=v0.2.104-alpha';
 
 export const WIND_STRENGTH = Object.freeze({ clear: 0.8, fair: 1, cloudy: 1.15, overcast: 1.3, custom: 1.2, rain: 1.6, storm: 2.2 });
 const CANOPY = /^(tree_top|treed_top|snowpine_top|x_pine_snow(_small)?_\d+_0)$/, TALL = /^tall_grass/, FLOWER = /^flowers?_/, GRASS = /^grass_(dark_)?\d+$/;

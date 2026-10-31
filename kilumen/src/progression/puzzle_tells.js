@@ -12,9 +12,9 @@
 //    (tools/merge_puzzle_hints.py). Keys system_halls.hint_<zone>.pages (rule, first ask), .pages_again (place, second ask),
 //    .pages_3 (optional extra rule, third+ ask), system_halls.reset_note (shared reset line, also a door toast once per hall).
 //    Missing keys fall back to the DRAFT placeholders below. Field signs: A on a plate / gate / boulder (FIELD_SIGNS).
-import { TILE } from '../overworld/constants.js?v=v0.2.103-alpha';
-import { PuzzleRuntime } from '../systems/puzzles.js?v=v0.2.103-alpha';
-import { HALL_HINTS } from './hall_v2.js?v=v0.2.103-alpha';
+import { TILE } from '../overworld/constants.js?v=v0.2.104-alpha';
+import { PuzzleRuntime } from '../systems/puzzles.js?v=v0.2.104-alpha';
+import { HALL_HINTS } from './hall_v2.js?v=v0.2.104-alpha';
 
 export const HINTS_URL = 'data/textbot_puzzle_hints.json';
 /** DRAFT placeholders (Text Bot to replace through data/textbot_puzzle_hints.json). Rules only, never the answer. */

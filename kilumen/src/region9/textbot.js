@@ -1,6 +1,6 @@
 // Text Bot's final Wellspire lines (data/textbot_*.json) layered over the DRAFT fallbacks in ./text_fallback.js:
 // a Text Bot key wins, any key it lacks falls back to FB. Loaded once at startup (fetch, like data/masters.json). Coder Oct 30 2026.
-import { FB } from './text_fallback.js?v=v0.2.103-alpha';
+import { FB } from './text_fallback.js?v=v0.2.104-alpha';
 export const TEXTBOT_FILES = ['data/textbot_icefall.json', 'data/textbot_r9_fill_items.json'];
 export const TB = {};
 /** item id -> player display name from Text Bot (item_display_names); ids stay the code keys. */

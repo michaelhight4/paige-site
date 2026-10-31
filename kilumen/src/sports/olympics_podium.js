@@ -7,8 +7,8 @@
 // Licences checked first: canvas-confetti (ISC), party-js (MIT), fireworks-js (MIT) are stateful, smooth-shaded,
 // DOM/canvas-owning systems; a tiny seeded stateless pixel confetti/firework fits the pixel style and the
 // any-frame-out-of-order rule better, so nothing was vendored.
-import { OS, ot } from './olympics_strings.js?v=v0.2.103-alpha';
-import { OLY_ANIM, venueBackdrop } from './olympics_anim.js?v=v0.2.103-alpha';
+import { OS, ot } from './olympics_strings.js?v=v0.2.104-alpha';
+import { OLY_ANIM, venueBackdrop } from './olympics_anim.js?v=v0.2.104-alpha';
 
 export const PW = 480, PH = 270, FLOOR = 228;
 const clamp = (x, a = 0, b = 1) => (x < a ? a : x > b ? b : x);
@@ -124,8 +124,9 @@ export function drawPodiumPixels(g, plan, t, imgs, opts = {}) {
   for (const slot of order) { const e = plan.entries[slot]; if (!e) continue; const p = kiluPos(plan, e, t); if (!p.shown) continue; const s = spr(plan, e);
     const fr = imgs(e.kilu.species) || []; const ground = p.u >= 1;
     if (ground) { g.globalAlpha = 0.3; R(g, '#000', p.x - s * 0.3, p.y - 1, s * 0.6, 2); g.globalAlpha = 1; }
-    const bob = rm || !ground ? 0 : slot === 0 && t > T.spot ? -Math.round(Math.abs(Math.sin((t - T.spot) * 5)) * 3) : 0;
-    sprite(g, fr[ground ? 0 : 1] || fr[0], p.x, p.y + bob, s, { flip: slot >= 2, sq: rm ? 0 : p.squash });
+    // hotfix v0.2.104: the winner's cheer is a squash pulse anchored at its feet (no lift), so every Kilu rests on its step
+    const bob = 0, cheer = rm || !ground || slot !== 0 || t <= T.spot ? 0 : Math.abs(Math.sin((t - T.spot) * 5)) * 0.35;
+    sprite(g, fr[ground ? 0 : 1] || fr[0], p.x, p.y, s, { flip: slot >= 2, sq: rm ? 0 : Math.max(p.squash, cheer) });
     if (ground && p.squash > 0.5 && !rm) for (let k = 0; k < 6; k++) R(g, '#e8dcc0', p.x + (k - 2.5) * 6 * (1 - p.squash), p.y - 2 - (1 - p.squash) * 4, 2, 2);
     // medal drop onto the chest
     if (e.place <= 3 && slot <= 2) { const m0 = medalStart(slot), u = clamp((t - m0) / T.medalDur); if (u > 0) { const yT = p.y - s * 0.3 + bob, yy = u < 0.75 ? -12 + (yT + 12) * (u / 0.75) ** 2 : yT - Math.sin(((u - 0.75) / 0.25) * Math.PI) * 4;

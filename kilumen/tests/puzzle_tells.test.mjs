@@ -8,7 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const J = (p) => JSON.parse(fs.readFileSync(path.join(root, p), 'utf8'));
 const PT = await import(path.join(root, 'src/progression/puzzle_tells.js'));
 const { HallV2, hallV2FromMap } = await import(path.join(root, 'src/progression/puzzles.js'));
-const { PuzzleRuntime } = await import(pathToFileURL(path.join(root, 'src/systems/puzzles.js')).href + '?v=v0.2.103-alpha'); // same instance puzzle_tells patches
+const { PuzzleRuntime } = await import(pathToFileURL(path.join(root, 'src/systems/puzzles.js')).href + '?v=v0.2.104-alpha'); // same instance puzzle_tells patches
 const MAPS = 'art/world/overworld/maps/';
 const BANNED = /\b(gym|elite|route)\b|pok[eé]/i;
 
