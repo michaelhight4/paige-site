@@ -26,5 +26,5 @@ Object.assign(OS, {
   pod_champ_title: '{venue} Olympics Champion', pod_champ_name: '{trainer} and {kilu}!',
   pod_you_champ: 'You are the champion!', pod_you_finished: 'You finished {place}.',
   pod_gold: '+{prize} gold', pod_merit: '+{merit} merit', pod_first: 'First {venue} title!',
-  pod_skip: 'Tap to skip', pod_continue: 'Tap to continue',
+  pod_win_event: '{event} winner!', pod_skip: 'Tap to skip', pod_continue: 'Tap to continue',
 });

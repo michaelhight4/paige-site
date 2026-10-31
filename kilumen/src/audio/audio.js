@@ -38,6 +38,10 @@ export function draftLoopFor(id, draft = DRAFT_AUDIO) { return (draft?.music && 
 
 /** ZzFX parameter sets (placeholder tones). randomness 0 so each sound renders once and is cached. */
 export const SFX = {
+  fan_c: [0.4, 0, 523, 0.01, 0.06, 0.1, 2, 1],
+  fan_e: [0.4, 0, 659, 0.01, 0.06, 0.1, 2, 1],
+  fan_g: [0.4, 0, 784, 0.01, 0.06, 0.12, 2, 1],
+  fan_c2: [0.5, 0, 1047, 0.01, 0.18, 0.35, 2, 1, 0, 0, 0, 0, 0, 0.1],
   cursor: [0.35, 0, 880, 0, 0.01, 0.03, 0, 1],
   select: [0.5, 0, 660, 0, 0.02, 0.08, 0, 1, 0, 0, 330, 0.03],
   back: [0.45, 0, 520, 0, 0.02, 0.08, 0, 1, 0, 0, -180, 0.03],
@@ -50,6 +54,10 @@ export const SFX = {
 
 /** Where each effect fires (for the placeholder list). */
 export const SFX_USES = {
+  fan_c: 'Olympics podium victory jingle note 1 (olympics_ui.js podium, original zzfx)',
+  fan_e: 'victory jingle note 2',
+  fan_g: 'victory jingle note 3',
+  fan_c2: 'victory jingle final note',
   cursor: 'menu cursor moves (src/ui/ui.js _select)',
   select: 'menu confirm (ui.js _activate)',
   back: 'menu back / close (ui.js back)',
