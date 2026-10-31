@@ -23,6 +23,9 @@ export class GridMover {
     this.stepMode = MoveMode.WALK;
     /** Speed hook: >1 is faster. Ticks per tile = base / multiplier; fractional values alternate step lengths. */
     this.speedMultiplier = 1;
+    /** Dev world speed (src/dev/console.js only; 1 for every player): extra sim ticks per real tick. Scales the tap/turn and
+     *  hold-repeat gates so they stay real-time when the walk itself runs at world speed (dev fast walk). */
+    this.worldSpeed = 1;
     this.phase = 0;      // step-length accumulator for fractional ticks per tile (run = 7.5)
     this.dist = 0;       // native px travelled since the player last stood still (frame advance)
     this.distBase = 0;
@@ -52,6 +55,9 @@ export class GridMover {
     return d;
   }
 
+  /** Real-time scale for the input gates (turn pause, hold repeat): 1 for players. */
+  _gateScale() { return Math.max(this.worldSpeed > 1 ? this.worldSpeed : 1, 1 / Math.min(1, this.speedMultiplier || 1)); }
+
   get moving() { return this.state === 'step' || this.state === 'hop'; }
 
   /** Advance one 60 Hz tick. Returns the list of events that happened (for tests, audio and debug). */
@@ -62,7 +68,7 @@ export class GridMover {
     else if (raw !== this.holdDir) { this.holdDir = raw; this.holdT = 0; this.holdSteps = 0; }
     else this.holdT++;
     // step repeat gate (REPEAT_TICKS): after this hold's first step, the next one waits until the key has been held ~250 ms
-    const dir = raw && this.holdSteps > 0 && this.holdT < REPEAT_TICKS / Math.min(1, this.speedMultiplier || 1) ? null : raw;
+    const dir = raw && this.holdSteps > 0 && this.holdT < REPEAT_TICKS * this._gateScale() ? null : raw;
     switch (this.state) {
       case 'step':
       case 'hop': {
@@ -82,7 +88,7 @@ export class GridMover {
         this.t++;
         if (!dir) { this.state = 'idle'; this.t = 0; return ev; }      // tap: turned in place only
         if (dir !== this.facing) { this.facing = dir; this.t = 0; ev.push({ type: 'turn', dir }); return ev; }
-        if (this.t >= TURN_TICKS / Math.min(1, this.speedMultiplier || 1)) { this.state = 'idle'; this.t = 0; this._attempt(dir, world, ev); } // Oct 30 2026: dev world speed (multiplier < 1) keeps the turn pause real-time (200x tap = turn)
+        if (this.t >= TURN_TICKS * this._gateScale()) { this.state = 'idle'; this.t = 0; this._attempt(dir, world, ev); } // Oct 30 2026: dev world speed (multiplier < 1) keeps the turn pause real-time (200x tap = turn)
         return ev;
       }
       case 'bump': {
