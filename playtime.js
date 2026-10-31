@@ -3,14 +3,14 @@
 // Usage: <script type="module" src="/playtime.js?game=kilumen"></script>
 // Rules (server: public.play_heartbeat credits only the real time since the previous beat, max 60 s, beats < 50 s apart
 // credit nothing, gaps > 120 s start a new session): beat about every 60 s, but ONLY while the page is visible, focused-ish
-// (input in the last 5 min), and this tab holds the cross-tab lock, so several tabs / games never stack.
+// (input in the last 60 min), and this tab holds the cross-tab lock, so several tabs / games never stack.
 // Time is measured from real timestamps (performance.now deltas, each capped), so throttled timers can't inflate it.
 // Guests / signed-out players are skipped (the RPC needs a signed-in account). Existing totals are only ever added to.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.4';
 const GAME = new URL(import.meta.url).searchParams.get('game');
 if (GAME && !navigator.webdriver) {
   const sb = createClient('https://kjdubkeowcyuoazvpoyt.supabase.co', 'sb_publishable_NZC6vzmXDYRLnRh2vDHWAg_VCDi3FQc', { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false } });
-  const ID = Math.random().toString(36).slice(2), LOCK = 'paige_pt_lock', IDLE_MS = 5 * 60e3, BEAT_MS = 60e3, MAX_DT = 5e3, LOCK_TTL = 15e3;
+  const ID = Math.random().toString(36).slice(2), LOCK = 'paige_pt_lock', IDLE_MS = 60 * 60e3, BEAT_MS = 60e3, MAX_DT = 5e3, LOCK_TTL = 15e3;
   let lastInput = Date.now(), lastTick = performance.now(), activeMs = 0, lastBeatWall = 0, busy = false, signedIn = false;
   const ls = { get: (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch (_) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} } };
   const active = () => document.visibilityState === 'visible' && Date.now() - lastInput < IDLE_MS;
