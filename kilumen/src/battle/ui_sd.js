@@ -12,6 +12,8 @@ const cidleSrc = (url) => (cidleOn() && !reducedMotion() && CIDLE_RE.test(url) ?
 import { DEV } from '../dev/runtime.js?v=v0.2.105-alpha';
 import { modeButton, reactionLines } from '../rtb/switch.js?v=v0.2.105-alpha'; // battle mode switch (wild only, Oct 29 2026)
 import { authoredTeam } from './data/trainer_teams.js?v=v0.2.105-alpha';
+import { trainerXpMult } from './data/xp_regions.js?v=v0.2.105-alpha'; // trainer XP by region (Oct 31 2026)
+import { KILUMEN_RULES } from './data/rules.js?v=v0.2.105-alpha';
 import { STAT_NAMES } from './data/creatures.js?v=v0.2.105-alpha';
 import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.105-alpha';
 import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.105-alpha';
@@ -85,7 +87,9 @@ export function makeSdBattle(ui, opts, h) {
   const dMode = getDifficulty(sys?.state), foesBattle = scaleFoes(foes, Math.max(...party.map((c) => c.level || 1)), dMode);
   const foeItems = trainer ? masterItems(opts.masterNumber || 0, dMode) : {};
   const qol = qolFlags(ui.q || undefined);
-  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1, xpShare: qol.xpShare ? XP_SHARE : 0 });
+  // trainer XP by region (Gary Oct 31 2026): regions 1-4 / Masters 1-4 x1.125, regions 5+ / post-game keep x1.5 (src/battle/data/xp_regions.js)
+  const tXp = trainer ? trainerXpMult({ ...(opts.who || {}), masterNumber: opts.masterNumber || 0 }) : KILUMEN_RULES.xpTrainerMult;
+  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, ...(tXp !== KILUMEN_RULES.xpTrainerMult ? { rules: { xpTrainerMult: tXp } } : {}), foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1, xpShare: qol.xpShare ? XP_SHARE : 0 });
   let sharedSaid = false; // QoL #4: one line per KO for the benched share // Unit Training perk (v0.2.28)
   ui.currentBattle = kb; // read-only handle for scripted play-checks (tools/playcheck_browser.mjs)
   const cat = ui.T('system_item_catalogue', {});

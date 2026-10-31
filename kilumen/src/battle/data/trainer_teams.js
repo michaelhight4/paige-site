@@ -8,6 +8,8 @@
 // level, earth, first stage, evolves at 16). Ron's byStarter: `nibbin` added (= the old earth branch, Ron takes Cindrip), the
 // rillop branch now fields Nibbin / Gnawford; `tumbloam` kept for v0.2.89-alpha saves that picked Tumbloam.
 // XP rules stay xpDivisor 7 / xpTrainerMult 1.5 (Gary 12:00: "No, keep the old XP and find another way"; 12:01: "the
+// UPDATE Oct 31 2026 (Gary, pt2651u "make trainers give 25% less xp"): regions 1-4 trainers + Masters 1-4 now x1.125
+// (xpTrainerMultEarly); regions 5-8 + post-game keep x1.5. Region by map/id: src/battle/data/xp_regions.js.
 // point of the game is to grind in the grass and log more kilumen"): trainers do NOT carry the player to L12-13, grass
 // grinding does (tools/playcheck_master1.mjs models it). r1_d/e/f + fw_a are world-feel trainers (Gary 12:02: "trainers
 // are still important to make the world feel full and alive"), levels between the local wilds and Master 1, rising north.

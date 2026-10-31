@@ -15590,6 +15590,14 @@
     {
      "species": "plainhorn",
      "level": 39
+    },
+    {
+     "species": "brookhorn",
+     "level": 39
+    },
+    {
+     "species": "floepaddle",
+     "level": 39
     }
    ],
    "sight": 4,
@@ -15631,6 +15639,14 @@
     },
     {
      "species": "sunquail",
+     "level": 39
+    },
+    {
+     "species": "brookhorn",
+     "level": 39
+    },
+    {
+     "species": "floepaddle",
      "level": 39
     }
    ],
@@ -15674,6 +15690,14 @@
     {
      "species": "burlbeetle",
      "level": 39
+    },
+    {
+     "species": "brookhorn",
+     "level": 39
+    },
+    {
+     "species": "floepaddle",
+     "level": 39
     }
    ],
    "sight": 3,
@@ -15711,6 +15735,14 @@
     },
     {
      "species": "basklet",
+     "level": 40
+    },
+    {
+     "species": "brookhorn",
+     "level": 40
+    },
+    {
+     "species": "floepaddle",
      "level": 40
     }
    ],
@@ -15758,6 +15790,14 @@
     {
      "species": "heliobloom",
      "level": 40
+    },
+    {
+     "species": "brookhorn",
+     "level": 40
+    },
+    {
+     "species": "floepaddle",
+     "level": 40
     }
    ],
    "sight": 3,
@@ -15796,6 +15836,14 @@
     {
      "species": "spinemonitor",
      "level": 41
+    },
+    {
+     "species": "brookhorn",
+     "level": 40
+    },
+    {
+     "species": "floepaddle",
+     "level": 40
     }
    ],
    "sight": 3,
