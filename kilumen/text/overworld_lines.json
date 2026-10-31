@@ -15310,7 +15310,61 @@
      }
     ]
    },
-   "area_name": "Tidewater Coast"
+   "area_name": "Tidewater Coast",
+   "tidewater_coast_dock_fisher_1": {
+    "pages": [
+     "DRAFT placeholder: dock fisher 1 (casting off the dock end)."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: dock fisher 1 (casting off the dock end)."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_fisher_2": {
+    "pages": [
+     "DRAFT placeholder: dock fisher 2 (fishing off the end)."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: dock fisher 2 (fishing off the end)."
+      ]
+     }
+    ]
+   },
+   "tidewater_coast_dock_fisher_3": {
+    "pages": [
+     "DRAFT placeholder: dock fisher 3 (line in by the boats)."
+    ],
+    "kind": "villager",
+    "status": "DRAFT",
+    "owner": "Text Bot",
+    "textbot_review": true,
+    "lines": [
+     {
+      "id": "default",
+      "flags": [],
+      "pages": [
+       "DRAFT placeholder: dock fisher 3 (line in by the boats)."
+      ]
+     }
+    ]
+   }
   },
   "tidewater_hall_int": {
    "tidewater_hall_int_master": {
