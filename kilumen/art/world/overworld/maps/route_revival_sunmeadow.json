@@ -14471,6 +14471,14 @@
     {
      "species": "halovy",
      "level": 40
+    },
+    {
+     "species": "northling",
+     "level": 39
+    },
+    {
+     "species": "snowmuff",
+     "level": 39
     }
    ],
    "sight": 3,
@@ -14508,6 +14516,14 @@
     },
     {
      "species": "spinemonitor",
+     "level": 40
+    },
+    {
+     "species": "northling",
+     "level": 40
+    },
+    {
+     "species": "halovy",
      "level": 40
     }
    ],
@@ -14550,6 +14566,14 @@
     },
     {
      "species": "quartzhopper",
+     "level": 40
+    },
+    {
+     "species": "northling",
+     "level": 40
+    },
+    {
+     "species": "halovy",
      "level": 40
     }
    ],

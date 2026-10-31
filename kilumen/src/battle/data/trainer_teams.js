@@ -8,6 +8,8 @@
 // level, earth, first stage, evolves at 16). Ron's byStarter: `nibbin` added (= the old earth branch, Ron takes Cindrip), the
 // rillop branch now fields Nibbin / Gnawford; `tumbloam` kept for v0.2.89-alpha saves that picked Tumbloam.
 // XP rules stay xpDivisor 7 / xpTrainerMult 1.5 (Gary 12:00: "No, keep the old XP and find another way"; 12:01: "the
+// UPDATE Oct 31 2026 (Gary, pt2651u "make trainers give 25% less xp"): regions 1-4 trainers + Masters 1-4 now x1.125
+// (xpTrainerMultEarly); regions 5-8 + post-game keep x1.5. Region by map/id: src/battle/data/xp_regions.js.
 // point of the game is to grind in the grass and log more kilumen"): trainers do NOT carry the player to L12-13, grass
 // grinding does (tools/playcheck_master1.mjs models it). r1_d/e/f + fw_a are world-feel trainers (Gary 12:02: "trainers
 // are still important to make the world feel full and alive"), levels between the local wilds and Master 1, rising north.
@@ -18,12 +20,12 @@
 // levels L13-16 (it is the post-Master-1 side forest; bramblehog now L16 = its evolution level, no trainer creature sits
 // below its evolution level: tests/region2.test.mjs). Play-check: tools/playcheck_master2.mjs; plan: data/region2/PLAN.md.
 // ui_sd.js uses an entry here before any injected team; trainers not listed keep the old placeholder fallback.
-import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.105-alpha';
-import { applyHeldPicks } from './trainer_held.js?v=v0.2.105-alpha';
-import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.105-alpha';
-import { ARENA_TEAMS } from '../../region78/arena.js?v=v0.2.105-alpha'; // Aurelith Arena fighters (8, back to back)
-import { WELLSPIRE_TEAMS } from '../../region9/teams.js?v=v0.2.105-alpha'; // Wellspire + finale (src/region9)
-import { CAVE_POCKET_TEAMS } from './cave_pocket_teams.js?v=v0.2.105-alpha'; // Pass 2 cave-pocket trainers (generated) // Wellspire + finale (src/region9)
+import { STARTERS, partyStarter, starterKeys } from './starters.js?v=v0.2.107-alpha';
+import { applyHeldPicks } from './trainer_held.js?v=v0.2.107-alpha';
+import { RON_KEYS, ronTeam } from './ron_team.js?v=v0.2.107-alpha';
+import { ARENA_TEAMS } from '../../region78/arena.js?v=v0.2.107-alpha'; // Aurelith Arena fighters (8, back to back)
+import { WELLSPIRE_TEAMS } from '../../region9/teams.js?v=v0.2.107-alpha'; // Wellspire + finale (src/region9)
+import { CAVE_POCKET_TEAMS } from './cave_pocket_teams.js?v=v0.2.107-alpha'; // Pass 2 cave-pocket trainers (generated) // Wellspire + finale (src/region9)
 
 const RON_TIDEWATER = {"nibbin": [{species: "sailquill", level: 45}, {species: "glassvine", level: 45}, {species: "mirrorkin", level: 45}, {species: "runeskein", level: 45, held: "runestitch_charm"}, {species: "bramblehog", level: 45}, {species: "forgeharrow", level: 46}], "cindrip": [{species: "sailquill", level: 45}, {species: "pearlisk", level: 45, held: "runestitch_charm"}, {species: "tidemarrow", level: 45, held: "sprig_charm"}, {species: "nudiblume", level: 45, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}, {species: "brineseal", level: 45, held: "droplet_charm"}, {species: "tidemarrow", level: 46, held: "tidebell_charm", skills: ["brinelash", "undertow", "rippleshot", "pebbletoss"]}], "rillop": [{species: "sailquill", level: 45}, {species: "glassvine", level: 45}, {species: "gearwarden", level: 45}, {species: "bramblehog", level: 46}, {species: "seraphawk", level: 45}, {species: "gnawford", level: 46}], "tumbloam": [{species: "sailquill", level: 45}, {species: "glassvine", level: 45}, {species: "mirrorkin", level: 45}, {species: "runeskein", level: 45, held: "runestitch_charm"}, {species: "bramblehog", level: 45}, {species: "forgeharrow", level: 46}]};
 export const TRAINER_TEAMS = {

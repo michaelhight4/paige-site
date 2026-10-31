@@ -3,8 +3,8 @@
 // Tap: Fullscreen API (standard or webkit-prefixed) + landscape orientation lock where supported. iPhone Safari has no
 // element full screen, so the tap shows display.iosHint (Add to Home Screen; the manifest's display fullscreen/standalone and
 // the apple-mobile-web-app-capable meta then give a bar-free launch). The chip hides while in full screen.
-import { startPlatform } from './platform.js?v=v0.2.105-alpha';
-import { onTap } from './shared/tap_guard.js?v=v0.2.105-alpha';
+import { startPlatform } from './platform.js?v=v0.2.107-alpha';
+import { onTap } from './shared/tap_guard.js?v=v0.2.107-alpha';
 
 const doc = document, root = doc.documentElement;
 const fsElement = () => doc.fullscreenElement || doc.webkitFullscreenElement || null;

@@ -1,7 +1,7 @@
 // Kilumen battle rules (constants + conditions + items + format). Numbers are PLACEHOLDERS taken
 // from the proposals in design/MECHANICS_PARITY.md (row in brackets) until Gary signs them off.
-import { BATTLE_ITEMS } from '../../systems/items.js?v=v0.2.105-alpha';
-import { HELD_BATTLE_ITEMS, CHOICE_LOCK } from './held_items.js?v=v0.2.105-alpha';
+import { BATTLE_ITEMS } from '../../systems/items.js?v=v0.2.107-alpha';
+import { HELD_BATTLE_ITEMS, CHOICE_LOCK } from './held_items.js?v=v0.2.107-alpha';
 export const KILUMEN_RULES = {
   critStages: [0, 20, 8, 2, 1], // Clean Strike 1/20 base [B8]
   critMult: 1.4,                // [B8]
@@ -13,7 +13,7 @@ export const KILUMEN_RULES = {
   retreatBase: 128, retreatPerAttempt: 30, // PLACEHOLDER [B16]
   catchStatus: { drowsy: 2, scorched: 1.5 }, catchShakes: 3, // [B17], multipliers PLACEHOLDER (catchShakes: legacy, unused since Oct 23)
   catchHpWeight: 29 / 30, catchHpCurve: 0.85, catchMin: 0.005, catchMax: 0.95, catchPulses: 4, // capture (Gary Oct 23 2026, retuned 12:16 PM CT: full HP ~2%): see src/battle/capture.js
-  xpDivisor: 7, xpTrainerMult: 1.5, xpCurveMult: 0.8, maxLevel: 70, enemyMaxLevel: 68, // player cap 70, every enemy <= 68 (Gary Oct 30 2026 12:25 AM CT)
+  xpDivisor: 7, xpTrainerMult: 1.5, xpTrainerMultEarly: 1.125, xpCurveMult: 0.8, maxLevel: 70, enemyMaxLevel: 68, // regions 1-4 trainers 1.125 = 25% less, regions 5+ keep 1.5 (Gary Oct 31 2026, src/battle/data/xp_regions.js); player cap 70, every enemy <= 68 (Gary Oct 30 2026 12:25 AM CT)
   partyMax: 6,
 };
 // Variant stat multipliers [B27]; amounts PLACEHOLDER. Cosmic is cosmetic only.

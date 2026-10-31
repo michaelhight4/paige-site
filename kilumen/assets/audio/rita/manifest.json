@@ -87,8 +87,19 @@
    "thistlepup": "w_da3390a77b68",
    "pebblant": "w_9ffb92e60c45",
    "glintfly": "w_41875eb87e0e",
+   "emberkip": "w_d1612d384209",
+   "flarekite": "w_d2660b25f741",
+   "forgehorn": "w_0d3f9dbe4626",
+   "lampwisp": "w_6888b5b07d46",
+   "lanternshade": "w_7bb7f518f3b9",
+   "shoalpup": "w_b1118069cf1f",
+   "smeltbull": "w_d57c8f4cbb1d",
+   "swellhound": "w_47208b61edde",
    "larkspar": "w_ddcdc6269db8",
-   "huskling": "w_58e4ef558d45"
+   "huskling": "w_58e4ef558d45",
+   "brookhorn": "w_b74e342387d1",
+   "burrowmane": "w_e041c77260e4",
+   "emberlunx": "w_9996a026f54a"
   },
   "new": {
    "burrowmane": "w_e041c77260e4",
@@ -100,7 +111,15 @@
    "vesperowl": "w_cb2b6d306fcf",
    "thistlehound": "w_43b7dc2ad9e5",
    "cairnant": "w_6b3db3a5cec8",
-   "beaconfly": "w_00ab112d70a6"
+   "beaconfly": "w_00ab112d70a6",
+   "anvilaurox": "w_8169f6cf4347",
+   "beaconwraith": "w_790ce11e5289",
+   "breakwarden": "w_e4d88165ebe8",
+   "flarekite": "w_d2660b25f741",
+   "lanternshade": "w_7bb7f518f3b9",
+   "pyrevane": "w_7e81c1e71956",
+   "smeltbull": "w_d57c8f4cbb1d",
+   "swellhound": "w_47208b61edde"
   },
   "node": {
    "copay coverage": "w_6d268a8c2e89",
@@ -608,10 +627,10 @@
      ]
     },
     {
-     "src": "Supply is sending {count} more. It's going to reflect on your check.",
+     "src": "Stores is sending {count} more. It's\ngoing to reflect on your check.",
      "segs": [
       {
-       "c": "f_ceb008596a6a"
+       "c": "f_29a86b80281b"
       },
       {
        "p": 70
@@ -620,7 +639,7 @@
        "s": "count"
       },
       {
-       "c": "f_b8c4dc0ea98d"
+       "c": "f_049fda8d799e"
       }
      ]
     }
@@ -1017,7 +1036,7 @@
    "region": "region_1",
    "pages": [
     {
-     "src": "{employee_id}: Employee ID level {level}. Applause withheld.",
+     "src": "{employee_id}: Employee ID level\n{level}. Cheering withheld.",
      "segs": [
       {
        "s": "employee_id"
@@ -1038,15 +1057,15 @@
        "p": 300
       },
       {
-       "c": "f_bbdc734dab49"
+       "c": "f_234827d14abd"
       }
      ]
     },
     {
-     "src": "You're a slightly pricier number now.",
+     "src": "You're a slightly costlier number now.",
      "segs": [
       {
-       "c": "f_4696f9e36b81"
+       "c": "f_603bde5542d7"
       }
      ]
     }
@@ -1953,10 +1972,10 @@
      ]
     },
     {
-     "src": "That's an earth joke. Accounting approved it.",
+     "src": "That's an earth joke. Accounting signed\noff on it.",
      "segs": [
       {
-       "c": "f_5873248e696c"
+       "c": "f_4b2031cd65ec"
       }
      ]
     }
@@ -2905,7 +2924,7 @@
    "say": "Nine"
   },
   "w_949c721f0f2e": {
-   "ms": 690,
+   "ms": 754,
    "say": "Trainer 1"
   },
   "f_7723f10e819a": {
@@ -3048,13 +3067,13 @@
    "ms": 2563,
    "say": "out of crystals already. Company stock, gone."
   },
-  "f_ceb008596a6a": {
-   "ms": 1083,
-   "say": "Supply is sending"
+  "f_29a86b80281b": {
+   "ms": 1048,
+   "say": "Stores is sending"
   },
-  "f_b8c4dc0ea98d": {
-   "ms": 2005,
-   "say": "more. It's going to reflect on your check."
+  "f_049fda8d799e": {
+   "ms": 1986,
+   "say": "more. It's\ngoing to reflect on your check."
   },
   "f_b8c009894473": {
    "ms": 1137,
@@ -3168,13 +3187,13 @@
    "ms": 1333,
    "say": "Employee ID level"
   },
-  "f_bbdc734dab49": {
-   "ms": 1041,
-   "say": "Applause withheld."
+  "f_234827d14abd": {
+   "ms": 994,
+   "say": "Cheering withheld."
   },
-  "f_4696f9e36b81": {
-   "ms": 1763,
-   "say": "You're a slightly pricier number now."
+  "f_603bde5542d7": {
+   "ms": 1713,
+   "say": "You're a slightly costlier number now."
   },
   "f_a32a0a422e3b": {
    "ms": 746,
@@ -3444,9 +3463,9 @@
    "ms": 1547,
    "say": "Asset value: grounded."
   },
-  "f_5873248e696c": {
-   "ms": 2362,
-   "say": "That's an earth joke. Accounting approved it."
+  "f_4b2031cd65ec": {
+   "ms": 2757,
+   "say": "That's an earth joke. Accounting signed\noff on it."
   },
   "f_3e399d2b0ebd": {
    "ms": 3129,
@@ -3597,7 +3616,7 @@
    "say": "From here the graph may only go up. Company policy."
   },
   "f_de749fdbd01c": {
-   "ms": 3628,
+   "ms": 3642,
    "say": "Yeah, no. That uses too much company time. You're now Trainer 1."
   },
   "f_826801bc33ee": {
@@ -3856,6 +3875,38 @@
    "ms": 682,
    "say": "Glintfly"
   },
+  "w_d1612d384209": {
+   "ms": 656,
+   "say": "Emberkip"
+  },
+  "w_d2660b25f741": {
+   "ms": 707,
+   "say": "Flarekite"
+  },
+  "w_0d3f9dbe4626": {
+   "ms": 837,
+   "say": "Forgehorn"
+  },
+  "w_6888b5b07d46": {
+   "ms": 662,
+   "say": "Lampwisp"
+  },
+  "w_7bb7f518f3b9": {
+   "ms": 829,
+   "say": "Lanternshade"
+  },
+  "w_b1118069cf1f": {
+   "ms": 626,
+   "say": "Shoalpup"
+  },
+  "w_d57c8f4cbb1d": {
+   "ms": 730,
+   "say": "Smeltbull"
+  },
+  "w_47208b61edde": {
+   "ms": 709,
+   "say": "Swellhound"
+  },
   "w_e041c77260e4": {
    "ms": 716,
    "say": "Burrowmane"
@@ -3896,6 +3947,22 @@
    "ms": 775,
    "say": "Beaconfly"
   },
+  "w_8169f6cf4347": {
+   "ms": 896,
+   "say": "Anvilaurox"
+  },
+  "w_790ce11e5289": {
+   "ms": 780,
+   "say": "Beaconwraith"
+  },
+  "w_e4d88165ebe8": {
+   "ms": 716,
+   "say": "Breakwarden"
+  },
+  "w_7e81c1e71956": {
+   "ms": 686,
+   "say": "Pyrevane"
+  },
   "w_6d268a8c2e89": {
    "ms": 1032,
    "say": "Copay Coverage"
@@ -3927,6 +3994,12 @@
  },
  "parts": {
   "region_2": "manifest_region_2.json",
-  "region_3": "manifest_region_3.json"
+  "region_3": "manifest_region_3.json",
+  "region_4": "manifest_region_4.json",
+  "region_5": "manifest_region_5.json",
+  "region_6": "manifest_region_6.json",
+  "region_7": "manifest_region_7.json",
+  "region_8": "manifest_region_8.json",
+  "region_9": "manifest_region_9.json"
  }
 }

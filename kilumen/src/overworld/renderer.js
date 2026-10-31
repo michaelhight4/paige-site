@@ -7,8 +7,9 @@
 // Depth pass (depth.js, Oct 22 2026): its cached static layer (object contact shadows + indoor wall-base shading) runs
 // right after ground/decoration, before the decals; the character contact shadows run after living `under`, just
 // before the first character. Both are under every character and over the floor.
-import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.105-alpha';
-import { waterClass, familyOf, edgeMask, variantTile } from './water_depth.js?v=v0.2.105-alpha'; // one consistent deep water look
+import { drawCurrents } from './current.js?v=v0.2.107-alpha';
+import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.107-alpha';
+import { waterClass, familyOf, edgeMask, variantTile } from './water_depth.js?v=v0.2.107-alpha'; // one consistent deep water look
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
 
@@ -62,6 +63,7 @@ export class Renderer {
     v.nightfx?.drawWindows(ctx, v); // Night FX: lit window glass (dusk on, some dark late; under characters)
     // decals "under characters" (footprints: tileset animation type 'fade', frame picked by age)
     for (const d of v.decals || []) if (d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1) this.tile(v, d.id, d.x, d.y, d.frame);
+    drawCurrents(ctx, v); // tide currents (current.js): rushing-flow streaks, static under reduced motion
     v.life?.under(ctx, v); // living world: fish shadows + ripples on water, under characters
     v.r9fx?.under?.(ctx, v); // Wellspire v3 lab (src/region9/lab_fx.js): floors, props, Ondravel's tank, under characters
     for (const a of v.actors) a._swim = onWater(v, a); // Gary (Oct 30 2026): anyone on a water cell (swimmers, the player) is drawn swimming

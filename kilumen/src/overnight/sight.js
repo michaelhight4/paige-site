@@ -3,8 +3,8 @@
 // Flow: player ends a step inside an undefeated trainer's sight -> violet crystal spark over the trainer (SOUL_PLAYBOOK
 // 5.1; never a '!') -> system_trainers.spotted line -> the trainer walks up (A*, npcs.walkTo) -> the normal talk()
 // (challenge pages -> battle hook -> outcome). No art yet for the spark: drawn as a small violet diamond (placeholder).
-import { Col, DELTA, TILE } from '../overworld/constants.js?v=v0.2.105-alpha';
-import { ALL_TRAINERS_ENGAGE, DEFAULT_SIGHT_RANGE } from '../config.js?v=v0.2.105-alpha';
+import { Col, DELTA, TILE } from '../overworld/constants.js?v=v0.2.107-alpha';
+import { ALL_TRAINERS_ENGAGE, DEFAULT_SIGHT_RANGE } from '../config.js?v=v0.2.107-alpha';
 
 const SEE_THROUGH = new Set([Col.WALK, Col.PLATE, Col.ICE, Col.LEDGE_S]); // the player's own cell is checked separately
 

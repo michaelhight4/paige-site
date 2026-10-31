@@ -1,23 +1,25 @@
 // Town practice events UI (Oct 29 2026). Talk to <town>_practice_coach -> pick a creature -> play -> result + reaction.
 // Practice only: no prize, no podium; best score per event saved in sports state (.town). Logic: town_events.js.
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
-import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.105-alpha';
-import { TS, tt } from './town_strings.js?v=v0.2.105-alpha';
-import { gt } from '../garden/strings.js?v=v0.2.105-alpha';
-import { meritState } from './merit.js?v=v0.2.105-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.105-alpha';
-import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.105-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.105-alpha';
-import { runChampion, reducedMotion } from './hype.js?v=v0.2.105-alpha';
-import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.105-alpha';
-import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.105-alpha';
-import { attachOlympics } from './olympics_ui.js?v=v0.2.105-alpha';
-import { OS } from './olympics_strings.js?v=v0.2.105-alpha';
-import { pickRows } from './pick_rows.js?v=v0.2.105-alpha';
-import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.105-alpha';
+import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.107-alpha';
+import { TS, tt } from './town_strings.js?v=v0.2.107-alpha';
+import { gt } from '../garden/strings.js?v=v0.2.107-alpha';
+import { meritState } from './merit.js?v=v0.2.107-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.107-alpha';
+import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.107-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.107-alpha';
+import { runChampion, reducedMotion } from './hype.js?v=v0.2.107-alpha';
+import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.107-alpha';
+import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.107-alpha';
+import { attachOlympics } from './olympics_ui.js?v=v0.2.107-alpha';
+import { OS, ot } from './olympics_strings.js?v=v0.2.107-alpha';
+import { pickRows } from './pick_rows.js?v=v0.2.107-alpha';
+import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.107-alpha';
 export const TUG_COACH = 'saltmere_tug_coach', ANNOUNCER = 'aurelith_games_announcer', MERIT_CLERK = 'aurelith_merit_clerk'; // integ8: a separate Merit Counter clerk (stadium 16,10)
 
-const OLY_TOWNS = ['fernwick', 'saltmere', 'revival_heights', 'frostspire', 'lanternport', 'cindervale'];
+const OLY_TOWNS = ['fernwick', 'saltmere', 'revival_heights', 'frostspire', 'mirefen', 'tidewater', 'lanternport', 'cindervale'];
+// map -> [venue, host npc id]: towns with no practice coach reach their Olympics through a host (launch-content)
+export const OLY_HOSTS = { mirefen: ['mirefen', 'mirefen_oly_host'], tidewater_coast: ['tidewater', 'tidewater_oly_host'] };
 export const LIVE_REGION = 8; // all six town events are playable (dev/sports-events, Oct 29 2026); each coach also runs the town cup
 const W = 360, H = 480;
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -48,6 +50,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     const m = scene.map; if (!m) return null;
     if (npcAt(TUG_COACH, fx, fy)) return tug;
     if (npcAt(ANNOUNCER, fx, fy)) return 'major';
+    const oh = OLY_HOSTS[m.name]; if (oh && npcAt(oh[1], fx, fy)) return { olyHost: oh[0] };
     if (openMerit && npcAt(MERIT_CLERK, fx, fy)) return 'merit';
     const ev = eventFor(m.name); if (!ev) return null;
     return npcAt(coachId(ev.town), fx, fy) ? ev : null;
@@ -59,6 +62,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       const ev = coachAt(fx, fy); if (!ev) return prev(fx, fy);
       scene.script(async () => {
         if (ev === 'merit') { const hi = scene.lines?.maps?.[scene.map?.name]?.[MERIT_CLERK]?.pages; if (hi?.length) await scene.say?.(scene.fill ? scene.fill(hi) : hi); await openMerit(); return; } // Merit Counter clerk: Text Bot greeting (text/overworld_lines.json), then the shop
+        if (ev.olyHost) { await scene.say?.([ot(OS.host_hello, { venue: OS.venue[ev.olyHost] })], { name: OS.title.replace('{venue}', OS.venue[ev.olyHost]), portrait: null }); await oly.open(ev.olyHost); return; }
         if (ev === 'major') { // Aurelith announcer: the Games or the merit counter (src/garden/index.js)
           const k = openMerit && scene.ask ? await scene.ask([gt('merit.announcer.ask')], [gt('merit.announcer.games'), OS.menu, gt('merit.announcer.shop'), gt('merit.announcer.leave')]) : 0;
           if (k === 1) { await oly.open('aurelith'); return; } if (k === 2) { await openMerit(); return; } if (k !== 0) return;

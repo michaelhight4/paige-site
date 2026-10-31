@@ -1,0 +1,387 @@
+{
+ "anvilaurox": {
+  "front": [
+   122,
+   115
+  ],
+  "ow": [
+   56,
+   53
+  ],
+  "clipped": false
+ },
+ "ashbun": {
+  "front": [
+   66,
+   92
+  ],
+  "ow": [
+   30,
+   42
+  ],
+  "clipped": false
+ },
+ "beaconwraith": {
+  "front": [
+   65,
+   116
+  ],
+  "ow": [
+   30,
+   54
+  ],
+  "clipped": false
+ },
+ "bellbuoy": {
+  "front": [
+   90,
+   92
+  ],
+  "ow": [
+   40,
+   41
+  ],
+  "clipped": false
+ },
+ "breakwarden": {
+  "front": [
+   111,
+   116
+  ],
+  "ow": [
+   52,
+   54
+  ],
+  "clipped": false
+ },
+ "calderune": {
+  "front": [
+   122,
+   108
+  ],
+  "ow": [
+   56,
+   49
+  ],
+  "clipped": false
+ },
+ "cinderpip": {
+  "front": [
+   92,
+   91
+  ],
+  "ow": [
+   40,
+   39
+  ],
+  "clipped": false
+ },
+ "cocklet": {
+  "front": [
+   88,
+   92
+  ],
+  "ow": [
+   40,
+   42
+  ],
+  "clipped": false
+ },
+ "drizzlop": {
+  "front": [
+   76,
+   92
+  ],
+  "ow": [
+   35,
+   42
+  ],
+  "clipped": false
+ },
+ "emberkip": {
+  "front": [
+   79,
+   92
+  ],
+  "ow": [
+   36,
+   42
+  ],
+  "clipped": false
+ },
+ "flarekite": {
+  "front": [
+   97,
+   104
+  ],
+  "ow": [
+   45,
+   48
+  ],
+  "clipped": false
+ },
+ "foamfawn": {
+  "front": [
+   66,
+   92
+  ],
+  "ow": [
+   30,
+   42
+  ],
+  "clipped": false
+ },
+ "fogkin": {
+  "front": [
+   92,
+   82
+  ],
+  "ow": [
+   40,
+   36
+  ],
+  "clipped": false
+ },
+ "forgehorn": {
+  "front": [
+   104,
+   99
+  ],
+  "ow": [
+   46,
+   44
+  ],
+  "clipped": false
+ },
+ "galecrest": {
+  "front": [
+   88,
+   104
+  ],
+  "ow": [
+   40,
+   48
+  ],
+  "clipped": false
+ },
+ "geysquirt": {
+  "front": [
+   92,
+   54
+  ],
+  "ow": [
+   40,
+   24
+  ],
+  "clipped": false
+ },
+ "hushlet": {
+  "front": [
+   86,
+   92
+  ],
+  "ow": [
+   39,
+   42
+  ],
+  "clipped": false
+ },
+ "kelpkit": {
+  "front": [
+   69,
+   92
+  ],
+  "ow": [
+   31,
+   42
+  ],
+  "clipped": false
+ },
+ "lampwisp": {
+  "front": [
+   92,
+   104
+  ],
+  "ow": [
+   42,
+   48
+  ],
+  "clipped": false
+ },
+ "lanternshade": {
+  "front": [
+   64,
+   104
+  ],
+  "ow": [
+   29,
+   48
+  ],
+  "clipped": false
+ },
+ "lensmoth": {
+  "front": [
+   92,
+   78
+  ],
+  "ow": [
+   40,
+   34
+  ],
+  "clipped": false
+ },
+ "nubbinray": {
+  "front": [
+   92,
+   80
+  ],
+  "ow": [
+   40,
+   35
+  ],
+  "clipped": false
+ },
+ "paperpaw": {
+  "front": [
+   92,
+   89
+  ],
+  "ow": [
+   40,
+   39
+  ],
+  "clipped": false
+ },
+ "puffgill": {
+  "front": [
+   92,
+   92
+  ],
+  "ow": [
+   40,
+   40
+  ],
+  "clipped": false
+ },
+ "pumicub": {
+  "front": [
+   74,
+   92
+  ],
+  "ow": [
+   34,
+   42
+  ],
+  "clipped": false
+ },
+ "pyrevane": {
+  "front": [
+   108,
+   116
+  ],
+  "ow": [
+   50,
+   54
+  ],
+  "clipped": false
+ },
+ "shoalpup": {
+  "front": [
+   74,
+   104
+  ],
+  "ow": [
+   34,
+   48
+  ],
+  "clipped": false
+ },
+ "slagdrake": {
+  "front": [
+   96,
+   116
+  ],
+  "ow": [
+   45,
+   54
+  ],
+  "clipped": false
+ },
+ "smeltbull": {
+  "front": [
+   114,
+   116
+  ],
+  "ow": [
+   52,
+   53
+  ],
+  "clipped": false
+ },
+ "smoglet": {
+  "front": [
+   85,
+   92
+  ],
+  "ow": [
+   39,
+   42
+  ],
+  "clipped": false
+ },
+ "swellhound": {
+  "front": [
+   104,
+   102
+  ],
+  "ow": [
+   46,
+   45
+  ],
+  "clipped": false
+ },
+ "tidelore": {
+  "front": [
+   114,
+   100
+  ],
+  "ow": [
+   52,
+   46
+  ],
+  "clipped": false
+ },
+ "undertusk": {
+  "front": [
+   114,
+   110
+  ],
+  "ow": [
+   52,
+   50
+  ],
+  "clipped": false
+ },
+ "veilfin": {
+  "front": [
+   99,
+   116
+  ],
+  "ow": [
+   46,
+   54
+  ],
+  "clipped": false
+ },
+ "wickmote": {
+  "front": [
+   57,
+   92
+  ],
+  "ow": [
+   26,
+   42
+  ],
+  "clipped": false
+ }
+}

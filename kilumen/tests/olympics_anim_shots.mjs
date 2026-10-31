@@ -22,7 +22,7 @@ try {
     await page.waitForTimeout(1500);
     const tap = async (sel) => { if (d.touch) await page.tap(sel); else await page.click(sel); };
     for (const v of d.ven) {
-      await page.evaluate(async (v) => { const s = window.kilumen.scene; const O = await import('/src/sports/olympics.js?v=v0.2.105-alpha'); s.dialog?.close?.();
+      await page.evaluate(async (v) => { const s = window.kilumen.scene; const O = await import('/src/sports/olympics.js?v=v0.2.107-alpha'); s.dialog?.close?.();
         const sp = ['capling', 'brimtoad', 'frondlet', 'glintmoth']; s.party = sp.map((x, i) => ({ species: x, nickname: ['Pip', 'Moss', 'Fern', 'Glim'][i], level: 30, hp: 50, uid: 'shot' + i }));
         for (const f of O.doorFlags(v)) s.flags.add(f); window.kilumen.sports.town.openOlympics(v); }, v);
       await page.waitForSelector('#town-ev.oly .ev'); await tap('[data-a=go]');

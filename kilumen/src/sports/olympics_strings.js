@@ -1,8 +1,9 @@
 // PLACEHOLDER player text for the Olympics (dev/olympics, Oct 30 2026). Text Bot: please replace. Keys are stable.
 // {venue} {event} {n} {of} {place} {pts} {prize} {merit} {missing} {creature}
 export const OS = {
+  host_hello: 'The {venue} Olympics are open! Three events, three Kilu.', // PLACEHOLDER Text Bot: Mirefen/Tidewater host line
   menu: 'Olympics', title: '{venue} Olympics', leave: 'Leave',
-  venue: { fernwick: 'Fernwick', saltmere: 'Saltmere', revival_heights: 'Revival Heights', frostspire: 'Frostspire', lanternport: 'Lanternport', cindervale: 'Cindervale', aurelith: 'Aurelith' },
+  venue: { fernwick: 'Fernwick', saltmere: 'Saltmere', revival_heights: 'Revival Heights', frostspire: 'Frostspire', mirefen: 'Mirefen', tidewater: 'Tidewater', lanternport: 'Lanternport', cindervale: 'Cindervale', aurelith: 'Aurelith' },
   events: { sprint: 'Sprint', hurdles: 'Hurdles', lift: 'Weight Lift', marathon: 'Long Run', archery: 'Target Toss', swim: 'Harbour Swim',
     hop: 'Garden Hop', haul: 'Harbour Haul', relay: 'Signal Relay', slide: 'Ice Slide', catch: 'Lantern Catch', push: 'Forge Push' },
   stats: { speed: 'Speed', power: 'Power', stamina: 'Stamina', agility: 'Agility', focus: 'Focus' },

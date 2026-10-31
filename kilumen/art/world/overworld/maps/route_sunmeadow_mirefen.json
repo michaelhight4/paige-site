@@ -14350,6 +14350,14 @@
     {
      "species": "floepaddle",
      "level": 40
+    },
+    {
+     "species": "frostweevil",
+     "level": 40
+    },
+    {
+     "species": "eftwarden",
+     "level": 40
     }
    ],
    "sight": 3,
@@ -14387,6 +14395,14 @@
     },
     {
      "species": "snapmoor",
+     "level": 40
+    },
+    {
+     "species": "frostweevil",
+     "level": 40
+    },
+    {
+     "species": "eftwarden",
      "level": 40
     }
    ],
@@ -14426,6 +14442,14 @@
     {
      "species": "sunspeckle",
      "level": 41
+    },
+    {
+     "species": "frostweevil",
+     "level": 40
+    },
+    {
+     "species": "eftwarden",
+     "level": 40
     }
    ],
    "sight": 3,
@@ -14463,6 +14487,14 @@
     },
     {
      "species": "plainhorn",
+     "level": 41
+    },
+    {
+     "species": "frostweevil",
+     "level": 41
+    },
+    {
+     "species": "eftwarden",
      "level": 41
     }
    ],
@@ -14505,6 +14537,14 @@
     },
     {
      "species": "rimewyrm",
+     "level": 41
+    },
+    {
+     "species": "frostweevil",
+     "level": 41
+    },
+    {
+     "species": "eftwarden",
      "level": 41
     }
    ],

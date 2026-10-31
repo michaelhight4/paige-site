@@ -13026,11 +13026,19 @@
    "team": [
     {
      "species": "moorcoil",
-     "level": 60
+     "level": 56
     },
     {
      "species": "sluicekin",
-     "level": 62
+     "level": 58
+    },
+    {
+     "species": "gloamtick",
+     "level": 56
+    },
+    {
+     "species": "bleachghast",
+     "level": 56
     }
    ],
    "sight": 3,
@@ -13354,5 +13362,31 @@
    "pocket": "lp_pocket_ledge",
    "text_ref": "overworld_lines.json maps.lanternport.r9_lpp_egg_mirror"
   }
- ]
+ ],
+ "currents": {
+  "24,34": "left",
+  "23,34": "left",
+  "22,34": "left",
+  "21,34": "left",
+  "20,34": "left",
+  "19,34": "left",
+  "18,34": "left",
+  "17,34": "left",
+  "16,34": "left",
+  "15,34": "left",
+  "14,34": "left",
+  "13,34": "left",
+  "29,34": "right",
+  "30,34": "right",
+  "31,34": "right",
+  "32,34": "right",
+  "33,34": "right",
+  "34,34": "right",
+  "35,34": "right",
+  "36,34": "right",
+  "37,34": "right",
+  "38,34": "right",
+  "39,34": "right",
+  "40,34": "right"
+ }
 }

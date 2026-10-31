@@ -3,10 +3,10 @@
 // one entry per window, entry fee + prize through the wallet, rivals rolled with rollRivalAthletics (above-average field).
 // Towns are staggered (offset = region % 3) so on any in-game day some town is holding its cup.
 // Rivals post a score from their stats against the event's grade bars; the player plays the real event and must beat all three.
-import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.105-alpha';
-import { STATS } from './rules.js?v=v0.2.105-alpha';
-import { rngFor } from './rng.js?v=v0.2.105-alpha';
-import { awardMerit } from './merit.js?v=v0.2.105-alpha';
+import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.107-alpha';
+import { STATS } from './rules.js?v=v0.2.107-alpha';
+import { rngFor } from './rng.js?v=v0.2.107-alpha';
+import { awardMerit } from './merit.js?v=v0.2.107-alpha';
 
 export const CUP = { fee: 100, prize: 600, everyDays: 3, rivals: 3 };
 export const RIVAL_SPECIES = ['brimtoad', 'hushowl', 'ledgedove', 'capling', 'glintmoth', 'frondlet', 'aurorel', 'frostlop'];

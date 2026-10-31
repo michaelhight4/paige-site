@@ -8,8 +8,8 @@
 // - ID cap flags id_cap_r5 / id_cap_r6 for RITA when company XP sits at the region cap.
 // Maps tidewater_coast / mirefen are built (World Design); attached by default since dev/regions-5-8.
 // Warmth gates (story_beats.md) are NOT wired: the builder has no Warmth condition yet (see WARMTH_GATES).
-import { oldGusHook } from './tutor.js?v=v0.2.105-alpha';
-import { LOW_TIDE, boatLeaveDue, syncLowTide } from '../progression/low_tide.js?v=v0.2.105-alpha';
+import { oldGusHook } from './tutor.js?v=v0.2.107-alpha';
+import { LOW_TIDE, boatLeaveDue, syncLowTide } from '../progression/low_tide.js?v=v0.2.107-alpha';
 
 export const R56 = {
   ronMap: 'tidewater_coast', slipMap: 'tidewater_coast',
