@@ -21,8 +21,8 @@
 // is ducked through audio.duck('company_voice', ...) (src/audio/audio.js; settings cfg.duck). Released on every hide
 // (done / skip / timer / interrupt by battle, dialogue, cutscene / mode off), on a scene change (warpStart) and after
 // cfg.duck.maxMs at the latest, so the music is never left low. No audio, muted or music 0 = no-op.
-import { onTap } from '../shared/tap_guard.js?v=v0.2.100-alpha'; // touch input standard
-import { employeeIdOf } from './employee_id.js?v=v0.2.100-alpha';
+import { onTap } from '../shared/tap_guard.js?v=v0.2.101-alpha'; // touch input standard
+import { employeeIdOf } from './employee_id.js?v=v0.2.101-alpha';
 
 export const FALLBACK = {
   speaker: 'RITA',

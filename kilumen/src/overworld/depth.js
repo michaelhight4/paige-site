@@ -9,8 +9,8 @@
 //    The casters' own opaque pixels are cut out of it, so the shadow only shows on the floor around the object.
 //  - Lights are untouched: no EMISSIVE / LUT work here; indoor/outdoor comes from clock.js INDOOR_OR_CAVE (isIndoor).
 // Pure helpers (exported) run in Node for tests; DepthPass needs a canvas (browser).
-import { TILE } from './constants.js?v=v0.2.100-alpha';
-import { isIndoor } from './clock.js?v=v0.2.100-alpha';
+import { TILE } from './constants.js?v=v0.2.101-alpha';
+import { isIndoor } from './clock.js?v=v0.2.101-alpha';
 
 export const DEPTH_SETTINGS_KEY = 'kilumen_alpha_depth.v1';
 export const DEFAULT_SHADOW_RGB = [26, 18, 38]; // the kit's SHADOW colour (day grade shadow.dst)
