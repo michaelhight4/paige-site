@@ -31,7 +31,7 @@ import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kui
 import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.102-alpha';
 import { attachWipNotice } from '../systems/wip_notice.js?v=v0.2.102-alpha';
 import { captureChance, captureRoll, rarityOf } from '../battle/capture.js?v=v0.2.102-alpha'; // capture rules (Gary, Oct 23 2026)
-import { rtbMode, setRtbMode, rtbKilled } from '../rtb/flag.js?v=v0.2.102-alpha'; // real-time wild battles option (Oct 29 2026)
+import { rtbMode, setRtbMode, rtbKilled, trainerBattleMode } from '../rtb/flag.js?v=v0.2.102-alpha'; // real-time wild battles option (Oct 29 2026)
 import { DIFFICULTIES, DIFF_ORDER, PENDING_KEY, diffOf, getDifficulty, setDifficulty } from '../systems/difficulty.js?v=v0.2.102-alpha';
 import { windEnabled, killedByUrl as windKilledByUrl } from '../overworld/wind.js?v=v0.2.102-alpha'; // Options 'Wind' toggle (Oct 29 2026)
 const KPH = 'art/ui/kenney_placeholder/';
@@ -1204,7 +1204,7 @@ export function mountUI(opts) {
       const out = await m.openRtBattle(ui, scene, null, { q, trainer: { foes, name, npc, items, who } });
       return out?.outcome === 'win';
     };
-    scene.hooks.onBattle = (who) => (rtbMode(scene, q) === 'rt' && !rtbKilled(q) && scene.party?.some((c) => c.hp == null || c.hp > 0) ? rtTrainer(who) : load.then(() => new Promise((res) => {
+    scene.hooks.onBattle = (who) => (trainerBattleMode(scene, q, who) === 'rt' && !rtbKilled(q) && scene.party?.some((c) => c.hp == null || c.hp > 0) ? rtTrainer(who) : load.then(() => new Promise((res) => {
       ui.open('battle', { trainer: true, who, biome: biomeFor('', who?.map || scene.map?.name) }); const scr = ui.top; let out = null;
       scr.onDone = (r) => { out = r; }; ui._onClose = () => res(out ? out.outcome === 'win' : false);
     })));

@@ -147,7 +147,7 @@ export function attachRegion9(scene, { systems } = {}) {
   /** One battle: true win, false loss. The past never blacks out: a loss heals and you try again. */
   async function fight(map, id, sp, onLoss) {
     if (partyEmpty()) { await scene.say?.(["I don't have a creature to battle with."], narr); return false; }
-    const won = scene.hooks?.onBattle ? (await scene.hooks.onBattle({ map, id })) !== false : true;
+    const won = scene.hooks?.onBattle ? (await scene.hooks.onBattle({ map, id, forceTurnBased: true })) !== false : true;
     scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: id, won });
     if (won) { scene.seen[def(`${map}.${id}`)] = true; await sys()?.onTrainerWin?.({ map, def: { id, kind: 'trainer' }, speaker: sp }); return true; }
     if (onLoss) await onLoss(); // the trainer's battle_won line comes before the patch-up / blackout
@@ -236,7 +236,7 @@ export function attachRegion9(scene, { systems } = {}) {
     await say('fin.released', narr);
     for (let i = 0; i < R9.phases.length; i++) {
       await say(`fin.battle.phase_${i + 1}`, narr);
-      const won = scene.hooks?.onBattle ? (await scene.hooks.onBattle({ map: R9.guardianMap, id: R9.phases[i] })) !== false : true;
+      const won = scene.hooks?.onBattle ? (await scene.hooks.onBattle({ map: R9.guardianMap, id: R9.phases[i], forceTurnBased: true })) !== false : true;
       scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: R9.phases[i], won });
       if (!won) { heal(); await say('fin.battle.lost', narr); await warp(R9.topLanding); return false; }
       heal(); // between phases: the light keeps you standing
