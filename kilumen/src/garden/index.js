@@ -1,10 +1,10 @@
 // Garden + merit shop wiring (Coder, Oct 30 2026). Draws the soil plots under characters (wraps scene.view -> life.under),
 // handles plot interaction (wraps systems.onInteract: plant / water / harvest on the faced cell) and adds the
 // merit shop screen ui.scr_merit_shop (same layout as RT Supply: tabs, list, side panel, qty + confirm). No map edits.
-import { TILE } from '../overworld/constants.js?v=v0.2.108-alpha';
-import { CROPS, SEED_TO_CROP, CANS, plotAt, plotsOn, gardenState, plotState, stageOf, plant, water, harvest } from './garden.js?v=v0.2.108-alpha';
-import { MERIT_FIXED, dailyStock, meritState, buyMerit, grantMerit } from '../sports/merit.js?v=v0.2.108-alpha';
-import { gt } from './strings.js?v=v0.2.108-alpha';
+import { TILE } from '../overworld/constants.js?v=v0.2.109-alpha';
+import { CROPS, SEED_TO_CROP, CANS, plotAt, plotsOn, gardenState, plotState, stageOf, plant, water, harvest } from './garden.js?v=v0.2.109-alpha';
+import { MERIT_FIXED, dailyStock, meritState, buyMerit, grantMerit } from '../sports/merit.js?v=v0.2.109-alpha';
+import { gt } from './strings.js?v=v0.2.109-alpha';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 // crop colours for the ready sprite (pixel art drawn with rects; 16x16 grid scaled to the tile)
@@ -55,7 +55,11 @@ export function attachGarden(scene, { sys, sstate }) {
       const v = view0(), life = v.life;
       v.life = Object.create(life || null);
       v.life.under = (c, vv) => { life?.under?.call(life, c, vv); drawPlots(c, vv); };
-      if (!life) { v.life.over = () => {}; v.life.top = () => {}; }
+      // v0.2.109 perf: over/top must run on the REAL life object. Called on the Object.create wrapper, every cache living.js
+      // writes on `this` (_noise, _cloud, _sprites, ...) landed on a throwaway object, so the 768x768 cloud noise + mask were
+      // rebuilt every frame (~70% of phone frame time).
+      if (life) { v.life.over = (c, vv) => life.over(c, vv); v.life.top = (c, vv) => life.top(c, vv); }
+      else { v.life.over = () => {}; v.life.top = () => {}; }
       return v;
     };
   }
