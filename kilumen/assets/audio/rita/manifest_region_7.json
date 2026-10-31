@@ -813,209 +813,49 @@
  "numbers": {},
  "names": {},
  "clips": {
-  "f_33e0a7349b57": {
-   "ms": 3491,
-   "say": "Ron handed in company paper. Rare behaviour. Logged."
-  },
-  "f_8884843350d5": {
-   "ms": 894,
-   "say": "Salt damage"
-  },
-  "f_b5b03cc42c99": {
-   "ms": 2976,
-   "say": "the log page is on file. Seven coins as well."
-  },
-  "f_c055bddb6319": {
-   "ms": 2124,
-   "say": "you beat Ron by the harbour. Again."
-  },
-  "f_efed90ff938e": {
-   "ms": 1719,
-   "say": "signal store access granted."
-  },
-  "f_04a495111012": {
-   "ms": 1371,
-   "say": "Asset value: beaming."
-  },
-  "f_ca42610e0342": {
-   "ms": 2965,
-   "say": "Company paper, returned. Rare behaviour. Logged."
-  },
-  "f_6537b539f1e6": {
-   "ms": 2169,
-   "say": "ID level maxed out for\nthis region."
-  },
-  "f_36e572228c3a": {
-   "ms": 2162,
-   "say": "to company property comes out of wages."
-  },
-  "f_61bd7a85a83d": {
-   "ms": 2867,
-   "say": "Lost-and-found counts as an asset. Ask Legal."
-  },
-  "f_b6f13b9a500c": {
-   "ms": 1659,
-   "say": "Lanternport key card issued."
-  },
-  "f_42ef4b30f14c": {
-   "ms": 2941,
-   "say": "Delphine Orrin beaten. Lanternport coin, filed."
-  },
-  "f_981741a63b53": {
-   "ms": 1721,
-   "say": "said with full corporate sincerity."
-  },
-  "f_5a96eaada3f8": {
-   "ms": 1493,
-   "say": "New key card on the board."
-  },
-  "f_28aa97249b97": {
-   "ms": 3238,
-   "say": "Loud events raise brand awareness. Mostly with gulls."
-  },
-  "f_f2517626f31b": {
-   "ms": 2942,
-   "say": "He keeps a tally. So do we. Ours has decimals."
-  },
-  "f_aeb84dc4e16e": {
-   "ms": 1341,
-   "say": "is now ID 18."
-  },
-  "f_5b0c859bc9a4": {
-   "ms": 1457,
-   "say": "Please don't lose it in the sea."
-  },
-  "f_a5d6b7881c08": {
-   "ms": 2243,
-   "say": "ID 18 confirmed. Well done,"
-  },
-  "f_abd82a3c8f70": {
-   "ms": 1617,
-   "say": "you've hit the ceiling. Again."
-  },
-  "f_6c7a8c5ae68b": {
-   "ms": 1160,
-   "say": "Ron result filed"
-  },
-  "f_3015b951d100": {
-   "ms": 3101,
-   "say": "Ron beaten in Lanternport. Then he gave you a page."
-  },
-  "f_b8f62d6efe9f": {
-   "ms": 857,
-   "say": "Growth paused"
-  },
-  "f_d949441b8e40": {
-   "ms": 2772,
-   "say": "Lanternport on file. Gulls, ropes, fog."
-  },
-  "f_c9fdb1b78a58": {
-   "ms": 3555,
-   "say": "Seven coins. The board is drafting a speech. About assets."
-  },
-  "f_52916f898010": {
-   "ms": 700,
-   "say": "Promotion!"
-  },
-  "f_fdd4a1772f22": {
-   "ms": 3023,
-   "say": "harbour steps match logged. Asset value: docked."
-  },
-  "f_1564520c6731": {
-   "ms": 1117,
-   "say": "Key card active"
-  },
-  "f_d4ec2fea0a12": {
-   "ms": 1873,
-   "say": "Whatever's blinking in there, log it."
-  },
-  "f_122c8a486aac": {
-   "ms": 1315,
-   "say": "Lanternport's Master"
+  "f_8b324d3ed0ed": {
+   "ms": 3304,
+   "say": "A shortcut home to Fernwick. Commute value: improved."
   },
   "f_60e7c38ae4d9": {
    "ms": 963,
    "say": "Not a demotion."
   },
-  "f_97b2ecbd38a7": {
-   "ms": 2203,
-   "say": "Lanternport logged. There's a lighthouse."
+  "f_763ecf9f0d8b": {
+   "ms": 2723,
+   "say": "Something big woke up. Big things are worth a lot."
   },
-  "f_922a892c9007": {
-   "ms": 1384,
-   "say": "Lanternport task logged"
+  "f_abd82a3c8f70": {
+   "ms": 1617,
+   "say": "you've hit the ceiling. Again."
   },
-  "f_cb27b236ee20": {
-   "ms": 3597,
-   "say": "Pages and coins. Our two favourite things. After assets."
-  },
-  "f_656bc55b3226": {
-   "ms": 2878,
-   "say": "Just a very long coffee break. Win coin 7."
-  },
-  "f_a51d0123df1d": {
-   "ms": 2415,
-   "say": "Harbour towns ship assets. We like ships."
-  },
-  "f_8770fd5cb3a2": {
-   "ms": 2267,
-   "say": "Win coin 7 to unlock further growth."
-  },
-  "f_98055e91f4ea": {
-   "ms": 1098,
-   "say": "Old Lighthouse cleared"
+  "f_fdd4a1772f22": {
+   "ms": 3023,
+   "say": "harbour steps match logged. Asset value: docked."
   },
   "f_95ab884ab8c0": {
    "ms": 2424,
    "say": "The signal store is yours to inventory."
   },
-  "f_c3e16131c341": {
-   "ms": 1850,
-   "say": "Lanternport is on the asset map"
+  "f_3384cccda3dc": {
+   "ms": 1617,
+   "say": "Revival Tech paper recovered."
   },
-  "f_9aa656b97af6": {
-   "ms": 2863,
-   "say": "Lanternport added. Old lighthouse, still unlit."
+  "f_602874e8f19a": {
+   "ms": 2595,
+   "say": "Lanternport work done. The horn has sounded."
   },
-  "f_23d64166d92b": {
-   "ms": 711,
-   "say": "Lighthouse"
+  "f_d4ec2fea0a12": {
+   "ms": 1873,
+   "say": "Whatever's blinking in there, log it."
   },
-  "f_f2e2e8d6f2ba": {
-   "ms": 2723,
-   "say": "The tide-lock is open. Fewer steps per asset."
+  "f_b8f62d6efe9f": {
+   "ms": 857,
+   "say": "Growth paused"
   },
-  "f_1843f8f1bd9e": {
-   "ms": 980,
-   "say": "Key card logged"
-  },
-  "f_74fea57c7581": {
-   "ms": 1961,
-   "say": "The land value, however, is glowing."
-  },
-  "f_944317e2563c": {
-   "ms": 3085,
-   "say": "Coin 7 raises it. Head Office loves a raise."
-  },
-  "f_f614e74cc409": {
-   "ms": 2828,
-   "say": "Please log the gulls. They're louder than the paperwork."
-  },
-  "f_f993a2bf3f3b": {
-   "ms": 2410,
-   "say": "signal store. Count every flare twice."
-  },
-  "f_0daa35f195fb": {
-   "ms": 2396,
-   "say": "It's dark. We'd fix it, but there's no budget."
-  },
-  "f_bc954c581301": {
-   "ms": 773,
-   "say": "Cap reached"
-  },
-  "f_10c749de5c75": {
-   "ms": 3344,
-   "say": "Spirit-type assets lost to company assets. Spooky."
+  "f_656bc55b3226": {
+   "ms": 2878,
+   "say": "Just a very long coffee break. Win coin 7."
   },
   "f_71b838c9eb4b": {
    "ms": 2254,
@@ -1025,53 +865,213 @@
    "ms": 1949,
    "say": "holds the paperwork for your next level."
   },
-  "f_78f9d68071a1": {
-   "ms": 2740,
-   "say": "Lanternport coin logged. The horn just sounded."
+  "f_b6f13b9a500c": {
+   "ms": 1659,
+   "say": "Lanternport key card issued."
   },
-  "f_763ecf9f0d8b": {
-   "ms": 2723,
-   "say": "Something big woke up. Big things are worth a lot."
-  },
-  "f_8b324d3ed0ed": {
-   "ms": 3304,
-   "say": "A shortcut home to Fernwick. Commute value: improved."
-  },
-  "f_e65002398302": {
-   "ms": 2732,
-   "say": "Delphine Orrin's team is down. Coin seven."
-  },
-  "f_71dc6d8af719": {
-   "ms": 2175,
-   "say": "Lighthouse signal store access granted."
-  },
-  "f_5ace0cc425bb": {
-   "ms": 2626,
-   "say": "The Page Ron Kept, closed. Lighthouse cleared."
+  "f_23d64166d92b": {
+   "ms": 711,
+   "say": "Lighthouse"
   },
   "f_b70f66b9540a": {
    "ms": 1032,
    "say": "Tide-lock open."
   },
-  "f_f51357d36f5e": {
-   "ms": 2684,
-   "say": "Safely. Nothing fell in the harbour. We counted."
+  "f_74fea57c7581": {
+   "ms": 1961,
+   "say": "The land value, however, is glowing."
   },
-  "f_3384cccda3dc": {
-   "ms": 1617,
-   "say": "Revival Tech paper recovered."
+  "f_c055bddb6319": {
+   "ms": 2124,
+   "say": "you beat Ron by the harbour. Again."
+  },
+  "f_f993a2bf3f3b": {
+   "ms": 2410,
+   "say": "signal store. Count every flare twice."
+  },
+  "f_a51d0123df1d": {
+   "ms": 2415,
+   "say": "Harbour towns ship assets. We like ships."
+  },
+  "f_6537b539f1e6": {
+   "ms": 2169,
+   "say": "ID level maxed out for\nthis region."
+  },
+  "f_10c749de5c75": {
+   "ms": 3344,
+   "say": "Spirit-type assets lost to company assets. Spooky."
+  },
+  "f_1564520c6731": {
+   "ms": 1117,
+   "say": "Key card active"
+  },
+  "f_0daa35f195fb": {
+   "ms": 2396,
+   "say": "It's dark. We'd fix it, but there's no budget."
+  },
+  "f_a5d6b7881c08": {
+   "ms": 2243,
+   "say": "ID 18 confirmed. Well done,"
+  },
+  "f_04a495111012": {
+   "ms": 1371,
+   "say": "Asset value: beaming."
+  },
+  "f_922a892c9007": {
+   "ms": 1384,
+   "say": "Lanternport task logged"
+  },
+  "f_1843f8f1bd9e": {
+   "ms": 980,
+   "say": "Key card logged"
+  },
+  "f_c9fdb1b78a58": {
+   "ms": 3555,
+   "say": "Seven coins. The board is drafting a speech. About assets."
+  },
+  "f_f2e2e8d6f2ba": {
+   "ms": 2723,
+   "say": "The tide-lock is open. Fewer steps per asset."
+  },
+  "f_8884843350d5": {
+   "ms": 894,
+   "say": "Salt damage"
   },
   "f_80ca13c60dc2": {
    "ms": 1681,
    "say": "awaits. Probably a damp one."
   },
-  "f_602874e8f19a": {
-   "ms": 2595,
-   "say": "Lanternport work done. The horn has sounded."
+  "f_981741a63b53": {
+   "ms": 1721,
+   "say": "said with full corporate sincerity."
+  },
+  "f_28aa97249b97": {
+   "ms": 3238,
+   "say": "Loud events raise brand awareness. Mostly with gulls."
+  },
+  "f_f614e74cc409": {
+   "ms": 2828,
+   "say": "Please log the gulls. They're louder than the paperwork."
+  },
+  "f_b5b03cc42c99": {
+   "ms": 2976,
+   "say": "the log page is on file. Seven coins as well."
+  },
+  "f_98055e91f4ea": {
+   "ms": 1098,
+   "say": "Old Lighthouse cleared"
+  },
+  "f_e65002398302": {
+   "ms": 2732,
+   "say": "Delphine Orrin's team is down. Coin seven."
+  },
+  "f_bc954c581301": {
+   "ms": 773,
+   "say": "Cap reached"
+  },
+  "f_97b2ecbd38a7": {
+   "ms": 2203,
+   "say": "Lanternport logged. There's a lighthouse."
+  },
+  "f_52916f898010": {
+   "ms": 700,
+   "say": "Promotion!"
+  },
+  "f_944317e2563c": {
+   "ms": 3085,
+   "say": "Coin 7 raises it. Head Office loves a raise."
+  },
+  "f_6c7a8c5ae68b": {
+   "ms": 1160,
+   "say": "Ron result filed"
+  },
+  "f_9aa656b97af6": {
+   "ms": 2863,
+   "say": "Lanternport added. Old lighthouse, still unlit."
+  },
+  "f_122c8a486aac": {
+   "ms": 1315,
+   "say": "Lanternport's Master"
   },
   "f_1a17b392d252": {
    "ms": 815,
    "say": "ID 18"
+  },
+  "f_61bd7a85a83d": {
+   "ms": 2867,
+   "say": "Lost-and-found counts as an asset. Ask Legal."
+  },
+  "f_5ace0cc425bb": {
+   "ms": 2626,
+   "say": "The Page Ron Kept, closed. Lighthouse cleared."
+  },
+  "f_3015b951d100": {
+   "ms": 3101,
+   "say": "Ron beaten in Lanternport. Then he gave you a page."
+  },
+  "f_8770fd5cb3a2": {
+   "ms": 2267,
+   "say": "Win coin 7 to unlock further growth."
+  },
+  "f_33e0a7349b57": {
+   "ms": 3491,
+   "say": "Ron handed in company paper. Rare behaviour. Logged."
+  },
+  "f_5a96eaada3f8": {
+   "ms": 1493,
+   "say": "New key card on the board."
+  },
+  "f_ca42610e0342": {
+   "ms": 2965,
+   "say": "Company paper, returned. Rare behaviour. Logged."
+  },
+  "f_d949441b8e40": {
+   "ms": 2772,
+   "say": "Lanternport on file. Gulls, ropes, fog."
+  },
+  "f_78f9d68071a1": {
+   "ms": 2740,
+   "say": "Lanternport coin logged. The horn just sounded."
+  },
+  "f_f51357d36f5e": {
+   "ms": 2684,
+   "say": "Safely. Nothing fell in the harbour. We counted."
+  },
+  "f_aeb84dc4e16e": {
+   "ms": 1341,
+   "say": "is now ID 18."
+  },
+  "f_42ef4b30f14c": {
+   "ms": 2941,
+   "say": "Delphine Orrin beaten. Lanternport coin, filed."
+  },
+  "f_71dc6d8af719": {
+   "ms": 2175,
+   "say": "Lighthouse signal store access granted."
+  },
+  "f_36e572228c3a": {
+   "ms": 2162,
+   "say": "to company property comes out of wages."
+  },
+  "f_c3e16131c341": {
+   "ms": 1850,
+   "say": "Lanternport is on the asset map"
+  },
+  "f_5b0c859bc9a4": {
+   "ms": 1457,
+   "say": "Please don't lose it in the sea."
+  },
+  "f_f2517626f31b": {
+   "ms": 2942,
+   "say": "He keeps a tally. So do we. Ours has decimals."
+  },
+  "f_efed90ff938e": {
+   "ms": 1719,
+   "say": "signal store access granted."
+  },
+  "f_cb27b236ee20": {
+   "ms": 3597,
+   "say": "Pages and coins. Our two favourite things. After assets."
   }
  }
 }

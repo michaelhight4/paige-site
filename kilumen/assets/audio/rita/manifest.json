@@ -87,6 +87,14 @@
    "thistlepup": "w_da3390a77b68",
    "pebblant": "w_9ffb92e60c45",
    "glintfly": "w_41875eb87e0e",
+   "emberkip": "w_d1612d384209",
+   "flarekite": "w_d2660b25f741",
+   "forgehorn": "w_0d3f9dbe4626",
+   "lampwisp": "w_6888b5b07d46",
+   "lanternshade": "w_7bb7f518f3b9",
+   "shoalpup": "w_b1118069cf1f",
+   "smeltbull": "w_d57c8f4cbb1d",
+   "swellhound": "w_47208b61edde",
    "larkspar": "w_ddcdc6269db8",
    "huskling": "w_58e4ef558d45",
    "brookhorn": "w_b74e342387d1",
@@ -103,7 +111,15 @@
    "vesperowl": "w_cb2b6d306fcf",
    "thistlehound": "w_43b7dc2ad9e5",
    "cairnant": "w_6b3db3a5cec8",
-   "beaconfly": "w_00ab112d70a6"
+   "beaconfly": "w_00ab112d70a6",
+   "anvilaurox": "w_8169f6cf4347",
+   "beaconwraith": "w_790ce11e5289",
+   "breakwarden": "w_e4d88165ebe8",
+   "flarekite": "w_d2660b25f741",
+   "lanternshade": "w_7bb7f518f3b9",
+   "pyrevane": "w_7e81c1e71956",
+   "smeltbull": "w_d57c8f4cbb1d",
+   "swellhound": "w_47208b61edde"
   },
   "node": {
    "copay coverage": "w_6d268a8c2e89",
@@ -2908,7 +2924,7 @@
    "say": "Nine"
   },
   "w_949c721f0f2e": {
-   "ms": 690,
+   "ms": 754,
    "say": "Trainer 1"
   },
   "f_7723f10e819a": {
@@ -3600,7 +3616,7 @@
    "say": "From here the graph may only go up. Company policy."
   },
   "f_de749fdbd01c": {
-   "ms": 3628,
+   "ms": 3642,
    "say": "Yeah, no. That uses too much company time. You're now Trainer 1."
   },
   "f_826801bc33ee": {
@@ -3859,6 +3875,38 @@
    "ms": 682,
    "say": "Glintfly"
   },
+  "w_d1612d384209": {
+   "ms": 656,
+   "say": "Emberkip"
+  },
+  "w_d2660b25f741": {
+   "ms": 707,
+   "say": "Flarekite"
+  },
+  "w_0d3f9dbe4626": {
+   "ms": 837,
+   "say": "Forgehorn"
+  },
+  "w_6888b5b07d46": {
+   "ms": 662,
+   "say": "Lampwisp"
+  },
+  "w_7bb7f518f3b9": {
+   "ms": 829,
+   "say": "Lanternshade"
+  },
+  "w_b1118069cf1f": {
+   "ms": 626,
+   "say": "Shoalpup"
+  },
+  "w_d57c8f4cbb1d": {
+   "ms": 730,
+   "say": "Smeltbull"
+  },
+  "w_47208b61edde": {
+   "ms": 709,
+   "say": "Swellhound"
+  },
   "w_e041c77260e4": {
    "ms": 716,
    "say": "Burrowmane"
@@ -3898,6 +3946,22 @@
   "w_00ab112d70a6": {
    "ms": 775,
    "say": "Beaconfly"
+  },
+  "w_8169f6cf4347": {
+   "ms": 896,
+   "say": "Anvilaurox"
+  },
+  "w_790ce11e5289": {
+   "ms": 780,
+   "say": "Beaconwraith"
+  },
+  "w_e4d88165ebe8": {
+   "ms": 716,
+   "say": "Breakwarden"
+  },
+  "w_7e81c1e71956": {
+   "ms": 686,
+   "say": "Pyrevane"
   },
   "w_6d268a8c2e89": {
    "ms": 1032,

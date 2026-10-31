@@ -1080,57 +1080,213 @@
   }
  },
  "clips": {
-  "f_da9e610501a5": {
-   "ms": 1243,
-   "say": "The board ordered a cake."
+  "w_b6d481267f40": {
+   "ms": 785,
+   "say": "Columnpede"
   },
-  "w_00f626919d4f": {
-   "ms": 708,
-   "say": "Shaftwraith"
+  "w_d13fdeecc79d": {
+   "ms": 1451,
+   "say": "No Lanyard, No Lift"
   },
-  "f_c1778baf516e": {
-   "ms": 2218,
-   "say": "With the coin count. It said so in a memo."
+  "w_d722de8ed9c9": {
+   "ms": 740,
+   "say": "Stonepede"
   },
-  "f_8110bc995785": {
-   "ms": 1021,
-   "say": "Your number is still"
+  "f_f66216ceeb4e": {
+   "ms": 2589,
+   "say": "We'll mention it in the newsletter. Not your number."
   },
-  "f_675b7cb03bd9": {
-   "ms": 3372,
-   "say": "150 kinds logged. Investors are interested."
+  "f_c825c316ddbd": {
+   "ms": 2754,
+   "say": "The windows got a show. The assets got the credit."
   },
-  "w_bc18f2b05fe7": {
-   "ms": 702,
-   "say": "Geodling"
+  "f_e79c4b4d42fa": {
+   "ms": 1273,
+   "say": "Head Office task logged"
   },
-  "f_e9a64bbc6294": {
-   "ms": 3308,
-   "say": "50 kinds on file. A milestone for company value."
+  "f_ff6d245ef09e": {
+   "ms": 2083,
+   "say": "The shoes did well. We'll note the shoes."
   },
-  "f_d8846b4b61bd": {
-   "ms": 2242,
-   "say": "rival win, right in front of Head Office."
+  "f_1dc0223680ad": {
+   "ms": 2920,
+   "say": "Our own land. Please wipe your feet on the asset map."
   },
-  "f_317687241829": {
-   "ms": 3369,
-   "say": "100 kinds logged. Asset value has three digits."
+  "f_12fed8e5009b": {
+   "ms": 1185,
+   "say": "One hundred kinds"
   },
-  "f_c28d810e368e": {
-   "ms": 1709,
-   "say": "150 kinds on file"
+  "f_2b5eb2e74d87": {
+   "ms": 1979,
+   "say": "Unless they move. Then look twice."
   },
-  "w_9bea477bf961": {
-   "ms": 801,
-   "say": "Heights Road"
+  "w_8a97b3a097ad": {
+   "ms": 756,
+   "say": "Geodrake"
+  },
+  "f_546c99b5c35e": {
+   "ms": 1515,
+   "say": "The board has scheduled a meeting."
+  },
+  "f_6288850eff1f": {
+   "ms": 3000,
+   "say": "Good for the brand. The plaza bulletin is being typed."
+  },
+  "w_032ae5fb52f7": {
+   "ms": 692,
+   "say": "Honest Map"
+  },
+  "f_e459365d45dd": {
+   "ms": 1714,
+   "say": "caverns added to the asset map."
+  },
+  "w_bdfd59fd76bf": {
+   "ms": 643,
+   "say": "Coilarch"
+  },
+  "f_618ee1e49a18": {
+   "ms": 3057,
+   "say": "Revival Heights added. Property value: maximum."
+  },
+  "f_8a57284d8c62": {
+   "ms": 1423,
+   "say": "Asset value is up again."
+  },
+  "f_45c96abb77ce": {
+   "ms": 2608,
+   "say": "Underground real estate. Now with heating."
+  },
+  "f_dbefe47dd50c": {
+   "ms": 3572,
+   "say": "150 kinds. The asset ledger needs a bigger shelf."
+  },
+  "w_687f05f0f26a": {
+   "ms": 974,
+   "say": "Revival Heights"
+  },
+  "w_4d18a3d70b71": {
+   "ms": 755,
+   "say": "Gargolet"
+  },
+  "w_a27410ead4d0": {
+   "ms": 778,
+   "say": "Spiralith"
+  },
+  "f_4ac6705def35": {
+   "ms": 1715,
+   "say": "you won right outside Head Office."
+  },
+  "w_ba25dee37992": {
+   "ms": 636,
+   "say": "Revival"
   },
   "f_7c4a15a32fa0": {
    "ms": 2811,
    "say": "Underground assets are worth the same. Find some."
   },
+  "f_848ed061607f": {
+   "ms": 2355,
+   "say": "Head Office task closed. Visit logged."
+  },
+  "f_bdda48a09820": {
+   "ms": 1245,
+   "say": "Greystone camp logged"
+  },
+  "w_c6302f747c2d": {
+   "ms": 1118,
+   "say": "Greystone Caverns"
+  },
+  "w_c3e5d44344e7": {
+   "ms": 1112,
+   "say": "Ferns for Old Hal"
+  },
   "f_89691c5aa7d2": {
    "ms": 3358,
    "say": "50 kinds on file! Asset value has never looked better."
+  },
+  "w_6ac2f9eb6b66": {
+   "ms": 816,
+   "say": "North Road"
+  },
+  "f_aec92df603b4": {
+   "ms": 2471,
+   "say": "Greystone logged. Rocks are not assets."
+  },
+  "n_257047218869": {
+   "ms": 799,
+   "say": "One hundred"
+  },
+  "f_73a8d9ccd34e": {
+   "ms": 2173,
+   "say": "We wrote that ourselves. Nobody checked."
+  },
+  "f_c6f9fa5e2275": {
+   "ms": 2892,
+   "say": "Reception has post for him. We have a result for you."
+  },
+  "w_532e7482064d": {
+   "ms": 635,
+   "say": "Rubblon"
+  },
+  "f_fac554a6cf3b": {
+   "ms": 1806,
+   "say": "It's in a meeting room you can't enter."
+  },
+  "f_7e3ca600e828": {
+   "ms": 1368,
+   "say": "The south gate is open."
+  },
+  "f_335068ff22f7": {
+   "ms": 2494,
+   "say": "You're also glowing. That's sweat. Keep walking."
+  },
+  "f_675b7cb03bd9": {
+   "ms": 3372,
+   "say": "150 kinds logged. Investors are interested."
+  },
+  "f_b53d812d8c7a": {
+   "ms": 1503,
+   "say": "Revival Heights is on file"
+  },
+  "f_da9e610501a5": {
+   "ms": 1243,
+   "say": "The board ordered a cake."
+  },
+  "f_bc568f541ddc": {
+   "ms": 1797,
+   "say": "you've walked all the way to Head Office."
+  },
+  "f_bb3c065bb61b": {
+   "ms": 2235,
+   "say": "Head Office has quit pretending not to\nwatch."
+  },
+  "f_d8846b4b61bd": {
+   "ms": 2242,
+   "say": "rival win, right in front of Head Office."
+  },
+  "f_c5737a609cfe": {
+   "ms": 3001,
+   "say": "100 kinds on file. Company value is glowing."
+  },
+  "f_6ed483bfe57e": {
+   "ms": 2844,
+   "say": "100 kinds! The board is tossing confetti."
+  },
+  "f_4f55f1024273": {
+   "ms": 1227,
+   "say": "Some things don't grow."
+  },
+  "f_c28d810e368e": {
+   "ms": 1709,
+   "say": "150 kinds on file"
+  },
+  "f_0a3056c0767a": {
+   "ms": 909,
+   "say": "Fifty kinds"
+  },
+  "f_77d776cf16b7": {
+   "ms": 2697,
+   "say": "Visitors stay in the lobby. Assets get the tour."
   },
   "w_613e697f4826": {
    "ms": 1028,
@@ -1140,65 +1296,29 @@
    "ms": 2402,
    "say": "Revival Heights logged. That's Head Office."
   },
-  "w_e242e48e8ed2": {
-   "ms": 544,
-   "say": "Pebbit"
+  "f_e9a64bbc6294": {
+   "ms": 3308,
+   "say": "50 kinds on file. A milestone for company value."
   },
-  "f_bdda48a09820": {
-   "ms": 1245,
-   "say": "Greystone camp logged"
+  "f_ee518ba05b13": {
+   "ms": 2767,
+   "say": "Revival Heights work done. HQ is pleased."
   },
-  "f_b5f0d48ca57a": {
-   "ms": 3008,
-   "say": "third coin filed at HQ. Very convenient."
+  "n_8e41328524cc": {
+   "ms": 1137,
+   "say": "One hundred fifty"
   },
-  "f_e09577b521fb": {
-   "ms": 1915,
-   "say": "About the assets. You're not invited."
+  "f_6062720d413c": {
+   "ms": 2761,
+   "say": "In the creatures. Investors don't know you exist."
   },
-  "w_2ce8fce0e3b4": {
-   "ms": 696,
-   "say": "Pebbadillo"
+  "w_9fcd0fdd3c5a": {
+   "ms": 754,
+   "say": "Facetarch"
   },
-  "f_bc568f541ddc": {
-   "ms": 1797,
-   "say": "you've walked all the way to Head Office."
-  },
-  "f_d07a0f222f62": {
-   "ms": 2505,
-   "say": "Revival Heights Master beaten. Coin three."
-  },
-  "f_eb151ce93568": {
-   "ms": 2019,
-   "say": "It counts. We measured the ceiling too."
-  },
-  "w_168b60c264de": {
-   "ms": 745,
-   "say": "Head Office"
-  },
-  "f_69544a498dd2": {
-   "ms": 2737,
-   "say": "Ron beaten on the HQ plaza. In public."
-  },
-  "f_6b77d56d7e5f": {
-   "ms": 3338,
-   "say": "Light-type assets, outshone by company assets. Neat."
-  },
-  "f_546c99b5c35e": {
-   "ms": 1515,
-   "say": "The board has scheduled a meeting."
-  },
-  "f_c825c316ddbd": {
-   "ms": 2754,
-   "say": "The windows got a show. The assets got the credit."
-  },
-  "w_687f05f0f26a": {
-   "ms": 974,
-   "say": "Revival Heights"
-  },
-  "f_e79c4b4d42fa": {
-   "ms": 1273,
-   "say": "Head Office task logged"
+  "f_e6bb5795f4c5": {
+   "ms": 1535,
+   "say": "HQ plaza match logged"
   },
   "f_d5511e34d529": {
    "ms": 2754,
@@ -1208,317 +1328,197 @@
    "ms": 2972,
    "say": "Dark, damp and full of unlogged assets. Ideal."
   },
-  "w_ba25dee37992": {
-   "ms": 636,
-   "say": "Revival"
-  },
   "f_55a5fd0ec660": {
    "ms": 1638,
    "say": "the cold camp is warm again."
-  },
-  "f_ff6d245ef09e": {
-   "ms": 2083,
-   "say": "The shoes did well. We'll note the shoes."
-  },
-  "f_5c559d4ba25f": {
-   "ms": 2451,
-   "say": "You're not on the chart. Charts are for assets."
-  },
-  "f_e459365d45dd": {
-   "ms": 1714,
-   "say": "caverns added to the asset map."
-  },
-  "w_c6302f747c2d": {
-   "ms": 1118,
-   "say": "Greystone Caverns"
-  },
-  "f_3949e3b79b4b": {
-   "ms": 3836,
-   "say": "150 kinds on file. Asset value needed a new chart."
-  },
-  "w_032ae5fb52f7": {
-   "ms": 692,
-   "say": "Honest Map"
-  },
-  "f_5e07f47dc59b": {
-   "ms": 2445,
-   "say": "Your number still has six. Nice and steady."
-  },
-  "w_d13fdeecc79d": {
-   "ms": 1451,
-   "say": "No Lanyard, No Lift"
-  },
-  "f_6a6b47737c35": {
-   "ms": 2675,
-   "say": "Post is not an asset. Ron may disagree."
-  },
-  "f_2b5eb2e74d87": {
-   "ms": 1979,
-   "say": "Unless they move. Then look twice."
-  },
-  "w_6f0c491e3867": {
-   "ms": 669,
-   "say": "Cragmont"
-  },
-  "f_6d7c9ad01508": {
-   "ms": 2167,
-   "say": "The paperwork only had to go downstairs."
-  },
-  "f_4ac6705def35": {
-   "ms": 1715,
-   "say": "you won right outside Head Office."
-  },
-  "f_c5737a609cfe": {
-   "ms": 3001,
-   "say": "100 kinds on file. Company value is glowing."
-  },
-  "n_8e41328524cc": {
-   "ms": 1137,
-   "say": "One hundred fifty"
-  },
-  "w_9fcd0fdd3c5a": {
-   "ms": 754,
-   "say": "Facetarch"
-  },
-  "f_8a57284d8c62": {
-   "ms": 1423,
-   "say": "Asset value is up again."
-  },
-  "f_6062720d413c": {
-   "ms": 2761,
-   "say": "In the creatures. Investors don't know you exist."
-  },
-  "f_8478f0491591": {
-   "ms": 2860,
-   "say": "Greystone First, closed. Cave camp restored."
-  },
-  "f_1dc0223680ad": {
-   "ms": 2920,
-   "say": "Our own land. Please wipe your feet on the asset map."
-  },
-  "f_618ee1e49a18": {
-   "ms": 3057,
-   "say": "Revival Heights added. Property value: maximum."
-  },
-  "f_ee518ba05b13": {
-   "ms": 2767,
-   "say": "Revival Heights work done. HQ is pleased."
-  },
-  "f_335068ff22f7": {
-   "ms": 2494,
-   "say": "You're also glowing. That's sweat. Keep walking."
-  },
-  "w_b50b1dcfbe67": {
-   "ms": 723,
-   "say": "Eavesgrim"
-  },
-  "f_dbefe47dd50c": {
-   "ms": 3572,
-   "say": "150 kinds. The asset ledger needs a bigger shelf."
-  },
-  "f_c6f9fa5e2275": {
-   "ms": 2892,
-   "say": "Reception has post for him. We have a result for you."
-  },
-  "w_a27410ead4d0": {
-   "ms": 778,
-   "say": "Spiralith"
-  },
-  "w_8a97b3a097ad": {
-   "ms": 756,
-   "say": "Geodrake"
-  },
-  "f_0a3056c0767a": {
-   "ms": 909,
-   "say": "Fifty kinds"
-  },
-  "f_bfd2a02f3eea": {
-   "ms": 1747,
-   "say": "Ron lost outside Head Office."
-  },
-  "w_b6d481267f40": {
-   "ms": 785,
-   "say": "Columnpede"
-  },
-  "f_01b6d0f09331": {
-   "ms": 1497,
-   "say": "You're halfway to your next shift."
-  },
-  "f_37b84c73f3e7": {
-   "ms": 2721,
-   "say": "Please hand in the visitor lanyard on the way out."
-  },
-  "f_48cb92fa86a4": {
-   "ms": 2298,
-   "say": "The board saw it. They've asked which creatures."
-  },
-  "w_d722de8ed9c9": {
-   "ms": 740,
-   "say": "Stonepede"
-  },
-  "f_242f3ca58e35": {
-   "ms": 2731,
-   "say": "Greystone Caverns logged. Underground land."
-  },
-  "f_54c07c8588b6": {
-   "ms": 2688,
-   "say": "HQ visit complete. Ron got some post."
-  },
-  "f_6ed483bfe57e": {
-   "ms": 2844,
-   "say": "100 kinds! The board is tossing confetti."
-  },
-  "w_4d18a3d70b71": {
-   "ms": 755,
-   "say": "Gargolet"
-  },
-  "f_73a8d9ccd34e": {
-   "ms": 2173,
-   "say": "We wrote that ourselves. Nobody checked."
-  },
-  "f_848ed061607f": {
-   "ms": 2355,
-   "say": "Head Office task closed. Visit logged."
-  },
-  "w_05a8e4ce28bf": {
-   "ms": 724,
-   "say": "Vaultpede"
-  },
-  "f_028483719af5": {
-   "ms": 2502,
-   "say": "Your milestone is the same as last week's."
-  },
-  "f_68a7e7c4cb34": {
-   "ms": 1953,
-   "say": "At the assets. Please stand clear."
-  },
-  "w_6ac2f9eb6b66": {
-   "ms": 816,
-   "say": "North Road"
-  },
-  "f_adc5321b5d89": {
-   "ms": 1447,
-   "say": "Revival Heights hall cleared"
-  },
-  "w_0d45eaaba154": {
-   "ms": 792,
-   "say": "Scutadillo"
-  },
-  "w_bdfd59fd76bf": {
-   "ms": 643,
-   "say": "Coilarch"
-  },
-  "f_4f55f1024273": {
-   "ms": 1227,
-   "say": "Some things don't grow."
-  },
-  "f_fac554a6cf3b": {
-   "ms": 1806,
-   "say": "It's in a meeting room you can't enter."
-  },
-  "f_e6bb5795f4c5": {
-   "ms": 1535,
-   "say": "HQ plaza match logged"
-  },
-  "w_532e7482064d": {
-   "ms": 635,
-   "say": "Rubblon"
-  },
-  "f_aec92df603b4": {
-   "ms": 2471,
-   "say": "Greystone logged. Rocks are not assets."
-  },
-  "f_582c0906273a": {
-   "ms": 1937,
-   "say": "The shelf gets a raise before you do."
-  },
-  "w_d1a63e49ada6": {
-   "ms": 680,
-   "say": "Minewisp"
-  },
-  "f_e735026644a0": {
-   "ms": 2264,
-   "say": "boulder pushed, stove lit, page found."
-  },
-  "f_f66216ceeb4e": {
-   "ms": 2589,
-   "say": "We'll mention it in the newsletter. Not your number."
-  },
-  "f_c0b9c986ca74": {
-   "ms": 3138,
-   "say": "50 kinds! Asset value is halfway to impressive."
-  },
-  "f_7e3ca600e828": {
-   "ms": 1368,
-   "say": "The south gate is open."
-  },
-  "f_074f98e1b908": {
-   "ms": 1229,
-   "say": "Another log page in."
-  },
-  "n_257047218869": {
-   "ms": 799,
-   "say": "One hundred"
   },
   "f_2b876b5a1bc5": {
    "ms": 3156,
    "say": "Shortcuts save time. Time is money. Money is us."
   },
-  "f_b53d812d8c7a": {
-   "ms": 1503,
-   "say": "Revival Heights is on file"
+  "f_e735026644a0": {
+   "ms": 2264,
+   "say": "boulder pushed, stove lit, page found."
   },
-  "f_bb3c065bb61b": {
-   "ms": 2235,
-   "say": "Head Office has quit pretending not to\nwatch."
+  "w_9bea477bf961": {
+   "ms": 801,
+   "say": "Heights Road"
   },
-  "f_77d776cf16b7": {
-   "ms": 2697,
-   "say": "Visitors stay in the lobby. Assets get the tour."
+  "f_168086170c3b": {
+   "ms": 3004,
+   "say": "Cave assets are pleased. We assume. They\nhiss a lot."
   },
-  "f_d5b781e77266": {
-   "ms": 2536,
-   "say": "The missing pages add up. So does the value."
+  "f_69544a498dd2": {
+   "ms": 2737,
+   "say": "Ron beaten on the HQ plaza. In public."
   },
-  "f_12fed8e5009b": {
-   "ms": 1185,
-   "say": "One hundred kinds"
+  "f_8110bc995785": {
+   "ms": 1021,
+   "say": "Your number is still"
   },
-  "f_45c96abb77ce": {
-   "ms": 2608,
-   "say": "Underground real estate. Now with heating."
+  "f_d07a0f222f62": {
+   "ms": 2505,
+   "say": "Revival Heights Master beaten. Coin three."
   },
-  "w_0b025420bea8": {
-   "ms": 738,
-   "say": "Facetling"
-  },
-  "f_a1f939bf1026": {
-   "ms": 1203,
-   "say": "Welcome to HQ."
-  },
-  "f_40bc0ddb9b56": {
-   "ms": 1691,
-   "say": "Greystone Caverns is on file"
-  },
-  "f_6288850eff1f": {
-   "ms": 3000,
-   "say": "Good for the brand. The plaza bulletin is being typed."
+  "f_c0b9c986ca74": {
+   "ms": 3138,
+   "say": "50 kinds! Asset value is halfway to impressive."
   },
   "f_036f3203035b": {
    "ms": 2223,
    "say": "Three tasks, one wage. Efficiency."
   },
+  "f_40bc0ddb9b56": {
+   "ms": 1691,
+   "say": "Greystone Caverns is on file"
+  },
+  "w_e242e48e8ed2": {
+   "ms": 544,
+   "say": "Pebbit"
+  },
+  "f_bfd2a02f3eea": {
+   "ms": 1747,
+   "say": "Ron lost outside Head Office."
+  },
+  "f_6d7c9ad01508": {
+   "ms": 2167,
+   "say": "The paperwork only had to go downstairs."
+  },
+  "f_317687241829": {
+   "ms": 3369,
+   "say": "100 kinds logged. Asset value has three digits."
+  },
+  "f_582c0906273a": {
+   "ms": 1937,
+   "say": "The shelf gets a raise before you do."
+  },
+  "f_d5b781e77266": {
+   "ms": 2536,
+   "say": "The missing pages add up. So does the value."
+  },
+  "f_074f98e1b908": {
+   "ms": 1229,
+   "say": "Another log page in."
+  },
+  "f_6a6b47737c35": {
+   "ms": 2675,
+   "say": "Post is not an asset. Ron may disagree."
+  },
+  "w_bc18f2b05fe7": {
+   "ms": 702,
+   "say": "Geodling"
+  },
+  "f_68a7e7c4cb34": {
+   "ms": 1953,
+   "say": "At the assets. Please stand clear."
+  },
+  "f_242f3ca58e35": {
+   "ms": 2731,
+   "say": "Greystone Caverns logged. Underground land."
+  },
+  "w_168b60c264de": {
+   "ms": 745,
+   "say": "Head Office"
+  },
+  "f_b5f0d48ca57a": {
+   "ms": 3008,
+   "say": "third coin filed at HQ. Very convenient."
+  },
+  "w_b50b1dcfbe67": {
+   "ms": 723,
+   "say": "Eavesgrim"
+  },
+  "w_6f0c491e3867": {
+   "ms": 669,
+   "say": "Cragmont"
+  },
+  "w_05a8e4ce28bf": {
+   "ms": 724,
+   "say": "Vaultpede"
+  },
+  "f_e09577b521fb": {
+   "ms": 1915,
+   "say": "About the assets. You're not invited."
+  },
+  "w_d1a63e49ada6": {
+   "ms": 680,
+   "say": "Minewisp"
+  },
+  "f_028483719af5": {
+   "ms": 2502,
+   "say": "Your milestone is the same as last week's."
+  },
   "n_e034bb3b805f": {
    "ms": 643,
    "say": "Fifty"
   },
-  "w_c3e5d44344e7": {
-   "ms": 1112,
-   "say": "Ferns for Old Hal"
+  "f_5e07f47dc59b": {
+   "ms": 2445,
+   "say": "Your number still has six. Nice and steady."
   },
-  "f_168086170c3b": {
-   "ms": 3004,
-   "say": "Cave assets are pleased. We assume. They\nhiss a lot."
+  "f_3949e3b79b4b": {
+   "ms": 3836,
+   "say": "150 kinds on file. Asset value needed a new chart."
+  },
+  "f_48cb92fa86a4": {
+   "ms": 2298,
+   "say": "The board saw it. They've asked which creatures."
+  },
+  "w_2ce8fce0e3b4": {
+   "ms": 696,
+   "say": "Pebbadillo"
+  },
+  "f_37b84c73f3e7": {
+   "ms": 2721,
+   "say": "Please hand in the visitor lanyard on the way out."
+  },
+  "w_0d45eaaba154": {
+   "ms": 792,
+   "say": "Scutadillo"
+  },
+  "f_5c559d4ba25f": {
+   "ms": 2451,
+   "say": "You're not on the chart. Charts are for assets."
+  },
+  "w_0b025420bea8": {
+   "ms": 738,
+   "say": "Facetling"
+  },
+  "f_54c07c8588b6": {
+   "ms": 2688,
+   "say": "HQ visit complete. Ron got some post."
+  },
+  "f_6b77d56d7e5f": {
+   "ms": 3338,
+   "say": "Light-type assets, outshone by company assets. Neat."
+  },
+  "f_c1778baf516e": {
+   "ms": 2218,
+   "say": "With the coin count. It said so in a memo."
+  },
+  "f_a1f939bf1026": {
+   "ms": 1203,
+   "say": "Welcome to HQ."
+  },
+  "f_eb151ce93568": {
+   "ms": 2019,
+   "say": "It counts. We measured the ceiling too."
+  },
+  "w_00f626919d4f": {
+   "ms": 708,
+   "say": "Shaftwraith"
+  },
+  "f_01b6d0f09331": {
+   "ms": 1497,
+   "say": "You're halfway to your next shift."
+  },
+  "f_adc5321b5d89": {
+   "ms": 1447,
+   "say": "Revival Heights hall cleared"
+  },
+  "f_8478f0491591": {
+   "ms": 2860,
+   "say": "Greystone First, closed. Cave camp restored."
   }
  }
 }
