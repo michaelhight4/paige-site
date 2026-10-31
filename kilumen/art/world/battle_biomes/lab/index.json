@@ -16,7 +16,7 @@
   ]
  },
  "life_layer": {
-  "frames": 16,
+  "frames": 32,
   "ms_per_frame": 120,
   "size": [
    1280,
