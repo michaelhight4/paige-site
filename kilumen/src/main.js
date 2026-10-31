@@ -27,6 +27,7 @@ import { SaveStore, SAVE_KEY } from './overworld/save.js?v=v0.2.105-alpha';
 import { openSaveStorage } from './overworld/save_backend.js?v=v0.2.105-alpha';
 import { Dialog } from './overworld/dialog.js?v=v0.2.105-alpha';
 import { attachSystems } from './systems/index.js?v=v0.2.105-alpha'; // [systems-gd hook]
+import { attachCurrents } from './overworld/current.js?v=v0.2.105-alpha';
 import { attachOvernight } from './overnight/index.js?v=v0.2.105-alpha'; // [overnight hook] links / field / Skylift / sight / Kilindex / learnsets (src/overnight/flags.js)
 import { attachEvolution } from './systems/evolution.js?v=v0.2.105-alpha'; // [evolution hook] level-up evolution after battles
 import { startPlatform } from './platform.js?v=v0.2.105-alpha';
@@ -162,6 +163,7 @@ window.addEventListener('keydown', (e) => { // living-world toggles (K / L are f
 
 attachSystems(scene, { saveData: saveData || {}, config: q }); // [systems-gd hook] party/bag/heal/shop/puzzles (src/systems/HOOKS.md)
 try { attachOvernight(scene, { query: q, saveData: saveData || {} }); } catch (e) { console.error('overnight:', e); } // [overnight hook] never blocks boot
+try { attachCurrents(scene); } catch (e) { console.error('currents:', e); } // tide currents (overworld/current.js), outermost worldApi wrap
 import('./systems/crystal_resupply.js?v=v0.2.105-alpha').then((m) => m.attachCrystalResupply(scene)).catch((e) => console.error('crystal resupply:', e)); // [crystal resupply hook] RITA restock in the opening test run
 try { attachEvolution(scene, { query: q }); } catch (e) { console.error('evolution:', e); } // [evolution hook] level-up evolution after battles (src/systems/evolution.js, ?evo=0 off)
 window.kilumen = { scene, mood: scene.mood, platform: { id: platform.id, profile: platform.profile }, state: () => scene.state(), ready: scene.init().then(() => { scene.run(); return true; }) };

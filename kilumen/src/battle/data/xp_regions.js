@@ -3,7 +3,7 @@
 // Regions 5-8, Masters 5-8, post-game (Aurelith, Wellspire r9_*, finale fin_*) and any unmapped map keep xpTrainerMult (1.5).
 // Region = longest map / zone prefix, the same table as tools/level_curve/rebalance.py (R1-R8 rows). Post-game trainers
 // placed on early maps (ids r9_* / fin_*) count as post-game.
-import { KILUMEN_RULES } from './rules.js?v=v0.2.103-alpha';
+import { KILUMEN_RULES } from './rules.js?v=v0.2.105-alpha';
 
 export const REGION_PREFIXES = [
   [1, ['route1', 'brookhollow', 'bh_', 'fernwick']],
