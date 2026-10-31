@@ -6,7 +6,7 @@
 // Side-quest GIVER NPCs never get a marker (no '!', no arrow, no map dot): players find them by talking to people.
 // This module never looks at NPCs at all, so a giver can't get one by accident. Main-story NPCs: none either.
 // Pure (no DOM): returns [{x, y, id, quest}] for the current map.
-import { pickupFlag } from '../systems/bag.js?v=v0.2.101-alpha';
+import { pickupFlag } from '../systems/bag.js?v=v0.2.102-alpha';
 
 const OPEN = new Set(['active', 'ready']);
 

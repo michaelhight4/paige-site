@@ -3494,6 +3494,134 @@
       "overworld_sheet_2x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_2x.png",
       "overworld_sheet_3x": "npcs/coach/coach_aurelith/overworld/coach_aurelith_chibi_sheet_3x.png",
       "note": "Aurelith Games announcer (dev/sports-major)"
+    },
+    "fin_past_wlab_01_entry.fin_wlab_tech_1": {
+      "sprite_id": "lab_tech_coat_m",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+    },
+    "fin_past_wlab_02_medical.fin_wlab_tech_2": {
+      "sprite_id": "lab_tech_coat_f",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+    },
+    "fin_past_wlab_03_control.fin_wlab_tech_3": {
+      "sprite_id": "lab_tech_scrubs",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi/"
+    },
+    "fin_past_wlab_03_control.fin_wlab_tech_4": {
+      "sprite_id": "lab_hazmat",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+    },
+    "fin_past_wlab_04_tanks.fin_wlab_tech_5": {
+      "sprite_id": "lab_tech_coat_m",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+    },
+    "fin_past_wlab_04_tanks.fin_wlab_tech_6": {
+      "sprite_id": "lab_tech_coat_f",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+    },
+    "fin_past_wlab_05_amber.fin_wlab_tech_7": {
+      "sprite_id": "lab_tech_scrubs",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi/"
+    },
+    "fin_past_wlab_05_amber.fin_wlab_tech_8": {
+      "sprite_id": "lab_hazmat",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+    },
+    "fin_past_wlab_06_growth.fin_wlab_tech_9": {
+      "sprite_id": "lab_tech_coat_m",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+    },
+    "fin_past_wlab_06_growth.fin_wlab_tech_10": {
+      "sprite_id": "lab_tech_coat_f",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+    },
+    "fin_past_wlab_07_vats.fin_wlab_tech_11": {
+      "sprite_id": "lab_tech_scrubs",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi/"
+    },
+    "fin_past_wlab_07_vats.fin_wlab_tech_12": {
+      "sprite_id": "lab_hazmat",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_hazmat/overworld/lab_hazmat_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_hazmat/overworld/lab_hazmat_chibi/"
+    },
+    "fin_past_wlab_08_core.fin_wlab_tech_13": {
+      "sprite_id": "lab_tech_coat_m",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_coat_m/overworld/lab_tech_coat_m_chibi/"
+    },
+    "fin_past_wlab_08_core.fin_wlab_tech_14": {
+      "sprite_id": "lab_tech_coat_f",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_coat_f/overworld/lab_tech_coat_f_chibi/"
+    },
+    "fin_past_wlab_09_observation.fin_wlab_tech_15": {
+      "sprite_id": "lab_tech_scrubs",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_tech_scrubs/overworld/lab_tech_scrubs_chibi/"
+    },
+    "fin_past_wlab_09_observation.fin_wlab_chief": {
+      "sprite_id": "lab_researcher_m",
+      "class": "Wellspire flashback lab (fin_past_wlab_01..10), hotfix v0.2.102: was unmapped, so invisible",
+      "overworld_sheet": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet.png",
+      "overworld_sheet_2x": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet_2x.png",
+      "overworld_sheet_3x": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi_sheet_3x.png",
+      "overworld_frames_dir": "npcs/lab_researcher_m/overworld/lab_researcher_m_chibi/"
     }
   },
   "unassigned_ready": {

@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { pickRows } from '../src/sports/pick_rows.js?v=v0.2.101-alpha';
+import { pickRows } from '../src/sports/pick_rows.js?v=v0.2.102-alpha';
 
 test('pickRows lists the whole party with party-slot indices, out cold and selection marked', () => {
   const a = { species: 'rillop', hp: 20 }, b = { species: 'cindrip', hp: 0 }, c = { species: 'jestrix', hp: 5 }, d = { species: 'mossip' };

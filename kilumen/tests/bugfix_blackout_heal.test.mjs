@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { loadShopsData } from '../src/systems/shop.js?v=v0.2.101-alpha';
+import { loadShopsData } from '../src/systems/shop.js?v=v0.2.102-alpha';
 import { Heal, nearestBranch, visitPoint, branchByMap } from '../src/systems/heal.js';
 
 const layout = JSON.parse(fs.readFileSync(new URL('../art/world/overworld/world_layout.json', import.meta.url), 'utf8'));
