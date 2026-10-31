@@ -1,0 +1,35 @@
+{
+ "biome": "lab",
+ "size": [
+  2560,
+  1440
+ ],
+ "outdoor": false,
+ "spots_frac": {
+  "near": [
+   0.22,
+   0.645
+  ],
+  "far": [
+   0.86,
+   0.51
+  ]
+ },
+ "life_layer": {
+  "frames": 32,
+  "ms_per_frame": 120,
+  "size": [
+   1280,
+   720
+  ]
+ },
+ "pixel_art": {
+  "native": [
+   320,
+   180
+  ],
+  "scale": 8,
+  "filter": "nearest"
+ },
+ "source": "Kilumen pixel art drawn in code, tools/lab_battle_bg/gen.py (Oct 30 2026)"
+}

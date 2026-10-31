@@ -220,8 +220,12 @@ export const mapPatternBiome = (map) => {
   if (/^r9_|^fin_summit|^frostspire|ice|glacier|snow|frost/.test(map)) return 'snow';
   return null;
 };
+/** Lab interiors -> the pixel lab backdrop (Oct 30 2026): Wellspire flashback lab (fin_past_wlab_*), the Wellspire lab (fin_lab*)
+ * and lab_* maps that have no painted lab of their own in R56_MAP_BIOMES. */
+export const isLabMap = (map) => !!map && /^(fin_past_wlab_|fin_lab|lab_)/.test(map);
 export const biomeFor = (method, map, area) => {
   if (area && AREA_BIOMES[area]) return AREA_BIOMES[area];
+  if (isLabMap(map) && !R56_MAP_BIOMES[map.replace(/_storm$/, '')]) return 'lab';
   const r56 = map && R56_MAP_BIOMES[map.replace(/_storm$/, '')];
   if (r56) return /water|surf|fishing/.test(method || '') ? (R56_WATER[r56] || r56) : r56;
   if (area && /_cave\b|^terrain_cave/.test(area)) return 'cave';
