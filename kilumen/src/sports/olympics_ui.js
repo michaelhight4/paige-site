@@ -1,14 +1,14 @@
 // Olympics UI (dev/olympics, Oct 30 2026): assign screen -> 3 x (event lanes -> results board) -> final standings -> champion.
 // TAP ONLY: every control is a button/tap target; nothing needs a hold or a drag. Reuses the #town-ev overlay styles
 // (town_ui.js CSS) and runChampion (hype.js) for the champion screen. Logic: olympics.js. Text: olympics_strings.js.
-import { OLY_EVENTS, VENUES, canEnterOly, autoAssign, assignTap, validAssign, olyRivals, runOlympics, settleOlympics, wonFlag } from './olympics.js?v=v0.2.103-alpha';
-import { OS, ot } from './olympics_strings.js?v=v0.2.103-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.103-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.103-alpha';
-import { reducedMotion } from './hype.js?v=v0.2.103-alpha';
-import { animPlan, drawOlyFrame, frameSrc, AW, AH } from './olympics_anim.js?v=v0.2.103-alpha';
-import { onTap } from '../shared/tap_guard.js?v=v0.2.103-alpha';
-import { podiumPlan, drawPodiumPixels, drawPodiumText, PW, PH } from './olympics_podium.js?v=v0.2.103-alpha';
+import { OLY_EVENTS, VENUES, canEnterOly, autoAssign, assignTap, validAssign, olyRivals, runOlympics, settleOlympics, wonFlag } from './olympics.js?v=v0.2.104-alpha';
+import { OS, ot } from './olympics_strings.js?v=v0.2.104-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.104-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.104-alpha';
+import { reducedMotion } from './hype.js?v=v0.2.104-alpha';
+import { animPlan, drawOlyFrame, frameSrc, AW, AH } from './olympics_anim.js?v=v0.2.104-alpha';
+import { onTap } from '../shared/tap_guard.js?v=v0.2.104-alpha';
+import { podiumPlan, drawPodiumPixels, drawPodiumText, PW, PH } from './olympics_podium.js?v=v0.2.104-alpha';
 
 const CSS = `#town-ev.oly .ev{border:2px solid #384260;border-radius:6px;margin:4px auto;padding:4px 6px;max-width:520px;cursor:pointer;text-align:left}
 #town-ev.oly .ev.on{border-color:#e8c26a;background:#1a2238}#town-ev.oly .ev small{opacity:.75}#town-ev.oly .ev b{color:#e8c26a}
@@ -102,15 +102,16 @@ export function attachOlympics(scene, { sys, sstate, isOpen }) {
     let t0 = performance.now(), skip = rm; const phase = st.phase;
     const paint = (t) => { lg.setTransform(2, 0, 0, 2, 0, 0); lg.imageSmoothingEnabled = false; drawPodiumPixels(lg, plan, t, framesOf, { rm });
       g.setTransform(1, 0, 0, 1, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(L, 0, 0, cv.width, cv.height);
-      g.setTransform(cv.width / PW, 0, 0, cv.height / PH, 0, 0); drawPodiumText(g, plan, t, { rm, hint: t < plan.end ? OS.pod_skip : OS.pod_continue }); st.animT = t; };
-    const draw = (now) => { if (!ov || st.phase !== phase) return; const t = skip ? plan.end : (now - t0) / 1000; paint(Math.min(t, plan.end));
-      if (t < plan.end) st.raf = requestAnimationFrame(draw); };
+      g.setTransform(cv.width / PW, 0, 0, cv.height / PH, 0, 0); drawPodiumText(g, plan, t, { rm, hint: t < plan.total ? OS.pod_skip : OS.pod_continue }); st.animT = t; };
+    let sang = false; const jingle = () => { if (sang) return; sang = true; [['fan_c', 0], ['fan_e', 140], ['fan_g', 280], ['fan_c2', 430]].forEach(([id, ms]) => setTimeout(() => { if (st.phase === phase) scene.audio?.sfx(id); }, ms)); };
+    const draw = (now) => { if (!ov || st.phase !== phase) return; const t = rm ? plan.total : (now - t0) / 1000; if (t >= plan.win0) jingle(); paint(t); // v2: winner moment + dance loops until tapped
+      if (!rm) st.raf = requestAnimationFrame(draw); };
     st.untap?.(); st.untap = onTap(cv, null, () => { // tap only; hold/drag ignored by tap_guard
-      if ((st.animT ?? 0) < plan.end && !skip) { skip = true; cancelAnimationFrame(st.raf); st.raf = requestAnimationFrame(draw); } else cont(); });
+      if ((st.animT ?? 0) < plan.total && !skip) { skip = true; t0 = performance.now() - plan.total * 1000; cancelAnimationFrame(st.raf); st.raf = requestAnimationFrame(draw); } else cont(); });
     st.raf = requestAnimationFrame(draw); st.plan = plan;
     st.seek = (t) => { cancelAnimationFrame(st.raf); paint(t); };
     // pre-load sprites, repaint once they arrive (reduced motion paints a single frame)
-    for (const e of plan.entries) for (const im of framesOf(e.kilu.species)) if (!im.complete) im.addEventListener('load', () => { if (st.phase === phase && (skip || rm)) paint(plan.end); }, { once: true });
+    for (const e of plan.entries) for (const im of framesOf(e.kilu.species)) if (!im.complete) im.addEventListener('load', () => { if (st.phase === phase && rm) paint(plan.total); }, { once: true });
   }
   const leavePod = () => { st.unsize?.(); st.unsize = null; };
   function showBoard() {

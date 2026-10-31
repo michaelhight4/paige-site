@@ -6,7 +6,7 @@
 // sparks, snow) are pure functions of time too (seeded hash), JuiceFX-style. Checked MIT libs first (sparkle,
 // 2D-Canvas-Image-Particles): both are stateful smooth-shaded systems; a tiny stateless pixel version fits better.
 // Logical canvas AW x AH; the UI draws it at 2x (sprites are the 2x overworld walk frames, so 32 logical = 64 native px).
-import { OS } from './olympics_strings.js?v=v0.2.103-alpha';
+import { OS } from './olympics_strings.js?v=v0.2.104-alpha';
 
 export const AW = 480, AH = 270, INTRO = 1.2, OUTRO = 1.5, SPR = 32;
 export const ORD = ['1st', '2nd', '3rd', '4th'];
