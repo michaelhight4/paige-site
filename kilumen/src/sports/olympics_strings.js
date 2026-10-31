@@ -19,3 +19,12 @@ export const OS = {
   team: 'You need at least three Kilu ready to compete.', entered: 'You already competed here today. Come back tomorrow.',
 };
 export const ot = (s, v = {}) => String(s ?? '').replace(/\{(\w+)\}/g, (_, x) => v[x] ?? '');
+// Winner-circle podium (olympics_podium.js). PLACEHOLDER, Text Bot please replace. {n} {of} {event} {venue} {kilu} {place} {trainer} {prize} {merit}
+Object.assign(OS, {
+  pod_title: 'Event {n} of {of}: {event}', pod_standings: 'Standings after {n} of {of}', pod_final: 'Final standings',
+  pod_you_placed: 'Your {kilu} took {place}!', pod_you_missed: '{kilu} gave it everything!',
+  pod_champ_title: '{venue} Olympics Champion', pod_champ_name: '{trainer} and {kilu}!',
+  pod_you_champ: 'You are the champion!', pod_you_finished: 'You finished {place}.',
+  pod_gold: '+{prize} gold', pod_merit: '+{merit} merit', pod_first: 'First {venue} title!',
+  pod_skip: 'Tap to skip', pod_continue: 'Tap to continue',
+});

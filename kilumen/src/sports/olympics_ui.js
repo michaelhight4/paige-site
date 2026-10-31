@@ -7,6 +7,8 @@ import { athleticStats } from './athletics.js?v=v0.2.101-alpha';
 import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.101-alpha';
 import { reducedMotion } from './hype.js?v=v0.2.101-alpha';
 import { animPlan, drawOlyFrame, frameSrc, AW, AH } from './olympics_anim.js?v=v0.2.101-alpha';
+import { onTap } from '../shared/tap_guard.js?v=v0.2.101-alpha';
+import { podiumPlan, drawPodiumPixels, drawPodiumText, PW, PH } from './olympics_podium.js?v=v0.2.101-alpha';
 
 const CSS = `#town-ev.oly .ev{border:2px solid #384260;border-radius:6px;margin:4px auto;padding:4px 6px;max-width:520px;cursor:pointer;text-align:left}
 #town-ev.oly .ev.on{border-color:#e8c26a;background:#1a2238}#town-ev.oly .ev small{opacity:.75}#town-ev.oly .ev b{color:#e8c26a}
@@ -15,11 +17,13 @@ const CSS = `#town-ev.oly .ev{border:2px solid #384260;border-radius:6px;margin:
 #town-ev.oly table{margin:4px auto;border-collapse:collapse;font-size:13px}#town-ev.oly td,#town-ev.oly th{padding:2px 7px}#town-ev.oly tr.me{color:#e8c26a;font-weight:bold}
 #town-ev.oly .box.wide{width:min(98vw,780px);padding:6px}#town-ev.oly canvas.lanes{width:min(100%,760px,calc((100vh - 104px)*16/9));aspect-ratio:16/9;display:block;margin:0 auto;background:#0d1320;border-radius:4px;image-rendering:pixelated;cursor:pointer}
 #town-ev.oly .box.wide h2{margin:0 0 4px;font-size:15px}#town-ev.oly .skip{font-size:11px;opacity:.7}
-#town-ev.oly .champ{font-size:22px;color:#e8c26a;margin:10px 0}`;
+#town-ev.oly .champ{font-size:22px;color:#e8c26a;margin:10px 0}
+#town-ev.oly .box.podbox{width:auto;max-width:none;max-height:none;padding:0;border:0;background:none;overflow:visible}
+#town-ev.oly .pod{position:relative;line-height:0}#town-ev.oly canvas.podium{display:block;image-rendering:pixelated;border-radius:4px;cursor:pointer;touch-action:none}
+#town-ev.oly .podgo{position:absolute;right:1.2%;bottom:1.5%;min-height:40px;line-height:1.2;background:#384260ee}`;
 const nameOf = (c) => c.nickname || c.name || c.species;
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const imgSrc = (sp) => `art/characters/pixel/creatures/${sp}/overworld/${sp}_ow/${sp}_ow_right_walk0_2x.png`;
-const ORD = ['1st', '2nd', '3rd', '4th'];
 
 export function attachOlympics(scene, { sys, sstate, isOpen }) {
   const day = () => scene.clock?.day || 0, rm = reducedMotion(new URLSearchParams(location.search));
@@ -47,7 +51,7 @@ export function attachOlympics(scene, { sys, sstate, isOpen }) {
     else { const k = mine(); st.assign = autoAssign(VENUES[venue], k); st.sel = 0; showAssign(); }
     return new Promise((res) => { st.onClose = res; });
   }
-  function close() { cancelAnimationFrame(st.raf); window.removeEventListener('keydown', key, true); ov?.remove(); ov = null; st.open = false; st.phase = 'closed'; scene.timescale = savedTs; const cb = st.onClose; st.onClose = null; cb?.(); }
+  function close() { cancelAnimationFrame(st.raf); st.unsize?.(); st.unsize = null; window.removeEventListener('keydown', key, true); ov?.remove(); ov = null; st.open = false; st.phase = 'closed'; scene.timescale = savedTs; const cb = st.onClose; st.onClose = null; cb?.(); }
   function key(e) { e.stopPropagation(); if (e.type === 'keydown' && e.key === 'Escape' && (st.phase === 'assign' || st.phase === 'locked')) close(); }
 
   function showAssign() {
@@ -85,31 +89,46 @@ export function attachOlympics(scene, { sys, sstate, isOpen }) {
     st.raf = requestAnimationFrame(draw); on('[data-a=r]', showBoard);
     st.seek = (t) => { cancelAnimationFrame(st.raf); g.setTransform(2, 0, 0, 2, 0, 0); drawOlyFrame(g, plan, t, framesOf, { rm }); st.animT = t; }; // shots/tests
   }
+  // Winner-circle podium after each event and the grand champion podium at the end (olympics_podium.js).
+  // Crisp: the pixel layer is painted at 2x into an offscreen canvas and nearest-neighbour scaled; text is vector on top.
+  // TAP ONLY: a tap (pointer down+up, short, no drag) skips the animation, a second tap continues; a hold or drag does nothing.
+  function podium(plan, html, cont) {
+    box(`<div class="pod"><canvas class="podium" id="${plan.kind === 'final' ? 'oly-champ' : 'oly-board'}"></canvas>${html}</div>`);
+    const b = ov.querySelector('.box'); b.classList.add('podbox');
+    const cv = ov.querySelector('canvas'), g = cv.getContext('2d'), L = document.createElement('canvas'); L.width = PW * 2; L.height = PH * 2; const lg = L.getContext('2d');
+    const size = () => { const dpr = window.devicePixelRatio || 1, W = Math.min(innerWidth - 6, (innerHeight - 6) * 16 / 9), H = W * 9 / 16;
+      cv.style.width = Math.floor(W) + 'px'; cv.style.height = Math.floor(H) + 'px'; cv.width = Math.round(Math.floor(W) * dpr); cv.height = Math.round(Math.floor(H) * dpr); };
+    size(); window.addEventListener('resize', size); st.unsize = () => { window.removeEventListener("resize", size); st.untap?.(); st.untap = null; };
+    let t0 = performance.now(), skip = rm; const phase = st.phase;
+    const paint = (t) => { lg.setTransform(2, 0, 0, 2, 0, 0); lg.imageSmoothingEnabled = false; drawPodiumPixels(lg, plan, t, framesOf, { rm });
+      g.setTransform(1, 0, 0, 1, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(L, 0, 0, cv.width, cv.height);
+      g.setTransform(cv.width / PW, 0, 0, cv.height / PH, 0, 0); drawPodiumText(g, plan, t, { rm, hint: t < plan.end ? OS.pod_skip : OS.pod_continue }); st.animT = t; };
+    const draw = (now) => { if (!ov || st.phase !== phase) return; const t = skip ? plan.end : (now - t0) / 1000; paint(Math.min(t, plan.end));
+      if (t < plan.end) st.raf = requestAnimationFrame(draw); };
+    st.untap?.(); st.untap = onTap(cv, null, () => { // tap only; hold/drag ignored by tap_guard
+      if ((st.animT ?? 0) < plan.end && !skip) { skip = true; cancelAnimationFrame(st.raf); st.raf = requestAnimationFrame(draw); } else cont(); });
+    st.raf = requestAnimationFrame(draw); st.plan = plan;
+    st.seek = (t) => { cancelAnimationFrame(st.raf); paint(t); };
+    // pre-load sprites, repaint once they arrive (reduced motion paints a single frame)
+    for (const e of plan.entries) for (const im of framesOf(e.kilu.species)) if (!im.complete) im.addEventListener('load', () => { if (st.phase === phase && (skip || rm)) paint(plan.end); }, { once: true });
+  }
+  const leavePod = () => { st.unsize?.(); st.unsize = null; };
   function showBoard() {
     st.phase = 'board'; const ev = st.run.events[st.i], last = st.i === 2;
-    box(`<h2>${esc(ot(OS.board, { event: OS.events[ev.id] }))}</h2>
-      <table id="oly-board"><tr><th>${OS.col_place}</th><th>${OS.col_trainer}</th><th>${OS.col_kilu}</th><th>${OS.col_score}</th><th>${OS.col_pts}</th></tr>
-      ${ev.rows.map((r) => `<tr class="${r.who === 'me' ? 'me' : ''}"><td>${ORD[r.place - 1]}</td><td>${esc(r.name)}</td><td>${esc(nameOf(r.kilu))}</td><td>${r.score.toFixed(1)}</td><td>+${r.pts}</td></tr>`).join('')}</table>
-      <div>${esc(ot(OS.standings, { n: st.i + 1, of: 3 }))}</div>${table(ev.table)}
-      <button data-a="n">${esc(last ? OS.final : OS.next)}</button>`);
-    on('[data-a=n]', () => { if (last) showFinal(); else { st.i++; showEvent(); } });
+    const plan = podiumPlan({ kind: 'event', id: ev.id, rows: ev.rows, prev: st.i ? st.run.events[st.i - 1].table : [], table: ev.table, n: st.i + 1, of: 3 });
+    const next = () => { cancelAnimationFrame(st.raf); leavePod(); if (last) showFinal(); else { st.i++; showEvent(); } };
+    podium(plan, `<button data-a="n" class="podgo">${esc(last ? OS.final : OS.next)}</button>`, next);
+    on('[data-a=n]', next);
   }
-  const table = (t) => `<table class="oly-table"><tr><th>${OS.col_place}</th><th>${OS.col_trainer}</th><th>${OS.col_total}</th></tr>${t.map((x, i) => `<tr class="${x.who === 'me' ? 'me' : ''}"><td>${ORD[i]}</td><td>${esc(x.name)}</td><td>${x.pts}</td></tr>`).join('')}</table>`;
   function showFinal() {
     let mult = 1; try { mult = diffOf(getDifficulty(sys()?.state)).money || 1; } catch (e) { mult = 1; }
     const res = settleOlympics({ venue: st.venue, day: day(), table: st.run.table, wallet: sys()?.wallet, sstate: sstate(), mult }); st.result = res;
     if (res.flag && !scene.flags?.has?.(res.flag)) { try { scene.setFlag ? scene.setFlag(res.flag) : scene.flags?.add?.(res.flag); } catch (e) { /* flag */ } }
-    st.phase = 'final'; const V = OS.venue[st.venue];
-    box(`<h2>${esc(OS.final)}</h2>${table(st.run.table)}<div>${esc(res.place === 1 ? ot(OS.won, { prize: res.prize, merit: res.merit }) : ot(OS.placed, { place: ORD[res.place - 1], merit: res.merit }))}</div>
-      <button data-a="n">${esc(res.place === 1 ? ot(OS.champ, { venue: V }) : OS.done)}</button>`);
-    on('[data-a=n]', () => (res.place === 1 ? showChamp() : close()));
-  }
-  function showChamp() {
-    st.phase = 'champ'; const V = OS.venue[st.venue], me = st.run.events.map((e) => e.rows.find((r) => r.who === 'me').kilu);
-    box(`<div class="champ" id="oly-champ">★ ${esc(ot(OS.champ, { venue: V }))} ★</div>${st.result.firstWin ? `<div>${esc(ot(OS.first_win, { venue: V }))}</div>` : ''}
-      <div>${me.map((c) => `<img src="${imgSrc(c.species)}" style="height:72px;image-rendering:pixelated;margin:4px">`).join('')}</div>
-      <div>${esc(ot(OS.won, { prize: st.result.prize, merit: st.result.merit }))}</div><button data-a="x">${esc(OS.done)}</button>`);
-    on('[data-a=x]', close);
+    st.phase = res.place === 1 ? 'champ' : 'final'; const V = OS.venue[st.venue];
+    const plan = podiumPlan({ kind: 'final', venue: st.venue, venueName: V, table: st.run.table, events: st.run.events, result: res });
+    const done = () => { cancelAnimationFrame(st.raf); leavePod(); close(); };
+    podium(plan, `<button data-a="x" class="podgo">${esc(OS.done)}</button>`, done);
+    on('[data-a=x]', done);
   }
   return { open, close, status, state: () => ({ open: st.open, phase: st.phase, venue: st.venue, assign: st.assign && [...st.assign], i: st.i, run: st.run, result: st.result, plan: st.plan, animT: st.animT }),
     _seek: (t) => st.seek?.(t),

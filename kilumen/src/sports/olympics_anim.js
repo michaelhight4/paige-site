@@ -339,3 +339,18 @@ export function drawOlyFrame(g, plan, t, imgs, opts = {}) {
   finishBanner(g, plan, t, rm);
   countdown(g, t, rm);
 }
+
+/** static venue backdrop for the podium scene (olympics_podium.js): the event's own venue, no lanes camera motion */
+export function venueBackdrop(g, v, t, rm = false) {
+  g.imageSmoothingEnabled = false;
+  if (v === 'stage') { R(g, '#2a1c2e', 0, 0, AW, AH); for (let x = 0; x < AW; x += 16) { R(g, '#7a2a3a', x, 0, 14, 150); R(g, '#9a3a4a', x + 2, 0, 4, 150); } R(g, '#5a1a2a', 0, 0, AW, 14); for (let x = 0; x < AW; x += 20) R(g, '#ffc928', x + 6, 10, 8, 4);
+    crowd(g, 150, 30, 0, t, rm, true); R(g, '#6b4a2b', 0, 180, AW, 90); for (let x = 0; x < AW; x += 32) R(g, '#5a3d24', x, 180, 1, 90); R(g, '#8a5a34', 0, 180, AW, 3); return; }
+  if (v === 'night') { sky(g, '#0d1330', '#2a2a5a', 200); for (let k = 0; k < 50; k++) R(g, hash(k, 3) > 0.8 && !rm && Math.sin(t * 4 + k) > 0.5 ? '#ffffff' : '#b8c0e8', hash(k, 1) * AW, hash(k, 2) * 120, 1, 1);
+    R(g, '#f3ead2', 400, 20, 14, 14); R(g, '#0d1330', 405, 18, 12, 12);
+    for (let x = 0; x < AW; x += 60) { R(g, '#1b1f2a', x + 10, 110, 40, 70); R(g, '#2a2236', x + 12, 112, 36, 68); R(g, '#ffc928', x + 18, 124, 6, 6); R(g, '#ff9a3c', x + 34, 140, 6, 6); }
+    R(g, '#2e4a6e', 0, 180, AW, 30); R(g, '#6b4a2b', 0, 210, AW, 60); for (let x = 0; x < AW; x += 20) R(g, '#5a3d24', x, 210, 1, 60); R(g, '#8a5a34', 0, 210, AW, 2); return; }
+  if (v === 'range') { sky(g, '#7cc8ee', '#d8f0fb', 96); hills(g, 74, 0, 0, '#7fb878', 18, 46); hills(g, 94, 0, 0, '#5ca055', 12, 26);
+    for (let k = 0; k < 8; k++) { const x = 20 + k * 62; R(g, '#5a3d24', x + 6, 64, 3, 30); R(g, '#3f8a3a', x, 52, 15, 16); R(g, '#57a64c', x + 2, 50, 10, 8); }
+    for (let i = 0; i < 4; i++) R(g, i % 2 ? '#7cc45e' : '#86cf66', 0, LANE0 + i * LANEH, AW, LANEH); return; }
+  venueRace(g, v, 60, t, rm, true);
+}
