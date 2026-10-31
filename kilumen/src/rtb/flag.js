@@ -23,4 +23,12 @@ export function setRtbMode(scene, mode) {
   if (scene?.flags) { if (m === 'rt') scene.flags.add(RTB_FLAG); else scene.flags.delete(RTB_FLAG); scene._dirty = true; } // saved on the next normal save (never mid-battle: saveGuards)
   return m;
 }
+/** Story / flashback battles that must stay turn-based whatever the Options mode (Gary, Oct 30 2026: flashback lab techs
+ * fin_past_wlab_* ran real-time). who.forceTurnBased (region 9 story fights, Ondravel) or any flashback map fin_past_*. */
+export function forceTurnBased(who, mapName) {
+  if (who?.forceTurnBased) return true;
+  return /^fin_past_/.test(String(who?.map || mapName || ''));
+}
+/** Mode for a trainer fight: 'turn' when forced, else the player's mode. */
+export const trainerBattleMode = (scene, q, who) => (forceTurnBased(who, scene?.map?.name) ? 'turn' : rtbMode(scene, q));
 export const rtbEnabled = (q, scene) => rtbMode(scene, q) === 'rt';
