@@ -17723,7 +17723,7 @@
   "aurelith_stadium_int": {
    "aurelith_stadium_attendant": {
     "pages": [
-     "The Arena's open! Through those doors.\nBut only with all eight coins.",
+     "The Games desk is Announcer Aurora, over\nthere. Those doors are the Arena: all eight coins.",
      "Eight coins, eight rooms, eight\nArena fighters. No shortcuts."
     ],
     "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
@@ -17742,7 +17742,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "The Arena's open! Through those doors.\nBut only with all eight coins.",
+       "The Games desk is Announcer Aurora, over\nthere. Those doors are the Arena: all eight coins.",
        "Eight coins, eight rooms, eight\nArena fighters. No shortcuts."
       ]
      }
@@ -17767,7 +17767,7 @@
    },
    "aurelith_stadium_board": {
     "pages": [
-     "AURELITH GAMES\nArena open to holders of all 8 coins."
+     "AURELITH GAMES: town cup champions,\nsee Announcer Aurora. ARENA (upstairs):\nthe elite fighters, all 8 coins."
     ],
     "note": "Aurelith city (textbot_requests_aurelith_city.md), DRAFT pending Gary",
     "lines": [
@@ -17775,7 +17775,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "AURELITH GAMES\nArena open to holders of all 8 coins."
+       "AURELITH GAMES: town cup champions,\nsee Announcer Aurora. ARENA (upstairs):\nthe elite fighters, all 8 coins."
       ]
      }
     ]

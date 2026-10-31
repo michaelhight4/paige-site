@@ -101,13 +101,13 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     ov.querySelector('[data-a=cup]').onclick = () => cupIntro(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
   function cupStatus(ev) {
-    const r = cupState(sstate(), ev), c = canEnterCup({ ev, day: day(), coins: wallet()?.coins ?? 0, sstate: sstate() });
-    const msg = c.ok ? tt(TS.cup_today, { prize: CUP.prize, cups: r.cups }) : c.reason === 'not_today' ? tt(TS.cup_in_days, { days: c.days, cups: r.cups }) : c.reason === 'entered' ? TS.cup_entered : tt(TS.cup_no_gold, { fee: CUP.fee });
+    const r = cupState(sstate(), ev), c = canEnterCup({ ev, day: day(), coins: wallet()?.coins ?? 0, sstate: sstate(), flags: scene.flags || new Set() });
+    const msg = c.ok ? tt(TS.cup_today, { prize: CUP.prize, cups: r.cups }) : c.reason === 'hall' ? tt(TS.cup_hall_locked, { town: TS[ev.id]?.town || '' }) : c.reason === 'not_today' ? tt(TS.cup_in_days, { days: c.days, cups: r.cups }) : c.reason === 'entered' ? TS.cup_entered : tt(TS.cup_no_gold, { fee: CUP.fee });
     return { ...c, msg };
   }
   /** Cup: pay, meet the three rivals (their posted scores), the coach sets the target, then the real event. */
   function cupIntro() {
-    const ev = st.ev; if (!payCup({ ev, day: day(), wallet: wallet(), sstate: sstate() })) return showPick();
+    const ev = st.ev; if (!payCup({ ev, day: day(), wallet: wallet(), sstate: sstate(), flags: scene.flags || new Set() })) return showPick();
     st.mode = 'cup'; st.rivals = rivalsFor(ev, day()); st.coinsBefore = wallet()?.coins ?? 0; st.phase = 'cup_intro';
     const top = Math.max(...st.rivals.map((r) => r.score));
     ov.innerHTML = `<div class="box" id="cup-intro"><h2>${esc(tt(TS.cup_title, { event: TS[ev.id].title }))}</h2><div>${esc(TS.cup_field)}</div>
