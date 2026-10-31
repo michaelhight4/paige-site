@@ -1,0 +1,15 @@
+{
+ "bellbuoy_front": {
+  "size": [
+   90,
+   92
+  ],
+  "src": "design/new_r678 raw"
+ },
+ "bellbuoy_ow": {
+  "size": [
+   40,
+   41
+  ]
+ }
+}

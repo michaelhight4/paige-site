@@ -13460,6 +13460,15 @@
    "gd_class": "harbour_hand",
    "text_ref": "overworld_lines.json maps.tidewater_coast.tidewater_coast_dock_worker_6",
    "note": "trade hub (Gary Oct 31 2026)"
+  },
+  {
+   "id": "tidewater_oly_host",
+   "x": 19,
+   "y": 31,
+   "facing": "down",
+   "kind": "coach",
+   "note": "launch-content: Olympics host (src/sports/olympics.js VENUES.tidewater). Talk opens the town Olympics.",
+   "text_ref": "src/sports/olympics_strings.js host_hello"
   }
  ],
  "signs": [
@@ -13706,5 +13715,13 @@
    "depart": 17,
    "sail_min": 20
   }
+ },
+ "currents": {
+  "27,37": "down",
+  "27,38": "down",
+  "27,39": "down",
+  "27,40": "down",
+  "27,41": "down",
+  "27,42": "down"
  }
 }

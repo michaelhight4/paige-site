@@ -3,7 +3,7 @@
 // band / fade / light palette row are gone; all water draws in one consistent deep colour via an exact palette remap
 // (palette.png colours only, binary alpha) on the native tile before the time-of-day grade. The tiles' own soft shore
 // edges are kept; no hard lines. Pure + cached per map (water cells never change at runtime).
-import { Col } from './constants.js?v=v0.2.105-alpha';
+import { Col } from './constants.js?v=v0.2.106-alpha';
 
 export const DEEP = 2; // (SHALLOW = 1 retired Oct 30 2026)
 const isW = (c) => c === Col.WATER || c === Col.DEEP_WATER;

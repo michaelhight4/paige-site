@@ -9,7 +9,7 @@
  * Which touch controls are hidden for a dialogue state (profile controls.hideDuringDialog / showDpadForLists).
  * @returns {{hide: string[], listDpad: boolean}} hide = control names ('dpad' | 'sel' | 'dbg' | ...); listDpad = show d-pad up/down again
  */
-import { onTap } from '../shared/tap_guard.js?v=v0.2.105-alpha'; // touch input standard
+import { onTap } from '../shared/tap_guard.js?v=v0.2.106-alpha'; // touch input standard
 export function touchControlsFor(controls, { open = false, list = false } = {}) {
   const names = (open && controls?.hideDuringDialog) || [];
   const extra = (open && list && controls?.hideDuringLists) || []; // phone menu fix (Oct 23, 2026): rows are tapped, so A/B fade too

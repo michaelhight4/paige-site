@@ -3,8 +3,8 @@
 // sets body.landscape-only, and the CSS overlay (#rotate) then covers the game whenever the screen is upright.
 // Here we also ask the browser to lock landscape on the first tap (only works in fullscreen, so we request it); any
 // refusal is ignored and the overlay still does the job. The PC profile (orientation "any") is never affected.
-import './alpha.js?v=v0.2.105-alpha'; // ALPHA build: strips URL flags before the platform is picked
-import { startPlatform } from './platform.js?v=v0.2.105-alpha';
+import './alpha.js?v=v0.2.106-alpha'; // ALPHA build: strips URL flags before the platform is picked
+import { startPlatform } from './platform.js?v=v0.2.106-alpha';
 
 const portrait = matchMedia('(orientation: portrait)');
 const overlay = document.getElementById('rotate');

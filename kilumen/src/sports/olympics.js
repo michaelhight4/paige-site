@@ -9,12 +9,12 @@
 //   the 8-coin gate is only the Aurelith Arena (elite fighters). One entry per venue per in-game day, free entry.
 // REWARDS (small): 1st = gold (town 300, Aurelith 1500, x difficulty money) + merit by place (MERIT_PTS.oly / oly_major)
 //   + a first-win story flag oly_won_<venue> (set by the UI through scene.setFlag).
-import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.105-alpha';
-import { STATS } from './rules.js?v=v0.2.105-alpha';
-import { rngFor } from './rng.js?v=v0.2.105-alpha';
-import { awardMerit } from './merit.js?v=v0.2.105-alpha';
-import { CUP_HALL, cupHallFlag } from './town_cup.js?v=v0.2.105-alpha';
-import { RIVAL_SPECIES, RIVAL_TRAINERS } from './town_cup.js?v=v0.2.105-alpha';
+import { rollRivalAthletics, speciesAthletics } from './athletics.js?v=v0.2.106-alpha';
+import { STATS } from './rules.js?v=v0.2.106-alpha';
+import { rngFor } from './rng.js?v=v0.2.106-alpha';
+import { awardMerit } from './merit.js?v=v0.2.106-alpha';
+import { CUP_HALL, cupHallFlag } from './town_cup.js?v=v0.2.106-alpha';
+import { RIVAL_SPECIES, RIVAL_TRAINERS } from './town_cup.js?v=v0.2.106-alpha';
 
 export const OLY = { points: [3, 2, 1, 0], rivals: 3, rivalTeam: 4, prize: { town: 300, aurelith: 1500 }, lvW: 0.3, luck: 6 };
 /** event id -> stat weights (sum 1). Signature events first in each town mix. */
@@ -26,13 +26,17 @@ export const OLY_EVENTS = {
 };
 export const VENUES = {
   fernwick: ['hop', 'sprint', 'archery'], saltmere: ['haul', 'swim', 'sprint'], revival_heights: ['relay', 'archery', 'hurdles'],
-  frostspire: ['slide', 'marathon', 'lift'], lanternport: ['catch', 'swim', 'marathon'], cindervale: ['push', 'lift', 'hurdles'],
+  frostspire: ['slide', 'marathon', 'lift'], mirefen: ['sprint', 'hurdles', 'marathon'], tidewater: ['swim', 'haul', 'archery'], lanternport: ['catch', 'swim', 'marathon'], cindervale: ['push', 'lift', 'hurdles'],
   aurelith: ['sprint', 'lift', 'marathon'],
 };
-export const TOWN_VENUES = Object.keys(CUP_HALL);
+// launch-content (Gary 1:47 AM Oct 31): every region's tournament town hosts an Olympics; its first event is its own
+// signature event and no two towns share one. Mirefen (R5) and Tidewater (R6) join via an Olympics host NPC.
+export const OLY_HALL = { ...CUP_HALL, mirefen: 'mirefen', tidewater: 'tidewater' };
+export const TOWN_VENUES = Object.keys(OLY_HALL);
+export const SIGNATURE = Object.fromEntries(TOWN_VENUES.map((v) => [v, VENUES[v][0]]));
 export const wonFlag = (venue) => `oly_won_${venue}`;
 const has = (flags, f) => !!flags && (typeof flags.has === 'function' ? flags.has(f) : !!flags[f]);
-export const doorFlags = (venue) => (venue === 'aurelith' ? TOWN_VENUES.map(wonFlag) : [cupHallFlag({ town: venue })]);
+export const doorFlags = (venue) => (venue === 'aurelith' ? TOWN_VENUES.map(wonFlag) : [`beat_master_${OLY_HALL[venue]}`]);
 export const doorOpen = (venue, flags) => !!VENUES[venue] && doorFlags(venue).every((f) => has(flags, f));
 export function olyState(sstate, venue) { const o = ((sstate.oly ||= {})[venue] ||= {}); o.wins ??= 0; o.entries ??= 0; o.day ??= -1; return o; }
 /** -> {ok:true} | {ok:false, reason:'locked'|'team'|'entered', need:[flags], missing:n} */

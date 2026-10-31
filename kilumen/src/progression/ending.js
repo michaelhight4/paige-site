@@ -9,7 +9,7 @@
 //   3. finale_done + the save field game_cleared {at, day, team} are set, then a warp home to Brookhollow (outside the
 //      house) with a postgame note. A save that already cleared never replays it.
 // Text: system_ending.* in text/overworld_lines.json (Text Bot), else the code fallbacks below. {player} is filled by scene.say.
-import { coinCount } from '../overworld/lines.js?v=v0.2.105-alpha';
+import { coinCount } from '../overworld/lines.js?v=v0.2.106-alpha';
 
 export const ENDING = {
   badges: 'all_badges', finalWin: 'beat_rival_ron_6', done: 'finale_done', coins: 8,
@@ -82,7 +82,7 @@ export async function runInterimEnding(scene, opts = {}) {
     if (!opts.onLoad) await scene.say(lines(scene, 'ron_after'), ronSp); // onLoad: an old save, the fight was long ago
     if (!opts.onLoad) await scene.say(textOr(scene, 'system_company_voice.rival_beaten_ron_6_2', ENDING_FALLBACK.rita), ritaSp);
     const record = clearRecord(scene);
-    const credits = opts.credits || (async (s, r) => (await import('../ui/credits.js?v=v0.2.105-alpha')).runCredits(s, r));
+    const credits = opts.credits || (async (s, r) => (await import('../ui/credits.js?v=v0.2.106-alpha')).runCredits(s, r));
     try { await credits(scene, record); } catch (e) { console.error('credits:', e); }
     scene.gameCleared = record;
     scene.setFlag(ENDING.done);

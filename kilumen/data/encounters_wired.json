@@ -302,7 +302,42 @@
   "weathervex",
   "whelkin",
   "wickerling",
-  "wreckwarden"
+  "wreckwarden",
+  "lampwisp",
+  "pumicub",
+  "foamfawn",
+  "undertusk",
+  "emberkip",
+  "breakwarden",
+  "kelpkit",
+  "wickmote",
+  "pyrevane",
+  "slagdrake",
+  "smoglet",
+  "hushlet",
+  "tidelore",
+  "flarekite",
+  "galecrest",
+  "drizzlop",
+  "nubbinray",
+  "cocklet",
+  "forgehorn",
+  "veilfin",
+  "lensmoth",
+  "smeltbull",
+  "paperpaw",
+  "lanternshade",
+  "swellhound",
+  "ashbun",
+  "anvilaurox",
+  "calderune",
+  "shoalpup",
+  "puffgill",
+  "fogkin",
+  "cinderpip",
+  "bellbuoy",
+  "geysquirt",
+  "beaconwraith"
  ],
  "zones": {
   "sunmeadow_grass": {
@@ -1605,7 +1640,7 @@
      "spread": "tod"
     },
     {
-     "species": "frostweevil",
+     "species": "smoglet",
      "level": [
       40,
       41
@@ -1618,7 +1653,7 @@
      "spread": "tod"
     },
     {
-     "species": "snowroller",
+     "species": "frostweevil",
      "level": [
       40,
       41
@@ -2010,6 +2045,19 @@
      "spread": "habitat"
     },
     {
+     "species": "fogkin",
+     "level": [
+      12,
+      16
+     ],
+     "weight": 16,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "stonepede",
      "level": [
       12,
@@ -2024,19 +2072,6 @@
     },
     {
      "species": "lampwick",
-     "level": [
-      12,
-      16
-     ],
-     "weight": 16,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "snugworm",
      "level": [
       12,
       16
@@ -2514,7 +2549,7 @@
      "spread": "tod"
     },
     {
-     "species": "minewisp",
+     "species": "paperpaw",
      "level": [
       15,
       17
@@ -2527,7 +2562,7 @@
      "spread": "tod"
     },
     {
-     "species": "bleachghast",
+     "species": "snowroller",
      "level": [
       15,
       17
@@ -2555,7 +2590,7 @@
      "spread": "tod"
     },
     {
-     "species": "briarlet",
+     "species": "ashbun",
      "level": [
       15,
       17
@@ -3153,7 +3188,7 @@
      "spread": "tod"
     },
     {
-     "species": "fernlume",
+     "species": "bleachghast",
      "level": [
       22,
       24
@@ -3166,7 +3201,7 @@
      "spread": "tod"
     },
     {
-     "species": "dustbonnet",
+     "species": "fernlume",
      "level": [
       22,
       24
@@ -3268,7 +3303,7 @@
      "spread": "tod"
     },
     {
-     "species": "mournhorn",
+     "species": "wickmote",
      "level": [
       23,
       24
@@ -3281,7 +3316,7 @@
      "spread": "tod"
     },
     {
-     "species": "thornpod",
+     "species": "mournhorn",
      "level": [
       23,
       24
@@ -3429,6 +3464,19 @@
      "spread": "habitat"
     },
     {
+     "species": "lampwisp",
+     "level": [
+      23,
+      24
+     ],
+     "weight": 7,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "glintmoth",
      "level": [
       23,
@@ -3442,20 +3490,7 @@
      "spread": "tod"
     },
     {
-     "species": "railmite",
-     "level": [
-      23,
-      24
-     ],
-     "weight": 7,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "glimslug",
+     "species": "thornpod",
      "level": [
       23,
       24
@@ -3690,6 +3725,19 @@
      "spread": "habitat"
     },
     {
+     "species": "dustbonnet",
+     "level": [
+      25,
+      30
+     ],
+     "weight": 8,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "dripweaver",
      "level": [
       25,
@@ -3703,20 +3751,7 @@
      "spread": "tod"
     },
     {
-     "species": "columnpede",
-     "level": [
-      25,
-      30
-     ],
-     "weight": 8,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "faultgrin",
+     "species": "railmite",
      "level": [
       25,
       30
@@ -3916,7 +3951,7 @@
      "spread": "habitat"
     },
     {
-     "species": "cairnant",
+     "species": "snugworm",
      "level": [
       26,
       33
@@ -3929,7 +3964,7 @@
      "spread": "tod"
     },
     {
-     "species": "eavesgrim",
+     "species": "bellbuoy",
      "level": [
       26,
       33
@@ -3942,7 +3977,7 @@
      "spread": "tod"
     },
     {
-     "species": "beaconfly",
+     "species": "glimslug",
      "level": [
       26,
       33
@@ -4048,6 +4083,19 @@
      "spread": "habitat"
     },
     {
+     "species": "cairnant",
+     "level": [
+      27,
+      32
+     ],
+     "weight": 4,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "lurelamp",
      "level": [
       27,
@@ -4062,19 +4110,6 @@
     },
     {
      "species": "shaftwraith",
-     "level": [
-      27,
-      32
-     ],
-     "weight": 4,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "glyphmage",
      "level": [
       27,
       32
@@ -4383,6 +4418,19 @@
      "spread": "habitat"
     },
     {
+     "species": "slagdrake",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "snowdrowse",
      "level": [
       39,
@@ -4397,19 +4445,6 @@
     },
     {
      "species": "vaultpede",
-     "level": [
-      39,
-      40
-     ],
-     "weight": 6,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "gladlet",
      "level": [
       39,
       40
@@ -4648,33 +4683,33 @@
      "spread": "habitat"
     },
     {
+     "species": "faultgrin",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "undertusk",
+     "level": [
+      39,
+      40
+     ],
+     "weight": 6,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "kinkalume",
-     "level": [
-      39,
-      40
-     ],
-     "weight": 6,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "lancebeetle",
-     "level": [
-      39,
-      40
-     ],
-     "weight": 6,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "vesperowl",
      "level": [
       39,
       40
@@ -4795,7 +4830,7 @@
      "spread": "habitat"
     },
     {
-     "species": "pyrogrim",
+     "species": "glyphmage",
      "level": [
       39,
       40
@@ -4808,7 +4843,7 @@
      "spread": "tod"
     },
     {
-     "species": "cinderwraith",
+     "species": "gladlet",
      "level": [
       39,
       40
@@ -4821,7 +4856,7 @@
      "spread": "tod"
     },
     {
-     "species": "somnarch",
+     "species": "lensmoth",
      "level": [
       39,
       40
@@ -5021,30 +5056,69 @@
      ]
     },
     {
-     "species": "bulwarkrab",
+     "species": "shoalpup",
+     "level": [
+      43,
+      44
+     ],
+     "weight": 12,
+     "src": "new_r678"
+    },
+    {
+     "species": "cocklet",
      "level": [
       46,
       48
      ],
-     "weight": 6,
+     "weight": 10,
+     "src": "new_r678"
+    },
+    {
+     "species": "drizzlop",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 4,
+     "src": "new_r678",
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "nubbinray",
+     "level": [
+      46,
+      48
+     ],
+     "weight": 10,
+     "src": "new_r678"
+    },
+    {
+     "species": "bulwarkrab",
+     "level": [
+      43,
+      48
+     ],
+     "weight": 8,
      "spread": "habitat"
     },
     {
      "species": "belfrydove",
      "level": [
-      46,
+      43,
       48
      ],
-     "weight": 6,
+     "weight": 8,
      "spread": "habitat"
     },
     {
      "species": "reapmantis",
      "level": [
-      46,
+      43,
       48
      ],
-     "weight": 6,
+     "weight": 8,
      "time": [
       "night"
      ],
@@ -5052,12 +5126,12 @@
      "spread": "tod"
     },
     {
-     "species": "wreckwarden",
+     "species": "veilfin",
      "level": [
-      46,
+      43,
       48
      ],
-     "weight": 6,
+     "weight": 8,
      "time": [
       "night"
      ],
@@ -5065,12 +5139,12 @@
      "spread": "tod"
     },
     {
-     "species": "railmite",
+     "species": "eavesgrim",
      "level": [
-      46,
+      43,
       48
      ],
-     "weight": 6,
+     "weight": 8,
      "time": [
       "night"
      ],
@@ -5078,12 +5152,12 @@
      "spread": "tod"
     },
     {
-     "species": "gildfinch",
+     "species": "kelpkit",
      "level": [
-      46,
+      43,
       48
      ],
-     "weight": 6,
+     "weight": 8,
      "time": [
       "dawn",
       "day",
@@ -5093,12 +5167,12 @@
      "spread": "tod"
     },
     {
-     "species": "thistlehound",
+     "species": "gildfinch",
      "level": [
-      46,
+      43,
       48
      ],
-     "weight": 6,
+     "weight": 8,
      "time": [
       "dawn",
       "day",
@@ -5153,9 +5227,18 @@
      "weight": 10
     },
     {
+     "species": "swellhound",
+     "level": [
+      45,
+      47
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
      "species": "bulwarkrab",
      "level": [
-      46,
+      45,
       48
      ],
      "weight": 6,
@@ -5164,7 +5247,7 @@
     {
      "species": "breakerfin",
      "level": [
-      46,
+      45,
       48
      ],
      "weight": 6,
@@ -5173,7 +5256,7 @@
     {
      "species": "kelpstrider",
      "level": [
-      46,
+      45,
       48
      ],
      "weight": 6,
@@ -5186,7 +5269,7 @@
     {
      "species": "frostweevil",
      "level": [
-      46,
+      45,
       48
      ],
      "weight": 6,
@@ -5199,7 +5282,7 @@
     {
      "species": "medulet",
      "level": [
-      46,
+      45,
       48
      ],
      "weight": 6,
@@ -5212,7 +5295,7 @@
     {
      "species": "aurorel",
      "level": [
-      46,
+      45,
       48
      ],
      "weight": 6,
@@ -5393,12 +5476,66 @@
      "placeholder": true
     },
     {
+     "species": "puffgill",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 10,
+     "src": "new_r678"
+    },
+    {
+     "species": "kelpkit",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 10,
+     "src": "new_r678"
+    },
+    {
+     "species": "foamfawn",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 4,
+     "src": "new_r678"
+    },
+    {
+     "species": "drizzlop",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 3,
+     "src": "new_r678"
+    },
+    {
+     "species": "galecrest",
+     "level": [
+      48,
+      49
+     ],
+     "weight": 3,
+     "src": "new_r678"
+    },
+    {
+     "species": "breakwarden",
+     "level": [
+      48,
+      49
+     ],
+     "weight": 3,
+     "src": "new_r678"
+    },
+    {
      "species": "bulwarkrab",
      "level": [
       47,
       49
      ],
-     "weight": 5,
+     "weight": 6,
      "spread": "habitat"
     },
     {
@@ -5407,7 +5544,7 @@
       47,
       49
      ],
-     "weight": 5,
+     "weight": 6,
      "spread": "habitat"
     },
     {
@@ -5416,16 +5553,16 @@
       47,
       49
      ],
-     "weight": 5,
+     "weight": 6,
      "spread": "habitat"
     },
     {
-     "species": "mournhorn",
+     "species": "somnarch",
      "level": [
       47,
       49
      ],
-     "weight": 7,
+     "weight": 9,
      "time": [
       "night"
      ],
@@ -5433,12 +5570,12 @@
      "spread": "tod"
     },
     {
-     "species": "mossmote",
+     "species": "lancebeetle",
      "level": [
       47,
       49
      ],
-     "weight": 7,
+     "weight": 9,
      "time": [
       "night"
      ],
@@ -5446,12 +5583,12 @@
      "spread": "tod"
     },
     {
-     "species": "kilnant",
+     "species": "hushlet",
      "level": [
       47,
       49
      ],
-     "weight": 7,
+     "weight": 9,
      "time": [
       "night"
      ],
@@ -5464,7 +5601,7 @@
       47,
       49
      ],
-     "weight": 7,
+     "weight": 9,
      "time": [
       "dawn",
       "day",
@@ -5474,12 +5611,12 @@
      "spread": "tod"
     },
     {
-     "species": "cloverkin",
+     "species": "thistlehound",
      "level": [
       47,
       49
      ],
-     "weight": 7,
+     "weight": 9,
      "time": [
       "dawn",
       "day",
@@ -5617,12 +5754,30 @@
      ]
     },
     {
+     "species": "undertusk",
+     "level": [
+      48,
+      49
+     ],
+     "weight": 3,
+     "src": "new_r678"
+    },
+    {
+     "species": "cocklet",
+     "level": [
+      47,
+      49
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
      "species": "cragmont",
      "level": [
       47,
       49
      ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
@@ -5631,7 +5786,7 @@
       47,
       49
      ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
@@ -5640,11 +5795,11 @@
       47,
       49
      ],
-     "weight": 4,
+     "weight": 5,
      "spread": "habitat"
     },
     {
-     "species": "cavernwing",
+     "species": "beaconfly",
      "level": [
       47,
       49
@@ -5657,7 +5812,7 @@
      "spread": "tod"
     },
     {
-     "species": "rooftrove",
+     "species": "wreckwarden",
      "level": [
       47,
       49
@@ -5670,7 +5825,7 @@
      "spread": "tod"
     },
     {
-     "species": "glimslug",
+     "species": "vesperowl",
      "level": [
       47,
       49
@@ -5725,7 +5880,7 @@
      "species": "reefshell",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 15
     },
@@ -5733,7 +5888,7 @@
      "species": "moorcoil",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 2,
      "sync_added": true,
@@ -5743,7 +5898,7 @@
      "species": "rimewyrm",
      "level": [
       59,
-      61
+      59
      ],
      "weight": 3
     },
@@ -5751,7 +5906,7 @@
      "species": "mirejaw",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 4
     },
@@ -5759,7 +5914,7 @@
      "species": "bulwarkrab",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 2,
      "spread": "habitat"
@@ -5768,7 +5923,7 @@
      "species": "breakerfin",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 2,
      "spread": "habitat"
@@ -5777,7 +5932,7 @@
      "species": "foamkin",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 2,
      "time": [
@@ -5790,7 +5945,7 @@
      "species": "medulet",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 2,
      "time": [
@@ -5803,7 +5958,7 @@
      "species": "kelpstrider",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 2,
      "time": [
@@ -5816,7 +5971,7 @@
      "species": "aurorel",
      "level": [
       58,
-      61
+      59
      ],
      "weight": 2,
      "time": [
@@ -5841,8 +5996,8 @@
     {
      "species": "tidemarrow",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 30,
      "wants": "driftknot",
@@ -5851,16 +6006,16 @@
     {
      "species": "shorehound",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 20
     },
     {
      "species": "sailquill",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 20,
      "time": [
@@ -5872,8 +6027,8 @@
     {
      "species": "gloamtick",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 20,
      "time": [
@@ -5884,8 +6039,8 @@
     {
      "species": "halovy",
      "level": [
-      64,
-      64
+      57,
+      60
      ],
      "weight": 10,
      "time": [
@@ -5895,8 +6050,8 @@
     {
      "species": "fernstag",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -5905,8 +6060,8 @@
     {
      "species": "fernstag",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 1,
      "sync_added": true,
@@ -5915,8 +6070,8 @@
     {
      "species": "fernstag",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 1,
      "sync_added": true,
@@ -5925,8 +6080,8 @@
     {
      "species": "shellbloom",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "sync_added": true,
@@ -5935,8 +6090,8 @@
     {
      "species": "reedmoot",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "sync_added": true,
@@ -5945,8 +6100,8 @@
     {
      "species": "kilnpaw",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "sync_added": true,
@@ -5955,8 +6110,8 @@
     {
      "species": "kilnpaw",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -5965,8 +6120,8 @@
     {
      "species": "wickerling",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -5975,8 +6130,8 @@
     {
      "species": "dustbonnet",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -5985,8 +6140,8 @@
     {
      "species": "belfrydove",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "sync_added": true,
@@ -5995,8 +6150,8 @@
     {
      "species": "belfrydove",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -6005,8 +6160,8 @@
     {
      "species": "toadcap",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "sync_added": true,
@@ -6015,8 +6170,8 @@
     {
      "species": "toadcap",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -6025,8 +6180,8 @@
     {
      "species": "candlewren",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 1,
      "sync_added": true,
@@ -6035,8 +6190,8 @@
     {
      "species": "cobblepup",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "sync_added": true,
@@ -6045,8 +6200,8 @@
     {
      "species": "combwarden",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -6055,8 +6210,8 @@
     {
      "species": "combwarden",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 1,
      "sync_added": true,
@@ -6065,8 +6220,8 @@
     {
      "species": "lintmouse",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "sync_added": true,
@@ -6075,8 +6230,8 @@
     {
      "species": "weathervex",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -6085,8 +6240,8 @@
     {
      "species": "pharolith",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 1,
      "sync_added": true,
@@ -6095,8 +6250,8 @@
     {
      "species": "novarch",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 1,
      "sync_added": true,
@@ -6105,8 +6260,8 @@
     {
      "species": "wreckwarden",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 1,
      "sync_added": true,
@@ -6115,8 +6270,8 @@
     {
      "species": "mournhorn",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -6125,8 +6280,8 @@
     {
      "species": "netspinner",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "sync_added": true,
@@ -6135,8 +6290,8 @@
     {
      "species": "chartmouse",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "sync_added": true,
@@ -6145,8 +6300,8 @@
     {
      "species": "seraphawk",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 3,
      "time": [
@@ -6157,16 +6312,16 @@
     {
      "species": "shardhart",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 3
     },
     {
      "species": "spirewing",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 3,
      "time": [
@@ -6177,8 +6332,8 @@
     {
      "species": "chimelet",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4,
      "time": [
@@ -6189,16 +6344,16 @@
     {
      "species": "reapmantis",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 3
     },
     {
      "species": "glyphmage",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2,
      "time": [
@@ -6208,18 +6363,146 @@
     {
      "species": "reedcrane",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 4
     },
     {
+     "species": "wickmote",
+     "level": [
+      57,
+      60
+     ],
+     "weight": 12,
+     "src": "new_r678"
+    },
+    {
+     "species": "paperpaw",
+     "level": [
+      57,
+      60
+     ],
+     "weight": 12,
+     "src": "new_r678"
+    },
+    {
+     "species": "lampwisp",
+     "level": [
+      54,
+      55
+     ],
+     "weight": 12,
+     "src": "new_r678"
+    },
+    {
+     "species": "lensmoth",
+     "level": [
+      57,
+      60
+     ],
+     "weight": 5,
+     "src": "new_r678"
+    },
+    {
+     "species": "hushlet",
+     "level": [
+      57,
+      60
+     ],
+     "weight": 5,
+     "src": "new_r678",
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "hearthkit",
+     "level": [
+      56,
+      58
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
+     "species": "fogkin",
+     "level": [
+      56,
+      59
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
+     "species": "bellbuoy",
+     "level": [
+      56,
+      59
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
+     "species": "tidelore",
+     "level": [
+      57,
+      59
+     ],
+     "weight": 3,
+     "src": "new_r678"
+    },
+    {
+     "species": "veilfin",
+     "level": [
+      58,
+      59
+     ],
+     "weight": 2,
+     "src": "new_r678"
+    },
+    {
+     "species": "lanternkeep",
+     "level": [
+      59,
+      60
+     ],
+     "weight": 4,
+     "src": "new_r678"
+    },
+    {
+     "species": "pyrogrim",
+     "level": [
+      54,
+      60
+     ],
+     "weight": 13,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
+     "species": "cinderwraith",
+     "level": [
+      54,
+      60
+     ],
+     "weight": 13,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "fernlume",
      "level": [
-      63,
-      64
+      54,
+      60
      ],
-     "weight": 9,
+     "weight": 13,
      "time": [
       "night"
      ],
@@ -6227,38 +6510,12 @@
      "spread": "tod"
     },
     {
-     "species": "cairnant",
+     "species": "cloverkin",
      "level": [
-      63,
-      64
+      54,
+      60
      ],
-     "weight": 9,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "snowroller",
-     "level": [
-      63,
-      64
-     ],
-     "weight": 9,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "dawnfin",
-     "level": [
-      63,
-      64
-     ],
-     "weight": 9,
+     "weight": 13,
      "time": [
       "dawn",
       "day",
@@ -6268,12 +6525,12 @@
      "spread": "tod"
     },
     {
-     "species": "scorchkite",
+     "species": "dawnfin",
      "level": [
-      63,
-      64
+      54,
+      60
      ],
-     "weight": 9,
+     "weight": 13,
      "time": [
       "dawn",
       "day",
@@ -6296,40 +6553,40 @@
     {
      "species": "sluicekin",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 50
     },
     {
      "species": "reefshell",
      "level": [
-      62,
-      63
+      57,
+      60
      ],
      "weight": 30
     },
     {
      "species": "mirejaw",
      "level": [
-      62,
-      64
+      57,
+      60
      ],
      "weight": 5
     },
     {
      "species": "rimewyrm",
      "level": [
-      63,
-      64
+      57,
+      60
      ],
      "weight": 2
     },
     {
      "species": "reedmoot",
      "level": [
-      62,
-      64
+      57,
+      60
      ],
      "weight": 5,
      "spread": "habitat"
@@ -6337,8 +6594,8 @@
     {
      "species": "torrentpike",
      "level": [
-      62,
-      64
+      57,
+      60
      ],
      "weight": 5,
      "spread": "habitat"
@@ -6346,8 +6603,8 @@
     {
      "species": "foamkin",
      "level": [
-      62,
-      64
+      57,
+      60
      ],
      "weight": 5,
      "time": [
@@ -6359,8 +6616,8 @@
     {
      "species": "medulet",
      "level": [
-      62,
-      64
+      57,
+      60
      ],
      "weight": 5,
      "time": [
@@ -6372,8 +6629,8 @@
     {
      "species": "frostweevil",
      "level": [
-      62,
-      64
+      57,
+      60
      ],
      "weight": 5,
      "time": [
@@ -6385,8 +6642,8 @@
     {
      "species": "aurorel",
      "level": [
-      62,
-      64
+      57,
+      60
      ],
      "weight": 5,
      "time": [
@@ -6603,12 +6860,123 @@
      "weight": 2
     },
     {
-     "species": "glintmoth",
+     "species": "ashbun",
      "level": [
       66,
       68
      ],
-     "weight": 7,
+     "weight": 12,
+     "src": "new_r678"
+    },
+    {
+     "species": "pumicub",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 12,
+     "src": "new_r678"
+    },
+    {
+     "species": "emberkip",
+     "level": [
+      60,
+      61
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
+     "species": "forgehorn",
+     "level": [
+      58,
+      59
+     ],
+     "weight": 10,
+     "src": "new_r678"
+    },
+    {
+     "species": "smoglet",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
+     "species": "geysquirt",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
+     "species": "cinderpip",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 4,
+     "src": "new_r678"
+    },
+    {
+     "species": "flarekite",
+     "level": [
+      62,
+      66
+     ],
+     "weight": 5,
+     "src": "new_r678"
+    },
+    {
+     "species": "smeltbull",
+     "level": [
+      60,
+      65
+     ],
+     "weight": 6,
+     "src": "new_r678"
+    },
+    {
+     "species": "pyrevane",
+     "level": [
+      68,
+      68
+     ],
+     "weight": 1,
+     "src": "new_r678"
+    },
+    {
+     "species": "cinderwyrm",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 2,
+     "src": "new_r678"
+    },
+    {
+     "species": "emberseraph",
+     "level": [
+      68,
+      68
+     ],
+     "weight": 1,
+     "src": "new_r678",
+     "time": [
+      "night"
+     ]
+    },
+    {
+     "species": "lanternshade",
+     "level": [
+      58,
+      68
+     ],
+     "weight": 10,
      "time": [
       "night"
      ],
@@ -6616,12 +6984,12 @@
      "spread": "tod"
     },
     {
-     "species": "dripweaver",
+     "species": "wickmote",
      "level": [
-      66,
+      58,
       68
      ],
-     "weight": 7,
+     "weight": 10,
      "time": [
       "night"
      ],
@@ -6629,12 +6997,12 @@
      "spread": "tod"
     },
     {
-     "species": "netspinner",
+     "species": "paperpaw",
      "level": [
-      66,
+      58,
       68
      ],
-     "weight": 7,
+     "weight": 10,
      "time": [
       "night"
      ],
@@ -6644,10 +7012,10 @@
     {
      "species": "toadcap",
      "level": [
-      66,
+      58,
       68
      ],
-     "weight": 7,
+     "weight": 10,
      "time": [
       "dawn",
       "day",
@@ -6657,12 +7025,12 @@
      "spread": "tod"
     },
     {
-     "species": "candlewren",
+     "species": "scorchkite",
      "level": [
-      66,
+      58,
       68
      ],
-     "weight": 7,
+     "weight": 10,
      "time": [
       "dawn",
       "day",
@@ -6742,6 +7110,19 @@
      "spread": "habitat"
     },
     {
+     "species": "beaconwraith",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "mournlily",
      "level": [
       67,
@@ -6768,20 +7149,7 @@
      "spread": "tod"
     },
     {
-     "species": "wickerling",
-     "level": [
-      67,
-      68
-     ],
-     "weight": 5,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "flickermole",
+     "species": "cinderpip",
      "level": [
       67,
       68
@@ -6796,7 +7164,7 @@
      "spread": "tod"
     },
     {
-     "species": "obsidiax",
+     "species": "glimslug",
      "level": [
       67,
       68
@@ -6961,7 +7329,7 @@
      "spread": "tod"
     },
     {
-     "species": "pebblant",
+     "species": "minewisp",
      "level": [
       12,
       16
@@ -6974,7 +7342,7 @@
      "spread": "tod"
     },
     {
-     "species": "hushowl",
+     "species": "pebblant",
      "level": [
       12,
       16
@@ -8465,7 +8833,7 @@
      "species": "gloamtick",
      "level": [
       60,
-      61
+      60
      ],
      "weight": 30
     },
@@ -8473,7 +8841,7 @@
      "species": "bleachghast",
      "level": [
       60,
-      61
+      60
      ],
      "weight": 25
     },
@@ -8481,7 +8849,7 @@
      "species": "runeskein",
      "level": [
       60,
-      61
+      60
      ],
      "weight": 20
     },
@@ -8489,7 +8857,7 @@
      "species": "glyphmage",
      "level": [
       60,
-      61
+      60
      ],
      "weight": 5
     },
@@ -8497,17 +8865,48 @@
      "species": "chimelet",
      "level": [
       60,
-      61
+      60
      ],
      "weight": 8
     },
     {
+     "species": "lanternshade",
+     "level": [
+      56,
+      60
+     ],
+     "weight": 10,
+     "src": "new_r678"
+    },
+    {
+     "species": "fogkin",
+     "level": [
+      58,
+      60
+     ],
+     "weight": 8,
+     "src": "new_r678"
+    },
+    {
+     "species": "smoglet",
+     "level": [
+      56,
+      60
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "dustbonnet",
      "level": [
-      60,
-      61
+      56,
+      60
      ],
-     "weight": 4,
+     "weight": 5,
      "time": [
       "night"
      ],
@@ -8517,23 +8916,10 @@
     {
      "species": "mufflynx",
      "level": [
-      60,
-      61
+      56,
+      60
      ],
-     "weight": 4,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "crowkin",
-     "level": [
-      60,
-      61
-     ],
-     "weight": 4,
+     "weight": 5,
      "time": [
       "night"
      ],
@@ -8543,10 +8929,10 @@
     {
      "species": "pandember",
      "level": [
-      60,
-      61
+      56,
+      60
      ],
-     "weight": 4,
+     "weight": 5,
      "time": [
       "dawn",
       "day",
@@ -8558,10 +8944,10 @@
     {
      "species": "haysquee",
      "level": [
-      60,
-      61
+      56,
+      60
      ],
-     "weight": 4,
+     "weight": 5,
      "time": [
       "dawn",
       "day",
@@ -8611,12 +8997,70 @@
      "weight": 5
     },
     {
+     "species": "slagdrake",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 4,
+     "src": "new_r678"
+    },
+    {
+     "species": "anvilaurox",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 3,
+     "src": "new_r678"
+    },
+    {
+     "species": "calderune",
+     "level": [
+      68,
+      68
+     ],
+     "weight": 2,
+     "src": "new_r678"
+    },
+    {
+     "species": "clinkerback",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 4,
+     "src": "new_r678"
+    },
+    {
+     "species": "geysquirt",
+     "level": [
+      67,
+      68
+     ],
+     "weight": 6,
+     "src": "new_r678"
+    },
+    {
+     "species": "wickerling",
+     "level": [
+      66,
+      68
+     ],
+     "weight": 5,
+     "time": [
+      "night"
+     ],
+     "tod": "night",
+     "spread": "tod"
+    },
+    {
      "species": "squidge",
      "level": [
-      67,
+      66,
       68
      ],
-     "weight": 4,
+     "weight": 5,
      "time": [
       "night"
      ],
@@ -8624,25 +9068,12 @@
      "spread": "tod"
     },
     {
-     "species": "charlurcher",
+     "species": "cairnant",
      "level": [
-      67,
+      66,
       68
      ],
-     "weight": 4,
-     "time": [
-      "night"
-     ],
-     "tod": "night",
-     "spread": "tod"
-    },
-    {
-     "species": "bleachghast",
-     "level": [
-      67,
-      68
-     ],
-     "weight": 4,
+     "weight": 5,
      "time": [
       "night"
      ],
@@ -8652,10 +9083,10 @@
     {
      "species": "marmallow",
      "level": [
-      67,
+      66,
       68
      ],
-     "weight": 4,
+     "weight": 5,
      "time": [
       "dawn",
       "day",
@@ -8665,12 +9096,12 @@
      "spread": "tod"
     },
     {
-     "species": "hushpine",
+     "species": "beaconwraith",
      "level": [
-      67,
+      66,
       68
      ],
-     "weight": 4,
+     "weight": 5,
      "time": [
       "dawn",
       "day",
@@ -8728,7 +9159,7 @@
      "weight": 10
     },
     {
-     "species": "humstone",
+     "species": "snowroller",
      "level": [
       62,
       63
@@ -8741,7 +9172,7 @@
      "spread": "tod"
     },
     {
-     "species": "snugworm",
+     "species": "netspinner",
      "level": [
       62,
       63
@@ -8754,7 +9185,7 @@
      "spread": "tod"
     },
     {
-     "species": "prismwing",
+     "species": "crowkin",
      "level": [
       62,
       63
@@ -8782,7 +9213,7 @@
      "spread": "tod"
     },
     {
-     "species": "sproutwyrm",
+     "species": "candlewren",
      "level": [
       62,
       63
@@ -8845,7 +9276,7 @@
      "weight": 10
     },
     {
-     "species": "mumblet",
+     "species": "cavernwing",
      "level": [
       62,
       63
@@ -8858,7 +9289,7 @@
      "spread": "tod"
     },
     {
-     "species": "moatling",
+     "species": "mournhorn",
      "level": [
       62,
       63
@@ -8871,7 +9302,7 @@
      "spread": "tod"
     },
     {
-     "species": "lampwick",
+     "species": "humstone",
      "level": [
       62,
       63
@@ -8962,7 +9393,7 @@
      "weight": 10
     },
     {
-     "species": "chiselbug",
+     "species": "charlurcher",
      "level": [
       62,
       64
@@ -8975,7 +9406,7 @@
      "spread": "tod"
     },
     {
-     "species": "mittling",
+     "species": "railmite",
      "level": [
       62,
       64
@@ -8988,7 +9419,7 @@
      "spread": "tod"
     },
     {
-     "species": "reapmantis",
+     "species": "dripweaver",
      "level": [
       62,
       64
@@ -9079,7 +9510,7 @@
      "weight": 20
     },
     {
-     "species": "pharolith",
+     "species": "bellbuoy",
      "level": [
       63,
       64
@@ -9092,7 +9523,7 @@
      "spread": "tod"
     },
     {
-     "species": "somnarch",
+     "species": "lampwick",
      "level": [
       63,
       64
@@ -9105,7 +9536,7 @@
      "spread": "tod"
     },
     {
-     "species": "wreckwarden",
+     "species": "fogkin",
      "level": [
       63,
       64
@@ -9188,7 +9619,7 @@
      "weight": 10
     },
     {
-     "species": "kinkalume",
+     "species": "kilnant",
      "level": [
       63,
       64
@@ -9201,7 +9632,7 @@
      "spread": "tod"
     },
     {
-     "species": "glyphmage",
+     "species": "chiselbug",
      "level": [
       63,
       64
@@ -9214,7 +9645,7 @@
      "spread": "tod"
     },
     {
-     "species": "cinderwraith",
+     "species": "mumblet",
      "level": [
       63,
       64
@@ -9227,7 +9658,7 @@
      "spread": "tod"
     },
     {
-     "species": "lavalurk",
+     "species": "flickermole",
      "level": [
       63,
       64
@@ -9242,7 +9673,7 @@
      "spread": "tod"
     },
     {
-     "species": "rimewick",
+     "species": "prismwing",
      "level": [
       63,
       64
@@ -9318,7 +9749,7 @@
      "weight": 5
     },
     {
-     "species": "pyrogrim",
+     "species": "mittling",
      "level": [
       52,
       56
@@ -9331,7 +9762,7 @@
      "spread": "tod"
     },
     {
-     "species": "lancebeetle",
+     "species": "moatling",
      "level": [
       52,
       56
@@ -9344,7 +9775,7 @@
      "spread": "tod"
     },
     {
-     "species": "faultgrin",
+     "species": "bleachghast",
      "level": [
       52,
       56
@@ -9432,7 +9863,7 @@
      "weight": 10
     },
     {
-     "species": "lurelamp",
+     "species": "mossmote",
      "level": [
       52,
       56
@@ -9445,7 +9876,7 @@
      "spread": "tod"
     },
     {
-     "species": "vaultpede",
+     "species": "glintmoth",
      "level": [
       52,
       56
@@ -9458,7 +9889,7 @@
      "spread": "tod"
     },
     {
-     "species": "shaftwraith",
+     "species": "lampwisp",
      "level": [
       52,
       56
@@ -9471,7 +9902,7 @@
      "spread": "tod"
     },
     {
-     "species": "beaconfly",
+     "species": "lavalurk",
      "level": [
       52,
       56
@@ -9486,7 +9917,7 @@
      "spread": "tod"
     },
     {
-     "species": "combwarden",
+     "species": "obsidiax",
      "level": [
       52,
       56
@@ -9554,7 +9985,7 @@
      "weight": 5
     },
     {
-     "species": "vesperowl",
+     "species": "rooftrove",
      "level": [
       52,
       56
@@ -9567,7 +9998,7 @@
      "spread": "tod"
     },
     {
-     "species": "novarch",
+     "species": "snugworm",
      "level": [
       52,
       56
@@ -9580,7 +10011,7 @@
      "spread": "tod"
     },
     {
-     "species": "eavesgrim",
+     "species": "kinkalume",
      "level": [
       52,
       56
@@ -9593,7 +10024,7 @@
      "spread": "tod"
     },
     {
-     "species": "calderock",
+     "species": "rimewick",
      "level": [
       52,
       56
@@ -9608,7 +10039,7 @@
      "spread": "tod"
     },
     {
-     "species": "foundrax",
+     "species": "hushpine",
      "level": [
       52,
       56

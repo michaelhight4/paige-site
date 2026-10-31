@@ -1,4 +1,4 @@
-// Boulder reset bug (renumbered: shipped in v0.2.105-alpha): maps are cached, so pushed boulders never went back home on re-entry, and the
+// Boulder reset bug (renumbered: shipped in v0.2.106-alpha): maps are cached, so pushed boulders never went back home on re-entry, and the
 // floor memory was dropped on entry, so pushing a boulder off a plate after re-entering erased the plate.
 import test from 'node:test';
 import assert from 'node:assert/strict';

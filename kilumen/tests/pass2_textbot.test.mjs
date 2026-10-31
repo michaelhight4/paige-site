@@ -90,4 +90,4 @@ test('Sunmeadow strollers text is wired (GD Oct 30 2026)', () => {
     assert.ok(n && !n.text_pending && n.text_ref.startsWith('data/textbot_sunmeadow_strollers.json'), id);
   }
 });
-// Aurelith strollers test dropped in v0.2.105-alpha: Aurelith keeps its live layout (no GD strollers).
+// Aurelith strollers test dropped in v0.2.106-alpha: Aurelith keeps its live layout (no GD strollers).
