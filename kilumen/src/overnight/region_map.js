@@ -4,7 +4,7 @@
 // visited_<town> is recorded on every on-foot entry to the town map whether or not the flag is on (FIELD_SKILLS.md 131).
 // Lumen Line (rail): railStops() + RegionMap.railTo(stopId) are ready, but NOT bound to any NPC: station_attendant talk is
 // Story/quests territory (question for Gary). Whoever owns the clerk calls scene.overnight.region.railTo(id).
-import { Col } from '../overworld/constants.js?v=v0.2.XXX-alpha';
+import { Col } from '../overworld/constants.js?v=v0.2.105-alpha';
 
 const INDOOR = (n) => /_int$|^house_|^home_|^heal_|^lab_|^shop|^club|^office|^station|^rt_branch|^lantern_rest/.test(n);
 const CAVE = (n) => /^greystone/.test(n);

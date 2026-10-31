@@ -8942,7 +8942,7 @@
     4,
     1,
     1,
-    1,
+    0,
     0,
     0,
     0,
@@ -9216,7 +9216,7 @@
     0,
     0,
     0,
-    1,
+    0,
     1,
     1,
     1,
@@ -13337,7 +13337,8 @@
    "gd_class": "clerk",
    "text_ref": "overworld_lines.json maps.tidewater_coast.tidewater_coast_warehouse_clerk_1",
    "note": "trade hub (Gary Oct 31 2026)",
-   "static": true
+   "static": true,
+   "sprite": "vil_clerk_f"
   },
   {
    "id": "tidewater_coast_warehouse_clerk_2",
@@ -13348,7 +13349,8 @@
    "gd_class": "clerk",
    "text_ref": "overworld_lines.json maps.tidewater_coast.tidewater_coast_warehouse_clerk_2",
    "note": "trade hub (Gary Oct 31 2026)",
-   "static": true
+   "static": true,
+   "sprite": "vil_shopkeeper_m"
   },
   {
    "id": "tidewater_coast_dock_worker_1",

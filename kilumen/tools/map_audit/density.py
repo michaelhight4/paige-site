@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 TS = json.load(open(os.path.join(ROOT, 'art/world/overworld/tileset.json')))['tiles']
 NM = {t['id']: t['name'] for t in TS}; CAT = {t['id']: t.get('category', '') for t in TS}
 LO, HI, MAX3, BLANK, SCENE_MAX, FIELD, MINOPEN, SCATTER = 0.04, 0.30, 5, 5, 7, 6, 24, 0.15
-MAPS = ['aurelith', 'revival_heights', 'sunmeadow_fields']
+MAPS = ['revival_heights', 'sunmeadow_fields']  # aurelith keeps its live layout (v0.2.105)
 TREE = re.compile(r'^(x_city_|gh_)?(tree|treed|snowpine)_(top|base)|^lm_big_tree')
 LINE = re.compile(r'(fence|hedge|rail|wall|ledge|cave_|stairs|bridge|arena_ring|water|sea_wall|cliff)')
 FLOWER = re.compile(r'^(flowers_|x_reeds|grass_tuft|clover|petal)')

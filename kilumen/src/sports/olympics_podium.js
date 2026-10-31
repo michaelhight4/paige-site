@@ -7,8 +7,8 @@
 // Licences checked first: canvas-confetti (ISC), party-js (MIT), fireworks-js (MIT) are stateful, smooth-shaded,
 // DOM/canvas-owning systems; a tiny seeded stateless pixel confetti/firework fits the pixel style and the
 // any-frame-out-of-order rule better, so nothing was vendored.
-import { OS, ot } from './olympics_strings.js?v=v0.2.104-alpha';
-import { OLY_ANIM, venueBackdrop } from './olympics_anim.js?v=v0.2.104-alpha';
+import { OS, ot } from './olympics_strings.js?v=v0.2.105-alpha';
+import { OLY_ANIM, venueBackdrop } from './olympics_anim.js?v=v0.2.105-alpha';
 
 export const PW = 480, PH = 270, FLOOR = 228;
 const clamp = (x, a = 0, b = 1) => (x < a ? a : x > b ? b : x);

@@ -1,20 +1,20 @@
 // Town practice events UI (Oct 29 2026). Talk to <town>_practice_coach -> pick a creature -> play -> result + reaction.
 // Practice only: no prize, no podium; best score per event saved in sports state (.town). Logic: town_events.js.
 // Regions not built yet (LIVE_REGION) get a "still being built" line instead of the event.
-import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.XXX-alpha';
-import { TS, tt } from './town_strings.js?v=v0.2.XXX-alpha';
-import { gt } from '../garden/strings.js?v=v0.2.XXX-alpha';
-import { meritState } from './merit.js?v=v0.2.XXX-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.XXX-alpha';
-import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.XXX-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.XXX-alpha';
-import { runChampion, reducedMotion } from './hype.js?v=v0.2.XXX-alpha';
-import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.XXX-alpha';
-import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.XXX-alpha';
-import { attachOlympics } from './olympics_ui.js?v=v0.2.XXX-alpha';
-import { OS } from './olympics_strings.js?v=v0.2.XXX-alpha';
-import { pickRows } from './pick_rows.js?v=v0.2.XXX-alpha';
-import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.XXX-alpha';
+import { eventFor, coachId, recordRun, scoreOf, gradeOf } from './town_events.js?v=v0.2.105-alpha';
+import { TS, tt } from './town_strings.js?v=v0.2.105-alpha';
+import { gt } from '../garden/strings.js?v=v0.2.105-alpha';
+import { meritState } from './merit.js?v=v0.2.105-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.105-alpha';
+import { CUP, canEnterCup, payCup, rivalsFor, settleCup, cupState, cupDaysUntil } from './town_cup.js?v=v0.2.105-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.105-alpha';
+import { runChampion, reducedMotion } from './hype.js?v=v0.2.105-alpha';
+import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.105-alpha';
+import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.105-alpha';
+import { attachOlympics } from './olympics_ui.js?v=v0.2.105-alpha';
+import { OS } from './olympics_strings.js?v=v0.2.105-alpha';
+import { pickRows } from './pick_rows.js?v=v0.2.105-alpha';
+import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.105-alpha';
 export const TUG_COACH = 'saltmere_tug_coach', ANNOUNCER = 'aurelith_games_announcer', MERIT_CLERK = 'aurelith_merit_clerk'; // integ8: a separate Merit Counter clerk (stadium 16,10)
 
 const OLY_TOWNS = ['fernwick', 'saltmere', 'revival_heights', 'frostspire', 'lanternport', 'cindervale'];

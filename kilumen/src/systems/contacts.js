@@ -17,9 +17,9 @@
 // - Text: Text Bot keys under system_contacts.* (data/textbot_requests_contacts.md); existing system_trainers /
 //   system_phone keys next; then the placeholders below (PH, plain sentences).
 // Pure logic first (node-testable), then attachContacts(scene, opts) for the browser.
-import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.XXX-alpha';
-import { areaName } from '../overworld/area_sign.js?v=v0.2.XXX-alpha';
-import { contactsDefault, normaliseContacts } from './contacts_save.js?v=v0.2.XXX-alpha';
+import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.105-alpha';
+import { areaName } from '../overworld/area_sign.js?v=v0.2.105-alpha';
+import { contactsDefault, normaliseContacts } from './contacts_save.js?v=v0.2.105-alpha';
 
 export const CONTACTS_DATA_URL = 'src/systems/data/contacts.json';
 export const contactsEnabled = (query) => !!query && typeof query.get === 'function' && query.get('contacts') !== '0';

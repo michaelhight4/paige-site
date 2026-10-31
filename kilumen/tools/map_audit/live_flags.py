@@ -12,7 +12,7 @@ TOP = re.compile(r'^(x_city_|gh_)?(tree|treed|snowpine)_top$'); BASE = re.compil
 WALKDECO = re.compile(r'^(stairs|cave_stairs|bridge_|arena_ring_|flowers?_|tall_grass|grass_tuft|path_|clover|petal|leaf_litter|shadow)')
 PAVED = re.compile(r'^(path_|x_city_(asphalt|zebra|road)|road|x_city_pave|x_city_plaza|zebra)')
 EDGE_RUN, CORRIDOR = 8, 12
-MAPS = ['aurelith', 'revival_heights', 'sunmeadow_fields', 'route_cindervale', 'route_sunmeadow_mirefen', 'route_revival_sunmeadow', 'route_revival_saltmere']
+MAPS = ['revival_heights', 'sunmeadow_fields', 'route_sunmeadow_mirefen', 'route_revival_sunmeadow', 'route_revival_saltmere']
 def load(n): return json.load(open(os.path.join(ROOT, f'art/world/overworld/maps/{n}.json')))
 def audit(m):
     L = m['layers']; G, D, O, C = L['ground'], L['decoration'], L['overlay'], L['collision']; H, W = len(C), len(C[0])
