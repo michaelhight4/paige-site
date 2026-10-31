@@ -36,7 +36,9 @@ export function slotValues() {
     const name = f.slice(0, -5); let json; try { json = J('art/world/overworld/maps/' + f); } catch { continue; }
     const map = { name, json, title: json.title };
     if (!signable(map)) continue;
-    const t = areaName(map, text).title; if (t) areas.set(name, t);
+    // Dev-only areas (Gary, Oct 31 2026 10:10 AM CT): dev demo maps (dev_*.json) and 'Dev:' titles are unreachable in normal play, so no RITA clip.
+    if (name.startsWith('dev_') || /^dev:/i.test(String(json.title || ''))) continue;
+    const t = areaName(map, text).title; if (t && !/^dev:/i.test(t)) areas.set(name, t);
   }
   const masters = J('data/masters.json').halls.map((h) => h.flag.replace(/^beat_master_/, ''));
   for (const f of Object.values(rt.regionFlags || {})) if (typeof f === 'string' && f.startsWith('beat_master_')) masters.push(f.slice(12));
