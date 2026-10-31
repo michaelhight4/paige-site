@@ -67,8 +67,39 @@ for ch, cells in (('T', [(34, 10), (38, 10), (40, 10)]),
                          (58, 22), (25, 29), (26, 29), (33, 29), (39, 16), (35, 22), (34, 23), (41, 24), (2, 22)]),
                   ('f', [(57, 23), (6, 17), (26, 29)]), ('v', [(50, 22), (61, 17)]), ('"', [(41, 18)]), ('r', [(3, 22)])):
     for x, y in cells: G[y][x] = ch
+# hand-drawn detail pass (Gary round 2): cells x11..50 on rows 10-18 and 21-28.  ',' dark grass  'd' dirt patch
+_ = ' '
+NEW = {
+ 10: 'TTTKKKTT' + ''.join([_, _, 'b', _, '"', _, '"', '"', _, ',', 'r', 'D', 'f', 'S', 'f', 'T', _, '.', '.', 'T', _]) + 'TTTTTTKKKTT',
+ 11: 'TT....KT' + ''.join(['f', ',', _, '"', '"', '"', '"', _, '"', '"', ',', ',', 'v', 'v', _, 'v', _, '.', '.', '"', '"', _]) + 'TT' + '.' * 8,
+ 12: 'TT.....T' + ''.join([_, ',', _, '"', _]) + '.' * 12 + '..' + '" "' + 'TT' + '.' * 8,
+ 13: 'TT.....T' + ''.join([_, _, _, _, ',', '"', '"', '"', _, 'f', _, 'b', _, 'r', _, 'm', 'r', '.', '.', _, '"', '"']) + 'TT' + '.' * 8,
+ 14: 'TT.....' + ''.join(['T', 'T', _, '"', '"', _, '"', '"', '"', _, 'd', 'd', _, _, 'D', _, ',', _, '.', '.', ',', 'f']) + 'TTT' + '.' * 7 + 'K',
+ 15: 'TTT===TTT' + ''.join(['=', '=', '=', 'T', _, ',', _, 'b', _, _, 'D', 'b', 'D', 'T', _, _, '.', '.', _, ',', _]) + 'TTT===TTTT',
+ 16: 'TTT' + ''.join([_, ',', _, '"', '"', '"', _, 'f', _, 'T', '=', '=', '=', 'r', _, _, 'D', ',', 'r', _, 'm', _, '.', '.', _, _, '"', '"', '"', _, 'f', _, _, _]) + 'TTT',
+ 17: 'TTT' + ''.join([_, _, '"', '"', '"', _, '"', '"', _, 'f', _, _, ',', _, _, _, 'v', _, '-', '-', _, _, '.', '.', _, '"', '"', _, '"', _, 'f']) + 'KKKTKK',
+ 18: ''.join(['-', _, '.', _, 'K', _, '"', _, '"', '"', '"', '.', 'v', _, 'b', 'T', 'T', _, 'f', _, 'r', 'f', '.', _, 'r', '.', '.', _, 'v', _, '"', _, ',', 'r']) + 'KKKTKK',
+ 21: ''.join([_, '-', '-', _, 'f', _, ',', 'b', 'v', _, ',', '"', _, _, 'r', _, '.', _, 'v', _, ',', 'b', _, _, 'f', _, _, '"', '"', _, '"', '.', '.', 's', _, _, 'T', _, 'f', _]),
+ 22: ''.join(['T', 'T', _, ',', _, 'b', 'r', _, ',', 'f', _, '"', '"', _, '"', _, _]) + 'W' * 6 + ''.join([_, '"', _, '"', '"', '"', _, '"', '.', '.', _, 'k', 'k', 'T', 'T', 'T', 'v']),
+ 23: 'TTTTT' + ''.join([_, 'f', ',', 'v', _, '"', '"', '"', _, '"', 'Y']) + 'W' * 7 + ''.join([_, '"', '"', _, '"', '"', '"', _, '.', '.', _, 'k', 'k', 'B', 'T', 'T', 'T']),
+ 24: 'T' * 9 + ''.join(['K', _, 'T', 'T', 'b', 'D', 'D', ',', _]) + 'W' * 5 + ''.join([_, _, '"', '"', _, '"', '"', _, '.', '.', _, 'f', _, _, 'T', 'T', 'T']),
+ 25: 'T' * 9 + ''.join([_, _, 'T', 'T', 'D', 'D', _, ',', 'd', 'd', 'v', _, 'm', _, _, 'T', 'T', _, '"', '"', _, '"', '.', '.', _, 'r', _]) + 'TTTT',
+ 26: 'T' * 9 + _ + _ + 'T' * 17 + ''.join([_, '"', '"', '.', '.', _, 'm', _]) + 'TTTT',
+ 27: 'T' * 9 + 'KK' + ''.join([_, ',', 'm', ',', _, 'f', _, 'd', 'd', _, 'v', _, 'b', _, 'm', ',', _, 'f', _, _, '.', '.', _, 'm']) + 'T' * 5,
+ 28: 'T' * 9 + ''.join([_, ',', _, 'v', _, 'b', _, ',', 'K', 'd', 'd', ',', 'f', _, _, ',', _, 'r', _, ',', _, '.', '.', '.', _, _]) + 'T' * 5,
+}
+for y, s in NEW.items():
+    assert len(s) == 40, (y, len(s))
+    for i, ch in enumerate(s): G[y][11 + i] = ch
 DEAD = [(61,17), (10,17), (49,10), (13,10), ]  # sealed-off walkable cells -> trees
 for x, y in DEAD: G[y][x] = 'T'
+# organic grass pass: nibble exposed corners, sprinkle lone tufts around patch borders
+_hh = lambda x, y: ((x * 92837111) ^ (y * 689287499)) & 0xff
+_g = lambda x, y: 0 <= x < W and 0 <= y < H and G[y][x] == '"'
+_cut = [(x, y) for y in range(H) for x in range(W) if G[y][x] == '"' and sum(not _g(x + a, y + b) for a, b in ((0, 1), (1, 0), (0, -1), (-1, 0))) >= 2 and _hh(x, y) < 110]
+_tuft = [(x, y) for y in range(1, H - 1) for x in range(1, W - 1) if G[y][x] == ' ' and any(_g(x + a, y + b) for a, b in ((0, 2), (2, 0), (0, -2), (-2, 0), (1, 1), (-1, 1), (1, -1), (-1, -1))) and not any(_g(x + a, y + b) for a, b in ((0, 1), (1, 0), (0, -1), (-1, 0))) and _hh(x, y) < 70]
+for x, y in _cut: G[y][x] = ' '
+for x, y in _tuft: G[y][x] = '"'
 
 
 TREES = {'T': ('tree_base', 'tree_top'), 'D': ('treed_base', 'treed_top')}
@@ -91,7 +122,8 @@ def edge_tile(prefix, x, y, same, bases):
     best = min(score(n) for n in cands); pick = sorted(n for n in cands if score(n) == best)
     assert best < 10, (prefix, x, y, s, d, pick)
     return pick[h(x, y) % len(pick)]
-is_trail = lambda x, y: at(x, y) == '.' or (at(x, y) == 'K' and NAME.get(orig['ground'][y][x], '').startswith('trail'))
+is_trail = lambda x, y: at(x, y) in '.d' or (at(x, y) == 'K' and NAME.get(orig['ground'][y][x], '').startswith('trail'))
+is_dirt = lambda x, y: at(x, y) == 'd'
 is_water = lambda x, y: at(x, y) == 'W'
 is_tall = lambda x, y: at(x, y) in '"R' and not (at(x, y) == 'R' and y not in (19, 20))
 tall = lambda x, y: at(x, y) == '"' or (at(x, y) == 'R' and y in (19, 20))
@@ -108,7 +140,7 @@ for y in range(H):
             ov = orig['overlay'][y][x]
             if ov and not NAME.get(ov, '').startswith(('tree_top', 'treed_top', 'tall_grass')): o[y][x] = ov
             continue
-        if ch == '.': g[y][x] = ID[edge_tile('trail>grass_', x, y, is_trail, ['trail_0', 'trail_1', 'trail_2', 'trail_3'])]
+        if ch in '.d': g[y][x] = ID[edge_tile('trail>grass_', x, y, is_trail, ['trail_0', 'trail_1', 'trail_2', 'trail_3'])]
         elif ch == 'W': g[y][x] = ID[edge_tile('water>grass_', x, y, is_water, ['water', 'water_1', 'water_2'])]; c[y][x] = 3
         else: g[y][x] = ID[gr(x, y)]
         if ch in TREES: d[y][x] = ID[TREES[ch][0]]; c[y][x] = 1
