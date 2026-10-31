@@ -42,7 +42,7 @@ export const PLATFORM_BIOMES = {
   sea_cave: r56('sea_cave', [0.371, 0.743], [0.664, 0.587]),
   // Research lab interior (Oct 30 2026): Kilumen pixel art drawn in code (tools/lab_battle_bg/gen.py, 320x180 x8 nearest), metal
   // pads with light rings at the spots; life layer = tank bubbles, rack LEDs, monitor blink (off under reduced motion like every life layer).
-  lab: { ...r56('lab', [0.3, 0.8], [0.72, 0.665]), keep: [0.15, 0.44] }, // keep the animated monitors in view under the HUD zoom
+  lab: { ...r56('lab', [0.22, 0.645], [0.86, 0.51]), keep: [0.15, 0.44] }, // keep the animated monitors in view under the HUD zoom
 };
 // Sizes in art pixels. Shown at --b-plat-px CSS px per art pixel x sprite scale (2 on PC, 1.5 on phones; .b-plat in
 // src/ui/ui.css), i.e. a little chunkier than the 128px creature sprites, in Kilumen's 64px pixel style.

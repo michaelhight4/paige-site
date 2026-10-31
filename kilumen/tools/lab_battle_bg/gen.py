@@ -7,7 +7,12 @@ from PIL import Image, ImageDraw
 W, H = 320, 180
 OUT = os.path.join(os.path.dirname(__file__), '../../art/world/battle_biomes/lab')
 HZ = 112                       # wall / floor line
-NEAR = (0.30, 0.80); FAR = (0.72, 0.665)   # pad centres (frame fractions) = creature feet spots
+NEAR = (0.22, 0.645); FAR = (0.86, 0.51)   # pad centres (frame fractions) = creature feet spots
+# Oct 30 2026 (Gary: the creatures must stand ON the pads with the monitors in view under the HUD): the pads moved up to where the
+# HUD layout can keep both creatures clear of every card at PC 1280x800 and phone 844x390; the far pad sits on a pedestal column.
+PADS = ((*FAR, 30, 7), (*NEAR, 44, 10))
+def pedestal(fx, fy, rx, ry):  # column box (x0, y0, x1, y1) under a raised pad, down to the floor; None if the pad is on the floor
+    cx, cy = fx * W, fy * H; return (round(cx - rx + 3), round(cy), round(cx + rx - 3), HZ + 6) if cy < HZ else None
 BAYER = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]
 def hx(s): s = s.lstrip('#'); return tuple(int(s[i:i + 2], 16) for i in (0, 2, 4))
 def mix(a, b, t): return tuple(round(a[i] + (b[i] - a[i]) * t) for i in range(3))
@@ -137,7 +142,16 @@ def base():
         d.arc([cx - rx + 4, cy - ry + 2, cx + rx - 4, cy + ry - 2], 190, 300, fill=hx('#9db6cf'))
         for a in range(0, 360, 45):
             x = cx + math.cos(math.radians(a)) * (rx - 3); y = cy + math.sin(math.radians(a)) * (ry - 1.5); d.point((round(x), round(y)), fill=hx('#c9f8ff'))
-    pad(*FAR, 30, 7); pad(*NEAR, 44, 10)
+    for p in PADS:
+        col = pedestal(*p)
+        if col:
+            x0, y0, x1, y1 = col; cx = (x0 + x1) / 2; hw = (x1 - x0) / 2
+            d.ellipse([x0 - 4, y1 - 4, x1 + 4, y1 + 5], fill=hx('#141c27'))                      # floor contact shadow
+            d.rectangle([x0, y0, x1, y1], fill=hx('#2b384a')); d.ellipse([x0, y1 - 3, x1, y1 + 3], fill=hx('#2b384a'))
+            d.rectangle([x0 + 3, y0, x0 + 5, y1], fill=hx('#3e5470')); d.rectangle([x1 - 4, y0, x1 - 2, y1], fill=hx('#1d2735'))
+            for yy in range(y0 + 6, y1 - 2, 6): d.line([x0 + 1, yy, x1 - 1, yy], fill=hx('#1d2735'))
+            d.rectangle([cx - 3, y0 + 8, cx + 3, y0 + 10], fill=hx('#7fe8ff'))                    # status light
+        pad(*p)
     # vignette (dithered) to keep the corners quiet behind the UI
     for y in range(H):
         for x in range(W):
@@ -167,7 +181,7 @@ def tint(d, box, b, lit):
     if b < 1: d.rectangle(box, fill=(0, 0, 0, round(255 * (1 - b) * .75)))
     elif b > 1: d.rectangle(box, fill=hx(lit) + (round(255 * (b - 1) * 1.3),))
 def on_pad(x, y):
-    return any(((x + .5 - fx * W) / (rx + 3)) ** 2 + ((y + .5 - fy * H - 2) / (ry + 4)) ** 2 <= 1 for (fx, fy, rx, ry) in ((*FAR, 30, 7), (*NEAR, 44, 10)))
+    return any(((x + .5 - fx * W) / (rx + 3)) ** 2 + ((y + .5 - fy * H - 2) / (ry + 4)) ** 2 <= 1 for (fx, fy, rx, ry) in PADS) or any((c := pedestal(*p)) and c[0] - 4 <= x <= c[2] + 4 and c[1] <= y <= c[3] + 5 for p in PADS)
 def floor_glow(px, cx, cy, rx, ry, col, k, b):
     """Re-weights the still's dithered floor reflection: same ellipse and falloff as base(), alpha in 4 hard steps (pixel look)."""
     dlt = b - 1
@@ -234,9 +248,13 @@ def life_frames():
         for i, x0 in enumerate(STRIPS):
             b = strips[i]; c = mix(hx('#34505e'), hx('#bff4ff'), b) if b <= 1 else mix(hx('#bff4ff'), hx('#ffffff'), min(1, (b - 1) * 4))
             d.rectangle([x0, 4, x0 + 60, 6], fill=c + (255,)); d.line([x0 - 1, 7, x0 + 61, 7], fill=mix(hx('#24404c'), hx('#5fa9c4'), min(1, b)) + (255,))
+        # nothing animated shows through a pad or its pedestal (they stand in front of the tanks / rack)
+        for y in range(H):
+            for x in range(W):
+                if px[x, y][3] and on_pad(x, y): px[x, y] = (0, 0, 0, 0)
         # pad light ring pulse
         a = round(70 * (0.5 + 0.5 * math.cos(f / N * 2 * math.pi * 2)))
-        for (fx, fy, rx, ry) in ((*FAR, 30, 7), (*NEAR, 44, 10)):
+        for (fx, fy, rx, ry) in PADS:
             cx, cy = fx * W, fy * H; d.arc([cx - rx, cy - ry, cx + rx, cy + ry], 0, 180, fill=hx('#e6fdff') + (a,))
         frames.append(im)
     return frames
