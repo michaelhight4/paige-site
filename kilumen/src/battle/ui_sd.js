@@ -15,7 +15,7 @@ import { authoredTeam } from './data/trainer_teams.js?v=v0.2.102-alpha';
 import { STAT_NAMES } from './data/creatures.js?v=v0.2.102-alpha';
 import { diffOf, getDifficulty, scaleFoes, masterItems } from '../systems/difficulty.js?v=v0.2.102-alpha';
 import { PLATFORM_BIOMES, PLATFORM_SIZES, drawPlatform } from './data/platforms.js?v=v0.2.102-alpha';
-import { coverPoint } from './data/water_bg.js?v=v0.2.102-alpha'; // cover-fit maths for the painted biome backdrops
+import { solveBattleLayout } from './hud_layout.js?v=v0.2.102-alpha'; // creatures clear of the HUD (painted backdrops: zoom/shift)
 import { heldIconHtml, heldIconSrc, wireHeldIcons } from '../ui/held_icons.js?v=v0.2.102-alpha'; // held-item icon per slot (Oct 29 2026)
 import { heldFromEngine, heldToEngine } from './data/held_items.js?v=v0.2.102-alpha';
 import { pxi } from '../ui/ui_tools2.js?v=v0.2.102-alpha'; // held-item chip icon (pixelarticons handbag, MIT)
@@ -97,13 +97,15 @@ export function makeSdBattle(ui, opts, h) {
   // feet line of a sprite = lowest non-transparent row / height, so the platform sits under the feet, not the image box
   const feetCache = new Map();
   const setFeet = (img) => {
-    const apply = (f) => img.parentElement?.style.setProperty('--feet', String(f));
+    const apply = (f) => { const [fe, box] = Array.isArray(f) ? f : [f, null]; img.parentElement?.style.setProperty('--feet', String(fe)); if (box) img.dataset.box = box.join(','); else delete img.dataset.box; scr.relayout?.(); };
     if (feetCache.has(img.src)) return apply(feetCache.get(img.src));
     const go = () => { try {
       const c = document.createElement('canvas'), w = img.naturalWidth, hh = img.naturalHeight; c.width = w; c.height = hh;
-      const g = c.getContext('2d'); g.drawImage(img, 0, 0); const d = g.getImageData(0, 0, w, hh).data; let y = hh - 1;
-      for (; y > 0; y--) { let hit = false; for (let x = 0; x < w; x++) if (d[(y * w + x) * 4 + 3] > 40) { hit = true; break; } if (hit) break; }
-      const f = Math.min(1, (y + 1) / hh); feetCache.set(img.src, f); apply(f);
+      const g = c.getContext('2d'); g.drawImage(img, 0, 0); const d = g.getImageData(0, 0, w, hh).data; let x0 = w, y0 = hh, x1 = -1, y1 = -1;
+      for (let y = 0; y < hh; y++) for (let x = 0; x < w; x++) if (d[(y * w + x) * 4 + 3] > 40) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; y1 = y; }
+      if (y1 < 0) return apply(0.94);
+      // feet line + visible-pixel box (fractions) for the HUD layout solver (hud_layout.js)
+      const f = [Math.min(1, (y1 + 1) / hh), [x0 / w, y0 / hh, (x1 + 1) / w, (y1 + 1) / hh].map((v) => +v.toFixed(4))]; feetCache.set(img.src, f); apply(f);
     } catch { apply(0.94); } };
     if (img.complete && img.naturalWidth) go(); else img.addEventListener('load', go, { once: true });
   };
@@ -150,17 +152,39 @@ export function makeSdBattle(ui, opts, h) {
       <div class="b-bars"></div></div>`;
     root = layer.firstElementChild;
     if (ui.scene?.region56 || ui.q?.get('wx')) import('../region56/weather_lite.js?v=v0.2.102-alpha').then((m) => { if (root.isConnected) scr.wx = m.attachBattleWeather(root, { scene: ui.scene, query: ui.q }); }).catch((e) => console.error('weather lite:', e)); // [r56 weather lite] .wx between .bg and .b-field
-    if (biomeArt.art) { // painted backdrop (water / cave / mountain / snow): animated life layer over the still; creatures on the painted spots
-      const bgEl = root.querySelector('.bg'), field = root.querySelector('.b-field');
-      if (biomeArt.life && !reducedMotion()) { // animated webp (16 x 120 ms, decoded by the browser frame by frame; no JS per frame)
-        const life = new Image(); life.className = 'b-life'; life.alt = ''; life.decoding = 'async'; life.src = biomeArt.life(wPhase); bgEl.appendChild(life); }
-      const sp = biomeArt.spots;
-      const place = () => { if (!root.isConnected) return removeEventListener('resize', place); const b = bgEl.getBoundingClientRect(), f = field.getBoundingClientRect(); if (!b.width) return;
-        const cs = getComputedStyle(bgEl), frac = (v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5), ax = frac(cs.backgroundPositionX), ay = frac(cs.backgroundPositionY);
-        for (const [sel, [fx, fy]] of [['.b-ally', sp.near], ['.b-foe', sp.far]]) { const [x, y] = coverPoint(fx, fy, b.width, b.height, 1280, 720, ax, ay), el = root.querySelector(sel);
-          el.style.left = `${x + b.left - f.left}px`; el.style.top = `${y + b.top - f.top}px`; } };
-      place(); requestAnimationFrame(place); addEventListener('resize', place);
-    }
+    // HUD layout (Oct 30 2026, Gary: "why is the health bar covering the sprite"): cards and the message/command row keep their
+    // classic places; hud_layout.js moves the creatures (painted backdrops: zooms/shifts the backdrop so the painted pads land in
+    // the clear area) so nothing ever covers either creature. Re-run on resize and whenever a sprite (and its box) changes.
+    const bgEl = root.querySelector('.bg'), field = root.querySelector('.b-field');
+    let life = null;
+    if (biomeArt.art && biomeArt.life && !reducedMotion()) { // animated webp (16 x 120 ms, decoded by the browser frame by frame; no JS per frame)
+      life = new Image(); life.className = 'b-life'; life.alt = ''; life.decoding = 'async'; life.src = biomeArt.life(wPhase); bgEl.appendChild(life); }
+    let laying = false;
+    const place = () => { if (!root.isConnected) return removeEventListener('resize', place); if (laying) return; laying = true; try {
+      const b = bgEl.getBoundingClientRect(), f = field.getBoundingClientRect(); if (!b.width) return;
+      const loc = (el) => { if (!el || el.hidden) return null; const r = el.getBoundingClientRect(); return r.width ? { l: r.left - b.left, t: r.top - b.top, r: r.right - b.left, b: r.bottom - b.top } : null; };
+      const obstacles = ['#plate-p1', '#plate-p2', '#p1-party', '.b-trbar', '.b-bottom'].map((q) => loc(root.querySelector(q))).filter(Boolean);
+      const box = { near: root.querySelector('.b-ally'), far: root.querySelector('.b-foe') }, sprites = {}, feet = {}, below = {};
+      for (const [k, el] of Object.entries(box)) { const img = el.querySelector('.b-mon'), w = img.offsetWidth || 256, h = img.offsetHeight || 256, fe = parseFloat(el.style.getPropertyValue('--feet')) || 0.94;
+        let bx = (img.dataset.box || '').split(',').map(Number); if (bx.length !== 4 || bx.some(isNaN)) bx = [0, 0, 1, fe]; if (img.classList.contains('b-flip')) bx = [1 - bx[2], bx[1], 1 - bx[0], bx[3]];
+        sprites[k] = { w, h, feet: fe, box: bx };
+        if (!biomeArt.art) { el.style.translate = ''; const r = el.getBoundingClientRect(), pl = el.querySelector('.b-plat'), pr = pl?.getBoundingClientRect();
+          feet[k] = [r.left + r.width / 2 - b.left, r.bottom - b.top]; below[k] = pr ? Math.max(0, pr.bottom - r.bottom) : 0; } }
+      if (biomeArt.art) {
+        const cs = getComputedStyle(bgEl), frac = (v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5); bgEl.style.backgroundSize = ''; bgEl.style.backgroundPosition = '';
+        const sol = solveBattleLayout({ view: { w: b.width, h: b.height }, obstacles, sprites, art: { ax: frac(cs.backgroundPositionX), ay: frac(cs.backgroundPositionY), spots: biomeArt.spots } });
+        bgEl.style.backgroundSize = `${sol.bg.w}px ${sol.bg.h}px`; bgEl.style.backgroundPosition = `${sol.bg.x}px ${sol.bg.y}px`;
+        if (life) Object.assign(life.style, { inset: 'auto', left: `${sol.bg.x}px`, top: `${sol.bg.y}px`, width: `${sol.bg.w}px`, height: `${sol.bg.h}px`, objectFit: 'fill' });
+        for (const [k, el] of Object.entries(box)) { el.style.left = `${sol.feet[k][0] + b.left - f.left}px`; el.style.top = `${sol.feet[k][1] + b.top - f.top}px`; }
+        root.dataset.hudZoom = sol.zoom.toFixed(2); root.dataset.hudOk = sol.ok ? '1' : '0';
+      } else {
+        const sol = solveBattleLayout({ view: { w: b.width, h: b.height }, obstacles, sprites, feet, below });
+        for (const [k, el] of Object.entries(box)) { const dx = sol.feet[k][0] - feet[k][0], dy = sol.feet[k][1] - feet[k][1]; el.style.translate = dx || dy ? `${dx}px ${dy}px` : ''; }
+        root.dataset.hudOk = sol.ok ? '1' : '0';
+      }
+    } finally { laying = false; } };
+    scr.relayout = () => requestAnimationFrame(place);
+    place(); requestAnimationFrame(place); setTimeout(place, 650); addEventListener('resize', place); // 650: after the cards' slide-in
     if (opts.rtSwitch && !owned) mountModeSwitch();
     for (const s of ['p1', 'p2']) if (mon[s]) drawPlate(s);
     if (!scr.started) { scr.started = true; run(); }
@@ -273,6 +297,7 @@ export function makeSdBattle(ui, opts, h) {
         if (over > 0) box.style.right = `${(parseFloat(getComputedStyle(box).right) || 0) + over}px`;
       }
     }
+    setTimeout(() => scr.relayout?.(), 600); // cards just became visible / the trainer stepped aside
     if (s === 'p1') { const f = $('#tr-p1'); if (f && !f.hidden) { f.classList.add('gone'); setTimeout(() => { f.hidden = true; }, 450); } }
   };
   const sideOf = (ident) => ident.slice(0, 2);
