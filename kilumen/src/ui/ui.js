@@ -559,14 +559,15 @@ export class GameUI {
     const L = this.T('system_phone.menu.labels', {});
     const apps = [['team', L.team || 'Team', 'team'], ['pack', L.pack || 'Pack', 'pack'], ['kilindex', L.kilindex || 'Kilindex', 'kilindex'], ['tasks', L.tasks || 'Tasks', 'tasks'],
       ['map', L.map || 'Map', 'map'], ['contacts', L.contacts || 'Contacts', 'contacts'], ['save', L.save || "File today's report", 'save'], ['options', L.options || 'Options', 'options'],
-      ['rt_benefits', L.rt_benefits || this.T('system_rt_benefits.labels.tab_title', 'RT Employee Benefits'), 'rt_benefits']] // RT Employee Benefits (Oct 23 2026): appended, existing order kept
+      ['rt_benefits', L.rt_benefits || this.T('system_rt_benefits.labels.tab_title', 'RT Employee Benefits'), 'rt_benefits'], ['store', L.store || this.T('system_store.labels.tab_title', 'RT Store'), 'store']] // RT Employee Benefits (Oct 23 2026): appended, existing order kept
       .filter(([k]) => k !== 'save' || !this.scene.saveLocked) // save lock: no manual save mid battle / talk / cutscene (overworld.js saveLockReason)
-      .filter(([k]) => k !== 'rt_benefits' || typeof this.scr_rt_benefits === 'function'); // only once src/ui/rt_benefits_screen.js installed it
+      .filter(([k]) => k !== 'rt_benefits' || typeof this.scr_rt_benefits === 'function')
+      .filter(([k]) => k !== 'store' || typeof this.scr_store === 'function'); // dev/kilumen-store: installed on Android / web only // only once src/ui/rt_benefits_screen.js installed it
     const hasBdg = typeof this.scr_badges === 'function'; // Badges (v0.2.65): own top-row entry after Tasks; only installed when badgesOn() (?badges=0 kill switch)
     if (hasBdg) apps.splice(4, 0, ['badges', this.T('system_badges.labels.tab', 'Coins'), 'badges']);
     const feeds = globalThis.window?.kilumen?.feeds, hasFeeds = typeof feeds?.open === 'function'; // Feeds (v0.2.69, Gary): top-row entry after Badges; only when src/feeds attached (flag on)
     if (hasFeeds) apps.splice(hasBdg ? 5 : 4, 0, ['feeds', this.T('feeds.title', 'Feeds'), 'feeds']);
-    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00', badges: '#c8962a', feeds: '#3b9a3e' };
+    const COLS = { team: '#ff7a6b', pack: '#3fbf6a', kilindex: '#2f9bff', tasks: '#ff6fa8', map: '#47c27a', contacts: '#ff9a3d', save: '#9b6cff', options: '#5a7cff', rt_benefits: '#d98a00', store: '#1fa38a', badges: '#c8962a', feeds: '#3b9a3e' };
     const cols = +(this.cfg.vars?.['app-cols'] || 4) + (hasBdg ? 1 : 0) + (hasFeeds ? 1 : 0); // one more column each so Badges sits on the top row
     return { scr: 'phone', pat: 'crystal', title: 'Phone', glyph: 'contacts', sel: Math.min(this._phoneSel || 0, apps.length - 1), cols,
       count: () => apps.length,

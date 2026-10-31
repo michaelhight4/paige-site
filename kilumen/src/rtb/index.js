@@ -81,7 +81,7 @@ export function openRtBattle(ui, scene, foe, { q = new URLSearchParams(location.
       for (const sg of [1, -1]) { const x = pcx + (px / m) * TILE * sg * 1.1, y = pcy + 8 + (py / m) * TILE * sg * 1.1; if (walk(x, y) && walk(tFeet.x + (px / m) * TILE * sg, tFeet.y + (py / m) * TILE * sg)) { sx = x; sy = y; break; } }
     }
     const sim = new RtBattle({ party: scene.party, foes, start: { x: sx, y: sy }, arena, walk, solid, rng, trainer: !!trainer, xpShare: qolFlags(q).xpShare ? XP_SHARE : 0, foeDamageMult: trainer ? diffOf(getDifficulty(scene.systems?.state)).damage || 1 : 1,
-      foeItems: trainer?.items || null, foeHealAt: diffOf(getDifficulty(scene.systems?.state)).healAt ?? 0.25, foeHealsPer: diffOf(getDifficulty(scene.systems?.state)).healsPer ?? 1, sendFrom: tFeet });
+      foeItems: trainer?.items || null, foeHealAt: diffOf(getDifficulty(scene.systems?.state)).healAt ?? 0.25, foeHealsPer: diffOf(getDifficulty(scene.systems?.state)).healsPer ?? 1, sendFrom: tFeet, xpMult: scene.systems?.store?.xpMult?.() || 1 });
     // put foes ahead of the player, on walkable ground
     if (tFeet) sim.foes.forEach((f) => { // trainer: first creature out in front of the trainer, toward the fight
       const bx = tFeet.x + (sx - tFeet.x) * 0.45, by = tFeet.y + (sy - tFeet.y) * 0.45;

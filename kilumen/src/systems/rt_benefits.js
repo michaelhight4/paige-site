@@ -105,7 +105,15 @@ export class RtBenefits {
   get nodes() { return this.data?.nodes || []; }
   get branches() { return this.data?.branches || []; }
   node(id) { return this.nodes.find((n) => n.id === id) || null; }
-  state(id) { const n = this.node(id); return n ? nodeState(this.data, this.company, n, this.region, this.scene?.flags) : null; }
+  state(id) {
+    const n = this.node(id); if (!n) return null;
+    const s = nodeState(this.data, this.company, n, this.region, this.scene?.flags);
+    // store board_unlock (dev/kilumen-store): an overlay. The node READS as maxed; company.board is untouched, so buy()
+    // refuses it, ledger() / respec() still see the real ranks and the real board shows again if the pass lapses.
+    if (this._maxed(n)) return { ...s, rank: s.max, next: null, needId: null, cost: null, state: 'owned', reason: 'maxed', storeMax: true };
+    return s;
+  }
+  _maxed(n) { try { return typeof this.perkMax === 'function' && !!n && !n.grantFlag && !n.requiresFlag && !!this.perkMax(n); } catch { return false; } }
   cap() { return regionCap(this.data, this.region); }
   /** {idLevel, xp, xpInto, xpSpan, toNext, frac, capped, points, cap} for the header bar. */
   progress() {
@@ -211,7 +219,7 @@ export class RtBenefits {
     return { ok: true, rank: s.rank + 1, cost: s.cost, saved };
   }
   /** Effect value of a node at its current rank (ranks[rank-1].value), 0 when not owned. */
-  effect(id) { const n = this.node(id), r = num(this.company.board?.[id]); return n && r > 0 ? num(n.ranks?.[r - 1]?.value) : 0; }
+  effect(id) { const n = this.node(id), r = n && this._maxed(n) ? (n.ranks?.length || 0) : num(this.company.board?.[id]); return n && r > 0 ? num(n.ranks?.[r - 1]?.value) : 0; }
   /** Points ledger (audit): earned = ID levels x pointsPerLevel + every task / quest / milestone / event / tree grant
    *  (xpClaims `pts:<key>`); spent = the cost of every owned rank; kept = key-card ranks a reset leaves in place.
    *  Invariant on a clean save: pointsFree + spent === earned. */

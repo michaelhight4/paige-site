@@ -64,7 +64,8 @@ function fighter(c, side, x, y) {
 export class RtBattle {
   /** opts: party (creature records, cloned here), foes [{species, level, variant}], start {x,y} native px, arena {x0,y0,x1,y1},
    *  walk(x,y) -> bool (body may stand), solid(x,y) -> bool (stops shots), rng, foeSkills(sp) */
-  constructor({ party, foes, start, arena, walk = () => true, solid = () => false, rng = Math.random, trainer = false, xpShare = 0, foeDamageMult = 1, foeItems = null, foeHealAt = 0.25, foeHealsPer = 1, sendFrom = null, linkBand = 'team_link_band' }) {
+  constructor({ party, foes, start, arena, walk = () => true, solid = () => false, rng = Math.random, trainer = false, xpShare = 0, foeDamageMult = 1, foeItems = null, foeHealAt = 0.25, foeHealsPer = 1, sendFrom = null, linkBand = 'team_link_band', xpMult = 1 }) {
+    this.xpMult = Number(xpMult) > 0 ? Number(xpMult) : 1; // All Passes +25% (dev/kilumen-store); 1 everywhere else
     this.rng = rng; this.arena = arena; this.walk = walk; this.solid = solid; this.trainer = trainer; this.xpShare = xpShare; this.foeDamageMult = foeDamageMult;
     // trainer healing items (same rule as the turn battle, src/battle/battle.js foeHeal): Master bag {tonicsmall, toniclarge},
     // the field foe heals at <= foeHealAt HP, at most foeHealsPer items per creature; sendFrom {x,y} = where the trainer stands
@@ -306,7 +307,7 @@ export class RtBattle {
     this.emit('faint', { who: o, x: o.x, y: o.y });
     if (o.side === 'foe') {
       const a = this.ally;
-      const n = xpFor(o.c.species, o.c.level);
+      const n = Math.floor(xpFor(o.c.species, o.c.level) * this.xpMult);
       if (a.alive) this._gainXp(a, n);
         this._shareXp(n);
     } else {
@@ -437,7 +438,7 @@ export class RtBattle {
     this.capture = null;
     if (c.roll.caught) {
       c.foe.caught = true; this.caught = c.foe; this.emit('caught', { who: c.foe });
-      if (this.ally.alive) this._gainXp(this.ally, xpFor(c.foe.c.species, c.foe.c.level));
+      if (this.ally.alive) this._gainXp(this.ally, Math.floor(xpFor(c.foe.c.species, c.foe.c.level) * this.xpMult));
     } else {
       c.foe.held = false; c.foe.boosts = { atk: 1, spa: 1 }; c.foe.boostT = 4; c.foe.ai.gap = 0; c.foe.iframes = 0.3;
       this.emit('breakFree', { who: c.foe });

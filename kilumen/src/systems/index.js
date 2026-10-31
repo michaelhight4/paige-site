@@ -13,7 +13,8 @@ import { PuzzleRuntime, applyPuzzleToMap } from './puzzles.js?v=v0.2.108-alpha';
 import { applyBattleTeam, displayName, serialise, createCreature, maxHp } from './creature.js?v=v0.2.108-alpha';
 import { fillText, coinCount } from '../overworld/lines.js?v=v0.2.108-alpha';
 import { gradeImage } from '../overworld/palette.js?v=v0.2.108-alpha';
-import { attachRtBenefits } from './rt_benefits.js?v=v0.2.108-alpha'; // RT Employee Benefits (company XP tree, Oct 23 2026)
+import { attachRtBenefits } from './rt_benefits.js?v=v0.2.108-alpha';
+import { attachStore } from '../store/index.js?v=v0.2.108-alpha'; // dev/kilumen-store: Android + web only (Steam: off) // RT Employee Benefits (company XP tree, Oct 23 2026)
 import { attachLinkBand } from './link_band.js?v=v0.2.108-alpha';
 import { migrateHeld, allOwned } from './held.js?v=v0.2.108-alpha'; // held items P2-P5 (Oct 29 2026)
 import { injectHiddenSpots, grantFlagRewards, FLAG_REWARDS } from './held_rewards.js?v=v0.2.108-alpha';
@@ -247,8 +248,15 @@ export class Systems {
     this.scene._dirty = true;
     return this.party.allFainted() ? 'blackout' : res?.outcome || null;
   }
-  awardPrize(o) { return awardPrizeFn(o, { wallet: this.wallet, party: this.scene.party, cfg: this.cfg }); }
-  awardBattleMoney(trainer) { return awardBattleMoneyFn(trainer, { mult: diffOf(getDifficulty(this.state)).money, wallet: this.wallet, party: this.scene.party, cfg: this.cfg, lines: this.lines }); }
+  awardPrize(o) { const n = awardPrizeFn(o, { wallet: this.wallet, party: this.scene.party, cfg: this.cfg }); return n + this._storeMoney(n); }
+  /** All Passes +25% money (dev/kilumen-store): paid on top while the subscription is active; 0 on Steam / lapsed. */
+  _storeMoney(n) { const b = this.store?.on ? this.store.moneyBonus(n) : 0; if (b > 0) this.wallet.add(b); return b; }
+  awardBattleMoney(trainer) {
+    const r = awardBattleMoneyFn(trainer, { mult: diffOf(getDifficulty(this.state)).money, wallet: this.wallet, party: this.scene.party, cfg: this.cfg, lines: this.lines });
+    const b = r && r.amount > 0 ? this._storeMoney(r.amount) : 0;
+    if (b > 0) { r.amount += b; r.storeBonus = b; if (r.vars) r.vars.total = (r.vars.total != null && typeof r.vars.total === 'string') ? r.vars.total.replace(/[\d,]+/, (m) => (Number(m.replace(/,/g, '')) + b).toLocaleString('en-US')) : r.vars.total; }
+    return r;
+  }
   onPartyFainted() { return this.heal.blackout(); }
 
   // ---- trainer results (overworld talk() hooks, merge Oct 22, 2026) -------------------------------------
@@ -310,7 +318,8 @@ export function satchelSprite(empty = false, variant = 'wood') {
 export function attachSystems(scene, opts = {}) {
   const sys = new Systems(scene, opts);
   scene.systems = sys;
-  try { attachRtBenefits(scene, sys, { config: opts.config, data: opts.rtBenefits }); } catch (e) { console.error('rt_benefits:', e); } // company XP tree (browser / opts.rtBenefits only)
+  try { attachRtBenefits(scene, sys, { config: opts.config, data: opts.rtBenefits }); } catch (e) { console.error('rt_benefits:', e); }
+  try { attachStore(scene, sys, opts.store || {}); } catch (e) { console.error('store:', e); sys.store = { on: false, xpMult: () => 1, moneyBonus: () => 0 }; } // dev/kilumen-store // company XP tree (browser / opts.rtBenefits only)
   try { attachLinkBand(scene, sys); } catch (e) { console.error('link_band:', e); } // Team Link Band from the Saltmere fisher (Oct 29 2026)
   return sys;
 }

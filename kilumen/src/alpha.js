@@ -46,6 +46,8 @@ export const DEV_REQUESTED = raw.get('dev') === '1' || (raw.get('dev') !== '0' &
 export const AUTOCATCH = raw.get('autocatch') === '1';
 if (AUTOCATCH) globalThis.KILUMEN_AUTOCATCH = true;
 if (DEV_REQUESTED) { const kd = (globalThis.kilumenDev ||= {}); if (!('autocatch' in kd)) kd.autocatch = AUTOCATCH; }
+// dev/kilumen-store: keep the boot query for the store channel check (?store=test only counts on localhost, channel.js)
+if (typeof location !== 'undefined' && globalThis.__kilumenBootSearch === undefined) globalThis.__kilumenBootSearch = location.search || '';
 if (typeof location !== 'undefined' && location.search) {
   const kept = new URLSearchParams(); if (raw.get('dev') === '1') kept.set('dev', '1'); if (AUTOCATCH) kept.set('autocatch', '1');
   const q = kept.toString();

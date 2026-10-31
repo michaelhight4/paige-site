@@ -89,7 +89,7 @@ export function makeSdBattle(ui, opts, h) {
   const qol = qolFlags(ui.q || undefined);
   // trainer XP by region (Gary Oct 31 2026): regions 1-4 / Masters 1-4 x1.125, regions 5+ / post-game keep x1.5 (src/battle/data/xp_regions.js)
   const tXp = trainer ? trainerXpMult({ ...(opts.who || {}), masterNumber: opts.masterNumber || 0 }) : KILUMEN_RULES.xpTrainerMult;
-  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, ...(tXp !== KILUMEN_RULES.xpTrainerMult ? { rules: { xpTrainerMult: tXp } } : {}), foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: sys?.rtBenefits?.effect?.('unit_training') || 1, xpShare: qol.xpShare ? XP_SHARE : 0 });
+  const kb = new KilumenBattle({ party, foes: foesBattle, foeItems, ...(tXp !== KILUMEN_RULES.xpTrainerMult ? { rules: { xpTrainerMult: tXp } } : {}), foeDamageMult: diffOf(dMode).damage, foeHealAt: diffOf(dMode).healAt, foeHealsPer: diffOf(dMode).healsPer, wild: !owned, bag, seed, foeName: opts.foeName || (trainer ? 'Trainer' : 'Wild'), forceChance: opts.forceChance, xpBoost: (sys?.rtBenefits?.effect?.('unit_training') || 1) * (sys?.store?.xpMult?.() || 1), xpShare: qol.xpShare ? XP_SHARE : 0 });
   let sharedSaid = false; // QoL #4: one line per KO for the benched share // Unit Training perk (v0.2.28)
   ui.currentBattle = kb; // read-only handle for scripted play-checks (tools/playcheck_browser.mjs)
   const cat = ui.T('system_item_catalogue', {});
