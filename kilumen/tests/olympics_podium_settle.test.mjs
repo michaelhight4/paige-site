@@ -30,3 +30,11 @@ test('v2 winner moment: zoom after settle, feet land on pedestal each dance cycl
   assert.ok(lifted, 'winner hops');
   const r = winnerPose(p, p.total, true); assert.equal(r.z, 1); assert.deepEqual([r.lift, r.rot, r.sx, r.sy], [0, 0, 1, 1]);
 });
+import { rowView } from '../src/sports/olympics_podium.js';
+test('v2.1 standings re-sort: each slot shows at most one visible row (no overlap, unique rank labels)', () => {
+  const prev = [{ who: 'me', name: 'You', pts: 3, firsts: 1 }, { who: 'r', name: 'Rook', pts: 2 }, { who: 'b', name: 'Bram', pts: 1 }, { who: 'k', name: 'Kit', pts: 0 }];
+  const tb = [{ who: 'b', name: 'Bram', pts: 4 }, { who: 'k', name: 'Kit', pts: 3 }, { who: 'me', name: 'You', pts: 3 }, { who: 'r', name: 'Rook', pts: 2 }];
+  const p = podiumPlan({ kind: 'event', id: 'hop', rows, prev, table: tb, n: 2, of: 3 });
+  for (let t = 0; t <= p.end + 1; t += 0.01) { const seen = new Map(); for (const s of p.stand) { const v = rowView(p, s, t); if (v.a > 0) { assert.ok(!seen.has(v.slot), `t=${t.toFixed(2)} slot ${v.slot}`); seen.set(v.slot, s.who); } } }
+  for (const s of p.stand) assert.deepEqual(rowView(p, s, p.end), { slot: s.rank, a: 1 });
+});

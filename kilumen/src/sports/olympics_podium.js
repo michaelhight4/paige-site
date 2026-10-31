@@ -81,15 +81,26 @@ export function shownPts(plan, s, t) {
   const t0 = plan.kind === 'final' ? T.fly : (plan.fly.get(s.who) ?? T.fly) + T.flyDur; return s.before + Math.round(s.add * ease((t - t0) / T.count));
 }
 /** row y-slot of a standings row at t (re-sorts from the old order to the new one) */
+/** v2.1 standings re-sort without overlap: a moving row fades out at its old slot, then fades in at its new one (each slot shows one row at a time, rank labels stay unique) */
+export function rowView(plan, s, t) { if (plan.kind === 'final' || s.prevRank === s.rank) return { slot: s.rank, a: 1 };
+  const u = clamp((t - T.sort) / T.sortDur); return u <= 0 ? { slot: s.prevRank, a: 1 } : u < 0.5 ? { slot: s.prevRank, a: 1 - 2 * u } : { slot: s.rank, a: 2 * u - 1 }; }
 export const rowSlot = (plan, s, t) => (plan.kind === 'final' ? s.rank : s.prevRank + (s.rank - s.prevRank) * ease((t - T.sort) / T.sortDur));
 export const isTap = (down, up) => !!down && !!up && up.t - down.t < 350 && Math.hypot(up.x - down.x, up.y - down.y) < 12; // a hold or drag is not a tap
 
 // ---------- pixel helpers (logical coords, integer rects) ----------
 const R = (g, c, x, y, w, h) => { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); };
+/** opaque rows of a sprite image as fractions (top, bottom padding) so feet/heads line up with the art, not the frame */
+const BB = new WeakMap();
+export function spriteBounds(im) { if (!im || !im.naturalWidth) return { top: 0, bot: 0 }; let b = BB.get(im); if (b) return b; b = { top: 0, bot: 0 };
+  try { const c = document.createElement('canvas'), w = (c.width = im.naturalWidth), h = (c.height = im.naturalHeight), x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(im, 0, 0); const d = x.getImageData(0, 0, w, h).data;
+    const row = (y) => { for (let i = 0; i < w; i++) if (d[(y * w + i) * 4 + 3] > 24) return true; return false; }; let a = 0, z = h - 1; while (a < h && !row(a)) a++; while (z > a && !row(z)) z--; b = { top: a / h, bot: (h - 1 - z) / h }; } catch { /* no canvas (tests) */ }
+  BB.set(im, b); return b; }
+/** y of the top of the visible art for a sprite of size s standing at foot */
+export const headY = (im, foot, s) => { const b = spriteBounds(im); return foot - s * (1 - b.top - b.bot); };
 function sprite(g, im, x, foot, s, o = {}) {
   if (!im || !im.complete || !im.naturalWidth) { R(g, '#00000055', x - 10, foot - 3, 20, 4); return; }
   const sx = (o.sq ? 1 + o.sq * 0.14 : 1) * (o.sx ?? 1), sy = (o.sq ? 1 - o.sq * 0.14 : 1) * (o.sy ?? 1), w = Math.max(1, Math.round(s * Math.abs(sx))), h = Math.round(s * sy);
-  g.save(); g.translate(Math.round(x), Math.round(foot)); if (o.rot) g.rotate(o.rot); if (!!o.flip !== sx < 0) g.scale(-1, 1); g.drawImage(im, -Math.round(w / 2), -h, w, h); g.restore();
+  g.save(); g.translate(Math.round(x), Math.round(foot + h * spriteBounds(im).bot)); if (o.rot) g.rotate(o.rot); if (!!o.flip !== sx < 0) g.scale(-1, 1); g.drawImage(im, -Math.round(w / 2), -h, w, h); g.restore();
 }
 function faceMedal(g, m) { const c = MEDAL[m.place - 1], d = MEDAL_D[m.place - 1]; if (!c) return; const { x, y, r } = m;
   R(g, '#2b4a9a', x - 4, y - r - 5, 3, 5); R(g, '#e8584a', x + 1, y - r - 5, 3, 5);
@@ -188,7 +199,7 @@ export function drawPodiumPixels(g, plan, t, imgs, opts = {}) {
     const bob = 0, cheer = rm || !ground || slot !== 0 || t <= T.spot ? 0 : Math.abs(Math.sin((t - T.spot) * 5)) * 0.35;
     sprite(g, fr[ground ? 0 : 1] || fr[0], p.x, p.y, s, { flip: slot >= 2, sq: rm ? 0 : Math.max(p.squash, cheer) });
     if (ground && p.squash > 0.5 && !rm) for (let k = 0; k < 6; k++) R(g, '#e8dcc0', p.x + (k - 2.5) * 6 * (1 - p.squash), p.y - 2 - (1 - p.squash) * 4, 2, 2);
-    if (slot === 0 && !final && ground && t > T.spot) { const u = ease((t - T.spot) / 0.3), k = rm || u >= 1 ? 2 : Math.max(1, Math.round(3 * u)); crown(g, p.x, p.y - s + 6 - (rm ? 0 : Math.round(Math.abs(Math.sin(t * 3)) * 2)), k); }
+    if (slot === 0 && !final && ground && t > T.spot) { const u = ease((t - T.spot) / 0.3), k = rm || u >= 1 ? 2 : Math.max(1, Math.round(3 * u)); crown(g, p.x, Math.round(headY(fr[0], p.y, s)) + 2 * k - 1, k); } // sits on the head, tracking it
   }
   // confetti over the winner + trophy + fireworks (final)
   if (final) { const e = plan.entries[0], p = e && kiluPos(plan, e, 99), u = ease((t - T.spot) / 0.7);
@@ -198,12 +209,12 @@ export function drawPodiumPixels(g, plan, t, imgs, opts = {}) {
   // standings table panel
   const rows = plan.stand.length, ph = TB.head + 8 + rows * TB.rowH;
   R(g, '#1b1f2a', TB.x - 2, TB.y - 2, TB.w + 4, ph + 4); R(g, '#22293aee', TB.x, TB.y, TB.w, ph); R(g, '#e8c26a', TB.x, TB.y, TB.w, 2); R(g, '#384260', TB.x, TB.y + TB.head, TB.w, 1);
-  for (const s of plan.stand) { const y = rowY(rowSlot(plan, s, t)); if (s.me) { R(g, '#4a3a1a', TB.x + 2, y - 1, TB.w - 4, TB.rowH - 3); R(g, '#e8c26a', TB.x + 2, y - 1, 2, TB.rowH - 3); }
+  for (const s of plan.stand) { const v = rowView(plan, s, t); if (v.a <= 0) continue; g.globalAlpha = v.a; const y = rowY(v.slot); if (s.me) { R(g, '#4a3a1a', TB.x + 2, y - 1, TB.w - 4, TB.rowH - 3); R(g, '#e8c26a', TB.x + 2, y - 1, 2, TB.rowH - 3); }
     const t0 = plan.kind === 'final' ? T.fly : (plan.fly.get(s.who) ?? 0) + T.flyDur, pop = t - t0; if (pop > 0 && pop < 0.25 && !rm) { g.globalAlpha = 0.5 * (1 - pop / 0.25); R(g, '#fff3b0', TB.x + 2, y - 1, TB.w - 4, TB.rowH - 3); g.globalAlpha = 1; }
     if (plan.arrows && t >= T.sort) { const d = arrowDir(s), ax = TB.x + 30, ay = y + 8;
       if (d > 0) { R(g, '#1b1f2a', ax - 4, ay - 4, 9, 8); for (let k = 0; k < 4; k++) R(g, '#7ad25a', ax - k, ay - 3 + k, 1 + 2 * k, 1); R(g, '#7ad25a', ax - 1, ay + 1, 3, 2); }
       else if (d < 0) { R(g, '#1b1f2a', ax - 4, ay - 4, 9, 8); for (let k = 0; k < 4; k++) R(g, '#e8584a', ax - k, ay + 3 - k, 1 + 2 * k, 1); R(g, '#e8584a', ax - 1, ay - 2, 3, 2); }
-      else R(g, '#8fa0c0', ax - 2, ay, 5, 1); } }
+      else R(g, '#8fa0c0', ax - 2, ay, 5, 1); } g.globalAlpha = 1; }
   // rewards panel (final)
   if (final && plan.result) { const u = ease((t - T.sort) / 0.4), y0 = TB.y + ph + 8; if (u > 0) { const h = 64;
     R(g, '#1b1f2a', TB.x - 2, y0 - 2, TB.w + 4, h + 4); R(g, '#2a2236', TB.x, y0, TB.w, h); R(g, '#ffc928', TB.x, y0, Math.round(TB.w * u), 2);
@@ -249,12 +260,12 @@ export function drawPodiumText(g, plan, t, opts = {}) {
     txt(g, '+' + e.pts, x, y, u > 0 ? 10 : 9, e.pts ? '#ffd86a' : '#c8d0e8'); });
   // table
   txt(g, final ? OS.pod_final : ot(OS.pod_standings, { n: plan.n, of: plan.of }), TB.x + TB.w / 2, TB.y + 10, 8, '#e8c26a');
-  for (const s of plan.stand) { const y = rowY(rowSlot(plan, s, t)) + 8, col = s.me ? '#ffd86a' : '#f3ead2';
-    txt(g, ORD[Math.round(rowSlot(plan, s, t))] || '', TB.x + 6, y, 8, col, 'left');
+  const ga = g.globalAlpha; for (const s of plan.stand) { const v = rowView(plan, s, t); if (v.a <= 0) continue; g.globalAlpha = ga * v.a; const y = rowY(v.slot) + 8, col = s.me ? '#ffd86a' : '#f3ead2';
+    txt(g, ORD[v.slot] || '', TB.x + 6, y, 8, col, 'left');
     txt(g, fit(s.name, 9), TB.x + 40, y, 8, col, 'left');
     if (final) txt(g, '★' + s.wins, TB.x + TB.w - 44, y, 7, '#c8d0e8', 'left');
     else { const f0 = (plan.fly.get(s.who) ?? 0) + T.flyDur; if (t >= f0) txt(g, '+' + s.add, TB.x + TB.w - 44, y, 7, s.add ? '#7ad25a' : '#8fa0c0', 'left'); }
-    txt(g, String(shownPts(plan, s, t)), TB.x + TB.w - 8, y, 9, col, 'right'); }
+    txt(g, String(shownPts(plan, s, t)), TB.x + TB.w - 8, y, 9, col, 'right'); } g.globalAlpha = ga;
   // player line
   const me = plan.entries.find((e) => e.me);
   if (!final && me && t > T.spot) { const msg = me.place <= 3 ? ot(OS.pod_you_placed, { kilu: kiluName(me.kilu), place: ORD[me.place - 1] }) : ot(OS.pod_you_missed, { kilu: kiluName(me.kilu) });
