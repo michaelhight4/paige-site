@@ -86,3 +86,22 @@ test('tree bonus: +1 once per maxed tree, retro on load for an old save with a c
   assert.equal(treeStates({ mb: partial }).find((t) => t.id === 'ms_catch_total').maxed, false);
   const rt2 = mk(undefined, 1); assert.equal(syncBoardTasks(rt2, { mb: partial }), 0);
 });
+
+test('Tasks screen: board tasks rows show all 19 tasks, 3 event trees and 22 tree bonuses with progress', async () => {
+  const { boardTaskModel } = await import('../src/systems/board_tasks.js');
+  const { taskRows } = await import('../src/progression/index.js');
+  const mb = new MilestoneBook({ claimed: { catch_total: 4 } });
+  const flags = new Set([wonFlag('fernwick'), wonFlag('saltmere')]);
+  const sstate = { oly: { fernwick: { golds: { [SIGNATURE.fernwick]: 1 } } } };
+  const rt = mk(undefined, 1); creditBoardPoints(mb, rt); syncBoardTasks(rt, { flags, sstate, mb });
+  const bm = boardTaskModel({ flags, sstate, mb, claims: rt.company.xpClaims });
+  assert.equal(bm.trees.reduce((a, t) => a + t.tasks.length, 0), 19);
+  assert.equal(bm.bonusTotal, 22); assert.equal(bm.bonusDone, 1); assert.equal(bm.msBonus.ms_catch_total, true);
+  const towns = bm.trees.find((t) => t.id === 'oly_towns'); assert.equal(towns.done, 2); assert.equal(towns.total, 8);
+  assert.ok(towns.tasks.filter((t) => t.done).every((t) => t.paid));
+  const qb = { log: () => [], tracked: () => null };
+  const { rows } = taskRows({ qb, mb: null, flags, masters: null, data: {}, board: bm });
+  assert.deepEqual(rows.filter((r) => r.kind === 'head').map((r) => [r.id, r.done, r.total]), [['board', 3, 19]]);
+  assert.equal(rows.filter((r) => r.kind === 'bt').length, 3);
+  assert.deepEqual(rows.filter((r) => r.kind === 'bonus').map((r) => [r.done, r.total]), [[1, 22]]);
+});

@@ -36,3 +36,27 @@ export function syncBoardTasks(rt, { flags, sstate, mb } = {}) {
   for (const t of treeStates({ flags, sstate, mb })) if (t.maxed) got += rt.grantPoints(TREE_BONUS, `tree:${t.id}`);
   return got;
 }
+
+// ---- Tasks screen model (phone > Tasks > Board tasks), dev/rt-respec v2 --------------------------------------------
+const cap = (s) => String(s).split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+/** PLACEHOLDER titles / rules (final text: data/textbot_requests_rt_respec.md, keys system_tasks.board_tasks.*). */
+export const BOARD_TASK_TEXT = {
+  head: 'Board tasks', tree_bonus: 'Tree bonus +{n}', tree_bonus_done: 'Tree bonus earned', bonuses: 'Tree bonuses {done}/{total}',
+  bonuses_rule: 'Finish every task in a tree for +1 benefit point, once per tree.', points: '+{n} pt', progress: '{done}/{total}',
+  trees: { oly_towns: 'Town Champions', oly_golds: 'Signature Golds', oly_grand: 'Grand Olympics' },
+  rules: { oly_towns: 'Win each town Olympics.', oly_golds: 'Win gold in each town\'s signature event.', oly_grand: 'Win in Aurelith, and sweep every event.' },
+  task: (t) => t.id.startsWith('oly_town_') ? `${cap(t.venue)}` : t.id.startsWith('oly_gold_') ? `${cap(t.event)} (${cap(t.venue)})`
+    : t.id === 'oly_aurelith' ? 'Aurelith Champion' : t.id === 'oly_sweep' ? 'Clean Sweep' : 'Grand Sweep',
+};
+/** -> {trees:[{id, tasks:[{id, title, points, done, paid}], done, total, maxed, bonusPaid}], bonusDone, bonusTotal, msBonus:{ms_<id>: paid}} */
+export function boardTaskModel({ flags, sstate, mb, claims = {} } = {}) {
+  const c = { flags, sstate }, paid = (k) => !!claims[`pts:${k}`];
+  const trees = EVENT_TREES.map((id) => {
+    const tasks = EVENT_TASKS.filter((t) => t.tree === id).map((t) => ({ id: t.id, title: BOARD_TASK_TEXT.task(t), points: t.points, done: t.done(c), paid: paid(`ev:${t.id}`) }));
+    const done = tasks.filter((t) => t.done).length;
+    return { id, tasks, done, total: tasks.length, maxed: done === tasks.length, bonusPaid: paid(`tree:${id}`) };
+  });
+  const all = treeStates({ flags, sstate, mb }), msBonus = {};
+  for (const t of all) if (t.id.startsWith('ms_')) msBonus[t.id] = paid(`tree:${t.id}`);
+  return { trees, bonusDone: all.filter((t) => paid(`tree:${t.id}`)).length, bonusTotal: all.length, msBonus };
+}

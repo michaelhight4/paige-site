@@ -57,3 +57,36 @@ body.ui-reduce .rtb-node { transition: none; }
 /* reset (respec) button in the ID plate, dev/rt-respec Oct 31 2026 */
 .rtb-reset{font:inherit;font-size:.8em;padding:2px 8px;border-radius:6px;border:2px solid currentColor;background:transparent;color:inherit;cursor:pointer;white-space:nowrap}
 .rtb-reset:disabled{opacity:.45;cursor:default}
+/* Portrait / narrow windows, 360-600px wide (dev/rt-respec v2, Oct 31 2026). Desktop and short landscape are unchanged.
+   Stack: ID plate (wraps, reset always on screen) + scrolling tree in 2 branch columns, details panel below. */
+.rtb-node { touch-action: pan-y; }
+@media (max-width: 600px) and (min-height: 481px) {
+  .ui-body.rtb-split { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) minmax(0, auto); gap: 8px; }
+  .rtb-split > .rtb-main { overflow: hidden; padding: 8px; gap: 8px; min-height: 0; container: rtbmain / inline-size; }
+  .rtb-split > .rtb-info { max-height: 30vh; padding: 8px 10px; font-size: .9em; }
+  .rtb-id { flex: none; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 8px; padding: 6px 8px; }
+  .rtb-id .rtb-eid b { font-size: 1em; }
+  .rtb-id .bar-row { grid-column: 1 / -1; grid-row: 2; }
+  .rtb-id > span:last-child { flex-wrap: wrap; justify-content: flex-end; }
+  .rtb-reset { min-height: 32px; }
+  .rtb-tree { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 2px 2px 6px; }
+  .rtb-branch { gap: 12px; }
+  .rtb-node + .rtb-node::before { top: -15px; height: 12px; }
+  .rtb-node { padding: 5px 6px; }
+  .rtb-node .rtb-nm { overflow-wrap: normal; word-break: normal; hyphens: auto; }
+}
+/* very narrow stage (mobile profile keeps a 200px right inset for the touch pad): one branch column */
+@container rtbmain (max-width: 300px) {
+  .rtb-tree { grid-template-columns: minmax(0, 1fr); }
+  .rtb-id { grid-template-columns: minmax(0, 1fr); }
+  .rtb-id > span:last-child { justify-content: flex-start; }
+}
+
+/* v2: portrait phone, mobile profile — the 200px right inset is reserved for landscape pad buttons; in portrait give the
+   RT board (and Tasks) the full width so the tree stays readable. Scoped to these screens; landscape/desktop untouched. */
+@media (max-width: 600px) and (min-height: 481px) and (orientation: portrait) {
+  .ui-stage:has(.rtb-split), .ui-stage:has([data-scr="tasks"]) { right: var(--ui-inset-left, 10px); }
+  .rtb-info { max-height: 26vh; }
+  .rtb-id .rtb-chips, .rtb-id > * { min-width: 0; overflow-wrap: anywhere; }
+}

@@ -29,3 +29,13 @@ All lines below are PLACEHOLDERS in code. Please write final RITA-tone text. Kee
 | tree.oly_golds | Signature Golds |
 | tree.oly_grand | Grand Olympics |
 Milestone card trees reuse the existing system_tasks.milestones.<id>.title.
+
+## v2 — Tasks screen "Board tasks" section (PLACEHOLDER text, please replace)
+Keys under `system_tasks.board_tasks.*` (fallbacks live in `BOARD_TASK_TEXT`, src/systems/board_tasks.js):
+- `head` — "Board tasks" (section header, shows done/19)
+- `tree.oly_towns` / `tree.oly_golds` / `tree.oly_grand` — "Town Champions" / "Signature Golds" / "Grand Olympics"
+- `rule.oly_towns` / `rule.oly_golds` / `rule.oly_grand` — one-line rule per tree
+- `<task_id>.title` for all 19 task ids (oly_town_<venue>, oly_gold_<venue>, oly_aurelith, oly_sweep, oly_sweep_aurelith) — placeholder is the venue / "Event (Venue)" name
+- `points` — "+{n} pt"; `progress` — "{done}/{total}"
+- `tree_bonus` — "Tree bonus +{n}"; `tree_bonus_done` — "Tree bonus earned" (also shown as a chip on every milestone row)
+- `bonuses` — "Tree bonuses {done}/{total}" (22 trees); `bonuses_rule` — "Finish every task in a tree for +1 benefit point, once per tree."

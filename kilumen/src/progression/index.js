@@ -17,7 +17,7 @@ import { drawGustBoard } from '../region4/gust_draw.js?v=v0.2.107-alpha'; // v6:
 import { TRAINER_RESULTS } from '../battle/story.js?v=v0.2.107-alpha';
 import { mapTeamFor, playerStarter } from '../overnight/trainer_teams.js?v=v0.2.107-alpha';
 import { isBatch3Map } from '../overnight/npc_sprites.js?v=v0.2.107-alpha'; // batch 3: route / rival trainers fight their map team
-import { syncBoardTasks } from '../systems/board_tasks.js?v=v0.2.107-alpha'; // board point tasks: events / Olympics + tree bonuses (dev/rt-respec)
+import { syncBoardTasks, boardTaskModel, BOARD_TASK_TEXT, TREE_BONUS } from '../systems/board_tasks.js?v=v0.2.107-alpha'; // board point tasks: events / Olympics + tree bonuses (dev/rt-respec)
 import { sportsState } from '../sports/tournament.js?v=v0.2.107-alpha';
 import { MilestoneBook, deriveValues, RESEARCH, TIER_NAMES, boardPointsFor, creditBoardPoints } from './milestones.js?v=v0.2.107-alpha'; // Tasks > Milestones (approved design, Oct 29 2026)
 import { Shop } from '../systems/shop.js?v=v0.2.107-alpha';
@@ -409,7 +409,7 @@ function questHud(scene, ui, qb, platform) {
 
 // ---- Tasks screen (phone > Tasks): pinned story goal, active tasks, milestones, completed (collapsed) -----------------
 /** Pure row model for the Tasks screen (tests use it). */
-export function taskRows({ qb, mb, flags, masters, data, open = false }) {
+export function taskRows({ qb, mb, flags, masters, data, open = false, board = null }) {
   const log = qb.log(flags), act = log.filter((r) => r.status !== 'done'), done = log.filter((r) => r.status === 'done');
   const main = act.find((r) => r.q.type === 'main') || null, nm = nextMaster(masters, flags);
   const rows = [];
@@ -417,6 +417,11 @@ export function taskRows({ qb, mb, flags, masters, data, open = false }) {
   if (act.length) rows.push({ kind: 'head', id: 'active', n: act.length });
   for (const r of act) rows.push({ kind: 'quest', ...r });
   if (mb) { const ready = mb.readyCount(data); rows.push({ kind: 'head', id: 'milestones', ready }); if (ready > 1) rows.push({ kind: 'claim_all', n: ready }); for (const r of mb.rows(data)) rows.push({ kind: 'ms', ...r }); }
+  if (board) { // Board tasks (events / Olympics) + tree bonuses, dev/rt-respec v2
+    rows.push({ kind: 'head', id: 'board', done: board.trees.reduce((a, t) => a + t.done, 0), total: board.trees.reduce((a, t) => a + t.total, 0) });
+    for (const t of board.trees) rows.push({ kind: 'bt', ...t });
+    rows.push({ kind: 'bonus', done: board.bonusDone, total: board.bonusTotal });
+  }
   if (done.length) { rows.push({ kind: 'done_toggle', n: done.length, open }); if (open) for (const r of done) rows.push({ kind: 'quest', ...r }); }
   const empty = !act.length && !done.length && !main && !nm;
   return { rows, empty };
@@ -426,7 +431,9 @@ function installQuestLog(ui, scene, sys, qb, mb, save, pg, hud) {
   const T = (k, fb, v) => tx(ui, 'system_tasks.' + k, fb, v);
   ui.scr_tasks = function () {
     let open = false;
-    const model = () => taskRows({ qb, mb, flags: scene.flags, masters: pg.masters, data: pg.milestoneData(), open });
+    const boardModel = () => { try { return sys?.state ? boardTaskModel({ flags: scene.flags, sstate: sportsState(sys.state), mb, claims: sys.rtBenefits?.company?.xpClaims || {} }) : null; } catch (e) { console.error('board tasks:', e); return null; } };
+    const BT = (k, fb, v) => tx(ui, 'system_tasks.board_tasks.' + k, fb, v);
+    const model = () => taskRows({ qb, mb, flags: scene.flags, masters: pg.masters, data: pg.milestoneData(), open, board: boardModel() });
     const sel = () => model().rows.filter((r) => r.kind !== 'head'); // selectable rows (headers are not)
     const tag = { ready: T('status_ready', 'Report back'), active: T('status_active', 'Active'), done: T('status_done', 'Done') };
     const where = (q, cur, st) => {
@@ -438,6 +445,8 @@ function installQuestLog(ui, scene, sys, qb, mb, save, pg, hud) {
     const bar = (v, t) => { const p = Math.max(0, Math.min(1, t ? v / t : 0)); return `<span class="pg-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${t}" aria-valuenow="${Math.min(v, t)}"><span style="width:${Math.round(p * 100)}%"></span></span>`; };
     const msTitle = (m) => T(`milestones.${m.id}.title`, m.title), msRule = (m) => T(`milestones.${m.id}.rule`, m.rule);
     const tierName = (t) => T(`milestones.tier_${t}`, TIER_NAMES[t]);
+    let bm = null; // board model for this render (milestone tree-bonus chips)
+    const msBonusChip = (id) => { const p = bm?.msBonus?.[`ms_${id}`]; return p == null ? '' : ` <span class="pg-btb${p ? ' on' : ''}">${escH(p ? BT('tree_bonus_done', BOARD_TASK_TEXT.tree_bonus_done) : BT('tree_bonus', BOARD_TASK_TEXT.tree_bonus, { n: TREE_BONUS }))}</span>`; };
     const rowHtml = (r, i) => {
       const trk = r.q && qb.tracked(scene.flags)?.id === r.q.id;
       if (r.kind === 'goal') {
@@ -453,7 +462,15 @@ function installQuestLog(ui, scene, sys, qb, mb, save, pg, hud) {
         const right = r.maxed ? `<span class="pg-claimed">${escH(T('milestones.maxed', 'Complete'))}</span>` : r.ready ? `<button type="button" class="pg-claim" data-act="claim:${escH(r.m.id)}">${escH(T('milestones.claim', 'Claim'))}</button>` : `<span class="soft">${Math.min(r.value, r.target)}/${r.target}</span>`;
         const stars = r.m.tiers.map((_, t) => `<span class="pg-tier t${t}${t < r.tier ? ' on' : ''}" title="${escH(tierName(t))}">●</span>`).join('');
         const next = r.maxed ? T('milestones.all_tiers', 'All tiers claimed') : r.level ? T('milestones.next_level', 'Next: {tier} · {n} at Lv {lv}', { tier: tierName(r.tier), n: r.target, lv: r.level }) : T('milestones.next', 'Next: {tier} · {n}', { tier: tierName(r.tier), n: r.target });
-        return `<li class="ui-row pg-ms${r.ready ? ' pg-ready' : ''}" data-i="${i}" data-k="${escH(r.m.id)}"><span class="grow"><b>${escH(msTitle(r.m))}</b> ${stars}<br><span class="pg-next">${escH(next)}</span><br><span class="soft pg-rule">${escH(msRule(r.m))}</span><br>${bar(r.value, r.target)}${r.reward ? ` <span class="pg-rew">${escH(rewardText(ui, r.reward))}</span>` : ''}</span>${right}</li>`;
+        return `<li class="ui-row pg-ms${r.ready ? ' pg-ready' : ''}" data-i="${i}" data-k="${escH(r.m.id)}"><span class="grow"><b>${escH(msTitle(r.m))}</b> ${stars}<br><span class="pg-next">${escH(next)}</span><br><span class="soft pg-rule">${escH(msRule(r.m))}</span><br>${bar(r.value, r.target)}${r.reward ? ` <span class="pg-rew">${escH(rewardText(ui, r.reward))}</span>` : ''}${msBonusChip(r.m.id)}</span>${right}</li>`;
+      }
+      if (r.kind === 'bt') {
+        const chips = r.tasks.map((t) => `<span class="pg-bt${t.done ? ' on' : ''}"><span aria-hidden="true">${t.done ? '✓' : '○'}</span> ${escH(BT(`${t.id}.title`, t.title))} <b>${escH(BT('points', BOARD_TASK_TEXT.points, { n: t.points }))}</b></span>`).join('');
+        const bonus = `<span class="pg-btb${r.bonusPaid ? ' on' : ''}">${escH(r.bonusPaid ? BT('tree_bonus_done', BOARD_TASK_TEXT.tree_bonus_done) : BT('tree_bonus', BOARD_TASK_TEXT.tree_bonus, { n: TREE_BONUS }))}</span>`;
+        return `<li class="ui-row pg-ms pg-btree${r.maxed ? ' pg-done' : ''}" data-i="${i}" data-k="${escH(r.id)}"><span class="grow"><b>${escH(BT(`tree.${r.id}`, BOARD_TASK_TEXT.trees[r.id]))}</b> ${bonus}<br><span class="soft pg-rule">${escH(BT(`rule.${r.id}`, BOARD_TASK_TEXT.rules[r.id]))}</span><br>${bar(r.done, r.total)}<span class="pg-btlist">${chips}</span></span><span class="soft">${escH(BT('progress', BOARD_TASK_TEXT.progress, { done: r.done, total: r.total }))}</span></li>`;
+      }
+      if (r.kind === 'bonus') {
+        return `<li class="ui-row pg-ms pg-bonus" data-i="${i}"><span class="grow"><b>${escH(BT('bonuses', BOARD_TASK_TEXT.bonuses, { done: r.done, total: r.total }))}</b><br><span class="soft pg-rule">${escH(BT('bonuses_rule', BOARD_TASK_TEXT.bonuses_rule))}</span><br>${bar(r.done, r.total)}</span><span class="soft">${r.done}/${r.total}</span></li>`;
       }
       if (r.kind === 'claim_all') return `<li class="ui-row pg-ready" data-i="${i}"><span class="grow"><b>${escH(T('milestones.claim_all_row', '{n} rewards ready', { n: r.n }))}</b></span><button type="button" class="pg-claim" data-act="claimall">${escH(T('milestones.claim_all', 'Claim all'))}</button></li>`;
       if (r.kind === 'done_toggle') return `<li class="ui-row pg-toggle" data-i="${i}"><span class="grow">${r.open ? '▾' : '▸'} ${escH(T('completed', 'Completed ({n})', { n: r.n }))}</span></li>`;
@@ -479,11 +496,11 @@ function installQuestLog(ui, scene, sys, qb, mb, save, pg, hud) {
       ui.rerender?.();
     };
     const scr = { scr: 'tasks', pat: 'stripes', title: ui.T('system_phone.menu.labels.tasks', 'Tasks'), glyph: 'tasks', sel: 0, cols: 1, count: () => sel().length,
-      render: () => { const md = model();
+      render: () => { bm = boardModel(); const md = model();
         if (md.empty && !mb) return `<div class="ui-panel ui-pad ui-grow" data-scr="tasks" data-pat="stripes" data-scroll><div class="plate ui-empty">${escH(T('empty', 'No tasks yet. Revival Tech will text you when there is work.'))}</div></div>`;
         let i = 0;
         return `<div class="ui-panel ui-pad ui-grow ui-scroll" data-scr="tasks" data-pat="stripes" data-scroll><ul class="ui-list pg-tasks" data-aa="pg-tasks">${md.rows.map((r) => r.kind === 'head'
-          ? `<li class="pg-head" aria-hidden="false">${r.id === 'active' ? escH(T('head_active', 'Active tasks')) : escH(T('head_milestones', 'Milestones')) + (r.ready ? ` <span class="pg-dot" aria-label="${escH(T('milestones.ready_count', '{n} to claim', { n: r.ready }))}">${r.ready}</span>` : '')}</li>`
+          ? `<li class="pg-head" aria-hidden="false">${r.id === 'board' ? escH(BT('head', BOARD_TASK_TEXT.head)) + ` <span class="soft">${r.done}/${r.total}</span>` : r.id === 'active' ? escH(T('head_active', 'Active tasks')) : escH(T('head_milestones', 'Milestones')) + (r.ready ? ` <span class="pg-dot" aria-label="${escH(T('milestones.ready_count', '{n} to claim', { n: r.ready }))}">${r.ready}</span>` : '')}</li>`
           : rowHtml(r, i++)).join('')}${md.empty ? `<li class="plate ui-empty">${escH(T('empty', 'No tasks yet. Revival Tech will text you when there is work.'))}</li>` : ''}</ul></div>`; },
       hint: () => { const r = sel()[scr.sel]; const a = r?.kind === 'claim_all' ? T('milestones.claim_all', 'Claim all') : r?.kind === 'ms' ? (r.ready ? T('hint_claim', 'Claim') : null) : r?.kind === 'done_toggle' ? (r.open ? T('hint_hide', 'Hide') : T('hint_show', 'Show')) : r && (r.q && r.status !== 'done') ? T('hint_track', 'Track') : null;
         return ui.hintText?.([...(a ? [['A', a]] : []), ['B', 'Back']]) || ''; },
@@ -509,6 +526,8 @@ function installQuestLog(ui, scene, sys, qb, mb, save, pg, hud) {
 .pg-bar>span{display:block;height:100%;background:linear-gradient(90deg,#7ad25a,#ffc928)}.pg-tier{opacity:.3;font-size:.7em}.pg-tier.on{opacity:1}.pg-rew{font-size:.8em;opacity:.9}
 .pg-claim{min-height:40px;min-width:64px;font:800 1em inherit;border-radius:10px;border:2px solid #2b2236;background:#6c4cf0;color:#fffaf0;cursor:pointer;animation:pgClaim 1.2s ease-in-out infinite}
 .pg-dot{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:#e8443a;color:#fff;font-size:.8em;text-align:center}.pg-rule{font-size:.85em}.pg-tier.t0.on{color:#c98a4b}.pg-tier.t1.on{color:#c9d1d9}.pg-tier.t2.on{color:#ffc928}.pg-tier.t3.on{color:#b9f2ff}.pg-ready{background:rgba(122,210,90,.14)}.pg-claimed{font-size:.8em;color:#7ad25a;font-weight:800}@keyframes pgClaim{50%{transform:scale(1.07)}}
+.pg-btlist{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}.pg-bt{font-size:.78em;padding:1px 6px;border-radius:6px;border:1px solid rgba(43,34,54,.35);background:rgba(255,255,255,.5);max-width:100%;overflow-wrap:anywhere}
+.pg-bt.on{background:rgba(122,210,90,.25);border-color:#3b8a2a}.pg-bt b{font-weight:800;color:var(--pg-purple)}.pg-btb{display:inline-block;font-size:.72em;font-weight:800;padding:0 6px;border-radius:6px;background:rgba(108,76,240,.14);color:var(--pg-purple);white-space:nowrap}.pg-btb.on{background:#17663a;color:#fff}.pg-btree .pg-rule,.pg-bonus .pg-rule{white-space:normal;overflow:visible;text-overflow:clip}
 @media (prefers-reduced-motion:reduce){.pg-claim{animation:none}}@media (max-height:420px){.pg-tasks .ui-row{font-size:12px;padding-top:4px;padding-bottom:4px}.pg-tasks .pg-head{margin:6px 4px 0}}`;
     document.head.appendChild(st);
   }
