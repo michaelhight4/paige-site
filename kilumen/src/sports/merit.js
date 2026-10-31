@@ -6,6 +6,8 @@ export const MERIT_PTS = Object.freeze({
   tourney: [30, 15, 8, 3], // Brookhollow 3-day tournament (src/sports/tournament.js settle)
   cup: [20, 10, 5, 2],     // town cups (src/sports/town_cup.js settleCup)
   major: [60, 30, 15, 6],  // Aurelith Games (src/sports/major.js settleMajor)
+  oly: [15, 8, 4, 0],      // town Olympics (src/sports/olympics.js settleOlympics)
+  oly_major: [40, 20, 10, 0], // Aurelith Olympics
 });
 export const MERIT_MAX = 9999;
 // Prices in merit points. Fixed stock is always on the shelf; the daily shelf shows DAILY_COUNT of DAILY_POOL.
