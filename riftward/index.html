@@ -42,6 +42,7 @@ footer{border-top:1px solid var(--line);color:var(--mut);padding:14px 18px;text-
 </head>
 <body>
 <header><div class="bar"><a class="logo" href="/"><span class="mark" aria-hidden="true">P</span>Paige <b>Industries</b></a></div></header>
+<div id="root" hidden></div>
 <main id="main">
 <section class="card" aria-labelledby="t">
 <p class="eyebrow">Riftward</p>
@@ -52,5 +53,17 @@ footer{border-top:1px solid var(--line);color:var(--mut);padding:14px 18px;text-
 </section>
 </main>
 <footer>&copy; Paige Industries</footer>
+<script type="module">
+// Admins (server-checked via admin_me) get the real game; everyone else keeps the maintenance card.
+import { isRiftwardAdmin } from './admin-gate.js';
+if (await isRiftwardAdmin()) {
+  const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = './assets/index-D_8c8V87.css'; document.head.append(css);
+  document.querySelector('header').remove(); document.querySelector('main').remove(); document.querySelector('footer').remove();
+  document.body.removeAttribute('style'); document.querySelectorAll('style').forEach((x) => x.remove());
+  document.getElementById('root').hidden = false; document.title = 'Riftward (admin, in maintenance)';
+  const g = document.createElement('script'); g.type = 'module'; g.src = './assets/index-JKHGnIWm.js'; document.body.append(g);
+  const pt = document.createElement('script'); pt.type = 'module'; pt.src = '/playtime.js?game=riftward&v=1'; document.body.append(pt);
+}
+</script>
 </body>
 </html>

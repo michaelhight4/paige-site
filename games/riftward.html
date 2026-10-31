@@ -39,4 +39,9 @@
 </main>
 <footer class="wrap pfoot"><p><a href="/">← Back to Paige Industries</a> · <a href="/privacy.html">Privacy</a> · <a href="/contact.html">Contact</a></p></footer>
 <script src="/analytics.js" defer></script>
+<script type="module">
+// Admin-only Play button while Riftward is in maintenance (server-checked via admin_me).
+import { isRiftwardAdmin } from '/riftward/admin-gate.js';
+if (await isRiftwardAdmin()) document.querySelectorAll('.btn.play.off').forEach((b) => { const a = document.createElement('a'); a.className = 'btn play'; a.href = '/riftward/'; a.textContent = '▶ Play (admin)'; b.replaceWith(a); });
+</script>
 </body></html>
