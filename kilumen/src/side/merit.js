@@ -10,7 +10,7 @@
 export const MERIT_STUB = false;
 export const MERIT_MAX = 9999; // same cap as src/sports/merit.js (dev/merit-shop)
 let REAL = null;
-export const realMerit = import('../sports/merit.js?v=v0.2.107-alpha').then((m) => (REAL = m)).catch(() => null);
+export const realMerit = import('../sports/merit.js?v=v0.2.108-alpha').then((m) => (REAL = m)).catch(() => null);
 export const _setRealMerit = (m) => { REAL = m; }; // tests
 
 const localState = (sstate) => {

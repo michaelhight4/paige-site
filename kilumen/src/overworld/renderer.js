@@ -7,9 +7,9 @@
 // Depth pass (depth.js, Oct 22 2026): its cached static layer (object contact shadows + indoor wall-base shading) runs
 // right after ground/decoration, before the decals; the character contact shadows run after living `under`, just
 // before the first character. Both are under every character and over the floor.
-import { drawCurrents } from './current.js?v=v0.2.107-alpha';
-import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.107-alpha';
-import { waterClass, familyOf, edgeMask, variantTile } from './water_depth.js?v=v0.2.107-alpha'; // one consistent deep water look
+import { drawCurrents } from './current.js?v=v0.2.108-alpha';
+import { TILE, HUMAN_W, HUMAN_H } from './constants.js?v=v0.2.108-alpha';
+import { waterClass, familyOf, edgeMask, variantTile } from './water_depth.js?v=v0.2.108-alpha'; // one consistent deep water look
 
 export const SHADOW = 'rgba(26,18,38,0.376)'; // the kit's one translucent colour, rgba(26,18,38,96)
 

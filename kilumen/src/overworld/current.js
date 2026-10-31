@@ -7,7 +7,7 @@
 //  - a sideways press into free calm (non-current) water beside the current escapes it; the push stops on calm water.
 //  - the overlay (drawCurrents) streaks move with the flow; reduced motion draws static chevrons only (push still works).
 // Input: uses the existing d-pad/keys only; nothing here is tap- or hold-activated, so no new touch gesture can move anyone.
-import { Col, DELTA, TILE } from './constants.js?v=v0.2.107-alpha';
+import { Col, DELTA, TILE } from './constants.js?v=v0.2.108-alpha';
 
 export const OPP = Object.freeze({ up: 'down', down: 'up', left: 'right', right: 'left' });
 const WET = new Set([Col.WATER, Col.DEEP_WATER]);

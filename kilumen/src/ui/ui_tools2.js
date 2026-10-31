@@ -11,13 +11,13 @@
 //   await ui.fx.battleWarm();                     // lazy-load anime.js (no-op when motion is reduced)
 //   ui.fx.drainBar(barEl, f, { num, from, to, max })  // HP drain, ghost chunk, counter; instant when reduced
 //   ui.fx.cmdsIn(panelEl) / ui.fx.levelUpPop(boxEl)   // panel slide-in + stagger / level-up timeline
-import { PXI } from '../vendor/pixelarticons/icons.js?v=v0.2.107-alpha';
-import { CAPTURE_STEPS, CAPTURE_MS, BURST_COL, buildCapture } from './capture_fx.js?v=v0.2.107-alpha'; // capture sequence (Oct 22, 2026; swap points per step)
+import { PXI } from '../vendor/pixelarticons/icons.js?v=v0.2.108-alpha';
+import { CAPTURE_STEPS, CAPTURE_MS, BURST_COL, buildCapture } from './capture_fx.js?v=v0.2.108-alpha'; // capture sequence (Oct 22, 2026; swap points per step)
 
 const KUI = 'art/ui/kenney_ui_placeholder/';
-const AA_URL = '../vendor/auto-animate/auto-animate.min.js?v=v0.2.107-alpha';
-const FUI_URL = '../vendor/floating-ui/floating-ui.dom.bundle.min.mjs?v=v0.2.107-alpha';
-const ANIME_URL = '../vendor/animejs/anime.ui.min.mjs?v=v0.2.107-alpha';
+const AA_URL = '../vendor/auto-animate/auto-animate.min.js?v=v0.2.108-alpha';
+const FUI_URL = '../vendor/floating-ui/floating-ui.dom.bundle.min.mjs?v=v0.2.108-alpha';
+const ANIME_URL = '../vendor/animejs/anime.ui.min.mjs?v=v0.2.108-alpha';
 const mods = {}; const loads = {};
 const load = (k, url) => (loads[k] ||= import(url).then((m) => (mods[k] = m)).catch((e) => { delete loads[k]; console.warn(`ui tools (${k}):`, e.message); return null; }));
 
@@ -240,7 +240,7 @@ export class UiTools2 {
 
   // ---------- Animator FX art (fx_art.js, lazy): capture / evolution / heal_restore ----------
   art() { if (new URLSearchParams(location.search).get('fxart') === '0') return Promise.resolve(null);
-    return (loads.art ||= import('./fx_art.js?v=v0.2.107-alpha').catch((e) => { delete loads.art; console.warn('fx art:', e.message); return null; })); }
+    return (loads.art ||= import('./fx_art.js?v=v0.2.108-alpha').catch((e) => { delete loads.art; console.warn('fx art:', e.message); return null; })); }
   /** Heal machine sequence at the cradle (src/systems/heal.js). Skipped when motion is reduced. */
   async healFx(sc, n) { const fa = await this.art(); if (!fa?.FX_ART.heal || !sc) return null;
     const r = await fa.healFx(sc, n, { reduced: this.reduced() }); this.motion.heal = r; return r; }

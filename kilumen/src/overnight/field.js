@@ -8,10 +8,10 @@
 //    No skill needed (FIELD_SKILLS.md: Greystone boulders stay push puzzles). Plates with mode 'hold' (greystone_b1)
 //    are held by a boulder or the player standing on them; the gates follow (puzzle.gates[].channel may be a list).
 //    Boulders reset when the map reloads (puzzle.rules): every map entry puts each pushed boulder back on its home cell and
-//    restores the floor (plate / decoration) it was covering. Boulder reset bug (v0.2.107-alpha): maps are cached by
+//    restores the floor (plate / decoration) it was covering. Boulder reset bug (v0.2.108-alpha): maps are cached by
 //    OverworldScene.loadMap, so a pushed boulder stayed where it was on re-entry (a boulder shoved into a corner blocked the
 //    shortcut for good) and onEnter dropped the remembered floor, so pushing it again erased the plate under it.
-import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.107-alpha';
+import { Col, DELTA, MoveMode } from '../overworld/constants.js?v=v0.2.108-alpha';
 const WET = new Set([Col.WATER, Col.DEEP_WATER]); // ride-only water codes
 
 export const BRUSH_TILES = { thick_brush: { skill: 'brushbreak', flag: 'has_brushbreak' }, cracked_rock: { skill: 'stonebreak', flag: 'has_stonebreak' } };

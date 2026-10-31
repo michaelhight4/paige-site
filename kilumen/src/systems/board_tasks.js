@@ -4,7 +4,7 @@
 // So it is safe on every tick and on load (old saves that already finished something get it once, on load).
 // Economy: Milestones pay 1 point at Gold and 1 at Platinum; these pay 1 each (2 for the Aurelith Olympics), PLACEHOLDER
 // values for Game dev to tune here. Text: system_tasks.board_tasks.* (Text Bot request data/textbot_requests_rt_respec.md).
-import { TOWN_VENUES, SIGNATURE, wonFlag } from '../sports/olympics.js?v=v0.2.107-alpha';
+import { TOWN_VENUES, SIGNATURE, wonFlag } from '../sports/olympics.js?v=v0.2.108-alpha';
 
 const has = (flags, f) => !!flags && (typeof flags.has === 'function' ? flags.has(f) : Array.isArray(flags) ? flags.includes(f) : !!flags[f]);
 const oly = (sstate, v) => sstate?.oly?.[v] || {};

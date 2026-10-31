@@ -1,14 +1,14 @@
 // Olympics UI (dev/olympics, Oct 30 2026): assign screen -> 3 x (event lanes -> results board) -> final standings -> champion.
 // TAP ONLY: every control is a button/tap target; nothing needs a hold or a drag. Reuses the #town-ev overlay styles
 // (town_ui.js CSS) and runChampion (hype.js) for the champion screen. Logic: olympics.js. Text: olympics_strings.js.
-import { OLY_EVENTS, VENUES, canEnterOly, autoAssign, assignTap, validAssign, olyRivals, runOlympics, settleOlympics, wonFlag } from './olympics.js?v=v0.2.107-alpha';
-import { OS, ot } from './olympics_strings.js?v=v0.2.107-alpha';
-import { athleticStats } from './athletics.js?v=v0.2.107-alpha';
-import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.107-alpha';
-import { reducedMotion } from './hype.js?v=v0.2.107-alpha';
-import { animPlan, drawOlyFrame, frameSrc, AW, AH } from './olympics_anim.js?v=v0.2.107-alpha';
-import { onTap } from '../shared/tap_guard.js?v=v0.2.107-alpha';
-import { podiumPlan, drawPodiumPixels, drawPodiumText, PW, PH } from './olympics_podium.js?v=v0.2.107-alpha';
+import { OLY_EVENTS, VENUES, canEnterOly, autoAssign, assignTap, validAssign, olyRivals, runOlympics, settleOlympics, wonFlag } from './olympics.js?v=v0.2.108-alpha';
+import { OS, ot } from './olympics_strings.js?v=v0.2.108-alpha';
+import { athleticStats } from './athletics.js?v=v0.2.108-alpha';
+import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.108-alpha';
+import { reducedMotion } from './hype.js?v=v0.2.108-alpha';
+import { animPlan, drawOlyFrame, frameSrc, AW, AH } from './olympics_anim.js?v=v0.2.108-alpha';
+import { onTap } from '../shared/tap_guard.js?v=v0.2.108-alpha';
+import { podiumPlan, drawPodiumPixels, drawPodiumText, PW, PH } from './olympics_podium.js?v=v0.2.108-alpha';
 
 const CSS = `#town-ev.oly .ev{border:2px solid #384260;border-radius:6px;margin:4px auto;padding:4px 6px;max-width:520px;cursor:pointer;text-align:left}
 #town-ev.oly .ev.on{border-color:#e8c26a;background:#1a2238}#town-ev.oly .ev small{opacity:.75}#town-ev.oly .ev b{color:#e8c26a}

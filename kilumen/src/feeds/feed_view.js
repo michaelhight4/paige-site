@@ -6,9 +6,9 @@
 // - Stardew Valley: tactile item pickup pop, little heart/sparkle bursts, a fanfare on a milestone.
 // Art: our own placeholder SVG (ui_art.js) until Animator's fruit art lands (/workspace/kilumen_fruit_art/); sound: in-house
 // ZzFX (src/vendor/zzfx, MIT) with feeds-only presets below, gated on the player's audio settings.
-import * as L from './logic.js?v=v0.2.107-alpha';
-import { FS, ft } from './strings.js?v=v0.2.107-alpha';
-import { fruitSvg, fruitColor } from './ui_art.js?v=v0.2.107-alpha';
+import * as L from './logic.js?v=v0.2.108-alpha';
+import { FS, ft } from './strings.js?v=v0.2.108-alpha';
+import { fruitSvg, fruitColor } from './ui_art.js?v=v0.2.108-alpha';
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms * (globalThis.KILUMEN_FEEDS_SLOWMO || 1)));
@@ -34,7 +34,7 @@ export function feedSfx(id) {
     const a = globalThis.kilumen?.audio, s = a?.state?.();
     if (!s || !s.unlocked || s.muted || !(s.sfx > 0) || !FEED_SFX[id]) return false;
     const go = (Z) => { Z.volume = 0.3 * (s.master ?? 1) * (s.sfx ?? 1); Z.play(...FEED_SFX[id]); };
-    if (zz) go(zz); else import('../vendor/zzfx/ZzFX.js?v=v0.2.107-alpha').then((m) => { zz = m.ZZFX; go(zz); });
+    if (zz) go(zz); else import('../vendor/zzfx/ZzFX.js?v=v0.2.108-alpha').then((m) => { zz = m.ZZFX; go(zz); });
     return true;
   } catch { return false; }
 }
