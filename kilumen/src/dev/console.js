@@ -3,7 +3,7 @@
 // speed, fast travel, master key, auto-complete battle (autobattle.js) and its logs.
 // Rules kept: never opens in a battle / dialogue / cutscene / fade / menu (same locks as saving); every change marks the save
 // devTouched; only the Flags tab (Oct 30 2026, src/dev/flags.js) writes progress flags, on purpose (the master key is a runtime override read by the gating code, see runtime.js).
-import { DEV } from './runtime.js?v=v0.2.102-alpha';
+import { DEV, devWalkPace } from './runtime.js?v=v0.2.102-alpha';
 import * as AB from './autobattle.js?v=v0.2.102-alpha';
 import { SPECIES } from '../ui/data.js?v=v0.2.102-alpha';
 import { ITEMS } from '../systems/items.js?v=v0.2.102-alpha';
@@ -103,7 +103,7 @@ export async function installDevConsole(scene, access) {
   // the game keeps ticking while the panel is open but gets no input; B closes it (and that press never reaches the game)
   const step = scene.step.bind(scene);
   scene.step = (snap) => {
-    if (DEV.active && scene.player) scene.player.speedMultiplier = (DEV.speed || 1) / (DEV.world || 1); // v0.2.59: world speed never speeds the player's own walk
+    if (DEV.active && scene.player) devWalkPace(scene.player, DEV); // v0.2.59 / Oct 30 2026: walk follows world speed only with DEV.fastWalk (default on)
     if (panel) {
       if (snap?.b || snap?.bTap) close();
       else if (inBattle) { if (!battleOn(ui())) close(); } // battle panel: stays open over the fight, closes when it ends
@@ -343,7 +343,7 @@ export async function installDevConsole(scene, access) {
     const logs = AB.logs.slice().reverse();
     body.innerHTML = `<h4>World speed (whole game: movement, timers, text, animations, battles)</h4><div class="kbar">${WORLD_SPEEDS.map((n) => `<button class="${(DEV.world || 1) === n ? 'sel' : ''}" data-world="${n}">${n}x</button>`).join('')}</div><div class="kbar"><button class="${scene.worldClockFast ? 'sel' : ''}" data-wclock="1">Fast clock with world speed: ${scene.worldClockFast ? 'ON' : 'OFF'}</button></div>
 <small>Dev session only, never saved. Movement is sub-stepped, so collisions hold at 100x. Saving stays blocked in battles, conversations and cutscenes.</small>
-<h4>Walk speed (only while dev mode is on)</h4><div class="kbar">${[1, 2, 4].map((n) => `<button class="${DEV.speed === n ? 'sel' : ''}" data-speed="${n}">${n}x</button>`).join('')}</div>
+<h4>Walk speed (only while dev mode is on)</h4><div class="kbar"><button class="${DEV.fastWalk !== false ? 'sel' : ''}" data-fastwalk="1">Walk at world speed: ${DEV.fastWalk !== false ? 'ON' : 'OFF'}</button></div><div class="kbar">${[1, 2, 4].map((n) => `<button class="${DEV.speed === n ? 'sel' : ''}" data-speed="${n}">${n}x</button>`).join('')}</div>
 <h4>Master key</h4><div class="kbar"><button class="${DEV.masterKey ? 'sel warn' : ''}" data-mk>${DEV.masterKey ? 'ON: all progression locks bypassed' : 'OFF'}</button></div>
 <small>While ON, story gates, blocked exits / TO COME exits to built maps, locked staff doors, the hall Master requirement, the intro walls and the early-access notice are bypassed. It is a runtime override only: no badges or story flags are written, and turning it OFF restores the real locks. Saves made after using it are marked devTouched.</small>
 <h4>Auto-complete battle</h4><div class="kbar"><label><input type="checkbox" data-cr ${AB.options.useCrystals ? 'checked' : ''}> use crystals on weak wild foes</label></div>
@@ -354,7 +354,8 @@ export async function installDevConsole(scene, access) {
       const a = e.target.attributes;
       if (a['data-wclock']) { scene.worldClockFast = !scene.worldClockFast; say(`Fast clock ${scene.worldClockFast ? 'on' : 'off'}.`); render(); }
       else if (a['data-world']) { setWorld(Number(a['data-world'].value)); animDirty = true; say(`World speed ${DEV.world}x.`); render(); }
-      else if (a['data-speed']) { DEV.speed = Number(a['data-speed'].value); scene.player.speedMultiplier = DEV.speed / (DEV.world || 1); say(`Walk speed ${DEV.speed}x.`); render(); }
+      else if (a['data-fastwalk']) { DEV.fastWalk = DEV.fastWalk === false; devWalkPace(scene.player, DEV); say(`Walk at world speed ${DEV.fastWalk ? 'on' : 'off'}.`); render(); }
+      else if (a['data-speed']) { DEV.speed = Number(a['data-speed'].value); devWalkPace(scene.player, DEV); say(`Walk speed ${DEV.speed}x.`); render(); }
       else if (a['data-mk']) { DEV.masterKey = !DEV.masterKey; if (DEV.masterKey) touched(); say(DEV.masterKey ? 'Master key ON.' : 'Master key OFF. Real locks are back.'); render(); }
       else if (a['data-log']) { const l = logs[Number(a['data-log'].value)]; if (l) { if (!l.text) l.text = l.lines.join('\n'); close(); AB.showLog(l); } } // Oct 30 2026: close the panel first, it ate every key while the log sat on top
     };
