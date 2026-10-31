@@ -13031,6 +13031,14 @@
     {
      "species": "sluicekin",
      "level": 62
+    },
+    {
+     "species": "gloamtick",
+     "level": 60
+    },
+    {
+     "species": "bleachghast",
+     "level": 60
     }
    ],
    "sight": 3,

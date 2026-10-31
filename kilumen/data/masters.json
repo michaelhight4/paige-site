@@ -726,7 +726,7 @@
       ]
      }
     ],
-    "ace_level": 36,
+    "ace_level": 42,
     "r56_source": "design/regions56_gd/balance.json masters.M5_wenna_peat (GD proposal, sim in SIM_RESULTS.md)"
    },
    "trainers": [
@@ -749,6 +749,18 @@
        "level": 42,
        "battle_species": "mirewump",
        "stand_in": true
+      },
+      {
+       "species": "reedmoot",
+       "level": 41,
+       "battle_species": "reedmoot",
+       "stand_in": false
+      },
+      {
+       "species": "snapmoor",
+       "level": 41,
+       "battle_species": "snapmoor",
+       "stand_in": false
       }
      ]
     },
@@ -770,6 +782,18 @@
        "species": "mirewump",
        "level": 42,
        "battle_species": "mirewump",
+       "stand_in": false
+      },
+      {
+       "species": "reedmoot",
+       "level": 42,
+       "battle_species": "reedmoot",
+       "stand_in": false
+      },
+      {
+       "species": "snapmoor",
+       "level": 42,
+       "battle_species": "snapmoor",
        "stand_in": false
       }
      ]
@@ -793,6 +817,18 @@
        "level": 42,
        "battle_species": "mirejaw",
        "stand_in": false
+      },
+      {
+       "species": "reedmoot",
+       "level": 42,
+       "battle_species": "reedmoot",
+       "stand_in": false
+      },
+      {
+       "species": "snapmoor",
+       "level": 42,
+       "battle_species": "snapmoor",
+       "stand_in": false
       }
      ]
     },
@@ -814,6 +850,18 @@
        "species": "snapmoor",
        "level": 41,
        "battle_species": "snapmoor",
+       "stand_in": false
+      },
+      {
+       "species": "reedmoot",
+       "level": 41,
+       "battle_species": "reedmoot",
+       "stand_in": false
+      },
+      {
+       "species": "eftwarden",
+       "level": 41,
+       "battle_species": "eftwarden",
        "stand_in": false
       }
      ],
@@ -837,6 +885,18 @@
        "species": "eftwarden",
        "level": 41,
        "battle_species": "eftwarden",
+       "stand_in": false
+      },
+      {
+       "species": "mirewump",
+       "level": 41,
+       "battle_species": "mirewump",
+       "stand_in": false
+      },
+      {
+       "species": "snapmoor",
+       "level": 41,
+       "battle_species": "snapmoor",
        "stand_in": false
       }
      ],
@@ -867,6 +927,12 @@
        "level": 42,
        "battle_species": "reedmoot",
        "stand_in": false
+      },
+      {
+       "species": "mirewump",
+       "level": 41,
+       "battle_species": "mirewump",
+       "stand_in": false
       }
      ],
      "added": "hall trainers v1, Oct 29 2026"
@@ -895,6 +961,12 @@
        "species": "reedmoot",
        "level": 42,
        "battle_species": "reedmoot",
+       "stand_in": false
+      },
+      {
+       "species": "mirewump",
+       "level": 41,
+       "battle_species": "mirewump",
        "stand_in": false
       }
      ],
@@ -1016,7 +1088,7 @@
       ]
      }
     ],
-    "ace_level": 41,
+    "ace_level": 50,
     "r56_source": "design/regions56_gd/balance.json masters.M6_jory_swell (GD proposal, sim in SIM_RESULTS.md)"
    },
    "trainers": [
@@ -1038,6 +1110,18 @@
        "species": "spinyclaw",
        "level": 49,
        "battle_species": "spinyclaw",
+       "stand_in": false
+      },
+      {
+       "species": "pearlisk",
+       "level": 49,
+       "battle_species": "pearlisk",
+       "stand_in": false
+      },
+      {
+       "species": "nudiblume",
+       "level": 49,
+       "battle_species": "nudiblume",
        "stand_in": false
       }
      ]
@@ -1061,6 +1145,18 @@
        "level": 49,
        "battle_species": "tidemarrow",
        "stand_in": true
+      },
+      {
+       "species": "pearlisk",
+       "level": 49,
+       "battle_species": "pearlisk",
+       "stand_in": false
+      },
+      {
+       "species": "nudiblume",
+       "level": 49,
+       "battle_species": "nudiblume",
+       "stand_in": false
       }
      ]
     },
@@ -1082,6 +1178,18 @@
        "species": "tundrarch",
        "level": 49,
        "battle_species": "tundrarch",
+       "stand_in": false
+      },
+      {
+       "species": "pearlisk",
+       "level": 49,
+       "battle_species": "pearlisk",
+       "stand_in": false
+      },
+      {
+       "species": "hullwhale",
+       "level": 49,
+       "battle_species": "hullwhale",
        "stand_in": false
       }
      ]
@@ -1105,6 +1213,18 @@
        "level": 49,
        "battle_species": "coilarch",
        "stand_in": false
+      },
+      {
+       "species": "pearlisk",
+       "level": 49,
+       "battle_species": "pearlisk",
+       "stand_in": false
+      },
+      {
+       "species": "nudiblume",
+       "level": 49,
+       "battle_species": "nudiblume",
+       "stand_in": false
       }
      ]
     },
@@ -1126,6 +1246,18 @@
        "species": "spraytern",
        "level": 49,
        "battle_species": "spraytern",
+       "stand_in": false
+      },
+      {
+       "species": "pearlisk",
+       "level": 49,
+       "battle_species": "pearlisk",
+       "stand_in": false
+      },
+      {
+       "species": "nudiblume",
+       "level": 49,
+       "battle_species": "nudiblume",
        "stand_in": false
       }
      ],
@@ -1156,6 +1288,12 @@
        "level": 49,
        "battle_species": "squidge",
        "stand_in": false
+      },
+      {
+       "species": "pearlisk",
+       "level": 49,
+       "battle_species": "pearlisk",
+       "stand_in": false
       }
      ],
      "added": "hall trainers v1, Oct 29 2026"
@@ -1178,6 +1316,18 @@
        "species": "spraytern",
        "level": 49,
        "battle_species": "spraytern",
+       "stand_in": false
+      },
+      {
+       "species": "pearlisk",
+       "level": 49,
+       "battle_species": "pearlisk",
+       "stand_in": false
+      },
+      {
+       "species": "nudiblume",
+       "level": 49,
+       "battle_species": "nudiblume",
        "stand_in": false
       }
      ],
@@ -1208,6 +1358,12 @@
        "species": "squidge",
        "level": 49,
        "battle_species": "squidge",
+       "stand_in": false
+      },
+      {
+       "species": "pearlisk",
+       "level": 49,
+       "battle_species": "pearlisk",
        "stand_in": false
       }
      ],
@@ -1282,7 +1438,7 @@
       "stand_in": false
      }
     ],
-    "ace_level": 50
+    "ace_level": 64
    },
    "trainers": [
     {
@@ -1303,6 +1459,18 @@
        "species": "wreckwarden",
        "level": 61,
        "battle_species": "wreckwarden",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 61,
+       "battle_species": "bleachghast",
+       "stand_in": false
+      },
+      {
+       "species": "runeskein",
+       "level": 61,
+       "battle_species": "runeskein",
        "stand_in": false
       }
      ]
@@ -1326,6 +1494,18 @@
        "level": 61,
        "battle_species": "pharolith",
        "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 61,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 61,
+       "battle_species": "bleachghast",
+       "stand_in": false
       }
      ]
     },
@@ -1347,6 +1527,18 @@
        "species": "novarch",
        "level": 61,
        "battle_species": "novarch",
+       "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 61,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 61,
+       "battle_species": "bleachghast",
        "stand_in": false
       }
      ],
@@ -1371,6 +1563,18 @@
        "level": 61,
        "battle_species": "pharolith",
        "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 61,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 61,
+       "battle_species": "bleachghast",
+       "stand_in": false
       }
      ],
      "added": "hall trainers v1, Oct 29 2026",
@@ -1394,6 +1598,18 @@
        "species": "wreckwarden",
        "level": 61,
        "battle_species": "wreckwarden",
+       "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 61,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 61,
+       "battle_species": "bleachghast",
        "stand_in": false
       }
      ],
@@ -1425,6 +1641,12 @@
        "level": 61,
        "battle_species": "gloamtick",
        "stand_in": false
+      },
+      {
+       "species": "runeskein",
+       "level": 61,
+       "battle_species": "runeskein",
+       "stand_in": false
       }
      ],
      "added": "hall trainers v1, Oct 29 2026",
@@ -1448,6 +1670,18 @@
        "species": "pharolith",
        "level": 61,
        "battle_species": "pharolith",
+       "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 61,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 61,
+       "battle_species": "bleachghast",
        "stand_in": false
       }
      ],
@@ -1473,6 +1707,18 @@
        "level": 61,
        "battle_species": "wreckwarden",
        "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 61,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 61,
+       "battle_species": "bleachghast",
+       "stand_in": false
       }
      ],
      "added": "hall overhaul phase 2, Oct 29 2026",
@@ -1496,6 +1742,18 @@
        "species": "bleachghast",
        "level": 61,
        "battle_species": "bleachghast",
+       "stand_in": false
+      },
+      {
+       "species": "gloamtick",
+       "level": 61,
+       "battle_species": "gloamtick",
+       "stand_in": false
+      },
+      {
+       "species": "runeskein",
+       "level": 61,
+       "battle_species": "runeskein",
        "stand_in": false
       }
      ],
@@ -1526,6 +1784,12 @@
        "species": "gloamtick",
        "level": 61,
        "battle_species": "gloamtick",
+       "stand_in": false
+      },
+      {
+       "species": "bleachghast",
+       "level": 61,
+       "battle_species": "bleachghast",
        "stand_in": false
       }
      ],
@@ -1617,7 +1881,7 @@
       "stand_in": false
      }
     ],
-    "ace_level": 55
+    "ace_level": 68
    },
    "trainers": [
     {
@@ -1638,6 +1902,18 @@
        "species": "foundrax",
        "level": 68,
        "battle_species": "foundrax",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 67,
+       "battle_species": "obsidiax",
+       "stand_in": false
+      },
+      {
+       "species": "pumicepuff",
+       "level": 67,
+       "battle_species": "pumicepuff",
        "stand_in": false
       }
      ]
@@ -1661,6 +1937,18 @@
        "level": 68,
        "battle_species": "sunderhoof",
        "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 68,
+       "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 68,
+       "battle_species": "obsidiax",
+       "stand_in": false
       }
      ]
     },
@@ -1682,6 +1970,18 @@
        "species": "slagrook",
        "level": 68,
        "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 68,
+       "battle_species": "obsidiax",
+       "stand_in": false
+      },
+      {
+       "species": "pumicepuff",
+       "level": 68,
+       "battle_species": "pumicepuff",
        "stand_in": false
       }
      ]
@@ -1705,6 +2005,18 @@
        "level": 68,
        "battle_species": "cinderwraith",
        "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 68,
+       "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 68,
+       "battle_species": "obsidiax",
+       "stand_in": false
       }
      ]
     },
@@ -1726,6 +2038,18 @@
        "species": "slagrook",
        "level": 67,
        "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 67,
+       "battle_species": "obsidiax",
+       "stand_in": false
+      },
+      {
+       "species": "pumicepuff",
+       "level": 67,
+       "battle_species": "pumicepuff",
        "stand_in": false
       }
      ],
@@ -1756,6 +2080,12 @@
        "level": 68,
        "battle_species": "kilnowl",
        "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 67,
+       "battle_species": "slagrook",
+       "stand_in": false
       }
      ],
      "added": "hall trainers v1, Oct 29 2026"
@@ -1778,6 +2108,18 @@
        "species": "slagrook",
        "level": 67,
        "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 67,
+       "battle_species": "obsidiax",
+       "stand_in": false
+      },
+      {
+       "species": "pumicepuff",
+       "level": 67,
+       "battle_species": "pumicepuff",
        "stand_in": false
       }
      ],
@@ -1803,6 +2145,18 @@
        "level": 67,
        "battle_species": "foundrax",
        "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 67,
+       "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 67,
+       "battle_species": "obsidiax",
+       "stand_in": false
       }
      ],
      "added": "hall overhaul phase 2, Oct 29 2026",
@@ -1826,6 +2180,18 @@
        "species": "pyrogrim",
        "level": 67,
        "battle_species": "pyrogrim",
+       "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 67,
+       "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 67,
+       "battle_species": "obsidiax",
        "stand_in": false
       }
      ],
@@ -1851,6 +2217,18 @@
        "level": 67,
        "battle_species": "embermink",
        "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 67,
+       "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 67,
+       "battle_species": "obsidiax",
+       "stand_in": false
       }
      ],
      "added": "hall overhaul phase 2, Oct 29 2026",
@@ -1874,6 +2252,18 @@
        "species": "forgeharrow",
        "level": 67,
        "battle_species": "forgeharrow",
+       "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 67,
+       "battle_species": "slagrook",
+       "stand_in": false
+      },
+      {
+       "species": "obsidiax",
+       "level": 67,
+       "battle_species": "obsidiax",
        "stand_in": false
       }
      ],
@@ -1904,6 +2294,12 @@
        "species": "kilnpaw",
        "level": 68,
        "battle_species": "kilnpaw",
+       "stand_in": false
+      },
+      {
+       "species": "slagrook",
+       "level": 67,
+       "battle_species": "slagrook",
        "stand_in": false
       }
      ],
