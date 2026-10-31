@@ -148,32 +148,109 @@ def phase(im, p):
     if p == 'day': return im
     k = {'dawn': (1.0, .97, .97), 'dusk': (.97, .93, .98), 'night': (.78, .82, .92)}[p]
     return im.point(lambda v: v)  if False else Image.merge('RGB', [ch.point(lambda v, s=s: round(v * s)) for ch, s in zip(im.split(), k)])
+N = 32  # life frames (x 120 ms = 3.84 s loop); every animated value below completes whole cycles in N frames, so it loops cleanly
+STRIPS = (30, 130, 230)
+SCREENS = [((108, 30, 146, 56), 'graph'), ((152, 28, 196, 58), 'dna'), ((202, 30, 228, 56), 'bars'), ((116, 64, 140, 78), 'text'), ((208, 64, 226, 78), 'text')]
+def lights(f):
+    """Per-frame brightness (1 = the still) of each light source; the floor glow under a source uses the same value."""
+    w = lambda k, ph=0: math.sin(2 * math.pi * (k * f / N + ph))
+    strips = [1 + .07 * w(1, i / 3) for i in range(3)]
+    tanks = [1 + .12 * w(1, .3 * i + .1) for i in range(3)]
+    mon = 1.0
+    if f in (9, 10): strips[0] = (.35, .75)[f - 9]          # brief flickers
+    if f == 22: strips[2] = .4; tanks[1] = .6                  # strip 3 and tank 2 share a circuit
+    if f == 23: strips[2] = .8
+    if f in (14, 15): mon = (.72, .9)[f - 14]
+    return strips, tanks, mon
+def tint(d, box, b, lit):
+    """Brightness b over an area: darken with black below 1, brighten with the light colour above 1."""
+    if b < 1: d.rectangle(box, fill=(0, 0, 0, round(255 * (1 - b) * .75)))
+    elif b > 1: d.rectangle(box, fill=hx(lit) + (round(255 * (b - 1) * 1.3),))
+def on_pad(x, y):
+    return any(((x + .5 - fx * W) / (rx + 3)) ** 2 + ((y + .5 - fy * H - 2) / (ry + 4)) ** 2 <= 1 for (fx, fy, rx, ry) in ((*FAR, 30, 7), (*NEAR, 44, 10)))
+def floor_glow(px, cx, cy, rx, ry, col, k, b):
+    """Re-weights the still's dithered floor reflection: same ellipse and falloff as base(), alpha in 4 hard steps (pixel look)."""
+    dlt = b - 1
+    if abs(dlt) < .005: return
+    c = (0, 0, 0) if dlt < 0 else col
+    for y in range(max(HZ + 2, int(cy - ry)), min(H, int(cy + ry) + 1)):
+        for x in range(max(0, int(cx - rx)), min(W, int(cx + rx) + 1)):
+            e = ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2
+            if e >= 1 or on_pad(x, y): continue
+            a = k * (1 - e) * abs(dlt) * (2.2 if dlt < 0 else 3.0)
+            a = round(min(.9, a) * 4 + BAYER[y % 4][x % 4] / 16 - .5) / 4
+            if a > 0: px[x, y] = c + (round(255 * a),)
+def screen_anim(d, box, kind, f, idx):
+    x0, y0, x1, y1 = box; t = f / N
+    d.rectangle([x0, y0, x1, y1], fill=hx('#0a2a3a') + (255,))
+    for y in range(y0, y1 + 1, 2): d.line([x0, y, x1, y], fill=hx('#0d3346') + (255,))
+    if kind == 'graph':  # line scrolls left, two waves per loop
+        for x in range(x0 + 2, x1 - 1):
+            ph = (x - x0) / 3.2 + 2 * math.pi * 2 * t
+            y = (y0 + y1) / 2 + math.sin(ph) * (y1 - y0) / 4 + math.sin(ph * .5 + 1) * 2; d.point((x, round(y)), fill=hx('#6dffb8') + (255,))
+        hx_ = x1 - 2 - (f % 8) * 3; d.line([hx_, y0 + 2, hx_, y1 - 3], fill=hx('#2f7f9a') + (255,))  # sweep marker
+        d.line([x0 + 2, y1 - 2, x1 - 2, y1 - 2], fill=hx('#2f7f9a') + (255,))
+    elif kind == 'dna':  # helix turns (strands swap front/back) and scrolls up
+        cx = (x0 + x1) / 2
+        for y in range(y0 + 2, y1 - 1):
+            ph = (y - y0) / 2.5 + 2 * math.pi * 2 * t; a = math.sin(ph) * 7; front = math.cos(ph) > 0
+            ca, cb = (hx('#8af2ff'), hx('#ff8ad8')) if front else (hx('#3f7f99'), hx('#8a4f80'))
+            if (y + f) % 3 == 0: d.line([round(cx - a), y, round(cx + a), y], fill=hx('#2f6f88') + (255,))
+            d.point((round(cx - a), y), fill=cb + (255,)); d.point((round(cx + a), y), fill=ca + (255,))
+    elif kind == 'bars':  # bars rise and fall
+        r = random.Random(x0)
+        for i, x in enumerate(range(x0 + 3, x1 - 2, 4)):
+            hmax = r.randint(6, y1 - y0 - 5); h = max(2, round(hmax * (.55 + .45 * math.sin(2 * math.pi * (2 * t + i * .37)))))
+            d.rectangle([x, y1 - 2 - h, x + 2, y1 - 2], fill=hx('#57c8ff' if i % 3 else '#ffcc66') + (255,))
+    else:  # text lines scroll up one row every 4 frames
+        r = random.Random(x0); widths = [r.randint(5, x1 - x0 - 6) for _ in range(8)]; off = f // 4; sub = (f % 4) * 3 // 4
+        for k in range(6):
+            y = y0 + 3 + k * 3 - sub
+            if y0 + 2 <= y <= y1 - 2: d.line([x0 + 3, y, x0 + 3 + widths[(k + off) % 8], y], fill=hx('#7fd8ff') + (255,))
+        if idx == 3 and f % 8 < 4: d.rectangle([132, 74, 134, 76], fill=hx('#bff4ff') + (255,))
 def life_frames():
     frames = []; r = random.Random(7)
     bubbles = [(tx, r.uniform(0, 1), r.choice([1, 1, 2])) for (x0, x1, top) in TANKS for tx in [r.randint(x0 + 4, x1 - 4) for _ in range(5)]]
     leds = [(278 + (i % 4) * 5, 41 + (i // 4) * 6, r.randint(0, 15), r.choice(['#6dffb8', '#57c8ff', '#ffcc66', '#ff7b6b'])) for i in range(36)]
-    for f in range(16):
-        im = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    for f in range(N):
+        im = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im); px = im.load()
+        strips, tanks, mon = lights(f)
+        # floor reflections first (they sit on the floor, under everything else drawn here)
+        for i, (x0, x1, top) in enumerate(TANKS): floor_glow(px, (x0 + x1) / 2, HZ + 6, 24, 9, hx('#5ff0d0'), .45, tanks[i])
+        floor_glow(px, 168, HZ + 5, 60, 7, hx('#57c8ff'), .3, mon)
+        for i, x in enumerate(STRIPS): floor_glow(px, x + 30, HZ + 12, 40, 5, hx('#bff4ff'), .12, strips[i])
+        # tank liquid pulse
+        for i, (x0, x1, top) in enumerate(TANKS): tint(d, [x0, top + 1, x1, 91], tanks[i], '#9fffe8')
         for i, (bx, ph, sz) in enumerate(bubbles):
             tank = TANKS[i // 5]; top = tank[2]; span = 90 - top - 4
-            y = 90 - ((ph + f / 16) % 1) * span; x = bx + (1 if (f + i) % 4 < 2 else 0)
+            y = 90 - ((ph + 2 * f / N) % 1) * span; x = bx + (1 if (f + i) % 4 < 2 else 0)
             d.rectangle([x, y, x + sz - 1, y + sz - 1], fill=hx('#d8fff6') + (230,))
         for (x, y, o, c) in leds:
-            if (f + o) % 16 < (6 + o % 5): d.rectangle([x, y + 1, x + 1, y + 2], fill=hx(c) + (255,))
-        # monitor cursor blink + sweeping scan line on the DNA screen
-        if f % 8 < 4: d.rectangle([132, 74, 134, 76], fill=hx('#bff4ff') + (255,))
-        sy = 28 + (f * 2) % 30; d.line([152, sy, 196, sy], fill=hx('#8af2ff') + (90,))
-        # pad light ring pulse (soft brighten every 8 frames)
-        a = round(70 * (0.5 + 0.5 * math.cos(f / 16 * 2 * math.pi)))
+            if (f + 2 * o) % 16 < (6 + o % 5): d.rectangle([x, y + 1, x + 1, y + 2], fill=hx(c) + (255,))
+        # monitors: animated content, then the shared flicker
+        for i, (box, kind) in enumerate(SCREENS):
+            screen_anim(d, box, kind, f, i); tint(d, list(box), mon, '#bff4ff')
+        # ceiling strips
+        for i, x0 in enumerate(STRIPS):
+            b = strips[i]; c = mix(hx('#34505e'), hx('#bff4ff'), b) if b <= 1 else mix(hx('#bff4ff'), hx('#ffffff'), min(1, (b - 1) * 4))
+            d.rectangle([x0, 4, x0 + 60, 6], fill=c + (255,)); d.line([x0 - 1, 7, x0 + 61, 7], fill=mix(hx('#24404c'), hx('#5fa9c4'), min(1, b)) + (255,))
+        # pad light ring pulse
+        a = round(70 * (0.5 + 0.5 * math.cos(f / N * 2 * math.pi * 2)))
         for (fx, fy, rx, ry) in ((*FAR, 30, 7), (*NEAR, 44, 10)):
             cx, cy = fx * W, fy * H; d.arc([cx - rx, cy - ry, cx + rx, cy + ry], 0, 180, fill=hx('#e6fdff') + (a,))
-        frames.append(im.resize((1280, 720), Image.NEAREST))
+        frames.append(im)
     return frames
+def life_phase(fr, p):
+    """The life layer gets the same per-phase grade as the still (opaque screens / strips must match a dimmer night)."""
+    if p == 'day': return fr
+    k = {'dawn': (1.0, .97, .97), 'dusk': (.97, .93, .98), 'night': (.78, .82, .92)}[p]
+    rr, g, b, a = fr.split(); return Image.merge('RGBA', [ch.point(lambda v, s=s: round(v * s)) for ch, s in zip((rr, g, b), k)] + [a])
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True); b = base(); b.save('/tmp/lab_native.png')
+    LIFE = life_frames()
     for p in ('dawn', 'day', 'dusk', 'night'):
         phase(b, p).resize((2560, 1440), Image.NEAREST).save(f'{OUT}/bg_{p}.webp', lossless=True, quality=100, method=6)
-        fr = life_frames(); fr[0].save(f'{OUT}/life_{p}.webp', save_all=True, append_images=fr[1:], duration=120, loop=0, lossless=True, method=6)
+        fr = [life_phase(x, p).resize((1280, 720), Image.NEAREST) for x in LIFE]; fr[0].save(f'{OUT}/life_{p}.webp', save_all=True, append_images=fr[1:], duration=120, loop=0, lossless=True, method=6)
     json.dump({'biome': 'lab', 'size': [2560, 1440], 'outdoor': False, 'spots_frac': {'near': list(NEAR), 'far': list(FAR)},
-               'life_layer': {'frames': 16, 'ms_per_frame': 120, 'size': [1280, 720]}, 'pixel_art': {'native': [W, H], 'scale': 8, 'filter': 'nearest'},
+               'life_layer': {'frames': N, 'ms_per_frame': 120, 'size': [1280, 720]}, 'pixel_art': {'native': [W, H], 'scale': 8, 'filter': 'nearest'},
                'source': 'Kilumen pixel art drawn in code, tools/lab_battle_bg/gen.py (Oct 30 2026)'}, open(f'{OUT}/index.json', 'w'), indent=1)
