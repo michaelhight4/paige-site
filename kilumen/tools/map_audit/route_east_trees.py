@@ -17,6 +17,9 @@ top = lambda x, y: 0 <= y < H and T.get(O[y][x]) == 'tree_top'
 # 2) join the ledge: the two trees between the left stub (14-16) and the long ledge (19-33)
 for x in (17, 18): D[15][x] = ID['ledge_m']; C[15][x] = 2
 D[15][16] = ID['ledge_m']; D[15][19] = ID['ledge_m']
+# keep the N-S dirt path (x 22-23) open where it crosses the ledge row; cap the ledge on each side
+for x in (22, 23): D[15][x] = 0; C[15][x] = 0
+D[15][21] = ID['ledge_r']; D[15][24] = ID['ledge_l']
 log = []
 changed = True
 while changed:
