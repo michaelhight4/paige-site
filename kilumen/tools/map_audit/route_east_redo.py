@@ -93,6 +93,12 @@ for y, s in NEW.items():
     for i, ch in enumerate(s): G[y][11 + i] = ch
 DEAD = [(61,17), (10,17), (49,10), (13,10), ]  # sealed-off walkable cells -> trees
 for x, y in DEAD: G[y][x] = 'T'
+# curved step between the two east-meadow ledge runs (soft kit: side + outer corner)
+G[15][23] = '<'; G[16][23] = 'L'
+# lawn round trainer 5 (21,13; looks right 22-25): flowers, mushrooms, a rock, a bush - sight line untouched
+for (x, y), ch in {(22, 11): 'v', (24, 11): 'f', (26, 11): 'r', (25, 11): 'v', (19, 13): 'm', (18, 13): 'f',
+                   (20, 14): 'f', (23, 14): 'v', (25, 14): 'r', (21, 11): 'm', (27, 13): 'f'}.items():
+    if G[y][x] == ' ': G[y][x] = ch
 # organic grass pass: nibble exposed corners, sprinkle lone tufts around patch borders
 _hh = lambda x, y: ((x * 92837111) ^ (y * 689287499)) & 0xff
 _g = lambda x, y: 0 <= x < W and 0 <= y < H and G[y][x] == '"'
@@ -105,6 +111,7 @@ for x, y in _tuft: G[y][x] = '"'
 TREES = {'T': ('tree_base', 'tree_top'), 'D': ('treed_base', 'treed_top')}
 DECO = {'f': 'flowers_warm', 'v': 'flowers_violet', 'm': 'mushroom_glow', 'r': 'rock', 'b': 'bush', '-': 'fence_h',
         'S': 'x_city_statue', 's': 'sign', 'Y': 'x_reeds', 'B': 'barrel', 'x': 'boulder'}
+LEDGE_KIT = {'<': 'ledge_side_l', '>': 'ledge_side_r', 'L': 'ledge_corner_bl', 'J': 'ledge_corner_br'}
 STALLS = {45: 'x_city_stall_fruit', 46: 'x_city_stall_flowers'}
 h = lambda x, y: (x * 73856093 ^ y * 19349663) & 0xffff
 def at(x, y): return G[y][x] if 0 <= x < W and 0 <= y < H else 'T'
@@ -145,17 +152,23 @@ for y in range(H):
         else: g[y][x] = ID[gr(x, y)]
         if ch in TREES: d[y][x] = ID[TREES[ch][0]]; c[y][x] = 1
         elif ch == '=':
-            nm = 'ledge_m'
-            if at(x - 1, y) != '=': nm = 'ledge_l'
-            elif at(x + 1, y) != '=': nm = 'ledge_r'
-            d[y][x] = ID[nm]; c[y][x] = 2
+            nm = 'ledge_m'; c[y][x] = 2
+            if at(x - 1, y) not in '=L': nm = 'ledge_cap_l'; c[y][x] = 1
+            elif at(x + 1, y) not in '=J<': nm = 'ledge_cap_r'; c[y][x] = 1
+            d[y][x] = ID[nm]
+        elif ch in LEDGE_KIT:
+            nm = LEDGE_KIT[ch]
+            if ch in '<>' and at(x, y - 1) not in '<>': nm = nm.replace('side_', 'side_end_')
+            d[y][x] = ID[nm]; c[y][x] = 1
         elif ch in DECO: d[y][x] = ID[DECO[ch]]; c[y][x] = CODE[ID[DECO[ch]]]
         elif ch == 'k':
             part = '0_0' if at(x, y - 1) != 'k' else '1_0'
             d[y][x] = ID[STALLS[x] + '_' + part]; c[y][x] = 1
         elif tall(x, y):
-            nesw = ''.join('0' if tall(x + dx, y + dy) else '1' for dx, dy in SIDES); v = x % 2
-            d[y][x] = ID['tall_grass_%s_v%d' % (nesw, v)]; o[y][x] = ID['tall_grass_front_%s_v%d' % (nesw, v)]; e[y][x] = 1
+            nesw = ''.join('0' if tall(x + dx, y + dy) else '1' for dx, dy in SIDES); v = (x + y) % 2
+            dg = ''.join('1' if nesw[i] == '0' and nesw[(i + 1) % 4] == '0' and not tall(x + dx, y + dy) else '0' for i, (dx, dy) in enumerate(DIAGS))
+            k = '%s_%s_v%d' % (nesw, dg, v)
+            d[y][x] = ID['tall_grass_soft_' + k]; o[y][x] = ID['tall_grass_soft_front_' + k]; e[y][x] = 1
 # whole trees: canopy over every tree with a tree below it, and over the open square above each top-row tree
 NPC = {(n['x'], n['y']) for n in j['npcs']}
 for y in range(H):
@@ -169,7 +182,7 @@ for y in range(H):
 # tall grass tips over the square above each top-row patch cell
 for y in range(1, H):
     for x in range(W):
-        if tall(x, y) and not tall(x, y - 1) and not o[y - 1][x] and not is_tree(x, y - 1) and (x, y - 1) not in NPC:
+        if False and tall(x, y) and not tall(x, y - 1) and not o[y - 1][x] and not is_tree(x, y - 1) and (x, y - 1) not in NPC:
             ew = ('0' if tall(x + 1, y) else '1') + ('0' if tall(x - 1, y) else '1')
             n = 'tall_grass_tips_%s_v%d' % (ew, x % 2)
             if n in ID: o[y - 1][x] = ID[n]
