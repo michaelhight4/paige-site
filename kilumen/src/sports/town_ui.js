@@ -11,10 +11,13 @@ import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.101-alpha
 import { runChampion, reducedMotion } from './hype.js?v=v0.2.101-alpha';
 import { keyAction, pollPad, feedPad } from './pad_input.js?v=v0.2.101-alpha';
 import { tug, teamStrength, quirkFor } from './tug.js?v=v0.2.101-alpha';
+import { attachOlympics } from './olympics_ui.js?v=v0.2.101-alpha';
+import { OS } from './olympics_strings.js?v=v0.2.101-alpha';
 import { pickRows } from './pick_rows.js?v=v0.2.101-alpha';
 import { MAJOR, canEnterMajor, payMajor, roundsFor, majorField, scoreRound, standings, settleMajor, majorEvent, majorState, townsWon } from './major.js?v=v0.2.101-alpha';
 export const TUG_COACH = 'saltmere_tug_coach', ANNOUNCER = 'aurelith_games_announcer', MERIT_CLERK = 'aurelith_merit_clerk'; // integ8: a separate Merit Counter clerk (stadium 16,10)
 
+const OLY_TOWNS = ['fernwick', 'saltmere', 'revival_heights', 'frostspire', 'lanternport', 'cindervale'];
 export const LIVE_REGION = 8; // all six town events are playable (dev/sports-events, Oct 29 2026); each coach also runs the town cup
 const W = 360, H = 480;
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -57,8 +60,8 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       scene.script(async () => {
         if (ev === 'merit') { const hi = scene.lines?.maps?.[scene.map?.name]?.[MERIT_CLERK]?.pages; if (hi?.length) await scene.say?.(scene.fill ? scene.fill(hi) : hi); await openMerit(); return; } // Merit Counter clerk: Text Bot greeting (text/overworld_lines.json), then the shop
         if (ev === 'major') { // Aurelith announcer: the Games or the merit counter (src/garden/index.js)
-          const k = openMerit && scene.ask ? await scene.ask([gt('merit.announcer.ask')], [gt('merit.announcer.games'), gt('merit.announcer.shop'), gt('merit.announcer.leave')]) : 0;
-          if (k === 1) { await openMerit(); return; } if (k !== 0) return;
+          const k = openMerit && scene.ask ? await scene.ask([gt('merit.announcer.ask')], [gt('merit.announcer.games'), OS.menu, gt('merit.announcer.shop'), gt('merit.announcer.leave')]) : 0;
+          if (k === 1) { await oly.open('aurelith'); return; } if (k === 2) { await openMerit(); return; } if (k !== 0) return;
           await scene.say?.([TS.major.hello], { name: TS.major.coach, portrait: null }); await openMajor(); return; }
         if (ev.region > LIVE_REGION) { await scene.say?.([TS.not_ready], { name: TS[ev.id].coach || TS.coach_name, portrait: null }); return; }
         await scene.say?.([TS[ev.id].hello], { name: TS[ev.id].coach || TS.coach_name, portrait: null }); await openEvent(ev);
@@ -67,6 +70,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     };
   };
   hook(sys());
+  const oly = attachOlympics(scene, { sys, sstate, isOpen: () => st.open || !!isOpen?.() }); // dev/olympics: 3-event Olympics per town + Aurelith
 
   function openEvent(ev) {
     if (st.open || isOpen?.()) return Promise.resolve();
@@ -95,7 +99,8 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     ov.innerHTML = `<div class="box"><h2>${esc(TS[ev.id].title)}</h2><div>${esc(rec?.best ? tt(TS.best, { best: rec.best, unit: ev.unit }) : TS.none_yet)}</div>
       <div>${esc(TS.pick)}</div><div>${pickRows(scene.party, { sel: st.mon, crew: ev.team && st.mon ? tugCrew(st.mon) : [st.mon] }).map((r) => `<div class="mon${r.sel ? ' sel' : ''}${r.out ? ' out' : ''}${r.crew ? ' crew' : ''}" data-p="${r.i}"${r.out ? ' aria-disabled="true"' : ''}><img src="${imgFor(r.c.species).src}"><span>${esc(nameOf(r.c))}</span><span class="tag">${r.out ? 'Out cold' : r.crew ? '\u2713' : ''}</span></div>`).join('')}</div>
       ${ev.team ? `<div class="crew">${esc(tt(TS.tug_crew, { names: tugCrew(st.mon).map(nameOf).join(', ') }))}</div>` : ''}<div style="opacity:.8;margin:4px">${esc(TS[ev.id].how)}</div><div class="cupline" id="cup-status">${esc(cupStatus(ev).msg)}</div>
-      <button data-a="go">${esc(TS.practice)}</button><button data-a="cup"${cupStatus(ev).ok ? '' : ' disabled'}>${esc(tt(TS.cup_enter, { fee: CUP.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
+      <button data-a="go">${esc(TS.practice)}</button><button data-a="cup"${cupStatus(ev).ok ? '' : ' disabled'}>${esc(tt(TS.cup_enter, { fee: CUP.fee }))}</button>${OLY_TOWNS.includes(ev.town) && !ev.team ? `<button data-a="oly">${esc(OS.menu)}</button>` : ''}<button data-a="back">${esc(TS.back)}</button></div>`;
+    ov.querySelector('[data-a=oly]')?.addEventListener('click', () => { const town = ev.town; close(); oly.open(town); }); // touch-ok: tap
     ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { const c = scene.party[+m.dataset.p]; if (!mons.includes(c)) return; st.mon = c; showPick(); })); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     ov.querySelector('[data-a=go]').onclick = () => { st.mode = 'practice'; play(); }; ov.querySelector('[data-a=back]').onclick = () => close(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     ov.querySelector('[data-a=cup]').onclick = () => cupIntro(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
@@ -214,7 +219,8 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
       <div>${esc(TS.pick)}</div><div>${pickRows(scene.party, { sel: st.mon, crew: [st.mon] }).map((r) => `<div class="mon${r.sel ? ' sel' : ''}${r.out ? ' out' : ''}" data-p="${r.i}"${r.out ? ' aria-disabled="true"' : ''}><img src="${imgFor(r.c.species).src}"><span>${esc(nameOf(r.c))}</span><span class="tag">${r.out ? 'Out cold' : r.sel ? '\u2713' : ''}</span></div>`).join('')}</div>
       <div class="cupline">${esc(tt(M.rounds_line, { events: stt.ok ? rounds.map((id) => TS[id].title).join(' · ') : M.secret }))}</div>
       <div class="cupline" id="major-status">${esc(stt.msg)}</div><div style="opacity:.8">${esc(tt(M.towns_line, { towns: townsWon(sstate()), need: MAJOR.needTowns }))}</div>
-      <button data-a="enter"${stt.ok ? '' : ' disabled'}>${esc(tt(M.enter, { fee: MAJOR.fee }))}</button><button data-a="back">${esc(TS.back)}</button></div>`;
+      <button data-a="enter"${stt.ok ? '' : ' disabled'}>${esc(tt(M.enter, { fee: MAJOR.fee }))}</button>${OLY_TOWNS.includes(ev.town) && !ev.team ? `<button data-a="oly">${esc(OS.menu)}</button>` : ''}<button data-a="back">${esc(TS.back)}</button></div>`;
+    ov.querySelector('[data-a=oly]')?.addEventListener('click', () => { const town = ev.town; close(); oly.open(town); }); // touch-ok: tap
     ov.querySelectorAll('.mon').forEach((m) => (m.onclick = () => { const c = scene.party[+m.dataset.p]; if (!mons.includes(c)) return; st.mon = c; majorIntro(); })); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     ov.querySelector('[data-a=back]').onclick = () => close(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     ov.querySelector('[data-a=enter]').onclick = () => { // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
@@ -268,7 +274,7 @@ export function attachTownEvents(scene, { sys, sstate, isOpen, openMerit }) {
     ov.querySelector('[data-a=back]').onclick = () => close(); // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
   }
 
-  const api = { openMajor, openTug: () => openEvent(tug), majorStatus, openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, major: st.major && { ...st.major, result: st.majorResult || null }, crowd: st.crowd && { hype: st.crowd.hype }, hold: st.input ? { ...st.input.hold } : null }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };
+  const api = { oly, openOlympics: (v) => oly.open(v), openMajor, openTug: () => openEvent(tug), majorStatus, openEvent: (town) => openEvent(eventFor(town)), state: () => ({ open: st.open, phase: st.phase, mode: st.mode, ev: st.ev?.id, run: st.run, rivals: st.rivals, cup: st.cupResult || null, major: st.major && { ...st.major, result: st.majorResult || null }, crowd: st.crowd && { hype: st.crowd.hype }, hold: st.input ? { ...st.input.hold } : null }), cupStatus: (town) => cupStatus(eventFor(town)), tap: () => st.tapFn?.(), close, hook };
   return api;
 }
 
