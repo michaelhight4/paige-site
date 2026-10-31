@@ -15313,7 +15313,7 @@
    "area_name": "Tidewater Coast",
    "tidewater_coast_dock_fisher_1": {
     "pages": [
-     "DRAFT placeholder: Casting off the end of the main pier."
+     "DRAFT placeholder: Casting off the quay by the buoys."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15324,14 +15324,14 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: Casting off the end of the main pier."
+       "DRAFT placeholder: Casting off the quay by the buoys."
       ]
      }
     ]
    },
    "tidewater_coast_dock_fisher_2": {
     "pages": [
-     "DRAFT placeholder: Fishing off the end of the main pier."
+     "DRAFT placeholder: Fishing off the end of the east dock."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15342,14 +15342,14 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: Fishing off the end of the main pier."
+       "DRAFT placeholder: Fishing off the end of the east dock."
       ]
      }
     ]
    },
    "tidewater_coast_dock_fisher_3": {
     "pages": [
-     "DRAFT placeholder: Line in off the end of pier B."
+     "DRAFT placeholder: Line in off the end of the west small dock."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15360,7 +15360,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: Line in off the end of pier B."
+       "DRAFT placeholder: Line in off the end of the west small dock."
       ]
      }
     ]
@@ -15403,7 +15403,7 @@
    },
    "tidewater_coast_shipwright": {
     "pages": [
-     "DRAFT placeholder: Shipwright on the main pier, mending gear."
+     "DRAFT placeholder: Shipwright on the small docks, mending rowboats."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15414,7 +15414,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: Shipwright on the main pier, mending gear."
+       "DRAFT placeholder: Shipwright on the small docks, mending rowboats."
       ]
      }
     ]
@@ -15457,7 +15457,7 @@
    },
    "tidewater_coast_dock_worker_3": {
     "pages": [
-     "DRAFT placeholder: Dock worker stacking barrels on pier B."
+     "DRAFT placeholder: Dock worker walking the boardwalk."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15468,7 +15468,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: Dock worker stacking barrels on pier B."
+       "DRAFT placeholder: Dock worker walking the boardwalk."
       ]
      }
     ]
@@ -15565,7 +15565,7 @@
    },
    "tidewater_coast_warehouse_clerk_2": {
     "pages": [
-     "DRAFT placeholder: Warehouse clerk at the east store."
+     "DRAFT placeholder: Cargo clerk tallying the quay stacks."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15576,7 +15576,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: Warehouse clerk at the east store."
+       "DRAFT placeholder: Cargo clerk tallying the quay stacks."
       ]
      }
     ]
@@ -15619,7 +15619,7 @@
    },
    "tidewater_coast_dock_worker_6": {
     "pages": [
-     "DRAFT placeholder: Dock worker under the pier B crane."
+     "DRAFT placeholder: Dock worker tying up boats on the east dock."
     ],
     "kind": "villager",
     "status": "DRAFT",
@@ -15630,7 +15630,7 @@
       "id": "default",
       "flags": [],
       "pages": [
-       "DRAFT placeholder: Dock worker under the pier B crane."
+       "DRAFT placeholder: Dock worker tying up boats on the east dock."
       ]
      }
     ]
