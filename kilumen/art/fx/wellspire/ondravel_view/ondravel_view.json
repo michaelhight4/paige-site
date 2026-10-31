@@ -1,0 +1,23 @@
+{
+ "base_w": 176,
+ "base_h": 70,
+ "pad": 4,
+ "giant": {
+  "x": 71,
+  "y": 3,
+  "w": 35,
+  "h": 54
+ },
+ "sprite": "art/characters/pixel/creatures/ondravel/overworld/ondravel_ow_sheet.png",
+ "safe_w": 112,
+ "crop": [
+  14,
+  8,
+  49,
+  62
+ ],
+ "drift_px": 3,
+ "drift_s": 24,
+ "fill": "#24102f",
+ "note": "One pixel scale: 1 base px = 1 sprite px; drawn nearest-neighbour at min(H/70, W/112). Coder, Oct 30 2026."
+}

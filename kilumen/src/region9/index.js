@@ -14,7 +14,6 @@ import { makeSummitFx } from './summit_fx.js?v=v0.2.100-alpha';
 const FB = { ...FB1, ...FB2, ...LAB_TEXT }; // Text Bot DRAFT lab lines win over Coder placeholders
 import { POINTS } from './points.gen.js?v=v0.2.100-alpha';
 import { Npc } from '../overworld/npcs.js?v=v0.2.100-alpha';
-import { walkPlayerTo } from '../overworld/automove.js?v=v0.2.100-alpha';
 import { TB } from './textbot.js?v=v0.2.100-alpha';
 const fallbackText = (k) => TB[k] || FB[k] || []; // Text Bot lines win over FB (FB = v1 + v2 + lab)
 
@@ -275,41 +274,20 @@ export function attachRegion9(scene, { systems } = {}) {
     } finally { release(); }
   }
 
-  /** Clouds part, light, shake: the towering Ondravel (summit_fx.js). Runs every visit (short after the first). */
-  async function summitReveal() {
-    const c = fx.centre(); if (!c) return;
-    const first = !has('fin_summit_seen'); fx.active = true; fx.row = 0;
-    try {
-      fx.cloud = 1; if (first) await say('fin.summit.clouds', narr);
-      await fx.pan(c, first ? 1600 : 700);
-      const shake = fx.shake(first ? 1400 : 600, first ? 9 : 5);
-      await fx.tween(first ? 2400 : 900, (e) => { fx.cloud = 1 - e; fx.light = e; }); await shake;
-      fx.row = 1; if (first) await say('fin.summit.reveal', narr);
-      await fx.flashOut('200,160,255', 140, 700); fx.row = 2; await fx.shake(500, 6);
-      if (first) await say('fin.summit.flare', narr);
-      if (first) { // short face-off: the player, then the Guardian, eye to eye, before the light takes you back
-        const p = scene.player?.pixel?.(); if (p) await fx.pan({ x: p.px + 32, y: p.py + 32 }, 900);
-        fx.row = 1; await say('fin.summit.faceoff', narr); await fx.pan(c, 700); await fx.shake(400, 4); }
-      set('fin_summit_seen');
-    } finally { fx.cloud = 0; fx.active = false; await fx.release(700); }
-  }
-
   /** Gary (Oct 30 2026): on the summit you fight Ondravel and LOSE. Scripted: whatever the battle screen says, the story
    *  counts a loss; no blackout, no money loss, no game over (team healed), then the light takes you into the flashback. */
-  /** Gary's staging (Oct 30 2026, via Animator): the player walks out of the cave onto the platform, Ondravel towers at its
-   *  end; the game walks the player forward, he rises through the clouds, tells them they are "the one", then makes them
-   *  fight (no yes/no). Cells: map json `staging` {cave, stop, face} (Animator's storyboard tile positions go there). */
-  async function summitStaging() {
-    const st = scene.map?.json?.staging || { stop: [12, 5], face: 'up' };
-    if (scene.player) { await say('fin.summit.platform', narr); await walkPlayerTo(scene, { x: st.stop[0], y: st.stop[1] }, { facing: st.face || 'up' }); }
-    await summitReveal();
-    await say('fin.summit.the_one', { name: 'Ondravel' });
-    await summitFight();
+  /** Gary's View staging (Oct 30 2026, replaces the forced walk + speech): the player walks out of the cave on their own; on
+   *  Ondravel's spot (fin_dome, prompt "View") a full-screen still of giant Ondravel opens (summit_view.js), his lines roll over
+   *  it in the dialogue box, and when the text is done the fight starts straight away (fight 1, scripted loss). */
+  async function summitView() {
+    const v = fx.view; await v.show();
+    try { await say('fin.summit.the_one', { name: 'Ondravel' }); await say('fin.summit.fight_intro', narr); set('fin_summit_seen'); }
+    finally { v.hide(); }
+    await summitFight({ intro: false });
   }
-  const stagingDue = () => scene.map?.name === 'fin_lab1_now' && !has('fin_timeslip') && !has('fin_guardian_beaten') && !!scene.map?.json?.staging;
 
-  async function summitFight() {
-    await say('fin.summit.fight_intro', narr);
+  async function summitFight({ intro = true } = {}) {
+    if (intro) await say('fin.summit.fight_intro', narr);
     if (!partyEmpty() && scene.hooks?.onBattle) await scene.hooks.onBattle({ map: 'fin_lab1_now', id: R9.summitFight, scripted: 'lose', turnOnly: true });
     scene.log?.push?.({ tick: scene.tick, type: 'battle', npc: R9.summitFight, won: false, scripted: true });
     heal(); set('fin_summit_lost'); await say('fin.summit.fight_lost', narr);
@@ -351,7 +329,7 @@ export function attachRegion9(scene, { systems } = {}) {
     r9_spire_f3_growth: () => say('r9.spire_f3_growth', narr),
     fin_dome: async () => {
       if (has('fin_guardian_beaten')) return say('fin.epilogue.bench', narr);
-      await summitStaging();
+      await summitView();
       set('fin_timeslip');
       fx.row = 2; await fx.flashOut('190,140,255', 400, 300);
       await say('fin.timeslip', narr);
@@ -450,7 +428,6 @@ export function attachRegion9(scene, { systems } = {}) {
   }
   function tick() {
     if (scene.busy || scene.paused || scene.fade || scene._r9Courier) return;
-    if (stagingDue()) { scene._r9Courier = true; scene.script(() => SPOTS.fin_dome()).finally(() => { scene._r9Courier = false; }); return; } // summit staging, on arrival
     if (has(FLASHBACK.flag) && !has(FLASHBACK.done)) { scene._r9Courier = true; scene.script(flashback).finally(() => { scene._r9Courier = false; }); return; }
     if (has('fin_woke_home') && !has(REPORT.walked) && scene.map?.name === REPORT.walk) { scene._r9Courier = true; scene.script(walkToWork).finally(() => { scene._r9Courier = false; }); return; }
     if (has('fin_woke_home') && !has('fin_reported_rt') && scene.map?.name === REPORT.work.map) { scene._r9Courier = true; scene.script(reportAtWork).finally(() => { scene._r9Courier = false; }); return; }

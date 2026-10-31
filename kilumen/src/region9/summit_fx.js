@@ -6,6 +6,7 @@ import { makeLabFx } from './lab_fx.js?v=v0.2.100-alpha';
 import { anim, frameAt, drawFrame } from './anims.js?v=v0.2.100-alpha';
 import { makeTankOverlays } from './tank_overlays.js?v=v0.2.100-alpha';
 import { makeSummitPeak } from './summit_peak.js?v=v0.2.100-alpha';
+import { makeSummitView } from './summit_view.js?v=v0.2.100-alpha';
 const T = 64, FW = 256, FH = 256;
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 export function makeSummitFx(scene) {
@@ -15,6 +16,7 @@ export function makeSummitFx(scene) {
   const lab = fx.lab = makeLabFx(scene); let breaking = false;
   const tanks = fx.tanks = makeTankOverlays(); fx.decorationFx = (ctx, v) => tanks.draw(ctx, v); // lab tank particle overlays (tank_overlays.js)
   // Wellspire v3: in the lab Ondravel floats in the big tank (lab_fx.js); released = glass broken, water drained
+  fx.view = makeSummitView(scene); // Gary's View still of giant Ondravel (region9 summitView)
   const peak = fx.peak = makeSummitPeak(scene); fx.giant = () => !!meta()?.giant;
   fx.under = (ctx, v) => {
     if (fx.giant()) { // summit v2: open peak edge, cloud sea, sunset; Ondravel rises out of the clouds beyond the edge (summit_peak.js)

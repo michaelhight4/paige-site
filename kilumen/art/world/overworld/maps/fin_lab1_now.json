@@ -2219,7 +2219,9 @@
     5
    ],
    "face": "up",
-   "region9": true
+   "region9": true,
+   "verb": "View",
+   "prompt_tap": true
   }
  ],
  "source": "tools/wellspire/build_climb.py (bespoke, Wellspire v2) + tools/wellspire/summit_open_peak.py",
@@ -2463,6 +2465,6 @@
    5
   ],
   "face": "up",
-  "note": "Animator v4 preview cells (64px, 640x1152 scene): cave_exit (5,17) -> (12,13), the tile in front of the cave mouth door (12,14); walk_stop = speech_start (5,13) -> (12,5), the far rock edge under Ondravel (fin_dome stand). Same column through the scene centre; the real platform is deeper, so the forced walk is 8 tiles instead of 4."
+  "note": "Gary Oct 30 2026: no forced walk; the player walks out of the cave (cave) and presses View on fin_dome from stop. Animator v4 preview cells (64px, 640x1152 scene): cave_exit (5,17) -> (12,13), the tile in front of the cave mouth door (12,14); walk_stop = speech_start (5,13) -> (12,5), the far rock edge under Ondravel (fin_dome stand). Same column through the scene centre; the real platform is deeper, so the forced walk is 8 tiles instead of 4."
  }
 }

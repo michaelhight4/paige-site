@@ -140,6 +140,8 @@ export class GameUI {
         const sp = await sc._homeStart(true); if (sp) sc.startWarp(sp, 'stuck'); });
     }
     this.prompt = el('div', 'hud-prompt', this.hud, `<span class="g">A</span><span class="t">Talk</span>`);
+    // a spot prompt with prompt_tap (Ondravel's View) is a button: a short tap / click on release = interact (holds, drags never)
+    onTap(this.prompt, null, (e) => { const s = this.scene; if (!this._promptSpot || !this.prompt.classList.contains('show') || s.busy || s.dialog?.active) return; e.stopPropagation?.(); s.interact?.(); }, { stop: true });
     this.root = el('div', 'ui-root', this.body); this.root.hidden = true; this.root.setAttribute('role', 'dialog'); this.root.setAttribute('aria-modal', 'true'); this.root.setAttribute('aria-label', 'Kilumen');
     this.backdrop = el('div', 'ui-backdrop', this.root);
     this.stage = el('div', 'ui-stage', this.root);
@@ -446,7 +448,7 @@ export class GameUI {
     const txt = `Day ${s.clock.day} · ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
     if (txt !== this._clockTxt) { this._clockTxt = txt; this.clock.innerHTML = `<span class="sky ${ph === 'night' ? 'night' : ''}"></span>${txt}`; }
     // A prompt over the faced thing
-    if (this.cfg.interactPrompt !== false) this._promptTick();
+    this._promptTick(); // phone (interactPrompt false): only spots with their own verb (fin_dome 'View') show, as a tap target
   }
   _bannerKind(zone = (this.scene.layout?.zones || []).find((z) => z.id === this.scene.zone?.())) {
     const n = this.scene.map.name;
@@ -481,9 +483,12 @@ export class GameUI {
     const s = this.scene, p = s.player, show = (on) => this.prompt.classList.toggle('show', on);
     if (!p || this.active || s.dialog?.active || s.busy || s.fade || p.moving || !s._cam) { show(false); return; }
     const D = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[p.facing]; if (!D) { show(false); return; }
-    const m = s.map; let hit = null, verb = 'Check';
+    const m = s.map; let hit = null, verb = 'Check', own = null;
     const fx0 = p.x + D[0], fy0 = p.y + D[1];
-    if (s.spots?.some((sp) => sp.kind !== 'trigger' && sp.x === fx0 && sp.y === fy0)) hit = [fx0, fy0];
+    const spot = s.spots?.find((sp) => sp.kind !== 'trigger' && sp.x === fx0 && sp.y === fy0);
+    this._promptSpot = spot?.verb && spot.prompt_tap ? spot : null; this.prompt.classList.toggle('tap', !!this._promptSpot);
+    if (this.cfg.interactPrompt === false && !spot?.verb) { show(false); return; }
+    if (spot) { hit = [fx0, fy0]; own = spot.verb || null; } // a spot's own verb (Ondravel summit: 'View', Gary Oct 30 2026)
     else for (let k = 1; k <= 3 && !hit; k++) {
       const x = p.x + D[0] * k, y = p.y + D[1] * k;
       if (!m.inBounds(x, y)) break;
@@ -498,7 +503,7 @@ export class GameUI {
     // Words: profile ui.interactVerbs {npc, sign, object}; the phone profile turns the whole prompt off (interactPrompt).
     const pad = this.platform?.profile?.controls?.touch || this.scene.input?.lastDevice === 'controller';
     const glyphA = pad ? 'A' : (this.cfg.interactKey || 'F'), vb = this.cfg.interactVerbs || {};
-    verb = (verb === 'Talk' ? vb.npc : verb === 'Read' ? vb.sign : vb.object) || verb;
+    verb = own || (verb === 'Talk' ? vb.npc : verb === 'Read' ? vb.sign : vb.object) || verb;
     this.prompt.classList.toggle('key', !pad);
     this.prompt.querySelector('.g').textContent = glyphA; this.prompt.querySelector('.t').textContent = verb;
     this.prompt.style.left = `${Math.round(x)}px`; this.prompt.style.top = `${Math.round(y)}px`; show(true);

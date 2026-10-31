@@ -3,41 +3,16 @@
 // blazing sunset with distant snowy peaks. Ondravel towers in OPEN SPACE beyond the edge: nothing but cloud and sky touches
 // him, backlit by the sun, his feet lost in the cloud sea, his head near the top of the screen (PC 1280x800, phone 844x390).
 // Everything is painted at 1/PX resolution and scaled up nearest-neighbour so it stays pixel art.
-// Giant art: Animator's sheet art/characters/pixel/guardian/ondravel_summit_giant/ondravel_summit_giant.json+png when it
-// (Animator v4, DRAFT until Gary approves).
+// Giant (Gary, Oct 30 2026): the Animator's ondravel_summit_giant art is no longer used here. The overworld summit shows the
+// peak, the sky and the cloud sea only; giant Ondravel appears in the full-screen View still (summit_view.js) when the player
+// presses View on his spot (fin_dome).
 const T = 64, PX = 4;
-const ANIM_DIR = 'art/characters/pixel/guardian/ondravel_summit_giant/';
-// Animator's v4 sheets (4 x 448x704, 450 ms, anchor bottom-centre; layers: sky -> giant -> cloud overlay -> ledge/player/UI).
-// WIRED AS DRAFT (Oct 30 2026): the art still waits for Gary's approval (its README); the placeholder is gone.
-export const USE_ANIMATOR_GIANT = true;
-export const GIANT_DRAFT = true;
-export const GIANT_SRC = [ANIM_DIR + 'ondravel_summit_giant_idle'];
-export const GIANT_OVERLAY = ANIM_DIR + 'ondravel_summit_cloud_overlay';
-/** Animator json (frame_width, frame_count, ms_per_frame, horizontal strip) or ours (frame_w, frames, ms, cols) -> one shape */
-export const normMeta = (m) => ({ ...m, frame_w: m.frame_w ?? m.frame_width, frame_h: m.frame_h ?? m.frame_height, frames: m.frames ?? m.frame_count,
-  ms: m.ms ?? m.ms_per_frame, cols: m.cols ?? (m.frames ?? m.frame_count) });
 const rnd = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 const mk = (w, h) => { if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(w, h); if (typeof document === 'undefined') return null; const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
 
 /** where the giant stands on screen: feet sunk in the cloud sea, head near the top. Pure (tests). */
-export function giantLayout({ W, H, edgeY, cx, rise = 1, aspect = 1 }) {
-  const top = Math.round(H * 0.04), feet = Math.round(Math.max(edgeY, H * 0.3) + H * 0.45);
-  const h = Math.max(T, feet - top), w = h * aspect, drop = (1 - rise) * h * 0.75;
-  return { x: cx, feet: feet + drop, h, w, head: feet + drop - h };
-}
-
 export function makeSummitPeak(scene) {
-  const g = { meta: null, img: null, src: null, tried: false, rise: 0.4, part: 0 };
-  const load = async () => {
-    g.tried = true; if (typeof fetch === 'undefined' || typeof Image === 'undefined') return;
-    const get = async (base) => { try { const r = await fetch(base + '.json'); if (!r.ok) return null; const m = normMeta(await r.json()); const im = new Image(); im.src = base + '.png';
-      await im.decode?.().catch(() => {}); return im.naturalWidth ? { m, im } : null; } catch { return null; } };
-    for (const base of GIANT_SRC) {
-      const a = await get(base); if (!a) continue; g.meta = a.m; g.img = a.im; g.src = base;
-      if (base === GIANT_SRC[0]) { const o = await get(GIANT_OVERLAY); if (o) { g.over = o.im; g.overMeta = o.m; } }
-      return;
-    }
-  };
+  const g = { rise: 0.4, part: 0 };
   let rock = null, rockKey = '';
   const rockLayer = (m) => { // dark jagged rock on every non-cloud cell (collision != 1 or a '#'/door/cairn cell); cached at 1/PX
     const J = m.json, MW = J.width, MH = J.height; const key = m.name + MW; if (rockKey === key) return rock; rockKey = key;
@@ -93,30 +68,14 @@ export function makeSummitPeak(scene) {
   };
   let low = null;
   g.edgeY = (v) => { const o = scene.map?.json?.ondravel; return o ? ((o.y + 1) * T - v.cam.y) * v.zoom : v.H * 0.3; };
-  g.layout = (v, W, H) => { const o = scene.map.json.ondravel, m = g.meta, a = m ? (m.art_bbox ? (m.art_bbox[2] - m.art_bbox[0]) / (m.art_bbox[3] - m.art_bbox[1]) : m.frame_w / m.frame_h) : 1;
-    return giantLayout({ W, H, edgeY: g.edgeY(v), cx: (o.x * T + T / 2 - v.cam.x) * v.zoom, rise: g.rise, aspect: a }); };
   g.under = (ctx, v) => {
-    const m = scene.map; if (!m?.json?.ondravel?.giant) return false; if (!g.tried) load();
+    const m = scene.map; if (!m?.json?.ondravel?.giant) return false;
     const W = ctx.canvas.width, H = ctx.canvas.height, t = (v.ms || 0) / 1000, edge = g.edgeY(v), hz = Math.max(H * 0.12, edge - H * 0.1);
     const w = Math.ceil(W / PX), h = Math.ceil(H / PX); if (!low || low.width !== w || low.height !== h) low = mk(w, h); if (!low) return false;
     const x = low.getContext('2d'); x.imageSmoothingEnabled = false; x.clearRect(0, 0, w, h);
     const s = skyLayer(W, H, hz); if (s) x.drawImage(s, 0, 0);
     cloudSea(x, w, h, hz / PX + 4, t, null);
-    const L = g.layout(v, W, H), show = scene.flags.has('fin_woke_home') ? 0 : 1;
-    if (show && g.img) { // the giant, backlit: a warm rim (offset silhouette) then a darkened body
-      const mm = g.meta, cols = mm.cols || mm.frames, f = Math.floor((v.ms || 0) / (mm.ms?.[0] || 160)) % mm.frames, fw = mm.frame_w, fh = mm.frame_h;
-      const ax = mm.anchor?.x ?? fw / 2, ay = mm.anchor?.y ?? fh, bb = mm.art_bbox || [0, 0, fw, fh], k = L.h / (bb[3] - bb[1]) / PX;
-      const dx = L.x / PX - ax * k, dy = L.feet / PX - ay * k, sx = (f % cols) * fw, sy = Math.floor(f / cols) * fh;
-      const sil = mk(Math.ceil(fw * k) + 4, Math.ceil(fh * k) + 4), sx2 = sil?.getContext('2d');
-      if (sx2) { sx2.imageSmoothingEnabled = false; sx2.drawImage(g.img, sx, sy, fw, fh, 2, 2, fw * k, fh * k); sx2.globalCompositeOperation = 'source-atop'; sx2.fillStyle = 'rgb(255,200,110)'; sx2.fillRect(0, 0, sil.width, sil.height);
-        x.save(); x.globalAlpha = 0.9 * show; for (const [ox, oy] of [[-1, 0], [1, 0], [0, -1]]) x.drawImage(sil, Math.round(dx - 2 + ox), Math.round(dy - 2 + oy)); x.restore(); }
-      x.drawImage(g.img, sx, sy, fw, fh, Math.round(dx), Math.round(dy), fw * k, fh * k);
-      if (!mm.PLACEHOLDER) { /* Animator's art carries its own sunset rim: no extra darkening */ } else {
-      x.save(); x.globalCompositeOperation = 'source-atop'; x.globalAlpha = 0.42; x.fillStyle = 'rgb(60,24,48)'; x.fillRect(Math.round(dx), Math.round(dy), fw * k, fh * k); x.restore(); } // backlit: shadow side to us
-      if (g.over) x.drawImage(g.over, sx, sy, fw, fh, Math.round(dx), Math.round(dy), fw * k, fh * k); // Animator front cloud bank, same frame
-    }
-    // front cloud bank swallowing his legs, parted around him as he rises (g.part 0..1)
-    const gw = (L.w * (0.25 + 0.35 * g.part)) / PX; cloudSea(x, w, h, L.feet / PX - L.h / PX * 0.16, t * 1.3 + 40, { x: L.x / PX, w: gw, y: L.feet / PX - L.h / PX * (0.05 + 0.2 * g.part) });
+    cloudSea(x, w, h, edge / PX - 6, t * 1.3 + 40, null); // nearer cloud bank just under the rock edge
     const r = rockLayer(m); if (r) { const z = v.zoom || 1; x.drawImage(r, Math.floor((-v.cam.x - 8 * T) * z / PX), Math.floor(-v.cam.y * z / PX), r.width * z, r.height * z); } // world px * zoom = screen px
     ctx.save(); ctx.imageSmoothingEnabled = false; ctx.drawImage(low, 0, 0, w * PX, h * PX); ctx.restore();
     return true;

@@ -955,3 +955,11 @@ DRAFT:
 DRAFT:
 - Far to the north, above the clouds, something very old closes its eyes.
 - It might be sleeping. It might be smiling. It is hard to tell from here.
+
+## Ondravel summit View (Coder, Oct 30 2026, Gary's View staging) - PLACEHOLDER lines, please write
+- Prompt verb on Ondravel's spot (fin_dome): "View" (map fin_lab1_now.json interact_spots fin_dome.verb).
+- Shown over the full-screen still of giant Ondravel, in order, then fight 1 starts straight away:
+  - `fin.summit.the_one` (speaker Ondravel) - placeholder "You. You are the one."
+  - `fin.summit.fight_intro` (narration) - placeholder.
+- No longer used on the summit (old forced walk): `fin.summit.platform`. Key kept; can be retired.
+- After fight 1 (scripted loss) unchanged: `fin.summit.fight_lost`.
