@@ -13,6 +13,7 @@ export const OS = {
   col_place: '#', col_trainer: 'Trainer', col_kilu: 'Kilu', col_score: 'Score', col_pts: 'Pts', col_total: 'Total',
   you: 'You', champ: '{venue} Olympics Champion!', won: 'Champion! +{prize} gold, +{merit} merit.', placed: 'Finished {place}. +{merit} merit.',
   first_win: 'First {venue} title!',
+  anim_go: 'GO!', anim_finish: 'FINISH!', anim_skip: 'Tap to skip',
   locked_town: 'The {venue} Olympics are for trainers who have won the {venue} Battle Hall.',
   locked_aurelith: 'The Aurelith Olympics are for champions of every town Olympics. Towns still to win: {missing}.',
   team: 'You need at least three Kilu ready to compete.', entered: 'You already competed here today. Come back tomorrow.',

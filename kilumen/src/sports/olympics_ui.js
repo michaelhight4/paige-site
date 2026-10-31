@@ -6,13 +6,15 @@ import { OS, ot } from './olympics_strings.js?v=v0.2.101-alpha';
 import { athleticStats } from './athletics.js?v=v0.2.101-alpha';
 import { diffOf, getDifficulty } from '../systems/difficulty.js?v=v0.2.101-alpha';
 import { reducedMotion } from './hype.js?v=v0.2.101-alpha';
+import { animPlan, drawOlyFrame, frameSrc, AW, AH } from './olympics_anim.js?v=v0.2.101-alpha';
 
 const CSS = `#town-ev.oly .ev{border:2px solid #384260;border-radius:6px;margin:4px auto;padding:4px 6px;max-width:520px;cursor:pointer;text-align:left}
 #town-ev.oly .ev.on{border-color:#e8c26a;background:#1a2238}#town-ev.oly .ev small{opacity:.75}#town-ev.oly .ev b{color:#e8c26a}
 #town-ev.oly .kl{display:flex;flex-wrap:wrap;justify-content:center;gap:4px}#town-ev.oly .kl button{min-height:44px;min-width:88px}
 #town-ev.oly .kl button.in{border-color:#e8c26a;color:#e8c26a}#town-ev.oly button{min-height:44px}
 #town-ev.oly table{margin:4px auto;border-collapse:collapse;font-size:13px}#town-ev.oly td,#town-ev.oly th{padding:2px 7px}#town-ev.oly tr.me{color:#e8c26a;font-weight:bold}
-#town-ev.oly .lanes{width:min(100%,520px,96vh);aspect-ratio:2/1;display:block;margin:0 auto;background:#0d1320;border-radius:4px}
+#town-ev.oly .box.wide{width:min(98vw,780px);padding:6px}#town-ev.oly canvas.lanes{width:min(100%,760px,calc((100vh - 104px)*16/9));aspect-ratio:16/9;display:block;margin:0 auto;background:#0d1320;border-radius:4px;image-rendering:pixelated;cursor:pointer}
+#town-ev.oly .box.wide h2{margin:0 0 4px;font-size:15px}#town-ev.oly .skip{font-size:11px;opacity:.7}
 #town-ev.oly .champ{font-size:22px;color:#e8c26a;margin:10px 0}`;
 const nameOf = (c) => c.nickname || c.name || c.species;
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -62,24 +64,26 @@ export function attachOlympics(scene, { sys, sstate, isOpen }) {
     const k = mine(); if (!validAssign(st.assign, k.length)) return;
     const lvl = k.reduce((s, c) => s + c.level, 0) / k.length, rv = olyRivals(st.venue, day(), lvl);
     const entrants = [{ who: 'me', name: OS.you, kilu: k, assign: st.assign }, ...rv.map((r, i) => ({ who: 'r' + i, name: r.trainer, kilu: r.kilu, assign: r.assign }))];
-    st.run = runOlympics({ venue: st.venue, day: day(), entrants }); st.i = 0; showEvent();
+    st.entrants = entrants; st.run = runOlympics({ venue: st.venue, day: day(), entrants }); st.i = 0; showEvent();
   }
+  const frameCache = new Map();
+  const framesOf = (sp) => { if (!frameCache.has(sp)) frameCache.set(sp, [0, 1, 2, 3].map((i) => { const im = new Image(); im.src = frameSrc(sp, i); return im; })); return frameCache.get(sp); };
   function showEvent() {
-    st.phase = 'event'; const ev = st.run.events[st.i], rows = [...ev.rows].sort((a, b) => (a.who > b.who ? 1 : -1)); // lanes in fixed order: you first
-    box(`<h2>${esc(ot(OS.event_n, { n: st.i + 1, of: 3, event: OS.events[ev.id] }))}</h2><canvas class="lanes" width="520" height="260"></canvas><div><button data-a="r" disabled>${esc(OS.results)}</button></div>`);
-    const g = ov.querySelector('canvas').getContext('2d'), top = Math.max(...rows.map((r) => r.score)), T = rm ? 0 : 1.6, t0 = performance.now();
-    const imgs = rows.map((r) => { const im = new Image(); im.src = imgSrc(r.kilu.species); return im; });
+    st.phase = 'event'; const ev = st.run.events[st.i];
+    const mates = {}; for (const e of st.entrants || []) { const j = e.kilu.findIndex((_, k) => !e.assign.includes(k)); mates[e.who] = e.kilu[j >= 0 ? j : e.assign[(st.i + 1) % 3]]; }
+    const plan = animPlan(ev.id, ev.rows, { mates }); st.plan = plan;
+    box(`<h2>${esc(ot(OS.event_n, { n: st.i + 1, of: 3, event: OS.events[ev.id] }))}</h2><canvas class="lanes" width="${AW * 2}" height="${AH * 2}"></canvas><div><span class="skip">${esc(OS.anim_skip)}</span> <button data-a="r" disabled>${esc(OS.results)}</button></div>`);
+    ov.querySelector('.box').classList.add('wide');
+    const cv = ov.querySelector('canvas'), g = cv.getContext('2d'); let t0 = performance.now(), skip = rm;
+    cv.onclick = () => { skip = true; cancelAnimationFrame(st.raf); st.raf = requestAnimationFrame(draw); }; // touch-ok: tap (click) skips to the finish; no hold or drag
     const draw = (now) => {
-      const p = T ? Math.min(1, (now - t0) / 1000 / T) : 1; g.fillStyle = '#0d1320'; g.fillRect(0, 0, 520, 260);
-      rows.forEach((r, i) => { const y = 14 + i * 60, w = 330 * p * (r.score / top);
-        g.fillStyle = i % 2 ? '#141b2e' : '#18213a'; g.fillRect(0, y - 6, 520, 56); g.fillStyle = '#fff'; g.fillRect(470, y - 6, 3, 56);
-        g.fillStyle = r.who === 'me' ? '#e8c26a' : '#5b7bd5'; g.fillRect(110, y + 16, w, 14);
-        if (imgs[i].complete && imgs[i].naturalWidth) g.drawImage(imgs[i], 100 + w, y - 4, 40, 40);
-        g.fillStyle = r.who === 'me' ? '#e8c26a' : '#cfd6ea'; g.font = 'bold 13px monospace'; g.fillText(r.name, 6, y + 14); g.font = '11px monospace'; g.fillText(nameOf(r.kilu), 6, y + 30);
-        if (p >= 1) { g.fillStyle = '#fff'; g.font = 'bold 13px monospace'; g.fillText(r.score.toFixed(1), 476, y + 28); } });
-      if (p < 1) st.raf = requestAnimationFrame(draw); else { const b = ov?.querySelector('[data-a=r]'); if (b) b.disabled = false; }
+      if (!ov || st.phase !== 'event') return;
+      const t = skip ? plan.end : (now - t0) / 1000; st.animT = t;
+      g.setTransform(2, 0, 0, 2, 0, 0); drawOlyFrame(g, plan, t, framesOf, { rm });
+      if (t < plan.end) st.raf = requestAnimationFrame(draw); else { const b = ov?.querySelector('[data-a=r]'); if (b) b.disabled = false; ov?.querySelector('.skip')?.remove(); }
     };
     st.raf = requestAnimationFrame(draw); on('[data-a=r]', showBoard);
+    st.seek = (t) => { cancelAnimationFrame(st.raf); g.setTransform(2, 0, 0, 2, 0, 0); drawOlyFrame(g, plan, t, framesOf, { rm }); st.animT = t; }; // shots/tests
   }
   function showBoard() {
     st.phase = 'board'; const ev = st.run.events[st.i], last = st.i === 2;
@@ -107,6 +111,7 @@ export function attachOlympics(scene, { sys, sstate, isOpen }) {
       <div>${esc(ot(OS.won, { prize: st.result.prize, merit: st.result.merit }))}</div><button data-a="x">${esc(OS.done)}</button>`);
     on('[data-a=x]', close);
   }
-  return { open, close, status, state: () => ({ open: st.open, phase: st.phase, venue: st.venue, assign: st.assign && [...st.assign], i: st.i, run: st.run, result: st.result }),
+  return { open, close, status, state: () => ({ open: st.open, phase: st.phase, venue: st.venue, assign: st.assign && [...st.assign], i: st.i, run: st.run, result: st.result, plan: st.plan, animT: st.animT }),
+    _seek: (t) => st.seek?.(t),
     _assign: (a) => { st.assign = a; if (st.phase === 'assign') showAssign(); } };
 }
