@@ -32,11 +32,12 @@ test('every authored enemy level in data is <= 68', () => {
   for (const [k, f] of Object.entries(RON_FIGHTS)) for (const l of f.levels) assert.ok(l <= CAP, `${k} L${l}`);
   for (const f of ARENA.fighters) for (const c of arenaTeam(f)) assert.ok(c.level <= CAP, `${f.id} L${c.level}`);
 });
-test('Master aces hit the region caps R1-R6 (12/20/28/36/42/50); R7-R8 hall trainers + Masters sit in 60-68', () => {
+test('Master aces hit the region caps R1-R6 (12/20/28/36/42/50); R7 Lanternport hall sits in 56-60 (ace 60, Gary Oct 31 2026), R8 in 60-68', () => {
   const caps = { fernwick: 12, saltmere: 20, revival_heights: 28, frostspire: 36, mirefen: 42, tidewater_coast: 50 };
   for (const h of J('data/masters.json').halls) {
     const ace = Math.max(...h.master.team.map((m) => m.level)), all = [...h.trainers.flatMap((t) => t.team), ...h.master.team].map((m) => m.level);
     if (caps[h.zone]) assert.ok(ace <= caps[h.zone] && Math.max(...all) <= caps[h.zone], `${h.zone} ace ${ace} > ${caps[h.zone]}`);
+    else if (h.zone === 'lanternport') { assert.equal(ace, 60); for (const l of all) assert.ok(l >= 56 && l <= 60, `${h.zone} L${l}`); }
     else for (const l of all) assert.ok(l >= 60 && l <= CAP, `${h.zone} L${l}`);
   }
 });

@@ -1409,36 +1409,36 @@
     "team": [
      {
       "species": "gloamtick",
-      "level": 62,
+      "level": 58,
       "battle_species": "gloamtick",
       "stand_in": false
      },
      {
       "species": "runeskein",
-      "level": 62,
+      "level": 58,
       "battle_species": "runeskein",
       "stand_in": false
      },
      {
       "species": "mournhorn",
-      "level": 63,
+      "level": 59,
       "battle_species": "mournhorn",
       "stand_in": false
      },
      {
       "species": "bleachghast",
-      "level": 63,
+      "level": 59,
       "battle_species": "bleachghast",
       "stand_in": false
      },
      {
       "species": "foamkin",
-      "level": 64,
+      "level": 60,
       "battle_species": "foamkin",
       "stand_in": false
      }
     ],
-    "ace_level": 64
+    "ace_level": 60
    },
    "trainers": [
     {
@@ -1451,25 +1451,25 @@
      "team": [
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "wreckwarden",
-       "level": 61,
+       "level": 59,
        "battle_species": "wreckwarden",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       },
       {
        "species": "runeskein",
-       "level": 61,
+       "level": 59,
        "battle_species": "runeskein",
        "stand_in": false
       }
@@ -1485,25 +1485,25 @@
      "team": [
       {
        "species": "runeskein",
-       "level": 61,
+       "level": 59,
        "battle_species": "runeskein",
        "stand_in": false
       },
       {
        "species": "pharolith",
-       "level": 61,
+       "level": 59,
        "battle_species": "pharolith",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       }
@@ -1519,25 +1519,25 @@
      "team": [
       {
        "species": "kelpstrider",
-       "level": 61,
+       "level": 59,
        "battle_species": "kelpstrider",
        "stand_in": false
       },
       {
        "species": "novarch",
-       "level": 61,
+       "level": 59,
        "battle_species": "novarch",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       }
@@ -1554,25 +1554,25 @@
      "team": [
       {
        "species": "runeskein",
-       "level": 61,
+       "level": 59,
        "battle_species": "runeskein",
        "stand_in": false
       },
       {
        "species": "pharolith",
-       "level": 61,
+       "level": 59,
        "battle_species": "pharolith",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       }
@@ -1590,25 +1590,25 @@
      "team": [
       {
        "species": "foamkin",
-       "level": 61,
+       "level": 59,
        "battle_species": "foamkin",
        "stand_in": false
       },
       {
        "species": "wreckwarden",
-       "level": 61,
+       "level": 59,
        "battle_species": "wreckwarden",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       }
@@ -1626,25 +1626,25 @@
      "team": [
       {
        "species": "novarch",
-       "level": 61,
+       "level": 59,
        "battle_species": "novarch",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "runeskein",
-       "level": 61,
+       "level": 59,
        "battle_species": "runeskein",
        "stand_in": false
       }
@@ -1662,25 +1662,25 @@
      "team": [
       {
        "species": "runeskein",
-       "level": 61,
+       "level": 59,
        "battle_species": "runeskein",
        "stand_in": false
       },
       {
        "species": "pharolith",
-       "level": 61,
+       "level": 59,
        "battle_species": "pharolith",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       }
@@ -1698,25 +1698,25 @@
      "team": [
       {
        "species": "foamkin",
-       "level": 61,
+       "level": 59,
        "battle_species": "foamkin",
        "stand_in": false
       },
       {
        "species": "wreckwarden",
-       "level": 61,
+       "level": 59,
        "battle_species": "wreckwarden",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       }
@@ -1734,25 +1734,25 @@
      "team": [
       {
        "species": "novarch",
-       "level": 61,
+       "level": 59,
        "battle_species": "novarch",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "runeskein",
-       "level": 61,
+       "level": 59,
        "battle_species": "runeskein",
        "stand_in": false
       }
@@ -1770,25 +1770,25 @@
      "team": [
       {
        "species": "mournhorn",
-       "level": 61,
+       "level": 59,
        "battle_species": "mournhorn",
        "stand_in": false
       },
       {
        "species": "kelpstrider",
-       "level": 61,
+       "level": 59,
        "battle_species": "kelpstrider",
        "stand_in": false
       },
       {
        "species": "gloamtick",
-       "level": 61,
+       "level": 59,
        "battle_species": "gloamtick",
        "stand_in": false
       },
       {
        "species": "bleachghast",
-       "level": 61,
+       "level": 59,
        "battle_species": "bleachghast",
        "stand_in": false
       }
