@@ -13,6 +13,7 @@
 // (sprite grade: no light colours, so smoke/butterfly highlights never glow); firefly glow stays ungraded (emissive). All motion shares WIND.
 import { TILE, Col } from './constants.js?v=v0.2.101-alpha';
 import { cameraFor } from './camera.js?v=v0.2.101-alpha';
+import { drawMerchantShip } from './harbour_ship.js?v=v0.2.101-alpha';
 import { INDOOR_OR_CAVE, isIndoor } from './clock.js?v=v0.2.101-alpha';
 
 /** Interiors + caves: one list, defined in clock.js (same rule as tools/progression.py INDOOR_OR_CAVE). */
@@ -484,8 +485,9 @@ export class LivingWorld {
   }
 
   under(ctx, v) {
-    if (!this.outdoor || !this.lifeOn) return;
+    if (!this.outdoor) return;
     v.cw = ctx.canvas.width; v.ch = ctx.canvas.height;
+    if (!this.lifeOn) { drawMerchantShip(ctx, v, this, TILE); return; } // the ship is part of the harbour, not optional ambience
     const ms = this.scene.ms, ts = v.tileset;
     for (const f of this.fish) {
       if (!f.hidden && this._visible(v, f.x, f.y)) {
@@ -497,6 +499,7 @@ export class LivingWorld {
         if (a && i >= 0 && i < a.frames.length) this._tileAt(ctx, v, f.rid, a.frames[i], f.ripple.x, f.ripple.y, false);
       }
     }
+    drawMerchantShip(ctx, v, this, TILE); // scheduled merchant ship (ambient.merchant_ship), over fish, under characters
   }
 
   over(ctx, v) {

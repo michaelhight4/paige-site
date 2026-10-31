@@ -6,7 +6,7 @@ import os, json
 from PIL import Image
 OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'art', 'world', 'overworld')
 INK, WD_D, WD, WD_L = (44, 35, 32), (92, 60, 40), (128, 86, 54), (168, 120, 76)
-W, H = 64 * 16, 64 * 4
+W, H = 64 * 16, 64 * 8
 im = Image.new('RGBA', (W, H), (0, 0, 0, 0)); px = im.load()
 def put(x, y, c):
     if 0 <= x < W and 0 <= y < H: px[x, y] = tuple(c[:3]) + (255,)
@@ -103,6 +103,10 @@ for y in range(10, 38): put(BX + 31, y, INK); put(BX + 32, y, INK)
 for y in range(10, 24):
     for x in range(33, 33 + (24 - y) + 6 if y > 17 else 33 + 14):
         put(BX + x, y, INK if y in (10, 23) or x == 32 + 14 else (240, 196, 60))
+# warehouse 5x4 at cols 0-4 rows 4-7: the farm kit's barn re-homed here (fp_barn ids 11100+ are shadowed by tileset_arena at runtime)
+for r in range(4):
+    for c in range(5):
+        a = kit(f'fp_barn_{r}_{c}'); a.putalpha(a.getchannel('A').point(lambda v: 255 if v >= 128 else 0)); im.alpha_composite(a, (64 * c, 64 * (4 + r)))
 assert set(im.getchannel('A').histogram()[1:255]) == {0}
 for k in (1, 2, 3):
     im.resize((W * k, H * k), Image.NEAREST).save(os.path.join(OUT, f'tiles_{k}x', 'harbour_dock.png'))
@@ -110,6 +114,7 @@ BASE = 12701  # above every runtime kit (tileset_arena.json tops out at 12686; 1
 NAMES = [('hd_rowboat_red', 0, 0), ('hd_rowboat_teal', 1, 0), ('hd_fishboat_0', 2, 0), ('hd_fishboat_1', 2, 1),
          ('bridge_dock', 3, 0), ('hd_deck_barrel', 4, 0), ('hd_deck_crate', 5, 0), ('hd_deck_net', 6, 0)]
 NAMES += [(f'hd_cargoship_{c}_{r}', 8 + c, r) for r in range(4) for c in range(3)] + [('hd_crane_top', 11, 0), ('hd_crane_base', 11, 1), ('hd_sacks', 12, 0), ('hd_buoy_flag', 13, 0)]
+NAMES += [(f'hd_warehouse_{r}_{c}', c, 4 + r) for r in range(4) for c in range(5)]
 KIT = set()
 for kf in ('tileset_arena.json', 'tileset_hallart.json', 'tileset_hallanim.json', 'tileset_ix2.json'):
     KIT |= {t['id'] for t in json.load(open(os.path.join(OUT, kf)))['tiles']}
