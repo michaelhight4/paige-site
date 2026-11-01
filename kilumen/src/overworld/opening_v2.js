@@ -28,13 +28,16 @@ export const CUTE_R1 = Object.freeze([
 ]);
 export const COMPANION_LEVEL = 3;
 
-/** Female model: no Cal-quality female set exists yet; the walk sheet is vil_commuter_f's chibi (same 64x96 grid). */
+/** Female model: vil_commuter_f's chibi walk sheet + run/bike sheets built from it on Cal's grids (run 6x4, bike 5x4, 64x96 cells; fix1). */
 export const MODELS = Object.freeze({
   male: { label: 'Male', card: 'art/characters/pixel/humans/cal/trainer/cal_trainer_64x128_2x.png', sheets: null },
   female: { label: 'Female', card: 'art/characters/pixel/humans/mira/trainer/mira_trainer_64x128_2x.png',
     sheets: { walk: { 1: 'art/characters/pixel/npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet.png',
       2: 'art/characters/pixel/npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet_2x.png',
-      3: 'art/characters/pixel/npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet_3x.png' } } },
+      3: 'art/characters/pixel/npcs/vil_commuter_f/overworld/vil_commuter_f_chibi_sheet_3x.png' },
+      run: { 1: 'art/characters/pixel/npcs/vil_commuter_f/run_bike/vil_commuter_f_chibi_run_sheet.png', 2: 'art/characters/pixel/npcs/vil_commuter_f/run_bike/vil_commuter_f_chibi_run_sheet_2x.png', 3: 'art/characters/pixel/npcs/vil_commuter_f/run_bike/vil_commuter_f_chibi_run_sheet_3x.png' },
+      bike: { 1: 'art/characters/pixel/npcs/vil_commuter_f/run_bike/vil_commuter_f_chibi_bike_sheet.png', 2: 'art/characters/pixel/npcs/vil_commuter_f/run_bike/vil_commuter_f_chibi_bike_sheet_2x.png', 3: 'art/characters/pixel/npcs/vil_commuter_f/run_bike/vil_commuter_f_chibi_bike_sheet_3x.png' },
+    } },
 });
 
 export const FALLBACK = Object.freeze({
@@ -131,6 +134,7 @@ export class OpeningV2 {
     const s = this.scene;
     if (!this.run) return;
     if (!s.flags.has(OPEN2.active)) s.setFlag(OPEN2.active);
+    if (s.map?.name === 'route1' && s.npcs?.list?.length) { s.npcs.list = []; s.map.resetOccupancy?.([]); } // fix1: no route1 trainers in the rain (back after the bedroom wake)
     if (!s.seen[OPEN2.nameKey]) { // identity first: black until the title closes, then Ondravel
       this.holding = true; s.fade = { phase: 'hold', t: 0, len: 75 }; s.player.locked = true;
       s.log.push({ tick: s.tick, type: 'open2', step: 'hold' });
@@ -179,8 +183,11 @@ export class OpeningV2 {
       import('../region56/weather_lite.js?v=v0.2.110-alpha').then((m) => {
         if (this.wx || !this.inSequence) return;
         const cv = document.querySelector('canvas');
-        this.wx = m.mountWeather(cv?.parentNode || document.body, { before: cv?.nextSibling || null, weather: 'rain' });
-        this.wx.el.classList.add('wx-open2');
+        const host = cv?.parentNode || document.body, wrap = document.createElement('div'); // wrapper: weather_lite's cls() rewrites .wx's className
+        wrap.className = 'wx-open2'; wrap.setAttribute('aria-hidden', 'true'); wrap.innerHTML = '<div class="o2-tint"></div>';
+        host.insertBefore(wrap, cv?.nextSibling || null);
+        const wx = m.mountWeather(wrap, { weather: 'rain' }), d0 = wx.destroy;
+        wx.destroy = () => { d0(); wrap.remove(); }; this.wx = wx;
       }).catch(() => {});
     } else if (!on && this.wx) { this.wx.destroy(); this.wx = null; }
   }

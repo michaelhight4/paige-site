@@ -72,8 +72,8 @@ test('weatherFor: R5/R6 only, storm variant/season, fog opt-in', () => {
 test('lite.css: game paths resolve, no CSS lightning loop, pause rule', () => {
   const css = readFileSync(R('src/region56/weather_lite.css'), 'utf8');
   const urls = [...css.matchAll(/url\(([^)]+)\)/g)].map((m) => m[1]);
-  assert.equal(urls.length, 4);
-  for (const u of urls) { assert.match(u, /_f0\.webp$|fog_band/); assert.ok(existsSync(new URL(u, R('src/region56/weather_lite.css'))), u); }
+  assert.equal(urls.length, 6); // 4 + opening v2 rain pair (.wx-open2, fix1)
+  for (const u of urls) { assert.match(u, /_f0\.webp$|fog_band|open2_rain_tile_256\.webp$/); assert.ok(existsSync(new URL(u, R('src/region56/weather_lite.css'))), u); }
   assert.doesNotMatch(css, /wxFlash/); assert.match(css, /animation-play-state:paused/); assert.match(css, /\.reduce-flashing \.wx-flash/);
   assert.match(readFileSync(R('index.html'), 'utf8'), /src\/region56\/weather_lite\.css/);
   for (const b of [0, 1, 2]) assert.ok(existsSync(R(`art/world/weather/r56/lightning_bolt_${b}.webp`)));

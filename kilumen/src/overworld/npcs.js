@@ -64,7 +64,7 @@ export class NpcSystem {
   /** Build NPC actors for a map (call after the map instance exists; map.npcs already holds merged pending NPCs). */
   build(map, spriteMap, phase) {
     const gateIds = new Set(map.storyGates.filter((g) => g.npc).map((g) => g.npc.id));
-    this.list = map.npcs.map((d) => npcForPhase(d, phase)).filter((d) => Number.isInteger(d.x) && d.kind !== 'spawn' && isActive(d, this.scene?.flags)) // by_phase / active_when: props.js
+    this.list = map.npcs.map((d) => npcForPhase(d, phase)).filter((d) => Number.isInteger(d.x) && d.kind !== 'spawn' && isActive(d, this.scene?.flags)).filter((d) => !(map.name === 'route1' && this.scene?.opening2?.inSequence)) // opening v2 rain scene: route1 is empty until the bedroom wake (Gary fix1) // by_phase / active_when: props.js
       .map((d) => new Npc(d, map.name, spriteFor(spriteMap, map.name, d), gateIds.has(d.id)));
     map.resetOccupancy(this.list.map((n) => ({ x: n.x, y: n.y, ref: n })));
     return this.list;

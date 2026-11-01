@@ -37,7 +37,7 @@ test('cleanName / identityConfig / opening2On', () => {
   assert.equal(cleanName('x'.repeat(40)).length, OPEN2.nameMax);
   const base = Object.freeze({ playerName: 'Cal', playerSheets: { walk: 'a.png', run: 'r.png' } });
   const f = identityConfig(base, 'Mira', 'female');
-  assert.equal(f.playerName, 'Mira'); assert.match(JSON.stringify(f.playerSheets.walk), /vil_commuter_f/); assert.equal(f.playerSheets.run, 'r.png');
+  assert.equal(f.playerName, 'Mira'); assert.match(JSON.stringify(f.playerSheets.walk), /vil_commuter_f/); assert.match(JSON.stringify(f.playerSheets.run), /vil_commuter_f_chibi_run/); assert.match(JSON.stringify(f.playerSheets.bike), /vil_commuter_f_chibi_bike/);
   assert.equal(identityConfig(base, 'Bo', 'male').playerSheets, base.playerSheets);
   assert.equal(opening2On(new URLSearchParams('opening=v1')), false);
   assert.equal(opening2On(new URLSearchParams('')), true);
@@ -86,4 +86,15 @@ test('model art: every card and sheet path exists', () => {
     const paths = [m.card, ...Object.values(m.sheets || {}).flatMap((v) => Object.values(v))];
     for (const rel of paths) assert.ok(existsSync(new URL('../' + rel, import.meta.url)), rel);
   }
+});
+
+test('fix1: female run/bike/back art exists on Cal grids; route1 empty + tasks held in the opening', async () => {
+  const fs = await import('node:fs'); const { MODELS } = await import('../src/overworld/opening_v2.js');
+  const sz = (p) => { const b = fs.readFileSync(new URL('../' + p, import.meta.url)); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
+  assert.deepEqual(sz(MODELS.female.sheets.run[1]), [384, 384]); assert.deepEqual(sz(MODELS.female.sheets.bike[1]), [320, 384]);
+  assert.deepEqual(sz(MODELS.female.sheets.bike[3]), [960, 1152]);
+  assert.deepEqual(sz('art/characters/pixel/npcs/vil_commuter_f/vil_commuter_f_back_battle.png'), [64, 96]);
+  assert.match(fs.readFileSync(new URL('../src/overworld/feed_battle.js', import.meta.url), 'utf8'), /female: 'art\/characters\/pixel\/npcs\/vil_commuter_f\/vil_commuter_f_back_battle\.png'/);
+  assert.match(fs.readFileSync(new URL('../src/progression/index.js', import.meta.url), 'utf8'), /scene\.opening2\?\.inSequence\) \{ hud\?\.update\(\); return; \}/);
+  assert.match(fs.readFileSync(new URL('../src/overworld/npcs.js', import.meta.url), 'utf8'), /map\.name === 'route1' && this\.scene\?\.opening2\?\.inSequence/);
 });

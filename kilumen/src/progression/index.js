@@ -239,6 +239,7 @@ export async function attachProgression(scene, ui, { query = null, platform = nu
       if (!scene.map) return;
       const quiet = Date.now() < quietUntil; // catch-up on load (old saves): no toasts / no step text
       if (scene.busy || inBattle()) { hud?.update(); return; } // never advance tasks mid battle / talk / cutscene
+      if (scene.opening2?.inSequence) { hud?.update(); return; } // opening v2 rain/feed/walk home: tasks start at the bedroom wake (Gary fix1)
       pg.storyOpens();
       const acts = qb.update({ flags: scene.flags, map: scene.map.name, x: scene.player.x, y: scene.player.y });
       const show = [];

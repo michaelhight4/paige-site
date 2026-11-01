@@ -26,3 +26,8 @@
 .wx-stack{position:relative;overflow:hidden}
 .wx-stack > canvas{position:absolute;inset:0;width:100%;height:100%}
 .wx-stack > canvas.wx-top{background:transparent}
+/* opening v2 rain wake (Gary fix1): the r56 rain tile is too faint on route1's bright grass. Same compositor-only layer, one
+   denser streak tile on top of the storm tile (multiple backgrounds = no extra layer) and a darker sky tint. */
+.wx-open2{position:fixed;inset:0;pointer-events:none;contain:strict}
+.wx-open2 .wx-rain .oy{background-image:url(../../art/world/weather/r56/open2_rain_tile_256.webp),url(../../art/world/weather/r56/storm_rain_tile_256_f0.webp);background-size:256px 256px,256px 256px}
+.wx-open2 > .o2-tint{position:absolute;inset:0;background:rgb(18,24,48);opacity:.3}

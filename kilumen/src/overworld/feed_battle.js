@@ -6,7 +6,7 @@
 import { onTap } from '../shared/tap_guard.js?v=v0.2.110-alpha';
 
 export const FEED_PADS = Object.freeze({ near: { x: 26.5, y: 77 }, far: { x: 74, y: 67.5 } }); // % of the 2560x1440 backdrop
-const BACK = { male: 'art/characters/pixel/capture_poses/player/cal_back_capture_lowered.png' }; // no female back pose yet: Cal's
+const BACK = { male: 'art/characters/pixel/capture_poses/player/cal_back_capture_lowered.png', female: 'art/characters/pixel/npcs/vil_commuter_f/vil_commuter_f_back_battle.png' }; // female: vil_commuter_f back view, 64x96 like Cal's (fix1)
 
 const CSS = `.open2-feed{position:fixed;inset:0;z-index:55;overflow:hidden;background:#000;touch-action:pan-y;font-family:var(--ui-font,inherit);color:#1b2233}
 .open2-feed .stage{position:absolute;left:50%;bottom:0;width:max(100vw,calc(100vh*16/9));aspect-ratio:16/9;transform:translateX(-50%);background:url(art/world/battle_bg.webp) center/100% 100% no-repeat}
