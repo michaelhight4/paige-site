@@ -1,0 +1,40 @@
+{
+ "_status": "DRAFT by Text Bot, not approved by Gary",
+ "_meta": {
+  "version": "v2",
+  "source": "/workspace/kilumen/design/gullhaven_story.md v2",
+  "note": "Most v1 lines moved into textbot_seaport.json maps.*. Remaining here: props pending World Design.",
+  "flags_new": [
+   "gh_legend_heard (set by gullhaven_lagoon_derby_clerk legend line)",
+   "ron_gullhaven_seen",
+   "seen_gh_causeway",
+   "seen_gh_survey_board"
+  ]
+ },
+ "lines": {
+  "gh.sign.causeway": {
+   "only_if": "World Design adds this prop",
+   "pages": [
+    "CAUSEWAY\nRemoved the bad year. By order.",
+    "There's no name under it. Just\nsalt, and a gull's opinion."
+   ]
+  },
+  "gh.ins.survey_board": {
+   "only_if": "World Design adds this prop",
+   "sets": "seen_gh_survey_board",
+   "pages": [
+    "An old board behind cracked glass.\nCOASTAL SURVEY, FIELD TEAM.",
+    "Four hooks, four names, all painted\nout. The hooks are still there."
+   ]
+  }
+ },
+ "moved_to_textbot_seaport": {
+  "gh.sall.stumps": "maps.gullhaven.gullhaven_harbour_master lines[causeway]",
+  "gh.sall.violet_nights": "maps.gullhaven.gullhaven_angler lines[violet_night]",
+  "gh.kid.*": "maps.gullhaven_cliffs.gullhaven_cliffs_birdwatcher",
+  "gh.dreamer.sea_asks": "maps.gullhaven_cave_west.gullhaven_cave_west_hermit lines[dream]",
+  "gh.dreamer.print": "maps.gullhaven_cave_west.gullhaven_cave_west_hermit lines[print]",
+  "gh.derby.legend": "maps.gullhaven_lagoon.gullhaven_lagoon_derby_clerk lines[legend]",
+  "ron.gullhaven.derby": "maps.gullhaven_lagoon.gullhaven_lagoon_ron (new id)"
+ }
+}
