@@ -15924,6 +15924,15 @@
    "kind": "villager",
    "note": "strolls the east green past the flower field and the oak",
    "text_ref": "data/textbot_sunmeadow_strollers.json maps.sunmeadow_fields.sunmeadow_fields_stroller_green"
+  },
+  {
+   "id": "sunmeadow_nan",
+   "x": 16,
+   "y": 18,
+   "facing": "down",
+   "kind": "villager",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.sunmeadow_fields.sunmeadow_nan"
   }
  ],
  "signs": [
@@ -16146,6 +16155,19 @@
    "easter_egg": true,
    "pocket": "smf_pocket_dell",
    "text_ref": "overworld_lines.json maps.sunmeadow_fields.r9_smfp_egg_clover"
+  },
+  {
+   "id": "ug_nan_fence",
+   "kind": "prop",
+   "x": 16,
+   "y": 21,
+   "stand": [
+    15,
+    21
+   ],
+   "face": "right",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.sunmeadow_fields.ug_nan_fence"
   }
  ],
  "living_town": "tools/towns/build_sunmeadow_fields_living.py (Oct 30 2026): oaks, gazebo, statues, pond, flower field, benches, flower clusters (Hay Loft moved to route_sunmeadow_mirefen)",

@@ -13469,6 +13469,16 @@
    "kind": "coach",
    "note": "launch-content: Olympics host (src/sports/olympics.js VENUES.tidewater). Talk opens the town Olympics.",
    "text_ref": "src/sports/olympics_strings.js host_hello"
+  },
+  {
+   "id": "tidewater_beachcomber",
+   "x": 33,
+   "y": 24,
+   "facing": "down",
+   "kind": "villager",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.tidewater_coast.tidewater_beachcomber",
+   "sprite": "vil_tourist_f"
   }
  ],
  "signs": [
@@ -13723,5 +13733,34 @@
   "27,40": "down",
   "27,41": "down",
   "27,42": "down"
- }
+ },
+ "interact_spots": [
+  {
+   "id": "ug_wind_chime",
+   "kind": "prop",
+   "x": 31,
+   "y": 24,
+   "stand": [
+    31,
+    25
+   ],
+   "face": "up",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.tidewater_coast.ug_wind_chime",
+   "tile": "lamp"
+  },
+  {
+   "id": "ug_lifeguard_buoy",
+   "kind": "prop",
+   "x": 41,
+   "y": 33,
+   "stand": [
+    41,
+    32
+   ],
+   "face": "down",
+   "ug": true,
+   "text_ref": "overworld_lines.json maps.tidewater_coast.ug_lifeguard_buoy"
+  }
+ ]
 }

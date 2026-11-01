@@ -140,7 +140,8 @@
         "home_lanternport_c",
         "home_saltmere_a",
         "home_lanternport_c_2f",
-        "revival_heights_cave_ne"
+        "revival_heights_cave_ne",
+        "revival_rt_annex"
       ],
       "puzzle_tier": 8,
       "fly_point": null,
@@ -253,7 +254,8 @@
       "maps": [
         "greystone_entrance",
         "greystone_b1",
-        "lantern_rest"
+        "lantern_rest",
+        "greystone_seam"
       ],
       "puzzle_tier": 4
     },
@@ -3354,6 +3356,46 @@
         "gullhaven (7,10)"
       ],
       "why": "Revival Tech Gullhaven branch"
+    },
+    {
+      "exterior": "revival_heights",
+      "door": [
+        48,
+        25
+      ],
+      "to": "revival_rt_annex",
+      "arrival": [
+        8,
+        10
+      ],
+      "kind": "company annex (unique)",
+      "recolour": null,
+      "scheme": null,
+      "back": [
+        "$return"
+      ],
+      "why": "Underground R3: intern delivery, founder picture",
+      "ug": true
+    },
+    {
+      "exterior": "greystone_b1",
+      "door": [
+        28,
+        22
+      ],
+      "to": "greystone_seam",
+      "arrival": [
+        3,
+        3
+      ],
+      "kind": "cave stairs (dead-end seam)",
+      "recolour": null,
+      "scheme": null,
+      "back": [
+        "greystone_b1 (28,23)"
+      ],
+      "why": "Guardian R2.2: Ivo's breathing seam",
+      "ug": true
     }
   ],
   "zone_resolution": {

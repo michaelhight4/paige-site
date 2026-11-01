@@ -58,12 +58,13 @@ export function whenMatches(when, env) {
 const V2_KEYS = ['requires', 'requires_not', 'requires_state', 'sets', 'time'];
 export const isV2Line = (l) => !!l && V2_KEYS.some((k) => l[k] != null);
 const list = (v) => (v == null ? [] : Array.isArray(v) ? v : [v]);
-/** requires_state: {derby_turn_ins_gte: n} | {counter, gte}. Unknown keys never match. */
+/** requires_state: {derby_turn_ins_gte: n} | {counter, gte} | {lead_warmth_gte: n}. Unknown keys never match. */
 export function stateMatches(rs, env = {}) {
   if (!rs) return true;
   if (typeof rs !== 'object') return false;
   for (const [k, v] of Object.entries(rs)) {
     if (k === 'derby_turn_ins_gte') { if (!((env.derbyTurnIns || 0) >= v)) return false; }
+    else if (k === 'lead_warmth_gte') { if (!((env.leadWarmth ?? -1) >= v)) return false; } // Underground (Oct 30 2026): Warmth is the evidence
     else if (k === 'counter') { if (!((env.counters?.[v] || 0) >= (rs.gte ?? 1))) return false; }
     else if (k !== 'gte') return false;
   }
