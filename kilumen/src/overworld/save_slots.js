@@ -7,7 +7,7 @@
 //   - "Make this my cloud save" moves the cloud mark to another used slot; the old cloud slot stays on the device as a
 //     device save. The next boot then keeps the new slot over the cloud copy (preferLocal, no conflict pick).
 //   - The slot list (which slot is active = last used, which is cloud) is kept in localStorage under META_KEY.
-import { SAVE_KEY } from './save.js?v=v0.2.116-alpha';
+import { SAVE_KEY } from './save.js?v=v0.2.117-alpha';
 
 export const SLOTS = [1, 2, 3];
 export const META_KEY = 'kilumen.slots.v1';
