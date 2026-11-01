@@ -3,7 +3,7 @@
 // Stage = the 16:9 backdrop scaled to cover and anchored to the bottom (sky crops first), so both pads stay on screen on PC
 // (16:9) and phone (20:9); sprites are placed in stage % so their feet sit on the pads. Rain layer + grey tint on top
 // (it is raining in the scene). Input: Enter / Space / Z, or a short tap (tap_guard: a drag never fires).
-import { onTap } from '../shared/tap_guard.js?v=v0.2.112-alpha';
+import { onTap } from '../shared/tap_guard.js?v=v0.2.113-alpha';
 
 export const FEED_PADS = Object.freeze({ near: { x: 26.5, y: 77 }, far: { x: 74, y: 67.5 } }); // % of the 2560x1440 backdrop
 const BACK = { male: 'art/characters/pixel/capture_poses/player/cal_back_capture_lowered.png', female: 'art/characters/pixel/npcs/vil_commuter_f/vil_commuter_f_back_battle.png' }; // female: vil_commuter_f back view, 64x96 like Cal's (fix1)
@@ -41,7 +41,7 @@ export function runFeedBattle({ scene, species, level = 3, name, model = 'male',
     <div class="plate"><div class="nm"><span>${name}</span><span>Lv${level}</span></div><div class="hp"><i></i></div></div>
     <div class="box"><div class="txt"></div><div class="act"></div></div>`;
   doc.body.appendChild(root);
-  import('../region56/weather_lite.js?v=v0.2.112-alpha').then((m) => { if (root.isConnected) root._wx = m.mountWeather(root, { before: root.querySelector('.plate'), weather: 'rain' }); }).catch(() => {});
+  import('../region56/weather_lite.js?v=v0.2.113-alpha').then((m) => { if (root.isConnected) root._wx = m.mountWeather(root, { before: root.querySelector('.plate'), weather: 'rain' }); }).catch(() => {});
   const txt = root.querySelector('.txt'), act = root.querySelector('.act'), stage = root.querySelector('.stage');
   const ui = globalThis.kilumen?.ui; if (ui) ui._open2 = true;
   scene?.audio?.sfx?.('encounter');
