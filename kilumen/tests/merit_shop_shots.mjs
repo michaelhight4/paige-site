@@ -29,7 +29,7 @@ try {
       s.player.facing = 'up'; s._dirty = true; return JSON.stringify({ map: s.map.name, x: s.player.x, y: s.player.y, hasOpen: !!s.openMeritShop }); }));
     await page.waitForTimeout(500); await shot('1_home_plots');
     // harvest via the real interact path (face home_3 -> pumpkin ready)
-    await page.evaluate(() => { const s = window.kilumen.scene; s.player.x = 22; s.player.y = 16; s.player.facing = 'up'; s.systems.onInteract(22, 15); });
+    await page.evaluate(() => { const s = window.kilumen.scene; s.player.x = 20; s.player.y = 17; s.player.facing = 'up'; s.systems.onInteract(20, 16); });
     await page.waitForTimeout(700); await shot('2_harvest_prompt');
     // merit shop
     await page.evaluate(() => { const s = window.kilumen.scene; s.dialog?.close?.(); const ss = s.systems.state.sports ||= {}; ss.merit = { points: 420, earned: 420, spent: 0, log: [] }; s.openMeritShop(); });

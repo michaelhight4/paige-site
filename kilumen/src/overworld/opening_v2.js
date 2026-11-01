@@ -8,8 +8,8 @@
 // "I really need to get home and out of this rain." and the player turns to face Brookhollow.
 // Old saves (no open2_active flag, or open2_done) never run any of this. ?opening=v1 keeps the old bedroom cold open.
 // All text: text/overworld_lines.json "opening_v2" (Text Bot owns it); FALLBACK below is used when a key is missing.
-import { onTap } from '../shared/tap_guard.js?v=v0.2.114-alpha';
-import { runFeedBattle } from './feed_battle.js?v=v0.2.114-alpha';
+import { onTap } from '../shared/tap_guard.js?v=v0.2.115-alpha';
+import { runFeedBattle } from './feed_battle.js?v=v0.2.115-alpha';
 
 export const OPEN2 = Object.freeze({
   map: 'route1', home: 'brookhollow', bedroom: 'house_2f',
@@ -180,7 +180,7 @@ export class OpeningV2 {
     const s = this.scene, on = this.inSequence && [OPEN2.map, OPEN2.home].includes(s.map?.name);
     s.life?.setWeather?.(on ? 'rain' : 'fair');
     if (on && !this.wx && globalThis.document) {
-      import('../region56/weather_lite.js?v=v0.2.114-alpha').then((m) => {
+      import('../region56/weather_lite.js?v=v0.2.115-alpha').then((m) => {
         if (this.wx || !this.inSequence) return;
         const cv = document.querySelector('canvas');
         const host = cv?.parentNode || document.body, wrap = document.createElement('div'); // wrapper: weather_lite's cls() rewrites .wx's className
@@ -250,7 +250,7 @@ export class OpeningV2 {
   async goHome() {
     const s = this.scene;
     await s.say(this.lines('walk_home'), THOUGHT_SP);
-    const { bedroomSpawn } = await import('./intro.js?v=v0.2.114-alpha');
+    const { bedroomSpawn } = await import('./intro.js?v=v0.2.115-alpha');
     let spawn = null; try { spawn = bedroomSpawn((await s.loadMap(OPEN2.bedroom)).json); } catch { /* fallback below */ }
     const to = spawn || { map: OPEN2.bedroom, x: 12, y: 10, facing: 'down' }, n0 = s.log.length;
     await this._until(() => !s.fade, 4000); // startWarp is a no-op while another fade runs
@@ -290,13 +290,21 @@ export class OpeningV2 {
     return { x: bx + 1, y: by };
   }
 
+  /** Talking to the bedroom companion (face it + action / short tap): ONE shared Kilu cry (every species) + opening_v2.room_companion. */
+  async roomTalk() {
+    const s = this.scene;
+    s.audio?.sfx('kilu_cry');
+    s.log.push({ tick: s.tick, type: 'open2', step: 'roomTalk', species: this.companion?.species || null });
+    await s.say(this.lines('room_companion'), THOUGHT_SP);
+  }
+
   joinDue() { const F = this.scene.flags; return !!this.companion && F.has('flg_promoted') && F.has(OPEN2.done) && !F.has(OPEN2.joined); }
 
   /** flg_promoted (inside the promotion script): the companion joins the party (origin.noQuest) and the lines play. */
   async joinNow() {
     const s = this.scene, c = this.companion;
     if (!this.joinDue()) return false;
-    const { createCreature } = await import('../systems/creature.js?v=v0.2.114-alpha');
+    const { createCreature } = await import('../systems/creature.js?v=v0.2.115-alpha');
     const cr = createCreature({ species: c.species, level: c.level || COMPANION_LEVEL, origin: { how: 'companion', noQuest: true, map: OPEN2.map } });
     if (s.systems?.party?.add) s.systems.party.add(cr); else s.party.push(cr);
     try { s.systems?.kilindex?.markCaught?.(c.species, { zone: OPEN2.map }); } catch { /* optional */ }

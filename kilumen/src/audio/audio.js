@@ -16,7 +16,7 @@
 // - DRAFT audio (wave 2, Oct 22, 2026): three original BeepBox loops (town / route / battle) and a jsfxr SFX sprite,
 //   rendered by tools/audio/ (see /workspace/quality/toolkit/MUSIC_SFX_PIPELINE.md). They are DRAFTS for Gary to veto.
 //   ONE-LINE REVERT to the placeholder tones + ZzFX: set DRAFT_AUDIO below to { music: false, sfx: false }.
-import { isIndoor } from '../overworld/clock.js?v=v0.2.114-alpha';
+import { isIndoor } from '../overworld/clock.js?v=v0.2.115-alpha';
 
 /** DRAFT audio switch (Gary can veto): { music: false, sfx: false } puts every slot back on the placeholders. */
 export const DRAFT_AUDIO = { music: true, sfx: true };
@@ -30,6 +30,9 @@ export const DRAFT_MUSIC = {
 };
 /** DRAFT SFX sprite map [offset ms, duration ms] (copied from audio/sfx/kil_sfx_draft.json by tools/audio/make_sfx.mjs). */
 export const DRAFT_SFX_SPRITE = { cursor: [100, 89], select: [288, 256], back: [643, 165], door: [908, 454], grass: [1461, 179], blip: [1740, 53], save: [1893, 772], catch: [2764, 778] };
+/** Stand-alone SFX files (audio/sfx/<file>.ogg|.m4a), one Howl each, sfx volume. kilu_cry: ONE shared Kilu cry for every species
+ *  (Gary, Nov 1 2026: "just one sound for all of them for now"); ffmpeg-synthesised chirp, v0.2.115-alpha. */
+export const SFX_FILES = { kilu_cry: 'sfx/kilu_cry' };
 const ASSET = (p) => new URL('../../audio/' + p, import.meta.url).href;
 /** Sources for a DRAFT asset: OGG Vorbis first, AAC .m4a fallback (older iPhone Safari has no Ogg); howler takes the first it can play. */
 export const draftSrc = (path) => [ASSET(path + '.ogg'), ASSET(path + '.m4a')];
@@ -50,6 +53,7 @@ export const SFX = {
   blip: [0.18, 0, 740, 0, 0.005, 0.02, 1, 1],
   save: [0.5, 0, 784, 0.01, 0.15, 0.3, 0, 1, 0, 0, 262, 0.08, 0.08],
   catch: [0.5, 0, 659, 0.01, 0.2, 0.35, 0, 1, 0, 0, 392, 0.1, 0.1],
+  kilu_cry: [0.4, 0, 1100, 0.01, 0.05, 0.1, 0, 1, 0, 0, 300, 0.05], // fallback until audio/sfx/kilu_cry decodes
 };
 
 /** Where each effect fires (for the placeholder list). */
@@ -65,6 +69,7 @@ export const SFX_USES = {
   grass: 'player steps into grass (overworld.js onStepStart rustle branch)',
   blip: 'dialogue text blips while a page reveals (dialog.js onPage)',
   save: 'manual save chime only, not autosave (ui.js save screen)',
+  kilu_cry: 'the shared Kilu cry: talking to the opening companion in the bedroom (opening_v2.js roomTalk; audio/sfx/kilu_cry)',
   catch: "capture success, with the 'Caught!' celebration (ui_tools2.js catchFx; default battle + ?battle=sd)",
 };
 
@@ -213,9 +218,9 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
   let saved = null;
   try { saved = JSON.parse(storage?.getItem(KEY) || 'null'); } catch { saved = null; }
   const { settings, cfg } = audioSettings(profile?.audio, saved);
-  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js?v=v0.2.114-alpha');
+  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js?v=v0.2.115-alpha');
   Howler.autoSuspend = false; // we suspend on tab hide ourselves; SFX run on raw nodes howler does not track
-  const st = { unlocked: false, failed: null, track: null, zzfx: null, cache: new Map(), bus: null, music: null, urls: new Map(), blipTimer: 0, followTimer: 0, sprite: null, spriteState: 'off' };
+  const st = { unlocked: false, failed: null, track: null, zzfx: null, cache: new Map(), bus: null, music: null, urls: new Map(), blipTimer: 0, followTimer: 0, sprite: null, spriteState: 'off', files: {} };
 
   const persist = () => { try { storage?.setItem(KEY, JSON.stringify(settings)); } catch { /* private mode */ } };
   const applyMaster = () => { if (st.unlocked) { Howler.volume(settings.master); Howler.mute(settings.muted); } };
@@ -239,7 +244,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
       ctx.resume?.().catch(() => {});
       st.unlocked = true;
       for (const t of cfg.unlockOn) win.removeEventListener(t, unlock, true);
-      import('../vendor/zzfx/ZzFX.js?v=v0.2.114-alpha').then((m) => {
+      import('../vendor/zzfx/ZzFX.js?v=v0.2.115-alpha').then((m) => {
         try { m.ZZFX.audioContext?.close?.(); } catch { /* ignore */ }
         m.ZZFX.audioContext = Howler.ctx;
         st.zzfx = m.ZZFX;
@@ -248,6 +253,10 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
         st.spriteState = 'loading';
         st.sprite = new Howl({ src: draftSrc('sfx/kil_sfx_draft'), sprite: DRAFT_SFX_SPRITE, volume: settings.sfx, pool: 8,
           onload: () => { st.spriteState = 'loaded'; }, onloaderror: (_, e) => { st.spriteState = 'error: ' + e; } });
+      }
+      for (const [id, path] of Object.entries(SFX_FILES)) { // stand-alone SFX files (ZzFX fallback until loaded)
+        const f = st.files[id] = { state: 'loading', howl: null };
+        f.howl = new Howl({ src: draftSrc(path), volume: settings.sfx, pool: 4, onload: () => { f.state = 'loaded'; }, onloaderror: (_, e) => { f.state = 'error: ' + e; } });
       }
       if (st.want) { const w = st.want; st.want = null; api.music(w); }
     } catch (e) { st.failed = e.message; }
@@ -278,6 +287,8 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
     get track() { return st.track; },
     unlock,
     sfx(id) {
+      const file = st.files[id];
+      if (st.unlocked && !settings.muted && settings.sfx > 0 && file?.state === 'loaded') { file.howl.play(); return true; }
       if (st.unlocked && !settings.muted && settings.sfx > 0 && st.spriteState === 'loaded' && DRAFT_SFX_SPRITE[id]) { st.sprite.play(id); return true; }
       if (!st.unlocked || !st.zzfx || settings.muted || settings.sfx <= 0 || !SFX[id]) return false;
       const out = bus(); if (!out) return false;
@@ -333,6 +344,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
       if (kind === 'music' && st.music) st.music.howl.volume(musicTarget(settings, duck.factor())); // still ducked if held
       if (kind === 'sfx' && st.bus) st.bus.gain.value = settings.sfx;
       if (kind === 'sfx' && st.sprite) st.sprite.volume(settings.sfx);
+      if (kind === 'sfx') for (const f of Object.values(st.files)) f.howl?.volume(settings.sfx);
     },
     setMuted(m) { settings.muted = !!m; persist(); applyMaster(); },
     /** RITA voice output (src/systems/rita_voice.js, Oct 23 2026): a gain node into howler's master gain, so master volume

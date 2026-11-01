@@ -15,16 +15,24 @@ export const CROPS = Object.freeze({
 });
 export const SEED_TO_CROP = Object.freeze(Object.fromEntries(Object.entries(CROPS).map(([c, d]) => [d.seed, c])));
 export const CANS = Object.freeze({ watering_can: { tier: 1 }, watering_can_merit: { tier: 2, instant: true } });
-// Plots: walkable soil cells (no collision change, so no path can be blocked). home = beside the player's house.
+// Plots: raised wooden planters (the "crates" in playtests). v0.2.115 (Gary, Nov 1 2026): every plot is SOLID (PLOT_SOLID, applied
+// on map enter by index.js solidifyPlots, so any future plot is solid too) and none may sit on a path/road tile
+// (tests/crates_off_paths.test.mjs). Moved off the paths: home_3 22,15 -> 20,16; fernwick_1 17,15 -> 19,15 (was on the
+// door path); saltmere_1/2 18,20 / 19,20 -> 18,21 / 19,21 (were on the main street). Use = face the plot + action.
+export const PLOT_SOLID = 1; // constants.js Col.BLOCK
 export const PLOTS = Object.freeze([
   { id: 'home_1', map: 'brookhollow', x: 20, y: 15, home: true },
   { id: 'home_2', map: 'brookhollow', x: 21, y: 15, home: true },
-  { id: 'home_3', map: 'brookhollow', x: 22, y: 15, home: true },
-  { id: 'fernwick_1', map: 'fernwick', x: 17, y: 15 },
+  { id: 'home_3', map: 'brookhollow', x: 20, y: 16, home: true },
+  { id: 'fernwick_1', map: 'fernwick', x: 19, y: 15 },
   { id: 'fernwick_2', map: 'fernwick', x: 18, y: 15 },
-  { id: 'saltmere_1', map: 'saltmere', x: 18, y: 20 },
-  { id: 'saltmere_2', map: 'saltmere', x: 19, y: 20 },
+  { id: 'saltmere_1', map: 'saltmere', x: 18, y: 21 },
+  { id: 'saltmere_2', map: 'saltmere', x: 19, y: 21 },
 ]);
+/** Make every plot on map m solid (collision layer, like systems' solid satchels). */
+export function solidifyPlots(m) {
+  for (const p of PLOTS) if (p.map === m?.name && m.layers?.collision?.[p.y] && m.inBounds?.(p.x, p.y) !== false) m.layers.collision[p.y][p.x] = PLOT_SOLID;
+}
 export const plotAt = (map, x, y) => PLOTS.find((p) => p.map === map && p.x === x && p.y === y) || null;
 export const plotsOn = (map) => PLOTS.filter((p) => p.map === map);
 
