@@ -1,4 +1,4 @@
-// Opening v2 (Gary spec, v0.2.110-alpha): Ondravel identity, rain wake on route1, company-feed companion, bedroom, join at promotion.
+// Opening v2 (Gary spec, v0.2.111-alpha): Ondravel identity, rain wake on route1, company-feed companion, bedroom, join at promotion.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';

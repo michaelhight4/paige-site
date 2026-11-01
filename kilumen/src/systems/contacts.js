@@ -17,9 +17,9 @@
 // - Text: Text Bot keys under system_contacts.* (data/textbot_requests_contacts.md); existing system_trainers /
 //   system_phone keys next; then the placeholders below (PH, plain sentences).
 // Pure logic first (node-testable), then attachContacts(scene, opts) for the browser.
-import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.110-alpha';
-import { areaName } from '../overworld/area_sign.js?v=v0.2.110-alpha';
-import { contactsDefault, normaliseContacts } from './contacts_save.js?v=v0.2.110-alpha';
+import { authoredTeam } from '../battle/data/trainer_teams.js?v=v0.2.111-alpha';
+import { areaName } from '../overworld/area_sign.js?v=v0.2.111-alpha';
+import { contactsDefault, normaliseContacts } from './contacts_save.js?v=v0.2.111-alpha';
 
 export const CONTACTS_DATA_URL = 'src/systems/data/contacts.json';
 export const contactsEnabled = (query) => !!query && typeof query.get === 'function' && query.get('contacts') !== '0';
@@ -101,18 +101,37 @@ export function notePing(p, now) {
   if (p.day !== now.day) { p.day = now.day; p.today = 0; }
   p.today++; p.n++; p.steps = 0; p.lastAt = now.gameMin;
 }
-/** Which contact pings and how. -> {key, kind: 'rematch'|'tip'} | null. Contacts on `map` are skipped. */
+/** Stable id of a tip: its own `id`, else `rare:<map>` (so two contacts pointing at one map share one tip). */
+export const tipId = (t, key = '') => (t && typeof t.id === 'string' && t.id ? t.id : `rare:${(t && t.map) || String(key).split('.')[0]}`);
+/** The first tip of block `b` this save has not had yet (Gary: every tip unique, never repeated per save). -> tip | null */
+export function nextTip(state, b, key) {
+  const used = new Set(state.tipsUsed || []);
+  return (b?.tips || []).find((t) => !used.has(tipId(t, key))) || null;
+}
+/** Minutes until `key` may ping again (per-contact cooldown), 0 = free. */
+export function contactWait(state, cfg, key, gameMin) {
+  const last = state.lastPing?.[key], cd = cfg?.contactCooldownGameMinutes ?? 2 * DAY_MIN;
+  return Number.isFinite(last) && gameMin - last < cd ? cd - (gameMin - last) : 0;
+}
+/** Which contact pings and how. -> {key, kind: 'rematch'|'tip', tip?} | null. Contacts on `map` and contacts still on
+ * their own cooldown are skipped; tips also wait out a save-wide tip cooldown and are never repeated (state.tipsUsed). */
 export function pickPing(state, data, { map, gameMin, rng = Math.random } = {}) {
-  const cfg = { rematchCooldownGameMinutes: DAY_MIN, tipShare: 0.35, ...(data?.ping || {}) };
-  const pool = state.list.map((c) => c.key).filter((k) => k.split('.')[0] !== map && contactBlock(data, k));
+  const cfg = { rematchCooldownGameMinutes: DAY_MIN, tipShare: 0.25, tipCooldownGameMinutes: 3 * DAY_MIN, contactCooldownGameMinutes: 2 * DAY_MIN, ...(data?.ping || {}) };
+  const tipOk = !(Number.isFinite(state.lastTipAt) && state.lastTipAt >= 0 && gameMin - state.lastTipAt < cfg.tipCooldownGameMinutes);
+  const opts = (key) => {
+    const b = contactBlock(data, key);
+    const canRematch = !!b.rematch && !(key in state.ready)
+      && !(Number.isFinite(state.declined['rematch:' + key]) && gameMin - state.declined['rematch:' + key] < cfg.rematchCooldownGameMinutes);
+    const tip = tipOk ? nextTip(state, b, key) : null;
+    return { canRematch, tip };
+  };
+  const pool = state.list.map((c) => c.key).filter((k) => k.split('.')[0] !== map && contactBlock(data, k) && !contactWait(state, cfg, k, gameMin))
+    .filter((k) => { const o = opts(k); return o.canRematch || o.tip; });
   if (!pool.length) return null;
   const key = pool[Math.floor(rng() * pool.length) % pool.length];
-  const b = contactBlock(data, key);
-  const canRematch = !!b.rematch && !(key in state.ready)
-    && !(Number.isFinite(state.declined['rematch:' + key]) && gameMin - state.declined['rematch:' + key] < cfg.rematchCooldownGameMinutes);
-  const canTip = (b.tips || []).length > 0;
-  if (canRematch && (!canTip || rng() >= cfg.tipShare)) return { key, kind: 'rematch' };
-  if (canTip) return { key, kind: 'tip' };
+  const { canRematch, tip } = opts(key);
+  if (canRematch && (!tip || rng() >= cfg.tipShare)) return { key, kind: 'rematch' };
+  if (tip) return { key, kind: 'tip', tip };
   return null;
 }
 
@@ -259,7 +278,7 @@ export async function attachContacts(scene, opts = {}) {
   const sys = (pages) => scene.say(pages, { name: null, portrait: null, battle: null });
   const runRematch = async (n, def, map, key, e, sp) => {
     const party = scene.systems?.party?.list || scene.party || [];
-    const base = authoredTeam({ map, id: def.id }, party) || [];
+    const base = authoredTeam({ map, id: def.id }, party) || (Array.isArray(def.team) ? def.team : []); // regions 5-8: World Design map teams
     const reg = regionOf(data, map), b = contactBlock(data, key, def) || {};
     const playerTop = Math.max(0, ...party.map((c) => c.level || 0));
     const foes = rematchTeam(base, { wins: book.wins(key), playerTop, step: b.rematch?.step ?? 2, cap: reg?.cap ?? null });
@@ -342,7 +361,8 @@ export async function attachContacts(scene, opts = {}) {
     let msg;
     if (pick.kind === 'rematch') msg = T(key, 'rematch_text', { trainer });
     else {
-      const tip = (contactBlock(data, key)?.tips || [])[0] || {};
+      const tip = pick.tip || nextTip(state, contactBlock(data, key), key) || {};
+      if (tip.map) { (state.tipsUsed ||= []).push(tipId(tip, key)); state.lastTipAt = gameMin(); } // recorded even if the table is empty: never retried
       const rs = rareSlot(enc, tip.map || key.split('.')[0], scene.phase || null);
       const time = rs?.time?.length === 1 ? (PH['time_' + rs.time[0]] || '') : '';
       msg = rs ? T(key, 'tip_text', { trainer, species: speciesName(rs.species), place: placeOf(tip.map) || 'the Trail', time })
@@ -352,6 +372,7 @@ export async function attachContacts(scene, opts = {}) {
     scene.script(async () => {
       watch.delivering = true;
       try {
+        (state.lastPing ||= {})[key] = gameMin(); // per-contact cooldown
         notePing(state.ping, now()); // after script()'s checkpoint: the pre-ping state is on disk, the end-of-script save has this
         if (pick.kind === 'rematch') book.setReady(key, gameMin());
         book.note(key, pick.kind, msg.pages, gameMin());

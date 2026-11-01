@@ -9,7 +9,7 @@ export const CONTACTS_MIGRATIONS = {
 };
 /** The empty block (first time the flag is on for a save). */
 export function contactsDefault() {
-  return { v: CONTACTS_V, list: [], declined: {}, ready: {}, wins: {}, log: [], ping: { steps: 0, lastAt: -1, day: -1, today: 0, n: 0 } };
+  return { v: CONTACTS_V, list: [], declined: {}, ready: {}, wins: {}, log: [], tipsUsed: [], lastTipAt: -1, lastPing: {}, ping: { steps: 0, lastAt: -1, day: -1, today: 0, n: 0 } };
 }
 const num = (v, d) => (Number.isFinite(v) ? v : d);
 
@@ -29,6 +29,9 @@ export function normaliseContacts(v) {
   for (const k of ['declined', 'ready', 'wins']) for (const [a, b] of Object.entries(obj(v[k]))) if (Number.isFinite(b)) d[k][a] = b;
   d.log = (Array.isArray(v.log) ? v.log : []).filter((m) => m && typeof m.key === 'string').slice(-50)
     .map((m) => ({ key: m.key, kind: String(m.kind || 'chat'), text: Array.isArray(m.text) ? m.text.map(String) : [], at: num(m.at, 0) }));
+  d.tipsUsed = [...new Set((Array.isArray(v.tipsUsed) ? v.tipsUsed : []).filter((t) => typeof t === 'string' && t))];
+  d.lastTipAt = num(v.lastTipAt, -1);
+  for (const [a, b] of Object.entries(obj(v.lastPing))) if (Number.isFinite(b)) d.lastPing[a] = b;
   const p = obj(v.ping);
   d.ping = { steps: num(p.steps, 0), lastAt: num(p.lastAt, -1), day: num(p.day, -1), today: num(p.today, 0), n: num(p.n, 0) };
   return d;

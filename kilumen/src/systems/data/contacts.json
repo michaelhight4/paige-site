@@ -1,1 +1,399 @@
-{"max":20,"ping":{"minSteps":120,"minGameMinutes":360,"chancePerStep":0.05,"maxPerDay":3,"settleTicks":240,"settleSteps":4,"rematchCooldownGameMinutes":1440,"tipShare":0.35,"logMax":20},"regions":{"1":{"cap":11,"maps":["brookhollow","brookhollow_home_down","brookhollow_home_up","route1","route1_storm","fernwick","fernwick_hall_int"]}},"trainers":{"route1.trainer_r1_d":{"offer":"always","rematch":{"step":2},"tips":[{"kind":"rare_sighting","map":"route1"}],"gift":null},"route1.trainer_r1_e":{"offer":"always","rematch":{"step":2},"tips":[{"kind":"rare_sighting","map":"route1"}],"gift":null},"route1.trainer_r1_f":{"offer":"always","rematch":{"step":2},"tips":[{"kind":"rare_sighting","map":"route1"}],"gift":{"item":"tonic_small","n":1,"everyWins":2}},"fernwick.trainer_fw_a":{"offer":"always","rematch":{"step":2},"tips":[{"kind":"rare_sighting","map":"route1"}],"gift":null},"fernwick.ron_rival_1":{"offer":"always","rematch":null,"tips":[{"kind":"rare_sighting","map":"route1"}],"gift":null}}}
+{
+  "max": 20,
+  "ping": {
+    "minSteps": 120,
+    "minGameMinutes": 360,
+    "chancePerStep": 0.05,
+    "maxPerDay": 3,
+    "settleTicks": 240,
+    "settleSteps": 4,
+    "rematchCooldownGameMinutes": 1440,
+    "tipShare": 0.25,
+    "logMax": 20,
+    "tipCooldownGameMinutes": 4320,
+    "contactCooldownGameMinutes": 2880
+  },
+  "regions": {
+    "1": {
+      "cap": 11,
+      "maps": [
+        "brookhollow",
+        "brookhollow_home_down",
+        "brookhollow_home_up",
+        "route1",
+        "route1_storm",
+        "fernwick",
+        "fernwick_hall_int"
+      ]
+    },
+    "2": {
+      "cap": 22,
+      "maps": [
+        "greystone_b1",
+        "route_aurelith_saltmere",
+        "route_aurelith_saltmere_cave_e",
+        "route_aurelith_saltmere_cave_m",
+        "route_aurelith_saltmere_cave_w",
+        "route_east",
+        "route_east_cave_e",
+        "route_east_cave_n",
+        "route_east_cave_w",
+        "saltmere",
+        "saltmere_hall_int",
+        "saltmere_office_int",
+        "thornwood"
+      ]
+    },
+    "3": {
+      "cap": 30,
+      "maps": [
+        "greystone_entrance",
+        "revival_hall_int",
+        "revival_heights",
+        "revival_heights_cave_ne",
+        "route_revival",
+        "route_revival_cave_e",
+        "route_revival_cave_n",
+        "route_revival_cave_w"
+      ]
+    },
+    "4": {
+      "cap": 38,
+      "maps": [
+        "frostspire",
+        "frostspire_hall_int",
+        "frostspire_lift_int",
+        "frostspire_office_int",
+        "frostspire_pass",
+        "route_revival_saltmere",
+        "route_revival_saltmere_cave_garden"
+      ]
+    },
+    "5": {
+      "cap": 46,
+      "maps": [
+        "mirefen",
+        "mirefen_bog",
+        "mirefen_hall_int",
+        "route_revival_sunmeadow",
+        "route_revival_sunmeadow_cave_archive",
+        "route_saltmere_mirefen",
+        "route_sunmeadow_mirefen",
+        "route_sunmeadow_mirefen_cave_hive",
+        "route_sunmeadow_mirefen_cave_loft",
+        "sunmeadow_fields",
+        "sunmeadow_fields_cave_nw"
+      ]
+    },
+    "6": {
+      "cap": 54,
+      "maps": [
+        "route_coast",
+        "tidewater_cave_int",
+        "tidewater_coast",
+        "tidewater_hall_int"
+      ]
+    },
+    "7": {
+      "cap": 64,
+      "maps": [
+        "lanternport",
+        "lanternport_grotto",
+        "lanternport_grotto_cave",
+        "lanternport_hall_int",
+        "lanternport_lighthouse_f2",
+        "lanternport_lighthouse_f3",
+        "lanternport_lighthouse_int",
+        "route_fernwick_lanternport"
+      ]
+    },
+    "8": {
+      "cap": 68,
+      "maps": [
+        "cindervale",
+        "cindervale_caldera",
+        "cindervale_caldera_cave",
+        "cindervale_hall_int",
+        "route_cindervale"
+      ]
+    }
+  },
+  "trainers": {
+    "route1.trainer_r1_d": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "kind": "rare_sighting",
+          "map": "route1"
+        }
+      ],
+      "gift": null
+    },
+    "route1.trainer_r1_e": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "kind": "rare_sighting",
+          "map": "route1"
+        }
+      ],
+      "gift": null
+    },
+    "route1.trainer_r1_f": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "kind": "rare_sighting",
+          "map": "route1"
+        }
+      ],
+      "gift": {
+        "item": "tonic_small",
+        "n": 1,
+        "everyWins": 2
+      }
+    },
+    "fernwick.trainer_fw_a": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "kind": "rare_sighting",
+          "map": "route1"
+        }
+      ],
+      "gift": null
+    },
+    "fernwick.ron_rival_1": {
+      "offer": "always",
+      "rematch": null,
+      "tips": [
+        {
+          "kind": "rare_sighting",
+          "map": "route1"
+        }
+      ],
+      "gift": null
+    },
+    "thornwood.thornwood_e_researcher": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:thornwood",
+          "kind": "rare_sighting",
+          "map": "thornwood"
+        },
+        {
+          "id": "rare:route_east",
+          "kind": "rare_sighting",
+          "map": "route_east"
+        }
+      ],
+      "gift": null
+    },
+    "route_aurelith_saltmere.route_aurelith_saltmere_trainer_6": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:route_aurelith_saltmere",
+          "kind": "rare_sighting",
+          "map": "route_aurelith_saltmere"
+        }
+      ],
+      "gift": null
+    },
+    "route_revival.route_revival_trainer_6": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:route_revival",
+          "kind": "rare_sighting",
+          "map": "route_revival"
+        }
+      ],
+      "gift": null
+    },
+    "revival_heights.revival_heights_trainer_1": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:greystone_entrance",
+          "kind": "rare_sighting",
+          "map": "greystone_entrance"
+        }
+      ],
+      "gift": null
+    },
+    "route_revival_saltmere.route_revival_saltmere_trainer_4": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:route_revival_saltmere",
+          "kind": "rare_sighting",
+          "map": "route_revival_saltmere"
+        }
+      ],
+      "gift": null
+    },
+    "frostspire.frostspire_trainer_3": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:frostspire",
+          "kind": "rare_sighting",
+          "map": "frostspire"
+        },
+        {
+          "id": "rare:frostspire_pass",
+          "kind": "rare_sighting",
+          "map": "frostspire_pass"
+        }
+      ],
+      "gift": null
+    },
+    "mirefen.mirefen_trainer_5": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:mirefen_bog",
+          "kind": "rare_sighting",
+          "map": "mirefen_bog"
+        },
+        {
+          "id": "rare:route_saltmere_mirefen",
+          "kind": "rare_sighting",
+          "map": "route_saltmere_mirefen"
+        }
+      ],
+      "gift": null
+    },
+    "sunmeadow_fields.sunmeadow_fields_trainer_5": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:sunmeadow_fields",
+          "kind": "rare_sighting",
+          "map": "sunmeadow_fields"
+        },
+        {
+          "id": "rare:route_sunmeadow_mirefen",
+          "kind": "rare_sighting",
+          "map": "route_sunmeadow_mirefen"
+        },
+        {
+          "id": "rare:route_revival_sunmeadow",
+          "kind": "rare_sighting",
+          "map": "route_revival_sunmeadow"
+        }
+      ],
+      "gift": null
+    },
+    "tidewater_coast.tidewater_coast_trainer_6": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:tidewater_coast",
+          "kind": "rare_sighting",
+          "map": "tidewater_coast"
+        }
+      ],
+      "gift": null
+    },
+    "route_coast.route_coast_trainer_4": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:route_coast",
+          "kind": "rare_sighting",
+          "map": "route_coast"
+        }
+      ],
+      "gift": null
+    },
+    "route_fernwick_lanternport.route_fernwick_lanternport_trainer_2": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:route_fernwick_lanternport",
+          "kind": "rare_sighting",
+          "map": "route_fernwick_lanternport"
+        }
+      ],
+      "gift": null
+    },
+    "lanternport.lanternport_trainer_1": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [],
+      "gift": null
+    },
+    "route_cindervale.route_cindervale_trainer_6": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [
+        {
+          "id": "rare:route_cindervale",
+          "kind": "rare_sighting",
+          "map": "route_cindervale"
+        }
+      ],
+      "gift": null
+    },
+    "cindervale.cindervale_trainer_1": {
+      "offer": "always",
+      "rematch": {
+        "step": 2
+      },
+      "tips": [],
+      "gift": null
+    }
+  }
+}
