@@ -226,8 +226,8 @@ def patch_rh(m):
         setcell(m, x, y, decoration=TID(n), collision=TS[n]['collision_code'])
     dx, dy = ANNEX['door']
     m['warps'].append({'x': dx, 'y': dy, 'to': 'revival_rt_annex', 'tx': 8, 'ty': 10, 'facing': 'up', 'ug': True})
-    m.setdefault('signs', []).append({'id': 'rh_annex_sign', 'x': 47, 'y': 26, 'ug': True, 'text_ref': 'overworld_lines.json maps.revival_heights.rh_annex_sign'})
-    setcell(m, 47, 26, decoration=TID('sign'), collision=1)
+    m.setdefault('signs', []).append({'id': 'rh_annex_sign', 'x': 46, 'y': 26, 'ug': True, 'text_ref': 'overworld_lines.json maps.revival_heights.rh_annex_sign'})
+    setcell(m, 46, 26, decoration=TID('sign'), collision=1)
 
 def patch_club(m):
     strip_ug(m)
