@@ -292,11 +292,85 @@
  "system_halls": {
   "hint_frostspire": {
    "pages": [
+    "Short on wins? Not every helper\nwaits down here on the floor.",
+    "The vents only lift you once\nthe bell has had its say."
+   ],
+   "status": "DRAFT",
+   "note": "Hint, not steps (hint study Oct 30 2026). Replaces HALL_HINTS.frostspire fallback in src/progression/hall_v2.js via system_halls.hint_frostspire.",
+   "previous_pages": [
     "Short on wins? Two helpers wait\non the high ledge above the ice.",
     "Ride the middle lane, by the\npillar. The wind takes you up."
    ],
-   "status": "DRAFT",
-   "note": "Replaces HALL_HINTS.frostspire fallback in src/progression/hall_v2.js (read via system_halls.hint_frostspire)."
+   "tier": "T3 nudge (attendant, only while wins are short)"
+  }
+ },
+ "hint_guideline": {
+  "status": "DRAFT",
+  "tiers": {
+   "T0_setting": "Signs, props, floor marks. Name the theme or show the rule (feathers lean with the wind). No directions.",
+   "T1_mutter": "Intro or idle lines that half-say the rule, in character. Player may not notice.",
+   "T2_after_battle": "after: each beaten trainer gives ONE piece (a rule, a place, an order). Pieces combine; none solves alone.",
+   "T3_nudge": "Attendant hint while wins are short: points at what the player is missing (a place, a step order), never the path.",
+   "T4_plain": "Only on repeat talks (after_2) or a guide the player chooses to ask: plain rule, still no step list."
+  },
+  "who": {
+   "guide_at_entrance": "T1-T2: the mechanic's rules",
+   "signs": "T0",
+   "trainers_before_battle": "T1",
+   "trainers_after": "T2 (after_2 may go T4)",
+   "battle_lost_quip": "stay a quip; at most a wink at the theme",
+   "attendant": "T3",
+   "Master": "never hints the path"
+  },
+  "rules": [
+   "Hint the rule or the place, never the button order.",
+   "One fact per line, in the speaker's voice.",
+   "Every hint must be true for the current layout (check data/hall_puzzles/<zone>.json).",
+   "No franchise words; same banned list."
+  ]
+ },
+ "suggestions_frostspire_hall_trainers": {
+  "note": "Suggestions only; frostspire_hall_int lives in text/overworld_lines.json (not edited). Existing battle_lost/after kept unless noted.",
+  "frostspire_hall_int_h1": {
+   "after_2": [
+    "Up here the bells have the say.\nThe feathers just listen."
+   ],
+   "softened_from": [
+    "Bells first, feathers second.\nThat's the order up here."
+   ],
+   "note": "rule only, no order"
+  },
+  "frostspire_hall_int_h2": {
+   "battle_lost": [
+    "I leaned the wrong way.\nShould've rung first."
+   ],
+   "after_2": [
+    "There's a rope by the start\nand one up on the ledge. Two."
+   ]
+  },
+  "frostspire_hall_int_h3": {
+   "after_2": [
+    "Down the ledge to the left is a\nquiet corner. Wind stops there."
+   ]
+  },
+  "frostspire_hall_int_h4": {
+   "after_2": [
+    "The vents do the climbing, once\na bell tells them which way."
+   ],
+   "softened_from": [
+    "Ring the low bell, then let the\nvents do the climbing for you."
+   ],
+   "note": "rule only, no order"
+  },
+  "frostspire_hall_int_h5": {
+   "after_2": [
+    "The far left wall is the calm\nside. Hale's stair starts there."
+   ]
+  },
+  "frostspire_hall_int_h6": {
+   "after_2": [
+    "My tip? Read the floor first.\nRing, ride, then read it again."
+   ]
   }
  }
 }
