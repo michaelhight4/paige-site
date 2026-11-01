@@ -1,5 +1,5 @@
 {
- "note": "furniture v2 animated props (tools/furniture_v2/build_v3.py); frames index the *_v3.png sheet; merged only with ix2; v4: all v2 animations except KEEP_OLD pieces (tools/furniture_v2/build_v3_hybrid.py); old_machine_v1: 7476-7479 original crystal polisher + lively lights (tools/furniture_v2/old_machine_v1.py); v0.2.109: TV, sink and server-rack frames removed (their extra cells were another model -> flicker); these props draw their own still art; v0.2.115: lab crystal tube 7288/7289 static (fish-tank frames were another model), lab machine 7286/7287 vent-top frame (364/367) dropped, red/green blink kept",
+ "note": "furniture v2 animated props (tools/furniture_v2/build_v3.py); frames index the *_v3.png sheet; merged only with ix2; v4: all v2 animations except KEEP_OLD pieces (tools/furniture_v2/build_v3_hybrid.py); old_machine_v1: 7476-7479 original crystal polisher + lively lights (tools/furniture_v2/old_machine_v1.py); v0.2.109: TV, sink and server-rack frames removed (their extra cells were another model -> flicker); these props draw their own still art; v0.2.115: lab crystal tube 7288/7289 static (fish-tank frames were another model), lab machine 7286/7287 vent-top frame (364/367) dropped, red/green blink kept; v0.2.116: lab server cabinet = ONE art (175/176): white-cap variants 362/363 (+364-367) overwritten with 175/176 copies; 7286 blinks red (175) / green (362 = 175 light recoloured), 7287 static",
  "anim": {
   "7476": {
    "frames": [
@@ -228,20 +228,9 @@
   "7286": {
    "frames": [
     175,
-    362,
-    363,
-    175
+    362
    ],
-   "frame_ms": 220
-  },
-  "7287": {
-   "frames": [
-    176,
-    365,
-    366,
-    176
-   ],
-   "frame_ms": 220
+   "frame_ms": 600
   },
   "7212": {
    "frames": [

@@ -16,7 +16,7 @@
 // - DRAFT audio (wave 2, Oct 22, 2026): three original BeepBox loops (town / route / battle) and a jsfxr SFX sprite,
 //   rendered by tools/audio/ (see /workspace/quality/toolkit/MUSIC_SFX_PIPELINE.md). They are DRAFTS for Gary to veto.
 //   ONE-LINE REVERT to the placeholder tones + ZzFX: set DRAFT_AUDIO below to { music: false, sfx: false }.
-import { isIndoor } from '../overworld/clock.js?v=v0.2.115-alpha';
+import { isIndoor } from '../overworld/clock.js?v=v0.2.116-alpha';
 
 /** DRAFT audio switch (Gary can veto): { music: false, sfx: false } puts every slot back on the placeholders. */
 export const DRAFT_AUDIO = { music: true, sfx: true };
@@ -31,7 +31,7 @@ export const DRAFT_MUSIC = {
 /** DRAFT SFX sprite map [offset ms, duration ms] (copied from audio/sfx/kil_sfx_draft.json by tools/audio/make_sfx.mjs). */
 export const DRAFT_SFX_SPRITE = { cursor: [100, 89], select: [288, 256], back: [643, 165], door: [908, 454], grass: [1461, 179], blip: [1740, 53], save: [1893, 772], catch: [2764, 778] };
 /** Stand-alone SFX files (audio/sfx/<file>.ogg|.m4a), one Howl each, sfx volume. kilu_cry: ONE shared Kilu cry for every species
- *  (Gary, Nov 1 2026: "just one sound for all of them for now"); ffmpeg-synthesised chirp, v0.2.115-alpha. */
+ *  (Gary, Nov 1 2026: "just one sound for all of them for now"); ffmpeg-synthesised chirp, v0.2.116-alpha. */
 export const SFX_FILES = { kilu_cry: 'sfx/kilu_cry' };
 const ASSET = (p) => new URL('../../audio/' + p, import.meta.url).href;
 /** Sources for a DRAFT asset: OGG Vorbis first, AAC .m4a fallback (older iPhone Safari has no Ogg); howler takes the first it can play. */
@@ -218,7 +218,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
   let saved = null;
   try { saved = JSON.parse(storage?.getItem(KEY) || 'null'); } catch { saved = null; }
   const { settings, cfg } = audioSettings(profile?.audio, saved);
-  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js?v=v0.2.115-alpha');
+  const { Howler, Howl } = howler || await import('../vendor/howler/howler.esm.js?v=v0.2.116-alpha');
   Howler.autoSuspend = false; // we suspend on tab hide ourselves; SFX run on raw nodes howler does not track
   const st = { unlocked: false, failed: null, track: null, zzfx: null, cache: new Map(), bus: null, music: null, urls: new Map(), blipTimer: 0, followTimer: 0, sprite: null, spriteState: 'off', files: {} };
 
@@ -244,7 +244,7 @@ export async function mountAudio({ profile, platformId, storage = null, enabled 
       ctx.resume?.().catch(() => {});
       st.unlocked = true;
       for (const t of cfg.unlockOn) win.removeEventListener(t, unlock, true);
-      import('../vendor/zzfx/ZzFX.js?v=v0.2.115-alpha').then((m) => {
+      import('../vendor/zzfx/ZzFX.js?v=v0.2.116-alpha').then((m) => {
         try { m.ZZFX.audioContext?.close?.(); } catch { /* ignore */ }
         m.ZZFX.audioContext = Howler.ctx;
         st.zzfx = m.ZZFX;

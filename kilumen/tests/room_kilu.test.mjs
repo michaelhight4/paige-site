@@ -35,14 +35,15 @@ test('static follower is solid and talkable (overworld.js wiring)', () => {
   assert.ok(src.indexOf('opening2.roomTalk()') < src.indexOf('this.systems?.onInteract(fx, fy)'), 'room talk before systems.onInteract');
 });
 
-test('before flg_promoted the companion never leads (pre-promotion save with it in the party)', () => {
+test('before got_starter (lab pick) the companion never leads (pre-promotion save with it in the party)', () => {
   const body = /_followLead\(\) \{([\s\S]*?)\n  \}/.exec(src)[1];
   const followLead = new Function(body.replace(/^\s*/, ''));
   const comp = { species: 'mossmote', origin: { how: 'companion' } }, ghost = { species: 'mossmote', x: 3, y: 4, static: true };
   const mk = (flags, party) => ({ flags: new Set(flags), party, opening2: { ghostLead: () => ghost } });
   assert.equal(followLead.call(mk([OPEN2.active], [comp])), ghost, 'old save: companion in party -> only the static room ghost');
   assert.equal(followLead.call(mk([OPEN2.active], [])), ghost);
-  assert.equal(followLead.call(mk([OPEN2.active, 'flg_promoted'], [comp])), comp, 'after promotion it follows');
+  assert.equal(followLead.call(mk([OPEN2.active, 'flg_promoted'], [comp])), ghost, 'v0.2.116: promoted but no lab starter yet -> still no companion follower');
+  assert.equal(followLead.call(mk([OPEN2.active, 'flg_promoted', 'got_starter'], [comp])), comp, 'after the lab starter pick it follows');
   const other = { species: 'nibbin', origin: { how: 'gift' } };
   assert.equal(followLead.call(mk([OPEN2.active], [comp, other])), other);
   assert.equal(src.match(/this\._followLead\(\)/g).length, 2, 'both follower sites use the gate');

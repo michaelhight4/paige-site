@@ -77,7 +77,8 @@ test('ghostLead: trails after the feed, static in the bedroom, gone once joined'
   s.flags.add(OPEN2.done); s.map = { name: OPEN2.bedroom, json: { player_start: { x: 3, y: 3 } }, inBounds: () => true, code: () => 0 };
   const g = o.ghostLead(); assert.equal(g.static, true); assert.deepEqual([g.x, g.y], [5, 3]);
   s.map = { name: OPEN2.home }; assert.equal(o.ghostLead(), null, 'stays in the room');
-  s.flags.add('flg_promoted'); assert.equal(o.joinDue(), true);
+  s.flags.add('flg_promoted'); assert.equal(o.joinDue(), false, 'promoted but no starter yet: no join, no follower');
+  s.flags.add('got_starter'); assert.equal(o.joinDue(), true);
   s.flags.add(OPEN2.joined); assert.equal(o.ghostLead(), null); assert.equal(o.joinDue(), false);
 });
 
@@ -97,4 +98,26 @@ test('fix1: female run/bike/back art exists on Cal grids; route1 empty + tasks h
   assert.match(fs.readFileSync(new URL('../src/overworld/feed_battle.js', import.meta.url), 'utf8'), /female: 'art\/characters\/pixel\/npcs\/vil_commuter_f\/vil_commuter_f_back_battle\.png'/);
   assert.match(fs.readFileSync(new URL('../src/progression/index.js', import.meta.url), 'utf8'), /scene\.opening2\?\.inSequence\) \{ hud\?\.update\(\); return; \}/);
   assert.match(fs.readFileSync(new URL('../src/overworld/npcs.js', import.meta.url), 'utf8'), /map\.name === 'route1' && this\.scene\?\.opening2\?\.inSequence/);
+});
+
+test('v0.2.116 new game -> rain -> room -> work (promoted) -> lab: no follower until the lab starter pick; one join after', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('../src/overworld/overworld.js', import.meta.url), 'utf8');
+  const followLead = new Function(/_followLead\(\) \{([\s\S]*?)\n  \}/.exec(src)[1]);
+  const added = [];
+  const s = fakeScene({ flags: flagsOf(OPEN2.active), party: [], _placeFollower() {}, _loadActorSprites: async () => {},
+    setFlag(f) { this.flags.add(f); }, systems: { party: { add: (c) => { s.party.push(c); added.push(c); } } } });
+  const o = new OpeningV2(s, { run: true }); s.opening2 = o;
+  s.seen[OPEN2.compKey] = { species: 'mossmote', level: 3 }; // rain scene: the grass companion is rolled
+  const lead = () => followLead.call(s);
+  s.flags.add(OPEN2.fed); assert.equal(lead()?.species, 'mossmote', 'walking home in the rain it trails (opening ghost)');
+  s.flags.add(OPEN2.done); s.map = { name: OPEN2.bedroom, json: { player_start: { x: 3, y: 3 } }, inBounds: () => true, code: () => 0 };
+  assert.equal(lead()?.static, true, 'the room Kilu stays in the room');
+  s.map = { name: 'office_int' }; s.flags.add('flg_promoted');
+  assert.equal(await o.joinNow(), false, 'promotion: no join'); assert.equal(s.party.length, 0);
+  s.map = { name: 'lab_brookhollow' }; assert.equal(lead(), null, 'lab before the starter choice: no follower');
+  s.flags.add('got_starter'); s.party.push({ species: 'nibbin', origin: { how: 'starter' } });
+  const [a, b] = await Promise.all([o.joinNow(), o.joinNow()]);
+  assert.deepEqual([a, b], [true, false], 'joins once'); assert.equal(added.length, 1);
+  assert.equal(lead().species, 'nibbin', 'the chosen starter leads');
 });

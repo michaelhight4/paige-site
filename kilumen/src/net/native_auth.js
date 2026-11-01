@@ -5,7 +5,7 @@
 // session (stored in localStorage like the email sign-in), close the tab and reload so the usual cloud-save boot runs.
 // Website: nothing here runs (isNativeApp() is false), the existing same-window redirect is unchanged.
 // Supabase setting needed (Auth > URL Configuration > Redirect URLs): net.paigegames.kilumen://login-callback
-import { SB_URL, SB_KEY, sbLib, isNativeApp } from './cloud_save.js?v=v0.2.115-alpha';
+import { SB_URL, SB_KEY, sbLib, isNativeApp } from './cloud_save.js?v=v0.2.116-alpha';
 
 export const NATIVE_REDIRECT = 'net.paigegames.kilumen://login-callback';
 const pkceOpts = { auth: { persistSession: true, autoRefreshToken: false, detectSessionInUrl: false, flowType: 'pkce' } };
