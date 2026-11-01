@@ -607,3 +607,16 @@ body.platform-mobile .ui-battle[data-biome-art][data-scr="battle"] .b-field { --
 @keyframes bHeldPop { 0% { transform: scale(1); } 40% { transform: scale(1.7) rotate(-10deg); } 100% { transform: scale(1); } }
 @keyframes bHeldGone { 0% { transform: scale(1.5); opacity: 1; } 100% { transform: translateY(-10px) scale(.4); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .b-plate .b-held.pop, .b-plate .b-held.gone { animation: none; } }
+
+/* ---------- save slots (Oct 31 2026): title slot picker ---------- */
+.ui-title-scr.ss-picking .ui-logo { display: none; }
+.ui-title-menu.ss-picker { top: max(8px, 4vh); bottom: auto; max-height: calc(100% - 2 * max(8px, 4vh)); width: min(560px, calc(100vw - var(--ui-inset-left, 4vw) - var(--ui-inset-right, 4vw))); overflow-y: auto; display: flex; flex-direction: column; box-sizing: border-box; }
+.ss-head { margin: 0 0 8px; font-weight: 700; }
+.ss-list { display: flex; flex-direction: column; gap: 6px; }
+.ss-card { display: flex; flex-direction: column; align-items: stretch; gap: 2px; min-height: 48px; }
+.ss-top { display: flex; align-items: center; gap: 8px; }
+.ss-tag { margin-left: auto; font-size: .8em; padding: 1px 8px; border-radius: 8px; background: rgba(60, 80, 140, .35); white-space: nowrap; }
+.ss-tag[data-tag="cloud"] { background: rgba(70, 130, 200, .45); }
+.ss-info { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: .85em; opacity: .85; }
+.ss-empty .ss-info { opacity: .6; }
+.ss-back { min-height: 44px; }

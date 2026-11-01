@@ -111,7 +111,8 @@ function writeMemo(ls, m) { try { ls.setItem(MEMO_KEY, JSON.stringify(m)); } cat
 /**
  * Boot check. Returns { ok, action, uploader? , msg? }. Writes the cloud save into storage[key] when it is taken.
  * o: { storage (sync Storage-like save backend), key, isLoadable(raw), device, ask(localObj, cloudObj) -> Promise<'device'|'cloud'>,
- *      session() -> Promise<{token, uid, anonymous}|null>, api?, ls (localStorage for the memo), locked(), onResult }
+ *      session() -> Promise<{token, uid, anonymous}|null>, api?, ls (localStorage for the memo), locked(), onResult,
+ *      preferLocal? (save slots: a just-swapped cloud slot wins over a different cloud playthrough) }
  */
 export async function bootCloudSave(o) {
   const sess = await o.session();
@@ -123,6 +124,9 @@ export async function bootCloudSave(o) {
   const localObj = localRaw && o.isLoadable(localRaw) ? parse(localRaw) : null;
   const cloud = await api.meta();
   let action = decide(metaOf(localObj), cloud, readMemo(o.ls, sess.uid));
+  // save slots: the player just made this slot the cloud save (confirmed 'replaces what is in the cloud'), so a different
+  // playthrough in the cloud is replaced without the conflict pick
+  if (o.preferLocal && action === 'ask') action = 'keep_local';
   let cloudObj = null;
   // v0.2.88: the boot no longer waits for this check. Once o.late() is true the game has already read this device's save,
   // so nothing may be written here or asked any more; no uploader either (a device never overwrites a playthrough it was

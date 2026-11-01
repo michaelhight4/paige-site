@@ -217,7 +217,7 @@ export class SaveStore {
     if (!this.storage) return null;
     this.lastWarnings = [];
     for (const k of [this.key, this.bakKey]) {
-      try { const s = this._read(k); if (s) { this.loadedFrom = k; this.extra = pickBlocks(s); return s; } } catch (e) {
+      try { const s = this._read(k); if (s) { this.loadedFrom = k; this.extra = pickBlocks(s); this._tick ||= Date.now(); this._playBase = Number(s?.systems?.playMs) || 0; return s; } } catch (e) {
         this.lastError = `${k}: ${e.message}`;
         // [free-tools pass] keep the unreadable main save under <key>.bad (never deleted) before a later save replaces it
         if (k === this.key) { try { const raw = this.storage.getItem(k); if (raw) this.storage.setItem(this.key + '.bad', raw); } catch { /* storage full or blocked */ } }
@@ -230,6 +230,7 @@ export class SaveStore {
     if (!this.storage || this.hold) return false; // ALPHA: hold = first launch, title choice not made yet
     try {
       const full = { ...this.extra, ...state };
+      full.systems = { ...(full.systems || {}), playMs: this._playMs() }; // save slots: play time for the slot card (gaps over 90 s, e.g. a hidden tab, count 90 s)
       ensureUids(full.party, full.saveId);
       const json = JSON.stringify({ ...full, v: SAVE_VERSION, savedAt: Date.now() });
       normalise(JSON.parse(json)); // never write something we could not read back
@@ -241,7 +242,13 @@ export class SaveStore {
     } catch (e) { this.lastError = e.message; return false; }
   }
 
-  clear() { this.storage?.removeItem(this.key); this.storage?.removeItem(this.bakKey); this.extra = pickBlocks(freshSave()); }
+  _playMs(now = Date.now()) {
+    const gap = this._tick ? Math.min(90000, Math.max(0, now - this._tick)) : 0;
+    this._tick = now; this._playBase = (this._playBase || 0) + gap;
+    return this._playBase;
+  }
+
+  clear() { this.storage?.removeItem(this.key); this.storage?.removeItem(this.bakKey); this.extra = pickBlocks(freshSave()); this._playBase = 0; }
 }
 
 const KEEP_BLOCKS = [...V2_BLOCKS, 'contacts', 'devTouched', 'ron_roll']; // [contacts] optional block: carried through saves only if a save already has it

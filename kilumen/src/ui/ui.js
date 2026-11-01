@@ -26,6 +26,8 @@ import { ALPHA_VERSION, ALPHA_NOTICE, noticeSeen, markNoticeSeen } from '../alph
 // UI tools 2 (Oct 22, 2026; Gary: "Add the 5 ready UI tools"): pixelarticons, Kenney UI placeholders, floating-ui tooltips,
 // auto-animate lists, anime.js battle-menu transitions. Heavy libs are lazy (see ./ui_tools2.js); ui.fx is the hook for ui_sd.js.
 import { showContinue } from '../overworld/save.js?v=v0.2.111-alpha'; // first-launch Continue fix (batch 3 wire)
+import { SLOTS, listSlots, readMeta, fmtPlayTime, planNewGame, planLoad, planCloudSwap } from '../overworld/save_slots.js?v=v0.2.111-alpha'; // 3 save slots (Oct 31 2026)
+import { isLoadableSave } from '../overworld/save_schema.js?v=v0.2.111-alpha';
 import { installQol } from '../qol/qol.js?v=v0.2.111-alpha'; // [qol hook] Battle pace / Text speed / Run toggle (Oct 29 2026)
 import { UiTools2, pxi, MENU_ICONS, POCKET_ICONS, EMPTY_ICONS, OPTION_ICONS, kuiSlider, kuiCheck } from './ui_tools2.js?v=v0.2.111-alpha';
 import { catchNet, NET_TEXT } from '../systems/catch_net.js?v=v0.2.111-alpha';
@@ -945,46 +947,89 @@ export class GameUI {
     // first launch: the scene's own early autosave must not count as a save (src/overworld/save.js showContinue)
     const played = !!this._leftTitle || !this._bootTitle; // boot title: only a save from before this launch counts
     const hasSave = showContinue({ bootSave: this.scene.opts?.saveData, played, stored: played ? this.scene.store?.load?.() : null });
-    const acctLabel = hasSessionHintUI() ? 'Account' : 'Sign in'; // v0.2.49: in-app sign-in (home-screen app has its own storage)
-    const items = [...(hasSave ? ['Continue'] : []), 'New game', 'Options', acctLabel];
+    // 3 save slots (Gary, Oct 31 2026; src/overworld/save_slots.js): Continue = last-used slot, New Game / Load Game pick a slot.
+    // Only the cloud slot (slot 1 unless swapped) syncs with the account. Text: system_save_slots (Text Bot owns the words).
+    const ST = (k, fb, v = {}) => String(this.T(`system_save_slots.${k}`, fb)).replace(/\{(\w+)\}/g, (m, x) => (v[x] ?? m));
+    const SP = (k, fb, v = {}) => { const t = this.T(`system_save_slots.${k}`, fb); return (Array.isArray(t) ? t : [t]).map((x) => String(x).replace(/\{(\w+)\}/g, (m, y) => (v[y] ?? m))); };
+    let ls = null; try { ls = localStorage; } catch { ls = null; }
+    const stg = this.scene.store?.storage || null;
+    const slots = () => listSlots(stg, readMeta(ls), isLoadableSave).map((x) => (x.active && !hasSave ? { ...x, used: false } : x)); // the active slot's own first-launch autosave is not a save yet
+    const L = { cont: ST('title.continue', 'Continue'), neu: ST('title.new_game', 'New Game'), load: ST('title.load_game', 'Load Game'), opt: 'Options' };
+    const items = [...(hasSave ? [L.cont] : []), L.neu, ...(slots().some((x) => x.used) ? [L.load] : []), L.opt];
     // save card: the Continue row names the save's difficulty (old saves: Normal)
     const PICK_ORDER = ['normal', 'easy', 'hard']; // Normal is the highlighted first choice
     const savedDiff = diffOf(getDifficulty((this.scene.store?.load?.() || this.scene.opts?.saveData || {})?.systems || this.scene.systems?.state)).label;
-    const rowText = (t) => (t === 'Continue' ? `Continue <span class="soft" data-k="save-diff">· ${esc(savedDiff)}</span>` : t);
-    let stage = 0;
-    const scr = { scr: 'title', full: true, sel: 0, cols: 1, count: () => (stage ? items.length : 0),
+    const rowText = (t) => (t === L.cont ? `${esc(t)} <span class="soft" data-k="save-diff">· ${esc(savedDiff)}</span>` : esc(t));
+    let stage = 0, pick = null; // pick: null = main menu, 'new' | 'load' = slot picker
+    const card = (x, i) => {
+      const tag = x.cloud ? ST('cloud', 'Cloud') : ST('device', 'Device');
+      const bits = x.used ? [x.name, x.playMs != null ? ST('play_time', 'Time {t}', { t: fmtPlayTime(x.playMs) }) : null, ST('badges', 'Badges {n}', { n: x.badges }), x.place].filter(Boolean) : [ST('empty', 'Empty')];
+      return `<li class="ui-row ss-card${x.used ? '' : ' ss-empty'}" data-i="${i}" data-slot="${x.n}"><span class="ss-top"><b>${esc(ST('slot', 'Slot {n}', { n: x.n }))}</b><span class="ss-tag" data-tag="${x.cloud ? 'cloud' : 'device'}">${esc(tag)}</span></span>`
+        + `<span class="ss-info">${bits.map((b) => `<span>${esc(b)}</span>`).join('')}</span></li>`;
+    };
+    const backRow = (i) => `<li class="ui-row ss-back" data-i="${i}">${esc(ST('back', 'Back'))}</li>`;
+    const count = () => (!stage ? 0 : pick ? SLOTS.length + 1 : items.length);
+    const goPick = (mode) => { pick = mode; scr.sel = Math.max(0, SLOTS.indexOf(readMeta(ls).active)); this._render(); };
+    const toMenu = () => { pick = null; scr.sel = 0; this._render(); };
+    const reloadPlain = () => { location.replace(location.pathname); }; // drop ?reset=1 etc. so the picked slot loads as it is
+    const scr = { scr: 'title', full: true, sel: 0, cols: 1, count,
       mount: (layer) => {
         const name = 'Kilumen';
-        layer.innerHTML = `<div class="ui-title-scr" data-scr="title"><div class="art" style="background-image:url(art/world/key_art_notext.webp)"></div><div class="veil"></div>
+        const list = pick ? `<div class="ui-panel ui-title-menu ss-picker" data-scr="title" data-pat="sparkle" data-scroll><p class="ss-head">${esc(pick === 'new' ? ST('pick_new', 'Pick a slot for your new game.') : ST('pick_load', 'Pick a save to load.'))}</p><ul class="ui-list ss-list">${slots().map(card).join('')}${backRow(SLOTS.length)}</ul></div>`
+          : `<div class="ui-panel ui-title-menu" data-scr="title" data-pat="sparkle" data-scroll><ul class="ui-list">${items.map((t, i) => `<li class="ui-row" data-i="${i}">${rowText(t)}</li>`).join('')}</ul></div>`;
+        layer.innerHTML = `<div class="ui-title-scr${pick ? ' ss-picking' : ''}" data-scr="title"><div class="art" style="background-image:url(art/world/key_art_notext.webp)"></div><div class="veil"></div>
           <div class="ui-logo"><h1>${[...name].map((c, i) => `<span style="--i:${i}">${c}</span>`).join('')}</h1><span class="sub">Start of a Journey</span><span class="alpha-badge" title="Alpha: early version">Alpha</span></div>
-          ${stage ? `<div class="ui-panel ui-title-menu" data-scr="title" data-pat="sparkle" data-scroll><ul class="ui-list">${items.map((t, i) => `<li class="ui-row" data-i="${i}">${rowText(t)}</li>`).join('')}</ul></div>`
-            : `<div class="ui-press-start" data-act="start">${this.platform?.profile?.controls?.touch ? 'Tap to start' : 'Press Enter or Start'}</div>`}
+          ${stage ? list : `<div class="ui-press-start" data-act="start">${this.platform?.profile?.controls?.touch ? 'Tap to start' : 'Press Enter or Start'}</div>`}
           <span class="foot">${esc(ALPHA_VERSION)}</span></div>`;
-        const r = layer.getBoundingClientRect(); setTimeout(() => this.sparkle(r.width / 2, r.height * 0.3, 18, layer), 400);
+        if (!pick) { const r = layer.getBoundingClientRect(); setTimeout(() => this.sparkle(r.width / 2, r.height * 0.3, 18, layer), 400); }
       },
       handle: ({ dir, a, b }) => {
         if (!stage) { if (a) { stage = 1; this._render(); } return; }
-        if (dir === 'up' || dir === 'down') { scr.sel = (scr.sel + (dir === 'up' ? -1 : 1) + items.length) % items.length; this._markSel(); }
+        const n = count();
+        if (dir === 'up' || dir === 'down') { scr.sel = (scr.sel + (dir === 'up' ? -1 : 1) + n) % n; this._markSel(); }
         if (a) scr.onA(scr.sel);
+        else if (b && pick) toMenu();
       },
       onA: async (i) => {
         if (!stage) { stage = 1; this._render(); return; }
+        if (pick) return pickSlot(i);
         const it = items[i];
-        if (it !== 'Options' && this.scene.store) this.scene.store.hold = false; // ALPHA: saving starts with the first title choice
-        if (it === 'Continue') { this._leftTitle = true; this.closeAll(); }
-        else if (it === 'New game') {
-          if (hasSave) { const k = await this.ask('title', ['Start a new game?', 'This writes over your current report.'], ['Start over', 'Keep playing'], { pat: 'sparkle' }); if (k !== 0) return; }
-          const dk = await this.ask('title', ['Pick a difficulty.', 'You can change it later in Options.'], PICK_ORDER.map((d) => `${DIFFICULTIES[d].label}: ${DIFFICULTIES[d].blurb}`), { pat: 'sparkle' });
-          const pick = PICK_ORDER[dk] || 'normal';
-          if (hasSave) { try { localStorage.setItem(PENDING_KEY, pick); } catch { /* private mode: Normal */ } location.search = '?reset=1'; return; }
-          setDifficulty(this.scene.systems?.state, pick);
-          this._leftTitle = true; this.closeAll();
-        } else if (it === acctLabel) { import('../net/account.js?v=v0.2.111-alpha').then((m) => m.openAccount()); }
-        else { this.stack = []; this.active = false; this.open('options'); }
+        if (it === L.cont) { if (this.scene.store) this.scene.store.hold = false; this._leftTitle = true; this.closeAll(); } // ALPHA: saving starts with the first title choice
+        else if (it === L.neu) goPick('new');
+        else if (it === L.load) goPick('load');
+        else { this.stack = []; this.active = false; this.open('options'); } // Options (Sign in / Account is in Options)
       },
-      onBack: () => false,
+      onBack: () => { if (pick) toMenu(); return false; }, // B in the slot picker: back to the title menu; the title itself never closes
       // phone menu fix (Oct 23, 2026): A is hidden under menus on phones, so a tap anywhere on 'Tap to start' starts (touch profile only)
       handlePointer: () => { if (stage || !this.platform?.profile?.controls?.touch) return false; scr.onA(0); return true; },
+    };
+    const pickSlot = async (i) => {
+      if (i >= SLOTS.length) return toMenu();
+      const x = slots()[i]; if (!x) return;
+      const opt = { pat: 'sparkle' };
+      if (pick === 'new') {
+        if (x.used) { const k = await this.ask('title', SP('overwrite_q', ['Start a new game in Slot {n}?', 'This writes over the save in that slot.'], { n: x.n }), [ST('overwrite_yes', 'Start over'), ST('overwrite_no', 'Keep it')], opt); if (k !== 0) return; }
+        const dk = await this.ask('title', ['Pick a difficulty.', 'You can change it later in Options.'], PICK_ORDER.map((d) => `${DIFFICULTIES[d].label}: ${DIFFICULTIES[d].blurb}`), opt);
+        if (dk < 0) return;
+        const diff = PICK_ORDER[dk] || 'normal';
+        const inPlace = x.active && !hasSave && !this.scene.opts?.saveData; // first launch, empty slot already loaded: just start
+        if (!inPlace) { planNewGame(ls, x.n); try { localStorage.setItem(PENDING_KEY, diff); } catch { /* private mode: Normal */ } location.search = '?reset=1'; return; }
+        if (this.scene.store) this.scene.store.hold = false;
+        setDifficulty(this.scene.systems?.state, diff);
+        this._leftTitle = true; this.closeAll(); return;
+      }
+      // Load Game
+      if (!x.used) return;
+      const meta = readMeta(ls), choices = [ST('load', 'Load'), ...(x.cloud ? [] : [ST('make_cloud', 'Make this my cloud save')]), ST('back', 'Back')];
+      const k = await this.ask('title', [ST('slot', 'Slot {n}', { n: x.n }) + (x.name ? ` · ${x.name}` : '')], choices, opt);
+      if (k === 0) {
+        if (x.active && hasSave) { if (this.scene.store) this.scene.store.hold = false; this._leftTitle = true; this.closeAll(); return; }
+        planLoad(ls, x.n); reloadPlain(); return;
+      }
+      if (!x.cloud && k === 1) {
+        const c = await this.ask('title', SP('swap_q', ['Make Slot {n} your cloud save?', 'This replaces what is in the cloud. Slot {m} stays on this device.'], { n: x.n, m: meta.cloud }), [ST('swap_yes', 'Make it my cloud save'), ST('swap_no', 'Cancel')], opt);
+        if (c === 0) { planCloudSwap(ls, x.n, x.used); this.toastFn?.(ST('swap_done', 'Slot {n} is now your cloud save.', { n: x.n })); this._render(); }
+      }
     };
     return scr;
   }

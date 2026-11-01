@@ -25,6 +25,7 @@ import { Input } from './overworld/input.js?v=v0.2.111-alpha';
 import { Overworld } from './overworld/overworld.js?v=v0.2.111-alpha';
 import { SaveStore, SAVE_KEY } from './overworld/save.js?v=v0.2.111-alpha';
 import { openSaveStorage } from './overworld/save_backend.js?v=v0.2.111-alpha';
+import { allSlotKeys, migrateToSlots, bootPlan, clearSwapPending, mayUpload, readMeta } from './overworld/save_slots.js?v=v0.2.111-alpha'; // 3 save slots (Gary, Oct 31 2026): only the cloud slot syncs
 import { Dialog } from './overworld/dialog.js?v=v0.2.111-alpha';
 import { attachSystems } from './systems/index.js?v=v0.2.111-alpha'; // [systems-gd hook]
 import { attachCurrents } from './overworld/current.js?v=v0.2.111-alpha';
@@ -63,10 +64,16 @@ let saveStorage = storage; // libs pass: IndexedDB first (one-time copy of an ex
 if (q.get('save') !== '0' && q.get('idb') !== '0') {
   try {
     const idb = await import('./vendor/idb-keyval/idb-keyval.js?v=v0.2.111-alpha');
-    saveStorage = (await openSaveStorage({ idb, local: storage, keys: [SAVE_KEY, SAVE_KEY + '.bak'] })) || storage;
+    saveStorage = (await openSaveStorage({ idb, local: storage, keys: [...allSlotKeys(), SAVE_KEY + '.preslots.bak'] })) || storage;
     if (saveStorage?.lastError) console.warn('save backend:', saveStorage.lastError);
   } catch (e) { console.warn('save: IndexedDB unavailable, using localStorage:', e?.message || e); }
 }
+// Save slots: the old save is slot 1 (same key, nothing moves). slotMeta: which slot plays (active = last used) and which one
+// is the cloud slot; the cloud check below only ever reads / writes the cloud slot's key, and uploads only happen while the
+// cloud slot is the one being played (mayUpload). ?save=0: slot 1, nothing stored.
+let slotLs = null; try { slotLs = window.localStorage; } catch { slotLs = null; }
+const slotMeta = saveStorage ? migrateToSlots(saveStorage, slotLs).meta : readMeta(null);
+const slotPlan = bootPlan(slotMeta);
 // v0.2.88 load fix: the cloud check (session refresh + Supabase lib from esm.sh + meta/data fetches) used to be AWAITED here,
 // so a slow or unreachable cloud held the boot on black with only 'Cloud: checking…' (10-25 s measured). Now it runs in the
 // background; boot waits at most CLOUD_BUDGET_MS for it. A late result never touches the save that is already loaded:
@@ -81,9 +88,9 @@ const cloudWire = async (cs) => { // attach a finished cloud check to the store 
     const up = cloudSave.uploader;
     window.addEventListener('pagehide', () => up.hidden());
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') up.hidden(); });
-    if (store) store.onSaved = (json) => up.saved(json);
+    if (store && mayUpload(slotMeta, store.key)) store.onSaved = (json) => { if (mayUpload(readMeta(slotLs), store.key)) up.saved(json); }; // save slots: never upload a device slot (re-checked per save: the cloud slot can be swapped mid-session)
   }
-  if (cloudSave.api && store) try { cs.liveSync({ api: cloudSave.api, storage: saveStorage, key: SAVE_KEY, store, ind: cloudInd, locked: () => !!window.kilumen?.scene?.saveLocked }); } catch (e) { console.warn('cloud live sync:', e?.message || e); }
+  if (cloudSave.api && store && slotPlan.activeIsCloud) try { cs.liveSync({ api: cloudSave.api, storage: saveStorage, key: slotPlan.cloudKey, store, ind: cloudInd, locked: () => !!window.kilumen?.scene?.saveLocked }); } catch (e) { console.warn('cloud live sync:', e?.message || e); }
   if (window.kilumen?.save) window.kilumen.save.cloud = { action: cloudSave.action, uploader: cloudSave.uploader || null, late: cloudLate };
 };
 let cloudTask = null;
@@ -99,9 +106,9 @@ if (saveStorage && q.get('cloudsave') !== '0') {
     const { isLoadableSave } = await import('./overworld/save_schema.js?v=v0.2.111-alpha');
     const session = cs.supabaseSession(), sess = () => limit(session(), 3000);
     const fetchFn = (u, init) => limit(fetch(u, init), 4000);
-    const reset = q.get('reset') === '1';
+    const reset = q.get('reset') === '1' && slotPlan.activeIsCloud; // a New game in a device slot leaves the cloud slot alone
     const res = await cs.bootCloudSave({
-      storage: saveStorage, key: SAVE_KEY, isLoadable: isLoadableSave, device: platform.id, session: sess, fetchFn, ls: window.localStorage,
+      storage: saveStorage, key: slotPlan.cloudKey, preferLocal: slotPlan.preferLocal, isLoadable: isLoadableSave, device: platform.id, session: sess, fetchFn, ls: window.localStorage,
       reset, late: () => cloudLate, ask: (l, c) => { cloudAsking = true; return cs.askChoice(l, c); }, locked: () => !!window.kilumen?.scene?.saveLocked,
       onResult: (r) => { if (r && r.ok === false) { console.warn('cloud save:', r.reason, r.error || ''); cloudInd?.set(r.reason === 'network' ? 'error' : r.reason === 'older' ? 'newer' : 'error'); } else if (r?.ok) cloudInd?.set('synced', Number(r.saved_at) || Date.now()); },
     });
@@ -109,6 +116,7 @@ if (saveStorage && q.get('cloudsave') !== '0') {
   })().then(({ cs, res }) => {
     if (!res) return { cs };
     cloudSave = res;
+    if (res.ok && slotPlan.preferLocal) clearSwapPending(slotLs); // the swapped-in cloud slot is now the cloud copy
     if (res.reason === 'late') { cloudInd?.set(res.action === 'download' ? 'newer' : 'different save in cloud (reload to pick)', res.cloud?.savedAt || 0); }
     else if (!res.ok) cloudInd?.set('off');
     else if (res.action === 'download' || res.action === 'take_cloud' || res.action === 'same') cloudInd?.set('synced', res.cloud?.savedAt || Date.now());
@@ -120,7 +128,7 @@ if (saveStorage && q.get('cloudsave') !== '0') {
 // Boot waits a short moment (a fast check can still swap in a newer cloud save before it is read), then goes on without it.
 const cloudEarly = cloudTask ? await Promise.race([cloudTask, new Promise((r) => setTimeout(() => r(cloudAsking ? cloudTask : null), CLOUD_BUDGET_MS))]) : null;
 if (cloudTask && !cloudEarly) { cloudLate = true; console.info(`cloud save: check still running after ${CLOUD_BUDGET_MS} ms, booting from this device's save`); }
-store = new SaveStore(saveStorage);
+store = new SaveStore(saveStorage, slotPlan.activeKey);
 if (q.get('reset') === '1') store.clear();
 if (cloudEarly?.cs) await cloudWire(cloudEarly.cs);
 else if (cloudTask) cloudTask.then((r) => r?.cs && cloudWire(r.cs));
@@ -168,7 +176,7 @@ import('./systems/crystal_resupply.js?v=v0.2.111-alpha').then((m) => m.attachCry
 try { attachEvolution(scene, { query: q }); } catch (e) { console.error('evolution:', e); } // [evolution hook] level-up evolution after battles (src/systems/evolution.js, ?evo=0 off)
 window.kilumen = { scene, mood: scene.mood, platform: { id: platform.id, profile: platform.profile }, state: () => scene.state(), ready: scene.init().then(() => { scene.run(); return true; }) };
 window.kilumen.ready.catch((e) => { console.error(e); toast('Failed to load: ' + e.message); window.__kboot?.fail(e?.message); });
-window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.(), cloud: cloudSave ? { action: cloudSave.action, uploader: cloudSave.uploader || null, late: cloudLate } : null, cloudTask };
+window.kilumen.save = { backend: saveStorage?.backend || (saveStorage ? 'localStorage' : 'none'), flush: () => saveStorage?.flush?.(), cloud: cloudSave ? { action: cloudSave.action, uploader: cloudSave.uploader || null, late: cloudLate } : null, cloudTask, slots: { meta: slotMeta, plan: slotPlan } };
 if (q.get('cv') !== '0') import('./systems/company_voice.js?v=v0.2.111-alpha').then((m) => m.attachCompanyVoice(scene, { query: q })).then((cv) => { window.kilumen.companyVoice = cv; if (cv && q.get('ritavoice') !== '0') return import('./systems/rita_voice.js?v=v0.2.111-alpha').then((r) => { window.kilumen.ritaVoice = r.attachRitaVoice(cv, { audio: () => window.kilumen.audio }); }); }) /* [rita voice hook] spoken clips, Options 'RITA voice' (default on), ?ritavoice=0 off */.catch((e) => console.error('company voice:', e)); // [company voice hook] DEFAULT ON for region 1 (Gary 12:45 PM CT Oct 23 2026: "Yes, ship RITA in region 1"); ?cv=0 turns off (design/company_voice.md)
 import('./fishing/flags.js?v=v0.2.111-alpha').then((f) => { if (f.fishingFlags(q).fishing) return window.kilumen.ready.then(() => import('./fishing/index.js?v=v0.2.111-alpha')).then((m) => { window.kilumen.fishing = m.installFishing(scene); }); }).catch((e) => console.error('fishing:', e)); // [fishing hook] v1 (Oct 29 2026): rod from the Brookhollow fisher, cast at any water; OFF by default, ?fishing=1 on (src/fishing/)
 window.kilumen.ready.then(() => import('./rail/index.js?v=v0.2.111-alpha')).then((m) => { window.kilumen.rail = m.attachRail(scene, { systems: scene.systems }); }).catch((e) => console.error('rail:', e)); // [rail hook] Lumen Line travel menu (src/rail/)

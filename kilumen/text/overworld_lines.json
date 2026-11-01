@@ -24424,6 +24424,40 @@
    "Not now! RITA can't file reports\nmid-scene. Try again in a moment."
   ]
  },
+ "system_save_slots": {
+  "_section": "Save slots (Oct 31 2026, src/ui/ui.js scr_title + src/overworld/save_slots.js). 3 slots: the Cloud slot syncs with the account when signed in, Device slots stay on this device.",
+  "_note_for_text_bot": "NEW, placeholder wording by the dev pass (kept minimal and plain). Text Bot owns these words: please review. {n} / {m} = slot number, {t} = play time h:mm.",
+  "status": "DRAFT",
+  "title": {
+   "continue": "Continue",
+   "new_game": "New Game",
+   "load_game": "Load Game"
+  },
+  "pick_new": "Pick a slot for your new game.",
+  "pick_load": "Pick a save to load.",
+  "slot": "Slot {n}",
+  "cloud": "Cloud",
+  "device": "Device",
+  "empty": "Empty",
+  "play_time": "Time {t}",
+  "badges": "Badges {n}",
+  "back": "Back",
+  "overwrite_q": [
+   "Start a new game in Slot {n}?",
+   "This writes over the save in that slot."
+  ],
+  "overwrite_yes": "Start over",
+  "overwrite_no": "Keep it",
+  "load": "Load",
+  "make_cloud": "Make this my cloud save",
+  "swap_q": [
+   "Make Slot {n} your cloud save?",
+   "This replaces what is in the cloud. Slot {m} stays on this device."
+  ],
+  "swap_yes": "Make it my cloud save",
+  "swap_no": "Cancel",
+  "swap_done": "Slot {n} is now your cloud save."
+ },
  "system_skills": {
   "_section": "Skills (parity B12, B20-B23, B7; design skill-structure research doc, SKR): 4 slots, level list, evolution skill first, free relearning via Skill Memory, Affinity bonus, energy meter.",
   "learned": {
