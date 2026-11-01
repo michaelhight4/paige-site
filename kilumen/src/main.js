@@ -93,6 +93,8 @@ const cloudWire = async (cs) => { // attach a finished cloud check to the store 
   if (cloudSave.api && store && slotPlan.activeIsCloud) try { cs.liveSync({ api: cloudSave.api, storage: saveStorage, key: slotPlan.cloudKey, store, ind: cloudInd, locked: () => !!window.kilumen?.scene?.saveLocked }); } catch (e) { console.warn('cloud live sync:', e?.message || e); }
   if (window.kilumen?.save) window.kilumen.save.cloud = { action: cloudSave.action, uploader: cloudSave.uploader || null, late: cloudLate };
 };
+// Android app (Capacitor): Google sign-in comes back through the app link; native_auth.js swaps the code and reloads (web: no-op).
+if (globalThis.Capacitor?.isNativePlatform?.()) import('./net/native_auth.js?v=v0.2.111-alpha').then((n) => n.installNativeAuth({ toast: (t) => { try { window.kilumen?.ui?.toastFn?.(t); } catch { /* */ } console.warn(t); } })).catch((e) => console.warn('native auth:', e?.message || e));
 let cloudTask = null;
 if (saveStorage && q.get('cloudsave') !== '0') {
   cloudTask = (async () => {

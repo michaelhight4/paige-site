@@ -14,6 +14,11 @@
 export const SB_URL = 'https://kjdubkeowcyuoazvpoyt.supabase.co';
 export const SB_KEY = 'sb_publishable_NZC6vzmXDYRLnRh2vDHWAg_VCDi3FQc'; // public publishable key (same one the site's auth.js ships)
 export const SB_LIB = 'https://esm.sh/@supabase/supabase-js@2.45.4';
+// Android app (Capacitor, Gary Oct 31 2026): the same supabase-js 2.45.4, bundled in src/vendor/supabase (MIT), so sign-in and
+// cloud saves in the app do not depend on esm.sh. The website keeps loading SB_LIB exactly as before.
+export const SB_LIB_LOCAL = new URL('../vendor/supabase/supabase-js.esm.js', import.meta.url).href;
+export const isNativeApp = (g = globalThis) => { try { return !!g.Capacitor?.isNativePlatform?.(); } catch { return false; } };
+export const sbLib = (g = globalThis) => (isNativeApp(g) ? SB_LIB_LOCAL : SB_LIB);
 export const THROTTLE_MS = 30000;
 const MEMO_KEY = 'kilumen.cloudsave.choice';
 
@@ -182,7 +187,7 @@ export function askChoice(localObj, cloudObj, { doc = document, speciesName } = 
 }
 
 /** Session from the site's sign-in (same origin, same persisted session). */
-export function supabaseSession(loadLib = () => import(SB_LIB)) {
+export function supabaseSession(loadLib = () => import(sbLib())) {
   let sb = null;
   return async () => {
     if (!sb) { const { createClient } = await loadLib(); sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: false, detectSessionInUrl: false, flowType: 'implicit' } }); }

@@ -2,16 +2,17 @@
 // so the browser's paigegames.net sign-in does not carry over. This is an in-app email + password form (no popup,
 // no redirect, so it works in standalone mode). Same Supabase project and key as the site's auth.js; the session is
 // stored in THIS app's localStorage (sb-*-auth-token), then the page reloads so cloud saves + the owner dev check run.
-import { SB_URL, SB_KEY, SB_LIB, hasSessionHint } from './cloud_save.js?v=v0.2.111-alpha';
+import { SB_URL, SB_KEY, sbLib, isNativeApp, hasSessionHint } from './cloud_save.js?v=v0.2.111-alpha';
+import { nativeGoogleSignIn } from './native_auth.js?v=v0.2.111-alpha';
 let sbP = null;
-const client = () => (sbP ||= import(SB_LIB).then(({ createClient }) => createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: false, detectSessionInUrl: false, flowType: 'implicit' } })));
+const client = () => (sbP ||= import(sbLib()).then(({ createClient }) => createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: false, detectSessionInUrl: false, flowType: 'implicit' } })));
 export const signedInHint = () => hasSessionHint();
 /** Refresh an expired stored session once at boot so cloud saves / the dev check do not see a stale token. */
 export async function refreshIfStale() {
   // Google sign-in came back to this app (redirect, implicit flow): store the session from the #access_token hash.
   if (/[#&]access_token=/.test(location.hash) || /[#&]error_description=/.test(location.hash)) {
     try {
-      const { createClient } = await import(SB_LIB);
+      const { createClient } = await import(sbLib());
       const sb = createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: false, detectSessionInUrl: true, flowType: 'implicit' } });
       await sb.auth.getSession();
     } catch (e) { console.warn('account redirect:', e?.message || e); }
@@ -52,6 +53,11 @@ export async function openAccount() {
   const f = bx.querySelector('form'), m = bx.querySelector('.m');
   bx.querySelector('[data-g]').onclick = async () => { // same-window redirect (no popup), so it also works in a home-screen app; comes back to this page // touch-ok: click handler; document drag guard (installDragGuard, tap_guard.js) swallows the click after a drag / hold; keeps keyboard Enter
     m.textContent = 'Opening Google…';
+    if (isNativeApp()) { // Android app: Google in the system browser (Custom Tab), back through the app link; native_auth.js finishes it
+      m.textContent = 'Opening Google in your browser…';
+      try { const r = await nativeGoogleSignIn(); if (!r.ok) m.textContent = r.error || 'Could not open Google sign-in.'; } catch (err) { m.textContent = 'Could not reach the sign-in server. Check your connection.'; }
+      return;
+    }
     try { const { error } = await (await client()).auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } }); if (error) m.textContent = error.message; }
     catch (err) { m.textContent = 'Could not reach the sign-in server. Check your connection.'; }
   };
