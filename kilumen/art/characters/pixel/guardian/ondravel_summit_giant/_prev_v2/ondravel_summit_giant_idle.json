@@ -1,0 +1,57 @@
+{
+ "name": "ondravel_summit_giant_idle",
+ "image": "ondravel_summit_giant_idle.png",
+ "image_format": "PNG-8 indexed (index 0 = transparent); lossless twin: ondravel_summit_giant_idle.webp",
+ "disk_bytes": {
+  "png8": 50772,
+  "webp_lossless": 43566
+ },
+ "frame_width": 448,
+ "frame_height": 704,
+ "frame_count": 4,
+ "layout": "horizontal strip, frame i at x=i*448",
+ "colours": 23,
+ "ms_per_frame": [
+  450,
+  450,
+  450,
+  450
+ ],
+ "loop": true,
+ "anchor": {
+  "x": 224,
+  "y": 703,
+  "meaning": "bottom-centre of frame; giant + overlay share anchor and frame index"
+ },
+ "layer": "BEHIND overlay; in front of sky",
+ "time_of_day": "sunset only (summit is locked to sunset; no ToD grading)",
+ "alpha": "0/255 only",
+ "palette": "kilumen.hex + RAMP_SPREAD outputs",
+ "readability_vs_sunset_sky": 0.826,
+ "readability_rule": "share of opaque px with |dLuma|>=28 vs the sunset sky under them (preview scene)",
+ "memory": {
+  "rgba_mb": 4.81,
+  "pow2": "2048x1024",
+  "pow2_rgba_mb": 8.0
+ },
+ "scene_cells_64px": {
+  "cave_exit": [
+   5,
+   14
+  ],
+  "walk_stop": [
+   5,
+   10
+  ],
+  "speech_start": [
+   5,
+   10
+  ],
+  "ondravel_anchor_px": [
+   320,
+   724
+  ]
+ },
+ "notes": "Ondravel + the cloud masses behind him. Breath 0/2/4/2 px, chest 0-2 px.",
+ "status": "DRAFT - not wired, needs Gary approval"
+}

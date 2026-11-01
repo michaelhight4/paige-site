@@ -1,0 +1,133 @@
+{
+ "name": "ondravel_summit_cloud_overlay",
+ "image": "ondravel_summit_cloud_overlay.png",
+ "frame_width": 224,
+ "frame_height": 352,
+ "tile_px": 32,
+ "tiles": [
+  7,
+  11
+ ],
+ "frame_count": 6,
+ "layout": "horizontal strip, frame i at x=i*224",
+ "ms_per_frame": [
+  300,
+  300,
+  300,
+  300,
+  300,
+  300
+ ],
+ "loop": true,
+ "anchor": {
+  "x": 112,
+  "y": 351,
+  "meaning": "bottom-centre of frame; place on the cloud-sea line behind the summit ledge. Giant and overlay share the same anchor and frame index."
+ },
+ "layer": "IN FRONT of the giant (and behind the player/ledge foreground)",
+ "palette": "art/palette/kilumen.hex + ondravel_anim_v1 RAMP_SPREAD",
+ "alpha": "0/255 only",
+ "night_rule": "share of opaque px with |dLuma|>=28 vs ToD-graded ground (ondravel_anim_v1 score_ow), sprite LUT",
+ "scores_ground": {
+  "grass_0": {
+   "dawn": {
+    "mean": 0.972,
+    "worst_frame": 0.971
+   },
+   "day": {
+    "mean": 0.972,
+    "worst_frame": 0.971
+   },
+   "dusk": {
+    "mean": 0.97,
+    "worst_frame": 0.968
+   },
+   "night": {
+    "mean": 0.924,
+    "worst_frame": 0.923
+   }
+  },
+  "cave_0": {
+   "dawn": {
+    "mean": 0.987,
+    "worst_frame": 0.987
+   },
+   "day": {
+    "mean": 0.987,
+    "worst_frame": 0.987
+   },
+   "dusk": {
+    "mean": 0.96,
+    "worst_frame": 0.958
+   },
+   "night": {
+    "mean": 0.959,
+    "worst_frame": 0.957
+   }
+  },
+  "snow_0": {
+   "dawn": {
+    "mean": 0.085,
+    "worst_frame": 0.082
+   },
+   "day": {
+    "mean": 0.087,
+    "worst_frame": 0.084
+   },
+   "dusk": {
+    "mean": 0.063,
+    "worst_frame": 0.063
+   },
+   "night": {
+    "mean": 0.055,
+    "worst_frame": 0.055
+   }
+  },
+  "floor_stone": {
+   "dawn": {
+    "mean": 0.704,
+    "worst_frame": 0.701
+   },
+   "day": {
+    "mean": 0.704,
+    "worst_frame": 0.701
+   },
+   "dusk": {
+    "mean": 0.652,
+    "worst_frame": 0.648
+   },
+   "night": {
+    "mean": 0.075,
+    "worst_frame": 0.074
+   }
+  }
+ },
+ "scores_on_fin_summit_camp": {
+  "giant": {
+   "dawn": 0.707,
+   "day": 0.741,
+   "dusk": 0.611,
+   "night": 0.508
+  },
+  "overlay": {
+   "dawn": 0.986,
+   "day": 0.986,
+   "dusk": 0.969,
+   "night": 0.959
+  },
+  "combined": {
+   "dawn": 0.769,
+   "day": 0.796,
+   "dusk": 0.703,
+   "night": 0.673
+  }
+ },
+ "memory": {
+  "rgba_bytes": 1892352,
+  "rgba_mb": 1.8,
+  "pow2_texture": "2048x512",
+  "pow2_mb": 4.0
+ },
+ "notes": "Front cloud bank over lower body + side wisps that part 0-3 px (upper wisps 0-6 px).",
+ "status": "DRAFT - not wired, needs Gary approval"
+}
