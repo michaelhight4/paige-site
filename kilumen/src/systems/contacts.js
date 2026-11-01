@@ -144,6 +144,8 @@ export const LEGACY = {
   ping: 'system_phone.ping', rematch_text: 'system_phone.rematch_text', title: 'system_phone.menu.labels.contacts',
 };
 /** Placeholders (PH, Coder). Neutral, no banned words; Text Bot replaces them via system_contacts.*. */
+/** Bare time words for trainer tip_text ({time} used mid-sentence). */
+export const TIME_WORD = { dawn: 'dawn', day: 'midday', dusk: 'dusk', night: 'night', '': 'any hour' };
 export const PH = {
   swap_offer: { pages: ['Want to swap numbers? I can text you when I want a rematch.'], choices: ['Yes', 'No'] },
   swap_yes: ['Great. I will be in touch.'],
@@ -367,6 +369,8 @@ export async function attachContacts(scene, opts = {}) {
       const time = rs?.time?.length === 1 ? (PH['time_' + rs.time[0]] || '') : '';
       msg = rs ? T(key, 'tip_text', { trainer, species: speciesName(rs.species), place: placeOf(tip.map) || 'the Trail', time })
         : T(key, 'call', { trainer });
+      // Text Bot's per-trainer tip lines (Oct 31 2026) write "at {time}": a bare time word, not the generic " at night" suffix
+      if (rs && msg.src === 'trainer') msg = T(key, 'tip_text', { trainer, species: speciesName(rs.species), place: placeOf(tip.map) || 'the Trail', time: TIME_WORD[rs.time?.length === 1 ? rs.time[0] : ''] || TIME_WORD[''] });
     }
     scene.log?.push({ tick: scene.tick, type: 'contactPing', npc: key, kind: pick.kind });
     scene.script(async () => {

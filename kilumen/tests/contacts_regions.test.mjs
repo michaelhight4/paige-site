@@ -75,3 +75,17 @@ test('old saves gain the new fields', () => {
   const v = normaliseContacts({ v: 1, list: [{ key: 'a.b' }] });
   assert.deepEqual(v.tipsUsed, []); assert.deepEqual(v.lastPing, {}); assert.equal(v.lastTipAt, -1);
 });
+test('text lint: regions 2-8 contact lines (no placeholders, banned words, 2 x 40 pages)', () => {
+  const BANNED = /\b(PP|shiny|super effective|Pok[eé]dex|Pok[eé] Ball|nurse|weed|routes?|berr(y|ies)|gym|placeholder)\b/i;
+  for (const k of keys.slice(5)) {
+    const [m, id] = k.split('.'); const e = lines.system_contacts.trainers[m][id];
+    assert.ok(!('_note' in e), k);
+    const pages = [...e.call.pages, ...e.call.variants_pool.flat(), ...e.rematch_text.pages, ...e.tip_text.pages];
+    for (const p of pages) {
+      assert.ok(!BANNED.test(p), `${k}: ${p}`);
+      const ls = p.split('\n'); assert.ok(ls.length <= 2, `${k}: ${p}`);
+      if (!/\{/.test(p)) for (const l of ls) assert.ok(l.length <= 40, `${k}: ${l} (${l.length})`);
+    }
+    assert.match(e.tip_text.pages[0], /\{species\}.*\{place\}.*\{time\}/);
+  }
+});

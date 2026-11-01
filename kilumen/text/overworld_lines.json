@@ -29476,392 +29476,378 @@
   "trainers": {
    "thornwood": {
     "thornwood_e_researcher": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Nell: \"Placeholder: still training. Say hi next time you pass.\""
+       "Nell here, Revival Tech field desk.\nYour team readings look healthy!"
       ],
       "variants_pool": [
        [
-        "Nell: \"Placeholder: still training. Say hi next time you pass.\""
+        "Nell here, Revival Tech field desk.\nYour team readings look healthy!"
        ],
        [
-        "Nell: \"Placeholder: my team remembers you. They want round two.\""
+        "I logged a fossil hum near the cliffs.\nCould be nothing. Could be science!"
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Nell: \"Placeholder: I've trained up. Same spot as before?\""
+       "My samples say you've grown.\nLet's test the data in battle."
       ]
      },
      "tip_text": {
       "pages": [
-       "Nell: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Readings spike for {species} at {place} around {time}."
       ]
      }
     }
    },
    "route_aurelith_saltmere": {
     "route_aurelith_saltmere_trainer_6": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Kerr: \"Placeholder: still training. Say hi next time you pass.\""
+       "Kerr. Still on your feet? Good.\nThe trail doesn't forgive slack."
       ],
       "variants_pool": [
        [
-        "Kerr: \"Placeholder: still training. Say hi next time you pass.\""
+        "Kerr. Still on your feet? Good.\nThe trail doesn't forgive slack."
        ],
        [
-        "Kerr: \"Placeholder: my team remembers you. They want round two.\""
+        "Saw a rookie quit today.\nDon't you ever be that rookie."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Kerr: \"Placeholder: I've trained up. Same spot as before?\""
+       "I've had time to sharpen up.\nCome see if you still outrank me."
       ]
      },
      "tip_text": {
       "pages": [
-       "Kerr: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Old soldier's word: {species} holds {place} at {time}."
       ]
      }
     }
    },
    "route_revival": {
     "route_revival_trainer_6": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Ambrose: \"Placeholder: still training. Say hi next time you pass.\""
+       "Ambrose here. The standing stones\nhave carvings I can't yet read."
       ],
       "variants_pool": [
        [
-        "Ambrose: \"Placeholder: still training. Say hi next time you pass.\""
+        "Ambrose here. The standing stones\nhave carvings I can't yet read."
        ],
        [
-        "Ambrose: \"Placeholder: my team remembers you. They want round two.\""
+        "Did you know the old stones face\nthe sunrise? Every single one."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Ambrose: \"Placeholder: I've trained up. Same spot as before?\""
+       "Theory without practice is dust.\nShall we spar, my friend?"
       ]
      },
      "tip_text": {
       "pages": [
-       "Ambrose: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "The old texts place {species} at {place} by {time}."
       ]
      }
     }
    },
    "revival_heights": {
     "revival_heights_trainer_1": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Lyle: \"Placeholder: still training. Say hi next time you pass.\""
+       "Lyle checking in! My notebook\nis nearly full. Again."
       ],
       "variants_pool": [
        [
-        "Lyle: \"Placeholder: still training. Say hi next time you pass.\""
+        "Lyle checking in! My notebook\nis nearly full. Again."
        ],
        [
-        "Lyle: \"Placeholder: my team remembers you. They want round two.\""
+        "Mapped three new burrows today.\nMy boots have filed a complaint."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Lyle: \"Placeholder: I've trained up. Same spot as before?\""
+       "New field notes, new tactics.\nReady for round two?"
       ]
      },
      "tip_text": {
       "pages": [
-       "Lyle: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Field note: {species} spotted at {place}, {time}."
       ]
      }
     }
    },
    "route_revival_saltmere": {
     "route_revival_saltmere_trainer_4": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Wynn: \"Placeholder: still training. Say hi next time you pass.\""
+       "Wynn here. Keep your team rested.\nTired Kilu lose fights, simple."
       ],
       "variants_pool": [
        [
-        "Wynn: \"Placeholder: still training. Say hi next time you pass.\""
+        "Wynn here. Keep your team rested.\nTired Kilu lose fights, simple."
        ],
        [
-        "Wynn: \"Placeholder: my team remembers you. They want round two.\""
+        "Rain's coming. My knee says so,\nand my knee is never wrong."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Wynn: \"Placeholder: I've trained up. Same spot as before?\""
+       "Been drilling every morning.\nCare to test an old hand?"
       ]
      },
      "tip_text": {
       "pages": [
-       "Wynn: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Patrol report: {species} around {place} at {time}."
       ]
      }
     }
    },
    "frostspire": {
     "frostspire_trainer_3": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Flint: \"Placeholder: still training. Say hi next time you pass.\""
+       "Flint, from the shrine. The bells\nrang on their own last night."
       ],
       "variants_pool": [
        [
-        "Flint: \"Placeholder: still training. Say hi next time you pass.\""
+        "Flint, from the shrine. The bells\nrang on their own last night."
        ],
        [
-        "Flint: \"Placeholder: my team remembers you. They want round two.\""
+        "The shrine keeper lets me read\nthe scrolls now. Big honor!"
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Flint: \"Placeholder: I've trained up. Same spot as before?\""
+       "The shrine taught me patience.\nNow let it teach you defeat."
       ]
      },
      "tip_text": {
       "pages": [
-       "Flint: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Shrine scrolls say {species} visits {place} at {time}."
       ]
      }
     }
    },
    "mirefen": {
     "mirefen_trainer_5": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Hedda: \"Placeholder: still training. Say hi next time you pass.\""
+       "Hedda, out in Mirefen. The bog\nate my left boot. Again."
       ],
       "variants_pool": [
        [
-        "Hedda: \"Placeholder: still training. Say hi next time you pass.\""
+        "Hedda, out in Mirefen. The bog\nate my left boot. Again."
        ],
        [
-        "Hedda: \"Placeholder: my team remembers you. They want round two.\""
+        "Mud builds strong legs. Mine\nand my Kilu's both."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Hedda: \"Placeholder: I've trained up. Same spot as before?\""
+       "Mirefen made me tougher.\nCome get stuck in, then."
       ]
      },
      "tip_text": {
       "pages": [
-       "Hedda: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Mirefen lore: {species} haunts {place} at {time}."
       ]
      }
     }
    },
    "sunmeadow_fields": {
     "sunmeadow_fields_trainer_5": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Lomond: \"Placeholder: still training. Say hi next time you pass.\""
+       "Lomond reporting. Wind speed,\nsoil damp, mood: curious."
       ],
       "variants_pool": [
        [
-        "Lomond: \"Placeholder: still training. Say hi next time you pass.\""
+        "Lomond reporting. Wind speed,\nsoil damp, mood: curious."
        ],
        [
-        "Lomond: \"Placeholder: my team remembers you. They want round two.\""
+        "I measured a Kilu's footprint.\nIt was bigger than my head."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Lomond: \"Placeholder: I've trained up. Same spot as before?\""
+       "I recalculated our last match.\nI think I can win now."
       ]
      },
      "tip_text": {
       "pages": [
-       "Lomond: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Survey data: {species} likely at {place} near {time}."
       ]
      }
     }
    },
    "tidewater_coast": {
     "tidewater_coast_trainer_6": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Signe: \"Placeholder: still training. Say hi next time you pass.\""
+       "Signe. Cold morning, clear head.\nHow's your team holding?"
       ],
       "variants_pool": [
        [
-        "Signe: \"Placeholder: still training. Say hi next time you pass.\""
+        "Signe. Cold morning, clear head.\nHow's your team holding?"
        ],
        [
-        "Signe: \"Placeholder: my team remembers you. They want round two.\""
+        "Lost a match today. Learned more\nthan from ten wins."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Signe: \"Placeholder: I've trained up. Same spot as before?\""
+       "My team's stronger. Yours?\nOnly one way to find out."
       ]
      },
      "tip_text": {
       "pages": [
-       "Signe: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Signe's scouting: {species} roams {place} at {time}."
       ]
      }
     }
    },
    "route_coast": {
     "route_coast_trainer_4": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Jarrah: \"Placeholder: still training. Say hi next time you pass.\""
+       "Jarrah! The fish are jumping,\nmate. Grab a rod!"
       ],
       "variants_pool": [
        [
-        "Jarrah: \"Placeholder: still training. Say hi next time you pass.\""
+        "Jarrah! The fish are jumping,\nmate. Grab a rod!"
        ],
        [
-        "Jarrah: \"Placeholder: my team remembers you. They want round two.\""
+        "Hooked something huge, lost it.\nStory of my life."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Jarrah: \"Placeholder: I've trained up. Same spot as before?\""
+       "Reeled in a fresh strategy.\nFancy a rematch?"
       ]
      },
      "tip_text": {
       "pages": [
-       "Jarrah: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Angler's hunch: {species} bites at {place} at {time}."
       ]
      }
     }
    },
    "route_fernwick_lanternport": {
     "route_fernwick_lanternport_trainer_2": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Viggo: \"Placeholder: still training. Say hi next time you pass.\""
+       "Viggo, lighting the lamps.\nThe dark's busy tonight."
       ],
       "variants_pool": [
        [
-        "Viggo: \"Placeholder: still training. Say hi next time you pass.\""
+        "Viggo, lighting the lamps.\nThe dark's busy tonight."
        ],
        [
-        "Viggo: \"Placeholder: my team remembers you. They want round two.\""
+        "Something followed my lantern\nhome. It was friendly. Mostly."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Viggo: \"Placeholder: I've trained up. Same spot as before?\""
+       "My flame burns brighter now.\nCare to see it up close?"
       ]
      },
      "tip_text": {
       "pages": [
-       "Viggo: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "After dark, {species} glows near {place} at {time}."
       ]
      }
     }
    },
    "lanternport": {
     "lanternport_trainer_1": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Tamsin: \"Placeholder: still training. Say hi next time you pass.\""
+       "Tamsin at the harbour. Ships in,\ncrates stacked, I'm beat."
       ],
       "variants_pool": [
        [
-        "Tamsin: \"Placeholder: still training. Say hi next time you pass.\""
+        "Tamsin at the harbour. Ships in,\ncrates stacked, I'm beat."
        ],
        [
-        "Tamsin: \"Placeholder: my team remembers you. They want round two.\""
+        "A gull stole my lunch. Rude\nbird. Very rude bird."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Tamsin: \"Placeholder: I've trained up. Same spot as before?\""
+       "Hauling crates built muscle.\nLet's see it in battle."
       ]
      },
      "tip_text": {
       "pages": [
-       "Tamsin: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Dockside gossip: {species} at {place} around {time}."
       ]
      }
     }
    },
    "route_cindervale": {
     "route_cindervale_trainer_6": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Odo: \"Placeholder: still training. Say hi next time you pass.\""
+       "Odo here. Back in my day, we\ntrained till sundown."
       ],
       "variants_pool": [
        [
-        "Odo: \"Placeholder: still training. Say hi next time you pass.\""
+        "Odo here. Back in my day, we\ntrained till sundown."
        ],
        [
-        "Odo: \"Placeholder: my team remembers you. They want round two.\""
+        "You remind me of me, kid.\nThat's a compliment. Probably."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Odo: \"Placeholder: I've trained up. Same spot as before?\""
+       "These old bones have one more\ngood fight. Let's go."
       ]
      },
      "tip_text": {
       "pages": [
-       "Odo: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Odo's memory: {species} favors {place} at {time}."
       ]
      }
     }
    },
    "cindervale": {
     "cindervale_trainer_1": {
-     "_note": "PLACEHOLDER (Coder, Oct 31 2026): Text Bot to replace.",
      "call": {
       "pages": [
-       "Bea: \"Placeholder: still training. Say hi next time you pass.\""
+       "Bea at the forge. Sparks are\nflying, in a good way."
       ],
       "variants_pool": [
        [
-        "Bea: \"Placeholder: still training. Say hi next time you pass.\""
+        "Bea at the forge. Sparks are\nflying, in a good way."
        ],
        [
-        "Bea: \"Placeholder: my team remembers you. They want round two.\""
+        "Forged a new hinge today.\nIt's perfect. I'm thrilled."
        ]
       ]
      },
      "rematch_text": {
       "pages": [
-       "Bea: \"Placeholder: I've trained up. Same spot as before?\""
+       "Steel gets stronger in the fire.\nSo did my team."
       ]
      },
      "tip_text": {
       "pages": [
-       "Bea: \"Placeholder tip: a rare {species} turns up on {place}{time}.\""
+       "Smith's tip: {species} rests by {place} at {time}."
       ]
      }
     }
