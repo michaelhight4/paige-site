@@ -35387,5 +35387,62 @@
  "map_titles": {
   "gullhaven_cave_west": "Kelpwind Cave",
   "gullhaven_cave_east": "Gullbone Cave"
- }
+ },
+  "opening_v2": {
+    "_note": "Opening v2 placeholders (Oct 31 2026). Text Bot owns these; code fallbacks in src/overworld/opening_v2.js FALLBACK. Vars: {player} typed name, {companion} species name. Brookhollow is home (south of route1).",
+    "ondravel_name": [
+      "Tell me who you are."
+    ],
+    "name_hint": [
+      "Type your name"
+    ],
+    "name_ok": [
+      "OK"
+    ],
+    "ondravel_model": [
+      "Show me who you are."
+    ],
+    "ondravel_after": [
+      "{player}... Remember that name. We will meet again."
+    ],
+    "wake_grass": [
+      "...Rain? Why am I lying in the grass?",
+      "This is route 1. Brookhollow is just south of here.",
+      "I need to get home."
+    ],
+    "turn_back": [
+      "I really need to get home and out of this rain."
+    ],
+    "wild_appears": [
+      "A wild {companion} wandered out of the grass!"
+    ],
+    "move_feed": [
+      "Offer company feed"
+    ],
+    "feed_used": [
+      "{player} offered some company feed."
+    ],
+    "feed_success": [
+      "{companion} ate every bit! It looks like it wants to come with you."
+    ],
+    "after_feed": [
+      "{companion} is following me...",
+      "Using company feed on a wild Kilu... No one can know, or I might lose my job."
+    ],
+    "walk_home": [
+      "Okay, home. Quietly."
+    ],
+    "wake_room": [
+      "...Morning already?",
+      "{companion} is still here. So it was not a dream.",
+      "It has to stay in my room for now."
+    ],
+    "room_companion": [
+      "{companion} curls up by the bed. It has to stay hidden for now."
+    ],
+    "companion_joins": [
+      "Now that you are a field researcher, {companion} can come along openly!",
+      "{companion} joined your team."
+    ]
+  }
 }

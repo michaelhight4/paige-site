@@ -4,45 +4,46 @@
 // FIELD_SKILLS.md hooks (NOT implemented, next pass): `hooks.onWater` (Tideglide carry over code 3 / floodwater),
 // `hooks.onFieldSkill` (Brushbreak / Stonebreak / Glowcall), Skylift fly points (visited_<town> flags) and the
 // Lumen Line rail (has_rail_pass). Water stays a wall until then.
-import { setRonRoll, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.109-alpha';
-import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.109-alpha';
-import { DRAFT_URLS, withDrafts } from '../systems/textbot_drafts.js?v=v0.2.109-alpha';
-import { textbotReady, withTextbotItemNames, withPass2Fallback } from '../region9/textbot.js?v=v0.2.109-alpha'; // Text Bot item display names over the lines
-import { syncLowTide } from '../progression/low_tide.js?v=v0.2.109-alpha'; // G6 forced low tide
-import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.109-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
-import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.109-alpha';
-import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.109-alpha';
-import { GridMover } from './movement.js?v=v0.2.109-alpha';
-import { DEV } from '../dev/runtime.js?v=v0.2.109-alpha';
-import { cameraFor, pickZoom, outsideFillFor, MASTER_HALL } from './camera.js?v=v0.2.109-alpha';
-import { promptScheme, promptVars } from '../platform.js?v=v0.2.109-alpha';
-import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.109-alpha';
-import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit, withArenaArt, prefetchTilesetJson } from './tileset.js?v=v0.2.109-alpha';
-import { IxLight, ixFlags } from './ixlight.js?v=v0.2.109-alpha';
-import { Renderer } from './renderer.js?v=v0.2.109-alpha';
-import { Wind } from './wind.js?v=v0.2.109-alpha'; // world wind: tree sway, grass ripple, flower bob (draw-time only)
-import { drawDebug } from './debug.js?v=v0.2.109-alpha';
-import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.109-alpha';
-import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.109-alpha';
-import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.109-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
-import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.109-alpha';
-import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.109-alpha';
-import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.109-alpha';
-import { LivingWorld } from './living.js?v=v0.2.109-alpha';
-import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.109-alpha';
-import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.109-alpha';
-import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.109-alpha';
-import { NightFx } from './nightfx.js?v=v0.2.109-alpha';
-import { RtxLook } from './rtx.js?v=v0.2.109-alpha'; // Options 'RTX look' post-processing (default Auto on PC, Off on phones; dev/rtx-look)
-import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.109-alpha'; // home start v1: new game in the bedroom (intro.js)
-import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.109-alpha'; // creature idle/walk motion (v0.2.36)
-import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.109-alpha'; // golden spinning arrows (starter cases, quest items)
-import { questItemSpots } from './quest_markers.js?v=v0.2.109-alpha';
-import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.109-alpha'; // area name sign (Gary 10:33 AM CT)
-import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.109-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
-import { hallLockFor, HALL_LOCK_KEY } from '../systems/hall_order.js?v=v0.2.109-alpha'; // hall order lock (Gary 3:52 PM CT)
-import { trainerOutcome } from '../battle/story.js?v=v0.2.109-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
-import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.109-alpha';
+import { setRonRoll, ensureRonRoll } from '../battle/data/ron_team.js?v=v0.2.110-alpha';
+import { withHealAurelithPh } from './heal_aurelith_ph.js?v=v0.2.110-alpha';
+import { DRAFT_URLS, withDrafts } from '../systems/textbot_drafts.js?v=v0.2.110-alpha';
+import { textbotReady, withTextbotItemNames, withPass2Fallback } from '../region9/textbot.js?v=v0.2.110-alpha'; // Text Bot item display names over the lines
+import { syncLowTide } from '../progression/low_tide.js?v=v0.2.110-alpha'; // G6 forced low tide
+import { syncAllBadges, endingDue, runInterimEnding, normClear, ENDING } from '../progression/ending.js?v=v0.2.110-alpha'; // interim ending (v0.2.86) // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { TILE, TICK_MS, DELTA, SHEET_ROW, FADE_OUT_MS, FADE_IN_MS, Col, MoveMode } from './constants.js?v=v0.2.110-alpha';
+import { GameMap, exitSpawn, warpSpawn, isToCome } from './map.js?v=v0.2.110-alpha';
+import { GridMover } from './movement.js?v=v0.2.110-alpha';
+import { DEV } from '../dev/runtime.js?v=v0.2.110-alpha';
+import { cameraFor, pickZoom, outsideFillFor, MASTER_HALL } from './camera.js?v=v0.2.110-alpha';
+import { promptScheme, promptVars } from '../platform.js?v=v0.2.110-alpha';
+import { loadImage, loadJson, reloadJson, resolveUrl } from './assets.js?v=v0.2.110-alpha';
+import { loadTileset, tilesetFileForZoom, indexTileset, withIx2Kit, withArenaArt, prefetchTilesetJson } from './tileset.js?v=v0.2.110-alpha';
+import { IxLight, ixFlags } from './ixlight.js?v=v0.2.110-alpha';
+import { Renderer } from './renderer.js?v=v0.2.110-alpha';
+import { Wind } from './wind.js?v=v0.2.110-alpha'; // world wind: tree sway, grass ripple, flower bob (draw-time only)
+import { drawDebug } from './debug.js?v=v0.2.110-alpha';
+import { pickLine, fillText, getPath, inboxEmails, pickNick, coinCount, whenMatches } from './lines.js?v=v0.2.110-alpha';
+import { freshSave, clampWarmth, POS_FRAME } from './save.js?v=v0.2.110-alpha';
+import { migratePos, migrateDoor, fixLanding } from './pad_migrate.js?v=v0.2.110-alpha'; // old saves -> padded maps (Gary 10:25 AM CT)
+import { GAME_MIN_PER_TICK, phaseForHour, PHASE_HOUR, gradeFor, advanceClock, isIndoor, followsOutdoorClock } from './clock.js?v=v0.2.110-alpha';
+import { prepareGrade, gradeImage, tintImage, warmthStage } from './palette.js?v=v0.2.110-alpha';
+import { NpcSystem, OPPOSITE } from './npcs.js?v=v0.2.110-alpha';
+import { LivingWorld } from './living.js?v=v0.2.110-alpha';
+import { DepthPass, normalizeDepth } from './depth.js?v=v0.2.110-alpha';
+import { resolveFlagSwaps, isActive } from './props.js?v=v0.2.110-alpha';
+import { litGreensGrade, wantsLitGreens } from './lighting.js?v=v0.2.110-alpha';
+import { NightFx } from './nightfx.js?v=v0.2.110-alpha';
+import { RtxLook } from './rtx.js?v=v0.2.110-alpha'; // Options 'RTX look' post-processing (default Auto on PC, Off on phones; dev/rtx-look)
+import { HomeStart, HOME, bedroomSpawn, outsideSpawn, isNewGame } from './intro.js?v=v0.2.110-alpha'; // home start v1: new game in the bedroom (intro.js)
+import { OpeningV2, OPEN2, opening2On } from './opening_v2.js?v=v0.2.110-alpha'; // opening v2: Ondravel, rain wake on route1, the secret companion
+import { cidleOn, creatureMotion } from './creature_idle.js?v=v0.2.110-alpha'; // creature idle/walk motion (v0.2.36)
+import { drawMarkers, reducedMotion as markerReduced } from './marker.js?v=v0.2.110-alpha'; // golden spinning arrows (starter cases, quest items)
+import { questItemSpots } from './quest_markers.js?v=v0.2.110-alpha';
+import { AreaSignTracker, HOLD_MS as AREA_SIGN_HOLD_MS } from './area_sign.js?v=v0.2.110-alpha'; // area name sign (Gary 10:33 AM CT)
+import { employeeIdOf } from '../systems/employee_id.js?v=v0.2.110-alpha'; // {employee_id} text var (company voice, Gary 12:20 PM CT)
+import { hallLockFor, HALL_LOCK_KEY } from '../systems/hall_order.js?v=v0.2.110-alpha'; // hall order lock (Gary 3:52 PM CT)
+import { trainerOutcome } from '../battle/story.js?v=v0.2.110-alpha'; // battles default v1: trainer story flags (CRITICAL_PATH §2)
+import { withHallAnim, withHallArt } from '../progression/hall_anim.js?v=v0.2.110-alpha';
 const isWaterCode = (c) => c === 3 || c === 11; // swim sprites (collision water / deep water)
 
 // Save migration (berry -> plum, dev/r56-wiring): quest flags here; item ids: RENAMED_ITEMS in src/systems/bag.js (Bag constructor).
@@ -76,7 +77,7 @@ const realNow = () => (typeof performance !== 'undefined' ? performance.now() : 
 export class Overworld {
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {import('./input.js?v=v0.2.109-alpha').Input} input
+   * @param {import('./input.js?v=v0.2.110-alpha').Input} input
    * @param {object} config CONFIG from src/config.js
    * @param {object} opts {start, debug, zoom (forced), toast(text)}
    */
@@ -158,7 +159,14 @@ export class Overworld {
     // home start v1: a new game (no ?map=, no saved position) wakes up in the bedroom; ?skipintro=1 starts outside the
     // front door as before (looked up from the warps, never a hard-coded outdoor tile). Saves with a position: unchanged.
     const newGame = isNewGame(this.opts);
-    if (newGame) s = (await this._homeStart(!!this.opts.skipIntro)) || s;
+    // opening v2 (opening_v2.js): a new game wakes in route1's grass in the rain (Ondravel names you first); ?opening=v1 = the
+    // old bedroom cold open. A save made mid-opening (open2_active, not open2_done) resumes it; older saves never see it.
+    // dev sessions (?dev=1 sets window.kilumenDev; ?lead= parties) keep the old start so dev tools/tests are not held behind the overlay.
+    const open2Run = (newGame && !this.opts.skipIntro && !this.party.length && !this.opts.lead && !globalThis.kilumenDev && opening2On(this.opts.query || globalThis.location && new URLSearchParams(globalThis.location.search)))
+      || (!newGame && this.flags.has(OPEN2.active) && !this.flags.has(OPEN2.done));
+    this.opening2 = new OpeningV2(this, { run: open2Run });
+    this.opening2.applyIdentity(); // typed name + chosen model (saved in seen) onto the config
+    if (newGame) s = (open2Run ? OpeningV2.spawn() : await this._homeStart(!!this.opts.skipIntro)) || s;
     this.intro = new HomeStart(this, { newGame: newGame && !this.opts.skipIntro, gate: this.opts.introGate });
     this.map = await this.loadMap(s.map);
     if (sv?.frame === 'unpadded' && s === sv.pos) { // old save: shift by the map's padding, land on a walkable tile
@@ -239,6 +247,7 @@ export class Overworld {
     this.systems?.onMapEnter(m); // [systems-gd hook] satchels solid, puzzle state onto the map
     this._placeFollower();
     await this._loadActorSprites();
+    this.opening2?.onEnterMap(); // opening v2: rain, walk-home trigger, grass state
   }
 
   mapUrl(name) { return this.config.mapsDir + (name === 'house_1f' && ixFlags().ix2 ? 'house_1f_v2' : name) + '.json'; } // Interiors v2 starter house (same size, warps, collisions)
@@ -333,7 +342,7 @@ export class Overworld {
       if (sp.swim_sheet) { const sw = k === 1 ? sp.swim_sheet : sp[`swim_sheet_${k}x`];
         jobs.push(Promise.all([this.img(base + sp.swim_sheet), this.img(sw && base + sw)]).then(([a, b]) => { n.swimImgs = a ? { 1: a, [k]: b || null } : null; })); }
     }
-    const lead = this.party[0];
+    const lead = this.party[0] || this.opening2?.ghostLead(); // opening v2: the secret companion before it joins
     if (lead && this.follower) {
       const rel = `creatures/${lead.species}/overworld/${lead.species}_ow_sheet.png`;
       const hasTint = !!this.warmth?.creatures?.[lead.species];
@@ -418,6 +427,7 @@ export class Overworld {
         }
       },
       onArrive: (x, y) => {
+        if (this.opening2?.onArrive(x, y)) return 'stop'; // opening v2: out of the grass = the feed battle; north = turn back home
         const code = m.code(x, y);
         if (code === Col.DOOR) {
           const w = m.warpAt(x, y);
@@ -455,7 +465,9 @@ export class Overworld {
         if ((isToCome(exit) && !mkEdge) || (this.knownMaps && !this.knownMaps.has(exit.to))) { this.toast(this.config.closedPathText); return; }
         if (!DEV.masterKey && this.region78?.edgeBlocked?.(exit)) { this.toast(this.text('system_story_r78.lanternport_gate') ?? this.config.closedPathText); return; } // R78.lanternportGate (off = open)
         if (!DEV.masterKey && this.region9?.edgeBlocked?.(m.name, exit)) { this.toast(this.config.closedPathText); return 'stop'; } // Wellspire: no road home from the past
-        if (!DEV.masterKey && this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
+        const o2 = this.opening2?.onEdge(exit); // opening v2: only the road home (after the feed) is open
+        if (o2 === true) return 'stop';
+        if (o2 !== 'go' && !DEV.masterKey && this.intro?.onEdge(exit)) return 'stop'; // opening: can't leave brookhollow/route1 until job_briefed (intro.js)
         this.startWarp({ exit, fromX: x, fromY: y }, 'edge');
         return 'stop';
       },
@@ -808,7 +820,7 @@ export class Overworld {
     const p = this.player;
     this.leavePrint(p.x, p.y, p.facing, p.mode === MoveMode.BIKE);
     const f = this.follower;
-    if (f && !(f.x === p.x && f.y === p.y)) {
+    if (f && !f.static && !(f.x === p.x && f.y === p.y)) {
       this.leavePrint(f.x, f.y, f.facing, false);
       f.fromX = f.x; f.fromY = f.y; f.x = p.x; f.y = p.y;
       f.facing = f.x > f.fromX ? 'right' : f.x < f.fromX ? 'left' : f.y > f.fromY ? 'down' : f.y < f.fromY ? 'up' : f.facing;
@@ -817,8 +829,10 @@ export class Overworld {
   }
 
   _placeFollower() {
-    const lead = this.party[0];
+    const lead = this.party[0] || this.opening2?.ghostLead(); // opening v2: trails home, then waits in the bedroom (static)
     if (!lead) { this.follower = null; return; }
+    if (lead.static) { const prev = this.follower; this.follower = { species: lead.species, x: lead.x, y: lead.y, fromX: null, fromY: null, facing: 'down', stepping: false, static: true,
+      sheet: prev?.species === lead.species ? prev.sheet : null, mask: prev?.species === lead.species ? prev.mask : null, rel: prev?.rel }; return; }
     const p = this.player, b = DELTA[OPPOSITE[p.facing]], bx = p.x + b.x, by = p.y + b.y;
     const ok = this.map.inBounds(bx, by) && this.map.code(bx, by) === Col.WALK && !this.map.npcAt(bx, by);
     const prev = this.follower;

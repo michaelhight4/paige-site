@@ -11,12 +11,12 @@
 // text/drafts/HOME_START_v2.md, used only while the file has no merged lines): see design/HOME_START_TEXT_NEEDS.md.
 // Nothing here hard-codes an outdoor tile: the outside spawn is looked up from the warps by `to` name (World Design pads
 // the outdoor maps), interiors (house_2f / house_1f) are read from their own map JSON.
-import { OPPOSITE, Npc } from './npcs.js?v=v0.2.109-alpha';
-import { StarterPicker } from './starter_pick.js?v=v0.2.109-alpha';
-import { approach, automoveOn } from './automove.js?v=v0.2.109-alpha';
-import { conga, throughDoor, spawnAhead, doorTo, ghostBystanders, ESCORT } from './escort.js?v=v0.2.109-alpha'; // office -> lab on foot, 3rd in line (Gary 2:35-2:36 PM CT) // story auto-walk (Gary, Oct 23 2026): walk up to the speaker first
-import { StoryRon, STORY_RON, loadNpcImgs } from './story_ron.js?v=v0.2.109-alpha'; // Ron at work + in the lab, his partner behind him (Gary 2:21 / 2:22 PM CT)
-import { ronWhereTalk } from './ron_whereabouts.js?v=v0.2.109-alpha'; // v0.2.49: town Ron + home reaction after each Master
+import { OPPOSITE, Npc } from './npcs.js?v=v0.2.110-alpha';
+import { StarterPicker } from './starter_pick.js?v=v0.2.110-alpha';
+import { approach, automoveOn } from './automove.js?v=v0.2.110-alpha';
+import { conga, throughDoor, spawnAhead, doorTo, ghostBystanders, ESCORT } from './escort.js?v=v0.2.110-alpha'; // office -> lab on foot, 3rd in line (Gary 2:35-2:36 PM CT) // story auto-walk (Gary, Oct 23 2026): walk up to the speaker first
+import { StoryRon, STORY_RON, loadNpcImgs } from './story_ron.js?v=v0.2.110-alpha'; // Ron at work + in the lab, his partner behind him (Gary 2:21 / 2:22 PM CT)
+import { ronWhereTalk } from './ron_whereabouts.js?v=v0.2.110-alpha'; // v0.2.49: town Ron + home reaction after each Master
 
 export const HOME = {
   bedroom: 'house_2f', downstairs: 'house_1f', outside: 'brookhollow', ron: 'ron',
@@ -222,7 +222,7 @@ export function speakerRuns(pages, dflt = null) {
 export function ownedLogged(scene) {
   const sys = scene.systems, kx = sys?.kilindex?.data?.caught || sys?.kilindex?.toJSON?.()?.caught || null;
   const all = sys ? [...(sys.party?.list || []), ...(sys.archive?.boxes || []).flat()] : [...(scene.party || [])];
-  return all.filter((c) => c && (!kx || kx[c.species])).length;
+  return all.filter((c) => c && !(c.origin && c.origin.noQuest) && (!kx || kx[c.species])).length; // opening v2 companion: never counts
 }
 
 /** Leaving the starting area by a map edge is refused: new game, job not briefed yet, and the exit leaves
@@ -273,7 +273,7 @@ export function objectiveFor(flags, counters = {}) {
 }
 
 export class HomeStart {
-  /** @param {import('./overworld.js?v=v0.2.109-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
+  /** @param {import('./overworld.js?v=v0.2.110-alpha').Overworld} scene  @param {{newGame:boolean, gate?:()=>boolean}} opts */
   constructor(scene, opts = {}) {
     this.scene = scene; this.newGame = !!opts.newGame; this.gate = opts.gate || null;
     this.holding = false; this.wakePending = false; this._gateSince = null;
@@ -286,6 +286,7 @@ export class HomeStart {
   /** After the first map is loaded (init). New game: mark it, hold on black, wake-up thought after the fade. */
   begin() {
     const s = this.scene;
+    if (s.opening2?.run) { if (this.newGame && !s.flags.has(HOME.started)) s.setFlag(HOME.started); s.opening2.begin(); return; } // opening v2 owns the cold open
     if (!this.newGame) return;
     if (!s.flags.has(HOME.started)) s.setFlag(HOME.started);
     if (s.map?.name === HOME.bedroom && !s.seen[HOME.wakeSeen]) {
@@ -299,6 +300,7 @@ export class HomeStart {
   tick() {
     const s = this.scene;
     if (!this._qPatched && s.progression?.quests) this._patchQuests(s.progression.quests);
+    if (s.opening2?.tick()) return; // opening v2: Ondravel / rain wake / feed battle run before any story beat
     if (this._tripPending && !s.busy && !s.fade && !s.dialog?.active) { this._tripPending = false; s.script(() => this.walkToLab()); }
     if (this.holding) {
       const blocked = this.gate ? this.gate() : false;
@@ -497,6 +499,7 @@ export class HomeStart {
     await this._scene(this._pages(OPEN.office, 'scene_promotion', FALLBACK_OFFICE.scene_promotion), s.speakerFor(n));
     s.setFlag(OPEN.promoted);
     s.log.push({ tick: s.tick, type: 'intro', step: 'promoted' });
+    await s.opening2?.joinNow?.(); // opening v2: the secret companion joins now (field researcher), never counts for the catch quest
     this._objectiveToast();
     // Gary 2:35 PM CT: no teleport; you follow your boss and Ron to the lab (walkToLab, its own script after this one's save)
     if (automoveOn(s) && s.map?.name === OPEN.office) { this._tripPending = true; return; }
@@ -655,7 +658,7 @@ export class HomeStart {
   async chooseStarter(species) {
     const s = this.scene, sys = s.systems;
     if (!s.seen[OPEN.introSeen]) await this.starterIntro();
-    const { speciesName } = await import('../systems/creature.js?v=v0.2.109-alpha').catch(() => ({}));
+    const { speciesName } = await import('../systems/creature.js?v=v0.2.110-alpha').catch(() => ({}));
     const lead = speciesName ? speciesName(species) : speciesLabel(species), vars = { ...s.textVars(), lead, creature: lead };
     const k = await s.ask(s.fill(this._pages(OPEN.lab, 'starter_confirm', FALLBACK_OFFICE.starter_confirm), vars), ['Yes', 'No']);
     if (k !== 0) return false;
