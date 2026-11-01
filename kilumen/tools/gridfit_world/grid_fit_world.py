@@ -21,6 +21,7 @@ except ImportError:
     sys.exit('needs Pillow:  python -m pip install pillow')
 WALK, BLOCK = 0, 1
 PASS = {0, 2, 4, 7, 8, 9, 10}  # codes a walker can stand on (walk, ledge, door, plate, bike, ramp, ice)
+WATER_LAND = {3, 11}  # Tideglide water warps ({water: true}, src/overnight/index.js) land the rider ON water / deep water
 
 class World:
     def __init__(s, root, sliver):
@@ -207,8 +208,9 @@ def main():
             t = all_maps.get(w.get('to'))
             if t and 'tx' in w:
                 c = t['layers']['collision']
-                if not (0 <= w['ty'] < len(c) and 0 <= w['tx'] < len(c[0])) or c[w['ty']][w['tx']] not in PASS:
-                    fails.append(f'{m["name"]} warp -> {w["to"]} ({w["tx"]},{w["ty"]}) lands on a non-walkable square')
+                ok = WATER_LAND if w.get('water') else PASS  # a water warp must land on water (a walk square would beach the glider)
+                if not (0 <= w['ty'] < len(c) and 0 <= w['tx'] < len(c[0])) or c[w['ty']][w['tx']] not in ok:
+                    fails.append(f'{m["name"]} warp -> {w["to"]} ({w["tx"]},{w["ty"]}) lands on a non-{"water" if w.get("water") else "walkable"} square')
     rep += ['', f'**Total: {total["freed"]} squares freed, {total["blocked"]} newly blocked.**', '', '## Problems'] + [f'- {x}' for x in fails] + ['', '## Squares changed'] + detail
     out = A.report or os.path.join(W.root, 'tools', 'gridfit_world', 'grid_fit_world_report.md')
     open(out, 'w', encoding='utf-8').write('\n'.join(rep) + '\n')
