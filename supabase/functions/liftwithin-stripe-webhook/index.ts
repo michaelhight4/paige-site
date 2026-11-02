@@ -2,7 +2,7 @@
 // Stripe signature and creates a Printful order. CONFIRM=false creates a DRAFT (testing). Go-live: set true.
 const PF = "https://api.printful.com";
 const STORE = "18998717";
-const CONFIRM = false;
+const CONFIRM = true;
 const enc = new TextEncoder();
 
 async function verify(payload: string, header: string, secret: string) {
