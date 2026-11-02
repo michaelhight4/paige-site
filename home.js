@@ -1,4 +1,4 @@
-(()=>{const tabs=['home','games','webtoons','start-of-the-end','music','wallet','social','about'];
+(()=>{const tabs=['home','games','webtoons','start-of-the-end','music','wallet','about'];
 const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function show(t,focus){if(!tabs.includes(t))t='home';document.body.dataset.tab=t;
 document.querySelectorAll('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==t);
