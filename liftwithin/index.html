@@ -54,8 +54,8 @@ section h2 .ct{color:var(--mut);font-size:13px;font-weight:600;letter-spacing:0}
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
 .sheet{position:fixed;z-index:50;background:#1b1f15;border:1px solid var(--line);color:var(--ink);transition:transform .25s ease;display:flex;flex-direction:column}
-#picker{left:50%;bottom:0;width:min(560px,100%);max-height:92vh;border-radius:18px 18px 0 0;transform:translate(-50%,105%)}
-#picker.on{transform:translate(-50%,0)}
+#picker{visibility:hidden;left:50%;bottom:0;width:min(560px,100%);max-height:92vh;border-radius:18px 18px 0 0;transform:translate(-50%,105%)}
+#picker.on{visibility:visible;transform:translate(-50%,0)}
 @media(min-width:760px){#picker{bottom:auto;top:50%;border-radius:18px;transform:translate(-50%,-40%);opacity:0;pointer-events:none}#picker.on{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}}
 #drawer{top:0;right:0;height:100%;width:min(420px,100%);transform:translateX(105%)}
 #drawer.on{transform:none}
@@ -91,6 +91,46 @@ section h2 .ct{color:var(--mut);font-size:13px;font-weight:600;letter-spacing:0}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 footer{text-align:center;color:var(--mut);font-size:13px;padding:30px 16px 40px;border-top:1px solid var(--line);background:url(img/banner-camo.webp) center/cover;background-blend-mode:multiply;background-color:#2a2d22}
 footer b{color:var(--gold2);letter-spacing:.14em}
+
+/* ---- product page ---- */
+#pdp{display:none;max-width:1180px;margin:0 auto;padding:10px 14px 110px}
+body.pdp-on #pdp{display:block}
+body.pdp-on .hero,body.pdp-on main{display:none}
+.back{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;cursor:pointer;margin:6px 0 12px}
+.pd{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.pd>*{min-width:0}
+@media(min-width:860px){.pd{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px}.pd .gal{position:sticky;top:76px;align-self:start}}
+.gal .main{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:16px;background:#ece9e0;scrollbar-width:none;overscroll-behavior-x:contain}
+.gal .main::-webkit-scrollbar{display:none}
+.gal .main img{flex:none;width:100%;aspect-ratio:1;object-fit:contain;scroll-snap-align:center;-webkit-user-drag:none;user-select:none}
+.gal .dots{display:flex;justify-content:center;gap:6px;margin:8px 0 0}
+.gal .dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.gal .dots i.on{background:var(--gold)}
+.gal .thumbs{display:flex;gap:8px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:none}
+.gal .thumbs::-webkit-scrollbar{display:none}
+.gal .thumbs button{flex:none;width:64px;height:64px;padding:0;border-radius:10px;border:2px solid transparent;background:#ece9e0;cursor:pointer;overflow:hidden}
+.gal .thumbs button.sel{border-color:var(--gold)}
+.gal .thumbs img{width:100%;height:100%;object-fit:contain;pointer-events:none}
+.pd h1{margin:0;font-size:clamp(22px,4vw,32px);line-height:1.15}
+.pd .price{color:var(--gold2);font-weight:800;font-size:26px;margin:8px 0 2px}
+.pd .shipn{color:var(--mut);font-size:13px}
+.pd .addwrap{margin-top:18px}
+@media(max-width:859px){.pd .addwrap{position:fixed;left:0;right:0;bottom:0;z-index:15;margin:0;padding:10px 14px;padding-bottom:max(10px,env(safe-area-inset-bottom));background:rgba(18,20,13,.96);border-top:1px solid var(--line)}}
+.pd h3{margin:26px 0 10px;font-size:15px;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.pd h3::before{content:"";width:5px;height:18px;background:var(--gold);border-radius:3px}
+.desc{color:#e3dfcf;font-size:15px;line-height:1.55}
+.desc p{margin:0 0 10px}.desc ul{margin:0 0 10px;padding-left:20px}.desc li{margin:3px 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.tabs button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer}
+.tabs button.sel{background:var(--gold);border-color:var(--gold);color:#1a1a10}
+.tblw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+table.sz{border-collapse:collapse;width:100%;font-size:14px;white-space:nowrap}
+table.sz th,table.sz td{padding:9px 12px;text-align:center;border-bottom:1px solid var(--line)}
+table.sz tr:last-child td{border-bottom:0}
+table.sz thead th{color:var(--gold2);background:#1b1f15}
+table.sz th:first-child,table.sz td:first-child{text-align:left;position:sticky;left:0;background:#1b1f15;font-weight:700}
+table.sz td.hl,table.sz th.hl{background:rgba(212,167,44,.16)}
+.sznote{color:var(--mut);font-size:12.5px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -112,6 +152,7 @@ footer b{color:var(--gold2);letter-spacing:.14em}
   <nav class="jump" id="jump"></nav>
   <div id="sections"><div class="grid" style="margin-top:20px"><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div></div></div>
 </main>
+<div id="pdp"></div>
 <footer><b>LIFT WITHIN</b><br>Philippians 4:13 · Printed on demand by Printful · <a href="/">Paige Games</a></footer>
 
 <div class="scrim" id="scrim"></div>
@@ -260,8 +301,8 @@ let tt; function toast(m) { const t = $('#toast'); t.textContent = m; t.classLis
 // press feedback only, never activation
 document.addEventListener('pointerdown', (e) => { const c = e.target.closest('.card'); if (c) { c.classList.add('press'); const off = () => { c.classList.remove('press'); removeEventListener('pointerup', off); removeEventListener('pointercancel', off); removeEventListener('scroll', off, true); }; addEventListener('pointerup', off); addEventListener('pointercancel', off); addEventListener('scroll', off, true); } });
 
-tapRoot($('#sections'), { open: (t) => openPicker(t.dataset.id) });
-$('#sections').addEventListener('keydown', (e) => { const c = e.target.closest('.card'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openPicker(c.dataset.id); } });
+tapRoot($('#sections'), { open: (t) => goProduct(t.dataset.id) });
+$('#sections').addEventListener('keydown', (e) => { const c = e.target.closest('.card'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); goProduct(c.dataset.id); } });
 tapRoot($('#pkBody'), { color: (t) => { selColor = t.dataset.v; if (selSize && !cur.variants.some((v) => v.size === selSize && v.color === selColor)) selSize = null; drawPicker(); }, size: (t) => { selSize = t.dataset.v; drawPicker(); } });
 onTap($('#addBtn'), () => { const v = curVariant(); if (v && !$('#addBtn').disabled) { addToCart(v); hideAll(); } });
 tapRoot($('#drawer'), {
@@ -273,18 +314,120 @@ document.querySelectorAll('[data-close]').forEach((b) => onTap(b, hideAll));
 onTap($('#scrim'), hideAll);
 onTap($('#cartBtn'), () => { drawCart(); show('#drawer'); });
 addEventListener('keydown', (e) => { if (e.key === 'Escape') hideAll(); });
+// ---- product page (?p=<sync product id>) ----
+const DETAIL = {}; let pdTab = null, listY = 0;
+function goProduct(id) { listY = scrollY; history.pushState({ p: id }, '', location.pathname + '?p=' + id); route(); }
+function goList() { if (history.state && history.state.p) history.back(); else { history.replaceState(null, '', location.pathname); route(); } }
+function route() {
+  const id = new URLSearchParams(location.search).get('p');
+  hideAll();
+  if (!id) { document.body.classList.remove('pdp-on'); document.title = 'Lift Within Shop | Paige Games'; requestAnimationFrame(() => scrollTo(0, listY)); return; }
+  document.body.classList.add('pdp-on'); scrollTo(0, 0);
+  const quick = BY_ID[id];
+  if (DETAIL[id]) return openProduct(DETAIL[id]);
+  if (quick) openProduct({ ...quick, description: null, size_tables: null });
+  else $('#pdp').innerHTML = '<button class="back" type="button" data-act="back">&larr; All products</button><p class="loading">Loading…</p>';
+  fetch(CONFIG.api + '/liftwithin-product?id=' + encodeURIComponent(id)).then((r) => r.ok ? r.json() : Promise.reject(r.status)).then((d) => {
+    DETAIL[id] = d; for (const v of d.variants) VARIANT[v.id] = v;
+    if (new URLSearchParams(location.search).get('p') === id) openProduct(d, true);
+  }).catch(() => { if (!quick) $('#pdp').innerHTML = '<button class="back" type="button" data-act="back">&larr; All products</button><p class="empty">Product not found.</p>'; });
+}
+function openProduct(p, keepSel) {
+  const same = cur && cur.id === p.id;
+  cur = p; document.title = p.name + ' | Lift Within';
+  if (!(keepSel && same)) {
+    const colors = [...new Set(p.variants.map((v) => v.color).filter(Boolean))];
+    selColor = colors[0] || null;
+    const sizes = [...new Set(p.variants.map((v) => v.size).filter(Boolean))];
+    selSize = sizes.length === 1 ? sizes[0] : null;
+  }
+  if (p.size_tables && !p.size_tables.some((t) => t.type === pdTab)) pdTab = (p.size_tables.find((t) => t.type === 'product_measure') || p.size_tables[0] || {}).type || null;
+  drawProduct();
+}
+function galleryImgs() {
+  const vs = cur.variants.filter((v) => !selColor || v.color === selColor);
+  const out = []; const v = curVariant();
+  for (const x of [v, ...vs]) if (x) for (const u of (x.images || [x.image])) if (u && !out.includes(u)) out.push(u);
+  const blank = (v || vs[0])?.blank; if (blank && !out.includes(blank)) out.push(blank); // one plain product photo
+  if (!out.length) out.push(cardImg(cur));
+  return out;
+}
+const stripTags = (h) => { const d = document.createElement('div'); d.innerHTML = String(h || '').replace(/<\/(p|h\d|li|div)>|<br\s*\/?>/gi, '\n'); return d.textContent.replace(/\n{3,}/g, '\n\n').trim(); };
+function descHtml(t) {
+  const out = []; let ul = [];
+  const flush = () => { if (ul.length) out.push('<ul>' + ul.map((x) => `<li>${esc(x)}</li>`).join('') + '</ul>'); ul = []; };
+  for (const raw of String(t || '').split(/\r?\n/)) {
+    const l = raw.trim(); if (!l) { flush(); continue; }
+    const m = l.match(/^[·•\-*–]\s*(.*)$/);
+    if (m) ul.push(m[1]); else { flush(); out.push(`<p>${esc(l)}</p>`); }
+  }
+  flush(); return out.join('');
+}
+const TAB_NAME = { product_measure: 'Product measurements', measure_yourself: 'Measure yourself', international: 'International' };
+function sizeTableHtml(t) {
+  const sizes = []; for (const m of t.measurements) for (const v of m.values) if (!sizes.includes(v.size)) sizes.push(v.size);
+  sizes.sort((a, b) => sizeRank(a) - sizeRank(b));
+  const cell = (m, s) => { const v = m.values.find((x) => x.size === s); if (!v) return '–'; return esc(v.value ?? (v.min_value != null ? v.min_value + '–' + v.max_value : '–')); };
+  const hl = (s) => (s === selSize ? ' class="hl"' : '');
+  return `<div class="tblw"><table class="sz"><thead><tr><th>Size (${esc(t.unit || 'in')})</th>${sizes.map((s) => `<th${hl(s)}>${esc(s)}</th>`).join('')}</tr></thead><tbody>${t.measurements.map((m) => `<tr><td>${esc(m.type_label)}</td>${sizes.map((s) => `<td${hl(s)}>${cell(m, s)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function drawProduct() {
+  const p = cur;
+  const colors = [...new Set(p.variants.map((v) => v.color).filter(Boolean))];
+  const sizes = [...new Set(p.variants.map((v) => v.size).filter(Boolean))].sort((a, b) => sizeRank(a) - sizeRank(b));
+  const avail = (s) => p.variants.some((v) => v.size === s && (!selColor || v.color === selColor) && v.available !== false);
+  const v = curVariant(); const imgs = galleryImgs();
+  const tables = p.size_tables || []; const tab = tables.find((t) => t.type === pdTab) || tables[0];
+  $('#pdp').innerHTML = `<button class="back" type="button" data-act="back">&larr; All products</button>
+  <div class="pd">
+    <div class="gal">
+      <div class="main" id="galMain">${imgs.map((u, i) => `<img src="${esc(u)}" alt="${esc(p.name)} image ${i + 1}" ${i ? 'loading="lazy"' : ''} draggable="false">`).join('')}</div>
+      ${imgs.length > 1 ? `<div class="dots" id="galDots">${imgs.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div><div class="thumbs" id="galThumbs">${imgs.map((u, i) => `<button type="button" class="${i ? '' : 'sel'}" data-act="img" data-i="${i}" aria-label="Image ${i + 1}"><img src="${esc(u)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
+    </div>
+    <div class="info">
+      <h1>${esc(p.name)}</h1>
+      <div class="price">${v ? money(v.price) : 'from ' + money(p.min_price)}</div>
+      <div class="shipn">$4 shipping on 1 item · FREE on 2+</div>
+      ${colors.length > 1 ? `<div class="lbl">Color: ${esc(selColor || '')}</div><div class="opts">${colors.map((c) => `<button type="button" class="opt ${c === selColor ? 'sel' : ''}" data-act="color" data-v="${esc(c)}">${esc(c)}</button>`).join('')}</div>` : colors.length ? `<div class="lbl">Color: ${esc(colors[0])}</div>` : ''}
+      ${sizes.length ? `<div class="lbl">Size${selSize ? ': ' + esc(selSize) : ''}</div><div class="opts">${sizes.map((s) => `<button type="button" class="opt ${s === selSize ? 'sel' : ''}" data-act="size" data-v="${esc(s)}" ${avail(s) ? '' : 'disabled'}>${esc(s)}</button>`).join('')}</div>` : ''}
+      <div class="addwrap"><button class="btn" type="button" data-act="add" ${!v || v.available === false ? 'disabled' : ''}>${v ? (v.available === false ? 'Out of stock' : `Add to cart · ${money(v.price)}`) : 'Choose a size'}</button></div>
+      <h3>Description</h3>
+      <div class="desc">${p.description == null ? '<p class="loading" style="padding:6px 0;text-align:left">Loading…</p>' : descHtml(p.description) || '<p>—</p>'}</div>
+      ${p.size_tables == null ? '<h3>Size chart</h3><p class="loading" style="padding:6px 0;text-align:left">Loading…</p>' : tab ? `<h3>Size chart</h3>
+        ${tables.length > 1 ? `<div class="tabs">${tables.map((t) => `<button type="button" class="${t === tab ? 'sel' : ''}" data-act="tab" data-v="${esc(t.type)}">${esc(TAB_NAME[t.type] || t.type)}</button>`).join('')}</div>` : ''}
+        ${sizeTableHtml(tab)}<div class="sznote">${esc(stripTags(tab.description)).replace(/\n+/g, ' ')}</div>` : ''}
+    </div>
+  </div>`;
+  const gm = $('#galMain');
+  if (gm && imgs.length > 1) gm.addEventListener('scroll', () => {
+    const i = Math.round(gm.scrollLeft / gm.clientWidth);
+    document.querySelectorAll('#galDots i').forEach((d, k) => d.classList.toggle('on', k === i));
+    document.querySelectorAll('#galThumbs button').forEach((d, k) => d.classList.toggle('sel', k === i));
+  }, { passive: true });
+}
+tapRoot($('#pdp'), {
+  back: () => goList(),
+  color: (t) => { selColor = t.dataset.v; if (selSize && !cur.variants.some((v) => v.size === selSize && v.color === selColor)) selSize = null; drawProduct(); },
+  size: (t) => { selSize = t.dataset.v; const y = scrollY; drawProduct(); scrollTo(0, y); },
+  tab: (t) => { pdTab = t.dataset.v; drawProduct(); },
+  img: (t) => { const gm = $('#galMain'); gm.scrollTo({ left: gm.clientWidth * +t.dataset.i, behavior: 'smooth' }); },
+  add: () => { const v = curVariant(); if (v && v.available !== false) addToCart(v); },
+});
+addEventListener('popstate', route);
+
 
 const qs = new URLSearchParams(location.search);
 if (qs.get('checkout') === 'success') { cart = []; save(); setTimeout(() => toast('Thank you! Your order is confirmed.'), 300); history.replaceState(null, '', location.pathname); }
 else if (qs.get('checkout') === 'cancel') { setTimeout(() => toast('Checkout canceled. Your cart is saved.'), 300); history.replaceState(null, '', location.pathname); }
 
 drawCart();
+if (qs.get('p')) route();
 fetch(CONFIG.api + '/liftwithin-products').then((r) => r.json()).then((d) => {
   PRODUCTS = (d.products || []).filter((p) => p.min_price != null);
   BY_ID = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
   for (const p of PRODUCTS) for (const v of p.variants) VARIANT[v.id] = v;
   cart = cart.filter((i) => VARIANT[i.id]); // drop items no longer sold
-  render(); drawCart();
+  render(); drawCart(); if (cur && document.body.classList.contains('pdp-on')) drawProduct();
 }).catch(() => { $('#sections').innerHTML = '<p class="empty">Could not load products. Please refresh.</p>'; });
 </script>
 </body>
