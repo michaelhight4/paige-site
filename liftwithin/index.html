@@ -425,7 +425,7 @@ if (qs.get('checkout') === 'success') {
   cart = []; save(); history.replaceState(null, '', location.pathname);
   // shown only after a completed checkout
   const t = document.createElement('div'); t.className = 'thanks'; t.setAttribute('role', 'dialog'); t.setAttribute('aria-modal', 'true');
-  t.innerHTML = '<div class="box"><h2>Thanks for your order!</h2><p>Please allow 1-3 days for us to process your order before it ships.</p><button class="btn" type="button">Keep shopping</button></div>';
+  t.innerHTML = '<div class="box"><h2>Thanks for your order!</h2><p>Please allow 2-4 days for us to process your order before it ships.</p><button class="btn" type="button">Keep shopping</button></div>';
   document.body.appendChild(t); onTap(t.querySelector('button'), () => t.remove());
 }
 else if (qs.get('checkout') === 'cancel') { setTimeout(() => toast('Checkout canceled. Your cart is saved.'), 300); history.replaceState(null, '', location.pathname); }

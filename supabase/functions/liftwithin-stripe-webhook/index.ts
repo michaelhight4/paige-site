@@ -1,7 +1,7 @@
 // Lift Within shop: Stripe webhook. On checkout.session.completed (paid) or checkout.session.async_payment_succeeded
 // (metadata.shop=liftwithin) verifies the Stripe signature and STORES the order in public.liftwithin_orders with
-// send_after = paid_at + 48h. liftwithin-send-orders (hourly pg_cron) sends due orders to Printful.
-const HOLD_HOURS = 48;
+// send_after = paid_at + 72h. liftwithin-send-orders (hourly pg_cron) sends due orders to Printful.
+const HOLD_HOURS = 72;
 const enc = new TextEncoder();
 
 async function verify(payload: string, header: string, secret: string) {
