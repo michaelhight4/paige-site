@@ -150,7 +150,7 @@ table.sz td.hl,table.sz th.hl{background:rgba(212,167,44,.16)}
     <h1>LIFT WITHIN</h1>
     <div class="verse">PHILIPPIANS 4:13</div>
     <p>I can do all things through Christ who strengthens me. Camo and Signature gear built to train in.</p>
-    <span class="ship">$4 shipping on 1 item · FREE on 2+</span>
+    <span class="ship">FREE shipping on orders $120+</span>
   </div>
 </div></div>
 <main>
@@ -276,16 +276,18 @@ function addToCart(v) {
   else cart.push({ id: v.id, qty: 1, name: cur.name, size: v.size, color: v.color, price: v.price, image: v.image || cardImg(cur) });
   save(); toast('Added to cart');
 }
+const FREE_OVER = 120;
+const shipFor = (n, sub) => (n === 0 || Math.round(sub * 100) >= FREE_OVER * 100 ? 0 : 4 + 2 * (n - 1)); // mirrors liftwithin-checkout (server is authoritative)
 function drawCart() {
   // refresh display price/name from live catalog when loaded
   for (const i of cart) { const v = VARIANT[i.id]; if (v) { i.price = v.price; } }
   const n = qtyTotal(); $('#cartN').textContent = n;
   const sub = cart.reduce((a, i) => a + i.qty * parseFloat(i.price || 0), 0);
-  const ship = n === 0 ? 0 : n === 1 ? 4 : 0;
+  const ship = shipFor(n, sub);
   $('#cartBody').innerHTML = cart.length ? cart.map((i) => `<div class="line"><img src="${esc(i.image || '')}" alt=""><div class="i"><div class="t">${esc(i.name)}</div><div class="v">${esc([i.color, i.size].filter(Boolean).join(' / '))}</div>
       <div class="qty"><button type="button" data-act="dec" data-id="${i.id}" aria-label="Less">&minus;</button><b>${i.qty}</b><button type="button" data-act="inc" data-id="${i.id}" aria-label="More">+</button></div></div><div class="p">${money(i.qty * parseFloat(i.price))}</div></div>`).join('')
     : '<p class="empty">Your cart is empty.</p>';
-  $('#cartFoot').innerHTML = `<p class="note">${n === 1 ? 'Shipping is <b>$4</b> for 1 item. Add 1 more for <b>FREE shipping</b>.' : n >= 2 ? '<b>FREE shipping</b> unlocked (2+ items).' : 'Shipping: <b>$4</b> for 1 item, <b>FREE</b> for 2 or more.'}</p>
+  $('#cartFoot').innerHTML = `<p class="note">${n === 0 ? 'Shipping: <b>$4</b> + <b>$2</b> per extra item, <b>FREE</b> on orders $120+.' : ship ? `Add <b>${money(FREE_OVER - sub)}</b> more for <b>FREE shipping</b>.` : '<b>FREE shipping</b> unlocked ($120+).'}</p>
     ${cart.length ? `<div class="tot"><span>Subtotal</span><span>${money(sub)}</span></div><div class="tot"><span>Shipping (US)</span><span>${ship ? money(ship) : 'FREE'}</span></div><div class="tot big"><span>Total</span><span>${money(sub + ship)}</span></div>` : ''}
     <button class="btn" type="button" data-act="checkout" ${cart.length ? '' : 'disabled'} style="margin-top:10px">Checkout</button>`;
 }
@@ -391,7 +393,7 @@ function drawProduct() {
     <div class="info">
       <h1>${esc(p.name)}</h1>
       <div class="price">${v ? money(v.price) : 'from ' + money(p.min_price)}</div>
-      <div class="shipn">$4 shipping on 1 item · FREE on 2+</div>
+      <div class="shipn">FREE shipping on orders $120+ · otherwise $4 + $2 per extra item</div>
       ${colors.length > 1 ? `<div class="lbl">Color: ${esc(selColor || '')}</div><div class="opts">${colors.map((c) => `<button type="button" class="opt ${c === selColor ? 'sel' : ''}" data-act="color" data-v="${esc(c)}">${esc(c)}</button>`).join('')}</div>` : colors.length ? `<div class="lbl">Color: ${esc(colors[0])}</div>` : ''}
       ${sizes.length ? `<div class="lbl">Size${selSize ? ': ' + esc(selSize) : ''}</div><div class="opts">${sizes.map((s) => `<button type="button" class="opt ${s === selSize ? 'sel' : ''}" data-act="size" data-v="${esc(s)}" ${avail(s) ? '' : 'disabled'}>${esc(s)}</button>`).join('')}</div>` : ''}
       <div class="addwrap"><button class="btn" type="button" data-act="add" ${!v || v.available === false ? 'disabled' : ''}>${v ? (v.available === false ? 'Out of stock' : `Add to cart · ${money(v.price)}`) : 'Choose a size'}</button></div>

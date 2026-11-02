@@ -1,6 +1,6 @@
 // Lift Within shop: creates a Stripe Checkout Session (TEST key) from [{sync_variant_id, qty}].
 // Prices are re-read from Printful server-side; client prices are never used.
-// Shipping: $4.00 when total qty is 1, free when 2+. US shipping address only.
+// Shipping: FREE when merchandise subtotal >= $120, else $4 for the first item + $2 per additional item. US only.
 const PF = "https://api.printful.com";
 const STORE = "18998717";
 const SHOP = "https://paigegames.net/liftwithin/";
@@ -25,7 +25,7 @@ Deno.serve(async (req) => {
     try { const u = new URL(String(body?.return_url || "")); if (["paigegames.net", "www.paigegames.net", "localhost", "127.0.0.1"].includes(u.hostname)) base = u.origin + u.pathname; } catch { /* default */ }
 
     const params = new URLSearchParams();
-    let i = 0, totalQty = 0;
+    let i = 0, totalQty = 0, subtotal = 0;
     for (const [id, q] of merged) {
       const r = await fetch(`${PF}/store/variants/${id}`, { headers: { Authorization: `Bearer ${Deno.env.get("PRINTFUL_API_TOKEN")}`, "X-PF-Store-Id": STORE } });
       if (!r.ok) return json({ error: `variant ${id} not found` }, 400);
@@ -39,15 +39,16 @@ Deno.serve(async (req) => {
       params.set(`line_items[${i}][price_data][product_data][name]`, v.name);
       params.set(`line_items[${i}][price_data][product_data][metadata][sync_variant_id]`, String(id));
       if (img) params.set(`line_items[${i}][price_data][product_data][images][0]`, img);
-      i++; totalQty += q;
+      i++; totalQty += q; subtotal += cents * q;
     }
-    const ship = totalQty === 1 ? 400 : 0;
+    const FREE_OVER = 12000;
+    const ship = subtotal >= FREE_OVER ? 0 : 400 + 200 * (totalQty - 1);
     params.set("mode", "payment");
     params.set("success_url", `${base}?checkout=success&session_id={CHECKOUT_SESSION_ID}`);
     params.set("cancel_url", `${base}?checkout=cancel`);
     params.set("shipping_address_collection[allowed_countries][0]", "US");
     params.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
-    params.set("shipping_options[0][shipping_rate_data][display_name]", ship ? "Standard shipping" : "Free shipping (2+ items)");
+    params.set("shipping_options[0][shipping_rate_data][display_name]", ship ? "Standard shipping" : "Free shipping (orders $120+)");
     params.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", String(ship));
     params.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "usd");
     params.set("metadata[shop]", "liftwithin");
