@@ -22,9 +22,10 @@ async function build() {
     const d = await pf(`/store/products/${p.id}`);
     const variants = (d.sync_variants || []).filter((v: any) => !v.is_ignored && v.availability_status !== "discontinued").map((v: any) => ({
       id: v.id, size: v.size || "", color: v.color || "", price: v.retail_price, currency: v.currency,
-      image: (v.files || []).find((f: any) => f.type === "preview")?.preview_url || v.product?.image || null,
+      image: (v.files || []).find((f: any) => f.type === "preview")?.preview_url || null,
       available: v.availability_status === "active",
     }));
+    for (const v of variants) if (!v.image) v.image = (variants.find((x: any) => x.image && x.color === v.color) || variants.find((x: any) => x.image))?.image || null; // never blank catalog photos
     const prices = variants.map((v: any) => parseFloat(v.price)).filter((n: number) => !isNaN(n));
     return { id: p.id, name: p.name, thumbnail: p.thumbnail_url, min_price: prices.length ? Math.min(...prices) : null, variants };
   }));

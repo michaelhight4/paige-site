@@ -38,8 +38,13 @@ async function build(id: string) {
   const variants = sv.map((v: any) => {
     const mock = (v.files || []).filter((f: any) => f.type === "preview" && f.preview_url).map((f: any) => f.preview_url);
     const images = [...new Set(mock)];
-    return { blank: v.product?.image || null, id: v.id, size: v.size || "", color: v.color || "", price: v.retail_price, currency: v.currency, image: images[0] || v.product?.image || null, images, available: v.availability_status === "active" };
+    return { id: v.id, size: v.size || "", color: v.color || "", price: v.retail_price, currency: v.currency, image: images[0] || null, images, available: v.availability_status === "active" };
   });
+  // variants without their own design mockup borrow one (same color first, then any) - never the blank catalog photo
+  for (const v of variants) if (!v.images.length) {
+    const d = variants.find((x: any) => x.images.length && x.color === v.color) || variants.find((x: any) => x.images.length);
+    if (d) { v.images = [...d.images]; v.image = d.image; }
+  }
   const cids = [...new Set(sv.map((v: any) => v.product?.product_id).filter(Boolean))] as number[];
   const cats = await Promise.all(cids.map(catalog));
   const prices = variants.map((v: any) => parseFloat(v.price)).filter((n: number) => !isNaN(n));

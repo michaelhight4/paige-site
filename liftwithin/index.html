@@ -348,7 +348,6 @@ function galleryImgs() {
   const vs = cur.variants.filter((v) => !selColor || v.color === selColor);
   const out = []; const v = curVariant();
   for (const x of [v, ...vs]) if (x) for (const u of (x.images || [x.image])) if (u && !out.includes(u)) out.push(u);
-  const blank = (v || vs[0])?.blank; if (blank && !out.includes(blank)) out.push(blank); // one plain product photo
   if (!out.length) out.push(cardImg(cur));
   return out;
 }
