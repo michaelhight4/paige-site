@@ -131,6 +131,11 @@ table.sz thead th{color:var(--gold2);background:#1b1f15}
 table.sz th:first-child,table.sz td:first-child{text-align:left;position:sticky;left:0;background:#1b1f15;font-weight:700}
 table.sz td.hl,table.sz th.hl{background:rgba(212,167,44,.16)}
 .sznote{color:var(--mut);font-size:12.5px;margin-top:6px}
+
+.thanks{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.65)}
+.thanks .box{max-width:440px;width:100%;background:#1b1f15;border:1px solid var(--gold);border-radius:18px;padding:24px 20px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.thanks h2{margin:0 0 8px;color:var(--gold2);letter-spacing:.06em}
+.thanks p{margin:0 0 16px;color:#e3dfcf;line-height:1.5}
 </style>
 </head>
 <body>
@@ -416,7 +421,13 @@ addEventListener('popstate', route);
 
 
 const qs = new URLSearchParams(location.search);
-if (qs.get('checkout') === 'success') { cart = []; save(); setTimeout(() => toast('Thank you! Your order is confirmed.'), 300); history.replaceState(null, '', location.pathname); }
+if (qs.get('checkout') === 'success') {
+  cart = []; save(); history.replaceState(null, '', location.pathname);
+  // shown only after a completed checkout
+  const t = document.createElement('div'); t.className = 'thanks'; t.setAttribute('role', 'dialog'); t.setAttribute('aria-modal', 'true');
+  t.innerHTML = '<div class="box"><h2>Thanks for your order!</h2><p>Please allow 1-3 days for us to process your order before it ships.</p><button class="btn" type="button">Keep shopping</button></div>';
+  document.body.appendChild(t); onTap(t.querySelector('button'), () => t.remove());
+}
 else if (qs.get('checkout') === 'cancel') { setTimeout(() => toast('Checkout canceled. Your cart is saved.'), 300); history.replaceState(null, '', location.pathname); }
 
 drawCart();
