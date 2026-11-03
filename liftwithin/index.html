@@ -351,11 +351,14 @@ function openProduct(p, keepSel) {
   if (p.size_tables && !p.size_tables.some((t) => t.type === pdTab)) pdTab = (p.size_tables.find((t) => t.type === 'product_measure') || p.size_tables[0] || {}).type || null;
   drawProduct();
 }
+let EXTRA = {}; // Gary's extra mockups: printful product id -> [{src, color?}], shown after Printful's
+fetch('/liftwithin/extra-mockups.json').then((r) => r.ok ? r.json() : {}).then((d) => { EXTRA = d || {}; if (cur && document.body.classList.contains('pdp-on')) drawProduct(); }).catch(() => {});
 function galleryImgs() {
   const vs = cur.variants.filter((v) => !selColor || v.color === selColor);
   const out = []; const v = curVariant();
   for (const x of [v, ...vs]) if (x) for (const u of (x.images || [x.image])) if (u && !out.includes(u)) out.push(u);
   if (!out.length) out.push(cardImg(cur));
+  for (const e of EXTRA[cur.id] || []) if (!e.color || !selColor || e.color === selColor) { const u = '/liftwithin/' + e.src; if (!out.includes(u)) out.push(u); };
   return out;
 }
 const stripTags = (h) => { const d = document.createElement('div'); d.innerHTML = String(h || '').replace(/<\/(p|h\d|li|div)>|<br\s*\/?>/gi, '\n'); return d.textContent.replace(/\n{3,}/g, '\n\n').trim(); };
