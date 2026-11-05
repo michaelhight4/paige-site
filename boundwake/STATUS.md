@@ -14,6 +14,7 @@
 ### Pack / smoke / live
 - Expansion **225** (was 169; +56 depth). Pool **350** (89+225+36).
 - Smoke: **PASS** (`distinctEvents` 239/350; cook+weaver careers appear in runs)
+- Deploy commit: **22638063** on paige-site main
 - Live: https://paigegames.net/boundwake/
 - Lifeline untouched
 
