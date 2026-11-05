@@ -328,7 +328,7 @@ function goList() { if (history.state && history.state.p) history.back(); else {
 function route() {
   const id = new URLSearchParams(location.search).get('p');
   hideAll();
-  if (!id) { document.body.classList.remove('pdp-on'); document.title = 'Lift Within Shop | Paige Games'; requestAnimationFrame(() => scrollTo(0, listY)); return; }
+  if (!id) { const wasPdp = document.body.classList.contains('pdp-on'); document.body.classList.remove('pdp-on'); document.title = 'Lift Within Shop | Paige Games'; if (wasPdp) requestAnimationFrame(() => scrollTo(0, listY)); return; } // section #hash links fire popstate too; only restore list scroll when leaving a product page
   document.body.classList.add('pdp-on'); scrollTo(0, 0);
   const quick = BY_ID[id];
   if (DETAIL[id]) return openProduct(DETAIL[id]);
