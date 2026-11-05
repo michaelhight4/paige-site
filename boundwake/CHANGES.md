@@ -1,3 +1,6 @@
+## Cross bonuses + team/guild art (Nov 5 ~3:30 PM CT)
+- Engine: CROSS_BONUSES.md + Gary reclaim/handoff/stages; UI crests/banners/roster busts + tournament_motion.css hooks.
+
 ## Tournament teams + adventure guild halls (Gary Nov 5 ~3:30 PM CT)
 - `bw_engine.js`: team + guild systems per Game Dev balance sheets; Visit hooks on Tournament/Arena/Guild hall kinds; guildYear on Age+1; notice-board team meet invites.
 - `ui.js`: Adventure team panel + Grand Teams; Work guild-hall accordion; Belongings lines; handlers `tfound`/`tmeet`/`tgrand`/`gfound`/…

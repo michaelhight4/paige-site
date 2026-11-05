@@ -1,3 +1,9 @@
+## Homes + mounts + events merge (Coder, Nov 5 ~3:28 PM CT)
+- gear.json 44 items: Belongings sections Weapons/Armor/Trinkets/Tools/Homes/Mounts. One home (`bw` save `s.gear.home`), one mount (`equipped.mount`). Rent cot: Rent → yearly half-price rent at Age +1 (evicted if broke; paused in prison); End rent = no refund. Owned homes sell at 0.5; moving abandons a rented room. Flags has_home / has_mount / owns_hall.
+- Slot header icons `assets/gear/slot_<slot>.png`; per-item `assets/gear/<id>.png` (onerror-hidden until art lands). Tournament card shows draft `assets/icons/ui/tournament_banner.png`.
+- Story Bot `events_expansion.json` merged at load: **events 125 → 175** (50 x_*). Smoke PASS.
+- Waiting: guild/team screens (crest, roster portraits, ui_motion CSS link go in when those screens exist).
+
 ## Pack wiring + gear shop (Coder, Nov 5 ~3:25 PM CT)
 - **Gear shop live in Belongings:** reads Game Dev `data_fantasy/gear.json` (30 items; weapon/armor/trinket/tool). Buy (auto-equips empty slot), Equip/Unequip, Sell @ sellRate 0.5. Gates: cage minAge, renown(fame) minRenown, realm found (hearthfold always). Equipped bonuses add to skill-check odds. State `s.gear {owned, equipped}` in bw.* save. Icons `assets/gear/<id>.png` optional (onerror hides).
 - **Prison UI (card `.pack-polish-prison`):** Behave (conduct → parole after half term), Appeal (law.rules appealCost/appealChance, once per sentence), Escape (tier odds + stealth; fail adds escapeAddYears).
@@ -5,6 +11,11 @@
 - **Workshop staff/upgrades:** hire/let go per staffRoles (wage/yr, +12% demand each), build upgrades (demand/ticket/cap mods) in yearly P&L.
 - **Hooks:** `events_expansion.json` merged if present (dedupe by id, empty-safe); `gear.json` optional; `assets/css/pack_polish.css` linked.
 - Remains: patronage apply flow; Story Bot events_expansion pending (events now 89 base + 36 passion = 125).
+
+## Cross bonuses + art motion (Gary/Game Dev Nov 5 ~3:26–3:30 PM CT)
+- `docs/CROSS_BONUSES.md` wired: guild→teamPower +2/+4/+5 (cap +6), team→hire −5/−10/−12% + success +0.02/+0.03, both ≥50 twin banners +1/+1 once/year.
+- Stages founding/proven/renowned (≥50); reclaim buy-back or challenge meet; handoff heir→apprentice→captain; flags `cross.*` ON.
+- UI: `guild_crest.png` / `tournament_banner.png`, roster busts `adventurer_1..4`, opt-in `assets/ui_motion/tournament_motion.css` (flutter, renown tick, 1st-place sparkle).
 
 ## Tournament teams + guild halls
 - Deployed: `76074be8` on paige-site main (GitHub Pages `/boundwake/`).

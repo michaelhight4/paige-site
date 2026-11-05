@@ -854,6 +854,7 @@ export function ageUp(s) {
   log(s, `${D.terms.ui.year_passed} I am ${Math.floor(s.age)}.`, 'year');
   newYearBudget(s);
   refreshTournamentYear(s);
+  gearYear(s, yrs);
   const dieP = s.stats.health <= 0 ? 1 : h > 70 ? Math.min(0.95, ((h - 70) / 28) ** 2.2 * yrs) : 0.0015 * yrs;
   if (chance(s, dieP)) { die(s, s.stats.health <= 0 && s.injuries.length ? 'battle' : h > 70 ? 'old_age' : pick(s, ['illness', 'accident'])); return true; }
   drawEvents(s); return true;
@@ -918,6 +919,31 @@ export function ensureTeamGuild(s) {
   if (s.flags.team_drill_year == null) s.flags.team_drill_year = 0;
   if (!s.flags.team_history) s.flags.team_history = [];
   if (!s.flags.guild_rehire_block) s.flags.guild_rehire_block = {};
+  // Gary lock: cross team↔guild bonuses ON for v1 (docs/CROSS_BONUSES.md)
+  if (!s.flags.cross) s.flags.cross = { teamFeedsGuild: true, guildHealsTeam: true };
+  else { s.flags.cross.teamFeedsGuild = true; s.flags.cross.guildHealsTeam = true; }
+  if (s.team && s.team.stage == null) s.team.stage = ownershipStage(s.team.renown || 0);
+  if (s.guild && s.guild.stage == null) s.guild.stage = ownershipStage(s.guild.renown || 0);
+  if (s.flags.twin_banners_year == null) s.flags.twin_banners_year = -1;
+  if (s.flags.meet_blood_reroll_year == null) s.flags.meet_blood_reroll_year = -1;
+}
+
+/** Renown ladder: Local 0 / Known 25 / Renowned ≥50 / Famed 75. Stages: founding→proven→renowned→legacy. */
+export function ownershipStage(renown, tag) {
+  if (tag === 'legacy' || tag === 'disbanded' || tag === 'seized') return tag;
+  const r = renown || 0;
+  if (r >= 50) return 'renowned';
+  if (r >= 25) return 'proven';
+  return 'founding';
+}
+export function isRenowned(renown) { return (renown || 0) >= 50; }
+export function crossActive(s) {
+  ensureTeamGuild(s);
+  return !!(s.team && s.guild && !s.team.seized && !s.guild.seized && s.flags.cross?.teamFeedsGuild && s.flags.cross?.guildHealsTeam);
+}
+function syncOwnershipStage(own) {
+  if (!own || own.seized || own.stage === 'legacy' || own.stage === 'disbanded') return;
+  own.stage = ownershipStage(own.renown || 0);
 }
 
 function softRenown(cur, gain) {
@@ -931,13 +957,63 @@ function memberPower(m, team) {
   return clamp((m.power || 0) + (m.isPlayer ? 0 : bonus), 5, 95);
 }
 
-export function teamPower(s) {
+/** Guild → team power edge (CROSS_BONUSES.md). Cap +6. */
+export function guildToTeamPowerBonus(s, meetRealmId) {
+  ensureTeamGuild(s);
+  if (!crossActive(s)) return 0;
+  const gr = s.guild.renown || 0;
+  let bonus = 0;
+  if (gr >= 75) bonus = 5;
+  else if (gr >= 50) bonus = 4;
+  else if (gr >= 25) bonus = 2;
+  if (meetRealmId && s.guild.realmId === meetRealmId) bonus += 1;
+  return Math.min(6, bonus);
+}
+
+/** Team → guild hire discount fraction (0–0.12). */
+export function teamHireDiscount(s) {
+  ensureTeamGuild(s);
+  if (!crossActive(s)) return 0;
+  const tr = s.team.renown || 0;
+  if (tr >= 75) return 0.12;
+  if (tr >= 50) return 0.10;
+  if (tr >= 25) return 0.05;
+  return 0;
+}
+
+/** Team → guild job successChance add (cap +0.03). */
+export function teamJobSuccessBonus(s) {
+  ensureTeamGuild(s);
+  if (!crossActive(s)) return 0;
+  const tr = s.team.renown || 0;
+  if (tr >= 75) return 0.03;
+  if (tr >= 50) return 0.02;
+  return 0;
+}
+
+function tryTwinBanners(s, reason) {
+  ensureTeamGuild(s);
+  if (!crossActive(s)) return false;
+  if (!isRenowned(s.team.renown) || !isRenowned(s.guild.renown)) return false;
+  if (s.flags.twin_banners_year === cage(s)) return false;
+  s.flags.twin_banners_year = cage(s);
+  s.team.renown = softRenown(s.team.renown, 1);
+  s.guild.renown = softRenown(s.guild.renown, 1);
+  syncOwnershipStage(s.team); syncOwnershipStage(s.guild);
+  s.flags.ui_renown_delta = Math.max(s.flags.ui_renown_delta || 0, 1);
+  s.flags.ui_twin_banners = 1;
+  log(s, `Twin banners — team and hall renown each +1 (${reason}).`, 'cross');
+  return true;
+}
+
+export function teamPower(s, meetRealmId) {
   ensureTeamGuild(s);
   const t = s.team; if (!t || !t.roster?.length) return 0;
   const powers = t.roster.map((m) => memberPower(m, t));
   const avg = powers.reduce((a, b) => a + b, 0) / powers.length;
   const mx = Math.max(...powers);
-  return avg + 0.15 * mx + Math.floor((t.renown || 0) / 20);
+  const base = avg + 0.15 * mx + Math.floor((t.renown || 0) / 20);
+  return base + guildToTeamPowerBonus(s, meetRealmId || s.region);
 }
 
 export function teamRecommendedAffinities() { return TEAM_RECOMMENDED.slice(); }
@@ -961,9 +1037,9 @@ export function foundTeam(s, name, skillId) {
   s.team = {
     name: nm, affinitySkill: skillId, foundedYear: cage(s),
     roster: [], renown: 0, wins: { realm: 0, grand: 0 }, history: [],
-    renames: 0,
+    renames: 0, stage: 'founding', seized: false, rivalId: null, heirId: null, reclaimVia: null,
   };
-  const msg = `I founded tournament team "${nm}" — affinity: ${sk.name}.`;
+  const msg = `The Clerk of Meets stamped "${nm}" — affinity: ${sk.name}.`;
   log(s, msg, 'team'); return { ok: true, msg };
 }
 
@@ -1001,7 +1077,9 @@ export function hireTeamNpc(s) {
   const base = s.skills[aff] || 20;
   const power = clamp(base + rint(s, -10, 10), 5, 95);
   const sex = chance(s, 0.5) ? 'm' : 'f';
-  const m = { id: 'tm' + (s.tid = (s.tid || 0) + 1), name: pick(s, NAMES[sex]), power, hired: cage(s), isPlayer: false };
+  const used = new Set((s.team.roster || []).map((x) => x.bust).filter(Boolean));
+  let bust = rint(s, 1, 4); for (let i = 0; i < 4 && used.has(bust); i++) bust = (bust % 4) + 1;
+  const m = { id: 'tm' + (s.tid = (s.tid || 0) + 1), name: pick(s, NAMES[sex]), power, hired: cage(s), isPlayer: false, bust };
   s.team.roster.push(m);
   const msg = `I hired ${m.name} for the team (power ${power}).`; log(s, msg, 'team'); return { ok: true, msg, member: m };
 }
@@ -1029,7 +1107,7 @@ export function setTeamCaptain(s, on) {
   if (existing) return { ok: false, msg: 'You are already captain.' };
   if ((s.skills[aff] || 0) < 20) return { ok: false, msg: 'Need affinity skill 20+ to captain.' };
   if (s.team.roster.length >= TEAM_MAX) return { ok: false, msg: 'Roster full (4).' };
-  const m = { id: 'tm_player', name: s.first, power: Math.floor(s.skills[aff] || 0), hired: cage(s), isPlayer: true };
+  const m = { id: 'tm_player', name: s.first, power: Math.floor(s.skills[aff] || 0), hired: cage(s), isPlayer: true, bust: 0 };
   s.team.roster.push(m);
   const msg = `I joined ${s.team.name} as captain.`; log(s, msg, 'team'); return { ok: true, msg };
 }
@@ -1077,8 +1155,8 @@ export function canEnterRealmMeet(s) {
   return { ok: true };
 }
 
-function resolveTeamMatch(s, fieldPower) {
-  const tp = teamPower(s);
+function resolveTeamMatch(s, fieldPower, meetRealmId) {
+  const tp = teamPower(s, meetRealmId);
   // sync player captain power
   const cap = s.team.roster.find((m) => m.isPlayer);
   if (cap) cap.power = Math.floor(s.skills[s.team.affinitySkill] || 0);
@@ -1094,15 +1172,18 @@ function resolveTeamMatch(s, fieldPower) {
 export function enterRealmMeet(s, venueName) {
   ensureTeamGuild(s); resetTeamYearFlags(s);
   const gate = canEnterRealmMeet(s); if (!gate.ok) return gate;
+  if (s.team.seized) return { ok: false, msg: 'A rival holds your team — reclaim first.' };
   const venue = venueName || s.flags.meet_venue_ready || 'a realm meet';
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
-  s.gold -= 10;
+  let entry = 10;
+  if (crossActive(s) && (s.guild.renown || 0) >= 75) entry = Math.max(5, entry - 2);
+  s.gold -= entry;
   s.flags.team_meets_count = (s.flags.team_meets_count || 0) + 1;
   s.flags.meet_venue_ready = 0;
   s.flags.notice_team_meet = 0;
   const tier = REALM_MEET_TIER[s.region] || 1;
   const field = (18 + cage(s) * 0.4 + rint(s, 0, 15)) * tier;
-  const place = resolveTeamMatch(s, field);
+  const place = resolveTeamMatch(s, field, s.region);
   const pay = { 1: { g: 40, r: 5, xp: 3 }, 2: { g: 25, r: 3, xp: 2 }, 3: { g: 15, r: 2, xp: 1 } }[place] || { g: 0, r: 0, xp: 0 };
   s.gold += pay.g;
   s.team.renown = softRenown(s.team.renown, pay.r);
@@ -1115,7 +1196,11 @@ export function enterRealmMeet(s, venueName) {
     msg += ' A hopeful asked to join — hire from the team board.';
     s.flags.team_recruit_hook = 1;
   }
-  s.team.history.push({ y: cage(s), kind: 'realm', place, venue: venueName || s.region });
+  if (pay.r) s.flags.ui_renown_delta = pay.r;
+  if (place === 1) s.flags.ui_victory = 1;
+  syncOwnershipStage(s.team);
+  if (place <= 3) tryTwinBanners(s, 'after a realm meet');
+  s.team.history.push({ y: cage(s), kind: 'realm', place, venue: venue || s.region });
   log(s, msg, 'team'); return { ok: true, msg, place, gold: pay.g };
 }
 
@@ -1134,6 +1219,7 @@ export function canEnterTeamGrand(s) {
 export function enterTeamGrand(s) {
   ensureTeamGuild(s); resetTeamYearFlags(s);
   const gate = canEnterTeamGrand(s); if (!gate.ok) return gate;
+  if (s.team.seized) return { ok: false, msg: 'A rival holds your team — reclaim first.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.gold -= 20;
   s.flags.tour_team_entered = 1;
@@ -1141,7 +1227,7 @@ export function enterTeamGrand(s) {
   const field = (30 + cage(s) * 0.5 + rint(s, 0, 20)) * tier;
   // 7 AI opponents approximated as 3 matches vs scaled field → place 1–8
   const place = (() => {
-    const tp = teamPower(s);
+    const tp = teamPower(s, s.region);
     let score = 0;
     for (let i = 0; i < 3; i++) {
       const opp = field * (0.85 + i * 0.12) + rint(s, -5, 5);
@@ -1169,6 +1255,11 @@ export function enterTeamGrand(s) {
     s.flags.team_recruit_hook = 1;
     msg += ' A strong recruit took notice.';
   }
+  if (pay.r) s.flags.ui_renown_delta = pay.r;
+  if (place === 1) s.flags.ui_victory = 1;
+  if (place <= 3) s.flags.team_grand_top3 = 1;
+  syncOwnershipStage(s.team);
+  if (place <= 3) tryTwinBanners(s, 'after the Teams bracket');
   s.team.history.push({ y: cage(s), kind: 'grand', place });
   log(s, msg, 'team'); return { ok: true, msg, place, gold: pay.g };
 }
@@ -1231,9 +1322,10 @@ export function foundGuild(s, realmId) {
   s.guild = {
     realmId: gate.realmId, foundedYear: cage(s), renown: 0, coffer: 0,
     feeTier: 1, roster: [], jobsDone: 0, jobsFailed: 0,
+    stage: 'founding', seized: false, rivalId: null, heirId: null, reclaimVia: null, name: 'Hall',
   };
   const reg = regionById(gate.realmId);
-  const msg = `I opened an adventure guild hall in ${reg?.name || gate.realmId} (${gate.cost} gold).`;
+  const msg = `A hall-master writ opened my adventure guild hall in ${reg?.name || gate.realmId} (${gate.cost} gold).`;
   log(s, msg, 'guild'); return { ok: true, msg };
 }
 
@@ -1251,21 +1343,30 @@ export function hireGuildAdventurer(s) {
   ensureTeamGuild(s);
   if (!s.guild) return { ok: false, msg: 'Open a guild hall first.' };
   if (s.guild.roster.length >= GUILD_MAX) return { ok: false, msg: 'Roster full (6).' };
-  const tier = guildHireTier(s);
+  if (s.guild.seized) return { ok: false, msg: 'A rival holds your hall — reclaim first.' };
+  let tier = guildHireTier(s);
+  // Meet-blooded: one free tier-0/1 re-roll per year if team grand top-3 this life
+  if (crossActive(s) && s.flags.team_grand_top3 && s.flags.meet_blood_reroll_year !== cage(s) && tier > 1 && chance(s, 0.5)) {
+    tier = rint(s, 0, 1);
+    s.flags.meet_blood_reroll_year = cage(s);
+  }
   const pool = GUILD_HIRE[tier];
-  // block rehires
   const blocked = s.flags.guild_rehire_block || {};
-  if (s.gold < pool.cost) return { ok: false, msg: `Hire costs ${pool.cost} gold.` };
-  s.gold -= pool.cost;
+  const disc = teamHireDiscount(s);
+  const cost = Math.max(1, Math.floor(pool.cost * (1 - disc)));
+  if (s.gold < cost) return { ok: false, msg: `Hire costs ${cost} gold.` };
+  s.gold -= cost;
   const sex = chance(s, 0.5) ? 'm' : 'f';
   const title = pick(s, pool.titles);
+  const used = new Set((s.guild.roster || []).map((x) => x.bust).filter(Boolean));
+  let bust = rint(s, 1, 4); for (let i = 0; i < 4 && used.has(bust); i++) bust = (bust % 4) + 1;
   const m = {
     id: 'ga' + (s.gid = (s.gid || 0) + 1),
     name: `${pick(s, NAMES[sex])} the ${title}`,
-    tier, power: rint(s, pool.lo, pool.hi), wagePaid: 0, injuredUntil: 0, jobsOk: 0,
+    tier, power: rint(s, pool.lo, pool.hi), wagePaid: 0, injuredUntil: 0, jobsOk: 0, bust,
   };
   s.guild.roster.push(m);
-  const msg = `I hired ${m.name} (power ${m.power}, pool tier ${tier}) for ${pool.cost} gold.`;
+  const msg = `I hired ${m.name} (power ${m.power}, pool tier ${tier}) for ${cost} gold${disc ? ` (−${Math.round(disc*100)}% Meet fame)` : ''}.`;
   log(s, msg, 'guild'); return { ok: true, msg, member: m };
 }
 
@@ -1371,11 +1472,14 @@ export function guildYear(s, yrs = 1) {
     log(s, 'No guild jobs this year — fees unpaid or roster empty.', 'guild');
     return;
   }
+  if (g.seized) { log(s, 'A rival holds the hall — no jobs this year.', 'guild'); return; }
   const rosterSize = paidMembers.length;
-  const boardCap = 3 + g.feeTier * 2 + Math.floor((g.renown || 0) / 20);
+  let boardCap = 3 + g.feeTier * 2 + Math.floor((g.renown || 0) / 20);
+  if (crossActive(s) && (s.team.renown || 0) >= 75) boardCap += 1; // +1 soft-cap once/year (always-on while famed)
   const memberCap = rosterSize * jobsEach;
   let jobsThisYear = Math.min(memberCap, boardCap);
   const mult = GUILD_REALM_MULT[g.realmId] || 1;
+  const teamSuc = teamJobSuccessBonus(s);
   let success = 0, fail = 0, gained = 0;
   // assign power-weighted
   const bag = [...paidMembers];
@@ -1383,7 +1487,7 @@ export function guildYear(s, yrs = 1) {
     if (!bag.length) break;
     bag.sort((a, b) => b.power - a.power);
     const m = bag[j % bag.length];
-    let chanceOk = clamp(0.45 + m.power / 200 + g.feeTier * 0.05 + (g.renown || 0) / 200, 0.25, 0.92);
+    let chanceOk = clamp(0.45 + m.power / 200 + g.feeTier * 0.05 + (g.renown || 0) / 200 + teamSuc, 0.25, 0.92);
     let base = rint(s, 15, 60) * (1 + (g.renown || 0) / 100) * mult;
     if (g.realmId === 'thornreed') { chanceOk -= 0.05; base *= 1.15; }
     if (g.realmId === 'emberlight') base *= 1.25;
@@ -1407,7 +1511,93 @@ export function guildYear(s, yrs = 1) {
   const net = gained - feePaid;
   let msg = `Guild year: ${success} jobs done, ${fail} failed. Coffer +${gained} gold (fees ${feePaid}). Renown ${Math.round(g.renown)}.`;
   if (net < 0) msg += ' Fees outpaced the board — lean year.';
+  if (success > 0) s.flags.ui_renown_delta = Math.max(1, Math.min(4, success));
+  syncOwnershipStage(g);
+  if (success > 0) tryTwinBanners(s, 'after guild jobs');
+  // Elf/dwarf long-life beat (Gary v1): rare journal when elder owners keep both banners
+  if (success > 0 && (s.race === 'elf' || s.race === 'dwarf') && cage(s) >= 60 && crossActive(s) && chance(s, 0.12)) {
+    log(s, s.race === 'elf'
+      ? 'Another decade under the same banners — the hall still smells of ink and wet rope.'
+      : 'Stone remembers: the lists and the job board have shared my long years.', 'cross');
+  }
   log(s, msg, 'guild');
+}
+
+
+// ---- seize / reclaim / handoff (Gary locks) ----
+export function seizeTeam(s, rivalName) {
+  ensureTeamGuild(s);
+  if (!s.team || s.team.seized) return { ok: false, msg: 'No active team to seize.' };
+  s.team.seized = true; s.team.rivalId = rivalName || 'Rival captain';
+  s.team.reclaimVia = null;
+  const msg = `A rival captain seized ${s.team.name}. Reclaim by buy-back or a challenge meet.`;
+  log(s, msg, 'team'); return { ok: true, msg };
+}
+export function seizeGuild(s, rivalName) {
+  ensureTeamGuild(s);
+  if (!s.guild || s.guild.seized) return { ok: false, msg: 'No active hall to seize.' };
+  s.guild.seized = true; s.guild.rivalId = rivalName || 'Rival hall-master';
+  s.guild.reclaimVia = null;
+  const msg = `A rival hall-master seized the guild hall. Reclaim by buy-back or a challenge meet.`;
+  log(s, msg, 'guild'); return { ok: true, msg };
+}
+export function reclaimBuyback(s, kind) {
+  ensureTeamGuild(s);
+  const own = kind === 'guild' ? s.guild : s.team;
+  if (!own?.seized) return { ok: false, msg: 'Nothing seized to buy back.' };
+  const cost = kind === 'guild' ? Math.round((GUILD_REALM_COST[own.realmId] || 150) * 0.75) : 60;
+  if (s.gold < cost) return { ok: false, msg: `Buy-back costs ${cost} gold.` };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= cost; own.seized = false; own.reclaimVia = 'buyback'; own.rivalId = null;
+  const msg = `I bought back the ${kind === 'guild' ? 'hall' : 'team'} for ${cost} gold.`;
+  log(s, msg, kind); return { ok: true, msg };
+}
+export function reclaimChallenge(s, kind) {
+  ensureTeamGuild(s);
+  const own = kind === 'guild' ? s.guild : s.team;
+  if (!own?.seized) return { ok: false, msg: 'Nothing seized to challenge.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  if (s.gold < 15) { s.budget.act++; return { ok: false, msg: 'Challenge filing costs 15 gold.' }; }
+  s.gold -= 15;
+  const power = kind === 'team' ? teamPower(s, s.region) : 20 + (own.renown || 0) / 2 + (own.roster || []).reduce((a, m) => a + (m.power || 0), 0) / Math.max(1, (own.roster || []).length);
+  const rival = 28 + rint(s, 0, 20);
+  const win = power + rint(s, -4, 8) >= rival;
+  if (!win) {
+    const msg = `The challenge meet went against me — the rival still holds the ${kind === 'guild' ? 'hall' : 'team'}.`;
+    log(s, msg, kind); return { ok: false, msg };
+  }
+  own.seized = false; own.reclaimVia = 'challenge'; own.rivalId = null;
+  own.renown = softRenown(own.renown || 0, 3);
+  syncOwnershipStage(own);
+  const msg = `I won the challenge meet and reclaimed the ${kind === 'guild' ? 'hall' : 'team'}.`;
+  log(s, msg, kind); return { ok: true, msg };
+}
+/** Handoff priority: heir → apprentice → captain (Gary). */
+export function handoffCandidates(s, kind) {
+  ensureTeamGuild(s);
+  const out = [];
+  const child = living(s, 'child')[0];
+  if (child) out.push({ id: child.id, name: child.first, role: 'heir' });
+  const own = kind === 'guild' ? s.guild : s.team;
+  const apprentice = (own?.roster || []).find((m) => !m.isPlayer);
+  if (apprentice) out.push({ id: apprentice.id, name: apprentice.name || apprentice.first, role: 'apprentice' });
+  const captain = (own?.roster || []).find((m) => m.isPlayer) || (own?.roster || [])[0];
+  if (captain && !out.some((x) => x.id === captain.id)) out.push({ id: captain.id, name: captain.name || s.first, role: 'captain' });
+  return out;
+}
+export function handoffOwnership(s, kind, candidateId) {
+  ensureTeamGuild(s);
+  const own = kind === 'guild' ? s.guild : s.team;
+  if (!own || own.seized) return { ok: false, msg: 'Nothing to hand off.' };
+  const cands = handoffCandidates(s, kind);
+  const pickC = cands.find((c) => c.id === candidateId) || cands[0];
+  if (!pickC) return { ok: false, msg: 'No heir, apprentice, or captain to name.' };
+  own.heirId = pickC.id; own.stage = 'legacy';
+  const snap = { ...own, handedTo: pickC };
+  (s.flags.team_history ||= []).push({ kind, legacy: snap, y: cage(s) });
+  if (kind === 'team') s.team = null; else s.guild = null;
+  const msg = `I named ${pickC.name} (${pickC.role}) successor — the ${kind === 'guild' ? 'hall' : 'team'} passes into legacy.`;
+  log(s, msg, kind); return { ok: true, msg };
 }
 
 export function teamGuildVisitHook(s, loc) {
@@ -1787,10 +1977,12 @@ export function doActivity(s, actId, choiceIdx = 0) {
 // ---- gear shop (Game Dev data_fantasy/gear.json; docs/GEAR_SHOP.md) ----
 export function gearItems() { return Array.isArray(D.gear?.items) ? D.gear.items : []; }
 export const gearDef = (id) => gearItems().find((g) => g.id === id);
-function ensureGear(s) { if (!s.gear) s.gear = { owned: [], equipped: {} }; if (!s.gear.equipped) s.gear.equipped = {}; return s.gear; }
+function ensureGear(s) { if (!s.gear) s.gear = { owned: [], equipped: {} }; if (!s.gear.equipped) s.gear.equipped = {}; if (s.gear.home === undefined) s.gear.home = null; return s.gear; }
+const hasFlag = (g, f) => (g?.flags || []).includes(f);
+const isEquipped = (gr, g) => g.slot === 'home' ? gr.home === g.id : gr.equipped[g.slot] === g.id;
 export function gearBonus(s, sk) {
   if (!s.gear?.equipped) return 0; let b = 0;
-  for (const id of Object.values(s.gear.equipped)) { const g = id && gearDef(id); if (g?.bonus?.[sk]) b += g.bonus[sk]; }
+  for (const id of [...Object.values(s.gear.equipped), s.gear.home]) { const g = id && gearDef(id); if (g?.bonus?.[sk]) b += g.bonus[sk]; }
   return b;
 }
 export function gearLockReason(s, g) {
@@ -1802,26 +1994,53 @@ export function gearLockReason(s, g) {
 }
 export function gearShop(s) {
   const gr = ensureGear(s);
-  return gearItems().map((g) => ({ ...g, owned: gr.owned.includes(g.id), equipped: gr.equipped[g.slot] === g.id, lock: gearLockReason(s, g) }));
+  return gearItems().map((g) => ({ ...g, owned: gr.owned.includes(g.id), equipped: isEquipped(gr, g), rent: hasFlag(g, 'rent'), lock: gearLockReason(s, g) }));
 }
 export function buyGear(s, id) {
   const g = gearDef(id); if (!g) return { ok: false, msg: 'Unknown item.' };
   const gr = ensureGear(s); if (gr.owned.includes(id)) return { ok: false, msg: 'Already owned.' };
   const lr = gearLockReason(s, g); if (lr) return { ok: false, msg: lr };
   if (s.gold < g.price) return { ok: false, msg: 'Not enough gold.' };
-  s.gold -= g.price; gr.owned.push(id); if (!gr.equipped[g.slot]) gr.equipped[g.slot] = id;
+  s.gold -= g.price; gr.owned.push(id);
+  if (g.slot === 'home') {
+    // one active home: renting/buying a new one moves you in; old rent is abandoned
+    const old = gr.home && gearDef(gr.home); if (old && hasFlag(old, 'rent')) gr.owned = gr.owned.filter((x) => x !== old.id);
+    gr.home = id; if (hasFlag(g, 'rent')) gr.rentYearsLeft = 1; else delete gr.rentYearsLeft;
+    if (hasFlag(g, 'hall')) s.flags.owns_hall = 1;
+    s.flags.has_home = 1;
+    const msg = hasFlag(g, 'rent') ? `I rented ${g.name} (${g.price} gold; renews yearly at half).` : `I bought ${g.name} (${g.price} gold) and moved in.`; log(s, msg, 'gear'); return { ok: true, msg };
+  }
+  if (!gr.equipped[g.slot]) gr.equipped[g.slot] = id;
+  if (g.slot === 'mount') s.flags.has_mount = 1;
   const msg = `I bought a ${g.name} (${g.price} gold).`; log(s, msg, 'gear'); return { ok: true, msg };
 }
 export function equipGear(s, id) {
   const g = gearDef(id), gr = ensureGear(s); if (!g || !gr.owned.includes(id)) return { ok: false, msg: 'Not owned.' };
+  if (g.slot === 'home') {
+    if (gr.home === id) return { ok: false, msg: 'You already live here.' };
+    const old = gr.home && gearDef(gr.home); if (old && hasFlag(old, 'rent')) gr.owned = gr.owned.filter((x) => x !== old.id);
+    gr.home = id; delete gr.rentYearsLeft; return { ok: true, msg: `Moved into ${g.name}.` };
+  }
   if (gr.equipped[g.slot] === id) { delete gr.equipped[g.slot]; return { ok: true, msg: `Unequipped ${g.name}.` }; }
   gr.equipped[g.slot] = id; return { ok: true, msg: `Equipped ${g.name}.` };
 }
 export function sellGear(s, id) {
   const g = gearDef(id), gr = ensureGear(s); if (!g || !gr.owned.includes(id)) return { ok: false, msg: 'Not owned.' };
-  const pay = Math.floor(g.price * (D.gear?.sellRate ?? 0.5));
+  const pay = hasFlag(g, 'rent') ? 0 : Math.floor(g.price * (D.gear?.sellRate ?? 0.5));
   gr.owned = gr.owned.filter((x) => x !== id); if (gr.equipped[g.slot] === id) delete gr.equipped[g.slot];
+  if (gr.home === id) { gr.home = null; delete gr.rentYearsLeft; delete s.flags.has_home; }
+  if (hasFlag(g, 'hall')) delete s.flags.owns_hall;
+  if (g.slot === 'mount' && !gr.equipped.mount) delete s.flags.has_mount;
+  if (hasFlag(g, 'rent')) { log(s, `I gave up the room at ${g.name}.`, 'gear'); return { ok: true, msg: `Ended rent at ${g.name}.` }; }
   s.gold += pay; const msg = `Sold ${g.name} for ${pay} gold.`; log(s, msg, 'gear'); return { ok: true, msg };
+}
+
+export function gearYear(s, yrs) {
+  const gr = s.gear; if (!gr?.home) return; const g = gearDef(gr.home); if (!hasFlag(g, 'rent')) return;
+  const due = Math.ceil(g.price / 2) * yrs;
+  if (s.prison) return; // rent held while away
+  if (s.gold >= due) { s.gold -= due; log(s, `Paid ${due} gold rent on ${g.name}.`, 'gear'); }
+  else { gr.owned = gr.owned.filter((x) => x !== g.id); gr.home = null; delete gr.rentYearsLeft; delete s.flags.has_home; log(s, `I could not pay rent and lost my room at ${g.name}.`, 'gear'); }
 }
 
 // ---- prison actions (law.json rules) ----

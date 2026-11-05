@@ -718,3 +718,12 @@ body.info-open .dock{pointer-events:none}
 .toast{top:calc(8px + var(--safe-t));z-index:12;pointer-events:none}
 .tabs{position:relative;z-index:5}
 .dock{position:relative;z-index:6}
+
+/* Tournament team / guild hall art (Character Models + Animator hooks) */
+.bw-mark{width:28px;height:28px;object-fit:contain;vertical-align:middle;margin-right:6px;image-rendering:pixelated}
+.bw-mark.lg{width:40px;height:40px}
+.roster-bust{width:40px;height:40px;border-radius:8px;object-fit:cover;image-rendering:pixelated;border:1.5px solid var(--line,#c9b896);background:#efe2c0;flex:0 0 auto}
+.row.roster-row{align-items:center;gap:8px}
+.row.roster-row>div{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.bw-banner{margin:0 0 8px}
+.bw-renown-chip{display:inline-flex;align-items:center;gap:6px;position:relative}

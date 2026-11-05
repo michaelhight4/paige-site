@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" role="img" aria-label="gold mote">
+  <defs>
+    <radialGradient id="m" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#FFF8E0"/>
+      <stop offset="45%" stop-color="#E0B14A"/>
+      <stop offset="100%" stop-color="#E0B14A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="8" cy="8" r="7" fill="url(#m)"/>
+  <path d="M8 2.5 V13.5 M2.5 8 H13.5" stroke="#FFF8E0" stroke-width="1.1" stroke-linecap="round" opacity="0.75"/>
+</svg>

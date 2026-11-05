@@ -13,6 +13,69 @@ const Q = new URLSearchParams(location.search);
 let P, s, meta, tab = 'life', fate;
 const T = (k) => P.terms.ui[k] || k;
 const GRID = 'assets/sprites_192/grid/';
+const ROSTER = 'assets/sprites_192/roster/';
+const UIICO = 'assets/icons/ui/';
+function ensureTourMotion() {
+  if (document.getElementById('bw-tourney-motion')) return;
+  const l = document.createElement('link'); l.id = 'bw-tourney-motion'; l.rel = 'stylesheet';
+  l.href = 'assets/ui_motion/tournament_motion.css'; document.head.append(l);
+}
+function pauseMotionOnHide() {
+  const apply = () => { document.documentElement.dataset.motion = document.hidden ? 'paused' : (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : ''); };
+  if (!window.__bwMotionVis) { window.__bwMotionVis = 1; document.addEventListener('visibilitychange', apply); apply(); }
+}
+function rosterBust(m) {
+  if (m?.isPlayer) return '';
+  const n = Math.max(1, Math.min(4, m?.bust || ((parseInt(String(m?.id || '').replace(/\D/g, ''), 10) || 1) % 4) + 1));
+  return `<img class="roster-bust" src="${ROSTER}adventurer_${n}.png" alt="" width="40" height="40" loading="lazy" onerror="this.remove()">`;
+}
+function markImg(kind) {
+  // prefer icons/ui; guild/ mirror is fallback
+  const file = kind === 'guild' ? 'guild_crest.png' : 'tournament_banner.png';
+  return `<img class="bw-mark" src="${UIICO}${file}" alt="" width="28" height="28" loading="lazy" onerror="this.src='assets/guild/${file}';this.onerror=null">`;
+}
+function bannerHTML(variant, label) {
+  ensureTourMotion(); pauseMotionOnHide();
+  return `<div class="bw-banner bw-banner--${variant}"><div class="bw-banner-flag"><img src="assets/ui_motion/banner_pennant.svg" alt="" width="28" height="40">${esc(label)}</div></div>`;
+}
+function renownChip(label, val) {
+  return `<span class="bw-renown-chip bar-renown" data-renown-host="1"><b>${esc(label)}</b> ${Math.round(val)}<span class="bw-renown-tick-up" aria-hidden="true"></span><i class="bw-renown-burst" aria-hidden="true"></i></span>`;
+}
+function victoryShell(inner) {
+  return `<div class="bw-victory-sparkle" data-victory-host="1"><div class="bw-victory-burst" aria-hidden="true">${Array(8).fill('<span class="bw-victory-confetti"></span>').join('')}</div>${inner}</div>`;
+}
+function fireRenownTick(host, delta) {
+  if (!host || !delta) return;
+  let up = host.querySelector('.bw-renown-tick-up');
+  if (!up) { up = document.createElement('span'); up.className = 'bw-renown-tick-up'; host.append(up); }
+  up.textContent = (delta >= 0 ? '+' : '') + delta;
+  host.classList.remove('is-ticking'); void host.offsetWidth; host.classList.add('is-ticking'); up.classList.add('is-ticking');
+  const clear = () => { host.classList.remove('is-ticking'); up.classList.remove('is-ticking'); };
+  host.addEventListener('animationend', clear, { once: true }); setTimeout(clear, 900);
+}
+function fireVictory(card) {
+  if (!card) return;
+  card.classList.remove('is-victorious'); void card.offsetWidth; card.classList.add('is-victorious');
+  const clear = () => card.classList.remove('is-victorious');
+  card.addEventListener('animationend', clear, { once: true }); setTimeout(clear, 1600);
+}
+function consumeMotionFlags() {
+  if (!s?.flags) return;
+  requestAnimationFrame(() => {
+    if (s.flags.ui_renown_delta) {
+      const host = document.querySelector('[data-renown-host]');
+      if (host) fireRenownTick(host, s.flags.ui_renown_delta);
+      s.flags.ui_renown_delta = 0;
+    }
+    if (s.flags.ui_victory) {
+      const card = document.querySelector('[data-victory-host]');
+      if (card) fireVictory(card);
+      s.flags.ui_victory = 0;
+    }
+    if (s.flags.ui_twin_banners) { toast('Twin banners'); s.flags.ui_twin_banners = 0; }
+  });
+}
+
 function initials(name) {
   return String(name || '').trim().split(/\s+/).filter(Boolean).map((w) => w[0]).join('').slice(0, 2).toUpperCase() || '?';
 }
@@ -216,17 +279,21 @@ function body() {
     if (!s.guild) {
       const gate = E.canFoundGuild(s, s.region);
       const cost = gate.cost || 150;
-      guildBody = `<p class="sub">Own one hall. Adventurers take jobs for a yearly fee — higher fee means more jobs and stronger hires. Unlock age 18+.</p>
+      guildBody = `${bannerHTML('guild', 'Guild hall')}<p class="sub">${markImg('guild')} Own one hall. Adventurers take jobs for a yearly fee — higher fee means more jobs and stronger hires. Unlock age 18+. Clerk writs welcome.</p>
         <div class="actions"><button data-a="gfound" data-v="${esc(s.region)}" ${gate.ok ? '' : 'disabled'} title="${esc(gate.ok ? '' : (gate.msg || ''))}">Open hall here (${cost}g + 1 act)</button></div>
         ${gate.ok ? '' : `<p class="sub lock-why">${esc(gate.msg || '')}</p>`}`;
     } else {
       const g = s.guild;
       const fee = ['Low 20', 'Mid 50', 'High 100'][g.feeTier] || 'Mid';
-      const roster = (g.roster || []).map((m) => `<div class="row"><div><b>${esc(m.name)}</b> <small>power ${m.power}${m.injuredUntil > E.cage(s) ? ' · injured' : ''}</small></div>
+      const roster = (g.roster || []).map((m) => `<div class="row roster-row"><div>${rosterBust(m)}<div><b>${esc(m.name)}</b> <small>power ${m.power}${m.injuredUntil > E.cage(s) ? ' · injured' : ''}</small></div></div>
         <button data-a="gfire" data-v="${m.id}">Release</button></div>`).join('') || '<div class="empty">No adventurers hired.</div>';
       const hireTier = E.guildHireTier(s);
       const hireCost = [30, 55, 90, 140][hireTier];
-      guildBody = `<p class="sub"><b>${esc(E.guildLabel(s))}</b> in ${esc((P.regions.find(r=>r.id===g.realmId)||{}).name || g.realmId)} · renown ${Math.round(g.renown)} · coffer ${Math.floor(g.coffer)} gold · fee <b>${fee}</b>/adv/yr · jobs ok ${g.jobsDone || 0} / fail ${g.jobsFailed || 0}</p>
+      const seizeRow = g.seized ? `<p class="sub">Rival hall-master holds the hall. Reclaim: <button data-a="greclaim" data-v="buyback">Buy-back</button> <button data-a="greclaim" data-v="challenge">Challenge meet</button></p>` : '';
+      const handC = E.handoffCandidates(s, 'guild');
+      const handRow = (!g.seized && (E.cage(s) >= 50 || handC.length)) ? `<div class="actions"><small>Handoff (heir→apprentice→captain):</small>${handC.map((c)=>`<button data-a="ghand" data-v="${c.id}">${esc(c.name)} (${esc(c.role)})</button>`).join('')}</div>` : '';
+      const crossNote = E.crossActive(s) ? `<p class="sub">Cross banners on — team fame softens hire costs &amp; job odds.</p>` : '';
+      guildBody = `${bannerHTML('guild', E.guildLabel(s))}${seizeRow}<p class="sub">${markImg('guild')}<b>${esc(E.guildLabel(s))}</b> · stage ${esc(g.stage || 'founding')} in ${esc((P.regions.find(r=>r.id===g.realmId)||{}).name || g.realmId)} · ${renownChip('renown', g.renown)} · coffer ${Math.floor(g.coffer)} gold · fee <b>${fee}</b>/adv/yr · jobs ok ${g.jobsDone || 0} / fail ${g.jobsFailed || 0}</p>${crossNote}
         <div class="actions">
           <button data-a="gfee" data-v="0" ${g.feeTier===0?'disabled':''}>Fee Low</button>
           <button data-a="gfee" data-v="1" ${g.feeTier===1?'disabled':''}>Fee Mid</button>
@@ -236,9 +303,9 @@ function body() {
         <div class="actions"><button data-a="ghire" ${(g.roster||[]).length>=6 || s.gold < hireCost ? 'disabled' : ''}>Hire (${hireCost}g · tier ${hireTier})</button>
           <button data-a="gwithdraw" ${!(g.coffer>0) || s.budget.act < 1 ? 'disabled' : ''}>Withdraw coffer (1 act)</button>
           <button data-a="gclose" class="ghost">Close hall</button></div>
-        <p class="sub">Jobs resolve on Age +1. Fees from coffer first, then purse. Halls: Mossbeam / Tidebell / Reedlodge / Quillkey / Cinderhorn.</p>`;
+        ${handRow}<p class="sub">Jobs resolve on Age +1. Fees from coffer first, then purse. Halls: Mossbeam / Tidebell / Reedlodge / Quillkey / Cinderhorn.</p>`;
     }
-    const guildAcc = acc('guild', `${ico('adventure')} Adventure guild hall <small>${s.guild ? E.guildLabel(s) : (ca >= 18 ? 'open one' : 'age 18+')}</small>`, guildBody, !!s.guild || ca >= 18);
+    const guildAcc = acc('guild', `${markImg('guild')} Adventure guild hall <small>${s.guild ? E.guildLabel(s) : (ca >= 18 ? 'open one' : 'age 18+')}</small>`, guildBody, !!s.guild || ca >= 18);
     return cur + openingsAcc + bizAcc + guildAcc + courtAcc + mentAcc + clubCard;
   }
   if (tab === 'adv') {
@@ -250,8 +317,8 @@ function body() {
     const br = E.tourneyBracket(s);
     const inv = E.tournamentInvites(s);
     const tourneyCard = E.isTournamentYear(s)
-      ? card('adv', `${ico('adventure')} Tournaments · bracket ${esc(br?.label || '—')}`,
-          `<p class="sub">Meets every 3 years. Entry costs <b>1 action</b>. Place for gold &amp; renown — strong finishes draw academies, tutors, and blade halls.</p>
+      ? card('adv', `<img class="tourney-banner-ico" src="assets/icons/ui/tournament_banner.png" alt="" width="24" height="24" onerror="this.remove()"> Tournaments · bracket ${esc(br?.label || '—')}`,
+          `${bannerHTML('tourney', 'Tournament year')}<p class="sub">Meets every 3 years. Entry costs <b>1 action</b>. Place for gold &amp; renown — strong finishes draw academies, tutors, and blade halls.</p>
            ${offers.length ? offers.map((o) => `<div class="row"><div><b>${esc(o.title)}</b> <small>${esc(o.skillName)} · ${esc(o.bracket)}</small><br><small>${esc(o.blurb)}</small></div>
              <button data-a="tourney" data-v="${o.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Enter</button></div>`).join('')
              : '<div class="empty">Train a competing skill (blade, spark, cook, smith, marks…) then return.</div>'}
@@ -272,19 +339,23 @@ function body() {
           const ok = v >= 20 && s.gold >= 80 && s.budget.act >= 1;
           return `<button data-a="tfound" data-v="${id}" ${ok ? '' : 'disabled'}>${esc(sk?.name || id)} (${Math.floor(v)})${v < 20 ? ' · need 20' : ''}</button>`;
         }).join('');
-        teamCard = card('adv', `${ico('renown')} Tournament team`,
-          `<p class="sub">Found a team around one skill affinity (80 gold + 1 act). Realm meets: Visit Ribbon Green / Saltpier Ring / Stakeline / Crestfall / Sparkfield. Grand <b>Teams</b> bracket every 3 years.</p>
+        teamCard = card('adv', `${markImg('team')} Tournament team`,
+          `${bannerHTML('team', 'Tournament team')}<p class="sub">Register with the Clerk of Meets — one skill affinity (80 gold + 1 act). Realm meets: Visit Ribbon Green / Saltpier Ring / Stakeline / Crestfall / Sparkfield. Grand <b>Teams</b> bracket every 3 years.</p>
            <div class="actions">${picks}</div>`);
       } else {
         const tm = s.team;
         const skName = P.skills.skills.find((x) => x.id === tm.affinitySkill)?.name || tm.affinitySkill;
-        const roster = (tm.roster || []).map((m) => `<div class="row"><div><b>${esc(m.name)}</b> <small>${m.isPlayer ? 'captain · ' : ''}power ${Math.floor(m.power)}</small></div>
+        const roster = (tm.roster || []).map((m) => `<div class="row roster-row"><div>${rosterBust(m)}<div><b>${esc(m.name)}</b> <small>${m.isPlayer ? 'captain · ' : ''}power ${Math.floor(m.power)}</small></div></div>
           <button data-a="tfire" data-v="${m.id}">${m.isPlayer ? 'Step down' : 'Release'}</button></div>`).join('') || '<div class="empty">Empty roster — hire or captain.</div>';
         const meetGate = E.canEnterRealmMeet(s);
         const grandGate = E.canEnterTeamGrand(s);
         const hasCap = (tm.roster || []).some((m) => m.isPlayer);
-        teamCard = card('adv', `${ico('renown')} Team · ${esc(tm.name)}`,
-          `<p class="sub">Affinity <b>${esc(skName)}</b> · renown ${Math.round(tm.renown)} · power ${Math.round(E.teamPower(s))} · wins realm ${tm.wins?.realm || 0} / grand ${tm.wins?.grand || 0} · roster ${(tm.roster||[]).length}/4</p>
+        const tSeize = tm.seized ? `<p class="sub">Rival holds the team. <button data-a="treclaim" data-v="buyback">Buy-back</button> <button data-a="treclaim" data-v="challenge">Challenge meet</button></p>` : '';
+        const tHand = E.handoffCandidates(s, 'team');
+        const tHandRow = (!tm.seized && (ca >= 50 || tHand.length)) ? `<div class="actions"><small>Handoff (heir→apprentice→captain):</small>${tHand.map((c)=>`<button data-a="thand" data-v="${c.id}">${esc(c.name)} (${esc(c.role)})</button>`).join('')}</div>` : '';
+        const crossT = E.crossActive(s) ? `<p class="sub">Cross banners on — hall renown steadies the lists (power +${E.guildToTeamPowerBonus(s, s.region)}).</p>` : '';
+        teamCard = victoryShell(card('adv', `${markImg('team')} Team · ${esc(tm.name)}`,
+          `${bannerHTML('team', tm.name)}${tSeize}<p class="sub">Affinity <b>${esc(skName)}</b> · stage ${esc(tm.stage || 'founding')} · ${renownChip('renown', tm.renown)} · power ${Math.round(E.teamPower(s))} · wins realm ${tm.wins?.realm || 0} / grand ${tm.wins?.grand || 0} · roster ${(tm.roster||[]).length}/4</p>${crossT}
            ${roster}
            <div class="actions">
              <button data-a="thire" ${(tm.roster||[]).length >= 4 || s.gold < 25 ? 'disabled' : ''}>Hire NPC (25g)</button>
@@ -296,8 +367,9 @@ function body() {
            <p class="sub">${s.flags.meet_venue_ready ? `Lists ready at <b>${esc(String(s.flags.meet_venue_ready))}</b>.` : (s.flags.notice_team_meet ? 'A notice-board invite is waiting.' : 'Visit a Tournament/Arena venue first (or notice invite). Max 2/year.')}</p>
            <div class="actions"><button data-a="tmeet" ${meetGate.ok ? '' : 'disabled'} title="${esc(meetGate.ok?'':meetGate.msg)}">Enter realm meet (10g + 1 act)</button></div>
            ${E.isTournamentYear(s) ? `<h3>Grand Teams bracket</h3>
-             <p class="sub">Beside Blade/Spark/craft. Need roster 2+, renown 5+ or a realm win.</p>
-             <div class="actions"><button data-a="tgrand" class="primary" ${grandGate.ok ? '' : 'disabled'} title="${esc(grandGate.ok?'':grandGate.msg)}">Enter Teams (20g + 1 act)</button></div>` : ''}`);
+             <p class="sub">Beside Blade/Spark/craft. Meet judges watch the lists. Need roster 2+, renown 5+ or a realm win.</p>
+             <div class="actions"><button data-a="tgrand" class="primary" ${grandGate.ok ? '' : 'disabled'} title="${esc(grandGate.ok?'':grandGate.msg)}">Enter Teams (20g + 1 act)</button></div>` : ''}
+           ${tHandRow}`));
       }
     }
     return tourneyCard + teamCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${ca < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
@@ -437,11 +509,14 @@ function gearHTML() {
   const items = E.gearShop(s); if (!items.length) return '<h3>Gear shop</h3><div class="empty">The gear stalls are still setting up.</div>';
   const gi = (g) => `<img class="gear-ico" src="assets/gear/${g.id}.png" alt="" width="28" height="28" loading="lazy" onerror="this.remove()">`;
   const bon = (g) => Object.entries(g.bonus || {}).map(([k, v]) => `${esc(k.replace(/_/g, ' '))} +${v}`).join(', ');
-  const owned = items.filter((g) => g.owned).map((g) => `<div class="row"><div>${gi(g)}<b>${esc(g.name)}</b> <small>${g.slot}${g.equipped ? ' · equipped' : ''} · ${bon(g)}</small></div><span><button data-a="gequip" data-v="${g.id}">${g.equipped ? 'Unequip' : 'Equip'}</button><button data-a="gsell" data-v="${g.id}">Sell ${Math.floor(g.price * (P.gear?.sellRate ?? 0.5))}</button></span></div>`).join('');
+  const eqLabel = (g) => g.slot === 'home' ? (g.equipped ? 'Home' : 'Move in') : g.slot === 'mount' ? (g.equipped ? 'Dismount' : 'Ride') : (g.equipped ? 'Unequip' : 'Equip');
+  const owned = items.filter((g) => g.owned).map((g) => `<div class="row"><div>${gi(g)}<b>${esc(g.name)}</b> <small>${g.slot}${g.equipped ? (g.slot === 'home' ? ' · living here' : ' · equipped') : ''}${g.rent ? ` · rent ${Math.ceil(g.price / 2)}/yr` : ''} · ${bon(g)}</small></div><span><button data-a="gequip" data-v="${g.id}" ${g.slot === 'home' && g.equipped ? 'disabled' : ''}>${eqLabel(g)}</button><button data-a="gsell" data-v="${g.id}">${g.rent ? 'End rent' : 'Sell ' + Math.floor(g.price * (P.gear?.sellRate ?? 0.5))}</button></span></div>`).join('');
   const slots = P.gear?.slots || [...new Set(items.map((g) => g.slot))];
   const shop = slots.map((sl) => {
-    const rows = items.filter((g) => g.slot === sl && !g.owned).sort((a, b) => a.price - b.price).map((g) => `<div class="row"><div>${gi(g)}<b>${esc(g.name)}</b> <small>${ico('gold')}${g.price} · ${esc(g.realm || '')} · ${bon(g)}</small><br><small>${flare(g.desc || '')}</small></div><button data-a="gbuy" data-v="${g.id}" ${g.lock || s.gold < g.price ? 'disabled' : ''}>${g.lock ? esc(g.lock) : 'Buy'}</button></div>`).join('');
-    return acc('gear_' + sl, `${esc(sl[0].toUpperCase() + sl.slice(1))}s <small>${items.filter((g) => g.slot === sl).length}</small>`, rows || '<div class="empty">All owned.</div>', false);
+    const rows = items.filter((g) => g.slot === sl && !g.owned).sort((a, b) => a.price - b.price).map((g) => `<div class="row"><div>${gi(g)}<b>${esc(g.name)}</b> <small>${ico('gold')}${g.price} · ${esc(g.realm || '')} · ${bon(g)}</small><br><small>${flare(g.desc || '')}</small></div><button data-a="gbuy" data-v="${g.id}" ${g.lock || s.gold < g.price ? 'disabled' : ''}>${g.lock ? esc(g.lock) : g.rent ? 'Rent' : 'Buy'}</button></div>`).join('');
+    const SL = { home: 'Homes', mount: 'Mounts', armor: 'Armor' };
+    const sico = `<img class="gear-slot-ico" src="assets/gear/slot_${sl}.png" alt="" width="20" height="20" onerror="this.remove()">`;
+    return acc('gear_' + sl, `${sico}${esc(SL[sl] || sl[0].toUpperCase() + sl.slice(1) + 's')} <small>${items.filter((g) => g.slot === sl).length}</small>`, rows || '<div class="empty">All owned.</div>', false);
   }).join('');
   return `<h3>${ico('adventure')} Gear</h3>${owned || '<div class="empty">No gear yet.</div>'}<h3>Gear shop</h3>${shop}`;
 }
@@ -570,6 +645,10 @@ app.addEventListener('click', (ev) => {
   else if (a === 'gfire') r = E.fireGuildAdventurer(s, v);
   else if (a === 'gwithdraw') r = E.withdrawGuildCoffer(s, s.guild?.coffer || 0);
   else if (a === 'gclose') r = E.closeGuild(s);
+  else if (a === 'treclaim') r = v === 'challenge' ? E.reclaimChallenge(s, 'team') : E.reclaimBuyback(s, 'team');
+  else if (a === 'greclaim') r = v === 'challenge' ? E.reclaimChallenge(s, 'guild') : E.reclaimBuyback(s, 'guild');
+  else if (a === 'thand') r = E.handoffOwnership(s, 'team', v);
+  else if (a === 'ghand') r = E.handoffOwnership(s, 'guild', v);
   else if (a === 'music') { unlockMusic(); toggleMute(); return; }
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();

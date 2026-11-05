@@ -30,6 +30,8 @@ Design locked. Engine/UI not built yet (pack map still listed “troupe deep loo
 
 
 ## Balance sheets (Game Dev · Nov 5, 2026)
+- Cross team↔guild bonuses (ON v1): [`CROSS_BONUSES.md`](./CROSS_BONUSES.md)
+
 - Tournament numbers: [`TOURNAMENT_TEAMS_BALANCE.md`](./TOURNAMENT_TEAMS_BALANCE.md)
 - Guild hall numbers: [`GUILD_HALLS_BALANCE.md`](./GUILD_HALLS_BALANCE.md)
 These supersede the interim defaults below where they conflict.
