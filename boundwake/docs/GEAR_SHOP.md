@@ -1,5 +1,7 @@
 > **Game Dev · Nov 5, 2026** — data only; Coder wires UI. Do not edit `src/` from this task.
 # Gear shop
+
+> Yearly trade marks / Bartering loop: see [`YEARLY_MARKET.md`](./YEARLY_MARKET.md) + `data_fantasy/market.json` (separate from this gear shop).
 ## Data
 - File: `/workspace/boundwake/data_fantasy/gear.json`
 - **44 items** across slots `weapon, armor, trinket, tool, home, mount`.

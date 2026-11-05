@@ -361,12 +361,19 @@ function body() {
     const tourneyEmpty = enteredIds.length
       ? `<div class="empty">No further meets open for your skills this year — you already entered ${enteredIds.length === 1 ? 'a list' : 'your lists'}. Train other meet skills (blade, cook, smith, marks…) if you want another entry before the year ends.</div>`
       : `<div class="empty">Bracket ${esc(br?.label || '')} is open, but no meet matches your trained skills yet. Train blade, spark, cook, smith, marks… on Skills (use Train so the skill counts), then return this year.</div>`;
+    const teamMeetGate = E.canEnterTeamMeet(s);
+    const teamMeetRow = `<h3>Teams meet</h3>
+      <p class="sub">${teamMeetGate.ok
+        ? (teamMeetGate.mode === 'party' ? 'Enter with your <b>party bonds</b> (scratch side) or a founded team.' : 'Grand Teams / team lists are open.')
+        : esc(teamMeetGate.msg || 'Teams gate not met.')}</p>
+      <div class="actions"><button data-a="tmeetall" class="primary" ${teamMeetGate.ok ? '' : 'disabled'} title="${esc(teamMeetGate.ok ? '20g + 1 act' : (teamMeetGate.msg || ''))}">Enter Teams (20g + 1 act)</button></div>`;
     const tourneyCard = E.isTournamentYear(s)
       ? card('adv', `<img class="tourney-banner-ico" src="assets/icons/ui/tournament_banner.png" alt="" width="24" height="24" onerror="this.remove()"> Tournaments · bracket ${esc(br?.label || '—')}`,
           `${bannerHTML('tourney', 'Tournament year')}<p class="sub">Meets every 3 years. Entry costs <b>1 action</b>. Place for gold &amp; renown — strong finishes draw academies, tutors, and blade halls.</p>${enteredNote}
            ${offers.length ? offers.map((o) => `<div class="row"><div><b>${esc(o.title)}</b> <small>${esc(o.skillName)} · ${esc(o.bracket)}</small><br><small>${esc(o.blurb)}</small></div>
              <button data-a="tourney" data-v="${o.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Enter</button></div>`).join('')
              : tourneyEmpty}
+           ${teamMeetRow}
            ${inv.length ? `<h3>Invitations</h3>${inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join('')}` : ''}`)
       : (inv.length
         ? card('adv', `${ico('adventure')} Invitations`, inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join(''))
@@ -575,10 +582,59 @@ function body() {
       : `<div class="empty">No hall yet.${E.cage(s) >= 18 ? ' Open one from <b>Work → Adventure guild hall</b>.' : ' Unlocks at age 18.'}</div><div class="actions"><button data-tab="work">Go to Work</button></div>`}
       <h3>${ico('work')} Workshops</h3>${biz}
       <h3>${ico('codex')} Notice boards</h3><p class="sub">Readers: ${s.notices?.followers || 0} · posts ${s.notices?.posts || 0}</p>${boards || '<div class="empty">No boards yet.</div>'}
+      ${marketHTML()}
       ${gearHTML()}`);
   }
   return '';
 }
+
+function marketHTML() {
+  const ca = E.cage(s);
+  const minAge = P.market?.unlock?.minAge ?? 10;
+  if (ca < minAge) return `<h3>${ico('gold')} Yearly market</h3><div class="empty">Stalls open at age ${minAge}+.</div>`;
+  const listings = E.marketListings(s);
+  const cart = E.marketCart(s);
+  const inv = E.marketInv(s);
+  const tot = E.marketCartTotal(s);
+  const disc = Math.round((E.barterBuyDiscount?.(s) || 0) * 100);
+  const sellR = Math.round((E.barterSellRate?.(s) || E.barterSellMult(s) || 0.55) * 100);
+  const bart = Math.floor(s.skills?.bartering || 0);
+  const markLbl = (pct) => {
+    if (pct <= -12) return `<span class="mkt-good">${pct}%</span>`;
+    if (pct < 0) return `<span class="mkt-ok">${pct}%</span>`;
+    if (pct <= 3) return `<span class="mkt-fair">${pct === 0 ? 'fair' : (pct > 0 ? '+' : '') + pct + '%'}</span>`;
+    if (pct <= 12) return `<span class="mkt-hi">+${pct}%</span>`;
+    return `<span class="mkt-bad">+${pct}%</span>`;
+  };
+  const catName = (id) => (P.market?.categories || []).find((c) => c.id === id)?.name || id;
+  const rows = listings.map((row) => {
+    const sold = row.stock <= 0;
+    return `<div class="row"><div><b>${esc(row.name)}</b> <small>${esc(catName(row.cat))} · ${esc(row.realm || '')}</small><br>
+      <small>normal ${row.basePrice}g · <b>${markLbl(row.markPct)}</b> vs normal → list ${row.listPrice}g · you <b>${row.buyPrice}g</b> · stock ${row.stock}</small><br>
+      <small>${flare(row.desc || '')}</small></div>
+      <button data-a="mktadd" data-v="${row.id}" ${sold ? 'disabled' : ''}>${sold ? 'Sold out' : 'Add'}</button></div>`;
+  }).join('') || '<div class="empty">No stalls this year.</div>';
+  const cartRows = cart.map((c) => {
+    const row = listings.find((x) => x.id === c.id);
+    const name = row?.name || c.id;
+    const unit = row ? row.buyPrice : 0;
+    return `<div class="row"><div><b>${esc(name)}</b> <small>×${c.qty} · ${unit * c.qty}g after barter</small></div>
+      <span><button data-a="mktrem" data-v="${c.id}">Remove</button></span></div>`;
+  }).join('') || '<div class="empty">Cart empty.</div>';
+  const invRows = inv.map((c) => {
+    const def = (P.market?.items || []).find((x) => x.id === c.id);
+    const pay = E.marketSellPayout(s, c.id);
+    return `<div class="row"><div><b>${esc(def?.name || c.id)}</b> <small>×${c.qty} · sell ${pay}g each</small></div>
+      <button data-a="mktsell" data-v="${c.id}">Sell 1</button></div>`;
+  }).join('') || '<div class="empty">No trade packs yet — checkout to fill your packs.</div>';
+  return `<h3>${ico('gold')} Yearly market</h3>
+    <p class="sub">${flare(P.market?.notes || 'Trade goods with yearly marks. Gear/homes/mounts stay in the Gear shop below.')} Bartering <b>${bart}</b> · buy −${disc}% · sell rate ${sellR}%.</p>
+    <div class="mkt-board">${rows}</div>
+    <h3>Cart</h3>${cartRows}
+    <div class="actions"><button data-a="mktout" class="primary" ${!cart.length || s.gold < tot.pay ? 'disabled' : ''}>Checkout ${tot.pay}g${tot.saved ? ` (save ${tot.saved}g)` : ''}</button></div>
+    <h3>Market packs (sell)</h3>${invRows}`;
+}
+
 function gearHTML() {
   const acc = (id, title, body, open) => `<details class="work-acc panel-work"${open ? ' open' : ''} data-work-acc="${id}"><summary class="work-acc-hd">${title}</summary><div class="work-acc-body">${body}</div></details>`;
   const items = E.gearShop(s); if (!items.length) return '<h3>Gear shop</h3><div class="empty">The gear stalls are still setting up.</div>';
@@ -741,6 +797,10 @@ app.addEventListener('click', (ev) => {
   else if (a === 'hire') r = E.hireStaff(s, b.dataset.w, v);
   else if (a === 'fire') r = E.fireStaff(s, b.dataset.w, v);
   else if (a === 'wup') r = E.buyUpgrade(s, b.dataset.w, v);
+  else if (a === 'mktadd') r = E.marketCartAdd(s, v);
+  else if (a === 'mktrem') r = E.marketCartRemove(s, v);
+  else if (a === 'mktout') r = E.marketCheckout(s);
+  else if (a === 'mktsell') r = E.marketSell(s, v);
   else if (a === 'gbuy') r = E.buyGear(s, v);
   else if (a === 'gequip') r = E.equipGear(s, v);
   else if (a === 'gsell') r = E.sellGear(s, v);
@@ -757,6 +817,7 @@ app.addEventListener('click', (ev) => {
   else if (a === 'tdisband') r = E.disbandTeam(s);
   else if (a === 'tmeet') r = E.enterRealmMeet(s);
   else if (a === 'tgrand') r = E.enterTeamGrand(s);
+  else if (a === 'tmeetall') r = E.enterTeamMeet(s);
   else if (a === 'gfound') r = E.foundGuild(s, v || s.region);
   else if (a === 'gfee') r = E.setGuildFee(s, +v);
   else if (a === 'ghire') r = E.hireGuildAdventurer(s);

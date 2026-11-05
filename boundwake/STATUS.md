@@ -1,3 +1,25 @@
+## DEPLOY ready — Market (Game Dev) + Autopilot + TB2/Soccer/Story — Coder Nov 5 ~5:45 PM CT
+
+### Yearly Market (Game Dev `YEARLY_MARKET.md` / `market.json`)
+- OPTIONAL pack load `market.json` (36 trade goods)
+- Belongings → Yearly Market: listings with **% vs normal**, cart → checkout, sell from packs
+- Bartering: buy discount + sell rate per Game Dev formulas; XP capped +4/yr
+- Seeded per cage year + realm; minAge **10**; gear/homes/mounts stay on Gear shop
+- Autopilot does **not** auto-buy Market (player-driven)
+
+### Also in this ship
+- Autopilot/Skip 1/5/10/25/custom (Life + Age dock)
+- TB2: baby magic 6+, Skills/Work crush, tourney empty copy, jail fmt/job-drop, healer dedupe, pool-tier, belongings team copy
+- Soccer v3: Adventure flare→tab, Stall Hand apron fee shown, journal scroll, unique names, crime 12+, favicon
+- Story Bot: Teams Meet on Adventure when team **or** party 2+ & skill 15+ @15; journal copy aligned; modal choice hit-target (sheet z-index, flare pointer-events none)
+- Death age vs cemetery (68 vs 65): noted for later polish — not blocking
+
+### Pack / smoke
+- Expansion **225** / own **27** / market goods **36**
+- Smoke: **PASS**
+- Path: `/workspace/boundwake` · live https://paigegames.net/boundwake/
+- Lifeline untouched
+
 ## Live note — edae02a8 (TB2 + Soccer v3 + Autopilot)
 
 - Smoke PASS · expansion 225 / own 27

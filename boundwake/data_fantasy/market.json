@@ -1,0 +1,437 @@
+{
+  "version": 1,
+  "currency": "gold",
+  "notes": "Yearly Market — trade goods only (not gear slots). Marks refresh each cage year. Bartering softens buy price and lifts sell payout. No tobacco/drugs/alcohol. Icons optional later: assets/market/<id>.png",
+  "unlock": {
+    "minAge": 10
+  },
+  "listingsPerYear": {
+    "min": 9,
+    "max": 14
+  },
+  "stockPerListing": {
+    "min": 1,
+    "max": 6
+  },
+  "cartMaxLines": 12,
+  "cartMaxQtyPerLine": 20,
+  "inventoryMaxKinds": 24,
+  "act": {
+    "browse": 0,
+    "checkout": 0,
+    "sell": 0,
+    "note": "Opening Market from Belongings/Adventure is free once listings exist for the year. Visit market/stall locations still give the old crowd-work coin + bartering XP."
+  },
+  "seed": {
+    "key": "marketYear",
+    "fields": ["runSeed", "yearFloor", "realmId"],
+    "note": "Derive a mulberry32 seed from save RNG seed + Math.floor(cage age) + current region id so listings/marks are stable for the year and differ by realm."
+  },
+  "markBands": [
+    { "id": "glut", "label": "Glut", "pctMin": -25, "pctMax": -12, "weight": 1 },
+    { "id": "soft", "label": "Soft", "pctMin": -11, "pctMax": -4, "weight": 2 },
+    { "id": "fair", "label": "Fair", "pctMin": -3, "pctMax": 3, "weight": 3 },
+    { "id": "firm", "label": "Firm", "pctMin": 4, "pctMax": 12, "weight": 2 },
+    { "id": "dear", "label": "Dear", "pctMin": 13, "pctMax": 28, "weight": 1 }
+  ],
+  "barter": {
+    "skillId": "bartering",
+    "buyDiscountPer10": 0.02,
+    "buyDiscountCap": 0.2,
+    "sellBonusPer10": 0.025,
+    "sellBonusCap": 0.25,
+    "baseSellRate": 0.55,
+    "xpOnCheckout": 1.0,
+    "xpOnSell": 0.8,
+    "xpCapPerYear": 4.0
+  },
+  "realmWeight": {
+    "home": 3,
+    "otherUnlocked": 1,
+    "locked": 0
+  },
+  "ui": {
+    "tabHint": "Yearly Market",
+    "pctLabel": "% vs normal",
+    "pctNote": "Show markPct on each listing (year mark before personal Bartering). Show effective buy/sell gold after Bartering under the price.",
+    "excludeFromMarket": ["home", "mount"]
+  },
+  "formulas": {
+    "listPrice": "Math.max(1, Math.round(basePrice * (1 + markPct / 100)))",
+    "buyDiscount": "Math.min(buyDiscountCap, Math.floor(bartering / 10) * buyDiscountPer10)",
+    "buyPrice": "Math.max(1, Math.floor(listPrice * (1 - buyDiscount)))",
+    "sellRate": "Math.min(0.95, baseSellRate + Math.min(sellBonusCap, Math.floor(bartering / 10) * sellBonusPer10))",
+    "sellPayout": "Math.max(1, Math.floor(basePrice * (1 + sellMarkPct / 100) * sellRate))",
+    "sellMarkPct": "If this good is listed this year in the current realm, use that listing's markPct; else 0 (fair)."
+  },
+  "categories": [
+    { "id": "staple", "name": "Staples" },
+    { "id": "cloth", "name": "Cloth & fibre" },
+    { "id": "metal", "name": "Metal & stone" },
+    { "id": "reagent", "name": "Reagents" },
+    { "id": "provision", "name": "Provisions" },
+    { "id": "curio", "name": "Curios" }
+  ],
+  "items": [
+    {
+      "id": "mkt_vale_grain",
+      "name": "Vale Grain Sacks",
+      "cat": "staple",
+      "basePrice": 8,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "stack": 20,
+      "desc": "Thresh-clean barley for bakeries and inns."
+    },
+    {
+      "id": "mkt_pond_reed_baskets",
+      "name": "Pond Reed Baskets",
+      "cat": "staple",
+      "basePrice": 6,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "stack": 20,
+      "desc": "Tight weave; ships dry if the weather holds."
+    },
+    {
+      "id": "mkt_hearth_honey",
+      "name": "Hearthfold Honey Jars",
+      "cat": "provision",
+      "basePrice": 14,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "stack": 12,
+      "desc": "Clover-dark; keeps long on caravan shelves."
+    },
+    {
+      "id": "mkt_willow_cheese",
+      "name": "Willowpond Cheese Wheels",
+      "cat": "provision",
+      "basePrice": 18,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "stack": 10,
+      "desc": "Waxed rounds for quay stalls and road packs."
+    },
+    {
+      "id": "mkt_loom_wool",
+      "name": "Vale Loom Wool",
+      "cat": "cloth",
+      "basePrice": 22,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "stack": 15,
+      "desc": "Soft fleeces sorted for dyers."
+    },
+    {
+      "id": "mkt_bog_iron",
+      "name": "Bog Iron Blooms",
+      "cat": "metal",
+      "basePrice": 28,
+      "realm": "hearthfold",
+      "minAge": 12,
+      "stack": 12,
+      "desc": "Rough cakes ready for the village forge."
+    },
+    {
+      "id": "mkt_herb_bundles",
+      "name": "Lane Herb Bundles",
+      "cat": "reagent",
+      "basePrice": 16,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "stack": 15,
+      "desc": "Dried leaf and root for kitchen and apothecary."
+    },
+    {
+      "id": "mkt_tide_salt",
+      "name": "Tide Salt Crates",
+      "cat": "staple",
+      "basePrice": 20,
+      "realm": "glassmarket",
+      "minAge": 10,
+      "stack": 16,
+      "desc": "White pans from the quay flats."
+    },
+    {
+      "id": "mkt_dried_fish",
+      "name": "Lantern Quay Dried Fish",
+      "cat": "provision",
+      "basePrice": 15,
+      "realm": "glassmarket",
+      "minAge": 10,
+      "stack": 16,
+      "desc": "Smoke-cured strips that travel well."
+    },
+    {
+      "id": "mkt_glass_beads",
+      "name": "Coast Glass Beads",
+      "cat": "curio",
+      "basePrice": 35,
+      "realm": "glassmarket",
+      "minAge": 12,
+      "stack": 12,
+      "desc": "Tinted trade beads for inland fairs."
+    },
+    {
+      "id": "mkt_ledger_ink",
+      "name": "Ledger Ink Flasks",
+      "cat": "reagent",
+      "basePrice": 30,
+      "realm": "glassmarket",
+      "minAge": 12,
+      "stack": 10,
+      "desc": "Cut with shellac; scribes pay for a clean line."
+    },
+    {
+      "id": "mkt_sailcloth",
+      "name": "Quay Sailcloth Bolts",
+      "cat": "cloth",
+      "basePrice": 48,
+      "realm": "glassmarket",
+      "minAge": 14,
+      "stack": 8,
+      "desc": "Salt-proof weave for cutters and awnings."
+    },
+    {
+      "id": "mkt_pearl_grit",
+      "name": "Pearl Grit Pouches",
+      "cat": "curio",
+      "basePrice": 70,
+      "realm": "glassmarket",
+      "minAge": 14,
+      "stack": 6,
+      "desc": "Crushed nacre for polishers and jewellers."
+    },
+    {
+      "id": "mkt_envoy_spice",
+      "name": "Envoy Spice Boxes",
+      "cat": "provision",
+      "basePrice": 55,
+      "realm": "glassmarket",
+      "minAge": 14,
+      "stack": 8,
+      "desc": "Pepper, citrus peel, and dried blossom — no spirits."
+    },
+    {
+      "id": "mkt_reed_fibre",
+      "name": "Thornreed Fibre Coils",
+      "cat": "cloth",
+      "basePrice": 18,
+      "realm": "thornreed",
+      "minAge": 10,
+      "stack": 16,
+      "desc": "Tough strands for rope and bow wraps."
+    },
+    {
+      "id": "mkt_wild_honey",
+      "name": "Wild Comb Honey",
+      "cat": "provision",
+      "basePrice": 24,
+      "realm": "thornreed",
+      "minAge": 10,
+      "stack": 10,
+      "desc": "Dark and sharp; scouts swear by it."
+    },
+    {
+      "id": "mkt_hide_scraps",
+      "name": "Trail Hide Scraps",
+      "cat": "cloth",
+      "basePrice": 26,
+      "realm": "thornreed",
+      "minAge": 12,
+      "stack": 12,
+      "desc": "Tanned offcuts for pouches and grips."
+    },
+    {
+      "id": "mkt_resin_blocks",
+      "name": "Reedpath Resin Blocks",
+      "cat": "reagent",
+      "basePrice": 32,
+      "realm": "thornreed",
+      "minAge": 12,
+      "stack": 10,
+      "desc": "Sticky amber for sealants and ward mixes."
+    },
+    {
+      "id": "mkt_hunter_jerky",
+      "name": "Hunter Jerky Packs",
+      "cat": "provision",
+      "basePrice": 20,
+      "realm": "thornreed",
+      "minAge": 10,
+      "stack": 14,
+      "desc": "Peppered meat strips for long walks."
+    },
+    {
+      "id": "mkt_rare_moss",
+      "name": "Shade Moss Wads",
+      "cat": "reagent",
+      "basePrice": 45,
+      "realm": "thornreed",
+      "minAge": 14,
+      "stack": 8,
+      "desc": "Damp-loving moss prized by healers."
+    },
+    {
+      "id": "mkt_spire_chalk",
+      "name": "Spireward Chalk Bars",
+      "cat": "reagent",
+      "basePrice": 28,
+      "realm": "spireward",
+      "minAge": 12,
+      "stack": 12,
+      "desc": "Fine white for runes and classroom boards."
+    },
+    {
+      "id": "mkt_codex_vellum",
+      "name": "Codex Vellum Sheets",
+      "cat": "cloth",
+      "basePrice": 60,
+      "realm": "spireward",
+      "minAge": 14,
+      "stack": 8,
+      "desc": "Smooth skins for collegium scribes."
+    },
+    {
+      "id": "mkt_ward_salt",
+      "name": "Ward Salt Phials",
+      "cat": "reagent",
+      "basePrice": 75,
+      "realm": "spireward",
+      "minAge": 14,
+      "stack": 6,
+      "desc": "Blessed grit for circle edges — not for the table."
+    },
+    {
+      "id": "mkt_banner_dye",
+      "name": "Banneret Dye Pots",
+      "cat": "cloth",
+      "basePrice": 52,
+      "realm": "spireward",
+      "minAge": 14,
+      "stack": 8,
+      "desc": "Deep blue and crest gold for hall cloth."
+    },
+    {
+      "id": "mkt_lens_blank",
+      "name": "Focus Lens Blanks",
+      "cat": "curio",
+      "basePrice": 95,
+      "realm": "spireward",
+      "minAge": 16,
+      "stack": 4,
+      "desc": "Uncut glass discs for spell foci."
+    },
+    {
+      "id": "mkt_scholar_tea",
+      "name": "Scholar Leaf Tins",
+      "cat": "provision",
+      "basePrice": 40,
+      "realm": "spireward",
+      "minAge": 12,
+      "stack": 10,
+      "desc": "Bitter leaf for long nights at the desk."
+    },
+    {
+      "id": "mkt_ash_charcoal",
+      "name": "Ash Charcoal Sacks",
+      "cat": "metal",
+      "basePrice": 22,
+      "realm": "emberlight",
+      "minAge": 12,
+      "stack": 14,
+      "desc": "Hot-burning bags for forges and camps."
+    },
+    {
+      "id": "mkt_ember_ore",
+      "name": "Emberlight Ore Chunks",
+      "cat": "metal",
+      "basePrice": 65,
+      "realm": "emberlight",
+      "minAge": 14,
+      "stack": 8,
+      "desc": "Red-veined stone that sparks under the hammer."
+    },
+    {
+      "id": "mkt_march_biscuit",
+      "name": "March Hard Biscuit",
+      "cat": "provision",
+      "basePrice": 12,
+      "realm": "emberlight",
+      "minAge": 10,
+      "stack": 20,
+      "desc": "Dense travel bread; keeps through ash wind."
+    },
+    {
+      "id": "mkt_ashwalker_balm",
+      "name": "Ashwalker Balm Tins",
+      "cat": "reagent",
+      "basePrice": 58,
+      "realm": "emberlight",
+      "minAge": 14,
+      "stack": 8,
+      "desc": "Cool salve for burns and road rash."
+    },
+    {
+      "id": "mkt_sigil_coal",
+      "name": "Sigil Coal Nubs",
+      "cat": "reagent",
+      "basePrice": 110,
+      "realm": "emberlight",
+      "minAge": 16,
+      "stack": 4,
+      "desc": "Rare fuel that holds a drawn mark in the fire."
+    },
+    {
+      "id": "mkt_banner_bronze",
+      "name": "Banner Bronze Ingots",
+      "cat": "metal",
+      "basePrice": 85,
+      "realm": "emberlight",
+      "minAge": 16,
+      "stack": 6,
+      "desc": "Cast stock for clasps and tourney tokens."
+    },
+    {
+      "id": "mkt_fair_ribbon",
+      "name": "Fair Ribbon Spools",
+      "cat": "curio",
+      "basePrice": 10,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "stack": 20,
+      "desc": "Bright trim for meets and notice boards."
+    },
+    {
+      "id": "mkt_caravan_tarps",
+      "name": "Caravan Tarps",
+      "cat": "cloth",
+      "basePrice": 38,
+      "realm": "glassmarket",
+      "minAge": 12,
+      "stack": 8,
+      "desc": "Oilcloth squares for weather and shade."
+    },
+    {
+      "id": "mkt_scout_flint",
+      "name": "Scout Flint Bundles",
+      "cat": "staple",
+      "basePrice": 9,
+      "realm": "thornreed",
+      "minAge": 10,
+      "stack": 20,
+      "desc": "Reliable spark stone for trail kits."
+    },
+    {
+      "id": "mkt_tower_lamp_oil",
+      "name": "Tower Lamp Oil",
+      "cat": "staple",
+      "basePrice": 25,
+      "realm": "spireward",
+      "minAge": 12,
+      "stack": 12,
+      "desc": "Clean-burning oil for halls and watch posts."
+    }
+  ]
+}

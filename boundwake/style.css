@@ -836,3 +836,21 @@ body[data-tab="skills"] .skill-acc-body {
 @media (min-width:1024px){
   .play-hub .dock-auto{margin-top:6px}
 }
+
+/* story modal hit + market nov5 */
+.sheet{z-index:60!important}
+.sheet .choices{gap:12px;padding-bottom:8px}
+.sheet .choices button{
+  min-height:60px!important;padding:16px 18px!important;
+  position:relative;z-index:2;touch-action:manipulation;
+}
+.sheet .choices button .flare,
+.sheet .choices button .odds,
+.sheet .choices button *{pointer-events:none!important}
+.sheet .card{pointer-events:auto}
+.mkt-board .row{align-items:flex-start}
+.mkt-good{color:var(--moss,#2F6B4F);font-weight:800}
+.mkt-ok{color:#4a7a40;font-weight:700}
+.mkt-fair{color:var(--muted);font-weight:700}
+.mkt-hi{color:#8a6a20;font-weight:700}
+.mkt-bad{color:var(--ember,#C45A32);font-weight:800}

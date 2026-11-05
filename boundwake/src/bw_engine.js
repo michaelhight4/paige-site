@@ -996,7 +996,14 @@ function refreshTournamentYear(s) {
   s.flags.tour_entered = [];
   s.flags.tour_team_entered = 0;
   const br = tourneyBracket(s);
-  if (br) log(s, `Tournament year — bracket ${br.label}. Blade, spark, craft, and Teams meets open on Adventure.`, 'tournament');
+  if (br) {
+    const teamHint = s.team
+      ? 'Teams meets open on Adventure (realm meet + Grand Teams).'
+      : (cage(s) >= 15
+        ? 'Teams meets open on Adventure if you have a team (or 2+ party bonds and a skill 15+).'
+        : 'Blade, spark, and craft meets open on Adventure; Teams from age 15+ with party or a founded team.');
+    log(s, `Tournament year — bracket ${br.label}. ${teamHint}`, 'tournament');
+  }
 }
 
 // ---- year tick ----
@@ -1037,7 +1044,7 @@ export function ageUp(s) {
   if (!s.route && cage(s) === 11) log(s, 'Eleven already — the roads ask which skills I will feed. Path choice waits on Life or Skills.', 'route');
   newYearBudget(s);
   refreshTournamentYear(s);
-  gearYear(s, yrs);
+  gearYear(s, yrs); marketYear(s);
   const dieP = s.stats.health <= 0 ? 1 : h > 70 ? Math.min(0.95, ((h - 70) / 28) ** 2.2 * yrs) : 0.0015 * yrs;
   if (chance(s, dieP)) { die(s, s.stats.health <= 0 && s.injuries.length ? pickDeathCause(s, 'violent') : h > 70 ? pickDeathCause(s, 'old') : pickDeathCause(s, chance(s, 0.55) ? 'illness' : 'odd')); return true; }
   drawEvents(s); return true;
@@ -2454,4 +2461,280 @@ function workshopMods(w, t) {
   for (const id of w.upgrades || []) { const u = (t.upgrades || []).find((x) => x.id === id); if (!u) continue; demand *= u.demand || 1; ticket *= u.ticket || 1; cap *= u.cap || 1; }
   for (const [rid, n] of Object.entries(w.staff || {})) { const r = (t.staffRoles || []).find((x) => x.id === rid); if (r) { wages += r.wage * n; staffN += n; } }
   return { demand: demand * (1 + 0.12 * staffN), ticket, cap, wages };
+}
+
+
+
+// ---- yearly Market + Bartering (Game Dev YEARLY_MARKET.md / market.json) ----
+function marketCfg() {
+  return D.market || { unlock: { minAge: 10 }, listingsPerYear: { min: 9, max: 14 },
+    stockPerListing: { min: 1, max: 6 }, cartMaxLines: 12, cartMaxQtyPerLine: 20, inventoryMaxKinds: 24,
+    markBands: [], barter: { skillId: 'bartering', buyDiscountPer10: 0.02, buyDiscountCap: 0.2,
+      sellBonusPer10: 0.025, sellBonusCap: 0.25, baseSellRate: 0.55, xpOnCheckout: 1, xpOnSell: 0.8, xpCapPerYear: 4 },
+    realmWeight: { home: 3, otherUnlocked: 1, locked: 0 }, items: [] };
+}
+function marketItems() { return Array.isArray(D.market?.items) ? D.market.items : []; }
+export const marketItemDef = (id) => marketItems().find((x) => x.id === id);
+
+function mulberry32(seed) {
+  let t = seed >>> 0;
+  return () => {
+    t += 0x6D2B79F5;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function marketSeed(s) {
+  const realm = String(s.region || 'hearthfold');
+  let h = 0;
+  for (let i = 0; i < realm.length; i++) h = (h * 31 + realm.charCodeAt(i)) | 0;
+  return ((Math.floor(s.rs || 1) * 10007) ^ (cage(s) * 7919) ^ (h * 104729) ^ 0x9e3779b9) >>> 0;
+}
+function pickWeighted(rnd, rows, wfn) {
+  let total = 0; const ws = rows.map((r) => { const w = Math.max(0, wfn(r)); total += w; return w; });
+  if (total <= 0) return null;
+  let x = rnd() * total;
+  for (let i = 0; i < rows.length; i++) { x -= ws[i]; if (x <= 0) return rows[i]; }
+  return rows[rows.length - 1];
+}
+
+export function barterBuyDiscount(s) {
+  const b = marketCfg().barter || {};
+  const sk = s.skills?.[b.skillId || 'bartering'] || 0;
+  return Math.min(b.buyDiscountCap ?? 0.2, Math.floor(sk / 10) * (b.buyDiscountPer10 ?? 0.02));
+}
+export function barterBuyMult(s) { return 1 - barterBuyDiscount(s); }
+export function barterSellRate(s) {
+  const b = marketCfg().barter || {};
+  const sk = s.skills?.[b.skillId || 'bartering'] || 0;
+  const bonus = Math.min(b.sellBonusCap ?? 0.25, Math.floor(sk / 10) * (b.sellBonusPer10 ?? 0.025));
+  return Math.min(0.95, (b.baseSellRate ?? 0.55) + bonus);
+}
+export function barterSellMult(s) { return barterSellRate(s); }
+
+function grantMarketXp(s, amt) {
+  ensureMarket(s);
+  const cap = marketCfg().barter?.xpCapPerYear ?? 4;
+  const used = s.market.xpUsed || 0;
+  const room = Math.max(0, cap - used);
+  const give = Math.min(amt, room);
+  if (give <= 0) return 0;
+  useSkill(s, marketCfg().barter?.skillId || 'bartering', give);
+  s.market.xpUsed = used + give;
+  return give;
+}
+
+export function ensureMarket(s) {
+  const yr = cage(s);
+  const realmId = s.region || 'hearthfold';
+  if (!s.market) s.market = { yearKey: -1, realmId, listings: [], cart: [], inv: [], xpUsed: 0 };
+  if (!Array.isArray(s.market.inv)) s.market.inv = [];
+  if (!Array.isArray(s.market.cart)) s.market.cart = [];
+  // Keep inv across years; regen listings when year or realm changes
+  if (s.market.yearKey === yr && s.market.realmId === realmId && (s.market.listings || []).length) return s.market;
+  const cfg = marketCfg();
+  const rnd = mulberry32(marketSeed(s));
+  const found = new Set(s.regionsFound || [realmId]);
+  const rw = cfg.realmWeight || { home: 3, otherUnlocked: 1, locked: 0 };
+  const pool = marketItems().filter((it) => cage(s) >= (it.minAge || cfg.unlock?.minAge || 10));
+  const weighted = [];
+  for (const it of pool) {
+    let w = 0;
+    if (it.realm === realmId) w = rw.home ?? 3;
+    else if (found.has(it.realm)) w = rw.otherUnlocked ?? 1;
+    else w = rw.locked ?? 0;
+    if (w > 0) weighted.push({ it, w });
+  }
+  const lo = cfg.listingsPerYear?.min ?? 9, hi = cfg.listingsPerYear?.max ?? 14;
+  const n = Math.min(weighted.length, lo + Math.floor(rnd() * (hi - lo + 1)));
+  const bands = cfg.markBands || [];
+  const picked = [];
+  const used = new Set();
+  let guard = 0;
+  while (picked.length < n && guard++ < 200) {
+    const row = pickWeighted(rnd, weighted, (x) => used.has(x.it.id) ? 0 : x.w);
+    if (!row) break;
+    used.add(row.it.id);
+    const band = pickWeighted(rnd, bands, (b) => b.weight || 1) || { pctMin: 0, pctMax: 0, id: 'fair' };
+    const pLo = band.pctMin ?? 0, pHi = band.pctMax ?? 0;
+    const markPct = Math.round(pLo + rnd() * (pHi - pLo));
+    const sLo = cfg.stockPerListing?.min ?? 1, sHi = cfg.stockPerListing?.max ?? 6;
+    const stock = sLo + Math.floor(rnd() * (sHi - sLo + 1));
+    picked.push({ id: row.it.id, markPct, stock, band: band.id || 'fair' });
+  }
+  s.market.yearKey = yr;
+  s.market.realmId = realmId;
+  s.market.listings = picked;
+  s.market.cart = []; // clear cart on regen
+  s.market.xpUsed = 0;
+  return s.market;
+}
+function marketYear(s) {
+  // Force listing regen next ensure; keep inv
+  if (s.market) { s.market.yearKey = -1; s.market.cart = []; s.market.xpUsed = 0; }
+  if (cage(s) >= (marketCfg().unlock?.minAge || 10)) ensureMarket(s);
+}
+
+export function marketListPrice(basePrice, markPct) {
+  return Math.max(1, Math.round(basePrice * (1 + (markPct || 0) / 100)));
+}
+export function marketBuyPrice(s, basePrice, markPct) {
+  const list = marketListPrice(basePrice, markPct);
+  return Math.max(1, Math.floor(list * (1 - barterBuyDiscount(s))));
+}
+export function marketSellPayout(s, id) {
+  const def = marketItemDef(id); if (!def) return 0;
+  const m = ensureMarket(s);
+  const listed = (m.listings || []).find((x) => x.id === id);
+  const markPct = listed ? listed.markPct : 0;
+  return Math.max(1, Math.floor(def.basePrice * (1 + markPct / 100) * barterSellRate(s)));
+}
+
+export function marketListings(s) {
+  if (cage(s) < (marketCfg().unlock?.minAge || 10)) return [];
+  const m = ensureMarket(s);
+  return (m.listings || []).map((row) => {
+    const def = marketItemDef(row.id); if (!def) return null;
+    const list = marketListPrice(def.basePrice, row.markPct);
+    const buy = marketBuyPrice(s, def.basePrice, row.markPct);
+    return { ...def, ...row, listPrice: list, buyPrice: buy, basePrice: def.basePrice };
+  }).filter(Boolean);
+}
+export function marketCart(s) { ensureMarket(s); return s.market.cart || []; }
+export function marketInv(s) { ensureMarket(s); return s.market.inv || []; }
+
+export function marketCartAdd(s, id, qty = 1) {
+  const m = ensureMarket(s);
+  const cfg = marketCfg();
+  const listing = (m.listings || []).find((x) => x.id === id);
+  if (!listing || listing.stock <= 0) return { ok: false, msg: 'Sold out this year.' };
+  const def = marketItemDef(id); if (!def) return { ok: false, msg: 'Unknown good.' };
+  let line = (m.cart || []).find((c) => c.id === id);
+  if (!line && (m.cart || []).length >= (cfg.cartMaxLines || 12)) return { ok: false, msg: 'Cart is full.' };
+  const want = Math.max(1, Math.floor(qty) || 1);
+  const have = line ? line.qty : 0;
+  const maxLine = cfg.cartMaxQtyPerLine || 20;
+  const add = Math.min(want, listing.stock - have, maxLine - have, def.stack || maxLine);
+  if (add <= 0) return { ok: false, msg: 'Cannot add more of that.' };
+  if (line) line.qty += add; else m.cart.push({ id, qty: add });
+  return { ok: true, msg: `Cart: ${def.name} ×${(line || m.cart[m.cart.length - 1]).qty}.` };
+}
+export function marketCartRemove(s, id, qty = 0) {
+  const m = ensureMarket(s);
+  if (!qty) { m.cart = (m.cart || []).filter((c) => c.id !== id); return { ok: true, msg: 'Removed from cart.' }; }
+  const line = (m.cart || []).find((c) => c.id === id); if (!line) return { ok: false, msg: 'Not in cart.' };
+  line.qty -= Math.max(1, Math.floor(qty));
+  if (line.qty <= 0) m.cart = m.cart.filter((c) => c.id !== id);
+  return { ok: true, msg: 'Updated cart.' };
+}
+export function marketCartTotal(s) {
+  const m = ensureMarket(s);
+  let raw = 0, pay = 0;
+  for (const c of (m.cart || [])) {
+    const listing = (m.listings || []).find((x) => x.id === c.id);
+    const def = marketItemDef(c.id); if (!def || !listing) continue;
+    const list = marketListPrice(def.basePrice, listing.markPct);
+    const buy = marketBuyPrice(s, def.basePrice, listing.markPct);
+    raw += list * c.qty; pay += buy * c.qty;
+  }
+  return { raw, pay, mult: barterBuyMult(s), saved: Math.max(0, raw - pay), discount: barterBuyDiscount(s) };
+}
+export function marketCheckout(s) {
+  if (cage(s) < (marketCfg().unlock?.minAge || 10)) return { ok: false, msg: 'Stalls open at age 10+.' };
+  const m = ensureMarket(s);
+  if (!(m.cart || []).length) return { ok: false, msg: 'Cart is empty.' };
+  const tot = marketCartTotal(s);
+  if (s.gold < tot.pay) return { ok: false, msg: `Need ${tot.pay} gold.` };
+  const bought = [];
+  for (const c of [...m.cart]) {
+    const listing = (m.listings || []).find((x) => x.id === c.id);
+    const def = marketItemDef(c.id); if (!def || !listing) continue;
+    const qty = Math.min(c.qty, listing.stock);
+    if (qty <= 0) continue;
+    const buy = marketBuyPrice(s, def.basePrice, listing.markPct) * qty;
+    if (s.gold < buy) break;
+    s.gold -= buy;
+    listing.stock -= qty;
+    let inv = (m.inv || []).find((x) => x.id === c.id);
+    if (!inv) {
+      if ((m.inv || []).length >= (marketCfg().inventoryMaxKinds || 24)) {
+        s.gold += buy; listing.stock += qty; continue;
+      }
+      inv = { id: c.id, qty: 0 }; m.inv.push(inv);
+    }
+    inv.qty += qty;
+    bought.push(`${def.name}×${qty}`);
+  }
+  m.cart = [];
+  if (!bought.length) return { ok: false, msg: 'Could not complete checkout.' };
+  grantMarketXp(s, marketCfg().barter?.xpOnCheckout ?? 1);
+  const msg = `Market checkout: ${bought.join(', ')} for ${tot.pay} gold (barter saved ${tot.saved}).`;
+  log(s, msg, 'market'); return { ok: true, msg };
+}
+/** @deprecated alias — sell trade goods from market inv */
+export function marketSellPrice(s, id) { return marketSellPayout(s, id); }
+export function marketSell(s, id, qty = 1) {
+  const m = ensureMarket(s);
+  const inv = (m.inv || []).find((x) => x.id === id);
+  const def = marketItemDef(id);
+  if (!inv || !def || inv.qty <= 0) return { ok: false, msg: 'Not in market packs.' };
+  const n = Math.min(Math.max(1, Math.floor(qty) || 1), inv.qty);
+  const unit = marketSellPayout(s, id);
+  const pay = unit * n;
+  inv.qty -= n;
+  if (inv.qty <= 0) m.inv = m.inv.filter((x) => x.id !== id);
+  s.gold += pay;
+  grantMarketXp(s, marketCfg().barter?.xpOnSell ?? 0.8);
+  const msg = `Sold ${def.name}×${n} at market for ${pay} gold.`;
+  log(s, msg, 'market'); return { ok: true, msg };
+}
+
+// ---- Team Meet (Grand or party scratch @15+) ----
+export function canEnterTeamMeet(s) {
+  ensureTeamGuild(s); resetTeamYearFlags(s);
+  const grand = canEnterTeamGrand(s);
+  if (grand.ok) return { ...grand, mode: 'grand' };
+  if (!isTournamentYear(s)) return { ok: false, msg: 'Teams bracket opens every 3 years.' };
+  if (s.flags.tour_team_entered) return { ok: false, msg: 'Already entered Teams this tournament year.' };
+  if (cage(s) < 15) return { ok: false, msg: 'Teams meets from age 15+.' };
+  const party = partyOf(s);
+  if (s.team && (s.team.roster || []).length >= 2) {
+    // team exists but grand gate failed — surface that reason
+    return { ok: false, msg: grand.msg || 'Teams gate not met.', mode: 'grand' };
+  }
+  if (party.length < 2) return { ok: false, msg: 'Need 2+ party bonds (Bonds → Add to party), or found a team with roster 2+.' };
+  const best = Math.max(0, ...Object.values(s.skills || {}));
+  if (best < 15) return { ok: false, msg: 'Need any skill at 15+ (Train on Skills).' };
+  if (s.gold < 20) return { ok: false, msg: 'Entry costs 20 gold.' };
+  if ((s.budget?.act ?? 0) < 1) return { ok: false, msg: 'No activity left this year.' };
+  return { ok: true, mode: 'party', msg: '' };
+}
+export function enterTeamMeet(s) {
+  const gate = canEnterTeamMeet(s);
+  if (!gate.ok) return gate;
+  if (gate.mode === 'grand') return enterTeamGrand(s);
+  // Party scratch Teams meet — uses bond party as temporary side
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= 20;
+  s.flags.tour_team_entered = 1;
+  const party = partyOf(s);
+  const bestSk = Object.entries(s.skills || []).sort((a, b) => b[1] - a[1])[0];
+  const sk = bestSk?.[1] || 0;
+  const power = Math.round(sk + party.length * 8 + rint(s, -4, 8));
+  const field = 28 + cage(s) * 0.45 + rint(s, 0, 18);
+  let score = 0;
+  for (let i = 0; i < 3; i++) {
+    const opp = field * (0.85 + i * 0.12) + rint(s, -5, 5);
+    if (power + rint(s, -4, 10) >= opp) score++;
+  }
+  const place = score === 3 ? (chance(s, 0.5) ? 1 : 2) : score === 2 ? (chance(s, 0.5) ? 2 : 3) : score === 1 ? 4 + rint(s, 0, 2) : 6 + rint(s, 0, 2);
+  const table = { 1: { g: 90, r: 8 }, 2: { g: 50, r: 5 }, 3: { g: 28, r: 3 }, 4: { g: 12, r: 1 }, 5: { g: 8, r: 0 }, 6: { g: 4, r: 0 }, 7: { g: 0, r: 0 }, 8: { g: 0, r: 0 } };
+  const pay = table[place] || table[8];
+  s.gold += pay.g;
+  s.stats.fame = clamp(s.stats.fame + pay.r, 0, 100);
+  if (bestSk) useSkill(s, bestSk[0], 2);
+  const msg = `Teams meet with my party — place ${place}. Purse ${pay.g} gold${pay.r ? `, renown +${pay.r}` : ''}.`;
+  log(s, msg, 'tournament');
+  return { ok: true, msg, place, gold: pay.g };
 }
