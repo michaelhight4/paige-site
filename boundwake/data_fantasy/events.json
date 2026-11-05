@@ -1,0 +1,2058 @@
+[
+ {
+  "id": "special_mana_awakening",
+  "cat": "special",
+  "ages": [
+   5,
+   12
+  ],
+  "w": 6,
+  "once": true,
+  "tags": [
+   "arcane"
+  ],
+  "title": "A Warm Light",
+  "prompt": "A soft light gathers in your palms while you play. It does not burn. It waits.",
+  "choices": [
+   {
+    "label": "Reach for it",
+    "p": 0.6,
+    "win": {
+     "journal": [
+      "The light sank into me. The world hummed once."
+     ],
+     "fx": {
+      "mana": 20
+     },
+     "flag": "mana_awakened"
+    },
+    "fail": {
+     "journal": [
+      "It slipped away. My hands shook for an hour."
+     ],
+     "fx": {
+      "stress": 10
+     }
+    }
+   },
+   {
+    "label": "Pull away",
+    "journal": [
+     "I closed my fists. Ordinary felt safer today."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   },
+   {
+    "label": "Show a parent",
+    "journal": [
+     "Their eyes went wide. Lessons would follow."
+    ],
+    "fx": {
+     "mana": 8,
+     "spirit": 4
+    },
+    "flag": "mana_awakened"
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "notflag": "mana_awakened"
+  }
+ },
+ {
+  "id": "child_first_word",
+  "cat": "childhood",
+  "ages": [
+   1,
+   2
+  ],
+  "w": 8,
+  "once": true,
+  "title": "First Word",
+  "prompt": "Everyone leans in. Your mouth finds a shape.",
+  "choices": [
+   {
+    "label": "Say a parent's name",
+    "journal": [
+     "They laughed and cried at once."
+    ],
+    "fx": {
+     "spirit": 10,
+     "presence": 2
+    }
+   },
+   {
+    "label": "Say a nonsense sound",
+    "journal": [
+     "I invented a word. It stuck for years."
+    ],
+    "fx": {
+     "spirit": 6,
+     "wits": 2
+    }
+   },
+   {
+    "label": "Point at the dog",
+    "journal": [
+     "The dog became family canon."
+    ],
+    "fx": {
+     "spirit": 8
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "child_stick_sword",
+  "cat": "childhood",
+  "ages": [
+   3,
+   7
+  ],
+  "w": 5,
+  "once": true,
+  "title": "Stick and Dignity",
+  "prompt": "A fallen branch is clearly a blade. Clearly.",
+  "choices": [
+   {
+    "label": "Spar the fence post",
+    "journal": [
+     "The fence post lost. Eventually."
+    ],
+    "fx": {
+     "might": 4,
+     "spirit": 4,
+     "sk_swordsmanship": 2
+    }
+   },
+   {
+    "label": "Knight a sibling",
+    "journal": [
+     "A solemn ceremony. Mostly giggling."
+    ],
+    "fx": {
+     "spirit": 8,
+     "presence": 2
+    }
+   },
+   {
+    "label": "Get told off and hide it",
+    "journal": [
+     "I learned where the floorboards creak."
+    ],
+    "fx": {
+     "sk_stealth": 3,
+     "stress": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "school_academy_entrance",
+  "cat": "school",
+  "ages": [
+   10,
+   13
+  ],
+  "w": 8,
+  "once": true,
+  "title": "Academy Gate",
+  "prompt": "The examiner asks why you belong inside. Your answer matters more than your age.",
+  "choices": [
+   {
+    "label": "Recite a charm",
+    "journal": [
+     "The examiner raised one eyebrow. Then a pen."
+    ],
+    "fx": {
+     "mana": 5,
+     "wits": 3,
+     "sk_spellcraft": 3
+    },
+    "flag": "school_academy"
+   },
+   {
+    "label": "Admit you are scared but ready",
+    "journal": [
+     "Honesty opened the gate wider than talent."
+    ],
+    "fx": {
+     "spirit": 4,
+     "sk_composure": 3
+    },
+    "flag": "school_academy"
+   },
+   {
+    "label": "Name a sponsor",
+    "journal": [
+     "A name, a nod, a seal. Court doors creaked."
+    ],
+    "fx": {
+     "sk_etiquette": 3
+    },
+    "flag": "school_royal"
+   },
+   {
+    "label": "Walk away",
+    "journal": [
+     "Some gates can wait."
+    ],
+    "fx": {
+     "spirit": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "flag": "mana_awakened"
+  }
+ },
+ {
+  "id": "school_dojo_style_choice",
+  "cat": "school",
+  "ages": [
+   8,
+   12
+  ],
+  "w": 8,
+  "once": true,
+  "title": "Which Way the Blade",
+  "prompt": "Three instructors wait. None will teach the same path.",
+  "choices": [
+   {
+    "label": "Steady Guard",
+    "journal": [
+     "I chose the path that felt like breathing."
+    ],
+    "fx": {
+     "sk_swordsmanship": 3,
+     "sk_shieldwork": 2
+    },
+    "flag": "style_bulwark"
+   },
+   {
+    "label": "Swift Cut",
+    "journal": [
+     "Speed over comfort."
+    ],
+    "fx": {
+     "sk_swordsmanship": 3,
+     "sk_agility": 2
+    },
+    "flag": "style_thorn"
+   },
+   {
+    "label": "Heavy Cleaver",
+    "journal": [
+     "Weight that ends arguments."
+    ],
+    "fx": {
+     "sk_swordsmanship": 3,
+     "sk_strength": 2
+    },
+    "flag": "style_storm"
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "combat_bandit_ambush",
+  "cat": "combat",
+  "ages": [
+   12,
+   70
+  ],
+  "w": 4,
+  "tags": [
+   "combat"
+  ],
+  "title": "Road Tax",
+  "prompt": "Rope across the path. Three voices asking for \"toll.\"",
+  "choices": [
+   {
+    "label": "Fight",
+    "p": 0.55,
+    "skill": "swordsmanship",
+    "win": {
+     "journal": [
+      "Three voices became three running footsteps."
+     ],
+     "fx": {
+      "renown": 3,
+      "sk_swordsmanship": 3
+     }
+    },
+    "fail": {
+     "journal": [
+      "I kept my purse and lost some blood."
+     ],
+     "fx": {
+      "health": -12,
+      "injury": "cut_arm"
+     }
+    }
+   },
+   {
+    "label": "Pay",
+    "journal": [
+     "Gold bought quiet. It always does, briefly."
+    ],
+    "fx": {
+     "gold": -20
+    }
+   },
+   {
+    "label": "Bluff",
+    "p": 0.5,
+    "skill": "charm",
+    "win": {
+     "journal": [
+      "A raised palm and a hum of mana. They chose to believe me."
+     ],
+     "fx": {
+      "presence": 2
+     }
+    },
+    "fail": {
+     "journal": [
+      "They laughed. I paid double."
+     ],
+     "fx": {
+      "gold": -30,
+      "spirit": -4
+     }
+    }
+   },
+   {
+    "label": "Slip into brush",
+    "journal": [
+     "Thorns are cheaper than toll."
+    ],
+    "fx": {
+     "sk_stealth": 3,
+     "health": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "combat_monster_bounty",
+  "cat": "combat",
+  "ages": [
+   14,
+   65
+  ],
+  "w": 4,
+  "title": "Posted Beast",
+  "prompt": "A pelt sketch and a heavy purse. The shepherd is already gone.",
+  "choices": [
+   {
+    "label": "Hunt alone",
+    "p": 0.5,
+    "skill": "swordsmanship",
+    "win": {
+     "journal": [
+      "I brought back the pelt. The purse was heavier than it looked."
+     ],
+     "fx": {
+      "gold": 60,
+      "renown": 5
+     }
+    },
+    "fail": {
+     "journal": [
+      "The beast chose the ground. I limped home."
+     ],
+     "fx": {
+      "health": -18,
+      "injury": "claw_wound"
+     }
+    }
+   },
+   {
+    "label": "Hire help",
+    "journal": [
+     "Shared purse, shared scars, fewer of them."
+    ],
+    "fx": {
+     "gold": 20,
+     "renown": 2
+    }
+   },
+   {
+    "label": "Track and report to rangers",
+    "journal": [
+     "The rangers paid in thanks and dried fruit."
+    ],
+    "fx": {
+     "sk_tracking": 4,
+     "karma": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "career": [
+    "adventurer",
+    "hunter",
+    "guard",
+    "knight",
+    "spellblade"
+   ]
+  }
+ },
+ {
+  "id": "combat_duel_challenge",
+  "cat": "combat",
+  "ages": [
+   15,
+   60
+  ],
+  "w": 2,
+  "title": "Formal Steel",
+  "prompt": "A glove in the dirt. Witnesses. No good way to laugh this off.",
+  "choices": [
+   {
+    "label": "Accept",
+    "p": 0.5,
+    "skill": "swordsmanship",
+    "win": {
+     "journal": [
+      "First blood, mine. The crowd remembered my name."
+     ],
+     "fx": {
+      "renown": 6
+     }
+    },
+    "fail": {
+     "journal": [
+      "I yielded with a split brow and my pride in pieces."
+     ],
+     "fx": {
+      "health": -10,
+      "spirit": -6
+     }
+    }
+   },
+   {
+    "label": "Negotiate terms",
+    "journal": [
+     "A sparring bout instead. Both of us kept our teeth."
+    ],
+    "fx": {
+     "sk_charm": 3
+    }
+   },
+   {
+    "label": "Refuse",
+    "journal": [
+     "Whispers followed me for a season."
+    ],
+    "fx": {
+     "renown": -4
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "combat_wolf_pack",
+  "cat": "combat",
+  "ages": [
+   10,
+   70
+  ],
+  "w": 3,
+  "title": "Eyes in the Dark",
+  "prompt": "Five shapes circling the camp. The fire is getting low.",
+  "choices": [
+   {
+    "label": "Stand and fight",
+    "p": 0.55,
+    "skill": "swordsmanship",
+    "win": {
+     "journal": [
+      "By dawn the howling had moved to the next valley."
+     ],
+     "fx": {
+      "sk_swordsmanship": 3,
+      "renown": 2
+     }
+    },
+    "fail": {
+     "journal": [
+      "Teeth found my leg before the fire found them."
+     ],
+     "fx": {
+      "health": -15,
+      "injury": "bite"
+     }
+    }
+   },
+   {
+    "label": "Build the fire higher",
+    "journal": [
+     "I fed it everything I owned that burned."
+    ],
+    "fx": {
+     "sk_foraging": 2,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Climb a tree",
+    "journal": [
+     "A long night. A stiff morning."
+    ],
+    "fx": {
+     "health": -3,
+     "stress": 6
+    }
+   }
+  ],
+  "src": "coder_stub",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "explore_ruined_watchtower",
+  "cat": "exploration",
+  "ages": [
+   10,
+   75
+  ],
+  "w": 3,
+  "title": "Broken Watch",
+  "prompt": "Stones lean like tired men. Something glints under moss.",
+  "choices": [
+   {
+    "label": "Climb for the glint",
+    "p": 0.6,
+    "win": {
+     "journal": [
+      "An old signet ring. Someone was important once."
+     ],
+     "fx": {
+      "gold": 35
+     }
+    },
+    "fail": {
+     "journal": [
+      "A stone gave way. So did my ankle."
+     ],
+     "fx": {
+      "health": -8
+     }
+    }
+   },
+   {
+    "label": "Sketch the map",
+    "journal": [
+     "Lines on paper; the tower lives in my Codex now."
+    ],
+    "fx": {
+     "sk_lore": 3,
+     "codex": "explore_ruined_watchtower"
+    }
+   },
+   {
+    "label": "Leave offerings and go",
+    "journal": [
+     "Some places want to be left alone."
+    ],
+    "fx": {
+     "karma": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "explore_sunken_shrine",
+  "cat": "exploration",
+  "ages": [
+   12,
+   75
+  ],
+  "w": 3,
+  "title": "Water Over Stone",
+  "prompt": "A shrine roof shows through the pool. Coins glitter wrong.",
+  "choices": [
+   {
+    "label": "Dive for a relic",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "Cold to the bone, a small bronze charm in my fist."
+     ],
+     "fx": {
+      "relic": "relic_drowned_charm"
+     }
+    },
+    "fail": {
+     "journal": [
+      "The water held on. I came up coughing and empty-handed."
+     ],
+     "fx": {
+      "health": -10
+     }
+    }
+   },
+   {
+    "label": "Pray from the bank",
+    "journal": [
+     "The ripples stilled. I felt answered, a little."
+    ],
+    "fx": {
+     "karma": 3,
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Mark it on your Codex",
+    "journal": [
+     "Another page filled."
+    ],
+    "fx": {
+     "sk_lore": 2,
+     "codex": "explore_sunken_shrine"
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "explore_strange_merchant",
+  "cat": "exploration",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 2,
+  "title": "Wagon With No Road",
+  "prompt": "A merchant with a painted wagon sells maps of places that do not exist. Yet.",
+  "choices": [
+   {
+    "label": "Buy a map (20 gold)",
+    "journal": [
+     "The ink moved when I was not looking."
+    ],
+    "fx": {
+     "gold": -20,
+     "region": "next"
+    },
+    "req": 20
+   },
+   {
+    "label": "Haggle for fun",
+    "journal": [
+     "He laughed and gave me a tea leaf for my trouble."
+    ],
+    "fx": {
+     "sk_bartering": 4
+    }
+   },
+   {
+    "label": "Walk on",
+    "journal": [
+     "When I looked back, the road was empty."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "coder_stub",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "explore_new_region_found",
+  "cat": "exploration",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 3,
+  "title": "Over the Next Hill",
+  "prompt": "Caravan bells, a fork in the trail, and a sign you have never read before.",
+  "choices": [
+   {
+    "label": "Follow the new road",
+    "journal": [
+     "New air, new faces, new prices."
+    ],
+    "fx": {
+     "region": "next",
+     "spirit": 5
+    }
+   },
+   {
+    "label": "Not this year",
+    "journal": [
+     "Home pulled harder than the horizon."
+    ],
+    "fx": {
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "coder_stub",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "dungeon_entrance_found",
+  "cat": "dungeon",
+  "ages": [
+   14,
+   60
+  ],
+  "w": 2,
+  "once": true,
+  "tags": [
+   "dungeon"
+  ],
+  "title": "The Stair Under the Mill",
+  "prompt": "A stair under the mill. Cold air. Old blood smell.",
+  "choices": [
+   {
+    "label": "Go down",
+    "journal": [
+     "I lit a torch and counted the steps."
+    ],
+    "fx": {
+     "stress": 3
+    },
+    "chain": {
+     "id": "dungeon_first_floor",
+     "in": [
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "label": "Report it to the guild",
+    "journal": [
+     "The guild board posted it. Someone else went down."
+    ],
+    "fx": {
+     "renown": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "dungeon_first_floor",
+  "cat": "dungeon",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 3,
+  "title": "First Floor",
+  "prompt": "Torches that should not still burn.",
+  "choices": [
+   {
+    "label": "Press on",
+    "journal": [
+     "The torches leaned toward me as I passed."
+    ],
+    "fx": {
+     "sk_composure": 2
+    },
+    "chain": {
+     "id": "dungeon_trap_hall",
+     "in": [
+      0,
+      0
+     ]
+    }
+   },
+   {
+    "label": "Turn back",
+    "journal": [
+     "Not today."
+    ],
+    "fx": {}
+   }
+  ],
+  "chainOnly": true,
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "dungeon_trap_hall",
+  "cat": "dungeon",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 3,
+  "title": "Trap Hall",
+  "prompt": "Pressure plate. You notice — or you don't.",
+  "choices": [
+   {
+    "label": "Step carefully",
+    "p": 0.6,
+    "skill": "stealth",
+    "win": {
+     "journal": [
+      "I noticed."
+     ],
+     "fx": {
+      "sk_stealth": 3
+     },
+     "chain": {
+      "id": "dungeon_boss_chamber",
+      "in": [
+       0,
+       0
+      ]
+     }
+    },
+    "fail": {
+     "journal": [
+      "I didn't."
+     ],
+     "fx": {
+      "health": -20,
+      "injury": "crushed_foot"
+     }
+    }
+   },
+   {
+    "label": "Turn back",
+    "journal": [
+     "The plate clicked behind me anyway. I ran."
+    ],
+    "fx": {
+     "stress": 5
+    }
+   }
+  ],
+  "chainOnly": true,
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "dungeon_boss_chamber",
+  "cat": "dungeon",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 3,
+  "title": "Sealed Chamber",
+  "prompt": "Something that kept the stair sealed on purpose.",
+  "choices": [
+   {
+    "label": "Fight it",
+    "p": 0.45,
+    "skill": "swordsmanship",
+    "win": {
+     "journal": [
+      "It fell. The silence after was enormous."
+     ],
+     "fx": {
+      "renown": 12,
+      "flagset": "dungeon_clear"
+     },
+     "chain": {
+      "id": "dungeon_relic_found",
+      "in": [
+       0,
+       0
+      ]
+     }
+    },
+    "fail": {
+     "journal": [
+      "I barely made the stair."
+     ],
+     "fx": {
+      "health": -30,
+      "injury": "deep_wound"
+     }
+    }
+   },
+   {
+    "label": "Seal it again",
+    "journal": [
+     "Some doors are shut for good reasons."
+    ],
+    "fx": {
+     "karma": 4
+    }
+   }
+  ],
+  "chainOnly": true,
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "dungeon_relic_found",
+  "cat": "dungeon",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 3,
+  "title": "Wrapped Thing",
+  "prompt": "A wrapped thing that knows your name.",
+  "choices": [
+   {
+    "label": "Take it",
+    "journal": [
+     "It was warm, like it had been waiting."
+    ],
+    "fx": {
+     "relic": "relic_named_blade"
+    }
+   },
+   {
+    "label": "Leave it",
+    "journal": [
+     "I left it wrapped. It let me."
+    ],
+    "fx": {
+     "karma": 3
+    }
+   }
+  ],
+  "chainOnly": true,
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "rel_mentor_offer",
+  "cat": "relationship",
+  "ages": [
+   8,
+   40
+  ],
+  "w": 3,
+  "title": "An Older Hand",
+  "prompt": "Someone who already survived your mistakes offers to teach you.",
+  "choices": [
+   {
+    "label": "Accept apprenticeship",
+    "journal": [
+     "Mornings got earlier. I got better."
+    ],
+    "fx": {
+     "xp_primary": 6,
+     "flagset": "has_mentor"
+    }
+   },
+   {
+    "label": "Ask the price first",
+    "journal": [
+     "Tea and chores. A fair price."
+    ],
+    "fx": {
+     "xp_primary": 3
+    }
+   },
+   {
+    "label": "Decline kindly",
+    "journal": [
+     "They nodded like they had expected it."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "rel_festival_dance",
+  "cat": "relationship",
+  "ages": [
+   14,
+   50
+  ],
+  "w": 4,
+  "title": "Lantern Dance",
+  "prompt": "Music, tea steam, a hand held out.",
+  "choices": [
+   {
+    "label": "Dance",
+    "journal": [
+     "Lanterns, laughter, and someone new to think about."
+    ],
+    "fx": {
+     "spirit": 6,
+     "newperson": "love"
+    }
+   },
+   {
+    "label": "Watch from the wall",
+    "journal": [
+     "The music was enough."
+    ],
+    "fx": {
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Broker introductions",
+    "journal": [
+     "Two friends of mine left holding hands."
+    ],
+    "fx": {
+     "sk_charm": 3,
+     "karma": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "rel_proposal",
+  "cat": "relationship",
+  "ages": [
+   17,
+   70
+  ],
+  "w": 6,
+  "title": "A Quiet Ask",
+  "prompt": "Not a festival. Just two cups and a question that changes the house.",
+  "choices": [
+   {
+    "label": "Yes",
+    "journal": [
+     "Two cups, one house."
+    ],
+    "fx": {
+     "spirit": 12,
+     "marry": 1
+    }
+   },
+   {
+    "label": "Not yet",
+    "journal": [
+     "They said they would ask again. I hoped they would."
+    ],
+    "fx": {
+     "spirit": -2
+    }
+   },
+   {
+    "label": "No",
+    "journal": [
+     "The tea went cold between us."
+    ],
+    "fx": {
+     "spirit": -6,
+     "breakup": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "partner": true,
+   "single_married": false
+  }
+ },
+ {
+  "id": "rel_child_born",
+  "cat": "relationship",
+  "ages": [
+   18,
+   55
+  ],
+  "w": 5,
+  "title": "A New Voice",
+  "prompt": "A new life joins your line.",
+  "choices": [
+   {
+    "label": "Hold them close",
+    "journal": [
+     "Tiny fingers, enormous grip."
+    ],
+    "fx": {
+     "spirit": 12,
+     "child": 1
+    }
+   }
+  ],
+  "src": "terms",
+  "journal_src": "coder_stub",
+  "if": {
+   "married": true
+  }
+ },
+ {
+  "id": "rel_adopt_orphan",
+  "cat": "relationship",
+  "ages": [
+   20,
+   70
+  ],
+  "w": 2,
+  "title": "A Child With No Name Left",
+  "prompt": "A child with no name left. Yours could fit.",
+  "choices": [
+   {
+    "label": "Take them home",
+    "journal": [
+     "The house got louder. Better."
+    ],
+    "fx": {
+     "spirit": 6,
+     "gold": -15,
+     "child": "adopted"
+    }
+   },
+   {
+    "label": "Find them a place at the shrine",
+    "journal": [
+     "The keeper promised to look after them."
+    ],
+    "fx": {
+     "karma": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "nochild": true
+  }
+ },
+ {
+  "id": "rel_take_apprentice",
+  "cat": "relationship",
+  "ages": [
+   25,
+   80
+  ],
+  "w": 2,
+  "title": "Talent, Debt and Drama",
+  "prompt": "Talent, debt and drama in one package.",
+  "choices": [
+   {
+    "label": "Take them on",
+    "journal": [
+     "Someone to inherit what my hands know."
+    ],
+    "fx": {
+     "child": "apprentice",
+     "stress": 3
+    }
+   },
+   {
+    "label": "Not now",
+    "journal": [
+     "They found another master. I wondered."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "job": true
+  }
+ },
+ {
+  "id": "rel_rival_appears",
+  "cat": "relationship",
+  "ages": [
+   10,
+   50
+  ],
+  "w": 2,
+  "title": "Same Board, Same Bounty",
+  "prompt": "Someone your age keeps taking the jobs you wanted.",
+  "choices": [
+   {
+    "label": "Train harder",
+    "journal": [
+     "Nothing motivates like a smug face."
+    ],
+    "fx": {
+     "xp_primary": 4,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Offer a truce",
+    "journal": [
+     "Rivals make strange friends."
+    ],
+    "fx": {
+     "newperson": "friend"
+    }
+   }
+  ],
+  "src": "coder_stub",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "work_guild_promotion_exam",
+  "cat": "work",
+  "ages": [
+   15,
+   70
+  ],
+  "w": 4,
+  "tags": [
+   "guild"
+  ],
+  "title": "Rank Board",
+  "prompt": "The examiners do not smile. Your last year of work sits on the table.",
+  "choices": [
+   {
+    "label": "Demonstrate skill",
+    "p": 0.6,
+    "skill": "primary",
+    "win": {
+     "journal": [
+      "They stamped the seal without a word. That was the praise."
+     ],
+     "fx": {
+      "promote": 1
+     }
+    },
+    "fail": {
+     "journal": [
+      "Not this year. They wrote down why."
+     ],
+     "fx": {
+      "spirit": -4
+     }
+    }
+   },
+   {
+    "label": "Cite deeds",
+    "journal": [
+     "They listened. They took notes. They promised nothing."
+    ],
+    "fx": {
+     "perf": 10
+    }
+   },
+   {
+    "label": "Bribe quietly (risk)",
+    "p": 0.4,
+    "win": {
+     "journal": [
+      "The seal arrived. My conscience did not sleep well."
+     ],
+     "fx": {
+      "promote": 1,
+      "karma": -8,
+      "gold": -40
+     }
+    },
+    "fail": {
+     "journal": [
+      "They took the purse and my name went on a different list."
+     ],
+     "fx": {
+      "gold": -40,
+      "renown": -8
+     }
+    }
+   },
+   {
+    "label": "Wait another year",
+    "journal": [
+     "Patience is a skill too."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "career": [
+    "adventurer",
+    "mage",
+    "guard",
+    "knight",
+    "spellblade",
+    "scholar"
+   ]
+  }
+ },
+ {
+  "id": "work_forge_masterwork",
+  "cat": "work",
+  "ages": [
+   16,
+   90
+  ],
+  "w": 5,
+  "title": "Masterwork Ask",
+  "prompt": "A noble wants something only your hammer should touch. One month.",
+  "choices": [
+   {
+    "label": "Overwork alone",
+    "journal": [
+     "My arms ached for weeks. The blade sang."
+    ],
+    "fx": {
+     "gold": 80,
+     "stress": 12,
+     "sk_smithing": 4
+    }
+   },
+   {
+    "label": "Share with an apprentice",
+    "journal": [
+     "Half the gold, twice the teaching."
+    ],
+    "fx": {
+     "gold": 40,
+     "karma": 3
+    }
+   },
+   {
+    "label": "Refuse",
+    "journal": [
+     "Nobles remember a no."
+    ],
+    "fx": {
+     "renown": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "career": [
+    "blacksmith"
+   ]
+  }
+ },
+ {
+  "id": "work_caravan_robbed",
+  "cat": "work",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 5,
+  "title": "Empty Wagons",
+  "prompt": "News arrives before the dust does. Your goods did not.",
+  "choices": [
+   {
+    "label": "Chase",
+    "p": 0.4,
+    "win": {
+     "journal": [
+      "We got most of it back, and a story."
+     ],
+     "fx": {
+      "renown": 3
+     }
+    },
+    "fail": {
+     "journal": [
+      "Dust and nothing else."
+     ],
+     "fx": {
+      "gold": -60,
+      "health": -5
+     }
+    }
+   },
+   {
+    "label": "File a claim",
+    "journal": [
+     "Ledger Hall stamped it. Payment: someday."
+    ],
+    "fx": {
+     "gold": -30
+    }
+   },
+   {
+    "label": "Eat the loss and raise prices",
+    "journal": [
+     "Customers grumbled. The ledger healed."
+    ],
+    "fx": {
+     "gold": -45,
+     "karma": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "career": [
+    "merchant"
+   ]
+  }
+ },
+ {
+  "id": "work_plague_ward",
+  "cat": "work",
+  "ages": [
+   14,
+   90
+  ],
+  "w": 5,
+  "title": "The Ward Fills",
+  "prompt": "Cots in the hall. Not enough salve. Someone has to choose who waits.",
+  "choices": [
+   {
+    "label": "Work until you drop",
+    "journal": [
+     "I slept on the floor between cots. Most of them lived."
+    ],
+    "fx": {
+     "health": -10,
+     "karma": 6,
+     "sk_mending": 4
+    }
+   },
+   {
+    "label": "Ration fairly",
+    "journal": [
+     "Fair is not kind. It was the best I had."
+    ],
+    "fx": {
+     "stress": 8,
+     "sk_composure": 3
+    }
+   },
+   {
+    "label": "Call the shrine for help",
+    "journal": [
+     "The keepers came with tea and steady hands."
+    ],
+    "fx": {
+     "karma": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "career": [
+    "healer",
+    "priest"
+   ]
+  }
+ },
+ {
+  "id": "work_bard_royal_invite",
+  "cat": "work",
+  "ages": [
+   14,
+   90
+  ],
+  "w": 5,
+  "title": "A Seat by the Fire",
+  "prompt": "A sealed note: sing for people who can end you with a shrug.",
+  "choices": [
+   {
+    "label": "Accept",
+    "p": 0.6,
+    "skill": "performance",
+    "win": {
+     "journal": [
+      "They did not shrug. They clapped."
+     ],
+     "fx": {
+      "renown": 10,
+      "gold": 50
+     }
+    },
+    "fail": {
+     "journal": [
+      "A string snapped. So did the mood."
+     ],
+     "fx": {
+      "renown": -5
+     }
+    }
+   },
+   {
+    "label": "Send a student",
+    "journal": [
+     "My student came back glowing. Good."
+    ],
+    "fx": {
+     "karma": 3
+    }
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "Some fires are too warm."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "career": [
+    "bard"
+   ]
+  }
+ },
+ {
+  "id": "work_harvest_blight",
+  "cat": "work",
+  "ages": [
+   8,
+   90
+  ],
+  "w": 5,
+  "title": "Black Leaves",
+  "prompt": "Half the field spots overnight. Neighbors watch your gate.",
+  "choices": [
+   {
+    "label": "Burn the rows",
+    "journal": [
+     "Smoke all day. The rest of the field lived."
+    ],
+    "fx": {
+     "gold": -20,
+     "sk_husbandry": 2
+    }
+   },
+   {
+    "label": "Call a healer/priest",
+    "journal": [
+     "A blessing, a tonic for the soil, a small bill."
+    ],
+    "fx": {
+     "gold": -10,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Sell what you can now",
+    "journal": [
+     "Half price is better than none."
+    ],
+    "fx": {
+     "gold": 15,
+     "karma": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "career": [
+    "farmer"
+   ]
+  }
+ },
+ {
+  "id": "work_court_intrigue",
+  "cat": "work",
+  "ages": [
+   14,
+   90
+  ],
+  "w": 4,
+  "title": "Whispers on Silver Trays",
+  "prompt": "A letter that was not meant for you is now in your sleeve.",
+  "choices": [
+   {
+    "label": "Deliver it unread",
+    "journal": [
+     "Loyalty is a currency too."
+    ],
+    "fx": {
+     "karma": 3,
+     "perf": 5
+    }
+   },
+   {
+    "label": "Read it",
+    "journal": [
+     "Now I know too much."
+    ],
+    "fx": {
+     "sk_etiquette": 3,
+     "stress": 6
+    }
+   },
+   {
+    "label": "Burn it",
+    "journal": [
+     "Ash keeps secrets best."
+    ],
+    "fx": {
+     "stress": 2
+    }
+   }
+  ],
+  "src": "coder_stub",
+  "journal_src": "coder_stub",
+  "if": {
+   "career": [
+    "retainer",
+    "knight"
+   ]
+  }
+ },
+ {
+  "id": "legacy_grave_relic",
+  "cat": "legacy",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 6,
+  "once": true,
+  "title": "Something at the Grave",
+  "prompt": "A wrapped blade that was not there yesterday.",
+  "choices": [
+   {
+    "label": "Take for heir",
+    "journal": [
+     "I took it home. It felt like a handshake."
+    ],
+    "fx": {
+     "relic": "relic_family_blade"
+    }
+   },
+   {
+    "label": "Leave it",
+    "journal": [
+     "Some gifts belong to the dead."
+    ],
+    "fx": {
+     "karma": 2
+    }
+   },
+   {
+    "label": "Bury deeper",
+    "journal": [
+     "The earth closed over it. Quiet."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "flag": "is_heir"
+  }
+ },
+ {
+  "id": "legacy_echo_memory",
+  "cat": "legacy",
+  "ages": [
+   5,
+   30
+  ],
+  "w": 5,
+  "once": true,
+  "title": "A Life Behind the Eyes",
+  "prompt": "For a breath, you remember a skill you have not learned yet — or already did.",
+  "choices": [
+   {
+    "label": "Embrace it",
+    "journal": [
+     "My hands knew the motion before I did."
+    ],
+    "fx": {
+     "xp_primary": 6
+    }
+   },
+   {
+    "label": "Shake it off",
+    "journal": [
+     "This life is mine."
+    ],
+    "fx": {
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Write it in the Codex",
+    "journal": [
+     "Ink keeps what memory loses."
+    ],
+    "fx": {
+     "sk_lore": 3,
+     "codex": "legacy_echo_memory"
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "flag": "reincarnated"
+  }
+ },
+ {
+  "id": "legacy_heir_first_year",
+  "cat": "legacy",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 10,
+  "once": true,
+  "title": "First Year With Their Name",
+  "prompt": "The house still smells like them. The ledgers do not care.",
+  "choices": [
+   {
+    "label": "Keep their craft",
+    "journal": [
+     "Their tools fit my hands, almost."
+    ],
+    "fx": {
+     "xp_primary": 4
+    }
+   },
+   {
+    "label": "Sell what hurts",
+    "journal": [
+     "Gold does not grieve. I did."
+    ],
+    "fx": {
+     "gold": 40,
+     "spirit": -3
+    }
+   },
+   {
+    "label": "Visit the grave weekly",
+    "journal": [
+     "Flowers, tea, a long talk."
+    ],
+    "fx": {
+     "spirit": 5,
+     "karma": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub",
+  "if": {
+   "flag": "is_heir"
+  }
+ },
+ {
+  "id": "special_rescue_cat",
+  "cat": "special",
+  "ages": [
+   6,
+   90
+  ],
+  "w": 3,
+  "title": "A Small Life",
+  "prompt": "A cat in a drainpipe. Dignity in ruins.",
+  "choices": [
+   {
+    "label": "Free it",
+    "journal": [
+     "Scratched, muddy, adored."
+    ],
+    "fx": {
+     "karma": 4,
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Feed it",
+    "journal": [
+     "It followed me home. It lives here now."
+    ],
+    "fx": {
+     "spirit": 5
+    }
+   },
+   {
+    "label": "Walk on",
+    "journal": [
+     "The mewing followed me all day."
+    ],
+    "fx": {
+     "spirit": -3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "special_shrine_gift",
+  "cat": "special",
+  "ages": [
+   6,
+   99
+  ],
+  "w": 3,
+  "title": "Unasked Blessing",
+  "prompt": "The keeper presses a charm into your hand. No price named.",
+  "choices": [
+   {
+    "label": "Accept",
+    "journal": [
+     "The charm hums on cold nights."
+    ],
+    "fx": {
+     "health": 4,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Leave tea and coin",
+    "journal": [
+     "The keeper smiled like I had passed a test."
+    ],
+    "fx": {
+     "gold": -5,
+     "karma": 4
+    }
+   },
+   {
+    "label": "Refuse politely",
+    "journal": [
+     "The keeper bowed. So did I."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "special_prophetic_dream",
+  "cat": "special",
+  "ages": [
+   10,
+   99
+  ],
+  "w": 2,
+  "title": "Dream That Sticks",
+  "prompt": "A road, a gate, a face you have not met. Morning does not erase it.",
+  "choices": [
+   {
+    "label": "Chase the road",
+    "journal": [
+     "I packed a bag before breakfast."
+    ],
+    "fx": {
+     "region": "next",
+     "stress": 3
+    }
+   },
+   {
+    "label": "Tell a priest",
+    "journal": [
+     "They wrote it down. They did not laugh."
+    ],
+    "fx": {
+     "karma": 2,
+     "codex": "special_prophetic_dream"
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "It came back three nights running."
+    ],
+    "fx": {
+     "stress": 4
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "special_horde_rumor",
+  "cat": "special",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 1,
+  "once": true,
+  "title": "Dust on the East Road",
+  "prompt": "Dust on the east road. Too much dust.",
+  "choices": [
+   {
+    "label": "Warn the watch",
+    "journal": [
+     "The bell rang twice that week."
+    ],
+    "fx": {
+     "renown": 2
+    },
+    "chain": {
+     "id": "special_horde_arrives",
+     "in": [
+      1,
+      2
+     ]
+    }
+   },
+   {
+    "label": "Stock up and wait",
+    "journal": [
+     "Barrels of grain, shutters nailed."
+    ],
+    "fx": {
+     "gold": -15
+    },
+    "chain": {
+     "id": "special_horde_arrives",
+     "in": [
+      1,
+      2
+     ]
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "special_horde_arrives",
+  "cat": "special",
+  "ages": [
+   14,
+   99
+  ],
+  "w": 3,
+  "title": "Horns",
+  "prompt": "Horns. The guild board rewrites itself overnight.",
+  "choices": [
+   {
+    "label": "Hold the wall",
+    "p": 0.5,
+    "skill": "swordsmanship",
+    "win": {
+     "journal": [
+      "We held. My name is on a list at the watchpost now."
+     ],
+     "fx": {
+      "renown": 15
+     }
+    },
+    "fail": {
+     "journal": [
+      "The wall held. I nearly did not."
+     ],
+     "fx": {
+      "health": -25,
+      "injury": "deep_wound"
+     }
+    }
+   },
+   {
+    "label": "Shelter the young",
+    "journal": [
+     "Thirty children in a cellar, and a lot of stories."
+    ],
+    "fx": {
+     "karma": 6
+    }
+   },
+   {
+    "label": "Flee the vale",
+    "journal": [
+     "I lived. Not everyone forgave me."
+    ],
+    "fx": {
+     "renown": -6
+    }
+   }
+  ],
+  "chainOnly": true,
+  "src": "text",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "health_fever_season",
+  "cat": "health",
+  "ages": [
+   1,
+   99
+  ],
+  "w": 3,
+  "title": "Fever Season",
+  "prompt": "Half the lane is coughing. Now you are too.",
+  "choices": [
+   {
+    "label": "Visit the apothecary (10 gold)",
+    "journal": [
+     "Bitter tonic. Sweet relief."
+    ],
+    "fx": {
+     "gold": -10,
+     "health": 4
+    }
+   },
+   {
+    "label": "Rest it out",
+    "journal": [
+     "Three days of soup and ceiling."
+    ],
+    "fx": {
+     "health": -6
+    }
+   }
+  ],
+  "src": "coder_stub",
+  "journal_src": "coder_stub"
+ },
+ {
+  "id": "oldage_slow_mornings",
+  "cat": "oldage",
+  "ages": [
+   60,
+   999
+  ],
+  "w": 4,
+  "title": "Slow Mornings",
+  "prompt": "The stairs are longer than they used to be.",
+  "choices": [
+   {
+    "label": "Take a herbal tonic",
+    "journal": [
+     "Ginger root and stubbornness."
+    ],
+    "fx": {
+     "health": 3,
+     "gold": -5
+    }
+   },
+   {
+    "label": "Teach the young instead",
+    "journal": [
+     "My hands are slow. My advice is not."
+    ],
+    "fx": {
+     "karma": 3,
+     "renown": 2
+    }
+   }
+  ],
+  "src": "coder_stub",
+  "journal_src": "coder_stub"
+ }
+]

@@ -1,0 +1,56 @@
+[
+ {
+  "id": "human",
+  "name": "Human",
+  "lifespan": 90,
+  "growth": 1.0,
+  "buffs": {
+   "xp_primary": 0.1
+  },
+  "flaws": {},
+  "affinity_bias": null
+ },
+ {
+  "id": "elf",
+  "name": "Elf",
+  "lifespan": 600,
+  "growth": 0.75,
+  "buffs": {
+   "mana_max": 30,
+   "cat_arcane": 0.2
+  },
+  "flaws": {
+   "strength": -0.2
+  },
+  "affinity_bias": "wind"
+ },
+ {
+  "id": "dwarf",
+  "name": "Dwarf",
+  "lifespan": 250,
+  "growth": 0.9,
+  "buffs": {
+   "smithing": 0.25,
+   "injury_resist": 0.2
+  },
+  "flaws": {
+   "mana_max": -20
+  },
+  "affinity_bias": "earth"
+ },
+ {
+  "id": "beastkin",
+  "name": "Beastkin",
+  "lifespan": 80,
+  "growth": 1.0,
+  "buffs": {
+   "cat_wild": 0.15,
+   "agility": 0.1
+  },
+  "flaws": {
+   "literacy": -0.15
+  },
+  "affinity_bias": null,
+  "src": "coder_stub (SYSTEMS_OVERVIEW lists beastkin as later; art exists)"
+ }
+]

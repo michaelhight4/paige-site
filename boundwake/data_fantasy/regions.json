@@ -1,0 +1,246 @@
+[
+ {
+  "id": "hearthfold",
+  "name": "Hearthfold Vale",
+  "start": true,
+  "locations": [
+   {
+    "id": "hf_greenwell",
+    "name": "Greenwell Commons",
+    "kind": "Park",
+    "flavor": "Picnic lawns around a mossy well; kids race paper boats in the runoff."
+   },
+   {
+    "id": "hf_willowpond",
+    "name": "Willowpond",
+    "kind": "Pond",
+    "flavor": "Willows dip into clear water; anglers trade gossip louder than fish."
+   },
+   {
+    "id": "hf_market_row",
+    "name": "Market Row",
+    "kind": "Stalls",
+    "flavor": "Canvas awnings, herb bundles, and copper pots; prices drop at dusk."
+   },
+   {
+    "id": "hf_stonebridge",
+    "name": "Old Stonebridge",
+    "kind": "Landmark",
+    "flavor": "Three arches over the slow river; lovers carve initials (rangers frown)."
+   },
+   {
+    "id": "hf_hearthstatue",
+    "name": "The Hearthkeeper Statue",
+    "kind": "Statue",
+    "flavor": "A hooded figure offering bread; festival ribbons appear without warning."
+   },
+   {
+    "id": "hf_primer_yard",
+    "name": "Vale Primer Yard",
+    "kind": "Academy (village)",
+    "flavor": "Chalk boards under a tin roof; first letters, first wooden practice blades."
+   },
+   {
+    "id": "hf_cottage_lane",
+    "name": "Cottage Lane",
+    "kind": "Homes",
+    "flavor": "Shared fences, herb gardens, and laundry lines that double as gossip wires."
+   },
+   {
+    "id": "hf_watchpost",
+    "name": "Low Watchpost",
+    "kind": "Civic",
+    "flavor": "A timber tower with a brass bell; apprentices learn who to trust after dark."
+   }
+  ],
+  "feel": "Starting green lowlands; home villages, ponds, stone bridges"
+ },
+ {
+  "id": "glassmarket",
+  "name": "Glassmarket Coast",
+  "start": false,
+  "locations": [
+   {
+    "id": "gm_lantern_quay",
+    "name": "Lantern Quay",
+    "kind": "Harbor park",
+    "flavor": "Boardwalk lamps glow teal; street musicians duel for coin bowls."
+   },
+   {
+    "id": "gm_mirror_stalls",
+    "name": "Mirrorglass Stalls",
+    "kind": "Stalls",
+    "flavor": "Polished trays, imported dyes, and sharp-tongued brokers."
+   },
+   {
+    "id": "gm_tide_pond",
+    "name": "Tidepool Court",
+    "kind": "Pond plaza",
+    "flavor": "Salt ponds framed by mosaics; children dare each other to skip stones."
+   },
+   {
+    "id": "gm_envoy_statue",
+    "name": "Envoy of Scales",
+    "kind": "Statue",
+    "flavor": "A merchant-saint with balanced pans; oaths sworn here hold in court."
+   },
+   {
+    "id": "gm_caravan_yard",
+    "name": "Caravan Yard",
+    "kind": "Travel hub",
+    "flavor": "Wagons, mounts, and stamped travel writs — unlocks inter-region trips."
+   },
+   {
+    "id": "gm_ledger_hall",
+    "name": "Ledger Hall",
+    "kind": "Guild civic",
+    "flavor": "Contracts, bonds, and apprenticeship seals stamped in blue wax."
+   },
+   {
+    "id": "gm_coast_clinic",
+    "name": "Saltbreeze Healer Post",
+    "kind": "Healer",
+    "flavor": "Clean linen, bitter tonics, and a queue that never quite empties."
+   }
+  ],
+  "feel": "Trade city, stalls, harbor lamps, negotiators"
+ },
+ {
+  "id": "thornreed",
+  "name": "Thornreed Wilds",
+  "start": false,
+  "locations": [
+   {
+    "id": "tr_reedpath",
+    "name": "Reedpath Trail",
+    "kind": "Wild path",
+    "flavor": "Tall reeds hide deer and bandits alike; stick to the marked stakes."
+   },
+   {
+    "id": "tr_standing_ring",
+    "name": "Standing Stone Ring",
+    "kind": "Landmark",
+    "flavor": "Crooked menhirs; night wind sounds like whispered names."
+   },
+   {
+    "id": "tr_forage_camp",
+    "name": "Foragers’ Camp",
+    "kind": "Camp",
+    "flavor": "Drying racks for herbs and fruits; mentors teach what *not* to chew."
+   },
+   {
+    "id": "tr_mirrorpond",
+    "name": "Black Mirror Pond",
+    "kind": "Pond",
+    "flavor": "Still water shows stars at noon if the clouds play along."
+   },
+   {
+    "id": "tr_wayshrine",
+    "name": "Thornreed Wayshrine",
+    "kind": "Statue/shrine",
+    "flavor": "A cracked guardian statue; travelers leave fruit, not coins."
+   },
+   {
+    "id": "tr_ruin_gate",
+    "name": "Ashen Gate (ruin)",
+    "kind": "Sparse dungeon",
+    "flavor": "One sealed arch with cold breath behind it — endgame-curious events only."
+   }
+  ],
+  "feel": "Brush paths, standing stones, foraging camps"
+ },
+ {
+  "id": "spireward",
+  "name": "Spireward Heights",
+  "start": false,
+  "locations": [
+   {
+    "id": "sw_collegium",
+    "name": "Spireward Collegium",
+    "kind": "Academy",
+    "flavor": "Lecture yards, rune chalk, and exams that smell of ozone."
+   },
+   {
+    "id": "sw_statue_garden",
+    "name": "Founders’ Statue Garden",
+    "kind": "Park/statues",
+    "flavor": "Busts of scholars; students leave chalk jokes on the plinths."
+   },
+   {
+    "id": "sw_inkpond",
+    "name": "Inkpond Cloister",
+    "kind": "Pond",
+    "flavor": "Black swans (rumored ink-stained) and quiet study benches."
+   },
+   {
+    "id": "sw_scribe_stalls",
+    "name": "Scribe Stalls",
+    "kind": "Stalls",
+    "flavor": "Quills, blank codices, and gossip about which professor failed whom."
+   },
+   {
+    "id": "sw_dueling_lawn",
+    "name": "Practice Lawn",
+    "kind": "Training yard",
+    "flavor": "Soft turf for supervised spars; healers wait under a striped awning."
+   },
+   {
+    "id": "sw_archive_steps",
+    "name": "Archive Steps",
+    "kind": "Landmark",
+    "flavor": "Wide stairs to sealed stacks; Codex discoveries often start here."
+   }
+  ],
+  "feel": "Academies, lecture yards, statue gardens"
+ },
+ {
+  "id": "emberlight",
+  "name": "Emberlight Marches",
+  "start": false,
+  "locations": [
+   {
+    "id": "em_forge_plaza",
+    "name": "Forge Plaza",
+    "kind": "Civic/stalls",
+    "flavor": "Anvil song, spark showers, and armor fittings that never quite fit first try."
+   },
+   {
+    "id": "em_drill_hall",
+    "name": "Emberlight Drill Hall",
+    "kind": "Martial hall",
+    "flavor": "Line drills, wooden posts, and instructors who never raise their voice twice."
+   },
+   {
+    "id": "em_watch_fort",
+    "name": "Redlamp Fort",
+    "kind": "Frontier fort",
+    "flavor": "Signal fires on the wall; caravans pay for escort writs."
+   },
+   {
+    "id": "em_ash_park",
+    "name": "Ashflower Park",
+    "kind": "Park",
+    "flavor": "Tough blooms in black soil; veterans picnic between deployments."
+   },
+   {
+    "id": "em_ember_pond",
+    "name": "Ember Pond",
+    "kind": "Pond",
+    "flavor": "Warm mineral water; steam in winter, fireflies in summer."
+   },
+   {
+    "id": "em_hero_statue",
+    "name": "Marchwarden Statue",
+    "kind": "Statue",
+    "flavor": "A nameless captain pointing east; kids climb the boots until scolded."
+   },
+   {
+    "id": "em_deep_vault",
+    "name": "Deep Vault Threshold",
+    "kind": "Sparse dungeon",
+    "flavor": "Second and last ruin pin — relic rumors, not a cave crawl loop."
+   }
+  ],
+  "feel": "Frontier forts, forge towns, rare ruin gates"
+ }
+]

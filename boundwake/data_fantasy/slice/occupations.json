@@ -1,0 +1,1774 @@
+{
+ "careers": [
+  {
+   "id": "adventurer",
+   "name": "Adventurer (Guild)",
+   "blurb": "Bounties, dens and the long road between jobs.",
+   "skills": [
+    "swordsmanship",
+    "spellcraft",
+    "endurance",
+    "tracking"
+   ],
+   "unlock_text": "age 14, join guild",
+   "tags": [
+    "combat",
+    "dungeon",
+    "exploration",
+    "guild"
+   ],
+   "actions": [
+    "take a bounty",
+    "clear a den",
+    "escort caravan",
+    "delve dungeon"
+   ],
+   "outfit": "outfit_adventurer"
+  },
+  {
+   "id": "mage",
+   "name": "Mage (Academy)",
+   "blurb": "Lectures, trials and spells that remember your mistakes.",
+   "skills": [
+    "spellcraft",
+    "mana_control",
+    "lore"
+   ],
+   "unlock_text": "flag `mana_awakened`; academy at 10",
+   "tags": [
+    "academy",
+    "arcane",
+    "special"
+   ],
+   "actions": [
+    "attend lectures",
+    "research a spell",
+    "casting trial",
+    "tutor juniors"
+   ],
+   "outfit": "outfit_mage"
+  },
+  {
+   "id": "guard",
+   "name": "Town Guard",
+   "blurb": "Night watch, gates and the rare real fight.",
+   "skills": [
+    "shieldwork",
+    "swordsmanship",
+    "composure"
+   ],
+   "unlock_text": "age 15",
+   "tags": [
+    "combat",
+    "town",
+    "crime"
+   ],
+   "actions": [
+    "patrol",
+    "gate duty",
+    "catch thief",
+    "drill recruits"
+   ],
+   "outfit": "outfit_guard"
+  },
+  {
+   "id": "knight",
+   "name": "Knight (Order)",
+   "blurb": "Oaths, escorts and a crest that weighs more than steel.",
+   "skills": [
+    "swordsmanship",
+    "shieldwork",
+    "etiquette"
+   ],
+   "unlock_text": "page at 8 (noble birth or sponsor), squire 12",
+   "tags": [
+    "combat",
+    "court",
+    "war"
+   ],
+   "actions": [
+    "tourney",
+    "oath vigil",
+    "ride escort",
+    "defend border"
+   ],
+   "outfit": "outfit_knight"
+  },
+  {
+   "id": "blacksmith",
+   "name": "Blacksmith",
+   "blurb": "Heat, hammer, quench. Metal listens if you do.",
+   "skills": [
+    "smithing",
+    "strength",
+    "endurance"
+   ],
+   "unlock_text": "apprentice at 10",
+   "tags": [
+    "craft",
+    "town"
+   ],
+   "actions": [
+    "forge order",
+    "repair gear",
+    "craft masterwork",
+    "take apprentice"
+   ],
+   "outfit": "outfit_blacksmith"
+  },
+  {
+   "id": "merchant",
+   "name": "Merchant",
+   "blurb": "Buy low, sell high, smile through the bargain.",
+   "skills": [
+    "bartering",
+    "charm",
+    "literacy"
+   ],
+   "unlock_text": "age 12 (stall hand)",
+   "tags": [
+    "money",
+    "travel",
+    "guild"
+   ],
+   "actions": [
+    "run stall",
+    "caravan venture",
+    "buy shares",
+    "haggle contract"
+   ],
+   "outfit": "outfit_merchant"
+  },
+  {
+   "id": "farmer",
+   "name": "Farmer / Herder",
+   "blurb": "Seed, herd and weather that never asks permission.",
+   "skills": [
+    "husbandry",
+    "endurance",
+    "foraging"
+   ],
+   "unlock_text": "age 6 (family chores)",
+   "tags": [
+    "farm",
+    "weather",
+    "family"
+   ],
+   "actions": [
+    "plant",
+    "harvest",
+    "tend herd",
+    "sell at fair"
+   ],
+   "outfit": "outfit_farmer"
+  },
+  {
+   "id": "healer",
+   "name": "Healer / Apothecary",
+   "blurb": "Close the wound. Leave the story.",
+   "skills": [
+    "mending",
+    "alchemy",
+    "composure"
+   ],
+   "unlock_text": "age 12; mending needs `mana_awakened`, apothecary path does not",
+   "tags": [
+    "health",
+    "arcane",
+    "temple"
+   ],
+   "actions": [
+    "brew remedies",
+    "treat wounded",
+    "plague response",
+    "gather herbs"
+   ],
+   "outfit": "outfit_healer"
+  },
+  {
+   "id": "bard",
+   "name": "Bard",
+   "blurb": "Songs that open doors — or start fights.",
+   "skills": [
+    "performance",
+    "charm",
+    "lore"
+   ],
+   "unlock_text": "age 10",
+   "tags": [
+    "fame",
+    "relationship",
+    "travel"
+   ],
+   "actions": [
+    "perform at inn",
+    "compose ballad",
+    "tour towns",
+    "gather legends"
+   ],
+   "outfit": "outfit_bard"
+  },
+  {
+   "id": "rogue",
+   "name": "Rogue / Scout",
+   "blurb": "Be where eyes are not. Come back with the map.",
+   "skills": [
+    "stealth",
+    "agility",
+    "tracking"
+   ],
+   "unlock_text": "age 12",
+   "tags": [
+    "exploration",
+    "crime",
+    "dungeon"
+   ],
+   "actions": [
+    "scout route",
+    "recover stolen item",
+    "infiltrate",
+    "map ruins"
+   ],
+   "outfit": "outfit_rogue"
+  },
+  {
+   "id": "scholar",
+   "name": "Scholar",
+   "blurb": "Old names, older warnings, ink under the nails.",
+   "skills": [
+    "lore",
+    "literacy",
+    "focus"
+   ],
+   "unlock_text": "age 10, literacy 20",
+   "tags": [
+    "academy",
+    "exploration",
+    "special"
+   ],
+   "actions": [
+    "copy texts",
+    "catalog ruins finds",
+    "Codex research",
+    "teach"
+   ],
+   "outfit": "outfit_scholar"
+  },
+  {
+   "id": "retainer",
+   "name": "Noble Retainer",
+   "blurb": "Ledgers, feasts and secrets carried on silver trays.",
+   "skills": [
+    "etiquette",
+    "composure",
+    "charm"
+   ],
+   "unlock_text": "age 12, sponsor or noble birth",
+   "tags": [
+    "court",
+    "relationship",
+    "money"
+   ],
+   "actions": [
+    "manage estate",
+    "carry messages",
+    "host feast",
+    "court intrigue"
+   ],
+   "outfit": "outfit_retainer"
+  },
+  {
+   "id": "hunter",
+   "name": "Hunter / Ranger",
+   "blurb": "Trails, traps and knowing which rustle is dinner.",
+   "skills": [
+    "archery",
+    "tracking",
+    "foraging"
+   ],
+   "unlock_text": "age 10",
+   "tags": [
+    "exploration",
+    "combat",
+    "wild"
+   ],
+   "actions": [
+    "hunt",
+    "track beast",
+    "guard woods",
+    "guide travelers"
+   ],
+   "outfit": "outfit_hunter"
+  },
+  {
+   "id": "priest",
+   "name": "Shrine Keeper",
+   "blurb": "Sweep floors, tend rites, watch the high seats.",
+   "skills": [
+    "composure",
+    "lore",
+    "mending"
+   ],
+   "unlock_text": "age 12",
+   "tags": [
+    "temple",
+    "special",
+    "legacy"
+   ],
+   "actions": [
+    "tend shrine",
+    "bless harvest",
+    "pilgrimage",
+    "counsel"
+   ],
+   "outfit": "outfit_priest"
+  },
+  {
+   "id": "spellblade",
+   "name": "Spellblade",
+   "blurb": "Steel in one hand, spark in the other.",
+   "skills": [
+    "swordsmanship",
+    "spellcraft"
+   ],
+   "unlock_text": "age 16, sword 30 + spellcraft 30, route `route_hybrid`",
+   "tags": [
+    "combat",
+    "arcane",
+    "dungeon"
+   ],
+   "actions": [
+    "blade-casting drill",
+    "duel",
+    "guard caravan"
+   ],
+   "outfit": "outfit_spellblade"
+  }
+ ],
+ "jobs": {
+  "adventurer_copper": {
+   "id": "adventurer_copper",
+   "sector": "adventurer",
+   "title": "Copper Adventurer",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 14,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "adventurer_iron",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "adventurer_iron": {
+   "id": "adventurer_iron",
+   "sector": "adventurer",
+   "title": "Iron Adventurer",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 16,
+    "skills": {
+     "swordsmanship": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "adventurer_silver",
+   "level": 1,
+   "entry": false,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "adventurer_silver": {
+   "id": "adventurer_silver",
+   "sector": "adventurer",
+   "title": "Silver Adventurer",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 18,
+    "skills": {
+     "swordsmanship": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "adventurer_gold",
+   "level": 2,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "adventurer_gold": {
+   "id": "adventurer_gold",
+   "sector": "adventurer",
+   "title": "Gold Adventurer",
+   "wage": 360,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 20,
+    "skills": {
+     "swordsmanship": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "adventurer_mithril",
+   "level": 3,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "adventurer_mithril": {
+   "id": "adventurer_mithril",
+   "sector": "adventurer",
+   "title": "Mithril Adventurer Adventurer",
+   "wage": 700,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 5,
+    "age": 22,
+    "skills": {
+     "swordsmanship": 85
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 4,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "mage_pupil": {
+   "id": "mage_pupil",
+   "sector": "mage",
+   "title": "Pupil",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 10,
+    "skills": {},
+    "flags": [
+     "mana_awakened"
+    ],
+    "race": []
+   },
+   "next": "mage_initiate",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "mage_initiate": {
+   "id": "mage_initiate",
+   "sector": "mage",
+   "title": "Initiate",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 12,
+    "skills": {
+     "spellcraft": 25
+    },
+    "flags": [
+     "mana_awakened"
+    ],
+    "race": []
+   },
+   "next": "mage_magus",
+   "level": 1,
+   "entry": false,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "mage_magus": {
+   "id": "mage_magus",
+   "sector": "mage",
+   "title": "Magus",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "spellcraft": 45
+    },
+    "flags": [
+     "mana_awakened"
+    ],
+    "race": []
+   },
+   "next": "mage_archmagus",
+   "level": 2,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "mage_archmagus": {
+   "id": "mage_archmagus",
+   "sector": "mage",
+   "title": "Archmagus",
+   "wage": 360,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 16,
+    "skills": {
+     "spellcraft": 65
+    },
+    "flags": [
+     "mana_awakened"
+    ],
+    "race": []
+   },
+   "next": "mage_tower_master",
+   "level": 3,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "mage_tower_master": {
+   "id": "mage_tower_master",
+   "sector": "mage",
+   "title": "Tower Master",
+   "wage": 700,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 5,
+    "age": 18,
+    "skills": {
+     "spellcraft": 85
+    },
+    "flags": [
+     "mana_awakened"
+    ],
+    "race": []
+   },
+   "next": null,
+   "level": 4,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "guard_recruit": {
+   "id": "guard_recruit",
+   "sector": "guard",
+   "title": "Recruit",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 15,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "guard_watchman",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "guard_watchman": {
+   "id": "guard_watchman",
+   "sector": "guard",
+   "title": "Watchman",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 17,
+    "skills": {
+     "shieldwork": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "guard_sergeant",
+   "level": 1,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "guard_sergeant": {
+   "id": "guard_sergeant",
+   "sector": "guard",
+   "title": "Sergeant",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 19,
+    "skills": {
+     "shieldwork": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "guard_captain",
+   "level": 2,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "guard_captain": {
+   "id": "guard_captain",
+   "sector": "guard",
+   "title": "Watch Captain",
+   "wage": 420,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 21,
+    "skills": {
+     "shieldwork": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 3,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "knight_page": {
+   "id": "knight_page",
+   "sector": "knight",
+   "title": "Page",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 8,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "knight_squire",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "knight_squire": {
+   "id": "knight_squire",
+   "sector": "knight",
+   "title": "Squire",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 10,
+    "skills": {
+     "swordsmanship": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "knight_knight",
+   "level": 1,
+   "entry": false,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "knight_knight": {
+   "id": "knight_knight",
+   "sector": "knight",
+   "title": "Knight",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 12,
+    "skills": {
+     "swordsmanship": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "knight_banneret",
+   "level": 2,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "knight_banneret": {
+   "id": "knight_banneret",
+   "sector": "knight",
+   "title": "Knight Banneret",
+   "wage": 360,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 14,
+    "skills": {
+     "swordsmanship": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "knight_lord_commander",
+   "level": 3,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "knight_lord_commander": {
+   "id": "knight_lord_commander",
+   "sector": "knight",
+   "title": "Lord Commander",
+   "wage": 700,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 5,
+    "age": 16,
+    "skills": {
+     "swordsmanship": 85
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 4,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "blacksmith_apprentice": {
+   "id": "blacksmith_apprentice",
+   "sector": "blacksmith",
+   "title": "Apprentice",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 10,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "blacksmith_journeyman",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "blacksmith_journeyman": {
+   "id": "blacksmith_journeyman",
+   "sector": "blacksmith",
+   "title": "Journeyman",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 12,
+    "skills": {
+     "smithing": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "blacksmith_smith",
+   "level": 1,
+   "entry": false,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "blacksmith_smith": {
+   "id": "blacksmith_smith",
+   "sector": "blacksmith",
+   "title": "Smith",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "smithing": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "blacksmith_master_smith",
+   "level": 2,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "blacksmith_master_smith": {
+   "id": "blacksmith_master_smith",
+   "sector": "blacksmith",
+   "title": "Master Smith",
+   "wage": 360,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 16,
+    "skills": {
+     "smithing": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "blacksmith_runesmith",
+   "level": 3,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "blacksmith_runesmith": {
+   "id": "blacksmith_runesmith",
+   "sector": "blacksmith",
+   "title": "Runesmith",
+   "wage": 700,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 5,
+    "age": 18,
+    "skills": {
+     "smithing": 85,
+     "enchanting": 40
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 4,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "merchant_stall_hand": {
+   "id": "merchant_stall_hand",
+   "sector": "merchant",
+   "title": "Stall Hand",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 12,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "merchant_peddler",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "merchant_peddler": {
+   "id": "merchant_peddler",
+   "sector": "merchant",
+   "title": "Peddler",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 14,
+    "skills": {
+     "bartering": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "merchant_trader",
+   "level": 1,
+   "entry": false,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "merchant_trader": {
+   "id": "merchant_trader",
+   "sector": "merchant",
+   "title": "Trader",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 16,
+    "skills": {
+     "bartering": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "merchant_guild_merchant",
+   "level": 2,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "merchant_guild_merchant": {
+   "id": "merchant_guild_merchant",
+   "sector": "merchant",
+   "title": "Guild Merchant",
+   "wage": 360,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 18,
+    "skills": {
+     "bartering": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "merchant_trade_prince",
+   "level": 3,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "merchant_trade_prince": {
+   "id": "merchant_trade_prince",
+   "sector": "merchant",
+   "title": "Trade Magnate",
+   "wage": 700,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 5,
+    "age": 20,
+    "skills": {
+     "bartering": 85
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 4,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "farmer_farmhand": {
+   "id": "farmer_farmhand",
+   "sector": "farmer",
+   "title": "Farmhand",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 6,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "farmer_tenant",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "farmer_tenant": {
+   "id": "farmer_tenant",
+   "sector": "farmer",
+   "title": "Tenant",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 8,
+    "skills": {
+     "husbandry": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "farmer_freeholder",
+   "level": 1,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "farmer_freeholder": {
+   "id": "farmer_freeholder",
+   "sector": "farmer",
+   "title": "Freeholder",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 10,
+    "skills": {
+     "husbandry": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "farmer_landholder",
+   "level": 2,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "farmer_landholder": {
+   "id": "farmer_landholder",
+   "sector": "farmer",
+   "title": "Landholder",
+   "wage": 420,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 12,
+    "skills": {
+     "husbandry": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 3,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "healer_aide": {
+   "id": "healer_aide",
+   "sector": "healer",
+   "title": "Infirmary Aide",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 12,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "healer_apothecary",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "healer_apothecary": {
+   "id": "healer_apothecary",
+   "sector": "healer",
+   "title": "Apothecary",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 14,
+    "skills": {
+     "mending": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "healer_healer",
+   "level": 1,
+   "entry": false,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "healer_healer": {
+   "id": "healer_healer",
+   "sector": "healer",
+   "title": "Healer",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 16,
+    "skills": {
+     "mending": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "healer_chief_healer",
+   "level": 2,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "healer_chief_healer": {
+   "id": "healer_chief_healer",
+   "sector": "healer",
+   "title": "Chief Healer",
+   "wage": 360,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 18,
+    "skills": {
+     "mending": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "healer_life_warden",
+   "level": 3,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "healer_life_warden": {
+   "id": "healer_life_warden",
+   "sector": "healer",
+   "title": "Life Warden",
+   "wage": 700,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 5,
+    "age": 20,
+    "skills": {
+     "mending": 85
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 4,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "bard_busker": {
+   "id": "bard_busker",
+   "sector": "bard",
+   "title": "Busker",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 10,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "bard_minstrel",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "bard_minstrel": {
+   "id": "bard_minstrel",
+   "sector": "bard",
+   "title": "Minstrel",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 12,
+    "skills": {
+     "performance": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "bard_troubadour",
+   "level": 1,
+   "entry": false,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "bard_troubadour": {
+   "id": "bard_troubadour",
+   "sector": "bard",
+   "title": "Troubadour",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "performance": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "bard_court_bard",
+   "level": 2,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "bard_court_bard": {
+   "id": "bard_court_bard",
+   "sector": "bard",
+   "title": "Court Bard",
+   "wage": 360,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 16,
+    "skills": {
+     "performance": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "bard_loremaster",
+   "level": 3,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "bard_loremaster": {
+   "id": "bard_loremaster",
+   "sector": "bard",
+   "title": "Loremaster",
+   "wage": 700,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 5,
+    "age": 18,
+    "skills": {
+     "performance": 85
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 4,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "rogue_runner": {
+   "id": "rogue_runner",
+   "sector": "rogue",
+   "title": "Runner",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 12,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "rogue_scout",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "rogue_scout": {
+   "id": "rogue_scout",
+   "sector": "rogue",
+   "title": "Scout",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 14,
+    "skills": {
+     "stealth": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "rogue_shadow",
+   "level": 1,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "rogue_shadow": {
+   "id": "rogue_shadow",
+   "sector": "rogue",
+   "title": "Shadow",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 16,
+    "skills": {
+     "stealth": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "rogue_spymaster",
+   "level": 2,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "rogue_spymaster": {
+   "id": "rogue_spymaster",
+   "sector": "rogue",
+   "title": "Spymaster",
+   "wage": 420,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 18,
+    "skills": {
+     "stealth": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 3,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "scholar_copyist": {
+   "id": "scholar_copyist",
+   "sector": "scholar",
+   "title": "Copyist",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 10,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "scholar_archivist",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "scholar_archivist": {
+   "id": "scholar_archivist",
+   "sector": "scholar",
+   "title": "Archivist",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 12,
+    "skills": {
+     "lore": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "scholar_sage",
+   "level": 1,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "scholar_sage": {
+   "id": "scholar_sage",
+   "sector": "scholar",
+   "title": "Sage",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "lore": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "scholar_grand_sage",
+   "level": 2,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "scholar_grand_sage": {
+   "id": "scholar_grand_sage",
+   "sector": "scholar",
+   "title": "Grand Sage",
+   "wage": 420,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 16,
+    "skills": {
+     "lore": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 3,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "retainer_attendant": {
+   "id": "retainer_attendant",
+   "sector": "retainer",
+   "title": "Attendant",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 12,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "retainer_steward",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "retainer_steward": {
+   "id": "retainer_steward",
+   "sector": "retainer",
+   "title": "Steward",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 14,
+    "skills": {
+     "etiquette": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "retainer_chamberlain",
+   "level": 1,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "retainer_chamberlain": {
+   "id": "retainer_chamberlain",
+   "sector": "retainer",
+   "title": "Chamberlain",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 16,
+    "skills": {
+     "etiquette": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "retainer_seneschal",
+   "level": 2,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "retainer_seneschal": {
+   "id": "retainer_seneschal",
+   "sector": "retainer",
+   "title": "Seneschal",
+   "wage": 420,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 18,
+    "skills": {
+     "etiquette": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 3,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "hunter_trapper": {
+   "id": "hunter_trapper",
+   "sector": "hunter",
+   "title": "Trapper",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 10,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "hunter_hunter",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "hunter_hunter": {
+   "id": "hunter_hunter",
+   "sector": "hunter",
+   "title": "Hunter",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 12,
+    "skills": {
+     "archery": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "hunter_ranger",
+   "level": 1,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "hunter_ranger": {
+   "id": "hunter_ranger",
+   "sector": "hunter",
+   "title": "Ranger",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "archery": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "hunter_warden",
+   "level": 2,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "hunter_warden": {
+   "id": "hunter_warden",
+   "sector": "hunter",
+   "title": "Forest Warden",
+   "wage": 420,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 16,
+    "skills": {
+     "archery": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 3,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "priest_acolyte": {
+   "id": "priest_acolyte",
+   "sector": "priest",
+   "title": "Acolyte",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 12,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "priest_keeper",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "priest_keeper": {
+   "id": "priest_keeper",
+   "sector": "priest",
+   "title": "Keeper",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 14,
+    "skills": {
+     "composure": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "priest_elder",
+   "level": 1,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "priest_elder": {
+   "id": "priest_elder",
+   "sector": "priest",
+   "title": "Shrine Elder",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 16,
+    "skills": {
+     "composure": 45
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "priest_high_keeper",
+   "level": 2,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "priest_high_keeper": {
+   "id": "priest_high_keeper",
+   "sector": "priest",
+   "title": "High Keeper",
+   "wage": 420,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 18,
+    "skills": {
+     "composure": 65
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 3,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "spellblade_aspirant": {
+   "id": "spellblade_aspirant",
+   "sector": "spellblade",
+   "title": "Aspirant",
+   "wage": 40,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 16,
+    "skills": {
+     "swordsmanship": 30,
+     "spellcraft": 30
+    },
+    "flags": [
+     "route_hybrid"
+    ],
+    "race": []
+   },
+   "next": "spellblade_spellblade",
+   "level": 0,
+   "entry": true,
+   "promo_line": "Your hands stop shaking. The work starts to fit."
+  },
+  "spellblade_spellblade": {
+   "id": "spellblade_spellblade",
+   "sector": "spellblade",
+   "title": "Spellblade",
+   "wage": 90,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 18,
+    "skills": {
+     "swordsmanship": 45,
+     "spellcraft": 45
+    },
+    "flags": [
+     "route_hybrid"
+    ],
+    "race": []
+   },
+   "next": "spellblade_battlemage",
+   "level": 1,
+   "entry": false,
+   "promo_line": "People ask for you by name."
+  },
+  "spellblade_battlemage": {
+   "id": "spellblade_battlemage",
+   "sector": "spellblade",
+   "title": "Battlemage",
+   "wage": 180,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 20,
+    "skills": {
+     "swordsmanship": 60,
+     "spellcraft": 60
+    },
+    "flags": [
+     "route_hybrid"
+    ],
+    "race": []
+   },
+   "next": "spellblade_arcane_champion",
+   "level": 2,
+   "entry": false,
+   "promo_line": "Apprentices watch how you move."
+  },
+  "spellblade_arcane_champion": {
+   "id": "spellblade_arcane_champion",
+   "sector": "spellblade",
+   "title": "Arcane Champion",
+   "wage": 420,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 4,
+    "age": 22,
+    "skills": {
+     "swordsmanship": 75,
+     "spellcraft": 75
+    },
+    "flags": [
+     "route_hybrid"
+    ],
+    "race": []
+   },
+   "next": null,
+   "level": 3,
+   "entry": false,
+   "promo_line": "Songs get your details wrong. That is fine."
+  }
+ },
+ "schools": [
+  {
+   "id": "school_village",
+   "age": 6,
+   "name": "Village lessons"
+  },
+  {
+   "id": "school_academy",
+   "age": 10,
+   "name": "Mage Academy"
+  },
+  {
+   "id": "school_royal",
+   "age": 10,
+   "name": "Royal tutors"
+  },
+  {
+   "id": "school_dojo",
+   "age": 8,
+   "name": "Blade dojo"
+  }
+ ]
+}

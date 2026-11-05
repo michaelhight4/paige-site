@@ -1,0 +1,58 @@
+{
+ "affinities": [
+  "fire",
+  "water",
+  "wind",
+  "earth",
+  "light",
+  "shadow"
+ ],
+ "rare": [
+  {
+   "id": "trait_spark_born",
+   "name": "Spark-born",
+   "up": "Mana awakened at birth",
+   "down": "+strain each year",
+   "src": "SKILLS.md id; copy coder_stub"
+  },
+  {
+   "id": "trait_iron_bones",
+   "name": "Iron Bones",
+   "up": "+health",
+   "down": "-grace",
+   "src": "coder_stub"
+  },
+  {
+   "id": "trait_silver_tongue",
+   "name": "Silver Tongue",
+   "up": "+charm gain",
+   "down": "-karma drift",
+   "src": "coder_stub"
+  },
+  {
+   "id": "trait_restless",
+   "name": "Restless Feet",
+   "up": "+exploration events",
+   "down": "+strain",
+   "src": "coder_stub"
+  }
+ ],
+ "wealth": [
+  [
+   "poor",
+   5
+  ],
+  [
+   "common",
+   30
+  ],
+  [
+   "comfortable",
+   120
+  ],
+  [
+   "noble",
+   600
+  ]
+ ]
+}

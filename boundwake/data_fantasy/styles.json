@@ -1,0 +1,155 @@
+[
+ {
+  "id": "style_river",
+  "type": "sword",
+  "name": "Flowing River",
+  "feel": "counters, defense",
+  "unlock": {
+   "age": 8,
+   "skills": {
+    "swordsmanship": 10
+   }
+  },
+  "forms": {
+   "form_1": 10,
+   "form_2": 30,
+   "form_3": 50,
+   "form_4": 70,
+   "form_5": 90
+  }
+ },
+ {
+  "id": "style_storm",
+  "type": "sword",
+  "name": "Breaking Storm",
+  "feel": "heavy strikes, fast kills",
+  "unlock": {
+   "age": 8,
+   "skills": {
+    "swordsmanship": 10
+   }
+  },
+  "forms": {
+   "form_1": 10,
+   "form_2": 30,
+   "form_3": 50,
+   "form_4": 70,
+   "form_5": 90
+  }
+ },
+ {
+  "id": "style_thorn",
+  "type": "sword",
+  "name": "Thorn Step",
+  "feel": "speed, crits, footwork",
+  "unlock": {
+   "age": 8,
+   "skills": {
+    "swordsmanship": 10
+   }
+  },
+  "forms": {
+   "form_1": 10,
+   "form_2": 30,
+   "form_3": 50,
+   "form_4": 70,
+   "form_5": 90
+  }
+ },
+ {
+  "id": "style_bulwark",
+  "type": "sword",
+  "name": "Bulwark",
+  "feel": "shield + blade (guard/knight)",
+  "unlock": {
+   "age": 8,
+   "skills": {
+    "swordsmanship": 10
+   }
+  },
+  "forms": {
+   "form_1": 10,
+   "form_2": 30,
+   "form_3": 50,
+   "form_4": 70,
+   "form_5": 90
+  }
+ },
+ {
+  "id": "school_flame",
+  "type": "school",
+  "name": "Flame School",
+  "unlock": {
+   "flags": [
+    "mana_awakened"
+   ]
+  },
+  "src": "coder_stub_name"
+ },
+ {
+  "id": "school_tide",
+  "type": "school",
+  "name": "Tide School",
+  "unlock": {
+   "flags": [
+    "mana_awakened"
+   ]
+  },
+  "src": "coder_stub_name"
+ },
+ {
+  "id": "school_gale",
+  "type": "school",
+  "name": "Gale School",
+  "unlock": {
+   "flags": [
+    "mana_awakened"
+   ]
+  },
+  "src": "coder_stub_name"
+ },
+ {
+  "id": "school_stone",
+  "type": "school",
+  "name": "Stone School",
+  "unlock": {
+   "flags": [
+    "mana_awakened"
+   ]
+  },
+  "src": "coder_stub_name"
+ },
+ {
+  "id": "school_radiance",
+  "type": "school",
+  "name": "Radiance School",
+  "unlock": {
+   "flags": [
+    "mana_awakened"
+   ]
+  },
+  "src": "coder_stub_name"
+ },
+ {
+  "id": "school_umbra",
+  "type": "school",
+  "name": "Umbra School",
+  "unlock": {
+   "flags": [
+    "mana_awakened"
+   ]
+  },
+  "src": "coder_stub_name"
+ },
+ {
+  "id": "school_mending",
+  "type": "school",
+  "name": "Mending School",
+  "unlock": {
+   "flags": [
+    "mana_awakened"
+   ]
+  },
+  "src": "coder_stub_name"
+ }
+]

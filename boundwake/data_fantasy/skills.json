@@ -1,0 +1,399 @@
+{
+ "categories": [
+  {
+   "id": "physical",
+   "name": "Physical",
+   "icon": "💪"
+  },
+  {
+   "id": "martial",
+   "name": "Martial",
+   "icon": "⚔️"
+  },
+  {
+   "id": "arcane",
+   "name": "Arcane",
+   "icon": "✨"
+  },
+  {
+   "id": "craft",
+   "name": "Craft",
+   "icon": "🔨"
+  },
+  {
+   "id": "social",
+   "name": "Social",
+   "icon": "🗣️"
+  },
+  {
+   "id": "wild",
+   "name": "Wilds",
+   "icon": "🌲"
+  },
+  {
+   "id": "mental",
+   "name": "Mental",
+   "icon": "🧠"
+  }
+ ],
+ "skills": [
+  {
+   "id": "strength",
+   "cat": "physical",
+   "name": "Strength",
+   "note": "kept from Lifeline",
+   "flavor": "Move what others call stuck.",
+   "arcane_locked": false
+  },
+  {
+   "id": "endurance",
+   "cat": "physical",
+   "name": "Endurance",
+   "note": "kept",
+   "flavor": "Last one more mile than the problem.",
+   "arcane_locked": false
+  },
+  {
+   "id": "agility",
+   "cat": "physical",
+   "name": "Agility",
+   "note": "replaces `speed` display; keep `speed` id if Coder prefers reuse",
+   "flavor": "Feet find the path before eyes do.",
+   "arcane_locked": false
+  },
+  {
+   "id": "swordsmanship",
+   "cat": "martial",
+   "name": "Swordsmanship",
+   "note": "unlocks sword styles at 8",
+   "flavor": "Edge, guard and the space between heartbeats.",
+   "arcane_locked": false
+  },
+  {
+   "id": "archery",
+   "cat": "martial",
+   "name": "Archery",
+   "note": "",
+   "flavor": "Breath out. Let the string decide.",
+   "arcane_locked": false
+  },
+  {
+   "id": "shieldwork",
+   "cat": "martial",
+   "name": "Shieldwork",
+   "note": "guard/knight",
+   "flavor": "Be the wall someone else needs.",
+   "arcane_locked": false
+  },
+  {
+   "id": "unarmed",
+   "cat": "martial",
+   "name": "Brawling",
+   "note": "",
+   "flavor": "",
+   "arcane_locked": false
+  },
+  {
+   "id": "spellcraft",
+   "cat": "arcane",
+   "name": "Spellcraft",
+   "note": "general magic skill; drives circle rank",
+   "flavor": "Shape the spark before it shapes you.",
+   "arcane_locked": true
+  },
+  {
+   "id": "mana_control",
+   "cat": "arcane",
+   "name": "Mana Control",
+   "note": "raises mana max, lowers misfire",
+   "flavor": "Hold the river. Do not drown in it.",
+   "arcane_locked": true
+  },
+  {
+   "id": "elementalism",
+   "cat": "arcane",
+   "name": "Elementalism",
+   "note": "uses birth affinity",
+   "flavor": "",
+   "arcane_locked": true
+  },
+  {
+   "id": "mending",
+   "cat": "arcane",
+   "name": "Mending",
+   "note": "healing magic",
+   "flavor": "Close the wound. Leave the story.",
+   "arcane_locked": true
+  },
+  {
+   "id": "warding",
+   "cat": "arcane",
+   "name": "Warding",
+   "note": "barriers, seals",
+   "flavor": "",
+   "arcane_locked": true
+  },
+  {
+   "id": "smithing",
+   "cat": "craft",
+   "name": "Smithing",
+   "note": "",
+   "flavor": "Make it once. Make it right.",
+   "arcane_locked": false
+  },
+  {
+   "id": "alchemy",
+   "cat": "craft",
+   "name": "Herbal Alchemy",
+   "note": "medicines and tonics only",
+   "flavor": "Brews that heal, hide or explode. Label carefully.",
+   "arcane_locked": false
+  },
+  {
+   "id": "enchanting",
+   "cat": "craft",
+   "name": "Enchanting",
+   "note": "needs `spellcraft` 20",
+   "flavor": "Leave a whisper in the steel.",
+   "arcane_locked": false
+  },
+  {
+   "id": "cooking",
+   "cat": "craft",
+   "name": "Cooking",
+   "note": "kept",
+   "flavor": "",
+   "arcane_locked": false
+  },
+  {
+   "id": "tailoring",
+   "cat": "craft",
+   "name": "Tailoring",
+   "note": "",
+   "flavor": "",
+   "arcane_locked": false
+  },
+  {
+   "id": "charm",
+   "cat": "social",
+   "name": "Charm",
+   "note": "",
+   "flavor": "Words that open doors or close throats.",
+   "arcane_locked": false
+  },
+  {
+   "id": "bartering",
+   "cat": "social",
+   "name": "Bartering",
+   "note": "",
+   "flavor": "Every price is a story. Tell yours first.",
+   "arcane_locked": false
+  },
+  {
+   "id": "performance",
+   "cat": "social",
+   "name": "Performance",
+   "note": "bard",
+   "flavor": "Make them forget the dark for one song.",
+   "arcane_locked": false
+  },
+  {
+   "id": "etiquette",
+   "cat": "social",
+   "name": "Courtly Etiquette",
+   "note": "noble retainer",
+   "flavor": "Smile for the court. Mean none of it — or all of it.",
+   "arcane_locked": false
+  },
+  {
+   "id": "stealth",
+   "cat": "wild",
+   "name": "Stealth",
+   "note": "rogue/scout",
+   "flavor": "Be where eyes are not.",
+   "arcane_locked": false
+  },
+  {
+   "id": "tracking",
+   "cat": "wild",
+   "name": "Tracking",
+   "note": "",
+   "flavor": "Read the dirt like a letter.",
+   "arcane_locked": false
+  },
+  {
+   "id": "husbandry",
+   "cat": "wild",
+   "name": "Animal Handling",
+   "note": "farmer, mounts",
+   "flavor": "Animals remember kindness. And hunger.",
+   "arcane_locked": false
+  },
+  {
+   "id": "foraging",
+   "cat": "wild",
+   "name": "Foraging",
+   "note": "",
+   "flavor": "Roots, remedies and the difference between them.",
+   "arcane_locked": false
+  },
+  {
+   "id": "literacy",
+   "cat": "mental",
+   "name": "Literacy",
+   "note": "kept",
+   "flavor": "Ink is cheaper than regret.",
+   "arcane_locked": false
+  },
+  {
+   "id": "lore",
+   "cat": "mental",
+   "name": "Lore",
+   "note": "scholar, Codex speed",
+   "flavor": "Old names, older warnings.",
+   "arcane_locked": false
+  },
+  {
+   "id": "focus",
+   "cat": "mental",
+   "name": "Focus",
+   "note": "kept",
+   "flavor": "One task. All of you.",
+   "arcane_locked": false
+  },
+  {
+   "id": "composure",
+   "cat": "mental",
+   "name": "Composure",
+   "note": "kept; lowers stress gain",
+   "flavor": "Stay still when the room shakes.",
+   "arcane_locked": false
+  }
+ ],
+ "activityMap": [
+  [
+   "sword|spar|duel|drill",
+   "swordsmanship:1.4,strength:0.6,agility:0.4"
+  ],
+  [
+   "archery|bow|hunt",
+   "archery:1.2,tracking:0.6,focus:0.4"
+  ],
+  [
+   "meditate_mana|mana|channel",
+   "mana_control:1.4,focus:0.6"
+  ],
+  [
+   "spell|cast|grimoire",
+   "spellcraft:1.2,elementalism:0.8"
+  ],
+  [
+   "heal|mend|infirmary",
+   "mending:1.2,alchemy:0.4,composure:0.4"
+  ],
+  [
+   "forge|smith|anvil",
+   "smithing:1.4,strength:0.6"
+  ],
+  [
+   "brew|herb|apothecary",
+   "alchemy:1.2,foraging:0.6"
+  ],
+  [
+   "sneak|scout|lockpick",
+   "stealth:1.2,agility:0.6"
+  ],
+  [
+   "sing|lute|perform|tale",
+   "performance:1.2,charm:0.6"
+  ],
+  [
+   "court|ball|audience",
+   "etiquette:1.2,charm:0.6"
+  ],
+  [
+   "farm|herd|stable",
+   "husbandry:1.2,endurance:0.6"
+  ],
+  [
+   "trade|market|haggle",
+   "bartering:1.2,charm:0.4"
+  ],
+  [
+   "library|archive|study",
+   "lore:1.2,literacy:1.0"
+  ]
+ ],
+ "ranks": [
+  [
+   0,
+   "untrained"
+  ],
+  [
+   10,
+   "novice"
+  ],
+  [
+   25,
+   "apprentice"
+  ],
+  [
+   45,
+   "adept"
+  ],
+  [
+   65,
+   "expert"
+  ],
+  [
+   85,
+   "master"
+  ],
+  [
+   100,
+   "paragon"
+  ]
+ ],
+ "decay": {
+  "base": 0.5,
+  "pct": 0.008,
+  "physicalAfter": 45,
+  "physicalExtra": 0.8
+ },
+ "gain": {
+  "cap": 100,
+  "passionMult": 1.6
+ },
+ "trainingCurve": [
+  1.0,
+  0.6,
+  0.25
+ ],
+ "circles": [
+  {
+   "id": "circle_1",
+   "name": "Spark",
+   "spellcraft": 10
+  },
+  {
+   "id": "circle_2",
+   "name": "Ember",
+   "spellcraft": 30
+  },
+  {
+   "id": "circle_3",
+   "name": "Flare",
+   "spellcraft": 50
+  },
+  {
+   "id": "circle_4",
+   "name": "Tempest",
+   "spellcraft": 70
+  },
+  {
+   "id": "circle_5",
+   "name": "Starfall",
+   "spellcraft": 90
+  }
+ ]
+}

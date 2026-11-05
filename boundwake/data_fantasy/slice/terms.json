@@ -1,0 +1,143 @@
+{
+ "ui": {
+  "app_title": "Boundwake",
+  "tagline": "Live another life in another world.",
+  "currency": "gold",
+  "year_verb": "Age",
+  "advance": "Advance a year",
+  "skip_n": "Skip {n} years",
+  "health": "Health",
+  "happiness / spirit": "Spirit",
+  "smarts / wits": "Wits",
+  "looks / presence": "Presence",
+  "strength / might": "Might",
+  "agility / grace": "Grace",
+  "mana": "Mana",
+  "fame / renown": "Renown",
+  "stress / strain": "Strain",
+  "composure": "Composure",
+  "cold_1": "You died.",
+  "cold_2": "Something caught you in the dark between worlds.",
+  "cold_3": "When you open your eyes, the air smells of rain and forge-smoke.",
+  "skip_intro": "Skip",
+  "fate_title": "Your fate is drawn",
+  "fate_reroll": "Reroll once",
+  "start_life": "Begin this life",
+  "occupation_menu": "Work",
+  "adventure_menu": "Adventure",
+  "people_menu": "Bonds",
+  "assets_menu": "Belongings",
+  "skills_menu": "Skills",
+  "map_menu": "Realms",
+  "codex_menu": "Codex",
+  "guild_menu": "Guild",
+  "death_title": "Your story ends here",
+  "path_reincarnate_title": "Reincarnate",
+  "path_reincarnate_body": "Wake in a new body in this world. Keep one Echo. Lose family, gold and home.",
+  "path_heir_title": "Continue as your child",
+  "path_heir_body": "Pass the name, home and relics to your heir. No Echoes on this path.",
+  "path_heir_locked": "No child to carry your name",
+  "cemetery_title": "Those who came before",
+  "echo_pick": "Choose an Echo",
+  "year_passed": "Another year turns.",
+  "job_promoted": "You rise in your craft.",
+  "injured": "You take a lasting wound.",
+  "healed": "The wound fades.",
+  "married": "A bond is sealed.",
+  "child_born": "A new life joins your line.",
+  "mana_awakened": "Mana answers you for the first time."
+ },
+ "death": {
+  "title": "Those who came before",
+  "subtitle": "Age {age}. {cause}.",
+  "summary_line": "You leave behind {gold} gold, {heirs} living heirs, and a name the world may keep.",
+  "old_age": "The years finally catch you.",
+  "battle": "A fight you do not walk away from.",
+  "illness": "A sickness no healer can outrun.",
+  "accident": "One bad step. That is all it takes.",
+  "magic_backfire": "The spell turns. So does fortune.",
+  "monster": "Something hungrier than you.",
+  "execution": "The law, or what claims to be.",
+  "unknown": "No one agrees what happened. The songs disagree louder.",
+  "button": "Continue as {heir_name}",
+  "blurb": "Pass the name, home and relics to your child. No Echoes. Their stats are their own, plus one lineage trait.",
+  "echo_prompt": "Choose what follows you",
+  "echo_confirm": "This Echo walks with you.",
+  "after": "You wake as {heir_name}. The house still smells like them — like you.",
+  "locked": "No child to carry your name",
+  "locked_hint": "Adopt, apprentice or raise a ward if you want this path next time.",
+  "blood_iron": "Your line endures pain a little longer.",
+  "blood_spark": "Magic finds your family first.",
+  "blood_silver": "Coin sticks to your name.",
+  "blood_root": "Home feels like armor.",
+  "empty": "No names yet. Live one.",
+  "entry": "{name}, {race}, age {age} — {cause}",
+  "soul_link": "Reincarnation of {prior}",
+  "heir_link": "Heir of {prior}",
+  "relic_note": "Relics pass only along the bloodline path.",
+  "low": "A quiet life. The world barely noticed.",
+  "mid": "Enough deeds for a tavern story.",
+  "high": "Bards argue over which verse is true.",
+  "top": "Empires measure years by your name."
+ },
+ "causes": {
+  "old_age": "The years finally catch you.",
+  "battle": "A fight you do not walk away from.",
+  "illness": "A sickness no healer can outrun.",
+  "accident": "One bad step. That is all it takes.",
+  "magic_backfire": "The spell turns. So does fortune.",
+  "monster": "Something hungrier than you.",
+  "execution": "The law, or what claims to be.",
+  "unknown": "No one agrees what happened. The songs disagree louder."
+ },
+ "echoes": [
+  {
+   "id": "echo_might",
+   "name": "Echo of Might",
+   "text": "Your body remembers strength."
+  },
+  {
+   "id": "echo_wits",
+   "name": "Echo of Wits",
+   "text": "Old lessons arrive early."
+  },
+  {
+   "id": "echo_mana",
+   "name": "Echo of Mana",
+   "text": "Power answers sooner."
+  },
+  {
+   "id": "echo_grace",
+   "name": "Echo of Grace",
+   "text": "Feet find the path before eyes do."
+  },
+  {
+   "id": "echo_presence",
+   "name": "Echo of Presence",
+   "text": "Strangers listen when you speak."
+  },
+  {
+   "id": "echo_renown",
+   "name": "Echo of Renown",
+   "text": "A shadow of your name arrives ahead of you."
+  }
+ ],
+ "lineage": [
+  {
+   "id": "blood_iron",
+   "text": "Your line endures pain a little longer."
+  },
+  {
+   "id": "blood_spark",
+   "text": "Magic finds your family first."
+  },
+  {
+   "id": "blood_silver",
+   "text": "Coin sticks to your name."
+  },
+  {
+   "id": "blood_root",
+   "text": "Home feels like armor."
+  }
+ ]
+}
