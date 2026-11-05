@@ -653,3 +653,30 @@ body.info-open .dock{pointer-events:none}
   .lock-why{display:block;margin-top:2px;font-size:11px}
   .party-list,.bond-card{margin-top:6px}
 }
+
+/* Dense skills accordion (Boundwake parchment — layout density, not Bit Tensei chrome) */
+.skill-acc{border:2px solid var(--line,#c9b896);border-radius:12px;background:var(--paper,#f4ead2);margin:0 0 8px;overflow:hidden}
+.skill-acc-hd{list-style:none;cursor:pointer;padding:10px 12px;font-weight:700;font-size:13px;letter-spacing:.03em;display:flex;align-items:center;gap:8px;background:linear-gradient(180deg,#efe2c0,#e6d5a8)}
+.skill-acc-hd::-webkit-details-marker{display:none}
+.skill-acc-hd small{margin-left:auto;font-weight:600;opacity:.7}
+.skill-acc-body{padding:4px 8px 8px}
+.row-skill.dense{display:flex;align-items:flex-start;gap:8px;padding:8px 4px;border-bottom:1px solid #00000012}
+.row-skill.dense:last-child{border-bottom:0}
+.row-skill .skill-main{display:flex;gap:8px;flex:1;min-width:0}
+.row-skill .skill-meta{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.row-skill .skill-meta b{font-size:14px;line-height:1.2}
+.row-skill .skill-side{display:flex;flex-direction:column;align-items:flex-end;gap:4px;min-width:72px}
+.row-skill .skill-val{font-weight:700;font-variant-numeric:tabular-nums}
+.skill-bar{display:block;height:5px;border-radius:99px;background:#00000018;overflow:hidden;margin-top:3px}
+.skill-bar > b{display:block;height:100%;background:linear-gradient(90deg,#8a6a3a,#c4a35a)}
+.row-skill.locked .skill-bar > b{background:#8a7a60}
+.tip-train{margin:4px 0 0;font-size:12px}
+.life-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 8px}
+.life-shortcuts button{display:flex;align-items:center;justify-content:center;gap:4px;padding:10px 6px;font-size:12px;border-radius:10px;border:2px solid var(--line,#c9b896);background:var(--paper,#f4ead2);font-weight:700}
+@media (max-width:1023px){
+  .life-shortcuts{grid-template-columns:repeat(3,minmax(0,1fr));padding:0 2px}
+  .row-skill .skill-meta b{font-size:13px}
+  .skill-acc-hd{padding:9px 10px}
+  .play-body{padding-left:8px;padding-right:8px}
+  .play-body > .card,.play-body > .skill-acc{width:100%}
+}

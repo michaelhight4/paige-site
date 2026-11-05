@@ -122,6 +122,14 @@ function body() {
   const lead = (k) => `<p class="menu-lead">${LEAD[k] || ''}</p>`;
   if (tab === 'life') {
     const byAge = []; for (const l of s.log.slice(-80)) { const a = Math.floor(l.age); if (!byAge.length || byAge.at(-1)[0] !== a) byAge.push([a, []]); if (l.kind !== 'year') byAge.at(-1)[1].push(l.text); }
+    const lifeShortcuts = `<div class="life-shortcuts" role="navigation" aria-label="Quick links">
+      <button type="button" data-tab="skills">${ico('skill')} Skills</button>
+      <button type="button" data-tab="adv">${ico('adventure')} Adventure</button>
+      <button type="button" data-tab="realms">${ico('realm')} Realms</button>
+      <button type="button" data-tab="bonds">${ico('bond')} Bonds</button>
+      <button type="button" data-tab="work">${ico('work')} Work</button>
+      <button type="button" data-a="rest" ${s.budget.act < 1 ? 'disabled' : ''}>${ico('spirit')} Rest</button>
+    </div>`;
     const tourneyBanner = E.isTournamentYear(s)
       ? card('life', `${ico('adventure')} Tournament year`, `<p class="sub">Bracket <b>${esc(E.tourneyBracket(s)?.label || '')}</b> meets are open — enter from Adventure (1 action). Strong places draw academies, tutors, and blade halls.</p><div class="actions"><button data-tab="adv">Open Adventure</button></div>`)
       : (E.tournamentInvites(s).length
@@ -220,31 +228,46 @@ function body() {
         ? `<p class="sub">Mana <b>${Math.floor(s.mana)}</b> / <b>${Math.floor(Math.max(s.manaMax || 0, 1))}</b>. School: <b>${esc((P.styles||[]).find(x=>x.id===s.magicSchool)?.name || 'none yet')}</b>. Sword style: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || 'none yet')}</b>.</p>
            <div class="actions"><button data-a="cast" class="primary" ${s.budget.act < 1 || s.mana < 5 || !s.magicSchool ? 'disabled' : ''}>Practice magic (5 mana)</button>
            <button data-a="drill" ${s.budget.act < 1 || !s.swordStyle ? 'disabled' : ''}>Drill sword forms</button></div>`
-        : `<p class="sub">Mana sleeps. From age 6: Attempt awakening here, or Visit an Academy in Realms. Spark-born trait wakes it at birth.</p>
+        : `<p class="sub">Mana sleeps. From age 6: <b>Attempt awakening</b> here, or Visit an Academy in Realms. Spark-born wakes it at birth.</p>
            <div class="actions"><button data-a="awaken" class="primary" ${s.budget.act < 1 || h < 6 ? 'disabled' : ''}>Attempt mana awakening${h < 6 ? ' (age 6+)' : ''}</button></div>`);
     const stylePick = (!s.swordStyle && h >= 8)
-      ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Choose how you bind steel — this shapes adventure odds. Need Swordsmanship ${(P.styles||[]).find(x=>x.type==='sword')?.unlock?.skills?.swordsmanship || 10}+.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'sword').map((st) => { const need = st.unlock?.skills?.swordsmanship || 10; const ok = (s.skills.swordsmanship||0) >= need; return `<button data-a="style" data-v="${st.id}" title="${esc(st.feel||'')}" ${ok?'':'disabled'}>${esc(st.name)}${ok?'':` (need ${need})`}</button>`; }).join('')}</div>`)
-      : (s.swordStyle ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Active: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || s.swordStyle)}</b> — ${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.feel || '')}. Drill forms below or Train Swordsmanship.</p>`) : '');
+      ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Choose how you bind steel — shapes adventure odds. Need Swordsmanship ${(P.styles||[]).find(x=>x.type==='sword')?.unlock?.skills?.swordsmanship || 10}+.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'sword').map((st) => { const need = st.unlock?.skills?.swordsmanship || 10; const ok = (s.skills.swordsmanship||0) >= need; return `<button data-a="style" data-v="${st.id}" title="${esc(st.feel||'')}" ${ok?'':'disabled'}>${esc(st.name)}${ok?'':` (need ${need})`}</button>`; }).join('')}</div>`)
+      : (s.swordStyle ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Active: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || s.swordStyle)}</b> — ${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.feel || '')}.</p>`) : '');
     const schoolPick = (s.flags.mana_awakened && !s.magicSchool)
-      ? card('skills', `${ico('spellcraft')} Magic school`, `<p class="sub">Bind your spark to a Boundwake school (original names).</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'school').map((st) => `<button data-a="school" data-v="${st.id}">${esc(st.name)}</button>`).join('')}</div>`)
+      ? card('skills', `${ico('spellcraft')} Magic school`, `<p class="sub">Bind your spark to a Boundwake school.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'school').map((st) => `<button data-a="school" data-v="${st.id}">${esc(st.name)}</button>`).join('')}</div>`)
       : '';
-    const rows = P.skills.categories.map((c) => card('skills', `${c.icon} ${esc(c.name)}`, P.skills.skills.filter((k) => k.cat === c.id).map((k) => {
-      const v = s.skills[k.id], block = why(k.id);
-      const pillar = E.PILLAR_SKILLS?.includes(k.id) && E.longevitySkillPace(s, k.id) > 1 ? ` · <small class="muted">long-life pace ×${E.longevitySkillPace(s, k.id).toFixed(1)}</small>` : '';
-      const soft = E.isSoftSkill?.(k.id);
-      return `<div class="row row-skill"><div class="skill-name">${skillIco(k.id)}<b>${esc(k.name)}</b> <small>${E.rankOf(v)}${s.talents.includes(k.id) && v > 10 ? ' · talent!' : ''}${pillar}</small><br><small>${flare(k.flavor || k.note)}</small>
-        ${block ? `<br><small class="lock-why">${esc(block)}</small>` : ''}</div>
-        <div style="text-align:right;min-width:96px">${Math.floor(v)}<br>
-        <button data-a="train" data-v="${k.id}" ${block || s.budget.act < 1 ? 'disabled' : ''}>${block ? 'Locked' : 'Train'}</button></div></div>`;
-    }).join(''))).join('');
     const routePick = (!s.route && h >= 8)
-      ? card('skills', `${ico('route')} Your path`, `<p class="sub">Route picks primary skills — sword, magic, hybrid, or craft. Visible and permanent.</p><div class="actions">
+      ? card('skills', `${ico('route')} Your path`, `<p class="sub">Primary skills grow faster.</p><div class="actions">
         <button data-a="route" data-v="route_sword">Sword</button>
         <button data-a="route" data-v="route_magic">Magic</button>
         <button data-a="route" data-v="route_hybrid">Hybrid</button>
         <button data-a="route" data-v="route_craft">Craft</button></div>`)
-      : (s.route ? card('skills', `${ico('route')} Your path`, `<p class="sub">Walking the <b>${esc(s.route.replace('route_',''))}</b> road — primary skills train faster.</p>`) : '');
-    return card('skills', HD.skills, lead('skills')) + manaCard + routePick + stylePick + schoolPick + rows;
+      : (s.route ? card('skills', `${ico('route')} Your path`, `<p class="sub">Walking the <b>${esc(s.route.replace('route_',''))}</b> road.</p>`) : '');
+    // Accordion categories (Boundwake names) + dense skill rows with bars
+    const openCats = new Set(['physical', 'craft', 'social', 'mental', 'wild']);
+    if (s.flags.mana_awakened) openCats.add('arcane');
+    if (h >= 6) openCats.add('martial');
+    const rows = P.skills.categories.map((c) => {
+      const skills = P.skills.skills.filter((k) => k.cat === c.id);
+      const trainable = skills.filter((k) => !why(k.id)).length;
+      const body = skills.map((k) => {
+        const v = s.skills[k.id] || 0, block = why(k.id);
+        const pillar = E.PILLAR_SKILLS?.includes(k.id) && E.longevitySkillPace(s, k.id) > 1 ? ` · pace ×${E.longevitySkillPace(s, k.id).toFixed(1)}` : '';
+        const pct = Math.max(0, Math.min(100, v));
+        return `<div class="row row-skill dense${block ? ' locked' : ''}">
+          <div class="skill-main">${skillIco(k.id)}<div class="skill-meta"><b>${esc(k.name)}</b>
+            <small>${E.rankOf(v)}${s.talents.includes(k.id) && v > 10 ? ' · talent' : ''}${pillar}</small>
+            <i class="skill-bar" aria-hidden="true"><b style="width:${pct}%"></b></i>
+            ${block ? `<small class="lock-why">${esc(block)}</small>` : `<small class="muted">${flare(k.flavor || k.note || '')}</small>`}
+          </div></div>
+          <div class="skill-side"><span class="skill-val">${Math.floor(v)}</span>
+            <button data-a="train" data-v="${k.id}" ${block || s.budget.act < 1 ? 'disabled' : ''}>${block ? 'Locked' : 'Train'}</button>
+          </div></div>`;
+      }).join('');
+      const open = openCats.has(c.id) || trainable > 0 ? ' open' : '';
+      return `<details class="skill-acc panel-skills"${open}><summary class="skill-acc-hd">${c.icon} ${esc(c.name)} <small>${trainable ? trainable + ' ready' : skills.length + ' skills'}</small></summary><div class="skill-acc-body">${body}</div></details>`;
+    }).join('');
+    return card('skills', HD.skills, lead('skills') + `<p class="sub tip-train">Soft skills from age ~2 · martial 6+ · styles &amp; path at 8 · arcane after mana awakens. Locked Train always shows why.</p>`) + manaCard + routePick + stylePick + schoolPick + rows;
   }
   if (tab === 'bonds') {
     const people = E.living(s);

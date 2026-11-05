@@ -1,5 +1,5 @@
-## Ship note (Nov 5 ~2:18 PM CT)
-Live: tournaments (hage×3), train lock reasons, mana awaken, styles, Realms Visit, skill PNGs. Phone stacked density CSS. Pack-reskin preserved.
+## Dense Skills + Life shortcuts (Gary Nov 5 ~2:21 PM CT)
+Accordion Boundwake categories; dense icon/name/bar/Train rows; lock reasons; Life shortcut grid. Phone stacked fill. Pack-reskin untouched.
 
 ## Tournaments (Gary Nov 5 ~2:11 PM CT)
 - Every 3 calendar years (age 3,6,9…): Adventure lists Blade / Spark / craft meets by bracket (hage 1–7 / 8–15 / 16+).
