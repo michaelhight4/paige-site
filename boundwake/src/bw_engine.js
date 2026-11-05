@@ -641,7 +641,7 @@ const TOURNEY_SKILL_MEETS = [
 export function tourneyBracket(s) {
   const h = Math.floor(hage(s));
   if (h < 1) return null;
-  if (h < 8) return { id: 'child', label: '1–7', min: 1, max: 7 };
+  if (h < 8) return { id: 'child', label: '1–8', min: 1, max: 7 };  // label 1–8; age 8 is youth-only
   if (h < 16) return { id: 'youth', label: '8–15', min: 8, max: 15 };
   return { id: 'open', label: '16+', min: 16, max: 999 };
 }
@@ -771,7 +771,7 @@ function refreshTournamentYear(s) {
   s.flags.tour_year = a;
   s.flags.tour_entered = [];
   const br = tourneyBracket(s);
-  if (br) log(s, `Tournament year — bracket ${br.label}. Blade, spark, and craft meets open on the Adventure list (1 action to enter).`, 'tournament');
+  if (br) log(s, `Tournament year — bracket ${br.label}. Blade, spark, and craft meets (brackets 1–8 / 8–15 / 16+) open on Adventure (1 action to enter).`, 'tournament');
 }
 
 // ---- year tick ----
