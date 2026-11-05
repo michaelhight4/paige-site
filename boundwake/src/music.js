@@ -1,4 +1,5 @@
-// Boundwake original music beds (Nov 5, 2026 CT). Prefer OGG for gapless HTML5 loop.
+// Boundwake original music beds. Web Audio BufferSource.loop = true for gapless loops
+// (HTML5 <audio loop> always inserts a stop/restart click even on seamless OGGs).
 const BASE = 'assets/music/';
 const TRACKS = {
   hub: { ogg: 'hub_life.ogg', mp3: 'hub_life.mp3' },
@@ -6,28 +7,124 @@ const TRACKS = {
   night: { ogg: 'dusk_night.ogg', mp3: 'dusk_night.mp3' },
 };
 const VOL = 0.4;
-const XFADE = 1400;
+const XFADE = 1.4; // seconds
 const MUTE_KEY = 'bw.music.muted';
 
-let unlocked = false, muted = localStorage.getItem(MUTE_KEY) === '1';
-let curKey = '', a = null, b = null, usingA = true, fadeTimer = 0, wanted = 'hub';
+let unlocked = false;
+let muted = localStorage.getItem(MUTE_KEY) === '1';
+let curKey = '';
+let wanted = 'hub';
+let ctx = null;
+let master = null;
+/** @type {Record<string, AudioBuffer>} */
+const buffers = {};
+let loading = {};
+/** @type {{src:AudioBufferSourceNode, gain:GainNode, key:string}|null} */
+let live = null;
+/** @type {{src:AudioBufferSourceNode, gain:GainNode, key:string}|null} */
+let fading = null;
 
-function el() {
-  const x = new Audio();
-  x.preload = 'auto';
-  x.loop = true;
-  x.volume = 0;
-  x.setAttribute('playsinline', '');
-  return x;
+function ensureCtx() {
+  if (ctx) return ctx;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return null;
+  ctx = new AC();
+  master = ctx.createGain();
+  master.gain.value = muted ? 0 : VOL;
+  master.connect(ctx.destination);
+  return ctx;
 }
-function srcFor(key) {
+
+function urlsFor(key) {
   const t = TRACKS[key] || TRACKS.hub;
-  // Prefer OGG; browsers that can't play it fall through via error → mp3
-  return BASE + t.ogg;
+  return [BASE + t.ogg, BASE + t.mp3];
 }
-function fallbackMp3(key) {
-  const t = TRACKS[key] || TRACKS.hub;
-  return BASE + t.mp3;
+
+async function loadBuffer(key) {
+  if (buffers[key]) return buffers[key];
+  if (loading[key]) return loading[key];
+  const c = ensureCtx();
+  if (!c) return null;
+  loading[key] = (async () => {
+    let lastErr;
+    for (const url of urlsFor(key)) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(String(res.status));
+        const ab = await res.arrayBuffer();
+        const buf = await c.decodeAudioData(ab.slice(0));
+        buffers[key] = buf;
+        return buf;
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error('music load failed');
+  })();
+  try {
+    return await loading[key];
+  } finally {
+    delete loading[key];
+  }
+}
+
+function stopNode(node, when) {
+  if (!node) return;
+  try { node.src.stop(when); } catch (_) {}
+  try { node.src.disconnect(); } catch (_) {}
+  try { node.gain.disconnect(); } catch (_) {}
+}
+
+function startLoop(key, buf, startVol) {
+  const c = ensureCtx();
+  const gain = c.createGain();
+  gain.gain.value = startVol;
+  gain.connect(master);
+  const src = c.createBufferSource();
+  src.buffer = buf;
+  src.loop = true;
+  src.connect(gain);
+  src.start(0);
+  return { src, gain, key };
+}
+
+async function crossfadeTo(key) {
+  const c = ensureCtx();
+  if (!c || muted || !unlocked) return;
+  if (key === curKey && live) return;
+  let buf;
+  try {
+    buf = await loadBuffer(key);
+  } catch (_) {
+    return;
+  }
+  if (!buf) return;
+  // Drop stale loads if the player asked for another bed while we decoded.
+  if (wanted !== key) return;
+  if (key === curKey && live) return;
+
+  await c.resume().catch(() => {});
+
+  const next = startLoop(key, buf, 0);
+  const prev = live;
+  live = next;
+  curKey = key;
+
+  const now = c.currentTime;
+  const t = Math.max(0.05, XFADE);
+  next.gain.gain.cancelScheduledValues(now);
+  next.gain.gain.setValueAtTime(0, now);
+  next.gain.gain.linearRampToValueAtTime(1, now + t);
+
+  if (prev) {
+    fading = prev;
+    prev.gain.gain.cancelScheduledValues(now);
+    prev.gain.gain.setValueAtTime(prev.gain.gain.value, now);
+    prev.gain.gain.linearRampToValueAtTime(0, now + t);
+    const endAt = now + t + 0.05;
+    stopNode(prev, endAt);
+    setTimeout(() => { if (fading === prev) fading = null; }, (t + 0.1) * 1000);
+  }
 }
 
 export function pickTrack(tab, tod) {
@@ -35,50 +132,6 @@ export function pickTrack(tab, tod) {
   if (nightish) return 'night';
   if (tab === 'adv' || tab === 'realms') return 'adventure';
   return 'hub';
-}
-
-function active() { return usingA ? a : b; }
-function inactive() { return usingA ? b : a; }
-
-function ensureNodes() {
-  if (!a) { a = el(); b = el(); document.body.append(a, b); a.style.display = b.style.display = 'none';
-    a.addEventListener('error', () => { if (curKey && a.src.endsWith('.ogg')) { a.src = fallbackMp3(curKey); a.load(); if (unlocked && !muted) a.play().catch(() => {}); } });
-    b.addEventListener('error', () => { if (curKey && b.src.endsWith('.ogg')) { b.src = fallbackMp3(curKey); b.load(); if (unlocked && !muted) b.play().catch(() => {}); } });
-  }
-}
-
-function clearFade() { if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = 0; } }
-
-function crossfadeTo(key) {
-  ensureNodes();
-  if (key === curKey && active().src) return;
-  const next = inactive();
-  const prev = active();
-  next.src = srcFor(key);
-  next.load();
-  next.currentTime = 0;
-  next.volume = 0;
-  curKey = key;
-  const start = () => {
-    if (muted || !unlocked) return;
-    next.play().catch(() => {});
-    clearFade();
-    const t0 = performance.now();
-    fadeTimer = setInterval(() => {
-      const p = Math.min(1, (performance.now() - t0) / XFADE);
-      next.volume = VOL * p;
-      prev.volume = VOL * (1 - p);
-      if (p >= 1) {
-        clearFade();
-        prev.pause();
-        prev.volume = 0;
-        usingA = !usingA;
-        next.volume = VOL;
-      }
-    }, 40);
-  };
-  if (next.readyState >= 2) start();
-  else next.addEventListener('canplay', start, { once: true });
 }
 
 export function syncMusic(tab, tod) {
@@ -91,15 +144,11 @@ export function syncMusic(tab, tod) {
 export function unlockMusic() {
   if (unlocked) return;
   unlocked = true;
-  ensureNodes();
-  // silent unlock gesture
-  const x = active();
-  x.src = srcFor(wanted);
-  x.load();
-  curKey = wanted;
+  const c = ensureCtx();
+  if (c) c.resume().catch(() => {});
   if (!muted) {
-    x.volume = VOL;
-    x.play().catch(() => {});
+    if (master) master.gain.value = VOL;
+    crossfadeTo(wanted);
   }
   updateToggle();
 }
@@ -107,24 +156,29 @@ export function unlockMusic() {
 export function setMuted(v) {
   muted = !!v;
   localStorage.setItem(MUTE_KEY, muted ? '1' : '0');
-  ensureNodes();
+  ensureCtx();
+  if (master) {
+    const c = ctx;
+    const now = c ? c.currentTime : 0;
+    master.gain.cancelScheduledValues(now);
+    master.gain.setValueAtTime(muted ? 0 : VOL, now);
+  }
   if (muted) {
-    clearFade();
-    a && a.pause(); b && b.pause();
-    if (a) a.volume = 0; if (b) b.volume = 0;
+    stopNode(live, ctx ? ctx.currentTime + 0.05 : 0);
+    stopNode(fading, ctx ? ctx.currentTime + 0.05 : 0);
+    live = null;
+    fading = null;
+    curKey = '';
   } else if (unlocked) {
     crossfadeTo(wanted);
-    const x = active();
-    x.volume = VOL;
-    x.play().catch(() => {});
   }
   updateToggle();
 }
 
 export function toggleMute() {
-  // First control tap should unlock + play, not flip straight into mute.
   if (!unlocked) { unlockMusic(); setMuted(false); return muted; }
-  setMuted(!muted); return muted;
+  setMuted(!muted);
+  return muted;
 }
 export function isMuted() { return muted; }
 
@@ -141,11 +195,11 @@ function updateToggle() {
 }
 
 export function mountMusic() {
-  ensureNodes();
   updateToggle();
   const unlock = () => unlockMusic();
-  ['pointerdown', 'keydown', 'touchstart'].forEach((ev) => document.addEventListener(ev, unlock, { once: true, passive: true }));
-  // re-sync when ambient tod flips
-  const obs = new MutationObserver(() => syncMusic(document.body.dataset.tab || 'life', document.documentElement.dataset.tod));
+  ['pointerdown', 'keydown', 'touchstart'].forEach((ev) =>
+    document.addEventListener(ev, unlock, { once: true, passive: true }));
+  const obs = new MutationObserver(() =>
+    syncMusic(document.body.dataset.tab || 'life', document.documentElement.dataset.tod));
   obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-tod'] });
 }

@@ -691,6 +691,7 @@ body.info-open .dock{pointer-events:none}
 .side-skills .ico-sk,.side-row .ico-sk{width:24px;height:24px;flex-basis:24px}
 .row-skill .ico-sk{width:28px;height:28px;flex-basis:28px}
 @media (max-width:1023px){
+  /* Gary Nov 5 ~3:15 PM CT: phone stays regular size */
   .row-skill .ico-sk{width:32px;height:32px;flex-basis:32px}
 }
 @media (min-width:1024px){
