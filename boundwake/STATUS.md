@@ -20,7 +20,9 @@ Tests: `node tests/smoke.mjs` (120 lives, PASS), `node tests/ui_standard_shot.mj
 - Scenery window + vignette; realm cross-fade. Shots: `tests/shots/ui_backdrop/` + `tests/shots/ui_backdrop_forest/`.
 - **Flare icons colored** (Gary ~1:38 PM CT): each `.ico-*` has its own fill (gold coin gold, health crimson, mana blue, …) — not flat black ink stamps. Header icons stay white on accent bars.
 - **Modifier info panel** (Gary ~1:39 PM CT): tap affinity / trait / Echo / flared modifiers for a parchment sheet explaining real coded effects (`src/info.js`). Close via ×, Got it, backdrop, or Escape. Does not steal Age/choice taps.
-- **Expansive PC layout** (Gary ~1:41 PM CT): ≥1024px three-column play shell (hub+Age | journal/tabs | at-a-glance side). Mobile keeps stacked phone column. Not Bit Tensei chrome.
+- **Expansive PC layout** (Gary ~1:41–1:48 PM CT): ≥1024px three-column shell that **fills the viewport** (tall panels, wide stage). Tabs wrap so Realms/Codex/Belongings stay reachable. Mobile stack unchanged.
+- **Everyday jobs** from age 6+ (stablehand, orchard, inn hand, mill, cook, courier, fisher, shop clerk, carpenter, weaver, farmhand…). Guild tracks stay later.
+- **Bond sheets**: each living person shows Health/Spirit/Wits/Presence/Strain/Renown + job/title + closeness. **Never gold.**
 
 ## UI studio standard pass
 - Docked Age +1 in opaque bottom chrome (content pad + solid dock; hidden while event sheet open). No floating CTA over lists.

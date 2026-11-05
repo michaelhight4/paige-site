@@ -57,7 +57,7 @@ const TAB_META = {
 const TABS = Object.keys(TAB_META).map((k) => [k, TAB_META[k].label]);
 const LEAD = {
   life: 'The year turns soft as pondwater. Rest, remember, choose what matters.',
-  work: 'Guild boards smell of ink and forge-smoke. Earn your keep — or leave the post.',
+  work: 'Everyday chores and guild boards alike. Earn your keep — or leave the post.',
   adv: 'Roads remember feet that dare them. Pack light; come home heavier.',
   skills: 'First lesson sinks deep; later ones strain you. Pillars ask more of long lives.',
   bonds: 'Faces around the hearth. Time spent is never wasted twice.',
@@ -67,7 +67,7 @@ const LEAD = {
 };
 const HD = {
   life: `${ico('spirit')} Journal`,
-  work: `${ico('work')} Guild boards`,
+  work: `${ico('work')} Work &amp; wages`,
   adv: `${ico('adventure')} Adventure`,
   skills: `${ico('skill')} Skills`,
   bonds: `${ico('bond')} Bonds`,
@@ -124,14 +124,25 @@ function body() {
       <div class="actions"><button data-a="rest" class="ghost">Rest by the pond</button></div>`);
   }
   if (tab === 'work') {
-    if (h < 12 && !s.job) return card('work', HD.work, `${lead('work')}<div class="empty">Too young for guild work.${s.school ? ' You attend Village lessons.' : ''}</div>`);
+    if (h < 6 && !s.job) return card('work', HD.work, `${lead('work')}<div class="empty">Chores wait until you can reach the counter (age 6+).${s.school ? ' You attend Village lessons.' : ''}</div>`);
     const cur = s.job ? (() => { const j = P.occ.jobs[s.job.id], c = E.careerOf(j.id), nx = j.next && P.occ.jobs[j.next];
       return card('work', `${ico('work')} ${esc(j.title)}`, `${lead('work')}<p class="sub">${flare(c.blurb)}</p>
        <p>Wage <span class="gold-line">${ico('gold')}${j.wage} ${T('currency')}/yr</span> · Years ${s.job.years} · Performance ${Math.round(s.job.perf)}</p>
        ${nx ? `<p class="sub">Next rank: <b>${esc(nx.title)}</b> — ${nx.req.years} yrs${Object.entries(nx.req.skills).map(([k, v]) => `, ${flare(P.skills.skills.find((x) => x.id === k).name)} ${v}`).join('')}</p>` : '<p class="sub">Top of your craft.</p>'}
        <div class="actions"><button data-a="work" class="primary">Work hard (${esc(c.actions[0])}…)</button> <button data-a="quit" class="ghost">Leave post</button></div>`); })() : card('work', HD.work, lead('work'));
-    const board = E.openings(s).map(({ job, career: c, ok }) => `<div class="row"><div><b>${esc(c.name)}</b><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr<br>${flare(c.unlock_text)}</small></div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'}>Join</button></div>`).join('');
-    return cur + card('work', `${ico('work')} Openings`, board || `<div class="empty">No openings this year.</div>`);
+    const opens = E.openings(s);
+    const row = ({ job, career: c, ok }) => {
+      const tags = c.tags || [];
+      const kind = (tags.includes('ordinary') || c.id === 'farmer' || c.id === 'merchant') ? 'Everyday' : (tags.includes('guild') || tags.includes('academy') || tags.includes('special') ? 'Guild track' : 'Trade');
+      return `<div class="row"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr<br>${flare(c.unlock_text)}</small></div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'}>${ok ? 'Join' : 'Locked'}</button></div>`;
+    };
+    const everyday = opens.filter(({ career: c }) => (c.tags || []).includes('ordinary') || c.id === 'farmer' || c.id === 'merchant');
+    const guild = opens.filter((o) => !everyday.includes(o));
+    const board = [
+      everyday.length ? `<h3>${ico('work')} Everyday work</h3>${everyday.map(row).join('')}` : '',
+      guild.length ? `<h3>${ico('adventure')} Guild &amp; trained tracks</h3>${guild.map(row).join('')}` : '',
+    ].filter(Boolean).join('') || `<div class="empty">No openings this year.</div>`;
+    return cur + card('work', `${ico('work')} Openings`, board);
   }
   if (tab === 'adv') return card('adv', HD.adv, `${lead('adv')}<p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
     <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`);
@@ -142,7 +153,20 @@ function body() {
   }
   if (tab === 'bonds') {
     const people = E.living(s);
-    return card('bonds', HD.bonds, `${lead('bonds')}${people.map((p) => `<div class="row"><div><b>${esc(p.first)}</b> <small>${esc(p.rel)} · ${Math.floor(p.age)} · ${esc(p.race)}</small>${bar('spirit', p.bar)}</div><button data-a="soc" data-v="${p.id}" ${s.budget.social ? '' : 'disabled'}>Spend time</button></div>`).join('') || '<div class="empty">No one yet. Make a friend when you can.</div>'}
+    const bondCard = (p) => {
+      E.ensurePersonSheet(s, p);
+      const st = p.stats;
+      const raceName = (P.races.find((r) => r.id === p.race) || {}).name || p.race;
+      return `<div class="bond-card">
+        <div class="bond-hd"><b>${esc(p.first)}</b><small>${esc(p.rel)} · ${Math.floor(p.age)} · ${esc(raceName)}</small>
+          <span class="bond-job">${ico('work')} ${esc(p.jobTitle || '—')}</span></div>
+        <div class="bars">${bar('health', st.health)}${bar('spirit', st.happiness)}${bar('wits', st.smarts)}${bar('presence', st.looks)}
+          ${bar('strain', st.stress)}${bar('renown', st.fame)}</div>
+        <div class="bond-close"><div class="bar bar-bond">${ico('bond')}Closeness<span class="val">${Math.round(p.bar)}</span><i><b style="width:${Math.max(0, Math.min(100, p.bar))}%"></b></i></div></div>
+        <div class="actions"><button data-a="soc" data-v="${p.id}" ${s.budget.social ? '' : 'disabled'}>Spend time</button></div>
+      </div>`;
+    };
+    return card('bonds', HD.bonds, `${lead('bonds')}${people.map(bondCard).join('') || '<div class="empty">No one yet. Make a friend when you can.</div>'}
     <div class="actions"><button data-a="friend" ${s.budget.social && h >= 5 ? '' : 'disabled'}>Make a friend</button> <button data-a="love" ${s.budget.social && h >= 16 && !E.partnerOf(s) ? '' : 'disabled'}>${flare('Lantern Market')}</button></div>`);
   }
   if (tab === 'realms') return card('realms', HD.realms, lead('realms')) + P.regions.map((r) => { const f = s.regionsFound.includes(r.id); return card('realms', `${ico('realm')} ${f ? esc(r.name) : '??? (undiscovered)'}`, `<p class="sub">${f ? flare(r.feel) : 'Undiscovered.'}</p>

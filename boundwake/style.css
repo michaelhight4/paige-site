@@ -107,14 +107,14 @@ h3{font-size:16px;font-weight:800;color:var(--accent2);display:flex;align-items:
     0 0 0 5px color-mix(in srgb,var(--accent2) 70%,#000),
     0 6px 14px #0006,
     inset 0 1px 0 #fff8;
-  overflow:hidden;image-rendering:pixelated;
+  overflow:hidden;image-rendering:auto;
 }
 .portrait.big{
   width:min(200px,72vw);height:min(200px,72vw);margin:8px auto 12px;
   border-radius:22px;border-width:4px;
   box-shadow:0 0 0 4px var(--accent),0 0 0 7px var(--accent2),0 10px 24px #0007,inset 0 1px 0 #fff8;
 }
-.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;image-rendering:pixelated;image-rendering:crisp-edges}
+.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;image-rendering:auto;-ms-interpolation-mode:bicubic}
 .draft{display:none}
 .portrait.monogram,.portrait .mono-fallback{
   display:flex;align-items:center;justify-content:center;
@@ -154,10 +154,12 @@ h3{font-size:16px;font-weight:800;color:var(--accent2);display:flex;align-items:
 
 /* ---- tabs ---- */
 .tabs{
-  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
-  padding:4px 2px 6px;margin:2px 0 4px;-webkit-overflow-scrolling:touch;
+  display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;
+  overflow:visible;scrollbar-width:thin;
+  padding:4px 2px 10px;margin:2px 0 6px;
 }
-.tabs::-webkit-scrollbar{display:none}
+.tabs::-webkit-scrollbar{height:8px}
+.tabs::-webkit-scrollbar-thumb{background:#e0b14a88;border-radius:99px}
 .tabs button{
   flex:none;display:inline-flex;align-items:center;gap:5px;
   border:2px solid #a9844a88;border-radius:var(--r-pill);
@@ -381,34 +383,71 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
   box-shadow:0 -10px 28px #000a;
 }
 
-/* ---- expansive PC layout (≥1024px) — idea only, not Bit Tensei chrome ---- */
+/* ---- expansive PC layout (≥1024px): fill the viewport, scenery is backdrop peek ---- */
 @media (min-width:1024px){
-  #stage{
-    max-width:1200px;margin:0 auto;
-    padding:18px 20px 28px;
+  html,body{height:100%}
+  body:has(.play-layout){overflow:hidden;display:flex;flex-direction:column}
+  #bw-amb{position:fixed}
+  #stage{flex:1 1 auto;
+    max-width:none;width:calc(100vw - 36px);margin:0 auto;
+    padding:12px 18px 16px;
+    min-height:100dvh;box-sizing:border-box;
+    display:flex;flex-direction:column;
   }
-  html.bw-amb #stage{padding-top:clamp(28px,6vh,72px)}
+  html.bw-amb #stage{padding-top:14px}
   .play-layout{
+    flex:1 1 auto;
     display:grid;
-    grid-template-columns:minmax(300px,360px) minmax(0,1fr) minmax(240px,300px);
-    gap:16px;
-    align-items:start;
+    grid-template-columns:minmax(300px,22vw) minmax(0,1fr) minmax(260px,20vw);
+    gap:14px;
+    align-items:stretch;
+    min-height:calc(100dvh - 28px);height:calc(100dvh - 28px);
   }
-  .play-hub{position:sticky;top:12px;z-index:2}
-  .play-hub > .card.hub{margin-top:0}
+  .play-hub,.play-main,.play-side{
+    display:flex;flex-direction:column;min-height:0;height:100%;
+  }
+  .play-hub > .card.hub{
+    flex:1 1 auto;margin:0;display:flex;flex-direction:column;min-height:0;height:100%;
+  }
+  .play-hub > .card.hub .card-body{
+    flex:1 1 auto;overflow:auto;min-height:0;
+  }
   .play-main .tabs{
-    position:sticky;top:12px;z-index:3;
-    margin:0 0 10px;padding:8px;
+    position:relative;top:auto;z-index:3;flex:none;
+    margin:0 0 10px;padding:10px;
     background:#120c1de8;border:2px solid #e0b14a44;border-radius:16px;
     backdrop-filter:blur(6px);
+    display:flex;flex-wrap:wrap;gap:6px;overflow:visible;
+    max-height:none;height:auto;
   }
-  .play-body .card{margin-top:0}
-  .play-body .journal{max-height:min(58vh,560px)}
+  .play-main .tabs button{font-size:12px;padding:8px 11px;min-height:36px}
+  .play-body{
+    flex:1 1 auto;display:flex;flex-direction:column;gap:10px;
+    min-height:0;overflow:auto;
+  }
+  .play-body > .card{
+    margin:0;display:flex;flex-direction:column;min-height:0;
+  }
+  /* Life journal eats remaining height */
+  .play-body > .card.panel-life{
+    flex:1 1 auto;min-height:calc(100dvh - 160px);
+  }
+  .play-body > .card.panel-life .card-body{
+    flex:1 1 auto;display:flex;flex-direction:column;min-height:0;overflow:hidden;
+  }
+  .play-body .journal{
+    flex:1 1 auto;max-height:none!important;min-height:240px;overflow:auto;
+  }
   .play-side{
-    display:block;position:sticky;top:12px;
     margin:0;--accent:var(--realm);--accent2:var(--realm2);--tint:var(--realm-t);
+    display:flex;flex-direction:column;
   }
-  .panel-side .card-body{padding:12px 14px 14px}
+  .play-side.card,.card.panel-side{
+    flex:1 1 auto;margin:0;display:flex;flex-direction:column;min-height:calc(100dvh - 28px);
+  }
+  .panel-side .card-body,.play-side .card-body{
+    flex:1 1 auto;overflow:auto;padding:12px 14px 14px;min-height:0;
+  }
   .side-label{
     margin:10px 0 4px;font:800 10.5px var(--body);letter-spacing:.12em;
     text-transform:uppercase;color:var(--gold2);
@@ -423,33 +462,33 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
   }
   .side-meta{margin:12px 0 4px;font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
   .side-hint{margin:8px 0 0}
-  /* Age lives under the hub column — not a lonely full-bleed bar under empty scenery */
   .play-hub .dock{
-    position:sticky;bottom:12px;left:auto;right:auto;
-    height:auto;margin-top:12px;padding:0;
+    position:relative;bottom:auto;left:auto;right:auto;flex:none;
+    height:auto;margin-top:10px;padding:0;
     background:transparent;border:0;box-shadow:none;
     pointer-events:auto;justify-content:stretch;
   }
-  .play-hub .dock .age{
-    width:100%;min-width:0;margin-top:0;height:54px;
-  }
-  body:not(.has-sheet) #stage{padding-bottom:28px}
+  .play-hub .dock .age{width:100%;min-width:0;margin-top:0;height:52px}
+  body:not(.has-sheet) #stage{padding-bottom:16px}
   .end-pad{display:none}
-  /* Fate / death / gate: wider readable column, scenery still breathes */
   body[data-tab="fate"] #stage,
   body[data-tab="death"] #stage,
   body[data-tab="gate"] #stage,
-  body[data-tab="cold"] #stage{max-width:720px}
+  body[data-tab="cold"] #stage{max-width:760px;width:auto;min-height:auto;display:block}
   body[data-tab="fate"] .card,
   body[data-tab="death"] .card{margin-left:auto;margin-right:auto}
-  /* Event sheet centers over the wide stage */
   .sheet{align-items:center;padding:24px}
-  .sheet .card{max-width:520px;border-radius:20px;border-bottom:3px solid var(--gold)}
+  .sheet .card{max-width:560px;border-radius:20px;border-bottom:3px solid var(--gold)}
 }
 
-@media (min-width:1280px){
-  #stage{max-width:1280px}
-  .play-layout{grid-template-columns:minmax(320px,380px) minmax(0,1fr) minmax(260px,320px);gap:20px}
+@media (min-width:1440px){
+  #stage{width:calc(100vw - 48px)}
+  .play-layout{grid-template-columns:minmax(340px,400px) minmax(0,1fr) minmax(300px,380px);gap:18px}
+}
+
+@media (min-width:1800px){
+  #stage{width:calc(100vw - 64px);max-width:1760px}
+  .play-layout{grid-template-columns:420px minmax(0,1fr) 400px;gap:20px}
 }
 
 /* ---- Boundwake illustrated scenery (Lifeline ambient craft class; fantasy realms) ---- */
@@ -516,3 +555,16 @@ html.bw-amb .sheet{background:#0a0814d8}
 [data-info]:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
 body.info-open .dock{pointer-events:none}
 @media (prefers-reduced-motion:reduce){.info-card{animation:none}}
+
+/* ---- bond person sheets (stats + job, never gold) ---- */
+.bond-card{
+  background:#fff9;border-radius:14px;border:2px solid color-mix(in srgb,var(--bond) 35%,#b8955a55);
+  border-left:5px solid var(--bond);padding:10px 12px;margin:0 0 10px;
+}
+.bond-card .bond-hd{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline;margin:0 0 6px}
+.bond-card .bond-hd b{font:800 15px var(--display);color:var(--ink)}
+.bond-card .bond-job{font-weight:700;color:var(--bond2)}
+.bond-card .bars{margin:4px 0 8px}
+.bond-card .bond-close{margin:4px 0 8px}
+.bond-card .actions{margin-top:4px}
+.bar-bond i b{background:linear-gradient(90deg,#c45a7a,#9a3a5c)}

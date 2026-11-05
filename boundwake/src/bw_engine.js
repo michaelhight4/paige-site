@@ -31,9 +31,51 @@ export const postCapAgeMult = (s) => 0.50 + (0.01 - 0.50) * clamp(hage(s) / 90, 
 export function stage(s) { const h = hage(s); return h < 3 ? 'baby' : h < 11 ? 'child' : h < 17 ? 'teen' : h < 60 ? 'adult' : 'elder'; }
 
 // ---- birth / fate card ----
+const ORDINARY_JOB_POOL = [
+  ['Child', 0, 5], ['Village lessons', 5, 10],
+  ['Yard Hand', 6, 99], ['Picker', 6, 99], ['Inn Helper', 8, 99], ['Mill Helper', 8, 99],
+  ['Kitchen Help', 8, 99], ['Runner', 8, 99], ['Shore Hand', 8, 99], ['Loom Helper', 8, 99],
+  ['Counter Hand', 10, 99], ['Shop Helper', 10, 99], ['Farmhand', 6, 99], ['Stall Hand', 10, 99],
+  ['Town Guard', 15, 99], ['Freeholder', 16, 99], ['Merchant', 18, 99], ['Healer', 18, 99],
+  ['Blacksmith', 18, 99], ['Scholar', 16, 99], ['Hunter', 14, 99], ['Priest', 16, 99],
+];
+function personHage(p) {
+  const ls = D.races.find((r) => r.id === p.race)?.lifespan || 90;
+  return (p.age * 90) / ls;
+}
+function pickPersonJobTitle(s, p) {
+  const h = personHage(p);
+  if (h < 5) return 'Child';
+  if (h < 10 && chance(s, 0.55)) return 'Village lessons';
+  // Prefer real entry job titles that fit age (ordinary first)
+  const entries = Object.values(D.jobsById || {}).filter((j) => j.entry && (j.req?.age ?? 99) <= h + 0.01);
+  const ordinary = entries.filter((j) => (D.occ.careers.find((c) => c.id === j.sector)?.tags || []).includes('ordinary'));
+  const pool = (ordinary.length ? ordinary : entries);
+  if (pool.length) return pick(s, pool).title;
+  const fallback = ORDINARY_JOB_POOL.filter(([, a0, a1]) => h >= a0 && h < a1).map((x) => x[0]);
+  return fallback.length ? pick(s, fallback) : (h < 12 ? 'Village lessons' : 'Laborer');
+}
+/** Fill stats + jobTitle on a person once; persists on save. Never stores gold. */
+export function ensurePersonSheet(s, p) {
+  if (!p.stats) {
+    p.stats = {
+      health: rint(s, 48, 92), happiness: rint(s, 40, 88), smarts: rint(s, 35, 85),
+      looks: rint(s, 35, 88), fame: rint(s, 0, 18), stress: rint(s, 0, 28),
+    };
+    // Parents a touch more worn / present
+    if (p.rel === 'mother' || p.rel === 'father') {
+      p.stats.health = rint(s, 55, 85); p.stats.fame = rint(s, 2, 25); p.stats.stress = rint(s, 8, 35);
+    }
+  }
+  if (p.jobTitle == null || p.jobTitle === '') p.jobTitle = pickPersonJobTitle(s, p);
+  // Strip gold if any older save ever carried it
+  if ('gold' in p) delete p.gold;
+  return p;
+}
 function person(s, rel, ageOff, raceId) {
   const sex = chance(s, 0.5) ? 'm' : 'f';
-  return { id: 'p' + (s.pid = (s.pid || 0) + 1), first: pick(s, NAMES[sex]), sex, rel, age: Math.max(0, s.age + ageOff), race: raceId || s.race, bar: rint(s, 55, 85), alive: true };
+  const p = { id: 'p' + (s.pid = (s.pid || 0) + 1), first: pick(s, NAMES[sex]), sex, rel, age: Math.max(0, s.age + ageOff), race: raceId || s.race, bar: rint(s, 55, 85), alive: true };
+  return ensurePersonSheet(s, p);
 }
 export function rollFate(seed, meta = {}, opts = {}) {
   const s = { rs: seed | 0 || (Date.now() & 0x7fffffff), v: 1 };
@@ -183,9 +225,19 @@ export function meetSomeone(s, love) {
 }
 function peopleYear(s, yrs) {
   for (const p of living(s)) {
-    p.age += yrs; const ls = D.races.find((r) => r.id === p.race)?.lifespan || 90, h = (p.age * 90) / ls;
-    if (h > 62 && chance(s, Math.min(0.9, ((h - 62) / 30) ** 2 * yrs * 0.6))) { p.alive = false; log(s, `${p.first}, my ${p.rel}, passed away.`, 'death'); s.stats.happiness = clamp(s.stats.happiness - 10, 0, 100); }
-    else p.bar = clamp(p.bar - rint(s, 0, 3) * yrs, 0, 100);
+    ensurePersonSheet(s, p);
+    p.age += yrs; const h = personHage(p);
+    if (h > 62 && chance(s, Math.min(0.9, ((h - 62) / 30) ** 2 * yrs * 0.6))) { p.alive = false; log(s, `${p.first}, my ${p.rel}, passed away.`, 'death'); s.stats.happiness = clamp(s.stats.happiness - 10, 0, 100); continue; }
+    p.bar = clamp(p.bar - rint(s, 0, 3) * yrs, 0, 100);
+    // Light yearly drift — not a full second life sim
+    for (const k of ['health', 'happiness', 'smarts', 'looks']) p.stats[k] = clamp(p.stats[k] + rint(s, -2, 2) * yrs, 0, 100);
+    p.stats.stress = clamp(p.stats.stress + rint(s, -1, 2) * yrs, 0, 100);
+    p.stats.fame = clamp(p.stats.fame + (chance(s, 0.15) ? 1 : 0), 0, 100);
+    // Age into school / first work title once
+    if ((p.jobTitle === 'Child' || p.jobTitle === 'Village lessons') && h >= 6) {
+      const next = pickPersonJobTitle(s, p);
+      if (next !== p.jobTitle) p.jobTitle = next;
+    }
   }
 }
 

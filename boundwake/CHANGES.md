@@ -23,3 +23,9 @@
 - Flare icons: per-`.ico-*` CSS colors + filled gold coin / dice; header icons stay white on accent bars.
 - Modifier info panel (`src/info.js`): tap chips for coded affinity/trait/Echo blurbs; parchment sheet; no invented bonuses.
 - Expansive PC layout (≥1024px): hub | main | side peek; Age under hub column; mobile stack unchanged.
+
+## Nov 5 2026 (tabs wrap + everyday jobs + bond sheets + viewport fill)
+- Tabs: flex-wrap + visible; no clipped Realms/Codex/Belongings.
+- Everyday ordinary careers (age 6–10 entries); Work gate age 6; openings split Everyday / Guild.
+- Bond cards: persisted stats + jobTitle; no gold; yearly light drift.
+- Desktop: stage nearly full width; columns stretch to 100dvh; journal flex-fills.

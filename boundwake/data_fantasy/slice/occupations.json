@@ -188,7 +188,7 @@
   {
    "id": "bard",
    "name": "Bard",
-   "blurb": "Songs that open doors — or start fights.",
+   "blurb": "Songs that open doors \u2014 or start fights.",
    "skills": [
     "performance",
     "charm",
@@ -343,6 +343,232 @@
     "guard caravan"
    ],
    "outfit": "outfit_spellblade"
+  },
+  {
+   "id": "stablehand",
+   "name": "Stablehand",
+   "blurb": "Hay, brushes, and horses that know your step.",
+   "skills": [
+    "husbandry",
+    "endurance",
+    "strength"
+   ],
+   "unlock_text": "age 6 \u2014 yard work",
+   "tags": [
+    "ordinary",
+    "town",
+    "rural"
+   ],
+   "actions": [
+    "muck stalls",
+    "walk the mounts",
+    "mend a tack strap",
+    "curry the draft horse"
+   ],
+   "outfit": "outfit_stable"
+  },
+  {
+   "id": "orchard",
+   "name": "Orchard Hand",
+   "blurb": "Baskets, ladders, and fruit that bruises if you rush.",
+   "skills": [
+    "foraging",
+    "endurance",
+    "agility"
+   ],
+   "unlock_text": "age 6 \u2014 pick and carry",
+   "tags": [
+    "ordinary",
+    "rural"
+   ],
+   "actions": [
+    "pick fruit",
+    "haul baskets",
+    "prune low limbs",
+    "sort the culls"
+   ],
+   "outfit": "outfit_orchard"
+  },
+  {
+   "id": "inn_hand",
+   "name": "Inn Hand",
+   "blurb": "Rooms, hearths, and travelers who leave stories in the linen.",
+   "skills": [
+    "cooking",
+    "charm",
+    "endurance"
+   ],
+   "unlock_text": "age 8 \u2014 inn chores",
+   "tags": [
+    "ordinary",
+    "town"
+   ],
+   "actions": [
+    "make beds",
+    "tend the hearth",
+    "fetch water",
+    "help in the kitchen"
+   ],
+   "outfit": "outfit_inn"
+  },
+  {
+   "id": "mill_hand",
+   "name": "Mill Hand",
+   "blurb": "Grain dust, turning stones, and the river's steady pull.",
+   "skills": [
+    "strength",
+    "endurance",
+    "focus"
+   ],
+   "unlock_text": "age 8 \u2014 mill floor",
+   "tags": [
+    "ordinary",
+    "rural",
+    "town"
+   ],
+   "actions": [
+    "haul sacks",
+    "sweep the floor",
+    "watch the stones",
+    "bag the flour"
+   ],
+   "outfit": "outfit_mill"
+  },
+  {
+   "id": "cook",
+   "name": "Hearth Cook",
+   "blurb": "Pots, knives, and meals that quiet a hungry hall.",
+   "skills": [
+    "cooking",
+    "foraging",
+    "focus"
+   ],
+   "unlock_text": "age 8 \u2014 kitchen",
+   "tags": [
+    "ordinary",
+    "town"
+   ],
+   "actions": [
+    "chop roots",
+    "stir the pot",
+    "bake flatbread",
+    "plate the noon meal"
+   ],
+   "outfit": "outfit_cook"
+  },
+  {
+   "id": "courier",
+   "name": "Courier",
+   "blurb": "Parcels, short roads, and doors that open to a knock.",
+   "skills": [
+    "agility",
+    "endurance",
+    "charm"
+   ],
+   "unlock_text": "age 8 \u2014 run messages",
+   "tags": [
+    "ordinary",
+    "town"
+   ],
+   "actions": [
+    "run a parcel",
+    "post a notice",
+    "find an address",
+    "wait for a reply"
+   ],
+   "outfit": "outfit_courier"
+  },
+  {
+   "id": "fisher",
+   "name": "Fisher",
+   "blurb": "Nets, dawn mist, and the quiet arithmetic of the catch.",
+   "skills": [
+    "foraging",
+    "endurance",
+    "agility"
+   ],
+   "unlock_text": "age 8 \u2014 shore work",
+   "tags": [
+    "ordinary",
+    "rural",
+    "coast"
+   ],
+   "actions": [
+    "mend nets",
+    "haul the morning catch",
+    "gut and salt",
+    "row the shallows"
+   ],
+   "outfit": "outfit_fisher"
+  },
+  {
+   "id": "shop_clerk",
+   "name": "Shop Clerk",
+   "blurb": "Shelves, tallies, and customers who know what they want.",
+   "skills": [
+    "bartering",
+    "literacy",
+    "charm"
+   ],
+   "unlock_text": "age 10 \u2014 counter work",
+   "tags": [
+    "ordinary",
+    "town",
+    "trade"
+   ],
+   "actions": [
+    "stock shelves",
+    "count coin",
+    "wrap a purchase",
+    "greet the door"
+   ],
+   "outfit": "outfit_clerk"
+  },
+  {
+   "id": "carpenter",
+   "name": "Carpenter",
+   "blurb": "Sawdust, square edges, and wood that remembers the tree.",
+   "skills": [
+    "smithing",
+    "strength",
+    "focus"
+   ],
+   "unlock_text": "age 10 \u2014 workshop",
+   "tags": [
+    "ordinary",
+    "town",
+    "craft"
+   ],
+   "actions": [
+    "plane a board",
+    "cut pegs",
+    "repair a stool",
+    "raise a frame"
+   ],
+   "outfit": "outfit_carpenter"
+  },
+  {
+   "id": "weaver",
+   "name": "Weaver",
+   "blurb": "Looms, dye pots, and cloth that holds a winter.",
+   "skills": [
+    "tailoring",
+    "focus",
+    "composure"
+   ],
+   "unlock_text": "age 8 \u2014 loom bench",
+   "tags": [
+    "ordinary",
+    "town",
+    "craft"
+   ],
+   "actions": [
+    "wind bobbins",
+    "beat the weft",
+    "dye a skein",
+    "mend a tear"
+   ],
+   "outfit": "outfit_weaver"
   }
  ],
  "jobs": {
@@ -860,7 +1086,7 @@
     "edu": null,
     "prev": false,
     "years": 0,
-    "age": 12,
+    "age": 10,
     "skills": {},
     "flags": [],
     "race": []
@@ -1747,6 +1973,412 @@
    "level": 3,
    "entry": false,
    "promo_line": "Songs get your details wrong. That is fine."
+  },
+  "stablehand_entry": {
+   "id": "stablehand_entry",
+   "sector": "stablehand",
+   "title": "Yard Hand",
+   "wage": 18,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 6,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "stablehand_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "stablehand_senior": {
+   "id": "stablehand_senior",
+   "sector": "stablehand",
+   "title": "Stable Keeper",
+   "wage": 45,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 12,
+    "skills": {
+     "husbandry": 20
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "orchard_entry": {
+   "id": "orchard_entry",
+   "sector": "orchard",
+   "title": "Picker",
+   "wage": 16,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 6,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "orchard_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "orchard_senior": {
+   "id": "orchard_senior",
+   "sector": "orchard",
+   "title": "Orchard Lead",
+   "wage": 48,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 12,
+    "skills": {
+     "foraging": 20
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "inn_hand_entry": {
+   "id": "inn_hand_entry",
+   "sector": "inn_hand",
+   "title": "Inn Helper",
+   "wage": 22,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 8,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "inn_hand_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "inn_hand_senior": {
+   "id": "inn_hand_senior",
+   "sector": "inn_hand",
+   "title": "Inn Keeper's Aide",
+   "wage": 55,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "cooking": 20,
+     "charm": 15
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "mill_hand_entry": {
+   "id": "mill_hand_entry",
+   "sector": "mill_hand",
+   "title": "Mill Helper",
+   "wage": 24,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 8,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "mill_hand_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "mill_hand_senior": {
+   "id": "mill_hand_senior",
+   "sector": "mill_hand",
+   "title": "Miller's Aide",
+   "wage": 60,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "strength": 20,
+     "focus": 15
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "cook_entry": {
+   "id": "cook_entry",
+   "sector": "cook",
+   "title": "Kitchen Help",
+   "wage": 22,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 8,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "cook_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "cook_senior": {
+   "id": "cook_senior",
+   "sector": "cook",
+   "title": "Cook",
+   "wage": 70,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "cooking": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "courier_entry": {
+   "id": "courier_entry",
+   "sector": "courier",
+   "title": "Runner",
+   "wage": 20,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 8,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "courier_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "courier_senior": {
+   "id": "courier_senior",
+   "sector": "courier",
+   "title": "Town Courier",
+   "wage": 55,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "agility": 20,
+     "endurance": 15
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "fisher_entry": {
+   "id": "fisher_entry",
+   "sector": "fisher",
+   "title": "Shore Hand",
+   "wage": 22,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 8,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "fisher_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "fisher_senior": {
+   "id": "fisher_senior",
+   "sector": "fisher",
+   "title": "Fisher",
+   "wage": 65,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "foraging": 20,
+     "endurance": 20
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "shop_clerk_entry": {
+   "id": "shop_clerk_entry",
+   "sector": "shop_clerk",
+   "title": "Counter Hand",
+   "wage": 28,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 10,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "shop_clerk_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "shop_clerk_senior": {
+   "id": "shop_clerk_senior",
+   "sector": "shop_clerk",
+   "title": "Clerk",
+   "wage": 75,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 16,
+    "skills": {
+     "bartering": 25,
+     "literacy": 15
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "carpenter_entry": {
+   "id": "carpenter_entry",
+   "sector": "carpenter",
+   "title": "Shop Helper",
+   "wage": 28,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 10,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "carpenter_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "carpenter_senior": {
+   "id": "carpenter_senior",
+   "sector": "carpenter",
+   "title": "Joiner",
+   "wage": 80,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 16,
+    "skills": {
+     "smithing": 20,
+     "focus": 15
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
+  },
+  "weaver_entry": {
+   "id": "weaver_entry",
+   "sector": "weaver",
+   "title": "Loom Helper",
+   "wage": 20,
+   "req": {
+    "edu": null,
+    "prev": false,
+    "years": 0,
+    "age": 8,
+    "skills": {},
+    "flags": [],
+    "race": []
+   },
+   "next": "weaver_senior",
+   "level": 0,
+   "entry": true,
+   "promo_line": "The work sits easier in your hands."
+  },
+  "weaver_senior": {
+   "id": "weaver_senior",
+   "sector": "weaver",
+   "title": "Weaver",
+   "wage": 70,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 3,
+    "age": 14,
+    "skills": {
+     "tailoring": 25
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": null,
+   "level": 1,
+   "entry": false,
+   "promo_line": "People trust you with the harder tasks."
   }
  },
  "schools": [
