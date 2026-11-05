@@ -61,7 +61,7 @@ const LEAD = {
   work: 'Everyday chores and guild boards alike. Earn your keep — or leave the post.',
   adv: 'Roads remember feet that dare them. Pack light; come home heavier.',
   skills: 'First lesson sinks deep; later ones strain you. Pillars ask more of long lives.',
-  bonds: 'Faces around the hearth. Time spent is never wasted twice.',
+  bonds: 'Faces around the hearth. Party companions gain Passive Relationship Growth each year — Spend time still matters for everyone else.',
   realms: 'Five realms, one map in the mind. Travel when your boots are ready.',
   codex: 'What the world taught you stays — even when the body does not.',
   bel: 'Gold, relics, the small weights of a life. A shop for later.',
@@ -147,8 +147,15 @@ function body() {
     ].filter(Boolean).join('') || `<div class="empty">No openings this year.</div>`;
     return cur + card('work', `${ico('work')} Openings`, board);
   }
-  if (tab === 'adv') return card('adv', HD.adv, `${lead('adv')}<p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
+  if (tab === 'adv') {
+    const party = E.partyOf(s);
+    const partyBlock = party.length
+      ? `<div class="party-list"><p class="sub"><b>Traveling with you</b> (Passive Relationship Growth each year)</p>${party.map((p) => `<div class="row"><div><b>${esc(p.first)}</b> <small>${esc(p.rel)} · closeness ${Math.round(p.bar)}</small></div><button data-a="party" data-v="${p.id}">Leave party</button></div>`).join('')}</div>`
+      : `<p class="sub">No companions yet. Add someone from Bonds — up to ${E.PARTY_CAP} in your party. Shared roads keep those bonds warm without spending Social.</p>`;
+    return card('adv', HD.adv, `${lead('adv')}<p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
+    ${partyBlock}
     <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`);
+  }
   if (tab === 'skills') {
     return card('skills', HD.skills, lead('skills')) + P.skills.categories.map((c) => card('skills', `${c.icon} ${esc(c.name)}`, P.skills.skills.filter((k) => k.cat === c.id).map((k) => { const v = s.skills[k.id], lk = E.skillLocked(s, k.id);
       const pillar = E.PILLAR_SKILLS?.includes(k.id) && E.longevitySkillPace(s, k.id) > 1 ? ` · <small class="muted">long-life pace ×${E.longevitySkillPace(s, k.id).toFixed(1)}</small>` : '';
@@ -160,13 +167,19 @@ function body() {
       E.ensurePersonSheet(s, p);
       const st = p.stats;
       const raceName = (P.races.find((r) => r.id === p.race) || {}).name || p.race;
-      return `<div class="bond-card">
+      const inParty = !!p.inParty;
+      const partyFull = E.partyOf(s).length >= E.PARTY_CAP && !inParty;
+      return `<div class="bond-card${inParty ? ' in-party' : ''}">
         <div class="bond-hd"><b>${esc(p.first)}</b><small>${esc(p.rel)} · ${Math.floor(p.age)} · ${esc(raceName)}</small>
-          <span class="bond-job">${ico('work')} ${esc(p.jobTitle || '—')}</span></div>
+          <span class="bond-job">${ico('work')} ${esc(p.jobTitle || '—')}</span>
+          ${inParty ? '<span class="party-tag">In your party</span>' : (p.rel === 'partner' ? '<span class="party-tag soft">Under one roof</span>' : '')}</div>
         <div class="bars">${bar('health', st.health)}${bar('spirit', st.happiness)}${bar('wits', st.smarts)}${bar('presence', st.looks)}
           ${bar('strain', st.stress)}${bar('renown', st.fame)}</div>
         <div class="bond-close"><div class="bar bar-bond">${ico('bond')}Closeness<span class="val">${Math.round(p.bar)}</span><i><b style="width:${Math.max(0, Math.min(100, p.bar))}%"></b></i></div></div>
-        <div class="actions"><button data-a="soc" data-v="${p.id}" ${s.budget.social ? '' : 'disabled'}>Spend time</button></div>
+        <div class="actions">
+          <button data-a="soc" data-v="${p.id}" ${s.budget.social ? '' : 'disabled'}>Spend time</button>
+          <button data-a="party" data-v="${p.id}" ${partyFull ? 'disabled' : ''}>${inParty ? 'Leave party' : 'Add to party'}</button>
+        </div>
       </div>`;
     };
     return card('bonds', HD.bonds, `${lead('bonds')}${people.map(bondCard).join('') || '<div class="empty">No one yet. Make a friend when you can.</div>'}
@@ -264,6 +277,7 @@ app.addEventListener('click', (ev) => {
   else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v);
   else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
   else if (a === 'heir') { s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
+  else if (a === 'party') { r = E.toggleParty(s, v); }
   else if (a === 'music') { unlockMusic(); toggleMute(); return; }
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();

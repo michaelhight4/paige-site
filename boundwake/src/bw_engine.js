@@ -228,12 +228,35 @@ export function meetSomeone(s, love) {
   const p = person(s, love ? 'partner' : 'friend', rint(s, -3, 3)); p.race = chance(s, 0.7) ? s.race : pick(s, D.races).id; s.people.push(p);
   const m = love ? `I met ${p.first} at the Lantern Market. Something sparked.` : `I made a new friend: ${p.first}.`; log(s, m, 'social'); return { ok: true, msg: m };
 }
+
+// ---- Passive Relationship Growth (Gary Nov 5 ~1:57 PM CT) ----
+// Companions in your travel/adventure party (and a live partner under the same roof)
+// gain a modest yearly closeness boost without spending Social actions.
+export const PARTY_CAP = 3;
+export const partyOf = (s) => living(s).filter((p) => p.inParty);
+export function toggleParty(s, pid) {
+  const p = s.people.find((x) => x.id === pid);
+  if (!p || !p.alive) return { ok: false, msg: 'They are gone.' };
+  if (p.inParty) { p.inParty = false; return { ok: true, msg: `${p.first} left your party.` }; }
+  if (partyOf(s).length >= PARTY_CAP) return { ok: false, msg: `Your party is full (${PARTY_CAP}).` };
+  p.inParty = true; return { ok: true, msg: `${p.first} joined your party.` };
+}
+
 function peopleYear(s, yrs) {
+  const grew = [];
   for (const p of living(s)) {
     ensurePersonSheet(s, p);
     p.age += yrs; const h = personHage(p);
-    if (h > 62 && chance(s, Math.min(0.9, ((h - 62) / 30) ** 2 * yrs * 0.6))) { p.alive = false; log(s, `${p.first}, my ${p.rel}, passed away.`, 'death'); s.stats.happiness = clamp(s.stats.happiness - 10, 0, 100); continue; }
-    p.bar = clamp(p.bar - rint(s, 0, 3) * yrs, 0, 100);
+    if (h > 62 && chance(s, Math.min(0.9, ((h - 62) / 30) ** 2 * yrs * 0.6))) { p.alive = false; p.inParty = false; log(s, `${p.first}, my ${p.rel}, passed away.`, 'death'); s.stats.happiness = clamp(s.stats.happiness - 10, 0, 100); continue; }
+    // Passive Relationship Growth vs yearly fade
+    const together = p.inParty || p.rel === 'partner';
+    if (together) {
+      const gain = rint(s, 3, 7) * yrs; // less than Spend time (4–12), no social cost
+      p.bar = clamp(p.bar + gain, 0, 100);
+      grew.push(p.first);
+    } else {
+      p.bar = clamp(p.bar - rint(s, 0, 3) * yrs, 0, 100);
+    }
     // Light yearly drift — not a full second life sim
     for (const k of ['health', 'happiness', 'smarts', 'looks']) p.stats[k] = clamp(p.stats[k] + rint(s, -2, 2) * yrs, 0, 100);
     p.stats.stress = clamp(p.stats.stress + rint(s, -1, 2) * yrs, 0, 100);
@@ -242,6 +265,10 @@ function peopleYear(s, yrs) {
     if (h < 6) p.jobTitle = 'Child';
     else if (h < 12) p.jobTitle = 'Village lessons';
     else if (isChildJobTitle(p.jobTitle)) p.jobTitle = pickPersonJobTitle(s, p);
+  }
+  if (grew.length) {
+    const names = grew.slice(0, 3).join(', ') + (grew.length > 3 ? ' and others' : '');
+    log(s, `Roads and shared work kept bonds warm with ${names}. (Passive Relationship Growth)`, 'social');
   }
 }
 

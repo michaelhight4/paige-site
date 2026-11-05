@@ -37,3 +37,7 @@
 ## Nov 5 2026 (skill icons + bond child jobs)
 - Unique `skillIco(id)` SVGs + PNG prefer path `assets/icons/skills/{id}.png`.
 - Bonds under hage 12 never show real occupations (Child / Village lessons); re-clamp old saves.
+
+## Nov 5 2026 (Passive Relationship Growth)
+- `p.inParty` (cap 3); yearly +3–7 closeness instead of fade; partner gets the same under-one-roof boost.
+- Bonds UI Add/Leave party; Adventure lists traveling companions.

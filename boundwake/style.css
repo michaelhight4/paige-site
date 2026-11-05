@@ -593,3 +593,13 @@ body.info-open .dock{pointer-events:none}
 @media (min-width:1024px){
   .music-fab{top:14px;right:18px}
 }
+
+/* ---- party / Passive Relationship Growth ---- */
+.party-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font:800 10px var(--body);letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 8px;border-radius:999px;background:#2f7a4822;color:#2a5a28;border:1px solid #2f7a4888;
+}
+.party-tag.soft{background:#5a82a822;color:#2e4a7a;border-color:#5a82a888}
+.bond-card.in-party{border-color:color-mix(in srgb,var(--life) 55%,#b8955a55);box-shadow:0 0 0 1px #2f7a4833}
+.party-list{margin:8px 0 12px}

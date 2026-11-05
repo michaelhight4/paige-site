@@ -23,6 +23,7 @@ Tests: `node tests/smoke.mjs` (120 lives, PASS), `node tests/ui_standard_shot.mj
 - **Expansive PC layout** (Gary ~1:41–1:48 PM CT): ≥1024px three-column shell that **fills the viewport** (tall panels, wide stage). Tabs wrap so Realms/Codex/Belongings stay reachable. Mobile stack unchanged.
 - **Everyday jobs** from age 6+ (stablehand, orchard, inn hand, mill, cook, courier, fisher, shop clerk, carpenter, weaver, farmhand…). Guild tracks stay later.
 - **Bond sheets**: each living person shows Health/Spirit/Wits/Presence/Strain/Renown + job/title + closeness. **Never gold.**
+- **Passive Relationship Growth**: party companions (max 3) and partners skip yearly closeness fade and gain +3–7/yr without spending Social. Marked on bond cards; listed on Adventure.
 - **Per-skill icons**: unique colored SVG per skill id; uses `assets/icons/skills/{id}.png` when Character Models delivers. Bond jobs: Child (<6), Village lessons (6–11), real jobs only at 12+.
 - **Music beds** (`assets/music/*.ogg`): hub_life (Life/Work/Skills/Bonds), adventure_travel (Adventure/Realms), dusk_night (dusk/night TOD). Crossfade ~1.4s; mute persists `bw.music.muted`; starts after first gesture. Volume ~0.4.
 
