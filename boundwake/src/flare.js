@@ -7,6 +7,7 @@ const SVG = {
   strain: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1 15 14H1zm0 4v5h1.2V5zm0 6.2v1.6h1.2v-1.6z"/></svg>',
   renown: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.4 9.8 6h4.7l-3.8 3 1.4 4.7L8 11.2 3.9 13.7 5.3 9 1.5 6h4.7z"/></svg>',
   mana: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1c2.5 3 5 4.8 5 8a5 5 0 1 1-10 0c0-3.2 2.5-5 5-8z"/></svg>',
+  route: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 13V3h2v4h3V3h2v10H8V9H5v4H3zm9-8l2 2-2 2V5z"/></svg>',
   gold: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="currentColor"/><circle cx="8" cy="8" r="4.4" fill="#fff6" opacity=".35"/><circle cx="6.2" cy="6" r="1.6" fill="#fff" opacity=".55"/><circle cx="8" cy="8" r="2" fill="#7a5a10" opacity=".35"/></svg>',
   odds: '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="2.5" fill="currentColor"/><circle cx="5.5" cy="5.5" r="1.15" fill="#fff" opacity=".92"/><circle cx="10.5" cy="10.5" r="1.15" fill="#fff" opacity=".92"/><circle cx="10.5" cy="5.5" r="1.15" fill="#fff" opacity=".92"/></svg>',
   might: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 7h3V4l7 5-7 5V11H3z"/></svg>',

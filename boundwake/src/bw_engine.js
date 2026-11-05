@@ -6,7 +6,7 @@ import { rnd, rint, pick, chance, clamp, wpick } from './rng.js';
 import { log, fill } from './core.js';
 
 export let D = null;
-export const setPack = (pack) => { D = pack; D.jobsById = pack.occ.jobs; D.skillById = Object.fromEntries(pack.skills.skills.map((k) => [k.id, k])); };
+export const setPack = (pack) => { D = pack; D.jobsById = pack.occ.jobs; D.skillById = Object.fromEntries(pack.skills.skills.map((k) => [k.id, k])); D.styles = pack.styles || []; D.styleById = Object.fromEntries((pack.styles || []).map((x) => [x.id, x])); };
 
 // ---- stats (Lifeline ids, Boundwake display names from text/ui_strings.md) ----
 export const STATS = ['health', 'happiness', 'smarts', 'looks', 'fame', 'karma', 'stress'];
@@ -128,11 +128,42 @@ function applyEcho(s, id, n) {
 }
 
 // ---- skills (lifesim/src/skills.js use() curve + Boundwake training curve 100/60/25) ----
-export const skillLocked = (s, id) => D.skillById[id]?.cat === 'arcane' && !s.flags.mana_awakened || (id === 'enchanting' && (s.skills.spellcraft || 0) < 20);
+const MARTIAL_IDS = ['swordsmanship', 'archery', 'shieldwork', 'unarmed'];
+const EARLY_OK_CATS = ['physical', 'craft', 'social', 'mental', 'wild']; // trainable from hage ~2 (lighter)
+export const skillLocked = (s, id) => {
+  const sk = D.skillById[id];
+  if (!sk) return true;
+  if (sk.cat === 'arcane' && !s.flags.mana_awakened) return true;
+  if (id === 'enchanting' && (s.skills.spellcraft || 0) < 20) return true;
+  return false;
+};
+/** Human-readable lock / age gate for Skills UI (Gary Nov 5 ~2:04 PM CT). null = can train. */
+export function trainLockReason(s, id) {
+  const sk = D.skillById[id]; if (!sk) return 'Unknown skill.';
+  const h = hage(s);
+  if ((s.budget?.act ?? 0) < 1) return 'No actions left this year.';
+  if (sk.cat === 'arcane' && !s.flags.mana_awakened) return 'Needs mana awakening.';
+  if (id === 'enchanting' && (s.skills.spellcraft || 0) < 20) return 'Needs Spellcraft 20.';
+  if (MARTIAL_IDS.includes(id) && h < 6) return 'Too young for martial drill (age 6+).';
+  if (sk.cat === 'arcane' && h < 6) return 'Too young to force the spark (age 6+).';
+  if (h < 2) return 'Too young to train.';
+  if (h < 4 && !EARLY_OK_CATS.includes(sk.cat)) return 'Too young for this craft.';
+  return null;
+}
 function raceMult(s, id) {
   const r = race(s), cat = D.skillById[id]?.cat; let m = 1 + (r.buffs[id] || 0) + (r.flaws[id] || 0) + (r.buffs['cat_' + cat] || 0);
   if (r.id === 'human' && s.route && primarySkills(s).includes(id)) m += r.buffs.xp_primary || 0;
-  if (s.route && primarySkills(s).includes(id)) m += 0.25; if (s.talents.includes(id)) m += 0.3; return m;
+  if (s.route && primarySkills(s).includes(id)) m += 0.25; if (s.talents.includes(id)) m += 0.3;
+  // Sword / magic style bonuses
+  if (s.swordStyle && ['swordsmanship', 'strength', 'agility', 'shieldwork'].includes(id)) {
+    const st = D.styleById?.[s.swordStyle];
+    if (st?.id === 'style_storm' && (id === 'swordsmanship' || id === 'strength')) m += 0.15;
+    if (st?.id === 'style_river' && (id === 'swordsmanship' || id === 'shieldwork')) m += 0.15;
+    if (st?.id === 'style_thorn' && (id === 'swordsmanship' || id === 'agility')) m += 0.15;
+    if (st?.id === 'style_bulwark' && (id === 'shieldwork' || id === 'endurance')) m += 0.15;
+  }
+  if (s.magicSchool && D.skillById[id]?.cat === 'arcane') m += 0.12;
+  return m;
 }
 export function useSkill(s, id, amt) {
   if (s.skills[id] == null || skillLocked(s, id)) return 0; const v = s.skills[id];
@@ -145,13 +176,16 @@ export function primarySkills(s) {
   return { route_magic: ['spellcraft', 'mana_control'], route_sword: ['swordsmanship', 'strength'], route_hybrid: ['swordsmanship', 'spellcraft'], route_craft: ['smithing', 'alchemy'] }[s.route] || [];
 }
 export function train(s, id) {
+  const why = trainLockReason(s, id);
+  if (why) return { ok: false, msg: why };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
-  if (skillLocked(s, id)) { s.budget.act++; return { ok: false, msg: 'Mana has not answered you yet.' }; }
   const n = (s.trainCount[id] = (s.trainCount[id] || 0) + 1), curve = D.skills.trainingCurve;
   let mult, postCap = false;
   if (n <= curve.length) mult = curve[n - 1];
   else if (PILLAR_SKILLS.includes(id)) { postCap = true; mult = postCapAgeMult(s); }
   else mult = curve[curve.length - 1];
+  // Early years (2–3): lighter gains for soft skills
+  if (hage(s) < 4) mult *= 0.55;
   const before = rankOf(s.skills[id]); const g = useSkill(s, id, 6 * mult * turnYears(s) ** 0.5);
   for (const [re, map] of D.skills.activityMap) if (new RegExp(re).test(id)) for (const kv of map.split(',')) { const [k, w] = kv.split(':'); if (k !== id) useSkill(s, k, +w * 1.5 * (n <= curve.length ? curve[Math.min(n - 1, curve.length - 1)] : curve[curve.length - 1])); }
   if (D.skillById[id].cat === 'arcane') s.mana = Math.min(s.manaMax, s.mana + 2);
@@ -162,6 +196,72 @@ export function train(s, id) {
   const msg = `I trained ${name} (+${g.toFixed(1)}${extra}).` + (after !== before ? ` Rank up: ${after}!` : '');
   log(s, msg, 'train'); return { ok: true, msg };
 }
+
+/** Boundwake-original mana awakening (no Bit Tensie / MT ranks). */
+export function seekAwakening(s) {
+  if (s.flags.mana_awakened) return { ok: false, msg: 'Mana already answers you.' };
+  if (hage(s) < 6) return { ok: false, msg: 'Too young to force the spark (age 6+).' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const p = clamp(0.18 + (s.skills.focus || 0) / 180 + (s.skills.lore || 0) / 250 + (['light', 'fire', 'shadow', 'water', 'wind', 'earth'].includes(s.affinity) ? 0.06 : 0), 0.08, 0.72);
+  if (chance(s, p)) {
+    s.flags.mana_awakened = 1; s.mana = Math.max(s.mana, 8); s.manaMax = Math.max(s.manaMax, 20);
+    useSkill(s, 'mana_control', 3); useSkill(s, 'spellcraft', 2);
+    const msg = 'The spark answered. Mana wakes in me.'; log(s, msg, 'magic'); return { ok: true, msg };
+  }
+  s.stats.stress = clamp(s.stats.stress + 4, 0, 100);
+  useSkill(s, 'focus', 1.2);
+  const msg = 'I reached for the spark. It slipped — this year.'; log(s, msg, 'magic'); return { ok: true, msg };
+}
+export function chooseSwordStyle(s, styleId) {
+  const st = D.styleById?.[styleId];
+  if (!st || st.type !== 'sword') return { ok: false, msg: 'Unknown blade style.' };
+  if (hage(s) < (st.unlock?.age ?? 8)) return { ok: false, msg: 'Too young for a blade school (age 8+).' };
+  if ((s.skills.swordsmanship || 0) < (st.unlock?.skills?.swordsmanship ?? 10)) return { ok: false, msg: 'Need more Swordsmanship.' };
+  if (s.swordStyle && s.swordStyle !== styleId) return { ok: false, msg: 'Your blade style is already chosen.' };
+  s.swordStyle = styleId;
+  const msg = `I took up the ${st.name} — ${st.feel}.`; log(s, msg, 'style'); return { ok: true, msg };
+}
+export function chooseMagicSchool(s, schoolId) {
+  const st = D.styleById?.[schoolId];
+  if (!st || st.type !== 'school') return { ok: false, msg: 'Unknown magic school.' };
+  if (!s.flags.mana_awakened) return { ok: false, msg: 'Needs mana awakening.' };
+  if (s.magicSchool && s.magicSchool !== schoolId) return { ok: false, msg: 'Your school is already chosen.' };
+  s.magicSchool = schoolId;
+  const msg = `I joined the ${st.name}.`; log(s, msg, 'style'); return { ok: true, msg };
+}
+/** Practice cast — spends mana, grows arcane skills, journal beat. */
+export function practiceMagic(s) {
+  if (!s.flags.mana_awakened) return { ok: false, msg: 'Needs mana awakening.' };
+  if (!s.magicSchool) return { ok: false, msg: 'Choose a magic school first.' };
+  if (s.mana < 5) return { ok: false, msg: 'Not enough mana (need 5).' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.mana -= 5;
+  const school = D.styleById[s.magicSchool]?.name || 'my school';
+  const g1 = useSkill(s, 'spellcraft', 4); const g2 = useSkill(s, 'elementalism', 3); useSkill(s, 'mana_control', 2);
+  s.stats.stress = clamp(s.stats.stress + 3, 0, 100);
+  const msg = `I practiced ${school} forms (mana −5; spellcraft +${g1.toFixed(1)}).`; log(s, msg, 'magic'); return { ok: true, msg };
+}
+export function swordStyles(s) { return (D.styles || []).filter((x) => x.type === 'sword'); }
+export function magicSchools(s) { return (D.styles || []).filter((x) => x.type === 'school'); }
+export const attemptManaAwaken = seekAwakening;
+export const trainBlockReason = trainLockReason;
+export function isSoftSkill(id) {
+  const cat = D.skillById[id]?.cat;
+  return !!(cat && EARLY_OK_CATS.includes(cat) && !MARTIAL_IDS.includes(id));
+}
+export function drillSword(s) {
+  if (!s.swordStyle) return { ok: false, msg: 'Choose a sword style first (age 8+, Skills).' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const st = D.styleById?.[s.swordStyle];
+  const g = useSkill(s, 'swordsmanship', 2.6);
+  useSkill(s, 'strength', 0.7); useSkill(s, 'agility', 0.7);
+  if (st?.id === 'style_bulwark') useSkill(s, 'shieldwork', 1.2);
+  s.stats.stress = clamp(s.stats.stress + 2, 0, 100);
+  const msg = `I drilled ${st?.name || 'my style'} forms (+${g.toFixed(1)} swordsmanship).`;
+  log(s, msg, 'train'); return { ok: true, msg };
+}
+
+
 
 // ---- jobs (occupations.json ladders) ----
 export const careerOf = (jobId) => D.occ.careers.find((c) => c.id === D.jobsById[jobId].sector);
@@ -209,12 +309,35 @@ export function canAdventure(s) { return hage(s) >= 10 && s.budget.adv > 0 && s.
 export function adventure(s) {
   if (!canAdventure(s)) return { ok: false, msg: hage(s) < 10 ? 'Too young for the road.' : 'No adventures left this year.' };
   s.budget.adv--; s.budget.act--;
+  // Trained skills + styles color the road (Boundwake growth, not Bit Tensie copy)
+  const sword = s.skills.swordsmanship || 0, spell = s.skills.spellcraft || 0, track = s.skills.tracking || 0;
+  const style = D.styleById?.[s.swordStyle];
+  let combatW = 1 + sword / 50 + (style ? 0.35 : 0);
+  let exploreW = 1 + track / 60 + (s.skills.foraging || 0) / 80;
+  let dungeonW = 1 + (sword + spell) / 80;
+  if (s.route === 'route_sword') combatW *= 1.25;
+  if (s.route === 'route_magic') { dungeonW *= 1.15; if (s.flags.mana_awakened) dungeonW *= 1.1; }
+  if (s.route === 'route_hybrid') { combatW *= 1.1; dungeonW *= 1.1; }
   const el = eligible(s).filter((e) => ['combat', 'exploration', 'dungeon'].includes(e.cat));
-  const e = wpick(s, el, (x) => x.w); if (e) { queue(s, e.id); return { ok: true, msg: 'Something finds you on the road…' }; }
-  const loc = pick(s, regionOf(s).locations); s.gold += rint(s, 0, 6); log(s, `I wandered ${loc.name}. ${loc.flavor}`, 'explore'); discover(s, loc.id); return { ok: true, msg: loc.flavor };
+  const e = wpick(s, el, (x) => (x.w || 1) * (x.cat === 'combat' ? combatW : x.cat === 'dungeon' ? dungeonW : exploreW));
+  if (e) {
+    useSkill(s, e.cat === 'combat' ? 'swordsmanship' : e.cat === 'dungeon' ? (s.flags.mana_awakened ? 'spellcraft' : 'endurance') : 'tracking', 1.5);
+    queue(s, e.id); return { ok: true, msg: 'Something finds you on the road…' };
+  }
+  const loc = pick(s, regionOf(s).locations);
+  const coin = rint(s, 0, 6) + Math.floor((s.skills.bartering || 0) / 40);
+  s.gold += coin; useSkill(s, 'tracking', 1); useSkill(s, 'endurance', 0.8);
+  log(s, `I wandered ${loc.name}. ${loc.flavor}`, 'explore'); discover(s, loc.id); return { ok: true, msg: loc.flavor };
 }
 export function rest(s) { if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' }; s.stats.stress = clamp(s.stats.stress - 12, 0, 100); s.stats.health = clamp(s.stats.health + 3, 0, 100); log(s, 'I took a slow day by the pond with tea and bread.', 'rest'); return { ok: true }; }
-export function chooseRoute(s, r) { if (hage(s) < 8 || s.route) return; s.route = r; log(s, `I chose my path: ${r.replace('route_', '')}.`, 'route'); }
+export function chooseRoute(s, r) {
+  if (hage(s) < 8) return { ok: false, msg: 'Path choice opens at age 8.' };
+  if (s.route) return { ok: false, msg: 'Your path is already chosen.' };
+  if (!['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].includes(r)) return { ok: false, msg: 'Unknown path.' };
+  s.route = r;
+  const msg = `I chose my path: ${r.replace('route_', '')}. Primary skills grow faster.`;
+  log(s, msg, 'route'); return { ok: true, msg };
+}
 
 /** Visit a place in the current realm (Gary Nov 5 ~2:02 PM CT). Spends 1 act; effects by location kind. */
 export function visitLocation(s, locId) {
@@ -248,6 +371,11 @@ export function visitLocation(s, locId) {
     useSkill(s, 'focus', 1.0);
     s.stats.smarts = clamp(s.stats.smarts + rint(s, 1, 3), 0, 100);
     msg = `I studied under the eaves of ${loc.name}.`;
+    // Academy visit may nudge awakening
+    if (!s.flags.mana_awakened && hage(s) >= 6 && chance(s, 0.22 + (s.skills.focus || 0) / 200)) {
+      s.flags.mana_awakened = 1; s.mana = Math.max(s.mana, 8); s.manaMax = Math.max(s.manaMax, 20);
+      msg += ' The lessons woke a spark — mana answers me.';
+    }
   } else if (/landmark|statue|shrine|bridge/.test(kind)) {
     s.stats.happiness = clamp(s.stats.happiness + rint(s, 3, 6), 0, 100);
     s.stats.fame = clamp(s.stats.fame + (chance(s, 0.25) ? 1 : 0), 0, 100);

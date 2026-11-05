@@ -157,9 +157,37 @@ function body() {
     <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`);
   }
   if (tab === 'skills') {
-    return card('skills', HD.skills, lead('skills')) + P.skills.categories.map((c) => card('skills', `${c.icon} ${esc(c.name)}`, P.skills.skills.filter((k) => k.cat === c.id).map((k) => { const v = s.skills[k.id], lk = E.skillLocked(s, k.id);
+    const why = (id) => E.trainLockReason(s, id);
+    const manaCard = card('skills', `${ico('mana')} Mana &amp; craft`,
+      s.flags.mana_awakened
+        ? `<p class="sub">Mana <b>${Math.floor(s.mana)}</b> / ${Math.floor(s.manaMax)}. School: <b>${esc((P.styles||[]).find(x=>x.id===s.magicSchool)?.name || 'none yet')}</b>. Sword style: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || 'none yet')}</b>.</p>
+           <div class="actions"><button data-a="cast" class="primary" ${s.budget.act < 1 || s.mana < 5 || !s.magicSchool ? 'disabled' : ''}>Practice magic (5 mana)</button>
+           <button data-a="drill" ${s.budget.act < 1 ? 'disabled' : ''}>Drill sword forms</button></div>`
+        : `<p class="sub">Mana sleeps. From age 6: Attempt awakening here, or Visit an Academy in Realms. Spark-born trait wakes it at birth.</p>
+           <div class="actions"><button data-a="awaken" class="primary" ${s.budget.act < 1 || h < 6 ? 'disabled' : ''}>Attempt mana awakening${h < 6 ? ' (age 6+)' : ''}</button></div>`);
+    const stylePick = (!s.swordStyle && h >= 8)
+      ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Choose how you bind steel — this shapes adventure odds. Need Swordsmanship ${(P.styles||[]).find(x=>x.type==='sword')?.unlock?.skills?.swordsmanship || 10}+.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'sword').map((st) => { const need = st.unlock?.skills?.swordsmanship || 10; const ok = (s.skills.swordsmanship||0) >= need; return `<button data-a="style" data-v="${st.id}" title="${esc(st.feel||'')}" ${ok?'':'disabled'}>${esc(st.name)}${ok?'':` (need ${need})`}</button>`; }).join('')}</div>`)
+      : (s.swordStyle ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Active: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || s.swordStyle)}</b> — ${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.feel || '')}. Drill forms below or Train Swordsmanship.</p>`) : '');
+    const schoolPick = (s.flags.mana_awakened && !s.magicSchool)
+      ? card('skills', `${ico('spellcraft')} Magic school`, `<p class="sub">Bind your spark to a Boundwake school (original names).</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'school').map((st) => `<button data-a="school" data-v="${st.id}">${esc(st.name)}</button>`).join('')}</div>`)
+      : '';
+    const rows = P.skills.categories.map((c) => card('skills', `${c.icon} ${esc(c.name)}`, P.skills.skills.filter((k) => k.cat === c.id).map((k) => {
+      const v = s.skills[k.id], block = why(k.id);
       const pillar = E.PILLAR_SKILLS?.includes(k.id) && E.longevitySkillPace(s, k.id) > 1 ? ` · <small class="muted">long-life pace ×${E.longevitySkillPace(s, k.id).toFixed(1)}</small>` : '';
-      return `<div class="row row-skill"><div class="skill-name">${skillIco(k.id)}<b>${esc(k.name)}</b> <small>${E.rankOf(v)}${s.talents.includes(k.id) && v > 10 ? ' · talent!' : ''}${pillar}</small><br><small>${flare(k.flavor || k.note)}</small></div><div style="text-align:right;min-width:96px">${Math.floor(v)}<br><button data-a="train" data-v="${k.id}" ${lk || s.budget.act < 1 || h < 4 ? 'disabled' : ''}>${lk ? 'locked' : 'Train'}</button></div></div>`; }).join(''))).join('');
+      const soft = E.isSoftSkill?.(k.id);
+      return `<div class="row row-skill"><div class="skill-name">${skillIco(k.id)}<b>${esc(k.name)}</b> <small>${E.rankOf(v)}${s.talents.includes(k.id) && v > 10 ? ' · talent!' : ''}${pillar}</small><br><small>${flare(k.flavor || k.note)}</small>
+        ${block ? `<br><small class="lock-why">${esc(block)}</small>` : ''}</div>
+        <div style="text-align:right;min-width:96px">${Math.floor(v)}<br>
+        <button data-a="train" data-v="${k.id}" ${block || s.budget.act < 1 ? 'disabled' : ''}>${block ? 'Locked' : 'Train'}</button></div></div>`;
+    }).join(''))).join('');
+    const routePick = (!s.route && h >= 8)
+      ? card('skills', `${ico('route')} Your path`, `<p class="sub">Route picks primary skills — sword, magic, hybrid, or craft. Visible and permanent.</p><div class="actions">
+        <button data-a="route" data-v="route_sword">Sword</button>
+        <button data-a="route" data-v="route_magic">Magic</button>
+        <button data-a="route" data-v="route_hybrid">Hybrid</button>
+        <button data-a="route" data-v="route_craft">Craft</button></div>`)
+      : (s.route ? card('skills', `${ico('route')} Your path`, `<p class="sub">Walking the <b>${esc(s.route.replace('route_',''))}</b> road — primary skills train faster.</p>`) : '');
+    return card('skills', HD.skills, lead('skills')) + manaCard + routePick + stylePick + schoolPick + rows;
   }
   if (tab === 'bonds') {
     const people = E.living(s);
@@ -301,11 +329,16 @@ app.addEventListener('click', (ev) => {
   else if (a === 'age') E.ageUp(s);
   else if (a === 'ch') { r = E.resolve(s, +v); if (r) toast((r.success === false ? '✗ ' : '') + r.msg); }
   else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s);
-  else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') E.chooseRoute(s, v);
+  else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') { r = E.chooseRoute(s, v); }
   else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'visit') r = E.visitLocation(s, v);
   else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
   else if (a === 'heir') { s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
   else if (a === 'party') { r = E.toggleParty(s, v); }
+  else if (a === 'awaken') { r = E.attemptManaAwaken(s); }
+  else if (a === 'style') { r = E.chooseSwordStyle(s, v); }
+  else if (a === 'school') { r = E.chooseMagicSchool(s, v); }
+  else if (a === 'cast') { r = E.practiceMagic(s); }
+  else if (a === 'drill') { r = E.drillSword(s); }
   else if (a === 'music') { unlockMusic(); toggleMute(); return; }
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();

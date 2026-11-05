@@ -1,3 +1,10 @@
+## Growth playable (Gary Nov 5 ~2:04 PM CT)
+- Skills UI: Train shows lock WHY (too young / mana / no actions). Soft cats from hage~2 (×0.55). Martial from hage 6. Sword styles at 8.
+- Mana: Attempt awakening (age 6+) or Academy Visit; spark-born at birth. Practice magic (5 mana) + school pick (Boundwake names). Mana bar when awake.
+- Sword style pick + drillSword; style bonuses in raceMult + adventure weights. Route pick on Skills + Life.
+- Engine: trainLockReason, seekAwakening, chooseSwordStyle/MagicSchool, practiceMagic, drillSword, visitLocation academy awaken.
+- Deploy skill PNGs + this growth live.
+
 # Changes vs Lifeline engine (fork record)
 - Kept verbatim: rng.js, core.js, fmt.js.
 - Lean `src/bw_engine.js` with fantasy pack semantics; storage `bw.*`.

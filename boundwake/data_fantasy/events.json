@@ -2054,5 +2054,2256 @@
   ],
   "src": "coder_stub",
   "journal_src": "coder_stub"
+ },
+ {
+  "id": "child_mud_king",
+  "cat": "childhood",
+  "ages": [
+   2,
+   6
+  ],
+  "w": 5,
+  "title": "Mud Crown",
+  "prompt": "The yard after rain is a kingdom. Someone must rule it.",
+  "choices": [
+   {
+    "label": "Claim the hill",
+    "journal": [
+     "I ruled the mud until supper. Empire: temporary. Glory: eternal."
+    ],
+    "fx": {
+     "spirit": 6,
+     "sk_strength": 1
+    }
+   },
+   {
+    "label": "Build a canal",
+    "journal": [
+     "Engineering before dignity. My shoes disagreed."
+    ],
+    "fx": {
+     "wits": 3,
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Stay clean",
+    "journal": [
+     "I watched from the porch like a cautious historian."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "once": true
+ },
+ {
+  "id": "child_lost_marble",
+  "cat": "childhood",
+  "ages": [
+   4,
+   9
+  ],
+  "w": 4,
+  "title": "The Rolling Lucky",
+  "prompt": "Your favorite glass bead rolls toward the millrace.",
+  "choices": [
+   {
+    "label": "Chase it",
+    "p": 0.65,
+    "win": {
+     "journal": [
+      "I caught it at the last wet inch."
+     ],
+     "fx": {
+      "spirit": 5,
+      "sk_agility": 2
+     }
+    },
+    "fail": {
+     "journal": [
+      "The bead became a legend downstream."
+     ],
+     "fx": {
+      "spirit": -3,
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Let it go",
+    "journal": [
+     "Some treasures teach by leaving."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   },
+   {
+    "label": "Ask a sibling",
+    "journal": [
+     "They rescued it and never let me forget."
+    ],
+    "fx": {
+     "spirit": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "once": true
+ },
+ {
+  "id": "child_fib",
+  "cat": "childhood",
+  "ages": [
+   5,
+   10
+  ],
+  "w": 4,
+  "title": "A Small Untruth",
+  "prompt": "A broken cup sits where you stood. Eyes turn.",
+  "choices": [
+   {
+    "label": "Confess",
+    "journal": [
+     "The truth stung. Trust grew a little."
+    ],
+    "fx": {
+     "karma": 4,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Blame the cat",
+    "journal": [
+     "The cat forgave me. My parents did not, later."
+    ],
+    "fx": {
+     "karma": -4,
+     "stress": 1
+    }
+   },
+   {
+    "label": "Stay silent",
+    "journal": [
+     "Silence held. Guilt visited nightly."
+    ],
+    "fx": {
+     "stress": 4,
+     "karma": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "child_festival_ribbon",
+  "cat": "childhood",
+  "ages": [
+   4,
+   11
+  ],
+  "w": 4,
+  "title": "Festival Ribbon",
+  "prompt": "Someone ties a bright ribbon to your wrist at the commons.",
+  "choices": [
+   {
+    "label": "Wear it all week",
+    "journal": [
+     "I was a small parade."
+    ],
+    "fx": {
+     "spirit": 5,
+     "presence": 2
+    }
+   },
+   {
+    "label": "Give it to a friend",
+    "journal": [
+     "Their smile outlasted the dye."
+    ],
+    "fx": {
+     "spirit": 4,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Save it in a box",
+    "journal": [
+     "Years later it still smelled like music."
+    ],
+    "fx": {
+     "spirit": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "once": true
+ },
+ {
+  "id": "school_sneeze_lesson",
+  "cat": "school",
+  "ages": [
+   6,
+   14
+  ],
+  "w": 4,
+  "title": "Ill-Timed Sneeze",
+  "prompt": "You sneeze mid-recitation. Chalk dust becomes weather.",
+  "choices": [
+   {
+    "label": "Bow and continue",
+    "journal": [
+     "Dignity recovered on the next line."
+    ],
+    "fx": {
+     "sk_composure": 2,
+     "sk_literacy": 1
+    }
+   },
+   {
+    "label": "Laugh with them",
+    "journal": [
+     "We all sneezed wrong together."
+    ],
+    "fx": {
+     "spirit": 3,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Flee to the yard",
+    "journal": [
+     "Fresh air. Incomplete lesson."
+    ],
+    "fx": {
+     "stress": -2,
+     "sk_literacy": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_prank",
+  "cat": "school",
+  "ages": [
+   8,
+   15
+  ],
+  "w": 4,
+  "title": "Ink in the Inkwell",
+  "prompt": "Someone swapped the ink for blackberry mash. The tutor's sleeve knows.",
+  "choices": [
+   {
+    "label": "Confess if it was you",
+    "journal": [
+     "I owned the mash. Extra copying followed."
+    ],
+    "fx": {
+     "karma": 3,
+     "stress": 3,
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Help clean",
+    "journal": [
+     "Sleeves and conscience both improved."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Stay clear",
+    "journal": [
+     "I practiced invisibility. It worked."
+    ],
+    "fx": {
+     "sk_stealth": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_dance",
+  "cat": "school",
+  "ages": [
+   12,
+   17
+  ],
+  "w": 5,
+  "title": "Primer Yard Dance",
+  "prompt": "Lanterns appear. Someone asks if you know the steps.",
+  "choices": [
+   {
+    "label": "Dance badly with joy",
+    "journal": [
+     "Feet wrong, heart right."
+    ],
+    "fx": {
+     "spirit": 6,
+     "presence": 2,
+     "sk_performance": 2
+    }
+   },
+   {
+    "label": "Offer to fetch punch",
+    "journal": [
+     "I became useful furniture with a smile."
+    ],
+    "fx": {
+     "sk_charm": 2,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Hide by the willow",
+    "journal": [
+     "The willow understood."
+    ],
+    "fx": {
+     "stress": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_answer_key",
+  "cat": "school",
+  "ages": [
+   11,
+   16
+  ],
+  "w": 3,
+  "title": "The Loose Folio",
+  "prompt": "A folio of answers sits unattended on a desk.",
+  "choices": [
+   {
+    "label": "Return it",
+    "journal": [
+     "The tutor nodded once. That was enough."
+    ],
+    "fx": {
+     "karma": 5,
+     "sk_composure": 1
+    }
+   },
+   {
+    "label": "Glance once",
+    "journal": [
+     "One glance. Three nights of guilt."
+    ],
+    "fx": {
+     "wits": 2,
+     "karma": -3,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Copy carefully",
+    "journal": [
+     "Scores rose. Sleep fell."
+    ],
+    "fx": {
+     "wits": 4,
+     "karma": -6,
+     "stress": 4
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_principal",
+  "cat": "school",
+  "ages": [
+   7,
+   15
+  ],
+  "w": 3,
+  "title": "Called to the Head Desk",
+  "prompt": "The head tutor wants a word. The bench outside is famous.",
+  "choices": [
+   {
+    "label": "Tell the full truth",
+    "journal": [
+     "Honesty shortened the lecture."
+    ],
+    "fx": {
+     "karma": 3,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Apologize first",
+    "journal": [
+     "I apologized for things I had not done. It somehow helped."
+    ],
+    "fx": {
+     "sk_etiquette": 2,
+     "stress": 1
+    }
+   },
+   {
+    "label": "Blame circumstance",
+    "journal": [
+     "Circumstance did not testify on my behalf."
+    ],
+    "fx": {
+     "stress": 4,
+     "karma": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "love_first_crush",
+  "cat": "love",
+  "ages": [
+   13,
+   18
+  ],
+  "w": 5,
+  "title": "First Crush",
+  "prompt": "Someone across Market Row makes ordinary errands feel staged.",
+  "choices": [
+   {
+    "label": "Say hello",
+    "p": 0.6,
+    "win": {
+     "journal": [
+      "They said hello back. The day improved its posture."
+     ],
+     "fx": {
+      "spirit": 6,
+      "sk_charm": 2,
+      "newperson": "love"
+     }
+    },
+    "fail": {
+     "journal": [
+      "They were kind. Kind is not the same as interested."
+     ],
+     "fx": {
+      "spirit": -2,
+      "sk_composure": 1
+     }
+    }
+   },
+   {
+    "label": "Write a terrible poem",
+    "journal": [
+     "The poem was terrible. The courage was not."
+    ],
+    "fx": {
+     "sk_literacy": 2,
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Do nothing",
+    "journal": [
+     "I memorized their walk and called it enough."
+    ],
+    "fx": {
+     "stress": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "once": true
+ },
+ {
+  "id": "love_anniversary",
+  "cat": "love",
+  "ages": [
+   18,
+   80
+  ],
+  "w": 4,
+  "title": "A Quiet Anniversary",
+  "prompt": "You remember the day you met. They might too.",
+  "choices": [
+   {
+    "label": "Plan a small feast",
+    "req": 20,
+    "journal": [
+     "Bread, tea, and the same dumb jokes."
+    ],
+    "fx": {
+     "spirit": 8,
+     "gold": -20
+    }
+   },
+   {
+    "label": "Walk the Stonebridge",
+    "journal": [
+     "We carved nothing. We stayed longer."
+    ],
+    "fx": {
+     "spirit": 5
+    }
+   },
+   {
+    "label": "Forget until dusk",
+    "journal": [
+     "A late gift still counts if the apology is real."
+    ],
+    "fx": {
+     "spirit": 2,
+     "stress": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "partner": true
+  }
+ },
+ {
+  "id": "love_temptation",
+  "cat": "love",
+  "ages": [
+   20,
+   70
+  ],
+  "w": 3,
+  "title": "A Flattering Stranger",
+  "prompt": "Someone new is very interested. Your bond already has a name.",
+  "choices": [
+   {
+    "label": "Be clear and kind",
+    "journal": [
+     "I drew the line without drawing blood."
+    ],
+    "fx": {
+     "karma": 3,
+     "sk_composure": 2
+    }
+   },
+   {
+    "label": "Flirt anyway",
+    "journal": [
+     "I collected a smile I should not have."
+    ],
+    "fx": {
+     "karma": -5,
+     "stress": 3,
+     "presence": 1
+    }
+   },
+   {
+    "label": "Tell your partner",
+    "journal": [
+     "Honesty made the house quieter, then warmer."
+    ],
+    "fx": {
+     "spirit": 3,
+     "karma": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "partner": true
+  }
+ },
+ {
+  "id": "love_prom_festival",
+  "cat": "love",
+  "ages": [
+   15,
+   18
+  ],
+  "w": 4,
+  "title": "Lantern Festival Pairing",
+  "prompt": "Pairs form under the lanterns. You could ask.",
+  "choices": [
+   {
+    "label": "Ask someone",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "We danced like people who had practiced less than we claimed."
+     ],
+     "fx": {
+      "spirit": 7,
+      "presence": 2,
+      "newperson": "love"
+     }
+    },
+    "fail": {
+     "journal": [
+      "They already had a lantern partner."
+     ],
+     "fx": {
+      "spirit": -3
+     }
+    }
+   },
+   {
+    "label": "Go with friends",
+    "journal": [
+     "We were a flock of awkward joy."
+    ],
+    "fx": {
+     "spirit": 5
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "The lanterns looked fine from the window."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "once": true
+ },
+ {
+  "id": "family_mom_day",
+  "cat": "family",
+  "ages": [
+   6,
+   60
+  ],
+  "w": 4,
+  "title": "A Parent's Nameday",
+  "prompt": "One of your parents' nameday arrives with expectations and cake.",
+  "choices": [
+   {
+    "label": "Make a gift",
+    "journal": [
+     "I carved a clumsy charm. They kept it forever."
+    ],
+    "fx": {
+     "spirit": 5,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Help cook",
+    "journal": [
+     "Flour everywhere. Love measurable in loaves."
+    ],
+    "fx": {
+     "spirit": 4,
+     "sk_cooking": 2
+    }
+   },
+   {
+    "label": "Forget until noon",
+    "journal": [
+     "Panic, then a market dash, then forgiveness."
+    ],
+    "fx": {
+     "stress": 3,
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "family_sibling_need",
+  "cat": "family",
+  "ages": [
+   8,
+   70
+  ],
+  "w": 4,
+  "title": "Sibling in Need",
+  "prompt": "A sibling needs coin, cover, or courage.",
+  "choices": [
+   {
+    "label": "Help fully",
+    "req": 15,
+    "journal": [
+     "I gave what I had. They owed me a story later."
+    ],
+    "fx": {
+     "gold": -15,
+     "karma": 4,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Help a little",
+    "journal": [
+     "Half a loaf still feeds."
+    ],
+    "fx": {
+     "gold": -5,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Say no",
+    "journal": [
+     "I kept my purse. The silence afterward was expensive."
+    ],
+    "fx": {
+     "karma": -3,
+     "stress": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "family_dinner",
+  "cat": "family",
+  "ages": [
+   5,
+   90
+  ],
+  "w": 4,
+  "title": "Long Table Night",
+  "prompt": "The house fills. Opinions arrive before the stew.",
+  "choices": [
+   {
+    "label": "Keep peace",
+    "journal": [
+     "I steered talk toward weather and harvest."
+    ],
+    "fx": {
+     "sk_etiquette": 2,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Pick a side",
+    "journal": [
+     "The argument ended. The evening did not."
+    ],
+    "fx": {
+     "stress": 3,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Wash dishes early",
+    "journal": [
+     "Soap is a diplomatic posting."
+    ],
+    "fx": {
+     "karma": 1,
+     "stress": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "family_parents_split",
+  "cat": "family",
+  "ages": [
+   8,
+   20
+  ],
+  "w": 2,
+  "title": "The House Divides",
+  "prompt": "Your parents speak in careful sentences. The carefulness is the news.",
+  "choices": [
+   {
+    "label": "Stay with one",
+    "journal": [
+     "I chose a roof. The other visited with gifts and silence."
+    ],
+    "fx": {
+     "stress": 8,
+     "spirit": -4
+    }
+   },
+   {
+    "label": "Try to mediate",
+    "journal": [
+     "I was too young for that job. I tried anyway."
+    ],
+    "fx": {
+     "stress": 6,
+     "sk_charm": 2
+    }
+   },
+   {
+    "label": "Hide in chores",
+    "journal": [
+     "Wood chopped. Feelings postponed."
+    ],
+    "fx": {
+     "stress": 5,
+     "sk_strength": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "once": true
+ },
+ {
+  "id": "friend_money",
+  "cat": "friend",
+  "ages": [
+   14,
+   70
+  ],
+  "w": 4,
+  "title": "A Friend's Empty Purse",
+  "prompt": "A friend asks for gold with a joke that does not land.",
+  "choices": [
+   {
+    "label": "Lend it",
+    "req": 20,
+    "journal": [
+     "I lent the coin. Friendship thickened."
+    ],
+    "fx": {
+     "gold": -20,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Give a smaller gift",
+    "journal": [
+     "Enough for bread. Not enough for trouble."
+    ],
+    "fx": {
+     "gold": -6,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Refuse",
+    "journal": [
+     "I said no. We measured the friendship afterward."
+    ],
+    "fx": {
+     "stress": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "friend_fight",
+  "cat": "friend",
+  "ages": [
+   10,
+   80
+  ],
+  "w": 4,
+  "title": "Friend Fracture",
+  "prompt": "A sharp word sits between you like a third person.",
+  "choices": [
+   {
+    "label": "Apologize first",
+    "journal": [
+     "Pride bent. The friendship did not break."
+    ],
+    "fx": {
+     "spirit": 3,
+     "sk_composure": 2
+    }
+   },
+   {
+    "label": "Wait them out",
+    "journal": [
+     "Time sanded the edge. Mostly."
+    ],
+    "fx": {
+     "stress": 2
+    }
+   },
+   {
+    "label": "End it",
+    "journal": [
+     "Some roads fork. I took mine."
+    ],
+    "fx": {
+     "stress": 4,
+     "spirit": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "friend_wedding",
+  "cat": "friend",
+  "ages": [
+   18,
+   70
+  ],
+  "w": 3,
+  "title": "A Friend's Binding",
+  "prompt": "Someone you love platonically binds their life to another.",
+  "choices": [
+   {
+    "label": "Celebrate hard",
+    "req": 15,
+    "journal": [
+     "I danced, toasted with tea, and meant it."
+    ],
+    "fx": {
+     "gold": -15,
+     "spirit": 6,
+     "fame": 1
+    }
+   },
+   {
+    "label": "Quiet gift",
+    "journal": [
+     "A small thing with a long note."
+    ],
+    "fx": {
+     "gold": -8,
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Send word only",
+    "journal": [
+     "Ink instead of presence. They noticed."
+    ],
+    "fx": {
+     "karma": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "health_sore_back",
+  "cat": "health",
+  "ages": [
+   25,
+   90
+  ],
+  "w": 4,
+  "title": "A Reminding Ache",
+  "prompt": "Your back files a formal complaint after a long day.",
+  "choices": [
+   {
+    "label": "See a healer",
+    "req": 12,
+    "journal": [
+     "Hands and herbs negotiated a truce."
+    ],
+    "fx": {
+     "gold": -12,
+     "health": 5,
+     "stress": -2
+    }
+   },
+   {
+    "label": "Rest and stretch",
+    "journal": [
+     "Slow morning, fewer winces."
+    ],
+    "fx": {
+     "health": 2,
+     "stress": -3
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "The ache kept the minutes."
+    ],
+    "fx": {
+     "health": -3,
+     "stress": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "health_sleepless",
+  "cat": "health",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 4,
+  "title": "Sleepless Nights",
+  "prompt": "Thoughts rehearse after the candles die.",
+  "choices": [
+   {
+    "label": "Walk until tired",
+    "journal": [
+     "Stars and quiet finally won."
+    ],
+    "fx": {
+     "stress": -4,
+     "health": 1
+    }
+   },
+   {
+    "label": "Ask for sleep tea",
+    "req": 6,
+    "journal": [
+     "Bitter, then blank, then morning."
+    ],
+    "fx": {
+     "gold": -6,
+     "stress": -6
+    }
+   },
+   {
+    "label": "Work through it",
+    "journal": [
+     "I got more done and paid later."
+    ],
+    "fx": {
+     "wits": 1,
+     "stress": 5,
+     "health": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "health_checkup",
+  "cat": "health",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 3,
+  "title": "Pressed to See a Healer",
+  "prompt": "Someone who loves you insists you get looked at.",
+  "choices": [
+   {
+    "label": "Go",
+    "req": 10,
+    "journal": [
+     "Better to know. Even when knowing is annoying."
+    ],
+    "fx": {
+     "gold": -10,
+     "health": 3,
+     "flagset": "saw_healer"
+    }
+   },
+   {
+    "label": "Promise later",
+    "journal": [
+     "Later became a hobby."
+    ],
+    "fx": {
+     "stress": 1
+    }
+   },
+   {
+    "label": "Refuse",
+    "journal": [
+     "Stubbornness is also a symptom."
+    ],
+    "fx": {
+     "health": -1,
+     "karma": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "money_side_hustle",
+  "cat": "money",
+  "ages": [
+   14,
+   70
+  ],
+  "w": 4,
+  "title": "A Side Task",
+  "prompt": "Someone offers coin for work outside your usual path.",
+  "choices": [
+   {
+    "label": "Take it",
+    "journal": [
+     "Extra work, extra weight in the purse."
+    ],
+    "fx": {
+     "gold": 15,
+     "stress": 3,
+     "sk_endurance": 1
+    }
+   },
+   {
+    "label": "Negotiate up",
+    "p": 0.5,
+    "win": {
+     "journal": [
+      "They paid my ask. I hid the grin."
+     ],
+     "fx": {
+      "gold": 24,
+      "sk_bartering": 2
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired the quieter bidder."
+     ],
+     "fx": {
+      "stress": 1
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "My evenings stayed mine."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "money_scam",
+  "cat": "money",
+  "ages": [
+   14,
+   90
+  ],
+  "w": 3,
+  "title": "Too-Perfect Offer",
+  "prompt": "A stranger promises rare dyes for a small deposit.",
+  "choices": [
+   {
+    "label": "Pay the deposit",
+    "req": 25,
+    "journal": [
+     "The stranger and the dyes both vanished."
+    ],
+    "fx": {
+     "gold": -25,
+     "wits": 1,
+     "karma": 0
+    }
+   },
+   {
+    "label": "Ask the Watch",
+    "journal": [
+     "They knew the face. I kept my coin."
+    ],
+    "fx": {
+     "wits": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Walk away",
+    "journal": [
+     "My skepticism earned its keep."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "money_windfall",
+  "cat": "money",
+  "ages": [
+   10,
+   90
+  ],
+  "w": 2,
+  "title": "Unexpected Coin",
+  "prompt": "A purse, a gift, or a forgotten debt finds you.",
+  "choices": [
+   {
+    "label": "Keep it",
+    "journal": [
+     "Fortune blinked in my direction."
+    ],
+    "fx": {
+     "gold": 30,
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Seek the owner",
+    "journal": [
+     "I found them. Their relief was loud."
+    ],
+    "fx": {
+     "gold": 5,
+     "karma": 5,
+     "fame": 1
+    }
+   },
+   {
+    "label": "Split with a friend",
+    "journal": [
+     "Shared luck tastes better."
+    ],
+    "fx": {
+     "gold": 15,
+     "spirit": 4
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "money_tax_tithe",
+  "cat": "money",
+  "ages": [
+   18,
+   90
+  ],
+  "w": 3,
+  "title": "Tithe Day",
+  "prompt": "The collector arrives with a ledger and a patient smile.",
+  "choices": [
+   {
+    "label": "Pay in full",
+    "req": 20,
+    "journal": [
+     "The ledger closed kindly."
+    ],
+    "fx": {
+     "gold": -20,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Haggle down",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "I talked the sum into something survivable."
+     ],
+     "fx": {
+      "gold": -12,
+      "sk_bartering": 2
+     }
+    },
+    "fail": {
+     "journal": [
+      "They added a late mark for my cleverness."
+     ],
+     "fx": {
+      "gold": -28,
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Hide coin",
+    "journal": [
+     "I underpaid. Sleep got expensive."
+    ],
+    "fx": {
+     "gold": -8,
+     "karma": -5,
+     "stress": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "oldage_grandkids",
+  "cat": "oldage",
+  "ages": [
+   50,
+   120
+  ],
+  "w": 4,
+  "title": "Small Feet Again",
+  "prompt": "Young voices fill the yard. Someone calls you by a new title.",
+  "choices": [
+   {
+    "label": "Tell old stories",
+    "journal": [
+     "They listened until the good parts. Then the snacks."
+    ],
+    "fx": {
+     "spirit": 6,
+     "fame": 1
+    }
+   },
+   {
+    "label": "Teach a craft",
+    "journal": [
+     "Small hands, real progress."
+    ],
+    "fx": {
+     "spirit": 4,
+     "sk_composure": 1
+    }
+   },
+   {
+    "label": "Nap strategically",
+    "journal": [
+     "Wisdom includes timing."
+    ],
+    "fx": {
+     "stress": -4,
+     "health": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {}
+ },
+ {
+  "id": "oldage_memory",
+  "cat": "oldage",
+  "ages": [
+   55,
+   130
+  ],
+  "w": 3,
+  "title": "A Name Escapes",
+  "prompt": "A familiar face waits. The name takes the long road.",
+  "choices": [
+   {
+    "label": "Admit it",
+    "journal": [
+     "They laughed and supplied the name. Grace all around."
+    ],
+    "fx": {
+     "spirit": 2,
+     "stress": 1
+    }
+   },
+   {
+    "label": "Fake it",
+    "journal": [
+     "I used three nicknames. One worked."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Ask kindly",
+    "journal": [
+     "Asking was easier than pretending."
+    ],
+    "fx": {
+     "karma": 1,
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "oldage_hobby",
+  "cat": "oldage",
+  "ages": [
+   50,
+   120
+  ],
+  "w": 4,
+  "title": "A New Quiet Hobby",
+  "prompt": "Your hands want a smaller project than saving the realm.",
+  "choices": [
+   {
+    "label": "Whittle",
+    "journal": [
+     "Shavings and calm piled up together."
+    ],
+    "fx": {
+     "spirit": 4,
+     "sk_focus": 2
+    }
+   },
+   {
+    "label": "Garden herbs",
+    "journal": [
+     "The window box forgave my earlier neglect."
+    ],
+    "fx": {
+     "spirit": 4,
+     "sk_foraging": 2,
+     "health": 1
+    }
+   },
+   {
+    "label": "Copy recipes",
+    "journal": [
+     "Ink preserved what memory might misplace."
+    ],
+    "fx": {
+     "sk_literacy": 2,
+     "sk_cooking": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "random_storm",
+  "cat": "random",
+  "ages": [
+   5,
+   100
+  ],
+  "w": 4,
+  "title": "Roof-Test Storm",
+  "prompt": "Wind argues with every shutter in the vale.",
+  "choices": [
+   {
+    "label": "Help neighbors",
+    "journal": [
+     "We held roofs and nerves together."
+    ],
+    "fx": {
+     "karma": 3,
+     "sk_strength": 1,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Secure your own",
+    "journal": [
+     "My shutters survived. So did my caution."
+    ],
+    "fx": {
+     "stress": -1
+    }
+   },
+   {
+    "label": "Watch from inside",
+    "journal": [
+     "Thunder wrote loud essays. I graded none."
+    ],
+    "fx": {
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "random_stray",
+  "cat": "random",
+  "ages": [
+   6,
+   90
+  ],
+  "w": 3,
+  "title": "A Stray at the Gate",
+  "prompt": "Something hungry and hopeful waits by the fence.",
+  "choices": [
+   {
+    "label": "Take it in",
+    "journal": [
+     "The house gained a heartbeat with paws."
+    ],
+    "fx": {
+     "spirit": 5,
+     "gold": -5,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Feed and send on",
+    "journal": [
+     "A meal, a scratch, a goodbye."
+    ],
+    "fx": {
+     "karma": 2,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Close the gate",
+    "journal": [
+     "I slept. The hope waited elsewhere."
+    ],
+    "fx": {
+     "stress": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "random_found_coin",
+  "cat": "random",
+  "ages": [
+   8,
+   90
+  ],
+  "w": 3,
+  "title": "Coin in the Mud",
+  "prompt": "Mud yields a glint that is not a beetle.",
+  "choices": [
+   {
+    "label": "Keep it",
+    "journal": [
+     "Fortune wears dirt sometimes."
+    ],
+    "fx": {
+     "gold": 12
+    }
+   },
+   {
+    "label": "Ask around",
+    "journal": [
+     "An old woman claimed it with tears. Worth it."
+    ],
+    "fx": {
+     "karma": 4,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Toss in the shrine box",
+    "journal": [
+     "The gods, or the priests, appreciated the gesture."
+    ],
+    "fx": {
+     "karma": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "travel_ridge",
+  "cat": "travel",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "title": "Ridge Path Day",
+  "prompt": "A clear day invites a longer road than planned.",
+  "choices": [
+   {
+    "label": "Take the ridge",
+    "journal": [
+     "Wind, view, and a sandwich with a view of more wind."
+    ],
+    "fx": {
+     "spirit": 4,
+     "health": 1,
+     "sk_endurance": 1
+    }
+   },
+   {
+    "label": "Stick to the cart road",
+    "journal": [
+     "Safer dust. Fewer stories."
+    ],
+    "fx": {
+     "stress": -1
+    }
+   },
+   {
+    "label": "Turn back early",
+    "journal": [
+     "I listened to the sky's first hint of weather."
+    ],
+    "fx": {
+     "wits": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "travel_lost",
+  "cat": "travel",
+  "ages": [
+   14,
+   70
+  ],
+  "w": 2,
+  "title": "Wrong Fork",
+  "prompt": "Two paths look equally sure of themselves.",
+  "choices": [
+   {
+    "label": "Climb for a view",
+    "journal": [
+     "Height fixed what pride confused."
+    ],
+    "fx": {
+     "sk_tracking": 2,
+     "stress": 1
+    }
+   },
+   {
+    "label": "Follow smoke",
+    "journal": [
+     "A chimney led me to tea and directions."
+    ],
+    "fx": {
+     "spirit": 2,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Camp and wait for light",
+    "journal": [
+     "Morning is a cartographer."
+    ],
+    "fx": {
+     "stress": -2,
+     "health": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "work_raise",
+  "cat": "work",
+  "ages": [
+   16,
+   70
+  ],
+  "w": 4,
+  "title": "Ask for Better Pay",
+  "prompt": "Your work has outgrown your wage.",
+  "choices": [
+   {
+    "label": "Ask cleanly",
+    "p": 0.5,
+    "win": {
+     "journal": [
+      "They matched my ask. I walked taller."
+     ],
+     "fx": {
+      "gold": 20,
+      "perf": 8,
+      "fame": 1
+     }
+    },
+    "fail": {
+     "journal": [
+      "They praised me instead of paying me."
+     ],
+     "fx": {
+      "stress": 3,
+      "perf": 2
+     }
+    }
+   },
+   {
+    "label": "Document your wins",
+    "journal": [
+     "Paper argued better than pride."
+    ],
+    "fx": {
+     "sk_literacy": 2,
+     "perf": 4
+    }
+   },
+   {
+    "label": "Stay quiet",
+    "journal": [
+     "I kept peace and the old number."
+    ],
+    "fx": {}
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "job": true
+  }
+ },
+ {
+  "id": "work_gossip",
+  "cat": "work",
+  "ages": [
+   16,
+   70
+  ],
+  "w": 4,
+  "title": "Hall Gossip",
+  "prompt": "A rumor about you travels faster than you do.",
+  "choices": [
+   {
+    "label": "Confront it",
+    "journal": [
+     "I named the rumor and starved it."
+    ],
+    "fx": {
+     "sk_composure": 2,
+     "fame": 1
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "Silence bored the storytellers."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   },
+   {
+    "label": "Add a funnier version",
+    "journal": [
+     "At least the new version had better verbs."
+    ],
+    "fx": {
+     "fame": 2,
+     "sk_charm": 1,
+     "karma": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "job": true
+  }
+ },
+ {
+  "id": "work_layoff_rumor",
+  "cat": "work",
+  "ages": [
+   18,
+   65
+  ],
+  "w": 3,
+  "title": "Cuts in the Hall",
+  "prompt": "Whispers say posts will vanish with the season.",
+  "choices": [
+   {
+    "label": "Work visibly hard",
+    "journal": [
+     "I became harder to cut."
+    ],
+    "fx": {
+     "perf": 10,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Seek another opening",
+    "journal": [
+     "I lined a second door quietly."
+    ],
+    "fx": {
+     "wits": 2,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Reassure others",
+    "journal": [
+     "Calm is contagious when you mean it."
+    ],
+    "fx": {
+     "sk_charm": 2,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "job": true
+  }
+ },
+ {
+  "id": "work_retire_nudge",
+  "cat": "work",
+  "ages": [
+   55,
+   100
+  ],
+  "w": 2,
+  "title": "A Younger Shadow",
+  "prompt": "Someone younger learns your tasks with alarming speed.",
+  "choices": [
+   {
+    "label": "Teach them well",
+    "journal": [
+     "I poured years into their hands."
+    ],
+    "fx": {
+     "karma": 3,
+     "fame": 2,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Guard your methods",
+    "journal": [
+     "Some recipes stay secret."
+    ],
+    "fx": {
+     "stress": 2
+    }
+   },
+   {
+    "label": "Plan your exit",
+    "journal": [
+     "I began counting seasons differently."
+    ],
+    "fx": {
+     "wits": 2,
+     "stress": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "job": true
+  }
+ },
+ {
+  "id": "crime_dare_pilfer",
+  "cat": "crime",
+  "ages": [
+   10,
+   25
+  ],
+  "w": 3,
+  "title": "A Foolish Dare",
+  "prompt": "Friends dare you to lift a trinket from a stall.",
+  "choices": [
+   {
+    "label": "Do it",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I lifted it. Thrill, then a sour taste."
+     ],
+     "fx": {
+      "gold": 8,
+      "karma": -6,
+      "flagset": "petty_theft"
+     }
+    },
+    "fail": {
+     "journal": [
+      "Caught by a glance sharper than any blade."
+     ],
+     "fx": {
+      "karma": -4,
+      "stress": 5,
+      "fame": -1
+     }
+    }
+   },
+   {
+    "label": "Talk them down",
+    "journal": [
+     "We left with dignity and empty sleeves."
+    ],
+    "fx": {
+     "karma": 3,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Walk away",
+    "journal": [
+     "Some dares are filters."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "crime_witness",
+  "cat": "crime",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 3,
+  "title": "You Saw It",
+  "prompt": "A purse changes hands the wrong way in an alley.",
+  "choices": [
+   {
+    "label": "Call the Watch",
+    "journal": [
+     "I yelled. Boots came. Justice arrived sweaty."
+    ],
+    "fx": {
+     "karma": 4,
+     "fame": 1
+    }
+   },
+   {
+    "label": "Help the victim",
+    "journal": [
+     "I walked them to the Watchpost."
+    ],
+    "fx": {
+     "karma": 3,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Keep walking",
+    "journal": [
+     "I became someone who saw nothing."
+    ],
+    "fx": {
+     "karma": -2,
+     "stress": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "prison_yard",
+  "cat": "prison",
+  "ages": [
+   14,
+   90
+  ],
+  "w": 4,
+  "title": "Yard Tension",
+  "prompt": "The stockade yard sorts people into weather.",
+  "choices": [
+   {
+    "label": "Keep your head down",
+    "journal": [
+     "I became furniture with a pulse."
+    ],
+    "fx": {
+     "stress": 2,
+     "sk_composure": 2
+    }
+   },
+   {
+    "label": "Make one ally",
+    "journal": [
+     "A nod became a shield."
+    ],
+    "fx": {
+     "spirit": 2,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Stand taller",
+    "p": 0.5,
+    "win": {
+     "journal": [
+      "Respect arrived with bruised knuckles avoided."
+     ],
+     "fx": {
+      "fame": 1
+     }
+    },
+    "fail": {
+     "journal": [
+      "Pride collected a bruise."
+     ],
+     "fx": {
+      "health": -4,
+      "stress": 3
+     }
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "flag": "in_prison"
+  }
+ },
+ {
+  "id": "prison_labor",
+  "cat": "prison",
+  "ages": [
+   14,
+   90
+  ],
+  "w": 4,
+  "title": "Assigned Labor",
+  "prompt": "They put you on stone, laundry, or ledger work.",
+  "choices": [
+   {
+    "label": "Work honestly",
+    "journal": [
+     "Sweat shortened the days."
+    ],
+    "fx": {
+     "sk_endurance": 2,
+     "karma": 1,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Work clever",
+    "journal": [
+     "I found efficiencies the guards liked."
+    ],
+    "fx": {
+     "wits": 2,
+     "fame": 1
+    }
+   },
+   {
+    "label": "Drag feet",
+    "journal": [
+     "Time stretched. So did their patience."
+    ],
+    "fx": {
+     "stress": 3,
+     "karma": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "flag": "in_prison"
+  }
+ },
+ {
+  "id": "fame_song_spreads",
+  "cat": "fame",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 3,
+  "title": "Your Name in a Song",
+  "prompt": "A minstrel uses your deed as a rhyme. Accuracy varies.",
+  "choices": [
+   {
+    "label": "Buy them a tea",
+    "req": 5,
+    "journal": [
+     "I funded the next verse. Vanity is an instrument."
+    ],
+    "fx": {
+     "gold": -5,
+     "fame": 4,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Correct the facts",
+    "journal": [
+     "The song got worse and more true."
+    ],
+    "fx": {
+     "fame": 2,
+     "sk_literacy": 1
+    }
+   },
+   {
+    "label": "Ignore it",
+    "journal": [
+     "Fame without feeding sometimes starves."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_scout",
+  "cat": "fame",
+  "ages": [
+   12,
+   40
+  ],
+  "w": 3,
+  "title": "A Patron Notices",
+  "prompt": "Someone with a seal and a purse asks if you want training coin.",
+  "choices": [
+   {
+    "label": "Accept patronage",
+    "journal": [
+     "Coin arrived with expectations attached."
+    ],
+    "fx": {
+     "gold": 40,
+     "fame": 3,
+     "flagset": "has_patron"
+    },
+    "flag": "has_mentor"
+   },
+   {
+    "label": "Ask terms first",
+    "journal": [
+     "We negotiated like adults. Rare and refreshing."
+    ],
+    "fx": {
+     "gold": 25,
+     "sk_bartering": 2,
+     "flagset": "has_mentor"
+    },
+    "flag": "has_mentor"
+   },
+   {
+    "label": "Decline",
+    "journal": [
+     "I kept my freedom and my thinner purse."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "once": true
+ },
+ {
+  "id": "biz_rival",
+  "cat": "business",
+  "ages": [
+   18,
+   80
+  ],
+  "w": 3,
+  "title": "A Rival Stall",
+  "prompt": "Someone sets up across the lane with lower prices and louder claims.",
+  "choices": [
+   {
+    "label": "Improve quality",
+    "journal": [
+     "I let the work argue for me."
+    ],
+    "fx": {
+     "perf": 5,
+     "gold": -10,
+     "fame": 2
+    }
+   },
+   {
+    "label": "Cut prices",
+    "journal": [
+     "Traffic rose. Margins winced."
+    ],
+    "fx": {
+     "gold": 5,
+     "fame": 1
+    }
+   },
+   {
+    "label": "Ignore them",
+    "journal": [
+     "The lane is wide enough."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "flag": "has_workshop"
+  }
+ },
+ {
+  "id": "biz_award",
+  "cat": "business",
+  "ages": [
+   20,
+   90
+  ],
+  "w": 2,
+  "title": "Commons Praise",
+  "prompt": "The moot names your workshop in the same breath as bread and weather.",
+  "choices": [
+   {
+    "label": "Accept gracefully",
+    "journal": [
+     "I bowed without falling over."
+    ],
+    "fx": {
+     "fame": 5,
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Credit your hands",
+    "journal": [
+     "The helpers stood taller than I did."
+    ],
+    "fx": {
+     "fame": 3,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Shrug it off",
+    "journal": [
+     "Praise is weather. Work is climate."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "flag": "has_workshop"
+  }
  }
 ]

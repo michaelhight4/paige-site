@@ -627,3 +627,7 @@ body.info-open .dock{pointer-events:none}
   body[data-tab="bel"] .play-body,
   body[data-tab="work"] .play-body{overflow-y:auto}
 }
+
+/* Skill lock reasons (Gary Nov 5 growth) */
+.lock-why{color:var(--amber,#d4a574);font-style:italic;opacity:.92}
+.row-skill button:disabled{opacity:.55}

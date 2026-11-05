@@ -1,3 +1,10 @@
+## Growth playable (Gary Nov 5 ~2:04 PM CT)
+- Skills UI: Train shows lock WHY (too young / mana / no actions). Soft cats from hage~2 (×0.55). Martial from hage 6. Sword styles at 8.
+- Mana: Attempt awakening (age 6+) or Academy Visit; spark-born at birth. Practice magic (5 mana) + school pick (Boundwake names). Mana bar when awake.
+- Sword style pick + drillSword; style bonuses in raceMult + adventure weights. Route pick on Skills + Life.
+- Engine: trainLockReason, seekAwakening, chooseSwordStyle/MagicSchool, practiceMagic, drillSword, visitLocation academy awaken.
+- Deploy skill PNGs + this growth live.
+
 # Boundwake — STATUS (Nov 5, 2026, CT — UI studio standard + admin live)
 **Playable shell: YES.** `/workspace/boundwake`. Run: `python3 -m http.server 8090` → http://localhost:8090/
 Tests: `node tests/smoke.mjs` (120 lives, PASS), `node tests/ui_standard_shot.mjs` (headless Chrome).
