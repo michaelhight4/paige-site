@@ -25,5 +25,6 @@ heir_name + echo journal; stage/occ by cage; jail locks; ailments by hage; long-
 ### Pack / smoke / live
 - Expansion **169** (27 `own_*`); pool **294** (89+169+36)
 - `node tests/smoke.mjs` → **SMOKE PASS**
+- Deploy commit: **4e15468c** on paige-site main
 - Live: https://paigegames.net/boundwake/
 - Lifeline untouched
