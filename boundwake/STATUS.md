@@ -2,7 +2,7 @@
 - `bw_engine.matches`: `if.race`, `if.team` / `if.guild` (bool or `{owned,stage,minRenown,minPeakRenown,minFoundedYears,preferMinFoundedYears,hasRival,minHandoffCount}`). Ages still cage.
 - Century banquet prefers hall `foundedYear` span ≥100 when present; late-found only if team/guild not founded; twin-banners id `x_cross_twin_banners` stable.
 - Expansion 67 events merge at load (pack.js) → pool **192**. Smoke PASS. peakRenown + handoffCount tracked.
-- Mirror + deploy: events_expansion + gear slot_home/slot_mount + gear_*.png → paige-site `/boundwake/`.
+- Deployed: `c467fffe` on paige-site main → https://paigegames.net/boundwake/ (expansion 67 live, gear 44 + slot_home/slot_mount icons, matches gates).
 
 ## Homes + mounts + events merge (Coder, Nov 5 ~3:28 PM CT)
 - gear.json 44 items: Belongings sections Weapons/Armor/Trinkets/Tools/Homes/Mounts. One home (`bw` save `s.gear.home`), one mount (`equipped.mount`). Rent cot: Rent → yearly half-price rent at Age +1 (evicted if broke; paused in prison); End rent = no refund. Owned homes sell at 0.5; moving abandons a rented room. Flags has_home / has_mount / owns_hall.
