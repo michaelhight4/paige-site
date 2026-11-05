@@ -104,7 +104,7 @@ export function begin(fate, meta = {}, carry = null) {
   const s = { ...fate, age: 0, alive: true, stats: {}, skills: {}, flags: {}, log: [], pending: [], chain: [], evLast: {}, people: [], injuries: [], relics: [], codex: [...(meta.codex || [])],
     job: null, jobHist: [], region: 'hearthfold', regionsFound: [...new Set(['hearthfold', ...(meta.regions || [])])], route: null, school: null, legacy: { gen: 1 }, tally: { events: 0, ailments: 0, crimes: 0 },
     ailments: [], passions: { active: [], mastered: [] }, workshops: [], notices: { followers: 0, lastBoard: null, posts: 0 },
-    court: null, mentor: null, clubs: [], patronage: [], record: { sentences: 0, priors: 0 }, prison: null,
+    court: null, mentor: null, clubs: [], patronage: { active: [], applied: {} }, record: { sentences: 0, priors: 0 }, prison: null,
     team: null, guild: null };
   for (const k of STATS) s.stats[k] = k === 'fame' || k === 'stress' ? 0 : k === 'karma' ? 50 : rint(s, 40, 85);
   for (const k of D.skills.skills) s.skills[k.id] = 0;
@@ -879,7 +879,7 @@ export function ageUp(s) {
   jobYear(s, yrs); peopleYear(s, yrs);
   if (s.prison) prisonYear(s, yrs); else {
     ailmentsYear(s, yrs); workshopsYear(s, yrs); passionsYear(s, yrs); noticesYear(s, yrs); courtYear(s, yrs);
-    guildYear(s, yrs);
+    guildYear(s, yrs); patronageYear(s, yrs);
   }
   // skill decay (lifesim decay numbers, physicalAfter scaled by lifespan)
   const dc = D.skills.decay, physAfter = (dc.physicalAfter * race(s).lifespan) / 90;
@@ -1673,7 +1673,7 @@ function ensureBags(s) {
   if (!s.notices) s.notices = { followers: 0, lastBoard: null, posts: 0 };
   if (!s.record) s.record = { sentences: 0, priors: 0 };
   if (!s.clubs) s.clubs = [];
-  if (!s.patronage) s.patronage = [];
+  ensurePatronage(s);
   if (!s.tally) s.tally = { events: 0 };
   if (s.team === undefined) s.team = null;
   if (s.guild === undefined) s.guild = null;
@@ -1994,6 +1994,84 @@ export function joinClub(s, id) {
   if (cage(s) < c.minAge || cage(s) > c.maxAge) return { ok: false, msg: 'Wrong age for that circle.' };
   s.clubs.push(id);
   const msg = `I joined ${c.name}.`; log(s, msg, 'school'); return { ok: true, msg };
+}
+
+// ---- patronage grants (apply) ----
+export function ensurePatronage(s) {
+  if (Array.isArray(s.patronage)) s.patronage = { active: s.patronage.filter((g) => g && g.id), applied: {} };
+  if (!s.patronage || typeof s.patronage !== 'object') s.patronage = { active: [], applied: {} };
+  if (!Array.isArray(s.patronage.active)) s.patronage.active = [];
+  if (!s.patronage.applied) s.patronage.applied = {};
+  if (typeof s.serviceHours !== 'number') s.serviceHours = 0;
+  return s.patronage;
+}
+export function patronageWindow(s) {
+  if (s.prison) return null;
+  const a = cage(s), w = D.patronage?.windows || {};
+  if (w.academy && a >= w.academy[0] && a <= w.academy[1]) return 'academy';
+  if (w.primer && a >= w.primer[0] && a <= w.primer[1]) return 'primer';
+  return null;
+}
+export function patronageUnmet(s, t) {
+  const r = t.req || {}, out = [];
+  for (const [k, n] of Object.entries(r.skills || {})) if ((s.skills?.[k] || 0) < n) out.push(`${k.replace(/_/g, ' ')} ${n}`);
+  if (r.flag && !s.flags?.[r.flag]) out.push(r.flag.replace(/_/g, ' '));
+  if (Array.isArray(r.wealth) && !r.wealth.includes(s.wealth)) out.push(`${r.wealth.join('/')} family`);
+  if (r.passion && !(s.passions?.active || []).some((p) => p.id === r.passion) && !(s.passions?.mastered || []).some((p) => p.id === r.passion)) out.push(`pastime: ${passionDef(r.passion)?.name || r.passion}`);
+  if (r.club && !(s.clubs || []).includes(r.club)) out.push(`circle: ${(D.patronage?.clubs || []).find((c) => c.id === r.club)?.name || r.club}`);
+  if (r.fame && (s.stats?.fame || 0) < r.fame) out.push(`fame ${r.fame}`);
+  return out;
+}
+export function patronageOdds(s, t) {
+  const ks = Object.keys(t.req?.skills || {});
+  const avg = ks.length ? ks.reduce((a, k) => a + Math.min(1.5, (s.skills?.[k] || 0) / Math.max(1, t.req.skills[k])), 0) / ks.length : 1;
+  let p = 0.55 + (avg - 1) * 0.3 - ((t.level || 1) - 1) * 0.08;
+  if (t.kind === 'need' && ['poor', 'common'].includes(s.wealth)) p += 0.08;
+  if (t.kind === 'academic') p += ((s.skills?.literacy || 0) + (s.skills?.lore || 0)) / 800;
+  return { p: Math.max(0.35, Math.min(0.9, p)) };
+}
+export function listPatronage(s) {
+  const P = ensurePatronage(s), cfg = D.patronage || {}, win = patronageWindow(s), yr = Math.floor(cage(s));
+  const fee = cfg.academyFee || 120, max = cfg.maxActive || 2;
+  const cover = P.active.reduce((a, g) => a + (g.pct || 0), 0);
+  return (cfg.types || []).filter((t) => (t.level || 1) < 2 || win === 'academy').map((t) => {
+    const missing = patronageUnmet(s, t), held = P.active.some((g) => g.id === t.id), tried = P.applied[t.id] === yr;
+    const eligible = !!win && !missing.length && !held && !tried && P.active.length < max && cover + t.pct <= 1.0001 && s.budget?.act > 0;
+    return { id: t.id, name: t.name, kind: t.kind, level: t.level || 1, pct: t.pct, years: t.years, desc: t.desc, missing, eligible, held, tried,
+      odds: Math.round(patronageOdds(s, t).p * 100), worth: Math.round(t.pct * fee) };
+  });
+}
+export function applyPatronage(s, id) {
+  const P = ensurePatronage(s), cfg = D.patronage || {};
+  const t = (cfg.types || []).find((x) => x.id === id); if (!t) return { ok: false, msg: 'Unknown grant.' };
+  const row = listPatronage(s).find((x) => x.id === id);
+  if (!row) return { ok: false, msg: 'That grant is for Academy-age applicants.' };
+  if (!patronageWindow(s)) return { ok: false, msg: 'Patronage is not open at my age.' };
+  if (row.held) return { ok: false, msg: 'I already hold that grant.' };
+  if (row.tried) return { ok: false, msg: 'I already applied this year.' };
+  if (row.missing.length) return { ok: false, msg: `Missing: ${row.missing.join(', ')}.` };
+  if (P.active.length >= (cfg.maxActive || 2)) return { ok: false, msg: 'I hold the most grants allowed.' };
+  if (P.active.reduce((a, g) => a + g.pct, 0) + t.pct > 1.0001) return { ok: false, msg: 'My fees are already covered.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  P.applied[id] = Math.floor(cage(s));
+  const won = chance(s, patronageOdds(s, t).p);
+  let msg;
+  if (won) {
+    const pay = Math.round(t.pct * (cfg.academyFee || 120));
+    P.active.push({ id: t.id, name: t.name, pct: t.pct, yearsLeft: t.years, kind: t.kind, awardedAt: Math.floor(cage(s)) });
+    s.gold += pay; s.stats.happiness = clamp((s.stats.happiness || 0) + 3, 0, 100); s.stats.fame = clamp((s.stats.fame || 0) + 1, 0, 100);
+    msg = `I won the ${t.name} grant (${Math.round(t.pct * 100)}% for ${t.years} years, +${pay} gold).`;
+  } else msg = `My application for the ${t.name} grant was turned down.`;
+  log(s, msg, 'school'); return { ok: true, won, msg };
+}
+export function patronageYear(s, yrs = 1) {
+  const P = ensurePatronage(s), fee = D.patronage?.academyFee || 120;
+  P.active = P.active.filter((g) => {
+    const n = Math.max(0, Math.min(yrs, g.yearsLeft)); g.yearsLeft -= yrs;
+    if (n > 0) s.gold += Math.round(g.pct * fee) * n;
+    if (g.yearsLeft <= 0) { log(s, `My ${g.name} grant has run its course.`, 'school'); return false; }
+    return true;
+  });
 }
 
 // ---- world activities ----

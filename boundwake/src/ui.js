@@ -272,8 +272,13 @@ function body() {
       : `<p class="sub">Enroll with a path mentor (sword, spell, craft, hunt).</p><div class="actions">${E.mentorPaths().map((m) => `<button data-a="mentor" data-v="${m.id}" ${s.budget.act < 1 || ca < 10 ? 'disabled' : ''}>${esc(m.name)}</button>`).join('')}</div>`;
     const mentAcc = acc('mentors', `${ico('adventure')} Mentors <small>${s.mentor ? 'enrolled' : 'paths'}</small>`, ment, openSecondary);
     const clubs = E.clubList(s).filter((c) => !(s.clubs || []).includes(c.id)).map((c) => `<button data-a="club" data-v="${c.id}">${esc(c.name)}</button>`).join('');
+    const pWin = E.patronageWindow(s), pHeld = E.ensurePatronage(s).active;
+    const pRows = pWin ? E.listPatronage(s).filter((g) => !g.held).map((g) => `<div class="row"><b>${esc(g.name)}</b> <small>${Math.round(g.pct * 100)}% · ${g.years}y · ~${g.worth}g/yr</small><br><span class="sub">${g.missing.length ? 'Needs: ' + esc(g.missing.join(', ')) : g.tried ? 'Applied this year.' : 'Odds ~' + g.odds + '%'}</span> <button data-a="patron" data-v="${g.id}"${g.eligible ? '' : ' disabled'}>Apply</button></div>`).join('') : '';
+    const patronHtml = `<div class="pack-polish-inset"><h4>Patronage grants${pWin ? ' <small>' + (pWin === 'academy' ? 'Academy' : 'Primer') + ' window</small>' : ''}</h4>`
+      + (pHeld.length ? `<p class="sub">Held: ${pHeld.map((g) => `${esc(g.name)} (${g.yearsLeft}y left)`).join(', ')}.</p>` : '')
+      + (pWin ? pRows || '<span class="sub">No grants to apply for.</span>' : '<p class="sub">Open ages 11–16 (Primer) and 16–22 (Academy).</p>') + '</div>';
     const clubCard = (ca >= 9 && ca <= 22) ? acc('circles', `${ico('wits')} Circles &amp; patronage <small>${(s.clubs || []).length || 'join'}</small>`,
-      `<p class="sub">Joined: ${(s.clubs || []).map(esc).join(', ') || 'none'}.</p><div class="actions">${clubs || '<span class="sub">No open circles.</span>'}</div>`, false) : '';
+      `<p class="sub">Joined: ${(s.clubs || []).map(esc).join(', ') || 'none'}.</p><div class="actions">${clubs || '<span class="sub">No open circles.</span>'}</div>${patronHtml}`, false) : '';
     // Adventure guild hall (Game Dev balance · World Design venues)
     let guildBody = '';
     if (!s.guild) {
@@ -630,6 +635,7 @@ app.addEventListener('click', (ev) => {
   else if (a === 'mentor') r = E.enrollMentor(s, v);
   else if (a === 'mdrill') r = E.mentorDrill(s);
   else if (a === 'club') r = E.joinClub(s, v);
+  else if (a === 'patron') r = E.applyPatronage(s, v);
   else if (a === 'notice') r = E.postNotice(s, v, b.dataset.post || 'boast');
   else if (a === 'tfound') { r = E.foundTeam(s, (s.last || 'Vale') + ' Circle', v); }
   else if (a === 'thire') r = E.hireTeamNpc(s);
