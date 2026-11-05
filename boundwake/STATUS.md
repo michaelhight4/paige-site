@@ -12,11 +12,15 @@ Tests: `node tests/smoke.mjs` (120 lives, PASS), `node tests/ui_standard_shot.mj
 - **Pillars** only (`swordsmanship`, `spellcraft`, `smithing`): lifespan > 90 → flat 1.5× pace; post 100/60/25 curve taper 50%→1% by `hage`. Other skills unchanged.
 - Saves `bw.*` prefixed.
 
-## Illustrated scenery (Gary Nov 5 ~1:29 PM CT)
-- Lifeline-class living backdrop: SVG hills/sky/cottages/coasts/wilds/spires/forts keyed by **realm** + device time-of-day (dawn/day/dusk/night; `?tod=`).
-- Soft CSS motion (clouds, orb bob, birds, boats/waves) + canvas motes/fireflies; pauses when tab hidden; off for `prefers-reduced-motion` and `?ambient=0`.
-- Scenery window above hub cards; vignette keeps parchment readable. Cross-fade on realm travel.
-- Shots: `tests/shots/ui_backdrop/` (stills — motion noted in README).
+## Illustrated scenery (Gary Nov 5 ~1:29–1:36 PM CT)
+- Lifeline-class living backdrop: SVG sky + realm midgrounds keyed by **realm** + time-of-day (`?tod=`).
+- **Hearthfold** = fantasy woodland vale (ancient oaks, ferns, winding path, glowing grove, standing stones) — **no cottage/house** (Gary: not 1-for-1 with Lifeline suburban window).
+- Other realms: Glassmarket coast / Thornreed wilds / Spireward spires / Emberlight fort — no leftover house motifs.
+- Soft CSS motion (clouds/mist, orb bob, birds, boats/waves, grove pulse) + canvas motes/fireflies; pause when tab hidden; `prefers-reduced-motion` / `?ambient=0`.
+- Scenery window + vignette; realm cross-fade. Shots: `tests/shots/ui_backdrop/` + `tests/shots/ui_backdrop_forest/`.
+- **Flare icons colored** (Gary ~1:38 PM CT): each `.ico-*` has its own fill (gold coin gold, health crimson, mana blue, …) — not flat black ink stamps. Header icons stay white on accent bars.
+- **Modifier info panel** (Gary ~1:39 PM CT): tap affinity / trait / Echo / flared modifiers for a parchment sheet explaining real coded effects (`src/info.js`). Close via ×, Got it, backdrop, or Escape. Does not steal Age/choice taps.
+- **Expansive PC layout** (Gary ~1:41 PM CT): ≥1024px three-column play shell (hub+Age | journal/tabs | at-a-glance side). Mobile keeps stacked phone column. Not Bit Tensei chrome.
 
 ## UI studio standard pass
 - Docked Age +1 in opaque bottom chrome (content pad + solid dock; hidden while event sheet open). No floating CTA over lists.

@@ -7,8 +7,8 @@ const SVG = {
   strain: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1 15 14H1zm0 4v5h1.2V5zm0 6.2v1.6h1.2v-1.6z"/></svg>',
   renown: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.4 9.8 6h4.7l-3.8 3 1.4 4.7L8 11.2 3.9 13.7 5.3 9 1.5 6h4.7z"/></svg>',
   mana: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1c2.5 3 5 4.8 5 8a5 5 0 1 1-10 0c0-3.2 2.5-5 5-8z"/></svg>',
-  gold: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8" cy="8" r="2.2" fill="currentColor"/></svg>',
-  odds: '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="5.5" cy="5.5" r="1.1" fill="currentColor"/><circle cx="10.5" cy="10.5" r="1.1" fill="currentColor"/><circle cx="10.5" cy="5.5" r="1.1" fill="currentColor"/></svg>',
+  gold: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="currentColor"/><circle cx="8" cy="8" r="4.4" fill="#fff6" opacity=".35"/><circle cx="6.2" cy="6" r="1.6" fill="#fff" opacity=".55"/><circle cx="8" cy="8" r="2" fill="#7a5a10" opacity=".35"/></svg>',
+  odds: '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="2.5" fill="currentColor"/><circle cx="5.5" cy="5.5" r="1.15" fill="#fff" opacity=".92"/><circle cx="10.5" cy="10.5" r="1.15" fill="#fff" opacity=".92"/><circle cx="10.5" cy="5.5" r="1.15" fill="#fff" opacity=".92"/></svg>',
   might: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 7h3V4l7 5-7 5V11H3z"/></svg>',
   grace: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 12c3-6 7-8 10-9-1 3-3 7-9 9z"/></svg>',
   echo: '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>',
@@ -97,7 +97,9 @@ export function flare(text) {
   for (const r of RULES) {
     t = t.replace(r.re, (m) => {
       const i = slots.length;
-      slots.push(`<span class="flare ${r.cls}">${ico(r.icon)}<b>${m}</b></span>`);
+      const infoKey = r.icon === 'echo' && /echo/i.test(m) ? (m.toLowerCase().startsWith('echo of') ? m : 'echoes')
+        : (r.cls === 'flare-trait' ? m : r.icon);
+      slots.push(`<span class="flare ${r.cls}" data-info="${infoKey}" role="button" tabindex="0">${ico(r.icon)}<b>${m}</b></span>`);
       return `\u0000${i}\u0000`;
     });
   }
@@ -109,4 +111,9 @@ export function oddsChip(p) {
   const pct = Math.round(p * 100);
   const cls = pct >= 70 ? 'odds-good' : pct >= 40 ? 'odds-mid' : 'odds-bad';
   return `<span class="odds ${cls}">${ico('odds')}${pct}%</span>`;
+}
+
+/** Wrap a labeled chip that opens the info panel (fate pills, etc.). */
+export function infoChip(infoKey, innerHtml, extraClass = 'pill') {
+  return `<span class="${extraClass}" data-info="${infoKey}" role="button" tabindex="0">${innerHtml}</span>`;
 }

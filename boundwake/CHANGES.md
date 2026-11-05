@@ -15,3 +15,11 @@
 ## Nov 5 2026 (illustrated scenery add-on)
 - New `src/ambient.js` + `#bw-amb` layer: realm scenery (Hearthfold / Glassmarket / Thornreed / Spireward / Emberlight) with TOD grading; replaces bare motes-only void.
 - CSS motion + particle canvas; scenery window pad on `#stage`; soft vignette. No engine/UI-structure redo.
+
+## Nov 5 2026 (forest nudge — not Lifeline 1-for-1)
+- Hearthfold cottage/house silhouette removed; woodland vale (oaks, canopy, ferns, path, glowing grove, stones).
+- Orb/cloud composition nudged (sun left-of-center; mist banks) so framing ≠ Lifeline hills+house+three clouds.
+- Grove heart soft pulse in CSS; other realms unchanged except no house motifs.
+- Flare icons: per-`.ico-*` CSS colors + filled gold coin / dice; header icons stay white on accent bars.
+- Modifier info panel (`src/info.js`): tap chips for coded affinity/trait/Echo blurbs; parchment sheet; no invented bonuses.
+- Expansive PC layout (≥1024px): hub | main | side peek; Age under hub column; mobile stack unchanged.

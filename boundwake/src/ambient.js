@@ -1,4 +1,4 @@
-// Boundwake illustrated scenery (Nov 5, 2026 CT) — Lifeline ambient craft class, fantasy realm identity.
+// Boundwake illustrated scenery (Nov 5, 2026 CT) — fantasy woodland/realm window (not Lifeline suburban cottage).
 // SVG scene keyed by realm + time-of-day; canvas motes/fireflies. ?ambient=0 off; reduced-motion = static.
 const Q = new URLSearchParams(location.search);
 const OFF = Q.get('ambient') === '0';
@@ -69,17 +69,58 @@ function trees(c, w, n = 10, yBase = 0.7) {
   }
   return s;
 }
-function cottage(w, lit, accent) {
-  const x = w * 0.58, y = w * 0.58;
-  return `<g class="bw-cottage"><rect x="${x}" y="${y}" width="${w * 0.18}" height="${w * 0.12}" rx="4" fill="#e8d4b0"/>`
-    + `<path d="M${x - 10} ${y} L${x + w * 0.09} ${y - w * 0.09} L${x + w * 0.18 + 10} ${y}Z" fill="#8a4a38"/>`
-    + `<rect x="${x + w * 0.03}" y="${y + w * 0.03}" width="${w * 0.04}" height="${w * 0.04}" rx="2" fill="${lit ? '#ffe08a' : '#8ec6e0'}"/>`
-    + `<rect x="${x + w * 0.11}" y="${y + w * 0.04}" width="${w * 0.035}" height="${w * 0.07}" rx="2" fill="#5a3a28"/>`
-    + `<circle cx="${x + w * 0.2}" cy="${y - w * 0.02}" r="3" fill="${accent}" opacity=".85"/></g>`;
+function oak(w, xFrac, yFrac, scale, canopy, trunk) {
+  const x = w * xFrac, y = w * yFrac, s = w * scale;
+  return `<g class="bw-oak">`
+    + `<rect x="${x - s * 0.08}" y="${y}" width="${s * 0.16}" height="${s * 0.55}" rx="${s * 0.04}" fill="${trunk}"/>`
+    + `<ellipse cx="${x}" cy="${y - s * 0.05}" rx="${s * 0.55}" ry="${s * 0.42}" fill="${canopy}"/>`
+    + `<ellipse cx="${x - s * 0.28}" cy="${y + s * 0.08}" rx="${s * 0.32}" ry="${s * 0.28}" fill="${canopy}"/>`
+    + `<ellipse cx="${x + s * 0.3}" cy="${y + s * 0.1}" rx="${s * 0.34}" ry="${s * 0.3}" fill="${canopy}"/>`
+    + `<ellipse cx="${x - s * 0.12}" cy="${y - s * 0.22}" rx="${s * 0.22}" ry="${s * 0.18}" fill="#ffffff18"/>`
+    + `</g>`;
+}
+function ferns(w, land) {
+  let s = '';
+  for (let i = 0; i < 9; i++) {
+    const x = w * (0.08 + i * 0.1), y = w * (0.78 + (i % 3) * 0.02);
+    s += `<path d="M${x} ${y} q ${w * 0.02} -${w * 0.04} ${w * 0.04} -${w * 0.01} q -${w * 0.015} ${w * 0.01} -${w * 0.04} ${w * 0.01}Z" fill="${land[i % 2]}" opacity=".85"/>`;
+  }
+  return s;
+}
+function pathThroughWoods(w, lit) {
+  const fill = lit ? '#3a302888' : '#c8b89055';
+  return `<path class="bw-path" d="M${w * 0.42} ${w * 0.92} Q ${w * 0.48} ${w * 0.82} ${w * 0.44} ${w * 0.74} Q ${w * 0.4} ${w * 0.66} ${w * 0.48} ${w * 0.6}" fill="none" stroke="${fill}" stroke-width="${w * 0.045}" stroke-linecap="round"/>`
+    + `<path d="M${w * 0.42} ${w * 0.92} Q ${w * 0.48} ${w * 0.82} ${w * 0.44} ${w * 0.74} Q ${w * 0.4} ${w * 0.66} ${w * 0.48} ${w * 0.6}" fill="none" stroke="#ffffff18" stroke-width="${w * 0.012}" stroke-linecap="round"/>`;
+}
+function glowingGrove(w, accent, lit) {
+  const cx = w * 0.52, cy = w * 0.62;
+  return `<g class="bw-grove">`
+    + `<ellipse cx="${cx}" cy="${cy + w * 0.04}" rx="${w * 0.14}" ry="${w * 0.04}" fill="${accent}" opacity="${lit ? 0.35 : 0.18}"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="${w * 0.035}" fill="${accent}" opacity="${lit ? 0.85 : 0.45}" class="bw-grove-heart"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="${w * 0.07}" fill="${accent}" opacity="${lit ? 0.22 : 0.1}"/>`
+    + `</g>`;
+}
+function valeHills(c, w) {
+  /* Deeper enclosed woodland bowl — not Lifeline's two rolling suburban hills */
+  return `<path d="M0 ${w * 0.55} Q ${w * 0.18} ${w * 0.42} ${w * 0.38} ${w * 0.5} Q ${w * 0.55} ${w * 0.58} ${w * 0.72} ${w * 0.46} T ${w} ${w * 0.52} V ${w * 1.4} H0Z" fill="${c[0]}"/>`
+    + `<path d="M0 ${w * 0.68} Q ${w * 0.25} ${w * 0.58} ${w * 0.5} ${w * 0.66} Q ${w * 0.72} ${w * 0.74} ${w} ${w * 0.64} V ${w * 1.4} H0Z" fill="${c[1]}"/>`
+    + `<path d="M0 ${w * 0.82} Q ${w * 0.4} ${w * 0.76} ${w} ${w * 0.8} V ${w * 1.4} H0Z" fill="${c[2]}"/>`;
+}
+function treeline(c, w, yBase = 0.5) {
+  let s = '';
+  for (let i = 0; i < 18; i++) {
+    const x = w * (0.02 + i * 0.055), h = w * (0.04 + (i % 5) * 0.012), r = w * (0.028 + (i % 3) * 0.01);
+    s += `<rect x="${x - 2}" y="${w * yBase}" width="4" height="${h}" fill="#1a120855"/>`
+      + `<ellipse cx="${x}" cy="${w * yBase}" rx="${r}" ry="${r * 1.2}" fill="${c[i % 2]}" opacity=".9"/>`;
+  }
+  return s;
+}
+function mistBank(x, y, s) {
+  return `<g class="bw-cloud bw-mist" fill="#e8f0e8" opacity=".35"><ellipse cx="${x}" cy="${y}" rx="${50 * s}" ry="${10 * s}"/><ellipse cx="${x + 28 * s}" cy="${y - 4 * s}" rx="${30 * s}" ry="${12 * s}"/></g>`;
 }
 function pond(w, water) {
-  return `<ellipse class="bw-pond" cx="${w * 0.28}" cy="${w * 0.78}" rx="${w * 0.16}" ry="${w * 0.045}" fill="${water}" opacity=".85"/>`
-    + `<ellipse cx="${w * 0.26}" cy="${w * 0.77}" rx="${w * 0.06}" ry="${w * 0.012}" fill="#ffffff33"/>`;
+  return `<ellipse class="bw-pond" cx="${w * 0.22}" cy="${w * 0.76}" rx="${w * 0.11}" ry="${w * 0.032}" fill="${water}" opacity=".8"/>`
+    + `<ellipse cx="${w * 0.2}" cy="${w * 0.755}" rx="${w * 0.04}" ry="${w * 0.008}" fill="#ffffff28"/>`;
 }
 function coast(w, land, water, lit) {
   let boats = '';
@@ -135,16 +176,36 @@ export function sceneSVG(realmId = 'hearthfold', tod = 'day') {
   const R = REALM[realmId] || REALM[FALLBACK];
   const W = 600, H = 1100, sky = R.sky[tod] || R.sky.day, land = R.land[tod] || R.land.day;
   const lit = tod === 'night' || tod === 'dusk';
+  /* Orb left-of-center — not Lifeline's upper-right sun + house framing */
   const orb = tod === 'night'
-    ? `<circle class="bw-orb" cx="${W * 0.78}" cy="${W * 0.14}" r="22" fill="#fff6d8"/><circle cx="${W * 0.8}" cy="${W * 0.12}" r="20" fill="${sky[1]}"/>`
-    : `<circle class="bw-orb" cx="${W * 0.78}" cy="${W * 0.16}" r="58" fill="#fff4"/><circle cx="${W * 0.78}" cy="${W * 0.16}" r="28" fill="${tod === 'day' ? '#fff4b8' : '#ffd08a'}"/>`;
+    ? `<circle class="bw-orb" cx="${W * 0.22}" cy="${W * 0.18}" r="20" fill="#fff6d8"/><circle cx="${W * 0.24}" cy="${W * 0.16}" r="18" fill="${sky[1]}"/>`
+    : `<circle class="bw-orb" cx="${W * 0.28}" cy="${W * 0.2}" r="52" fill="#fff4"/><circle cx="${W * 0.28}" cy="${W * 0.2}" r="26" fill="${tod === 'day' ? '#fff4b8' : '#ffd08a'}"/>`;
   let mid = '';
   if (R.feel === 'coast') mid = hills(land, W, 0.58) + coast(W, land, R.water, lit);
   else if (R.feel === 'wilds') mid = hills(land, W, 0.6) + trees([land[0], land[1]], W, 14, 0.66) + stones(W, land);
   else if (R.feel === 'heights') mid = peaks(land, W) + spires(W, land, R.accent) + trees([land[1], land[2]], W, 5, 0.72);
   else if (R.feel === 'marches') mid = hills(land, W, 0.6) + fort(W, land, R.accent, lit) + trees([land[1], land[2]], W, 4, 0.72);
-  else mid = hills(land, W, 0.6) + cottage(W, lit, R.accent) + pond(W, R.water) + trees([land[0], land[1]], W, 7, 0.7);
+  else {
+    /* Hearthfold: woodland vale — canopy on the crest (visible in HUD peek), clearing below (no cottage) */
+    const canopy = [land[0], land[1]];
+    const trunk = '#2a1c14aa';
+    mid = valeHills(land, W)
+      + treeline(canopy, W, 0.44)
+      + trees(canopy, W, 16, 0.48)
+      + oak(W, 0.12, 0.52, 0.28, land[0], trunk)
+      + oak(W, 0.88, 0.5, 0.32, land[1], trunk)
+      + oak(W, 0.55, 0.56, 0.2, land[0], trunk)
+      + oak(W, 0.35, 0.58, 0.16, land[1], trunk)
+      + glowingGrove(W, R.accent, lit)
+      + stones(W, ['#6a6870', '#4a4850'])
+      + pathThroughWoods(W, lit)
+      + pond(W, R.water)
+      + ferns(W, land)
+      + trees([land[1], land[2]], W, 8, 0.7);
+  }
 
+  const skyStuff = tod === 'night' ? stars(W)
+    : mistBank(W * 0.62, 95, 1.2) + cloud(W * 0.12, 130, 0.7) + mistBank(W * 0.4, 55, 0.85);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
     <defs>
       <linearGradient id="bwSky" x1="0" y1="0" x2="0" y2="1">
@@ -152,11 +213,10 @@ export function sceneSVG(realmId = 'hearthfold', tod = 'day') {
       </linearGradient>
     </defs>
     <rect width="${W}" height="${H}" fill="url(#bwSky)"/>
-    ${tod === 'night' ? stars(W) : ''}
+    ${skyStuff}
     ${orb}
-    ${tod !== 'night' ? cloud(W * 0.18, 70, 1.1) + cloud(W * 0.52, 110, 0.75) + cloud(W * 0.78, 55, 0.55) : ''}
     ${tod === 'day' || tod === 'dawn' ? birds(W) : ''}
-    <g transform="translate(0 -160)">${mid}</g>
+    <g transform="translate(0 -200)">${mid}</g>
     <rect y="${W * 0.48}" width="${W}" height="${H}" fill="${land[2]}"/>
   </svg>`;
 }

@@ -319,6 +319,23 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
 /* ---- icons + flares (kept; not the polish) ---- */
 .ico{display:inline-block;width:14px;height:14px;vertical-align:-2px;line-height:0}
 .ico svg{width:100%;height:100%;display:block}
+/* Per-icon filled colors — not flat ink stamps (Gary Nov 5 ~1:38 PM CT) */
+.ico{color:var(--ink)}
+.ico-health{color:#C45A5A}.ico-spirit{color:#E0B14A}.ico-wits{color:#6E8FAF}.ico-presence{color:#B06A9A}
+.ico-strain{color:#C45A32}.ico-renown{color:#E0B14A}.ico-mana{color:#6E8FAF}.ico-gold{color:#E0B14A}
+.ico-odds{color:#7A5A9A}.ico-might{color:#A85A2A}.ico-grace{color:#3F8B6A}.ico-echo{color:#8A7AC8}
+.ico-act{color:#5A8A6A}.ico-social{color:#B06A9A}.ico-adventure{color:#2F7A48}.ico-work{color:#A85A2A}
+.ico-skill{color:#5A7AAA}.ico-bond{color:#C45A7A}.ico-realm{color:#5A82A8}.ico-codex{color:#7A5A9A}
+.ico-belong{color:#B07D24}.ico-fire{color:#C45A32}.ico-water{color:#5A82A8}.ico-wind{color:#2F6B62}
+.ico-earth{color:#5A7A45}.ico-light{color:#E0B14A}.ico-shadow{color:#5A5080}
+/* Flare chips keep their own tint; icons inside inherit chip color (already set) */
+.flare .ico{color:inherit;filter:none}
+.gold-line .ico-gold{color:#E0B14A;filter:drop-shadow(0 0 2px #e0b14a66)}
+.tabs button .ico{opacity:1}
+.tabs button:not(.on) .ico{opacity:.88}
+.card-hd .ico{color:#fff;filter:drop-shadow(0 1px 0 #0005)}
+.pill .ico{opacity:1}
+
 .flare{display:inline-flex;align-items:center;gap:3px;padding:0 5px 1px;border-radius:6px;font-weight:700;line-height:1.35;white-space:nowrap;max-width:100%}
 .flare b{font-weight:800}
 .flare .ico{width:12px;height:12px;flex:none}
@@ -346,6 +363,93 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
   .dock .age{height:50px;font-size:16px;margin-top:8px}
   .portrait{width:72px;height:72px}
   .bars{gap:6px 12px}
+}
+
+
+/* ---- play layout shell (mobile stack; expansive PC below) ---- */
+.play-layout{display:block}
+.play-hub,.play-main,.play-body{min-width:0}
+.play-side{display:none}
+.play-hub .dock{/* mobile: still fixed full-bleed Age bar */
+  position:fixed;left:0;right:0;bottom:0;z-index:5;
+  height:calc(var(--dock-h) + var(--safe-b));
+  padding:0 12px var(--safe-b);
+  display:flex;align-items:flex-start;justify-content:center;
+  pointer-events:none;
+  background:#120c1df5;
+  border-top:2px solid #e0b14a66;
+  box-shadow:0 -10px 28px #000a;
+}
+
+/* ---- expansive PC layout (≥1024px) — idea only, not Bit Tensei chrome ---- */
+@media (min-width:1024px){
+  #stage{
+    max-width:1200px;margin:0 auto;
+    padding:18px 20px 28px;
+  }
+  html.bw-amb #stage{padding-top:clamp(28px,6vh,72px)}
+  .play-layout{
+    display:grid;
+    grid-template-columns:minmax(300px,360px) minmax(0,1fr) minmax(240px,300px);
+    gap:16px;
+    align-items:start;
+  }
+  .play-hub{position:sticky;top:12px;z-index:2}
+  .play-hub > .card.hub{margin-top:0}
+  .play-main .tabs{
+    position:sticky;top:12px;z-index:3;
+    margin:0 0 10px;padding:8px;
+    background:#120c1de8;border:2px solid #e0b14a44;border-radius:16px;
+    backdrop-filter:blur(6px);
+  }
+  .play-body .card{margin-top:0}
+  .play-body .journal{max-height:min(58vh,560px)}
+  .play-side{
+    display:block;position:sticky;top:12px;
+    margin:0;--accent:var(--realm);--accent2:var(--realm2);--tint:var(--realm-t);
+  }
+  .panel-side .card-body{padding:12px 14px 14px}
+  .side-label{
+    margin:10px 0 4px;font:800 10.5px var(--body);letter-spacing:.12em;
+    text-transform:uppercase;color:var(--gold2);
+  }
+  .side-label:first-child{margin-top:0}
+  .side-realm{margin:0 0 6px;line-height:1.35}
+  .side-skills{display:flex;flex-direction:column;gap:4px}
+  .side-row{
+    display:flex;justify-content:space-between;gap:8px;align-items:center;
+    padding:6px 8px;border-radius:10px;background:#fff8;border-left:3px solid var(--accent);
+    font-size:13px;
+  }
+  .side-meta{margin:12px 0 4px;font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .side-hint{margin:8px 0 0}
+  /* Age lives under the hub column — not a lonely full-bleed bar under empty scenery */
+  .play-hub .dock{
+    position:sticky;bottom:12px;left:auto;right:auto;
+    height:auto;margin-top:12px;padding:0;
+    background:transparent;border:0;box-shadow:none;
+    pointer-events:auto;justify-content:stretch;
+  }
+  .play-hub .dock .age{
+    width:100%;min-width:0;margin-top:0;height:54px;
+  }
+  body:not(.has-sheet) #stage{padding-bottom:28px}
+  .end-pad{display:none}
+  /* Fate / death / gate: wider readable column, scenery still breathes */
+  body[data-tab="fate"] #stage,
+  body[data-tab="death"] #stage,
+  body[data-tab="gate"] #stage,
+  body[data-tab="cold"] #stage{max-width:720px}
+  body[data-tab="fate"] .card,
+  body[data-tab="death"] .card{margin-left:auto;margin-right:auto}
+  /* Event sheet centers over the wide stage */
+  .sheet{align-items:center;padding:24px}
+  .sheet .card{max-width:520px;border-radius:20px;border-bottom:3px solid var(--gold)}
+}
+
+@media (min-width:1280px){
+  #stage{max-width:1280px}
+  .play-layout{grid-template-columns:minmax(320px,380px) minmax(0,1fr) minmax(260px,320px);gap:20px}
 }
 
 /* ---- Boundwake illustrated scenery (Lifeline ambient craft class; fantasy realms) ---- */
@@ -381,15 +485,34 @@ html.bw-amb:not([data-motion="reduced"]) .bw-orb{animation:bw-bob 7s ease-in-out
 html.bw-amb:not([data-motion="reduced"]) .bw-birds{animation:bw-fly 22s linear infinite}
 html.bw-amb:not([data-motion="reduced"]) .bw-boat{animation:bw-bob 5.5s ease-in-out infinite;animation-delay:var(--d,0s)}
 html.bw-amb:not([data-motion="reduced"]) .bw-wave{animation:bw-wave 9s ease-in-out infinite}
+html.bw-amb:not([data-motion="reduced"]) .bw-grove-heart{animation:bw-grove 4.5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
 @keyframes bw-drift{from{transform:translateX(-8%)}to{transform:translateX(110%)}}
 @keyframes bw-bob{50%{transform:translateY(4px)}}
 @keyframes bw-fly{0%{transform:translateX(0)}50%{transform:translateX(18px) translateY(-6px)}100%{transform:translateX(0)}}
 @keyframes bw-wave{50%{transform:translateY(3px)}}
+@keyframes bw-grove{50%{opacity:.55;transform:scale(1.12)}}
 @media (prefers-reduced-motion:reduce){
-  html.bw-amb .bw-cloud,html.bw-amb .bw-orb,html.bw-amb .bw-birds,html.bw-amb .bw-boat,html.bw-amb .bw-wave{animation:none!important}
+  html.bw-amb .bw-cloud,html.bw-amb .bw-orb,html.bw-amb .bw-birds,html.bw-amb .bw-boat,html.bw-amb .bw-wave,html.bw-amb .bw-grove-heart{animation:none!important}
   .bw-amb-art{transition:none}
 }
 /* Keep cards readable over living scene — slight plate lift, no layout redo */
 html.bw-amb .card{box-shadow:var(--shadow-card),0 0 0 1px #0003,0 12px 28px #0008}
 html.bw-amb .dock{background:#120c1df5}
 html.bw-amb .sheet{background:#0a0814d8}
+
+/* ---- modifier info panel (affinity / trait / echo) ---- */
+.info-pop{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center;padding:0 10px 18px;pointer-events:auto}
+.info-backdrop{position:absolute;inset:0;border:0;background:#0a0814a8;cursor:pointer}
+.info-card{position:relative;z-index:1;width:100%;max-width:420px;margin:0;border-radius:18px 18px 14px 14px;border:3px solid var(--gold);
+  animation:up .2s ease-out;--accent:var(--gold);--accent2:var(--gold2);box-shadow:0 -8px 40px #000a}
+.info-card .card-hd{display:flex;align-items:center;gap:8px;padding-right:40px}
+.info-card .card-hd .ico{width:18px;height:18px;color:#fff}
+.info-x{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;border-radius:10px;
+  background:#0003;color:#fff;font:700 20px/1 var(--body);cursor:pointer}
+.info-x:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.info-kind{margin:0 0 8px;font:800 11px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
+.info-body{margin:0 0 14px;font-size:14.5px;line-height:1.45;color:var(--ink)}
+[data-info]{cursor:pointer}
+[data-info]:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+body.info-open .dock{pointer-events:none}
+@media (prefers-reduced-motion:reduce){.info-card{animation:none}}

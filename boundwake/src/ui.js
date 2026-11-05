@@ -2,7 +2,8 @@
 // Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
 import * as E from './bw_engine.js';
-import { ico, esc, flare, oddsChip, statLabel } from './flare.js';
+import { ico, esc, flare, oddsChip, statLabel, infoChip } from './flare.js';
+import { mountInfoClicks, openInfo } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
@@ -91,8 +92,8 @@ function fateScreen(rr = 1) {
   const body = `${portrait('baby', fate.race, null, true, fate.first + ' ' + fate.last, fate.sex)}
    <div class="name">${esc(fate.first)} ${esc(fate.last)}</div>
    <div class="sub">${esc(r.name)} · ${fate.sex === 'm' ? 'boy' : 'girl'} · ${flare(fate.wealth)} family</div>
-   <div class="pills" style="justify-content:center;margin:10px 0"><span class="pill">${ico('spirit')}Affinity: ${flare(fate.affinity)}</span>
-   <span class="pill" title="${esc(tr.up)} / ${esc(tr.down)}">${flare(tr.name)}: ${flare(tr.up)} · <span class="bad">${flare(tr.down)}</span></span></div>
+   <div class="pills" style="justify-content:center;margin:10px 0">${infoChip(fate.affinity, `${ico(fate.affinity)} Affinity: ${esc(fate.affinity)}`)}
+   ${infoChip(tr.id, `${flare(tr.name)}: ${esc(tr.up)} · <span class="bad">${esc(tr.down)}</span>`)}</div>
    <p class="sub">Hidden talents: 3 (revealed as you train)${meta.echoes ? ' · ' + flare('Echoes') + ': ' + Object.entries(meta.echoes).map(([k, n]) => flare(k.replace('echo_', '')) + '×' + n).join(', ') : ''}</p>
    <div class="actions" style="justify-content:center"><button id="go" class="primary">${T('start_life')}</button> <button id="rr" class="ghost" ${rr ? '' : 'disabled'}>${T('fate_reroll')}</button></div>`;
   app.innerHTML = card('fate', `${ico('echo')} ${T('fate_title')}`, body);
@@ -174,6 +175,33 @@ function deathScreen() {
    + card('death', T('path_heir_title'), `<p class="sub">${flare(hs.length ? T('path_heir_body') : T('path_heir_locked') + '. ' + (d.locked_hint || ''))}</p><div class="actions">${hs.map((p) => `<button data-a="heir" data-v="${p.id}">Continue as ${esc(p.first)} (${Math.floor(p.age)})</button>`).join('') || ''}</div>`)
    + card('death', T('cemetery_title'), (meta.cemetery || []).slice(-8).reverse().map((c) => `<div class="row"><small>${esc(c.name)}, ${esc(c.race)}, age ${c.age} — ${esc(c.cause)}${c.link ? ` · ${c.link === 'soul' ? 'Reincarnation' : 'Heir'} of ${esc(c.prior)}` : ''}</small><small>${c.score}</small></div>`).join('') || `<div class="empty">${esc(d.empty || '')}</div>`);
 }
+
+function sidePeek() {
+  if (!s) return '';
+  const tr = P.traits.rare.find((x) => x.id === s.trait);
+  const reg = E.regionOf(s);
+  const top = Object.entries(s.skills || {}).sort((a, b) => b[1] - a[1]).slice(0, 4)
+    .map(([id, v]) => {
+      const sk = P.skills.skills.find((x) => x.id === id);
+      return `<div class="side-row"><span>${flare(sk?.name || id)}</span><b>${Math.floor(v)}</b></div>`;
+    }).join('');
+  const bonds = (s.people || []).filter((p) => p.alive !== false).length;
+  return `<aside class="play-side card panel-side" aria-label="At a glance">
+    <div class="card-hd">${ico('realm')} At a glance</div>
+    <div class="card-body">
+      <p class="side-label">Affinity</p>
+      <div class="pills">${infoChip(s.affinity, `${ico(s.affinity)} ${esc(s.affinity)}`)}</div>
+      <p class="side-label">Trait</p>
+      <div class="pills">${tr ? infoChip(tr.id, `${flare(tr.name)}`) : '<span class="sub">—</span>'}</div>
+      <p class="side-label">Realm</p>
+      <p class="side-realm"><b>${esc(reg?.name || 'Hearthfold Vale')}</b><br><small>${flare(reg?.feel || 'A quiet woodland vale.')}</small></p>
+      <p class="side-label">Top skills</p>
+      <div class="side-skills">${top || '<div class="empty">None trained yet.</div>'}</div>
+      <p class="side-meta">${ico('bond')} ${bonds} bond${bonds === 1 ? '' : 's'} · ${ico('act')}${s.budget?.act ?? 0}/4 · ${ico('adventure')}${s.budget?.adv ?? 0}/5</p>
+      <p class="side-hint sub">Tap affinity or trait chips for what they do.</p>
+    </div>
+  </aside>`;
+}
 function render() {
   if (!s) return fateScreen();
   if (!s.alive) { save(); return deathScreen(); }
@@ -184,8 +212,13 @@ function render() {
   }).join('');
   const sheet = eventSheet();
   document.body.classList.toggle('has-sheet', !!sheet);
-  app.innerHTML = header() + `<div class="tabs">${tabs}</div>` + body() + `<div class="end-pad" aria-hidden="true"></div>` + ageDock() + sheet;
+  app.innerHTML = `<div class="play-layout">
+    <div class="play-hub">${header()}${ageDock()}</div>
+    <div class="play-main"><div class="tabs">${tabs}</div><div class="play-body">${body()}</div></div>
+    ${sidePeek()}
+  </div><div class="end-pad" aria-hidden="true"></div>${sheet}`;
   const j = $('#jr'); if (j) j.scrollTop = j.scrollHeight; save();
+  paintAmbient(s.region || 'hearthfold', tab);
 }
 app.addEventListener('click', (ev) => {
   const b = ev.target.closest('button'); if (!b || b.disabled) return; const a = b.dataset.a, v = b.dataset.v; let r;
@@ -210,5 +243,6 @@ function startAmbient() {
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
   P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}');
   if (!Q.has('fresh')) try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { s = null; }
-  startAmbient(); if (s) render(); else if (!localStorage.getItem(SEEN) && !Q.has('skipintro')) cold(); else fateScreen();
+  startAmbient(); mountInfoClicks(document);
+  if (s) render(); else if (!localStorage.getItem(SEEN) && !Q.has('skipintro')) cold(); else fateScreen();
 })();
