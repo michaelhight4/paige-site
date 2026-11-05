@@ -6,9 +6,11 @@
     "weapon",
     "armor",
     "trinket",
-    "tool"
+    "tool",
+    "home",
+    "mount"
   ],
-  "notes": "Equip one per slot. Bonuses add to skills.json ids while equipped. Sold at gear shops in realmId (Visit / Belongings). Gates: minAge (cage) and minRenown (player renown/fame; draft uses same 0\u2013100 soft renown as guild/team).",
+  "notes": "Equip one weapon/armor/trinket/tool/mount. Home is owned or rented (flags); only one active home. Bonuses add to skills.json ids while equipped/owned. Sold at gear shops by realm. Gates: minAge (cage) and minRenown. Rent: gear_rent_cot renews yearly at half price. Icons: /workspace/boundwake/assets/gear/<id>.png (exact id).",
   "items": [
     {
       "id": "gear_ash_staff",
@@ -428,6 +430,253 @@
         "composure": 1
       },
       "desc": "Clean linen and bitter tonics."
+    },
+    {
+      "id": "gear_rent_cot",
+      "name": "Rented Cot Room",
+      "slot": "home",
+      "price": 15,
+      "realm": "hearthfold",
+      "minAge": 16,
+      "minRenown": 0,
+      "bonus": {
+        "composure": 1
+      },
+      "flags": [
+        "rent"
+      ],
+      "desc": "Shared loft above Market Row; renews yearly (half price)."
+    },
+    {
+      "id": "gear_cottage_lane",
+      "name": "Cottage Lane Home",
+      "slot": "home",
+      "price": 120,
+      "realm": "hearthfold",
+      "minAge": 18,
+      "minRenown": 0,
+      "bonus": {
+        "composure": 2,
+        "husbandry": 1
+      },
+      "flags": [
+        "own"
+      ],
+      "desc": "One hearth, herb fence, laundry gossip included."
+    },
+    {
+      "id": "gear_willow_house",
+      "name": "Willowpond House",
+      "slot": "home",
+      "price": 200,
+      "realm": "hearthfold",
+      "minAge": 20,
+      "minRenown": 5,
+      "bonus": {
+        "composure": 3,
+        "focus": 1
+      },
+      "flags": [
+        "own"
+      ],
+      "desc": "Quiet water view; anglers wave at dawn."
+    },
+    {
+      "id": "gear_quay_flat",
+      "name": "Lantern Quay Flat",
+      "slot": "home",
+      "price": 280,
+      "realm": "glassmarket",
+      "minAge": 20,
+      "minRenown": 10,
+      "bonus": {
+        "bartering": 2,
+        "charm": 2
+      },
+      "flags": [
+        "own"
+      ],
+      "desc": "Teal lamps outside; brokers knock early."
+    },
+    {
+      "id": "gear_ledger_townhouse",
+      "name": "Ledger Townhouse",
+      "slot": "home",
+      "price": 450,
+      "realm": "glassmarket",
+      "minAge": 22,
+      "minRenown": 25,
+      "bonus": {
+        "bartering": 3,
+        "etiquette": 2,
+        "literacy": 1
+      },
+      "flags": [
+        "own"
+      ],
+      "desc": "Blue-wax door seal; room for a clerk."
+    },
+    {
+      "id": "gear_reed_cabin",
+      "name": "Reedpath Cabin",
+      "slot": "home",
+      "price": 160,
+      "realm": "thornreed",
+      "minAge": 18,
+      "minRenown": 0,
+      "bonus": {
+        "tracking": 2,
+        "foraging": 2
+      },
+      "flags": [
+        "own"
+      ],
+      "desc": "Staked path to the door; dry loft for herbs."
+    },
+    {
+      "id": "gear_spire_rooms",
+      "name": "Spireward Rooms",
+      "slot": "home",
+      "price": 360,
+      "realm": "spireward",
+      "minAge": 20,
+      "minRenown": 15,
+      "bonus": {
+        "lore": 2,
+        "etiquette": 2,
+        "focus": 1
+      },
+      "flags": [
+        "own"
+      ],
+      "desc": "Stone stair walk-up near the Collegium."
+    },
+    {
+      "id": "gear_ember_hall",
+      "name": "Emberlight Hall",
+      "slot": "home",
+      "price": 600,
+      "realm": "emberlight",
+      "minAge": 24,
+      "minRenown": 40,
+      "bonus": {
+        "composure": 3,
+        "endurance": 2,
+        "etiquette": 2
+      },
+      "flags": [
+        "own",
+        "hall"
+      ],
+      "desc": "Frontier hall with forge-warmed stones; holds a crest."
+    },
+    {
+      "id": "gear_mount_mule",
+      "name": "Pack Mule",
+      "slot": "mount",
+      "price": 40,
+      "realm": "hearthfold",
+      "minAge": 12,
+      "minRenown": 0,
+      "bonus": {
+        "husbandry": 2,
+        "endurance": 1
+      },
+      "flags": [
+        "travel"
+      ],
+      "desc": "Slow, sturdy; cheap feed."
+    },
+    {
+      "id": "gear_mount_pony",
+      "name": "Vale Pony",
+      "slot": "mount",
+      "price": 75,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "minRenown": 0,
+      "bonus": {
+        "husbandry": 2,
+        "agility": 1
+      },
+      "flags": [
+        "travel"
+      ],
+      "desc": "Sure-footed on cottage lanes."
+    },
+    {
+      "id": "gear_mount_courser",
+      "name": "Coast Courser",
+      "slot": "mount",
+      "price": 160,
+      "realm": "glassmarket",
+      "minAge": 14,
+      "minRenown": 5,
+      "bonus": {
+        "husbandry": 2,
+        "agility": 2,
+        "endurance": 1
+      },
+      "flags": [
+        "travel"
+      ],
+      "desc": "Fast on quay roads and caravan yards."
+    },
+    {
+      "id": "gear_mount_reedrunner",
+      "name": "Reedrunner",
+      "slot": "mount",
+      "price": 140,
+      "realm": "thornreed",
+      "minAge": 14,
+      "minRenown": 0,
+      "bonus": {
+        "husbandry": 2,
+        "tracking": 2,
+        "agility": 1
+      },
+      "flags": [
+        "travel"
+      ],
+      "desc": "Quiet through brush; hates city noise."
+    },
+    {
+      "id": "gear_mount_destrier",
+      "name": "Spire Destrier",
+      "slot": "mount",
+      "price": 320,
+      "realm": "spireward",
+      "minAge": 16,
+      "minRenown": 20,
+      "bonus": {
+        "husbandry": 3,
+        "strength": 2,
+        "etiquette": 1
+      },
+      "flags": [
+        "travel",
+        "prestige"
+      ],
+      "desc": "Tournament and escort stock."
+    },
+    {
+      "id": "gear_mount_ashcharger",
+      "name": "Ashcharger",
+      "slot": "mount",
+      "price": 480,
+      "realm": "emberlight",
+      "minAge": 18,
+      "minRenown": 35,
+      "bonus": {
+        "husbandry": 3,
+        "endurance": 3,
+        "strength": 2
+      },
+      "flags": [
+        "travel",
+        "prestige"
+      ],
+      "desc": "Frontier war-mount; heat-hardy."
     }
   ]
 }

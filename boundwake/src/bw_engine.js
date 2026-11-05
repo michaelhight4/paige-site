@@ -577,6 +577,41 @@ function peopleYear(s, yrs) {
 
 // ---- events (lifesim/src/events.js semantics; extra if-keys for the fantasy pack) ----
 const evById = (id) => D.events.find((e) => e.id === id);
+/** Gate team/guild ownership objects used by events_expansion long-life + cross suite. */
+function matchOwnGate(s, own, spec) {
+  if (spec === true) return !!(own && !own.seized);
+  if (spec === false) return !own;
+  if (!spec || typeof spec !== 'object') return true;
+  if (spec.owned === false) return !own;
+  // Default for object specs: must own an active (non-seized) track unless seized:true
+  if (!own) return false;
+  if (spec.seized === true) { if (!own.seized) return false; }
+  else if (spec.seized === false) { if (own.seized) return false; }
+  else if (own.seized) return false;
+  if (spec.minRenown != null && (own.renown || 0) < spec.minRenown) return false;
+  if (spec.maxRenown != null && (own.renown || 0) > spec.maxRenown) return false;
+  const peak = Math.max(own.peakRenown || 0, own.renown || 0);
+  if (spec.minPeakRenown != null && peak < spec.minPeakRenown) return false;
+  if (spec.stage) {
+    const stages = Array.isArray(spec.stage) ? spec.stage : [spec.stage];
+    const st = own.stage || ownershipStage(own.renown || 0);
+    if (!stages.includes(st)) return false;
+  }
+  const founded = own.foundedYear;
+  const years = founded != null ? Math.max(0, cage(s) - founded) : null;
+  if (spec.minFoundedYears != null) {
+    if (years == null || years < spec.minFoundedYears) return false;
+  }
+  // Prefer foundedYear span when available; if missing, ages[] already soft-gates.
+  if (spec.preferMinFoundedYears != null && years != null && years < spec.preferMinFoundedYears) return false;
+  if (spec.hasRival === true && !(own.rivalId || (own.history || []).some((h) => h && h.kind === 'rival'))) return false;
+  if (spec.hasRival === false && (own.rivalId || (own.history || []).some((h) => h && h.kind === 'rival'))) return false;
+  if (spec.minHandoffCount != null && (own.handoffCount || 0) < spec.minHandoffCount) return false;
+  if (spec.flag && !s.flags[spec.flag]) return false;
+  if (spec.notflag && s.flags[spec.notflag]) return false;
+  return true;
+}
+
 export function matches(s, e) {
   const c = e.if || {}, a = cage(s); if (a < e.ages[0] || a > e.ages[1]) return false;
   if (e.once && s.flags['once_' + e.id]) return false; if (s.evLast[e.id] != null && s.age - s.evLast[e.id] < (e.cool ?? 4) * turnYears(s)) return false;
@@ -587,6 +622,13 @@ export function matches(s, e) {
   if (c.nochild && living(s, 'child').length) return false;
   if (c.passion && !(s.passions?.active || []).some((p) => p.id === c.passion)) return false;
   if (c.workshop && !(s.workshops || []).length) return false;
+  // Long-life / dual-track gates (Gary: elf/dwarf suite IN; cross ON). Ages use cage.
+  if (c.race) {
+    const races = Array.isArray(c.race) ? c.race : [c.race];
+    if (!races.includes(s.race)) return false;
+  }
+  if (c.team !== undefined && !matchOwnGate(s, s.team, c.team)) return false;
+  if (c.guild !== undefined && !matchOwnGate(s, s.guild, c.guild)) return false;
   return true;
 }
 export const eligible = (s) => D.events.filter((e) => !e.chainOnly && matches(s, e));
@@ -924,6 +966,8 @@ export function ensureTeamGuild(s) {
   else { s.flags.cross.teamFeedsGuild = true; s.flags.cross.guildHealsTeam = true; }
   if (s.team && s.team.stage == null) s.team.stage = ownershipStage(s.team.renown || 0);
   if (s.guild && s.guild.stage == null) s.guild.stage = ownershipStage(s.guild.renown || 0);
+  if (s.team) { s.team.peakRenown = Math.max(s.team.peakRenown || 0, s.team.renown || 0); if (s.team.handoffCount == null) s.team.handoffCount = 0; }
+  if (s.guild) { s.guild.peakRenown = Math.max(s.guild.peakRenown || 0, s.guild.renown || 0); if (s.guild.handoffCount == null) s.guild.handoffCount = 0; }
   if (s.flags.twin_banners_year == null) s.flags.twin_banners_year = -1;
   if (s.flags.meet_blood_reroll_year == null) s.flags.meet_blood_reroll_year = -1;
 }
@@ -943,6 +987,7 @@ export function crossActive(s) {
 }
 function syncOwnershipStage(own) {
   if (!own || own.seized || own.stage === 'legacy' || own.stage === 'disbanded') return;
+  own.peakRenown = Math.max(own.peakRenown || 0, own.renown || 0);
   own.stage = ownershipStage(own.renown || 0);
 }
 
@@ -1036,8 +1081,8 @@ export function foundTeam(s, name, skillId) {
   const nm = String(name || '').trim().slice(0, 28) || `${s.last} Circle`;
   s.team = {
     name: nm, affinitySkill: skillId, foundedYear: cage(s),
-    roster: [], renown: 0, wins: { realm: 0, grand: 0 }, history: [],
-    renames: 0, stage: 'founding', seized: false, rivalId: null, heirId: null, reclaimVia: null,
+    roster: [], renown: 0, peakRenown: 0, wins: { realm: 0, grand: 0 }, history: [],
+    renames: 0, stage: 'founding', seized: false, rivalId: null, heirId: null, reclaimVia: null, handoffCount: 0,
   };
   const msg = `The Clerk of Meets stamped "${nm}" — affinity: ${sk.name}.`;
   log(s, msg, 'team'); return { ok: true, msg };
@@ -1320,9 +1365,9 @@ export function foundGuild(s, realmId) {
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.gold -= gate.cost;
   s.guild = {
-    realmId: gate.realmId, foundedYear: cage(s), renown: 0, coffer: 0,
+    realmId: gate.realmId, foundedYear: cage(s), renown: 0, peakRenown: 0, coffer: 0,
     feeTier: 1, roster: [], jobsDone: 0, jobsFailed: 0,
-    stage: 'founding', seized: false, rivalId: null, heirId: null, reclaimVia: null, name: 'Hall',
+    stage: 'founding', seized: false, rivalId: null, heirId: null, reclaimVia: null, name: 'Hall', handoffCount: 0,
   };
   const reg = regionById(gate.realmId);
   const msg = `A hall-master writ opened my adventure guild hall in ${reg?.name || gate.realmId} (${gate.cost} gold).`;
@@ -1593,6 +1638,7 @@ export function handoffOwnership(s, kind, candidateId) {
   const pickC = cands.find((c) => c.id === candidateId) || cands[0];
   if (!pickC) return { ok: false, msg: 'No heir, apprentice, or captain to name.' };
   own.heirId = pickC.id; own.stage = 'legacy';
+  own.handoffCount = (own.handoffCount || 0) + 1;
   const snap = { ...own, handedTo: pickC };
   (s.flags.team_history ||= []).push({ kind, legacy: snap, y: cage(s) });
   if (kind === 'team') s.team = null; else s.guild = null;

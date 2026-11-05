@@ -1,3 +1,8 @@
+## Long-life / dual-track event gates (Nov 5 ~3:35 PM CT)
+- Engine `matches` race/team/guild gates for Story Bot 67-event expansion (+17 ll/cross).
+- `preferMinFoundedYears` for century banquet; late-found `team`/`guild`: false.
+- peakRenown + handoffCount on team/guild; ensure migrate-safe.
+
 ## Cross bonuses + team/guild art (Nov 5 ~3:30 PM CT)
 - Engine: CROSS_BONUSES.md + Gary reclaim/handoff/stages; UI crests/banners/roster busts + tournament_motion.css hooks.
 

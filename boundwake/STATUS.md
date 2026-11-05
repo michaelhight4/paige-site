@@ -1,3 +1,9 @@
+## Long-life + cross event gates (Coder, Nov 5 ~3:35 PM CT)
+- `bw_engine.matches`: `if.race`, `if.team` / `if.guild` (bool or `{owned,stage,minRenown,minPeakRenown,minFoundedYears,preferMinFoundedYears,hasRival,minHandoffCount}`). Ages still cage.
+- Century banquet prefers hall `foundedYear` span ≥100 when present; late-found only if team/guild not founded; twin-banners id `x_cross_twin_banners` stable.
+- Expansion 67 events merge at load (pack.js) → pool **192**. Smoke PASS. peakRenown + handoffCount tracked.
+- Mirror + deploy: events_expansion + gear slot_home/slot_mount + gear_*.png → paige-site `/boundwake/`.
+
 ## Homes + mounts + events merge (Coder, Nov 5 ~3:28 PM CT)
 - gear.json 44 items: Belongings sections Weapons/Armor/Trinkets/Tools/Homes/Mounts. One home (`bw` save `s.gear.home`), one mount (`equipped.mount`). Rent cot: Rent → yearly half-price rent at Age +1 (evicted if broke; paused in prison); End rent = no refund. Owned homes sell at 0.5; moving abandons a rented room. Flags has_home / has_mount / owns_hall.
 - Slot header icons `assets/gear/slot_<slot>.png`; per-item `assets/gear/<id>.png` (onerror-hidden until art lands). Tournament card shows draft `assets/icons/ui/tournament_banner.png`.
@@ -18,7 +24,7 @@
 - UI: `guild_crest.png` / `tournament_banner.png`, roster busts `adventurer_1..4`, opt-in `assets/ui_motion/tournament_motion.css` (flutter, renown tick, 1st-place sparkle).
 
 ## Tournament teams + guild halls
-- Deployed: `76074be8` on paige-site main (GitHub Pages `/boundwake/`).
+- Deployed: `49b6cb24 (cross bonuses + art; prior teams ship 76074be8)` on paige-site main (GitHub Pages `/boundwake/`).
  (Gary Nov 5 ~3:30 PM CT)
 - Engine: `team` / `guild` save fields (migrate-safe). Numbers from `docs/TOURNAMENT_TEAMS_BALANCE.md` + `docs/GUILD_HALLS_BALANCE.md`.
 - Teams: found (80g+1act, affinity skill 20+, cage 16+), hire/captain/fire, realm meets via Visit Tournament/Arena venues (World Design ids) or notice invite (max 2/yr), Grand **Teams** bracket every 3 years, drill, disband→Codex history.

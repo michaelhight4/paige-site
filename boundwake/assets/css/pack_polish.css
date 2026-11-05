@@ -1,0 +1,453 @@
+/* ==========================================================================
+   Boundwake pack_polish.css — DRAFT first pass · World Design · Nov 5 2026 (CT)
+   --------------------------------------------------------------------------
+   Screens touched (override layer only):
+     • Work tab — Workshops & stalls   [data-work-acc="workshops"]
+     • Work tab — Court & moot         [data-work-acc="court"]
+     • Work tab — Circles & patronage  [data-work-acc="circles"]
+     • Life tab — Imprisoned card      (.panel-life; see missing hook below)
+     • Belongings — Workshops / boards (.panel-bel h3 + .row)
+
+   Coder: add AFTER the main stylesheet in index.html (do not replace style.css):
+     <link rel="stylesheet" href="assets/css/pack_polish.css">
+
+   pack-polish-* helpers (optional; wire in ui.js when convenient):
+     .pack-polish-prison  — add on the Imprisoned life card root (today it is
+                            only class="card panel-life" with no prison hook)
+     .pack-polish-inset   — wrap a group of .row lists for nested plate look
+     .pack-polish-cta     — mark the primary action row so toast/stats stay clear
+
+   Mood: parchment + lantern gold + ink on plum chrome (Boundwake).
+   Not Lifeline cream suburb, not Kilumen HUD. No alcohol/drugs/tobacco cues.
+   Source: docs/UI_STANDARD_LEDGER.md, docs/PACK_RESKIN.md,
+           fantasy_lifesim/world/ui_mood_layout.md QUALITY_BAR.
+   ========================================================================== */
+
+/* ---- local tokens (reuse :root when present; fall back for isolated load) ---- */
+.pack-polish-root,
+:root {
+  --pp-parch: #F4E6C8;
+  --pp-parch-hi: #FBF4E4;
+  --pp-parch-lo: #E8D4AE;
+  --pp-ink: #2A2118;
+  --pp-muted: #5E4C38;
+  --pp-gold: #E0B14A;
+  --pp-gold2: #B07D24;
+  --pp-plum: #2C2140;
+  --pp-moss: #3F6B4F;
+  --pp-ember: #C45A32;
+  --pp-hair: color-mix(in srgb, var(--pp-gold) 70%, #8a6a3a);
+  --pp-shadow: 0 1px 0 #fff8 inset, 0 8px 20px #00000044, 0 0 0 1px #0002;
+}
+
+/* ==========================================================================
+   Shared work-acc plate (workshops / court / circles)
+   Layered parchment, gold hairline, header sheen — not flat settings strips.
+   ========================================================================== */
+.work-acc[data-work-acc="workshops"],
+.work-acc[data-work-acc="court"],
+.work-acc[data-work-acc="circles"] {
+  --accent: var(--work, #B85A22);
+  --accent2: var(--work2, #8A3E12);
+  --tint: var(--work-t, #F8EBDC);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pp-parch-hi) 92%, #fff), var(--pp-parch));
+  border: 2px solid var(--pp-hair);
+  border-radius: 14px;
+  box-shadow: var(--pp-shadow), 0 0 0 2px color-mix(in srgb, var(--pp-gold) 28%, transparent);
+  margin: 0 0 12px;
+  overflow: hidden;
+  color: var(--pp-ink);
+}
+
+/* Per-panel accent identity (still one product) */
+.work-acc[data-work-acc="workshops"] {
+  --accent: #B85A22;
+  --accent2: #8A3E12;
+  --tint: #F8EBDC;
+  border-color: color-mix(in srgb, #B85A22 45%, var(--pp-gold));
+}
+.work-acc[data-work-acc="court"] {
+  --accent: #7A5A28;
+  --accent2: #5A4018;
+  --tint: #F4EAD4;
+  border-color: color-mix(in srgb, var(--pp-gold) 65%, #7A5A28);
+}
+.work-acc[data-work-acc="circles"] {
+  --accent: #6A4A8A;
+  --accent2: #4A3270;
+  --tint: #F2EAF6;
+  border-color: color-mix(in srgb, #6A4A8A 40%, var(--pp-gold));
+}
+
+.work-acc[data-work-acc="workshops"] > .work-acc-hd,
+.work-acc[data-work-acc="court"] > .work-acc-hd,
+.work-acc[data-work-acc="circles"] > .work-acc-hd {
+  list-style: none;
+  cursor: pointer;
+  min-height: 48px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 800 13.5px/1.25 var(--display, "Nunito", system-ui, sans-serif);
+  letter-spacing: .03em;
+  color: #fffaf0;
+  text-shadow: 0 1px 0 #0005;
+  background:
+    linear-gradient(180deg, #fff3 0%, transparent 42%),
+    linear-gradient(135deg, var(--accent), var(--accent2));
+  box-shadow:
+    inset 0 1px 0 #fff5,
+    0 2px 6px #0003;
+  border-bottom: 1px solid color-mix(in srgb, var(--pp-gold) 55%, transparent);
+}
+.work-acc[data-work-acc="workshops"] > .work-acc-hd::-webkit-details-marker,
+.work-acc[data-work-acc="court"] > .work-acc-hd::-webkit-details-marker,
+.work-acc[data-work-acc="circles"] > .work-acc-hd::-webkit-details-marker {
+  display: none;
+}
+.work-acc[data-work-acc="workshops"] > .work-acc-hd small,
+.work-acc[data-work-acc="court"] > .work-acc-hd small,
+.work-acc[data-work-acc="circles"] > .work-acc-hd small {
+  margin-left: auto;
+  font: 700 11px/1.2 var(--body, system-ui, sans-serif);
+  letter-spacing: .02em;
+  opacity: .92;
+  color: #fff8e8;
+  background: #0003;
+  border: 1px solid #fff3;
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+.work-acc[data-work-acc="workshops"] > .work-acc-body,
+.work-acc[data-work-acc="court"] > .work-acc-body,
+.work-acc[data-work-acc="circles"] > .work-acc-body {
+  padding: 12px 12px 14px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--tint) 78%, var(--pp-parch-hi)), var(--pp-parch));
+  color: var(--pp-ink);
+}
+
+.work-acc[data-work-acc="workshops"] > .work-acc-body h3,
+.work-acc[data-work-acc="court"] > .work-acc-body h3,
+.work-acc[data-work-acc="circles"] > .work-acc-body h3 {
+  margin: 14px 0 8px;
+  padding: 0 0 6px;
+  font: 800 14px/1.2 var(--display, "Nunito", system-ui, sans-serif);
+  color: var(--accent2);
+  border-bottom: 1px dashed color-mix(in srgb, var(--pp-gold) 55%, transparent);
+}
+.work-acc[data-work-acc="workshops"] > .work-acc-body h3:first-child,
+.work-acc[data-work-acc="court"] > .work-acc-body h3:first-child,
+.work-acc[data-work-acc="circles"] > .work-acc-body h3:first-child {
+  margin-top: 4px;
+}
+
+.work-acc[data-work-acc="workshops"] .sub,
+.work-acc[data-work-acc="court"] .sub,
+.work-acc[data-work-acc="circles"] .sub {
+  color: var(--pp-muted);
+  font-size: 12.5px;
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+/* Grouped inset row plate (not flat settings strips) */
+.work-acc[data-work-acc="workshops"] .row,
+.work-acc[data-work-acc="court"] .row,
+.work-acc[data-work-acc="circles"] .row,
+.pack-polish-inset .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 48px;
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  background:
+    linear-gradient(180deg, #fff9, color-mix(in srgb, var(--tint, var(--pp-parch-hi)) 55%, #fff));
+  border: 1.5px solid color-mix(in srgb, var(--pp-gold) 35%, #b8955a66);
+  border-left: 4px solid var(--accent, var(--pp-gold2));
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 #fff8, 0 1px 3px #0001;
+  color: var(--pp-ink);
+}
+.work-acc[data-work-acc="workshops"] .row:last-child,
+.work-acc[data-work-acc="court"] .row:last-child,
+.work-acc[data-work-acc="circles"] .row:last-child {
+  margin-bottom: 0;
+}
+.work-acc[data-work-acc="workshops"] .row:nth-child(even),
+.work-acc[data-work-acc="court"] .row:nth-child(even),
+.work-acc[data-work-acc="circles"] .row:nth-child(even) {
+  background:
+    linear-gradient(180deg, #fff8, color-mix(in srgb, var(--tint, var(--pp-parch)) 70%, #fff));
+}
+.work-acc[data-work-acc="workshops"] .row b,
+.work-acc[data-work-acc="court"] .row b,
+.work-acc[data-work-acc="circles"] .row b {
+  color: var(--pp-ink);
+  font-weight: 800;
+}
+.work-acc[data-work-acc="workshops"] .row small,
+.work-acc[data-work-acc="court"] .row small,
+.work-acc[data-work-acc="circles"] .row small {
+  color: var(--pp-muted);
+  font-weight: 500;
+}
+
+.work-acc[data-work-acc="workshops"] .empty,
+.work-acc[data-work-acc="court"] .empty,
+.work-acc[data-work-acc="circles"] .empty {
+  text-align: center;
+  padding: 16px 12px;
+  color: var(--pp-muted);
+  font-size: 13.5px;
+  border: 2px dashed color-mix(in srgb, var(--pp-gold) 45%, #b8955a66);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--tint, var(--pp-parch-hi)) 60%, #fff);
+}
+
+/* Phone-friendly hit targets + clear primary CTAs inside pack panels */
+.work-acc[data-work-acc="workshops"] .row button,
+.work-acc[data-work-acc="court"] .row button,
+.work-acc[data-work-acc="circles"] .row button,
+.work-acc[data-work-acc="workshops"] .actions button,
+.work-acc[data-work-acc="court"] .actions button,
+.work-acc[data-work-acc="circles"] .actions button {
+  min-height: 44px;
+  min-width: 72px;
+  padding: 10px 14px;
+  flex: none;
+  font: 700 14px/1.2 var(--display, "Nunito", system-ui, sans-serif);
+  color: var(--pp-ink);
+  border: 2px solid color-mix(in srgb, var(--pp-gold) 70%, #a9844a);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff6e8, #ebd49a);
+  box-shadow: 0 3px 0 #00000028, inset 0 1px 0 #fff7;
+}
+.work-acc[data-work-acc="workshops"] .row button:not([disabled]),
+.work-acc[data-work-acc="court"] .row button:not([disabled]),
+.work-acc[data-work-acc="circles"] .row button:not([disabled]),
+.work-acc[data-work-acc="workshops"] .actions button:not([disabled]),
+.work-acc[data-work-acc="court"] .actions button:not([disabled]),
+.work-acc[data-work-acc="circles"] .actions button:not([disabled]) {
+  /* File / Open / join = primary weight without stealing Age dock */
+  background: linear-gradient(180deg, #ffe9a8, var(--pp-gold));
+  border-color: var(--pp-gold2);
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--pp-gold2) 75%, #000), inset 0 1px 0 #fff6;
+}
+.work-acc[data-work-acc="workshops"] .row button:not([disabled]):active,
+.work-acc[data-work-acc="court"] .row button:not([disabled]):active,
+.work-acc[data-work-acc="circles"] .row button:not([disabled]):active,
+.work-acc[data-work-acc="workshops"] .actions button:not([disabled]):active,
+.work-acc[data-work-acc="court"] .actions button:not([disabled]):active,
+.work-acc[data-work-acc="circles"] .actions button:not([disabled]):active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--pp-gold2) 75%, #000), inset 0 1px 0 #fff4;
+}
+.work-acc[data-work-acc="workshops"] button[disabled],
+.work-acc[data-work-acc="court"] button[disabled],
+.work-acc[data-work-acc="circles"] button[disabled] {
+  opacity: .55;
+  filter: grayscale(.15);
+  box-shadow: none;
+}
+
+.work-acc[data-work-acc="workshops"] .actions,
+.work-acc[data-work-acc="court"] .actions,
+.work-acc[data-work-acc="circles"] .actions,
+.pack-polish-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--pp-gold) 40%, transparent);
+  /* Keep CTAs below list content; toast stays top (style.css) so they don't crowd */
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Court — slightly richer gold hairline (office / moot plate)
+   ========================================================================== */
+.work-acc[data-work-acc="court"] {
+  box-shadow:
+    var(--pp-shadow),
+    0 0 0 2px color-mix(in srgb, var(--pp-gold) 40%, transparent),
+    0 0 18px color-mix(in srgb, var(--pp-gold) 18%, transparent);
+}
+.work-acc[data-work-acc="court"] .row {
+  border-left-color: var(--pp-gold2);
+}
+
+/* ==========================================================================
+   Patronage / circles — soft plum-tint parchment (still Boundwake, not HUD)
+   ========================================================================== */
+.work-acc[data-work-acc="circles"] > .work-acc-body {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, #F2EAF6 70%, var(--pp-parch-hi)), var(--pp-parch));
+}
+.work-acc[data-work-acc="circles"] .actions button:not([disabled]) {
+  background: linear-gradient(180deg, #efe6f8, #d8c4ec);
+  border-color: color-mix(in srgb, #6A4A8A 50%, var(--pp-gold));
+}
+
+/* ==========================================================================
+   Workshops on Belongings tab (.panel-bel)
+   ========================================================================== */
+.card.panel-bel .card-body {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bel-t, #F6EED4) 82%, var(--pp-parch-hi)), var(--pp-parch));
+  color: var(--pp-ink);
+}
+.card.panel-bel .card-hd {
+  box-shadow: inset 0 1px 0 #fff5, 0 2px 6px #0003;
+  border-bottom: 1px solid color-mix(in srgb, var(--pp-gold) 50%, transparent);
+}
+.card.panel-bel h3 {
+  margin: 14px 0 8px;
+  padding: 0 0 6px;
+  color: var(--bel2, #6E5210);
+  border-bottom: 1px dashed color-mix(in srgb, var(--pp-gold) 50%, transparent);
+}
+.card.panel-bel .row {
+  min-height: 44px;
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #fff9, #f6eed4);
+  border: 1.5px solid color-mix(in srgb, var(--pp-gold) 32%, #b8955a66);
+  border-left: 4px solid var(--bel, #9A7420);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 #fff8;
+  color: var(--pp-ink);
+}
+.card.panel-bel .row:nth-child(even) {
+  background: linear-gradient(180deg, #fff8, #f0e4c4);
+}
+.card.panel-bel .row button {
+  min-height: 44px;
+  min-width: 72px;
+  padding: 10px 14px;
+}
+.card.panel-bel .gold-line {
+  color: var(--pp-gold2);
+  font-weight: 800;
+}
+.card.panel-bel .sub {
+  color: var(--pp-muted);
+}
+
+/* ==========================================================================
+   Prison — Imprisoned life card
+   Missing hook: ui.js emits card('life', …) → .card.panel-life only.
+   Until Coder adds .pack-polish-prison (or data-pack="prison"), we deepen
+   life-panel layering so the imprisoned card still reads as a plate, and
+   fully style the helper when present.
+   ========================================================================== */
+.card.panel-life {
+  /* readable ink on near-opaque parchment (≥ ~0.9) */
+  background: linear-gradient(180deg, var(--pp-parch-hi), var(--pp-parch));
+  border-color: color-mix(in srgb, var(--life, #3F7A3A) 50%, var(--pp-gold));
+  box-shadow: var(--pp-shadow), 0 0 0 2px color-mix(in srgb, var(--life, #3F7A3A) 22%, transparent);
+}
+.card.panel-life .card-body {
+  color: var(--pp-ink);
+  background: color-mix(in srgb, var(--life-t, #EEF5E6) 78%, var(--pp-parch));
+}
+.card.panel-life .sub {
+  color: var(--pp-muted);
+}
+.card.panel-life .row {
+  min-height: 44px;
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #fff9, #eef5e6);
+  border: 1.5px solid color-mix(in srgb, var(--life, #3F7A3A) 28%, #b8955a55);
+  border-left: 4px solid var(--life, #3F7A3A);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 #fff8;
+}
+.card.panel-life .actions {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--life, #3F7A3A) 28%, transparent);
+  position: relative;
+  z-index: 1;
+}
+.card.panel-life .actions button {
+  min-height: 44px;
+  padding: 10px 14px;
+}
+
+/* Preferred hook — Coder adds class="… pack-polish-prison" on Imprisoned card */
+.card.pack-polish-prison,
+.card.panel-life.pack-polish-prison {
+  --accent: var(--pp-ember);
+  --accent2: #8B2E1A;
+  --tint: #F6E6DE;
+  border-color: color-mix(in srgb, var(--pp-ember) 55%, var(--pp-gold));
+  box-shadow:
+    var(--pp-shadow),
+    0 0 0 2px color-mix(in srgb, var(--pp-ember) 28%, transparent);
+}
+.card.pack-polish-prison .card-hd,
+.panel-life.pack-polish-prison .card-hd {
+  background: linear-gradient(135deg, #A84828, #6E2818);
+  border-bottom: 1px solid color-mix(in srgb, var(--pp-gold) 40%, transparent);
+}
+.card.pack-polish-prison .card-body,
+.panel-life.pack-polish-prison .card-body {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, #F6E6DE 75%, var(--pp-parch-hi)), var(--pp-parch));
+  color: var(--pp-ink);
+}
+.card.pack-polish-prison .sub {
+  color: var(--pp-muted);
+}
+
+/* ==========================================================================
+   Toast vs pack CTAs (do not crowd Age dock / panel actions)
+   style.css already pins .toast top; reinforce pointer-events + z so panel
+   actions stay usable under transient toasts.
+   ========================================================================== */
+.toast {
+  z-index: 12;
+  pointer-events: none;
+}
+.work-acc[data-work-acc="workshops"] .actions,
+.work-acc[data-work-acc="court"] .actions,
+.work-acc[data-work-acc="circles"] .actions,
+.card.panel-life .actions,
+.card.panel-bel .actions {
+  z-index: 1;
+}
+
+/* Reduced motion: keep plates, drop extra glow breathe if any inherited */
+@media (prefers-reduced-motion: reduce) {
+  .work-acc[data-work-acc="workshops"],
+  .work-acc[data-work-acc="court"],
+  .work-acc[data-work-acc="circles"],
+  .card.pack-polish-prison {
+    transition: none;
+  }
+}
+
+/* Phone ~390: slightly tighter insets, keep ≥44px taps */
+@media (max-width: 420px) {
+  .work-acc[data-work-acc="workshops"] > .work-acc-body,
+  .work-acc[data-work-acc="court"] > .work-acc-body,
+  .work-acc[data-work-acc="circles"] > .work-acc-body {
+    padding: 10px 10px 12px;
+  }
+  .work-acc[data-work-acc="workshops"] .row,
+  .work-acc[data-work-acc="court"] .row,
+  .work-acc[data-work-acc="circles"] .row,
+  .card.panel-bel .row,
+  .card.panel-life .row {
+    padding: 9px 10px;
+  }
+}

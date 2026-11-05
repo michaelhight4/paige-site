@@ -148,10 +148,11 @@ Stages (shared ladder language, ownership-flavored):
 
 ---
 
-## Cross-track notes (both allowed in one life — interim)
+## Cross-track notes (both allowed in one life — Gary lock)
 
 - **Both tracks allowed in one life** if gold/actions allow — do not force synergy.  
-- Soft link / cross team↔guild **bonuses ON for v1** (Gary lock Nov 5 ~3:26 PM CT). Flags `cross.teamFeedsGuild`, `cross.guildHealsTeam` = true. Numbers: `docs/CROSS_BONUSES.md`.  
+- Soft link / cross team↔guild **bonuses ON for v1** (Gary lock Nov 5 ~3:26 PM CT). Flags `cross.teamFeedsGuild`, `cross.guildHealsTeam` = true. Numbers: `docs/CROSS_BONUSES.md`. Flavor beats + extra seeds: `docs/tournament_guild_longlife_and_crossbonus.md`.  
+- Elf/dwarf **long-life beats IN v1** — same longlife doc; Text Bot dialogue in `docs/events_draft/tournament_guild_scene_dialogue.md`.  
 - Career guild membership (warden etc.) can coexist; ownership tracks do not auto-promote career standing.
 
 ---

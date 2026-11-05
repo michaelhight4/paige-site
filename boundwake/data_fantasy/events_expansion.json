@@ -1,0 +1,3914 @@
+[
+  {
+    "id": "x_child_hf_paper_boat",
+    "cat": "childhood",
+    "ages": [
+      3,
+      8
+    ],
+    "w": 5,
+    "title": "Paper Boats",
+    "prompt": "At Greenwell Commons the runoff is fast. Your boat is a folded leaf with a twig mast.",
+    "choices": [
+      {
+        "label": "Race the neighbor kid",
+        "journal": [
+          "I won by a nose and a splash. We both got soaked."
+        ],
+        "fx": {
+          "spirit": 8,
+          "sk_agility": 1
+        }
+      },
+      {
+        "label": "Rescue a stuck boat",
+        "journal": [
+          "A stranger's boat, a grateful wave, a sticky handshake."
+        ],
+        "fx": {
+          "karma": 3,
+          "spirit": 4
+        }
+      },
+      {
+        "label": "Sit and watch the eddies",
+        "journal": [
+          "The water taught me patience before any teacher did."
+        ],
+        "fx": {
+          "wits": 2,
+          "sk_composure": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "once": true,
+    "tags": [
+      "hearthfold",
+      "childhood"
+    ]
+  },
+  {
+    "id": "x_child_hf_statue_ribbons",
+    "cat": "childhood",
+    "ages": [
+      5,
+      12
+    ],
+    "w": 4,
+    "title": "Festival Ribbons",
+    "prompt": "Ribbons appear on the Hearthkeeper Statue overnight. No one admits hanging them.",
+    "choices": [
+      {
+        "label": "Add one quietly",
+        "journal": [
+          "Mine was green. By noon it had company."
+        ],
+        "fx": {
+          "karma": 2,
+          "spirit": 6
+        }
+      },
+      {
+        "label": "Ask the watch who did it",
+        "journal": [
+          "They shrugged. Some mysteries get a shrug on purpose."
+        ],
+        "fx": {
+          "sk_etiquette": 1,
+          "wits": 1
+        }
+      },
+      {
+        "label": "Take one home as a keepsake",
+        "journal": [
+          "It felt heavier in my pocket than it should have."
+        ],
+        "fx": {
+          "spirit": 3,
+          "karma": -1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "special"
+    ]
+  },
+  {
+    "id": "x_work_hf_orchard_bees",
+    "cat": "work",
+    "ages": [
+      8,
+      70
+    ],
+    "w": 4,
+    "title": "Angry Orchard",
+    "prompt": "The bees decide Market Row can wait. Your orchard job includes fleeing with dignity.",
+    "choices": [
+      {
+        "label": "Smoke the hive gently",
+        "journal": [
+          "Smoke, calm, and a jar of honey for later."
+        ],
+        "fx": {
+          "gold": 8,
+          "sk_husbandry": 3,
+          "sk_composure": 1
+        }
+      },
+      {
+        "label": "Sprint for the fence",
+        "p": 0.65,
+        "win": {
+          "journal": [
+            "I made the fence. The bees kept the orchard."
+          ],
+          "fx": {
+            "health": -2,
+            "sk_agility": 2
+          }
+        },
+        "fail": {
+          "journal": [
+            "I did not make the fence first."
+          ],
+          "fx": {
+            "health": -8,
+            "stress": 4
+          }
+        },
+        "skill": "agility"
+      },
+      {
+        "label": "Call the orchard elder",
+        "journal": [
+          "They hummed a tune the bees somehow respected."
+        ],
+        "fx": {
+          "karma": 1,
+          "sk_husbandry": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "farm"
+    ],
+    "if": {
+      "career": [
+        "farmer",
+        "orchard",
+        "stablehand"
+      ]
+    }
+  },
+  {
+    "id": "x_work_hf_mill_jam",
+    "cat": "work",
+    "ages": [
+      10,
+      75
+    ],
+    "w": 4,
+    "title": "Millstone Jam",
+    "prompt": "The millstone sticks mid-turn. Grain wagons stack up behind Cottage Lane.",
+    "choices": [
+      {
+        "label": "Clear the jam yourself",
+        "journal": [
+          "Grease, patience, and a cheer when the stone sang again."
+        ],
+        "fx": {
+          "perf": 12,
+          "sk_strength": 2,
+          "gold": 5
+        }
+      },
+      {
+        "label": "Send for the carpenter",
+        "journal": [
+          "A wedge and a bill. Wagons moved before dusk."
+        ],
+        "fx": {
+          "gold": -8,
+          "perf": 6
+        }
+      },
+      {
+        "label": "Blame the last shift",
+        "journal": [
+          "The stone moved. Trust did not."
+        ],
+        "fx": {
+          "perf": -5,
+          "karma": -3
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold"
+    ],
+    "if": {
+      "career": [
+        "mill_hand",
+        "carpenter",
+        "farmer"
+      ]
+    }
+  },
+  {
+    "id": "x_work_hf_bridge_repair",
+    "cat": "work",
+    "ages": [
+      14,
+      80
+    ],
+    "w": 3,
+    "title": "Stonebridge Crack",
+    "prompt": "A hairline crack on Old Stonebridge. Rangers frown at lovers and at structural honesty alike.",
+    "choices": [
+      {
+        "label": "Report it to Low Watchpost",
+        "journal": [
+          "They posted a notice and a temporary rope rail."
+        ],
+        "fx": {
+          "renown": 2,
+          "karma": 3
+        }
+      },
+      {
+        "label": "Help patch with mortar",
+        "journal": [
+          "My sleeves stayed gray for a week. The arch held."
+        ],
+        "fx": {
+          "sk_strength": 2,
+          "perf": 8,
+          "gold": 10
+        }
+      },
+      {
+        "label": "Quietly steer carts wider",
+        "journal": [
+          "No glory. No splash. Acceptable."
+        ],
+        "fx": {
+          "sk_composure": 2,
+          "karma": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "town"
+    ],
+    "if": {
+      "job": true
+    }
+  },
+  {
+    "id": "x_explore_hf_willow_echo",
+    "cat": "exploration",
+    "ages": [
+      10,
+      70
+    ],
+    "w": 3,
+    "title": "Willowpond Echo",
+    "prompt": "At Willowpond your cast line comes back with a brass button older than the village stories.",
+    "choices": [
+      {
+        "label": "Keep it and ask around Market Row",
+        "journal": [
+          "A widow recognized her grandfather's coat. Tea was free."
+        ],
+        "fx": {
+          "karma": 3,
+          "spirit": 4,
+          "sk_charm": 1
+        }
+      },
+      {
+        "label": "Catalog it in your Codex",
+        "journal": [
+          "Button, date guess, pond depth. Knowledge stacked neatly."
+        ],
+        "fx": {
+          "sk_lore": 3,
+          "codex": "x_hf_willow_button"
+        }
+      },
+      {
+        "label": "Toss it back for luck",
+        "journal": [
+          "The ripples took it. Luck, or just wet fingers."
+        ],
+        "fx": {
+          "spirit": 2,
+          "karma": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "exploration"
+    ]
+  },
+  {
+    "id": "x_friend_hf_watch_bell",
+    "cat": "friend",
+    "ages": [
+      12,
+      60
+    ],
+    "w": 3,
+    "title": "False Alarm Bell",
+    "prompt": "Low Watchpost's brass bell rings at noon. No fire. A friend grins too wide.",
+    "choices": [
+      {
+        "label": "Help them apologize",
+        "journal": [
+          "We scrubbed the tower stairs as penance. Friendship survived."
+        ],
+        "fx": {
+          "karma": 2,
+          "stress": 2,
+          "sk_composure": 1
+        }
+      },
+      {
+        "label": "Cover for them",
+        "journal": [
+          "My story held. My stomach did not."
+        ],
+        "fx": {
+          "karma": -2,
+          "stress": 4
+        }
+      },
+      {
+        "label": "Tell the watch captain straight",
+        "journal": [
+          "Honesty cost a friendship a season. It grew back quieter."
+        ],
+        "fx": {
+          "karma": 3,
+          "spirit": -3
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "relationship"
+    ]
+  },
+  {
+    "id": "x_rel_hf_market_dance",
+    "cat": "relationship",
+    "ages": [
+      16,
+      45
+    ],
+    "w": 3,
+    "title": "Dusk Market Dance",
+    "prompt": "When Market Row packs up, someone strings a fiddle. Hands find hands before names do.",
+    "choices": [
+      {
+        "label": "Ask them to dance",
+        "journal": [
+          "Two left feet, one good laugh, a promise to meet next fair."
+        ],
+        "fx": {
+          "spirit": 8,
+          "presence": 2,
+          "newperson": "friend"
+        }
+      },
+      {
+        "label": "Keep time on a crate",
+        "journal": [
+          "Rhythm is safer than romance. Still a fine evening."
+        ],
+        "fx": {
+          "sk_performance": 2,
+          "spirit": 4
+        }
+      },
+      {
+        "label": "Slip home early",
+        "journal": [
+          "The music followed me down Cottage Lane anyway."
+        ],
+        "fx": {
+          "stress": -2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "relationship"
+    ]
+  },
+  {
+    "id": "x_special_hf_hearth_warmth",
+    "cat": "special",
+    "ages": [
+      8,
+      90
+    ],
+    "w": 2,
+    "title": "Bread for Strangers",
+    "prompt": "A traveler sleeps under the Hearthkeeper Statue. Rain is deciding whether to commit.",
+    "choices": [
+      {
+        "label": "Share your cloak and bread",
+        "journal": [
+          "They left a carved charm by morning. Warmth goes both ways."
+        ],
+        "fx": {
+          "karma": 5,
+          "spirit": 5,
+          "relic": "relic_traveler_charm"
+        }
+      },
+      {
+        "label": "Point them to Cottage Lane shelter",
+        "journal": [
+          "Directions and a nod. Enough for tonight."
+        ],
+        "fx": {
+          "karma": 2
+        }
+      },
+      {
+        "label": "Walk past",
+        "journal": [
+          "The rain chose yes. Guilt chose me."
+        ],
+        "fx": {
+          "karma": -3,
+          "stress": 3
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "special"
+    ]
+  },
+  {
+    "id": "x_work_gm_ledger_seal",
+    "cat": "work",
+    "ages": [
+      14,
+      70
+    ],
+    "w": 4,
+    "title": "Blue Wax Seal",
+    "prompt": "Ledger Hall wants your mark on a contract you barely finished reading.",
+    "choices": [
+      {
+        "label": "Read every clause twice",
+        "journal": [
+          "I found a trap clause. They pretended they always meant the fair version."
+        ],
+        "fx": {
+          "sk_literacy": 3,
+          "sk_bartering": 2,
+          "perf": 8
+        }
+      },
+      {
+        "label": "Trust your broker",
+        "journal": [
+          "Fast ink. Later regrets measured in coin."
+        ],
+        "fx": {
+          "gold": 25,
+          "karma": -2,
+          "stress": 3
+        }
+      },
+      {
+        "label": "Renegotiate on the spot",
+        "p": 0.55,
+        "win": {
+          "journal": [
+            "They blinked. The seal waited for better terms."
+          ],
+          "fx": {
+            "gold": 15,
+            "sk_bartering": 4,
+            "presence": 1
+          }
+        },
+        "fail": {
+          "journal": [
+            "They smiled the way sharks might, if sharks used wax."
+          ],
+          "fx": {
+            "gold": -10,
+            "spirit": -3
+          }
+        },
+        "skill": "bartering"
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket",
+      "guild",
+      "money"
+    ],
+    "if": {
+      "career": [
+        "merchant",
+        "shop_clerk",
+        "retainer"
+      ]
+    }
+  },
+  {
+    "id": "x_work_gm_quay_unloading",
+    "cat": "work",
+    "ages": [
+      12,
+      65
+    ],
+    "w": 4,
+    "title": "Lantern Quay Haul",
+    "prompt": "A ship dumps crates faster than backs can lift. The teal lamps do not help with splinters.",
+    "choices": [
+      {
+        "label": "Pace yourself and finish clean",
+        "journal": [
+          "Last crate, first breath. The foreman noticed."
+        ],
+        "fx": {
+          "perf": 10,
+          "sk_endurance": 3,
+          "gold": 6
+        }
+      },
+      {
+        "label": "Race for tips",
+        "journal": [
+          "Coin, blisters, and a story about almost dropping perfume oils."
+        ],
+        "fx": {
+          "gold": 18,
+          "health": -4,
+          "sk_strength": 2
+        }
+      },
+      {
+        "label": "Organize a better line",
+        "journal": [
+          "Less glory, fewer crushed toes. Crew nodded."
+        ],
+        "fx": {
+          "sk_composure": 2,
+          "perf": 6,
+          "renown": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket"
+    ],
+    "if": {
+      "career": [
+        "courier",
+        "fisher",
+        "merchant",
+        "shop_clerk",
+        "inn_hand"
+      ]
+    }
+  },
+  {
+    "id": "x_work_gm_mirror_haggle",
+    "cat": "work",
+    "ages": [
+      12,
+      80
+    ],
+    "w": 3,
+    "title": "Mirrorglass Price War",
+    "prompt": "Two stall neighbors undercut each other until both look ready to cry polished tears.",
+    "choices": [
+      {
+        "label": "Broker a shared price floor",
+        "journal": [
+          "They hated it, then made rent. You got a cut."
+        ],
+        "fx": {
+          "gold": 20,
+          "sk_bartering": 4,
+          "sk_charm": 2
+        }
+      },
+      {
+        "label": "Side with the underdog",
+        "journal": [
+          "Loyalty paid in discounts and gossip."
+        ],
+        "fx": {
+          "karma": 2,
+          "gold": 8
+        }
+      },
+      {
+        "label": "Stay out of it",
+        "journal": [
+          "Peace is also a strategy."
+        ],
+        "fx": {
+          "stress": -2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket",
+      "money"
+    ],
+    "if": {
+      "career": [
+        "merchant",
+        "shop_clerk",
+        "bard"
+      ]
+    }
+  },
+  {
+    "id": "x_explore_gm_tidepool_dare",
+    "cat": "exploration",
+    "ages": [
+      8,
+      25
+    ],
+    "w": 4,
+    "title": "Tidepool Skip",
+    "prompt": "At Tidepool Court kids dare each other to skip stones across salt mosaics. Adults pretend not to watch.",
+    "choices": [
+      {
+        "label": "Take the dare",
+        "p": 0.6,
+        "win": {
+          "journal": [
+            "Seven skips. Someone whistled. My shoulders grew an inch."
+          ],
+          "fx": {
+            "spirit": 6,
+            "sk_agility": 2,
+            "fame": 1
+          }
+        },
+        "fail": {
+          "journal": [
+            "One skip, then a soaked shoe, then laughter I earned."
+          ],
+          "fx": {
+            "spirit": 2,
+            "stress": 2
+          }
+        },
+        "skill": "agility"
+      },
+      {
+        "label": "Judge the contest fairly",
+        "journal": [
+          "They made me referee. Power tasted like salt."
+        ],
+        "fx": {
+          "sk_etiquette": 2,
+          "presence": 1
+        }
+      },
+      {
+        "label": "Study the mosaics instead",
+        "journal": [
+          "Patterns older than the dare. Codex note filed."
+        ],
+        "fx": {
+          "sk_lore": 2,
+          "codex": "x_gm_tide_mosaic"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket",
+      "exploration"
+    ]
+  },
+  {
+    "id": "x_travel_gm_caravan_writ",
+    "cat": "travel",
+    "ages": [
+      14,
+      75
+    ],
+    "w": 3,
+    "title": "Stamped Travel Writ",
+    "prompt": "Caravan Yard offers a stamped writ east if you help load feed sacks first.",
+    "choices": [
+      {
+        "label": "Load sacks and take the writ",
+        "journal": [
+          "Dust in my teeth, a stamp in my pack, roads ahead."
+        ],
+        "fx": {
+          "region": "next",
+          "sk_endurance": 2,
+          "gold": 5
+        }
+      },
+      {
+        "label": "Buy the writ outright",
+        "journal": [
+          "Coin is faster than sweat."
+        ],
+        "fx": {
+          "gold": -25,
+          "region": "next"
+        },
+        "req": 25
+      },
+      {
+        "label": "Decline and stay coastal",
+        "journal": [
+          "Harbor lamps felt enough like adventure today."
+        ],
+        "fx": {
+          "spirit": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket",
+      "travel"
+    ]
+  },
+  {
+    "id": "x_guild_gm_apprentice_bond",
+    "cat": "work",
+    "ages": [
+      15,
+      40
+    ],
+    "w": 3,
+    "title": "Apprenticeship Bond",
+    "prompt": "Ledger Hall posts an open apprenticeship bond in blue wax. Applicants form a polite mob.",
+    "choices": [
+      {
+        "label": "Sit the practical exam",
+        "p": 0.5,
+        "win": {
+          "journal": [
+            "My totals matched. The seal cooled on my papers."
+          ],
+          "fx": {
+            "flagset": "has_mentor",
+            "xp_primary": 5,
+            "renown": 3
+          }
+        },
+        "fail": {
+          "journal": [
+            "One column off. They said try next posting."
+          ],
+          "fx": {
+            "spirit": -4,
+            "sk_literacy": 1
+          }
+        },
+        "skill": "primary"
+      },
+      {
+        "label": "Offer a letter of character",
+        "journal": [
+          "Words helped. Numbers still decided."
+        ],
+        "fx": {
+          "sk_etiquette": 2,
+          "perf": 4
+        }
+      },
+      {
+        "label": "Walk away from the crowd",
+        "journal": [
+          "Ambition can wait a season without rotting."
+        ],
+        "fx": {
+          "stress": -3
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "once": true,
+    "tags": [
+      "glassmarket",
+      "guild"
+    ],
+    "if": {
+      "job": true
+    }
+  },
+  {
+    "id": "x_health_gm_saltbreeze",
+    "cat": "health",
+    "ages": [
+      14,
+      90
+    ],
+    "w": 3,
+    "title": "Saltbreeze Queue",
+    "prompt": "Saltbreeze Healer Post never empties. Your cough has opinions about waiting.",
+    "choices": [
+      {
+        "label": "Wait your turn patiently",
+        "journal": [
+          "Bitter tonic, clean linen, quieter lungs."
+        ],
+        "fx": {
+          "gold": -10,
+          "health": 8,
+          "flagset": "saw_healer"
+        },
+        "req": 10
+      },
+      {
+        "label": "Help sort the queue",
+        "journal": [
+          "They took me sooner. Fair trade for fairness."
+        ],
+        "fx": {
+          "karma": 2,
+          "health": 5,
+          "gold": -6
+        },
+        "req": 6
+      },
+      {
+        "label": "Tough it out at the quay",
+        "journal": [
+          "Sea air helped less than pride claimed."
+        ],
+        "fx": {
+          "health": -3,
+          "sk_composure": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket",
+      "health"
+    ]
+  },
+  {
+    "id": "x_fame_gm_musician_duel",
+    "cat": "fame",
+    "ages": [
+      14,
+      55
+    ],
+    "w": 3,
+    "title": "Lantern Quay Duel",
+    "prompt": "Two street musicians duel for the coin bowl. The crowd wants a third opinion: yours.",
+    "choices": [
+      {
+        "label": "Join with a verse",
+        "p": 0.55,
+        "win": {
+          "journal": [
+            "The bowl tipped my way. So did a few hearts."
+          ],
+          "fx": {
+            "gold": 12,
+            "fame": 3,
+            "sk_performance": 4
+          }
+        },
+        "fail": {
+          "journal": [
+            "My verse cracked. The bowl did not tip toward me."
+          ],
+          "fx": {
+            "fame": -1,
+            "spirit": -3
+          }
+        },
+        "skill": "performance"
+      },
+      {
+        "label": "Keep time for both",
+        "journal": [
+          "Diplomacy with a drum. Both paid me not to pick a side."
+        ],
+        "fx": {
+          "gold": 8,
+          "sk_charm": 2
+        }
+      },
+      {
+        "label": "Just listen",
+        "journal": [
+          "Art without obligation. Rare."
+        ],
+        "fx": {
+          "spirit": 3
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket",
+      "fame"
+    ]
+  },
+  {
+    "id": "x_money_gm_scale_oath",
+    "cat": "money",
+    "ages": [
+      16,
+      80
+    ],
+    "w": 2,
+    "title": "Oath at the Scales",
+    "prompt": "Someone wants you to swear an oath at the Envoy of Scales statue. Court will believe it.",
+    "choices": [
+      {
+        "label": "Swear only what is true",
+        "journal": [
+          "The pans felt balanced. So did my stomach."
+        ],
+        "fx": {
+          "karma": 4,
+          "sk_etiquette": 2
+        }
+      },
+      {
+        "label": "Refuse the oath",
+        "journal": [
+          "They found another swearer. I kept my name clean."
+        ],
+        "fx": {
+          "karma": 1,
+          "renown": -1
+        }
+      },
+      {
+        "label": "Swear loosely for a fee",
+        "journal": [
+          "Coin now. Court later. Sleep poorly."
+        ],
+        "fx": {
+          "gold": 40,
+          "karma": -8,
+          "stress": 6
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket",
+      "money",
+      "court"
+    ]
+  },
+  {
+    "id": "x_explore_tr_reedpath_stakes",
+    "cat": "exploration",
+    "ages": [
+      10,
+      70
+    ],
+    "w": 4,
+    "title": "Missing Trail Stakes",
+    "prompt": "Half the marked stakes on Reedpath Trail are gone. The reeds do not explain themselves.",
+    "choices": [
+      {
+        "label": "Replace stakes as you go",
+        "journal": [
+          "Slow work. Safer path for the next traveler."
+        ],
+        "fx": {
+          "karma": 4,
+          "sk_foraging": 2,
+          "sk_tracking": 2
+        }
+      },
+      {
+        "label": "Push through unmarked",
+        "p": 0.5,
+        "win": {
+          "journal": [
+            "I found the camp by smoke smell alone."
+          ],
+          "fx": {
+            "sk_tracking": 4,
+            "spirit": 3
+          }
+        },
+        "fail": {
+          "journal": [
+            "I found a ditch by falling into it."
+          ],
+          "fx": {
+            "health": -8,
+            "stress": 4
+          }
+        },
+        "skill": "tracking"
+      },
+      {
+        "label": "Turn back to the wayshrine",
+        "journal": [
+          "Fruit left, pride slightly bruised, ankles intact."
+        ],
+        "fx": {
+          "karma": 1,
+          "stress": -1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "thornreed",
+      "exploration",
+      "wild"
+    ]
+  },
+  {
+    "id": "x_work_tr_forage_lesson",
+    "cat": "work",
+    "ages": [
+      10,
+      60
+    ],
+    "w": 4,
+    "title": "What Not to Chew",
+    "prompt": "At Foragers' Camp a mentor holds up two berries that look like twins. One is not.",
+    "choices": [
+      {
+        "label": "Listen and take notes",
+        "journal": [
+          "I wrote 'left twin bad' three times. Still useful."
+        ],
+        "fx": {
+          "sk_foraging": 4,
+          "sk_lore": 2,
+          "wits": 1
+        }
+      },
+      {
+        "label": "Identify by smell",
+        "p": 0.55,
+        "win": {
+          "journal": [
+            "Correct. The mentor almost smiled."
+          ],
+          "fx": {
+            "sk_foraging": 5,
+            "perf": 6
+          }
+        },
+        "fail": {
+          "journal": [
+            "Wrong twin. Spit, rinse, lecture."
+          ],
+          "fx": {
+            "health": -5,
+            "stress": 3
+          }
+        },
+        "skill": "foraging"
+      },
+      {
+        "label": "Admit you are new",
+        "journal": [
+          "Honesty got me the beginner pouch and less shame."
+        ],
+        "fx": {
+          "spirit": 2,
+          "sk_foraging": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "thornreed",
+      "wild"
+    ],
+    "if": {
+      "career": [
+        "hunter",
+        "farmer",
+        "healer",
+        "priest",
+        "adventurer"
+      ]
+    }
+  },
+  {
+    "id": "x_special_tr_standing_names",
+    "cat": "special",
+    "ages": [
+      12,
+      80
+    ],
+    "w": 2,
+    "title": "Whispered Names",
+    "prompt": "Night wind through the Standing Stone Ring sounds like names. One of them might be yours.",
+    "choices": [
+      {
+        "label": "Answer once, then leave",
+        "journal": [
+          "The wind went quiet. My spine did not."
+        ],
+        "fx": {
+          "spirit": 4,
+          "stress": 4,
+          "sk_composure": 2
+        }
+      },
+      {
+        "label": "Sit until dawn",
+        "journal": [
+          "Stars, stones, and a calm I did not expect."
+        ],
+        "fx": {
+          "mana": 5,
+          "karma": 2,
+          "sk_focus": 2
+        }
+      },
+      {
+        "label": "Block your ears and camp elsewhere",
+        "journal": [
+          "Some invitations are optional."
+        ],
+        "fx": {
+          "stress": -2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "once": true,
+    "tags": [
+      "thornreed",
+      "special",
+      "arcane"
+    ]
+  },
+  {
+    "id": "x_combat_tr_reed_bandits",
+    "cat": "combat",
+    "ages": [
+      14,
+      65
+    ],
+    "w": 3,
+    "title": "Reeds With Knives",
+    "prompt": "Tall reeds part. Not deer. Toll collectors without a license.",
+    "choices": [
+      {
+        "label": "Fight through",
+        "p": 0.55,
+        "win": {
+          "journal": [
+            "They learned reeds hide exits as well as ambushes."
+          ],
+          "fx": {
+            "renown": 4,
+            "sk_swordsmanship": 3,
+            "gold": 15
+          }
+        },
+        "fail": {
+          "journal": [
+            "A cut across the ribs taught me geography."
+          ],
+          "fx": {
+            "health": -14,
+            "injury": "cut_side"
+          }
+        },
+        "skill": "swordsmanship"
+      },
+      {
+        "label": "Drop a decoy purse and run",
+        "journal": [
+          "Coins bought distance. Dignity arrived later."
+        ],
+        "fx": {
+          "gold": -15,
+          "sk_stealth": 3
+        }
+      },
+      {
+        "label": "Call a ranger signal",
+        "journal": [
+          "A horn answered. Bandits preferred other reeds."
+        ],
+        "fx": {
+          "renown": 2,
+          "karma": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "thornreed",
+      "combat",
+      "wild"
+    ]
+  },
+  {
+    "id": "x_explore_tr_black_mirror",
+    "cat": "exploration",
+    "ages": [
+      12,
+      75
+    ],
+    "w": 3,
+    "title": "Stars at Noon",
+    "prompt": "Black Mirror Pond shows stars while the sun is still arguing overhead.",
+    "choices": [
+      {
+        "label": "Sketch the impossible sky",
+        "journal": [
+          "Codex page titled 'noon night.' Scholars will argue later."
+        ],
+        "fx": {
+          "sk_lore": 4,
+          "codex": "x_tr_black_mirror"
+        }
+      },
+      {
+        "label": "Skip a stone anyway",
+        "journal": [
+          "Ripples ate the stars. The pond forgave me, I think."
+        ],
+        "fx": {
+          "spirit": 3
+        }
+      },
+      {
+        "label": "Wade for a submerged glint",
+        "p": 0.4,
+        "win": {
+          "journal": [
+            "A smooth river stone with a rune no one taught me."
+          ],
+          "fx": {
+            "relic": "relic_mirror_stone",
+            "mana": 4
+          }
+        },
+        "fail": {
+          "journal": [
+            "Cold mud and no glint. Pride shivered."
+          ],
+          "fx": {
+            "health": -4,
+            "stress": 2
+          }
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "thornreed",
+      "exploration",
+      "arcane"
+    ]
+  },
+  {
+    "id": "x_dungeon_tr_ashen_breath",
+    "cat": "dungeon",
+    "ages": [
+      16,
+      70
+    ],
+    "w": 2,
+    "title": "Breath Behind Ashen Gate",
+    "prompt": "Ashen Gate exhales cold air. The seal looks thinner than last season's stories claimed.",
+    "choices": [
+      {
+        "label": "Press an ear to the arch",
+        "journal": [
+          "A distant drip. A nearer heartbeat — mine."
+        ],
+        "fx": {
+          "stress": 4,
+          "sk_composure": 2,
+          "codex": "x_tr_ashen_gate"
+        }
+      },
+      {
+        "label": "Leave fruit at the threshold",
+        "journal": [
+          "Travelers' rule. The cold lessened a degree."
+        ],
+        "fx": {
+          "karma": 3,
+          "spirit": 2
+        }
+      },
+      {
+        "label": "Report the thinning seal to rangers",
+        "journal": [
+          "They marked it. Endgame for someone braver, or later-me."
+        ],
+        "fx": {
+          "renown": 2,
+          "sk_lore": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "once": true,
+    "tags": [
+      "thornreed",
+      "dungeon"
+    ]
+  },
+  {
+    "id": "x_work_tr_guide_hire",
+    "cat": "work",
+    "ages": [
+      14,
+      70
+    ],
+    "w": 3,
+    "title": "Trail Guide Hire",
+    "prompt": "A Glassmarket merchant wants a guide through Thornreed and keeps calling reeds 'tall grass.'",
+    "choices": [
+      {
+        "label": "Take the hire and teach as you go",
+        "journal": [
+          "Coin and fewer lost merchants. Fair trade."
+        ],
+        "fx": {
+          "gold": 35,
+          "sk_tracking": 3,
+          "sk_charm": 1
+        }
+      },
+      {
+        "label": "Refuse until they buy proper kit",
+        "journal": [
+          "They grumbled, bought boots, lived. Tip included."
+        ],
+        "fx": {
+          "gold": 20,
+          "karma": 2,
+          "perf": 5
+        }
+      },
+      {
+        "label": "Point them at the marked stakes only",
+        "journal": [
+          "Minimal help. Minimal liability."
+        ],
+        "fx": {
+          "gold": 5
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "thornreed",
+      "travel"
+    ],
+    "if": {
+      "career": [
+        "hunter",
+        "adventurer",
+        "rogue",
+        "courier"
+      ]
+    }
+  },
+  {
+    "id": "x_health_tr_scratch_fever",
+    "cat": "health",
+    "ages": [
+      10,
+      80
+    ],
+    "w": 3,
+    "title": "Reed Scratch Fever",
+    "prompt": "A shallow scratch from the reeds turns hot by evening. Mentors said this would happen someday.",
+    "choices": [
+      {
+        "label": "Poultice from the camp stores",
+        "journal": [
+          "Bitter smell, cooler skin by morning."
+        ],
+        "fx": {
+          "sk_foraging": 2,
+          "health": 5,
+          "gold": -4
+        },
+        "req": 4
+      },
+      {
+        "label": "Walk it to the wayshrine",
+        "journal": [
+          "Fruit offered, fever eased, legs tired."
+        ],
+        "fx": {
+          "karma": 2,
+          "health": 3,
+          "stress": 2
+        }
+      },
+      {
+        "label": "Ignore it and hike on",
+        "journal": [
+          "Someday arrived harder than the stories."
+        ],
+        "fx": {
+          "health": -10,
+          "stress": 5
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "thornreed",
+      "health"
+    ]
+  },
+  {
+    "id": "x_friend_tr_campfire_map",
+    "cat": "friend",
+    "ages": [
+      14,
+      55
+    ],
+    "w": 3,
+    "title": "Campfire Map Share",
+    "prompt": "At Foragers' Camp someone offers to trade trail notes if you share yours.",
+    "choices": [
+      {
+        "label": "Trade honestly",
+        "journal": [
+          "Two maps became one better map. Friendship too."
+        ],
+        "fx": {
+          "sk_tracking": 2,
+          "sk_lore": 1,
+          "newperson": "friend"
+        }
+      },
+      {
+        "label": "Share only the safe paths",
+        "journal": [
+          "Caution kept them alive. Trust stayed partial."
+        ],
+        "fx": {
+          "karma": 1,
+          "sk_composure": 1
+        }
+      },
+      {
+        "label": "Decline",
+        "journal": [
+          "Some routes stay private. The fire still warmed."
+        ],
+        "fx": {
+          "stress": -1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "thornreed",
+      "relationship"
+    ]
+  },
+  {
+    "id": "x_school_sw_ozone_exam",
+    "cat": "school",
+    "ages": [
+      10,
+      18
+    ],
+    "w": 5,
+    "title": "Ozone Exam",
+    "prompt": "Spireward Collegium exams smell of ozone. Your desk hums faintly.",
+    "choices": [
+      {
+        "label": "Steady your casting hand",
+        "p": 0.55,
+        "win": {
+          "journal": [
+            "The rune held. The examiner's pen finally moved."
+          ],
+          "fx": {
+            "sk_spellcraft": 4,
+            "mana": 6,
+            "wits": 2
+          }
+        },
+        "fail": {
+          "journal": [
+            "The rune sparked sideways. Chalk dust and redo slips."
+          ],
+          "fx": {
+            "mana": -4,
+            "stress": 6,
+            "spirit": -3
+          }
+        },
+        "skill": "spellcraft"
+      },
+      {
+        "label": "Write the theory perfectly",
+        "journal": [
+          "Words without sparks still score. Pride half-full."
+        ],
+        "fx": {
+          "sk_literacy": 3,
+          "sk_lore": 2
+        }
+      },
+      {
+        "label": "Ask for a calm charm first",
+        "journal": [
+          "Allowed. Embarrassing. Effective."
+        ],
+        "fx": {
+          "sk_composure": 3,
+          "mana": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "spireward",
+      "academy",
+      "arcane"
+    ],
+    "if": {
+      "flag": "mana_awakened"
+    }
+  },
+  {
+    "id": "x_school_sw_chalk_joke",
+    "cat": "school",
+    "ages": [
+      11,
+      20
+    ],
+    "w": 3,
+    "title": "Chalk on the Plinth",
+    "prompt": "Founders' Statue Garden wakes to chalk jokes on a stern bust. A prefect wants a culprit.",
+    "choices": [
+      {
+        "label": "Confess and clean it",
+        "journal": [
+          "Soap, scrubbing, and a story I will tell forever."
+        ],
+        "fx": {
+          "karma": 3,
+          "stress": 2,
+          "sk_etiquette": 1
+        }
+      },
+      {
+        "label": "Help clean without naming names",
+        "journal": [
+          "Team soap. Shared guilt. Bonding."
+        ],
+        "fx": {
+          "karma": 1,
+          "spirit": 3
+        }
+      },
+      {
+        "label": "Add a kinder joke first",
+        "journal": [
+          "The prefect almost laughed. Almost."
+        ],
+        "fx": {
+          "fame": 1,
+          "karma": -1,
+          "sk_charm": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "spireward",
+      "academy",
+      "school"
+    ]
+  },
+  {
+    "id": "x_work_sw_scribe_rush",
+    "cat": "work",
+    "ages": [
+      12,
+      70
+    ],
+    "w": 4,
+    "title": "Scribe Stall Rush",
+    "prompt": "Exam week empties the Scribe Stalls of blank codices. Your wrist has opinions.",
+    "choices": [
+      {
+        "label": "Copy until the lamp dies",
+        "journal": [
+          "Ink stains, coin, and a hand that needs a week off."
+        ],
+        "fx": {
+          "gold": 22,
+          "sk_literacy": 3,
+          "health": -3
+        }
+      },
+      {
+        "label": "Sell your last quires at fair price",
+        "journal": [
+          "No gouging. Steady customers next term."
+        ],
+        "fx": {
+          "gold": 14,
+          "karma": 2,
+          "sk_bartering": 2
+        }
+      },
+      {
+        "label": "Raise prices hard",
+        "journal": [
+          "Profit now. Glare forever."
+        ],
+        "fx": {
+          "gold": 35,
+          "karma": -4,
+          "renown": -2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "spireward",
+      "academy"
+    ],
+    "if": {
+      "career": [
+        "scholar",
+        "mage",
+        "shop_clerk",
+        "courier"
+      ]
+    }
+  },
+  {
+    "id": "x_explore_sw_archive_steps",
+    "cat": "exploration",
+    "ages": [
+      14,
+      80
+    ],
+    "w": 3,
+    "title": "Sealed Stack Rumor",
+    "prompt": "On Archive Steps a librarian drops a key word: a sealed stack cracked its wax.",
+    "choices": [
+      {
+        "label": "Volunteer to inventory safely",
+        "journal": [
+          "Dust, gloves, and a marginalia treasure."
+        ],
+        "fx": {
+          "sk_lore": 4,
+          "codex": "x_sw_sealed_stack",
+          "renown": 2
+        }
+      },
+      {
+        "label": "Ask to sketch the cracked seal",
+        "journal": [
+          "Permission granted with a threat about fingerprints."
+        ],
+        "fx": {
+          "sk_lore": 2,
+          "sk_focus": 2
+        }
+      },
+      {
+        "label": "Pretend you heard nothing",
+        "journal": [
+          "Curiosity postponed is still curiosity."
+        ],
+        "fx": {
+          "stress": -1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "spireward",
+      "academy",
+      "exploration"
+    ]
+  },
+  {
+    "id": "x_combat_sw_lawn_spar",
+    "cat": "combat",
+    "ages": [
+      12,
+      40
+    ],
+    "w": 4,
+    "title": "Practice Lawn Bout",
+    "prompt": "Supervised spar on the Practice Lawn. Healers wait under the striped awning, which is comforting and insulting.",
+    "choices": [
+      {
+        "label": "Fight for form points",
+        "p": 0.6,
+        "win": {
+          "journal": [
+            "Clean disarm. The awning went unused."
+          ],
+          "fx": {
+            "sk_swordsmanship": 4,
+            "renown": 2,
+            "spirit": 3
+          }
+        },
+        "fail": {
+          "journal": [
+            "I visited the awning. Ice pack and advice."
+          ],
+          "fx": {
+            "health": -6,
+            "sk_swordsmanship": 1
+          }
+        },
+        "skill": "swordsmanship"
+      },
+      {
+        "label": "Focus on defense only",
+        "journal": [
+          "Boring to watch. Hard to hit. Instructor approved."
+        ],
+        "fx": {
+          "sk_shieldwork": 3,
+          "sk_composure": 2
+        }
+      },
+      {
+        "label": "Sit this round out",
+        "journal": [
+          "Watching taught footwork without bruises."
+        ],
+        "fx": {
+          "wits": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "spireward",
+      "combat"
+    ]
+  },
+  {
+    "id": "x_special_sw_inkpond_swan",
+    "cat": "special",
+    "ages": [
+      8,
+      90
+    ],
+    "w": 2,
+    "title": "Inkpond Rumor",
+    "prompt": "Students swear the Inkpond Cloister swans are ink-stained. Today one leaves a black footprint on stone.",
+    "choices": [
+      {
+        "label": "Follow at a polite distance",
+        "journal": [
+          "It led me to a dropped quill case. Finder's fee: wonder."
+        ],
+        "fx": {
+          "spirit": 5,
+          "sk_tracking": 1,
+          "gold": 4
+        }
+      },
+      {
+        "label": "Take a careful sample of the print",
+        "journal": [
+          "Codex entry: 'probably dye, possibly magic, definitely gossip.'"
+        ],
+        "fx": {
+          "sk_lore": 3,
+          "codex": "x_sw_ink_swan"
+        }
+      },
+      {
+        "label": "Feed ordinary bread and leave",
+        "journal": [
+          "Swans do not owe explanations."
+        ],
+        "fx": {
+          "karma": 1,
+          "spirit": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "spireward",
+      "special"
+    ]
+  },
+  {
+    "id": "x_rel_sw_study_partner",
+    "cat": "relationship",
+    "ages": [
+      12,
+      30
+    ],
+    "w": 3,
+    "title": "Quiet Study Bench",
+    "prompt": "Inkpond benches fill. One open seat remains beside a focused stranger with better notes.",
+    "choices": [
+      {
+        "label": "Ask to share notes",
+        "journal": [
+          "Notes shared. Hours vanished. A study partner named."
+        ],
+        "fx": {
+          "sk_literacy": 2,
+          "sk_focus": 2,
+          "newperson": "friend"
+        }
+      },
+      {
+        "label": "Study in companionable silence",
+        "journal": [
+          "Silence can be friendship's first draft."
+        ],
+        "fx": {
+          "sk_focus": 3,
+          "spirit": 2
+        }
+      },
+      {
+        "label": "Find a noisier yard",
+        "journal": [
+          "Some brains need birdsong and chaos."
+        ],
+        "fx": {
+          "stress": -2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "spireward",
+      "relationship",
+      "academy"
+    ]
+  },
+  {
+    "id": "x_oldage_sw_guest_lecture",
+    "cat": "oldage",
+    "ages": [
+      55,
+      100
+    ],
+    "w": 2,
+    "title": "Guest Lecture Ask",
+    "prompt": "The Collegium asks you to speak for an hour about a life that somehow became curriculum.",
+    "choices": [
+      {
+        "label": "Accept and tell true stories",
+        "journal": [
+          "Students leaned in. So did I, remembering."
+        ],
+        "fx": {
+          "fame": 4,
+          "spirit": 6,
+          "renown": 3
+        }
+      },
+      {
+        "label": "Accept and teach one practical skill",
+        "journal": [
+          "Less poetry, more usable drills. Applause anyway."
+        ],
+        "fx": {
+          "xp_primary": 3,
+          "renown": 2,
+          "sk_composure": 2
+        }
+      },
+      {
+        "label": "Decline kindly",
+        "journal": [
+          "Privacy is also a legacy."
+        ],
+        "fx": {
+          "stress": -2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "spireward",
+      "legacy",
+      "academy"
+    ]
+  },
+  {
+    "id": "x_money_sw_patron_grant",
+    "cat": "money",
+    "ages": [
+      14,
+      28
+    ],
+    "w": 3,
+    "title": "Patron Slip",
+    "prompt": "A patronage clerk slides a grant form across the desk. Strings are visible even before you sign.",
+    "choices": [
+      {
+        "label": "Read the strings, then sign",
+        "journal": [
+          "Coin for tuition. Letters home required. Manageable."
+        ],
+        "fx": {
+          "gold": 50,
+          "flagset": "has_patron",
+          "stress": 2
+        }
+      },
+      {
+        "label": "Negotiate fewer letters",
+        "journal": [
+          "They laughed and cut two obligations. Win."
+        ],
+        "fx": {
+          "gold": 40,
+          "sk_bartering": 2,
+          "flagset": "has_patron"
+        }
+      },
+      {
+        "label": "Walk out unsigned",
+        "journal": [
+          "Pride is expensive. Sometimes correctly so."
+        ],
+        "fx": {
+          "spirit": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "once": true,
+    "tags": [
+      "spireward",
+      "money",
+      "academy"
+    ]
+  },
+  {
+    "id": "x_work_em_forge_sparks",
+    "cat": "work",
+    "ages": [
+      12,
+      75
+    ],
+    "w": 4,
+    "title": "Spark Shower Shift",
+    "prompt": "Forge Plaza throws spark showers on the hour. Your apron is doing its best.",
+    "choices": [
+      {
+        "label": "Keep the rhythm of the hammer",
+        "journal": [
+          "Anvil song settled into my bones."
+        ],
+        "fx": {
+          "sk_smithing": 4,
+          "sk_endurance": 2,
+          "perf": 8
+        }
+      },
+      {
+        "label": "Fit armor that 'almost' fits",
+        "journal": [
+          "Third try succeeded. Customer smiled with relief."
+        ],
+        "fx": {
+          "sk_smithing": 3,
+          "gold": 12,
+          "sk_charm": 1
+        }
+      },
+      {
+        "label": "Sweep scale and restock",
+        "journal": [
+          "Humble work keeps masters from tripping."
+        ],
+        "fx": {
+          "perf": 5,
+          "karma": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "emberlight",
+      "craft"
+    ],
+    "if": {
+      "career": [
+        "blacksmith",
+        "carpenter",
+        "adventurer"
+      ]
+    }
+  },
+  {
+    "id": "x_work_em_drill_dawn",
+    "cat": "work",
+    "ages": [
+      15,
+      55
+    ],
+    "w": 4,
+    "title": "Dawn Line Drill",
+    "prompt": "Emberlight Drill Hall starts before the sun. The instructor never raises their voice twice.",
+    "choices": [
+      {
+        "label": "Match the line perfectly",
+        "journal": [
+          "Second voice never came. That was praise."
+        ],
+        "fx": {
+          "sk_swordsmanship": 3,
+          "sk_composure": 3,
+          "perf": 10
+        }
+      },
+      {
+        "label": "Help a struggling recruit",
+        "journal": [
+          "We both improved. The line forgave a wobble."
+        ],
+        "fx": {
+          "karma": 3,
+          "sk_etiquette": 1,
+          "spirit": 3
+        }
+      },
+      {
+        "label": "Show off a flourish",
+        "journal": [
+          "First voice came. Flourish retired."
+        ],
+        "fx": {
+          "renown": 1,
+          "spirit": -2,
+          "sk_swordsmanship": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "emberlight",
+      "combat",
+      "guild"
+    ],
+    "if": {
+      "career": [
+        "guard",
+        "knight",
+        "adventurer",
+        "spellblade"
+      ]
+    }
+  },
+  {
+    "id": "x_work_em_escort_writ",
+    "cat": "work",
+    "ages": [
+      14,
+      70
+    ],
+    "w": 4,
+    "title": "Redlamp Escort Writ",
+    "prompt": "Redlamp Fort sells escort writs. A caravan pays for swords that stay awake.",
+    "choices": [
+      {
+        "label": "Take night watch",
+        "p": 0.55,
+        "win": {
+          "journal": [
+            "Quiet road. Paid purses. One fox story."
+          ],
+          "fx": {
+            "gold": 40,
+            "sk_endurance": 3,
+            "renown": 2
+          }
+        },
+        "fail": {
+          "journal": [
+            "Sleep stole a minute. Goods stole themselves."
+          ],
+          "fx": {
+            "gold": -20,
+            "renown": -3,
+            "stress": 5
+          }
+        },
+        "skill": "endurance"
+      },
+      {
+        "label": "Scout ahead at dusk",
+        "journal": [
+          "Tracks said trouble left yesterday. Coin still paid."
+        ],
+        "fx": {
+          "gold": 30,
+          "sk_tracking": 3
+        }
+      },
+      {
+        "label": "Decline — too thin a crew",
+        "journal": [
+          "Better no job than a bad story."
+        ],
+        "fx": {
+          "karma": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "emberlight",
+      "travel",
+      "guild"
+    ],
+    "if": {
+      "career": [
+        "adventurer",
+        "guard",
+        "knight",
+        "hunter",
+        "courier"
+      ]
+    }
+  },
+  {
+    "id": "x_combat_em_border_horn",
+    "cat": "combat",
+    "ages": [
+      16,
+      60
+    ],
+    "w": 3,
+    "title": "Horn on the Wall",
+    "prompt": "Signal fires stutter on Redlamp's wall. A horn asks for volunteers, not spectators.",
+    "choices": [
+      {
+        "label": "Take a wall post",
+        "p": 0.5,
+        "win": {
+          "journal": [
+            "The night held. So did we."
+          ],
+          "fx": {
+            "renown": 6,
+            "sk_swordsmanship": 3,
+            "sk_shieldwork": 2
+          }
+        },
+        "fail": {
+          "journal": [
+            "A bruise the size of duty. Healers busy."
+          ],
+          "fx": {
+            "health": -12,
+            "injury": "bruise_ribs"
+          }
+        },
+        "skill": "swordsmanship"
+      },
+      {
+        "label": "Run messages between towers",
+        "journal": [
+          "Legs burning, news moving, fewer blades needed."
+        ],
+        "fx": {
+          "sk_endurance": 3,
+          "renown": 3
+        }
+      },
+      {
+        "label": "Supply the line with water",
+        "journal": [
+          "Unheroic. Essential. Remembered by the thirsty."
+        ],
+        "fx": {
+          "karma": 3,
+          "spirit": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "emberlight",
+      "combat",
+      "war"
+    ]
+  },
+  {
+    "id": "x_explore_em_ashflower",
+    "cat": "exploration",
+    "ages": [
+      10,
+      80
+    ],
+    "w": 3,
+    "title": "Ashflower Picnic",
+    "prompt": "Ashflower Park blooms tough in black soil. Veterans picnic between deployments like nothing is wrong.",
+    "choices": [
+      {
+        "label": "Sit and listen to their stories",
+        "journal": [
+          "I learned which jokes mean 'I survived.'"
+        ],
+        "fx": {
+          "sk_lore": 2,
+          "spirit": 4,
+          "sk_composure": 1
+        }
+      },
+      {
+        "label": "Help plant a new row",
+        "journal": [
+          "Black soil under nails. Roots taking hold."
+        ],
+        "fx": {
+          "karma": 2,
+          "sk_husbandry": 2,
+          "spirit": 3
+        }
+      },
+      {
+        "label": "Leave a small token at Marchwarden Statue",
+        "journal": [
+          "Nameless captain, named gratitude."
+        ],
+        "fx": {
+          "karma": 3,
+          "spirit": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "emberlight",
+      "exploration"
+    ]
+  },
+  {
+    "id": "x_special_em_ember_pond",
+    "cat": "special",
+    "ages": [
+      8,
+      90
+    ],
+    "w": 3,
+    "title": "Warm Water Year",
+    "prompt": "Ember Pond steams in a cold snap. Fireflies arrive early, confused and lovely.",
+    "choices": [
+      {
+        "label": "Soak sore muscles",
+        "journal": [
+          "Warmth fixed what pride would not admit was sore."
+        ],
+        "fx": {
+          "health": 4,
+          "stress": -5,
+          "spirit": 3
+        }
+      },
+      {
+        "label": "Cup water for a forge rinse ritual",
+        "journal": [
+          "Old march custom. Sparks felt luckier after."
+        ],
+        "fx": {
+          "sk_smithing": 1,
+          "spirit": 2,
+          "karma": 1
+        }
+      },
+      {
+        "label": "Just watch the fireflies",
+        "journal": [
+          "No task. No tally. Enough."
+        ],
+        "fx": {
+          "spirit": 5,
+          "stress": -3
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "emberlight",
+      "special"
+    ]
+  },
+  {
+    "id": "x_dungeon_em_vault_threshold",
+    "cat": "dungeon",
+    "ages": [
+      18,
+      80
+    ],
+    "w": 2,
+    "title": "Deep Vault Threshold",
+    "prompt": "Deep Vault Threshold smells like cold metal and older promises. Relic rumors thicken.",
+    "choices": [
+      {
+        "label": "Map the threshold only",
+        "journal": [
+          "Lines on parchment. Bravery scheduled for later."
+        ],
+        "fx": {
+          "sk_lore": 3,
+          "codex": "x_em_deep_vault",
+          "stress": 2
+        }
+      },
+      {
+        "label": "Leave a guild marker and retreat",
+        "journal": [
+          "Procedure over glory. Captains approve."
+        ],
+        "fx": {
+          "renown": 2,
+          "karma": 1
+        }
+      },
+      {
+        "label": "Test the first ward lightly",
+        "p": 0.4,
+        "win": {
+          "journal": [
+            "A shimmer, a click, a small bronze tag earned."
+          ],
+          "fx": {
+            "relic": "relic_vault_tag",
+            "mana": 3,
+            "renown": 4
+          }
+        },
+        "fail": {
+          "journal": [
+            "The ward slapped my palm numb for an hour."
+          ],
+          "fx": {
+            "health": -6,
+            "stress": 5
+          }
+        },
+        "skill": "spellcraft"
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "once": true,
+    "tags": [
+      "emberlight",
+      "dungeon"
+    ]
+  },
+  {
+    "id": "x_family_em_boot_climb",
+    "cat": "family",
+    "ages": [
+      6,
+      14
+    ],
+    "w": 3,
+    "title": "Statue Boot Climb",
+    "prompt": "Kids climb the Marchwarden Statue boots until scolded. You are either the climber or the scolder.",
+    "choices": [
+      {
+        "label": "Climb halfway, then help others down",
+        "journal": [
+          "Height, then responsibility. Both fit."
+        ],
+        "fx": {
+          "spirit": 5,
+          "sk_agility": 2,
+          "karma": 1
+        }
+      },
+      {
+        "label": "Fetch a grown-up kindly",
+        "journal": [
+          "No scrapes. Mild heroism of the tattling variety."
+        ],
+        "fx": {
+          "karma": 2,
+          "sk_etiquette": 1
+        }
+      },
+      {
+        "label": "Join the full ascent",
+        "journal": [
+          "Scolding achieved. View worth it."
+        ],
+        "fx": {
+          "spirit": 6,
+          "stress": 2,
+          "fame": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "emberlight",
+      "family"
+    ]
+  },
+  {
+    "id": "x_fame_em_march_song",
+    "cat": "fame",
+    "ages": [
+      16,
+      70
+    ],
+    "w": 2,
+    "title": "Song of the March",
+    "prompt": "Someone sets last season's wall stand to music. Your name might be in a verse if you lean in.",
+    "choices": [
+      {
+        "label": "Let them keep the verse",
+        "journal": [
+          "Fame with a tune attached. Uncomfortable, sticky, real."
+        ],
+        "fx": {
+          "fame": 4,
+          "renown": 2,
+          "spirit": 2
+        }
+      },
+      {
+        "label": "Ask them to change the name",
+        "journal": [
+          "Privacy negotiated. Melody stayed."
+        ],
+        "fx": {
+          "fame": 1,
+          "sk_charm": 2
+        }
+      },
+      {
+        "label": "Buy the troupe tea and correct details",
+        "journal": [
+          "Accuracy over legend. Historians somewhere cheered."
+        ],
+        "fx": {
+          "gold": -5,
+          "karma": 2,
+          "sk_lore": 1
+        },
+        "req": 5
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "emberlight",
+      "fame"
+    ]
+  },
+  {
+    "id": "x_travel_cross_weather_call",
+    "cat": "travel",
+    "ages": [
+      14,
+      80
+    ],
+    "w": 3,
+    "title": "Sky's First Hint",
+    "prompt": "Clouds stack over whatever realm you call home. A longer road still tempts.",
+    "choices": [
+      {
+        "label": "Push on with a weather eye",
+        "journal": [
+          "Wet cloak, dry stories, arrival on time."
+        ],
+        "fx": {
+          "sk_endurance": 2,
+          "sk_foraging": 1,
+          "spirit": 2
+        }
+      },
+      {
+        "label": "Shelter and lose a day",
+        "journal": [
+          "Patience beat lightning. Barely."
+        ],
+        "fx": {
+          "stress": -2,
+          "wits": 1
+        }
+      },
+      {
+        "label": "Turn back to known roofs",
+        "journal": [
+          "Home won. Adventure rescheduled."
+        ],
+        "fx": {
+          "spirit": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "glassmarket",
+      "thornreed",
+      "spireward",
+      "emberlight",
+      "travel"
+    ]
+  },
+  {
+    "id": "x_random_market_kindness",
+    "cat": "random",
+    "ages": [
+      10,
+      90
+    ],
+    "w": 4,
+    "title": "Wrong Change Righted",
+    "prompt": "A stall hand gives you too much change. The day pauses to see what you are.",
+    "choices": [
+      {
+        "label": "Return the extra coin",
+        "journal": [
+          "They looked surprised, then human."
+        ],
+        "fx": {
+          "karma": 4,
+          "spirit": 3
+        }
+      },
+      {
+        "label": "Keep it and walk fast",
+        "journal": [
+          "Coin spent poorly in my chest all afternoon."
+        ],
+        "fx": {
+          "gold": 5,
+          "karma": -3,
+          "stress": 2
+        }
+      },
+      {
+        "label": "Return it and buy something small",
+        "journal": [
+          "Fairness plus commerce. Everybody stood taller."
+        ],
+        "fx": {
+          "karma": 3,
+          "gold": -3,
+          "sk_charm": 1
+        },
+        "req": 3
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "glassmarket",
+      "spireward",
+      "emberlight",
+      "money"
+    ]
+  },
+  {
+    "id": "x_work_guild_notice_board",
+    "cat": "work",
+    "ages": [
+      14,
+      70
+    ],
+    "w": 4,
+    "title": "Board Full of Trouble",
+    "prompt": "The guild notice board sags with jobs: missing goats, loud ruins, polite kidnappings of heirlooms.",
+    "choices": [
+      {
+        "label": "Take a mid-risk posting",
+        "p": 0.55,
+        "win": {
+          "journal": [
+            "Goat recovered. Heirloom polished. Pay fair."
+          ],
+          "fx": {
+            "gold": 28,
+            "renown": 3,
+            "xp_primary": 3
+          }
+        },
+        "fail": {
+          "journal": [
+            "Goat remained philosophical. Pay did not arrive."
+          ],
+          "fx": {
+            "spirit": -3,
+            "stress": 3
+          }
+        },
+        "skill": "primary"
+      },
+      {
+        "label": "Take the easy posting",
+        "journal": [
+          "Small purse, intact skin, board still full."
+        ],
+        "fx": {
+          "gold": 12,
+          "perf": 4
+        }
+      },
+      {
+        "label": "Organize the board for others",
+        "journal": [
+          "Unpaid. Weirdly satisfying. Officers noticed."
+        ],
+        "fx": {
+          "renown": 2,
+          "karma": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "glassmarket",
+      "emberlight",
+      "guild"
+    ],
+    "if": {
+      "career": [
+        "adventurer",
+        "hunter",
+        "guard",
+        "rogue",
+        "spellblade"
+      ]
+    }
+  },
+  {
+    "id": "x_love_festival_lantern",
+    "cat": "love",
+    "ages": [
+      16,
+      50
+    ],
+    "w": 3,
+    "title": "Shared Lantern Walk",
+    "prompt": "Festival night. One lantern. Two people pretending the path needs that much light.",
+    "choices": [
+      {
+        "label": "Offer to carry it together",
+        "journal": [
+          "Hands brushed. The lantern survived. So did hope."
+        ],
+        "fx": {
+          "spirit": 8,
+          "presence": 2
+        }
+      },
+      {
+        "label": "Tell a terrible joke on purpose",
+        "journal": [
+          "Groan, then real laughter. Progress."
+        ],
+        "fx": {
+          "sk_charm": 3,
+          "spirit": 5
+        }
+      },
+      {
+        "label": "Keep it friendly and brief",
+        "journal": [
+          "Warm, not tangled. Also fine."
+        ],
+        "fx": {
+          "spirit": 3,
+          "stress": -1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "hearthfold",
+      "glassmarket",
+      "spireward",
+      "relationship"
+    ],
+    "if": {
+      "partner": true
+    }
+  },
+  {
+    "id": "x_business_stall_permit",
+    "cat": "business",
+    "ages": [
+      18,
+      80
+    ],
+    "w": 2,
+    "title": "Stall Permit Day",
+    "prompt": "Civic clerks open a window for stall permits. The line has opinions and elbows.",
+    "choices": [
+      {
+        "label": "Queue early with complete papers",
+        "journal": [
+          "Permit stamped. Elbows defeated by preparation."
+        ],
+        "fx": {
+          "gold": -15,
+          "flagset": "has_workshop",
+          "sk_literacy": 1
+        },
+        "req": 15
+      },
+      {
+        "label": "Help a confused elder in line",
+        "journal": [
+          "They got served. You got thanked. Window closed after."
+        ],
+        "fx": {
+          "karma": 4,
+          "spirit": 3
+        }
+      },
+      {
+        "label": "Come back next posting",
+        "journal": [
+          "Patience is a permit of another kind."
+        ],
+        "fx": {
+          "stress": -2,
+          "wits": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "glassmarket",
+      "hearthfold",
+      "emberlight",
+      "money"
+    ]
+  },
+  {
+    "id": "x_ll_team_late_found",
+    "cat": "special",
+    "ages": [
+      35,
+      120
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Ink After Decades",
+    "prompt": "The Clerk of Meets still keeps blank team writs. Your years are longer than most who stand at this desk. Affinity, eighty gold, one afternoon — the offer has not changed.",
+    "choices": [
+      {
+        "label": "Register the team at last",
+        "journal": [
+          "I paid. I named us. Late ink still counts."
+        ],
+        "fx": {
+          "gold": -80,
+          "renown": 2,
+          "flagset": "owns_team_story",
+          "stress": -2
+        }
+      },
+      {
+        "label": "Come back another decade",
+        "journal": [
+          "I left the writ blank again. Patience is a habit."
+        ],
+        "fx": {
+          "wits": 2,
+          "stress": -1
+        }
+      },
+      {
+        "label": "Never — leave it blank",
+        "journal": [
+          "I walked out. Some banners are better unraised."
+        ],
+        "fx": {
+          "spirit": 2,
+          "flagset": "team_refused_late"
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "team",
+      "elf",
+      "dwarf",
+      "hearthfold",
+      "glassmarket"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "team": false
+    }
+  },
+  {
+    "id": "x_ll_guild_late_found",
+    "cat": "special",
+    "ages": [
+      40,
+      120
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Keys with Dust on Them",
+    "prompt": "A realm clerk and a landlord wait with a hall writ. The keys have gathered dust waiting for someone who measures years differently.",
+    "choices": [
+      {
+        "label": "Take the hall now",
+        "journal": [
+          "I paid. I took the keys. The quiet felt earned."
+        ],
+        "fx": {
+          "gold": -150,
+          "renown": 2,
+          "flagset": "owns_guild_story"
+        }
+      },
+      {
+        "label": "Delay again",
+        "journal": [
+          "I kept my gold. The empty hall can wait one more stretch."
+        ],
+        "fx": {
+          "stress": -2,
+          "wits": 1
+        }
+      },
+      {
+        "label": "Walk away for good",
+        "journal": [
+          "I left the keys. Freedom weighed less than I'd hoped — again."
+        ],
+        "fx": {
+          "spirit": 1,
+          "karma": 1,
+          "flagset": "guild_refused_late"
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "guild",
+      "elf",
+      "dwarf"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "guild": false
+    }
+  },
+  {
+    "id": "x_ll_team_multigen_rival",
+    "cat": "fame",
+    "ages": [
+      50,
+      200
+    ],
+    "w": 3,
+    "cool": 12,
+    "title": "The Crest Looks Younger",
+    "prompt": "A captain wearing your old rival's crest blocks the drill-lawn path. The eyes are new. The challenge is not.",
+    "choices": [
+      {
+        "label": "Respect the line",
+        "journal": [
+          "I tipped my head to their parent’s name. Rivalry with manners, second generation."
+        ],
+        "fx": {
+          "renown": 2,
+          "karma": 2,
+          "sk_etiquette": 2
+        }
+      },
+      {
+        "label": "Renew the feud",
+        "journal": [
+          "I met their eyes and filed a new unfinished."
+        ],
+        "fx": {
+          "renown": 3,
+          "stress": 4,
+          "sk_composure": 1
+        }
+      },
+      {
+        "label": "End it with a fair meet",
+        "journal": [
+          "We agreed to settle it under festival lamps, not in gossip."
+        ],
+        "fx": {
+          "gold": -10,
+          "renown": 2,
+          "spirit": 3
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "team",
+      "rival",
+      "elf",
+      "dwarf"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "team": {
+        "owned": true
+      }
+    }
+  },
+  {
+    "id": "x_ll_guild_multigen_rival",
+    "cat": "work",
+    "ages": [
+      50,
+      200
+    ],
+    "w": 3,
+    "cool": 12,
+    "title": "New Master, Old Map",
+    "prompt": "Your rival hall-master’s successor spreads a familiar district map and smiles with borrowed teeth.",
+    "choices": [
+      {
+        "label": "Keep fair districts",
+        "journal": [
+          "We redrew the lines. Competition stayed polite."
+        ],
+        "fx": {
+          "renown": 2,
+          "karma": 2,
+          "sk_bartering": 2
+        }
+      },
+      {
+        "label": "Undercut the board",
+        "journal": [
+          "I lowered our take. Jobs came. Pride limped — again."
+        ],
+        "fx": {
+          "gold": 20,
+          "renown": 1,
+          "spirit": -2
+        }
+      },
+      {
+        "label": "Leave their boards alone",
+        "journal": [
+          "I refused the game. Our hall kept its own lane."
+        ],
+        "fx": {
+          "stress": -3,
+          "wits": 2
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "guild",
+      "rival",
+      "elf",
+      "dwarf"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "guild": {
+        "owned": true
+      }
+    }
+  },
+  {
+    "id": "x_ll_team_second_crest",
+    "cat": "fame",
+    "ages": [
+      55,
+      220
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Second Crest",
+    "prompt": "A chronicler notes your team’s name has plateaued. The triennial Teams bracket still opens every three years. There is room for a second crest — if you want the noise.",
+    "choices": [
+      {
+        "label": "Chase the crest",
+        "journal": [
+          "We drilled for the big noise again. Stubborn hearts do that."
+        ],
+        "fx": {
+          "stress": 3,
+          "renown": 4,
+          "sk_endurance": 2,
+          "flagset": "team_second_crest"
+        }
+      },
+      {
+        "label": "Stay quiet",
+        "journal": [
+          "I let the plateau be a resting place, not a failure."
+        ],
+        "fx": {
+          "spirit": 3,
+          "stress": -2
+        }
+      },
+      {
+        "label": "Hand the captain a cycle",
+        "journal": [
+          "I gave the writ’s day-to-day to someone younger in the roster."
+        ],
+        "fx": {
+          "renown": 1,
+          "karma": 2,
+          "spirit": 2
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "team",
+      "renown",
+      "elf",
+      "dwarf"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "team": {
+        "owned": true,
+        "minPeakRenown": 50
+      }
+    }
+  },
+  {
+    "id": "x_ll_guild_second_crest",
+    "cat": "work",
+    "ages": [
+      55,
+      220
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Board’s Second Wind",
+    "prompt": "A broker and your senior roster ask whether this hall pushes for another renown crest — or stays the size of a good supper table.",
+    "choices": [
+      {
+        "label": "Push the board",
+        "journal": [
+          "More jobs. Higher fees. Thinner sleep — familiar, even after decades."
+        ],
+        "fx": {
+          "gold": -30,
+          "renown": 4,
+          "stress": 4,
+          "flagset": "guild_second_crest"
+        }
+      },
+      {
+        "label": "Keep the hall small",
+        "journal": [
+          "We stayed modest. The coffer breathed easier."
+        ],
+        "fx": {
+          "stress": -3,
+          "spirit": 2,
+          "karma": 1
+        }
+      },
+      {
+        "label": "Mentor juniors only",
+        "journal": [
+          "I spent the year teaching. Renown came quieter."
+        ],
+        "fx": {
+          "renown": 2,
+          "sk_etiquette": 2,
+          "karma": 2
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "guild",
+      "renown",
+      "elf",
+      "dwarf"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "guild": {
+        "owned": true,
+        "minPeakRenown": 50
+      }
+    }
+  },
+  {
+    "id": "x_ll_team_longlife_heirs",
+    "cat": "legacy",
+    "ages": [
+      90,
+      350
+    ],
+    "w": 4,
+    "cool": 20,
+    "title": "Writ Across Generations",
+    "prompt": "Long years later, another trusted face waits under festival lamps. You've handed this team writ before. The affinity still remembers your first meet.",
+    "choices": [
+      {
+        "label": "Name the next successor",
+        "journal": [
+          "Another generation took the banner. I stayed in the Codex."
+        ],
+        "fx": {
+          "renown": 3,
+          "karma": 3,
+          "spirit": 4,
+          "flagset": "team_handoff_ll",
+          "child": "apprentice"
+        }
+      },
+      {
+        "label": "Keep captaining one more cycle",
+        "journal": [
+          "Stubborn heart. Same writ. One more bracket."
+        ],
+        "fx": {
+          "stress": 2,
+          "renown": 2,
+          "sk_composure": 2
+        }
+      },
+      {
+        "label": "Dissolve with a tea toast",
+        "journal": [
+          "Tea and forge-glow. We ended it well. No wine needed."
+        ],
+        "fx": {
+          "spirit": 5,
+          "stress": -4,
+          "renown": 1,
+          "flagset": "team_dissolved_ll"
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "team",
+      "legacy",
+      "elf",
+      "dwarf"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "team": {
+        "owned": true,
+        "minFoundedYears": 40
+      }
+    }
+  },
+  {
+    "id": "x_ll_guild_century_banquet",
+    "cat": "legacy",
+    "ages": [
+      100,
+      400
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Century Banquet",
+    "prompt": "A hundred years of board work deserves a long table — lamps, bread, and names read aloud. Tea poured. Contracts bound with ribbon for show. The hall already knows.",
+    "choices": [
+      {
+        "label": "Host the banquet",
+        "journal": [
+          "We fed the town that fed us. Renown tasted like bread."
+        ],
+        "fx": {
+          "gold": -40,
+          "renown": 6,
+          "spirit": 6,
+          "karma": 3,
+          "flagset": "guild_century_marked"
+        }
+      },
+      {
+        "label": "Keep it quiet — ledger only",
+        "journal": [
+          "I wrote the century in the Codex and locked the door early."
+        ],
+        "fx": {
+          "renown": 3,
+          "wits": 2,
+          "stress": -2,
+          "codex": "x_guild_century"
+        }
+      },
+      {
+        "label": "Endow charity at the feast",
+        "journal": [
+          "Part of the coffer left with shrine, primer, widows' purse, or healers before dessert."
+        ],
+        "fx": {
+          "gold": -50,
+          "karma": 6,
+          "renown": 4,
+          "spirit": 4
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "guild",
+      "legacy",
+      "elf",
+      "dwarf"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "guild": {
+        "owned": true,
+        "preferMinFoundedYears": 100
+      }
+    }
+  },
+  {
+    "id": "x_ll_guild_quiet_late",
+    "cat": "oldage",
+    "ages": [
+      80,
+      300
+    ],
+    "w": 3,
+    "cool": 10,
+    "title": "Quiet Late Contract",
+    "prompt": "An everyday client — herb-grower, watch post, or caravan — wants a small job. No teeth. No glory. Just supper for your roster.",
+    "choices": [
+      {
+        "label": "Take the quiet job",
+        "journal": [
+          "Ordinary thanks. Ordinary pay. The hall stayed kind."
+        ],
+        "fx": {
+          "gold": 25,
+          "renown": 1,
+          "spirit": 3,
+          "karma": 1
+        }
+      },
+      {
+        "label": "Refuse",
+        "journal": [
+          "I said no. The board looked emptier; sleep looked finer."
+        ],
+        "fx": {
+          "stress": -2
+        }
+      },
+      {
+        "label": "Send a junior only",
+        "journal": [
+          "The youngest kit went. They came back taller somehow."
+        ],
+        "fx": {
+          "gold": 15,
+          "renown": 2,
+          "karma": 2
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "guild",
+      "elf",
+      "dwarf"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "guild": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned",
+          "legacy"
+        ]
+      }
+    }
+  },
+  {
+    "id": "x_ll_team_academy_mark",
+    "cat": "oldage",
+    "ages": [
+      100,
+      400
+    ],
+    "w": 2,
+    "once": true,
+    "title": "Guest Drill Mark",
+    "prompt": "A drill-hall tutor (or Primer elder) asks your long-lived team to guest a lesson — affinity on display for apprentices who were not born when you founded.",
+    "choices": [
+      {
+        "label": "Guest a drill",
+        "journal": [
+          "We taught under open lamps. Young feet found old footing."
+        ],
+        "fx": {
+          "renown": 4,
+          "spirit": 4,
+          "sk_etiquette": 2
+        }
+      },
+      {
+        "label": "Endow a lesson fund",
+        "journal": [
+          "Coin went to the yard. My name stayed off the chalk."
+        ],
+        "fx": {
+          "gold": -35,
+          "karma": 5,
+          "renown": 2
+        }
+      },
+      {
+        "label": "Decline the fuss",
+        "journal": [
+          "I declined. Quiet years are also a craft."
+        ],
+        "fx": {
+          "stress": -3,
+          "wits": 2
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "longlife",
+      "team",
+      "academy",
+      "elf",
+      "dwarf",
+      "spireward",
+      "emberlight"
+    ],
+    "if": {
+      "race": [
+        "elf",
+        "dwarf"
+      ],
+      "team": {
+        "owned": true
+      }
+    }
+  },
+  {
+    "id": "x_cross_team_feeds_guild",
+    "cat": "work",
+    "ages": [
+      18,
+      200
+    ],
+    "w": 3,
+    "cool": 8,
+    "title": "Banner on the Board",
+    "prompt": "A hall broker taps a patronage contract. \"Your team's name opens doors. This job only goes to halls with a meet banner on the wall.\"",
+    "choices": [
+      {
+        "label": "Take the patronage job",
+        "journal": [
+          "Team fame fed the hall board. Coin followed."
+        ],
+        "fx": {
+          "gold": 35,
+          "renown": 3,
+          "flagset": "cross_team_feeds_guild"
+        }
+      },
+      {
+        "label": "Keep the tracks separate",
+        "journal": [
+          "I kept team and hall cleanly apart. Pride enough without the mix."
+        ],
+        "fx": {
+          "stress": -1,
+          "wits": 1
+        }
+      },
+      {
+        "label": "Send a liaison",
+        "journal": [
+          "One person bridged both doors. Useful and exhausting."
+        ],
+        "fx": {
+          "gold": 20,
+          "stress": 3,
+          "renown": 2,
+          "sk_etiquette": 2
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "cross",
+      "team",
+      "guild",
+      "dual"
+    ],
+    "if": {
+      "team": true,
+      "guild": true
+    }
+  },
+  {
+    "id": "x_cross_guild_heals_team",
+    "cat": "health",
+    "ages": [
+      18,
+      200
+    ],
+    "w": 3,
+    "cool": 8,
+    "title": "Hall Healer at the Lawn",
+    "prompt": "Someone from your tournament roster limps. Your hall's healer contact is already at the drill-lawn door with herbs — not smoke, not spirits, just clean work.",
+    "choices": [
+      {
+        "label": "Call the hall healer",
+        "journal": [
+          "Downtime shrank. The coffer noticed. The roster noticed more."
+        ],
+        "fx": {
+          "gold": -15,
+          "health": 8,
+          "spirit": 3,
+          "flagset": "cross_guild_heals_team"
+        }
+      },
+      {
+        "label": "Tough it out",
+        "journal": [
+          "Pride over poultice. The next meet felt longer."
+        ],
+        "fx": {
+          "stress": 4,
+          "sk_endurance": 2
+        }
+      },
+      {
+        "label": "Pay from the team purse",
+        "journal": [
+          "Meet gold became medicine. Fair trade."
+        ],
+        "fx": {
+          "gold": -20,
+          "health": 6,
+          "renown": 1
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "cross",
+      "team",
+      "guild",
+      "dual",
+      "healer"
+    ],
+    "if": {
+      "team": true,
+      "guild": true
+    }
+  },
+  {
+    "id": "x_cross_shared_scouts",
+    "cat": "exploration",
+    "ages": [
+      18,
+      180
+    ],
+    "w": 2,
+    "cool": 10,
+    "title": "Shared Scouts",
+    "prompt": "A scout who watches notice boards also watches meet lists. They offer to work both of your doors — hall and team — for one fee.",
+    "choices": [
+      {
+        "label": "Share scouts across both",
+        "journal": [
+          "One pair of eyes, two ledgers. The year got sharper."
+        ],
+        "fx": {
+          "gold": -12,
+          "renown": 2,
+          "wits": 2,
+          "flagset": "cross_shared_scouts"
+        }
+      },
+      {
+        "label": "Hire separate eyes",
+        "journal": [
+          "I paid twice and slept easier about secrets."
+        ],
+        "fx": {
+          "gold": -24,
+          "stress": -2
+        }
+      },
+      {
+        "label": "Skip",
+        "journal": [
+          "I trusted my own feet. Missed a posting or two."
+        ],
+        "fx": {
+          "stress": 1
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "cross",
+      "dual",
+      "team",
+      "guild"
+    ],
+    "if": {
+      "team": true,
+      "guild": true
+    }
+  },
+  {
+    "id": "x_cross_meetday_contracts",
+    "cat": "special",
+    "ages": [
+      18,
+      180
+    ],
+    "w": 3,
+    "cool": 9,
+    "title": "Meet-Day Dual Desk",
+    "prompt": "Festival lamps are up. A meet clerk and your hall runner collide at the gate — clients want team bouts and hall jobs on the same afternoon.",
+    "choices": [
+      {
+        "label": "Run the dual desk",
+        "journal": [
+          "We stamped meets and contracts until dusk. Twin noise, twin coin."
+        ],
+        "fx": {
+          "gold": 30,
+          "renown": 3,
+          "stress": 4,
+          "flagset": "cross_meetday_contracts"
+        }
+      },
+      {
+        "label": "Meets only today",
+        "journal": [
+          "The lawn got our best. The board waited."
+        ],
+        "fx": {
+          "renown": 2,
+          "gold": 10
+        }
+      },
+      {
+        "label": "Hall board only",
+        "journal": [
+          "Contracts first. The Teams bracket noise went on without us."
+        ],
+        "fx": {
+          "gold": 22,
+          "renown": 1,
+          "karma": 1
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "cross",
+      "dual",
+      "team",
+      "guild",
+      "festival"
+    ],
+    "if": {
+      "team": true,
+      "guild": true
+    }
+  },
+  {
+    "id": "x_cross_hall_sponsors_team",
+    "cat": "money",
+    "ages": [
+      18,
+      200
+    ],
+    "w": 3,
+    "cool": 8,
+    "title": "Hall Sponsors the Team",
+    "prompt": "Your hall coffer could cover meet entry and banners. Your team voice asks whether the hall's name rides the affinity colors.",
+    "choices": [
+      {
+        "label": "Sponsor from the coffer",
+        "journal": [
+          "Hall gold bought lawn dust. The banners matched."
+        ],
+        "fx": {
+          "gold": -20,
+          "renown": 4,
+          "spirit": 3,
+          "flagset": "cross_hall_sponsors_team"
+        }
+      },
+      {
+        "label": "Refuse the mix",
+        "journal": [
+          "Team pays its own way. Hall keeps its books clean."
+        ],
+        "fx": {
+          "wits": 2,
+          "stress": -1
+        }
+      },
+      {
+        "label": "Sponsor one meet only",
+        "journal": [
+          "One purse, one afternoon. Enough link for the year."
+        ],
+        "fx": {
+          "gold": -10,
+          "renown": 2
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "cross",
+      "dual",
+      "team",
+      "guild"
+    ],
+    "if": {
+      "team": true,
+      "guild": true
+    }
+  },
+  {
+    "id": "x_cross_rival_pressure",
+    "cat": "combat",
+    "ages": [
+      20,
+      200
+    ],
+    "w": 2,
+    "cool": 12,
+    "title": "Pressure from Two Doors",
+    "prompt": "A rival captain and a rival hall-master arrive the same week. Not a joint attack — just twin squeezes. Your dual doors suddenly feel like dual targets.",
+    "choices": [
+      {
+        "label": "Face both",
+        "journal": [
+          "I answered the lawn and the board. Sleep lost. Standing held."
+        ],
+        "fx": {
+          "stress": 6,
+          "renown": 4,
+          "sk_composure": 3,
+          "flagset": "cross_rival_doubled"
+        }
+      },
+      {
+        "label": "Buy peace on one side",
+        "journal": [
+          "Coin calmed one rival. The other kept circling."
+        ],
+        "fx": {
+          "gold": -40,
+          "stress": 2,
+          "renown": 1
+        }
+      },
+      {
+        "label": "Drop a track for now",
+        "journal": [
+          "I cooled one ownership for a while. The remaining door breathed."
+        ],
+        "fx": {
+          "stress": -3,
+          "spirit": -2,
+          "karma": 1
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "cross",
+      "dual",
+      "rival",
+      "team",
+      "guild"
+    ],
+    "if": {
+      "team": true,
+      "guild": true
+    }
+  },
+  {
+    "id": "x_cross_twin_banners",
+    "cat": "fame",
+    "ages": [
+      25,
+      200
+    ],
+    "w": 2,
+    "cool": 15,
+    "title": "Twin Banners",
+    "prompt": "A chronicler says both your team and your hall sit at renowned height. Festival lamps, tea toast, bread — the town wants a twin-banner year noted.",
+    "choices": [
+      {
+        "label": "Accept the twin-banner toast",
+        "journal": [
+          "Tea lifted. Lamps glowed. Two names, one stubborn heart."
+        ],
+        "fx": {
+          "renown": 2,
+          "spirit": 5,
+          "flagset": "cross_twin_banners"
+        }
+      },
+      {
+        "label": "Stay quiet in the Codex",
+        "journal": [
+          "I asked for ink, not noise. The Codex nodded."
+        ],
+        "fx": {
+          "renown": 1,
+          "wits": 2,
+          "codex": "x_twin_banners"
+        }
+      }
+    ],
+    "src": "story",
+    "journal_src": "story",
+    "tags": [
+      "cross",
+      "dual",
+      "renown",
+      "team",
+      "guild"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "minRenown": 50
+      },
+      "guild": {
+        "owned": true,
+        "minRenown": 50
+      }
+    }
+  }
+]
