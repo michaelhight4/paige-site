@@ -64,7 +64,7 @@ const LEAD = {
   bonds: 'Faces around the hearth. Party, housemates, and coworkers gain Passive Relationship Growth when temperaments match — Spend time still mends clashes.',
   realms: 'Five realms, one map. Visit places where you stand; travel to open new ground.',
   codex: 'What the world taught you stays — even when the body does not.',
-  bel: 'Gold, relics, workshops, and the notice boards that carry your name. Gear shop still ahead.',
+  bel: 'Gold, relics, workshops, and the notice boards that carry your name. Gear shop: buy, equip, and sell.',
 };
 const HD = {
   life: `${ico('spirit')} Journal`,
@@ -158,7 +158,11 @@ function body() {
     }).join('');
     const crimes = E.lawAvailable(s);
     const lawCard = crimes.length ? card('life', `${ico('strain')} Realm law (shadow)`, `<p class="sub">Quiet choices with loud consequences. Catch risk rises with a record.</p>${crimes.map((c) => `<div class="row"><div><b>${esc(c.name)}</b> <small>severity ${c.severity}</small></div><button data-a="crime" data-v="${c.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Attempt</button></div>`).join('')}`) : '';
-    const prisonCard = s.prison ? card('life', `${ico('strain')} Imprisoned`, `<p class="sub">${esc(E.tierDef(s.prison.tier)?.name || s.prison.tier)} · ${s.prison.left.toFixed(1)} years left. Age +1 advances the sentence.</p>`) : '';
+    const pa = E.prisonActions(s);
+    const prisonCard = s.prison ? `<div class="pack-polish-prison">${card('life', `${ico('strain')} Imprisoned`, `<p class="sub">${esc(E.tierDef(s.prison.tier)?.name || s.prison.tier)} · ${s.prison.left.toFixed(1)} years left · conduct ${pa.conduct}. Age +1 advances the sentence.</p>
+      <div class="row"><div><b>Behave</b> <small>build conduct; parole after half the term</small></div><button data-a="pbehave" ${pa.behave ? '' : 'disabled'}>Behave</button></div>
+      <div class="row"><div><b>Appeal</b> <small>${ico('gold')}${pa.appealCost} · once per sentence${s.prison.appealed ? ' · heard' : ''}</small></div><button data-a="pappeal" ${pa.appeal ? '' : 'disabled'}>Appeal</button></div>
+      <div class="row"><div><b>Escape</b> <small>~${Math.round(pa.escapeOdds * 100)}% base · failure adds years</small></div><button data-a="pescape" ${pa.escape ? '' : 'disabled'}>Escape</button></div>`)}</div>` : '';
     return journal + prisonCard + ailCard + pastCard + actCats + lawCard;
   }
   if (tab === 'work') {
@@ -186,16 +190,20 @@ function body() {
       `${everyday.length ? `<h3>${ico('work')} Everyday work</h3>${boardEveryday}` : ''}${guild.length ? `<h3>${ico('adventure')} Guild &amp; trained tracks</h3>${boardGuild}` : ''}${!opens.length ? '<div class="empty">No openings this year.</div>' : ''}`,
       openOpenings);
     const owned = (s.workshops || []).map((w) => {
-      const t = P.workshops?.types?.[w.type];
-      return `<div class="row"><div><b>${esc(t?.name || w.type)}</b> <small>yr ${w.years} · renown ${Math.round(w.renown)}</small></div></div>`;
+      const t = P.workshops?.types?.[w.type] || {}; const st = w.staff || {}, ups = w.upgrades || [];
+      const staffRows = (t.staffRoles || []).map((r) => `<div class="row"><div><small>${esc(r.name)} ${st[r.id] || 0}/${r.cap} · ${r.wage} gold/yr</small></div><span><button data-a="hire" data-w="${w.id}" data-v="${r.id}" ${(st[r.id] || 0) >= r.cap ? 'disabled' : ''}>Hire</button>${st[r.id] ? `<button data-a="fire" data-w="${w.id}" data-v="${r.id}">Let go</button>` : ''}</span></div>`).join('');
+      const upRows = (t.upgrades || []).map((u) => `<div class="row"><div><small>${esc(u.name)} · ${ico('gold')}${u.cost}</small></div><button data-a="wup" data-w="${w.id}" data-v="${u.id}" ${ups.includes(u.id) || s.gold < u.cost ? 'disabled' : ''}>${ups.includes(u.id) ? 'Built' : 'Build'}</button></div>`).join('');
+      return `<div class="row"><div><b>${esc(t.name || w.type)}</b> <small>yr ${w.years} · renown ${Math.round(w.renown)}</small></div></div>${staffRows ? `<h3>Staff</h3>${staffRows}` : ''}${upRows ? `<h3>Upgrades</h3>${upRows}` : ''}`;
     }).join('') || '<div class="empty">No workshop yet.</div>';
     const buy = E.workshopTypes(s).filter((t) => t.ok || ca >= t.minAge).slice(0, 12).map((t) => `<div class="row"><div><b>${esc(t.name)}</b> <small>${ico('gold')}${t.fee} · age ${t.minAge}+</small><br><small>${flare(t.blurb)}</small></div><button data-a="buybiz" data-v="${t.id}" ${t.ok ? '' : 'disabled'}>${t.ok ? 'Open' : 'Locked'}</button></div>`).join('');
     const bizAcc = acc('workshops', `${ico('gold')} Workshops &amp; stalls <small>${(s.workshops || []).length ? (s.workshops.length + ' owned') : 'start one'}</small>`,
       `${owned}<h3>Open a workshop</h3>${buy || '<div class="empty">None affordable yet.</div>'}`, openSecondary);
     const courtSeat = s.court?.seat ? `<p class="sub">Holding <b>${esc(s.court.name)}</b> · ${Math.ceil(s.court.termLeft)} yr left · tier ${s.court.tier}</p>` : (s.court?.tier ? `<p class="sub">Former officeholder · tier ${s.court.tier} kept.</p>` : '<p class="sub">No seat yet. File when you have age, coin, and renown.</p>');
-    const seats = E.courtOpenings(s).map((x) => `<div class="row"><div><b>${esc(x.name)}</b> <small>tier ${x.tier} · file ${x.filing} gold · age ${x.minAge}+</small></div><button data-a="court" data-v="${x.id}" ${s.budget.act < 1 || s.gold < x.filing ? 'disabled' : ''}>File</button></div>`).join('');
+    const seats = E.courtOpenings(s).map((x) => `<div class="row"><div><b>${esc(x.name)}</b> <small>tier ${x.tier} · file ${x.filing} gold · age ${x.minAge}+</small></div><button data-a="courtpick" data-v="${x.id}" ${s.budget.act < 1 || s.gold < x.filing ? 'disabled' : ''}>Campaign</button></div>`).join('');
+    const cq = courtPick && E.campaignQuestion(s); const cseat = courtPick && (P.court?.slots || []).find((x) => x.id === courtPick);
+    const campaign = cq && cseat ? `<div class="pack-polish-campaign"><h3>${ico('renown')} Campaign for ${esc(cseat.name)}</h3><p class="prompt">${flare(cq.text)}</p><div class="choices">${cq.choices.map((c, i) => `<button data-a="courtans" data-v="${i}">${flare(c.label)}</button>`).join('')}<button data-a="courtpick" data-v="">Withdraw</button></div></div>` : '';
     const courtAcc = acc('court', `${ico('renown')} Court &amp; moot <small>${s.court?.seat ? 'in office' : 'file'}</small>`,
-      `${courtSeat}${seats || '<div class="empty">No seats open for you this year.</div>'}`, openSecondary);
+      `${courtSeat}${campaign}${seats || '<div class="empty">No seats open for you this year.</div>'}`, openSecondary);
     const ment = s.mentor
       ? `<p class="sub">Path: <b>${esc(P.mentors?.paths?.[s.mentor.path]?.name || s.mentor.path)}</b> · role ${esc(s.mentor.role)} · ${s.mentor.years} yrs</p><div class="actions"><button data-a="mdrill" ${s.budget.act < 1 ? 'disabled' : ''}>Mentor drill</button></div>`
       : `<p class="sub">Enroll with a path mentor (sword, spell, craft, hunt).</p><div class="actions">${E.mentorPaths().map((m) => `<button data-a="mentor" data-v="${m.id}" ${s.budget.act < 1 || ca < 10 ? 'disabled' : ''}>${esc(m.name)}</button>`).join('')}</div>`;
@@ -203,7 +211,35 @@ function body() {
     const clubs = E.clubList(s).filter((c) => !(s.clubs || []).includes(c.id)).map((c) => `<button data-a="club" data-v="${c.id}">${esc(c.name)}</button>`).join('');
     const clubCard = (ca >= 9 && ca <= 22) ? acc('circles', `${ico('wits')} Circles &amp; patronage <small>${(s.clubs || []).length || 'join'}</small>`,
       `<p class="sub">Joined: ${(s.clubs || []).map(esc).join(', ') || 'none'}.</p><div class="actions">${clubs || '<span class="sub">No open circles.</span>'}</div>`, false) : '';
-    return cur + openingsAcc + bizAcc + courtAcc + mentAcc + clubCard;
+    // Adventure guild hall (Game Dev balance · World Design venues)
+    let guildBody = '';
+    if (!s.guild) {
+      const gate = E.canFoundGuild(s, s.region);
+      const cost = gate.cost || 150;
+      guildBody = `<p class="sub">Own one hall. Adventurers take jobs for a yearly fee — higher fee means more jobs and stronger hires. Unlock age 18+.</p>
+        <div class="actions"><button data-a="gfound" data-v="${esc(s.region)}" ${gate.ok ? '' : 'disabled'} title="${esc(gate.ok ? '' : (gate.msg || ''))}">Open hall here (${cost}g + 1 act)</button></div>
+        ${gate.ok ? '' : `<p class="sub lock-why">${esc(gate.msg || '')}</p>`}`;
+    } else {
+      const g = s.guild;
+      const fee = ['Low 20', 'Mid 50', 'High 100'][g.feeTier] || 'Mid';
+      const roster = (g.roster || []).map((m) => `<div class="row"><div><b>${esc(m.name)}</b> <small>power ${m.power}${m.injuredUntil > E.cage(s) ? ' · injured' : ''}</small></div>
+        <button data-a="gfire" data-v="${m.id}">Release</button></div>`).join('') || '<div class="empty">No adventurers hired.</div>';
+      const hireTier = E.guildHireTier(s);
+      const hireCost = [30, 55, 90, 140][hireTier];
+      guildBody = `<p class="sub"><b>${esc(E.guildLabel(s))}</b> in ${esc((P.regions.find(r=>r.id===g.realmId)||{}).name || g.realmId)} · renown ${Math.round(g.renown)} · coffer ${Math.floor(g.coffer)} gold · fee <b>${fee}</b>/adv/yr · jobs ok ${g.jobsDone || 0} / fail ${g.jobsFailed || 0}</p>
+        <div class="actions">
+          <button data-a="gfee" data-v="0" ${g.feeTier===0?'disabled':''}>Fee Low</button>
+          <button data-a="gfee" data-v="1" ${g.feeTier===1?'disabled':''}>Fee Mid</button>
+          <button data-a="gfee" data-v="2" ${g.feeTier===2?'disabled':''}>Fee High</button>
+        </div>
+        <h3>${ico('adventure')} Roster (${(g.roster||[]).length}/6)</h3>${roster}
+        <div class="actions"><button data-a="ghire" ${(g.roster||[]).length>=6 || s.gold < hireCost ? 'disabled' : ''}>Hire (${hireCost}g · tier ${hireTier})</button>
+          <button data-a="gwithdraw" ${!(g.coffer>0) || s.budget.act < 1 ? 'disabled' : ''}>Withdraw coffer (1 act)</button>
+          <button data-a="gclose" class="ghost">Close hall</button></div>
+        <p class="sub">Jobs resolve on Age +1. Fees from coffer first, then purse. Halls: Mossbeam / Tidebell / Reedlodge / Quillkey / Cinderhorn.</p>`;
+    }
+    const guildAcc = acc('guild', `${ico('adventure')} Adventure guild hall <small>${s.guild ? E.guildLabel(s) : (ca >= 18 ? 'open one' : 'age 18+')}</small>`, guildBody, !!s.guild || ca >= 18);
+    return cur + openingsAcc + bizAcc + guildAcc + courtAcc + mentAcc + clubCard;
   }
   if (tab === 'adv') {
     const party = E.partyOf(s);
@@ -225,7 +261,46 @@ function body() {
         : (E.cage(s) % 3 === 2
           ? card('adv', `${ico('adventure')} Tournaments`, `<p class="sub">Lists open next year (every 3 human-years). Train now — brackets 1–8 / 8–15 / 16+ (age 8 starts middle).</p>`)
           : ''));
-    return tourneyCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${ca < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
+    // Tournament team (Game Dev balance · World Design meet venues)
+    let teamCard = '';
+    if (ca >= 16 || s.team) {
+      if (!s.team) {
+        const rec = E.teamRecommendedAffinities();
+        const picks = rec.map((id) => {
+          const sk = P.skills.skills.find((x) => x.id === id);
+          const v = s.skills[id] || 0;
+          const ok = v >= 20 && s.gold >= 80 && s.budget.act >= 1;
+          return `<button data-a="tfound" data-v="${id}" ${ok ? '' : 'disabled'}>${esc(sk?.name || id)} (${Math.floor(v)})${v < 20 ? ' · need 20' : ''}</button>`;
+        }).join('');
+        teamCard = card('adv', `${ico('renown')} Tournament team`,
+          `<p class="sub">Found a team around one skill affinity (80 gold + 1 act). Realm meets: Visit Ribbon Green / Saltpier Ring / Stakeline / Crestfall / Sparkfield. Grand <b>Teams</b> bracket every 3 years.</p>
+           <div class="actions">${picks}</div>`);
+      } else {
+        const tm = s.team;
+        const skName = P.skills.skills.find((x) => x.id === tm.affinitySkill)?.name || tm.affinitySkill;
+        const roster = (tm.roster || []).map((m) => `<div class="row"><div><b>${esc(m.name)}</b> <small>${m.isPlayer ? 'captain · ' : ''}power ${Math.floor(m.power)}</small></div>
+          <button data-a="tfire" data-v="${m.id}">${m.isPlayer ? 'Step down' : 'Release'}</button></div>`).join('') || '<div class="empty">Empty roster — hire or captain.</div>';
+        const meetGate = E.canEnterRealmMeet(s);
+        const grandGate = E.canEnterTeamGrand(s);
+        const hasCap = (tm.roster || []).some((m) => m.isPlayer);
+        teamCard = card('adv', `${ico('renown')} Team · ${esc(tm.name)}`,
+          `<p class="sub">Affinity <b>${esc(skName)}</b> · renown ${Math.round(tm.renown)} · power ${Math.round(E.teamPower(s))} · wins realm ${tm.wins?.realm || 0} / grand ${tm.wins?.grand || 0} · roster ${(tm.roster||[]).length}/4</p>
+           ${roster}
+           <div class="actions">
+             <button data-a="thire" ${(tm.roster||[]).length >= 4 || s.gold < 25 ? 'disabled' : ''}>Hire NPC (25g)</button>
+             <button data-a="tcaptain" data-v="${hasCap ? '0' : '1'}" ${(!hasCap && ((s.skills[tm.affinitySkill]||0) < 20 || (tm.roster||[]).length >= 4)) ? 'disabled' : ''}>${hasCap ? 'Leave captain slot' : 'Join as captain'}</button>
+             <button data-a="tdrill" ${s.flags.team_drill_year || s.budget.act < 1 ? 'disabled' : ''}>Team drill (1 act)</button>
+             <button data-a="tdisband" class="ghost">Disband</button>
+           </div>
+           <h3>Realm meets</h3>
+           <p class="sub">${s.flags.meet_venue_ready ? `Lists ready at <b>${esc(String(s.flags.meet_venue_ready))}</b>.` : (s.flags.notice_team_meet ? 'A notice-board invite is waiting.' : 'Visit a Tournament/Arena venue first (or notice invite). Max 2/year.')}</p>
+           <div class="actions"><button data-a="tmeet" ${meetGate.ok ? '' : 'disabled'} title="${esc(meetGate.ok?'':meetGate.msg)}">Enter realm meet (10g + 1 act)</button></div>
+           ${E.isTournamentYear(s) ? `<h3>Grand Teams bracket</h3>
+             <p class="sub">Beside Blade/Spark/craft. Need roster 2+, renown 5+ or a realm win.</p>
+             <div class="actions"><button data-a="tgrand" class="primary" ${grandGate.ok ? '' : 'disabled'} title="${esc(grandGate.ok?'':grandGate.msg)}">Enter Teams (20g + 1 act)</button></div>` : ''}`);
+      }
+    }
+    return tourneyCard + teamCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${ca < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
     ${partyBlock}
     <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`);
   }
@@ -345,11 +420,30 @@ function body() {
       <button data-a="notice" data-v="${b.id}" data-post="boast" ${s.budget.act < 1 || h < (P.notices?.minAge || 10) ? 'disabled' : ''}>Post</button></div>`).join('');
     return card('bel', HD.bel, `${lead('bel')}<p class="gold-line" style="font-size:18px">${ico('gold')}<b>${Math.floor(s.gold)}</b> ${T('currency')}</p>
       <h3>${ico('echo')} Relics</h3>${s.relics.map((r) => `<div class="row">${flare(r.replace(/^relic_/, '').replace(/_/g, ' '))}</div>`).join('') || '<div class="empty">None yet. Relics are found in delves and at graves.</div>'}
+      <h3>${ico('renown')} Tournament team</h3>${s.team
+      ? `<div class="row"><b>${esc(s.team.name)}</b> <small>${esc((P.skills.skills.find(x=>x.id===s.team.affinitySkill)||{}).name || '')} · renown ${Math.round(s.team.renown)} · ${(s.team.roster||[]).length}/4</small></div>`
+      : '<div class="empty">No team — found on Adventure (age 16+).</div>'}
+      <h3>${ico('adventure')} Guild hall</h3>${s.guild
+      ? `<div class="row"><b>${esc(E.guildLabel(s))}</b> <small>${esc((P.regions.find(r=>r.id===s.guild.realmId)||{}).name || '')} · renown ${Math.round(s.guild.renown)} · coffer ${Math.floor(s.guild.coffer)} · ${(s.guild.roster||[]).length}/6</small></div>`
+      : '<div class="empty">No hall — open on Work (age 18+).</div>'}
       <h3>${ico('work')} Workshops</h3>${biz}
       <h3>${ico('codex')} Notice boards</h3><p class="sub">Readers: ${s.notices?.followers || 0} · posts ${s.notices?.posts || 0}</p>${boards || '<div class="empty">No boards yet.</div>'}
-      <p class="sub">Gear shop (weapons, armor, foci, mounts, homes) — still stub.</p>`);
+      ${gearHTML()}`);
   }
   return '';
+}
+function gearHTML() {
+  const acc = (id, title, body, open) => `<details class="work-acc panel-work"${open ? ' open' : ''} data-work-acc="${id}"><summary class="work-acc-hd">${title}</summary><div class="work-acc-body">${body}</div></details>`;
+  const items = E.gearShop(s); if (!items.length) return '<h3>Gear shop</h3><div class="empty">The gear stalls are still setting up.</div>';
+  const gi = (g) => `<img class="gear-ico" src="assets/gear/${g.id}.png" alt="" width="28" height="28" loading="lazy" onerror="this.remove()">`;
+  const bon = (g) => Object.entries(g.bonus || {}).map(([k, v]) => `${esc(k.replace(/_/g, ' '))} +${v}`).join(', ');
+  const owned = items.filter((g) => g.owned).map((g) => `<div class="row"><div>${gi(g)}<b>${esc(g.name)}</b> <small>${g.slot}${g.equipped ? ' · equipped' : ''} · ${bon(g)}</small></div><span><button data-a="gequip" data-v="${g.id}">${g.equipped ? 'Unequip' : 'Equip'}</button><button data-a="gsell" data-v="${g.id}">Sell ${Math.floor(g.price * (P.gear?.sellRate ?? 0.5))}</button></span></div>`).join('');
+  const slots = P.gear?.slots || [...new Set(items.map((g) => g.slot))];
+  const shop = slots.map((sl) => {
+    const rows = items.filter((g) => g.slot === sl && !g.owned).sort((a, b) => a.price - b.price).map((g) => `<div class="row"><div>${gi(g)}<b>${esc(g.name)}</b> <small>${ico('gold')}${g.price} · ${esc(g.realm || '')} · ${bon(g)}</small><br><small>${flare(g.desc || '')}</small></div><button data-a="gbuy" data-v="${g.id}" ${g.lock || s.gold < g.price ? 'disabled' : ''}>${g.lock ? esc(g.lock) : 'Buy'}</button></div>`).join('');
+    return acc('gear_' + sl, `${esc(sl[0].toUpperCase() + sl.slice(1))}s <small>${items.filter((g) => g.slot === sl).length}</small>`, rows || '<div class="empty">All owned.</div>', false);
+  }).join('');
+  return `<h3>${ico('adventure')} Gear</h3>${owned || '<div class="empty">No gear yet.</div>'}<h3>Gear shop</h3>${shop}`;
 }
 function eventSheet() {
   const c = E.pendingCard(s); if (!c) return '';
@@ -397,6 +491,7 @@ function sidePeek() {
     </div>
   </aside>`;
 }
+let courtPick = null;
 function render() {
   if (!s) return fateScreen();
   if (!s.alive) { save(); return deathScreen(); }
@@ -446,10 +541,35 @@ app.addEventListener('click', (ev) => {
   else if (a === 'crime') r = E.commitCrime(s, v);
   else if (a === 'buybiz') r = E.buyWorkshop(s, v);
   else if (a === 'court') r = E.fileForOffice(s, v);
+  else if (a === 'courtpick') { courtPick = v || null; }
+  else if (a === 'courtans') { r = E.fileWithAnswer(s, courtPick, +v); courtPick = null; }
+  else if (a === 'pbehave') r = E.prisonBehave(s);
+  else if (a === 'pappeal') r = E.prisonAppeal(s);
+  else if (a === 'pescape') r = E.prisonEscape(s);
+  else if (a === 'hire') r = E.hireStaff(s, b.dataset.w, v);
+  else if (a === 'fire') r = E.fireStaff(s, b.dataset.w, v);
+  else if (a === 'wup') r = E.buyUpgrade(s, b.dataset.w, v);
+  else if (a === 'gbuy') r = E.buyGear(s, v);
+  else if (a === 'gequip') r = E.equipGear(s, v);
+  else if (a === 'gsell') r = E.sellGear(s, v);
   else if (a === 'mentor') r = E.enrollMentor(s, v);
   else if (a === 'mdrill') r = E.mentorDrill(s);
   else if (a === 'club') r = E.joinClub(s, v);
   else if (a === 'notice') r = E.postNotice(s, v, b.dataset.post || 'boast');
+  else if (a === 'tfound') { r = E.foundTeam(s, (s.last || 'Vale') + ' Circle', v); }
+  else if (a === 'thire') r = E.hireTeamNpc(s);
+  else if (a === 'tfire') r = E.fireTeamNpc(s, v);
+  else if (a === 'tcaptain') r = E.setTeamCaptain(s, v !== '0');
+  else if (a === 'tdrill') r = E.drillTeam(s);
+  else if (a === 'tdisband') r = E.disbandTeam(s);
+  else if (a === 'tmeet') r = E.enterRealmMeet(s);
+  else if (a === 'tgrand') r = E.enterTeamGrand(s);
+  else if (a === 'gfound') r = E.foundGuild(s, v || s.region);
+  else if (a === 'gfee') r = E.setGuildFee(s, +v);
+  else if (a === 'ghire') r = E.hireGuildAdventurer(s);
+  else if (a === 'gfire') r = E.fireGuildAdventurer(s, v);
+  else if (a === 'gwithdraw') r = E.withdrawGuildCoffer(s, s.guild?.coffer || 0);
+  else if (a === 'gclose') r = E.closeGuild(s);
   else if (a === 'music') { unlockMusic(); toggleMute(); return; }
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();
@@ -464,6 +584,7 @@ function startAmbient() {
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
   P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}');
   if (!Q.has('fresh')) try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { s = null; }
+  if (s) { if (s.team === undefined) s.team = null; if (s.guild === undefined) s.guild = null; if (!s.flags) s.flags = {}; }
   startAmbient(); mountInfoClicks(document); mountMusic();
   if (s) render(); else if (!localStorage.getItem(SEEN) && !Q.has('skipintro')) cold(); else fateScreen();
 })();

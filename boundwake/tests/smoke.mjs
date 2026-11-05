@@ -15,6 +15,23 @@ for (let life = 0; life < 120; life++) {
     const sk = E.primarySkills(s)[0] || 'endurance'; E.train(s, sk); E.train(s, sk);
     if (E.canAdventure(s)) E.adventure(s); else E.rest(s);
     if (E.hage(s) > 18 && !E.partnerOf(s)) E.meetSomeone(s, true); const p = E.living(s)[0]; if (p) E.socialize(s, p.id);
+    // Tournament team + guild hall (light coverage once adult)
+    if (E.cage(s) >= 16 && !s.team && (s.skills.swordsmanship || 0) >= 20 && s.gold >= 80 && (s.budget?.act || 0) > 0) {
+      E.foundTeam(s, (s.last || 'Vale') + ' Circle', 'swordsmanship');
+      if (s.team) { E.hireTeamNpc(s); E.setTeamCaptain(s, true); }
+    }
+    if (s.team && E.cage(s) >= 16 && (s.flags.team_meets_count || 0) < 2 && (s.budget?.act || 0) > 0 && s.gold >= 10) {
+      s.flags.meet_venue_ready = s.flags.meet_venue_ready || 'Ribbon Green Lists';
+      E.enterRealmMeet(s);
+    }
+    if (s.team && E.isTournamentYear(s) && !s.flags.tour_team_entered && (s.team.roster||[]).length >= 2 && s.gold >= 20 && (s.budget?.act || 0) > 0) {
+      if ((s.team.renown || 0) < 5) s.team.renown = 5;
+      E.enterTeamGrand(s);
+    }
+    if (E.cage(s) >= 18 && !s.guild && s.gold >= 150 && (s.budget?.act || 0) > 0) {
+      E.foundGuild(s, s.region || 'hearthfold');
+      if (s.guild) { E.setGuildFee(s, 1); E.hireGuildAdventurer(s); }
+    }
     if (!s.pending.length) E.ageUp(s);
   }
   if (s.alive) throw new Error('life did not end: age ' + s.age + ' ' + s.race);

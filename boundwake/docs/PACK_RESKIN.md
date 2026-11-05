@@ -24,10 +24,10 @@
 | `life.json` | *(engine + `slice/terms.json`)* | Adapted | Labels/causes live in terms; dating/people rules in `bw_engine.js`. |
 | `skills.json` | `skills.json` | Done earlier | Fantasy skill tree. |
 | `slice/occupations.json` | `slice/occupations.json` | Done earlier | Fantasy + ordinary jobs. |
-| `slice/assets.json` | — | **Remains** | Belongings shop still stub (weapons/armor/homes). |
+| `slice/assets.json` | `gear.json` | **Wired** | Belongings gear shop (buy/equip/sell). |
 | `slice/terms.json` | `slice/terms.json` | Done earlier | |
-| `studio_data.json` / `prodco.json` | *(planned: `troupes.json`)* | **Remains** | Lean troupe already in workshops (`troupe`); full media-studio loop not ported. |
-| `franchise.json` | — | **Skipped / later** | Modern sports/esports teams → optional realm tourneys later via mentors. |
+| `studio_data.json` / `prodco.json` / `franchise.json` | `docs/TOURNAMENT_TEAMS_AND_GUILDS.md` | **Redesigned** | Gary Nov 5: tournament teams (skill affinity) + adventure guild halls (fee→jobs→renown). Not sports/studio. Not built yet. |
+| `franchise.json` | — | **Superseded** | See tournament teams + guild halls doc (not sports). |
 | `hardware.json` | — | **Skipped** | Consumer electronics N/A. |
 | `ads.json` / `ad_choices.json` / `premium.json` | — | **Skipped** | No store/ads work. |
 | `art_manifest.json` / `art_map.json` / `palettes.json` / `character_layers.json` / `ribbons.json` / `voice.json` | Boundwake assets / ambient / flare | Separate track | Art/UI workers; not this pack pass. |

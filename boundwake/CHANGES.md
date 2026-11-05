@@ -1,3 +1,10 @@
+## Tournament teams + adventure guild halls (Gary Nov 5 ~3:30 PM CT)
+- `bw_engine.js`: team + guild systems per Game Dev balance sheets; Visit hooks on Tournament/Arena/Guild hall kinds; guildYear on Age+1; notice-board team meet invites.
+- `ui.js`: Adventure team panel + Grand Teams; Work guild-hall accordion; Belongings lines; handlers `tfound`/`tmeet`/`tgrand`/`gfound`/…
+- `data_fantasy/regions.json`: World Design venue pins (11) — halls + meet grounds + sw_grand_tiers.
+- `tests/smoke.mjs`: light team/guild exercise; PASS.
+- Docs: balance sheets supersede interim defaults in `TOURNAMENT_TEAMS_AND_GUILDS.md`.
+
 ## Tournaments (Gary Nov 5 ~2:11 PM CT)
 - Every 3 calendar years (age 3,6,9…): Adventure lists Blade / Spark / craft meets by bracket (hage 1–7 / 8–15 / 16+).
 - Entry = 1 action. Placements pay gold + renown; 1st–3rd can invite Boundwake dojos / academies / tutors.

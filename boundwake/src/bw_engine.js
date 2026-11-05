@@ -104,7 +104,8 @@ export function begin(fate, meta = {}, carry = null) {
   const s = { ...fate, age: 0, alive: true, stats: {}, skills: {}, flags: {}, log: [], pending: [], chain: [], evLast: {}, people: [], injuries: [], relics: [], codex: [...(meta.codex || [])],
     job: null, jobHist: [], region: 'hearthfold', regionsFound: [...new Set(['hearthfold', ...(meta.regions || [])])], route: null, school: null, legacy: { gen: 1 }, tally: { events: 0, ailments: 0, crimes: 0 },
     ailments: [], passions: { active: [], mastered: [] }, workshops: [], notices: { followers: 0, lastBoard: null, posts: 0 },
-    court: null, mentor: null, clubs: [], patronage: [], record: { sentences: 0, priors: 0 }, prison: null };
+    court: null, mentor: null, clubs: [], patronage: [], record: { sentences: 0, priors: 0 }, prison: null,
+    team: null, guild: null };
   for (const k of STATS) s.stats[k] = k === 'fame' || k === 'stress' ? 0 : k === 'karma' ? 50 : rint(s, 40, 85);
   for (const k of D.skills.skills) s.skills[k.id] = 0;
   s.gold = { poor: 5, common: 30, comfortable: 120, noble: 600 }[s.wealth] ?? 30; s.familyGold = s.gold * 10;
@@ -425,6 +426,17 @@ export function visitLocation(s, locId) {
     s.stats.happiness = clamp(s.stats.happiness + rint(s, 2, 4), 0, 100);
     msg = `I spent time at ${loc.name}. ${loc.flavor || ''}`.trim();
   }
+  // Tournament meet / guild hall visit hooks (Game Dev venues)
+  {
+    const k = String(loc.kind || '').toLowerCase();
+    if (/tournament|arena|fair/.test(k)) {
+      s.flags.meet_venue_ready = loc.name || loc.id;
+      msg += ` The lists look open — enter a realm meet from Adventure if you lead a team.`;
+    } else if (/guild hall/.test(k)) {
+      if (!s.guild && cage(s) >= 18) msg += ` A hall slot could be claimed from Work.`;
+      else if (s.guild && s.guild.realmId === s.region) msg += ` My guild hall keeps its board nearby.`;
+    }
+  }
   log(s, msg, 'explore');
   return { ok: true, msg };
 }
@@ -596,7 +608,7 @@ function drawEvents(s) {
   if (bias) delete s.flags.visit_bias; // one year of lean, then clear
 }
 export function pendingCard(s) { const id = s.pending[0]; if (!id) return null; const e = evById(id); return { ...e, choices: e.choices.map((c) => ({ ...c, odds: oddsOf(s, c), locked: c.req && s.gold < c.req })) }; }
-function oddsOf(s, c) { if (c.p == null) return null; let p = c.p; const sk = c.skill === 'primary' ? primarySkills(s)[0] : c.skill; if (sk) p += ((s.skills[sk] || 0) - 25) / 120; return clamp(p, 0.08, 0.95); }
+function oddsOf(s, c) { if (c.p == null) return null; let p = c.p; const sk = c.skill === 'primary' ? primarySkills(s)[0] : c.skill; if (sk) p += ((s.skills[sk] || 0) + gearBonus(s, sk) - 25) / 120; return clamp(p, 0.08, 0.95); }
 export function applyFx(s, fx = {}) {
   for (let [k, v] of Object.entries(fx)) {
     k = FX_ALIAS[k] || k;
@@ -793,13 +805,24 @@ export function acceptTournamentInvite(s, orgId) {
   log(s, msg, 'invite'); return { ok: true, msg };
 }
 function refreshTournamentYear(s) {
+  ensureBags(s);
+  // Reset per-calendar-year team counters
+  const ca = cage(s);
+  if (s.flags.team_year_age !== ca) {
+    s.flags.team_year_age = ca;
+    s.flags.team_meets_count = 0;
+    s.flags.team_aff_xp_year = 0;
+    s.flags.team_drill_year = 0;
+    s.flags.tour_team_entered = 0;
+  }
   if (!isTournamentYear(s)) { s.flags.tour_year = 0; return; }
   const a = cage(s);
   if (s.flags.tour_year === a) return;
   s.flags.tour_year = a;
   s.flags.tour_entered = [];
+  s.flags.tour_team_entered = 0;
   const br = tourneyBracket(s);
-  if (br) log(s, `Tournament year — bracket ${br.label}. Blade, spark, and craft meets (brackets 1–8 / 8–15 / 16+) open on Adventure (1 action to enter).`, 'tournament');
+  if (br) log(s, `Tournament year — bracket ${br.label}. Blade, spark, craft, and Teams meets open on Adventure.`, 'tournament');
 }
 
 // ---- year tick ----
@@ -814,6 +837,7 @@ export function ageUp(s) {
   jobYear(s, yrs); peopleYear(s, yrs);
   if (s.prison) prisonYear(s, yrs); else {
     ailmentsYear(s, yrs); workshopsYear(s, yrs); passionsYear(s, yrs); noticesYear(s, yrs); courtYear(s, yrs);
+    guildYear(s, yrs);
   }
   // skill decay (lifesim decay numbers, physicalAfter scaled by lifespan)
   const dc = D.skills.decay, physAfter = (dc.physicalAfter * race(s).lifespan) / 90;
@@ -867,6 +891,541 @@ export function continueAsHeir(meta, s, heirId, seed) {
 }
 
 
+// ---- tournament teams + adventure guild halls (Gary lock + Game Dev balance Nov 5) ----
+// Numbers from docs/TOURNAMENT_TEAMS_BALANCE.md + docs/GUILD_HALLS_BALANCE.md
+const TEAM_RECOMMENDED = ['swordsmanship', 'archery', 'shieldwork', 'spellcraft', 'elementalism', 'smithing', 'alchemy', 'performance', 'bartering', 'tracking'];
+const TEAM_MAX = 4;
+const GUILD_MAX = 6;
+const GUILD_FEE = [20, 50, 100]; // Low/Mid/High per adventurer/year
+const GUILD_JOBS_PER = [1, 2, 3];
+const GUILD_HIRE = [
+  { cost: 30, lo: 15, hi: 35, titles: ['Runner', 'Blade-hand'] },
+  { cost: 55, lo: 30, hi: 50, titles: ['Pathfinder', 'Ward'] },
+  { cost: 90, lo: 45, hi: 70, titles: ['Vault-seeker', 'Hexblade'] },
+  { cost: 140, lo: 60, hi: 90, titles: ['Realmward', 'Ashwalker'] },
+];
+const GUILD_REALM_COST = { hearthfold: 150, glassmarket: 220, thornreed: 180, spireward: 260, emberlight: 300 };
+const GUILD_REALM_MULT = { hearthfold: 1.0, glassmarket: 1.1, thornreed: 1.15, spireward: 1.2, emberlight: 1.25 };
+const REALM_MEET_TIER = { hearthfold: 1.0, glassmarket: 1.1, thornreed: 1.15, spireward: 1.2, emberlight: 1.25 };
+
+export function ensureTeamGuild(s) {
+  if (s.team === undefined) s.team = null;
+  if (s.guild === undefined) s.guild = null;
+  if (!s.flags) s.flags = {};
+  if (s.flags.team_meets_year == null) s.flags.team_meets_year = 0;
+  if (s.flags.team_meets_count == null) s.flags.team_meets_count = 0;
+  if (s.flags.team_aff_xp_year == null) s.flags.team_aff_xp_year = 0;
+  if (s.flags.team_drill_year == null) s.flags.team_drill_year = 0;
+  if (!s.flags.team_history) s.flags.team_history = [];
+  if (!s.flags.guild_rehire_block) s.flags.guild_rehire_block = {};
+}
+
+function softRenown(cur, gain) {
+  let g = gain;
+  if (cur >= 80) g *= 0.5;
+  return clamp(cur + g, 0, 100);
+}
+
+function memberPower(m, team) {
+  const bonus = Math.min(10, Math.floor((team.renown || 0) / 3));
+  return clamp((m.power || 0) + (m.isPlayer ? 0 : bonus), 5, 95);
+}
+
+export function teamPower(s) {
+  ensureTeamGuild(s);
+  const t = s.team; if (!t || !t.roster?.length) return 0;
+  const powers = t.roster.map((m) => memberPower(m, t));
+  const avg = powers.reduce((a, b) => a + b, 0) / powers.length;
+  const mx = Math.max(...powers);
+  return avg + 0.15 * mx + Math.floor((t.renown || 0) / 20);
+}
+
+export function teamRecommendedAffinities() { return TEAM_RECOMMENDED.slice(); }
+
+export function canFoundTeam(s) {
+  ensureTeamGuild(s);
+  if (s.team) return { ok: false, msg: 'You already lead a team.' };
+  if (cage(s) < 16) return { ok: false, msg: 'Teams unlock at age 16.' };
+  return { ok: true };
+}
+
+export function foundTeam(s, name, skillId) {
+  ensureTeamGuild(s);
+  const gate = canFoundTeam(s); if (!gate.ok) return gate;
+  const sk = D.skillById[skillId]; if (!sk) return { ok: false, msg: 'Unknown skill affinity.' };
+  if ((s.skills[skillId] || 0) < 20) return { ok: false, msg: `Need ${sk.name} 20+ to found on that affinity.` };
+  if (s.gold < 80) return { ok: false, msg: 'Need 80 gold to found a team.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= 80;
+  const nm = String(name || '').trim().slice(0, 28) || `${s.last} Circle`;
+  s.team = {
+    name: nm, affinitySkill: skillId, foundedYear: cage(s),
+    roster: [], renown: 0, wins: { realm: 0, grand: 0 }, history: [],
+    renames: 0,
+  };
+  const msg = `I founded tournament team "${nm}" — affinity: ${sk.name}.`;
+  log(s, msg, 'team'); return { ok: true, msg };
+}
+
+export function renameTeam(s, name) {
+  ensureTeamGuild(s);
+  if (!s.team) return { ok: false, msg: 'No team.' };
+  const nm = String(name || '').trim().slice(0, 28); if (!nm) return { ok: false, msg: 'Need a name.' };
+  if (s.team.renames > 0) {
+    if (s.gold < 15) return { ok: false, msg: 'Rename costs 15 gold after the first.' };
+    s.gold -= 15;
+  }
+  s.team.renames = (s.team.renames || 0) + 1;
+  s.team.name = nm;
+  const msg = `The team now rides as "${nm}".`; log(s, msg, 'team'); return { ok: true, msg };
+}
+
+export function disbandTeam(s) {
+  ensureTeamGuild(s);
+  if (!s.team) return { ok: false, msg: 'No team.' };
+  const snap = { name: s.team.name, affinitySkill: s.team.affinitySkill, wins: { ...s.team.wins }, history: [...(s.team.history || [])], foundedYear: s.team.foundedYear };
+  s.flags.team_history.push(snap);
+  discover(s, 'team_' + snap.name.toLowerCase().replace(/\s+/g, '_'));
+  const msg = `I disbanded ${snap.name}. Wins stay in the Codex.`;
+  s.team = null;
+  log(s, msg, 'team'); return { ok: true, msg };
+}
+
+export function hireTeamNpc(s) {
+  ensureTeamGuild(s);
+  if (!s.team) return { ok: false, msg: 'Found a team first.' };
+  if (s.team.roster.length >= TEAM_MAX) return { ok: false, msg: 'Roster full (4).' };
+  if (s.gold < 25) return { ok: false, msg: 'Hire costs 25 gold.' };
+  s.gold -= 25;
+  const aff = s.team.affinitySkill;
+  const base = s.skills[aff] || 20;
+  const power = clamp(base + rint(s, -10, 10), 5, 95);
+  const sex = chance(s, 0.5) ? 'm' : 'f';
+  const m = { id: 'tm' + (s.tid = (s.tid || 0) + 1), name: pick(s, NAMES[sex]), power, hired: cage(s), isPlayer: false };
+  s.team.roster.push(m);
+  const msg = `I hired ${m.name} for the team (power ${power}).`; log(s, msg, 'team'); return { ok: true, msg, member: m };
+}
+
+export function fireTeamNpc(s, mid) {
+  ensureTeamGuild(s);
+  if (!s.team) return { ok: false, msg: 'No team.' };
+  const i = s.team.roster.findIndex((m) => m.id === mid);
+  if (i < 0) return { ok: false, msg: 'Not on roster.' };
+  const m = s.team.roster[i];
+  s.team.roster.splice(i, 1);
+  const msg = m.isPlayer ? `I stepped down as captain.` : `I released ${m.name} from the roster.`;
+  log(s, msg, 'team'); return { ok: true, msg };
+}
+
+export function setTeamCaptain(s, on) {
+  ensureTeamGuild(s);
+  if (!s.team) return { ok: false, msg: 'No team.' };
+  const aff = s.team.affinitySkill;
+  const existing = s.team.roster.find((m) => m.isPlayer);
+  if (!on) {
+    if (!existing) return { ok: false, msg: 'You are not on the roster.' };
+    return fireTeamNpc(s, existing.id);
+  }
+  if (existing) return { ok: false, msg: 'You are already captain.' };
+  if ((s.skills[aff] || 0) < 20) return { ok: false, msg: 'Need affinity skill 20+ to captain.' };
+  if (s.team.roster.length >= TEAM_MAX) return { ok: false, msg: 'Roster full (4).' };
+  const m = { id: 'tm_player', name: s.first, power: Math.floor(s.skills[aff] || 0), hired: cage(s), isPlayer: true };
+  s.team.roster.push(m);
+  const msg = `I joined ${s.team.name} as captain.`; log(s, msg, 'team'); return { ok: true, msg };
+}
+
+function addAffinityXp(s, amt) {
+  ensureTeamGuild(s);
+  if (!s.team || amt <= 0) return 0;
+  const yearCap = 12;
+  const used = s.flags.team_aff_xp_year || 0;
+  const room = Math.max(0, yearCap - used);
+  const give = Math.min(amt, room);
+  if (give <= 0) return 0;
+  const sk = s.team.affinitySkill;
+  s.skills[sk] = Math.min(100, (s.skills[sk] || 0) + give);
+  s.flags.team_aff_xp_year = used + give;
+  useSkill(s, sk, 0.01); // mark used so decay skips lightly
+  return give;
+}
+
+function resetTeamYearFlags(s) {
+  const a = cage(s);
+  if (s.flags.team_year_age !== a) {
+    s.flags.team_year_age = a;
+    s.flags.team_meets_count = 0;
+    s.flags.team_aff_xp_year = 0;
+    s.flags.team_drill_year = 0;
+    s.flags.tour_team_entered = 0;
+  }
+}
+
+export function isMeetVenue(loc) {
+  const k = String(loc?.kind || '').toLowerCase();
+  return /tournament|arena|fair/.test(k);
+}
+
+export function canEnterRealmMeet(s) {
+  ensureTeamGuild(s); resetTeamYearFlags(s);
+  if (!s.team) return { ok: false, msg: 'Found a tournament team first.' };
+  if (s.team.roster.length < 1) return { ok: false, msg: 'Need at least one on the roster.' };
+  if ((s.flags.team_meets_count || 0) >= 2) return { ok: false, msg: 'Already entered 2 realm meets this year.' };
+  if (!s.flags.meet_venue_ready && !s.flags.notice_team_meet)
+    return { ok: false, msg: 'Visit a Tournament/Arena lists venue first, or accept a notice-board meet invite.' };
+  if (s.gold < 10) return { ok: false, msg: 'Entry costs 10 gold.' };
+  if ((s.budget?.act ?? 0) < 1) return { ok: false, msg: 'No activity left this year.' };
+  return { ok: true };
+}
+
+function resolveTeamMatch(s, fieldPower) {
+  const tp = teamPower(s);
+  // sync player captain power
+  const cap = s.team.roster.find((m) => m.isPlayer);
+  if (cap) cap.power = Math.floor(s.skills[s.team.affinitySkill] || 0);
+  let wins = 0;
+  for (let i = 0; i < 3; i++) {
+    const opp = fieldPower + rint(s, -6, 6);
+    if (tp + rint(s, -5, 8) >= opp) wins++;
+  }
+  // place by wins: 3→1, 2→2, 1→3, 0→4
+  return wins >= 3 ? 1 : wins === 2 ? 2 : wins === 1 ? 3 : 4;
+}
+
+export function enterRealmMeet(s, venueName) {
+  ensureTeamGuild(s); resetTeamYearFlags(s);
+  const gate = canEnterRealmMeet(s); if (!gate.ok) return gate;
+  const venue = venueName || s.flags.meet_venue_ready || 'a realm meet';
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= 10;
+  s.flags.team_meets_count = (s.flags.team_meets_count || 0) + 1;
+  s.flags.meet_venue_ready = 0;
+  s.flags.notice_team_meet = 0;
+  const tier = REALM_MEET_TIER[s.region] || 1;
+  const field = (18 + cage(s) * 0.4 + rint(s, 0, 15)) * tier;
+  const place = resolveTeamMatch(s, field);
+  const pay = { 1: { g: 40, r: 5, xp: 3 }, 2: { g: 25, r: 3, xp: 2 }, 3: { g: 15, r: 2, xp: 1 } }[place] || { g: 0, r: 0, xp: 0 };
+  s.gold += pay.g;
+  s.team.renown = softRenown(s.team.renown, pay.r);
+  const xp = addAffinityXp(s, pay.xp);
+  if (place === 1) s.team.wins.realm = (s.team.wins.realm || 0) + 1;
+  let msg = `${s.team.name} entered ${venue}. Place: ${place}.`;
+  if (pay.g) msg += ` Purse ${pay.g} gold, team renown +${pay.r}.`;
+  if (xp) msg += ` Affinity +${xp}.`;
+  if (place === 1 && chance(s, 0.15) && s.team.roster.length < TEAM_MAX) {
+    msg += ' A hopeful asked to join — hire from the team board.';
+    s.flags.team_recruit_hook = 1;
+  }
+  s.team.history.push({ y: cage(s), kind: 'realm', place, venue: venueName || s.region });
+  log(s, msg, 'team'); return { ok: true, msg, place, gold: pay.g };
+}
+
+export function canEnterTeamGrand(s) {
+  ensureTeamGuild(s); resetTeamYearFlags(s);
+  if (!isTournamentYear(s)) return { ok: false, msg: 'Grand Teams bracket opens every 3 years.' };
+  if (!s.team) return { ok: false, msg: 'Found a tournament team first.' };
+  if (s.team.roster.length < 2) return { ok: false, msg: 'Need roster of 2+.' };
+  if ((s.team.renown || 0) < 5 && !(s.team.wins?.realm > 0)) return { ok: false, msg: 'Need team renown 5+ or a realm win.' };
+  if (s.flags.tour_team_entered) return { ok: false, msg: 'Already entered Teams this tournament year.' };
+  if (s.gold < 20) return { ok: false, msg: 'Entry costs 20 gold.' };
+  if ((s.budget?.act ?? 0) < 1) return { ok: false, msg: 'No activity left this year.' };
+  return { ok: true };
+}
+
+export function enterTeamGrand(s) {
+  ensureTeamGuild(s); resetTeamYearFlags(s);
+  const gate = canEnterTeamGrand(s); if (!gate.ok) return gate;
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= 20;
+  s.flags.tour_team_entered = 1;
+  const tier = REALM_MEET_TIER[s.region] || 1;
+  const field = (30 + cage(s) * 0.5 + rint(s, 0, 20)) * tier;
+  // 7 AI opponents approximated as 3 matches vs scaled field → place 1–8
+  const place = (() => {
+    const tp = teamPower(s);
+    let score = 0;
+    for (let i = 0; i < 3; i++) {
+      const opp = field * (0.85 + i * 0.12) + rint(s, -5, 5);
+      if (tp + rint(s, -4, 10) >= opp) score++;
+    }
+    if (score === 3) return chance(s, 0.55) ? 1 : 2;
+    if (score === 2) return chance(s, 0.5) ? 2 : 3;
+    if (score === 1) return 4 + rint(s, 0, 2);
+    return 6 + rint(s, 0, 2);
+  })();
+  const table = {
+    1: { g: 120, r: 12, xp: 8, hook: 0.4 },
+    2: { g: 70, r: 7, xp: 5, hook: 0.2 },
+    3: { g: 40, r: 4, xp: 3, hook: 0.1 },
+  };
+  const pay = table[place] || { g: 10, r: 1, xp: 1, hook: 0 };
+  s.gold += pay.g;
+  s.team.renown = softRenown(s.team.renown, pay.r);
+  const xp = addAffinityXp(s, pay.xp);
+  if (place === 1) s.team.wins.grand = (s.team.wins.grand || 0) + 1;
+  let msg = `${s.team.name} entered the Grand Teams bracket. Place: ${place}.`;
+  msg += ` Purse ${pay.g} gold, team renown +${pay.r}.`;
+  if (xp) msg += ` Affinity +${xp}.`;
+  if (pay.hook && chance(s, pay.hook) && s.team.roster.length < TEAM_MAX) {
+    s.flags.team_recruit_hook = 1;
+    msg += ' A strong recruit took notice.';
+  }
+  s.team.history.push({ y: cage(s), kind: 'grand', place });
+  log(s, msg, 'team'); return { ok: true, msg, place, gold: pay.g };
+}
+
+export function drillTeam(s) {
+  ensureTeamGuild(s); resetTeamYearFlags(s);
+  if (!s.team) return { ok: false, msg: 'No team.' };
+  if (s.flags.team_drill_year) return { ok: false, msg: 'Already drilled this year.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.flags.team_drill_year = 1;
+  const xp = addAffinityXp(s, 1);
+  const msg = `The team drilled forms. Affinity +${xp}.`;
+  log(s, msg, 'team'); return { ok: true, msg };
+}
+
+export function acceptTeamMeetInvite(s) {
+  ensureTeamGuild(s);
+  if (!s.flags.notice_team_meet) return { ok: false, msg: 'No meet invite waiting.' };
+  s.flags.notice_team_meet = 0;
+  return enterRealmMeet(s, 'a posted realm meet');
+}
+
+// ---- adventure guild halls ----
+export function guildHireTier(s) {
+  ensureTeamGuild(s);
+  const r = s.guild?.renown || 0;
+  if (r >= 75) return 3;
+  if (r >= 50) return 2;
+  if (r >= 25) return 1;
+  return 0;
+}
+
+export function guildLabel(s) {
+  const t = guildHireTier(s);
+  return ['Local hall', 'Known hall', 'Renowned hall', 'Famed hall'][t] || 'Local hall';
+}
+
+export function canFoundGuild(s, realmId) {
+  ensureTeamGuild(s);
+  if (s.guild) return { ok: false, msg: 'You already own a guild hall (one per life in v1).' };
+  if (cage(s) < 18) return { ok: false, msg: 'Guild halls unlock at age 18.' };
+  const rid = realmId || s.region;
+  const cost = GUILD_REALM_COST[rid]; if (cost == null) return { ok: false, msg: 'Unknown realm.' };
+  if (rid === 'glassmarket' && (s.stats.fame || 0) < 10 && (s.skills.bartering || 0) < 25)
+    return { ok: false, msg: 'Glassmarket needs renown 10+ or Bartering 25.' };
+  if (rid === 'spireward' && (s.stats.fame || 0) < 25 && (s.skills.etiquette || 0) < 30)
+    return { ok: false, msg: 'Spireward needs renown 25+ or Etiquette 30.' };
+  if (rid === 'emberlight' && (s.stats.fame || 0) < 40)
+    return { ok: false, msg: 'Emberlight needs renown 40+.' };
+  if (s.gold < cost) return { ok: false, msg: `Need ${cost} gold.` };
+  if ((s.budget?.act ?? 0) < 1) return { ok: false, msg: 'No activity left this year.' };
+  return { ok: true, cost, realmId: rid };
+}
+
+export function foundGuild(s, realmId) {
+  ensureTeamGuild(s);
+  const gate = canFoundGuild(s, realmId); if (!gate.ok) return gate;
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= gate.cost;
+  s.guild = {
+    realmId: gate.realmId, foundedYear: cage(s), renown: 0, coffer: 0,
+    feeTier: 1, roster: [], jobsDone: 0, jobsFailed: 0,
+  };
+  const reg = regionById(gate.realmId);
+  const msg = `I opened an adventure guild hall in ${reg?.name || gate.realmId} (${gate.cost} gold).`;
+  log(s, msg, 'guild'); return { ok: true, msg };
+}
+
+export function setGuildFee(s, tier) {
+  ensureTeamGuild(s);
+  if (!s.guild) return { ok: false, msg: 'No guild hall.' };
+  const t = clamp(+tier | 0, 0, 2);
+  s.guild.feeTier = t;
+  const label = ['Low', 'Mid', 'High'][t];
+  const msg = `Guild fee set to ${label} (${GUILD_FEE[t]} gold per adventurer / year).`;
+  log(s, msg, 'guild'); return { ok: true, msg };
+}
+
+export function hireGuildAdventurer(s) {
+  ensureTeamGuild(s);
+  if (!s.guild) return { ok: false, msg: 'Open a guild hall first.' };
+  if (s.guild.roster.length >= GUILD_MAX) return { ok: false, msg: 'Roster full (6).' };
+  const tier = guildHireTier(s);
+  const pool = GUILD_HIRE[tier];
+  // block rehires
+  const blocked = s.flags.guild_rehire_block || {};
+  if (s.gold < pool.cost) return { ok: false, msg: `Hire costs ${pool.cost} gold.` };
+  s.gold -= pool.cost;
+  const sex = chance(s, 0.5) ? 'm' : 'f';
+  const title = pick(s, pool.titles);
+  const m = {
+    id: 'ga' + (s.gid = (s.gid || 0) + 1),
+    name: `${pick(s, NAMES[sex])} the ${title}`,
+    tier, power: rint(s, pool.lo, pool.hi), wagePaid: 0, injuredUntil: 0, jobsOk: 0,
+  };
+  s.guild.roster.push(m);
+  const msg = `I hired ${m.name} (power ${m.power}, pool tier ${tier}) for ${pool.cost} gold.`;
+  log(s, msg, 'guild'); return { ok: true, msg, member: m };
+}
+
+export function fireGuildAdventurer(s, mid) {
+  ensureTeamGuild(s);
+  if (!s.guild) return { ok: false, msg: 'No guild hall.' };
+  const i = s.guild.roster.findIndex((m) => m.id === mid);
+  if (i < 0) return { ok: false, msg: 'Not on roster.' };
+  const m = s.guild.roster[i];
+  s.guild.roster.splice(i, 1);
+  s.flags.guild_rehire_block[m.id] = cage(s) + 2;
+  const msg = `I released ${m.name} from the hall.`; log(s, msg, 'guild'); return { ok: true, msg };
+}
+
+export function withdrawGuildCoffer(s, amount) {
+  ensureTeamGuild(s);
+  if (!s.guild) return { ok: false, msg: 'No guild hall.' };
+  const amt = Math.min(Math.floor(amount || s.guild.coffer), s.guild.coffer);
+  if (amt <= 0) return { ok: false, msg: 'Coffer is empty.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'Withdraw costs 1 action.' };
+  s.guild.coffer -= amt; s.gold += amt;
+  const msg = `I withdrew ${amt} gold from the hall coffer.`; log(s, msg, 'guild'); return { ok: true, msg };
+}
+
+export function depositGuildCoffer(s, amount) {
+  ensureTeamGuild(s);
+  if (!s.guild) return { ok: false, msg: 'No guild hall.' };
+  const amt = Math.min(Math.floor(amount || 0), Math.floor(s.gold));
+  if (amt <= 0) return { ok: false, msg: 'Nothing to deposit.' };
+  s.gold -= amt; s.guild.coffer += amt;
+  const msg = `I deposited ${amt} gold into the hall coffer.`; log(s, msg, 'guild'); return { ok: true, msg };
+}
+
+export function closeGuild(s) {
+  ensureTeamGuild(s);
+  if (!s.guild) return { ok: false, msg: 'No guild hall.' };
+  s.gold += Math.floor(s.guild.coffer || 0);
+  const msg = `I closed the guild hall. Coffer returned to purse.`;
+  s.guild = null;
+  log(s, msg, 'guild'); return { ok: true, msg };
+}
+
+export function relocateGuild(s, realmId) {
+  ensureTeamGuild(s);
+  if (!s.guild) return { ok: false, msg: 'No guild hall.' };
+  const costFull = GUILD_REALM_COST[realmId]; if (costFull == null) return { ok: false, msg: 'Unknown realm.' };
+  if (realmId === s.guild.realmId) return { ok: false, msg: 'Already there.' };
+  // check realm gates using fame/skills without the "already own" check
+  const fake = { ...s, guild: null };
+  const gate = canFoundGuild(fake, realmId);
+  // canFoundGuild fails on existing — we nulled it on fake; still need age
+  if (cage(s) < 18) return { ok: false, msg: 'Too young.' };
+  if (realmId === 'glassmarket' && (s.stats.fame || 0) < 10 && (s.skills.bartering || 0) < 25)
+    return { ok: false, msg: 'Glassmarket needs renown 10+ or Bartering 25.' };
+  if (realmId === 'spireward' && (s.stats.fame || 0) < 25 && (s.skills.etiquette || 0) < 30)
+    return { ok: false, msg: 'Spireward needs renown 25+ or Etiquette 30.' };
+  if (realmId === 'emberlight' && (s.stats.fame || 0) < 40)
+    return { ok: false, msg: 'Emberlight needs renown 40+.' };
+  const cost = Math.round(costFull * 0.6);
+  if (s.gold < cost) return { ok: false, msg: `Relocate costs ${cost} gold.` };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= cost;
+  s.guild.realmId = realmId;
+  if (s.guild.roster.length) {
+    const drop = s.guild.roster.pop();
+    const msg = `Hall relocated to ${regionById(realmId)?.name || realmId} (${cost} gold). ${drop.name} left rather than move.`;
+    log(s, msg, 'guild'); return { ok: true, msg };
+  }
+  const msg = `Hall relocated to ${regionById(realmId)?.name || realmId} (${cost} gold).`;
+  log(s, msg, 'guild'); return { ok: true, msg };
+}
+
+export function guildYear(s, yrs = 1) {
+  ensureTeamGuild(s);
+  resetTeamYearFlags(s);
+  if (!s.guild || !s.guild.roster.length) return;
+  const g = s.guild;
+  const feeEach = GUILD_FEE[g.feeTier] || 20;
+  const jobsEach = GUILD_JOBS_PER[g.feeTier] || 1;
+  // pay fees
+  let paidMembers = [];
+  for (const m of g.roster) {
+    if ((m.injuredUntil || 0) > cage(s)) continue;
+    let need = feeEach * yrs;
+    let fromCoffer = Math.min(g.coffer, need);
+    g.coffer -= fromCoffer; need -= fromCoffer;
+    if (need > 0) {
+      if (s.gold >= need) { s.gold -= need; need = 0; }
+    }
+    if (need > 0) {
+      // unpaid
+      if (chance(s, 0.25)) {
+        m._quit = true;
+        log(s, `${m.name} left the hall after unpaid fees.`, 'guild');
+      }
+      continue;
+    }
+    m.wagePaid = (m.wagePaid || 0) + feeEach;
+    paidMembers.push(m);
+  }
+  g.roster = g.roster.filter((m) => !m._quit);
+  if (!paidMembers.length) {
+    log(s, 'No guild jobs this year — fees unpaid or roster empty.', 'guild');
+    return;
+  }
+  const rosterSize = paidMembers.length;
+  const boardCap = 3 + g.feeTier * 2 + Math.floor((g.renown || 0) / 20);
+  const memberCap = rosterSize * jobsEach;
+  let jobsThisYear = Math.min(memberCap, boardCap);
+  const mult = GUILD_REALM_MULT[g.realmId] || 1;
+  let success = 0, fail = 0, gained = 0;
+  // assign power-weighted
+  const bag = [...paidMembers];
+  for (let j = 0; j < jobsThisYear; j++) {
+    if (!bag.length) break;
+    bag.sort((a, b) => b.power - a.power);
+    const m = bag[j % bag.length];
+    let chanceOk = clamp(0.45 + m.power / 200 + g.feeTier * 0.05 + (g.renown || 0) / 200, 0.25, 0.92);
+    let base = rint(s, 15, 60) * (1 + (g.renown || 0) / 100) * mult;
+    if (g.realmId === 'thornreed') { chanceOk -= 0.05; base *= 1.15; }
+    if (g.realmId === 'emberlight') base *= 1.25;
+    if (chance(s, chanceOk)) {
+      const pay = Math.floor(base);
+      g.coffer += pay; gained += pay; success++;
+      g.jobsDone = (g.jobsDone || 0) + 1;
+      g.renown = softRenown(g.renown, rint(s, 1, 4));
+      m.jobsOk = (m.jobsOk || 0) + 1;
+      if (m.jobsOk % 5 === 0) m.power = Math.min(95, m.power + 1);
+    } else {
+      fail++; g.jobsFailed = (g.jobsFailed || 0) + 1;
+      g.renown = Math.max(0, (g.renown || 0) - 1);
+      if (chance(s, 0.1)) {
+        m.injuredUntil = cage(s) + 1;
+        log(s, `${m.name} was hurt on a job — out for a year.`, 'guild');
+      }
+    }
+  }
+  const feePaid = paidMembers.length * feeEach * yrs;
+  const net = gained - feePaid;
+  let msg = `Guild year: ${success} jobs done, ${fail} failed. Coffer +${gained} gold (fees ${feePaid}). Renown ${Math.round(g.renown)}.`;
+  if (net < 0) msg += ' Fees outpaced the board — lean year.';
+  log(s, msg, 'guild');
+}
+
+export function teamGuildVisitHook(s, loc) {
+  // returns optional follow-up action hint; visitLocation already spent the act
+  ensureTeamGuild(s);
+  const kind = String(loc?.kind || '').toLowerCase();
+  if (isMeetVenue(loc) && s.team) {
+    s.flags.meet_venue_ready = loc.name || loc.id;
+    return ` Lists are open at ${loc.name} — enter a realm meet from Adventure (10 gold + 1 act; visit already counted as scout).`;
+  }
+  if (/guild hall/.test(kind)) {
+    if (!s.guild && cage(s) >= 18) return ` A hall slot could be yours — open a guild hall from Work (Belongings).`;
+    if (s.guild && s.guild.realmId === s.region) return ` Your hall keeps its board here.`;
+  }
+  return '';
+}
+
+
 // ============================================================
 // Pack systems (Lifeline shapes → Boundwake fantasy). Data in data_fantasy/.
 // ============================================================
@@ -880,6 +1439,11 @@ function ensureBags(s) {
   if (!s.clubs) s.clubs = [];
   if (!s.patronage) s.patronage = [];
   if (!s.tally) s.tally = { events: 0 };
+  if (s.team === undefined) s.team = null;
+  if (s.guild === undefined) s.guild = null;
+  if (!s.flags) s.flags = {};
+  if (!s.flags.team_history) s.flags.team_history = [];
+  if (!s.flags.guild_rehire_block) s.flags.guild_rehire_block = {};
 }
 
 // ---- ailments (diseases.json → ailments.json) ----
@@ -975,7 +1539,7 @@ function arrest(s, id) {
   if (cage(s) < 18) tier = 'youth_hold';
   else if (c.severity >= 5 || years > 10) tier = 'deepkeep';
   else if (years > (tierDef('stockade')?.maxSentence || 2)) tier = 'stonehold';
-  s.prison = { crime: id, total: years, left: years, tier, served: 0 };
+  s.prison = { crime: id, total: years, left: years, tier, served: 0, conduct: 0, appealed: false };
   s.record.sentences++; s.flags.criminal = 1; s.flags.in_prison = 1;
   if (s.job) quitJob(s);
   s.pending = [];
@@ -1076,9 +1640,10 @@ function workshopsYear(s, yrs) {
   for (const w of s.workshops) {
     const t = D.workshops.types[w.type]; if (!t) continue;
     w.years += yrs;
-    const demand = t.baseDemand * (0.7 + w.renown / 100) * yrs / 12; // scale yearly
-    const revenue = Math.round(demand * t.ticket * (1 - t.cogs));
-    const rent = Math.round(t.rent * yrs / 12);
+    const m = workshopMods(w, t);
+    const demand = t.baseDemand * m.demand * m.cap ** 0.5 * (0.7 + w.renown / 100) * yrs / 12; // scale yearly
+    const revenue = Math.round(demand * t.ticket * m.ticket * (1 - t.cogs));
+    const rent = Math.round(t.rent * yrs / 12) + Math.round(m.wages * yrs);
     const profit = revenue - rent;
     s.gold = Math.max(0, s.gold + profit);
     w.renown = clamp(w.renown + rint(s, -2, 3), 0, 100);
@@ -1113,6 +1678,10 @@ export function postNotice(s, boardId, postId) {
   if (patron && s.notices.followers > 30 && chance(s, 0.12) && cage(s) >= patron.minAge) {
     const pay = rint(s, patron.pay[0], patron.pay[1]); s.gold += pay;
     log(s, `${patron.name} slipped me ${pay} gold after my notice.`, 'notice');
+  }
+  if (s.team && chance(s, 0.18)) {
+    s.flags.notice_team_meet = 1;
+    log(s, 'A notice invited my team to a realm meet — answer it on Adventure.', 'team');
   }
   const msg = `I posted "${post.name}" on ${board.name}. (+${gain} readers)`; log(s, msg, 'notice'); return { ok: true, msg };
 }
@@ -1212,4 +1781,126 @@ export function doActivity(s, actId, choiceIdx = 0) {
     for (const d of s.ailments) if (!d.dx) { d.dx = true; }
   }
   const msg = outcome.text || ch.label; log(s, msg, 'activity'); return { ok: true, msg };
+}
+
+
+// ---- gear shop (Game Dev data_fantasy/gear.json; docs/GEAR_SHOP.md) ----
+export function gearItems() { return Array.isArray(D.gear?.items) ? D.gear.items : []; }
+export const gearDef = (id) => gearItems().find((g) => g.id === id);
+function ensureGear(s) { if (!s.gear) s.gear = { owned: [], equipped: {} }; if (!s.gear.equipped) s.gear.equipped = {}; return s.gear; }
+export function gearBonus(s, sk) {
+  if (!s.gear?.equipped) return 0; let b = 0;
+  for (const id of Object.values(s.gear.equipped)) { const g = id && gearDef(id); if (g?.bonus?.[sk]) b += g.bonus[sk]; }
+  return b;
+}
+export function gearLockReason(s, g) {
+  if (cage(s) < (g.minAge || 0)) return `Age ${g.minAge}+`;
+  if ((s.stats.fame || 0) < (g.minRenown || 0)) return `Renown ${g.minRenown}+`;
+  if (g.realm && g.realm !== 'hearthfold' && !(s.regionsFound || []).includes(g.realm)) return 'Realm not found';
+  if (s.prison) return 'Imprisoned';
+  return null;
+}
+export function gearShop(s) {
+  const gr = ensureGear(s);
+  return gearItems().map((g) => ({ ...g, owned: gr.owned.includes(g.id), equipped: gr.equipped[g.slot] === g.id, lock: gearLockReason(s, g) }));
+}
+export function buyGear(s, id) {
+  const g = gearDef(id); if (!g) return { ok: false, msg: 'Unknown item.' };
+  const gr = ensureGear(s); if (gr.owned.includes(id)) return { ok: false, msg: 'Already owned.' };
+  const lr = gearLockReason(s, g); if (lr) return { ok: false, msg: lr };
+  if (s.gold < g.price) return { ok: false, msg: 'Not enough gold.' };
+  s.gold -= g.price; gr.owned.push(id); if (!gr.equipped[g.slot]) gr.equipped[g.slot] = id;
+  const msg = `I bought a ${g.name} (${g.price} gold).`; log(s, msg, 'gear'); return { ok: true, msg };
+}
+export function equipGear(s, id) {
+  const g = gearDef(id), gr = ensureGear(s); if (!g || !gr.owned.includes(id)) return { ok: false, msg: 'Not owned.' };
+  if (gr.equipped[g.slot] === id) { delete gr.equipped[g.slot]; return { ok: true, msg: `Unequipped ${g.name}.` }; }
+  gr.equipped[g.slot] = id; return { ok: true, msg: `Equipped ${g.name}.` };
+}
+export function sellGear(s, id) {
+  const g = gearDef(id), gr = ensureGear(s); if (!g || !gr.owned.includes(id)) return { ok: false, msg: 'Not owned.' };
+  const pay = Math.floor(g.price * (D.gear?.sellRate ?? 0.5));
+  gr.owned = gr.owned.filter((x) => x !== id); if (gr.equipped[g.slot] === id) delete gr.equipped[g.slot];
+  s.gold += pay; const msg = `Sold ${g.name} for ${pay} gold.`; log(s, msg, 'gear'); return { ok: true, msg };
+}
+
+// ---- prison actions (law.json rules) ----
+export function prisonActions(s) {
+  if (!s.prison) return null; const R = D.law?.rules || {}, t = tierDef(s.prison.tier) || {};
+  const escOk = s.prison.tier !== 'youth_hold' || true;
+  return { behave: s.budget.act > 0, appeal: !s.prison.appealed && s.gold >= (R.appealCost || 80) && s.budget.act > 0, appealCost: R.appealCost || 80,
+    escape: s.budget.act > 0 && escOk, escapeOdds: t.escape || 0.1, conduct: s.prison.conduct || 0 };
+}
+function release(s, why) { const pr = s.prison; s.prison = null; delete s.flags.in_prison; s.record.priors++; log(s, why, 'crime'); return pr; }
+export function prisonBehave(s) {
+  if (!s.prison) return { ok: false, msg: 'Not imprisoned.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const pr = s.prison; pr.conduct = (pr.conduct || 0) + 1; s.stats.karma = clamp(s.stats.karma + 1, 0, 100); s.stats.stress = clamp(s.stats.stress - 3, 0, 100);
+  const pf = D.law?.rules?.paroleFraction ?? 0.5;
+  if (pr.total < (D.law?.rules?.lifeSentence || 99) && pr.served >= pr.total * pf && pr.conduct >= 2 && chance(s, 0.5)) {
+    release(s, 'The warden granted parole for steady conduct.'); return { ok: true, msg: 'Paroled for good behavior!' };
+  }
+  const msg = 'I kept my head down and did my work. The guards noticed.'; log(s, msg, 'crime'); return { ok: true, msg };
+}
+export function prisonAppeal(s) {
+  if (!s.prison) return { ok: false, msg: 'Not imprisoned.' };
+  const R = D.law?.rules || {}, cost = R.appealCost || 80;
+  if (s.prison.appealed) return { ok: false, msg: 'Appeal already heard.' };
+  if (s.gold < cost) return { ok: false, msg: 'Not enough gold for an advocate.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= cost; s.prison.appealed = true;
+  const p = clamp((R.appealChance || 0.25) + (s.skills.etiquette || 0) / 400 + (s.prison.conduct || 0) * 0.03, 0.05, 0.6);
+  if (chance(s, p)) { release(s, 'My appeal was upheld. The magistrate struck the sentence.'); return { ok: true, msg: 'Appeal won — released!' }; }
+  s.prison.left = Math.max(0.25, s.prison.left * 0.9);
+  const msg = 'The appeal failed, though the magistrate trimmed a little time.'; log(s, msg, 'crime'); return { ok: false, msg };
+}
+export function prisonEscape(s) {
+  if (!s.prison) return { ok: false, msg: 'Not imprisoned.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const R = D.law?.rules || {}, t = tierDef(s.prison.tier) || {};
+  const p = clamp((t.escape || 0.1) + ((s.skills.stealth || 0) + gearBonus(s, 'stealth')) / 500, 0.02, 0.5);
+  if (chance(s, p)) { release(s, `I slipped out of ${t.name || 'the cell'} under a moonless sky.`); s.flags.fugitive = 1; s.stats.stress = clamp(s.stats.stress + 10, 0, 100); return { ok: true, msg: 'Escaped!' }; }
+  s.prison.left += R.escapeAddYears || 2; s.prison.total += R.escapeAddYears || 2; s.prison.conduct = 0;
+  s.stats.health = clamp(s.stats.health - 5, 0, 100);
+  const msg = `Caught at the wall. +${R.escapeAddYears || 2} years.`; log(s, msg, 'crime'); return { ok: false, msg };
+}
+
+// ---- court campaign questions (court.json questions/platforms) ----
+export function campaignQuestion(s) {
+  const qs = D.court?.questions || []; if (!qs.length) return null;
+  return qs[Math.floor(s.age * 7 + (s.court?.tier || 0)) % qs.length];
+}
+export function fileWithAnswer(s, seatId, qi) {
+  const q = campaignQuestion(s), c = q?.choices?.[qi];
+  const pre = s.stats.fame;
+  if (c) { applyFx(s, c.fx || {}); log(s, `On the stump I answered: "${c.label}".`, 'court'); }
+  const r = fileForOffice(s, seatId);
+  if (c && r.ok === false && r.msg && /Too young|Need a higher|afford|No activity|Unknown/.test(r.msg)) s.stats.fame = pre;
+  return r;
+}
+
+// ---- workshop staff + upgrades (workshops.json equip/staffRoles/upgrades) ----
+export function workshopDetail(s, w) { const t = D.workshops?.types?.[w.type] || {}; return { t, staff: w.staff || {}, upgrades: w.upgrades || [] }; }
+export function hireStaff(s, wid, roleId) {
+  const w = (s.workshops || []).find((x) => x.id === wid); const t = w && D.workshops?.types?.[w.type]; if (!t) return { ok: false, msg: 'Unknown workshop.' };
+  const r = (t.staffRoles || []).find((x) => x.id === roleId); if (!r) return { ok: false, msg: 'Unknown role.' };
+  w.staff = w.staff || {}; if ((w.staff[roleId] || 0) >= (r.cap || 1)) return { ok: false, msg: 'Fully staffed.' };
+  w.staff[roleId] = (w.staff[roleId] || 0) + 1; const msg = `Hired a ${r.name} (${r.wage} gold/yr).`; log(s, msg, 'biz'); return { ok: true, msg };
+}
+export function fireStaff(s, wid, roleId) {
+  const w = (s.workshops || []).find((x) => x.id === wid); if (!w?.staff?.[roleId]) return { ok: false, msg: 'No one to let go.' };
+  w.staff[roleId]--; return { ok: true, msg: 'Let one go.' };
+}
+export function buyUpgrade(s, wid, upId) {
+  const w = (s.workshops || []).find((x) => x.id === wid); const t = w && D.workshops?.types?.[w.type]; if (!t) return { ok: false, msg: 'Unknown workshop.' };
+  const u = (t.upgrades || []).find((x) => x.id === upId); if (!u) return { ok: false, msg: 'Unknown upgrade.' };
+  w.upgrades = w.upgrades || []; if (w.upgrades.includes(upId)) return { ok: false, msg: 'Already built.' };
+  if (s.gold < u.cost) return { ok: false, msg: 'Not enough gold.' };
+  s.gold -= u.cost; w.upgrades.push(upId); const msg = `Added ${u.name} to my ${t.name}.`; log(s, msg, 'biz'); return { ok: true, msg };
+}
+function workshopMods(w, t) {
+  let demand = 1, ticket = 1, cap = 1, wages = 0, staffN = 0;
+  for (const id of w.upgrades || []) { const u = (t.upgrades || []).find((x) => x.id === id); if (!u) continue; demand *= u.demand || 1; ticket *= u.ticket || 1; cap *= u.cap || 1; }
+  for (const [rid, n] of Object.entries(w.staff || {})) { const r = (t.staffRoles || []).find((x) => x.id === rid); if (r) { wages += r.wage * n; staffN += n; } }
+  return { demand: demand * (1 + 0.12 * staffN), ticket, cap, wages };
 }

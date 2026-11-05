@@ -1,3 +1,19 @@
+## Pack wiring + gear shop (Coder, Nov 5 ~3:25 PM CT)
+- **Gear shop live in Belongings:** reads Game Dev `data_fantasy/gear.json` (30 items; weapon/armor/trinket/tool). Buy (auto-equips empty slot), Equip/Unequip, Sell @ sellRate 0.5. Gates: cage minAge, renown(fame) minRenown, realm found (hearthfold always). Equipped bonuses add to skill-check odds. State `s.gear {owned, equipped}` in bw.* save. Icons `assets/gear/<id>.png` optional (onerror hides).
+- **Prison UI (card `.pack-polish-prison`):** Behave (conduct → parole after half term), Appeal (law.rules appealCost/appealChance, once per sentence), Escape (tier odds + stealth; fail adds escapeAddYears).
+- **Court campaign:** Campaign → court.json question → answer fx → filing resolves.
+- **Workshop staff/upgrades:** hire/let go per staffRoles (wage/yr, +12% demand each), build upgrades (demand/ticket/cap mods) in yearly P&L.
+- **Hooks:** `events_expansion.json` merged if present (dedupe by id, empty-safe); `gear.json` optional; `assets/css/pack_polish.css` linked.
+- Remains: patronage apply flow; Story Bot events_expansion pending (events now 89 base + 36 passion = 125).
+
+## Tournament teams + guild halls (Gary Nov 5 ~3:30 PM CT)
+- Engine: `team` / `guild` save fields (migrate-safe). Numbers from `docs/TOURNAMENT_TEAMS_BALANCE.md` + `docs/GUILD_HALLS_BALANCE.md`.
+- Teams: found (80g+1act, affinity skill 20+, cage 16+), hire/captain/fire, realm meets via Visit Tournament/Arena venues (World Design ids) or notice invite (max 2/yr), Grand **Teams** bracket every 3 years, drill, disband→Codex history.
+- Guild halls: found in current realm (cage 18+, realm costs/gates), fee Low/Mid/High, hire tiers by renown, yearly batch jobs on Age+1 → journal + coffer/renown.
+- UI: Adventure team card + Teams entry; Work accordion for guild hall; Belongings summaries.
+- Venues: use World Design pins in `regions.json` (hf_ribbon_green, gm_pier_ring, … halls Mossbeam/Tidebell/Reedlodge/Quillkey/Cinderhorn, sw_grand_tiers).
+- Smoke: `node tests/smoke.mjs` PASS (extended lightly).
+
 ## Calendar-age gates (Gary playtest Brynn dwarf, Nov 5 ~2:34 PM CT)
 Player age gates use cage=floor(age): adventure 10+, jobs, travel 14+, tournaments every 3 calendar years, path/styles. hage kept for longevity/portrait/death. Work Locked shows why. Age button anim off. PRG journal throttled.
 
@@ -65,7 +81,8 @@ Pack map: `docs/PACK_RESKIN.md`.
 
 
 ## Stubs / gaps
-- Events ~125 vs Lifeline ~203 (more prose later). Gear shop stub. Workshop staff/upgrade UI summary-level. Court campaign questions auto-resolve. Patronage grants data-ready, apply UI thin. Prison behave/appeal/escape not in UI yet. Full troupe/studio loop not ported.
+- Events ~125 vs Lifeline ~203 (more prose later). Gear shop stub. Workshop staff/upgrade UI summary-level. Court campaign questions auto-resolve. Patronage grants data-ready, apply UI thin. Prison behave/appeal/escape not in UI yet.
+- **Tournament teams + adventure guilds** (Gary Nov 5 ~3:18 PM CT; Game Dev balance sheets) — **SHIPPED** this pass. See CHANGES.
 - Sprite grid incomplete; fonts not vendored.
 - Not done on purpose: no PWA, Capacitor/iOS, public listing.
 

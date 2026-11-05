@@ -51,6 +51,18 @@
     "name": "Low Watchpost",
     "kind": "Civic",
     "flavor": "A timber tower with a brass bell; apprentices learn who to trust after dark."
+   },
+   {
+    "id": "hf_mossbeam_hall",
+    "name": "Mossbeam Guild Hall",
+    "kind": "Guild hall",
+    "flavor": "An old grain barn with a job board nailed to every post; the first fee is always a bargain."
+   },
+   {
+    "id": "hf_ribbon_green",
+    "name": "Ribbon Green Lists",
+    "kind": "Tournament field",
+    "flavor": "Rope rings on a mown meadow; families picnic on the slope and cheer the wrong team."
    }
   ],
   "feel": "Starting green lowlands; home villages, ponds, stone bridges"
@@ -101,6 +113,18 @@
     "name": "Saltbreeze Healer Post",
     "kind": "Healer",
     "flavor": "Clean linen, bitter tonics, and a queue that never quite empties."
+   },
+   {
+    "id": "gm_tidebell_hall",
+    "name": "Tidebell Guild Hall",
+    "kind": "Guild hall",
+    "flavor": "A harbor warehouse with a brass bell rung for every finished job; brokers bid on crews."
+   },
+   {
+    "id": "gm_pier_ring",
+    "name": "Saltpier Ring",
+    "kind": "Arena (pier)",
+    "flavor": "A planked ring at the end of the long pier; losers sometimes go in the water."
    }
   ],
   "feel": "Trade city, stalls, harbor lamps, negotiators"
@@ -145,6 +169,18 @@
     "name": "Ashen Gate (ruin)",
     "kind": "Sparse dungeon",
     "flavor": "One sealed arch with cold breath behind it — endgame-curious events only."
+   },
+   {
+    "id": "tr_reedlodge_hall",
+    "name": "Reedlodge Guild Hall",
+    "kind": "Guild hall",
+    "flavor": "Stilted longhouse over the marsh edge; trackers carve finished jobs into the rafters."
+   },
+   {
+    "id": "tr_stakeline_meet",
+    "name": "Stakeline Clearing",
+    "kind": "Tournament clearing",
+    "flavor": "A trampled clearing ringed by marked stakes; meets end before the reeds go dark."
    }
   ],
   "feel": "Brush paths, standing stones, foraging camps"
@@ -189,6 +225,24 @@
     "name": "Archive Steps",
     "kind": "Landmark",
     "flavor": "Wide stairs to sealed stacks; Codex discoveries often start here."
+   },
+   {
+    "id": "sw_quillkey_hall",
+    "name": "Quillkey Guild Hall",
+    "kind": "Guild hall",
+    "flavor": "A narrow stone house of map tables and sealed job scrolls; scholars hire crews for relic errands."
+   },
+   {
+    "id": "sw_crest_terrace",
+    "name": "Crestfall Terrace",
+    "kind": "Tournament terrace",
+    "flavor": "Tiered lawns below the Collegium; rune posts mark lanes and score in chalk light."
+   },
+   {
+    "id": "sw_grand_tiers",
+    "name": "The Grand Tiers",
+    "kind": "Tournament grounds",
+    "flavor": "DRAFT — unlocks only on tournament years (every third year). The terraces fill with banners from all five realms; brackets run from dawn bell to lamp-lighting."
    }
   ],
   "feel": "Academies, lecture yards, statue gardens"
@@ -239,6 +293,18 @@
     "name": "Deep Vault Threshold",
     "kind": "Sparse dungeon",
     "flavor": "Second and last ruin pin — relic rumors, not a cave crawl loop."
+   },
+   {
+    "id": "em_cinderhorn_hall",
+    "name": "Cinderhorn Guild Hall",
+    "kind": "Guild hall",
+    "flavor": "Timber-and-iron hall by the escort gate; a horn sounds when crews ride out."
+   },
+   {
+    "id": "em_sparkfield_arena",
+    "name": "Sparkfield Arena",
+    "kind": "Arena",
+    "flavor": "Packed-earth ring behind the forges; spark showers mark each round."
    }
   ],
   "feel": "Frontier forts, forge towns, rare ruin gates"

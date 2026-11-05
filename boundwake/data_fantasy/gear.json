@@ -1,0 +1,433 @@
+{
+  "version": 1,
+  "currency": "gold",
+  "sellRate": 0.5,
+  "slots": [
+    "weapon",
+    "armor",
+    "trinket",
+    "tool"
+  ],
+  "notes": "Equip one per slot. Bonuses add to skills.json ids while equipped. Sold at gear shops in realmId (Visit / Belongings). Gates: minAge (cage) and minRenown (player renown/fame; draft uses same 0\u2013100 soft renown as guild/team).",
+  "items": [
+    {
+      "id": "gear_ash_staff",
+      "name": "Ashwood Practice Staff",
+      "slot": "weapon",
+      "price": 8,
+      "realm": "hearthfold",
+      "minAge": 8,
+      "minRenown": 0,
+      "bonus": {
+        "swordsmanship": 1,
+        "unarmed": 1
+      },
+      "desc": "Light drill staff for Primers and dojos."
+    },
+    {
+      "id": "gear_hunting_knife",
+      "name": "Hunting Knife",
+      "slot": "weapon",
+      "price": 18,
+      "realm": "hearthfold",
+      "minAge": 12,
+      "minRenown": 0,
+      "bonus": {
+        "tracking": 2,
+        "foraging": 1
+      },
+      "desc": "Single-edged; skinning and camp work."
+    },
+    {
+      "id": "gear_vale_shortsword",
+      "name": "Vale Short Sword",
+      "slot": "weapon",
+      "price": 45,
+      "realm": "hearthfold",
+      "minAge": 14,
+      "minRenown": 0,
+      "bonus": {
+        "swordsmanship": 3
+      },
+      "desc": "Village-forged, honest steel."
+    },
+    {
+      "id": "gear_reed_longbow",
+      "name": "Thornreed Longbow",
+      "slot": "weapon",
+      "price": 60,
+      "realm": "thornreed",
+      "minAge": 14,
+      "minRenown": 0,
+      "bonus": {
+        "archery": 4,
+        "tracking": 1
+      },
+      "desc": "Reed-wrapped grip; quiet draw."
+    },
+    {
+      "id": "gear_glass_focus",
+      "name": "Glass Spell Focus",
+      "slot": "weapon",
+      "price": 90,
+      "realm": "glassmarket",
+      "minAge": 12,
+      "minRenown": 0,
+      "bonus": {
+        "spellcraft": 4,
+        "mana_control": 2
+      },
+      "desc": "Palm prism that steadies the weave."
+    },
+    {
+      "id": "gear_spire_longsword",
+      "name": "Spireward Longsword",
+      "slot": "weapon",
+      "price": 160,
+      "realm": "spireward",
+      "minAge": 16,
+      "minRenown": 5,
+      "bonus": {
+        "swordsmanship": 5,
+        "strength": 1
+      },
+      "desc": "Balanced for long duels and drills."
+    },
+    {
+      "id": "gear_ember_blade",
+      "name": "Emberlight Blade",
+      "slot": "weapon",
+      "price": 420,
+      "realm": "emberlight",
+      "minAge": 20,
+      "minRenown": 25,
+      "bonus": {
+        "swordsmanship": 7,
+        "spellcraft": 2
+      },
+      "desc": "Warm to the touch even in frost."
+    },
+    {
+      "id": "gear_bulwark_mace",
+      "name": "Watch Mace",
+      "slot": "weapon",
+      "price": 55,
+      "realm": "hearthfold",
+      "minAge": 15,
+      "minRenown": 0,
+      "bonus": {
+        "shieldwork": 2,
+        "swordsmanship": 2
+      },
+      "desc": "Short haft; issued at Low Watch."
+    },
+    {
+      "id": "gear_padded_jerkin",
+      "name": "Padded Jerkin",
+      "slot": "armor",
+      "price": 20,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "minRenown": 0,
+      "bonus": {
+        "endurance": 2
+      },
+      "desc": "Quilted linen for farm and drill."
+    },
+    {
+      "id": "gear_leather_coat",
+      "name": "Trail Leather",
+      "slot": "armor",
+      "price": 48,
+      "realm": "thornreed",
+      "minAge": 12,
+      "minRenown": 0,
+      "bonus": {
+        "agility": 2,
+        "endurance": 2
+      },
+      "desc": "Oiled hide; quiet on reed paths."
+    },
+    {
+      "id": "gear_mail_shirt",
+      "name": "Ring Mail Shirt",
+      "slot": "armor",
+      "price": 110,
+      "realm": "glassmarket",
+      "minAge": 16,
+      "minRenown": 5,
+      "bonus": {
+        "endurance": 4,
+        "shieldwork": 1
+      },
+      "desc": "Coast-forged rings over padding."
+    },
+    {
+      "id": "gear_watch_cuirass",
+      "name": "Watch Cuirass",
+      "slot": "armor",
+      "price": 140,
+      "realm": "hearthfold",
+      "minAge": 16,
+      "minRenown": 10,
+      "bonus": {
+        "endurance": 4,
+        "composure": 2
+      },
+      "desc": "Stamped with the Low Watch crest."
+    },
+    {
+      "id": "gear_collegium_robe",
+      "name": "Collegium Robe",
+      "slot": "armor",
+      "price": 85,
+      "realm": "spireward",
+      "minAge": 12,
+      "minRenown": 0,
+      "bonus": {
+        "spellcraft": 2,
+        "focus": 3
+      },
+      "desc": "Layered cloth with ink-ward thread."
+    },
+    {
+      "id": "gear_banneret_plate",
+      "name": "Banneret Half-Plate",
+      "slot": "armor",
+      "price": 280,
+      "realm": "spireward",
+      "minAge": 18,
+      "minRenown": 20,
+      "bonus": {
+        "endurance": 6,
+        "etiquette": 1
+      },
+      "desc": "Parade-fit; still battle-worthy."
+    },
+    {
+      "id": "gear_ashwalker_harness",
+      "name": "Ashwalker Harness",
+      "slot": "armor",
+      "price": 350,
+      "realm": "emberlight",
+      "minAge": 20,
+      "minRenown": 40,
+      "bonus": {
+        "endurance": 5,
+        "agility": 3,
+        "tracking": 2
+      },
+      "desc": "Frontier kit for heat and ash."
+    },
+    {
+      "id": "gear_scale_vest",
+      "name": "Envoy Scale Vest",
+      "slot": "armor",
+      "price": 175,
+      "realm": "glassmarket",
+      "minAge": 16,
+      "minRenown": 15,
+      "bonus": {
+        "bartering": 2,
+        "endurance": 3
+      },
+      "desc": "Polished scales; oath-friendly."
+    },
+    {
+      "id": "gear_hearth_charm",
+      "name": "Hearthkeeper Charm",
+      "slot": "trinket",
+      "price": 12,
+      "realm": "hearthfold",
+      "minAge": 6,
+      "minRenown": 0,
+      "bonus": {
+        "composure": 2
+      },
+      "desc": "Wooden token from the statue ribbons."
+    },
+    {
+      "id": "gear_tide_lens",
+      "name": "Tidepool Lens",
+      "slot": "trinket",
+      "price": 35,
+      "realm": "glassmarket",
+      "minAge": 10,
+      "minRenown": 0,
+      "bonus": {
+        "lore": 2,
+        "focus": 1
+      },
+      "desc": "Salt-glass loupe for ledgers and stars."
+    },
+    {
+      "id": "gear_reed_whistle",
+      "name": "Reedpath Whistle",
+      "slot": "trinket",
+      "price": 22,
+      "realm": "thornreed",
+      "minAge": 8,
+      "minRenown": 0,
+      "bonus": {
+        "husbandry": 2,
+        "tracking": 1
+      },
+      "desc": "Calls dogs \u2014 and sometimes worse."
+    },
+    {
+      "id": "gear_lantern_brooch",
+      "name": "Lantern Brooch",
+      "slot": "trinket",
+      "price": 70,
+      "realm": "glassmarket",
+      "minAge": 14,
+      "minRenown": 5,
+      "bonus": {
+        "charm": 3,
+        "etiquette": 1
+      },
+      "desc": "Teal enamel; opens some quay doors."
+    },
+    {
+      "id": "gear_codex_pendant",
+      "name": "Codex Pendant",
+      "slot": "trinket",
+      "price": 95,
+      "realm": "spireward",
+      "minAge": 12,
+      "minRenown": 10,
+      "bonus": {
+        "lore": 4,
+        "literacy": 2
+      },
+      "desc": "Marks a serious reader at the archives."
+    },
+    {
+      "id": "gear_ward_ring",
+      "name": "Simple Ward Ring",
+      "slot": "trinket",
+      "price": 130,
+      "realm": "spireward",
+      "minAge": 16,
+      "minRenown": 15,
+      "bonus": {
+        "warding": 4,
+        "mana_control": 2
+      },
+      "desc": "Thin silver; buzzes near bad seals."
+    },
+    {
+      "id": "gear_ember_sigil",
+      "name": "Ember Sigil",
+      "slot": "trinket",
+      "price": 200,
+      "realm": "emberlight",
+      "minAge": 18,
+      "minRenown": 30,
+      "bonus": {
+        "elementalism": 4,
+        "composure": 2
+      },
+      "desc": "Brand of frontier oath-keepers."
+    },
+    {
+      "id": "gear_herb_kit",
+      "name": "Herbalist Kit",
+      "slot": "tool",
+      "price": 25,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "minRenown": 0,
+      "bonus": {
+        "alchemy": 3,
+        "foraging": 2
+      },
+      "desc": "Knives, pouches, drying twine."
+    },
+    {
+      "id": "gear_smith_hammer",
+      "name": "Journeyman Hammer",
+      "slot": "tool",
+      "price": 40,
+      "realm": "hearthfold",
+      "minAge": 10,
+      "minRenown": 0,
+      "bonus": {
+        "smithing": 4,
+        "strength": 1
+      },
+      "desc": "Balanced peen; apprentice-legal."
+    },
+    {
+      "id": "gear_lock_picks",
+      "name": "Scout Pick Set",
+      "slot": "tool",
+      "price": 55,
+      "realm": "thornreed",
+      "minAge": 14,
+      "minRenown": 0,
+      "bonus": {
+        "stealth": 4,
+        "agility": 1
+      },
+      "desc": "Quiet steel; Watch frowns."
+    },
+    {
+      "id": "gear_ledger_case",
+      "name": "Ledger Case",
+      "slot": "tool",
+      "price": 50,
+      "realm": "glassmarket",
+      "minAge": 12,
+      "minRenown": 0,
+      "bonus": {
+        "bartering": 3,
+        "literacy": 2
+      },
+      "desc": "Wax seals and blank writs."
+    },
+    {
+      "id": "gear_lute",
+      "name": "Travel Lute",
+      "slot": "tool",
+      "price": 65,
+      "realm": "glassmarket",
+      "minAge": 10,
+      "minRenown": 0,
+      "bonus": {
+        "performance": 4,
+        "charm": 1
+      },
+      "desc": "Coast gut strings; inn-ready."
+    },
+    {
+      "id": "gear_enchant_kit",
+      "name": "Rune Stitch Kit",
+      "slot": "tool",
+      "price": 120,
+      "realm": "spireward",
+      "minAge": 16,
+      "minRenown": 10,
+      "bonus": {
+        "enchanting": 4,
+        "spellcraft": 1
+      },
+      "desc": "Needles, silver thread, chalk."
+    },
+    {
+      "id": "gear_field_surgery",
+      "name": "Field Surgery Roll",
+      "slot": "tool",
+      "price": 80,
+      "realm": "emberlight",
+      "minAge": 14,
+      "minRenown": 5,
+      "bonus": {
+        "mending": 3,
+        "alchemy": 2,
+        "composure": 1
+      },
+      "desc": "Clean linen and bitter tonics."
+    }
+  ]
+}
