@@ -41,9 +41,10 @@ export function gateHTML(reason) {
     not_admin: 'This build is admin-only. Your account isn’t on the admin list.',
     check_failed: 'Couldn’t verify admin access. Check your connection and try again.',
   }[reason] || 'Admin access required.';
-  return `<div class="gate card panel-gate"><p class="eyebrow">Boundwake · admin play</p>
+  return `<div class="card panel-gate"><div class="card-hd">Boundwake · admin play</div><div class="card-body">
+    <p class="eyebrow">Admin only</p>
     <h1>Admin play only</h1>
     <p class="sub">${msg}</p>
     <p><a class="btn-gate" href="/">Sign in on Paige Games</a></p>
-    <p class="sub muted">Not linked from the public games list. After you sign in as owner/admin, reload this URL.</p></div>`;
+    <p class="sub muted">Not linked from the public games list. After you sign in as owner/admin, reload this URL.</p></div></div>`;
 }

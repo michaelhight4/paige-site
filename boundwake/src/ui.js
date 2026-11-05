@@ -1,16 +1,14 @@
-// Boundwake UI shell (phone-first, parchment/gold). Layout from fantasy_lifesim/world/ui_mood_layout.md §2A.
-// Nov 5: per-menu soul, modifier icons + keyword flares, admin gate on live host.
+// Boundwake UI shell — studio standard pass (Nov 5, 2026 CT).
+// Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
 import * as E from './bw_engine.js';
 import { ico, esc, flare, oddsChip, statLabel } from './flare.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
-const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1'; // bw.* prefix so Boundwake never collides with Lifeline's lifesim.* keys
+const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
 const Q = new URLSearchParams(location.search);
 let P, s, meta, tab = 'life', fate;
 const T = (k) => P.terms.ui[k] || k;
-const SPR = 'assets/sprites_192/';
-// Gary Nov 5: one male and one female finished sprite per race per age. No outfit/hair mixing.
 const GRID = 'assets/sprites_192/grid/';
 function initials(name) {
   return String(name || '').trim().split(/\s+/).filter(Boolean).map((w) => w[0]).join('').slice(0, 2).toUpperCase() || '?';
@@ -19,7 +17,8 @@ function portrait(st, raceId, career, big, name, sex) {
   const sx = sex || (s && s.sex) || (fate && fate.sex) || 'm';
   const file = `${raceId}_${st}_${sx}.png`;
   const cls = 'portrait' + (big ? ' big' : '');
-  return `<div class="${cls}"><img alt="" src="${GRID}${file}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono-fallback',textContent:'${initials(name)}'}))"></div>`;
+  const mono = initials(name);
+  return `<div class="${cls}" data-spr="${file}"><img alt="" src="${GRID}${file}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono-fallback',textContent:'${mono}'}))"></div>`;
 }
 const career = () => (s.job ? E.careerOf(s.job.id).id : null);
 const save = () => { if (!Q.has('nosave')) { localStorage.setItem(KEY, JSON.stringify(s)); localStorage.setItem(META, JSON.stringify(meta)); } };
@@ -27,13 +26,17 @@ const toast = (m) => {
   if (!m) return; document.querySelectorAll('.toast').forEach((t) => t.remove());
   const d = document.createElement('div'); d.className = 'toast'; d.innerHTML = flare(m); document.body.append(d); setTimeout(() => d.remove(), 2400);
 };
-const bar = (key, v, cls = '') => {
+const bar = (key, v, cls = '', valHtml = null) => {
   const lbl = statLabel(key);
   const extra = cls || (key === 'health' ? 'bar-health' : key === 'spirit' || key === 'happiness' ? 'bar-spirit' : key === 'wits' || key === 'smarts' ? 'bar-wits'
-    : key === 'presence' || key === 'looks' ? 'bar-presence' : key === 'strain' || key === 'stress' ? 'bar-strain bad' : key === 'renown' || key === 'fame' ? 'bar-renown' : key === 'mana' ? 'magic' : '');
-  return `<div class="bar ${extra}">${lbl} <span class="val">${Math.round(v)}</span><i><b style="width:${Math.max(0, Math.min(100, v))}%"></b></i></div>`;
+    : key === 'presence' || key === 'looks' ? 'bar-presence' : key === 'strain' || key === 'stress' ? 'bad bar-strain' : key === 'renown' || key === 'fame' ? 'bar-renown' : key === 'mana' ? 'magic bar-mana' : '');
+  const val = valHtml != null ? valHtml : Math.round(v);
+  const pct = Math.max(0, Math.min(100, typeof v === 'number' ? v : 0));
+  return `<div class="bar ${extra}">${lbl}<span class="val">${val}</span><i><b style="width:${pct}%"></b></i></div>`;
 };
 const setChrome = (t) => { document.body.dataset.tab = t; };
+const card = (panel, hd, body, extra = '') =>
+  `<div class="card panel-${panel} ${extra}"><div class="card-hd">${hd}</div><div class="card-body">${body}</div></div>`;
 
 const TAB_META = {
   life: { ico: 'spirit', label: 'Life' },
@@ -56,79 +59,115 @@ const LEAD = {
   codex: 'What the world taught you stays — even when the body does not.',
   bel: 'Gold, relics, the small weights of a life. A shop for later.',
 };
+const HD = {
+  life: `${ico('spirit')} Journal`,
+  work: `${ico('work')} Guild boards`,
+  adv: `${ico('adventure')} Adventure`,
+  skills: `${ico('skill')} Skills`,
+  bonds: `${ico('bond')} Bonds`,
+  realms: `${ico('realm')} Realms`,
+  codex: `${ico('codex')} Codex`,
+  bel: `${ico('belong')} Belongings`,
+};
 
-// ---------- screens ----------
 function cold(step = 0) {
+  document.body.classList.remove('has-sheet');
   setChrome('fate');
   const lines = [T('cold_1'), T('cold_2'), T('cold_3')];
-  app.innerHTML = `<div class="cold"><p>${esc(lines[step])}</p><p><button id="n">${step < 2 ? 'Continue' : T('start_life')}</button> <button id="sk">${T('skip_intro')}</button></p></div>`;
+  app.innerHTML = `<div class="cold"><p>${esc(lines[step])}</p><p><button class="primary" id="n">${step < 2 ? 'Continue' : T('start_life')}</button> <button class="ghost" id="sk">${T('skip_intro')}</button></p></div>`;
   $('#n').onclick = () => (step < 2 ? cold(step + 1) : (localStorage.setItem(SEEN, 1), fateScreen()));
   $('#sk').onclick = () => { localStorage.setItem(SEEN, 1); fateScreen(); };
 }
 function fateScreen(rr = 1) {
+  document.body.classList.remove('has-sheet');
   setChrome('fate');
-  fate = E.rollFate(+Q.get('seed') || (Math.random() * 2 ** 31) | 0, meta); fate.rerolls = rr;
+  fate = E.rollFate(+Q.get('seed') || (Math.random() * 2 ** 31) | 0, meta, Q.get('race') ? { race: Q.get('race') } : {}); fate.rerolls = rr;
   const r = P.races.find((x) => x.id === fate.race), tr = P.traits.rare.find((x) => x.id === fate.trait);
-  app.innerHTML = `<div class="card panel-fate"><h1>${T('fate_title')}</h1>${portrait('baby', fate.race, null, true, fate.first + ' ' + fate.last)}
-   <div class="name">${esc(fate.first)} ${esc(fate.last)}</div><div class="sub">${esc(r.name)} · ${fate.sex === 'm' ? 'boy' : 'girl'} · ${flare(fate.wealth)} family</div>
-   <div class="pills" style="justify-content:center"><span class="pill">${ico('spirit')}Affinity: ${flare(fate.affinity)}</span><span class="pill" title="${esc(tr.up)} / ${esc(tr.down)}">${flare(tr.name)}: ${flare(tr.up)} · <span class="bad">${flare(tr.down)}</span></span></div>
+  const body = `${portrait('baby', fate.race, null, true, fate.first + ' ' + fate.last, fate.sex)}
+   <div class="name">${esc(fate.first)} ${esc(fate.last)}</div>
+   <div class="sub">${esc(r.name)} · ${fate.sex === 'm' ? 'boy' : 'girl'} · ${flare(fate.wealth)} family</div>
+   <div class="pills" style="justify-content:center;margin:10px 0"><span class="pill">${ico('spirit')}Affinity: ${flare(fate.affinity)}</span>
+   <span class="pill" title="${esc(tr.up)} / ${esc(tr.down)}">${flare(tr.name)}: ${flare(tr.up)} · <span class="bad">${flare(tr.down)}</span></span></div>
    <p class="sub">Hidden talents: 3 (revealed as you train)${meta.echoes ? ' · ' + flare('Echoes') + ': ' + Object.entries(meta.echoes).map(([k, n]) => flare(k.replace('echo_', '')) + '×' + n).join(', ') : ''}</p>
-   <button id="go" class="on">${T('start_life')}</button> <button id="rr" ${rr ? '' : 'disabled'}>${T('fate_reroll')}</button></div>`;
+   <div class="actions" style="justify-content:center"><button id="go" class="primary">${T('start_life')}</button> <button id="rr" class="ghost" ${rr ? '' : 'disabled'}>${T('fate_reroll')}</button></div>`;
+  app.innerHTML = card('fate', `${ico('echo')} ${T('fate_title')}`, body);
   $('#go').onclick = () => { s = E.begin(fate, meta); tab = 'life'; save(); render(); };
   $('#rr').onclick = () => fateScreen(0);
 }
 function header() {
   const st = E.stage(s), r = E.race(s), j = s.job && P.occ.jobs[s.job.id];
-  return `<div class="card panel-${tab}"><div class="hdr">${portrait(st, s.race, career(), false, s.first + ' ' + s.last)}<div style="flex:1"><div class="name">${esc(s.first)} ${esc(s.last)}</div>
-   <div class="sub">${esc(r.name)} · ${T('year_verb')} ${Math.floor(s.age)} · ${esc(E.regionOf(s).name)}</div><div class="sub">${j ? esc(j.title) : s.school ? 'Student' : st === 'baby' || st === 'child' ? 'Child' : 'No work'} · <b>${ico('gold')}${Math.floor(s.gold)} ${T('currency')}</b></div></div></div>
+  const mana = s.flags.mana_awakened
+    ? bar('mana', (100 * s.mana) / Math.max(1, s.manaMax), 'magic bar-mana', `${Math.floor(s.mana)}/${Math.floor(s.manaMax)}`)
+    : '';
+  const body = `<div class="hdr">${portrait(st, s.race, career(), false, s.first + ' ' + s.last)}
+    <div style="flex:1;min-width:0"><div class="name">${esc(s.first)} ${esc(s.last)}</div>
+    <div class="sub">${esc(r.name)} · ${T('year_verb')} ${Math.floor(s.age)} · ${esc(E.regionOf(s).name)}</div>
+    <div class="sub">${j ? esc(j.title) : s.school ? 'Student' : st === 'baby' || st === 'child' ? 'Child' : 'No work'} · <span class="gold-line">${ico('gold')}${Math.floor(s.gold)} ${T('currency')}</span></div></div></div>
    <div class="bars">${bar('health', s.stats.health, s.stats.health < 30 ? 'bad bar-health' : 'bar-health')}${bar('spirit', s.stats.happiness)}${bar('wits', s.stats.smarts)}${bar('presence', s.stats.looks)}
-   ${bar('strain', s.stats.stress, 'bad bar-strain')}${bar('renown', s.stats.fame)}${s.flags.mana_awakened ? `<div class="bar magic">${ico('mana')}Mana <span class="val">${Math.floor(s.mana)}/${Math.floor(s.manaMax)}</span><i><b style="width:${Math.max(0, Math.min(100, (100 * s.mana) / Math.max(1, s.manaMax)))}%"></b></i></div>` : ''}</div>
-   <div class="pills"><span class="pill">${ico('act')}Actions ${s.budget.act}/4</span><span class="pill">${ico('social')}Social ${s.budget.social}/3</span><span class="pill">${ico('adventure')}Adventure ${s.budget.adv}/5</span>${s.injuries.length ? `<span class="pill bad">${ico('strain')}Injuries ${s.injuries.length}</span>` : ''}</div></div>`;
+   ${bar('strain', s.stats.stress, 'bad bar-strain')}${bar('renown', s.stats.fame)}${mana}</div>
+   <div class="pills"><span class="pill">${ico('act')}Actions ${s.budget.act}/4</span><span class="pill">${ico('social')}Social ${s.budget.social}/3</span><span class="pill">${ico('adventure')}Adventure ${s.budget.adv}/5</span>${s.injuries.length ? `<span class="pill bad">${ico('strain')}Injuries ${s.injuries.length}</span>` : ''}</div>`;
+  return `<div class="card hub panel-${tab}"><div class="card-body">${body}</div></div>`;
 }
 function body() {
   const h = E.hage(s);
   const lead = (k) => `<p class="menu-lead">${LEAD[k] || ''}</p>`;
   if (tab === 'life') {
     const byAge = []; for (const l of s.log.slice(-80)) { const a = Math.floor(l.age); if (!byAge.length || byAge.at(-1)[0] !== a) byAge.push([a, []]); if (l.kind !== 'year') byAge.at(-1)[1].push(l.text); }
-    const route = !s.route && h >= 8 ? `<div class="card panel-life"><h3>Choose your path</h3><p class="sub">Primary skills grow +25% faster.</p>${['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].map((r) => `<button data-a="route" data-v="${r}">${flare(r.replace('route_', ''))}</button> `).join('')}</div>` : '';
-    return route + `<div class="card panel-life">${lead('life')}<h3>${ico('spirit')} Journal</h3><div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
-      <p style="margin-top:8px"><button data-a="rest">Rest by the pond</button></p></div>`;
+    const route = !s.route && h >= 8 ? card('life', `${ico('adventure')} Choose your path`, `<p class="sub">Primary skills grow +25% faster.</p><div class="actions">${['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].map((r) => `<button data-a="route" data-v="${r}">${flare(r.replace('route_', ''))}</button>`).join('')}</div>`) : '';
+    return route + card('life', HD.life, `${lead('life')}<div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
+      <div class="actions"><button data-a="rest" class="ghost">Rest by the pond</button></div>`);
   }
   if (tab === 'work') {
-    if (h < 12 && !s.job) return `<div class="card panel-work">${lead('work')}<p>Too young for work. ${s.school ? 'You attend Village lessons.' : ''}</p></div>`;
+    if (h < 12 && !s.job) return card('work', HD.work, `${lead('work')}<div class="empty">Too young for guild work.${s.school ? ' You attend Village lessons.' : ''}</div>`);
     const cur = s.job ? (() => { const j = P.occ.jobs[s.job.id], c = E.careerOf(j.id), nx = j.next && P.occ.jobs[j.next];
-      return `<div class="card panel-work">${lead('work')}<h3>${ico('work')} ${esc(j.title)}</h3><p class="sub">${flare(c.blurb)}</p><p>Wage ${ico('gold')}<b>${j.wage}</b> ${T('currency')}/yr · Years ${s.job.years} · Performance ${Math.round(s.job.perf)}</p>
+      return card('work', `${ico('work')} ${esc(j.title)}`, `${lead('work')}<p class="sub">${flare(c.blurb)}</p>
+       <p>Wage <span class="gold-line">${ico('gold')}${j.wage} ${T('currency')}/yr</span> · Years ${s.job.years} · Performance ${Math.round(s.job.perf)}</p>
        ${nx ? `<p class="sub">Next rank: <b>${esc(nx.title)}</b> — ${nx.req.years} yrs${Object.entries(nx.req.skills).map(([k, v]) => `, ${flare(P.skills.skills.find((x) => x.id === k).name)} ${v}`).join('')}</p>` : '<p class="sub">Top of your craft.</p>'}
-       <button data-a="work">Work hard (${esc(c.actions[0])}…)</button> <button data-a="quit">Leave post</button></div>`; })() : `<div class="card panel-work">${lead('work')}</div>`;
-    return cur + `<div class="card panel-work"><h3>${ico('work')} Guild boards & openings</h3>${E.openings(s).map(({ job, career: c, ok }) => `<div class="row"><div><b>${esc(c.name)}</b><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr<br>${flare(c.unlock_text)}</small></div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'}>Join</button></div>`).join('')}</div>`;
+       <div class="actions"><button data-a="work" class="primary">Work hard (${esc(c.actions[0])}…)</button> <button data-a="quit" class="ghost">Leave post</button></div>`); })() : card('work', HD.work, lead('work'));
+    const board = E.openings(s).map(({ job, career: c, ok }) => `<div class="row"><div><b>${esc(c.name)}</b><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr<br>${flare(c.unlock_text)}</small></div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'}>Join</button></div>`).join('');
+    return cur + card('work', `${ico('work')} Openings`, board || `<div class="empty">No openings this year.</div>`);
   }
-  if (tab === 'adv') return `<div class="card panel-adv">${lead('adv')}<h3>${ico('adventure')} ${T('adventure_menu')}</h3><p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
-    <button data-a="adv" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`;
+  if (tab === 'adv') return card('adv', HD.adv, `${lead('adv')}<p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
+    <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`);
   if (tab === 'skills') {
-    return `<div class="card panel-skills">${lead('skills')}</div>` + P.skills.categories.map((c) => `<div class="card panel-skills"><h3>${c.icon} ${esc(c.name)}</h3>${P.skills.skills.filter((k) => k.cat === c.id).map((k) => { const v = s.skills[k.id], lk = E.skillLocked(s, k.id);
+    return card('skills', HD.skills, lead('skills')) + P.skills.categories.map((c) => card('skills', `${c.icon} ${esc(c.name)}`, P.skills.skills.filter((k) => k.cat === c.id).map((k) => { const v = s.skills[k.id], lk = E.skillLocked(s, k.id);
       const pillar = E.PILLAR_SKILLS?.includes(k.id) && E.longevitySkillPace(s, k.id) > 1 ? ` · <small class="muted">long-life pace ×${E.longevitySkillPace(s, k.id).toFixed(1)}</small>` : '';
-      return `<div class="row"><div><b>${flare(k.name)}</b> <small>${E.rankOf(v)}${s.talents.includes(k.id) && v > 10 ? ' · talent!' : ''}${pillar}</small><br><small>${flare(k.flavor || k.note)}</small></div><div style="text-align:right;min-width:90px">${Math.floor(v)}<br><button data-a="train" data-v="${k.id}" ${lk || s.budget.act < 1 || h < 4 ? 'disabled' : ''}>${lk ? 'locked' : 'Train'}</button></div></div>`; }).join('')}</div>`).join('');
+      return `<div class="row"><div><b>${flare(k.name)}</b> <small>${E.rankOf(v)}${s.talents.includes(k.id) && v > 10 ? ' · talent!' : ''}${pillar}</small><br><small>${flare(k.flavor || k.note)}</small></div><div style="text-align:right;min-width:96px">${Math.floor(v)}<br><button data-a="train" data-v="${k.id}" ${lk || s.budget.act < 1 || h < 4 ? 'disabled' : ''}>${lk ? 'locked' : 'Train'}</button></div></div>`; }).join(''))).join('');
   }
-  if (tab === 'bonds') return `<div class="card panel-bonds">${lead('bonds')}<h3>${ico('bond')} ${T('people_menu')}</h3>${E.living(s).map((p) => `<div class="row"><div><b>${esc(p.first)}</b> <small>${esc(p.rel)} · ${Math.floor(p.age)} · ${esc(p.race)}</small>${bar('spirit', p.bar)}</div><button data-a="soc" data-v="${p.id}" ${s.budget.social ? '' : 'disabled'}>Spend time</button></div>`).join('') || '<p>No one yet.</p>'}
-    <p><button data-a="friend" ${s.budget.social && h >= 5 ? '' : 'disabled'}>Make a friend</button> <button data-a="love" ${s.budget.social && h >= 16 && !E.partnerOf(s) ? '' : 'disabled'}>${flare('Lantern Market')} (find love)</button></p></div>`;
-  if (tab === 'realms') return `<div class="card panel-realms">${lead('realms')}</div>` + P.regions.map((r) => { const f = s.regionsFound.includes(r.id); return `<div class="card panel-realms"><h3>${ico('realm')} ${f ? esc(r.name) : '??? (undiscovered)'}</h3><p class="sub">${f ? flare(r.feel) : ''}</p>
-    ${f ? r.locations.map((l) => `<div class="row"><div><b>${esc(l.name)}</b> <small>${esc(l.kind)}</small><br><small>${flare(l.flavor)}</small></div></div>`).join('') + (s.region !== r.id ? `<button data-a="travel" data-v="${r.id}" ${h >= 14 ? '' : 'disabled'}>Travel here</button>` : '<p class="good">You are here.</p>') : ''}</div>`; }).join('');
-  if (tab === 'codex') { const evT = Object.fromEntries(P.events.map((e) => [e.id, e.title])); return `<div class="card panel-codex">${lead('codex')}<h3>${ico('codex')} ${T('codex_menu')} (${s.codex.length})</h3><p class="sub">Kept across reincarnations.</p>${s.codex.map((c) => `<div class="row">${flare(evT[c] || P.regions.find((r) => r.id === c)?.name || P.regions.flatMap((r) => r.locations).find((l) => l.id === c)?.name || c.replace(/_/g, ' '))}</div>`).join('')}</div>`; }
-  if (tab === 'bel') return `<div class="card panel-bel">${lead('bel')}<h3>${ico('belong')} ${T('assets_menu')}</h3><p>${ico('gold')}<b>${Math.floor(s.gold)}</b> ${T('currency')}</p><h3>${ico('echo')} Relics</h3>${s.relics.map((r) => `<div class="row">${flare(r.replace(/^relic_/, '').replace(/_/g, ' '))}</div>`).join('') || '<p class="sub">None yet. Relics are found in delves and at graves.</p>'}<p class="sub">STUB: shop for weapons, armor, foci, mounts, homes, workshops (SYSTEMS_OVERVIEW "Assets") not built yet.</p></div>`;
+  if (tab === 'bonds') {
+    const people = E.living(s);
+    return card('bonds', HD.bonds, `${lead('bonds')}${people.map((p) => `<div class="row"><div><b>${esc(p.first)}</b> <small>${esc(p.rel)} · ${Math.floor(p.age)} · ${esc(p.race)}</small>${bar('spirit', p.bar)}</div><button data-a="soc" data-v="${p.id}" ${s.budget.social ? '' : 'disabled'}>Spend time</button></div>`).join('') || '<div class="empty">No one yet. Make a friend when you can.</div>'}
+    <div class="actions"><button data-a="friend" ${s.budget.social && h >= 5 ? '' : 'disabled'}>Make a friend</button> <button data-a="love" ${s.budget.social && h >= 16 && !E.partnerOf(s) ? '' : 'disabled'}>${flare('Lantern Market')}</button></div>`);
+  }
+  if (tab === 'realms') return card('realms', HD.realms, lead('realms')) + P.regions.map((r) => { const f = s.regionsFound.includes(r.id); return card('realms', `${ico('realm')} ${f ? esc(r.name) : '??? (undiscovered)'}`, `<p class="sub">${f ? flare(r.feel) : 'Undiscovered.'}</p>
+    ${f ? r.locations.map((l) => `<div class="row"><div><b>${esc(l.name)}</b> <small>${esc(l.kind)}</small><br><small>${flare(l.flavor)}</small></div></div>`).join('') + (s.region !== r.id ? `<div class="actions"><button data-a="travel" data-v="${r.id}" ${h >= 14 ? '' : 'disabled'}>Travel here</button></div>` : '<p class="good">You are here.</p>') : ''}`); }).join('');
+  if (tab === 'codex') {
+    const evT = Object.fromEntries(P.events.map((e) => [e.id, e.title]));
+    const rows = s.codex.map((c) => `<div class="row">${flare(evT[c] || P.regions.find((r) => r.id === c)?.name || P.regions.flatMap((r) => r.locations).find((l) => l.id === c)?.name || c.replace(/_/g, ' '))}</div>`).join('');
+    return card('codex', `${HD.codex} <span class="hd-sub">${s.codex.length}</span>`, `${lead('codex')}<p class="sub">Kept across reincarnations.</p>${rows || '<div class="empty">Nothing recorded yet.</div>'}`);
+  }
+  if (tab === 'bel') return card('bel', HD.bel, `${lead('bel')}<p class="gold-line" style="font-size:18px">${ico('gold')}<b>${Math.floor(s.gold)}</b> ${T('currency')}</p>
+    <h3>${ico('echo')} Relics</h3>${s.relics.map((r) => `<div class="row">${flare(r.replace(/^relic_/, '').replace(/_/g, ' '))}</div>`).join('') || '<div class="empty">None yet. Relics are found in delves and at graves.</div>'}
+    <p class="sub">Shop for weapons, armor, foci, mounts, homes, workshops — stub for later.</p>`);
   return '';
 }
 function eventSheet() {
   const c = E.pendingCard(s); if (!c) return '';
-  return `<div class="sheet"><div class="card"><h2>${ico('adventure')}${flare(c.title)}</h2><p>${flare(c.prompt)}</p><div class="choices">${c.choices.map((x, i) => `<button data-a="ch" data-v="${i}" ${x.locked ? 'disabled' : ''}>${flare(x.label)}${oddsChip(x.odds)}</button>`).join('')}</div></div></div>`;
+  return `<div class="sheet"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(c.title)}</div><div class="card-body"><p class="prompt">${flare(c.prompt)}</p><div class="choices">${c.choices.map((x, i) => `<button data-a="ch" data-v="${i}" ${x.locked ? 'disabled' : ''}>${flare(x.label)}${oddsChip(x.odds)}</button>`).join('')}</div></div></div></div>`;
+}
+function ageDock() {
+  if (!s || !s.alive) return '';
+  return `<div class="dock"><button class="age" data-a="age" ${s.pending.length ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button></div>`;
 }
 function deathScreen() {
+  document.body.classList.remove('has-sheet');
   setChrome('death');
   const hs = E.heirs(s), ech = E.echoChoices(s), d = P.terms.death;
-  app.innerHTML = `<div class="card panel-death" style="text-align:center"><h1>${T('death_title')}</h1>${portrait(E.stage(s), s.race, career(), true, s.first + ' ' + s.last)}<div class="name">${esc(s.first)} ${esc(s.last)}</div>
-   <p class="sub">Age ${Math.floor(s.age)}. ${flare(P.terms.causes[s.cause] || '')}</p><p>Legacy score <b>${E.legacyScore(s)}</b> · ${ico('gold')}${Math.floor(s.gold)} ${flare('gold')} · ${hs.length} living ${flare(hs.length === 1 ? 'heir' : 'heirs')}</p></div>
-   <div class="card panel-death"><h3>${ico('echo')} ${T('path_reincarnate_title')}</h3><p class="sub">${flare(T('path_reincarnate_body'))}</p><p>${flare(d.echo_prompt || T('echo_pick'))}</p><div class="choices">${ech.map((id) => { const e = P.terms.echoes.find((x) => x.id === id); return `<button data-a="reinc" data-v="${id}"><b>${flare(e.name)}</b> — ${flare(e.text)}${meta.echoes?.[id] ? ' (repeat: halved)' : ''}</button>`; }).join('')}</div></div>
-   <div class="card panel-death"><h3>${T('path_heir_title')}</h3><p class="sub">${flare(hs.length ? T('path_heir_body') : T('path_heir_locked') + '. ' + (d.locked_hint || ''))}</p>${hs.map((p) => `<button data-a="heir" data-v="${p.id}">Continue as ${esc(p.first)} (${Math.floor(p.age)})</button> `).join('')}</div>
-   <div class="card panel-death"><h3>${T('cemetery_title')}</h3>${(meta.cemetery || []).slice(-8).reverse().map((c) => `<div class="row"><small>${esc(c.name)}, ${esc(c.race)}, age ${c.age} — ${esc(c.cause)}${c.link ? ` · ${c.link === 'soul' ? 'Reincarnation' : 'Heir'} of ${esc(c.prior)}` : ''}</small><small>${c.score}</small></div>`).join('') || `<p class="sub">${esc(d.empty || '')}</p>`}</div>`;
+  app.innerHTML = card('death', `${ico('echo')} ${T('death_title')}`, `<div style="text-align:center">${portrait(E.stage(s), s.race, career(), true, s.first + ' ' + s.last)}<div class="name">${esc(s.first)} ${esc(s.last)}</div>
+   <p class="sub">Age ${Math.floor(s.age)}. ${flare(P.terms.causes[s.cause] || '')}</p><p>Legacy score <b>${E.legacyScore(s)}</b> · ${ico('gold')}${Math.floor(s.gold)} ${flare('gold')} · ${hs.length} living ${flare(hs.length === 1 ? 'heir' : 'heirs')}</p></div>`)
+   + card('death', `${ico('echo')} ${T('path_reincarnate_title')}`, `<p class="sub">${flare(T('path_reincarnate_body'))}</p><p>${flare(d.echo_prompt || T('echo_pick'))}</p><div class="choices">${ech.map((id) => { const e = P.terms.echoes.find((x) => x.id === id); return `<button data-a="reinc" data-v="${id}"><b>${flare(e.name)}</b> — ${flare(e.text)}${meta.echoes?.[id] ? ' (repeat: halved)' : ''}</button>`; }).join('')}</div>`)
+   + card('death', T('path_heir_title'), `<p class="sub">${flare(hs.length ? T('path_heir_body') : T('path_heir_locked') + '. ' + (d.locked_hint || ''))}</p><div class="actions">${hs.map((p) => `<button data-a="heir" data-v="${p.id}">Continue as ${esc(p.first)} (${Math.floor(p.age)})</button>`).join('') || ''}</div>`)
+   + card('death', T('cemetery_title'), (meta.cemetery || []).slice(-8).reverse().map((c) => `<div class="row"><small>${esc(c.name)}, ${esc(c.race)}, age ${c.age} — ${esc(c.cause)}${c.link ? ` · ${c.link === 'soul' ? 'Reincarnation' : 'Heir'} of ${esc(c.prior)}` : ''}</small><small>${c.score}</small></div>`).join('') || `<div class="empty">${esc(d.empty || '')}</div>`);
 }
 function render() {
   if (!s) return fateScreen();
@@ -138,7 +177,9 @@ function render() {
     const m = TAB_META[k];
     return `<button data-tab="${k}" class="${tab === k ? 'on' : ''}">${ico(m.ico)}${T(m.label)}</button>`;
   }).join('');
-  app.innerHTML = header() + `<div class="tabs">${tabs}</div>` + body() + `<button class="age" data-a="age" ${s.pending.length ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button>` + eventSheet();
+  const sheet = eventSheet();
+  document.body.classList.toggle('has-sheet', !!sheet);
+  app.innerHTML = header() + `<div class="tabs">${tabs}</div>` + body() + `<div class="end-pad" aria-hidden="true"></div>` + ageDock() + sheet;
   const j = $('#jr'); if (j) j.scrollTop = j.scrollHeight; save();
 }
 app.addEventListener('click', (ev) => {
@@ -154,7 +195,6 @@ app.addEventListener('click', (ev) => {
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();
 });
-// ambient motes (ui_mood_layout §1 Motion): pooled, 16 phone / 32 desktop, ~24fps, off when hidden / reduced motion / ?ambient=0
 function motes() {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || Q.get('ambient') === '0') return; const cv = $('#motes'), cx = cv.getContext('2d'), dpr = Math.min(1.5, devicePixelRatio || 1);
   const N = innerWidth < 600 ? 16 : 32, M = []; const fit = () => { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; }; fit(); addEventListener('resize', fit);
@@ -162,9 +202,8 @@ function motes() {
   setInterval(() => { if (document.hidden) return; cx.clearRect(0, 0, cv.width, cv.height); for (const m of M) { m.y -= m.v; m.p += 0.05; if (m.y < -0.02) m.y = 1.02; const a = 0.25 + 0.25 * Math.sin(m.p); cx.fillStyle = `rgba(224,177,74,${a})`; cx.beginPath(); cx.arc((m.x + Math.sin(m.p) * 0.005) * cv.width, m.y * cv.height, m.r * dpr, 0, 7); cx.fill(); } }, 42);
 }
 (async () => {
-  // Admin gate first on live hosts (localhost always open).
   setChrome('gate');
-  app.innerHTML = `<div class="card panel-gate"><p class="sub">Checking access…</p></div>`;
+  app.innerHTML = `<div class="card panel-gate"><div class="card-body"><p class="sub">Checking access…</p></div></div>`;
   const acc = await checkAdminAccess();
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
   P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}');
