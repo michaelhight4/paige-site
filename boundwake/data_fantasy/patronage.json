@@ -1,0 +1,281 @@
+{
+ "clubs": [
+  {
+   "id": "debate",
+   "name": "Moot Debate Circle",
+   "icon": "🗣",
+   "skills": {
+    "etiquette": 1.2,
+    "charm": 1,
+    "literacy": 0.6
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "chess",
+   "name": "Kingboard Club",
+   "icon": "♟",
+   "skills": {
+    "focus": 1.2,
+    "lore": 0.8,
+    "composure": 0.6
+   },
+   "minAge": 10,
+   "maxAge": 22
+  },
+  {
+   "id": "choir",
+   "name": "Hearth Choir",
+   "icon": "♪",
+   "skills": {
+    "performance": 1.2,
+    "charm": 0.8,
+    "focus": 0.5
+   },
+   "minAge": 9,
+   "maxAge": 20
+  },
+  {
+   "id": "wards",
+   "name": "Junior Ward Circle",
+   "icon": "✦",
+   "skills": {
+    "warding": 1.2,
+    "mana_control": 0.8,
+    "lore": 0.5
+   },
+   "minAge": 12,
+   "maxAge": 22
+  },
+  {
+   "id": "drama",
+   "name": "Festival Players",
+   "icon": "🎭",
+   "skills": {
+    "performance": 1.2,
+    "charm": 1,
+    "etiquette": 0.5
+   },
+   "minAge": 11,
+   "maxAge": 22
+  },
+  {
+   "id": "art",
+   "name": "Ink & Color",
+   "icon": "🎨",
+   "skills": {
+    "focus": 1,
+    "tailoring": 0.4,
+    "lore": 0.4
+   },
+   "minAge": 10,
+   "maxAge": 22
+  },
+  {
+   "id": "news",
+   "name": "Village Broadsheet",
+   "icon": "📰",
+   "skills": {
+    "literacy": 1.2,
+    "charm": 0.6,
+    "lore": 0.5
+   },
+   "minAge": 12,
+   "maxAge": 22
+  },
+  {
+   "id": "gov",
+   "name": "Youth Moot",
+   "icon": "🏛",
+   "skills": {
+    "etiquette": 1.2,
+    "composure": 0.8,
+    "charm": 0.6
+   },
+   "minAge": 13,
+   "maxAge": 22
+  },
+  {
+   "id": "cook",
+   "name": "Hearth Helpers",
+   "icon": "🍲",
+   "skills": {
+    "cooking": 1.2,
+    "charm": 0.5,
+    "husbandry": 0.3
+   },
+   "minAge": 10,
+   "maxAge": 20
+  },
+  {
+   "id": "service",
+   "name": "Shrine Hands",
+   "icon": "🕯",
+   "skills": {
+    "composure": 1,
+    "charm": 0.6,
+    "karma": 0
+   },
+   "minAge": 10,
+   "maxAge": 22
+  }
+ ],
+ "maxClubs": 3,
+ "serviceHoursPerAct": [
+  2,
+  5
+ ],
+ "needGold": 40,
+ "academyFee": 120,
+ "maxActive": 2,
+ "windows": {
+  "primer": [
+   11,
+   16
+  ],
+  "academy": [
+   16,
+   22
+  ]
+ },
+ "types": [
+  {
+   "id": "merit_letters",
+   "name": "Letters Merit",
+   "kind": "academic",
+   "level": 1,
+   "pct": 0.4,
+   "years": 2,
+   "req": {
+    "skills": {
+     "literacy": 20
+    }
+   },
+   "desc": "Covers part of Primer or Academy fees for sharp readers."
+  },
+  {
+   "id": "merit_wards",
+   "name": "Ward Merit",
+   "kind": "academic",
+   "level": 1,
+   "pct": 0.45,
+   "years": 2,
+   "req": {
+    "skills": {
+     "warding": 15
+    },
+    "flag": "mana_awakened"
+   },
+   "desc": "For students whose wards hold."
+  },
+  {
+   "id": "need_hearth",
+   "name": "Hearth Need",
+   "kind": "need",
+   "level": 1,
+   "pct": 0.6,
+   "years": 3,
+   "req": {
+    "wealth": [
+     "poor",
+     "common"
+    ]
+   },
+   "desc": "Village coin for families who cannot spare it."
+  },
+  {
+   "id": "art_song",
+   "name": "Song Patronage",
+   "kind": "arts",
+   "level": 1,
+   "pct": 0.5,
+   "years": 2,
+   "req": {
+    "passion": "song"
+   },
+   "desc": "A patron pays if you keep singing."
+  },
+  {
+   "id": "art_loom",
+   "name": "Loom Patronage",
+   "kind": "arts",
+   "level": 1,
+   "pct": 0.45,
+   "years": 2,
+   "req": {
+    "passion": "loom_dye"
+   },
+   "desc": "Cloth houses fund promising hands."
+  },
+  {
+   "id": "service_shrine",
+   "name": "Shrine Service Grant",
+   "kind": "service",
+   "level": 1,
+   "pct": 0.5,
+   "years": 2,
+   "req": {
+    "club": "service"
+   },
+   "desc": "Hours at the shrine buy lessons."
+  },
+  {
+   "id": "blade_youth",
+   "name": "Militia Youth",
+   "kind": "athletic",
+   "level": 1,
+   "pct": 0.4,
+   "years": 2,
+   "req": {
+    "skills": {
+     "swordsmanship": 15
+    }
+   },
+   "desc": "The Watch pays for drill and letters both."
+  },
+  {
+   "id": "talent_beast",
+   "name": "Beastfriend Stipend",
+   "kind": "talent",
+   "level": 1,
+   "pct": 0.4,
+   "years": 2,
+   "req": {
+    "passion": "beast_call"
+   },
+   "desc": "Rangers fund those the animals trust."
+  },
+  {
+   "id": "academy_full",
+   "name": "Spireward Full Seat",
+   "kind": "academic",
+   "level": 2,
+   "pct": 1.0,
+   "years": 3,
+   "req": {
+    "skills": {
+     "literacy": 35,
+     "lore": 25
+    },
+    "fame": 10
+   },
+   "desc": "Rare. Covers Academy fees entirely."
+  },
+  {
+   "id": "envoy_ward",
+   "name": "Envoy's Ward",
+   "kind": "service",
+   "level": 2,
+   "pct": 0.7,
+   "years": 3,
+   "req": {
+    "fame": 15,
+    "skills": {
+     "etiquette": 25
+    }
+   },
+   "desc": "A court patron sponsors manners and maps."
+  }
+ ]
+}

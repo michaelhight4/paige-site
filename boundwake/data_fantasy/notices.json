@@ -1,0 +1,315 @@
+{
+ "minAge": 10,
+ "boards": [
+  {
+   "id": "greenwell_board",
+   "name": "Greenwell Notice Board",
+   "icon": "📌",
+   "role": "Village posts",
+   "minAge": 10,
+   "growth": 1.0,
+   "viral": 0.6,
+   "sponsor": 0.4,
+   "risk": 0.8,
+   "audience": "Neighbors, apprentices, traveling peddlers.",
+   "likes": [
+    "help",
+    "trade",
+    "festival"
+   ],
+   "dislikes": [
+    "scandal"
+   ]
+  },
+  {
+   "id": "lantern_quay_crier",
+   "name": "Lantern Quay Crier",
+   "icon": "🔔",
+   "role": "Harbor calls",
+   "minAge": 12,
+   "growth": 1.2,
+   "viral": 1.1,
+   "sponsor": 0.9,
+   "risk": 1.2,
+   "audience": "Sailors, brokers, musicians.",
+   "likes": [
+    "news",
+    "music",
+    "deals"
+   ],
+   "dislikes": [
+    "dull"
+   ]
+  },
+  {
+   "id": "guild_hall_slate",
+   "name": "Guild Hall Slate",
+   "icon": "📋",
+   "role": "Trade notices",
+   "minAge": 14,
+   "growth": 0.9,
+   "viral": 0.5,
+   "sponsor": 1.0,
+   "risk": 0.6,
+   "audience": "Craftspeople and patrons.",
+   "likes": [
+    "craft",
+    "hire",
+    "lesson"
+   ],
+   "dislikes": [
+    "gossip"
+   ]
+  },
+  {
+   "id": "spire_circular",
+   "name": "Spireward Circular",
+   "icon": "📜",
+   "role": "Academy letters",
+   "minAge": 13,
+   "growth": 0.8,
+   "viral": 0.7,
+   "sponsor": 0.7,
+   "risk": 0.5,
+   "audience": "Students, tutors, minor nobles.",
+   "likes": [
+    "lore",
+    "debate",
+    "patronage"
+   ],
+   "dislikes": [
+    "vulgar"
+   ]
+  },
+  {
+   "id": "ember_dispatch",
+   "name": "Emberlight Dispatch",
+   "icon": "🏛",
+   "role": "Military notices",
+   "minAge": 15,
+   "growth": 0.7,
+   "viral": 0.4,
+   "sponsor": 0.5,
+   "risk": 0.9,
+   "audience": "Soldiers, smiths, supply clerks.",
+   "likes": [
+    "duty",
+    "gear",
+    "drill"
+   ],
+   "dislikes": [
+    "frivolous"
+   ]
+  },
+  {
+   "id": "whisper_tree",
+   "name": "Whisper Tree",
+   "icon": "🌳",
+   "role": "Rumors",
+   "minAge": 12,
+   "growth": 1.4,
+   "viral": 1.6,
+   "sponsor": 0.3,
+   "risk": 1.8,
+   "audience": "Anyone who likes trouble.",
+   "likes": [
+    "scandal",
+    "secret",
+    "dare"
+   ],
+   "dislikes": [
+    "official"
+   ]
+  }
+ ],
+ "posts": [
+  {
+   "id": "help_wanted",
+   "name": "Help Wanted",
+   "tag": "hire",
+   "base": 8,
+   "viral": 0.4,
+   "risk": 0.1,
+   "stat": "fame",
+   "minAge": 10
+  },
+  {
+   "id": "festival_invite",
+   "name": "Festival Invite",
+   "tag": "festival",
+   "base": 10,
+   "viral": 0.8,
+   "risk": 0.2,
+   "stat": "happiness",
+   "minAge": 10
+  },
+  {
+   "id": "craft_lesson",
+   "name": "Offer a Lesson",
+   "tag": "lesson",
+   "base": 7,
+   "viral": 0.3,
+   "risk": 0.1,
+   "stat": "smarts",
+   "minAge": 12
+  },
+  {
+   "id": "trade_offer",
+   "name": "Trade Offer",
+   "tag": "trade",
+   "base": 9,
+   "viral": 0.5,
+   "risk": 0.2,
+   "stat": null,
+   "minAge": 12
+  },
+  {
+   "id": "song_notice",
+   "name": "Song Night",
+   "tag": "music",
+   "base": 11,
+   "viral": 1.0,
+   "risk": 0.3,
+   "stat": "fame",
+   "minAge": 12
+  },
+  {
+   "id": "warning",
+   "name": "Road Warning",
+   "tag": "news",
+   "base": 6,
+   "viral": 0.9,
+   "risk": 0.1,
+   "stat": "karma",
+   "minAge": 12
+  },
+  {
+   "id": "boast",
+   "name": "Boast of a Deed",
+   "tag": "dare",
+   "base": 12,
+   "viral": 1.3,
+   "risk": 0.8,
+   "stat": "fame",
+   "minAge": 14
+  },
+  {
+   "id": "secret_hint",
+   "name": "Half a Secret",
+   "tag": "secret",
+   "base": 10,
+   "viral": 1.5,
+   "risk": 1.2,
+   "stat": "fame",
+   "minAge": 14
+  },
+  {
+   "id": "patron_ask",
+   "name": "Seek a Patron",
+   "tag": "patronage",
+   "base": 8,
+   "viral": 0.4,
+   "risk": 0.2,
+   "stat": "fame",
+   "minAge": 13
+  },
+  {
+   "id": "debate_challenge",
+   "name": "Open Debate",
+   "tag": "debate",
+   "base": 9,
+   "viral": 0.7,
+   "risk": 0.4,
+   "stat": "smarts",
+   "minAge": 14
+  }
+ ],
+ "patrons": [
+  {
+   "name": "Greenwell Council",
+   "cat": "civic",
+   "minAge": 14,
+   "pay": [
+    8,
+    20
+   ],
+   "niches": [
+    "help",
+    "festival"
+   ]
+  },
+  {
+   "name": "Mirrorglass Brokers",
+   "cat": "trade",
+   "minAge": 16,
+   "pay": [
+    15,
+    40
+   ],
+   "niches": [
+    "trade",
+    "deals"
+   ]
+  },
+  {
+   "name": "Vale Primer Yard",
+   "cat": "letters",
+   "minAge": 12,
+   "pay": [
+    6,
+    18
+   ],
+   "niches": [
+    "lesson",
+    "lore"
+   ]
+  },
+  {
+   "name": "Lantern Quay Musicians",
+   "cat": "art",
+   "minAge": 12,
+   "pay": [
+    10,
+    28
+   ],
+   "niches": [
+    "music",
+    "festival"
+   ]
+  },
+  {
+   "name": "Emberlight Quartermaster",
+   "cat": "duty",
+   "minAge": 16,
+   "pay": [
+    12,
+    35
+   ],
+   "niches": [
+    "duty",
+    "gear"
+   ]
+  },
+  {
+   "name": "Quiet Patron (unnamed)",
+   "cat": "shadow",
+   "minAge": 16,
+   "pay": [
+    20,
+    50
+   ],
+   "niches": [
+    "secret",
+    "dare"
+   ]
+  }
+ ],
+ "rivals": [
+  "Rook the Crier",
+  "Nessa Quill",
+  "Bram Loudmouth",
+  "Sister Pell",
+  "Harbor Tess",
+  "Old Kestrel"
+ ]
+}

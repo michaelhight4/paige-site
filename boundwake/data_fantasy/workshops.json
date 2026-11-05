@@ -1,0 +1,1170 @@
+{
+ "types": {
+  "herb_stall": {
+   "kind": "shop",
+   "name": "Herb Stall",
+   "icon": "🌿",
+   "group": "Market",
+   "blurb": "Dried leaves, salves, and polite advice.",
+   "minAge": 14,
+   "fee": 80,
+   "ticket": 4,
+   "cogs": 0.25,
+   "rent": 18,
+   "baseDemand": 420,
+   "unit": "bundles",
+   "equip": [
+    {
+     "id": "table",
+     "name": "Folding table",
+     "cost": 20,
+     "cap": 200,
+     "starter": 1
+    },
+    {
+     "id": "jars",
+     "name": "Clay jars",
+     "cost": 25,
+     "cap": 200,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "market"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 12,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 28,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 40,
+     "cap": 1.15
+    }
+   ]
+  },
+  "bakery": {
+   "kind": "shop",
+   "name": "Hearth Bakery",
+   "icon": "🍞",
+   "group": "Food",
+   "blurb": "Loaves, flatbreads, and festival sweets. No spirits sold.",
+   "minAge": 16,
+   "fee": 220,
+   "ticket": 3,
+   "cogs": 0.35,
+   "rent": 40,
+   "baseDemand": 900,
+   "unit": "loaves",
+   "equip": [
+    {
+     "id": "oven",
+     "name": "Stone oven",
+     "cost": 90,
+     "cap": 400,
+     "starter": 1
+    },
+    {
+     "id": "peel",
+     "name": "Long peel",
+     "cost": 15,
+     "cap": 400,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "food"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 33,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 77,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 110,
+     "cap": 1.15
+    }
+   ]
+  },
+  "inn_kitchen": {
+   "kind": "shop",
+   "name": "Inn Kitchen",
+   "icon": "🍲",
+   "group": "Food",
+   "blurb": "Stew, tea, and beds upstairs. Tea house — no ale or wine.",
+   "minAge": 18,
+   "fee": 480,
+   "ticket": 6,
+   "cogs": 0.4,
+   "rent": 90,
+   "baseDemand": 700,
+   "unit": "meals",
+   "equip": [
+    {
+     "id": "hearth",
+     "name": "Kitchen hearth",
+     "cost": 120,
+     "cap": 350,
+     "starter": 1
+    },
+    {
+     "id": "beds",
+     "name": "Guest beds",
+     "cost": 150,
+     "cap": 350,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "food",
+    "lodging"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 72,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 168,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 240,
+     "cap": 1.15
+    }
+   ]
+  },
+  "smithy": {
+   "kind": "shop",
+   "name": "Village Smithy",
+   "icon": "🔨",
+   "group": "Craft",
+   "blurb": "Horseshoes, hinges, honest blades.",
+   "minAge": 18,
+   "fee": 560,
+   "ticket": 12,
+   "cogs": 0.45,
+   "rent": 70,
+   "baseDemand": 380,
+   "unit": "jobs",
+   "equip": [
+    {
+     "id": "anvil",
+     "name": "Anvil",
+     "cost": 160,
+     "cap": 200,
+     "starter": 1
+    },
+    {
+     "id": "bellows",
+     "name": "Bellows",
+     "cost": 80,
+     "cap": 200,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "craft"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 84,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 196,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 280,
+     "cap": 1.15
+    }
+   ]
+  },
+  "loom_shed": {
+   "kind": "shop",
+   "name": "Loom Shed",
+   "icon": "🧵",
+   "group": "Craft",
+   "blurb": "Cloaks, sashes, and dyed cloth.",
+   "minAge": 16,
+   "fee": 300,
+   "ticket": 7,
+   "cogs": 0.38,
+   "rent": 45,
+   "baseDemand": 520,
+   "unit": "bolts",
+   "equip": [
+    {
+     "id": "loom",
+     "name": "Floor loom",
+     "cost": 100,
+     "cap": 250,
+     "starter": 1
+    },
+    {
+     "id": "dyevats",
+     "name": "Dye vats",
+     "cost": 60,
+     "cap": 250,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "craft"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 45,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 105,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 150,
+     "cap": 1.15
+    }
+   ]
+  },
+  "apothecary": {
+   "kind": "shop",
+   "name": "Apothecary Shelf",
+   "icon": "⚗",
+   "group": "Care",
+   "blurb": "Tonics, poultices, and measured advice.",
+   "minAge": 20,
+   "fee": 420,
+   "ticket": 9,
+   "cogs": 0.3,
+   "rent": 55,
+   "baseDemand": 480,
+   "unit": "tonics",
+   "equip": [
+    {
+     "id": "shelves",
+     "name": "Herb shelves",
+     "cost": 70,
+     "cap": 240,
+     "starter": 1
+    },
+    {
+     "id": "mortar",
+     "name": "Mortar set",
+     "cost": 40,
+     "cap": 240,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "care"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 63,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 147,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 210,
+     "cap": 1.15
+    }
+   ]
+  },
+  "scribe_desk": {
+   "kind": "shop",
+   "name": "Scribe Desk",
+   "icon": "✒",
+   "group": "Letters",
+   "blurb": "Contracts, letters, and neat hands.",
+   "minAge": 17,
+   "fee": 180,
+   "ticket": 5,
+   "cogs": 0.15,
+   "rent": 30,
+   "baseDemand": 360,
+   "unit": "pages",
+   "equip": [
+    {
+     "id": "desk",
+     "name": "Writing desk",
+     "cost": 50,
+     "cap": 180,
+     "starter": 1
+    },
+    {
+     "id": "ink",
+     "name": "Ink & quills",
+     "cost": 25,
+     "cap": 180,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "letters"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 27,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 62,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 90,
+     "cap": 1.15
+    }
+   ]
+  },
+  "stable": {
+   "kind": "shop",
+   "name": "Road Stable",
+   "icon": "🐴",
+   "group": "Travel",
+   "blurb": "Feed, shoe, and rest mounts.",
+   "minAge": 16,
+   "fee": 400,
+   "ticket": 8,
+   "cogs": 0.42,
+   "rent": 65,
+   "baseDemand": 440,
+   "unit": "stays",
+   "equip": [
+    {
+     "id": "stalls",
+     "name": "Timber stalls",
+     "cost": 140,
+     "cap": 220,
+     "starter": 1
+    },
+    {
+     "id": "tack",
+     "name": "Tack wall",
+     "cost": 60,
+     "cap": 220,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "travel"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 60,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 140,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 200,
+     "cap": 1.15
+    }
+   ]
+  },
+  "fisher_shed": {
+   "kind": "shop",
+   "name": "Fisher Shed",
+   "icon": "🐟",
+   "group": "Market",
+   "blurb": "Fresh catch and smoked strips from Willowpond / coast.",
+   "minAge": 14,
+   "fee": 160,
+   "ticket": 3,
+   "cogs": 0.4,
+   "rent": 28,
+   "baseDemand": 500,
+   "unit": "catches",
+   "equip": [
+    {
+     "id": "nets",
+     "name": "Nets",
+     "cost": 40,
+     "cap": 250,
+     "starter": 1
+    },
+    {
+     "id": "smoke",
+     "name": "Smoke rack",
+     "cost": 35,
+     "cap": 250,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "market"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 24,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 56,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 80,
+     "cap": 1.15
+    }
+   ]
+  },
+  "chandlery": {
+   "kind": "shop",
+   "name": "Chandlery",
+   "icon": "🕯",
+   "group": "Market",
+   "blurb": "Candles, soap, and lamp oil.",
+   "minAge": 15,
+   "fee": 200,
+   "ticket": 3,
+   "cogs": 0.32,
+   "rent": 32,
+   "baseDemand": 560,
+   "unit": "goods",
+   "equip": [
+    {
+     "id": "molds",
+     "name": "Candle molds",
+     "cost": 45,
+     "cap": 280,
+     "starter": 1
+    },
+    {
+     "id": "kettles",
+     "name": "Soap kettles",
+     "cost": 55,
+     "cap": 280,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "market"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 30,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 70,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 100,
+     "cap": 1.15
+    }
+   ]
+  },
+  "guard_contract": {
+   "kind": "shop",
+   "name": "Watch Contract",
+   "icon": "🛡",
+   "group": "Security",
+   "blurb": "Hire blades for caravans and festivals.",
+   "minAge": 20,
+   "fee": 350,
+   "ticket": 15,
+   "cogs": 0.2,
+   "rent": 50,
+   "baseDemand": 300,
+   "unit": "contracts",
+   "equip": [
+    {
+     "id": "office",
+     "name": "Contract board",
+     "cost": 40,
+     "cap": 150,
+     "starter": 1
+    },
+    {
+     "id": "armory",
+     "name": "Spare gear",
+     "cost": 120,
+     "cap": 150,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "security"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 52,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 122,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 175,
+     "cap": 1.15
+    }
+   ]
+  },
+  "troupe": {
+   "kind": "shop",
+   "name": "Traveling Troupe",
+   "icon": "🎭",
+   "group": "Art",
+   "blurb": "Songs, plays, and festival tents.",
+   "minAge": 16,
+   "fee": 280,
+   "ticket": 6,
+   "cogs": 0.25,
+   "rent": 35,
+   "baseDemand": 480,
+   "unit": "shows",
+   "equip": [
+    {
+     "id": "tent",
+     "name": "Canvas tent",
+     "cost": 80,
+     "cap": 240,
+     "starter": 1
+    },
+    {
+     "id": "props",
+     "name": "Prop chest",
+     "cost": 50,
+     "cap": 240,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "art"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 42,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 98,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 140,
+     "cap": 1.15
+    }
+   ]
+  },
+  "orchard": {
+   "kind": "shop",
+   "name": "Orchard Plot",
+   "icon": "🍎",
+   "group": "Farm",
+   "blurb": "Fruit, cider-free pressed juice, and dried rings.",
+   "minAge": 16,
+   "fee": 320,
+   "ticket": 4,
+   "cogs": 0.35,
+   "rent": 40,
+   "baseDemand": 600,
+   "unit": "baskets",
+   "equip": [
+    {
+     "id": "trees",
+     "name": "Young trees",
+     "cost": 100,
+     "cap": 300,
+     "starter": 1
+    },
+    {
+     "id": "press",
+     "name": "Juice press",
+     "cost": 70,
+     "cap": 300,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "farm"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 48,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 112,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 160,
+     "cap": 1.15
+    }
+   ]
+  },
+  "mill_share": {
+   "kind": "shop",
+   "name": "Mill Share",
+   "icon": "⚙",
+   "group": "Farm",
+   "blurb": "A share of the village mill's grinding days.",
+   "minAge": 18,
+   "fee": 500,
+   "ticket": 5,
+   "cogs": 0.28,
+   "rent": 60,
+   "baseDemand": 520,
+   "unit": "sacks",
+   "equip": [
+    {
+     "id": "stones",
+     "name": "Mill share",
+     "cost": 200,
+     "cap": 260,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "farm"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 75,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 175,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 250,
+     "cap": 1.15
+    }
+   ]
+  },
+  "glass_booth": {
+   "kind": "shop",
+   "name": "Glassmarket Booth",
+   "icon": "🪞",
+   "group": "Market",
+   "blurb": "Imported dyes, mirrors, and sharp bargains.",
+   "minAge": 18,
+   "fee": 450,
+   "ticket": 10,
+   "cogs": 0.4,
+   "rent": 80,
+   "baseDemand": 500,
+   "unit": "sales",
+   "equip": [
+    {
+     "id": "booth",
+     "name": "Coast booth",
+     "cost": 120,
+     "cap": 250,
+     "starter": 1
+    },
+    {
+     "id": "locks",
+     "name": "Strongbox",
+     "cost": 60,
+     "cap": 250,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "market",
+    "coast"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 67,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 157,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 225,
+     "cap": 1.15
+    }
+   ]
+  },
+  "relic_desk": {
+   "kind": "shop",
+   "name": "Relic Desk",
+   "icon": "✦",
+   "group": "Letters",
+   "blurb": "Appraise, clean, and quietly place found relics.",
+   "minAge": 22,
+   "fee": 600,
+   "ticket": 20,
+   "cogs": 0.2,
+   "rent": 70,
+   "baseDemand": 220,
+   "unit": "appraisals",
+   "equip": [
+    {
+     "id": "glass",
+     "name": "Lens kit",
+     "cost": 90,
+     "cap": 110,
+     "starter": 1
+    },
+    {
+     "id": "vault",
+     "name": "Small vault",
+     "cost": 180,
+     "cap": 110,
+     "starter": 1
+    }
+   ],
+   "staffRoles": [
+    {
+     "id": "hand",
+     "name": "Helper",
+     "wage": 12,
+     "cap": 2
+    }
+   ],
+   "tags": [
+    "special"
+   ],
+   "risks": [
+    "theft",
+    "blight",
+    "inspection"
+   ],
+   "upgrades": [
+    {
+     "id": "sign",
+     "name": "Painted Sign",
+     "cost": 90,
+     "demand": 1.08
+    },
+    {
+     "id": "stock",
+     "name": "Deeper Stock",
+     "cost": 210,
+     "ticket": 1.1
+    },
+    {
+     "id": "apprentice_room",
+     "name": "Apprentice Bench",
+     "cost": 300,
+     "cap": 1.15
+    }
+   ]
+  }
+ },
+ "events": [
+  {
+   "id": "biz_theft",
+   "title": "Night Theft",
+   "w": 3,
+   "prompt": "Someone rattled your lock after dusk.",
+   "choices": [
+    {
+     "label": "Chase them",
+     "p": 0.5,
+     "win": {
+      "journal": [
+       "I caught a sleeve and a confession."
+      ],
+      "fx": {
+       "gold": 10,
+       "stress": 3
+      }
+     },
+     "fail": {
+      "journal": [
+       "I twisted an ankle for nothing."
+      ],
+      "fx": {
+       "health": -4
+      }
+     }
+    },
+    {
+     "label": "Reinforce locks",
+     "req": 20,
+     "journal": [
+      "New iron, quieter nights."
+     ],
+     "fx": {
+      "gold": -20
+     }
+    },
+    {
+     "label": "Shrug",
+     "journal": [
+      "Losses happen. I counted what remained."
+     ],
+     "fx": {
+      "gold": -15
+     }
+    }
+   ]
+  },
+  {
+   "id": "biz_blight",
+   "title": "Stock Blight",
+   "w": 2,
+   "prompt": "Damp crept into your stores.",
+   "choices": [
+    {
+     "label": "Salvage what you can",
+     "journal": [
+      "Half the stock was saved. Half became compost."
+     ],
+     "fx": {
+      "gold": -25,
+      "stress": 2
+     }
+    },
+    {
+     "label": "Buy fresh stock",
+     "req": 40,
+     "journal": [
+      "Coin fixed what damp ruined."
+     ],
+     "fx": {
+      "gold": -40
+     }
+    },
+    {
+     "label": "Close early",
+     "journal": [
+      "I shuttered until the air dried."
+     ],
+     "fx": {
+      "spirit": -2
+     }
+    }
+   ]
+  },
+  {
+   "id": "biz_praise",
+   "title": "Word of Mouth",
+   "w": 3,
+   "prompt": "A traveler praises your work in three villages.",
+   "choices": [
+    {
+     "label": "Lean into it",
+     "journal": [
+      "New faces found my door."
+     ],
+     "fx": {
+      "fame": 3,
+      "gold": 20
+     }
+    },
+    {
+     "label": "Stay humble",
+     "journal": [
+      "I nodded and kept working."
+     ],
+     "fx": {
+      "spirit": 2,
+      "fame": 1
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,7 +1,7 @@
 // Boundwake engine: Lifeline's year-turn life loop (src/rng.js + src/core.js forked verbatim from /workspace/lifesim),
 // re-written lean around the fantasy pack (data_fantasy/). Event resolve semantics follow lifesim/src/events.js
-// (weighted, age-gated, once/cool, chain follow-ups, p/win/fail). Lifeline's Earth systems (business, studio, sports,
-// politics, online…) are NOT carried over (standalone plan P0 "pack-optional modules").
+// (weighted, age-gated, once/cool, chain follow-ups, p/win/fail). Earth systems are reskinned in-pack
+// (ailments, law, passions, workshops, notices, court, mentors, patronage, world activities) — see docs/PACK_RESKIN.md.
 import { rnd, rint, pick, chance, clamp, wpick } from './rng.js';
 import { log, fill } from './core.js';
 
@@ -100,7 +100,9 @@ export function rollFate(seed, meta = {}, opts = {}) {
 }
 export function begin(fate, meta = {}, carry = null) {
   const s = { ...fate, age: 0, alive: true, stats: {}, skills: {}, flags: {}, log: [], pending: [], chain: [], evLast: {}, people: [], injuries: [], relics: [], codex: [...(meta.codex || [])],
-    job: null, jobHist: [], region: 'hearthfold', regionsFound: [...new Set(['hearthfold', ...(meta.regions || [])])], route: null, school: null, legacy: { gen: 1 }, tally: { events: 0 } };
+    job: null, jobHist: [], region: 'hearthfold', regionsFound: [...new Set(['hearthfold', ...(meta.regions || [])])], route: null, school: null, legacy: { gen: 1 }, tally: { events: 0, ailments: 0, crimes: 0 },
+    ailments: [], passions: { active: [], mastered: [] }, workshops: [], notices: { followers: 0, lastBoard: null, posts: 0 },
+    court: null, mentor: null, clubs: [], patronage: [], record: { sentences: 0, priors: 0 }, prison: null };
   for (const k of STATS) s.stats[k] = k === 'fame' || k === 'stress' ? 0 : k === 'karma' ? 50 : rint(s, 40, 85);
   for (const k of D.skills.skills) s.skills[k.id] = 0;
   s.gold = { poor: 5, common: 30, comfortable: 120, noble: 600 }[s.wealth] ?? 30; s.familyGold = s.gold * 10;
@@ -544,7 +546,10 @@ export function matches(s, e) {
   if (c.career && !(s.job && c.career.includes(D.jobsById[s.job.id].sector))) return false;
   if (c.job && !s.job) return false; if (c.partner && !partnerOf(s)) return false;
   if (c.married && !living(s, 'spouse').length) return false; if (c.single_married === false && living(s, 'spouse').length) return false;
-  if (c.nochild && living(s, 'child').length) return false; return true;
+  if (c.nochild && living(s, 'child').length) return false;
+  if (c.passion && !(s.passions?.active || []).some((p) => p.id === c.passion)) return false;
+  if (c.workshop && !(s.workshops || []).length) return false;
+  return true;
 }
 export const eligible = (s) => D.events.filter((e) => !e.chainOnly && matches(s, e));
 export function queue(s, id) { if (!s.pending.includes(id)) s.pending.push(id); }
@@ -585,6 +590,7 @@ export function applyFx(s, fx = {}) {
     else if (k === 'marry') { const p = partnerOf(s); if (p) { p.rel = 'spouse'; log(s, D.terms.ui.married, 'social'); } }
     else if (k === 'breakup') { const p = partnerOf(s); if (p) p.rel = 'ex'; }
     else if (k === 'child') { const c = person(s, 'child', 0); c.age = v === 'adopted' || v === 'apprentice' ? rint(s, 4, 12) : 0; c.kind = v === 1 ? 'born' : v; c.last = s.last; s.people.push(c); log(s, `${D.terms.ui.child_born} (${c.first}${c.kind !== 'born' ? ', ' + c.kind : ''})`, 'social'); }
+    else if (k === 'pm') gainPassionMeter(s, v);
   }
 }
 export function resolve(s, i) {
@@ -609,6 +615,9 @@ export function ageUp(s) {
   if (h >= 16 && s.school) s.school = null;
   if (s.flags.mana_awakened) { s.manaMax += yrs * (1 + (s.skills.mana_control || 0) / 40); s.mana = s.manaMax; }
   jobYear(s, yrs); peopleYear(s, yrs);
+  if (s.prison) prisonYear(s, yrs); else {
+    ailmentsYear(s, yrs); workshopsYear(s, yrs); passionsYear(s, yrs); noticesYear(s, yrs); courtYear(s, yrs);
+  }
   // skill decay (lifesim decay numbers, physicalAfter scaled by lifespan)
   const dc = D.skills.decay, physAfter = (dc.physicalAfter * race(s).lifespan) / 90;
   for (const k of D.skills.skills) { if (s.skillUsed?.[k.id]) continue; const v = s.skills[k.id]; if (v > 5) s.skills[k.id] = Math.max(0, v - (dc.base * 0.3 + v * dc.pct) * yrs - (k.cat === 'physical' && s.age > physAfter ? dc.physicalExtra * yrs : 0)); }
@@ -657,4 +666,352 @@ export function continueAsHeir(meta, s, heirId, seed) {
   if (n.lineage === 'blood_spark') { n.flags.mana_awakened = 1; n.mana = 10; } if (n.lineage === 'blood_silver') n.gold += 50;
   if (n.lineage === 'blood_iron') n.stats.health = Math.min(100, n.stats.health + 8);
   n.log = []; log(n, `You wake as ${n.first}. The house still smells like them — like you.`, 'birth'); drawEvents(n); return n;
+}
+
+
+// ============================================================
+// Pack systems (Lifeline shapes → Boundwake fantasy). Data in data_fantasy/.
+// ============================================================
+
+function ensureBags(s) {
+  if (!s.ailments) s.ailments = [];
+  if (!s.passions) s.passions = { active: [], mastered: [] };
+  if (!s.workshops) s.workshops = [];
+  if (!s.notices) s.notices = { followers: 0, lastBoard: null, posts: 0 };
+  if (!s.record) s.record = { sentences: 0, priors: 0 };
+  if (!s.clubs) s.clubs = [];
+  if (!s.patronage) s.patronage = [];
+  if (!s.tally) s.tally = { events: 0 };
+}
+
+// ---- ailments (diseases.json → ailments.json) ----
+export const ailmentDef = (id) => (D.ailments || []).find((d) => d.id === id);
+export const hasAilment = (s, id) => (s.ailments || []).some((d) => d.id === id);
+export function treatCost(s, def) { return Math.round((def.cost || 0) * (s.job ? 0.5 : 1)); }
+export function visitHealer(s) {
+  ensureBags(s);
+  if (hage(s) < 1) return { ok: false, msg: 'Too young.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const fee = 12;
+  if (s.gold < fee) { s.budget.act++; return { ok: false, msg: 'Not enough gold for a healer.' }; }
+  s.gold -= fee; s.stats.health = clamp(s.stats.health + 3, 0, 100);
+  const lines = [];
+  for (const d of s.ailments) {
+    const def = ailmentDef(d.id); if (!def) continue;
+    if (!d.dx) { d.dx = true; lines.push(`Diagnosed: ${def.name}.`); }
+  }
+  for (const d of [...s.ailments]) {
+    const def = ailmentDef(d.id); if (!def || !d.dx || d.treated) continue;
+    const cost = treatCost(s, def); if (cost <= 0 || s.gold < cost) continue;
+    s.gold -= cost;
+    if (chance(s, def.cure || 0.5)) { s.ailments.splice(s.ailments.indexOf(d), 1); s.stats.health = clamp(s.stats.health + 4, 0, 100); lines.push(`Cured of ${def.name}.`); }
+    else { d.treated = true; lines.push(`Began treatment for ${def.name}.`); }
+  }
+  const msg = lines.length ? `I visited a healer. ${lines.join(' ')}` : 'I visited a healer, who told me I was fine and charged me for it.';
+  log(s, msg, 'health'); return { ok: true, msg };
+}
+function ailmentsYear(s, yrs) {
+  ensureBags(s); if (!D.ailments) return;
+  for (const d of [...s.ailments]) {
+    const def = ailmentDef(d.id); if (!def) { s.ailments.splice(s.ailments.indexOf(d), 1); continue; }
+    if (!d.dx && chance(s, 0.45 * yrs)) { d.dx = true; log(s, `I was diagnosed with ${def.name.toLowerCase()}.`, 'health'); }
+    const y = d.treated && def.managed != null ? def.managed : def.yearly; if (y) s.stats.health = clamp(s.stats.health + y * yrs, 0, 100);
+    const dp = d.treated ? def.tdeath : def.death;
+    if (dp && chance(s, 1 - Math.pow(1 - dp, yrs))) { die(s, 'illness'); return; }
+    if (def.rem && chance(s, 1 - Math.pow(1 - def.rem, yrs))) { s.ailments.splice(s.ailments.indexOf(d), 1); log(s, `My ${def.name.toLowerCase()} faded on its own.`, 'health'); }
+  }
+  if (!s.alive) return;
+  if (!chance(s, 0.085 * yrs * (1 + hage(s) / 70))) return;
+  const a = Math.floor(hage(s));
+  const pool = D.ailments.filter((d) => a >= d.ages[0] && a <= d.ages[1] && !hasAilment(s, d.id) && !(d.sev === 'instant_death' && a < 45));
+  const def = wpick(s, pool, (d) => {
+    let w = d.w || 1;
+    if (d.stress && s.stats.stress > 60) w *= 2.5;
+    if (d.cat === 'spirit' && s.stats.stress > 60) w *= 2;
+    if (d.cat === 'arcane' && s.flags.mana_awakened) w *= 1.4;
+    if (s.stats.health < 50) w *= 1 + (50 - s.stats.health) / 60;
+    return w;
+  });
+  if (!def) return;
+  if (def.instant || def.sev === 'instant_death') { die(s, 'illness'); return; }
+  const dx = def.sev === 'minor' || chance(s, 0.6);
+  s.ailments.push({ id: def.id, since: s.age, dx, treated: false });
+  s.stats.health = clamp(s.stats.health + (def.onset || 0), 0, 100);
+  s.tally.ailments = (s.tally.ailments || 0) + 1;
+  log(s, dx ? `I ${def.verb} ${def.name.toLowerCase()}.` : 'I felt strangely unwell this year, and I did not know why.', 'health');
+}
+
+// ---- law (crimes → realm law) ----
+export const crimeDef = (id) => (D.law?.crimes || []).find((c) => c.id === id);
+export const tierDef = (id) => (D.law?.tiers || []).find((t) => t.id === id);
+export function lawAvailable(s) {
+  ensureBags(s); if (s.prison || !D.law) return [];
+  const a = hage(s);
+  return D.law.crimes.filter((c) => c.menu && a >= c.minAge && (!c.if || ((!c.if.job || s.job) && (!c.if.minFame || s.stats.fame >= c.if.minFame))));
+}
+function catchChance(s, c) {
+  const rules = D.law.rules, rec = s.record.sentences > 0 ? 1.15 : 1;
+  return clamp(c.catch * rec * (1 - (s.stats.smarts - 50) * (rules.catchSmartsMod || 0.004)), 0.05, 0.95);
+}
+export function commitCrime(s, id) {
+  ensureBags(s);
+  const c = crimeDef(id); if (!c || s.prison || hage(s) < c.minAge) return { ok: false, msg: 'Not possible.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.tally.crimes = (s.tally.crimes || 0) + 1;
+  if (chance(s, catchChance(s, c))) return arrest(s, id);
+  const loot = c.loot?.[1] != null ? Math.round(c.loot[0] + (c.loot[1] - c.loot[0]) * rnd(s)) : 0;
+  if (loot) s.gold += loot;
+  s.stats.karma = clamp(s.stats.karma + (c.karma || 0), 0, 100);
+  s.stats.happiness = clamp(s.stats.happiness + 3, 0, 100);
+  s.flags.criminal = 1;
+  const msg = c.ok + (loot ? ` I made ${loot} gold.` : '');
+  log(s, msg, 'crime'); return { ok: true, msg, loot };
+}
+function arrest(s, id) {
+  const c = crimeDef(id), rules = D.law.rules, priors = s.record.sentences;
+  let years = c.sentence[0] + (c.sentence[1] - c.sentence[0]) * rnd(s);
+  years *= Math.pow(rules.repeatMultiplier, Math.min(priors, rules.repeatCap));
+  years = Math.min(rules.lifeSentence, Math.max(0.25, Math.round(years * 4) / 4));
+  if (hage(s) < 18) years = Math.min(years, rules.juvieMaxYears);
+  let tier = 'stockade';
+  if (hage(s) < 18) tier = 'youth_hold';
+  else if (c.severity >= 5 || years > 10) tier = 'deepkeep';
+  else if (years > (tierDef('stockade')?.maxSentence || 2)) tier = 'stonehold';
+  s.prison = { crime: id, total: years, left: years, tier, served: 0 };
+  s.record.sentences++; s.flags.criminal = 1; s.flags.in_prison = 1;
+  if (s.job) quitJob(s);
+  s.pending = [];
+  s.stats.happiness = clamp(s.stats.happiness - 14, 0, 100);
+  s.stats.karma = clamp(s.stats.karma + Math.min(0, (c.karma || 0) / 2), 0, 100);
+  const yrs = years >= 99 ? 'life' : years < 1 ? `${Math.round(years * 12)} months` : `${years} years`;
+  const msg = `${c.caught} I was sentenced to ${yrs} in ${tierDef(tier)?.name || tier}.`;
+  log(s, msg, 'crime'); return { ok: false, msg, caught: true };
+}
+function prisonYear(s, yrs) {
+  const pr = s.prison; if (!pr) { delete s.flags.in_prison; return; }
+  pr.left -= yrs; pr.served += yrs;
+  const t = tierDef(pr.tier);
+  s.stats.stress = clamp(s.stats.stress + (t?.stress || 4) * yrs * 0.4, 0, 100);
+  s.stats.happiness = clamp(s.stats.happiness - 1 * yrs, 0, 100);
+  s.stats.health = clamp(s.stats.health - (t?.healthLoss || 1) * yrs, 0, 100);
+  if (pr.left <= 0.001 && pr.total < (D.law?.rules?.lifeSentence || 99)) {
+    s.prison = null; delete s.flags.in_prison; s.record.priors++;
+    log(s, `I was released after ${Math.round(pr.served * 10) / 10} years. The sky looked larger than I remembered.`, 'crime');
+  }
+}
+
+// ---- passions ----
+export function passionDef(id) { return (D.passions?.passions || []).find((p) => p.id === id); }
+export function passionSlots(s) {
+  ensureBags(s);
+  const base = D.passions?.slots || 2;
+  const mastered = s.passions.mastered.length;
+  return mastered >= 2 ? Math.min(4, base + mastered) : base;
+}
+export function passionList(s) {
+  ensureBags(s);
+  const cfg = D.passions; if (!cfg) return { active: [], available: [], free: 0 };
+  const held = new Set([...s.passions.active.map((p) => p.id), ...s.passions.mastered.map((p) => p.id)]);
+  return {
+    active: s.passions.active.map((p) => ({ ...p, def: passionDef(p.id) })),
+    mastered: s.passions.mastered,
+    available: cfg.passions.filter((p) => !held.has(p.id) && hage(s) >= (cfg.minAge || 6)),
+    free: Math.max(0, passionSlots(s) - s.passions.active.length),
+  };
+}
+export function adoptPassion(s, id) {
+  ensureBags(s);
+  if (hage(s) < (D.passions?.minAge || 6)) return { ok: false, msg: 'Too young for a pastime.' };
+  const list = passionList(s); if (!list.free) return { ok: false, msg: 'No free pastime slots.' };
+  if (!list.available.some((p) => p.id === id)) return { ok: false, msg: 'Already held or unknown.' };
+  s.passions.active.push({ id, meter: 0 }); const d = passionDef(id);
+  const msg = `I took up ${d.name}.`; log(s, msg, 'passion'); return { ok: true, msg };
+}
+export function practicePassion(s, id) {
+  ensureBags(s);
+  const p = s.passions.active.find((x) => x.id === id); if (!p) return { ok: false, msg: 'Not an active pastime.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const d = passionDef(id), gain = D.passions?.practiceGain || 9;
+  p.meter = Math.min(100, p.meter + gain);
+  for (const [sk, w] of Object.entries(d.skills || {})) useSkill(s, sk, 1.5 * w);
+  if (d.perks) applyFx(s, Object.fromEntries(Object.entries(d.perks).map(([k, v]) => [k === 'happy' ? 'happiness' : k, v])));
+  maybeMasterPassion(s, p);
+  const msg = `I practiced ${d.name} (meter ${Math.floor(p.meter)}).`; log(s, msg, 'passion'); return { ok: true, msg };
+}
+function gainPassionMeter(s, amt) {
+  ensureBags(s);
+  const p = s.passions.active[0]; if (!p) return;
+  p.meter = Math.min(100, p.meter + amt); maybeMasterPassion(s, p);
+}
+function maybeMasterPassion(s, p) {
+  if (p.meter < (D.passions?.benchmark || 100)) return;
+  const d = passionDef(p.id);
+  s.passions.active = s.passions.active.filter((x) => x.id !== p.id);
+  s.passions.mastered.push({ id: p.id, at: s.age });
+  s.stats.fame = clamp(s.stats.fame + 3, 0, 100);
+  log(s, `I mastered ${d.name} and became a ${d.masteryTitle}.`, 'passion');
+}
+function passionsYear(s, yrs) {
+  ensureBags(s); if (!D.passions) return;
+  const g = (D.passions.yearGain || 4) * yrs;
+  for (const p of s.passions.active) { p.meter = Math.min(100, p.meter + g); maybeMasterPassion(s, p); }
+}
+
+// ---- workshops ----
+export function workshopTypes(s) {
+  if (!D.workshops?.types) return [];
+  return Object.entries(D.workshops.types).map(([id, t]) => ({ id, ...t, ok: hage(s) >= t.minAge && s.gold >= t.fee && !(s.workshops || []).some((w) => w.type === id) }));
+}
+export function buyWorkshop(s, typeId) {
+  ensureBags(s);
+  const t = D.workshops?.types?.[typeId]; if (!t) return { ok: false, msg: 'Unknown workshop.' };
+  if (hage(s) < t.minAge) return { ok: false, msg: 'Too young.' };
+  if (s.gold < t.fee) return { ok: false, msg: 'Not enough gold.' };
+  if (s.workshops.some((w) => w.type === typeId)) return { ok: false, msg: 'You already run one.' };
+  s.gold -= t.fee;
+  s.workshops.push({ id: 'w' + (s.wid = (s.wid || 0) + 1), type: typeId, years: 0, renown: 10, stock: 1 });
+  s.flags.has_workshop = 1;
+  const msg = `I opened a ${t.name} (${t.fee} gold).`; log(s, msg, 'biz'); return { ok: true, msg };
+}
+function workshopsYear(s, yrs) {
+  ensureBags(s); if (!s.workshops.length || !D.workshops) return;
+  for (const w of s.workshops) {
+    const t = D.workshops.types[w.type]; if (!t) continue;
+    w.years += yrs;
+    const demand = t.baseDemand * (0.7 + w.renown / 100) * yrs / 12; // scale yearly
+    const revenue = Math.round(demand * t.ticket * (1 - t.cogs));
+    const rent = Math.round(t.rent * yrs / 12);
+    const profit = revenue - rent;
+    s.gold = Math.max(0, s.gold + profit);
+    w.renown = clamp(w.renown + rint(s, -2, 3), 0, 100);
+    if (profit > 0) log(s, `My ${t.name} cleared ${profit} gold this year.`, 'biz');
+    else if (profit < 0) log(s, `My ${t.name} lost ${-profit} gold to rent and spoilage.`, 'biz');
+  }
+}
+
+// ---- notices (online/social → boards) ----
+export function noticeBoards(s) {
+  return (D.notices?.boards || []).filter((b) => hage(s) >= b.minAge);
+}
+export function postNotice(s, boardId, postId) {
+  ensureBags(s);
+  if (hage(s) < (D.notices?.minAge || 10)) return { ok: false, msg: 'Too young for the boards.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const board = (D.notices.boards || []).find((b) => b.id === boardId);
+  const post = (D.notices.posts || []).find((p) => p.id === postId);
+  if (!board || !post) { s.budget.act++; return { ok: false, msg: 'Unknown notice.' }; }
+  const gain = Math.round(post.base * board.growth * (0.7 + rnd(s)));
+  s.notices.followers += gain; s.notices.posts++; s.notices.lastBoard = boardId;
+  s.stats.fame = clamp(s.stats.fame + Math.round(gain / 8), 0, 100);
+  if (post.stat === 'happiness') s.stats.happiness = clamp(s.stats.happiness + 2, 0, 100);
+  if (post.stat === 'smarts') s.stats.smarts = clamp(s.stats.smarts + 1, 0, 100);
+  if (post.stat === 'karma') s.stats.karma = clamp(s.stats.karma + 1, 0, 100);
+  if (chance(s, (post.risk || 0) * (board.risk || 1) * 0.15)) {
+    s.stats.fame = clamp(s.stats.fame - 2, 0, 100); s.stats.stress = clamp(s.stats.stress + 3, 0, 100);
+    log(s, `My notice on ${board.name} drew the wrong kind of attention.`, 'notice');
+  }
+  // rare patronage
+  const patron = pick(s, D.notices.patrons || []);
+  if (patron && s.notices.followers > 30 && chance(s, 0.12) && hage(s) >= patron.minAge) {
+    const pay = rint(s, patron.pay[0], patron.pay[1]); s.gold += pay;
+    log(s, `${patron.name} slipped me ${pay} gold after my notice.`, 'notice');
+  }
+  const msg = `I posted "${post.name}" on ${board.name}. (+${gain} readers)`; log(s, msg, 'notice'); return { ok: true, msg };
+}
+function noticesYear(s, yrs) {
+  ensureBags(s);
+  if (s.notices.followers > 0) s.notices.followers = Math.max(0, Math.floor(s.notices.followers * (1 - 0.08 * yrs)));
+}
+
+// ---- court ----
+export function courtOpenings(s) {
+  if (!D.court?.slots) return [];
+  const tier = s.court?.tier || 0;
+  return D.court.slots.filter((x) => hage(s) >= x.minAge && tier >= x.needTier && (!s.court || s.court.seat !== x.id));
+}
+export function fileForOffice(s, seatId) {
+  ensureBags(s);
+  const seat = (D.court?.slots || []).find((x) => x.id === seatId); if (!seat) return { ok: false, msg: 'Unknown seat.' };
+  if (hage(s) < seat.minAge) return { ok: false, msg: 'Too young.' };
+  if ((s.court?.tier || 0) < seat.needTier) return { ok: false, msg: 'Need a higher tier first.' };
+  if (s.gold < seat.filing) return { ok: false, msg: 'Cannot afford filing.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.gold -= seat.filing;
+  const odds = clamp(0.25 + s.stats.fame / 200 + s.skills.etiquette / 200 + s.skills.charm / 250, 0.1, 0.85);
+  if (chance(s, odds)) {
+    s.court = { seat: seat.id, tier: seat.tier, termLeft: seat.term, name: seat.name };
+    s.stats.fame = clamp(s.stats.fame + 4 + seat.tier, 0, 100);
+    const msg = `I won the seat of ${seat.name}.`; log(s, msg, 'court'); return { ok: true, msg };
+  }
+  const msg = `I filed for ${seat.name} and lost the vote.`; log(s, msg, 'court'); return { ok: false, msg };
+}
+function courtYear(s, yrs) {
+  if (!s.court) return;
+  const seat = (D.court?.slots || []).find((x) => x.id === s.court.seat);
+  if (seat) s.gold += Math.round((seat.pay || 0) * yrs / 4); // pay scaled down vs LL dollars
+  s.court.termLeft -= yrs;
+  if (s.court.termLeft <= 0) {
+    log(s, `My term as ${s.court.name} ended.`, 'court');
+    s.court = { tier: s.court.tier, seat: null, name: null, termLeft: 0 }; // keep tier progress
+  }
+}
+
+// ---- mentors ----
+export function mentorPaths() { return Object.entries(D.mentors?.paths || {}).map(([id, p]) => ({ id, ...p })); }
+export function enrollMentor(s, pathId) {
+  ensureBags(s);
+  const path = D.mentors?.paths?.[pathId]; if (!path) return { ok: false, msg: 'Unknown path.' };
+  if (hage(s) < 10) return { ok: false, msg: 'Too young.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.mentor = { path: pathId, role: 'drill', years: 0, style: pick(s, D.mentors.styles).id };
+  s.flags.has_mentor = 1;
+  const hall = pick(s, D.mentors.halls || ['the yard']);
+  const msg = `I enrolled in the ${path.name} under a mentor at ${hall}.`; log(s, msg, 'mentor'); return { ok: true, msg };
+}
+export function mentorDrill(s) {
+  if (!s.mentor) return { ok: false, msg: 'No mentor.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const path = D.mentors.paths[s.mentor.path];
+  for (const sk of path.skills) useSkill(s, sk, 2.2);
+  s.mentor.years++; s.stats.stress = clamp(s.stats.stress + 3, 0, 100);
+  if (s.mentor.years >= 3 && s.mentor.role === 'drill') s.mentor.role = 'second';
+  if (s.mentor.years >= 8 && s.mentor.role === 'second') s.mentor.role = 'master';
+  const msg = `Mentor drill (${path.name}).`; log(s, msg, 'mentor'); return { ok: true, msg };
+}
+
+// ---- patronage clubs ----
+export function clubList(s) {
+  return (D.patronage?.clubs || []).filter((c) => { const a = hage(s); return a >= c.minAge && a <= c.maxAge; });
+}
+export function joinClub(s, id) {
+  ensureBags(s);
+  const c = (D.patronage?.clubs || []).find((x) => x.id === id); if (!c) return { ok: false, msg: 'Unknown circle.' };
+  if (s.clubs.includes(id)) return { ok: false, msg: 'Already joined.' };
+  if (s.clubs.length >= (D.patronage?.maxClubs || 3)) return { ok: false, msg: 'Too many circles.' };
+  if (hage(s) < c.minAge || hage(s) > c.maxAge) return { ok: false, msg: 'Wrong age for that circle.' };
+  s.clubs.push(id);
+  const msg = `I joined ${c.name}.`; log(s, msg, 'school'); return { ok: true, msg };
+}
+
+// ---- world activities ----
+export function activityCategories(s) { return D.worldActivities?.categories || []; }
+export function doActivity(s, actId, choiceIdx = 0) {
+  ensureBags(s);
+  let found = null, cat = null;
+  for (const c of (D.worldActivities?.categories || [])) {
+    const a = c.activities.find((x) => x.id === actId); if (a) { found = a; cat = c; break; }
+  }
+  if (!found) return { ok: false, msg: 'Unknown activity.' };
+  if (hage(s) < found.minAge) return { ok: false, msg: 'Too young.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  const ch = found.choices[choiceIdx] || found.choices[0];
+  if ((ch.cost || 0) > s.gold) { s.budget.act++; return { ok: false, msg: 'Not enough gold.' }; }
+  if (ch.cost) s.gold -= ch.cost;
+  const outcome = wpick(s, ch.outcomes || [{ w: 1, text: 'It passed.', fx: {} }], (o) => o.w || 1);
+  applyFx(s, outcome.fx || {});
+  // healer activity also nudges diagnosis
+  if (actId === 'healer') {
+    for (const d of s.ailments) if (!d.dx) { d.dx = true; }
+  }
+  const msg = outcome.text || ch.label; log(s, msg, 'activity'); return { ok: true, msg };
 }

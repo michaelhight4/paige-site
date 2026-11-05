@@ -1,0 +1,260 @@
+{
+ "slots": 2,
+ "masteryCap": 4,
+ "benchmark": 100,
+ "minAge": 6,
+ "switchPenalty": "Switching resets that pastime's meter to 0.",
+ "yearGain": 4,
+ "practiceGain": 9,
+ "practiceCost": 0,
+ "passions": [
+  {
+   "id": "song",
+   "name": "Song & Lute",
+   "icon": "♪",
+   "skills": {
+    "performance": 1,
+    "charm": 0.5,
+    "focus": 0.4
+   },
+   "masteryTitle": "Hearth Bard",
+   "career": "bard",
+   "venue": "the Greenwell commons",
+   "mentor": "a traveling minstrel",
+   "contest": "the Lantern Quay song-circle",
+   "gig": "play festival sets",
+   "perks": {
+    "happy": 2,
+    "fame": 1
+   },
+   "scholarship": "song"
+  },
+  {
+   "id": "blade_forms",
+   "name": "Blade Forms",
+   "icon": "⚔",
+   "skills": {
+    "swordsmanship": 1,
+    "strength": 0.5,
+    "endurance": 0.4
+   },
+   "masteryTitle": "Form-Keeper",
+   "career": "adventurer",
+   "venue": "the dojo yard",
+   "mentor": "a retired sword-hand",
+   "contest": "the Watchpost sparring day",
+   "gig": "drill with the militia",
+   "perks": {
+    "health": 1,
+    "fame": 1
+   },
+   "scholarship": "blade"
+  },
+  {
+   "id": "herb_lore",
+   "name": "Herb Lore",
+   "icon": "🌿",
+   "skills": {
+    "alchemy": 1,
+    "foraging": 0.7,
+    "lore": 0.5
+   },
+   "masteryTitle": "Greenwise",
+   "career": "healer",
+   "venue": "Willowpond banks",
+   "mentor": "a hedge-healer",
+   "contest": "the Herb Fair tasting",
+   "gig": "brew tonics for neighbors",
+   "perks": {
+    "smarts": 1,
+    "health": 1
+   },
+   "scholarship": "herb"
+  },
+  {
+   "id": "market_craft",
+   "name": "Market Craft",
+   "icon": "⚖",
+   "skills": {
+    "bartering": 1,
+    "charm": 0.5,
+    "literacy": 0.3
+   },
+   "masteryTitle": "Stallwright",
+   "career": "merchant",
+   "venue": "Market Row",
+   "mentor": "a sharp-eyed stall auntie",
+   "contest": "the dusk price-war",
+   "gig": "run a holiday stall",
+   "perks": {
+    "happy": 1
+   },
+   "scholarship": "trade"
+  },
+  {
+   "id": "ink_and_verse",
+   "name": "Ink & Verse",
+   "icon": "✒",
+   "skills": {
+    "literacy": 1,
+    "lore": 0.6,
+    "focus": 0.5
+   },
+   "masteryTitle": "Chronicler",
+   "career": "scholar",
+   "venue": "Vale Primer Yard",
+   "mentor": "a village scribe",
+   "contest": "the Spireward essay contest",
+   "gig": "copy letters for hire",
+   "perks": {
+    "smarts": 2
+   },
+   "scholarship": "letters"
+  },
+  {
+   "id": "hearth_cook",
+   "name": "Hearth Cooking",
+   "icon": "🍲",
+   "skills": {
+    "cooking": 1,
+    "husbandry": 0.3,
+    "charm": 0.3
+   },
+   "masteryTitle": "Hearthwright",
+   "career": "innkeep",
+   "venue": "Cottage Lane kitchens",
+   "mentor": "an inn cook",
+   "contest": "the Harvest Pot contest",
+   "gig": "feed festival crews",
+   "perks": {
+    "happy": 2,
+    "health": 1
+   },
+   "scholarship": "hearth"
+  },
+  {
+   "id": "loom_dye",
+   "name": "Loom & Dye",
+   "icon": "🧵",
+   "skills": {
+    "tailoring": 1,
+    "focus": 0.5,
+    "bartering": 0.3
+   },
+   "masteryTitle": "Threadmaster",
+   "career": "tailor",
+   "venue": "the dye sheds",
+   "mentor": "a weaver aunt",
+   "contest": "the Mirrorglass cloth fair",
+   "gig": "mend travel cloaks",
+   "perks": {
+    "looks": 1,
+    "happy": 1
+   },
+   "scholarship": "loom"
+  },
+  {
+   "id": "shadow_paths",
+   "name": "Shadow Paths",
+   "icon": "🕶",
+   "skills": {
+    "stealth": 1,
+    "agility": 0.6,
+    "tracking": 0.4
+   },
+   "masteryTitle": "Quiet Step",
+   "career": "rogue",
+   "venue": "after-dusk alleys",
+   "mentor": "a retired cutpurse who went straight",
+   "contest": "the Blindfold Dash",
+   "gig": "scout for caravans",
+   "perks": {
+    "fame": 1
+   },
+   "scholarship": "shadow"
+  },
+  {
+   "id": "forge_hammer",
+   "name": "Forge Hammer",
+   "icon": "🔨",
+   "skills": {
+    "smithing": 1,
+    "strength": 0.6,
+    "endurance": 0.4
+   },
+   "masteryTitle": "Anvil-Sworn",
+   "career": "blacksmith",
+   "venue": "the village forge",
+   "mentor": "a smith with burnt eyebrows",
+   "contest": "the Emberlight blade trial",
+   "gig": "shoe militia horses",
+   "perks": {
+    "health": 1
+   },
+   "scholarship": "forge"
+  },
+  {
+   "id": "beast_call",
+   "name": "Beast Call",
+   "icon": "🦌",
+   "skills": {
+    "husbandry": 1,
+    "tracking": 0.6,
+    "composure": 0.3
+   },
+   "masteryTitle": "Beastfriend",
+   "career": "hunter",
+   "venue": "Thornreed fringe",
+   "mentor": "a quiet ranger",
+   "contest": "the Falconer's Meet",
+   "gig": "train messenger hawks",
+   "perks": {
+    "happy": 1,
+    "health": 1
+   },
+   "scholarship": "beast"
+  },
+  {
+   "id": "ward_marks",
+   "name": "Ward Marks",
+   "icon": "✦",
+   "skills": {
+    "warding": 1,
+    "mana_control": 0.5,
+    "lore": 0.5
+   },
+   "masteryTitle": "Wardwright",
+   "career": "mage",
+   "venue": "shrine steps",
+   "mentor": "a soft-spoken ward-priest",
+   "contest": "the Circle of Quiet Lights",
+   "gig": "refresh house wards",
+   "perks": {
+    "smarts": 1,
+    "fame": 1
+   },
+   "scholarship": "ward"
+  },
+  {
+   "id": "rally_voice",
+   "name": "Rally Voice",
+   "icon": "🗣",
+   "skills": {
+    "etiquette": 1,
+    "charm": 0.7,
+    "composure": 0.5
+   },
+   "masteryTitle": "Speaker",
+   "career": "courtier",
+   "venue": "the commons moot",
+   "mentor": "a retired reeve",
+   "contest": "the Youth Moot debate",
+   "gig": "speak for neighbors",
+   "perks": {
+    "fame": 2,
+    "looks": 1
+   },
+   "scholarship": "voice"
+  }
+ ]
+}

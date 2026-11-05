@@ -56,3 +56,10 @@
 ## Nov 5 2026 (Realms Visit + scroll)
 - `visitLocation(s, locId)` spends act; kind-based effects; Codex + visit_bias. Pond Visit ≠ Life Rest-by-pond.
 - Realms UI: Visit on current realm places; Travel here on others; scrollable play-body / realms-stack.
+
+## Nov 5 2026 (Lifeline pack → Boundwake fantasy reskin)
+- `docs/PACK_RESKIN.md`: full Lifeline→Boundwake file map.
+- New `data_fantasy/` packs: ailments, law, passions, passion_events, workshops, notices, court, mentors, patronage, world_activities, world_legacy; events expanded (~42→~89 +36 passion).
+- `pack.js` loads them; passion events merge into event pool.
+- `bw_engine.js`: year ticks + actions for ailments/healer, law/prison, pastimes, workshops, notices, court, mentors, clubs, world activities.
+- `ui.js` additive panels on Life / Work / Belongings (no revert of PRG, music, realms Visit, skill styles).

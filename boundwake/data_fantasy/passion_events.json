@@ -1,0 +1,1958 @@
+[
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "song"
+  },
+  "cool": 3,
+  "id": "p_song_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Song & Lute",
+  "prompt": "A traveling minstrel notices your interest in song & lute and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a traveling minstrel and my song & lute sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_performance": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a traveling minstrel."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_performance": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a traveling minstrel. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "song"
+  },
+  "cool": 3,
+  "id": "p_song_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Lantern Quay Song-Circle",
+  "prompt": "Word spreads that the Lantern Quay song-circle is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Lantern Quay song-circle and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Lantern Quay song-circle and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Lantern Quay song-circle and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "song"
+  },
+  "cool": 4,
+  "id": "p_song_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Play",
+  "prompt": "Someone offers coin if you will play festival sets.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to play festival sets and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_performance": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "blade_forms"
+  },
+  "cool": 3,
+  "id": "p_blade_forms_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Blade Forms",
+  "prompt": "A retired sword-hand notices your interest in blade forms and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a retired sword-hand and my blade forms sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_swordsmanship": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a retired sword-hand."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_swordsmanship": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a retired sword-hand. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "blade_forms"
+  },
+  "cool": 3,
+  "id": "p_blade_forms_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Watchpost Sparring Day",
+  "prompt": "Word spreads that the Watchpost sparring day is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Watchpost sparring day and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Watchpost sparring day and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Watchpost sparring day and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "blade_forms"
+  },
+  "cool": 4,
+  "id": "p_blade_forms_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Drill",
+  "prompt": "Someone offers coin if you will drill with the militia.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to drill with the militia and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_swordsmanship": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "herb_lore"
+  },
+  "cool": 3,
+  "id": "p_herb_lore_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Herb Lore",
+  "prompt": "A hedge-healer notices your interest in herb lore and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a hedge-healer and my herb lore sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_alchemy": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a hedge-healer."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_alchemy": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a hedge-healer. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "herb_lore"
+  },
+  "cool": 3,
+  "id": "p_herb_lore_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Herb Fair Tasting",
+  "prompt": "Word spreads that the Herb Fair tasting is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Herb Fair tasting and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Herb Fair tasting and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Herb Fair tasting and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "herb_lore"
+  },
+  "cool": 4,
+  "id": "p_herb_lore_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Brew",
+  "prompt": "Someone offers coin if you will brew tonics for neighbors.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to brew tonics for neighbors and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_alchemy": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "market_craft"
+  },
+  "cool": 3,
+  "id": "p_market_craft_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Market Craft",
+  "prompt": "A sharp-eyed stall auntie notices your interest in market craft and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a sharp-eyed stall auntie and my market craft sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_bartering": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a sharp-eyed stall auntie."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_bartering": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a sharp-eyed stall auntie. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "market_craft"
+  },
+  "cool": 3,
+  "id": "p_market_craft_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Dusk Price-War",
+  "prompt": "Word spreads that the dusk price-war is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the dusk price-war and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the dusk price-war and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the dusk price-war and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "market_craft"
+  },
+  "cool": 4,
+  "id": "p_market_craft_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Run",
+  "prompt": "Someone offers coin if you will run a holiday stall.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to run a holiday stall and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_bartering": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "ink_and_verse"
+  },
+  "cool": 3,
+  "id": "p_ink_and_verse_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Ink & Verse",
+  "prompt": "A village scribe notices your interest in ink & verse and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a village scribe and my ink & verse sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_literacy": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a village scribe."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a village scribe. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "ink_and_verse"
+  },
+  "cool": 3,
+  "id": "p_ink_and_verse_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Spireward Essay Contest",
+  "prompt": "Word spreads that the Spireward essay contest is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Spireward essay contest and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Spireward essay contest and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Spireward essay contest and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "ink_and_verse"
+  },
+  "cool": 4,
+  "id": "p_ink_and_verse_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Copy",
+  "prompt": "Someone offers coin if you will copy letters for hire.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to copy letters for hire and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "hearth_cook"
+  },
+  "cool": 3,
+  "id": "p_hearth_cook_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Hearth Cooking",
+  "prompt": "An inn cook notices your interest in hearth cooking and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under an inn cook and my hearth cooking sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_cooking": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from an inn cook."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_cooking": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down an inn cook. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "hearth_cook"
+  },
+  "cool": 3,
+  "id": "p_hearth_cook_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Harvest Pot Contest",
+  "prompt": "Word spreads that the Harvest Pot contest is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Harvest Pot contest and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Harvest Pot contest and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Harvest Pot contest and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "hearth_cook"
+  },
+  "cool": 4,
+  "id": "p_hearth_cook_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Feed",
+  "prompt": "Someone offers coin if you will feed festival crews.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to feed festival crews and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_cooking": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "loom_dye"
+  },
+  "cool": 3,
+  "id": "p_loom_dye_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Loom & Dye",
+  "prompt": "A weaver aunt notices your interest in loom & dye and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a weaver aunt and my loom & dye sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_tailoring": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a weaver aunt."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_tailoring": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a weaver aunt. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "loom_dye"
+  },
+  "cool": 3,
+  "id": "p_loom_dye_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Mirrorglass Cloth Fair",
+  "prompt": "Word spreads that the Mirrorglass cloth fair is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Mirrorglass cloth fair and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Mirrorglass cloth fair and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Mirrorglass cloth fair and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "loom_dye"
+  },
+  "cool": 4,
+  "id": "p_loom_dye_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Mend",
+  "prompt": "Someone offers coin if you will mend travel cloaks.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to mend travel cloaks and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_tailoring": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "shadow_paths"
+  },
+  "cool": 3,
+  "id": "p_shadow_paths_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Shadow Paths",
+  "prompt": "A retired cutpurse who went straight notices your interest in shadow paths and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a retired cutpurse who went straight and my shadow paths sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_stealth": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a retired cutpurse who went straight."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_stealth": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a retired cutpurse who went straight. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "shadow_paths"
+  },
+  "cool": 3,
+  "id": "p_shadow_paths_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Blindfold Dash",
+  "prompt": "Word spreads that the Blindfold Dash is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Blindfold Dash and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Blindfold Dash and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Blindfold Dash and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "shadow_paths"
+  },
+  "cool": 4,
+  "id": "p_shadow_paths_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Scout",
+  "prompt": "Someone offers coin if you will scout for caravans.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to scout for caravans and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_stealth": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "forge_hammer"
+  },
+  "cool": 3,
+  "id": "p_forge_hammer_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Forge Hammer",
+  "prompt": "A smith with burnt eyebrows notices your interest in forge hammer and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a smith with burnt eyebrows and my forge hammer sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_smithing": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a smith with burnt eyebrows."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_smithing": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a smith with burnt eyebrows. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "forge_hammer"
+  },
+  "cool": 3,
+  "id": "p_forge_hammer_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Emberlight Blade Trial",
+  "prompt": "Word spreads that the Emberlight blade trial is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Emberlight blade trial and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Emberlight blade trial and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Emberlight blade trial and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "forge_hammer"
+  },
+  "cool": 4,
+  "id": "p_forge_hammer_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Shoe",
+  "prompt": "Someone offers coin if you will shoe militia horses.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to shoe militia horses and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_smithing": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "beast_call"
+  },
+  "cool": 3,
+  "id": "p_beast_call_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Beast Call",
+  "prompt": "A quiet ranger notices your interest in beast call and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a quiet ranger and my beast call sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_husbandry": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a quiet ranger."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_husbandry": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a quiet ranger. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "beast_call"
+  },
+  "cool": 3,
+  "id": "p_beast_call_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Falconer'S Meet",
+  "prompt": "Word spreads that the Falconer's Meet is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Falconer's Meet and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Falconer's Meet and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Falconer's Meet and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "beast_call"
+  },
+  "cool": 4,
+  "id": "p_beast_call_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Train",
+  "prompt": "Someone offers coin if you will train messenger hawks.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to train messenger hawks and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_husbandry": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "ward_marks"
+  },
+  "cool": 3,
+  "id": "p_ward_marks_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Ward Marks",
+  "prompt": "A soft-spoken ward-priest notices your interest in ward marks and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a soft-spoken ward-priest and my ward marks sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_warding": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a soft-spoken ward-priest."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_warding": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a soft-spoken ward-priest. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "ward_marks"
+  },
+  "cool": 3,
+  "id": "p_ward_marks_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Circle Of Quiet Lights",
+  "prompt": "Word spreads that the Circle of Quiet Lights is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Circle of Quiet Lights and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Circle of Quiet Lights and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Circle of Quiet Lights and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "ward_marks"
+  },
+  "cool": 4,
+  "id": "p_ward_marks_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Refresh",
+  "prompt": "Someone offers coin if you will refresh house wards.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to refresh house wards and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_warding": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "rally_voice"
+  },
+  "cool": 3,
+  "id": "p_rally_voice_mentor",
+  "ages": [
+   8,
+   80
+  ],
+  "w": 5,
+  "title": "A Mentor for Rally Voice",
+  "prompt": "A retired reeve notices your interest in rally voice and offers to take you under their wing.",
+  "choices": [
+   {
+    "label": "Train hard (costs 25 gold)",
+    "req": 25,
+    "journal": [
+     "I trained under a retired reeve and my rally voice sharpened."
+    ],
+    "fx": {
+     "pm": 14,
+     "sk_etiquette": 4,
+     "gold": -25,
+     "stress": 3
+    }
+   },
+   {
+    "label": "Learn casually",
+    "journal": [
+     "I picked up tips from a retired reeve."
+    ],
+    "fx": {
+     "pm": 7,
+     "sk_etiquette": 2
+    }
+   },
+   {
+    "label": "Decline politely",
+    "journal": [
+     "I turned down a retired reeve. Maybe another season."
+    ],
+    "fx": {
+     "composure": 1
+    }
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "rally_voice"
+  },
+  "cool": 3,
+  "id": "p_rally_voice_contest",
+  "ages": [
+   8,
+   85
+  ],
+  "w": 5,
+  "title": "The Youth Moot Debate",
+  "prompt": "Word spreads that the Youth Moot debate is coming. You could enter.",
+  "choices": [
+   {
+    "label": "Enter and go all in",
+    "p": 0.55,
+    "win": {
+     "journal": [
+      "I entered the Youth Moot debate and earned real recognition."
+     ],
+     "fx": {
+      "pm": 12,
+      "fame": 3,
+      "spirit": 4
+     }
+    },
+    "fail": {
+     "journal": [
+      "I entered the Youth Moot debate and left with bruised pride."
+     ],
+     "fx": {
+      "pm": 4,
+      "stress": 4
+     }
+    }
+   },
+   {
+    "label": "Watch and learn",
+    "journal": [
+     "I watched the Youth Moot debate and stole three good ideas."
+    ],
+    "fx": {
+     "pm": 5,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Stay home",
+    "journal": [
+     "I let the day pass. The road is patient."
+    ],
+    "fx": {}
+   }
+  ]
+ },
+ {
+  "cat": "passion",
+  "if": {
+   "passion": "rally_voice"
+  },
+  "cool": 4,
+  "id": "p_rally_voice_gig",
+  "ages": [
+   12,
+   90
+  ],
+  "w": 4,
+  "title": "A Chance to Speak",
+  "prompt": "Someone offers coin if you will speak for neighbors.",
+  "choices": [
+   {
+    "label": "Take the work",
+    "journal": [
+     "I agreed to speak for neighbors and pocketed honest pay."
+    ],
+    "fx": {
+     "pm": 8,
+     "gold": 18,
+     "spirit": 2,
+     "sk_etiquette": 2
+    }
+   },
+   {
+    "label": "Hold out for more",
+    "p": 0.45,
+    "win": {
+     "journal": [
+      "They paid my higher ask. I almost smiled too wide."
+     ],
+     "fx": {
+      "pm": 6,
+      "gold": 32
+     }
+    },
+    "fail": {
+     "journal": [
+      "They hired someone cheaper. Lesson paid in nothing."
+     ],
+     "fx": {
+      "stress": 2
+     }
+    }
+   },
+   {
+    "label": "Pass",
+    "journal": [
+     "I kept my evenings free."
+    ],
+    "fx": {}
+   }
+  ]
+ }
+]

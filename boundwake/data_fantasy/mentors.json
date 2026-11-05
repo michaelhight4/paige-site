@@ -1,0 +1,209 @@
+{
+ "paths": {
+  "sword": {
+   "name": "Sword Path",
+   "icon": "⚔",
+   "pitch": "#6b7c3a",
+   "skills": [
+    "swordsmanship",
+    "strength",
+    "shieldwork"
+   ],
+   "roles": [
+    {
+     "id": "drill",
+     "name": "Drill Partner",
+     "atk": 1,
+     "def": 1
+    },
+    {
+     "id": "second",
+     "name": "Second",
+     "atk": 1.2,
+     "def": 1.1
+    },
+    {
+     "id": "master",
+     "name": "Form Master",
+     "atk": 1.4,
+     "def": 1.3
+    }
+   ]
+  },
+  "spell": {
+   "name": "Spell Path",
+   "icon": "✦",
+   "pitch": "#4a6fa5",
+   "skills": [
+    "spellcraft",
+    "mana_control",
+    "warding"
+   ],
+   "roles": [
+    {
+     "id": "drill",
+     "name": "Circle Peer",
+     "atk": 1,
+     "def": 1
+    },
+    {
+     "id": "second",
+     "name": "Under-Tutor",
+     "atk": 1.2,
+     "def": 1.1
+    },
+    {
+     "id": "master",
+     "name": "Circle Master",
+     "atk": 1.4,
+     "def": 1.3
+    }
+   ]
+  },
+  "craft": {
+   "name": "Craft Path",
+   "icon": "🔨",
+   "pitch": "#8a5a3a",
+   "skills": [
+    "smithing",
+    "alchemy",
+    "tailoring"
+   ],
+   "roles": [
+    {
+     "id": "drill",
+     "name": "Bench Mate",
+     "atk": 1,
+     "def": 1
+    },
+    {
+     "id": "second",
+     "name": "Foreman",
+     "atk": 1.2,
+     "def": 1.1
+    },
+    {
+     "id": "master",
+     "name": "Guild Master",
+     "atk": 1.4,
+     "def": 1.3
+    }
+   ]
+  },
+  "hunt": {
+   "name": "Hunt Path",
+   "icon": "🏹",
+   "pitch": "#3f6b4f",
+   "skills": [
+    "archery",
+    "tracking",
+    "husbandry"
+   ],
+   "roles": [
+    {
+     "id": "drill",
+     "name": "Trail Mate",
+     "atk": 1,
+     "def": 1
+    },
+    {
+     "id": "second",
+     "name": "Scout Lead",
+     "atk": 1.2,
+     "def": 1.1
+    },
+    {
+     "id": "master",
+     "name": "Ranger",
+     "atk": 1.4,
+     "def": 1.3
+    }
+   ]
+  }
+ },
+ "halls": [
+  "Greenwell Yard",
+  "Lantern Quay Ring",
+  "Spireward Court",
+  "Emberlight Drill",
+  "Thornreed Camp"
+ ],
+ "styles": [
+  {
+   "id": "steady",
+   "name": "Steady Hands",
+   "atk": 1.0,
+   "def": 1.2,
+   "sub": "Fewer mistakes"
+  },
+  {
+   "id": "bold",
+   "name": "Bold Advance",
+   "atk": 1.25,
+   "def": 0.9,
+   "sub": "Risk for gain"
+  },
+  {
+   "id": "clever",
+   "name": "Clever Angles",
+   "atk": 1.1,
+   "def": 1.1,
+   "sub": "Wits over force"
+  },
+  {
+   "id": "kind",
+   "name": "Kind Drill",
+   "atk": 0.95,
+   "def": 1.15,
+   "sub": "Spirit stays high"
+  }
+ ],
+ "training": [
+  {
+   "id": "forms",
+   "name": "Forms",
+   "sub": "Repetition",
+   "fit": 1
+  },
+  {
+   "id": "spar",
+   "name": "Sparring",
+   "sub": "Pressure",
+   "fit": 2
+  },
+  {
+   "id": "field",
+   "name": "Field Work",
+   "sub": "Real roads",
+   "fit": 2
+  },
+  {
+   "id": "teach",
+   "name": "Teach Juniors",
+   "sub": "Mastery check",
+   "fit": 1
+  }
+ ],
+ "gear": [
+  {
+   "name": "Practice Blades",
+   "cost": 20,
+   "b": 1.05
+  },
+  {
+   "name": "Ward Chalk",
+   "cost": 25,
+   "b": 1.08
+  },
+  {
+   "name": "Good Boots",
+   "cost": 30,
+   "b": 1.1
+  },
+  {
+   "name": "Mentor's Token",
+   "cost": 60,
+   "b": 1.15
+  }
+ ]
+}

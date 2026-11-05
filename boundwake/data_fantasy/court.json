@@ -1,0 +1,260 @@
+{
+ "slots": [
+  {
+   "id": "moot_voice",
+   "name": "Commons Voice",
+   "tier": 1,
+   "minAge": 16,
+   "term": 2,
+   "pay": 20,
+   "seats": 6,
+   "cand": 12,
+   "needTier": 0,
+   "filing": 5,
+   "kind": "election",
+   "scope": "Village"
+  },
+  {
+   "id": "reeve",
+   "name": "Village Reeve",
+   "tier": 2,
+   "minAge": 20,
+   "term": 3,
+   "pay": 45,
+   "seats": 1,
+   "cand": 5,
+   "needTier": 1,
+   "filing": 15,
+   "kind": "election",
+   "scope": "Village"
+  },
+  {
+   "id": "watch_captain",
+   "name": "Watch Captain",
+   "tier": 2,
+   "minAge": 22,
+   "term": 4,
+   "pay": 55,
+   "seats": 1,
+   "cand": 4,
+   "needTier": 1,
+   "filing": 20,
+   "kind": "appointment",
+   "scope": "Realm"
+  },
+  {
+   "id": "guild_delegate",
+   "name": "Guild Delegate",
+   "tier": 2,
+   "minAge": 21,
+   "term": 3,
+   "pay": 40,
+   "seats": 3,
+   "cand": 8,
+   "needTier": 1,
+   "filing": 18,
+   "kind": "election",
+   "scope": "Guild"
+  },
+  {
+   "id": "harbor_warden",
+   "name": "Harbor Warden",
+   "tier": 3,
+   "minAge": 24,
+   "term": 4,
+   "pay": 80,
+   "seats": 1,
+   "cand": 4,
+   "needTier": 2,
+   "filing": 35,
+   "kind": "election",
+   "scope": "Coast"
+  },
+  {
+   "id": "circuit_magistrate",
+   "name": "Circuit Magistrate",
+   "tier": 3,
+   "minAge": 28,
+   "term": 6,
+   "pay": 100,
+   "seats": 2,
+   "cand": 6,
+   "needTier": 2,
+   "filing": 50,
+   "kind": "appointment",
+   "scope": "Realm"
+  },
+  {
+   "id": "realm_envoy",
+   "name": "Realm Envoy",
+   "tier": 4,
+   "minAge": 30,
+   "term": 5,
+   "pay": 140,
+   "seats": 1,
+   "cand": 3,
+   "needTier": 3,
+   "filing": 80,
+   "kind": "appointment",
+   "scope": "Court"
+  },
+  {
+   "id": "high_steward",
+   "name": "High Steward",
+   "tier": 4,
+   "minAge": 35,
+   "term": 6,
+   "pay": 200,
+   "seats": 1,
+   "cand": 3,
+   "needTier": 3,
+   "filing": 120,
+   "kind": "election",
+   "scope": "Court"
+  },
+  {
+   "id": "lord_judge",
+   "name": "Lord Judge",
+   "tier": 5,
+   "minAge": 40,
+   "term": 10,
+   "pay": 250,
+   "seats": 1,
+   "cand": 2,
+   "needTier": 4,
+   "filing": 150,
+   "kind": "appointment",
+   "scope": "Court"
+  }
+ ],
+ "platforms": [
+  {
+   "id": "harvest",
+   "name": "Full Harvest",
+   "icon": "🌾",
+   "fit": "farm"
+  },
+  {
+   "id": "safe_roads",
+   "name": "Safe Roads",
+   "icon": "🛡",
+   "fit": "watch"
+  },
+  {
+   "id": "open_markets",
+   "name": "Open Markets",
+   "icon": "⚖",
+   "fit": "trade"
+  },
+  {
+   "id": "academy_light",
+   "name": "Academy Light",
+   "icon": "📜",
+   "fit": "letters"
+  },
+  {
+   "id": "soft_tithes",
+   "name": "Softer Tithes",
+   "icon": "🪙",
+   "fit": "people"
+  },
+  {
+   "id": "old_rites",
+   "name": "Old Rites",
+   "icon": "🕯",
+   "fit": "faith"
+  }
+ ],
+ "questions": [
+  {
+   "id": "bridge_toll",
+   "text": "Should Old Stonebridge keep its toll?",
+   "choices": [
+    {
+     "label": "Keep the toll for repairs",
+     "fx": {
+      "fame": 1,
+      "karma": -1
+     }
+    },
+    {
+     "label": "End the toll",
+     "fx": {
+      "fame": 2,
+      "karma": 2,
+      "gold": -5
+     }
+    },
+    {
+     "label": "Lower it for locals only",
+     "fx": {
+      "fame": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "militia_drill",
+   "text": "How often should the militia drill?",
+   "choices": [
+    {
+     "label": "Weekly",
+     "fx": {
+      "fame": 1,
+      "stress": 1
+     }
+    },
+    {
+     "label": "Monthly",
+     "fx": {
+      "fame": 1
+     }
+    },
+    {
+     "label": "Only at harvest threat",
+     "fx": {
+      "karma": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "shrine_fund",
+   "text": "Who pays for shrine repairs?",
+   "choices": [
+    {
+     "label": "Tithes",
+     "fx": {
+      "karma": 1
+     }
+    },
+    {
+     "label": "Merchants",
+     "fx": {
+      "fame": 1
+     }
+    },
+    {
+     "label": "Volunteer labor",
+     "fx": {
+      "spirit": 1
+     }
+    }
+   ]
+  }
+ ],
+ "foes": [
+  "Hardfist Hal",
+  "Lady Thornquill",
+  "Broker Venn",
+  "Reeve Morn",
+  "Captain Sable"
+ ],
+ "duties": [
+  "hear a dispute",
+  "inspect a bridge",
+  "bless a festival open",
+  "sign a trade writ",
+  "review Watch reports"
+ ]
+}

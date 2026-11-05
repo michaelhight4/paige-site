@@ -1,0 +1,362 @@
+{
+ "crimes": [
+  {
+   "id": "pilfer_stall",
+   "name": "Pilfer a Market Stall",
+   "minAge": 8,
+   "severity": 1,
+   "catch": 0.28,
+   "sentence": [
+    0.25,
+    1
+   ],
+   "loot": [
+    5,
+    40
+   ],
+   "karma": -6,
+   "ok": "I slipped a pouch of dried herbs into my sleeve and walked on.",
+   "caught": "A stall-keeper's apprentice caught my wrist mid-reach.",
+   "menu": true
+  },
+  {
+   "id": "cutpurse",
+   "name": "Cutpurse on Market Row",
+   "minAge": 10,
+   "severity": 1,
+   "catch": 0.32,
+   "sentence": [
+    0.5,
+    2
+   ],
+   "loot": [
+    8,
+    60
+   ],
+   "karma": -8,
+   "ok": "A coin purse changed owners without its former owner noticing.",
+   "caught": "The Low Watchpost bell rang before I cleared the bridge.",
+   "menu": true
+  },
+  {
+   "id": "break_cottage",
+   "name": "Break into a Cottage",
+   "minAge": 14,
+   "severity": 2,
+   "catch": 0.4,
+   "sentence": [
+    1,
+    4
+   ],
+   "loot": [
+    20,
+    120
+   ],
+   "karma": -14,
+   "ok": "I left a cottage quieter than I found it, pockets heavier.",
+   "caught": "A neighbor's dog and a lantern ended the night early.",
+   "menu": true
+  },
+  {
+   "id": "horse_theft",
+   "name": "Horse Theft",
+   "minAge": 15,
+   "severity": 3,
+   "catch": 0.45,
+   "sentence": [
+    2,
+    6
+   ],
+   "loot": [
+    40,
+    200
+   ],
+   "karma": -18,
+   "ok": "A borrowed mount carried me farther than honesty would have.",
+   "caught": "The brand on the saddle matched the Watch's ledger.",
+   "menu": true
+  },
+  {
+   "id": "resist_watch",
+   "name": "Resist the Watch",
+   "minAge": 12,
+   "severity": 2,
+   "catch": 0.55,
+   "sentence": [
+    0.5,
+    2
+   ],
+   "loot": [
+    0,
+    0
+   ],
+   "karma": -10,
+   "ok": "I twisted free and lost myself in the crowd.",
+   "caught": "The Watch put irons on me before the crowd finished gasping.",
+   "menu": true
+  },
+  {
+   "id": "brawl",
+   "name": "Tavern-Yard Brawl",
+   "minAge": 16,
+   "severity": 2,
+   "catch": 0.35,
+   "sentence": [
+    0.25,
+    1.5
+   ],
+   "loot": [
+    0,
+    20
+   ],
+   "karma": -8,
+   "ok": "Fists settled what words could not. I walked away upright.",
+   "caught": "The Watch broke it up and took names — mine first.",
+   "menu": true
+  },
+  {
+   "id": "smuggle",
+   "name": "Smuggle Contraband",
+   "minAge": 16,
+   "severity": 3,
+   "catch": 0.38,
+   "sentence": [
+    1,
+    5
+   ],
+   "loot": [
+    30,
+    180
+   ],
+   "karma": -16,
+   "ok": "Sealed crates crossed the quay without a customs stamp.",
+   "caught": "A customs scribe found the false bottom.",
+   "menu": true
+  },
+  {
+   "id": "embezzle_guild",
+   "name": "Embezzle Guild Tithes",
+   "minAge": 18,
+   "severity": 3,
+   "catch": 0.42,
+   "sentence": [
+    2,
+    7
+   ],
+   "loot": [
+    50,
+    300
+   ],
+   "karma": -20,
+   "ok": "Guild ledgers balanced because I made them balance.",
+   "caught": "An auditor traced the missing grain to my name.",
+   "menu": true,
+   "if": {
+    "job": true
+   }
+  },
+  {
+   "id": "highway_rob",
+   "name": "Waylay a Caravan",
+   "minAge": 17,
+   "severity": 4,
+   "catch": 0.4,
+   "sentence": [
+    4,
+    12
+   ],
+   "loot": [
+    80,
+    400
+   ],
+   "karma": -28,
+   "ok": "The road paid better than honest work tonight.",
+   "caught": "Caravan guards knew the trail better than I did.",
+   "menu": true
+  },
+  {
+   "id": "poison_rival",
+   "name": "Poison a Rival's Cup",
+   "minAge": 18,
+   "severity": 5,
+   "catch": 0.5,
+   "sentence": [
+    8,
+    40
+   ],
+   "loot": [
+    0,
+    0
+   ],
+   "karma": -40,
+   "ok": "A quiet cup did louder work than any duel.",
+   "caught": "The healer traced the bitter herb to my pouch.",
+   "menu": true
+  },
+  {
+   "id": "murder",
+   "name": "Murder",
+   "minAge": 16,
+   "severity": 5,
+   "catch": 0.55,
+   "sentence": [
+    15,
+    99
+   ],
+   "loot": [
+    0,
+    50
+   ],
+   "karma": -50,
+   "ok": "Someone who stood in my way no longer does.",
+   "caught": "Blood and witnesses told the same story.",
+   "menu": true
+  },
+  {
+   "id": "bribe_clerk",
+   "name": "Bribe a Court Clerk",
+   "minAge": 18,
+   "severity": 2,
+   "catch": 0.3,
+   "sentence": [
+    0.5,
+    3
+   ],
+   "loot": [
+    0,
+    0
+   ],
+   "karma": -12,
+   "ok": "A sealed letter moved faster after coin changed hands.",
+   "caught": "The clerk kept the coin and the complaint.",
+   "menu": true
+  },
+  {
+   "id": "forgery",
+   "name": "Forge a Seal",
+   "minAge": 16,
+   "severity": 3,
+   "catch": 0.4,
+   "sentence": [
+    2,
+    8
+   ],
+   "loot": [
+    40,
+    220
+   ],
+   "karma": -18,
+   "ok": "Wax and patience bought me a name that was not mine.",
+   "caught": "The true seal-keeper knew their own ridges.",
+   "menu": true
+  },
+  {
+   "id": "extort",
+   "name": "Extort a Merchant",
+   "minAge": 18,
+   "severity": 3,
+   "catch": 0.36,
+   "sentence": [
+    2,
+    6
+   ],
+   "loot": [
+    40,
+    250
+   ],
+   "karma": -22,
+   "ok": "Fear paid on time. The merchant smiled with empty eyes.",
+   "caught": "The merchant smiled for the Watch instead.",
+   "menu": true
+  },
+  {
+   "id": "desecrate_shrine",
+   "name": "Desecrate a Shrine",
+   "minAge": 14,
+   "severity": 3,
+   "catch": 0.34,
+   "sentence": [
+    1,
+    5
+   ],
+   "loot": [
+    10,
+    80
+   ],
+   "karma": -24,
+   "ok": "Offerings left for gods found a new altar — my purse.",
+   "caught": "A priest's apprentice raised the alarm.",
+   "menu": true
+  },
+  {
+   "id": "corrupt_office",
+   "name": "Sell Court Favors",
+   "minAge": 22,
+   "severity": 4,
+   "catch": 0.4,
+   "sentence": [
+    3,
+    10
+   ],
+   "loot": [
+    100,
+    500
+   ],
+   "karma": -30,
+   "ok": "Ink and influence cost what the highest bidder paid.",
+   "caught": "A rival posted the ledger where the plaza could read it.",
+   "menu": true,
+   "if": {
+    "minFame": 20
+   }
+  }
+ ],
+ "tiers": [
+  {
+   "id": "youth_hold",
+   "name": "Youth Hold",
+   "maxYears": 3,
+   "escape": 0.28,
+   "healthLoss": 1,
+   "stress": 3,
+   "minAge": 0,
+   "maxAge": 17
+  },
+  {
+   "id": "stockade",
+   "name": "Village Stockade",
+   "maxSentence": 2,
+   "escape": 0.28,
+   "healthLoss": 1,
+   "stress": 4
+  },
+  {
+   "id": "stonehold",
+   "name": "Stonehold Gaol",
+   "maxSentence": 10,
+   "escape": 0.12,
+   "healthLoss": 2,
+   "stress": 8
+  },
+  {
+   "id": "deepkeep",
+   "name": "Deepkeep",
+   "maxSentence": 9999,
+   "escape": 0.04,
+   "healthLoss": 4,
+   "stress": 12
+  }
+ ],
+ "rules": {
+  "repeatMultiplier": 2,
+  "repeatCap": 3,
+  "paroleFraction": 0.5,
+  "juvieMaxYears": 3,
+  "escapeAddYears": 2,
+  "escapeMinTier": "stonehold",
+  "appealCost": 80,
+  "appealChance": 0.25,
+  "catchSmartsMod": 0.004,
+  "lifeSentence": 99
+ }
+}

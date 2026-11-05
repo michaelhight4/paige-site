@@ -1,0 +1,583 @@
+{
+ "categories": [
+  {
+   "id": "body",
+   "name": "Body & Care",
+   "icon": "💪",
+   "sub": "Healer, walks, sleep, training",
+   "activities": [
+    {
+     "id": "healer",
+     "name": "Visit a Healer",
+     "icon": "✚",
+     "sub": "Diagnose and treat",
+     "minAge": 6,
+     "choices": [
+      {
+       "label": "Pay for a checkup (12 gold)",
+       "cost": 12,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "The healer listened, poked, and named what ailed me.",
+         "fx": {
+          "health": 4
+         }
+        },
+        {
+         "w": 2,
+         "text": "The waiting room was a sermon. I left half-helped.",
+         "fx": {
+          "health": 1,
+          "stress": 2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Ask for herbs only (6 gold)",
+       "cost": 6,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Bitter tea, better sleep.",
+         "fx": {
+          "health": 2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "walk",
+     "name": "Long Walk",
+     "icon": "🥾",
+     "sub": "Clear the head",
+     "minAge": 8,
+     "choices": [
+      {
+       "label": "Around Willowpond",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "The path reset my shoulders.",
+         "fx": {
+          "health": 2,
+          "happiness": 2,
+          "stress": -4
+         }
+        },
+        {
+         "w": 1,
+         "text": "I twisted an ankle on a root.",
+         "fx": {
+          "health": -3
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sleep_in",
+     "name": "Sleep In",
+     "icon": "😴",
+     "sub": "Ignore the rooster",
+     "minAge": 10,
+     "choices": [
+      {
+       "label": "One slow morning",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 9,
+         "text": "I woke late and kinder.",
+         "fx": {
+          "stress": -6,
+          "happiness": 2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "spar_yard",
+     "name": "Spar in the Yard",
+     "icon": "⚔",
+     "sub": "Light drill",
+     "minAge": 12,
+     "choices": [
+      {
+       "label": "Forms until dusk",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "Sweat and cleaner footwork.",
+         "fx": {
+          "health": 1,
+          "sk_swordsmanship": 2,
+          "stress": 2
+         }
+        },
+        {
+         "w": 2,
+         "text": "A bruise taught me about guard.",
+         "fx": {
+          "health": -2,
+          "sk_swordsmanship": 1
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mind",
+   "name": "Mind & Letters",
+   "icon": "📖",
+   "sub": "Study, lore, focus",
+   "activities": [
+    {
+     "id": "study",
+     "name": "Study by Candle",
+     "icon": "🕯",
+     "sub": "Push wits",
+     "minAge": 8,
+     "choices": [
+      {
+       "label": "Copy a chapter",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Ink on my fingers, more in my head.",
+         "fx": {
+          "smarts": 2,
+          "sk_literacy": 2,
+          "stress": 2
+         }
+        }
+       ]
+      },
+      {
+       "label": "Buy a used folio (8 gold)",
+       "cost": 8,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "Someone else's notes became mine.",
+         "fx": {
+          "smarts": 3,
+          "sk_lore": 2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "shrine_quiet",
+     "name": "Sit at the Shrine",
+     "icon": "🕯",
+     "sub": "Quiet mind",
+     "minAge": 10,
+     "choices": [
+      {
+       "label": "An hour of stillness",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "The hush sanded down my edges.",
+         "fx": {
+          "stress": -5,
+          "sk_composure": 1,
+          "karma": 1
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "puzzle",
+     "name": "Kingboard Puzzle",
+     "icon": "♟",
+     "sub": "Think sideways",
+     "minAge": 10,
+     "choices": [
+      {
+       "label": "Solve three problems",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "The board finally made sense.",
+         "fx": {
+          "smarts": 2,
+          "sk_focus": 2
+         }
+        },
+        {
+         "w": 2,
+         "text": "I tipped the board. Dignity recovered slowly.",
+         "fx": {
+          "stress": 2
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social",
+   "name": "Social & Festival",
+   "icon": "🎉",
+   "sub": "People, dances, teas",
+   "activities": [
+    {
+     "id": "tea_house",
+     "name": "Tea House",
+     "icon": "🍵",
+     "sub": "Talk without shouting",
+     "minAge": 12,
+     "choices": [
+      {
+       "label": "Share a pot",
+       "cost": 4,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Steam and gossip in equal measure.",
+         "fx": {
+          "happiness": 3,
+          "sk_charm": 1
+         }
+        },
+        {
+         "w": 1,
+         "text": "The gossip turned mean. I left early.",
+         "fx": {
+          "happiness": -1,
+          "stress": 2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "festival",
+     "name": "Join a Festival",
+     "icon": "🎏",
+     "sub": "Lanterns and noise",
+     "minAge": 10,
+     "choices": [
+      {
+       "label": "Dance until the bells",
+       "cost": 5,
+       "outcomes": [
+        {
+         "w": 7,
+         "text": "My feet hurt. Worth it.",
+         "fx": {
+          "happiness": 5,
+          "fame": 1,
+          "sk_performance": 1
+         }
+        },
+        {
+         "w": 2,
+         "text": "I spilled cider-free punch on a reeve.",
+         "fx": {
+          "fame": -1,
+          "happiness": 2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "visit_bonds",
+     "name": "Call on Bonds",
+     "icon": "🤝",
+     "sub": "Knock on doors",
+     "minAge": 8,
+     "choices": [
+      {
+       "label": "Make the rounds",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 9,
+         "text": "Doors opened. Stories traded.",
+         "fx": {
+          "happiness": 2,
+          "sk_charm": 1
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "travel",
+   "name": "Roads & Leisure",
+   "icon": "🗺",
+   "sub": "Short trips, fishing, views",
+   "activities": [
+    {
+     "id": "fish",
+     "name": "Fish the Pond",
+     "icon": "🎣",
+     "sub": "Patience practice",
+     "minAge": 8,
+     "choices": [
+      {
+       "label": "A quiet afternoon",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 6,
+         "text": "Two fish and a cleaner head.",
+         "fx": {
+          "happiness": 2,
+          "gold": 2,
+          "sk_foraging": 1
+         }
+        },
+        {
+         "w": 3,
+         "text": "The fish won.",
+         "fx": {
+          "happiness": 1,
+          "stress": -2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "day_trip",
+     "name": "Day Trip",
+     "icon": "🚶",
+     "sub": "A neighboring rise",
+     "minAge": 12,
+     "choices": [
+      {
+       "label": "Walk the ridge",
+       "cost": 3,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "New wind, same boots, better mood.",
+         "fx": {
+          "happiness": 3,
+          "health": 1
+         }
+        },
+        {
+         "w": 1,
+         "text": "Rain found me with no hood.",
+         "fx": {
+          "happiness": -1,
+          "health": -1
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "presence",
+   "name": "Presence & Style",
+   "icon": "✨",
+   "sub": "Groom, clothes, posture",
+   "activities": [
+    {
+     "id": "groom",
+     "name": "Groom & Mend",
+     "icon": "🪞",
+     "sub": "Look presentable",
+     "minAge": 10,
+     "choices": [
+      {
+       "label": "Bath and needle",
+       "cost": 3,
+       "outcomes": [
+        {
+         "w": 9,
+         "text": "I looked like someone who planned to be seen.",
+         "fx": {
+          "looks": 3,
+          "happiness": 1
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "new_sash",
+     "name": "Buy a Sash",
+     "icon": "🎀",
+     "sub": "A splash of color",
+     "minAge": 12,
+     "choices": [
+      {
+       "label": "Spend on cloth (15 gold)",
+       "cost": 15,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "The sash did half the talking.",
+         "fx": {
+          "looks": 4,
+          "fame": 1
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "etiquette_drill",
+     "name": "Etiquette Drill",
+     "icon": "Bow",
+     "sub": "Practice bows",
+     "minAge": 14,
+     "choices": [
+      {
+       "label": "Hour with a tutor (10 gold)",
+       "cost": 10,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "My bow no longer looked like a sneeze.",
+         "fx": {
+          "sk_etiquette": 3,
+          "looks": 1
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "coin",
+   "name": "Coin & Chance",
+   "icon": "🪙",
+   "sub": "Odd jobs, luck, bets of skill",
+   "activities": [
+    {
+     "id": "odd_job",
+     "name": "Odd Job",
+     "icon": "📦",
+     "sub": "Carry, dig, fetch",
+     "minAge": 10,
+     "choices": [
+      {
+       "label": "Work the day",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 8,
+         "text": "Honest dirt, honest coin.",
+         "fx": {
+          "gold": 8,
+          "stress": 2,
+          "sk_endurance": 1
+         }
+        },
+        {
+         "w": 1,
+         "text": "The employer underpaid. I still ate.",
+         "fx": {
+          "gold": 3,
+          "karma": -1
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "wager_skill",
+     "name": "Skill Wager",
+     "icon": "🎲",
+     "sub": "Dice of competence",
+     "minAge": 14,
+     "choices": [
+      {
+       "label": "Wager 10 gold on a craft contest",
+       "cost": 10,
+       "outcomes": [
+        {
+         "w": 5,
+         "text": "I won. The table groaned.",
+         "fx": {
+          "gold": 22,
+          "fame": 1
+         }
+        },
+        {
+         "w": 5,
+         "text": "I lost with dignity I did not feel.",
+         "fx": {
+          "gold": 0,
+          "stress": 2
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "seek_windfall",
+     "name": "Ask Around for Work",
+     "icon": "👂",
+     "sub": "Rumors of pay",
+     "minAge": 12,
+     "choices": [
+      {
+       "label": "Listen at Market Row",
+       "cost": 0,
+       "outcomes": [
+        {
+         "w": 6,
+         "text": "A courier job found me.",
+         "fx": {
+          "gold": 12
+         }
+        },
+        {
+         "w": 3,
+         "text": "Only gossip, no coin.",
+         "fx": {
+          "happiness": 1
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

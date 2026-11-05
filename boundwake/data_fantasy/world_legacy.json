@@ -1,0 +1,64 @@
+{
+ "estateTax": {
+  "exemption": 50,
+  "rate": 0.15
+ },
+ "executorFeePct": 0.02,
+ "charities": [
+  {
+   "id": "shrine",
+   "name": "Hearthkeeper Shrine",
+   "icon": "🕯"
+  },
+  {
+   "id": "primer",
+   "name": "Vale Primer Yard",
+   "icon": "📖"
+  },
+  {
+   "id": "watch",
+   "name": "Low Watch Widows' Purse",
+   "icon": "🛡"
+  },
+  {
+   "id": "healers",
+   "name": "Willowpond Healers",
+   "icon": "✚"
+  }
+ ],
+ "shareStep": 5,
+ "heirTypes": [
+  "child",
+  "spouse",
+  "sibling",
+  "parent",
+  "apprentice",
+  "ward",
+  "friend"
+ ],
+ "defaultRule": {
+  "groups": [
+   "child",
+   "spouse",
+   "sibling"
+  ],
+  "stateCutPct": 5
+ },
+ "tree": {
+  "generations": 6,
+  "labels": [
+   "You",
+   "Children",
+   "Grand",
+   "Great",
+   "Line",
+   "Echo"
+  ]
+ },
+ "legacyScore": {
+  "perHundredGold": 2,
+  "perHeir": 8,
+  "charityBonusPct": 10,
+  "perRelic": 15
+ }
+}

@@ -64,7 +64,7 @@ const LEAD = {
   bonds: 'Faces around the hearth. Party, housemates, and coworkers gain Passive Relationship Growth when temperaments match — Spend time still mends clashes.',
   realms: 'Five realms, one map. Visit places where you stand; travel to open new ground.',
   codex: 'What the world taught you stays — even when the body does not.',
-  bel: 'Gold, relics, the small weights of a life. A shop for later.',
+  bel: 'Gold, relics, workshops, and the notice boards that carry your name. Gear shop still ahead.',
 };
 const HD = {
   life: `${ico('spirit')} Journal`,
@@ -123,8 +123,29 @@ function body() {
   if (tab === 'life') {
     const byAge = []; for (const l of s.log.slice(-80)) { const a = Math.floor(l.age); if (!byAge.length || byAge.at(-1)[0] !== a) byAge.push([a, []]); if (l.kind !== 'year') byAge.at(-1)[1].push(l.text); }
     const route = !s.route && h >= 8 ? card('life', `${ico('adventure')} Choose your path`, `<p class="sub">Primary skills grow +25% faster.</p><div class="actions">${['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].map((r) => `<button data-a="route" data-v="${r}">${flare(r.replace('route_', ''))}</button>`).join('')}</div>`) : '';
-    return route + card('life', HD.life, `${lead('life')}<div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
+    const journal = route + card('life', HD.life, `${lead('life')}<div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
       <div class="actions"><button data-a="rest" class="ghost">Rest by the pond</button></div>`);
+    // Pack panels (ailments / pastimes / activities / soft law) — additive
+    const ailRows = (s.ailments || []).map((d) => {
+      const def = E.ailmentDef(d.id); if (!def) return '';
+      return `<div class="row"><div><b>${esc(def.name)}</b> <small>${esc(def.sev)}${d.dx ? '' : ' · undiagnosed'}${d.treated ? ' · treating' : ''}</small></div></div>`;
+    }).join('') || '<div class="empty">No ailments right now.</div>';
+    const ailCard = card('life', `${ico('health')} Ailments`, `${ailRows}<div class="actions"><button data-a="healer" ${s.budget.act < 1 ? 'disabled' : ''}>Visit a healer (12 gold)</button></div>`);
+    const pl = E.passionList(s);
+    const pastActive = (pl.active || []).map((p) => `<div class="row"><div><b>${esc(p.def?.name || p.id)}</b> <small>meter ${Math.floor(p.meter)}</small></div><button data-a="prac" data-v="${p.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Practice</button></div>`).join('');
+    const pastAvail = (pl.available || []).slice(0, 8).map((p) => `<button data-a="adopt" data-v="${p.id}" ${pl.free < 1 ? 'disabled' : ''}>${esc(p.name)}</button>`).join('');
+    const pastCard = card('life', `${ico('spirit')} Pastimes`, `<p class="sub">${pl.free} free slot(s). Master two to open more (max 4).</p>${pastActive || '<div class="empty">No pastime yet.</div>'}<div class="actions">${pastAvail || ''}</div>`);
+    const actCats = E.activityCategories(s).map((c) => {
+      const acts = c.activities.filter((a) => h >= a.minAge).map((a) => {
+        const ch0 = a.choices[0]; const cost = ch0?.cost || 0;
+        return `<div class="row"><div><b>${esc(a.name)}</b> <small>${esc(a.sub)}${cost ? ` · ${cost} gold` : ''}</small></div><button data-a="actv" data-v="${a.id}" ${s.budget.act < 1 || s.gold < cost ? 'disabled' : ''}>Do</button></div>`;
+      }).join('');
+      return acts ? card('life', `${c.icon || ''} ${esc(c.name)}`, acts) : '';
+    }).join('');
+    const crimes = E.lawAvailable(s);
+    const lawCard = crimes.length ? card('life', `${ico('strain')} Realm law (shadow)`, `<p class="sub">Quiet choices with loud consequences. Catch risk rises with a record.</p>${crimes.map((c) => `<div class="row"><div><b>${esc(c.name)}</b> <small>severity ${c.severity}</small></div><button data-a="crime" data-v="${c.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Attempt</button></div>`).join('')}`) : '';
+    const prisonCard = s.prison ? card('life', `${ico('strain')} Imprisoned`, `<p class="sub">${esc(E.tierDef(s.prison.tier)?.name || s.prison.tier)} · ${s.prison.left.toFixed(1)} years left. Age +1 advances the sentence.</p>`) : '';
+    return journal + prisonCard + ailCard + pastCard + actCats + lawCard;
   }
   if (tab === 'work') {
     if (h < 6 && !s.job) return card('work', HD.work, `${lead('work')}<div class="empty">Chores wait until you can reach the counter (age 6+).${s.school ? ' You attend Village lessons.' : ''}</div>`);
@@ -145,7 +166,23 @@ function body() {
       everyday.length ? `<h3>${ico('work')} Everyday work</h3>${everyday.map(row).join('')}` : '',
       guild.length ? `<h3>${ico('adventure')} Guild &amp; trained tracks</h3>${guild.map(row).join('')}` : '',
     ].filter(Boolean).join('') || `<div class="empty">No openings this year.</div>`;
-    return cur + card('work', `${ico('work')} Openings`, board);
+    const openingsCard = cur + card('work', `${ico('work')} Openings`, board);
+    const owned = (s.workshops || []).map((w) => {
+      const t = P.workshops?.types?.[w.type];
+      return `<div class="row"><div><b>${esc(t?.name || w.type)}</b> <small>yr ${w.years} · renown ${Math.round(w.renown)}</small></div></div>`;
+    }).join('') || '<div class="empty">No workshop yet.</div>';
+    const buy = E.workshopTypes(s).filter((t) => t.ok || h >= t.minAge).slice(0, 12).map((t) => `<div class="row"><div><b>${esc(t.name)}</b> <small>${ico('gold')}${t.fee} · age ${t.minAge}+</small><br><small>${flare(t.blurb)}</small></div><button data-a="buybiz" data-v="${t.id}" ${t.ok ? '' : 'disabled'}>${t.ok ? 'Open' : 'Locked'}</button></div>`).join('');
+    const bizCard = card('work', `${ico('gold')} Workshops &amp; stalls`, `${owned}<h3>Open a workshop</h3>${buy || '<div class="empty">None affordable yet.</div>'}`);
+    const courtSeat = s.court?.seat ? `<p class="sub">Holding <b>${esc(s.court.name)}</b> · ${Math.ceil(s.court.termLeft)} yr left · tier ${s.court.tier}</p>` : (s.court?.tier ? `<p class="sub">Former officeholder · tier ${s.court.tier} kept.</p>` : '<p class="sub">No seat yet. File when you have age, coin, and renown.</p>');
+    const seats = E.courtOpenings(s).map((x) => `<div class="row"><div><b>${esc(x.name)}</b> <small>tier ${x.tier} · file ${x.filing} gold · age ${x.minAge}+</small></div><button data-a="court" data-v="${x.id}" ${s.budget.act < 1 || s.gold < x.filing ? 'disabled' : ''}>File</button></div>`).join('');
+    const courtCard = card('work', `${ico('renown')} Court &amp; moot`, `${courtSeat}${seats || '<div class="empty">No seats open for you this year.</div>'}`);
+    const ment = s.mentor
+      ? `<p class="sub">Path: <b>${esc(P.mentors?.paths?.[s.mentor.path]?.name || s.mentor.path)}</b> · role ${esc(s.mentor.role)} · ${s.mentor.years} yrs</p><div class="actions"><button data-a="mdrill" ${s.budget.act < 1 ? 'disabled' : ''}>Mentor drill</button></div>`
+      : `<p class="sub">Enroll with a path mentor (sword, spell, craft, hunt).</p><div class="actions">${E.mentorPaths().map((m) => `<button data-a="mentor" data-v="${m.id}" ${s.budget.act < 1 || h < 10 ? 'disabled' : ''}>${esc(m.name)}</button>`).join('')}</div>`;
+    const mentCard = card('work', `${ico('adventure')} Mentors`, ment);
+    const clubs = E.clubList(s).filter((c) => !(s.clubs || []).includes(c.id)).map((c) => `<button data-a="club" data-v="${c.id}">${esc(c.name)}</button>`).join('');
+    const clubCard = (h >= 9 && h <= 22) ? card('work', `${ico('wits')} Circles &amp; patronage`, `<p class="sub">Joined: ${(s.clubs || []).map(esc).join(', ') || 'none'}.</p><div class="actions">${clubs || '<span class="sub">No open circles.</span>'}</div>`) : '';
+    return openingsCard + bizCard + courtCard + mentCard + clubCard;
   }
   if (tab === 'adv') {
     const party = E.partyOf(s);
@@ -248,9 +285,19 @@ function body() {
     const rows = s.codex.map((c) => `<div class="row">${flare(evT[c] || P.regions.find((r) => r.id === c)?.name || P.regions.flatMap((r) => r.locations).find((l) => l.id === c)?.name || c.replace(/_/g, ' '))}</div>`).join('');
     return card('codex', `${HD.codex} <span class="hd-sub">${s.codex.length}</span>`, `${lead('codex')}<p class="sub">Kept across reincarnations.</p>${rows || '<div class="empty">Nothing recorded yet.</div>'}`);
   }
-  if (tab === 'bel') return card('bel', HD.bel, `${lead('bel')}<p class="gold-line" style="font-size:18px">${ico('gold')}<b>${Math.floor(s.gold)}</b> ${T('currency')}</p>
-    <h3>${ico('echo')} Relics</h3>${s.relics.map((r) => `<div class="row">${flare(r.replace(/^relic_/, '').replace(/_/g, ' '))}</div>`).join('') || '<div class="empty">None yet. Relics are found in delves and at graves.</div>'}
-    <p class="sub">Shop for weapons, armor, foci, mounts, homes, workshops — stub for later.</p>`);
+  if (tab === 'bel') {
+    const biz = (s.workshops || []).map((w) => {
+      const t = P.workshops?.types?.[w.type];
+      return `<div class="row"><b>${esc(t?.name || w.type)}</b> <small>renown ${Math.round(w.renown)}</small></div>`;
+    }).join('') || '<div class="empty">No workshops owned.</div>';
+    const boards = E.noticeBoards(s).map((b) => `<div class="row"><div><b>${esc(b.name)}</b> <small>${esc(b.role)}</small></div>
+      <button data-a="notice" data-v="${b.id}" data-post="boast" ${s.budget.act < 1 || h < (P.notices?.minAge || 10) ? 'disabled' : ''}>Post</button></div>`).join('');
+    return card('bel', HD.bel, `${lead('bel')}<p class="gold-line" style="font-size:18px">${ico('gold')}<b>${Math.floor(s.gold)}</b> ${T('currency')}</p>
+      <h3>${ico('echo')} Relics</h3>${s.relics.map((r) => `<div class="row">${flare(r.replace(/^relic_/, '').replace(/_/g, ' '))}</div>`).join('') || '<div class="empty">None yet. Relics are found in delves and at graves.</div>'}
+      <h3>${ico('work')} Workshops</h3>${biz}
+      <h3>${ico('codex')} Notice boards</h3><p class="sub">Readers: ${s.notices?.followers || 0} · posts ${s.notices?.posts || 0}</p>${boards || '<div class="empty">No boards yet.</div>'}
+      <p class="sub">Gear shop (weapons, armor, foci, mounts, homes) — still stub.</p>`);
+  }
   return '';
 }
 function eventSheet() {
@@ -339,6 +386,17 @@ app.addEventListener('click', (ev) => {
   else if (a === 'school') { r = E.chooseMagicSchool(s, v); }
   else if (a === 'cast') { r = E.practiceMagic(s); }
   else if (a === 'drill') { r = E.drillSword(s); }
+  else if (a === 'healer') r = E.visitHealer(s);
+  else if (a === 'adopt') r = E.adoptPassion(s, v);
+  else if (a === 'prac') r = E.practicePassion(s, v);
+  else if (a === 'actv') r = E.doActivity(s, v, 0);
+  else if (a === 'crime') r = E.commitCrime(s, v);
+  else if (a === 'buybiz') r = E.buyWorkshop(s, v);
+  else if (a === 'court') r = E.fileForOffice(s, v);
+  else if (a === 'mentor') r = E.enrollMentor(s, v);
+  else if (a === 'mdrill') r = E.mentorDrill(s);
+  else if (a === 'club') r = E.joinClub(s, v);
+  else if (a === 'notice') r = E.postNotice(s, v, b.dataset.post || 'boast');
   else if (a === 'music') { unlockMusic(); toggleMute(); return; }
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();

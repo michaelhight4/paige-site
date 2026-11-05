@@ -5,9 +5,10 @@
 - Engine: trainLockReason, seekAwakening, chooseSwordStyle/MagicSchool, practiceMagic, drillSword, visitLocation academy awaken.
 - Deploy skill PNGs + this growth live.
 
-# Boundwake — STATUS (Nov 5, 2026, CT — UI studio standard + admin live)
+# Boundwake — STATUS (Nov 5, 2026, CT — pack reskin pass + admin live)
 **Playable shell: YES.** `/workspace/boundwake`. Run: `python3 -m http.server 8090` → http://localhost:8090/
 Tests: `node tests/smoke.mjs` (120 lives, PASS), `node tests/ui_standard_shot.mjs` (headless Chrome).
+Pack map: `docs/PACK_RESKIN.md`.
 
 ## Live (admin only)
 - **URL:** https://paigegames.net/boundwake/
@@ -44,8 +45,16 @@ Tests: `node tests/smoke.mjs` (120 lives, PASS), `node tests/ui_standard_shot.mj
 - Refero MCP unavailable (subscription); craft locked from Lifeline after shots + vivid/app CSS + Kilumen theme + Boundwake mood doc.
 
 ## Works now
-- Cold open → fate → hub; year turn; 29 skills / 7 cats; 15 careers; 42 events; bonds; 5 realms; death/reincarnate/heir; Codex; parchment UI + motes; admin gate.
+- Cold open → fate → hub; year turn; 29 skills / 7 cats; ordinary + guild careers; ~125 events (base+passion); bonds/PRG/party; 5 realms + Visit; death/reincarnate/heir; Codex; parchment UI + ambient + music; admin gate.
+- **Pack systems wired:** ailments (healer), realm law, pastimes, workshops/stalls, notice boards, court seats, mentors, circles, world activities (Life tab).
+
 
 ## Stubs / gaps
-- Events ~42/80; sprite grid incomplete (no dwarf child/teen etc.); shop stub; combat skill-weighted roll; fonts not vendored.
+- Events ~125 vs Lifeline ~203 (more prose later). Gear shop stub. Workshop staff/upgrade UI summary-level. Court campaign questions auto-resolve. Patronage grants data-ready, apply UI thin. Prison behave/appeal/escape not in UI yet. Full troupe/studio loop not ported.
+- Sprite grid incomplete; fonts not vendored.
 - Not done on purpose: no PWA, Capacitor/iOS, public listing.
+
+## Pack reskin (Nov 5 ~2:00–2:15 PM CT)
+- Inventory + map in `docs/PACK_RESKIN.md`.
+- New data: ailments, law, passions (+events), workshops, notices, court, mentors, patronage, world_activities, world_legacy.
+- Engine + additive UI hooks (Life/Work/Belongings). Did not rewrite desktop/music/bonds/PRG/realms craft.
