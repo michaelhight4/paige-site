@@ -1,30 +1,21 @@
-## Playtest polish DEPLOYED — Coder Nov 5 ~5:05 PM CT
+## Depth pack DEPLOYED — Coder Nov 5 ~5:20 PM CT (Gary: “i want it all”)
 
-All three playtest logs collected (Story Bot, Soccer Rpg pass1+v2, Text Bot). Local polish + Soccer v2 fixes mirrored to paige-site Boundwake.
-
-### Soccer Rpg v2 fixes (this pass)
-| Bug | Fix |
-|-----|-----|
-| Court term spam (`My term as null ended` yearly) | `courtYear`: skip when `seat` already null; log once with real name |
-| Stall Hand age 12 vs 10+ | merchant `unlock_text` → **age 10 (stall hand)** matching `req.age` |
-| Life journal Adventure chip no-op | `data-tab` handler `render(); return`; Open Adventure primary button |
-| Make a friend disabled no reason | Always show Friend/Market lock-why (Social / age / prison) |
-| Realms ??? through 36 | **Scout realm** (1 act, age 14+) unlocks map without travel-writ event |
-| Restless Feet +exploration | Event draw weight ×1.8 for exploration/travel; info copy honest |
-| Favicon 404 | Relative `assets/brand/favicon-*.png` + root `favicon.ico` |
-
-### Prior polish included (Story/Text/Soccer pass1)
-heir_name + echo journal; stage/occ by cage; jail locks; ailments by hage; long-life age stretch; realm tag gates; ownership `own_*` 27 beats; guild claim copy; talents UI; disabled event choices; team founding skill 15; toast/modal click stability; Work unlock humanize.
-
-### Deferred
-- Elder/childhood/cook-weaver content density (Story/Text Bot)
-- Death-cause variety design pack
-- Adult RNG draw-floor tuning
-- Path panel @11 (exists @cage≥8; no clear hide bug)
+### Shipped
+| Area | What |
+|------|------|
+| Childhood 0–5 (+ realm kids) | 15 new `x_child_*` events (HF + GM/TR/SW/EM) |
+| Elder 50–160 / long-life | 12 `x_elder_*` (incl. elf/dwarf century tea + standing stone) |
+| Cook / weaver depth | 8 cook + 8 weaver career-gated events; mid ranks **Line Cook** / **Journeyman Weaver** |
+| Adult RNG floor | `drawEvents`: ages 18–79 guarantee ≥1 non-combat event if year drew none; ages 0–5 soft childhood floor |
+| Death-cause variety | 21 causes in `terms.causes` + `pickDeathCause()` for old/illness/violent/odd |
+| path@11 | Life/Skills path cards urgent ages 10–13; toast at 8 & 11; journal nudge at cage 11; still choosable after 16 |
+| Prior polish | ownership `own_*` 27, jail, scout, court spam, cage stage, etc. kept |
 
 ### Pack / smoke / live
-- Expansion **169** (27 `own_*`); pool **294** (89+169+36)
-- `node tests/smoke.mjs` → **SMOKE PASS**
-- Deploy commit: **4e15468c** on paige-site main
+- Expansion **225** (was 169; +56 depth). Pool **350** (89+225+36).
+- Smoke: **PASS** (`distinctEvents` 239/350; cook+weaver careers appear in runs)
 - Live: https://paigegames.net/boundwake/
 - Lifeline untouched
+
+### Still thinner (not blockers)
+- Beastkin-specific childhood; workshop-per-type events; promo-line uniqueness across all ladders

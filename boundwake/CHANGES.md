@@ -11,3 +11,8 @@
 ## Playtest polish deploy (Nov 5 ~5:05 PM CT)
 - Soccer v2: court term spam, Stall Hand age copy, Adventure tab shortcut, friend lock-why, realm Scout, Restless Feet exploration weight, favicon.
 - Includes ownership beats + prior Story/Text blockers. Smoke PASS. Deployed to paige-site Boundwake.
+
+## Depth pack “want it all” (Nov 5 ~5:20 PM CT)
+- +56 events (child/elder/cook/weaver/adult floor fillers) → expansion 225, pool 350.
+- Death causes 21 + pickDeathCause; adult/child draw floors; path@11 UI+toast; cook/weaver mid ranks.
+- Smoke PASS. Deployed paige-site Boundwake.

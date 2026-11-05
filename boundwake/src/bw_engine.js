@@ -696,16 +696,31 @@ function drawEvents(s) {
   const due = s.chain.filter((c) => c.due <= s.age); s.chain = s.chain.filter((c) => c.due > s.age); for (const c of due) queue(s, c.id);
   if (s.pending.length) return; const n = cage(s) < 13 ? 1 : 1 + (chance(s, 0.35) ? 1 : 0);
   const bias = s.flags.visit_bias;
-  for (let i = 0; i < n; i++) {
-    if (!chance(s, 0.75)) continue;
-    const el = eligible(s).filter((e) => !s.pending.includes(e.id) && (!['combat', 'dungeon'].includes(e.cat) || (e.cat === 'combat' && chance(s, 0.3))));
-    const e = wpick(s, el, (x) => {
+  const pickOne = (pool) => {
+    if (!pool.length) return null;
+    return wpick(s, pool, (x) => {
       let w = x.w || 1;
       if (bias && (x.cat === 'exploration' || String(x.id || '').includes(bias) || JSON.stringify(x).includes(bias))) w *= 2.5;
-      // Restless Feet: lean into exploration / travel / road events
       if (s.trait === 'trait_restless' && (x.cat === 'exploration' || x.cat === 'travel' || (x.tags || []).includes('travel'))) w *= 1.8;
       return w;
     });
+  };
+  for (let i = 0; i < n; i++) {
+    if (!chance(s, 0.75)) continue;
+    const el = eligible(s).filter((e) => !s.pending.includes(e.id) && (!['combat', 'dungeon'].includes(e.cat) || (e.cat === 'combat' && chance(s, 0.3))));
+    const e = pickOne(el);
+    if (e) queue(s, e.id);
+  }
+  // Adult RNG floor (Gary "want it all"): ages 18–79 guarantee ≥1 drawable life/work/slice event when the year drew nothing.
+  if (!s.pending.length && cage(s) >= 18 && cage(s) < 80) {
+    const floor = eligible(s).filter((e) => !['combat', 'dungeon'].includes(e.cat) && (e.cat === 'life' || e.cat === 'work' || e.cat === 'relationship' || e.cat === 'oldage' || (e.tags || []).includes('adult') || (e.tags || []).includes('slice')));
+    const e = pickOne(floor.length ? floor : eligible(s).filter((e) => !['combat', 'dungeon'].includes(e.cat)));
+    if (e) queue(s, e.id);
+  }
+  // Childhood soft floor ages 0–5 when empty
+  if (!s.pending.length && cage(s) <= 5) {
+    const kids = eligible(s).filter((e) => e.cat === 'childhood' || (e.tags || []).includes('childhood'));
+    const e = pickOne(kids.length ? kids : eligible(s));
     if (e) queue(s, e.id);
   }
   if (bias) delete s.flags.visit_bias; // one year of lean, then clear
@@ -971,15 +986,27 @@ export function ageUp(s) {
   if (cage(s) >= 16 && !s.job) s.gold = Math.max(0, s.gold - 4 * yrs); // living costs (calendar)
   if (cage(s) < 16 && s.wealth === 'noble') s.gold += 2;
   log(s, `${D.terms.ui.year_passed} I am ${Math.floor(s.age)}.`, 'year');
+  if (!s.route && cage(s) === 11) log(s, 'Eleven already — the roads ask which skills I will feed. Path choice waits on Life or Skills.', 'route');
   newYearBudget(s);
   refreshTournamentYear(s);
   gearYear(s, yrs);
   const dieP = s.stats.health <= 0 ? 1 : h > 70 ? Math.min(0.95, ((h - 70) / 28) ** 2.2 * yrs) : 0.0015 * yrs;
-  if (chance(s, dieP)) { die(s, s.stats.health <= 0 && s.injuries.length ? 'battle' : h > 70 ? 'old_age' : pick(s, ['illness', 'accident'])); return true; }
+  if (chance(s, dieP)) { die(s, s.stats.health <= 0 && s.injuries.length ? pickDeathCause(s, 'violent') : h > 70 ? pickDeathCause(s, 'old') : pickDeathCause(s, chance(s, 0.55) ? 'illness' : 'odd')); return true; }
   drawEvents(s); return true;
 }
 
 // ---- death + legacy (two paths: Reincarnate (Echoes) / Continue as heir) ----
+function pickDeathCause(s, kind) {
+  // kind: 'old' | 'illness' | 'violent' | 'odd'
+  const pools = {
+    old: ['old_age', 'age_sleep', 'collapse', 'heart_gave'],
+    illness: ['illness', 'fever', 'winter_took', 'wound_fester', 'heart_gave'],
+    violent: ['battle', 'beast_maul', 'duel', 'monster', 'fall'],
+    odd: ['accident', 'fall', 'drowning', 'poison_chance', 'overwork', 'magic_backfire', 'spark_burn', 'unknown'],
+  };
+  const pool = (pools[kind] || pools.odd).filter((id) => D.terms?.causes?.[id]);
+  return pick(s, pool.length ? pool : ['unknown']);
+}
 export function die(s, cause) {
   if (!s.alive) return; s.alive = false; s.cause = cause; s.pending = []; log(s, `${D.terms.causes[cause] || D.terms.causes.unknown}`, 'death');
 }
@@ -1801,7 +1828,7 @@ function ailmentsYear(s, yrs) {
     if (!d.dx && chance(s, 0.45 * yrs)) { d.dx = true; log(s, `I was diagnosed with ${def.name.toLowerCase()}.`, 'health'); }
     const y = d.treated && def.managed != null ? def.managed : def.yearly; if (y) s.stats.health = clamp(s.stats.health + y * yrs, 0, 100);
     const dp = d.treated ? def.tdeath : def.death;
-    if (dp && chance(s, 1 - Math.pow(1 - dp, yrs))) { die(s, 'illness'); return; }
+    if (dp && chance(s, 1 - Math.pow(1 - dp, yrs))) { die(s, pickDeathCause(s, 'illness')); return; }
     if (def.rem && chance(s, 1 - Math.pow(1 - def.rem, yrs))) { s.ailments.splice(s.ailments.indexOf(d), 1); log(s, `My ${def.name.toLowerCase()} faded on its own.`, 'health'); }
   }
   if (!s.alive) return;
@@ -1818,7 +1845,7 @@ function ailmentsYear(s, yrs) {
     return w;
   });
   if (!def) return;
-  if (def.instant || def.sev === 'instant_death') { die(s, 'illness'); return; }
+  if (def.instant || def.sev === 'instant_death') { die(s, pickDeathCause(s, 'illness')); return; }
   const dx = def.sev === 'minor' || chance(s, 0.6);
   s.ailments.push({ id: def.id, since: s.age, dx, treated: false });
   s.stats.health = clamp(s.stats.health + (def.onset || 0), 0, 100);

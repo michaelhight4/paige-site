@@ -2150,7 +2150,7 @@
     "flags": [],
     "race": []
    },
-   "next": "cook_senior",
+   "next": "cook_line",
    "level": 0,
    "entry": true,
    "promo_line": "The work sits easier in your hands."
@@ -2159,20 +2159,21 @@
    "id": "cook_senior",
    "sector": "cook",
    "title": "Cook",
-   "wage": 70,
+   "wage": 120,
    "req": {
     "edu": null,
     "prev": true,
     "years": 3,
-    "age": 14,
+    "age": 16,
     "skills": {
-     "cooking": 25
+     "cooking": 28,
+     "focus": 12
     },
     "flags": [],
     "race": []
    },
    "next": null,
-   "level": 1,
+   "level": 2,
    "entry": false,
    "promo_line": "People trust you with the harder tasks."
   },
@@ -2354,7 +2355,7 @@
     "flags": [],
     "race": []
    },
-   "next": "weaver_senior",
+   "next": "weaver_journeyman",
    "level": 0,
    "entry": true,
    "promo_line": "The work sits easier in your hands."
@@ -2363,22 +2364,65 @@
    "id": "weaver_senior",
    "sector": "weaver",
    "title": "Weaver",
-   "wage": 70,
+   "wage": 125,
    "req": {
     "edu": null,
     "prev": true,
     "years": 3,
-    "age": 14,
+    "age": 16,
     "skills": {
-     "tailoring": 25
+     "tailoring": 28,
+     "focus": 12
     },
     "flags": [],
     "race": []
    },
    "next": null,
-   "level": 1,
+   "level": 2,
    "entry": false,
    "promo_line": "People trust you with the harder tasks."
+  },
+  "cook_line": {
+   "id": "cook_line",
+   "sector": "cook",
+   "title": "Line Cook",
+   "wage": 70,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 12,
+    "skills": {
+     "cooking": 15
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "cook_senior",
+   "level": 1,
+   "entry": false,
+   "promo_line": "The pass trusts your timing."
+  },
+  "weaver_journeyman": {
+   "id": "weaver_journeyman",
+   "sector": "weaver",
+   "title": "Journeyman Weaver",
+   "wage": 75,
+   "req": {
+    "edu": null,
+    "prev": true,
+    "years": 2,
+    "age": 12,
+    "skills": {
+     "tailoring": 15
+    },
+    "flags": [],
+    "race": []
+   },
+   "next": "weaver_senior",
+   "level": 1,
+   "entry": false,
+   "promo_line": "Your cloth holds a straight edge without fear."
   }
  },
  "schools": [

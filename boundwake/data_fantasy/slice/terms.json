@@ -88,7 +88,20 @@
   "magic_backfire": "The spell turns. So does fortune.",
   "monster": "Something hungrier than you.",
   "execution": "The law, or what claims to be.",
-  "unknown": "No one agrees what happened. The songs disagree louder."
+  "unknown": "No one agrees what happened. The songs disagree louder.",
+  "fever": "Fever took the last of your strength.",
+  "heart_gave": "Your heart gave one hard knock — then quiet.",
+  "winter_took": "Winter found the gap in your cloak and stayed.",
+  "wound_fester": "An old wound went sour. Time ran out.",
+  "fall": "A fall from height. The ground did not negotiate.",
+  "drowning": "Water closed over the last breath.",
+  "overwork": "The body kept working until it would not.",
+  "poison_chance": "Something in the meal or the dart — too late to name.",
+  "beast_maul": "Claws and weight. The path ended messy.",
+  "duel": "A formal quarrel. Informal ending.",
+  "collapse": "You sat down to rest and did not rise.",
+  "spark_burn": "Mana flared wrong and cooked the air around you.",
+  "age_sleep": "You lay down old and woke nowhere."
  },
  "echoes": [
   {

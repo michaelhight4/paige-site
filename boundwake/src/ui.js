@@ -209,7 +209,9 @@ function body() {
       : (E.tournamentInvites(s).length
         ? card('life', `${ico('adventure')} Hall invitations`, `<p class="sub">${E.tournamentInvites(s).map((i) => esc(i.name)).join(', ')} await your answer on Adventure.</p><div class="actions"><button data-tab="adv">Open Adventure</button></div>`)
         : '');
-    const route = !s.route && ca >= 8 ? card('life', `${ico('adventure')} Choose your path`, `<p class="sub">Primary skills grow +25% faster.</p><div class="actions">${['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].map((r) => `<button data-a="route" data-v="${r}">${flare(r.replace('route_', ''))}</button>`).join('')}</div>`) : '';
+    const pathOpen = !s.route && ca >= 8 && ca <= 16;
+    const pathUrgent = pathOpen && ca >= 10 && ca <= 13;
+    const route = pathOpen ? card('life', `${ico('adventure')} Choose your path${pathUrgent ? ' · age ' + ca : ''}`, `<p class="sub">${pathUrgent ? '<b>Now is a good year to choose.</b> ' : ''}Sword, magic, hybrid, or craft — primary skills grow <b>+25%</b> faster. Also on Skills. Opens at age 8; clearest around 11.</p><div class="actions">${[['route_sword','Sword'],['route_magic','Magic'],['route_hybrid','Hybrid'],['route_craft','Craft']].map(([id,lab]) => `<button type="button" class="primary" data-a="route" data-v="${id}">${esc(lab)}</button>`).join('')}</div>`) : (s.route ? '' : '');
     const journal = route + card('life', HD.life, `${lead('life')}<div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
       <div class="actions"><button data-a="rest" class="ghost">Rest by the pond</button></div>`);
     // Pack panels (ailments / pastimes / activities / soft law) — additive
@@ -410,13 +412,13 @@ function body() {
     const schoolPick = (s.flags.mana_awakened && !s.magicSchool)
       ? card('skills', `${ico('spellcraft')} Magic school`, `<p class="sub">Bind your spark to a Boundwake school.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'school').map((st) => `<button data-a="school" data-v="${st.id}">${esc(st.name)}</button>`).join('')}</div>`)
       : '';
-    const routePick = (!s.route && ca >= 8)
-      ? card('skills', `${ico('route')} Your path`, `<p class="sub">Primary skills grow faster.</p><div class="actions">
-        <button data-a="route" data-v="route_sword">Sword</button>
-        <button data-a="route" data-v="route_magic">Magic</button>
-        <button data-a="route" data-v="route_hybrid">Hybrid</button>
-        <button data-a="route" data-v="route_craft">Craft</button></div>`)
-      : (s.route ? card('skills', `${ico('route')} Your path`, `<p class="sub">Walking the <b>${esc(s.route.replace('route_',''))}</b> road.</p>`) : '');
+    const routePick = (!s.route && ca >= 8 && ca <= 16)
+      ? card('skills', `${ico('route')} Your path${ca >= 10 && ca <= 13 ? ' · choose soon' : ''}`, `<p class="sub">Primary skills +25%. Clearest choice window around age 11.</p><div class="actions">
+        <button type="button" class="primary" data-a="route" data-v="route_sword">Sword</button>
+        <button type="button" class="primary" data-a="route" data-v="route_magic">Magic</button>
+        <button type="button" class="primary" data-a="route" data-v="route_hybrid">Hybrid</button>
+        <button type="button" class="primary" data-a="route" data-v="route_craft">Craft</button></div>`)
+      : (s.route ? card('skills', `${ico('route')} Your path`, `<p class="sub">Walking the <b>${esc(s.route.replace('route_',''))}</b> road.</p>`) : (!s.route && ca > 16 ? card('skills', `${ico('route')} Your path`, `<p class="sub">No path chosen — you can still pick one.</p><div class="actions"><button data-a="route" data-v="route_sword">Sword</button><button data-a="route" data-v="route_magic">Magic</button><button data-a="route" data-v="route_hybrid">Hybrid</button><button data-a="route" data-v="route_craft">Craft</button></div>`) : ''));
     // Accordion categories (Boundwake names) + dense skill rows with bars
     const openCats = new Set(['physical', 'craft', 'social', 'mental', 'wild']);
     if (s.flags.mana_awakened) openCats.add('arcane');
@@ -642,7 +644,14 @@ app.addEventListener('click', (ev) => {
   const a = b.dataset.a, v = b.dataset.v; let r;
   // Tab switches must win (Life shortcut chips → Adventure/Work/…)
   if (b.dataset.tab) { tab = b.dataset.tab; render(); return; }
-  else if (a === 'age') { if (s?.pending?.length) return; E.ageUp(s); }
+  else if (a === 'age') {
+    if (s?.pending?.length) return;
+    const prevAge = E.cage(s);
+    E.ageUp(s);
+    const now = E.cage(s);
+    if (s.alive && !s.route && now >= 11 && prevAge < 11) toast('Age 11 — choose your path on Life or Skills (sword / magic / hybrid / craft).');
+    else if (s.alive && !s.route && now === 8) toast('Path choice unlocked — pick sword, magic, hybrid, or craft.');
+  }
   else if (a === 'ch') {
     if (document.body.dataset.sheetBusy) return;
     document.body.dataset.sheetBusy = '1';
