@@ -1,3 +1,5 @@
+## Live — **57485ea3** Market+Autopilot+playtest · https://paigegames.net/boundwake/
+
 ## DEPLOY ready — Market (Game Dev) + Autopilot + TB2/Soccer/Story — Coder Nov 5 ~5:45 PM CT
 
 ### Yearly Market (Game Dev `YEARLY_MARKET.md` / `market.json`)
