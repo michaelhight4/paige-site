@@ -631,3 +631,6 @@ body.info-open .dock{pointer-events:none}
 /* Skill lock reasons (Gary Nov 5 growth) */
 .lock-why{color:var(--amber,#d4a574);font-style:italic;opacity:.92}
 .row-skill button:disabled{opacity:.55}
+
+/* Tournaments */
+.panel-adv .row button[data-a="tourney"], .panel-adv .row button[data-a="tinvite"]{min-width:4.5rem}

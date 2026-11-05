@@ -1,3 +1,9 @@
+## Tournaments (Gary Nov 5 ~2:11 PM CT)
+- Every 3 calendar years (age 3,6,9…): Adventure lists Blade / Spark / craft meets by bracket (hage 1–7 / 8–15 / 16+).
+- Entry = 1 action. Placements pay gold + renown; 1st–3rd can invite Boundwake dojos / academies / tutors.
+- Answer invites on Adventure (enroll mentor, skill boost). Life banner when lists are open.
+- Kids in Village lessons can enter child bracket; child purses scaled down (not adult wages).
+
 ## Growth playable (Gary Nov 5 ~2:04 PM CT)
 - Skills UI: Train shows lock WHY (too young / mana / no actions). Soft cats from hage~2 (×0.55). Martial from hage 6. Sword styles at 8.
 - Mana: Attempt awakening (age 6+) or Academy Visit; spark-born at birth. Practice magic (5 mana) + school pick (Boundwake names). Mana bar when awake.

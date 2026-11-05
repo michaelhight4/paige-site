@@ -606,6 +606,174 @@ export function resolve(s, i) {
   return { ok: true, success: ok, msg, title: e.title };
 }
 
+
+// ---- tournaments (Gary Nov 5 ~2:11 PM CT) ----
+// Every 3 calendar years (age 3,6,9…): enter sword / magic / trained-skill meets by age bracket.
+// Boundwake-original halls — no Bit Tensie / MT / SDS names.
+const TOURNEY_ORGS = {
+  sword: [
+    { id: 'dojo_greenwell', name: 'Greenwell Blade Circle', realm: 'hearthfold', kind: 'dojo', skill: 'swordsmanship' },
+    { id: 'dojo_emberlight', name: 'Emberlight Drill Hall', realm: 'emberlight', kind: 'dojo', skill: 'swordsmanship' },
+    { id: 'dojo_spireward', name: 'Practice Lawn Circle', realm: 'spireward', kind: 'dojo', skill: 'swordsmanship' },
+  ],
+  magic: [
+    { id: 'master_vale', name: 'Vale Primer Tutors', realm: 'hearthfold', kind: 'master', skill: 'spellcraft' },
+    { id: 'academy_spire', name: 'Spireward Collegium', realm: 'spireward', kind: 'academy', skill: 'spellcraft' },
+    { id: 'master_tide', name: 'Tidepool Scribes', realm: 'glassmarket', kind: 'master', skill: 'mana_control' },
+  ],
+  craft: [
+    { id: 'hall_market', name: 'Market Row Guild Yard', realm: 'hearthfold', kind: 'guild', skill: 'smithing' },
+    { id: 'hall_ledger', name: 'Ledger Hall Patrons', realm: 'glassmarket', kind: 'guild', skill: 'bartering' },
+  ],
+};
+const TOURNEY_SKILL_MEETS = [
+  { id: 'meet_sword', cat: 'sword', title: 'Blade Meet', skill: 'swordsmanship', needAwaken: false },
+  { id: 'meet_magic', cat: 'magic', title: 'Spark Meet', skill: 'spellcraft', needAwaken: true },
+  { id: 'meet_archery', cat: 'other', title: 'Marks Meet', skill: 'archery', needAwaken: false },
+  { id: 'meet_smith', cat: 'other', title: 'Forge Meet', skill: 'smithing', needAwaken: false },
+  { id: 'meet_cook', cat: 'other', title: 'Hearth Meet', skill: 'cooking', needAwaken: false },
+  { id: 'meet_alchemy', cat: 'other', title: 'Vial Meet', skill: 'alchemy', needAwaken: false },
+  { id: 'meet_perform', cat: 'other', title: 'Stage Meet', skill: 'performance', needAwaken: false },
+  { id: 'meet_track', cat: 'other', title: 'Trail Meet', skill: 'tracking', needAwaken: false },
+  { id: 'meet_unarmed', cat: 'other', title: 'Fist Meet', skill: 'unarmed', needAwaken: false },
+  { id: 'meet_tailor', cat: 'other', title: 'Loom Meet', skill: 'tailoring', needAwaken: false },
+];
+export function tourneyBracket(s) {
+  const h = Math.floor(hage(s));
+  if (h < 1) return null;
+  if (h < 8) return { id: 'child', label: '1–7', min: 1, max: 7 };
+  if (h < 16) return { id: 'youth', label: '8–15', min: 8, max: 15 };
+  return { id: 'open', label: '16+', min: 16, max: 999 };
+}
+export function isTournamentYear(s) {
+  const a = Math.floor(s.age);
+  return a >= 3 && a % 3 === 0 && !!tourneyBracket(s);
+}
+function tourneyField(bracketId) {
+  return { child: 8, youth: 22, open: 40 }[bracketId] || 20;
+}
+export function tournamentOffers(s) {
+  if (!isTournamentYear(s)) return [];
+  const br = tourneyBracket(s);
+  if (!br) return [];
+  const entered = new Set(s.flags.tour_entered || []);
+  const out = [];
+  for (const m of TOURNEY_SKILL_MEETS) {
+    if (m.needAwaken && !s.flags.mana_awakened) continue;
+    const sk = s.skills[m.skill] || 0;
+    const drilled = !!(s.trainCount && s.trainCount[m.skill]) || !!(s.skillUsed && s.skillUsed[m.skill]);
+    const minSk = br.id === 'child' ? 1 : br.id === 'youth' ? 3 : 5;
+    // Must have trained/used the skill (not only a birth talent seed)
+    if (sk < minSk || (!drilled && sk < minSk + 4)) continue;
+    if (entered.has(m.id)) continue;
+    const name = D.skillById[m.skill]?.name || m.skill;
+    out.push({
+      id: m.id, title: m.title, cat: m.cat, skill: m.skill, skillName: name,
+      bracket: br.label, bracketId: br.id, costAct: 1,
+      blurb: `${m.title} · bracket ${br.label} · judged on ${name}`,
+    });
+  }
+  return out;
+}
+export function enterTournament(s, meetId) {
+  if (!isTournamentYear(s)) return { ok: false, msg: 'No tournament year — meets open every 3 years.' };
+  const br = tourneyBracket(s);
+  if (!br) return { ok: false, msg: 'Too young for the lists.' };
+  const meet = TOURNEY_SKILL_MEETS.find((m) => m.id === meetId);
+  if (!meet) return { ok: false, msg: 'Unknown meet.' };
+  if (meet.needAwaken && !s.flags.mana_awakened) return { ok: false, msg: 'Needs mana awakening.' };
+  if (!tournamentOffers(s).find((o) => o.id === meetId)) return { ok: false, msg: 'You cannot enter that meet (train the skill, or already entered).' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year (entry costs 1 action).' };
+  (s.flags.tour_entered ||= []).push(meetId);
+
+  const sk = s.skills[meet.skill] || 0;
+  let score = sk + rint(s, 0, 14);
+  if (meet.cat === 'sword' && s.swordStyle) score += 6;
+  if (meet.cat === 'magic' && s.magicSchool) score += 5;
+  if (s.route === 'route_sword' && meet.cat === 'sword') score += 4;
+  if (s.route === 'route_magic' && meet.cat === 'magic') score += 4;
+  if (s.route === 'route_hybrid' && (meet.cat === 'sword' || meet.cat === 'magic')) score += 3;
+  if (s.route === 'route_craft' && meet.cat === 'other') score += 3;
+  if (meet.skill === 'swordsmanship' && (s.swordStyle === 'style_storm' || s.swordStyle === 'style_river')) score += 2;
+
+  const field = tourneyField(br.id) + rint(s, -4, 8);
+  let place = 8;
+  if (score >= field + 18) place = 1;
+  else if (score >= field + 10) place = 2;
+  else if (score >= field + 4) place = 3;
+  else if (score >= field - 2) place = 4;
+  else if (score >= field - 8) place = 5;
+  else place = 6 + (score < field - 14 ? 2 : 0);
+
+  const goldPay = { 1: 28, 2: 16, 3: 9, 4: 4, 5: 2 }[place] || 0;
+  const famePay = { 1: 12, 2: 7, 3: 4, 4: 2, 5: 1 }[place] || 0;
+  const gMul = br.id === 'child' ? 0.45 : br.id === 'youth' ? 0.75 : 1;
+  const gold = Math.round(goldPay * gMul);
+  const fame = Math.max(0, Math.round(famePay * (br.id === 'child' ? 0.6 : 1)));
+  s.gold += gold;
+  s.stats.fame = clamp(s.stats.fame + fame, 0, 100);
+  useSkill(s, meet.skill, place <= 3 ? 2.2 : 0.9);
+  s.stats.stress = clamp(s.stats.stress + (place <= 3 ? 3 : 5), 0, 100);
+
+  let msg = `I entered the ${meet.title} (${br.label}). Place: ${place}${place <= 3 ? '!' : '.'}`;
+  if (gold || fame) msg += ` Purse: ${gold} gold, renown +${fame}.`;
+  else msg += ' No purse — but the crowd saw me.';
+
+  let invite = null;
+  if (place <= 2 || (place === 3 && chance(s, 0.45))) {
+    const pool = TOURNEY_ORGS[meet.cat === 'other' ? 'craft' : meet.cat] || TOURNEY_ORGS.craft;
+    const org = pick(s, pool);
+    invite = { id: org.id, name: org.name, kind: org.kind, skill: org.skill || meet.skill, meet: meetId, age: Math.floor(s.age) };
+    s.flags.tour_invites = [...(s.flags.tour_invites || []).filter((x) => x.id !== org.id), invite];
+    s.flags[`invite_${org.id}`] = 1;
+    const kindWord = org.kind === 'dojo' ? 'blade hall' : org.kind === 'academy' ? 'academy' : org.kind === 'master' ? 'tutor circle' : 'guild yard';
+    msg += ` ${org.name} took notice — a ${kindWord} invitation waits.`;
+  }
+  log(s, msg, 'tournament');
+  return { ok: true, msg, place, gold, fame, invite };
+}
+export function tournamentInvites(s) {
+  return [...(s.flags.tour_invites || [])];
+}
+export function acceptTournamentInvite(s, orgId) {
+  const inv = (s.flags.tour_invites || []).find((x) => x.id === orgId);
+  if (!inv) return { ok: false, msg: 'No such invitation.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.flags.tour_invites = (s.flags.tour_invites || []).filter((x) => x.id !== orgId);
+  s.flags[`joined_${orgId}`] = 1;
+  s.flags.has_mentor = 1;
+  if (inv.kind === 'academy' || inv.kind === 'master') {
+    if (inv.kind === 'academy' && !s.flags.mana_awakened) {
+      s.flags.mana_awakened = 1; s.manaMax = Math.max(s.manaMax || 0, 20); s.mana = Math.max(s.mana, 8);
+    }
+    useSkill(s, inv.skill || 'spellcraft', 3);
+    useSkill(s, 'focus', 1.5);
+    if (!s.mentor && D.mentors?.paths?.spell) {
+      s.mentor = { path: 'spell', role: 'drill', years: 0, style: (pick(s, D.mentors.styles) || {}).id || 'steady' };
+    }
+  } else if (inv.kind === 'dojo') {
+    useSkill(s, 'swordsmanship', 3);
+    useSkill(s, 'endurance', 1.2);
+    if (!s.mentor && D.mentors?.paths?.sword) {
+      s.mentor = { path: 'sword', role: 'drill', years: 0, style: (pick(s, D.mentors.styles) || {}).id || 'steady' };
+    }
+  } else {
+    useSkill(s, inv.skill || 'smithing', 2.5);
+  }
+  discover(s, orgId);
+  const msg = `I answered ${inv.name}. The yard took me in.`;
+  log(s, msg, 'invite'); return { ok: true, msg };
+}
+function refreshTournamentYear(s) {
+  if (!isTournamentYear(s)) { s.flags.tour_year = 0; return; }
+  const a = Math.floor(s.age);
+  if (s.flags.tour_year === a) return;
+  s.flags.tour_year = a;
+  s.flags.tour_entered = [];
+  const br = tourneyBracket(s);
+  if (br) log(s, `Tournament year — bracket ${br.label}. Blade, spark, and craft meets open on the Adventure list (1 action to enter).`, 'tournament');
+}
+
 // ---- year tick ----
 export function ageUp(s) {
   if (!s.alive || s.pending.length) return false; const yrs = turnYears(s);
@@ -632,6 +800,7 @@ export function ageUp(s) {
   if (h < 16 && s.wealth === 'noble') s.gold += 2;
   log(s, `${D.terms.ui.year_passed} I am ${Math.floor(s.age)}.`, 'year');
   newYearBudget(s);
+  refreshTournamentYear(s);
   const dieP = s.stats.health <= 0 ? 1 : h > 70 ? Math.min(0.95, ((h - 70) / 28) ** 2.2 * yrs) : 0.0015 * yrs;
   if (chance(s, dieP)) { die(s, s.stats.health <= 0 && s.injuries.length ? 'battle' : h > 70 ? 'old_age' : pick(s, ['illness', 'accident'])); return true; }
   drawEvents(s); return true;

@@ -122,6 +122,11 @@ function body() {
   const lead = (k) => `<p class="menu-lead">${LEAD[k] || ''}</p>`;
   if (tab === 'life') {
     const byAge = []; for (const l of s.log.slice(-80)) { const a = Math.floor(l.age); if (!byAge.length || byAge.at(-1)[0] !== a) byAge.push([a, []]); if (l.kind !== 'year') byAge.at(-1)[1].push(l.text); }
+    const tourneyBanner = E.isTournamentYear(s)
+      ? card('life', `${ico('adventure')} Tournament year`, `<p class="sub">Bracket <b>${esc(E.tourneyBracket(s)?.label || '')}</b> meets are open — enter from Adventure (1 action). Strong places draw academies, tutors, and blade halls.</p><div class="actions"><button data-tab="adv">Open Adventure</button></div>`)
+      : (E.tournamentInvites(s).length
+        ? card('life', `${ico('adventure')} Hall invitations`, `<p class="sub">${E.tournamentInvites(s).map((i) => esc(i.name)).join(', ')} await your answer on Adventure.</p><div class="actions"><button data-tab="adv">Open Adventure</button></div>`)
+        : '');
     const route = !s.route && h >= 8 ? card('life', `${ico('adventure')} Choose your path`, `<p class="sub">Primary skills grow +25% faster.</p><div class="actions">${['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].map((r) => `<button data-a="route" data-v="${r}">${flare(r.replace('route_', ''))}</button>`).join('')}</div>`) : '';
     const journal = route + card('life', HD.life, `${lead('life')}<div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
       <div class="actions"><button data-a="rest" class="ghost">Rest by the pond</button></div>`);
@@ -189,7 +194,22 @@ function body() {
     const partyBlock = party.length
       ? `<div class="party-list"><p class="sub"><b>Traveling with you</b> (Passive Relationship Growth each year)</p>${party.map((p) => `<div class="row"><div><b>${esc(p.first)}</b> <small>${esc(p.rel)} · closeness ${Math.round(p.bar)}</small></div><button data-a="party" data-v="${p.id}">Leave party</button></div>`).join('')}</div>`
       : `<p class="sub">No companions yet. Add someone from Bonds — up to ${E.PARTY_CAP} in your party. Shared roads keep those bonds warm without spending Social.</p>`;
-    return card('adv', HD.adv, `${lead('adv')}<p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
+    const offers = E.tournamentOffers(s);
+    const br = E.tourneyBracket(s);
+    const inv = E.tournamentInvites(s);
+    const tourneyCard = E.isTournamentYear(s)
+      ? card('adv', `${ico('adventure')} Tournaments · bracket ${esc(br?.label || '—')}`,
+          `<p class="sub">Meets every 3 years. Entry costs <b>1 action</b>. Place for gold &amp; renown — strong finishes draw academies, tutors, and blade halls.</p>
+           ${offers.length ? offers.map((o) => `<div class="row"><div><b>${esc(o.title)}</b> <small>${esc(o.skillName)} · ${esc(o.bracket)}</small><br><small>${esc(o.blurb)}</small></div>
+             <button data-a="tourney" data-v="${o.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Enter</button></div>`).join('')
+             : '<div class="empty">Train a competing skill (blade, spark, cook, smith, marks…) then return.</div>'}
+           ${inv.length ? `<h3>Invitations</h3>${inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join('')}` : ''}`)
+      : (inv.length
+        ? card('adv', `${ico('adventure')} Invitations`, inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join(''))
+        : (Math.floor(s.age) % 3 === 2
+          ? card('adv', `${ico('adventure')} Tournaments`, `<p class="sub">Lists open next year (every 3 years). Train now — bracket follows human-age bands 1–7 / 8–15 / 16+.</p>`)
+          : ''));
+    return tourneyCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
     ${partyBlock}
     <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`);
   }
@@ -386,6 +406,8 @@ app.addEventListener('click', (ev) => {
   else if (a === 'school') { r = E.chooseMagicSchool(s, v); }
   else if (a === 'cast') { r = E.practiceMagic(s); }
   else if (a === 'drill') { r = E.drillSword(s); }
+  else if (a === 'tourney') { r = E.enterTournament(s, v); }
+  else if (a === 'tinvite') { r = E.acceptTournamentInvite(s, v); }
   else if (a === 'healer') r = E.visitHealer(s);
   else if (a === 'adopt') r = E.adoptPassion(s, v);
   else if (a === 'prac') r = E.practicePassion(s, v);
