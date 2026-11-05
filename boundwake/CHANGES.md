@@ -1,3 +1,25 @@
+## Text Bot replay DEPLOYED — Coder Nov 5 ~5:20 PM CT (fold into depth window)
+
+### Shipped this push
+| Area | What |
+|------|------|
+| Work crush HIGH | Desktop `work-acc` flex:0 0 auto; workshops accordion opens if any owned |
+| Notices MED | Post gated on cage + visible lock why |
+| Jail MED | Job drop journal+toast; `fmtSentence` (months/years) |
+| Guild MED | Last-year vs lifetime jobs; handoff age 50+ |
+| Team/friend MED | Gate copy aligned; Make a friend tip always on |
+| Ownership | Tease ages widened; 27 own_* still live (expansion 225) |
+
+### Pack / smoke / live
+- Smoke: **PASS** (252/350 distinct)
+- Deploy commit: **218c9eec** on paige-site main
+- Prior depth pack **22638063** retained
+- Live: https://paigegames.net/boundwake/
+
+### Still deferred / known lower
+- Event modals ignore script clicks; thin outcome toasts; Work layout polish generally
+- Elder/child/cook-weaver/death/adult floor/path@11 already shipped in 22638063
+
 ## Text Bot 75-event merge (Nov 5 ~4:38 PM CT)
 
 ## 2026-11-05 Text Bot replay fold-in (Work crush + MED)
