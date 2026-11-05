@@ -118,7 +118,8 @@ function header() {
   return `<div class="card hub panel-${tab}"><div class="card-body">${body}</div></div>`;
 }
 function body() {
-  const h = E.hage(s);
+  const h = E.hage(s); // portrait/life-stage feel
+  const ca = E.cage(s); // calendar age for all player gates (matches Age N UI)
   const lead = (k) => `<p class="menu-lead">${LEAD[k] || ''}</p>`;
   if (tab === 'life') {
     const byAge = []; for (const l of s.log.slice(-80)) { const a = Math.floor(l.age); if (!byAge.length || byAge.at(-1)[0] !== a) byAge.push([a, []]); if (l.kind !== 'year') byAge.at(-1)[1].push(l.text); }
@@ -135,7 +136,7 @@ function body() {
       : (E.tournamentInvites(s).length
         ? card('life', `${ico('adventure')} Hall invitations`, `<p class="sub">${E.tournamentInvites(s).map((i) => esc(i.name)).join(', ')} await your answer on Adventure.</p><div class="actions"><button data-tab="adv">Open Adventure</button></div>`)
         : '');
-    const route = !s.route && h >= 8 ? card('life', `${ico('adventure')} Choose your path`, `<p class="sub">Primary skills grow +25% faster.</p><div class="actions">${['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].map((r) => `<button data-a="route" data-v="${r}">${flare(r.replace('route_', ''))}</button>`).join('')}</div>`) : '';
+    const route = !s.route && ca >= 8 ? card('life', `${ico('adventure')} Choose your path`, `<p class="sub">Primary skills grow +25% faster.</p><div class="actions">${['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].map((r) => `<button data-a="route" data-v="${r}">${flare(r.replace('route_', ''))}</button>`).join('')}</div>`) : '';
     const journal = route + card('life', HD.life, `${lead('life')}<div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
       <div class="actions"><button data-a="rest" class="ghost">Rest by the pond</button></div>`);
     // Pack panels (ailments / pastimes / activities / soft law) — additive
@@ -161,7 +162,7 @@ function body() {
     return journal + prisonCard + ailCard + pastCard + actCats + lawCard;
   }
   if (tab === 'work') {
-    if (h < 6 && !s.job) return card('work', HD.work, `${lead('work')}<div class="empty">Chores wait until you can reach the counter (age 6+).${s.school ? ' You attend Village lessons.' : ''}</div>`);
+    if (ca < 6 && !s.job) return card('work', HD.work, `${lead('work')}<div class="empty">Chores wait until you can reach the counter (age 6+).${s.school ? ' You attend Village lessons.' : ''}</div>`);
     const cur = s.job ? (() => { const j = P.occ.jobs[s.job.id], c = E.careerOf(j.id), nx = j.next && P.occ.jobs[j.next];
       return card('work', `${ico('work')} ${esc(j.title)}`, `${lead('work')}<p class="sub">${flare(c.blurb)}</p>
        <p>Wage <span class="gold-line">${ico('gold')}${j.wage} ${T('currency')}/yr</span> · Years ${s.job.years} · Performance ${Math.round(s.job.perf)}</p>
@@ -171,7 +172,8 @@ function body() {
     const row = ({ job, career: c, ok }) => {
       const tags = c.tags || [];
       const kind = (tags.includes('ordinary') || c.id === 'farmer' || c.id === 'merchant') ? 'Everyday' : (tags.includes('guild') || tags.includes('academy') || tags.includes('special') ? 'Guild track' : 'Trade');
-      return `<div class="row"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr<br>${flare(c.unlock_text)}</small></div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'}>${ok ? 'Join' : 'Locked'}</button></div>`;
+      const why = ok ? '' : (E.jobLockReason(s, job) || 'Locked');
+      return `<div class="row row-job${ok ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr<br>${flare(c.unlock_text)}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'} title="${esc(why)}">${ok ? 'Join' : 'Locked'}</button></div>`;
     };
     const everyday = opens.filter(({ career: c }) => (c.tags || []).includes('ordinary') || c.id === 'farmer' || c.id === 'merchant');
     const guild = opens.filter((o) => !everyday.includes(o));
@@ -187,7 +189,7 @@ function body() {
       const t = P.workshops?.types?.[w.type];
       return `<div class="row"><div><b>${esc(t?.name || w.type)}</b> <small>yr ${w.years} · renown ${Math.round(w.renown)}</small></div></div>`;
     }).join('') || '<div class="empty">No workshop yet.</div>';
-    const buy = E.workshopTypes(s).filter((t) => t.ok || h >= t.minAge).slice(0, 12).map((t) => `<div class="row"><div><b>${esc(t.name)}</b> <small>${ico('gold')}${t.fee} · age ${t.minAge}+</small><br><small>${flare(t.blurb)}</small></div><button data-a="buybiz" data-v="${t.id}" ${t.ok ? '' : 'disabled'}>${t.ok ? 'Open' : 'Locked'}</button></div>`).join('');
+    const buy = E.workshopTypes(s).filter((t) => t.ok || ca >= t.minAge).slice(0, 12).map((t) => `<div class="row"><div><b>${esc(t.name)}</b> <small>${ico('gold')}${t.fee} · age ${t.minAge}+</small><br><small>${flare(t.blurb)}</small></div><button data-a="buybiz" data-v="${t.id}" ${t.ok ? '' : 'disabled'}>${t.ok ? 'Open' : 'Locked'}</button></div>`).join('');
     const bizAcc = acc('workshops', `${ico('gold')} Workshops &amp; stalls <small>${(s.workshops || []).length ? (s.workshops.length + ' owned') : 'start one'}</small>`,
       `${owned}<h3>Open a workshop</h3>${buy || '<div class="empty">None affordable yet.</div>'}`, openSecondary);
     const courtSeat = s.court?.seat ? `<p class="sub">Holding <b>${esc(s.court.name)}</b> · ${Math.ceil(s.court.termLeft)} yr left · tier ${s.court.tier}</p>` : (s.court?.tier ? `<p class="sub">Former officeholder · tier ${s.court.tier} kept.</p>` : '<p class="sub">No seat yet. File when you have age, coin, and renown.</p>');
@@ -196,10 +198,10 @@ function body() {
       `${courtSeat}${seats || '<div class="empty">No seats open for you this year.</div>'}`, openSecondary);
     const ment = s.mentor
       ? `<p class="sub">Path: <b>${esc(P.mentors?.paths?.[s.mentor.path]?.name || s.mentor.path)}</b> · role ${esc(s.mentor.role)} · ${s.mentor.years} yrs</p><div class="actions"><button data-a="mdrill" ${s.budget.act < 1 ? 'disabled' : ''}>Mentor drill</button></div>`
-      : `<p class="sub">Enroll with a path mentor (sword, spell, craft, hunt).</p><div class="actions">${E.mentorPaths().map((m) => `<button data-a="mentor" data-v="${m.id}" ${s.budget.act < 1 || h < 10 ? 'disabled' : ''}>${esc(m.name)}</button>`).join('')}</div>`;
+      : `<p class="sub">Enroll with a path mentor (sword, spell, craft, hunt).</p><div class="actions">${E.mentorPaths().map((m) => `<button data-a="mentor" data-v="${m.id}" ${s.budget.act < 1 || ca < 10 ? 'disabled' : ''}>${esc(m.name)}</button>`).join('')}</div>`;
     const mentAcc = acc('mentors', `${ico('adventure')} Mentors <small>${s.mentor ? 'enrolled' : 'paths'}</small>`, ment, openSecondary);
     const clubs = E.clubList(s).filter((c) => !(s.clubs || []).includes(c.id)).map((c) => `<button data-a="club" data-v="${c.id}">${esc(c.name)}</button>`).join('');
-    const clubCard = (h >= 9 && h <= 22) ? acc('circles', `${ico('wits')} Circles &amp; patronage <small>${(s.clubs || []).length || 'join'}</small>`,
+    const clubCard = (ca >= 9 && ca <= 22) ? acc('circles', `${ico('wits')} Circles &amp; patronage <small>${(s.clubs || []).length || 'join'}</small>`,
       `<p class="sub">Joined: ${(s.clubs || []).map(esc).join(', ') || 'none'}.</p><div class="actions">${clubs || '<span class="sub">No open circles.</span>'}</div>`, false) : '';
     return cur + openingsAcc + bizAcc + courtAcc + mentAcc + clubCard;
   }
@@ -220,10 +222,10 @@ function body() {
            ${inv.length ? `<h3>Invitations</h3>${inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join('')}` : ''}`)
       : (inv.length
         ? card('adv', `${ico('adventure')} Invitations`, inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join(''))
-        : (Math.floor(E.hage(s)) % 3 === 2
+        : (E.cage(s) % 3 === 2
           ? card('adv', `${ico('adventure')} Tournaments`, `<p class="sub">Lists open next year (every 3 human-years). Train now — brackets 1–8 / 8–15 / 16+ (age 8 starts middle).</p>`)
           : ''));
-    return tourneyCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
+    return tourneyCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${ca < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
     ${partyBlock}
     <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`);
   }
@@ -235,14 +237,14 @@ function body() {
            <div class="actions"><button data-a="cast" class="primary" ${s.budget.act < 1 || s.mana < 5 || !s.magicSchool ? 'disabled' : ''}>Practice magic (5 mana)</button>
            <button data-a="drill" ${s.budget.act < 1 || !s.swordStyle ? 'disabled' : ''}>Drill sword forms</button></div>`
         : `<p class="sub">Mana sleeps. From age 6: <b>Attempt awakening</b> here, or Visit an Academy in Realms. Spark-born wakes it at birth.</p>
-           <div class="actions"><button data-a="awaken" class="primary" ${s.budget.act < 1 || h < 6 ? 'disabled' : ''}>Attempt mana awakening${h < 6 ? ' (age 6+)' : ''}</button></div>`);
-    const stylePick = (!s.swordStyle && h >= 8)
+           <div class="actions"><button data-a="awaken" class="primary" ${s.budget.act < 1 || ca < 6 ? 'disabled' : ''}>Attempt mana awakening${ca < 6 ? ' (age 6+)' : ''}</button></div>`);
+    const stylePick = (!s.swordStyle && ca >= 8)
       ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Choose how you bind steel — shapes adventure odds. Need Swordsmanship ${(P.styles||[]).find(x=>x.type==='sword')?.unlock?.skills?.swordsmanship || 10}+.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'sword').map((st) => { const need = st.unlock?.skills?.swordsmanship || 10; const ok = (s.skills.swordsmanship||0) >= need; return `<button data-a="style" data-v="${st.id}" title="${esc(st.feel||'')}" ${ok?'':'disabled'}>${esc(st.name)}${ok?'':` (need ${need})`}</button>`; }).join('')}</div>`)
       : (s.swordStyle ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Active: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || s.swordStyle)}</b> — ${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.feel || '')}.</p>`) : '');
     const schoolPick = (s.flags.mana_awakened && !s.magicSchool)
       ? card('skills', `${ico('spellcraft')} Magic school`, `<p class="sub">Bind your spark to a Boundwake school.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'school').map((st) => `<button data-a="school" data-v="${st.id}">${esc(st.name)}</button>`).join('')}</div>`)
       : '';
-    const routePick = (!s.route && h >= 8)
+    const routePick = (!s.route && ca >= 8)
       ? card('skills', `${ico('route')} Your path`, `<p class="sub">Primary skills grow faster.</p><div class="actions">
         <button data-a="route" data-v="route_sword">Sword</button>
         <button data-a="route" data-v="route_magic">Magic</button>
@@ -252,7 +254,7 @@ function body() {
     // Accordion categories (Boundwake names) + dense skill rows with bars
     const openCats = new Set(['physical', 'craft', 'social', 'mental', 'wild']);
     if (s.flags.mana_awakened) openCats.add('arcane');
-    if (h >= 6) openCats.add('martial');
+    if (ca >= 6) openCats.add('martial');
     const rows = P.skills.categories.map((c) => {
       const skills = P.skills.skills.filter((k) => k.cat === c.id);
       const trainable = skills.filter((k) => !why(k.id)).length;
@@ -324,7 +326,7 @@ function body() {
       }).join('');
       const foot = at
         ? `<p class="good">You are here. Visit a place (1 activity) to shape the year.</p>`
-        : `<div class="actions"><button data-a="travel" data-v="${r.id}" ${h >= 14 && s.budget.act > 0 ? '' : 'disabled'}>Travel here${h < 14 ? ' (age 14+)' : ''}</button></div>`;
+        : `<div class="actions"><button data-a="travel" data-v="${r.id}" ${ca >= 14 && s.budget.act > 0 ? '' : 'disabled'}>Travel here${ca < 14 ? ' (age 14+)' : ''}</button></div>`;
       return card('realms', `${ico('realm')} ${esc(r.name)}${at ? ' · here' : ''}`, `<p class="sub">${flare(r.feel)}</p>${locs}${foot}`);
     }).join('');
     return card('realms', HD.realms, `${lead('realms')}<p class="sub">Walk the places of your current realm, or travel when your boots are ready. Visits enter the Codex and color what finds you next.</p>`) + `<div class="realms-stack">${stack}</div>`;
@@ -401,7 +403,7 @@ function render() {
   setChrome(tab);
   const tabs = TABS.map(([k]) => {
     const m = TAB_META[k];
-    return `<button data-tab="${k}" class="${tab === k ? 'on' : ''}">${ico(m.ico)}${T(m.label)}</button>`;
+    return `<button data-tab="${k}" class="${tab === k ? 'on' : ''}" aria-label="${T(m.label)}">${ico(m.ico)}${T(m.label)}</button>`;
   }).join('');
   const sheet = eventSheet();
   document.body.classList.toggle('has-sheet', !!sheet);
@@ -423,7 +425,7 @@ app.addEventListener('click', (ev) => {
   const b = ev.target.closest('button'); if (!b || b.disabled) return; const a = b.dataset.a, v = b.dataset.v; let r;
   if (b.dataset.tab) tab = b.dataset.tab;
   else if (a === 'age') E.ageUp(s);
-  else if (a === 'ch') { r = E.resolve(s, +v); if (r) toast((r.success === false ? '✗ ' : '') + r.msg); }
+  else if (a === 'ch') { if (document.body.dataset.sheetBusy) return; document.body.dataset.sheetBusy = '1'; r = E.resolve(s, +v); if (r) toast((r.success === false ? '✗ ' : '') + r.msg); setTimeout(() => { delete document.body.dataset.sheetBusy; }, 400); }
   else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s);
   else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') { r = E.chooseRoute(s, v); }
   else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'visit') r = E.visitLocation(s, v);

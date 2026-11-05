@@ -16,8 +16,10 @@ const NAMES = { m: ['Aren', 'Bram', 'Cael', 'Dorin', 'Edric', 'Fen', 'Garrick', 
   last: ['Ashdown', 'Brightwater', 'Coldwell', 'Dunmere', 'Emberly', 'Fairholt', 'Greenwell', 'Hollin', 'Ivybank', 'Larkspur', 'Marrow', 'Oakhart', 'Reedley', 'Stonebridge', 'Thorne', 'Willowby'] }; // coder_stub name list (original)
 export const race = (s) => D.races.find((r) => r.id === s.race);
 export const turnYears = (s) => 1; // Gary Nov 5 2026: 1 turn = 1 year (was lifespan/100)
-// human-equivalent age: all gates in the notes are written for humans (age 8 sword, 10 academy…)
+// hage = human-equivalent (longevity/portrait/death curve). cage = calendar age for ALL player age gates (Gary: 1 turn = 1 year every race).
 export const hage = (s, age = s.age) => (age * 90) / race(s).lifespan;
+/** Calendar age — Gary Nov 5 ~2:34 PM CT: 1 turn = 1 year for every race; use for adventure/jobs/travel/tournaments/UI age gates. */
+export const cage = (s) => Math.floor(s.age || 0);
 // Gary Nov 5 2026: longer-lived races take ≥1.5× as long on a few pillar skills only
 // (swordsmanship / spellcraft / smithing) so builds stay deliberate. Other skills keep the normal 100/60/25 curve.
 export const PILLAR_SKILLS = ['swordsmanship', 'spellcraft', 'smithing'];
@@ -142,14 +144,14 @@ export const skillLocked = (s, id) => {
 /** Human-readable lock / age gate for Skills UI (Gary Nov 5 ~2:04 PM CT). null = can train. */
 export function trainLockReason(s, id) {
   const sk = D.skillById[id]; if (!sk) return 'Unknown skill.';
-  const h = hage(s);
+  const a = cage(s);
   if ((s.budget?.act ?? 0) < 1) return 'No actions left this year.';
   if (sk.cat === 'arcane' && !s.flags.mana_awakened) return 'Needs mana awakening.';
   if (id === 'enchanting' && (s.skills.spellcraft || 0) < 20) return 'Needs Spellcraft 20.';
-  if (MARTIAL_IDS.includes(id) && h < 6) return 'Too young for martial drill (age 6+).';
-  if (sk.cat === 'arcane' && h < 6) return 'Too young to force the spark (age 6+).';
-  if (h < 2) return 'Too young to train.';
-  if (h < 4 && !EARLY_OK_CATS.includes(sk.cat)) return 'Too young for this craft.';
+  if (MARTIAL_IDS.includes(id) && a < 6) return 'Too young for martial drill (age 6+).';
+  if (sk.cat === 'arcane' && a < 6) return 'Too young to force the spark (age 6+).';
+  if (a < 2) return 'Too young to train.';
+  if (a < 4 && !EARLY_OK_CATS.includes(sk.cat)) return 'Too young for this craft.';
   return null;
 }
 function raceMult(s, id) {
@@ -187,7 +189,7 @@ export function train(s, id) {
   else if (PILLAR_SKILLS.includes(id)) { postCap = true; mult = postCapAgeMult(s); }
   else mult = curve[curve.length - 1];
   // Early years (2–3): lighter gains for soft skills
-  if (hage(s) < 4) mult *= 0.55;
+  if (cage(s) < 4) mult *= 0.55;
   const before = rankOf(s.skills[id]); const g = useSkill(s, id, 6 * mult * turnYears(s) ** 0.5);
   for (const [re, map] of D.skills.activityMap) if (new RegExp(re).test(id)) for (const kv of map.split(',')) { const [k, w] = kv.split(':'); if (k !== id) useSkill(s, k, +w * 1.5 * (n <= curve.length ? curve[Math.min(n - 1, curve.length - 1)] : curve[curve.length - 1])); }
   if (D.skillById[id].cat === 'arcane') s.mana = Math.min(s.manaMax, s.mana + 2);
@@ -202,7 +204,7 @@ export function train(s, id) {
 /** Boundwake-original mana awakening (no Bit Tensie / MT ranks). */
 export function seekAwakening(s) {
   if (s.flags.mana_awakened) return { ok: false, msg: 'Mana already answers you.' };
-  if (hage(s) < 6) return { ok: false, msg: 'Too young to force the spark (age 6+).' };
+  if (cage(s) < 6) return { ok: false, msg: 'Too young to force the spark (age 6+).' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   const p = clamp(0.18 + (s.skills.focus || 0) / 180 + (s.skills.lore || 0) / 250 + (['light', 'fire', 'shadow', 'water', 'wind', 'earth'].includes(s.affinity) ? 0.06 : 0), 0.08, 0.72);
   if (chance(s, p)) {
@@ -217,7 +219,7 @@ export function seekAwakening(s) {
 export function chooseSwordStyle(s, styleId) {
   const st = D.styleById?.[styleId];
   if (!st || st.type !== 'sword') return { ok: false, msg: 'Unknown blade style.' };
-  if (hage(s) < (st.unlock?.age ?? 8)) return { ok: false, msg: 'Too young for a blade school (age 8+).' };
+  if (cage(s) < (st.unlock?.age ?? 8)) return { ok: false, msg: 'Too young for a blade school (age 8+).' };
   if ((s.skills.swordsmanship || 0) < (st.unlock?.skills?.swordsmanship ?? 10)) return { ok: false, msg: 'Need more Swordsmanship.' };
   if (s.swordStyle && s.swordStyle !== styleId) return { ok: false, msg: 'Your blade style is already chosen.' };
   s.swordStyle = styleId;
@@ -267,8 +269,28 @@ export function drillSword(s) {
 
 // ---- jobs (occupations.json ladders) ----
 export const careerOf = (jobId) => D.occ.careers.find((c) => c.id === D.jobsById[jobId].sector);
+export function jobLockReason(s, j, forPromo = false) {
+  if (!j) return 'Unknown job.';
+  if (s.job && s.job.id === j.id) return 'You already hold this post.';
+  const r = j.req || {};
+  if (cage(s) < (r.age || 0)) return `Too young (age ${r.age}+).`;
+  if (!forPromo && r.prev) return 'Needs prior rank on this track.';
+  for (const [k, v] of Object.entries(r.skills || {})) {
+    if ((s.skills[k] || 0) < v) return `Needs ${D.skillById[k]?.name || k} ${v}.`;
+  }
+  for (const f of r.flags || []) {
+    if (f === 'route_hybrid' ? s.route !== 'route_hybrid' : !s.flags[f]) {
+      if (f === 'route_hybrid') return 'Needs hybrid path.';
+      if (f === 'mana_awakened') return 'Needs mana awakening.';
+      return `Needs ${String(f).replace(/_/g, ' ')}.`;
+    }
+  }
+  if (j.sector === 'knight' && j.level === 0 && s.wealth !== 'noble' && !s.flags.has_mentor) return 'Needs noble birth or a mentor sponsor.';
+  if (j.sector === 'retainer' && j.level === 0 && s.wealth !== 'noble' && !s.flags.has_mentor && !s.flags.school_royal) return 'Needs noble birth, mentor, or royal school.';
+  return null;
+}
 export function meetsReq(s, j, forPromo = false) {
-  const r = j.req; if (hage(s) < r.age) return false;
+  const r = j.req; if (cage(s) < r.age) return false;
   if (!forPromo && r.prev) return false;
   for (const [k, v] of Object.entries(r.skills || {})) if ((s.skills[k] || 0) < v) return false;
   for (const f of r.flags || []) if (f === 'route_hybrid' ? s.route !== 'route_hybrid' : !s.flags[f]) return false;
@@ -307,9 +329,9 @@ export function promote(s) {
 // ---- budgets / activities (SYSTEMS_OVERVIEW: 4 activity + 3 social, Adventure capped at 5) ----
 function newYearBudget(s) { s.budget = { act: 4, social: 3, adv: 5 }; s.trainCount = {}; }
 function spendAct(s, k) { if (s.budget[k] <= 0) return false; s.budget[k]--; return true; }
-export function canAdventure(s) { return hage(s) >= 10 && s.budget.adv > 0 && s.budget.act > 0; }
+export function canAdventure(s) { return cage(s) >= 10 && s.budget.adv > 0 && s.budget.act > 0; }
 export function adventure(s) {
-  if (!canAdventure(s)) return { ok: false, msg: hage(s) < 10 ? 'Too young for the road.' : 'No adventures left this year.' };
+  if (!canAdventure(s)) return { ok: false, msg: cage(s) < 10 ? 'Too young for the road.' : 'No adventures left this year.' };
   s.budget.adv--; s.budget.act--;
   // Trained skills + styles color the road (Boundwake growth, not Bit Tensie copy)
   const sword = s.skills.swordsmanship || 0, spell = s.skills.spellcraft || 0, track = s.skills.tracking || 0;
@@ -333,7 +355,7 @@ export function adventure(s) {
 }
 export function rest(s) { if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' }; s.stats.stress = clamp(s.stats.stress - 12, 0, 100); s.stats.health = clamp(s.stats.health + 3, 0, 100); log(s, 'I took a slow day by the pond with tea and bread.', 'rest'); return { ok: true }; }
 export function chooseRoute(s, r) {
-  if (hage(s) < 8) return { ok: false, msg: 'Path choice opens at age 8.' };
+  if (cage(s) < 8) return { ok: false, msg: 'Path choice opens at age 8.' };
   if (s.route) return { ok: false, msg: 'Your path is already chosen.' };
   if (!['route_magic', 'route_sword', 'route_hybrid', 'route_craft'].includes(r)) return { ok: false, msg: 'Unknown path.' };
   s.route = r;
@@ -374,7 +396,7 @@ export function visitLocation(s, locId) {
     s.stats.smarts = clamp(s.stats.smarts + rint(s, 1, 3), 0, 100);
     msg = `I studied under the eaves of ${loc.name}.`;
     // Academy visit may nudge awakening
-    if (!s.flags.mana_awakened && hage(s) >= 6 && chance(s, 0.22 + (s.skills.focus || 0) / 200)) {
+    if (!s.flags.mana_awakened && cage(s) >= 6 && chance(s, 0.22 + (s.skills.focus || 0) / 200)) {
       s.flags.mana_awakened = 1; s.mana = Math.max(s.mana, 8); s.manaMax = Math.max(s.manaMax, 20);
       msg += ' The lessons woke a spark — mana answers me.';
     }
@@ -407,7 +429,7 @@ export function visitLocation(s, locId) {
   return { ok: true, msg };
 }
 
-export function travel(s, id) { if (!s.regionsFound.includes(id) || hage(s) < 14) return { ok: false, msg: hage(s) < 14 ? 'Travel opens at age 14.' : 'Unknown realm.' }; if (s.region === id) return { ok: false, msg: 'You are already here.' }; if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left.' }; s.region = id; discover(s, id); log(s, `I travelled to ${regionById(id).name}.`, 'travel'); return { ok: true, msg: `Arrived in ${regionById(id).name}.` }; }
+export function travel(s, id) { if (!s.regionsFound.includes(id) || cage(s) < 14) return { ok: false, msg: cage(s) < 14 ? 'Travel opens at age 14.' : 'Unknown realm.' }; if (s.region === id) return { ok: false, msg: 'You are already here.' }; if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left.' }; s.region = id; discover(s, id); log(s, `I travelled to ${regionById(id).name}.`, 'travel'); return { ok: true, msg: `Arrived in ${regionById(id).name}.` }; }
 export const regionById = (id) => D.regions.find((r) => r.id === id);
 export const regionOf = (s) => regionById(s.region);
 function discover(s, id) { if (!s.codex.includes(id)) s.codex.push(id); }
@@ -422,7 +444,7 @@ export function socialize(s, pid, kind = 'time') {
   const m = `I spent time with ${p.first} (${p.rel}).`; log(s, m, 'social'); return { ok: true, msg: m };
 }
 export function meetSomeone(s, love) {
-  if (love && hage(s) < 16) return { ok: false, msg: 'Too young.' }; if (love && partnerOf(s)) return { ok: false, msg: 'You already have someone.' };
+  if (love && cage(s) < 16) return { ok: false, msg: 'Too young.' }; if (love && partnerOf(s)) return { ok: false, msg: 'You already have someone.' };
   if (!spendAct(s, 'social')) return { ok: false, msg: 'No social time left this year.' };
   const p = person(s, love ? 'partner' : 'friend', rint(s, -3, 3)); p.race = chance(s, 0.7) ? s.race : pick(s, D.races).id; s.people.push(p);
   const m = love ? `I met ${p.first} at the Lantern Market. Something sparked.` : `I made a new friend: ${p.first}.`; log(s, m, 'social'); return { ok: true, msg: m };
@@ -533,14 +555,18 @@ function peopleYear(s, yrs) {
   }
   if (grew.length) {
     const names = grew.slice(0, 3).join(', ') + (grew.length > 3 ? ' and others' : '');
-    log(s, `Roads and shared work kept bonds warm with ${names}. (Passive Relationship Growth)`, 'social');
+    const lastPrg = s.flags.prg_log_age || -99;
+    if (cage(s) - lastPrg >= 3) {
+      log(s, `Roads and shared work kept bonds warm with ${names}.`, 'social');
+      s.flags.prg_log_age = cage(s);
+    }
   }
 }
 
 // ---- events (lifesim/src/events.js semantics; extra if-keys for the fantasy pack) ----
 const evById = (id) => D.events.find((e) => e.id === id);
 export function matches(s, e) {
-  const c = e.if || {}, a = Math.floor(hage(s)); if (a < e.ages[0] || a > e.ages[1]) return false;
+  const c = e.if || {}, a = cage(s); if (a < e.ages[0] || a > e.ages[1]) return false;
   if (e.once && s.flags['once_' + e.id]) return false; if (s.evLast[e.id] != null && s.age - s.evLast[e.id] < (e.cool ?? 4) * turnYears(s)) return false;
   if (c.flag && !s.flags[c.flag]) return false; const nf = c.notflag || c.noflag; if (nf && s.flags[nf]) return false;
   if (c.career && !(s.job && c.career.includes(D.jobsById[s.job.id].sector))) return false;
@@ -555,7 +581,7 @@ export const eligible = (s) => D.events.filter((e) => !e.chainOnly && matches(s,
 export function queue(s, id) { if (!s.pending.includes(id)) s.pending.push(id); }
 function drawEvents(s) {
   const due = s.chain.filter((c) => c.due <= s.age); s.chain = s.chain.filter((c) => c.due > s.age); for (const c of due) queue(s, c.id);
-  if (s.pending.length) return; const n = hage(s) < 13 ? 1 : 1 + (chance(s, 0.35) ? 1 : 0);
+  if (s.pending.length) return; const n = cage(s) < 13 ? 1 : 1 + (chance(s, 0.35) ? 1 : 0);
   const bias = s.flags.visit_bias;
   for (let i = 0; i < n; i++) {
     if (!chance(s, 0.75)) continue;
@@ -586,7 +612,7 @@ export function applyFx(s, fx = {}) {
     else if (k === 'flagset') s.flags[v] = 1;
     else if (k === 'perf' && s.job) s.job.perf = clamp(s.job.perf + v, 0, 100);
     else if (k === 'promote' && s.job) promote(s);
-    else if (k === 'newperson') { const p = person(s, v === 'love' && !partnerOf(s) && hage(s) >= 16 ? 'partner' : 'friend', rint(s, -3, 3)); s.people.push(p); }
+    else if (k === 'newperson') { const p = person(s, v === 'love' && !partnerOf(s) && cage(s) >= 16 ? 'partner' : 'friend', rint(s, -3, 3)); s.people.push(p); }
     else if (k === 'marry') { const p = partnerOf(s); if (p) { p.rel = 'spouse'; log(s, D.terms.ui.married, 'social'); } }
     else if (k === 'breakup') { const p = partnerOf(s); if (p) p.rel = 'ex'; }
     else if (k === 'child') { const c = person(s, 'child', 0); c.age = v === 'adopted' || v === 'apprentice' ? rint(s, 4, 12) : 0; c.kind = v === 1 ? 'born' : v; c.last = s.last; s.people.push(c); log(s, `${D.terms.ui.child_born} (${c.first}${c.kind !== 'born' ? ', ' + c.kind : ''})`, 'social'); }
@@ -639,16 +665,16 @@ const TOURNEY_SKILL_MEETS = [
   { id: 'meet_tailor', cat: 'other', title: 'Loom Meet', skill: 'tailoring', needAwaken: false },
 ];
 export function tourneyBracket(s) {
-  const h = Math.floor(hage(s));
-  if (h < 1) return null;
-  if (h < 8) return { id: 'child', label: '1–8', min: 1, max: 7 };  // label 1–8; age 8 is youth-only
-  if (h < 16) return { id: 'youth', label: '8–15', min: 8, max: 15 };
+  const a = cage(s);
+  if (a < 1) return null;
+  if (a < 8) return { id: 'child', label: '1–8', min: 1, max: 7 }; // age 8 starts youth
+  if (a < 16) return { id: 'youth', label: '8–15', min: 8, max: 15 };
   return { id: 'open', label: '16+', min: 16, max: 999 };
 }
 export function isTournamentYear(s) {
-  // Human-equivalent age so long-lived races aren't offered lists before they can train
-  const h = Math.floor(hage(s));
-  return h >= 3 && h % 3 === 0 && !!tourneyBracket(s);
+  // Calendar age (Gary: 1 turn = 1 year every race). Ages 3,6,9…
+  const a = cage(s);
+  return a >= 3 && a % 3 === 0 && !!tourneyBracket(s);
 }
 function tourneyField(bracketId) {
   return { child: 8, youth: 22, open: 40 }[bracketId] || 20;
@@ -768,9 +794,9 @@ export function acceptTournamentInvite(s, orgId) {
 }
 function refreshTournamentYear(s) {
   if (!isTournamentYear(s)) { s.flags.tour_year = 0; return; }
-  const h = Math.floor(hage(s));
-  if (s.flags.tour_year === h) return;
-  s.flags.tour_year = h;
+  const a = cage(s);
+  if (s.flags.tour_year === a) return;
+  s.flags.tour_year = a;
   s.flags.tour_entered = [];
   const br = tourneyBracket(s);
   if (br) log(s, `Tournament year — bracket ${br.label}. Blade, spark, and craft meets (brackets 1–8 / 8–15 / 16+) open on Adventure (1 action to enter).`, 'tournament');
@@ -781,8 +807,9 @@ export function ageUp(s) {
   if (!s.alive || s.pending.length) return false; const yrs = turnYears(s);
   s.age += yrs; const h = hage(s);
   // school (school tracks from JOBS.md; schooling feeds wits/literacy)
-  if (h >= 6 && h < 16) { useSkill(s, 'literacy', 3 * yrs ** 0.5); s.stats.smarts = clamp(s.stats.smarts + 1, 0, 100); if (!s.school) { s.school = 'school_village'; log(s, 'I started Village lessons at Vale Primer Yard.', 'school'); } }
-  if (h >= 16 && s.school) s.school = null;
+  { const ca = cage(s);
+  if (ca >= 6 && ca < 16) { useSkill(s, 'literacy', 3 * yrs ** 0.5); s.stats.smarts = clamp(s.stats.smarts + 1, 0, 100); if (!s.school) { s.school = 'school_village'; log(s, 'I started Village lessons at Vale Primer Yard.', 'school'); } }
+  if (ca >= 16 && s.school) s.school = null; }
   if (s.flags.mana_awakened) { s.manaMax += yrs * (1 + (s.skills.mana_control || 0) / 40); s.mana = s.manaMax; }
   jobYear(s, yrs); peopleYear(s, yrs);
   if (s.prison) prisonYear(s, yrs); else {
@@ -798,8 +825,8 @@ export function ageUp(s) {
   const sd = s.stats.stress > 70 ? -3 : 0, old = h > 55 ? -((h - 55) / 12) * yrs : 0;
   s.stats.health = clamp(s.stats.health + sd + old - s.injuries.length + (h < 30 ? 1 : 0), 0, 100);
   s.stats.stress = clamp(s.stats.stress - 4, 0, 100);
-  if (h >= 16 && !s.job) s.gold = Math.max(0, s.gold - 4 * yrs); // living costs
-  if (h < 16 && s.wealth === 'noble') s.gold += 2;
+  if (cage(s) >= 16 && !s.job) s.gold = Math.max(0, s.gold - 4 * yrs); // living costs (calendar)
+  if (cage(s) < 16 && s.wealth === 'noble') s.gold += 2;
   log(s, `${D.terms.ui.year_passed} I am ${Math.floor(s.age)}.`, 'year');
   newYearBudget(s);
   refreshTournamentYear(s);
@@ -861,7 +888,7 @@ export const hasAilment = (s, id) => (s.ailments || []).some((d) => d.id === id)
 export function treatCost(s, def) { return Math.round((def.cost || 0) * (s.job ? 0.5 : 1)); }
 export function visitHealer(s) {
   ensureBags(s);
-  if (hage(s) < 1) return { ok: false, msg: 'Too young.' };
+  if (cage(s) < 1) return { ok: false, msg: 'Too young.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   const fee = 12;
   if (s.gold < fee) { s.budget.act++; return { ok: false, msg: 'Not enough gold for a healer.' }; }
@@ -892,8 +919,8 @@ function ailmentsYear(s, yrs) {
     if (def.rem && chance(s, 1 - Math.pow(1 - def.rem, yrs))) { s.ailments.splice(s.ailments.indexOf(d), 1); log(s, `My ${def.name.toLowerCase()} faded on its own.`, 'health'); }
   }
   if (!s.alive) return;
-  if (!chance(s, 0.085 * yrs * (1 + hage(s) / 70))) return;
-  const a = Math.floor(hage(s));
+  if (!chance(s, 0.085 * yrs * (1 + cage(s) / 70))) return;
+  const a = cage(s);
   const pool = D.ailments.filter((d) => a >= d.ages[0] && a <= d.ages[1] && !hasAilment(s, d.id) && !(d.sev === 'instant_death' && a < 45));
   const def = wpick(s, pool, (d) => {
     let w = d.w || 1;
@@ -917,7 +944,7 @@ export const crimeDef = (id) => (D.law?.crimes || []).find((c) => c.id === id);
 export const tierDef = (id) => (D.law?.tiers || []).find((t) => t.id === id);
 export function lawAvailable(s) {
   ensureBags(s); if (s.prison || !D.law) return [];
-  const a = hage(s);
+  const a = cage(s);
   return D.law.crimes.filter((c) => c.menu && a >= c.minAge && (!c.if || ((!c.if.job || s.job) && (!c.if.minFame || s.stats.fame >= c.if.minFame))));
 }
 function catchChance(s, c) {
@@ -926,7 +953,7 @@ function catchChance(s, c) {
 }
 export function commitCrime(s, id) {
   ensureBags(s);
-  const c = crimeDef(id); if (!c || s.prison || hage(s) < c.minAge) return { ok: false, msg: 'Not possible.' };
+  const c = crimeDef(id); if (!c || s.prison || cage(s) < c.minAge) return { ok: false, msg: 'Not possible.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.tally.crimes = (s.tally.crimes || 0) + 1;
   if (chance(s, catchChance(s, c))) return arrest(s, id);
@@ -943,9 +970,9 @@ function arrest(s, id) {
   let years = c.sentence[0] + (c.sentence[1] - c.sentence[0]) * rnd(s);
   years *= Math.pow(rules.repeatMultiplier, Math.min(priors, rules.repeatCap));
   years = Math.min(rules.lifeSentence, Math.max(0.25, Math.round(years * 4) / 4));
-  if (hage(s) < 18) years = Math.min(years, rules.juvieMaxYears);
+  if (cage(s) < 18) years = Math.min(years, rules.juvieMaxYears);
   let tier = 'stockade';
-  if (hage(s) < 18) tier = 'youth_hold';
+  if (cage(s) < 18) tier = 'youth_hold';
   else if (c.severity >= 5 || years > 10) tier = 'deepkeep';
   else if (years > (tierDef('stockade')?.maxSentence || 2)) tier = 'stonehold';
   s.prison = { crime: id, total: years, left: years, tier, served: 0 };
@@ -986,13 +1013,13 @@ export function passionList(s) {
   return {
     active: s.passions.active.map((p) => ({ ...p, def: passionDef(p.id) })),
     mastered: s.passions.mastered,
-    available: cfg.passions.filter((p) => !held.has(p.id) && hage(s) >= (cfg.minAge || 6)),
+    available: cfg.passions.filter((p) => !held.has(p.id) && cage(s) >= (cfg.minAge || 6)),
     free: Math.max(0, passionSlots(s) - s.passions.active.length),
   };
 }
 export function adoptPassion(s, id) {
   ensureBags(s);
-  if (hage(s) < (D.passions?.minAge || 6)) return { ok: false, msg: 'Too young for a pastime.' };
+  if (cage(s) < (D.passions?.minAge || 6)) return { ok: false, msg: 'Too young for a pastime.' };
   const list = passionList(s); if (!list.free) return { ok: false, msg: 'No free pastime slots.' };
   if (!list.available.some((p) => p.id === id)) return { ok: false, msg: 'Already held or unknown.' };
   s.passions.active.push({ id, meter: 0 }); const d = passionDef(id);
@@ -1031,12 +1058,12 @@ function passionsYear(s, yrs) {
 // ---- workshops ----
 export function workshopTypes(s) {
   if (!D.workshops?.types) return [];
-  return Object.entries(D.workshops.types).map(([id, t]) => ({ id, ...t, ok: hage(s) >= t.minAge && s.gold >= t.fee && !(s.workshops || []).some((w) => w.type === id) }));
+  return Object.entries(D.workshops.types).map(([id, t]) => ({ id, ...t, ok: cage(s) >= t.minAge && s.gold >= t.fee && !(s.workshops || []).some((w) => w.type === id) }));
 }
 export function buyWorkshop(s, typeId) {
   ensureBags(s);
   const t = D.workshops?.types?.[typeId]; if (!t) return { ok: false, msg: 'Unknown workshop.' };
-  if (hage(s) < t.minAge) return { ok: false, msg: 'Too young.' };
+  if (cage(s) < t.minAge) return { ok: false, msg: 'Too young.' };
   if (s.gold < t.fee) return { ok: false, msg: 'Not enough gold.' };
   if (s.workshops.some((w) => w.type === typeId)) return { ok: false, msg: 'You already run one.' };
   s.gold -= t.fee;
@@ -1062,11 +1089,11 @@ function workshopsYear(s, yrs) {
 
 // ---- notices (online/social → boards) ----
 export function noticeBoards(s) {
-  return (D.notices?.boards || []).filter((b) => hage(s) >= b.minAge);
+  return (D.notices?.boards || []).filter((b) => cage(s) >= b.minAge);
 }
 export function postNotice(s, boardId, postId) {
   ensureBags(s);
-  if (hage(s) < (D.notices?.minAge || 10)) return { ok: false, msg: 'Too young for the boards.' };
+  if (cage(s) < (D.notices?.minAge || 10)) return { ok: false, msg: 'Too young for the boards.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   const board = (D.notices.boards || []).find((b) => b.id === boardId);
   const post = (D.notices.posts || []).find((p) => p.id === postId);
@@ -1083,7 +1110,7 @@ export function postNotice(s, boardId, postId) {
   }
   // rare patronage
   const patron = pick(s, D.notices.patrons || []);
-  if (patron && s.notices.followers > 30 && chance(s, 0.12) && hage(s) >= patron.minAge) {
+  if (patron && s.notices.followers > 30 && chance(s, 0.12) && cage(s) >= patron.minAge) {
     const pay = rint(s, patron.pay[0], patron.pay[1]); s.gold += pay;
     log(s, `${patron.name} slipped me ${pay} gold after my notice.`, 'notice');
   }
@@ -1098,12 +1125,12 @@ function noticesYear(s, yrs) {
 export function courtOpenings(s) {
   if (!D.court?.slots) return [];
   const tier = s.court?.tier || 0;
-  return D.court.slots.filter((x) => hage(s) >= x.minAge && tier >= x.needTier && (!s.court || s.court.seat !== x.id));
+  return D.court.slots.filter((x) => cage(s) >= x.minAge && tier >= x.needTier && (!s.court || s.court.seat !== x.id));
 }
 export function fileForOffice(s, seatId) {
   ensureBags(s);
   const seat = (D.court?.slots || []).find((x) => x.id === seatId); if (!seat) return { ok: false, msg: 'Unknown seat.' };
-  if (hage(s) < seat.minAge) return { ok: false, msg: 'Too young.' };
+  if (cage(s) < seat.minAge) return { ok: false, msg: 'Too young.' };
   if ((s.court?.tier || 0) < seat.needTier) return { ok: false, msg: 'Need a higher tier first.' };
   if (s.gold < seat.filing) return { ok: false, msg: 'Cannot afford filing.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
@@ -1132,7 +1159,7 @@ export function mentorPaths() { return Object.entries(D.mentors?.paths || {}).ma
 export function enrollMentor(s, pathId) {
   ensureBags(s);
   const path = D.mentors?.paths?.[pathId]; if (!path) return { ok: false, msg: 'Unknown path.' };
-  if (hage(s) < 10) return { ok: false, msg: 'Too young.' };
+  if (cage(s) < 10) return { ok: false, msg: 'Too young.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.mentor = { path: pathId, role: 'drill', years: 0, style: pick(s, D.mentors.styles).id };
   s.flags.has_mentor = 1;
@@ -1152,14 +1179,14 @@ export function mentorDrill(s) {
 
 // ---- patronage clubs ----
 export function clubList(s) {
-  return (D.patronage?.clubs || []).filter((c) => { const a = hage(s); return a >= c.minAge && a <= c.maxAge; });
+  return (D.patronage?.clubs || []).filter((c) => { const a = cage(s); return a >= c.minAge && a <= c.maxAge; });
 }
 export function joinClub(s, id) {
   ensureBags(s);
   const c = (D.patronage?.clubs || []).find((x) => x.id === id); if (!c) return { ok: false, msg: 'Unknown circle.' };
   if (s.clubs.includes(id)) return { ok: false, msg: 'Already joined.' };
   if (s.clubs.length >= (D.patronage?.maxClubs || 3)) return { ok: false, msg: 'Too many circles.' };
-  if (hage(s) < c.minAge || hage(s) > c.maxAge) return { ok: false, msg: 'Wrong age for that circle.' };
+  if (cage(s) < c.minAge || cage(s) > c.maxAge) return { ok: false, msg: 'Wrong age for that circle.' };
   s.clubs.push(id);
   const msg = `I joined ${c.name}.`; log(s, msg, 'school'); return { ok: true, msg };
 }
@@ -1173,7 +1200,7 @@ export function doActivity(s, actId, choiceIdx = 0) {
     const a = c.activities.find((x) => x.id === actId); if (a) { found = a; cat = c; break; }
   }
   if (!found) return { ok: false, msg: 'Unknown activity.' };
-  if (hage(s) < found.minAge) return { ok: false, msg: 'Too young.' };
+  if (cage(s) < found.minAge) return { ok: false, msg: 'Too young.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   const ch = found.choices[choiceIdx] || found.choices[0];
   if ((ch.cost || 0) > s.gold) { s.budget.act++; return { ok: false, msg: 'Not enough gold.' }; }

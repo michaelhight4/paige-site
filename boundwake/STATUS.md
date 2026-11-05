@@ -1,3 +1,6 @@
+## Calendar-age gates (Gary playtest Brynn dwarf, Nov 5 ~2:34 PM CT)
+Player age gates use cage=floor(age): adventure 10+, jobs, travel 14+, tournaments every 3 calendar years, path/styles. hage kept for longevity/portrait/death. Work Locked shows why. Age button anim off. PRG journal throttled.
+
 ## Public alpha + icon shrink (Gary Nov 5 ~2:27 PM CT)
 Commit 2303abc9 on paige-site. /boundwake/ open (no admin gate). games.js live+alpha. Skill PNGs capped ~24–32px. Shots: tests/shots/live_desktop_top_skills.png, live_homepage_games.png.
 

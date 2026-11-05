@@ -252,7 +252,8 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
   background:radial-gradient(circle at 50% 28%,#ffe7a3,#e0b14a 55%,#b07d24);
   color:var(--ink);
   box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 40%,transparent),0 8px 22px #e0b14a66,0 4px 0 #8a6420;
-  animation:breathe 2.6s ease-in-out infinite;
+  /* breathe disabled — constant anim blocked Playwright/clicks (Gary playtest MED) */
+  animation:none;
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
 }
 .dock .age:active{transform:scale(.96);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 40%,transparent),0 4px 12px #e0b14a55,0 2px 0 #8a6420}
@@ -711,3 +712,8 @@ body.info-open .dock{pointer-events:none}
   .play-body > .work-acc{width:100%}
   .work-acc-hd{padding:9px 10px}
 }
+
+/* toast vs tabs (playtest LOW) */
+.toast{top:calc(8px + var(--safe-t));z-index:12;pointer-events:none}
+.tabs{position:relative;z-index:5}
+.dock{position:relative;z-index:6}
