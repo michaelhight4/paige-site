@@ -680,3 +680,21 @@ body.info-open .dock{pointer-events:none}
   .play-body{padding-left:8px;padding-right:8px}
   .play-body > .card,.play-body > .skill-acc{width:100%}
 }
+
+/* skill PNG inline sizes (Gary Nov 5 ~2:27 PM CT — Top Skills were giant on PC) */
+.ico-sk{position:relative;width:28px;height:28px;flex:0 0 28px;overflow:hidden;border-radius:6px;vertical-align:middle}
+.ico-sk svg{width:100%;height:100%;display:block}
+.ico-sk .sk-png{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:none;pointer-events:none}
+.ico-sk.has-png .sk-png{display:block}
+.ico-sk.has-png svg{visibility:hidden}
+.side-skills .ico-sk,.side-row .ico-sk{width:24px;height:24px;flex-basis:24px}
+.row-skill .ico-sk{width:28px;height:28px;flex-basis:28px}
+@media (max-width:1023px){
+  .row-skill .ico-sk{width:32px;height:32px;flex-basis:32px}
+}
+@media (min-width:1024px){
+  .row-skill .ico-sk,.side-skills .ico-sk{width:28px;height:28px;flex-basis:28px}
+  .side-skills .ico-sk{width:24px;height:24px;flex-basis:24px}
+}
+.side-row{max-height:none}
+.side-row .ico-sk{margin-right:6px}

@@ -8,6 +8,8 @@ window.GAMES=[
  blurb:"A text life sim. Tap Age, live a year, and decide what kind of life it turns into: school, jobs, love, fame.",chips:["Life sim","Text","Phone first"]},
 {id:"kilumen",title:"Kilumen",sub:"Start of a Journey",status:"live",page:"/games/kilumen.html",alpha:true,accent:"kil",url:"/kilumen/",img:"assets/home/kilumen-card.webp",fx:"treasure",
  blurb:"A 2D open-world creature battler. Find, raise and battle creatures across a wide world.",chips:["Creature battler","Open world","Desktop + phone"]},
+{id:"boundwake",title:"Boundwake",sub:"Fantasy life",status:"live",page:"/games/boundwake.html",alpha:true,accent:"life",url:"/boundwake/",img:"assets/home/boundwake-card.webp",fx:"wave",
+ blurb:"A fantasy life sim. Age a year at a time, train skills, awaken mana, enter tournaments, and walk the realms. Alpha — still growing.",chips:["Life sim","Fantasy","Phone + PC"]},
 {id:"debt-rpg",title:"Bellmont",sub:"Life or Death",status:"dev",page:"/games/bellmont.html",accent:"life",
  blurb:"An RPG about paying off your parents' debt: town jobs and quests, choices with two-sided consequences, a guard job.",chips:["RPG"],note:"Outline stage"}
 ,{id:"slime-world",title:"Life of a Trash Mob",sub:"Slime World",status:"dev",accent:"kil",page:"/games/slime-world.html",

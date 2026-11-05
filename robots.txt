@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /boundwake/
 
 Sitemap: https://paigegames.net/sitemap.xml
