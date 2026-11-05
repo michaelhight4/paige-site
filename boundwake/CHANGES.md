@@ -1,4 +1,4 @@
-## Live — pending push · Legacy + Autopilot hotfix · https://paigegames.net/boundwake/
+## Live — **f56882ee** Legacy + Autopilot hotfix · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~5:55 PM CT — Legacy Goals/Achievements + Autopilot P1/P3
 - Fix: Age +1 / Skip no-op at age 0 (missing Legacy helpers mid-ageUp)
