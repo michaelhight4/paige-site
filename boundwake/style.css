@@ -698,3 +698,16 @@ body.info-open .dock{pointer-events:none}
 }
 .side-row{max-height:none}
 .side-row .ico-sk{margin-right:6px}
+
+/* Work tab accordions (Gary Nov 5 ~2:33 PM CT — openings were burying Workshops/Court/Mentors) */
+.work-acc{border:2px solid var(--line,#c9b896);border-radius:12px;background:var(--paper,#f4ead2);margin:0 0 8px;overflow:hidden}
+.work-acc-hd{list-style:none;cursor:pointer;padding:10px 12px;font-weight:700;font-size:13px;letter-spacing:.03em;display:flex;align-items:center;gap:8px;background:linear-gradient(180deg,#efe2c0,#e6d5a8)}
+.work-acc-hd::-webkit-details-marker{display:none}
+.work-acc-hd small{margin-left:auto;font-weight:600;opacity:.75}
+.work-acc-body{padding:8px 10px 10px}
+.work-acc-body h3{margin:10px 0 6px;font-size:13px}
+.work-acc-body h3:first-child{margin-top:0}
+@media (max-width:1023px){
+  .play-body > .work-acc{width:100%}
+  .work-acc-hd{padding:9px 10px}
+}

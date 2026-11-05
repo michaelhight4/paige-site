@@ -175,27 +175,33 @@ function body() {
     };
     const everyday = opens.filter(({ career: c }) => (c.tags || []).includes('ordinary') || c.id === 'farmer' || c.id === 'merchant');
     const guild = opens.filter((o) => !everyday.includes(o));
-    const board = [
-      everyday.length ? `<h3>${ico('work')} Everyday work</h3>${everyday.map(row).join('')}` : '',
-      guild.length ? `<h3>${ico('adventure')} Guild &amp; trained tracks</h3>${guild.map(row).join('')}` : '',
-    ].filter(Boolean).join('') || `<div class="empty">No openings this year.</div>`;
-    const openingsCard = cur + card('work', `${ico('work')} Openings`, board);
+    const boardEveryday = everyday.length ? everyday.map(row).join('') : '<div class="empty">No everyday openings.</div>';
+    const boardGuild = guild.length ? guild.map(row).join('') : '<div class="empty">No guild tracks open.</div>';
+    const openOpenings = !s.job; // looking for work → openings expanded; employed → collapsed so Workshops/Court/Mentors stay reachable
+    const openSecondary = !!s.job; // when employed, surface workshops/court/mentors
+    const acc = (id, title, body, open) => `<details class="work-acc panel-work"${open ? ' open' : ''} data-work-acc="${id}"><summary class="work-acc-hd">${title}</summary><div class="work-acc-body">${body}</div></details>`;
+    const openingsAcc = acc('openings', `${ico('work')} Openings <small>${opens.length} listed${s.job ? ' · tap to browse' : ''}</small>`,
+      `${everyday.length ? `<h3>${ico('work')} Everyday work</h3>${boardEveryday}` : ''}${guild.length ? `<h3>${ico('adventure')} Guild &amp; trained tracks</h3>${boardGuild}` : ''}${!opens.length ? '<div class="empty">No openings this year.</div>' : ''}`,
+      openOpenings);
     const owned = (s.workshops || []).map((w) => {
       const t = P.workshops?.types?.[w.type];
       return `<div class="row"><div><b>${esc(t?.name || w.type)}</b> <small>yr ${w.years} · renown ${Math.round(w.renown)}</small></div></div>`;
     }).join('') || '<div class="empty">No workshop yet.</div>';
     const buy = E.workshopTypes(s).filter((t) => t.ok || h >= t.minAge).slice(0, 12).map((t) => `<div class="row"><div><b>${esc(t.name)}</b> <small>${ico('gold')}${t.fee} · age ${t.minAge}+</small><br><small>${flare(t.blurb)}</small></div><button data-a="buybiz" data-v="${t.id}" ${t.ok ? '' : 'disabled'}>${t.ok ? 'Open' : 'Locked'}</button></div>`).join('');
-    const bizCard = card('work', `${ico('gold')} Workshops &amp; stalls`, `${owned}<h3>Open a workshop</h3>${buy || '<div class="empty">None affordable yet.</div>'}`);
+    const bizAcc = acc('workshops', `${ico('gold')} Workshops &amp; stalls <small>${(s.workshops || []).length ? (s.workshops.length + ' owned') : 'start one'}</small>`,
+      `${owned}<h3>Open a workshop</h3>${buy || '<div class="empty">None affordable yet.</div>'}`, openSecondary);
     const courtSeat = s.court?.seat ? `<p class="sub">Holding <b>${esc(s.court.name)}</b> · ${Math.ceil(s.court.termLeft)} yr left · tier ${s.court.tier}</p>` : (s.court?.tier ? `<p class="sub">Former officeholder · tier ${s.court.tier} kept.</p>` : '<p class="sub">No seat yet. File when you have age, coin, and renown.</p>');
     const seats = E.courtOpenings(s).map((x) => `<div class="row"><div><b>${esc(x.name)}</b> <small>tier ${x.tier} · file ${x.filing} gold · age ${x.minAge}+</small></div><button data-a="court" data-v="${x.id}" ${s.budget.act < 1 || s.gold < x.filing ? 'disabled' : ''}>File</button></div>`).join('');
-    const courtCard = card('work', `${ico('renown')} Court &amp; moot`, `${courtSeat}${seats || '<div class="empty">No seats open for you this year.</div>'}`);
+    const courtAcc = acc('court', `${ico('renown')} Court &amp; moot <small>${s.court?.seat ? 'in office' : 'file'}</small>`,
+      `${courtSeat}${seats || '<div class="empty">No seats open for you this year.</div>'}`, openSecondary);
     const ment = s.mentor
       ? `<p class="sub">Path: <b>${esc(P.mentors?.paths?.[s.mentor.path]?.name || s.mentor.path)}</b> · role ${esc(s.mentor.role)} · ${s.mentor.years} yrs</p><div class="actions"><button data-a="mdrill" ${s.budget.act < 1 ? 'disabled' : ''}>Mentor drill</button></div>`
       : `<p class="sub">Enroll with a path mentor (sword, spell, craft, hunt).</p><div class="actions">${E.mentorPaths().map((m) => `<button data-a="mentor" data-v="${m.id}" ${s.budget.act < 1 || h < 10 ? 'disabled' : ''}>${esc(m.name)}</button>`).join('')}</div>`;
-    const mentCard = card('work', `${ico('adventure')} Mentors`, ment);
+    const mentAcc = acc('mentors', `${ico('adventure')} Mentors <small>${s.mentor ? 'enrolled' : 'paths'}</small>`, ment, openSecondary);
     const clubs = E.clubList(s).filter((c) => !(s.clubs || []).includes(c.id)).map((c) => `<button data-a="club" data-v="${c.id}">${esc(c.name)}</button>`).join('');
-    const clubCard = (h >= 9 && h <= 22) ? card('work', `${ico('wits')} Circles &amp; patronage`, `<p class="sub">Joined: ${(s.clubs || []).map(esc).join(', ') || 'none'}.</p><div class="actions">${clubs || '<span class="sub">No open circles.</span>'}</div>`) : '';
-    return openingsCard + bizCard + courtCard + mentCard + clubCard;
+    const clubCard = (h >= 9 && h <= 22) ? acc('circles', `${ico('wits')} Circles &amp; patronage <small>${(s.clubs || []).length || 'join'}</small>`,
+      `<p class="sub">Joined: ${(s.clubs || []).map(esc).join(', ') || 'none'}.</p><div class="actions">${clubs || '<span class="sub">No open circles.</span>'}</div>`, false) : '';
+    return cur + openingsAcc + bizAcc + courtAcc + mentAcc + clubCard;
   }
   if (tab === 'adv') {
     const party = E.partyOf(s);
