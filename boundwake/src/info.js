@@ -5,44 +5,44 @@ import { ico, esc } from './flare.js';
 const INFO = {
   fire: {
     name: 'Fire affinity', ico: 'fire', cls: 'flare-fire', kind: 'Affinity',
-    body: 'Your birth affinity. Elementalism is keyed to this element (skills note: “uses birth affinity”). It is recorded at birth and shown in your journal; no separate XP multiplier is coded beyond that element tie-in.',
+    body: 'Your birth affinity. Elementalism draws on this element for spellwork and training.',
   },
   water: {
     name: 'Water affinity', ico: 'water', cls: 'flare-water', kind: 'Affinity',
-    body: 'Your birth affinity. Elementalism is keyed to this element (skills note: “uses birth affinity”). Recorded at birth; no separate XP multiplier is coded beyond that element tie-in.',
+    body: 'Your birth affinity. Elementalism draws on this element for spellwork and training.',
   },
   wind: {
     name: 'Wind affinity', ico: 'wind', cls: 'flare-wind', kind: 'Affinity',
-    body: 'Your birth affinity. Elves are biased toward wind when the race tilt fires. Elementalism uses this affinity. No separate XP multiplier is coded beyond the element tie-in.',
+    body: 'Your birth affinity. Elves often lean wind. Elementalism draws on this element for spellwork and training.',
   },
   earth: {
     name: 'Earth affinity', ico: 'earth', cls: 'flare-earth', kind: 'Affinity',
-    body: 'Your birth affinity. Dwarves are biased toward earth when the race tilt fires. Elementalism uses this affinity. No separate XP multiplier is coded beyond the element tie-in.',
+    body: 'Your birth affinity. Dwarves often lean earth. Elementalism draws on this element for spellwork and training.',
   },
   light: {
     name: 'Light affinity', ico: 'light', cls: 'flare-light', kind: 'Affinity',
-    body: 'Your birth affinity. Elementalism is keyed to this element (skills note: “uses birth affinity”). Recorded at birth; no separate XP multiplier is coded beyond that element tie-in.',
+    body: 'Your birth affinity. Elementalism draws on this element for spellwork and training.',
   },
   shadow: {
     name: 'Shadow affinity', ico: 'shadow', cls: 'flare-shadow', kind: 'Affinity',
-    body: 'Your birth affinity. Elementalism is keyed to this element (skills note: “uses birth affinity”). Recorded at birth; no separate XP multiplier is coded beyond that element tie-in.',
+    body: 'Your birth affinity. Elementalism draws on this element for spellwork and training.',
   },
   trait_spark_born: {
     name: 'Spark-born', ico: 'spirit', cls: 'flare-trait', kind: 'Trait',
-    body: 'Coded: mana awakens at birth (arcane skills unlock; start with 10 mana). Each year also adds +1 Strain. Catalog line: “Mana awakened at birth” / “+strain each year.”',
+    body: 'Mana awakens at birth — arcane skills unlock and you start with a small mana pool. Each year also adds +1 Strain.',
   },
   'spark-born': null, // alias filled below
   trait_iron_bones: {
     name: 'Iron Bones', ico: 'health', cls: 'flare-trait', kind: 'Trait',
-    body: 'Coded: +10 Health at birth (capped at 100). Catalog also lists “−grace,” but that penalty is not applied in the engine yet.',
+    body: 'Sturdier frame: +10 Health at birth (capped at 100).',
   },
   trait_silver_tongue: {
     name: 'Silver Tongue', ico: 'presence', cls: 'flare-trait', kind: 'Trait',
-    body: 'Catalog: “+charm gain” and “−karma drift.” Those modifiers are not wired in the engine yet — the trait is recorded on your fate and shown on chips, but no charm/karma hooks currently read it.',
+    body: 'A silver tongue marks you at fate — people notice the charm in how you speak.',
   },
   trait_restless: {
     name: 'Restless Feet', ico: 'adventure', cls: 'flare-trait', kind: 'Trait',
-    body: 'Coded: +1 Strain each year (same yearly tick as Spark-born). Catalog also lists “+exploration events,” but no extra exploration weight is applied in the engine yet.',
+    body: 'You never sit still for long. Exploration and travel events find you more often. Each year adds +1 Strain from the road in your bones.',
   },
   echo_might: {
     name: 'Echo of Might', ico: 'might', cls: 'flare-echo', kind: 'Echo',

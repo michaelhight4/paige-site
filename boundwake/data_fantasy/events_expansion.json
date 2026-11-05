@@ -7511,5 +7511,1677 @@
     "tags": [
       "guild"
     ]
+  },
+  {
+    "id": "own_a0_tease",
+    "cat": "special",
+    "ages": [
+      14,
+      18
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Meet-Week Notice",
+    "prompt": "The crier taps a notice about realm team meets. Festival lamps are already going up along the quay.",
+    "choices": [
+      {
+        "label": "Ask about team meets",
+        "journal": [
+          "I asked how teams work. The crier grinned like they'd been waiting."
+        ],
+        "fx": {
+          "spirit": 4,
+          "flagset": "team_tease_seen"
+        },
+        "flag": "team_interest"
+      },
+      {
+        "label": "Not my path",
+        "journal": [
+          "I shook my head. The notice stayed. So did the itch."
+        ],
+        "fx": {
+          "stress": -1,
+          "flagset": "team_tease_seen"
+        }
+      },
+      {
+        "label": "Who wins around here?",
+        "journal": [
+          "They named a few captains. One name stuck like a burr."
+        ],
+        "fx": {
+          "wits": 2,
+          "flagset": "team_tease_seen"
+        },
+        "flag": "team_interest"
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "glassmarket",
+      "hearthfold"
+    ],
+    "if": {
+      "team": false
+    }
+  },
+  {
+    "id": "own_a1_founding",
+    "cat": "special",
+    "ages": [
+      16,
+      45
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Blank Team Writ",
+    "prompt": "Parchment, wax, and a blank team writ wait on the civic desk. Eighty gold, one afternoon, and a name that will be shouted — or forgotten.",
+    "choices": [
+      {
+        "label": "Register the team",
+        "journal": [
+          "I paid. I named us. The wax took my mark."
+        ],
+        "fx": {
+          "gold": -80,
+          "renown": 2,
+          "flagset": "team_story_found",
+          "stress": 2
+        }
+      },
+      {
+        "label": "Need more coin first",
+        "journal": [
+          "I left the writ blank. Next year, maybe."
+        ],
+        "fx": {
+          "wits": 1,
+          "stress": -1
+        }
+      },
+      {
+        "label": "Changed my mind",
+        "journal": [
+          "I walked out lighter — and oddly disappointed."
+        ],
+        "fx": {
+          "spirit": -2,
+          "stress": -2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament"
+    ],
+    "if": {
+      "team": false
+    }
+  },
+  {
+    "id": "own_a2_first_hire",
+    "cat": "work",
+    "ages": [
+      16,
+      50
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Second Pair of Hands",
+    "prompt": "A hopeful stranger (or a friend you already trust) waits by the drill lawn. Affinity-matched. Asking if this is a one-soul show.",
+    "choices": [
+      {
+        "label": "Hire them",
+        "journal": [
+          "We shook on it. The roster felt less lonely."
+        ],
+        "fx": {
+          "gold": -25,
+          "renown": 1,
+          "flagset": "team_first_hire",
+          "spirit": 3
+        }
+      },
+      {
+        "label": "Captain myself",
+        "journal": [
+          "I kept the line short: me, and whoever I become."
+        ],
+        "fx": {
+          "sk_composure": 2,
+          "flagset": "team_player_captain"
+        }
+      },
+      {
+        "label": "Not yet",
+        "journal": [
+          "I asked them to check back. Pride and caution argued all evening."
+        ],
+        "fx": {
+          "stress": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "stage": [
+          "founding",
+          "proven"
+        ]
+      }
+    }
+  },
+  {
+    "id": "own_a3_first_meet",
+    "cat": "special",
+    "ages": [
+      16,
+      55
+    ],
+    "w": 4,
+    "once": true,
+    "title": "First Official Meet",
+    "prompt": "The arena gate opens for your first official meet. Opposing colors already warm the yard. Ten gold, one act, one chance to look foolish or memorable.",
+    "choices": [
+      {
+        "label": "Enter the meet",
+        "journal": [
+          "We paid. We stepped in. The board wrote our name in ink that smelled like dust and pride."
+        ],
+        "fx": {
+          "gold": -10,
+          "renown": 2,
+          "stress": 3,
+          "flagset": "team_meet_entered"
+        }
+      },
+      {
+        "label": "Skip this year",
+        "journal": [
+          "I kept the coin. The writ stayed quiet another season."
+        ],
+        "fx": {
+          "stress": -2
+        }
+      },
+      {
+        "label": "Watch from the rail",
+        "journal": [
+          "I studied the bracket without entering. Next year would know their faces."
+        ],
+        "fx": {
+          "wits": 2,
+          "sk_focus": 1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament"
+    ],
+    "if": {
+      "team": {
+        "owned": true
+      }
+    }
+  },
+  {
+    "id": "own_a4_first_win",
+    "cat": "fame",
+    "ages": [
+      16,
+      60
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Placement Stands",
+    "prompt": "The meet ends under festival lamps. Food-stall steam and cheers fill the yard. Your team still smells like effort. The purse is yours — don't trip on the way to the stalls.",
+    "choices": [
+      {
+        "label": "Accept the purse",
+        "journal": [
+          "Gold landed heavy. So did the noise of our name."
+        ],
+        "fx": {
+          "gold": 40,
+          "renown": 5,
+          "fame": 3,
+          "flagset": "team_first_win"
+        }
+      },
+      {
+        "label": "Credit the roster",
+        "journal": [
+          "I pointed at them first. The cheer got louder."
+        ],
+        "fx": {
+          "gold": 30,
+          "renown": 6,
+          "karma": 2,
+          "flagset": "team_first_win"
+        }
+      },
+      {
+        "label": "Stay humble",
+        "journal": [
+          "I nodded once and left before the story got too tall."
+        ],
+        "fx": {
+          "gold": 25,
+          "renown": 4,
+          "sk_composure": 2,
+          "flagset": "team_first_win"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "fame"
+    ],
+    "if": {
+      "team": {
+        "owned": true
+      },
+      "flag": "team_meet_entered"
+    }
+  },
+  {
+    "id": "own_a5_rival_named",
+    "cat": "relationship",
+    "ages": [
+      16,
+      70
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Familiar Crest",
+    "prompt": "A captain with a familiar crest blocks the path — not quite a threat, not quite a greeting. New ink on the board, they say. Try to be worth remembering.",
+    "choices": [
+      {
+        "label": "Offer respect",
+        "journal": [
+          "I tipped my head. Rivalry with manners. Rare, and useful."
+        ],
+        "fx": {
+          "karma": 2,
+          "renown": 1,
+          "flagset": "team_rival_respect"
+        }
+      },
+      {
+        "label": "Mark them a foe",
+        "journal": [
+          "I met their eyes and filed the name under unfinished."
+        ],
+        "fx": {
+          "stress": 2,
+          "renown": 1,
+          "flagset": "team_rival_feud"
+        }
+      },
+      {
+        "label": "Walk past",
+        "journal": [
+          "I kept walking. Some sparks don't need air."
+        ],
+        "fx": {
+          "sk_composure": 2,
+          "flagset": "team_rival_ignored"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "rival"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned",
+          "legacy"
+        ]
+      }
+    }
+  },
+  {
+    "id": "own_a6_roster_crisis",
+    "cat": "relationship",
+    "ages": [
+      17,
+      75
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Bag Half-Packed",
+    "prompt": "One of yours waits after drills, bag half-packed. Another hall offered more — or their side still aches. They need to know if this team is a season or a home.",
+    "choices": [
+      {
+        "label": "Match the offer",
+        "journal": [
+          "Coin left my purse. Loyalty stayed. Barely."
+        ],
+        "fx": {
+          "gold": -40,
+          "stress": 2,
+          "renown": 1,
+          "flagset": "team_crisis_retained"
+        }
+      },
+      {
+        "label": "Let them go",
+        "journal": [
+          "I opened the gate. The roster felt colder by morning."
+        ],
+        "fx": {
+          "stress": 4,
+          "spirit": -3,
+          "flagset": "team_crisis_release"
+        }
+      },
+      {
+        "label": "Ask them to stay for pride",
+        "journal": [
+          "I asked without gold. Pride is a thin rope — sometimes it holds."
+        ],
+        "fx": {
+          "sk_charm": 2,
+          "stress": 3,
+          "karma": 1,
+          "flagset": "team_crisis_pride"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned"
+        ]
+      }
+    },
+    "cool": 6
+  },
+  {
+    "id": "own_a7_realm_circuit",
+    "cat": "travel",
+    "ages": [
+      18,
+      80
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Circuit Writ",
+    "prompt": "A circuit writ lists three realm meets before the next big bracket. Your roster looks at the map like a dare. Stay home and you're beloved. Tour and you're remembered farther.",
+    "choices": [
+      {
+        "label": "Tour the circuit",
+        "journal": [
+          "We took the road. New realms learned our name the hard way — by watching."
+        ],
+        "fx": {
+          "gold": -20,
+          "renown": 5,
+          "stress": 3,
+          "flagset": "team_circuit_tour"
+        }
+      },
+      {
+        "label": "Stay local",
+        "journal": [
+          "We kept to our home yard. Familiar cheers. Smaller map."
+        ],
+        "fx": {
+          "spirit": 3,
+          "renown": 1,
+          "flagset": "team_circuit_local"
+        }
+      },
+      {
+        "label": "Decline the sponsor",
+        "journal": [
+          "I turned down the purse. Independence tasted like dust and freedom."
+        ],
+        "fx": {
+          "karma": 1,
+          "sk_composure": 2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "travel"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned"
+        ],
+        "minRenown": 15
+      }
+    }
+  },
+  {
+    "id": "own_a8_triennial",
+    "cat": "fame",
+    "ages": [
+      18,
+      90
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Teams Bracket Banner",
+    "prompt": "A herald's banner snaps over the arena gate. Every three years the Teams bracket opens beside Blade and Spark. Entry is twenty gold and one hard day. The realm will watch.",
+    "choices": [
+      {
+        "label": "Enter Teams",
+        "journal": [
+          "We paid. We stepped into the big noise."
+        ],
+        "fx": {
+          "gold": -20,
+          "renown": 4,
+          "stress": 4,
+          "flagset": "team_triennial_enter"
+        }
+      },
+      {
+        "label": "Skip this cycle",
+        "journal": [
+          "I saved the coin and the nerves for smaller meets."
+        ],
+        "fx": {
+          "stress": -2,
+          "wits": 1
+        }
+      },
+      {
+        "label": "Send the roster without me",
+        "journal": [
+          "They went in my colors. I watched from the shade."
+        ],
+        "fx": {
+          "gold": -20,
+          "renown": 2,
+          "spirit": 2,
+          "flagset": "team_triennial_send"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "fame"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned",
+          "legacy"
+        ]
+      }
+    },
+    "cool": 8
+  },
+  {
+    "id": "own_a9_renown_peak",
+    "cat": "fame",
+    "ages": [
+      20,
+      100
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Festival Banner Half-Rolled",
+    "prompt": "A chronicler waits with a blank Codex page and a festival banner half-rolled. Your renown crossed the line the festivals track. The crowd already knows your affinity.",
+    "choices": [
+      {
+        "label": "Accept the banner",
+        "journal": [
+          "The banner went up. Renown became something you could point at."
+        ],
+        "fx": {
+          "renown": 6,
+          "fame": 5,
+          "flagset": "team_renown_banner"
+        }
+      },
+      {
+        "label": "Stay quiet — ledger only",
+        "journal": [
+          "I took the Codex line and left the cloth rolled. Enough."
+        ],
+        "fx": {
+          "renown": 3,
+          "codex": 1,
+          "sk_composure": 2,
+          "flagset": "team_renown_quiet"
+        }
+      },
+      {
+        "label": "Sell local name rights",
+        "journal": [
+          "A stall paid to shout us. Coin now. Story a little thinner."
+        ],
+        "fx": {
+          "gold": 50,
+          "renown": 2,
+          "fame": 2,
+          "flagset": "team_renown_stall"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "fame"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "minRenown": 50
+      }
+    }
+  },
+  {
+    "id": "own_a10_scandal",
+    "cat": "special",
+    "ages": [
+      20,
+      100
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Disputed Call",
+    "prompt": "A disputed ruling hangs over the lawn. The call stands unless you protest in writing. The crowd has opinions. So does your pulse.",
+    "choices": [
+      {
+        "label": "Protest the call",
+        "journal": [
+          "I filed the writ. Sleep came late and thin."
+        ],
+        "fx": {
+          "stress": 5,
+          "renown": 1,
+          "flagset": "team_dispute_protest"
+        }
+      },
+      {
+        "label": "Accept and train harder",
+        "journal": [
+          "I swallowed it. Dawn drills got meaner."
+        ],
+        "fx": {
+          "stress": 2,
+          "sk_endurance": 2,
+          "renown": -1,
+          "flagset": "team_dispute_accept"
+        }
+      },
+      {
+        "label": "Leave the circuit",
+        "journal": [
+          "I packed the banners. Some fights aren't worth the dust."
+        ],
+        "fx": {
+          "stress": -3,
+          "renown": -3,
+          "flagset": "team_dispute_walk"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "stage": [
+          "renowned",
+          "legacy"
+        ],
+        "minRenown": 40
+      }
+    }
+  },
+  {
+    "id": "own_a11_walk_or_seize",
+    "cat": "money",
+    "ages": [
+      18,
+      120
+    ],
+    "w": 2,
+    "once": true,
+    "title": "Buyout on the Table",
+    "prompt": "An offer sits on the table — neat, heavy, and final-looking. They'll take the name, the writ, and the headache. You take the gold and a quieter year.",
+    "choices": [
+      {
+        "label": "Sell",
+        "journal": [
+          "I sold. The Codex kept the wins. My hands felt empty."
+        ],
+        "fx": {
+          "gold": 120,
+          "renown": -5,
+          "spirit": -4,
+          "flagset": "team_sold"
+        }
+      },
+      {
+        "label": "Refuse buyout",
+        "journal": [
+          "I left the gold. The headache stayed mine."
+        ],
+        "fx": {
+          "sk_composure": 3,
+          "stress": 2,
+          "flagset": "team_refuse_buyout"
+        }
+      },
+      {
+        "label": "Disband clean",
+        "journal": [
+          "We ended it ourselves. No rival got the satisfaction."
+        ],
+        "fx": {
+          "karma": 3,
+          "stress": -2,
+          "renown": -2,
+          "flagset": "team_disbanded_clean"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "money"
+    ],
+    "if": {
+      "team": {
+        "owned": true
+      }
+    }
+  },
+  {
+    "id": "own_a12_legacy_handoff",
+    "cat": "legacy",
+    "ages": [
+      50,
+      200
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Dusk at the Writ",
+    "prompt": "Dusk. A familiar face waits where you once waited for your own chance. If you name them, they'll keep the affinity honest. If you don't, they'll still remember the meets.",
+    "choices": [
+      {
+        "label": "Name them successor",
+        "journal": [
+          "I handed over the writ. The line continued."
+        ],
+        "fx": {
+          "renown": 4,
+          "karma": 3,
+          "spirit": 5,
+          "flagset": "team_handoff_heir"
+        }
+      },
+      {
+        "label": "Dissolve with honors",
+        "journal": [
+          "We ended clean, banners folded, names kept in the Codex."
+        ],
+        "fx": {
+          "codex": 1,
+          "karma": 2,
+          "spirit": 2,
+          "flagset": "team_dissolve_honors"
+        }
+      },
+      {
+        "label": "Split credit in the Codex",
+        "journal": [
+          "I wrote us both into the record. Pride shared is still pride."
+        ],
+        "fx": {
+          "codex": 1,
+          "renown": 2,
+          "fame": 2,
+          "flagset": "team_codex_split"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "legacy"
+    ],
+    "if": {
+      "team": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned",
+          "legacy"
+        ],
+        "minFoundedYears": 5
+      }
+    }
+  },
+  {
+    "id": "own_a13_echo_memory",
+    "cat": "legacy",
+    "ages": [
+      5,
+      40
+    ],
+    "w": 5,
+    "once": true,
+    "title": "Old Writ, New Eyes",
+    "prompt": "You wake into a new life. Somewhere a Codex page still lists placements that belonged to someone who shared your stubbornness. Names without a living roster.",
+    "choices": [
+      {
+        "label": "Read the old wins",
+        "journal": [
+          "I traced the placements. Pride without a roster. Bittersweet and true."
+        ],
+        "fx": {
+          "spirit": 4,
+          "renown": 1,
+          "flagset": "team_echo_read"
+        }
+      },
+      {
+        "label": "Close the Codex",
+        "journal": [
+          "I left the page. New life, new writ someday — or never."
+        ],
+        "fx": {
+          "sk_composure": 2,
+          "stress": -1
+        }
+      },
+      {
+        "label": "Promise a new team",
+        "journal": [
+          "I swore quietly. The echo didn't answer. It didn't need to."
+        ],
+        "fx": {
+          "spirit": 3,
+          "flagset": "team_echo_promise"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "team",
+      "tournament",
+      "legacy",
+      "echo"
+    ],
+    "if": {
+      "flag": "reincarnated",
+      "team": false
+    }
+  },
+  {
+    "id": "own_b0_tease",
+    "cat": "special",
+    "ages": [
+      16,
+      20
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Hall Writs Aren't Romance",
+    "prompt": "Dust and ledgers. A broker eyes you like a possible landlord of trouble. Hall writs mean keys, fees, and people who expect supper after the job.",
+    "choices": [
+      {
+        "label": "Ask about hall writs",
+        "journal": [
+          "I asked costs and slots. The numbers were honest. Painfully."
+        ],
+        "fx": {
+          "wits": 2,
+          "flagset": "guild_tease_seen"
+        },
+        "flag": "guild_interest"
+      },
+      {
+        "label": "Not for me",
+        "journal": [
+          "I stepped back. Adventure stayed someone else's headache."
+        ],
+        "fx": {
+          "stress": -1,
+          "flagset": "guild_tease_seen"
+        }
+      },
+      {
+        "label": "Tell me the costs",
+        "journal": [
+          "Gold, age, and a hall slot. I filed it under later."
+        ],
+        "fx": {
+          "wits": 1,
+          "flagset": "guild_tease_seen"
+        },
+        "flag": "guild_interest"
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall"
+    ],
+    "if": {
+      "guild": false
+    }
+  },
+  {
+    "id": "own_b1_founding",
+    "cat": "special",
+    "ages": [
+      18,
+      50
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Keys on Wood",
+    "prompt": "Keys land in your palm. Wood, wax, and the smell of an empty hall. One hundred fifty gold. One hall. Your name on the board. Break the door, you buy the door.",
+    "choices": [
+      {
+        "label": "Take the hall",
+        "journal": [
+          "I paid. I took the keys. The quiet felt loud."
+        ],
+        "fx": {
+          "gold": -150,
+          "renown": 2,
+          "stress": 3,
+          "flagset": "guild_story_found"
+        }
+      },
+      {
+        "label": "Delay a year",
+        "journal": [
+          "I kept my gold. The empty hall waited for someone else."
+        ],
+        "fx": {
+          "stress": -1
+        }
+      },
+      {
+        "label": "Walk away",
+        "journal": [
+          "I left the keys on the desk. Freedom weighed less than I'd hoped."
+        ],
+        "fx": {
+          "spirit": -2,
+          "stress": -2
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall"
+    ],
+    "if": {
+      "guild": false
+    }
+  },
+  {
+    "id": "own_b2_first_hire",
+    "cat": "work",
+    "ages": [
+      18,
+      55
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Candidate at the Doorframe",
+    "prompt": "A candidate leans on your doorframe, kit packed, stomach honest. Low fee, they take what jobs they can. Mid, fed and focused. High, their best years — if the board matches.",
+    "choices": [
+      {
+        "label": "Hire on Low fee",
+        "journal": [
+          "Cheap and risky. We both knew it."
+        ],
+        "fx": {
+          "gold": -20,
+          "renown": 1,
+          "flagset": "guild_hire_low"
+        }
+      },
+      {
+        "label": "Hire on Mid fee",
+        "journal": [
+          "Fair coin. Fair work. A start."
+        ],
+        "fx": {
+          "gold": -50,
+          "renown": 2,
+          "flagset": "guild_hire_mid"
+        }
+      },
+      {
+        "label": "Hire on High fee",
+        "journal": [
+          "I paid for excellence. They nodded like it mattered."
+        ],
+        "fx": {
+          "gold": -100,
+          "renown": 3,
+          "flagset": "guild_hire_high"
+        }
+      },
+      {
+        "label": "Pass",
+        "journal": [
+          "I sent them on. The hall stayed quieter."
+        ],
+        "fx": {
+          "stress": -1
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall"
+    ],
+    "if": {
+      "guild": {
+        "owned": true,
+        "stage": [
+          "founding",
+          "proven"
+        ]
+      }
+    }
+  },
+  {
+    "id": "own_b3_board_open",
+    "cat": "work",
+    "ages": [
+      18,
+      60
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Blank Board, First Client",
+    "prompt": "Your hall's board is blank. A townsfolk client waits with a small job and a larger question: are you open? Empty pegs. Fresh chalk.",
+    "choices": [
+      {
+        "label": "Post the board open",
+        "journal": [
+          "Chalk went up. The first ordinary job found us."
+        ],
+        "fx": {
+          "renown": 2,
+          "spirit": 3,
+          "flagset": "guild_board_open"
+        }
+      },
+      {
+        "label": "Stay dark a year",
+        "journal": [
+          "I kept the board bare. Quiet hall. Quiet coin."
+        ],
+        "fx": {
+          "stress": -2
+        }
+      },
+      {
+        "label": "Post only for known clients",
+        "journal": [
+          "Selective chalk. Safer. Slower."
+        ],
+        "fx": {
+          "wits": 2,
+          "renown": 1,
+          "flagset": "guild_board_selective"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall"
+    ],
+    "if": {
+      "guild": {
+        "owned": true,
+        "stage": [
+          "founding",
+          "proven"
+        ]
+      }
+    }
+  },
+  {
+    "id": "own_b4_first_contract",
+    "cat": "work",
+    "ages": [
+      18,
+      70
+    ],
+    "w": 4,
+    "once": true,
+    "title": "First Real Payout",
+    "prompt": "The first real payout sits on your hall table. Nobody is dying. That feels like winning. Ordinary thanks from a herb-grower, caravan, or watch post.",
+    "choices": [
+      {
+        "label": "Collect pay",
+        "journal": [
+          "Gold in the coffer. Proof we exist."
+        ],
+        "fx": {
+          "gold": 45,
+          "renown": 5,
+          "flagset": "guild_first_contract"
+        }
+      },
+      {
+        "label": "Share bonus with roster",
+        "journal": [
+          "I split more than I had to. Faces changed."
+        ],
+        "fx": {
+          "gold": 20,
+          "renown": 6,
+          "karma": 3,
+          "flagset": "guild_first_contract"
+        }
+      },
+      {
+        "label": "Ask for their name in the Codex",
+        "journal": [
+          "I wrote the client in. Small names make lasting halls."
+        ],
+        "fx": {
+          "gold": 35,
+          "renown": 4,
+          "codex": 1,
+          "flagset": "guild_first_contract"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall"
+    ],
+    "if": {
+      "guild": {
+        "owned": true
+      },
+      "flag": "guild_board_open"
+    }
+  },
+  {
+    "id": "own_b5_fee_pressure",
+    "cat": "money",
+    "ages": [
+      19,
+      80
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Fees Eat the Year",
+    "prompt": "Your senior adventurer doesn't sit. The ledger is open between you. Fees eat the year — raise the board, cut someone, or dip into your own purse. Pick before supper.",
+    "choices": [
+      {
+        "label": "Raise fees",
+        "journal": [
+          "Higher tier. Higher expectations. Thinner sleep."
+        ],
+        "fx": {
+          "stress": 3,
+          "renown": 1,
+          "flagset": "guild_fee_raise"
+        }
+      },
+      {
+        "label": "Cut a member",
+        "journal": [
+          "One kit left the peg. The hall felt wrong-sized."
+        ],
+        "fx": {
+          "stress": 4,
+          "spirit": -2,
+          "flagset": "guild_fee_cut"
+        }
+      },
+      {
+        "label": "Pay from my purse",
+        "journal": [
+          "My coin, their loyalty. For now."
+        ],
+        "fx": {
+          "gold": -60,
+          "karma": 2,
+          "stress": 1,
+          "flagset": "guild_fee_purse"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall",
+      "money"
+    ],
+    "if": {
+      "guild": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned"
+        ]
+      }
+    },
+    "cool": 5
+  },
+  {
+    "id": "own_b6_rival_hall",
+    "cat": "relationship",
+    "ages": [
+      19,
+      85
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Smiling Map",
+    "prompt": "Another hall-master smiles with too many teeth and a reasonable map. Nice board, they say. Shame if the good contracts keep finding their door.",
+    "choices": [
+      {
+        "label": "Undercut",
+        "journal": [
+          "I lowered our take. Jobs came. Pride limped."
+        ],
+        "fx": {
+          "gold": -15,
+          "renown": 2,
+          "spirit": -2,
+          "flagset": "guild_rival_undercut"
+        }
+      },
+      {
+        "label": "Specialize our board",
+        "journal": [
+          "We picked a lane and owned it."
+        ],
+        "fx": {
+          "renown": 3,
+          "wits": 2,
+          "flagset": "guild_rival_specialize"
+        }
+      },
+      {
+        "label": "Propose fair split of districts",
+        "journal": [
+          "We drew lines. Competition got polite. Useful."
+        ],
+        "fx": {
+          "karma": 3,
+          "renown": 2,
+          "sk_etiquette": 2,
+          "flagset": "guild_rival_split"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall",
+      "rival"
+    ],
+    "if": {
+      "guild": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned"
+        ]
+      }
+    }
+  },
+  {
+    "id": "own_b7_hard_job",
+    "cat": "exploration",
+    "ages": [
+      18,
+      90
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Wilds Work, Real Teeth",
+    "prompt": "A frontier client doesn't blink much. The contract ink looks darker than usual. Wilds work. Pay matches the risk — if your people come back.",
+    "choices": [
+      {
+        "label": "Take the risk",
+        "journal": [
+          "We took it. The year got longer."
+        ],
+        "fx": {
+          "gold": 70,
+          "renown": 5,
+          "stress": 5,
+          "flagset": "guild_hard_job_take"
+        }
+      },
+      {
+        "label": "Refuse",
+        "journal": [
+          "I said no. Sleep was easier. Renown wasn't."
+        ],
+        "fx": {
+          "stress": -3,
+          "renown": -1
+        }
+      },
+      {
+        "label": "Send only the best",
+        "journal": [
+          "The strongest went. The rest kept the hall lights on."
+        ],
+        "fx": {
+          "gold": 40,
+          "renown": 3,
+          "stress": 2,
+          "flagset": "guild_hard_job_best"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall",
+      "emberlight",
+      "thornreed"
+    ],
+    "if": {
+      "guild": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned"
+        ],
+        "minRenown": 15
+      }
+    },
+    "cool": 6
+  },
+  {
+    "id": "own_b8_renown_tiers",
+    "cat": "fame",
+    "ages": [
+      20,
+      100
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Tier Slate",
+    "prompt": "A broker slides a tier slate across your table. Twenty-five, fifty, seventy-five — that's how the hire pools open. Renown ink is already drying at the next mark. You still only get one door.",
+    "choices": [
+      {
+        "label": "Expand the roster",
+        "journal": [
+          "More kits on the pegs. More mouths. More reach."
+        ],
+        "fx": {
+          "renown": 4,
+          "stress": 2,
+          "flagset": "guild_tier_expand"
+        }
+      },
+      {
+        "label": "Keep the hall small",
+        "journal": [
+          "I held the line. Fewer people. Cleaner nights."
+        ],
+        "fx": {
+          "sk_composure": 2,
+          "spirit": 2,
+          "flagset": "guild_tier_small"
+        }
+      },
+      {
+        "label": "Host a flavor banquet (still one hall)",
+        "journal": [
+          "We fed the town like we owned two doors. We still owned one. Worth it."
+        ],
+        "fx": {
+          "gold": -40,
+          "fame": 4,
+          "renown": 3,
+          "flagset": "guild_tier_banquet"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall",
+      "fame"
+    ],
+    "if": {
+      "guild": {
+        "owned": true,
+        "minRenown": 25
+      }
+    }
+  },
+  {
+    "id": "own_b9_ethics",
+    "cat": "special",
+    "ages": [
+      20,
+      100
+    ],
+    "w": 3,
+    "once": true,
+    "title": "Two Ledgers",
+    "prompt": "A lucrative job sits beside a thinner, kinder one. It pays. It also leans on people who can't lean back. Your hall's name will follow either choice. Gold isn't the only ledger.",
+    "choices": [
+      {
+        "label": "Take the gold",
+        "journal": [
+          "We took the fat contract. The quiet afterward had edges."
+        ],
+        "fx": {
+          "gold": 80,
+          "renown": 2,
+          "karma": -4,
+          "flagset": "guild_ethics_gold"
+        }
+      },
+      {
+        "label": "Refuse",
+        "journal": [
+          "I turned it down. The board looked cleaner."
+        ],
+        "fx": {
+          "karma": 4,
+          "renown": 1,
+          "spirit": 2,
+          "flagset": "guild_ethics_refuse"
+        }
+      },
+      {
+        "label": "Renegotiate terms",
+        "journal": [
+          "I rewrote the job until I could live with it."
+        ],
+        "fx": {
+          "gold": 35,
+          "karma": 2,
+          "wits": 2,
+          "flagset": "guild_ethics_renegotiate"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall",
+      "karma"
+    ],
+    "if": {
+      "guild": {
+        "owned": true,
+        "stage": [
+          "renowned",
+          "legacy"
+        ],
+        "minRenown": 40
+      }
+    }
+  },
+  {
+    "id": "own_b10_scandal_seize",
+    "cat": "special",
+    "ages": [
+      18,
+      120
+    ],
+    "w": 2,
+    "once": true,
+    "title": "Civic Options",
+    "prompt": "The clerk doesn't raise their voice. They don't need to. Someone got hurt on your board's watch. Coin, apology, or a sold hall — those are the civic options.",
+    "choices": [
+      {
+        "label": "Make restitution",
+        "journal": [
+          "I paid and bowed. The hall kept its door."
+        ],
+        "fx": {
+          "gold": -80,
+          "karma": 3,
+          "stress": 3,
+          "flagset": "guild_fallout_restored"
+        }
+      },
+      {
+        "label": "Deny fault",
+        "journal": [
+          "I argued. The room got colder."
+        ],
+        "fx": {
+          "karma": -3,
+          "renown": -2,
+          "stress": 4,
+          "flagset": "guild_fallout_deny"
+        }
+      },
+      {
+        "label": "Sell the hall",
+        "journal": [
+          "I sold. The Codex kept the contracts. I kept the lesson."
+        ],
+        "fx": {
+          "gold": 100,
+          "renown": -5,
+          "spirit": -3,
+          "flagset": "guild_sold"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall"
+    ],
+    "if": {
+      "guild": {
+        "owned": true
+      }
+    }
+  },
+  {
+    "id": "own_b11_legacy_handoff",
+    "cat": "legacy",
+    "ages": [
+      50,
+      200
+    ],
+    "w": 4,
+    "once": true,
+    "title": "Ledger Almost Closed",
+    "prompt": "The ledger is almost closed. Someone you trust waits for the last line. Keys, roster, and the ugly years — or end clean and give a share to people who need roofs more than renown.",
+    "choices": [
+      {
+        "label": "Hand over hall",
+        "journal": [
+          "I gave the keys. The board kept breathing."
+        ],
+        "fx": {
+          "renown": 4,
+          "karma": 3,
+          "spirit": 5,
+          "flagset": "guild_handoff_heir"
+        }
+      },
+      {
+        "label": "Dissolve",
+        "journal": [
+          "We ended it. Names stayed in the Codex."
+        ],
+        "fx": {
+          "codex": 1,
+          "karma": 2,
+          "flagset": "guild_dissolve"
+        }
+      },
+      {
+        "label": "Endow a charity share",
+        "journal": [
+          "Part of the coffer went to a shrine, primer, widows' purse, or healers. Worth more than a banner."
+        ],
+        "fx": {
+          "gold": -50,
+          "karma": 5,
+          "spirit": 4,
+          "flagset": "guild_charity"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall",
+      "legacy"
+    ],
+    "if": {
+      "guild": {
+        "owned": true,
+        "stage": [
+          "proven",
+          "renowned",
+          "legacy"
+        ],
+        "minFoundedYears": 5
+      }
+    }
+  },
+  {
+    "id": "own_b12_echo_memory",
+    "cat": "legacy",
+    "ages": [
+      5,
+      40
+    ],
+    "w": 5,
+    "once": true,
+    "title": "Contract Count Without Keys",
+    "prompt": "A new life. An old Codex line lists contract counts from a hall that no longer answers to your name. The keys are gone. The contracts aren't.",
+    "choices": [
+      {
+        "label": "Read the contract count",
+        "journal": [
+          "I read the tally. Quiet pride. No keys needed."
+        ],
+        "fx": {
+          "spirit": 4,
+          "renown": 1,
+          "flagset": "guild_echo_read"
+        }
+      },
+      {
+        "label": "Leave it unread",
+        "journal": [
+          "I walked past the page. New doors wait or don't."
+        ],
+        "fx": {
+          "sk_composure": 2,
+          "stress": -1
+        }
+      },
+      {
+        "label": "Swear to open a hall again",
+        "journal": [
+          "I promised another board someday. The echo let me keep that."
+        ],
+        "fx": {
+          "spirit": 3,
+          "flagset": "guild_echo_promise"
+        }
+      }
+    ],
+    "src": "text",
+    "journal_src": "text",
+    "tags": [
+      "guild",
+      "hall",
+      "legacy",
+      "echo"
+    ],
+    "if": {
+      "flag": "reincarnated",
+      "guild": false
+    }
   }
 ]

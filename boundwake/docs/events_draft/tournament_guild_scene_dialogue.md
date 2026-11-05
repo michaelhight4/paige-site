@@ -1,6 +1,8 @@
-# Boundwake — Tournament team & guild hall scene dialogue (DRAFT)
+# Boundwake — Tournament team & guild hall scene dialogue (APPROVED)
 
 **Text Bot · Nov 5, 2026.** From Story Bot seeds in `docs/tournament_team_and_guild_hall_story_beats.md`.
+**Update ~4:50 PM CT:** Filled M1 gaps — A3, A7, A9, A13, B3, B8, B12 (Story Bot request after playtest).
+**GARY OK ~4:47 PM CT:** Approved as written — Coder may wire A0–A13 / B0–B12 using these seeds.
 Gary locked (via Coder ~3:26 PM CT): cross team↔guild bonuses **ON** in v1; elf/dwarf long-life beats **IN** v1; titles Clerk of Meets / Meet judge / hall-master; handoff heir→apprentice→captain.
 No alcohol/tobacco/drugs. Original Boundwake only.
 
@@ -8,7 +10,7 @@ Mission line: *Another life. Same stubborn heart — and a roster that still exp
 
 ---
 
-# TRACK A — Tournament team (10 scenes)
+# TRACK A — Tournament team (14 scenes)
 
 ## seed_team_a0 — Quay Crier (Glassmarket)
 **Beat:** A0 tease · **Tone:** Warm nudge, slightly teasing  
@@ -55,6 +57,23 @@ Mission line: *Another life. Same stubborn heart — and a roster that still exp
 | Hire them | We shook on it. The roster felt less lonely. |
 | Captain myself | I kept the line short: me, and whoever I become. |
 | Not yet | I asked them to check back. Pride and caution argued all evening. |
+
+---
+
+## seed_team_a3 — First meet
+**Beat:** A3 first meet · **Tone:** Tension, pride, festival dust  
+**Speakers:** Opposing captain + Meet judge
+
+**Opposing captain:** "New writ. Fresh nerves. Don't trip on your own affinity."  
+**Meet judge:** "Entry stands. Ten gold, one act, one chance to look foolish or memorable."
+
+**Prompt:** The arena gate opens for your first official meet. Opposing colors already warm the yard.
+
+| Choice | Journal |
+|--------|---------|
+| Enter the meet | We paid. We stepped in. The board wrote our name in ink that smelled like dust and pride. |
+| Skip this year | I kept the coin. The writ stayed quiet another season. |
+| Watch from the rail | I studied the bracket without entering. Next year would know their faces. |
 
 ---
 
@@ -107,6 +126,23 @@ Mission line: *Another life. Same stubborn heart — and a roster that still exp
 
 ---
 
+## seed_team_a7 — Realm circuit
+**Beat:** A7 circuit · **Tone:** Ambition on the road  
+**Speakers:** Local sponsor + meet-yard local
+
+**Sponsor:** "Small meets across the realms. Coin for travel, banners for anyone who finishes the loop."  
+**Local:** "Stay home and you're beloved. Tour and you're remembered farther."
+
+**Prompt:** A circuit writ lists three realm meets before the next big bracket. Your roster looks at the map like a dare.
+
+| Choice | Journal |
+|--------|---------|
+| Tour the circuit | We took the road. New realms learned our name the hard way — by watching. |
+| Stay local | We kept to our home yard. Familiar cheers. Smaller map. |
+| Decline the sponsor | I turned down the purse. Independence tasted like dust and freedom. |
+
+---
+
 ## seed_team_a8 — Triennial herald
 **Beat:** A8 Teams bracket · **Tone:** Grand but readable  
 **Speaker:** Triennial herald
@@ -120,6 +156,22 @@ Mission line: *Another life. Same stubborn heart — and a roster that still exp
 | Enter Teams | We paid. We stepped into the big noise. |
 | Skip this cycle | I saved the coin and the nerves for smaller meets. |
 | Send the roster without me | They went in my colors. I watched from the shade. |
+
+---
+
+## seed_team_a9 — Renown peak
+**Beat:** A9 renown peak · **Tone:** Recognition without swagger  
+**Speaker:** Chronicler (festival)
+
+> "Your renown crossed the line the festivals track. Banner on the wall, quiet ledger, or a local stall that borrows your name — those are the three doors."
+
+**Prompt:** A chronicler waits with a blank Codex page and a festival banner half-rolled. The crowd already knows your affinity.
+
+| Choice | Journal |
+|--------|---------|
+| Accept the banner | The banner went up. Renown became something you could point at. |
+| Stay quiet — ledger only | I took the Codex line and left the cloth rolled. Enough. |
+| Sell local name rights | A stall paid to shout us. Coin now. Story a little thinner. |
 
 ---
 
@@ -172,7 +224,23 @@ Mission line: *Another life. Same stubborn heart — and a roster that still exp
 
 ---
 
-# TRACK B — Adventure guild hall (10 scenes)
+## seed_team_a13 — Echo of the team
+**Beat:** A13 echo · **Tone:** Bittersweet Codex hush  
+**Speaker:** Echo of Renown (flavor — reincarnate)
+
+> "Another life. Same stubborn heart. The old writ is gone, but the wins stayed in the Codex — names without a living roster."
+
+**Prompt:** You wake into a new life. Somewhere a Codex page still lists placements that belonged to someone who shared your stubbornness.
+
+| Choice | Journal |
+|--------|---------|
+| Read the old wins | I traced the placements. Pride without a roster. Bittersweet and true. |
+| Close the Codex | I left the page. New life, new writ someday — or never. |
+| Promise a new team | I swore quietly. The echo didn't answer. It didn't need to. |
+
+---
+
+# TRACK B — Adventure guild hall (13 scenes)
 
 ## seed_guild_b0 — Caravan broker
 **Beat:** B0 tease · **Tone:** Dusty practical  
@@ -221,6 +289,22 @@ Mission line: *Another life. Same stubborn heart — and a roster that still exp
 | Hire on Mid fee | Fair coin. Fair work. A start. |
 | Hire on High fee | I paid for excellence. They nodded like it mattered. |
 | Pass | I sent them on. The hall stayed quieter. |
+
+---
+
+## seed_guild_b3 — Board opens
+**Beat:** B3 board open · **Tone:** Hope edged with skepticism  
+**Speaker:** Townsfolk client (first post)
+
+> "Empty pegs. Fresh chalk. Either you post open and we bring ordinary work — or you stay dark another year and we keep walking to the other door."
+
+**Prompt:** Your hall's board is blank. A townsfolk client waits with a small job and a larger question: are you open?
+
+| Choice | Journal |
+|--------|---------|
+| Post the board open | Chalk went up. The first ordinary job found us. |
+| Stay dark a year | I kept the board bare. Quiet hall. Quiet coin. |
+| Post only for known clients | Selective chalk. Safer. Slower. |
 
 ---
 
@@ -288,6 +372,22 @@ Mission line: *Another life. Same stubborn heart — and a roster that still exp
 
 ---
 
+## seed_guild_b8 — Renown tiers
+**Beat:** B8 renown tiers · **Tone:** Growth with a ledger's patience  
+**Speaker:** Broker
+
+> "Twenty-five, fifty, seventy-five — that's how the hire pools open. Expand the roster, keep it small and sharp, or throw a flavor banquet and pretend you own two halls. You still only get one door."
+
+**Prompt:** A broker slides a tier slate across your table. Renown ink is already drying at the next mark.
+
+| Choice | Journal |
+|--------|---------|
+| Expand the roster | More kits on the pegs. More mouths. More reach. |
+| Keep the hall small | I held the line. Fewer people. Cleaner nights. |
+| Host a flavor banquet (still one hall) | We fed the town like we owned two doors. We still owned one. Worth it. |
+
+---
+
 ## seed_guild_b9 — Ethics
 **Beat:** B9 ethics · **Tone:** Quiet moral weight  
 **Speakers:** Paying client; optional Lantern Vow acquaintance
@@ -337,6 +437,22 @@ Mission line: *Another life. Same stubborn heart — and a roster that still exp
 
 ---
 
+
+---
+
+## seed_guild_b12 — Echo of the hall
+**Beat:** B12 echo · **Tone:** Quiet pride  
+**Speaker:** Echo of Renown (flavor — reincarnate)
+
+> "The keys are gone. The contracts aren't. Someone counted the jobs you finished — ordinary thanks, still inked."
+
+**Prompt:** A new life. An old Codex line lists contract counts from a hall that no longer answers to your name.
+
+| Choice | Journal |
+|--------|---------|
+| Read the contract count | I read the tally. Quiet pride. No keys needed. |
+| Leave it unread | I walked past the page. New doors wait or don't. |
+| Swear to open a hall again | I promised another board someday. The echo let me keep that. |
 
 ---
 

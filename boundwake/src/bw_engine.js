@@ -30,7 +30,17 @@ export const longevitySkillPace = (s, id) => {
 };
 // After the yearly 100/60/25 hard cap, pillar skills can still grow, tapering with human-equivalent age from 50% to 1%.
 export const postCapAgeMult = (s) => 0.50 + (0.01 - 0.50) * clamp(hage(s) / 90, 0, 1);
-export function stage(s) { const h = hage(s); return h < 3 ? 'baby' : h < 11 ? 'child' : h < 17 ? 'teen' : h < 60 ? 'adult' : 'elder'; }
+export function stage(s) {
+  // Gary playtest Nov 5: display/portrait stage from calendar age (cage), not hage —
+  // elf@19 was Child when stage used hage. Art bands: baby/child/teen/adult/elder.
+  const a = cage(s);
+  return a < 3 ? 'baby' : a < 11 ? 'child' : a < 18 ? 'teen' : a < 60 ? 'adult' : 'elder';
+}
+/** Player-facing life-stage label (Youth for teen band). */
+export function stageLabel(s) {
+  const st = stage(s);
+  return ({ baby: 'Baby', child: 'Child', teen: 'Youth', adult: 'Adult', elder: 'Elder' })[st] || st;
+}
 
 // ---- birth / fate card ----
 const ORDINARY_JOB_POOL = [
@@ -49,15 +59,16 @@ function isChildJobTitle(title) {
   return title === 'Child' || title === 'Village lessons' || title === 'Helps at home';
 }
 function pickPersonJobTitle(s, p) {
-  const h = personHage(p);
-  // Bonds: no real occupations before human-equivalent 12 (Gary Nov 5 ~1:55 PM CT)
-  if (h < 6) return 'Child';
-  if (h < 12) return 'Village lessons';
-  const entries = Object.values(D.jobsById || {}).filter((j) => j.entry && (j.req?.age ?? 99) <= h + 0.01);
+  // Calendar age for occupation labels (Story/Text Bot: Kaela@16 showed Child via hage)
+  const a = Math.floor(p.age || 0);
+  if (a < 6) return 'Child';
+  if (a < 12) return 'Village lessons';
+  if (a < 16) return 'Student';
+  const entries = Object.values(D.jobsById || {}).filter((j) => j.entry && (j.req?.age ?? 99) <= a + 0.01);
   const ordinary = entries.filter((j) => (D.occ.careers.find((c) => c.id === j.sector)?.tags || []).includes('ordinary'));
   const pool = (ordinary.length ? ordinary : entries);
   if (pool.length) return pick(s, pool).title;
-  const fallback = ORDINARY_JOB_POOL.filter(([, a0, a1]) => h >= a0 && h < a1).map((x) => x[0]);
+  const fallback = ORDINARY_JOB_POOL.filter(([, a0, a1]) => a >= a0 && a < a1).map((x) => x[0]);
   return fallback.length ? pick(s, fallback) : 'Laborer';
 }
 /** Fill stats + jobTitle on a person once; persists on save. Never stores gold. */
@@ -71,11 +82,12 @@ export function ensurePersonSheet(s, p) {
       p.stats.health = rint(s, 55, 85); p.stats.fame = rint(s, 2, 25); p.stats.stress = rint(s, 8, 35);
     }
   }
-  const h = personHage(p);
+  const a = Math.floor(p.age || 0);
   if (p.jobTitle == null || p.jobTitle === '') p.jobTitle = pickPersonJobTitle(s, p);
-  // Re-clamp bad under-12 titles from earlier saves (e.g. 6yo Farmhand)
-  if (h < 12 && !isChildJobTitle(p.jobTitle)) p.jobTitle = pickPersonJobTitle(s, p);
-  if (h < 6 && p.jobTitle !== 'Child') p.jobTitle = 'Child';
+  // Re-clamp bad under-age titles from earlier saves / hage-era labels
+  if (a < 16 && (p.jobTitle === 'Child' || isChildJobTitle(p.jobTitle) || !p.jobTitle)) p.jobTitle = pickPersonJobTitle(s, p);
+  if (a < 12 && !isChildJobTitle(p.jobTitle) && p.jobTitle !== 'Student') p.jobTitle = pickPersonJobTitle(s, p);
+  if (a < 6 && p.jobTitle !== 'Child') p.jobTitle = 'Child';
   if (!p.temperament) {
     // Persist a Boundwake temperament (not Bit Tensie). Slight bias by relation.
     let pool = TEMPERAMENTS.map((x) => x.id);
@@ -270,6 +282,16 @@ export function drillSword(s) {
 
 // ---- jobs (occupations.json ladders) ----
 export const careerOf = (jobId) => D.occ.careers.find((c) => c.id === D.jobsById[jobId].sector);
+export function humanizeUnlock(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/flag\s*`?mana_awakened`?/gi, 'mana awakening')
+    .replace(/`mana_awakened`/gi, 'mana awakening')
+    .replace(/route\s*`?route_hybrid`?/gi, 'hybrid path')
+    .replace(/`route_hybrid`/gi, 'hybrid path')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\bflag\s+/gi, '');
+}
 export function jobLockReason(s, j, forPromo = false) {
   if (!j) return 'Unknown job.';
   if (s.job && s.job.id === j.id) return 'You already hold this post.';
@@ -302,7 +324,8 @@ export function meetsReq(s, j, forPromo = false) {
 }
 export const openings = (s) => Object.values(D.jobsById).filter((j) => j.entry).map((j) => ({ job: j, career: careerOf(j.id), ok: meetsReq(s, j) && !(s.job && s.job.id === j.id) }));
 export function takeJob(s, id) {
-  const j = D.jobsById[id]; if (!meetsReq(s, j)) return { ok: false, msg: 'You do not meet the requirements yet.' };
+  if (s.prison) return { ok: false, msg: 'No work while imprisoned.' };
+  const j = D.jobsById[id]; if (!meetsReq(s, j)) return { ok: false, msg: jobLockReason(s, j) || 'You do not meet the requirements yet.' };
   if (s.job) s.jobHist.push({ ...s.job, left: s.age });
   s.job = { id, years: 0, perf: 50 }; const m = `I started as ${j.title} (${careerOf(id).name}).`; log(s, m, 'job'); return { ok: true, msg: m };
 }
@@ -330,8 +353,9 @@ export function promote(s) {
 // ---- budgets / activities (SYSTEMS_OVERVIEW: 4 activity + 3 social, Adventure capped at 5) ----
 function newYearBudget(s) { s.budget = { act: 4, social: 3, adv: 5 }; s.trainCount = {}; }
 function spendAct(s, k) { if (s.budget[k] <= 0) return false; s.budget[k]--; return true; }
-export function canAdventure(s) { return cage(s) >= 10 && s.budget.adv > 0 && s.budget.act > 0; }
+export function canAdventure(s) { if (s.prison) return false; return cage(s) >= 10 && s.budget.adv > 0 && s.budget.act > 0; }
 export function adventure(s) {
+  if (s.prison) return { ok: false, msg: 'The road is closed while you are held.' };
   if (!canAdventure(s)) return { ok: false, msg: cage(s) < 10 ? 'Too young for the road.' : 'No adventures left this year.' };
   s.budget.adv--; s.budget.act--;
   // Trained skills + styles color the road (Boundwake growth, not Bit Tensie copy)
@@ -366,6 +390,7 @@ export function chooseRoute(s, r) {
 
 /** Visit a place in the current realm (Gary Nov 5 ~2:02 PM CT). Spends 1 act; effects by location kind. */
 export function visitLocation(s, locId) {
+  if (s.prison) return { ok: false, msg: 'You cannot visit the realm while imprisoned.' };
   const reg = regionOf(s);
   const loc = (reg?.locations || []).find((l) => l.id === locId);
   if (!loc) return { ok: false, msg: 'That place is not in this realm.' };
@@ -433,7 +458,7 @@ export function visitLocation(s, locId) {
       s.flags.meet_venue_ready = loc.name || loc.id;
       msg += ` The lists look open — enter a realm meet from Adventure if you lead a team.`;
     } else if (/guild hall/.test(k)) {
-      if (!s.guild && cage(s) >= 18) msg += ` A hall slot could be claimed from Work.`;
+      if (!s.guild && cage(s) >= 18) msg += ` A hall slot could be claimed from Work → Adventure guild hall.`;
       else if (s.guild && s.guild.realmId === s.region) msg += ` My guild hall keeps its board nearby.`;
     }
   }
@@ -441,7 +466,21 @@ export function visitLocation(s, locId) {
   return { ok: true, msg };
 }
 
-export function travel(s, id) { if (!s.regionsFound.includes(id) || cage(s) < 14) return { ok: false, msg: cage(s) < 14 ? 'Travel opens at age 14.' : 'Unknown realm.' }; if (s.region === id) return { ok: false, msg: 'You are already here.' }; if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left.' }; s.region = id; discover(s, id); log(s, `I travelled to ${regionById(id).name}.`, 'travel'); return { ok: true, msg: `Arrived in ${regionById(id).name}.` }; }
+/** Spend 1 act to put an unknown realm on the map (age 14+). Reliable path when travel-writ events are declined. */
+export function scoutRealm(s, id) {
+  if (s.prison) return { ok: false, msg: 'You cannot scout while imprisoned.' };
+  if (cage(s) < 14) return { ok: false, msg: 'Scouting opens at age 14.' };
+  const reg = regionById(id);
+  if (!reg) return { ok: false, msg: 'Unknown realm.' };
+  if ((s.regionsFound || []).includes(id)) return { ok: false, msg: 'Already on your map.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  s.regionsFound.push(id);
+  discover(s, id);
+  const msg = `I scouted the roads toward ${reg.name}. It is on my map now.`;
+  log(s, msg, 'travel');
+  return { ok: true, msg };
+}
+export function travel(s, id) { if (s.prison) return { ok: false, msg: 'You cannot travel while imprisoned.' }; if (!s.regionsFound.includes(id) || cage(s) < 14) return { ok: false, msg: cage(s) < 14 ? 'Travel opens at age 14.' : 'Unknown realm.' }; if (s.region === id) return { ok: false, msg: 'You are already here.' }; if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left.' }; s.region = id; discover(s, id); log(s, `I travelled to ${regionById(id).name}.`, 'travel'); return { ok: true, msg: `Arrived in ${regionById(id).name}.` }; }
 export const regionById = (id) => D.regions.find((r) => r.id === id);
 export const regionOf = (s) => regionById(s.region);
 function discover(s, id) { if (!s.codex.includes(id)) s.codex.push(id); }
@@ -456,7 +495,10 @@ export function socialize(s, pid, kind = 'time') {
   const m = `I spent time with ${p.first} (${p.rel}).`; log(s, m, 'social'); return { ok: true, msg: m };
 }
 export function meetSomeone(s, love) {
-  if (love && cage(s) < 16) return { ok: false, msg: 'Too young.' }; if (love && partnerOf(s)) return { ok: false, msg: 'You already have someone.' };
+  if (s.prison) return { ok: false, msg: 'Social calls wait until you are free.' };
+  if (!love && cage(s) < 5) return { ok: false, msg: 'Too young to make friends on your own (age 5+).' };
+  if (love && cage(s) < 16) return { ok: false, msg: 'Too young for the Lantern Market (age 16+).' };
+  if (love && partnerOf(s)) return { ok: false, msg: 'You already have someone.' };
   if (!spendAct(s, 'social')) return { ok: false, msg: 'No social time left this year.' };
   const p = person(s, love ? 'partner' : 'friend', rint(s, -3, 3)); p.race = chance(s, 0.7) ? s.race : pick(s, D.races).id; s.people.push(p);
   const m = love ? `I met ${p.first} at the Lantern Market. Something sparked.` : `I made a new friend: ${p.first}.`; log(s, m, 'social'); return { ok: true, msg: m };
@@ -613,7 +655,14 @@ function matchOwnGate(s, own, spec) {
 }
 
 export function matches(s, e) {
-  const c = e.if || {}, a = cage(s); if (a < e.ages[0] || a > e.ages[1]) return false;
+  const c = e.if || {}, a = cage(s);
+  let lo = e.ages[0], hi = e.ages[1];
+  // Long-life stretch: adult/elder slice content (hi≥60, no ownership gate) keeps feeding elf/dwarf lives past human max.
+  const ls = race(s)?.lifespan || 90;
+  if (ls > 90 && hi >= 60 && c.team === undefined && c.guild === undefined) {
+    hi = Math.min(Math.round(hi * (ls / 90)), ls - 5);
+  }
+  if (a < lo || a > hi) return false;
   if (e.once && s.flags['once_' + e.id]) return false; if (s.evLast[e.id] != null && s.age - s.evLast[e.id] < (e.cool ?? 4) * turnYears(s)) return false;
   if (c.flag && !s.flags[c.flag]) return false; const nf = c.notflag || c.noflag; if (nf && s.flags[nf]) return false;
   if (c.career && !(s.job && c.career.includes(D.jobsById[s.job.id].sector))) return false;
@@ -629,6 +678,16 @@ export function matches(s, e) {
   }
   if (c.team !== undefined && !matchOwnGate(s, s.team, c.team)) return false;
   if (c.guild !== undefined && !matchOwnGate(s, s.guild, c.guild)) return false;
+  // Realm gate: if.region / if.regions OR tags that name a known realm id (Story Bot: 52 tagged fired off-realm).
+  const realmNeed = c.region || c.regions || c.realm;
+  if (realmNeed) {
+    const need = Array.isArray(realmNeed) ? realmNeed : [realmNeed];
+    if (!need.includes(s.region)) return false;
+  } else if (Array.isArray(e.tags) && e.tags.length) {
+    const realmIds = new Set((D.regions || []).map((r) => r.id));
+    const tagged = e.tags.filter((tag) => realmIds.has(tag));
+    if (tagged.length && !tagged.includes(s.region)) return false;
+  }
   return true;
 }
 export const eligible = (s) => D.events.filter((e) => !e.chainOnly && matches(s, e));
@@ -643,13 +702,15 @@ function drawEvents(s) {
     const e = wpick(s, el, (x) => {
       let w = x.w || 1;
       if (bias && (x.cat === 'exploration' || String(x.id || '').includes(bias) || JSON.stringify(x).includes(bias))) w *= 2.5;
+      // Restless Feet: lean into exploration / travel / road events
+      if (s.trait === 'trait_restless' && (x.cat === 'exploration' || x.cat === 'travel' || (x.tags || []).includes('travel'))) w *= 1.8;
       return w;
     });
     if (e) queue(s, e.id);
   }
   if (bias) delete s.flags.visit_bias; // one year of lean, then clear
 }
-export function pendingCard(s) { const id = s.pending[0]; if (!id) return null; const e = evById(id); return { ...e, choices: e.choices.map((c) => ({ ...c, odds: oddsOf(s, c), locked: c.req && s.gold < c.req })) }; }
+export function pendingCard(s) { const id = s.pending[0]; if (!id) return null; const e = evById(id); return { ...e, choices: e.choices.map((c) => { const need = typeof c.req === 'number' ? c.req : (c.req?.gold ?? 0); const locked = !!(need && s.gold < need); return { ...c, odds: oddsOf(s, c), locked, lockWhy: locked ? `Need ${need} gold` : '' }; }) }; }
 function oddsOf(s, c) { if (c.p == null) return null; let p = c.p; const sk = c.skill === 'primary' ? primarySkills(s)[0] : c.skill; if (sk) p += ((s.skills[sk] || 0) + gearBonus(s, sk) - 25) / 120; return clamp(p, 0.08, 0.95); }
 export function applyFx(s, fx = {}) {
   for (let [k, v] of Object.entries(fx)) {
@@ -663,7 +724,18 @@ export function applyFx(s, fx = {}) {
     else if (k === 'relic') { if (!s.relics.includes(v)) s.relics.push(v); discover(s, v); }
     else if (k === 'codex') discover(s, v);
     else if (k === 'region') unlockRegion(s);
-    else if (k === 'flagset') s.flags[v] = 1;
+    else if (k === 'flagset') {
+      s.flags[v] = 1;
+      // school_dojo_style_choice sets style_* flags; combat reads swordStyle (Content playtest M3)
+      const STYLE_MAP = { style_bulwark: 'style_bulwark', style_thorn: 'style_thorn', style_storm: 'style_storm' };
+      if (STYLE_MAP[v] && !s.swordStyle) {
+        const id = (D.styles || []).find((x) => x.id === v || x.id?.includes(v.replace('style_','')) || (x.name||'').toLowerCase().includes(v.replace('style_','')))?.id || v;
+        // Prefer pack style ids if present
+        const pack = (D.styles || []).filter((x) => x.type === 'sword');
+        const hit = pack.find((x) => x.id === v) || pack.find((x) => (x.id||'').includes(v.replace('style_',''))) || pack[0];
+        if (hit) s.swordStyle = hit.id;
+      }
+    }
     else if (k === 'perf' && s.job) s.job.perf = clamp(s.job.perf + v, 0, 100);
     else if (k === 'promote' && s.job) promote(s);
     else if (k === 'newperson') { const p = person(s, v === 'love' && !partnerOf(s) && cage(s) >= 16 ? 'partner' : 'friend', rint(s, -3, 3)); s.people.push(p); }
@@ -675,12 +747,16 @@ export function applyFx(s, fx = {}) {
 }
 export function resolve(s, i) {
   const id = s.pending[0]; if (!id) return null; const e = evById(id), c = e.choices[i];
-  if (c.req && s.gold < c.req) return { ok: false, msg: 'Not enough gold.' };
+  if (!c) return { ok: false, msg: 'Unknown choice.' };
+  const need = typeof c.req === 'number' ? c.req : (c.req?.gold ?? 0);
+  if (need && s.gold < need) return { ok: false, msg: `Need ${need} gold.` };
   const p = oddsOf(s, c), ok = p == null || chance(s, p), branch = c.win ? (ok ? c.win : c.fail || {}) : c;
   if (c.win) applyFx(s, c.fx || {}); applyFx(s, branch.fx || {});
   const flag = branch.flag || (ok && !c.win && c.flag); if (flag) s.flags[flag] = 1;
   const ch = branch.chain || (!c.win && c.chain); if (ch) s.chain.push({ id: ch.id, due: s.age + rint(s, ch.in[0], ch.in[1]) * turnYears(s) });
-  const msg = fill(pick(s, branch.journal || c.journal || ['…']), {}); s.pending.shift();
+  // Prefer branch/choice outcome or journal; never leave a generic line when choice text exists.
+  const lines = branch.outcome || branch.journal || c.outcome || c.journal || (c.label ? [`I chose: ${c.label}.`] : ['…']);
+  const msg = fill(pick(s, lines), { name: s.first, heir_name: s.first, gold: Math.floor(s.gold) }); s.pending.shift();
   if (e.once) s.flags['once_' + e.id] = 1; s.evLast[e.id] = s.age; s.tally.events++; discover(s, e.id);
   log(s, msg, 'event'); if (s.stats.health <= 0) die(s, e.cat === 'combat' || e.cat === 'dungeon' ? 'battle' : 'accident');
   return { ok: true, success: ok, msg, title: e.title };
@@ -874,6 +950,7 @@ export function ageUp(s) {
   // school (school tracks from JOBS.md; schooling feeds wits/literacy)
   { const ca = cage(s);
   if (ca >= 6 && ca < 16) { useSkill(s, 'literacy', 3 * yrs ** 0.5); s.stats.smarts = clamp(s.stats.smarts + 1, 0, 100); if (!s.school) { s.school = 'school_village'; log(s, 'I started Village lessons at Vale Primer Yard.', 'school'); } }
+  else if (ca >= 16 && s.school === 'school_village') { s.school = null; }
   if (ca >= 16 && s.school) s.school = null; }
   if (s.flags.mana_awakened) { s.manaMax += yrs * (1 + (s.skills.mana_control || 0) / 40); s.mana = s.manaMax; }
   jobYear(s, yrs); peopleYear(s, yrs);
@@ -918,7 +995,16 @@ export function recordMeta(meta, s, path) {
 }
 export function reincarnate(meta, s, echoId, seed) {
   meta.echoes = meta.echoes || {}; meta.echoes[echoId] = (meta.echoes[echoId] || 0) + 1; recordMeta(meta, s, 'reincarnate');
-  const f = rollFate(seed, meta); const n = begin(f, meta); n.priorName = `${s.first} ${s.last}`; n.linkKind = 'soul'; log(n, D.terms.death.after || 'You open new eyes.', 'birth'); return n;
+  const f = rollFate(seed, meta); const n = begin(f, meta); n.priorName = `${s.first} ${s.last}`; n.linkKind = 'soul';
+  // Never log unsubstituted {heir_name} — reincarnate is a new soul, not an heir (Story Bot playtest).
+  const echo = (D.terms.echoes || []).find((x) => x.id === echoId);
+  const echoName = echo?.name || echoId.replace(/^echo_/, 'Echo of ');
+  const raceName = race(n).name;
+  const trait = (D.traits?.rare || []).find((x) => x.id === n.trait);
+  log(n, `You wake alone as ${n.first}. The house still smells like them — like you.`, 'birth');
+  log(n, `An ${echoName} followed you. This life: ${raceName}${trait ? ', ' + trait.name : ''}. Old lessons arrive early.`, 'birth');
+  n.flags.echo_summary = echoId;
+  return n;
 }
 export function continueAsHeir(meta, s, heirId, seed) {
   const h = s.people.find((p) => p.id === heirId); recordMeta(meta, s, 'heir');
@@ -1074,7 +1160,7 @@ export function foundTeam(s, name, skillId) {
   ensureTeamGuild(s);
   const gate = canFoundTeam(s); if (!gate.ok) return gate;
   const sk = D.skillById[skillId]; if (!sk) return { ok: false, msg: 'Unknown skill affinity.' };
-  if ((s.skills[skillId] || 0) < 20) return { ok: false, msg: `Need ${sk.name} 20+ to found on that affinity.` };
+  if ((s.skills[skillId] || 0) < 15) return { ok: false, msg: `Need ${sk.name} 15+ to found on that affinity (train on Skills).` };
   if (s.gold < 80) return { ok: false, msg: 'Need 80 gold to found a team.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.gold -= 80;
@@ -1655,7 +1741,7 @@ export function teamGuildVisitHook(s, loc) {
     return ` Lists are open at ${loc.name} — enter a realm meet from Adventure (10 gold + 1 act; visit already counted as scout).`;
   }
   if (/guild hall/.test(kind)) {
-    if (!s.guild && cage(s) >= 18) return ` A hall slot could be yours — open a guild hall from Work (Belongings).`;
+    if (!s.guild && cage(s) >= 18) return ` A hall slot could be yours — open Work → Adventure guild hall.`;
     if (s.guild && s.guild.realmId === s.region) return ` Your hall keeps its board here.`;
   }
   return '';
@@ -1719,9 +1805,10 @@ function ailmentsYear(s, yrs) {
     if (def.rem && chance(s, 1 - Math.pow(1 - def.rem, yrs))) { s.ailments.splice(s.ailments.indexOf(d), 1); log(s, `My ${def.name.toLowerCase()} faded on its own.`, 'health'); }
   }
   if (!s.alive) return;
-  if (!chance(s, 0.085 * yrs * (1 + cage(s) / 70))) return;
-  const a = cage(s);
-  const pool = D.ailments.filter((d) => a >= d.ages[0] && a <= d.ages[1] && !hasAilment(s, d.id) && !(d.sev === 'instant_death' && a < 45));
+  // Illness onset uses human-equivalent age so elves/dwarfs aren't killed on a human clock (Story Bot blocker).
+  const h = hage(s);
+  if (!chance(s, 0.085 * yrs * (1 + h / 70))) return;
+  const pool = D.ailments.filter((d) => h >= d.ages[0] && h <= d.ages[1] && !hasAilment(s, d.id) && !(d.sev === 'instant_death' && h < 45));
   const def = wpick(s, pool, (d) => {
     let w = d.w || 1;
     if (d.stress && s.stats.stress > 60) w *= 2.5;
@@ -1950,11 +2037,14 @@ export function fileForOffice(s, seatId) {
 }
 function courtYear(s, yrs) {
   if (!s.court) return;
+  // Former officeholder keeps {tier, seat:null} — do not re-log term end every year (Soccer Rpg v2).
+  if (!s.court.seat) return;
   const seat = (D.court?.slots || []).find((x) => x.id === s.court.seat);
   if (seat) s.gold += Math.round((seat.pay || 0) * yrs / 4); // pay scaled down vs LL dollars
   s.court.termLeft -= yrs;
   if (s.court.termLeft <= 0) {
-    log(s, `My term as ${s.court.name} ended.`, 'court');
+    const nm = s.court.name || seat?.name || 'officeholder';
+    log(s, `My term as ${nm} ended.`, 'court');
     s.court = { tier: s.court.tier, seat: null, name: null, termLeft: 0 }; // keep tier progress
   }
 }
@@ -2112,7 +2202,7 @@ export function gearBonus(s, sk) {
 export function gearLockReason(s, g) {
   if (cage(s) < (g.minAge || 0)) return `Age ${g.minAge}+`;
   if ((s.stats.fame || 0) < (g.minRenown || 0)) return `Renown ${g.minRenown}+`;
-  if (g.realm && g.realm !== 'hearthfold' && !(s.regionsFound || []).includes(g.realm)) return 'Realm not found';
+  if (g.realm && g.realm !== 'hearthfold' && !(s.regionsFound || []).includes(g.realm)) { const rn = regionById(g.realm)?.name || g.realm; return `Discover ${rn} first`; }
   if (s.prison) return 'Imprisoned';
   return null;
 }

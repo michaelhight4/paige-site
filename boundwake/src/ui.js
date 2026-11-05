@@ -90,7 +90,10 @@ const career = () => (s.job ? E.careerOf(s.job.id).id : null);
 const save = () => { if (!Q.has('nosave')) { localStorage.setItem(KEY, JSON.stringify(s)); localStorage.setItem(META, JSON.stringify(meta)); } };
 const toast = (m) => {
   if (!m) return; document.querySelectorAll('.toast').forEach((t) => t.remove());
-  const d = document.createElement('div'); d.className = 'toast'; d.innerHTML = flare(m); document.body.append(d); setTimeout(() => d.remove(), 2400);
+  const d = document.createElement('div'); d.className = 'toast'; d.style.pointerEvents = 'none';
+  d.innerHTML = flare(m); document.body.append(d);
+  setTimeout(() => { d.style.opacity = '0'; }, 2000);
+  setTimeout(() => d.remove(), 2400);
 };
 const bar = (key, v, cls = '', valHtml = null) => {
   const lbl = statLabel(key);
@@ -143,8 +146,12 @@ const HD = {
 function cold(step = 0) {
   document.body.classList.remove('has-sheet');
   setChrome('fate');
-  const lines = [T('cold_1'), T('cold_2'), T('cold_3')];
-  app.innerHTML = `<div class="cold"><p>${esc(lines[step])}</p><p><button class="primary" id="n">${step < 2 ? 'Continue' : T('start_life')}</button> <button class="ghost" id="sk">${T('skip_intro')}</button></p></div>`;
+  const lines = [
+    T('cold_1') === 'You died.' ? 'You died in one world.' : T('cold_1'),
+    T('cold_2'),
+    T('cold_3'),
+  ];
+  app.innerHTML = `<div class="cold"><p>${esc(lines[step])}</p><p class="sub" style="opacity:.85;font-size:14px;margin-top:8px">Boundwake — a new life awaits.</p><p><button class="primary" id="n">${step < 2 ? 'Continue' : T('start_life')}</button> <button class="ghost" id="sk">${T('skip_intro')}</button></p></div>`;
   $('#n').onclick = () => (step < 2 ? cold(step + 1) : (localStorage.setItem(SEEN, 1), fateScreen()));
   $('#sk').onclick = () => { localStorage.setItem(SEEN, 1); fateScreen(); };
 }
@@ -158,7 +165,7 @@ function fateScreen(rr = 1) {
    <div class="sub">${esc(r.name)} · ${fate.sex === 'm' ? 'boy' : 'girl'} · ${flare(fate.wealth)} family</div>
    <div class="pills" style="justify-content:center;margin:10px 0">${infoChip(fate.affinity, `${ico(fate.affinity)} Affinity: ${esc(fate.affinity)}`)}
    ${infoChip(tr.id, `${flare(tr.name)}: ${esc(tr.up)} · <span class="bad">${esc(tr.down)}</span>`)}</div>
-   <p class="sub">Hidden talents: 3 (revealed as you train)${meta.echoes ? ' · ' + flare('Echoes') + ': ' + Object.entries(meta.echoes).map(([k, n]) => flare(k.replace('echo_', '')) + '×' + n).join(', ') : ''}</p>
+   <p class="sub">Hidden talents: 3 (review later on Skills / Codex)${meta.echoes && Object.keys(meta.echoes).length ? ' · ' + flare('Echoes') + ': ' + Object.entries(meta.echoes).map(([k, n]) => flare(k.replace('echo_', '')) + '×' + n).join(', ') : ''}</p>
    <div class="actions" style="justify-content:center"><button id="go" class="primary">${T('start_life')}</button> <button id="rr" class="ghost" ${rr ? '' : 'disabled'}>${T('fate_reroll')}</button></div>`;
   app.innerHTML = card('fate', `${ico('echo')} ${T('fate_title')}`, body);
   try { syncMusic('fate', document.documentElement.dataset.tod); } catch (_) {}
@@ -168,13 +175,16 @@ function fateScreen(rr = 1) {
 }
 function header() {
   const st = E.stage(s), r = E.race(s), j = s.job && P.occ.jobs[s.job.id];
+  const ca = E.cage(s);
+  const stageLbl = E.stageLabel(s);
+  const occ = j ? j.title : (s.school && ca >= 6 && ca < 16 ? 'Student' : (ca < 6 ? 'Child' : (ca < 16 ? 'Youth' : 'No work')));
   const mana = s.flags.mana_awakened
     ? bar('mana', (100 * (s.mana||0)) / Math.max(1, s.manaMax||1), 'magic bar-mana', `${Math.floor(s.mana||0)}/${Math.floor(Math.max(s.manaMax||0,1))}`)
     : '';
   const body = `<div class="hdr">${portrait(st, s.race, career(), false, s.first + ' ' + s.last)}
     <div style="flex:1;min-width:0"><div class="name">${esc(s.first)} ${esc(s.last)}</div>
-    <div class="sub">${esc(r.name)} · ${T('year_verb')} ${Math.floor(s.age)} · ${esc(E.regionOf(s).name)}</div>
-    <div class="sub">${j ? esc(j.title) : s.school ? 'Student' : st === 'baby' || st === 'child' ? 'Child' : 'No work'} · <span class="gold-line">${ico('gold')}${Math.floor(s.gold)} ${T('currency')}</span></div></div></div>
+    <div class="sub">${esc(r.name)} · ${T('year_verb')} ${Math.floor(s.age)} · ${esc(stageLbl)} · ${esc(E.regionOf(s).name)}</div>
+    <div class="sub">${esc(occ)} · <span class="gold-line">${ico('gold')}${Math.floor(s.gold)} ${T('currency')}</span></div></div></div>
    <div class="bars">${bar('health', s.stats.health, s.stats.health < 30 ? 'bad bar-health' : 'bar-health')}${bar('spirit', s.stats.happiness)}${bar('wits', s.stats.smarts)}${bar('presence', s.stats.looks)}
    ${bar('strain', s.stats.stress, 'bad bar-strain')}${bar('renown', s.stats.fame)}${mana}</div>
    <div class="pills"><span class="pill">${ico('act')}Actions ${s.budget.act}/4</span><span class="pill">${ico('social')}Social ${s.budget.social}/3</span><span class="pill">${ico('adventure')}Adventure ${s.budget.adv}/5</span>${s.injuries.length ? `<span class="pill bad">${ico('strain')}Injuries ${s.injuries.length}</span>` : ''}</div>`;
@@ -195,7 +205,7 @@ function body() {
       <button type="button" data-a="rest" ${s.budget.act < 1 ? 'disabled' : ''}>${ico('spirit')} Rest</button>
     </div>`;
     const tourneyBanner = E.isTournamentYear(s)
-      ? card('life', `${ico('adventure')} Tournament year`, `<p class="sub">Bracket <b>${esc(E.tourneyBracket(s)?.label || '')}</b> meets are open — enter from Adventure (1 action). Strong places draw academies, tutors, and blade halls.</p><div class="actions"><button data-tab="adv">Open Adventure</button></div>`)
+      ? card('life', `${ico('adventure')} Tournament year`, `<p class="sub">Bracket <b>${esc(E.tourneyBracket(s)?.label || '')}</b> meets are open — enter from the Adventure tab (1 action). Strong places draw academies, tutors, and blade halls.</p><div class="actions"><button type="button" class="primary" data-tab="adv">${ico('adventure')} Open Adventure</button></div>`)
       : (E.tournamentInvites(s).length
         ? card('life', `${ico('adventure')} Hall invitations`, `<p class="sub">${E.tournamentInvites(s).map((i) => esc(i.name)).join(', ')} await your answer on Adventure.</p><div class="actions"><button data-tab="adv">Open Adventure</button></div>`)
         : '');
@@ -229,6 +239,7 @@ function body() {
     return journal + prisonCard + ailCard + pastCard + actCats + lawCard;
   }
   if (tab === 'work') {
+    if (s.prison) return card('work', HD.work, `${lead('work')}<div class="empty">Work is closed while you are held (${esc(E.tierDef(s.prison.tier)?.name || 'prison')}). Use Life → Imprisoned actions.</div>`);
     if (ca < 6 && !s.job) return card('work', HD.work, `${lead('work')}<div class="empty">Chores wait until you can reach the counter (age 6+).${s.school ? ' You attend Village lessons.' : ''}</div>`);
     const cur = s.job ? (() => { const j = P.occ.jobs[s.job.id], c = E.careerOf(j.id), nx = j.next && P.occ.jobs[j.next];
       return card('work', `${ico('work')} ${esc(j.title)}`, `${lead('work')}<p class="sub">${flare(c.blurb)}</p>
@@ -240,7 +251,8 @@ function body() {
       const tags = c.tags || [];
       const kind = (tags.includes('ordinary') || c.id === 'farmer' || c.id === 'merchant') ? 'Everyday' : (tags.includes('guild') || tags.includes('academy') || tags.includes('special') ? 'Guild track' : 'Trade');
       const why = ok ? '' : (E.jobLockReason(s, job) || 'Locked');
-      return `<div class="row row-job${ok ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr<br>${flare(c.unlock_text)}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'} title="${esc(why)}">${ok ? 'Join' : 'Locked'}</button></div>`;
+      const unlock = E.humanizeUnlock(c.unlock_text || '');
+      return `<div class="row row-job${ok ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr${unlock ? `<br>${esc(unlock)}` : ''}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'} title="${esc(why)}">${ok ? 'Join' : 'Locked'}</button></div>`;
     };
     const everyday = opens.filter(({ career: c }) => (c.tags || []).includes('ordinary') || c.id === 'farmer' || c.id === 'merchant');
     const guild = opens.filter((o) => !everyday.includes(o));
@@ -326,13 +338,11 @@ function body() {
           `${bannerHTML('tourney', 'Tournament year')}<p class="sub">Meets every 3 years. Entry costs <b>1 action</b>. Place for gold &amp; renown — strong finishes draw academies, tutors, and blade halls.</p>
            ${offers.length ? offers.map((o) => `<div class="row"><div><b>${esc(o.title)}</b> <small>${esc(o.skillName)} · ${esc(o.bracket)}</small><br><small>${esc(o.blurb)}</small></div>
              <button data-a="tourney" data-v="${o.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Enter</button></div>`).join('')
-             : '<div class="empty">Train a competing skill (blade, spark, cook, smith, marks…) then return.</div>'}
+             : `<div class="empty">Bracket ${esc(br?.label || '')} is open, but no meet matches your trained skills yet. Train blade, spark, cook, smith, marks… on Skills (use Train so the skill counts), then return this year.</div>`}
            ${inv.length ? `<h3>Invitations</h3>${inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join('')}` : ''}`)
       : (inv.length
         ? card('adv', `${ico('adventure')} Invitations`, inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join(''))
-        : (E.cage(s) % 3 === 2
-          ? card('adv', `${ico('adventure')} Tournaments`, `<p class="sub">Lists open next year (every 3 human-years). Train now — brackets 1–8 / 8–15 / 16+ (age 8 starts middle).</p>`)
-          : ''));
+        : card('adv', `${ico('adventure')} Tournaments`, `<p class="sub">Not a tournament year (meets at ages 3, 6, 9…). Your bracket when open: <b>${esc(E.tourneyBracket(s)?.label || '—')}</b>. ${E.cage(s) % 3 === 2 ? 'Lists open next year — train now.' : 'Train a meet skill so entries appear when lists open.'}</p>`));
     // Tournament team (Game Dev balance · World Design meet venues)
     let teamCard = '';
     if (ca >= 16 || s.team) {
@@ -341,8 +351,10 @@ function body() {
         const picks = rec.map((id) => {
           const sk = P.skills.skills.find((x) => x.id === id);
           const v = s.skills[id] || 0;
-          const ok = v >= 20 && s.gold >= 80 && s.budget.act >= 1;
-          return `<button data-a="tfound" data-v="${id}" ${ok ? '' : 'disabled'}>${esc(sk?.name || id)} (${Math.floor(v)})${v < 20 ? ' · need 20' : ''}</button>`;
+          const need = 15;
+          const why = v < need ? `Train ${sk?.name || id} to ${need}+ on Skills` : (s.gold < 80 ? 'Need 80 gold' : (s.budget.act < 1 ? 'Need 1 action' : ''));
+          const ok = v >= need && s.gold >= 80 && s.budget.act >= 1;
+          return `<button data-a="tfound" data-v="${id}" ${ok ? '' : 'disabled'} title="${esc(why)}">${esc(sk?.name || id)} (${Math.floor(v)})${why ? ' · ' + esc(why) : ''}</button>`;
         }).join('');
         teamCard = card('adv', `${markImg('team')} Tournament team`,
           `${bannerHTML('team', 'Tournament team')}<p class="sub">Register with the Clerk of Meets — one skill affinity (80 gold + 1 act). Realm meets: Visit Ribbon Green / Saltpier Ring / Stakeline / Crestfall / Sparkfield. Grand <b>Teams</b> bracket every 3 years.</p>
@@ -377,9 +389,11 @@ function body() {
            ${tHandRow}`));
       }
     }
+    if (s.prison) return card('adv', HD.adv, `${lead('adv')}<div class="empty">Adventure is locked while you are imprisoned. Age +1 advances the sentence; Behave / Appeal / Escape are on Life.</div>`);
+    const advWhy = s.prison ? 'Imprisoned' : (ca < 10 ? 'Age 10+' : (!s.budget.adv ? 'No adventures left this year' : (!s.budget.act ? 'No actions left' : '')));
     return tourneyCard + teamCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${ca < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
     ${partyBlock}
-    <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'}>Set out</button></div>`);
+    <div class="actions"><button data-a="adv" class="primary" ${E.canAdventure(s) ? '' : 'disabled'} title="${esc(advWhy)}">Set out</button></div>${advWhy && !E.canAdventure(s) ? `<p class="sub lock-why">${esc(advWhy)}</p>` : ''}`);
   }
   if (tab === 'skills') {
     const why = (id) => E.trainLockReason(s, id);
@@ -427,7 +441,12 @@ function body() {
       const open = openCats.has(c.id) || trainable > 0 ? ' open' : '';
       return `<details class="skill-acc panel-skills"${open}><summary class="skill-acc-hd">${c.icon} ${esc(c.name)} <small>${trainable ? trainable + ' ready' : skills.length + ' skills'}</small></summary><div class="skill-acc-body">${body}</div></details>`;
     }).join('');
-    return card('skills', HD.skills, lead('skills') + `<p class="sub tip-train">Soft skills from age ~2 · martial 6+ · styles &amp; path at 8 · arcane after mana awakens. Locked Train always shows why.</p>`) + manaCard + routePick + stylePick + schoolPick + rows;
+    const talentChips = (s.talents || []).map((id) => {
+      const sk = P.skills.skills.find((x) => x.id === id);
+      return `<span class="pill">${skillIco(id)} ${esc(sk?.name || id)}</span>`;
+    }).join('');
+    const talentCard = talentChips ? card('skills', `${ico('echo')} Hidden talents`, `<p class="sub">Drawn at fate — grow faster when trained.</p><div class="pills">${talentChips}</div>`) : '';
+    return card('skills', HD.skills, lead('skills') + `<p class="sub tip-train">Soft skills from age ~2 · martial 6+ · styles &amp; path at 8 · arcane after mana awakens. Locked Train always shows why.</p>`) + talentCard + manaCard + routePick + stylePick + schoolPick + rows;
   }
   if (tab === 'bonds') {
     const people = E.living(s);
@@ -462,15 +481,26 @@ function body() {
         </div>
       </div>`;
     };
+    const friendWhy = s.prison ? 'Imprisoned' : (!s.budget.social ? 'No social left this year' : (E.cage(s) < 5 ? 'Age 5+' : ''));
+    const loveWhy = s.prison ? 'Imprisoned' : (!s.budget.social ? 'No social left this year' : (E.cage(s) < 16 ? 'Age 16+' : (E.partnerOf(s) ? 'Already partnered' : '')));
+    const gateNote = friendWhy || loveWhy
+      ? `<p class="sub lock-why">${esc([friendWhy && ('Friend: ' + friendWhy), loveWhy && ('Market: ' + loveWhy)].filter(Boolean).join(' · '))}</p>`
+      : `<p class="sub">Friend uses 1 Social (age 5+). Lantern Market at age 16+.</p>`;
     return card('bonds', HD.bonds, `${lead('bonds')}${people.map(bondCard).join('') || '<div class="empty">No one yet. Make a friend when you can.</div>'}
-    <div class="actions"><button data-a="friend" ${s.budget.social && h >= 5 ? '' : 'disabled'}>Make a friend</button> <button data-a="love" ${s.budget.social && h >= 16 && !E.partnerOf(s) ? '' : 'disabled'}>${flare('Lantern Market')}</button></div>`);
+    <div class="actions"><button data-a="friend" ${!friendWhy ? '' : 'disabled'} title="${esc(friendWhy || 'Spend 1 Social')}">Make a friend</button> <button data-a="love" ${!loveWhy ? '' : 'disabled'} title="${esc(loveWhy || 'Spend 1 Social')}">${flare('Lantern Market')}</button></div>${gateNote}`);
   }
   if (tab === 'realms') {
+    if (s.prison) return card('realms', HD.realms, `${lead('realms')}<div class="empty">Realms travel is locked while you are imprisoned.</div>`);
     const here = s.region;
     const stack = P.regions.map((r) => {
       const found = s.regionsFound.includes(r.id);
       const at = here === r.id;
-      if (!found) return card('realms', `${ico('realm')} ??? (undiscovered)`, `<p class="sub">Undiscovered. Keep living — maps widen with years and roads.</p>`);
+      if (!found) {
+        const scoutWhy = ca < 14 ? 'Scouting opens at age 14' : (s.budget.act < 1 ? 'No actions left this year' : '');
+        return card('realms', `${ico('realm')} ??? (undiscovered)`, `<p class="sub">Undiscovered. Scout the roads (1 action, age 14+) to put a realm on your map — or accept a travel writ if one finds you.</p>
+          <div class="actions"><button data-a="scout" data-v="${r.id}" ${scoutWhy ? 'disabled' : ''} title="${esc(scoutWhy)}">Scout toward ${esc(r.name)}</button></div>
+          ${scoutWhy ? `<p class="sub lock-why">${esc(scoutWhy)}</p>` : ''}`);
+      }
       const locs = (r.locations || []).map((l) => {
         const seen = s.codex.includes(l.id);
         return `<div class="row row-loc"><div><b>${esc(l.name)}</b> <small>${esc(l.kind)}${seen ? ' · in Codex' : ''}</small><br><small>${flare(l.flavor)}</small></div>
@@ -486,7 +516,13 @@ function body() {
   if (tab === 'codex') {
     const evT = Object.fromEntries(P.events.map((e) => [e.id, e.title]));
     const rows = s.codex.map((c) => `<div class="row">${flare(evT[c] || P.regions.find((r) => r.id === c)?.name || P.regions.flatMap((r) => r.locations).find((l) => l.id === c)?.name || c.replace(/_/g, ' '))}</div>`).join('');
-    return card('codex', `${HD.codex} <span class="hd-sub">${s.codex.length}</span>`, `${lead('codex')}<p class="sub">Kept across reincarnations.</p>${rows || '<div class="empty">Nothing recorded yet.</div>'}`);
+    const tal = (s.talents || []).map((id) => {
+      const sk = P.skills.skills.find((x) => x.id === id);
+      return `<span class="pill">${skillIco(id)} ${esc(sk?.name || id)}</span>`;
+    }).join('');
+    return card('codex', `${HD.codex} <span class="hd-sub">${s.codex.length}</span>`, `${lead('codex')}<p class="sub">Kept across reincarnations.</p>
+      ${tal ? `<h3>${ico('echo')} This life's talents</h3><div class="pills" style="margin-bottom:10px">${tal}</div>` : ''}
+      ${rows || '<div class="empty">Nothing recorded yet.</div>'}`);
   }
   if (tab === 'bel') {
     const biz = (s.workshops || []).map((w) => {
@@ -502,7 +538,7 @@ function body() {
       : '<div class="empty">No team — found on Adventure (age 16+).</div>'}
       <h3>${ico('adventure')} Guild hall</h3>${s.guild
       ? `<div class="row"><b>${esc(E.guildLabel(s))}</b> <small>${esc((P.regions.find(r=>r.id===s.guild.realmId)||{}).name || '')} · renown ${Math.round(s.guild.renown)} · coffer ${Math.floor(s.guild.coffer)} · ${(s.guild.roster||[]).length}/6</small></div>`
-      : '<div class="empty">No hall — open on Work (age 18+).</div>'}
+      : `<div class="empty">No hall yet.${E.cage(s) >= 18 ? ' Open one from <b>Work → Adventure guild hall</b>.' : ' Unlocks at age 18.'}</div><div class="actions"><button data-tab="work">Go to Work</button></div>`}
       <h3>${ico('work')} Workshops</h3>${biz}
       <h3>${ico('codex')} Notice boards</h3><p class="sub">Readers: ${s.notices?.followers || 0} · posts ${s.notices?.posts || 0}</p>${boards || '<div class="empty">No boards yet.</div>'}
       ${gearHTML()}`);
@@ -527,7 +563,7 @@ function gearHTML() {
 }
 function eventSheet() {
   const c = E.pendingCard(s); if (!c) return '';
-  return `<div class="sheet"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(c.title)}</div><div class="card-body"><p class="prompt">${flare(c.prompt)}</p><div class="choices">${c.choices.map((x, i) => `<button data-a="ch" data-v="${i}" ${x.locked ? 'disabled' : ''}>${flare(x.label)}${oddsChip(x.odds)}</button>`).join('')}</div></div></div></div>`;
+  return `<div class="sheet" data-sheet="1"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(c.title)}</div><div class="card-body"><p class="prompt">${flare(c.prompt)}</p><div class="choices">${c.choices.map((x, i) => `<button type="button" data-a="ch" data-v="${i}" ${x.locked ? 'disabled aria-disabled="true"' : ''} title="${esc(x.lockWhy || '')}">${flare(x.label)}${x.locked && x.lockWhy ? ` <small class="lock-why">(${esc(x.lockWhy)})</small>` : ''}${oddsChip(x.odds)}</button>`).join('')}</div></div></div></div>`;
 }
 function ageDock() {
   if (!s || !s.alive) return '';
@@ -537,10 +573,13 @@ function deathScreen() {
   document.body.classList.remove('has-sheet');
   setChrome('death');
   const hs = E.heirs(s), ech = E.echoChoices(s), d = P.terms.death;
+  const cause = flare(P.terms.causes[s.cause] || d.unknown || 'The story ends.');
   app.innerHTML = card('death', `${ico('echo')} ${T('death_title')}`, `<div style="text-align:center">${portrait(E.stage(s), s.race, career(), true, s.first + ' ' + s.last)}<div class="name">${esc(s.first)} ${esc(s.last)}</div>
-   <p class="sub">Age ${Math.floor(s.age)}. ${flare(P.terms.causes[s.cause] || '')}</p><p>Legacy score <b>${E.legacyScore(s)}</b> · ${ico('gold')}${Math.floor(s.gold)} ${flare('gold')} · ${hs.length} living ${flare(hs.length === 1 ? 'heir' : 'heirs')}</p></div>`)
+   <p class="sub">Age ${Math.floor(s.age)}. ${cause}</p><p>Legacy score <b>${E.legacyScore(s)}</b> · ${ico('gold')}${Math.floor(s.gold)} ${flare('gold')} · ${hs.length} living ${flare(hs.length === 1 ? 'heir' : 'heirs')}</p>
+   <p class="sub">Continue this legacy (Echo or heir), or begin an unrelated new life. Saves are kept until you choose.</p></div>`)
    + card('death', `${ico('echo')} ${T('path_reincarnate_title')}`, `<p class="sub">${flare(T('path_reincarnate_body'))}</p><p>${flare(d.echo_prompt || T('echo_pick'))}</p><div class="choices">${ech.map((id) => { const e = P.terms.echoes.find((x) => x.id === id); return `<button data-a="reinc" data-v="${id}"><b>${flare(e.name)}</b> — ${flare(e.text)}${meta.echoes?.[id] ? ' (repeat: halved)' : ''}</button>`; }).join('')}</div>`)
    + card('death', T('path_heir_title'), `<p class="sub">${flare(hs.length ? T('path_heir_body') : T('path_heir_locked') + '. ' + (d.locked_hint || ''))}</p><div class="actions">${hs.map((p) => `<button data-a="heir" data-v="${p.id}">Continue as ${esc(p.first)} (${Math.floor(p.age)})</button>`).join('') || ''}</div>`)
+   + card('death', 'New life', `<p class="sub">Start fresh in this world. Cemetery and Codex from past lives remain.</p><div class="actions"><button data-a="newlife" class="primary">Begin a new life</button></div>`)
    + card('death', T('cemetery_title'), (meta.cemetery || []).slice(-8).reverse().map((c) => `<div class="row"><small>${esc(c.name)}, ${esc(c.race)}, age ${c.age} — ${esc(c.cause)}${c.link ? ` · ${c.link === 'soul' ? 'Reincarnation' : 'Heir'} of ${esc(c.prior)}` : ''}</small><small>${c.score}</small></div>`).join('') || `<div class="empty">${esc(d.empty || '')}</div>`);
 }
 
@@ -597,13 +636,27 @@ function render() {
   }
 }
 app.addEventListener('click', (ev) => {
-  const b = ev.target.closest('button'); if (!b || b.disabled) return; const a = b.dataset.a, v = b.dataset.v; let r;
-  if (b.dataset.tab) tab = b.dataset.tab;
-  else if (a === 'age') E.ageUp(s);
-  else if (a === 'ch') { if (document.body.dataset.sheetBusy) return; document.body.dataset.sheetBusy = '1'; r = E.resolve(s, +v); if (r) toast((r.success === false ? '✗ ' : '') + r.msg); setTimeout(() => { delete document.body.dataset.sheetBusy; }, 400); }
+  const b = ev.target.closest('button'); if (!b) return;
+  // Real disabled: attribute or aria (Playwright/DOM greyed choices must not fire)
+  if (b.disabled || b.getAttribute('aria-disabled') === 'true') { ev.preventDefault(); ev.stopPropagation(); return; }
+  const a = b.dataset.a, v = b.dataset.v; let r;
+  // Tab switches must win (Life shortcut chips → Adventure/Work/…)
+  if (b.dataset.tab) { tab = b.dataset.tab; render(); return; }
+  else if (a === 'age') { if (s?.pending?.length) return; E.ageUp(s); }
+  else if (a === 'ch') {
+    if (document.body.dataset.sheetBusy) return;
+    document.body.dataset.sheetBusy = '1';
+    r = E.resolve(s, +v);
+    if (r && r.ok === false) toast(r.msg);
+    else if (r) toast((r.success === false ? '✗ ' : '') + r.msg);
+    // Drop sheet hit-target quickly so stale modal clicks cannot double-fire
+    const sheet = document.querySelector('.sheet'); if (sheet) sheet.style.pointerEvents = 'none';
+    setTimeout(() => { delete document.body.dataset.sheetBusy; }, 280);
+  }
+  else if (a === 'newlife') { s = null; localStorage.removeItem(KEY); tab = 'life'; fateScreen(); return; }
   else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s);
   else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') { r = E.chooseRoute(s, v); }
-  else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'visit') r = E.visitLocation(s, v);
+  else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'scout') r = E.scoutRealm(s, v); else if (a === 'visit') r = E.visitLocation(s, v);
   else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
   else if (a === 'heir') { s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
   else if (a === 'party') { r = E.toggleParty(s, v); }

@@ -727,3 +727,17 @@ body.info-open .dock{pointer-events:none}
 .row.roster-row>div{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
 .bw-banner{margin:0 0 8px}
 .bw-renown-chip{display:inline-flex;align-items:center;gap:6px;position:relative}
+
+/* playtest polish nov5 */
+.toast{top:calc(10px + var(--safe-t));bottom:auto;z-index:40;pointer-events:none!important;max-width:min(92vw,420px)}
+.sheet{z-index:30}
+.sheet[data-sheet]{pointer-events:auto}
+.sheet .choices button[disabled],.choices button[aria-disabled="true"]{pointer-events:none;opacity:.45;cursor:not-allowed}
+.dock .age{animation:none!important;transform:none}
+.dock .age:active{transform:scale(.97)}
+body[data-tab="work"] .play-body > .card.panel-work{overflow:visible}
+body[data-tab="work"] .play-body > .card.panel-work .card-hd{white-space:normal;line-height:1.25;min-height:auto;padding:10px 12px}
+body[data-tab="work"] .work-acc{margin-bottom:10px}
+body[data-tab="work"] .work-acc-body .row{flex-wrap:wrap;gap:6px}
+.lock-why{color:var(--ember,#C45A32);font-weight:700}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;background:#00000012;margin:2px;font-size:12px;font-weight:700}

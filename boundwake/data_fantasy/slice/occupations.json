@@ -34,7 +34,7 @@
     "mana_control",
     "lore"
    ],
-   "unlock_text": "flag `mana_awakened`; academy at 10",
+   "unlock_text": "mana awakening; academy at 10",
    "tags": [
     "academy",
     "arcane",
@@ -125,7 +125,7 @@
     "charm",
     "literacy"
    ],
-   "unlock_text": "age 12 (stall hand)",
+   "unlock_text": "age 10 (stall hand)",
    "tags": [
     "money",
     "travel",
@@ -171,7 +171,7 @@
     "alchemy",
     "composure"
    ],
-   "unlock_text": "age 12; mending needs `mana_awakened`, apothecary path does not",
+   "unlock_text": "age 12; mending needs mana awakening, apothecary path does not",
    "tags": [
     "health",
     "arcane",
@@ -188,7 +188,7 @@
   {
    "id": "bard",
    "name": "Bard",
-   "blurb": "Songs that open doors \u2014 or start fights.",
+   "blurb": "Songs that open doors — or start fights.",
    "skills": [
     "performance",
     "charm",
@@ -331,7 +331,7 @@
     "swordsmanship",
     "spellcraft"
    ],
-   "unlock_text": "age 16, sword 30 + spellcraft 30, route `route_hybrid`",
+   "unlock_text": "age 16, sword 30 + spellcraft 30, hybrid path",
    "tags": [
     "combat",
     "arcane",
@@ -353,7 +353,7 @@
     "endurance",
     "strength"
    ],
-   "unlock_text": "age 6 \u2014 yard work",
+   "unlock_text": "age 6 — yard work",
    "tags": [
     "ordinary",
     "town",
@@ -376,7 +376,7 @@
     "endurance",
     "agility"
    ],
-   "unlock_text": "age 6 \u2014 pick and carry",
+   "unlock_text": "age 6 — pick and carry",
    "tags": [
     "ordinary",
     "rural"
@@ -398,7 +398,7 @@
     "charm",
     "endurance"
    ],
-   "unlock_text": "age 8 \u2014 inn chores",
+   "unlock_text": "age 8 — inn chores",
    "tags": [
     "ordinary",
     "town"
@@ -420,7 +420,7 @@
     "endurance",
     "focus"
    ],
-   "unlock_text": "age 8 \u2014 mill floor",
+   "unlock_text": "age 8 — mill floor",
    "tags": [
     "ordinary",
     "rural",
@@ -443,7 +443,7 @@
     "foraging",
     "focus"
    ],
-   "unlock_text": "age 8 \u2014 kitchen",
+   "unlock_text": "age 8 — kitchen",
    "tags": [
     "ordinary",
     "town"
@@ -465,7 +465,7 @@
     "endurance",
     "charm"
    ],
-   "unlock_text": "age 8 \u2014 run messages",
+   "unlock_text": "age 8 — run messages",
    "tags": [
     "ordinary",
     "town"
@@ -487,7 +487,7 @@
     "endurance",
     "agility"
    ],
-   "unlock_text": "age 8 \u2014 shore work",
+   "unlock_text": "age 8 — shore work",
    "tags": [
     "ordinary",
     "rural",
@@ -510,7 +510,7 @@
     "literacy",
     "charm"
    ],
-   "unlock_text": "age 10 \u2014 counter work",
+   "unlock_text": "age 10 — counter work",
    "tags": [
     "ordinary",
     "town",
@@ -533,7 +533,7 @@
     "strength",
     "focus"
    ],
-   "unlock_text": "age 10 \u2014 workshop",
+   "unlock_text": "age 10 — workshop",
    "tags": [
     "ordinary",
     "town",
@@ -556,7 +556,7 @@
     "focus",
     "composure"
    ],
-   "unlock_text": "age 8 \u2014 loom bench",
+   "unlock_text": "age 8 — loom bench",
    "tags": [
     "ordinary",
     "town",
