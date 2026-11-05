@@ -206,8 +206,8 @@ function body() {
            ${inv.length ? `<h3>Invitations</h3>${inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join('')}` : ''}`)
       : (inv.length
         ? card('adv', `${ico('adventure')} Invitations`, inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join(''))
-        : (Math.floor(s.age) % 3 === 2
-          ? card('adv', `${ico('adventure')} Tournaments`, `<p class="sub">Lists open next year (every 3 years). Train now — bracket follows human-age bands 1–8 / 8–15 / 16+ (age 8 = middle).</p>`)
+        : (Math.floor(E.hage(s)) % 3 === 2
+          ? card('adv', `${ico('adventure')} Tournaments`, `<p class="sub">Lists open next year (every 3 human-years). Train now — brackets 1–8 / 8–15 / 16+ (age 8 starts middle).</p>`)
           : ''));
     return tourneyCard + card('adv', HD.adv, `${lead('adv')}<p class="sub">${h < 10 ? 'The road is for older feet (age 10+).' : flare(`Take to the paths of ${E.regionOf(s).name}. Combat, ruins and rare delves. ${s.budget.adv} left this year.`)}</p>
     ${partyBlock}

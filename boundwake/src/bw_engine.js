@@ -646,8 +646,9 @@ export function tourneyBracket(s) {
   return { id: 'open', label: '16+', min: 16, max: 999 };
 }
 export function isTournamentYear(s) {
-  const a = Math.floor(s.age);
-  return a >= 3 && a % 3 === 0 && !!tourneyBracket(s);
+  // Human-equivalent age so long-lived races aren't offered lists before they can train
+  const h = Math.floor(hage(s));
+  return h >= 3 && h % 3 === 0 && !!tourneyBracket(s);
 }
 function tourneyField(bracketId) {
   return { child: 8, youth: 22, open: 40 }[bracketId] || 20;
@@ -663,8 +664,9 @@ export function tournamentOffers(s) {
     const sk = s.skills[m.skill] || 0;
     const drilled = !!(s.trainCount && s.trainCount[m.skill]) || !!(s.skillUsed && s.skillUsed[m.skill]);
     const minSk = br.id === 'child' ? 1 : br.id === 'youth' ? 3 : 5;
-    // Must have trained/used the skill (not only a birth talent seed)
-    if (sk < minSk || (!drilled && sk < minSk + 4)) continue;
+    // Prefer trained/used skills; bare talent seeds alone are not enough
+    if (sk < minSk) continue;
+    if (!drilled && sk < (br.id === 'child' ? 4 : minSk + 4)) continue;
     if (entered.has(m.id)) continue;
     const name = D.skillById[m.skill]?.name || m.skill;
     out.push({
@@ -766,9 +768,9 @@ export function acceptTournamentInvite(s, orgId) {
 }
 function refreshTournamentYear(s) {
   if (!isTournamentYear(s)) { s.flags.tour_year = 0; return; }
-  const a = Math.floor(s.age);
-  if (s.flags.tour_year === a) return;
-  s.flags.tour_year = a;
+  const h = Math.floor(hage(s));
+  if (s.flags.tour_year === h) return;
+  s.flags.tour_year = h;
   s.flags.tour_entered = [];
   const br = tourneyBracket(s);
   if (br) log(s, `Tournament year — bracket ${br.label}. Blade, spark, and craft meets (brackets 1–8 / 8–15 / 16+) open on Adventure (1 action to enter).`, 'tournament');

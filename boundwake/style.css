@@ -634,3 +634,22 @@ body.info-open .dock{pointer-events:none}
 
 /* Tournaments */
 .panel-adv .row button[data-a="tourney"], .panel-adv .row button[data-a="tinvite"]{min-width:4.5rem}
+
+/* phone density (Gary Nov 5 — layout fill, Boundwake parchment) */
+@media (max-width: 1023px) {
+  .play-layout{display:block;min-height:100dvh}
+  .play-hub{padding:8px 10px 4px}
+  .play-main{display:flex;flex-direction:column;min-height:0}
+  .play-body{flex:1 1 auto;overflow:auto;-webkit-overflow-scrolling:touch;padding:8px 10px 88px;display:flex;flex-direction:column;gap:8px}
+  .play-body .card{margin:0;flex:0 0 auto}
+  .play-body .card-body{padding:10px 12px}
+  .play-body .card-hd{padding:8px 12px;font-size:13px;letter-spacing:.04em}
+  .row{padding:8px 0;gap:8px}
+  .row-skill{align-items:flex-start}
+  .tabs{gap:6px;padding:6px 8px 8px;flex-wrap:wrap}
+  .tabs button{padding:8px 10px;font-size:12px}
+  .dock{padding:8px 12px calc(10px + env(safe-area-inset-bottom,0))}
+  .realms-stack{gap:8px;padding-bottom:8px}
+  .lock-why{display:block;margin-top:2px;font-size:11px}
+  .party-list,.bond-card{margin-top:6px}
+}
