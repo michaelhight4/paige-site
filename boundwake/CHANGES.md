@@ -1,3 +1,9 @@
+## Live note — edae02a8 (TB2 + Soccer v3 + Autopilot)
+
+- Smoke PASS · expansion 225 / own 27
+- https://paigegames.net/boundwake/
+- Soccer path: `/workspace/boundwake`
+
 ## TB2 + Soccer v3 + Autopilot DEPLOY — Coder Nov 5 ~5:40 PM CT
 
 ### Bugfixes (Text Bot pass 2)
