@@ -121,7 +121,11 @@ export function setMuted(v) {
   updateToggle();
 }
 
-export function toggleMute() { setMuted(!muted); return muted; }
+export function toggleMute() {
+  // First control tap should unlock + play, not flip straight into mute.
+  if (!unlocked) { unlockMusic(); setMuted(false); return muted; }
+  setMuted(!muted); return muted;
+}
 export function isMuted() { return muted; }
 
 export function musicToggleHTML() {
