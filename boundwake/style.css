@@ -383,112 +383,109 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
   box-shadow:0 -10px 28px #000a;
 }
 
-/* ---- expansive PC layout (≥1024px): fill the viewport, scenery is backdrop peek ---- */
+/* ---- expansive PC layout (≥1024px): parchment columns fill the monitor ---- */
 @media (min-width:1024px){
   html,body{height:100%}
-  body:has(.play-layout){overflow:hidden;display:flex;flex-direction:column}
+  body:has(.play-layout){overflow:hidden}
   #bw-amb{position:fixed}
-  #stage{flex:1 1 auto;
-    max-width:none;width:calc(100vw - 36px);margin:0 auto;
-    padding:12px 18px 16px;
-    min-height:100dvh;box-sizing:border-box;
+  #stage{
+    width:calc(100vw - 32px);max-width:none;margin:0 auto;
+    height:100dvh;box-sizing:border-box;padding:10px 16px;
+    display:flex;flex-direction:column;min-height:0;
+  }
+  html.bw-amb #stage{padding-top:10px}
+  #app{
+    flex:1 1 0%;min-height:0;height:100%;
     display:flex;flex-direction:column;
   }
-  html.bw-amb #stage{padding-top:14px}
   .play-layout{
-    flex:1 1 auto;
+    flex:1 1 0%;width:100%;min-height:0;height:auto;
     display:grid;
-    grid-template-columns:minmax(300px,22vw) minmax(0,1fr) minmax(260px,20vw);
-    gap:14px;
-    align-items:stretch;
-    min-height:calc(100dvh - 28px);height:calc(100dvh - 28px);
+    grid-template-columns:minmax(280px,22vw) minmax(0,1fr) minmax(250px,20vw);
+    gap:12px;align-items:stretch;
   }
   .play-hub,.play-main,.play-side{
-    display:flex;flex-direction:column;min-height:0;height:100%;
+    display:flex;flex-direction:column;min-height:0;height:auto;align-self:stretch;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--parch3) 94%,#120c1d),color-mix(in srgb,var(--parch) 92%,#120c1d));
+    border:2px solid #e0b14a55;border-radius:18px;
+    box-shadow:0 12px 36px #0008,0 0 0 1px #0003;
+    padding:10px;box-sizing:border-box;overflow:hidden;
   }
   .play-hub > .card.hub{
-    flex:1 1 auto;margin:0;display:flex;flex-direction:column;min-height:0;height:100%;
+    flex:1 1 0;margin:0;min-height:0;display:flex;flex-direction:column;
+    border:0;box-shadow:none;background:transparent;
   }
   .play-hub > .card.hub .card-body{
-    flex:1 1 auto;overflow:auto;min-height:0;
+    flex:1 1 0;overflow:auto;min-height:0;background:transparent;
   }
+  .play-hub .dock{
+    position:relative;flex:0 0 auto;height:auto;margin-top:8px;padding:0;
+    background:transparent;border:0;box-shadow:none;pointer-events:auto;justify-content:stretch;
+  }
+  .play-hub .dock .age{width:100%;min-width:0;margin-top:0;height:50px}
   .play-main .tabs{
-    position:relative;top:auto;z-index:3;flex:none;
-    margin:0 0 10px;padding:10px;
-    background:#120c1de8;border:2px solid #e0b14a44;border-radius:16px;
-    backdrop-filter:blur(6px);
+    position:relative;flex:0 0 auto;z-index:3;
+    margin:0 0 8px;padding:8px 10px;
+    background:#120c1de8;border:2px solid #e0b14a44;border-radius:14px;
     display:flex;flex-wrap:wrap;gap:6px;overflow:visible;
-    max-height:none;height:auto;
   }
-  .play-main .tabs button{font-size:12px;padding:8px 11px;min-height:36px}
+  .play-main .tabs button{font-size:12px;padding:8px 11px;min-height:34px}
   .play-body{
-    flex:1 1 auto;display:flex;flex-direction:column;gap:10px;
-    min-height:0;overflow:auto;
+    flex:1 1 0;min-height:0;overflow:auto;
+    display:flex;flex-direction:column;gap:8px;
   }
-  .play-body > .card{
-    margin:0;display:flex;flex-direction:column;min-height:0;
-  }
-  /* Life journal eats remaining height */
+  .play-body > .card{margin:0}
   .play-body > .card.panel-life{
-    flex:1 1 auto;min-height:calc(100dvh - 160px);
+    flex:1 1 0;min-height:0;display:flex;flex-direction:column;
+    border:0;box-shadow:none;background:transparent;
   }
+  .play-body > .card.panel-life .card-hd{border-radius:12px 12px 0 0}
   .play-body > .card.panel-life .card-body{
-    flex:1 1 auto;display:flex;flex-direction:column;min-height:0;overflow:hidden;
+    flex:1 1 0;min-height:0;overflow:hidden;display:flex;flex-direction:column;
+    background:color-mix(in srgb,var(--life-t) 82%,var(--parch));
+    border-radius:0 0 12px 12px;
   }
-  .play-body .journal{
-    flex:1 1 auto;max-height:none!important;min-height:240px;overflow:auto;
-  }
-  .play-side{
-    margin:0;--accent:var(--realm);--accent2:var(--realm2);--tint:var(--realm-t);
-    display:flex;flex-direction:column;
-  }
+  .play-body .journal{flex:1 1 0;max-height:none!important;min-height:0;overflow:auto}
+  .play-body > .card.panel-life .actions{flex:none;margin-top:auto;padding-top:8px}
+  .play-side{--accent:var(--realm);--accent2:var(--realm2);--tint:var(--realm-t);margin:0}
   .play-side.card,.card.panel-side{
-    flex:1 1 auto;margin:0;display:flex;flex-direction:column;min-height:calc(100dvh - 28px);
+    flex:1 1 0;margin:0;min-height:0;display:flex;flex-direction:column;
+    border:0;box-shadow:none;background:transparent;
   }
+  .panel-side .card-hd{border-radius:12px 12px 0 0}
   .panel-side .card-body,.play-side .card-body{
-    flex:1 1 auto;overflow:auto;padding:12px 14px 14px;min-height:0;
+    flex:1 1 0;min-height:0;overflow:auto;padding:12px 14px;
+    background:color-mix(in srgb,var(--realm-t) 78%,var(--parch));
+    border-radius:0 0 12px 12px;
   }
-  .side-label{
-    margin:10px 0 4px;font:800 10.5px var(--body);letter-spacing:.12em;
-    text-transform:uppercase;color:var(--gold2);
-  }
+  .side-label{margin:10px 0 4px;font:800 10.5px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)}
   .side-label:first-child{margin-top:0}
   .side-realm{margin:0 0 6px;line-height:1.35}
   .side-skills{display:flex;flex-direction:column;gap:4px}
-  .side-row{
-    display:flex;justify-content:space-between;gap:8px;align-items:center;
-    padding:6px 8px;border-radius:10px;background:#fff8;border-left:3px solid var(--accent);
-    font-size:13px;
-  }
+  .side-row{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 8px;border-radius:10px;background:#fff8;border-left:3px solid var(--accent);font-size:13px}
   .side-meta{margin:12px 0 4px;font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
   .side-hint{margin:8px 0 0}
-  .play-hub .dock{
-    position:relative;bottom:auto;left:auto;right:auto;flex:none;
-    height:auto;margin-top:10px;padding:0;
-    background:transparent;border:0;box-shadow:none;
-    pointer-events:auto;justify-content:stretch;
-  }
-  .play-hub .dock .age{width:100%;min-width:0;margin-top:0;height:52px}
-  body:not(.has-sheet) #stage{padding-bottom:16px}
   .end-pad{display:none}
   body[data-tab="fate"] #stage,
   body[data-tab="death"] #stage,
   body[data-tab="gate"] #stage,
-  body[data-tab="cold"] #stage{max-width:760px;width:auto;min-height:auto;display:block}
-  body[data-tab="fate"] .card,
-  body[data-tab="death"] .card{margin-left:auto;margin-right:auto}
+  body[data-tab="cold"] #stage{
+    max-width:760px;width:auto;height:auto;min-height:100dvh;display:block;overflow:auto;
+  }
+  body[data-tab="fate"],body[data-tab="death"],body[data-tab="gate"],body[data-tab="cold"]{overflow:auto}
+  body[data-tab="fate"] .card,body[data-tab="death"] .card{margin-left:auto;margin-right:auto}
   .sheet{align-items:center;padding:24px}
   .sheet .card{max-width:560px;border-radius:20px;border-bottom:3px solid var(--gold)}
 }
 
 @media (min-width:1440px){
-  #stage{width:calc(100vw - 48px)}
-  .play-layout{grid-template-columns:minmax(340px,400px) minmax(0,1fr) minmax(300px,380px);gap:18px}
+  #stage{width:calc(100vw - 40px)}
+  .play-layout{grid-template-columns:minmax(320px,380px) minmax(0,1fr) minmax(280px,360px);gap:14px}
 }
 
 @media (min-width:1800px){
-  #stage{width:calc(100vw - 64px);max-width:1760px}
-  .play-layout{grid-template-columns:420px minmax(0,1fr) 400px;gap:20px}
+  #stage{width:calc(100vw - 56px);max-width:1800px}
+  .play-layout{grid-template-columns:400px minmax(0,1fr) 380px;gap:16px}
 }
 
 /* ---- Boundwake illustrated scenery (Lifeline ambient craft class; fantasy realms) ---- */
@@ -568,3 +565,16 @@ body.info-open .dock{pointer-events:none}
 .bond-card .bond-close{margin:4px 0 8px}
 .bond-card .actions{margin-top:4px}
 .bar-bond i b{background:linear-gradient(90deg,#c45a7a,#9a3a5c)}
+
+/* PC fill overrides ambient stage pad (must follow #bw-amb rules) */
+@media (min-width:1024px){
+  html.bw-amb body:has(.play-layout) #stage{
+    padding-top:10px;padding-bottom:10px;height:100dvh;
+  }
+  html.bw-amb body:has(.play-layout) #app{
+    flex:1 1 0%;min-height:0;height:100%;display:flex;flex-direction:column;
+  }
+  html.bw-amb body:has(.play-layout) .play-layout{
+    flex:1 1 0%;min-height:0;
+  }
+}
