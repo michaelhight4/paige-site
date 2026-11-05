@@ -74,6 +74,13 @@ export function ensurePersonSheet(s, p) {
   // Re-clamp bad under-12 titles from earlier saves (e.g. 6yo Farmhand)
   if (h < 12 && !isChildJobTitle(p.jobTitle)) p.jobTitle = pickPersonJobTitle(s, p);
   if (h < 6 && p.jobTitle !== 'Child') p.jobTitle = 'Child';
+  if (!p.temperament) {
+    // Persist a Boundwake temperament (not Bit Tensie). Slight bias by relation.
+    let pool = TEMPERAMENTS.map((x) => x.id);
+    if (p.rel === 'mother' || p.rel === 'father') pool = ['warm', 'steady', 'stern', 'homebody', 'cordial', 'quiet'];
+    if (p.rel === 'sibling') pool = ['bright', 'restless', 'warm', 'reserved', 'quiet', 'cordial', 'prickly'];
+    p.temperament = pick(s, pool);
+  }
   if ('gold' in p) delete p.gold;
   return p;
 }
@@ -229,9 +236,74 @@ export function meetSomeone(s, love) {
   const m = love ? `I met ${p.first} at the Lantern Market. Something sparked.` : `I made a new friend: ${p.first}.`; log(s, m, 'social'); return { ok: true, msg: m };
 }
 
-// ---- Passive Relationship Growth (Gary Nov 5 ~1:57 PM CT) ----
-// Companions in your travel/adventure party (and a live partner under the same roof)
-// gain a modest yearly closeness boost without spending Social actions.
+
+// Bond temperaments (original Boundwake set — not Bit Tensie personalities)
+export const TEMPERAMENTS = [
+  { id: 'warm', name: 'Warm-hearted' },
+  { id: 'cordial', name: 'Cordial' },
+  { id: 'steady', name: 'Steady' },
+  { id: 'homebody', name: 'Homebody' },
+  { id: 'restless', name: 'Restless' },
+  { id: 'reserved', name: 'Reserved' },
+  { id: 'prickly', name: 'Prickly' },
+  { id: 'stern', name: 'Stern' },
+  { id: 'bright', name: 'Bright' },
+  { id: 'quiet', name: 'Quiet' },
+];
+// Clashes: either direction blocks Passive Relationship Growth
+const TEMPER_CLASH = [
+  ['restless', 'homebody'], ['restless', 'steady'],
+  ['prickly', 'warm'], ['prickly', 'cordial'],
+  ['stern', 'warm'], ['stern', 'bright'],
+  ['reserved', 'bright'], ['reserved', 'cordial'],
+  ['quiet', 'bright'],
+];
+// Map player birth traits onto temperament space for matching
+const PLAYER_TRAIT_TEMPER = {
+  trait_spark_born: 'bright',
+  trait_iron_bones: 'steady',
+  trait_silver_tongue: 'cordial',
+  trait_restless: 'restless',
+};
+export function playerTemperId(s) {
+  return PLAYER_TRAIT_TEMPER[s.trait] || 'steady';
+}
+export function temperamentsClash(a, b) {
+  if (!a || !b) return false;
+  if (a === b) return false;
+  return TEMPER_CLASH.some(([x, y]) => (x === a && y === b) || (x === b && y === a));
+}
+export function temperamentsMatch(a, b) {
+  return !temperamentsClash(a, b);
+}
+function isChildishJob(title) {
+  return !title || title === 'Child' || title === 'Village lessons' || title === 'Helps at home';
+}
+/** Housemate: partner/spouse/child always; parents & siblings unless movedOut. */
+export function livesWithPlayer(s, p) {
+  if (!p?.alive) return false;
+  if (p.rel === 'partner' || p.rel === 'spouse' || p.rel === 'child') return true;
+  if ((p.rel === 'mother' || p.rel === 'father' || p.rel === 'sibling') && !p.movedOut) return true;
+  return false;
+}
+/** Coworker: same career sector or same job title as the player's current job. */
+export function isCoworker(s, p) {
+  if (!s.job || !p?.alive || isChildishJob(p.jobTitle)) return false;
+  const my = D.jobsById[s.job.id];
+  if (!my) return false;
+  if (p.jobTitle && p.jobTitle === my.title) return true;
+  // Match bond jobTitle to any job in same sector
+  const sameSectorTitles = Object.values(D.jobsById).filter((j) => j.sector === my.sector).map((j) => j.title);
+  return sameSectorTitles.includes(p.jobTitle);
+}
+/** True if this bond qualifies for Passive Relationship Growth proximity this year. */
+export function sharesLifeWith(s, p) {
+  return !!(p.inParty || livesWithPlayer(s, p) || isCoworker(s, p));
+}
+
+// ---- Passive Relationship Growth (Gary Nov 5 ~1:57–1:58 PM CT) ----
+// Party, housemates, and coworkers gain a modest yearly closeness boost when
+// temperaments match — without spending Social actions. One boost per person/year.
 export const PARTY_CAP = 3;
 export const partyOf = (s) => living(s).filter((p) => p.inParty);
 export function toggleParty(s, pid) {
@@ -248,9 +320,10 @@ function peopleYear(s, yrs) {
     ensurePersonSheet(s, p);
     p.age += yrs; const h = personHage(p);
     if (h > 62 && chance(s, Math.min(0.9, ((h - 62) / 30) ** 2 * yrs * 0.6))) { p.alive = false; p.inParty = false; log(s, `${p.first}, my ${p.rel}, passed away.`, 'death'); s.stats.happiness = clamp(s.stats.happiness - 10, 0, 100); continue; }
-    // Passive Relationship Growth vs yearly fade
-    const together = p.inParty || p.rel === 'partner';
-    if (together) {
+    // Passive Relationship Growth vs yearly fade (one boost max even if party+home+work)
+    const near = sharesLifeWith(s, p);
+    const match = temperamentsMatch(playerTemperId(s), p.temperament);
+    if (near && match) {
       const gain = rint(s, 3, 7) * yrs; // less than Spend time (4–12), no social cost
       p.bar = clamp(p.bar + gain, 0, 100);
       grew.push(p.first);

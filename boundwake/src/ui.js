@@ -61,7 +61,7 @@ const LEAD = {
   work: 'Everyday chores and guild boards alike. Earn your keep — or leave the post.',
   adv: 'Roads remember feet that dare them. Pack light; come home heavier.',
   skills: 'First lesson sinks deep; later ones strain you. Pillars ask more of long lives.',
-  bonds: 'Faces around the hearth. Party companions gain Passive Relationship Growth each year — Spend time still matters for everyone else.',
+  bonds: 'Faces around the hearth. Party, housemates, and coworkers gain Passive Relationship Growth when temperaments match — Spend time still mends clashes.',
   realms: 'Five realms, one map in the mind. Travel when your boots are ready.',
   codex: 'What the world taught you stays — even when the body does not.',
   bel: 'Gold, relics, the small weights of a life. A shop for later.',
@@ -169,10 +169,22 @@ function body() {
       const raceName = (P.races.find((r) => r.id === p.race) || {}).name || p.race;
       const inParty = !!p.inParty;
       const partyFull = E.partyOf(s).length >= E.PARTY_CAP && !inParty;
-      return `<div class="bond-card${inParty ? ' in-party' : ''}">
+      const temper = (E.TEMPERAMENTS.find((x) => x.id === p.temperament) || {}).name || p.temperament || '—';
+      const clash = E.temperamentsClash(E.playerTemperId(s), p.temperament);
+      const home = E.livesWithPlayer(s, p);
+      const work = E.isCoworker(s, p);
+      const tags = [
+        inParty ? '<span class="party-tag">In your party</span>' : '',
+        home && !inParty ? '<span class="party-tag soft">Under one roof</span>' : '',
+        work ? '<span class="party-tag soft">Coworker</span>' : '',
+        clash ? '<span class="party-tag clash">Temperaments clash</span>' : '',
+      ].filter(Boolean).join(' ');
+      return `<div class="bond-card${inParty ? ' in-party' : ''}${clash ? ' temper-clash' : ''}">
         <div class="bond-hd"><b>${esc(p.first)}</b><small>${esc(p.rel)} · ${Math.floor(p.age)} · ${esc(raceName)}</small>
           <span class="bond-job">${ico('work')} ${esc(p.jobTitle || '—')}</span>
-          ${inParty ? '<span class="party-tag">In your party</span>' : (p.rel === 'partner' ? '<span class="party-tag soft">Under one roof</span>' : '')}</div>
+          <span class="bond-temper">${ico('spirit')} ${esc(temper)}</span>
+          ${tags}</div>
+        ${clash ? '<p class="temper-note sub">Your temperaments don’t sit easily together — Passive Relationship Growth won’t stick; Spend time still can.</p>' : ''}
         <div class="bars">${bar('health', st.health)}${bar('spirit', st.happiness)}${bar('wits', st.smarts)}${bar('presence', st.looks)}
           ${bar('strain', st.stress)}${bar('renown', st.fame)}</div>
         <div class="bond-close"><div class="bar bar-bond">${ico('bond')}Closeness<span class="val">${Math.round(p.bar)}</span><i><b style="width:${Math.max(0, Math.min(100, p.bar))}%"></b></i></div></div>

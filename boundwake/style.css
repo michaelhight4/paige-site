@@ -603,3 +603,8 @@ body.info-open .dock{pointer-events:none}
 .party-tag.soft{background:#5a82a822;color:#2e4a7a;border-color:#5a82a888}
 .bond-card.in-party{border-color:color-mix(in srgb,var(--life) 55%,#b8955a55);box-shadow:0 0 0 1px #2f7a4833}
 .party-list{margin:8px 0 12px}
+
+.party-tag.clash{background:#c45a3222;color:#8B2E1A;border-color:#c45a3288}
+.bond-card.temper-clash{border-color:#c45a3255}
+.bond-temper{font-weight:700;color:var(--bond2);font-size:12.5px}
+.temper-note{margin:4px 0 8px;font-size:12.5px}

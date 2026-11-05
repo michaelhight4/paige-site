@@ -41,3 +41,7 @@
 ## Nov 5 2026 (Passive Relationship Growth)
 - `p.inParty` (cap 3); yearly +3–7 closeness instead of fade; partner gets the same under-one-roof boost.
 - Bonds UI Add/Leave party; Adventure lists traveling companions.
+
+## Nov 5 2026 (PRG: housemates, coworkers, temperaments)
+- Bonds get a persisted temperament; clash table gates Passive Relationship Growth.
+- Housemates + same-job coworkers qualify (one boost/year with party).
