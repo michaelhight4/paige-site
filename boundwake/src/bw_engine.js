@@ -98,9 +98,25 @@ export function ensurePersonSheet(s, p) {
   if ('gold' in p) delete p.gold;
   return p;
 }
+function usedFirstNames(s) {
+  const set = new Set();
+  if (s.first) set.add(String(s.first).toLowerCase());
+  for (const p of (s.people || [])) if (p?.first) set.add(String(p.first).toLowerCase());
+  return set;
+}
+function pickUniqueFirst(s, sex) {
+  const pool = NAMES[sex] || NAMES.m;
+  const used = usedFirstNames(s);
+  const free = pool.filter((n) => !used.has(String(n).toLowerCase()));
+  if (free.length) return pick(s, free);
+  // Exhausted pool: surname-flavored disambiguator
+  const base = pick(s, pool);
+  const tag = pick(s, NAMES.last).slice(0, 3);
+  return `${base}`;
+}
 function person(s, rel, ageOff, raceId) {
   const sex = chance(s, 0.5) ? 'm' : 'f';
-  const p = { id: 'p' + (s.pid = (s.pid || 0) + 1), first: pick(s, NAMES[sex]), sex, rel, age: Math.max(0, s.age + ageOff), race: raceId || s.race, bar: rint(s, 55, 85), alive: true };
+  const p = { id: 'p' + (s.pid = (s.pid || 0) + 1), first: pickUniqueFirst(s, sex), sex, rel, age: Math.max(0, s.age + ageOff), race: raceId || s.race, bar: rint(s, 55, 85), alive: true };
   return ensurePersonSheet(s, p);
 }
 export function rollFate(seed, meta = {}, opts = {}) {
@@ -242,6 +258,7 @@ export function chooseMagicSchool(s, schoolId) {
   const st = D.styleById?.[schoolId];
   if (!st || st.type !== 'school') return { ok: false, msg: 'Unknown magic school.' };
   if (!s.flags.mana_awakened) return { ok: false, msg: 'Needs mana awakening.' };
+  if (cage(s) < 6) return { ok: false, msg: 'Too young for a magic school (age 6+).' };
   if (s.magicSchool && s.magicSchool !== schoolId) return { ok: false, msg: 'Your school is already chosen.' };
   s.magicSchool = schoolId;
   const msg = `I joined the ${st.name}.`; log(s, msg, 'style'); return { ok: true, msg };
@@ -249,6 +266,7 @@ export function chooseMagicSchool(s, schoolId) {
 /** Practice cast — spends mana, grows arcane skills, journal beat. */
 export function practiceMagic(s) {
   if (!s.flags.mana_awakened) return { ok: false, msg: 'Needs mana awakening.' };
+  if (cage(s) < 6) return { ok: false, msg: 'Too young to force the spark (age 6+).' };
   if (!s.magicSchool) return { ok: false, msg: 'Choose a magic school first.' };
   if (s.mana < 5) return { ok: false, msg: 'Not enough mana (need 5).' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
@@ -322,12 +340,28 @@ export function meetsReq(s, j, forPromo = false) {
   if (j.sector === 'retainer' && j.level === 0 && s.wealth !== 'noble' && !s.flags.has_mentor && !s.flags.school_royal) return false;
   return true;
 }
-export const openings = (s) => Object.values(D.jobsById).filter((j) => j.entry).map((j) => ({ job: j, career: careerOf(j.id), ok: meetsReq(s, j) && !(s.job && s.job.id === j.id) }));
+export const openings = (s) => Object.values(D.jobsById).filter((j) => j.entry).map((j) => {
+  const fee = jobJoinFee(j);
+  const ok = meetsReq(s, j) && !(s.job && s.job.id === j.id) && (fee <= 0 || s.gold >= fee);
+  return { job: j, career: careerOf(j.id), ok, joinFee: fee };
+});
+export function jobJoinFee(j) {
+  if (!j) return 0;
+  // Entry posts ask a small apron/kit bond (~15% of yearly wage, min 5). Shown on the Join card.
+  if (j.level === 0 || j.entry) return Math.max(5, Math.round((j.wage || 0) * 0.15));
+  return 0;
+}
 export function takeJob(s, id) {
   if (s.prison) return { ok: false, msg: 'No work while imprisoned.' };
   const j = D.jobsById[id]; if (!meetsReq(s, j)) return { ok: false, msg: jobLockReason(s, j) || 'You do not meet the requirements yet.' };
+  const fee = jobJoinFee(j);
+  if (fee > 0 && s.gold < fee) return { ok: false, msg: `Need ${fee} gold for the apron/kit bond.` };
   if (s.job) s.jobHist.push({ ...s.job, left: s.age });
-  s.job = { id, years: 0, perf: 50 }; const m = `I started as ${j.title} (${careerOf(id).name}).`; log(s, m, 'job'); return { ok: true, msg: m };
+  if (fee > 0) s.gold -= fee;
+  s.job = { id, years: 0, perf: 50 };
+  const feeNote = fee > 0 ? ` Apron/kit bond −${fee} gold.` : '';
+  const m = `I started as ${j.title} (${careerOf(id).name}).${feeNote}`;
+  log(s, m, 'job'); return { ok: true, msg: m };
 }
 export function quitJob(s) { if (!s.job) return; log(s, `I left my post as ${D.jobsById[s.job.id].title}.`, 'job'); s.jobHist.push({ ...s.job, left: s.age }); s.job = null; }
 export function workHard(s) {
@@ -824,6 +858,10 @@ export function isTournamentYear(s) {
 function tourneyField(bracketId) {
   return { child: 8, youth: 22, open: 40 }[bracketId] || 20;
 }
+export function tourneyMeetTitle(id) {
+  const m = TOURNEY_SKILL_MEETS.find((x) => x.id === id);
+  return m?.title || String(id || '').replace(/^meet_/, '').replace(/_/g, ' ');
+}
 export function tournamentOffers(s) {
   if (!isTournamentYear(s)) return [];
   const br = tourneyBracket(s);
@@ -833,7 +871,10 @@ export function tournamentOffers(s) {
   for (const m of TOURNEY_SKILL_MEETS) {
     if (m.needAwaken && !s.flags.mana_awakened) continue;
     const sk = s.skills[m.skill] || 0;
-    const drilled = !!(s.trainCount && s.trainCount[m.skill]) || !!(s.skillUsed && s.skillUsed[m.skill]);
+    const drilled = !!(s.trainCount && s.trainCount[m.skill])
+      || !!(s.skillUsed && s.skillUsed[m.skill])
+      || (m.cat === 'magic' && !!s.magicSchool)
+      || (m.cat === 'sword' && !!s.swordStyle);
     const minSk = br.id === 'child' ? 1 : br.id === 'youth' ? 3 : 5;
     // Prefer trained/used skills; bare talent seeds alone are not enough
     if (sk < minSk) continue;
@@ -983,7 +1024,14 @@ export function ageUp(s) {
   const sd = s.stats.stress > 70 ? -3 : 0, old = h > 55 ? -((h - 55) / 12) * yrs : 0;
   s.stats.health = clamp(s.stats.health + sd + old - s.injuries.length + (h < 30 ? 1 : 0), 0, 100);
   s.stats.stress = clamp(s.stats.stress - 4, 0, 100);
-  if (cage(s) >= 16 && !s.job) s.gold = Math.max(0, s.gold - 4 * yrs); // living costs (calendar)
+  if (cage(s) >= 16 && !s.job) {
+    const living = Math.round(4 * yrs);
+    if (living > 0 && s.gold > 0) {
+      const paid = Math.min(s.gold, living);
+      s.gold -= paid;
+      log(s, `Living costs while between jobs: −${paid} gold.`, 'money');
+    }
+  }
   if (cage(s) < 16 && s.wealth === 'noble') s.gold += 2;
   log(s, `${D.terms.ui.year_passed} I am ${Math.floor(s.age)}.`, 'year');
   if (!s.route && cage(s) === 11) log(s, 'Eleven already — the roads ask which skills I will feed. Path choice waits on Life or Skills.', 'route');
@@ -1524,7 +1572,7 @@ export function hireGuildAdventurer(s) {
     tier, power: rint(s, pool.lo, pool.hi), wagePaid: 0, injuredUntil: 0, jobsOk: 0, bust,
   };
   s.guild.roster.push(m);
-  const msg = `I hired ${m.name} (power ${m.power}, pool tier ${tier}) for ${cost} gold${disc ? ` (−${Math.round(disc*100)}% Meet fame)` : ''}.`;
+  const msg = `I hired ${m.name} (power ${m.power}) for ${cost} gold${disc ? ` (−${Math.round(disc*100)}% Meet fame)` : ''}.`;
   log(s, msg, 'guild'); return { ok: true, msg, member: m };
 }
 
@@ -1857,10 +1905,28 @@ function ailmentsYear(s, yrs) {
 // ---- law (crimes → realm law) ----
 export const crimeDef = (id) => (D.law?.crimes || []).find((c) => c.id === id);
 export const tierDef = (id) => (D.law?.tiers || []).find((t) => t.id === id);
+export const CRIME_MENU_MIN_AGE = 12;
+export function crimeMinAge(c) {
+  return Math.max(c?.minAge || 0, CRIME_MENU_MIN_AGE);
+}
 export function lawAvailable(s) {
   ensureBags(s); if (s.prison || !D.law) return [];
   const a = cage(s);
-  return D.law.crimes.filter((c) => c.menu && a >= c.minAge && (!c.if || ((!c.if.job || s.job) && (!c.if.minFame || s.stats.fame >= c.if.minFame))));
+  return D.law.crimes.filter((c) => c.menu && a >= crimeMinAge(c) && (!c.if || ((!c.if.job || s.job) && (!c.if.minFame || s.stats.fame >= c.if.minFame))));
+}
+export function lawMenuCrimes(s) {
+  ensureBags(s);
+  if (!D.law) return [];
+  const a = cage(s);
+  return (D.law.crimes || []).filter((c) => c.menu).map((c) => {
+    const need = crimeMinAge(c);
+    let why = '';
+    if (s.prison) why = 'Imprisoned';
+    else if (a < need) why = `Age ${need}+`;
+    else if (c.if?.job && !s.job) why = 'Need a job';
+    else if (c.if?.minFame && (s.stats.fame || 0) < c.if.minFame) why = `Need renown ${c.if.minFame}+`;
+    return { ...c, minAgeEff: need, ok: !why, why };
+  });
 }
 function catchChance(s, c) {
   const rules = D.law.rules, rec = s.record.sentences > 0 ? 1.15 : 1;
@@ -1868,7 +1934,7 @@ function catchChance(s, c) {
 }
 export function commitCrime(s, id) {
   ensureBags(s);
-  const c = crimeDef(id); if (!c || s.prison || cage(s) < c.minAge) return { ok: false, msg: 'Not possible.' };
+  const c = crimeDef(id); if (!c || s.prison || cage(s) < crimeMinAge(c)) return { ok: false, msg: cage(s) < crimeMinAge(c) ? `Crime opens at age ${crimeMinAge(c)}.` : 'Not possible.' };
   if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
   s.tally.crimes = (s.tally.crimes || 0) + 1;
   if (chance(s, catchChance(s, c))) return arrest(s, id);
@@ -1882,13 +1948,18 @@ export function commitCrime(s, id) {
 }
 export function fmtSentence(years) {
   if (years == null || Number.isNaN(+years)) return '';
-  if (years >= 99) return 'life';
-  if (years < 1) {
-    const mo = Math.max(1, Math.round(years * 12));
+  const yRaw = +years;
+  if (yRaw >= 99) return 'life';
+  if (yRaw < 1) {
+    const mo = Math.max(1, Math.round(yRaw * 12));
     return mo === 1 ? '1 month' : `${mo} months`;
   }
-  const y = Math.round(years * 10) / 10;
-  return y === 1 ? '1 year' : `${y} years`;
+  const nearest = Math.round(yRaw * 10) / 10;
+  if (Math.abs(nearest - Math.round(nearest)) < 0.05) {
+    const n = Math.round(nearest);
+    return n === 1 ? '1 year' : `${n} years`;
+  }
+  return `${nearest} years`;
 }
 function arrest(s, id) {
   const c = crimeDef(id), rules = D.law.rules, priors = s.record.sentences;
@@ -2342,7 +2413,7 @@ export function prisonEscape(s) {
   if (chance(s, p)) { release(s, `I slipped out of ${t.name || 'the cell'} under a moonless sky.`); s.flags.fugitive = 1; s.stats.stress = clamp(s.stats.stress + 10, 0, 100); return { ok: true, msg: 'Escaped!' }; }
   s.prison.left += R.escapeAddYears || 2; s.prison.total += R.escapeAddYears || 2; s.prison.conduct = 0;
   s.stats.health = clamp(s.stats.health - 5, 0, 100);
-  const msg = `Caught at the wall. +${R.escapeAddYears || 2} years.`; log(s, msg, 'crime'); return { ok: false, msg };
+  const addY = R.escapeAddYears || 2; const msg = `Caught at the wall. +${fmtSentence(addY)}.`; log(s, msg, 'crime'); return { ok: false, msg };
 }
 
 // ---- court campaign questions (court.json questions/platforms) ----

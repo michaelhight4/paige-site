@@ -195,7 +195,7 @@ function chipFromEvent(ev) {
   const chip = ev.target.closest?.('[data-info]');
   if (!chip || !chip.dataset.info) return null;
   // Don't steal Age, choice, travel, train, etc.
-  if (ev.target.closest('button[data-a], button.age, .choices button, .dock, a[href]')) return null;
+  if (ev.target.closest('button[data-a], button.age, .choices button, .dock, a[href], [data-tab]')) return null;
   return chip;
 }
 

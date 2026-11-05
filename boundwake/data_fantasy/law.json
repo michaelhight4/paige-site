@@ -3,7 +3,7 @@
   {
    "id": "pilfer_stall",
    "name": "Pilfer a Market Stall",
-   "minAge": 8,
+   "minAge": 12,
    "severity": 1,
    "catch": 0.28,
    "sentence": [
@@ -22,7 +22,7 @@
   {
    "id": "cutpurse",
    "name": "Cutpurse on Market Row",
-   "minAge": 10,
+   "minAge": 12,
    "severity": 1,
    "catch": 0.32,
    "sentence": [

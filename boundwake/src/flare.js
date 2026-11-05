@@ -142,6 +142,12 @@ function buildRules() {
   add(['gold'], 'flare-gold', 'gold');
   add(['Reincarnate', 'heir', 'heirs'], 'flare-echo', 'echo');
   add(['Lantern Market', 'Adventure'], 'flare-adv', 'adventure');
+  add(['Work'], 'flare-work', 'work');
+  add(['Skills'], 'flare-skill', 'skill');
+  add(['Bonds'], 'flare-bond', 'bond');
+  add(['Realms'], 'flare-realm', 'realm');
+  add(['Belongings'], 'flare-belong', 'belong');
+  add(['Codex'], 'flare-codex', 'codex');
   // Sort longest first so "Echo of Might" wins over "Echo" / "Might"
   rows.sort((a, b) => b.w.length - a.w.length);
   return rows;
@@ -163,7 +169,10 @@ export function flare(text) {
         const sid = SKILL_NAME_TO_ID[m] || SKILL_NAME_TO_ID[Object.keys(SKILL_NAME_TO_ID).find((n) => n.toLowerCase() === String(m).toLowerCase()) || ''];
         if (sid) iconHtml = skillIco(sid);
       }
-      slots.push(`<span class="flare ${r.cls}" data-info="${infoKey}" role="button" tabindex="0">${iconHtml}<b>${m}</b></span>`);
+      const tabMap = { Adventure: 'adv', Work: 'work', Skills: 'skills', Bonds: 'bonds', Realms: 'realms', Belongings: 'bel', Codex: 'codex', 'Lantern Market': 'bonds' };
+      const tab = tabMap[r.w] || tabMap[m] || (Object.entries(tabMap).find(([k]) => k.toLowerCase() === String(m).toLowerCase()) || [])[1];
+      const tabAttr = tab ? ` data-tab="${tab}"` : '';
+      slots.push(`<span class="flare ${r.cls}" data-info="${infoKey}"${tabAttr} role="button" tabindex="0">${iconHtml}<b>${m}</b></span>`);
       return `\u0000${i}\u0000`;
     });
   }

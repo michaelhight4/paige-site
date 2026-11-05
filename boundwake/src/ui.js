@@ -7,6 +7,7 @@ import { mountInfoClicks, openInfo } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js';
+import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP } from './autopilot.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
 const Q = new URLSearchParams(location.search);
@@ -204,6 +205,14 @@ function body() {
       <button type="button" data-tab="work">${ico('work')} Work</button>
       <button type="button" data-a="rest" ${s.budget.act < 1 ? 'disabled' : ''}>${ico('spirit')} Rest</button>
     </div>`;
+    const autoBusy = autoRunning();
+    const autoCard = card('life', `${ico('act')} Autopilot / Skip`, `<p class="sub">Advance <b>cage</b> years one at a time (1 turn = 1 year). Safe event picks; pauses on death, jail, romance/family, ownership, tournaments, or Stop. Leftover actions: Rest if strained → Work if employed → Train lowest skill.</p>
+      <div class="actions auto-actions">
+        ${SKIP_PRESETS.map((n) => `<button type="button" data-a="skip" data-v="${n}" ${autoBusy || s.pending.length ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
+        <button type="button" data-a="skip" data-v="custom" ${autoBusy || s.pending.length ? 'disabled' : ''}>Custom…</button>
+        ${autoBusy ? `<button type="button" class="primary" data-a="autostop">Stop</button>` : ''}
+      </div>
+      ${s.pending.length ? `<p class="sub lock-why">Resolve the open event first (or Autopilot will pause on important ones).</p>` : ''}`);
     const tourneyBanner = E.isTournamentYear(s)
       ? card('life', `${ico('adventure')} Tournament year`, `<p class="sub">Bracket <b>${esc(E.tourneyBracket(s)?.label || '')}</b> meets are open — enter from the Adventure tab (1 action). Strong places draw academies, tutors, and blade halls.</p><div class="actions"><button type="button" class="primary" data-tab="adv">${ico('adventure')} Open Adventure</button></div>`)
       : (E.tournamentInvites(s).length
@@ -212,7 +221,7 @@ function body() {
     const pathOpen = !s.route && ca >= 8 && ca <= 16;
     const pathUrgent = pathOpen && ca >= 10 && ca <= 13;
     const route = pathOpen ? card('life', `${ico('adventure')} Choose your path${pathUrgent ? ' · age ' + ca : ''}`, `<p class="sub">${pathUrgent ? '<b>Now is a good year to choose.</b> ' : ''}Sword, magic, hybrid, or craft — primary skills grow <b>+25%</b> faster. Also on Skills. Opens at age 8; clearest around 11.</p><div class="actions">${[['route_sword','Sword'],['route_magic','Magic'],['route_hybrid','Hybrid'],['route_craft','Craft']].map(([id,lab]) => `<button type="button" class="primary" data-a="route" data-v="${id}">${esc(lab)}</button>`).join('')}</div>`) : (s.route ? '' : '');
-    const journal = route + card('life', HD.life, `${lead('life')}<div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
+    const journal = route + card('life journal-host', HD.life, `${lead('life')}<div class="journal" id="jr">${byAge.map(([a, ls]) => `<p class="y">${T('year_verb')} ${a}</p>${ls.map((t) => `<p>${flare(t)}</p>`).join('')}`).join('')}</div>
       <div class="actions"><button data-a="rest" class="ghost">Rest by the pond</button></div>`);
     // Pack panels (ailments / pastimes / activities / soft law) — additive
     const ailRows = (s.ailments || []).map((d) => {
@@ -225,20 +234,24 @@ function body() {
     const pastAvail = (pl.available || []).slice(0, 8).map((p) => `<button data-a="adopt" data-v="${p.id}" ${pl.free < 1 ? 'disabled' : ''}>${esc(p.name)}</button>`).join('');
     const pastCard = card('life', `${ico('spirit')} Pastimes`, `<p class="sub">${pl.free} free slot(s). Master two to open more (max 4).</p>${pastActive || '<div class="empty">No pastime yet.</div>'}<div class="actions">${pastAvail || ''}</div>`);
     const actCats = E.activityCategories(s).map((c) => {
-      const acts = c.activities.filter((a) => h >= a.minAge).map((a) => {
+      const acts = c.activities.filter((a) => h >= a.minAge && a.id !== 'healer').map((a) => {
         const ch0 = a.choices[0]; const cost = ch0?.cost || 0;
         return `<div class="row"><div><b>${esc(a.name)}</b> <small>${esc(a.sub)}${cost ? ` · ${cost} gold` : ''}</small></div><button data-a="actv" data-v="${a.id}" ${s.budget.act < 1 || s.gold < cost ? 'disabled' : ''}>Do</button></div>`;
       }).join('');
       return acts ? card('life', `${c.icon || ''} ${esc(c.name)}`, acts) : '';
     }).join('');
-    const crimes = E.lawAvailable(s);
-    const lawCard = crimes.length ? card('life', `${ico('strain')} Realm law (shadow)`, `<p class="sub">Quiet choices with loud consequences. Catch risk rises with a record.</p>${crimes.map((c) => `<div class="row"><div><b>${esc(c.name)}</b> <small>severity ${c.severity}</small></div><button data-a="crime" data-v="${c.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Attempt</button></div>`).join('')}`) : '';
+    const crimes = E.lawMenuCrimes(s);
+    const lawCard = crimes.length ? card('life', `${ico('strain')} Realm law (shadow)`, `<p class="sub">Quiet choices with loud consequences. Catch risk rises with a record. Attempts from age ${E.CRIME_MENU_MIN_AGE}+.</p>${crimes.map((c) => {
+      const locked = !c.ok || s.budget.act < 1;
+      const why = !c.ok ? c.why : (s.budget.act < 1 ? 'No actions left' : '');
+      return `<div class="row"><div><b>${esc(c.name)}</b> <small>severity ${c.severity}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="crime" data-v="${c.id}" ${locked ? 'disabled' : ''} title="${esc(why || 'Spend 1 action')}">Attempt</button></div>`;
+    }).join('')}`) : '';
     const pa = E.prisonActions(s);
     const prisonCard = s.prison ? `<div class="pack-polish-prison">${card('life', `${ico('strain')} Imprisoned`, `<p class="sub">${esc(E.tierDef(s.prison.tier)?.name || s.prison.tier)} · ${esc(E.fmtSentence(s.prison.left))} left · conduct ${pa.conduct}. Age +1 advances the sentence.</p>
       <div class="row"><div><b>Behave</b> <small>build conduct; parole after half the term</small></div><button data-a="pbehave" ${pa.behave ? '' : 'disabled'}>Behave</button></div>
       <div class="row"><div><b>Appeal</b> <small>${ico('gold')}${pa.appealCost} · once per sentence${s.prison.appealed ? ' · heard' : ''}</small></div><button data-a="pappeal" ${pa.appeal ? '' : 'disabled'}>Appeal</button></div>
       <div class="row"><div><b>Escape</b> <small>~${Math.round(pa.escapeOdds * 100)}% base · failure adds years</small></div><button data-a="pescape" ${pa.escape ? '' : 'disabled'}>Escape</button></div>`)}</div>` : '';
-    return journal + prisonCard + ailCard + pastCard + actCats + lawCard;
+    return lifeShortcuts + autoCard + (tourneyBanner || '') + journal + prisonCard + ailCard + pastCard + actCats + lawCard;
   }
   if (tab === 'work') {
     if (s.prison) return card('work', HD.work, `${lead('work')}<div class="empty">Work is closed while you are held (${esc(E.tierDef(s.prison.tier)?.name || 'prison')}). Use Life → Imprisoned actions.</div>`);
@@ -254,7 +267,11 @@ function body() {
       const kind = (tags.includes('ordinary') || c.id === 'farmer' || c.id === 'merchant') ? 'Everyday' : (tags.includes('guild') || tags.includes('academy') || tags.includes('special') ? 'Guild track' : 'Trade');
       const why = ok ? '' : (E.jobLockReason(s, job) || 'Locked');
       const unlock = E.humanizeUnlock(c.unlock_text || '');
-      return `<div class="row row-job${ok ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr${unlock ? `<br>${esc(unlock)}` : ''}</small>${why ? `<br><small class="lock-why">${esc(why)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${ok ? '' : 'disabled'} title="${esc(why)}">${ok ? 'Join' : 'Locked'}</button></div>`;
+      const joinFee = E.jobJoinFee(job);
+      const feeWhy = (ok && joinFee > 0 && s.gold < joinFee) ? `Need ${joinFee} gold apron/kit bond` : '';
+      const canJoin = ok && !feeWhy;
+      const feeBit = joinFee > 0 ? ` · join ${ico('gold')}${joinFee} apron/kit` : ' · no join fee';
+      return `<div class="row row-job${canJoin ? '' : ' locked'}"><div><b>${esc(job.title)}</b> <small>· ${esc(c.name)} · ${kind}</small><br><small>${flare(c.blurb)} · ${ico('gold')}${job.wage} ${T('currency')}/yr${feeBit}${unlock ? `<br>${esc(unlock)}` : ''}</small>${(why || feeWhy) ? `<br><small class="lock-why">${esc(why || feeWhy)}</small>` : ''}</div><button data-a="job" data-v="${job.id}" ${canJoin ? '' : 'disabled'} title="${esc(why || feeWhy || (joinFee ? `Join (−${joinFee}g bond)` : 'Join'))}">${canJoin ? (joinFee ? `Join (−${joinFee}g)` : 'Join') : 'Locked'}</button></div>`;
     };
     const everyday = opens.filter(({ career: c }) => (c.tags || []).includes('ordinary') || c.id === 'farmer' || c.id === 'merchant');
     const guild = opens.filter((o) => !everyday.includes(o));
@@ -337,12 +354,19 @@ function body() {
     const offers = E.tournamentOffers(s);
     const br = E.tourneyBracket(s);
     const inv = E.tournamentInvites(s);
+    const enteredIds = s.flags.tour_entered || [];
+    const enteredNote = enteredIds.length
+      ? `<p class="sub">Entered this year: <b>${enteredIds.map((id) => esc(E.tourneyMeetTitle?.(id) || id.replace(/^meet_/, '').replace(/_/g, ' '))).join(', ')}</b>.</p>`
+      : '';
+    const tourneyEmpty = enteredIds.length
+      ? `<div class="empty">No further meets open for your skills this year — you already entered ${enteredIds.length === 1 ? 'a list' : 'your lists'}. Train other meet skills (blade, cook, smith, marks…) if you want another entry before the year ends.</div>`
+      : `<div class="empty">Bracket ${esc(br?.label || '')} is open, but no meet matches your trained skills yet. Train blade, spark, cook, smith, marks… on Skills (use Train so the skill counts), then return this year.</div>`;
     const tourneyCard = E.isTournamentYear(s)
       ? card('adv', `<img class="tourney-banner-ico" src="assets/icons/ui/tournament_banner.png" alt="" width="24" height="24" onerror="this.remove()"> Tournaments · bracket ${esc(br?.label || '—')}`,
-          `${bannerHTML('tourney', 'Tournament year')}<p class="sub">Meets every 3 years. Entry costs <b>1 action</b>. Place for gold &amp; renown — strong finishes draw academies, tutors, and blade halls.</p>
+          `${bannerHTML('tourney', 'Tournament year')}<p class="sub">Meets every 3 years. Entry costs <b>1 action</b>. Place for gold &amp; renown — strong finishes draw academies, tutors, and blade halls.</p>${enteredNote}
            ${offers.length ? offers.map((o) => `<div class="row"><div><b>${esc(o.title)}</b> <small>${esc(o.skillName)} · ${esc(o.bracket)}</small><br><small>${esc(o.blurb)}</small></div>
              <button data-a="tourney" data-v="${o.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Enter</button></div>`).join('')
-             : `<div class="empty">Bracket ${esc(br?.label || '')} is open, but no meet matches your trained skills yet. Train blade, spark, cook, smith, marks… on Skills (use Train so the skill counts), then return this year.</div>`}
+             : tourneyEmpty}
            ${inv.length ? `<h3>Invitations</h3>${inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join('')}` : ''}`)
       : (inv.length
         ? card('adv', `${ico('adventure')} Invitations`, inv.map((i) => `<div class="row"><div><b>${esc(i.name)}</b> <small>${esc(i.kind)}</small></div><button data-a="tinvite" data-v="${i.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Answer</button></div>`).join(''))
@@ -404,16 +428,18 @@ function body() {
     const manaCard = card('skills', `${ico('mana')} Mana &amp; craft`,
       s.flags.mana_awakened
         ? `<p class="sub">Mana <b>${Math.floor(s.mana)}</b> / <b>${Math.floor(Math.max(s.manaMax || 0, 1))}</b>. School: <b>${esc((P.styles||[]).find(x=>x.id===s.magicSchool)?.name || 'none yet')}</b>. Sword style: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || 'none yet')}</b>.</p>
-           <div class="actions"><button data-a="cast" class="primary" ${s.budget.act < 1 || s.mana < 5 || !s.magicSchool ? 'disabled' : ''}>Practice magic (5 mana)</button>
+           <div class="actions"><button data-a="cast" class="primary" ${s.budget.act < 1 || s.mana < 5 || !s.magicSchool || ca < 6 ? 'disabled' : ''} title="${esc(ca < 6 ? 'Age 6+ (same as Train)' : (!s.magicSchool ? 'Choose a school first' : (s.mana < 5 ? 'Need 5 mana' : 'Spend 1 action')))}">Practice magic (5 mana)${ca < 6 ? ' · age 6+' : ''}</button>
            <button data-a="drill" ${s.budget.act < 1 || !s.swordStyle ? 'disabled' : ''}>Drill sword forms</button></div>`
         : `<p class="sub">Mana sleeps. From age 6: <b>Attempt awakening</b> here, or Visit an Academy in Realms. Spark-born wakes it at birth.</p>
            <div class="actions"><button data-a="awaken" class="primary" ${s.budget.act < 1 || ca < 6 ? 'disabled' : ''}>Attempt mana awakening${ca < 6 ? ' (age 6+)' : ''}</button></div>`);
     const stylePick = (!s.swordStyle && ca >= 8)
       ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Choose how you bind steel — shapes adventure odds. Need Swordsmanship ${(P.styles||[]).find(x=>x.type==='sword')?.unlock?.skills?.swordsmanship || 10}+.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'sword').map((st) => { const need = st.unlock?.skills?.swordsmanship || 10; const ok = (s.skills.swordsmanship||0) >= need; return `<button data-a="style" data-v="${st.id}" title="${esc(st.feel||'')}" ${ok?'':'disabled'}>${esc(st.name)}${ok?'':` (need ${need})`}</button>`; }).join('')}</div>`)
       : (s.swordStyle ? card('skills', `${ico('swordsmanship')} Sword style`, `<p class="sub">Active: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || s.swordStyle)}</b> — ${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.feel || '')}.</p>`) : '');
-    const schoolPick = (s.flags.mana_awakened && !s.magicSchool)
-      ? card('skills', `${ico('spellcraft')} Magic school`, `<p class="sub">Bind your spark to a Boundwake school.</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'school').map((st) => `<button data-a="school" data-v="${st.id}">${esc(st.name)}</button>`).join('')}</div>`)
-      : '';
+    const schoolPick = (s.flags.mana_awakened && !s.magicSchool && ca >= 6)
+      ? card('skills', `${ico('spellcraft')} Magic school`, `<p class="sub">Bind your spark to a Boundwake school (age 6+).</p><div class="actions">${(P.styles || []).filter((x) => x.type === 'school').map((st) => `<button data-a="school" data-v="${st.id}">${esc(st.name)}</button>`).join('')}</div>`)
+      : (s.flags.mana_awakened && !s.magicSchool && ca < 6
+        ? card('skills', `${ico('spellcraft')} Magic school`, `<p class="sub">Mana answers early (spark-born), but schools open at age <b>6+</b> — same gate as Train.</p>`)
+        : '');
     const routePick = (!s.route && ca >= 8 && ca <= 16)
       ? card('skills', `${ico('route')} Your path${ca >= 10 && ca <= 13 ? ' · choose soon' : ''}`, `<p class="sub">Primary skills +25%. Clearest choice window around age 11.</p><div class="actions">
         <button type="button" class="primary" data-a="route" data-v="route_sword">Sword</button>
@@ -543,7 +569,7 @@ function body() {
       <h3>${ico('echo')} Relics</h3>${s.relics.map((r) => `<div class="row">${flare(r.replace(/^relic_/, '').replace(/_/g, ' '))}</div>`).join('') || '<div class="empty">None yet. Relics are found in delves and at graves.</div>'}
       <h3>${ico('renown')} Tournament team</h3>${s.team
       ? `<div class="row"><b>${esc(s.team.name)}</b> <small>${esc((P.skills.skills.find(x=>x.id===s.team.affinitySkill)||{}).name || '')} · renown ${Math.round(s.team.renown)} · ${(s.team.roster||[]).length}/4</small></div>`
-      : '<div class="empty">No team — found on Adventure (age 16+, affinity skill 15+, 80g + 1 act).</div>'}
+      : '<div class="empty">No team — found on Adventure (founding age 16+, affinity skill 15+, 80g + 1 act).</div>'}
       <h3>${ico('adventure')} Guild hall</h3>${s.guild
       ? `<div class="row"><b>${esc(E.guildLabel(s))}</b> <small>${esc((P.regions.find(r=>r.id===s.guild.realmId)||{}).name || '')} · renown ${Math.round(s.guild.renown)} · coffer ${Math.floor(s.guild.coffer)} · ${(s.guild.roster||[]).length}/6</small></div>`
       : `<div class="empty">No hall yet.${E.cage(s) >= 18 ? ' Open one from <b>Work → Adventure guild hall</b>.' : ' Unlocks at age 18.'}</div><div class="actions"><button data-tab="work">Go to Work</button></div>`}
@@ -575,7 +601,16 @@ function eventSheet() {
 }
 function ageDock() {
   if (!s || !s.alive) return '';
-  return `<div class="dock"><button class="age" data-a="age" ${s.pending.length ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button></div>`;
+  const busy = autoRunning();
+  const skipBtns = SKIP_PRESETS.map((n) => `<button type="button" class="auto-skip" data-a="skip" data-v="${n}" ${busy || s.pending.length ? 'disabled' : ''} title="Skip ${n} year${n > 1 ? 's' : ''} (safe auto)">+${n}</button>`).join('');
+  return `<div class="dock dock-auto">
+    <div class="auto-row" role="group" aria-label="Autopilot skip">
+      <span class="auto-label">Skip</span>${skipBtns}
+      <button type="button" class="auto-skip" data-a="skip" data-v="custom" ${busy || s.pending.length ? 'disabled' : ''} title="Custom skip">…</button>
+      ${busy ? `<button type="button" class="auto-stop" data-a="autostop">Stop</button>` : ''}
+    </div>
+    <button class="age" data-a="age" ${busy || s.pending.length ? 'disabled' : ''}>${T('year_verb')} +${E.turnYears(s)}</button>
+  </div>`;
 }
 function deathScreen() {
   document.body.classList.remove('has-sheet');
@@ -644,13 +679,22 @@ function render() {
   }
 }
 app.addEventListener('click', (ev) => {
+  // Tab switches win for any [data-tab] (journal Adventure flare chips, Life shortcuts, main tabs)
+  const tabEl = ev.target.closest('[data-tab]');
+  if (tabEl && tabEl.dataset.tab) {
+    if (tabEl.tagName === 'BUTTON' && (tabEl.disabled || tabEl.getAttribute('aria-disabled') === 'true')) {
+      ev.preventDefault(); ev.stopPropagation(); return;
+    }
+    ev.preventDefault();
+    tab = tabEl.dataset.tab;
+    render();
+    return;
+  }
   const b = ev.target.closest('button'); if (!b) return;
   // Real disabled: attribute or aria (Playwright/DOM greyed choices must not fire)
   if (b.disabled || b.getAttribute('aria-disabled') === 'true') { ev.preventDefault(); ev.stopPropagation(); return; }
   const a = b.dataset.a, v = b.dataset.v; let r;
-  // Tab switches must win (Life shortcut chips → Adventure/Work/…)
-  if (b.dataset.tab) { tab = b.dataset.tab; render(); return; }
-  else if (a === 'age') {
+  if (a === 'age') {
     if (s?.pending?.length) return;
     const prevAge = E.cage(s);
     E.ageUp(s);
@@ -724,6 +768,28 @@ app.addEventListener('click', (ev) => {
   else if (a === 'thand') r = E.handoffOwnership(s, 'team', v);
   else if (a === 'ghand') r = E.handoffOwnership(s, 'guild', v);
   else if (a === 'music') { unlockMusic(); toggleMute(); return; }
+  else if (a === 'autostop') { requestStop(); toast('Stopping autopilot…'); return; }
+  else if (a === 'skip') {
+    if (autoRunning()) return;
+    if (s.pending?.length) { toast('Resolve the open event first.'); return; }
+    let n = v === 'custom' ? parseInt(prompt(`Skip how many years? (1–${MAX_SKIP})`, '10') || '0', 10) : parseInt(v, 10);
+    if (!Number.isFinite(n) || n < 1) return;
+    n = Math.min(MAX_SKIP, n);
+    toast(`Autopilot: skipping ${n} year${n > 1 ? 's' : ''}…`);
+    render(); // show Stop button
+    skipYears(s, n, {
+      waitMs: 30,
+      onYear: (y, i, total) => {
+        if (i === 1 || i === total || i % 5 === 0) toast(`Autopilot ${i}/${total} · age ${E.cage(s)}`);
+      },
+      onPause: (p) => { toast(p?.reason || 'Autopilot paused.'); },
+    }).then((res) => {
+      if (res.ok) toast(`Skipped ${res.done} year${res.done > 1 ? 's' : ''} · age ${E.cage(s)}.`);
+      else if (res.paused?.kind === 'stop') toast('Autopilot stopped.');
+      save(); render();
+    });
+    return;
+  }
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();
 });

@@ -1,3 +1,66 @@
+## TB2 + Soccer v3 + Autopilot DEPLOY — Coder Nov 5 ~5:40 PM CT
+
+### Bugfixes (Text Bot pass 2)
+- Baby magic / school: age **6+** gate (Practice + choose school)
+- Skills (+ Work) desktop crush: flex 0 0 auto on skill-acc / work-acc
+- Tournament empty copy after entry (entered-meets vs “no match”)
+- Jail fmtSentence + job-drop toast/journal; escape uses fmtSentence
+- Healer duplicate removed from world activities
+- Guild hire “pool tier” stripped from journal
+- Belongings team: founding 16+ / affinity 15+ / 80g+1 act
+
+### Bugfixes (Soccer Rpg v3)
+- Journal **Adventure** flare chip → `data-tab` switch (info panel no longer steals)
+- Stall Hand apron/kit bond **6g** (15% wage, min 5) shown on Join + journal
+- Life journal scroll: `journal-host` min-height + overflow
+- Unique NPC first names vs player/bonds
+- Crime menu floor **age 12+** with lock-why; living-cost journal line
+- Favicon.ico explicit link
+
+### Autopilot / Skip (basic, free — Gary via Soccer)
+- Life card + Age dock: Skip **1 / 5 / 10 / 25 / custom** (max 100)
+- 1 turn = 1 cage year; safe event picks; pause on death/jail/romance/family/ownership/tournament/Stop
+- Leftover acts: Rest if strained → Work → Train lowest
+- Docs: `docs/AUTOPILOT.md` · module `src/autopilot.js`
+
+### Pack / smoke / live
+- Expansion **225** / own **27**
+- Smoke: **PASS**
+- Lifeline untouched
+- Path for Soccer: `/workspace/boundwake` + https://paigegames.net/boundwake/
+
+## Text Bot pass 2 + Soccer Rpg v3 DEPLOY — Coder Nov 5 ~5:35 PM CT
+
+### Must-fix (TB2)
+| Area | What |
+|------|------|
+| Baby magic | Practice magic + school choice gated age 6+ (same as Train) |
+| Skills crush | Desktop skill-acc flex:0 0 auto (same family as Work) |
+| False tourney gate | After entry shows entered-meets copy, not “no match” |
+| Work crush | Strengthened pass2 CSS for work+skills |
+| Jail copy / job drop | fmtSentence hardened; escape uses it; job-drop toast/journal kept |
+| Healer dupe | World-activity healer hidden; Ailments card owns Visit healer |
+| Pool tier leak | Stripped from guild hire journal |
+| Belongings team | founding 16+ / affinity 15+ / 80g+1 act |
+
+### Must-fix (Soccer v3)
+| Area | What |
+|------|------|
+| Journal Adventure chip | Flare nav chips carry `data-tab`; click handler switches tab; info panel does not steal |
+| Stall Hand 6g | Intentional apron/kit bond = max(5, 15% wage) shown on Join card + journal |
+| Life journal cramped | journal-host flex min-height + scroll at desktop |
+| Duplicate Dorin | Unique first names vs player + living bonds |
+| Crime age gate | Menu floor age 12+; lock-why on rows; pilfer/cutpurse minAge 12 |
+| Living costs | Journal line when −gold between jobs |
+| Favicon | Explicit favicon.ico link |
+
+### Retests kept PASS
+Adventure@10, Stall Hand@10 copy, no term-as-null, friend lock-why, Scout@14+Travel, Restless Feet.
+
+### Pack / smoke
+- Expansion still **225** / own **27**
+- Lifeline untouched
+
 ## Text Bot replay DEPLOYED — Coder Nov 5 ~5:20 PM CT (fold into depth window)
 
 ### Shipped this push

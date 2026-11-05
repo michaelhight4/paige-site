@@ -743,36 +743,96 @@ body[data-tab="work"] .work-acc-body .row{flex-wrap:wrap;gap:6px}
 .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;background:#00000012;margin:2px;font-size:12px;font-weight:700}
 
 /* work tab crush fix nov5 replay */
+/* skills+work crush fix nov5 pass2 */
 @media (min-width:1024px) {
-  body[data-tab="work"] .play-body {
+  body[data-tab="work"] .play-body,
+  body[data-tab="skills"] .play-body {
     display:flex; flex-direction:column; gap:10px;
     align-items:stretch;
   }
-  body[data-tab="work"] .play-body > .card,
-  body[data-tab="work"] .play-body > .work-acc {
+  body[data-tab="work"] .play-body > *,
+  body[data-tab="skills"] .play-body > * {
     flex:0 0 auto !important;
+    flex-shrink:0 !important;
     min-height:auto !important;
     max-height:none !important;
     height:auto !important;
     overflow:visible !important;
   }
-  body[data-tab="work"] .work-acc {
+  body[data-tab="work"] .work-acc,
+  body[data-tab="skills"] .skill-acc {
     overflow:visible !important;
   }
-  body[data-tab="work"] .work-acc[open] > .work-acc-body {
+  body[data-tab="work"] .work-acc[open] > .work-acc-body,
+  body[data-tab="skills"] .skill-acc[open] > .skill-acc-body {
     display:block !important;
     overflow:visible !important;
     min-height:auto !important;
     padding:12px 12px 14px;
   }
   body[data-tab="work"] .work-acc-body .row,
-  body[data-tab="work"] .work-acc-body .actions {
+  body[data-tab="work"] .work-acc-body .actions,
+  body[data-tab="skills"] .skill-acc-body .row-skill,
+  body[data-tab="skills"] .skill-acc-body .actions {
     min-height:36px;
   }
-  body[data-tab="work"] .bw-banner {
-    max-height:48px; overflow:hidden; flex:0 0 auto;
+  body[data-tab="work"] .bw-banner,
+  body[data-tab="skills"] .bw-banner {
+    max-height:48px; overflow:hidden; flex:0 0 auto !important;
+  }
+  /* Never let intro/mana/path cards eat the column */
+  body[data-tab="skills"] .play-body > .card {
+    flex:0 0 auto !important;
   }
 }
-body[data-tab="work"] .work-acc-body {
+body[data-tab="work"] .work-acc-body,
+body[data-tab="skills"] .skill-acc-body {
   overflow:visible;
+}
+
+/* life journal scroll fix nov5 soccer v3 */
+@media (min-width:1024px) {
+  body[data-tab="life"] .play-body {
+    display:flex; flex-direction:column; gap:10px; align-items:stretch;
+  }
+  body[data-tab="life"] .play-body > .card.panel-life {
+    flex:0 0 auto !important;
+    min-height:auto !important;
+    max-height:none !important;
+    height:auto !important;
+  }
+  body[data-tab="life"] .play-body > .card.journal-host,
+  body[data-tab="life"] .play-body > .card.panel-life.journal-host {
+    flex:1 1 auto !important;
+    min-height:min(48vh, 440px) !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+  }
+  body[data-tab="life"] .journal-host .card-body {
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+  }
+  body[data-tab="life"] .journal {
+    flex:1 1 auto !important;
+    max-height:none !important;
+    min-height:220px !important;
+    overflow:auto !important;
+  }
+}
+.journal { max-height:min(52vh, 420px); }
+
+/* autopilot skip dock nov5 */
+.dock-auto{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%}
+.dock-auto .age{width:100%}
+.auto-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;pointer-events:auto}
+.auto-label{font-size:11px;font-weight:700;letter-spacing:.04em;opacity:.8;margin-right:2px}
+.auto-skip,.auto-stop{font-size:11px;padding:6px 8px;min-height:28px;border-radius:8px;border:1.5px solid #e0b14a66;background:#120c1de8;color:#f4ead2;font-weight:700}
+.auto-stop{border-color:#c45a32;color:#f4c4b0}
+.auto-actions{flex-wrap:wrap}
+@media (min-width:1024px){
+  .play-hub .dock-auto{margin-top:6px}
 }
