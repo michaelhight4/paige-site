@@ -62,7 +62,7 @@ const LEAD = {
   adv: 'Roads remember feet that dare them. Pack light; come home heavier.',
   skills: 'First lesson sinks deep; later ones strain you. Pillars ask more of long lives.',
   bonds: 'Faces around the hearth. Party, housemates, and coworkers gain Passive Relationship Growth when temperaments match — Spend time still mends clashes.',
-  realms: 'Five realms, one map in the mind. Travel when your boots are ready.',
+  realms: 'Five realms, one map. Visit places where you stand; travel to open new ground.',
   codex: 'What the world taught you stays — even when the body does not.',
   bel: 'Gold, relics, the small weights of a life. A shop for later.',
 };
@@ -197,8 +197,24 @@ function body() {
     return card('bonds', HD.bonds, `${lead('bonds')}${people.map(bondCard).join('') || '<div class="empty">No one yet. Make a friend when you can.</div>'}
     <div class="actions"><button data-a="friend" ${s.budget.social && h >= 5 ? '' : 'disabled'}>Make a friend</button> <button data-a="love" ${s.budget.social && h >= 16 && !E.partnerOf(s) ? '' : 'disabled'}>${flare('Lantern Market')}</button></div>`);
   }
-  if (tab === 'realms') return card('realms', HD.realms, lead('realms')) + P.regions.map((r) => { const f = s.regionsFound.includes(r.id); return card('realms', `${ico('realm')} ${f ? esc(r.name) : '??? (undiscovered)'}`, `<p class="sub">${f ? flare(r.feel) : 'Undiscovered.'}</p>
-    ${f ? r.locations.map((l) => `<div class="row"><div><b>${esc(l.name)}</b> <small>${esc(l.kind)}</small><br><small>${flare(l.flavor)}</small></div></div>`).join('') + (s.region !== r.id ? `<div class="actions"><button data-a="travel" data-v="${r.id}" ${h >= 14 ? '' : 'disabled'}>Travel here</button></div>` : '<p class="good">You are here.</p>') : ''}`); }).join('');
+  if (tab === 'realms') {
+    const here = s.region;
+    const stack = P.regions.map((r) => {
+      const found = s.regionsFound.includes(r.id);
+      const at = here === r.id;
+      if (!found) return card('realms', `${ico('realm')} ??? (undiscovered)`, `<p class="sub">Undiscovered. Keep living — maps widen with years and roads.</p>`);
+      const locs = (r.locations || []).map((l) => {
+        const seen = s.codex.includes(l.id);
+        return `<div class="row row-loc"><div><b>${esc(l.name)}</b> <small>${esc(l.kind)}${seen ? ' · in Codex' : ''}</small><br><small>${flare(l.flavor)}</small></div>
+          ${at ? `<button data-a="visit" data-v="${l.id}" ${s.budget.act < 1 ? 'disabled' : ''}>Visit</button>` : '<small class="muted">Travel here first</small>'}</div>`;
+      }).join('');
+      const foot = at
+        ? `<p class="good">You are here. Visit a place (1 activity) to shape the year.</p>`
+        : `<div class="actions"><button data-a="travel" data-v="${r.id}" ${h >= 14 && s.budget.act > 0 ? '' : 'disabled'}>Travel here${h < 14 ? ' (age 14+)' : ''}</button></div>`;
+      return card('realms', `${ico('realm')} ${esc(r.name)}${at ? ' · here' : ''}`, `<p class="sub">${flare(r.feel)}</p>${locs}${foot}`);
+    }).join('');
+    return card('realms', HD.realms, `${lead('realms')}<p class="sub">Walk the places of your current realm, or travel when your boots are ready. Visits enter the Codex and color what finds you next.</p>`) + `<div class="realms-stack">${stack}</div>`;
+  }
   if (tab === 'codex') {
     const evT = Object.fromEntries(P.events.map((e) => [e.id, e.title]));
     const rows = s.codex.map((c) => `<div class="row">${flare(evT[c] || P.regions.find((r) => r.id === c)?.name || P.regions.flatMap((r) => r.locations).find((l) => l.id === c)?.name || c.replace(/_/g, ' '))}</div>`).join('');
@@ -286,7 +302,7 @@ app.addEventListener('click', (ev) => {
   else if (a === 'ch') { r = E.resolve(s, +v); if (r) toast((r.success === false ? '✗ ' : '') + r.msg); }
   else if (a === 'train') r = E.train(s, v); else if (a === 'job') r = E.takeJob(s, v); else if (a === 'quit') E.quitJob(s); else if (a === 'work') r = E.workHard(s);
   else if (a === 'adv') r = E.adventure(s); else if (a === 'rest') r = E.rest(s); else if (a === 'route') E.chooseRoute(s, v);
-  else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v);
+  else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v); else if (a === 'visit') r = E.visitLocation(s, v);
   else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
   else if (a === 'heir') { s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
   else if (a === 'party') { r = E.toggleParty(s, v); }

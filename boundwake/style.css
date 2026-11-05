@@ -608,3 +608,22 @@ body.info-open .dock{pointer-events:none}
 .bond-card.temper-clash{border-color:#c45a3255}
 .bond-temper{font-weight:700;color:var(--bond2);font-size:12.5px}
 .temper-note{margin:4px 0 8px;font-size:12.5px}
+
+/* ---- Realms visit list + tall-menu scroll ---- */
+.realms-stack{display:flex;flex-direction:column;gap:10px;padding-bottom:12px}
+.row-loc{align-items:flex-start}
+.row-loc button{flex:none;margin-top:2px}
+.muted{color:var(--muted);font-size:12px}
+/* Mobile / all: stage scrolls when content taller than viewport */
+#stage{overflow-y:auto;-webkit-overflow-scrolling:touch}
+@media (min-width:1024px){
+  /* Desktop: column plate clips; play-body is the scrollport for tall tabs (Realms, Skills, Bonds) */
+  .play-main{overflow:hidden}
+  .play-body{overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  body[data-tab="realms"] .play-body,
+  body[data-tab="skills"] .play-body,
+  body[data-tab="bonds"] .play-body,
+  body[data-tab="codex"] .play-body,
+  body[data-tab="bel"] .play-body,
+  body[data-tab="work"] .play-body{overflow-y:auto}
+}

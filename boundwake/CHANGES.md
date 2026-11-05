@@ -45,3 +45,7 @@
 ## Nov 5 2026 (PRG: housemates, coworkers, temperaments)
 - Bonds get a persisted temperament; clash table gates Passive Relationship Growth.
 - Housemates + same-job coworkers qualify (one boost/year with party).
+
+## Nov 5 2026 (Realms Visit + scroll)
+- `visitLocation(s, locId)` spends act; kind-based effects; Codex + visit_bias. Pond Visit ≠ Life Rest-by-pond.
+- Realms UI: Visit on current realm places; Travel here on others; scrollable play-body / realms-stack.

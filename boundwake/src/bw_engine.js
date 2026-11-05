@@ -215,7 +215,69 @@ export function adventure(s) {
 }
 export function rest(s) { if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' }; s.stats.stress = clamp(s.stats.stress - 12, 0, 100); s.stats.health = clamp(s.stats.health + 3, 0, 100); log(s, 'I took a slow day by the pond with tea and bread.', 'rest'); return { ok: true }; }
 export function chooseRoute(s, r) { if (hage(s) < 8 || s.route) return; s.route = r; log(s, `I chose my path: ${r.replace('route_', '')}.`, 'route'); }
-export function travel(s, id) { if (!s.regionsFound.includes(id) || hage(s) < 14) return { ok: false }; if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left.' }; s.region = id; log(s, `I travelled to ${regionById(id).name}.`, 'travel'); return { ok: true }; }
+
+/** Visit a place in the current realm (Gary Nov 5 ~2:02 PM CT). Spends 1 act; effects by location kind. */
+export function visitLocation(s, locId) {
+  const reg = regionOf(s);
+  const loc = (reg?.locations || []).find((l) => l.id === locId);
+  if (!loc) return { ok: false, msg: 'That place is not in this realm.' };
+  if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' };
+  discover(s, loc.id);
+  s.flags.last_visit = loc.id;
+  s.flags.visit_bias = loc.id; // next event can lean toward this place
+  const kind = String(loc.kind || '').toLowerCase();
+  let msg = `I visited ${loc.name}.`;
+  // Kind effects — pond Visit is NOT the Life-tab "Rest by the pond" (that stays 4-act stress rest).
+  if (/park|commons|plaza|harbor park/.test(kind)) {
+    s.stats.happiness = clamp(s.stats.happiness + rint(s, 4, 9), 0, 100);
+    s.stats.health = clamp(s.stats.health + rint(s, 1, 3), 0, 100);
+    msg = `I walked ${loc.name}. The open air eased my spirit.`;
+    useSkill(s, 'foraging', 0.4);
+  } else if (/pond|tide|water/.test(kind)) {
+    s.stats.happiness = clamp(s.stats.happiness + rint(s, 3, 7), 0, 100);
+    s.stats.health = clamp(s.stats.health + rint(s, 2, 4), 0, 100);
+    s.stats.stress = clamp(s.stats.stress - rint(s, 2, 5), 0, 100);
+    msg = `I lingered at ${loc.name}. Water and quiet helped a little.`;
+  } else if (/stall|market|civic\/stalls/.test(kind)) {
+    const coin = rint(s, 2, 8);
+    s.gold += coin;
+    useSkill(s, 'bartering', 1.2);
+    msg = `I worked the crowd at ${loc.name} and came away with ${coin} gold.`;
+  } else if (/academy|primer|training|martial hall/.test(kind)) {
+    useSkill(s, 'literacy', 1.4);
+    useSkill(s, 'focus', 1.0);
+    s.stats.smarts = clamp(s.stats.smarts + rint(s, 1, 3), 0, 100);
+    msg = `I studied under the eaves of ${loc.name}.`;
+  } else if (/landmark|statue|shrine|bridge/.test(kind)) {
+    s.stats.happiness = clamp(s.stats.happiness + rint(s, 3, 6), 0, 100);
+    s.stats.fame = clamp(s.stats.fame + (chance(s, 0.25) ? 1 : 0), 0, 100);
+    msg = `I paid respects at ${loc.name}. ${loc.flavor || ''}`.trim();
+  } else if (/home|cottage|lane|camp/.test(kind)) {
+    s.stats.happiness = clamp(s.stats.happiness + rint(s, 2, 5), 0, 100);
+    useSkill(s, 'charm', 0.6);
+    msg = `I traded gossip along ${loc.name}.`;
+  } else if (/civic|guild|watch|fort|travel hub/.test(kind)) {
+    s.stats.fame = clamp(s.stats.fame + rint(s, 1, 3), 0, 100);
+    msg = `I heard civic rumors at ${loc.name}.`;
+  } else if (/dungeon|wild path|ruins/.test(kind)) {
+    useSkill(s, 'tracking', 1.0);
+    useSkill(s, 'endurance', 0.8);
+    s.stats.stress = clamp(s.stats.stress + rint(s, 1, 4), 0, 100);
+    if (chance(s, 0.35)) s.gold += rint(s, 1, 5);
+    msg = `I probed the edges of ${loc.name}. Danger keeps its own ledgers.`;
+  } else if (/healer/.test(kind)) {
+    s.stats.health = clamp(s.stats.health + rint(s, 4, 8), 0, 100);
+    s.stats.stress = clamp(s.stats.stress - 3, 0, 100);
+    msg = `I sought care at ${loc.name}.`;
+  } else {
+    s.stats.happiness = clamp(s.stats.happiness + rint(s, 2, 4), 0, 100);
+    msg = `I spent time at ${loc.name}. ${loc.flavor || ''}`.trim();
+  }
+  log(s, msg, 'explore');
+  return { ok: true, msg };
+}
+
+export function travel(s, id) { if (!s.regionsFound.includes(id) || hage(s) < 14) return { ok: false, msg: hage(s) < 14 ? 'Travel opens at age 14.' : 'Unknown realm.' }; if (s.region === id) return { ok: false, msg: 'You are already here.' }; if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left.' }; s.region = id; discover(s, id); log(s, `I travelled to ${regionById(id).name}.`, 'travel'); return { ok: true, msg: `Arrived in ${regionById(id).name}.` }; }
 export const regionById = (id) => D.regions.find((r) => r.id === id);
 export const regionOf = (s) => regionById(s.region);
 function discover(s, id) { if (!s.codex.includes(id)) s.codex.push(id); }
@@ -361,7 +423,18 @@ export function queue(s, id) { if (!s.pending.includes(id)) s.pending.push(id); 
 function drawEvents(s) {
   const due = s.chain.filter((c) => c.due <= s.age); s.chain = s.chain.filter((c) => c.due > s.age); for (const c of due) queue(s, c.id);
   if (s.pending.length) return; const n = hage(s) < 13 ? 1 : 1 + (chance(s, 0.35) ? 1 : 0);
-  for (let i = 0; i < n; i++) { if (!chance(s, 0.75)) continue; const el = eligible(s).filter((e) => !s.pending.includes(e.id) && !['combat', 'dungeon'].includes(e.cat) || e.cat === 'combat' && chance(s, 0.3)); const e = wpick(s, el, (x) => x.w); if (e) queue(s, e.id); }
+  const bias = s.flags.visit_bias;
+  for (let i = 0; i < n; i++) {
+    if (!chance(s, 0.75)) continue;
+    const el = eligible(s).filter((e) => !s.pending.includes(e.id) && (!['combat', 'dungeon'].includes(e.cat) || (e.cat === 'combat' && chance(s, 0.3))));
+    const e = wpick(s, el, (x) => {
+      let w = x.w || 1;
+      if (bias && (x.cat === 'exploration' || String(x.id || '').includes(bias) || JSON.stringify(x).includes(bias))) w *= 2.5;
+      return w;
+    });
+    if (e) queue(s, e.id);
+  }
+  if (bias) delete s.flags.visit_bias; // one year of lean, then clear
 }
 export function pendingCard(s) { const id = s.pending[0]; if (!id) return null; const e = evById(id); return { ...e, choices: e.choices.map((c) => ({ ...c, odds: oddsOf(s, c), locked: c.req && s.gold < c.req })) }; }
 function oddsOf(s, c) { if (c.p == null) return null; let p = c.p; const sk = c.skill === 'primary' ? primarySkills(s)[0] : c.skill; if (sk) p += ((s.skills[sk] || 0) - 25) / 120; return clamp(p, 0.08, 0.95); }
