@@ -1,5 +1,15 @@
 ## Depth pack DEPLOYED — Coder Nov 5 ~5:20 PM CT (Gary: “i want it all”)
 
+## 2026-11-05 Text Bot replay fold-in (Work crush + MED)
+- Work tab @≥1024: `.work-acc` / cards `flex:0 0 auto` so guild hall + workshops no longer crush to ~10px bars; workshops accordion opens when any owned (Herb Stall visible after jail/unemployment).
+- Notices Post: gate on **cage** (not hage) + show lock reason (Age / actions / prison).
+- Jail: job drop warns in journal + sentence toast; `fmtSentence` unifies months/years (no more 0.5 years / 1 years).
+- Guild hall: last-year vs lifetime jobs copy; handoff only age 50+.
+- Team: Belongings + Adventure copy both say age 16+, affinity skill 15+, 80g+1 act.
+- Make a friend: always-on title/aria tip + visible tip line.
+- Ownership tease/founding ages widened + realm tags stripped from teasers for discoverability (own_* still live).
+- Deferred depth pack (elder/child/cook-weaver, death causes, adult RNG floor, path@11) remains in this deploy window.
+
 ### Shipped
 | Area | What |
 |------|------|

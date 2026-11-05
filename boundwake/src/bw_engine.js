@@ -1667,6 +1667,7 @@ export function guildYear(s, yrs = 1) {
   }
   const feePaid = paidMembers.length * feeEach * yrs;
   const net = gained - feePaid;
+  g.lastYear = { success, fail, gained, feePaid, year: cage(s) };
   let msg = `Guild year: ${success} jobs done, ${fail} failed. Coffer +${gained} gold (fees ${feePaid}). Renown ${Math.round(g.renown)}.`;
   if (net < 0) msg += ' Fees outpaced the board — lean year.';
   if (success > 0) s.flags.ui_renown_delta = Math.max(1, Math.min(4, success));
@@ -1879,6 +1880,16 @@ export function commitCrime(s, id) {
   const msg = c.ok + (loot ? ` I made ${loot} gold.` : '');
   log(s, msg, 'crime'); return { ok: true, msg, loot };
 }
+export function fmtSentence(years) {
+  if (years == null || Number.isNaN(+years)) return '';
+  if (years >= 99) return 'life';
+  if (years < 1) {
+    const mo = Math.max(1, Math.round(years * 12));
+    return mo === 1 ? '1 month' : `${mo} months`;
+  }
+  const y = Math.round(years * 10) / 10;
+  return y === 1 ? '1 year' : `${y} years`;
+}
 function arrest(s, id) {
   const c = crimeDef(id), rules = D.law.rules, priors = s.record.sentences;
   let years = c.sentence[0] + (c.sentence[1] - c.sentence[0]) * rnd(s);
@@ -1891,12 +1902,19 @@ function arrest(s, id) {
   else if (years > (tierDef('stockade')?.maxSentence || 2)) tier = 'stonehold';
   s.prison = { crime: id, total: years, left: years, tier, served: 0, conduct: 0, appealed: false };
   s.record.sentences++; s.flags.criminal = 1; s.flags.in_prison = 1;
-  if (s.job) quitJob(s);
+  let jobNote = '';
+  if (s.job) {
+    const title = D.jobsById[s.job.id]?.title || 'post';
+    s.jobHist.push({ ...s.job, left: s.age, reason: 'imprisoned' });
+    s.job = null;
+    jobNote = ` My post as ${title} is gone — I will need work again when free.`;
+    log(s, `Imprisonment cost me my post as ${title}. I will need work again when free.`, 'job');
+  }
   s.pending = [];
   s.stats.happiness = clamp(s.stats.happiness - 14, 0, 100);
   s.stats.karma = clamp(s.stats.karma + Math.min(0, (c.karma || 0) / 2), 0, 100);
-  const yrs = years >= 99 ? 'life' : years < 1 ? `${Math.round(years * 12)} months` : `${years} years`;
-  const msg = `${c.caught} I was sentenced to ${yrs} in ${tierDef(tier)?.name || tier}.`;
+  const yrs = fmtSentence(years);
+  const msg = `${c.caught} I was sentenced to ${yrs} in ${tierDef(tier)?.name || tier}.${jobNote}`;
   log(s, msg, 'crime'); return { ok: false, msg, caught: true };
 }
 function prisonYear(s, yrs) {
@@ -1908,7 +1926,7 @@ function prisonYear(s, yrs) {
   s.stats.health = clamp(s.stats.health - (t?.healthLoss || 1) * yrs, 0, 100);
   if (pr.left <= 0.001 && pr.total < (D.law?.rules?.lifeSentence || 99)) {
     s.prison = null; delete s.flags.in_prison; s.record.priors++;
-    log(s, `I was released after ${Math.round(pr.served * 10) / 10} years. The sky looked larger than I remembered.`, 'crime');
+    log(s, `I was released after ${fmtSentence(pr.served)}. The sky looked larger than I remembered.`, 'crime');
   }
 }
 
@@ -2298,7 +2316,9 @@ export function prisonBehave(s) {
   const pr = s.prison; pr.conduct = (pr.conduct || 0) + 1; s.stats.karma = clamp(s.stats.karma + 1, 0, 100); s.stats.stress = clamp(s.stats.stress - 3, 0, 100);
   const pf = D.law?.rules?.paroleFraction ?? 0.5;
   if (pr.total < (D.law?.rules?.lifeSentence || 99) && pr.served >= pr.total * pf && pr.conduct >= 2 && chance(s, 0.5)) {
-    release(s, 'The warden granted parole for steady conduct.'); return { ok: true, msg: 'Paroled for good behavior!' };
+    const cnd = pr.conduct;
+    release(s, 'The warden granted parole for steady conduct.');
+    return { ok: true, msg: `Paroled for good behavior! (conduct ${cnd})` };
   }
   const msg = 'I kept my head down and did my work. The guards noticed.'; log(s, msg, 'crime'); return { ok: true, msg };
 }

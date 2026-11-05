@@ -4,9 +4,9 @@
     "cat": "special",
     "ages": [
       14,
-      18
+      40
     ],
-    "w": 3,
+    "w": 4,
     "once": true,
     "title": "Meet-Week Notice",
     "prompt": "The crier taps a notice about realm team meets. Festival lamps are already going up along the quay.",
@@ -48,9 +48,7 @@
     "journal_src": "text",
     "tags": [
       "team",
-      "tournament",
-      "glassmarket",
-      "hearthfold"
+      "tournament"
     ],
     "if": {
       "team": false
@@ -60,7 +58,7 @@
     "id": "own_a1_founding",
     "cat": "special",
     "ages": [
-      16,
+      15,
       45
     ],
     "w": 4,
@@ -116,7 +114,7 @@
     "cat": "work",
     "ages": [
       16,
-      50
+      55
     ],
     "w": 3,
     "once": true,
@@ -865,9 +863,9 @@
     "cat": "special",
     "ages": [
       16,
-      20
+      42
     ],
-    "w": 3,
+    "w": 4,
     "once": true,
     "title": "Hall Writs Aren't Romance",
     "prompt": "Dust and ledgers. A broker eyes you like a possible landlord of trouble. Hall writs mean keys, fees, and people who expect supper after the job.",
@@ -919,8 +917,8 @@
     "id": "own_b1_founding",
     "cat": "special",
     "ages": [
-      18,
-      50
+      16,
+      48
     ],
     "w": 4,
     "once": true,
@@ -973,7 +971,7 @@
     "id": "own_b2_first_hire",
     "cat": "work",
     "ages": [
-      18,
+      17,
       55
     ],
     "w": 3,

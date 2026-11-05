@@ -741,3 +741,38 @@ body[data-tab="work"] .work-acc{margin-bottom:10px}
 body[data-tab="work"] .work-acc-body .row{flex-wrap:wrap;gap:6px}
 .lock-why{color:var(--ember,#C45A32);font-weight:700}
 .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;background:#00000012;margin:2px;font-size:12px;font-weight:700}
+
+/* work tab crush fix nov5 replay */
+@media (min-width:1024px) {
+  body[data-tab="work"] .play-body {
+    display:flex; flex-direction:column; gap:10px;
+    align-items:stretch;
+  }
+  body[data-tab="work"] .play-body > .card,
+  body[data-tab="work"] .play-body > .work-acc {
+    flex:0 0 auto !important;
+    min-height:auto !important;
+    max-height:none !important;
+    height:auto !important;
+    overflow:visible !important;
+  }
+  body[data-tab="work"] .work-acc {
+    overflow:visible !important;
+  }
+  body[data-tab="work"] .work-acc[open] > .work-acc-body {
+    display:block !important;
+    overflow:visible !important;
+    min-height:auto !important;
+    padding:12px 12px 14px;
+  }
+  body[data-tab="work"] .work-acc-body .row,
+  body[data-tab="work"] .work-acc-body .actions {
+    min-height:36px;
+  }
+  body[data-tab="work"] .bw-banner {
+    max-height:48px; overflow:hidden; flex:0 0 auto;
+  }
+}
+body[data-tab="work"] .work-acc-body {
+  overflow:visible;
+}
