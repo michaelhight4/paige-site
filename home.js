@@ -26,8 +26,15 @@ const $=id=>document.getElementById(id);
 const pick=(arr,n,key)=>{const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 let last=[];try{last=JSON.parse(localStorage.getItem('feat-'+key)||'[]')}catch(e){}
 const img=arr.filter(x=>x.img),noimg=arr.filter(x=>!x.img);let pool=img.length>=n?img:img.concat(noimg);
-const fresh=pool.filter(x=>!last.includes(x.id));let out=sh(fresh).slice(0,n);if(out.length<n)out=out.concat(sh(pool.filter(x=>!out.includes(x))).slice(0,n-out.length));
+// Soft bias: alphas (Boundwake/Kilumen) surface more often on the 2-card home strip
+const alphas=pool.filter(x=>x.alpha&&x.status==='live'&&!x.maint);
+const fresh=pool.filter(x=>!last.includes(x.id));let out=sh(fresh).slice(0,n);
+if(out.length<n)out=out.concat(sh(pool.filter(x=>!out.includes(x))).slice(0,n-out.length));
 if(out.map(x=>x.id).sort().join()===last.slice().sort().join()&&pool.length>n){out=sh(pool).slice(0,n)}
+if(key==='g'&&alphas.length&&!out.some(x=>x.alpha)&&Math.random()<0.65){
+  const swap=sh(alphas.filter(x=>!out.includes(x)))[0]||sh(alphas)[0];
+  if(swap) out=[swap,...out.filter(x=>x.id!==swap.id)].slice(0,n);
+}
 try{localStorage.setItem('feat-'+key,JSON.stringify(out.map(x=>x.id)))}catch(e){}return out};
 $('home-games').innerHTML=pick(G,2,'g').map(g=>gCard(g,false)).join('');
 $('all-games').innerHTML=G.map(g=>gCard(g,false)).join('');
