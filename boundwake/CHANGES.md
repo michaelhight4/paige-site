@@ -1,3 +1,13 @@
+## Live — pending push · Legacy + Autopilot hotfix · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~5:55 PM CT — Legacy Goals/Achievements + Autopilot P1/P3
+- Fix: Age +1 / Skip no-op at age 0 (missing Legacy helpers mid-ageUp)
+- Fix: Autopilot / Skip card body blank on desktop (flex collapse)
+- Add: Legacy tab — 34 Life Goals, 20 Achievements, Claim/Claim All, permanent mods panel
+- Add: `legacy.json` OPTIONAL pack; `meta.legacy` persistence
+- Codex: category filters + ??? locked + completion ratios
+- Smoke PASS (dwarf cage 0→1→2; claims)
+
 ## Live — **57485ea3** Market+Autopilot+playtest · https://paigegames.net/boundwake/
 
 ## DEPLOY ready — Market (Game Dev) + Autopilot + TB2/Soccer/Story — Coder Nov 5 ~5:45 PM CT

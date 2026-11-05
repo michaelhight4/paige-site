@@ -1,3 +1,29 @@
+## Live — pending push · Legacy Goals + Autopilot hotfix · https://paigegames.net/boundwake/
+
+## DEPLOY — Achievements / Life Goals + Autopilot P1/P3 — Coder Nov 5 ~5:55 PM CT
+
+### P1 Autopilot hotfix
+- Age +1 / Skip broken at cage 0: incomplete Legacy hooks called undefined `tickLegacyLifeFlags` / `applyAchievementMods` mid-`ageUp`/`begin` → throw after age bump, UI never re-rendered
+- Stubs + full Legacy API wired; Age +1 and Skip 1 advance cage from 0 (smoke PASS)
+- Skip promise `.catch` + Age try/catch so future engine errors surface as toasts
+
+### P3 Autopilot card blank
+- Desktop flex: `.panel-life .card-body` had `flex:1;min-height:0;overflow:hidden` inside `height:auto` cards → body collapsed to 0
+- Fix: non-journal Life cards `flex:0 0 auto` + visible body; Autopilot `auto-host` plate with readable ink + primary Skip buttons
+
+### Legacy hub (Bit Tensie–inspired structure, Boundwake parchment — no IP/chrome copy)
+- Data: `data_fantasy/legacy.json` — **34 Life Goals**, **20 Achievements**
+- New **Legacy** tab: Life Goals (this life) + Achievements (meta) + permanent modifiers panel
+- Claim / Claim All for goals and achievements; rewards gold/spirit/renown/skill crumbs; ach → Legacy sparks + mods (start gold, rare trait weight, act/social crumbs, etc.)
+- Persist: `meta.legacy` in `bw.meta.v1` across reincarnates; mods reapplied on `begin`
+- Codex deepen: category filters (All / Events / Places / Realms) with completion ratios + ??? locked rows
+
+### Pack / smoke
+- Life Goals **34** / Achievements **20** / market **36** / expansion **225** / own **27**
+- Smoke: fresh dwarf Age +1 + Skip 1 → cage 2; claim `ach_first_life` + `lg_age_10` PASS
+- Path: `/workspace/boundwake` · live https://paigegames.net/boundwake/
+- Lifeline untouched
+
 ## Live — **57485ea3** Market+Autopilot+playtest · https://paigegames.net/boundwake/
 
 ## DEPLOY ready — Market (Game Dev) + Autopilot + TB2/Soccer/Story — Coder Nov 5 ~5:45 PM CT

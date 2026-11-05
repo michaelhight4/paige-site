@@ -120,6 +120,7 @@ const TAB_META = {
   bonds: { ico: 'bond', label: 'people_menu' },
   realms: { ico: 'realm', label: 'map_menu' },
   codex: { ico: 'codex', label: 'codex_menu' },
+  legacy: { ico: 'echo', label: 'Legacy' },
   bel: { ico: 'belong', label: 'assets_menu' },
 };
 const TABS = Object.keys(TAB_META).map((k) => [k, TAB_META[k].label]);
@@ -131,6 +132,7 @@ const LEAD = {
   bonds: 'Faces around the hearth. Party, housemates, and coworkers gain Passive Relationship Growth when temperaments match — Spend time still mends clashes.',
   realms: 'Five realms, one map. Visit places where you stand; travel to open new ground.',
   codex: 'What the world taught you stays — even when the body does not.',
+  legacy: 'Life Goals are this waking. Achievements and their modifiers endure across reincarnations.',
   bel: 'Gold, relics, workshops, and the notice boards that carry your name. Gear shop: buy, equip, and sell.',
 };
 const HD = {
@@ -141,6 +143,7 @@ const HD = {
   bonds: `${ico('bond')} Bonds`,
   realms: `${ico('realm')} Realms`,
   codex: `${ico('codex')} Codex`,
+  legacy: `${ico('echo')} Legacy`,
   bel: `${ico('belong')} Belongings`,
 };
 
@@ -206,13 +209,13 @@ function body() {
       <button type="button" data-a="rest" ${s.budget.act < 1 ? 'disabled' : ''}>${ico('spirit')} Rest</button>
     </div>`;
     const autoBusy = autoRunning();
-    const autoCard = card('life', `${ico('act')} Autopilot / Skip`, `<p class="sub">Advance <b>cage</b> years one at a time (1 turn = 1 year). Safe event picks; pauses on death, jail, romance/family, ownership, tournaments, or Stop. Leftover actions: Rest if strained → Work if employed → Train lowest skill.</p>
+    const autoCard = card('life', `${ico('act')} Autopilot / Skip`, `<p class="sub auto-blurb">Advance <b>cage</b> years (1 turn = 1 year). Safe picks; pauses on death, jail, romance/family, ownership, tournaments, or Stop. Leftovers: Rest if strained → Work if employed → Train lowest skill.</p>
       <div class="actions auto-actions">
-        ${SKIP_PRESETS.map((n) => `<button type="button" data-a="skip" data-v="${n}" ${autoBusy || s.pending.length ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
+        ${SKIP_PRESETS.map((n) => `<button type="button" class="primary" data-a="skip" data-v="${n}" ${autoBusy || s.pending.length ? 'disabled' : ''}>Skip ${n}y</button>`).join('')}
         <button type="button" data-a="skip" data-v="custom" ${autoBusy || s.pending.length ? 'disabled' : ''}>Custom…</button>
         ${autoBusy ? `<button type="button" class="primary" data-a="autostop">Stop</button>` : ''}
       </div>
-      ${s.pending.length ? `<p class="sub lock-why">Resolve the open event first (or Autopilot will pause on important ones).</p>` : ''}`);
+      ${s.pending.length ? `<p class="sub lock-why">Resolve the open event first (or Autopilot will pause on important ones).</p>` : ''}`, 'auto-host');
     const tourneyBanner = E.isTournamentYear(s)
       ? card('life', `${ico('adventure')} Tournament year`, `<p class="sub">Bracket <b>${esc(E.tourneyBracket(s)?.label || '')}</b> meets are open — enter from the Adventure tab (1 action). Strong places draw academies, tutors, and blade halls.</p><div class="actions"><button type="button" class="primary" data-tab="adv">${ico('adventure')} Open Adventure</button></div>`)
       : (E.tournamentInvites(s).length
@@ -552,14 +555,120 @@ function body() {
   }
   if (tab === 'codex') {
     const evT = Object.fromEntries(P.events.map((e) => [e.id, e.title]));
-    const rows = s.codex.map((c) => `<div class="row">${flare(evT[c] || P.regions.find((r) => r.id === c)?.name || P.regions.flatMap((r) => r.locations).find((l) => l.id === c)?.name || c.replace(/_/g, ' '))}</div>`).join('');
+    const allLocs = P.regions.flatMap((r) => (r.locations || []).map((l) => ({ ...l, realm: r.name, realmId: r.id })));
+    const known = new Set(s.codex || []);
+    const filter = s.flags?.codexFilter || 'all';
+    const cats = [
+      { id: 'all', label: 'All' },
+      { id: 'events', label: 'Events' },
+      { id: 'places', label: 'Places' },
+      { id: 'realms', label: 'Realms' },
+    ];
+    const eventIds = P.events.map((e) => e.id);
+    const placeIds = allLocs.map((l) => l.id);
+    const realmIds = P.regions.map((r) => r.id);
+    const discoveredEvents = eventIds.filter((id) => known.has(id)).length;
+    const discoveredPlaces = placeIds.filter((id) => known.has(id)).length;
+    const discoveredRealms = realmIds.filter((id) => known.has(id)).length;
+    const ratio = (n, d) => `${n}/${d}`;
+    const filters = cats.map((c) => {
+      const sub = c.id === 'events' ? ratio(discoveredEvents, eventIds.length)
+        : c.id === 'places' ? ratio(discoveredPlaces, placeIds.length)
+        : c.id === 'realms' ? ratio(discoveredRealms, realmIds.length)
+        : ratio(known.size, eventIds.length + placeIds.length + realmIds.length);
+      return `<button type="button" data-a="codexfilter" data-v="${c.id}" class="${filter === c.id ? 'primary' : ''}">${esc(c.label)} <small>${sub}</small></button>`;
+    }).join('');
+    let entries = [];
+    if (filter === 'all' || filter === 'events') {
+      for (const e of P.events) {
+        const open = known.has(e.id);
+        if (filter === 'events' || open || filter === 'all') {
+          if (filter === 'all' && !open) continue;
+          entries.push({ cat: 'events', open, title: open ? (e.title || e.id) : '???', sub: open ? (e.cat || '') : 'Undiscovered event' });
+        }
+      }
+      if (filter === 'events') {
+        for (const e of P.events) {
+          if (!known.has(e.id)) entries.push({ cat: 'events', open: false, title: '???', sub: 'Undiscovered event' });
+        }
+        // dedupe: rebuild cleanly
+        entries = P.events.map((e) => known.has(e.id)
+          ? { cat: 'events', open: true, title: e.title || e.id, sub: e.cat || 'event' }
+          : { cat: 'events', open: false, title: '???', sub: 'Undiscovered event' });
+      }
+    }
+    if (filter === 'places') {
+      entries = allLocs.map((l) => known.has(l.id)
+        ? { cat: 'places', open: true, title: l.name, sub: l.realm }
+        : { cat: 'places', open: false, title: '???', sub: l.realm + ' · locked' });
+    }
+    if (filter === 'realms') {
+      entries = P.regions.map((r) => known.has(r.id)
+        ? { cat: 'realms', open: true, title: r.name, sub: r.feel || '' }
+        : { cat: 'realms', open: false, title: '???', sub: 'Undiscovered realm' });
+    }
+    if (filter === 'all') {
+      entries = [...known].map((c) => ({
+        cat: 'all', open: true,
+        title: evT[c] || P.regions.find((r) => r.id === c)?.name || allLocs.find((l) => l.id === c)?.name || c.replace(/_/g, ' '),
+        sub: '',
+      }));
+    }
+    const rows = entries.map((e) => `<div class="row ${e.open ? '' : 'codex-locked'}"><div><b>${esc(e.title)}</b>${e.sub ? ` <small>${esc(e.sub)}</small>` : ''}</div></div>`).join('');
     const tal = (s.talents || []).map((id) => {
       const sk = P.skills.skills.find((x) => x.id === id);
       return `<span class="pill">${skillIco(id)} ${esc(sk?.name || id)}</span>`;
     }).join('');
-    return card('codex', `${HD.codex} <span class="hd-sub">${s.codex.length}</span>`, `${lead('codex')}<p class="sub">Kept across reincarnations.</p>
+    return card('codex', `${HD.codex} <span class="hd-sub">${s.codex.length}</span>`, `${lead('codex')}<p class="sub">Kept across reincarnations. Locked entries stay ??? until discovered.</p>
+      <div class="actions" style="margin-bottom:10px">${filters}</div>
       ${tal ? `<h3>${ico('echo')} This life's talents</h3><div class="pills" style="margin-bottom:10px">${tal}</div>` : ''}
       ${rows || '<div class="empty">Nothing recorded yet.</div>'}`);
+  }
+  if (tab === 'legacy') {
+    const sum = E.legacyHubSummary(s, meta);
+    const goals = E.listLifeGoals(s, meta);
+    const achs = E.listAchievements(s, meta);
+    const modEntries = Object.entries(sum.mods || {}).filter(([, v]) => v);
+    const modPanel = card('legacy', `${ico('echo')} Permanent modifiers`, modEntries.length
+      ? `<p class="sub">Earned from claimed Achievements — applied at birth and while claimed.</p>
+        <div class="legacy-mods">${modEntries.map(([k, v]) => {
+          const label = k.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase());
+          const show = typeof v === 'number' && Math.abs(v) < 1 && k.toLowerCase().includes('bonus') ? `+${Math.round(v * 100)}%` : (typeof v === 'number' && v >= 0 ? `+${v}` : String(v));
+          return `<div class="row"><b>${esc(label)}</b> <span class="pill">${esc(show)}</span></div>`;
+        }).join('')}</div>`
+      : `<p class="sub">No permanent modifiers yet. Claim Achievements to earn birth gold, rare-trait weight, action crumbs, and more.</p>`);
+    const statusLabel = (st) => st === 'claimed' ? 'Claimed' : st === 'ready' ? 'Claim' : st === 'progress' ? 'In progress' : 'Not yet';
+    const rewardTags = (reward) => {
+      if (!reward) return '';
+      const tags = [];
+      if (reward.gold) tags.push(`+${reward.gold}g`);
+      if (reward.happiness) tags.push(`+${reward.happiness} spirit`);
+      if (reward.fame) tags.push(`+${reward.fame} renown`);
+      if (reward.points) tags.push(`+${reward.points} sparks`);
+      if (reward.skill) tags.push(`+${reward.skill.amt || 1} ${reward.skill.id}`);
+      if (reward.skillBump) tags.push(`+${reward.skillBump} skill`);
+      if (reward.mods) tags.push(...Object.keys(reward.mods).map((k) => k.replace(/([A-Z])/g, ' $1').toLowerCase()));
+      return tags.map((t) => `<span class="pill">${esc(t)}</span>`).join('');
+    };
+    const rowHTML = (item, kind) => {
+      const st = item.status;
+      const bar = st === 'claimed' ? '' : `<div class="legacy-bar"><span style="width:${Math.round((item.pct || 0) * 100)}%"></span></div><small>${item.cur || 0}/${item.target || 1}</small>`;
+      const btn = st === 'ready'
+        ? `<button type="button" class="primary" data-a="${kind === 'goal' ? 'lgclaim' : 'achclaim'}" data-v="${item.id}">Claim</button>`
+        : st === 'claimed' ? `<span class="pill">Claimed</span>` : `<span class="pill">${statusLabel(st)}</span>`;
+      return `<div class="row legacy-row legacy-${st}"><div class="legacy-ico">${ico(item.icon || 'echo')}</div><div class="legacy-main"><b>${esc(item.title)}</b><div class="sub">${esc(item.desc || '')}</div><div class="pills">${rewardTags(item.reward)}</div>${bar}</div><div class="legacy-act">${btn}</div></div>`;
+    };
+    const gReady = goals.filter((g) => g.status === 'ready').length;
+    const aReady = achs.filter((a) => a.status === 'ready').length;
+    const goalsCard = card('legacy', `${ico('spirit')} Life Goals <span class="hd-sub">${sum.goals.claimed}/${sum.goals.total}</span>`,
+      `<p class="sub">This playthrough. Claim rewards when the bar fills.</p>
+      <div class="actions" style="margin-bottom:8px"><button type="button" class="primary" data-a="lgclaimall" ${gReady ? '' : 'disabled'}>Claim All (${gReady})</button></div>
+      ${goals.map((g) => rowHTML(g, 'goal')).join('') || '<div class="empty">No goals loaded.</div>'}`);
+    const achCard = card('legacy', `${ico('echo')} Achievements <span class="hd-sub">${sum.achievements.claimed}/${sum.achievements.total} · ${sum.points} ${esc(sum.pointsName)}</span>`,
+      `<p class="sub">Meta progress across lives. Rewards are Legacy sparks and permanent modifiers.</p>
+      <div class="actions" style="margin-bottom:8px"><button type="button" class="primary" data-a="achclaimall" ${aReady ? '' : 'disabled'}>Claim All (${aReady})</button></div>
+      ${achs.map((a) => rowHTML(a, 'ach')).join('') || '<div class="empty">No achievements loaded.</div>'}`);
+    return `${lead('legacy') ? card('legacy', HD.legacy, `${lead('legacy')}<p class="sub">${esc(sum.blurb || '')}</p>`) : ''}` + modPanel + goalsCard + achCard;
   }
   if (tab === 'bel') {
     const biz = (s.workshops || []).map((w) => {
@@ -753,7 +862,13 @@ app.addEventListener('click', (ev) => {
   if (a === 'age') {
     if (s?.pending?.length) return;
     const prevAge = E.cage(s);
-    E.ageUp(s);
+    try {
+      E.ageUp(s);
+    } catch (err) {
+      console.error('Age +1 failed', err);
+      toast('Age advance failed.');
+      save(); render(); return;
+    }
     const now = E.cage(s);
     if (s.alive && !s.route && now >= 11 && prevAge < 11) toast('Age 11 — choose your path on Life or Skills (sword / magic / hybrid / craft).');
     else if (s.alive && !s.route && now === 8) toast('Path choice unlocked — pick sword, magic, hybrid, or craft.');
@@ -847,6 +962,11 @@ app.addEventListener('click', (ev) => {
     }).then((res) => {
       if (res.ok) toast(`Skipped ${res.done} year${res.done > 1 ? 's' : ''} · age ${E.cage(s)}.`);
       else if (res.paused?.kind === 'stop') toast('Autopilot stopped.');
+      else if (res.paused?.reason) toast(res.paused.reason);
+      save(); render();
+    }).catch((err) => {
+      console.error('Autopilot error', err);
+      toast('Autopilot failed — try Age +1.');
       save(); render();
     });
     return;
@@ -862,7 +982,7 @@ function startAmbient() {
   app.innerHTML = `<div class="card panel-gate"><div class="card-body"><p class="sub">Checking access…</p></div></div>`;
   const acc = await checkAdminAccess();
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
-  P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}');
+  P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}'); E.ensureLegacyMeta(meta);
   if (!Q.has('fresh')) try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { s = null; }
   if (s) { if (s.team === undefined) s.team = null; if (s.guild === undefined) s.guild = null; if (!s.flags) s.flags = {}; }
   startAmbient(); mountInfoClicks(document); mountMusic();

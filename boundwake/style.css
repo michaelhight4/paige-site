@@ -39,6 +39,7 @@ body[data-tab="adv"]{--accent:var(--adv);--accent2:var(--adv2);--tint:var(--adv-
 body[data-tab="skills"]{--accent:var(--sk);--accent2:var(--sk2);--tint:var(--sk-t);background:radial-gradient(ellipse at 70% 0%,#2a3a5c 0%,transparent 55%),radial-gradient(ellipse at 20% 100%,#3a2a5c 0%,transparent 45%),#1a1830}
 body[data-tab="bonds"]{--accent:var(--bond);--accent2:var(--bond2);--tint:var(--bond-t);background:radial-gradient(ellipse at 50% 100%,#4a2038 0%,transparent 55%),radial-gradient(ellipse at 80% 0%,#3a2040 0%,transparent 45%),#241028}
 body[data-tab="realms"]{--accent:var(--realm);--accent2:var(--realm2);--tint:var(--realm-t);background:radial-gradient(ellipse at 40% 0%,#1a3a38 0%,transparent 55%),radial-gradient(ellipse at 90% 90%,#2a4a40 0%,transparent 45%),#122428}
+body[data-tab="legacy"]{--accent:var(--gold);--accent2:var(--gold2);--tint:var(--parch3)}
 body[data-tab="codex"]{--accent:var(--codex);--accent2:var(--codex2);--tint:var(--codex-t);background:radial-gradient(ellipse at 50% 0%,#2a2850 0%,transparent 55%),radial-gradient(ellipse at 10% 80%,#1a2040 0%,transparent 45%),#12122a}
 body[data-tab="bel"]{--accent:var(--bel);--accent2:var(--bel2);--tint:var(--bel-t);background:radial-gradient(ellipse at 60% 100%,#4a3810 0%,transparent 55%),radial-gradient(ellipse at 20% 0%,#3a2a10 0%,transparent 45%),#221a10}
 body[data-tab="fate"]{--accent:var(--fate);--accent2:var(--fate2);--tint:var(--fate-t);background:radial-gradient(ellipse at 50% 40%,#3a2860 0%,transparent 55%),var(--plum)}
@@ -791,6 +792,41 @@ body[data-tab="skills"] .skill-acc-body {
 }
 
 /* life journal scroll fix nov5 soccer v3 */
+/* Autopilot + other Life cards: prevent flex collapse of card-body (blank Autopilot bug) */
+@media (min-width:1024px) {
+  body[data-tab="life"] .play-body > .card.panel-life:not(.journal-host) {
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  body[data-tab="life"] .play-body > .card.panel-life:not(.journal-host) .card-body {
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body[data-tab="life"] .play-body > .card.auto-host .card-body {
+    padding: 12px 14px 14px;
+    color: var(--ink, #241C14);
+    background: linear-gradient(180deg, #FBF4E4, #EEF5E6);
+  }
+  body[data-tab="life"] .play-body > .card.auto-host .auto-blurb {
+    color: var(--muted, #5E4C38);
+    margin: 0 0 10px;
+  }
+  body[data-tab="life"] .play-body > .card.auto-host .auto-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  body[data-tab="life"] .play-body > .card.auto-host .auto-actions button {
+    min-height: 44px;
+    font-weight: 800;
+  }
+}
+
+/* life journal scroll fix nov5 soccer v3 */
 @media (min-width:1024px) {
   body[data-tab="life"] .play-body {
     display:flex; flex-direction:column; gap:10px; align-items:stretch;
@@ -854,3 +890,24 @@ body[data-tab="skills"] .skill-acc-body {
 .mkt-fair{color:var(--muted);font-weight:700}
 .mkt-hi{color:#8a6a20;font-weight:700}
 .mkt-bad{color:var(--ember,#C45A32);font-weight:800}
+
+
+/* Legacy hub (Life Goals + Achievements) — Boundwake parchment */
+.panel-legacy{--accent:var(--gold);--accent2:var(--gold2);--tint:var(--parch3)}
+.legacy-row{display:flex;align-items:flex-start;gap:10px;min-height:56px}
+.legacy-ico{flex:none;width:28px;display:flex;justify-content:center;padding-top:2px}
+.legacy-main{flex:1 1 auto;min-width:0}
+.legacy-act{flex:none;display:flex;align-items:center}
+.legacy-bar{height:8px;border-radius:99px;background:#0002;overflow:hidden;margin:6px 0 2px;border:1px solid #b8955a55}
+.legacy-bar > span{display:block;height:100%;background:linear-gradient(90deg,#e0b14a,#3F7A3A);border-radius:99px}
+.legacy-claimed{opacity:.78}
+.legacy-mods .row{justify-content:space-between}
+.codex-locked{opacity:.7;font-style:italic}
+@media (min-width:1024px){
+  body[data-tab="legacy"] .play-body > .card.panel-legacy{
+    flex:0 0 auto!important;height:auto!important;min-height:auto!important;
+  }
+  body[data-tab="legacy"] .play-body > .card.panel-legacy .card-body{
+    flex:0 0 auto!important;min-height:auto!important;overflow:visible!important;
+  }
+}
