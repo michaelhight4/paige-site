@@ -6,7 +6,9 @@
 - **Hooks:** `events_expansion.json` merged if present (dedupe by id, empty-safe); `gear.json` optional; `assets/css/pack_polish.css` linked.
 - Remains: patronage apply flow; Story Bot events_expansion pending (events now 89 base + 36 passion = 125).
 
-## Tournament teams + guild halls (Gary Nov 5 ~3:30 PM CT)
+## Tournament teams + guild halls
+- Deployed: `76074be8` on paige-site main (GitHub Pages `/boundwake/`).
+ (Gary Nov 5 ~3:30 PM CT)
 - Engine: `team` / `guild` save fields (migrate-safe). Numbers from `docs/TOURNAMENT_TEAMS_BALANCE.md` + `docs/GUILD_HALLS_BALANCE.md`.
 - Teams: found (80g+1act, affinity skill 20+, cage 16+), hire/captain/fire, realm meets via Visit Tournament/Arena venues (World Design ids) or notice invite (max 2/yr), Grand **Teams** bracket every 3 years, drill, disband→Codex history.
 - Guild halls: found in current realm (cage 18+, realm costs/gates), fee Low/Mid/High, hire tiers by renown, yearly batch jobs on Age+1 → journal + coffer/renown.
