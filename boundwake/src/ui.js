@@ -106,7 +106,7 @@ function fateScreen(rr = 1) {
 function header() {
   const st = E.stage(s), r = E.race(s), j = s.job && P.occ.jobs[s.job.id];
   const mana = s.flags.mana_awakened
-    ? bar('mana', (100 * s.mana) / Math.max(1, s.manaMax), 'magic bar-mana', `${Math.floor(s.mana)}/${Math.floor(s.manaMax)}`)
+    ? bar('mana', (100 * (s.mana||0)) / Math.max(1, s.manaMax||1), 'magic bar-mana', `${Math.floor(s.mana||0)}/${Math.floor(Math.max(s.manaMax||0,1))}`)
     : '';
   const body = `<div class="hdr">${portrait(st, s.race, career(), false, s.first + ' ' + s.last)}
     <div style="flex:1;min-width:0"><div class="name">${esc(s.first)} ${esc(s.last)}</div>
@@ -197,9 +197,9 @@ function body() {
     const why = (id) => E.trainLockReason(s, id);
     const manaCard = card('skills', `${ico('mana')} Mana &amp; craft`,
       s.flags.mana_awakened
-        ? `<p class="sub">Mana <b>${Math.floor(s.mana)}</b> / ${Math.floor(s.manaMax)}. School: <b>${esc((P.styles||[]).find(x=>x.id===s.magicSchool)?.name || 'none yet')}</b>. Sword style: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || 'none yet')}</b>.</p>
+        ? `<p class="sub">Mana <b>${Math.floor(s.mana)}</b> / <b>${Math.floor(Math.max(s.manaMax || 0, 1))}</b>. School: <b>${esc((P.styles||[]).find(x=>x.id===s.magicSchool)?.name || 'none yet')}</b>. Sword style: <b>${esc((P.styles||[]).find(x=>x.id===s.swordStyle)?.name || 'none yet')}</b>.</p>
            <div class="actions"><button data-a="cast" class="primary" ${s.budget.act < 1 || s.mana < 5 || !s.magicSchool ? 'disabled' : ''}>Practice magic (5 mana)</button>
-           <button data-a="drill" ${s.budget.act < 1 ? 'disabled' : ''}>Drill sword forms</button></div>`
+           <button data-a="drill" ${s.budget.act < 1 || !s.swordStyle ? 'disabled' : ''}>Drill sword forms</button></div>`
         : `<p class="sub">Mana sleeps. From age 6: Attempt awakening here, or Visit an Academy in Realms. Spark-born trait wakes it at birth.</p>
            <div class="actions"><button data-a="awaken" class="primary" ${s.budget.act < 1 || h < 6 ? 'disabled' : ''}>Attempt mana awakening${h < 6 ? ' (age 6+)' : ''}</button></div>`);
     const stylePick = (!s.swordStyle && h >= 8)

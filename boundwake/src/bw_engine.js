@@ -106,8 +106,8 @@ export function begin(fate, meta = {}, carry = null) {
   for (const k of STATS) s.stats[k] = k === 'fame' || k === 'stress' ? 0 : k === 'karma' ? 50 : rint(s, 40, 85);
   for (const k of D.skills.skills) s.skills[k.id] = 0;
   s.gold = { poor: 5, common: 30, comfortable: 120, noble: 600 }[s.wealth] ?? 30; s.familyGold = s.gold * 10;
-  s.manaMax = 20 + (race(s).buffs.mana_max || 0) + (race(s).flaws.mana_max || 0); s.mana = 0;
-  if (s.trait === 'trait_spark_born') { s.flags.mana_awakened = 1; s.mana = 10; }
+  s.manaMax = Math.max(8, 20 + (race(s).buffs.mana_max || 0) + (race(s).flaws.mana_max || 0)); s.mana = 0;
+  if (s.trait === 'trait_spark_born') { s.flags.mana_awakened = 1; s.manaMax = Math.max(s.manaMax || 0, 20); s.mana = Math.max(10, Math.min(s.manaMax, s.mana || 10)); }
   if (s.trait === 'trait_iron_bones') s.stats.health = Math.min(100, s.stats.health + 10);
   for (const t of s.talents) s.skills[t] = 3;
   s.people.push(person(s, 'mother', rint(s, 20, 34)), person(s, 'father', rint(s, 22, 38)));
@@ -663,7 +663,7 @@ export function continueAsHeir(meta, s, heirId, seed) {
   n.age = h.age; n.gold = estate + (h.age < 16 ? 0 : 0); n.people = s.people.filter((p) => p.alive && p.id !== heirId).map((p) => ({ ...p, rel: p.rel === 'child' ? 'sibling' : p.rel === 'spouse' ? 'mother' : p.rel === 'sibling' ? 'aunt/uncle' : p.rel }));
   n.relics = [...s.relics]; n.legacy = { gen: (s.legacy.gen || 1) + 1 }; n.flags.is_heir = 1; n.lineage = pick(n, D.terms.lineage).id; n.priorName = `${s.first} ${s.last}`; n.linkKind = 'heir';
   for (const k of D.skills.skills) n.skills[k.id] = Math.min(30, hage(n) * 0.8 + (n.talents.includes(k.id) ? 5 : 0));
-  if (n.lineage === 'blood_spark') { n.flags.mana_awakened = 1; n.mana = 10; } if (n.lineage === 'blood_silver') n.gold += 50;
+  if (n.lineage === 'blood_spark') { n.flags.mana_awakened = 1; n.manaMax = Math.max(n.manaMax || 0, 20); n.mana = Math.max(10, Math.min(n.manaMax, n.mana || 10)); } if (n.lineage === 'blood_silver') n.gold += 50;
   if (n.lineage === 'blood_iron') n.stats.health = Math.min(100, n.stats.health + 8);
   n.log = []; log(n, `You wake as ${n.first}. The house still smells like them — like you.`, 'birth'); drawEvents(n); return n;
 }
