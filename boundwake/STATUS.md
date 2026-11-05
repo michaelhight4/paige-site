@@ -1,3 +1,6 @@
+## Public alpha + icon shrink (Gary Nov 5 ~2:27 PM CT)
+Commit 2303abc9 on paige-site. /boundwake/ open (no admin gate). games.js live+alpha. Skill PNGs capped ~24–32px. Shots: tests/shots/live_desktop_top_skills.png, live_homepage_games.png.
+
 ## Dense Skills + Life shortcuts (Gary Nov 5 ~2:21 PM CT)
 Accordion Boundwake categories; dense icon/name/bar/Train rows; lock reasons; Life shortcut grid. Phone stacked fill. Pack-reskin untouched.
 
