@@ -1,0 +1,3603 @@
+[
+ {
+  "id": "work_bellows_split",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Breath Short",
+  "prompt": "The forge bellows split before the morning orders are done. Your helper holds up a strip of leather.",
+  "choices": [
+   {
+    "label": "Patch it together",
+    "journal": [
+     "We stitched the bellows shut. The next breath held."
+    ],
+    "fx": {
+     "sk_smithing": 2,
+     "perf": 3,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Buy a replacement (12 gold)",
+    "journal": [
+     "The new bellows wheezed less than either of us."
+    ],
+    "fx": {
+     "gold": -12,
+     "perf": 6
+    },
+    "req": 12
+   },
+   {
+    "label": "Explain the delay",
+    "journal": [
+     "I gave honest dates instead of hurried iron."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "perf": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "blacksmith"
+   ]
+  }
+ },
+ {
+  "id": "work_uneven_scales",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Weight Too Light",
+  "prompt": "Your stall scales disagree with the public weight. A customer waits with an open purse.",
+  "choices": [
+   {
+    "label": "Correct the weight",
+    "journal": [
+     "I reset the scale while the customer watched."
+    ],
+    "fx": {
+     "karma": 3,
+     "perf": 2
+    }
+   },
+   {
+    "label": "Ask another stall to check",
+    "journal": [
+     "Two merchants and a stone settled it."
+    ],
+    "fx": {
+     "sk_bartering": 2
+    }
+   },
+   {
+    "label": "Keep the mistake",
+    "journal": [
+     "I sold less than I promised. The extra gold felt badly earned."
+    ],
+    "fx": {
+     "gold": 8,
+     "karma": -4
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "merchant"
+   ]
+  }
+ },
+ {
+  "id": "work_frost_cloth",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "White at Dawn",
+  "prompt": "Frost whitens the field edges. There is enough covering cloth for only the youngest plants.",
+  "choices": [
+   {
+    "label": "Cover the tender rows",
+    "journal": [
+     "I tucked the smallest leaves under cloth before sunrise."
+    ],
+    "fx": {
+     "sk_husbandry": 2,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Trade a favor for more cloth",
+    "journal": [
+     "The neighbors came carrying old sheets."
+    ],
+    "fx": {
+     "sk_charm": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Harvest what is ready",
+    "journal": [
+     "Cold fingers filled the baskets. Some plants stayed behind."
+    ],
+    "fx": {
+     "gold": 12,
+     "perf": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "farmer"
+   ]
+  }
+ },
+ {
+  "id": "work_ward_labels",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Faded Label",
+  "prompt": "Two jars have lost their labels. The next patient is already waiting.",
+  "choices": [
+   {
+    "label": "Set both jars aside",
+    "journal": [
+     "I would not make a patient pay for a guess."
+    ],
+    "fx": {
+     "karma": 3,
+     "perf": -2
+    }
+   },
+   {
+    "label": "Check the preparation ledger",
+    "journal": [
+     "The dates and the keeper's notes identified both jars."
+    ],
+    "fx": {
+     "sk_literacy": 2,
+     "perf": 3
+    }
+   },
+   {
+    "label": "Ask the senior keeper",
+    "journal": [
+     "We checked them together before opening either lid."
+    ],
+    "fx": {
+     "sk_mending": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "healer",
+    "priest"
+   ]
+  }
+ },
+ {
+  "id": "work_gate_queue",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Noon Queue",
+  "prompt": "A wagon blocks the gate. Behind it, a child cries into an empty lunch cloth.",
+  "choices": [
+   {
+    "label": "Help shift the wagon",
+    "journal": [
+     "We pushed until the wheel found its groove."
+    ],
+    "fx": {
+     "might": 1,
+     "perf": 3,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Make a walking lane",
+    "journal": [
+     "People passed safely while the wheelwright worked."
+    ],
+    "fx": {
+     "sk_focus": 2,
+     "perf": 3
+    }
+   },
+   {
+    "label": "Share your bread",
+    "journal": [
+     "The child stopped crying. The wagon still needed fixing."
+    ],
+    "fx": {
+     "spirit": 2,
+     "karma": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "guard",
+    "knight"
+   ]
+  }
+ },
+ {
+  "id": "work_borrowed_verse",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Borrowed Verse",
+  "prompt": "A listener says your newest verse belongs to their grandmother. They can sing the rest.",
+  "choices": [
+   {
+    "label": "Name her before the next song",
+    "journal": [
+     "I gave her the credit aloud. Her grandchild supplied the missing line."
+    ],
+    "fx": {
+     "karma": 3,
+     "sk_performance": 1
+    }
+   },
+   {
+    "label": "Ask to learn her version",
+    "journal": [
+     "The old song had a kinder ending than mine."
+    ],
+    "fx": {
+     "sk_lore": 2,
+     "sk_performance": 1
+    }
+   },
+   {
+    "label": "Choose another song",
+    "journal": [
+     "I put the disputed verse away for now."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "bard"
+   ]
+  }
+ },
+ {
+  "id": "work_map_copy",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Ink for the Road",
+  "prompt": "The hall needs a clean copy of a trail map. A muddy thumbprint hides the ford.",
+  "choices": [
+   {
+    "label": "Find the original survey",
+    "journal": [
+     "The ford emerged from a much older sheet."
+    ],
+    "fx": {
+     "sk_literacy": 2,
+     "gold": 10
+    }
+   },
+   {
+    "label": "Leave the ford marked uncertain",
+    "journal": [
+     "I drew a clear warning where the ink failed us."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_lore": 1
+    }
+   },
+   {
+    "label": "Ask a returning traveler",
+    "journal": [
+     "They pointed out the crossing with a floury finger."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "sk_tracking": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "guild"
+  ],
+  "if": {
+   "career": [
+    "scholar",
+    "adventurer"
+   ]
+  }
+ },
+ {
+  "id": "work_rain_watch",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Rain at the Fence",
+  "prompt": "Your watch partner has no dry cloak. Rain is coming through the shelter roof.",
+  "choices": [
+   {
+    "label": "Share the dry corner",
+    "journal": [
+     "We stood shoulder to shoulder until the bell."
+    ],
+    "fx": {
+     "karma": 2,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Patch the roof with a board",
+    "journal": [
+     "A small repair made a long watch easier."
+    ],
+    "fx": {
+     "perf": 4,
+     "stress": 1
+    }
+   },
+   {
+    "label": "Take turns walking",
+    "journal": [
+     "Moving kept us warm enough to finish."
+    ],
+    "fx": {
+     "sk_endurance": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "guard",
+    "retainer"
+   ]
+  }
+ },
+ {
+  "id": "work_unsteady_charm",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Shivering Charm",
+  "prompt": "A household warming charm rattles its cup instead of warming it. The owner wants quiet first.",
+  "choices": [
+   {
+    "label": "Retune the charm",
+    "p": 0.6,
+    "skill": "spellcraft",
+    "win": {
+     "journal": [
+      "The cup warmed without a single clink."
+     ],
+     "fx": {
+      "gold": 14,
+      "sk_spellcraft": 2
+     }
+    },
+    "fail": {
+     "journal": [
+      "I quieted it, but the warmth went too. A second visit would be needed."
+     ],
+     "fx": {
+      "perf": -3,
+      "stress": 3
+     }
+    }
+   },
+   {
+    "label": "Disable it safely",
+    "journal": [
+     "The owner fetched a blanket and thanked me for the silence."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Ask a colleague to inspect it",
+    "journal": [
+     "We found two marks drawn over each other."
+    ],
+    "fx": {
+     "sk_spellcraft": 1,
+     "sk_literacy": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "mage",
+    "spellblade"
+   ]
+  }
+ },
+ {
+  "id": "work_snare_check",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "An Empty Snare",
+  "prompt": "Your snare is sprung and empty. Fresh boot marks cross the clearing.",
+  "choices": [
+   {
+    "label": "Look for signs of injury",
+    "journal": [
+     "I found loose fur but no blood, then packed the snare away."
+    ],
+    "fx": {
+     "sk_tracking": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Ask the nearby woodcutter",
+    "journal": [
+     "Someone had freed a trapped farm dog. I moved my snares farther out."
+    ],
+    "fx": {
+     "sk_husbandry": 2
+    }
+   },
+   {
+    "label": "Try another clearing",
+    "journal": [
+     "I spent the afternoon learning where not to set a snare."
+    ],
+    "fx": {
+     "sk_foraging": 1,
+     "stress": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "hunter"
+   ]
+  }
+ },
+ {
+  "id": "work_hall_damp_forms",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Rain on the Board",
+  "prompt": "Rain has soaked the guild hall job notices. The clerk asks for help before anyone mistakes a date.",
+  "choices": [
+   {
+    "label": "Copy the readable notices",
+    "journal": [
+     "I laid each damp sheet beside its dry copy."
+    ],
+    "fx": {
+     "gold": 8,
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Check dates with the clerk",
+    "journal": [
+     "We found one deadline that had already passed."
+    ],
+    "fx": {
+     "sk_focus": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Fetch cloth and weights",
+    "journal": [
+     "The notices dried flat beneath smooth stones."
+    ],
+    "fx": {
+     "karma": 2,
+     "stress": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "guild"
+  ]
+ },
+ {
+  "id": "work_hall_boot_rack",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Boots in the Doorway",
+  "prompt": "The guild hall entrance is clogged with muddy boots. A courier balances a parcel above them.",
+  "choices": [
+   {
+    "label": "Build a simple rack",
+    "journal": [
+     "The courier reached the desk without a hop."
+    ],
+    "fx": {
+     "gold": 8,
+     "perf": 2
+    }
+   },
+   {
+    "label": "Move the boots to a mat",
+    "journal": [
+     "I left a walking space and a very muddy mat."
+    ],
+    "fx": {
+     "karma": 2
+    }
+   },
+   {
+    "label": "Help the courier through",
+    "journal": [
+     "One parcel arrived without a footprint on it."
+    ],
+    "fx": {
+     "sk_agility": 1,
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "guild"
+  ]
+ },
+ {
+  "id": "work_meet_water_table",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Cups by the Ring",
+  "prompt": "A small realm meet needs someone at the water table. The steward offers a modest day fee.",
+  "choices": [
+   {
+    "label": "Take the water shift",
+    "journal": [
+     "I kept the cups full and learned who thanked the helpers."
+    ],
+    "fx": {
+     "gold": 10,
+     "sk_endurance": 1
+    }
+   },
+   {
+    "label": "Help the scorekeeper instead",
+    "journal": [
+     "I checked each mark before the next team was called."
+    ],
+    "fx": {
+     "gold": 8,
+     "sk_focus": 2
+    }
+   },
+   {
+    "label": "Offer an hour for free",
+    "journal": [
+     "I stayed until the relief helper arrived."
+    ],
+    "fx": {
+     "karma": 2,
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "tournament"
+  ]
+ },
+ {
+  "id": "work_craft_meet_bench",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Wobbling Bench",
+  "prompt": "At a craft team meet, one workbench rocks on the flagstones. The first bell is close.",
+  "choices": [
+   {
+    "label": "Fit a wooden wedge",
+    "journal": [
+     "The bench stood still. The makers could finally begin."
+    ],
+    "fx": {
+     "gold": 8,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Find a spare bench",
+    "journal": [
+     "Four of us carried a replacement across the yard."
+    ],
+    "fx": {
+     "might": 1,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Tell the steward at once",
+    "journal": [
+     "The steward held the bell while the bench was made safe."
+    ],
+    "fx": {
+     "sk_composure": 1,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "tournament"
+  ]
+ },
+ {
+  "id": "work_short_pay_packet",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Three Gold Short",
+  "prompt": "Your pay packet is three gold short. The clerk is closing the ledger.",
+  "choices": [
+   {
+    "label": "Count it with the clerk",
+    "journal": [
+     "A coin had lodged beneath the scale. We settled the rest from the drawer."
+    ],
+    "fx": {
+     "gold": 3,
+     "sk_literacy": 1
+    }
+   },
+   {
+    "label": "Ask to check tomorrow",
+    "journal": [
+     "The clerk marked the page for a quieter recount."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   },
+   {
+    "label": "Leave without asking",
+    "journal": [
+     "I kept the peace and the unanswered question."
+    ],
+    "fx": {
+     "stress": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "job": true
+  }
+ },
+ {
+  "id": "work_market_awning",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Sagging Awning",
+  "prompt": "A market awning fills with rainwater. The stallkeeper offers gold if you can lower it safely.",
+  "choices": [
+   {
+    "label": "Lower the loaded corner",
+    "p": 0.65,
+    "skill": "agility",
+    "win": {
+     "journal": [
+      "The water fell into the gutter instead of the flour."
+     ],
+     "fx": {
+      "gold": 12,
+      "sk_agility": 2
+     }
+    },
+    "fail": {
+     "journal": [
+      "The cloth slipped. We spent the afternoon drying sacks."
+     ],
+     "fx": {
+      "stress": 4,
+      "health": -2
+     }
+    }
+   },
+   {
+    "label": "Fetch another pair of hands",
+    "journal": [
+     "We lowered both sides together."
+    ],
+    "fx": {
+     "gold": 6,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Move the goods first",
+    "journal": [
+     "The stallkeeper saved the flour before risking the cloth."
+    ],
+    "fx": {
+     "sk_focus": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "work_kitchen_count",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "One More Bowl",
+  "prompt": "You are helping with an inn supper. The cook counts one more guest than bowls.",
+  "choices": [
+   {
+    "label": "Wash a fresh set",
+    "journal": [
+     "My sleeves got wet. Supper arrived warm."
+    ],
+    "fx": {
+     "gold": 6,
+     "sk_endurance": 1
+    }
+   },
+   {
+    "label": "Help serve in two sittings",
+    "journal": [
+     "We kept the second pot covered until its turn."
+    ],
+    "fx": {
+     "gold": 6,
+     "sk_cooking": 2
+    }
+   },
+   {
+    "label": "Give up your bowl for now",
+    "journal": [
+     "I ate after the guests, beside the stove."
+    ],
+    "fx": {
+     "karma": 2,
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "work_delivery_seal",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Loose Seal",
+  "prompt": "A parcel you agreed to carry has a loose wax seal. The contents are still covered.",
+  "choices": [
+   {
+    "label": "Return it for resealing",
+    "journal": [
+     "I would rather make two journeys than invite one doubt."
+    ],
+    "fx": {
+     "karma": 3,
+     "sk_endurance": 1
+    }
+   },
+   {
+    "label": "Ask a witness to note it",
+    "journal": [
+     "The receiver read the witness mark before opening it."
+    ],
+    "fx": {
+     "gold": 8,
+     "sk_etiquette": 1
+    }
+   },
+   {
+    "label": "Explain on delivery",
+    "journal": [
+     "I showed the loose seal before handing over the parcel."
+    ],
+    "fx": {
+     "gold": 8,
+     "sk_charm": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "work_apprentice_left_hand",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Other Hand",
+  "prompt": "An apprentice keeps turning a practice tool around. The handle was shaped for a different hand.",
+  "choices": [
+   {
+    "label": "Reshape a spare handle",
+    "journal": [
+     "Their grip eased as soon as the new handle fitted."
+    ],
+    "fx": {
+     "karma": 2,
+     "xp_primary": 2
+    }
+   },
+   {
+    "label": "Ask them to show the problem",
+    "journal": [
+     "They showed me exactly where the wood pinched."
+    ],
+    "fx": {
+     "sk_focus": 2
+    }
+   },
+   {
+    "label": "Find a better teacher for it",
+    "journal": [
+     "Another worker had solved the same trouble years ago."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "blacksmith",
+    "scholar",
+    "farmer"
+   ]
+  }
+ },
+ {
+  "id": "work_shared_noon",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Half the Break",
+  "prompt": "A coworker asks you to cover half their break so they can take a meal home.",
+  "choices": [
+   {
+    "label": "Cover the half hour",
+    "journal": [
+     "They returned carrying an empty bowl and a grateful smile."
+    ],
+    "fx": {
+     "karma": 2,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Trade for tomorrow",
+    "journal": [
+     "We put both turns in the work ledger."
+    ],
+    "fx": {
+     "sk_bartering": 2
+    }
+   },
+   {
+    "label": "Say you need your rest",
+    "journal": [
+     "I finished my tea before going back."
+    ],
+    "fx": {
+     "stress": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "job": true
+  }
+ },
+ {
+  "id": "work_old_pattern",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Notes in the Margin",
+  "prompt": "An old work manual has practical corrections squeezed between its printed lines.",
+  "choices": [
+   {
+    "label": "Try one correction carefully",
+    "journal": [
+     "The small adjustment saved a surprising amount of effort."
+    ],
+    "fx": {
+     "xp_primary": 2,
+     "perf": 2
+    }
+   },
+   {
+    "label": "Copy the notes for everyone",
+    "journal": [
+     "The useful parts no longer lived in one battered book."
+    ],
+    "fx": {
+     "sk_literacy": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Ask who wrote them",
+    "journal": [
+     "A retired worker came back to explain the cramped little arrows."
+    ],
+    "fx": {
+     "sk_lore": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "career": [
+    "blacksmith",
+    "scholar",
+    "mage"
+   ]
+  }
+ },
+ {
+  "id": "work_hall_meal_count",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Six Bowls, Five Names",
+  "prompt": "The guild hall cook has set out an extra meal. A returned adventurer brought a rescued traveler.",
+  "choices": [
+   {
+    "label": "Help stretch the stew",
+    "journal": [
+     "Another ladle of broth made room at the table."
+    ],
+    "fx": {
+     "sk_cooking": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Pay for extra bread (4 gold)",
+    "journal": [
+     "The traveler ate slowly, keeping both hands around the bowl."
+    ],
+    "fx": {
+     "gold": -4,
+     "karma": 3
+    },
+    "req": 4
+   },
+   {
+    "label": "Set another place",
+    "journal": [
+     "I found a stool and let the cook handle the pot."
+    ],
+    "fx": {
+     "spirit": 2,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "guild"
+  ]
+ },
+ {
+  "id": "work_notice_handwriting",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Letters Too Fine",
+  "prompt": "The hall job board is beautifully written. A waiting laborer cannot make out a word.",
+  "choices": [
+   {
+    "label": "Read the notices aloud",
+    "journal": [
+     "By noon, three more people knew where to ask for work."
+    ],
+    "fx": {
+     "sk_literacy": 1,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Copy a large-letter version",
+    "journal": [
+     "My plain letters earned more use than admiration."
+    ],
+    "fx": {
+     "gold": 6,
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Ask the clerk to add drawings",
+    "journal": [
+     "A shovel beside the digging notice helped more than a flourish."
+    ],
+    "fx": {
+     "sk_charm": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "guild"
+  ]
+ },
+ {
+  "id": "work_last_order",
+  "cat": "work",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Closing Bell",
+  "prompt": "An order arrives just as work ends. The buyer says it is urgent; your hands say they are tired.",
+  "choices": [
+   {
+    "label": "Stay for a small extra fee",
+    "journal": [
+     "I finished slowly enough to do it properly."
+    ],
+    "fx": {
+     "gold": 10,
+     "stress": 4
+    }
+   },
+   {
+    "label": "Arrange a morning handover",
+    "journal": [
+     "The buyer accepted a firm promise instead of a tired guess."
+    ],
+    "fx": {
+     "sk_charm": 2
+    }
+   },
+   {
+    "label": "Pass it to a willing coworker",
+    "journal": [
+     "Someone else wanted the extra work. I wanted my bed."
+    ],
+    "fx": {
+     "karma": 1,
+     "stress": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "job": true
+  }
+ },
+ {
+  "id": "school_slate_edge",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Cracked Slate",
+  "prompt": "Your slate has lost a corner. There is still room for the lesson if you write small.",
+  "choices": [
+   {
+    "label": "Use the sound half",
+    "journal": [
+     "My letters grew smaller and rather tidier."
+    ],
+    "fx": {
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Ask to share",
+    "journal": [
+     "We took turns writing and checking each other."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Practice in sand",
+    "journal": [
+     "The yard held my sums until the next set of feet."
+    ],
+    "fx": {
+     "sk_focus": 1,
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_seed_sums",
+  "cat": "school",
+  "ages": [
+   6,
+   12
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Sack of Sums",
+  "prompt": "The tutor pours dry beans onto the table. Today the numbers can be picked up.",
+  "choices": [
+   {
+    "label": "Count them into groups",
+    "journal": [
+     "The answer made sense when I could move it."
+    ],
+    "fx": {
+     "wits": 1,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Show a classmate",
+    "journal": [
+     "We counted twice and agreed once."
+    ],
+    "fx": {
+     "karma": 1,
+     "sk_literacy": 1
+    }
+   },
+   {
+    "label": "Make a bean castle first",
+    "journal": [
+     "My castle had excellent walls and unfinished sums."
+    ],
+    "fx": {
+     "spirit": 3,
+     "stress": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_rain_roof",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Lessons Under Drips",
+  "prompt": "Rain drips through the lesson-room roof. One drop lands on every seventh word.",
+  "choices": [
+   {
+    "label": "Move the desks together",
+    "journal": [
+     "We all fitted in the dry corner, just."
+    ],
+    "fx": {
+     "karma": 2,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Count between the drops",
+    "journal": [
+     "The tutor let me turn the leak into a measuring lesson."
+    ],
+    "fx": {
+     "sk_focus": 2
+    }
+   },
+   {
+    "label": "Offer to fetch a bucket",
+    "journal": [
+     "I returned just before the next drop hit the page."
+    ],
+    "fx": {
+     "sk_agility": 1,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_borrowed_page",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Missing Page",
+  "prompt": "Your borrowed reader jumps from a question straight to its answer. The explanation is gone.",
+  "choices": [
+   {
+    "label": "Work it out from the answer",
+    "journal": [
+     "I filled the gap with three wrong attempts and one good one."
+    ],
+    "fx": {
+     "wits": 2,
+     "stress": 1
+    }
+   },
+   {
+    "label": "Ask the tutor",
+    "journal": [
+     "The tutor found another copy and sat beside me."
+    ],
+    "fx": {
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Write down what is missing",
+    "journal": [
+     "A neat question was as far as I got today."
+    ],
+    "fx": {
+     "sk_focus": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_yard_distance",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Pace Too Far",
+  "prompt": "Practice stones mark a leap across the yard. The far stone looks farther when it is your turn.",
+  "choices": [
+   {
+    "label": "Try the full leap",
+    "p": 0.6,
+    "skill": "agility",
+    "win": {
+     "journal": [
+      "Both feet reached the far stone. I checked twice."
+     ],
+     "fx": {
+      "sk_agility": 2,
+      "spirit": 2
+     }
+    },
+    "fail": {
+     "journal": [
+      "I landed in the soft dirt between the stones."
+     ],
+     "fx": {
+      "health": -1,
+      "sk_composure": 1
+     }
+    }
+   },
+   {
+    "label": "Move the stones closer",
+    "journal": [
+     "I learned the smaller jump before asking for more."
+    ],
+    "fx": {
+     "sk_agility": 1,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Measure for the others",
+    "journal": [
+     "My careful paces settled an argument about the gap."
+    ],
+    "fx": {
+     "sk_literacy": 1,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_practice_bow",
+  "cat": "school",
+  "ages": [
+   8,
+   17
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Before the Spar",
+  "prompt": "Your sparring partner bows too low and drops the practice blade. A few students snicker.",
+  "choices": [
+   {
+    "label": "Pick it up for them",
+    "journal": [
+     "We started again without an audience joke."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_etiquette": 1
+    }
+   },
+   {
+    "label": "Demonstrate the bow slowly",
+    "journal": [
+     "The second bow kept the blade where it belonged."
+    ],
+    "fx": {
+     "sk_etiquette": 2
+    }
+   },
+   {
+    "label": "Ask to begin quietly",
+    "journal": [
+     "The instructor sent the watchers back to their own drills."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_shield_straps",
+  "cat": "school",
+  "ages": [
+   8,
+   17
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Slipping Shield",
+  "prompt": "The practice shield slides down your arm. The instructor notices you gripping harder.",
+  "choices": [
+   {
+    "label": "Ask for a strap adjustment",
+    "journal": [
+     "A shorter strap did more than all my squeezing."
+    ],
+    "fx": {
+     "sk_shieldwork": 2
+    }
+   },
+   {
+    "label": "Try a lighter shield",
+    "journal": [
+     "I could finally keep the rim where I wanted it."
+    ],
+    "fx": {
+     "sk_shieldwork": 1,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Watch this round",
+    "journal": [
+     "I spotted the same slipping strap on someone else."
+    ],
+    "fx": {
+     "sk_focus": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_quiet_recitation",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Voice at the Back",
+  "prompt": "A classmate knows the poem but cannot make their voice reach the front bench.",
+  "choices": [
+   {
+    "label": "Practice together outside",
+    "journal": [
+     "Under the tree, the words came without a tremble."
+    ],
+    "fx": {
+     "sk_performance": 1,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Suggest a seated reading",
+    "journal": [
+     "The tutor brought a chair closer instead of calling louder."
+    ],
+    "fx": {
+     "sk_charm": 2
+    }
+   },
+   {
+    "label": "Give them time to start",
+    "journal": [
+     "Nobody interrupted the first quiet line."
+    ],
+    "fx": {
+     "sk_composure": 1,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_map_upside",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "North on the Floor",
+  "prompt": "The tutor turns the map around. The river has not moved, but you suddenly feel lost.",
+  "choices": [
+   {
+    "label": "Find the river bend first",
+    "journal": [
+     "One familiar bend put the rest of the world back."
+    ],
+    "fx": {
+     "sk_tracking": 2
+    }
+   },
+   {
+    "label": "Mark where the sun rises",
+    "journal": [
+     "I gave the map an east before looking for north."
+    ],
+    "fx": {
+     "sk_lore": 1,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Ask to walk the map outside",
+    "journal": [
+     "Our feet made a lesson the parchment had not."
+    ],
+    "fx": {
+     "sk_endurance": 1,
+     "sk_tracking": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_mend_satchel",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Trail of Quills",
+  "prompt": "Your satchel seam opens on the way to lessons. Quills scatter behind you.",
+  "choices": [
+   {
+    "label": "Gather them and sew the seam",
+    "journal": [
+     "The stitches wandered, but nothing else fell out."
+    ],
+    "fx": {
+     "sk_focus": 2,
+     "stress": 1
+    }
+   },
+   {
+    "label": "Ask a classmate for help",
+    "journal": [
+     "They caught a quill just before the ditch did."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Wrap everything in your scarf",
+    "journal": [
+     "I arrived carrying a very scholarly bundle."
+    ],
+    "fx": {
+     "wits": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_archive_worm",
+  "cat": "school",
+  "ages": [
+   10,
+   18
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Hole Through History",
+  "prompt": "A bookworm has eaten through a ruler's name in the history text. The tutor asks what can still be known.",
+  "choices": [
+   {
+    "label": "Compare another account",
+    "journal": [
+     "The dates agreed even where the names differed."
+    ],
+    "fx": {
+     "sk_lore": 2,
+     "sk_literacy": 1
+    }
+   },
+   {
+    "label": "List what is certain",
+    "journal": [
+     "I left a blank where the evidence ended."
+    ],
+    "fx": {
+     "sk_focus": 2
+    }
+   },
+   {
+    "label": "Ask who kept the record",
+    "journal": [
+     "The writer's loyalties explained one very flattering paragraph."
+    ],
+    "fx": {
+     "wits": 1,
+     "sk_lore": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_garden_turn",
+  "cat": "school",
+  "ages": [
+   6,
+   14
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Your Turn to Water",
+  "prompt": "The lesson garden droops in the heat. Your watering turn falls during a game.",
+  "choices": [
+   {
+    "label": "Water before joining in",
+    "journal": [
+     "The game waited one bucket longer than I wanted."
+    ],
+    "fx": {
+     "sk_husbandry": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Invite the others to help",
+    "journal": [
+     "We made a bucket line and still had time to play."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Leave it until later",
+    "journal": [
+     "I came back to curled leaves and a longer chore."
+    ],
+    "fx": {
+     "stress": 3,
+     "sk_husbandry": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_fair_measure",
+  "cat": "school",
+  "ages": [
+   8,
+   17
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Bent Measure",
+  "prompt": "A craft lesson uses a measuring stick with a chipped end. Every piece comes out short.",
+  "choices": [
+   {
+    "label": "Start at the next mark",
+    "journal": [
+     "One missing finger-width explained the whole pile."
+    ],
+    "fx": {
+     "sk_focus": 2,
+     "wits": 1
+    }
+   },
+   {
+    "label": "Tell the instructor",
+    "journal": [
+     "We checked the tools before cutting any more."
+    ],
+    "fx": {
+     "karma": 1,
+     "sk_smithing": 1
+    }
+   },
+   {
+    "label": "Compare with a classmate",
+    "journal": [
+     "Our matching mistakes gave the tool away."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "sk_focus": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_chalk_circle",
+  "cat": "school",
+  "ages": [
+   8,
+   18
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Broken Circle",
+  "prompt": "Your practice charm flickers where the chalk circle has a gap. The tutor points without speaking.",
+  "choices": [
+   {
+    "label": "Close the gap",
+    "journal": [
+     "The flicker settled into a small, steady glow."
+    ],
+    "fx": {
+     "sk_spellcraft": 2
+    }
+   },
+   {
+    "label": "Redraw the whole circle",
+    "journal": [
+     "Slow lines proved easier than hurried repairs."
+    ],
+    "fx": {
+     "sk_focus": 2,
+     "sk_spellcraft": 1
+    }
+   },
+   {
+    "label": "Ask why the gap matters",
+    "journal": [
+     "The tutor let me test it with a harmless light."
+    ],
+    "fx": {
+     "sk_lore": 1,
+     "sk_spellcraft": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "flag": "mana_awakened"
+  }
+ },
+ {
+  "id": "school_spark_cup",
+  "cat": "school",
+  "ages": [
+   8,
+   18
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Too Bright for Reading",
+  "prompt": "The light above your desk is bright enough to hide the letters beneath it.",
+  "choices": [
+   {
+    "label": "Practice dimming it",
+    "journal": [
+     "The letters returned as the light softened."
+    ],
+    "fx": {
+     "sk_spellcraft": 2,
+     "sk_composure": 1
+    }
+   },
+   {
+    "label": "Shade it with the desk screen",
+    "journal": [
+     "A simple screen let the lesson continue."
+    ],
+    "fx": {
+     "wits": 1,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Put it out for now",
+    "journal": [
+     "Window light was enough for this page."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "if": {
+   "flag": "mana_awakened"
+  }
+ },
+ {
+  "id": "school_story_two_ends",
+  "cat": "school",
+  "ages": [
+   9,
+   18
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Two Endings",
+  "prompt": "Two villages tell the same old tale differently. The tutor asks which ending belongs in your copy.",
+  "choices": [
+   {
+    "label": "Copy both endings",
+    "journal": [
+     "My page left room for both villages."
+    ],
+    "fx": {
+     "sk_lore": 2,
+     "sk_literacy": 1
+    }
+   },
+   {
+    "label": "Ask why they differ",
+    "journal": [
+     "One village remembered a flood. The other remembered who helped."
+    ],
+    "fx": {
+     "wits": 1,
+     "sk_lore": 1
+    }
+   },
+   {
+    "label": "Choose the one you like",
+    "journal": [
+     "I wrote my favorite and named where it came from."
+    ],
+    "fx": {
+     "sk_literacy": 1,
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_practice_pause",
+  "cat": "school",
+  "ages": [
+   8,
+   17
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Rest Bell",
+  "prompt": "You keep practicing after the rest bell. Your grip has begun to shake.",
+  "choices": [
+   {
+    "label": "Rest your hands",
+    "journal": [
+     "The next drill went better after a cup of water."
+    ],
+    "fx": {
+     "health": 1,
+     "sk_composure": 1
+    }
+   },
+   {
+    "label": "Review the steps seated",
+    "journal": [
+     "I traced the movements with one finger instead."
+    ],
+    "fx": {
+     "sk_focus": 2
+    }
+   },
+   {
+    "label": "Finish one last drill",
+    "journal": [
+     "I finished it, then spent supper nursing sore fingers."
+    ],
+    "fx": {
+     "xp_primary": 2,
+     "stress": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_new_pupil",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Place on the Bench",
+  "prompt": "A new pupil waits at the doorway. Their lesson book is tied in unfamiliar cloth.",
+  "choices": [
+   {
+    "label": "Make room beside you",
+    "journal": [
+     "We shared the bench before we shared any words."
+    ],
+    "fx": {
+     "karma": 2,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Show them the lesson page",
+    "journal": [
+     "A finger on the right line spared a difficult first question."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Let them choose a seat",
+    "journal": [
+     "I shifted my bag so the empty place looked less guarded."
+    ],
+    "fx": {
+     "sk_etiquette": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_public_question",
+  "cat": "school",
+  "ages": [
+   7,
+   16
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Question Left Over",
+  "prompt": "The tutor closes the book. You still do not understand the last example.",
+  "choices": [
+   {
+    "label": "Ask before everyone leaves",
+    "journal": [
+     "Two other hands went up after mine."
+    ],
+    "fx": {
+     "sk_composure": 2,
+     "sk_literacy": 1
+    }
+   },
+   {
+    "label": "Stay for a private question",
+    "journal": [
+     "The tutor explained it with a cup and three pebbles."
+    ],
+    "fx": {
+     "wits": 1,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Try it again at home",
+    "journal": [
+     "I filled a spare page before the pieces fitted."
+    ],
+    "fx": {
+     "sk_literacy": 2,
+     "stress": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "school_fair_team_sketch",
+  "cat": "school",
+  "ages": [
+   10,
+   17
+  ],
+  "w": 3,
+  "once": true,
+  "title": "One Shared Design",
+  "prompt": "For a school craft meet, your group must submit one design. There are four very firm opinions.",
+  "choices": [
+   {
+    "label": "Sketch a part from each idea",
+    "journal": [
+     "The finished drawing needed every one of us to explain it."
+    ],
+    "fx": {
+     "sk_charm": 2,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Test the simplest design",
+    "journal": [
+     "The little model showed which parts could actually stand."
+    ],
+    "fx": {
+     "wits": 2
+    }
+   },
+   {
+    "label": "Keep the notes for everyone",
+    "journal": [
+     "I made sure no suggestion vanished without being heard."
+    ],
+    "fx": {
+     "sk_literacy": 1,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "tournament"
+  ]
+ },
+ {
+  "id": "fame_wrong_portrait",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "A Familiar Stranger",
+  "prompt": "A market sketch claims to show you. The nose is very confident and entirely wrong.",
+  "choices": [
+   {
+    "label": "Pose for a correction",
+    "journal": [
+     "The second nose belonged to me. Mostly."
+    ],
+    "fx": {
+     "fame": 2,
+     "sk_composure": 1
+    }
+   },
+   {
+    "label": "Laugh and sign the corner",
+    "journal": [
+     "I signed beneath a face my family would never recognize."
+    ],
+    "fx": {
+     "fame": 3,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Let the artist keep it",
+    "journal": [
+     "Someone else could enjoy being that important-looking."
+    ],
+    "fx": {
+     "stress": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_shared_credit",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "One Name Missing",
+  "prompt": "A notice praises your help at a public repair. It leaves out the person who did half the lifting.",
+  "choices": [
+   {
+    "label": "Add their name",
+    "journal": [
+     "The notice finally matched the work."
+    ],
+    "fx": {
+     "renown": 2,
+     "karma": 3
+    }
+   },
+   {
+    "label": "Bring them to the reading",
+    "journal": [
+     "I stepped aside when the clerk asked who had helped."
+    ],
+    "fx": {
+     "fame": 1,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Say nothing",
+    "journal": [
+     "I let the thanks stop at my name."
+    ],
+    "fx": {
+     "fame": 2,
+     "karma": -3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_tea_interruption",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "Before the Tea Cools",
+  "prompt": "Someone recognizes you just as your tea arrives. They have several questions.",
+  "choices": [
+   {
+    "label": "Answer one question",
+    "journal": [
+     "We agreed on one. It became two, but the tea stayed warm."
+    ],
+    "fx": {
+     "fame": 2,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Ask to finish your tea first",
+    "journal": [
+     "They waited at the next table and waved when I was ready."
+    ],
+    "fx": {
+     "sk_etiquette": 1,
+     "stress": -1
+    }
+   },
+   {
+    "label": "Offer a quiet nod",
+    "journal": [
+     "I kept the afternoon small."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_tiny_signature",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "A Name to Keep",
+  "prompt": "A child offers a scrap of parchment and asks you to write your name.",
+  "choices": [
+   {
+    "label": "Sign it carefully",
+    "journal": [
+     "They waited for the ink to dry with enormous seriousness."
+    ],
+    "fx": {
+     "fame": 2,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Ask them to write theirs too",
+    "journal": [
+     "We exchanged signatures. Theirs had a splendid crooked tail."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Draw a little sun instead",
+    "journal": [
+     "They held the scrap up to the light."
+    ],
+    "fx": {
+     "spirit": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_meet_banner_spelling",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "One Letter Adrift",
+  "prompt": "A small realm meet banner carries your name with an extra letter. The steward has already hung it.",
+  "choices": [
+   {
+    "label": "Help repaint the letter",
+    "journal": [
+     "We fixed my name before the first visitors arrived."
+    ],
+    "fx": {
+     "fame": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Leave the harmless mistake",
+    "journal": [
+     "For one afternoon, I answered to a slightly longer name."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   },
+   {
+    "label": "Ask for a small correction slip",
+    "journal": [
+     "A neat patch spared the whole banner."
+    ],
+    "fx": {
+     "sk_etiquette": 1,
+     "fame": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "tournament"
+  ]
+ },
+ {
+  "id": "fame_hall_testimonial",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "A Word for the Hall",
+  "prompt": "A guild hall clerk asks for a few words about the help you received at the public desk.",
+  "choices": [
+   {
+    "label": "Name what actually helped",
+    "journal": [
+     "I praised the patient directions, not adventures I had never seen."
+    ],
+    "fx": {
+     "renown": 1,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Thank the clerk in person",
+    "journal": [
+     "The thanks stayed at the desk where it belonged."
+    ],
+    "fx": {
+     "spirit": 2,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Decline the public notice",
+    "journal": [
+     "I was grateful without wanting my name on the wall."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "guild"
+  ]
+ },
+ {
+  "id": "fame_borrowed_face",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "Your Face on a Stall",
+  "prompt": "A stallkeeper has put your likeness beside their goods. You never agreed to recommend them.",
+  "choices": [
+   {
+    "label": "Ask them to take it down",
+    "journal": [
+     "The picture came down before we needed louder voices."
+    ],
+    "fx": {
+     "sk_composure": 2,
+     "renown": 1
+    }
+   },
+   {
+    "label": "Suggest a plain correction",
+    "journal": [
+     "The new sign said we had met once. That much was true."
+    ],
+    "fx": {
+     "sk_charm": 2
+    }
+   },
+   {
+    "label": "Walk past it",
+    "journal": [
+     "By evening, strangers were asking about goods I had never used."
+    ],
+    "fx": {
+     "fame": 2,
+     "stress": 3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_better_story",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "The Better Story",
+  "prompt": "A storyteller makes your small act of help sound like a daring rescue. The listeners lean closer.",
+  "choices": [
+   {
+    "label": "Tell the smaller truth",
+    "journal": [
+     "It was less thrilling, but the person I helped smiled."
+    ],
+    "fx": {
+     "karma": 3,
+     "renown": 1
+    }
+   },
+   {
+    "label": "Thank the other helpers",
+    "journal": [
+     "The story gained three names and lost a dragon."
+    ],
+    "fx": {
+     "fame": 2,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Enjoy the telling quietly",
+    "journal": [
+     "I let the invented danger pass without correction."
+    ],
+    "fx": {
+     "fame": 3,
+     "karma": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_seat_front",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "The Front Bench",
+  "prompt": "At a public reading, the host offers you a seat at the front. You came to listen, not be seen.",
+  "choices": [
+   {
+    "label": "Take the offered seat",
+    "journal": [
+     "I listened carefully while people watched me listening."
+    ],
+    "fx": {
+     "fame": 2,
+     "sk_etiquette": 1
+    }
+   },
+   {
+    "label": "Give it to an older guest",
+    "journal": [
+     "They could hear every word from there."
+    ],
+    "fx": {
+     "karma": 2,
+     "renown": 1
+    }
+   },
+   {
+    "label": "Choose the side bench",
+    "journal": [
+     "From the side, the reading belonged to the reader."
+    ],
+    "fx": {
+     "stress": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_familiar_rival",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "An Unwanted Comparison",
+  "prompt": "People at a small meet keep comparing your practice to a team captain you have never met.",
+  "choices": [
+   {
+    "label": "Go and introduce yourself",
+    "journal": [
+     "We discussed practice instead of the crowd's predictions."
+    ],
+    "fx": {
+     "sk_charm": 2,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Ask to watch their preparation",
+    "journal": [
+     "I learned more from their warm-up than from the rumors."
+    ],
+    "fx": {
+     "xp_primary": 2
+    }
+   },
+   {
+    "label": "Leave the comparison alone",
+    "journal": [
+     "We were allowed to be two separate people."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "tournament"
+  ]
+ },
+ {
+  "id": "fame_name_day_request",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "A Few Words",
+  "prompt": "The town asks you to open a public celebration with a few words. The suggested speech is very long.",
+  "choices": [
+   {
+    "label": "Keep it short and kind",
+    "journal": [
+     "I thanked the cooks before anyone could grow hungry."
+    ],
+    "fx": {
+     "fame": 2,
+     "sk_performance": 1
+    }
+   },
+   {
+    "label": "Read the supplied speech",
+    "journal": [
+     "The parchment lasted longer than the polite clapping."
+    ],
+    "fx": {
+     "fame": 1,
+     "stress": 2
+    }
+   },
+   {
+    "label": "Recommend the organizer",
+    "journal": [
+     "They knew who had done the work. I did not."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_etiquette": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_quiet_good_word",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "A Good Word Travels",
+  "prompt": "A traveler says someone in the next village spoke kindly of you. They remember the kindness, not the name.",
+  "choices": [
+   {
+    "label": "Ask how that person is",
+    "journal": [
+     "The news mattered more than knowing who had praised me."
+    ],
+    "fx": {
+     "spirit": 3,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Send thanks with the traveler",
+    "journal": [
+     "I trusted a small message to the next stretch of road."
+    ],
+    "fx": {
+     "sk_charm": 1,
+     "renown": 1
+    }
+   },
+   {
+    "label": "Keep the compliment private",
+    "journal": [
+     "I carried it home without turning it into a story."
+    ],
+    "fx": {
+     "spirit": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_public_correction",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "The Errata Slip",
+  "prompt": "A public notice gives you credit for a task you did not do. Its actual helper is reading beside you.",
+  "choices": [
+   {
+    "label": "Correct it together",
+    "journal": [
+     "The clerk replaced the name while we waited."
+    ],
+    "fx": {
+     "karma": 3,
+     "renown": 1
+    }
+   },
+   {
+    "label": "Let the helper explain",
+    "journal": [
+     "I backed their account and stayed out of the telling."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_composure": 1
+    }
+   },
+   {
+    "label": "Leave before anyone asks",
+    "journal": [
+     "The mistake stayed on the wall, and on my mind."
+    ],
+    "fx": {
+     "fame": 1,
+     "stress": 3,
+     "karma": -2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "fame_craft_judge_invite",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "The Empty Judge's Chair",
+  "prompt": "A local craft display needs one more observer to record the judges' comments. No judging skill is required.",
+  "choices": [
+   {
+    "label": "Record every comment fairly",
+    "journal": [
+     "The makers received clear notes rather than scraps of gossip."
+    ],
+    "fx": {
+     "fame": 1,
+     "sk_literacy": 2
+    }
+   },
+   {
+    "label": "Ask to manage the queue",
+    "journal": [
+     "I kept each maker's turn from swallowing the next."
+    ],
+    "fx": {
+     "sk_composure": 2,
+     "renown": 1
+    }
+   },
+   {
+    "label": "Stay among the visitors",
+    "journal": [
+     "I enjoyed the display without a ledger on my knees."
+    ],
+    "fx": {
+     "spirit": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "tournament"
+  ]
+ },
+ {
+  "id": "fame_recognition_rain",
+  "cat": "fame",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 2,
+  "once": true,
+  "title": "Recognized in the Rain",
+  "prompt": "A passerby calls your name across a downpour, then offers half an umbrella.",
+  "choices": [
+   {
+    "label": "Share the shelter",
+    "journal": [
+     "We reached the corner with one dry shoulder each."
+    ],
+    "fx": {
+     "spirit": 3,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Thank them and keep walking",
+    "journal": [
+     "I had almost reached home. I waved from the doorway."
+    ],
+    "fx": {
+     "sk_etiquette": 1
+    }
+   },
+   {
+    "label": "Hold it while they tie a shoe",
+    "journal": [
+     "For a moment, I was the useful half of the umbrella."
+    ],
+    "fx": {
+     "karma": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "explore_hollow_bridge",
+  "cat": "exploration",
+  "ages": [
+   14,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Note Under the Bridge",
+  "prompt": "A loose stone beneath an old footbridge hides a folded survey note.",
+  "choices": [
+   {
+    "label": "Copy the bridge measurements",
+    "journal": [
+     "The surveyor had marked a weak support. I copied that twice."
+    ],
+    "fx": {
+     "sk_lore": 2,
+     "sk_literacy": 1
+    }
+   },
+   {
+    "label": "Take the warning to the village",
+    "journal": [
+     "The bridge keeper closed the crossing for inspection."
+    ],
+    "fx": {
+     "karma": 3,
+     "renown": 1
+    }
+   },
+   {
+    "label": "Put the note back carefully",
+    "journal": [
+     "I left the stone as I found it and used the ford."
+    ],
+    "fx": {
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "explore_glass_moss",
+  "cat": "exploration",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Light in the Moss",
+  "prompt": "Pale moss catches the evening light like tiny panes of glass. It grows only on one side of the hollow.",
+  "choices": [
+   {
+    "label": "Sketch where it grows",
+    "journal": [
+     "My drawing kept the shade line as carefully as the leaves."
+    ],
+    "fx": {
+     "sk_lore": 2
+    }
+   },
+   {
+    "label": "Watch until sunset",
+    "journal": [
+     "The shine faded with the last strip of sun."
+    ],
+    "fx": {
+     "sk_focus": 2,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Show a passing herbalist",
+    "journal": [
+     "They knelt to look and thanked me for leaving it rooted."
+    ],
+    "fx": {
+     "sk_foraging": 2,
+     "karma": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "explore_shepherd_steps",
+  "cat": "exploration",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Steps in the Bank",
+  "prompt": "Narrow steps climb a grassy bank. At the top, a worn stone points toward a sheltered pasture.",
+  "choices": [
+   {
+    "label": "Climb and mark the path",
+    "journal": [
+     "The sheltered hollow would be useful in bad weather."
+    ],
+    "fx": {
+     "sk_tracking": 2
+    }
+   },
+   {
+    "label": "Check the stone carving",
+    "journal": [
+     "Years of sheep had polished the bottom half away."
+    ],
+    "fx": {
+     "sk_lore": 2
+    }
+   },
+   {
+    "label": "Rest below the bank",
+    "journal": [
+     "The wind passed overhead while I ate."
+    ],
+    "fx": {
+     "stress": -3,
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "explore_chiming_cave",
+  "cat": "exploration",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Stone That Answers",
+  "prompt": "A shallow cave gives back a soft chime when your boot taps a fallen stone.",
+  "choices": [
+   {
+    "label": "Test the loose stones gently",
+    "journal": [
+     "Only the thin stone rang. I left it where it was."
+    ],
+    "fx": {
+     "sk_lore": 2,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Listen from the entrance",
+    "journal": [
+     "Drops from the roof made a slower, quieter music."
+    ],
+    "fx": {
+     "spirit": 3
+    }
+   },
+   {
+    "label": "Leave before the light fades",
+    "journal": [
+     "I noted the opening and returned with daylight to spare."
+    ],
+    "fx": {
+     "sk_tracking": 1,
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "explore_orchard_wall",
+  "cat": "exploration",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Beyond the Orchard Wall",
+  "prompt": "A gap in an abandoned orchard wall reveals an old stone channel still carrying water.",
+  "choices": [
+   {
+    "label": "Trace the channel from outside",
+    "journal": [
+     "It fed a lower field long after the orchard was forgotten."
+    ],
+    "fx": {
+     "sk_tracking": 2,
+     "sk_lore": 1
+    }
+   },
+   {
+    "label": "Tell the nearby farmer",
+    "journal": [
+     "They came back with a measuring cord and hopeful questions."
+    ],
+    "fx": {
+     "karma": 2,
+     "renown": 1
+    }
+   },
+   {
+    "label": "Sit beside the running water",
+    "journal": [
+     "The channel hurried. I did not."
+    ],
+    "fx": {
+     "stress": -3
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "combat_loose_practice_head",
+  "cat": "combat",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Loose Practice Head",
+  "prompt": "At an open sparring yard, a practice spearhead wobbles just before a bout.",
+  "choices": [
+   {
+    "label": "Call a halt",
+    "journal": [
+     "We checked every practice weapon before starting again."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Help bind it firmly",
+    "journal": [
+     "The instructor tested the new binding twice."
+    ],
+    "fx": {
+     "sk_swordsmanship": 1,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Switch to footwork drills",
+    "journal": [
+     "We learned something without swinging a thing."
+    ],
+    "fx": {
+     "sk_agility": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "combat"
+  ]
+ },
+ {
+  "id": "combat_cart_ram",
+  "cat": "combat",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Horns by the Cart",
+  "prompt": "An escaped ram blocks a narrow lane. A cart driver grips the reins and waits for help.",
+  "choices": [
+   {
+    "label": "Draw it toward the empty pen",
+    "p": 0.6,
+    "skill": "agility",
+    "win": {
+     "journal": [
+      "I slipped behind the gate before the ram reached it."
+     ],
+     "fx": {
+      "sk_agility": 2,
+      "renown": 1
+     }
+    },
+    "fail": {
+     "journal": [
+      "The ram knocked me into a sack of turnips. The driver closed the gate."
+     ],
+     "fx": {
+      "health": -3,
+      "stress": 3
+     }
+    }
+   },
+   {
+    "label": "Fetch its keeper",
+    "journal": [
+     "A familiar call worked better than all our shouting."
+    ],
+    "fx": {
+     "sk_husbandry": 2
+    }
+   },
+   {
+    "label": "Keep the lane clear",
+    "journal": [
+     "I waved people back until the keeper arrived."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_composure": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "combat"
+  ]
+ },
+ {
+  "id": "combat_ring_boundary",
+  "cat": "combat",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Beyond the Chalk",
+  "prompt": "During an open practice bout, your partner steps beyond the safety line without noticing.",
+  "choices": [
+   {
+    "label": "Stop and point it out",
+    "journal": [
+     "We reset our feet before the practice continued."
+    ],
+    "fx": {
+     "sk_composure": 2,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Ask for a wider practice space",
+    "journal": [
+     "The instructor moved us away from the watching crowd."
+    ],
+    "fx": {
+     "sk_charm": 2
+    }
+   },
+   {
+    "label": "End with footwork together",
+    "journal": [
+     "We learned the boundary without needing another strike."
+    ],
+    "fx": {
+     "sk_agility": 1,
+     "sk_swordsmanship": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "combat",
+   "tournament"
+  ]
+ },
+ {
+  "id": "combat_guarded_retreat",
+  "cat": "combat",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Way Back",
+  "prompt": "A village instructor offers a free lesson in retreating safely. The first rule is to keep breathing.",
+  "choices": [
+   {
+    "label": "Try the paired drill",
+    "p": 0.65,
+    "skill": "shieldwork",
+    "win": {
+     "journal": [
+      "I reached the marker with my guard still raised."
+     ],
+     "fx": {
+      "sk_shieldwork": 2,
+      "sk_composure": 1
+     }
+    },
+    "fail": {
+     "journal": [
+      "My feet crossed. We stopped and practiced the first step again."
+     ],
+     "fx": {
+      "stress": 2,
+      "sk_shieldwork": 1
+     }
+    }
+   },
+   {
+    "label": "Practice the steps alone",
+    "journal": [
+     "Backward felt less awkward by the last marker."
+    ],
+    "fx": {
+     "sk_agility": 2
+    }
+   },
+   {
+    "label": "Watch the breathing rhythm",
+    "journal": [
+     "The slow breath belonged between the hurried steps."
+    ],
+    "fx": {
+     "sk_composure": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "combat"
+  ]
+ },
+ {
+  "id": "rel_saved_chair",
+  "cat": "relationship",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Chair They Saved",
+  "prompt": "At a crowded meal, an acquaintance has saved a chair for you with a folded scarf.",
+  "choices": [
+   {
+    "label": "Sit and ask about their day",
+    "journal": [
+     "I learned why they had looked so tired at the door."
+    ],
+    "fx": {
+     "spirit": 3,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Bring them a fresh cup of tea",
+    "journal": [
+     "They moved the scarf and made room for both cups."
+    ],
+    "fx": {
+     "karma": 2,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Thank them but head home",
+    "journal": [
+     "They folded the scarf without making my tiredness a slight."
+    ],
+    "fx": {
+     "sk_etiquette": 1,
+     "stress": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "rel_mended_handle",
+  "cat": "relationship",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "A Familiar Repair",
+  "prompt": "Someone you know returns your borrowed basket with its loose handle neatly repaired.",
+  "choices": [
+   {
+    "label": "Thank them properly",
+    "journal": [
+     "They showed me the new knot before I filled the basket."
+    ],
+    "fx": {
+     "spirit": 3,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Offer help in return",
+    "journal": [
+     "They had a shelf that needed holding while the pegs went in."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Ask to learn the knot",
+    "journal": [
+     "We untied it once so I could put it right myself."
+    ],
+    "fx": {
+     "sk_focus": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "rel_disputed_memory",
+  "cat": "relationship",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Other Version",
+  "prompt": "An old acquaintance remembers a shared day quite differently. You both remember the same rain.",
+  "choices": [
+   {
+    "label": "Let them finish the story",
+    "journal": [
+     "Their part began where my attention had ended."
+    ],
+    "fx": {
+     "sk_composure": 2,
+     "sk_lore": 1
+    }
+   },
+   {
+    "label": "Compare the little details",
+    "journal": [
+     "We agreed on wet shoes and disagreed more gently after that."
+    ],
+    "fx": {
+     "sk_charm": 2
+    }
+   },
+   {
+    "label": "Keep both versions",
+    "journal": [
+     "Neither of us needed to win the afternoon."
+    ],
+    "fx": {
+     "spirit": 2,
+     "stress": -1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "rel_hall_departure",
+  "cat": "relationship",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Bread for the Road",
+  "prompt": "At the guild hall door, an adventurer you have chatted with is tying up a traveling pack.",
+  "choices": [
+   {
+    "label": "Share some bread",
+    "journal": [
+     "They tucked half away for the next day."
+    ],
+    "fx": {
+     "karma": 2,
+     "spirit": 1
+    }
+   },
+   {
+    "label": "Ask what they hope to find",
+    "journal": [
+     "Their answer was a river town they had only seen on a map."
+    ],
+    "fx": {
+     "sk_lore": 1,
+     "sk_charm": 1
+    }
+   },
+   {
+    "label": "Wish them a safe return",
+    "journal": [
+     "We agreed that an uneventful journey was worth having."
+    ],
+    "fx": {
+     "sk_etiquette": 1,
+     "spirit": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "guild"
+  ]
+ },
+ {
+  "id": "travel_meet_wagon",
+  "cat": "travel",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "Banners on the Wagon",
+  "prompt": "A tournament team wagon shares the road for an afternoon. Wrapped tools rattle beneath its banner.",
+  "choices": [
+   {
+    "label": "Walk beside them awhile",
+    "journal": [
+     "They talked about practice, repairs, and who had packed lunch."
+    ],
+    "fx": {
+     "sk_lore": 1,
+     "spirit": 2
+    }
+   },
+   {
+    "label": "Help secure a loose bundle",
+    "journal": [
+     "The rattling stopped. Conversation became much easier."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_focus": 1
+    }
+   },
+   {
+    "label": "Ask where the meet is held",
+    "journal": [
+     "They pointed out the fairground on my map."
+    ],
+    "fx": {
+     "sk_tracking": 2
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "tournament"
+  ]
+ },
+ {
+  "id": "travel_ferry_rope",
+  "cat": "travel",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Ferry Wait",
+  "prompt": "A ferry keeper is replacing a frayed rope. Your crossing will have to wait.",
+  "choices": [
+   {
+    "label": "Help coil the old rope",
+    "journal": [
+     "By the time the last coil was laid, the new rope was ready."
+    ],
+    "fx": {
+     "sk_endurance": 1,
+     "karma": 1
+    }
+   },
+   {
+    "label": "Eat while you wait",
+    "journal": [
+     "A dry seat and a packed lunch improved the delay."
+    ],
+    "fx": {
+     "stress": -3
+    }
+   },
+   {
+    "label": "Check the path to the bridge",
+    "journal": [
+     "The longer walk came with solid ground all the way."
+    ],
+    "fx": {
+     "sk_tracking": 1,
+     "sk_endurance": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text"
+ },
+ {
+  "id": "travel_hall_waymark",
+  "cat": "travel",
+  "ages": [
+   16,
+   80
+  ],
+  "w": 3,
+  "once": true,
+  "title": "The Hall Waymark",
+  "prompt": "A guild hall waymark has turned on its post. Both arrows now seem to point into a hedge.",
+  "choices": [
+   {
+    "label": "Ask nearby and set it straight",
+    "journal": [
+     "The hall was down the lane. The hedge remained unappointed."
+    ],
+    "fx": {
+     "karma": 2,
+     "sk_tracking": 1
+    }
+   },
+   {
+    "label": "Carry the loose sign to the hall",
+    "journal": [
+     "The clerk fetched a new peg before another traveler arrived."
+    ],
+    "fx": {
+     "sk_endurance": 1,
+     "karma": 2
+    }
+   },
+   {
+    "label": "Leave a clear note beside it",
+    "journal": [
+     "I marked the uncertainty instead of adding another guess."
+    ],
+    "fx": {
+     "sk_literacy": 1
+    }
+   }
+  ],
+  "src": "text",
+  "journal_src": "text",
+  "tags": [
+   "guild"
+  ]
+ }
+]

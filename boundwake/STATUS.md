@@ -1,6 +1,6 @@
-## Patronage grants APPLY live (Coder, Nov 5 ~4:00 PM CT)
-- Engine: ensurePatronage (array→{active,applied} migrate), patronageWindow (primer 11–16 / academy 16–22, cage; null in prison), patronageUnmet, patronageOdds (0.35–0.90), listPatronage, applyPatronage (1 act, once/yr per grant, maxActive 2, coverage ≤100%, award gold), patronageYear (yearly stipend pct×academyFee, expiry log) hooked in ageUp beside guildYear.
-- UI: Work → Circles & patronage accordion adds Patronage grants inset (held + Apply `data-a="patron"`). Clubs UI unchanged. pack_polish.css linked (?v=patron1).
-- Patronage application flow from academy age window: DONE. Smoke PASS.
-- Deployed: 6dd2ffbe on paige-site main.
-
+## Text Bot 75-event batch MERGED live (Coder, Nov 5 ~4:38 PM CT)
+- Appended `docs/events_draft/events_batch_nov5.json` (75 DRAFT events, all unique ids) into `data_fantasy/events_expansion.json` via existing OPTIONAL pack merge (dedupe by `id`).
+- Before: base events.json 89 + expansion 67 + passion 36 = 192 pool. After: base 89 + expansion 142 + passion 36 = **267** pool.
+- Gates preserved (`if.career` / `if.job` / `if.flag`); no Lifeline touch; Fantasy Boundwake only.
+- Smoke: PASS (`distinctEvents` 218/267). Deploy pending push to paige-site main.
+- Prior: Patronage grants APPLY live (6dd2ffbe).
