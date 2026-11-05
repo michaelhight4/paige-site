@@ -4,6 +4,7 @@ import { loadPack } from './pack.js';
 import * as E from './bw_engine.js';
 import { ico, esc, flare, oddsChip, statLabel } from './flare.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
+import { mountAmbient, paintAmbient } from './ambient.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
 const Q = new URLSearchParams(location.search);
@@ -34,7 +35,11 @@ const bar = (key, v, cls = '', valHtml = null) => {
   const pct = Math.max(0, Math.min(100, typeof v === 'number' ? v : 0));
   return `<div class="bar ${extra}">${lbl}<span class="val">${val}</span><i><b style="width:${pct}%"></b></i></div>`;
 };
-const setChrome = (t) => { document.body.dataset.tab = t; };
+const setChrome = (t) => {
+  document.body.dataset.tab = t;
+  const realm = (s && s.region) || (typeof fate !== 'undefined' && fate && fate.region) || 'hearthfold';
+  try { paintAmbient(realm, t); } catch (_) { /* ambient optional */ }
+};
 const card = (panel, hd, body, extra = '') =>
   `<div class="card panel-${panel} ${extra}"><div class="card-hd">${hd}</div><div class="card-body">${body}</div></div>`;
 
@@ -195,11 +200,8 @@ app.addEventListener('click', (ev) => {
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();
 });
-function motes() {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches || Q.get('ambient') === '0') return; const cv = $('#motes'), cx = cv.getContext('2d'), dpr = Math.min(1.5, devicePixelRatio || 1);
-  const N = innerWidth < 600 ? 16 : 32, M = []; const fit = () => { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; }; fit(); addEventListener('resize', fit);
-  for (let i = 0; i < N; i++) M.push({ x: Math.random(), y: Math.random(), r: 1 + Math.random() * 2, v: 0.0004 + Math.random() * 0.0008, p: Math.random() * 6 });
-  setInterval(() => { if (document.hidden) return; cx.clearRect(0, 0, cv.width, cv.height); for (const m of M) { m.y -= m.v; m.p += 0.05; if (m.y < -0.02) m.y = 1.02; const a = 0.25 + 0.25 * Math.sin(m.p); cx.fillStyle = `rgba(224,177,74,${a})`; cx.beginPath(); cx.arc((m.x + Math.sin(m.p) * 0.005) * cv.width, m.y * cv.height, m.r * dpr, 0, 7); cx.fill(); } }, 42);
+function startAmbient() {
+  mountAmbient({ realm: (s && s.region) || 'hearthfold', tab: document.body.dataset.tab || 'life' });
 }
 (async () => {
   setChrome('gate');
@@ -208,5 +210,5 @@ function motes() {
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
   P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}');
   if (!Q.has('fresh')) try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { s = null; }
-  motes(); if (s) render(); else if (!localStorage.getItem(SEEN) && !Q.has('skipintro')) cold(); else fateScreen();
+  startAmbient(); if (s) render(); else if (!localStorage.getItem(SEEN) && !Q.has('skipintro')) cold(); else fateScreen();
 })();

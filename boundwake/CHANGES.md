@@ -11,3 +11,7 @@
 - Craft: per-menu header bars + tinted card bodies + left-accent rows; filled tab chips; portrait multi-ring; taller glossy bars + mana layout; choice buttons with cycling border colors + 3D shadow; journal year weight; empty dashed states; focus rings; safe-area.
 - QA: `?race=` for local portrait proof; shots under `tests/shots/ui_standard/`.
 - Identity stays Boundwake parchment/realm — not Lifeline modern-life skin or Kilumen overworld.
+
+## Nov 5 2026 (illustrated scenery add-on)
+- New `src/ambient.js` + `#bw-amb` layer: realm scenery (Hearthfold / Glassmarket / Thornreed / Spireward / Emberlight) with TOD grading; replaces bare motes-only void.
+- CSS motion + particle canvas; scenery window pad on `#stage`; soft vignette. No engine/UI-structure redo.

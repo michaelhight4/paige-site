@@ -12,7 +12,13 @@ Tests: `node tests/smoke.mjs` (120 lives, PASS), `node tests/ui_standard_shot.mj
 - **Pillars** only (`swordsmanship`, `spellcraft`, `smithing`): lifespan > 90 → flat 1.5× pace; post 100/60/25 curve taper 50%→1% by `hage`. Other skills unchanged.
 - Saves `bw.*` prefixed.
 
-## UI studio standard pass (this turn)
+## Illustrated scenery (Gary Nov 5 ~1:29 PM CT)
+- Lifeline-class living backdrop: SVG hills/sky/cottages/coasts/wilds/spires/forts keyed by **realm** + device time-of-day (dawn/day/dusk/night; `?tod=`).
+- Soft CSS motion (clouds, orb bob, birds, boats/waves) + canvas motes/fireflies; pauses when tab hidden; off for `prefers-reduced-motion` and `?ambient=0`.
+- Scenery window above hub cards; vignette keeps parchment readable. Cross-fade on realm travel.
+- Shots: `tests/shots/ui_backdrop/` (stills — motion noted in README).
+
+## UI studio standard pass
 - Docked Age +1 in opaque bottom chrome (content pad + solid dock; hidden while event sheet open). No floating CTA over lists.
 - Per-menu craft: saturated header bars, tinted bodies, left-accent rows, filled tab chips (Life green / Work rust / Adv teal / Skills blue / Bonds rose / …).
 - Portrait multi-ring frame; grid sprites `{race}_{age}_{m|f}.png` when present (human baby/child/adult shown in standard shots); initials only if file missing (e.g. dwarf child).

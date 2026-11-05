@@ -347,3 +347,49 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
   .portrait{width:72px;height:72px}
   .bars{gap:6px 12px}
 }
+
+/* ---- Boundwake illustrated scenery (Lifeline ambient craft class; fantasy realms) ---- */
+#bw-amb{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bw-amb-arts{position:absolute;inset:0}
+.bw-amb-art{position:absolute;inset:0;opacity:0;transition:opacity .65s ease}
+.bw-amb-art.on{opacity:1}
+.bw-amb-art svg{width:100%;height:100%;display:block}
+#bw-amb::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(140% 90% at 50% 12%,transparent 48%,#120c1d44 82%,#120c1dcc 100%),
+    linear-gradient(180deg,#120c1d11 0%,transparent 22%,transparent 62%,#120c1db8 100%);
+}
+html.bw-amb[data-tod="night"] #bw-amb::after{
+  background:
+    radial-gradient(140% 90% at 50% 10%,transparent 42%,#0a081866 78%,#0a0818dd 100%),
+    linear-gradient(180deg,#0a081822 0%,transparent 30%,transparent 58%,#0a0818cc 100%);
+}
+html.bw-amb body{background:#120c1d}
+html.bw-amb #stage{position:relative;z-index:1;padding-top:clamp(72px,14vh,132px)}
+html.bw-amb body[data-tab="fate"] #stage,
+html.bw-amb body[data-tab="gate"] #stage,
+html.bw-amb body[data-tab="death"] #stage,
+html.bw-amb body[data-tab="cold"] #stage{padding-top:clamp(40px,8vh,80px)}
+/* Scenery peeks in the strip above the hub identity card */
+html.bw-amb .card.hub{margin-top:0}
+html.bw-amb #motes{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+/* Soft CSS motion on SVG pieces (paused when reduced-motion) */
+html.bw-amb:not([data-motion="reduced"]) .bw-cloud{animation:bw-drift 48s linear infinite}
+html.bw-amb:not([data-motion="reduced"]) .bw-cloud:nth-of-type(2){animation-duration:62s;animation-direction:reverse}
+html.bw-amb:not([data-motion="reduced"]) .bw-orb{animation:bw-bob 7s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+html.bw-amb:not([data-motion="reduced"]) .bw-birds{animation:bw-fly 22s linear infinite}
+html.bw-amb:not([data-motion="reduced"]) .bw-boat{animation:bw-bob 5.5s ease-in-out infinite;animation-delay:var(--d,0s)}
+html.bw-amb:not([data-motion="reduced"]) .bw-wave{animation:bw-wave 9s ease-in-out infinite}
+@keyframes bw-drift{from{transform:translateX(-8%)}to{transform:translateX(110%)}}
+@keyframes bw-bob{50%{transform:translateY(4px)}}
+@keyframes bw-fly{0%{transform:translateX(0)}50%{transform:translateX(18px) translateY(-6px)}100%{transform:translateX(0)}}
+@keyframes bw-wave{50%{transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){
+  html.bw-amb .bw-cloud,html.bw-amb .bw-orb,html.bw-amb .bw-birds,html.bw-amb .bw-boat,html.bw-amb .bw-wave{animation:none!important}
+  .bw-amb-art{transition:none}
+}
+/* Keep cards readable over living scene — slight plate lift, no layout redo */
+html.bw-amb .card{box-shadow:var(--shadow-card),0 0 0 1px #0003,0 12px 28px #0008}
+html.bw-amb .dock{background:#120c1df5}
+html.bw-amb .sheet{background:#0a0814d8}
