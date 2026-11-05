@@ -29,3 +29,7 @@
 - Everyday ordinary careers (age 6–10 entries); Work gate age 6; openings split Everyday / Guild.
 - Bond cards: persisted stats + jobTitle; no gold; yearly light drift.
 - Desktop: stage nearly full width; columns stretch to 100dvh; journal flex-fills.
+
+## Nov 5 2026 (original music beds)
+- `src/music.js` + `assets/music/{hub_life,adventure_travel,dusk_night}.ogg` (MP3 fallback).
+- Tab/TOD selection; 1.4s crossfade; mute toggle; autoplay-safe unlock on first gesture.

@@ -578,3 +578,18 @@ body.info-open .dock{pointer-events:none}
     flex:1 1 0%;min-height:0;
   }
 }
+
+/* ---- music toggle (Boundwake beds) ---- */
+.music-fab{position:fixed;top:10px;right:10px;z-index:40;pointer-events:auto}
+.music-tog{
+  width:40px;height:40px;border-radius:12px;border:2px solid #e0b14a88;
+  background:linear-gradient(180deg,#fff6e4,#e8cf98);color:var(--ink);
+  font-size:18px;line-height:1;cursor:pointer;
+  box-shadow:0 4px 14px #0007;display:inline-flex;align-items:center;justify-content:center;
+}
+.music-tog:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.music-row{display:flex;align-items:center;gap:8px;margin-top:12px}
+.music-row .music-tog{width:34px;height:34px;font-size:15px}
+@media (min-width:1024px){
+  .music-fab{top:14px;right:18px}
+}

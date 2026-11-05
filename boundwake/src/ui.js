@@ -6,6 +6,7 @@ import { ico, esc, flare, oddsChip, statLabel, infoChip } from './flare.js';
 import { mountInfoClicks, openInfo } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
+import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
 const Q = new URLSearchParams(location.search);
@@ -97,6 +98,8 @@ function fateScreen(rr = 1) {
    <p class="sub">Hidden talents: 3 (revealed as you train)${meta.echoes ? ' · ' + flare('Echoes') + ': ' + Object.entries(meta.echoes).map(([k, n]) => flare(k.replace('echo_', '')) + '×' + n).join(', ') : ''}</p>
    <div class="actions" style="justify-content:center"><button id="go" class="primary">${T('start_life')}</button> <button id="rr" class="ghost" ${rr ? '' : 'disabled'}>${T('fate_reroll')}</button></div>`;
   app.innerHTML = card('fate', `${ico('echo')} ${T('fate_title')}`, body);
+  try { syncMusic('fate', document.documentElement.dataset.tod); } catch (_) {}
+  if (!document.querySelector('.music-fab')) { const fab = document.createElement('div'); fab.className = 'music-fab'; fab.innerHTML = musicToggleHTML(); document.body.append(fab); }
   $('#go').onclick = () => { s = E.begin(fate, meta); tab = 'life'; save(); render(); };
   $('#rr').onclick = () => fateScreen(0);
 }
@@ -223,6 +226,7 @@ function sidePeek() {
       <div class="side-skills">${top || '<div class="empty">None trained yet.</div>'}</div>
       <p class="side-meta">${ico('bond')} ${bonds} bond${bonds === 1 ? '' : 's'} · ${ico('act')}${s.budget?.act ?? 0}/4 · ${ico('adventure')}${s.budget?.adv ?? 0}/5</p>
       <p class="side-hint sub">Tap affinity or trait chips for what they do.</p>
+      <div class="music-row">${musicToggleHTML()} <small>Music</small></div>
     </div>
   </aside>`;
 }
@@ -243,6 +247,12 @@ function render() {
   </div><div class="end-pad" aria-hidden="true"></div>${sheet}`;
   const j = $('#jr'); if (j) j.scrollTop = j.scrollHeight; save();
   paintAmbient(s.region || 'hearthfold', tab);
+  try { syncMusic(tab, document.documentElement.dataset.tod); } catch (_) {}
+  if (!document.querySelector('.music-fab')) {
+    const fab = document.createElement('div'); fab.className = 'music-fab'; fab.innerHTML = musicToggleHTML(); document.body.append(fab);
+  } else {
+    document.querySelector('.music-fab').innerHTML = musicToggleHTML();
+  }
 }
 app.addEventListener('click', (ev) => {
   const b = ev.target.closest('button'); if (!b || b.disabled) return; const a = b.dataset.a, v = b.dataset.v; let r;
@@ -254,6 +264,7 @@ app.addEventListener('click', (ev) => {
   else if (a === 'soc') r = E.socialize(s, v); else if (a === 'friend') r = E.meetSomeone(s, false); else if (a === 'love') r = E.meetSomeone(s, true); else if (a === 'travel') r = E.travel(s, v);
   else if (a === 'reinc') { s = E.reincarnate(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
   else if (a === 'heir') { s = E.continueAsHeir(meta, s, v, (Math.random() * 2 ** 31) | 0); tab = 'life'; }
+  else if (a === 'music') { unlockMusic(); toggleMute(); return; }
   if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
   render();
 });
@@ -267,6 +278,6 @@ function startAmbient() {
   if (!acc.ok) { setChrome('gate'); app.innerHTML = gateHTML(acc.reason); return; }
   P = await loadPack(); E.setPack(P); meta = JSON.parse(localStorage.getItem(META) || '{}');
   if (!Q.has('fresh')) try { s = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { s = null; }
-  startAmbient(); mountInfoClicks(document);
+  startAmbient(); mountInfoClicks(document); mountMusic();
   if (s) render(); else if (!localStorage.getItem(SEEN) && !Q.has('skipintro')) cold(); else fateScreen();
 })();
