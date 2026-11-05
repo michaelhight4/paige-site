@@ -2,7 +2,7 @@
 // Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
 import * as E from './bw_engine.js';
-import { ico, esc, flare, oddsChip, statLabel, infoChip } from './flare.js';
+import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flare.js';
 import { mountInfoClicks, openInfo } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
@@ -152,7 +152,7 @@ function body() {
   if (tab === 'skills') {
     return card('skills', HD.skills, lead('skills')) + P.skills.categories.map((c) => card('skills', `${c.icon} ${esc(c.name)}`, P.skills.skills.filter((k) => k.cat === c.id).map((k) => { const v = s.skills[k.id], lk = E.skillLocked(s, k.id);
       const pillar = E.PILLAR_SKILLS?.includes(k.id) && E.longevitySkillPace(s, k.id) > 1 ? ` · <small class="muted">long-life pace ×${E.longevitySkillPace(s, k.id).toFixed(1)}</small>` : '';
-      return `<div class="row"><div><b>${flare(k.name)}</b> <small>${E.rankOf(v)}${s.talents.includes(k.id) && v > 10 ? ' · talent!' : ''}${pillar}</small><br><small>${flare(k.flavor || k.note)}</small></div><div style="text-align:right;min-width:96px">${Math.floor(v)}<br><button data-a="train" data-v="${k.id}" ${lk || s.budget.act < 1 || h < 4 ? 'disabled' : ''}>${lk ? 'locked' : 'Train'}</button></div></div>`; }).join(''))).join('');
+      return `<div class="row row-skill"><div class="skill-name">${skillIco(k.id)}<b>${esc(k.name)}</b> <small>${E.rankOf(v)}${s.talents.includes(k.id) && v > 10 ? ' · talent!' : ''}${pillar}</small><br><small>${flare(k.flavor || k.note)}</small></div><div style="text-align:right;min-width:96px">${Math.floor(v)}<br><button data-a="train" data-v="${k.id}" ${lk || s.budget.act < 1 || h < 4 ? 'disabled' : ''}>${lk ? 'locked' : 'Train'}</button></div></div>`; }).join(''))).join('');
   }
   if (tab === 'bonds') {
     const people = E.living(s);
@@ -210,7 +210,7 @@ function sidePeek() {
   const top = Object.entries(s.skills || {}).sort((a, b) => b[1] - a[1]).slice(0, 4)
     .map(([id, v]) => {
       const sk = P.skills.skills.find((x) => x.id === id);
-      return `<div class="side-row"><span>${flare(sk?.name || id)}</span><b>${Math.floor(v)}</b></div>`;
+      return `<div class="side-row"><span>${skillIco(id)} ${esc(sk?.name || id)}</span><b>${Math.floor(v)}</b></div>`;
     }).join('');
   const bonds = (s.people || []).filter((p) => p.alive !== false).length;
   return `<aside class="play-side card panel-side" aria-label="At a glance">

@@ -33,3 +33,7 @@
 ## Nov 5 2026 (original music beds)
 - `src/music.js` + `assets/music/{hub_life,adventure_travel,dusk_night}.ogg` (MP3 fallback).
 - Tab/TOD selection; 1.4s crossfade; mute toggle; autoplay-safe unlock on first gesture.
+
+## Nov 5 2026 (skill icons + bond child jobs)
+- Unique `skillIco(id)` SVGs + PNG prefer path `assets/icons/skills/{id}.png`.
+- Bonds under hage 12 never show real occupations (Child / Village lessons); re-clamp old saves.

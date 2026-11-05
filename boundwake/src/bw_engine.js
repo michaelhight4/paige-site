@@ -43,17 +43,20 @@ function personHage(p) {
   const ls = D.races.find((r) => r.id === p.race)?.lifespan || 90;
   return (p.age * 90) / ls;
 }
+function isChildJobTitle(title) {
+  return title === 'Child' || title === 'Village lessons' || title === 'Helps at home';
+}
 function pickPersonJobTitle(s, p) {
   const h = personHage(p);
-  if (h < 5) return 'Child';
-  if (h < 10 && chance(s, 0.55)) return 'Village lessons';
-  // Prefer real entry job titles that fit age (ordinary first)
+  // Bonds: no real occupations before human-equivalent 12 (Gary Nov 5 ~1:55 PM CT)
+  if (h < 6) return 'Child';
+  if (h < 12) return 'Village lessons';
   const entries = Object.values(D.jobsById || {}).filter((j) => j.entry && (j.req?.age ?? 99) <= h + 0.01);
   const ordinary = entries.filter((j) => (D.occ.careers.find((c) => c.id === j.sector)?.tags || []).includes('ordinary'));
   const pool = (ordinary.length ? ordinary : entries);
   if (pool.length) return pick(s, pool).title;
   const fallback = ORDINARY_JOB_POOL.filter(([, a0, a1]) => h >= a0 && h < a1).map((x) => x[0]);
-  return fallback.length ? pick(s, fallback) : (h < 12 ? 'Village lessons' : 'Laborer');
+  return fallback.length ? pick(s, fallback) : 'Laborer';
 }
 /** Fill stats + jobTitle on a person once; persists on save. Never stores gold. */
 export function ensurePersonSheet(s, p) {
@@ -62,13 +65,15 @@ export function ensurePersonSheet(s, p) {
       health: rint(s, 48, 92), happiness: rint(s, 40, 88), smarts: rint(s, 35, 85),
       looks: rint(s, 35, 88), fame: rint(s, 0, 18), stress: rint(s, 0, 28),
     };
-    // Parents a touch more worn / present
     if (p.rel === 'mother' || p.rel === 'father') {
       p.stats.health = rint(s, 55, 85); p.stats.fame = rint(s, 2, 25); p.stats.stress = rint(s, 8, 35);
     }
   }
+  const h = personHage(p);
   if (p.jobTitle == null || p.jobTitle === '') p.jobTitle = pickPersonJobTitle(s, p);
-  // Strip gold if any older save ever carried it
+  // Re-clamp bad under-12 titles from earlier saves (e.g. 6yo Farmhand)
+  if (h < 12 && !isChildJobTitle(p.jobTitle)) p.jobTitle = pickPersonJobTitle(s, p);
+  if (h < 6 && p.jobTitle !== 'Child') p.jobTitle = 'Child';
   if ('gold' in p) delete p.gold;
   return p;
 }
@@ -233,11 +238,10 @@ function peopleYear(s, yrs) {
     for (const k of ['health', 'happiness', 'smarts', 'looks']) p.stats[k] = clamp(p.stats[k] + rint(s, -2, 2) * yrs, 0, 100);
     p.stats.stress = clamp(p.stats.stress + rint(s, -1, 2) * yrs, 0, 100);
     p.stats.fame = clamp(p.stats.fame + (chance(s, 0.15) ? 1 : 0), 0, 100);
-    // Age into school / first work title once
-    if ((p.jobTitle === 'Child' || p.jobTitle === 'Village lessons') && h >= 6) {
-      const next = pickPersonJobTitle(s, p);
-      if (next !== p.jobTitle) p.jobTitle = next;
-    }
+    // Age into school at 6, real work only at 12+
+    if (h < 6) p.jobTitle = 'Child';
+    else if (h < 12) p.jobTitle = 'Village lessons';
+    else if (isChildJobTitle(p.jobTitle)) p.jobTitle = pickPersonJobTitle(s, p);
   }
 }
 
