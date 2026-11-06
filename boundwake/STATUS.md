@@ -1,4 +1,4 @@
-## Live — **PENDING_SHA** multi-tab save guard · https://paigegames.net/boundwake/
+## Live — **2df4831d** multi-tab save guard · https://paigegames.net/boundwake/
 
 ## HOTFIX — Hard refresh rolled age 14→7 (multi-tab clobber) — Coder Nov 5 ~6:55 PM CT
 - Root cause (Gary): two Boundwake tabs open; older tab (age 7) wrote `bw.save.v1` over newer life (age 14) on render/save

@@ -1,4 +1,4 @@
-## Live — **PENDING_SHA** multi-tab save guard · https://paigegames.net/boundwake/
+## Live — **2df4831d** multi-tab save guard · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:55 PM CT — Multi-tab save never clobbers newer life
 - Gary hard refresh: age 14 → 7 (second tab still at 7 overwrote `bw.save.v1`)
