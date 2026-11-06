@@ -1,10 +1,19 @@
+## Live — pending · Legacy accordion · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:27 PM CT — Legacy Life Goals / Achievements collapsible
+- Gary: Life Goals not collapsible → had to scroll past all 48 to find Achievements
+- `<details class="legacy-acc card panel-legacy">` for Life Goals + Achievements; chevron affordance; header counts + ready
+- Default both collapsed (Achievements above fold); `sessionStorage bw.ui.legacyAcc` persists open state
+- Contrast polish targets `.legacy-acc-body` / `[data-kind=ach]`; plum columns untouched
+- Smoke: expand/collapse, Claim All visible when open, Age +1 → 2, state restores across tab switch
+
 ## Live — **0289a75e** contrast HARD v3 · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:25 PM CT — Contrast HARD v3 (Life Goals colors)
 - Drop-in contrast_polish.css HARD v3: colored Legacy tiles (not cream-on-cream)
 - Hard plum columns kept `#221a34`→`#140e1f`
 
-## Live — **3b421b00** desktop contrast polish · https://paigegames.net/boundwake/
+## Live — pending · desktop contrast polish · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:20 PM CT — Desktop contrast polish
 - Merge plum night columns + opaque parchment plates into style.css; link contrast_polish.css

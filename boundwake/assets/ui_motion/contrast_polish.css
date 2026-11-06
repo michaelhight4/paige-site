@@ -83,7 +83,8 @@
 }
 
 .card.panel-legacy .card-body,
-.panel-legacy .card-body {
+.panel-legacy .card-body,
+.panel-legacy .legacy-acc-body {
   /* Warmer moss/life well — not another cream plate */
   background:
     linear-gradient(
@@ -154,10 +155,11 @@
   opacity: 1; /* keep readable; style.css uses .78 — we restore contrast */
 }
 
-/* Achievements sibling card: alternate cool realm well so goals ≠ achs */
-.card.panel-legacy + .card.panel-legacy .card-body,
+/* Achievements section: alternate cool realm well so goals ≠ achs */
 .panel-legacy.legacy-achs .card-body,
-.panel-legacy[data-kind="ach"] .card-body {
+.panel-legacy[data-kind="ach"] .card-body,
+.panel-legacy.legacy-achs .legacy-acc-body,
+.panel-legacy[data-kind="ach"] .legacy-acc-body {
   background:
     linear-gradient(
       180deg,
@@ -191,7 +193,9 @@
 /* Desktop Legacy panel plate against hard plum columns */
 @media (min-width: 1024px) {
   body[data-tab="legacy"] .play-body > .card.panel-legacy,
-  .play-body > .card.panel-legacy {
+  .play-body > .card.panel-legacy,
+  body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy,
+  .play-body > details.legacy-acc.panel-legacy {
     background: linear-gradient(180deg, var(--parch3, #FBF4E4), var(--parch, #F7EBD2));
     border: var(--bw, 2px) solid color-mix(in srgb, var(--gold, #E0B14A) 55%, #8a6a3a);
     box-shadow: var(--shadow-card, 0 1px 0 #fff8 inset, 0 8px 22px #00000055, 0 0 0 1px #0002),

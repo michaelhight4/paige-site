@@ -917,10 +917,47 @@ body[data-tab="skills"] .skill-acc-body {
 .legacy-mods .row{justify-content:space-between}
 .codex-locked{opacity:.7;font-style:italic}
 @media (min-width:1024px){
-  body[data-tab="legacy"] .play-body > .card.panel-legacy{
+  body[data-tab="legacy"] .play-body > .card.panel-legacy,
+  body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy{
     flex:0 0 auto!important;height:auto!important;min-height:auto!important;
   }
-  body[data-tab="legacy"] .play-body > .card.panel-legacy .card-body{
+  body[data-tab="legacy"] .play-body > .card.panel-legacy .card-body,
+  body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy .legacy-acc-body,
+  body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy .card-body{
     flex:0 0 auto!important;min-height:auto!important;overflow:visible!important;
   }
+}
+
+/* Legacy hub collapsible Life Goals / Achievements (Gary Nov 5 ~6:27 PM CT) */
+.legacy-acc{margin:0 0 10px;overflow:hidden}
+.legacy-acc-hd{
+  list-style:none;cursor:pointer;user-select:none;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.legacy-acc-hd::-webkit-details-marker{display:none}
+.legacy-acc-hd::marker{content:''}
+.legacy-acc-chev{
+  flex:none;width:1.1em;height:1.1em;margin-right:2px;
+  display:inline-block;position:relative;
+}
+.legacy-acc-chev::before{
+  content:'';position:absolute;inset:0;
+  border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;
+  width:0.42em;height:0.42em;margin:auto;left:0;right:0;top:0;bottom:0;
+  transform:rotate(-45deg); /* points right when collapsed */
+  transition:transform .15s ease;
+  opacity:.9;
+}
+.legacy-acc[open] > .legacy-acc-hd .legacy-acc-chev::before{
+  transform:rotate(45deg); /* points down when open */
+}
+.legacy-acc-hd .hd-sub{margin-left:auto}
+.legacy-acc-hd .legacy-ready-count{color:var(--gold2,#B07D24);font-weight:800}
+.legacy-acc-body{padding:10px 12px 12px}
+.legacy-acc:not([open]) > .legacy-acc-hd{
+  /* collapsed header still reads as a full card strip */
+  border-radius:inherit;
+}
+body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy{
+  display:block;width:100%;
 }

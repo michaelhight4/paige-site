@@ -1,3 +1,12 @@
+## Live — pending · Legacy Life Goals/Achievements collapsible · https://paigegames.net/boundwake/
+
+## DEPLOY — Legacy hub collapsible sections — Coder Nov 5 ~6:27 PM CT
+- Life Goals + Achievements are `<details class="legacy-acc">` panels with chevron + counts (claimed/total · N ready)
+- **Default: both collapsed** so Achievements header peeks above the fold (no marathon scroll past 48 goals)
+- Collapse state persisted in `sessionStorage` key `bw.ui.legacyAcc` for the play session
+- Claim / Claim All / Age+1 smoke PASS; Age/Skip `data-tab` trap untouched; plum contrast HARD kept
+- Cache-bust `?v=legacyacc1` on ui.js / style.css / contrast_polish.css
+
 ## Live — **0289a75e** contrast HARD v3 · https://paigegames.net/boundwake/
 
 ## DEPLOY — Animator contrast HARD v3 — Coder Nov 5 ~6:25 PM CT

@@ -10,6 +10,28 @@ import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from 
 import { skipYears, requestStop, isRunning as autoRunning, SKIP_PRESETS, MAX_SKIP } from './autopilot.js';
 const $ = (sel) => document.querySelector(sel), app = $('#app');
 const KEY = 'bw.save.v1', META = 'bw.meta.v1', SEEN = 'bw.cold.v1';
+const LEGACY_ACC_KEY = 'bw.ui.legacyAcc'; // session: { goals:bool, achs:bool } open state
+function readLegacyAcc() {
+  try { return JSON.parse(sessionStorage.getItem(LEGACY_ACC_KEY) || '{}') || {}; } catch { return {}; }
+}
+function writeLegacyAcc(id, open) {
+  const o = readLegacyAcc();
+  o[id] = !!open;
+  try { sessionStorage.setItem(LEGACY_ACC_KEY, JSON.stringify(o)); } catch (_) {}
+}
+/** @param {string} id @param {boolean} defaultOpen first visit default */
+function legacyAccIsOpen(id, defaultOpen) {
+  const o = readLegacyAcc();
+  return Object.prototype.hasOwnProperty.call(o, id) ? !!o[id] : !!defaultOpen;
+}
+function bindLegacyAccToggles(root = document) {
+  root.querySelectorAll('details.legacy-acc[data-legacy-acc]').forEach((el) => {
+    if (el.dataset.bwAccBound) return;
+    el.dataset.bwAccBound = '1';
+    el.addEventListener('toggle', () => writeLegacyAcc(el.dataset.legacyAcc, el.open));
+  });
+}
+
 const Q = new URLSearchParams(location.search);
 let P, s, meta, tab = 'life', fate;
 const T = (k) => P.terms.ui[k] || k;
@@ -92,6 +114,7 @@ function afterLegacyRender() {
   });
   if (tab === 'legacy') {
     openLegacyPanels(document);
+    bindLegacyAccToggles(document);
     document.querySelectorAll('.legacy-bar > span').forEach((span) => {
       const to = parseFloat(span.style.width) || 0;
       fillLegacyBar(span, 0, to);
@@ -779,14 +802,30 @@ function body() {
     };
     const gReady = goals.filter((g) => g.status === 'ready').length;
     const aReady = achs.filter((a) => a.status === 'ready').length;
-    const goalsCard = card('legacy', `${ico('spirit')} Life Goals <span class="hd-sub">${sum.goals.claimed}/${sum.goals.total}</span>`,
+    // Collapsible sections (Gary Nov 5 ~6:27 PM CT): 48 goals buried Achievements.
+    // Default BOTH collapsed so both headers (+ counts / ready) sit above the fold.
+    const legacyAcc = (id, kind, title, body, defaultOpen) => {
+      const open = legacyAccIsOpen(id, defaultOpen);
+      const kindCls = kind === 'ach' ? ' legacy-achs' : ' legacy-goals';
+      return `<details class="legacy-acc card panel-legacy bw-legacy-panel${kindCls}" data-legacy-acc="${id}" data-kind="${kind}"${open ? ' open' : ''}>
+        <summary class="legacy-acc-hd card-hd"><span class="legacy-acc-chev" aria-hidden="true"></span>${title}</summary>
+        <div class="legacy-acc-body card-body">${body}</div>
+      </details>`;
+    };
+    const goalsReadyBit = gReady ? ` · <span class="legacy-ready-count">${gReady} ready</span>` : '';
+    const achReadyBit = aReady ? ` · <span class="legacy-ready-count">${aReady} ready</span>` : '';
+    const goalsCard = legacyAcc('goals', 'goal',
+      `${ico('spirit')} Life Goals <span class="hd-sub">${sum.goals.claimed}/${sum.goals.total}${goalsReadyBit}</span>`,
       `<p class="sub">This playthrough. Claim rewards when the bar fills.</p>
       <div class="actions" style="margin-bottom:8px"><button type="button" class="primary bw-claim" data-a="lgclaimall" ${gReady ? '' : 'disabled'}>Claim All (${gReady})</button></div>
-      ${goals.map((g) => rowHTML(g, 'goal')).join('') || '<div class="empty">No goals loaded.</div>'}` , 'bw-legacy-panel');
-    const achCard = card('legacy', `${ico('echo')} Achievements <span class="hd-sub">${sum.achievements.claimed}/${sum.achievements.total} · ${sum.points} ${esc(sum.pointsName)}</span>`,
+      ${goals.map((g) => rowHTML(g, 'goal')).join('') || '<div class="empty">No goals loaded.</div>'}`,
+      false);
+    const achCard = legacyAcc('achs', 'ach',
+      `${ico('echo')} Achievements <span class="hd-sub">${sum.achievements.claimed}/${sum.achievements.total} · ${sum.points} ${esc(sum.pointsName)}${achReadyBit}</span>`,
       `<p class="sub">Meta progress across lives. Rewards are Legacy sparks and permanent modifiers.</p>
       <div class="actions" style="margin-bottom:8px"><button type="button" class="primary bw-claim" data-a="achclaimall" ${aReady ? '' : 'disabled'}>Claim All (${aReady})</button></div>
-      ${achs.map((a) => rowHTML(a, 'ach')).join('') || '<div class="empty">No achievements loaded.</div>'}` , 'bw-legacy-panel');
+      ${achs.map((a) => rowHTML(a, 'ach')).join('') || '<div class="empty">No achievements loaded.</div>'}`,
+      false);
     return `${lead('legacy') ? card('legacy', HD.legacy, `${lead('legacy')}<p class="sub">${esc(sum.blurb || '')}</p>`, 'bw-legacy-panel') : ''}` + modPanel + goalsCard + achCard;
   }
   if (tab === 'bel') {
