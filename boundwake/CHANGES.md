@@ -1,3 +1,12 @@
+## HOTFIX — multi-tab save freeze (“Another tab is ahead”) — Nov 5 ~7:50 PM CT
+
+- Symptom: UI felt frozen; toast “Another tab is ahead…” (browser-only; no server play log)
+- Cause: `saveRank` used `savedAt % 10000` + `save()` mutated `savedAt` before compare → refuse-write/adopt loop on every action; toast every `save()`
+- Fix: lexicographic `cmpSave` (full `savedAt`); compare before mutate; toast once per `stored.savedAt`; on adopt match fields then write-through when tied/ahead
+- Cache: `ui.js?v=tabsave2`
+
+## Live — **PENDING_SHA** tabsave2 freeze fix · https://paigegames.net/boundwake/
+
 ## Ads + gamepasses scaffolding — Nov 5 ~7:45 PM CT (Gary)
 
 - Catalog: `data_fantasy/premium.json` (14 passes + Realm Pass) + `ads.json`

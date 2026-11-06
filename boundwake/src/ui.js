@@ -255,14 +255,30 @@ function portrait(st, raceId, career, big, name, sex) {
   return `<div class="${cls}" data-spr="${file}"><img alt="" src="${GRID}${file}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mono-fallback',textContent:'${mono}'}))"></div>`;
 }
 const career = () => (s.job ? E.careerOf(s.job.id).id : null);
-/** Rank a life save so an older tab can never clobber a newer one (Gary Nov 5 ~6:53 PM CT: 14→7). */
+/** Lexicographic save compare — NEVER pack savedAt%10000 into a Number (wrap → infinite adopt/toast freeze, Gary Nov 5 ~7:48 PM CT). */
+function saveParts(st) {
+  if (!st || typeof st !== 'object') return { epoch: -1, age: -1, logSeq: -1, savedAt: -1 };
+  return {
+    epoch: Number(st.lifeEpoch) || 0,
+    age: Number(st.age) || 0,
+    logSeq: Number(st.logSeq) || (Array.isArray(st.log) ? st.log.length : 0),
+    savedAt: Number(st.savedAt) || 0,
+  };
+}
+/** @returns {number} >0 if a newer than b; <0 if older; 0 if equal */
+function cmpSave(a, b) {
+  const A = saveParts(a), B = saveParts(b);
+  if (A.epoch !== B.epoch) return A.epoch > B.epoch ? 1 : -1;
+  if (A.age !== B.age) return A.age > B.age ? 1 : -1;
+  if (A.logSeq !== B.logSeq) return A.logSeq > B.logSeq ? 1 : -1;
+  if (A.savedAt !== B.savedAt) return A.savedAt > B.savedAt ? 1 : -1;
+  return 0;
+}
+/** Scalar for BroadcastChannel only (full savedAt, no modulo). */
 function saveRank(st) {
-  if (!st || typeof st !== 'object') return -1;
-  const epoch = Number(st.lifeEpoch) || 0;
-  const age = Number(st.age) || 0;
-  const logSeq = Number(st.logSeq) || (Array.isArray(st.log) ? st.log.length : 0);
-  const savedAt = Number(st.savedAt) || 0;
-  return epoch * 1e15 + age * 1e9 + logSeq * 1e4 + (savedAt % 10000);
+  const p = saveParts(st);
+  // Keep epoch/age/log dominant; savedAt as low-order ms (safe for epoch < ~100).
+  return p.epoch * 1e13 + p.age * 1e9 + p.logSeq * 1e6 + (p.savedAt % 1e6);
 }
 function readStoredSave() {
   try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; }
@@ -278,36 +294,45 @@ function bumpLifeEpoch(st) {
   st.lifeEpoch = base + 1;
   if (meta) meta.lifeEpoch = st.lifeEpoch;
 }
+let lastAheadToastStamp = null;
 function adoptRemoteSave(remote, reason) {
   if (!remote || adoptBusy) return;
   adoptBusy = true;
   try {
     s = remote;
+    if (s.lifeEpoch == null) s.lifeEpoch = Number(meta?.lifeEpoch) || 0;
+    if (s.logSeq == null) s.logSeq = Array.isArray(s.log) ? s.log.length : 0;
     meta = readStoredMeta();
     E.ensureLegacyMeta(meta);
     if (s.team === undefined) s.team = null;
     if (s.guild === undefined) s.guild = null;
     if (!s.flags) s.flags = {};
-    const a = Math.floor(Number(s.age) || 0);
-    toast(reason || `Synced from another tab · age ${a}.`);
-    render();
+    if (reason) toast(reason);
+    render(); // render→save write-through once ranks match
   } finally { adoptBusy = false; }
 }
 const save = () => {
   if (Q.has('nosave') || !s) return false;
   if (s.lifeEpoch == null) s.lifeEpoch = Number(meta?.lifeEpoch) || 0;
-  s.savedAt = Date.now();
-  s.saveTab = TAB_ID;
+  if (s.logSeq == null) s.logSeq = Array.isArray(s.log) ? s.log.length : 0;
+  // Compare BEFORE mutating savedAt — mutating first + savedAt%10000 caused refuse-write loops.
   const stored = readStoredSave();
-  if (stored && saveRank(stored) > saveRank(s)) {
-    // Never clobber a newer save with older in-memory state (multi-tab).
-    // Defer adopt so we do not re-enter render() mid-save.
-    const newer = stored;
+  if (stored && cmpSave(stored, s) > 0) {
+    const stamp = Number(stored.savedAt) || 0;
     const msg = `Another tab is ahead (age ${Math.floor(Number(stored.age) || 0)}). Restored that life.`;
-    s = newer;
-    queueMicrotask(() => adoptRemoteSave(newer, msg));
+    // Match stored fields so the next save is tied/ahead and writes through.
+    s = stored;
+    if (s.lifeEpoch == null) s.lifeEpoch = 0;
+    if (s.logSeq == null) s.logSeq = Array.isArray(s.log) ? s.log.length : 0;
+    const toastMsg = lastAheadToastStamp !== stamp ? msg : null;
+    lastAheadToastStamp = stamp;
+    queueMicrotask(() => adoptRemoteSave(s, toastMsg));
     return false;
   }
+  // Ahead or tied → write through. Beat stored.savedAt on ties so we never bounce.
+  const now = Date.now();
+  s.savedAt = stored ? Math.max(now, (Number(stored.savedAt) || 0) + 1) : now;
+  s.saveTab = TAB_ID;
   try {
     localStorage.setItem(KEY, JSON.stringify(s));
     if (meta) {
@@ -320,7 +345,7 @@ const save = () => {
     return false;
   }
   try {
-    saveBc?.postMessage({ type: 'save', tab: TAB_ID, rank: saveRank(s), age: s.age, lifeEpoch: s.lifeEpoch });
+    saveBc?.postMessage({ type: 'save', tab: TAB_ID, rank: saveRank(s), age: s.age, lifeEpoch: s.lifeEpoch, savedAt: s.savedAt });
   } catch (_) {}
   return true;
 };
@@ -340,8 +365,13 @@ function bindMultiTabSave() {
       render();
       return;
     }
-    if (saveRank(remote) > saveRank(s)) {
-      adoptRemoteSave(remote, `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`);
+    if (cmpSave(remote, s) > 0) {
+      const stamp = Number(remote.savedAt) || 0;
+      const msg = lastAheadToastStamp !== stamp
+        ? `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`
+        : null;
+      lastAheadToastStamp = stamp;
+      adoptRemoteSave(remote, msg);
     }
   });
   if (saveBc) {
@@ -349,15 +379,18 @@ function bindMultiTabSave() {
       const msg = ev?.data;
       if (!msg || msg.tab === TAB_ID || msg.type !== 'save') return;
       if (!s) return;
-      if (typeof msg.rank === 'number' && msg.rank > saveRank(s)) {
-        const remote = readStoredSave();
-        if (remote && saveRank(remote) > saveRank(s)) {
-          adoptRemoteSave(remote, `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`);
-        }
+      const remote = readStoredSave();
+      if (remote && cmpSave(remote, s) > 0) {
+        const stamp = Number(remote.savedAt) || 0;
+        const text = lastAheadToastStamp !== stamp
+          ? `Synced from another tab · age ${Math.floor(Number(remote.age) || 0)}.`
+          : null;
+        lastAheadToastStamp = stamp;
+        adoptRemoteSave(remote, text);
       }
     });
   }
-}
+};
 const toast = (m) => {
   if (!m) return; document.querySelectorAll('.toast').forEach((t) => t.remove());
   const d = document.createElement('div'); d.className = 'toast'; d.style.pointerEvents = 'none';
