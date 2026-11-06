@@ -1,4 +1,4 @@
-## Live — pending · Legacy Life Goals/Achievements collapsible · https://paigegames.net/boundwake/
+## Live — **f1bdc0c1** Legacy Life Goals/Achievements collapsible · https://paigegames.net/boundwake/
 
 ## DEPLOY — Legacy hub collapsible sections — Coder Nov 5 ~6:27 PM CT
 - Life Goals + Achievements are `<details class="legacy-acc">` panels with chevron + counts (claimed/total · N ready)

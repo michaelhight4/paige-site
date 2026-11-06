@@ -1,4 +1,4 @@
-## Live — pending · Legacy accordion · https://paigegames.net/boundwake/
+## Live — **f1bdc0c1** Legacy accordion · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:27 PM CT — Legacy Life Goals / Achievements collapsible
 - Gary: Life Goals not collapsible → had to scroll past all 48 to find Achievements
