@@ -1,3 +1,9 @@
+## Live — **PENDING** all-tabs scroll fix · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:53 PM CT — All tall tabs scroll
+- Gary: Belongings, Work, Skills, Realms unusable without scroll
+- Shared flex-shrink + overflow:hidden clip; play-body now scrolls
+
 ## Live — **f6edd14f** Legacy accordion + row info · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:35 PM CT — Legacy collapsible + Life Goal/Achievement info

@@ -1,3 +1,9 @@
+## Live — **PENDING** all-tabs scroll fix · https://paigegames.net/boundwake/
+
+## HOTFIX — Belongings/Work/Skills/Realms (+ Bonds/Adv/Legacy/Codex) won't scroll — Coder Nov 5 ~6:53 PM CT
+- Root: tall `.card` flex-shrunk inside `.play-body` while `.card{overflow:hidden}` clipped content
+- Fix: all tall tabs → children `flex:0 0 auto` + visible overflow; `.realms-stack` included; cache `?v=tabscroll1`
+
 ## Live — **f6edd14f** Legacy accordion + row info · https://paigegames.net/boundwake/
 
 ## DEPLOY — Legacy collapsible + goal/ach info panel — Coder Nov 5 ~6:35 PM CT

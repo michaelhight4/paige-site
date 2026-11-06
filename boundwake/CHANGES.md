@@ -1,3 +1,17 @@
+## Live — **PENDING** all-tabs scroll fix · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:53 PM CT — All tall tabs scroll
+- Gary: Belongings, Work, Skills, Realms unusable without scroll
+- Shared flex-shrink + overflow:hidden clip; play-body now scrolls
+
+## Live — **PENDING_SHA** Belongings scroll fix · https://paigegames.net/boundwake/
+
+## 2026-11-05 ~6:49 PM CT — Belongings (gear/shop/homes/mounts) scroll
+- Gary: Belongings page does not scroll
+- Desktop flex-shrink + `.card{overflow:hidden}` clipped tall `.panel-bel`; play-body never overflowed
+- Mirror Work/Skills: bel tab children `flex:0 0 auto` + visible overflow; mobile clip guard
+- Cache-bust belscroll1
+
 ## Live — **f6edd14f** Legacy accordion + row info · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:35 PM CT — Legacy collapsible + Life Goal/Achievement info

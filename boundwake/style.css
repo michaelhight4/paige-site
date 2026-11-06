@@ -803,6 +803,112 @@ body[data-tab="work"] .work-acc-body,
 body[data-tab="skills"] .skill-acc-body {
   overflow:visible;
 }
+/* ALL TALL TABS scroll fix (Gary Nov 5 ~6:52 PM CT)
+   Belongings / Work / Skills / Realms / Bonds / Adventure / Legacy / Codex
+   were clipped: .play-body flex column + flex-shrink on tall .card while
+   .card{overflow:hidden} — play-body never overflowed. Life journal keeps
+   its own scroll; other Life cards already flex:0 0 auto nearby. */
+@media (min-width:1024px) {
+  body[data-tab="bel"] .play-body,
+  body[data-tab="work"] .play-body,
+  body[data-tab="skills"] .play-body,
+  body[data-tab="realms"] .play-body,
+  body[data-tab="bonds"] .play-body,
+  body[data-tab="adv"] .play-body,
+  body[data-tab="legacy"] .play-body,
+  body[data-tab="codex"] .play-body {
+    display:flex; flex-direction:column; gap:10px;
+    align-items:stretch;
+    overflow-y:auto !important; overflow-x:hidden;
+    overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
+  }
+  body[data-tab="bel"] .play-body > *,
+  body[data-tab="work"] .play-body > *,
+  body[data-tab="skills"] .play-body > *,
+  body[data-tab="realms"] .play-body > *,
+  body[data-tab="bonds"] .play-body > *,
+  body[data-tab="adv"] .play-body > *,
+  body[data-tab="legacy"] .play-body > *,
+  body[data-tab="codex"] .play-body > * {
+    flex:0 0 auto !important;
+    flex-shrink:0 !important;
+    min-height:auto !important;
+    max-height:none !important;
+    height:auto !important;
+    overflow:visible !important;
+  }
+  body[data-tab="bel"] .play-body > .card .card-body,
+  body[data-tab="work"] .play-body > .card .card-body,
+  body[data-tab="skills"] .play-body > .card .card-body,
+  body[data-tab="realms"] .play-body > .card .card-body,
+  body[data-tab="bonds"] .play-body > .card .card-body,
+  body[data-tab="adv"] .play-body > .card .card-body,
+  body[data-tab="legacy"] .play-body > .card .card-body,
+  body[data-tab="codex"] .play-body > .card .card-body {
+    flex:0 0 auto !important;
+    min-height:auto !important;
+    height:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+  }
+  body[data-tab="realms"] .realms-stack {
+    flex:0 0 auto !important;
+    overflow:visible !important;
+    max-height:none !important;
+    height:auto !important;
+  }
+  body[data-tab="work"] .work-acc,
+  body[data-tab="skills"] .skill-acc,
+  body[data-tab="bel"] .work-acc,
+  body[data-tab="legacy"] .legacy-acc {
+    flex:0 0 auto !important;
+    max-height:none !important;
+    height:auto !important;
+    overflow:visible !important;
+  }
+  body[data-tab="work"] .work-acc[open] > .work-acc-body,
+  body[data-tab="skills"] .skill-acc[open] > .skill-acc-body,
+  body[data-tab="bel"] .work-acc[open] > .work-acc-body,
+  body[data-tab="legacy"] .legacy-acc[open] > .legacy-acc-body {
+    display:block !important;
+    overflow:visible !important;
+    min-height:auto !important;
+  }
+}
+@media (max-width:1023px) {
+  body[data-tab="bel"] .play-body,
+  body[data-tab="work"] .play-body,
+  body[data-tab="skills"] .play-body,
+  body[data-tab="realms"] .play-body,
+  body[data-tab="bonds"] .play-body,
+  body[data-tab="adv"] .play-body,
+  body[data-tab="legacy"] .play-body,
+  body[data-tab="codex"] .play-body {
+    overflow:auto; -webkit-overflow-scrolling:touch;
+  }
+  body[data-tab="bel"] .play-body > .card,
+  body[data-tab="work"] .play-body > .card,
+  body[data-tab="skills"] .play-body > .card,
+  body[data-tab="realms"] .play-body > .card,
+  body[data-tab="bonds"] .play-body > .card,
+  body[data-tab="adv"] .play-body > .card,
+  body[data-tab="legacy"] .play-body > .card,
+  body[data-tab="codex"] .play-body > .card,
+  body[data-tab="bel"] .play-body > .card .card-body,
+  body[data-tab="work"] .play-body > .card .card-body,
+  body[data-tab="skills"] .play-body > .card .card-body,
+  body[data-tab="realms"] .play-body > .card .card-body,
+  body[data-tab="bonds"] .play-body > .card .card-body,
+  body[data-tab="adv"] .play-body > .card .card-body,
+  body[data-tab="legacy"] .play-body > .card .card-body,
+  body[data-tab="codex"] .play-body > .card .card-body,
+  body[data-tab="realms"] .realms-stack {
+    flex:0 0 auto !important;
+    overflow:visible !important;
+    max-height:none !important;
+    height:auto !important;
+  }
+}
 
 /* life journal scroll fix nov5 soccer v3 */
 /* Autopilot + other Life cards: prevent flex collapse of card-body (blank Autopilot bug) */

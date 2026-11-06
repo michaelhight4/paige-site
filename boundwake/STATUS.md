@@ -1,3 +1,17 @@
+## Live — **PENDING** all-tabs scroll fix · https://paigegames.net/boundwake/
+
+## HOTFIX — Belongings/Work/Skills/Realms (+ Bonds/Adv/Legacy/Codex) won't scroll — Coder Nov 5 ~6:53 PM CT
+- Root: tall `.card` flex-shrunk inside `.play-body` while `.card{overflow:hidden}` clipped content
+- Fix: all tall tabs → children `flex:0 0 auto` + visible overflow; `.realms-stack` included; cache `?v=tabscroll1`
+
+## Live — **PENDING_SHA** Belongings scroll fix · https://paigegames.net/boundwake/
+
+## HOTFIX — Belongings tab won't scroll — Coder Nov 5 ~6:49 PM CT
+- Root cause: desktop `.play-body` flex column + default `flex-shrink:1` on the single tall `.card.panel-bel` while `.card{overflow:hidden}` clipped gear/shop/homes/mounts; play-body had nothing left to scroll (same family as Work/Skills crush)
+- Fix: `body[data-tab="bel"]` → children `flex:0 0 auto` + card/card-body `overflow:visible`; gear `.work-acc` inside Bel kept; mobile same clip guard
+- Life/Legacy/Work/Skills/Age/Skip untouched; cache-bust `?v=belscroll1`
+- Smoke: Belongings scrolls on desktop+phone; Life journal still scrolls; Legacy collapse ok; Age +1
+
 ## Live — **f6edd14f** Legacy accordion + row info · https://paigegames.net/boundwake/
 
 ## DEPLOY — Legacy collapsible + goal/ach info panel — Coder Nov 5 ~6:35 PM CT
