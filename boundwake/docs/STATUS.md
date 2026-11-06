@@ -9,7 +9,7 @@
 - Smoke PASS: fab mute persists `bw.music.muted`, race stays muted, in-app toggle once
 - itch / Play / Apple untouched
 
-## Live — **PENDING_SHA** music mute FAB fix · https://paigegames.net/boundwake/
+## Live — **5898aa77** music mute FAB fix · https://paigegames.net/boundwake/
 
 ## HOTFIX — multi-tab save freeze (“Another tab is ahead”) — Nov 5 ~7:50 PM CT
 
