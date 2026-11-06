@@ -1,4 +1,4 @@
-## Live — pending · desktop contrast polish · https://paigegames.net/boundwake/
+## Live — **3b421b00** desktop contrast polish · https://paigegames.net/boundwake/
 
 ## 2026-11-05 ~6:20 PM CT — Desktop contrast polish
 - Merge plum night columns + opaque parchment plates into style.css; link contrast_polish.css

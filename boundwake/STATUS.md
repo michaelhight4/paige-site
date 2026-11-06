@@ -1,4 +1,4 @@
-## Live — pending · desktop contrast polish · https://paigegames.net/boundwake/
+## Live — **3b421b00** desktop contrast polish · https://paigegames.net/boundwake/
 
 ## DEPLOY — Animator contrast polish — Coder Nov 5 ~6:20 PM CT
 - Desktop columns `.play-hub/.play-main/.play-side` → plum night `#221a34`→`#140e1f`
