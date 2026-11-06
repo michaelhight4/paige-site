@@ -1,3 +1,10 @@
+## itch HTML5 — musicfix1 pushed — Nov 6 ~2:55 PM CT
+
+- Zip: `/workspace/releases/boundwake/itch/boundwake-itch-20261106-musicfix1.zip` (~13 MB)
+- butler: `michaelhight4/boundwake:html5` userversion **0.1.1-alpha** · build **#2316376** (from #2310426)
+- Same itch rules: `__BW_ITCH` + `?platform=itch`, no AdMob/Stripe, Passes button hidden
+- Site musicfix already live: **5898aa77** / stamp **624a9b04** · `?v=musicfix1`
+
 ## HOTFIX — music will not turn off (PC FAB) — Nov 6 ~2:50 PM CT
 
 - Symptom: players report music keeps playing; mute control does nothing on PC
@@ -7,7 +14,7 @@
 - Fix: document-level click on `.music-fab [data-a="music"]` → `unlockMusic()` + `toggleMute()` (in-app Settings / Life music-row still use app delegate, no double-toggle); re-check `muted`/`unlocked` after load+resume; `ctx.suspend()` on mute / `resume` on unmute; `toggleMute` always flips (callers unlock first)
 - Cache: `ui.js?v=musicfix1`, `music.js?v=musicfix1` import
 - Smoke PASS: fab mute persists `bw.music.muted`, race stays muted, in-app toggle once
-- itch / Play / Apple untouched
+- Play / Apple untouched; itch HTML5 updated (build #2316376)
 
 ## Live — **5898aa77** music mute FAB fix · https://paigegames.net/boundwake/
 
