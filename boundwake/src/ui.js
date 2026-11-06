@@ -3,7 +3,7 @@
 import { loadPack } from './pack.js';
 import * as E from './bw_engine.js';
 import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flare.js';
-import { mountInfoClicks, openInfo } from './info.js';
+import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
 import { mountAmbient, paintAmbient } from './ambient.js';
 import { mountMusic, syncMusic, toggleMute, musicToggleHTML, unlockMusic } from './music.js';
@@ -31,6 +31,51 @@ function bindLegacyAccToggles(root = document) {
     el.addEventListener('toggle', () => writeLegacyAcc(el.dataset.legacyAcc, el.open));
   });
 }
+const legacyDetailMap = new Map();
+function setLegacyDetailMap(entries) {
+  legacyDetailMap.clear();
+  for (const [id, detail] of entries) legacyDetailMap.set(id, detail);
+  globalThis.__bwLegacyDetail = legacyDetailMap;
+}
+function rewardPlain(reward) {
+  if (!reward) return 'No reward listed.';
+  const bits = [];
+  if (reward.gold) bits.push(`+${reward.gold} gold`);
+  if (reward.happiness) bits.push(`+${reward.happiness} spirit`);
+  if (reward.fame) bits.push(`+${reward.fame} renown`);
+  if (reward.points) bits.push(`+${reward.points} Legacy sparks`);
+  if (reward.skill) bits.push(`+${reward.skill.amt || 1} ${(reward.skill.id || 'skill').replace(/_/g, ' ')}`);
+  if (reward.skillBump) bits.push(`+${reward.skillBump} to a low skill`);
+  if (reward.mods) {
+    for (const [k, v] of Object.entries(reward.mods)) {
+      const label = k.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase()).trim();
+      if (typeof v === 'number' && Math.abs(v) < 1 && /bonus|boost/i.test(k)) bits.push(`${label} +${Math.round(v * 100)}%`);
+      else if (typeof v === 'number' && v >= 0) bits.push(`${label} +${v}`);
+      else bits.push(`${label}: ${v}`);
+    }
+  }
+  return bits.length ? bits.join(' · ') : 'No reward listed.';
+}
+function statusPlain(item) {
+  const st = item.status;
+  if (st === 'claimed') return 'Claimed';
+  if (st === 'ready') return 'Ready to claim';
+  if (st === 'progress') return `In progress · ${item.cur || 0}/${item.target || 1}`;
+  return `Not yet · ${item.cur || 0}/${item.target || 1}`;
+}
+function legacyDetailBody(item) {
+  const desc = item.desc || 'No description.';
+  const progress = statusPlain(item);
+  const reward = rewardPlain(item.reward);
+  // HTML for info panel (esc'd parts)
+  return `<p class="info-body">${esc(desc)}</p>
+    <p class="info-body"><b>Progress.</b> ${esc(progress)}</p>
+    <p class="info-body"><b>Reward.</b> ${esc(reward)}</p>`;
+}
+function legacyTipText(item) {
+  return `${item.desc || ''}\nProgress: ${statusPlain(item)}\nReward: ${rewardPlain(item.reward)}`.trim();
+}
+
 
 const Q = new URLSearchParams(location.search);
 let P, s, meta, tab = 'life', fate;
@@ -115,11 +160,24 @@ function afterLegacyRender() {
   if (tab === 'legacy') {
     openLegacyPanels(document);
     bindLegacyAccToggles(document);
+    bindLegacyHoverTips(document);
     document.querySelectorAll('.legacy-bar > span').forEach((span) => {
       const to = parseFloat(span.style.width) || 0;
       fillLegacyBar(span, 0, to);
     });
   }
+}
+function bindLegacyHoverTips(root = document) {
+  // Desktop hover: reveal compact tip without opening the modal (click still opens info panel).
+  if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  root.querySelectorAll('.legacy-row[data-legacy-detail]').forEach((row) => {
+    if (row.dataset.bwTipBound) return;
+    row.dataset.bwTipBound = '1';
+    const tip = row.querySelector('.legacy-hover-tip');
+    if (!tip) return;
+    tip.hidden = false;
+    tip.classList.add('legacy-hover-tip-ready');
+  });
 }
 function pauseMotionOnHide() {
   const apply = () => { document.documentElement.dataset.motion = document.hidden ? 'paused' : (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : ''); };
@@ -791,6 +849,7 @@ function body() {
       if (reward.mods) tags.push(...Object.keys(reward.mods).map((k) => k.replace(/([A-Z])/g, ' $1').toLowerCase()));
       return tags.map((t) => `<span class="pill">${esc(t)}</span>`).join('');
     };
+    const detailEntries = [];
     const rowHTML = (item, kind) => {
       const st = item.status;
       const pct = Math.round((item.pct || 0) * 100);
@@ -798,7 +857,16 @@ function body() {
       const btn = st === 'ready'
         ? `<button type="button" class="primary bw-claim bw-claim-ready" data-a="${kind === 'goal' ? 'lgclaim' : 'achclaim'}" data-v="${item.id}">Claim<span class="bw-claim-spark" aria-hidden="true"><img src="assets/ui_motion/claim_spark.svg" alt="" width="22" height="22"></span></button>`
         : st === 'claimed' ? `<span class="pill">Claimed</span>` : `<span class="pill">${statusLabel(st)}</span>`;
-      return `<div class="row legacy-row legacy-${st}${st === 'ready' ? ' legacy-ready' : ''}"><div class="legacy-ico">${ico(item.icon || 'echo')}</div><div class="legacy-main"><b>${esc(item.title)}</b><div class="sub">${esc(item.desc || '')}</div><div class="pills">${rewardTags(item.reward)}</div>${bar}</div><div class="legacy-act">${btn}</div></div>`;
+      const kindLabel = kind === 'goal' ? 'Life Goal' : 'Achievement';
+      detailEntries.push([item.id, {
+        name: item.title || item.id,
+        ico: item.icon || (kind === 'goal' ? 'spirit' : 'echo'),
+        kind: kindLabel,
+        cls: kind === 'goal' ? 'flare-life' : 'flare-echo',
+        body: legacyDetailBody(item),
+      }]);
+      const tip = esc(legacyTipText(item)).replace(/\n/g, ' · ');
+      return `<div class="row legacy-row legacy-${st}${st === 'ready' ? ' legacy-ready' : ''}" data-legacy-detail="${esc(item.id)}" tabindex="0" role="button" aria-label="${esc(item.title || 'Legacy item')} details" title="${tip}"><div class="legacy-ico">${ico(item.icon || 'echo')}</div><div class="legacy-main"><b class="legacy-title">${esc(item.title)} <span class="legacy-info-affordance" aria-hidden="true">ⓘ</span></b><div class="sub">${esc(item.desc || '')}</div><div class="pills">${rewardTags(item.reward)}</div>${bar}</div><div class="legacy-act">${btn}</div><div class="legacy-hover-tip" hidden aria-hidden="true"><b>${esc(item.title)}</b><div>${esc(item.desc || '')}</div><div><b>Progress.</b> ${esc(statusPlain(item))}</div><div><b>Reward.</b> ${esc(rewardPlain(item.reward))}</div></div></div>`;
     };
     const gReady = goals.filter((g) => g.status === 'ready').length;
     const aReady = achs.filter((a) => a.status === 'ready').length;
@@ -826,6 +894,7 @@ function body() {
       <div class="actions" style="margin-bottom:8px"><button type="button" class="primary bw-claim" data-a="achclaimall" ${aReady ? '' : 'disabled'}>Claim All (${aReady})</button></div>
       ${achs.map((a) => rowHTML(a, 'ach')).join('') || '<div class="empty">No achievements loaded.</div>'}`,
       false);
+    setLegacyDetailMap(detailEntries);
     return `${lead('legacy') ? card('legacy', HD.legacy, `${lead('legacy')}<p class="sub">${esc(sum.blurb || '')}</p>`, 'bw-legacy-panel') : ''}` + modPanel + goalsCard + achCard;
   }
   if (tab === 'bel') {

@@ -1,3 +1,13 @@
+## Live — pending · Legacy accordion + row info · https://paigegames.net/boundwake/
+
+## DEPLOY — Legacy collapsible + goal/ach info panel — Coder Nov 5 ~6:35 PM CT
+- Life Goals + Achievements collapsible (`details.legacy-acc`); default both collapsed; `sessionStorage bw.ui.legacyAcc`
+- Click/tap row (or title ⓘ) opens Boundwake info panel: desc + progress + reward plain words (from item fields)
+- Desktop hover tip on rows; Claim buttons untouched
+- Fixed info.js `[data-tab]` exclusion (same body[data-tab] trap as Age/Skip) so chips/rows open again
+- Cache-bust `?v=legacyacc2`
+- Smoke PASS: collapse, info panel, Claim All does not open info, Age +1
+
 ## Live — **f1bdc0c1** Legacy Life Goals/Achievements collapsible · https://paigegames.net/boundwake/
 
 ## DEPLOY — Legacy hub collapsible sections — Coder Nov 5 ~6:27 PM CT

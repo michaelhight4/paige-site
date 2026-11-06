@@ -961,3 +961,24 @@ body[data-tab="skills"] .skill-acc-body {
 body[data-tab="legacy"] .play-body > details.legacy-acc.panel-legacy{
   display:block;width:100%;
 }
+
+/* Legacy row info (hover tip + click → info panel) */
+.legacy-row[data-legacy-detail]{position:relative;cursor:pointer}
+.legacy-row[data-legacy-detail]:focus-visible{outline:2px solid var(--gold,#E0B14A);outline-offset:2px}
+.legacy-info-affordance{font-size:12px;opacity:.75;font-weight:700;margin-left:4px}
+.legacy-hover-tip{
+  display:none;position:absolute;left:12px;right:12px;bottom:calc(100% + 6px);z-index:20;
+  padding:10px 12px;border-radius:12px;
+  background:linear-gradient(180deg,var(--parch3,#FBF4E4),var(--parch,#F7EBD2));
+  border:2px solid color-mix(in srgb, var(--gold,#E0B14A) 55%, #8a6a3a);
+  box-shadow:0 8px 22px #00000055, 0 0 0 1px #0002;
+  color:var(--ink,#241C14);font:13px/1.4 var(--body);pointer-events:none;
+}
+.legacy-hover-tip b{display:inline}
+.legacy-hover-tip > div{margin-top:4px}
+@media (hover:hover) and (pointer:fine){
+  .legacy-row:hover > .legacy-hover-tip.legacy-hover-tip-ready{display:block}
+}
+@media (prefers-reduced-motion:reduce){
+  .legacy-hover-tip{transition:none}
+}

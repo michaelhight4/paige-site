@@ -164,9 +164,7 @@ export function closeInfo() {
   lastFocus = null;
 }
 
-export function openInfo(raw) {
-  const info = getInfo(raw);
-  if (!info) return false;
+function renderInfoPop({ name, ico: icoKey, kind, body, cls }) {
   closeInfo();
   lastFocus = document.activeElement;
   document.body.classList.add('info-open');
@@ -174,14 +172,15 @@ export function openInfo(raw) {
   openEl.className = 'info-pop';
   openEl.setAttribute('role', 'dialog');
   openEl.setAttribute('aria-modal', 'true');
-  openEl.setAttribute('aria-label', info.name);
+  openEl.setAttribute('aria-label', name || 'Info');
+  const bodyHtml = body && String(body).includes('<') ? body : `<p class="info-body">${esc(body || '')}</p>`;
   openEl.innerHTML = `
     <button type="button" class="info-backdrop" data-info-close aria-label="Close info"></button>
-    <div class="card info-card ${info.cls || ''}">
-      <div class="card-hd">${ico(info.ico)} ${esc(info.name)}<button type="button" class="info-x" data-info-close aria-label="Close">×</button></div>
+    <div class="card info-card ${cls || ''}">
+      <div class="card-hd">${ico(icoKey || 'echo')} ${esc(name || 'Info')}<button type="button" class="info-x" data-info-close aria-label="Close">×</button></div>
       <div class="card-body">
-        <p class="info-kind">${esc(info.kind || 'Modifier')}</p>
-        <p class="info-body">${esc(info.body)}</p>
+        <p class="info-kind">${esc(kind || 'Info')}</p>
+        ${bodyHtml}
         <div class="actions"><button type="button" class="ghost" data-info-close>Got it</button></div>
       </div>
     </div>`;
@@ -191,17 +190,53 @@ export function openInfo(raw) {
   return true;
 }
 
+/** Dynamic info panel (Life Goals / Achievements, etc.) — same chrome as openInfo. */
+export function openInfoDetail(detail) {
+  if (!detail || !detail.name) return false;
+  return renderInfoPop(detail);
+}
+
+export function openInfo(raw) {
+  const info = getInfo(raw);
+  if (!info) return false;
+  return renderInfoPop({
+    name: info.name,
+    ico: info.ico,
+    kind: info.kind || 'Modifier',
+    body: info.body,
+    cls: info.cls || '',
+  });
+}
+
 function chipFromEvent(ev) {
   const chip = ev.target.closest?.('[data-info]');
   if (!chip || !chip.dataset.info) return null;
   // Don't steal Age, choice, travel, train, etc.
-  if (ev.target.closest('button[data-a], button.age, .choices button, .sheet, .sheet button, .dock, a[href], [data-tab]')) return null;
+  if (ev.target.closest('button[data-a], button.age, .choices button, .sheet, .sheet button, .dock, a[href], button[data-tab], a[data-tab], .flare[data-tab]')) return null;
   return chip;
+}
+
+function legacyDetailFromEvent(ev) {
+  const row = ev.target.closest?.('[data-legacy-detail]');
+  if (!row) return null;
+  // Never steal Claim / Claim All / other actions
+  if (ev.target.closest('button[data-a], .legacy-act button, .legacy-act, a[href], button[data-tab], a[data-tab], .flare[data-tab], .sheet, .dock')) return null;
+  const id = row.getAttribute('data-legacy-detail');
+  const map = (typeof globalThis !== 'undefined' && globalThis.__bwLegacyDetail) || null;
+  const detail = map && id ? map.get(id) : null;
+  return detail || null;
 }
 
 export function mountInfoClicks(root = document) {
   root.addEventListener('click', (ev) => {
     if (ev.target.closest?.('[data-info-close]')) { closeInfo(); return; }
+    const legacy = legacyDetailFromEvent(ev);
+    if (legacy) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      openInfoDetail(legacy);
+      return;
+    }
     const chip = chipFromEvent(ev);
     if (!chip) return;
     ev.preventDefault();
@@ -211,6 +246,12 @@ export function mountInfoClicks(root = document) {
   root.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape' && openEl) { closeInfo(); return; }
     if (ev.key !== 'Enter' && ev.key !== ' ') return;
+    const legacy = legacyDetailFromEvent(ev);
+    if (legacy) {
+      ev.preventDefault();
+      openInfoDetail(legacy);
+      return;
+    }
     const chip = chipFromEvent(ev);
     if (!chip) return;
     ev.preventDefault();
