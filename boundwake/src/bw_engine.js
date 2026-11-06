@@ -449,6 +449,8 @@ function newYearBudget(s) {
   if (m.socialBonus) s.budget.social += m.socialBonus;
 }
 function spendAct(s, k) { if (s.budget[k] <= 0) return false; s.budget[k]--; return true; }
+// Session-only. The set-out snapshot is not part of the save; a reload uses the choice-time snap.
+const advWatch = new WeakMap();
 export function canAdventure(s) {
   if (s.prison) return false;
   // Gary Nov 5 2026: Adventures are independent of Actions — only the Adventure budget gates Set out.
@@ -461,6 +463,7 @@ export function adventure(s) {
     if ((s.budget?.adv || 0) <= 0) return { ok: false, msg: 'No adventures left this year.' };
     return { ok: false, msg: 'Cannot adventure right now.' };
   }
+  const before = outcomeSnap(s);
   s.budget.adv--; // spend Adventure only — never Actions
   s.flags.goal_adventured = 1; s.tally.adventures = (s.tally.adventures || 0) + 1;
   // Trained skills + styles color the road (Boundwake growth, not Bit Tensie copy)
@@ -476,12 +479,17 @@ export function adventure(s) {
   const e = wpick(s, el, (x) => (x.w || 1) * (x.cat === 'combat' ? combatW : x.cat === 'dungeon' ? dungeonW : exploreW));
   if (e) {
     useSkill(s, e.cat === 'combat' ? 'swordsmanship' : e.cat === 'dungeon' ? (s.flags.mana_awakened ? 'spellcraft' : 'endurance') : 'tracking', 1.5);
-    queue(s, e.id); return { ok: true, msg: 'Something finds you on the road…' };
+    queue(s, e.id);
+    advWatch.set(s, { id: e.id, snap: before });
+    return { ok: true, msg: 'Something finds you on the road…' };
   }
   const loc = pick(s, regionOf(s).locations);
   const coin = rint(s, 0, 6) + Math.floor((s.skills.bartering || 0) / 40);
   s.gold += coin; useSkill(s, 'tracking', 1); useSkill(s, 'endurance', 0.8);
-  log(s, `I wandered ${loc.name}. ${loc.flavor}`, 'explore'); discover(s, loc.id); return { ok: true, msg: loc.flavor };
+  const msg = `I wandered ${loc.name}. ${loc.flavor}`;
+  log(s, msg, 'explore'); discover(s, loc.id);
+  // Quiet road has no choice sheet. Hold the result until Continue.
+  return { ok: true, ack: true, success: true, title: loc.name || 'The road', msg, deltas: outcomeDeltas(before, outcomeSnap(s)) };
 }
 export function rest(s) { if (!spendAct(s, 'act')) return { ok: false, msg: 'No activity left this year.' }; s.stats.stress = clamp(s.stats.stress - 12, 0, 100); s.stats.health = clamp(s.stats.health + 3, 0, 100); log(s, 'I took a slow day by the pond with tea and bread.', 'rest'); return { ok: true }; }
 export function chooseRoute(s, r) {
@@ -871,7 +879,7 @@ export function applyFx(s, fx = {}) {
   }
 }
 /** Snapshot fields players care about after a choice (gold, renown, injury, loot, bonds, skills). */
-function outcomeSnap(s) {
+export function outcomeSnap(s) {
   return {
     gold: s.gold,
     fame: s.stats.fame || 0,
@@ -884,6 +892,8 @@ function outcomeSnap(s) {
     relics: s.relics.length,
     people: s.people.length,
     skills: { ...s.skills },
+    teamRenown: s.team ? Math.round(s.team.renown || 0) : null,
+    guildRenown: s.guild ? Math.round(s.guild.renown || 0) : null,
   };
 }
 function skillLabel(id) {
@@ -891,7 +901,7 @@ function skillLabel(id) {
   return sk?.name || id.replace(/_/g, ' ');
 }
 /** Concrete delta lines for the acknowledge card (Gary Nov 5 adventure weight). */
-function outcomeDeltas(before, after) {
+export function outcomeDeltas(before, after) {
   const lines = [];
   const pushStat = (key, label, a, b, invert = false) => {
     const d = Math.round((b - a) * 10) / 10;
@@ -920,6 +930,15 @@ function outcomeDeltas(before, after) {
     const n = after.people - before.people;
     lines.push({ key: 'bond', text: n === 1 ? 'New bond' : `${n} new bonds`, good: true });
   }
+  const pushRenown = (key, label, a, b) => {
+    if (a == null || b == null) return;
+    const d = Math.round((b - a) * 10) / 10;
+    if (!d) return;
+    const sign = d > 0 ? '+' : '';
+    lines.push({ key, text: `${sign}${d} ${label}`, good: d > 0 });
+  };
+  pushRenown('team', 'team renown', before.teamRenown, after.teamRenown);
+  pushRenown('hall', 'hall renown', before.guildRenown, after.guildRenown);
   const ids = new Set([...Object.keys(before.skills), ...Object.keys(after.skills)]);
   for (const id of [...ids].sort()) {
     const d = Math.round(((after.skills[id] || 0) - (before.skills[id] || 0)) * 10) / 10;
@@ -939,7 +958,10 @@ export function resolve(s, i) {
   let roll = null, ok = true;
   if (p != null) { roll = rnd(s); ok = roll < p; }
   const branch = c.win ? (ok ? c.win : c.fail || {}) : c;
-  const before = outcomeSnap(s);
+  // A set-out snapshot includes road skill movement with this choice. Other events snap here.
+  const watch = advWatch.get(s);
+  const fromAdventure = !!(watch && watch.id === id);
+  const before = fromAdventure ? watch.snap : outcomeSnap(s);
   if (c.win) applyFx(s, c.fx || {}); applyFx(s, branch.fx || {});
   const deltas = outcomeDeltas(before, outcomeSnap(s));
   const flag = branch.flag || (ok && !c.win && c.flag); if (flag) s.flags[flag] = 1;
@@ -949,7 +971,8 @@ export function resolve(s, i) {
   const msg = fill(pick(s, lines), { name: s.first, heir_name: s.first, gold: Math.floor(s.gold) }); s.pending.shift();
   if (e.once) s.flags['once_' + e.id] = 1; s.evLast[e.id] = s.age; s.tally.events++; discover(s, e.id);
   log(s, msg, 'event'); if (s.stats.health <= 0) die(s, e.cat === 'combat' || e.cat === 'dungeon' ? 'battle' : 'accident');
-  return { ok: true, success: ok, msg, title: e.title, chance: p, roll, deltas };
+  if (fromAdventure) advWatch.delete(s);
+  return { ok: true, success: ok, msg, title: e.title, chance: p, roll, deltas, ack: true };
 }
 
 

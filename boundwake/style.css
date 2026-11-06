@@ -332,6 +332,26 @@ body.has-sheet .dock{visibility:hidden;pointer-events:none}
 .outcome-ack .actions{margin-top:4px}
 .outcome-ack .actions .primary{width:100%;min-height:48px;font-size:16px}
 
+/* Keep Continue on screen. The card is centered and the tale scrolls above the button. */
+.sheet.outcome-ack{
+  align-items:center;justify-content:center;
+  padding:16px 16px calc(16px + var(--safe-b));overflow:auto;
+}
+.sheet.outcome-ack .card{
+  width:min(440px,100%);
+  max-height:min(90dvh,90vh,720px);
+  margin:auto;
+  display:flex;flex-direction:column;
+  border-radius:20px;border-bottom:3px solid var(--gold);
+  overflow:hidden;
+}
+.sheet.outcome-ack .card-hd{flex:none}
+.sheet.outcome-ack .card-body{overflow:auto;flex:1 1 auto;min-height:0}
+.sheet.outcome-ack .actions{
+  flex:none;margin:0;padding:12px 16px 16px;
+  background:#fffdf6;border-top:1px solid #e6d5a8;
+}
+
 
 @keyframes up{from{transform:translateY(36px);opacity:0}}@keyframes fade{from{opacity:0}}
 .cold{color:#f4e6c8;text-align:center;padding:26vh 16px 40px;font:700 22px/1.45 var(--display);min-height:80vh;text-shadow:0 2px 18px #0008}

@@ -1,7 +1,7 @@
 // Boundwake UI shell — studio standard pass (Nov 5, 2026 CT).
 // Craft: Lifeline docked Age + per-menu hue bars; Boundwake parchment/realm identity.
 import { loadPack } from './pack.js';
-import * as E from './bw_engine.js?v=gold1';
+import * as E from './bw_engine.js?v=advack2';
 import { ico, esc, flare, oddsChip, statLabel, infoChip, skillIco } from './flare.js';
 import { mountInfoClicks, openInfo, openInfoDetail } from './info.js';
 import { checkAdminAccess, gateHTML, isLocalHost } from './admingate.js';
@@ -1210,7 +1210,7 @@ function formatOutcomeAck(ack) {
   const deltaBlock = deltas
     ? `<ul class="outcome-deltas">${deltas}</ul>`
     : `<p class="sub outcome-deltas-empty">No numbered changes this time — the journal still holds the tale.</p>`;
-  return `<div class="sheet outcome-ack" data-sheet="1" data-outcome="1"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(ack.title || 'Outcome')}</div><div class="card-body"><p class="outcome-verdict ${vcls}">${esc(verdict)}</p><p class="prompt">${flare(ack.msg || '')}</p>${deltaBlock}<div class="actions"><button type="button" class="primary" data-a="ackout">Continue</button></div></div></div></div>`;
+  return `<div class="sheet outcome-ack" data-sheet="1" data-outcome="1" role="dialog" aria-modal="true"><div class="card"><div class="card-hd">${ico('adventure')} ${flare(ack.title || 'Outcome')}</div><div class="card-body"><p class="outcome-verdict ${vcls}">${esc(verdict)}</p><p class="prompt">${flare(ack.msg || '')}</p>${deltaBlock}</div><div class="actions"><button type="button" class="primary" data-a="ackout">Continue</button></div></div></div>`;
 }
 function eventSheet() {
   if (outcomeAck) return formatOutcomeAck(outcomeAck);
@@ -1277,6 +1277,19 @@ function sidePeek() {
 let courtPick = null;
 /** Adventure/event outcome waiting for Continue (Gary Nov 5: results must hold weight). */
 let outcomeAck = null;
+const OUTING = new Set(['tourney', 'tinvite', 'tmeet', 'tgrand', 'tmeetall']);
+const OUTING_TITLE = { tourney: 'Tournament', tinvite: 'Invitation', tmeet: 'Realm meet', tgrand: 'Teams', tmeetall: 'Teams' };
+function holdOutcome(r, deltas) {
+  if (!r) return;
+  outcomeAck = {
+    title: r.title || 'Outcome',
+    msg: r.msg || '',
+    success: r.success !== false,
+    chance: r.chance ?? null,
+    roll: r.roll ?? null,
+    deltas: deltas || r.deltas || [],
+  };
+}
 /** Phone-only UI state (never affects desktop render). */
 let phonePanel = null;
 let phoneStatsOpen = false;
@@ -1605,7 +1618,17 @@ function phoneRender(sheet) {
 function render() {
   syncPhoneClass();
   if (!s) return fateScreen();
-  if (!s.alive) { save(); return deathScreen(); }
+  if (!s.alive) {
+    save();
+    deathScreen();
+    // A killing blow still waits for Continue before the death screen can be used.
+    if (outcomeAck) {
+      app.insertAdjacentHTML('beforeend', formatOutcomeAck(outcomeAck));
+      document.body.classList.add('has-sheet');
+      document.querySelector('.outcome-ack [data-a="ackout"]')?.focus();
+    }
+    return;
+  }
   const phone = syncPhoneClass();
   setChrome((tab === 'more' || tab === 'menu' || tab === 'workadv') ? 'life' : tab);
   const sheet = eventSheet();
@@ -1639,8 +1662,15 @@ function render() {
     fab.style.display = '';
     fab.innerHTML = musicToggleHTML();
   }
+  if (outcomeAck) document.querySelector('.outcome-ack [data-a="ackout"]')?.focus();
 }
 app.addEventListener('click', (ev) => {
+  // Outcome card stays until Continue. Clicks elsewhere do not dismiss it or start another action.
+  if (outcomeAck && !ev.target.closest('button[data-a="ackout"]')) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    return;
+  }
   // Tab switches for buttons / flare chips with data-tab — never body[data-tab] (setChrome).
   // Soccer Rpg P1: closest('[data-tab]') matched BODY and ate Age/Skip/Rest before data-a.
   const tabEl = ev.target.closest('button[data-tab], a[data-tab], .flare[data-tab]');
@@ -1658,6 +1688,7 @@ app.addEventListener('click', (ev) => {
   // Real disabled: attribute or aria (Playwright/DOM greyed choices must not fire)
   if (b.disabled || b.getAttribute('aria-disabled') === 'true') { ev.preventDefault(); ev.stopPropagation(); return; }
   const a = b.dataset.a, v = b.dataset.v; let r;
+  const beforeOuting = OUTING.has(a) ? E.outcomeSnap(s) : null;
   if (a === 'phonestats') {
     if (!isPhoneUI()) return;
     phoneStatsOpen = !phoneStatsOpen; render(); return;
@@ -1889,7 +1920,15 @@ app.addEventListener('click', (ev) => {
     });
     return;
   }
-  if (r && r.ok === false) toast(r.msg); else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
+  if (a === 'adv' && r?.ok && r.ack) holdOutcome(r);
+  else if (beforeOuting && r?.ok && OUTING.has(a)) {
+    holdOutcome({ title: OUTING_TITLE[a] || 'Adventure', msg: r.msg || '', success: r.success !== false }, E.outcomeDeltas(beforeOuting, E.outcomeSnap(s)));
+  }
+  const held = (a === 'ch' && r?.ok) || (a === 'adv' && r?.ack) || (beforeOuting && r?.ok && OUTING.has(a));
+  if (!held) {
+    if (r && r.ok === false) toast(r.msg);
+    else if (r && a !== 'ch' && r.msg && a !== 'adv') toast(r.msg);
+  }
   render();
 });
 function startAmbient() {
