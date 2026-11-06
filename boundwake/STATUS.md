@@ -5,7 +5,7 @@
 - Fix: lexicographic `cmpSave` (full `savedAt`); compare before mutate; toast once per `stored.savedAt`; on adopt match fields then write-through when tied/ahead
 - Cache: `ui.js?v=tabsave2`
 
-## Live — **PENDING_SHA** tabsave2 freeze fix · https://paigegames.net/boundwake/
+## Live — **dc785842** tabsave2 freeze fix · https://paigegames.net/boundwake/
 
 ## Ads + gamepasses scaffolding — Nov 5 ~7:45 PM CT (Gary)
 
