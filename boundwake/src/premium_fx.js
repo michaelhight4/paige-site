@@ -45,6 +45,18 @@ export function applyStart(s) {
     tryGrantBannerTeam(s);
   })) done.push('banner_lord');
 
+  if (on('banner_champion') && once(s, 'banner_champion', () => {
+    // Prime top physical/craft affinity skill toward draft readiness
+    const skills = Object.entries(s.skills || {}).sort((a, b) => b[1] - a[1]);
+    if (skills[0]) {
+      const [id, v] = skills[0];
+      s.skills[id] = Math.max(v, 15);
+      log(s, `Banner Champion: ${id.replace(/_/g, ' ')} primed for the lists.`, 'team');
+    }
+  })) done.push('banner_champion');
+
+  if (on('kinblessed')) { s.flags.kinblessed = 1; done.push('kinblessed'); }
+
   return done;
 }
 
