@@ -226,7 +226,56 @@ function tapRoot(root, map) { onTap(root, (e) => { const t = e.target.closest('[
 function catOf(name) { const n = name.toLowerCase(); return CONFIG.categories.find((c) => c.match.some((m) => n.includes(m)))?.id || null; }
 function inColl(name, c) { const n = name.toLowerCase(); return c.match.some((m) => n.includes(m)); }
 const byPrice = (a, b) => (a.min_price ?? 1e9) - (b.min_price ?? 1e9);
-function cardImg(p) { return p.variants.find((v) => v.image)?.image || p.thumbnail; }
+let EXTRA = {}; // Gary's designed mockups: sync product id -> [{src, color?}]
+// Printful returned blank (no-design) backs for Disciple Premium Sweatshirt — never show them.
+const PLAIN_PF = new Set([
+    "https://files.cdn.printful.com/files/0a7/0a7cda6332a4696d94f5abb3996dd313_preview.png",
+    "https://files.cdn.printful.com/files/1dd/1dd2cd1a9713e11d67820ed4f80b66dc_preview.png",
+    "https://files.cdn.printful.com/files/2fb/2fba51df255f9b1acac81fde34d01734_preview.png",
+    "https://files.cdn.printful.com/files/3b8/3b8b679d1f3a933b0b8b322fef373cd4_preview.png",
+    "https://files.cdn.printful.com/files/57b/57b9fd3f5e929955f9e5f947fb7f97d9_preview.png",
+    "https://files.cdn.printful.com/files/6df/6df1fa927d50871b8afb6a37c0f94429_preview.png",
+    "https://files.cdn.printful.com/files/7b8/7b895d8817759eb9d1d1b82592431323_preview.png",
+    "https://files.cdn.printful.com/files/7de/7deaf58e13ccad81694a3be0c05bee4a_preview.png",
+    "https://files.cdn.printful.com/files/982/982de3d46d31a94c1abe020ce6d9b710_preview.png",
+    "https://files.cdn.printful.com/files/a25/a258873a53a421dda9ef3e8642eff361_preview.png",
+    "https://files.cdn.printful.com/files/ab3/ab3854e34608bfd6d4c5ad0755e511f7_preview.png",
+    "https://files.cdn.printful.com/files/b0b/b0ba002c38a58eec187da56fbd4d8823_preview.png",
+    "https://files.cdn.printful.com/files/c7d/c7d702176700822815dbce8bf925565b_preview.png",
+    "https://files.cdn.printful.com/files/dd1/dd13dd99ef124548296fe0faf3bad7b7_preview.png",
+    "https://files.cdn.printful.com/files/dd8/dd83a9b8a642db2fa3968bac2eeab9dd_preview.png",
+    "https://files.cdn.printful.com/files/f53/f535991d4ac1c28ee01c3c30b1841666_preview.png"
+  ]);
+function isPlain(u) { return !u || PLAIN_PF.has(u); }
+function extraMockups(pid, color) {
+  const out = [];
+  for (const e of EXTRA[pid] || []) {
+    if (e.color && color && e.color !== color) continue;
+    const u = '/liftwithin/' + e.src;
+    if (!out.includes(u)) out.push(u);
+  }
+  return out;
+}
+function cardImg(p) {
+  // Prefer Gary's designed mockups (Black front first) over Printful previews.
+  const ex = EXTRA[p.id] || [];
+  if (ex.length) {
+    const pick = ex.find((e) => e.color === 'Black' && /-front-/.test(e.src))
+      || ex.find((e) => e.color === 'Black')
+      || ex.find((e) => /-front-/.test(e.src))
+      || ex[0];
+    return '/liftwithin/' + pick.src;
+  }
+  const v = p.variants.find((x) => x.image && !isPlain(x.image));
+  return (v && v.image) || (isPlain(p.thumbnail) ? null : p.thumbnail) || '';
+}
+function displayImg(p, color) {
+  const ex = extraMockups(p.id, color);
+  if (ex.length) return ex[0];
+  const v = p.variants.find((x) => (!color || x.color === color) && x.image && !isPlain(x.image))
+    || p.variants.find((x) => x.image && !isPlain(x.image));
+  return (v && v.image) || cardImg(p);
+}
 function card(p) {
   return `<div class="card" role="button" tabindex="0" data-act="open" data-id="${p.id}"><div class="img"><img loading="lazy" src="${esc(cardImg(p))}" alt="${esc(p.name)}"></div><div class="meta"><div class="nm">${esc(p.name)}</div><div class="pr">from ${money(p.min_price)}</div></div></div>`;
 }
@@ -260,7 +309,7 @@ function drawPicker() {
   const sizes = [...new Set(cur.variants.map((v) => v.size).filter(Boolean))].sort((a, b) => sizeRank(a) - sizeRank(b));
   const avail = (s) => cur.variants.some((v) => v.size === s && (!selColor || v.color === selColor) && v.available !== false);
   const v = curVariant();
-  const img = v?.image || cur.variants.find((x) => x.color === selColor && x.image)?.image || cardImg(cur);
+  const img = displayImg(cur, selColor);
   $('#pkBody').innerHTML = `<div class="pk-top"><img src="${esc(img)}" alt=""><div><div class="nm">${esc(cur.name)}</div><div class="pr">${v ? money(v.price) : 'from ' + money(cur.min_price)}</div></div></div>
     ${colors.length > 1 ? `<div class="lbl">Color: ${esc(selColor || '')}</div><div class="opts">${colors.map((c) => `<button type="button" class="opt ${c === selColor ? 'sel' : ''}" data-act="color" data-v="${esc(c)}">${esc(c)}</button>`).join('')}</div>` : colors.length ? `<div class="lbl">Color: ${esc(colors[0])}</div>` : ''}
     ${sizes.length ? `<div class="lbl">Size</div><div class="opts">${sizes.map((s) => `<button type="button" class="opt ${s === selSize ? 'sel' : ''}" data-act="size" data-v="${esc(s)}" ${avail(s) ? '' : 'disabled'}>${esc(s)}</button>`).join('')}</div>` : ''}`;
@@ -275,7 +324,7 @@ const qtyTotal = () => cart.reduce((a, i) => a + i.qty, 0);
 function addToCart(v) {
   const ex = cart.find((i) => i.id === v.id);
   if (ex) ex.qty = Math.min(10, ex.qty + 1);
-  else cart.push({ id: v.id, qty: 1, name: cur.name, size: v.size, color: v.color, price: v.price, image: v.image || cardImg(cur) });
+  else cart.push({ id: v.id, qty: 1, name: cur.name, size: v.size, color: v.color, price: v.price, image: displayImg(cur, v.color) });
   save(); toast('Added to cart');
 }
 const FREE_OVER = 120;
@@ -353,14 +402,16 @@ function openProduct(p, keepSel) {
   if (p.size_tables && !p.size_tables.some((t) => t.type === pdTab)) pdTab = (p.size_tables.find((t) => t.type === 'product_measure') || p.size_tables[0] || {}).type || null;
   drawProduct();
 }
-let EXTRA = {}; // Gary's extra mockups: printful product id -> [{src, color?}], shown after Printful's
-fetch('/liftwithin/extra-mockups.json').then((r) => r.ok ? r.json() : {}).then((d) => { EXTRA = d || {}; if (cur && document.body.classList.contains('pdp-on')) drawProduct(); }).catch(() => {});
+fetch('/liftwithin/extra-mockups.json').then((r) => r.ok ? r.json() : {}).then((d) => { EXTRA = d || {}; if (PRODUCTS.length) render(); if (cur && document.body.classList.contains('pdp-on')) drawProduct(); }).catch(() => {});
 function galleryImgs() {
+  const extras = extraMockups(cur.id, selColor);
   const vs = cur.variants.filter((v) => !selColor || v.color === selColor);
-  const out = []; const v = curVariant();
-  for (const x of [v, ...vs]) if (x) for (const u of (x.images || [x.image])) if (u && !out.includes(u)) out.push(u);
-  if (!out.length) out.push(cardImg(cur));
-  for (const e of EXTRA[cur.id] || []) if (!e.color || !selColor || e.color === selColor) { const u = '/liftwithin/' + e.src; if (!out.includes(u)) out.push(u); };
+  const pf = []; const v = curVariant();
+  for (const x of [v, ...vs]) if (x) for (const u of (x.images || [x.image])) if (u && !isPlain(u) && !pf.includes(u)) pf.push(u);
+  // Designed mockups first; never show blank Printful backs.
+  const out = [...extras];
+  for (const u of pf) if (!out.includes(u)) out.push(u);
+  if (!out.length) { const fallback = cardImg(cur); if (fallback) out.push(fallback); }
   return out;
 }
 const stripTags = (h) => { const d = document.createElement('div'); d.innerHTML = String(h || '').replace(/<\/(p|h\d|li|div)>|<br\s*\/?>/gi, '\n'); return d.textContent.replace(/\n{3,}/g, '\n\n').trim(); };
